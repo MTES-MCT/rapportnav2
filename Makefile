@@ -98,9 +98,9 @@ logs-backend:
 # CI commands - app
 .PHONY: docker-tag-app docker-push-app run-infra-for-frontend-tests
 docker-tag-app:
-	docker tag rapportnav-app:$(VERSION) ghcr.io/MTES-MCT/rapportnav2/rapportnav-app:$(VERSION)
+	docker tag rapportnav-app:$(VERSION) ghcr.io/mtes-mct/rapportnav2/rapportnav-app:$(VERSION)
 docker-push-app:
-	docker push ghcr.io/MTES-MCT/rapportnav2/rapportnav-app:$(VERSION)
+	docker push ghcr.io/mtes-mct/rapportnav2/rapportnav-app:$(VERSION)
 
 
 
