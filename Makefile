@@ -44,11 +44,10 @@ back-start:
 
 .PHONY: docker-build-app 
 docker-build-app:
-	docker build --no-cache -f infra/docker/app/Dockerfile . -t rapportnav-app:$(VERSION) \
+	docker buildx build -f infra/docker/app/Dockerfile . -t rapportnav-app:$(VERSION) \
 		--build-arg VERSION=$(VERSION) \
-		# --build-arg ENV_PROFILE=$(ENV_PROFILE) \
-		# --build-arg GITHUB_SHA=$(GITHUB_SHA) \
-
+		--build-arg ENV_PROFILE=$(ENV_PROFILE) \
+		--build-arg GITHUB_SHA=$(GITHUB_SHA) 
 
 
 .PHONY: check-clean-archi back-start-dev back-build-mvn

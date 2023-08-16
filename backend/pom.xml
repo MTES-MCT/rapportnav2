@@ -10,10 +10,11 @@
 	</parent>
 	<groupId>fr.gouv.dgampa</groupId>
 	<artifactId>rapportnav</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>VERSION_TO_CHANGE</version>
 	<name>RapportNav</name>
-	<description>blablablablabla</description>
+	<description>RapportNav</description>
 	<properties>
+		<commit.hash>COMMIT_TO_CHANGE</commit.hash>
 		<java.version>17</java.version>
 		<kotlin.version>1.9.0</kotlin.version>
 		<spring.version>3.0.5</spring.version>
