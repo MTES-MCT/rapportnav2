@@ -50,6 +50,11 @@ jobs:
 
       - name: Tag Docker Image to GitHub Packages
         run: make docker-tag-app
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          VERSION: 0.0.0.1
+          # VERSION: ${{ steps.extract_tag.outputs.tag }}
+          ENV_PROFILE: "prod"
 
       - name: Push Docker Image to GitHub Packages
         # run: make docker-push-appdocker push ${{ github.repository }}:${{ steps.extract_tag.outputs.tag }}
