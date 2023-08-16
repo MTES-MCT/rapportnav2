@@ -76,4 +76,4 @@ ENV STATIC_FILES_PATH=/home/rapportnav/public
 
 
 # CMD exec java -jar "/home/rapportnav/rapportnav-${VERSION}.jar"
-CMD exec java -Dspring.config.additional-location="/home/rapportnav/configurations/" -jar "rapportnav-${VERSION}.jar"
+CMD exec java -Dspring.config.additional-location="/home/rapportnav/configurations/" -jar "/home/rapportnav/rapportnav-${VERSION}.jar"
