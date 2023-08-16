@@ -66,7 +66,7 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           file: infra/docker/app/Dockerfile
           push: true
-          tags: rapportnav-app:${{ env.VERSION }}
+          tags: ghcr.io/mtes-mct/rapportnav2/rapportnav-app:${{ env.VERSION }}
           build-args: |
             VERSION=${{ env.VERSION }}
             ENV_PROFILE=${{ env.ENV_PROFILE }}
