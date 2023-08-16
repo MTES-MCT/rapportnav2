@@ -24,27 +24,7 @@ jobs:
       - name: set env VERSION
         id: version
         # run: export VERSION=${{ steps.extract_tag.outputs.tag }}
-        run: export VERSION=0.0.0.2
-
-      # - name: Build Docker Image
-      #   id: build-image
-      #   env:
-      #     GITHUB_SHA: ${{ github.sha }}
-      #     VERSION: 0.0.0.2
-      #     # VERSION: ${{ steps.extract_tag.outputs.tag }}
-      #     ENV_PROFILE: "prod"
-      #   # run: |
-      #   # docker buildx build \
-      #   #   --file infra/docker/app/Dockerfile \
-      #   #   --tag rapportnav-app:${{ steps.extract_tag.outputs.tag }} \
-      #   #   .
-      #   run: make docker-build-app
-
-      # - name: Upload image to artifacts
-      #   uses: ishworkh/container-image-artifact-upload@v1.0.0
-      #   with:
-      #     # image: rapportnav-app:${{ steps.extract_tag.outputs.tag }}
-      #     image: rapportnav-app:0.0.0.2
+        run: export VERSION=0.0.0.3
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -57,7 +37,7 @@ jobs:
         uses: docker/build-push-action@v4
         env:
           GITHUB_SHA: ${{ github.sha }}
-          VERSION: 0.0.0.2
+          VERSION: 0.0.0.3
           # VERSION: ${{ steps.extract_tag.outputs.tag }}
           ENV_PROFILE: "prod"
         with:
@@ -71,15 +51,3 @@ jobs:
             VERSION=${{ env.VERSION }}
             ENV_PROFILE=${{ env.ENV_PROFILE }}
             GITHUB_SHA=${{ github.sha }}
-
-      # - name: Tag Docker Image to GitHub Packages
-      #   run: make docker-tag-app
-      #   env:
-      #     GITHUB_SHA: ${{ github.sha }}
-      #     VERSION: 0.0.0.2
-      #     # VERSION: ${{ steps.extract_tag.outputs.tag }}
-      #     ENV_PROFILE: "prod"
-
-      # - name: Push Docker Image to GitHub Packages
-      #   # run: make docker-push-appdocker push ${{ github.repository }}:${{ steps.extract_tag.outputs.tag }}
-      #   run: make docker-push-appdocker push ${{ github.repository }}:0.0.0.2
