@@ -1,0 +1,43 @@
+name: Build and Test
+
+on:
+  push:
+    branches: ["REPLACEME"]
+  pull_request:
+    branches: ["REPLACEME"]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "[FRONTEND] Setup Node.js environment"
+        uses: actions/setup-node@v3.8.0
+        with:
+          cache: npm
+          cache-dependency-path: ./frontend/package-lock.json
+          node-version: 18
+
+      - name: "[FRONTEND] Install dependencies"
+        run: make front-install
+
+      - name: "[FRONTEND] Tests"
+        run: make front-test
+
+      - name: "[FRONTEND] Build"
+        run: make front-build
+
+      - name: "[BACKEND] Setup Java JDK"
+        uses: actions/setup-java@v2
+        with:
+          distribution: "zulu"
+          java-version: "17"
+          java-package: jdk # optional (jdk or jre) - defaults to jdk
+
+      - name: "[BACKEND] Check clean architecture"
+        run: make check-clean-archi
+
+      - name: "[BACKEND] Build"
+        run: make back-build-mvn
