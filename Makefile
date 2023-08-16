@@ -44,7 +44,7 @@ back-start:
 
 .PHONY: docker-build-app 
 docker-build-app:
-	docker buildx build -f infra/docker/app/Dockerfile . -t rapportnav-app:$(VERSION) \
+	docker buildx build -f infra/docker/app/Dockerfile . -t rapportnav-app:latest \
 		--build-arg VERSION=$(VERSION) \
 		--build-arg ENV_PROFILE=$(ENV_PROFILE) \
 		--build-arg GITHUB_SHA=$(GITHUB_SHA) 
@@ -98,9 +98,9 @@ logs-backend:
 # CI commands - app
 .PHONY: docker-tag-app docker-push-app run-infra-for-frontend-tests
 docker-tag-app:
-	docker tag rapportnav-app:$(VERSION) ghcr.io/mtes-mct/rapportnav2/rapportnav-app:$(VERSION)
+	docker tag rapportnav-app:latest ghcr.io/mtes-mct/rapportnav2/rapportnav-app:latest
 docker-push-app:
-	docker push ghcr.io/mtes-mct/rapportnav2/rapportnav-app:$(VERSION)
+	docker push ghcr.io/mtes-mct/rapportnav2/rapportnav-app:latest
 
 
 
