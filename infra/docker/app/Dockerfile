@@ -61,6 +61,8 @@ ENV VERSION=$VERSION
 ARG ENV_PROFILE
 ENV ENV_PROFILE=$ENV_PROFILE
 
+ENV SPRING_PROFILES_ACTIVE=$ENV_PROFILE
+
 # ENV REACT_APP_ENV=$ENV_PROFILE
 ENV ENV_DB_URL=""
 
@@ -83,4 +85,4 @@ ENV STATIC_FILES_PATH=/home/rapportnav/public
 
 
 # CMD exec java -jar "/home/rapportnav/rapportnav-${VERSION}.jar"
-CMD exec java -Dspring.config.additional-location="/home/rapportnav/configurations/" -jar "/home/rapportnav/rapportnav-${VERSION}.jar"
+CMD exec java -Dspring.config.additional-location="/home/rapportnav/configurations/" -Dspring.profiles.active=$ENV_PROFILE -jar "/home/rapportnav/rapportnav-${VERSION}.jar"
