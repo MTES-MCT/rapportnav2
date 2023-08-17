@@ -24,7 +24,7 @@ jobs:
       - name: set env VERSION
         id: version
         # run: export VERSION=${{ steps.extract_tag.outputs.tag }}
-        run: export VERSION=0.0.0.6
+        run: export VERSION=0.0.0.7
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -37,7 +37,7 @@ jobs:
         uses: docker/build-push-action@v4
         env:
           GITHUB_SHA: ${{ github.sha }}
-          VERSION: 0.0.0.6
+          VERSION: 0.0.0.7
           # VERSION: ${{ steps.extract_tag.outputs.tag }}
           ENV_PROFILE: "prod"
         with:
