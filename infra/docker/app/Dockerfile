@@ -53,9 +53,16 @@ RUN npm run build --verbose
 ########################################
 FROM azul/zulu-openjdk-alpine:17.0.7-17.42.19 as build-all
 
-ARG VERSION
+WORKDIR /home/rapportnav
 
-RUN mkdir /home/rapportnav
+ARG VERSION
+ENV VERSION=$VERSION
+
+ARG ENV_PROFILE
+ENV ENV_PROFILE=$ENV_PROFILE
+
+# ENV REACT_APP_ENV=$ENV_PROFILE
+ENV ENV_DB_URL=""
 
 # copy backend related things
 COPY --from=build-backend /tmp/backend/target/rapportnav-${VERSION}.jar /home/rapportnav
