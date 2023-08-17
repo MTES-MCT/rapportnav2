@@ -1,16 +1,16 @@
 import { missionsKeys } from '../missions/queries'
 import { Mission } from '../mission-types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { authenticatedHttpClient } from '../../http-client'
+import { httpClient } from '../../http-client'
 
 export const missionKeys = {
   details: () => [...missionsKeys.all, 'detail'] as const,
   detail: (id: number) => [...missionKeys.details(), id] as const
 }
 
-export const fetchMission = (id: number) => authenticatedHttpClient.get(`/api/v1/missions/${id}`).json()
+export const fetchMission = (id: number) => httpClient.get(`/api/v1/missions/${id}`).json()
 export const updateMission = (id: number, mission: Mission) =>
-  authenticatedHttpClient.put(`/api/v1/missions/${id}`, { json: mission }).json()
+  httpClient.put(`/api/v1/missions/${id}`, { json: mission }).json()
 
 export const useMutateMission = (missionId: number, successCallback?: () => void, errorCallback?: () => void) => {
   const queryClient = useQueryClient()

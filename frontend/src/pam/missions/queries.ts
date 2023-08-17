@@ -1,6 +1,6 @@
 import { Mission } from '../mission-types'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { authenticatedHttpClient } from '../../http-client'
+import { httpClient } from '../../http-client'
 
 export const FETCH_MISSIONS_QUERY_KEY = 'missions'
 
@@ -22,7 +22,7 @@ export const useMissions = (successCallback?: () => void, errorCallback?: () => 
   const missionsFromCache = queryClient.getQueryData(missionsKeys.lists()) as Mission[]
 
   const fetchMissions = async (reconcileFn?: any) => {
-    let data = await authenticatedHttpClient.get('/api/v1/missions').json()
+    let data = await httpClient.get('/api/v1/missions').json()
     if (reconcileFn) {
       data = reconcileFn(data)
     }

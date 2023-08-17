@@ -7,7 +7,9 @@ services:
       - ENV_DB_URL=jdbc:postgresql://db:5432/$POSTGRES_DB?user=$POSTGRES_USER&password=$POSTGRES_PASSWORD
       - SPRING_PROFILES_ACTIVE=${ENVIRONMENT}
     ports:
-      - ${BACKEND_HTTP_PORT}:8880
+      # - ${BACKEND_HTTP_PORT}:8880
+      - 8880:8880
+      - 8080:8080
       - 8000:8000
     volumes:
       - "${RAPPORTNAV_LOGS_FOLDER}:/home/rapportnav/logs"
