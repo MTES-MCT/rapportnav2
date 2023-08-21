@@ -7,6 +7,9 @@ FRONTEND_DIR := frontend
 
 .PHONY: front-install front-start front-build front-test front-lint
 
+front-ci:
+	cd $(FRONTEND_DIR) && npm ci
+
 front-install:
 	cd $(FRONTEND_DIR) && npm install
 
@@ -34,13 +37,24 @@ front-test:
 BACKEND_DIR := backend
 BACKEND_CONFIGURATION_FOLDER=$(shell pwd)/infra/configurations/backend/
 
+
+.PHONY: back-clean-install back-check-dependencies
+back-clean-install:
+	cd $(BACKEND_DIR) && mvn clean install
+
+back-check-dependencies:
+	cd $(BACKEND_DIR) && mvn dependency-check:check
+
+
+
+
+.PHONY: back-build back-start
 back-build:
 	docker compose build
-
 back-start:
 	docker-compose up
 
-.PHONY: back-build back-start
+
 
 
 

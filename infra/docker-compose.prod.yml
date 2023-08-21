@@ -13,8 +13,8 @@ services:
       - 8000:8000
     volumes:
       - "${RAPPORTNAV_LOGS_FOLDER}:/home/rapportnav/logs"
-    networks:
-      - backend_network
+    # networks:
+    #   - backend_network
     depends_on:
       - db
     restart: always
@@ -27,8 +27,9 @@ services:
     image: postgres:13
     volumes:
       - "${RAPPORTNAV_BACKUPS_FOLDER}:/opt/rapportnav_backups"
-    networks:
-      - backend_network
+      - db:/var/lib/postgresql/data
+    # networks:
+    #   - backend_network
     restart: always
     ports:
       - "5432:5432"
@@ -41,6 +42,8 @@ services:
       interval: 1s
       timeout: 1s
       retries: 30
-
-networks:
-  backend_network:
+# networks:
+#   backend_network:
+volumes:
+  db:
+    name: rapportnavdb

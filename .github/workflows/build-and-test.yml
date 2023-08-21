@@ -2,9 +2,9 @@ name: Build and Test
 
 on:
   push:
-    branches: ["REPLACEME"]
+    branches: ["main"]
   pull_request:
-    branches: ["REPLACEME"]
+    branches: ["main"]
 
 jobs:
   build-and-test:
@@ -21,7 +21,16 @@ jobs:
           node-version: 18
 
       - name: "[FRONTEND] Install dependencies"
-        run: make front-install
+        run: make front-ci
+
+      - name: "[FRONTEND] Analyse dependencies"
+        uses: oke-py/npm-audit-action@v2
+        with:
+          audit_level: low
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          issue_assignees: lwih
+          issue_labels: vulnerability,test
+          dedupe_issues: true
 
       - name: "[FRONTEND] Tests"
         run: make front-test
@@ -35,6 +44,9 @@ jobs:
           distribution: "zulu"
           java-version: "17"
           java-package: jdk # optional (jdk or jre) - defaults to jdk
+
+      - name: "[BACKEND] Analyse dependencies"
+        run: make back-check-dependencies
 
       - name: "[BACKEND] Check clean architecture"
         run: make check-clean-archi
