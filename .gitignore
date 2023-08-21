@@ -2,6 +2,8 @@
 
 .idea
 
+.DS_Store
+
 # in case someone does npm install at the root
 ./node_modules
 ./package.json

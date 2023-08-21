@@ -34,16 +34,13 @@ RUN mvn clean package -DskipTests=true
 FROM node:18 AS npm-dependencies
 WORKDIR /tmp/frontend
 COPY frontend/package.json frontend/package-lock.json ./
-RUN npm install
+RUN npm ci
 
 # Stage 2: Build the application
 FROM node:18 AS build-frontend
 WORKDIR /tmp/frontend
 COPY --from=npm-dependencies /tmp/frontend/node_modules ./node_modules
-COPY frontend/package.json frontend/package-lock.json ./
-COPY frontend/src ./src
-COPY frontend/public ./public
-COPY frontend/tsconfig.json tsconfig.json
+COPY frontend .
 RUN npm run build --verbose
 
 
