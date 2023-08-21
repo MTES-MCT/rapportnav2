@@ -10,9 +10,7 @@ const configWithAuth = (): Options => {
     hooks: {
       beforeRequest: [
         options => {
-          console.log('token get')
           const token = authToken.get()
-          console.log('token get', token)
 
           if (token) {
             options.headers.set('Authorization', `Bearer ${token}`)
