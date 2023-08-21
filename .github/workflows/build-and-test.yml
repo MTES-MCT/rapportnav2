@@ -26,7 +26,7 @@ jobs:
       - name: "[FRONTEND] Analyse dependencies"
         uses: oke-py/npm-audit-action@v2
         with:
-          audit_level: low
+          audit_level: high
           github_token: ${{ secrets.GITHUB_TOKEN }}
           issue_assignees: lwih
           issue_labels: vulnerability,test
