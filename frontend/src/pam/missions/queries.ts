@@ -11,18 +11,18 @@ export const missionsKeys = {
 }
 
 const reconcileMissions =
-  (missionsFromCache: Mission[]) =>
+  (_missionsFromCache: Mission[]) =>
   (missionsFromAPI: Mission[]): Mission[] => {
     return missionsFromAPI
   }
 
-export const useMissions = (successCallback?: () => void, errorCallback?: () => void) => {
+export const useMissions = (_successCallback?: () => void, _errorCallback?: () => void) => {
   const queryClient = useQueryClient()
 
   const missionsFromCache = queryClient.getQueryData(missionsKeys.lists()) as Mission[]
 
   const fetchMissions = async (reconcileFn?: any) => {
-    let data = await httpClient.get('/api/v1/missions').json()
+    let data = await httpClient.get('v1/missions').json()
     if (reconcileFn) {
       data = reconcileFn(data)
     }

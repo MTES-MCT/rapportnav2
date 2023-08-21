@@ -1,16 +1,18 @@
 import { render, fireEvent, screen } from '../test-utils'
-import '@testing-library/jest-dom/extend-expect'
 import Header from './header'
 import useAuth from '../auth/use-auth'
+import { vi } from 'vitest'
 
-jest.mock('../auth/use-auth') // Mock the useAuth hook
+vi.mock('../auth/use-auth', () => ({
+  default: vi.fn()
+}))
 
 describe('Header', () => {
   it('should render a logout button when user is authenticated', () => {
     // Mock the useAuth hook to return isAuthenticated as true
-    ;(useAuth as jest.Mock).mockReturnValue({
+    ;(useAuth as any).mockReturnValue({
       isAuthenticated: true,
-      logout: jest.fn()
+      logout: vi.fn()
     })
 
     render(<Header />)
@@ -20,9 +22,9 @@ describe('Header', () => {
 
   it('should call the logout function when the logout button is clicked', () => {
     // Mock the useAuth hook to return isAuthenticated as true
-    ;(useAuth as jest.Mock).mockReturnValue({
+    ;(useAuth as any).mockReturnValue({
       isAuthenticated: true,
-      logout: jest.fn()
+      logout: vi.fn()
     })
 
     render(<Header />)
@@ -36,9 +38,9 @@ describe('Header', () => {
 
   it('should not render the logout button when user is not authenticated', () => {
     // Mock the useAuth hook to return isAuthenticated as false
-    ;(useAuth as jest.Mock).mockReturnValue({
+    ;(useAuth as any).mockReturnValue({
       isAuthenticated: false,
-      logout: jest.fn()
+      logout: vi.fn()
     })
 
     render(<Header />)

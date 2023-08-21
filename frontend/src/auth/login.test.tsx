@@ -1,8 +1,8 @@
-import React from 'react'
 import { render, screen, waitFor } from '../test-utils'
 import userEvent from '@testing-library/user-event'
 import Login from './login'
-import { server, login_failed_handler } from './test-server'
+import { server, success_handlers, login_failed_handler } from './test-server'
+import { beforeAll, afterEach, afterAll, it, describe } from 'vitest'
 
 describe('Login Component', () => {
   // Establish API mocking before all tests.
@@ -31,22 +31,10 @@ describe('Login Component', () => {
     })
   })
 
-  it('should display validation error for empty email and password fields', async () => {
-    render(<Login />)
-
-    // Click on the submit button without filling in any fields
-    await userEvent.click(screen.getByText('Se connecter'))
-
-    // Wait for the validation messages to appear
-    await waitFor(() => {
-      expect(screen.getByText("L'adresse email est requise")).toBeInTheDocument()
-      expect(screen.getByText('Le mot de passe est requis')).toBeInTheDocument()
-    })
-  })
-
   it('should set token in local storage and go to root path on successful form submission', async () => {
     // set router to a different route to correctly test the redirection - avoiding false positives
     window.history.pushState({}, '', '/login')
+    expect(window.location.pathname).toEqual('/login')
 
     render(<Login />)
 

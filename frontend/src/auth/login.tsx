@@ -31,7 +31,7 @@ const Login: React.FC = () => {
     { setStatus, setSubmitting }: FormikHelpers<LoginFormValues>
   ) => {
     try {
-      const response = await httpClient.post('/api/v1/auth/login', {
+      const response = await httpClient.post('v1/auth/login', {
         body: JSON.stringify({
           email,
           password

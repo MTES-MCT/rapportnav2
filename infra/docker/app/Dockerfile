@@ -73,7 +73,7 @@ COPY infra/configurations/backend /home/rapportnav/configurations/
 
 RUN mkdir /home/rapportnav/public
 # COPY --from=buildSourcemaps /tmp/frontend/build /home/rapportnav/public/
-COPY --from=build-frontend /tmp/frontend/build /home/rapportnav/public/
+COPY --from=build-frontend /tmp/frontend/dist /home/rapportnav/public/
 # COPY --from=build-frontend /tmp/infra/docker/tmp/env.sh /home/rapportnav/
 
 # Add logs folder to be mounted as volume

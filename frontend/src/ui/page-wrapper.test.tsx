@@ -1,13 +1,15 @@
-import React from 'react'
 import { render, screen } from '../test-utils'
 import PageWrapper from './page-wrapper'
 import useAuth from '../auth/use-auth'
+import { vi } from 'vitest'
 
-jest.mock('../auth/use-auth') // Mock the useAuth hook
+vi.mock('../auth/use-auth', () => ({
+  default: vi.fn()
+}))
 
 describe('PageWrapper component', () => {
   it('should not render the sidebar when not authenticated', () => {
-    ;(useAuth as jest.Mock).mockReturnValue({
+    ;(useAuth as any).mockReturnValue({
       isAuthenticated: false
     })
     render(
@@ -20,7 +22,7 @@ describe('PageWrapper component', () => {
     expect(sidebarElement).toBeNull()
   })
   it('should render a custom header when provided', () => {
-    ;(useAuth as jest.Mock).mockReturnValue({
+    ;(useAuth as any).mockReturnValue({
       isAuthenticated: true
     })
     render(
@@ -34,7 +36,7 @@ describe('PageWrapper component', () => {
     expect(headerElement).toBeInTheDocument()
   })
   it('should render the default header when no extra header provided', () => {
-    ;(useAuth as jest.Mock).mockReturnValue({
+    ;(useAuth as any).mockReturnValue({
       isAuthenticated: true
     })
     render(
@@ -48,7 +50,7 @@ describe('PageWrapper component', () => {
     expect(headerElement).toBeInTheDocument()
   })
   it('should render the sidebar when authenticated', () => {
-    ;(useAuth as jest.Mock).mockReturnValue({
+    ;(useAuth as any).mockReturnValue({
       isAuthenticated: true
     })
     render(

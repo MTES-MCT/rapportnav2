@@ -8,7 +8,7 @@ export const missionKeys = {
   detail: (id: number) => [...missionKeys.details(), id] as const
 }
 
-export const fetchMission = (id: number) => httpClient.get(`/api/v1/missions/${id}`).json()
+export const fetchMission = (id: number) => httpClient.get(`v1/missions/${id}`).json()
 export const updateMission = (id: number, mission: Mission) =>
   httpClient.put(`/api/v1/missions/${id}`, { json: mission }).json()
 
