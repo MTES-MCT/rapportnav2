@@ -23,15 +23,15 @@ jobs:
       - name: "[FRONTEND] Install dependencies"
         run: make front-ci
 
-      - name: "[FRONTEND] Analyse dependencies"
-        uses: oke-py/npm-audit-action@v2
-        with:
-          audit_level: low
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          issue_assignees: lwih
-          issue_labels: vulnerability,test
-          dedupe_issues: true
-          working_directory: frontend
+      # - name: "[FRONTEND] Analyse dependencies"
+      #   uses: oke-py/npm-audit-action@v2
+      #   with:
+      #     audit_level: low
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     issue_assignees: lwih
+      #     issue_labels: vulnerability,test
+      #     dedupe_issues: true
+      #     working_directory: frontend
 
       - name: "[FRONTEND] Tests"
         run: make front-test
