@@ -9,5 +9,8 @@
 ./package.json
 ./package-lock.json
 
-
+# backend build
 backend/target
+
+# metabase volume
+metabase-data/

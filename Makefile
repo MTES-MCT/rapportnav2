@@ -47,18 +47,6 @@ back-check-dependencies:
 
 
 
-
-.PHONY: back-build back-start
-back-build:
-	docker compose build
-back-start:
-	docker-compose up
-
-
-
-
-
-
 .PHONY: check-clean-archi back-start-dev back-build-mvn
 
 check-clean-archi:
@@ -104,27 +92,28 @@ logs-backend:
 
 
 
-
-
-
-
-
 .PHONY: docker-build-app docker-tag-app docker-push-app 
 
 docker-build-app:
-	docker buildx build -f infra/docker/app/Dockerfile . -t rapportnav-app:latest \
+	docker buildx build -f infra/docker/app/Dockerfile .  \
+		-t rapportnav-app:$(VERSION) \
+		-t rapportnav-app:latest \
 		--load \
 		--build-arg VERSION=$(VERSION) \
 		--build-arg ENV_PROFILE=$(ENV_PROFILE) \
 		--build-arg GITHUB_SHA=$(GITHUB_SHA) 
 
+# not used
 docker-tag-app:
 	docker tag rapportnav-app:latest ghcr.io/mtes-mct/rapportnav2/rapportnav-app:latest
 
+# not used
 docker-push-app:
 	docker push ghcr.io/mtes-mct/rapportnav2/rapportnav-app:latest
 
 
 
+docker-run-local:
+	docker-compose -f ./infra/docker-compose.dev.yml up
 
 

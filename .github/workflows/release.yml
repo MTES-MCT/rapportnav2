@@ -42,11 +42,12 @@ jobs:
           ENV_PROFILE: "prod"
         with:
           context: .
-          # load: true
           builder: ${{ steps.buildx.outputs.name }}
           file: infra/docker/app/Dockerfile
           push: true
-          tags: ghcr.io/mtes-mct/rapportnav2/rapportnav-app:${{ env.VERSION }}
+          tags: |
+            ghcr.io/mtes-mct/rapportnav2/rapportnav-app:${{ env.VERSION }}
+            ghcr.io/mtes-mct/rapportnav2/rapportnav-app:latest
           build-args: |
             VERSION=${{ env.VERSION }}
             ENV_PROFILE=${{ env.ENV_PROFILE }}

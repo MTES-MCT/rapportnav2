@@ -36,11 +36,18 @@ export const Header: React.FC<HeaderProps> = () => {
           </FlexboxGrid>
         </FlexboxGrid.Item>
         {isAuthenticated && (
-          <FlexboxGrid.Item colspan={2}>
-            <Button accent={Accent.SECONDARY} onClick={handleLogout}>
-              Logout
-            </Button>
-          </FlexboxGrid.Item>
+          <>
+            <FlexboxGrid.Item colspan={2}>
+              <a target="_blank" href="http://localhost:3000/">
+                admin panel
+              </a>
+            </FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={2}>
+              <Button accent={Accent.SECONDARY} onClick={handleLogout}>
+                Logout
+              </Button>
+            </FlexboxGrid.Item>
+          </>
         )}
       </FlexboxGrid>
     </StyledHeader>

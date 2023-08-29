@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/mtes-mct/rapportnav2/rapportnav-app:0.0.0.12
+    image: ghcr.io/mtes-mct/rapportnav2/rapportnav-app:latest
     container_name: rapportnav_backend
     # user: "rapportnav:${MONITORENV_LOGS_AND_BACKUPS_GID}"
     environment:
