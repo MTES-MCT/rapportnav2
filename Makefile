@@ -14,7 +14,7 @@ front-install:
 	cd $(FRONTEND_DIR) && npm install
 
 front-start:
-	cd $(FRONTEND_DIR) && npm start
+	cd $(FRONTEND_DIR) && npm run dev
 
 front-build:
 	cd $(FRONTEND_DIR) && npm run build
