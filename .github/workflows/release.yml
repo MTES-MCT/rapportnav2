@@ -12,6 +12,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Set up Docker Buildx
         id: buildx
@@ -26,8 +28,18 @@ jobs:
         # run: export VERSION=${{ steps.extract_tag.outputs.tag }}
         run: export VERSION=0.0.0.13
 
-      # - name: gitlab mirror
-      #   run: git push --mirror https://${{ secrets.GITLAB_MIRROR_TOKEN }}@gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2.git
+      # - name: Mirror + trigger CI
+      #   uses: SvanBoxel/gitlab-mirror-and-ci-action@master
+      #   with:
+      #     args: https://gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2.git
+      #   env:
+      #     FOLLOW_TAGS: "false"
+      #     FORCE_PUSH: "false"
+      #     GITLAB_HOSTNAME: "gitlab-sml.din.developpement-durable.gouv.fr"
+      #     # GITLAB_USERNAME: "svboxel"
+      #     GITLAB_PASSWORD: ${{ secrets.GITLAB_MIRROR_TOKEN }}
+      #     GITLAB_PROJECT_ID: num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: action-pack/gitlab-sync@v3
         with:
