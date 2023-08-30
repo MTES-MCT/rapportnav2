@@ -26,14 +26,17 @@ jobs:
         # run: export VERSION=${{ steps.extract_tag.outputs.tag }}
         run: export VERSION=0.0.0.13
 
-      - uses: action-pack/gitlab-sync@v3
-        with:
-          username: ${{ github.actor }}
-          url: https://gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2.git
-          # url: ${{ secrets.GITLAB_URL }}
-          # username: ${{ secrets.GITLAB_USERNAME }}
-          # Personal access token from gitlab.com
-          token: ${{ secrets.GITLAB_MIRROR_TOKEN }}
+      - name: gitlab mirror
+        run: git push --mirror https://${{ secrets.GITLAB_MIRROR_TOKEN }}@gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2.git
+
+      # - uses: action-pack/gitlab-sync@v3
+      #   with:
+      #     username: ${{ github.actor }}
+      #     url: https://gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2.git
+      #     # url: ${{ secrets.GITLAB_URL }}
+      #     # username: ${{ secrets.GITLAB_USERNAME }}
+      #     # Personal access token from gitlab.com
+      #     token: ${{ secrets.GITLAB_MIRROR_TOKEN }}
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
