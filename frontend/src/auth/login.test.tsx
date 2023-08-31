@@ -1,12 +1,14 @@
 import { render, screen, waitFor } from '../test-utils'
 import userEvent from '@testing-library/user-event'
 import Login from './login'
-import { server, success_handlers, login_failed_handler } from './test-server'
+import { loginServer, login_failed_handler } from './test-server'
 import { beforeAll, afterEach, afterAll, it, describe } from 'vitest'
+
+const server = loginServer()
 
 describe('Login Component', () => {
   // Establish API mocking before all tests.
-  beforeAll(() => server.listen({}))
+  beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
 
   // Reset any request handlers that we may add during the tests,
   // so they don't affect other tests.
@@ -31,7 +33,7 @@ describe('Login Component', () => {
     })
   })
 
-  it('should set token in local storage and go to root path on successful form submission', async () => {
+  it.only('should set token in local storage and go to root path on successful form submission', async () => {
     // set router to a different route to correctly test the redirection - avoiding false positives
     window.history.pushState({}, '', '/login')
     expect(window.location.pathname).toEqual('/login')
