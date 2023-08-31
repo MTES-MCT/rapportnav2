@@ -2,9 +2,62 @@
 // import { Mission as MissionModel } from '../mission-types'
 // import { useQuery } from '@tanstack/react-query'
 // import { fetchMission, missionKeys, useMutateMission } from './queries'
+import { THEME } from '@mtes-mct/monitor-ui'
+
+import { useParams } from 'react-router-dom'
+import { FlexboxGrid, Panel, Stack } from 'rsuite'
 
 export default function Mission() {
-  return <div>mission</div>
+  let { missionsId } = useParams()
+  return (
+    <FlexboxGrid justify="space-between" style={{ display: 'flex', flex: 1 }}>
+      <FlexboxGrid.Item colspan={8} style={{ height: '100%' }}>
+        <Stack direction="column">
+          <Stack.Item style={{ width: '100%', padding: '1rem' }}>
+            <Panel
+              header={<p style={{ fontSize: '16px', fontWeight: 'bold' }}>Informations Générales</p>}
+              collapsible
+              defaultExpanded
+              bordered
+              style={{ backgroundColor: THEME.color.cultured, border: 0 }}
+            >
+              <div>todo</div>
+            </Panel>
+          </Stack.Item>
+          <Stack.Item style={{ width: '100%', padding: '1rem' }}>
+            <Panel
+              header={<p style={{ fontSize: '16px', fontWeight: 'bold' }}>Activité du navire</p>}
+              collapsible
+              bordered
+              style={{ backgroundColor: THEME.color.cultured, border: 0 }}
+            >
+              <div>todo</div>
+            </Panel>
+          </Stack.Item>
+          <Stack.Item style={{ width: '100%', padding: '1rem' }}>
+            <Panel
+              header={<p style={{ fontSize: '16px', fontWeight: 'bold' }}>Bilan opérationnel</p>}
+              collapsible
+              bordered
+              style={{ backgroundColor: THEME.color.cultured, border: 0 }}
+            >
+              <div>todo</div>
+            </Panel>
+          </Stack.Item>
+        </Stack>
+      </FlexboxGrid.Item>
+      <FlexboxGrid.Item colspan={8} style={{ backgroundColor: THEME.color.cultured, height: '100%' }}>
+        <FlexboxGrid justify="center" align="middle">
+          millieu
+        </FlexboxGrid>
+      </FlexboxGrid.Item>
+      <FlexboxGrid.Item colspan={8} style={{ backgroundColor: THEME.color.gainsboro, height: '100%' }}>
+        <FlexboxGrid justify="center" align="middle">
+          droite
+        </FlexboxGrid>
+      </FlexboxGrid.Item>
+    </FlexboxGrid>
+  )
   // const MISSION_ID = 1
 
   // const fetchQuery = useQuery({ queryKey: missionKeys.detail(MISSION_ID), queryFn: () => fetchMission(MISSION_ID) })

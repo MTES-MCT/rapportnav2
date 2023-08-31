@@ -6,14 +6,15 @@ import { Container, Content, Footer, Sidebar, Header } from 'rsuite'
 
 interface PageWrapperProps {
   header?: ReactNode
+  footer?: ReactNode
   showMenu?: boolean
   children: ReactNode
 }
 
-const PageWrapper: React.FC<PageWrapperProps> = ({ children, header, showMenu }) => {
+const PageWrapper: React.FC<PageWrapperProps> = ({ children, header, footer, showMenu }) => {
   const { isAuthenticated } = useAuth()
   return (
-    <Container>
+    <Container style={{ minHeight: '100vh' }}>
       <Header>{!!header && <>{header}</>}</Header>
       <Container>
         {isAuthenticated && (
@@ -32,9 +33,9 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ children, header, showMenu })
             )}
           </>
         )}
-        <Content>{children}</Content>
+        <Content style={{ display: 'flex' }}>{children}</Content>
+        {footer && <Footer>{footer}</Footer>}
       </Container>
-      <Footer></Footer>
     </Container>
   )
 }

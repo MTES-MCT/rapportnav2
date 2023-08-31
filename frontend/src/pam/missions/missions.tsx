@@ -15,7 +15,7 @@ const Missions: React.FC = () => {
       <FlexboxGrid
         // align="middle"
         justify="center"
-        style={{ padding: '4rem 2rem' }}
+        style={{ padding: '4rem 2rem', display: 'flex', flex: 1 }}
       >
         <FlexboxGrid.Item as={Col} colspan={24} xxl={16}>
           <Stack direction="column" alignItems="flex-start">
