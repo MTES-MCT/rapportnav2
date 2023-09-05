@@ -1,23 +1,23 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api
 
 import fr.gouv.dgampa.rapportnav.domain.entities.monitorenv.mission.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.GetMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.GetMonitorEnvMissions
 import fr.gouv.dgampa.rapportnav.infrastructure.api.adapters.outputs.MissionDataOutput
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.websocket.server.PathParam
 import org.springframework.format.annotation.DateTimeFormat
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.time.ZonedDateTime
 
 @RestController
 @RequestMapping("/api/v1/missions")
 @Tag(description = "API Missions", name = "Missions")
 class ApiMissionsController(
-    private val getMissions: GetMonitorEnvMissions,
+    private val getEnvMissions: GetMonitorEnvMissions,
+    private val getMissionById: GetMissionById,
 ) {
     @GetMapping("")
     @Operation(summary = "Get missions")
@@ -49,7 +49,7 @@ class ApiMissionsController(
         @RequestParam(name = "seaFronts", required = false)
         seaFronts: List<String>?,
     ): List<MissionDataOutput> {
-        val missions = getMissions.execute(
+        val missions = getEnvMissions.execute(
             startedAfterDateTime = startedAfterDateTime,
             startedBeforeDateTime = startedBeforeDateTime,
             missionSources = missionSources,
@@ -60,5 +60,17 @@ class ApiMissionsController(
             pageSize = pageSize,
         )
         return missions.map { MissionDataOutput.fromMission(it) }
+    }
+
+    @GetMapping("/{missionId}")
+    @Operation(summary = "Get mission by Id")
+    fun getMissionByIdController(
+        @PathParam("Mission id")
+        @PathVariable(name = "missionId")
+        missionId: Int,
+    ): MissionDataOutput {
+        val mission = getMissionById.execute(missionId = missionId)
+
+        return MissionDataOutput.fromMission(mission)
     }
 }
