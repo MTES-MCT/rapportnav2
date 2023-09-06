@@ -1,5 +1,4 @@
 import React from 'react'
-import { Divider, Panel } from 'rsuite'
 import { THEME } from '@mtes-mct/monitor-ui'
 import { EnvActionControl as EnvActionControlType } from '../../mission-types'
 
