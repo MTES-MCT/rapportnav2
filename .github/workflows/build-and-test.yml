@@ -2,9 +2,9 @@ name: Build and Test
 
 on:
   push:
-    branches: ["CHANGEME"]
+    branches: ["main"]
   pull_request:
-    branches: ["CHANGEME"]
+    branches: ["main"]
 
 jobs:
   build-and-test:
@@ -21,7 +21,7 @@ jobs:
           node-version: 18
 
       - name: "[FRONTEND] Install dependencies"
-        run: make front-ci
+        run: make front-ci --verbose
 
       - name: "[FRONTEND] Analyse dependencies"
         uses: oke-py/npm-audit-action@v2
