@@ -21,7 +21,7 @@ jobs:
           node-version: 18
 
       - name: "[FRONTEND] Install dependencies"
-        run: make front-ci --verbose
+        run: make front-ci
 
       - name: "[FRONTEND] Analyse dependencies"
         uses: oke-py/npm-audit-action@v2
