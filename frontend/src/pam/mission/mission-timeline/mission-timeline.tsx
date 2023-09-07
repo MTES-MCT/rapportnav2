@@ -1,7 +1,9 @@
 import React from 'react'
 import { FlexboxGrid, Stack } from 'rsuite'
 import { Accent, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
-import { EnvAction, Mission } from '../mission-types'
+import { EnvAction, Mission } from '../../mission-types'
+import MissionTimelineItemContainer from './mission-timeline-item-container'
+import MissionTimelineItem from './mission-timeline-item'
 
 interface MissionTimelineProps {
   mission: Mission
@@ -12,11 +14,13 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
   return (
     <div>
       <FlexboxGrid justify="space-between" align="middle" style={{ height: '100%' }}>
-        <FlexboxGrid.Item>
+        <FlexboxGrid.Item style={{ width: '100%' }}>
           <Stack direction="column">
-            {mission.envActions.map((envAction: EnvAction) => (
-              <Stack.Item key={envAction.id} style={{ width: '100%', padding: '1rem' }}>
-                <div onClick={() => onSelectAction(envAction)}>Action from Env: {envAction.id}</div>
+            {mission.envActions.map((action: EnvAction) => (
+              <Stack.Item key={action.id} style={{ width: '100%', padding: '1rem' }}>
+                <MissionTimelineItemContainer actionType={action.actionType}>
+                  <MissionTimelineItem action={action} onClick={() => onSelectAction(action)} />
+                </MissionTimelineItemContainer>
               </Stack.Item>
             ))}
           </Stack>

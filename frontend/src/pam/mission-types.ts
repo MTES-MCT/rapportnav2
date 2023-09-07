@@ -4,7 +4,10 @@ import { ControlUnit } from './control-unit-types'
 export enum ActionTypeEnum {
   CONTROL = 'CONTROL',
   NOTE = 'NOTE',
-  SURVEILLANCE = 'SURVEILLANCE'
+  SURVEILLANCE = 'SURVEILLANCE',
+  STATUS = 'STATUS',
+  CONTACT = 'CONTACT',
+  OTHER = 'OTHER'
 }
 export const actionTypeLabels = {
   CONTROL: {

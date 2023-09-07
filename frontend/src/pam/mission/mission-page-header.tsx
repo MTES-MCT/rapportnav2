@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FlexboxGrid } from 'rsuite'
 import { Accent, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
+import Title from '../../ui/title'
 
 const StyledHeader = styled.div`
   height: 48px;
@@ -23,7 +24,9 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({ missionName, onCl
         <FlexboxGrid.Item>
           <FlexboxGrid justify="space-between" align="middle" style={{ height: '100%' }}>
             <FlexboxGrid.Item>
-              <h3 style={{ color: THEME.color.gainsboro, fontSize: '22px' }}>{missionName}</h3>
+              <Title as="h1" color={THEME.color.gainsboro}>
+                {missionName}
+              </Title>
             </FlexboxGrid.Item>
           </FlexboxGrid>
         </FlexboxGrid.Item>
