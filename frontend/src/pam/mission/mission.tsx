@@ -8,29 +8,28 @@ import MissionGeneralInfoPanel from './mission-general-info-panel'
 import MissionOperationalSummary from './mission-operational-summary'
 import MissionActivityPanel from './mission-activity-panel'
 import MissionTimeline from './mission-timeline/mission-timeline'
-import { EnvAction } from '../mission-types'
 import { useState } from 'react'
 import { getComponentForAction } from './mission-actions/mission-action-mapping'
 import Title from '../../ui/title'
+import { MissionAction } from '../mission-types'
 
 export default function Mission() {
   const { missionsId } = useParams()
 
-  const [selectedAction, setSelectedAction] = useState<EnvAction | undefined>(undefined)
+  const [selectedAction, setSelectedAction] = useState<MissionAction | undefined>(undefined)
 
   const fetchQuery = useQuery({
     queryKey: missionKeys.detail(missionsId as any),
     queryFn: () => fetchMission(missionsId as any)
   })
 
-  const selectMissionAction = (action: EnvAction) => {
+  const selectMissionAction = (action: MissionAction) => {
     setSelectedAction(action)
   }
 
   let navigate = useNavigate()
   const mutationSuccessCallback = () => {
     console.log('mutation success')
-    debugger
     // navigate("/");
   }
   const mutationErrorCallback = () => {

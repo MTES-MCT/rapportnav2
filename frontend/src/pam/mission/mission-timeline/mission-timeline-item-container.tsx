@@ -1,7 +1,8 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
-import { ActionTypeEnum, EnvAction, Mission } from '../../mission-types'
+import { ActionTypeEnum } from '../../env-mission-types'
+import { MissionActionType } from '../../fish-mission-types'
 
 interface MissionTimelineItemContainerProps {
   actionType: ActionTypeEnum
@@ -28,13 +29,18 @@ const ActionOther = createActionStyled('#d4e5f4', '#cccfd6')
 const ActionStatus = createActionStyled(undefined, undefined, '#707785')
 const ActionContact = createActionStyled(undefined, undefined, '#707785')
 
-const ActionComponentMap: Record<ActionTypeEnum, React.FC<{ children: any }>> = {
+const ActionComponentMap: Record<ActionTypeEnum | MissionActionType, React.FC<{ children: any }>> = {
   [ActionTypeEnum.CONTROL]: ActionControl,
   [ActionTypeEnum.SURVEILLANCE]: ActionSurveillance,
   [ActionTypeEnum.NOTE]: ActionNote,
   [ActionTypeEnum.CONTACT]: ActionContact,
   [ActionTypeEnum.STATUS]: ActionStatus,
-  [ActionTypeEnum.OTHER]: ActionOther
+  [ActionTypeEnum.OTHER]: ActionOther,
+  [MissionActionType.SEA_CONTROL]: ActionControl,
+  [MissionActionType.AIR_CONTROL]: ActionControl,
+  [MissionActionType.LAND_CONTROL]: ActionControl,
+  [MissionActionType.AIR_SURVEILLANCE]: ActionSurveillance,
+  [MissionActionType.OBSERVATION]: ActionOther
 }
 
 const MissionTimelineItemContainer: React.FC<MissionTimelineItemContainerProps> = ({

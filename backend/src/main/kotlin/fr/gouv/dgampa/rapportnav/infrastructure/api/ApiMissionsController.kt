@@ -1,8 +1,10 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api
 
-import fr.gouv.dgampa.rapportnav.domain.entities.monitorenv.mission.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.GetMissionById
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.GetMonitorEnvMissions
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.Mission
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.monitorEnv.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.GetFishMissionById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.GetEnvMissionById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.GetEnvMissions
 import fr.gouv.dgampa.rapportnav.infrastructure.api.adapters.outputs.MissionDataOutput
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -11,14 +13,19 @@ import jakarta.websocket.server.PathParam
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.web.bind.annotation.*
 import java.time.ZonedDateTime
+import org.slf4j.LoggerFactory
 
 @RestController
 @RequestMapping("/api/v1/missions")
 @Tag(description = "API Missions", name = "Missions")
 class ApiMissionsController(
-    private val getEnvMissions: GetMonitorEnvMissions,
-    private val getMissionById: GetMissionById,
-) {
+    private val getEnvMissions: GetEnvMissions,
+    private val getEnvMissionById: GetEnvMissionById,
+    private val getFishMissionById: GetFishMissionById,
+    ) 
+{
+    private val logger = LoggerFactory.getLogger(ApiMissionsController::class.java)
+
     @GetMapping("")
     @Operation(summary = "Get missions")
     fun getMissionsController(
@@ -69,7 +76,10 @@ class ApiMissionsController(
         @PathVariable(name = "missionId")
         missionId: Int,
     ): MissionDataOutput {
-        val mission = getMissionById.execute(missionId = missionId)
+        val envMission = getEnvMissionById.execute(missionId = missionId)
+        val fishMission = getFishMissionById.execute(missionId = missionId)
+
+        val mission = Mission(envMission, fishMission)
 
         return MissionDataOutput.fromMission(mission)
     }

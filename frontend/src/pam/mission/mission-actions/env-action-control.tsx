@@ -1,6 +1,6 @@
 import React from 'react'
 import { THEME } from '@mtes-mct/monitor-ui'
-import { EnvActionControl as EnvActionControlType } from '../../mission-types'
+import { EnvActionControl as EnvActionControlType } from '../../env-mission-types'
 
 interface EnvActionControlProps {
   action: EnvActionControlType
