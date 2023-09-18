@@ -7,6 +7,7 @@ export enum ActionTypeEnum {
   SURVEILLANCE = 'SURVEILLANCE',
   STATUS = 'STATUS',
   CONTACT = 'CONTACT',
+  RESCUE = 'RESCUE',
   OTHER = 'OTHER'
 }
 export const actionTypeLabels = {

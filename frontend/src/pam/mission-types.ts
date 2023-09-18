@@ -36,6 +36,14 @@ export type Mission = {
   actions: MissionActions[]
 }
 
+export enum ControlTarget {
+  'PECHE_PRO' = 'PECHE_PRO',
+  'PLAISANCE_PRO' = 'PLAISANCE_PRO',
+  'COMMERCE_PRO' = 'COMMERCE_PRO',
+  'SERVICE_PRO' = 'SERVICE_PRO',
+  'PLAISANCE_LOISIR' = 'PLAISANCE_LOISIR'
+}
+
 export const getActionData = (action: MissionActions): EnvAction | FishAction | RapportNavAction => {
   if (action.envAction) {
     return action.envAction as EnvAction

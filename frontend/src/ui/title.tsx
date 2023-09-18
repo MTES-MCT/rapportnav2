@@ -15,6 +15,7 @@ const createTitleStyled = (fontSize: number, fontWeight: string, color: string) 
     font-size: ${fontSize}px;
     font-weight: ${fontWeight || 'normal'};
     letter-spacing: 0px;
+    text-align: left;
   `
 }
 

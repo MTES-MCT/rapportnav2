@@ -13,17 +13,12 @@ class GetEnvMissions() {
     private val logger = LoggerFactory.getLogger(GetEnvMissions::class.java)
 
     fun execute(
+        userId: Int?,
         startedAfterDateTime: ZonedDateTime?,
         startedBeforeDateTime: ZonedDateTime?,
-        missionSources: List<MissionSourceEnum>?,
-        missionTypes: List<String>?,
-        missionStatuses: List<String>?,
         pageNumber: Int?,
         pageSize: Int?,
-        seaFronts: List<String>?,
     ): List<Mission> {
-
-
         // TODO add API call to MonitorEnv
 
         val mission1 = MissionEntity(

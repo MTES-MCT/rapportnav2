@@ -22,7 +22,7 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
               const actionData = getActionData(action) as MissionAction
               console.log('actionData', actionData)
               return (
-                <Stack.Item key={actionData.id} style={{ width: '100%', padding: '1rem' }}>
+                <Stack.Item key={actionData.id} style={{ width: '100%', padding: '1rem 0' }}>
                   <Stack direction="row">
                     <Stack.Item style={{ minWidth: '50px' }}>
                       <Stack direction="column">

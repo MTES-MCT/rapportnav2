@@ -132,7 +132,6 @@ const MissionTimelineItem: React.FC<MissionTimelineItemProps> = ({
   const Component = componentMap[action.actionType]
 
   if (!Component) {
-    debugger
     return null
   }
 
