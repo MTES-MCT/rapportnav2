@@ -69,7 +69,7 @@ class SecurityConfig (
         // Other configuration
         http.cors()
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        http.csrf().disable()
+        // http.csrf().disable()
         http.headers().frameOptions().disable()
         http.headers().xssProtection().disable()
         http.authorizeHttpRequests { authorize -> authorize.requestMatchers(AntPathRequestMatcher("/**")).permitAll() }
