@@ -45,16 +45,16 @@ jobs:
           file: infra/docker/app/Dockerfile
           push: false
           tags: |
-            ghcr.io/mtes-mct/rapportnav2/rapportnav-app:${{ github.sha }}
+            rapportnav2/rapportnav-app:${{ github.sha }}
           build-args: |
             VERSION=${{ env.VERSION }}
             ENV_PROFILE=${{ env.ENV_PROFILE }}
             GITHUB_SHA=${{ github.sha }}
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+        uses: aquasecurity/trivy-action@master
         with:
-          image-ref: "docker.io/my-organization/my-app:${{ github.sha }}"
+          image-ref: "rapportnav2/rapportnav-app:${{ github.sha }}"
           format: "template"
           template: "@/contrib/sarif.tpl"
           output: "trivy-results.sarif"
