@@ -7,7 +7,7 @@ name: trivy
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   # pull_request:
   #   # The branches below must be a subset of the branches above
   #   branches: [ "main" ]
@@ -43,7 +43,7 @@ jobs:
           context: .
           builder: ${{ steps.buildx.outputs.name }}
           file: infra/docker/app/Dockerfile
-          push: true
+          push: false
           tags: |
             ghcr.io/mtes-mct/rapportnav2/rapportnav-app:${{ github.sha }}
           build-args: |
@@ -51,17 +51,16 @@ jobs:
             ENV_PROFILE=${{ env.ENV_PROFILE }}
             GITHUB_SHA=${{ github.sha }}
 
-
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
         with:
-          image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
-          format: 'template'
-          template: '@/contrib/sarif.tpl'
-          output: 'trivy-results.sarif'
-          severity: 'CRITICAL,HIGH'
+          image-ref: "docker.io/my-organization/my-app:${{ github.sha }}"
+          format: "template"
+          template: "@/contrib/sarif.tpl"
+          output: "trivy-results.sarif"
+          severity: "CRITICAL,HIGH"
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: 'trivy-results.sarif'
+          sarif_file: "trivy-results.sarif"
