@@ -1,13 +1,8 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api
 
-import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.servlet.error.ErrorController
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.GetMapping
 
 /**
  * This controller redirects all unhandled routes by the backend to our SPA frontend
@@ -25,11 +20,12 @@ class FrontendController : ErrorController {
     //     return "forward:/index.html"
     // }
 
-    @RequestMapping("/error")
-    fun error(request: HttpServletRequest, response: HttpServletResponse): Any {
-        response.status = HttpStatus.OK.value()
-        return "forward:/index.html"
-    }
+    // TODO RESTORE
+//    @RequestMapping("/error")
+//    fun error(request: HttpServletRequest, response: HttpServletResponse): Any {
+//        response.status = HttpStatus.OK.value()
+//        return "forward:/index.html"
+//    }
 
     // @GetMapping("/")
     // fun index(): String {

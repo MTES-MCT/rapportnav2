@@ -1,0 +1,14 @@
+
+
+type Mission {
+    id: ID!
+    isClosed: Boolean!
+    missionSource: String!
+    startDateTimeUtc: String!
+
+}
+
+
+type Query {
+    missions(userId: ID): [Mission]!
+}
