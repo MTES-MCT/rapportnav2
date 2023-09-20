@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.adapters.outputs
 
-import fr.gouv.dgampa.rapportnav.domain.entities.crew.CrewEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.CrewEntity
 import java.time.ZonedDateTime
 
 data class CrewDataOutput(

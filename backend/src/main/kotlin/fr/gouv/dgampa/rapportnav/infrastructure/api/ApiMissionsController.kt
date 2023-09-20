@@ -79,7 +79,7 @@ class ApiMissionsController(
         val fishMission = getFishMissionById.execute(missionId = missionId)
         val navMission = getNavMissionById.execute(missionId = missionId)
 
-        val mission = Mission(envMission, fishMission)
+        val mission = Mission(envMission, navMission, fishMission)
 
         return MissionDataOutput.fromMission(mission)
     }

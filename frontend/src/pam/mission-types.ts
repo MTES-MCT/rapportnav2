@@ -1,20 +1,39 @@
-import { act } from 'react-dom/test-utils'
 import { ControlUnit } from './control-unit-types'
 import { EnvAction, MissionSourceEnum, MissionTypeEnum, SeaFrontEnum } from './env-mission-types'
 import { FishAction } from './fish-mission-types'
 
-export type RapportNavAction = {
+export enum ActionSource {
+  'EnvAction' = 'EnvAction',
+  'FishAction' = 'FishAction',
+  'NavAction' = 'NavAction'
+}
+
+export type NavAction = {
   id: number
   actionType: any
-  actionEndDateTimeUtc?: string | null
   actionStartDateTimeUtc?: string | null
+  actionEndDateTimeUtc?: string | null
 }
 export type MissionActions = {
   envAction?: EnvAction
   fishAction?: FishAction
-  rapportNavAction?: RapportNavAction
+  navAction?: NavAction
 }
-export type MissionAction = EnvAction | FishAction | RapportNavAction
+export type MissionAction = EnvAction | FishAction | NavAction
+
+export function isEnvAction(action: MissionAction): action is EnvAction {
+  // TODO find a better way to segregate a env action
+  return action !== null && typeof action === 'object' && 'actionNumberOfControls' in action
+}
+
+export function isFishAction(action: MissionAction): action is FishAction {
+  // TODO find a better way to segregate a fish action
+  return action !== null && typeof action === 'object' && 'actionDatetimeUtc' in action
+}
+
+export function isNavAction(action: MissionAction): action is NavAction {
+  return !isEnvAction(action) && !isFishAction(action)
+}
 
 export type Mission = {
   id: number
@@ -44,14 +63,14 @@ export enum ControlTarget {
   'PLAISANCE_LOISIR' = 'PLAISANCE_LOISIR'
 }
 
-export const getActionData = (action: MissionActions): EnvAction | FishAction | RapportNavAction => {
+export const getActionData = (action: MissionActions): [ActionSource, EnvAction | FishAction | NavAction] => {
   if (action.envAction) {
-    return action.envAction as EnvAction
+    return [ActionSource.EnvAction, action.envAction as EnvAction]
   } else if (action.fishAction) {
-    return action.fishAction as FishAction
+    return [ActionSource.FishAction, action.fishAction as FishAction]
   }
 
-  return action.rapportNavAction as RapportNavAction
+  return [ActionSource.NavAction, action.navAction as NavAction]
 }
 
 export const getActionStartTime = (action: MissionActions): string | undefined | null => {
@@ -60,6 +79,5 @@ export const getActionStartTime = (action: MissionActions): string | undefined |
   } else if (action.fishAction) {
     return action.fishAction.actionDatetimeUtc
   }
-
-  return action.rapportNavAction?.actionStartDateTimeUtc
+  return action.navAction?.actionStartDateTimeUtc
 }

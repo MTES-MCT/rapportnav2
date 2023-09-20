@@ -3,9 +3,11 @@ import styled from 'styled-components'
 
 import { ActionTypeEnum } from '../../env-mission-types'
 import { MissionActionType } from '../../fish-mission-types'
+import { ActionSource } from '../../mission-types'
 
 interface MissionTimelineItemContainerProps {
   actionType: ActionTypeEnum
+  actionSource: ActionSource
   children: ReactNode
   componentMap?: Record<any, React.FC<{ children: any }>>
 }
@@ -29,26 +31,52 @@ const ActionOther = createActionStyled('#d4e5f4', '#cccfd6')
 const ActionStatus = createActionStyled(undefined, undefined, '#707785')
 const ActionContact = createActionStyled(undefined, undefined, '#707785')
 
-const ActionComponentMap: Record<ActionTypeEnum | MissionActionType, React.FC<{ children: any }>> = {
-  [ActionTypeEnum.CONTROL]: ActionControl,
-  [ActionTypeEnum.SURVEILLANCE]: ActionSurveillance,
-  [ActionTypeEnum.NOTE]: ActionNote,
-  [ActionTypeEnum.CONTACT]: ActionContact,
-  [ActionTypeEnum.STATUS]: ActionStatus,
-  [ActionTypeEnum.OTHER]: ActionOther,
-  [MissionActionType.SEA_CONTROL]: ActionControl,
-  [MissionActionType.AIR_CONTROL]: ActionControl,
-  [MissionActionType.LAND_CONTROL]: ActionControl,
-  [MissionActionType.AIR_SURVEILLANCE]: ActionSurveillance,
-  [MissionActionType.OBSERVATION]: ActionOther
+// const ActionComponentMap: Record<ActionTypeEnum | MissionActionType, React.FC<{ children: any }>> = {
+//   [ActionTypeEnum.CONTROL]: ActionControl,
+//   [ActionTypeEnum.SURVEILLANCE]: ActionSurveillance,
+//   [ActionTypeEnum.NOTE]: ActionNote,
+//   [ActionTypeEnum.CONTACT]: ActionContact,
+//   [ActionTypeEnum.STATUS]: ActionStatus,
+//   [ActionTypeEnum.OTHER]: ActionOther,
+//   [MissionActionType.SEA_CONTROL]: ActionControl,
+//   [MissionActionType.AIR_CONTROL]: ActionControl,
+//   [MissionActionType.LAND_CONTROL]: ActionControl,
+//   [MissionActionType.AIR_SURVEILLANCE]: ActionSurveillance,
+//   [MissionActionType.OBSERVATION]: ActionOther
+// }
+
+const getActionComponent = (
+  actionSource: ActionSource,
+  actionType?: ActionTypeEnum | MissionActionType
+): React.FC<{ children: any }> | null => {
+  if (actionSource === ActionSource.EnvAction) {
+    switch (actionType) {
+      case ActionTypeEnum.CONTROL:
+        return ActionControl
+      default:
+        return null
+    }
+  } else if (actionSource === ActionSource.FishAction) {
+    switch (actionType) {
+      case MissionActionType.SEA_CONTROL:
+      case MissionActionType.AIR_CONTROL:
+      case MissionActionType.LAND_CONTROL:
+        return ActionControl
+      default:
+        return null
+    }
+  } else if (actionSource === ActionSource.NavAction) {
+    return ActionControl
+  }
+  return null
 }
 
 const MissionTimelineItemContainer: React.FC<MissionTimelineItemContainerProps> = ({
   children,
   actionType,
-  componentMap = ActionComponentMap
+  actionSource
 }) => {
-  const Component = componentMap[actionType]
+  const Component = getActionComponent(actionSource, actionType)
 
   if (!Component) {
     return null

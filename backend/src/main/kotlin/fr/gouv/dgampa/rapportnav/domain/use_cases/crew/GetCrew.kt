@@ -1,8 +1,8 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.crew // ktlint-disable package-name
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.crew.CrewEntity
-import fr.gouv.dgampa.rapportnav.domain.repositories.ICrewRepository
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.CrewEntity
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.ICrewRepository
 import org.slf4j.LoggerFactory
 
 @UseCase

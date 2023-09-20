@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.auth
 
 import fr.gouv.dgampa.rapportnav.domain.entities.user.UserEntity
-import fr.gouv.dgampa.rapportnav.domain.repositories.IUserRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository
 import org.springframework.security.oauth2.jwt.*
 
 import org.springframework.stereotype.Service

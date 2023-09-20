@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.missions
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.monitorEnv.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import org.slf4j.LoggerFactory
 
 @UseCase

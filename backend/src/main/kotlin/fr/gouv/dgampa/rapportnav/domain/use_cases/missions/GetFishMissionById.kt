@@ -1,12 +1,12 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.missions
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.monitorFish.FishMission
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.monitorFish.Mission
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.monitorFish.MissionSource
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.monitorFish.MissionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.monitorFish.fishActions.MissionAction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.monitorFish.fishActions.MissionActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.FishMission
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.Mission
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.MissionSource
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.MissionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import java.time.ZonedDateTime
 
 

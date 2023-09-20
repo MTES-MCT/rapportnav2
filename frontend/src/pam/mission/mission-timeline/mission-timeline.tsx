@@ -19,8 +19,9 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
         <FlexboxGrid.Item style={{ width: '100%' }}>
           <Stack direction="column">
             {mission.actions.map((action: MissionActions) => {
-              const actionData = getActionData(action) as MissionAction
+              const [actionSource, actionData] = getActionData(action)
               console.log('actionData', actionData)
+              console.log('actionSource', actionSource)
               return (
                 <Stack.Item key={actionData.id} style={{ width: '100%', padding: '1rem 0' }}>
                   <Stack direction="row">
@@ -39,8 +40,12 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
                       </Stack>
                     </Stack.Item>
                     <Stack.Item style={{ width: '100%' }}>
-                      <MissionTimelineItemContainer actionType={actionData.actionType}>
-                        <MissionTimelineItem action={actionData} onClick={() => onSelectAction(actionData)} />
+                      <MissionTimelineItemContainer actionSource={actionSource} actionType={actionData.actionType}>
+                        <MissionTimelineItem
+                          actionSource={actionSource}
+                          action={actionData}
+                          onClick={() => onSelectAction(actionData)}
+                        />
                       </MissionTimelineItemContainer>
                     </Stack.Item>
                   </Stack>

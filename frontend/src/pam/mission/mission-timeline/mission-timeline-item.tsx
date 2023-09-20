@@ -2,11 +2,12 @@ import React from 'react'
 import { THEME, Icon } from '@mtes-mct/monitor-ui'
 import { ActionTypeEnum, EnvAction, EnvActionControl } from '../../env-mission-types'
 import { FlexboxGrid, Stack } from 'rsuite'
-import { MissionAction } from '../../mission-types'
+import { ActionSource, MissionAction, NavAction } from '../../mission-types'
 import { FishAction, MissionActionType } from '../../fish-mission-types'
 
 interface MissionTimelineItemProps {
   action: MissionAction
+  actionSource: ActionSource
   onClick: (action: MissionAction) => void
   componentMap?: Record<
     ActionTypeEnum | MissionActionType,
@@ -76,7 +77,26 @@ const ActionFishControl: React.FC<{ action: FishAction; onClick: any }> = ({ act
           </Stack.Item>
           <Stack.Item alignSelf="flex-start">
             <Stack direction="column" alignItems="flex-start">
-              <Stack.Item>Contrôles peche</Stack.Item>
+              <Stack.Item>Contrôles CNSP</Stack.Item>
+            </Stack>
+          </Stack.Item>
+        </Stack>
+      </FlexboxGrid.Item>
+    </Action>
+  )
+}
+
+const ActionNavControl: React.FC<{ action: NavAction; onClick: any }> = ({ action, onClick }) => {
+  return (
+    <Action action={action as FishAction} onClick={onClick}>
+      <FlexboxGrid.Item style={{ width: '100%' }}>
+        <Stack direction="row" spacing="1rem">
+          <Stack.Item alignSelf="flex-start" style={{ paddingTop: '0.2rem' }}>
+            <Icon.Control color={THEME.color.charcoal} size={20} />
+          </Stack.Item>
+          <Stack.Item alignSelf="flex-start">
+            <Stack direction="column" alignItems="flex-start">
+              <Stack.Item>Contrôles Nav</Stack.Item>
             </Stack>
           </Stack.Item>
         </Stack>
@@ -124,18 +144,38 @@ const ActionComponentMap: Record<ActionTypeEnum | MissionActionType, React.FC<{ 
   [MissionActionType.OBSERVATION]: ActionOther
 }
 
+const getActionComponent = (action: MissionAction, actionSource: ActionSource) => {
+  if (actionSource === ActionSource.EnvAction) {
+    if (action.actionType === ActionTypeEnum.CONTROL) {
+      return ActionEnvControl
+    }
+  } else if (actionSource === ActionSource.FishAction) {
+    if (
+      [MissionActionType.SEA_CONTROL, MissionActionType.AIR_CONTROL, MissionActionType.LAND_CONTROL].indexOf(
+        action.actionType
+      ) != -1
+    ) {
+      return ActionFishControl
+    }
+  } else if (actionSource === ActionSource.NavAction) {
+    return ActionNavControl
+  }
+}
+
 const MissionTimelineItem: React.FC<MissionTimelineItemProps> = ({
   action,
-  onClick,
-  componentMap = ActionComponentMap
+  actionSource,
+  onClick
+  // componentMap = ActionComponentMap
 }) => {
-  const Component = componentMap[action.actionType]
+  const Component = getActionComponent(action, actionSource)
+  // const Component = componentMap[action.actionType]
 
   if (!Component) {
     return null
   }
 
-  return <Component action={action} onClick={onClick} />
+  return <Component action={action as any} onClick={onClick} />
 }
 
 export default MissionTimelineItem

@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.user
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.user.UserEntity
-import fr.gouv.dgampa.rapportnav.domain.repositories.IUserRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository
 
 @UseCase
 class Save(private val userRepository: IUserRepository) {
