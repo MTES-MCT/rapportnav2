@@ -1,13 +1,13 @@
 package fr.gouv.dgampa.rapportnav.domain.repositories.user
 
-import fr.gouv.dgampa.rapportnav.domain.entities.user.UserEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 
 interface IUserRepository {
 
-    fun findByEmail(email:String): UserEntity?
+    fun findByEmail(email:String): User?
 
-    fun findById(id: Int): UserEntity?
+    fun findById(id: Int): User?
 
-    fun save(user: UserEntity): UserEntity?
+    fun save(user: User): User?
     
 }

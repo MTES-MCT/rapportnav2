@@ -1,14 +1,130 @@
-
-
 type Mission {
-    id: ID!
-    isClosed: Boolean!
-    missionSource: String!
-    startDateTimeUtc: String!
+  id: ID!
+  isClosed: Boolean!
+  missionSource: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String!
+  actions: [Action]
+}
 
+type Action {
+    envAction: EnvAction
+    navAction: NavAction
+    fishAction: FishAction
+}
+
+type NavAction {
+    id: Int!
+    actionStartDateTimeUtc: String!
+    actionEndDateTimeUtc: String
+    actionType: ActionType
+    actionControl: ActionControl,
+}
+
+type ActionControl {
+    id: Int!
+    controlsVesselAdministrative: ControlVesselAdministrative
+    controlsGensDeMer: ControlGensDeMer
+    controlsNavigationRules: ControlNavigationRules
+    controlsEquipmentAndSecurity: ControlEquipmentAndSecurity
+}
+
+type ControlNavigationRules {
+    id: Int!
+    confirmed: Boolean
+    observations: String
+}
+
+type ControlEquipmentAndSecurity {
+    id: Int!
+    confirmed: Boolean
+    observations: String
+}
+
+type ControlVesselAdministrative {
+    id: Int!
+    confirmed: Boolean
+    compliantOperatingPermit: Boolean
+    upToDateNavigationPermit: Boolean
+    compliantSecurityDocuments: Boolean
+}
+
+type ControlGensDeMer {
+    id: Int!
+    confirmed: Boolean
+    staffOutnumbered: Boolean
+    upToDateMedicalCheck: Boolean
+    knowledgeOfFrenchLawAndLanguage: Boolean
+}
+
+enum ActionType {
+    CONTROL
+    SURVEILLANCE
+    CONTACT
+    NOTE
+    STATUS
+    OTHER
+}
+
+type EnvAction {
+    id: String!
+    actionStartDateTimeUtc: String!
+    actionEndDateTimeUtc: String!
+    actionType: ActionType
+    geom: String
+    facade: String
+    department: String
+    themes: [ThemeEntity]
+    observations: String
+    actionNumberOfControls: Int
+    actionTargetType: ActionTargetTypeEnum
+    vehicleType: VehicleTypeEnum
+}
+
+type FishAction {
+    id: String
+    actionDatetimeUtc: String!
+    actionType: FishActionType!
+}
+
+enum FishActionType {
+    SEA_CONTROL
+    LAND_CONTROL
+    AIR_CONTROL
+    AIR_SURVEILLANCE
+    OBSERVATION
 }
 
 
+
+type ThemeEntity {
+    theme: String
+    subThemes: [String]
+    protectedSpecies: [String]
+}
+
+enum ActionTargetTypeEnum {
+    VEHICLE
+    COMPANY
+    INDIVIDUAL
+}
+
+enum VehicleTypeEnum {
+    VESSEL
+    OTHER_SEA
+    VEHICLE_LAND
+    VEHICLE_AIR
+}
+
+
+type User {
+  id: ID
+  name: String!
+  email: String!
+  token: String
+}
+
 type Query {
-    missions(userId: ID): [Mission]!
+  missions(userId: ID): [Mission]!
+  missionById(missionId: ID): Mission!
 }

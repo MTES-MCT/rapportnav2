@@ -3,7 +3,6 @@ import { Accent, Icon, Dialog, IconButton, Size, THEME } from '@mtes-mct/monitor
 import { useNavigate, useParams } from 'react-router-dom'
 import { Divider, FlexboxGrid, Panel, Stack } from 'rsuite'
 import { fetchMission, missionKeys, useMutateMission } from './queries'
-import { useQuery } from '@tanstack/react-query'
 import MissionGeneralInfoPanel from './mission-general-info-panel'
 import MissionOperationalSummary from './mission-operational-summary'
 import MissionActivityPanel from './mission-activity-panel'
@@ -15,18 +14,17 @@ import { ControlTarget, MissionAction } from '../mission-types'
 import ActionSelectionDropdown from './actions/action-selection-dropdown'
 import { ActionTypeEnum } from '../env-mission-types'
 import ControlSelection from './controls/control-selection'
+import { useQuery } from '@apollo/client'
+import { GET_MISSION_BY_ID } from './queries2'
 
 export default function Mission() {
-  const { missionsId } = useParams()
+  const { missionId } = useParams()
 
   let navigate = useNavigate()
   const [selectedAction, setSelectedAction] = useState<MissionAction | undefined>(undefined)
   const [showControlTypesModal, setShowControlTypesModal] = useState<boolean>(false)
 
-  const fetchQuery = useQuery({
-    queryKey: missionKeys.detail(missionsId as any),
-    queryFn: () => fetchMission(missionsId as any)
-  })
+  const { loading, error, data } = useQuery(GET_MISSION_BY_ID, { variables: { missionId } })
 
   const selectMissionAction = (action: MissionAction) => {
     setSelectedAction(action)
@@ -51,12 +49,12 @@ export default function Mission() {
     alert('error')
   }
 
-  const updateQuery = useMutateMission(missionsId, mutationSuccessCallback, mutationErrorCallback)
+  // const updateQuery = useMutateMission(missionId, mutationSuccessCallback, mutationErrorCallback)
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    const { text, status } = fetchQuery.data as any
-    const mission = { text, status, id: missionsId }
+    const { text, status } = data as any
+    // const mission = { text, status, id: missionId }
     // const fakeMission: MissionModel = {
     //   id: 1,
     //   text: mission!.text + Math.floor(Math.random() * 101),
@@ -64,12 +62,12 @@ export default function Mission() {
     // }
     // updateQuery.mutate(fakeMission, { onSuccess: () => navigate('/') })
   }
-  if (fetchQuery.isLoading && fetchQuery.isFetching) {
+  if (loading) {
     return <div>Loading...</div>
   }
 
-  if (fetchQuery.data) {
-    const mission = fetchQuery.data
+  if (data) {
+    const mission = data.missionById
     const MissionActionComponent = getComponentForAction(selectedAction)
 
     return (

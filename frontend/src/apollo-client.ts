@@ -13,7 +13,7 @@ const authLink = setContext((_, { headers }) => {
     headers: {
       ...headers,
       'Content-Type': 'application/json',
-      authorization: token ? `Bearer ${token}` : ''
+      ...(token ? { authorization: `Bearer ${token}` } : {})
     }
   }
 })

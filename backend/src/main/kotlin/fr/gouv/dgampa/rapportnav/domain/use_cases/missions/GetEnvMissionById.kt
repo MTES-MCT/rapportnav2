@@ -49,16 +49,16 @@ class GetEnvMissionById {
             vehicleType = null,
             observations = null
         )
-        val envMissionActionSurveillance = EnvActionSurveillanceEntity(
-            id = UUID.randomUUID(),
-            actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-17T04:50:09Z"),
-            actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-17T06:50:09Z")
-        )
-        val envMissionActionNote = EnvActionNoteEntity(
-            id = UUID.randomUUID(),
-            actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-18T04:50:09Z"),
-            actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-18T06:50:09Z")
-        )
+//        val envMissionActionSurveillance = EnvActionSurveillanceEntity(
+//            id = UUID.randomUUID(),
+//            actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-17T04:50:09Z"),
+//            actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-17T06:50:09Z")
+//        )
+//        val envMissionActionNote = EnvActionNoteEntity(
+//            id = UUID.randomUUID(),
+//            actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-18T04:50:09Z"),
+//            actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-18T06:50:09Z")
+//        )
         val envMission = MissionEntity(
             id = 10,
             missionTypes = listOf(MissionTypeEnum.SEA),
@@ -72,7 +72,8 @@ class GetEnvMissionById {
             hasMissionOrder = false,
             isUnderJdp = false,
             isGeometryComputedFromControls = false,
-            envActions = listOf(envMissionActionControl1,envMissionActionControl2, envMissionActionSurveillance, envMissionActionNote)
+            envActions = listOf(envMissionActionControl1,envMissionActionControl2)
+//            envActions = listOf(envMissionActionControl1,envMissionActionControl2, envMissionActionSurveillance, envMissionActionNote)
         )
 
         // 2. MonitorFish - Get and add up MissionActions

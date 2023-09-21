@@ -28,36 +28,6 @@ class SecurityConfig (
 ) {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        // Define public and private routes
-        // http.authorizeHttpRequests()
-//            .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
-//            .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
-////            .requestMatchers("/api/**").authenticated()
-//            .anyRequest().permitAll()
-
-// http.authorizeHttpRequests()
-            // .requestMatchers(
-            //     "/",
-            //     "/index.html",
-            //     "/*.js",
-            //     "/*.png",
-            //     "/*.svg",
-            //     "/static/**",
-            //     "/map-icons/**",
-            //     "/flags/**",
-            //     "/robots.txt",
-            //     "/favicon-32.ico",
-            //     "/asset-manifest.json",
-            //     "/swagger-ui/**",
-            //     // Used to redirect to the frontend SPA, see SpaController.kt
-            //     "/error",
-            //     "/api/v1/auth/**",
-            //     "/version",
-            //     "/login",
-            // ).permitAll()
-            // .anyRequest().authenticated()
-
-
         // Configure JWT
         http.oauth2ResourceServer().jwt()
         http.authenticationManager { auth ->
@@ -69,24 +39,19 @@ class SecurityConfig (
         // Other configuration
         http.cors()
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        // http.csrf().disable()
-        http.headers().frameOptions().disable()
-        http.headers().xssProtection().disable()
-        http.authorizeHttpRequests { authorize -> authorize.requestMatchers(AntPathRequestMatcher("/**")).permitAll() }
+        http.csrf().disable()
+//        http.headers().frameOptions().disable()
+//        http.headers().xssProtection().disable()
+        http.authorizeHttpRequests {
+            authorize -> authorize.requestMatchers(AntPathRequestMatcher("/**")).permitAll()
+        }
+//         http.authorizeHttpRequests()
+//            .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
+//            .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
+//            .requestMatchers("/graphql").authenticated()
+//            .anyRequest().permitAll()
 
         return http.build()
     }
 
-    @Bean
-    fun corsConfigurationSource(): CorsConfigurationSource {
-        // allow localhost for dev purposes
-        val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("*")
-//        configuration.allowedOrigins = listOf("http://localhost:3000", "http://localhost:8080")
-        configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE")
-        configuration.allowedHeaders = listOf("authorization", "content-type")
-        val source = UrlBasedCorsConfigurationSource()
-        source.registerCorsConfiguration("/**", configuration)
-        return source
-    }
 }

@@ -64,9 +64,9 @@ export enum ControlTarget {
 }
 
 export const getActionData = (action: MissionActions): [ActionSource, EnvAction | FishAction | NavAction] => {
-  if (action.envAction) {
+  if (action.envAction && action.envAction) {
     return [ActionSource.EnvAction, action.envAction as EnvAction]
-  } else if (action.fishAction) {
+  } else if (action.fishAction && action.fishAction) {
     return [ActionSource.FishAction, action.fishAction as FishAction]
   }
 
@@ -74,9 +74,9 @@ export const getActionData = (action: MissionActions): [ActionSource, EnvAction 
 }
 
 export const getActionStartTime = (action: MissionActions): string | undefined | null => {
-  if (action.envAction) {
+  if (action.envAction && action.envAction) {
     return action.envAction.actionStartDateTimeUtc
-  } else if (action.fishAction) {
+  } else if (action.fishAction && action.fishAction) {
     return action.fishAction.actionDatetimeUtc
   }
   return action.navAction?.actionStartDateTimeUtc

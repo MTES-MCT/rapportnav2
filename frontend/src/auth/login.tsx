@@ -68,7 +68,7 @@ const Login: React.FC = () => {
 
   return (
     <PageWrapper>
-      <FlexboxGrid justify="center" align="middle">
+      <FlexboxGrid justify="center" align="middle" style={{ width: '100%' }}>
         <FlexboxGrid.Item style={{ marginTop: '4rem' }} colspan={5}>
           <Formik
             initialValues={initialValues}

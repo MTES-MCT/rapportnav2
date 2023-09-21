@@ -22,6 +22,9 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
               const [actionSource, actionData] = getActionData(action)
               console.log('actionData', actionData)
               console.log('actionSource', actionSource)
+              if (!actionData) {
+                return <></>
+              }
               return (
                 <Stack.Item key={actionData.id} style={{ width: '100%', padding: '1rem 0' }}>
                   <Stack direction="row">

@@ -5,8 +5,10 @@ import { KyInstance } from 'ky/distribution/types/ky'
 const configWithAuth = (): Options => {
   const authToken = new AuthToken()
   return {
-    prefixUrl: window.location.origin + '/api',
-    headers: { 'Content-Type': 'application/json' },
+    prefixUrl: 'http://localhost:8080/api',
+    // prefixUrl: window.location.origin + '/api',
+    // headers: { 'Content-Type': 'application/json', credentials: 'true' },
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     hooks: {
       beforeRequest: [
         options => {

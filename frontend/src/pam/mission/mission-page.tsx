@@ -7,7 +7,7 @@ import MissionPageFooter from './mission-page-footer'
 
 const MissionsPage: React.FC = () => {
   const navigate = useNavigate()
-  let { missionsId } = useParams()
+  let { missionId } = useParams()
 
   const handleClose = () => {
     navigate('..')
@@ -16,8 +16,8 @@ const MissionsPage: React.FC = () => {
   return (
     <PageWrapper
       showMenu={false}
-      header={<MissionPageHeader missionName={`Mission #${missionsId}`} onClickClose={handleClose} />}
-      footer={<MissionPageFooter missionName={`Mission #${missionsId}`} onClickClose={handleClose} />}
+      header={<MissionPageHeader missionName={`Mission #${missionId}`} onClickClose={handleClose} />}
+      footer={<MissionPageFooter missionName={`Mission #${missionId}`} onClickClose={handleClose} />}
     >
       <Mission />
     </PageWrapper>
