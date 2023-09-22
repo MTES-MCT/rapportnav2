@@ -15,7 +15,7 @@ import ActionSelectionDropdown from './actions/action-selection-dropdown'
 import { ActionTypeEnum } from '../env-mission-types'
 import ControlSelection from './controls/control-selection'
 import { useQuery } from '@apollo/client'
-import { GET_MISSION_BY_ID } from './queries2'
+import { GET_MISSION_BY_ID } from './queries'
 
 export default function Mission() {
   const { missionId } = useParams()

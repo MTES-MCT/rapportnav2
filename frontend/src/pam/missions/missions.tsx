@@ -5,7 +5,7 @@ import { Accent, Button, Icon, Size } from '@mtes-mct/monitor-ui'
 import MissionsList from './missions-list'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@apollo/client/react'
-import { GET_MISSIONS } from './queries2'
+import { GET_MISSIONS } from './queries'
 
 const Missions: React.FC = () => {
   const { loading, error, data } = useQuery(GET_MISSIONS)
