@@ -18,7 +18,15 @@ type NavAction {
     actionStartDateTimeUtc: String!
     actionEndDateTimeUtc: String
     actionType: ActionType
-    actionControl: ActionControl,
+    actionStatus: ActionStatusType!
+    actionControl: ActionControl
+}
+
+enum ActionStatusType {
+    NAVIGATING
+    ANCHORING
+    DOCKING
+    UNAVAILABLE
 }
 
 type ActionControl {

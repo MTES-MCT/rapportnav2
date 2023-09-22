@@ -13,6 +13,7 @@ export type NavAction = {
   actionType: any
   actionStartDateTimeUtc?: string | null
   actionEndDateTimeUtc?: string | null
+  actionStatus: string
 }
 export type MissionActions = {
   envAction?: EnvAction

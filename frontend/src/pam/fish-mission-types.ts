@@ -50,6 +50,7 @@ export interface FishAction {
   vesselId: number | undefined
   vesselName: string | undefined
   vesselTargeted: ControlCheck | undefined
+  actionStatus: string
 }
 
 // ---------------------------------------------------------------------------

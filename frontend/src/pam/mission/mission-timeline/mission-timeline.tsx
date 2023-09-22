@@ -51,6 +51,7 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
                         />
                       </MissionTimelineItemContainer>
                     </Stack.Item>
+                    <Stack.Item style={{ width: '100%' }}>{actionData.actionStatus}</Stack.Item>
                   </Stack>
                 </Stack.Item>
               )

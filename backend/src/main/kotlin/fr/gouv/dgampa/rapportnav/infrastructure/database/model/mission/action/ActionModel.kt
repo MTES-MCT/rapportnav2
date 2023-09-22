@@ -37,7 +37,7 @@ data class ActionModel(
             actionType = mapStringToActionType(actionType),
             actionStartDateTimeUtc = actionStartDateTimeUtc,
             actionEndDateTimeUtc = actionEndDateTimeUtc,
-            actionControl = actionControl,
+            actionControl = actionControl
         )
     }
 }

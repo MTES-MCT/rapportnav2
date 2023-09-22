@@ -1,10 +1,14 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.Mission
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavAction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.*
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.QueryMapping
+import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
+
 
 @Controller
 class MissionController(
@@ -36,4 +40,14 @@ class MissionController(
         val mission = Mission(envMission, navMission, fishMission)
         return mission
     }
+
+    @SchemaMapping(typeName = "NavAction", field = "actionStatus")
+    fun getStatus(action: NavAction?): ActionStatusType {
+        // get time for this action
+
+        // get last started status for this time and missionId
+
+        return ActionStatusType.DOCKING
+    }
+
 }

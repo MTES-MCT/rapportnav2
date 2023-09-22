@@ -2,7 +2,6 @@ import { Accent, Icon, Dialog, IconButton, Size, THEME } from '@mtes-mct/monitor
 
 import { useNavigate, useParams } from 'react-router-dom'
 import { Divider, FlexboxGrid, Panel, Stack } from 'rsuite'
-import { fetchMission, missionKeys, useMutateMission } from './queries'
 import MissionGeneralInfoPanel from './mission-general-info-panel'
 import MissionOperationalSummary from './mission-operational-summary'
 import MissionActivityPanel from './mission-activity-panel'
@@ -107,7 +106,7 @@ export default function Mission() {
                     <Stack>
                       <Stack.Item>
                         <IconButton
-                          Icon={Icon.Plus}
+                          Icon={Icon.Phone}
                           accent={Accent.PRIMARY}
                           size={Size.NORMAL}
                           color={THEME.color.gainsboro}

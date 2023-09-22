@@ -13,6 +13,7 @@ export const GET_MISSION_BY_ID = gql`
           actionStartDateTimeUtc
           actionEndDateTimeUtc
           actionType
+          actionStatus
           actionControl {
             controlsVesselAdministrative {
               id

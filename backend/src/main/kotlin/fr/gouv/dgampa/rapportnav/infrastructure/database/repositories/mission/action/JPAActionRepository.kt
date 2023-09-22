@@ -13,8 +13,7 @@ class JPAActionRepository (
 ) : INavActionRepository {
 
     override fun findAllByMissionId(missionId: Int): List<NavAction> {
-        // TODO call correct function filtering by mission id
-        return dbActionRepository.findAll().map { it.toNavAction() }
+        return dbActionRepository.findAllByMissionId(missionId).map { it.toNavAction() }
     }
 
 
