@@ -1,13 +1,12 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
-import { ActionTypeEnum } from '../../env-mission-types'
+import { ActionTypeEnum, MissionSourceEnum } from '../../env-mission-types'
 import { MissionActionType } from '../../fish-mission-types'
-import { ActionSource } from '../../mission-types'
 
 interface MissionTimelineItemContainerProps {
   actionType: ActionTypeEnum
-  actionSource: ActionSource
+  actionSource: MissionSourceEnum
   children: ReactNode
   componentMap?: Record<any, React.FC<{ children: any }>>
 }
@@ -46,26 +45,25 @@ const ActionContact = createActionStyled(undefined, undefined, '#707785')
 // }
 
 const getActionComponent = (
-  actionSource: ActionSource,
-  actionType?: ActionTypeEnum | MissionActionType
+  actionSource: MissionSourceEnum,
+  actionType?: ActionTypeEnum
 ): React.FC<{ children: any }> | null => {
-  if (actionSource === ActionSource.EnvAction) {
+  debugger
+  if (actionSource === MissionSourceEnum.MONITORENV) {
     switch (actionType) {
       case ActionTypeEnum.CONTROL:
         return ActionControl
       default:
         return null
     }
-  } else if (actionSource === ActionSource.FishAction) {
+  } else if (actionSource === MissionSourceEnum.MONITORFISH) {
     switch (actionType) {
-      case MissionActionType.SEA_CONTROL:
-      case MissionActionType.AIR_CONTROL:
-      case MissionActionType.LAND_CONTROL:
+      case ActionTypeEnum.CONTROL:
         return ActionControl
       default:
         return null
     }
-  } else if (actionSource === ActionSource.NavAction) {
+  } else if (actionSource === MissionSourceEnum.RAPPORTNAV) {
     return ActionControl
   }
   return null

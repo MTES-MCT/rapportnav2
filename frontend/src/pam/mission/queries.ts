@@ -8,46 +8,30 @@ export const GET_MISSION_BY_ID = gql`
       startDateTimeUtc
       endDateTimeUtc
       actions {
-        navAction {
-          id
-          actionStartDateTimeUtc
-          actionEndDateTimeUtc
-          actionType
-          actionStatus
-          actionControl {
-            controlsVesselAdministrative {
-              id
-            }
-            controlsGensDeMer {
-              id
-            }
-            controlsNavigationRules {
-              id
-            }
-            controlsEquipmentAndSecurity {
-              id
+        id
+        startDateTimeUtc
+        endDateTimeUtc
+        type
+        status
+        source
+        data {
+          ... on FishActionData {
+            facade
+          }
+          ... on EnvActionData {
+            observations
+            actionNumberOfControls
+            actionTargetType
+            vehicleType
+            themes {
+              theme
+              subThemes
             }
           }
-        }
-        fishAction {
-          id
-          actionDatetimeUtc
-          actionType
-        }
-        envAction {
-          id
-          actionStartDateTimeUtc
-          actionEndDateTimeUtc
-          actionType
-          themes {
-            theme
-            subThemes
+          ... on NavActionData {
+            id
+            actionType
           }
-          geom
-          actionNumberOfControls
-          actionTargetType
-          vehicleType
-          observations
         }
       }
     }

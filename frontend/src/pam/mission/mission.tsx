@@ -9,7 +9,7 @@ import MissionTimeline from './mission-timeline/mission-timeline'
 import { useState } from 'react'
 import { getComponentForAction } from './actions/action-mapping'
 import Title from '../../ui/title'
-import { ControlTarget, MissionAction } from '../mission-types'
+import { ControlTarget, Action } from '../mission-types'
 import ActionSelectionDropdown from './actions/action-selection-dropdown'
 import { ActionTypeEnum } from '../env-mission-types'
 import ControlSelection from './controls/control-selection'
@@ -20,12 +20,12 @@ export default function Mission() {
   const { missionId } = useParams()
 
   let navigate = useNavigate()
-  const [selectedAction, setSelectedAction] = useState<MissionAction | undefined>(undefined)
+  const [selectedAction, setSelectedAction] = useState<Action | undefined>(undefined)
   const [showControlTypesModal, setShowControlTypesModal] = useState<boolean>(false)
 
   const { loading, error, data } = useQuery(GET_MISSION_BY_ID, { variables: { missionId } })
 
-  const selectMissionAction = (action: MissionAction) => {
+  const selectMissionAction = (action: Action) => {
     setSelectedAction(action)
   }
 

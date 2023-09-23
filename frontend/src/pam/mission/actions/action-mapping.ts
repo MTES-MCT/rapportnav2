@@ -1,29 +1,29 @@
 import { FC } from 'react'
 import { ActionTypeEnum } from '../../env-mission-types'
 import ActionControlEnv from './action-control-env'
-import { MissionAction, isEnvAction, isFishAction, isNavAction } from '../../mission-types'
+import { Action, isEnvAction, isFishAction, isNavAction } from '../../mission-types'
 import ActionControlFish from './action-control-fish'
 import { MissionActionType } from '../../fish-mission-types'
 import ActionControlNav from './action-control-nav'
 
-export const getComponentForAction = (missionAction?: MissionAction): FC<any> | null => {
-  if (!missionAction) {
+export const getComponentForAction = (action?: Action): FC<any> | null => {
+  if (!action) {
     return null
   }
-  if (isEnvAction(missionAction)) {
-    if (missionAction.actionType === ActionTypeEnum.CONTROL) {
+  if (isEnvAction(action)) {
+    if (action.actionType === ActionTypeEnum.CONTROL) {
       return ActionControlEnv
     }
-  } else if (isFishAction(missionAction)) {
+  } else if (isFishAction(action)) {
     if (
       [MissionActionType.SEA_CONTROL, MissionActionType.LAND_CONTROL, MissionActionType.AIR_CONTROL].indexOf(
-        missionAction.actionType
+        action.actionType as MissionActionType
       ) !== -1
     ) {
       return ActionControlFish
     }
-  } else if (isNavAction(missionAction)) {
-    switch (missionAction.actionType) {
+  } else if (isNavAction(action)) {
+    switch (action.actionType) {
       case ActionTypeEnum.CONTROL:
         return ActionControlNav
       case ActionTypeEnum.SURVEILLANCE:

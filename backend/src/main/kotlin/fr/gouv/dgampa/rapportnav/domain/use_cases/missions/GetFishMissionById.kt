@@ -18,6 +18,7 @@ class GetFishMissionById {
 
         val missionAction1 = MissionAction(
             missionId = 10,
+            facade = "Outre-Mer",
             faoAreas = listOf("something"),
             actionType = MissionActionType.SEA_CONTROL,
             actionDatetimeUtc = ZonedDateTime.parse("2022-02-15T18:50:09Z"),

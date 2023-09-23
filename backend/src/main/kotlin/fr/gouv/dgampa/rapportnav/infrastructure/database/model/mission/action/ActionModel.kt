@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.mapStringToActionType
 import jakarta.persistence.*
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 @Entity
 @Table(name = "mission_action")
@@ -18,10 +18,10 @@ data class ActionModel(
     var missionId: Int,
 
     @Column(name = "action_start_datetime_utc", nullable = false)
-    var actionStartDateTimeUtc: LocalDateTime,
+    var actionStartDateTimeUtc: ZonedDateTime,
 
     @Column(name = "action_end_datetime_utc")
-    var actionEndDateTimeUtc: LocalDateTime?,
+    var actionEndDateTimeUtc: ZonedDateTime?,
 
     @Column(name = "action_type", nullable = false)
     var actionType: String,

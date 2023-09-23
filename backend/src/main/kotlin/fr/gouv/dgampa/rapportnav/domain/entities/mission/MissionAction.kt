@@ -9,7 +9,6 @@ import kotlinx.serialization.Serializable
 sealed class MissionAction {
     @Serializable
     data class EnvAction(@Contextual val envAction: EnvActionEntity) : MissionAction()
-
     @Serializable
     data class FishAction(@Contextual val fishAction: fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction) : MissionAction()
     @Serializable

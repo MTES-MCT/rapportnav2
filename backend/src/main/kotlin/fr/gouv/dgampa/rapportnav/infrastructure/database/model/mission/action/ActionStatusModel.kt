@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.mapStringToActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.mapStringToActionStatusType
 import jakarta.persistence.*
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 @Entity
 @Table(name = "mission_action_status")
@@ -19,7 +19,7 @@ data class ActionStatusModel(
     var missionId: Int,
 
     @Column(name = "start_datetime_utc", nullable = false)
-    var startDateTimeUtc: LocalDateTime,
+    var startDateTimeUtc: ZonedDateTime,
 
     @Column(name = "status", nullable = false)
     var status: String,
