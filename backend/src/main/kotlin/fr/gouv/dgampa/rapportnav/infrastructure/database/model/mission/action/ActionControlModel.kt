@@ -23,7 +23,7 @@ data class ActionControlModel(
     @OneToOne
     @JoinColumn(name = "mission_action_id", referencedColumnName = "id")
     @JsonIgnore
-    var actionModel: ActionModel? = null,
+    var actionModelForControl: ActionModel? = null,
 
     @OneToOne(mappedBy = "actionControl")
     @JoinColumn(name = "action_control_id")

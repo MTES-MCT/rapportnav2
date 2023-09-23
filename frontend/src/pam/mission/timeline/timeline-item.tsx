@@ -2,8 +2,9 @@ import React from 'react'
 import { THEME, Icon } from '@mtes-mct/monitor-ui'
 import { ActionTypeEnum, EnvAction, EnvActionControl, MissionSourceEnum } from '../../env-mission-types'
 import { FlexboxGrid, Stack } from 'rsuite'
-import { ActionSource, Action, NavAction } from '../../mission-types'
+import { ActionSource, Action, NavAction, ActionStatusType } from '../../mission-types'
 import { FishAction, MissionActionType } from '../../fish-mission-types'
+import { StatusColorTag } from '../status/status-selection-dropdown'
 
 interface MissionTimelineItemProps {
   action: Action
@@ -119,9 +120,19 @@ const ActionOther: React.FC = () => {
   return null
 }
 
-const ActionStatus: React.FC = () => {
-  // Implementation for ActionStatus
-  return null
+const ActionStatus: React.FC<{ action: NavAction; onClick: any }> = ({ action, onClick }) => {
+  return (
+    <Wrapper action={action as any} onClick={onClick}>
+      <Stack alignItems="center">
+        <Stack.Item>
+          <StatusColorTag status={action.statusAction.status} />
+        </Stack.Item>
+        <Stack.Item>
+          <b>{`${action.statusAction.status} - ${action.statusAction.isStart ? 'début' : 'fin'}`}</b>
+        </Stack.Item>
+      </Stack>
+    </Wrapper>
+  )
 }
 
 const ActionContact: React.FC = () => {
@@ -139,11 +150,16 @@ const getActionComponent = (action: Action) => {
       return ActionFishControl
     }
   } else if (action.source === MissionSourceEnum.RAPPORTNAV) {
-    if (action.type === ActionTypeEnum.CONTROL) {
-      return ActionNavControl
+    switch (action.type) {
+      case ActionTypeEnum.CONTROL:
+        return ActionNavControl
+      case ActionTypeEnum.STATUS:
+        return ActionStatus
+      default:
+        return null
     }
-    return ActionNavControl
   }
+  return null
 }
 
 const MissionTimelineItem: React.FC<MissionTimelineItemProps> = ({

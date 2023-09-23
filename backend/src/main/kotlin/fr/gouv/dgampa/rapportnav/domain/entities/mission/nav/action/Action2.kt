@@ -126,8 +126,17 @@ data class Action2(
                     actionStartDateTimeUtc = navAction.actionStartDateTimeUtc,
                     actionEndDateTimeUtc = navAction.actionEndDateTimeUtc,
                     actionType = navAction.actionType,
-                    actionControl = navAction.actionControl,
+                    controlAction = navAction.controlAction,
+                    statusAction = navAction.statusAction,
                 )
+            )
+        }
+
+        fun sortForTimeline(allActions:  List<Action2>?): List<Action2>? {
+            return allActions?.sortedWith(compareByDescending<Action2> { it.startDateTimeUtc }
+                .thenBy { it.data is NavActionData }
+                .thenBy { (it.data as? NavActionData)?.statusAction?.isStart == false }
+                .thenBy { (it.data as? NavActionData)?.statusAction?.isStart == true }
             )
         }
     }

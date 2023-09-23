@@ -10,9 +10,18 @@ export enum ActionSource {
 
 export enum ActionStatusType {
   'NAVIGATING' = 'NAVIGATING',
-  'DOCKING' = 'DOCKING',
+  'DOCKED' = 'DOCKED',
   'ANCHORING' = 'ANCHORING',
   'UNAVAILABLE' = 'UNAVAILABLE'
+}
+
+export enum ActionStatusReason {
+  'MAINTENANCE' = 'MAINTENANCE',
+  'WEATHER' = 'WEATHER',
+  'REPRESENTATION' = 'REPRESENTATION',
+  'ADMINISTRATION' = 'ADMINISTRATION',
+  'HARBOUR_CONTROL' = 'HARBOUR_CONTROL',
+  'OTHER' = 'OTHER'
 }
 
 export type NavAction = {
@@ -20,7 +29,7 @@ export type NavAction = {
   actionType: any
   actionStartDateTimeUtc?: string | null
   actionEndDateTimeUtc?: string | null
-  actionStatus: string
+  statusAction: ActionStatus
 }
 export type Action = {
   id?: any
@@ -31,6 +40,13 @@ export type Action = {
   startDateTimeUtc?: string
   endDateTimeUtc?: string
   data: [EnvAction | FishAction | NavAction]
+}
+
+export type ActionStatus = {
+  status: ActionStatusType
+  isStart: boolean
+  reason?: ActionStatusReason
+  observations?: string
 }
 
 export function isEnvAction(action: Action): boolean {

@@ -5,7 +5,7 @@ import java.util.*
 enum class ActionStatusType {
     NAVIGATING,
     ANCHORING,
-    DOCKING,
+    DOCKED,
     UNAVAILABLE,
 }
 
@@ -13,7 +13,7 @@ fun mapStringToActionStatusType(value: String): ActionStatusType {
     return when (value.uppercase(Locale.getDefault())) {
         "NAVIGATING" -> ActionStatusType.NAVIGATING
         "ANCHORING" -> ActionStatusType.ANCHORING
-        "DOCKING" -> ActionStatusType.DOCKING
+        "DOCKED" -> ActionStatusType.DOCKED
         "UNAVAILABLE" -> ActionStatusType.UNAVAILABLE
         else -> ActionStatusType.UNAVAILABLE
     }

@@ -31,6 +31,12 @@ export const GET_MISSION_BY_ID = gql`
           ... on NavActionData {
             id
             actionType
+            statusAction {
+              status
+              reason
+              isStart
+              observations
+            }
           }
         }
       }

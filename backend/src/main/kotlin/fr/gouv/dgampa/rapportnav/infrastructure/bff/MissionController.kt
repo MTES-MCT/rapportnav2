@@ -52,7 +52,7 @@ class MissionController(
 
         // get last started status for this time and missionId
 
-        return ActionStatusType.DOCKING
+        return ActionStatusType.DOCKED
     }
 
     @SchemaMapping(typeName = "Action", field = "type")
@@ -88,14 +88,15 @@ class MissionController(
     @SchemaMapping(typeName = "Mission", field = "actions")
     fun combineActions(mission: Mission?): List<Action2>? {
         if (mission?.actions != null) {
-            val action2List: List<Action2> = mission.actions.map { missionAction ->
+            val allActions: List<Action2> = mission.actions.map { missionAction ->
                 when (missionAction) {
                     is MissionAction.EnvAction -> Action2.fromEnvAction(missionAction.envAction as EnvActionEntity, missionId = mission.id)
                     is MissionAction.FishAction -> Action2.fromFishAction(missionAction.fishAction as fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction, missionId = mission.id)
                     is MissionAction.NavAction -> Action2.fromNavAction(missionAction.navAction as NavAction)
                 }
             }
-            return action2List
+            val sortedActions = Action2.sortForTimeline(allActions)
+            return sortedActions
         }
         return null
     }

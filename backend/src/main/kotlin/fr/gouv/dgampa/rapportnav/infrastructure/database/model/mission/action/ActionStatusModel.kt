@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.mapStringToActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.mapStringToActionStatusType
@@ -15,8 +16,13 @@ data class ActionStatusModel(
     @Column(name = "id")
     var id: Int,
 
-    @Column(name = "mission_id", nullable = false)
-    var missionId: Int,
+    @Column(name = "mission_action_id", nullable = false, insertable = false, updatable = false)
+    var actionId: Int,
+
+    @OneToOne
+    @JoinColumn(name = "mission_action_id", referencedColumnName = "id")
+    @JsonIgnore
+    var actionModelForStatus: ActionModel? = null,
 
     @Column(name = "start_datetime_utc", nullable = false)
     var startDateTimeUtc: ZonedDateTime,
@@ -36,7 +42,7 @@ data class ActionStatusModel(
     fun toActionStatus(): ActionStatus {
         return ActionStatus(
             id = id,
-            missionId = missionId,
+            actionId = actionId,
             startDateTimeUtc = startDateTimeUtc,
             status = mapStringToActionStatusType(status),
             reason = mapStringToActionStatusReason(reason),

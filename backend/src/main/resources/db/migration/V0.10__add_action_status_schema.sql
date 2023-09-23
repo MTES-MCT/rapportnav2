@@ -6,13 +6,14 @@ BEGIN
         WHERE table_name = 'mission_action_status'
     ) THEN
         CREATE TABLE mission_action_status (
-            id serial PRIMARY KEY,
-            mission_id INTEGER NOT NULL,
+            id SERIAL PRIMARY KEY,
+            mission_action_id INTEGER NOT NULL,
             start_datetime_utc TIMESTAMP NOT NULL,
             is_start BOOLEAN NOT NULL,
             status VARCHAR(64) NOT NULL,
             reason VARCHAR(64),
-            observations TEXT
+            observations TEXT,
+            CONSTRAINT fk_mission_action_status_id FOREIGN KEY (mission_action_id) REFERENCES mission_action(id)
         );
     END IF;
 END $$;

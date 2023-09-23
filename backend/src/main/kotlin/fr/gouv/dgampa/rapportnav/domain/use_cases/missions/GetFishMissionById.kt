@@ -21,7 +21,7 @@ class GetFishMissionById {
             facade = "Outre-Mer",
             faoAreas = listOf("something"),
             actionType = MissionActionType.SEA_CONTROL,
-            actionDatetimeUtc = ZonedDateTime.parse("2022-02-15T18:50:09Z"),
+            actionDatetimeUtc = ZonedDateTime.parse("2022-02-17T18:50:09Z"),
             flightGoals = listOf(),
             logbookInfractions = listOf(),
             gearInfractions = listOf(),

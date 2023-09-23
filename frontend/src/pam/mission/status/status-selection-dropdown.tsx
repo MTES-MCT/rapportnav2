@@ -1,4 +1,4 @@
-import { Dropdown, Icon, THEME } from '@mtes-mct/monitor-ui'
+import { Dropdown, Icon } from '@mtes-mct/monitor-ui'
 import { ActionStatusType } from '../../mission-types'
 import { Stack } from 'rsuite'
 import { getColorForStatus } from './utils'
@@ -7,7 +7,7 @@ interface StatusSelectionDropdownProps {
   onSelect: (key: ActionStatusType) => void
 }
 
-const StatusColorTag: React.FC<{ status: ActionStatusType }> = ({ status }) => (
+export const StatusColorTag: React.FC<{ status: ActionStatusType }> = ({ status }) => (
   <div
     style={{
       backgroundColor: getColorForStatus(status),
@@ -36,10 +36,10 @@ const StatusSelectionDropdown: React.FC<StatusSelectionDropdownProps> = ({ onSel
         <Stack.Item>Mouillage</Stack.Item>
       </Stack>
     </Dropdown.Item>
-    <Dropdown.Item eventKey={ActionStatusType.DOCKING}>
+    <Dropdown.Item eventKey={ActionStatusType.DOCKED}>
       <Stack spacing="0.5rem" alignItems="center">
         <Stack.Item>
-          <StatusColorTag status={ActionStatusType.DOCKING} />
+          <StatusColorTag status={ActionStatusType.DOCKED} />
         </Stack.Item>
         <Stack.Item>Présence à quai</Stack.Item>
       </Stack>

@@ -3,7 +3,6 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import org.locationtech.jts.geom.Geometry
 import java.time.ZonedDateTime
 import java.util.*
@@ -81,5 +80,6 @@ data class NavActionData(
     val actionStartDateTimeUtc: ZonedDateTime,
     val actionEndDateTimeUtc: ZonedDateTime?,
     val actionType: ActionType,
-    val actionControl: ActionControlModel? = null
+    val controlAction: ActionControl? = null,
+    val statusAction: ActionStatus? = null
 ) : ActionData()

@@ -8,7 +8,7 @@ export const getColorForStatus = (status: ActionStatusType) => {
     case ActionStatusType.ANCHORING:
       //   return THEME.color.blueYonder
       return '#567A9E'
-    case ActionStatusType.DOCKING:
+    case ActionStatusType.DOCKED:
       return THEME.color.goldenPoppy
     case ActionStatusType.UNAVAILABLE:
       return THEME.color.maximumRed

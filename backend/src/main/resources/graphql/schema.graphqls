@@ -32,14 +32,32 @@ type NavActionData {
   actionStartDateTimeUtc: String!
   actionEndDateTimeUtc: String
   actionType: ActionType
-  actionControl: ActionControl
+  controlAction: ActionControl
+  statusAction: ActionStatus
+}
+
+type ActionStatus {
+  id: Int!
+  startDateTimeUtc: String!
+  status: ActionStatusType!
+  reason: ActionStatusReason
+  isStart: Boolean!
+  observations: String
 }
 
 enum ActionStatusType {
   NAVIGATING
   ANCHORING
-  DOCKING
+  DOCKED
   UNAVAILABLE
+}
+enum ActionStatusReason {
+  MAINTENANCE
+  WEATHER
+  REPRESENTATION
+  ADMINISTRATION
+  HARBOUR_CONTROL
+  OTHER
 }
 
 type ActionControl {
