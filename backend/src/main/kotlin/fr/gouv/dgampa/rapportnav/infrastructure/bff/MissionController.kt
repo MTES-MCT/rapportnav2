@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Missio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.GetLastStartedStatusForMission
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
@@ -22,6 +23,7 @@ class MissionController(
     private val getEnvMissionById: GetEnvMissionById,
     private val getFishMissionById: GetFishMissionById,
     private val updateEnvMission: UpdateEnvMission,
+    private val getLastStartedStatusForMission: GetLastStartedStatusForMission,
 ) {
 
     @QueryMapping
@@ -47,12 +49,14 @@ class MissionController(
     }
 
     @SchemaMapping(typeName = "Action", field = "status")
-    fun getActionStatus(action: Action2?): ActionStatusType {
+    fun getActionStatus(action: Action2): ActionStatusType {
         // get time for this action
+        val time = action.startDateTimeUtc
 
         // get last started status for this time and missionId
+        val lastStartedStatus = getLastStartedStatusForMission.exexute(missionId=action.missionId, actionStartDateTimeUtc=action.startDateTimeUtc)
 
-        return ActionStatusType.DOCKED
+        return lastStartedStatus
     }
 
     @SchemaMapping(typeName = "Action", field = "type")

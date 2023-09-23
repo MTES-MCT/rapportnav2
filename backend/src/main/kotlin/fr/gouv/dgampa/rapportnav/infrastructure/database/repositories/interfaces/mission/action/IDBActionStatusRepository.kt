@@ -4,5 +4,5 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.Ac
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface IDBActionStatusRepository: JpaRepository<ActionStatusModel, Int> {
-//    fun findOngoingStatusForMission(missionId: Int): ActionStatusModel
+    fun findAllByMissionId(missionId: Int): List<ActionStatusModel>
 }

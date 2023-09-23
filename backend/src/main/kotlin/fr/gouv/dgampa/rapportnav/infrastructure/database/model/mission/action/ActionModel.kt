@@ -30,9 +30,6 @@ data class ActionModel(
     @JoinColumn(name = "mission_action_id")
     var controlAction: ActionControlModel? = null,
 
-    @OneToOne(mappedBy = "actionModelForStatus")
-    @JoinColumn(name = "mission_action_id")
-    var statusAction: ActionStatusModel? = null,
 ) {
     fun toNavAction(): NavAction {
         return NavAction(
@@ -42,7 +39,6 @@ data class ActionModel(
             actionStartDateTimeUtc = actionStartDateTimeUtc,
             actionEndDateTimeUtc = actionEndDateTimeUtc,
             controlAction = controlAction?.toActionControl(),
-            statusAction = statusAction?.toActionStatus()
         )
     }
 }

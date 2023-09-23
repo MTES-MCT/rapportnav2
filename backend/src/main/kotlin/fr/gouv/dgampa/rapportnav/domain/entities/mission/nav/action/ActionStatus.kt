@@ -6,7 +6,7 @@ import java.time.ZonedDateTime
 
 data class ActionStatus(
     val id: Int,
-    val actionId: Int,
+    val missionId: Int,
     val startDateTimeUtc: ZonedDateTime,
     val status: ActionStatusType,
     val reason: ActionStatusReason?,
