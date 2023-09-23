@@ -1,11 +1,12 @@
 import React from 'react'
 import { FlexboxGrid, Stack } from 'rsuite'
 import { Accent, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
-import MissionTimelineItemContainer from './mission-timeline-item-container'
-import MissionTimelineItem from './mission-timeline-item'
+import MissionTimelineItemContainer from './timeline-item-container'
+import MissionTimelineItem from './timeline-item'
 import { Mission, Action, getActionData, getActionStartTime } from '../../mission-types'
 import { formatShortDate, formatTime } from '../../../dates'
 import Title from '../../../ui/title'
+import { getColorForStatus } from '../status/utils'
 
 interface MissionTimelineProps {
   mission: Mission
@@ -44,7 +45,9 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
                         <MissionTimelineItem action={action} onClick={() => onSelectAction(action)} />
                       </MissionTimelineItemContainer>
                     </Stack.Item>
-                    <Stack.Item style={{ width: '100%' }}>{action.status}</Stack.Item>
+                    <Stack.Item style={{ width: '10px' }}>
+                      <div style={{ backgroundColor: getColorForStatus(action.status) }}>&nbsp;</div>
+                    </Stack.Item>
                   </Stack>
                 </Stack.Item>
               )

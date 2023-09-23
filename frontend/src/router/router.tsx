@@ -3,7 +3,7 @@ import ErrorPage from '../error-page'
 import Login from '../auth/login'
 import Home from '../home'
 import MissionsPage from '../pam/missions/missions-page'
-import MissionPage from '../pam/mission/mission-page'
+import MissionPage from '../pam/mission/page'
 
 export const router = createBrowserRouter([
   {

@@ -1,20 +1,20 @@
 import { Accent, Icon, Dialog, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
-
+import { Divider, FlexboxGrid, Stack } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Divider, FlexboxGrid, Panel, Stack } from 'rsuite'
-import MissionGeneralInfoPanel from './mission-general-info-panel'
-import MissionOperationalSummary from './mission-operational-summary'
-import MissionActivityPanel from './mission-activity-panel'
-import MissionTimeline from './mission-timeline/mission-timeline'
+import MissionGeneralInfoPanel from './panel-general-info'
+import MissionOperationalSummaryPanel from './panel-operational-summary'
+import MissionActivityPanel from './panel-activity'
+import MissionTimeline from './timeline/timeline'
 import { useState } from 'react'
 import { getComponentForAction } from './actions/action-mapping'
 import Title from '../../ui/title'
-import { ControlTarget, Action } from '../mission-types'
+import { ControlTarget, Action, ActionStatusType } from '../mission-types'
 import ActionSelectionDropdown from './actions/action-selection-dropdown'
 import { ActionTypeEnum } from '../env-mission-types'
 import ControlSelection from './controls/control-selection'
 import { useQuery } from '@apollo/client'
 import { GET_MISSION_BY_ID } from './queries'
+import StatusSelectionDropdown from './status/status-selection-dropdown'
 
 export default function Mission() {
   const { missionId } = useParams()
@@ -34,6 +34,8 @@ export default function Mission() {
       setShowControlTypesModal(true)
     }
   }
+
+  const addNewStatus = (key: ActionStatusType) => {}
 
   const addNewControl = (controlType: string, targetType: ControlTarget) => {
     setShowControlTypesModal(false)
@@ -81,7 +83,7 @@ export default function Mission() {
                 <MissionActivityPanel />
               </Stack.Item>
               <Stack.Item style={{ width: '100%', padding: '1rem' }}>
-                <MissionOperationalSummary />
+                <MissionOperationalSummaryPanel />
               </Stack.Item>
             </Stack>
           </FlexboxGrid.Item>
@@ -113,12 +115,7 @@ export default function Mission() {
                         />
                       </Stack.Item>
                       <Stack.Item style={{ paddingLeft: '0.5rem' }}>
-                        <IconButton
-                          Icon={Icon.FleetSegment}
-                          accent={Accent.PRIMARY}
-                          size={Size.NORMAL}
-                          color={THEME.color.gainsboro}
-                        />
+                        <StatusSelectionDropdown onSelect={addNewStatus} />
                       </Stack.Item>
                     </Stack>
                   </FlexboxGrid.Item>

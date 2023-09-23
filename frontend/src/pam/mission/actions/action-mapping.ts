@@ -11,19 +11,15 @@ export const getComponentForAction = (action?: Action): FC<any> | null => {
     return null
   }
   if (isEnvAction(action)) {
-    if (action.actionType === ActionTypeEnum.CONTROL) {
+    if (action.type === ActionTypeEnum.CONTROL) {
       return ActionControlEnv
     }
   } else if (isFishAction(action)) {
-    if (
-      [MissionActionType.SEA_CONTROL, MissionActionType.LAND_CONTROL, MissionActionType.AIR_CONTROL].indexOf(
-        action.actionType as MissionActionType
-      ) !== -1
-    ) {
+    if (action.type === ActionTypeEnum.CONTROL) {
       return ActionControlFish
     }
   } else if (isNavAction(action)) {
-    switch (action.actionType) {
+    switch (action.type) {
       case ActionTypeEnum.CONTROL:
         return ActionControlNav
       case ActionTypeEnum.SURVEILLANCE:

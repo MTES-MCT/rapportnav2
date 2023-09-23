@@ -3,9 +3,9 @@ import { Panel } from 'rsuite'
 import { THEME } from '@mtes-mct/monitor-ui'
 import Title from '../../ui/title'
 
-interface MissionOperationalSummaryProps {}
+interface MissionOperationalSummaryPanelProps {}
 
-const MissionOperationalSummary: React.FC<MissionOperationalSummaryProps> = ({}) => {
+const MissionOperationalSummaryPanel: React.FC<MissionOperationalSummaryPanelProps> = ({}) => {
   return (
     <Panel
       header={<Title as="h2">Bilan opérationnel</Title>}
@@ -18,4 +18,4 @@ const MissionOperationalSummary: React.FC<MissionOperationalSummaryProps> = ({})
   )
 }
 
-export default MissionOperationalSummary
+export default MissionOperationalSummaryPanel

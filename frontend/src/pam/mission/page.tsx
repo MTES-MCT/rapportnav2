@@ -2,8 +2,8 @@ import React from 'react'
 import PageWrapper from '../../ui/page-wrapper'
 import Mission from './mission'
 import { useNavigate, useParams } from 'react-router-dom'
-import MissionPageHeader from './mission-page-header'
-import MissionPageFooter from './mission-page-footer'
+import MissionPageHeader from './page-header'
+import MissionPageFooter from './page-footer'
 
 const MissionsPage: React.FC = () => {
   const navigate = useNavigate()
