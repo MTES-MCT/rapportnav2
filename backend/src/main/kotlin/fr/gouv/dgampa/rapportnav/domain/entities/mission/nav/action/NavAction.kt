@@ -1,9 +1,10 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
 
 import java.time.ZonedDateTime
+import java.util.*
 
 data class NavAction(
-    val id: Int?,
+    val id: UUID,
     val missionId: Int,
     val actionStartDateTimeUtc: ZonedDateTime,
     val actionEndDateTimeUtc: ZonedDateTime?,

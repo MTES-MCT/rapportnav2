@@ -1,3 +1,4 @@
+
 type Mission {
   id: ID!
   isClosed: Boolean!
@@ -28,7 +29,7 @@ type Action {
 union ActionData = FishActionData | EnvActionData | NavActionData
 
 type NavActionData {
-  id: Int!
+  id: String!
   actionStartDateTimeUtc: String!
   actionEndDateTimeUtc: String
   actionType: ActionType
@@ -37,7 +38,7 @@ type NavActionData {
 }
 
 type ActionStatus {
-  id: Int!
+  id: String!
   startDateTimeUtc: String!
   status: ActionStatusType!
   reason: ActionStatusReason
@@ -61,7 +62,7 @@ enum ActionStatusReason {
 }
 
 type ActionControl {
-  id: Int!
+  id: String!
   controlsVesselAdministrative: ControlVesselAdministrative
   controlsGensDeMer: ControlGensDeMer
   controlsNavigationRules: ControlNavigationRules
@@ -69,19 +70,19 @@ type ActionControl {
 }
 
 type ControlNavigationRules {
-  id: Int!
+  id: String!
   confirmed: Boolean
   observations: String
 }
 
 type ControlEquipmentAndSecurity {
-  id: Int!
+  id: String!
   confirmed: Boolean
   observations: String
 }
 
 type ControlVesselAdministrative {
-  id: Int!
+  id: String!
   confirmed: Boolean
   compliantOperatingPermit: Boolean
   upToDateNavigationPermit: Boolean
@@ -89,7 +90,7 @@ type ControlVesselAdministrative {
 }
 
 type ControlGensDeMer {
-  id: Int!
+  id: String!
   confirmed: Boolean
   staffOutnumbered: Boolean
   upToDateMedicalCheck: Boolean

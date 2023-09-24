@@ -76,7 +76,7 @@ data class FishActionData(
 ) : ActionData()
 
 data class NavActionData(
-    val id: Int?,
+    val id: UUID?,
     val actionStartDateTimeUtc: ZonedDateTime,
     val actionEndDateTimeUtc: ZonedDateTime?,
     val actionType: ActionType,

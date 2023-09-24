@@ -116,7 +116,7 @@ data class Action2(
 
         fun fromNavAction(navAction: NavAction): Action2 {
             return Action2(
-                id = navAction.id.toString(),
+                id = navAction.id,
                 missionId = navAction.missionId,
                 source = MissionSourceEnum.RAPPORTNAV,
                 startDateTimeUtc = navAction.actionStartDateTimeUtc,

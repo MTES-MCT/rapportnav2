@@ -6,7 +6,7 @@ BEGIN
         WHERE table_name = 'mission_action_status'
     ) THEN
         CREATE TABLE mission_action_status (
-            id SERIAL PRIMARY KEY,
+            id UUID PRIMARY KEY,
             mission_id INTEGER NOT NULL,
             start_datetime_utc TIMESTAMP NOT NULL,
             is_start BOOLEAN NOT NULL,

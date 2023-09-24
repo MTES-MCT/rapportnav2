@@ -1,29 +1,31 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControl
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlEquipmentAndSecurityModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlGensDeMerModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlNavigationRulesModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlVesselAdministrativeModel
 import jakarta.persistence.*
+import java.time.ZonedDateTime
+import java.util.*
 
 @Entity
 @Table(name = "mission_action_control")
 data class ActionControlModel(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mission_action_control_id_seq")
-    @SequenceGenerator(name = "mission_action_control_id_seq", allocationSize = 1)
     @Column(name = "id")
-    var id: Int,
+    var id: UUID,
 
-    @Column(name = "mission_action_id", nullable = false, insertable = false, updatable = false)
-    var actionId: Int,
+    @Column(name = "mission_id", nullable = false)
+    var missionId: Int,
 
-    @OneToOne
-    @JoinColumn(name = "mission_action_id", referencedColumnName = "id")
-    @JsonIgnore
-    var actionModelForControl: ActionModel? = null,
+    @Column(name = "start_datetime_utc", nullable = false)
+    var startDateTimeUtc: ZonedDateTime,
+
+    @Column(name = "end_datetime_utc", nullable = true)
+    var endDateTimeUtc: ZonedDateTime,
 
     @OneToOne(mappedBy = "actionControl")
     @JoinColumn(name = "action_control_id")
@@ -44,12 +46,26 @@ data class ActionControlModel(
     fun toActionControl(): ActionControl {
         return ActionControl(
             id = id,
-            actionId = actionId,
+            missionId = missionId,
+            startDateTimeUtc = startDateTimeUtc,
+            endDateTimeUtc = endDateTimeUtc,
             controlsVesselAdministrative = controlsVesselAdministrative?.toControlVesselAdministrative(),
             controlsGensDeMer = controlsGensDeMer?.toControlGensDeMer(),
             controlsNavigationRules = controlsNavigationRules?.toControlNavigationRules(),
             controlsEquipmentAndSecurity = controlsEquipmentAndSecurity?.toControlEquipmentAndSecurity()
         )
     }
+
+        fun toNavAction(): NavAction {
+            return NavAction(
+                id = id,
+                missionId = missionId,
+                actionType = ActionType.CONTROL,
+                actionStartDateTimeUtc = startDateTimeUtc,
+                actionEndDateTimeUtc = endDateTimeUtc,
+//                controlAction = controlAction?.toActionControl(),
+            )
+        }
+
 
 }

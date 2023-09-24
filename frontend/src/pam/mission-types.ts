@@ -27,6 +27,7 @@ export enum ActionStatusReason {
 export type NavAction = {
   id: number
   actionType: any
+  status: ActionStatusType
   actionStartDateTimeUtc?: string | null
   actionEndDateTimeUtc?: string | null
   statusAction: ActionStatus

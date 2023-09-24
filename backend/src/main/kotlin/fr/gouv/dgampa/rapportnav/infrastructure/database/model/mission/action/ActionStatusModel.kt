@@ -3,17 +3,19 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.mapStringToActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.mapStringToActionStatusType
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 import java.time.ZonedDateTime
+import java.util.*
 
 @Entity
 @Table(name = "mission_action_status")
 data class ActionStatusModel(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mission_action_status_id_seq")
-    @SequenceGenerator(name = "mission_action_status_id_seq", allocationSize = 1)
     @Column(name = "id")
-    var id: Int,
+    var id: UUID,
 
     @Column(name = "mission_id", nullable = false)
     var missionId: Int,

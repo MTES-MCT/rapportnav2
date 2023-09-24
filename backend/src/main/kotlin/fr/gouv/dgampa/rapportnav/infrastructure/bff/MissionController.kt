@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.Mission
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionAction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum.CONTROL
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum.SURVEILLANCE
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
@@ -50,11 +51,19 @@ class MissionController(
 
     @SchemaMapping(typeName = "Action", field = "status")
     fun getActionStatus(action: Action2): ActionStatusType {
-        // get time for this action
+
+        // if already a status action - no need to recompute
+        if (action.source == MissionSourceEnum.RAPPORTNAV) {
+            val data = action.data as NavActionData
+            if (data.statusAction?.status != null) {
+                return data.statusAction.status
+            }
+        }
+
         val time = action.startDateTimeUtc
 
         // get last started status for this time and missionId
-        val lastStartedStatus = getLastStartedStatusForMission.exexute(missionId=action.missionId, actionStartDateTimeUtc=action.startDateTimeUtc)
+        val lastStartedStatus = getLastStartedStatusForMission.execute(missionId=action.missionId, actionStartDateTimeUtc=action.startDateTimeUtc)
 
         return lastStartedStatus
     }

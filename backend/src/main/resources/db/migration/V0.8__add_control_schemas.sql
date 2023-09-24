@@ -2,9 +2,9 @@ DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'control_gens_de_mer') THEN
         CREATE TABLE control_gens_de_mer (
-            id SERIAL PRIMARY KEY,
+            id UUID PRIMARY KEY,
             mission_id INT NOT NULL,
-            action_control_id INT NOT NULL,
+            action_control_id UUID NOT NULL,
             confirmed BOOLEAN,
             staff_outnumbered BOOLEAN,
             up_to_date_medical_check BOOLEAN,
@@ -15,9 +15,9 @@ BEGIN
 
     IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'control_equipment_security') THEN
         CREATE TABLE control_equipment_security (
-            id SERIAL PRIMARY KEY,
+            id UUID PRIMARY KEY,
             mission_id INT NOT NULL,
-            action_control_id INT NOT NULL,
+            action_control_id UUID NOT NULL,
             confirmed BOOLEAN,
             observations TEXT,
             CONSTRAINT fk_control_equipment_security_action_id FOREIGN KEY (action_control_id) REFERENCES mission_action_control(id)
@@ -26,9 +26,9 @@ BEGIN
 
     IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'control_navigation_rules') THEN
         CREATE TABLE control_navigation_rules (
-            id SERIAL PRIMARY KEY,
+            id UUID PRIMARY KEY,
             mission_id INT NOT NULL,
-            action_control_id INT NOT NULL,
+            action_control_id UUID NOT NULL,
             confirmed BOOLEAN,
             observations TEXT,
             CONSTRAINT fk_control_navigation_rules_action_id FOREIGN KEY (action_control_id) REFERENCES mission_action_control(id)
@@ -37,9 +37,9 @@ BEGIN
 
     IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'control_administrative_vessel') THEN
         CREATE TABLE control_administrative_vessel (
-            id SERIAL PRIMARY KEY,
+            id UUID PRIMARY KEY,
             mission_id INT NOT NULL,
-            action_control_id INT NOT NULL,
+            action_control_id UUID NOT NULL,
             confirmed BOOLEAN,
             compliant_operating_permit BOOLEAN,
             up_to_date_navigation_permit BOOLEAN,

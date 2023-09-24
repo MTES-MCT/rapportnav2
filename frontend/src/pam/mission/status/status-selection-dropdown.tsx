@@ -1,7 +1,7 @@
 import { Dropdown, Icon } from '@mtes-mct/monitor-ui'
 import { ActionStatusType } from '../../mission-types'
 import { Stack } from 'rsuite'
-import { getColorForStatus } from './utils'
+import { getColorForStatus, mapStatusToText } from './utils'
 
 interface StatusSelectionDropdownProps {
   onSelect: (key: ActionStatusType) => void
@@ -25,7 +25,7 @@ const StatusSelectionDropdown: React.FC<StatusSelectionDropdownProps> = ({ onSel
         <Stack.Item>
           <StatusColorTag status={ActionStatusType.NAVIGATING} />
         </Stack.Item>
-        <Stack.Item>Navigation</Stack.Item>
+        <Stack.Item>{mapStatusToText(ActionStatusType.NAVIGATING)}</Stack.Item>
       </Stack>
     </Dropdown.Item>
     <Dropdown.Item eventKey={ActionStatusType.ANCHORING}>
@@ -33,7 +33,7 @@ const StatusSelectionDropdown: React.FC<StatusSelectionDropdownProps> = ({ onSel
         <Stack.Item>
           <StatusColorTag status={ActionStatusType.ANCHORING} />
         </Stack.Item>
-        <Stack.Item>Mouillage</Stack.Item>
+        <Stack.Item>{mapStatusToText(ActionStatusType.ANCHORING)}</Stack.Item>
       </Stack>
     </Dropdown.Item>
     <Dropdown.Item eventKey={ActionStatusType.DOCKED}>
@@ -41,7 +41,7 @@ const StatusSelectionDropdown: React.FC<StatusSelectionDropdownProps> = ({ onSel
         <Stack.Item>
           <StatusColorTag status={ActionStatusType.DOCKED} />
         </Stack.Item>
-        <Stack.Item>Présence à quai</Stack.Item>
+        <Stack.Item>{mapStatusToText(ActionStatusType.DOCKED)}</Stack.Item>
       </Stack>
     </Dropdown.Item>
     <Dropdown.Item eventKey={ActionStatusType.UNAVAILABLE}>
@@ -49,7 +49,7 @@ const StatusSelectionDropdown: React.FC<StatusSelectionDropdownProps> = ({ onSel
         <Stack.Item>
           <StatusColorTag status={ActionStatusType.UNAVAILABLE} />
         </Stack.Item>
-        <Stack.Item>Indisponibilité</Stack.Item>
+        <Stack.Item>{mapStatusToText(ActionStatusType.UNAVAILABLE)}</Stack.Item>
       </Stack>
     </Dropdown.Item>
   </Dropdown>

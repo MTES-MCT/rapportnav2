@@ -6,7 +6,6 @@ interface MissionTimelineItemContainerProps {
   actionType: ActionTypeEnum
   actionSource: MissionSourceEnum
   children: ReactNode
-  componentMap?: Record<any, React.FC<{ children: any }>>
 }
 
 function createActionStyled(background?: string, border?: string, color?: string) {

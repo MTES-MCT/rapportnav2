@@ -10,13 +10,22 @@ class GetLastStartedStatusForMission(
     private val statusActionsRepository: INavActionStatusRepository
 ) {
     private val logger = LoggerFactory.getLogger(GetLastStartedStatusForMission::class.java)
-    fun exexute(missionId: Int, actionStartDateTimeUtc: ZonedDateTime?): ActionStatusType {
+    fun execute(missionId: Int, actionStartDateTimeUtc: ZonedDateTime?): ActionStatusType {
         val actions = statusActionsRepository.findAllByMissionId(missionId=missionId)
         val lastStartActionStatus = actions
-            .filter { it.isStart && it.startDateTimeUtc.isBefore(actionStartDateTimeUtc) }
+            .filter { it.isStart && it.startDateTimeUtc <= actionStartDateTimeUtc }
             .maxByOrNull { it.startDateTimeUtc }
 
-        return lastStartActionStatus!!.status
+        if (lastStartActionStatus != null) {
+            return lastStartActionStatus.status
+        }
+        else {
+            val lastAction = actions.last()
+            if (lastAction.startDateTimeUtc == actionStartDateTimeUtc) {
+                return lastAction.status
+            }
+            return ActionStatusType.UNAVAILABLE
+        }
     }
 
 }

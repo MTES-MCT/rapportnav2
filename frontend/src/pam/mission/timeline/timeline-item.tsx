@@ -5,14 +5,11 @@ import { FlexboxGrid, Stack } from 'rsuite'
 import { ActionSource, Action, NavAction, ActionStatusType } from '../../mission-types'
 import { FishAction, MissionActionType } from '../../fish-mission-types'
 import { StatusColorTag } from '../status/status-selection-dropdown'
+import { mapStatusToText } from '../status/utils'
 
 interface MissionTimelineItemProps {
   action: Action
   onClick: (action: Action) => void
-  componentMap?: Record<
-    ActionTypeEnum | MissionActionType,
-    React.FC<{ action: Action; onClick: (action: Action) => void }>
-  >
 }
 
 const Wrapper: React.FC<{ action: Action; onClick: any; children: any }> = ({ action, onClick, children }) => {
@@ -123,12 +120,12 @@ const ActionOther: React.FC = () => {
 const ActionStatus: React.FC<{ action: NavAction; onClick: any }> = ({ action, onClick }) => {
   return (
     <Wrapper action={action as any} onClick={onClick}>
-      <Stack alignItems="center">
+      <Stack alignItems="center" spacing="0.5rem">
         <Stack.Item>
           <StatusColorTag status={action.statusAction.status} />
         </Stack.Item>
         <Stack.Item>
-          <b>{`${action.statusAction.status} - ${action.statusAction.isStart ? 'début' : 'fin'}`}</b>
+          <b>{`${mapStatusToText(action.statusAction.status)} - ${action.statusAction.isStart ? 'début' : 'fin'}`}</b>
         </Stack.Item>
       </Stack>
     </Wrapper>
@@ -167,6 +164,7 @@ const MissionTimelineItem: React.FC<MissionTimelineItemProps> = ({
   onClick
   // componentMap = ActionComponentMap
 }) => {
+  console.log('ITEM action', action)
   const Component = getActionComponent(action)
   // const Component = componentMap[action.actionType]
 

@@ -16,3 +16,16 @@ export const getColorForStatus = (status: ActionStatusType) => {
       return 'transparent'
   }
 }
+
+export const mapStatusToText = (status: ActionStatusType) => {
+  switch (status) {
+    case ActionStatusType.NAVIGATING:
+      return 'Navigation'
+    case ActionStatusType.ANCHORING:
+      return 'Mouillage'
+    case ActionStatusType.DOCKED:
+      return 'Présence à quai'
+    case ActionStatusType.UNAVAILABLE:
+      return 'Indisponibilité'
+  }
+}

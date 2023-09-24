@@ -21,11 +21,15 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
         <FlexboxGrid.Item style={{ width: '100%' }}>
           <Stack direction="column">
             {mission.actions.map((action: Action) => {
+              console.log('TINELINE action', action)
               if (!action.data) {
                 return <></>
               }
               return (
-                <Stack.Item key={action.id} style={{ width: '100%', padding: '1rem 0' }}>
+                <Stack.Item
+                  key={`${action.source}-${action.type}-${action.id}-${Math.random()}`}
+                  style={{ width: '100%', padding: '1rem 0' }}
+                >
                   <Stack direction="row">
                     <Stack.Item style={{ minWidth: '50px' }}>
                       <Stack direction="column">
