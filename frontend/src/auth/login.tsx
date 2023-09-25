@@ -5,6 +5,7 @@ import { FlexboxGrid, Stack } from 'rsuite'
 import { Accent, Button, FormikTextInput, Size } from '@mtes-mct/monitor-ui'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { validate } from 'email-validator'
+import { csrfToken } from './csrf'
 
 interface LoginResponse {
   token: string
@@ -33,7 +34,8 @@ const Login: React.FC = () => {
       const response = await fetch('/api/v1/auth/login', {
         method: 'post',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'X-XSRF-TOKEN': csrfToken() ?? ''
         },
         body: JSON.stringify({
           email,
