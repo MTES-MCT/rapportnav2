@@ -27,11 +27,6 @@
 			<!-- next rule is for CVE-2023-2976 -->
 			<!-- remove it in the future once spring-boot-starter-graphql fixes it -->
 			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>32.1.2-jre</version>
-			</dependency>
-			<dependency>
 				<groupId>com.graphql-java</groupId>
 				<artifactId>graphql-java</artifactId>
 				<version>21.1</version>
