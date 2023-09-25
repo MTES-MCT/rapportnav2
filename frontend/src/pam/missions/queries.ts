@@ -1,4 +1,4 @@
-import { Mission } from '../mission-types'
+import { Mission } from '../env-mission-types'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { httpClient } from '../../http-client'
 

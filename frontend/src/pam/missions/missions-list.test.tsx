@@ -2,7 +2,7 @@ import { test, describe, expect } from 'vitest'
 import { render, screen } from '../../test-utils'
 
 import MissionsList from './missions-list'
-import { Mission } from '../mission-types'
+import { Mission } from '../env-mission-types'
 
 const openedMission = {
   id: 1,

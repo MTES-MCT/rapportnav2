@@ -6,36 +6,43 @@ import { Container, Content, Footer, Sidebar, Header } from 'rsuite'
 
 interface PageWrapperProps {
   header?: ReactNode
+  footer?: ReactNode
+  showMenu?: boolean
   children: ReactNode
 }
 
-const PageWrapper: React.FC<PageWrapperProps> = ({ children, header }) => {
+const PageWrapper: React.FC<PageWrapperProps> = ({ children, header, footer, showMenu }) => {
   const { isAuthenticated } = useAuth()
   return (
-    <Container>
+    <Container style={{ minHeight: '100vh' }}>
       <Header>{!!header && <>{header}</>}</Header>
       <Container>
         {isAuthenticated && (
-          <Sidebar style={{ flex: 0, width: '64px' }}>
-            <SideMenu>
-              <SideMenu.Button
-                Icon={Icon.MissionAction}
-                isActive
-                // onClick={() => selectTab(generatePath(sideWindowPaths.MISSIONS))}
-                title="missions"
-              />
-            </SideMenu>
-          </Sidebar>
+          <>
+            {showMenu && (
+              <Sidebar style={{ flex: 0, width: '64px' }}>
+                <SideMenu>
+                  <SideMenu.Button
+                    Icon={Icon.MissionAction}
+                    isActive
+                    // onClick={() => selectTab(generatePath(sideWindowPaths.MISSIONS))}
+                    title="missions"
+                  />
+                </SideMenu>
+              </Sidebar>
+            )}
+          </>
         )}
-        <Content>{children}</Content>
+        <Content style={{ display: 'flex' }}>{children}</Content>
+        {footer && <Footer>{footer}</Footer>}
       </Container>
-      <Footer></Footer>
     </Container>
   )
 }
 
 PageWrapper.defaultProps = {
-  header: <CustomHeader />
+  header: <CustomHeader />,
+  showMenu: true
 }
 
 export default PageWrapper

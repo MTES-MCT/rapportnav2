@@ -4,7 +4,7 @@ import React from 'react'
 import { render, screen } from '../../test-utils'
 
 import MissionOpenByTag from './mission-open-by-tag'
-import { MissionSourceEnum } from '../mission-types'
+import { MissionSourceEnum } from '../env-mission-types'
 
 describe('MissionOpenByTag component', () => {
   test('renders "Ouverte par l\'unité" with PRIMARY accent when missionSource is RAPPORTNAV', () => {

@@ -21,6 +21,32 @@ describe('PageWrapper component', () => {
     const sidebarElement = screen.queryByTitle('missions')
     expect(sidebarElement).toBeNull()
   })
+  it('should not render the sidebar when the showMenu prop is false', () => {
+    ;(useAuth as any).mockReturnValue({
+      isAuthenticated: true
+    })
+    render(
+      <PageWrapper showMenu={false}>
+        <div data-testid="child">Child Content</div>
+      </PageWrapper>
+    )
+
+    const sidebarElement = screen.queryByTitle('missions')
+    expect(sidebarElement).toBeNull()
+  })
+  it('should render the sidebar when the showMenu prop is true and authenticated', () => {
+    ;(useAuth as any).mockReturnValue({
+      isAuthenticated: true
+    })
+    render(
+      <PageWrapper>
+        <div data-testid="child">Child Content</div>
+      </PageWrapper>
+    )
+
+    const sidebarElement = screen.queryByTitle('missions')
+    expect(sidebarElement).not.toBeNull()
+  })
   it('should render a custom header when provided', () => {
     ;(useAuth as any).mockReturnValue({
       isAuthenticated: true

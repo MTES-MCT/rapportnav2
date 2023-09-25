@@ -48,7 +48,7 @@ RUN npm run build --verbose
 ########################################
 # Run Application                      #
 ########################################
-FROM azul/zulu-openjdk-alpine:17.0.7-17.42.19 as build-all
+FROM azul/zulu-openjdk-debian:17-latest as build-all
 
 WORKDIR /home/rapportnav
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useMissions } from './queries'
-import { Mission } from '../mission-types'
+import { Mission } from '../env-mission-types'
 import { Col, FlexboxGrid, Loader, Stack } from 'rsuite'
 import { Accent, Button, Icon, Size } from '@mtes-mct/monitor-ui'
 import MissionsList from './missions-list'
@@ -15,7 +15,7 @@ const Missions: React.FC = () => {
       <FlexboxGrid
         // align="middle"
         justify="center"
-        style={{ padding: '4rem 2rem' }}
+        style={{ padding: '4rem 2rem', display: 'flex', flex: 1 }}
       >
         <FlexboxGrid.Item as={Col} colspan={24} xxl={16}>
           <Stack direction="column" alignItems="flex-start">

@@ -43,7 +43,6 @@ export const useMutateMission = (missionId: number, successCallback?: () => void
       }
     },
     onSettled: (newMission: any) => {
-      debugger
       // Always refetch after error or success:
       queryClient.invalidateQueries({ queryKey: missionsKeys.lists() })
       queryClient.invalidateQueries({

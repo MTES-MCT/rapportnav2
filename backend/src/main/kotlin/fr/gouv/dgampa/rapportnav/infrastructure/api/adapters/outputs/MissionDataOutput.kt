@@ -1,10 +1,10 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.adapters.outputs
 
-import fr.gouv.dgampa.rapportnav.domain.entities.monitorenv.controlResources.ControlUnitEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.monitorenv.mission.EnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.monitorenv.mission.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.monitorenv.mission.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.monitorenv.mission.MissionTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.Mission
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionAction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.monitorEnv.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.monitorEnv.MissionTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.monitorEnv.controlResources.ControlUnitEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.ZonedDateTime
 
@@ -20,14 +20,14 @@ data class MissionDataOutput(
     val geom: MultiPolygon? = null,
     val startDateTimeUtc: ZonedDateTime,
     val endDateTimeUtc: ZonedDateTime? = null,
-    val envActions: List<EnvActionEntity>? = null,
     val missionSource: MissionSourceEnum,
     val isClosed: Boolean,
     val hasMissionOrder: Boolean,
     val isUnderJdp: Boolean,
+    val actions: List<MissionAction>? = null,
 ) {
     companion object {
-        fun fromMission(mission: MissionEntity): MissionDataOutput {
+        fun fromMission(mission: Mission): MissionDataOutput {
             requireNotNull(mission.id) {
                 "a mission must have an id"
             }
@@ -44,11 +44,11 @@ data class MissionDataOutput(
                 geom = mission.geom,
                 startDateTimeUtc = mission.startDateTimeUtc,
                 endDateTimeUtc = mission.endDateTimeUtc,
-                envActions = mission.envActions,
                 missionSource = mission.missionSource,
                 isClosed = mission.isClosed,
                 hasMissionOrder = mission.hasMissionOrder,
                 isUnderJdp = mission.isUnderJdp,
+                actions = mission.actions
             )
         }
     }

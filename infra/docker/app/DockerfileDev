@@ -28,7 +28,7 @@ RUN mvn clean package -DskipTests=true
 ########################################
 # Run Application                      #
 ########################################
-FROM azul/zulu-openjdk-alpine:17.0.7-17.42.19 as run-backend
+FROM azul/zulu-openjdk-debian:17-latest as run-backend
 
 WORKDIR /home/rapportnav
 

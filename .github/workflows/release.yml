@@ -26,7 +26,7 @@ jobs:
       - name: set env VERSION
         id: version
         # run: export VERSION=${{ steps.extract_tag.outputs.tag }}
-        run: export VERSION=0.0.0.13
+        run: export VERSION=0.0.0.15
 
       # - name: Mirror + trigger CI
       #   uses: SvanBoxel/gitlab-mirror-and-ci-action@master
@@ -61,7 +61,7 @@ jobs:
         uses: docker/build-push-action@v4
         env:
           GITHUB_SHA: ${{ github.sha }}
-          VERSION: 0.0.0.13
+          VERSION: 0.0.0.15
           # VERSION: ${{ steps.extract_tag.outputs.tag }}
           ENV_PROFILE: "prod"
         with:

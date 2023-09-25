@@ -13,4 +13,8 @@ export const login_failed_handler = rest.post(LOGIN_ENDPOINT, (_req, res, ctx) =
 })
 
 // This configures a request mocking server with the given request handlers.
-export const server = setupServer(...success_handlers)
+export const loginServer = () => {
+  const server = setupServer(...success_handlers)
+  server.printHandlers()
+  return server
+}

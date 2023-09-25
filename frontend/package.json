@@ -13,7 +13,7 @@
     "test:watch": "vitest src"
   },
   "dependencies": {
-    "@mtes-mct/monitor-ui": "^8.0.0",
+    "@mtes-mct/monitor-ui": "^9.1.1",
     "@sentry/react": "^7.61.0",
     "@tanstack/query-sync-storage-persister": "^5.0.0-alpha.70",
     "@tanstack/react-query": "^5.0.0-alpha.70",
