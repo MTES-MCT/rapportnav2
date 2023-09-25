@@ -1,8 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControl
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlEquipmentAndSecurityModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlGensDeMerModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlNavigationRulesModel
@@ -55,17 +53,6 @@ data class ActionControlModel(
             controlsEquipmentAndSecurity = controlsEquipmentAndSecurity?.toControlEquipmentAndSecurity()
         )
     }
-
-        fun toNavAction(): NavAction {
-            return NavAction(
-                id = id,
-                missionId = missionId,
-                actionType = ActionType.CONTROL,
-                actionStartDateTimeUtc = startDateTimeUtc,
-                actionEndDateTimeUtc = endDateTimeUtc,
-//                controlAction = controlAction?.toActionControl(),
-            )
-        }
 
 
 }

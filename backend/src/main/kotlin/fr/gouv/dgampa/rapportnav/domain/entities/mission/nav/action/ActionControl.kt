@@ -16,4 +16,15 @@ data class ActionControl(
     val controlsGensDeMer: ControlGensDeMer?,
     val controlsNavigationRules: ControlNavigationRules?,
     val controlsEquipmentAndSecurity: ControlEquipmentAndSecurity?
-)
+) {
+    fun toNavAction(): NavAction {
+        return NavAction(
+            id = id,
+            missionId = missionId,
+            actionStartDateTimeUtc = startDateTimeUtc,
+            actionEndDateTimeUtc = endDateTimeUtc,
+            actionType = ActionType.CONTROL,
+            controlAction = this
+        )
+    }
+}

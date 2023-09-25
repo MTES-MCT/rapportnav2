@@ -37,6 +37,33 @@ export const GET_MISSION_BY_ID = gql`
               isStart
               observations
             }
+            controlAction {
+              id
+              controlsVesselAdministrative {
+                id
+                confirmed
+                compliantOperatingPermit
+                upToDateNavigationPermit
+                compliantSecurityDocuments
+              }
+              controlsGensDeMer {
+                id
+                confirmed
+                staffOutnumbered
+                upToDateMedicalCheck
+                knowledgeOfFrenchLawAndLanguage
+              }
+              controlsNavigationRules {
+                id
+                confirmed
+                observations
+              }
+              controlsEquipmentAndSecurity {
+                id
+                confirmed
+                observations
+              }
+            }
           }
         }
       }

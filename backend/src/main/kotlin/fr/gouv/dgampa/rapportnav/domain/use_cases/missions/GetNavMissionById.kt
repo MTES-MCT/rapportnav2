@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory
 
 @UseCase
 class GetNavMissionById(
-    private val navActionRepository: INavActionControlRepository,
+    private val navActionControlRepository: INavActionControlRepository,
     private val navStatusRepository: INavActionStatusRepository
     ) {
     private val logger = LoggerFactory.getLogger(GetNavMissionById::class.java)
 
     fun execute(missionId: Int): NavMission {
-        val controls = navActionRepository.findAllByMissionId(missionId=missionId)
+        val controls = navActionControlRepository.findAllByMissionId(missionId=missionId).map { it.toNavAction() }
         val statuses = navStatusRepository.findAllByMissionId(missionId=missionId).map { it.toNavAction() }
         val actions = controls + statuses
         val mission = NavMission(id = missionId, actions = actions)
