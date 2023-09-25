@@ -15,7 +15,7 @@ ARG VERSION
 
 WORKDIR /tmp/backend
 COPY backend/pom.xml pom.xml
-RUN mvn dependency:go-offline -B
+RUN mvn dependency:go-offline -B -Dhttp.proxyHost=172.27.229.197 -Dhttp.proxyPort=8090
 
 COPY backend/ /tmp/backend
 COPY backend/pom.xml /tmp/backend/POM_WITH_ENV_VARS
@@ -34,6 +34,8 @@ RUN mvn clean package -DskipTests=true
 FROM node:18 AS npm-dependencies
 WORKDIR /tmp/frontend
 COPY frontend/package.json frontend/package-lock.json ./
+RUN npm config set proxy http://172.27.229.197:8090
+RUN npm config set https-proxy http://172.27.229.197:8090
 RUN npm ci
 
 # Stage 2: Build the application
