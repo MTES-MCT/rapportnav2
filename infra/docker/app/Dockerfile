@@ -15,9 +15,7 @@ ARG VERSION
 
 WORKDIR /tmp/backend
 COPY backend/pom.xml pom.xml
-RUN npm config set proxy http://172.27.229.197:8090
-RUN npm config set https-proxy http://172.27.229.197:8090
-RUN mvn dependency:go-offline -B
+RUN mvn dependency:go-offline -Dhttp.proxyHost=172.27.229.197 -Dhttp.proxyPort=8090 -B
 
 COPY backend/ /tmp/backend
 COPY backend/pom.xml /tmp/backend/POM_WITH_ENV_VARS
