@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import AuthToken from './token'
 import { useNavigate } from 'react-router-dom'
+import client from '../apollo-client'
 
 const authToken = new AuthToken()
 
@@ -13,6 +14,8 @@ const useAuth = (): { isAuthenticated: boolean; logout: () => void } => {
     authToken.remove()
     // Update the state to reflect that the user is not authenticated
     setIsAuthenticated(false)
+    // reset store
+    // client.resetStore() // TODO restore
     // Reset history to /login
     navigate('/login', { replace: true })
   }

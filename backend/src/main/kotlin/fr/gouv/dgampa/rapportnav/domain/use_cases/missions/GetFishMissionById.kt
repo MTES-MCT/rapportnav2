@@ -17,10 +17,11 @@ class GetFishMissionById {
         // TODO replace with API call
 
         val missionAction1 = MissionAction(
-            missionId = 20,
+            missionId = 10,
+            facade = "Outre-Mer",
             faoAreas = listOf("something"),
             actionType = MissionActionType.SEA_CONTROL,
-            actionDatetimeUtc = ZonedDateTime.parse("2022-02-15T18:50:09Z"),
+            actionDatetimeUtc = ZonedDateTime.parse("2022-02-17T18:50:09Z"),
             flightGoals = listOf(),
             logbookInfractions = listOf(),
             gearInfractions = listOf(),
@@ -36,7 +37,7 @@ class GetFishMissionById {
         )
 
         val mission = Mission(
-            id = 20,
+            id = 10,
             missionTypes = listOf(MissionType.SEA),
             facade = "Outre-Mer",
             observationsCacem = null,

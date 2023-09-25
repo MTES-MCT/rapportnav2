@@ -9,7 +9,7 @@ interface ActionControlPropsFish {
 const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action }) => {
   return (
     <div>
-      <h1>Controles</h1>
+      <h1>Controles Fish</h1>
 
       <div></div>
       <div></div>

@@ -1,16 +1,17 @@
 import React from 'react'
-import { useMissions } from './queries'
 import { Mission } from '../env-mission-types'
 import { Col, FlexboxGrid, Loader, Stack } from 'rsuite'
 import { Accent, Button, Icon, Size } from '@mtes-mct/monitor-ui'
 import MissionsList from './missions-list'
 import { Link } from 'react-router-dom'
+import { useQuery } from '@apollo/client/react'
+import { GET_MISSIONS } from './queries'
 
 const Missions: React.FC = () => {
-  const query = useMissions()
+  const { loading, error, data } = useQuery(GET_MISSIONS)
 
-  if (query.data) {
-    const missions: Mission[] = query.data as Mission[]
+  if (data) {
+    const missions: Mission[] = data.missions as Mission[]
     return (
       <FlexboxGrid
         // align="middle"
@@ -36,7 +37,7 @@ const Missions: React.FC = () => {
             </Stack.Item>
 
             <Stack.Item style={{ paddingTop: '2rem', width: '100%' }}>
-              {query.isFetching ? (
+              {loading ? (
                 <Stack justifyContent="center" style={{ marginTop: '5rem' }}>
                   <Stack.Item>
                     <Loader />

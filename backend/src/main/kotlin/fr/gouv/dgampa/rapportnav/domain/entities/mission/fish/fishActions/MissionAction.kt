@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import java.time.ZonedDateTime
 
+typealias FishAction = MissionAction
 data class MissionAction(
     val id: Int? = null,
     val missionId: Int,

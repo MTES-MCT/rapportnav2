@@ -1,0 +1,166 @@
+
+type Mission {
+  id: ID!
+  isClosed: Boolean!
+  missionSource: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String!
+  actions: [Action]
+}
+
+enum MissionSource {
+  MONITORENV
+  MONITORFISH
+  POSEIDON_CACEM
+  POSEIDON_CNSP
+  RAPPORTNAV
+}
+
+type Action {
+  id: String
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  source: MissionSource!
+  status: ActionStatusType!
+  type: ActionType
+  data: ActionData
+}
+
+union ActionData = FishActionData | EnvActionData | NavActionData
+
+type NavActionData {
+  id: String!
+  actionStartDateTimeUtc: String!
+  actionEndDateTimeUtc: String
+  actionType: ActionType
+  controlAction: ActionControl
+  statusAction: ActionStatus
+}
+
+type ActionStatus {
+  id: String!
+  startDateTimeUtc: String!
+  status: ActionStatusType!
+  reason: ActionStatusReason
+  isStart: Boolean!
+  observations: String
+}
+
+enum ActionStatusType {
+  NAVIGATING
+  ANCHORING
+  DOCKED
+  UNAVAILABLE
+}
+enum ActionStatusReason {
+  MAINTENANCE
+  WEATHER
+  REPRESENTATION
+  ADMINISTRATION
+  HARBOUR_CONTROL
+  OTHER
+}
+
+type ActionControl {
+  id: String!
+  controlsVesselAdministrative: ControlVesselAdministrative
+  controlsGensDeMer: ControlGensDeMer
+  controlsNavigationRules: ControlNavigationRules
+  controlsEquipmentAndSecurity: ControlEquipmentAndSecurity
+}
+
+type ControlNavigationRules {
+  id: String!
+  confirmed: Boolean
+  observations: String
+}
+
+type ControlEquipmentAndSecurity {
+  id: String!
+  confirmed: Boolean
+  observations: String
+}
+
+type ControlVesselAdministrative {
+  id: String!
+  confirmed: Boolean
+  compliantOperatingPermit: Boolean
+  upToDateNavigationPermit: Boolean
+  compliantSecurityDocuments: Boolean
+}
+
+type ControlGensDeMer {
+  id: String!
+  confirmed: Boolean
+  staffOutnumbered: Boolean
+  upToDateMedicalCheck: Boolean
+  knowledgeOfFrenchLawAndLanguage: Boolean
+}
+
+enum ActionType {
+  CONTROL
+  SURVEILLANCE
+  CONTACT
+  NOTE
+  STATUS
+  OTHER
+}
+
+type EnvActionData {
+  id: String!
+  actionStartDateTimeUtc: String!
+  actionEndDateTimeUtc: String!
+  geom: String
+  facade: String
+  department: String
+  themes: [ThemeEntity]
+  observations: String
+  actionNumberOfControls: Int
+  actionTargetType: ActionTargetTypeEnum
+  vehicleType: VehicleTypeEnum
+}
+
+type FishActionData {
+  id: String
+  actionDatetimeUtc: String!
+  facade: String
+}
+
+enum FishActionType {
+  SEA_CONTROL
+  LAND_CONTROL
+  AIR_CONTROL
+  AIR_SURVEILLANCE
+  OBSERVATION
+}
+
+type ThemeEntity {
+  theme: String
+  subThemes: [String]
+  protectedSpecies: [String]
+}
+
+enum ActionTargetTypeEnum {
+  VEHICLE
+  COMPANY
+  INDIVIDUAL
+}
+
+enum VehicleTypeEnum {
+  VESSEL
+  OTHER_SEA
+  VEHICLE_LAND
+  VEHICLE_AIR
+}
+
+type User {
+  id: ID
+  name: String!
+  email: String!
+  token: String
+}
+
+type Query {
+  missions(userId: ID): [Mission]!
+  missionById(missionId: ID): Mission!
+}

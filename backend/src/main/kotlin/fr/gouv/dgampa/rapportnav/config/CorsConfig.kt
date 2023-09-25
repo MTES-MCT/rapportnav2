@@ -3,7 +3,6 @@ package fr.gouv.dgampa.rapportnav.config
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.cors.CorsConfiguration
-import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.web.filter.CorsFilter
 
@@ -14,12 +13,16 @@ class CorsConfig {
         val source = UrlBasedCorsConfigurationSource()
         val config = CorsConfiguration()
 
-        config.allowedOrigins = listOf("*") // Replace '*' with your frontend's URL for more security
-        config.allowedMethods = listOf("GET", "POST", "PUT", "DELETE")
-        config.allowedHeaders = listOf("Content-Type")
+        // Allow specific origins, methods, and headers
+        config.addAllowedOrigin("*") // Replace with specific origins as needed
+        config.addAllowedMethod("*") // Allow all HTTP methods
+        config.addAllowedHeader("*") // Allow all headers
+//        config.allowCredentials = true // Allow credentials, if needed
 
+        // Register CORS configuration for specific paths
+//        source.registerCorsConfiguration("/graphql/**", config)
         source.registerCorsConfiguration("/**", config)
+
         return CorsFilter(source)
     }
-
 }

@@ -355,6 +355,7 @@ export type EnvActionCommonProperties = {
   actionStartDateTimeUtc?: string | null
   geom?: Record<string, any>[]
   id: string
+  actionStatus: string
 }
 
 export type EnvActionTheme = {

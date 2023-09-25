@@ -1,21 +1,18 @@
 import React from 'react'
 import { THEME, Icon } from '@mtes-mct/monitor-ui'
-import { ActionTypeEnum, EnvAction, EnvActionControl } from '../../env-mission-types'
+import { ActionTypeEnum, EnvAction, EnvActionControl, MissionSourceEnum } from '../../env-mission-types'
 import { FlexboxGrid, Stack } from 'rsuite'
-import { ActionSource, MissionAction, NavAction } from '../../mission-types'
+import { ActionSource, Action, NavAction, ActionStatusType } from '../../mission-types'
 import { FishAction, MissionActionType } from '../../fish-mission-types'
+import { StatusColorTag } from '../status/status-selection-dropdown'
+import { mapStatusToText } from '../status/utils'
 
 interface MissionTimelineItemProps {
-  action: MissionAction
-  actionSource: ActionSource
-  onClick: (action: MissionAction) => void
-  componentMap?: Record<
-    ActionTypeEnum | MissionActionType,
-    React.FC<{ action: MissionAction; onClick: (action: MissionAction) => void }>
-  >
+  action: Action
+  onClick: (action: Action) => void
 }
 
-const Action: React.FC<{ action: MissionAction; onClick: any; children: any }> = ({ action, onClick, children }) => {
+const Wrapper: React.FC<{ action: Action; onClick: any; children: any }> = ({ action, onClick, children }) => {
   return (
     <div onClick={onClick}>
       <FlexboxGrid style={{ width: '100%', padding: '0.5rem' }} justify="start">
@@ -27,7 +24,7 @@ const Action: React.FC<{ action: MissionAction; onClick: any; children: any }> =
 
 const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick: any }> = ({ action, onClick }) => {
   return (
-    <Action action={action as EnvAction} onClick={onClick}>
+    <Wrapper action={action as EnvAction} onClick={onClick}>
       <FlexboxGrid.Item style={{ width: '100%' }}>
         <Stack direction="row" spacing="1rem">
           <Stack.Item alignSelf="flex-start" style={{ paddingTop: '0.2rem' }}>
@@ -64,12 +61,12 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
           </Stack.Item>
         </Stack>
       </FlexboxGrid.Item>
-    </Action>
+    </Wrapper>
   )
 }
 const ActionFishControl: React.FC<{ action: FishAction; onClick: any }> = ({ action, onClick }) => {
   return (
-    <Action action={action as FishAction} onClick={onClick}>
+    <Wrapper action={action as FishAction} onClick={onClick}>
       <FlexboxGrid.Item style={{ width: '100%' }}>
         <Stack direction="row" spacing="1rem">
           <Stack.Item alignSelf="flex-start" style={{ paddingTop: '0.2rem' }}>
@@ -82,13 +79,13 @@ const ActionFishControl: React.FC<{ action: FishAction; onClick: any }> = ({ act
           </Stack.Item>
         </Stack>
       </FlexboxGrid.Item>
-    </Action>
+    </Wrapper>
   )
 }
 
 const ActionNavControl: React.FC<{ action: NavAction; onClick: any }> = ({ action, onClick }) => {
   return (
-    <Action action={action as FishAction} onClick={onClick}>
+    <Wrapper action={action as FishAction} onClick={onClick}>
       <FlexboxGrid.Item style={{ width: '100%' }}>
         <Stack direction="row" spacing="1rem">
           <Stack.Item alignSelf="flex-start" style={{ paddingTop: '0.2rem' }}>
@@ -101,7 +98,7 @@ const ActionNavControl: React.FC<{ action: NavAction; onClick: any }> = ({ actio
           </Stack.Item>
         </Stack>
       </FlexboxGrid.Item>
-    </Action>
+    </Wrapper>
   )
 }
 
@@ -120,9 +117,19 @@ const ActionOther: React.FC = () => {
   return null
 }
 
-const ActionStatus: React.FC = () => {
-  // Implementation for ActionStatus
-  return null
+const ActionStatus: React.FC<{ action: NavAction; onClick: any }> = ({ action, onClick }) => {
+  return (
+    <Wrapper action={action as any} onClick={onClick}>
+      <Stack alignItems="center" spacing="0.5rem">
+        <Stack.Item>
+          <StatusColorTag status={action.statusAction.status} />
+        </Stack.Item>
+        <Stack.Item>
+          <b>{`${mapStatusToText(action.statusAction.status)} - ${action.statusAction.isStart ? 'début' : 'fin'}`}</b>
+        </Stack.Item>
+      </Stack>
+    </Wrapper>
+  )
 }
 
 const ActionContact: React.FC = () => {
@@ -130,52 +137,42 @@ const ActionContact: React.FC = () => {
   return null
 }
 
-const ActionComponentMap: Record<ActionTypeEnum | MissionActionType, React.FC<{ action: MissionAction }>> = {
-  [ActionTypeEnum.CONTROL]: ActionEnvControl,
-  [MissionActionType.SEA_CONTROL]: ActionFishControl,
-  [MissionActionType.AIR_CONTROL]: ActionFishControl,
-  [MissionActionType.LAND_CONTROL]: ActionFishControl,
-  [MissionActionType.AIR_SURVEILLANCE]: ActionSurveillance,
-  [ActionTypeEnum.SURVEILLANCE]: ActionSurveillance,
-  [ActionTypeEnum.NOTE]: ActionNote,
-  [ActionTypeEnum.CONTACT]: ActionContact,
-  [ActionTypeEnum.STATUS]: ActionStatus,
-  [ActionTypeEnum.OTHER]: ActionOther,
-  [MissionActionType.OBSERVATION]: ActionOther
-}
-
-const getActionComponent = (action: MissionAction, actionSource: ActionSource) => {
-  if (actionSource === ActionSource.EnvAction) {
-    if (action.actionType === ActionTypeEnum.CONTROL) {
+const getActionComponent = (action: Action) => {
+  if (action.source === MissionSourceEnum.MONITORENV) {
+    if (action.type === ActionTypeEnum.CONTROL) {
       return ActionEnvControl
     }
-  } else if (actionSource === ActionSource.FishAction) {
-    if (
-      [MissionActionType.SEA_CONTROL, MissionActionType.AIR_CONTROL, MissionActionType.LAND_CONTROL].indexOf(
-        action.actionType
-      ) != -1
-    ) {
+  } else if (action.source === MissionSourceEnum.MONITORFISH) {
+    if (action.type === ActionTypeEnum.CONTROL) {
       return ActionFishControl
     }
-  } else if (actionSource === ActionSource.NavAction) {
-    return ActionNavControl
+  } else if (action.source === MissionSourceEnum.RAPPORTNAV) {
+    switch (action.type) {
+      case ActionTypeEnum.CONTROL:
+        return ActionNavControl
+      case ActionTypeEnum.STATUS:
+        return ActionStatus
+      default:
+        return null
+    }
   }
+  return null
 }
 
 const MissionTimelineItem: React.FC<MissionTimelineItemProps> = ({
   action,
-  actionSource,
   onClick
   // componentMap = ActionComponentMap
 }) => {
-  const Component = getActionComponent(action, actionSource)
+  console.log('ITEM action', action)
+  const Component = getActionComponent(action)
   // const Component = componentMap[action.actionType]
 
   if (!Component) {
     return null
   }
 
-  return <Component action={action as any} onClick={onClick} />
+  return <Component action={action.data as any} onClick={onClick} />
 }
 
 export default MissionTimelineItem

@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.user
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.databind.ObjectMapper
-import fr.gouv.dgampa.rapportnav.domain.entities.user.UserEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import jakarta.persistence.*
 
 @Entity
@@ -25,7 +25,7 @@ data class UserModel(
 ) {
 
 
-    fun toUserEntity(mapper: ObjectMapper): UserEntity = UserEntity(
+    fun toUser(mapper: ObjectMapper): User = User(
         id = id,
         email = email,
         name = name,
@@ -33,7 +33,7 @@ data class UserModel(
     )
 
     companion object {
-        fun fromUserEntity(user: UserEntity, mapper: ObjectMapper) = UserModel(
+        fun fromUser(user: User, mapper: ObjectMapper) = UserModel(
             id = user.id,
             name = user.name,
             email = user.email,

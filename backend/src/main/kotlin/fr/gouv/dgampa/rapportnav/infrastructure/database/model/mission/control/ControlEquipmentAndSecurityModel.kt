@@ -4,21 +4,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlEquipmentAndSecurity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import jakarta.persistence.*
+import java.util.*
 
 @Entity
 @Table(name = "control_equipment_security")
 data class ControlEquipmentAndSecurityModel(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "control_equipment_security_id_seq")
-    @SequenceGenerator(name = "control_equipment_security_id_seq", allocationSize = 1)
     @Column(name = "id", unique = true, nullable = false)
-    var id: Int,
+    var id: UUID,
 
     @Column(name = "mission_id", nullable = false)
     var missionId: Int,
 
     @Column(name = "action_control_id", nullable = false, insertable = false, updatable = false)
-    var actionControlId: Int,
+    var actionControlId: UUID,
 
     @Column(name = "confirmed", nullable = true)
     var confirmed: Boolean? = false,
@@ -31,13 +30,11 @@ data class ControlEquipmentAndSecurityModel(
     @JsonIgnore
     var actionControl: ActionControlModel
 ) {
-    fun toControlEquipmentAndSecurity() = actionControl.id?.let {
-        ControlEquipmentAndSecurity(
+    fun toControlEquipmentAndSecurity() = ControlEquipmentAndSecurity(
         id = id,
         missionId = missionId,
-        actionControlId = it,
+        actionControlId = actionControl.id,
         confirmed = confirmed,
         observations = observations
     )
-    }
 }

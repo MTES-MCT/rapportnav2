@@ -1,13 +1,14 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
 
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
+import java.util.*
 
 data class NavAction(
-    val id: Int?,
+    val id: UUID,
     val missionId: Int,
-    val actionStartDateTimeUtc: LocalDateTime,
-    val actionEndDateTimeUtc: LocalDateTime?,
+    val actionStartDateTimeUtc: ZonedDateTime,
+    val actionEndDateTimeUtc: ZonedDateTime?,
     val actionType: ActionType,
-    val actionControl: ActionControlModel?,
+    val controlAction: ActionControl? = null,
+    val statusAction: ActionStatus? = null,
 )

@@ -1,6 +1,6 @@
 import { ControlUnit } from './control-unit-types'
-import { EnvAction, MissionSourceEnum, MissionTypeEnum, SeaFrontEnum } from './env-mission-types'
-import { FishAction } from './fish-mission-types'
+import { ActionTypeEnum, EnvAction, MissionSourceEnum, MissionTypeEnum, SeaFrontEnum } from './env-mission-types'
+import { FishAction, MissionActionType } from './fish-mission-types'
 
 export enum ActionSource {
   'EnvAction' = 'EnvAction',
@@ -8,31 +8,58 @@ export enum ActionSource {
   'NavAction' = 'NavAction'
 }
 
+export enum ActionStatusType {
+  'NAVIGATING' = 'NAVIGATING',
+  'DOCKED' = 'DOCKED',
+  'ANCHORING' = 'ANCHORING',
+  'UNAVAILABLE' = 'UNAVAILABLE'
+}
+
+export enum ActionStatusReason {
+  'MAINTENANCE' = 'MAINTENANCE',
+  'WEATHER' = 'WEATHER',
+  'REPRESENTATION' = 'REPRESENTATION',
+  'ADMINISTRATION' = 'ADMINISTRATION',
+  'HARBOUR_CONTROL' = 'HARBOUR_CONTROL',
+  'OTHER' = 'OTHER'
+}
+
 export type NavAction = {
   id: number
   actionType: any
+  status: ActionStatusType
   actionStartDateTimeUtc?: string | null
   actionEndDateTimeUtc?: string | null
+  statusAction: ActionStatus
 }
-export type MissionActions = {
-  envAction?: EnvAction
-  fishAction?: FishAction
-  navAction?: NavAction
-}
-export type MissionAction = EnvAction | FishAction | NavAction
-
-export function isEnvAction(action: MissionAction): action is EnvAction {
-  // TODO find a better way to segregate a env action
-  return action !== null && typeof action === 'object' && 'actionNumberOfControls' in action
-}
-
-export function isFishAction(action: MissionAction): action is FishAction {
-  // TODO find a better way to segregate a fish action
-  return action !== null && typeof action === 'object' && 'actionDatetimeUtc' in action
+export type Action = {
+  id?: any
+  missionId: number
+  type: ActionTypeEnum
+  source: MissionSourceEnum
+  status: ActionStatusType
+  startDateTimeUtc?: string
+  endDateTimeUtc?: string
+  data: [EnvAction | FishAction | NavAction]
 }
 
-export function isNavAction(action: MissionAction): action is NavAction {
-  return !isEnvAction(action) && !isFishAction(action)
+export type ActionStatus = {
+  status: ActionStatusType
+  isStart: boolean
+  reason?: ActionStatusReason
+  observations?: string
+}
+
+export function isEnvAction(action: Action): boolean {
+  return action !== null && action.source === MissionSourceEnum.MONITORENV
+}
+
+export function isFishAction(action: Action): boolean {
+  return action !== null && action.source === MissionSourceEnum.MONITORFISH
+}
+
+export function isNavAction(action: Action): boolean {
+  return action !== null && action.source === MissionSourceEnum.RAPPORTNAV
 }
 
 export type Mission = {
@@ -40,7 +67,6 @@ export type Mission = {
   closedBy: string
   controlUnits: Omit<ControlUnit, 'id'>[]
   endDateTimeUtc?: string
-  envActions: EnvAction[]
   facade: SeaFrontEnum
   geom?: Record<string, any>[]
   hasMissionOrder?: boolean
@@ -52,7 +78,7 @@ export type Mission = {
   observationsCnsp?: string
   openBy: string
   startDateTimeUtc: string
-  actions: MissionActions[]
+  actions: Action[]
 }
 
 export enum ControlTarget {
@@ -61,23 +87,4 @@ export enum ControlTarget {
   'COMMERCE_PRO' = 'COMMERCE_PRO',
   'SERVICE_PRO' = 'SERVICE_PRO',
   'PLAISANCE_LOISIR' = 'PLAISANCE_LOISIR'
-}
-
-export const getActionData = (action: MissionActions): [ActionSource, EnvAction | FishAction | NavAction] => {
-  if (action.envAction) {
-    return [ActionSource.EnvAction, action.envAction as EnvAction]
-  } else if (action.fishAction) {
-    return [ActionSource.FishAction, action.fishAction as FishAction]
-  }
-
-  return [ActionSource.NavAction, action.navAction as NavAction]
-}
-
-export const getActionStartTime = (action: MissionActions): string | undefined | null => {
-  if (action.envAction) {
-    return action.envAction.actionStartDateTimeUtc
-  } else if (action.fishAction) {
-    return action.fishAction.actionDatetimeUtc
-  }
-  return action.navAction?.actionStartDateTimeUtc
 }
