@@ -11,7 +11,7 @@ RapportNav is a mission reporting tools developped by the French administration 
 - Backend:
   - Kotlin
   - Spring
-- PostgreSQL
+- PostgreSQL 15 with postgis extension
 - Frontend:
   - React (Vite)
   - Monitor-ui design system
