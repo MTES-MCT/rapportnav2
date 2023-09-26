@@ -24,13 +24,48 @@ export enum ActionStatusReason {
   'OTHER' = 'OTHER'
 }
 
+export enum VesselType {
+  'FISHING' = 'FISHING',
+  'SAILING' = 'SAILING',
+  'MOTOR' = 'MOTOR',
+  'COMMERCIAL' = 'COMMERCIAL'
+}
+
+export enum VesselSize {
+  'LESS_THAN_12m' = 'LESS_THAN_12m',
+  'FROM_12_TO_24m' = 'FROM_12_TO_24m',
+  'FROM_24_TO_46m' = 'FROM_24_TO_46m',
+  'MORE_THAN_46m' = 'MORE_THAN_46m'
+}
+
+export const VESSEL_SIZE_OPTIONS = [
+  {
+    label: 'Moins de 12m',
+    value: VesselSize.LESS_THAN_12m
+  },
+  {
+    label: 'Entre 12m et 24m',
+    value: VesselSize.FROM_12_TO_24m
+  },
+  {
+    label: 'Entre 24m et 46m',
+    value: VesselSize.FROM_24_TO_46m
+  },
+  {
+    label: 'Plus de 46m',
+    value: VesselSize.MORE_THAN_46m
+  }
+]
 export type NavAction = {
   id: number
   actionType: any
   status: ActionStatusType
-  actionStartDateTimeUtc?: string | null
-  actionEndDateTimeUtc?: string | null
-  statusAction: ActionStatus
+  startDateTimeUtc?: string | null
+  endDateTimeUtc?: string | null
+  data: {
+    statusAction: ActionStatus
+    controlAction: ControlAction
+  }
 }
 export type Action = {
   id?: any
@@ -47,6 +82,45 @@ export type ActionStatus = {
   status: ActionStatusType
   isStart: boolean
   reason?: ActionStatusReason
+  observations?: string
+}
+
+export type ControlAction = {
+  vesselIdentifier?: string
+  vesselType?: VesselType
+  vesselSize?: VesselSize
+  observations?: string
+  identityControlledPerson?: string
+  controlsVesselAdministrative?: ControlVesselAdministrative
+  controlsGensDeMer?: ControlGensDeMer
+  controlsNavigationRules?: ControlNavigationRules
+  controlsEquipmentAndSecurity?: ControlEquipmentAndSecurity
+}
+
+export type ControlVesselAdministrative = {
+  id: String
+  confirmed?: boolean
+  compliantOperatingPermit?: boolean
+  upToDateNavigationPermit?: boolean
+  compliantSecurityDocuments?: boolean
+  observations?: string
+}
+export type ControlGensDeMer = {
+  id: String
+  confirmed?: boolean
+  staffOutnumbered?: boolean
+  upToDateMedicalCheck?: boolean
+  knowledgeOfFrenchLawAndLanguage?: boolean
+  observations?: string
+}
+export type ControlNavigationRules = {
+  id: String
+  confirmed?: boolean
+  observations?: string
+}
+export type ControlEquipmentAndSecurity = {
+  id: String
+  confirmed?: boolean
   observations?: string
 }
 
@@ -87,4 +161,12 @@ export enum ControlTarget {
   'COMMERCE_PRO' = 'COMMERCE_PRO',
   'SERVICE_PRO' = 'SERVICE_PRO',
   'PLAISANCE_LOISIR' = 'PLAISANCE_LOISIR'
+}
+
+export enum ControlTargetText {
+  'PECHE_PRO' = 'pêche professionnelle',
+  'PLAISANCE_PRO' = 'plaisance professionnelle',
+  'COMMERCE_PRO' = 'commerce',
+  'SERVICE_PRO' = 'service',
+  'PLAISANCE_LOISIR' = 'plaisance de loisir'
 }

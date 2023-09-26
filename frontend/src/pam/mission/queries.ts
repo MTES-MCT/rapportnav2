@@ -39,6 +39,11 @@ export const GET_MISSION_BY_ID = gql`
             }
             controlAction {
               id
+              vesselIdentifier
+              vesselType
+              vesselSize
+              observations
+              identityControlledPerson
               controlsVesselAdministrative {
                 id
                 confirmed

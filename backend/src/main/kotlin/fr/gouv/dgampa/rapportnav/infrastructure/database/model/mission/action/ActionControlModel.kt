@@ -1,12 +1,13 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.mapStringToVesselSize
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.mapStringToVesselType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControl
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlEquipmentAndSecurityModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlGensDeMerModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlNavigationRulesModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlVesselAdministrativeModel
 import jakarta.persistence.*
-import org.locationtech.jts.geom.MultiPolygon
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -26,14 +27,17 @@ data class ActionControlModel(
     @Column(name = "end_datetime_utc", nullable = true)
     var endDateTimeUtc: ZonedDateTime,
 
-    @Column(name = "geom", nullable = true)
-    var geom: MultiPolygon? = null,
+//    @Column(name = "geom", nullable = true)
+//    var geom: MultiPolygon? = null,
 
     @Column(name = "observations", nullable = true)
     var observations: String,
 
     @Column(name = "vessel_identifier", nullable = true)
     var vesselIdentifier: String,
+
+    @Column(name = "vessel_type", nullable = true)
+    var vesselType: String,
 
     @Column(name = "vessel_size", nullable = true)
     var vesselSize: String,
@@ -63,10 +67,11 @@ data class ActionControlModel(
             missionId = missionId,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
-            geom = geom,
+//            geom = geom,
             observations = observations,
             vesselIdentifier = vesselIdentifier,
-            vesselSize = vesselSize,
+            vesselType = mapStringToVesselType(vesselType),
+            vesselSize = mapStringToVesselSize(vesselSize),
             identityControlledPerson = identityControlledPerson,
             controlsVesselAdministrative = controlsVesselAdministrative?.toControlVesselAdministrative(),
             controlsGensDeMer = controlsGensDeMer?.toControlGensDeMer(),

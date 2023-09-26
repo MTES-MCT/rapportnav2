@@ -1,4 +1,3 @@
-
 type Mission {
   id: ID!
   isClosed: Boolean!
@@ -30,8 +29,8 @@ union ActionData = FishActionData | EnvActionData | NavActionData
 
 type NavActionData {
   id: String!
-  actionStartDateTimeUtc: String!
-  actionEndDateTimeUtc: String
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
   actionType: ActionType
   controlAction: ActionControl
   statusAction: ActionStatus
@@ -63,10 +62,29 @@ enum ActionStatusReason {
 
 type ActionControl {
   id: String!
+  #  geom: String
+  vesselType: VesselType
+  vesselIdentifier: String
+  vesselSize: VesselSize
+  identityControlledPerson: String
+  observations: String
   controlsVesselAdministrative: ControlVesselAdministrative
   controlsGensDeMer: ControlGensDeMer
   controlsNavigationRules: ControlNavigationRules
   controlsEquipmentAndSecurity: ControlEquipmentAndSecurity
+}
+
+enum VesselType {
+  FISHING
+  SAILING
+  MOTOR
+  COMMERCIAL
+}
+enum VesselSize {
+  LESS_THAN_12m
+  FROM_12_TO_24m
+  FROM_24_TO_46m
+  MORE_THAN_46m
 }
 
 type ControlNavigationRules {

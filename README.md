@@ -7,16 +7,29 @@ RapportNav is a mission reporting tools developped by the French administration 
 ## Stack
 
 - Infra:
-  - docker
+  - Docker
+  - GitHub Actions
 - Backend:
   - Kotlin
-  - Spring
-- PostgreSQL 15 with postgis extension
+  - Spring-boot
+- Database:
+  - PostgreSQL 15
+  - Postgis extension
 - Frontend:
   - React (Vite)
   - Monitor-ui design system
 
 ## Development process
+
+### Before starting
+
+Before trying to run the project, make sure you have:
+
+- installed Postgres 15 with Postgis extension
+- created the `rapportnavdb` database with the right users and passwords
+- created a `metabase` schema
+
+### Running the project
 
 From the root dir, the following commands are available:
 

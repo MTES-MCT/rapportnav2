@@ -18,8 +18,8 @@ data class ActionStatus(
         return NavAction(
             id = id,
             missionId = missionId,
-            actionStartDateTimeUtc = startDateTimeUtc,
-            actionEndDateTimeUtc = null,
+            startDateTimeUtc = startDateTimeUtc,
+            endDateTimeUtc = null,
             actionType = ActionType.STATUS,
             statusAction = this
         )
