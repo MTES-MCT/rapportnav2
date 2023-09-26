@@ -15,7 +15,7 @@ ARG VERSION
 
 WORKDIR /tmp/backend
 COPY backend/pom.xml pom.xml
-RUN mvn dependency:go-offline -DproxySet=true -Dhttp.proxyHost=172.27.229.197 -Dhttp.proxyPort=8090 -B
+RUN mvn dependency:go-offline -B -Dhttp.proxyHost=172.27.229.197 -Dhttp.proxyPort=8090
 
 COPY backend/ /tmp/backend
 COPY backend/pom.xml /tmp/backend/POM_WITH_ENV_VARS
