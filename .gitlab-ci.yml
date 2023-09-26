@@ -10,7 +10,7 @@ variables:
     value: rapportnav-v2
     description: "Nom du projet à déployer"
   PROJECT_VERSION:
-    value: 0.0.0.13
+    value: 0.0.0.14
     description: "Version du projet à déployer"
   PROJECT_ENV:
     value: "int"
