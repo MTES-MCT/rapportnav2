@@ -36,3 +36,15 @@ The following checks are performed through Github Actions:
   - backend: [OWASP Dependency-Check](https://mvnrepository.com/artifact/org.owasp/dependency-check-maven)
 - vulnerabilities: [CodeQL from GitHub](https://codeql.github.com/)
 - container scan: [Trivy](https://www.aquasec.com/products/trivy/)
+
+## Deployment
+
+Pre-requisites:
+As we are mirroring our repo onto our hoster's repo, who can also provide changes and commits, make sure to align the two repos before deploying:
+
+- add mirror if you haven't: `git remote add mirror https://gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2.git`
+- fetch changes: `git fetch mirror`
+- pull changes if existing: `git pull mirror main`
+- push to this repo if necessary
+- finally, prepare your release by creating a GitHub Release
+- check the running `release` Action
