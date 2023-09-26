@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.C
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlNavigationRulesModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlVesselAdministrativeModel
 import jakarta.persistence.*
+import org.locationtech.jts.geom.MultiPolygon
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -24,6 +25,21 @@ data class ActionControlModel(
 
     @Column(name = "end_datetime_utc", nullable = true)
     var endDateTimeUtc: ZonedDateTime,
+
+    @Column(name = "geom", nullable = true)
+    var geom: MultiPolygon? = null,
+
+    @Column(name = "observations", nullable = true)
+    var observations: String,
+
+    @Column(name = "vessel_identifier", nullable = true)
+    var vesselIdentifier: String,
+
+    @Column(name = "vessel_size", nullable = true)
+    var vesselSize: String,
+
+    @Column(name = "identity_controlled_person", nullable = true)
+    var identityControlledPerson: String,
 
     @OneToOne(mappedBy = "actionControl")
     @JoinColumn(name = "action_control_id")
@@ -47,6 +63,11 @@ data class ActionControlModel(
             missionId = missionId,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
+            geom = geom,
+            observations = observations,
+            vesselIdentifier = vesselIdentifier,
+            vesselSize = vesselSize,
+            identityControlledPerson = identityControlledPerson,
             controlsVesselAdministrative = controlsVesselAdministrative?.toControlVesselAdministrative(),
             controlsGensDeMer = controlsGensDeMer?.toControlGensDeMer(),
             controlsNavigationRules = controlsNavigationRules?.toControlNavigationRules(),
