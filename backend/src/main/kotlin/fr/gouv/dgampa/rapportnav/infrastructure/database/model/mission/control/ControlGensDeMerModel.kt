@@ -31,6 +31,9 @@ data class ControlGensDeMerModel(
     @Column(name = "knowledge_of_french_law_and_language", nullable = true)
     var knowledgeOfFrenchLawAndLanguage: Boolean? = null,
 
+    @Column(name = "observations", nullable = true)
+    var observations: String? = null,
+
     @OneToOne
     @JoinColumn(name = "action_control_id", referencedColumnName = "id")
     @JsonIgnore
@@ -43,6 +46,7 @@ data class ControlGensDeMerModel(
         confirmed = confirmed,
         staffOutnumbered = staffOutnumbered,
         upToDateMedicalCheck = upToDateMedicalCheck,
-        knowledgeOfFrenchLawAndLanguage = knowledgeOfFrenchLawAndLanguage
+        knowledgeOfFrenchLawAndLanguage = knowledgeOfFrenchLawAndLanguage,
+        observations = observations
     )
 }

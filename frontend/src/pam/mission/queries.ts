@@ -39,31 +39,34 @@ export const GET_MISSION_BY_ID = gql`
             }
             controlAction {
               id
+              controlMethod
               vesselIdentifier
               vesselType
               vesselSize
               observations
               identityControlledPerson
-              controlsVesselAdministrative {
+              controlAdministrative {
                 id
                 confirmed
                 compliantOperatingPermit
                 upToDateNavigationPermit
                 compliantSecurityDocuments
+                observations
               }
-              controlsGensDeMer {
+              controlGensDeMer {
                 id
                 confirmed
                 staffOutnumbered
                 upToDateMedicalCheck
                 knowledgeOfFrenchLawAndLanguage
+                observations
               }
-              controlsNavigationRules {
+              controlNavigation {
                 id
                 confirmed
                 observations
               }
-              controlsEquipmentAndSecurity {
+              controlSecurity {
                 id
                 confirmed
                 observations

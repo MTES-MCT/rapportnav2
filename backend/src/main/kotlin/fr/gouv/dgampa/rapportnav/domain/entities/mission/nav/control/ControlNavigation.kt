@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control
 
 import java.util.*
 
-data class ControlEquipmentAndSecurity(
+data class ControlNavigation(
     val id: UUID,
     val missionId: Int,
     val actionControlId: UUID,

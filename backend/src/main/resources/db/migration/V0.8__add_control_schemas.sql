@@ -9,34 +9,35 @@ BEGIN
             staff_outnumbered BOOLEAN,
             up_to_date_medical_check BOOLEAN,
             knowledge_of_french_law_and_language BOOLEAN,
+            observations TEXT,
             CONSTRAINT fk_control_gens_de_mer_action_id FOREIGN KEY (action_control_id) REFERENCES mission_action_control(id)
         );
     END IF;
 
-    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'control_equipment_security') THEN
-        CREATE TABLE control_equipment_security (
+    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'control_security') THEN
+        CREATE TABLE control_security (
             id UUID PRIMARY KEY,
             mission_id INT NOT NULL,
             action_control_id UUID NOT NULL,
             confirmed BOOLEAN,
             observations TEXT,
-            CONSTRAINT fk_control_equipment_security_action_id FOREIGN KEY (action_control_id) REFERENCES mission_action_control(id)
+            CONSTRAINT fk_control_security_action_id FOREIGN KEY (action_control_id) REFERENCES mission_action_control(id)
         );
     END IF;
 
-    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'control_navigation_rules') THEN
-        CREATE TABLE control_navigation_rules (
+    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'control_navigation') THEN
+        CREATE TABLE control_navigation (
             id UUID PRIMARY KEY,
             mission_id INT NOT NULL,
             action_control_id UUID NOT NULL,
             confirmed BOOLEAN,
             observations TEXT,
-            CONSTRAINT fk_control_navigation_rules_action_id FOREIGN KEY (action_control_id) REFERENCES mission_action_control(id)
+            CONSTRAINT fk_control_navigation_action_id FOREIGN KEY (action_control_id) REFERENCES mission_action_control(id)
         );
     END IF;
 
-    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'control_administrative_vessel') THEN
-        CREATE TABLE control_administrative_vessel (
+    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'control_administrative') THEN
+        CREATE TABLE control_administrative (
             id UUID PRIMARY KEY,
             mission_id INT NOT NULL,
             action_control_id UUID NOT NULL,
@@ -44,7 +45,8 @@ BEGIN
             compliant_operating_permit BOOLEAN,
             up_to_date_navigation_permit BOOLEAN,
             compliant_security_documents BOOLEAN,
-            CONSTRAINT fk_control_administrative_vessel_action_id FOREIGN KEY (action_control_id) REFERENCES mission_action_control(id)
+            observations TEXT,
+            CONSTRAINT fk_control_administrative_action_id FOREIGN KEY (action_control_id) REFERENCES mission_action_control(id)
         );
     END IF;
 

@@ -11,13 +11,14 @@ import {
   TextInput,
   Textarea
 } from '@mtes-mct/monitor-ui'
-import { ControlTargetText, NavAction, VESSEL_SIZE_OPTIONS } from '../../mission-types'
-import { Panel, PanelGroup, Stack } from 'rsuite'
+import { NavAction, VESSEL_SIZE_OPTIONS } from '../../mission-types'
+import { Panel, Stack } from 'rsuite'
 import Title from '../../../ui/title'
-import ControlNavigationRulesForm from '../controls/control-navigation-rules-form'
-import ControlEquipmentAndSecurityForm from '../controls/control-equipment-and-security-form'
-import ControlVesselAdministrativeForm from '../controls/control-administrative-form'
 import ControlGensDeMerForm from '../controls/control-gens-de-mer-form'
+import ControlNavigationForm from '../controls/control-navigation-form'
+import ControlAdministrativeForm from '../controls/control-administrative-form'
+import ControlSecurityForm from '../controls/control-security-form'
+import { formatDateTimeForFrenchHumans } from '../../../dates'
 
 interface ActionControlNavProps {
   action: NavAction
@@ -36,10 +37,14 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
           <Stack.Item grow={2}>
             <Stack direction="column" alignItems="flex-start">
               <Stack.Item>
-                <Title as="h2">Contrôles</Title>
+                <Title as="h2">
+                  Contrôles {action.startDateTimeUtc && `(${formatDateTimeForFrenchHumans(action.startDateTimeUtc)})`}
+                </Title>
               </Stack.Item>
               <Stack.Item>
-                <Title as="h2">{control.vesselType}</Title>
+                <Title as="h2">
+                  {control.controlMethod} - {control.vesselType}
+                </Title>
               </Stack.Item>
             </Stack>
           </Stack.Item>
@@ -78,7 +83,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
       {/* DATE FIELDS */}
       <Stack.Item>
         <DateRangePicker
-          defaultValue={[action.startDateTimeUtc, action.endDateTimeUtc]}
+          defaultValue={[action.startDateTimeUtc || new Date(), action.endDateTimeUtc || new Date()]}
           label="Date et heure de début et de fin"
           withTime={true}
           isCompact={true}
@@ -121,7 +126,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
               collapsible
               style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
             >
-              <ControlVesselAdministrativeForm data={control.controlsVesselAdministrative} />{' '}
+              <ControlAdministrativeForm data={control.controlAdministrative} />{' '}
             </Panel>
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
@@ -134,7 +139,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
               collapsible
               style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
             >
-              <ControlNavigationRulesForm data={control.controlsNavigationRules} />
+              <ControlNavigationForm data={control.controlNavigation} />
             </Panel>
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
@@ -147,7 +152,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
               collapsible
               style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
             >
-              <ControlGensDeMerForm data={control.controlsGensDeMer} />
+              <ControlGensDeMerForm data={control.controlGensDeMer} />
             </Panel>
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
@@ -160,7 +165,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
               collapsible
               style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
             >
-              <ControlEquipmentAndSecurityForm data={control.controlsNavigationRules} />
+              <ControlSecurityForm data={control.controlNavigation} />
             </Panel>
           </Stack.Item>
         </Stack>

@@ -56,6 +56,12 @@ export const VESSEL_SIZE_OPTIONS = [
     value: VesselSize.MORE_THAN_46m
   }
 ]
+
+export enum ControlMethod {
+  'SEA' = 'SEA',
+  'AIR' = 'AIR',
+  'LAND' = 'LAND'
+}
 export type NavAction = {
   id: number
   actionType: any
@@ -86,18 +92,19 @@ export type ActionStatus = {
 }
 
 export type ControlAction = {
+  controlMethod?: ControlMethod
   vesselIdentifier?: string
   vesselType?: VesselType
   vesselSize?: VesselSize
   observations?: string
   identityControlledPerson?: string
-  controlsVesselAdministrative?: ControlVesselAdministrative
-  controlsGensDeMer?: ControlGensDeMer
-  controlsNavigationRules?: ControlNavigationRules
-  controlsEquipmentAndSecurity?: ControlEquipmentAndSecurity
+  controlAdministrative?: ControlAdministrative
+  controlGensDeMer?: ControlGensDeMer
+  controlNavigation?: ControlNavigation
+  controlSecurity?: ControlSecurity
 }
 
-export type ControlVesselAdministrative = {
+export type ControlAdministrative = {
   id: String
   confirmed?: boolean
   compliantOperatingPermit?: boolean
@@ -113,12 +120,12 @@ export type ControlGensDeMer = {
   knowledgeOfFrenchLawAndLanguage?: boolean
   observations?: string
 }
-export type ControlNavigationRules = {
+export type ControlNavigation = {
   id: String
   confirmed?: boolean
   observations?: string
 }
-export type ControlEquipmentAndSecurity = {
+export type ControlSecurity = {
   id: String
   confirmed?: boolean
   observations?: string

@@ -1,13 +1,13 @@
 import { Stack } from 'rsuite'
-import { ControlVesselAdministrative } from '../../mission-types'
+import { ControlAdministrative } from '../../mission-types'
 import { THEME, Icon, Button, Accent, Size, Textarea, MultiRadio } from '@mtes-mct/monitor-ui'
 import { CONTROL_MULTIRADIO_OPTIONS } from './utils'
 
-interface ControlVesselAdministrativeFormProps {
-  data?: ControlVesselAdministrative
+interface ControlAdministrativeFormProps {
+  data?: ControlAdministrative
 }
 
-const ControlVesselAdministrativeForm: React.FC<ControlVesselAdministrativeFormProps> = ({ data }) => {
+const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({ data }) => {
   return (
     <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
@@ -55,4 +55,4 @@ const ControlVesselAdministrativeForm: React.FC<ControlVesselAdministrativeFormP
   )
 }
 
-export default ControlVesselAdministrativeForm
+export default ControlAdministrativeForm

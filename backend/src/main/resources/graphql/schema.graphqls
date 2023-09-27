@@ -62,16 +62,23 @@ enum ActionStatusReason {
 
 type ActionControl {
   id: String!
+  controlMethod: ControlMethod
   #  geom: String
   vesselType: VesselType
   vesselIdentifier: String
   vesselSize: VesselSize
   identityControlledPerson: String
   observations: String
-  controlsVesselAdministrative: ControlVesselAdministrative
-  controlsGensDeMer: ControlGensDeMer
-  controlsNavigationRules: ControlNavigationRules
-  controlsEquipmentAndSecurity: ControlEquipmentAndSecurity
+  controlAdministrative: ControlAdministrative
+  controlGensDeMer: ControlGensDeMer
+  controlNavigation: ControlNavigation
+  controlSecurity: ControlSecurity
+}
+
+enum ControlMethod {
+  SEA
+  AIR
+  LAND
 }
 
 enum VesselType {
@@ -87,24 +94,25 @@ enum VesselSize {
   MORE_THAN_46m
 }
 
-type ControlNavigationRules {
+type ControlNavigation {
   id: String!
   confirmed: Boolean
   observations: String
 }
 
-type ControlEquipmentAndSecurity {
+type ControlSecurity {
   id: String!
   confirmed: Boolean
   observations: String
 }
 
-type ControlVesselAdministrative {
+type ControlAdministrative {
   id: String!
   confirmed: Boolean
   compliantOperatingPermit: Boolean
   upToDateNavigationPermit: Boolean
   compliantSecurityDocuments: Boolean
+  observations: String
 }
 
 type ControlGensDeMer {
@@ -113,6 +121,7 @@ type ControlGensDeMer {
   staffOutnumbered: Boolean
   upToDateMedicalCheck: Boolean
   knowledgeOfFrenchLawAndLanguage: Boolean
+  observations: String
 }
 
 enum ActionType {
