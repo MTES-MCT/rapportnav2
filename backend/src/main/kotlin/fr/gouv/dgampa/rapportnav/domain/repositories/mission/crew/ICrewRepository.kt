@@ -1,8 +1,8 @@
 package fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.CrewEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.Crew
 
 
 interface ICrewRepository {
-    fun findAllCrew( ): List<CrewEntity>
+    fun findAllCrew( ): List<Crew>
 }
