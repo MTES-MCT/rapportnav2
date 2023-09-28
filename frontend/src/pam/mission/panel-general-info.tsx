@@ -1,6 +1,6 @@
 import React from 'react'
 import { FlexboxGrid, Panel, Stack } from 'rsuite'
-import { THEME, DatePicker } from '@mtes-mct/monitor-ui'
+import { THEME, DateRangePicker } from '@mtes-mct/monitor-ui'
 import Title from '../../ui/title'
 
 interface MissionGeneralInfoPanelProps {
@@ -22,27 +22,13 @@ const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({ start
       <FlexboxGrid>
         <FlexboxGrid.Item>
           <Stack direction="column" alignItems="flex-start">
-            <Stack.Item style={{ paddingBottom: '0.5rem' }}>
-              <Title as="h3" color={THEME.color.slateGray}>
-                Dates du rapport
-              </Title>
-            </Stack.Item>
             <Stack.Item>
-              <Stack direction="row">
-                <Stack.Item>
-                  <DatePicker
-                    defaultValue={startDate}
-                    error=""
-                    onChange={function noRefCheck() {}}
-                    withTime
-                    isCompact
-                  />
-                </Stack.Item>
-                <Stack.Item style={{ paddingLeft: '0.5rem' }}>au</Stack.Item>
-                <Stack.Item style={{ paddingLeft: '0.5rem' }}>
-                  <DatePicker defaultValue={endDate} error="" onChange={function noRefCheck() {}} withTime isCompact />
-                </Stack.Item>
-              </Stack>
+              <DateRangePicker
+                defaultValue={[startDate || new Date(), endDate || new Date()]}
+                label="Dates du rapport"
+                withTime={true}
+                isCompact={true}
+              />
             </Stack.Item>
           </Stack>
         </FlexboxGrid.Item>

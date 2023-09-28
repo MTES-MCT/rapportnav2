@@ -22,14 +22,14 @@ export default function Mission() {
   const { missionId } = useParams()
 
   const apolloClient = useApolloClient()
-
+  debugger
   let navigate = useNavigate()
   const [selectedAction, setSelectedAction] = useState<Action | undefined>(undefined)
   const [showControlTypesModal, setShowControlTypesModal] = useState<boolean>(false)
 
   const { loading, error, data, refetch, updateQuery } = useQuery(GET_MISSION_BY_ID, {
-    variables: { missionId },
-    fetchPolicy: 'cache-only'
+    variables: { missionId }
+    // fetchPolicy: 'cache-only'
   })
   // const [queryRef] = useBackgroundQuery(GET_ACTIONS_BY_MISSION_ID, { variables: { missionId } })
   // debugger
