@@ -1,0 +1,29 @@
+type ControlNavigation {
+  id: String!
+  confirmed: Boolean
+  observations: String
+}
+
+type ControlSecurity {
+  id: String!
+  confirmed: Boolean
+  observations: String
+}
+
+type ControlAdministrative {
+  id: String!
+  confirmed: Boolean
+  compliantOperatingPermit: Boolean
+  upToDateNavigationPermit: Boolean
+  compliantSecurityDocuments: Boolean
+  observations: String
+}
+
+type ControlGensDeMer {
+  id: String!
+  confirmed: Boolean
+  staffOutnumbered: Boolean
+  upToDateMedicalCheck: Boolean
+  knowledgeOfFrenchLawAndLanguage: Boolean
+  observations: String
+}

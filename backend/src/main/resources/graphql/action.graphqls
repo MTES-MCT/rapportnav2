@@ -1,24 +1,3 @@
-type Query {
-  missions(userId: ID): [Mission]!
-  mission(missionId: ID): Mission!
-}
-
-type Mission {
-  id: ID!
-  isClosed: Boolean!
-  missionSource: String!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String!
-  actions: [Action]
-}
-
-enum MissionSource {
-  MONITORENV
-  MONITORFISH
-  POSEIDON_CACEM
-  POSEIDON_CNSP
-  RAPPORTNAV
-}
 
 type Action {
   id: String
@@ -30,22 +9,19 @@ type Action {
   data: ActionData
 }
 
+enum MissionSource {
+  MONITORENV
+  MONITORFISH
+  POSEIDON_CACEM
+  POSEIDON_CNSP
+  RAPPORTNAV
+}
+
 union ActionData =
     FishActionData
   | EnvActionData
   | NavActionControl
   | NavActionStatus
-
-#union NavActionData = ActionControl | ActionStatus
-
-#type NavActionData {
-#  id: String!
-#  startDateTimeUtc: String!
-#  endDateTimeUtc: String
-#  actionType: ActionType
-#  controlAction: ActionControl
-#  statusAction: ActionStatus
-#}
 
 type NavActionStatus {
   statusAction: NavActionStatus
@@ -106,36 +82,6 @@ enum VesselSize {
   MORE_THAN_46m
 }
 
-type ControlNavigation {
-  id: String!
-  confirmed: Boolean
-  observations: String
-}
-
-type ControlSecurity {
-  id: String!
-  confirmed: Boolean
-  observations: String
-}
-
-type ControlAdministrative {
-  id: String!
-  confirmed: Boolean
-  compliantOperatingPermit: Boolean
-  upToDateNavigationPermit: Boolean
-  compliantSecurityDocuments: Boolean
-  observations: String
-}
-
-type ControlGensDeMer {
-  id: String!
-  confirmed: Boolean
-  staffOutnumbered: Boolean
-  upToDateMedicalCheck: Boolean
-  knowledgeOfFrenchLawAndLanguage: Boolean
-  observations: String
-}
-
 enum ActionType {
   CONTROL
   SURVEILLANCE
@@ -190,11 +136,4 @@ enum VehicleTypeEnum {
   OTHER_SEA
   VEHICLE_LAND
   VEHICLE_AIR
-}
-
-type User {
-  id: ID
-  name: String!
-  email: String!
-  token: String
 }
