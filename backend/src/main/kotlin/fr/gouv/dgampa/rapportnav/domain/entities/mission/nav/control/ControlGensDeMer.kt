@@ -10,4 +10,5 @@ data class ControlGensDeMer(
     val staffOutnumbered: Boolean?,
     val upToDateMedicalCheck: Boolean?,
     val knowledgeOfFrenchLawAndLanguage: Boolean?,
+    val observations: String?,
 )

@@ -1,3 +1,7 @@
+type Query {
+  missions(userId: ID): [Mission]!
+  mission(missionId: ID): Mission!
+}
 
 type Mission {
   id: ID!
@@ -26,18 +30,25 @@ type Action {
   data: ActionData
 }
 
-union ActionData = FishActionData | EnvActionData | NavActionData
+union ActionData =
+    FishActionData
+  | EnvActionData
+  | NavActionControl
+  | NavActionStatus
 
-type NavActionData {
-  id: String!
-  actionStartDateTimeUtc: String!
-  actionEndDateTimeUtc: String
-  actionType: ActionType
-  controlAction: ActionControl
-  statusAction: ActionStatus
-}
+#union NavActionData = ActionControl | ActionStatus
 
-type ActionStatus {
+#type NavActionData {
+#  id: String!
+#  startDateTimeUtc: String!
+#  endDateTimeUtc: String
+#  actionType: ActionType
+#  controlAction: ActionControl
+#  statusAction: ActionStatus
+#}
+
+type NavActionStatus {
+  statusAction: NavActionStatus
   id: String!
   startDateTimeUtc: String!
   status: ActionStatusType!
@@ -61,32 +72,59 @@ enum ActionStatusReason {
   OTHER
 }
 
-type ActionControl {
+type NavActionControl {
   id: String!
-  controlsVesselAdministrative: ControlVesselAdministrative
-  controlsGensDeMer: ControlGensDeMer
-  controlsNavigationRules: ControlNavigationRules
-  controlsEquipmentAndSecurity: ControlEquipmentAndSecurity
+  controlMethod: ControlMethod
+  #  geom: String
+  vesselType: VesselType
+  vesselIdentifier: String
+  vesselSize: VesselSize
+  identityControlledPerson: String
+  observations: String
+  controlAdministrative: ControlAdministrative
+  controlGensDeMer: ControlGensDeMer
+  controlNavigation: ControlNavigation
+  controlSecurity: ControlSecurity
 }
 
-type ControlNavigationRules {
+enum ControlMethod {
+  SEA
+  AIR
+  LAND
+}
+
+enum VesselType {
+  FISHING
+  SAILING
+  MOTOR
+  COMMERCIAL
+}
+enum VesselSize {
+  LESS_THAN_12m
+  FROM_12_TO_24m
+  FROM_24_TO_46m
+  MORE_THAN_46m
+}
+
+type ControlNavigation {
   id: String!
   confirmed: Boolean
   observations: String
 }
 
-type ControlEquipmentAndSecurity {
+type ControlSecurity {
   id: String!
   confirmed: Boolean
   observations: String
 }
 
-type ControlVesselAdministrative {
+type ControlAdministrative {
   id: String!
   confirmed: Boolean
   compliantOperatingPermit: Boolean
   upToDateNavigationPermit: Boolean
   compliantSecurityDocuments: Boolean
+  observations: String
 }
 
 type ControlGensDeMer {
@@ -95,6 +133,7 @@ type ControlGensDeMer {
   staffOutnumbered: Boolean
   upToDateMedicalCheck: Boolean
   knowledgeOfFrenchLawAndLanguage: Boolean
+  observations: String
 }
 
 enum ActionType {
@@ -121,7 +160,7 @@ type EnvActionData {
 }
 
 type FishActionData {
-  id: String
+  id: String!
   actionDatetimeUtc: String!
   facade: String
 }
@@ -158,9 +197,4 @@ type User {
   name: String!
   email: String!
   token: String
-}
-
-type Query {
-  missions(userId: ID): [Mission]!
-  missionById(missionId: ID): Mission!
 }

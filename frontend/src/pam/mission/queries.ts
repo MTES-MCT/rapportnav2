@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 
 export const GET_MISSION_BY_ID = gql`
   query GetMissionById($missionId: ID) {
-    missionById(missionId: $missionId) {
+    mission(missionId: $missionId) {
       id
       missionSource
       startDateTimeUtc
@@ -28,41 +28,46 @@ export const GET_MISSION_BY_ID = gql`
               subThemes
             }
           }
-          ... on NavActionData {
+          ... on NavActionStatus {
             id
-            actionType
-            statusAction {
-              status
-              reason
-              isStart
+            status
+            reason
+            isStart
+            observations
+          }
+          ... on NavActionControl {
+            id
+            controlMethod
+            vesselIdentifier
+            vesselType
+            vesselSize
+            observations
+            identityControlledPerson
+            controlAdministrative {
+              id
+              confirmed
+              compliantOperatingPermit
+              upToDateNavigationPermit
+              compliantSecurityDocuments
               observations
             }
-            controlAction {
+            controlGensDeMer {
               id
-              controlsVesselAdministrative {
-                id
-                confirmed
-                compliantOperatingPermit
-                upToDateNavigationPermit
-                compliantSecurityDocuments
-              }
-              controlsGensDeMer {
-                id
-                confirmed
-                staffOutnumbered
-                upToDateMedicalCheck
-                knowledgeOfFrenchLawAndLanguage
-              }
-              controlsNavigationRules {
-                id
-                confirmed
-                observations
-              }
-              controlsEquipmentAndSecurity {
-                id
-                confirmed
-                observations
-              }
+              confirmed
+              staffOutnumbered
+              upToDateMedicalCheck
+              knowledgeOfFrenchLawAndLanguage
+              observations
+            }
+            controlNavigation {
+              id
+              confirmed
+              observations
+            }
+            controlSecurity {
+              id
+              confirmed
+              observations
             }
           }
         }

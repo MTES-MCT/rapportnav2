@@ -122,10 +122,10 @@ const ActionStatus: React.FC<{ action: NavAction; onClick: any }> = ({ action, o
     <Wrapper action={action as any} onClick={onClick}>
       <Stack alignItems="center" spacing="0.5rem">
         <Stack.Item>
-          <StatusColorTag status={action.statusAction.status} />
+          <StatusColorTag status={action.status} />
         </Stack.Item>
         <Stack.Item>
-          <b>{`${mapStatusToText(action.statusAction.status)} - ${action.statusAction.isStart ? 'début' : 'fin'}`}</b>
+          <b>{`${mapStatusToText(action.status)} - ${action.isStart ? 'début' : 'fin'}`}</b>
         </Stack.Item>
       </Stack>
     </Wrapper>
@@ -164,7 +164,6 @@ const MissionTimelineItem: React.FC<MissionTimelineItemProps> = ({
   onClick
   // componentMap = ActionComponentMap
 }) => {
-  console.log('ITEM action', action)
   const Component = getActionComponent(action)
   // const Component = componentMap[action.actionType]
 

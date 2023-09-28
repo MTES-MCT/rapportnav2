@@ -1,10 +1,13 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.mapStringToVesselSize
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.mapStringToVesselType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControl
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlEquipmentAndSecurityModel
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.mapStringToControlMethod
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlAdministrativeModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlGensDeMerModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlNavigationRulesModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlVesselAdministrativeModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlNavigationModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlSecurityModel
 import jakarta.persistence.*
 import java.time.ZonedDateTime
 import java.util.*
@@ -25,21 +28,42 @@ data class ActionControlModel(
     @Column(name = "end_datetime_utc", nullable = true)
     var endDateTimeUtc: ZonedDateTime,
 
-    @OneToOne(mappedBy = "actionControl")
-    @JoinColumn(name = "action_control_id")
-    var controlsVesselAdministrative: ControlVesselAdministrativeModel? = null,
+    @Column(name = "control_method", nullable = false)
+    var controlMethod: String,
+
+//    @Column(name = "geom", nullable = true)
+//    var geom: MultiPolygon? = null,
+
+    @Column(name = "vessel_identifier", nullable = false)
+    var vesselIdentifier: String,
+
+    @Column(name = "vessel_type", nullable = false)
+    var vesselType: String,
+
+    @Column(name = "vessel_size", nullable = false)
+    var vesselSize: String,
+
+    @Column(name = "identity_controlled_person", nullable = false)
+    var identityControlledPerson: String,
+
+    @Column(name = "observations", nullable = true)
+    var observations: String,
 
     @OneToOne(mappedBy = "actionControl")
     @JoinColumn(name = "action_control_id")
-    var controlsGensDeMer: ControlGensDeMerModel? = null,
+    var controlAdministrative: ControlAdministrativeModel? = null,
 
     @OneToOne(mappedBy = "actionControl")
     @JoinColumn(name = "action_control_id")
-    var controlsNavigationRules: ControlNavigationRulesModel? = null,
+    var controlGensDeMer: ControlGensDeMerModel? = null,
 
     @OneToOne(mappedBy = "actionControl")
     @JoinColumn(name = "action_control_id")
-    var controlsEquipmentAndSecurity: ControlEquipmentAndSecurityModel? = null,
+    var controlNavigation: ControlNavigationModel? = null,
+
+    @OneToOne(mappedBy = "actionControl")
+    @JoinColumn(name = "action_control_id")
+    var controlSecurity: ControlSecurityModel? = null,
 ) {
     fun toActionControl(): ActionControl {
         return ActionControl(
@@ -47,10 +71,17 @@ data class ActionControlModel(
             missionId = missionId,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
-            controlsVesselAdministrative = controlsVesselAdministrative?.toControlVesselAdministrative(),
-            controlsGensDeMer = controlsGensDeMer?.toControlGensDeMer(),
-            controlsNavigationRules = controlsNavigationRules?.toControlNavigationRules(),
-            controlsEquipmentAndSecurity = controlsEquipmentAndSecurity?.toControlEquipmentAndSecurity()
+            controlMethod = mapStringToControlMethod(controlMethod),
+//            geom = geom,
+            observations = observations,
+            vesselIdentifier = vesselIdentifier,
+            vesselType = mapStringToVesselType(vesselType),
+            vesselSize = mapStringToVesselSize(vesselSize),
+            identityControlledPerson = identityControlledPerson,
+            controlAdministrative = controlAdministrative?.toControlAdministrative(),
+            controlGensDeMer = controlGensDeMer?.toControlGensDeMer(),
+            controlNavigation = controlNavigation?.toControlNavigation(),
+            controlSecurity = controlSecurity?.toControlSecurity()
         )
     }
 

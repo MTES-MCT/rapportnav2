@@ -1,9 +1,10 @@
-package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
+package fr.gouv.dgampa.rapportnav.infrastructure.bff.model
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishAction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import java.time.ZonedDateTime
 
 data class Action2(
@@ -115,28 +116,28 @@ data class Action2(
 
 
         fun fromNavAction(navAction: NavAction): Action2 {
+            var data: ActionData? = null
+            if (navAction.statusAction != null) {
+                data = navAction.statusAction.toNavActionStatus()
+            }
+            else if (navAction.controlAction != null) {
+                data = navAction.controlAction.toNavActionControl()
+            }
             return Action2(
                 id = navAction.id,
                 missionId = navAction.missionId,
                 source = MissionSourceEnum.RAPPORTNAV,
-                startDateTimeUtc = navAction.actionStartDateTimeUtc,
-                endDateTimeUtc = navAction.actionEndDateTimeUtc,
-                data = NavActionData(
-                    id = navAction.id,
-                    actionStartDateTimeUtc = navAction.actionStartDateTimeUtc,
-                    actionEndDateTimeUtc = navAction.actionEndDateTimeUtc,
-                    actionType = navAction.actionType,
-                    controlAction = navAction.controlAction,
-                    statusAction = navAction.statusAction,
-                )
+                startDateTimeUtc = navAction.startDateTimeUtc,
+                endDateTimeUtc = navAction.endDateTimeUtc,
+                data = data
             )
         }
 
         fun sortForTimeline(allActions:  List<Action2>?): List<Action2>? {
             return allActions?.sortedWith(compareByDescending<Action2> { it.startDateTimeUtc }
-                .thenBy { it.data is NavActionData }
-                .thenBy { (it.data as? NavActionData)?.statusAction?.isStart == false }
-                .thenBy { (it.data as? NavActionData)?.statusAction?.isStart == true }
+                .thenBy { it.data is NavActionStatus }
+                .thenBy { (it.data as? NavActionStatus)?.isStart == false }
+                .thenBy { (it.data as? NavActionStatus)?.isStart == true }
             )
         }
     }

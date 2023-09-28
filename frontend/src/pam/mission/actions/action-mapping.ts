@@ -3,8 +3,8 @@ import { ActionTypeEnum } from '../../env-mission-types'
 import ActionControlEnv from './action-control-env'
 import { Action, isEnvAction, isFishAction, isNavAction } from '../../mission-types'
 import ActionControlFish from './action-control-fish'
-import { MissionActionType } from '../../fish-mission-types'
 import ActionControlNav from './action-control-nav'
+import ActionStatusForm from './action-status-form'
 
 export const getComponentForAction = (action?: Action): FC<any> | null => {
   if (!action) {
@@ -25,7 +25,7 @@ export const getComponentForAction = (action?: Action): FC<any> | null => {
       case ActionTypeEnum.SURVEILLANCE:
         return null
       case ActionTypeEnum.STATUS:
-        return null
+        return ActionStatusForm
       case ActionTypeEnum.NOTE:
         return null
       case ActionTypeEnum.CONTACT:

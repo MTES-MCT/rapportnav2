@@ -1,14 +1,14 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationRules
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import jakarta.persistence.*
 import java.util.*
 
 @Entity
-@Table(name = "control_navigation_rules")
-data class ControlNavigationRulesModel(
+@Table(name = "control_security")
+data class ControlSecurityModel(
     @Id
     @Column(name = "id", unique = true, nullable = false)
     var id: UUID,
@@ -30,7 +30,7 @@ data class ControlNavigationRulesModel(
     @JsonIgnore
     var actionControl: ActionControlModel
 ) {
-    fun toControlNavigationRules() = ControlNavigationRules(
+    fun toControlSecurity() = ControlSecurity(
         id = id,
         missionId = missionId,
         actionControlId = actionControl.id,
