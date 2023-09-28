@@ -1,3 +1,8 @@
+type Query {
+  missions(userId: ID): [Mission]!
+  mission(missionId: ID): Mission!
+}
+
 type Mission {
   id: ID!
   isClosed: Boolean!
@@ -185,9 +190,4 @@ type User {
   name: String!
   email: String!
   token: String
-}
-
-type Query {
-  missions(userId: ID): [Mission]!
-  missionById(missionId: ID): Mission!
 }

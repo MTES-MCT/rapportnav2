@@ -164,7 +164,6 @@ const MissionTimelineItem: React.FC<MissionTimelineItemProps> = ({
   onClick
   // componentMap = ActionComponentMap
 }) => {
-  console.log('ITEM action', action)
   const Component = getActionComponent(action)
   // const Component = componentMap[action.actionType]
 

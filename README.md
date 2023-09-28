@@ -14,7 +14,6 @@ RapportNav is a mission reporting tools developped by the French administration 
   - Spring-boot
 - Database:
   - PostgreSQL 15
-  - Postgis extension
 - Frontend:
   - React (Vite)
   - Monitor-ui design system
@@ -25,7 +24,7 @@ RapportNav is a mission reporting tools developped by the French administration 
 
 Before trying to run the project, make sure you have:
 
-- installed Postgres 15 with Postgis extension
+- installed Postgres 15
 - created the `rapportnavdb` database with the right users and passwords
 - created a `metabase` schema
 

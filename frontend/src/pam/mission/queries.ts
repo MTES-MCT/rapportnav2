@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 
 export const GET_MISSION_BY_ID = gql`
   query GetMissionById($missionId: ID) {
-    missionById(missionId: $missionId) {
+    mission(missionId: $missionId) {
       id
       missionSource
       startDateTimeUtc
@@ -32,6 +32,7 @@ export const GET_MISSION_BY_ID = gql`
             id
             actionType
             statusAction {
+              id
               status
               reason
               isStart

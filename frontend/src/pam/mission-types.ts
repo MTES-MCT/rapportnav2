@@ -1,6 +1,6 @@
 import { ControlUnit } from './control-unit-types'
 import { ActionTypeEnum, EnvAction, MissionSourceEnum, MissionTypeEnum, SeaFrontEnum } from './env-mission-types'
-import { FishAction, MissionActionType } from './fish-mission-types'
+import { FishAction } from './fish-mission-types'
 
 export enum ActionSource {
   'EnvAction' = 'EnvAction',
@@ -23,6 +23,33 @@ export enum ActionStatusReason {
   'HARBOUR_CONTROL' = 'HARBOUR_CONTROL',
   'OTHER' = 'OTHER'
 }
+
+export const ACTION_STATUS_REASON_OPTIONS = [
+  {
+    label: 'Maintenace',
+    value: ActionStatusReason.MAINTENANCE
+  },
+  {
+    label: 'Météo',
+    value: ActionStatusReason.WEATHER
+  },
+  {
+    label: 'Représentation',
+    value: ActionStatusReason.REPRESENTATION
+  },
+  {
+    label: 'Administration',
+    value: ActionStatusReason.ADMINISTRATION
+  },
+  {
+    label: 'Contrôle portuaire',
+    value: ActionStatusReason.HARBOUR_CONTROL
+  },
+  {
+    label: 'Autre',
+    value: ActionStatusReason.OTHER
+  }
+]
 
 export enum VesselType {
   'FISHING' = 'FISHING',
@@ -85,6 +112,7 @@ export type Action = {
 }
 
 export type ActionStatus = {
+  id: string
   status: ActionStatusType
   isStart: boolean
   reason?: ActionStatusReason
