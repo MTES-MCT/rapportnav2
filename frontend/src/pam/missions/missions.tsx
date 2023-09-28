@@ -6,9 +6,18 @@ import MissionsList from './missions-list'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@apollo/client/react'
 import { GET_MISSIONS } from './queries'
+import { GET_MISSION_BY_ID } from '../mission/queries'
 
 const Missions: React.FC = () => {
-  const { loading, error, data } = useQuery(GET_MISSIONS)
+  const { loading, error, data, client } = useQuery(GET_MISSIONS)
+
+  const prefetchMission = async (missionId: string) => {
+    const a = await client.query({
+      query: GET_MISSION_BY_ID,
+      variables: { missionId }
+    })
+    console.log('prefetch', a)
+  }
 
   if (data) {
     const missions: Mission[] = data.missions as Mission[]
@@ -44,7 +53,7 @@ const Missions: React.FC = () => {
                   </Stack.Item>
                 </Stack>
               ) : (
-                <MissionsList missions={missions} />
+                <MissionsList missions={missions} prefetchMission={prefetchMission} />
               )}
             </Stack.Item>
           </Stack>

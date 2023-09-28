@@ -7,7 +7,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum.SURVEILLANCE
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.GetLastStartedStatusForMission
@@ -59,8 +60,6 @@ class MissionController(
                 return action.data.status
             }
         }
-
-        val time = action.startDateTimeUtc
 
         // get last started status for this time and missionId
         val lastStartedStatus = getLastStartedStatusForMission.execute(missionId=action.missionId, actionStartDateTimeUtc=action.startDateTimeUtc)

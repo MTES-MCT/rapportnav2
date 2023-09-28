@@ -15,10 +15,10 @@ const StyledFooter = styled.div`
 
 interface MissionPageFooterProps {
   missionName: string
-  onClickClose: () => void
+  exitMission: () => void
 }
 
-const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionName, onClickClose }) => {
+const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionName, exitMission }) => {
   const navigate = useNavigate()
 
   const deleteMission = () => {
@@ -26,7 +26,6 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionName, onCl
     alert('Fonctionnalité pas encore implémentée')
     exitMission()
   }
-  const exitMission = () => navigate('..')
   const saveAndQuitMission = () => {
     // TODO add save
     alert('Fonctionnalité pas encore implémentée')

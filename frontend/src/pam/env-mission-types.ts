@@ -327,6 +327,7 @@ export type ResourceUnit = {
 }
 
 export type Mission<EnvAction = EnvActionControl | EnvActionSurveillance | EnvActionNote> = {
+  id: any
   closedBy: string
   controlUnits: Omit<ControlUnit, 'id'>[]
   endDateTimeUtc?: string
@@ -334,7 +335,6 @@ export type Mission<EnvAction = EnvActionControl | EnvActionSurveillance | EnvAc
   facade: SeaFrontEnum
   geom?: Record<string, any>[]
   hasMissionOrder?: boolean
-  id: number
   isClosed: boolean
   isUnderJdp?: boolean
   missionSource: MissionSourceEnum

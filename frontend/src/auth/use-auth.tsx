@@ -15,8 +15,11 @@ const useAuth = (): { isAuthenticated: boolean; logout: () => void } => {
     authToken.remove()
     // Update the state to reflect that the user is not authenticated
     setIsAuthenticated(false)
-    // reset store
+    // TODO centralise the following two lines into a class - also used elsewhere
+    // reset apollo store
     apolloClient.resetStore()
+    // flush apollo persist cache
+    apolloClient.cache.evict({})
     // Reset history to /login
     navigate('/login', { replace: true })
   }

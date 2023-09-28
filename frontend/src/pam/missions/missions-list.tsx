@@ -8,6 +8,7 @@ import React from 'react'
 
 interface MissionsListProps {
   missions: Mission[]
+  prefetchMission: (missionId: string) => void
 }
 
 const MissionStatus: React.FC<{ mission: Mission }> = ({ mission }) => {
@@ -23,7 +24,7 @@ const MissionStatus: React.FC<{ mission: Mission }> = ({ mission }) => {
   }
 }
 
-const MissionsList: React.FC<MissionsListProps> = ({ missions }) => {
+const MissionsList: React.FC<MissionsListProps> = ({ missions, prefetchMission }) => {
   return (
     <Stack direction="column" alignItems="flex-start" spacing="0.5rem" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
@@ -66,7 +67,13 @@ const MissionsList: React.FC<MissionsListProps> = ({ missions }) => {
             </FlexboxGrid.Item>
             <FlexboxGrid.Item colspan={7}></FlexboxGrid.Item>
             <FlexboxGrid.Item colspan={1}>
-              <Link to={`/pam/missions/${mission.id}`} style={{ color: THEME.color.charcoal }}>
+              <Link
+                to={`/pam/missions/${mission.id}`}
+                style={{ color: THEME.color.charcoal }}
+                onMouseOver={() => {
+                  prefetchMission(mission.id)
+                }}
+              >
                 <Icon.Edit size={20} />
               </Link>
             </FlexboxGrid.Item>

@@ -22,18 +22,14 @@ export default function Mission() {
   const { missionId } = useParams()
 
   const apolloClient = useApolloClient()
-  debugger
   let navigate = useNavigate()
   const [selectedAction, setSelectedAction] = useState<Action | undefined>(undefined)
   const [showControlTypesModal, setShowControlTypesModal] = useState<boolean>(false)
 
   const { loading, error, data, refetch, updateQuery } = useQuery(GET_MISSION_BY_ID, {
-    variables: { missionId }
-    // fetchPolicy: 'cache-only'
+    variables: { missionId },
+    fetchPolicy: 'cache-only'
   })
-  // const [queryRef] = useBackgroundQuery(GET_ACTIONS_BY_MISSION_ID, { variables: { missionId } })
-  // debugger
-  // const dataCache = useReadQuery(queryRef)
 
   const selectMissionAction = (action: Action) => {
     setSelectedAction(action)
@@ -66,35 +62,26 @@ export default function Mission() {
         observations: null
       }
     }
-    const queryData = {
-      mission: {
-        __typename: 'Mission',
-        id: missionId,
-        actions: [newAction, ...data.mission.actions]
+    // apolloClient.writeQuery({
+    //   query: GET_MISSION_BY_ID,
+    //   variables: { missionId },
+    //   data: updatedMission
+    // })
+
+    // apolloCache.updateQuery({ query: GET_MISSION_BY_ID }, data => updatedMission)
+    updateQuery((prevMission: any) => ({
+      ...prevMission,
+      ...{
+        mission: {
+          __typename: 'Mission',
+          id: missionId,
+          actions: [newAction, ...data.mission.actions]
+        }
       }
-    }
-    apolloClient.writeQuery({
-      query: GET_MISSION_BY_ID,
-      variables: { missionId },
-      data: queryData
-    })
+    }))
+    // updateQuery((prevMission: any) => updatedMission)
 
-    apolloCache.updateQuery({ query: GET_MISSION_BY_ID }, data => queryData)
-    const bite = apolloClient.readQuery({ query: GET_MISSION_BY_ID, variables: { missionId } })
-    const updateCacheAndReRenderUI = (newMission: any) => {
-      updateQuery((prevMission: any) => {
-        debugger
-        return prevMission
-      })
-    }
-    updateCacheAndReRenderUI(queryData)
-
-    // const a = await refetch({ missionId })
-    debugger
     setSelectedAction(newAction as any)
-
-    const a = await refetch({ missionId })
-    debugger
   }
 
   const addNewControl = (controlType: string, targetType: ControlTarget) => {
