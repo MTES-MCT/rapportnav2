@@ -10,7 +10,7 @@ variables:
     value: rapportnav-v2
     description: "Nom du projet à déployer"
   PROJECT_VERSION:
-    value: 0.0.0.13
+    value: 0.0.0.14
     description: "Version du projet à déployer"
   PROJECT_ENV:
     value: "int"
@@ -18,8 +18,8 @@ variables:
   SERVER_ENV:
     value: "int-rapportnav-appli01"
     description: "Serveur cible"
-  TAG_LATEST: $NEXUS_DOCKER_REPO/application-dam/$PROJECT_NAME:latest
-  TAG_VERSION: $NEXUS_DOCKER_REPO/application-dam/$PROJECT_NAME:$PROJECT_VERSION
+  TAG_LATEST: $NEXUS_DOCKER_REPO/$PROJECT_NAME:latest
+  TAG_VERSION: $NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION
   ID_PROJET_INVENTAIRE: 156
   PROJECT_PORTS:
     value: "[80:80]"
