@@ -25,7 +25,7 @@ interface ActionControlNavProps {
 }
 
 const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
-  const control = action.data.controlAction
+  const control = action.data
   return (
     <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
       {/* TITLE AND BUTTONS */}

@@ -89,17 +89,17 @@ export enum ControlMethod {
   'AIR' = 'AIR',
   'LAND' = 'LAND'
 }
-export type NavAction = {
-  id: number
-  actionType: any
-  status: ActionStatusType
-  startDateTimeUtc?: string | null
-  endDateTimeUtc?: string | null
-  data: {
-    statusAction: ActionStatus
-    controlAction: ControlAction
-  }
-}
+// export type NavAction = {
+//   id: number
+//   actionType: any
+//   status: ActionStatusType
+//   startDateTimeUtc?: string | null
+//   endDateTimeUtc?: string | null
+//   data: {
+//     statusAction: ActionStatus
+//     controlAction: ControlAction
+//   }
+// }
 export type Action = {
   id?: any
   missionId: number
@@ -108,7 +108,7 @@ export type Action = {
   status: ActionStatusType
   startDateTimeUtc?: string
   endDateTimeUtc?: string
-  data: [EnvAction | FishAction | NavAction]
+  data: [EnvAction | FishAction | ActionStatus | ControlAction]
 }
 
 export type ActionStatus = {

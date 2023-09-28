@@ -11,7 +11,7 @@ interface ActionStatusFormProps {
 }
 
 const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
-  const status: ActionStatus = action.data?.statusAction ?? {}
+  const status: ActionStatus = action.data || {}
   return (
     <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
       {/* TITLE AND BUTTONS */}

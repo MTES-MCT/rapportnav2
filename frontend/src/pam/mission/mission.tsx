@@ -14,7 +14,7 @@ import ActionSelectionDropdown from './actions/action-selection-dropdown'
 import { ActionTypeEnum, MissionSourceEnum } from '../env-mission-types'
 import ControlSelection from './controls/control-selection'
 import { useApolloClient, useBackgroundQuery, useQuery, useReadQuery } from '@apollo/client'
-import { GET_MISSION_BY_ID, GET_ACTIONS_BY_MISSION_ID } from './queries'
+import { GET_MISSION_BY_ID } from './queries'
 import StatusSelectionDropdown from './status/status-selection-dropdown'
 import { apolloCache } from '../../apollo-client'
 

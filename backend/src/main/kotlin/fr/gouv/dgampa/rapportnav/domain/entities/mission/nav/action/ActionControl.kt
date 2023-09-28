@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.NavActionControl
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -12,7 +13,6 @@ data class ActionControl(
     val startDateTimeUtc: ZonedDateTime,
     val endDateTimeUtc: ZonedDateTime?,
     val controlMethod: ControlMethod?,
-//    val geom: MultiPolygon? = null,
     val observations: String? = null,
     val vesselIdentifier: String? = null,
     val vesselType: VesselTypeEnum? = null,
@@ -31,6 +31,25 @@ data class ActionControl(
             endDateTimeUtc = endDateTimeUtc,
             actionType = ActionType.CONTROL,
             controlAction = this
+        )
+    }
+
+    fun toNavActionControl(): NavActionControl {
+        return NavActionControl(
+            id = id,
+            missionId = missionId,
+            startDateTimeUtc = startDateTimeUtc,
+            endDateTimeUtc = endDateTimeUtc,
+            controlMethod = controlMethod,
+            observations = observations,
+            vesselIdentifier = vesselIdentifier,
+            vesselType = vesselType,
+            vesselSize = vesselSize,
+            identityControlledPerson = identityControlledPerson,
+            controlAdministrative = controlAdministrative,
+            controlGensDeMer = controlGensDeMer,
+            controlNavigation = controlNavigation,
+            controlSecurity = controlSecurity,
         )
     }
 }

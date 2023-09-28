@@ -1,8 +1,11 @@
-package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
+package fr.gouv.dgampa.rapportnav.infrastructure.bff.model
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusReason
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import org.locationtech.jts.geom.Geometry
 import java.time.ZonedDateTime
 import java.util.*
@@ -75,9 +78,37 @@ data class FishActionData(
     val hasSomeSpeciesSeized: Boolean
 ) : ActionData()
 
-data class NavActionData(
-    val id: UUID?,
-    val actionType: ActionType,
-    val controlAction: ActionControl? = null,
-    val statusAction: ActionStatus? = null
+
+
+data class NavActionStatus(
+    val id: UUID,
+    val missionId: Int,
+    val startDateTimeUtc: ZonedDateTime,
+    val status: ActionStatusType,
+    val reason: ActionStatusReason?,
+    val isStart: Boolean,
+    val observations: String?
 ) : ActionData()
+data class NavActionControl(
+    val id: UUID,
+    val missionId: Int,
+    val startDateTimeUtc: ZonedDateTime,
+    val endDateTimeUtc: ZonedDateTime?,
+    val controlMethod: ControlMethod?,
+    val observations: String? = null,
+    val vesselIdentifier: String? = null,
+    val vesselType: VesselTypeEnum? = null,
+    val vesselSize: VesselSizeEnum? = null,
+    val identityControlledPerson: String? = null,
+    val controlAdministrative: ControlAdministrative?,
+    val controlGensDeMer: ControlGensDeMer?,
+    val controlNavigation: ControlNavigation?,
+    val controlSecurity: ControlSecurity?
+) : ActionData()
+
+//data class NavActionData(
+//    val id: UUID?,
+//    val actionType: ActionType,
+//    val controlAction: ActionControl? = null,
+//    val statusAction: ActionStatus? = null
+//) : ActionData()

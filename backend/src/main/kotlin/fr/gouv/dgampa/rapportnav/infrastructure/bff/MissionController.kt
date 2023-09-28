@@ -11,6 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.GetLastStartedStatusForMission
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.*
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
@@ -54,9 +55,8 @@ class MissionController(
 
         // if already a status action - no need to recompute
         if (action.source == MissionSourceEnum.RAPPORTNAV) {
-            val data = action.data as NavActionData
-            if (data.statusAction?.status != null) {
-                return data.statusAction.status
+            if (action.data is NavActionStatus) {
+                return action.data.status
             }
         }
 
@@ -90,7 +90,8 @@ class MissionController(
                         ActionType.SURVEILLANCE
                     }
                 }
-                is NavActionData -> action.data.actionType
+                is NavActionControl -> ActionType.CONTROL
+                is NavActionStatus -> ActionType.STATUS
                 else -> ActionType.OTHER
 
             }

@@ -28,50 +28,46 @@ export const GET_MISSION_BY_ID = gql`
               subThemes
             }
           }
-          ... on NavActionData {
+          ... on NavActionStatus {
             id
-            actionType
-            statusAction {
+            status
+            reason
+            isStart
+            observations
+          }
+          ... on NavActionControl {
+            id
+            controlMethod
+            vesselIdentifier
+            vesselType
+            vesselSize
+            observations
+            identityControlledPerson
+            controlAdministrative {
               id
-              status
-              reason
-              isStart
+              confirmed
+              compliantOperatingPermit
+              upToDateNavigationPermit
+              compliantSecurityDocuments
               observations
             }
-            controlAction {
+            controlGensDeMer {
               id
-              controlMethod
-              vesselIdentifier
-              vesselType
-              vesselSize
+              confirmed
+              staffOutnumbered
+              upToDateMedicalCheck
+              knowledgeOfFrenchLawAndLanguage
               observations
-              identityControlledPerson
-              controlAdministrative {
-                id
-                confirmed
-                compliantOperatingPermit
-                upToDateNavigationPermit
-                compliantSecurityDocuments
-                observations
-              }
-              controlGensDeMer {
-                id
-                confirmed
-                staffOutnumbered
-                upToDateMedicalCheck
-                knowledgeOfFrenchLawAndLanguage
-                observations
-              }
-              controlNavigation {
-                id
-                confirmed
-                observations
-              }
-              controlSecurity {
-                id
-                confirmed
-                observations
-              }
+            }
+            controlNavigation {
+              id
+              confirmed
+              observations
+            }
+            controlSecurity {
+              id
+              confirmed
+              observations
             }
           }
         }

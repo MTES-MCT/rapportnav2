@@ -30,18 +30,25 @@ type Action {
   data: ActionData
 }
 
-union ActionData = FishActionData | EnvActionData | NavActionData
+union ActionData =
+    FishActionData
+  | EnvActionData
+  | NavActionControl
+  | NavActionStatus
 
-type NavActionData {
-  id: String!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
-  actionType: ActionType
-  controlAction: ActionControl
-  statusAction: ActionStatus
-}
+#union NavActionData = ActionControl | ActionStatus
 
-type ActionStatus {
+#type NavActionData {
+#  id: String!
+#  startDateTimeUtc: String!
+#  endDateTimeUtc: String
+#  actionType: ActionType
+#  controlAction: ActionControl
+#  statusAction: ActionStatus
+#}
+
+type NavActionStatus {
+  statusAction: NavActionStatus
   id: String!
   startDateTimeUtc: String!
   status: ActionStatusType!
@@ -65,7 +72,7 @@ enum ActionStatusReason {
   OTHER
 }
 
-type ActionControl {
+type NavActionControl {
   id: String!
   controlMethod: ControlMethod
   #  geom: String
@@ -153,7 +160,7 @@ type EnvActionData {
 }
 
 type FishActionData {
-  id: String
+  id: String!
   actionDatetimeUtc: String!
   facade: String
 }
