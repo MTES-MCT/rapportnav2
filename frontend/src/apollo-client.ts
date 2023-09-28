@@ -38,7 +38,8 @@ await persistCache({
 const client = new ApolloClient({
   cache: apolloCache,
   link: authLink.concat(httpLink),
-  credentials: 'include'
+  credentials: 'include',
+  connectToDevTools: true
 })
 
 export default client

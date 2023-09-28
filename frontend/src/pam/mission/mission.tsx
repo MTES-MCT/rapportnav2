@@ -27,7 +27,10 @@ export default function Mission() {
   const [selectedAction, setSelectedAction] = useState<Action | undefined>(undefined)
   const [showControlTypesModal, setShowControlTypesModal] = useState<boolean>(false)
 
-  const { loading, error, data, refetch, updateQuery } = useQuery(GET_MISSION_BY_ID, { variables: { missionId } })
+  const { loading, error, data, refetch, updateQuery } = useQuery(GET_MISSION_BY_ID, {
+    variables: { missionId },
+    fetchPolicy: 'cache-only'
+  })
   // const [queryRef] = useBackgroundQuery(GET_ACTIONS_BY_MISSION_ID, { variables: { missionId } })
   // debugger
   // const dataCache = useReadQuery(queryRef)
@@ -54,20 +57,13 @@ export default function Mission() {
       // startDateTimeUtc: new Date().toUTCString(),
       endDateTimeUtc: null,
       data: {
-        statusAction: {
-          __typename: 'NavActionData',
-          id: uuid,
-          actionType: 'STATUS',
-          statusAction: {
-            __typename: 'ActionStatus',
-            id: uuid,
-            startDateTimeUtc: '2022-02-20T04:50:09Z',
-            status: key,
-            isStart: true,
-            reason: null,
-            observations: null
-          }
-        }
+        __typename: 'NavActionStatus',
+        id: uuid,
+        startDateTimeUtc: '2022-02-20T04:50:09Z',
+        status: key,
+        isStart: true,
+        reason: null,
+        observations: null
       }
     }
     const queryData = {
@@ -77,7 +73,7 @@ export default function Mission() {
         actions: [newAction, ...data.mission.actions]
       }
     }
-    apolloCache.writeQuery({
+    apolloClient.writeQuery({
       query: GET_MISSION_BY_ID,
       variables: { missionId },
       data: queryData
