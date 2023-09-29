@@ -1,27 +1,181 @@
-import { act } from 'react-dom/test-utils'
 import { ControlUnit } from './control-unit-types'
-import { EnvAction, MissionSourceEnum, MissionTypeEnum, SeaFrontEnum } from './env-mission-types'
+import { ActionTypeEnum, EnvAction, MissionSourceEnum, MissionTypeEnum, SeaFrontEnum } from './env-mission-types'
 import { FishAction } from './fish-mission-types'
 
-export type RapportNavAction = {
-  id: number
-  actionType: any
-  actionEndDateTimeUtc?: string | null
-  actionStartDateTimeUtc?: string | null
+export enum ActionSource {
+  'EnvAction' = 'EnvAction',
+  'FishAction' = 'FishAction',
+  'NavAction' = 'NavAction'
 }
-export type MissionActions = {
-  envAction?: EnvAction
-  fishAction?: FishAction
-  rapportNavAction?: RapportNavAction
+
+export enum ActionStatusType {
+  'NAVIGATING' = 'NAVIGATING',
+  'DOCKED' = 'DOCKED',
+  'ANCHORING' = 'ANCHORING',
+  'UNAVAILABLE' = 'UNAVAILABLE'
 }
-export type MissionAction = EnvAction | FishAction | RapportNavAction
+
+export enum ActionStatusReason {
+  'MAINTENANCE' = 'MAINTENANCE',
+  'WEATHER' = 'WEATHER',
+  'REPRESENTATION' = 'REPRESENTATION',
+  'ADMINISTRATION' = 'ADMINISTRATION',
+  'HARBOUR_CONTROL' = 'HARBOUR_CONTROL',
+  'OTHER' = 'OTHER'
+}
+
+export const ACTION_STATUS_REASON_OPTIONS = [
+  {
+    label: 'Maintenace',
+    value: ActionStatusReason.MAINTENANCE
+  },
+  {
+    label: 'Météo',
+    value: ActionStatusReason.WEATHER
+  },
+  {
+    label: 'Représentation',
+    value: ActionStatusReason.REPRESENTATION
+  },
+  {
+    label: 'Administration',
+    value: ActionStatusReason.ADMINISTRATION
+  },
+  {
+    label: 'Contrôle portuaire',
+    value: ActionStatusReason.HARBOUR_CONTROL
+  },
+  {
+    label: 'Autre',
+    value: ActionStatusReason.OTHER
+  }
+]
+
+export enum VesselType {
+  'FISHING' = 'FISHING',
+  'SAILING' = 'SAILING',
+  'MOTOR' = 'MOTOR',
+  'COMMERCIAL' = 'COMMERCIAL'
+}
+
+export enum VesselSize {
+  'LESS_THAN_12m' = 'LESS_THAN_12m',
+  'FROM_12_TO_24m' = 'FROM_12_TO_24m',
+  'FROM_24_TO_46m' = 'FROM_24_TO_46m',
+  'MORE_THAN_46m' = 'MORE_THAN_46m'
+}
+
+export const VESSEL_SIZE_OPTIONS = [
+  {
+    label: 'Moins de 12m',
+    value: VesselSize.LESS_THAN_12m
+  },
+  {
+    label: 'Entre 12m et 24m',
+    value: VesselSize.FROM_12_TO_24m
+  },
+  {
+    label: 'Entre 24m et 46m',
+    value: VesselSize.FROM_24_TO_46m
+  },
+  {
+    label: 'Plus de 46m',
+    value: VesselSize.MORE_THAN_46m
+  }
+]
+
+export enum ControlMethod {
+  'SEA' = 'SEA',
+  'AIR' = 'AIR',
+  'LAND' = 'LAND'
+}
+// export type NavAction = {
+//   id: number
+//   actionType: any
+//   status: ActionStatusType
+//   startDateTimeUtc?: string | null
+//   endDateTimeUtc?: string | null
+//   data: {
+//     statusAction: ActionStatus
+//     controlAction: ControlAction
+//   }
+// }
+export type Action = {
+  id?: any
+  missionId: number
+  type: ActionTypeEnum
+  source: MissionSourceEnum
+  status: ActionStatusType
+  startDateTimeUtc?: string
+  endDateTimeUtc?: string
+  data: [EnvAction | FishAction | ActionStatus | ControlAction]
+}
+
+export type ActionStatus = {
+  id: string
+  status: ActionStatusType
+  isStart: boolean
+  reason?: ActionStatusReason
+  observations?: string
+}
+
+export type ControlAction = {
+  controlMethod?: ControlMethod
+  vesselIdentifier?: string
+  vesselType?: VesselType
+  vesselSize?: VesselSize
+  observations?: string
+  identityControlledPerson?: string
+  controlAdministrative?: ControlAdministrative
+  controlGensDeMer?: ControlGensDeMer
+  controlNavigation?: ControlNavigation
+  controlSecurity?: ControlSecurity
+}
+
+export type ControlAdministrative = {
+  id: String
+  confirmed?: boolean
+  compliantOperatingPermit?: boolean
+  upToDateNavigationPermit?: boolean
+  compliantSecurityDocuments?: boolean
+  observations?: string
+}
+export type ControlGensDeMer = {
+  id: String
+  confirmed?: boolean
+  staffOutnumbered?: boolean
+  upToDateMedicalCheck?: boolean
+  knowledgeOfFrenchLawAndLanguage?: boolean
+  observations?: string
+}
+export type ControlNavigation = {
+  id: String
+  confirmed?: boolean
+  observations?: string
+}
+export type ControlSecurity = {
+  id: String
+  confirmed?: boolean
+  observations?: string
+}
+
+export function isEnvAction(action: Action): boolean {
+  return action !== null && action.source === MissionSourceEnum.MONITORENV
+}
+
+export function isFishAction(action: Action): boolean {
+  return action !== null && action.source === MissionSourceEnum.MONITORFISH
+}
+
+export function isNavAction(action: Action): boolean {
+  return action !== null && action.source === MissionSourceEnum.RAPPORTNAV
+}
 
 export type Mission = {
   id: number
   closedBy: string
   controlUnits: Omit<ControlUnit, 'id'>[]
   endDateTimeUtc?: string
-  envActions: EnvAction[]
   facade: SeaFrontEnum
   geom?: Record<string, any>[]
   hasMissionOrder?: boolean
@@ -33,7 +187,7 @@ export type Mission = {
   observationsCnsp?: string
   openBy: string
   startDateTimeUtc: string
-  actions: MissionActions[]
+  actions: Action[]
 }
 
 export enum ControlTarget {
@@ -44,22 +198,10 @@ export enum ControlTarget {
   'PLAISANCE_LOISIR' = 'PLAISANCE_LOISIR'
 }
 
-export const getActionData = (action: MissionActions): EnvAction | FishAction | RapportNavAction => {
-  if (action.envAction) {
-    return action.envAction as EnvAction
-  } else if (action.fishAction) {
-    return action.fishAction as FishAction
-  }
-
-  return action.rapportNavAction as RapportNavAction
-}
-
-export const getActionStartTime = (action: MissionActions): string | undefined | null => {
-  if (action.envAction) {
-    return action.envAction.actionStartDateTimeUtc
-  } else if (action.fishAction) {
-    return action.fishAction.actionDatetimeUtc
-  }
-
-  return action.rapportNavAction?.actionStartDateTimeUtc
+export enum ControlTargetText {
+  'PECHE_PRO' = 'pêche professionnelle',
+  'PLAISANCE_PRO' = 'plaisance professionnelle',
+  'COMMERCE_PRO' = 'commerce',
+  'SERVICE_PRO' = 'service',
+  'PLAISANCE_LOISIR' = 'plaisance de loisir'
 }

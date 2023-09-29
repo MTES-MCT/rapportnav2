@@ -1,34 +1,37 @@
 import { Accent, Icon, Dialog, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
-
+import { v4 as uuidv4 } from 'uuid'
+import { Divider, FlexboxGrid, Stack } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Divider, FlexboxGrid, Panel, Stack } from 'rsuite'
-import { fetchMission, missionKeys, useMutateMission } from './queries'
-import { useQuery } from '@tanstack/react-query'
-import MissionGeneralInfoPanel from './mission-general-info-panel'
-import MissionOperationalSummary from './mission-operational-summary'
-import MissionActivityPanel from './mission-activity-panel'
-import MissionTimeline from './mission-timeline/mission-timeline'
+import MissionGeneralInfoPanel from './panel-general-info'
+import MissionOperationalSummaryPanel from './panel-operational-summary'
+import MissionActivityPanel from './panel-activity'
+import MissionTimeline from './timeline/timeline'
 import { useState } from 'react'
-import { getComponentForAction } from './actions/mission-action-mapping'
+import { getComponentForAction } from './actions/action-mapping'
 import Title from '../../ui/title'
-import { ControlTarget, MissionAction } from '../mission-types'
+import { ControlTarget, Action, ActionStatusType } from '../mission-types'
 import ActionSelectionDropdown from './actions/action-selection-dropdown'
-import { ActionTypeEnum } from '../env-mission-types'
+import { ActionTypeEnum, MissionSourceEnum } from '../env-mission-types'
 import ControlSelection from './controls/control-selection'
+import { useApolloClient, useBackgroundQuery, useQuery, useReadQuery } from '@apollo/client'
+import { GET_MISSION_BY_ID } from './queries'
+import StatusSelectionDropdown from './status/status-selection-dropdown'
+import { apolloCache } from '../../apollo-client'
 
 export default function Mission() {
-  const { missionsId } = useParams()
+  const { missionId } = useParams()
 
+  const apolloClient = useApolloClient()
   let navigate = useNavigate()
-  const [selectedAction, setSelectedAction] = useState<MissionAction | undefined>(undefined)
+  const [selectedAction, setSelectedAction] = useState<Action | undefined>(undefined)
   const [showControlTypesModal, setShowControlTypesModal] = useState<boolean>(false)
 
-  const fetchQuery = useQuery({
-    queryKey: missionKeys.detail(missionsId as any),
-    queryFn: () => fetchMission(missionsId as any)
+  const { loading, error, data, refetch, updateQuery } = useQuery(GET_MISSION_BY_ID, {
+    variables: { missionId },
+    fetchPolicy: 'cache-only'
   })
 
-  const selectMissionAction = (action: MissionAction) => {
+  const selectMissionAction = (action: Action) => {
     setSelectedAction(action)
   }
 
@@ -36,6 +39,49 @@ export default function Mission() {
     if (key === ActionTypeEnum.CONTROL) {
       setShowControlTypesModal(true)
     }
+  }
+
+  const addNewStatus = async (key: ActionStatusType) => {
+    const uuid = uuidv4()
+    const newAction = {
+      __typename: 'Action',
+      id: uuid,
+      type: ActionTypeEnum.STATUS,
+      source: MissionSourceEnum.RAPPORTNAV,
+      status: key,
+      startDateTimeUtc: '2022-02-20T04:50:09Z',
+      // startDateTimeUtc: new Date().toUTCString(),
+      endDateTimeUtc: null,
+      data: {
+        __typename: 'NavActionStatus',
+        id: uuid,
+        startDateTimeUtc: '2022-02-20T04:50:09Z',
+        status: key,
+        isStart: true,
+        reason: null,
+        observations: null
+      }
+    }
+    // apolloClient.writeQuery({
+    //   query: GET_MISSION_BY_ID,
+    //   variables: { missionId },
+    //   data: updatedMission
+    // })
+
+    // apolloCache.updateQuery({ query: GET_MISSION_BY_ID }, data => updatedMission)
+    updateQuery((prevMission: any) => ({
+      ...prevMission,
+      ...{
+        mission: {
+          __typename: 'Mission',
+          id: missionId,
+          actions: [newAction, ...data.mission.actions]
+        }
+      }
+    }))
+    // updateQuery((prevMission: any) => updatedMission)
+
+    setSelectedAction(newAction as any)
   }
 
   const addNewControl = (controlType: string, targetType: ControlTarget) => {
@@ -51,12 +97,12 @@ export default function Mission() {
     alert('error')
   }
 
-  const updateQuery = useMutateMission(missionsId, mutationSuccessCallback, mutationErrorCallback)
+  // const updateQuery = useMutateMission(missionId, mutationSuccessCallback, mutationErrorCallback)
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    const { text, status } = fetchQuery.data as any
-    const mission = { text, status, id: missionsId }
+    const { text, status } = data as any
+    // const mission = { text, status, id: missionId }
     // const fakeMission: MissionModel = {
     //   id: 1,
     //   text: mission!.text + Math.floor(Math.random() * 101),
@@ -64,12 +110,12 @@ export default function Mission() {
     // }
     // updateQuery.mutate(fakeMission, { onSuccess: () => navigate('/') })
   }
-  if (fetchQuery.isLoading && fetchQuery.isFetching) {
+  if (loading) {
     return <div>Loading...</div>
   }
 
-  if (fetchQuery.data) {
-    const mission = fetchQuery.data
+  if (data) {
+    const mission = data.mission
     const MissionActionComponent = getComponentForAction(selectedAction)
 
     return (
@@ -84,7 +130,7 @@ export default function Mission() {
                 <MissionActivityPanel />
               </Stack.Item>
               <Stack.Item style={{ width: '100%', padding: '1rem' }}>
-                <MissionOperationalSummary />
+                <MissionOperationalSummaryPanel />
               </Stack.Item>
             </Stack>
           </FlexboxGrid.Item>
@@ -109,19 +155,14 @@ export default function Mission() {
                     <Stack>
                       <Stack.Item>
                         <IconButton
-                          Icon={Icon.Plus}
+                          Icon={Icon.Phone}
                           accent={Accent.PRIMARY}
                           size={Size.NORMAL}
                           color={THEME.color.gainsboro}
                         />
                       </Stack.Item>
                       <Stack.Item style={{ paddingLeft: '0.5rem' }}>
-                        <IconButton
-                          Icon={Icon.FleetSegment}
-                          accent={Accent.PRIMARY}
-                          size={Size.NORMAL}
-                          color={THEME.color.gainsboro}
-                        />
+                        <StatusSelectionDropdown onSelect={addNewStatus} />
                       </Stack.Item>
                     </Stack>
                   </FlexboxGrid.Item>
@@ -136,10 +177,8 @@ export default function Mission() {
             </FlexboxGrid>
           </FlexboxGrid.Item>
           <FlexboxGrid.Item colspan={8} style={{ backgroundColor: THEME.color.gainsboro, height: '100%' }}>
-            <FlexboxGrid justify="center" align="middle">
-              <div>
-                {selectedAction && MissionActionComponent && <MissionActionComponent action={selectedAction} />}
-              </div>
+            <FlexboxGrid justify="start" align="middle" style={{ padding: '2rem' }}>
+              {selectedAction && MissionActionComponent && <MissionActionComponent action={selectedAction} />}
             </FlexboxGrid>
           </FlexboxGrid.Item>
         </FlexboxGrid>

@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.auth
 
-import fr.gouv.dgampa.rapportnav.domain.entities.user.UserEntity
-import fr.gouv.dgampa.rapportnav.domain.repositories.IUserRepository
+import fr.gouv.dgampa.rapportnav.domain.entities.user.User
+import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository
 import org.springframework.security.oauth2.jwt.*
 
 import org.springframework.stereotype.Service
@@ -19,7 +19,7 @@ class TokenService(
     private val jwtEncoder: JwtEncoder,
     private val userRepository: IUserRepository,
 ) {
-    fun createToken(user: UserEntity): String {
+    fun createToken(user: User): String {
         val jwsHeader = JwsHeader.with { "HS256" }.build()
         val claims = JwtClaimsSet.builder()
             .issuedAt(Instant.now())
@@ -30,7 +30,7 @@ class TokenService(
         return jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).tokenValue
     }
 
-    fun parseToken(token: String): UserEntity? {
+    fun parseToken(token: String): User? {
         return try {
             val jwt = jwtDecoder.decode(token)
             val userId = jwt.claims["userId"] as Long

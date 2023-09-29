@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom'
-import { httpClient } from '../http-client'
 import PageWrapper from '../ui/page-wrapper'
 import AuthToken from './token'
 import { FlexboxGrid, Stack } from 'rsuite'
 import { Accent, Button, FormikTextInput, Size } from '@mtes-mct/monitor-ui'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { validate } from 'email-validator'
+import { csrfToken } from './csrf'
 
 interface LoginResponse {
   token: string
@@ -31,7 +31,12 @@ const Login: React.FC = () => {
     { setStatus, setSubmitting }: FormikHelpers<LoginFormValues>
   ) => {
     try {
-      const response = await httpClient.post('v1/auth/login', {
+      const response = await fetch('/api/v1/auth/login', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-XSRF-TOKEN': csrfToken() ?? ''
+        },
         body: JSON.stringify({
           email,
           password
@@ -68,7 +73,7 @@ const Login: React.FC = () => {
 
   return (
     <PageWrapper>
-      <FlexboxGrid justify="center" align="middle">
+      <FlexboxGrid justify="center" align="middle" style={{ width: '100%' }}>
         <FlexboxGrid.Item style={{ marginTop: '4rem' }} colspan={5}>
           <Formik
             initialValues={initialValues}

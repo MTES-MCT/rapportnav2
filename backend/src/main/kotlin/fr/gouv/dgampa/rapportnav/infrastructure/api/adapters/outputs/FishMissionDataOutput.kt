@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.adapters.outputs
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.monitorFish.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.*
 import java.time.ZonedDateTime
 
 data class FishMissionDataOutput(

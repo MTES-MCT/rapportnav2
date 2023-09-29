@@ -3,7 +3,7 @@ import { ActionTypeEnum, missionTypeEnum } from '../../env-mission-types'
 import { Stack } from 'rsuite'
 import Title from '../../../ui/title'
 import { useState } from 'react'
-import { ControlTarget } from '../../mission-types'
+import { ControlTarget, ControlTargetText } from '../../mission-types'
 
 export const controlTypeRadio = {
   YES: {
@@ -46,7 +46,7 @@ const ControlSelection: React.FC<ControlSelectionProps> = ({ onSelect }) => {
             accent={Accent.SECONDARY}
             isFullWidth
           >
-            Contrôles de navires de <b>pêche professionnelle</b>
+            Contrôles de navires de <b>{ControlTargetText.PECHE_PRO}</b>
           </Button>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
@@ -56,7 +56,7 @@ const ControlSelection: React.FC<ControlSelectionProps> = ({ onSelect }) => {
             accent={Accent.SECONDARY}
             isFullWidth
           >
-            Contrôles de navires de <b>plaisance professionnelle</b>
+            Contrôles de navires de <b>{ControlTargetText.PLAISANCE_PRO}</b>
           </Button>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
@@ -66,7 +66,7 @@ const ControlSelection: React.FC<ControlSelectionProps> = ({ onSelect }) => {
             accent={Accent.SECONDARY}
             isFullWidth
           >
-            Contrôles de navires de <b>commerce</b>
+            Contrôles de navires de <b>{ControlTargetText.COMMERCE_PRO}</b>
           </Button>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
@@ -76,7 +76,7 @@ const ControlSelection: React.FC<ControlSelectionProps> = ({ onSelect }) => {
             accent={Accent.SECONDARY}
             isFullWidth
           >
-            Contrôles de navires de <b>service (travaux...)</b>
+            Contrôles de navires de <b>{ControlTargetText.SERVICE_PRO} (travaux...)</b>
           </Button>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
@@ -86,7 +86,7 @@ const ControlSelection: React.FC<ControlSelectionProps> = ({ onSelect }) => {
             accent={Accent.SECONDARY}
             isFullWidth
           >
-            Contrôles de navires de <b>plaisance de loisir</b>
+            Contrôles de navires de <b>{ControlTargetText.PLAISANCE_LOISIR}</b>
           </Button>
         </Stack.Item>
       </Stack>

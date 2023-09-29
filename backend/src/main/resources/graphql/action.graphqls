@@ -1,0 +1,139 @@
+
+type Action {
+  id: String
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  source: MissionSource!
+  status: ActionStatusType!
+  type: ActionType
+  data: ActionData
+}
+
+enum MissionSource {
+  MONITORENV
+  MONITORFISH
+  POSEIDON_CACEM
+  POSEIDON_CNSP
+  RAPPORTNAV
+}
+
+union ActionData =
+    FishActionData
+  | EnvActionData
+  | NavActionControl
+  | NavActionStatus
+
+type NavActionStatus {
+  statusAction: NavActionStatus
+  id: String!
+  startDateTimeUtc: String!
+  status: ActionStatusType!
+  reason: ActionStatusReason
+  isStart: Boolean!
+  observations: String
+}
+
+enum ActionStatusType {
+  NAVIGATING
+  ANCHORING
+  DOCKED
+  UNAVAILABLE
+}
+enum ActionStatusReason {
+  MAINTENANCE
+  WEATHER
+  REPRESENTATION
+  ADMINISTRATION
+  HARBOUR_CONTROL
+  OTHER
+}
+
+type NavActionControl {
+  id: String!
+  controlMethod: ControlMethod
+  #  geom: String
+  vesselType: VesselType
+  vesselIdentifier: String
+  vesselSize: VesselSize
+  identityControlledPerson: String
+  observations: String
+  controlAdministrative: ControlAdministrative
+  controlGensDeMer: ControlGensDeMer
+  controlNavigation: ControlNavigation
+  controlSecurity: ControlSecurity
+}
+
+enum ControlMethod {
+  SEA
+  AIR
+  LAND
+}
+
+enum VesselType {
+  FISHING
+  SAILING
+  MOTOR
+  COMMERCIAL
+}
+enum VesselSize {
+  LESS_THAN_12m
+  FROM_12_TO_24m
+  FROM_24_TO_46m
+  MORE_THAN_46m
+}
+
+enum ActionType {
+  CONTROL
+  SURVEILLANCE
+  CONTACT
+  NOTE
+  STATUS
+  OTHER
+}
+
+type EnvActionData {
+  id: String!
+  actionStartDateTimeUtc: String!
+  actionEndDateTimeUtc: String!
+  geom: String
+  facade: String
+  department: String
+  themes: [ThemeEntity]
+  observations: String
+  actionNumberOfControls: Int
+  actionTargetType: ActionTargetTypeEnum
+  vehicleType: VehicleTypeEnum
+}
+
+type FishActionData {
+  id: String!
+  actionDatetimeUtc: String!
+  facade: String
+}
+
+enum FishActionType {
+  SEA_CONTROL
+  LAND_CONTROL
+  AIR_CONTROL
+  AIR_SURVEILLANCE
+  OBSERVATION
+}
+
+type ThemeEntity {
+  theme: String
+  subThemes: [String]
+  protectedSpecies: [String]
+}
+
+enum ActionTargetTypeEnum {
+  VEHICLE
+  COMPANY
+  INDIVIDUAL
+}
+
+enum VehicleTypeEnum {
+  VESSEL
+  OTHER_SEA
+  VEHICLE_LAND
+  VEHICLE_AIR
+}

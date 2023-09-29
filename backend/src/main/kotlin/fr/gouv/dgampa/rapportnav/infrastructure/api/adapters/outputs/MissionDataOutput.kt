@@ -2,9 +2,9 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.adapters.outputs
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.Mission
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionAction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.monitorEnv.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.monitorEnv.MissionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.monitorEnv.controlResources.ControlUnitEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlUnitEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.ZonedDateTime
 

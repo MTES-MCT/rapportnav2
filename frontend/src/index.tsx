@@ -1,14 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { onlineManager } from '@tanstack/react-query'
 // import reportWebVitals from './report-web-vitals'
 
 import App from './app'
-
-onlineManager.setEventListener(setOnline => {
-  console.log('Network connected: ', onlineManager.isOnline())
-  return undefined
-})
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
