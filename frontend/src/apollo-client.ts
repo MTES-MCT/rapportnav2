@@ -30,10 +30,10 @@ export const apolloCache = new InMemoryCache({
   // }
 })
 
-await persistCache({
-  cache: apolloCache,
-  storage: new LocalStorageWrapper(window.localStorage)
-})
+// await persistCache({
+//   cache: apolloCache,
+//   storage: new LocalStorageWrapper(window.localStorage)
+// })
 
 const client = new ApolloClient({
   cache: apolloCache,
