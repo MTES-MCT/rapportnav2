@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.mapStringToActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.mapStringToActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.user.User
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.ActionStatusInput
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.user.UserModel
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.toStringOrNull
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -52,12 +50,12 @@ data class ActionStatusModel(
     }
 
     companion object {
-        fun fromActionStatus(statusAction: ActionStatusInput, mapper: ObjectMapper) = ActionStatusModel(
+        fun fromActionStatus(statusAction: ActionStatus, mapper: ObjectMapper) = ActionStatusModel(
             id = statusAction.id,
             missionId = statusAction.missionId,
             startDateTimeUtc = statusAction.startDateTimeUtc,
-            status = statusAction.status,
-            reason = statusAction.reason,
+            status = statusAction.status.toString(),
+            reason = statusAction.reason.toStringOrNull(),
             isStart = statusAction.isStart,
             observations = statusAction.observations,
         )

@@ -1,7 +1,6 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client'
 import AuthToken from './auth/token'
 import { setContext } from '@apollo/client/link/context'
-import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist'
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:8080/graphql'
@@ -19,21 +18,7 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
-export const apolloCache = new InMemoryCache({
-  // typePolicies: {
-  //   Mission: {
-  //     merge: true
-  //   },
-  //   Action: {
-  //     merge: true
-  //   }
-  // }
-})
-
-await persistCache({
-  cache: apolloCache,
-  storage: new LocalStorageWrapper(window.localStorage)
-})
+export const apolloCache = new InMemoryCache({})
 
 const client = new ApolloClient({
   cache: apolloCache,

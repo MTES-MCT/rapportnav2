@@ -13,16 +13,14 @@ import { ControlTarget, Action, ActionStatusType } from '../mission-types'
 import ActionSelectionDropdown from './actions/action-selection-dropdown'
 import { ActionTypeEnum, MissionSourceEnum } from '../env-mission-types'
 import ControlSelection from './controls/control-selection'
-import { useApolloClient, useBackgroundQuery, useMutation, useQuery, useReadQuery } from '@apollo/client'
+import { useApolloClient, useMutation, useQuery } from '@apollo/client'
 import { GET_MISSION_BY_ID, MUTATION_ADD_ACTION_STATUS } from './queries'
 import StatusSelectionDropdown from './status/status-selection-dropdown'
-import { apolloCache } from '../../apollo-client'
 
 export default function Mission() {
   const { missionId } = useParams()
 
   const apolloClient = useApolloClient()
-  let navigate = useNavigate()
   const [selectedAction, setSelectedAction] = useState<Action | undefined>(undefined)
   const [showControlTypesModal, setShowControlTypesModal] = useState<boolean>(false)
 
@@ -31,7 +29,9 @@ export default function Mission() {
     fetchPolicy: 'cache-only'
   })
 
-  const [addStatus, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_ACTION_STATUS)
+  const [addStatus, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_ACTION_STATUS, {
+    refetchQueries: ['GetMissionById']
+  })
 
   const selectMissionAction = (action: Action) => {
     setSelectedAction(action)
@@ -45,35 +45,25 @@ export default function Mission() {
 
   const addNewStatus = async (key: ActionStatusType) => {
     const uuid = uuidv4()
-    const newAction = {
-      __typename: 'Action',
-      id: uuid,
-      type: ActionTypeEnum.STATUS,
-      source: MissionSourceEnum.RAPPORTNAV,
-      status: key,
-      startDateTimeUtc: '2022-02-20T04:50:09Z',
-      // startDateTimeUtc: new Date().toUTCString(),
-      endDateTimeUtc: null,
-      data: {
-        __typename: 'NavActionStatus',
-        id: uuid,
-        startDateTimeUtc: '2022-02-20T04:50:09Z',
-        status: key,
-        isStart: true,
-        reason: null,
-        observations: null
-      }
-    }
-    const newAction2 = {
-      id: uuid,
-      missionId: parseInt(missionId!, 10),
-      status: key,
-      startDateTimeUtc: '2022-02-20T04:50:09Z',
-      // startDateTimeUtc: new Date().toUTCString(),
-      isStart: true,
-      reason: null,
-      observations: null
-    }
+    // const newAction = {
+    //   __typename: 'Action',
+    //   id: uuid,
+    //   type: ActionTypeEnum.STATUS,
+    //   source: MissionSourceEnum.RAPPORTNAV,
+    //   status: key,
+    //   startDateTimeUtc: '2022-02-20T04:50:09Z',
+    //   // startDateTimeUtc: new Date().toUTCString(),
+    //   endDateTimeUtc: null,
+    //   data: {
+    //     __typename: 'NavActionStatus',
+    //     id: uuid,
+    //     startDateTimeUtc: '2022-02-20T04:50:09Z',
+    //     status: key,
+    //     isStart: true,
+    //     reason: null,
+    //     observations: null
+    //   }
+    // }
     // updateQuery((prevMission: any) => ({
     //   ...prevMission,
     //   ...{
@@ -84,12 +74,22 @@ export default function Mission() {
     //     }
     //   }
     // }))
+    const newAction = {
+      id: uuid,
+      missionId: parseInt(missionId!, 10),
+      status: key,
+      startDateTimeUtc: '2022-02-20T04:50:09Z',
+      // startDateTimeUtc: new Date().toUTCString(),
+      isStart: true,
+      reason: null,
+      observations: null
+    }
+
     addStatus({
       variables: {
-        statusAction: newAction2
+        statusAction: newAction
       }
     })
-    debugger
 
     setSelectedAction(newAction as any)
   }

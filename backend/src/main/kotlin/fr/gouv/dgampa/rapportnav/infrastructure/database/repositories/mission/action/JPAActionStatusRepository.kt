@@ -2,10 +2,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.a
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatus
-import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionStatusRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionStatusModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.user.UserModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBActionStatusRepository
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
@@ -20,14 +18,12 @@ class JPAActionStatusRepository (
     override fun findAllByMissionId(missionId: Int): List<ActionStatus> {
         return dbActionStatusRepository.findAllByMissionId(missionId).map { it.toActionStatus() }
     }
-        return dbActionStatusRepository.save(statusAction)
-    }
     @Transactional
     override fun save(statusAction: ActionStatus): ActionStatus {
         return try {
-            val statusActionModel = ActionStatusModel.from(user, mapper)
-            dbUserRepository.save(userModel).toUser(mapper)
-            dbActionStatusRepository.save(statusAction)
+            val statusActionModel = ActionStatusModel.fromActionStatus(statusAction, mapper)
+//            dbUserRepository.save(statusActionModel).toUser(mapper)
+            dbActionStatusRepository.save(statusActionModel).toActionStatus()
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error adding user", e)
         }

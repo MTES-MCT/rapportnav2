@@ -11,6 +11,10 @@ enum class ActionStatusReason {
     OTHER
 }
 
+fun ActionStatusReason?.toStringOrNull(): String? {
+    return this?.name
+}
+
 fun mapStringToActionStatusReason(value: String?): ActionStatusReason? {
     if (value != null) {
         return when (value.uppercase(Locale.getDefault())) {
