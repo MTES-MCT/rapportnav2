@@ -1,13 +1,13 @@
 import React from 'react'
 import { THEME, Icon, Button, Accent, Size, DatePicker, Tag, Select, MultiRadio, Textarea } from '@mtes-mct/monitor-ui'
-import { ActionStatus, NavAction, ACTION_STATUS_REASON_OPTIONS, ActionStatusType } from '../../mission-types'
+import { ActionStatus, ACTION_STATUS_REASON_OPTIONS, ActionStatusType, Action } from '../../mission-types'
 import { Stack } from 'rsuite'
 import Title from '../../../ui/title'
 import { formatDateTimeForFrenchHumans } from '../../../dates'
 import { getColorForStatus, mapStatusToText } from '../status/utils'
 
 interface ActionStatusFormProps {
-  action: NavAction
+  action: Action
 }
 
 const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {

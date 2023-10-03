@@ -24,7 +24,7 @@ class ActionController(
 ) {
 
     @MutationMapping
-    fun addStatus(@Argument statusAction: ActionStatusInput): ActionStatus {
+    fun addOrUpdateStatus(@Argument statusAction: ActionStatusInput): ActionStatus {
         val data = statusAction.toActionStatus()
         val savedData = addStatus.execute(data)
         return savedData

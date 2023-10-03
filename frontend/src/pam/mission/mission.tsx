@@ -78,8 +78,7 @@ export default function Mission() {
       id: uuid,
       missionId: parseInt(missionId!, 10),
       status: key,
-      startDateTimeUtc: '2022-02-20T04:50:09Z',
-      // startDateTimeUtc: new Date().toUTCString(),
+      startDateTimeUtc: new Date().toISOString(),
       isStart: true,
       reason: null,
       observations: null

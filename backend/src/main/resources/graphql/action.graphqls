@@ -1,5 +1,5 @@
 extend type Mutation {
-  addStatus(statusAction: ActionStatusInput!): Action!
+  addOrUpdateStatus(statusAction: ActionStatusInput!): Action!
 }
 
 input ActionStatusInput {

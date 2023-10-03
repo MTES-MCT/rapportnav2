@@ -22,7 +22,6 @@ class JPAActionStatusRepository (
     override fun save(statusAction: ActionStatus): ActionStatus {
         return try {
             val statusActionModel = ActionStatusModel.fromActionStatus(statusAction, mapper)
-//            dbUserRepository.save(statusActionModel).toUser(mapper)
             dbActionStatusRepository.save(statusActionModel).toActionStatus()
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error adding user", e)

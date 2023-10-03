@@ -77,8 +77,8 @@ export const GET_MISSION_BY_ID = gql`
 `
 
 export const MUTATION_ADD_ACTION_STATUS = gql`
-  mutation AddStatus($statusAction: ActionStatusInput!) {
-    addStatus(statusAction: $statusAction) {
+  mutation AddOrUpdateStatus($statusAction: ActionStatusInput!) {
+    addOrUpdateStatus(statusAction: $statusAction) {
       id
     }
   }
