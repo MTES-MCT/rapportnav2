@@ -39,10 +39,10 @@ include:
     file: '/jobs/verif_image_checksum.yml'
   - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
     ref: master
-    file: '/jobs/dependency-check.yml'
+    file: '/jobs/build_projet_maven.yml'
   - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
     ref: master
-    file: '/jobs/build_projet_maven.yml'
+    file: '/jobs/dependency-check.yml'
  # - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
  #   ref: master
  #   file: '/jobs/construction_image.yml'
