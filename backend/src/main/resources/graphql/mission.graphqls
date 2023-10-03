@@ -3,6 +3,16 @@ type Query {
   mission(missionId: ID): Mission!
 }
 
+type Mutation {
+  updateMission(mission: MissionInput!): Mission!
+}
+
+input MissionInput {
+  id: ID!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String!
+}
+
 type Mission {
   id: ID!
   isClosed: Boolean!

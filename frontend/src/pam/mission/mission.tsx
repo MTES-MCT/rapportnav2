@@ -13,8 +13,8 @@ import { ControlTarget, Action, ActionStatusType } from '../mission-types'
 import ActionSelectionDropdown from './actions/action-selection-dropdown'
 import { ActionTypeEnum, MissionSourceEnum } from '../env-mission-types'
 import ControlSelection from './controls/control-selection'
-import { useApolloClient, useBackgroundQuery, useQuery, useReadQuery } from '@apollo/client'
-import { GET_MISSION_BY_ID } from './queries'
+import { useApolloClient, useBackgroundQuery, useMutation, useQuery, useReadQuery } from '@apollo/client'
+import { GET_MISSION_BY_ID, MUTATION_ADD_ACTION_STATUS } from './queries'
 import StatusSelectionDropdown from './status/status-selection-dropdown'
 import { apolloCache } from '../../apollo-client'
 
@@ -30,6 +30,8 @@ export default function Mission() {
     variables: { missionId },
     fetchPolicy: 'cache-only'
   })
+
+  const [addStatus, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_ACTION_STATUS)
 
   const selectMissionAction = (action: Action) => {
     setSelectedAction(action)
@@ -62,24 +64,32 @@ export default function Mission() {
         observations: null
       }
     }
-    // apolloClient.writeQuery({
-    //   query: GET_MISSION_BY_ID,
-    //   variables: { missionId },
-    //   data: updatedMission
-    // })
-
-    // apolloCache.updateQuery({ query: GET_MISSION_BY_ID }, data => updatedMission)
-    updateQuery((prevMission: any) => ({
-      ...prevMission,
-      ...{
-        mission: {
-          __typename: 'Mission',
-          id: missionId,
-          actions: [newAction, ...data.mission.actions]
-        }
+    const newAction2 = {
+      id: uuid,
+      missionId: parseInt(missionId!, 10),
+      status: key,
+      startDateTimeUtc: '2022-02-20T04:50:09Z',
+      // startDateTimeUtc: new Date().toUTCString(),
+      isStart: true,
+      reason: null,
+      observations: null
+    }
+    // updateQuery((prevMission: any) => ({
+    //   ...prevMission,
+    //   ...{
+    //     mission: {
+    //       __typename: 'Mission',
+    //       id: missionId,
+    //       actions: [newAction, ...data.mission.actions]
+    //     }
+    //   }
+    // }))
+    addStatus({
+      variables: {
+        statusAction: newAction2
       }
-    }))
-    // updateQuery((prevMission: any) => updatedMission)
+    })
+    debugger
 
     setSelectedAction(newAction as any)
   }
@@ -88,20 +98,16 @@ export default function Mission() {
     setShowControlTypesModal(false)
   }
 
-  const mutationSuccessCallback = () => {
-    console.log('mutation success')
-    // navigate("/");
-  }
-  const mutationErrorCallback = () => {
-    console.log('mutation failed')
-    alert('error')
-  }
-
-  // const updateQuery = useMutateMission(missionId, mutationSuccessCallback, mutationErrorCallback)
-
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    const { text, status } = data as any
+
+    const a = apolloClient.readQuery({
+      query: GET_MISSION_BY_ID,
+      variables: { missionId }
+    })
+
+    mutateMisssion({ variables: { mission } })
+
     // const mission = { text, status, id: missionId }
     // const fakeMission: MissionModel = {
     //   id: 1,
@@ -110,6 +116,7 @@ export default function Mission() {
     // }
     // updateQuery.mutate(fakeMission, { onSuccess: () => navigate('/') })
   }
+
   if (loading) {
     return <div>Loading...</div>
   }

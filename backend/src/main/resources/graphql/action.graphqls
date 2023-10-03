@@ -1,3 +1,16 @@
+extend type Mutation {
+  addStatus(statusAction: ActionStatusInput!): Action!
+}
+
+input ActionStatusInput {
+  id: String!
+  missionId: Int!
+  startDateTimeUtc: String!
+  status: ActionStatusType!
+  reason: ActionStatusReason
+  isStart: Boolean!
+  observations: String
+}
 
 type Action {
   id: String
@@ -24,7 +37,6 @@ union ActionData =
   | NavActionStatus
 
 type NavActionStatus {
-  statusAction: NavActionStatus
   id: String!
   startDateTimeUtc: String!
   status: ActionStatusType!

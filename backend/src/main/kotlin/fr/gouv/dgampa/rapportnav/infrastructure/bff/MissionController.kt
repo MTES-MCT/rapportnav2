@@ -2,17 +2,11 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.Mission
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionAction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum.CONTROL
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum.SURVEILLANCE
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavAction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.GetLastStartedStatusForMission
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.*
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.Action2
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
@@ -26,7 +20,6 @@ class MissionController(
     private val getEnvMissionById: GetEnvMissionById,
     private val getFishMissionById: GetFishMissionById,
     private val updateEnvMission: UpdateEnvMission,
-    private val getLastStartedStatusForMission: GetLastStartedStatusForMission,
 ) {
 
     @QueryMapping
@@ -51,52 +44,6 @@ class MissionController(
         return mission
     }
 
-    @SchemaMapping(typeName = "Action", field = "status")
-    fun getActionStatus(action: Action2): ActionStatusType {
-
-        // if already a status action - no need to recompute
-        if (action.source == MissionSourceEnum.RAPPORTNAV) {
-            if (action.data is NavActionStatus) {
-                return action.data.status
-            }
-        }
-
-        // get last started status for this time and missionId
-        val lastStartedStatus = getLastStartedStatusForMission.execute(missionId=action.missionId, actionStartDateTimeUtc=action.startDateTimeUtc)
-
-        return lastStartedStatus
-    }
-
-    @SchemaMapping(typeName = "Action", field = "type")
-    fun getActionType(action: Action2?): ActionType {
-        if (action?.data != null) {
-            return when (action.data) {
-                is EnvActionData -> {
-                    return when (action.data.actionType) {
-                        CONTROL -> ActionType.CONTROL
-                        SURVEILLANCE -> ActionType.SURVEILLANCE
-                        else -> ActionType.NOTE
-                    }
-                }
-                is FishActionData -> {
-                    return if (action.data.actionType in setOf(
-                            MissionActionType.SEA_CONTROL,
-                            MissionActionType.AIR_CONTROL,
-                            MissionActionType.LAND_CONTROL
-                        )) {
-                        ActionType.CONTROL
-                    } else {
-                        ActionType.SURVEILLANCE
-                    }
-                }
-                is NavActionControl -> ActionType.CONTROL
-                is NavActionStatus -> ActionType.STATUS
-                else -> ActionType.OTHER
-
-            }
-        }
-        return ActionType.OTHER
-    }
 
     @SchemaMapping(typeName = "Mission", field = "actions")
     fun combineActions(mission: Mission?): List<Action2>? {
