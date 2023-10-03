@@ -37,18 +37,18 @@ include:
   - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
     ref: master
     file: '/jobs/verif_image_checksum.yml'
+  - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
+    ref: master
+    file: '/jobs/build_projet_maven.yml'
  # - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
  #   ref: master
- #   file: '/jobs/build_projet_maven.yml'
-  - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
-    ref: master
-    file: '/jobs/construction_image.yml'
-  - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
-    ref: master
-    file: '/jobs/analyse_sonar.yml'
-  - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
-    ref: master
-    file: '/jobs/analyse_trivy.yml'
-  - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
-    ref: master
-    file: '/jobs/deploiement_image.yml'
+ #   file: '/jobs/construction_image.yml'
+ # - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
+ #   ref: master
+ #   file: '/jobs/analyse_sonar.yml'
+ # - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
+ #   ref: master
+ #   file: '/jobs/analyse_trivy.yml'
+ # - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
+ #   ref: master
+ #   file: '/jobs/deploiement_image.yml'
