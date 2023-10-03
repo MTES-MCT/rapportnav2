@@ -19,7 +19,7 @@
 		<kotlin.version>1.9.0</kotlin.version>
 		<serialization.version>1.5.1</serialization.version>
 		<spring.version>3.1.4</spring.version>
-		<testcontainers.version>1.19.0</testcontainers.version>
+		<testcontainers.version>1.19.1</testcontainers.version>
 		<snakeyaml.version>2.2</snakeyaml.version>
 	</properties>
 	<dependencyManagement>
