@@ -11,10 +11,10 @@ import { getComponentForAction } from './actions/action-mapping'
 import Title from '../../ui/title'
 import { ControlTarget, Action, ActionStatusType } from '../mission-types'
 import ActionSelectionDropdown from './actions/action-selection-dropdown'
-import { ActionTypeEnum, MissionSourceEnum } from '../env-mission-types'
+import { ActionTypeEnum } from '../env-mission-types'
 import ControlSelection from './controls/control-selection'
 import { useApolloClient, useMutation, useQuery } from '@apollo/client'
-import { GET_MISSION_BY_ID, MUTATION_ADD_ACTION_STATUS } from './queries'
+import { GET_MISSION_BY_ID, MUTATION_ADD_OR_UPDATE_ACTION_STATUS } from './queries'
 import StatusSelectionDropdown from './status/status-selection-dropdown'
 
 export default function Mission() {
@@ -29,7 +29,7 @@ export default function Mission() {
     fetchPolicy: 'cache-only'
   })
 
-  const [addStatus, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_ACTION_STATUS, {
+  const [addStatus, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_STATUS, {
     refetchQueries: ['GetMissionById']
   })
 

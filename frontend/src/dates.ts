@@ -6,7 +6,7 @@ const SHORT_DAY_MONTH = 'dd MMM'
 const EMPTY_SHORT_DAY_MONTH = 'n/a'
 const SHORT_TIME = 'hh:mm'
 const EMPTY_SHORT_TIME = '--:--'
-const FRENCH_DAY_MONTH_YEAR_DATETIME = `${SHORT_DAY_MONTH} - ${SHORT_TIME}`
+const FRENCH_DAY_MONTH_YEAR_DATETIME = `${SHORT_DAY_MONTH} à ${SHORT_TIME}`
 const EMPTY_FRENCH_DAY_MONTH_YEAR_DATETIME = `${EMPTY_SHORT_DAY_MONTH} - ${EMPTY_SHORT_TIME}`
 
 type DateTypes = string | undefined | null
