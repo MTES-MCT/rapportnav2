@@ -7,7 +7,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Missio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.AddStatus
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.AddOrUpdateStatus
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.DeleteStatus
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.GetLastStartedStatusForMission
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.ActionStatusInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.*
@@ -15,18 +16,25 @@ import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
+import java.util.*
 
 
 @Controller
 class ActionController(
     private val getLastStartedStatusForMission: GetLastStartedStatusForMission,
-    private val addStatus: AddStatus,
+    private val addOrUpdateStatus: AddOrUpdateStatus,
+    private val deleteStatus: DeleteStatus,
 ) {
 
     @MutationMapping
     fun addOrUpdateStatus(@Argument statusAction: ActionStatusInput): ActionStatus {
         val data = statusAction.toActionStatus()
-        val savedData = addStatus.execute(data)
+        val savedData = addOrUpdateStatus.execute(data)
+        return savedData
+    }
+    @MutationMapping
+    fun deleteStatus(@Argument id: UUID): Boolean {
+        val savedData = deleteStatus.execute(id)
         return savedData
     }
 

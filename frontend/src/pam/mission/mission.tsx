@@ -11,7 +11,7 @@ import { getComponentForAction } from './actions/action-mapping'
 import Title from '../../ui/title'
 import { ControlTarget, Action, ActionStatusType } from '../mission-types'
 import ActionSelectionDropdown from './actions/action-selection-dropdown'
-import { ActionTypeEnum } from '../env-mission-types'
+import { ActionTypeEnum, MissionSourceEnum } from '../env-mission-types'
 import ControlSelection from './controls/control-selection'
 import { useApolloClient, useMutation, useQuery } from '@apollo/client'
 import { GET_MISSION_BY_ID, MUTATION_ADD_OR_UPDATE_ACTION_STATUS } from './queries'
@@ -34,8 +34,11 @@ export default function Mission() {
   })
 
   const selectMissionAction = (action: Action) => {
+    debugger
     setSelectedAction(action)
   }
+
+  const resetSelectedAction = () => setSelectedAction(undefined)
 
   const addNewAction = (key: ActionTypeEnum) => {
     if (key === ActionTypeEnum.CONTROL) {
@@ -45,48 +48,31 @@ export default function Mission() {
 
   const addNewStatus = async (key: ActionStatusType) => {
     const uuid = uuidv4()
-    // const newAction = {
-    //   __typename: 'Action',
-    //   id: uuid,
-    //   type: ActionTypeEnum.STATUS,
-    //   source: MissionSourceEnum.RAPPORTNAV,
-    //   status: key,
-    //   startDateTimeUtc: '2022-02-20T04:50:09Z',
-    //   // startDateTimeUtc: new Date().toUTCString(),
-    //   endDateTimeUtc: null,
-    //   data: {
-    //     __typename: 'NavActionStatus',
-    //     id: uuid,
-    //     startDateTimeUtc: '2022-02-20T04:50:09Z',
-    //     status: key,
-    //     isStart: true,
-    //     reason: null,
-    //     observations: null
-    //   }
-    // }
-    // updateQuery((prevMission: any) => ({
-    //   ...prevMission,
-    //   ...{
-    //     mission: {
-    //       __typename: 'Mission',
-    //       id: missionId,
-    //       actions: [newAction, ...data.mission.actions]
-    //     }
-    //   }
-    // }))
-    const newAction = {
+    const date = new Date().toISOString()
+    const newActionData = {
       id: uuid,
       missionId: parseInt(missionId!, 10),
       status: key,
-      startDateTimeUtc: new Date().toISOString(),
+      startDateTimeUtc: date,
       isStart: true,
       reason: null,
       observations: null
     }
+    const newAction = {
+      id: uuid,
+      type: ActionTypeEnum.STATUS,
+      source: MissionSourceEnum.RAPPORTNAV,
+      status: key,
+      startDateTimeUtc: date,
+      endDateTimeUtc: null,
+      data: {
+        ...newActionData
+      }
+    }
 
     addStatus({
       variables: {
-        statusAction: newAction
+        statusAction: newActionData
       }
     })
 
@@ -95,25 +81,6 @@ export default function Mission() {
 
   const addNewControl = (controlType: string, targetType: ControlTarget) => {
     setShowControlTypesModal(false)
-  }
-
-  const handleSubmit = async (event: any) => {
-    event.preventDefault()
-
-    const a = apolloClient.readQuery({
-      query: GET_MISSION_BY_ID,
-      variables: { missionId }
-    })
-
-    mutateMisssion({ variables: { mission } })
-
-    // const mission = { text, status, id: missionId }
-    // const fakeMission: MissionModel = {
-    //   id: 1,
-    //   text: mission!.text + Math.floor(Math.random() * 101),
-    //   status: mission!.status
-    // }
-    // updateQuery.mutate(fakeMission, { onSuccess: () => navigate('/') })
   }
 
   if (loading) {
@@ -184,7 +151,9 @@ export default function Mission() {
           </FlexboxGrid.Item>
           <FlexboxGrid.Item colspan={8} style={{ backgroundColor: THEME.color.gainsboro, height: '100%' }}>
             <FlexboxGrid justify="start" align="middle" style={{ padding: '2rem' }}>
-              {selectedAction && MissionActionComponent && <MissionActionComponent action={selectedAction} />}
+              {selectedAction && MissionActionComponent && (
+                <MissionActionComponent action={selectedAction} resetSelectedAction={resetSelectedAction} />
+              )}
             </FlexboxGrid>
           </FlexboxGrid.Item>
         </FlexboxGrid>

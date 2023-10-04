@@ -1,5 +1,6 @@
 extend type Mutation {
   addOrUpdateStatus(statusAction: ActionStatusInput!): Action!
+  deleteStatus(id: String!): Boolean!
 }
 
 input ActionStatusInput {

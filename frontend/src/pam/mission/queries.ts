@@ -83,3 +83,9 @@ export const MUTATION_ADD_OR_UPDATE_ACTION_STATUS = gql`
     }
   }
 `
+
+export const DELETE_ACTION_STATUS = gql`
+  mutation DeleteStatus($id: String!) {
+    deleteStatus(id: $id)
+  }
+`

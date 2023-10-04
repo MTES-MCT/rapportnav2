@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @Repository
 class JPAActionStatusRepository (
@@ -18,15 +19,27 @@ class JPAActionStatusRepository (
     override fun findAllByMissionId(missionId: Int): List<ActionStatus> {
         return dbActionStatusRepository.findAllByMissionId(missionId).map { it.toActionStatus() }
     }
+
+    override fun existsById(id: UUID): Boolean {
+        return dbActionStatusRepository.existsById(id)
+    }
+
     @Transactional
     override fun save(statusAction: ActionStatus): ActionStatus {
         return try {
             val statusActionModel = ActionStatusModel.fromActionStatus(statusAction, mapper)
             dbActionStatusRepository.save(statusActionModel).toActionStatus()
         } catch (e: InvalidDataAccessApiUsageException) {
-            throw Exception("Error adding user", e)
+            throw Exception("Error saving or updating action status", e)
         }
     }
 
-
+    @Transactional
+    override fun deleteById(id: UUID) {
+        try {
+            dbActionStatusRepository.deleteById(id)
+        } catch (e: InvalidDataAccessApiUsageException) {
+            throw Exception("Error deleting status", e)
+        }
+    }
 }

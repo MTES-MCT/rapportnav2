@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   THEME,
   Icon,
@@ -18,40 +18,54 @@ import Title from '../../../ui/title'
 import { formatDateTimeForFrenchHumans } from '../../../dates'
 import { getColorForStatus, mapStatusToText } from '../status/utils'
 import { useMutation } from '@apollo/client'
-import { MUTATION_ADD_OR_UPDATE_ACTION_STATUS } from '../queries'
+import { DELETE_ACTION_STATUS, MUTATION_ADD_OR_UPDATE_ACTION_STATUS } from '../queries'
 import { useParams } from 'react-router-dom'
+import omit from 'lodash/omit'
 
 interface ActionStatusFormProps {
   action: Action
+  resetSelectedAction: () => void
 }
 
-const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
+const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action, resetSelectedAction }) => {
   const { missionId } = useParams()
-  // const status: ActionStatus = action.data || {}
-  const [status, setStatus] = useState<ActionStatus>(action.data as unknown as ActionStatus)
 
-  const [mutate, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_STATUS, {
+  const [status, setStatus] = useState<ActionStatus>((action.data || {}) as unknown as ActionStatus)
+
+  const [mutateStatus, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_STATUS, {
     refetchQueries: ['GetMissionById']
   })
 
+  const [deleteStatus, { deleteData, deleteLoading, deleteError }] = useMutation(DELETE_ACTION_STATUS, {
+    refetchQueries: ['GetMissionById']
+  })
+
+  useEffect(() => {
+    setStatus((action.data || {}) as any as ActionStatus)
+    debugger
+  }, [action.data])
+
   const onChange = (field: string, value: any) => {
-    // TODO make this better with a spread
-    const startDateTime = new Date(action.startDateTimeUtc!)
     const updatedData = {
-      id: action.id,
       missionId: missionId,
-      startDateTimeUtc: startDateTime.toISOString(),
-      status: status.status,
-      isStart: status.isStart,
-      reason: status.reason,
-      observations: status.observations,
+      ...omit(status, '__typename'),
       [field]: value
     }
     debugger
-    mutate({ variables: { statusAction: updatedData } })
+    mutateStatus({ variables: { statusAction: updatedData } })
 
     // TODO this shouldn't be like that - useState should not be used
     setStatus(updatedData)
+  }
+
+  const onDelete = () => {
+    debugger
+    deleteStatus({
+      variables: {
+        id: action.id!
+      }
+    })
+    resetSelectedAction()
   }
   return (
     <form>
@@ -80,7 +94,7 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
                   </Button>
                 </Stack.Item>
                 <Stack.Item>
-                  <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Delete}>
+                  <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Delete} onClick={onDelete}>
                     Supprimer
                   </Button>
                 </Stack.Item>
