@@ -2,8 +2,10 @@ stages:
   - build
   - pre-analyze
   - analyze
-  - pre-deploy
-  - deploy
+  - pre-deploy-int
+  - deploy-int
+  - pre-deploy-prod
+  - deploy-prod
 variables:
   #  Configuration spécifique projet
   PROJECT_NAME:
