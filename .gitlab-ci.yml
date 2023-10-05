@@ -12,6 +12,12 @@ variables:
   PROJECT_VERSION:
     value: 0.0.0.14
     description: "Version du projet à déployer"
+  SERVER_ENV_INT:
+    value: "int-rapportnav-appli01"
+    description: "Serveur cible d'intégration"
+  SERVER_ENV_PROD:
+    value: "prod-rapportnav-appli01"
+    description: "Serveur cible de production"
   TAG_LATEST: $NEXUS_DOCKER_REPO/$PROJECT_NAME:latest
   TAG_VERSION: $NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION
   # PROJECT_PORTS:
