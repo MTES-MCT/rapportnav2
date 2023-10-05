@@ -20,12 +20,7 @@ variables:
     description: "Serveur cible de production"
   TAG_LATEST: $NEXUS_DOCKER_REPO/$PROJECT_NAME:latest
   TAG_VERSION: $NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION
-  # PROJECT_PORTS:
-  #   value: "[80:80]"
-  #   description: "Tableau contenant les ports exposés par le container Docker du projet"
-  # PROJECT_VOLUMES:
-  #   value: "[]"
-  #   description: "Tableau contenant les volumes du container Docker du projet"
+
   FAIL_SONAR_CONDITION:
     value: "-Dsonar.qualitygate.wait=true"
     description: "Détermine la commande à passer au scanner Sonar pour bloquer ou non le job. -Dsonar.qualitygate.wait=true fait échouer le job si le quality gate Sonar n'est pas conforme."
