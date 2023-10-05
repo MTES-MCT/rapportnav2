@@ -48,8 +48,8 @@ include:
   # - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
   #   ref: master
   #   file: '/jobs/analyse_trivy.yml'
-  # - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
-  #   ref: master
+  - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
+    ref: master
     file: '/jobs/deploiement_image_int.yml'
   - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
     ref: master
