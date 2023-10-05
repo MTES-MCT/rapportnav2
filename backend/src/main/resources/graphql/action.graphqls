@@ -1,6 +1,18 @@
 extend type Mutation {
   addOrUpdateStatus(statusAction: ActionStatusInput!): Action!
   deleteStatus(id: String!): Boolean!
+  addOrUpdateControl(controlAction: ActionControlInput!): Action!
+  deleteControl(id: String!): Boolean!
+}
+
+type Action {
+  id: String
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  source: MissionSource!
+  status: ActionStatusType!
+  type: ActionType
+  data: ActionData
 }
 
 input ActionStatusInput {
@@ -13,14 +25,17 @@ input ActionStatusInput {
   observations: String
 }
 
-type Action {
-  id: String
+input ActionControlInput {
+  id: String!
+  missionId: Int!
   startDateTimeUtc: String!
-  endDateTimeUtc: String
-  source: MissionSource!
-  status: ActionStatusType!
-  type: ActionType
-  data: ActionData
+  controlMethod: ControlMethod
+  #  geom: String
+  vesselType: VesselType
+  vesselIdentifier: String
+  vesselSize: VesselSize
+  identityControlledPerson: String
+  observations: String
 }
 
 enum MissionSource {

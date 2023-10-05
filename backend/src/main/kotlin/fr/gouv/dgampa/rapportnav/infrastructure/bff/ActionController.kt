@@ -4,12 +4,16 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum.CONTROL
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum.SURVEILLANCE
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControl
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateControl
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.DeleteControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.AddOrUpdateStatus
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.DeleteStatus
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.GetLastStartedStatusForMission
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.ActionControlInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.ActionStatusInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.*
 import org.springframework.graphql.data.method.annotation.Argument
@@ -24,17 +28,31 @@ class ActionController(
     private val getLastStartedStatusForMission: GetLastStartedStatusForMission,
     private val addOrUpdateStatus: AddOrUpdateStatus,
     private val deleteStatus: DeleteStatus,
+    private val addOrUpdateControl: AddOrUpdateControl,
+    private val deleteControl: DeleteControl,
 ) {
 
     @MutationMapping
     fun addOrUpdateStatus(@Argument statusAction: ActionStatusInput): ActionStatus {
         val data = statusAction.toActionStatus()
-        val savedData = addOrUpdateStatus.execute(data)
-        return savedData
+        return addOrUpdateStatus.execute(data)
     }
+
     @MutationMapping
     fun deleteStatus(@Argument id: UUID): Boolean {
-        val savedData = deleteStatus.execute(id)
+        return deleteStatus.execute(id)
+    }
+
+    @MutationMapping
+    fun addOrUpdateControl(@Argument controlAction: ActionControlInput): ActionControl {
+        val data = controlAction.toActionControl()
+        val savedData = addOrUpdateControl.execute(data)
+        return savedData
+    }
+
+    @MutationMapping
+    fun deleteControl(@Argument id: UUID): Boolean {
+        val savedData = deleteControl.execute(id)
         return savedData
     }
 

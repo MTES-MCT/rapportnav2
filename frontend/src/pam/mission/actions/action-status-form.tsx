@@ -42,7 +42,6 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action, resetSelect
 
   useEffect(() => {
     setStatus((action.data || {}) as any as ActionStatus)
-    debugger
   }, [action.data])
 
   const onChange = (field: string, value: any) => {
@@ -58,7 +57,7 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action, resetSelect
     setStatus(updatedData)
   }
 
-  const onDelete = () => {
+  const deleteAction = () => {
     debugger
     deleteStatus({
       variables: {
@@ -94,7 +93,7 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action, resetSelect
                   </Button>
                 </Stack.Item>
                 <Stack.Item>
-                  <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Delete} onClick={onDelete}>
+                  <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Delete} onClick={deleteAction}>
                     Supprimer
                   </Button>
                 </Stack.Item>

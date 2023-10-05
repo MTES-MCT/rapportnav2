@@ -89,3 +89,17 @@ export const DELETE_ACTION_STATUS = gql`
     deleteStatus(id: $id)
   }
 `
+
+export const MUTATION_ADD_OR_UPDATE_ACTION_CONTROL = gql`
+  mutation AddOrUpdateControl($controlAction: ActionControlInput!) {
+    addOrUpdateControl(controlAction: $controlAction) {
+      id
+    }
+  }
+`
+
+export const DELETE_ACTION_CONTROL = gql`
+  mutation DeleteControl($id: String!) {
+    deleteControl(id: $id)
+  }
+`

@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.mapStringToVesselSize
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.mapStringToVesselType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControl
@@ -47,7 +48,7 @@ data class ActionControlModel(
     var identityControlledPerson: String,
 
     @Column(name = "observations", nullable = true)
-    var observations: String,
+    var observations: String?,
 
     @OneToOne(mappedBy = "actionControl")
     @JoinColumn(name = "action_control_id")
@@ -72,16 +73,30 @@ data class ActionControlModel(
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
             controlMethod = mapStringToControlMethod(controlMethod),
-//            geom = geom,
-            observations = observations,
             vesselIdentifier = vesselIdentifier,
             vesselType = mapStringToVesselType(vesselType),
             vesselSize = mapStringToVesselSize(vesselSize),
+            observations = observations,
             identityControlledPerson = identityControlledPerson,
             controlAdministrative = controlAdministrative?.toControlAdministrative(),
             controlGensDeMer = controlGensDeMer?.toControlGensDeMer(),
             controlNavigation = controlNavigation?.toControlNavigation(),
             controlSecurity = controlSecurity?.toControlSecurity()
+        )
+    }
+
+    companion object {
+        fun fromActionControl(controlAction: ActionControl, mapper: ObjectMapper) = ActionControlModel(
+            id = controlAction.id,
+            missionId = controlAction.missionId,
+            startDateTimeUtc = controlAction.startDateTimeUtc,
+            endDateTimeUtc = controlAction.endDateTimeUtc,
+            controlMethod = controlAction.controlMethod.toString(),
+            vesselIdentifier = controlAction.vesselIdentifier.toString(),
+            vesselType = controlAction.vesselType.toString(),
+            vesselSize = controlAction.vesselSize.toString(),
+            identityControlledPerson = controlAction.identityControlledPerson.toString(),
+            observations = controlAction.observations,
         )
     }
 

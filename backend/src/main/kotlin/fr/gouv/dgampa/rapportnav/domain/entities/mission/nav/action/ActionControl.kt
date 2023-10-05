@@ -11,7 +11,7 @@ data class ActionControl(
     val id: UUID,
     val missionId: Int,
     val startDateTimeUtc: ZonedDateTime,
-    val endDateTimeUtc: ZonedDateTime?,
+    val endDateTimeUtc: ZonedDateTime,
     val controlMethod: ControlMethod?,
     val observations: String? = null,
     val vesselIdentifier: String? = null,

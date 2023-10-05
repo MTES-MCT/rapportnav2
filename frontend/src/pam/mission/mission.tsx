@@ -14,7 +14,11 @@ import ActionSelectionDropdown from './actions/action-selection-dropdown'
 import { ActionTypeEnum, MissionSourceEnum } from '../env-mission-types'
 import ControlSelection from './controls/control-selection'
 import { useApolloClient, useMutation, useQuery } from '@apollo/client'
-import { GET_MISSION_BY_ID, MUTATION_ADD_OR_UPDATE_ACTION_STATUS } from './queries'
+import {
+  GET_MISSION_BY_ID,
+  MUTATION_ADD_OR_UPDATE_ACTION_CONTROL,
+  MUTATION_ADD_OR_UPDATE_ACTION_STATUS
+} from './queries'
 import StatusSelectionDropdown from './status/status-selection-dropdown'
 
 export default function Mission() {
@@ -29,12 +33,14 @@ export default function Mission() {
     fetchPolicy: 'cache-only'
   })
 
-  const [addStatus, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_STATUS, {
+  const [addStatus] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_STATUS, {
+    refetchQueries: ['GetMissionById']
+  })
+  const [addControl] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_CONTROL, {
     refetchQueries: ['GetMissionById']
   })
 
-  const selectMissionAction = (action: Action) => {
-    debugger
+  const selectAction = (action: Action) => {
     setSelectedAction(action)
   }
 
@@ -79,8 +85,35 @@ export default function Mission() {
     setSelectedAction(newAction as any)
   }
 
-  const addNewControl = (controlType: string, targetType: ControlTarget) => {
+  const addNewControl = (controlMethod: string, targetType: ControlTarget) => {
     setShowControlTypesModal(false)
+    debugger
+    const uuid = uuidv4()
+    const date = new Date().toISOString()
+    const newActionData = {
+      id: uuid,
+      missionId: parseInt(missionId!, 10),
+      startDateTimeUtc: date,
+      controlMethod: controlMethod,
+      vesselType: null,
+      vesselIdentifier: null,
+      vesselSize: null,
+      identityControlledPerson: null,
+      observations: null
+    }
+    const newAction = {
+      id: uuid,
+      type: ActionTypeEnum.STATUS,
+      source: MissionSourceEnum.RAPPORTNAV,
+      startDateTimeUtc: date,
+      endDateTimeUtc: null,
+      data: {
+        ...newActionData
+      }
+    }
+
+    addControl({ variables: { controlAction: newActionData } })
+    setSelectedAction(newAction as any)
   }
 
   if (loading) {
@@ -145,7 +178,7 @@ export default function Mission() {
                 <Divider />
               </FlexboxGrid.Item>
               <FlexboxGrid.Item style={{ width: '100%' }}>
-                <MissionTimeline mission={mission} onSelectAction={selectMissionAction} />
+                <MissionTimeline mission={mission} onSelectAction={selectAction} />
               </FlexboxGrid.Item>
             </FlexboxGrid>
           </FlexboxGrid.Item>

@@ -11,7 +11,7 @@ import {
   TextInput,
   Textarea
 } from '@mtes-mct/monitor-ui'
-import { NavAction, VESSEL_SIZE_OPTIONS } from '../../mission-types'
+import { Action, VESSEL_SIZE_OPTIONS } from '../../mission-types'
 import { Panel, Stack } from 'rsuite'
 import Title from '../../../ui/title'
 import ControlGensDeMerForm from '../controls/control-gens-de-mer-form'
@@ -19,13 +19,31 @@ import ControlNavigationForm from '../controls/control-navigation-form'
 import ControlAdministrativeForm from '../controls/control-administrative-form'
 import ControlSecurityForm from '../controls/control-security-form'
 import { formatDateTimeForFrenchHumans } from '../../../dates'
+import { DELETE_ACTION_CONTROL } from '../queries'
+import { useMutation } from '@apollo/client'
 
 interface ActionControlNavProps {
-  action: NavAction
+  action: Action
+  resetSelectedAction: () => void
 }
 
-const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
+const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelectedAction }) => {
   const control = action.data
+
+  const [deleteControl, { deleteData, deleteLoading, deleteError }] = useMutation(DELETE_ACTION_CONTROL, {
+    refetchQueries: ['GetMissionById']
+  })
+
+  const deleteAction = () => {
+    debugger
+    deleteControl({
+      variables: {
+        id: action.id!
+      }
+    })
+    resetSelectedAction()
+  }
+
   return (
     <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
       {/* TITLE AND BUTTONS */}
@@ -56,7 +74,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
                 </Button>
               </Stack.Item>
               <Stack.Item>
-                <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Delete}>
+                <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Delete} onClick={deleteAction}>
                   Supprimer
                 </Button>
               </Stack.Item>
