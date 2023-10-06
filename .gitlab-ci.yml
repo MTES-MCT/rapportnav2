@@ -30,15 +30,15 @@ variables:
     description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
 
 include:
-  - '/ci/job/verif_image_checksum.yml'
-  - '/ci/job/build_projet_maven.yml'
-  - '/ci/job/build_projet_npm.yml'
-  - '/ci/job/construction_image.yml'
-  - '/ci/job/dependency-check.yml'
-  - '/ci/job/analyse_sonar.yml'
-  - '/ci/job/analyse_trivy.yml'
-  - '/ci/job/deploiement_image_int.yml'
-  - '/ci/job/deploiement_image_prod.yml'
+  - '/ci/jobs/verif_image_checksum.yml'
+  - '/ci/jobs/build_projet_maven.yml'
+  - '/ci/jobs/build_projet_npm.yml'
+  - '/ci/jobs/construction_image.yml'
+  - '/ci/jobs/dependency-check.yml'
+  - '/ci/jobs/analyse_sonar.yml'
+  - '/ci/jobs/analyse_trivy.yml'
+  - '/ci/jobs/deploiement_image_int.yml'
+  - '/ci/jobs/deploiement_image_prod.yml'
 # include:
 #   - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
 #     ref: master
