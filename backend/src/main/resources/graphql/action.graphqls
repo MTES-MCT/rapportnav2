@@ -29,6 +29,7 @@ input ActionControlInput {
   id: String!
   missionId: Int!
   startDateTimeUtc: String!
+  endDateTimeUtc: String
   controlMethod: ControlMethod
   #  geom: String
   vesselType: VesselType

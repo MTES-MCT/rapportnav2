@@ -66,6 +66,7 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action, resetSelect
     })
     resetSelectedAction()
   }
+
   return (
     <form>
       <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
@@ -163,9 +164,9 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action, resetSelect
         <Stack.Item style={{ width: '100%' }}>
           <Textarea
             label="Observations"
-            name="observations"
             value={status.observations}
             isLight={true}
+            name="observations"
             onChange={(nextValue: string) => onChange('observations', nextValue)}
           />
         </Stack.Item>

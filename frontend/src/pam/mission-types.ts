@@ -89,17 +89,7 @@ export enum ControlMethod {
   'AIR' = 'AIR',
   'LAND' = 'LAND'
 }
-// export type NavAction = {
-//   id: number
-//   actionType: any
-//   status: ActionStatusType
-//   startDateTimeUtc?: string | null
-//   endDateTimeUtc?: string | null
-//   data: {
-//     statusAction: ActionStatus
-//     controlAction: ControlAction
-//   }
-// }
+
 export type Action = {
   id?: any
   missionId: number
@@ -108,7 +98,7 @@ export type Action = {
   status: ActionStatusType
   startDateTimeUtc?: string
   endDateTimeUtc?: string
-  data: [EnvAction | FishAction | ActionStatus | ControlAction]
+  data: [EnvAction | FishAction | ActionStatus | ActionControl]
 }
 
 export type ActionStatus = {
@@ -119,7 +109,7 @@ export type ActionStatus = {
   observations?: string
 }
 
-export type ControlAction = {
+export type ActionControl = {
   controlMethod?: ControlMethod
   vesselIdentifier?: string
   vesselType?: VesselType

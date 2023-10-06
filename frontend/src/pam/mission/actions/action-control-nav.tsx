@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   THEME,
   Icon,
@@ -6,12 +6,14 @@ import {
   Accent,
   Size,
   DateRangePicker,
+  DateRange,
   MultiZoneEditor,
   Select,
   TextInput,
-  Textarea
+  Textarea,
+  OptionValue
 } from '@mtes-mct/monitor-ui'
-import { Action, VESSEL_SIZE_OPTIONS } from '../../mission-types'
+import { Action, ActionControl, VESSEL_SIZE_OPTIONS } from '../../mission-types'
 import { Panel, Stack } from 'rsuite'
 import Title from '../../../ui/title'
 import ControlGensDeMerForm from '../controls/control-gens-de-mer-form'
@@ -19,8 +21,10 @@ import ControlNavigationForm from '../controls/control-navigation-form'
 import ControlAdministrativeForm from '../controls/control-administrative-form'
 import ControlSecurityForm from '../controls/control-security-form'
 import { formatDateTimeForFrenchHumans } from '../../../dates'
-import { DELETE_ACTION_CONTROL } from '../queries'
+import { DELETE_ACTION_CONTROL, MUTATION_ADD_OR_UPDATE_ACTION_CONTROL } from '../queries'
 import { useMutation } from '@apollo/client'
+import omit from 'lodash/omit'
+import { useParams } from 'react-router-dom'
 
 interface ActionControlNavProps {
   action: Action
@@ -28,11 +32,59 @@ interface ActionControlNavProps {
 }
 
 const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelectedAction }) => {
-  const control = action.data
+  const { missionId } = useParams()
+  const [control, setControl] = useState<ActionControl>((action.data || {}) as unknown as ActionControl)
+
+  const [mutateControl, { statusData, statusLoading, statusError }] = useMutation(
+    MUTATION_ADD_OR_UPDATE_ACTION_CONTROL,
+    {
+      refetchQueries: ['GetMissionById']
+    }
+  )
 
   const [deleteControl, { deleteData, deleteLoading, deleteError }] = useMutation(DELETE_ACTION_CONTROL, {
     refetchQueries: ['GetMissionById']
   })
+
+  useEffect(() => {
+    setControl((action.data || {}) as any as ActionControl)
+  }, [action.data])
+
+  const onChange = (field: string, value: any) => {
+    let updatedField = {}
+    if (field == 'dates') {
+      debugger
+      const startDateTimeUtc = value[0].toISOString()
+      const endDateTimeUtc = value[1].toISOString()
+      updatedField = {
+        startDateTimeUtc,
+        endDateTimeUtc
+      }
+    } else {
+      updatedField = {
+        [field]: value
+      }
+    }
+
+    const updatedData = {
+      missionId: missionId,
+      ...omit(control, [
+        '__typename',
+        'controlAdministrative',
+        'controlGensDeMer',
+        'controlNavigation',
+        'controlSecurity'
+      ]),
+      startDateTimeUtc: action.startDateTimeUtc,
+      endDateTimeUtc: action.endDateTimeUtc,
+      ...updatedField
+    }
+    debugger
+    mutateControl({ variables: { controlAction: updatedData } })
+
+    // TODO this shouldn't be like that - useState should not be used
+    setControl(updatedData)
+  }
 
   const deleteAction = () => {
     debugger
@@ -106,6 +158,10 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
           withTime={true}
           isCompact={true}
           isLight={true}
+          onChange={(nextUtcDateRange: DateRange) => {
+            debugger
+            onChange('dates', nextUtcDateRange)
+          }}
         />
       </Stack.Item>
       {/* CONTROL ZONES FIELD */}
@@ -115,16 +171,31 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
       <Stack.Item style={{ width: '100%' }}>
         <Stack spacing="0.5rem" style={{ width: '100%' }}>
           <Stack.Item grow={1}>
-            <Select label="Taille du navire" isLight={true} options={VESSEL_SIZE_OPTIONS} value={control.vesselSize} />
+            <Select
+              label="Taille du navire"
+              isLight={true}
+              options={VESSEL_SIZE_OPTIONS}
+              value={control.vesselSize}
+              name="vesselSize"
+              onChange={(nextValue: OptionValue) => onChange('vesselSize', nextValue)}
+            />
           </Stack.Item>
           <Stack.Item grow={1}>
-            <TextInput label="Immatriculation" value={control.vesselIdentifier} isLight={true} />
+            <TextInput
+              label="Immatriculation"
+              value={control.vesselIdentifier}
+              isLight={true}
+              name="vesselIdentifier"
+              onChange={(nextValue: string) => onChange('vesselIdentifier', nextValue)}
+            />
           </Stack.Item>
           <Stack.Item grow={2}>
             <TextInput
               label="Identité de la personne contrôlée"
               value={control.identityControlledPerson}
               isLight={true}
+              name="identityControlledPerson"
+              onChange={(nextValue: string) => onChange('identityControlledPerson', nextValue)}
             />
           </Stack.Item>
         </Stack>
@@ -189,7 +260,13 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
         </Stack>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
-        <Textarea label="Observations générales sur le contrôle" value={control.observations} isLight={true} />
+        <Textarea
+          label="Observations générales sur le contrôle"
+          value={control.observations}
+          isLight={true}
+          name="observations"
+          onChange={(nextValue: string) => onChange('observations', nextValue)}
+        />
       </Stack.Item>
     </Stack>
   )
