@@ -1,0 +1,19 @@
+# TODO à adapter selon le projet
+build_projet_maven:
+  stage: build
+  image: maven:3.8.5-openjdk-17-slim
+  variables:
+    HTTP_PROXY: "http://172.27.229.197:8090"
+    HTTPS_PROXY: "http://172.27.229.197:8090"
+    NO_PROXY: "gitlab-sml.din.developpement-durable.gouv.fr,localhost,127.0.0.1,0.0.0.0,.dsi.damgm.i2"
+  script:
+    - cd backend
+    - mvn dependency:go-offline -B -Dhttps.proxyHost=172.27.229.197 -Dhttps.proxyPort=8090
+    - mvn clean package -DskipTests=true -Dhttps.proxyHost=172.27.229.197 -Dhttps.proxyPort=8090
+  tags:
+    - build
+  artifacts:
+    name: "Maven artifacts from $CI_PROJECT_NAME on $CI_COMMIT_REF_SLUG"
+    when: on_success
+    paths:
+      - "backend/target/rapportnav-VERSION_TO_CHANGE.jar"

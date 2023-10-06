@@ -1,0 +1,20 @@
+# TODO à adapter selon le projet
+build_projet_npm:
+  stage: build
+  image: node:18
+  variables:
+    HTTP_PROXY: "http://172.27.229.197:8090"
+    HTTPS_PROXY: "http://172.27.229.197:8090"
+    NO_PROXY: "gitlab-sml.din.developpement-durable.gouv.fr,localhost,127.0.0.1,0.0.0.0,.dsi.damgm.i2"
+  script:
+    - cd frontend
+    - npm config set proxy $HTTP_PROXY
+    - npm config set https-proxy $HTTPS_PROXY
+    - npm ci
+    - npm run build --verbose
+  tags:
+    - build
+  artifacts:
+    name: "Npm artifacts from $CI_PROJECT_NAME on $CI_COMMIT_REF_SLUG"
+    paths:
+      - "frontend/"

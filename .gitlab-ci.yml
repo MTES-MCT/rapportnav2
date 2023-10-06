@@ -22,38 +22,48 @@ variables:
     description: "Serveur cible de production"
   TAG_LATEST: $NEXUS_DOCKER_REPO/$PROJECT_NAME:latest
   TAG_VERSION: $NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION
-
   FAIL_SONAR_CONDITION:
     value: "-Dsonar.qualitygate.wait=true"
     description: "Détermine la commande à passer au scanner Sonar pour bloquer ou non le job. -Dsonar.qualitygate.wait=true fait échouer le job si le quality gate Sonar n'est pas conforme."
   FAIL_TRIVY_CONDITION:
     value: "--severity CRITICAL"
     description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
+
 include:
-  - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
-    ref: master
-    file: '/jobs/verif_image_checksum.yml'
-  - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
-    ref: master
-    file: '/jobs/build_projet_maven.yml'
-  - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
-    ref: master
-    file: '/jobs/build_projet_npm.yml'
-  - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
-    ref: master
-    file: '/jobs/construction_image.yml'
-  - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
-    ref: master
-    file: '/jobs/dependency-check.yml'
-  - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
-    ref: master
-    file: '/jobs/analyse_sonar.yml'
-  - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
-    ref: master
-    file: '/jobs/analyse_trivy.yml'
-  - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
-    ref: master
-    file: '/jobs/deploiement_image_int.yml'
-  - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
-    ref: master
-    file: '/jobs/deploiement_image_prod.yml'
+  - 'ci/job/verif_image_checksum.yml'
+  - 'ci/job/build_projet_maven.yml'
+  - 'ci/job/build_projet_npm.yml'
+  - 'ci/job/construction_image.yml'
+  - 'ci/job/dependency-check.yml'
+  - 'ci/job/analyse_sonar.yml'
+  - 'ci/job/analyse_trivy.yml'
+  - 'ci/job/deploiement_image_int.yml'
+  - 'ci/job/deploiement_image_prod.yml'
+# include:
+#   - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
+#     ref: master
+#     file: '/jobs/verif_image_checksum.yml'
+#   - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
+#     ref: master
+#     file: '/jobs/build_projet_maven.yml'
+#   - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
+#     ref: master
+#     file: '/jobs/build_projet_npm.yml'
+#   - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
+#     ref: master
+#     file: '/jobs/construction_image.yml'
+#   - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
+#     ref: master
+#     file: '/jobs/dependency-check.yml'
+#   - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
+#     ref: master
+#     file: '/jobs/analyse_sonar.yml'
+#   - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
+#     ref: master
+#     file: '/jobs/analyse_trivy.yml'
+#   - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
+#     ref: master
+#     file: '/jobs/deploiement_image_int.yml'
+#   - project: 'num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2-jobs-scripts'
+#     ref: master
+#     file: '/jobs/deploiement_image_prod.yml'

@@ -1,0 +1,28 @@
+construction_image:
+  stage: build
+  except:
+    variables:
+      - $IMAGE_CHECKSUM
+  image: docker:20.10.5
+  variables:
+    HTTP_PROXY: "http://172.27.229.197:8090"
+    HTTPS_PROXY: "http://172.27.229.197:8090"
+    NO_PROXY: "docker,dockerhost,gitlab-sml.din.developpement-durable.gouv.fr,int-docker01,localhost,127.0.0.1,0.0.0.0,.dsi.damgm.i2"
+    GIT_STRATEGY: fetch
+    GIT_CLEAN_FLAGS: none
+    DOCKER_HOST: tcp://dockerhost:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+  services:
+    - name: docker:20.10.5-dind
+      alias: dockerhost
+      entrypoint: ["sh", "-c", "dockerd-entrypoint.sh"]
+  script:
+    # TODO à adapter en fonction du projet
+    - docker build -f infra/docker/app/Dockerfile -t $TAG_VERSION -t $TAG_LATEST .
+    - docker login $NEXUS_DOCKER_REPO -u $NEXUS_USER -p $NEXUS_PWD
+    - docker image push --all-tags $NEXUS_DOCKER_REPO/$PROJECT_NAME
+    - docker logout $NEXUS_DOCKER_REPO
+  tags:
+    - build
+
