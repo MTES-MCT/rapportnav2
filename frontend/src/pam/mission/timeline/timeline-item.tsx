@@ -2,10 +2,11 @@ import React from 'react'
 import { THEME, Icon } from '@mtes-mct/monitor-ui'
 import { ActionTypeEnum, EnvAction, EnvActionControl, MissionSourceEnum } from '../../env-mission-types'
 import { FlexboxGrid, Stack } from 'rsuite'
-import { ActionSource, Action, NavAction, ActionStatusType } from '../../mission-types'
-import { FishAction, MissionActionType } from '../../fish-mission-types'
+import { Action, NavAction } from '../../mission-types'
+import { FishAction } from '../../fish-mission-types'
 import { StatusColorTag } from '../status/status-selection-dropdown'
 import { mapStatusToText } from '../status/utils'
+import { controlMethodToHumanString, vesselTypeToHumanString } from '../controls/utils'
 
 interface MissionTimelineItemProps {
   action: Action
@@ -93,7 +94,10 @@ const ActionNavControl: React.FC<{ action: NavAction; onClick: any }> = ({ actio
           </Stack.Item>
           <Stack.Item alignSelf="flex-start">
             <Stack direction="column" alignItems="flex-start">
-              <Stack.Item>Contrôles Nav</Stack.Item>
+              <Stack.Item>
+                Contrôles <b>{controlMethodToHumanString(action.controlMethod)}</b> -{' '}
+                <b>{vesselTypeToHumanString(action.vesselType)}</b>
+              </Stack.Item>
             </Stack>
           </Stack.Item>
         </Stack>
@@ -126,6 +130,9 @@ const ActionStatus: React.FC<{ action: NavAction; onClick: any }> = ({ action, o
         </Stack.Item>
         <Stack.Item>
           <b>{`${mapStatusToText(action.status)} - ${action.isStart ? 'début' : 'fin'}`}</b>
+        </Stack.Item>
+        <Stack.Item>
+          <Icon.EditUnbordered size={20} />
         </Stack.Item>
       </Stack>
     </Wrapper>

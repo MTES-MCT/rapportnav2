@@ -5,6 +5,7 @@ enum class VesselTypeEnum {
     SAILING,
     MOTOR,
     COMMERCIAL,
+    SAILING_LEISURE,
 }
 
 fun mapStringToVesselType(value: String?): VesselTypeEnum? {

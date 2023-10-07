@@ -9,7 +9,7 @@ import MissionTimeline from './timeline/timeline'
 import { useState } from 'react'
 import { getComponentForAction } from './actions/action-mapping'
 import Title from '../../ui/title'
-import { ControlTarget, Action, ActionStatusType } from '../mission-types'
+import { ControlTarget, Action, ActionStatusType, VesselType } from '../mission-types'
 import ActionSelectionDropdown from './actions/action-selection-dropdown'
 import { ActionTypeEnum, MissionSourceEnum } from '../env-mission-types'
 import ControlSelection from './controls/control-selection'
@@ -85,7 +85,7 @@ export default function Mission() {
     setSelectedAction(newAction as any)
   }
 
-  const addNewControl = (controlMethod: string, targetType: ControlTarget) => {
+  const addNewControl = (controlMethod: string, vesselType: VesselType) => {
     setShowControlTypesModal(false)
     debugger
     const uuid = uuidv4()
@@ -94,8 +94,8 @@ export default function Mission() {
       id: uuid,
       missionId: parseInt(missionId!, 10),
       startDateTimeUtc: date,
-      controlMethod: controlMethod,
-      vesselType: null,
+      controlMethod,
+      vesselType,
       vesselIdentifier: null,
       vesselSize: null,
       identityControlledPerson: null,
@@ -103,7 +103,7 @@ export default function Mission() {
     }
     const newAction = {
       id: uuid,
-      type: ActionTypeEnum.STATUS,
+      type: ActionTypeEnum.CONTROL,
       source: MissionSourceEnum.RAPPORTNAV,
       startDateTimeUtc: date,
       endDateTimeUtc: null,

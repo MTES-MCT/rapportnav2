@@ -3,7 +3,8 @@ import { ActionTypeEnum, missionTypeEnum } from '../../env-mission-types'
 import { Stack } from 'rsuite'
 import Title from '../../../ui/title'
 import { useState } from 'react'
-import { ControlTarget, ControlTargetText } from '../../mission-types'
+import { ControlTarget, ControlTargetText, VesselType } from '../../mission-types'
+import { vesselTypeToHumanString } from './utils'
 
 export const controlTypeRadio = {
   YES: {
@@ -41,52 +42,52 @@ const ControlSelection: React.FC<ControlSelectionProps> = ({ onSelect }) => {
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <Button
-            onClick={() => onSelect(selectedControlType, ControlTarget.PECHE_PRO)}
+            onClick={() => onSelect(selectedControlType, VesselType.FISHING)}
             Icon={Icon.Plus}
             accent={Accent.SECONDARY}
             isFullWidth
           >
-            Contrôles de navires de <b>{ControlTargetText.PECHE_PRO}</b>
+            Contrôles de <b>{vesselTypeToHumanString(VesselType.FISHING)}</b>
           </Button>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <Button
-            onClick={() => onSelect(selectedControlType, ControlTarget.PLAISANCE_PRO)}
+            onClick={() => onSelect(selectedControlType, VesselType.SAILING)}
             Icon={Icon.Plus}
             accent={Accent.SECONDARY}
             isFullWidth
           >
-            Contrôles de navires de <b>{ControlTargetText.PLAISANCE_PRO}</b>
+            Contrôles de <b>{vesselTypeToHumanString(VesselType.SAILING)}</b>
           </Button>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <Button
-            onClick={() => onSelect(selectedControlType, ControlTarget.COMMERCE_PRO)}
+            onClick={() => onSelect(selectedControlType, VesselType.COMMERCIAL)}
             Icon={Icon.Plus}
             accent={Accent.SECONDARY}
             isFullWidth
           >
-            Contrôles de navires de <b>{ControlTargetText.COMMERCE_PRO}</b>
+            Contrôles de <b>{vesselTypeToHumanString(VesselType.COMMERCIAL)}</b>
           </Button>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <Button
-            onClick={() => onSelect(selectedControlType, ControlTarget.SERVICE_PRO)}
+            onClick={() => onSelect(selectedControlType, VesselType.MOTOR)}
             Icon={Icon.Plus}
             accent={Accent.SECONDARY}
             isFullWidth
           >
-            Contrôles de navires de <b>{ControlTargetText.SERVICE_PRO} (travaux...)</b>
+            Contrôles de <b>{vesselTypeToHumanString(VesselType.MOTOR)} (travaux...)</b>
           </Button>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <Button
-            onClick={() => onSelect(selectedControlType, ControlTarget.PLAISANCE_LOISIR)}
+            onClick={() => onSelect(selectedControlType, VesselType.SAILING_LEISURE)}
             Icon={Icon.Plus}
             accent={Accent.SECONDARY}
             isFullWidth
           >
-            Contrôles de navires de <b>{ControlTargetText.PLAISANCE_LOISIR}</b>
+            Contrôles de <b>{vesselTypeToHumanString(VesselType.SAILING_LEISURE)}</b>
           </Button>
         </Stack.Item>
       </Stack>

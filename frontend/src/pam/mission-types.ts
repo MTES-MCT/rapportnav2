@@ -55,7 +55,8 @@ export enum VesselType {
   'FISHING' = 'FISHING',
   'SAILING' = 'SAILING',
   'MOTOR' = 'MOTOR',
-  'COMMERCIAL' = 'COMMERCIAL'
+  'COMMERCIAL' = 'COMMERCIAL',
+  'SAILING_LEISURE' = 'SAILING_LEISURE'
 }
 
 export enum VesselSize {
@@ -180,18 +181,18 @@ export type Mission = {
   actions: Action[]
 }
 
-export enum ControlTarget {
-  'PECHE_PRO' = 'PECHE_PRO',
-  'PLAISANCE_PRO' = 'PLAISANCE_PRO',
-  'COMMERCE_PRO' = 'COMMERCE_PRO',
-  'SERVICE_PRO' = 'SERVICE_PRO',
-  'PLAISANCE_LOISIR' = 'PLAISANCE_LOISIR'
-}
+// export enum ControlTarget {
+//   'PECHE_PRO' = 'PECHE_PRO',
+//   'PLAISANCE_PRO' = 'PLAISANCE_PRO',
+//   'COMMERCE_PRO' = 'COMMERCE_PRO',
+//   'SERVICE_PRO' = 'SERVICE_PRO',
+//   'PLAISANCE_LOISIR' = 'PLAISANCE_LOISIR'
+// }
 
-export enum ControlTargetText {
-  'PECHE_PRO' = 'pêche professionnelle',
-  'PLAISANCE_PRO' = 'plaisance professionnelle',
-  'COMMERCE_PRO' = 'commerce',
-  'SERVICE_PRO' = 'service',
-  'PLAISANCE_LOISIR' = 'plaisance de loisir'
-}
+// export enum ControlTargetText {
+//   'PECHE_PRO' = 'pêche professionnelle',
+//   'PLAISANCE_PRO' = 'plaisance professionnelle',
+//   'COMMERCE_PRO' = 'commerce',
+//   'SERVICE_PRO' = 'service',
+//   'PLAISANCE_LOISIR' = 'plaisance de loisir'
+// }
