@@ -8,16 +8,22 @@ ARG VERSION=NO_VERSION
 ########################################
 # Build rapportnav backend with maven #
 ########################################
+# Stage 1: Download maven dependencies
+# this stage will not run if dependencies have not changed
+FROM maven:3.8.5-openjdk-17-slim as maven-dependencies
+WORKDIR /tmp/backend
+COPY backend/pom.xml pom.xml
+RUN mvn dependency:go-offline -B -Dhttps.proxyHost=172.27.229.197 -Dhttps.proxyPort=8090
+
+# Stage 2: Build the application
 FROM maven:3.8.5-openjdk-17-slim as build-backend
 
 ARG GITHUB_SHA
 ARG VERSION
 
 WORKDIR /tmp/backend
-COPY backend/pom.xml pom.xml
-RUN mvn dependency:go-offline -B -Dhttps.proxyHost=172.27.229.197 -Dhttps.proxyPort=8090
-
 COPY backend/ /tmp/backend
+COPY --from=maven-dependencies /root/.m2 /root/.m2
 COPY backend/pom.xml /tmp/backend/POM_WITH_ENV_VARS
 RUN sed -e 's/COMMIT_TO_CHANGE/${GITHUB_SHA}/' \
   -e 's/VERSION_TO_CHANGE/${VERSION}/' \
@@ -30,7 +36,8 @@ RUN mvn clean package -DskipTests=true -Dhttps.proxyHost=172.27.229.197 -Dhttps.
 ########################################
 # Build frontend                       #
 ########################################
-# Stage 1: Build npm dependencies
+# Stage 1: Download npm dependencies
+# this stage will not run if dependencies have not changed
 FROM node:18 AS npm-dependencies
 WORKDIR /tmp/frontend
 COPY frontend/package.json frontend/package-lock.json ./
