@@ -1,0 +1,34 @@
+recup_inventaire_int:
+  stage: pre-deploy-int
+  only:
+    - main
+  variables:
+    ID_PROJET_INVENTAIRE_INT: 156  #ID du projet GITLAB de l'inventaire d'intégration
+  image: alpine/curl
+  tags:
+    - deployment
+  script:
+    - cd $CI_PROJECT_DIR
+    - curl -H "PRIVATE-TOKEN:$PROJET_INVENTAIRE_ACCESS_TOKEN" "$CI_API_V4_URL/projects/$ID_PROJET_INVENTAIRE_INT/repository/files/topologie.ini/raw" --output inventory.ini
+  artifacts:
+    paths:
+      - inventory.ini
+
+deploiement_image_int:
+  stage: deploy-int
+  only:
+    - main
+  image: cbhek/ansible-worker:1.0.0
+  tags:
+    - deployment
+  dependencies:
+    - "recup_inventaire_int"
+  variables:
+    GIT_STRATEGY: fetch
+    GIT_CLEAN_FLAGS: none
+  before_script:
+    # requis pour que le pipeline du projet appelant ce script ait accès aux scripts ansible
+    - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2
+  script:
+    - cd rapportnav-v2/ci && ansible-playbook -i ../inventory.ini deploiement_image_docker.yml --extra-vars "env=int inventory_hostname=$SERVER_ENV_INT"
+

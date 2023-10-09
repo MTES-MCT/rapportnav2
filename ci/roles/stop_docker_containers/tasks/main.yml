@@ -1,0 +1,20 @@
+---
+#------------------------------------------------------------------------
+#   Liste des taches d'installation/mise à jour d'un projet dockerisé
+#------------------------------------------------------------------------
+
+# Init répertoire docker-compose projet
+- name: "Create docker compose path"
+  command: mkdir -p {{ docker_compose_path }}
+
+# Vérification de containers déjà démarrés
+- name: "Check for containers that actually exist"
+  shell: 'docker ps -aq --filter "name={{ project_name }}"'
+  register: found_containers
+
+# Arrêt des containers existants
+- name: "Remove the containers found by the above command"
+  shell: 'docker-compose stop && docker-compose rm -f'
+  when: found_containers.stdout
+  args:
+    chdir: "{{ docker_compose_path }}"

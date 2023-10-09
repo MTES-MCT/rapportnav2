@@ -1,0 +1,21 @@
+verif_image_checksum:
+  stage: pre-analyze
+  only:
+    variables:
+      - $IMAGE_CHECKSUM
+  image: docker:20.10.5
+  services:
+    - name: docker:20.10.5-dind
+      entrypoint: ["sh", "-c", "dockerd-entrypoint.sh"]
+  script:
+    - docker login $NEXUS_DOCKER_REPO -u $NEXUS_USER -p $NEXUS_PWD
+    - docker pull $NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION
+    - CHECKSUM=`docker image ls --digests --format '{{.Digest}}' $NEXUS_DOCKER_REPO/$PROJECT_NAME`
+    - |
+      if [ $IMAGE_CHECKSUM != $CHECKSUM ]
+        then
+          echo "Checksum incorrect"
+          exit 1
+      fi
+  tags:
+    - analyze

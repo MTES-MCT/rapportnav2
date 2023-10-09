@@ -1,0 +1,7 @@
+---
+docker_image_path: "{{ lookup('env', 'TAG_VERSION') }}"
+docker_compose_path: "/opt/dockers/{{ project_name }}"
+nexus_repo: "{{ lookup('env', 'NEXUS_DOCKER_REPO') }}"
+nexus_user: "{{ lookup('env', 'NEXUS_USER') }}"
+nexus_password: "{{ lookup('env', 'NEXUS_PWD') }}"
+docker_compose_source: "docker-compose.yml.j2"
