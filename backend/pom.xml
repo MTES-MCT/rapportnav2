@@ -17,7 +17,7 @@
 		<commit.hash>COMMIT_TO_CHANGE</commit.hash>
 		<java.version>17</java.version>
 		<kotlin.version>1.9.0</kotlin.version>
-		<serialization.version>1.5.1</serialization.version>
+		<serialization.version>1.6.0</serialization.version>
 		<spring.version>3.1.4</spring.version>
 		<testcontainers.version>1.19.1</testcontainers.version>
 		<snakeyaml.version>2.2</snakeyaml.version>
