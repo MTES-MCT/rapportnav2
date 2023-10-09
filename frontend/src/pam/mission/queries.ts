@@ -37,6 +37,8 @@ export const GET_MISSION_BY_ID = gql`
           }
           ... on NavActionControl {
             id
+            latitude
+            longitude
             controlMethod
             vesselIdentifier
             vesselType

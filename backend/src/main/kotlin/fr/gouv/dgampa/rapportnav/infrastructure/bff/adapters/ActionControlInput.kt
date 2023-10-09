@@ -14,6 +14,8 @@ data class ActionControlInput(
     val missionId: Int,
     val startDateTimeUtc: String,
     val endDateTimeUtc: String?,
+    val latitude: Double?,
+    val longitude: Double?,
     val controlMethod: ControlMethod?,
     val vesselType: VesselTypeEnum?,
     val vesselIdentifier: String?,
@@ -29,6 +31,8 @@ data class ActionControlInput(
             endDateTimeUtc = endDateTimeUtc?.let {
                 ZonedDateTime.parse(it, DateTimeFormatter.ISO_INSTANT.withZone(ZoneId.of("UTC")))
             } ?: ZonedDateTime.parse(startDateTimeUtc, DateTimeFormatter.ISO_INSTANT.withZone(ZoneId.of("UTC"))),
+            latitude = latitude,
+            longitude = longitude,
             controlMethod = controlMethod,
             vesselType = vesselType,
             vesselIdentifier = vesselIdentifier,

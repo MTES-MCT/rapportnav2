@@ -32,8 +32,11 @@ data class ActionControlModel(
     @Column(name = "control_method", nullable = false)
     var controlMethod: String,
 
-//    @Column(name = "geom", nullable = true)
-//    var geom: MultiPolygon? = null,
+    @Column(name = "latitude", nullable = true)
+    var latitude: Double? = null,
+
+    @Column(name = "longitude", nullable = true)
+    var longitude: Double? = null,
 
     @Column(name = "vessel_identifier", nullable = false)
     var vesselIdentifier: String,
@@ -72,6 +75,8 @@ data class ActionControlModel(
             missionId = missionId,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
+            latitude = latitude,
+            longitude = longitude,
             controlMethod = mapStringToControlMethod(controlMethod),
             vesselIdentifier = vesselIdentifier,
             vesselType = mapStringToVesselType(vesselType),
@@ -91,6 +96,8 @@ data class ActionControlModel(
             missionId = controlAction.missionId,
             startDateTimeUtc = controlAction.startDateTimeUtc,
             endDateTimeUtc = controlAction.endDateTimeUtc,
+            latitude = controlAction.latitude,
+            longitude = controlAction.longitude,
             controlMethod = controlAction.controlMethod.toString(),
             vesselIdentifier = controlAction.vesselIdentifier.toString(),
             vesselType = controlAction.vesselType.toString(),

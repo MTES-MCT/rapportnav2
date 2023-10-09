@@ -21,7 +21,6 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
         <FlexboxGrid.Item style={{ width: '100%' }}>
           <Stack direction="column">
             {mission.actions.map((action: Action) => {
-              console.log('TINELINE action', action)
               if (!action.data) {
                 return <></>
               }

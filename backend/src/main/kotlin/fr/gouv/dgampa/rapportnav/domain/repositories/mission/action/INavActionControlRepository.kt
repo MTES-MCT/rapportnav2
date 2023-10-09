@@ -5,9 +5,7 @@ import java.util.*
 
 interface INavActionControlRepository {
     fun findAllByMissionId( missionId: Int): List<ActionControl>
-
     fun existsById(id: UUID): Boolean
     fun save(controlAction: ActionControl): ActionControl
-
     fun deleteById(id: UUID)
 }

@@ -31,7 +31,8 @@ input ActionControlInput {
   startDateTimeUtc: String!
   endDateTimeUtc: String
   controlMethod: ControlMethod
-  #  geom: String
+  latitude: Float
+  longitude: Float
   vesselType: VesselType
   vesselIdentifier: String
   vesselSize: VesselSize
@@ -80,7 +81,8 @@ enum ActionStatusReason {
 type NavActionControl {
   id: String!
   controlMethod: ControlMethod
-  #  geom: String
+  latitude: Float
+  longitude: Float
   vesselType: VesselType
   vesselIdentifier: String
   vesselSize: VesselSize

@@ -94,6 +94,8 @@ data class NavActionControl(
     val missionId: Int,
     val startDateTimeUtc: ZonedDateTime,
     val endDateTimeUtc: ZonedDateTime?,
+    val latitude: Double? = null,
+    val longitude: Double? = null,
     val controlMethod: ControlMethod?,
     val observations: String? = null,
     val vesselIdentifier: String? = null,

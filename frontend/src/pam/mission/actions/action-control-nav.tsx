@@ -7,7 +7,8 @@ import {
   Size,
   DateRangePicker,
   DateRange,
-  MultiZoneEditor,
+  CoordinatesInput,
+  Coordinates,
   Select,
   TextInput,
   Textarea,
@@ -59,6 +60,12 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
       updatedField = {
         startDateTimeUtc,
         endDateTimeUtc
+      }
+    } else if (field == 'geom') {
+      debugger
+      updatedField = {
+        latitude: value[0],
+        longitude: value[1]
       }
     } else {
       updatedField = {
@@ -166,8 +173,16 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
       </Stack.Item>
       {/* CONTROL ZONES FIELD */}
       <Stack.Item style={{ width: '100%' }}>
-        <MultiZoneEditor label="Lieu du contrôle" addButtonLabel="Ajouter un point de contrôle" disabled={true} />
+        {/* TODO check why onChange is called at load */}
+        <CoordinatesInput
+          defaultValue={[control.latitude, control.longitude]}
+          coordinatesFormat="DMS"
+          label="Lieu du contrôle"
+          isLight={true}
+          onChange={(nextCoordinates: Coordinates, coordinates: Coordinates) => onChange('geom', nextCoordinates)}
+        />
       </Stack.Item>
+      {/* VESSEL INFORMATION */}
       <Stack.Item style={{ width: '100%' }}>
         <Stack spacing="0.5rem" style={{ width: '100%' }}>
           <Stack.Item grow={1}>

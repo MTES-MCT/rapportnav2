@@ -111,6 +111,8 @@ export type ActionStatus = {
 }
 
 export type ActionControl = {
+  latitude: number
+  longitude: number
   controlMethod?: ControlMethod
   vesselIdentifier?: string
   vesselType?: VesselType
