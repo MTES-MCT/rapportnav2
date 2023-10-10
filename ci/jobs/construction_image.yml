@@ -25,4 +25,9 @@ construction_image:
     - docker logout $NEXUS_DOCKER_REPO
   tags:
     - build
+  
+  needs:
+    - job: build_projet_maven
+    - job: build_projet_npm
+      artifacts: true
 
