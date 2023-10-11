@@ -17,4 +17,4 @@ build_projet_npm:
   artifacts:
     name: "Npm artifacts from $CI_PROJECT_NAME on $CI_COMMIT_REF_SLUG"
     paths:
-      - "frontend/"
+      - "frontend/dist"

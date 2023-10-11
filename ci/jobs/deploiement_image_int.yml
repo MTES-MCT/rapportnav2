@@ -28,7 +28,7 @@ deploiement_image_int:
     GIT_CLEAN_FLAGS: none
   before_script:
     # requis pour que le pipeline du projet appelant ce script ait accès aux scripts ansible
-    - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2
+    #- git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2
   script:
-    - cd rapportnav-v2/ci && ansible-playbook -i ../inventory.ini deploiement_image_docker.yml --extra-vars "env=int inventory_hostname=$SERVER_ENV_INT"
+    - cd ci && ansible-playbook -i ../inventory.ini deploiement_image_docker.yml --extra-vars "env=int inventory_hostname=$SERVER_ENV_INT"
 
