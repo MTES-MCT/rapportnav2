@@ -5,4 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavi
 
 interface IControlNavigationRepository {
     fun findAllByMissionId( missionId: Int): List<ControlNavigation>
+
+    fun save(control: ControlNavigation): ControlNavigation
 }

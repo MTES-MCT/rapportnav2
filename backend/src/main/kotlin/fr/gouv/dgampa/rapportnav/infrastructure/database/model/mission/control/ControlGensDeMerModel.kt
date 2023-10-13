@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMer
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import jakarta.persistence.*
@@ -37,16 +38,29 @@ data class ControlGensDeMerModel(
     @OneToOne
     @JoinColumn(name = "action_control_id", referencedColumnName = "id")
     @JsonIgnore
-    var actionControl: ActionControlModel
+    var actionControl: ActionControlModel? = null
 ) {
     fun toControlGensDeMer() = ControlGensDeMer(
         id = id,
         missionId = missionId,
-        actionControlId = actionControl.id,
+        actionControlId = actionControl!!.id,
         confirmed = confirmed,
         staffOutnumbered = staffOutnumbered,
         upToDateMedicalCheck = upToDateMedicalCheck,
         knowledgeOfFrenchLawAndLanguage = knowledgeOfFrenchLawAndLanguage,
         observations = observations
     )
+
+    companion object {
+        fun fromControlGensDeMer(control: ControlGensDeMer, mapper: ObjectMapper) = ControlGensDeMerModel(
+            id = control.id,
+            missionId = control.missionId,
+            actionControlId = control.actionControlId,
+            confirmed = control.confirmed,
+            staffOutnumbered = control.staffOutnumbered,
+            upToDateMedicalCheck = control.upToDateMedicalCheck,
+            knowledgeOfFrenchLawAndLanguage = control.knowledgeOfFrenchLawAndLanguage,
+            observations = control.observations,
+        )
+    }
 }

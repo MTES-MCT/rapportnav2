@@ -5,4 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGens
 
 interface IControlGensDeMerRepository {
     fun findAllByMissionId( missionId: Int): List<ControlGensDeMer>
+
+    fun save(control: ControlGensDeMer): ControlGensDeMer
 }

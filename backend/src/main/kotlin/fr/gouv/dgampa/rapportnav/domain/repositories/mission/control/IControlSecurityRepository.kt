@@ -5,4 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecu
 
 interface IControlSecurityRepository {
     fun findAllByMissionId(missionId: Int ): List<ControlSecurity>
+
+    fun save(control: ControlSecurity): ControlSecurity
 }

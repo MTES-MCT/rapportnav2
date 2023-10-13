@@ -5,4 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdmi
 
 interface IControlAdministrativeRepository {
     fun findAllByMissionId( missionId: Int): List<ControlAdministrative>
+
+    fun save(control: ControlAdministrative): ControlAdministrative
+
 }

@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import jakarta.persistence.*
@@ -28,13 +29,23 @@ data class ControlSecurityModel(
     @OneToOne
     @JoinColumn(name = "action_control_id", referencedColumnName = "id")
     @JsonIgnore
-    var actionControl: ActionControlModel
+    var actionControl: ActionControlModel? = null
 ) {
     fun toControlSecurity() = ControlSecurity(
         id = id,
         missionId = missionId,
-        actionControlId = actionControl.id,
+        actionControlId = actionControl!!.id,
         confirmed = confirmed,
         observations = observations
     )
+
+    companion object {
+        fun fromControlSecurity(control: ControlSecurity, mapper: ObjectMapper) = ControlSecurityModel(
+            id = control.id,
+            missionId = control.missionId,
+            actionControlId = control.actionControlId,
+            confirmed = control.confirmed,
+            observations = control.observations,
+        )
+    }
 }

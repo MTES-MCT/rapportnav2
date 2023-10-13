@@ -1,3 +1,11 @@
+extend type Mutation {
+  addOrUpdateControlNavigation(control: ControlNavigationInput!): ControlNavigation!
+  addOrUpdateControlSecurity(control: ControlSecurityInput!): ControlSecurity!
+  addOrUpdateControlAdministrative(control: ControlAdministrativeInput!): ControlAdministrative!
+  addOrUpdateControlGensDeMer(control: ControlGensDeMerInput!): ControlGensDeMer!
+}
+
+
 type ControlNavigation {
   id: String!
   confirmed: Boolean
@@ -21,6 +29,45 @@ type ControlAdministrative {
 
 type ControlGensDeMer {
   id: String!
+  confirmed: Boolean
+  staffOutnumbered: Boolean
+  upToDateMedicalCheck: Boolean
+  knowledgeOfFrenchLawAndLanguage: Boolean
+  observations: String
+}
+
+input ControlNavigationInput {
+  id: String!
+  missionId: String!
+  actionControlId: String!
+  confirmed: Boolean
+  observations: String
+}
+
+
+input ControlSecurityInput {
+  id: String!
+  missionId: String!
+  actionControlId: String!
+  confirmed: Boolean
+  observations: String
+}
+
+input ControlAdministrativeInput {
+  id: String!
+  missionId: String!
+  actionControlId: String!
+  confirmed: Boolean
+  compliantOperatingPermit: Boolean
+  upToDateNavigationPermit: Boolean
+  compliantSecurityDocuments: Boolean
+  observations: String
+}
+
+input ControlGensDeMerInput {
+  id: String!
+  missionId: String!
+  actionControlId: String!
   confirmed: Boolean
   staffOutnumbered: Boolean
   upToDateMedicalCheck: Boolean
