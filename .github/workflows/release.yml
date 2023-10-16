@@ -1,10 +1,10 @@
 name: "Release"
 
 on:
-  push:
-    branches: ["CHANGEME"]
-  # release:
-  #   types: [published]
+  # push:
+  #   branches: ["CHANGEME"]
+  release:
+    types: [published]
 
 jobs:
   publish-release:
@@ -21,8 +21,7 @@ jobs:
 
       - name: set env VERSION
         id: version
-        # run: export VERSION=${{ steps.extract_tag.outputs.tag }}
-        run: export VERSION=0.0.0.16
+        run: export VERSION=${{ steps.extract_tag.outputs.tag }}
 
       - name: Mirror + trigger CI
         uses: SvanBoxel/gitlab-mirror-and-ci-action@master

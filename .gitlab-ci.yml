@@ -12,7 +12,7 @@ variables:
     value: rapportnav-v2
     description: "Nom du projet à déployer"
   PROJECT_VERSION:
-    value: 0.0.0.14
+    value: "0.0.0-test1"
     description: "Version du projet à déployer"
   SERVER_ENV_INT:
     value: "int-rapportnav-appli01"
@@ -30,12 +30,12 @@ variables:
     description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
 
 include:
-  - '/ci/jobs/verif_image_checksum.yml'
-  - '/ci/jobs/build_projet_maven.yml'
-  - '/ci/jobs/build_projet_npm.yml'
-  - '/ci/jobs/construction_image.yml'
-  - '/ci/jobs/dependency-check.yml'
-  - '/ci/jobs/analyse_sonar.yml'
-  - '/ci/jobs/analyse_trivy.yml'
-  - '/ci/jobs/deploiement_image_int.yml'
-  - '/ci/jobs/deploiement_image_prod.yml'
+  - "/ci/jobs/verif_image_checksum.yml"
+  - "/ci/jobs/build_projet_maven.yml"
+  - "/ci/jobs/build_projet_npm.yml"
+  - "/ci/jobs/construction_image.yml"
+  - "/ci/jobs/dependency-check.yml"
+  - "/ci/jobs/analyse_sonar.yml"
+  - "/ci/jobs/analyse_trivy.yml"
+  - "/ci/jobs/deploiement_image_int.yml"
+  - "/ci/jobs/deploiement_image_prod.yml"
