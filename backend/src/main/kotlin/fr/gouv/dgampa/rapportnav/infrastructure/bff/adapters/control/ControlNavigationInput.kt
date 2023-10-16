@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavi
 import java.util.*
 
 data class ControlNavigationInput(
-    val id: UUID,
+    val id: UUID?,
     val missionId: Int,
     val actionControlId: UUID,
     val confirmed: Boolean?,
@@ -12,7 +12,7 @@ data class ControlNavigationInput(
 ) {
     fun toControlNavigation(): ControlNavigation {
         return ControlNavigation(
-            id = id,
+            id = id ?: UUID.randomUUID(),
             missionId = missionId,
             actionControlId = actionControlId,
             confirmed = confirmed,

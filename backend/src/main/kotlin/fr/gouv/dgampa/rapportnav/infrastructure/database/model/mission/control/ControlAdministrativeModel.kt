@@ -43,7 +43,7 @@ data class ControlAdministrativeModel(
     fun toControlAdministrative() = ControlAdministrative(
         id = id,
         missionId = missionId,
-        actionControlId = actionControl!!.id,
+        actionControlId = actionControlId,
         confirmed = confirmed,
         compliantOperatingPermit = compliantOperatingPermit,
         upToDateNavigationPermit = upToDateNavigationPermit,

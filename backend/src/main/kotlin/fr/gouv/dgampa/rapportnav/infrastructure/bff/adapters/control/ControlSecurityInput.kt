@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecu
 import java.util.*
 
 data class ControlSecurityInput(
-    val id: UUID,
+    val id: UUID?,
     val missionId: Int,
     val actionControlId: UUID,
     val confirmed: Boolean?,
@@ -12,7 +12,7 @@ data class ControlSecurityInput(
 ) {
     fun toControlSecurity(): ControlSecurity {
         return ControlSecurity(
-            id = id,
+            id = id ?: UUID.randomUUID(),
             missionId = missionId,
             actionControlId = actionControlId,
             confirmed = confirmed,

@@ -43,7 +43,7 @@ data class ControlGensDeMerModel(
     fun toControlGensDeMer() = ControlGensDeMer(
         id = id,
         missionId = missionId,
-        actionControlId = actionControl!!.id,
+        actionControlId = actionControlId,
         confirmed = confirmed,
         staffOutnumbered = staffOutnumbered,
         upToDateMedicalCheck = upToDateMedicalCheck,

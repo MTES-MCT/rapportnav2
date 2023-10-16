@@ -37,7 +37,7 @@ type ControlGensDeMer {
 }
 
 input ControlNavigationInput {
-  id: String!
+  id: String
   missionId: String!
   actionControlId: String!
   confirmed: Boolean
@@ -46,7 +46,7 @@ input ControlNavigationInput {
 
 
 input ControlSecurityInput {
-  id: String!
+  id: String
   missionId: String!
   actionControlId: String!
   confirmed: Boolean
@@ -54,7 +54,7 @@ input ControlSecurityInput {
 }
 
 input ControlAdministrativeInput {
-  id: String!
+  id: String
   missionId: String!
   actionControlId: String!
   confirmed: Boolean
@@ -65,7 +65,7 @@ input ControlAdministrativeInput {
 }
 
 input ControlGensDeMerInput {
-  id: String!
+  id: String
   missionId: String!
   actionControlId: String!
   confirmed: Boolean

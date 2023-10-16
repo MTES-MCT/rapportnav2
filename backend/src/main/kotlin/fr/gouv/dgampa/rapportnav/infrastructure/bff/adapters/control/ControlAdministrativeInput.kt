@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdmi
 import java.util.*
 
 data class ControlAdministrativeInput(
-    val id: UUID,
+    val id: UUID?,
     val missionId: Int,
     val actionControlId: UUID,
     val confirmed: Boolean?,
@@ -15,7 +15,7 @@ data class ControlAdministrativeInput(
 ) {
     fun toControlAdministrative(): ControlAdministrative {
         return ControlAdministrative(
-            id = id,
+            id = id ?: UUID.randomUUID(),
             missionId = missionId,
             actionControlId = actionControlId,
             confirmed = confirmed,

@@ -34,7 +34,7 @@ data class ControlSecurityModel(
     fun toControlSecurity() = ControlSecurity(
         id = id,
         missionId = missionId,
-        actionControlId = actionControl!!.id,
+        actionControlId = actionControlId,
         confirmed = confirmed,
         observations = observations
     )

@@ -105,3 +105,32 @@ export const DELETE_ACTION_CONTROL = gql`
     deleteControl(id: $id)
   }
 `
+
+export const MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER = gql`
+  mutation AddOrUpdateControlGensDeMer($control: ControlGensDeMerInput!) {
+    addOrUpdateControlGensDeMer(control: $control) {
+      id
+    }
+  }
+`
+export const MUTATION_ADD_OR_UPDATE_CONTROL_NAVIGATION = gql`
+  mutation AddOrUpdateControlNavigation($control: ControlNavigationInput!) {
+    addOrUpdateControlGensDeMer(control: $control) {
+      id
+    }
+  }
+`
+export const MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY = gql`
+  mutation AddOrUpdateControlSecurity($control: ControlSecurityInput!) {
+    addOrUpdateControlSecurity(control: $control) {
+      id
+    }
+  }
+`
+export const MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE = gql`
+  mutation AddOrUpdateControlAdministrative($control: ControlAdministrativeInput!) {
+    addOrUpdateControlAdministrative(control: $control) {
+      id
+    }
+  }
+`

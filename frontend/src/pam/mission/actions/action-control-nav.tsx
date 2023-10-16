@@ -230,7 +230,11 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
               collapsible
               style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
             >
-              <ControlAdministrativeForm data={control.controlAdministrative} />{' '}
+              <ControlAdministrativeForm
+                missionId={missionId}
+                actionControlId={action.id}
+                data={control.controlAdministrative}
+              />{' '}
             </Panel>
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
@@ -243,7 +247,11 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
               collapsible
               style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
             >
-              <ControlNavigationForm data={control.controlNavigation} />
+              <ControlNavigationForm
+                missionId={missionId}
+                actionControlId={action.id}
+                data={control.controlNavigation}
+              />
             </Panel>
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
@@ -256,7 +264,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
               collapsible
               style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
             >
-              <ControlGensDeMerForm data={control.controlGensDeMer} />
+              <ControlGensDeMerForm missionId={missionId} actionControlId={action.id} data={control.controlGensDeMer} />
             </Panel>
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
@@ -269,7 +277,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
               collapsible
               style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
             >
-              <ControlSecurityForm data={control.controlNavigation} />
+              <ControlSecurityForm missionId={missionId} actionControlId={action.id} data={control.controlNavigation} />
             </Panel>
           </Stack.Item>
         </Stack>

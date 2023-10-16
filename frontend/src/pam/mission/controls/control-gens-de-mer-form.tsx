@@ -4,10 +4,12 @@ import { THEME, Icon, Button, Accent, Size, Textarea, MultiRadio } from '@mtes-m
 import { CONTROL_MULTIRADIO_OPTIONS } from './utils'
 
 interface ControlGensDeMerFormProps {
+  missionId: String
+  actionControlId: String
   data?: ControlGensDeMer
 }
 
-const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({ data }) => {
+const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({ missionId, actionControlId, data }) => {
   return (
     <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>

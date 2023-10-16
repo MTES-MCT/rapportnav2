@@ -3,10 +3,12 @@ import { ControlSecurity } from '../../mission-types'
 import { THEME, Icon, Button, Accent, Size, Textarea } from '@mtes-mct/monitor-ui'
 
 interface ControlSecurityFormProps {
+  missionId: String
+  actionControlId: String
   data?: ControlSecurity
 }
 
-const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({ data }) => {
+const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({ missionId, actionControlId, data }) => {
   return (
     <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
