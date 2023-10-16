@@ -24,7 +24,7 @@ services:
         max-size: "1024m"
 
   db:
-    image: postgres:13
+    image: postgres:15
     volumes:
       - "${RAPPORTNAV_BACKUPS_FOLDER}:/opt/rapportnav_backups"
       - db:/var/lib/postgresql/data
