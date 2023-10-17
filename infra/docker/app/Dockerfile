@@ -15,7 +15,7 @@ ENV SPRING_PROFILES_ACTIVE=$ENV_PROFILE
 ENV ENV_DB_URL=""
 
 # copy backend related things
-COPY backend/target/rapportnav-${VERSION}}.jar /home/rapportnav
+COPY backend/target/rapportnav-${VERSION}.jar /home/rapportnav
 COPY infra/configurations/backend /home/rapportnav/configurations/
 
 
