@@ -16,4 +16,4 @@ build_projet_maven:
     name: "Maven artifacts from $CI_PROJECT_NAME on $CI_COMMIT_REF_SLUG"
     when: on_success
     paths:
-      - "backend/target/rapportnav-VERSION_TO_CHANGE.jar"
+      - "backend/target/rapportnav-${PROJECT_VERSION}.jar"
