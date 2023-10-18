@@ -176,7 +176,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
         {/* TODO check why onChange is called at load */}
         <CoordinatesInput
           defaultValue={[control.latitude, control.longitude]}
-          coordinatesFormat="DMS"
+          coordinatesFormat="DD"
           label="Lieu du contrôle"
           isLight={true}
           onChange={(nextCoordinates: Coordinates, coordinates: Coordinates) => onChange('geom', nextCoordinates)}

@@ -103,4 +103,19 @@ class ActionController(
         return ActionType.OTHER
     }
 
+    @SchemaMapping(typeName = "EnvActionData", field = "amountOfControlsToComplete")
+    fun getEnvAmountOfControlsToComplete(action: EnvActionData): Int? {
+
+        // get last started status for this time and missionId
+        val amount = listOf(
+            action.isAdministrativeControl,
+            action.isComplianceWithWaterRegulationsControl,
+            action.isSafetyEquipmentAndStandardsComplianceControl,
+            action.isSeafarersControl
+            // ... add other properties here
+        ).count { it == true }
+
+        return amount
+    }
+
 }

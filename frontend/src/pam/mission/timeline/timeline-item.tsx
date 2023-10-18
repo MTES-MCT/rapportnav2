@@ -1,5 +1,5 @@
 import React from 'react'
-import { THEME, Icon } from '@mtes-mct/monitor-ui'
+import { THEME, Icon, Tag, Accent } from '@mtes-mct/monitor-ui'
 import { ActionTypeEnum, EnvAction, EnvActionControl, MissionSourceEnum } from '../../env-mission-types'
 import { FlexboxGrid, Stack } from 'rsuite'
 import { Action, NavAction } from '../../mission-types'
@@ -57,7 +57,15 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
                 </b>
               </Stack.Item>
               <Stack.Item>infrations...</Stack.Item>
-              <Stack.Item>x types de contrôles à compléter</Stack.Item>
+              {action.amountOfControlsToComplete > 0 && (
+                <Stack.Item>
+                  <Tag bullet="DISK" bulletColor={THEME.color.maximumRed} accent={Accent.PRIMARY}>
+                    <b>{`${action.amountOfControlsToComplete} ${
+                      action.amountOfControlsToComplete > 1 ? 'types' : 'type'
+                    } de contrôles à compléter`}</b>
+                  </Tag>
+                </Stack.Item>
+              )}
             </Stack>
           </Stack.Item>
         </Stack>

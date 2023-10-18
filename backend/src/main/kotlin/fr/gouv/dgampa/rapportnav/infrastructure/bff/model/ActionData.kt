@@ -26,6 +26,10 @@ data class EnvActionData(
     val actionTargetType: ActionTargetTypeEnum? = null,
     val vehicleType: VehicleTypeEnum? = null,
     val infractions: List<InfractionEntity>? = listOf(),
+    val isAdministrativeControl: Boolean? = null,
+    val isComplianceWithWaterRegulationsControl: Boolean? = null,
+    val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
+    val isSeafarersControl: Boolean? = null,
 ) : ActionData()
 
 data class FishActionData(
@@ -89,6 +93,7 @@ data class NavActionStatus(
     val isStart: Boolean,
     val observations: String?
 ) : ActionData()
+
 data class NavActionControl(
     val id: UUID,
     val missionId: Int,
@@ -107,10 +112,3 @@ data class NavActionControl(
     val controlNavigation: ControlNavigation?,
     val controlSecurity: ControlSecurity?
 ) : ActionData()
-
-//data class NavActionData(
-//    val id: UUID?,
-//    val actionType: ActionType,
-//    val controlAction: ActionControl? = null,
-//    val statusAction: ActionStatus? = null
-//) : ActionData()

@@ -37,7 +37,7 @@ class GetEnvMissionById {
                     formalNotice = FormalNoticeEnum.PENDING,
                     toProcess = true
                 )
-            )
+            ),
         )
         val envMissionActionControl2 = EnvActionControlEntity(
             id = UUID.randomUUID(),
@@ -47,7 +47,9 @@ class GetEnvMissionById {
             actionNumberOfControls = null,
             actionTargetType = null,
             vehicleType = null,
-            observations = null
+            observations = null,
+            isSeafarersControl = true,
+            isAdministrativeControl = true
         )
 //        val envMissionActionSurveillance = EnvActionSurveillanceEntity(
 //            id = UUID.randomUUID(),

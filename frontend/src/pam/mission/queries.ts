@@ -23,6 +23,7 @@ export const GET_MISSION_BY_ID = gql`
             actionNumberOfControls
             actionTargetType
             vehicleType
+            amountOfControlsToComplete
             themes {
               theme
               subThemes

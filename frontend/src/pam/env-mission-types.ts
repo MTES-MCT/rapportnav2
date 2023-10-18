@@ -374,6 +374,7 @@ export type NewEnvActionControl = EnvActionCommonProperties & {
 }
 export type EnvActionControl = NewEnvActionControl & {
   actionTargetType: string
+  amountOfControlsToComplete?: number
 }
 
 export type EnvActionSurveillance = EnvActionCommonProperties & {

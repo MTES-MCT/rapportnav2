@@ -134,6 +134,7 @@ type EnvActionData {
   actionNumberOfControls: Int
   actionTargetType: ActionTargetTypeEnum
   vehicleType: VehicleTypeEnum
+  amountOfControlsToComplete: Int
 }
 
 type FishActionData {

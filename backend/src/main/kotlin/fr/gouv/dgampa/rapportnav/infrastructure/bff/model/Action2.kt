@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishAction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavAction
 import java.time.ZonedDateTime
 
 data class Action2(
@@ -36,7 +36,12 @@ data class Action2(
                         actionTargetType = envAction.actionTargetType,
                         vehicleType = envAction.vehicleType,
                         infractions = envAction.infractions,
-                        themes = envAction.themes
+                        themes = envAction.themes,
+                        isAdministrativeControl = envAction.isAdministrativeControl,
+                        isComplianceWithWaterRegulationsControl = envAction.isComplianceWithWaterRegulationsControl,
+                        isSafetyEquipmentAndStandardsComplianceControl = envAction.isSafetyEquipmentAndStandardsComplianceControl,
+                        isSeafarersControl = envAction.isSeafarersControl,
+
                     )
                 )
             }

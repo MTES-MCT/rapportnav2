@@ -33,7 +33,7 @@ class GetEnvMissions() {
             missionSource = MissionSourceEnum.RAPPORTNAV,
             hasMissionOrder = false,
             isUnderJdp = false,
-            isGeometryComputedFromControls = false
+            isGeometryComputedFromControls = false,
         )
         val mission2 = MissionEntity(
             id = 11,
