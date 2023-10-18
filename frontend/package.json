@@ -15,7 +15,8 @@
   "dependencies": {
     "@apollo/client": "^3.8.4",
     "@mtes-mct/monitor-ui": "^9.4.0",
-    "@sentry/react": "^7.65.0",
+    "@sentry/react": "^7.74.0",
+    "@sentry/tracing": "^7.74.0",
     "apollo3-cache-persist": "^0.14.1",
     "date-fns": "^2.30.0",
     "email-validator": "^2.0.4",
