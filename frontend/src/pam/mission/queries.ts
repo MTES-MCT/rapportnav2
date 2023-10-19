@@ -116,7 +116,7 @@ export const MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER = gql`
 `
 export const MUTATION_ADD_OR_UPDATE_CONTROL_NAVIGATION = gql`
   mutation AddOrUpdateControlNavigation($control: ControlNavigationInput!) {
-    addOrUpdateControlGensDeMer(control: $control) {
+    addOrUpdateControlNavigation(control: $control) {
       id
     }
   }

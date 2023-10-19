@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigation
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import jakarta.persistence.*
@@ -40,12 +39,13 @@ data class ControlNavigationModel(
     )
 
     companion object {
-        fun fromControlNavigation(control: ControlNavigation, mapper: ObjectMapper) = ControlNavigationModel(
+        fun fromControlNavigation(control: ControlNavigation, actionControl: ActionControlModel) = ControlNavigationModel(
             id = control.id,
             missionId = control.missionId,
-            actionControlId = control.actionControlId,
+            actionControlId = actionControl.id,
             confirmed = control.confirmed,
             observations = control.observations,
+            actionControl = actionControl
         )
     }
 }

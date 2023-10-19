@@ -20,6 +20,10 @@ class JPAActionControlRepository (
         return dbActionModelRepository.findAllByMissionId(missionId).map { it.toActionControl() }
     }
 
+    override fun findById(id: UUID): ActionControlModel {
+        return dbActionModelRepository.findById(id)
+    }
+
     override fun existsById(id: UUID): Boolean {
         return dbActionModelRepository.existsById(id)
     }

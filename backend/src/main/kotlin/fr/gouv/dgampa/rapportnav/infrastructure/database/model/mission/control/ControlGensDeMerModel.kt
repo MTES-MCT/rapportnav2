@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMer
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import jakarta.persistence.*
@@ -52,15 +51,16 @@ data class ControlGensDeMerModel(
     )
 
     companion object {
-        fun fromControlGensDeMer(control: ControlGensDeMer, mapper: ObjectMapper) = ControlGensDeMerModel(
+        fun fromControlGensDeMer(control: ControlGensDeMer, actionControl: ActionControlModel) = ControlGensDeMerModel(
             id = control.id,
             missionId = control.missionId,
-            actionControlId = control.actionControlId,
+            actionControlId = actionControl.id,
             confirmed = control.confirmed,
             staffOutnumbered = control.staffOutnumbered,
             upToDateMedicalCheck = control.upToDateMedicalCheck,
             knowledgeOfFrenchLawAndLanguage = control.knowledgeOfFrenchLawAndLanguage,
             observations = control.observations,
+            actionControl = actionControl
         )
     }
 }

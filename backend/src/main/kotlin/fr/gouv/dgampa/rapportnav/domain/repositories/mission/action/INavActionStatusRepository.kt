@@ -5,7 +5,9 @@ import java.util.*
 
 interface INavActionStatusRepository {
     fun findAllByMissionId( missionId: Int): List<ActionStatus>
+
     fun existsById(id: UUID): Boolean
+
     fun save(statusAction: ActionStatus): ActionStatus
 
     fun deleteById(id: UUID)

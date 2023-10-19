@@ -277,7 +277,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
               collapsible
               style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
             >
-              <ControlSecurityForm missionId={missionId} actionControlId={action.id} data={control.controlNavigation} />
+              <ControlSecurityForm missionId={missionId} actionControlId={action.id} data={control.controlSecurity} />
             </Panel>
           </Stack.Item>
         </Stack>

@@ -1,10 +1,9 @@
 package fr.gouv.dgampa.rapportnav.domain.repositories.mission.control
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigation
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlNavigationModel
 
 
 interface IControlNavigationRepository {
-    fun findAllByMissionId( missionId: Int): List<ControlNavigation>
-
-    fun save(control: ControlNavigation): ControlNavigation
+    fun save(control: ControlNavigation): ControlNavigationModel
 }

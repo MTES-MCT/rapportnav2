@@ -53,8 +53,9 @@ data class ActionControlModel(
     @Column(name = "observations", nullable = true)
     var observations: String?,
 
-    @OneToOne(mappedBy = "actionControl")
-    @JoinColumn(name = "action_control_id")
+//    @OneToOne(mappedBy = "actionControl")
+//    @JoinColumn(name = "action_control_id")
+    @OneToOne(mappedBy = "actionControl", cascade = [CascadeType.ALL])
     var controlAdministrative: ControlAdministrativeModel? = null,
 
     @OneToOne(mappedBy = "actionControl")

@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrative
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import jakarta.persistence.*
@@ -39,6 +38,7 @@ data class ControlAdministrativeModel(
     @JoinColumn(name = "action_control_id", referencedColumnName = "id")
     @JsonIgnore
     var actionControl: ActionControlModel? = null
+
 ) {
     fun toControlAdministrative() = ControlAdministrative(
         id = id,
@@ -49,18 +49,23 @@ data class ControlAdministrativeModel(
         upToDateNavigationPermit = upToDateNavigationPermit,
         compliantSecurityDocuments = compliantSecurityDocuments,
         observations = observations,
+
     )
 
     companion object {
-        fun fromControlAdministrative(control: ControlAdministrative, mapper: ObjectMapper) = ControlAdministrativeModel(
-            id = control.id,
-            missionId = control.missionId,
-            actionControlId = control.actionControlId,
-            confirmed = control.confirmed,
-            compliantOperatingPermit = control.compliantOperatingPermit,
-            upToDateNavigationPermit = control.upToDateNavigationPermit,
-            compliantSecurityDocuments = control.compliantSecurityDocuments,
-            observations = control.observations,
-        )
+        fun fromControlAdministrative(control: ControlAdministrative, actionControl: ActionControlModel): ControlAdministrativeModel {
+            return ControlAdministrativeModel(
+                id = control.id,
+                missionId = control.missionId,
+                actionControlId = actionControl.id,
+                confirmed = control.confirmed,
+                compliantOperatingPermit = control.compliantOperatingPermit,
+                upToDateNavigationPermit = control.upToDateNavigationPermit,
+                compliantSecurityDocuments = control.compliantSecurityDocuments,
+                observations = control.observations,
+                actionControl = actionControl
+            )
+        }
     }
+
 }

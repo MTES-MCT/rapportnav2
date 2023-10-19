@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlSec
 @UseCase
 class AddOrUpdateControlSecurity(private val repository: IControlSecurityRepository) {
     fun execute(control: ControlSecurity): ControlSecurity {
-        val savedData = this.repository.save(control)
+        val savedData = this.repository.save(control).toControlSecurity()
         return savedData
     }
 }

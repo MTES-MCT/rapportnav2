@@ -4,6 +4,8 @@ import { THEME, Icon, Button, Accent, Size, Textarea, MultiRadio, OptionValue } 
 import { CONTROL_MULTIRADIO_OPTIONS } from './utils'
 import { useMutation } from '@apollo/client'
 import { MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE } from '../queries'
+import { useEffect, useState } from 'react'
+import omit from 'lodash/omit'
 
 interface ControlAdministrativeFormProps {
   missionId: String
@@ -12,6 +14,12 @@ interface ControlAdministrativeFormProps {
 }
 
 const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({ missionId, actionControlId, data }) => {
+  const [actionData, setActionData] = useState<ControlAdministrative>((data || {}) as unknown as ControlAdministrative)
+
+  useEffect(() => {
+    setActionData((data || {}) as any as ControlAdministrative)
+  }, [data])
+
   const [mutate, { statusData, statusLoading, statusError }] = useMutation(
     MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE,
     {
@@ -21,7 +29,7 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({ m
 
   const onChange = (field: string, value: any) => {
     const updatedData = {
-      ...data,
+      ...omit(actionData, '__typename'),
       missionId: missionId,
       actionControlId: actionControlId,
       [field]: value
@@ -30,14 +38,14 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({ m
     mutate({ variables: { control: updatedData } })
 
     // TODO this shouldn't be like that - useState should not be used
-    // setStatus(updatedData)
+    setActionData(updatedData)
   }
 
   return (
     <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
         <MultiRadio
-          value={data?.compliantOperatingPermit}
+          value={actionData?.compliantOperatingPermit}
           error=""
           isInline
           label="Permis de mise en exploitation (autorisation à pêcher) conforme"
@@ -48,7 +56,7 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({ m
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <MultiRadio
-          value={data?.upToDateNavigationPermit}
+          value={actionData?.upToDateNavigationPermit}
           error=""
           isInline
           label="Permis de navigation à jour"
@@ -59,7 +67,7 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({ m
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <MultiRadio
-          value={data?.compliantSecurityDocuments}
+          value={actionData?.compliantSecurityDocuments}
           error=""
           isInline
           label="Titres de sécurité conformes"
@@ -71,7 +79,7 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({ m
       <Stack.Item style={{ width: '100%' }}>
         <Textarea
           label="Observations (hors infraction) sur les pièces administratives"
-          value={data?.observations}
+          value={actionData?.observations}
           onChange={(nextValue: string) => onChange('observations', nextValue)}
         />
       </Stack.Item>

@@ -12,4 +12,5 @@ interface IDBActionControlRepository: JpaRepository<ActionControlModel, Int> {
     fun save(controlAction: ActionControl): ActionControl
 
     fun deleteById(id: UUID)
+    fun findById(id: UUID): ActionControlModel
 }

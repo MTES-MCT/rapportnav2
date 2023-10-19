@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlNav
 @UseCase
 class AddOrUpdateControlNavigation(private val controlNavigationRepository: IControlNavigationRepository) {
     fun execute(control: ControlNavigation): ControlNavigation {
-        val savedData = this.controlNavigationRepository.save(control)
+        val savedData = this.controlNavigationRepository.save(control).toControlNavigation()
         return savedData
     }
 }
