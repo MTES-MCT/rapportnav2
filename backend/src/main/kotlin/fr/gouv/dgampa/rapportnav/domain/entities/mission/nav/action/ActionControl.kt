@@ -20,6 +20,7 @@ data class ActionControl(
     val vesselType: VesselTypeEnum? = null,
     val vesselSize: VesselSizeEnum? = null,
     val identityControlledPerson: String? = null,
+    val deletedAt: ZonedDateTime? = null,
     val controlAdministrative: ControlAdministrative?,
     val controlGensDeMer: ControlGensDeMer?,
     val controlNavigation: ControlNavigation?,

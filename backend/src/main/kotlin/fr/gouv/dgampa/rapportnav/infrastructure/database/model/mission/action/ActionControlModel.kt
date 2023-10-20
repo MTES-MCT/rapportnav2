@@ -53,8 +53,9 @@ data class ActionControlModel(
     @Column(name = "observations", nullable = true)
     var observations: String?,
 
-//    @OneToOne(mappedBy = "actionControl")
-//    @JoinColumn(name = "action_control_id")
+    @Column(name = "deleted_at")
+    var deletedAt: ZonedDateTime? = null,
+
     @OneToOne(mappedBy = "actionControl", cascade = [CascadeType.ALL])
     var controlAdministrative: ControlAdministrativeModel? = null,
 
@@ -84,6 +85,7 @@ data class ActionControlModel(
             vesselSize = mapStringToVesselSize(vesselSize),
             observations = observations,
             identityControlledPerson = identityControlledPerson,
+            deletedAt = deletedAt,
             controlAdministrative = controlAdministrative?.toControlAdministrative(),
             controlGensDeMer = controlGensDeMer?.toControlGensDeMer(),
             controlNavigation = controlNavigation?.toControlNavigation(),
@@ -105,6 +107,7 @@ data class ActionControlModel(
             vesselSize = controlAction.vesselSize.toString(),
             identityControlledPerson = controlAction.identityControlledPerson.toString(),
             observations = controlAction.observations,
+            deletedAt = controlAction.deletedAt,
         )
     }
 

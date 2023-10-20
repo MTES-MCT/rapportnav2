@@ -14,7 +14,7 @@ class GetNavMissionById(
     private val logger = LoggerFactory.getLogger(GetNavMissionById::class.java)
 
     fun execute(missionId: Int): NavMission {
-        val controls = navActionControlRepository.findAllByMissionId(missionId=missionId).map { it.toNavAction() }
+        val controls = navActionControlRepository.findAllByMissionId(missionId=missionId).filter { it.deletedAt == null }.map { it.toNavAction() }
         val statuses = navStatusRepository.findAllByMissionId(missionId=missionId).map { it.toNavAction() }
         val actions = controls + statuses
         val mission = NavMission(id = missionId, actions = actions)

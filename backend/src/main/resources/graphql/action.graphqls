@@ -88,6 +88,7 @@ type NavActionControl {
   vesselSize: VesselSize
   identityControlledPerson: String
   observations: String
+  deletedAt: String
   controlAdministrative: ControlAdministrative
   controlGensDeMer: ControlGensDeMer
   controlNavigation: ControlNavigation

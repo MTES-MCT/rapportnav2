@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import jakarta.persistence.*
+import java.time.ZonedDateTime
 import java.util.*
 
 @Entity
@@ -25,6 +26,9 @@ data class ControlSecurityModel(
     @Column(name = "observations", nullable = true)
     var observations: String? = null,
 
+    @Column(name = "deleted_at")
+    var deletedAt: ZonedDateTime? = null,
+
     @OneToOne
     @JoinColumn(name = "action_control_id", referencedColumnName = "id")
     @JsonIgnore
@@ -35,7 +39,8 @@ data class ControlSecurityModel(
         missionId = missionId,
         actionControlId = actionControlId,
         confirmed = confirmed,
-        observations = observations
+        observations = observations,
+        deletedAt = deletedAt,
     )
 
     companion object {
@@ -45,7 +50,8 @@ data class ControlSecurityModel(
             actionControlId = actionControl.id,
             confirmed = control.confirmed,
             observations = control.observations,
-            actionControl = actionControl
+            deletedAt = control.deletedAt,
+            actionControl = actionControl,
         )
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMer
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import jakarta.persistence.*
+import java.time.ZonedDateTime
 import java.util.*
 
 @Entity
@@ -34,6 +35,9 @@ data class ControlGensDeMerModel(
     @Column(name = "observations", nullable = true)
     var observations: String? = null,
 
+    @Column(name = "deleted_at")
+    var deletedAt: ZonedDateTime? = null,
+
     @OneToOne
     @JoinColumn(name = "action_control_id", referencedColumnName = "id")
     @JsonIgnore
@@ -47,7 +51,8 @@ data class ControlGensDeMerModel(
         staffOutnumbered = staffOutnumbered,
         upToDateMedicalCheck = upToDateMedicalCheck,
         knowledgeOfFrenchLawAndLanguage = knowledgeOfFrenchLawAndLanguage,
-        observations = observations
+        observations = observations,
+        deletedAt = deletedAt,
     )
 
     companion object {
@@ -60,7 +65,8 @@ data class ControlGensDeMerModel(
             upToDateMedicalCheck = control.upToDateMedicalCheck,
             knowledgeOfFrenchLawAndLanguage = control.knowledgeOfFrenchLawAndLanguage,
             observations = control.observations,
-            actionControl = actionControl
+            deletedAt = control.deletedAt,
+            actionControl = actionControl,
         )
     }
 }

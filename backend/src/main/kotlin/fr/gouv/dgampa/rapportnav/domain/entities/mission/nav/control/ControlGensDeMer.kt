@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control
 
+import java.time.ZonedDateTime
 import java.util.*
 
 data class ControlGensDeMer(
@@ -11,4 +12,5 @@ data class ControlGensDeMer(
     val upToDateMedicalCheck: Boolean?,
     val knowledgeOfFrenchLawAndLanguage: Boolean?,
     val observations: String?,
+    val deletedAt: ZonedDateTime? = null,
 )

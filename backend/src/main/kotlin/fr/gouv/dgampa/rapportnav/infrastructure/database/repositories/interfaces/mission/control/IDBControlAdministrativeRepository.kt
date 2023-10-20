@@ -4,4 +4,9 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.C
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
-interface IDBControlAdministrativeRepository: JpaRepository<ControlAdministrativeModel, UUID>
+interface IDBControlAdministrativeRepository: JpaRepository<ControlAdministrativeModel, UUID> {
+
+    fun existsByActionControlId(actionControlId: UUID): Boolean
+
+    fun findByActionControlId(actionControlId: UUID): ControlAdministrativeModel
+}
