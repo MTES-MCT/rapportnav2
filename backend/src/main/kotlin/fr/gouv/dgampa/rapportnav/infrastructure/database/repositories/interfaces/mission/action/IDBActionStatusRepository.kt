@@ -8,8 +8,10 @@ import java.util.*
 interface IDBActionStatusRepository: JpaRepository<ActionStatusModel, Int> {
     fun findAllByMissionId(missionId: Int): List<ActionStatusModel>
 
+    fun findById(id: UUID): ActionStatusModel
+
     fun existsById(id: UUID): Boolean
+
     fun save(statusAction: ActionStatus): ActionStatus
 
-    fun deleteById(id: UUID)
 }

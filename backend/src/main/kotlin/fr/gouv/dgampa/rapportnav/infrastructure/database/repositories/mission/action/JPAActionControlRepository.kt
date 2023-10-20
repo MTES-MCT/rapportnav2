@@ -38,14 +38,5 @@ class JPAActionControlRepository (
         }
     }
 
-    @Transactional
-    override fun deleteById(id: UUID) {
-        try {
-            dbActionModelRepository.deleteById(id)
-        } catch (e: InvalidDataAccessApiUsageException) {
-            throw Exception("Error deleting control", e)
-        }
-    }
-
 
 }

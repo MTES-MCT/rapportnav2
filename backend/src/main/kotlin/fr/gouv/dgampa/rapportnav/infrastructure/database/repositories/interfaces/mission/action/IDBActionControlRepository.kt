@@ -9,8 +9,9 @@ interface IDBActionControlRepository: JpaRepository<ActionControlModel, Int> {
     fun findAllByMissionId(missionId: Int): List<ActionControlModel>
 
     fun existsById(id: UUID): Boolean
+
     fun save(controlAction: ActionControl): ActionControl
 
-    fun deleteById(id: UUID)
     fun findById(id: UUID): ActionControlModel
+
 }

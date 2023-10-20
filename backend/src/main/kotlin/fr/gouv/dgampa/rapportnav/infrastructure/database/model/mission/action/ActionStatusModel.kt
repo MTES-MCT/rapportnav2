@@ -36,6 +36,9 @@ data class ActionStatusModel(
 
     @Column(name = "observations", nullable = true)
     var observations: String?,
+
+    @Column(name = "deleted_at")
+    var deletedAt: ZonedDateTime? = null,
 ) {
     fun toActionStatus(): ActionStatus {
         return ActionStatus(
@@ -46,6 +49,7 @@ data class ActionStatusModel(
             reason = mapStringToActionStatusReason(reason),
             isStart = isStart,
             observations = observations,
+            deletedAt = deletedAt,
         )
     }
 
@@ -58,6 +62,7 @@ data class ActionStatusModel(
             reason = statusAction.reason.toStringOrNull(),
             isStart = statusAction.isStart,
             observations = statusAction.observations,
+            deletedAt = statusAction.deletedAt,
         )
     }
 

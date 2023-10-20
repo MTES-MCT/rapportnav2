@@ -13,7 +13,8 @@ data class ActionStatus(
     val status: ActionStatusType,
     val reason: ActionStatusReason?,
     val isStart: Boolean,
-    val observations: String?
+    val observations: String?,
+    val deletedAt: ZonedDateTime? = null,
 ) {
     fun toNavAction(): NavAction {
         return NavAction(

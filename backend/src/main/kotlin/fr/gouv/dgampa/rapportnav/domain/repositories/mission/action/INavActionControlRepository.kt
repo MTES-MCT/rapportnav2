@@ -14,5 +14,4 @@ interface INavActionControlRepository {
 
     fun save(controlAction: ActionControl): ActionControl
 
-    fun deleteById(id: UUID)
 }

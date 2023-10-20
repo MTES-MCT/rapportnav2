@@ -20,6 +20,10 @@ class JPAActionStatusRepository (
         return dbActionStatusRepository.findAllByMissionId(missionId).map { it.toActionStatus() }
     }
 
+    override fun findById(id: UUID): ActionStatusModel {
+        return dbActionStatusRepository.findById(id)
+    }
+
     override fun existsById(id: UUID): Boolean {
         return dbActionStatusRepository.existsById(id)
     }
@@ -34,12 +38,4 @@ class JPAActionStatusRepository (
         }
     }
 
-    @Transactional
-    override fun deleteById(id: UUID) {
-        try {
-            dbActionStatusRepository.deleteById(id)
-        } catch (e: InvalidDataAccessApiUsageException) {
-            throw Exception("Error deleting status", e)
-        }
-    }
 }
