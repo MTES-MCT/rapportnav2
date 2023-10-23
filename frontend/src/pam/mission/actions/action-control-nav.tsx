@@ -185,7 +185,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
       {/* VESSEL INFORMATION */}
       <Stack.Item style={{ width: '100%' }}>
         <Stack spacing="0.5rem" style={{ width: '100%' }}>
-          <Stack.Item grow={1}>
+          <Stack.Item grow={1} basis={'25%'}>
             <Select
               label="Taille du navire"
               isLight={true}
@@ -195,7 +195,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
               onChange={(nextValue: OptionValue) => onChange('vesselSize', nextValue)}
             />
           </Stack.Item>
-          <Stack.Item grow={1}>
+          <Stack.Item grow={1} basis={'25%'}>
             <TextInput
               label="Immatriculation"
               value={control.vesselIdentifier}
@@ -204,7 +204,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
               onChange={(nextValue: string) => onChange('vesselIdentifier', nextValue)}
             />
           </Stack.Item>
-          <Stack.Item grow={2}>
+          <Stack.Item grow={2} basis={'50%'}>
             <TextInput
               label="Identité de la personne contrôlée"
               value={control.identityControlledPerson}
