@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigation
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
 import java.util.*
 
 data class ControlNavigationInput(
@@ -10,8 +10,8 @@ data class ControlNavigationInput(
     val confirmed: Boolean?,
     val observations: String?
 ) {
-    fun toControlNavigation(): ControlNavigation {
-        return ControlNavigation(
+    fun toControlNavigation(): ControlNavigationEntity {
+        return ControlNavigationEntity(
             id = id ?: UUID.randomUUID(),
             missionId = missionId,
             actionControlId = actionControlId,

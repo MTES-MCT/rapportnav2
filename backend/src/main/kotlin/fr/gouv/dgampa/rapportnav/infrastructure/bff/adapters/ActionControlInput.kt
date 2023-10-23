@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControl
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -23,8 +23,8 @@ data class ActionControlInput(
     val identityControlledPerson: String?,
     val observations: String?,
 ) {
-    fun toActionControl(): ActionControl {
-        return ActionControl(
+    fun toActionControl(): ActionControlEntity {
+        return ActionControlEntity(
             id = id,
             missionId = missionId,
             startDateTimeUtc = ZonedDateTime.parse(startDateTimeUtc, DateTimeFormatter.ISO_INSTANT.withZone(ZoneId.of("UTC"))),

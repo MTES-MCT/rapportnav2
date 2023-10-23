@@ -107,8 +107,8 @@ data class NavActionControl(
     val vesselType: VesselTypeEnum? = null,
     val vesselSize: VesselSizeEnum? = null,
     val identityControlledPerson: String? = null,
-    val controlAdministrative: ControlAdministrative?,
-    val controlGensDeMer: ControlGensDeMer?,
-    val controlNavigation: ControlNavigation?,
-    val controlSecurity: ControlSecurity?
+    val controlAdministrative: ControlAdministrativeEntity?,
+    val controlGensDeMer: ControlGensDeMerEntity?,
+    val controlNavigation: ControlNavigationEntity?,
+    val controlSecurity: ControlSecurityEntity?
 ) : ActionData()

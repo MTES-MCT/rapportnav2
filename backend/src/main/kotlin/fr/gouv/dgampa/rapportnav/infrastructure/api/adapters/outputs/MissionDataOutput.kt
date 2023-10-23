@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.adapters.outputs
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.Mission
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionAction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlUnitEntity
@@ -24,10 +24,10 @@ data class MissionDataOutput(
     val isClosed: Boolean,
     val hasMissionOrder: Boolean,
     val isUnderJdp: Boolean,
-    val actions: List<MissionAction>? = null,
+    val actions: List<MissionActionEntity>? = null,
 ) {
     companion object {
-        fun fromMission(mission: Mission): MissionDataOutput {
+        fun fromMission(mission: MissionEntity): MissionDataOutput {
             requireNotNull(mission.id) {
                 "a mission must have an id"
             }

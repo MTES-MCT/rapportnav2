@@ -8,7 +8,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Id
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.Crew
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.CrewEntity
 import com.fasterxml.jackson.databind.ObjectMapper
 
 
@@ -33,7 +33,7 @@ data class CrewModel(
     var isArchived: Boolean = false,
 
 ) {
-    fun toCrewEntity(mapper: ObjectMapper) = Crew(
+    fun toCrewEntity(mapper: ObjectMapper) = CrewEntity(
         id = id,
         firstName = firstName,
         lastName = lastName,

@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurityEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import jakarta.persistence.*
 import java.time.ZonedDateTime
@@ -34,7 +34,7 @@ data class ControlSecurityModel(
     @JsonIgnore
     var actionControl: ActionControlModel? = null
 ) {
-    fun toControlSecurity() = ControlSecurity(
+    fun toControlSecurity() = ControlSecurityEntity(
         id = id,
         missionId = missionId,
         actionControlId = actionControlId,
@@ -44,7 +44,7 @@ data class ControlSecurityModel(
     )
 
     companion object {
-        fun fromControlSecurity(control: ControlSecurity, actionControl: ActionControlModel) = ControlSecurityModel(
+        fun fromControlSecurity(control: ControlSecurityEntity, actionControl: ActionControlModel) = ControlSecurityModel(
             id = control.id,
             missionId = control.missionId,
             actionControlId = actionControl.id,

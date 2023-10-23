@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.control
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigation
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlNavigationRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlNavigationModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBActionControlRepository
@@ -28,7 +28,7 @@ class JPAControlNavigationRepository(
         return control
     }
     @Transactional
-    override fun save(control: ControlNavigation): ControlNavigationModel {
+    override fun save(control: ControlNavigationEntity): ControlNavigationModel {
         return try {
             val actionControl = actionControlRepository.findById(control.actionControlId)
             val controlNavigationModel = ControlNavigationModel.fromControlNavigation(control, actionControl)

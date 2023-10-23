@@ -4,8 +4,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum.CONTROL
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum.SURVEILLANCE
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControl
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatus
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControlEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateControl
@@ -31,9 +31,8 @@ class ActionController(
     private val addOrUpdateControl: AddOrUpdateControl,
     private val deleteControl: DeleteControl,
 ) {
-
     @MutationMapping
-    fun addOrUpdateStatus(@Argument statusAction: ActionStatusInput): ActionStatus {
+    fun addOrUpdateStatus(@Argument statusAction: ActionStatusInput): ActionStatusEntity {
         val data = statusAction.toActionStatus()
         return addOrUpdateStatus.execute(data)
     }
@@ -44,7 +43,7 @@ class ActionController(
     }
 
     @MutationMapping
-    fun addOrUpdateControl(@Argument controlAction: ActionControlInput): ActionControl {
+    fun addOrUpdateControl(@Argument controlAction: ActionControlInput): ActionControlEntity {
         val data = controlAction.toActionControl()
         val savedData = addOrUpdateControl.execute(data)
         return savedData
@@ -57,7 +56,7 @@ class ActionController(
     }
 
     @SchemaMapping(typeName = "Action", field = "status")
-    fun getActionStatus(action: Action2): ActionStatusType {
+    fun getActionStatus(action: Action): ActionStatusType {
 
         // if already a status action - no need to recompute
         if (action.source == MissionSourceEnum.RAPPORTNAV) {
@@ -73,7 +72,7 @@ class ActionController(
     }
 
     @SchemaMapping(typeName = "Action", field = "type")
-    fun getActionType(action: Action2?): ActionType {
+    fun getActionType(action: Action?): ActionType {
         if (action?.data != null) {
             return when (action.data) {
                 is EnvActionData -> {

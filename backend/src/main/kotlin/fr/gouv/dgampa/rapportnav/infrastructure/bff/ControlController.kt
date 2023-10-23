@@ -1,9 +1,9 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrative
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMer
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigation
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurityEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateControlAdministrative
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateControlGensDeMer
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateControlNavigation
@@ -26,25 +26,25 @@ class ControlController(
 ) {
 
     @MutationMapping
-    fun addOrUpdateControlNavigation(@Argument control: ControlNavigationInput): ControlNavigation {
+    fun addOrUpdateControlNavigation(@Argument control: ControlNavigationInput): ControlNavigationEntity {
         val data = control.toControlNavigation()
         return addOrUpdateControlNavigation.execute(data)
     }
 
     @MutationMapping
-    fun addOrUpdateControlSecurity(@Argument control: ControlSecurityInput): ControlSecurity {
+    fun addOrUpdateControlSecurity(@Argument control: ControlSecurityInput): ControlSecurityEntity {
         val data = control.toControlSecurity()
         return addOrUpdateControlSecurity.execute(data)
     }
 
     @MutationMapping
-    fun addOrUpdateControlGensDeMer(@Argument control: ControlGensDeMerInput): ControlGensDeMer {
+    fun addOrUpdateControlGensDeMer(@Argument control: ControlGensDeMerInput): ControlGensDeMerEntity {
         val data = control.toControlGensDeMer()
         return addOrUpdateControlGensDeMer.execute(data)
     }
 
     @MutationMapping
-    fun addOrUpdateControlAdministrative(@Argument control: ControlAdministrativeInput): ControlAdministrative {
+    fun addOrUpdateControlAdministrative(@Argument control: ControlAdministrativeInput): ControlAdministrativeEntity {
         val data = control.toControlAdministrative()
         return addOrUpdateControlAdministrative.execute(data)
     }

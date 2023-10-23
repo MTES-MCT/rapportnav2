@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.NavActionStatus
 import java.time.ZonedDateTime
 import java.util.*
 
-data class ActionStatus(
+data class ActionStatusEntity(
     val id: UUID,
     val missionId: Int,
     val startDateTimeUtc: ZonedDateTime,
@@ -16,8 +16,8 @@ data class ActionStatus(
     val observations: String?,
     val deletedAt: ZonedDateTime? = null,
 ) {
-    fun toNavAction(): NavAction {
-        return NavAction(
+    fun toNavAction(): NavActionEntity {
+        return NavActionEntity(
             id = id,
             missionId = missionId,
             startDateTimeUtc = startDateTimeUtc,

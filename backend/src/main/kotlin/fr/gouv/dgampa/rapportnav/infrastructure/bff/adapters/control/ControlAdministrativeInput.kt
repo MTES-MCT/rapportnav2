@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrative
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
 import java.util.*
 
 data class ControlAdministrativeInput(
@@ -13,8 +13,8 @@ data class ControlAdministrativeInput(
     val compliantSecurityDocuments: Boolean?,
     val observations: String?
 ) {
-    fun toControlAdministrative(): ControlAdministrative {
-        return ControlAdministrative(
+    fun toControlAdministrative(): ControlAdministrativeEntity {
+        return ControlAdministrativeEntity(
             id = id ?: UUID.randomUUID(),
             missionId = missionId,
             actionControlId = actionControlId,

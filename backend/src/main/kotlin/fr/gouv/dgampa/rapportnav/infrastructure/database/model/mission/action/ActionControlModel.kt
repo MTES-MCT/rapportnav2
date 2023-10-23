@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.mapStringToVesselSize
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.mapStringToVesselType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControl
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.mapStringToControlMethod
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlAdministrativeModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlGensDeMerModel
@@ -71,8 +71,8 @@ data class ActionControlModel(
     @JoinColumn(name = "action_control_id")
     var controlSecurity: ControlSecurityModel? = null,
 ) {
-    fun toActionControl(): ActionControl {
-        return ActionControl(
+    fun toActionControl(): ActionControlEntity {
+        return ActionControlEntity(
             id = id,
             missionId = missionId,
             startDateTimeUtc = startDateTimeUtc,
@@ -94,7 +94,7 @@ data class ActionControlModel(
     }
 
     companion object {
-        fun fromActionControl(controlAction: ActionControl, mapper: ObjectMapper) = ActionControlModel(
+        fun fromActionControl(controlAction: ActionControlEntity, mapper: ObjectMapper) = ActionControlModel(
             id = controlAction.id,
             missionId = controlAction.missionId,
             startDateTimeUtc = controlAction.startDateTimeUtc,

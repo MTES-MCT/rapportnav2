@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMer
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import jakarta.persistence.*
 import java.time.ZonedDateTime
@@ -43,7 +43,7 @@ data class ControlGensDeMerModel(
     @JsonIgnore
     var actionControl: ActionControlModel? = null
 ) {
-    fun toControlGensDeMer() = ControlGensDeMer(
+    fun toControlGensDeMer() = ControlGensDeMerEntity(
         id = id,
         missionId = missionId,
         actionControlId = actionControlId,
@@ -56,7 +56,7 @@ data class ControlGensDeMerModel(
     )
 
     companion object {
-        fun fromControlGensDeMer(control: ControlGensDeMer, actionControl: ActionControlModel) = ControlGensDeMerModel(
+        fun fromControlGensDeMer(control: ControlGensDeMerEntity, actionControl: ActionControlModel) = ControlGensDeMerModel(
             id = control.id,
             missionId = control.missionId,
             actionControlId = actionControl.id,

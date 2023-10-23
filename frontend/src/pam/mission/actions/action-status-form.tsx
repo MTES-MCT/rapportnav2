@@ -49,7 +49,7 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action, resetSelect
     if (field === 'startDateTimeUtc') {
       date = value
     } else {
-      const savedDate = new Date(action.startDateTimeUtc!)
+      const savedDate = new Date(status.startDateTimeUtc!)
       date = savedDate.toISOString()
     }
     const updatedData = {
@@ -58,7 +58,6 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action, resetSelect
       startDateTimeUtc: date,
       [field]: value
     }
-    debugger
     mutateStatus({ variables: { statusAction: updatedData } })
 
     // TODO this shouldn't be like that - useState should not be used
@@ -66,7 +65,6 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action, resetSelect
   }
 
   const deleteAction = () => {
-    debugger
     deleteStatus({
       variables: {
         id: action.id!
@@ -89,7 +87,7 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action, resetSelect
                 <Stack.Item>
                   <Title as="h2">
                     Status du navire{' '}
-                    {action.startDateTimeUtc && `(${formatDateTimeForFrenchHumans(action.startDateTimeUtc)})`}
+                    {status.startDateTimeUtc && `(${formatDateTimeForFrenchHumans(status.startDateTimeUtc)})`}
                   </Title>
                 </Stack.Item>
               </Stack>

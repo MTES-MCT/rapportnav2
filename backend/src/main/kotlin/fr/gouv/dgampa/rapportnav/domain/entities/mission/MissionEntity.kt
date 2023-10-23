@@ -5,11 +5,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.FishMission
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.NavMission
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.NavMissionEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.ZonedDateTime
 
-data class Mission(
+data class MissionEntity(
     val id: Int,
     val missionTypes: List<MissionTypeEnum>,
     val controlUnits: List<ControlUnitEntity> = listOf(),
@@ -27,9 +27,9 @@ data class Mission(
     val missionSource: MissionSourceEnum,
     val hasMissionOrder: Boolean,
     val isUnderJdp: Boolean,
-    val actions: List<MissionAction>?,
+    val actions: List<MissionActionEntity>?,
 ) {
-    constructor(envMission: EnvMission, navMission: NavMission? = null, fishMission: FishMission? = null) : this(
+    constructor(envMission: EnvMission, navMission: NavMissionEntity? = null, fishMission: FishMission? = null) : this(
         id = (envMission.id ?: fishMission?.mission?.id)!!,
         missionTypes = envMission.missionTypes,
         controlUnits = envMission.controlUnits,
@@ -47,10 +47,9 @@ data class Mission(
         missionSource = envMission.missionSource,
         hasMissionOrder = envMission.hasMissionOrder,
         isUnderJdp = envMission.isUnderJdp,
-        actions = (envMission.envActions?.map { MissionAction.EnvAction(it) } ?: listOf()) +
-                (fishMission?.actions?.map { MissionAction.FishAction(it) } ?: listOf()) +
-                (navMission?.actions?.map { MissionAction.NavAction(it) } ?: listOf())
+        actions = (envMission.envActions?.map { MissionActionEntity.EnvAction(it) } ?: listOf()) +
+                (fishMission?.actions?.map { MissionActionEntity.FishAction(it) } ?: listOf()) +
+                (navMission?.actions?.map { MissionActionEntity.NavAction(it) } ?: listOf())
 
     )
-
 }

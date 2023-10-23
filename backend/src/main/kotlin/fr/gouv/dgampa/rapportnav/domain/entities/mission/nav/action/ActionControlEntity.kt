@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.NavActionControl
 import java.time.ZonedDateTime
 import java.util.*
 
-data class ActionControl(
+data class ActionControlEntity(
     val id: UUID,
     val missionId: Int,
     val startDateTimeUtc: ZonedDateTime,
@@ -21,13 +21,13 @@ data class ActionControl(
     val vesselSize: VesselSizeEnum? = null,
     val identityControlledPerson: String? = null,
     val deletedAt: ZonedDateTime? = null,
-    val controlAdministrative: ControlAdministrative?,
-    val controlGensDeMer: ControlGensDeMer?,
-    val controlNavigation: ControlNavigation?,
-    val controlSecurity: ControlSecurity?
+    val controlAdministrative: ControlAdministrativeEntity?,
+    val controlGensDeMer: ControlGensDeMerEntity?,
+    val controlNavigation: ControlNavigationEntity?,
+    val controlSecurity: ControlSecurityEntity?
 ) {
-    fun toNavAction(): NavAction {
-        return NavAction(
+    fun toNavAction(): NavActionEntity {
+        return NavActionEntity(
             id = id,
             missionId = missionId,
             startDateTimeUtc = startDateTimeUtc,

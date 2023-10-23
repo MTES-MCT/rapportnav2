@@ -1,4 +1,5 @@
 extend type Mutation {
+  status(id: String!): Action
   addOrUpdateStatus(statusAction: ActionStatusInput!): Action!
   deleteStatus(id: String!): Boolean!
   addOrUpdateControl(controlAction: ActionControlInput!): Action!
@@ -65,9 +66,10 @@ type NavActionStatus {
 
 enum ActionStatusType {
   NAVIGATING
-  ANCHORING
+  ANCHORED
   DOCKED
   UNAVAILABLE
+  UNKNOWN
 }
 enum ActionStatusReason {
   MAINTENANCE

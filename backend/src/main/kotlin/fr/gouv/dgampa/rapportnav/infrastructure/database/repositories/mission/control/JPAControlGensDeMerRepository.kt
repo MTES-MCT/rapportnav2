@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.control
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMer
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlGensDeMerRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlGensDeMerModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBActionControlRepository
@@ -28,7 +28,7 @@ class JPAControlGensDeMerRepository(
         return control
     }
     @Transactional
-    override fun save(control: ControlGensDeMer): ControlGensDeMerModel {
+    override fun save(control: ControlGensDeMerEntity): ControlGensDeMerModel {
         return try {
             val actionControl = actionControlRepository.findById(control.actionControlId)
             val controlGensDeMerModel = ControlGensDeMerModel.fromControlGensDeMer(control, actionControl)

@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigation
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import jakarta.persistence.*
 import java.time.ZonedDateTime
@@ -34,7 +34,7 @@ data class ControlNavigationModel(
     @JsonIgnore
     var actionControl: ActionControlModel? = null
 ) {
-    fun toControlNavigation() = ControlNavigation(
+    fun toControlNavigation() = ControlNavigationEntity(
         id = id,
         missionId = missionId,
         actionControlId = actionControlId,
@@ -44,7 +44,7 @@ data class ControlNavigationModel(
     )
 
     companion object {
-        fun fromControlNavigation(control: ControlNavigation, actionControl: ActionControlModel) = ControlNavigationModel(
+        fun fromControlNavigation(control: ControlNavigationEntity, actionControl: ActionControlModel) = ControlNavigationModel(
             id = control.id,
             missionId = control.missionId,
             actionControlId = actionControl.id,

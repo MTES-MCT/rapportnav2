@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMer
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
 import java.util.*
 
 data class ControlGensDeMerInput(
@@ -13,8 +13,8 @@ data class ControlGensDeMerInput(
     val knowledgeOfFrenchLawAndLanguage: Boolean?,
     val observations: String?
 ) {
-    fun toControlGensDeMer(): ControlGensDeMer {
-        return ControlGensDeMer(
+    fun toControlGensDeMer(): ControlGensDeMerEntity {
+        return ControlGensDeMerEntity(
             id = id ?: UUID.randomUUID(),
             missionId = missionId,
             actionControlId = actionControlId,

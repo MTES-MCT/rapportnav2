@@ -28,12 +28,12 @@ const StatusSelectionDropdown: React.FC<StatusSelectionDropdownProps> = ({ onSel
         <Stack.Item>{mapStatusToText(ActionStatusType.NAVIGATING)}</Stack.Item>
       </Stack>
     </Dropdown.Item>
-    <Dropdown.Item eventKey={ActionStatusType.ANCHORING}>
+    <Dropdown.Item eventKey={ActionStatusType.ANCHORED}>
       <Stack spacing="0.5rem" alignItems="center">
         <Stack.Item>
-          <StatusColorTag status={ActionStatusType.ANCHORING} />
+          <StatusColorTag status={ActionStatusType.ANCHORED} />
         </Stack.Item>
-        <Stack.Item>{mapStatusToText(ActionStatusType.ANCHORING)}</Stack.Item>
+        <Stack.Item>{mapStatusToText(ActionStatusType.ANCHORED)}</Stack.Item>
       </Stack>
     </Dropdown.Item>
     <Dropdown.Item eventKey={ActionStatusType.DOCKED}>

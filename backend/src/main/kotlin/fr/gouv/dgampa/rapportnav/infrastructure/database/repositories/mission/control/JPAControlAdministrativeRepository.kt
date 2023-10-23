@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.control
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrative
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlAdministrativeRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlAdministrativeModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBActionControlRepository
@@ -29,7 +29,7 @@ class JPAControlAdministrativeRepository(
     }
 
     @Transactional
-    override fun save(control: ControlAdministrative): ControlAdministrativeModel {
+    override fun save(control: ControlAdministrativeEntity): ControlAdministrativeModel {
          return try {
              val actionControl = actionControlRepository.findById(control.actionControlId)
              val controlAdministrativeModel = ControlAdministrativeModel.fromControlAdministrative(control, actionControl)

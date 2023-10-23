@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurityEntity
 import java.util.*
 
 data class ControlSecurityInput(
@@ -10,8 +10,8 @@ data class ControlSecurityInput(
     val confirmed: Boolean?,
     val observations: String?
 ) {
-    fun toControlSecurity(): ControlSecurity {
-        return ControlSecurity(
+    fun toControlSecurity(): ControlSecurityEntity {
+        return ControlSecurityEntity(
             id = id ?: UUID.randomUUID(),
             missionId = missionId,
             actionControlId = actionControlId,

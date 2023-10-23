@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrative
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import jakarta.persistence.*
 import java.time.ZonedDateTime
@@ -45,7 +45,7 @@ data class ControlAdministrativeModel(
     var actionControl: ActionControlModel? = null
 
 ) {
-    fun toControlAdministrative() = ControlAdministrative(
+    fun toControlAdministrative() = ControlAdministrativeEntity(
         id = id,
         missionId = missionId,
         actionControlId = actionControlId,
@@ -58,7 +58,7 @@ data class ControlAdministrativeModel(
     )
 
     companion object {
-        fun fromControlAdministrative(control: ControlAdministrative, actionControl: ActionControlModel): ControlAdministrativeModel {
+        fun fromControlAdministrative(control: ControlAdministrativeEntity, actionControl: ActionControlModel): ControlAdministrativeModel {
             return ControlAdministrativeModel(
                 id = control.id,
                 missionId = control.missionId,

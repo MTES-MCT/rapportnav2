@@ -31,6 +31,7 @@ export const GET_MISSION_BY_ID = gql`
           }
           ... on NavActionStatus {
             id
+            startDateTimeUtc
             status
             reason
             isStart

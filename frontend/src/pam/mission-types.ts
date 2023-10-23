@@ -11,8 +11,9 @@ export enum ActionSource {
 export enum ActionStatusType {
   'NAVIGATING' = 'NAVIGATING',
   'DOCKED' = 'DOCKED',
-  'ANCHORING' = 'ANCHORING',
-  'UNAVAILABLE' = 'UNAVAILABLE'
+  'ANCHORED' = 'ANCHORED',
+  'UNAVAILABLE' = 'UNAVAILABLE',
+  'UNKNOWN' = 'UNKNOWN'
 }
 
 export enum ActionStatusReason {
@@ -105,6 +106,7 @@ export type Action = {
 export type ActionStatus = {
   id: string
   status: ActionStatusType
+  startDateTimeUtc: string
   isStart: boolean
   reason?: ActionStatusReason
   observations?: string

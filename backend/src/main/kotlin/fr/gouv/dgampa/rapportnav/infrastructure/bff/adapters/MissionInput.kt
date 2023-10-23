@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.NavMission
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.NavMissionEntity
 
 data class MissionInput(
     val id: Int,
@@ -8,8 +8,8 @@ data class MissionInput(
     val endDateTimeUtc: String,
     val actions: List<ActionInput>?
 ) {
-    fun toMission(): NavMission {
-        return NavMission(
+    fun toMission(): NavMissionEntity {
+        return NavMissionEntity(
             id = id,
             actions = actions?.map { it.toNavAction(missionId = id) } ?: listOf()
         )

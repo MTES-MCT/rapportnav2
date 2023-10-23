@@ -4,10 +4,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishAction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavAction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
 import java.time.ZonedDateTime
 
-data class Action2(
+data class Action(
     val id: Any?,
     val missionId: Int,
 //    val type: ActionTypeEnum,
@@ -16,11 +16,12 @@ data class Action2(
     val endDateTimeUtc: ZonedDateTime?,
     val data: ActionData?
 ) {
+
     companion object {
-        fun fromEnvAction(envAction: EnvActionEntity, missionId: Int): Action2 {
+        fun fromEnvAction(envAction: EnvActionEntity, missionId: Int): Action {
 
             if (envAction is EnvActionControlEntity) {
-                return Action2(
+                return Action(
                     id = envAction.id,
                     missionId = missionId,
                     source = MissionSourceEnum.MONITORENV,
@@ -45,7 +46,7 @@ data class Action2(
                     )
                 )
             }
-            return Action2(
+            return Action(
                 id = envAction.id,
                 missionId = missionId,
                 source = MissionSourceEnum.MONITORENV,
@@ -60,8 +61,8 @@ data class Action2(
             )
         }
 
-        fun fromFishAction(fishAction: FishAction, missionId: Int): Action2 {
-            return Action2(
+        fun fromFishAction(fishAction: FishAction, missionId: Int): Action {
+            return Action(
                 id = fishAction.id.toString(),
                 missionId = missionId,
                 source = MissionSourceEnum.MONITORFISH,
@@ -120,7 +121,7 @@ data class Action2(
         }
 
 
-        fun fromNavAction(navAction: NavAction): Action2 {
+        fun fromNavAction(navAction: NavActionEntity): Action {
             var data: ActionData? = null
             if (navAction.statusAction != null) {
                 data = navAction.statusAction.toNavActionStatus()
@@ -128,7 +129,7 @@ data class Action2(
             else if (navAction.controlAction != null) {
                 data = navAction.controlAction.toNavActionControl()
             }
-            return Action2(
+            return Action(
                 id = navAction.id,
                 missionId = navAction.missionId,
                 source = MissionSourceEnum.RAPPORTNAV,
@@ -138,12 +139,16 @@ data class Action2(
             )
         }
 
-        fun sortForTimeline(allActions:  List<Action2>?): List<Action2>? {
-            return allActions?.sortedWith(compareByDescending<Action2> { it.startDateTimeUtc }
+        fun sortForTimeline(allActions:  List<Action>?): List<Action>? {
+            return allActions?.sortedWith(compareByDescending<Action> { it.startDateTimeUtc }
                 .thenBy { it.data is NavActionStatus }
                 .thenBy { (it.data as? NavActionStatus)?.isStart == false }
                 .thenBy { (it.data as? NavActionStatus)?.isStart == true }
             )
         }
+
+
+
+
     }
 }

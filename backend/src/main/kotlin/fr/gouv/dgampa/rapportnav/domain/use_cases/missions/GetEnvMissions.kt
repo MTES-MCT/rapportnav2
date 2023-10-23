@@ -1,8 +1,8 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.missions
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.Mission
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.EnvMission
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import org.slf4j.LoggerFactory
@@ -18,10 +18,10 @@ class GetEnvMissions() {
         startedBeforeDateTime: ZonedDateTime?,
         pageNumber: Int?,
         pageSize: Int?,
-    ): List<Mission> {
+    ): List<MissionEntity> {
         // TODO add API call to MonitorEnv
 
-        val mission1 = MissionEntity(
+        val mission1 = EnvMission(
             id = 10,
             missionTypes = listOf(MissionTypeEnum.SEA),
             facade = "Outre-Mer",
@@ -35,7 +35,7 @@ class GetEnvMissions() {
             isUnderJdp = false,
             isGeometryComputedFromControls = false,
         )
-        val mission2 = MissionEntity(
+        val mission2 = EnvMission(
             id = 11,
             missionTypes = listOf(MissionTypeEnum.SEA),
             facade = "Outre-Mer",
@@ -52,7 +52,7 @@ class GetEnvMissions() {
 
         val envMissions = listOf(mission1, mission2)
 
-        val missions = envMissions.map { Mission(envMission = it) }
+        val missions = envMissions.map { MissionEntity(envMission = it) }
 
         logger.info("Found ${missions.size} missions ")
 

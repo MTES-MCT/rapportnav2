@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatus
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.mapStringToActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.mapStringToActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.toStringOrNull
@@ -40,8 +40,8 @@ data class ActionStatusModel(
     @Column(name = "deleted_at")
     var deletedAt: ZonedDateTime? = null,
 ) {
-    fun toActionStatus(): ActionStatus {
-        return ActionStatus(
+    fun toActionStatus(): ActionStatusEntity {
+        return ActionStatusEntity(
             id = id,
             missionId = missionId,
             startDateTimeUtc = startDateTimeUtc,
@@ -54,7 +54,7 @@ data class ActionStatusModel(
     }
 
     companion object {
-        fun fromActionStatus(statusAction: ActionStatus, mapper: ObjectMapper) = ActionStatusModel(
+        fun fromActionStatus(statusAction: ActionStatusEntity, mapper: ObjectMapper) = ActionStatusModel(
             id = statusAction.id,
             missionId = statusAction.missionId,
             startDateTimeUtc = statusAction.startDateTimeUtc,

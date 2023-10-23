@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.control
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurityEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlSecurityRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlSecurityModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBActionControlRepository
@@ -28,7 +28,7 @@ class JPAControlSecurityRepository(
         return control
     }
     @Transactional
-    override fun save(control: ControlSecurity): ControlSecurityModel {
+    override fun save(control: ControlSecurityEntity): ControlSecurityModel {
         return try {
             val actionControl = actionControlRepository.findById(control.actionControlId)
             val controlSecurityModel = ControlSecurityModel.fromControlSecurity(control, actionControl)

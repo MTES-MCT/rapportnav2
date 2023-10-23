@@ -12,19 +12,25 @@ class GetLastStartedStatusForMission(
     private val logger = LoggerFactory.getLogger(GetLastStartedStatusForMission::class.java)
     fun execute(missionId: Int, actionStartDateTimeUtc: ZonedDateTime?): ActionStatusType {
         val actions = statusActionsRepository.findAllByMissionId(missionId=missionId)
-        val lastStartActionStatus = actions
-            .filter { it.isStart && it.startDateTimeUtc <= actionStartDateTimeUtc }
+        val lastActionStatus = actions
+            .filter { it.startDateTimeUtc <= actionStartDateTimeUtc }
             .maxByOrNull { it.startDateTimeUtc }
 
-        if (lastStartActionStatus != null) {
-            return lastStartActionStatus.status
+        // no status to return if no action or if last action is a status of type finishing
+        if (lastActionStatus == null || !lastActionStatus.isStart) {
+            return ActionStatusType.UNKNOWN
         }
+        // status to return if last action is of type starting
         else {
-            val lastAction = actions.last()
-            if (lastAction.startDateTimeUtc == actionStartDateTimeUtc) {
-                return lastAction.status
-            }
-            return ActionStatusType.UNAVAILABLE
+//            val lastActionAmongAll = actions.last()
+            // special case
+//            if (lastActionAmongAll.startDateTimeUtc == actionStartDateTimeUtc) {
+//                return lastActionAmongAll.status
+//            }
+//            else {
+//                return lastActionStatus.status
+//            }
+            return lastActionStatus.status
         }
     }
 

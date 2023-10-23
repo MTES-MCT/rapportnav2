@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControl
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionControlRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBActionControlRepository
@@ -16,7 +16,7 @@ class JPAActionControlRepository (
     private val mapper: ObjectMapper,
 ) : INavActionControlRepository {
 
-    override fun findAllByMissionId(missionId: Int): List<ActionControl> {
+    override fun findAllByMissionId(missionId: Int): List<ActionControlEntity> {
         return dbActionModelRepository.findAllByMissionId(missionId).map { it.toActionControl() }
     }
 
@@ -29,7 +29,7 @@ class JPAActionControlRepository (
     }
 
     @Transactional
-    override fun save(controlAction: ActionControl): ActionControl {
+    override fun save(controlAction: ActionControlEntity): ActionControlEntity {
         return try {
             val controlActionModel = ActionControlModel.fromActionControl(controlAction, mapper)
             dbActionModelRepository.save(controlActionModel).toActionControl()
