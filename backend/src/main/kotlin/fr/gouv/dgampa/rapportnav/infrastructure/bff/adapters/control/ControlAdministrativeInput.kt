@@ -13,7 +13,7 @@ data class ControlAdministrativeInput(
     val compliantSecurityDocuments: Boolean?,
     val observations: String?
 ) {
-    fun toControlAdministrative(): ControlAdministrativeEntity {
+    fun toControlAdministrativeEntity(): ControlAdministrativeEntity {
         return ControlAdministrativeEntity(
             id = id ?: UUID.randomUUID(),
             missionId = missionId,

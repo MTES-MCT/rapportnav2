@@ -13,7 +13,7 @@ data class ControlGensDeMerInput(
     val knowledgeOfFrenchLawAndLanguage: Boolean?,
     val observations: String?
 ) {
-    fun toControlGensDeMer(): ControlGensDeMerEntity {
+    fun toControlGensDeMerEntity(): ControlGensDeMerEntity {
         return ControlGensDeMerEntity(
             id = id ?: UUID.randomUUID(),
             missionId = missionId,

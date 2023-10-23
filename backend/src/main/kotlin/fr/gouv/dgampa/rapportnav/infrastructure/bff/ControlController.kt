@@ -1,9 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurityEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateControlAdministrative
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateControlGensDeMer
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateControlNavigation
@@ -12,6 +8,10 @@ import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control.ControlAdmi
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control.ControlGensDeMerInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control.ControlNavigationInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control.ControlSecurityInput
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlAdministrative
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlGensDeMer
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlNavigation
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlSecurity
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.stereotype.Controller
@@ -26,27 +26,27 @@ class ControlController(
 ) {
 
     @MutationMapping
-    fun addOrUpdateControlNavigation(@Argument control: ControlNavigationInput): ControlNavigationEntity {
+    fun addOrUpdateControlNavigation(@Argument control: ControlNavigationInput): ControlNavigation {
         val data = control.toControlNavigation()
-        return addOrUpdateControlNavigation.execute(data)
+        return addOrUpdateControlNavigation.execute(data).toControlNavigation()
     }
 
     @MutationMapping
-    fun addOrUpdateControlSecurity(@Argument control: ControlSecurityInput): ControlSecurityEntity {
+    fun addOrUpdateControlSecurity(@Argument control: ControlSecurityInput): ControlSecurity {
         val data = control.toControlSecurity()
-        return addOrUpdateControlSecurity.execute(data)
+        return addOrUpdateControlSecurity.execute(data).toControlSecurity()
     }
 
     @MutationMapping
-    fun addOrUpdateControlGensDeMer(@Argument control: ControlGensDeMerInput): ControlGensDeMerEntity {
-        val data = control.toControlGensDeMer()
-        return addOrUpdateControlGensDeMer.execute(data)
+    fun addOrUpdateControlGensDeMer(@Argument control: ControlGensDeMerInput): ControlGensDeMer {
+        val data = control.toControlGensDeMerEntity()
+        return addOrUpdateControlGensDeMer.execute(data).toControlGensDeMer()
     }
 
     @MutationMapping
-    fun addOrUpdateControlAdministrative(@Argument control: ControlAdministrativeInput): ControlAdministrativeEntity {
-        val data = control.toControlAdministrative()
-        return addOrUpdateControlAdministrative.execute(data)
+    fun addOrUpdateControlAdministrative(@Argument control: ControlAdministrativeInput): ControlAdministrative {
+        val data = control.toControlAdministrativeEntity()
+        return addOrUpdateControlAdministrative.execute(data).toControlAdministrative()
     }
 
 

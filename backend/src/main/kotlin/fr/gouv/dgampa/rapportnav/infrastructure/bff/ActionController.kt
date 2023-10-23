@@ -4,8 +4,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum.CONTROL
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum.SURVEILLANCE
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControlEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateControl
@@ -32,9 +30,9 @@ class ActionController(
     private val deleteControl: DeleteControl,
 ) {
     @MutationMapping
-    fun addOrUpdateStatus(@Argument statusAction: ActionStatusInput): ActionStatusEntity {
+    fun addOrUpdateStatus(@Argument statusAction: ActionStatusInput): NavActionStatus {
         val data = statusAction.toActionStatus()
-        return addOrUpdateStatus.execute(data)
+        return addOrUpdateStatus.execute(data).toNavActionStatus()
     }
 
     @MutationMapping
@@ -43,10 +41,9 @@ class ActionController(
     }
 
     @MutationMapping
-    fun addOrUpdateControl(@Argument controlAction: ActionControlInput): ActionControlEntity {
+    fun addOrUpdateControl(@Argument controlAction: ActionControlInput): NavActionControl {
         val data = controlAction.toActionControl()
-        val savedData = addOrUpdateControl.execute(data)
-        return savedData
+        return addOrUpdateControl.execute(data).toNavActionControl()
     }
 
     @MutationMapping
@@ -73,6 +70,7 @@ class ActionController(
 
     @SchemaMapping(typeName = "Action", field = "type")
     fun getActionType(action: Action?): ActionType {
+        // TODO move logic to a use case
         if (action?.data != null) {
             return when (action.data) {
                 is EnvActionData -> {
@@ -104,17 +102,12 @@ class ActionController(
 
     @SchemaMapping(typeName = "EnvActionData", field = "amountOfControlsToComplete")
     fun getEnvAmountOfControlsToComplete(action: EnvActionData): Int? {
-
-        // get last started status for this time and missionId
-        val amount = listOf(
+        return listOf(
             action.isAdministrativeControl,
             action.isComplianceWithWaterRegulationsControl,
             action.isSafetyEquipmentAndStandardsComplianceControl,
             action.isSeafarersControl
-            // ... add other properties here
         ).count { it == true }
-
-        return amount
     }
 
 }
