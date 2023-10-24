@@ -62,7 +62,8 @@ As we are mirroring our repo onto our hoster's repo, who can also provide change
 
 ### Instructions
 
-- Update the variable `PROJECT_VERSION` in the file `.gitlab-ci.yml`
+- Set version number `in pom.xml`
+- Set version number in the variable `PROJECT_VERSION` in the file `.gitlab-ci.yml`
 - Create a GitHub release with the same version number
 - check the running `release` Action
 - check the pipeline [here](https://gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2/-/pipelines)
