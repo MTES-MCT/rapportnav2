@@ -9,9 +9,9 @@ data class ControlGensDeMerEntity(
     val missionId: Int,
     val actionControlId: UUID,
     val confirmed: Boolean?,
-    val staffOutnumbered: Boolean?,
-    val upToDateMedicalCheck: Boolean?,
-    val knowledgeOfFrenchLawAndLanguage: Boolean?,
+    val staffOutnumbered: ControlResult?,
+    val upToDateMedicalCheck: ControlResult?,
+    val knowledgeOfFrenchLawAndLanguage: ControlResult?,
     val observations: String?,
     val deletedAt: ZonedDateTime? = null,
 ) {

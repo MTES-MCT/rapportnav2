@@ -9,6 +9,10 @@ enum class VesselSizeEnum {
 }
 /* ktlint-enable enum-entry-name-case */
 
+fun VesselSizeEnum?.toStringOrNull(): String? {
+    return this?.name
+}
+
 fun mapStringToVesselSize(value: String?): VesselSizeEnum? {
     if (value != null) {
         return try {

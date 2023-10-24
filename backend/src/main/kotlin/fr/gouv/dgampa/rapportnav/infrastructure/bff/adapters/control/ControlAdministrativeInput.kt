@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlResult
 import java.util.*
 
 data class ControlAdministrativeInput(
@@ -8,9 +9,9 @@ data class ControlAdministrativeInput(
     val missionId: Int,
     val actionControlId: UUID,
     val confirmed: Boolean?,
-    val compliantOperatingPermit: Boolean?,
-    val upToDateNavigationPermit: Boolean?,
-    val compliantSecurityDocuments: Boolean?,
+    val compliantOperatingPermit: ControlResult?,
+    val upToDateNavigationPermit: ControlResult?,
+    val compliantSecurityDocuments: ControlResult?,
     val observations: String?
 ) {
     fun toControlAdministrativeEntity(): ControlAdministrativeEntity {

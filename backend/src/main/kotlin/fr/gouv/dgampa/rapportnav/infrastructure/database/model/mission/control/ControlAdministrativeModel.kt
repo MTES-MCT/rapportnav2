@@ -2,6 +2,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.stringToControlResult
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.toStringOrNull
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import jakarta.persistence.*
 import java.time.ZonedDateTime
@@ -24,13 +26,13 @@ data class ControlAdministrativeModel(
     var confirmed: Boolean? = false,
 
     @Column(name = "compliant_operating_permit", nullable = true)
-    var compliantOperatingPermit: Boolean? = null,
+    var compliantOperatingPermit: String? = null,
 
     @Column(name = "up_to_date_navigation_permit", nullable = true)
-    var upToDateNavigationPermit: Boolean? = null,
+    var upToDateNavigationPermit: String? = null,
 
     @Column(name = "compliant_security_documents", nullable = true)
-    var compliantSecurityDocuments: Boolean? = null,
+    var compliantSecurityDocuments: String? = null,
 
     @Column(name = "observations", nullable = true)
     var observations: String? = null,
@@ -50,9 +52,9 @@ data class ControlAdministrativeModel(
         missionId = missionId,
         actionControlId = actionControlId,
         confirmed = confirmed,
-        compliantOperatingPermit = compliantOperatingPermit,
-        upToDateNavigationPermit = upToDateNavigationPermit,
-        compliantSecurityDocuments = compliantSecurityDocuments,
+        compliantOperatingPermit = stringToControlResult(compliantOperatingPermit),
+        upToDateNavigationPermit = stringToControlResult(upToDateNavigationPermit),
+        compliantSecurityDocuments = stringToControlResult(compliantSecurityDocuments),
         observations = observations,
         deletedAt = deletedAt,
     )
@@ -64,9 +66,9 @@ data class ControlAdministrativeModel(
                 missionId = control.missionId,
                 actionControlId = actionControl.id,
                 confirmed = control.confirmed,
-                compliantOperatingPermit = control.compliantOperatingPermit,
-                upToDateNavigationPermit = control.upToDateNavigationPermit,
-                compliantSecurityDocuments = control.compliantSecurityDocuments,
+                compliantOperatingPermit = control.compliantOperatingPermit.toStringOrNull(),
+                upToDateNavigationPermit = control.upToDateNavigationPermit.toStringOrNull(),
+                compliantSecurityDocuments = control.compliantSecurityDocuments.toStringOrNull(),
                 observations = control.observations,
                 deletedAt = control.deletedAt,
                 actionControl = actionControl

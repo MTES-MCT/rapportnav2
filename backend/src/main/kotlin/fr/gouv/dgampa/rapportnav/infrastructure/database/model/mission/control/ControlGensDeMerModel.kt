@@ -2,6 +2,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.stringToControlResult
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.toStringOrNull
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import jakarta.persistence.*
 import java.time.ZonedDateTime
@@ -24,13 +26,13 @@ data class ControlGensDeMerModel(
     var confirmed: Boolean? = false,
 
     @Column(name = "staff_outnumbered", nullable = true)
-    var staffOutnumbered: Boolean? = null,
+    var staffOutnumbered: String? = null,
 
     @Column(name = "up_to_date_medical_check", nullable = true)
-    var upToDateMedicalCheck: Boolean? = null,
+    var upToDateMedicalCheck: String? = null,
 
     @Column(name = "knowledge_of_french_law_and_language", nullable = true)
-    var knowledgeOfFrenchLawAndLanguage: Boolean? = null,
+    var knowledgeOfFrenchLawAndLanguage: String? = null,
 
     @Column(name = "observations", nullable = true)
     var observations: String? = null,
@@ -48,9 +50,9 @@ data class ControlGensDeMerModel(
         missionId = missionId,
         actionControlId = actionControlId,
         confirmed = confirmed,
-        staffOutnumbered = staffOutnumbered,
-        upToDateMedicalCheck = upToDateMedicalCheck,
-        knowledgeOfFrenchLawAndLanguage = knowledgeOfFrenchLawAndLanguage,
+        staffOutnumbered = stringToControlResult(staffOutnumbered),
+        upToDateMedicalCheck = stringToControlResult(upToDateMedicalCheck),
+        knowledgeOfFrenchLawAndLanguage = stringToControlResult(knowledgeOfFrenchLawAndLanguage),
         observations = observations,
         deletedAt = deletedAt,
     )
@@ -61,9 +63,9 @@ data class ControlGensDeMerModel(
             missionId = control.missionId,
             actionControlId = actionControl.id,
             confirmed = control.confirmed,
-            staffOutnumbered = control.staffOutnumbered,
-            upToDateMedicalCheck = control.upToDateMedicalCheck,
-            knowledgeOfFrenchLawAndLanguage = control.knowledgeOfFrenchLawAndLanguage,
+            staffOutnumbered = control.staffOutnumbered.toStringOrNull(),
+            upToDateMedicalCheck = control.upToDateMedicalCheck.toStringOrNull(),
+            knowledgeOfFrenchLawAndLanguage = control.knowledgeOfFrenchLawAndLanguage.toStringOrNull(),
             observations = control.observations,
             deletedAt = control.deletedAt,
             actionControl = actionControl,

@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlResult
 import java.util.*
 
 data class ControlGensDeMerInput(
@@ -8,9 +9,9 @@ data class ControlGensDeMerInput(
     val missionId: Int,
     val actionControlId: UUID,
     val confirmed: Boolean?,
-    val staffOutnumbered: Boolean?,
-    val upToDateMedicalCheck: Boolean?,
-    val knowledgeOfFrenchLawAndLanguage: Boolean?,
+    val staffOutnumbered: ControlResult?,
+    val upToDateMedicalCheck: ControlResult?,
+    val knowledgeOfFrenchLawAndLanguage: ControlResult?,
     val observations: String?
 ) {
     fun toControlGensDeMerEntity(): ControlGensDeMerEntity {

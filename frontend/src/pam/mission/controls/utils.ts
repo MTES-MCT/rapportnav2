@@ -1,20 +1,5 @@
 import { ControlMethod, VesselType } from '../../mission-types'
 
-export const CONTROL_MULTIRADIO_OPTIONS = [
-  {
-    label: 'Oui',
-    value: true
-  },
-  {
-    label: 'Non',
-    value: false
-  },
-  {
-    label: 'Non contrôlé',
-    value: null
-  }
-]
-
 export const controlMethodToHumanString = (controlMethod: ControlMethod): String => {
   switch (controlMethod) {
     case ControlMethod.AIR:

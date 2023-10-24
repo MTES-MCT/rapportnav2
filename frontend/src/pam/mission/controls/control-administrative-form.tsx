@@ -1,11 +1,11 @@
 import { Stack } from 'rsuite'
 import { ControlAdministrative } from '../../mission-types'
 import { THEME, Icon, Button, Accent, Size, Textarea, MultiRadio, OptionValue } from '@mtes-mct/monitor-ui'
-import { CONTROL_MULTIRADIO_OPTIONS } from './utils'
 import { useMutation } from '@apollo/client'
 import { MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE } from '../queries'
 import { useEffect, useState } from 'react'
 import omit from 'lodash/omit'
+import { controlResultOptions } from './control-result'
 
 interface ControlAdministrativeFormProps {
   missionId: String
@@ -51,7 +51,7 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({ m
           label="Permis de mise en exploitation (autorisation à pêcher) conforme"
           name="compliantOperatingPermit"
           onChange={(nextValue: OptionValue) => onChange('compliantOperatingPermit', nextValue)}
-          options={CONTROL_MULTIRADIO_OPTIONS}
+          options={controlResultOptions()}
         />
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
@@ -62,7 +62,7 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({ m
           label="Permis de navigation à jour"
           name="upToDateNavigationPermit"
           onChange={(nextValue: OptionValue) => onChange('upToDateNavigationPermit', nextValue)}
-          options={CONTROL_MULTIRADIO_OPTIONS}
+          options={controlResultOptions()}
         />
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
@@ -73,7 +73,7 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({ m
           label="Titres de sécurité conformes"
           name="compliantSecurityDocuments"
           onChange={(nextValue: OptionValue) => onChange('compliantSecurityDocuments', nextValue)}
-          options={CONTROL_MULTIRADIO_OPTIONS}
+          options={controlResultOptions()}
         />
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>

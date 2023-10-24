@@ -8,6 +8,10 @@ enum class VesselTypeEnum {
     SAILING_LEISURE,
 }
 
+fun VesselTypeEnum?.toStringOrNull(): String? {
+    return this?.name
+}
+
 fun mapStringToVesselType(value: String?): VesselTypeEnum? {
     if (value != null) {
         return try {

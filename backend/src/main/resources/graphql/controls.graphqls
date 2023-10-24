@@ -1,10 +1,22 @@
 extend type Mutation {
-  addOrUpdateControlNavigation(control: ControlNavigationInput!): ControlNavigation!
+  addOrUpdateControlNavigation(
+    control: ControlNavigationInput!
+  ): ControlNavigation!
   addOrUpdateControlSecurity(control: ControlSecurityInput!): ControlSecurity!
-  addOrUpdateControlAdministrative(control: ControlAdministrativeInput!): ControlAdministrative!
-  addOrUpdateControlGensDeMer(control: ControlGensDeMerInput!): ControlGensDeMer!
+  addOrUpdateControlAdministrative(
+    control: ControlAdministrativeInput!
+  ): ControlAdministrative!
+  addOrUpdateControlGensDeMer(
+    control: ControlGensDeMerInput!
+  ): ControlGensDeMer!
 }
 
+enum ControlResult {
+  YES
+  NO
+  NOT_CONTROLLED
+  NOT_CONCERNED
+}
 
 type ControlNavigation {
   id: String!
@@ -21,18 +33,18 @@ type ControlSecurity {
 type ControlAdministrative {
   id: String!
   confirmed: Boolean
-  compliantOperatingPermit: Boolean
-  upToDateNavigationPermit: Boolean
-  compliantSecurityDocuments: Boolean
+  compliantOperatingPermit: ControlResult
+  upToDateNavigationPermit: ControlResult
+  compliantSecurityDocuments: ControlResult
   observations: String
 }
 
 type ControlGensDeMer {
   id: String!
   confirmed: Boolean
-  staffOutnumbered: Boolean
-  upToDateMedicalCheck: Boolean
-  knowledgeOfFrenchLawAndLanguage: Boolean
+  staffOutnumbered: ControlResult
+  upToDateMedicalCheck: ControlResult
+  knowledgeOfFrenchLawAndLanguage: ControlResult
   observations: String
 }
 
@@ -43,7 +55,6 @@ input ControlNavigationInput {
   confirmed: Boolean
   observations: String
 }
-
 
 input ControlSecurityInput {
   id: String
@@ -58,9 +69,9 @@ input ControlAdministrativeInput {
   missionId: String!
   actionControlId: String!
   confirmed: Boolean
-  compliantOperatingPermit: Boolean
-  upToDateNavigationPermit: Boolean
-  compliantSecurityDocuments: Boolean
+  compliantOperatingPermit: ControlResult
+  upToDateNavigationPermit: ControlResult
+  compliantSecurityDocuments: ControlResult
   observations: String
 }
 
@@ -69,8 +80,8 @@ input ControlGensDeMerInput {
   missionId: String!
   actionControlId: String!
   confirmed: Boolean
-  staffOutnumbered: Boolean
-  upToDateMedicalCheck: Boolean
-  knowledgeOfFrenchLawAndLanguage: Boolean
+  staffOutnumbered: ControlResult
+  upToDateMedicalCheck: ControlResult
+  knowledgeOfFrenchLawAndLanguage: ControlResult
   observations: String
 }

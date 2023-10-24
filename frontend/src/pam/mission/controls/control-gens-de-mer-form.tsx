@@ -1,11 +1,11 @@
 import { Stack } from 'rsuite'
 import { ControlGensDeMer } from '../../mission-types'
 import { THEME, Icon, Button, Accent, Size, Textarea, MultiRadio, OptionValue } from '@mtes-mct/monitor-ui'
-import { CONTROL_MULTIRADIO_OPTIONS } from './utils'
 import { MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER } from '../queries'
 import { useMutation } from '@apollo/client'
 import { useEffect, useState } from 'react'
 import omit from 'lodash/omit'
+import { ControlResultExtraOptions, controlResultOptions } from './control-result'
 
 interface ControlGensDeMerFormProps {
   missionId: String
@@ -48,7 +48,7 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({ missionId, 
           label="Décision d’effectif conforme au nombre de personnes à bord"
           name="staffOutnumbered"
           onChange={(nextValue: OptionValue) => onChange('staffOutnumbered', nextValue)}
-          options={CONTROL_MULTIRADIO_OPTIONS}
+          options={controlResultOptions()}
         />
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
@@ -59,7 +59,7 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({ missionId, 
           label="Aptitudes médicales ; Visites médicales à jour"
           name="upToDateMedicalCheck"
           onChange={(nextValue: OptionValue) => onChange('upToDateMedicalCheck', nextValue)}
-          options={CONTROL_MULTIRADIO_OPTIONS}
+          options={controlResultOptions()}
         />
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
@@ -70,7 +70,7 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({ missionId, 
           label="Connaissance suffisante de la langue et de la loi français (navires fr/esp)"
           name="knowledgeOfFrenchLawAndLanguage"
           onChange={(nextValue: OptionValue) => onChange('knowledgeOfFrenchLawAndLanguage', nextValue)}
-          options={CONTROL_MULTIRADIO_OPTIONS}
+          options={controlResultOptions([ControlResultExtraOptions.NOT_CONCERNED])}
         />
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>

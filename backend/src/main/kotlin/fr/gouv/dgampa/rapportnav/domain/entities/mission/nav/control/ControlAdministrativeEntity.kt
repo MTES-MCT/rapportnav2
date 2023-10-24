@@ -9,9 +9,9 @@ data class ControlAdministrativeEntity(
     val missionId: Int,
     val actionControlId: UUID,
     val confirmed: Boolean?,
-    val compliantOperatingPermit: Boolean?,
-    val upToDateNavigationPermit: Boolean?,
-    val compliantSecurityDocuments: Boolean?,
+    val compliantOperatingPermit: ControlResult?,
+    val upToDateNavigationPermit: ControlResult?,
+    val compliantSecurityDocuments: ControlResult?,
     val observations: String?,
     val deletedAt: ZonedDateTime? = null,
 ) {

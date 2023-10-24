@@ -127,20 +127,27 @@ export type ActionControl = {
   controlSecurity?: ControlSecurity
 }
 
+export enum ControlResult {
+  'YES' = 'YES',
+  'NO' = 'NO',
+  'NOT_CONTROLLED' = 'NOT_CONTROLLED',
+  'NOT_CONCERNED' = 'NOT_CONCERNED'
+}
+
 export type ControlAdministrative = {
   id: String
   confirmed?: boolean
-  compliantOperatingPermit?: boolean
-  upToDateNavigationPermit?: boolean
-  compliantSecurityDocuments?: boolean
+  compliantOperatingPermit?: ControlResult
+  upToDateNavigationPermit?: ControlResult
+  compliantSecurityDocuments?: ControlResult
   observations?: string
 }
 export type ControlGensDeMer = {
   id: String
   confirmed?: boolean
-  staffOutnumbered?: boolean
-  upToDateMedicalCheck?: boolean
-  knowledgeOfFrenchLawAndLanguage?: boolean
+  staffOutnumbered?: ControlResult
+  upToDateMedicalCheck?: ControlResult
+  knowledgeOfFrenchLawAndLanguage?: ControlResult
   observations?: string
 }
 export type ControlNavigation = {
