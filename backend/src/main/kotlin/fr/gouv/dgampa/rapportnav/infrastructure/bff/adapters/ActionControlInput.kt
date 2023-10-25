@@ -4,6 +4,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSi
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlAdministrative
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlGensDeMer
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlNavigation
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlSecurity
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -22,6 +26,10 @@ data class ActionControlInput(
     val vesselSize: VesselSizeEnum?,
     val identityControlledPerson: String?,
     val observations: String?,
+    val controlAdministrative: ControlAdministrative?,
+    val controlGensDeMer: ControlGensDeMer?,
+    val controlNavigation: ControlNavigation?,
+    val controlSecurity: ControlSecurity?
 ) {
     fun toActionControl(): ActionControlEntity {
         return ActionControlEntity(
@@ -39,10 +47,10 @@ data class ActionControlInput(
             vesselSize = vesselSize,
             identityControlledPerson = identityControlledPerson,
             observations = observations,
-            controlAdministrative = null,
-            controlGensDeMer = null,
-            controlNavigation = null,
-            controlSecurity = null,
+            controlAdministrative = controlAdministrative?.toControlAdministrativeEntity(missionId = missionId, actionId = id),
+            controlGensDeMer = controlGensDeMer?.toControlGensDeMerEntity(missionId = missionId, actionId = id),
+            controlNavigation = controlNavigation?.toControlNavigationEntity(missionId = missionId, actionId = id),
+            controlSecurity = controlSecurity?.toControlSecurityEntity(missionId = missionId, actionId = id),
         )
     }
 }

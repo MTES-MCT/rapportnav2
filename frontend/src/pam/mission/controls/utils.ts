@@ -1,4 +1,11 @@
-import { ControlMethod, VesselType } from '../../mission-types'
+import {
+  ControlAdministrative,
+  ControlGensDeMer,
+  ControlMethod,
+  ControlNavigation,
+  ControlSecurity,
+  VesselType
+} from '../../mission-types'
 
 export const controlMethodToHumanString = (controlMethod: ControlMethod): String => {
   switch (controlMethod) {
@@ -23,9 +30,18 @@ export const vesselTypeToHumanString = (vesselType: VesselType): String => {
       return 'Navire de service'
     case VesselType.SAILING:
       return 'Navire de plaisance professionnelle'
-    case VesselType.SAILING:
+    case VesselType.SAILING_LEISURE:
       return 'Navire de plaisance de loisir'
     default:
       return ''
   }
 }
+
+export const controlIsEnabled = (
+  controlData?: ControlAdministrative | ControlSecurity | ControlNavigation | ControlGensDeMer
+) =>
+  (!!controlData &&
+    controlData !== null &&
+    Object.keys(controlData).length > 0 &&
+    controlData?.deletedAt === undefined) ||
+  (!!controlData && controlData !== null && controlData?.deletedAt === null)

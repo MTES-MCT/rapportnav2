@@ -22,12 +22,14 @@ type ControlNavigation {
   id: String!
   confirmed: Boolean
   observations: String
+  deletedAt: String
 }
 
 type ControlSecurity {
   id: String!
   confirmed: Boolean
   observations: String
+  deletedAt: String
 }
 
 type ControlAdministrative {
@@ -37,6 +39,7 @@ type ControlAdministrative {
   upToDateNavigationPermit: ControlResult
   compliantSecurityDocuments: ControlResult
   observations: String
+  deletedAt: String
 }
 
 type ControlGensDeMer {
@@ -46,6 +49,7 @@ type ControlGensDeMer {
   upToDateMedicalCheck: ControlResult
   knowledgeOfFrenchLawAndLanguage: ControlResult
   observations: String
+  deletedAt: String
 }
 
 input ControlNavigationInput {
@@ -54,6 +58,7 @@ input ControlNavigationInput {
   actionControlId: String!
   confirmed: Boolean
   observations: String
+  deletedAt: String
 }
 
 input ControlSecurityInput {
@@ -62,6 +67,7 @@ input ControlSecurityInput {
   actionControlId: String!
   confirmed: Boolean
   observations: String
+  deletedAt: String
 }
 
 input ControlAdministrativeInput {
@@ -73,6 +79,7 @@ input ControlAdministrativeInput {
   upToDateNavigationPermit: ControlResult
   compliantSecurityDocuments: ControlResult
   observations: String
+  deletedAt: String
 }
 
 input ControlGensDeMerInput {
@@ -84,4 +91,5 @@ input ControlGensDeMerInput {
   upToDateMedicalCheck: ControlResult
   knowledgeOfFrenchLawAndLanguage: ControlResult
   observations: String
+  deletedAt: String
 }

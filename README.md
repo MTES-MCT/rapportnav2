@@ -57,11 +57,14 @@ As we are mirroring our repo onto our hoster's repo, who can also provide change
 
 - add mirror if you haven't: `git remote add mirror https://gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2.git`
 - fetch changes: `git fetch mirror`
+  - username: use your @i-carre.net email
+  - password: use token provided by other devs or devops at DSI
 - pull changes if existing: `git pull mirror main`
 - push to this repo if necessary
 
 ### Instructions
 
+- Make sure you have the last changes from the mirror: so fetch & pull code from mirror
 - Set version number `in pom.xml`
 - Set version number in the variable `PROJECT_VERSION` in the file `.gitlab-ci.yml`
 - Create a GitHub release with the same version number

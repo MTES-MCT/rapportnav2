@@ -409,12 +409,6 @@ export type Infraction = NewInfraction & {
   infractionType: InfractionTypeEnum
 }
 
-// : {
-//   endDateTimeUtc?: string | null
-//   isClosed?: Boolean
-//   startDateTimeUtc?: string | null
-// }
-
 export const getMissionStatus = (mission: Mission, compareDate = Date.now()): MissionStatusEnum | string => {
   const { endDateTimeUtc, isClosed, startDateTimeUtc } = mission
   if (isClosed) {

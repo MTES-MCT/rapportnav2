@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {
   THEME,
   Icon,
@@ -19,18 +19,18 @@ import { formatDateTimeForFrenchHumans } from '../../../dates'
 import { getColorForStatus, mapStatusToText } from '../status/utils'
 import { useMutation } from '@apollo/client'
 import { DELETE_ACTION_STATUS, MUTATION_ADD_OR_UPDATE_ACTION_STATUS } from '../queries'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import omit from 'lodash/omit'
 
 interface ActionStatusFormProps {
   action: Action
-  resetSelectedAction: () => void
 }
 
-const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action, resetSelectedAction }) => {
+const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
+  const navigate = useNavigate()
   const { missionId } = useParams()
 
-  const [status, setStatus] = useState<ActionStatus>((action.data || {}) as unknown as ActionStatus)
+  const status = action.data as unknown as ActionStatus
 
   const [mutateStatus, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_STATUS, {
     refetchQueries: ['GetMissionById']
@@ -39,10 +39,6 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action, resetSelect
   const [deleteStatus, { deleteData, deleteLoading, deleteError }] = useMutation(DELETE_ACTION_STATUS, {
     refetchQueries: ['GetMissionById']
   })
-
-  useEffect(() => {
-    setStatus((action.data || {}) as any as ActionStatus)
-  }, [action.data])
 
   const onChange = (field: string, value: any) => {
     let date = ''
@@ -59,9 +55,6 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action, resetSelect
       [field]: value
     }
     mutateStatus({ variables: { statusAction: updatedData } })
-
-    // TODO this shouldn't be like that - useState should not be used
-    setStatus(updatedData)
   }
 
   const deleteAction = () => {
@@ -70,7 +63,7 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action, resetSelect
         id: action.id!
       }
     })
-    resetSelectedAction()
+    navigate(`/pam/missions/${missionId}`)
   }
 
   return (

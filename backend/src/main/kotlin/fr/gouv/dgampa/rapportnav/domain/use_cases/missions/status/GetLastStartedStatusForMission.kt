@@ -15,21 +15,21 @@ class GetLastStartedStatusForMission(
         val lastActionStatus = actions
             .filter { it.startDateTimeUtc <= actionStartDateTimeUtc }
             .maxByOrNull { it.startDateTimeUtc }
+        val lastStartedActionStatus = actions
+            .filter { it.isStart && it.startDateTimeUtc <= actionStartDateTimeUtc }
+            .maxByOrNull { it.startDateTimeUtc }
 
-        // no status to return if no action or if last action is a status of type finishing
-        if (lastActionStatus == null || !lastActionStatus.isStart) {
+
+        // case where there are 2 statuses at the same timestamp, one starting, one ending:
+        if (lastActionStatus != null && lastStartedActionStatus != null && lastStartedActionStatus.startDateTimeUtc == lastActionStatus.startDateTimeUtc) {
+            return lastStartedActionStatus.status
+        }
+        // return unknown if no action or if last action is a status of type finishing and no other starting action at that timestamp
+        else if (lastActionStatus == null || (!lastActionStatus.isStart && lastStartedActionStatus!!.startDateTimeUtc != lastActionStatus.startDateTimeUtc)) {
             return ActionStatusType.UNKNOWN
         }
-        // status to return if last action is of type starting
+        // return status of last status, it implies it is a starting status
         else {
-//            val lastActionAmongAll = actions.last()
-            // special case
-//            if (lastActionAmongAll.startDateTimeUtc == actionStartDateTimeUtc) {
-//                return lastActionAmongAll.status
-//            }
-//            else {
-//                return lastActionStatus.status
-//            }
             return lastActionStatus.status
         }
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {
   THEME,
   Icon,
@@ -25,16 +25,17 @@ import { formatDateTimeForFrenchHumans } from '../../../dates'
 import { DELETE_ACTION_CONTROL, MUTATION_ADD_OR_UPDATE_ACTION_CONTROL } from '../queries'
 import { useMutation } from '@apollo/client'
 import omit from 'lodash/omit'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 interface ActionControlNavProps {
   action: Action
-  resetSelectedAction: () => void
 }
 
-const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelectedAction }) => {
+const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
+  const navigate = useNavigate()
   const { missionId } = useParams()
-  const [control, setControl] = useState<ActionControl>((action.data || {}) as unknown as ActionControl)
+
+  const control = action.data as unknown as ActionControl
 
   const [mutateControl, { statusData, statusLoading, statusError }] = useMutation(
     MUTATION_ADD_OR_UPDATE_ACTION_CONTROL,
@@ -46,10 +47,6 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
   const [deleteControl, { deleteData, deleteLoading, deleteError }] = useMutation(DELETE_ACTION_CONTROL, {
     refetchQueries: ['GetMissionById']
   })
-
-  useEffect(() => {
-    setControl((action.data || {}) as any as ActionControl)
-  }, [action.data])
 
   const onChange = (field: string, value: any) => {
     let updatedField = {}
@@ -84,13 +81,30 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
       ]),
       startDateTimeUtc: action.startDateTimeUtc,
       endDateTimeUtc: action.endDateTimeUtc,
+      // controlAdministrative: control.controlAdministrative && {
+      //   ...omit(control.controlAdministrative, '__typename'),
+      //   missionId,
+      //   actionControlId: action.id
+      // },
+      // controlGensDeMer: control.controlGensDeMer && {
+      //   ...omit(control.controlGensDeMer, '__typename'),
+      //   missionId,
+      //   actionControlId: action.id
+      // },
+      // controlNavigation: control.controlNavigation && {
+      //   ...omit(control.controlNavigation, '__typename'),
+      //   missionId,
+      //   actionControlId: action.id
+      // },
+      // controlSecurity: control.controlSecurity && {
+      //   ...omit(control.controlSecurity, '__typename'),
+      //   missionId,
+      //   actionControlId: action.id
+      // },
       ...updatedField
     }
-    debugger
-    mutateControl({ variables: { controlAction: updatedData } })
 
-    // TODO this shouldn't be like that - useState should not be used
-    setControl(updatedData)
+    mutateControl({ variables: { controlAction: updatedData } })
   }
 
   const deleteAction = () => {
@@ -100,7 +114,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
         id: action.id!
       }
     })
-    resetSelectedAction()
+    navigate(`/pam/missions/${missionId}`)
   }
 
   return (
@@ -221,64 +235,16 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action, resetSelect
             <Title as="h3">Contrôle(s) effectué(s) par l’unité sur le navire</Title>
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
-            <Panel
-              header={
-                <Title as="h3" color={THEME.color.gunmetal} weight="bold">
-                  Contrôle administratif navire
-                </Title>
-              }
-              collapsible
-              style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
-            >
-              <ControlAdministrativeForm
-                missionId={missionId}
-                actionControlId={action.id}
-                data={control.controlAdministrative}
-              />{' '}
-            </Panel>
+            <ControlAdministrativeForm data={control.controlAdministrative} />
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
-            <Panel
-              header={
-                <Title as="h3" color={THEME.color.gunmetal} weight="bold">
-                  Respect des règles de navigation
-                </Title>
-              }
-              collapsible
-              style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
-            >
-              <ControlNavigationForm
-                missionId={missionId}
-                actionControlId={action.id}
-                data={control.controlNavigation}
-              />
-            </Panel>
+            <ControlNavigationForm data={control.controlNavigation} />
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
-            <Panel
-              header={
-                <Title as="h3" color={THEME.color.gunmetal} weight="bold">
-                  Contrôle administratif gens de mer
-                </Title>
-              }
-              collapsible
-              style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
-            >
-              <ControlGensDeMerForm missionId={missionId} actionControlId={action.id} data={control.controlGensDeMer} />
-            </Panel>
+            <ControlGensDeMerForm data={control.controlGensDeMer} />
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
-            <Panel
-              header={
-                <Title as="h3" color={THEME.color.gunmetal} weight="bold">
-                  Equipements et respect des normes de sécurité
-                </Title>
-              }
-              collapsible
-              style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
-            >
-              <ControlSecurityForm missionId={missionId} actionControlId={action.id} data={control.controlSecurity} />
-            </Panel>
+            <ControlSecurityForm data={control.controlSecurity} />
           </Stack.Item>
         </Stack>
       </Stack.Item>

@@ -39,6 +39,10 @@ input ActionControlInput {
   vesselSize: VesselSize
   identityControlledPerson: String
   observations: String
+#  controlAdministrative: ControlAdministrativeInput
+#  controlGensDeMer: ControlGensDeMerInput
+#  controlNavigation: ControlNavigationInput
+#  controlSecurity: ControlSecurityInput
 }
 
 enum MissionSource {

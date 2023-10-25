@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />
   },
   {
-    path: 'pam/missions/:missionId',
+    path: 'pam/missions/:missionId/:actionId?',
     element: <MissionPage />
   }
 ])

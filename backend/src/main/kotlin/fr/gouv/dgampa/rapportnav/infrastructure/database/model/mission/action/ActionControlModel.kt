@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.mapStringToVesselSize
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.mapStringToVesselType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.toStringOrNull
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.mapStringToControlMethod
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlAdministrativeModel
@@ -38,17 +39,17 @@ data class ActionControlModel(
     @Column(name = "longitude", nullable = true)
     var longitude: Double? = null,
 
-    @Column(name = "vessel_identifier", nullable = false)
-    var vesselIdentifier: String,
+    @Column(name = "vessel_identifier", nullable = true)
+    var vesselIdentifier: String? = null,
 
-    @Column(name = "vessel_type", nullable = false)
-    var vesselType: String,
+    @Column(name = "vessel_type", nullable = true)
+    var vesselType: String? = null,
 
-    @Column(name = "vessel_size", nullable = false)
-    var vesselSize: String,
+    @Column(name = "vessel_size", nullable = true)
+    var vesselSize: String? = null,
 
-    @Column(name = "identity_controlled_person", nullable = false)
-    var identityControlledPerson: String,
+    @Column(name = "identity_controlled_person", nullable = true)
+    var identityControlledPerson: String? = null,
 
     @Column(name = "observations", nullable = true)
     var observations: String?,
@@ -57,18 +58,19 @@ data class ActionControlModel(
     var deletedAt: ZonedDateTime? = null,
 
     @OneToOne(mappedBy = "actionControl", cascade = [CascadeType.ALL])
+    @JoinColumn(name = "action_control_id", insertable = false, updatable = false)
     var controlAdministrative: ControlAdministrativeModel? = null,
 
-    @OneToOne(mappedBy = "actionControl")
-    @JoinColumn(name = "action_control_id")
+    @OneToOne(mappedBy = "actionControl", cascade = [CascadeType.ALL])
+    @JoinColumn(name = "action_control_id", insertable = false, updatable = false)
     var controlGensDeMer: ControlGensDeMerModel? = null,
 
-    @OneToOne(mappedBy = "actionControl")
-    @JoinColumn(name = "action_control_id")
+    @OneToOne(mappedBy = "actionControl", cascade = [CascadeType.ALL])
+    @JoinColumn(name = "action_control_id", insertable = false, updatable = false)
     var controlNavigation: ControlNavigationModel? = null,
 
-    @OneToOne(mappedBy = "actionControl")
-    @JoinColumn(name = "action_control_id")
+    @OneToOne(mappedBy = "actionControl", cascade = [CascadeType.ALL])
+    @JoinColumn(name = "action_control_id", insertable = false, updatable = false)
     var controlSecurity: ControlSecurityModel? = null,
 ) {
     fun toActionControl(): ActionControlEntity {
@@ -102,10 +104,10 @@ data class ActionControlModel(
             latitude = controlAction.latitude,
             longitude = controlAction.longitude,
             controlMethod = controlAction.controlMethod.toString(),
-            vesselIdentifier = controlAction.vesselIdentifier.toString(),
-            vesselType = controlAction.vesselType.toString(),
-            vesselSize = controlAction.vesselSize.toString(),
-            identityControlledPerson = controlAction.identityControlledPerson.toString(),
+            vesselIdentifier = controlAction.vesselIdentifier,
+            vesselType = controlAction.vesselType.toStringOrNull(),
+            vesselSize = controlAction.vesselSize.toStringOrNull(),
+            identityControlledPerson = controlAction.identityControlledPerson,
             observations = controlAction.observations,
             deletedAt = controlAction.deletedAt,
         )

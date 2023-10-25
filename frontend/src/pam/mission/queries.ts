@@ -54,6 +54,7 @@ export const GET_MISSION_BY_ID = gql`
               upToDateNavigationPermit
               compliantSecurityDocuments
               observations
+              deletedAt
             }
             controlGensDeMer {
               id
@@ -62,16 +63,19 @@ export const GET_MISSION_BY_ID = gql`
               upToDateMedicalCheck
               knowledgeOfFrenchLawAndLanguage
               observations
+              deletedAt
             }
             controlNavigation {
               id
               confirmed
               observations
+              deletedAt
             }
             controlSecurity {
               id
               confirmed
               observations
+              deletedAt
             }
           }
         }
@@ -98,6 +102,16 @@ export const MUTATION_ADD_OR_UPDATE_ACTION_CONTROL = gql`
   mutation AddOrUpdateControl($controlAction: ActionControlInput!) {
     addOrUpdateControl(controlAction: $controlAction) {
       id
+      data: {
+        latitude
+        longitude
+        controlMethod
+        vesselIdentifier
+        vesselType
+        vesselSize
+        observations
+        identityControlledPerson
+      }
     }
   }
 `
