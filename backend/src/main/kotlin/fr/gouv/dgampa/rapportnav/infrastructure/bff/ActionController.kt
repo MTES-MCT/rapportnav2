@@ -43,7 +43,8 @@ class ActionController(
     @MutationMapping
     fun addOrUpdateControl(@Argument controlAction: ActionControlInput): NavActionControl {
         val data = controlAction.toActionControl()
-        return addOrUpdateControl.execute(data).toNavActionControl()
+        val aa = addOrUpdateControl.execute(data)
+        return aa.toNavActionControl()
     }
 
     @MutationMapping

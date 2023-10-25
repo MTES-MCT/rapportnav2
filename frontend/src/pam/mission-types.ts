@@ -141,6 +141,7 @@ export type ControlAdministrative = {
   upToDateNavigationPermit?: ControlResult
   compliantSecurityDocuments?: ControlResult
   observations?: string
+  deletedAt?: string
 }
 export type ControlGensDeMer = {
   id: String
@@ -149,16 +150,19 @@ export type ControlGensDeMer = {
   upToDateMedicalCheck?: ControlResult
   knowledgeOfFrenchLawAndLanguage?: ControlResult
   observations?: string
+  deletedAt?: string
 }
 export type ControlNavigation = {
   id: String
   confirmed?: boolean
   observations?: string
+  deletedAt?: string
 }
 export type ControlSecurity = {
   id: String
   confirmed?: boolean
   observations?: string
+  deletedAt?: string
 }
 
 export function isEnvAction(action: Action): boolean {

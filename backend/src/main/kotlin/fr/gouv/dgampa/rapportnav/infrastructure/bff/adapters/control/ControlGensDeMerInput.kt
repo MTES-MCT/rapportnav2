@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlResult
+import java.time.ZonedDateTime
 import java.util.*
 
 data class ControlGensDeMerInput(
@@ -12,7 +13,8 @@ data class ControlGensDeMerInput(
     val staffOutnumbered: ControlResult?,
     val upToDateMedicalCheck: ControlResult?,
     val knowledgeOfFrenchLawAndLanguage: ControlResult?,
-    val observations: String?
+    val observations: String?,
+    val deletedAt: ZonedDateTime? = null,
 ) {
     fun toControlGensDeMerEntity(): ControlGensDeMerEntity {
         return ControlGensDeMerEntity(
@@ -23,7 +25,8 @@ data class ControlGensDeMerInput(
             staffOutnumbered = staffOutnumbered,
             upToDateMedicalCheck = upToDateMedicalCheck,
             knowledgeOfFrenchLawAndLanguage = knowledgeOfFrenchLawAndLanguage,
-            observations = observations
+            observations = observations,
+            deletedAt = deletedAt,
         )
     }
 }

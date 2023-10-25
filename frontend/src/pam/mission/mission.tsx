@@ -6,7 +6,7 @@ import MissionGeneralInfoPanel from './panel-general-info'
 import MissionOperationalSummaryPanel from './panel-operational-summary'
 import MissionActivityPanel from './panel-activity'
 import MissionTimeline from './timeline/timeline'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { getComponentForAction } from './actions/action-mapping'
 import Title from '../../ui/title'
 import { ControlTarget, Action, ActionStatusType, VesselType } from '../mission-types'
@@ -20,31 +20,37 @@ import {
   MUTATION_ADD_OR_UPDATE_ACTION_STATUS
 } from './queries'
 import StatusSelectionDropdown from './status/status-selection-dropdown'
+import find from 'lodash/find'
 
 export default function Mission() {
-  const { missionId } = useParams()
+  const { missionId, actionId } = useParams()
 
-  const apolloClient = useApolloClient()
-  const [selectedAction, setSelectedAction] = useState<Action | undefined>(undefined)
+  let navigate = useNavigate()
+
   const [showControlTypesModal, setShowControlTypesModal] = useState<boolean>(false)
 
   const { loading, error, data, refetch, updateQuery } = useQuery(GET_MISSION_BY_ID, {
-    variables: { missionId },
-    fetchPolicy: 'cache-only'
+    variables: { missionId }
+    // fetchPolicy: 'cache-only'
   })
 
-  const [addStatus] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_STATUS, {
+  const [addStatus, { statusMutationResponse }] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_STATUS, {
     refetchQueries: ['GetMissionById']
   })
-  const [addControl] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_CONTROL, {
+  const [addControl, { controlMutationResponse }] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_CONTROL, {
     refetchQueries: ['GetMissionById']
   })
+
+  const selectedAction = useMemo(() => {
+    if (actionId) {
+      return find(data.mission.actions, { id: actionId })
+    }
+  }, [data, actionId])
 
   const selectAction = (action: Action) => {
-    setSelectedAction(action)
+    navigate(`/pam/missions/${missionId}/${action.id}`)
+    // setSelectedAction(action)
   }
-
-  const resetSelectedAction = () => setSelectedAction(undefined)
 
   const addNewAction = (key: ActionTypeEnum) => {
     if (key === ActionTypeEnum.CONTROL) {
@@ -53,6 +59,7 @@ export default function Mission() {
   }
 
   const addNewStatus = async (key: ActionStatusType) => {
+    // TODO id creation should be in backend
     const uuid = uuidv4()
     const date = new Date().toISOString()
     const newActionData = {
@@ -64,30 +71,21 @@ export default function Mission() {
       reason: null,
       observations: null
     }
-    const newAction = {
-      id: uuid,
-      type: ActionTypeEnum.STATUS,
-      source: MissionSourceEnum.RAPPORTNAV,
-      status: key,
-      startDateTimeUtc: date,
-      endDateTimeUtc: null,
-      data: {
-        ...newActionData
-      }
-    }
 
-    addStatus({
+    const response = await addStatus({
       variables: {
         statusAction: newActionData
       }
     })
 
-    setSelectedAction(newAction as any)
+    debugger
+    // TODO change this
+    navigate(`/pam/missions/${missionId}/${response.data.addOrUpdateStatus.id}`)
   }
 
-  const addNewControl = (controlMethod: string, vesselType: VesselType) => {
+  const addNewControl = async (controlMethod: string, vesselType: VesselType) => {
     setShowControlTypesModal(false)
-    debugger
+    // TODO id creation should be in backend
     const uuid = uuidv4()
     const date = new Date().toISOString()
     const newActionData = {
@@ -101,19 +99,10 @@ export default function Mission() {
       identityControlledPerson: null,
       observations: null
     }
-    const newAction = {
-      id: uuid,
-      type: ActionTypeEnum.CONTROL,
-      source: MissionSourceEnum.RAPPORTNAV,
-      startDateTimeUtc: date,
-      endDateTimeUtc: null,
-      data: {
-        ...newActionData
-      }
-    }
 
-    addControl({ variables: { controlAction: newActionData } })
-    setSelectedAction(newAction as any)
+    const response = await addControl({ variables: { controlAction: newActionData } })
+    debugger
+    navigate(`/pam/missions/${missionId}/${response.data.addOrUpdateControl.id}`)
   }
 
   if (loading) {
@@ -184,9 +173,7 @@ export default function Mission() {
           </FlexboxGrid.Item>
           <FlexboxGrid.Item colspan={8} style={{ backgroundColor: THEME.color.gainsboro, height: '100%' }}>
             <FlexboxGrid justify="start" align="middle" style={{ padding: '2rem' }}>
-              {selectedAction && MissionActionComponent && (
-                <MissionActionComponent action={selectedAction} resetSelectedAction={resetSelectedAction} />
-              )}
+              {selectedAction && MissionActionComponent && <MissionActionComponent action={selectedAction} />}
             </FlexboxGrid>
           </FlexboxGrid.Item>
         </FlexboxGrid>

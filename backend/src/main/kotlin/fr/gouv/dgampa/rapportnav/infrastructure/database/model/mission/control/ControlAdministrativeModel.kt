@@ -40,7 +40,6 @@ data class ControlAdministrativeModel(
     @Column(name = "deleted_at")
     var deletedAt: ZonedDateTime? = null,
 
-
     @OneToOne
     @JoinColumn(name = "action_control_id", referencedColumnName = "id")
     @JsonIgnore

@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurityEntity
+import java.time.ZonedDateTime
 import java.util.*
 
 data class ControlSecurityInput(
@@ -8,7 +9,8 @@ data class ControlSecurityInput(
     val missionId: Int,
     val actionControlId: UUID,
     val confirmed: Boolean?,
-    val observations: String?
+    val observations: String?,
+    val deletedAt: ZonedDateTime? = null,
 ) {
     fun toControlSecurity(): ControlSecurityEntity {
         return ControlSecurityEntity(
@@ -16,7 +18,8 @@ data class ControlSecurityInput(
             missionId = missionId,
             actionControlId = actionControlId,
             confirmed = confirmed,
-            observations = observations
+            observations = observations,
+            deletedAt = deletedAt,
         )
     }
 }
