@@ -8,14 +8,18 @@ data class ControlSecurityEntity(
     val id: UUID,
     val missionId: Int,
     val actionControlId: UUID,
-    val confirmed: Boolean?,
+    val amountOfControls: Int,
+    val unitShouldConfirm: Boolean?,
+    val unitHasConfirmed: Boolean?,
     val observations: String?,
     val deletedAt: ZonedDateTime? = null,
 ) {
     fun toControlSecurity(): ControlSecurity {
         return ControlSecurity(
             id = id,
-            confirmed = confirmed,
+            amountOfControls = amountOfControls,
+            unitShouldConfirm = unitShouldConfirm,
+            unitHasConfirmed = unitHasConfirmed,
             observations = observations
         )
     }

@@ -8,7 +8,9 @@ data class ControlNavigationInput(
     val id: UUID?,
     val missionId: Int,
     val actionControlId: UUID,
-    val confirmed: Boolean?,
+    val amountOfControls: Int,
+    val unitShouldConfirm: Boolean?,
+    val unitHasConfirmed: Boolean?,
     val observations: String?,
     val deletedAt: ZonedDateTime? = null,
 ) {
@@ -17,7 +19,9 @@ data class ControlNavigationInput(
             id = id ?: UUID.randomUUID(),
             missionId = missionId,
             actionControlId = actionControlId,
-            confirmed = confirmed,
+            amountOfControls = amountOfControls,
+            unitShouldConfirm = unitShouldConfirm,
+            unitHasConfirmed = unitHasConfirmed,
             observations = observations,
             deletedAt = deletedAt,
         )

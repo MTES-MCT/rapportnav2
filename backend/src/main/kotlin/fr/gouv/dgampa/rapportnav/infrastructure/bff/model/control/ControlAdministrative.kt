@@ -6,7 +6,9 @@ import java.util.*
 
 data class ControlAdministrative(
     val id: UUID,
-    val confirmed: Boolean?,
+    val amountOfControls: Int,
+    val unitShouldConfirm: Boolean?,
+    val unitHasConfirmed: Boolean?,
     val compliantOperatingPermit: ControlResult?,
     val upToDateNavigationPermit: ControlResult?,
     val compliantSecurityDocuments: ControlResult?,
@@ -17,7 +19,9 @@ data class ControlAdministrative(
             id = id,
             missionId = missionId,
             actionControlId = actionId,
-            confirmed = confirmed,
+            amountOfControls = amountOfControls,
+            unitShouldConfirm = unitShouldConfirm,
+            unitHasConfirmed = unitHasConfirmed,
             compliantOperatingPermit = compliantOperatingPermit,
             upToDateNavigationPermit = upToDateNavigationPermit,
             compliantSecurityDocuments = compliantSecurityDocuments,

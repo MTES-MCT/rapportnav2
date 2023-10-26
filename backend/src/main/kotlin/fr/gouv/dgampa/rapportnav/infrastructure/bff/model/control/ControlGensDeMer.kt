@@ -6,7 +6,9 @@ import java.util.*
 
 data class ControlGensDeMer(
     val id: UUID,
-    val confirmed: Boolean?,
+    val amountOfControls: Int,
+    val unitShouldConfirm: Boolean?,
+    val unitHasConfirmed: Boolean?,
     val staffOutnumbered: ControlResult?,
     val upToDateMedicalCheck: ControlResult?,
     val knowledgeOfFrenchLawAndLanguage: ControlResult?,
@@ -17,7 +19,9 @@ data class ControlGensDeMer(
             id = id,
             missionId = missionId,
             actionControlId = actionId,
-            confirmed = confirmed,
+            amountOfControls = amountOfControls,
+            unitShouldConfirm = unitShouldConfirm,
+            unitHasConfirmed = unitHasConfirmed,
             staffOutnumbered = staffOutnumbered,
             upToDateMedicalCheck = upToDateMedicalCheck,
             knowledgeOfFrenchLawAndLanguage = knowledgeOfFrenchLawAndLanguage,

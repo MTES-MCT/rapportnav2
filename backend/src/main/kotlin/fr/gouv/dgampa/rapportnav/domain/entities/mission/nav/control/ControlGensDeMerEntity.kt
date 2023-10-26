@@ -8,7 +8,9 @@ data class ControlGensDeMerEntity(
     val id: UUID,
     val missionId: Int,
     val actionControlId: UUID,
-    val confirmed: Boolean?,
+    val amountOfControls: Int,
+    val unitShouldConfirm: Boolean?,
+    val unitHasConfirmed: Boolean?,
     val staffOutnumbered: ControlResult?,
     val upToDateMedicalCheck: ControlResult?,
     val knowledgeOfFrenchLawAndLanguage: ControlResult?,
@@ -18,7 +20,9 @@ data class ControlGensDeMerEntity(
     fun toControlGensDeMer(): ControlGensDeMer {
         return ControlGensDeMer(
             id = id,
-            confirmed = confirmed,
+            amountOfControls = amountOfControls,
+            unitShouldConfirm = unitShouldConfirm,
+            unitHasConfirmed = unitHasConfirmed,
             staffOutnumbered = staffOutnumbered,
             upToDateMedicalCheck = upToDateMedicalCheck,
             knowledgeOfFrenchLawAndLanguage = knowledgeOfFrenchLawAndLanguage,

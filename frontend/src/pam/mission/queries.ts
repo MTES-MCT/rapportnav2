@@ -49,7 +49,9 @@ export const GET_MISSION_BY_ID = gql`
             identityControlledPerson
             controlAdministrative {
               id
-              confirmed
+              amountOfControls
+              unitShouldConfirm
+              unitHasConfirmed
               compliantOperatingPermit
               upToDateNavigationPermit
               compliantSecurityDocuments
@@ -58,7 +60,9 @@ export const GET_MISSION_BY_ID = gql`
             }
             controlGensDeMer {
               id
-              confirmed
+              amountOfControls
+              unitShouldConfirm
+              unitHasConfirmed
               staffOutnumbered
               upToDateMedicalCheck
               knowledgeOfFrenchLawAndLanguage
@@ -67,13 +71,17 @@ export const GET_MISSION_BY_ID = gql`
             }
             controlNavigation {
               id
-              confirmed
+              amountOfControls
+              unitShouldConfirm
+              unitHasConfirmed
               observations
               deletedAt
             }
             controlSecurity {
               id
-              confirmed
+              amountOfControls
+              unitShouldConfirm
+              unitHasConfirmed
               observations
               deletedAt
             }

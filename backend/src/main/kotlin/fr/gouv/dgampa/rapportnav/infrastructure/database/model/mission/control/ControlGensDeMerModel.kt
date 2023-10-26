@@ -22,8 +22,14 @@ data class ControlGensDeMerModel(
     @Column(name = "action_control_id", nullable = false, insertable = false, updatable = false)
     var actionControlId: UUID,
 
-    @Column(name = "confirmed", nullable = true)
-    var confirmed: Boolean? = false,
+    @Column(name = "amount_of_controls", nullable = false)
+    var amountOfControls: Int = 1,
+
+    @Column(name = "unit_should_confirm", nullable = true)
+    var unitShouldConfirm: Boolean? = false,
+
+    @Column(name = "unit_has_confirmed", nullable = true)
+    var unitHasConfirmed: Boolean? = false,
 
     @Column(name = "staff_outnumbered", nullable = true)
     var staffOutnumbered: String? = null,
@@ -49,7 +55,9 @@ data class ControlGensDeMerModel(
         id = id,
         missionId = missionId,
         actionControlId = actionControlId,
-        confirmed = confirmed,
+        amountOfControls = amountOfControls,
+        unitHasConfirmed = unitHasConfirmed,
+        unitShouldConfirm = unitShouldConfirm,
         staffOutnumbered = stringToControlResult(staffOutnumbered),
         upToDateMedicalCheck = stringToControlResult(upToDateMedicalCheck),
         knowledgeOfFrenchLawAndLanguage = stringToControlResult(knowledgeOfFrenchLawAndLanguage),
@@ -62,7 +70,9 @@ data class ControlGensDeMerModel(
             id = control.id,
             missionId = control.missionId,
             actionControlId = actionControl.id,
-            confirmed = control.confirmed,
+            amountOfControls = control.amountOfControls,
+            unitHasConfirmed = control.unitHasConfirmed,
+            unitShouldConfirm = control.unitShouldConfirm,
             staffOutnumbered = control.staffOutnumbered.toStringOrNull(),
             upToDateMedicalCheck = control.upToDateMedicalCheck.toStringOrNull(),
             knowledgeOfFrenchLawAndLanguage = control.knowledgeOfFrenchLawAndLanguage.toStringOrNull(),
