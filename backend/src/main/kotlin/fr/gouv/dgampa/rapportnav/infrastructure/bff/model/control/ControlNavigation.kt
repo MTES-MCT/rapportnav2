@@ -1,12 +1,13 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
 import java.util.*
 
 data class ControlNavigation(
     val id: UUID,
-    val confirmed: Boolean?,
+    val amountOfControls: Int,
+    val unitShouldConfirm: Boolean?,
+    val unitHasConfirmed: Boolean?,
     val observations: String?,
 ) {
     fun toControlNavigationEntity(missionId: Int, actionId: UUID): ControlNavigationEntity {
@@ -14,7 +15,9 @@ data class ControlNavigation(
             id = id,
             missionId = missionId,
             actionControlId = actionId,
-            confirmed = confirmed,
+            amountOfControls = amountOfControls,
+            unitShouldConfirm = unitShouldConfirm,
+            unitHasConfirmed = unitHasConfirmed,
             observations = observations
         )
     }

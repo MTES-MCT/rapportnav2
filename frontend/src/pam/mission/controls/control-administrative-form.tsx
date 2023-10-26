@@ -30,7 +30,8 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({ d
       ...omit(data, '__typename'),
       deletedAt: undefined,
       missionId: missionId,
-      actionControlId: actionId
+      actionControlId: actionId,
+      amountOfControls: 1
     }
 
     if (!!field && !!value) {

@@ -5,7 +5,9 @@ import java.util.*
 
 data class ControlSecurity(
     val id: UUID,
-    val confirmed: Boolean?,
+    val amountOfControls: Int,
+    val unitShouldConfirm: Boolean?,
+    val unitHasConfirmed: Boolean?,
     val observations: String?,
 ) {
     fun toControlSecurityEntity(missionId: Int, actionId: UUID): ControlSecurityEntity {
@@ -13,7 +15,9 @@ data class ControlSecurity(
             id = id,
             missionId = missionId,
             actionControlId = actionId,
-            confirmed = confirmed,
+            amountOfControls = amountOfControls,
+            unitShouldConfirm = unitShouldConfirm,
+            unitHasConfirmed = unitHasConfirmed,
             observations = observations
         )
     }

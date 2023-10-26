@@ -8,7 +8,9 @@ data class ControlAdministrativeEntity(
     val id: UUID,
     val missionId: Int,
     val actionControlId: UUID,
-    val confirmed: Boolean?,
+    val amountOfControls: Int,
+    val unitShouldConfirm: Boolean?,
+    val unitHasConfirmed: Boolean?,
     val compliantOperatingPermit: ControlResult?,
     val upToDateNavigationPermit: ControlResult?,
     val compliantSecurityDocuments: ControlResult?,
@@ -18,7 +20,9 @@ data class ControlAdministrativeEntity(
     fun toControlAdministrative(): ControlAdministrative {
         return ControlAdministrative(
             id = id,
-            confirmed = confirmed,
+            amountOfControls = amountOfControls,
+            unitShouldConfirm = unitShouldConfirm,
+            unitHasConfirmed = unitHasConfirmed,
             compliantOperatingPermit = compliantOperatingPermit,
             upToDateNavigationPermit = upToDateNavigationPermit,
             compliantSecurityDocuments = compliantSecurityDocuments,
