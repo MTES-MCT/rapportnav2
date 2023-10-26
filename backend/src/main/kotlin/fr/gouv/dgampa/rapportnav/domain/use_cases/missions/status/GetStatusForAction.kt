@@ -6,12 +6,17 @@ import org.slf4j.LoggerFactory
 import java.time.ZonedDateTime
 
 @UseCase
-class GetLastStartedStatusForMission(
+class GetStatusForAction(
     private val statusActionsRepository: INavActionStatusRepository
 ) {
-    private val logger = LoggerFactory.getLogger(GetLastStartedStatusForMission::class.java)
+    private val logger = LoggerFactory.getLogger(GetStatusForAction::class.java)
     fun execute(missionId: Int, actionStartDateTimeUtc: ZonedDateTime?): ActionStatusType {
         val actions = statusActionsRepository.findAllByMissionId(missionId=missionId)
+
+        if (actions.isNullOrEmpty()) {
+            return ActionStatusType.UNKNOWN
+        }
+
         val lastActionStatus = actions
             .filter { it.startDateTimeUtc <= actionStartDateTimeUtc }
             .maxByOrNull { it.startDateTimeUtc }
@@ -25,7 +30,7 @@ class GetLastStartedStatusForMission(
             return lastStartedActionStatus.status
         }
         // return unknown if no action or if last action is a status of type finishing and no other starting action at that timestamp
-        else if (lastActionStatus == null || (!lastActionStatus.isStart && lastStartedActionStatus!!.startDateTimeUtc != lastActionStatus.startDateTimeUtc)) {
+        else if (lastActionStatus == null || (!lastActionStatus.isStart && lastStartedActionStatus?.startDateTimeUtc != lastActionStatus.startDateTimeUtc)) {
             return ActionStatusType.UNKNOWN
         }
         // return status of last status, it implies it is a starting status

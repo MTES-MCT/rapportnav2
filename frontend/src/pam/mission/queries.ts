@@ -102,7 +102,7 @@ export const MUTATION_ADD_OR_UPDATE_ACTION_CONTROL = gql`
   mutation AddOrUpdateControl($controlAction: ActionControlInput!) {
     addOrUpdateControl(controlAction: $controlAction) {
       id
-      data: {
+      data {
         latitude
         longitude
         controlMethod
