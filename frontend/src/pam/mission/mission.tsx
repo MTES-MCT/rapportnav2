@@ -88,19 +88,21 @@ export default function Mission() {
     // TODO id creation should be in backend
     const uuid = uuidv4()
     const date = new Date().toISOString()
-    const newActionData = {
+    const newControl = {
       id: uuid,
       missionId: parseInt(missionId!, 10),
       startDateTimeUtc: date,
       controlMethod,
       vesselType,
+      latitude: null,
+      longitude: null,
       vesselIdentifier: null,
       vesselSize: null,
       identityControlledPerson: null,
       observations: null
     }
 
-    const response = await addControl({ variables: { controlAction: newActionData } })
+    const response = await addControl({ variables: { controlAction: newControl } })
     debugger
     navigate(`/pam/missions/${missionId}/${response.data.addOrUpdateControl.id}`)
   }

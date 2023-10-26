@@ -12,9 +12,10 @@ import {
   Select,
   TextInput,
   Textarea,
-  OptionValue
+  OptionValue,
+  CoordinatesFormat
 } from '@mtes-mct/monitor-ui'
-import { Action, ActionControl, VESSEL_SIZE_OPTIONS } from '../../mission-types'
+import { Action, ActionControl, ActionSource, VESSEL_SIZE_OPTIONS, VesselType } from '../../mission-types'
 import { Panel, Stack } from 'rsuite'
 import Title from '../../../ui/title'
 import ControlGensDeMerForm from '../controls/control-gens-de-mer-form'
@@ -81,26 +82,6 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
       ]),
       startDateTimeUtc: action.startDateTimeUtc,
       endDateTimeUtc: action.endDateTimeUtc,
-      // controlAdministrative: control.controlAdministrative && {
-      //   ...omit(control.controlAdministrative, '__typename'),
-      //   missionId,
-      //   actionControlId: action.id
-      // },
-      // controlGensDeMer: control.controlGensDeMer && {
-      //   ...omit(control.controlGensDeMer, '__typename'),
-      //   missionId,
-      //   actionControlId: action.id
-      // },
-      // controlNavigation: control.controlNavigation && {
-      //   ...omit(control.controlNavigation, '__typename'),
-      //   missionId,
-      //   actionControlId: action.id
-      // },
-      // controlSecurity: control.controlSecurity && {
-      //   ...omit(control.controlSecurity, '__typename'),
-      //   missionId,
-      //   actionControlId: action.id
-      // },
       ...updatedField
     }
 
@@ -108,7 +89,6 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
   }
 
   const deleteAction = () => {
-    debugger
     deleteControl({
       variables: {
         id: action.id!
@@ -179,7 +159,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
           withTime={true}
           isCompact={true}
           isLight={true}
-          onChange={(nextUtcDateRange: DateRange) => {
+          onChange={(nextUtcDateRange?: DateRange) => {
             debugger
             onChange('dates', nextUtcDateRange)
           }}
@@ -190,10 +170,10 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
         {/* TODO check why onChange is called at load */}
         <CoordinatesInput
           defaultValue={[control.latitude, control.longitude]}
-          coordinatesFormat="DD"
+          coordinatesFormat={CoordinatesFormat.DECIMAL_DEGREES}
           label="Lieu du contrôle"
           isLight={true}
-          onChange={(nextCoordinates: Coordinates, coordinates: Coordinates) => onChange('geom', nextCoordinates)}
+          onChange={(nextCoordinates?: Coordinates) => onChange('geom', nextCoordinates)}
         />
       </Stack.Item>
       {/* VESSEL INFORMATION */}
@@ -215,7 +195,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
               value={control.vesselIdentifier}
               isLight={true}
               name="vesselIdentifier"
-              onChange={(nextValue: string) => onChange('vesselIdentifier', nextValue)}
+              onChange={(nextValue?: string) => onChange('vesselIdentifier', nextValue)}
             />
           </Stack.Item>
           <Stack.Item grow={2} basis={'50%'}>
@@ -224,7 +204,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
               value={control.identityControlledPerson}
               isLight={true}
               name="identityControlledPerson"
-              onChange={(nextValue: string) => onChange('identityControlledPerson', nextValue)}
+              onChange={(nextValue?: string) => onChange('identityControlledPerson', nextValue)}
             />
           </Stack.Item>
         </Stack>
@@ -240,9 +220,12 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
           <Stack.Item style={{ width: '100%' }}>
             <ControlNavigationForm data={control.controlNavigation} />
           </Stack.Item>
-          <Stack.Item style={{ width: '100%' }}>
-            <ControlGensDeMerForm data={control.controlGensDeMer} />
-          </Stack.Item>
+          {/* ne pas montrer les controles gens de mer pour la plaisance de loisir */}
+          {(action.data as unknown as ActionControl)?.vesselType !== VesselType.SAILING_LEISURE && (
+            <Stack.Item style={{ width: '100%' }}>
+              <ControlGensDeMerForm data={control.controlGensDeMer} />
+            </Stack.Item>
+          )}
           <Stack.Item style={{ width: '100%' }}>
             <ControlSecurityForm data={control.controlSecurity} />
           </Stack.Item>
@@ -254,7 +237,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
           value={control.observations}
           isLight={true}
           name="observations"
-          onChange={(nextValue: string) => onChange('observations', nextValue)}
+          onChange={(nextValue?: string) => onChange('observations', nextValue)}
         />
       </Stack.Item>
     </Stack>
