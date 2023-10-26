@@ -39,10 +39,6 @@ input ActionControlInput {
   vesselSize: VesselSize
   identityControlledPerson: String
   observations: String
-#  controlAdministrative: ControlAdministrativeInput
-#  controlGensDeMer: ControlGensDeMerInput
-#  controlNavigation: ControlNavigationInput
-#  controlSecurity: ControlSecurityInput
 }
 
 enum MissionSource {
@@ -112,7 +108,9 @@ enum VesselType {
   SAILING
   MOTOR
   COMMERCIAL
+  SAILING_LEISURE
 }
+
 enum VesselSize {
   LESS_THAN_12m
   FROM_12_TO_24m
