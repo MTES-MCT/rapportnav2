@@ -52,7 +52,7 @@ data class ControlAdministrativeModel(
     var actionControl: ActionControlModel? = null
 
 ) {
-    fun toControlAdministrative() = ControlAdministrativeEntity(
+    fun toControlAdministrativeEntity() = ControlAdministrativeEntity(
         id = id,
         missionId = missionId,
         actionControlId = actionControlId,
@@ -67,7 +67,7 @@ data class ControlAdministrativeModel(
     )
 
     companion object {
-        fun fromControlAdministrative(control: ControlAdministrativeEntity, actionControl: ActionControlModel): ControlAdministrativeModel {
+        fun fromControlAdministrativeEntity(control: ControlAdministrativeEntity, actionControl: ActionControlModel): ControlAdministrativeModel {
             return ControlAdministrativeModel(
                 id = control.id,
                 missionId = control.missionId,

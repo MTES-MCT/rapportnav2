@@ -140,12 +140,20 @@ type EnvActionData {
   actionTargetType: ActionTargetTypeEnum
   vehicleType: VehicleTypeEnum
   amountOfControlsToComplete: Int
+  controlAdministrative: ControlAdministrative
+  controlGensDeMer: ControlGensDeMer
+  controlNavigation: ControlNavigation
+  controlSecurity: ControlSecurity
 }
 
 type FishActionData {
   id: String!
   actionDatetimeUtc: String!
   facade: String
+  controlAdministrative: ControlAdministrative
+  controlGensDeMer: ControlGensDeMer
+  controlNavigation: ControlNavigation
+  controlSecurity: ControlSecurity
 }
 
 enum FishActionType {

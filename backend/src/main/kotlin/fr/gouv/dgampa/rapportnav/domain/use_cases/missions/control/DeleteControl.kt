@@ -23,23 +23,23 @@ class DeleteControl(
             if (controlGensDeMerRepository.existsByActionControlId(actionControlId = id)) {
                 val controlGensDeMer = controlGensDeMerRepository.findByActionControlId(actionControlId = id)
                 controlGensDeMer.deletedAt = ZonedDateTime.now()
-                controlGensDeMerRepository.save(controlGensDeMer.toControlGensDeMer())
+                controlGensDeMerRepository.save(controlGensDeMer.toControlGensDeMerEntity())
 
             }
             if (controlAdministrativeRepository.existsByActionControlId(actionControlId = id)) {
                 val controlAdministrative = controlAdministrativeRepository.findByActionControlId(actionControlId = id)
                 controlAdministrative.deletedAt = ZonedDateTime.now()
-                controlAdministrativeRepository.save(controlAdministrative.toControlAdministrative())
+                controlAdministrativeRepository.save(controlAdministrative.toControlAdministrativeEntity())
             }
             if (controlNavigationRepository.existsByActionControlId(actionControlId = id)) {
                 val controlNavigation = controlNavigationRepository.findByActionControlId(actionControlId = id)
                 controlNavigation.deletedAt = ZonedDateTime.now()
-                controlNavigationRepository.save(controlNavigation.toControlNavigation())
+                controlNavigationRepository.save(controlNavigation.toControlNavigationEntity())
             }
             if (controlSecurityRepository.existsByActionControlId(actionControlId = id)) {
                 val controlSecurity = controlSecurityRepository.findByActionControlId(actionControlId = id)
                 controlSecurity.deletedAt = ZonedDateTime.now()
-                controlSecurityRepository.save(controlSecurity.toControlSecurity())
+                controlSecurityRepository.save(controlSecurity.toControlSecurityEntity())
             }
 
             val controlAction = this.controlRepository.findById(id = id)

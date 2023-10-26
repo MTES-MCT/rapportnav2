@@ -88,10 +88,10 @@ data class ActionControlModel(
             observations = observations,
             identityControlledPerson = identityControlledPerson,
             deletedAt = deletedAt,
-            controlAdministrative = controlAdministrative?.toControlAdministrative(),
-            controlGensDeMer = controlGensDeMer?.toControlGensDeMer(),
-            controlNavigation = controlNavigation?.toControlNavigation(),
-            controlSecurity = controlSecurity?.toControlSecurity()
+            controlAdministrative = controlAdministrative?.toControlAdministrativeEntity(),
+            controlGensDeMer = controlGensDeMer?.toControlGensDeMerEntity(),
+            controlNavigation = controlNavigation?.toControlNavigationEntity(),
+            controlSecurity = controlSecurity?.toControlSecurityEntity()
         )
     }
 

@@ -1,11 +1,11 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.bff.model
+package fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import org.locationtech.jts.geom.Geometry
 import java.time.ZonedDateTime
 import java.util.*
@@ -30,6 +30,10 @@ data class EnvActionData(
     val isComplianceWithWaterRegulationsControl: Boolean? = null,
     val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
     val isSeafarersControl: Boolean? = null,
+    val controlAdministrative: ControlAdministrative? = null,
+    val controlGensDeMer: ControlGensDeMer? = null,
+    val controlNavigation: ControlNavigation? = null,
+    val controlSecurity: ControlSecurity? = null
 ) : ActionData()
 
 data class FishActionData(
@@ -79,7 +83,11 @@ data class FishActionData(
     val controlUnits: List<ControlUnit>,
     val isDeleted: Boolean,
     val hasSomeGearsSeized: Boolean,
-    val hasSomeSpeciesSeized: Boolean
+    val hasSomeSpeciesSeized: Boolean,
+    val controlAdministrative: ControlAdministrative? = null,
+    val controlGensDeMer: ControlGensDeMer? = null,
+    val controlNavigation: ControlNavigation? = null,
+    val controlSecurity: ControlSecurity? = null
 ) : ActionData()
 
 
@@ -107,8 +115,8 @@ data class NavActionControl(
     val vesselType: VesselTypeEnum? = null,
     val vesselSize: VesselSizeEnum? = null,
     val identityControlledPerson: String? = null,
-    val controlAdministrative: ControlAdministrativeEntity?,
-    val controlGensDeMer: ControlGensDeMerEntity?,
-    val controlNavigation: ControlNavigationEntity?,
-    val controlSecurity: ControlSecurityEntity?
+    val controlAdministrative: ControlAdministrative?,
+    val controlGensDeMer: ControlGensDeMer?,
+    val controlNavigation: ControlNavigation?,
+    val controlSecurity: ControlSecurity?
 ) : ActionData()

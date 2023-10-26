@@ -15,7 +15,6 @@ class GetNavMissionById(
 
     fun execute(missionId: Int): NavMissionEntity {
         val controls = navActionControlRepository.findAllByMissionId(missionId=missionId).filter { it.deletedAt == null }.map { it.toNavAction() }
-        // TODO filter controls that have been deleted
         val statuses = navStatusRepository.findAllByMissionId(missionId=missionId).filter { it.deletedAt == null }.map { it.toNavAction() }
         val actions = controls + statuses
         val mission = NavMissionEntity(id = missionId, actions = actions)

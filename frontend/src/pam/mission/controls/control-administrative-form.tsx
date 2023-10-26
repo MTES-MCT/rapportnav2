@@ -1,6 +1,17 @@
-import { Panel, Stack } from 'rsuite'
+import { Form, Panel, Stack, Toggle } from 'rsuite'
 import { ControlAdministrative } from '../../mission-types'
-import { THEME, Icon, Button, Accent, Size, Textarea, MultiRadio, OptionValue, Checkbox } from '@mtes-mct/monitor-ui'
+import {
+  THEME,
+  Icon,
+  Button,
+  Accent,
+  Size,
+  Textarea,
+  MultiRadio,
+  OptionValue,
+  Checkbox,
+  Label
+} from '@mtes-mct/monitor-ui'
 import { useMutation } from '@apollo/client'
 import { GET_MISSION_BY_ID, MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE } from '../queries'
 import omit from 'lodash/omit'
@@ -72,6 +83,23 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({ d
       style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
     >
       <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
+        {!!data?.unitShouldConfirm && (
+          <Stack.Item style={{ width: '100%' }}>
+            <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
+              <Stack.Item>
+                {/* TODO add Toggle component to monitor-ui */}
+                <Toggle
+                  checked={!!data?.unitHasConfirmed}
+                  size="sm"
+                  onChange={(checked: boolean) => onChange('unitHasConfirmed', checked)}
+                />
+              </Stack.Item>
+              <Stack.Item>
+                <Label>Contrôle confirmé par l’unité</Label>
+              </Stack.Item>
+            </Stack>
+          </Stack.Item>
+        )}
         <Stack.Item style={{ width: '100%' }}>
           <MultiRadio
             value={data?.compliantOperatingPermit}

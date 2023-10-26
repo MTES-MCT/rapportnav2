@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.NavActionControl
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.NavActionControl
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -51,10 +51,10 @@ data class ActionControlEntity(
             vesselType = vesselType,
             vesselSize = vesselSize,
             identityControlledPerson = identityControlledPerson,
-            controlAdministrative = controlAdministrative,
-            controlGensDeMer = controlGensDeMer,
-            controlNavigation = controlNavigation,
-            controlSecurity = controlSecurity,
+            controlAdministrative = controlAdministrative?.toControlAdministrative(),
+            controlGensDeMer = controlGensDeMer?.toControlGensDeMer(),
+            controlNavigation = controlNavigation?.toControlNavigation(),
+            controlSecurity = controlSecurity?.toControlSecurity(),
         )
     }
 }

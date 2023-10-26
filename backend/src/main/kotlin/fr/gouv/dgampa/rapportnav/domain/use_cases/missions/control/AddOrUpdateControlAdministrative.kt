@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlAdm
 @UseCase
 class AddOrUpdateControlAdministrative(private val repository: IControlAdministrativeRepository) {
     fun execute(control: ControlAdministrativeEntity): ControlAdministrativeEntity {
-        val savedData = this.repository.save(control).toControlAdministrative()
+        val savedData = this.repository.save(control).toControlAdministrativeEntity()
         return savedData
     }
 }

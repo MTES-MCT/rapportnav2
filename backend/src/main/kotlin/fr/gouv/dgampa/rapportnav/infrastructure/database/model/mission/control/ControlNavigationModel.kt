@@ -40,7 +40,7 @@ data class ControlNavigationModel(
     @JsonIgnore
     var actionControl: ActionControlModel? = null
 ) {
-    fun toControlNavigation() = ControlNavigationEntity(
+    fun toControlNavigationEntity() = ControlNavigationEntity(
         id = id,
         missionId = missionId,
         actionControlId = actionControlId,
@@ -52,7 +52,7 @@ data class ControlNavigationModel(
     )
 
     companion object {
-        fun fromControlNavigation(control: ControlNavigationEntity, actionControl: ActionControlModel) = ControlNavigationModel(
+        fun fromControlNavigationEntity(control: ControlNavigationEntity, actionControl: ActionControlModel) = ControlNavigationModel(
             id = control.id,
             missionId = control.missionId,
             actionControlId = actionControl.id,

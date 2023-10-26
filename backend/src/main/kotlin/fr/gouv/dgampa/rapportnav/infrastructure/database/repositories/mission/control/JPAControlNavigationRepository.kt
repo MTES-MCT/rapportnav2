@@ -31,7 +31,7 @@ class JPAControlNavigationRepository(
     override fun save(control: ControlNavigationEntity): ControlNavigationModel {
         return try {
             val actionControl = actionControlRepository.findById(control.actionControlId)
-            val controlNavigationModel = ControlNavigationModel.fromControlNavigation(control, actionControl)
+            val controlNavigationModel = ControlNavigationModel.fromControlNavigationEntity(control, actionControl)
             dbControlNavigationRepository.save(controlNavigationModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating Navigation Control", e)
