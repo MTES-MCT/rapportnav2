@@ -136,7 +136,9 @@ export enum ControlResult {
 
 export type ControlAdministrative = {
   id: String
-  confirmed?: boolean
+  amountOfControls: number
+  unitShouldConfirm?: boolean
+  unitHasConfirmed?: boolean
   compliantOperatingPermit?: ControlResult
   upToDateNavigationPermit?: ControlResult
   compliantSecurityDocuments?: ControlResult
@@ -145,7 +147,9 @@ export type ControlAdministrative = {
 }
 export type ControlGensDeMer = {
   id: String
-  confirmed?: boolean
+  amountOfControls: number
+  unitShouldConfirm?: boolean
+  unitHasConfirmed?: boolean
   staffOutnumbered?: ControlResult
   upToDateMedicalCheck?: ControlResult
   knowledgeOfFrenchLawAndLanguage?: ControlResult
@@ -154,13 +158,17 @@ export type ControlGensDeMer = {
 }
 export type ControlNavigation = {
   id: String
-  confirmed?: boolean
+  amountOfControls: number
+  unitShouldConfirm?: boolean
+  unitHasConfirmed?: boolean
   observations?: string
   deletedAt?: string
 }
 export type ControlSecurity = {
   id: String
-  confirmed?: boolean
+  amountOfControls: number
+  unitShouldConfirm?: boolean
+  unitHasConfirmed?: boolean
   observations?: string
   deletedAt?: string
 }

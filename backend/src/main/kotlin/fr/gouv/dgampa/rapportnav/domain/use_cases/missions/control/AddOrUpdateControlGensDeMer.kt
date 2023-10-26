@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlGen
 @UseCase
 class AddOrUpdateControlGensDeMer(private val repository: IControlGensDeMerRepository) {
     fun execute(control: ControlGensDeMerEntity): ControlGensDeMerEntity {
-        val savedData = this.repository.save(control).toControlGensDeMer()
+        val savedData = this.repository.save(control).toControlGensDeMerEntity()
         return savedData
     }
 }

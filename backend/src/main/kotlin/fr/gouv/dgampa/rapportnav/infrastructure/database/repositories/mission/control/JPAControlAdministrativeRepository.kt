@@ -32,7 +32,7 @@ class JPAControlAdministrativeRepository(
     override fun save(control: ControlAdministrativeEntity): ControlAdministrativeModel {
          return try {
              val actionControl = actionControlRepository.findById(control.actionControlId)
-             val controlAdministrativeModel = ControlAdministrativeModel.fromControlAdministrative(control, actionControl)
+             val controlAdministrativeModel = ControlAdministrativeModel.fromControlAdministrativeEntity(control, actionControl)
              dbControlAdministrativeRepository.save(controlAdministrativeModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating administrative Control", e)

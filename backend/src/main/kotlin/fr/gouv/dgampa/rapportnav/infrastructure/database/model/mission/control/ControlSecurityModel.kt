@@ -40,7 +40,7 @@ data class ControlSecurityModel(
     @JsonIgnore
     var actionControl: ActionControlModel? = null
 ) {
-    fun toControlSecurity() = ControlSecurityEntity(
+    fun toControlSecurityEntity() = ControlSecurityEntity(
         id = id,
         missionId = missionId,
         actionControlId = actionControlId,
@@ -52,7 +52,7 @@ data class ControlSecurityModel(
     )
 
     companion object {
-        fun fromControlSecurity(control: ControlSecurityEntity, actionControl: ActionControlModel) = ControlSecurityModel(
+        fun fromControlSecurityEntity(control: ControlSecurityEntity, actionControl: ActionControlModel) = ControlSecurityModel(
             id = control.id,
             missionId = control.missionId,
             actionControlId = actionControl.id,

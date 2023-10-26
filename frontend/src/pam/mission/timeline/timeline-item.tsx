@@ -7,6 +7,7 @@ import { FishAction } from '../../fish-mission-types'
 import { StatusColorTag } from '../status/status-selection-dropdown'
 import { mapStatusToText } from '../status/utils'
 import { controlMethodToHumanString, vesselTypeToHumanString } from '../controls/utils'
+import ControlsToCompleteTag from '../controls/controls-to-complete-tag'
 
 interface MissionTimelineItemProps {
   action: Action
@@ -57,15 +58,14 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
                 </b>
               </Stack.Item>
               <Stack.Item>infrations...</Stack.Item>
-              {action.amountOfControlsToComplete > 0 && (
-                <Stack.Item>
-                  <Tag bullet="DISK" bulletColor={THEME.color.maximumRed} accent={Accent.PRIMARY}>
-                    <b>{`${action.amountOfControlsToComplete} ${
-                      action.amountOfControlsToComplete > 1 ? 'types' : 'type'
-                    } de contrôles à compléter`}</b>
-                  </Tag>
-                </Stack.Item>
-              )}
+              {(action as EnvActionControl).amountOfControlsToComplete !== undefined &&
+                (action as EnvActionControl).amountOfControlsToComplete! > 0 && (
+                  <Stack.Item>
+                    <ControlsToCompleteTag
+                      amountOfControlsToComplete={(action as EnvActionControl).amountOfControlsToComplete}
+                    />
+                  </Stack.Item>
+                )}
             </Stack>
           </Stack.Item>
         </Stack>

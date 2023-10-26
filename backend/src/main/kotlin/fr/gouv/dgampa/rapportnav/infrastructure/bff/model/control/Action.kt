@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.bff.model
+package fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
@@ -42,7 +42,6 @@ data class Action(
                         isComplianceWithWaterRegulationsControl = envAction.isComplianceWithWaterRegulationsControl,
                         isSafetyEquipmentAndStandardsComplianceControl = envAction.isSafetyEquipmentAndStandardsComplianceControl,
                         isSeafarersControl = envAction.isSeafarersControl,
-
                     )
                 )
             }

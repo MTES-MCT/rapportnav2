@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters
+package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusReason

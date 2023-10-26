@@ -20,7 +20,7 @@ import { Panel, Stack } from 'rsuite'
 import Title from '../../../ui/title'
 import ControlGensDeMerForm from '../controls/control-gens-de-mer-form'
 import ControlNavigationForm from '../controls/control-navigation-form'
-import ControlAdministrativeForm from '../controls/control-administrative-form'
+import ControlAdministrativeForm from '../controls/env-control-form'
 import ControlSecurityForm from '../controls/control-security-form'
 import { formatDateTimeForFrenchHumans } from '../../../dates'
 import { DELETE_ACTION_CONTROL, MUTATION_ADD_OR_UPDATE_ACTION_CONTROL } from '../queries'
@@ -167,7 +167,6 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
       </Stack.Item>
       {/* CONTROL ZONES FIELD */}
       <Stack.Item style={{ width: '100%' }}>
-        {/* TODO check why onChange is called at load */}
         <CoordinatesInput
           defaultValue={[control.latitude, control.longitude]}
           coordinatesFormat={CoordinatesFormat.DECIMAL_DEGREES}

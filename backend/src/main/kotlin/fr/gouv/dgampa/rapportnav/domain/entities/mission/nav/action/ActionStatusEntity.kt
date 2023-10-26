@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.NavActionStatus
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.NavActionStatus
 import java.time.ZonedDateTime
 import java.util.*
 

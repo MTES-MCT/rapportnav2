@@ -31,7 +31,7 @@ class JPAControlGensDeMerRepository(
     override fun save(control: ControlGensDeMerEntity): ControlGensDeMerModel {
         return try {
             val actionControl = actionControlRepository.findById(control.actionControlId)
-            val controlGensDeMerModel = ControlGensDeMerModel.fromControlGensDeMer(control, actionControl)
+            val controlGensDeMerModel = ControlGensDeMerModel.fromControlGensDeMerEntity(control, actionControl)
             dbControlGensDeMerRepository.save(controlGensDeMerModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating GensDeMer Control", e)

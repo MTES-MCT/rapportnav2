@@ -31,7 +31,7 @@ class JPAControlSecurityRepository(
     override fun save(control: ControlSecurityEntity): ControlSecurityModel {
         return try {
             val actionControl = actionControlRepository.findById(control.actionControlId)
-            val controlSecurityModel = ControlSecurityModel.fromControlSecurity(control, actionControl)
+            val controlSecurityModel = ControlSecurityModel.fromControlSecurityEntity(control, actionControl)
             dbControlSecurityRepository.save(controlSecurityModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating Security Control", e)

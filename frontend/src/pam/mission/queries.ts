@@ -28,6 +28,11 @@ export const GET_MISSION_BY_ID = gql`
               theme
               subThemes
             }
+            controlAdministrative {
+              id
+              amountOfControls
+              observations
+            }
           }
           ... on NavActionStatus {
             id

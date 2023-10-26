@@ -174,7 +174,7 @@ export default function Mission() {
             </FlexboxGrid>
           </FlexboxGrid.Item>
           <FlexboxGrid.Item colspan={8} style={{ backgroundColor: THEME.color.gainsboro, height: '100%' }}>
-            <FlexboxGrid justify="start" align="middle" style={{ padding: '2rem' }}>
+            <FlexboxGrid justify="start" align="middle" style={{ padding: '2rem', width: '100%' }}>
               {selectedAction && MissionActionComponent && <MissionActionComponent action={selectedAction} />}
             </FlexboxGrid>
           </FlexboxGrid.Item>

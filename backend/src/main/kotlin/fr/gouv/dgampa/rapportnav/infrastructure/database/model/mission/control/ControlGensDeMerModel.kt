@@ -51,7 +51,7 @@ data class ControlGensDeMerModel(
     @JsonIgnore
     var actionControl: ActionControlModel? = null
 ) {
-    fun toControlGensDeMer() = ControlGensDeMerEntity(
+    fun toControlGensDeMerEntity() = ControlGensDeMerEntity(
         id = id,
         missionId = missionId,
         actionControlId = actionControlId,
@@ -66,7 +66,7 @@ data class ControlGensDeMerModel(
     )
 
     companion object {
-        fun fromControlGensDeMer(control: ControlGensDeMerEntity, actionControl: ActionControlModel) = ControlGensDeMerModel(
+        fun fromControlGensDeMerEntity(control: ControlGensDeMerEntity, actionControl: ActionControlModel) = ControlGensDeMerModel(
             id = control.id,
             missionId = control.missionId,
             actionControlId = actionControl.id,
