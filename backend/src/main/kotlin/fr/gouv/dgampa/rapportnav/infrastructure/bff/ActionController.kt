@@ -10,7 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateCo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.DeleteControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.AddOrUpdateStatus
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.DeleteStatus
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.GetLastStartedStatusForMission
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.ActionControlInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.ActionStatusInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.*
@@ -23,7 +23,7 @@ import java.util.*
 
 @Controller
 class ActionController(
-    private val getLastStartedStatusForMission: GetLastStartedStatusForMission,
+    private val getStatusForAction: GetStatusForAction,
     private val addOrUpdateStatus: AddOrUpdateStatus,
     private val deleteStatus: DeleteStatus,
     private val addOrUpdateControl: AddOrUpdateControl,
@@ -64,7 +64,7 @@ class ActionController(
         }
 
         // get last started status for this time and missionId
-        val lastStartedStatus = getLastStartedStatusForMission.execute(missionId=action.missionId, actionStartDateTimeUtc=action.startDateTimeUtc)
+        val lastStartedStatus = getStatusForAction.execute(missionId=action.missionId, actionStartDateTimeUtc=action.startDateTimeUtc)
 
         return lastStartedStatus
     }

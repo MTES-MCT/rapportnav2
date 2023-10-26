@@ -11,9 +11,9 @@ data class ActionStatusEntity(
     val missionId: Int,
     val startDateTimeUtc: ZonedDateTime,
     val status: ActionStatusType,
-    val reason: ActionStatusReason?,
+    val reason: ActionStatusReason? = null,
     val isStart: Boolean,
-    val observations: String?,
+    val observations: String? = null,
     val deletedAt: ZonedDateTime? = null,
 ) {
     fun toNavAction(): NavActionEntity {
