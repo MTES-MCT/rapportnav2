@@ -13,7 +13,7 @@
     "test:watch": "vitest src"
   },
   "dependencies": {
-    "@apollo/client": "^3.8.4",
+    "@apollo/client": "^3.8.5",
     "@mtes-mct/monitor-ui": "^10.8.0",
     "@sentry/react": "^7.74.0",
     "@sentry/tracing": "^7.74.0",
