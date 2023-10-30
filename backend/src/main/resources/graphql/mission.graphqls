@@ -1,6 +1,7 @@
 type Query {
   missions(userId: ID): [Mission]!
   mission(missionId: ID): Mission!
+  agents: [Agent]!
 }
 
 type Mutation {
