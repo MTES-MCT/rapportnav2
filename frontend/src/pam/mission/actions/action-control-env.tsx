@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
+  Accent,
+  Button,
   Checkbox,
   CoordinatesFormat,
   CoordinatesInput,
@@ -7,6 +9,7 @@ import {
   Icon,
   Label,
   NumberInput,
+  Size,
   THEME,
   TextInput
 } from '@mtes-mct/monitor-ui'
@@ -19,12 +22,15 @@ import ControlsToCompleteTag from '../controls/controls-to-complete-tag'
 import EnvControlForm from '../controls/env-control-form'
 import { Action, ControlType } from '../../mission-types'
 import { EnvActionControl } from '../../env-mission-types'
+import EnvInfractionNewTargetForm from '../infractions/env-infraction-new-target-form'
+import EnvInfractionSummary from '../infractions/env-infraction-summary'
 
 interface ActionControlPropsEnv {
   action: Action
 }
 
 const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
+  const [showInfractionForNewTarget, setShowInfractionForNewTarget] = useState<boolean>(false)
   return (
     <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
@@ -79,7 +85,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
         <Divider style={{ backgroundColor: THEME.color.charcoal }} />
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
-        <Stack direction="column" style={{ width: '100%' }}>
+        <Stack direction="column" alignItems="flex-start" spacing={'2rem'} style={{ width: '100%' }}>
           <Stack.Item style={{ width: '100%' }}>
             <Stack direction="row" alignItems="flex-start" spacing={'2rem'} style={{ width: '100%' }}>
               <Stack.Item style={{ width: '33%' }}>
@@ -177,7 +183,35 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
               </Stack.Item>
             </Stack>
           </Stack.Item>
-          <Stack.Item>INFRATIONS</Stack.Item>
+          <Stack.Item style={{ width: '100%' }}>
+            {showInfractionForNewTarget ? (
+              <div style={{ width: '100%', backgroundColor: THEME.color.white, padding: '1rem' }}>
+                <EnvInfractionNewTargetForm />
+              </div>
+            ) : (
+              <Stack justifyContent="flex-end">
+                <Stack.Item>
+                  {' '}
+                  <Button
+                    onClick={() => setShowInfractionForNewTarget(true)}
+                    accent={Accent.SECONDARY}
+                    size={Size.NORMAL}
+                    Icon={Icon.Plus}
+                  >
+                    Ajouter une nouvelle cible avec infraction
+                  </Button>
+                </Stack.Item>
+              </Stack>
+            )}
+          </Stack.Item>
+          <Stack.Item style={{ width: '100%' }}>
+            {true &&
+              [{}].map((whatever: any) => (
+                <div style={{ width: '100%', backgroundColor: THEME.color.white, padding: '1rem' }}>
+                  <EnvInfractionSummary />
+                </div>
+              ))}
+          </Stack.Item>
         </Stack>
       </Stack.Item>
     </Stack>
