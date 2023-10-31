@@ -8,6 +8,7 @@ import { StatusColorTag } from '../status/status-selection-dropdown'
 import { mapStatusToText } from '../status/utils'
 import { controlMethodToHumanString, vesselTypeToHumanString } from '../controls/utils'
 import ControlsToCompleteTag from '../controls/controls-to-complete-tag'
+import Title from '../../../ui/title'
 
 interface MissionTimelineItemProps {
   action: Action
@@ -26,14 +27,14 @@ const Wrapper: React.FC<{ action: Action; onClick: any; children: any }> = ({ ac
 
 const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick: any }> = ({ action, onClick }) => {
   return (
-    <Wrapper action={action as EnvAction} onClick={onClick}>
+    <Wrapper action={action as EnvActionControl} onClick={onClick}>
       <FlexboxGrid.Item style={{ width: '100%' }}>
         <Stack direction="row" spacing="1rem">
           <Stack.Item alignSelf="flex-start" style={{ paddingTop: '0.2rem' }}>
             <Icon.Control color={THEME.color.charcoal} size={20} />
           </Stack.Item>
-          <Stack.Item alignSelf="flex-start">
-            <Stack direction="column" alignItems="flex-start">
+          <Stack.Item alignSelf="flex-start" style={{ width: '100%' }}>
+            <Stack direction="column" alignItems="flex-start" style={{ width: '100%' }}>
               <Stack.Item>
                 Contrôles <b>{action && 'themes' in action && action.themes[0].theme ? action.themes[0].theme : ''}</b>
               </Stack.Item>
@@ -58,14 +59,30 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
                 </b>
               </Stack.Item>
               <Stack.Item>infrations...</Stack.Item>
-              {(action as EnvActionControl).amountOfControlsToComplete !== undefined &&
-                (action as EnvActionControl).amountOfControlsToComplete! > 0 && (
-                  <Stack.Item>
-                    <ControlsToCompleteTag
-                      amountOfControlsToComplete={(action as EnvActionControl).amountOfControlsToComplete}
-                    />
+
+              <Stack.Item alignSelf="flex-start" style={{ width: '100%' }}>
+                <Stack direction="row" spacing="1rem" style={{ width: '100%' }}>
+                  <Stack.Item style={{ width: '100%' }}>
+                    {(action as any as EnvActionControl)?.controlsToComplete !== undefined &&
+                    (action as any as EnvActionControl)?.controlsToComplete?.length > 0 ? (
+                      <ControlsToCompleteTag
+                        amountOfControlsToComplete={(action as any as EnvActionControl)?.controlsToComplete?.length}
+                      />
+                    ) : (
+                      <div />
+                    )}
                   </Stack.Item>
-                )}
+                  <Stack.Item alignSelf="flex-end" style={{ width: '100%' }}>
+                    <Stack direction="column" alignItems="flex-end">
+                      <Stack.Item alignSelf="flex-end">
+                        <Title as="h4" color={THEME.color.slateGray}>
+                          ajouté par CACEM
+                        </Title>
+                      </Stack.Item>
+                    </Stack>
+                  </Stack.Item>
+                </Stack>
+              </Stack.Item>
             </Stack>
           </Stack.Item>
         </Stack>
@@ -77,13 +94,39 @@ const ActionFishControl: React.FC<{ action: FishAction; onClick: any }> = ({ act
   return (
     <Wrapper action={action as FishAction} onClick={onClick}>
       <FlexboxGrid.Item style={{ width: '100%' }}>
-        <Stack direction="row" spacing="1rem">
+        <Stack direction="column" alignItems="flex-start" spacing="1rem">
           <Stack.Item alignSelf="flex-start" style={{ paddingTop: '0.2rem' }}>
-            <Icon.Control color={THEME.color.charcoal} size={20} />
+            <Stack direction="row" spacing="1rem">
+              <Stack.Item alignSelf="flex-start" style={{ paddingTop: '0.2rem' }}>
+                <Icon.Control color={THEME.color.charcoal} size={20} />
+              </Stack.Item>
+              <Stack.Item alignSelf="flex-start">
+                <Stack direction="column" alignItems="flex-start">
+                  <Stack.Item>Contrôles CNSP</Stack.Item>
+                </Stack>
+              </Stack.Item>
+            </Stack>
           </Stack.Item>
-          <Stack.Item alignSelf="flex-start">
-            <Stack direction="column" alignItems="flex-start">
-              <Stack.Item>Contrôles CNSP</Stack.Item>
+
+          <Stack.Item alignSelf="flex-start" style={{ width: '100%' }}>
+            <Stack direction="row" spacing="1rem" style={{ width: '100%' }}>
+              <Stack.Item style={{ width: '100%' }}>
+                {(action as any as FishAction)?.controlsToComplete !== undefined &&
+                  (action as any as FishAction)?.controlsToComplete?.length > 0 && (
+                    <ControlsToCompleteTag
+                      amountOfControlsToComplete={(action as any as FishAction)?.controlsToComplete?.length}
+                    />
+                  )}
+              </Stack.Item>
+              <Stack.Item alignSelf="flex-end" style={{ width: '100%' }}>
+                <Stack direction="column" alignItems="flex-end">
+                  <Stack.Item alignSelf="flex-end">
+                    <Title as="h4" color={THEME.color.slateGray}>
+                      ajouté par CNSP
+                    </Title>
+                  </Stack.Item>
+                </Stack>
+              </Stack.Item>
             </Stack>
           </Stack.Item>
         </Stack>

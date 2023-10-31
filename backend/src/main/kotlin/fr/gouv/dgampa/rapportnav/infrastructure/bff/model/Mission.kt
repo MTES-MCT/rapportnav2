@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff.model
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.Action
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.Action
 import java.time.ZonedDateTime
 
 data class Mission(

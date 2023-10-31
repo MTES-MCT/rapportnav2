@@ -1,5 +1,12 @@
 import { compareAsc, compareDesc, parseISO } from '../dates'
 import { ControlUnit } from './control-unit-types'
+import {
+  ControlAdministrative,
+  ControlGensDeMer,
+  ControlNavigation,
+  ControlSecurity,
+  ControlType
+} from './mission-types'
 
 export enum ActionTypeEnum {
   CONTROL = 'CONTROL',
@@ -374,7 +381,11 @@ export type NewEnvActionControl = EnvActionCommonProperties & {
 }
 export type EnvActionControl = NewEnvActionControl & {
   actionTargetType: string
-  amountOfControlsToComplete?: number
+  controlsToComplete?: ControlType[]
+  controlAdministrative?: ControlAdministrative
+  controlNavigation?: ControlNavigation
+  controlSecurity?: ControlSecurity
+  controlGensDeMer?: ControlGensDeMer
 }
 
 export type EnvActionSurveillance = EnvActionCommonProperties & {

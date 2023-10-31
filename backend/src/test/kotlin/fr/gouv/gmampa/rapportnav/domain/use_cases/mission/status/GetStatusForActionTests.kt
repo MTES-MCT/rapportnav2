@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.status
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionStatusRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.GetStatusForAction
 import org.assertj.core.api.Assertions.assertThat

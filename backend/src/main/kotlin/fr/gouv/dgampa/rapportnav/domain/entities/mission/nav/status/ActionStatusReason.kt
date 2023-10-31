@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status
+package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status
 
 import java.util.*
 

@@ -9,26 +9,82 @@ export const GET_MISSION_BY_ID = gql`
       endDateTimeUtc
       actions {
         id
+        type
+        source
+        status
         startDateTimeUtc
         endDateTimeUtc
-        type
-        status
-        source
         data {
           ... on FishActionData {
+            id
             facade
+            controlsToComplete
+            controlAdministrative {
+              id
+              amountOfControls
+              unitShouldConfirm
+              unitHasConfirmed
+              compliantOperatingPermit
+              upToDateNavigationPermit
+              compliantSecurityDocuments
+              observations
+              deletedAt
+            }
+            controlGensDeMer {
+              id
+              amountOfControls
+              unitShouldConfirm
+              unitHasConfirmed
+              staffOutnumbered
+              upToDateMedicalCheck
+              knowledgeOfFrenchLawAndLanguage
+              observations
+              deletedAt
+            }
+            controlNavigation {
+              id
+              amountOfControls
+              unitShouldConfirm
+              unitHasConfirmed
+              observations
+              deletedAt
+            }
+            controlSecurity {
+              id
+              amountOfControls
+              unitShouldConfirm
+              unitHasConfirmed
+              observations
+              deletedAt
+            }
           }
           ... on EnvActionData {
+            id
             observations
             actionNumberOfControls
             actionTargetType
             vehicleType
-            amountOfControlsToComplete
+            controlsToComplete
             themes {
               theme
               subThemes
             }
             controlAdministrative {
+              id
+              amountOfControls
+              observations
+            }
+            controlSecurity {
+              id
+              amountOfControls
+              observations
+            }
+            controlNavigation {
+              id
+              amountOfControls
+              observations
+            }
+            controlGensDeMer {
               id
               amountOfControls
               observations

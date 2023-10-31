@@ -6,7 +6,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.mapStrin
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.toStringOrNull
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.mapStringToControlMethod
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlAdministrativeModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlGensDeMerModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlNavigationModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlSecurityModel
@@ -52,26 +51,26 @@ data class ActionControlModel(
     var identityControlledPerson: String? = null,
 
     @Column(name = "observations", nullable = true)
-    var observations: String?,
+    var observations: String? = null,
 
     @Column(name = "deleted_at")
     var deletedAt: ZonedDateTime? = null,
 
-    @OneToOne(mappedBy = "actionControl", cascade = [CascadeType.ALL])
-    @JoinColumn(name = "action_control_id", insertable = false, updatable = false)
-    var controlAdministrative: ControlAdministrativeModel? = null,
-
-    @OneToOne(mappedBy = "actionControl", cascade = [CascadeType.ALL])
-    @JoinColumn(name = "action_control_id", insertable = false, updatable = false)
-    var controlGensDeMer: ControlGensDeMerModel? = null,
-
-    @OneToOne(mappedBy = "actionControl", cascade = [CascadeType.ALL])
-    @JoinColumn(name = "action_control_id", insertable = false, updatable = false)
-    var controlNavigation: ControlNavigationModel? = null,
-
-    @OneToOne(mappedBy = "actionControl", cascade = [CascadeType.ALL])
-    @JoinColumn(name = "action_control_id", insertable = false, updatable = false)
-    var controlSecurity: ControlSecurityModel? = null,
+//    @OneToOne(mappedBy = "actionControl", cascade = [CascadeType.ALL])
+//    @JoinColumn(name = "action_control_id", nullable = true)
+//    var controlAdministrative: ControlAdministrativeModel? = null,
+//
+//    @OneToOne(mappedBy = "actionControl", cascade = [CascadeType.ALL])
+//    @JoinColumn(name = "action_control_id", insertable = false, updatable = false, nullable = true)
+//    var controlGensDeMer: ControlGensDeMerModel? = null,
+//
+//    @OneToOne(mappedBy = "actionControl", cascade = [CascadeType.ALL])
+//    @JoinColumn(name = "action_control_id", insertable = false, updatable = false, nullable = true)
+//    var controlNavigation: ControlNavigationModel? = null,
+//
+//    @OneToOne(mappedBy = "actionControl", cascade = [CascadeType.ALL])
+//    @JoinColumn(name = "action_control_id", insertable = false, updatable = false, nullable = true)
+//    var controlSecurity: ControlSecurityModel? = null,
 ) {
     fun toActionControl(): ActionControlEntity {
         return ActionControlEntity(
@@ -88,10 +87,10 @@ data class ActionControlModel(
             observations = observations,
             identityControlledPerson = identityControlledPerson,
             deletedAt = deletedAt,
-            controlAdministrative = controlAdministrative?.toControlAdministrativeEntity(),
-            controlGensDeMer = controlGensDeMer?.toControlGensDeMerEntity(),
-            controlNavigation = controlNavigation?.toControlNavigationEntity(),
-            controlSecurity = controlSecurity?.toControlSecurityEntity()
+//            controlAdministrative = controlAdministrative?.toControlAdministrativeEntity(),
+//            controlGensDeMer = controlGensDeMer?.toControlGensDeMerEntity(),
+//            controlNavigation = controlNavigation?.toControlNavigationEntity(),
+//            controlSecurity = controlSecurity?.toControlSecurityEntity()
         )
     }
 

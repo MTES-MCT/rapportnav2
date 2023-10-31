@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
 interface IDBControlSecurityRepository: JpaRepository<ControlSecurityModel, UUID> {
-    fun existsByActionControlId(actionControlId: UUID): Boolean
+    fun existsByActionControlId(actionControlId: String): Boolean
 
-    fun findByActionControlId(actionControlId: UUID): ControlSecurityModel
+    fun findByActionControlId(actionControlId: String): ControlSecurityModel
 }

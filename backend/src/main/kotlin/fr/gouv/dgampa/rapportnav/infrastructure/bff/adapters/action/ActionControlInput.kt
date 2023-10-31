@@ -47,10 +47,10 @@ data class ActionControlInput(
             vesselSize = vesselSize,
             identityControlledPerson = identityControlledPerson,
             observations = observations,
-            controlAdministrative = controlAdministrative?.toControlAdministrativeEntity(missionId = missionId, actionId = id),
-            controlGensDeMer = controlGensDeMer?.toControlGensDeMerEntity(missionId = missionId, actionId = id),
-            controlNavigation = controlNavigation?.toControlNavigationEntity(missionId = missionId, actionId = id),
-            controlSecurity = controlSecurity?.toControlSecurityEntity(missionId = missionId, actionId = id),
+            controlAdministrative = controlAdministrative?.toControlAdministrativeEntity(missionId = missionId, actionId = id.toString()),
+            controlGensDeMer = controlGensDeMer?.toControlGensDeMerEntity(missionId = missionId, actionId = id.toString()),
+            controlNavigation = controlNavigation?.toControlNavigationEntity(missionId = missionId, actionId = id.toString()),
+            controlSecurity = controlSecurity?.toControlSecurityEntity(missionId = missionId, actionId = id.toString()),
         )
     }
 }

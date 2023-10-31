@@ -10,16 +10,18 @@ import {
   THEME,
   TextInput
 } from '@mtes-mct/monitor-ui'
-import { ActionControlEnv as ActionControlTypeEnv, EnvActionControl } from '../../env-mission-types'
+import Divider from 'rsuite/Divider'
 import { Stack } from 'rsuite'
 import Title from '../../../ui/title'
 import { formatDateTimeForFrenchHumans } from '../../../dates'
 import { FishAction } from '../../fish-mission-types'
 import ControlsToCompleteTag from '../controls/controls-to-complete-tag'
 import EnvControlForm from '../controls/env-control-form'
+import { Action, ControlType } from '../../mission-types'
+import { EnvActionControl } from '../../env-mission-types'
 
 interface ActionControlPropsEnv {
-  action: any
+  action: Action
 }
 
 const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
@@ -40,13 +42,15 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
       <Stack.Item style={{ width: '100%' }}>
         <Label>Thématique de contrôle</Label>
         <Title as="h3" weight="bold" color={THEME.color.gunMetal}>
-          {action.data?.themes[0].theme ?? 'inconnue'}
+          {(action.data as any as EnvActionControl)?.themes[0].theme ?? 'inconnue'}
         </Title>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Label>Sous-thématiques de contrôle</Label>
         <Title as="h3" weight="bold" color={THEME.color.gunMetal}>
-          {action.data?.themes[0].subThemes.length ? action.data?.themes[0].subThemes?.join(', ') : 'inconnues'}
+          {(action.data as any as EnvActionControl)?.themes[0].subThemes?.length
+            ? (action.data as any as EnvActionControl)?.themes[0].subThemes?.join(', ')
+            : 'inconnues'}
         </Title>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
@@ -72,7 +76,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
         />
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
-        <div>-----------------------------------------</div>
+        <Divider style={{ backgroundColor: THEME.color.charcoal }} />
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="column" style={{ width: '100%' }}>
@@ -108,16 +112,17 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
               </Stack.Item>
 
               <Stack.Item style={{ width: '67%' }}>
-                <Stack direction="column" alignItems="flex-start" spacing={'1rem'} style={{ width: '100%' }}>
-                  {(action as EnvActionControl).amountOfControlsToComplete !== undefined &&
-                    (action as EnvActionControl).amountOfControlsToComplete! > 0 && (
-                      <Stack.Item alignSelf="flex-end">
-                        <ControlsToCompleteTag
-                          amountOfControlsToComplete={action.data?.amountOfControlsToComplete}
-                          isLight={true}
-                        />
-                      </Stack.Item>
-                    )}
+                <Stack direction="column" alignItems="flex-start" spacing={'1.5rem'} style={{ width: '100%' }}>
+                  {((action.data as any as EnvActionControl)?.controlsToComplete?.length || 0) > 0 && (
+                    <Stack.Item alignSelf="flex-end">
+                      <ControlsToCompleteTag
+                        amountOfControlsToComplete={
+                          (action.data as any as EnvActionControl)?.controlsToComplete?.length
+                        }
+                        isLight={true}
+                      />
+                    </Stack.Item>
+                  )}
 
                   <Stack.Item>
                     <Title as="h3" weight="bold" color={THEME.color.gunMetal}>
@@ -126,26 +131,46 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
                   </Stack.Item>
                   <Stack.Item style={{ width: '100%' }}>
                     <EnvControlForm
-                      data={action.data?.controlAdministrative}
-                      maxAmountOfControls={action.data?.actionNumberOfControls}
+                      controlType={ControlType.ADMINISTRATIVE}
+                      data={(action.data as any as EnvActionControl)?.controlAdministrative}
+                      maxAmountOfControls={(action.data as any as EnvActionControl)?.actionNumberOfControls}
+                      shouldCompleteControl={
+                        !!(action.data as any as EnvActionControl)?.controlsToComplete?.includes(
+                          ControlType.ADMINISTRATIVE
+                        )
+                      }
                     />
                   </Stack.Item>
                   <Stack.Item>
                     <EnvControlForm
-                      data={action.data?.controlNavigation}
-                      maxAmountOfControls={action.data?.actionNumberOfControls}
+                      controlType={ControlType.NAVIGATION}
+                      data={(action.data as any as EnvActionControl)?.controlNavigation}
+                      maxAmountOfControls={(action.data as any as EnvActionControl)?.actionNumberOfControls}
+                      shouldCompleteControl={
+                        !!(action.data as any as EnvActionControl)?.controlsToComplete?.includes(ControlType.NAVIGATION)
+                      }
                     />
                   </Stack.Item>
                   <Stack.Item>
                     <EnvControlForm
-                      data={action.data?.controlGensDeMer}
-                      maxAmountOfControls={action.data?.actionNumberOfControls}
+                      controlType={ControlType.GENS_DE_MER}
+                      data={(action.data as any as EnvActionControl)?.controlGensDeMer}
+                      maxAmountOfControls={(action.data as any as EnvActionControl)?.actionNumberOfControls}
+                      shouldCompleteControl={
+                        !!(action.data as any as EnvActionControl)?.controlsToComplete?.includes(
+                          ControlType.GENS_DE_MER
+                        )
+                      }
                     />
                   </Stack.Item>
                   <Stack.Item>
                     <EnvControlForm
-                      data={action.data?.controlSecurity}
-                      maxAmountOfControls={action.data?.actionNumberOfControls}
+                      controlType={ControlType.SECURITY}
+                      data={(action.data as any as EnvActionControl)?.controlSecurity}
+                      maxAmountOfControls={(action.data as any as EnvActionControl)?.actionNumberOfControls}
+                      shouldCompleteControl={
+                        !!(action.data as any as EnvActionControl)?.controlsToComplete?.includes(ControlType.SECURITY)
+                      }
                     />
                   </Stack.Item>
                 </Stack>

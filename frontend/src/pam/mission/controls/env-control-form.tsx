@@ -1,5 +1,11 @@
 import { Form, Panel, Stack, Toggle } from 'rsuite'
-import { ControlAdministrative, ControlGensDeMer, ControlNavigation, ControlSecurity } from '../../mission-types'
+import {
+  ControlAdministrative,
+  ControlGensDeMer,
+  ControlNavigation,
+  ControlSecurity,
+  ControlType
+} from '../../mission-types'
 import {
   THEME,
   Icon,
@@ -17,17 +23,23 @@ import {
 import { useMutation } from '@apollo/client'
 import { GET_MISSION_BY_ID, MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE } from '../queries'
 import omit from 'lodash/omit'
-import { controlResultOptions } from './control-result'
-import { controlIsEnabled } from './utils'
 import { useParams } from 'react-router-dom'
 import Title from '../../../ui/title'
+import ControlTitleCheckbox from './control-title-checkbox'
 
-interface EnvControlForm {
+export interface EnvControlFormProps {
+  controlType: ControlType
   data?: ControlAdministrative | ControlSecurity | ControlNavigation | ControlGensDeMer
   maxAmountOfControls?: number
+  shouldCompleteControl?: boolean
 }
 
-const EnvControlForm: React.FC<EnvControlForm> = ({ data, maxAmountOfControls }) => {
+const EnvControlForm: React.FC<EnvControlFormProps> = ({
+  controlType,
+  data,
+  maxAmountOfControls,
+  shouldCompleteControl
+}) => {
   const { missionId, actionId } = useParams()
 
   const [mutate, { statusData, statusLoading, statusError }] = useMutation(
@@ -52,27 +64,18 @@ const EnvControlForm: React.FC<EnvControlForm> = ({ data, maxAmountOfControls })
         [field]: value
       }
     }
-
     await mutate({ variables: { control: updatedData } })
   }
+  debugger
 
   return (
     <Stack direction="column" alignItems="flex-start" spacing={'0.5rem'} style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
-        <Stack direction="row" alignItems="center">
-          <Stack.Item alignSelf="baseline">
-            <Checkbox
-              error=""
-              label=""
-              name="control"
-              // checked={action.data.}
-            />
-          </Stack.Item>
-          <Stack.Item>
-            <Title as="h3">Contrôle administratif navire</Title>
-          </Stack.Item>
-          {false && <Stack.Item>.</Stack.Item>}
-        </Stack>
+        <ControlTitleCheckbox
+          controlType={controlType}
+          checked={!!data || shouldCompleteControl}
+          shouldCompleteControl={!!shouldCompleteControl && !!!data}
+        />
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" style={{ width: '100%' }} spacing={'0.5rem'}>
@@ -81,8 +84,10 @@ const EnvControlForm: React.FC<EnvControlForm> = ({ data, maxAmountOfControls })
               label="Nb contrôles"
               name="amountOfControls"
               value={data?.amountOfControls}
+              disabled={!shouldCompleteControl && !!!data}
               max={maxAmountOfControls}
               isLight={true}
+              onChange={(nextValue?: number) => onChange('amountOfControls', nextValue)}
             />
           </Stack.Item>
           <Stack.Item style={{ width: '67%' }}>
@@ -91,6 +96,8 @@ const EnvControlForm: React.FC<EnvControlForm> = ({ data, maxAmountOfControls })
               name="observations"
               value={data?.observations}
               isLight={true}
+              disabled={!shouldCompleteControl && !!!data}
+              onChange={(nextValue?: string) => onChange('observations', nextValue)}
             />
           </Stack.Item>
         </Stack>

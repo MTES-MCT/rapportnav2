@@ -1,6 +1,14 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client'
+import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev'
 import AuthToken from './auth/token'
 import { setContext } from '@apollo/client/link/context'
+
+if (true) {
+  // if (__DEV__) {
+  // Adds messages only in a dev environment
+  loadDevMessages()
+  loadErrorMessages()
+}
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:8080/graphql'

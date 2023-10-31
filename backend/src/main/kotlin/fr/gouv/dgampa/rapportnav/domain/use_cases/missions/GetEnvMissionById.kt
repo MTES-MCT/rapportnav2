@@ -21,8 +21,8 @@ class GetEnvMissionById {
         )
         val controlTheme2 = ThemeEntity(
         )
-        val envMissionActionControl1 = EnvActionControlEntity(
-            id = UUID.randomUUID(),
+        var envMissionActionControl1 = EnvActionControlEntity(
+            id = UUID.fromString("17997de8-b0df-4095-b209-e8758df71b67"),
             actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-16T04:50:09Z"),
             actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-16T06:50:09Z"),
             themes = listOf(controlTheme1),
@@ -39,8 +39,9 @@ class GetEnvMissionById {
                 )
             ),
         )
+
         val envMissionActionControl2 = EnvActionControlEntity(
-            id = UUID.randomUUID(),
+            id = UUID.fromString("aa997de8-b0df-4095-b209-e8758df71baa"),
             actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-19T04:50:09Z"),
             actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-19T06:50:09Z"),
             themes = listOf(controlTheme2),

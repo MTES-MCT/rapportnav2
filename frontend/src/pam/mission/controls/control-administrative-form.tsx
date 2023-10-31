@@ -1,5 +1,5 @@
 import { Form, Panel, Stack, Toggle } from 'rsuite'
-import { ControlAdministrative } from '../../mission-types'
+import { ControlAdministrative, ControlType } from '../../mission-types'
 import {
   THEME,
   Icon,
@@ -18,12 +18,19 @@ import omit from 'lodash/omit'
 import { controlResultOptions } from './control-result'
 import { controlIsEnabled } from './utils'
 import { useParams } from 'react-router-dom'
+import ControlTitleCheckbox from './control-title-checkbox'
 
 interface ControlAdministrativeFormProps {
   data?: ControlAdministrative
+  shouldCompleteControl?: boolean
+  unitShouldConfirm?: boolean
 }
 
-const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({ data }) => {
+const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
+  data,
+  shouldCompleteControl,
+  unitShouldConfirm
+}) => {
   const { missionId, actionId } = useParams()
 
   const [mutate, { statusData, statusLoading, statusError }] = useMutation(
@@ -42,7 +49,8 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({ d
       deletedAt: undefined,
       missionId: missionId,
       actionControlId: actionId,
-      amountOfControls: 1
+      amountOfControls: 1,
+      unitShouldConfirm: unitShouldConfirm
     }
 
     if (!!field && !!value) {
@@ -68,24 +76,20 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({ d
   return (
     <Panel
       header={
-        <>
-          <Checkbox
-            error=""
-            label="Contrôle administratif navire"
-            name="control"
-            checked={controlIsEnabled(data)}
-            onChange={(isChecked: boolean) => toggleControl(isChecked)}
-          />
-        </>
+        <ControlTitleCheckbox
+          controlType={ControlType.ADMINISTRATIVE}
+          checked={!!data || shouldCompleteControl}
+          shouldCompleteControl={!!shouldCompleteControl && !!!data}
+        />
       }
       // collapsible
       // defaultExpanded={controlIsEnabled(data)}
       style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
     >
       <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
-        {!!data?.unitShouldConfirm && (
+        {unitShouldConfirm && (
           <Stack.Item style={{ width: '100%' }}>
-            <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
+            <Stack direction="row" alignItems="baseline" spacing={'0.5rem'}>
               <Stack.Item>
                 {/* TODO add Toggle component to monitor-ui */}
                 <Toggle
@@ -95,7 +99,9 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({ d
                 />
               </Stack.Item>
               <Stack.Item>
-                <Label>Contrôle confirmé par l’unité</Label>
+                <Label>
+                  <b>Contrôle confirmé par l’unité</b>
+                </Label>
               </Stack.Item>
             </Stack>
           </Stack.Item>

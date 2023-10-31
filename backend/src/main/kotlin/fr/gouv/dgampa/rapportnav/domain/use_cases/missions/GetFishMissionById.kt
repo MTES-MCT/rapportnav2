@@ -17,6 +17,7 @@ class GetFishMissionById {
         // TODO replace with API call
 
         val missionAction1 = MissionAction(
+            id = 10,
             missionId = 10,
             facade = "Outre-Mer",
             faoAreas = listOf("something"),
@@ -34,6 +35,8 @@ class GetFishMissionById {
             isDeleted = false,
             hasSomeGearsSeized = false,
             hasSomeSpeciesSeized = false,
+            isAdministrativeControl = true,
+            isSafetyEquipmentAndStandardsComplianceControl = true,
         )
 
         val mission = Mission(

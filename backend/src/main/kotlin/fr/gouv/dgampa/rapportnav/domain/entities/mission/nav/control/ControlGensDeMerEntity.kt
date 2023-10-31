@@ -7,7 +7,7 @@ import java.util.*
 data class ControlGensDeMerEntity(
     val id: UUID,
     val missionId: Int,
-    val actionControlId: UUID,
+    val actionControlId: String,
     val amountOfControls: Int,
     val unitShouldConfirm: Boolean?,
     val unitHasConfirmed: Boolean?,

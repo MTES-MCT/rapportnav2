@@ -134,6 +134,13 @@ export enum ControlResult {
   'NOT_CONCERNED' = 'NOT_CONCERNED'
 }
 
+export enum ControlType {
+  'ADMINISTRATIVE' = 'ADMINISTRATIVE',
+  'GENS_DE_MER' = 'GENS_DE_MER',
+  'SECURITY' = 'SECURITY',
+  'NAVIGATION' = 'NAVIGATION'
+}
+
 export type ControlAdministrative = {
   id: String
   amountOfControls: number

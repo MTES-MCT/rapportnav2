@@ -139,7 +139,7 @@ type EnvActionData {
   actionNumberOfControls: Int
   actionTargetType: ActionTargetTypeEnum
   vehicleType: VehicleTypeEnum
-  amountOfControlsToComplete: Int
+  controlsToComplete: [ControlType]
   controlAdministrative: ControlAdministrative
   controlGensDeMer: ControlGensDeMer
   controlNavigation: ControlNavigation
@@ -150,6 +150,7 @@ type FishActionData {
   id: String!
   actionDatetimeUtc: String!
   facade: String
+  controlsToComplete: [ControlType]
   controlAdministrative: ControlAdministrative
   controlGensDeMer: ControlGensDeMer
   controlNavigation: ControlNavigation

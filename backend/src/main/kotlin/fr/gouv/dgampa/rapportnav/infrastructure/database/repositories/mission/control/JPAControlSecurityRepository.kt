@@ -9,7 +9,6 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
-import java.util.*
 
 
 @Repository
@@ -19,19 +18,18 @@ class JPAControlSecurityRepository(
     private val mapper: ObjectMapper,
 ) : IControlSecurityRepository {
 
-    override fun existsByActionControlId(actionControlId: UUID): Boolean {
+    override fun existsByActionControlId(actionControlId: String): Boolean {
         return dbControlSecurityRepository.existsByActionControlId(actionControlId)
     }
 
-    override fun findByActionControlId(actionControlId: UUID): ControlSecurityModel {
+    override fun findByActionControlId(actionControlId: String): ControlSecurityModel {
         val control = dbControlSecurityRepository.findByActionControlId(actionControlId)
         return control
     }
     @Transactional
     override fun save(control: ControlSecurityEntity): ControlSecurityModel {
         return try {
-            val actionControl = actionControlRepository.findById(control.actionControlId)
-            val controlSecurityModel = ControlSecurityModel.fromControlSecurityEntity(control, actionControl)
+            val controlSecurityModel = ControlSecurityModel.fromControlSecurityEntity(control)
             dbControlSecurityRepository.save(controlSecurityModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating Security Control", e)

@@ -7,11 +7,10 @@ import java.util.*
 
 @UseCase
 class GetControlAdministrativeByActionId(private val repository: IControlAdministrativeRepository) {
-    fun execute(actionControlId: UUID): ControlAdministrativeEntity? {
+    fun execute(actionControlId: String): ControlAdministrativeEntity? {
         if (this.repository.existsByActionControlId(actionControlId = actionControlId)) {
             return this.repository.findByActionControlId(actionControlId = actionControlId).toControlAdministrativeEntity()
         }
-
         return null
     }
 }

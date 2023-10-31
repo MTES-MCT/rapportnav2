@@ -20,24 +20,24 @@ class DeleteControl(
     fun execute(id: UUID): Boolean {
         if (this.controlRepository.existsById(id)) {
 
-            if (controlGensDeMerRepository.existsByActionControlId(actionControlId = id)) {
-                val controlGensDeMer = controlGensDeMerRepository.findByActionControlId(actionControlId = id)
+            if (controlGensDeMerRepository.existsByActionControlId(actionControlId = id.toString())) {
+                val controlGensDeMer = controlGensDeMerRepository.findByActionControlId(actionControlId = id.toString())
                 controlGensDeMer.deletedAt = ZonedDateTime.now()
                 controlGensDeMerRepository.save(controlGensDeMer.toControlGensDeMerEntity())
 
             }
-            if (controlAdministrativeRepository.existsByActionControlId(actionControlId = id)) {
-                val controlAdministrative = controlAdministrativeRepository.findByActionControlId(actionControlId = id)
+            if (controlAdministrativeRepository.existsByActionControlId(actionControlId = id.toString())) {
+                val controlAdministrative = controlAdministrativeRepository.findByActionControlId(actionControlId = id.toString())
                 controlAdministrative.deletedAt = ZonedDateTime.now()
                 controlAdministrativeRepository.save(controlAdministrative.toControlAdministrativeEntity())
             }
-            if (controlNavigationRepository.existsByActionControlId(actionControlId = id)) {
-                val controlNavigation = controlNavigationRepository.findByActionControlId(actionControlId = id)
+            if (controlNavigationRepository.existsByActionControlId(actionControlId = id.toString())) {
+                val controlNavigation = controlNavigationRepository.findByActionControlId(actionControlId = id.toString())
                 controlNavigation.deletedAt = ZonedDateTime.now()
                 controlNavigationRepository.save(controlNavigation.toControlNavigationEntity())
             }
-            if (controlSecurityRepository.existsByActionControlId(actionControlId = id)) {
-                val controlSecurity = controlSecurityRepository.findByActionControlId(actionControlId = id)
+            if (controlSecurityRepository.existsByActionControlId(actionControlId = id.toString())) {
+                val controlSecurity = controlSecurityRepository.findByActionControlId(actionControlId = id.toString())
                 controlSecurity.deletedAt = ZonedDateTime.now()
                 controlSecurityRepository.save(controlSecurity.toControlSecurityEntity())
             }
