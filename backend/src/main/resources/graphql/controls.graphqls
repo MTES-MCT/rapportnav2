@@ -11,6 +11,13 @@ extend type Mutation {
   ): ControlGensDeMer!
 }
 
+enum ControlType {
+  ADMINISTRATIVE
+  GENS_DE_MER
+  NAVIGATION
+  SECURITY
+}
+
 enum ControlResult {
   YES
   NO

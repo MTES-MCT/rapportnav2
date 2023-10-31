@@ -14,7 +14,7 @@ data class ControlAdministrative(
     val compliantSecurityDocuments: ControlResult?,
     val observations: String?,
 ) {
-    fun toControlAdministrativeEntity(missionId: Int, actionId: UUID): ControlAdministrativeEntity {
+    fun toControlAdministrativeEntity(missionId: Int, actionId: String): ControlAdministrativeEntity {
         return ControlAdministrativeEntity(
             id = id,
             missionId = missionId,

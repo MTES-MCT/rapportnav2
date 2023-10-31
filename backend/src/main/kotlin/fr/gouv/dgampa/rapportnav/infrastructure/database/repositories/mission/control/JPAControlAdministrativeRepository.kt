@@ -9,7 +9,6 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
-import java.util.*
 
 
 @Repository
@@ -19,11 +18,11 @@ class JPAControlAdministrativeRepository(
     private val mapper: ObjectMapper,
 ) : IControlAdministrativeRepository {
 
-    override fun existsByActionControlId(actionControlId: UUID): Boolean {
+    override fun existsByActionControlId(actionControlId: String): Boolean {
         return dbControlAdministrativeRepository.existsByActionControlId(actionControlId)
     }
 
-    override fun findByActionControlId(actionControlId: UUID): ControlAdministrativeModel {
+    override fun findByActionControlId(actionControlId: String): ControlAdministrativeModel {
         val control = dbControlAdministrativeRepository.findByActionControlId(actionControlId)
         return control
     }
@@ -31,8 +30,7 @@ class JPAControlAdministrativeRepository(
     @Transactional
     override fun save(control: ControlAdministrativeEntity): ControlAdministrativeModel {
          return try {
-             val actionControl = actionControlRepository.findById(control.actionControlId)
-             val controlAdministrativeModel = ControlAdministrativeModel.fromControlAdministrativeEntity(control, actionControl)
+             val controlAdministrativeModel = ControlAdministrativeModel.fromControlAdministrativeEntity(control)
              dbControlAdministrativeRepository.save(controlAdministrativeModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating administrative Control", e)

@@ -1,11 +1,15 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control
+package fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusReason
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlAdministrative
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlGensDeMer
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlNavigation
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlSecurity
 import org.locationtech.jts.geom.Geometry
 import java.time.ZonedDateTime
 import java.util.*
@@ -87,7 +91,11 @@ data class FishActionData(
     val controlAdministrative: ControlAdministrative? = null,
     val controlGensDeMer: ControlGensDeMer? = null,
     val controlNavigation: ControlNavigation? = null,
-    val controlSecurity: ControlSecurity? = null
+    val controlSecurity: ControlSecurity? = null,
+    val isAdministrativeControl: Boolean? = null,
+    val isComplianceWithWaterRegulationsControl: Boolean? = null,
+    val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
+    val isSeafarersControl: Boolean? = null,
 ) : ActionData()
 
 

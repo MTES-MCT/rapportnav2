@@ -10,7 +10,7 @@ data class ControlSecurity(
     val unitHasConfirmed: Boolean?,
     val observations: String?,
 ) {
-    fun toControlSecurityEntity(missionId: Int, actionId: UUID): ControlSecurityEntity {
+    fun toControlSecurityEntity(missionId: Int, actionId: String): ControlSecurityEntity {
         return ControlSecurityEntity(
             id = id,
             missionId = missionId,

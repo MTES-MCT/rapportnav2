@@ -1,11 +1,12 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.stringToControlResult
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.toStringOrNull
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -19,8 +20,8 @@ data class ControlAdministrativeModel(
     @Column(name = "mission_id", nullable = false)
     var missionId: Int,
 
-    @Column(name = "action_control_id", nullable = false, insertable = false, updatable = false)
-    var actionControlId: UUID,
+    @Column(name = "action_control_id", nullable = false)
+    var actionControlId: String,
 
     @Column(name = "amount_of_controls", nullable = false)
     var amountOfControls: Int = 1,
@@ -46,10 +47,11 @@ data class ControlAdministrativeModel(
     @Column(name = "deleted_at")
     var deletedAt: ZonedDateTime? = null,
 
-    @OneToOne
-    @JoinColumn(name = "action_control_id", referencedColumnName = "id")
-    @JsonIgnore
-    var actionControl: ActionControlModel? = null
+//    @OneToOne
+//    @JoinColumn(name = "action_control_id", referencedColumnName = "id", nullable = true)
+//    @JsonIgnore
+//    @NotFound(action= NotFoundAction.IGNORE)
+//    var actionControl: ActionControlModel? = null
 
 ) {
     fun toControlAdministrativeEntity() = ControlAdministrativeEntity(
@@ -67,11 +69,11 @@ data class ControlAdministrativeModel(
     )
 
     companion object {
-        fun fromControlAdministrativeEntity(control: ControlAdministrativeEntity, actionControl: ActionControlModel): ControlAdministrativeModel {
+        fun fromControlAdministrativeEntity(control: ControlAdministrativeEntity): ControlAdministrativeModel {
             return ControlAdministrativeModel(
                 id = control.id,
                 missionId = control.missionId,
-                actionControlId = actionControl.id,
+                actionControlId = control.actionControlId,
                 amountOfControls = control.amountOfControls,
                 unitHasConfirmed = control.unitHasConfirmed,
                 unitShouldConfirm = control.unitShouldConfirm,
@@ -80,7 +82,6 @@ data class ControlAdministrativeModel(
                 compliantSecurityDocuments = control.compliantSecurityDocuments.toStringOrNull(),
                 observations = control.observations,
                 deletedAt = control.deletedAt,
-                actionControl = actionControl
             )
         }
     }

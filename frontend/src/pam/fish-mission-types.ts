@@ -1,4 +1,11 @@
 import type { ControlUnit } from './control-unit-types'
+import {
+  ControlAdministrative,
+  ControlGensDeMer,
+  ControlNavigation,
+  ControlSecurity,
+  ControlType
+} from './mission-types'
 
 export interface FishAction {
   actionDatetimeUtc: string
@@ -51,6 +58,12 @@ export interface FishAction {
   vesselName: string | undefined
   vesselTargeted: ControlCheck | undefined
   actionStatus: string
+  // Added by rapportnav:
+  controlsToComplete?: ControlType[]
+  controlAdministrative?: ControlAdministrative
+  controlNavigation?: ControlNavigation
+  controlSecurity?: ControlSecurity
+  controlGensDeMer?: ControlGensDeMer
 }
 
 // ---------------------------------------------------------------------------

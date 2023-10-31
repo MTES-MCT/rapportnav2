@@ -2,12 +2,15 @@ import React, { ReactElement } from 'react'
 import { render, renderHook, RenderOptions } from '@testing-library/react'
 import UIThemeWrapper from './ui/ui-theme-wrapper'
 import { BrowserRouter } from 'react-router-dom'
+import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import '@testing-library/jest-dom/extend-expect'
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   return (
     <UIThemeWrapper>
-      <BrowserRouter>{children}</BrowserRouter>
+      <MockedProvider addTypename={false}>
+        <BrowserRouter>{children}</BrowserRouter>
+      </MockedProvider>
     </UIThemeWrapper>
   )
 }

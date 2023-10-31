@@ -10,7 +10,7 @@ data class ControlNavigation(
     val unitHasConfirmed: Boolean?,
     val observations: String?,
 ) {
-    fun toControlNavigationEntity(missionId: Int, actionId: UUID): ControlNavigationEntity {
+    fun toControlNavigationEntity(missionId: Int, actionId: String): ControlNavigationEntity {
         return ControlNavigationEntity(
             id = id,
             missionId = missionId,

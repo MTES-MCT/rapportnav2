@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
 interface IDBControlNavigationRepository: JpaRepository<ControlNavigationModel, UUID> {
-    fun existsByActionControlId(actionControlId: UUID): Boolean
+    fun existsByActionControlId(actionControlId: String): Boolean
 
-    fun findByActionControlId(actionControlId: UUID): ControlNavigationModel
+    fun findByActionControlId(actionControlId: String): ControlNavigationModel
 }

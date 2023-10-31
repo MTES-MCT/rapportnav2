@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.NavActionControl
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.NavActionControl
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -21,10 +21,10 @@ data class ActionControlEntity(
     val vesselSize: VesselSizeEnum? = null,
     val identityControlledPerson: String? = null,
     val deletedAt: ZonedDateTime? = null,
-    val controlAdministrative: ControlAdministrativeEntity?,
-    val controlGensDeMer: ControlGensDeMerEntity?,
-    val controlNavigation: ControlNavigationEntity?,
-    val controlSecurity: ControlSecurityEntity?
+    var controlAdministrative: ControlAdministrativeEntity? = null,
+    var controlGensDeMer: ControlGensDeMerEntity? = null,
+    var controlNavigation: ControlNavigationEntity? = null,
+    var controlSecurity: ControlSecurityEntity? = null
 ) {
     fun toNavAction(): NavActionEntity {
         return NavActionEntity(

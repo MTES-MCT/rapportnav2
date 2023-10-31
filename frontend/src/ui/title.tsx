@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { THEME } from '@mtes-mct/monitor-ui'
 
 interface TitleProps {
-  as: 'h1' | 'h2' | 'h3'
+  as: 'h1' | 'h2' | 'h3' | 'h4'
   color?: string
   weight?: string
   children: ReactNode
@@ -22,11 +22,13 @@ const createTitleStyled = (fontSize: number, fontWeight: string, color: string) 
 const H1 = (color: string) => createTitleStyled(22, 'bold', color)
 const H2 = (color: string) => createTitleStyled(16, 'bold', color)
 const H3 = (color: string, weight: string = 'normal') => createTitleStyled(13, weight, color)
+const H4 = (color: string, weight: string = 'normal') => createTitleStyled(11, weight, color)
 
 const TitleComponentMap = (color: string, weight?: string) => ({
   ['h1']: H1(color),
   ['h2']: H2(color),
-  ['h3']: H3(color, weight)
+  ['h3']: H3(color, weight),
+  ['h4']: H4(color)
 })
 const Title: React.FC<TitleProps> = ({ children, as, color, weight }) => {
   const fontColor = color ?? THEME.color.charcoal

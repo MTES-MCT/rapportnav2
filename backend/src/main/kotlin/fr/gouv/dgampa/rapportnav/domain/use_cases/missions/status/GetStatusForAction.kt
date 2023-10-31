@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionStatusRepository
 import org.slf4j.LoggerFactory
 import java.time.ZonedDateTime

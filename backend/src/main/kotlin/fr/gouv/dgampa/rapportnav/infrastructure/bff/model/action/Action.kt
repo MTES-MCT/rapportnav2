@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control
+package fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
@@ -114,7 +114,11 @@ data class Action(
                     controlUnits = fishAction.controlUnits,
                     isDeleted = fishAction.isDeleted,
                     hasSomeGearsSeized = fishAction.hasSomeGearsSeized,
-                    hasSomeSpeciesSeized = fishAction.hasSomeSpeciesSeized
+                    hasSomeSpeciesSeized = fishAction.hasSomeSpeciesSeized,
+                    isAdministrativeControl = fishAction.isAdministrativeControl,
+                    isComplianceWithWaterRegulationsControl = fishAction.isComplianceWithWaterRegulationsControl,
+                    isSafetyEquipmentAndStandardsComplianceControl = fishAction.isSafetyEquipmentAndStandardsComplianceControl,
+                    isSeafarersControl = fishAction.isSeafarersControl,
                 )
             )
         }

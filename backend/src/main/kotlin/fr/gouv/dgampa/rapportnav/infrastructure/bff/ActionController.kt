@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum.SURVEILLANCE
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.DeleteControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.AddOrUpdateStatus
@@ -13,7 +13,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.DeleteStatus
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionControlInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionStatusInput
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.*
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.*
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
@@ -101,14 +101,4 @@ class ActionController(
         return ActionType.OTHER
     }
 
-//    @SchemaMapping(typeName = "EnvActionData", field = "amountOfControlsToComplete")
-//    fun getEnvAmountOfControlsToComplete(action: EnvActionData): Int? {
-//        return listOf(
-//            action.isAdministrativeControl,
-//            action.isComplianceWithWaterRegulationsControl,
-//            action.isSafetyEquipmentAndStandardsComplianceControl,
-//            action.isSeafarersControl
-//        ).count { it == true }
-//    }
-
-}
+ }

@@ -53,6 +53,10 @@ data class MissionAction(
     var isDeleted: Boolean,
     var hasSomeGearsSeized: Boolean,
     var hasSomeSpeciesSeized: Boolean,
+    val isAdministrativeControl: Boolean? = null,
+    val isComplianceWithWaterRegulationsControl: Boolean? = null,
+    val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
+    val isSeafarersControl: Boolean? = null,
 ) {
     fun verify() {
         val controlTypes = listOf(

@@ -14,7 +14,7 @@ data class ControlGensDeMer(
     val knowledgeOfFrenchLawAndLanguage: ControlResult?,
     val observations: String?,
 ) {
-    fun toControlGensDeMerEntity(missionId: Int, actionId: UUID): ControlGensDeMerEntity {
+    fun toControlGensDeMerEntity(missionId: Int, actionId: String): ControlGensDeMerEntity {
         return ControlGensDeMerEntity(
             id = id,
             missionId = missionId,

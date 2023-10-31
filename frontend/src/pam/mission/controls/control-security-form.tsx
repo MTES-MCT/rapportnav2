@@ -1,17 +1,24 @@
-import { Panel, Stack } from 'rsuite'
-import { ControlSecurity } from '../../mission-types'
-import { THEME, Icon, Button, Accent, Size, Textarea, Checkbox } from '@mtes-mct/monitor-ui'
+import { Panel, Stack, Toggle } from 'rsuite'
+import { ControlSecurity, ControlType } from '../../mission-types'
+import { THEME, Icon, Button, Accent, Size, Textarea, Checkbox, Label } from '@mtes-mct/monitor-ui'
 import { MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY } from '../queries'
 import { useMutation } from '@apollo/client'
 import omit from 'lodash/omit'
 import { controlIsEnabled } from './utils'
 import { useParams } from 'react-router-dom'
+import ControlTitleCheckbox from './control-title-checkbox'
 
 interface ControlSecurityFormProps {
   data?: ControlSecurity
+  shouldCompleteControl?: boolean
+  unitShouldConfirm?: boolean
 }
 
-const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({ data }) => {
+const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
+  data,
+  shouldCompleteControl,
+  unitShouldConfirm
+}) => {
   const { missionId, actionId } = useParams()
 
   const [mutate, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY, {
@@ -26,7 +33,9 @@ const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({ data }) => {
       ...omit(data, '__typename'),
       missionId: missionId,
       deletedAt: undefined,
-      actionControlId: actionId
+      actionControlId: actionId,
+      amountOfControls: 1,
+      unitShouldConfirm: unitShouldConfirm
     }
 
     if (!!field && !!value) {
@@ -47,21 +56,36 @@ const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({ data }) => {
   return (
     <Panel
       header={
-        <>
-          <Checkbox
-            error=""
-            label="Equipements et respect des normes de sécurité"
-            name="control"
-            checked={controlIsEnabled(data)}
-            onChange={(isChecked: boolean) => toggleControl(isChecked)}
-          />
-        </>
+        <ControlTitleCheckbox
+          controlType={ControlType.SECURITY}
+          checked={!!data || shouldCompleteControl}
+          shouldCompleteControl={!!shouldCompleteControl && !!!data}
+        />
       }
       // collapsible
       // defaultExpanded={controlIsEnabled(data)}
       style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
     >
       <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
+        {unitShouldConfirm && (
+          <Stack.Item style={{ width: '100%' }}>
+            <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
+              <Stack.Item>
+                {/* TODO add Toggle component to monitor-ui */}
+                <Toggle
+                  checked={!!data?.unitHasConfirmed}
+                  size="sm"
+                  onChange={(checked: boolean) => onChange('unitHasConfirmed', checked)}
+                />
+              </Stack.Item>
+              <Stack.Item>
+                <Label>
+                  <b>Contrôle confirmé par l’unité</b>
+                </Label>
+              </Stack.Item>
+            </Stack>
+          </Stack.Item>
+        )}
         <Stack.Item style={{ width: '100%' }}>
           <Textarea
             label="Observations (hors infraction) sur la sécurité du navire (équipements…)"
