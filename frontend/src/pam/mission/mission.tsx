@@ -151,12 +151,7 @@ export default function Mission() {
                   <FlexboxGrid.Item>
                     <Stack>
                       <Stack.Item>
-                        <IconButton
-                          Icon={Icon.Phone}
-                          accent={Accent.PRIMARY}
-                          size={Size.NORMAL}
-                          color={THEME.color.gainsboro}
-                        />
+                        <IconButton Icon={Icon.Phone} accent={Accent.PRIMARY} size={Size.NORMAL} />
                       </Stack.Item>
                       <Stack.Item style={{ paddingLeft: '0.5rem' }}>
                         <StatusSelectionDropdown onSelect={addNewStatus} />

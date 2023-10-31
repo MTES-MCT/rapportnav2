@@ -19,6 +19,9 @@ import { controlResultOptions } from './control-result'
 import { controlIsEnabled } from './utils'
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
+import { useState } from 'react'
+import InfractionForm from '../infractions/infraction-form'
+import InfractionSummary from '../infractions/infraction-summary'
 
 interface ControlAdministrativeFormProps {
   data?: ControlAdministrative
@@ -32,6 +35,8 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
   unitShouldConfirm
 }) => {
   const { missionId, actionId } = useParams()
+
+  const [showInfractions, setShowInfractions] = useState<boolean>(false)
 
   const [mutate, { statusData, statusLoading, statusError }] = useMutation(
     MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE,
@@ -147,9 +152,28 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <Button accent={Accent.SECONDARY} size={Size.NORMAL} Icon={Icon.Plus} isFullWidth>
-            Ajouter une infraction administrative
-          </Button>
+          {true ? (
+            <div style={{ width: '100%', backgroundColor: THEME.color.cultured, padding: '1rem' }}>
+              <InfractionSummary />
+            </div>
+          ) : showInfractions ? (
+            <>
+              <Label>Ajout d'infraction</Label>
+              <div style={{ width: '100%', backgroundColor: THEME.color.cultured, padding: '1rem' }}>
+                <InfractionForm />
+              </div>
+            </>
+          ) : (
+            <Button
+              onClick={() => setShowInfractions(true)}
+              accent={Accent.SECONDARY}
+              size={Size.NORMAL}
+              Icon={Icon.Plus}
+              isFullWidth
+            >
+              Ajouter une infraction administrative
+            </Button>
+          )}
         </Stack.Item>
       </Stack>
     </Panel>
