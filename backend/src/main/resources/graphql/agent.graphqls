@@ -1,5 +1,0 @@
-type Agent {
-    id: ID!,
-    firstName: String!
-    lastName: String!
-}

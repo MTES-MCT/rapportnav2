@@ -9,10 +9,16 @@ import org.springframework.stereotype.Controller
 @Controller
 class CrewController (
     private val getAgents: GetAgents,
+  private val getAgentsByServiceId: GetAgentsByServiceId
 ){
 
     @QueryMapping
     fun agents(): List<AgentModel>{
         return getAgents.execute()
     }
+
+  @QueryMapping
+  fun agentsByService(): List<AgentModel>{
+    return getAgentsByServiceId.execute()
+  }
 }
