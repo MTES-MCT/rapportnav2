@@ -16,15 +16,6 @@ class GetAgents(private val agentRepository: IAgentRepository) {
 
 
     fun execute(): List<AgentModel> {
-
-        val agent1 = Agent(
-            id = UUID.randomUUID(),
-            firstName = "Aleck",
-            lastName = "Vincent",
-            deletedAt = null
-        )
         return agentRepository.findAll()
-       // return listOf(agent1)
-
     }
 }

@@ -16,4 +16,8 @@ class JPAAgentRepository (
     override fun findAll(): List<AgentModel> {
         return dbAgentRepository.findAll()
     }
+
+   override fun findByServiceId(serviceId: Int): List<AgentModel> {
+    return dbAgentRepository.findByServiceId(serviceId)
+  }
 }

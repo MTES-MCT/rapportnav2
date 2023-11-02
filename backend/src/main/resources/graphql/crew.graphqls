@@ -1,0 +1,10 @@
+extend type Query {
+  agents: [Agent]!
+  agentsByServiceId: [Agent]!
+
+}
+type Agent {
+    id: ID!,
+    firstName: String!
+    lastName: String!
+}

@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interface
 
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import org.springframework.data.jpa.repository.JpaRepository
-import java.util.UUID
 
-interface IDBAgentRepository: JpaRepository<AgentModel, UUID> {
+interface IDBAgentRepository: JpaRepository<AgentModel, Int> {
+  fun findByServiceId(serviceId: Int): List<AgentModel>
 }

@@ -1,14 +1,8 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.SequenceGenerator
-import jakarta.persistence.Table
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.Service
+import jakarta.persistence.*
 import java.util.Date
-import java.util.UUID
 
 @Entity
 @Table(name = "agent")
@@ -16,7 +10,7 @@ data class AgentModel (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-    var id: UUID,
+    var id: Int,
 
     @Column(name = "first_name", nullable = false)
     var firstName: String,
@@ -26,4 +20,10 @@ data class AgentModel (
 
     @Column(name = "deleted_at", nullable = true)
     var deletedAt: Date? = null,
+
+    @ManyToMany(mappedBy = "agents")
+    var crews: Set<CrewModel> = HashSet(),
+
+    @ManyToMany(mappedBy = "agents")
+    var services: Set<Service> = HashSet(),
 )
