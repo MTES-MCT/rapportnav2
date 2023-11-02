@@ -6,11 +6,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateControl
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.DeleteControl
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.AddOrUpdateStatus
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.DeleteStatus
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.GetStatusForAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.action.AddOrUpdateControl
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.action.DeleteControl
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.action.AddOrUpdateStatus
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.action.DeleteStatus
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionControlInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionStatusInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.*

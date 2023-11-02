@@ -40,7 +40,7 @@ data class ActionStatusModel(
     @Column(name = "deleted_at")
     var deletedAt: ZonedDateTime? = null,
 ) {
-    fun toActionStatus(): ActionStatusEntity {
+    fun toActionStatusEntity(): ActionStatusEntity {
         return ActionStatusEntity(
             id = id,
             missionId = missionId,
@@ -54,7 +54,7 @@ data class ActionStatusModel(
     }
 
     companion object {
-        fun fromActionStatus(statusAction: ActionStatusEntity, mapper: ObjectMapper) = ActionStatusModel(
+        fun fromActionStatusEntity(statusAction: ActionStatusEntity, mapper: ObjectMapper) = ActionStatusModel(
             id = statusAction.id,
             missionId = statusAction.missionId,
             startDateTimeUtc = statusAction.startDateTimeUtc,

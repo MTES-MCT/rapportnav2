@@ -6,12 +6,12 @@ import java.util.*
 
 interface INavActionControlRepository {
 
-    fun findById(id: UUID): ActionControlModel
+    fun findById(id: UUID): Optional<ActionControlModel>
     
     fun findAllByMissionId( missionId: Int): List<ActionControlEntity>
 
     fun existsById(id: UUID): Boolean
 
-    fun save(controlAction: ActionControlEntity): ActionControlEntity
+    fun save(controlAction: ActionControlEntity): ActionControlModel
 
 }

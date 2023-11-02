@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control
+package fr.gouv.dgampa.rapportnav.domain.use_cases.missions.action
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionControlRepository
@@ -42,9 +42,9 @@ class DeleteControl(
                 controlSecurityRepository.save(controlSecurity.toControlSecurityEntity())
             }
 
-            val controlAction = this.controlRepository.findById(id = id)
+            val controlAction = this.controlRepository.findById(id = id).get()
             controlAction.deletedAt = ZonedDateTime.now()
-            this.controlRepository.save(controlAction.toActionControl())
+            this.controlRepository.save(controlAction.toActionControlEntity())
 //            this.controlRepository.deleteById(id)
             return true
         }

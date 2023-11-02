@@ -7,19 +7,25 @@ import omit from 'lodash/omit'
 import { controlIsEnabled } from './utils'
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
+import ControlInfraction from './control-infraction'
+import { useState } from 'react'
 
 interface ControlNavigationFormProps {
   data?: ControlNavigation
   shouldCompleteControl?: boolean
   unitShouldConfirm?: boolean
+  disableToggle?: boolean
 }
 
 const ControlNavigationForm: React.FC<ControlNavigationFormProps> = ({
   data,
   shouldCompleteControl,
-  unitShouldConfirm
+  unitShouldConfirm,
+  disableToggle
 }) => {
   const { missionId, actionId } = useParams()
+
+  const [showInfractions, setShowInfractions] = useState<boolean>(false)
 
   const [mutate, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_OR_UPDATE_CONTROL_NAVIGATION, {
     refetchQueries: ['GetMissionById']
@@ -30,7 +36,7 @@ const ControlNavigationForm: React.FC<ControlNavigationFormProps> = ({
 
   const onChange = (field?: string, value?: any) => {
     let updatedData = {
-      ...omit(data, '__typename'),
+      ...omit(data, '__typename', 'infraction'),
       deletedAt: undefined,
       missionId: missionId,
       actionControlId: actionId,
@@ -60,6 +66,7 @@ const ControlNavigationForm: React.FC<ControlNavigationFormProps> = ({
           controlType={ControlType.NAVIGATION}
           checked={!!data || shouldCompleteControl}
           shouldCompleteControl={!!shouldCompleteControl && !!!data}
+          onChange={disableToggle ? undefined : (isChecked: boolean) => toggleControl(isChecked)}
         />
       }
       // collapsible
@@ -94,9 +101,13 @@ const ControlNavigationForm: React.FC<ControlNavigationFormProps> = ({
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <Button accent={Accent.SECONDARY} size={Size.NORMAL} Icon={Icon.Plus} isFullWidth>
-            Ajouter une infraction règle de navigation
-          </Button>
+          <ControlInfraction
+            controlId={data?.id}
+            infraction={undefined}
+            controlType={ControlType.NAVIGATION}
+            showInfractions={showInfractions}
+            showInfractionForm={setShowInfractions}
+          />
         </Stack.Item>
       </Stack>
     </Panel>

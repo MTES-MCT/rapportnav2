@@ -27,6 +27,7 @@ import ControlAdministrativeForm from '../controls/control-administrative-form'
 import ControlNavigationForm from '../controls/control-navigation-form'
 import ControlGensDeMerForm from '../controls/control-gens-de-mer-form'
 import ControlSecurityForm from '../controls/control-security-form'
+import { controlMethodToHumanString, vesselTypeToHumanString } from '../controls/utils'
 
 interface ActionControlNavProps {
   action: Action
@@ -114,7 +115,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
               </Stack.Item>
               <Stack.Item>
                 <Title as="h2">
-                  {control.controlMethod} - {control.vesselType}
+                  {controlMethodToHumanString(control.controlMethod)} - {vesselTypeToHumanString(control.vesselType)}
                 </Title>
               </Stack.Item>
             </Stack>

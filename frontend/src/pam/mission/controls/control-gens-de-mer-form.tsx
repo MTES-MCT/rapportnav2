@@ -19,19 +19,25 @@ import { ControlResultExtraOptions, controlResultOptions } from './control-resul
 import { controlIsEnabled } from './utils'
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
+import ControlInfraction from './control-infraction'
+import { useState } from 'react'
 
 interface ControlGensDeMerFormProps {
   data?: ControlGensDeMer
   shouldCompleteControl?: boolean
   unitShouldConfirm?: boolean
+  disableToggle?: boolean
 }
 
 const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({
   data,
   shouldCompleteControl,
-  unitShouldConfirm
+  unitShouldConfirm,
+  disableToggle
 }) => {
   const { missionId, actionId } = useParams()
+
+  const [showInfractions, setShowInfractions] = useState<boolean>(false)
 
   const [mutate, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER, {
     refetchQueries: ['GetMissionById']
@@ -42,7 +48,7 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({
 
   const onChange = (field?: string, value?: any) => {
     let updatedData = {
-      ...omit(data, '__typename'),
+      ...omit(data, '__typename', 'infraction'),
       deletedAt: undefined,
       missionId: missionId,
       actionControlId: actionId,
@@ -76,6 +82,7 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({
           controlType={ControlType.GENS_DE_MER}
           checked={!!data || shouldCompleteControl}
           shouldCompleteControl={!!shouldCompleteControl && !!!data}
+          onChange={disableToggle ? undefined : (isChecked: boolean) => toggleControl(isChecked)}
         />
       }
       // collapsible
@@ -143,9 +150,13 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <Button accent={Accent.SECONDARY} size={Size.NORMAL} Icon={Icon.Plus} isFullWidth>
-            Ajouter une infraction administrative
-          </Button>
+          <ControlInfraction
+            controlId={data?.id}
+            infraction={undefined}
+            controlType={ControlType.GENS_DE_MER}
+            showInfractions={showInfractions}
+            showInfractionForm={setShowInfractions}
+          />
         </Stack.Item>
       </Stack>
     </Panel>

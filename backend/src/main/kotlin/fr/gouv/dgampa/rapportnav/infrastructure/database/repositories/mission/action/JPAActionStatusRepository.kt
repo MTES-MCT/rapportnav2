@@ -16,8 +16,8 @@ class JPAActionStatusRepository (
     private val mapper: ObjectMapper,
 ) : INavActionStatusRepository {
 
-    override fun findAllByMissionId(missionId: Int): List<ActionStatusEntity> {
-        return dbActionStatusRepository.findAllByMissionId(missionId).map { it.toActionStatus() }
+    override fun findAllByMissionId(missionId: Int): List<ActionStatusModel> {
+        return dbActionStatusRepository.findAllByMissionId(missionId)
     }
 
     override fun findById(id: UUID): ActionStatusModel {
@@ -29,10 +29,10 @@ class JPAActionStatusRepository (
     }
 
     @Transactional
-    override fun save(statusAction: ActionStatusEntity): ActionStatusEntity {
+    override fun save(statusAction: ActionStatusEntity): ActionStatusModel {
         return try {
-            val statusActionModel = ActionStatusModel.fromActionStatus(statusAction, mapper)
-            dbActionStatusRepository.save(statusActionModel).toActionStatus()
+            val statusActionModel = ActionStatusModel.fromActionStatusEntity(statusAction, mapper)
+            dbActionStatusRepository.save(statusActionModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating action status", e)
         }

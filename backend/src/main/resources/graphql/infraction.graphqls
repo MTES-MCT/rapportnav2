@@ -1,0 +1,32 @@
+extend type Mutation {
+  addOrUpdateInfraction(infraction: InfractionInput!): Infraction!
+}
+
+type Infraction {
+  id: String!
+  formalNotice: Boolean
+  natinfs: [Natinf]
+  observations: String
+  deletedAt: String
+}
+
+type Natinf {
+  infraction: String!
+  natinfCode: Int!
+}
+
+input InfractionInput {
+  id: String
+  missionId: String!
+  controlId: String!
+  controlType: String!
+  formalNotice: Boolean
+  natinfs: [NatinfInput]
+  observations: String
+  deletedAt: String
+}
+
+input NatinfInput {
+  infraction: String!
+  natinfCode: Int!
+}

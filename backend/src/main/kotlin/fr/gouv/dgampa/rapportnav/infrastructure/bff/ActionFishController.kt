@@ -26,14 +26,14 @@ class ActionFishController(
     @SchemaMapping(typeName = "FishActionData", field = "controlAdministrative")
     fun getControlAdministrative(action: FishActionData): ControlAdministrative? {
         return action.id?.let { id ->
-            getControlAdministrativeByActionId.execute(actionControlId = id)?.toControlAdministrative()
+            ControlAdministrative.fromControlAdministrativeEntity(getControlAdministrativeByActionId.execute(actionControlId = id.toString()))
         }
     }
     //    TODO decide if this should be here or not
     @SchemaMapping(typeName = "FishActionData", field = "controlSecurity")
     fun getControlSecurity(action: FishActionData): ControlSecurity? {
         return action.id?.let { id ->
-            getControlSecurityByActionId.execute(actionControlId = id)?.toControlSecurity()
+            ControlSecurity.fromControlSecurityEntity(getControlSecurityByActionId.execute(actionControlId = id.toString()))
         }
     }
 
@@ -41,7 +41,7 @@ class ActionFishController(
     @SchemaMapping(typeName = "FishActionData", field = "controlNavigation")
     fun getControlNavigation(action: FishActionData): ControlNavigation? {
         return action.id?.let { id ->
-            getControlNavigationByActionId.execute(actionControlId = id)?.toControlNavigation()
+            ControlNavigation.fromControlNavigationEntity(getControlNavigationByActionId.execute(actionControlId = id.toString()))
         }
     }
 
@@ -49,7 +49,7 @@ class ActionFishController(
     @SchemaMapping(typeName = "FishActionData", field = "controlGensDeMer")
     fun getControlGensDeMer(action: FishActionData): ControlGensDeMer? {
         return action.id?.let { id ->
-            getControlGensDeMerByActionId.execute(actionControlId = id)?.toControlGensDeMer()
+            ControlGensDeMer.fromControlGensDeMerEntity(getControlGensDeMerByActionId.execute(actionControlId = id.toString()))
         }
     }
 

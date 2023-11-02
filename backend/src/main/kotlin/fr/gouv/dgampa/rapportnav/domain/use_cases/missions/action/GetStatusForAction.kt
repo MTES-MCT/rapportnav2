@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status
+package fr.gouv.dgampa.rapportnav.domain.use_cases.missions.action
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionStatusRepository
@@ -11,7 +11,7 @@ class GetStatusForAction(
 ) {
     private val logger = LoggerFactory.getLogger(GetStatusForAction::class.java)
     fun execute(missionId: Int, actionStartDateTimeUtc: ZonedDateTime?): ActionStatusType {
-        val actions = statusActionsRepository.findAllByMissionId(missionId=missionId)
+        val actions = statusActionsRepository.findAllByMissionId(missionId=missionId).map { it.toActionStatusEntity() }
 
         if (actions.isNullOrEmpty()) {
             return ActionStatusType.UNKNOWN

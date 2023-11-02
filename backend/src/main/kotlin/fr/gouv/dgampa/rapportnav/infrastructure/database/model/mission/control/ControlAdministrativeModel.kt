@@ -3,10 +3,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.stringToControlResult
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.toStringOrNull
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.InfractionModel
+import jakarta.persistence.*
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -47,11 +45,8 @@ data class ControlAdministrativeModel(
     @Column(name = "deleted_at")
     var deletedAt: ZonedDateTime? = null,
 
-//    @OneToOne
-//    @JoinColumn(name = "action_control_id", referencedColumnName = "id", nullable = true)
-//    @JsonIgnore
-//    @NotFound(action= NotFoundAction.IGNORE)
-//    var actionControl: ActionControlModel? = null
+    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "controlAdministrative", targetEntity = InfractionModel::class)
+    var infractions: List<InfractionModel>? = null
 
 ) {
     fun toControlAdministrativeEntity() = ControlAdministrativeEntity(
@@ -66,6 +61,7 @@ data class ControlAdministrativeModel(
         compliantSecurityDocuments = stringToControlResult(compliantSecurityDocuments),
         observations = observations,
         deletedAt = deletedAt,
+        infractions = infractions?.map { it.toInfractionEntity() }
     )
 
     companion object {
@@ -82,6 +78,7 @@ data class ControlAdministrativeModel(
                 compliantSecurityDocuments = control.compliantSecurityDocuments.toStringOrNull(),
                 observations = control.observations,
                 deletedAt = control.deletedAt,
+                infractions = control.infractions?.map{InfractionModel.fromInfractionEntity(it) } ,
             )
         }
     }

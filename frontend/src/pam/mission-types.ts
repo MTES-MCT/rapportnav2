@@ -1,5 +1,12 @@
 import { ControlUnit } from './control-unit-types'
-import { ActionTypeEnum, EnvAction, MissionSourceEnum, MissionTypeEnum, SeaFrontEnum } from './env-mission-types'
+import {
+  ActionTypeEnum,
+  EnvAction,
+  FormalNoticeEnum,
+  MissionSourceEnum,
+  MissionTypeEnum,
+  SeaFrontEnum
+} from './env-mission-types'
 import { FishAction } from './fish-mission-types'
 
 export enum ActionSource {
@@ -142,7 +149,7 @@ export enum ControlType {
 }
 
 export type ControlAdministrative = {
-  id: String
+  id: string
   amountOfControls: number
   unitShouldConfirm?: boolean
   unitHasConfirmed?: boolean
@@ -151,9 +158,10 @@ export type ControlAdministrative = {
   compliantSecurityDocuments?: ControlResult
   observations?: string
   deletedAt?: string
+  infraction?: Infraction
 }
 export type ControlGensDeMer = {
-  id: String
+  id: string
   amountOfControls: number
   unitShouldConfirm?: boolean
   unitHasConfirmed?: boolean
@@ -164,7 +172,7 @@ export type ControlGensDeMer = {
   deletedAt?: string
 }
 export type ControlNavigation = {
-  id: String
+  id: string
   amountOfControls: number
   unitShouldConfirm?: boolean
   unitHasConfirmed?: boolean
@@ -172,7 +180,7 @@ export type ControlNavigation = {
   deletedAt?: string
 }
 export type ControlSecurity = {
-  id: String
+  id: string
   amountOfControls: number
   unitShouldConfirm?: boolean
   unitHasConfirmed?: boolean
@@ -211,18 +219,16 @@ export type Mission = {
   actions: Action[]
 }
 
-// export enum ControlTarget {
-//   'PECHE_PRO' = 'PECHE_PRO',
-//   'PLAISANCE_PRO' = 'PLAISANCE_PRO',
-//   'COMMERCE_PRO' = 'COMMERCE_PRO',
-//   'SERVICE_PRO' = 'SERVICE_PRO',
-//   'PLAISANCE_LOISIR' = 'PLAISANCE_LOISIR'
-// }
+export type Infraction = {
+  id: string
+  formalNotice?: boolean
+  infractions: Natinf[]
+  observations?: string
+}
 
-// export enum ControlTargetText {
-//   'PECHE_PRO' = 'pêche professionnelle',
-//   'PLAISANCE_PRO' = 'plaisance professionnelle',
-//   'COMMERCE_PRO' = 'commerce',
-//   'SERVICE_PRO' = 'service',
-//   'PLAISANCE_LOISIR' = 'plaisance de loisir'
-// }
+export type Natinf = {
+  infraction: string
+  // infractionCategory: string
+  natinfCode: number
+  // regulation: string
+}

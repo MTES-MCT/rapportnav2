@@ -5,13 +5,13 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.Ac
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
-interface IDBActionControlRepository: JpaRepository<ActionControlModel, Int> {
+interface IDBActionControlRepository: JpaRepository<ActionControlModel, UUID> {
     fun findAllByMissionId(missionId: Int): List<ActionControlModel>
 
     fun existsById(id: UUID?): Boolean
 
-    fun save(controlAction: ActionControlEntity): ActionControlEntity
+    fun save(controlAction: ActionControlEntity): ActionControlModel
 
-    fun findById(id: UUID?): ActionControlModel
+    override fun findById(id: UUID): Optional<ActionControlModel>
 
 }

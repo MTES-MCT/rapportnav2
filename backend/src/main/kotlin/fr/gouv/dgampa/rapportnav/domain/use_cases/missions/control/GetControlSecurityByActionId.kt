@@ -8,7 +8,11 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlSec
 class GetControlSecurityByActionId(private val repository: IControlSecurityRepository) {
     fun execute(actionControlId: String): ControlSecurityEntity? {
         if (this.repository.existsByActionControlId(actionControlId = actionControlId)) {
-            return this.repository.findByActionControlId(actionControlId = actionControlId).toControlSecurityEntity()
+            val controlModel = this.repository.findByActionControlId(actionControlId = actionControlId)
+            if (controlModel.deletedAt == null) {
+                return controlModel.toControlSecurityEntity()
+            }
+            return null
         }
         return null
     }

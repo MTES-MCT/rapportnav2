@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlResult
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Infraction
 import java.util.*
 
 data class ControlAdministrative(
@@ -13,6 +14,7 @@ data class ControlAdministrative(
     val upToDateNavigationPermit: ControlResult?,
     val compliantSecurityDocuments: ControlResult?,
     val observations: String?,
+    val infractions: List<Infraction>? = null
 ) {
     fun toControlAdministrativeEntity(missionId: Int, actionId: String): ControlAdministrativeEntity {
         return ControlAdministrativeEntity(
@@ -25,7 +27,24 @@ data class ControlAdministrative(
             compliantOperatingPermit = compliantOperatingPermit,
             upToDateNavigationPermit = upToDateNavigationPermit,
             compliantSecurityDocuments = compliantSecurityDocuments,
-            observations = observations
+            observations = observations,
+//            infractions = infractions?.map { it.toInfractionEntity() }
         )
+    }
+
+    companion object {
+        fun fromControlAdministrativeEntity(control: ControlAdministrativeEntity?) = control?.let {
+            ControlAdministrative(
+                id = it.id,
+                amountOfControls = control.amountOfControls,
+                unitShouldConfirm = control.unitShouldConfirm,
+                unitHasConfirmed = control.unitHasConfirmed,
+                compliantOperatingPermit = control.compliantOperatingPermit,
+                upToDateNavigationPermit = control.upToDateNavigationPermit,
+                compliantSecurityDocuments = control.compliantSecurityDocuments,
+                observations = control.observations,
+                infractions = control.infractions?.map { Infraction.fromInfractionEntity(it) }
+            )
+        }
     }
 }

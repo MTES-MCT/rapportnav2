@@ -7,19 +7,25 @@ import omit from 'lodash/omit'
 import { controlIsEnabled } from './utils'
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
+import ControlInfraction from './control-infraction'
+import { useState } from 'react'
 
 interface ControlSecurityFormProps {
   data?: ControlSecurity
   shouldCompleteControl?: boolean
   unitShouldConfirm?: boolean
+  disableToggle?: boolean
 }
 
 const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
   data,
   shouldCompleteControl,
-  unitShouldConfirm
+  unitShouldConfirm,
+  disableToggle
 }) => {
   const { missionId, actionId } = useParams()
+
+  const [showInfractions, setShowInfractions] = useState<boolean>(false)
 
   const [mutate, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY, {
     refetchQueries: ['GetMissionById']
@@ -30,7 +36,7 @@ const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
 
   const onChange = (field?: string, value?: any) => {
     let updatedData = {
-      ...omit(data, '__typename'),
+      ...omit(data, '__typename', 'infraction'),
       missionId: missionId,
       deletedAt: undefined,
       actionControlId: actionId,
@@ -60,6 +66,7 @@ const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
           controlType={ControlType.SECURITY}
           checked={!!data || shouldCompleteControl}
           shouldCompleteControl={!!shouldCompleteControl && !!!data}
+          onChange={disableToggle ? undefined : (isChecked: boolean) => toggleControl(isChecked)}
         />
       }
       // collapsible
@@ -94,9 +101,13 @@ const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <Button accent={Accent.SECONDARY} size={Size.NORMAL} Icon={Icon.Plus} isFullWidth>
-            Ajouter une infraction sécurité
-          </Button>
+          <ControlInfraction
+            controlId={data?.id}
+            infraction={undefined}
+            controlType={ControlType.SECURITY}
+            showInfractions={showInfractions}
+            showInfractionForm={setShowInfractions}
+          />
         </Stack.Item>
       </Stack>
     </Panel>

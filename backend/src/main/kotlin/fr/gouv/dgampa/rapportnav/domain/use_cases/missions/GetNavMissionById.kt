@@ -34,7 +34,10 @@ class GetNavMissionById(
             }
 
 
-        val statuses = navStatusRepository.findAllByMissionId(missionId=missionId).filter { it.deletedAt == null }.map { it.toNavAction() }
+        val statuses = navStatusRepository.findAllByMissionId(missionId=missionId)
+            .map { it.toActionStatusEntity() }
+            .filter { it.deletedAt == null }
+            .map { it.toNavAction() }
         val actions = controls + statuses
         val mission = NavMissionEntity(id = missionId, actions = actions)
         return mission

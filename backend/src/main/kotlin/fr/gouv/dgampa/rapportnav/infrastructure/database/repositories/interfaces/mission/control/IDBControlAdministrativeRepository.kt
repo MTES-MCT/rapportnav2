@@ -6,6 +6,10 @@ import java.util.*
 
 interface IDBControlAdministrativeRepository: JpaRepository<ControlAdministrativeModel, UUID> {
 
+    override fun existsById(id: UUID): Boolean
+
+    override fun findById(id: UUID): Optional<ControlAdministrativeModel>
+
     fun existsByActionControlId(actionControlId: String): Boolean
 
     fun findByActionControlId(actionControlId: String): ControlAdministrativeModel

@@ -26,14 +26,14 @@ class ActionEnvController(
     @SchemaMapping(typeName = "EnvActionData", field = "controlAdministrative")
     fun getControlAdministrative(action: EnvActionData): ControlAdministrative? {
         return action.id?.let { id ->
-            getControlAdministrativeByActionId.execute(actionControlId = id.toString())?.toControlAdministrative()
+            ControlAdministrative.fromControlAdministrativeEntity(getControlAdministrativeByActionId.execute(actionControlId = id.toString()))
         }
     }
     //    TODO decide if this should be here or not
     @SchemaMapping(typeName = "EnvActionData", field = "controlSecurity")
     fun getControlSecurity(action: EnvActionData): ControlSecurity? {
         return action.id?.let { id ->
-            getControlSecurityByActionId.execute(actionControlId = id.toString())?.toControlSecurity()
+            ControlSecurity.fromControlSecurityEntity(getControlSecurityByActionId.execute(actionControlId = id.toString()))
         }
     }
 
@@ -41,7 +41,7 @@ class ActionEnvController(
     @SchemaMapping(typeName = "EnvActionData", field = "controlNavigation")
     fun getControlNavigation(action: EnvActionData): ControlNavigation? {
         return action.id?.let { id ->
-            getControlNavigationByActionId.execute(actionControlId = id.toString())?.toControlNavigation()
+            ControlNavigation.fromControlNavigationEntity(getControlNavigationByActionId.execute(actionControlId = id.toString()))
         }
     }
 
@@ -49,7 +49,7 @@ class ActionEnvController(
     @SchemaMapping(typeName = "EnvActionData", field = "controlGensDeMer")
     fun getControlGensDeMer(action: EnvActionData): ControlGensDeMer? {
         return action.id?.let { id ->
-            getControlGensDeMerByActionId.execute(actionControlId = id.toString())?.toControlGensDeMer()
+            ControlGensDeMer.fromControlGensDeMerEntity(getControlGensDeMerByActionId.execute(actionControlId = id.toString()))
         }
     }
 

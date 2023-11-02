@@ -17,10 +17,10 @@ class JPAActionControlRepository (
 ) : INavActionControlRepository {
 
     override fun findAllByMissionId(missionId: Int): List<ActionControlEntity> {
-        return dbActionModelRepository.findAllByMissionId(missionId).map { it.toActionControl() }
+        return dbActionModelRepository.findAllByMissionId(missionId).map { it.toActionControlEntity() }
     }
 
-    override fun findById(id: UUID): ActionControlModel {
+    override fun findById(id: UUID): Optional<ActionControlModel> {
         return dbActionModelRepository.findById(id)
     }
 
@@ -29,10 +29,10 @@ class JPAActionControlRepository (
     }
 
     @Transactional
-    override fun save(controlAction: ActionControlEntity): ActionControlEntity {
+    override fun save(controlAction: ActionControlEntity): ActionControlModel {
         return try {
             val controlActionModel = ActionControlModel.fromActionControl(controlAction, mapper)
-            dbActionModelRepository.save(controlActionModel).toActionControl()
+            dbActionModelRepository.save(controlActionModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating action control", e)
         }

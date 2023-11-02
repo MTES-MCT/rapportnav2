@@ -2,21 +2,24 @@ import React from 'react'
 import { Stack } from 'rsuite'
 import { Accent, Icon, Size, THEME, IconButton, Tag } from '@mtes-mct/monitor-ui'
 import Title from '../../../ui/title'
+import { ControlType, Infraction } from '../../mission-types'
+import { infractionTitleForControlType } from './utils'
 
 interface InfractionSummaryProps {
-  data?: any
-  onEdit?: (data: any) => void
+  controlType: ControlType
+  infraction?: Infraction
+  onEdit?: (infraction: any) => void
   onDelete?: () => void
 }
 
-const InfractionSummary: React.FC<InfractionSummaryProps> = ({ data, onEdit, onDelete }) => {
+const InfractionSummary: React.FC<InfractionSummaryProps> = ({ infraction, controlType, onEdit, onDelete }) => {
   return (
     <Stack direction="column" spacing={'0.5rem'} style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={'0.5rem'}>
           <Stack.Item>
             <Title as="h3" weight="bold" color={THEME.color.gunMetal}>
-              Infraction XXXX
+              {infractionTitleForControlType(controlType)}
             </Title>
           </Stack.Item>
           <Stack.Item>
@@ -37,7 +40,7 @@ const InfractionSummary: React.FC<InfractionSummaryProps> = ({ data, onEdit, onD
         </Tag>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
-        <Title as="h3">{data?.observations ? data?.observations : 'Aucune observation'}</Title>
+        <Title as="h3">{infraction?.observations ? infraction?.observations : 'Aucune observation'}</Title>
       </Stack.Item>
     </Stack>
   )

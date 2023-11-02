@@ -21,4 +21,17 @@ data class ControlSecurity(
             observations = observations
         )
     }
+
+    companion object {
+        fun fromControlSecurityEntity(control: ControlSecurityEntity?) = control?.let {
+            ControlSecurity(
+                id = it.id,
+                amountOfControls = control.amountOfControls,
+                unitShouldConfirm = control.unitShouldConfirm,
+                unitHasConfirmed = control.unitHasConfirmed,
+                observations = control.observations,
+//                infractions = control.infractions?.map { Infraction.fromInfractionEntity(it) }
+            )
+        }
+    }
 }

@@ -28,4 +28,20 @@ data class ControlGensDeMer(
             observations = observations
         )
     }
+
+    companion object {
+        fun fromControlGensDeMerEntity(control: ControlGensDeMerEntity?) = control?.let {
+            ControlGensDeMer(
+                id = it.id,
+                amountOfControls = control.amountOfControls,
+                unitShouldConfirm = control.unitShouldConfirm,
+                unitHasConfirmed = control.unitHasConfirmed,
+                staffOutnumbered = control.staffOutnumbered,
+                upToDateMedicalCheck = control.upToDateMedicalCheck,
+                knowledgeOfFrenchLawAndLanguage = control.knowledgeOfFrenchLawAndLanguage,
+                observations = control.observations,
+//                infractions = control.infractions?.map { Infraction.fromInfractionEntity(it) }
+            )
+        }
+    }
 }
