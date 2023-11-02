@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 
 @Repository
@@ -17,6 +18,15 @@ class JPAControlAdministrativeRepository(
     private val actionControlRepository: IDBActionControlRepository,
     private val mapper: ObjectMapper,
 ) : IControlAdministrativeRepository {
+
+    override fun existsById(id: UUID): Boolean {
+        return dbControlAdministrativeRepository.existsById(id)
+    }
+
+    override fun findById(id: UUID): Optional<ControlAdministrativeModel> {
+        val control = dbControlAdministrativeRepository.findById(id)
+        return control
+    }
 
     override fun existsByActionControlId(actionControlId: String): Boolean {
         return dbControlAdministrativeRepository.existsByActionControlId(actionControlId)

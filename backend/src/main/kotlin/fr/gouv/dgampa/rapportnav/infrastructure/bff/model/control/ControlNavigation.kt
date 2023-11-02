@@ -21,4 +21,17 @@ data class ControlNavigation(
             observations = observations
         )
     }
+
+    companion object {
+        fun fromControlNavigationEntity(control: ControlNavigationEntity?) = control?.let {
+            ControlNavigation(
+                id = it.id,
+                amountOfControls = control.amountOfControls,
+                unitShouldConfirm = control.unitShouldConfirm,
+                unitHasConfirmed = control.unitHasConfirmed,
+                observations = control.observations,
+//                infractions = control.infractions?.map { Infraction.fromInfractionEntity(it) }
+            )
+        }
+    }
 }

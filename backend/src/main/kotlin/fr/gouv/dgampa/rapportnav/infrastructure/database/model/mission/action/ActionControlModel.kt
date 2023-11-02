@@ -6,10 +6,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.mapStrin
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.toStringOrNull
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.mapStringToControlMethod
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlGensDeMerModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlNavigationModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlSecurityModel
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -72,7 +72,7 @@ data class ActionControlModel(
 //    @JoinColumn(name = "action_control_id", insertable = false, updatable = false, nullable = true)
 //    var controlSecurity: ControlSecurityModel? = null,
 ) {
-    fun toActionControl(): ActionControlEntity {
+    fun toActionControlEntity(): ActionControlEntity {
         return ActionControlEntity(
             id = id,
             missionId = missionId,

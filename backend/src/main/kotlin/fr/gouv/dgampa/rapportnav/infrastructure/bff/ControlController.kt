@@ -28,25 +28,25 @@ class ControlController(
     @MutationMapping
     fun addOrUpdateControlNavigation(@Argument control: ControlNavigationInput): ControlNavigation {
         val data = control.toControlNavigation()
-        return addOrUpdateControlNavigation.execute(data).toControlNavigation()
+        return ControlNavigation.fromControlNavigationEntity(addOrUpdateControlNavigation.execute(data))!!
     }
 
     @MutationMapping
     fun addOrUpdateControlSecurity(@Argument control: ControlSecurityInput): ControlSecurity {
         val data = control.toControlSecurity()
-        return addOrUpdateControlSecurity.execute(data).toControlSecurity()
+        return ControlSecurity.fromControlSecurityEntity(addOrUpdateControlSecurity.execute(data))!!
     }
 
     @MutationMapping
     fun addOrUpdateControlGensDeMer(@Argument control: ControlGensDeMerInput): ControlGensDeMer {
         val data = control.toControlGensDeMerEntity()
-        return addOrUpdateControlGensDeMer.execute(data).toControlGensDeMer()
+        return ControlGensDeMer.fromControlGensDeMerEntity(addOrUpdateControlGensDeMer.execute(data))!!
     }
 
     @MutationMapping
     fun addOrUpdateControlAdministrative(@Argument control: ControlAdministrativeInput): ControlAdministrative {
         val data = control.toControlAdministrativeEntity()
-        return addOrUpdateControlAdministrative.execute(data).toControlAdministrative()
+        return ControlAdministrative.fromControlAdministrativeEntity(addOrUpdateControlAdministrative.execute(data))!!
     }
 
 

@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status
+package fr.gouv.dgampa.rapportnav.domain.use_cases.missions.action
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionStatusRepository
@@ -11,7 +11,7 @@ class DeleteStatus(private val statusRepository: INavActionStatusRepository) {
         if (this.statusRepository.existsById(id)) {
             val statusAction = this.statusRepository.findById(id = id)
             statusAction.deletedAt = ZonedDateTime.now()
-            this.statusRepository.save(statusAction.toActionStatus())
+            this.statusRepository.save(statusAction.toActionStatusEntity())
             return true
         }
         return false

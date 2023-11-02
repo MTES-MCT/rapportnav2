@@ -20,19 +20,20 @@ import { controlIsEnabled } from './utils'
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
 import { useState } from 'react'
-import InfractionForm from '../infractions/infraction-form'
-import InfractionSummary from '../infractions/infraction-summary'
+import ControlInfraction from './control-infraction'
 
 interface ControlAdministrativeFormProps {
   data?: ControlAdministrative
   shouldCompleteControl?: boolean
   unitShouldConfirm?: boolean
+  disableToggle?: boolean
 }
 
 const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
   data,
   shouldCompleteControl,
-  unitShouldConfirm
+  unitShouldConfirm,
+  disableToggle
 }) => {
   const { missionId, actionId } = useParams()
 
@@ -50,7 +51,7 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
 
   const onChange = async (field?: string, value?: any) => {
     let updatedData = {
-      ...omit(data, '__typename'),
+      ...omit(data, '__typename', 'infraction'),
       deletedAt: undefined,
       missionId: missionId,
       actionControlId: actionId,
@@ -85,6 +86,7 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
           controlType={ControlType.ADMINISTRATIVE}
           checked={!!data || shouldCompleteControl}
           shouldCompleteControl={!!shouldCompleteControl && !!!data}
+          onChange={disableToggle ? undefined : (isChecked: boolean) => toggleControl(isChecked)}
         />
       }
       // collapsible
@@ -152,28 +154,13 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          {true ? (
-            <div style={{ width: '100%', backgroundColor: THEME.color.cultured, padding: '1rem' }}>
-              <InfractionSummary />
-            </div>
-          ) : showInfractions ? (
-            <>
-              <Label>Ajout d'infraction</Label>
-              <div style={{ width: '100%', backgroundColor: THEME.color.cultured, padding: '1rem' }}>
-                <InfractionForm />
-              </div>
-            </>
-          ) : (
-            <Button
-              onClick={() => setShowInfractions(true)}
-              accent={Accent.SECONDARY}
-              size={Size.NORMAL}
-              Icon={Icon.Plus}
-              isFullWidth
-            >
-              Ajouter une infraction administrative
-            </Button>
-          )}
+          <ControlInfraction
+            controlId={data?.id}
+            infraction={data?.infraction}
+            controlType={ControlType.ADMINISTRATIVE}
+            showInfractions={showInfractions}
+            showInfractionForm={setShowInfractions}
+          />
         </Stack.Item>
       </Stack>
     </Panel>

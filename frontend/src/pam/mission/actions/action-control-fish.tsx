@@ -42,6 +42,7 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action }) => {
                   !!(action.data as any as FishAction)?.controlsToComplete?.includes(ControlType.ADMINISTRATIVE)
                 }
                 unitShouldConfirm={true}
+                disableToggle={true}
               />
             </Stack.Item>
             <Stack.Item style={{ width: '100%' }}>
@@ -51,6 +52,7 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action }) => {
                   !!(action.data as any as FishAction)?.controlsToComplete?.includes(ControlType.NAVIGATION)
                 }
                 unitShouldConfirm={true}
+                disableToggle={true}
               />
             </Stack.Item>
             <Stack.Item style={{ width: '100%' }}>
@@ -60,6 +62,7 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action }) => {
                   !!(action.data as any as FishAction)?.controlsToComplete?.includes(ControlType.GENS_DE_MER)
                 }
                 unitShouldConfirm={true}
+                disableToggle={true}
               />
             </Stack.Item>
             <Stack.Item style={{ width: '100%' }}>
@@ -69,6 +72,7 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action }) => {
                   !!(action.data as any as FishAction)?.controlsToComplete?.includes(ControlType.SECURITY)
                 }
                 unitShouldConfirm={true}
+                disableToggle={true}
               />
             </Stack.Item>
           </Stack>

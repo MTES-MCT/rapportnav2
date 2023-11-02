@@ -19,17 +19,30 @@ const title = (controlType: ControlType) => {
   }
 }
 
-interface ControlTitleCheckboxProps {
+export interface ControlTitleCheckboxProps {
   controlType: ControlType
   checked?: boolean
   shouldCompleteControl?: boolean
+  onChange?: (isChecked: boolean) => void
 }
 
-const ControlTitleCheckbox: React.FC<ControlTitleCheckboxProps> = ({ controlType, checked, shouldCompleteControl }) => {
+const ControlTitleCheckbox: React.FC<ControlTitleCheckboxProps> = ({
+  controlType,
+  checked,
+  shouldCompleteControl,
+  onChange
+}) => {
   return (
     <Stack direction="row" alignItems="center">
       <Stack.Item alignSelf="baseline">
-        <Checkbox error="" label="" name="control" checked={!!checked} />
+        <Checkbox
+          error=""
+          label=""
+          name="control"
+          disabled={!!!onChange && !checked}
+          checked={!!checked}
+          onChange={(isChecked: boolean) => (onChange ? onChange(isChecked) : undefined)}
+        />
       </Stack.Item>
       <Stack.Item>
         <Title as="h3" color={THEME.color.gunMetal} weight="bold">

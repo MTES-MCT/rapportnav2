@@ -53,6 +53,7 @@ type ControlAdministrative {
   compliantSecurityDocuments: ControlResult
   observations: String
   deletedAt: String
+  infraction: Infraction
 }
 
 type ControlGensDeMer {

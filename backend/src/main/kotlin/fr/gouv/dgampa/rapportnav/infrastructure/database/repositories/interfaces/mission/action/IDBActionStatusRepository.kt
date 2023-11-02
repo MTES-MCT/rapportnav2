@@ -12,6 +12,6 @@ interface IDBActionStatusRepository: JpaRepository<ActionStatusModel, Int> {
 
     fun existsById(id: UUID): Boolean
 
-    fun save(statusAction: ActionStatusEntity): ActionStatusEntity
+    fun save(statusAction: ActionStatusEntity): ActionStatusModel
 
 }

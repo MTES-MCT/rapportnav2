@@ -118,6 +118,12 @@ export const GET_MISSION_BY_ID = gql`
               compliantSecurityDocuments
               observations
               deletedAt
+              infraction {
+                id
+                formalNotice
+
+                observations
+              }
             }
             controlGensDeMer {
               id
@@ -188,6 +194,7 @@ export const MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER = gql`
     }
   }
 `
+
 export const MUTATION_ADD_OR_UPDATE_CONTROL_NAVIGATION = gql`
   mutation AddOrUpdateControlNavigation($control: ControlNavigationInput!) {
     addOrUpdateControlNavigation(control: $control) {
@@ -195,6 +202,7 @@ export const MUTATION_ADD_OR_UPDATE_CONTROL_NAVIGATION = gql`
     }
   }
 `
+
 export const MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY = gql`
   mutation AddOrUpdateControlSecurity($control: ControlSecurityInput!) {
     addOrUpdateControlSecurity(control: $control) {
@@ -202,9 +210,18 @@ export const MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY = gql`
     }
   }
 `
+
 export const MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE = gql`
   mutation AddOrUpdateControlAdministrative($control: ControlAdministrativeInput!) {
     addOrUpdateControlAdministrative(control: $control) {
+      id
+    }
+  }
+`
+
+export const MUTATION_ADD_OR_UPDATE_INFRACTION = gql`
+  mutation AddOrUpdateInfraction($infraction: InfractionInput!) {
+    addOrUpdateInfraction(infraction: $infraction) {
       id
     }
   }

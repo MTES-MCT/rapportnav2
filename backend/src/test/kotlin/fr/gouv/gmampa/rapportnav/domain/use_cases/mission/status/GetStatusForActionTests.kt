@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionStatusRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.status.GetStatusForAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.action.GetStatusForAction
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.given

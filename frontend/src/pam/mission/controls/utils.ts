@@ -7,7 +7,7 @@ import {
   VesselType
 } from '../../mission-types'
 
-export const controlMethodToHumanString = (controlMethod: ControlMethod): String => {
+export const controlMethodToHumanString = (controlMethod?: ControlMethod): String => {
   switch (controlMethod) {
     case ControlMethod.AIR:
       return 'aérien'
@@ -20,7 +20,7 @@ export const controlMethodToHumanString = (controlMethod: ControlMethod): String
   }
 }
 
-export const vesselTypeToHumanString = (vesselType: VesselType): String => {
+export const vesselTypeToHumanString = (vesselType?: VesselType): String => {
   switch (vesselType) {
     case VesselType.FISHING:
       return 'Navire de pêche professionnelle'

@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control
 
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlAdministrative
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -16,17 +16,7 @@ data class ControlAdministrativeEntity(
     val compliantSecurityDocuments: ControlResult?,
     val observations: String?,
     val deletedAt: ZonedDateTime? = null,
+    val infractions: List<InfractionEntity>? = null
 ) {
-    fun toControlAdministrative(): ControlAdministrative {
-        return ControlAdministrative(
-            id = id,
-            amountOfControls = amountOfControls,
-            unitShouldConfirm = unitShouldConfirm,
-            unitHasConfirmed = unitHasConfirmed,
-            compliantOperatingPermit = compliantOperatingPermit,
-            upToDateNavigationPermit = upToDateNavigationPermit,
-            compliantSecurityDocuments = compliantSecurityDocuments,
-            observations = observations
-        )
-    }
+
 }
