@@ -12,6 +12,8 @@ interface INavActionControlRepository {
 
     fun existsById(id: UUID): Boolean
 
+    fun deleteById(id: UUID)
+
     fun save(controlAction: ActionControlEntity): ActionControlModel
 
 }

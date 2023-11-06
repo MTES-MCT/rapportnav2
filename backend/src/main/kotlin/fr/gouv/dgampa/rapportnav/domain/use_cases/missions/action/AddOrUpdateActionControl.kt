@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionContro
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionControlRepository
 
 @UseCase
-class AddOrUpdateControl(private val statusRepository: INavActionControlRepository) {
+class AddOrUpdateActionControl(private val statusRepository: INavActionControlRepository) {
     fun execute(controlAction: ActionControlEntity): ActionControlEntity {
         val savedData = this.statusRepository.save(controlAction).toActionControlEntity()
         return savedData

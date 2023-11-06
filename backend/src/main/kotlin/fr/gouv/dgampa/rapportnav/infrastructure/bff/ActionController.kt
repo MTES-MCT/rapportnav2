@@ -6,11 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.action.AddOrUpdateControl
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.action.DeleteControl
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.action.AddOrUpdateStatus
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.action.DeleteStatus
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.action.GetStatusForAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.action.*
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionControlInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionStatusInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.*
@@ -24,32 +20,31 @@ import java.util.*
 @Controller
 class ActionController(
     private val getStatusForAction: GetStatusForAction,
-    private val addOrUpdateStatus: AddOrUpdateStatus,
-    private val deleteStatus: DeleteStatus,
-    private val addOrUpdateControl: AddOrUpdateControl,
-    private val deleteControl: DeleteControl,
+    private val addOrUpdateActionStatus: AddOrUpdateActionStatus,
+    private val deleteActionStatus: DeleteActionStatus,
+    private val addOrUpdateActionControl: AddOrUpdateActionControl,
+    private val deleteActionControl: DeleteActionControl,
 ) {
     @MutationMapping
     fun addOrUpdateStatus(@Argument statusAction: ActionStatusInput): NavActionStatus {
         val data = statusAction.toActionStatus()
-        return addOrUpdateStatus.execute(data).toNavActionStatus()
+        return addOrUpdateActionStatus.execute(data).toNavActionStatus()
     }
 
     @MutationMapping
     fun deleteStatus(@Argument id: UUID): Boolean {
-        return deleteStatus.execute(id)
+        return deleteActionStatus.execute(id)
     }
 
     @MutationMapping
     fun addOrUpdateControl(@Argument controlAction: ActionControlInput): NavActionControl {
         val data = controlAction.toActionControl()
-        val aa = addOrUpdateControl.execute(data)
-        return aa.toNavActionControl()
+        return addOrUpdateActionControl.execute(data).toNavActionControl()
     }
 
     @MutationMapping
     fun deleteControl(@Argument id: UUID): Boolean {
-        val savedData = deleteControl.execute(id)
+        val savedData = deleteActionControl.execute(id)
         return savedData
     }
 

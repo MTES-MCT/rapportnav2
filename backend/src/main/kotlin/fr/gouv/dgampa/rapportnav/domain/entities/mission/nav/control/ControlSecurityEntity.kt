@@ -11,7 +11,6 @@ data class ControlSecurityEntity(
     val unitShouldConfirm: Boolean?,
     val unitHasConfirmed: Boolean?,
     val observations: String?,
-    val deletedAt: ZonedDateTime? = null,
 ) {
 
 }

@@ -14,7 +14,6 @@ data class ControlGensDeMerEntity(
     val upToDateMedicalCheck: ControlResult?,
     val knowledgeOfFrenchLawAndLanguage: ControlResult?,
     val observations: String?,
-    val deletedAt: ZonedDateTime? = null,
 ) {
 
 }

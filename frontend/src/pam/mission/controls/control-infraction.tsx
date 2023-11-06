@@ -4,7 +4,7 @@ import { Infraction, ControlType } from '../../mission-types'
 import InfractionSummary from '../infractions/infraction-summary'
 import InfractionForm from '../infractions/infraction-form'
 import { infractionButtonTitle } from '../infractions/utils'
-import { GET_MISSION_BY_ID, MUTATION_ADD_OR_UPDATE_INFRACTION, MUTATION_MARK_INFRACTION_AS_DELETED } from '../queries'
+import { GET_MISSION_BY_ID, MUTATION_ADD_OR_UPDATE_INFRACTION, MUTATION_DELETE_INFRACTION } from '../queries'
 import { useMutation } from '@apollo/client'
 import { useParams } from 'react-router-dom'
 import omit from 'lodash/omit'
@@ -20,10 +20,10 @@ const ControlInfraction: React.FC<ControlInfractionProps> = ({ controlId, contro
 
   const [showInfractionForm, setShowInfractionForm] = useState<boolean>(false)
 
-  const [mutate, { data, loading, error }] = useMutation(MUTATION_ADD_OR_UPDATE_INFRACTION, {
+  const [mutate, { mutateData, mutateLoading, mutateError }] = useMutation(MUTATION_ADD_OR_UPDATE_INFRACTION, {
     refetchQueries: [GET_MISSION_BY_ID]
   })
-  const [deleteMutation] = useMutation(MUTATION_MARK_INFRACTION_AS_DELETED, {
+  const [deleteMutation] = useMutation(MUTATION_DELETE_INFRACTION, {
     refetchQueries: [GET_MISSION_BY_ID]
   })
 
@@ -37,17 +37,15 @@ const ControlInfraction: React.FC<ControlInfractionProps> = ({ controlId, contro
     }
     debugger
     await mutate({ variables: { infraction: mutationData } })
+    setShowInfractionForm(false)
   }
   const onDelete = async (data: Infraction) => {
     debugger
-    const mutationData = {
-      ...omit(data, '__typename'),
-      id: data?.id,
-      missionId,
-      controlId,
-      controlType
-    }
-    await deleteMutation({ variables: { infraction: mutationData } })
+    await deleteMutation({
+      variables: {
+        id: data.id!
+      }
+    })
   }
 
   return (

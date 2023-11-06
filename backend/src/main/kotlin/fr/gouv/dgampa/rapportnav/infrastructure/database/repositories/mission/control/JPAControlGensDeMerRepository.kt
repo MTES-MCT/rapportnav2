@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 
 @Repository
@@ -17,6 +18,15 @@ class JPAControlGensDeMerRepository(
     private val actionControlRepository: IDBActionControlRepository,
     private val mapper: ObjectMapper,
 ) : IControlGensDeMerRepository {
+
+    override fun existsById(id: UUID): Boolean {
+        return dbControlGensDeMerRepository.existsById(id)
+    }
+
+    override fun findById(id: UUID): Optional<ControlGensDeMerModel> {
+        val control = dbControlGensDeMerRepository.findById(id)
+        return control
+    }
 
     override fun existsByActionControlId(actionControlId: String): Boolean {
         return dbControlGensDeMerRepository.existsByActionControlId(actionControlId)
@@ -34,6 +44,11 @@ class JPAControlGensDeMerRepository(
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating GensDeMer Control", e)
         }
+    }
+
+    @Transactional
+    override fun deleteByActionControlId(actionControlId: String) {
+        return dbControlGensDeMerRepository.deleteByActionControlId(actionControlId)
     }
 
 }

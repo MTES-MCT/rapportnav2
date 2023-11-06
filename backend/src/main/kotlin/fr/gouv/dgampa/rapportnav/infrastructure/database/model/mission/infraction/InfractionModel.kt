@@ -32,9 +32,6 @@ data class InfractionModel(
     @Column(name = "observations", nullable = true)
     var observations: String? = null,
 
-    @Column(name = "deleted_at")
-    var deletedAt: ZonedDateTime? = null,
-
     @OneToMany(mappedBy = "infraction", targetEntity = InfractionNatinfModel::class)
     var infractions: List<InfractionNatinfModel>? = null,
 
@@ -52,7 +49,6 @@ data class InfractionModel(
             controlType = ControlType.valueOf(controlType),
             formalNotice = formalNotice,
             observations = observations,
-            deletedAt = deletedAt
         )
     }
 
@@ -64,7 +60,6 @@ data class InfractionModel(
             controlType = infraction.controlType.toString(),
             formalNotice = infraction.formalNotice,
             observations = infraction.observations,
-            deletedAt = infraction.deletedAt,
         )
     }
 }

@@ -12,7 +12,6 @@ data class ControlNavigationInput(
     val unitShouldConfirm: Boolean?,
     val unitHasConfirmed: Boolean?,
     val observations: String?,
-    val deletedAt: ZonedDateTime? = null,
 ) {
     fun toControlNavigation(): ControlNavigationEntity {
         return ControlNavigationEntity(
@@ -23,7 +22,6 @@ data class ControlNavigationInput(
             unitShouldConfirm = unitShouldConfirm,
             unitHasConfirmed = unitHasConfirmed,
             observations = observations,
-            deletedAt = deletedAt,
         )
     }
 }

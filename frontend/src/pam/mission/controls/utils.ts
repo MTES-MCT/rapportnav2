@@ -36,12 +36,3 @@ export const vesselTypeToHumanString = (vesselType?: VesselType): String => {
       return ''
   }
 }
-
-export const controlIsEnabled = (
-  controlData?: ControlAdministrative | ControlSecurity | ControlNavigation | ControlGensDeMer
-) =>
-  (!!controlData &&
-    controlData !== null &&
-    Object.keys(controlData).length > 0 &&
-    controlData?.deletedAt === undefined) ||
-  (!!controlData && controlData !== null && controlData?.deletedAt === null)

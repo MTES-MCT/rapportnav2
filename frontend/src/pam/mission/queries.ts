@@ -28,7 +28,6 @@ export const GET_MISSION_BY_ID = gql`
               upToDateNavigationPermit
               compliantSecurityDocuments
               observations
-              deletedAt
             }
             controlGensDeMer {
               id
@@ -39,7 +38,6 @@ export const GET_MISSION_BY_ID = gql`
               upToDateMedicalCheck
               knowledgeOfFrenchLawAndLanguage
               observations
-              deletedAt
             }
             controlNavigation {
               id
@@ -47,7 +45,6 @@ export const GET_MISSION_BY_ID = gql`
               unitShouldConfirm
               unitHasConfirmed
               observations
-              deletedAt
             }
             controlSecurity {
               id
@@ -55,7 +52,6 @@ export const GET_MISSION_BY_ID = gql`
               unitShouldConfirm
               unitHasConfirmed
               observations
-              deletedAt
             }
           }
           ... on EnvActionData {
@@ -117,7 +113,6 @@ export const GET_MISSION_BY_ID = gql`
               upToDateNavigationPermit
               compliantSecurityDocuments
               observations
-              deletedAt
               infractions {
                 id
                 formalNotice
@@ -134,7 +129,6 @@ export const GET_MISSION_BY_ID = gql`
               upToDateMedicalCheck
               knowledgeOfFrenchLawAndLanguage
               observations
-              deletedAt
             }
             controlNavigation {
               id
@@ -142,7 +136,6 @@ export const GET_MISSION_BY_ID = gql`
               unitShouldConfirm
               unitHasConfirmed
               observations
-              deletedAt
             }
             controlSecurity {
               id
@@ -150,7 +143,6 @@ export const GET_MISSION_BY_ID = gql`
               unitShouldConfirm
               unitHasConfirmed
               observations
-              deletedAt
             }
           }
         }
@@ -219,6 +211,30 @@ export const MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE = gql`
   }
 `
 
+export const DELETE_CONTROL_ADMINISTRATIVE = gql`
+  mutation DeleteControlAdministrative($actionId: String!) {
+    deleteControlAdministrative(actionId: $actionId)
+  }
+`
+
+export const DELETE_CONTROL_NAVIGATION = gql`
+  mutation DeleteControlNavigation($actionId: String!) {
+    deleteControlNavigation(actionId: $actionId)
+  }
+`
+
+export const DELETE_CONTROL_SECURITY = gql`
+  mutation DeleteControlSecurity($actionId: String!) {
+    deleteControlSecurity(actionId: $actionId)
+  }
+`
+
+export const DELETE_CONTROL_GENS_DE_MER = gql`
+  mutation DeleteControlGensDeMer($actionId: String!) {
+    deleteControlGensDeMer(actionId: $actionId)
+  }
+`
+
 export const MUTATION_ADD_OR_UPDATE_INFRACTION = gql`
   mutation AddOrUpdateInfraction($infraction: InfractionInput!) {
     addOrUpdateInfraction(infraction: $infraction) {
@@ -227,10 +243,8 @@ export const MUTATION_ADD_OR_UPDATE_INFRACTION = gql`
   }
 `
 
-export const MUTATION_MARK_INFRACTION_AS_DELETED = gql`
-  mutation MarkInfractionAsDeleted($infraction: InfractionInput!) {
-    markInfractionAsDeleted(infraction: $infraction) {
-      id
-    }
+export const MUTATION_DELETE_INFRACTION = gql`
+  mutation deleteInfraction($id: String!) {
+    deleteInfraction(id: $id)
   }
 `

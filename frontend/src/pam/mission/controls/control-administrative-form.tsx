@@ -1,25 +1,16 @@
 import { Form, Panel, Stack, Toggle } from 'rsuite'
 import { ControlAdministrative, ControlType } from '../../mission-types'
-import {
-  THEME,
-  Icon,
-  Button,
-  Accent,
-  Size,
-  Textarea,
-  MultiRadio,
-  OptionValue,
-  Checkbox,
-  Label
-} from '@mtes-mct/monitor-ui'
+import { THEME, Textarea, MultiRadio, OptionValue, Label } from '@mtes-mct/monitor-ui'
 import { useMutation } from '@apollo/client'
-import { GET_MISSION_BY_ID, MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE } from '../queries'
+import {
+  DELETE_CONTROL_ADMINISTRATIVE,
+  GET_MISSION_BY_ID,
+  MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE
+} from '../queries'
 import omit from 'lodash/omit'
 import { controlResultOptions } from './control-result'
-import { controlIsEnabled } from './utils'
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
-import { useState } from 'react'
 import ControlInfraction from './control-infraction'
 
 interface ControlAdministrativeFormProps {
@@ -44,13 +35,22 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
     }
   )
 
-  const toggleControl = (isChecked: boolean) =>
-    isChecked ? onChange() : onChange('deletedAt', new Date().toISOString())
+  const [deleteControl, { deleteData, deleteLoading, deleteError }] = useMutation(DELETE_CONTROL_ADMINISTRATIVE, {
+    refetchQueries: ['GetMissionById']
+  })
+
+  const toggleControl = async (isChecked: boolean) =>
+    isChecked
+      ? onChange()
+      : await deleteControl({
+          variables: {
+            actionId
+          }
+        })
 
   const onChange = async (field?: string, value?: any) => {
     let updatedData = {
-      ...omit(data, '__typename', 'infraction'),
-      deletedAt: undefined,
+      ...omit(data, '__typename', 'infractions'),
       missionId: missionId,
       actionControlId: actionId,
       amountOfControls: 1,
@@ -61,16 +61,6 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
       updatedData = {
         ...updatedData,
         [field]: value
-      }
-      // TODO - data reset should not be handle by frontend
-      if (field === 'deletedAt') {
-        updatedData = {
-          ...updatedData,
-          compliantOperatingPermit: undefined,
-          upToDateNavigationPermit: undefined,
-          compliantSecurityDocuments: undefined,
-          observations: undefined
-        }
       }
     }
 
@@ -146,9 +136,10 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <Textarea
+            name="observations"
             label="Observations (hors infraction) sur les pièces administratives"
             value={data?.observations}
-            onChange={(nextValue: string) => onChange('observations', nextValue)}
+            onChange={(nextValue?: string) => onChange('observations', nextValue ?? '')}
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>

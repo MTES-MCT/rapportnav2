@@ -16,4 +16,6 @@ interface IControlAdministrativeRepository {
 
     fun findByActionControlId(actionControlId: String): ControlAdministrativeModel
 
+    fun deleteByActionControlId(actionControlId: String)
+
 }

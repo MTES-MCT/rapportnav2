@@ -1,9 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateControlAdministrative
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateControlGensDeMer
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateControlNavigation
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateControlSecurity
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateControl
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.DeleteControlByActionId
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control.ControlAdministrativeInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control.ControlGensDeMerInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control.ControlNavigationInput
@@ -15,38 +13,59 @@ import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlSecurit
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.stereotype.Controller
+import java.util.*
 
 
 @Controller
 class ControlController(
-    private val addOrUpdateControlNavigation: AddOrUpdateControlNavigation,
-    private val addOrUpdateControlSecurity: AddOrUpdateControlSecurity,
-    private val addOrUpdateControlGensDeMer: AddOrUpdateControlGensDeMer,
-    private val addOrUpdateControlAdministrative: AddOrUpdateControlAdministrative,
+    private val addOrUpdateControl: AddOrUpdateControl,
+    private val deleteControlByActionId: DeleteControlByActionId,
 ) {
 
     @MutationMapping
     fun addOrUpdateControlNavigation(@Argument control: ControlNavigationInput): ControlNavigation {
         val data = control.toControlNavigation()
-        return ControlNavigation.fromControlNavigationEntity(addOrUpdateControlNavigation.execute(data))!!
+        return ControlNavigation.fromControlNavigationEntity(addOrUpdateControl.addOrUpdateControlNavigation(data))!!
     }
 
     @MutationMapping
     fun addOrUpdateControlSecurity(@Argument control: ControlSecurityInput): ControlSecurity {
         val data = control.toControlSecurity()
-        return ControlSecurity.fromControlSecurityEntity(addOrUpdateControlSecurity.execute(data))!!
+        return ControlSecurity.fromControlSecurityEntity(addOrUpdateControl.addOrUpdateControlSecurity(data))!!
     }
 
     @MutationMapping
     fun addOrUpdateControlGensDeMer(@Argument control: ControlGensDeMerInput): ControlGensDeMer {
         val data = control.toControlGensDeMerEntity()
-        return ControlGensDeMer.fromControlGensDeMerEntity(addOrUpdateControlGensDeMer.execute(data))!!
+        return ControlGensDeMer.fromControlGensDeMerEntity(addOrUpdateControl.addOrUpdateControlGensDeMer(data))!!
     }
 
     @MutationMapping
     fun addOrUpdateControlAdministrative(@Argument control: ControlAdministrativeInput): ControlAdministrative {
         val data = control.toControlAdministrativeEntity()
-        return ControlAdministrative.fromControlAdministrativeEntity(addOrUpdateControlAdministrative.execute(data))!!
+        return ControlAdministrative.fromControlAdministrativeEntity(addOrUpdateControl.addOrUpdateControlAdministrative(data))!!
+    }
+
+
+    @MutationMapping
+    fun deleteControlAdministrative(@Argument actionId: UUID): Boolean {
+        val savedData = deleteControlByActionId.deleteControlAdministrative(actionId = actionId)
+        return savedData
+    }
+    @MutationMapping
+    fun deleteControlSecurity(@Argument actionId: UUID): Boolean {
+        val savedData = deleteControlByActionId.deleteControlSecurity(actionId = actionId)
+        return savedData
+    }
+    @MutationMapping
+    fun deleteControlNavigation(@Argument actionId: UUID): Boolean {
+        val savedData = deleteControlByActionId.deleteControlNavigation(actionId = actionId)
+        return savedData
+    }
+    @MutationMapping
+    fun deleteControlGensDeMer(@Argument actionId: UUID): Boolean {
+        val savedData = deleteControlByActionId.deleteControlGensDeMer(actionId = actionId)
+        return savedData
     }
 
 

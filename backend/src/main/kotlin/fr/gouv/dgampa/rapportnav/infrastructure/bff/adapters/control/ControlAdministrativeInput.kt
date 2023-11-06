@@ -16,7 +16,6 @@ data class ControlAdministrativeInput(
     val upToDateNavigationPermit: ControlResult?,
     val compliantSecurityDocuments: ControlResult?,
     val observations: String?,
-    val deletedAt: ZonedDateTime? = null,
 ) {
     fun toControlAdministrativeEntity(): ControlAdministrativeEntity {
         return ControlAdministrativeEntity(
@@ -30,7 +29,6 @@ data class ControlAdministrativeInput(
             upToDateNavigationPermit = upToDateNavigationPermit,
             compliantSecurityDocuments = compliantSecurityDocuments,
             observations = observations,
-            deletedAt = deletedAt,
         )
     }
 }

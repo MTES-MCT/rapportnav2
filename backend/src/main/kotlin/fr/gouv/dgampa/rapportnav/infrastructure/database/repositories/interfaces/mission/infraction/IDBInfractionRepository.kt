@@ -7,4 +7,6 @@ import java.util.*
 
 interface IDBInfractionRepository: JpaRepository<InfractionModel, UUID> {
     fun save(infraction: InfractionEntity): InfractionModel
+
+    override fun deleteById(id: UUID)
 }

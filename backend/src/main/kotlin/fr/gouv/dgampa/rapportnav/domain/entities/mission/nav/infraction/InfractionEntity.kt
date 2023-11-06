@@ -13,5 +13,4 @@ data class InfractionEntity(
     var formalNotice: Boolean? = null,
     var observations: String? = null,
     var natinfs: List<NatinfEntity>? = null,
-    var deletedAt: ZonedDateTime? = null,
 )

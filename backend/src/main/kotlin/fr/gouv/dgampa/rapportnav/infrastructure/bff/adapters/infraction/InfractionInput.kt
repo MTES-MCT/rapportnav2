@@ -13,7 +13,6 @@ data class InfractionInput(
     val formalNotice: Boolean? = null,
     val natinfs: List<NatinfInput>? = null,
     val observations: String? = null,
-    val deletedAt: ZonedDateTime? = null,
 ) {
     fun toInfraction(): Infraction {
         return Infraction(
@@ -23,7 +22,6 @@ data class InfractionInput(
             natinfs = natinfs?.map { it.toNatinf() },
             formalNotice = formalNotice,
             observations = observations,
-            deletedAt = deletedAt,
         )
     }
 }

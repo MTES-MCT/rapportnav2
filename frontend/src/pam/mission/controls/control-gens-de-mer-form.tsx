@@ -12,7 +12,7 @@ import {
   Checkbox,
   Label
 } from '@mtes-mct/monitor-ui'
-import { MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER } from '../queries'
+import { DELETE_CONTROL_GENS_DE_MER, MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER } from '../queries'
 import { useMutation } from '@apollo/client'
 import omit from 'lodash/omit'
 import { ControlResultExtraOptions, controlResultOptions } from './control-result'
@@ -43,13 +43,22 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({
     refetchQueries: ['GetMissionById']
   })
 
-  const toggleControl = (isChecked: boolean) =>
-    isChecked ? onChange() : onChange('deletedAt', new Date().toISOString())
+  const [deleteControl, { deleteData, deleteLoading, deleteError }] = useMutation(DELETE_CONTROL_GENS_DE_MER, {
+    refetchQueries: ['GetMissionById']
+  })
+
+  const toggleControl = async (isChecked: boolean) =>
+    isChecked
+      ? onChange()
+      : await deleteControl({
+          variables: {
+            actionId
+          }
+        })
 
   const onChange = (field?: string, value?: any) => {
     let updatedData = {
-      ...omit(data, '__typename', 'infraction'),
-      deletedAt: undefined,
+      ...omit(data, '__typename', 'infractions'),
       missionId: missionId,
       actionControlId: actionId,
       amountOfControls: 1,
@@ -60,16 +69,6 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({
       updatedData = {
         ...updatedData,
         [field]: value
-      }
-      // TODO - data reset should not be handle by frontend
-      if (field === 'deletedAt') {
-        updatedData = {
-          ...updatedData,
-          staffOutnumbered: undefined,
-          upToDateMedicalCheck: undefined,
-          knowledgeOfFrenchLawAndLanguage: undefined,
-          observations: undefined
-        }
       }
     }
     mutate({ variables: { control: updatedData } })
@@ -144,9 +143,10 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <Textarea
+            name="observations"
             label="Observations (hors infraction) sur les pièces administratives"
             value={data?.observations}
-            onChange={(nextValue: string) => onChange('observations', nextValue)}
+            onChange={(nextValue?: string) => onChange('observations', nextValue)}
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>

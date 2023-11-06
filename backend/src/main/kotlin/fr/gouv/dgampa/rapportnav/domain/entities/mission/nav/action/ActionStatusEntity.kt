@@ -14,7 +14,6 @@ data class ActionStatusEntity(
     val reason: ActionStatusReason? = null,
     val isStart: Boolean,
     val observations: String? = null,
-    val deletedAt: ZonedDateTime? = null,
 ) {
     fun toNavAction(): NavActionEntity {
         return NavActionEntity(

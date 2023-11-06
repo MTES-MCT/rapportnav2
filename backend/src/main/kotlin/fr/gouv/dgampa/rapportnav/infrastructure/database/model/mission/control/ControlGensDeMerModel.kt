@@ -44,9 +44,6 @@ data class ControlGensDeMerModel(
     @Column(name = "observations", nullable = true)
     var observations: String? = null,
 
-    @Column(name = "deleted_at")
-    var deletedAt: ZonedDateTime? = null,
-
 ) {
     fun toControlGensDeMerEntity() = ControlGensDeMerEntity(
         id = id,
@@ -59,7 +56,6 @@ data class ControlGensDeMerModel(
         upToDateMedicalCheck = stringToControlResult(upToDateMedicalCheck),
         knowledgeOfFrenchLawAndLanguage = stringToControlResult(knowledgeOfFrenchLawAndLanguage),
         observations = observations,
-        deletedAt = deletedAt,
     )
 
     companion object {
@@ -74,7 +70,6 @@ data class ControlGensDeMerModel(
             upToDateMedicalCheck = control.upToDateMedicalCheck.toStringOrNull(),
             knowledgeOfFrenchLawAndLanguage = control.knowledgeOfFrenchLawAndLanguage.toStringOrNull(),
             observations = control.observations,
-            deletedAt = control.deletedAt,
         )
     }
 }
