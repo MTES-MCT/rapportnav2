@@ -7,14 +7,14 @@ import { Infraction } from '../../mission-types'
 import { FormalNoticeEnum } from '../../env-mission-types'
 
 interface InfractionFormProps {
-  data?: Infraction
+  infraction?: Infraction
   availableNatinfs?: string[]
   onSubmit: (data: any) => void
   onCancel: () => void
 }
 
-const InfractionForm: React.FC<InfractionFormProps> = ({ data, availableNatinfs, onSubmit, onCancel }) => {
-  const [formData, setFormData] = useState<Infraction | undefined>(data)
+const InfractionForm: React.FC<InfractionFormProps> = ({ infraction, availableNatinfs, onSubmit, onCancel }) => {
+  const [formData, setFormData] = useState<Infraction | undefined>(infraction)
 
   const onChange = (field: string, value: any) => {
     setFormData((prevData: any) => ({ ...prevData, [field]: value }))
@@ -35,7 +35,8 @@ const InfractionForm: React.FC<InfractionFormProps> = ({ data, availableNatinfs,
             <Stack.Item>
               {/* TODO add Toggle component to monitor-ui */}
               <Toggle
-                checked={formData?.formalNotice === true}
+                checked={!!formData?.formalNotice}
+                role="toggle-formal-notice"
                 size="sm"
                 onChange={(checked: boolean) => onChange('formalNotice', checked)}
               />
@@ -87,7 +88,7 @@ const InfractionForm: React.FC<InfractionFormProps> = ({ data, availableNatinfs,
               </Button>
             </Stack.Item>
             <Stack.Item>
-              <Button accent={Accent.PRIMARY} type="submit" size={Size.NORMAL}>
+              <Button accent={Accent.PRIMARY} type="submit" size={Size.NORMAL} role="validate-infraction">
                 Valider l'infraction
               </Button>
             </Stack.Item>

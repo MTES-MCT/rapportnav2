@@ -37,8 +37,6 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
 }) => {
   const { missionId, actionId } = useParams()
 
-  const [showInfractions, setShowInfractions] = useState<boolean>(false)
-
   const [mutate, { statusData, statusLoading, statusError }] = useMutation(
     MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE,
     {
@@ -156,10 +154,8 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
         <Stack.Item style={{ width: '100%' }}>
           <ControlInfraction
             controlId={data?.id}
-            infraction={data?.infraction}
+            infractions={data?.infractions}
             controlType={ControlType.ADMINISTRATIVE}
-            showInfractions={showInfractions}
-            showInfractionForm={setShowInfractions}
           />
         </Stack.Item>
       </Stack>

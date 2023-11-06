@@ -158,7 +158,7 @@ export type ControlAdministrative = {
   compliantSecurityDocuments?: ControlResult
   observations?: string
   deletedAt?: string
-  infraction?: Infraction
+  infractions?: Infraction[]
 }
 export type ControlGensDeMer = {
   id: string

@@ -118,7 +118,7 @@ export const GET_MISSION_BY_ID = gql`
               compliantSecurityDocuments
               observations
               deletedAt
-              infraction {
+              infractions {
                 id
                 formalNotice
 
@@ -222,6 +222,14 @@ export const MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE = gql`
 export const MUTATION_ADD_OR_UPDATE_INFRACTION = gql`
   mutation AddOrUpdateInfraction($infraction: InfractionInput!) {
     addOrUpdateInfraction(infraction: $infraction) {
+      id
+    }
+  }
+`
+
+export const MUTATION_MARK_INFRACTION_AS_DELETED = gql`
+  mutation MarkInfractionAsDeleted($infraction: InfractionInput!) {
+    markInfractionAsDeleted(infraction: $infraction) {
       id
     }
   }
