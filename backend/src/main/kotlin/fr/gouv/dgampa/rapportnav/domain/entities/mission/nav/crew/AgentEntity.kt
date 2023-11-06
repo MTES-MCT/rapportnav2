@@ -11,5 +11,3 @@ data class AgentEntity(
     val crews: Set<CrewEntity>,
     val services: Set<ServiceEntity>
 )
-
-typealias Agent = AgentEntity

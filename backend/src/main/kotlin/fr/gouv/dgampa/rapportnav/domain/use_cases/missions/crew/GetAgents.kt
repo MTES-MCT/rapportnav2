@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.missions.crew
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.Agent
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository

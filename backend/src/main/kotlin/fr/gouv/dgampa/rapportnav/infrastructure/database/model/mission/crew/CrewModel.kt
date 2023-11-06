@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.Agent
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
@@ -22,9 +21,8 @@ data class CrewModel (
   @Column(name = "id", unique = true, nullable = false)
   var id: Int,
 
-  @ManyToOne
-  @JoinColumn(name = "crew_id")
-  var agent: AgentModel,
+  @ManyToMany(mappedBy = "crews")
+  var agents: MutableSet<AgentModel> = HashSet(),
 
   @Column(name = "comment", nullable = true)
   var comment: String?,
