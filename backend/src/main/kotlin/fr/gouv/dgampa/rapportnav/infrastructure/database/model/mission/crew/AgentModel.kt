@@ -21,9 +21,14 @@ data class AgentModel (
     @Column(name = "deleted_at", nullable = true)
     var deletedAt: Date? = null,
 
-    @ManyToMany(mappedBy = "agents")
-    var crews: Set<CrewModel> = HashSet(),
+    @ManyToMany
+    @JoinTable(
+      name = "agent_crew",
+      joinColumns = [JoinColumn(name = "agent_id")],
+      inverseJoinColumns = [JoinColumn(name = "crew_id")]
+    )
+    var crews: MutableSet<CrewModel> = HashSet(),
 
-    @ManyToMany(mappedBy = "agents")
+    @ManyToMany(mappedBy = "agents", targetEntity = Service::class)
     var services: Set<Service> = HashSet(),
 )
