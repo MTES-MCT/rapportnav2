@@ -20,12 +20,16 @@ class JPAActionStatusRepository (
         return dbActionStatusRepository.findAllByMissionId(missionId)
     }
 
-    override fun findById(id: UUID): ActionStatusModel {
+    override fun findById(id: UUID): Optional<ActionStatusModel> {
         return dbActionStatusRepository.findById(id)
     }
 
     override fun existsById(id: UUID): Boolean {
         return dbActionStatusRepository.existsById(id)
+    }
+    @Transactional
+    override fun deleteById(id: UUID) {
+        return dbActionStatusRepository.deleteById(id)
     }
 
     @Transactional

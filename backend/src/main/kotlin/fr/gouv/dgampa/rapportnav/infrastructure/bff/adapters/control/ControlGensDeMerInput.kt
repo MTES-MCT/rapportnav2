@@ -16,7 +16,6 @@ data class ControlGensDeMerInput(
     val upToDateMedicalCheck: ControlResult?,
     val knowledgeOfFrenchLawAndLanguage: ControlResult?,
     val observations: String?,
-    val deletedAt: ZonedDateTime? = null,
 ) {
     fun toControlGensDeMerEntity(): ControlGensDeMerEntity {
         return ControlGensDeMerEntity(
@@ -30,7 +29,6 @@ data class ControlGensDeMerInput(
             upToDateMedicalCheck = upToDateMedicalCheck,
             knowledgeOfFrenchLawAndLanguage = knowledgeOfFrenchLawAndLanguage,
             observations = observations,
-            deletedAt = deletedAt,
         )
     }
 }

@@ -12,7 +12,6 @@ data class ControlSecurityInput(
     val unitShouldConfirm: Boolean?,
     val unitHasConfirmed: Boolean?,
     val observations: String?,
-    val deletedAt: ZonedDateTime? = null,
 ) {
     fun toControlSecurity(): ControlSecurityEntity {
         return ControlSecurityEntity(
@@ -23,7 +22,6 @@ data class ControlSecurityInput(
             unitShouldConfirm = unitShouldConfirm,
             unitHasConfirmed = unitHasConfirmed,
             observations = observations,
-            deletedAt = deletedAt,
         )
     }
 }

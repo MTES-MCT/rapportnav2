@@ -1,5 +1,6 @@
 extend type Mutation {
   addOrUpdateInfraction(infraction: InfractionInput!): Infraction!
+  deleteInfraction(id: String!): Boolean!
 }
 
 type Infraction {
@@ -7,7 +8,6 @@ type Infraction {
   formalNotice: Boolean
   natinfs: [Natinf]
   observations: String
-  deletedAt: String
 }
 
 type Natinf {
@@ -23,7 +23,6 @@ input InfractionInput {
   formalNotice: Boolean
   natinfs: [NatinfInput]
   observations: String
-  deletedAt: String
 }
 
 input NatinfInput {

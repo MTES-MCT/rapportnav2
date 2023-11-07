@@ -42,9 +42,6 @@ data class ControlAdministrativeModel(
     @Column(name = "observations", nullable = true)
     var observations: String? = null,
 
-    @Column(name = "deleted_at")
-    var deletedAt: ZonedDateTime? = null,
-
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "controlAdministrative", targetEntity = InfractionModel::class)
     var infractions: List<InfractionModel>? = null
 
@@ -60,7 +57,6 @@ data class ControlAdministrativeModel(
         upToDateNavigationPermit = stringToControlResult(upToDateNavigationPermit),
         compliantSecurityDocuments = stringToControlResult(compliantSecurityDocuments),
         observations = observations,
-        deletedAt = deletedAt,
         infractions = infractions?.map { it.toInfractionEntity() }
     )
 
@@ -77,7 +73,6 @@ data class ControlAdministrativeModel(
                 upToDateNavigationPermit = control.upToDateNavigationPermit.toStringOrNull(),
                 compliantSecurityDocuments = control.compliantSecurityDocuments.toStringOrNull(),
                 observations = control.observations,
-                deletedAt = control.deletedAt,
                 infractions = control.infractions?.map{InfractionModel.fromInfractionEntity(it) } ,
             )
         }

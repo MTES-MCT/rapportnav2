@@ -47,4 +47,9 @@ class JPAControlAdministrativeRepository(
         }
     }
 
+    @Transactional
+    override fun deleteByActionControlId(actionControlId: String) {
+        return dbControlAdministrativeRepository.deleteByActionControlId(actionControlId)
+    }
+
 }

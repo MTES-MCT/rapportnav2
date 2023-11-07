@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.infraction
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Infraction
+import java.time.ZonedDateTime
 import java.util.*
 
 data class InfractionInput(
@@ -12,7 +13,6 @@ data class InfractionInput(
     val formalNotice: Boolean? = null,
     val natinfs: List<NatinfInput>? = null,
     val observations: String? = null,
-    val deletedAt: String? = null,
 ) {
     fun toInfraction(): Infraction {
         return Infraction(
@@ -22,7 +22,6 @@ data class InfractionInput(
             natinfs = natinfs?.map { it.toNatinf() },
             formalNotice = formalNotice,
             observations = observations,
-            deletedAt = deletedAt,
         )
     }
 }

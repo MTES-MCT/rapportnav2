@@ -52,7 +52,6 @@ const EnvControlForm: React.FC<EnvControlFormProps> = ({
   const onChange = async (field?: string, value?: any) => {
     let updatedData = {
       ...omit(data, '__typename'),
-      deletedAt: undefined,
       missionId: missionId,
       actionControlId: actionId,
       amountOfControls: data?.amountOfControls || 1

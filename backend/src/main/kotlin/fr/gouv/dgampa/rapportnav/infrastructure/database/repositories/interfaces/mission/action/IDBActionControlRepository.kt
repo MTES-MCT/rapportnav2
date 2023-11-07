@@ -8,10 +8,12 @@ import java.util.*
 interface IDBActionControlRepository: JpaRepository<ActionControlModel, UUID> {
     fun findAllByMissionId(missionId: Int): List<ActionControlModel>
 
-    fun existsById(id: UUID?): Boolean
+    override fun existsById(id: UUID): Boolean
 
     fun save(controlAction: ActionControlEntity): ActionControlModel
 
-    override fun findById(id: UUID): Optional<ActionControlModel>
+    override fun deleteById(id: UUID)
+
+    fun findById(id: UUID?): Optional<ActionControlModel>
 
 }

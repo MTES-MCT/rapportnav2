@@ -10,10 +10,7 @@ class GetControlAdministrativeById(private val repository: IControlAdministrativ
     fun execute(id: UUID): ControlAdministrativeEntity? {
         if (this.repository.existsById(id = id)) {
             val controlModel = this.repository.findById(id = id).get()
-            if (controlModel.deletedAt == null) {
-                return controlModel.toControlAdministrativeEntity()
-            }
-            return null
+            return controlModel.toControlAdministrativeEntity()
         }
         return null
     }

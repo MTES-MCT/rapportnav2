@@ -1,7 +1,7 @@
 import { Panel, Stack, Toggle } from 'rsuite'
 import { ControlSecurity, ControlType } from '../../mission-types'
 import { THEME, Icon, Button, Accent, Size, Textarea, Checkbox, Label } from '@mtes-mct/monitor-ui'
-import { MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY } from '../queries'
+import { DELETE_CONTROL_SECURITY, MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY } from '../queries'
 import { useMutation } from '@apollo/client'
 import omit from 'lodash/omit'
 import { controlIsEnabled } from './utils'
@@ -31,14 +31,23 @@ const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
     refetchQueries: ['GetMissionById']
   })
 
-  const toggleControl = (isChecked: boolean) =>
-    isChecked ? onChange() : onChange('deletedAt', new Date().toISOString())
+  const [deleteControl, { deleteData, deleteLoading, deleteError }] = useMutation(DELETE_CONTROL_SECURITY, {
+    refetchQueries: ['GetMissionById']
+  })
+
+  const toggleControl = async (isChecked: boolean) =>
+    isChecked
+      ? onChange()
+      : await deleteControl({
+          variables: {
+            actionId
+          }
+        })
 
   const onChange = (field?: string, value?: any) => {
     let updatedData = {
-      ...omit(data, '__typename', 'infraction'),
+      ...omit(data, '__typename', 'infractions'),
       missionId: missionId,
-      deletedAt: undefined,
       actionControlId: actionId,
       amountOfControls: 1,
       unitShouldConfirm: unitShouldConfirm
@@ -48,13 +57,6 @@ const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
       updatedData = {
         ...updatedData,
         [field]: value
-      }
-      // TODO - data reset should not be handle by frontend
-      if (field === 'deletedAt') {
-        updatedData = {
-          ...updatedData,
-          observations: undefined
-        }
       }
     }
     mutate({ variables: { control: updatedData } })
@@ -95,9 +97,10 @@ const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
         )}
         <Stack.Item style={{ width: '100%' }}>
           <Textarea
+            name="observations"
             label="Observations (hors infraction) sur la sécurité du navire (équipements…)"
             value={data?.observations}
-            onChange={(nextValue: string) => onChange('observations', nextValue)}
+            onChange={(nextValue?: string) => onChange('observations', nextValue)}
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>

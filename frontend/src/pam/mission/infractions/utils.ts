@@ -14,3 +14,17 @@ export const infractionTitleForControlType = (controlType: ControlType): string 
       return ''
   }
 }
+export const infractionButtonTitle = (controlType: ControlType): string => {
+  switch (controlType) {
+    case ControlType.ADMINISTRATIVE:
+      return 'Ajouter une infraction administrative'
+    case ControlType.NAVIGATION:
+      return 'Ajouter une infraction règle de navigation'
+    case ControlType.SECURITY:
+      return 'Ajouter une infraction sécurité'
+    case ControlType.GENS_DE_MER:
+      return 'Ajouter une infraction administrative'
+    default:
+      return ''
+  }
+}

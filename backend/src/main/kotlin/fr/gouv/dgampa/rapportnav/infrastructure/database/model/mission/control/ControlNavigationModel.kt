@@ -33,8 +33,6 @@ data class ControlNavigationModel(
     @Column(name = "observations", nullable = true)
     var observations: String? = null,
 
-    @Column(name = "deleted_at")
-    var deletedAt: ZonedDateTime? = null,
 ) {
     fun toControlNavigationEntity() = ControlNavigationEntity(
         id = id,
@@ -44,7 +42,6 @@ data class ControlNavigationModel(
         unitHasConfirmed = unitHasConfirmed,
         unitShouldConfirm = unitShouldConfirm,
         observations = observations,
-        deletedAt = deletedAt,
     )
 
     companion object {
@@ -56,7 +53,6 @@ data class ControlNavigationModel(
             unitHasConfirmed = control.unitHasConfirmed,
             unitShouldConfirm = control.unitShouldConfirm,
             observations = control.observations,
-            deletedAt = control.deletedAt,
         )
     }
 }

@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlAdministrativeModel
 import jakarta.persistence.*
+import java.time.ZonedDateTime
 import java.util.*
 
 @Entity
@@ -47,7 +48,7 @@ data class InfractionModel(
 //            controlAdministrative = controlAdministrative?.toControlAdministrativeEntity(),
             controlType = ControlType.valueOf(controlType),
             formalNotice = formalNotice,
-            observations = observations
+            observations = observations,
         )
     }
 

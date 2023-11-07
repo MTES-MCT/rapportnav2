@@ -24,7 +24,6 @@ data class ActionControlEntity(
     val vesselType: VesselTypeEnum? = null,
     val vesselSize: VesselSizeEnum? = null,
     val identityControlledPerson: String? = null,
-    val deletedAt: ZonedDateTime? = null,
     var controlAdministrative: ControlAdministrativeEntity? = null,
     var controlGensDeMer: ControlGensDeMerEntity? = null,
     var controlNavigation: ControlNavigationEntity? = null,

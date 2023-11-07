@@ -9,6 +9,10 @@ extend type Mutation {
   addOrUpdateControlGensDeMer(
     control: ControlGensDeMerInput!
   ): ControlGensDeMer!
+  deleteControlAdministrative(actionId: String!): Boolean!
+  deleteControlSecurity(actionId: String!): Boolean!
+  deleteControlNavigation(actionId: String!): Boolean!
+  deleteControlGensDeMer(actionId: String!): Boolean!
 }
 
 enum ControlType {
@@ -31,7 +35,6 @@ type ControlNavigation {
   unitShouldConfirm: Boolean
   unitHasConfirmed: Boolean
   observations: String
-  deletedAt: String
 }
 
 type ControlSecurity {
@@ -40,7 +43,6 @@ type ControlSecurity {
   unitShouldConfirm: Boolean
   unitHasConfirmed: Boolean
   observations: String
-  deletedAt: String
 }
 
 type ControlAdministrative {
@@ -52,8 +54,7 @@ type ControlAdministrative {
   upToDateNavigationPermit: ControlResult
   compliantSecurityDocuments: ControlResult
   observations: String
-  deletedAt: String
-  infraction: Infraction
+  infractions: [Infraction]
 }
 
 type ControlGensDeMer {
@@ -65,7 +66,6 @@ type ControlGensDeMer {
   upToDateMedicalCheck: ControlResult
   knowledgeOfFrenchLawAndLanguage: ControlResult
   observations: String
-  deletedAt: String
 }
 
 input ControlNavigationInput {
@@ -76,7 +76,6 @@ input ControlNavigationInput {
   unitShouldConfirm: Boolean
   unitHasConfirmed: Boolean
   observations: String
-  deletedAt: String
 }
 
 input ControlSecurityInput {
@@ -87,7 +86,6 @@ input ControlSecurityInput {
   unitShouldConfirm: Boolean
   unitHasConfirmed: Boolean
   observations: String
-  deletedAt: String
 }
 
 input ControlAdministrativeInput {
@@ -101,7 +99,6 @@ input ControlAdministrativeInput {
   upToDateNavigationPermit: ControlResult
   compliantSecurityDocuments: ControlResult
   observations: String
-  deletedAt: String
 }
 
 input ControlGensDeMerInput {
@@ -115,5 +112,4 @@ input ControlGensDeMerInput {
   upToDateMedicalCheck: ControlResult
   knowledgeOfFrenchLawAndLanguage: ControlResult
   observations: String
-  deletedAt: String
 }

@@ -13,4 +13,6 @@ interface IDBControlAdministrativeRepository: JpaRepository<ControlAdministrativ
     fun existsByActionControlId(actionControlId: String): Boolean
 
     fun findByActionControlId(actionControlId: String): ControlAdministrativeModel
+
+    fun deleteByActionControlId(actionControlId: String)
 }

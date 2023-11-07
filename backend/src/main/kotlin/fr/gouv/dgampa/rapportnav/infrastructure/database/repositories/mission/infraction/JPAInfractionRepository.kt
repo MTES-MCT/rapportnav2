@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 
 @Repository
@@ -24,6 +25,11 @@ class JPAInfractionRepository(
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating Infraction", e)
         }
+    }
+
+    @Transactional
+    override fun deleteById(id: UUID) {
+        return dbRepo.deleteById(id)
     }
 
 }

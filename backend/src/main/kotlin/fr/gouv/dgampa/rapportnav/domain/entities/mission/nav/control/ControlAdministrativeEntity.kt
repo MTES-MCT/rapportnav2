@@ -15,7 +15,6 @@ data class ControlAdministrativeEntity(
     val upToDateNavigationPermit: ControlResult?,
     val compliantSecurityDocuments: ControlResult?,
     val observations: String?,
-    val deletedAt: ZonedDateTime? = null,
     val infractions: List<InfractionEntity>? = null
 ) {
 

@@ -6,7 +6,13 @@ import java.util.*
 
 interface IDBControlGensDeMerRepository: JpaRepository<ControlGensDeMerModel, UUID> {
 
+    override fun existsById(id: UUID): Boolean
+
+    override fun findById(id: UUID): Optional<ControlGensDeMerModel>
+
     fun existsByActionControlId(actionControlId: String): Boolean
 
     fun findByActionControlId(actionControlId: String): ControlGensDeMerModel
+
+    fun deleteByActionControlId(actionControlId: String)
 }

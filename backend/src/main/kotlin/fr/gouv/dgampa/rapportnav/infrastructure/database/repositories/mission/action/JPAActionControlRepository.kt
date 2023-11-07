@@ -29,6 +29,11 @@ class JPAActionControlRepository (
     }
 
     @Transactional
+    override fun deleteById(id: UUID) {
+        return dbActionModelRepository.deleteById(id)
+    }
+
+    @Transactional
     override fun save(controlAction: ActionControlEntity): ActionControlModel {
         return try {
             val controlActionModel = ActionControlModel.fromActionControl(controlAction, mapper)
