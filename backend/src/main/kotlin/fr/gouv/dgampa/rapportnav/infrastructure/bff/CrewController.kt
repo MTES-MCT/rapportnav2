@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.crew.*
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
+import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.stereotype.Controller
 
@@ -17,7 +18,9 @@ class CrewController (
     }
 
   @QueryMapping
-  fun agentsByService(): List<AgentModel>{
-    return getAgentsByServiceId.execute()
+  fun agentsByServiceId(@Argument serviceId: Int): List<AgentModel>{
+    return getAgentsByServiceId.execute(
+      serviceId = serviceId
+    )
   }
 }

@@ -7,8 +7,8 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.Agen
 @UseCase
 class GetAgentsByServiceId(private val agentRepository: IAgentRepository) {
 
-  fun execute(): List<AgentModel> {
-    return agentRepository.findAll()
+  fun execute(serviceId: Int): List<AgentModel> {
+    return agentRepository.findByServiceId(serviceId = serviceId)
   }
 
 }
