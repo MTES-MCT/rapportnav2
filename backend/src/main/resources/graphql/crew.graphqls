@@ -1,10 +1,15 @@
 extend type Query {
   agents: [Agent]!
-  agentsByServiceId: [Agent]!
-
+  agentsByServiceId(serviceId: ID): [Agent]
 }
 type Agent {
-    id: ID!,
+    id: ID!
     firstName: String!
     lastName: String!
+    services: [Service]
+}
+
+type Service {
+  id: ID!
+  name: String!
 }

@@ -5,7 +5,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "service")
-data class Service(
+data class ServiceModel(
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +17,7 @@ data class Service(
 
   @ManyToMany
   @JoinTable(
-    name = "service_agent",
+    name = "agent_service",
     joinColumns = [JoinColumn(name = "service_id")],
     inverseJoinColumns = [JoinColumn(name = "agent_id")]
   )

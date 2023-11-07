@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
 
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.Service
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import jakarta.persistence.*
 import java.util.Date
 
@@ -29,6 +29,6 @@ data class AgentModel (
     )
     var crews: MutableSet<CrewModel> = HashSet(),
 
-    @ManyToMany(mappedBy = "agents", targetEntity = Service::class)
-    var services: Set<Service> = HashSet(),
+    @ManyToMany(mappedBy = "agents", targetEntity = ServiceModel::class)
+    var services: MutableSet<ServiceModel> = HashSet(),
 )
