@@ -6,10 +6,8 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
-import jakarta.persistence.JoinTable
 import jakarta.persistence.ManyToMany
 import jakarta.persistence.ManyToOne
-import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 
 @Entity
@@ -29,7 +27,7 @@ data class CrewModel (
 
   @ManyToOne
   @JoinColumn(name = "agent_role_id")
-  var role: AgentRole,
+  var role: AgentRoleModel,
 
   @Column(name = "mission_id")
   var missionId: Int
