@@ -21,5 +21,10 @@ data class ServiceModel(
     joinColumns = [JoinColumn(name = "service_id")],
     inverseJoinColumns = [JoinColumn(name = "agent_id")]
   )
-  var agents: MutableList<AgentModel> = mutableListOf()
+  var agents: MutableList<AgentModel> = mutableListOf(),
+
+  @OneToOne
+  @JoinColumn(name = "service_linked_id")
+  var serviceLinked: ServiceModel?,
+
 )
