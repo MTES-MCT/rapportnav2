@@ -11,7 +11,7 @@ import omit from 'lodash/omit'
 import { controlResultOptions } from './control-result'
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
-import ControlInfraction from './control-infraction'
+import ControlInfraction from '../infractions/infraction-for-control'
 
 interface ControlAdministrativeFormProps {
   data?: ControlAdministrative
@@ -53,6 +53,7 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
       ...omit(data, '__typename', 'infractions'),
       missionId: missionId,
       actionControlId: actionId,
+      controlId: data?.id,
       amountOfControls: 1,
       unitShouldConfirm: unitShouldConfirm
     }

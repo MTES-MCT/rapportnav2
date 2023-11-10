@@ -67,7 +67,7 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
   }
 
   return (
-    <form>
+    <form style={{ width: '100%' }}>
       <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
         {/* TITLE AND BUTTONS */}
         <Stack.Item style={{ width: '100%' }}>

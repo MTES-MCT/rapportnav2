@@ -135,9 +135,11 @@ type EnvActionData {
   department: String
   themes: [ThemeEntity]
   observations: String
+  infractions: [InfractionByTarget]
   actionNumberOfControls: Int
   actionTargetType: ActionTargetTypeEnum
   vehicleType: VehicleTypeEnum
+  availableControlTypes: [ControlType]
   controlsToComplete: [ControlType]
   controlAdministrative: ControlAdministrative
   controlGensDeMer: ControlGensDeMer

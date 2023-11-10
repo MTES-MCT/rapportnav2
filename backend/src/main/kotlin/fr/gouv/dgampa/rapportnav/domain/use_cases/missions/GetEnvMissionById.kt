@@ -30,12 +30,21 @@ class GetEnvMissionById {
             actionTargetType = ActionTargetTypeEnum.VEHICLE,
             vehicleType = VehicleTypeEnum.VESSEL,
             observations = "blablabla",
+            isSeafarersControl = true,
+            isAdministrativeControl = true,
             infractions = listOf(
                 InfractionEntity(
                     id = "1234",
-                    infractionType = InfractionTypeEnum.WITHOUT_REPORT,
-                    formalNotice = FormalNoticeEnum.PENDING,
-                    toProcess = true
+                    natinf = listOf("2593", "27773"),
+                    registrationNumber = "1234",
+                    companyName = "dummy company",
+                    relevantCourt = "tribunal",
+                    infractionType = InfractionTypeEnum.WITH_REPORT,
+                    formalNotice = FormalNoticeEnum.YES,
+                    toProcess = true,
+                    controlledPersonIdentity = "Jean Robert",
+                    vesselType = VesselTypeEnum.COMMERCIAL,
+                    vesselSize = VesselSizeEnum.LESS_THAN_12m,
                 )
             ),
         )
@@ -50,7 +59,22 @@ class GetEnvMissionById {
             vehicleType = null,
             observations = null,
             isSeafarersControl = true,
-            isAdministrativeControl = true
+            isAdministrativeControl = true,
+            infractions = listOf(
+                InfractionEntity(
+                    id = "1234",
+                    natinf = listOf("2593", "27773"),
+                    registrationNumber = "1234",
+                    companyName = "dummy company",
+                    relevantCourt = "tribunal",
+                    infractionType = InfractionTypeEnum.WITH_REPORT,
+                    formalNotice = FormalNoticeEnum.YES,
+                    toProcess = true,
+                    controlledPersonIdentity = "Jean Robert",
+                    vesselType = VesselTypeEnum.COMMERCIAL,
+                    vesselSize = VesselSizeEnum.LESS_THAN_12m,
+                )
+            ),
         )
 //        val envMissionActionSurveillance = EnvActionSurveillanceEntity(
 //            id = UUID.randomUUID(),

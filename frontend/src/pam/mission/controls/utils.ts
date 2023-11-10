@@ -1,13 +1,6 @@
-import {
-  ControlAdministrative,
-  ControlGensDeMer,
-  ControlMethod,
-  ControlNavigation,
-  ControlSecurity,
-  VesselType
-} from '../../mission-types'
+import { ControlMethod, ControlType, VesselType } from '../../mission-types'
 
-export const controlMethodToHumanString = (controlMethod?: ControlMethod): String => {
+export const controlMethodToHumanString = (controlMethod?: ControlMethod | null): string => {
   switch (controlMethod) {
     case ControlMethod.AIR:
       return 'aérien'
@@ -20,7 +13,7 @@ export const controlMethodToHumanString = (controlMethod?: ControlMethod): Strin
   }
 }
 
-export const vesselTypeToHumanString = (vesselType?: VesselType): String => {
+export const vesselTypeToHumanString = (vesselType?: VesselType | null): string => {
   switch (vesselType) {
     case VesselType.FISHING:
       return 'Navire de pêche professionnelle'
@@ -35,4 +28,26 @@ export const vesselTypeToHumanString = (vesselType?: VesselType): String => {
     default:
       return ''
   }
+}
+
+export const controlTitle = (controlType: ControlType) => {
+  switch (controlType) {
+    case ControlType.ADMINISTRATIVE:
+      return 'Contrôle administratif navire'
+    case ControlType.GENS_DE_MER:
+      return 'Contrôle administratif gens de mer'
+    case ControlType.SECURITY:
+      return 'Equipements et respect des normes de sécurité'
+    case ControlType.NAVIGATION:
+      return 'Respect des règles de navigation'
+  }
+}
+
+export function getDisabledControlTypes(enabledControlTypes?: ControlType[]): ControlType[] {
+  const allControlTypes = Object.values(ControlType)
+  if (!enabledControlTypes) {
+    return allControlTypes
+  }
+  const disabledControlTypes = allControlTypes.filter(controlType => !enabledControlTypes.includes(controlType))
+  return disabledControlTypes
 }

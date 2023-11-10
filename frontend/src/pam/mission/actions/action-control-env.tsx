@@ -1,18 +1,5 @@
 import React, { useState } from 'react'
-import {
-  Accent,
-  Button,
-  Checkbox,
-  CoordinatesFormat,
-  CoordinatesInput,
-  DateRangePicker,
-  Icon,
-  Label,
-  NumberInput,
-  Size,
-  THEME,
-  TextInput
-} from '@mtes-mct/monitor-ui'
+import { CoordinatesFormat, CoordinatesInput, DateRangePicker, Icon, Label, THEME } from '@mtes-mct/monitor-ui'
 import Divider from 'rsuite/Divider'
 import { Stack } from 'rsuite'
 import Title from '../../../ui/title'
@@ -22,15 +9,40 @@ import ControlsToCompleteTag from '../controls/controls-to-complete-tag'
 import EnvControlForm from '../controls/env-control-form'
 import { Action, ControlType } from '../../mission-types'
 import { EnvActionControl } from '../../env-mission-types'
-import EnvInfractionNewTargetForm from '../infractions/env-infraction-new-target-form'
-import EnvInfractionSummary from '../infractions/env-infraction-summary'
+import { GET_MISSION_BY_ID, MUTATION_ADD_OR_UPDATE_INFRACTION_ENV } from '../queries'
+import { useMutation } from '@apollo/client'
+import { useParams } from 'react-router-dom'
+import EnvInfractionNewTarget from '../infractions/env-infraction-new-target'
+import EnvInfractionExistingTarget from '../infractions/env-infraction-existing-target'
 
 interface ActionControlPropsEnv {
   action: Action
 }
 
 const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
+  const { missionId, actionId } = useParams()
   const [showInfractionForNewTarget, setShowInfractionForNewTarget] = useState<boolean>(false)
+
+  const [mutate, { mutateData, mutateLoading, mutateError }] = useMutation(MUTATION_ADD_OR_UPDATE_INFRACTION_ENV, {
+    refetchQueries: [GET_MISSION_BY_ID]
+  })
+  // const [deleteMutation] = useMutation(MUTATION_DELETE_INFRACTION, {
+  //   refetchQueries: [GET_MISSION_BY_ID]
+  // })
+
+  const onSubmitInfraction = async () => {
+    const mutationData = {
+      // ...omit(data, '__typename'),
+      // id: data?.id,
+      missionId,
+      actionId
+      // controlId,
+      // controlType
+    }
+    debugger
+    await mutate({ variables: { infraction: mutationData } })
+  }
+
   return (
     <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
@@ -184,33 +196,15 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
             </Stack>
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
-            {showInfractionForNewTarget ? (
-              <div style={{ width: '100%', backgroundColor: THEME.color.white, padding: '1rem' }}>
-                <EnvInfractionNewTargetForm />
-              </div>
-            ) : (
-              <Stack justifyContent="flex-end">
-                <Stack.Item>
-                  {' '}
-                  <Button
-                    onClick={() => setShowInfractionForNewTarget(true)}
-                    accent={Accent.SECONDARY}
-                    size={Size.NORMAL}
-                    Icon={Icon.Plus}
-                  >
-                    Ajouter une nouvelle cible avec infraction
-                  </Button>
-                </Stack.Item>
-              </Stack>
-            )}
+            <EnvInfractionNewTarget
+              availableControlTypes={(action.data as any as EnvActionControl)?.availableControlTypes}
+            />
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
-            {true &&
-              [{}].map((whatever: any) => (
-                <div style={{ width: '100%', backgroundColor: THEME.color.white, padding: '1rem' }}>
-                  <EnvInfractionSummary />
-                </div>
-              ))}
+            <EnvInfractionExistingTarget
+              infractionsByTarget={(action.data as any as EnvActionControl)?.infractions}
+              availableControlTypes={(action.data as any as EnvActionControl)?.availableControlTypes}
+            />
           </Stack.Item>
         </Stack>
       </Stack.Item>

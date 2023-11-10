@@ -1,23 +1,8 @@
-import { MultiRadio, Icon, Button, Accent, THEME, Checkbox } from '@mtes-mct/monitor-ui'
-import { ActionTypeEnum, missionTypeEnum } from '../../env-mission-types'
+import { THEME, Checkbox } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
 import Title from '../../../ui/title'
-import { useState } from 'react'
-import { ControlTarget, ControlTargetText, ControlType, VesselType } from '../../mission-types'
-import { vesselTypeToHumanString } from './utils'
-
-const title = (controlType: ControlType) => {
-  switch (controlType) {
-    case ControlType.ADMINISTRATIVE:
-      return 'Contrôle administratif navire'
-    case ControlType.GENS_DE_MER:
-      return 'Contrôle administratif gens de mer'
-    case ControlType.SECURITY:
-      return 'Equipements et respect des normes de sécurité'
-    case ControlType.NAVIGATION:
-      return 'Respect des règles de navigation'
-  }
-}
+import { ControlType } from '../../mission-types'
+import { controlTitle } from './utils'
 
 export interface ControlTitleCheckboxProps {
   controlType: ControlType
@@ -46,7 +31,7 @@ const ControlTitleCheckbox: React.FC<ControlTitleCheckboxProps> = ({
       </Stack.Item>
       <Stack.Item>
         <Title as="h3" color={THEME.color.gunMetal} weight="bold">
-          {title(controlType)}
+          {controlTitle(controlType)}
         </Title>
       </Stack.Item>
       <Stack.Item>&nbsp;&nbsp;</Stack.Item>

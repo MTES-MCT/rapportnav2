@@ -19,7 +19,7 @@ import { ControlResultExtraOptions, controlResultOptions } from './control-resul
 import { controlIsEnabled } from './utils'
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
-import ControlInfraction from './control-infraction'
+import ControlInfraction from '../infractions/infraction-for-control'
 import { useState } from 'react'
 
 interface ControlGensDeMerFormProps {
@@ -36,8 +36,6 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({
   disableToggle
 }) => {
   const { missionId, actionId } = useParams()
-
-  const [showInfractions, setShowInfractions] = useState<boolean>(false)
 
   const [mutate, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER, {
     refetchQueries: ['GetMissionById']
@@ -61,6 +59,7 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({
       ...omit(data, '__typename', 'infractions'),
       missionId: missionId,
       actionControlId: actionId,
+      controlId: data?.id,
       amountOfControls: 1,
       unitShouldConfirm: unitShouldConfirm
     }
@@ -152,10 +151,8 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({
         <Stack.Item style={{ width: '100%' }}>
           <ControlInfraction
             controlId={data?.id}
-            infraction={undefined}
+            infractions={data?.infractions}
             controlType={ControlType.GENS_DE_MER}
-            showInfractions={showInfractions}
-            showInfractionForm={setShowInfractions}
           />
         </Stack.Item>
       </Stack>

@@ -28,6 +28,11 @@ export const GET_MISSION_BY_ID = gql`
               upToDateNavigationPermit
               compliantSecurityDocuments
               observations
+              infractions {
+                id
+                formalNotice
+                observations
+              }
             }
             controlGensDeMer {
               id
@@ -38,6 +43,11 @@ export const GET_MISSION_BY_ID = gql`
               upToDateMedicalCheck
               knowledgeOfFrenchLawAndLanguage
               observations
+              infractions {
+                id
+                formalNotice
+                observations
+              }
             }
             controlNavigation {
               id
@@ -45,6 +55,11 @@ export const GET_MISSION_BY_ID = gql`
               unitShouldConfirm
               unitHasConfirmed
               observations
+              infractions {
+                id
+                formalNotice
+                observations
+              }
             }
             controlSecurity {
               id
@@ -52,6 +67,11 @@ export const GET_MISSION_BY_ID = gql`
               unitShouldConfirm
               unitHasConfirmed
               observations
+              infractions {
+                id
+                formalNotice
+                observations
+              }
             }
           }
           ... on EnvActionData {
@@ -61,9 +81,31 @@ export const GET_MISSION_BY_ID = gql`
             actionTargetType
             vehicleType
             controlsToComplete
+            availableControlTypes
             themes {
               theme
               subThemes
+            }
+            infractions {
+              vesselIdentifier
+              vesselType
+              infractions {
+                id
+                controlType
+                observations
+                formalNotice
+                target {
+                  formalNotice
+                  companyName
+                  relevantCourt
+                  infractionType
+                  toProcess
+                  vesselType
+                  vesselSize
+                  vesselIdentifier
+                  identityControlledPerson
+                }
+              }
             }
             controlAdministrative {
               id
@@ -129,6 +171,11 @@ export const GET_MISSION_BY_ID = gql`
               upToDateMedicalCheck
               knowledgeOfFrenchLawAndLanguage
               observations
+              infractions {
+                id
+                formalNotice
+                observations
+              }
             }
             controlNavigation {
               id
@@ -136,6 +183,11 @@ export const GET_MISSION_BY_ID = gql`
               unitShouldConfirm
               unitHasConfirmed
               observations
+              infractions {
+                id
+                formalNotice
+                observations
+              }
             }
             controlSecurity {
               id
@@ -143,6 +195,11 @@ export const GET_MISSION_BY_ID = gql`
               unitShouldConfirm
               unitHasConfirmed
               observations
+              infractions {
+                id
+                formalNotice
+                observations
+              }
             }
           }
         }
@@ -244,7 +301,21 @@ export const MUTATION_ADD_OR_UPDATE_INFRACTION = gql`
 `
 
 export const MUTATION_DELETE_INFRACTION = gql`
-  mutation deleteInfraction($id: String!) {
+  mutation DeleteInfraction($id: String!) {
     deleteInfraction(id: $id)
   }
 `
+
+export const MUTATION_ADD_OR_UPDATE_INFRACTION_ENV = gql`
+  mutation AddOrUpdateInfractionForEnvTarget($infraction: InfractionWithNewTargetInput!) {
+    addOrUpdateInfractionForEnvTarget(infraction: $infraction) {
+      id
+    }
+  }
+`
+
+// export const MUTATION_DELETE_INFRACTION_ENV = gql`
+//   mutation DeleteInfractionForEnvTarget($id: String!) {
+//     deleteInfractionForEnvTarget(id: $id)
+//   }
+// `

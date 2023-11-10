@@ -1,49 +1,52 @@
 import React from 'react'
-import styled from 'styled-components'
-import { FlexboxGrid, Stack, Toggle } from 'rsuite'
-import {
-  Accent,
-  Icon,
-  Button,
-  Size,
-  THEME,
-  Label,
-  MultiSelect,
-  Textarea,
-  Select,
-  TextInput
-} from '@mtes-mct/monitor-ui'
-import Title from '../../../ui/title'
-import { VESSEL_SIZE_OPTIONS } from '../../mission-types'
+import { Stack } from 'rsuite'
+import { Select, TextInput } from '@mtes-mct/monitor-ui'
+import { ControlType, InfractionEnvNewTarget, VESSEL_SIZE_OPTIONS, VESSEL_TYPE_OPTIONS } from '../../mission-types'
 import InfractionForm from './infraction-form'
+import { controlTitle, getDisabledControlTypes } from '../controls/utils'
+
+const CONTROL_TYPE_OPTIONS = [
+  {
+    label: `Infraction - ${controlTitle(ControlType.ADMINISTRATIVE)}`,
+    value: ControlType.ADMINISTRATIVE
+  },
+  {
+    label: `Infraction - ${controlTitle(ControlType.SECURITY)}`,
+    value: ControlType.SECURITY
+  },
+  {
+    label: `Infraction - ${controlTitle(ControlType.NAVIGATION)}`,
+    value: ControlType.NAVIGATION
+  },
+  {
+    label: `Infraction - ${controlTitle(ControlType.GENS_DE_MER)}`,
+    value: ControlType.GENS_DE_MER
+  }
+]
 
 interface EnvInfractionNewTargetFormProps {
-  data?: any
+  infraction?: InfractionEnvNewTarget
+  availableControlTypes?: ControlType[]
   availableNatinfs?: string[]
-  onSubmit?: (data: any) => void
-  onCancel?: () => void
+  onChange: (field: string, value: any) => void
+  onCancel: () => void
 }
 
 const EnvInfractionNewTargetForm: React.FC<EnvInfractionNewTargetFormProps> = ({
-  data,
+  infraction,
+  availableControlTypes,
   availableNatinfs,
-  onSubmit,
+  onChange,
   onCancel
 }) => {
-  const saveAndQuitMission = () => {
-    // TODO add save
-  }
-  const finishMission = () => {}
-
-  const onChange = (field: string, value: any) => {}
-
   return (
     <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
         <Select
           label="Type de contrôle avec infraction"
-          options={VESSEL_SIZE_OPTIONS}
-          value={undefined}
+          options={CONTROL_TYPE_OPTIONS}
+          disabledItemValues={getDisabledControlTypes(availableControlTypes)}
+          value={infraction?.controlType}
           name="controlType"
           onChange={(nextValue: OptionValue) => onChange('controlType', nextValue)}
         />
@@ -56,7 +59,7 @@ const EnvInfractionNewTargetForm: React.FC<EnvInfractionNewTargetFormProps> = ({
                 <Select
                   label="Taille du navire"
                   options={VESSEL_SIZE_OPTIONS}
-                  value={undefined}
+                  value={infraction?.vesselSize}
                   name="vesselSize"
                   onChange={(nextValue: OptionValue) => onChange('vesselSize', nextValue)}
                 />
@@ -64,8 +67,8 @@ const EnvInfractionNewTargetForm: React.FC<EnvInfractionNewTargetFormProps> = ({
               <Stack.Item style={{ width: '60%' }}>
                 <Select
                   label="Type de navire"
-                  options={VESSEL_SIZE_OPTIONS}
-                  value={undefined}
+                  options={VESSEL_TYPE_OPTIONS}
+                  value={infraction?.vesselType}
                   name="vesselType"
                   onChange={(nextValue: OptionValue) => onChange('vesselType', nextValue)}
                 />
@@ -77,7 +80,7 @@ const EnvInfractionNewTargetForm: React.FC<EnvInfractionNewTargetFormProps> = ({
               <Stack.Item style={{ width: '40%' }}>
                 <TextInput
                   label="Immatriculation"
-                  value={undefined}
+                  value={infraction?.vesselIdentifier}
                   name="vesselIdentifier"
                   onChange={(nextValue?: string) => onChange('vesselIdentifier', nextValue)}
                 />
@@ -85,7 +88,7 @@ const EnvInfractionNewTargetForm: React.FC<EnvInfractionNewTargetFormProps> = ({
               <Stack.Item style={{ width: '60%' }}>
                 <TextInput
                   label="Identité de la personne contrôlée"
-                  value={undefined}
+                  value={infraction?.identityControlledPerson}
                   name="identityControlledPerson"
                   onChange={(nextValue?: string) => onChange('identityControlledPerson', nextValue)}
                 />
@@ -95,7 +98,12 @@ const EnvInfractionNewTargetForm: React.FC<EnvInfractionNewTargetFormProps> = ({
         </Stack>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
-        <InfractionForm />
+        <InfractionForm
+          infraction={infraction}
+          availableNatinfs={availableNatinfs}
+          onChange={onChange}
+          onCancel={onCancel}
+        />
       </Stack.Item>
     </Stack>
   )

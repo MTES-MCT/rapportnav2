@@ -65,7 +65,6 @@ const EnvControlForm: React.FC<EnvControlFormProps> = ({
     }
     await mutate({ variables: { control: updatedData } })
   }
-  debugger
 
   return (
     <Stack direction="column" alignItems="flex-start" spacing={'0.5rem'} style={{ width: '100%' }}>

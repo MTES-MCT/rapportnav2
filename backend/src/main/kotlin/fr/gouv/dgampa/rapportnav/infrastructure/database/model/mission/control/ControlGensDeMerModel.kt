@@ -5,33 +5,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.stringToCon
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.toStringOrNull
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import jakarta.persistence.Id
 import jakarta.persistence.Table
-import java.time.ZonedDateTime
-import java.util.*
 
 @Entity
 @Table(name = "control_gens_de_mer")
 data class ControlGensDeMerModel(
-    @Id
-    @Column(name = "id", unique = true, nullable = false)
-    var id: UUID,
-
-    @Column(name = "mission_id", nullable = false)
-    var missionId: Int,
-
-    @Column(name = "action_control_id", nullable = false)
-    var actionControlId: String,
-
-    @Column(name = "amount_of_controls", nullable = false)
-    var amountOfControls: Int = 1,
-
-    @Column(name = "unit_should_confirm", nullable = true)
-    var unitShouldConfirm: Boolean? = false,
-
-    @Column(name = "unit_has_confirmed", nullable = true)
-    var unitHasConfirmed: Boolean? = false,
-
     @Column(name = "staff_outnumbered", nullable = true)
     var staffOutnumbered: String? = null,
 
@@ -40,11 +18,7 @@ data class ControlGensDeMerModel(
 
     @Column(name = "knowledge_of_french_law_and_language", nullable = true)
     var knowledgeOfFrenchLawAndLanguage: String? = null,
-
-    @Column(name = "observations", nullable = true)
-    var observations: String? = null,
-
-) {
+): ControlModel()  {
     fun toControlGensDeMerEntity() = ControlGensDeMerEntity(
         id = id,
         missionId = missionId,
@@ -56,20 +30,29 @@ data class ControlGensDeMerModel(
         upToDateMedicalCheck = stringToControlResult(upToDateMedicalCheck),
         knowledgeOfFrenchLawAndLanguage = stringToControlResult(knowledgeOfFrenchLawAndLanguage),
         observations = observations,
+        infractions = infractions?.map { it.toInfractionEntity() }
     )
 
     companion object {
-        fun fromControlGensDeMerEntity(control: ControlGensDeMerEntity) = ControlGensDeMerModel(
-            id = control.id,
-            missionId = control.missionId,
-            actionControlId = control.actionControlId,
-            amountOfControls = control.amountOfControls,
-            unitHasConfirmed = control.unitHasConfirmed,
-            unitShouldConfirm = control.unitShouldConfirm,
-            staffOutnumbered = control.staffOutnumbered.toStringOrNull(),
-            upToDateMedicalCheck = control.upToDateMedicalCheck.toStringOrNull(),
-            knowledgeOfFrenchLawAndLanguage = control.knowledgeOfFrenchLawAndLanguage.toStringOrNull(),
-            observations = control.observations,
-        )
+        private fun ControlGensDeMerModel.copyCommonProperties(control: ControlGensDeMerEntity) {
+            this.id = control.id
+            this.missionId = control.missionId
+            this.actionControlId = control.actionControlId
+            this.amountOfControls = control.amountOfControls
+            this.unitHasConfirmed = control.unitHasConfirmed
+            this.unitShouldConfirm = control.unitShouldConfirm
+            this.observations = control.observations
+        }
+        fun fromControlGensDeMerEntity(control: ControlGensDeMerEntity): ControlGensDeMerModel {
+            val controlModel = ControlGensDeMerModel()
+
+            controlModel.copyCommonProperties(control)
+
+            controlModel.staffOutnumbered = control.staffOutnumbered.toStringOrNull()
+            controlModel.upToDateMedicalCheck = control.upToDateMedicalCheck.toStringOrNull()
+            controlModel.knowledgeOfFrenchLawAndLanguage = control.knowledgeOfFrenchLawAndLanguage.toStringOrNull()
+
+            return controlModel
+        }
     }
 }

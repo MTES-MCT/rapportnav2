@@ -5,3 +5,7 @@ enum class FormalNoticeEnum {
     NO,
     PENDING,
 }
+
+fun FormalNoticeEnum?.toStringOrNull(): String? {
+    return this?.name
+}

@@ -17,6 +17,17 @@ class GetControlByActionId(
     private val controlNavigationRepo: IControlNavigationRepository,
     private val controlGensDeMerRepo: IControlGensDeMerRepository,
 ) {
+
+    // TODO not return Any
+    fun getAnyControl(actionControlId: String): Any? {
+        return listOf(
+            getControlAdministrative(actionControlId),
+            getControlSecurity(actionControlId),
+            getControlNavigation(actionControlId),
+            getControlGensDeMer(actionControlId)
+        ).firstOrNull { it != null }
+    }
+
     fun getControlAdministrative(actionControlId: String): ControlAdministrativeEntity? {
         if (controlAdministrativeRepo.existsByActionControlId(actionControlId = actionControlId)) {
             val controlModel = controlAdministrativeRepo.findByActionControlId(actionControlId = actionControlId)

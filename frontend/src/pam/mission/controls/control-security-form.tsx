@@ -7,7 +7,7 @@ import omit from 'lodash/omit'
 import { controlIsEnabled } from './utils'
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
-import ControlInfraction from './control-infraction'
+import ControlInfraction from '../infractions/infraction-for-control'
 import { useState } from 'react'
 
 interface ControlSecurityFormProps {
@@ -24,8 +24,6 @@ const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
   disableToggle
 }) => {
   const { missionId, actionId } = useParams()
-
-  const [showInfractions, setShowInfractions] = useState<boolean>(false)
 
   const [mutate, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY, {
     refetchQueries: ['GetMissionById']
@@ -49,6 +47,7 @@ const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
       ...omit(data, '__typename', 'infractions'),
       missionId: missionId,
       actionControlId: actionId,
+      controlId: data?.id,
       amountOfControls: 1,
       unitShouldConfirm: unitShouldConfirm
     }
@@ -104,13 +103,7 @@ const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <ControlInfraction
-            controlId={data?.id}
-            infraction={undefined}
-            controlType={ControlType.SECURITY}
-            showInfractions={showInfractions}
-            showInfractionForm={setShowInfractions}
-          />
+          <ControlInfraction controlId={data?.id} infractions={data?.infractions} controlType={ControlType.SECURITY} />
         </Stack.Item>
       </Stack>
     </Panel>

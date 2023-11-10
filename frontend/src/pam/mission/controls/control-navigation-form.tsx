@@ -7,7 +7,7 @@ import omit from 'lodash/omit'
 import { controlIsEnabled } from './utils'
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
-import ControlInfraction from './control-infraction'
+import ControlInfraction from '../infractions/infraction-for-control'
 import { useState } from 'react'
 
 interface ControlNavigationFormProps {
@@ -24,8 +24,6 @@ const ControlNavigationForm: React.FC<ControlNavigationFormProps> = ({
   disableToggle
 }) => {
   const { missionId, actionId } = useParams()
-
-  const [showInfractions, setShowInfractions] = useState<boolean>(false)
 
   const [mutate, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_OR_UPDATE_CONTROL_NAVIGATION, {
     refetchQueries: ['GetMissionById']
@@ -49,6 +47,7 @@ const ControlNavigationForm: React.FC<ControlNavigationFormProps> = ({
       ...omit(data, '__typename', 'infractions'),
       missionId: missionId,
       actionControlId: actionId,
+      controlId: data?.id,
       amountOfControls: 1,
       unitShouldConfirm: unitShouldConfirm
     }
@@ -106,10 +105,8 @@ const ControlNavigationForm: React.FC<ControlNavigationFormProps> = ({
         <Stack.Item style={{ width: '100%' }}>
           <ControlInfraction
             controlId={data?.id}
-            infraction={undefined}
+            infractions={data?.infractions}
             controlType={ControlType.NAVIGATION}
-            showInfractions={showInfractions}
-            showInfractionForm={setShowInfractions}
           />
         </Stack.Item>
       </Stack>

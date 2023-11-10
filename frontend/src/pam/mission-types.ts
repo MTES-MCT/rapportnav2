@@ -3,11 +3,16 @@ import {
   ActionTypeEnum,
   EnvAction,
   FormalNoticeEnum,
+  Infraction as EnvInfraction,
   MissionSourceEnum,
   MissionTypeEnum,
-  SeaFrontEnum
+  SeaFrontEnum,
+  InfractionTypeEnum,
+  VesselTypeEnum,
+  VesselSizeEnum
 } from './env-mission-types'
 import { FishAction } from './fish-mission-types'
+import { vesselTypeToHumanString } from './mission/controls/utils'
 
 export enum ActionSource {
   'EnvAction' = 'EnvAction',
@@ -66,6 +71,29 @@ export enum VesselType {
   'COMMERCIAL' = 'COMMERCIAL',
   'SAILING_LEISURE' = 'SAILING_LEISURE'
 }
+
+export const VESSEL_TYPE_OPTIONS = [
+  {
+    label: vesselTypeToHumanString(VesselType.FISHING),
+    value: VesselType.FISHING
+  },
+  {
+    label: vesselTypeToHumanString(VesselType.SAILING),
+    value: VesselType.SAILING
+  },
+  {
+    label: vesselTypeToHumanString(VesselType.MOTOR),
+    value: VesselType.MOTOR
+  },
+  {
+    label: vesselTypeToHumanString(VesselType.COMMERCIAL),
+    value: VesselType.COMMERCIAL
+  },
+  {
+    label: vesselTypeToHumanString(VesselType.SAILING_LEISURE),
+    value: VesselType.SAILING_LEISURE
+  }
+]
 
 export enum VesselSize {
   'LESS_THAN_12m' = 'LESS_THAN_12m',
@@ -148,41 +176,27 @@ export enum ControlType {
   'NAVIGATION' = 'NAVIGATION'
 }
 
-export type ControlAdministrative = {
+type ControlModel = {
   id: string
   amountOfControls: number
   unitShouldConfirm?: boolean
   unitHasConfirmed?: boolean
-  compliantOperatingPermit?: ControlResult
-  upToDateNavigationPermit?: ControlResult
-  compliantSecurityDocuments?: ControlResult
   observations?: string
   infractions?: Infraction[]
 }
-export type ControlGensDeMer = {
-  id: string
-  amountOfControls: number
-  unitShouldConfirm?: boolean
-  unitHasConfirmed?: boolean
+
+export type ControlAdministrative = ControlModel & {
+  compliantOperatingPermit?: ControlResult
+  upToDateNavigationPermit?: ControlResult
+  compliantSecurityDocuments?: ControlResult
+}
+export type ControlGensDeMer = ControlModel & {
   staffOutnumbered?: ControlResult
   upToDateMedicalCheck?: ControlResult
   knowledgeOfFrenchLawAndLanguage?: ControlResult
-  observations?: string
 }
-export type ControlNavigation = {
-  id: string
-  amountOfControls: number
-  unitShouldConfirm?: boolean
-  unitHasConfirmed?: boolean
-  observations?: string
-}
-export type ControlSecurity = {
-  id: string
-  amountOfControls: number
-  unitShouldConfirm?: boolean
-  unitHasConfirmed?: boolean
-  observations?: string
-}
+export type ControlNavigation = ControlModel
+export type ControlSecurity = ControlModel
 
 export function isEnvAction(action: Action): boolean {
   return action !== null && action.source === MissionSourceEnum.MONITORENV
@@ -217,9 +231,40 @@ export type Mission = {
 
 export type Infraction = {
   id: string
-  formalNotice?: boolean
+  controlType: ControlType
+  formalNotice?: FormalNoticeEnum
   infractions: Natinf[]
   observations?: string
+  target?: InfractionTarget
+}
+
+export type InfractionTarget = {
+  id: string
+  natinfs?: Natinf[]
+  observations?: string
+  companyName?: string
+  relevantCourt?: string
+  infractionType?: InfractionTypeEnum
+  formalNotice?: FormalNoticeEnum
+  toProcess?: Boolean
+  vesselType?: VesselTypeEnum
+  vesselSize?: VesselSizeEnum
+  vesselIdentifier?: string
+  identityControlledPerson?: string
+}
+
+export type InfractionByTarget = {
+  vesselIdentifier: string
+  vesselType: VesselType
+  infractions: Infraction[]
+}
+
+export type InfractionEnvNewTarget = Infraction & {
+  controlType: ControlType
+  identityControlledPerson: string
+  vesselType: VesselType
+  vesselSize: VesselSize
+  vesselIdentifier: string
 }
 
 export type Natinf = {

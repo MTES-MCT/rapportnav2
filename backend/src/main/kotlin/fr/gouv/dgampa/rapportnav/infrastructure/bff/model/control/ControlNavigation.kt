@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Infraction
 import java.util.*
 
 data class ControlNavigation(
@@ -9,6 +10,7 @@ data class ControlNavigation(
     val unitShouldConfirm: Boolean?,
     val unitHasConfirmed: Boolean?,
     val observations: String?,
+    val infractions: List<Infraction>? = null
 ) {
     fun toControlNavigationEntity(missionId: Int, actionId: String): ControlNavigationEntity {
         return ControlNavigationEntity(
@@ -30,7 +32,7 @@ data class ControlNavigation(
                 unitShouldConfirm = control.unitShouldConfirm,
                 unitHasConfirmed = control.unitHasConfirmed,
                 observations = control.observations,
-//                infractions = control.infractions?.map { Infraction.fromInfractionEntity(it) }
+                infractions = control.infractions?.map { Infraction.fromInfractionEntity(it) }
             )
         }
     }

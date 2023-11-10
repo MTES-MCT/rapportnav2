@@ -5,7 +5,8 @@ import {
   ControlGensDeMer,
   ControlNavigation,
   ControlSecurity,
-  ControlType
+  ControlType,
+  InfractionByTarget
 } from './mission-types'
 
 export enum ActionTypeEnum {
@@ -374,13 +375,14 @@ export type NewEnvActionControl = EnvActionCommonProperties & {
   actionNumberOfControls?: number
   actionTargetType?: string
   actionType: ActionTypeEnum.CONTROL
-  infractions: Infraction[]
+  infractions: InfractionByTarget[]
   observations: string | null
   themes: EnvActionTheme[]
   vehicleType?: string
 }
 export type EnvActionControl = NewEnvActionControl & {
   actionTargetType: string
+  availableControlTypes?: ControlType[]
   controlsToComplete?: ControlType[]
   controlAdministrative?: ControlAdministrative
   controlNavigation?: ControlNavigation

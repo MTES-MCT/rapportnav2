@@ -1,13 +1,38 @@
 extend type Mutation {
   addOrUpdateInfraction(infraction: InfractionInput!): Infraction!
+  addOrUpdateInfractionForEnvTarget(
+    infraction: InfractionWithNewTargetInput!
+  ): Infraction!
   deleteInfraction(id: String!): Boolean!
 }
 
 type Infraction {
   id: String!
-  formalNotice: Boolean
+  controlType: String
+  formalNotice: String
   natinfs: [Natinf]
   observations: String
+  target: InfractionTarget
+}
+
+type InfractionTarget {
+  id: String!
+  vesselIdentifier: String
+  identityControlledPerson: String
+  vesselType: VesselType
+  vesselSize: VesselSize
+  companyName: String
+  relevantCourt: String
+  infractionType: String
+  formalNotice: String
+  toProcess: Boolean
+}
+
+# for Env controls, we group by vesselIdentifier
+type InfractionByTarget {
+  vesselIdentifier: String
+  vesselType: VesselType
+  infractions: [Infraction]
 }
 
 type Natinf {
@@ -18,11 +43,27 @@ type Natinf {
 input InfractionInput {
   id: String
   missionId: String!
-  controlId: String!
+  actionId: String!
+  controlId: String
   controlType: String!
-  formalNotice: Boolean
+  formalNotice: String
   natinfs: [NatinfInput]
   observations: String
+}
+
+input InfractionWithNewTargetInput {
+  id: String
+  missionId: String!
+  actionId: String!
+  controlId: String
+  controlType: String!
+  formalNotice: String
+  natinfs: [NatinfInput]
+  observations: String
+  vesselIdentifier: String!
+  identityControlledPerson: String!
+  vesselType: VesselType!
+  vesselSize: VesselSize!
 }
 
 input NatinfInput {

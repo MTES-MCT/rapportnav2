@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Accent, Button, Icon, Label, Size, THEME } from '@mtes-mct/monitor-ui'
 import { Infraction, ControlType } from '../../mission-types'
-import InfractionSummary from '../infractions/infraction-summary'
-import InfractionForm from '../infractions/infraction-form'
-import { infractionButtonTitle } from '../infractions/utils'
+import InfractionSummary from './infraction-summary'
+import InfractionForm from './infraction-form'
+import { infractionButtonTitle } from './utils'
 import { GET_MISSION_BY_ID, MUTATION_ADD_OR_UPDATE_INFRACTION, MUTATION_DELETE_INFRACTION } from '../queries'
 import { useMutation } from '@apollo/client'
 import { useParams } from 'react-router-dom'
@@ -16,9 +16,15 @@ export interface ControlInfractionProps {
 }
 
 const ControlInfraction: React.FC<ControlInfractionProps> = ({ controlId, controlType, infractions }) => {
-  const { missionId } = useParams()
+  const { missionId, actionId } = useParams()
 
   const [showInfractionForm, setShowInfractionForm] = useState<boolean>(false)
+
+  const [formData, setFormData] = useState<Infraction | undefined>(undefined) // only 1 infraction for nav and fish
+
+  const onChangeFormField = (field: string, value: any) => {
+    setFormData((prevData: any) => ({ ...prevData, [field]: value }))
+  }
 
   const [mutate, { mutateData, mutateLoading, mutateError }] = useMutation(MUTATION_ADD_OR_UPDATE_INFRACTION, {
     refetchQueries: [GET_MISSION_BY_ID]
@@ -27,11 +33,13 @@ const ControlInfraction: React.FC<ControlInfractionProps> = ({ controlId, contro
     refetchQueries: [GET_MISSION_BY_ID]
   })
 
-  const onSubmit = async (data: Infraction) => {
+  const onSubmit = async (e: React.FormEvent, infraction?: Infraction) => {
+    e.preventDefault()
     const mutationData = {
-      ...omit(data, '__typename'),
-      id: data?.id,
+      ...omit(infraction, '__typename', 'target'),
+      id: infraction?.id,
       missionId,
+      actionId,
       controlId,
       controlType
     }
@@ -77,11 +85,14 @@ const ControlInfraction: React.FC<ControlInfractionProps> = ({ controlId, contro
         <>
           <Label>Ajout d'infraction</Label>
           <div style={{ width: '100%', backgroundColor: THEME.color.cultured, padding: '1rem' }}>
-            <InfractionForm
-              infraction={infractions?.[0]} // only 1 infraction for nav and fish
-              onCancel={() => setShowInfractionForm(false)}
-              onSubmit={onSubmit}
-            />
+            <form onSubmit={(e: React.FormEvent) => onSubmit(e, formData)}>
+              <InfractionForm
+                infraction={formData}
+                availableNatinfs={undefined}
+                onChange={onChangeFormField}
+                onCancel={() => setShowInfractionForm(false)}
+              />
+            </form>
           </div>
         </>
       )}

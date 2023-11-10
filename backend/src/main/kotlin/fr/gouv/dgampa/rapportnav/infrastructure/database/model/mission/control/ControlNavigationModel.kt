@@ -5,35 +5,16 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import java.time.ZonedDateTime
 import java.util.*
 
 @Entity
 @Table(name = "control_navigation")
 data class ControlNavigationModel(
+    // Add at least one parameter to the primary constructor
     @Id
     @Column(name = "id", unique = true, nullable = false)
-    var id: UUID,
-
-    @Column(name = "mission_id", nullable = false)
-    var missionId: Int,
-
-    @Column(name = "action_control_id", nullable = false)
-    var actionControlId: String,
-
-    @Column(name = "amount_of_controls", nullable = false)
-    var amountOfControls: Int = 1,
-
-    @Column(name = "unit_should_confirm", nullable = true)
-    var unitShouldConfirm: Boolean? = false,
-
-    @Column(name = "unit_has_confirmed", nullable = true)
-    var unitHasConfirmed: Boolean? = false,
-
-    @Column(name = "observations", nullable = true)
-    var observations: String? = null,
-
-) {
+    override var id: UUID,
+) : ControlModel() {
     fun toControlNavigationEntity() = ControlNavigationEntity(
         id = id,
         missionId = missionId,
@@ -42,17 +23,23 @@ data class ControlNavigationModel(
         unitHasConfirmed = unitHasConfirmed,
         unitShouldConfirm = unitShouldConfirm,
         observations = observations,
+        infractions = infractions?.map { it.toInfractionEntity() }
     )
 
     companion object {
-        fun fromControlNavigationEntity(control: ControlNavigationEntity) = ControlNavigationModel(
-            id = control.id,
-            missionId = control.missionId,
-            actionControlId = control.actionControlId,
-            amountOfControls = control.amountOfControls,
-            unitHasConfirmed = control.unitHasConfirmed,
-            unitShouldConfirm = control.unitShouldConfirm,
-            observations = control.observations,
-        )
+        private fun ControlNavigationModel.copyCommonProperties(control: ControlNavigationEntity) {
+            this.id = control.id
+            this.missionId = control.missionId
+            this.actionControlId = control.actionControlId
+            this.amountOfControls = control.amountOfControls
+            this.unitHasConfirmed = control.unitHasConfirmed
+            this.unitShouldConfirm = control.unitShouldConfirm
+            this.observations = control.observations
+        }
+        fun fromControlNavigationEntity(control: ControlNavigationEntity): ControlNavigationModel {
+            val controlModel = ControlNavigationModel(id=control.id)
+            controlModel.copyCommonProperties(control)
+            return controlModel
+        }
     }
 }

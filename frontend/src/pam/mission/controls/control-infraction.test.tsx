@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '../../../test-utils'
 import { ControlType, Infraction } from '../../mission-types'
-import ControlInfraction, { ControlInfractionProps } from './control-infraction'
+import ControlInfraction, { ControlInfractionProps } from '../infractions/infraction-for-control'
 import { infractionTitleForControlType } from '../infractions/utils'
 
 const props = (infractions?: Infraction[]) =>

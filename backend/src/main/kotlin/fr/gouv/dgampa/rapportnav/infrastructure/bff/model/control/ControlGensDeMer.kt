@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlResult
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Infraction
 import java.util.*
 
 data class ControlGensDeMer(
@@ -13,6 +14,7 @@ data class ControlGensDeMer(
     val upToDateMedicalCheck: ControlResult?,
     val knowledgeOfFrenchLawAndLanguage: ControlResult?,
     val observations: String?,
+    val infractions: List<Infraction>? = null
 ) {
     fun toControlGensDeMerEntity(missionId: Int, actionId: String): ControlGensDeMerEntity {
         return ControlGensDeMerEntity(
@@ -40,7 +42,7 @@ data class ControlGensDeMer(
                 upToDateMedicalCheck = control.upToDateMedicalCheck,
                 knowledgeOfFrenchLawAndLanguage = control.knowledgeOfFrenchLawAndLanguage,
                 observations = control.observations,
-//                infractions = control.infractions?.map { Infraction.fromInfractionEntity(it) }
+                infractions = control.infractions?.map { Infraction.fromInfractionEntity(it) }
             )
         }
     }

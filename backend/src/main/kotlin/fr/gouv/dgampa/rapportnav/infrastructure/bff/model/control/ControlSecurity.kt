@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurityEntity
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Infraction
 import java.util.*
 
 data class ControlSecurity(
@@ -9,6 +10,7 @@ data class ControlSecurity(
     val unitShouldConfirm: Boolean?,
     val unitHasConfirmed: Boolean?,
     val observations: String?,
+    val infractions: List<Infraction>? = null
 ) {
     fun toControlSecurityEntity(missionId: Int, actionId: String): ControlSecurityEntity {
         return ControlSecurityEntity(
@@ -30,7 +32,7 @@ data class ControlSecurity(
                 unitShouldConfirm = control.unitShouldConfirm,
                 unitHasConfirmed = control.unitHasConfirmed,
                 observations = control.observations,
-//                infractions = control.infractions?.map { Infraction.fromInfractionEntity(it) }
+                infractions = control.infractions?.map { Infraction.fromInfractionEntity(it) }
             )
         }
     }

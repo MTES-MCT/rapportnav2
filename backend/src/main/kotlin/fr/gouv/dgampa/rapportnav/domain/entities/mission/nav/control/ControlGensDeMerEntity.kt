@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control
 
-import java.time.ZonedDateTime
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
 import java.util.*
 
 data class ControlGensDeMerEntity(
@@ -8,12 +8,13 @@ data class ControlGensDeMerEntity(
     val missionId: Int,
     val actionControlId: String,
     val amountOfControls: Int,
-    val unitShouldConfirm: Boolean?,
-    val unitHasConfirmed: Boolean?,
-    val staffOutnumbered: ControlResult?,
-    val upToDateMedicalCheck: ControlResult?,
-    val knowledgeOfFrenchLawAndLanguage: ControlResult?,
-    val observations: String?,
+    val unitShouldConfirm: Boolean? = null,
+    val unitHasConfirmed: Boolean? = null,
+    val staffOutnumbered: ControlResult? = null,
+    val upToDateMedicalCheck: ControlResult? = null,
+    val knowledgeOfFrenchLawAndLanguage: ControlResult? = null,
+    val observations: String? = null,
+    val infractions: List<InfractionEntity>? = null
 ) {
 
 }
