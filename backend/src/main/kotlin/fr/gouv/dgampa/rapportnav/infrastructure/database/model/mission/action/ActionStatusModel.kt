@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.mapStringToActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.mapStringToActionStatusType
@@ -51,7 +50,7 @@ data class ActionStatusModel(
     }
 
     companion object {
-        fun fromActionStatusEntity(statusAction: ActionStatusEntity, mapper: ObjectMapper) = ActionStatusModel(
+        fun fromActionStatusEntity(statusAction: ActionStatusEntity) = ActionStatusModel(
             id = statusAction.id,
             missionId = statusAction.missionId,
             startDateTimeUtc = statusAction.startDateTimeUtc,

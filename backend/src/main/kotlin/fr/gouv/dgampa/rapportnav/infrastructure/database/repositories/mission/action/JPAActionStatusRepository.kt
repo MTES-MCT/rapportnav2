@@ -35,7 +35,7 @@ class JPAActionStatusRepository (
     @Transactional
     override fun save(statusAction: ActionStatusEntity): ActionStatusModel {
         return try {
-            val statusActionModel = ActionStatusModel.fromActionStatusEntity(statusAction, mapper)
+            val statusActionModel = ActionStatusModel.fromActionStatusEntity(statusAction)
             dbActionStatusRepository.save(statusActionModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating action status", e)
