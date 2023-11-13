@@ -40,7 +40,7 @@ const EnvInfractionNewTargetForm: React.FC<EnvInfractionNewTargetFormProps> = ({
   onCancel
 }) => {
   return (
-    <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
+    <Stack direction="column" spacing={'2rem'} style={{ width: '100%', padding: '1rem' }}>
       <Stack.Item style={{ width: '100%' }}>
         <Select
           label="Type de contrôle avec infraction"

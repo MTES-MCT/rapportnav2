@@ -8,7 +8,7 @@ interface ActionSelectionDropdownProps {
 const ActionSelectionDropdown: React.FC<ActionSelectionDropdownProps> = ({ onSelect }) => {
   return (
     <Dropdown Icon={Icon.Plus} onSelect={onSelect} title="Ajouter">
-      <Dropdown.Item Icon={Icon.Control} eventKey={ActionTypeEnum.CONTROL}>
+      <Dropdown.Item Icon={Icon.ControlUnit} eventKey={ActionTypeEnum.CONTROL}>
         Ajouter des contrôles
       </Dropdown.Item>
       <Dropdown.Item Icon={Icon.Note} eventKey={ActionTypeEnum.NOTE} disabled>

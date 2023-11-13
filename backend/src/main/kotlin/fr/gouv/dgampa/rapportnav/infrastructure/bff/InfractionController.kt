@@ -43,12 +43,15 @@ class InfractionController(
     fun addOrUpdateInfractionForEnvTarget(@Argument infraction: InfractionWithNewTargetInput): Infraction? {
         val target: InfractionEnvTargetEntity?
 
+        // get the infraction if it already exists and set its target
         if (infraction.id != null) {
             val repoInfraction = getInfractionById.execute(id = UUID.fromString(infraction.id))
             target = repoInfraction?.target
         } else {
             target = null
         }
+
+        // TODO must also verify that there is not already an infraction for this target and this controlType
 
         val input = infraction.toInfractionEntity(target)
         val infractionEntity = addOrUpdateInfraction.execute(input)

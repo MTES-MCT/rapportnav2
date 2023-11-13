@@ -19,7 +19,7 @@ export const StatusColorTag: React.FC<{ status: ActionStatusType }> = ({ status 
 )
 
 const StatusSelectionDropdown: React.FC<StatusSelectionDropdownProps> = ({ onSelect }) => (
-  <Dropdown Icon={Icon.FleetSegment} onSelect={onSelect} title="">
+  <Dropdown Icon={Icon.FleetSegment} onSelect={onSelect} title="&#x25BC;">
     <Dropdown.Item eventKey={ActionStatusType.NAVIGATING}>
       <Stack spacing="0.5rem" alignItems="center">
         <Stack.Item>

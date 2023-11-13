@@ -1,9 +1,10 @@
 import React from 'react'
 import { Stack } from 'rsuite'
 import { Accent, Icon, Size, THEME, IconButton, Tag } from '@mtes-mct/monitor-ui'
-import Title from '../../../ui/title'
+import Text from '../../../ui/text'
 import { ControlType, Infraction } from '../../mission-types'
 import { infractionTitleForControlType } from './utils'
+import InfractionTag from './infraction-tag'
 
 interface InfractionSummaryProps {
   controlType: ControlType
@@ -20,9 +21,9 @@ const InfractionSummary: React.FC<InfractionSummaryProps> = ({ infractions, cont
           <Stack.Item style={{ width: '100%' }}>
             <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={'0.5rem'}>
               <Stack.Item>
-                <Title as="h3" weight="bold" color={THEME.color.gunMetal}>
+                <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
                   {infractionTitleForControlType(controlType)}
-                </Title>
+                </Text>
               </Stack.Item>
               <Stack.Item>
                 <Stack direction="row" alignItems="baseline" spacing={'0.5rem'}>
@@ -48,12 +49,10 @@ const InfractionSummary: React.FC<InfractionSummaryProps> = ({ infractions, cont
             </Stack>
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
-            <Tag accent={Accent.PRIMARY}>
-              <b>Avec PV</b>
-            </Tag>
+            <InfractionTag text="Avec PV" />
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
-            <Title as="h3">{infraction?.observations ? infraction?.observations : 'Aucune observation'}</Title>
+            <Text as="h3">{infraction?.observations ? infraction?.observations : 'Aucune observation'}</Text>
           </Stack.Item>
         </Stack>
       ))}

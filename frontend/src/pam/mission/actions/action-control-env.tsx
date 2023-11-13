@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { CoordinatesFormat, CoordinatesInput, DateRangePicker, Icon, Label, THEME } from '@mtes-mct/monitor-ui'
 import Divider from 'rsuite/Divider'
 import { Stack } from 'rsuite'
-import Title from '../../../ui/title'
+import Text from '../../../ui/text'
 import { formatDateTimeForFrenchHumans } from '../../../dates'
 import { FishAction } from '../../fish-mission-types'
 import ControlsToCompleteTag from '../controls/controls-to-complete-tag'
 import EnvControlForm from '../controls/env-control-form'
 import { Action, ControlType } from '../../mission-types'
-import { EnvActionControl } from '../../env-mission-types'
+import { EnvActionControl, actionTargetTypeLabels, vehicleTypeLabels } from '../../env-mission-types'
 import { GET_MISSION_BY_ID, MUTATION_ADD_OR_UPDATE_INFRACTION_ENV } from '../queries'
 import { useMutation } from '@apollo/client'
 import { useParams } from 'react-router-dom'
@@ -21,55 +21,34 @@ interface ActionControlPropsEnv {
 
 const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
   const { missionId, actionId } = useParams()
-  const [showInfractionForNewTarget, setShowInfractionForNewTarget] = useState<boolean>(false)
-
-  const [mutate, { mutateData, mutateLoading, mutateError }] = useMutation(MUTATION_ADD_OR_UPDATE_INFRACTION_ENV, {
-    refetchQueries: [GET_MISSION_BY_ID]
-  })
-  // const [deleteMutation] = useMutation(MUTATION_DELETE_INFRACTION, {
-  //   refetchQueries: [GET_MISSION_BY_ID]
-  // })
-
-  const onSubmitInfraction = async () => {
-    const mutationData = {
-      // ...omit(data, '__typename'),
-      // id: data?.id,
-      missionId,
-      actionId
-      // controlId,
-      // controlType
-    }
-    debugger
-    await mutate({ variables: { infraction: mutationData } })
-  }
 
   return (
     <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" spacing={'0.5rem'} style={{ width: '100%' }}>
           <Stack.Item alignSelf="baseline">
-            <Icon.Control color={THEME.color.charcoal} size={20} />
+            <Icon.ControlUnit color={THEME.color.charcoal} size={20} />
           </Stack.Item>
           <Stack.Item grow={2}>
-            <Title as="h2">
+            <Text as="h2" weight="bold">
               Contrôles {action.startDateTimeUtc && `(${formatDateTimeForFrenchHumans(action.startDateTimeUtc)})`}
-            </Title>
+            </Text>
           </Stack.Item>
         </Stack>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Label>Thématique de contrôle</Label>
-        <Title as="h3" weight="bold" color={THEME.color.gunMetal}>
+        <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
           {(action.data as any as EnvActionControl)?.themes[0].theme ?? 'inconnue'}
-        </Title>
+        </Text>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Label>Sous-thématiques de contrôle</Label>
-        <Title as="h3" weight="bold" color={THEME.color.gunMetal}>
+        <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
           {(action.data as any as EnvActionControl)?.themes[0].subThemes?.length
             ? (action.data as any as EnvActionControl)?.themes[0].subThemes?.join(', ')
             : 'inconnues'}
-        </Title>
+        </Text>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <DateRangePicker
@@ -78,7 +57,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
           withTime={true}
           isCompact={true}
           isLight={true}
-          disabled={true}
+          // disabled={true}
         />
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
@@ -90,7 +69,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
           coordinatesFormat={CoordinatesFormat.DECIMAL_DEGREES}
           label="Lieu du contrôle"
           isLight={true}
-          disabled={true}
+          // disabled={true}
         />
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
@@ -104,27 +83,29 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
                 <Stack direction="column" spacing={'1rem'} alignItems="flex-start">
                   <Stack.Item>
                     <Label>Nbre total de contrôles</Label>
-                    <Title as="h3" weight="bold" color={THEME.color.gunMetal}>
+                    <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
                       {action.data?.actionNumberOfControls ?? 'inconnu'}
-                    </Title>
+                    </Text>
                   </Stack.Item>
                   <Stack.Item>
                     <Label>Type de cible</Label>
-                    <Title as="h3" weight="bold" color={THEME.color.gunMetal}>
-                      {action.data?.actionTargetType ?? 'inconnu'}
-                    </Title>
+                    <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
+                      {!!action.data?.actionTargetType
+                        ? actionTargetTypeLabels[action.data?.actionTargetType].libelle
+                        : 'inconnu'}
+                    </Text>
                   </Stack.Item>
                   <Stack.Item>
                     <Label>Type de véhicule</Label>
-                    <Title as="h3" weight="bold" color={THEME.color.gunMetal}>
-                      {action.data?.vehicleType ?? 'inconnu'}
-                    </Title>
+                    <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
+                      {!!action.data?.vehicleType ? vehicleTypeLabels[action.data?.vehicleType].libelle : 'inconnu'}
+                    </Text>
                   </Stack.Item>
                   <Stack.Item>
                     <Label>Observations</Label>
-                    <Title as="h3" weight="bold" color={THEME.color.gunMetal}>
+                    <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
                       {action.data?.observations ?? 'aucunes'}
-                    </Title>
+                    </Text>
                   </Stack.Item>
                 </Stack>
               </Stack.Item>
@@ -143,9 +124,9 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
                   )}
 
                   <Stack.Item>
-                    <Title as="h3" weight="bold" color={THEME.color.gunMetal}>
+                    <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
                       dont...
-                    </Title>
+                    </Text>
                   </Stack.Item>
                   <Stack.Item style={{ width: '100%' }}>
                     <EnvControlForm

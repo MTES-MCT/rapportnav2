@@ -11,7 +11,14 @@ import {
   VESSEL_TYPE_OPTIONS
 } from '../../mission-types'
 import InfractionForm from './infraction-form'
-import { controlTitle, getDisabledControlTypes } from '../controls/utils'
+import {
+  controlTitle,
+  getDisabledControlTypes,
+  vesselSizeToHumanString,
+  vesselTypeToHumanString
+} from '../controls/utils'
+import Text from '../../../ui/text'
+import { infractionTypeLabels } from '../../env-mission-types'
 
 const CONTROL_TYPE_OPTIONS = [
   {
@@ -48,47 +55,65 @@ const EnvInfractionNewTargetForm: React.FC<EnvInfractionNewTargetFormProps> = ({
   onCancel
 }) => {
   return (
-    <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
+    <Stack direction="column" spacing={'2rem'} style={{ width: '100%', padding: '1rem' }}>
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" spacing={'2rem'} style={{ width: '100%' }}>
           <Stack.Item style={{ width: '100%' }}>
             <Legend>Immatriculation</Legend>
-            <Field>{infraction?.target?.vesselIdentifier}</Field>
+            <Text as="h3" weight="medium">
+              {infraction?.target?.vesselIdentifier}
+            </Text>
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
             <Legend>Type de navire</Legend>
-            <Field>{infraction?.target?.vesselType}</Field>
+            <Text as="h3" weight="medium">
+              {vesselTypeToHumanString(infraction?.target?.vesselType)}
+            </Text>
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
             <Legend>Taille du navire</Legend>
-            <Field>{infraction?.target?.vesselSize}</Field>
+            <Text as="h3" weight="medium">
+              {vesselSizeToHumanString(infraction?.target?.vesselSize)}
+            </Text>
           </Stack.Item>
         </Stack>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Legend>Identité de la personne contrôlée</Legend>
-        <Field>{infraction?.target?.identityControlledPerson}</Field>
+        <Text as="h3" weight="medium">
+          {infraction?.target?.identityControlledPerson}
+        </Text>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Legend>Type d'infraction</Legend>
-        <Field>{infraction?.target?.infractionType}</Field>
+        <Text as="h3" weight="medium">
+          {infractionTypeLabels[infraction.target.infractionType!!].libelle}
+        </Text>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Legend>Mise en demeure</Legend>
-        <Field>{'TODO'}</Field>
+        <Text as="h3" weight="medium">
+          {'TODO'}
+        </Text>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Legend>NATINF</Legend>
-        <Field>{'TODO'}</Field>
+        <Text as="h3" weight="medium">
+          {'TODO'}
+        </Text>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Legend>Tribunal compétent</Legend>
-        <Field>{infraction?.target?.relevantCourt}</Field>
+        <Text as="h3" weight="medium">
+          {infraction?.target?.relevantCourt}
+        </Text>
         <Checkbox value={!!infraction?.target?.toProcess} label="À traiter" disabled={true} />
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Legend>Observations</Legend>
-        <Field>{infraction?.target?.observations ?? '-'}</Field>
+        <Text as="h3" weight="medium">
+          {infraction?.target?.observations ?? '-'}
+        </Text>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Legend>Ajout d’une infraction pour cette cible</Legend>

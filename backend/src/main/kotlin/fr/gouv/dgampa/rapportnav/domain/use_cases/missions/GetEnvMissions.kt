@@ -26,8 +26,8 @@ class GetEnvMissions() {
             missionTypes = listOf(MissionTypeEnum.SEA),
             facade = "Outre-Mer",
             observationsCacem = null,
-            startDateTimeUtc = ZonedDateTime.parse("2022-02-15T04:50:09Z"),
-            endDateTimeUtc = ZonedDateTime.parse("2022-02-23T20:29:03Z"),
+            startDateTimeUtc = ZonedDateTime.parse("2022-03-15T04:50:09Z"),
+//            endDateTimeUtc = ZonedDateTime.parse("2022-03-23T20:29:03Z"),
             isClosed = false,
             isDeleted = false,
             missionSource = MissionSourceEnum.RAPPORTNAV,
@@ -40,8 +40,8 @@ class GetEnvMissions() {
             missionTypes = listOf(MissionTypeEnum.SEA),
             facade = "Outre-Mer",
             observationsCacem = null,
-            startDateTimeUtc = ZonedDateTime.parse("2022-01-15T04:50:09Z"),
-            endDateTimeUtc = ZonedDateTime.parse("2022-01-23T20:29:03Z"),
+            startDateTimeUtc = ZonedDateTime.parse("2022-02-15T04:50:09Z"),
+            endDateTimeUtc = ZonedDateTime.parse("2022-02-23T20:29:03Z"),
             isClosed = true,
             isDeleted = false,
             missionSource = MissionSourceEnum.MONITORENV,
@@ -49,8 +49,22 @@ class GetEnvMissions() {
             isUnderJdp = false,
             isGeometryComputedFromControls = false
         )
+        val mission3 = EnvMission(
+            id = 12,
+            missionTypes = listOf(MissionTypeEnum.SEA),
+            facade = "Outre-Mer",
+            observationsCacem = null,
+            startDateTimeUtc = ZonedDateTime.parse("2022-01-15T04:50:09Z"),
+            endDateTimeUtc = ZonedDateTime.parse("2022-01-23T20:29:03Z"),
+            isClosed = true,
+            isDeleted = false,
+            missionSource = MissionSourceEnum.MONITORFISH,
+            hasMissionOrder = false,
+            isUnderJdp = false,
+            isGeometryComputedFromControls = false
+        )
 
-        val envMissions = listOf(mission1, mission2)
+        val envMissions = listOf(mission1, mission2, mission3)
 
         val missions = envMissions.map { MissionEntity(envMission = it) }
 

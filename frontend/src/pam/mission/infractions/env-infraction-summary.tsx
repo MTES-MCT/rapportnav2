@@ -1,9 +1,10 @@
 import React from 'react'
 import { Stack } from 'rsuite'
 import { Accent, Icon, Size, THEME, IconButton, Tag, Button } from '@mtes-mct/monitor-ui'
-import Title from '../../../ui/title'
+import Text from '../../../ui/text'
 import { controlTitle, vesselTypeToHumanString } from '../controls/utils'
 import { Infraction, InfractionByTarget } from '../../mission-types'
+import InfractionTag from './infraction-tag'
 
 interface EnvInfractionSummaryProps {
   infractionByTarget?: InfractionByTarget
@@ -23,9 +24,9 @@ const EnvInfractionSummary: React.FC<EnvInfractionSummaryProps> = ({
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={'0.5rem'}>
           <Stack.Item>
-            <Title as="h3" weight="bold" color={THEME.color.gunMetal}>
+            <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
               {`${vesselTypeToHumanString(infractionByTarget?.vesselType)} - ${infractionByTarget?.vesselIdentifier}`}
-            </Title>
+            </Text>
           </Stack.Item>
           <Stack.Item>
             <Button
@@ -49,42 +50,42 @@ const EnvInfractionSummary: React.FC<EnvInfractionSummaryProps> = ({
             <Stack.Item>
               <Stack direction="row" spacing={'0.5rem'}>
                 <Stack.Item>
-                  <Title as="h3" weight="bold" color={THEME.color.gunMetal}>
+                  <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
                     {!infraction?.controlType
                       ? 'Infraction contrôle de l’environnement'
                       : controlTitle(infraction.controlType)}
-                  </Title>
+                  </Text>
                 </Stack.Item>
-                {[1, 2].map((aa: any) => (
+                {[1].map((aa: any) => (
                   <Stack.Item>
-                    <Tag accent={Accent.PRIMARY}>
-                      <b>Avec PV</b>
-                    </Tag>
+                    <InfractionTag text="Avec PV" />
                   </Stack.Item>
                 ))}
               </Stack>
             </Stack.Item>
-            <Stack.Item>
-              <Stack direction="row" alignItems="baseline" spacing={'0.5rem'}>
-                <Stack.Item>
-                  <IconButton
-                    Icon={Icon.EditUnbordered}
-                    accent={Accent.SECONDARY}
-                    size={Size.NORMAL}
-                    role="edit-infraction"
-                    onClick={() => onEditInfractionForTarget(infraction)}
-                  />
-                </Stack.Item>
-                <Stack.Item>
-                  <IconButton
-                    Icon={Icon.Delete}
-                    accent={Accent.SECONDARY}
-                    size={Size.NORMAL}
-                    onClick={() => onDeleteInfraction(infraction.id)}
-                  />
-                </Stack.Item>
-              </Stack>
-            </Stack.Item>
+            {infraction.controlType !== null && (
+              <Stack.Item>
+                <Stack direction="row" alignItems="baseline" spacing={'0.5rem'}>
+                  <Stack.Item>
+                    <IconButton
+                      Icon={Icon.EditUnbordered}
+                      accent={Accent.SECONDARY}
+                      size={Size.NORMAL}
+                      role="edit-infraction"
+                      onClick={() => onEditInfractionForTarget(infraction)}
+                    />
+                  </Stack.Item>
+                  <Stack.Item>
+                    <IconButton
+                      Icon={Icon.Delete}
+                      accent={Accent.SECONDARY}
+                      size={Size.NORMAL}
+                      onClick={() => onDeleteInfraction(infraction.id)}
+                    />
+                  </Stack.Item>
+                </Stack>
+              </Stack.Item>
+            )}
           </Stack>
         </Stack.Item>
       ))}

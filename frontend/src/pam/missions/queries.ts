@@ -6,6 +6,7 @@ export const GET_MISSIONS = gql`
       id
       missionSource
       startDateTimeUtc
+      endDateTimeUtc
     }
   }
 `

@@ -108,7 +108,13 @@ const Login: React.FC = () => {
                     />
                   </Stack.Item>
                   <Stack.Item style={{ marginTop: '2rem', width: '100%' }} alignSelf="flex-end">
-                    <Button accent={Accent.PRIMARY} type="submit" size={Size.LARGE} isFullWidth disabled={isSubmitting}>
+                    <Button
+                      accent={Accent.PRIMARY}
+                      type="submit"
+                      size={Size.LARGE}
+                      isFullWidth={true}
+                      disabled={isSubmitting}
+                    >
                       Se connecter
                     </Button>
                   </Stack.Item>

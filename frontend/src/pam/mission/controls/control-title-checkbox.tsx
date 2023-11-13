@@ -1,6 +1,6 @@
 import { THEME, Checkbox } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
-import Title from '../../../ui/title'
+import Text from '../../../ui/text'
 import { ControlType } from '../../mission-types'
 import { controlTitle } from './utils'
 
@@ -30,9 +30,9 @@ const ControlTitleCheckbox: React.FC<ControlTitleCheckboxProps> = ({
         />
       </Stack.Item>
       <Stack.Item>
-        <Title as="h3" color={THEME.color.gunMetal} weight="bold">
+        <Text as="h3" color={THEME.color.gunMetal} weight="bold">
           {controlTitle(controlType)}
-        </Title>
+        </Text>
       </Stack.Item>
       <Stack.Item>&nbsp;&nbsp;</Stack.Item>
       {!!shouldCompleteControl && (

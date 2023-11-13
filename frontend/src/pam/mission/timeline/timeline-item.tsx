@@ -8,7 +8,8 @@ import { StatusColorTag } from '../status/status-selection-dropdown'
 import { mapStatusToText } from '../status/utils'
 import { controlMethodToHumanString, vesselTypeToHumanString } from '../controls/utils'
 import ControlsToCompleteTag from '../controls/controls-to-complete-tag'
-import Title from '../../../ui/title'
+import Text from '../../../ui/text'
+import InfractionTag from '../infractions/infraction-tag'
 
 interface MissionTimelineItemProps {
   action: Action
@@ -18,7 +19,7 @@ interface MissionTimelineItemProps {
 const Wrapper: React.FC<{ action: Action; onClick: any; children: any }> = ({ action, onClick, children }) => {
   return (
     <div onClick={onClick}>
-      <FlexboxGrid style={{ width: '100%', padding: '0.5rem' }} justify="start">
+      <FlexboxGrid style={{ width: '100%', padding: '1rem' }} justify="start">
         {children}
       </FlexboxGrid>
     </div>
@@ -29,40 +30,59 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
   return (
     <Wrapper action={action as EnvActionControl} onClick={onClick}>
       <FlexboxGrid.Item style={{ width: '100%' }}>
-        <Stack direction="row" spacing="1rem">
-          <Stack.Item alignSelf="flex-start" style={{ paddingTop: '0.2rem' }}>
-            <Icon.Control color={THEME.color.charcoal} size={20} />
+        <Stack direction="row" spacing="0.5rem">
+          <Stack.Item alignSelf="flex-start">
+            <Icon.ControlUnit color={THEME.color.charcoal} size={20} />
           </Stack.Item>
           <Stack.Item alignSelf="flex-start" style={{ width: '100%' }}>
-            <Stack direction="column" alignItems="flex-start" style={{ width: '100%' }}>
+            <Stack direction="column" spacing="0.5rem" alignItems="flex-start" style={{ width: '100%' }}>
               <Stack.Item>
-                Contrôles <b>{action && 'themes' in action && action.themes[0].theme ? action.themes[0].theme : ''}</b>
+                <Stack direction="row" spacing="0.25rem">
+                  <Stack.Item>
+                    <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
+                      Contrôle
+                    </Text>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
+                      {action && 'themes' in action && action.themes[0].theme ? action.themes[0].theme : ''}
+                    </Text>
+                  </Stack.Item>
+                </Stack>
               </Stack.Item>
               <Stack.Item>
-                <b>
-                  {action && 'actionNumberOfControls' in action && action.actionNumberOfControls
-                    ? `${action.actionNumberOfControls} ${action.actionNumberOfControls > 1 ? 'contrôles' : 'contrôle'}`
-                    : 'Nombre de contrôles inconnu'}{' '}
+                <Text as="h3" weight="normal" color={THEME.color.slateGray}>
+                  <b>
+                    {action && 'actionNumberOfControls' in action && action.actionNumberOfControls
+                      ? `${action.actionNumberOfControls} ${
+                          action.actionNumberOfControls > 1 ? 'contrôles' : 'contrôle'
+                        }`
+                      : 'Nombre de contrôles inconnu'}
+                  </b>
                   &nbsp;
-                </b>
-                {action &&
-                'actionNumberOfControls' in action &&
-                action.actionNumberOfControls &&
-                action.actionNumberOfControls > 1
-                  ? 'réalisés'
-                  : 'réalisé'}{' '}
-                sur des cibles de type&nbsp;
-                <b>
-                  {action && 'actionTargetType' in action && action.actionTargetType
-                    ? action.actionTargetType?.toLowerCase()
-                    : 'inconnu'}
-                </b>
+                  {action &&
+                  'actionNumberOfControls' in action &&
+                  action.actionNumberOfControls &&
+                  action.actionNumberOfControls > 1
+                    ? 'réalisés'
+                    : 'réalisé'}{' '}
+                  sur des cibles de type &nbsp;
+                  <b>
+                    {action && 'actionTargetType' in action && action.actionTargetType
+                      ? action.actionTargetType?.toLowerCase()
+                      : 'inconnu'}
+                  </b>
+                </Text>
               </Stack.Item>
-              <Stack.Item>infrations...</Stack.Item>
+              <Stack.Item>
+                <InfractionTag text="5 PV" />
+                &nbsp;
+                <InfractionTag text="2 NATINF" />
+              </Stack.Item>
 
               <Stack.Item alignSelf="flex-start" style={{ width: '100%' }}>
                 <Stack direction="row" spacing="1rem" style={{ width: '100%' }}>
-                  <Stack.Item style={{ width: '100%' }}>
+                  <Stack.Item style={{ width: '70%' }}>
                     {(action as any as EnvActionControl)?.controlsToComplete !== undefined &&
                     (action as any as EnvActionControl)?.controlsToComplete?.length > 0 ? (
                       <ControlsToCompleteTag
@@ -72,12 +92,12 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
                       <div />
                     )}
                   </Stack.Item>
-                  <Stack.Item alignSelf="flex-end" style={{ width: '100%' }}>
+                  <Stack.Item alignSelf="flex-end" style={{ width: '30%' }}>
                     <Stack direction="column" alignItems="flex-end">
                       <Stack.Item alignSelf="flex-end">
-                        <Title as="h4" color={THEME.color.slateGray}>
+                        <Text as="h4" color={THEME.color.slateGray} style="italic">
                           ajouté par CACEM
-                        </Title>
+                        </Text>
                       </Stack.Item>
                     </Stack>
                   </Stack.Item>
@@ -90,40 +110,56 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
     </Wrapper>
   )
 }
+
 const ActionFishControl: React.FC<{ action: FishAction; onClick: any }> = ({ action, onClick }) => {
   return (
     <Wrapper action={action as FishAction} onClick={onClick}>
       <FlexboxGrid.Item style={{ width: '100%' }}>
-        <Stack direction="column" alignItems="flex-start" spacing="1rem">
-          <Stack.Item alignSelf="flex-start" style={{ paddingTop: '0.2rem' }}>
-            <Stack direction="row" spacing="1rem">
-              <Stack.Item alignSelf="flex-start" style={{ paddingTop: '0.2rem' }}>
-                <Icon.Control color={THEME.color.charcoal} size={20} />
-              </Stack.Item>
-              <Stack.Item alignSelf="flex-start">
-                <Stack direction="column" alignItems="flex-start">
-                  <Stack.Item>Contrôles CNSP</Stack.Item>
+        <Stack direction="row" spacing="0.5rem">
+          <Stack.Item alignSelf="flex-start">
+            <Icon.ControlUnit color={THEME.color.charcoal} size={20} />
+          </Stack.Item>
+          <Stack.Item alignSelf="flex-start" style={{ width: '100%' }}>
+            <Stack direction="column" spacing="0.5rem" alignItems="flex-start" style={{ width: '100%' }}>
+              <Stack.Item>
+                <Stack direction="row" spacing="0.25rem">
+                  <Stack.Item>
+                    <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
+                      Contrôle
+                    </Text>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
+                      en mer - LE ZORBA
+                    </Text>
+                  </Stack.Item>
                 </Stack>
               </Stack.Item>
-            </Stack>
-          </Stack.Item>
 
-          <Stack.Item alignSelf="flex-start" style={{ width: '100%' }}>
-            <Stack direction="row" spacing="1rem" style={{ width: '100%' }}>
-              <Stack.Item style={{ width: '100%' }}>
-                {(action as any as FishAction)?.controlsToComplete !== undefined &&
-                  (action as any as FishAction)?.controlsToComplete?.length > 0 && (
-                    <ControlsToCompleteTag
-                      amountOfControlsToComplete={(action as any as FishAction)?.controlsToComplete?.length}
-                    />
-                  )}
+              <Stack.Item>
+                <InfractionTag text="3 PV" />
+                &nbsp;
+                <InfractionTag text="2 NATINF" />
               </Stack.Item>
-              <Stack.Item alignSelf="flex-end" style={{ width: '100%' }}>
-                <Stack direction="column" alignItems="flex-end">
-                  <Stack.Item alignSelf="flex-end">
-                    <Title as="h4" color={THEME.color.slateGray}>
-                      ajouté par CNSP
-                    </Title>
+
+              <Stack.Item alignSelf="flex-start" style={{ width: '100%' }}>
+                <Stack direction="row" spacing="1rem" style={{ width: '100%' }}>
+                  <Stack.Item style={{ width: '70%' }}>
+                    {(action as any as FishAction)?.controlsToComplete !== undefined &&
+                      (action as any as FishAction)?.controlsToComplete?.length > 0 && (
+                        <ControlsToCompleteTag
+                          amountOfControlsToComplete={(action as any as FishAction)?.controlsToComplete?.length}
+                        />
+                      )}
+                  </Stack.Item>
+                  <Stack.Item alignSelf="flex-end" style={{ width: '30%' }}>
+                    <Stack direction="column" alignItems="flex-end">
+                      <Stack.Item alignSelf="flex-end">
+                        <Text as="h4" color={THEME.color.slateGray} style="italic">
+                          ajouté par CNSP
+                        </Text>
+                      </Stack.Item>
+                    </Stack>
                   </Stack.Item>
                 </Stack>
               </Stack.Item>
@@ -139,15 +175,27 @@ const ActionNavControl: React.FC<{ action: NavAction; onClick: any }> = ({ actio
   return (
     <Wrapper action={action as FishAction} onClick={onClick}>
       <FlexboxGrid.Item style={{ width: '100%' }}>
-        <Stack direction="row" spacing="1rem">
+        <Stack direction="row" spacing="0.5rem">
           <Stack.Item alignSelf="flex-start" style={{ paddingTop: '0.2rem' }}>
-            <Icon.Control color={THEME.color.charcoal} size={20} />
+            <Icon.ControlUnit color={THEME.color.charcoal} size={20} />
           </Stack.Item>
-          <Stack.Item alignSelf="flex-start">
+          <Stack.Item>
             <Stack direction="column" alignItems="flex-start">
               <Stack.Item>
-                Contrôles <b>{controlMethodToHumanString(action.controlMethod)}</b> -{' '}
-                <b>{vesselTypeToHumanString(action.vesselType)}</b>
+                <Stack direction="row" spacing="0.25rem">
+                  <Stack.Item>
+                    <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
+                      Contrôles
+                    </Text>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
+                      {`${controlMethodToHumanString(action.controlMethod)} - ${vesselTypeToHumanString(
+                        action.vesselType
+                      )}`}
+                    </Text>
+                  </Stack.Item>
+                </Stack>
               </Stack.Item>
             </Stack>
           </Stack.Item>
@@ -180,7 +228,9 @@ const ActionStatus: React.FC<{ action: NavAction; onClick: any }> = ({ action, o
           <StatusColorTag status={action.status} />
         </Stack.Item>
         <Stack.Item>
-          <b>{`${mapStatusToText(action.status)} - ${action.isStart ? 'début' : 'fin'}`}</b>
+          <Text as="h3" weight="bold" color={THEME.color.slateGray}>
+            {`${mapStatusToText(action.status)} - ${action.isStart ? 'début' : 'fin'}`}
+          </Text>
         </Stack.Item>
         <Stack.Item>
           <Icon.EditUnbordered size={20} />

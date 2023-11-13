@@ -13,7 +13,6 @@ interface MissionsListProps {
 
 const MissionStatus: React.FC<{ mission: Mission }> = ({ mission }) => {
   const missionStatus = getMissionStatus(mission)
-
   switch (missionStatus) {
     case MissionStatusEnum.PENDING:
       return <p style={{ color: THEME.color.maximumRed, fontSize: '13px' }}>&#9679; Brouillon</p>

@@ -431,7 +431,7 @@ export const getMissionStatus = (mission: Mission, compareDate = Date.now()): Mi
     if (parseISO(startDateTimeUtc) && compareAsc(parseISO(startDateTimeUtc), compareDate) >= 0) {
       return MissionStatusEnum.UPCOMING
     }
-    if (endDateTimeUtc && parseISO(endDateTimeUtc) && compareDesc(parseISO(endDateTimeUtc), compareDate) >= 0) {
+    if (!!endDateTimeUtc && parseISO(endDateTimeUtc) && compareDesc(parseISO(endDateTimeUtc), compareDate) >= 0) {
       return MissionStatusEnum.ENDED
     }
 

@@ -18,6 +18,6 @@ type Mission {
   isClosed: Boolean!
   missionSource: String!
   startDateTimeUtc: String!
-  endDateTimeUtc: String!
+  endDateTimeUtc: String
   actions: [Action]
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Stack, Toggle } from 'rsuite'
 import { Accent, Button, Size, THEME, MultiSelect, Textarea } from '@mtes-mct/monitor-ui'
-import Title from '../../../ui/title'
+import Text from '../../../ui/text'
 import { Infraction } from '../../mission-types'
 import { FormalNoticeEnum } from '../../env-mission-types'
 
@@ -30,9 +30,9 @@ const InfractionForm: React.FC<InfractionFormProps> = ({ infraction, availableNa
             />
           </Stack.Item>
           <Stack.Item>
-            <Title as="h3" weight="bold" color={THEME.color.gunMetal}>
+            <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
               PV émis
-            </Title>
+            </Text>
           </Stack.Item>
         </Stack>
       </Stack.Item>

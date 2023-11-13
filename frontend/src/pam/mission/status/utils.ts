@@ -4,10 +4,9 @@ import { THEME } from '@mtes-mct/monitor-ui'
 export const getColorForStatus = (status: ActionStatusType) => {
   switch (status) {
     case ActionStatusType.NAVIGATING:
-      return '#52B0FF'
+      return THEME.color.blueGray
     case ActionStatusType.ANCHORED:
-      //   return THEME.color.blueYonder
-      return '#567A9E'
+      return THEME.color.blueYonder
     case ActionStatusType.DOCKED:
       return THEME.color.goldenPoppy
     case ActionStatusType.UNAVAILABLE:

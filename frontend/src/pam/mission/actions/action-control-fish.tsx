@@ -1,7 +1,7 @@
 import React from 'react'
 import { THEME } from '@mtes-mct/monitor-ui'
 import { FishAction } from '../../fish-mission-types'
-import Title from '../../../ui/title'
+import Text from '../../../ui/text'
 import { Stack } from 'rsuite'
 import ControlsToCompleteTag from '../controls/controls-to-complete-tag'
 import { Action, ControlType } from '../../mission-types'
@@ -33,7 +33,7 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action }) => {
               )}
             </Stack.Item>
             <Stack.Item style={{ width: '100%' }}>
-              <Title as="h3">Autre(s) contrôle(s) effectué(s) par l’unité sur le navire</Title>
+              <Text as="h3">Autre(s) contrôle(s) effectué(s) par l’unité sur le navire</Text>
             </Stack.Item>
             <Stack.Item style={{ width: '100%' }}>
               <ControlAdministrativeForm

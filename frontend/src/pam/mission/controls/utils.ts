@@ -1,4 +1,5 @@
-import { ControlMethod, ControlType, VesselType } from '../../mission-types'
+import { VesselSizeEnum, VesselTypeEnum } from '../../env-mission-types'
+import { ControlMethod, ControlType, VesselSize, VesselType } from '../../mission-types'
 
 export const controlMethodToHumanString = (controlMethod?: ControlMethod | null): string => {
   switch (controlMethod) {
@@ -13,7 +14,7 @@ export const controlMethodToHumanString = (controlMethod?: ControlMethod | null)
   }
 }
 
-export const vesselTypeToHumanString = (vesselType?: VesselType | null): string => {
+export const vesselTypeToHumanString = (vesselType?: VesselType | VesselTypeEnum | null): string => {
   switch (vesselType) {
     case VesselType.FISHING:
       return 'Navire de pêche professionnelle'
@@ -25,6 +26,21 @@ export const vesselTypeToHumanString = (vesselType?: VesselType | null): string 
       return 'Navire de plaisance professionnelle'
     case VesselType.SAILING_LEISURE:
       return 'Navire de plaisance de loisir'
+    default:
+      return ''
+  }
+}
+
+export const vesselSizeToHumanString = (vesselSize?: VesselSize | VesselSizeEnum | null): string => {
+  switch (vesselSize) {
+    case VesselSize.LESS_THAN_12m:
+      return 'Moins de 12m'
+    case VesselSize.FROM_12_TO_24m:
+      return 'Entre 12m et 24m'
+    case VesselSize.FROM_24_TO_46m:
+      return 'Entre 24m et 46m'
+    case VesselSize.MORE_THAN_46m:
+      return 'Plus de 46m'
     default:
       return ''
   }

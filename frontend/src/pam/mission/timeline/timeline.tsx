@@ -5,7 +5,7 @@ import MissionTimelineItemContainer from './timeline-item-container'
 import MissionTimelineItem from './timeline-item'
 import { Mission, Action, getActionData, getActionStartTime, ActionStatusType } from '../../mission-types'
 import { formatShortDate, formatTime } from '../../../dates'
-import Title from '../../../ui/title'
+import Text from '../../../ui/text'
 import { getColorForStatus } from '../status/utils'
 import { ActionTypeEnum } from '../../env-mission-types'
 
@@ -19,7 +19,7 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
     <div>
       <FlexboxGrid justify="space-between" align="middle" style={{ height: '100%' }}>
         <FlexboxGrid.Item style={{ width: '100%' }}>
-          <Stack direction="column">
+          <Stack direction="column" spacing={'0.75rem'}>
             {mission.actions.map((action: Action) => {
               if (!action.data) {
                 return <></>
@@ -27,20 +27,20 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
               return (
                 <Stack.Item
                   key={`${action.source}-${action.type}-${action.id}-${Math.random()}`}
-                  style={{ width: '100%', padding: '1rem 0' }}
+                  style={{ width: '100%' }}
                 >
-                  <Stack direction="row">
+                  <Stack direction="row" spacing={'0.5rem'}>
                     <Stack.Item style={{ minWidth: '50px' }}>
                       <Stack direction="column">
                         <Stack.Item>
-                          <Title as="h3" color={THEME.color.slateGray} weight="bold">
+                          <Text as="h3" color={THEME.color.slateGray} weight="bold">
                             {formatShortDate(action.startDateTimeUtc)}
-                          </Title>
+                          </Text>
                         </Stack.Item>
                         <Stack.Item>
-                          <Title as="h3" color={THEME.color.slateGray}>
-                            {formatTime(action.startDateTimeUtc)}
-                          </Title>
+                          <Text as="h3" color={THEME.color.slateGray} weight="normal">
+                            à {formatTime(action.startDateTimeUtc)}
+                          </Text>
                         </Stack.Item>
                       </Stack>
                     </Stack.Item>
@@ -51,7 +51,14 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
                     </Stack.Item>
                     {action.type !== ActionTypeEnum.STATUS && (
                       <Stack.Item style={{ width: '10px' }}>
-                        <div style={{ backgroundColor: getColorForStatus(action.status) }}>&nbsp;</div>
+                        <div
+                          style={{
+                            backgroundColor: getColorForStatus(action.status),
+                            borderRadius: '5px'
+                          }}
+                        >
+                          &nbsp;
+                        </div>
                       </Stack.Item>
                     )}
                   </Stack>

@@ -20,6 +20,9 @@ class GetEnvMissionById {
             protectedSpecies = listOf("fish1", "fish2")
         )
         val controlTheme2 = ThemeEntity(
+            theme = "Accès zone protégée",
+            subThemes = listOf("avitaillement", "soutage"),
+            protectedSpecies = listOf("fish1", "fish2")
         )
         var envMissionActionControl1 = EnvActionControlEntity(
             id = UUID.fromString("17997de8-b0df-4095-b209-e8758df71b67"),
@@ -53,13 +56,41 @@ class GetEnvMissionById {
             id = UUID.fromString("aa997de8-b0df-4095-b209-e8758df71baa"),
             actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-19T04:50:09Z"),
             actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-19T06:50:09Z"),
-            themes = listOf(controlTheme2),
-            actionNumberOfControls = null,
+            themes = listOf(controlTheme1),
+            actionNumberOfControls = 10,
             actionTargetType = null,
             vehicleType = null,
             observations = null,
             isSeafarersControl = true,
             isAdministrativeControl = true,
+            infractions = listOf(
+                InfractionEntity(
+                    id = "1234",
+                    natinf = listOf("2593", "27773"),
+                    registrationNumber = "1234",
+                    companyName = "dummy company",
+                    relevantCourt = "tribunal",
+                    infractionType = InfractionTypeEnum.WITH_REPORT,
+                    formalNotice = FormalNoticeEnum.YES,
+                    toProcess = true,
+                    controlledPersonIdentity = "Jean Robert",
+                    vesselType = VesselTypeEnum.COMMERCIAL,
+                    vesselSize = VesselSizeEnum.LESS_THAN_12m,
+                )
+            ),
+        )
+
+        val envMissionActionControl3 = EnvActionControlEntity(
+            id = UUID.fromString("aa997de8-b0df-4095-b209-e8758df71bbb"),
+            actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-21T04:50:09Z"),
+            actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-21T06:50:09Z"),
+            themes = listOf(controlTheme2),
+            actionNumberOfControls = 13,
+            actionTargetType = ActionTargetTypeEnum.INDIVIDUAL,
+            vehicleType = VehicleTypeEnum.VESSEL,
+            observations = null,
+            isSafetyEquipmentAndStandardsComplianceControl = true,
+            isComplianceWithWaterRegulationsControl = true,
             infractions = listOf(
                 InfractionEntity(
                     id = "1234",
@@ -92,22 +123,20 @@ class GetEnvMissionById {
             facade = "Outre-Mer",
             observationsCacem = null,
             startDateTimeUtc = ZonedDateTime.parse("2022-02-15T04:50:09Z"),
-            endDateTimeUtc = ZonedDateTime.parse("2022-02-23T20:29:03Z"),
+//            endDateTimeUtc = ZonedDateTime.parse("2022-02-23T20:29:03Z"),
             isClosed = false,
             isDeleted = false,
             missionSource = MissionSourceEnum.RAPPORTNAV,
             hasMissionOrder = false,
             isUnderJdp = false,
             isGeometryComputedFromControls = false,
-            envActions = listOf(envMissionActionControl1,envMissionActionControl2)
-//            envActions = listOf(envMissionActionControl1,envMissionActionControl2, envMissionActionSurveillance, envMissionActionNote)
+            envActions = listOf(envMissionActionControl1,envMissionActionControl2, envMissionActionControl3)
         )
 
         // 2. MonitorFish - Get and add up MissionActions
         // TODO replace with API call
 
-        // 3. RapportNav - add all remaining Mission-related data
-        // TODO add logic (crew, missionActions, ...)
+
 
         return envMission
 //        return missionRepository.findMissionById(missionId)

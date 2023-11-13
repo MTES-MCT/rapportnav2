@@ -24,7 +24,7 @@ import { useMutation } from '@apollo/client'
 import { GET_MISSION_BY_ID, MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE } from '../queries'
 import omit from 'lodash/omit'
 import { useParams } from 'react-router-dom'
-import Title from '../../../ui/title'
+import Text from '../../../ui/text'
 import ControlTitleCheckbox from './control-title-checkbox'
 
 export interface EnvControlFormProps {

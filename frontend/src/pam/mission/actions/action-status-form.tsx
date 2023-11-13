@@ -14,7 +14,7 @@ import {
 } from '@mtes-mct/monitor-ui'
 import { ActionStatus, ACTION_STATUS_REASON_OPTIONS, ActionStatusType, Action } from '../../mission-types'
 import { Stack } from 'rsuite'
-import Title from '../../../ui/title'
+import Text from '../../../ui/text'
 import { formatDateTimeForFrenchHumans } from '../../../dates'
 import { getColorForStatus, mapStatusToText } from '../status/utils'
 import { useMutation } from '@apollo/client'
@@ -78,10 +78,10 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
             <Stack.Item grow={2}>
               <Stack direction="column" alignItems="flex-start">
                 <Stack.Item>
-                  <Title as="h2">
+                  <Text as="h2" weight="bold">
                     Status du navire{' '}
                     {status.startDateTimeUtc && `(${formatDateTimeForFrenchHumans(status.startDateTimeUtc)})`}
-                  </Title>
+                  </Text>
                 </Stack.Item>
               </Stack>
             </Stack.Item>

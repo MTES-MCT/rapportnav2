@@ -8,7 +8,7 @@ import MissionActivityPanel from './panel-activity'
 import MissionTimeline from './timeline/timeline'
 import { useMemo, useState } from 'react'
 import { getComponentForAction } from './actions/action-mapping'
-import Title from '../../ui/title'
+import Text from '../../ui/text'
 import { ControlTarget, Action, ActionStatusType, VesselType } from '../mission-types'
 import ActionSelectionDropdown from './actions/action-selection-dropdown'
 import { ActionTypeEnum, MissionSourceEnum } from '../env-mission-types'
@@ -141,7 +141,9 @@ export default function Mission() {
                   <FlexboxGrid.Item>
                     <Stack alignItems="center">
                       <Stack.Item>
-                        <Title as="h2">Actions réalisées en mission</Title>
+                        <Text as="h2" weight="bold">
+                          Actions réalisées en mission
+                        </Text>
                       </Stack.Item>
                       <Stack.Item style={{ paddingLeft: '0.5rem' }}>
                         <ActionSelectionDropdown onSelect={addNewAction} />
@@ -150,9 +152,13 @@ export default function Mission() {
                   </FlexboxGrid.Item>
                   <FlexboxGrid.Item>
                     <Stack>
-                      <Stack.Item>
-                        <IconButton Icon={Icon.Phone} accent={Accent.PRIMARY} size={Size.NORMAL} />
-                      </Stack.Item>
+                      {/* <Stack.Item>
+                        <IconButton
+                          Icon={Icon.Phone}
+                          accent={Accent.PRIMARY}
+                          size={Size.NORMAL}
+                        />
+                      </Stack.Item> */}
                       <Stack.Item style={{ paddingLeft: '0.5rem' }}>
                         <StatusSelectionDropdown onSelect={addNewStatus} />
                       </Stack.Item>
@@ -177,6 +183,7 @@ export default function Mission() {
         <>
           {showControlTypesModal && (
             <Dialog>
+              <Dialog.Title>Ajouter des contrôles</Dialog.Title>
               <Dialog.Body>
                 <ControlSelection onSelect={addNewControl} />
               </Dialog.Body>

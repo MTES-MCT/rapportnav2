@@ -13,11 +13,12 @@ import {
   TextInput,
   Textarea,
   OptionValue,
-  CoordinatesFormat
+  CoordinatesFormat,
+  Label
 } from '@mtes-mct/monitor-ui'
 import { Action, ActionControl, ActionSource, VESSEL_SIZE_OPTIONS, VesselType } from '../../mission-types'
 import { Panel, Stack } from 'rsuite'
-import Title from '../../../ui/title'
+import Text from '../../../ui/text'
 import { formatDateTimeForFrenchHumans } from '../../../dates'
 import { DELETE_ACTION_CONTROL, MUTATION_ADD_OR_UPDATE_ACTION_CONTROL } from '../queries'
 import { useMutation } from '@apollo/client'
@@ -109,14 +110,14 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
           <Stack.Item grow={2}>
             <Stack direction="column" alignItems="flex-start">
               <Stack.Item>
-                <Title as="h2">
+                <Text as="h2">
                   Contrôles {action.startDateTimeUtc && `(${formatDateTimeForFrenchHumans(action.startDateTimeUtc)})`}
-                </Title>
+                </Text>
               </Stack.Item>
               <Stack.Item>
-                <Title as="h2">
+                <Text as="h2">
                   {controlMethodToHumanString(control.controlMethod)} - {vesselTypeToHumanString(control.vesselType)}
-                </Title>
+                </Text>
               </Stack.Item>
             </Stack>
           </Stack.Item>
@@ -143,12 +144,12 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
             <Icon.Info color={THEME.color.charcoal} size={20} />
           </Stack.Item>
           <Stack.Item>
-            <Title as="h3" weight="normal">
+            <Text as="h3" weight="normal" style="italic">
               Pour la saisie des contrôles de la pêche et de l’environnement marin, veuillez appeler les centres
               concernés.
               <br />
               Pêche : CNSP / Environnement Marin : CACEM
-            </Title>
+            </Text>
           </Stack.Item>
         </Stack>
       </Stack.Item>
@@ -212,7 +213,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="column" spacing="0.5rem" style={{ width: '100%' }}>
           <Stack.Item style={{ width: '100%' }}>
-            <Title as="h3">Contrôle(s) effectué(s) par l’unité sur le navire</Title>
+            <Label>Contrôle(s) effectué(s) par l’unité sur le navire</Label>
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
             <ControlAdministrativeForm data={control.controlAdministrative} />

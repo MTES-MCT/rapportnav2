@@ -1,10 +1,29 @@
 import { MultiRadio, Icon, Button, Accent, THEME } from '@mtes-mct/monitor-ui'
 import { ActionTypeEnum, missionTypeEnum } from '../../env-mission-types'
 import { Stack } from 'rsuite'
-import Title from '../../../ui/title'
+import Text from '../../../ui/text'
 import { useState } from 'react'
 import { ControlTarget, ControlTargetText, VesselType } from '../../mission-types'
 import { vesselTypeToHumanString } from './utils'
+import IconVesselCommerce from '../../../ui/icon/IconVesselCommerce'
+import IconVesselFishing from '../../../ui/icon/IconVesselFishing'
+import IconVesselSailingPro from '../../../ui/icon/IconVesselSailingPro'
+import IconVesselSailingLeisure from '../../../ui/icon/IconVesselSailingLeisure'
+import IconVesselServices from '../../../ui/icon/IconVesselServices'
+import { styled } from 'styled-components'
+
+const StyledItem = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 0.5rem;
+  min-height: 55px;
+  cursor: pointer;
+  background-color: ${THEME.color.gainsboro};
+
+  &:hover {
+    background-color: ${THEME.color.blueYonder25};
+  }
+`
 
 export const controlTypeRadio = {
   YES: {
@@ -17,6 +36,29 @@ export const controlTypeRadio = {
   }
 }
 
+const controls: { type: VesselType; icon: any }[] = [
+  {
+    type: VesselType.FISHING,
+    icon: IconVesselFishing
+  },
+  {
+    type: VesselType.SAILING,
+    icon: IconVesselSailingPro
+  },
+  {
+    type: VesselType.COMMERCIAL,
+    icon: IconVesselCommerce
+  },
+  {
+    type: VesselType.MOTOR,
+    icon: IconVesselServices
+  },
+  {
+    type: VesselType.SAILING_LEISURE,
+    icon: IconVesselSailingLeisure
+  }
+]
+
 interface ControlSelectionProps {
   onSelect: (controlType: string, targetType: ControlTarget) => void
 }
@@ -26,10 +68,10 @@ const ControlSelection: React.FC<ControlSelectionProps> = ({ onSelect }) => {
 
   return (
     <>
-      <Stack direction="column" spacing="1rem" alignItems="flex-start">
-        <Stack.Item style={{ width: '100%' }} alignSelf="flex-start">
-          <Title as="h2">Ajouter des contrôles</Title>
-        </Stack.Item>
+      <Stack direction="column" spacing="1.5rem" alignItems="flex-start" style={{ padding: '1rem' }}>
+        {/* <Stack.Item style={{ width: '100%' }} alignSelf="flex-start">
+          <Text as="h2">Ajouter des contrôles</Text>
+        </Stack.Item> */}
         <Stack.Item style={{ width: '100%' }}>
           <MultiRadio
             isInline
@@ -40,55 +82,29 @@ const ControlSelection: React.FC<ControlSelectionProps> = ({ onSelect }) => {
             onChange={(code: string) => setSelectedControlType(code)}
           />
         </Stack.Item>
+
         <Stack.Item style={{ width: '100%' }}>
-          <Button
-            onClick={() => onSelect(selectedControlType, VesselType.FISHING)}
-            Icon={Icon.Plus}
-            accent={Accent.SECONDARY}
-            isFullWidth
-          >
-            Contrôles de <b>{vesselTypeToHumanString(VesselType.FISHING)}</b>
-          </Button>
-        </Stack.Item>
-        <Stack.Item style={{ width: '100%' }}>
-          <Button
-            onClick={() => onSelect(selectedControlType, VesselType.SAILING)}
-            Icon={Icon.Plus}
-            accent={Accent.SECONDARY}
-            isFullWidth
-          >
-            Contrôles de <b>{vesselTypeToHumanString(VesselType.SAILING)}</b>
-          </Button>
-        </Stack.Item>
-        <Stack.Item style={{ width: '100%' }}>
-          <Button
-            onClick={() => onSelect(selectedControlType, VesselType.COMMERCIAL)}
-            Icon={Icon.Plus}
-            accent={Accent.SECONDARY}
-            isFullWidth
-          >
-            Contrôles de <b>{vesselTypeToHumanString(VesselType.COMMERCIAL)}</b>
-          </Button>
-        </Stack.Item>
-        <Stack.Item style={{ width: '100%' }}>
-          <Button
-            onClick={() => onSelect(selectedControlType, VesselType.MOTOR)}
-            Icon={Icon.Plus}
-            accent={Accent.SECONDARY}
-            isFullWidth
-          >
-            Contrôles de <b>{vesselTypeToHumanString(VesselType.MOTOR)} (travaux...)</b>
-          </Button>
-        </Stack.Item>
-        <Stack.Item style={{ width: '100%' }}>
-          <Button
-            onClick={() => onSelect(selectedControlType, VesselType.SAILING_LEISURE)}
-            Icon={Icon.Plus}
-            accent={Accent.SECONDARY}
-            isFullWidth
-          >
-            Contrôles de <b>{vesselTypeToHumanString(VesselType.SAILING_LEISURE)}</b>
-          </Button>
+          <Stack direction="column" spacing="1rem" alignItems="flex-start">
+            {controls.map((control: { type: VesselType; icon: any }) => {
+              const Icon = control.icon
+              return (
+                <Stack.Item onClick={() => onSelect(selectedControlType, control.type)} style={{ width: '100%' }}>
+                  <StyledItem>
+                    <Stack direction="row" spacing="1rem" alignItems="center" style={{ width: '100%' }}>
+                      <Stack.Item style={{ width: '15%' }}>
+                        <Icon />
+                      </Stack.Item>
+                      <Stack.Item style={{ width: '80%' }}>
+                        <Text as="h3" weight="normal">
+                          Contrôles de <b>{vesselTypeToHumanString(control.type).toLowerCase()}</b>
+                        </Text>
+                      </Stack.Item>
+                    </Stack>
+                  </StyledItem>
+                </Stack.Item>
+              )
+            })}
+          </Stack>
         </Stack.Item>
       </Stack>
     </>

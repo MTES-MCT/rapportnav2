@@ -13,8 +13,6 @@ function createActionStyled(background?: string, border?: string, color?: string
     min-height: ${border ? '48px' : '52px'};
     background: ${background || 'inherit'} 0% 0% no-repeat padding-box;
     border: ${border ? `1px solid ${border}` : 'none'};
-    color: ${color || '#282f3e'};
-    font: normal normal medium 13px/18px Marianne;
     text-align: left;
     letter-spacing: 0px;
   `

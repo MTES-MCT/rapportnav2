@@ -1,7 +1,7 @@
 import React from 'react'
 import { FlexboxGrid, Panel, Stack } from 'rsuite'
 import { THEME, DateRangePicker } from '@mtes-mct/monitor-ui'
-import Title from '../../ui/title'
+import Text from '../../ui/text'
 
 interface MissionGeneralInfoPanelProps {
   startDate: string
@@ -13,7 +13,11 @@ interface MissionGeneralInfoPanelProps {
 const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({ startDate, endDate, crew, passengers }) => {
   return (
     <Panel
-      header={<Title as="h2">Informations Générales</Title>}
+      header={
+        <Text as="h2" weight="bold">
+          Informations Générales
+        </Text>
+      }
       collapsible
       defaultExpanded
       bordered
@@ -28,7 +32,7 @@ const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({ start
                 label="Dates du rapport"
                 withTime={true}
                 isCompact={true}
-                disabled={true}
+                // disabled={true}
               />
             </Stack.Item>
           </Stack>
