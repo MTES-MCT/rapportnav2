@@ -85,7 +85,7 @@ class GetEnvMissionById {
             actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-21T04:50:09Z"),
             actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-21T06:50:09Z"),
             themes = listOf(controlTheme2),
-            actionNumberOfControls = 13,
+            actionNumberOfControls = 8,
             actionTargetType = ActionTargetTypeEnum.INDIVIDUAL,
             vehicleType = VehicleTypeEnum.VESSEL,
             observations = null,

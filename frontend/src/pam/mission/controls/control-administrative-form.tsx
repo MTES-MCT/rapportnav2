@@ -12,6 +12,7 @@ import { controlResultOptions } from './control-result'
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
 import ControlInfraction from '../infractions/infraction-for-control'
+import { useEffect, useState } from 'react'
 
 interface ControlAdministrativeFormProps {
   data?: ControlAdministrative
@@ -27,6 +28,20 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
   disableToggle
 }) => {
   const { missionId, actionId } = useParams()
+
+  const [observationsValue, setObservationsValue] = useState<string | undefined>(data?.observations)
+
+  const handleObservationsChange = (nextValue?: string) => {
+    setObservationsValue(nextValue)
+  }
+
+  useEffect(() => {
+    setObservationsValue(data?.observations)
+  }, [data])
+
+  const handleObservationsBlur = () => {
+    onChange('observations', observationsValue)
+  }
 
   const [mutate, { statusData, statusLoading, statusError }] = useMutation(
     MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE,
@@ -51,9 +66,9 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
   const onChange = async (field?: string, value?: any) => {
     let updatedData = {
       ...omit(data, '__typename', 'infractions'),
+      id: data?.id,
       missionId: missionId,
       actionControlId: actionId,
-      controlId: data?.id,
       amountOfControls: 1,
       unitShouldConfirm: unitShouldConfirm
     }
@@ -139,8 +154,9 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
           <Textarea
             name="observations"
             label="Observations (hors infraction) sur les pièces administratives"
-            value={data?.observations}
-            onChange={(nextValue?: string) => onChange('observations', nextValue ?? '')}
+            value={observationsValue}
+            onChange={handleObservationsChange}
+            onBlur={handleObservationsBlur}
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>

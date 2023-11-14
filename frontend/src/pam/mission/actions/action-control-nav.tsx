@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   THEME,
   Icon,
@@ -39,6 +39,31 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
   const { missionId } = useParams()
 
   const control = action.data as unknown as ActionControl
+
+  const [observationsValue, setObservationsValue] = useState<string | undefined>(
+    (action?.data as any as ActionControl)?.observations
+  )
+  const handleObservationsChange = (nextValue?: string) => {
+    setObservationsValue(nextValue)
+  }
+  const handleObservationsBlur = () => {
+    onChange('observations', observationsValue)
+  }
+
+  const [identityControlledPersonValue, setIdentityControlledPersonValue] = useState<string | undefined>(
+    (action?.data as any as ActionControl)?.identityControlledPerson
+  )
+  const handleIdentityControlledPersonChange = (nextValue?: string) => {
+    setIdentityControlledPersonValue(nextValue)
+  }
+  const handleIdentityControlledPersonBlur = () => {
+    onChange('identityControlledPerson', identityControlledPersonValue)
+  }
+
+  useEffect(() => {
+    setObservationsValue((action?.data as any as ActionControl)?.observations)
+    setIdentityControlledPersonValue((action?.data as any as ActionControl)?.identityControlledPerson)
+  }, [action])
 
   const [mutateControl, { statusData, statusLoading, statusError }] = useMutation(
     MUTATION_ADD_OR_UPDATE_ACTION_CONTROL,
@@ -105,7 +130,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
           <Stack.Item alignSelf="baseline">
-            <Icon.Control color={THEME.color.charcoal} size={20} />
+            <Icon.ControlUnit color={THEME.color.charcoal} size={20} />
           </Stack.Item>
           <Stack.Item grow={2}>
             <Stack direction="column" alignItems="flex-start">
@@ -124,12 +149,12 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
           <Stack.Item>
             <Stack direction="row" spacing="0.5rem">
               <Stack.Item>
-                <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Duplicate} disabled>
+                <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Duplicate} disabled={true}>
                   Dupliquer
                 </Button>
               </Stack.Item>
               <Stack.Item>
-                <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Delete} onClick={deleteAction}>
+                <Button accent={Accent.PRIMARY} size={Size.SMALL} Icon={Icon.Delete} onClick={deleteAction}>
                   Supprimer
                 </Button>
               </Stack.Item>
@@ -168,7 +193,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
         />
       </Stack.Item>
       {/* CONTROL ZONES FIELD */}
-      <Stack.Item style={{ width: '100%' }}>
+      <Stack.Item>
         <CoordinatesInput
           defaultValue={[control.latitude, control.longitude]}
           coordinatesFormat={CoordinatesFormat.DECIMAL_DEGREES}
@@ -202,10 +227,11 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
           <Stack.Item grow={2} basis={'50%'}>
             <TextInput
               label="Identité de la personne contrôlée"
-              value={control.identityControlledPerson}
               isLight={true}
               name="identityControlledPerson"
-              onChange={(nextValue?: string) => onChange('identityControlledPerson', nextValue)}
+              value={identityControlledPersonValue}
+              onChange={handleIdentityControlledPersonChange}
+              onBlur={handleIdentityControlledPersonBlur}
             />
           </Stack.Item>
         </Stack>
@@ -235,10 +261,11 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
       <Stack.Item style={{ width: '100%' }}>
         <Textarea
           label="Observations générales sur le contrôle"
-          value={control.observations}
           isLight={true}
           name="observations"
-          onChange={(nextValue?: string) => onChange('observations', nextValue)}
+          value={observationsValue}
+          onChange={handleObservationsChange}
+          onBlur={handleObservationsBlur}
         />
       </Stack.Item>
     </Stack>

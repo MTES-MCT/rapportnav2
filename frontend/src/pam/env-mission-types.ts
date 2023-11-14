@@ -373,7 +373,7 @@ export type EnvActionTheme = {
 }
 export type NewEnvActionControl = EnvActionCommonProperties & {
   actionNumberOfControls?: number
-  actionTargetType?: string
+  actionTargetType?: ActionTargetTypeEnum
   actionType: ActionTypeEnum.CONTROL
   infractions: InfractionByTarget[]
   observations: string | null

@@ -21,11 +21,18 @@ import {
   TextInput
 } from '@mtes-mct/monitor-ui'
 import { useMutation } from '@apollo/client'
-import { GET_MISSION_BY_ID, MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE } from '../queries'
+import {
+  GET_MISSION_BY_ID,
+  MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE,
+  MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER,
+  MUTATION_ADD_OR_UPDATE_CONTROL_NAVIGATION,
+  MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY
+} from '../queries'
 import omit from 'lodash/omit'
 import { useParams } from 'react-router-dom'
 import Text from '../../../ui/text'
 import ControlTitleCheckbox from './control-title-checkbox'
+import { useEffect, useState } from 'react'
 
 export interface EnvControlFormProps {
   controlType: ControlType
@@ -42,12 +49,30 @@ const EnvControlForm: React.FC<EnvControlFormProps> = ({
 }) => {
   const { missionId, actionId } = useParams()
 
-  const [mutate, { statusData, statusLoading, statusError }] = useMutation(
-    MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE,
-    {
-      refetchQueries: [GET_MISSION_BY_ID]
-    }
-  )
+  const [observationsValue, setObservationsValue] = useState<string | undefined>(data?.observations)
+
+  const handleObservationsChange = (nextValue?: string) => {
+    setObservationsValue(nextValue)
+  }
+
+  useEffect(() => {
+    setObservationsValue(data?.observations)
+  }, [data])
+
+  const handleObservationsBlur = () => {
+    onChange('observations', observationsValue)
+  }
+
+  const mutations = {
+    [ControlType.ADMINISTRATIVE]: MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE,
+    [ControlType.NAVIGATION]: MUTATION_ADD_OR_UPDATE_CONTROL_NAVIGATION,
+    [ControlType.SECURITY]: MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY,
+    [ControlType.GENS_DE_MER]: MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER
+  }
+
+  const [mutate, { statusData, statusLoading, statusError }] = useMutation(mutations[controlType], {
+    refetchQueries: [GET_MISSION_BY_ID]
+  })
 
   const onChange = async (field?: string, value?: any) => {
     let updatedData = {
@@ -92,10 +117,11 @@ const EnvControlForm: React.FC<EnvControlFormProps> = ({
             <TextInput
               label="Observations (hors infraction)"
               name="observations"
-              value={data?.observations}
-              isLight={true}
               disabled={!shouldCompleteControl && !!!data}
-              onChange={(nextValue?: string) => onChange('observations', nextValue)}
+              isLight={true}
+              value={observationsValue}
+              onChange={handleObservationsChange}
+              onBlur={handleObservationsBlur}
             />
           </Stack.Item>
         </Stack>

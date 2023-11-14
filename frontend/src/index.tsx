@@ -5,6 +5,11 @@ import App from './app'
 import * as Sentry from '@sentry/react'
 import { createRoutesFromChildren, matchRoutes, useLocation, useNavigationType } from 'react-router-dom'
 
+import 'react-toastify/dist/ReactToastify.css'
+import 'rsuite/dist/rsuite.min.css'
+import './assets/css/index.css'
+import '@mtes-mct/monitor-ui/assets/stylesheets/rsuite-override.css'
+
 Sentry.init({
   dsn: 'https://8857258f9f1549968b13e15759bdf2bc@sentry.incubateur.net/121',
   integrations: [

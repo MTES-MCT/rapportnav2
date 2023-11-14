@@ -1,8 +1,14 @@
 import React from 'react'
 import { THEME, Icon, Tag, Accent } from '@mtes-mct/monitor-ui'
-import { ActionTypeEnum, EnvAction, EnvActionControl, MissionSourceEnum } from '../../env-mission-types'
+import {
+  ActionTypeEnum,
+  EnvAction,
+  EnvActionControl,
+  MissionSourceEnum,
+  actionTargetTypeLabels
+} from '../../env-mission-types'
 import { FlexboxGrid, Stack } from 'rsuite'
-import { Action, NavAction } from '../../mission-types'
+import { Action, ActionStatus as NavActionStatus, statusReasonToHumanString } from '../../mission-types'
 import { FishAction } from '../../fish-mission-types'
 import { StatusColorTag } from '../status/status-selection-dropdown'
 import { mapStatusToText } from '../status/utils'
@@ -69,7 +75,7 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
                   sur des cibles de type &nbsp;
                   <b>
                     {action && 'actionTargetType' in action && action.actionTargetType
-                      ? action.actionTargetType?.toLowerCase()
+                      ? actionTargetTypeLabels[action.actionTargetType]?.libelle?.toLowerCase()
                       : 'inconnu'}
                   </b>
                 </Text>
@@ -171,7 +177,7 @@ const ActionFishControl: React.FC<{ action: FishAction; onClick: any }> = ({ act
   )
 }
 
-const ActionNavControl: React.FC<{ action: NavAction; onClick: any }> = ({ action, onClick }) => {
+const ActionNavControl: React.FC<{ action: Action; onClick: any }> = ({ action, onClick }) => {
   return (
     <Wrapper action={action as FishAction} onClick={onClick}>
       <FlexboxGrid.Item style={{ width: '100%' }}>
@@ -220,7 +226,7 @@ const ActionOther: React.FC = () => {
   return null
 }
 
-const ActionStatus: React.FC<{ action: NavAction; onClick: any }> = ({ action, onClick }) => {
+const ActionStatus: React.FC<{ action: NavActionStatus; onClick: any }> = ({ action, onClick }) => {
   return (
     <Wrapper action={action as any} onClick={onClick}>
       <Stack alignItems="center" spacing="0.5rem">
@@ -228,12 +234,15 @@ const ActionStatus: React.FC<{ action: NavAction; onClick: any }> = ({ action, o
           <StatusColorTag status={action.status} />
         </Stack.Item>
         <Stack.Item>
-          <Text as="h3" weight="bold" color={THEME.color.slateGray}>
-            {`${mapStatusToText(action.status)} - ${action.isStart ? 'début' : 'fin'}`}
+          <Text as="h3" weight="normal" color={THEME.color.slateGray}>
+            <b>{`${mapStatusToText(action.status)} - ${action.isStart ? 'début' : 'fin'} ${
+              !!action.reason ? ' - ' + statusReasonToHumanString(action.reason) : ''
+            }`}</b>
+            {!!action.observations ? ' - ' + action.observations : ''}
           </Text>
         </Stack.Item>
         <Stack.Item>
-          <Icon.EditUnbordered size={20} />
+          <Icon.EditUnbordered size={20} color={THEME.color.slateGray} />
         </Stack.Item>
       </Stack>
     </Wrapper>

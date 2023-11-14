@@ -1,10 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurityEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlAdministrativeRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlGensDeMerRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlNavigationRepository
@@ -27,6 +24,17 @@ class GetControlByActionId(
             getControlGensDeMer(actionControlId)
         ).firstOrNull { it != null }
     }
+
+    fun getControlForControlType(actionControlId: String, controlType: ControlType?): Any? {
+        return when (controlType) {
+            ControlType.ADMINISTRATIVE -> getControlAdministrative(actionControlId)
+            ControlType.GENS_DE_MER -> getControlGensDeMer(actionControlId)
+            ControlType.NAVIGATION -> getControlNavigation(actionControlId)
+            ControlType.SECURITY -> getControlSecurity(actionControlId)
+            else -> null
+        }
+    }
+
 
     fun getControlAdministrative(actionControlId: String): ControlAdministrativeEntity? {
         if (controlAdministrativeRepo.existsByActionControlId(actionControlId = actionControlId)) {

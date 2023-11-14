@@ -1,4 +1,4 @@
-import { Accent, Icon, Dialog, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
+import { Accent, Icon, Dialog, IconButton, Size, THEME, Button } from '@mtes-mct/monitor-ui'
 import { v4 as uuidv4 } from 'uuid'
 import { Divider, FlexboxGrid, Stack } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -187,6 +187,11 @@ export default function Mission() {
               <Dialog.Body>
                 <ControlSelection onSelect={addNewControl} />
               </Dialog.Body>
+              <Dialog.Action>
+                <Button accent={Accent.SECONDARY} onClick={() => setShowControlTypesModal(false)}>
+                  Fermer
+                </Button>
+              </Dialog.Action>
             </Dialog>
           )}
         </>

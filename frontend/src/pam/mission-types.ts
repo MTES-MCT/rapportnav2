@@ -37,29 +37,48 @@ export enum ActionStatusReason {
   'OTHER' = 'OTHER'
 }
 
+export const statusReasonToHumanString = (reason?: ActionStatusReason): string | undefined => {
+  switch (reason) {
+    case ActionStatusReason.MAINTENANCE:
+      return 'Maintenance'
+    case ActionStatusReason.WEATHER:
+      return 'Météo'
+    case ActionStatusReason.REPRESENTATION:
+      return 'Représentation'
+    case ActionStatusReason.ADMINISTRATION:
+      return 'Administration'
+    case ActionStatusReason.HARBOUR_CONTROL:
+      return 'Contrôle portuaire'
+    case ActionStatusReason.OTHER:
+      return 'Autre'
+    default:
+      return undefined
+  }
+}
+
 export const ACTION_STATUS_REASON_OPTIONS = [
   {
-    label: 'Maintenace',
+    label: statusReasonToHumanString(ActionStatusReason.MAINTENANCE),
     value: ActionStatusReason.MAINTENANCE
   },
   {
-    label: 'Météo',
+    label: statusReasonToHumanString(ActionStatusReason.WEATHER),
     value: ActionStatusReason.WEATHER
   },
   {
-    label: 'Représentation',
+    label: statusReasonToHumanString(ActionStatusReason.REPRESENTATION),
     value: ActionStatusReason.REPRESENTATION
   },
   {
-    label: 'Administration',
+    label: statusReasonToHumanString(ActionStatusReason.ADMINISTRATION),
     value: ActionStatusReason.ADMINISTRATION
   },
   {
-    label: 'Contrôle portuaire',
+    label: statusReasonToHumanString(ActionStatusReason.HARBOUR_CONTROL),
     value: ActionStatusReason.HARBOUR_CONTROL
   },
   {
-    label: 'Autre',
+    label: statusReasonToHumanString(ActionStatusReason.OTHER),
     value: ActionStatusReason.OTHER
   }
 ]

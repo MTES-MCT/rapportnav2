@@ -140,7 +140,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
                       }
                     />
                   </Stack.Item>
-                  <Stack.Item>
+                  <Stack.Item style={{ width: '100%' }}>
                     <EnvControlForm
                       controlType={ControlType.NAVIGATION}
                       data={(action.data as any as EnvActionControl)?.controlNavigation}
@@ -150,7 +150,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
                       }
                     />
                   </Stack.Item>
-                  <Stack.Item>
+                  <Stack.Item style={{ width: '100%' }}>
                     <EnvControlForm
                       controlType={ControlType.GENS_DE_MER}
                       data={(action.data as any as EnvActionControl)?.controlGensDeMer}
@@ -162,7 +162,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
                       }
                     />
                   </Stack.Item>
-                  <Stack.Item>
+                  <Stack.Item style={{ width: '100%' }}>
                     <EnvControlForm
                       controlType={ControlType.SECURITY}
                       data={(action.data as any as EnvActionControl)?.controlSecurity}

@@ -20,7 +20,7 @@ import { controlIsEnabled } from './utils'
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
 import ControlInfraction from '../infractions/infraction-for-control'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface ControlGensDeMerFormProps {
   data?: ControlGensDeMer
@@ -36,6 +36,20 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({
   disableToggle
 }) => {
   const { missionId, actionId } = useParams()
+
+  const [observationsValue, setObservationsValue] = useState<string | undefined>(data?.observations)
+
+  const handleObservationsChange = (nextValue?: string) => {
+    setObservationsValue(nextValue)
+  }
+
+  useEffect(() => {
+    setObservationsValue(data?.observations)
+  }, [data])
+
+  const handleObservationsBlur = () => {
+    onChange('observations', observationsValue)
+  }
 
   const [mutate, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER, {
     refetchQueries: ['GetMissionById']
@@ -57,9 +71,9 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({
   const onChange = (field?: string, value?: any) => {
     let updatedData = {
       ...omit(data, '__typename', 'infractions'),
+      id: data?.id,
       missionId: missionId,
       actionControlId: actionId,
-      controlId: data?.id,
       amountOfControls: 1,
       unitShouldConfirm: unitShouldConfirm
     }
@@ -144,8 +158,9 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({
           <Textarea
             name="observations"
             label="Observations (hors infraction) sur les pièces administratives"
-            value={data?.observations}
-            onChange={(nextValue?: string) => onChange('observations', nextValue)}
+            value={observationsValue}
+            onChange={handleObservationsChange}
+            onBlur={handleObservationsBlur}
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>

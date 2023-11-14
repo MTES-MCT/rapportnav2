@@ -74,7 +74,7 @@ const Login: React.FC = () => {
   return (
     <PageWrapper>
       <FlexboxGrid justify="center" align="middle" style={{ width: '100%' }}>
-        <FlexboxGrid.Item style={{ marginTop: '4rem' }} colspan={5}>
+        <FlexboxGrid.Item colspan={5}>
           <Formik
             initialValues={initialValues}
             onSubmit={handleSubmit}
@@ -101,7 +101,7 @@ const Login: React.FC = () => {
                     <FormikTextInput
                       name="password"
                       label="Mot de passe"
-                      itemType="password"
+                      type="password"
                       placeholder="************"
                       required
                       size={Size.LARGE}

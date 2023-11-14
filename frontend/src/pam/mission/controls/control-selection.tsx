@@ -1,4 +1,4 @@
-import { MultiRadio, Icon, Button, Accent, THEME } from '@mtes-mct/monitor-ui'
+import { MultiRadio, Icon, Button, Accent, THEME, Label } from '@mtes-mct/monitor-ui'
 import { ActionTypeEnum, missionTypeEnum } from '../../env-mission-types'
 import { Stack } from 'rsuite'
 import Text from '../../../ui/text'
@@ -10,7 +10,7 @@ import IconVesselFishing from '../../../ui/icon/IconVesselFishing'
 import IconVesselSailingPro from '../../../ui/icon/IconVesselSailingPro'
 import IconVesselSailingLeisure from '../../../ui/icon/IconVesselSailingLeisure'
 import IconVesselServices from '../../../ui/icon/IconVesselServices'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 
 const StyledItem = styled.div`
   display: flex;
@@ -72,10 +72,10 @@ const ControlSelection: React.FC<ControlSelectionProps> = ({ onSelect }) => {
         {/* <Stack.Item style={{ width: '100%' }} alignSelf="flex-start">
           <Text as="h2">Ajouter des contrôles</Text>
         </Stack.Item> */}
-        <Stack.Item style={{ width: '100%' }}>
+        <Stack.Item>
+          <Label>Type de contrôle</Label>
           <MultiRadio
             isInline
-            label="Type de contrôle"
             name="controlType"
             options={Object.values(controlTypeRadio)}
             value={selectedControlType}

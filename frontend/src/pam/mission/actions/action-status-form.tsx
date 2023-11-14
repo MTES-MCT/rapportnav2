@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   THEME,
   Icon,
@@ -39,6 +39,20 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
   const [deleteStatus, { deleteData, deleteLoading, deleteError }] = useMutation(DELETE_ACTION_STATUS, {
     refetchQueries: ['GetMissionById']
   })
+
+  const [observationsValue, setObservationsValue] = useState<string | undefined>(status.observations)
+
+  const handleObservationsChange = (nextValue?: string) => {
+    setObservationsValue(nextValue)
+  }
+
+  useEffect(() => {
+    setObservationsValue((action?.data as unknown as ActionStatus)?.observations)
+  }, [action])
+
+  const handleObservationsBlur = () => {
+    onChange('observations', observationsValue)
+  }
 
   const onChange = (field: string, value: any) => {
     let date = ''
@@ -163,10 +177,11 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
         <Stack.Item style={{ width: '100%' }}>
           <Textarea
             label="Observations"
-            value={status.observations}
+            value={observationsValue}
             isLight={true}
             name="observations"
-            onChange={(nextValue: string) => onChange('observations', nextValue)}
+            onChange={handleObservationsChange}
+            onBlur={handleObservationsBlur}
           />
         </Stack.Item>
       </Stack>

@@ -8,7 +8,7 @@ import { controlIsEnabled } from './utils'
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
 import ControlInfraction from '../infractions/infraction-for-control'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface ControlNavigationFormProps {
   data?: ControlNavigation
@@ -24,6 +24,20 @@ const ControlNavigationForm: React.FC<ControlNavigationFormProps> = ({
   disableToggle
 }) => {
   const { missionId, actionId } = useParams()
+
+  const [observationsValue, setObservationsValue] = useState<string | undefined>(data?.observations)
+
+  const handleObservationsChange = (nextValue?: string) => {
+    setObservationsValue(nextValue)
+  }
+
+  useEffect(() => {
+    setObservationsValue(data?.observations)
+  }, [data])
+
+  const handleObservationsBlur = () => {
+    onChange('observations', observationsValue)
+  }
 
   const [mutate, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_OR_UPDATE_CONTROL_NAVIGATION, {
     refetchQueries: ['GetMissionById']
@@ -45,9 +59,9 @@ const ControlNavigationForm: React.FC<ControlNavigationFormProps> = ({
   const onChange = (field?: string, value?: any) => {
     let updatedData = {
       ...omit(data, '__typename', 'infractions'),
+      id: data?.id,
       missionId: missionId,
       actionControlId: actionId,
-      controlId: data?.id,
       amountOfControls: 1,
       unitShouldConfirm: unitShouldConfirm
     }
@@ -98,8 +112,9 @@ const ControlNavigationForm: React.FC<ControlNavigationFormProps> = ({
           <Textarea
             name="observations"
             label="Observations (hors infraction) sur les règles de navigation"
-            value={data?.observations}
-            onChange={(nextValue?: string) => onChange('observations', nextValue)}
+            value={observationsValue}
+            onChange={handleObservationsChange}
+            onBlur={handleObservationsBlur}
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>

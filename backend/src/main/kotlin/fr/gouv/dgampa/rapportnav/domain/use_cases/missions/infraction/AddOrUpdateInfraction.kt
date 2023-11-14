@@ -29,7 +29,7 @@ class AddOrUpdateInfraction(
             return savedData
         } else {
             // Check if any of the controls already exist
-            val existingControl = getControlByActionId.getAnyControl(infraction.actionId)
+            val existingControl = getControlByActionId.getControlForControlType(infraction.actionId, controlType = infraction.controlType)
             if (existingControl != null) {
                 // Use the existing control
                 // TODO make this better, it shouldn't be if getAnyControl would not return any
