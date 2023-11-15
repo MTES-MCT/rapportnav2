@@ -17,6 +17,11 @@ export const GET_MISSION_BY_ID = gql`
         data {
           ... on FishActionData {
             id
+            actionDatetimeUtc
+            vesselId
+            vesselName
+            latitude
+            longitude
             facade
             controlsToComplete
             controlAdministrative {

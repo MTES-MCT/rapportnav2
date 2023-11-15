@@ -150,6 +150,10 @@ type EnvActionData {
 type FishActionData {
   id: String!
   actionDatetimeUtc: String!
+  vesselId: Int
+  vesselName: String
+  latitude: Float
+  longitude: Float
   facade: String
   controlsToComplete: [ControlType]
   controlAdministrative: ControlAdministrative

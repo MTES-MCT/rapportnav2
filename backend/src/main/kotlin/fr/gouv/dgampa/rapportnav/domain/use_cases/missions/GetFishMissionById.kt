@@ -19,6 +19,10 @@ class GetFishMissionById {
         val missionAction1 = MissionAction(
             id = 10,
             missionId = 10,
+            vesselId = 5232556,
+            vesselName = "Le ZORBA",
+            latitude = 48.389999,
+            longitude = -4.490000,
             facade = "Outre-Mer",
             faoAreas = listOf("something"),
             actionType = MissionActionType.SEA_CONTROL,
