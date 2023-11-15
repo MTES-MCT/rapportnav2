@@ -19,8 +19,4 @@ class JPAAgentRepository (
    override fun findByServiceId(serviceId: Int): List<AgentModel> {
     return dbAgentRepository.findByServicesId(serviceId)
   }
-
-  override fun findByMissionId(missionId: Int): List<AgentModel> {
-    return dbAgentRepository.findByMissionId(missionId)
-  }
 }

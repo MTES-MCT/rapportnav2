@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
 
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.InfractionModel
 import jakarta.persistence.*
 import java.util.Date
 
@@ -20,14 +21,6 @@ data class AgentModel (
 
     @Column(name = "deleted_at", nullable = true)
     var deletedAt: Date? = null,
-
-    @ManyToMany
-    @JoinTable(
-      name = "agent_crew",
-      joinColumns = [JoinColumn(name = "agent_id")],
-      inverseJoinColumns = [JoinColumn(name = "crew_id")]
-    )
-    var crews: MutableSet<CrewModel> = HashSet(),
 
     @ManyToMany(mappedBy = "agents", targetEntity = ServiceModel::class)
     var services: MutableSet<ServiceModel> = HashSet(),

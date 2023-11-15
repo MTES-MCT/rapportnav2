@@ -7,5 +7,4 @@ import org.springframework.data.jpa.repository.Query
 interface IDBAgentRepository: JpaRepository<AgentModel, Int> {
   fun findByServicesId(serviceId: Int): List<AgentModel>
 
-  fun findByMissionId(missionId: Int): List<AgentModel>
 }
