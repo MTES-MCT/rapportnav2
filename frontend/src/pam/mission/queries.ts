@@ -17,6 +17,7 @@ export const GET_MISSION_BY_ID = gql`
         data {
           ... on FishActionData {
             id
+            actionType
             actionDatetimeUtc
             vesselId
             vesselName

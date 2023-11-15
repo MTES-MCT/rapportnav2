@@ -114,6 +114,23 @@ export enum MissionActionType {
   OBSERVATION = 'OBSERVATION',
   SEA_CONTROL = 'SEA_CONTROL'
 }
+
+export const formatMissionActionTypeForHumans = (type?: MissionActionType): string => {
+  switch (type) {
+    case MissionActionType.AIR_CONTROL:
+      return 'Contrôle aérien'
+    case MissionActionType.AIR_SURVEILLANCE:
+      return 'Surveillance aérien'
+    case MissionActionType.LAND_CONTROL:
+      return 'Contrôle à terre'
+    case MissionActionType.OBSERVATION:
+      return 'Observation'
+    case MissionActionType.SEA_CONTROL:
+      return 'Contrôle en mer'
+    default:
+      return ''
+  }
+}
 /* eslint-enable sort-keys-fix/sort-keys-fix, typescript-sort-keys/string-enum */
 
 // ---------------------------------------------------------------------------

@@ -155,6 +155,7 @@ type FishActionData {
   latitude: Float
   longitude: Float
   facade: String
+  actionType: FishActionType
   controlsToComplete: [ControlType]
   controlAdministrative: ControlAdministrative
   controlGensDeMer: ControlGensDeMer
