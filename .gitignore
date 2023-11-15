@@ -11,6 +11,7 @@
 
 # backend build
 backend/target
+.mvn
 
 # metabase volume
 metabase-data/
