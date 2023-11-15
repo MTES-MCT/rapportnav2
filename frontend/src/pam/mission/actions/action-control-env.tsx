@@ -23,7 +23,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
   const { missionId, actionId } = useParams()
 
   return (
-    <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
+    <Stack direction="column" spacing={'2rem'} alignItems="flex-start" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" spacing={'0.5rem'} style={{ width: '100%' }}>
           <Stack.Item alignSelf="baseline">
@@ -60,7 +60,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
           // disabled={true}
         />
       </Stack.Item>
-      <Stack.Item style={{ width: '100%' }}>
+      <Stack.Item>
         <CoordinatesInput
           defaultValue={[
             (action.data as unknown as FishAction).latitude as any,

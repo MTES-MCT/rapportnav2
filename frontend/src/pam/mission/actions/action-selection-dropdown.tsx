@@ -14,7 +14,7 @@ const ActionSelectionDropdown: React.FC<ActionSelectionDropdownProps> = ({ onSel
       <Dropdown.Item Icon={Icon.Note} eventKey={ActionTypeEnum.NOTE} disabled>
         Ajouter une note libre
       </Dropdown.Item>
-      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.RESCUE} disabled>
+      <Dropdown.Item Icon={Icon.Rescue} eventKey={ActionTypeEnum.RESCUE} disabled>
         Ajouter une assitance / sauvetage
       </Dropdown.Item>
       <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.OTHER} disabled>

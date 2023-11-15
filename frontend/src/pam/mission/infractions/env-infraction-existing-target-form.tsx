@@ -92,8 +92,9 @@ const EnvInfractionNewTargetForm: React.FC<EnvInfractionNewTargetFormProps> = ({
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Legend>Mise en demeure</Legend>
+        {/* TODO  */}
         <Text as="h3" weight="medium">
-          {'TODO'}
+          -
         </Text>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
@@ -103,11 +104,18 @@ const EnvInfractionNewTargetForm: React.FC<EnvInfractionNewTargetFormProps> = ({
         </Text>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
-        <Legend>Tribunal compétent</Legend>
-        <Text as="h3" weight="medium">
-          {infraction?.target?.relevantCourt}
-        </Text>
-        <Checkbox value={!!infraction?.target?.toProcess} label="À traiter" disabled={true} />
+        <Stack direction="row" spacing={'2rem'}>
+          <Stack.Item>
+            <Legend>Tribunal compétent</Legend>
+            <Text as="h3" weight="medium">
+              {infraction?.target?.relevantCourt}
+            </Text>
+          </Stack.Item>
+          <Stack.Item>
+            <Legend>&nbsp;</Legend>
+            <Checkbox value={!!infraction?.target?.toProcess} label="À traiter" />
+          </Stack.Item>
+        </Stack>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Legend>Observations</Legend>
