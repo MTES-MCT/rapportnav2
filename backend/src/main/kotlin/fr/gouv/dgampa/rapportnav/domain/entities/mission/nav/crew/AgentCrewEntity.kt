@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew
 
 
-data class CrewEntity(
+data class AgentCrewEntity(
 
   val id: Int,
   val agent: AgentEntity,

@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentCrewEntity
 import jakarta.persistence.*
 
 @Entity
