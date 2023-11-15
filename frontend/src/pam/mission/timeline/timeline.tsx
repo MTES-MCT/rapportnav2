@@ -50,9 +50,10 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
                       </MissionTimelineItemContainer>
                     </Stack.Item>
                     {action.type !== ActionTypeEnum.STATUS && (
-                      <Stack.Item style={{ width: '10px' }}>
+                      <Stack.Item alignSelf="stretch" style={{ width: '10px', padding: '5px 0' }}>
                         <div
                           style={{
+                            height: '100%',
                             backgroundColor: getColorForStatus(action.status),
                             borderRadius: '5px'
                           }}

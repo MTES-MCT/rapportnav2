@@ -43,7 +43,7 @@ export default function Mission() {
 
   const selectedAction = useMemo(() => {
     if (actionId) {
-      return find(data.mission.actions, { id: actionId })
+      return find(data?.mission?.actions, { id: actionId })
     }
   }, [data, actionId])
 
