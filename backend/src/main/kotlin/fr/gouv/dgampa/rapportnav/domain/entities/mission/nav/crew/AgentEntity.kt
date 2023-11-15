@@ -8,6 +8,5 @@ data class AgentEntity(
     val firstName: String,
     val lastName: String,
     val deletedAt: Date?,
-    val crews: Set<CrewEntity>,
     val services: Set<ServiceEntity>
 )
