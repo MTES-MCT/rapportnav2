@@ -11,7 +11,7 @@ if (true) {
 }
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:8080/graphql'
+  uri: '/graphql'
 })
 
 const authLink = setContext((_, { headers }) => {
