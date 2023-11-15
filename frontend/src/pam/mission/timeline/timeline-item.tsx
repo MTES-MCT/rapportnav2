@@ -16,16 +16,30 @@ import { controlMethodToHumanString, vesselTypeToHumanString } from '../controls
 import ControlsToCompleteTag from '../controls/controls-to-complete-tag'
 import Text from '../../../ui/text'
 import InfractionTag from '../infractions/infraction-tag'
+import { useParams } from 'react-router-dom'
 
 interface MissionTimelineItemProps {
   action: Action
   onClick: (action: Action) => void
 }
 
-const Wrapper: React.FC<{ action: Action; onClick: any; children: any }> = ({ action, onClick, children }) => {
+const Wrapper: React.FC<{ action: Action; onClick: any; children: any; borderWhenSelected?: boolean }> = ({
+  action,
+  onClick,
+  children,
+  borderWhenSelected = null
+}) => {
   return (
     <div onClick={onClick}>
-      <FlexboxGrid style={{ width: '100%', padding: '1rem' }} justify="start">
+      <FlexboxGrid
+        style={{
+          width: '100%',
+          padding: '1rem',
+          border: !!borderWhenSelected ? `3px solid ${THEME.color.blueGray}` : 'none',
+          cursor: 'pointer'
+        }}
+        justify="start"
+      >
         {children}
       </FlexboxGrid>
     </div>
@@ -33,8 +47,9 @@ const Wrapper: React.FC<{ action: Action; onClick: any; children: any }> = ({ ac
 }
 
 const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick: any }> = ({ action, onClick }) => {
+  const { actionId } = useParams()
   return (
-    <Wrapper action={action as EnvActionControl} onClick={onClick}>
+    <Wrapper action={action as EnvActionControl} onClick={onClick} borderWhenSelected={action.id === actionId}>
       <FlexboxGrid.Item style={{ width: '100%' }}>
         <Stack direction="row" spacing="0.5rem">
           <Stack.Item alignSelf="flex-start">
@@ -118,8 +133,9 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
 }
 
 const ActionFishControl: React.FC<{ action: FishAction; onClick: any }> = ({ action, onClick }) => {
+  const { actionId } = useParams()
   return (
-    <Wrapper action={action as FishAction} onClick={onClick}>
+    <Wrapper action={action as FishAction} onClick={onClick} borderWhenSelected={action.id === actionId}>
       <FlexboxGrid.Item style={{ width: '100%' }}>
         <Stack direction="row" spacing="0.5rem">
           <Stack.Item alignSelf="flex-start">
@@ -178,8 +194,9 @@ const ActionFishControl: React.FC<{ action: FishAction; onClick: any }> = ({ act
 }
 
 const ActionNavControl: React.FC<{ action: Action; onClick: any }> = ({ action, onClick }) => {
+  const { actionId } = useParams()
   return (
-    <Wrapper action={action as FishAction} onClick={onClick}>
+    <Wrapper action={action as FishAction} onClick={onClick} borderWhenSelected={action.id === actionId}>
       <FlexboxGrid.Item style={{ width: '100%' }}>
         <Stack direction="row" spacing="0.5rem">
           <Stack.Item alignSelf="flex-start" style={{ paddingTop: '0.2rem' }}>
@@ -227,14 +244,21 @@ const ActionOther: React.FC = () => {
 }
 
 const ActionStatus: React.FC<{ action: NavActionStatus; onClick: any }> = ({ action, onClick }) => {
+  const { actionId } = useParams()
+  const isSelected = action.id === actionId
   return (
-    <Wrapper action={action as any} onClick={onClick}>
+    <Wrapper action={action as any} onClick={onClick} borderWhenSelected={false}>
       <Stack alignItems="center" spacing="0.5rem">
         <Stack.Item>
           <StatusColorTag status={action.status} />
         </Stack.Item>
         <Stack.Item>
-          <Text as="h3" weight="normal" color={THEME.color.slateGray}>
+          <Text
+            as="h3"
+            weight="normal"
+            color={isSelected ? THEME.color.charcoal : THEME.color.slateGray}
+            decoration={isSelected ? 'underline' : 'normal'}
+          >
             <b>{`${mapStatusToText(action.status)} - ${action.isStart ? 'début' : 'fin'} ${
               !!action.reason ? ' - ' + statusReasonToHumanString(action.reason) : ''
             }`}</b>
