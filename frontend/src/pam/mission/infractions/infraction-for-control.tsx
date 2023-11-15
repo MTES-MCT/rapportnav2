@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Accent, Button, Icon, Label, Size, THEME } from '@mtes-mct/monitor-ui'
 import { Infraction, ControlType } from '../../mission-types'
 import InfractionSummary from './infraction-summary'
@@ -19,8 +19,11 @@ const ControlInfraction: React.FC<ControlInfractionProps> = ({ controlId, contro
   const { missionId, actionId } = useParams()
 
   const [showInfractionForm, setShowInfractionForm] = useState<boolean>(false)
-
   const [formData, setFormData] = useState<Infraction | undefined>(undefined) // only 1 infraction for nav and fish
+
+  useEffect(() => {
+    setFormData(infractions?.[0])
+  }, [infractions])
 
   const onChangeFormField = (field: string, value: any) => {
     setFormData((prevData: any) => ({ ...prevData, [field]: value }))
