@@ -11,9 +11,9 @@ export const StatusColorTag: React.FC<{ status: ActionStatusType }> = ({ status 
   <div
     style={{
       backgroundColor: getColorForStatus(status),
-      width: '10px',
-      height: '10px',
-      borderRadius: '10px'
+      width: '16px',
+      height: '16px',
+      borderRadius: '16px'
     }}
   ></div>
 )

@@ -87,7 +87,7 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
                   action.actionNumberOfControls > 1
                     ? 'réalisés'
                     : 'réalisé'}{' '}
-                  sur des cibles de type &nbsp;
+                  sur des cibles de type&nbsp;
                   <b>
                     {action && 'actionTargetType' in action && action.actionTargetType
                       ? actionTargetTypeLabels[action.actionTargetType]?.libelle?.toLowerCase()
