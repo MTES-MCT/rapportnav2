@@ -10,14 +10,6 @@ CREATE TABLE agent_role (
     title VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE crew (
-    id SERIAL PRIMARY KEY,
-        comment VARCHAR(255),
-        agent_role_id INT NOT NULL,
-        mission_id INT,
-        FOREIGN KEY (agent_role_id) REFERENCES agent_role(id)
-);
-
 
 CREATE TABLE service (
    id SERIAL PRIMARY KEY,
@@ -33,9 +25,11 @@ CREATE TABLE agent_service (
 );
 
 CREATE TABLE agent_crew (
+    id SERIAL PRIMARY KEY,
     agent_id INT,
-    crew_id INT,
+    comment VARCHAR(255) DEFAULT NULL,
+    agent_role_id INT NOT NULL,
+    mission_id INT DEFAULT NULL,
     FOREIGN KEY (agent_id) REFERENCES agent(id),
-    FOREIGN KEY (crew_id) REFERENCES crew(id),
-    PRIMARY KEY (agent_id, crew_id)
+    FOREIGN KEY (agent_role_id) REFERENCES agent_role(id)
 );

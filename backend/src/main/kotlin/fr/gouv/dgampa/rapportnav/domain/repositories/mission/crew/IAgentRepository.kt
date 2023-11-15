@@ -7,5 +7,4 @@ interface IAgentRepository {
     fun findAll(): List<AgentModel>
     fun findByServiceId(serviceId: Int): List<AgentModel>
 
-    fun findByMissionId(missionId: Int): List<AgentModel>
 }
