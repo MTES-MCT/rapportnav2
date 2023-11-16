@@ -60,13 +60,9 @@ export default function Mission() {
 
   const addNewStatus = async (key: ActionStatusType) => {
     // TODO id creation should be in backend
-    const uuid = uuidv4()
-    const date = new Date().toISOString()
     const newActionData = {
-      id: uuid,
       missionId: parseInt(missionId!, 10),
       status: key,
-      startDateTimeUtc: date,
       isStart: true,
       reason: null,
       observations: null

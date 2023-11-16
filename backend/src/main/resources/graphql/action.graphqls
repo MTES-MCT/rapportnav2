@@ -17,9 +17,9 @@ type Action {
 }
 
 input ActionStatusInput {
-  id: String!
+  id: String
   missionId: Int!
-  startDateTimeUtc: String!
+  startDateTimeUtc: String
   status: ActionStatusType!
   reason: ActionStatusReason
   isStart: Boolean!

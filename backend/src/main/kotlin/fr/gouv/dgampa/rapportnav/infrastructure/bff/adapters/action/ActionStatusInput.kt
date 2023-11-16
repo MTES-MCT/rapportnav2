@@ -9,9 +9,9 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
     data class ActionStatusInput(
-        val id: UUID,
+        val id: UUID?,
         val missionId: Int,
-        val startDateTimeUtc: String,
+        val startDateTimeUtc: String?,
         val status: ActionStatusType,
         val reason: ActionStatusReason?,
         val isStart: Boolean,
@@ -19,9 +19,11 @@ import java.util.*
     ) {
     fun toActionStatus(): ActionStatusEntity {
         return ActionStatusEntity(
-            id = id,
+            id = id ?: UUID.randomUUID(),
             missionId = missionId,
-            startDateTimeUtc = ZonedDateTime.parse(startDateTimeUtc, DateTimeFormatter.ISO_INSTANT.withZone(ZoneId.of("UTC"))),
+            startDateTimeUtc = startDateTimeUtc?.let {
+                ZonedDateTime.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSX"))
+            } ?: ZonedDateTime.now(ZoneId.of("UTC")),
             status = status,
             reason = reason,
             isStart = isStart,

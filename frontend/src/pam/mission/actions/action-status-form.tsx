@@ -55,17 +55,9 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
   }
 
   const onChange = (field: string, value: any) => {
-    let date = ''
-    if (field === 'startDateTimeUtc') {
-      date = value
-    } else {
-      const savedDate = new Date(status.startDateTimeUtc!)
-      date = savedDate.toISOString()
-    }
     const updatedData = {
       missionId: missionId,
       ...omit(status, '__typename'),
-      startDateTimeUtc: date,
       [field]: value
     }
     mutateStatus({ variables: { statusAction: updatedData } })
