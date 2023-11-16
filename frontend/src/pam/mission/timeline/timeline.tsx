@@ -19,7 +19,7 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
     <div>
       <FlexboxGrid justify="space-between" align="middle" style={{ height: '100%' }}>
         <FlexboxGrid.Item style={{ width: '100%' }}>
-          <Stack direction="column" spacing={'0.75rem'}>
+          <Stack direction="column" spacing={'1rem'}>
             {mission.actions.map((action: Action) => {
               if (!action.data) {
                 return <></>
@@ -30,7 +30,7 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
                   style={{ width: '100%' }}
                 >
                   <Stack direction="row" spacing={'0.5rem'}>
-                    <Stack.Item style={{ minWidth: '50px' }}>
+                    <Stack.Item style={{ minWidth: '75px' }}>
                       <Stack direction="column">
                         <Stack.Item>
                           <Text as="h3" color={THEME.color.slateGray} weight="bold">

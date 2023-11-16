@@ -34,7 +34,6 @@ const Wrapper: React.FC<{ action: Action; onClick: any; children: any; borderWhe
       <FlexboxGrid
         style={{
           width: '100%',
-          padding: '1rem',
           border: !!borderWhenSelected ? `3px solid ${THEME.color.blueGray}` : 'none',
           cursor: 'pointer'
         }}
@@ -50,7 +49,12 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
   const { actionId } = useParams()
   return (
     <Wrapper action={action as EnvActionControl} onClick={onClick} borderWhenSelected={action.id === actionId}>
-      <FlexboxGrid.Item style={{ width: '100%' }}>
+      <FlexboxGrid.Item
+        style={{
+          width: '100%',
+          padding: '1rem'
+        }}
+      >
         <Stack direction="row" spacing="0.5rem">
           <Stack.Item alignSelf="flex-start">
             <Icon.ControlUnit color={THEME.color.charcoal} size={20} />
@@ -95,11 +99,6 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
                   </b>
                 </Text>
               </Stack.Item>
-              <Stack.Item>
-                <InfractionTag text="5 PV" />
-                &nbsp;
-                <InfractionTag text="2 NATINF" />
-              </Stack.Item>
 
               <Stack.Item alignSelf="flex-start" style={{ width: '100%' }}>
                 <Stack direction="row" spacing="1rem" style={{ width: '100%' }}>
@@ -110,7 +109,11 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
                         amountOfControlsToComplete={(action as any as EnvActionControl)?.controlsToComplete?.length}
                       />
                     ) : (
-                      <div />
+                      <>
+                        <InfractionTag text="5 PV" />
+                        &nbsp;
+                        <InfractionTag text="2 NATINF" />
+                      </>
                     )}
                   </Stack.Item>
                   <Stack.Item alignSelf="flex-end" style={{ width: '30%' }}>
@@ -136,7 +139,7 @@ const ActionFishControl: React.FC<{ action: FishAction; onClick: any }> = ({ act
   const { actionId } = useParams()
   return (
     <Wrapper action={action as FishAction} onClick={onClick} borderWhenSelected={action.id === actionId}>
-      <FlexboxGrid.Item style={{ width: '100%' }}>
+      <FlexboxGrid.Item style={{ width: '100%', padding: '1rem' }}>
         <Stack direction="row" spacing="0.5rem">
           <Stack.Item alignSelf="flex-start">
             <Icon.ControlUnit color={THEME.color.charcoal} size={20} />
@@ -158,21 +161,21 @@ const ActionFishControl: React.FC<{ action: FishAction; onClick: any }> = ({ act
                 </Stack>
               </Stack.Item>
 
-              <Stack.Item>
-                <InfractionTag text="3 PV" />
-                &nbsp;
-                <InfractionTag text="2 NATINF" />
-              </Stack.Item>
-
               <Stack.Item alignSelf="flex-start" style={{ width: '100%' }}>
                 <Stack direction="row" spacing="1rem" style={{ width: '100%' }}>
                   <Stack.Item style={{ width: '70%' }}>
                     {(action as any as FishAction)?.controlsToComplete !== undefined &&
-                      (action as any as FishAction)?.controlsToComplete?.length > 0 && (
-                        <ControlsToCompleteTag
-                          amountOfControlsToComplete={(action as any as FishAction)?.controlsToComplete?.length}
-                        />
-                      )}
+                    (action as any as FishAction)?.controlsToComplete?.length > 0 ? (
+                      <ControlsToCompleteTag
+                        amountOfControlsToComplete={(action as any as FishAction)?.controlsToComplete?.length}
+                      />
+                    ) : (
+                      <>
+                        <InfractionTag text="3 PV" />
+                        &nbsp;
+                        <InfractionTag text="2 NATINF" />
+                      </>
+                    )}
                   </Stack.Item>
                   <Stack.Item alignSelf="flex-end" style={{ width: '30%' }}>
                     <Stack direction="column" alignItems="flex-end">
@@ -197,7 +200,7 @@ const ActionNavControl: React.FC<{ action: Action; onClick: any }> = ({ action, 
   const { actionId } = useParams()
   return (
     <Wrapper action={action as FishAction} onClick={onClick} borderWhenSelected={action.id === actionId}>
-      <FlexboxGrid.Item style={{ width: '100%' }}>
+      <FlexboxGrid.Item style={{ width: '100%', padding: '1rem' }}>
         <Stack direction="row" spacing="0.5rem">
           <Stack.Item alignSelf="flex-start" style={{ paddingTop: '0.2rem' }}>
             <Icon.ControlUnit color={THEME.color.charcoal} size={20} />

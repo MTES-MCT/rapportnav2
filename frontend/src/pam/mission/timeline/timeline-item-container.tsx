@@ -8,22 +8,33 @@ interface MissionTimelineItemContainerProps {
   children: ReactNode
 }
 
-function createActionStyled(background?: string, border?: string, color?: string) {
+type ItemOptions = {
+  backgroundColor?: string
+  borderColor?: string
+  color?: string
+  noMinHeight?: boolean
+}
+
+function createActionStyled(options: ItemOptions) {
   return styled.div`
-    min-height: ${border ? '48px' : '52px'};
-    background: ${background || 'inherit'} 0% 0% no-repeat padding-box;
-    border: ${border ? `1px solid ${border}` : 'none'};
+    min-height: ${options.noMinHeight ? 0 : options.borderColor ? '48px' : '52px'};
+    background: ${options.backgroundColor || 'inherit'} 0% 0% no-repeat padding-box;
+    border: ${options.borderColor ? `1px solid ${options.borderColor}` : 'none'};
     text-align: left;
     letter-spacing: 0px;
   `
 }
 
-const ActionControl = createActionStyled('#ffffff', '#cccfd6')
-const ActionSurveillance = createActionStyled('#e5e5eb', '#cccfd6')
-const ActionNote = createActionStyled('#d4dde7', '#cccfd6')
-const ActionOther = createActionStyled('#d4e5f4', '#cccfd6')
-const ActionStatus = createActionStyled(undefined, undefined, '#707785')
-const ActionContact = createActionStyled(undefined, undefined, '#707785')
+const ActionControl = createActionStyled({ backgroundColor: '#ffffff', borderColor: '#cccfd6' })
+const ActionSurveillance = createActionStyled({ backgroundColor: '#e5e5eb', borderColor: '#cccfd6' })
+const ActionNote = createActionStyled({ backgroundColor: '#d4dde7', borderColor: '#cccfd6' })
+const ActionOther = createActionStyled({ backgroundColor: '#d4e5f4', borderColor: '#cccfd6' })
+const ActionStatus = createActionStyled({
+  backgroundColor: undefined,
+  borderColor: undefined,
+  noMinHeight: true
+})
+const ActionContact = createActionStyled({ backgroundColor: undefined, borderColor: undefined, color: '#707785' })
 
 const getActionComponent = (
   actionSource: MissionSourceEnum,
