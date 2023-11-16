@@ -243,6 +243,16 @@ export const MUTATION_ADD_OR_UPDATE_ACTION_CONTROL = gql`
   mutation AddOrUpdateControl($controlAction: ActionControlInput!) {
     addOrUpdateControl(controlAction: $controlAction) {
       id
+      startDateTimeUtc
+      endDateTimeUtc
+      latitude
+      longitude
+      controlMethod
+      observations
+      vesselIdentifier
+      vesselType
+      vesselSize
+      identityControlledPerson
     }
   }
 `

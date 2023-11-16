@@ -59,7 +59,6 @@ export default function Mission() {
   }
 
   const addNewStatus = async (key: ActionStatusType) => {
-    // TODO id creation should be in backend
     const newActionData = {
       missionId: parseInt(missionId!, 10),
       status: key,
@@ -81,20 +80,10 @@ export default function Mission() {
   const addNewControl = async (controlMethod: string, vesselType: VesselType) => {
     setShowControlTypesModal(false)
     // TODO id creation should be in backend
-    const uuid = uuidv4()
-    const date = new Date().toISOString()
     const newControl = {
-      id: uuid,
       missionId: parseInt(missionId!, 10),
-      startDateTimeUtc: date,
       controlMethod,
-      vesselType,
-      latitude: null,
-      longitude: null,
-      vesselIdentifier: null,
-      vesselSize: null,
-      identityControlledPerson: null,
-      observations: null
+      vesselType
     }
 
     const response = await addControl({ variables: { controlAction: newControl } })

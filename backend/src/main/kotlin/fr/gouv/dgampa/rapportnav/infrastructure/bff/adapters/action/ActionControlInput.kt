@@ -14,31 +14,33 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 data class ActionControlInput(
-    val id: UUID,
+    val id: UUID? = null,
     val missionId: Int,
-    val startDateTimeUtc: String,
-    val endDateTimeUtc: String?,
-    val latitude: Double?,
-    val longitude: Double?,
-    val controlMethod: ControlMethod?,
-    val vesselType: VesselTypeEnum?,
-    val vesselIdentifier: String?,
-    val vesselSize: VesselSizeEnum?,
-    val identityControlledPerson: String?,
-    val observations: String?,
-    val controlAdministrative: ControlAdministrative?,
-    val controlGensDeMer: ControlGensDeMer?,
-    val controlNavigation: ControlNavigation?,
-    val controlSecurity: ControlSecurity?
+    val startDateTimeUtc: String? = null,
+    val endDateTimeUtc: String? = null,
+    val latitude: Double? = null,
+    val longitude: Double? = null,
+    val controlMethod: ControlMethod? = null,
+    val vesselType: VesselTypeEnum? = null,
+    val vesselIdentifier: String? = null,
+    val vesselSize: VesselSizeEnum? = null,
+    val identityControlledPerson: String? = null,
+    val observations: String? = null,
+    val controlAdministrative: ControlAdministrative? = null,
+    val controlGensDeMer: ControlGensDeMer? = null,
+    val controlNavigation: ControlNavigation? = null,
+    val controlSecurity: ControlSecurity? = null
 ) {
     fun toActionControl(): ActionControlEntity {
         return ActionControlEntity(
-            id = id,
+            id = id ?: UUID.randomUUID(),
             missionId = missionId,
-            startDateTimeUtc = ZonedDateTime.parse(startDateTimeUtc, DateTimeFormatter.ISO_INSTANT.withZone(ZoneId.of("UTC"))),
+            startDateTimeUtc = startDateTimeUtc?.let {
+                ZonedDateTime.parse(it, DateTimeFormatter.ISO_ZONED_DATE_TIME)
+            } ?: ZonedDateTime.now(ZoneId.of("UTC")),
             endDateTimeUtc = endDateTimeUtc?.let {
-                ZonedDateTime.parse(it, DateTimeFormatter.ISO_INSTANT.withZone(ZoneId.of("UTC")))
-            } ?: ZonedDateTime.parse(startDateTimeUtc, DateTimeFormatter.ISO_INSTANT.withZone(ZoneId.of("UTC"))),
+                ZonedDateTime.parse(it, DateTimeFormatter.ISO_ZONED_DATE_TIME)
+            } ?: ZonedDateTime.now(ZoneId.of("UTC")),
             latitude = latitude,
             longitude = longitude,
             controlMethod = controlMethod,

@@ -2,7 +2,7 @@ extend type Mutation {
   status(id: String!): Action
   addOrUpdateStatus(statusAction: ActionStatusInput!): NavActionStatus!
   deleteStatus(id: String!): Boolean!
-  addOrUpdateControl(controlAction: ActionControlInput!): Action!
+  addOrUpdateControl(controlAction: ActionControlInput!): NavActionControl!
   deleteControl(id: String!): Boolean!
 }
 
@@ -27,14 +27,14 @@ input ActionStatusInput {
 }
 
 input ActionControlInput {
-  id: String!
+  id: String
   missionId: Int!
-  startDateTimeUtc: String!
+  startDateTimeUtc: String
   endDateTimeUtc: String
-  controlMethod: ControlMethod
+  controlMethod: ControlMethod!
   latitude: Float
   longitude: Float
-  vesselType: VesselType
+  vesselType: VesselType!
   vesselIdentifier: String
   vesselSize: VesselSize
   identityControlledPerson: String
@@ -82,6 +82,8 @@ enum ActionStatusReason {
 
 type NavActionControl {
   id: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
   controlMethod: ControlMethod
   latitude: Float
   longitude: Float

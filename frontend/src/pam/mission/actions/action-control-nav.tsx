@@ -68,7 +68,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
   const [mutateControl, { statusData, statusLoading, statusError }] = useMutation(
     MUTATION_ADD_OR_UPDATE_ACTION_CONTROL,
     {
-      refetchQueries: ['GetMissionById']
+      // refetchQueries: ['GetMissionById']
     }
   )
 

@@ -22,7 +22,7 @@ import java.util.*
             id = id ?: UUID.randomUUID(),
             missionId = missionId,
             startDateTimeUtc = startDateTimeUtc?.let {
-                ZonedDateTime.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSX"))
+                ZonedDateTime.parse(it, DateTimeFormatter.ISO_ZONED_DATE_TIME)
             } ?: ZonedDateTime.now(ZoneId.of("UTC")),
             status = status,
             reason = reason,
