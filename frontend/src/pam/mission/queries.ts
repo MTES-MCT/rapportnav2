@@ -7,6 +7,12 @@ export const GET_MISSION_BY_ID = gql`
       missionSource
       startDateTimeUtc
       endDateTimeUtc
+      generalInfo {
+        id
+        distanceInNauticalMiles
+        consumedGOInLiters
+        consumedFuelInLiters
+      }
       actions {
         id
         type
@@ -218,6 +224,11 @@ export const MUTATION_ADD_OR_UPDATE_ACTION_STATUS = gql`
   mutation AddOrUpdateStatus($statusAction: ActionStatusInput!) {
     addOrUpdateStatus(statusAction: $statusAction) {
       id
+      startDateTimeUtc
+      status
+      reason
+      isStart
+      observations
     }
   }
 `
@@ -325,3 +336,14 @@ export const MUTATION_ADD_OR_UPDATE_INFRACTION_ENV = gql`
 //     deleteInfractionForEnvTarget(id: $id)
 //   }
 // `
+
+export const MUTATION_ADD_OR_UPDATE_DISTANCE_CONSUMPTION = gql`
+  mutation UpdateMissionGeneralInfo($info: MissionGeneralInfoInput!) {
+    updateMissionGeneralInfo(info: $info) {
+      id
+      distanceInNauticalMiles
+      consumedGOInLiters
+      consumedFuelInLiters
+    }
+  }
+`

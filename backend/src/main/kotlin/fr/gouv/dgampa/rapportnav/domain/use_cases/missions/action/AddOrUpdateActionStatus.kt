@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionSt
 @UseCase
 class AddOrUpdateActionStatus(private val statusRepository: INavActionStatusRepository) {
     fun execute(statusAction: ActionStatusEntity): ActionStatusEntity {
-        val savedData = this.statusRepository.save(statusAction).toActionStatusEntity()
+        val savedData = statusRepository.save(statusAction).toActionStatusEntity()
         return savedData
     }
 }

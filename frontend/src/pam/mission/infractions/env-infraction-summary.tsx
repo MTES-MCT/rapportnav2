@@ -45,7 +45,7 @@ const EnvInfractionSummary: React.FC<EnvInfractionSummaryProps> = ({
         </Stack>
       </Stack.Item>
       {infractionByTarget?.infractions.map((infraction: Infraction) => (
-        <Stack.Item style={{ width: '100%' }}>
+        <Stack.Item key={infraction.id} style={{ width: '100%' }}>
           <Stack direction="row" spacing={'0.5rem'} justifyContent="space-between">
             <Stack.Item>
               <Stack direction="row" spacing={'0.5rem'}>

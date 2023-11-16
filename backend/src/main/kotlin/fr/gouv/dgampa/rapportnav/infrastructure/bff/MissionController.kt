@@ -2,9 +2,15 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.GeneralInfo.AddOrUpdateMissionGeneralInfo
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.GeneralInfo.GetMissionGeneralInfoByMissionId
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.generalInfo.MissionGeneralInfoInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.Mission
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.generalInfo.MissionGeneralInfo
 import org.springframework.graphql.data.method.annotation.Argument
+import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
+import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
 
 
@@ -15,6 +21,8 @@ class MissionController(
     private val getEnvMissionById: GetEnvMissionById,
     private val getFishMissionById: GetFishMissionById,
     private val updateEnvMission: UpdateEnvMission,
+    private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
+    private val addOrUpdateMissionGeneralInfo: AddOrUpdateMissionGeneralInfo,
 ) {
 
     @QueryMapping
@@ -35,6 +43,26 @@ class MissionController(
         val navMission = getNavMissionById.execute(missionId = missionId)
 
         return Mission.fromMissionEntity(MissionEntity(envMission, navMission, fishMission))
+    }
+
+    @QueryMapping
+    fun missionGeneralInfo(@Argument missionId: Int): MissionGeneralInfo? {
+        val info = getMissionGeneralInfoByMissionId.execute(missionId)?.let { MissionGeneralInfo.fromMissionGeneralInfoEntity(it) }
+        return info
+    }
+
+    @SchemaMapping(typeName = "Mission", field = "generalInfo")
+    fun missionGeneralInfoForMission(mission: Mission): MissionGeneralInfo? {
+        val info = getMissionGeneralInfoByMissionId.execute(mission.id)?.let { MissionGeneralInfo.fromMissionGeneralInfoEntity(it) }
+        return info
+    }
+
+    @MutationMapping
+    fun updateMissionGeneralInfo(@Argument info: MissionGeneralInfoInput): MissionGeneralInfo? {
+        val data = info.toMissionGeneralInfo().toMissionGeneralInfoEntity()
+        val savedData = addOrUpdateMissionGeneralInfo.execute(data)
+        val returnData = MissionGeneralInfo.fromMissionGeneralInfoEntity(savedData)
+        return returnData
     }
 
 }

@@ -17,7 +17,7 @@ const InfractionSummary: React.FC<InfractionSummaryProps> = ({ infractions, cont
   return (
     <>
       {infractions?.map((infraction: Infraction) => (
-        <Stack direction="column" spacing={'0.5rem'} style={{ width: '100%' }}>
+        <Stack key={infraction.id} direction="column" spacing={'0.5rem'} style={{ width: '100%' }}>
           <Stack.Item style={{ width: '100%' }}>
             <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={'0.5rem'}>
               <Stack.Item>

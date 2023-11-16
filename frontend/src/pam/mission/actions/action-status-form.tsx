@@ -33,7 +33,7 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
   const status = action.data as unknown as ActionStatus
 
   const [mutateStatus, { statusData, statusLoading, statusError }] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_STATUS, {
-    refetchQueries: ['GetMissionById']
+    // refetchQueries: ['GetMissionById']
   })
 
   const [deleteStatus, { deleteData, deleteLoading, deleteError }] = useMutation(DELETE_ACTION_STATUS, {

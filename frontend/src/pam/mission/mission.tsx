@@ -78,7 +78,6 @@ export default function Mission() {
       }
     })
 
-    debugger
     // TODO change this
     navigate(`/pam/missions/${missionId}/${response.data.addOrUpdateStatus.id}`)
   }
@@ -121,7 +120,7 @@ export default function Mission() {
           <FlexboxGrid.Item colspan={8} style={{ height: '100%' }}>
             <Stack direction="column">
               <Stack.Item style={{ width: '100%', padding: '1rem' }}>
-                <MissionGeneralInfoPanel startDate={mission.startDateTimeUtc} endDate={mission.endDateTimeUtc} />
+                <MissionGeneralInfoPanel mission={mission} />
               </Stack.Item>
               <Stack.Item style={{ width: '100%', padding: '1rem' }}>
                 <MissionActivityPanel />

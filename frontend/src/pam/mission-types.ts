@@ -246,6 +246,7 @@ export type Mission = {
   openBy: string
   startDateTimeUtc: string
   actions: Action[]
+  generalInfo: MissionGeneralInfo
 }
 
 export type Infraction = {
@@ -291,4 +292,11 @@ export type Natinf = {
   // infractionCategory: string
   natinfCode: number
   // regulation: string
+}
+
+export type MissionGeneralInfo = {
+  id: number
+  distanceInNauticalMiles?: number
+  consumedGOInLiters?: number
+  consumedFuelInLiters?: number
 }

@@ -1,6 +1,6 @@
 extend type Mutation {
   status(id: String!): Action
-  addOrUpdateStatus(statusAction: ActionStatusInput!): Action!
+  addOrUpdateStatus(statusAction: ActionStatusInput!): NavActionStatus!
   deleteStatus(id: String!): Boolean!
   addOrUpdateControl(controlAction: ActionControlInput!): Action!
   deleteControl(id: String!): Boolean!
