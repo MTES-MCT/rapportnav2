@@ -1,0 +1,59 @@
+extend type Query {
+  agents: [Agent]
+  agentsByServiceId(serviceId: ID): [Agent]
+  agentCrewByMissionId(missionId: ID): [AgentCrew]
+  agentRoles: [AgentRole]
+}
+
+extend type Mutation {
+  addOrUpdateAgentCrew(agentCrew: AgentCrewInput!): AgentCrew!
+}
+
+type Agent {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    services: [Service]
+}
+
+type Service {
+  id: ID!
+  name: String!
+}
+
+type AgentRole {
+  id: ID!
+  title: String!
+}
+
+type AgentCrew {
+  id: ID!
+  agent: Agent
+  comment: String
+  role: AgentRole
+}
+
+input AgentCrewInput {
+  id: ID
+  agent: AgentInput
+  missionId: Int
+  comment: String
+  role: AgentRoleInput
+}
+
+input AgentInput {
+  id: ID
+  firstName: String!
+  lastName: String!
+  service: ServiceInput
+}
+
+input AgentRoleInput {
+  id: ID
+  title: String!
+}
+
+input ServiceInput {
+  id: ID
+  name: String
+}
