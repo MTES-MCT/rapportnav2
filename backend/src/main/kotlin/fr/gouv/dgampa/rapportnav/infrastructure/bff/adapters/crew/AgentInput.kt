@@ -5,19 +5,22 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.Agen
 import java.util.Date
 
 data class AgentInput(
-  val id: Int,
+  val id: Int?,
   val firstName: String,
   val lastName: String,
   val deletedAt: Date?,
   val service: ServiceInput
 ) {
   fun toAgentModel(): AgentModel {
-    return AgentModel(
+    val agent: AgentModel = AgentModel(
       id = id,
       firstName = firstName,
       lastName = lastName,
-      deletedAt = deletedAt,
-      services = mutableSetOf(service.toServiceModel())
+      deletedAt = deletedAt
     )
+
+    agent.services.add(service.toServiceModel())
+
+    return agent
   }
 }

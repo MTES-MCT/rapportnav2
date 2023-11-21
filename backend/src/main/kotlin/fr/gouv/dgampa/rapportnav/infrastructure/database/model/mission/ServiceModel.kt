@@ -10,7 +10,7 @@ data class ServiceModel(
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", unique = true, nullable = false)
-  var id: Int,
+  var id: Int?,
 
   @Column(name = "name", unique = true, nullable = false)
   var name: String,
@@ -21,10 +21,10 @@ data class ServiceModel(
     joinColumns = [JoinColumn(name = "service_id")],
     inverseJoinColumns = [JoinColumn(name = "agent_id")]
   )
-  var agents: MutableList<AgentModel> = mutableListOf(),
+  var agents: MutableSet<AgentModel?> = mutableSetOf(),
 
   @OneToOne
   @JoinColumn(name = "service_linked_id")
   var serviceLinked: ServiceModel?,
 
-)
+  )

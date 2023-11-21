@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.crew
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentCrewModel
 
 data class AgentCrewInput(
-  val id: Int,
+  val id: Int?,
   val agent: AgentInput,
   val missionId: Int,
   val comment: String?,

@@ -9,9 +9,9 @@ data class AgentCrewModel(
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", unique = true, nullable = false)
-  var id: Int,
+  var id: Int?,
 
-  @ManyToOne
+  @ManyToOne(cascade = [CascadeType.ALL])
   var agent: AgentModel,
 
   @Column(name = "mission_id")

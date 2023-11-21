@@ -4,6 +4,11 @@ extend type Query {
   agentCrewByMissionId(missionId: ID): [AgentCrew]
   agentRoles: [AgentRole]
 }
+
+extend type Mutation {
+  addOrUpdateAgentCrew(agentCrew: AgentCrewInput!): AgentCrew!
+}
+
 type Agent {
     id: ID!
     firstName: String!
@@ -26,4 +31,29 @@ type AgentCrew {
   agent: Agent
   comment: String
   role: AgentRole
+}
+
+input AgentCrewInput {
+  id: ID
+  agent: AgentInput
+  missionId: Int
+  comment: String
+  role: AgentRoleInput
+}
+
+input AgentInput {
+  id: ID
+  firstName: String!
+  lastName: String!
+  service: ServiceInput
+}
+
+input AgentRoleInput {
+  id: ID
+  title: String!
+}
+
+input ServiceInput {
+  id: ID
+  name: String
 }
