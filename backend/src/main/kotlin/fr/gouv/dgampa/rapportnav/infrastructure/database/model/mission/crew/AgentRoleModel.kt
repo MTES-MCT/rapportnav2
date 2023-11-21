@@ -9,7 +9,7 @@ data class AgentRoleModel(
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", unique = true, nullable = false)
-  var id: Int,
+  var id: Int?,
 
 
   @Column(name = "title", unique = true, nullable = false)
