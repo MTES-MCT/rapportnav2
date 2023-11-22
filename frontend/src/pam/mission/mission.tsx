@@ -102,7 +102,15 @@ export default function Mission() {
     return (
       <>
         <FlexboxGrid justify="space-between" style={{ display: 'flex', flex: 1 }}>
-          <FlexboxGrid.Item colspan={8} style={{ height: '100%' }}>
+          <FlexboxGrid.Item
+            colspan={8}
+            style={{
+              flex: 1,
+              overflowY: 'auto',
+              minHeight: 'calc(100vh - 2 * 60px)',
+              maxHeight: 'calc(100vh - 2 * 60px)'
+            }}
+          >
             <Stack direction="column">
               <Stack.Item style={{ width: '100%', padding: '1rem' }}>
                 <MissionGeneralInfoPanel mission={mission} />
@@ -117,7 +125,14 @@ export default function Mission() {
           </FlexboxGrid.Item>
           <FlexboxGrid.Item
             colspan={8}
-            style={{ backgroundColor: THEME.color.cultured, height: '100%', padding: '2rem 1rem' }}
+            style={{
+              backgroundColor: THEME.color.cultured,
+              padding: '2rem 1rem',
+              flex: 1,
+              overflowY: 'auto',
+              minHeight: 'calc(100vh - 2 * 60px)',
+              maxHeight: 'calc(100vh - 2 * 60px)'
+            }}
           >
             <FlexboxGrid>
               <FlexboxGrid.Item style={{ width: '100%' }}>
@@ -158,7 +173,16 @@ export default function Mission() {
               </FlexboxGrid.Item>
             </FlexboxGrid>
           </FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={8} style={{ backgroundColor: THEME.color.gainsboro, height: '100%' }}>
+          <FlexboxGrid.Item
+            colspan={8}
+            style={{
+              backgroundColor: THEME.color.gainsboro,
+              flex: 1,
+              overflowY: 'auto',
+              minHeight: 'calc(100vh - 2 * 60px)',
+              maxHeight: 'calc(100vh - 2 * 60px)'
+            }}
+          >
             <FlexboxGrid justify="start" align="middle" style={{ padding: '2rem', width: '100%' }}>
               {selectedAction && MissionActionComponent && <MissionActionComponent action={selectedAction} />}
             </FlexboxGrid>

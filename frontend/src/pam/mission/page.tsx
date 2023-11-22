@@ -1,5 +1,5 @@
 import React from 'react'
-import PageWrapper from '../../ui/page-wrapper'
+import PageWrapper from '../missions/page-wrapper'
 import Mission from './mission'
 import { useNavigate, useParams } from 'react-router-dom'
 import MissionPageHeader from './page-header'
@@ -22,13 +22,34 @@ const MissionsPage: React.FC = () => {
   }
 
   return (
-    <PageWrapper
-      showMenu={false}
-      header={<MissionPageHeader missionName={`Mission #${missionId}`} onClickClose={exitMission} />}
-      footer={<MissionPageFooter missionName={`Mission #${missionId}`} exitMission={exitMission} />}
+    <div
+      style={{
+        margin: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+        maxHeight: '100vh'
+      }}
     >
+      <MissionPageHeader missionName={`Mission #${missionId}`} onClickClose={exitMission} />
+      {/* <main
+        style={{
+          display: 'flex',
+          flex: 1
+        }}
+      > */}
       <Mission />
-    </PageWrapper>
+      {/* </main> */}
+
+      <MissionPageFooter missionName={`Mission #${missionId}`} exitMission={exitMission} />
+    </div>
+    // <PageWrapper
+    //   showMenu={false}
+    //   header={<MissionPageHeader missionName={`Mission #${missionId}`} onClickClose={exitMission} />}
+    //   footer={<MissionPageFooter missionName={`Mission #${missionId}`} exitMission={exitMission} />}
+    // >
+    //   <Mission />
+    // </PageWrapper>
   )
 }
 
