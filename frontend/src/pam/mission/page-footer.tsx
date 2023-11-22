@@ -5,7 +5,7 @@ import { Accent, Icon, Button, Size, THEME } from '@mtes-mct/monitor-ui'
 import { useNavigate } from 'react-router-dom'
 
 const StyledFooter = styled.div`
-  height: 62px;
+  height: 60px;
   background: var(--white-ffffff-) 0% 0% no-repeat padding-box;
   background: #ffffff 0% 0% no-repeat padding-box;
   border-top: 1px solid var(--lightGray-cccfd6-);

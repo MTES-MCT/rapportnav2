@@ -5,7 +5,7 @@ import { Accent, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import Text from '../../ui/text'
 
 const StyledHeader = styled.div`
-  height: 48px;
+  height: 60px;
   background: var(--charcoal-3b4559-) 0% 0% no-repeat padding-box;
   background: #3b4559 0% 0% no-repeat padding-box;
   opacity: 1;
