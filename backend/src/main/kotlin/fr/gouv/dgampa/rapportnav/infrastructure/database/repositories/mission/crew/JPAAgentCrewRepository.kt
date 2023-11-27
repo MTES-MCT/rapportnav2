@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 import jakarta.transaction.Transactional
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
+import java.util.*
 
 @Repository
 class JPAAgentCrewRepository(
@@ -27,7 +28,11 @@ class JPAAgentCrewRepository(
 
   @Transactional
   override fun deleteById(agentCrewId: Int): Boolean {
-    dbCrewRepository.deleteById(agentCrewId)
-    return true;
+    val agentCrew: Optional<AgentCrewModel> = dbCrewRepository.findById(agentCrewId)
+    if (agentCrew.isPresent) {
+      dbCrewRepository.deleteById(agentCrewId)
+      return true;
+    }
+    throw NoSuchElementException("AgentCrew with ID $agentCrewId not found")
   }
 }

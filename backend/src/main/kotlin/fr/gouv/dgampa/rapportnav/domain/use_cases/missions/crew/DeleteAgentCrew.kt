@@ -6,9 +6,15 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentCrewRepo
 @UseCase
 data class DeleteAgentCrew(private val crewRepository: IAgentCrewRepository) {
 
-  fun deleteById(id: Int): Boolean {
-    return crewRepository.deleteById(
-      agentCrewId = id
-    )
+  fun execute(id: Int): Boolean {
+
+    return try {
+      crewRepository.deleteById(
+        agentCrewId = id
+      )
+    } catch (e: NoSuchElementException) {
+      // TODO add log
+      return false
+    }
   }
 }

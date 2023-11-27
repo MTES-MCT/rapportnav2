@@ -53,6 +53,6 @@ class CrewController (
   @MutationMapping
   fun deleteAgentCrew(@Argument agentCrewId: Int): Boolean
   {
-    return deleteAgentCrew(agentCrewId = agentCrewId)
+    return deleteAgentCrew.execute(id = agentCrewId)
   }
 }
