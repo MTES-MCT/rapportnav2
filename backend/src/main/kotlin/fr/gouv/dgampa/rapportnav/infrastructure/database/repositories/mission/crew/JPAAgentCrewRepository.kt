@@ -1,14 +1,13 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.crew
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentCrewEntity
+
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentCrewRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.crew.AgentCrewInput
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlAdministrativeModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentCrewModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentCrewRepository
 import jakarta.transaction.Transactional
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
+import java.util.*
 
 @Repository
 class JPAAgentCrewRepository(
@@ -25,5 +24,15 @@ class JPAAgentCrewRepository(
     } catch (e: InvalidDataAccessApiUsageException) {
       throw Exception("Error saving or updating administrative Control", e)
     }
+  }
+
+  @Transactional
+  override fun deleteById(agentCrewId: Int): Boolean {
+    val agentCrew: Optional<AgentCrewModel> = dbCrewRepository.findById(agentCrewId)
+    if (agentCrew.isPresent) {
+      dbCrewRepository.deleteById(agentCrewId)
+      return true;
+    }
+    throw NoSuchElementException("AgentCrew with ID $agentCrewId not found")
   }
 }
