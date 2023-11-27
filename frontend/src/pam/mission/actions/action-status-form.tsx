@@ -12,7 +12,7 @@ import {
   Textarea,
   OptionValue
 } from '@mtes-mct/monitor-ui'
-import { ActionStatus, ACTION_STATUS_REASON_OPTIONS, ActionStatusType, Action } from '../../mission-types'
+import { ActionStatus, ACTION_STATUS_REASON_OPTIONS, ActionStatusType, Action } from '../../../types/action-types'
 import { Stack } from 'rsuite'
 import Text from '../../../ui/text'
 import { formatDateTimeForFrenchHumans } from '../../../dates'

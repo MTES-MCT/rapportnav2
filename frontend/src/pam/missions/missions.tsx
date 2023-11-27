@@ -1,5 +1,5 @@
 import React from 'react'
-import { Mission } from '../env-mission-types'
+import { Mission } from '../../types/env-mission-types'
 import { Col, FlexboxGrid, Loader, Stack } from 'rsuite'
 import { Accent, Button, Icon, Size } from '@mtes-mct/monitor-ui'
 import MissionsList from './missions-list'

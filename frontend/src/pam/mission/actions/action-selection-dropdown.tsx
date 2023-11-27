@@ -1,5 +1,5 @@
-import { Dropdown, Icon, THEME } from '@mtes-mct/monitor-ui'
-import { ActionTypeEnum } from '../../env-mission-types'
+import { Dropdown, Icon } from '@mtes-mct/monitor-ui'
+import { ActionTypeEnum } from '../../../types/env-mission-types'
 
 interface ActionSelectionDropdownProps {
   onSelect: (key: ActionTypeEnum) => void

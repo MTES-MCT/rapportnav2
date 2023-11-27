@@ -1,5 +1,5 @@
 import { THEME, Tag } from '@mtes-mct/monitor-ui'
-import { MissionSourceEnum } from '../env-mission-types'
+import { MissionSourceEnum } from '../../types/env-mission-types'
 
 interface MissionOpenByTagProps {
   missionSource?: MissionSourceEnum

@@ -6,10 +6,10 @@ import {
   EnvActionControl,
   MissionSourceEnum,
   actionTargetTypeLabels
-} from '../../env-mission-types'
+} from '../../../types/env-mission-types'
 import { FlexboxGrid, Stack } from 'rsuite'
-import { Action, ActionStatus as NavActionStatus, statusReasonToHumanString } from '../../mission-types'
-import { FishAction } from '../../fish-mission-types'
+import { Action, ActionStatus as NavActionStatus, statusReasonToHumanString } from '../../../types/action-types'
+import { FishAction } from '../../../types/fish-mission-types'
 import { StatusColorTag } from '../status/status-selection-dropdown'
 import { mapStatusToText } from '../status/utils'
 import { controlMethodToHumanString, vesselTypeToHumanString } from '../controls/utils'

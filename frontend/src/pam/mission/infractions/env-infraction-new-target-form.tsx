@@ -1,28 +1,15 @@
 import React from 'react'
 import { Stack } from 'rsuite'
 import { Select, TextInput } from '@mtes-mct/monitor-ui'
-import { ControlType, InfractionEnvNewTarget, VESSEL_SIZE_OPTIONS, VESSEL_TYPE_OPTIONS } from '../../mission-types'
+import { ControlType } from '../../../types/control-types'
+import { InfractionEnvNewTarget } from '../../../types/infraction-types'
 import InfractionForm from './infraction-form'
-import { controlTitle, getDisabledControlTypes } from '../controls/utils'
-
-const CONTROL_TYPE_OPTIONS = [
-  {
-    label: `Infraction - ${controlTitle(ControlType.ADMINISTRATIVE)}`,
-    value: ControlType.ADMINISTRATIVE
-  },
-  {
-    label: `Infraction - ${controlTitle(ControlType.SECURITY)}`,
-    value: ControlType.SECURITY
-  },
-  {
-    label: `Infraction - ${controlTitle(ControlType.NAVIGATION)}`,
-    value: ControlType.NAVIGATION
-  },
-  {
-    label: `Infraction - ${controlTitle(ControlType.GENS_DE_MER)}`,
-    value: ControlType.GENS_DE_MER
-  }
-]
+import {
+  VESSEL_SIZE_OPTIONS,
+  VESSEL_TYPE_OPTIONS,
+  CONTROL_TYPE_OPTIONS,
+  getDisabledControlTypes
+} from '../controls/utils'
 
 interface EnvInfractionNewTargetFormProps {
   infraction?: InfractionEnvNewTarget

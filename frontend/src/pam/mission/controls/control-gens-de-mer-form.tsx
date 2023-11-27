@@ -1,5 +1,5 @@
 import { Panel, Stack, Toggle } from 'rsuite'
-import { ControlGensDeMer, ControlType } from '../../mission-types'
+import { ControlGensDeMer, ControlType } from '../../../types/control-types'
 import {
   THEME,
   Icon,

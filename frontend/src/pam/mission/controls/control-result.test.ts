@@ -1,4 +1,4 @@
-import { ControlResult } from '../../mission-types'
+import { ControlResult } from '../../../types/control-types'
 import { ControlResultExtraOptions, controlResultOptions } from './control-result'
 
 describe('controlResultOptions', () => {

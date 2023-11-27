@@ -5,21 +5,8 @@ import {
   ControlNavigation,
   ControlSecurity,
   ControlType
-} from '../../mission-types'
-import {
-  THEME,
-  Icon,
-  Button,
-  Accent,
-  Size,
-  Textarea,
-  MultiRadio,
-  OptionValue,
-  Checkbox,
-  Label,
-  NumberInput,
-  TextInput
-} from '@mtes-mct/monitor-ui'
+} from '../../../types/control-types'
+import { NumberInput, TextInput } from '@mtes-mct/monitor-ui'
 import { useMutation } from '@apollo/client'
 import {
   GET_MISSION_BY_ID,
@@ -30,7 +17,6 @@ import {
 } from '../queries'
 import omit from 'lodash/omit'
 import { useParams } from 'react-router-dom'
-import Text from '../../../ui/text'
 import ControlTitleCheckbox from './control-title-checkbox'
 import { useEffect, useState } from 'react'
 

@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
-import { ActionTypeEnum, MissionSourceEnum } from '../../env-mission-types'
+import { ActionTypeEnum, MissionSourceEnum } from '../../../types/env-mission-types'
 
 interface MissionTimelineItemContainerProps {
   actionType: ActionTypeEnum

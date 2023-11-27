@@ -1,9 +1,10 @@
 import { MultiRadio, Icon, Button, Accent, THEME, Label } from '@mtes-mct/monitor-ui'
-import { ActionTypeEnum, missionTypeEnum } from '../../env-mission-types'
+import { ActionTypeEnum, missionTypeEnum } from '../../../types/env-mission-types'
 import { Stack } from 'rsuite'
 import Text from '../../../ui/text'
 import { useState } from 'react'
-import { ControlTarget, ControlTargetText, VesselType } from '../../mission-types'
+import { VesselTypeEnum } from '../../../types/mission-types'
+import { ControlTarget, ControlTargetText } from '../../../types/control-types'
 import { vesselTypeToHumanString } from './utils'
 import IconVesselCommerce from '../../../ui/icon/IconVesselCommerce'
 import IconVesselFishing from '../../../ui/icon/IconVesselFishing'
@@ -36,25 +37,25 @@ export const controlTypeRadio = {
   }
 }
 
-const controls: { type: VesselType; icon: any }[] = [
+const controls: { type: VesselTypeEnum; icon: any }[] = [
   {
-    type: VesselType.FISHING,
+    type: VesselTypeEnum.FISHING,
     icon: IconVesselFishing
   },
   {
-    type: VesselType.SAILING,
+    type: VesselTypeEnum.SAILING,
     icon: IconVesselSailingPro
   },
   {
-    type: VesselType.COMMERCIAL,
+    type: VesselTypeEnum.COMMERCIAL,
     icon: IconVesselCommerce
   },
   {
-    type: VesselType.MOTOR,
+    type: VesselTypeEnum.MOTOR,
     icon: IconVesselServices
   },
   {
-    type: VesselType.SAILING_LEISURE,
+    type: VesselTypeEnum.SAILING_LEISURE,
     icon: IconVesselSailingLeisure
   }
 ]
@@ -85,7 +86,7 @@ const ControlSelection: React.FC<ControlSelectionProps> = ({ onSelect }) => {
 
         <Stack.Item style={{ width: '100%' }}>
           <Stack direction="column" spacing="1rem" alignItems="flex-start">
-            {controls.map((control: { type: VesselType; icon: any }) => {
+            {controls.map((control: { type: VesselTypeEnum; icon: any }) => {
               const Icon = control.icon
               return (
                 <Stack.Item onClick={() => onSelect(selectedControlType, control.type)} style={{ width: '100%' }}>

@@ -1,5 +1,5 @@
 import { getByRole, render, screen } from '../../../test-utils'
-import { ControlAdministrative, ControlType } from '../../mission-types'
+import { ControlAdministrative, ControlType } from '../../../types/control-types'
 import EnvControlForm, { EnvControlFormProps } from './env-control-form'
 
 const dummy_control = {

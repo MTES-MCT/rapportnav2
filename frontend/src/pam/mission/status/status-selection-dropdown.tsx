@@ -1,5 +1,5 @@
 import { Dropdown, Icon } from '@mtes-mct/monitor-ui'
-import { ActionStatusType } from '../../mission-types'
+import { ActionStatusType } from '../../../types/action-types'
 import { Stack } from 'rsuite'
 import { getColorForStatus, mapStatusToText } from './utils'
 
@@ -19,7 +19,7 @@ export const StatusColorTag: React.FC<{ status: ActionStatusType }> = ({ status 
 )
 
 const StatusSelectionDropdown: React.FC<StatusSelectionDropdownProps> = ({ onSelect }) => (
-  <Dropdown Icon={Icon.FleetSegment} onSelect={onSelect} title="&#x25BC;">
+  <Dropdown Icon={Icon.FleetSegment} onSelect={onSelect} title="&#x25BC;" placement="bottomEnd">
     <Dropdown.Item eventKey={ActionStatusType.NAVIGATING}>
       <Stack spacing="0.5rem" alignItems="center">
         <Stack.Item>

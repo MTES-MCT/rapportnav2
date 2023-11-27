@@ -3,11 +3,12 @@ import { FlexboxGrid, Stack } from 'rsuite'
 import { Accent, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import MissionTimelineItemContainer from './timeline-item-container'
 import MissionTimelineItem from './timeline-item'
-import { Mission, Action, getActionData, getActionStartTime, ActionStatusType } from '../../mission-types'
+import { Mission } from '../../../types/mission-types'
+import { Action } from '../../../types/action-types'
 import { formatShortDate, formatTime } from '../../../dates'
 import Text from '../../../ui/text'
 import { getColorForStatus } from '../status/utils'
-import { ActionTypeEnum } from '../../env-mission-types'
+import { ActionTypeEnum } from '../../../types/env-mission-types'
 
 interface MissionTimelineProps {
   mission: Mission
@@ -30,8 +31,8 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
                   style={{ width: '100%' }}
                 >
                   <Stack direction="row" spacing={'0.5rem'}>
-                    <Stack.Item style={{ minWidth: '75px' }}>
-                      <Stack direction="column">
+                    <Stack.Item style={{ minWidth: '50px' }}>
+                      <Stack direction="column" alignItems="flex-start">
                         <Stack.Item>
                           <Text as="h3" color={THEME.color.slateGray} weight="bold">
                             {formatShortDate(action.startDateTimeUtc)}

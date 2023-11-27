@@ -2,8 +2,8 @@ import React from 'react'
 import { Stack, Toggle } from 'rsuite'
 import { Accent, Button, Size, THEME, MultiSelect, Textarea } from '@mtes-mct/monitor-ui'
 import Text from '../../../ui/text'
-import { Infraction } from '../../mission-types'
-import { FormalNoticeEnum } from '../../env-mission-types'
+import { Infraction } from '../../../types/infraction-types'
+import { FormalNoticeEnum } from '../../../types/env-mission-types'
 
 interface InfractionFormProps {
   infraction?: Infraction

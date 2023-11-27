@@ -1,7 +1,7 @@
 import { THEME, Checkbox } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
 import Text from '../../../ui/text'
-import { ControlType } from '../../mission-types'
+import { ControlType } from '../../../types/control-types'
 import { controlTitle } from './utils'
 
 export interface ControlTitleCheckboxProps {

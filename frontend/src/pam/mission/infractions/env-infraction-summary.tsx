@@ -3,7 +3,7 @@ import { Stack } from 'rsuite'
 import { Accent, Icon, Size, THEME, IconButton, Tag, Button } from '@mtes-mct/monitor-ui'
 import Text from '../../../ui/text'
 import { controlTitle, vesselTypeToHumanString } from '../controls/utils'
-import { Infraction, InfractionByTarget } from '../../mission-types'
+import { Infraction, InfractionByTarget } from '../../../types/infraction-types'
 import InfractionTag from './infraction-tag'
 
 interface EnvInfractionSummaryProps {

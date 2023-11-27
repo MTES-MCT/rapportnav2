@@ -11,10 +11,10 @@ extend type Mutation {
 }
 
 type Agent {
-    id: ID!
-    firstName: String!
-    lastName: String!
-    services: [Service]
+  id: ID!
+  firstName: String!
+  lastName: String!
+  services: [Service]
 }
 
 type Service {

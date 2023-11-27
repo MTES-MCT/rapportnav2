@@ -1,5 +1,5 @@
 import { Panel, Stack, Toggle } from 'rsuite'
-import { ControlNavigation, ControlType } from '../../mission-types'
+import { ControlNavigation, ControlType } from '../../../types/control-types'
 import { THEME, Icon, Button, Accent, Size, Textarea, Checkbox, Label } from '@mtes-mct/monitor-ui'
 import { DELETE_CONTROL_NAVIGATION, MUTATION_ADD_OR_UPDATE_CONTROL_NAVIGATION } from '../queries'
 import { useMutation } from '@apollo/client'
