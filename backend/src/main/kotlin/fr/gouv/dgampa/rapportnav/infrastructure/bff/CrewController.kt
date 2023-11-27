@@ -16,7 +16,8 @@ class CrewController (
   private val getAgentsByServiceId: GetAgentsByServiceId,
   private val getAgentsCrewByMissionId: GetAgentsCrewByMissionId,
   private val getAgentRoles: GetAgentRoles,
-  private val addOrUpdateAgentCrew: AddOrUpdateCrew
+  private val addOrUpdateAgentCrew: AddOrUpdateCrew,
+  private val deleteAgentCrew: DeleteAgentCrew
 ){
 
     @QueryMapping
@@ -47,5 +48,11 @@ class CrewController (
   fun addOrUpdateAgentCrew(@Argument agentCrew: AgentCrewInput): AgentCrewModel {
     val data = agentCrew.toAgentCrewModel()
     return addOrUpdateAgentCrew.addOrUpdateAgentCrew(data)
+  }
+
+  @MutationMapping
+  fun deleteAgentCrew(@Argument agentCrewId: Int): Boolean
+  {
+    return deleteAgentCrew(agentCrewId = agentCrewId)
   }
 }

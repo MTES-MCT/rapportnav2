@@ -8,4 +8,6 @@ interface IAgentCrewRepository {
   fun findByMissionId(missionId: Int): List<AgentCrewModel>
 
   fun save(agentCrew: AgentCrewModel): AgentCrewModel
+
+  fun deleteById(agentCrewId: Int): Boolean
 }
