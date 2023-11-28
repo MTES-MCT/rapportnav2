@@ -1,13 +1,13 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.crew
 
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentRoleEntity
 
 data class AgentRoleInput(
   val id: Int?,
   val title: String
 ) {
-  fun toAgentRoleModel(): AgentRoleModel {
-    return AgentRoleModel(
+  fun toAgentRoleEntity(): AgentRoleEntity {
+    return AgentRoleEntity(
       id = id,
       title = title
     )

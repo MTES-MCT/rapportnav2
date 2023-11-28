@@ -4,9 +4,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import java.util.*
 
 data class AgentEntity(
-    val id: Int,
+    val id: Int? = null,
     val firstName: String,
     val lastName: String,
-    val deletedAt: Date?,
-    val services: Set<ServiceEntity>
+    val deletedAt: Date? = null,
+    val services:  MutableSet<ServiceEntity?> = HashSet(),
 )

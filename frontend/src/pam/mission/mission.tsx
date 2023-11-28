@@ -15,6 +15,7 @@ import { ActionTypeEnum } from '../../types/env-mission-types'
 import ControlSelection from './controls/control-selection'
 import { useMutation, useQuery } from '@apollo/client'
 import {
+  GET_AGENT_ROLES,
   GET_MISSION_BY_ID,
   MUTATION_ADD_OR_UPDATE_ACTION_CONTROL,
   MUTATION_ADD_OR_UPDATE_ACTION_STATUS

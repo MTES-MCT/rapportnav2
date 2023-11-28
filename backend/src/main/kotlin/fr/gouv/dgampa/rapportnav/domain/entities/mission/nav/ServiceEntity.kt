@@ -3,8 +3,8 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 
 data class ServiceEntity(
-  val id: Int,
+  val id: Int? = null,
   val name: String,
-  val agents: MutableList<AgentEntity>,
-  val serviceLinked: ServiceEntity?
+  val agents:  MutableSet<AgentEntity?> = HashSet(),
+  val serviceLinked: ServiceEntity? = null
 )

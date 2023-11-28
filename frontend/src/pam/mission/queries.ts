@@ -357,3 +357,57 @@ export const MUTATION_ADD_OR_UPDATE_DISTANCE_CONSUMPTION = gql`
     }
   }
 `
+
+export const GET_AGENT_ROLES = gql`
+  query GetAgentRoles {
+    agentRoles {
+      id
+      title
+    }
+  }
+`
+
+export const GET_AGENTS_BY_SERVICE = gql`
+  query GetAgentsByServiceId($serviceId: ID!) {
+    agentsByServiceId(serviceId: $serviceId) {
+      id
+      firstName
+      lastName
+    }
+  }
+`
+
+export const GET_MISSION_CREW = gql`
+  query GetMissionCrewByMissionId($missionId: ID!) {
+    missionCrewByMissionId(missionId: $missionId) {
+      id
+      agent {
+        id
+        firstName
+        lastName
+      }
+      role {
+        id
+        title
+      }
+      comment
+    }
+  }
+`
+
+export const MUTATION_ADD_OR_UPDATE_MISSION_CREW = gql`
+  mutation AddOrUpdateMissionCrew($crew: MissionCrewInput!) {
+    addOrUpdateMissionCrew(crew: $crew) {
+      id
+      agent {
+        id
+        firstName
+        lastName
+      }
+      role {
+        id
+        title
+      }
+    }
+  }
+`

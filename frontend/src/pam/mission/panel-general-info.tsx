@@ -4,7 +4,7 @@ import { THEME, DateRangePicker, Label, TextInput } from '@mtes-mct/monitor-ui'
 import Text from '../../ui/text'
 import { Mission } from '../../types/mission-types'
 import MissionDistanceAndConsumption from './general-info/mission-distance-consumption'
-import MissionCrew from './general-info/mission-crew'
+import MissionCrew from './crew/mission-crew'
 
 interface MissionGeneralInfoPanelProps {
   mission: Mission

@@ -31,13 +31,13 @@ export type AgentRole = {
 }
 
 /**
- * AgentCrew
+ * MissionCrew
  * represents the actual crew of a mission
  * there will be as many rows as there are crew members of a mission
  */
-export type AgentCrew = {
+export type MissionCrew = {
   id: string
-  agent: Agent
+  agent?: Agent
   comment?: string
-  role: AgentRole
+  role?: AgentRole
 }

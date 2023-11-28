@@ -1,26 +1,17 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.crew
 
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.ServiceInput
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
-import java.util.Date
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 
 data class AgentInput(
   val id: Int?,
   val firstName: String,
   val lastName: String,
-  val deletedAt: Date?,
-  val service: ServiceInput
 ) {
-  fun toAgentModel(): AgentModel {
-    val agent: AgentModel = AgentModel(
+  fun toAgentEntity(): AgentEntity {
+    return AgentEntity(
       id = id,
       firstName = firstName,
       lastName = lastName,
-      deletedAt = deletedAt
     )
-
-    agent.services.add(service.toServiceModel())
-
-    return agent
   }
 }

@@ -3,10 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.missions.crew
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentRepository
-import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import org.slf4j.LoggerFactory
-import java.util.*
 
 @UseCase
 class GetAgents(private val agentRepository: IAgentRepository) {
@@ -14,7 +11,7 @@ class GetAgents(private val agentRepository: IAgentRepository) {
     private val logger = LoggerFactory.getLogger(GetAgents::class.java)
 
 
-    fun execute(): List<AgentModel> {
-        return agentRepository.findAll()
+    fun execute(): List<AgentEntity> {
+        return agentRepository.findAll().map { it.toAgentEntity() }
     }
 }
