@@ -30,7 +30,7 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
                   key={`${action.source}-${action.type}-${action.id}-${Math.random()}`}
                   style={{ width: '100%' }}
                 >
-                  <Stack direction="row" spacing={'0.5rem'}>
+                  <Stack direction="row" spacing={'0.5rem'} style={{ overflow: 'hidden' }}>
                     <Stack.Item style={{ minWidth: '50px' }}>
                       <Stack direction="column" alignItems="flex-start">
                         <Stack.Item>

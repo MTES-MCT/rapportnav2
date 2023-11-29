@@ -262,10 +262,18 @@ const ActionStatus: React.FC<{ action: NavActionStatus; onClick: any }> = ({ act
             color={isSelected ? THEME.color.charcoal : THEME.color.slateGray}
             decoration={isSelected ? 'underline' : 'normal'}
           >
-            <b>{`${mapStatusToText(action.status)} - ${action.isStart ? 'début' : 'fin'} ${
-              !!action.reason ? ' - ' + statusReasonToHumanString(action.reason) : ''
-            }`}</b>
-            {!!action.observations ? ' - ' + action.observations : ''}
+            <p
+              style={{
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
+              }}
+            >
+              <b>{`${mapStatusToText(action.status)} - ${action.isStart ? 'début' : 'fin'} ${
+                !!action.reason ? ' - ' + statusReasonToHumanString(action.reason) : ''
+              }`}</b>
+              {!!action.observations ? ' - ' + action.observations : ''}
+            </p>
           </Text>
         </Stack.Item>
         <Stack.Item>
