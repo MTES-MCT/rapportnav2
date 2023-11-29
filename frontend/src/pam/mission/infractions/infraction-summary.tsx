@@ -6,6 +6,7 @@ import { ControlType } from '../../../types/control-types'
 import { Infraction } from '../../../types/infraction-types'
 import { infractionTitleForControlType } from './utils'
 import InfractionTag from './infraction-tag'
+import { FormalNoticeEnum } from '../../../types/env-mission-types'
 
 interface InfractionSummaryProps {
   controlType: ControlType
@@ -50,7 +51,12 @@ const InfractionSummary: React.FC<InfractionSummaryProps> = ({ infractions, cont
             </Stack>
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
-            <InfractionTag text="Avec PV" />
+            {infraction.formalNotice === FormalNoticeEnum.YES ? (
+              <InfractionTag text="Avec PV" />
+            ) : (
+              <InfractionTag text="Sans PV" />
+            )}
+            {!!infraction.infractions ? <InfractionTag text="Avec NATINF" /> : null}
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>
             <Text as="h3">{infraction?.observations ? infraction?.observations : 'Aucune observation'}</Text>

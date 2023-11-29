@@ -4,3 +4,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* variables */
+:root {
+  /* toggle */
+  --rs-toggle-checked-bg: var(--charcoal);
+  --rs-toggle-checked-hover-bg: var(--gunMetal);
+}

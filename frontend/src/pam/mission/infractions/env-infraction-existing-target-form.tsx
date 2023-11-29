@@ -80,7 +80,9 @@ const EnvInfractionNewTargetForm: React.FC<EnvInfractionNewTargetFormProps> = ({
       <Stack.Item style={{ width: '100%' }}>
         <Legend>Type d'infraction</Legend>
         <Text as="h3" weight="medium">
-          {infractionTypeLabels[infraction.target.infractionType!!].libelle}
+          {!!infraction?.target?.infractionType
+            ? infractionTypeLabels[infraction?.target?.infractionType!!].libelle
+            : '-'}
         </Text>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
@@ -101,7 +103,7 @@ const EnvInfractionNewTargetForm: React.FC<EnvInfractionNewTargetFormProps> = ({
           <Stack.Item>
             <Legend>Tribunal compétent</Legend>
             <Text as="h3" weight="medium">
-              {infraction?.target?.relevantCourt}
+              {infraction?.target?.relevantCourt || '-'}
             </Text>
           </Stack.Item>
           <Stack.Item>

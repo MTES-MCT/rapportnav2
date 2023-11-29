@@ -28,11 +28,12 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ mission, onSelectActi
                 {index !== 0 && (
                   <Stack.Item>
                     <Divider style={{ backgroundColor: THEME.color.charcoal }} />
+                    <div style={{ padding: '0.25rem' }} />
                   </Stack.Item>
                 )}
 
                 <Stack.Item>
-                  <Stack direction="column" spacing={'1rem'} style={{ width: '100%' }} alignItems="stretch">
+                  <Stack direction="column" spacing={'0.75rem'} style={{ width: '100%' }} alignItems="stretch">
                     {/* Render actions for the day */}
                     {(actions as Action[]).map((action: Action) => {
                       if (!action.data) {

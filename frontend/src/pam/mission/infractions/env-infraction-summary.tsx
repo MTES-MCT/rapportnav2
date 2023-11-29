@@ -58,7 +58,8 @@ const EnvInfractionSummary: React.FC<EnvInfractionSummaryProps> = ({
                 </Stack.Item>
                 {[1].map((aa: any) => (
                   <Stack.Item>
-                    <InfractionTag text="Avec PV" />
+                    {infraction.formalNotice ? <InfractionTag text="Avec PV" /> : <InfractionTag text="Sans PV" />}
+                    {!!infraction.infractions ? <InfractionTag text="Avec NATINF" /> : null}
                   </Stack.Item>
                 ))}
               </Stack>

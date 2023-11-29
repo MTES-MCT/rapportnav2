@@ -165,7 +165,7 @@ export default function Mission() {
                 </FlexboxGrid>
               </FlexboxGrid.Item>
               <FlexboxGrid.Item style={{ width: '100%' }}>
-                <Divider />
+                <Divider style={{ backgroundColor: THEME.color.charcoal }} />
               </FlexboxGrid.Item>
               <FlexboxGrid.Item style={{ width: '100%' }}>
                 <MissionTimeline mission={mission} onSelectAction={selectAction} />

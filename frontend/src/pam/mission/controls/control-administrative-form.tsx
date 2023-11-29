@@ -109,8 +109,8 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
                   onChange={(checked: boolean) => onChange('unitHasConfirmed', checked)}
                 />
               </Stack.Item>
-              <Stack.Item>
-                <Label>
+              <Stack.Item alignSelf="flex-end">
+                <Label style={{ marginBottom: 0 }}>
                   <b>Contrôle confirmé par l’unité</b>
                 </Label>
               </Stack.Item>
