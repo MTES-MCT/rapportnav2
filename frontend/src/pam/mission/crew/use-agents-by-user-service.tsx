@@ -7,7 +7,7 @@ const useAgentsByUserService = (): { data?: Agent[]; loading: boolean; error?: A
     // fetchPolicy: 'cache-only'
   })
 
-  return { loading, error, data: data?.agentsByServiceId }
+  return { loading, error, data: data?.agentsByUserService }
 }
 
 export default useAgentsByUserService

@@ -35,8 +35,15 @@ const MissionCrew: React.FC<MissionCrewProps> = ({}) => {
     setHideAddButton(true)
   }
 
-  const onDeleteCrewMember = async (id: string) => {
-    await deleteCrew({ variables: { id } })
+  const onDeleteCrewMember = async (id?: string) => {
+    if (!id) {
+      // delete crew being added
+      setCrewList(crew)
+      setHideAddButton(false)
+    } else {
+      // delete exising crew
+      await deleteCrew({ variables: { id } })
+    }
   }
 
   const updateExistingCrew = async (missionCrew: MissionCrewModel, field?: string, value?: any) => {
@@ -68,13 +75,13 @@ const MissionCrew: React.FC<MissionCrewProps> = ({}) => {
   }
 
   const addNewCrew = async (field?: string, value?: any) => {
-    const newCrew = (crewList?.pop() || {}) as MissionCrewModel
+    const newCrew = crewList?.[crewList?.length - 1] || ({} as MissionCrewModel)
     if (field === 'agent') {
       newCrew.agent = omit(
         agents?.find((agent: Agent) => agent.id === value),
         '__typename'
       )
-      setCrewList([...(crewList || []), newCrew])
+      setCrewList([...(crewList?.slice(0, -1) || []), newCrew])
     } else if (field === 'role') {
       newCrew.role = omit(
         agentRoles?.find((role: AgentRole) => role.id === value),
@@ -106,7 +113,7 @@ const MissionCrew: React.FC<MissionCrewProps> = ({}) => {
   return (
     <>
       <Label>Equipage à bord</Label>
-      <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
+      <Stack direction="column" alignItems="flex-start" spacing="0.25rem" style={{ width: '100%' }}>
         {!!!crewList || !crewList.length ? (
           <Stack.Item style={{ width: '100%', backgroundColor: THEME.color.gainsboro, padding: '0.5rem' }}>
             <Text as="h3">Aucun membre d'équipage renseigné</Text>
@@ -127,11 +134,12 @@ const MissionCrew: React.FC<MissionCrewProps> = ({}) => {
                     isLight={true}
                     value={crew?.agent?.id}
                     options={
-                      (agents?.map(({ id, firstName, lastName }: Agent) => ({
-                        value: id,
-                        label: [firstName, lastName].join(' ')
+                      (agents?.map((agent: Agent) => ({
+                        value: agent.id,
+                        label: [agent.firstName, agent.lastName].join(' ')
                       })) as any) || []
                     }
+                    disabledItemValues={crewList.map(crew => crew.agent?.id).filter(Boolean) as string[]}
                     onChange={(nextValue?: string) => onChange(crew, 'agent', nextValue)}
                   />
                 </Stack.Item>
