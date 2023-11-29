@@ -13,8 +13,11 @@ data class UserModel(
     @SequenceGenerator(name = "user_id_seq", allocationSize = 1)
     var id: Int? = 0,
 
-    @Column(name = "name")
-    var name: String = "",
+    @Column(name = "first_name")
+    var firstName: String = "",
+
+    @Column(name = "last_name")
+    var lastName: String = "",
 
     @Column(name = "email", unique = true)
     var email: String = "",
@@ -22,23 +25,29 @@ data class UserModel(
     @JsonIgnore
     @Column(name = "password")
     var password: String = "",
+
+    @Column(name = "agent_id")
+    var agentId: Int? = 0,
 ) {
 
 
     fun toUser(mapper: ObjectMapper): User = User(
         id = id,
+        agentId = agentId,
         email = email,
-        name = name,
+        firstName = firstName,
+        lastName = lastName,
         password = password,
     )
 
     companion object {
         fun fromUser(user: User, mapper: ObjectMapper) = UserModel(
             id = user.id,
-            name = user.name,
+            agentId = user.agentId,
+            firstName = user.firstName,
+            lastName = user.lastName,
             email = user.email,
-            password = user.password
-//            password = BCryptPasswordEncoder().encode(user.password),
+            password = user.password,
         )
     }
 }

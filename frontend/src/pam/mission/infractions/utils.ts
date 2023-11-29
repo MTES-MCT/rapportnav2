@@ -1,4 +1,4 @@
-import { ControlType } from '../../mission-types'
+import { ControlType } from '../../../types/control-types'
 
 export const infractionTitleForControlType = (controlType: ControlType): string => {
   switch (controlType) {

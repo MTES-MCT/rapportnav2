@@ -1,4 +1,4 @@
-import { Mission, getMissionStatus, MissionStatusEnum } from '../env-mission-types'
+import { Mission, getMissionStatus, MissionStatusEnum } from '../../types/env-mission-types'
 import { FlexboxGrid, Stack } from 'rsuite'
 import { Link } from 'react-router-dom'
 import MissionOpenByTag from './mission-open-by-tag'

@@ -1,15 +1,8 @@
 import React from 'react'
 import { Stack } from 'rsuite'
 import { Legend, Select, Field, Checkbox, THEME } from '@mtes-mct/monitor-ui'
-import {
-  ControlType,
-  Infraction,
-  InfractionEnvExistingTarget,
-  InfractionEnvNewTarget,
-  InfractionTarget,
-  VESSEL_SIZE_OPTIONS,
-  VESSEL_TYPE_OPTIONS
-} from '../../mission-types'
+import { ControlType } from '../../../types/control-types'
+import { Infraction } from '../../../types/infraction-types'
 import InfractionForm from './infraction-form'
 import {
   controlTitle,
@@ -18,7 +11,7 @@ import {
   vesselTypeToHumanString
 } from '../controls/utils'
 import Text from '../../../ui/text'
-import { infractionTypeLabels } from '../../env-mission-types'
+import { infractionTypeLabels } from '../../../types/env-mission-types'
 
 const CONTROL_TYPE_OPTIONS = [
   {

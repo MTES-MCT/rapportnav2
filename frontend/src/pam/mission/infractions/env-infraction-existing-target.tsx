@@ -1,12 +1,7 @@
 import React, { useState } from 'react'
 import { Accent, Button, Icon, Label, Size, THEME } from '@mtes-mct/monitor-ui'
-import {
-  Infraction,
-  ControlType,
-  InfractionByTarget,
-  InfractionTarget,
-  InfractionEnvNewTarget
-} from '../../mission-types'
+import { ControlType } from '../../../types/control-types'
+import { Infraction, InfractionByTarget, InfractionEnvNewTarget } from '../../../types/infraction-types'
 import {
   GET_MISSION_BY_ID,
   MUTATION_ADD_OR_UPDATE_INFRACTION,
@@ -16,7 +11,6 @@ import {
 import { useMutation } from '@apollo/client'
 import { useParams } from 'react-router-dom'
 import omit from 'lodash/omit'
-import EnvInfractionNewTargetForm from './env-infraction-new-target-form'
 import EnvInfractionSummary from './env-infraction-summary'
 import EnvInfractionExistingTargetForm from './env-infraction-existing-target-form'
 

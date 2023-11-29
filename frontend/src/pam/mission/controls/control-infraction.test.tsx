@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '../../../test-utils'
-import { ControlType, Infraction } from '../../mission-types'
+import { ControlType, Infraction } from '../../../types/control-types'
 import ControlInfraction, { ControlInfractionProps } from '../infractions/infraction-for-control'
 import { infractionTitleForControlType } from '../infractions/utils'
 

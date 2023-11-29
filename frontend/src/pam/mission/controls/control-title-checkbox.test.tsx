@@ -1,6 +1,6 @@
 import { vi } from 'vitest'
 import { fireEvent, getByRole, render, screen } from '../../../test-utils'
-import { ControlAdministrative, ControlType } from '../../mission-types'
+import { ControlType } from '../../../types/control-types'
 import ControlTitleCheckbox, { ControlTitleCheckboxProps } from './control-title-checkbox'
 
 const props = (onChange: any, checked?: boolean = null) =>

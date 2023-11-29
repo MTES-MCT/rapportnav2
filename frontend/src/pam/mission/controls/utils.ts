@@ -1,5 +1,6 @@
-import { VesselSizeEnum, VesselTypeEnum } from '../../env-mission-types'
-import { ControlMethod, ControlType, VesselSize, VesselType } from '../../mission-types'
+import { VesselSizeEnum, VesselTypeEnum } from '../../../types/env-mission-types'
+import { VesselSizeEnum, VesselTypeEnum } from '../../../types/mission-types'
+import { ControlMethod, ControlType } from '../../../types/control-types'
 
 export const controlMethodToHumanString = (controlMethod?: ControlMethod | null): string => {
   switch (controlMethod) {
@@ -14,37 +15,79 @@ export const controlMethodToHumanString = (controlMethod?: ControlMethod | null)
   }
 }
 
-export const vesselTypeToHumanString = (vesselType?: VesselType | VesselTypeEnum | null): string => {
+export const vesselTypeToHumanString = (vesselType?: VesselTypeEnum | VesselTypeEnum | null): string => {
   switch (vesselType) {
-    case VesselType.FISHING:
+    case VesselTypeEnum.FISHING:
       return 'Navire de pêche professionnelle'
-    case VesselType.COMMERCIAL:
+    case VesselTypeEnum.COMMERCIAL:
       return 'Navire de commerce'
-    case VesselType.MOTOR:
+    case VesselTypeEnum.MOTOR:
       return 'Navire de service'
-    case VesselType.SAILING:
+    case VesselTypeEnum.SAILING:
       return 'Navire de plaisance professionnelle'
-    case VesselType.SAILING_LEISURE:
+    case VesselTypeEnum.SAILING_LEISURE:
       return 'Navire de plaisance de loisir'
     default:
       return ''
   }
 }
 
-export const vesselSizeToHumanString = (vesselSize?: VesselSize | VesselSizeEnum | null): string => {
+export const VESSEL_TYPE_OPTIONS = [
+  {
+    label: vesselTypeToHumanString(VesselTypeEnum.FISHING),
+    value: VesselTypeEnum.FISHING
+  },
+  {
+    label: vesselTypeToHumanString(VesselTypeEnum.SAILING),
+    value: VesselTypeEnum.SAILING
+  },
+  {
+    label: vesselTypeToHumanString(VesselTypeEnum.MOTOR),
+    value: VesselTypeEnum.MOTOR
+  },
+  {
+    label: vesselTypeToHumanString(VesselTypeEnum.COMMERCIAL),
+    value: VesselTypeEnum.COMMERCIAL
+  },
+  {
+    label: vesselTypeToHumanString(VesselTypeEnum.SAILING_LEISURE),
+    value: VesselTypeEnum.SAILING_LEISURE
+  }
+]
+
+export const vesselSizeToHumanString = (vesselSize?: VesselSizeEnum | VesselSizeEnum | null): string => {
   switch (vesselSize) {
-    case VesselSize.LESS_THAN_12m:
+    case VesselSizeEnum.LESS_THAN_12m:
       return 'Moins de 12m'
-    case VesselSize.FROM_12_TO_24m:
+    case VesselSizeEnum.FROM_12_TO_24m:
       return 'Entre 12m et 24m'
-    case VesselSize.FROM_24_TO_46m:
+    case VesselSizeEnum.FROM_24_TO_46m:
       return 'Entre 24m et 46m'
-    case VesselSize.MORE_THAN_46m:
+    case VesselSizeEnum.MORE_THAN_46m:
       return 'Plus de 46m'
     default:
       return ''
   }
 }
+
+export const VESSEL_SIZE_OPTIONS = [
+  {
+    label: 'Moins de 12m',
+    value: VesselSizeEnum.LESS_THAN_12m
+  },
+  {
+    label: 'Entre 12m et 24m',
+    value: VesselSizeEnum.FROM_12_TO_24m
+  },
+  {
+    label: 'Entre 24m et 46m',
+    value: VesselSizeEnum.FROM_24_TO_46m
+  },
+  {
+    label: 'Plus de 46m',
+    value: VesselSizeEnum.MORE_THAN_46m
+  }
+]
 
 export const controlTitle = (controlType: ControlType) => {
   switch (controlType) {
@@ -67,3 +110,22 @@ export function getDisabledControlTypes(enabledControlTypes?: ControlType[]): Co
   const disabledControlTypes = allControlTypes.filter(controlType => !enabledControlTypes.includes(controlType))
   return disabledControlTypes
 }
+
+export const CONTROL_TYPE_OPTIONS = [
+  {
+    label: `Infraction - ${controlTitle(ControlType.ADMINISTRATIVE)}`,
+    value: ControlType.ADMINISTRATIVE
+  },
+  {
+    label: `Infraction - ${controlTitle(ControlType.SECURITY)}`,
+    value: ControlType.SECURITY
+  },
+  {
+    label: `Infraction - ${controlTitle(ControlType.NAVIGATION)}`,
+    value: ControlType.NAVIGATION
+  },
+  {
+    label: `Infraction - ${controlTitle(ControlType.GENS_DE_MER)}`,
+    value: ControlType.GENS_DE_MER
+  }
+]

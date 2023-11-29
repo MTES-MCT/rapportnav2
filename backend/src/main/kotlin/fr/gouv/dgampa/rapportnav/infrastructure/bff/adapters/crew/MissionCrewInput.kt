@@ -1,21 +1,21 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.crew
 
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentCrewModel
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 
-data class AgentCrewInput(
+data class MissionCrewInput(
   val id: Int?,
   val agent: AgentInput,
   val missionId: Int,
   val comment: String?,
   val role: AgentRoleInput
 ) {
-  fun toAgentCrewModel(): AgentCrewModel {
-    return AgentCrewModel(
+  fun toMissionCrewEntity(): MissionCrewEntity {
+    return MissionCrewEntity(
       id = id,
-      agent = agent.toAgentModel(),
+      agent = agent.toAgentEntity(),
       missionId = missionId,
       comment = comment,
-      role = role.toAgentRoleModel()
+      role = role.toAgentRoleEntity()
     )
   }
 }

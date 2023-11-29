@@ -1,5 +1,4 @@
 import { Accent, Icon, Dialog, IconButton, Size, THEME, Button } from '@mtes-mct/monitor-ui'
-import { v4 as uuidv4 } from 'uuid'
 import { Divider, FlexboxGrid, Stack } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'
 import MissionGeneralInfoPanel from './panel-general-info'
@@ -9,12 +8,14 @@ import MissionTimeline from './timeline/timeline'
 import { useMemo, useState } from 'react'
 import { getComponentForAction } from './actions/action-mapping'
 import Text from '../../ui/text'
-import { ControlTarget, Action, ActionStatusType, VesselType } from '../mission-types'
+import { VesselTypeEnum } from '../../types/mission-types'
+import { Action, ActionStatusType } from '../../types/action-types'
 import ActionSelectionDropdown from './actions/action-selection-dropdown'
-import { ActionTypeEnum, MissionSourceEnum } from '../env-mission-types'
+import { ActionTypeEnum } from '../../types/env-mission-types'
 import ControlSelection from './controls/control-selection'
-import { useApolloClient, useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import {
+  GET_AGENT_ROLES,
   GET_MISSION_BY_ID,
   MUTATION_ADD_OR_UPDATE_ACTION_CONTROL,
   MUTATION_ADD_OR_UPDATE_ACTION_STATUS
@@ -77,7 +78,7 @@ export default function Mission() {
     navigate(`/pam/missions/${missionId}/${response.data.addOrUpdateStatus.id}`)
   }
 
-  const addNewControl = async (controlMethod: string, vesselType: VesselType) => {
+  const addNewControl = async (controlMethod: string, vesselType: VesselTypeEnum) => {
     setShowControlTypesModal(false)
     // TODO id creation should be in backend
     const newControl = {
@@ -127,7 +128,7 @@ export default function Mission() {
             colspan={8}
             style={{
               backgroundColor: THEME.color.cultured,
-              padding: '2rem 1rem',
+              padding: '2rem',
               flex: 1,
               overflowY: 'auto',
               minHeight: 'calc(100vh - 2 * 60px)',

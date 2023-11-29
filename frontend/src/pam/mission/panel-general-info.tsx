@@ -2,8 +2,9 @@ import React from 'react'
 import { FlexboxGrid, Panel, Stack } from 'rsuite'
 import { THEME, DateRangePicker, Label, TextInput } from '@mtes-mct/monitor-ui'
 import Text from '../../ui/text'
-import { Mission, MissionGeneralInfo } from '../mission-types'
+import { Mission } from '../../types/mission-types'
 import MissionDistanceAndConsumption from './general-info/mission-distance-consumption'
+import MissionCrew from './crew/mission-crew'
 
 interface MissionGeneralInfoPanelProps {
   mission: Mission
@@ -33,6 +34,9 @@ const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({ missi
                 isCompact={true}
                 // disabled={true}
               />
+            </Stack.Item>
+            <Stack.Item style={{ width: '100%' }}>
+              <MissionCrew crew={[]} />
             </Stack.Item>
             <Stack.Item style={{ width: '100%' }}>
               <MissionDistanceAndConsumption info={mission.generalInfo} />

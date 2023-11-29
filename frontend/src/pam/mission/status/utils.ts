@@ -1,4 +1,4 @@
-import { ActionStatusType } from '../../mission-types'
+import { ActionStatusType } from '../../../types/action-types'
 import { THEME } from '@mtes-mct/monitor-ui'
 
 export const getColorForStatus = (status: ActionStatusType) => {

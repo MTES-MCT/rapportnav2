@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import jakarta.persistence.*
 
@@ -25,6 +26,27 @@ data class ServiceModel(
 
   @OneToOne
   @JoinColumn(name = "service_linked_id")
-  var serviceLinked: ServiceModel?,
+  var serviceLinked: ServiceModel? = null,
 
-  )
+  ) {
+
+  fun toServiceEntity(): ServiceEntity {
+    return ServiceEntity(
+      id = id,
+      name = name,
+      agents = agents.map { it?.toAgentEntity() }.toMutableSet(),
+      serviceLinked = serviceLinked?.toServiceEntity()
+    )
+  }
+
+  companion object {
+    fun fromServiceEntity(service: ServiceEntity): ServiceModel {
+      return ServiceModel(
+        id = service.id,
+        name = service.name,
+        agents = service.agents.map { AgentModel.fromAgentEntity(it!!) }.toMutableSet(),
+        serviceLinked = fromServiceEntity(service.serviceLinked!!)
+      )
+    }
+  }
+}

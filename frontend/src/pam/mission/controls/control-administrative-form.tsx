@@ -1,5 +1,5 @@
 import { Form, Panel, Stack, Toggle } from 'rsuite'
-import { ControlAdministrative, ControlType } from '../../mission-types'
+import { ControlAdministrative, ControlType } from '../../../types/control-types'
 import { THEME, Textarea, MultiRadio, OptionValue, Label } from '@mtes-mct/monitor-ui'
 import { useMutation } from '@apollo/client'
 import {

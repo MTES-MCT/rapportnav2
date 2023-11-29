@@ -1,5 +1,5 @@
 import { Panel, Stack, Toggle } from 'rsuite'
-import { ControlSecurity, ControlType } from '../../mission-types'
+import { ControlSecurity, ControlType } from '../../../types/control-types'
 import { THEME, Icon, Button, Accent, Size, Textarea, Checkbox, Label } from '@mtes-mct/monitor-ui'
 import { DELETE_CONTROL_SECURITY, MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY } from '../queries'
 import { useMutation } from '@apollo/client'

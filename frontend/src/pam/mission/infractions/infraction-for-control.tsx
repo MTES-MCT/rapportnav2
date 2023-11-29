@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Accent, Button, Icon, Label, Size, THEME } from '@mtes-mct/monitor-ui'
-import { Infraction, ControlType } from '../../mission-types'
+import { ControlType } from '../../../types/control-types'
+import { Infraction } from '../../../types/infraction-types'
 import InfractionSummary from './infraction-summary'
 import InfractionForm from './infraction-form'
 import { infractionButtonTitle } from './utils'

@@ -1,20 +1,21 @@
 extend type Query {
   agents: [Agent]
-  agentsByServiceId(serviceId: ID): [Agent]
-  agentCrewByMissionId(missionId: ID): [AgentCrew]
+  agentsByServiceId(serviceId: ID!): [Agent]
+  agentsByUserService: [Agent]
+  missionCrewByMissionId(missionId: ID!): [MissionCrew]
   agentRoles: [AgentRole]
 }
 
 extend type Mutation {
-  addOrUpdateAgentCrew(agentCrew: AgentCrewInput!): AgentCrew!
-  deleteAgentCrew(agentCrewId: ID!): Boolean
+  deleteMissionCrew(id: ID!): Boolean
+  addOrUpdateMissionCrew(crew: MissionCrewInput!): MissionCrew!
 }
 
 type Agent {
-    id: ID!
-    firstName: String!
-    lastName: String!
-    services: [Service]
+  id: ID!
+  firstName: String!
+  lastName: String!
+  services: [Service]
 }
 
 type Service {
@@ -27,17 +28,17 @@ type AgentRole {
   title: String!
 }
 
-type AgentCrew {
+type MissionCrew {
   id: ID!
   agent: Agent
   comment: String
   role: AgentRole
 }
 
-input AgentCrewInput {
+input MissionCrewInput {
   id: ID
   agent: AgentInput
-  missionId: Int
+  missionId: Int!
   comment: String
   role: AgentRoleInput
 }
@@ -46,15 +47,9 @@ input AgentInput {
   id: ID
   firstName: String!
   lastName: String!
-  service: ServiceInput
 }
 
 input AgentRoleInput {
   id: ID
   title: String!
-}
-
-input ServiceInput {
-  id: ID
-  name: String
 }

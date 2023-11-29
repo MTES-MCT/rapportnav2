@@ -16,7 +16,8 @@ import {
   CoordinatesFormat,
   Label
 } from '@mtes-mct/monitor-ui'
-import { Action, ActionControl, ActionSource, VESSEL_SIZE_OPTIONS, VesselType } from '../../mission-types'
+import { VesselTypeEnum } from '../../../types/mission-types'
+import { Action, ActionControl } from '../../../types/action-types'
 import { Panel, Stack } from 'rsuite'
 import Text from '../../../ui/text'
 import { formatDateTimeForFrenchHumans } from '../../../dates'
@@ -28,7 +29,7 @@ import ControlAdministrativeForm from '../controls/control-administrative-form'
 import ControlNavigationForm from '../controls/control-navigation-form'
 import ControlGensDeMerForm from '../controls/control-gens-de-mer-form'
 import ControlSecurityForm from '../controls/control-security-form'
-import { controlMethodToHumanString, vesselTypeToHumanString } from '../controls/utils'
+import { VESSEL_SIZE_OPTIONS, controlMethodToHumanString, vesselTypeToHumanString } from '../controls/utils'
 
 interface ActionControlNavProps {
   action: Action
@@ -248,7 +249,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
             <ControlNavigationForm data={control.controlNavigation} />
           </Stack.Item>
           {/* ne pas montrer les controles gens de mer pour la plaisance de loisir */}
-          {(action.data as unknown as ActionControl)?.vesselType !== VesselType.SAILING_LEISURE && (
+          {(action.data as unknown as ActionControl)?.vesselType !== VesselTypeEnum.SAILING_LEISURE && (
             <Stack.Item style={{ width: '100%' }}>
               <ControlGensDeMerForm data={control.controlGensDeMer} />
             </Stack.Item>
