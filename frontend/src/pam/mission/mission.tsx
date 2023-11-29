@@ -116,11 +116,9 @@ export default function Mission() {
               <Stack.Item style={{ width: '100%', padding: '1rem' }}>
                 <MissionGeneralInfoPanel mission={mission} />
               </Stack.Item>
+              <Stack.Item style={{ width: '100%', padding: '1rem' }}>{/* <MissionActivityPanel /> */}</Stack.Item>
               <Stack.Item style={{ width: '100%', padding: '1rem' }}>
-                <MissionActivityPanel />
-              </Stack.Item>
-              <Stack.Item style={{ width: '100%', padding: '1rem' }}>
-                <MissionOperationalSummaryPanel />
+                {/* <MissionOperationalSummaryPanel /> */}
               </Stack.Item>
             </Stack>
           </FlexboxGrid.Item>
