@@ -377,6 +377,16 @@ export const GET_AGENTS_BY_SERVICE = gql`
   }
 `
 
+export const GET_AGENTS_BY_USER_SERVICE = gql`
+  query GetAgentsByUserService {
+    agentsByUserService {
+      id
+      firstName
+      lastName
+    }
+  }
+`
+
 export const GET_MISSION_CREW = gql`
   query GetMissionCrewByMissionId($missionId: ID!) {
     missionCrewByMissionId(missionId: $missionId) {
@@ -409,5 +419,11 @@ export const MUTATION_ADD_OR_UPDATE_MISSION_CREW = gql`
         title
       }
     }
+  }
+`
+
+export const MUTATION_DELETE_MISSION_CREW = gql`
+  mutation DeleteMissionCrew($id: ID!) {
+    deleteMissionCrew(id: $id)
   }
 `

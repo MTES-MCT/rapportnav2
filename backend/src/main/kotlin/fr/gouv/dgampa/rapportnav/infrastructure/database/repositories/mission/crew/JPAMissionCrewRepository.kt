@@ -9,15 +9,16 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 import jakarta.transaction.Transactional
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
+import java.util.*
 
 @Repository
 class JPAMissionCrewRepository(
-  private val dbCrewRepository: IDBMissionCrewRepository,
+  private val dbMissionCrewRepository: IDBMissionCrewRepository,
   private val dbAgentRepository: IDBAgentRepository,
   private val dbAgentRoleRepository: IDBAgentRoleRepository,
 ) : IMissionCrewRepository {
   override fun findByMissionId(missionId: Int): List<MissionCrewModel> {
-    return dbCrewRepository.findByMissionId(missionId)
+    return dbMissionCrewRepository.findByMissionId(missionId)
   }
 
   @Transactional
@@ -29,9 +30,19 @@ class JPAMissionCrewRepository(
       val crewModel = MissionCrewModel.fromMissionCrewEntity(crew)
       crewModel.agent = agent
       crewModel.role = role
-      dbCrewRepository.save(crewModel)
+      dbMissionCrewRepository.save(crewModel)
     } catch (e: InvalidDataAccessApiUsageException) {
       throw Exception("[JPA] Error saving or updating MissionCrew", e)
     }
+  }
+
+  @Transactional
+  override fun deleteById(id: Int): Boolean {
+    val crew: Optional<MissionCrewModel> = dbMissionCrewRepository.findById(id)
+    if (crew.isPresent) {
+      dbMissionCrewRepository.deleteById(id)
+      return true;
+    }
+    throw NoSuchElementException("AgentCrew with ID $id not found")
   }
 }

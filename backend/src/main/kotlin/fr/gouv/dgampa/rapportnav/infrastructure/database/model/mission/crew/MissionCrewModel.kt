@@ -4,14 +4,15 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEnt
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "agent_crew")
+@Table(name = "mission_crew")
 data class MissionCrewModel(
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", unique = true, nullable = false)
   var id: Int?,
 
-  @ManyToOne(cascade = [CascadeType.ALL])
+  @ManyToOne
+  @JoinColumn(name = "agent_id")
   var agent: AgentModel,
 
   @Column(name = "mission_id")

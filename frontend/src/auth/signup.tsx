@@ -12,13 +12,15 @@ interface SignUpResponse {
 }
 
 interface SignUpFormValues {
-  name: string
+  firstName: string
+  lastName: string
   email: string
   password: string
 }
 
 const initialValues: SignUpFormValues = {
-  name: '',
+  firstName: '',
+  lastName: '',
   email: '',
   password: ''
 }
@@ -29,7 +31,7 @@ const SignUp: React.FC = () => {
   const navigate = useNavigate()
 
   const handleSubmit = async (
-    { name, email, password }: SignUpFormValues,
+    { firstName, lastName, email, password }: SignUpFormValues,
     { setStatus, setSubmitting }: FormikHelpers<SignUpFormValues>
   ) => {
     try {
@@ -40,7 +42,8 @@ const SignUp: React.FC = () => {
           'X-XSRF-TOKEN': csrfToken() ?? ''
         },
         body: JSON.stringify({
-          name,
+          firstName,
+          lastName,
           email,
           password
         })
@@ -96,7 +99,17 @@ const SignUp: React.FC = () => {
                   </Stack.Item>
                   <Stack.Item style={{ marginTop: '1rem', width: '100%' }}>
                     <FormikTextInput
-                      name="name"
+                      name="firstName"
+                      label="Prénom"
+                      itemType="text"
+                      placeholder=""
+                      required
+                      size={Size.LARGE}
+                    />
+                  </Stack.Item>
+                  <Stack.Item style={{ marginTop: '1rem', width: '100%' }}>
+                    <FormikTextInput
+                      name="lastName"
                       label="Nom"
                       itemType="text"
                       placeholder=""

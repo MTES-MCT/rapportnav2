@@ -1,12 +1,13 @@
 extend type Query {
   agents: [Agent]
   agentsByServiceId(serviceId: ID!): [Agent]
+  agentsByUserService: [Agent]
   missionCrewByMissionId(missionId: ID!): [MissionCrew]
   agentRoles: [AgentRole]
 }
 
 extend type Mutation {
-  deleteAgentCrew(agentCrewId: ID!): Boolean
+  deleteMissionCrew(id: ID!): Boolean
   addOrUpdateMissionCrew(crew: MissionCrewInput!): MissionCrew!
 }
 

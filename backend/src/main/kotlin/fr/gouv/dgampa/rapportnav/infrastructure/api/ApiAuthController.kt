@@ -30,7 +30,8 @@ class ApiAuthController(
     fun register(@RequestBody body: AuthRegisterDataInput): ResponseEntity<Any> {
         val user = User(
             id = body.id,
-            name = body.name,
+            firstName = body.firstName,
+            lastName = body.lastName,
             email = body.email,
             password = hashService.hashBcrypt(body.password),
         )
