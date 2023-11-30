@@ -73,7 +73,7 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
       unitShouldConfirm: unitShouldConfirm
     }
 
-    if (!!field && !!value) {
+    if (!!field && value != undefined) {
       updatedData = {
         ...updatedData,
         [field]: value

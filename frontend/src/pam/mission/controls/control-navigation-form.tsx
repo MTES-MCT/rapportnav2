@@ -66,7 +66,7 @@ const ControlNavigationForm: React.FC<ControlNavigationFormProps> = ({
       unitShouldConfirm: unitShouldConfirm
     }
 
-    if (!!field && !!value) {
+    if (!!field && value != undefined) {
       updatedData = {
         ...updatedData,
         [field]: value
