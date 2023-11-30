@@ -1,7 +1,7 @@
 # TODO à adapter selon le projet
 build_projet_npm:
   stage: build
-  image: node:18
+  image: node:20
   variables:
     HTTP_PROXY: "http://172.27.229.197:8090"
     HTTPS_PROXY: "http://172.27.229.197:8090"
