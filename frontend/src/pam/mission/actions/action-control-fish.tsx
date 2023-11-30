@@ -31,7 +31,7 @@ import FishControlQualitySection from './fish/fish-control-quality-section'
 import FishControlFleetSegmentSection from './fish/fish-control-fleet-segment-section'
 
 export const controlCheckMultiradioOptions = Object.keys(ControlCheck).map(key => ({
-  label: key.replace(/_/g, ' '),
+  label: key === ControlCheck.YES ? 'Oui' : key === ControlCheck.NO ? 'Non' : 'Non contrôlé',
   value: ControlCheck[key as keyof typeof ControlCheck]
 }))
 
