@@ -1,6 +1,6 @@
 import React from 'react'
 import { Stack } from 'rsuite'
-import { THEME, Label, TextInput } from '@mtes-mct/monitor-ui'
+import { THEME, Label, NumberInput } from '@mtes-mct/monitor-ui'
 import { MUTATION_ADD_OR_UPDATE_DISTANCE_CONSUMPTION } from '../queries'
 import { useMutation } from '@apollo/client'
 import omit from 'lodash/omit'
@@ -20,7 +20,7 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
     }
   )
 
-  const onChange = async (field?: string, value?: any) => {
+  const onChange = async (field?: string, value?: number) => {
     let updatedData = {
       ...omit(info, '__typename', 'infractions'),
       id: info?.id,
@@ -30,7 +30,7 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
     if (!!field && !!value) {
       updatedData = {
         ...updatedData,
-        [field]: value
+        [field]: value.toString()
       }
     }
 
@@ -47,33 +47,33 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
         style={{ width: '100%', backgroundColor: THEME.color.gainsboro, padding: '0.5rem' }}
       >
         <Stack.Item style={{ flex: 1 }}>
-          <TextInput
+          <NumberInput
             label="Distance parcourue en milles"
             name="distanceInNauticalMiles"
             placeholder="0"
             isLight={true}
             value={info?.distanceInNauticalMiles}
-            onChange={(nextValue?: string) => onChange('distanceInNauticalMiles', nextValue)}
+            onChange={(nextValue?: number) => onChange('distanceInNauticalMiles', nextValue)}
           />
         </Stack.Item>
         <Stack.Item style={{ flex: 1 }}>
-          <TextInput
+          <NumberInput
             label="GO marine consommé en litres"
             name="consumedGOInLiters"
             placeholder="0"
             isLight={true}
             value={info?.consumedGOInLiters}
-            onChange={(nextValue?: string) => onChange('consumedGOInLiters', nextValue)}
+            onChange={(nextValue?: number) => onChange('consumedGOInLiters', nextValue)}
           />
         </Stack.Item>
         <Stack.Item style={{ flex: 1 }}>
-          <TextInput
+          <NumberInput
             label="Essence consommée en litres"
             name="consumedFuelInLiters"
             placeholder="0"
             isLight={true}
             value={info?.consumedFuelInLiters}
-            onChange={(nextValue?: string) => onChange('consumedFuelInLiters', nextValue)}
+            onChange={(nextValue?: number) => onChange('consumedFuelInLiters', nextValue)}
           />
         </Stack.Item>
       </Stack>
