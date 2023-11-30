@@ -94,6 +94,6 @@ class ActionController(
             }
         }
         return ActionType.OTHER
-    }
+        }
 
  }
