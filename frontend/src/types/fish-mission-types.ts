@@ -1,3 +1,4 @@
+import { Except } from 'type-fest'
 import type { ControlUnit } from './control-unit-types'
 import {
   ControlAdministrative,
@@ -6,12 +7,35 @@ import {
   ControlSecurity,
   ControlType
 } from './mission-types'
+import { Undefine } from '@mtes-mct/monitor-ui'
+
+export namespace LegacyControlUnit {
+  export interface LegacyControlUnit {
+    administration: string
+    contact: string | undefined
+    id: number
+    isArchived: boolean
+    name: string
+    resources: LegacyControlUnitResource[]
+  }
+
+  export type LegacyControlUnitData = Except<LegacyControlUnit, 'id'>
+
+  export type LegacyControlUnitDraft = Omit<Undefine<LegacyControlUnit>, 'resources'> &
+    Pick<LegacyControlUnit, 'resources'>
+
+  export interface LegacyControlUnitResource {
+    id: number
+    name: string
+  }
+}
 
 export interface FishAction {
   actionDatetimeUtc: string
   actionType: MissionActionType
+  closedBy: string | undefined
   controlQualityComments: string | undefined
-  controlUnits: ControlUnit[]
+  controlUnits: LegacyControlUnit.LegacyControlUnit[]
   districtCode: string | undefined
   diversion: boolean | undefined
   emitsAis: ControlCheck | undefined
@@ -21,25 +45,29 @@ export interface FishAction {
   faoAreas: string[]
   feedbackSheetRequired: boolean | undefined
   flagState: string | undefined
-  gearInfractions: GearInfraction[]
+  gearInfractions: Infraction[]
   gearOnboard: GearControl[]
   hasSomeGearsSeized: boolean
   hasSomeSpeciesSeized: boolean
   id: number
   internalReferenceNumber: string | undefined
   ircs: string | undefined
+  isAdministrativeControl?: boolean
+  isComplianceWithWaterRegulationsControl?: boolean
   isFromPoseidon: boolean | undefined
+  isSafetyEquipmentAndStandardsComplianceControl?: boolean
+  isSeafarersControl?: boolean
   isValid: boolean
   latitude: number | undefined
   licencesAndLogbookObservations: string | undefined
   licencesMatchActivity: ControlCheck | undefined
-  logbookInfractions: LogbookInfraction[]
+  logbookInfractions: Infraction[]
   logbookMatchesActivity: ControlCheck | undefined
   longitude: number | undefined
   missionId: number
   numberOfVesselsFlownOver: number | undefined
   otherComments: string | undefined
-  otherInfractions: OtherInfraction[]
+  otherInfractions: Infraction[]
   portLocode: string | undefined
   // This field is added by the API
   portName: string | undefined
@@ -47,7 +75,7 @@ export interface FishAction {
   seizureAndDiversion: boolean | undefined
   seizureAndDiversionComments: string | undefined
   separateStowageOfPreservedSpecies: ControlCheck | undefined
-  speciesInfractions: SpeciesInfraction[]
+  speciesInfractions: Infraction[]
   speciesObservations: string | undefined
   speciesOnboard: SpeciesControl[]
   speciesSizeControlled: boolean | undefined
@@ -57,7 +85,6 @@ export interface FishAction {
   vesselId: number | undefined
   vesselName: string | undefined
   vesselTargeted: ControlCheck | undefined
-  actionStatus: string
   // Added by rapportnav:
   controlsToComplete?: ControlType[]
   controlAdministrative?: ControlAdministrative

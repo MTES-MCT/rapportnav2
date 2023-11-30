@@ -163,6 +163,56 @@ type FishActionData {
   controlGensDeMer: ControlGensDeMer
   controlNavigation: ControlNavigation
   controlSecurity: ControlSecurity
+  emitsVms: ControlCheck
+  emitsAis: ControlCheck
+  licencesMatchActivity: ControlCheck
+  logbookMatchesActivity: ControlCheck
+  licencesAndLogbookObservations: String
+  gearOnboard: [GearControl]
+  speciesOnboard: [SpeciesControl]
+  speciesObservations: String
+  seizureAndDiversion: Boolean
+  seizureAndDiversionComments: String
+  hasSomeGearsSeized: Boolean
+  hasSomeSpeciesSeized: Boolean
+  otherComments: String
+  vesselTargeted: ControlCheck
+  unitWithoutOmegaGauge: Boolean
+  controlQualityComments: String
+  feedbackSheetRequired: Boolean
+  userTrigram: String
+  faoAreas: [String]
+  segments: [FleetSegment]
+}
+
+type FleetSegment {
+  segment: String
+  segmentName: String
+}
+
+type GearControl {
+  comments: String
+  controlledMesh: Float
+  declaredMesh: Float
+  gearCode: String
+  gearName: String
+  gearWasControlled: Boolean
+  hasUncontrolledMesh: Boolean
+}
+
+type SpeciesControl {
+  speciesCode: String
+  nbFish: Float
+  declaredWeight: Float
+  controlledWeight: Float
+  underSized: Boolean
+}
+
+
+enum ControlCheck {
+  YES
+  NO
+  NOT_APPLICABLE
 }
 
 enum FishActionType {

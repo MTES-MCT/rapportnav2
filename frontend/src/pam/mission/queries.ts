@@ -30,6 +30,43 @@ export const GET_MISSION_BY_ID = gql`
             latitude
             longitude
             facade
+            emitsVms
+            emitsAis
+            licencesMatchActivity
+            logbookMatchesActivity
+            licencesAndLogbookObservations
+            gearOnboard {
+              comments
+              controlledMesh
+              declaredMesh
+              gearCode
+              gearName
+              gearWasControlled
+              hasUncontrolledMesh
+            }
+            speciesObservations
+            speciesOnboard {
+              speciesCode
+              nbFish
+              declaredWeight
+              controlledWeight
+              underSized
+            }
+            seizureAndDiversion
+            seizureAndDiversionComments
+            hasSomeGearsSeized
+            hasSomeSpeciesSeized
+            otherComments
+            faoAreas
+            segments {
+              segment
+              segmentName
+            }
+            vesselTargeted
+            unitWithoutOmegaGauge
+            controlQualityComments
+            feedbackSheetRequired
+            userTrigram
             controlsToComplete
             controlAdministrative {
               id
