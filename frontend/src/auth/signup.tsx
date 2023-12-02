@@ -35,6 +35,7 @@ const SignUp: React.FC = () => {
     { setStatus, setSubmitting }: FormikHelpers<SignUpFormValues>
   ) => {
     try {
+      debugger
       const response = await fetch('/api/v1/auth/register', {
         method: 'post',
         headers: {
@@ -48,6 +49,7 @@ const SignUp: React.FC = () => {
           password
         })
       })
+      debugger
 
       const content: SignUpResponse = await response.json()
       if (content) {
@@ -74,8 +76,10 @@ const SignUp: React.FC = () => {
       errors.password = 'Le mot de passe est requis'
     }
 
-    if (!values.name) {
-      errors.name = 'Le nom est requis'
+    if (!values.firstName) {
+      errors.firstName = 'Le prénom est requis'
+    }if (!values.lastName) {
+      errors.firstName = 'Le nom est requis'
     }
 
     return errors
