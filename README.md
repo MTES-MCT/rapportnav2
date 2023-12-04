@@ -27,10 +27,11 @@ Before trying to run the project, make sure you have:
 - installed Postgres 15
 - created the `rapportnavdb` database with the right users and passwords
   - on macOS: `createdb rapportnavdb`
+  - use `dropdb rapportnavdb` if you wanna start clean
 - created the role `postgres`: `createuser --interactive`
-  - get into the database: `postgres -d rapportnavdb -U postgres -h localhost`
+  - get into the database: `psql -d rapportnavdb -U postgres -h localhost`
   - check the role is present with the cmd: `\du`
-- created a `metabase` schema" `CREATE SCHEMA metabase;`
+- created a `metabase` schema" `CREATE SCHEMA metabase;` and verify with `\dn`
 
 ### Running the project
 
