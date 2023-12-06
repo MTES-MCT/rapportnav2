@@ -27,9 +27,10 @@ data class Action(
                     source = MissionSourceEnum.MONITORENV,
                     startDateTimeUtc = envAction.actionStartDateTimeUtc,
                     endDateTimeUtc = envAction.actionEndDateTimeUtc,
-                    data = EnvActionData(
+                    data = envAction.actionStartDateTimeUtc?.let {
+                      EnvActionData(
                         id = envAction.id,
-                        actionStartDateTimeUtc = envAction.actionStartDateTimeUtc!!,
+                        actionStartDateTimeUtc = it,
                         actionEndDateTimeUtc = envAction.actionEndDateTimeUtc,
                         actionType = envAction.actionType,
                         observations = envAction.observations,
@@ -42,7 +43,8 @@ data class Action(
                         isComplianceWithWaterRegulationsControl = envAction.isComplianceWithWaterRegulationsControl,
                         isSafetyEquipmentAndStandardsComplianceControl = envAction.isSafetyEquipmentAndStandardsComplianceControl,
                         isSeafarersControl = envAction.isSeafarersControl,
-                    )
+                      )
+                    }
                 )
             }
             return Action(
@@ -51,12 +53,14 @@ data class Action(
                 source = MissionSourceEnum.MONITORENV,
                 startDateTimeUtc = envAction.actionStartDateTimeUtc,
                 endDateTimeUtc = envAction.actionEndDateTimeUtc,
-                data = EnvActionData(
+                data = envAction.actionStartDateTimeUtc?.let {
+                  EnvActionData(
                     id = envAction.id,
-                    actionStartDateTimeUtc = envAction.actionStartDateTimeUtc!!,
+                    actionStartDateTimeUtc = it,
                     actionEndDateTimeUtc = envAction.actionEndDateTimeUtc,
                     actionType = envAction.actionType,
-                )
+                  )
+                }
             )
         }
 
