@@ -1,5 +1,8 @@
   package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
 
+  import com.fasterxml.jackson.annotation.JsonIgnore
+  import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+  import com.fasterxml.jackson.annotation.JsonManagedReference
   import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
   import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
   import jakarta.persistence.*
@@ -7,7 +10,7 @@
 
   @Entity
   @Table(name = "agent")
-  data class AgentModel(
+  class AgentModel(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
@@ -37,6 +40,7 @@
         firstName = firstName,
         lastName = lastName,
         deletedAt = deletedAt,
+        services = services.map { it?.toServiceEntity() }.toMutableSet()
         )
     }
     companion object {

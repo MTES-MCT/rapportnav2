@@ -9,7 +9,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "control_gens_de_mer")
-data class ControlGensDeMerModel(
+class ControlGensDeMerModel(
     @Column(name = "staff_outnumbered", nullable = true)
     var staffOutnumbered: String? = null,
 

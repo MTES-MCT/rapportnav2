@@ -9,7 +9,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "control_administrative")
-data class ControlAdministrativeModel(
+class ControlAdministrativeModel(
     @Column(name = "compliant_operating_permit", nullable = true)
     var compliantOperatingPermit: String? = null,
 

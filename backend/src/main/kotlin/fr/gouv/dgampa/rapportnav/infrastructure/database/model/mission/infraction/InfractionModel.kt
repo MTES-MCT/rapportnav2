@@ -11,7 +11,7 @@ import java.util.*
 
 @Entity
 @Table(name = "infraction")
-data class InfractionModel(
+class InfractionModel(
     @Id
     @Column(name = "id", unique = true, nullable = false)
     var id: UUID,

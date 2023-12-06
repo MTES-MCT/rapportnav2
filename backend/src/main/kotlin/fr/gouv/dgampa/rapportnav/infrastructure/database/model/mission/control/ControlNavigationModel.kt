@@ -9,7 +9,7 @@ import java.util.*
 
 @Entity
 @Table(name = "control_navigation")
-data class ControlNavigationModel(
+class ControlNavigationModel(
     // Add at least one parameter to the primary constructor
     @Id
     @Column(name = "id", unique = true, nullable = false)
