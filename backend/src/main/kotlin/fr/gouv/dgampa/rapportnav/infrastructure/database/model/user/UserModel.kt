@@ -7,7 +7,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "user", schema = "public")
-data class UserModel(
+class UserModel(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
     @SequenceGenerator(name = "user_id_seq", allocationSize = 1)
@@ -26,14 +26,14 @@ data class UserModel(
     @Column(name = "password")
     var password: String = "",
 
-    @Column(name = "agent_id")
-    var agentId: Int? = 0,
+    @Column(name = "service_id")
+    var serviceId: Int? = null,
 ) {
 
 
     fun toUser(mapper: ObjectMapper): User = User(
         id = id,
-        agentId = agentId,
+        serviceId = serviceId,
         email = email,
         firstName = firstName,
         lastName = lastName,
@@ -43,7 +43,7 @@ data class UserModel(
     companion object {
         fun fromUser(user: User, mapper: ObjectMapper) = UserModel(
             id = user.id,
-            agentId = user.agentId,
+            serviceId = user.serviceId,
             firstName = user.firstName,
             lastName = user.lastName,
             email = user.email,

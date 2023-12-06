@@ -6,4 +6,5 @@ data class AuthRegisterDataInput(
     val lastName: String,
     val email: String,
     val password: String,
+    val serviceId: Int? = null
 )
