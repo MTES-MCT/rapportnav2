@@ -8,7 +8,6 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentReposito
 class GetAgentsByServiceId(private val agentRepository: IAgentRepository) {
 
   fun execute(serviceId: Int): List<AgentEntity> {
-    val a = agentRepository.findByServiceId(serviceId = serviceId)
     return agentRepository.findByServiceId(serviceId = serviceId).map { it.toAgentEntity() }
   }
 

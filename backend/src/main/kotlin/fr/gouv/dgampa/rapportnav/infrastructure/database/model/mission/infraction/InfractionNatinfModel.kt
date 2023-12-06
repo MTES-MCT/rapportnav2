@@ -6,7 +6,7 @@ import java.util.*
 @Entity
 @Table(name = "infraction_natinf")
 @IdClass(InfractionNatinfKey::class)
-data class InfractionNatinfModel(
+class InfractionNatinfModel(
 
     @Id
     @Column(name = "infraction_id", nullable = false)
