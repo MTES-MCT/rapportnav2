@@ -39,10 +39,10 @@ class MissionController(
     @QueryMapping
     fun mission(@Argument missionId: Int): Mission {
         val envMission = getEnvMissionById.execute(missionId = missionId)
-        val fishMission = getFishMissionById.execute(missionId = missionId)
+        val fishMissionActions = getFishMissionById.execute(missionId = missionId)
         val navMission = getNavMissionById.execute(missionId = missionId)
 
-        return Mission.fromMissionEntity(MissionEntity(envMission, navMission, fishMission))
+        return Mission.fromMissionEntity(MissionEntity(envMission, navMission, fishMissionActions))
     }
 
     @QueryMapping

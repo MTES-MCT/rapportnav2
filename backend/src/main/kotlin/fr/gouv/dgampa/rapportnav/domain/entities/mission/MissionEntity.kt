@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.EnvMission
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlUnitEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.FishMission
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.NavMissionEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.ZonedDateTime
@@ -29,8 +29,8 @@ data class MissionEntity(
     val isUnderJdp: Boolean,
     val actions: List<MissionActionEntity>?,
 ) {
-    constructor(envMission: EnvMission, navMission: NavMissionEntity? = null, fishMission: FishMission? = null) : this(
-        id = (envMission.id ?: fishMission?.mission?.id)!!,
+    constructor(envMission: EnvMission, navMission: NavMissionEntity? = null, fishMissionActions: List<MissionAction>? = null) : this(
+        id = (envMission.id)!!,
         missionTypes = envMission.missionTypes,
         controlUnits = envMission.controlUnits,
         openBy = envMission.openBy,
@@ -48,7 +48,7 @@ data class MissionEntity(
         hasMissionOrder = envMission.hasMissionOrder,
         isUnderJdp = envMission.isUnderJdp,
         actions = (envMission.envActions?.map { MissionActionEntity.EnvAction(it) } ?: listOf()) +
-                (fishMission?.actions?.map { MissionActionEntity.FishAction(it) } ?: listOf()) +
+                (fishMissionActions?.map { MissionActionEntity.FishAction(it) } ?: listOf()) +
                 (navMission?.actions?.map { MissionActionEntity.NavAction(it) } ?: listOf())
 
     )
