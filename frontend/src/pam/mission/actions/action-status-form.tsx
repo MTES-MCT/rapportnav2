@@ -85,7 +85,7 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
               <Stack direction="column" alignItems="flex-start">
                 <Stack.Item>
                   <Text as="h2" weight="bold">
-                    Status du navire{' '}
+                    Statut du navire{' '}
                     {status.startDateTimeUtc && `(${formatDateTimeForFrenchHumans(status.startDateTimeUtc)})`}
                   </Text>
                 </Stack.Item>
