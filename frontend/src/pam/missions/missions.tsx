@@ -39,7 +39,7 @@ const Missions: React.FC = () => {
 
             <Stack.Item alignSelf="flex-end" style={{ paddingTop: '2rem' }}>
               <Link to={`/pam/missions/0`}>
-                <Button accent={Accent.PRIMARY} Icon={Icon.Plus} size={Size.SMALL} disabled={true}>
+                <Button accent={Accent.PRIMARY} Icon={Icon.Plus} size={Size.NORMAL} disabled={true}>
                   Créer un rapport de mission
                 </Button>
               </Link>

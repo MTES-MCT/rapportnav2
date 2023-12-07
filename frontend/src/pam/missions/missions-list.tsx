@@ -43,6 +43,22 @@ const MissionsList: React.FC<MissionsListProps> = ({ missions, prefetchMission }
       </Stack.Item>
       {missions.map((mission: Mission) => (
         <Stack.Item key={mission.id} style={{ backgroundColor: THEME.color.cultured, width: '100%', height: '64px' }}>
+          <Link
+              to={`/pam/missions/${mission.id}`}
+              style={{
+                textDecoration: 'none',
+                transition: 'background-color 0.3s ease', // Optional: Add a smooth transition effect
+                backgroundColor: THEME.color.cultured
+          }}
+              onMouseOver={(event: any) => {
+                event.target.style.backgroundColor = THEME.color.blueGray25;
+                prefetchMission(mission.id)
+              }}
+              onMouseOut={(event: any) => {
+                // Reset the background color when the mouse leaves
+                event.target.style.backgroundColor = 'initial';
+              }}
+          >
           <FlexboxGrid align="middle" style={{ height: '100%', padding: '0.5rem 1rem' }}>
             <FlexboxGrid.Item colspan={1} style={{ paddingTop: '8px' }}>
               <Icon.MissionAction size={28} />
@@ -66,17 +82,10 @@ const MissionsList: React.FC<MissionsListProps> = ({ missions, prefetchMission }
             </FlexboxGrid.Item>
             <FlexboxGrid.Item colspan={7}></FlexboxGrid.Item>
             <FlexboxGrid.Item colspan={1}>
-              <Link
-                to={`/pam/missions/${mission.id}`}
-                style={{ color: THEME.color.charcoal }}
-                onMouseOver={() => {
-                  prefetchMission(mission.id)
-                }}
-              >
-                <Icon.Edit size={20} />
-              </Link>
+              <Icon.Edit size={20} style={{ color: THEME.color.charcoal }}/>
             </FlexboxGrid.Item>
           </FlexboxGrid>
+          </Link>
         </Stack.Item>
       ))}
     </Stack>
