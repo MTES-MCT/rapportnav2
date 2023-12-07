@@ -6,5 +6,6 @@ data class ServiceEntity(
   val id: Int? = null,
   val name: String,
   val agents:  MutableSet<AgentEntity?> = HashSet(),
-  val serviceLinked: ServiceEntity? = null
+  val serviceLinked: ServiceEntity? = null,
+  val controlUnits: List<Int>? = null
 )
