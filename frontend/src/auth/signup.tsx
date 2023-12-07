@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import PageWrapper from '../ui/page-wrapper'
 import AuthToken from './token'
 import { FlexboxGrid, Stack } from 'rsuite'
-import { Accent, Button, FormikTextInput, Size } from '@mtes-mct/monitor-ui'
+import {Accent, Button, FormikTextInput, Size} from '@mtes-mct/monitor-ui'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { validate } from 'email-validator'
 import { csrfToken } from './csrf'
@@ -16,13 +16,15 @@ interface SignUpFormValues {
   lastName: string
   email: string
   password: string
+  serviceId?: string
 }
 
 const initialValues: SignUpFormValues = {
   firstName: '',
   lastName: '',
   email: '',
-  password: ''
+  password: '',
+  serviceId: undefined
 }
 
 const authToken = new AuthToken()
@@ -31,7 +33,7 @@ const SignUp: React.FC = () => {
   const navigate = useNavigate()
 
   const handleSubmit = async (
-    { firstName, lastName, email, password }: SignUpFormValues,
+    { firstName, lastName, email, password, serviceId }: SignUpFormValues,
     { setStatus, setSubmitting }: FormikHelpers<SignUpFormValues>
   ) => {
     try {
@@ -46,7 +48,8 @@ const SignUp: React.FC = () => {
           firstName,
           lastName,
           email,
-          password
+          password,
+          serviceId
         })
       })
       debugger
@@ -140,6 +143,15 @@ const SignUp: React.FC = () => {
                       required
                       size={Size.LARGE}
                     />
+                  </Stack.Item> <Stack.Item style={{ marginTop: '1rem', width: '100%' }}>
+                  <FormikTextInput
+                      name="serviceId"
+                      label="ServiceId"
+                      type="text"
+                      placeholder=""
+                      required
+                      size={Size.LARGE}
+                  />
                   </Stack.Item>
                   <Stack.Item style={{ marginTop: '2rem', width: '100%' }} alignSelf="flex-end">
                     <Button

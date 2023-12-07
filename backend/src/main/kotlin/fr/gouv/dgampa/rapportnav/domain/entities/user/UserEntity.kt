@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.user
 
 data class User(
     val id: Int? = null,
-    var agentId: Int? = null,
+    var serviceId: Int? = null,
     val firstName: String,
     val lastName: String,
     val email: String,
@@ -11,7 +11,7 @@ data class User(
 ) {
     constructor(user: User): this(
         id = user.id,
-        agentId = user.agentId,
+        serviceId = user.serviceId,
         firstName = user.firstName,
         lastName = user.lastName,
         email = user.email,

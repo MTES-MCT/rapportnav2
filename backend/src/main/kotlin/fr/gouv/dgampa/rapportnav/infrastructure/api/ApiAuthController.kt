@@ -30,10 +30,11 @@ class ApiAuthController(
     fun register(@RequestBody body: AuthRegisterDataInput): ResponseEntity<Any> {
         val user = User(
             id = body.id,
-            firstName = body.firstName,
-            lastName = body.lastName,
-            email = body.email,
+            firstName = body.firstName.lowercase().trim(),
+            lastName = body.lastName.lowercase().trim(),
+            email = body.email.trim(),
             password = hashService.hashBcrypt(body.password),
+            serviceId = body.serviceId
         )
 
         if (findByEmail.execute(body.email) != null) {
@@ -46,7 +47,7 @@ class ApiAuthController(
 
     @PostMapping("login")
     fun login(@RequestBody body: AuthLoginDataInput, response: HttpServletResponse): AuthLoginDataOutput {
-        val user = findByEmail.execute(body.email) ?: throw ApiException(400, "Login failed")
+        val user = findByEmail.execute(body.email.trim()) ?: throw ApiException(400, "Login failed")
 
         if (!hashService.checkBcrypt(body.password, user.password)) {
             throw ApiException(400, "Login failed")

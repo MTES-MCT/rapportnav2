@@ -15,7 +15,7 @@ import java.util.*
 
 @Entity
 @Table(name = "mission_action_control")
-data class ActionControlModel(
+class ActionControlModel(
     @Id
     @Column(name = "id")
     var id: UUID,

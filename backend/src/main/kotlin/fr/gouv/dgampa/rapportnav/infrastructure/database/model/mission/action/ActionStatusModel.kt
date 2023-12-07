@@ -13,7 +13,7 @@ import java.util.*
 
 @Entity
 @Table(name = "mission_action_status")
-data class ActionStatusModel(
+class ActionStatusModel(
     @Id
     @Column(name = "id")
     var id: UUID,

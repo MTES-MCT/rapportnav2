@@ -21,7 +21,7 @@ const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({ missi
       collapsible
       defaultExpanded
       bordered
-      style={{ backgroundColor: THEME.color.cultured, border: 0 }}
+      style={{ backgroundColor: THEME.color.cultured, border: 0, overflow: 'visible' }}
     >
       <FlexboxGrid style={{ width: '100%' }}>
         <FlexboxGrid.Item style={{ width: '100%' }}>

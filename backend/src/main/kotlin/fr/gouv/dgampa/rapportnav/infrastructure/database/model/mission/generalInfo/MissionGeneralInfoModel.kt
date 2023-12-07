@@ -8,7 +8,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "mission_general_info")
-data class MissionGeneralInfoModel(
+class MissionGeneralInfoModel(
     @Id
     @Column(name = "id", unique = true, nullable = false)
     var id: Int,

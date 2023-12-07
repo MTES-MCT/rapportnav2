@@ -27,9 +27,9 @@ class CrewController (
 
 
   @QueryMapping
-    fun agents(): List<Agent>{
-        return getAgents.execute().map { Agent.fromAgentEntity(it) }
-    }
+  fun agents(): List<Agent>{
+      return getAgents.execute().map { Agent.fromAgentEntity(it) }
+  }
 
   @QueryMapping
   fun agentsByServiceId(@Argument serviceId: Int): List<Agent>?{
@@ -46,25 +46,22 @@ class CrewController (
   }
 
   @QueryMapping
-  fun agentsByUserService(): List<Agent>?{
+  fun agentsByUserService(): List<Agent>? {
     return try {
       val authentication = SecurityContextHolder.getContext().authentication
-      val authenticatedUser: User = authentication.principal as User
+      val authenticatedUser: User? = authentication.principal as? User
 
-      if (authenticatedUser.agentId != null) {
-        getAgentsByServiceId.execute(
-          serviceId = authenticatedUser.agentId!!
-        ).map { Agent.fromAgentEntity(it) }
+      authenticatedUser?.serviceId?.let { serviceId ->
+        val agents = getAgentsByServiceId.execute(serviceId)
+          .map { Agent.fromAgentEntity(it) }
+        agents
       }
-      else {
-        null
-      }
-    }
-    catch (e: Exception) {
-      logger.error("[ERROR] API on endpoint agentsByServiceId :", e)
+    } catch (e: Exception) {
+      logger.error("[ERROR] API on endpoint agentsByServiceId:", e)
       null
     }
   }
+
 
   @QueryMapping
   fun missionCrewByMissionId(@Argument missionId: Int): List<MissionCrew> {
