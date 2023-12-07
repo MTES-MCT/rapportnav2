@@ -64,7 +64,7 @@ const InfractionForm: React.FC<InfractionFormProps> = ({ infraction, availableNa
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <Textarea
-            label="Observations générales sur le contrôle"
+            label="Observations"
             value={infraction?.observations}
             name="observations"
             onChange={(nextValue?: string) => onChange('observations', nextValue)}
