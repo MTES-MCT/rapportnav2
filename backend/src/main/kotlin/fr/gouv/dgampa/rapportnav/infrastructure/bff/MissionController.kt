@@ -4,6 +4,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.GeneralInfo.AddOrUpdateMissionGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.GeneralInfo.GetMissionGeneralInfoByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.crew.GetServiceById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.generalInfo.MissionGeneralInfoInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.Mission
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.generalInfo.MissionGeneralInfo
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Controller
 
 @Controller
 class MissionController(
+    private val getUserFromToken: GetUserFromToken,
     private val getEnvMissions: GetEnvMissions,
     private val getNavMissionById: GetNavMissionById,
     private val getEnvMissionById: GetEnvMissionById,
@@ -23,16 +26,25 @@ class MissionController(
     private val updateEnvMission: UpdateEnvMission,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val addOrUpdateMissionGeneralInfo: AddOrUpdateMissionGeneralInfo,
+    private val getServiceById: GetServiceById,
 ) {
 
     @QueryMapping
     fun missions(@Argument userId: Any): List<Mission> {
+
+        // get which controlUnit is the user linked to
+        val user = getUserFromToken.execute()
+        val service = user?.serviceId?.let { serviceId ->
+            getServiceById.execute(user.serviceId)
+        }
+
+        // query with the following filters
         return getEnvMissions.execute(
-            userId = null,
             startedAfterDateTime = null,
             startedBeforeDateTime = null,
             pageNumber = null,
             pageSize = null,
+            controlUnits = service?.controlUnits
         ).map { Mission.fromMissionEntity(it) }
     }
 

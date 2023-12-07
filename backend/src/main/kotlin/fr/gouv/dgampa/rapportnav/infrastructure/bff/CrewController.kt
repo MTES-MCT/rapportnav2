@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.crew.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.crew.MissionCrewInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.crew.Agent
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.crew.AgentRole
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller
 
 @Controller
 class CrewController (
+  private val getUserFromToken: GetUserFromToken,
   private val getAgents: GetAgents,
   private val getAgentsByServiceId: GetAgentsByServiceId,
   private val getAgentsCrewByMissionId: GetAgentsCrewByMissionId,
@@ -48,10 +50,9 @@ class CrewController (
   @QueryMapping
   fun agentsByUserService(): List<Agent>? {
     return try {
-      val authentication = SecurityContextHolder.getContext().authentication
-      val authenticatedUser: User? = authentication.principal as? User
+      val user = getUserFromToken.execute()
 
-      authenticatedUser?.serviceId?.let { serviceId ->
+      user?.serviceId?.let { serviceId ->
         val agents = getAgentsByServiceId.execute(serviceId)
           .map { Agent.fromAgentEntity(it) }
         agents

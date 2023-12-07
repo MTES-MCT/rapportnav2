@@ -34,12 +34,21 @@ class ServiceModel(
 //  @JoinColumn(name = "service_linked_id")
 //  var serviceLinked: ServiceModel? = null,
 
+  @ElementCollection
+  @CollectionTable(
+    name = "service_control_unit",
+    joinColumns = [JoinColumn(name = "service_id")]
+  )
+  @Column(name = "control_unit_id")
+  var controlUnits: List<Int>? = mutableListOf()
+
   ) {
 
   fun toServiceEntity(): ServiceEntity {
     return ServiceEntity(
       id = id,
       name = name,
+      controlUnits = controlUnits
 //      agents = agents.map { it?.toAgentEntity() }.toMutableSet(),
 //      serviceLinked = serviceLinked?.toServiceEntity(),
 
@@ -51,6 +60,7 @@ class ServiceModel(
       return ServiceModel(
         id = service.id,
         name = service.name,
+        controlUnits = service.controlUnits
 //        agents = service.agents.map { AgentModel.fromAgentEntity(it!!) }.toMutableSet(),
 //        serviceLinked = fromServiceEntity(service.serviceLinked!!)
       )

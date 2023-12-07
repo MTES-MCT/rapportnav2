@@ -16,6 +16,14 @@ class JPAServiceRepository (
     private val repo: IDBServiceRepository
 ): IServiceRepository{
 
+    override fun existsById(id: Int): Boolean {
+        return repo.existsById(id)
+    }
+
+    override fun findById(id: Int): Optional<ServiceModel> {
+        return repo.findById(id)
+    }
+
     override fun findAll(): List<ServiceModel> {
         return repo.findAll()
     }
