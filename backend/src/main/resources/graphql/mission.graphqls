@@ -1,41 +1,41 @@
 type Query {
-  missions(userId: ID): [Mission]!
-  mission(missionId: ID): Mission!
-  missionGeneralInfo(missionId: ID): MissionGeneralInfo
+    missions: [Mission]!
+    mission(missionId: ID): Mission!
+    missionGeneralInfo(missionId: ID): MissionGeneralInfo
 }
 
 type Mutation {
-  updateMission(mission: MissionInput!): Mission!
-  updateMissionGeneralInfo(info: MissionGeneralInfoInput!): MissionGeneralInfo!
+    updateMission(mission: MissionInput!): Mission!
+    updateMissionGeneralInfo(info: MissionGeneralInfoInput!): MissionGeneralInfo!
 }
 
 input MissionInput {
-  id: ID!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String!
+    id: ID!
+    startDateTimeUtc: String!
+    endDateTimeUtc: String!
 }
 
 type Mission {
-  id: ID!
-  isClosed: Boolean!
-  missionSource: String!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
-  actions: [Action]
-  generalInfo: MissionGeneralInfo
+    id: ID!
+    isClosed: Boolean!
+    missionSource: String!
+    startDateTimeUtc: String!
+    endDateTimeUtc: String
+    actions: [Action]
+    generalInfo: MissionGeneralInfo
 }
 
 type MissionGeneralInfo {
-  id: ID!
-  distanceInNauticalMiles: Float
-  consumedGOInLiters: Float
-  consumedFuelInLiters: Float
+    id: ID!
+    distanceInNauticalMiles: Float
+    consumedGOInLiters: Float
+    consumedFuelInLiters: Float
 }
 
 input MissionGeneralInfoInput {
-  id: String
-  missionId: String!
-  distanceInNauticalMiles: Float
-  consumedGOInLiters: Float
-  consumedFuelInLiters: Float
+    id: String
+    missionId: String!
+    distanceInNauticalMiles: Float
+    consumedGOInLiters: Float
+    consumedFuelInLiters: Float
 }

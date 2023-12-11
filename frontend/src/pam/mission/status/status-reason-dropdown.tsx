@@ -67,7 +67,6 @@ interface StatusReasonDropdownProps {
 
 const StatusReasonDropdown: React.FC<StatusReasonDropdownProps> = ({actionType, value, onSelect}) => {
     const options = getSelectOptionsForType(actionType)
-    debugger
     return !options ? null : (
         <Select
             label="Motif"

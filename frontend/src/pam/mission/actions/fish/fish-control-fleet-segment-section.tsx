@@ -1,41 +1,41 @@
 import React from 'react'
-import { Accent, Button, Checkbox, Icon, Label, MultiRadio, Size, THEME } from '@mtes-mct/monitor-ui'
-import { FishAction, FleetSegment, SpeciesControl } from '../../../../types/fish-mission-types'
+import {Accent, Button, Checkbox, Icon, Label, MultiRadio, Size, THEME} from '@mtes-mct/monitor-ui'
+import {FishAction, FleetSegment, SpeciesControl} from '../../../../types/fish-mission-types'
 import Text from '../../../../ui/text'
-import { Stack } from 'rsuite'
-import { BOOLEAN_AS_OPTIONS, controlCheckMultiradioOptions } from '../action-control-fish'
+import {Stack} from 'rsuite'
+import {BOOLEAN_AS_OPTIONS, controlCheckMultiradioOptions} from '../action-control-fish'
 
 interface FishControlFleetSegmentSectionProps {
-  action: FishAction
+    action: FishAction
 }
 
-const FishControlFleetSegmentSection: React.FC<FishControlFleetSegmentSectionProps> = ({ action }) => {
-  return (
-    <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
-      <Stack.Item>
-        <Label>Segment de flotte</Label>
-      </Stack.Item>
+const FishControlFleetSegmentSection: React.FC<FishControlFleetSegmentSectionProps> = ({action}) => {
+    return (
+        <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
+            <Stack.Item>
+                <Label>Segment de flotte</Label>
+            </Stack.Item>
 
-      <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
-        <Stack direction="column" alignItems="flex-start" spacing={'1rem'}>
-          <Stack.Item>
-            <Label>Zones de pêche de la marée (issues des FAR)</Label>
-            <Text as="h3" weight="bold">
-              {action.faoAreas.join(' - ')}
-            </Text>
-          </Stack.Item>
-          <Stack.Item>
-            <Label>Segment de flotte de la marée</Label>
-            <Text as="h3" weight="bold">
-              {action?.segments
-                ?.map((segment: FleetSegment) => `${segment.segment} - ${segment.segmentName}`)
-                .join(' - ')}
-            </Text>
-          </Stack.Item>
+            <Stack.Item style={{backgroundColor: THEME.color.white, width: '100%', padding: '1rem'}}>
+                <Stack direction="column" alignItems="flex-start" spacing={'1rem'}>
+                    <Stack.Item>
+                        <Label>Zones de pêche de la marée (issues des FAR)</Label>
+                        <Text as="h3" weight="bold">
+                            {action?.faoAreas?.join(' - ')}
+                        </Text>
+                    </Stack.Item>
+                    <Stack.Item>
+                        <Label>Segment de flotte de la marée</Label>
+                        <Text as="h3" weight="bold">
+                            {action?.segments
+                                ?.map((segment: FleetSegment) => `${segment.segment} - ${segment.segmentName}`)
+                                .join(' - ')}
+                        </Text>
+                    </Stack.Item>
+                </Stack>
+            </Stack.Item>
         </Stack>
-      </Stack.Item>
-    </Stack>
-  )
+    )
 }
 
 export default FishControlFleetSegmentSection

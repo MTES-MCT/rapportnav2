@@ -22,7 +22,7 @@ class MissionController(
     private val getEnvMissions: GetEnvMissions,
     private val getNavMissionById: GetNavMissionById,
     private val getEnvMissionById: GetEnvMissionById,
-    private val getFishMissionById: GetFishMissionById,
+    private val getFishActionsByMissionId: GetFishActionsByMissionId,
     private val updateEnvMission: UpdateEnvMission,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val addOrUpdateMissionGeneralInfo: AddOrUpdateMissionGeneralInfo,
@@ -30,7 +30,7 @@ class MissionController(
 ) {
 
     @QueryMapping
-    fun missions(@Argument userId: Any): List<Mission> {
+    fun missions(): List<Mission> {
 
         // get which controlUnit is the user linked to
         val user = getUserFromToken.execute()
@@ -51,7 +51,7 @@ class MissionController(
     @QueryMapping
     fun mission(@Argument missionId: Int): Mission {
         val envMission = getEnvMissionById.execute(missionId = missionId)
-        val fishMissionActions = getFishMissionById.execute(missionId = missionId)
+        val fishMissionActions = getFishActionsByMissionId.execute(missionId = missionId)
         val navMission = getNavMissionById.execute(missionId = missionId)
 
         return Mission.fromMissionEntity(MissionEntity(envMission, navMission, fishMissionActions))
@@ -59,13 +59,15 @@ class MissionController(
 
     @QueryMapping
     fun missionGeneralInfo(@Argument missionId: Int): MissionGeneralInfo? {
-        val info = getMissionGeneralInfoByMissionId.execute(missionId)?.let { MissionGeneralInfo.fromMissionGeneralInfoEntity(it) }
+        val info = getMissionGeneralInfoByMissionId.execute(missionId)
+            ?.let { MissionGeneralInfo.fromMissionGeneralInfoEntity(it) }
         return info
     }
 
     @SchemaMapping(typeName = "Mission", field = "generalInfo")
     fun missionGeneralInfoForMission(mission: Mission): MissionGeneralInfo? {
-        val info = getMissionGeneralInfoByMissionId.execute(mission.id)?.let { MissionGeneralInfo.fromMissionGeneralInfoEntity(it) }
+        val info = getMissionGeneralInfoByMissionId.execute(mission.id)
+            ?.let { MissionGeneralInfo.fromMissionGeneralInfoEntity(it) }
         return info
     }
 

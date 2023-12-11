@@ -1,13 +1,21 @@
-import { ApolloError, useQuery } from '@apollo/client'
-import { GET_AGENT_ROLES } from '../queries'
-import { AgentRole } from '../../../types/crew-types'
+import {ApolloError, gql, useQuery} from '@apollo/client'
+import {AgentRole} from '../../../types/crew-types'
+
+export const GET_AGENT_ROLES = gql`
+    query GetAgentRoles {
+        agentRoles {
+            id
+            title
+        }
+    }
+`
 
 const useAgentRoles = (): { data?: AgentRole[]; loading: boolean; error?: ApolloError } => {
-  const { loading, error, data } = useQuery(GET_AGENT_ROLES, {
-    // fetchPolicy: 'cache-only'
-  })
+    const {loading, error, data} = useQuery(GET_AGENT_ROLES, {
+        // fetchPolicy: 'cache-only'
+    })
 
-  return { loading, error, data: data?.agentRoles }
+    return {loading, error, data: data?.agentRoles}
 }
 
 export default useAgentRoles

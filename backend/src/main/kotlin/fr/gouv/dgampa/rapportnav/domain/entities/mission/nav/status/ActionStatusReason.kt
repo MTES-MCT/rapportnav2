@@ -8,6 +8,8 @@ enum class ActionStatusReason {
     REPRESENTATION,
     ADMINISTRATION,
     HARBOUR_CONTROL,
+    TECHNICAL,
+    PERSONNEL,
     OTHER
 }
 
@@ -23,6 +25,8 @@ fun mapStringToActionStatusReason(value: String?): ActionStatusReason? {
             "REPRESENTATION" -> ActionStatusReason.REPRESENTATION
             "ADMINISTRATION" -> ActionStatusReason.ADMINISTRATION
             "HARBOUR_CONTROL" -> ActionStatusReason.HARBOUR_CONTROL
+            "TECHNICAL" -> ActionStatusReason.TECHNICAL
+            "PERSONNEL" -> ActionStatusReason.PERSONNEL
             "OTHER" -> ActionStatusReason.OTHER
             else -> ActionStatusReason.OTHER
         }

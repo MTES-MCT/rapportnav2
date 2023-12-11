@@ -13,6 +13,7 @@ import {useParams} from 'react-router-dom'
 import omit from 'lodash/omit'
 import EnvInfractionSummary from './env-infraction-summary'
 import EnvInfractionExistingTargetForm from './env-infraction-existing-target-form'
+import {GET_MISSION_TIMELINE} from "../timeline/use-misison-timeline.tsx";
 
 export interface EnvInfractionExistingTargetProps {
     availableControlTypes?: ControlType[]
@@ -30,11 +31,11 @@ const EnvInfractionExistingTarget: React.FC<EnvInfractionExistingTargetProps> = 
     const [formData, setFormData] = useState<Infraction | undefined>(undefined) // only 1 infraction for nav and fish
 
     const [mutate, {mutateData, mutateLoading, mutateError}] = useMutation(MUTATION_ADD_OR_UPDATE_INFRACTION_ENV, {
-        refetchQueries: [GET_MISSION_BY_ID]
+        refetchQueries: [GET_MISSION_TIMELINE]
     })
 
     const [deleteMutation] = useMutation(MUTATION_DELETE_INFRACTION, {
-        refetchQueries: [GET_MISSION_BY_ID]
+        refetchQueries: [GET_MISSION_TIMELINE]
     })
 
     const onChangeFormField = (field: string, value: any) => {

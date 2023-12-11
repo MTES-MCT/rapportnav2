@@ -28,22 +28,22 @@ data class Action(
                     startDateTimeUtc = envAction.actionStartDateTimeUtc,
                     endDateTimeUtc = envAction.actionEndDateTimeUtc,
                     data = envAction.actionStartDateTimeUtc?.let {
-                      EnvActionData(
-                        id = envAction.id,
-                        actionStartDateTimeUtc = it,
-                        actionEndDateTimeUtc = envAction.actionEndDateTimeUtc,
-                        actionType = envAction.actionType,
-                        observations = envAction.observations,
-                        actionNumberOfControls = envAction.actionNumberOfControls,
-                        actionTargetType = envAction.actionTargetType,
-                        vehicleType = envAction.vehicleType,
-                        infractions = envAction.infractions,
-                        themes = envAction.themes,
-                        isAdministrativeControl = envAction.isAdministrativeControl,
-                        isComplianceWithWaterRegulationsControl = envAction.isComplianceWithWaterRegulationsControl,
-                        isSafetyEquipmentAndStandardsComplianceControl = envAction.isSafetyEquipmentAndStandardsComplianceControl,
-                        isSeafarersControl = envAction.isSeafarersControl,
-                      )
+                        EnvActionData(
+                            id = envAction.id,
+                            actionStartDateTimeUtc = it,
+                            actionEndDateTimeUtc = envAction.actionEndDateTimeUtc,
+                            actionType = envAction.actionType,
+                            observations = envAction.observations,
+                            actionNumberOfControls = envAction.actionNumberOfControls,
+                            actionTargetType = envAction.actionTargetType,
+                            vehicleType = envAction.vehicleType,
+                            infractions = envAction.infractions,
+                            themes = envAction.themes,
+                            isAdministrativeControl = envAction.isAdministrativeControl,
+                            isComplianceWithWaterRegulationsControl = envAction.isComplianceWithWaterRegulationsControl,
+                            isSafetyEquipmentAndStandardsComplianceControl = envAction.isSafetyEquipmentAndStandardsComplianceControl,
+                            isSeafarersControl = envAction.isSeafarersControl,
+                        )
                     }
                 )
             }
@@ -54,12 +54,12 @@ data class Action(
                 startDateTimeUtc = envAction.actionStartDateTimeUtc,
                 endDateTimeUtc = envAction.actionEndDateTimeUtc,
                 data = envAction.actionStartDateTimeUtc?.let {
-                  EnvActionData(
-                    id = envAction.id,
-                    actionStartDateTimeUtc = it,
-                    actionEndDateTimeUtc = envAction.actionEndDateTimeUtc,
-                    actionType = envAction.actionType,
-                  )
+                    EnvActionData(
+                        id = envAction.id,
+                        actionStartDateTimeUtc = it,
+                        actionEndDateTimeUtc = envAction.actionEndDateTimeUtc,
+                        actionType = envAction.actionType,
+                    )
                 }
             )
         }
@@ -132,8 +132,7 @@ data class Action(
             var data: ActionData? = null
             if (navAction.statusAction != null) {
                 data = navAction.statusAction.toNavActionStatus()
-            }
-            else if (navAction.controlAction != null) {
+            } else if (navAction.controlAction != null) {
                 data = navAction.controlAction.toNavActionControl()
             }
             return Action(
@@ -146,15 +145,13 @@ data class Action(
             )
         }
 
-        fun sortForTimeline(allActions:  List<Action>?): List<Action>? {
+        fun sortForTimeline(allActions: List<Action>?): List<Action>? {
             return allActions?.sortedWith(compareByDescending<Action> { it.startDateTimeUtc }
                 .thenBy { it.data is NavActionStatus }
                 .thenBy { (it.data as? NavActionStatus)?.isStart == false }
                 .thenBy { (it.data as? NavActionStatus)?.isStart == true }
             )
         }
-
-
 
 
     }
