@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.infraction
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.FormalNoticeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
@@ -13,7 +13,7 @@ data class InfractionWithNewTargetInput(
     val missionId: Int,
     val actionId: String,
     val controlId: String? = null,
-    val formalNotice: String? = null,
+    val infractionType: String? = null,
     val natinfs: List<NatinfInput>? = null,
     val observations: String? = null,
     val controlType: String,
@@ -41,7 +41,7 @@ data class InfractionWithNewTargetInput(
             actionId = actionId,
             controlId = controlId?.let { UUID.fromString(it) },
             controlType = ControlType.valueOf(controlType),
-            formalNotice = formalNotice?.let { FormalNoticeEnum.valueOf(it) },
+            infractionType = infractionType?.let { InfractionTypeEnum.valueOf(it) },
 //            natinfs = natinfs?.map { it.toNatinfEntity() } ?: emptyList(),
             observations = observations,
             target = newTarget

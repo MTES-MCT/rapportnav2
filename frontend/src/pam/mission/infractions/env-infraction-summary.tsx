@@ -1,10 +1,10 @@
 import React from 'react'
 import {Stack} from 'rsuite'
-import {Accent, Icon, Size, THEME, IconButton, Tag, Button} from '@mtes-mct/monitor-ui'
+import {Accent, Icon, Size, THEME, IconButton, Button} from '@mtes-mct/monitor-ui'
 import Text from '../../../ui/text'
 import {controlTitle, vesselTypeToHumanString} from '../controls/utils'
 import {Infraction, InfractionByTarget} from '../../../types/infraction-types'
-import InfractionTag from './infraction-tag'
+import InfractionTypeTag from './infraction-type-tag.tsx'
 
 interface EnvInfractionSummaryProps {
     infractionByTarget?: InfractionByTarget
@@ -58,9 +58,8 @@ const EnvInfractionSummary: React.FC<EnvInfractionSummaryProps> = ({
                                 </Stack.Item>
                                 {[1].map((aa: any) => (
                                     <Stack.Item key={aa}>
-                                        {infraction.formalNotice ? <InfractionTag text="Avec PV"/> :
-                                            <InfractionTag text="Sans PV"/>}
-                                        {!!infraction.infractions ? <InfractionTag text="Avec NATINF"/> : null}
+                                        <InfractionTypeTag type={infraction.infractionType}/>
+                                        {/*{!!infraction.infractions ? <InfractionTypeTag text="Avec NATINF"/> : null}*/}
                                     </Stack.Item>
                                 ))}
                             </Stack>

@@ -79,7 +79,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
-                                formalNotice
+                                infractionType
                                 observations
                             }
                         }
@@ -94,7 +94,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
-                                formalNotice
+                                infractionType
                                 observations
                             }
                         }
@@ -106,7 +106,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
-                                formalNotice
+                                infractionType
                                 observations
                             }
                         }
@@ -118,7 +118,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
-                                formalNotice
+                                infractionType
                                 observations
                             }
                         }
@@ -142,7 +142,7 @@ export const GET_MISSION_BY_ID = gql`
                                 id
                                 controlType
                                 observations
-                                formalNotice
+                                infractionType
                                 target {
                                     formalNotice
                                     companyName
@@ -206,8 +206,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
-                                formalNotice
-
+                                infractionType
                                 observations
                             }
                         }
@@ -222,7 +221,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
-                                formalNotice
+                                infractionType
                                 observations
                             }
                         }
@@ -234,7 +233,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
-                                formalNotice
+                                infractionType
                                 observations
                             }
                         }
@@ -246,7 +245,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
-                                formalNotice
+                                infractionType
                                 observations
                             }
                         }

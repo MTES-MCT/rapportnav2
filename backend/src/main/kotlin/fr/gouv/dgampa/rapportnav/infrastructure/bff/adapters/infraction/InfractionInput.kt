@@ -10,7 +10,7 @@ data class InfractionInput(
     val actionId: String,
     val controlId: String? = null,
     val controlType: String,
-    val formalNotice: String? = null,
+    val infractionType: String? = null,
     val natinfs: List<NatinfInput>? = null,
     val observations: String? = null,
 ) {
@@ -22,7 +22,7 @@ data class InfractionInput(
             controlId = controlId?.let { UUID.fromString(it) },
             controlType = ControlType.valueOf(controlType),
             natinfs = natinfs?.map { it.toNatinf() },
-            formalNotice = formalNotice,
+            infractionType = infractionType,
             observations = observations,
         )
     }

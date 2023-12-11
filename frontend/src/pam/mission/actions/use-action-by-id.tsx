@@ -70,7 +70,7 @@ export const GET_ACTION_BY_ID = gql`
                         observations
                         infractions {
                             id
-                            formalNotice
+                            infractionType
                             observations
                         }
                     }
@@ -85,7 +85,7 @@ export const GET_ACTION_BY_ID = gql`
                         observations
                         infractions {
                             id
-                            formalNotice
+                            infractionType
                             observations
                         }
                     }
@@ -97,7 +97,7 @@ export const GET_ACTION_BY_ID = gql`
                         observations
                         infractions {
                             id
-                            formalNotice
+                            infractionType
                             observations
                         }
                     }
@@ -109,7 +109,7 @@ export const GET_ACTION_BY_ID = gql`
                         observations
                         infractions {
                             id
-                            formalNotice
+                            infractionType
                             observations
                         }
                     }
@@ -134,7 +134,7 @@ export const GET_ACTION_BY_ID = gql`
                             id
                             controlType
                             observations
-                            formalNotice
+                            infractionType
                             target {
                                 formalNotice
                                 companyName
@@ -198,8 +198,7 @@ export const GET_ACTION_BY_ID = gql`
                         observations
                         infractions {
                             id
-                            formalNotice
-
+                            infractionType
                             observations
                         }
                     }
@@ -214,7 +213,7 @@ export const GET_ACTION_BY_ID = gql`
                         observations
                         infractions {
                             id
-                            formalNotice
+                            infractionType
                             observations
                         }
                     }
@@ -226,7 +225,7 @@ export const GET_ACTION_BY_ID = gql`
                         observations
                         infractions {
                             id
-                            formalNotice
+                            infractionType
                             observations
                         }
                     }
@@ -238,7 +237,7 @@ export const GET_ACTION_BY_ID = gql`
                         observations
                         infractions {
                             id
-                            formalNotice
+                            infractionType
                             observations
                         }
                     }
@@ -255,12 +254,12 @@ const useActionById = (id?: string = undefined, missionId?: string = undefined, 
 } | undefined => {
     if (!id || !missionId)
         return
-    const {loading, error, data} = useQuery(GET_ACTION_BY_ID, {
+    const {loading, error, data, ...rest} = useQuery(GET_ACTION_BY_ID, {
         variables: {id, missionId, source, type}
         // fetchPolicy: 'cache-only'
     })
 
-    return {loading, error, data: data?.actionById}
+    return {loading, error, data: data?.actionById, ...rest}
 }
 
 export default useActionById

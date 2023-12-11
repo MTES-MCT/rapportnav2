@@ -3,7 +3,7 @@ import {Stack, Toggle} from 'rsuite'
 import {Accent, Button, Size, THEME, MultiSelect, Textarea} from '@mtes-mct/monitor-ui'
 import Text from '../../../ui/text'
 import {Infraction} from '../../../types/infraction-types'
-import {FormalNoticeEnum} from '../../../types/env-mission-types'
+import {InfractionTypeEnum} from '../../../types/env-mission-types'
 
 interface InfractionFormProps {
     infraction?: Infraction
@@ -22,12 +22,12 @@ const InfractionForm: React.FC<InfractionFormProps> = ({infraction, availableNat
                         <Stack.Item>
                             {/* TODO add Toggle component to monitor-ui */}
                             <Toggle
-                                checked={infraction?.formalNotice === FormalNoticeEnum.YES}
-                                defaultValue={FormalNoticeEnum.NO}
-                                role="toggle-formal-notice"
+                                checked={infraction?.infractionType === InfractionTypeEnum.WITH_REPORT}
+                                defaultValue={InfractionTypeEnum.WITHOUT_REPORT}
+                                role="toggle-infraction-type"
                                 size="sm"
                                 onChange={(checked: boolean) =>
-                                    onChange('formalNotice', checked ? FormalNoticeEnum.YES : FormalNoticeEnum.NO)
+                                    onChange('infractionType', checked ? InfractionTypeEnum.WITH_REPORT : InfractionTypeEnum.WITHOUT_REPORT)
                                 }
                             />
                         </Stack.Item>

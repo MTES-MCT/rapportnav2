@@ -1,8 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.FormalNoticeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.toStringOrNull
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlModel
@@ -25,8 +24,8 @@ class InfractionModel(
     @Column(name = "control_type", nullable = false)
     var controlType: String,
 
-    @Column(name = "formal_notice", nullable = true)
-    var formalNotice: String? = null,
+    @Column(name = "infraction_type", nullable = true)
+    var infractionType: String? = null,
 
     @Column(name = "observations", nullable = true)
     var observations: String? = null,
@@ -57,7 +56,7 @@ class InfractionModel(
             actionId = actionId,
             controlId = control?.id,
             controlType = ControlType.valueOf(controlType),
-            formalNotice = formalNotice?.let { FormalNoticeEnum.valueOf(it) },
+            infractionType = infractionType?.let { InfractionTypeEnum.valueOf(it) },
             observations = observations,
             target = target?.map { it.toInfractionEnvTargetEntity() }?.firstOrNull()
         )
@@ -69,11 +68,15 @@ class InfractionModel(
             missionId = infraction.missionId,
             actionId = infraction.actionId,
             controlType = infraction.controlType.toString(),
-            formalNotice = infraction.formalNotice?.toStringOrNull(),
+            infractionType = infraction.infractionType?.toString(),
             observations = infraction.observations,
-            target = infraction.target?.let { listOf(InfractionEnvTargetModel.fromInfractionEnvTargetEntity(
-                infraction.target!!
-            )) }
+            target = infraction.target?.let {
+                listOf(
+                    InfractionEnvTargetModel.fromInfractionEnvTargetEntity(
+                        infraction.target!!
+                    )
+                )
+            }
         )
     }
 }

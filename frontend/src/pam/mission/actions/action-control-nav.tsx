@@ -18,7 +18,7 @@ import {
 } from '@mtes-mct/monitor-ui'
 import {VesselTypeEnum} from '../../../types/mission-types'
 import {Action, ActionControl} from '../../../types/action-types'
-import {Panel, Stack} from 'rsuite'
+import {Stack} from 'rsuite'
 import Text from '../../../ui/text'
 import {formatDateTimeForFrenchHumans} from '../../../dates'
 import {DELETE_ACTION_CONTROL, MUTATION_ADD_OR_UPDATE_ACTION_CONTROL} from '../queries'
@@ -40,8 +40,13 @@ interface ActionControlNavProps {
 const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
     const navigate = useNavigate()
     const {missionId, actionId} = useParams()
+    const [observationsValue, setObservationsValue] = useState<string | undefined>(
+        undefined
+    )
+    const [identityControlledPersonValue, setIdentityControlledPersonValue] = useState<string | undefined>(
+        undefined
+    )
 
-    const {data: navAction, loading, error} = useActionById(actionId, missionId, action.source, action.type)
     const [mutateControl] = useMutation(
         MUTATION_ADD_OR_UPDATE_ACTION_CONTROL,
         {
@@ -51,6 +56,14 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
     const [deleteControl] = useMutation(DELETE_ACTION_CONTROL, {
         refetchQueries: [GET_MISSION_TIMELINE]
     })
+
+    const {data: navAction, loading, error} = useActionById(actionId, missionId, action.source, action.type)
+
+    useEffect(() => {
+        setObservationsValue(navAction?.observations)
+        setIdentityControlledPersonValue(navAction?.identityControlledPerson)
+    }, [navAction])
+
 
     if (loading) {
         return (
@@ -65,9 +78,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
     if (navAction) {
         const control = navAction?.data as ActionControl
 
-        const [observationsValue, setObservationsValue] = useState<string | undefined>(
-            control?.observations
-        )
+
         const handleObservationsChange = (nextValue?: string) => {
             setObservationsValue(nextValue)
         }
@@ -75,20 +86,12 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
             onChange('observations', observationsValue)
         }
 
-        const [identityControlledPersonValue, setIdentityControlledPersonValue] = useState<string | undefined>(
-            control?.identityControlledPerson
-        )
         const handleIdentityControlledPersonChange = (nextValue?: string) => {
             setIdentityControlledPersonValue(nextValue)
         }
         const handleIdentityControlledPersonBlur = () => {
             onChange('identityControlledPerson', identityControlledPersonValue)
         }
-
-        useEffect(() => {
-            setObservationsValue(control?.observations)
-            setIdentityControlledPersonValue(control?.identityControlledPerson)
-        }, [navAction])
 
 
         const onChange = (field: string, value: any) => {

@@ -1,10 +1,9 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {CoordinatesFormat, CoordinatesInput, DateRangePicker, Icon, Label, THEME} from '@mtes-mct/monitor-ui'
 import Divider from 'rsuite/Divider'
 import {Stack} from 'rsuite'
 import Text from '../../../ui/text'
 import {formatDateTimeForFrenchHumans} from '../../../dates'
-import {FishAction} from '../../../types/fish-mission-types'
 import ControlsToCompleteTag from '../controls/controls-to-complete-tag'
 import EnvControlForm from '../controls/env-control-form'
 import {Action} from '../../../types/action-types'
@@ -22,7 +21,11 @@ interface ActionControlPropsEnv {
 const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({action}) => {
     const {missionId, actionId} = useParams()
 
-    const {data: envAction, loading, error} = useActionById(actionId, missionId, action.source, action.type)
+    const {
+        data: envAction,
+        loading,
+        error,
+    } = useActionById(actionId, missionId, action.source, action.type)
 
     if (loading) {
         return (

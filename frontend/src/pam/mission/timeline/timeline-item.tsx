@@ -15,7 +15,7 @@ import {mapStatusToText, statusReasonToHumanString} from '../status/utils'
 import {controlMethodToHumanString, vesselTypeToHumanString} from '../controls/utils'
 import ControlsToCompleteTag from '../controls/controls-to-complete-tag'
 import Text from '../../../ui/text'
-import InfractionTag from '../infractions/infraction-tag'
+import InfractionTypeTag from '../infractions/infraction-type-tag.tsx'
 import {useParams} from 'react-router-dom'
 
 interface MissionTimelineItemProps {
@@ -110,9 +110,9 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
                                             />
                                         ) : (
                                             <>
-                                                <InfractionTag text="5 PV"/>
+                                                {/*<InfractionTypeTag text="5 PV"/>*/}
                                                 &nbsp;
-                                                <InfractionTag text="2 NATINF"/>
+                                                {/*<InfractionTypeTag text="2 NATINF"/>*/}
                                             </>
                                         )}
                                     </Stack.Item>
@@ -171,9 +171,9 @@ const ActionFishControl: React.FC<{ action: FishAction; onClick: any }> = ({acti
                                             />
                                         ) : (
                                             <>
-                                                <InfractionTag text="3 PV"/>
+                                                <InfractionTypeTag text="3 PV"/>
                                                 &nbsp;
-                                                <InfractionTag text="2 NATINF"/>
+                                                <InfractionTypeTag text="2 NATINF"/>
                                             </>
                                         )}
                                     </Stack.Item>
