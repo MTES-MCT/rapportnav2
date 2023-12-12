@@ -4,7 +4,6 @@ import {THEME, Textarea, MultiRadio, OptionValue, Label} from '@mtes-mct/monitor
 import {useMutation} from '@apollo/client'
 import {
     DELETE_CONTROL_ADMINISTRATIVE,
-    GET_MISSION_BY_ID,
     MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE
 } from '../queries'
 import omit from 'lodash/omit'
@@ -14,19 +13,18 @@ import ControlTitleCheckbox from './control-title-checkbox'
 import ControlInfraction from '../infractions/infraction-for-control'
 import {useEffect, useState} from 'react'
 import {GET_MISSION_TIMELINE} from "../timeline/use-misison-timeline.tsx";
+import {GET_ACTION_BY_ID} from "../actions/use-action-by-id.tsx";
 
 interface ControlAdministrativeFormProps {
     data?: ControlAdministrative
     shouldCompleteControl?: boolean
     unitShouldConfirm?: boolean
-    disableToggle?: boolean
 }
 
 const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
                                                                                  data,
                                                                                  shouldCompleteControl,
                                                                                  unitShouldConfirm,
-                                                                                 disableToggle
                                                                              }) => {
     const {missionId, actionId} = useParams()
 
@@ -40,19 +38,19 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
         setObservationsValue(data?.observations)
     }, [data])
 
-    const handleObservationsBlur = () => {
-        onChange('observations', observationsValue)
+    const handleObservationsBlur = async () => {
+        await onChange('observations', observationsValue)
     }
 
     const [mutate, {statusData, statusLoading, statusError}] = useMutation(
         MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE,
         {
-            refetchQueries: [GET_MISSION_TIMELINE]
+            refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
         }
     )
 
     const [deleteControl, {deleteData, deleteLoading, deleteError}] = useMutation(DELETE_CONTROL_ADMINISTRATIVE, {
-        refetchQueries: [GET_MISSION_TIMELINE]
+        refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
     })
 
     const toggleControl = async (isChecked: boolean) =>
@@ -91,7 +89,7 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
                     controlType={ControlType.ADMINISTRATIVE}
                     checked={!!data || shouldCompleteControl}
                     shouldCompleteControl={!!shouldCompleteControl && !!!data}
-                    onChange={disableToggle ? undefined : (isChecked: boolean) => toggleControl(isChecked)}
+                    onChange={(isChecked: boolean) => toggleControl(isChecked)}
                 />
             }
             // collapsible

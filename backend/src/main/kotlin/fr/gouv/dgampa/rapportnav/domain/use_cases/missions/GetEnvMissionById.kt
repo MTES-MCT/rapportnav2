@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.missions
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.ExtendedEnvMissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.EnvMission
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
@@ -19,7 +20,7 @@ import java.util.*
 
 @UseCase
 class GetEnvMissionById(private val mapper: ObjectMapper) {
-    fun execute(missionId: Int): MissionEntity {
+    fun execute(missionId: Int): ExtendedEnvMissionEntity {
 
 //      val client: HttpClient = HttpClient.newBuilder().build()
 //      val request = HttpRequest.newBuilder()
@@ -157,6 +158,6 @@ class GetEnvMissionById(private val mapper: ObjectMapper) {
         // TODO replace with API call
 
 
-        return envMission
+        return ExtendedEnvMissionEntity.fromEnvMission(envMission)
     }
 }

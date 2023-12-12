@@ -59,6 +59,7 @@ export const GET_ACTION_BY_ID = gql`
                     feedbackSheetRequired
                     userTrigram
                     controlsToComplete
+                    availableControlTypes
                     controlAdministrative {
                         id
                         amountOfControls

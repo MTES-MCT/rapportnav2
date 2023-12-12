@@ -81,7 +81,8 @@ const InfractionForm: React.FC<InfractionFormProps> = ({infraction, availableNat
                         <Stack.Item>
                             <Button accent={Accent.PRIMARY} type="submit" size={Size.NORMAL} role="validate-infraction"
                                 // todo add NATINF to the disabled condition
-                                    disabled={!infraction?.controlType}>
+                                //     disabled={!infraction?.controlType}>
+                            >
                                 Valider l'infraction
                             </Button>
                         </Stack.Item>

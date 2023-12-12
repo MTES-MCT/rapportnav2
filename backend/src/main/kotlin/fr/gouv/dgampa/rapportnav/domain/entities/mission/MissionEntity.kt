@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.NavMissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.ZonedDateTime
 
@@ -29,25 +30,29 @@ data class MissionEntity(
     val isUnderJdp: Boolean,
     val actions: List<MissionActionEntity>?,
 ) {
-    constructor(envMission: EnvMission, navMission: NavMissionEntity? = null, fishMissionActions: List<MissionAction>? = null) : this(
-        id = (envMission.id)!!,
-        missionTypes = envMission.missionTypes,
-        controlUnits = envMission.controlUnits,
-        openBy = envMission.openBy,
-        closedBy = envMission.closedBy,
-        observationsCacem = envMission.observationsCacem,
-        observationsCnsp = envMission.observationsCnsp,
-        facade = envMission.facade,
-        geom = envMission.geom,
-        startDateTimeUtc = envMission.startDateTimeUtc,
-        endDateTimeUtc = envMission.endDateTimeUtc,
-        isClosed = envMission.isClosed,
-        isDeleted = envMission.isDeleted,
-        isGeometryComputedFromControls = envMission.isGeometryComputedFromControls,
-        missionSource = envMission.missionSource,
-        hasMissionOrder = envMission.hasMissionOrder,
-        isUnderJdp = envMission.isUnderJdp,
-        actions = (envMission.envActions?.map { MissionActionEntity.EnvAction(it) } ?: listOf()) +
+    constructor(
+        envMission: ExtendedEnvMissionEntity,
+        navMission: NavMissionEntity? = null,
+        fishMissionActions: List<ExtendedFishActionEntity>? = null
+    ) : this(
+        id = (envMission.mission.id)!!,
+        missionTypes = envMission.mission.missionTypes,
+        controlUnits = envMission.mission.controlUnits,
+        openBy = envMission.mission.openBy,
+        closedBy = envMission.mission.closedBy,
+        observationsCacem = envMission.mission.observationsCacem,
+        observationsCnsp = envMission.mission.observationsCnsp,
+        facade = envMission.mission.facade,
+        geom = envMission.mission.geom,
+        startDateTimeUtc = envMission.mission.startDateTimeUtc,
+        endDateTimeUtc = envMission.mission.endDateTimeUtc,
+        isClosed = envMission.mission.isClosed,
+        isDeleted = envMission.mission.isDeleted,
+        isGeometryComputedFromControls = envMission.mission.isGeometryComputedFromControls,
+        missionSource = envMission.mission.missionSource,
+        hasMissionOrder = envMission.mission.hasMissionOrder,
+        isUnderJdp = envMission.mission.isUnderJdp,
+        actions = (envMission.actions?.map { MissionActionEntity.EnvAction(it) } ?: listOf()) +
                 (fishMissionActions?.map { MissionActionEntity.FishAction(it) } ?: listOf()) +
                 (navMission?.actions?.map { MissionActionEntity.NavAction(it) } ?: listOf())
 

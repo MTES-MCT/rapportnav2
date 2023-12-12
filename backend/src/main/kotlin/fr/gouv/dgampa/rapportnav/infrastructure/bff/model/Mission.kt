@@ -27,7 +27,7 @@ data class Mission(
 
     companion object {
         fun fromMissionEntity(mission: MissionEntity): Mission {
-            val actions: List<Action>? = mission.actions?.map { missionAction ->
+            val actions: List<Action>? = mission.actions?.mapNotNull { missionAction ->
                 when (missionAction) {
                     is MissionActionEntity.EnvAction -> Action.fromEnvAction(
                         missionAction.envAction,
@@ -38,6 +38,7 @@ data class Mission(
                         missionAction.fishAction,
                         missionId = mission.id
                     )
+
                     is MissionActionEntity.NavAction -> Action.fromNavAction(missionAction.navAction)
                 }
             }?.let { Action.sortForTimeline(it) }

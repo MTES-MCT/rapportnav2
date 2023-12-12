@@ -3,12 +3,17 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.missions
 import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.action.AttachControlsToActionControl
 import java.time.ZonedDateTime
 
 
 @UseCase
-class GetFishActionsByMissionId(private val mapper: ObjectMapper) {
-    fun execute(missionId: Int): List<MissionAction> {
+class GetFishActionsByMissionId(
+    private val attachControlsToActionControl: AttachControlsToActionControl,
+    private val mapper: ObjectMapper
+) {
+    fun execute(missionId: Int): List<ExtendedFishActionEntity> {
 
 //      val client: HttpClient = HttpClient.newBuilder().build()
 //      val request = HttpRequest.newBuilder()
@@ -137,7 +142,18 @@ class GetFishActionsByMissionId(private val mapper: ObjectMapper) {
 
         )
 
-        return listOf(missionAction1, missionAction2)
+        val actions = listOf(missionAction1, missionAction2).map {
+            var action = ExtendedFishActionEntity.fromMissionAction(it)
+            action = attachControlsToActionControl.toFishAction(
+                actionId = it.id?.toString(),
+                action = action
+            )
+            action
+        }
+
+
+
+        return actions
 
     }
 }

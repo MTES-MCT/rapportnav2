@@ -89,25 +89,29 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({action}) => {
                     </Stack>
                 </Stack.Item>
                 <Stack.Item style={{width: '100%'}}>
+                    <Label>Date et heure</Label>
                     <DatePicker
                         defaultValue={fishAction.startDateTimeUtc}
-                        label="Date et heure"
+                        // label="Date et heure"
                         withTime={true}
                         isCompact={false}
                         isLight={true}
                         name="startDateTimeUtc"
+                        readOnly={true}
+                        disabled={true}
                     />
                 </Stack.Item>
                 <Stack.Item>
+                    <Label>Lieu du contrôle</Label>
                     <CoordinatesInput
                         defaultValue={[
                             actionData?.latitude as any,
                             actionData?.longitude as any
                         ]}
                         coordinatesFormat={CoordinatesFormat.DECIMAL_DEGREES}
-                        label="Lieu du contrôle"
-                        isLight={true}
-                        // disabled={true}
+                        // label="Lieu du contrôle"
+                        // isLight={true}
+                        disabled={true}
                     />
                 </Stack.Item>
                 <Stack.Item style={{width: '100%'}}>
@@ -174,7 +178,6 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({action}) => {
                                 data={actionData?.controlAdministrative}
                                 shouldCompleteControl={!!actionData?.controlsToComplete?.includes(ControlType.ADMINISTRATIVE)}
                                 unitShouldConfirm={true}
-                                disableToggle={true}
                             />
                         </Stack.Item>
                         <Stack.Item style={{width: '100%'}}>
@@ -182,7 +185,6 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({action}) => {
                                 data={actionData?.controlNavigation}
                                 shouldCompleteControl={!!actionData?.controlsToComplete?.includes(ControlType.NAVIGATION)}
                                 unitShouldConfirm={true}
-                                disableToggle={true}
                             />
                         </Stack.Item>
                         <Stack.Item style={{width: '100%'}}>
@@ -190,7 +192,6 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({action}) => {
                                 data={actionData?.controlGensDeMer}
                                 shouldCompleteControl={!!actionData?.controlsToComplete?.includes(ControlType.GENS_DE_MER)}
                                 unitShouldConfirm={true}
-                                disableToggle={true}
                             />
                         </Stack.Item>
                         <Stack.Item style={{width: '100%'}}>
@@ -198,7 +199,6 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({action}) => {
                                 data={actionData?.controlSecurity}
                                 shouldCompleteControl={!!actionData?.controlsToComplete?.includes(ControlType.SECURITY)}
                                 unitShouldConfirm={true}
-                                disableToggle={true}
                             />
                         </Stack.Item>
                     </Stack>

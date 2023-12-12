@@ -32,7 +32,8 @@ const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({missio
                                 label="Dates du rapport"
                                 withTime={true}
                                 isCompact={true}
-                                // disabled={true}
+                                readOnly={true}
+                                disabled={true}
                             />
                         </Stack.Item>
                         <Stack.Item style={{width: '100%'}}>

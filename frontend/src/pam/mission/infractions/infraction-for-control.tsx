@@ -10,6 +10,7 @@ import {useMutation} from '@apollo/client'
 import {useParams} from 'react-router-dom'
 import omit from 'lodash/omit'
 import {GET_MISSION_TIMELINE} from "../timeline/use-misison-timeline.tsx";
+import {GET_ACTION_BY_ID} from "../actions/use-action-by-id.tsx";
 
 export interface ControlInfractionProps {
     controlId?: string
@@ -32,10 +33,10 @@ const ControlInfraction: React.FC<ControlInfractionProps> = ({controlId, control
     }
 
     const [mutate, {mutateData, mutateLoading, mutateError}] = useMutation(MUTATION_ADD_OR_UPDATE_INFRACTION, {
-        refetchQueries: [GET_MISSION_TIMELINE]
+        refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
     })
     const [deleteMutation] = useMutation(MUTATION_DELETE_INFRACTION, {
-        refetchQueries: [GET_MISSION_TIMELINE]
+        refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
     })
 
     const onSubmit = async (e: React.FormEvent, infraction?: Infraction) => {
@@ -48,12 +49,10 @@ const ControlInfraction: React.FC<ControlInfractionProps> = ({controlId, control
             controlId,
             controlType
         }
-        debugger
         await mutate({variables: {infraction: mutationData}})
         setShowInfractionForm(false)
     }
     const onDelete = async (data: Infraction) => {
-        debugger
         await deleteMutation({
             variables: {
                 id: data.id!
@@ -66,7 +65,6 @@ const ControlInfraction: React.FC<ControlInfractionProps> = ({controlId, control
             {!!!infractions?.length && !showInfractionForm ? (
                 <Button
                     onClick={() => {
-                        debugger
                         setShowInfractionForm(true)
                     }}
                     accent={Accent.SECONDARY}

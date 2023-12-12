@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.GetControlByActionId
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.EnvActionData
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.FishActionData
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlAdministrative
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlGensDeMer
@@ -16,37 +17,6 @@ class ActionFishController(
     private val getControlByActionId: GetControlByActionId,
 ) {
 
-    //    TODO decide if this should be here or not
-    @SchemaMapping(typeName = "FishActionData", field = "controlAdministrative")
-    fun getControlAdministrative(action: FishActionData): ControlAdministrative? {
-        return action.id?.let { id ->
-            ControlAdministrative.fromControlAdministrativeEntity(getControlByActionId.getControlAdministrative(actionControlId = id.toString()))
-        }
-    }
-    //    TODO decide if this should be here or not
-    @SchemaMapping(typeName = "FishActionData", field = "controlSecurity")
-    fun getControlSecurity(action: FishActionData): ControlSecurity? {
-        return action.id?.let { id ->
-            ControlSecurity.fromControlSecurityEntity(getControlByActionId.getControlSecurity(actionControlId = id.toString()))
-        }
-    }
-
-    //    TODO decide if this should be here or not
-    @SchemaMapping(typeName = "FishActionData", field = "controlNavigation")
-    fun getControlNavigation(action: FishActionData): ControlNavigation? {
-        return action.id?.let { id ->
-            ControlNavigation.fromControlNavigationEntity(getControlByActionId.getControlNavigation(actionControlId = id.toString()))
-        }
-    }
-
-    //    TODO decide if this should be here or not
-    @SchemaMapping(typeName = "FishActionData", field = "controlGensDeMer")
-    fun getControlGensDeMer(action: FishActionData): ControlGensDeMer? {
-        return action.id?.let { id ->
-            ControlGensDeMer.fromControlGensDeMerEntity(getControlByActionId.getControlGensDeMer(actionControlId = id.toString()))
-        }
-    }
-
     @SchemaMapping(typeName = "FishActionData", field = "controlsToComplete")
     fun getControlsToComplete(action: FishActionData): List<ControlType>? {
         val controlsToCompleteList = mutableListOf<ControlType>()
@@ -55,11 +25,17 @@ class ActionFishController(
             controlsToCompleteList.add(ControlType.ADMINISTRATIVE)
         }
 
-        if (action.isComplianceWithWaterRegulationsControl == true && getControlByActionId.getControlNavigation(actionControlId = action.id!!) == null) {
+        if (action.isComplianceWithWaterRegulationsControl == true && getControlByActionId.getControlNavigation(
+                actionControlId = action.id!!
+            ) == null
+        ) {
             controlsToCompleteList.add(ControlType.NAVIGATION)
         }
 
-        if (action.isSafetyEquipmentAndStandardsComplianceControl == true && getControlByActionId.getControlSecurity(actionControlId = action.id!!) == null) {
+        if (action.isSafetyEquipmentAndStandardsComplianceControl == true && getControlByActionId.getControlSecurity(
+                actionControlId = action.id!!
+            ) == null
+        ) {
             controlsToCompleteList.add(ControlType.SECURITY)
         }
 
@@ -70,4 +46,21 @@ class ActionFishController(
         return controlsToCompleteList.ifEmpty { null }
     }
 
+    @SchemaMapping(typeName = "FishActionData", field = "availableControlTypes")
+    fun getPossibleControlTypes(action: FishActionData): List<ControlType>? {
+        return listOf(
+            ControlType.ADMINISTRATIVE.takeIf {
+                action.isAdministrativeControl == true
+            },
+            ControlType.NAVIGATION.takeIf {
+                action.isComplianceWithWaterRegulationsControl == true
+            },
+            ControlType.SECURITY.takeIf {
+                action.isSafetyEquipmentAndStandardsComplianceControl == true
+            },
+            ControlType.GENS_DE_MER.takeIf {
+                action.isSeafarersControl == true
+            }
+        ).mapNotNull { it }
+    }
 }

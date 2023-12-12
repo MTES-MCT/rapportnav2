@@ -67,6 +67,7 @@ export const GET_MISSION_BY_ID = gql`
                         controlQualityComments
                         feedbackSheetRequired
                         userTrigram
+                        availableControlTypes
                         controlsToComplete
                         controlAdministrative {
                             id
@@ -304,6 +305,13 @@ export const MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER = gql`
     mutation AddOrUpdateControlGensDeMer($control: ControlGensDeMerInput!) {
         addOrUpdateControlGensDeMer(control: $control) {
             id
+            amountOfControls
+            unitShouldConfirm
+            unitHasConfirmed
+            staffOutnumbered
+            upToDateMedicalCheck
+            knowledgeOfFrenchLawAndLanguage
+            observations
         }
     }
 `
@@ -312,6 +320,10 @@ export const MUTATION_ADD_OR_UPDATE_CONTROL_NAVIGATION = gql`
     mutation AddOrUpdateControlNavigation($control: ControlNavigationInput!) {
         addOrUpdateControlNavigation(control: $control) {
             id
+            amountOfControls
+            unitShouldConfirm
+            unitHasConfirmed
+            observations
         }
     }
 `
@@ -320,6 +332,10 @@ export const MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY = gql`
     mutation AddOrUpdateControlSecurity($control: ControlSecurityInput!) {
         addOrUpdateControlSecurity(control: $control) {
             id
+            amountOfControls
+            unitShouldConfirm
+            unitHasConfirmed
+            observations
         }
     }
 `
@@ -328,6 +344,13 @@ export const MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE = gql`
     mutation AddOrUpdateControlAdministrative($control: ControlAdministrativeInput!) {
         addOrUpdateControlAdministrative(control: $control) {
             id
+            amountOfControls
+            unitShouldConfirm
+            unitHasConfirmed
+            compliantOperatingPermit
+            upToDateNavigationPermit
+            compliantSecurityDocuments
+            observations
         }
     }
 `

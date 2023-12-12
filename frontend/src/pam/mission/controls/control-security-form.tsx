@@ -10,19 +10,18 @@ import ControlTitleCheckbox from './control-title-checkbox'
 import ControlInfraction from '../infractions/infraction-for-control'
 import {useEffect, useState} from 'react'
 import {GET_MISSION_TIMELINE} from "../timeline/use-misison-timeline.tsx";
+import {GET_ACTION_BY_ID} from "../actions/use-action-by-id.tsx";
 
 interface ControlSecurityFormProps {
     data?: ControlSecurity
     shouldCompleteControl?: boolean
     unitShouldConfirm?: boolean
-    disableToggle?: boolean
 }
 
 const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
                                                                      data,
                                                                      shouldCompleteControl,
                                                                      unitShouldConfirm,
-                                                                     disableToggle
                                                                  }) => {
     const {missionId, actionId} = useParams()
 
@@ -41,11 +40,11 @@ const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
     }
 
     const [mutate, {statusData, statusLoading, statusError}] = useMutation(MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY, {
-        refetchQueries: [GET_MISSION_TIMELINE]
+        refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
     })
 
     const [deleteControl, {deleteData, deleteLoading, deleteError}] = useMutation(DELETE_CONTROL_SECURITY, {
-        refetchQueries: [GET_MISSION_TIMELINE]
+        refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID],
     })
 
     const toggleControl = async (isChecked: boolean) =>
@@ -82,7 +81,7 @@ const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
                     controlType={ControlType.SECURITY}
                     checked={!!data || shouldCompleteControl}
                     shouldCompleteControl={!!shouldCompleteControl && !!!data}
-                    onChange={disableToggle ? undefined : (isChecked: boolean) => toggleControl(isChecked)}
+                    onChange={(isChecked: boolean) => toggleControl(isChecked)}
                 />
             }
             // collapsible

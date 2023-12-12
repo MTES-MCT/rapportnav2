@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.missions
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.ExtendedEnvMissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.EnvMission
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
@@ -118,7 +119,7 @@ class GetEnvMissions(private val mapper: ObjectMapper) {
 
         val envMissions = listOf(mission1, mission2, mission3)
 
-        val missions = envMissions.map { MissionEntity(envMission = it) }
+        val missions = envMissions.map { MissionEntity(envMission = ExtendedEnvMissionEntity.fromEnvMission(it)) }
 
         logger.info("Found ${missions.size} missions ")
 

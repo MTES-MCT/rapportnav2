@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.8.6",
-    "@mtes-mct/monitor-ui": "^10.12.1",
+    "@mtes-mct/monitor-ui": "^10.14.1",
     "@sentry/react": "^7.80.1",
     "@sentry/tracing": "^7.74.1",
     "apollo3-cache-persist": "^0.14.1",

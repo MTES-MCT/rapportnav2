@@ -68,25 +68,28 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({action}) => {
                     </Text>
                 </Stack.Item>
                 <Stack.Item style={{width: '100%'}}>
+                    <Label>Date et heure de début et de fin</Label>
                     <DateRangePicker
                         defaultValue={[envAction.startDateTimeUtc || new Date(), envAction.endDateTimeUtc || new Date()]}
-                        label="Date et heure de début et de fin"
+                        // label="Date et heure de début et de fin"
                         withTime={true}
                         isCompact={true}
                         isLight={true}
-                        // disabled={true}
+                        readOnly={true}
+                        disabled={true}
                     />
                 </Stack.Item>
                 <Stack.Item>
+                    <Label>Lieu du contrôle</Label>
                     <CoordinatesInput
                         defaultValue={[
                             actionData?.latitude as any,
                             actionData?.longitude as any
                         ]}
                         coordinatesFormat={CoordinatesFormat.DECIMAL_DEGREES}
-                        label="Lieu du contrôle"
-                        isLight={true}
-                        // disabled={true}
+                        // label="Lieu du contrôle"
+                        // isLight={true}
+                        disabled={true}
                     />
                 </Stack.Item>
                 <Stack.Item style={{width: '100%'}}>
