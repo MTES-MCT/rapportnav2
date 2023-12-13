@@ -10,7 +10,7 @@ import Text from '../../../ui/text'
 import {getColorForStatus} from '../status/utils'
 import {ActionTypeEnum} from '../../../types/env-mission-types'
 import {groupByDay} from '../utils'
-import useGetMissionTimeline from "./use-misison-timeline.tsx";
+import useGetMissionTimeline from "./use-mission-timeline.tsx";
 
 interface MissionTimelineProps {
     missionId?: string

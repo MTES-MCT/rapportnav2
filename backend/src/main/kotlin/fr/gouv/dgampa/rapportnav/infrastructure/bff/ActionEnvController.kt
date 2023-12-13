@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.GetControlByActionId
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsForActionControlEnv
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsByActionId
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.EnvActionData
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Infraction
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.InfractionsByVessel
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller
 @Controller
 class ActionEnvController(
     private val getControlByActionId: GetControlByActionId,
-    private val getInfractionsForActionControlEnv: GetInfractionsForActionControlEnv
+    private val getInfractionsByActionId: GetInfractionsByActionId
 ) {
     /**
      * Some controls are marked as to be completed by the centers CNSP/CACEM
@@ -72,7 +72,7 @@ class ActionEnvController(
     fun getInfractions(action: EnvActionData): List<InfractionsByVessel> {
         // get infractions coming from different sources
         val envInfractions = action.infractions?.map { Infraction.fromEnvInfractionEntity(it) }.orEmpty()
-        val navInfractions = getInfractionsForActionControlEnv.execute(actionId = action.id.toString())
+        val navInfractions = getInfractionsByActionId.execute(actionId = action.id.toString())
             .map { Infraction.fromInfractionEntity(it) }
 
         // group them together by vessel

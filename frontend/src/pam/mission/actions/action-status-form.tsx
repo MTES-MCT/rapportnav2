@@ -25,7 +25,7 @@ import {DELETE_ACTION_STATUS, MUTATION_ADD_OR_UPDATE_ACTION_STATUS} from '../que
 import {useNavigate, useParams} from 'react-router-dom'
 import omit from 'lodash/omit'
 import StatusReasonDropdown from "../status/status-reason-dropdown.tsx";
-import {GET_MISSION_TIMELINE} from "../timeline/use-misison-timeline.tsx";
+import {GET_MISSION_TIMELINE} from "../timeline/use-mission-timeline.tsx";
 import useActionById from "./use-action-by-id.tsx";
 
 interface ActionStatusFormProps {

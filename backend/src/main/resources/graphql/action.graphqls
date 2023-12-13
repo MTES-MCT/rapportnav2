@@ -15,6 +15,7 @@ type Action {
     source: MissionSource!
     status: ActionStatusType!
     type: ActionType
+    summaryTags: [String]
     data: ActionData
 }
 

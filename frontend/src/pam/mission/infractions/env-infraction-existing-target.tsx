@@ -13,7 +13,7 @@ import {useParams} from 'react-router-dom'
 import omit from 'lodash/omit'
 import EnvInfractionSummary from './env-infraction-summary'
 import EnvInfractionExistingTargetForm from './env-infraction-existing-target-form'
-import {GET_MISSION_TIMELINE} from "../timeline/use-misison-timeline.tsx";
+import {GET_MISSION_TIMELINE} from "../timeline/use-mission-timeline.tsx";
 
 export interface EnvInfractionExistingTargetProps {
     availableControlTypesForInfraction?: ControlType[]

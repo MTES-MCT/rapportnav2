@@ -8,14 +8,13 @@ import {
     actionTargetTypeLabels
 } from '../../../types/env-mission-types'
 import {FlexboxGrid, Stack} from 'rsuite'
-import {Action, ActionStatus as NavActionStatus} from '../../../types/action-types'
+import {Action, ActionControl, ActionStatus as NavActionStatus} from '../../../types/action-types'
 import {FishAction} from '../../../types/fish-mission-types'
 import {StatusColorTag} from '../status/status-selection-dropdown'
 import {mapStatusToText, statusReasonToHumanString} from '../status/utils'
 import {controlMethodToHumanString, vesselTypeToHumanString} from '../controls/utils'
 import ControlsToCompleteTag from '../controls/controls-to-complete-tag'
 import Text from '../../../ui/text'
-import InfractionTypeTag from '../infractions/infraction-type-tag.tsx'
 import {useParams} from 'react-router-dom'
 
 interface MissionTimelineItemProps {
@@ -23,12 +22,11 @@ interface MissionTimelineItemProps {
     onClick: (action: Action) => void
 }
 
-const Wrapper: React.FC<{ action: Action; onClick: any; children: any; borderWhenSelected?: boolean }> = ({
-                                                                                                              action,
-                                                                                                              onClick,
-                                                                                                              children,
-                                                                                                              borderWhenSelected = null
-                                                                                                          }) => {
+const Wrapper: React.FC<{ onClick: any; children: any; borderWhenSelected?: boolean }> = ({
+                                                                                              onClick,
+                                                                                              children,
+                                                                                              borderWhenSelected = null
+                                                                                          }) => {
     return (
         <div onClick={onClick}>
             <FlexboxGrid
@@ -45,10 +43,11 @@ const Wrapper: React.FC<{ action: Action; onClick: any; children: any; borderWhe
     )
 }
 
-const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick: any }> = ({action, onClick}) => {
+const ActionEnvControl: React.FC<{ action: Action; onClick: any }> = ({action, onClick}) => {
     const {actionId} = useParams()
+    const actionData = action.data as unknown as EnvActionControl
     return (
-        <Wrapper action={action as EnvActionControl} onClick={onClick} borderWhenSelected={action.id === actionId}>
+        <Wrapper onClick={onClick} borderWhenSelected={action.id === actionId}>
             <FlexboxGrid.Item
                 style={{
                     width: '100%',
@@ -70,7 +69,7 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
                                     </Stack.Item>
                                     <Stack.Item>
                                         <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
-                                            {action && 'themes' in action && action.themes[0].theme ? action.themes[0].theme : ''}
+                                            {actionData && 'themes' in actionData && actionData?.themes[0].theme ? actionData?.themes[0].theme : ''}
                                         </Text>
                                     </Stack.Item>
                                 </Stack>
@@ -78,23 +77,23 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
                             <Stack.Item>
                                 <Text as="h3" weight="normal" color={THEME.color.slateGray}>
                                     <b>
-                                        {action && 'actionNumberOfControls' in action && action.actionNumberOfControls
-                                            ? `${action.actionNumberOfControls} ${
-                                                action.actionNumberOfControls > 1 ? 'contrôles' : 'contrôle'
+                                        {actionData && 'actionNumberOfControls' in actionData && actionData.actionNumberOfControls
+                                            ? `${actionData.actionNumberOfControls} ${
+                                                actionData.actionNumberOfControls > 1 ? 'contrôles' : 'contrôle'
                                             }`
                                             : 'Nombre de contrôles inconnu'}
                                     </b>
                                     &nbsp;
-                                    {action &&
-                                    'actionNumberOfControls' in action &&
-                                    action.actionNumberOfControls &&
-                                    action.actionNumberOfControls > 1
+                                    {actionData &&
+                                    'actionNumberOfControls' in actionData &&
+                                    actionData.actionNumberOfControls &&
+                                    actionData.actionNumberOfControls > 1
                                         ? 'réalisés'
                                         : 'réalisé'}{' '}
                                     sur des cibles de type&nbsp;
                                     <b>
-                                        {action && 'actionTargetType' in action && action.actionTargetType
-                                            ? actionTargetTypeLabels[action.actionTargetType]?.libelle?.toLowerCase()
+                                        {actionData && 'actionTargetType' in actionData && actionData.actionTargetType
+                                            ? actionTargetTypeLabels[actionData.actionTargetType]?.libelle?.toLowerCase()
                                             : 'inconnu'}
                                     </b>
                                 </Text>
@@ -103,16 +102,19 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
                             <Stack.Item alignSelf="flex-start" style={{width: '100%'}}>
                                 <Stack direction="row" spacing="1rem" style={{width: '100%'}}>
                                     <Stack.Item style={{width: '70%'}}>
-                                        {(action as any as EnvActionControl)?.controlsToComplete !== undefined &&
-                                        (action as any as EnvActionControl)?.controlsToComplete?.length > 0 ? (
+                                        {actionData?.controlsToComplete !== undefined &&
+                                        actionData?.controlsToComplete?.length > 0 ? (
                                             <ControlsToCompleteTag
-                                                amountOfControlsToComplete={(action as any as EnvActionControl)?.controlsToComplete?.length}
+                                                amountOfControlsToComplete={actionData?.controlsToComplete?.length}
                                             />
                                         ) : (
                                             <>
-                                                {/*<InfractionTypeTag text="5 PV"/>*/}
-                                                &nbsp;
-                                                {/*<InfractionTypeTag text="2 NATINF"/>*/}
+                                                {
+                                                    action.summaryTags?.map((tag: string) => (
+                                                        <Tag accent={Accent.PRIMARY}
+                                                             style={{marginRight: '0.5rem'}}>{tag}</Tag>
+                                                    ))
+                                                }
                                             </>
                                         )}
                                     </Stack.Item>
@@ -135,10 +137,11 @@ const ActionEnvControl: React.FC<{ action: EnvAction | EnvActionControl; onClick
     )
 }
 
-const ActionFishControl: React.FC<{ action: FishAction; onClick: any }> = ({action, onClick}) => {
+const ActionFishControl: React.FC<{ action: Action; onClick: any }> = ({action, onClick}) => {
     const {actionId} = useParams()
+    const actionData = action.data as unknown as FishAction
     return (
-        <Wrapper action={action as FishAction} onClick={onClick} borderWhenSelected={action.id === actionId}>
+        <Wrapper onClick={onClick} borderWhenSelected={action.id === actionId}>
             <FlexboxGrid.Item style={{width: '100%', padding: '1rem'}}>
                 <Stack direction="row" spacing="0.5rem">
                     <Stack.Item alignSelf="flex-start">
@@ -164,16 +167,19 @@ const ActionFishControl: React.FC<{ action: FishAction; onClick: any }> = ({acti
                             <Stack.Item alignSelf="flex-start" style={{width: '100%'}}>
                                 <Stack direction="row" spacing="1rem" style={{width: '100%'}}>
                                     <Stack.Item style={{width: '70%'}}>
-                                        {(action as any as FishAction)?.controlsToComplete !== undefined &&
-                                        (action as any as FishAction)?.controlsToComplete?.length > 0 ? (
+                                        {actionData?.controlsToComplete !== undefined &&
+                                        actionData?.controlsToComplete?.length > 0 ? (
                                             <ControlsToCompleteTag
-                                                amountOfControlsToComplete={(action as any as FishAction)?.controlsToComplete?.length}
+                                                amountOfControlsToComplete={actionData?.controlsToComplete?.length}
                                             />
                                         ) : (
                                             <>
-                                                <InfractionTypeTag text="3 PV"/>
-                                                &nbsp;
-                                                <InfractionTypeTag text="2 NATINF"/>
+                                                {
+                                                    action.summaryTags?.map((tag: string) => (
+                                                        <Tag accent={Accent.PRIMARY}
+                                                             style={{marginRight: '0.5rem'}}>{tag}</Tag>
+                                                    ))
+                                                }
                                             </>
                                         )}
                                     </Stack.Item>
@@ -198,17 +204,20 @@ const ActionFishControl: React.FC<{ action: FishAction; onClick: any }> = ({acti
 
 const ActionNavControl: React.FC<{ action: Action; onClick: any }> = ({action, onClick}) => {
     const {actionId} = useParams()
+    const actionData = action.data as unknown as ActionControl
     return (
-        <Wrapper action={action as FishAction} onClick={onClick} borderWhenSelected={action.id === actionId}>
+        <Wrapper onClick={onClick} borderWhenSelected={action.id === actionId}>
             <FlexboxGrid.Item style={{width: '100%', padding: '1rem'}}>
+
+
                 <Stack direction="row" spacing="0.5rem">
                     <Stack.Item alignSelf="flex-start" style={{paddingTop: '0.2rem'}}>
                         <Icon.ControlUnit color={THEME.color.charcoal} size={20}/>
                     </Stack.Item>
                     <Stack.Item>
-                        <Stack direction="column" alignItems="flex-start">
+                        <Stack direction="column" alignItems="flex-start" spacing="0.5rem">
                             <Stack.Item>
-                                <Stack direction="row" spacing="0.25rem">
+                                <Stack direction="row" spacing="0.5rem">
                                     <Stack.Item>
                                         <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
                                             Contrôles
@@ -216,15 +225,28 @@ const ActionNavControl: React.FC<{ action: Action; onClick: any }> = ({action, o
                                     </Stack.Item>
                                     <Stack.Item>
                                         <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
-                                            {`${controlMethodToHumanString(action.controlMethod)} - ${vesselTypeToHumanString(
-                                                action.vesselType
+                                            {`${controlMethodToHumanString(actionData?.controlMethod)} - ${vesselTypeToHumanString(
+                                                actionData?.vesselType
                                             )}`}
                                         </Text>
                                     </Stack.Item>
                                 </Stack>
                             </Stack.Item>
+                            {
+                                action.summaryTags?.length > 0 && (
+                                    <Stack.Item>
+                                        {
+                                            action.summaryTags?.map((tag: string) => (
+                                                <Tag accent={Accent.PRIMARY} style={{marginRight: '0.5rem'}}>{tag}</Tag>
+                                            ))
+                                        }
+                                    </Stack.Item>
+                                )
+                            }
                         </Stack>
                     </Stack.Item>
+
+
                 </Stack>
             </FlexboxGrid.Item>
         </Wrapper>
@@ -246,14 +268,15 @@ const ActionOther: React.FC = () => {
     return null
 }
 
-const ActionStatus: React.FC<{ action: NavActionStatus; onClick: any }> = ({action, onClick}) => {
+const ActionStatus: React.FC<{ action: Action; onClick: any }> = ({action, onClick}) => {
     const {actionId} = useParams()
     const isSelected = action.id === actionId
+    const actionData = action.data as unknown as NavActionStatus
     return (
-        <Wrapper action={action as any} onClick={onClick} borderWhenSelected={false}>
+        <Wrapper onClick={onClick} borderWhenSelected={false}>
             <Stack alignItems="center" spacing="0.5rem">
                 <Stack.Item>
-                    <StatusColorTag status={action.status}/>
+                    <StatusColorTag status={actionData?.status}/>
                 </Stack.Item>
                 <Stack.Item>
                     <Text
@@ -269,10 +292,10 @@ const ActionStatus: React.FC<{ action: NavActionStatus; onClick: any }> = ({acti
                                 textOverflow: 'ellipsis'
                             }}
                         >
-                            <b>{`${mapStatusToText(action.status)} - ${action.isStart ? 'début' : 'fin'} ${
-                                !!action.reason ? ' - ' + statusReasonToHumanString(action.reason) : ''
+                            <b>{`${mapStatusToText(actionData?.status)} - ${actionData?.isStart ? 'début' : 'fin'} ${
+                                !!actionData?.reason ? ' - ' + statusReasonToHumanString(actionData?.reason) : ''
                             }`}</b>
-                            {!!action.observations ? ' - ' + action.observations : ''}
+                            {!!actionData?.observations ? ' - ' + actionData?.observations : ''}
                         </p>
                     </Text>
                 </Stack.Item>
@@ -323,7 +346,7 @@ const MissionTimelineItem: React.FC<MissionTimelineItemProps> = ({
         return null
     }
 
-    return <Component action={action.data as any} onClick={onClick}/>
+    return <Component action={action as any} onClick={onClick}/>
 }
 
 export default MissionTimelineItem

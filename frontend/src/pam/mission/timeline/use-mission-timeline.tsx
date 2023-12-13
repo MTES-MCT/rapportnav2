@@ -14,6 +14,7 @@ export const GET_MISSION_TIMELINE = gql`
                 type
                 source
                 status
+                summaryTags
                 startDateTimeUtc
                 endDateTimeUtc
                 data {

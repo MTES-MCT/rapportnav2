@@ -20,7 +20,7 @@ import {
 } from './queries'
 import StatusSelectionDropdown from './status/status-selection-dropdown'
 import find from 'lodash/find'
-import {GET_MISSION_TIMELINE} from "./timeline/use-misison-timeline.tsx";
+import {GET_MISSION_TIMELINE} from "./timeline/use-mission-timeline.tsx";
 import useMissionExcerpt from "./general-info/use-mission-excerpt.tsx";
 
 export default function Mission() {

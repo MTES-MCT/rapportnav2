@@ -9,7 +9,7 @@ import {useParams} from 'react-router-dom'
 import omit from 'lodash/omit'
 import {Stack} from 'rsuite'
 import EnvInfractionNewTargetForm from './env-infraction-new-target-form'
-import {GET_MISSION_TIMELINE} from "../timeline/use-misison-timeline.tsx";
+import {GET_MISSION_TIMELINE} from "../timeline/use-mission-timeline.tsx";
 
 export interface EnvInfractionNewTargetProps {
     availableControlTypesForInfraction?: ControlType[]

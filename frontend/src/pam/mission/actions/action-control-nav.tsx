@@ -30,7 +30,7 @@ import ControlNavigationForm from '../controls/control-navigation-form'
 import ControlGensDeMerForm from '../controls/control-gens-de-mer-form'
 import ControlSecurityForm from '../controls/control-security-form'
 import {VESSEL_SIZE_OPTIONS, controlMethodToHumanString, vesselTypeToHumanString} from '../controls/utils'
-import {GET_MISSION_TIMELINE} from "../timeline/use-misison-timeline.tsx";
+import {GET_MISSION_TIMELINE} from "../timeline/use-mission-timeline.tsx";
 import useActionById from "./use-action-by-id.tsx";
 
 interface ActionControlNavProps {

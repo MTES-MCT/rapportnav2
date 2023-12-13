@@ -9,7 +9,7 @@ import {GET_MISSION_BY_ID, MUTATION_ADD_OR_UPDATE_INFRACTION, MUTATION_DELETE_IN
 import {useMutation} from '@apollo/client'
 import {useParams} from 'react-router-dom'
 import omit from 'lodash/omit'
-import {GET_MISSION_TIMELINE} from "../timeline/use-misison-timeline.tsx";
+import {GET_MISSION_TIMELINE} from "../timeline/use-mission-timeline.tsx";
 import {GET_ACTION_BY_ID} from "../actions/use-action-by-id.tsx";
 
 export interface ControlInfractionProps {

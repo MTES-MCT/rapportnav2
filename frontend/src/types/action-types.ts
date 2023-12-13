@@ -4,7 +4,7 @@ import {
     ControlGensDeMer,
     ControlMethod,
     ControlNavigation,
-    ControlSecurity
+    ControlSecurity, ControlType
 } from './control-types'
 import {ControlUnit} from './control-unit-types'
 import {
@@ -30,6 +30,8 @@ export type Action = {
     status: ActionStatusType
     startDateTimeUtc?: string
     endDateTimeUtc?: string
+    summaryTags?: string[]
+    controlsToComplete?: ControlType[]
     data: [EnvAction | FishAction | ActionStatus | ActionControl]
 }
 

@@ -17,6 +17,7 @@ data class Action(
     val source: MissionSourceEnum,
     val startDateTimeUtc: ZonedDateTime?,
     val endDateTimeUtc: ZonedDateTime?,
+    val summaryTags: List<String>? = null,
     val data: ActionData?
 ) {
 

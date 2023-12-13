@@ -3,15 +3,19 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum.CONTROL
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum.SURVEILLANCE
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetEnvActionByIdAndMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetFishActionByIdAndMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsByActionId
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionControlInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionStatusInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.*
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Infraction
 import org.slf4j.LoggerFactory
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
@@ -31,6 +35,7 @@ class ActionController(
     private val getFishActionByIdAndMissionId: GetFishActionByIdAndMissionId,
     private val getEnvActionByIdAndMissionId: GetEnvActionByIdAndMissionId,
     private val getNavActionByIdAndMissionId: GetNavActionByIdAndMissionId,
+    private val getInfractionsByActionId: GetInfractionsByActionId
 ) {
 
     private val logger = LoggerFactory.getLogger(ActionController::class.java)
@@ -165,6 +170,56 @@ class ActionController(
             }
         }
         return ActionType.OTHER
+    }
+
+    @SchemaMapping(typeName = "Action", field = "summaryTags")
+    fun getActionSummaryTags(action: Action): List<String>? {
+        if (action.data is NavActionControl || action.data is FishActionData || action.data is EnvActionData) {
+            val navInfractions = getInfractionsByActionId.execute(actionId = action.id.toString())
+                .map { Infraction.fromInfractionEntity(it) }
+            var tags: List<String> = listOf()
+            val navTags: List<String>? = navInfractions.map { navInfraction ->
+                navInfraction.infractionType?.let { infractionType ->
+                    return@let when (InfractionTypeEnum.valueOf(infractionType)) {
+                        InfractionTypeEnum.WITHOUT_REPORT -> {
+                            "RAS"
+                        }
+
+                        InfractionTypeEnum.WITH_REPORT -> {
+                            "Avec PV"
+                        }
+
+                        InfractionTypeEnum.WAITING -> {
+                            "PV en attente"
+                        }
+
+                        else -> {
+                            "RAS"
+                        }
+                    }
+                }
+            }.orEmpty().filterNotNull()
+
+            return when (action.data) {
+                is NavActionControl -> {
+                    navTags
+                }
+
+                is EnvActionData -> {
+                    navTags
+                }
+
+                is FishActionData -> {
+                    navTags
+                }
+
+                else -> {
+                    null
+                }
+            }
+        }
+
+        return null
     }
 
 }

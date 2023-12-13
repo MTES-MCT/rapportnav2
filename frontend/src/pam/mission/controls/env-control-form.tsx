@@ -20,7 +20,7 @@ import omit from 'lodash/omit'
 import {useParams} from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
 import {useEffect, useState} from 'react'
-import {GET_MISSION_TIMELINE} from "../timeline/use-misison-timeline.tsx";
+import {GET_MISSION_TIMELINE} from "../timeline/use-mission-timeline.tsx";
 import {GET_ACTION_BY_ID} from "../actions/use-action-by-id.tsx";
 
 export interface EnvControlFormProps {
