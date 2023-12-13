@@ -122,7 +122,6 @@ export const GET_ACTION_BY_ID = gql`
                     vehicleType
                     controlsToComplete
                     availableControlTypesForInfraction
-                    remainingControlTypesForInfraction
                     geom
                     themes {
                         theme

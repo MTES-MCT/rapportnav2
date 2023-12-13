@@ -131,7 +131,6 @@ export const GET_MISSION_BY_ID = gql`
                         vehicleType
                         controlsToComplete
                         availableControlTypesForInfraction
-                        remainingControlTypesForInfraction
                         themes {
                             theme
                             subThemes
@@ -139,6 +138,8 @@ export const GET_MISSION_BY_ID = gql`
                         infractions {
                             vesselIdentifier
                             vesselType
+                            targetAddedInRapportNav
+                            controlTypesWithInfraction
                             infractions {
                                 id
                                 controlType
