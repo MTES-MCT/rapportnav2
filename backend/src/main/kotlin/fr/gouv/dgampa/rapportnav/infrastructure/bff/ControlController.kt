@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.AddOrUpdateControl
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.DeleteControlByActionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.AddOrUpdateControl
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.DeleteControlByActionId
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control.ControlAdministrativeInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control.ControlGensDeMerInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control.ControlNavigationInput
@@ -43,7 +43,11 @@ class ControlController(
     @MutationMapping
     fun addOrUpdateControlAdministrative(@Argument control: ControlAdministrativeInput): ControlAdministrative {
         val data = control.toControlAdministrativeEntity()
-        return ControlAdministrative.fromControlAdministrativeEntity(addOrUpdateControl.addOrUpdateControlAdministrative(data))!!
+        return ControlAdministrative.fromControlAdministrativeEntity(
+            addOrUpdateControl.addOrUpdateControlAdministrative(
+                data
+            )
+        )!!
     }
 
 
@@ -52,22 +56,24 @@ class ControlController(
         val savedData = deleteControlByActionId.deleteControlAdministrative(actionId = actionId)
         return savedData
     }
+
     @MutationMapping
     fun deleteControlSecurity(@Argument actionId: UUID): Boolean {
         val savedData = deleteControlByActionId.deleteControlSecurity(actionId = actionId)
         return savedData
     }
+
     @MutationMapping
     fun deleteControlNavigation(@Argument actionId: UUID): Boolean {
         val savedData = deleteControlByActionId.deleteControlNavigation(actionId = actionId)
         return savedData
     }
+
     @MutationMapping
     fun deleteControlGensDeMer(@Argument actionId: UUID): Boolean {
         val savedData = deleteControlByActionId.deleteControlGensDeMer(actionId = actionId)
         return savedData
     }
-
 
 
 }

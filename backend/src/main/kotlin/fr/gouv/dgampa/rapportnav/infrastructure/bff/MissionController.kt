@@ -1,10 +1,10 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.*
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.GeneralInfo.AddOrUpdateMissionGeneralInfo
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.GeneralInfo.GetMissionGeneralInfoByMissionId
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.crew.GetServiceById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.AddOrUpdateMissionGeneralInfo
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.generalInfo.MissionGeneralInfoInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.Mission
@@ -14,6 +14,9 @@ import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
+import java.time.Instant
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 
 @Controller
@@ -26,25 +29,19 @@ class MissionController(
     private val updateEnvMission: UpdateEnvMission,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val addOrUpdateMissionGeneralInfo: AddOrUpdateMissionGeneralInfo,
-    private val getServiceById: GetServiceById,
+    private val getControlUnitsForUser: GetControlUnitsForUser,
 ) {
 
     @QueryMapping
     fun missions(): List<Mission> {
 
-        // get which controlUnit is the user linked to
-        val user = getUserFromToken.execute()
-        val service = user?.serviceId?.let { serviceId ->
-            getServiceById.execute(user.serviceId)
-        }
-
         // query with the following filters
         return getEnvMissions.execute(
-            startedAfterDateTime = null,
+            startedAfterDateTime = ZonedDateTime.of(2023, 1, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
             startedBeforeDateTime = null,
             pageNumber = null,
             pageSize = null,
-            controlUnits = service?.controlUnits
+            controlUnits = getControlUnitsForUser.execute()
         ).map { Mission.fromMissionEntity(it) }
     }
 

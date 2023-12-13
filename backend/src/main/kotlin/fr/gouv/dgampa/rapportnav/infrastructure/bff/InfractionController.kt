@@ -1,9 +1,9 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEnvTargetEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.infraction.AddOrUpdateInfraction
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.infraction.DeleteInfraction
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.infraction.GetInfractionById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.AddOrUpdateInfraction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.DeleteInfraction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionById
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.infraction.InfractionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.infraction.InfractionWithNewTargetInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Infraction
@@ -32,8 +32,7 @@ class InfractionController(
         return try {
             deleteInfraction.execute(id = UUID.fromString(id))
             true
-        }
-        catch (exception: Exception) {
+        } catch (exception: Exception) {
 //            TODO add logs
             false
         }
@@ -57,8 +56,6 @@ class InfractionController(
         val infractionEntity = addOrUpdateInfraction.execute(input)
         return Infraction.fromInfractionEntity(infractionEntity)
     }
-
-
 
 
 }

@@ -1,13 +1,9 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.control.GetControlByActionId
-import fr.gouv.dgampa.rapportnav.domain.use_cases.missions.infraction.GetInfractionsForActionControlEnv
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.GetControlByActionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsForActionControlEnv
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.EnvActionData
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlAdministrative
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlGensDeMer
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlNavigation
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlSecurity
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Infraction
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.InfractionsByVessel
 import org.springframework.graphql.data.method.annotation.SchemaMapping
