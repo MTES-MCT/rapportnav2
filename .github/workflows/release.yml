@@ -1,10 +1,10 @@
 name: "Release"
 
 on:
-  # push:
-  #   branches: ["main"]
+  push:
+    branches: [ "main" ]
   release:
-    types: [published]
+    types: [ published ]
 
 jobs:
   publish-release:
