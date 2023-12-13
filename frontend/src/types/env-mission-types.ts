@@ -401,7 +401,8 @@ export type NewEnvActionControl = EnvActionCommonProperties & {
 }
 export type EnvActionControl = NewEnvActionControl & {
     actionTargetType: string
-    availableControlTypes?: ControlType[]
+    availableControlTypesForInfraction?: ControlType[]
+    remainingControlTypesForInfraction?: ControlType[]
     controlsToComplete?: ControlType[]
     controlAdministrative?: ControlAdministrative
     controlNavigation?: ControlNavigation

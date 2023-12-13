@@ -59,7 +59,6 @@ export const GET_ACTION_BY_ID = gql`
                     feedbackSheetRequired
                     userTrigram
                     controlsToComplete
-                    availableControlTypes
                     controlAdministrative {
                         id
                         amountOfControls
@@ -122,7 +121,8 @@ export const GET_ACTION_BY_ID = gql`
                     actionTargetType
                     vehicleType
                     controlsToComplete
-                    availableControlTypes
+                    availableControlTypesForInfraction
+                    remainingControlTypesForInfraction
                     geom
                     themes {
                         theme
@@ -131,6 +131,8 @@ export const GET_ACTION_BY_ID = gql`
                     infractions {
                         vesselIdentifier
                         vesselType
+                        targetAddedInRapportNav
+                        controlTypesWithInfraction
                         infractions {
                             id
                             controlType

@@ -45,22 +45,4 @@ class ActionFishController(
 
         return controlsToCompleteList.ifEmpty { null }
     }
-
-    @SchemaMapping(typeName = "FishActionData", field = "availableControlTypes")
-    fun getPossibleControlTypes(action: FishActionData): List<ControlType>? {
-        return listOf(
-            ControlType.ADMINISTRATIVE.takeIf {
-                action.isAdministrativeControl == true
-            },
-            ControlType.NAVIGATION.takeIf {
-                action.isComplianceWithWaterRegulationsControl == true
-            },
-            ControlType.SECURITY.takeIf {
-                action.isSafetyEquipmentAndStandardsComplianceControl == true
-            },
-            ControlType.GENS_DE_MER.takeIf {
-                action.isSeafarersControl == true
-            }
-        ).mapNotNull { it }
-    }
 }

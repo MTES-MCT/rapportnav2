@@ -9,7 +9,8 @@ import {
 import {NumberInput, TextInput} from '@mtes-mct/monitor-ui'
 import {useMutation} from '@apollo/client'
 import {
-    GET_MISSION_BY_ID,
+    DELETE_CONTROL_ADMINISTRATIVE, DELETE_CONTROL_GENS_DE_MER, DELETE_CONTROL_NAVIGATION,
+    DELETE_CONTROL_SECURITY,
     MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE,
     MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER,
     MUTATION_ADD_OR_UPDATE_CONTROL_NAVIGATION,
@@ -20,6 +21,7 @@ import {useParams} from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
 import {useEffect, useState} from 'react'
 import {GET_MISSION_TIMELINE} from "../timeline/use-misison-timeline.tsx";
+import {GET_ACTION_BY_ID} from "../actions/use-action-by-id.tsx";
 
 export interface EnvControlFormProps {
     controlType: ControlType
@@ -51,15 +53,40 @@ const EnvControlForm: React.FC<EnvControlFormProps> = ({
     }
 
     const mutations = {
-        [ControlType.ADMINISTRATIVE]: MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE,
-        [ControlType.NAVIGATION]: MUTATION_ADD_OR_UPDATE_CONTROL_NAVIGATION,
-        [ControlType.SECURITY]: MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY,
-        [ControlType.GENS_DE_MER]: MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER
+        [ControlType.ADMINISTRATIVE]: {
+            addOrUpdate: MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE,
+            delete: DELETE_CONTROL_ADMINISTRATIVE
+        },
+        [ControlType.NAVIGATION]: {
+            addOrUpdate: MUTATION_ADD_OR_UPDATE_CONTROL_NAVIGATION,
+            delete: DELETE_CONTROL_NAVIGATION
+        },
+        [ControlType.SECURITY]: {
+            addOrUpdate: MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY,
+            delete: DELETE_CONTROL_SECURITY
+        },
+        [ControlType.GENS_DE_MER]: {
+            addOrUpdate: MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER,
+            delete: DELETE_CONTROL_GENS_DE_MER
+        }
     }
 
-    const [mutate, {statusData, statusLoading, statusError}] = useMutation(mutations[controlType], {
-        refetchQueries: [GET_MISSION_TIMELINE]
+    const [mutate, {statusData, statusLoading, statusError}] = useMutation(mutations[controlType].addOrUpdate, {
+        refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
     })
+
+    const [deleteControl, {deleteData, deleteLoading, deleteError}] = useMutation(mutations[controlType].delete, {
+        refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID],
+    })
+
+    const toggleControl = async (isChecked: boolean) =>
+        isChecked
+            ? onChange()
+            : await deleteControl({
+                variables: {
+                    actionId
+                }
+            })
 
     const onChange = async (field?: string, value?: any) => {
         let updatedData = {
@@ -85,6 +112,7 @@ const EnvControlForm: React.FC<EnvControlFormProps> = ({
                     controlType={controlType}
                     checked={!!data || shouldCompleteControl}
                     shouldCompleteControl={!!shouldCompleteControl && !!!data}
+                    onChange={(isChecked: boolean) => toggleControl(isChecked)}
                 />
             </Stack.Item>
             <Stack.Item style={{width: '100%'}}>
@@ -94,7 +122,6 @@ const EnvControlForm: React.FC<EnvControlFormProps> = ({
                             label="Nb contrôles"
                             name="amountOfControls"
                             value={data?.amountOfControls}
-                            disabled={!shouldCompleteControl && !!!data}
                             max={maxAmountOfControls}
                             isLight={true}
                             onChange={(nextValue?: number) => onChange('amountOfControls', nextValue)}
@@ -104,7 +131,6 @@ const EnvControlForm: React.FC<EnvControlFormProps> = ({
                         <TextInput
                             label="Observations (hors infraction)"
                             name="observations"
-                            disabled={!shouldCompleteControl && !!!data}
                             isLight={true}
                             value={observationsValue}
                             onChange={handleObservationsChange}

@@ -199,13 +199,13 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({action}) => {
                         </Stack.Item>
                         <Stack.Item style={{width: '100%'}}>
                             <EnvInfractionNewTarget
-                                availableControlTypes={actionData?.availableControlTypes}
+                                availableControlTypesForInfraction={actionData?.availableControlTypesForInfraction}
                             />
                         </Stack.Item>
                         <Stack.Item style={{width: '100%'}}>
                             <EnvInfractionExistingTarget
                                 infractionsByTarget={actionData?.infractions}
-                                availableControlTypes={actionData?.availableControlTypes}
+                                availableControlTypesForInfraction={actionData?.availableControlTypesForInfraction}
                             />
                         </Stack.Item>
                     </Stack>

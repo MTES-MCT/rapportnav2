@@ -56,7 +56,7 @@ const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
                 }
             })
 
-    const onChange = (field?: string, value?: any) => {
+    const onChange = async (field?: string, value?: any) => {
         let updatedData = {
             ...omit(data, '__typename', 'infractions'),
             id: data?.id,
@@ -72,7 +72,7 @@ const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
                 [field]: value
             }
         }
-        mutate({variables: {control: updatedData}})
+        await mutate({variables: {control: updatedData}})
     }
     return (
         <Panel

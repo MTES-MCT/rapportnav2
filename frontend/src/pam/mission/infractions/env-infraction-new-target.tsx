@@ -12,11 +12,11 @@ import EnvInfractionNewTargetForm from './env-infraction-new-target-form'
 import {GET_MISSION_TIMELINE} from "../timeline/use-misison-timeline.tsx";
 
 export interface EnvInfractionNewTargetProps {
-    availableControlTypes?: ControlType[]
+    availableControlTypesForInfraction?: ControlType[]
     infractions?: Infraction[]
 }
 
-const EnvInfractionNewTarget: React.FC<EnvInfractionNewTargetProps> = ({availableControlTypes}) => {
+const EnvInfractionNewTarget: React.FC<EnvInfractionNewTargetProps> = ({availableControlTypesForInfraction}) => {
     const {missionId, actionId} = useParams()
 
     const [showInfractionForNewTarget, setShowInfractionForNewTarget] = useState<boolean>(false)
@@ -54,7 +54,7 @@ const EnvInfractionNewTarget: React.FC<EnvInfractionNewTargetProps> = ({availabl
                         <EnvInfractionNewTargetForm
                             infraction={formData}
                             onChange={onChangeFormField}
-                            availableControlTypes={availableControlTypes}
+                            availableControlTypesForInfraction={availableControlTypesForInfraction}
                             onCancel={() => {
                                 setFormData(undefined)
                                 setShowInfractionForNewTarget(false)

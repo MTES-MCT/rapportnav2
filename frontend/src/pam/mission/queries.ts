@@ -67,7 +67,6 @@ export const GET_MISSION_BY_ID = gql`
                         controlQualityComments
                         feedbackSheetRequired
                         userTrigram
-                        availableControlTypes
                         controlsToComplete
                         controlAdministrative {
                             id
@@ -131,7 +130,8 @@ export const GET_MISSION_BY_ID = gql`
                         actionTargetType
                         vehicleType
                         controlsToComplete
-                        availableControlTypes
+                        availableControlTypesForInfraction
+                        remainingControlTypesForInfraction
                         themes {
                             theme
                             subThemes

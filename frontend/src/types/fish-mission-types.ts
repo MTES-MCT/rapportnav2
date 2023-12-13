@@ -87,7 +87,6 @@ export interface FishAction {
     vesselTargeted: ControlCheck | undefined
     // Added by rapportnav:
     controlsToComplete?: ControlType[]
-    availableControlTypes?: ControlType[]
     controlAdministrative?: ControlAdministrative
     controlNavigation?: ControlNavigation
     controlSecurity?: ControlSecurity

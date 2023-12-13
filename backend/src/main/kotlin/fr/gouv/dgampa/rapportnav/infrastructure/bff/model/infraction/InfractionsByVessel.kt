@@ -7,7 +7,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 data class InfractionsByVessel(
     val vesselIdentifier: String? = null,
     val vesselType: VesselTypeEnum? = null,
-    val availableControlTypes: List<ControlType>? = null,
+    val controlTypesWithInfraction: List<ControlType>? = null,
+    val targetAddedInRapportNav: Boolean? = null,
     val infractions: List<Infraction>
 ) {
     fun groupInfractionsByVesselIdentifier(infractions: List<Infraction>): List<InfractionsByVessel> {
@@ -17,7 +18,9 @@ data class InfractionsByVessel(
                 InfractionsByVessel(
                     vesselIdentifier = vesselIdentifier,
                     vesselType = infractions.firstOrNull()?.target?.vesselType,
-                    infractions = infractions
+                    infractions = infractions,
+                    controlTypesWithInfraction = controlTypesWithInfraction,
+                    targetAddedInRapportNav = targetAddedInRapportNav,
                 )
             }
     }

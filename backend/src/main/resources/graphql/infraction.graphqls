@@ -32,6 +32,8 @@ type InfractionTarget {
 type InfractionByTarget {
     vesselIdentifier: String
     vesselType: VesselType
+    controlTypesWithInfraction: [ControlType]
+    targetAddedInRapportNav: Boolean
     infractions: [Infraction]
 }
 

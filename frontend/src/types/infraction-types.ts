@@ -29,6 +29,8 @@ export type InfractionByTarget = {
     vesselIdentifier: string
     vesselType: VesselTypeEnum
     infractions: Infraction[]
+    controlTypesWithInfraction?: ControlType[]
+    targetAddedInRapportNav?: boolean
 }
 
 export type InfractionEnvNewTarget = Infraction & {

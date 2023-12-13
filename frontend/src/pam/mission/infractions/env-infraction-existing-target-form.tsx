@@ -34,7 +34,8 @@ const CONTROL_TYPE_OPTIONS = [
 
 interface EnvInfractionNewTargetFormProps {
     infraction?: Infraction
-    availableControlTypes?: ControlType[]
+    availableControlTypesForInfraction?: ControlType[]
+    targetAddedInRapportNav?: boolean
     availableNatinfs?: string[]
     onChange: (field: string, value: any) => void
     onCancel: () => void
@@ -42,7 +43,8 @@ interface EnvInfractionNewTargetFormProps {
 
 const EnvInfractionNewTargetForm: React.FC<EnvInfractionNewTargetFormProps> = ({
                                                                                    infraction,
-                                                                                   availableControlTypes,
+                                                                                   availableControlTypesForInfraction,
+                                                                                   targetAddedInRapportNav,
                                                                                    availableNatinfs,
                                                                                    onChange,
                                                                                    onCancel
@@ -77,52 +79,68 @@ const EnvInfractionNewTargetForm: React.FC<EnvInfractionNewTargetFormProps> = ({
                     {infraction?.target?.identityControlledPerson}
                 </Text>
             </Stack.Item>
-            <Stack.Item style={{width: '100%'}}>
-                <MultiRadio
-                    isReadOnly={true}
-                    isInline
-                    value={infraction?.target?.infractionType}
-                    label="Type d'infraction"
-                    name="infractionType"
-                    options={transformFormatToOptions(infractionTypeLabels)}
-                />
-            </Stack.Item>
-            <Stack.Item style={{width: '100%'}}>
-                <MultiRadio
-                    isReadOnly={true}
-                    isInline
-                    value={infraction?.target?.formalNotice}
-                    label="Mise en demeure"
-                    name="formalNotice"
-                    options={transformFormatToOptions(formalNoticeLabels)}
-                />
-            </Stack.Item>
+            {
+                !targetAddedInRapportNav && (
+                    <Stack.Item style={{width: '100%'}}>
+                        <MultiRadio
+                            isReadOnly={true}
+                            isInline
+                            value={infraction?.target?.infractionType}
+                            label="Type d'infraction"
+                            name="infractionType"
+                            options={transformFormatToOptions(infractionTypeLabels)}
+                        />
+                    </Stack.Item>
+                )
+            }
+            {
+                !targetAddedInRapportNav && (
+                    <Stack.Item style={{width: '100%'}}>
+                        <MultiRadio
+                            isReadOnly={true}
+                            isInline
+                            value={infraction?.target?.formalNotice}
+                            label="Mise en demeure"
+                            name="formalNotice"
+                            options={transformFormatToOptions(formalNoticeLabels)}
+                        />
+                    </Stack.Item>
+                )
+            }
             <Stack.Item style={{width: '100%'}}>
                 <Legend>NATINF</Legend>
                 <Text as="h3" weight="medium">
                     {'TODO'}
                 </Text>
             </Stack.Item>
-            <Stack.Item style={{width: '100%'}}>
-                <Stack direction="row" spacing={'2rem'}>
-                    <Stack.Item>
-                        <Legend>Tribunal compétent</Legend>
+            {
+                !targetAddedInRapportNav && (
+                    <Stack.Item style={{width: '100%'}}>
+                        <Stack direction="row" spacing={'2rem'}>
+                            <Stack.Item>
+                                <Legend>Tribunal compétent</Legend>
+                                <Text as="h3" weight="medium">
+                                    {infraction?.target?.relevantCourt || '-'}
+                                </Text>
+                            </Stack.Item>
+                            <Stack.Item>
+                                <Legend>&nbsp;</Legend>
+                                <Checkbox value={!!infraction?.target?.toProcess} label="À traiter"/>
+                            </Stack.Item>
+                        </Stack>
+                    </Stack.Item>
+                )
+            }
+            {
+                !targetAddedInRapportNav && (
+                    <Stack.Item style={{width: '100%'}}>
+                        <Legend>Observations</Legend>
                         <Text as="h3" weight="medium">
-                            {infraction?.target?.relevantCourt || '-'}
+                            {infraction?.target?.observations ?? '-'}
                         </Text>
                     </Stack.Item>
-                    <Stack.Item>
-                        <Legend>&nbsp;</Legend>
-                        <Checkbox value={!!infraction?.target?.toProcess} label="À traiter"/>
-                    </Stack.Item>
-                </Stack>
-            </Stack.Item>
-            <Stack.Item style={{width: '100%'}}>
-                <Legend>Observations</Legend>
-                <Text as="h3" weight="medium">
-                    {infraction?.target?.observations ?? '-'}
-                </Text>
-            </Stack.Item>
+                )
+            }
             <Stack.Item style={{width: '100%'}}>
                 <Legend>Ajout d’une infraction pour cette cible</Legend>
                 <Stack
@@ -134,7 +152,7 @@ const EnvInfractionNewTargetForm: React.FC<EnvInfractionNewTargetFormProps> = ({
                         <Select
                             label="Type de contrôle avec infraction"
                             options={CONTROL_TYPE_OPTIONS}
-                            disabledItemValues={getDisabledControlTypes(availableControlTypes)}
+                            disabledItemValues={getDisabledControlTypes(availableControlTypesForInfraction)}
                             value={infraction?.controlType}
                             name="controlType"
                             onChange={(nextValue: OptionValue) => onChange('controlType', nextValue)}

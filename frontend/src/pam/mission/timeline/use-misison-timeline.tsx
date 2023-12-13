@@ -24,7 +24,6 @@ export const GET_MISSION_TIMELINE = gql`
                         vesselId
                         vesselName
                         controlsToComplete
-                        availableControlTypes
                     }
                     ... on EnvActionData {
                         id
@@ -32,7 +31,6 @@ export const GET_MISSION_TIMELINE = gql`
                         actionTargetType
                         vehicleType
                         controlsToComplete
-                        availableControlTypes
                         themes {
                             theme
                         }

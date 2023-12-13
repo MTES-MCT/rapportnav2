@@ -16,12 +16,12 @@ import EnvInfractionExistingTargetForm from './env-infraction-existing-target-fo
 import {GET_MISSION_TIMELINE} from "../timeline/use-misison-timeline.tsx";
 
 export interface EnvInfractionExistingTargetProps {
-    availableControlTypes?: ControlType[]
+    availableControlTypesForInfraction?: ControlType[]
     infractionsByTarget?: InfractionByTarget[]
 }
 
 const EnvInfractionExistingTarget: React.FC<EnvInfractionExistingTargetProps> = ({
-                                                                                     availableControlTypes,
+                                                                                     availableControlTypesForInfraction,
                                                                                      infractionsByTarget
                                                                                  }) => {
     const {missionId, actionId} = useParams()
@@ -91,7 +91,10 @@ const EnvInfractionExistingTarget: React.FC<EnvInfractionExistingTargetProps> = 
                                             setFormData(undefined)
                                             setSelectedVessel(undefined)
                                         }}
-                                        availableControlTypes={availableControlTypes}
+                                        targetAddedInRapportNav={infractionByTarget.targetAddedInRapportNav}
+                                        availableControlTypesForInfraction={
+                                            availableControlTypesForInfraction?.filter(controlType => !infractionByTarget.controlTypesWithInfraction?.includes(controlType))
+                                        }
                                     />
                                 </form>
                             </>
