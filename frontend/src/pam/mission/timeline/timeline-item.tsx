@@ -9,7 +9,7 @@ import {
 } from '../../../types/env-mission-types'
 import {FlexboxGrid, Stack} from 'rsuite'
 import {Action, ActionControl, ActionStatus as NavActionStatus} from '../../../types/action-types'
-import {FishAction} from '../../../types/fish-mission-types'
+import {FishAction, formatMissionActionTypeForHumans} from '../../../types/fish-mission-types'
 import {StatusColorTag} from '../status/status-selection-dropdown'
 import {mapStatusToText, statusReasonToHumanString} from '../status/utils'
 import {controlMethodToHumanString, vesselTypeToHumanString} from '../controls/utils'
@@ -150,18 +150,9 @@ const ActionFishControl: React.FC<{ action: Action; onClick: any }> = ({action, 
                     <Stack.Item alignSelf="flex-start" style={{width: '100%'}}>
                         <Stack direction="column" spacing="0.5rem" alignItems="flex-start" style={{width: '100%'}}>
                             <Stack.Item>
-                                <Stack direction="row" spacing="0.25rem">
-                                    <Stack.Item>
-                                        <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-                                            Contrôle
-                                        </Text>
-                                    </Stack.Item>
-                                    <Stack.Item>
-                                        <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-                                            en mer - LE ZORBA
-                                        </Text>
-                                    </Stack.Item>
-                                </Stack>
+                                <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
+                                    {formatMissionActionTypeForHumans(actionData?.actionType)} - {actionData?.vesselName}
+                                </Text>
                             </Stack.Item>
 
                             <Stack.Item alignSelf="flex-start" style={{width: '100%'}}>

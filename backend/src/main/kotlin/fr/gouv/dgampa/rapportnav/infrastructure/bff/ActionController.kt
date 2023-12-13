@@ -4,8 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum.CONTROL
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum.SURVEILLANCE
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetEnvActionByIdAndMissionId
@@ -178,26 +177,8 @@ class ActionController(
             val navInfractions = getInfractionsByActionId.execute(actionId = action.id.toString())
                 .map { Infraction.fromInfractionEntity(it) }
             var tags: List<String> = listOf()
-            val navTags: List<String>? = navInfractions.map { navInfraction ->
-                navInfraction.infractionType?.let { infractionType ->
-                    return@let when (InfractionTypeEnum.valueOf(infractionType)) {
-                        InfractionTypeEnum.WITHOUT_REPORT -> {
-                            "RAS"
-                        }
-
-                        InfractionTypeEnum.WITH_REPORT -> {
-                            "Avec PV"
-                        }
-
-                        InfractionTypeEnum.WAITING -> {
-                            "PV en attente"
-                        }
-
-                        else -> {
-                            "RAS"
-                        }
-                    }
-                }
+            val navTags: List<String> = navInfractions.map {
+                it.infractionType.toString()
             }.orEmpty().filterNotNull()
 
             return when (action.data) {
@@ -206,11 +187,21 @@ class ActionController(
                 }
 
                 is EnvActionData -> {
-                    navTags
+                    val envTags: List<String> = action.data.infractions?.map {
+                        it.infractionType.toString()
+                    }.orEmpty()
+                    navTags + envTags
                 }
 
                 is FishActionData -> {
-                    navTags
+                    val fishTags: List<String> = listOf(
+                        action.data.gearInfractions.map { it.infractionType.toString() },
+                        action.data.logbookInfractions.map { it.infractionType.toString() },
+                        action.data.speciesInfractions.map { it.infractionType.toString() },
+                        action.data.otherInfractions.map { it.infractionType.toString() }
+                    ).flatten().filterNotNull()
+
+                    navTags + fishTags
                 }
 
                 else -> {
