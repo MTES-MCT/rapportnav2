@@ -5,5 +5,5 @@ import java.util.*
 
 data class InfractionNatinfKey(
     var infractionId: UUID,
-    var natinfCode: Int
+    var natinfCode: String
 ) : Serializable

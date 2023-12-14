@@ -1,9 +1,13 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.fish
 
-import kotlinx.serialization.Serializable
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonProperty
 
-@Serializable
+@JsonInclude(JsonInclude.Include.NON_NULL)
 data class ControlResource(
+    @JsonProperty("id")
     val id: Int,
-    val name: String,
+
+    @JsonProperty("name")
+    val name: String
 )

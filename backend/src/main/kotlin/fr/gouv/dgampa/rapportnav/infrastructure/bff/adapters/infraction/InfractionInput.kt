@@ -12,7 +12,7 @@ data class InfractionInput(
     val controlId: String? = null,
     val controlType: String,
     val infractionType: String? = null,
-    val natinfs: List<NatinfInput>? = null,
+    val natinfs: List<String>? = null,
     val observations: String? = null,
 ) {
     fun toInfraction(): Infraction {
@@ -22,7 +22,7 @@ data class InfractionInput(
             actionId = actionId,
             controlId = controlId?.let { UUID.fromString(it) },
             controlType = ControlType.valueOf(controlType),
-            natinfs = natinfs?.map { it.toNatinf() },
+            natinfs = natinfs,
             infractionType = infractionType?.let { InfractionTypeEnum.valueOf(infractionType) },
             observations = observations,
         )

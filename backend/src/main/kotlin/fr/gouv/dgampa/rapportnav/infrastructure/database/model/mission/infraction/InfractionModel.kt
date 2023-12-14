@@ -30,8 +30,13 @@ class InfractionModel(
     @Column(name = "observations", nullable = true)
     var observations: String? = null,
 
-    @OneToMany(mappedBy = "infraction", targetEntity = InfractionNatinfModel::class)
-    var infractions: List<InfractionNatinfModel>? = null,
+    @ElementCollection
+    @CollectionTable(
+        name = "infraction_natinf",
+        joinColumns = [JoinColumn(name = "infraction_id")]
+    )
+    @Column(name = "natinf_code")
+    var natinfs: List<String>? = mutableListOf(),
 
     @ManyToOne
     @JoinColumn(name = "control_id", referencedColumnName = "id")
@@ -58,7 +63,8 @@ class InfractionModel(
             controlType = ControlType.valueOf(controlType),
             infractionType = infractionType?.let { InfractionTypeEnum.valueOf(it) },
             observations = observations,
-            target = target?.map { it.toInfractionEnvTargetEntity() }?.firstOrNull()
+            target = target?.map { it.toInfractionEnvTargetEntity() }?.firstOrNull(),
+            natinfs = natinfs
         )
     }
 
@@ -69,6 +75,7 @@ class InfractionModel(
             actionId = infraction.actionId,
             controlType = infraction.controlType.toString(),
             infractionType = infraction.infractionType?.toString(),
+            natinfs = infraction.natinfs,
             observations = infraction.observations,
             target = infraction.target?.let {
                 listOf(

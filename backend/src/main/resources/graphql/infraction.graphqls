@@ -1,3 +1,7 @@
+extend type Query {
+    natinfs: [Natinf]
+}
+
 extend type Mutation {
     addOrUpdateInfraction(infraction: InfractionInput!): Infraction!
     addOrUpdateInfractionForEnvTarget(
@@ -10,7 +14,7 @@ type Infraction {
     id: String!
     controlType: String
     infractionType: InfractionType
-    natinfs: [Natinf]
+    natinfs: [String]
     observations: String
     target: InfractionTarget
 }
@@ -55,7 +59,7 @@ input InfractionInput {
     controlId: String
     controlType: String!
     infractionType: String
-    natinfs: [NatinfInput]
+    natinfs: [String]
     observations: String
 }
 
@@ -66,15 +70,10 @@ input InfractionWithNewTargetInput {
     controlId: String
     controlType: String!
     infractionType: String
-    natinfs: [NatinfInput]
+    natinfs: [String]
     observations: String
     vesselIdentifier: String!
     identityControlledPerson: String!
     vesselType: VesselType!
     vesselSize: VesselSize!
-}
-
-input NatinfInput {
-    infraction: String!
-    natinfCode: Int!
 }

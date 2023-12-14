@@ -14,7 +14,7 @@ data class InfractionWithNewTargetInput(
     val actionId: String,
     val controlId: String? = null,
     val infractionType: String? = null,
-    val natinfs: List<NatinfInput>? = null,
+    val natinfs: List<String>? = null,
     val observations: String? = null,
     val controlType: String,
     val vesselIdentifier: String,
@@ -42,7 +42,7 @@ data class InfractionWithNewTargetInput(
             controlId = controlId?.let { UUID.fromString(it) },
             controlType = ControlType.valueOf(controlType),
             infractionType = infractionType?.let { InfractionTypeEnum.valueOf(it) },
-//            natinfs = natinfs?.map { it.toNatinfEntity() } ?: emptyList(),
+            natinfs = natinfs,
             observations = observations,
             target = newTarget
         )

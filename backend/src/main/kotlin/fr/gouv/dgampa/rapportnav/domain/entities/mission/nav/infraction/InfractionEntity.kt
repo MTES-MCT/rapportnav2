@@ -13,6 +13,6 @@ data class InfractionEntity(
     var controlType: ControlType? = null,
     val infractionType: InfractionTypeEnum? = null,
     var observations: String? = null,
-    var natinfs: List<NatinfEntity>? = null,
+    var natinfs: List<String>? = null,
     var target: InfractionEnvTargetEntity? = null
 )

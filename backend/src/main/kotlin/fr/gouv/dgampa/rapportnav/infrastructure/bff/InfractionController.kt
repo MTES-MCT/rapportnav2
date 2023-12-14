@@ -4,11 +4,15 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.Infracti
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.AddOrUpdateInfraction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.DeleteInfraction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetNatinfs
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.infraction.InfractionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.infraction.InfractionWithNewTargetInput
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.crew.AgentRole
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Infraction
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Natinf
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
+import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.stereotype.Controller
 import java.util.*
 
@@ -17,8 +21,14 @@ import java.util.*
 class InfractionController(
     private val addOrUpdateInfraction: AddOrUpdateInfraction,
     private val deleteInfraction: DeleteInfraction,
-    private val getInfractionById: GetInfractionById
+    private val getInfractionById: GetInfractionById,
+    private val getNatinfs: GetNatinfs,
 ) {
+
+    @QueryMapping
+    fun natinfs(): List<Natinf> {
+        return getNatinfs.execute().map { Natinf.fromNatinfEntity(it) }
+    }
 
     @MutationMapping
     fun addOrUpdateInfraction(@Argument infraction: InfractionInput): Infraction? {

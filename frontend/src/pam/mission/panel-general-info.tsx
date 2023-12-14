@@ -27,9 +27,10 @@ const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({missio
                 <FlexboxGrid.Item style={{width: '100%'}}>
                     <Stack direction="column" alignItems="flex-start" spacing="2rem" style={{width: '100%'}}>
                         <Stack.Item style={{width: '100%'}}>
+                            <Label>Dates du rapport</Label>
                             <DateRangePicker
                                 defaultValue={[mission.startDateTimeUtc || new Date(), mission.endDateTimeUtc || new Date()]}
-                                label="Dates du rapport"
+                                // label="Dates du rapport"
                                 withTime={true}
                                 isCompact={true}
                                 readOnly={true}

@@ -70,6 +70,7 @@ export const GET_ACTION_BY_ID = gql`
                         observations
                         infractions {
                             id
+                            natinfs
                             infractionType
                             observations
                         }
@@ -85,6 +86,7 @@ export const GET_ACTION_BY_ID = gql`
                         observations
                         infractions {
                             id
+                            natinfs
                             infractionType
                             observations
                         }
@@ -97,6 +99,7 @@ export const GET_ACTION_BY_ID = gql`
                         observations
                         infractions {
                             id
+                            natinfs
                             infractionType
                             observations
                         }
@@ -109,6 +112,7 @@ export const GET_ACTION_BY_ID = gql`
                         observations
                         infractions {
                             id
+                            natinfs
                             infractionType
                             observations
                         }
@@ -134,6 +138,7 @@ export const GET_ACTION_BY_ID = gql`
                         controlTypesWithInfraction
                         infractions {
                             id
+                            natinfs
                             controlType
                             observations
                             infractionType
@@ -200,6 +205,7 @@ export const GET_ACTION_BY_ID = gql`
                         observations
                         infractions {
                             id
+                            natinfs
                             infractionType
                             observations
                         }
@@ -215,6 +221,7 @@ export const GET_ACTION_BY_ID = gql`
                         observations
                         infractions {
                             id
+                            natinfs
                             infractionType
                             observations
                         }
@@ -227,6 +234,7 @@ export const GET_ACTION_BY_ID = gql`
                         observations
                         infractions {
                             id
+                            natinfs
                             infractionType
                             observations
                         }
@@ -239,6 +247,7 @@ export const GET_ACTION_BY_ID = gql`
                         observations
                         infractions {
                             id
+                            natinfs
                             infractionType
                             observations
                         }

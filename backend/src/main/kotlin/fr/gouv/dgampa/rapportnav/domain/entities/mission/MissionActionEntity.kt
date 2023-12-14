@@ -1,22 +1,26 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.Serializable
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
+import com.fasterxml.jackson.annotation.JsonTypeName
 
-
-@Serializable
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes(
+    JsonSubTypes.Type(value = MissionActionEntity.EnvAction::class, name = "env"),
+    JsonSubTypes.Type(value = MissionActionEntity.FishAction::class, name = "fish"),
+    JsonSubTypes.Type(value = MissionActionEntity.NavAction::class, name = "nav")
+)
 sealed class MissionActionEntity {
-    @Serializable
-    data class EnvAction(@Contextual val envAction: ExtendedEnvActionEntity?) : MissionActionEntity()
+    @JsonTypeName("env")
+    data class EnvAction(val envAction: ExtendedEnvActionEntity?) : MissionActionEntity()
 
-    @Serializable
-    data class FishAction(@Contextual val fishAction: ExtendedFishActionEntity) : MissionActionEntity()
+    @JsonTypeName("fish")
+    data class FishAction(val fishAction: ExtendedFishActionEntity) : MissionActionEntity()
 
-    @Serializable
-    data class NavAction(@Contextual val navAction: NavActionEntity) : MissionActionEntity()
+    @JsonTypeName("nav")
+    data class NavAction(val navAction: NavActionEntity) : MissionActionEntity()
 }
+

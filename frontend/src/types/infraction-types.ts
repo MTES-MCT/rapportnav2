@@ -5,7 +5,7 @@ export type Infraction = {
     id: string
     controlType: ControlType
     infractionType?: InfractionTypeEnum
-    infractions: Natinf[]
+    natinfs?: string[]
     observations?: string
     target?: InfractionTarget
 }

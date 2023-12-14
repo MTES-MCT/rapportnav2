@@ -5,6 +5,7 @@ import Text from '../../../ui/text'
 import {controlTitle, vesselTypeToHumanString} from '../controls/utils'
 import {Infraction, InfractionByTarget} from '../../../types/infraction-types'
 import InfractionTypeTag from './infraction-type-tag.tsx'
+import NatinfsTag from "./natinfs-tag.tsx";
 
 interface EnvInfractionSummaryProps {
     infractionByTarget?: InfractionByTarget
@@ -56,12 +57,16 @@ const EnvInfractionSummary: React.FC<EnvInfractionSummaryProps> = ({
                                             : controlTitle(infraction.controlType)}
                                     </Text>
                                 </Stack.Item>
-                                {[1].map((aa: any) => (
-                                    <Stack.Item key={aa}>
-                                        <InfractionTypeTag type={infraction.infractionType}/>
-                                        {/*{!!infraction.infractions ? <InfractionTypeTag text="Avec NATINF"/> : null}*/}
-                                    </Stack.Item>
-                                ))}
+                                <Stack.Item>
+                                    <Stack direction='row' spacing={'0.5rem'}>
+                                        <Stack.Item>
+                                            <InfractionTypeTag type={infraction.infractionType}/>
+                                        </Stack.Item>
+                                        <Stack.Item>
+                                            <NatinfsTag natinfs={infraction.natinfs}/>
+                                        </Stack.Item>
+                                    </Stack>
+                                </Stack.Item>
                             </Stack>
                         </Stack.Item>
                         {infraction.controlType !== null && (

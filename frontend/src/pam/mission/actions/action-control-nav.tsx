@@ -105,7 +105,6 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
                     endDateTimeUtc
                 }
             } else if (field == 'geom') {
-                debugger
                 updatedField = {
                     latitude: value[0],
                     longitude: value[1]

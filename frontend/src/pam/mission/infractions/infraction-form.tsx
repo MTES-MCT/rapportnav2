@@ -4,9 +4,18 @@ import {Accent, Button, Size, THEME, MultiSelect, Textarea} from '@mtes-mct/moni
 import Text from '../../../ui/text'
 import {Infraction} from '../../../types/infraction-types'
 import {InfractionTypeEnum} from '../../../types/env-mission-types'
+import NatinfsMultiSelect from "./natinfs-multi-select.tsx";
+import {ControlType} from "../../../types/control-types.ts";
+
+export interface InfractionFormData {
+    controlType?: ControlType
+    infractionType?: InfractionTypeEnum
+    natinfs?: number[]
+    observations?: string
+}
 
 interface InfractionFormProps {
-    infraction?: Infraction
+    infraction?: InfractionFormData
     availableNatinfs?: string[]
     onChange: (field: string, value: any) => void
     onCancel: () => void
@@ -39,29 +48,8 @@ const InfractionForm: React.FC<InfractionFormProps> = ({infraction, availableNat
                     </Stack>
                 </Stack.Item>
                 <Stack.Item style={{width: '100%'}}>
-                    <MultiSelect
-                        error=""
-                        label="NATINF"
-                        name="natinfs"
-                        onChange={function noRefCheck() {
-                        }}
-                        options={[
-                            {
-                                label: 'First Option',
-                                value: 'FIRST_OPTION'
-                            },
-                            {
-                                label: 'Second Option',
-                                value: 'SECOND_OPTION'
-                            },
-                            {
-                                label: 'Third Option',
-                                value: 'THIRD_OPTION'
-                            }
-                        ]}
-                        placeholder=""
-                        searchable
-                    />
+                    <NatinfsMultiSelect onChange={onChange}
+                                        selectedNatinfs={infraction?.natinfs}/>
                 </Stack.Item>
                 <Stack.Item style={{width: '100%'}}>
                     <Textarea

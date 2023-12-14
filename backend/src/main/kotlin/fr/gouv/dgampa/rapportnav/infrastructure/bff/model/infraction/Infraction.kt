@@ -12,7 +12,7 @@ data class Infraction(
     val controlId: UUID? = null,
     val controlType: ControlType? = null,
     val infractionType: InfractionTypeEnum? = null,
-    val natinfs: List<Natinf>? = null,
+    val natinfs: List<String>? = null,
     val observations: String? = null,
     val target: InfractionTarget? = null,
 
@@ -31,7 +31,7 @@ data class Infraction(
             controlId = controlId,
             controlType = controlType,
             infractionType = infractionType,
-            natinfs = natinfs?.map { it.toNatinfEntity() },
+            natinfs = natinfs,
             observations = observations,
         )
     }
@@ -44,7 +44,7 @@ data class Infraction(
             controlId = infraction.controlId,
             controlType = infraction.controlType,
             infractionType = infraction.infractionType,
-            natinfs = infraction.natinfs?.map { Natinf.fromNatinfEntity(it) },
+            natinfs = infraction.natinfs,
             observations = infraction.observations,
             target = InfractionTarget.fromInfractionEntity(infraction)
         )
@@ -58,8 +58,7 @@ data class Infraction(
 //            actionId = infraction.actionId,
                 controlType = null,
                 infractionType = infraction.infractionType,
-//            natinfs = infraction.natinfs?.map{ Natinf.fromNatinfEntity(it) },
-                natinfs = listOf(),
+                natinfs = infraction.natinf,
                 observations = infraction.observations,
                 target = InfractionTarget.fromEnvInfractionEntity(infraction)
 

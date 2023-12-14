@@ -79,6 +79,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
+                                natinfs
                                 infractionType
                                 observations
                             }
@@ -94,6 +95,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
+                                natinfs
                                 infractionType
                                 observations
                             }
@@ -106,6 +108,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
+                                natinfs
                                 infractionType
                                 observations
                             }
@@ -118,6 +121,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
+                                natinfs
                                 infractionType
                                 observations
                             }
@@ -145,6 +149,7 @@ export const GET_MISSION_BY_ID = gql`
                                 controlType
                                 observations
                                 infractionType
+                                natinfs
                                 target {
                                     formalNotice
                                     companyName
@@ -208,6 +213,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
+                                natinfs
                                 infractionType
                                 observations
                             }
@@ -223,6 +229,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
+                                natinfs
                                 infractionType
                                 observations
                             }
@@ -235,6 +242,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
+                                natinfs
                                 infractionType
                                 observations
                             }
@@ -247,6 +255,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
+                                natinfs
                                 infractionType
                                 observations
                             }
@@ -384,6 +393,10 @@ export const MUTATION_ADD_OR_UPDATE_INFRACTION = gql`
     mutation AddOrUpdateInfraction($infraction: InfractionInput!) {
         addOrUpdateInfraction(infraction: $infraction) {
             id
+            controlType
+            infractionType
+            natinfs
+            observations
         }
     }
 `
@@ -398,6 +411,17 @@ export const MUTATION_ADD_OR_UPDATE_INFRACTION_ENV = gql`
     mutation AddOrUpdateInfractionForEnvTarget($infraction: InfractionWithNewTargetInput!) {
         addOrUpdateInfractionForEnvTarget(infraction: $infraction) {
             id
+            controlType
+            infractionType
+            natinfs
+            observations
+            target {
+                id
+                identityControlledPerson
+                vesselIdentifier
+                vesselSize
+                vesselType
+            }
         }
     }
 `

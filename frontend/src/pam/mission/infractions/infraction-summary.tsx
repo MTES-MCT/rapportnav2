@@ -6,6 +6,7 @@ import {ControlType} from '../../../types/control-types'
 import {Infraction} from '../../../types/infraction-types'
 import {infractionTitleForControlType} from './utils'
 import InfractionTypeTag from './infraction-type-tag.tsx'
+import NatinfsTag from "./natinfs-tag.tsx";
 
 interface InfractionSummaryProps {
     controlType: ControlType
@@ -50,8 +51,14 @@ const InfractionSummary: React.FC<InfractionSummaryProps> = ({infractions, contr
                         </Stack>
                     </Stack.Item>
                     <Stack.Item style={{width: '100%'}}>
-                        <InfractionTypeTag type={infraction.infractionType}/>
-                        {/*{!!infraction.infractions ? <InfractionTypeTag text="Avec NATINF"/> : null}*/}
+                        <Stack direction='row' spacing={'0.5rem'}>
+                            <Stack.Item>
+                                <InfractionTypeTag type={infraction.infractionType}/>
+                            </Stack.Item>
+                            <Stack.Item>
+                                <NatinfsTag natinfs={infraction.natinfs}/>
+                            </Stack.Item>
+                        </Stack>
                     </Stack.Item>
                     <Stack.Item style={{width: '100%'}}>
                         <Text

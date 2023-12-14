@@ -3,9 +3,9 @@ import {Accent, Button, Icon, Label, Size, THEME} from '@mtes-mct/monitor-ui'
 import {ControlType} from '../../../types/control-types'
 import {Infraction} from '../../../types/infraction-types'
 import InfractionSummary from './infraction-summary'
-import InfractionForm from './infraction-form'
+import InfractionForm, {InfractionFormData} from './infraction-form'
 import {infractionButtonTitle} from './utils'
-import {GET_MISSION_BY_ID, MUTATION_ADD_OR_UPDATE_INFRACTION, MUTATION_DELETE_INFRACTION} from '../queries'
+import {MUTATION_ADD_OR_UPDATE_INFRACTION, MUTATION_DELETE_INFRACTION} from '../queries'
 import {useMutation} from '@apollo/client'
 import {useParams} from 'react-router-dom'
 import omit from 'lodash/omit'
@@ -22,13 +22,14 @@ const ControlInfraction: React.FC<ControlInfractionProps> = ({controlId, control
     const {missionId, actionId} = useParams()
 
     const [showInfractionForm, setShowInfractionForm] = useState<boolean>(false)
-    const [formData, setFormData] = useState<Infraction | undefined>(undefined) // only 1 infraction for nav and fish
+    const [formData, setFormData] = useState<InfractionFormData | undefined>(undefined) // only 1 infraction for nav and fish
 
     useEffect(() => {
         setFormData(infractions?.[0])
     }, [infractions])
 
     const onChangeFormField = (field: string, value: any) => {
+        debugger
         setFormData((prevData: any) => ({...prevData, [field]: value}))
     }
 

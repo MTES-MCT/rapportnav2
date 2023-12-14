@@ -14,7 +14,7 @@ class InfractionNatinfModel(
 
     @Id
     @Column(name = "natinf_code", nullable = false)
-    var natinfCode: Int,
+    var natinfCode: String,
 
     @ManyToOne
     @JoinColumn(name = "infraction_id")
