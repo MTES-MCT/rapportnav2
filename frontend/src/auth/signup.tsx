@@ -6,6 +6,7 @@ import {Accent, Button, FormikTextInput, Size} from '@mtes-mct/monitor-ui'
 import {Form, Formik, FormikHelpers} from 'formik'
 import {validate} from 'email-validator'
 import {csrfToken} from './csrf'
+import * as Sentry from "@sentry/react";
 
 interface SignUpResponse {
     token: string
@@ -58,7 +59,8 @@ const SignUp: React.FC = () => {
                 navigate('/login', {replace: true})
             }
         } catch (error) {
-            debugger
+            console.log('signup error: ', error)
+            Sentry.captureException(error);
             setStatus('La connexion a échoué. Veuillez vérifier vos identifiants.')
         } finally {
             setSubmitting(false)
