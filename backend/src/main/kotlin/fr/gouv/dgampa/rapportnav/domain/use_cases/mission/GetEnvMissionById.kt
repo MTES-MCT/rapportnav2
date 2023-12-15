@@ -5,36 +5,52 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.ExtendedEnvMissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.EnvMission
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
+import io.sentry.Sentry
+import org.locationtech.jts.geom.Coordinate
+import org.locationtech.jts.geom.Geometry
+import org.locationtech.jts.geom.GeometryFactory
 import org.n52.jackson.datatype.jts.JtsModule
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.time.Instant
+import java.time.ZonedDateTime
+import java.util.*
 
 
 @UseCase
 class GetEnvMissionById(
     private val mapper: ObjectMapper
 ) {
-    fun execute(missionId: Int): ExtendedEnvMissionEntity {
+    fun execute(missionId: Int): ExtendedEnvMissionEntity? {
 
-        val client: HttpClient = HttpClient.newBuilder().build()
-        val request = HttpRequest.newBuilder()
-            .uri(
-                URI.create(
-                    "https://monitorenv.din.developpement-durable.gouv.fr/api/v1/missions/$missionId"
+        try {
+            val client: HttpClient = HttpClient.newBuilder().build()
+            val request = HttpRequest.newBuilder()
+                .uri(
+                    URI.create(
+                        "https://monitorenv.din.developpement-durable.gouv.fr/api/v1/missions/$missionId"
+                    )
                 )
-            )
-            .build();
+                .build();
 
-        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
-        mapper.registerModule(JtsModule())
+            mapper.registerModule(JtsModule())
 
-        val envMission = mapper.readValue(response.body(), object : TypeReference<EnvMission>() {})
-        return ExtendedEnvMissionEntity.fromEnvMission(envMission)
+            val envMission = mapper.readValue(response.body(), object : TypeReference<EnvMission>() {})
+            return ExtendedEnvMissionEntity.fromEnvMission(envMission)
+        } catch (e: Exception) {
+            Sentry.captureException(e)
+            return null
+        }
+
 
 //        val controlTheme1 = ThemeEntity(
 //            theme = "Rejets illicites",
@@ -51,6 +67,7 @@ class GetEnvMissionById(
 //            actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-16T04:50:09Z"),
 //            actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-16T06:50:09Z"),
 //            themes = listOf(controlTheme1),
+//            geom = GeometryFactory().createPoint(Coordinate(52.4, 14.2)),
 //            actionNumberOfControls = 5,
 //            actionTargetType = ActionTargetTypeEnum.VEHICLE,
 //            vehicleType = VehicleTypeEnum.VESSEL,
@@ -80,6 +97,7 @@ class GetEnvMissionById(
 //            actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-19T06:50:09Z"),
 //            themes = listOf(controlTheme1),
 //            actionNumberOfControls = 10,
+//            geom = GeometryFactory().createPoint(Coordinate(52.4, 14.2)),
 //            actionTargetType = null,
 //            vehicleType = null,
 //            observations = null,
@@ -107,27 +125,14 @@ class GetEnvMissionById(
 //            actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-21T04:50:09Z"),
 //            actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-21T06:50:09Z"),
 //            themes = listOf(controlTheme2),
+//            geom = GeometryFactory().createPoint(Coordinate(52.4, 14.2)),
 //            actionNumberOfControls = 8,
 //            actionTargetType = ActionTargetTypeEnum.INDIVIDUAL,
 //            vehicleType = VehicleTypeEnum.VESSEL,
 //            observations = null,
 //            isSafetyEquipmentAndStandardsComplianceControl = true,
 //            isComplianceWithWaterRegulationsControl = true,
-//            infractions = listOf(
-//                InfractionEntity(
-//                    id = "12343",
-//                    natinf = listOf("2593", "27773"),
-//                    registrationNumber = "CCCCCD",
-//                    companyName = "dummy company",
-//                    relevantCourt = "tribunal",
-//                    infractionType = InfractionTypeEnum.WAITING,
-//                    formalNotice = FormalNoticeEnum.PENDING,
-//                    toProcess = true,
-//                    controlledPersonIdentity = "Jean Robert",
-//                    vesselType = VesselTypeEnum.COMMERCIAL,
-//                    vesselSize = VesselSizeEnum.LESS_THAN_12m,
-//                )
-//            ),
+//            infractions = listOf(),
 //        )
 ////        val envMissionActionSurveillance = EnvActionSurveillanceEntity(
 ////            id = UUID.randomUUID(),

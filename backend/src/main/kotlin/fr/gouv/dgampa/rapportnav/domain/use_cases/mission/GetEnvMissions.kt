@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.EnvMission
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
+import io.sentry.Sentry
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.LoggerFactory
 import org.springframework.web.util.UriUtils
@@ -30,67 +31,72 @@ class GetEnvMissions(private val mapper: ObjectMapper) {
         controlUnits: List<Int>? = null
     ): List<MissionEntity> {
 
-        val uriBuilder = StringBuilder("https://monitorenv.din.developpement-durable.gouv.fr/api/v1/missions")
+        try {
+            val uriBuilder = StringBuilder("https://monitorenv.din.developpement-durable.gouv.fr/api/v1/missions")
 
-        // Append query parameters
-        uriBuilder.append("?")
+            // Append query parameters
+            uriBuilder.append("?")
 
-        // Append optional parameters
-        startedAfterDateTime?.let {
-            uriBuilder.append(
-                "startedAfterDateTime=${
-                    UriUtils.encodeQueryParam(
-                        it.toString(),
-                        "UTF-8"
-                    )
-                }&"
-            )
-        }
-        startedBeforeDateTime?.let {
-            uriBuilder.append(
-                "startedBeforeDateTime=${
-                    UriUtils.encodeQueryParam(
-                        it.toString(),
-                        "UTF-8"
-                    )
-                }&"
-            )
-        }
-        pageNumber?.let { uriBuilder.append("pageNumber=${UriUtils.encodeQueryParam(it.toString(), "UTF-8")}&") }
-        pageSize?.let { uriBuilder.append("pageSize=${UriUtils.encodeQueryParam(it.toString(), "UTF-8")}&") }
-
-        // Append controlUnits if present
-        controlUnits?.let {
-            for (controlUnit in it) {
-                uriBuilder.append("controlUnits=${UriUtils.encodeQueryParam(controlUnit.toString(), "UTF-8")}&")
+            // Append optional parameters
+            startedAfterDateTime?.let {
+                uriBuilder.append(
+                    "startedAfterDateTime=${
+                        UriUtils.encodeQueryParam(
+                            it.toString(),
+                            "UTF-8"
+                        )
+                    }&"
+                )
             }
+            startedBeforeDateTime?.let {
+                uriBuilder.append(
+                    "startedBeforeDateTime=${
+                        UriUtils.encodeQueryParam(
+                            it.toString(),
+                            "UTF-8"
+                        )
+                    }&"
+                )
+            }
+            pageNumber?.let { uriBuilder.append("pageNumber=${UriUtils.encodeQueryParam(it.toString(), "UTF-8")}&") }
+            pageSize?.let { uriBuilder.append("pageSize=${UriUtils.encodeQueryParam(it.toString(), "UTF-8")}&") }
+
+            // Append controlUnits if present
+            controlUnits?.let {
+                for (controlUnit in it) {
+                    uriBuilder.append("controlUnits=${UriUtils.encodeQueryParam(controlUnit.toString(), "UTF-8")}&")
+                }
+            }
+
+            // Remove trailing "&" if present
+            if (uriBuilder.endsWith("&")) {
+                uriBuilder.deleteCharAt(uriBuilder.length - 1)
+            }
+
+            // Build the URI
+            val uri = URI.create(uriBuilder.toString())
+
+            val client: HttpClient = HttpClient.newBuilder().build()
+            val request = HttpRequest.newBuilder()
+                .uri(uri)
+                .build();
+
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+
+            mapper.registerModule(JtsModule())
+
+            val envMissions: List<EnvMission> =
+                mapper.readValue(response.body(), object : TypeReference<List<EnvMission>>() {})
+
+            val missions = envMissions.map { MissionEntity(envMission = ExtendedEnvMissionEntity.fromEnvMission(it)) }
+
+            logger.info("Found ${missions.size} missions ")
+
+            return missions
+        } catch (e: Exception) {
+            Sentry.captureException(e)
+            return listOf()
         }
-
-        // Remove trailing "&" if present
-        if (uriBuilder.endsWith("&")) {
-            uriBuilder.deleteCharAt(uriBuilder.length - 1)
-        }
-
-        // Build the URI
-        val uri = URI.create(uriBuilder.toString())
-
-        val client: HttpClient = HttpClient.newBuilder().build()
-        val request = HttpRequest.newBuilder()
-            .uri(uri)
-            .build();
-
-        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
-
-        mapper.registerModule(JtsModule())
-
-        val envMissions: List<EnvMission> =
-            mapper.readValue(response.body(), object : TypeReference<List<EnvMission>>() {})
-
-        val missions = envMissions.map { MissionEntity(envMission = ExtendedEnvMissionEntity.fromEnvMission(it)) }
-
-        logger.info("Found ${missions.size} missions ")
-
-        return missions
 
 //        val mission1 = EnvMission(
 //            id = 10,

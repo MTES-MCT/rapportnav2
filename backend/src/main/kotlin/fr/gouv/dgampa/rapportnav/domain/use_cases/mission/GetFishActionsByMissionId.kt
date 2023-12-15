@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
+import io.sentry.Sentry
 import org.n52.jackson.datatype.jts.JtsModule
 import java.net.URI
 import java.net.http.HttpClient
@@ -20,32 +21,37 @@ class GetFishActionsByMissionId(
     private val mapper: ObjectMapper
 ) {
     fun execute(missionId: Int): List<ExtendedFishActionEntity> {
-
-        val client: HttpClient = HttpClient.newBuilder().build()
-        val request = HttpRequest.newBuilder()
-            .uri(
-                URI.create(
-                    "https://monitorfish.din.developpement-durable.gouv.fr/api/v1/mission_actions?missionId=$missionId"
+        try {
+            val client: HttpClient = HttpClient.newBuilder().build()
+            val request = HttpRequest.newBuilder()
+                .uri(
+                    URI.create(
+                        "https://monitorfish.din.developpement-durable.gouv.fr/api/v1/mission_actions?missionId=$missionId"
+                    )
                 )
-            )
-            .build();
+                .build();
 
 
-        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
-        mapper.registerModule(JtsModule())
+            mapper.registerModule(JtsModule())
 
-        val fishActions = mapper.readValue(response.body(), object : TypeReference<List<MissionAction>>() {})
-        val actions = fishActions.map {
-            var action = ExtendedFishActionEntity.fromMissionAction(it)
-            action = attachControlsToActionControl.toFishAction(
-                actionId = it.id?.toString(),
-                action = action
-            )
-            action
+            val fishActions = mapper.readValue(response.body(), object : TypeReference<List<MissionAction>>() {})
+            val actions = fishActions.map {
+                var action = ExtendedFishActionEntity.fromMissionAction(it)
+                action = attachControlsToActionControl.toFishAction(
+                    actionId = it.id?.toString(),
+                    action = action
+                )
+                action
+            }
+            return actions
+        } catch (e: Exception) {
+            Sentry.captureException(e)
+            return listOf()
         }
-        return actions
 
+//
 //        val gearControlInstance = GearControl()
 //        gearControlInstance.gearCode = "ABC123"
 //        gearControlInstance.gearName = "Example Gear"
@@ -78,8 +84,13 @@ class GetFishActionsByMissionId(
 //            flightGoals = listOf(),
 //            logbookInfractions = listOf(),
 //            gearInfractions = listOf(),
-//            speciesInfractions = listOf(),
-//            otherInfractions = listOf(),
+//            speciesInfractions = listOf(
+//                SpeciesInfraction(),
+//                SpeciesInfraction()
+//            ),
+//            otherInfractions = listOf(
+//                OtherInfraction()
+//            ),
 //            controlUnits = listOf(),
 //            isDeleted = false,
 //            isAdministrativeControl = true,
@@ -124,8 +135,13 @@ class GetFishActionsByMissionId(
 //            actionType = MissionActionType.SEA_CONTROL,
 //            actionDatetimeUtc = ZonedDateTime.parse("2022-02-18T18:50:09Z"),
 //            flightGoals = listOf(),
-//            logbookInfractions = listOf(),
-//            gearInfractions = listOf(),
+//            logbookInfractions = listOf(
+//                LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD),
+//                LogbookInfraction(infractionType = InfractionType.WITH_RECORD)
+//            ),
+//            gearInfractions = listOf(
+//                GearInfraction(infractionType = InfractionType.WITH_RECORD)
+//            ),
 //            speciesInfractions = listOf(),
 //            otherInfractions = listOf(),
 //            controlUnits = listOf(),

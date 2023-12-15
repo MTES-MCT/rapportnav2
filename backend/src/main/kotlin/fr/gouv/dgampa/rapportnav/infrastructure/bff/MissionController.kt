@@ -46,8 +46,9 @@ class MissionController(
     }
 
     @QueryMapping
-    fun mission(@Argument missionId: Int): Mission {
-        val envMission = getEnvMissionById.execute(missionId = missionId)
+    fun mission(@Argument missionId: Int): Mission? {
+        val envMission = getEnvMissionById.execute(missionId = missionId) ?: return null
+
         val fishMissionActions = getFishActionsByMissionId.execute(missionId = missionId)
         val navMission = getNavMissionById.execute(missionId = missionId)
 
