@@ -4,10 +4,7 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-        <Sentry name="Sentry"
-                dsn="https://8857258f9f1549968b13e15759bdf2bc@sentry.incubateur.net/121"
-                minimumBreadcrumbLevel="DEBUG"
-                minimumEventLevel="WARN"/>
+        <Sentry name="Sentry"/>
     </Appenders>
     <Loggers>
         <Root level="info">

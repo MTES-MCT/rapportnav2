@@ -25,8 +25,10 @@ fun main(args: Array<String>) {
         }
     }
 
+    Sentry.captureMessage("Something went wrong2");
+
     try {
-        throw Exception("This is a test.")
+        throw Exception("This is a test.2")
     } catch (e: Exception) {
         Sentry.captureException(e)
     }
