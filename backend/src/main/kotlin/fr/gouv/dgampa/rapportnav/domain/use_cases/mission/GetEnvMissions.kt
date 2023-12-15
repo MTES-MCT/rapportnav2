@@ -6,9 +6,6 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.ExtendedEnvMissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.EnvMission
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
-import io.sentry.Sentry
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.LoggerFactory
 import org.springframework.web.util.UriUtils
