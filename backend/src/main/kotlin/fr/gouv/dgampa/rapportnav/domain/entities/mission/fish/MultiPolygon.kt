@@ -1,13 +1,9 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.fish
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonProperty
+import kotlinx.serialization.Serializable
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@Serializable
 data class MultiPolygon(
-    @JsonProperty("type")
     val type: String,
-
-    @JsonProperty("coordinates")
-    val coordinates: List<List<List<List<Double>>>>
+    val coordinates: List<List<List<List<Double>>>>,
 )
