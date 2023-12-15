@@ -1,17 +1,19 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.adapters.outputs
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlUnitEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.ZonedDateTime
 
 data class MissionDataOutput(
     val id: Int,
     val missionTypes: List<MissionTypeEnum>,
-    val controlUnits: List<ControlUnitEntity>? = listOf(),
+    val controlUnits: List<LegacyControlUnitEntity>? = listOf(),
     val openBy: String? = null,
     val closedBy: String? = null,
     val observationsCacem: String? = null,
@@ -20,17 +22,16 @@ data class MissionDataOutput(
     val geom: MultiPolygon? = null,
     val startDateTimeUtc: ZonedDateTime,
     val endDateTimeUtc: ZonedDateTime? = null,
+    val envActions: List<EnvActionEntity>? = null,
     val missionSource: MissionSourceEnum,
     val isClosed: Boolean,
     val hasMissionOrder: Boolean,
     val isUnderJdp: Boolean,
-    val actions: List<MissionActionEntity>? = null,
+    val isGeometryComputedFromControls: Boolean,
 ) {
     companion object {
-        fun fromMission(mission: MissionEntity): MissionDataOutput {
-            requireNotNull(mission.id) {
-                "a mission must have an id"
-            }
+        fun fromMissionEntity(mission: MissionEntity): MissionDataOutput {
+            requireNotNull(mission.id) { "a mission must have an id" }
 
             return MissionDataOutput(
                 id = mission.id,
@@ -44,11 +45,12 @@ data class MissionDataOutput(
                 geom = mission.geom,
                 startDateTimeUtc = mission.startDateTimeUtc,
                 endDateTimeUtc = mission.endDateTimeUtc,
+                envActions = mission.envActions,
                 missionSource = mission.missionSource,
                 isClosed = mission.isClosed,
                 hasMissionOrder = mission.hasMissionOrder,
                 isUnderJdp = mission.isUnderJdp,
-                actions = mission.actions
+                isGeometryComputedFromControls = mission.isGeometryComputedFromControls,
             )
         }
     }

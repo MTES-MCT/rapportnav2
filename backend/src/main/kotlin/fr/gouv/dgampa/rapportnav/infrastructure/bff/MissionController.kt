@@ -37,7 +37,7 @@ class MissionController(
 
         // query with the following filters
         return getEnvMissions.execute(
-            startedAfterDateTime = ZonedDateTime.of(2023, 11, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
+            startedAfterDateTime = ZonedDateTime.of(2023, 9, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
             startedBeforeDateTime = null,
             pageNumber = null,
             pageSize = null,
