@@ -51,6 +51,8 @@ class GetFishActionsByMissionId(
             return actions
         } catch (e: Exception) {
             logger.error("GetFishActionsByMissionId failed loading Actions", e)
+            Sentry.captureMessage("GetFishActionsByMissionId failed loading Actions")
+
             Sentry.captureException(e)
 
             val gearControlInstance = GearControl()

@@ -51,6 +51,7 @@ class GetEnvMissionById(
             return ExtendedEnvMissionEntity.fromEnvMission(envMission)
         } catch (e: Exception) {
             logger.error("GetEnvMissionById failed loading Mission", e)
+            Sentry.captureMessage("GetEnvMissionById failed loading Mission")
             Sentry.captureException(e)
 
             val controlTheme1 = ThemeEntity(

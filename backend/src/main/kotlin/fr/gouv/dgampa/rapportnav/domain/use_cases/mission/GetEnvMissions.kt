@@ -95,6 +95,7 @@ class GetEnvMissions(private val mapper: ObjectMapper) {
             return missions
         } catch (e: Exception) {
             logger.error("GetEnvMissions failed loading Missions", e)
+            Sentry.captureMessage("GetEnvMissions failed loading Missions")
             Sentry.captureException(e)
 
             val mission1 = EnvMission(
