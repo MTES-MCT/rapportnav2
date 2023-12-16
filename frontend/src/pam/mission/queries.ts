@@ -79,7 +79,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
-                                #                                natinfs
+                                natinfs
                                 infractionType
                                 observations
                             }
@@ -95,7 +95,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
-                                #                                natinfs
+                                natinfs
                                 infractionType
                                 observations
                             }
@@ -108,7 +108,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
-                                #                                natinfs
+                                natinfs
                                 infractionType
                                 observations
                             }
@@ -121,7 +121,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
-                                #                                natinfs
+                                natinfs
                                 infractionType
                                 observations
                             }
@@ -149,7 +149,7 @@ export const GET_MISSION_BY_ID = gql`
                                 controlType
                                 observations
                                 infractionType
-                                #                                natinfs
+                                natinfs
                                 target {
                                     formalNotice
                                     companyName
@@ -213,7 +213,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
-                                #                                natinfs
+                                natinfs
                                 infractionType
                                 observations
                             }
@@ -229,7 +229,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
-                                #                                natinfs
+                                natinfs
                                 infractionType
                                 observations
                             }
@@ -242,7 +242,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
-                                #                                natinfs
+                                natinfs
                                 infractionType
                                 observations
                             }
@@ -255,7 +255,7 @@ export const GET_MISSION_BY_ID = gql`
                             observations
                             infractions {
                                 id
-                                #                                natinfs
+                                natinfs
                                 infractionType
                                 observations
                             }

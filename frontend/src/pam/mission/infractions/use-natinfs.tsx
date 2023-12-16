@@ -1,5 +1,4 @@
 import {ApolloError, gql, useQuery} from '@apollo/client'
-import {AgentRole} from '../../../types/crew-types'
 import {Natinf} from "../../../types/infraction-types.ts";
 
 export const GET_NATINFS = gql`
