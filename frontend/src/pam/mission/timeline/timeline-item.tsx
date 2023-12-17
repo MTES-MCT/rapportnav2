@@ -211,14 +211,9 @@ const ActionNavControl: React.FC<{ action: Action; onClick: any }> = ({action, o
                                 <Stack direction="row" spacing="0.5rem">
                                     <Stack.Item>
                                         <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-                                            Contrôles
-                                        </Text>
-                                    </Stack.Item>
-                                    <Stack.Item>
-                                        <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
-                                            {`${controlMethodToHumanString(actionData?.controlMethod)} - ${vesselTypeToHumanString(
-                                                actionData?.vesselType
-                                            )}`}
+                                            Contrôles <b>{`${controlMethodToHumanString(actionData?.controlMethod)} - ${vesselTypeToHumanString(
+                                            actionData?.vesselType
+                                        )}`}</b>
                                         </Text>
                                     </Stack.Item>
                                 </Stack>
@@ -280,7 +275,8 @@ const ActionStatus: React.FC<{ action: Action; onClick: any }> = ({action, onCli
                             style={{
                                 whiteSpace: 'nowrap',
                                 overflow: 'hidden',
-                                textOverflow: 'ellipsis'
+                                textOverflow: 'ellipsis',
+                                maxWidth: '500px'
                             }}
                         >
                             <b>{`${mapStatusToText(actionData?.status)} - ${actionData?.isStart ? 'début' : 'fin'} ${

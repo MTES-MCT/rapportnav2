@@ -48,7 +48,7 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({missionId, onSelectAct
                                         </Stack.Item>
                                     )}
 
-                                    <Stack.Item>
+                                    <Stack.Item style={{marginRight: '1rem'}}>
                                         <Stack direction="column" spacing={'0.75rem'} style={{width: '100%'}}
                                                alignItems="stretch">
                                             {/* Render actions for the day */}

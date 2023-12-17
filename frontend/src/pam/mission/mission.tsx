@@ -125,7 +125,7 @@ export default function Mission() {
                             backgroundColor: THEME.color.cultured,
                             padding: '2rem',
                             flex: 1,
-                            overflowY: 'auto',
+                            overflowY: 'hidden',
                             minHeight: 'calc(100vh - 2 * 60px)',
                             maxHeight: 'calc(100vh - 2 * 60px)'
                         }}
@@ -160,11 +160,14 @@ export default function Mission() {
                                         </Stack>
                                     </FlexboxGrid.Item>
                                 </FlexboxGrid>
-                            </FlexboxGrid.Item>
-                            <FlexboxGrid.Item style={{width: '100%'}}>
                                 <Divider style={{backgroundColor: THEME.color.charcoal}}/>
                             </FlexboxGrid.Item>
-                            <FlexboxGrid.Item style={{width: '100%'}}>
+                            <FlexboxGrid.Item style={{
+                                width: '100%',
+                                overflowY: 'auto',
+                                minHeight: 'calc(100vh - 260px)',
+                                maxHeight: 'calc(100vh - 260px)'
+                            }}>
                                 <MissionTimeline missionId={missionId} onSelectAction={selectAction}/>
                             </FlexboxGrid.Item>
                         </FlexboxGrid>
