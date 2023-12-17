@@ -1,38 +1,43 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Stack} from 'rsuite'
 import {THEME, Label, NumberInput} from '@mtes-mct/monitor-ui'
 import {MUTATION_ADD_OR_UPDATE_DISTANCE_CONSUMPTION} from '../queries'
 import {useMutation} from '@apollo/client'
-import omit from 'lodash/omit'
 import {useParams} from 'react-router-dom'
 import {GET_MISSION_EXCERPT} from "./use-mission-excerpt.tsx";
+import {MissionGeneralInfo} from "../../../types/mission-types.ts";
 
 interface MissionDistanceAndConsumptionProps {
-    info?: MissionDistanceAndConsumption
+    info?: MissionGeneralInfo
 }
 
 const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps> = ({info}) => {
     const {missionId} = useParams()
+    const [formData, setFormData] = useState({
+        distanceInNauticalMiles: info?.distanceInNauticalMiles,
+        consumedGOInLiters: info?.consumedGOInLiters,
+        consumedFuelInLiters: info?.consumedFuelInLiters
+    })
 
-    const [mutate, {statusData, statusLoading, statusError}] = useMutation(
+    const [mutate] = useMutation(
         MUTATION_ADD_OR_UPDATE_DISTANCE_CONSUMPTION,
         {
             refetchQueries: [GET_MISSION_EXCERPT]
         }
     )
 
-    const onChange = async (field?: string, value?: number) => {
-        let updatedData = {
-            ...omit(info, '__typename', 'infractions'),
-            id: info?.id,
-            missionId: missionId
-        }
+    const onChange = async (field: string, value?: number) => {
+        setFormData({
+            ...formData,
+            [field]: value?.toString()
+        })
+    }
 
-        if (!!field && !!value) {
-            updatedData = {
-                ...updatedData,
-                [field]: value.toString()
-            }
+    const onBlur = async () => {
+        let updatedData = {
+            id: info?.id,
+            missionId: missionId,
+            ...formData
         }
 
         await mutate({variables: {info: updatedData}})
@@ -53,8 +58,9 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
                         name="distanceInNauticalMiles"
                         placeholder="0"
                         isLight={true}
-                        value={info?.distanceInNauticalMiles}
+                        value={formData?.distanceInNauticalMiles}
                         onChange={(nextValue?: number) => onChange('distanceInNauticalMiles', nextValue)}
+                        onBlur={() => onBlur()}
                     />
                 </Stack.Item>
                 <Stack.Item style={{flex: 1}}>
@@ -63,8 +69,9 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
                         name="consumedGOInLiters"
                         placeholder="0"
                         isLight={true}
-                        value={info?.consumedGOInLiters}
+                        value={formData?.consumedGOInLiters}
                         onChange={(nextValue?: number) => onChange('consumedGOInLiters', nextValue)}
+                        onBlur={() => onBlur()}
                     />
                 </Stack.Item>
                 <Stack.Item style={{flex: 1}}>
@@ -73,8 +80,9 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
                         name="consumedFuelInLiters"
                         placeholder="0"
                         isLight={true}
-                        value={info?.consumedFuelInLiters}
+                        value={formData?.consumedFuelInLiters}
                         onChange={(nextValue?: number) => onChange('consumedFuelInLiters', nextValue)}
+                        onBlur={() => onBlur()}
                     />
                 </Stack.Item>
             </Stack>
