@@ -1,15 +1,14 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.api.adapters.outputs
+package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlUnitEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.ZonedDateTime
 
-data class EnvMissionDataOutput(
+data class MissionDataOutput(
     val id: Int,
     val missionTypes: List<MissionTypeEnum>,
     val controlUnits: List<LegacyControlUnitEntity>? = listOf(),
@@ -26,14 +25,36 @@ data class EnvMissionDataOutput(
     val isClosed: Boolean,
     val hasMissionOrder: Boolean,
     val isUnderJdp: Boolean,
+    val isGeometryComputedFromControls: Boolean,
 ) {
-    companion object {
-        fun fromMission(mission: MissionEntity): EnvMissionDataOutput {
-            requireNotNull(mission.id) {
-                "a mission must have an id"
-            }
+    fun toMissionEntity(): MissionEntity {
+        return MissionEntity(
+            id = id,
+            missionTypes = missionTypes,
+            controlUnits = controlUnits.orEmpty(),
+            openBy = openBy,
+            closedBy = closedBy,
+            observationsCacem = observationsCacem,
+            observationsCnsp = observationsCnsp,
+            facade = facade,
+            geom = geom,
+            startDateTimeUtc = startDateTimeUtc,
+            endDateTimeUtc = endDateTimeUtc,
+            envActions = envActions,
+            missionSource = missionSource,
+            isClosed = isClosed,
+            hasMissionOrder = hasMissionOrder,
+            isUnderJdp = isUnderJdp,
+            isGeometryComputedFromControls = isGeometryComputedFromControls,
+            isDeleted = false // TODO this is weird
+        )
+    }
 
-            return EnvMissionDataOutput(
+    companion object {
+        fun fromMissionEntity(mission: MissionEntity): MissionDataOutput {
+            requireNotNull(mission.id) { "a mission must have an id" }
+
+            return MissionDataOutput(
                 id = mission.id,
                 missionTypes = mission.missionTypes,
                 controlUnits = mission.controlUnits,
@@ -50,6 +71,7 @@ data class EnvMissionDataOutput(
                 isClosed = mission.isClosed,
                 hasMissionOrder = mission.hasMissionOrder,
                 isUnderJdp = mission.isUnderJdp,
+                isGeometryComputedFromControls = mission.isGeometryComputedFromControls,
             )
         }
     }

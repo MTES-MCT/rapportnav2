@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
 import io.sentry.Sentry
 import org.n52.jackson.datatype.jts.JtsModule
@@ -19,27 +20,13 @@ import java.time.ZonedDateTime
 @UseCase
 class GetFishActionsByMissionId(
     private val attachControlsToActionControl: AttachControlsToActionControl,
-    private val mapper: ObjectMapper
+    private val fishActionRepo: IFishActionRepository,
 ) {
 
     private val logger = LoggerFactory.getLogger(GetFishActionsByMissionId::class.java)
     fun execute(missionId: Int): List<ExtendedFishActionEntity> {
         try {
-            val client: HttpClient = HttpClient.newBuilder().build()
-            val request = HttpRequest.newBuilder()
-                .uri(
-                    URI.create(
-                        "https://monitorfish.din.developpement-durable.gouv.fr/api/v1/mission_actions?missionId=$missionId"
-                    )
-                )
-                .build();
-
-
-            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
-
-            mapper.registerModule(JtsModule())
-
-            val fishActions = mapper.readValue(response.body(), object : TypeReference<List<MissionAction>>() {})
+            val fishActions = fishActionRepo.findFishActions(missionId = missionId)
             val actions = fishActions.map {
                 var action = ExtendedFishActionEntity.fromMissionAction(it)
                 action = attachControlsToActionControl.toFishAction(
