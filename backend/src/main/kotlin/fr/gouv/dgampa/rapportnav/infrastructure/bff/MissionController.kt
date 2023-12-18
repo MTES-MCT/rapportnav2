@@ -33,16 +33,15 @@ class MissionController(
 ) {
 
     @QueryMapping
-    fun missions(): List<Mission> {
-
+    fun missions(): List<Mission>? {
         // query with the following filters
         return getEnvMissions.execute(
-            startedAfterDateTime = ZonedDateTime.of(2023, 9, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
+            startedAfterDateTime = ZonedDateTime.of(2023, 10, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
             startedBeforeDateTime = null,
             pageNumber = null,
             pageSize = null,
             controlUnits = getControlUnitsForUser.execute()
-        ).map { Mission.fromMissionEntity(it) }
+        )?.map { Mission.fromMissionEntity(it) }
     }
 
     @QueryMapping

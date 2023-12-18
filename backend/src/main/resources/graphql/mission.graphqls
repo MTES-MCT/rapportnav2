@@ -1,5 +1,5 @@
 type Query {
-    missions: [Mission]!
+    missions: [Mission]
     mission(missionId: ID): Mission
     missionGeneralInfo(missionId: ID): MissionGeneralInfo
 }

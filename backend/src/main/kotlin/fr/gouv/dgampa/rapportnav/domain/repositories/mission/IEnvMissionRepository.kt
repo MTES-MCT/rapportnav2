@@ -15,6 +15,6 @@ interface IEnvMissionRepository {
         missionStatuses: List<String>? = null,
         seaFronts: List<String>? = null,
         controlUnits: List<Int>? = null
-    ): List<MissionEntity>
+    ): List<MissionEntity>?
 
 }

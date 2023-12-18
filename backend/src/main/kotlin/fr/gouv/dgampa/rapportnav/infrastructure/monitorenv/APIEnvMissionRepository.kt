@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.MissionDataOutp
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Repository
+import org.springframework.web.util.UriUtils
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -32,69 +33,59 @@ class APIEnvMissionRepository() : IEnvMissionRepository {
         missionStatuses: List<String>?,
         seaFronts: List<String>?,
         controlUnits: List<Int>?
-    ): List<MissionEntity> {
+    ): List<MissionEntity>? {
         val objectMapper = ObjectMapper()
 
-        // For these parameters, if the list is null or empty, we don't send the param to the server to avoid filtering results
-        val missionTypesParameter = if (!missionTypes.isNullOrEmpty()) {
-            "missionTypes=${
-                missionTypes.joinToString(
-                    ",",
-                )
-            }&"
-        } else {
-            ""
+        val uriBuilder = StringBuilder("https://monitorenv.din.developpement-durable.gouv.fr/api/v1/missions")
+
+        // Append query parameters
+        uriBuilder.append("?")
+
+        // Append optional parameters
+        startedAfterDateTime?.let {
+            uriBuilder.append(
+                "startedAfterDateTime=${
+                    UriUtils.encodeQueryParam(
+                        it.toString(),
+                        "UTF-8"
+                    )
+                }&"
+            )
         }
-        val missionStatusesParameter = if (!missionStatuses.isNullOrEmpty()) {
-            "missionStatus=${
-                missionStatuses.joinToString(
-                    ",",
-                )
-            }&"
-        } else {
-            ""
+        startedBeforeDateTime?.let {
+            uriBuilder.append(
+                "startedBeforeDateTime=${
+                    UriUtils.encodeQueryParam(
+                        it.toString(),
+                        "UTF-8"
+                    )
+                }&"
+            )
         }
-        val seaFrontsParameter = if (!seaFronts.isNullOrEmpty()) "seaFronts=${seaFronts.joinToString(",")}&" else ""
-        val missionSourcesParameter = if (!missionSources.isNullOrEmpty()) {
-            "missionSource=${
-                missionSources.joinToString(
-                    ",",
-                )
-            }&"
-        } else {
-            ""
+        pageNumber?.let { uriBuilder.append("pageNumber=${UriUtils.encodeQueryParam(it.toString(), "UTF-8")}&") }
+        pageSize?.let { uriBuilder.append("pageSize=${UriUtils.encodeQueryParam(it.toString(), "UTF-8")}&") }
+
+        // Append controlUnits if present
+        controlUnits?.let {
+            for (controlUnit in it) {
+                uriBuilder.append("controlUnits=${UriUtils.encodeQueryParam(controlUnit.toString(), "UTF-8")}&")
+            }
         }
 
-        val controlUnitsParameter = if (!controlUnits.isNullOrEmpty()) {
-            "controlUnits=${
-                controlUnits.joinToString(
-                    ",",
-                )
-            }&"
-        } else {
-            ""
+        // Remove trailing "&" if present
+        if (uriBuilder.endsWith("&")) {
+            uriBuilder.deleteCharAt(uriBuilder.length - 1)
         }
 
-        val missionsUrl = """
-            https://monitorenv.din.developpement-durable.gouv.fr/api/v1/missions?
-                pageNumber=${pageNumber ?: ""}&
-                pageSize=${pageSize ?: ""}&
-                startedAfterDateTime=${startedAfterDateTime?.format(zoneDateTimeFormatter) ?: ""}&
-                startedBeforeDateTime=${startedBeforeDateTime?.format(zoneDateTimeFormatter) ?: ""}&
-                $missionSourcesParameter
-                $missionTypesParameter
-                $missionStatusesParameter
-                $seaFrontsParameter
-                $controlUnitsParameter
-        """.trimIndent()
+        // Build the URI
+        val uri = URI.create(uriBuilder.toString())
 
-        val uri = URI.create(StringBuilder(missionsUrl).toString())
         val client: HttpClient = HttpClient.newBuilder().build()
         val request = HttpRequest.newBuilder()
             .uri(uri)
             .build();
 
-        logger.info("Fetching missions at URL: $missionsUrl")
+        logger.info("Fetching missions at URL: $uri")
 
         val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
@@ -123,8 +114,9 @@ class APIEnvMissionRepository() : IEnvMissionRepository {
             return missions
         } else {
             logger.info("Failed to fetch data. Status code: ${response.statusCode()}")
-            return listOf()
         }
+
+        return null
 
     }
 
