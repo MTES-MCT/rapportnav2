@@ -45,7 +45,7 @@ export interface FishAction {
     faoAreas: string[]
     feedbackSheetRequired: boolean | undefined
     flagState: string | undefined
-    gearInfractions: Infraction[]
+    gearInfractions: GearInfraction[]
     gearOnboard: GearControl[]
     hasSomeGearsSeized: boolean
     hasSomeSpeciesSeized: boolean
@@ -61,13 +61,13 @@ export interface FishAction {
     latitude: number | undefined
     licencesAndLogbookObservations: string | undefined
     licencesMatchActivity: ControlCheck | undefined
-    logbookInfractions: Infraction[]
+    logbookInfractions: LogbookInfraction[]
     logbookMatchesActivity: ControlCheck | undefined
     longitude: number | undefined
     missionId: number
     numberOfVesselsFlownOver: number | undefined
     otherComments: string | undefined
-    otherInfractions: Infraction[]
+    otherInfractions: OtherInfraction[]
     portLocode: string | undefined
     // This field is added by the API
     portName: string | undefined
@@ -75,7 +75,7 @@ export interface FishAction {
     seizureAndDiversion: boolean | undefined
     seizureAndDiversionComments: string | undefined
     separateStowageOfPreservedSpecies: ControlCheck | undefined
-    speciesInfractions: Infraction[]
+    speciesInfractions: SpeciesInfraction[]
     speciesObservations: string | undefined
     speciesOnboard: SpeciesControl[]
     speciesSizeControlled: boolean | undefined

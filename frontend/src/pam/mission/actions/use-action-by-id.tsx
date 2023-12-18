@@ -25,6 +25,11 @@ export const GET_ACTION_BY_ID = gql`
                     emitsAis
                     licencesMatchActivity
                     logbookMatchesActivity
+                    logbookInfractions {
+                        infractionType
+                        natinf
+                        comments
+                    }
                     licencesAndLogbookObservations
                     gearOnboard {
                         comments
@@ -35,6 +40,11 @@ export const GET_ACTION_BY_ID = gql`
                         gearWasControlled
                         hasUncontrolledMesh
                     }
+                    gearInfractions {
+                        infractionType
+                        natinf
+                        comments
+                    }
                     speciesObservations
                     speciesOnboard {
                         speciesCode
@@ -43,11 +53,21 @@ export const GET_ACTION_BY_ID = gql`
                         controlledWeight
                         underSized
                     }
+                    speciesInfractions {
+                        infractionType
+                        natinf
+                        comments
+                    }
                     seizureAndDiversion
                     seizureAndDiversionComments
                     hasSomeGearsSeized
                     hasSomeSpeciesSeized
                     otherComments
+                    otherInfractions {
+                        infractionType
+                        natinf
+                        comments
+                    }
                     faoAreas
                     segments {
                         segment

@@ -7,10 +7,8 @@ interface InfractionTagProps {
 }
 
 const NatinfsTag: React.FC<InfractionTagProps> = ({natinfs}) => {
-    if (!natinfs?.length) {
-        return
-    }
-    const text = `${natinfs.length > 1 ? `${natinfs.length} ` : ''}NATINF : ${natinfs.join(', ')}`
+
+    const text = !natinfs?.length ? 'Sans infraction' : `${natinfs.length > 1 ? `${natinfs.length} ` : ''}NATINF : ${natinfs.join(', ')}`
     return <Tag accent={Accent.PRIMARY}>
         <Text as="h3" weight='medium'>{text}</Text>
     </Tag>

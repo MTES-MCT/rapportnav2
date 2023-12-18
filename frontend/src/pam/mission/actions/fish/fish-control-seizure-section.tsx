@@ -1,9 +1,8 @@
 import React from 'react'
-import {Accent, Button, Checkbox, Icon, Label, MultiRadio, Size, THEME} from '@mtes-mct/monitor-ui'
-import {FishAction, SpeciesControl} from '../../../../types/fish-mission-types'
+import {Checkbox, Label, THEME} from '@mtes-mct/monitor-ui'
+import {FishAction} from '../../../../types/fish-mission-types'
 import Text from '../../../../ui/text'
 import {Stack} from 'rsuite'
-import {BOOLEAN_AS_OPTIONS, controlCheckMultiradioOptions} from '../action-control-fish'
 
 interface FishControlSeizureSectionProps {
     action: FishAction

@@ -1,9 +1,10 @@
 import React from 'react'
 import {Accent, Button, Icon, Label, MultiRadio, Size, THEME} from '@mtes-mct/monitor-ui'
 import {Stack} from 'rsuite'
-import {controlCheckMultiradioOptions} from '../action-control-fish'
+import {controlCheckMultiRadioOptions} from '../action-control-fish'
 import {FishAction} from '../../../../types/fish-mission-types'
 import Text from '../../../../ui/text'
+import FishInfractionSummary from "../../infractions/fish-infraction-summary.tsx";
 
 interface FishControlAdministrativeSectionProps {
     action: FishAction
@@ -26,7 +27,7 @@ const FishControlAdministrativeSection: React.FC<FishControlAdministrativeSectio
                             name="emitsVms"
                             onChange={function noRefCheck() {
                             }}
-                            options={controlCheckMultiradioOptions}
+                            options={controlCheckMultiRadioOptions}
                         />
                     </Stack.Item>
                     <Stack.Item>
@@ -38,7 +39,7 @@ const FishControlAdministrativeSection: React.FC<FishControlAdministrativeSectio
                             name="emitsAis"
                             onChange={function noRefCheck() {
                             }}
-                            options={controlCheckMultiradioOptions}
+                            options={controlCheckMultiRadioOptions}
                         />
                     </Stack.Item>
                     <Stack.Item>
@@ -50,7 +51,7 @@ const FishControlAdministrativeSection: React.FC<FishControlAdministrativeSectio
                             name="logbookMatchesActivity"
                             onChange={function noRefCheck() {
                             }}
-                            options={controlCheckMultiradioOptions}
+                            options={controlCheckMultiRadioOptions}
                         />
                     </Stack.Item>
                     <Stack.Item>
@@ -62,7 +63,7 @@ const FishControlAdministrativeSection: React.FC<FishControlAdministrativeSectio
                             name="licencesMatchActivity"
                             onChange={function noRefCheck() {
                             }}
-                            options={controlCheckMultiradioOptions}
+                            options={controlCheckMultiRadioOptions}
                         />
                     </Stack.Item>
                     <Stack.Item>
@@ -73,11 +74,9 @@ const FishControlAdministrativeSection: React.FC<FishControlAdministrativeSectio
                     </Stack.Item>
                 </Stack>
             </Stack.Item>
-            <Stack.Item style={{backgroundColor: THEME.color.white, width: '100%', padding: '1rem'}}>
-                <Stack direction="column" alignItems="flex-start" spacing={'1rem'}>
-                    <Stack.Item></Stack.Item>
-                    <Stack.Item></Stack.Item>
-                </Stack>
+            <Stack.Item style={{width: '100%'}}>
+                <FishInfractionSummary title="Infraction obligations déclaratives et autorisations"
+                                       infractions={action.logbookInfractions}/>
             </Stack.Item>
             <Stack.Item style={{backgroundColor: THEME.color.white, width: '100%', padding: '1rem'}}>
                 <Stack direction="column" alignItems="flex-start" spacing={'0.5rem'}>

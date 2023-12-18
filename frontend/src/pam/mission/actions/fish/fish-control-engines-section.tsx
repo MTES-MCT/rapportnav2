@@ -4,6 +4,7 @@ import {FishAction, GearControl} from '../../../../types/fish-mission-types'
 import Text from '../../../../ui/text'
 import {Stack} from 'rsuite'
 import {BOOLEAN_AS_OPTIONS} from '../action-control-fish'
+import FishInfractionSummary from "../../infractions/fish-infraction-summary.tsx";
 
 interface FishControlEnginesSectionProps {
     action: FishAction
@@ -67,18 +68,21 @@ const FishControlEnginesSection: React.FC<FishControlEnginesSectionProps> = ({ac
                                 {!!gearControl?.comments ? gearControl.comments : 'Aucune observation'}
                             </Text>
                         </Stack.Item>
+                        <Stack.Item>
+                            <Button accent={Accent.SECONDARY} size={Size.NORMAL} Icon={Icon.Plus} disabled={true}
+                                    isFullWidth={false}>
+                                Ajouter une infraction engins
+                            </Button>
+                        </Stack.Item>
                     </Stack>
                 </Stack.Item>
             ))}
 
-            <Stack.Item style={{backgroundColor: THEME.color.white, width: '100%', padding: '1rem'}}>
-                <Stack direction="column" alignItems="flex-start" spacing={'1rem'}>
-                    <Stack.Item></Stack.Item>
-                    <Stack.Item>
-                        <Button accent={Accent.SECONDARY} size={Size.NORMAL} Icon={Icon.Plus} disabled={true}
-                                isFullWidth={false}>
-                            Ajouter une infraction engins
-                        </Button>
+            <Stack.Item style={{width: '100%'}}>
+                <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
+                    <Stack.Item style={{width: '100%'}}>
+                        <FishInfractionSummary title="Infraction engins"
+                                               infractions={action.gearInfractions}/>
                     </Stack.Item>
                 </Stack>
             </Stack.Item>

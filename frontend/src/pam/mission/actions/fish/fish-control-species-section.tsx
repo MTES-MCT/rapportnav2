@@ -3,7 +3,8 @@ import {Accent, Button, Checkbox, Icon, Label, MultiRadio, Size, THEME} from '@m
 import {FishAction, SpeciesControl} from '../../../../types/fish-mission-types'
 import Text from '../../../../ui/text'
 import {Stack} from 'rsuite'
-import {BOOLEAN_AS_OPTIONS, controlCheckMultiradioOptions} from '../action-control-fish'
+import {BOOLEAN_AS_OPTIONS, controlCheckMultiRadioOptions} from '../action-control-fish'
+import FishInfractionSummary from "../../infractions/fish-infraction-summary.tsx";
 
 interface FishControlSpeciesSectionProps {
     action: FishAction
@@ -51,7 +52,7 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ac
                             name="separateStowageOfPreservedSpecies"
                             onChange={function noRefCheck() {
                             }}
-                            options={controlCheckMultiradioOptions}
+                            options={controlCheckMultiRadioOptions}
                         />
                     </Stack.Item>
                     {action.speciesOnboard?.map((species: SpeciesControl) => (
@@ -86,23 +87,23 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ac
                             </Stack>
                         </Stack.Item>
                     ))}
-                    <Stack.Item style={{backgroundColor: THEME.color.white, width: '100%', padding: '1rem'}}>
-                        <Stack direction="column" alignItems="flex-start" spacing={'1rem'}>
-                            <Stack.Item></Stack.Item>
-                            <Stack.Item>
-                                <Button
-                                    accent={Accent.SECONDARY}
-                                    size={Size.NORMAL}
-                                    Icon={Icon.Plus}
-                                    disabled={true}
-                                    isFullWidth={false}
-                                >
-                                    Ajouter une infraction espèces
-                                </Button>
-                            </Stack.Item>
-                        </Stack>
+                    <Stack.Item style={{backgroundColor: THEME.color.white, width: '100%',}}>
+                        <Button
+                            accent={Accent.SECONDARY}
+                            size={Size.NORMAL}
+                            Icon={Icon.Plus}
+                            disabled={true}
+                            isFullWidth={false}
+                        >
+                            Ajouter une infraction espèces
+                        </Button>
                     </Stack.Item>
                 </Stack>
+            </Stack.Item>
+
+            <Stack.Item style={{width: '100%'}}>
+                <FishInfractionSummary title="Infraction espèces"
+                                       infractions={action.speciesInfractions}/>
             </Stack.Item>
 
             <Stack.Item style={{backgroundColor: THEME.color.white, width: '100%', padding: '1rem'}}>

@@ -79,7 +79,8 @@ class GetFishActionsByMissionId(
                     SpeciesInfraction()
                 ),
                 otherInfractions = listOf(
-                    OtherInfraction()
+                    OtherInfraction(),
+                    OtherInfraction(),
                 ),
                 controlUnits = listOf(),
                 isDeleted = false,
@@ -126,11 +127,12 @@ class GetFishActionsByMissionId(
                 actionDatetimeUtc = ZonedDateTime.parse("2022-02-18T18:50:09Z"),
                 flightGoals = listOf(),
                 logbookInfractions = listOf(
-                    LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD),
+                    LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD, natinf = 2212),
                     LogbookInfraction(infractionType = InfractionType.WITH_RECORD)
                 ),
                 gearInfractions = listOf(
-                    GearInfraction(infractionType = InfractionType.WITH_RECORD)
+                    GearInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 943),
+                    GearInfraction(infractionType = InfractionType.PENDING),
                 ),
                 speciesInfractions = listOf(),
                 otherInfractions = listOf(),

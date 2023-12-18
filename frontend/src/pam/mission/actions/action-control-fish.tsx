@@ -1,14 +1,11 @@
 import React from 'react'
 import {
-    Accent,
-    Button,
     CoordinatesFormat,
     CoordinatesInput,
     DatePicker,
     Icon,
     Label,
-    MultiRadio, Option,
-    Size,
+    Option,
     THEME
 } from '@mtes-mct/monitor-ui'
 import {ControlCheck, FishAction, formatMissionActionTypeForHumans} from '../../../types/fish-mission-types'
@@ -27,12 +24,12 @@ import FishControlEnginesSection from './fish/fish-control-engines-section'
 import FishControlSpeciesSection from './fish/fish-control-species-section'
 import FishControlSeizureSection from './fish/fish-control-seizure-section'
 import FishControlOtherObservationsSection from './fish/fish-control-other-observation-section'
-import FishControlQualitySection from './fish/fish-control-quality-section'
 import FishControlFleetSegmentSection from './fish/fish-control-fleet-segment-section'
 import useActionById from "./use-action-by-id.tsx";
 import {useParams} from "react-router-dom";
+import FishControlOtherInfractionsSection from "./fish/fish-control-other-infractions-section.tsx";
 
-export const controlCheckMultiradioOptions = Object.keys(ControlCheck).map(key => ({
+export const controlCheckMultiRadioOptions = Object.keys(ControlCheck).map(key => ({
     label: key === ControlCheck.YES ? 'Oui' : key === ControlCheck.NO ? 'Non' : 'Non contrôlé',
     value: ControlCheck[key as keyof typeof ControlCheck]
 }))
@@ -110,7 +107,7 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({action}) => {
                         ]}
                         coordinatesFormat={CoordinatesFormat.DECIMAL_DEGREES}
                         // label="Lieu du contrôle"
-                        // isLight={true}
+                        isLight={true}
                         disabled={true}
                     />
                 </Stack.Item>
@@ -126,13 +123,8 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({action}) => {
                 <Stack.Item style={{width: '100%'}}>
                     <FishControlSeizureSection action={actionData}/>
                 </Stack.Item>
-
                 <Stack.Item style={{width: '100%'}}>
-                    <Stack direction="column" alignItems="flex-start">
-                        <Stack.Item>
-                            <Label>Autres infractions</Label>
-                        </Stack.Item>
-                    </Stack>
+                    <FishControlOtherInfractionsSection action={actionData}/>
                 </Stack.Item>
                 <Stack.Item style={{width: '100%'}}>
                     <FishControlOtherObservationsSection action={actionData}/>
@@ -143,10 +135,6 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({action}) => {
                 <Stack.Item style={{width: '100%'}}>
                     <FishControlFleetSegmentSection action={actionData}/>
                 </Stack.Item>
-                <Stack.Item style={{width: '100%'}}>
-                    <FishControlQualitySection action={actionData}/>
-                </Stack.Item>
-
                 <Stack.Item style={{width: '100%'}}>
                     <Stack direction="column" alignItems="flex-start">
                         <Stack.Item>

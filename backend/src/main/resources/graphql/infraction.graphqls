@@ -52,6 +52,12 @@ enum InfractionType {
     WITHOUT_REPORT
 }
 
+enum FishInfractionType {
+    WITH_RECORD
+    WITHOUT_RECORD
+    PENDING
+}
+
 input InfractionInput {
     id: String
     missionId: String!
