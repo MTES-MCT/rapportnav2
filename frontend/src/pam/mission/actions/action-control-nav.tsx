@@ -60,8 +60,8 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
     const {data: navAction, loading, error} = useActionById(actionId, missionId, action.source, action.type)
 
     useEffect(() => {
-        setObservationsValue(navAction?.observations)
-        setIdentityControlledPersonValue(navAction?.identityControlledPerson)
+        setObservationsValue(navAction?.data.observations)
+        setIdentityControlledPersonValue(navAction?.data.identityControlledPerson)
     }, [navAction])
 
 

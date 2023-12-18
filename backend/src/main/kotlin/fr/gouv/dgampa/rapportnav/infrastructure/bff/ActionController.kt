@@ -176,38 +176,89 @@ class ActionController(
         if (action.data is NavActionControl || action.data is FishActionData || action.data is EnvActionData) {
             val navInfractions = getInfractionsByActionId.execute(actionId = action.id.toString())
                 .map { Infraction.fromInfractionEntity(it) }
-            var tags: List<String> = listOf()
-            val navTags: List<String> = navInfractions.map {
-                it.infractionType.toString()
+
+            val navInfractionTypes: List<InfractionTypeEnum> = navInfractions.map {
+                it.infractionType
             }.orEmpty().filterNotNull()
 
-            return when (action.data) {
+            val allInfractionTypes = when (action.data) {
                 is NavActionControl -> {
-                    navTags
+                    navInfractionTypes
                 }
 
                 is EnvActionData -> {
-                    val envTags: List<String> = action.data.infractions?.map {
-                        it.infractionType.toString()
+                    val envTags: List<InfractionTypeEnum> = action.data.infractions?.map {
+                        it.infractionType
                     }.orEmpty()
-                    navTags + envTags
+                    navInfractionTypes + envTags
                 }
 
                 is FishActionData -> {
-                    val fishTags: List<String> = listOf(
-                        action.data.gearInfractions.map { it.infractionType.toString() },
-                        action.data.logbookInfractions.map { it.infractionType.toString() },
-                        action.data.speciesInfractions.map { it.infractionType.toString() },
-                        action.data.otherInfractions.map { it.infractionType.toString() }
+                    val fishTags: List<InfractionType> = listOf(
+                        action.data.gearInfractions.map { it.infractionType },
+                        action.data.logbookInfractions.map { it.infractionType },
+                        action.data.speciesInfractions.map { it.infractionType },
+                        action.data.otherInfractions.map { it.infractionType }
                     ).flatten().filterNotNull()
 
-                    navTags + fishTags
+                    navInfractionTypes + fishTags
                 }
 
                 else -> {
                     null
                 }
             }
+            val withReportCount =
+                allInfractionTypes?.count { it == InfractionTypeEnum.WITH_REPORT || it == InfractionType.WITH_RECORD }
+
+            val infractionTypeTag = if (withReportCount == 0) {
+                "Sans PV"
+            } else {
+                "$withReportCount PV"
+            }
+
+            // NATINfs
+            val navNatinfs: List<String> = navInfractions.flatMap {
+                it.natinfs ?: emptyList()
+            }
+
+            val allNatinfs = when (action.data) {
+                is NavActionControl -> {
+                    navNatinfs
+                }
+
+                is EnvActionData -> {
+                    val envNatinfs: List<String> = action.data.infractions?.flatMap {
+                        it.natinf.orEmpty()
+                    }.orEmpty()
+                    navNatinfs + envNatinfs
+                }
+
+                is FishActionData -> {
+                    val fishNatinfs: List<String> = listOf(
+                        action.data.gearInfractions.map { it.natinf.toString() },
+                        action.data.logbookInfractions.map { it.natinf.toString() },
+                        action.data.speciesInfractions.map { it.natinf.toString() },
+                        action.data.otherInfractions.map { it.natinf.toString() }
+                    ).flatten()
+
+                    navNatinfs + fishNatinfs
+                }
+
+                else -> {
+                    null
+                }
+            }
+            val withReportCountNatinf =
+                allNatinfs?.count { it != null }
+
+            val natinfTag = if (withReportCountNatinf == 0) {
+                "Sans infraction"
+            } else {
+                "$withReportCountNatinf NATINF"
+            }
+
+            return listOf(infractionTypeTag, natinfTag)
         }
 
         return null
