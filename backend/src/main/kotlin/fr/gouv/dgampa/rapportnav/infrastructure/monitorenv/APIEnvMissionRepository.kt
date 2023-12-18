@@ -18,7 +18,9 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 @Repository
-class APIEnvMissionRepository() : IEnvMissionRepository {
+class APIEnvMissionRepository(
+    private val mapper: ObjectMapper
+) : IEnvMissionRepository {
     private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepository::class.java)
     private val zoneDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.000X")
 
@@ -34,7 +36,6 @@ class APIEnvMissionRepository() : IEnvMissionRepository {
         seaFronts: List<String>?,
         controlUnits: List<Int>?
     ): List<MissionEntity>? {
-        val objectMapper = ObjectMapper()
 
         val uriBuilder = StringBuilder("https://monitorenv.din.developpement-durable.gouv.fr/api/v1/missions")
 
@@ -92,7 +93,7 @@ class APIEnvMissionRepository() : IEnvMissionRepository {
         // Check if the request was successful (status code 2xx)
         if (response.statusCode() in 200..299) {
             // Parse JSON response into a list of MissionDataOutput
-            val missionDataOutputList: List<MissionDataOutput> = objectMapper.readValue(response.body())
+            val missionDataOutputList: List<MissionDataOutput> = mapper.readValue(response.body())
 
             // Transform each MissionDataOutput to MissionEntity
             val missionEntityList: List<fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity> =

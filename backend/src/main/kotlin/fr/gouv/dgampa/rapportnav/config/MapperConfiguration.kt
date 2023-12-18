@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import org.n52.jackson.datatype.jts.JtsModule
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
@@ -13,6 +14,8 @@ class MapperConfiguration {
     @Bean
     fun objectMapper(): ObjectMapper {
         val mapper = Jackson2ObjectMapperBuilder().build<ObjectMapper>()
+
+        mapper.registerModule(JtsModule())
 
         // needed to handle java.time.ZonedDateTime serialization
         mapper.registerModule(JavaTimeModule())

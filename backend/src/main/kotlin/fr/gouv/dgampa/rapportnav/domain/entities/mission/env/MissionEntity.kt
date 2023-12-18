@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.env
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import org.locationtech.jts.geom.MultiPolygon
@@ -15,7 +14,7 @@ data class MissionEntity(
     val observationsCacem: String? = null,
     val observationsCnsp: String? = null,
     val facade: String? = null,
-    @JsonIgnore val geom: MultiPolygon? = null,
+    val geom: MultiPolygon? = null,
     val startDateTimeUtc: ZonedDateTime,
     val endDateTimeUtc: ZonedDateTime? = null,
     val envActions: List<EnvActionEntity>? = listOf(),

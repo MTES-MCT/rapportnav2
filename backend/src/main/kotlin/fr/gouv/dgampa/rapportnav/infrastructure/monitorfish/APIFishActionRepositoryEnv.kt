@@ -14,10 +14,11 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 @Repository
-class APIFishActionRepositoryEnv() : IFishActionRepository {
+class APIFishActionRepositoryEnv(
+    private val mapper: ObjectMapper
+) : IFishActionRepository {
     private val logger: Logger = LoggerFactory.getLogger(APIFishActionRepositoryEnv::class.java)
     override fun findFishActions(missionId: Int): List<MissionAction> {
-        val mapper = ObjectMapper()
         val client: HttpClient = HttpClient.newBuilder().build()
         val request = HttpRequest.newBuilder()
             .uri(
