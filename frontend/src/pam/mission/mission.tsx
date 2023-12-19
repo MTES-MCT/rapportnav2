@@ -195,7 +195,7 @@ export default function Mission() {
                             <Dialog.Body>
                                 <ControlSelection onSelect={addNewControl}/>
                             </Dialog.Body>
-                            <Dialog.Action>
+                            <Dialog.Action style={{justifyContent: 'flex-end', paddingRight: '1.5rem'}}>
                                 <Button accent={Accent.SECONDARY} onClick={() => setShowControlTypesModal(false)}>
                                     Fermer
                                 </Button>

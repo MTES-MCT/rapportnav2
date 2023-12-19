@@ -26,7 +26,6 @@ const InfractionTypeTag: React.FC<InfractionTagProps> = ({type}) => {
         label = infractionTypeLabels[type].libelle;
     } else if (isInfractionType(type)) {
         label = INFRACTION_TYPE_LABEL[type];
-        debugger
     } else {
         label = infractionTypeLabels[InfractionTypeEnum.WITHOUT_REPORT].libelle;
     }
