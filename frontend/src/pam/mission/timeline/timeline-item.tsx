@@ -16,6 +16,7 @@ import {controlMethodToHumanString, vesselTypeToHumanString} from '../controls/u
 import ControlsToCompleteTag from '../controls/controls-to-complete-tag'
 import Text from '../../../ui/text'
 import {useParams} from 'react-router-dom'
+import {vesselNameOrUnknown} from "../actions/utils.ts";
 
 interface MissionTimelineItemProps {
     action: Action
@@ -151,7 +152,7 @@ const ActionFishControl: React.FC<{ action: Action; onClick: any }> = ({action, 
                         <Stack direction="column" spacing="0.5rem" alignItems="flex-start" style={{width: '100%'}}>
                             <Stack.Item>
                                 <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-                                    {formatMissionActionTypeForHumans(actionData?.actionType)} - {actionData?.vesselName}
+                                    {formatMissionActionTypeForHumans(actionData?.actionType)} - {vesselNameOrUnknown(actionData?.vesselName)}
                                 </Text>
                             </Stack.Item>
 

@@ -28,6 +28,7 @@ import FishControlFleetSegmentSection from './fish/fish-control-fleet-segment-se
 import useActionById from "./use-action-by-id.tsx";
 import {useParams} from "react-router-dom";
 import FishControlOtherInfractionsSection from "./fish/fish-control-other-infractions-section.tsx";
+import {vesselNameOrUnknown} from "./utils.ts";
 
 export const controlCheckMultiRadioOptions = Object.keys(ControlCheck).map(key => ({
     label: key === ControlCheck.YES ? 'Oui' : key === ControlCheck.NO ? 'Non' : 'Non contrôlé',
@@ -79,7 +80,7 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({action}) => {
                     <Stack direction="column" spacing={'0rem'} alignItems="flex-start" style={{width: '100%'}}>
                         <Stack.Item>
                             <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
-                                {actionData?.vesselName}
+                                {vesselNameOrUnknown(actionData?.vesselName)}
                             </Text>
                         </Stack.Item>
                         <Stack.Item></Stack.Item>

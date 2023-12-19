@@ -4,7 +4,7 @@ import React from "react";
 import {statusReasonToHumanString} from "./utils.ts";
 
 
-const NAVIGATION_REASON_OPTIONS: { label: string | undefined; value: ActionStatusReason }[] = [
+const DOCKED_REASON_OPTIONS: { label: string | undefined; value: ActionStatusReason }[] = [
     {
         label: statusReasonToHumanString(ActionStatusReason.MAINTENANCE),
         value: ActionStatusReason.MAINTENANCE
@@ -30,7 +30,7 @@ const NAVIGATION_REASON_OPTIONS: { label: string | undefined; value: ActionStatu
         value: ActionStatusReason.OTHER
     }
 ]
-const DOCKING_REASON_OPTIONS: { label: string | undefined; value: ActionStatusReason }[] = [
+const UNAVAILABLE_REASON_OPTIONS: { label: string | undefined; value: ActionStatusReason }[] = [
     {
         label: statusReasonToHumanString(ActionStatusReason.TECHNICAL),
         value: ActionStatusReason.TECHNICAL
@@ -50,10 +50,10 @@ const getSelectOptionsForType = (type: ActionStatusType): {
     value: ActionStatusReason
 }[] | undefined => {
     switch (type) {
-        case ActionStatusType.NAVIGATING:
-            return NAVIGATION_REASON_OPTIONS;
         case ActionStatusType.DOCKED:
-            return DOCKING_REASON_OPTIONS;
+            return DOCKED_REASON_OPTIONS;
+        case ActionStatusType.UNAVAILABLE:
+            return UNAVAILABLE_REASON_OPTIONS;
         default:
             return undefined;
     }

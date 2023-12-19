@@ -1,8 +1,6 @@
-import {Dropdown, Icon, MultiSelect, OptionValue} from '@mtes-mct/monitor-ui'
-import {ActionTypeEnum} from '../../../types/env-mission-types'
+import {MultiSelect, OptionValue} from '@mtes-mct/monitor-ui'
 import React from "react";
 import useNatinfs from "./use-natinfs.tsx";
-import {Natinf} from "../../../types/infraction-types.ts";
 
 interface NatinfsMultiSelectProps {
     selectedNatinfs?: string[]
