@@ -1,7 +1,5 @@
 recup_inventaire_int:
   stage: pre-deploy-int
-  only:
-    - main
   variables:
     ID_PROJET_INVENTAIRE_INT: 156  #ID du projet GITLAB de l'inventaire d'intégration
   image: alpine/curl
@@ -16,8 +14,6 @@ recup_inventaire_int:
 
 deploiement_image_int:
   stage: deploy-int
-  only:
-    - main
   image: cbhek/ansible-worker:1.0.0
   tags:
     - deployment
