@@ -7,7 +7,7 @@ recup_inventaire_prod:
     - deployment
   script:
     - cd $CI_PROJECT_DIR
-    - curl -H "PRIVATE-TOKEN:$PROJET_INVENTAIRE_ACCESS_TOKEN" "$CI_API_V4_URL/projects/$ID_PROJET_INVENTAIRE_PROD/repository/files/topologie.ini/raw" --output inventory.ini
+    - curl -H "PRIVATE-TOKEN:$PROJET_INVENTAIRE_PROD_ACCESS_TOKEN" "$CI_API_V4_URL/projects/$ID_PROJET_INVENTAIRE_PROD/repository/files/topologie.ini/raw" --output inventory.ini
   artifacts:
     paths:
       - inventory.ini
