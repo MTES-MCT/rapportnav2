@@ -5,7 +5,7 @@ import useNatinfs from "./use-natinfs.tsx";
 import {Natinf} from "../../../types/infraction-types.ts";
 
 interface NatinfsMultiSelectProps {
-    selectedNatinfs?: number[]
+    selectedNatinfs?: string[]
     onChange: (field: string, value: any) => void
 }
 

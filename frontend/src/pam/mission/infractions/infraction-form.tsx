@@ -1,8 +1,7 @@
 import React from 'react'
 import {Stack, Toggle} from 'rsuite'
-import {Accent, Button, Size, THEME, MultiSelect, Textarea} from '@mtes-mct/monitor-ui'
+import {Accent, Button, Size, THEME, Textarea} from '@mtes-mct/monitor-ui'
 import Text from '../../../ui/text'
-import {Infraction} from '../../../types/infraction-types'
 import {InfractionTypeEnum} from '../../../types/env-mission-types'
 import NatinfsMultiSelect from "./natinfs-multi-select.tsx";
 import {ControlType} from "../../../types/control-types.ts";
@@ -10,18 +9,17 @@ import {ControlType} from "../../../types/control-types.ts";
 export interface InfractionFormData {
     controlType?: ControlType
     infractionType?: InfractionTypeEnum
-    natinfs?: number[]
+    natinfs?: string[]
     observations?: string
 }
 
 interface InfractionFormProps {
     infraction?: InfractionFormData
-    availableNatinfs?: string[]
     onChange: (field: string, value: any) => void
     onCancel: () => void
 }
 
-const InfractionForm: React.FC<InfractionFormProps> = ({infraction, availableNatinfs, onChange, onCancel}) => {
+const InfractionForm: React.FC<InfractionFormProps> = ({infraction, onChange, onCancel}) => {
     return (
         <>
             <input type="hidden" value={infraction?.id} name="id"/>
@@ -68,8 +66,7 @@ const InfractionForm: React.FC<InfractionFormProps> = ({infraction, availableNat
                         </Stack.Item>
                         <Stack.Item>
                             <Button accent={Accent.PRIMARY} type="submit" size={Size.NORMAL} role="validate-infraction"
-                                // todo add NATINF to the disabled condition
-                                //     disabled={!infraction?.controlType}>
+                                    disabled={infraction?.controlType === undefined || !infraction?.natinfs?.length}
                             >
                                 Valider l'infraction
                             </Button>

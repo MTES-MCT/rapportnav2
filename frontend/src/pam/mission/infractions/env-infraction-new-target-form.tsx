@@ -87,7 +87,6 @@ const EnvInfractionNewTargetForm: React.FC<EnvInfractionNewTargetFormProps> = ({
             <Stack.Item style={{width: '100%'}}>
                 <InfractionForm
                     infraction={infraction}
-                    availableNatinfs={availableNatinfs}
                     onChange={onChange}
                     onCancel={onCancel}
                 />

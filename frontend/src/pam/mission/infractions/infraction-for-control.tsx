@@ -25,11 +25,10 @@ const ControlInfraction: React.FC<ControlInfractionProps> = ({controlId, control
     const [formData, setFormData] = useState<InfractionFormData | undefined>(undefined) // only 1 infraction for nav and fish
 
     useEffect(() => {
-        setFormData(infractions?.[0])
+        setFormData({...infractions?.[0], controlType})
     }, [infractions])
 
     const onChangeFormField = (field: string, value: any) => {
-        debugger
         setFormData((prevData: any) => ({...prevData, [field]: value}))
     }
 
@@ -92,7 +91,6 @@ const ControlInfraction: React.FC<ControlInfractionProps> = ({controlId, control
                         <form onSubmit={(e: React.FormEvent) => onSubmit(e, formData)}>
                             <InfractionForm
                                 infraction={formData}
-                                availableNatinfs={undefined}
                                 onChange={onChangeFormField}
                                 onCancel={() => setShowInfractionForm(false)}
                             />
