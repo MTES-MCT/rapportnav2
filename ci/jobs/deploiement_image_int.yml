@@ -1,7 +1,5 @@
 recup_inventaire_int:
   stage: pre-deploy-int
-  only:
-    - main
   variables:
     ID_PROJET_INVENTAIRE_INT: 156  #ID du projet GITLAB de l'inventaire d'intégration
   image: alpine/curl
@@ -9,15 +7,13 @@ recup_inventaire_int:
     - deployment
   script:
     - cd $CI_PROJECT_DIR
-    - curl -H "PRIVATE-TOKEN:$PROJET_INVENTAIRE_ACCESS_TOKEN" "$CI_API_V4_URL/projects/$ID_PROJET_INVENTAIRE_INT/repository/files/topologie.ini/raw" --output inventory.ini
+    - curl -H "PRIVATE-TOKEN:$PROJET_INVENTAIRE_INT_ACCESS_TOKEN" "$CI_API_V4_URL/projects/$ID_PROJET_INVENTAIRE_INT/repository/files/topologie.ini/raw" --output inventory.ini
   artifacts:
     paths:
       - inventory.ini
 
 deploiement_image_int:
   stage: deploy-int
-  only:
-    - main
   image: cbhek/ansible-worker:1.0.0
   tags:
     - deployment

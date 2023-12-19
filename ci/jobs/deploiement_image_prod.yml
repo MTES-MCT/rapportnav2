@@ -7,7 +7,7 @@ recup_inventaire_prod:
     - deployment
   script:
     - cd $CI_PROJECT_DIR
-    - curl -H "PRIVATE-TOKEN:$PROJET_INVENTAIRE_ACCESS_TOKEN" "$CI_API_V4_URL/projects/$ID_PROJET_INVENTAIRE_PROD/repository/files/topologie.ini/raw" --output inventory.ini
+    - curl -H "PRIVATE-TOKEN:$PROJET_INVENTAIRE_PROD_ACCESS_TOKEN" "$CI_API_V4_URL/projects/$ID_PROJET_INVENTAIRE_PROD/repository/files/topologie.ini/raw" --output inventory.ini
   artifacts:
     paths:
       - inventory.ini
@@ -19,7 +19,7 @@ deploiement_image_prod:
   image: cbhek/ansible-worker:1.0.0
   tags:
     - deployment
-  needs:
+  dependencies:
     - "recup_inventaire_prod"
   variables:
     GIT_STRATEGY: fetch
@@ -28,6 +28,6 @@ deploiement_image_prod:
     # requis pour que le pipeline du projet appelant ce script ait accès aux scripts ansible
     - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2
   script:
-    - cd rapportnav-v2/ci && ansible-playbook -i ../inventory.ini deploiement_image_docker.yml --extra-vars "env=prod inventory_hostname=$SERVER_ENV_PROD"
+    - cd ci && ansible-playbook -i ../inventory.ini deploiement_image_docker.yml --extra-vars "env=prod inventory_hostname=$SERVER_ENV_PROD"
   
   
