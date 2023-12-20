@@ -1,56 +1,57 @@
 import React from 'react'
-import PageWrapper from '../missions/page-wrapper'
-import Mission from './mission'
-import { useNavigate, useParams } from 'react-router-dom'
+import MissionComponent from './mission-component.tsx'
+import {useNavigate, useParams} from 'react-router-dom'
 import MissionPageHeader from './page-header'
 import MissionPageFooter from './page-footer'
-import { useApolloClient } from '@apollo/client'
+import {useApolloClient} from '@apollo/client'
+import useMissionExcerpt from "./general-info/use-mission-excerpt.tsx";
+import {formatMissionName} from "./utils.ts";
 
-const MissionsPage: React.FC = () => {
-  const navigate = useNavigate()
-  let { missionId } = useParams()
-  const apolloClient = useApolloClient()
+const MissionPage: React.FC = () => {
+    const navigate = useNavigate()
+    let {missionId} = useParams()
+    const apolloClient = useApolloClient()
 
-  const exitMission = () => {
-    // TODO centralise the following into a class - also used in use-auth()
-    // reset apollo store
-    apolloClient.resetStore()
-    // flush apollo persist cache
-    apolloClient.cache.evict({})
+    const {loading, error, data: mission} = useMissionExcerpt(missionId)
 
-    navigate('..')
-  }
 
-  return (
-    <div
-      style={{
-        margin: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh',
-        maxHeight: '100vh'
-      }}
-    >
-      <MissionPageHeader missionName={`Mission #${missionId}`} onClickClose={exitMission} />
-      {/* <main
-        style={{
-          display: 'flex',
-          flex: 1
-        }}
-      > */}
-      <Mission />
-      {/* </main> */}
+    const exitMission = async () => {
+        // TODO centralise the following into a class - also used in use-auth()
+        // reset apollo store
+        await apolloClient.resetStore()
+        // flush apollo persist cache
+        apolloClient.cache.evict({})
 
-      <MissionPageFooter missionName={`Mission #${missionId}`} exitMission={exitMission} />
-    </div>
-    // <PageWrapper
-    //   showMenu={false}
-    //   header={<MissionPageHeader missionName={`Mission #${missionId}`} onClickClose={exitMission} />}
-    //   footer={<MissionPageFooter missionName={`Mission #${missionId}`} exitMission={exitMission} />}
-    // >
-    //   <Mission />
-    // </PageWrapper>
-  )
+        navigate('..')
+    }
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
+
+    if (error) {
+        return <div>error...</div>
+    }
+
+    return (
+        <div
+            style={{
+                margin: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: '100vh',
+                maxHeight: '100vh'
+            }}
+        >
+            <MissionPageHeader missionName={formatMissionName(mission?.startDateTimeUtc)}
+                               missionSource={mission?.missionSource}
+                               onClickClose={exitMission}/>
+
+            <MissionComponent mission={mission}/>
+
+            <MissionPageFooter missionName={`Mission #${missionId}`} exitMission={exitMission}/>
+        </div>
+    )
 }
 
-export default MissionsPage
+export default MissionPage

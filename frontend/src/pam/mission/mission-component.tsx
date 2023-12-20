@@ -2,13 +2,11 @@ import {Accent, Icon, Dialog, IconButton, Size, THEME, Button} from '@mtes-mct/m
 import {Divider, FlexboxGrid, Stack} from 'rsuite'
 import {useNavigate, useParams} from 'react-router-dom'
 import MissionGeneralInfoPanel from './panel-general-info'
-import MissionOperationalSummaryPanel from './panel-operational-summary'
-import MissionActivityPanel from './panel-activity'
 import MissionTimeline from './timeline/timeline'
-import {useMemo, useState} from 'react'
+import React, {useMemo, useState} from 'react'
 import {getComponentForAction} from './actions/action-mapping'
 import Text from '../../ui/text'
-import {VesselTypeEnum} from '../../types/mission-types'
+import {Mission, VesselTypeEnum} from '../../types/mission-types'
 import {Action, ActionStatusType} from '../../types/action-types'
 import ActionSelectionDropdown from './actions/action-selection-dropdown'
 import {ActionTypeEnum} from '../../types/env-mission-types'
@@ -21,16 +19,18 @@ import {
 import StatusSelectionDropdown from './status/status-selection-dropdown'
 import find from 'lodash/find'
 import {GET_MISSION_TIMELINE} from "./timeline/use-mission-timeline.tsx";
-import useMissionExcerpt from "./general-info/use-mission-excerpt.tsx";
 
-export default function Mission() {
+export interface MissionProps {
+    mission?: Mission
+}
+
+const MissionComponent: React.FC<MissionProps> = ({mission}) => {
     const {missionId, actionId} = useParams()
 
     let navigate = useNavigate()
 
     const [showControlTypesModal, setShowControlTypesModal] = useState<boolean>(false)
 
-    const {loading, error, data: mission} = useMissionExcerpt(missionId)
 
     const [addStatus, {statusMutationResponse}] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_STATUS, {
         refetchQueries: [GET_MISSION_TIMELINE]
@@ -89,9 +89,6 @@ export default function Mission() {
         navigate(`/pam/missions/${missionId}/${response.data.addOrUpdateControl.id}`)
     }
 
-    if (loading) {
-        return <div>Loading...</div>
-    }
 
     if (mission) {
         const MissionActionComponent = getComponentForAction(selectedAction)
@@ -207,3 +204,5 @@ export default function Mission() {
         )
     }
 }
+
+export default MissionComponent

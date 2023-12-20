@@ -6,6 +6,7 @@ import {Icon, THEME} from '@mtes-mct/monitor-ui'
 import {formatDateForFrenchHumans} from '../../dates'
 import React from 'react'
 import styled from "styled-components";
+import {formatMissionName} from "../mission/utils.ts";
 
 const ListItemWithHover = styled.div`
   height: inherit;
@@ -72,7 +73,7 @@ const MissionsList: React.FC<MissionsListProps> = ({missions, prefetchMission}) 
                                 <FlexboxGrid.Item colspan={4}>
                                     <p
                                         style={{color: THEME.color.charcoal, fontSize: '16px', fontWeight: 'bold'}}
-                                    >{`Mission #${mission.id}`}</p>
+                                    >{formatMissionName(mission.startDateTimeUtc)}</p>
                                 </FlexboxGrid.Item>
                                 <FlexboxGrid.Item colspan={5}>
                                     <MissionOpenByTag missionSource={mission.missionSource}/>

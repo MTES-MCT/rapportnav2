@@ -18,7 +18,7 @@ const ControlTitleCheckbox: React.FC<ControlTitleCheckboxProps> = ({
                                                                        onChange
                                                                    }) => {
     return (
-        <Stack direction="row" alignItems="center">
+        <Stack direction="row" alignItems="center" spacing={'0.2rem'}>
             <Stack.Item alignSelf="baseline">
                 <Checkbox
                     error=""
@@ -33,7 +33,6 @@ const ControlTitleCheckbox: React.FC<ControlTitleCheckboxProps> = ({
                     {controlTitle(controlType)}
                 </Text>
             </Stack.Item>
-            <Stack.Item>&nbsp;&nbsp;</Stack.Item>
             {!!shouldCompleteControl && (
                 <Stack.Item>
                     <p style={{color: THEME.color.maximumRed}}>●</p>

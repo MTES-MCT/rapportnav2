@@ -1,5 +1,4 @@
 import {ApolloError, gql, useQuery} from '@apollo/client'
-import {MissionCrew} from '../../../types/crew-types'
 import {Mission} from "../../../types/mission-types.ts";
 
 export const GET_MISSION_EXCERPT = gql`
