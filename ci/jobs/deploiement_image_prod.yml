@@ -19,7 +19,7 @@ deploiement_image_prod:
   image: cbhek/ansible-worker:1.0.0
   tags:
     - deployment
-  dependencies:
+  needs:
     - "recup_inventaire_prod"
   variables:
     GIT_STRATEGY: fetch
