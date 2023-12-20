@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav
 
 import io.sentry.Sentry
-import io.sentry.SentryOptions
+import io.sentry.SentryOptions.Proxy
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 import org.springframework.boot.runApplication
@@ -18,7 +18,7 @@ fun main(args: Array<String>) {
     val sentryDsn: String? = ctx.environment.getProperty("sentry.dsn")
 
     if (isSentryEnabled == "true") {
-        var proxy = SentryOptions.Proxy()
+        var proxy = Proxy()
         proxy.host = "172.27.229.197"
         proxy.port = "8090"
         Sentry.init { options ->
