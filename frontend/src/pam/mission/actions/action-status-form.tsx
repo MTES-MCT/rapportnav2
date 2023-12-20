@@ -18,7 +18,7 @@ import {
 } from '../../../types/action-types'
 import {Stack} from 'rsuite'
 import Text from '../../../ui/text'
-import {formatDateTimeForFrenchHumans} from '../../../dates'
+import {formatDateTimeForFrenchHumans} from '../../../utils/dates.ts'
 import {getColorForStatus, mapStatusToText} from '../status/utils'
 import {useMutation} from '@apollo/client'
 import {DELETE_ACTION_STATUS, MUTATION_ADD_OR_UPDATE_ACTION_STATUS} from '../queries'

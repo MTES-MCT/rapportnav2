@@ -3,7 +3,7 @@ import {FlexboxGrid, Stack} from 'rsuite'
 import {Link} from 'react-router-dom'
 import MissionOpenByTag from './mission-open-by-tag'
 import {Icon, THEME} from '@mtes-mct/monitor-ui'
-import {formatDateForFrenchHumans} from '../../dates'
+import {formatDateForFrenchHumans} from '../../utils/dates.ts'
 import React from 'react'
 import styled from "styled-components";
 import {formatMissionName} from "../mission/utils.ts";

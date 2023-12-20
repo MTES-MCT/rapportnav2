@@ -1,9 +1,17 @@
 import React from 'react'
-import {CoordinatesFormat, CoordinatesInput, DateRangePicker, Icon, Label, THEME} from '@mtes-mct/monitor-ui'
+import {
+    CoordinatesFormat,
+    CoordinatesInput,
+    DatePicker,
+    DateRangePicker,
+    Icon,
+    Label, MultiZoneEditor,
+    THEME
+} from '@mtes-mct/monitor-ui'
 import Divider from 'rsuite/Divider'
 import {Stack} from 'rsuite'
 import Text from '../../../ui/text'
-import {formatDateTimeForFrenchHumans} from '../../../dates'
+import {formatDateTimeForFrenchHumans} from '../../../utils/dates.ts'
 import ControlsToCompleteTag from '../controls/controls-to-complete-tag'
 import EnvControlForm from '../controls/env-control-form'
 import {Action} from '../../../types/action-types'
@@ -13,6 +21,7 @@ import {useParams} from 'react-router-dom'
 import EnvInfractionNewTarget from '../infractions/env-infraction-new-target'
 import EnvInfractionExistingTarget from '../infractions/env-infraction-existing-target'
 import useActionById from "./use-action-by-id.tsx";
+import {extractLatLonFromMultiPoint} from "../../../utils/geometry.ts";
 
 interface ActionControlPropsEnv {
     action: Action
@@ -68,29 +77,59 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({action}) => {
                     </Text>
                 </Stack.Item>
                 <Stack.Item style={{width: '100%'}}>
-                    <Label>Date et heure de début et de fin</Label>
-                    <DateRangePicker
-                        defaultValue={[envAction.startDateTimeUtc || new Date(), envAction.endDateTimeUtc || new Date()]}
-                        // label="Date et heure de début et de fin"
+                    <Label>Date et heure</Label>
+                    <DatePicker
+                        defaultValue={envAction.startDateTimeUtc}
+                        // label="Date et heure"
                         withTime={true}
-                        isCompact={true}
+                        isCompact={false}
                         isLight={true}
+                        name="startDateTimeUtc"
                         readOnly={true}
                         disabled={true}
                     />
                 </Stack.Item>
                 <Stack.Item>
                     <Label>Lieu du contrôle</Label>
-                    <CoordinatesInput
-                        defaultValue={[
-                            actionData?.latitude as any,
-                            actionData?.longitude as any
-                        ]}
-                        coordinatesFormat={CoordinatesFormat.DECIMAL_DEGREES}
-                        // label="Lieu du contrôle"
-                        // isLight={true}
-                        disabled={true}
-                    />
+                    {true && (() => {
+                        const [latitude, longitude] = extractLatLonFromMultiPoint(actionData?.geom);
+                        return (
+                            <CoordinatesInput
+                                defaultValue={[
+                                    latitude as any,
+                                    longitude as any
+                                ]}
+                                coordinatesFormat={CoordinatesFormat.DECIMAL_DEGREES}
+                                // label="Lieu du contrôle"
+                                // isLight={true}
+                                disabled={true}
+                            />
+                        );
+                    })()}
+
+
+                    {/*<MultiZoneEditor*/}
+                    {/*    addButtonLabel="Add a zone"*/}
+                    {/*    disabled*/}
+                    {/*    error=""*/}
+                    {/*    initialZone={{*/}
+                    {/*        name: 'Polygone dessiné'*/}
+                    {/*    }}*/}
+                    {/*    isLight={true}*/}
+                    {/*    label="Some zones"*/}
+                    {/*    labelPropName="name"*/}
+                    {/*    defaultValue={actionData?.geom}*/}
+                    {/*    onAdd={function noRefCheck() {*/}
+                    {/*    }}*/}
+                    {/*    onCenter={function noRefCheck() {*/}
+                    {/*    }}*/}
+                    {/*    onChange={function noRefCheck() {*/}
+                    {/*    }}*/}
+                    {/*    onDelete={function noRefCheck() {*/}
+                    {/*    }}*/}
+                    {/*    onEdit={function noRefCheck() {*/}
+                    {/*    }}*/}
+                    {/*/>*/}
                 </Stack.Item>
                 <Stack.Item style={{width: '100%'}}>
                     <Divider style={{backgroundColor: THEME.color.charcoal}}/>

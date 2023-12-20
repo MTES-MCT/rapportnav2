@@ -18,7 +18,7 @@ import ControlAdministrativeForm from '../controls/control-administrative-form'
 import ControlNavigationForm from '../controls/control-navigation-form'
 import ControlGensDeMerForm from '../controls/control-gens-de-mer-form'
 import ControlSecurityForm from '../controls/control-security-form'
-import {formatDateTimeForFrenchHumans} from '../../../dates'
+import {formatDateTimeForFrenchHumans} from '../../../utils/dates.ts'
 import FishControlAdministrativeSection from './fish/fish-control-administrative-section'
 import FishControlEnginesSection from './fish/fish-control-engines-section'
 import FishControlSpeciesSection from './fish/fish-control-species-section'
@@ -108,7 +108,7 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({action}) => {
                         ]}
                         coordinatesFormat={CoordinatesFormat.DECIMAL_DEGREES}
                         // label="Lieu du contrôle"
-                        isLight={true}
+                        // isLight={true}
                         disabled={true}
                     />
                 </Stack.Item>

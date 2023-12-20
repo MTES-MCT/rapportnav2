@@ -1,4 +1,4 @@
-import {compareAsc, compareDesc, parseISO} from '../dates'
+import {compareAsc, compareDesc, parseISO} from '../utils/dates.ts'
 import {ControlUnit} from './control-unit-types'
 import {
     ControlAdministrative,
@@ -380,7 +380,7 @@ export type NewEnvAction = NewEnvActionControl | EnvActionSurveillance | EnvActi
 export type EnvActionCommonProperties = {
     actionEndDateTimeUtc?: string | null
     actionStartDateTimeUtc?: string | null
-    geom?: Record<string, any>[]
+    geom?: string
     id: string
     actionStatus: string
 }
