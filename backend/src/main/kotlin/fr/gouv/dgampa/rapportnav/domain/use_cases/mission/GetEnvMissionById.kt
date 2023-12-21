@@ -49,7 +49,7 @@ class GetEnvMissionById(
             val envMission = mapper.readValue(response.body(), object : TypeReference<EnvMission>() {})
             return ExtendedEnvMissionEntity.fromEnvMission(envMission)
         } catch (e: Exception) {
-            logger.error("GetEnvMissionById failed loading Mission", e)
+            logger.error("GetEnvMissionById failed loading Missionerfewrew", e)
             Sentry.captureMessage("GetEnvMissionById failed loading Mission")
             Sentry.captureException(e)
 
