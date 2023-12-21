@@ -33,7 +33,7 @@ describe('Login Component', () => {
     })
   })
 
-  it.only('should set token in local storage and go to root path on successful form submission', async () => {
+  it('should set token in local storage and go to root path on successful form submission', async () => {
     server.use(loginSuccessHandler[0])
     // set router to a different route to correctly test the redirection - avoiding false positives
     window.history.pushState({}, '', '/login')
