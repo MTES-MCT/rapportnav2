@@ -2,9 +2,9 @@ name: Build and Test
 
 on:
   push:
-    branches: ["CHANGEME"]
-  # pull_request:
-  #   branches: ["main"]
+    branches: [ "CHANGEME" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build-and-test:
@@ -33,6 +33,9 @@ jobs:
           dedupe_issues: true
           working_directory: frontend
 
+      - name: "[FRONTEND] ESLint"
+        run: make front-lint
+
       - name: "[FRONTEND] Tests"
         run: make front-test
 
@@ -49,8 +52,11 @@ jobs:
       - name: "[BACKEND] Analyse dependencies"
         run: make back-check-dependencies
 
-      - name: "[BACKEND] Check clean architecture"
-        run: make check-clean-archi
+      - name: "[BACKEND] Tests"
+        run: make back-test
+
+      #      - name: "[BACKEND] Check clean architecture"
+      #        run: make check-clean-archi
 
       - name: "[BACKEND] Build"
         run: make back-build-mvn

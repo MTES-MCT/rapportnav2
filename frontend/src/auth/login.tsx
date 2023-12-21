@@ -7,6 +7,8 @@ import { Form, Formik, FormikHelpers } from 'formik'
 import { validate } from 'email-validator'
 import { csrfToken } from './csrf'
 
+export const LOGIN_ENDPOINT = '/api/v1/auth/login'
+
 interface LoginResponse {
   token: string
 }
@@ -31,7 +33,7 @@ const Login: React.FC = () => {
     {setStatus, setSubmitting}: FormikHelpers<LoginFormValues>
   ) => {
     try {
-      const response = await fetch('/api/v1/auth/login', {
+      const response = await fetch(`${window.location.origin}${LOGIN_ENDPOINT}`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',

@@ -21,7 +21,7 @@ front-build:
 
 front-lint:
 	cd $(FRONTEND_DIR) && npm run lint
-	
+
 front-test:
 	cd $(FRONTEND_DIR) && npm run test
 
@@ -38,12 +38,15 @@ BACKEND_DIR := backend
 BACKEND_CONFIGURATION_FOLDER=$(shell pwd)/infra/configurations/backend/
 
 
-.PHONY: back-clean-install back-check-dependencies
+.PHONY: back-clean-install back-check-dependencies back-test
 back-clean-install:
 	cd $(BACKEND_DIR) && mvn clean install
 
 back-check-dependencies:
 	cd $(BACKEND_DIR) && mvn dependency-check:check
+
+back-test:
+	cd $(BACKEND_DIR) && mvn test
 
 
 
@@ -92,7 +95,7 @@ logs-backend:
 
 
 
-.PHONY: docker-build-app docker-tag-app docker-push-app 
+.PHONY: docker-build-app docker-tag-app docker-push-app
 
 docker-build-app:
 	docker buildx build -f infra/docker/app/Dockerfile .  \
@@ -101,7 +104,7 @@ docker-build-app:
 		--load \
 		--build-arg VERSION=$(VERSION) \
 		--build-arg ENV_PROFILE=$(ENV_PROFILE) \
-		--build-arg GITHUB_SHA=$(GITHUB_SHA) 
+		--build-arg GITHUB_SHA=$(GITHUB_SHA)
 
 # not used
 docker-tag-app:

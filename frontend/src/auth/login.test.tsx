@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '../test-utils'
 import userEvent from '@testing-library/user-event'
 import Login from './login'
-import { login_failed_handler, loginServer } from './test-server'
+import { loginFailedHandler, loginServer, loginSuccessHandler } from './test-server'
 import { afterAll, afterEach, beforeAll, describe, it } from 'vitest'
 
 const server = loginServer()
@@ -34,6 +34,7 @@ describe('Login Component', () => {
   })
 
   it.only('should set token in local storage and go to root path on successful form submission', async () => {
+    server.use(loginSuccessHandler[0])
     // set router to a different route to correctly test the redirection - avoiding false positives
     window.history.pushState({}, '', '/login')
     expect(window.location.pathname).toEqual('/login')
@@ -58,7 +59,7 @@ describe('Login Component', () => {
 
   it('should display error message when API call fails', async () => {
     // Mock httpClient to return a rejected promise
-    server.use(login_failed_handler)
+    server.use(loginFailedHandler)
 
     render(<Login/>)
 

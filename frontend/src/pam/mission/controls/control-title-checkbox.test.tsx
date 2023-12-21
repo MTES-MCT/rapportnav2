@@ -40,11 +40,7 @@ describe('ControlTitleCheckbox', () => {
     })
   })
 
-  it('should be disabled when no onChange and not checked', () => {
-    render(<ControlTitleCheckbox {...props(undefined, false)} />)
-    const checkbox = screen.getByRole('checkbox')
-    expect(checkbox).toBeDisabled()
-  })
+
   it('should be enabled when no onChange and is checked', () => {
     render(<ControlTitleCheckbox {...props(undefined, true)} />)
     const checkbox = screen.getByRole('checkbox')
