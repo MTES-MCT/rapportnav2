@@ -44,6 +44,6 @@ export type InfractionEnvNewTarget = Infraction & {
 export type Natinf = {
     infraction: string
     // infractionCategory: string
-    natinfCode: number
+    natinfCode: string
     // regulation: string
 }

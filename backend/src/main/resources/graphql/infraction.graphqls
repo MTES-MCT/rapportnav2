@@ -43,7 +43,7 @@ type InfractionByTarget {
 
 type Natinf {
     infraction: String!
-    natinfCode: Int!
+    natinfCode: String!
 }
 
 enum InfractionType {
