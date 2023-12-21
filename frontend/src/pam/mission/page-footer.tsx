@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FlexboxGrid, Stack } from 'rsuite'
-import { Accent, Icon, Button, Size, THEME } from '@mtes-mct/monitor-ui'
-import { useNavigate } from 'react-router-dom'
+import {FlexboxGrid, Stack} from 'rsuite'
+import {Accent, Button, Icon, Size, THEME} from '@mtes-mct/monitor-ui'
+import {useNavigate} from 'react-router-dom'
+import Text from "../../ui/text.tsx";
 
 const StyledFooter = styled.div`
   height: 60px;
@@ -18,7 +19,7 @@ interface MissionPageFooterProps {
   exitMission: () => void
 }
 
-const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionName, exitMission }) => {
+const MissionPageFooter: React.FC<MissionPageFooterProps> = ({missionName, exitMission}) => {
   const navigate = useNavigate()
 
   const deleteMission = () => {
@@ -26,49 +27,36 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionName, exit
     alert('Fonctionnalité pas encore implémentée')
     exitMission()
   }
-  const saveAndQuitMission = () => {
-    // TODO add save
-    alert('Fonctionnalité pas encore implémentée')
-    exitMission()
-  }
-  const finishMission = () => {
-    // TODO add state machine change
-    alert('Fonctionnalité pas encore implémentée')
-    exitMission()
-  }
+
 
   return (
     <StyledFooter>
-      <FlexboxGrid justify="space-between" align="middle" style={{ height: '100%' }}>
-        <FlexboxGrid.Item>
-          <FlexboxGrid justify="space-between" align="middle" style={{ height: '100%' }}>
-            <FlexboxGrid.Item>
-              <Button accent={Accent.SECONDARY} size={Size.NORMAL} Icon={Icon.Delete} onClick={deleteMission}>
-                Supprimer la mission
-              </Button>
-            </FlexboxGrid.Item>
-          </FlexboxGrid>
-        </FlexboxGrid.Item>
-        <FlexboxGrid.Item>
-          <Stack direction="row">
-            <Stack.Item style={{ paddingLeft: '1rem' }}>
-              <Button accent={Accent.TERTIARY} size={Size.NORMAL} onClick={exitMission}>
-                Quitter
-              </Button>
-            </Stack.Item>
-            <Stack.Item style={{ paddingLeft: '1rem' }}>
-              <Button accent={Accent.PRIMARY} size={Size.NORMAL} Icon={Icon.Save} onClick={saveAndQuitMission}>
-                Enregistrer et quitter
-              </Button>
-            </Stack.Item>
-            <Stack.Item style={{ paddingLeft: '1rem' }}>
-              <Button accent={Accent.SECONDARY} size={Size.NORMAL} Icon={Icon.Check} onClick={finishMission}>
-                Clôturer la mission
-              </Button>
-            </Stack.Item>
-          </Stack>
-        </FlexboxGrid.Item>
-      </FlexboxGrid>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" style={{height: '100%'}}>
+        <Stack.Item style={{paddingLeft: '1rem'}}>
+          <Button accent={Accent.SECONDARY}
+                  size={Size.NORMAL}
+                  Icon={Icon.Delete}
+                  onClick={deleteMission}
+                  disabled={true}
+          >
+            Supprimer la mission
+          </Button>
+        </Stack.Item>
+        <Stack.Item style={{paddingLeft: '1rem'}}>
+          <Text as={'h2'} color={THEME.color.lightGray}>
+            RapportNav - Version test #0 -Janvier 2024
+          </Text>
+        </Stack.Item>
+        <Stack.Item style={{paddingLeft: '1rem'}}>
+          <Button accent={Accent.PRIMARY}
+                  size={Size.NORMAL}
+                  Icon={Icon.Save}
+                  onClick={exitMission}
+          >
+            Quitter le rapport
+          </Button>
+        </Stack.Item>
+      </Stack>
     </StyledFooter>
   )
 }
