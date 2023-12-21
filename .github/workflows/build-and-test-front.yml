@@ -1,4 +1,4 @@
-name: Build and Test
+name: [ FRONTEND ] Build and Test
 
 on:
   push:
@@ -20,10 +20,10 @@ jobs:
           # cache-dependency-path: ./frontend/package-lock.json
           node-version: 20
 
-      - name: "[FRONTEND] Install dependencies"
+      - name: "Install dependencies"
         run: make front-ci
 
-      - name: "[FRONTEND] Analyse dependencies"
+      - name: "Analyse dependencies"
         uses: oke-py/npm-audit-action@v2
         with:
           audit_level: high
@@ -33,30 +33,13 @@ jobs:
           dedupe_issues: true
           working_directory: frontend
 
-      - name: "[FRONTEND] ESLint"
+      - name: "ESLint"
         run: make front-lint
 
-      - name: "[FRONTEND] Tests"
+      - name: "Tests"
         run: make front-test
 
-      - name: "[FRONTEND] Build"
+      - name: "Build"
         run: make front-build
 
-      - name: "[BACKEND] Setup Java JDK"
-        uses: actions/setup-java@v2
-        with:
-          distribution: "zulu"
-          java-version: "17"
-          java-package: jdk # optional (jdk or jre) - defaults to jdk
 
-      - name: "[BACKEND] Analyse dependencies"
-        run: make back-check-dependencies
-
-      - name: "[BACKEND] Tests"
-        run: make back-test
-
-      #      - name: "[BACKEND] Check clean architecture"
-      #        run: make check-clean-archi
-
-      - name: "[BACKEND] Build"
-        run: make back-build-mvn
