@@ -65,7 +65,7 @@ const ControlSecurityForm: FC<ControlSecurityFormProps> = ({
       unitShouldConfirm: unitShouldConfirm
     }
 
-    if (!!field && value != undefined) {
+    if (!!field && value !== undefined) {
       updatedData = {
         ...updatedData,
         [field]: value

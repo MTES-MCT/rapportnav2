@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { Stack } from 'rsuite'
 import { Accent, Button, Icon, Size, THEME } from '@mtes-mct/monitor-ui'
-import { useNavigate } from 'react-router-dom'
 import Text from "../../ui/text.tsx";
 
 const StyledFooter = styled.div`
@@ -20,7 +19,6 @@ interface MissionPageFooterProps {
 }
 
 const MissionPageFooter: React.FC<MissionPageFooterProps> = ({missionName, exitMission}) => {
-  const navigate = useNavigate()
 
   const deleteMission = () => {
     // TODO add delete

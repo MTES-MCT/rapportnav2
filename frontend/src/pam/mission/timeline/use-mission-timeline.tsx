@@ -58,17 +58,18 @@ export const GET_MISSION_TIMELINE = gql`
 const useGetMissionTimeline = (missionId?: string): {
   data?: Mission;
   loading: boolean;
-  error?: ApolloError
-} | undefined => {
-  if (!missionId)
-    return
-
+  error?: ApolloError;
+} => {
   const {loading, error, data} = useQuery(GET_MISSION_TIMELINE, {
-    variables: {missionId}
+    variables: {missionId},
     // fetchPolicy: 'cache-only'
-  })
+  });
 
-  return {loading, error, data: data?.mission}
-}
+  if (!missionId) {
+    return {loading: false, error: undefined, data: undefined};
+  }
 
-export default useGetMissionTimeline
+  return {loading, error, data: data?.mission};
+};
+
+export default useGetMissionTimeline;

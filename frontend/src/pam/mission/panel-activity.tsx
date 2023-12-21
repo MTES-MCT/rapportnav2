@@ -6,7 +6,7 @@ import Text from '../../ui/text'
 interface MissionActivityPanelProps {
 }
 
-const MissionActivityPanel: React.FC<MissionActivityPanelProps> = ({}) => {
+const MissionActivityPanel: React.FC<MissionActivityPanelProps> = () => {
   return (
     <Panel
       header={

@@ -95,7 +95,6 @@ export interface FishAction {
 // ---------------------------------------------------------------------------
 // Constants
 
-/* eslint-disable sort-keys-fix/sort-keys-fix, typescript-sort-keys/string-enum */
 export enum ControlCheck {
   NO = 'NO',
   NOT_APPLICABLE = 'NOT_APPLICABLE',
@@ -157,7 +156,6 @@ export const formatMissionActionTypeForHumans = (type?: MissionActionType): stri
       return ''
   }
 }
-/* eslint-enable sort-keys-fix/sort-keys-fix, typescript-sort-keys/string-enum */
 
 // ---------------------------------------------------------------------------
 // Types

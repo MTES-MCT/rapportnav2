@@ -14,7 +14,7 @@ import useDeleteMissionCrew from './use-delete-mission-crew'
 interface MissionCrewProps {
 }
 
-const MissionCrew: React.FC<MissionCrewProps> = ({}) => {
+const MissionCrew: React.FC<MissionCrewProps> = () => {
   const {missionId} = useParams()
 
   const {data: agentRoles, agentRolesLoading, agentRolesError} = useAgentRoles()

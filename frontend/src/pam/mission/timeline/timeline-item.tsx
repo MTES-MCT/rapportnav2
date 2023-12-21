@@ -121,7 +121,7 @@ const ActionEnvControl: React.FC<{ action: Action; onClick: any }> = ({action, o
                   <Stack.Item alignSelf="flex-end" style={{width: '30%'}}>
                     <Stack direction="column" alignItems="flex-end">
                       <Stack.Item alignSelf="flex-end">
-                        <Text as="h4" color={THEME.color.slateGray} style="italic">
+                        <Text as="h4" color={THEME.color.slateGray} style={"italic"}>
                           ajouté par CACEM
                         </Text>
                       </Stack.Item>

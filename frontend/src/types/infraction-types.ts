@@ -1,5 +1,5 @@
 import { FormalNoticeEnum, InfractionTypeEnum, VesselSizeEnum, VesselTypeEnum } from './env-mission-types'
-import { ControlType, VesselSizeEnum, VesselTypeEnum } from './mission-types'
+import { ControlType } from "./control-types.ts";
 
 export type Infraction = {
   id: string

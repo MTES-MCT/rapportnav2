@@ -6,7 +6,7 @@ import Text from '../../ui/text'
 interface MissionOperationalSummaryPanelProps {
 }
 
-const MissionOperationalSummaryPanel: React.FC<MissionOperationalSummaryPanelProps> = ({}) => {
+const MissionOperationalSummaryPanel: React.FC<MissionOperationalSummaryPanelProps> = () => {
   return (
     <Panel
       header={

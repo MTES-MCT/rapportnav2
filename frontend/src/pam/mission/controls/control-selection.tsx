@@ -1,8 +1,8 @@
-import { Icon, Label, MultiRadio, THEME } from '@mtes-mct/monitor-ui'
+import { Label, MultiRadio, THEME } from '@mtes-mct/monitor-ui'
 import { missionTypeEnum } from '../../../types/env-mission-types'
 import { Stack } from 'rsuite'
 import Text from '../../../ui/text'
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import { VesselTypeEnum } from '../../../types/mission-types'
 import { ControlTarget } from '../../../types/control-types'
 import { vesselTypeToHumanString } from './utils'
@@ -64,7 +64,7 @@ interface ControlSelectionProps {
   onSelect: (controlType: string, targetType: ControlTarget) => void
 }
 
-const ControlSelection: React.FC<ControlSelectionProps> = ({onSelect}) => {
+const ControlSelection: FC<ControlSelectionProps> = ({onSelect}) => {
   const [selectedControlType, setSelectedControlType] = useState<string>(missionTypeEnum.SEA.code)
 
   return (

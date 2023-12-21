@@ -1,5 +1,4 @@
 import { VesselSizeEnum, VesselTypeEnum } from '../../../types/env-mission-types'
-import { VesselSizeEnum, VesselTypeEnum } from '../../../types/mission-types'
 import { ControlMethod, ControlType } from '../../../types/control-types'
 
 export const controlMethodToHumanString = (controlMethod?: ControlMethod | null): string => {

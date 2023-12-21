@@ -96,7 +96,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
 
     const onChange = (field: string, value: any) => {
       let updatedField = {}
-      if (field == 'dates') {
+      if (field === 'dates') {
         debugger
         const startDateTimeUtc = value[0].toISOString()
         const endDateTimeUtc = value[1].toISOString()
@@ -104,7 +104,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
           startDateTimeUtc,
           endDateTimeUtc
         }
-      } else if (field == 'geom') {
+      } else if (field === 'geom') {
         updatedField = {
           latitude: value[0],
           longitude: value[1]

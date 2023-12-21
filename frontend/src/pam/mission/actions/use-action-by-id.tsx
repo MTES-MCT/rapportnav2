@@ -278,19 +278,26 @@ export const GET_ACTION_BY_ID = gql`
   }
 `
 
-const useActionById = (id?: string = undefined, missionId?: string = undefined, source: MissionSourceEnum, type: ActionTypeEnum): {
+const useActionById = (
+  id: string | undefined = undefined,
+  missionId: string | undefined = undefined,
+  source: MissionSourceEnum,
+  type: ActionTypeEnum
+): {
   data?: Action;
   loading: boolean;
-  error?: ApolloError
-} | undefined => {
-  if (!id || !missionId)
-    return
+  error?: ApolloError;
+} => {
   const {loading, error, data, ...rest} = useQuery(GET_ACTION_BY_ID, {
-    variables: {id, missionId, source, type}
+    variables: {id, missionId, source, type},
     // fetchPolicy: 'cache-only'
-  })
+  });
 
-  return {loading, error, data: data?.actionById, ...rest}
-}
+  if (!id || !missionId) {
+    return {loading: false, error: undefined, data: undefined};
+  }
 
-export default useActionById
+  return {loading, error, data: data?.actionById, ...rest};
+};
+
+export default useActionById;

@@ -47,10 +47,10 @@ const H4 = (color: string, weight: string = 'normal', fontStyle?: string, decora
   createTitleStyled(11, weight, color, fontStyle, decoration)
 
 const TextComponentMap = (color: string, weight?: string, fontStyle?: string, decoration?: string) => ({
-  ['h1']: H1(color, weight, fontStyle, decoration),
-  ['h2']: H2(color, weight, fontStyle, decoration),
-  ['h3']: H3(color, weight, fontStyle, decoration),
-  ['h4']: H4(color, weight, fontStyle, decoration)
+  'h1': H1(color, weight, fontStyle, decoration),
+  'h2': H2(color, weight, fontStyle, decoration),
+  'h3': H3(color, weight, fontStyle, decoration),
+  'h4': H4(color, weight, fontStyle, decoration)
 })
 const Text: React.FC<TitleProps> = ({children, as, color, weight, style, decoration}) => {
   const fontColor = color ?? THEME.color.charcoal
