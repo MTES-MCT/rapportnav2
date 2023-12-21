@@ -3,17 +3,17 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff.model.crew
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 
 data class Agent(
-  val id: Int?,
-  val firstName: String,
-  val lastName: String,
+    val id: Int?,
+    val firstName: String,
+    val lastName: String,
 ) {
-  companion object {
-    fun fromAgentEntity(agent: AgentEntity): Agent {
-      return Agent(
-        id = agent.id,
-        firstName = agent.firstName,
-        lastName = agent.lastName,
-      )
+    companion object {
+        fun fromAgentEntity(agent: AgentEntity): Agent {
+            return Agent(
+                id = agent.id,
+                firstName = agent.firstName,
+                lastName = agent.lastName,
+            )
+        }
     }
-  }
 }

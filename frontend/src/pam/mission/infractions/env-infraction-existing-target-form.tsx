@@ -1,8 +1,8 @@
 import React from 'react'
-import {Stack} from 'rsuite'
-import {Checkbox, Legend, MultiRadio, Select, THEME} from '@mtes-mct/monitor-ui'
-import {ControlType} from '../../../types/control-types'
-import {Infraction, InfractionByTarget} from '../../../types/infraction-types'
+import { Stack } from 'rsuite'
+import { Checkbox, Legend, MultiRadio, Select, THEME } from '@mtes-mct/monitor-ui'
+import { ControlType } from '../../../types/control-types'
+import { Infraction, InfractionByTarget } from '../../../types/infraction-types'
 import InfractionForm from './infraction-form'
 import {
   controlTitle,
@@ -11,7 +11,7 @@ import {
   vesselTypeToHumanString
 } from '../controls/utils'
 import Text from '../../../ui/text'
-import {formalNoticeLabels, infractionTypeLabels, transformFormatToOptions} from '../../../types/env-mission-types'
+import { formalNoticeLabels, infractionTypeLabels, transformFormatToOptions } from '../../../types/env-mission-types'
 import NatinfsFullNameList from "./natinfs-fullname-list.tsx";
 
 const CONTROL_TYPE_OPTIONS = [

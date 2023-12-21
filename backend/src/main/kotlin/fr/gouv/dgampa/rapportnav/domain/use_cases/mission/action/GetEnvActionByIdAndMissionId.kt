@@ -21,7 +21,7 @@ class GetEnvActionByIdAndMissionId(
     fun execute(id: UUID, missionId: Int): ExtendedEnvActionEntity? {
         val mission = getEnvMissionById.execute(missionId = missionId)
 
-        // TODO fetch controrls
+        // TODO fetch controls
 
         return mission?.actions?.firstOrNull { it?.controlAction?.action?.id == id }?.let {
             attachControlsToActionControl.toEnvAction(

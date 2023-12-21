@@ -36,8 +36,9 @@ class ControlNavigationModel(
             this.unitShouldConfirm = control.unitShouldConfirm
             this.observations = control.observations
         }
+
         fun fromControlNavigationEntity(control: ControlNavigationEntity): ControlNavigationModel {
-            val controlModel = ControlNavigationModel(id=control.id)
+            val controlModel = ControlNavigationModel(id = control.id)
             controlModel.copyCommonProperties(control)
             return controlModel
         }

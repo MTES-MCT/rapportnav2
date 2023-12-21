@@ -7,7 +7,7 @@ interface StatusSelectionDropdownProps {
   onSelect: (key: ActionStatusType) => void
 }
 
-export const StatusColorTag: React.FC<{ status: ActionStatusType }> = ({ status }) => (
+export const StatusColorTag: React.FC<{ status: ActionStatusType }> = ({status}) => (
   <div
     style={{
       backgroundColor: getColorForStatus(status),
@@ -18,12 +18,12 @@ export const StatusColorTag: React.FC<{ status: ActionStatusType }> = ({ status 
   ></div>
 )
 
-const StatusSelectionDropdown: React.FC<StatusSelectionDropdownProps> = ({ onSelect }) => (
+const StatusSelectionDropdown: React.FC<StatusSelectionDropdownProps> = ({onSelect}) => (
   <Dropdown Icon={Icon.FleetSegment} onSelect={onSelect} title="&#x25BC;" placement="bottomEnd">
     <Dropdown.Item eventKey={ActionStatusType.NAVIGATING}>
       <Stack spacing="0.5rem" alignItems="center">
         <Stack.Item>
-          <StatusColorTag status={ActionStatusType.NAVIGATING} />
+          <StatusColorTag status={ActionStatusType.NAVIGATING}/>
         </Stack.Item>
         <Stack.Item>{mapStatusToText(ActionStatusType.NAVIGATING)}</Stack.Item>
       </Stack>
@@ -31,7 +31,7 @@ const StatusSelectionDropdown: React.FC<StatusSelectionDropdownProps> = ({ onSel
     <Dropdown.Item eventKey={ActionStatusType.ANCHORED}>
       <Stack spacing="0.5rem" alignItems="center">
         <Stack.Item>
-          <StatusColorTag status={ActionStatusType.ANCHORED} />
+          <StatusColorTag status={ActionStatusType.ANCHORED}/>
         </Stack.Item>
         <Stack.Item>{mapStatusToText(ActionStatusType.ANCHORED)}</Stack.Item>
       </Stack>
@@ -39,7 +39,7 @@ const StatusSelectionDropdown: React.FC<StatusSelectionDropdownProps> = ({ onSel
     <Dropdown.Item eventKey={ActionStatusType.DOCKED}>
       <Stack spacing="0.5rem" alignItems="center">
         <Stack.Item>
-          <StatusColorTag status={ActionStatusType.DOCKED} />
+          <StatusColorTag status={ActionStatusType.DOCKED}/>
         </Stack.Item>
         <Stack.Item>{mapStatusToText(ActionStatusType.DOCKED)}</Stack.Item>
       </Stack>
@@ -47,7 +47,7 @@ const StatusSelectionDropdown: React.FC<StatusSelectionDropdownProps> = ({ onSel
     <Dropdown.Item eventKey={ActionStatusType.UNAVAILABLE}>
       <Stack spacing="0.5rem" alignItems="center">
         <Stack.Item>
-          <StatusColorTag status={ActionStatusType.UNAVAILABLE} />
+          <StatusColorTag status={ActionStatusType.UNAVAILABLE}/>
         </Stack.Item>
         <Stack.Item>{mapStatusToText(ActionStatusType.UNAVAILABLE)}</Stack.Item>
       </Stack>

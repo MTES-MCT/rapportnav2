@@ -1,10 +1,10 @@
-import { Accent, THEME, Tag, TagBullet, TagProps } from '@mtes-mct/monitor-ui'
+import { Accent, Tag, TagBullet, TagProps, THEME } from '@mtes-mct/monitor-ui'
 
 type ControlsToCompleteTagProps = TagProps & {
   amountOfControlsToComplete?: number
 }
 
-const ControlsToCompleteTag: React.FC<ControlsToCompleteTagProps> = ({ amountOfControlsToComplete, ...tagProps }) => {
+const ControlsToCompleteTag: React.FC<ControlsToCompleteTagProps> = ({amountOfControlsToComplete, ...tagProps}) => {
   if (!amountOfControlsToComplete || amountOfControlsToComplete == 0) {
     return null
   }

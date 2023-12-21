@@ -5,9 +5,9 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.Miss
 
 interface IMissionCrewRepository {
 
-  fun findByMissionId(missionId: Int): List<MissionCrewModel>
+    fun findByMissionId(missionId: Int): List<MissionCrewModel>
 
-  fun deleteById(id: Int): Boolean
+    fun deleteById(id: Int): Boolean
 
-  fun save(crew: MissionCrewEntity): MissionCrewModel
+    fun save(crew: MissionCrewEntity): MissionCrewModel
 }

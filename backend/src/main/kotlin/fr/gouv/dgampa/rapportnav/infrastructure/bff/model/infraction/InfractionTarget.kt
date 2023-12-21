@@ -34,20 +34,21 @@ data class InfractionTarget(
             vesselSize = infractionEntity.target?.vesselSize,
         )
 
-        fun fromEnvInfractionEntity(infractionEntity: fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionEntity) = InfractionTarget(
-            id = infractionEntity.id,
+        fun fromEnvInfractionEntity(infractionEntity: fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionEntity) =
+            InfractionTarget(
+                id = infractionEntity.id,
 //            natinf = infractionEntity.natinf,
-            natinfs = null,
-            observations = infractionEntity.observations,
-            companyName = infractionEntity.companyName,
-            relevantCourt = infractionEntity.relevantCourt,
-            infractionType = infractionEntity.infractionType,
-            formalNotice = infractionEntity.formalNotice,
-            toProcess = infractionEntity.toProcess,
-            vesselIdentifier = infractionEntity.registrationNumber,
-            identityControlledPerson = infractionEntity.controlledPersonIdentity,
-            vesselType = infractionEntity.vesselType,
-            vesselSize = infractionEntity.vesselSize,
-        )
+                natinfs = null,
+                observations = infractionEntity.observations,
+                companyName = infractionEntity.companyName,
+                relevantCourt = infractionEntity.relevantCourt,
+                infractionType = infractionEntity.infractionType,
+                formalNotice = infractionEntity.formalNotice,
+                toProcess = infractionEntity.toProcess,
+                vesselIdentifier = infractionEntity.registrationNumber,
+                identityControlledPerson = infractionEntity.controlledPersonIdentity,
+                vesselType = infractionEntity.vesselType,
+                vesselSize = infractionEntity.vesselSize,
+            )
     }
 }

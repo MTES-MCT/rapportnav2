@@ -8,12 +8,12 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class JPAAgentRoleRepository(
-  private val dbAgentRoleRepository: IDBAgentRoleRepository,
-  private val mapper: ObjectMapper
-): IAgentRoleRepository {
-  override fun findAll(): List<AgentRoleModel> {
-    return dbAgentRoleRepository.findAll()
-  }
+    private val dbAgentRoleRepository: IDBAgentRoleRepository,
+    private val mapper: ObjectMapper
+) : IAgentRoleRepository {
+    override fun findAll(): List<AgentRoleModel> {
+        return dbAgentRoleRepository.findAll()
+    }
 
 
 }

@@ -7,16 +7,16 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 import org.springframework.stereotype.Repository
 
 @Repository
-class JPAAgentRepository (
+class JPAAgentRepository(
     private val dbAgentRepository: IDBAgentRepository,
     private val mapper: ObjectMapper
-): IAgentRepository{
+) : IAgentRepository {
 
     override fun findAll(): List<AgentModel> {
         return dbAgentRepository.findAll()
     }
 
-   override fun findByServiceId(serviceId: Int): List<AgentModel> {
-    return dbAgentRepository.findByServicesId(serviceId)
-  }
+    override fun findByServiceId(serviceId: Int): List<AgentModel> {
+        return dbAgentRepository.findByServicesId(serviceId)
+    }
 }

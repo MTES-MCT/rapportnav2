@@ -3,9 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.auth
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository
 import org.springframework.security.oauth2.jwt.*
-
 import org.springframework.stereotype.Service
-import java.lang.Exception
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 

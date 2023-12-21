@@ -1,11 +1,8 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.EnvMission
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.NavMissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import org.locationtech.jts.geom.MultiPolygon
@@ -54,8 +51,8 @@ data class MissionEntity(
         hasMissionOrder = envMission.mission.hasMissionOrder,
         isUnderJdp = envMission.mission.isUnderJdp,
         actions = (envMission.actions?.map { MissionActionEntity.EnvAction(it) } ?: listOf()) +
-                (fishMissionActions?.map { MissionActionEntity.FishAction(it) } ?: listOf()) +
-                (navMission?.actions?.map { MissionActionEntity.NavAction(it) } ?: listOf())
+            (fishMissionActions?.map { MissionActionEntity.FishAction(it) } ?: listOf()) +
+            (navMission?.actions?.map { MissionActionEntity.NavAction(it) } ?: listOf())
 
     )
 }

@@ -1,85 +1,85 @@
 extend type Query {
-    natinfs: [Natinf]
+  natinfs: [Natinf]
 }
 
 extend type Mutation {
-    addOrUpdateInfraction(infraction: InfractionInput!): Infraction!
-    addOrUpdateInfractionForEnvTarget(
-        infraction: InfractionWithNewTargetInput!
-    ): Infraction!
-    deleteInfraction(id: String!): Boolean!
+  addOrUpdateInfraction(infraction: InfractionInput!): Infraction!
+  addOrUpdateInfractionForEnvTarget(
+    infraction: InfractionWithNewTargetInput!
+  ): Infraction!
+  deleteInfraction(id: String!): Boolean!
 }
 
 type Infraction {
-    id: String!
-    controlType: String
-    infractionType: InfractionType
-    natinfs: [String]
-    observations: String
-    target: InfractionTarget
+  id: String!
+  controlType: String
+  infractionType: InfractionType
+  natinfs: [String]
+  observations: String
+  target: InfractionTarget
 }
 
 type InfractionTarget {
-    id: String!
-    vesselIdentifier: String
-    identityControlledPerson: String
-    vesselType: VesselType
-    vesselSize: VesselSize
-    companyName: String
-    relevantCourt: String
-    infractionType: String
-    formalNotice: String
-    toProcess: Boolean
+  id: String!
+  vesselIdentifier: String
+  identityControlledPerson: String
+  vesselType: VesselType
+  vesselSize: VesselSize
+  companyName: String
+  relevantCourt: String
+  infractionType: String
+  formalNotice: String
+  toProcess: Boolean
 }
 
 # for Env controls, we group by vesselIdentifier
 type InfractionByTarget {
-    vesselIdentifier: String
-    vesselType: VesselType
-    controlTypesWithInfraction: [ControlType]
-    targetAddedInRapportNav: Boolean
-    infractions: [Infraction]
+  vesselIdentifier: String
+  vesselType: VesselType
+  controlTypesWithInfraction: [ControlType]
+  targetAddedInRapportNav: Boolean
+  infractions: [Infraction]
 }
 
 type Natinf {
-    infraction: String!
-    natinfCode: String!
+  infraction: String!
+  natinfCode: String!
 }
 
 enum InfractionType {
-    WAITING
-    WITH_REPORT
-    WITHOUT_REPORT
+  WAITING
+  WITH_REPORT
+  WITHOUT_REPORT
 }
 
 enum FishInfractionType {
-    WITH_RECORD
-    WITHOUT_RECORD
-    PENDING
+  WITH_RECORD
+  WITHOUT_RECORD
+  PENDING
 }
 
 input InfractionInput {
-    id: String
-    missionId: String!
-    actionId: String!
-    controlId: String
-    controlType: String!
-    infractionType: String
-    natinfs: [String]
-    observations: String
+  id: String
+  missionId: String!
+  actionId: String!
+  controlId: String
+  controlType: String!
+  infractionType: String
+  natinfs: [String]
+  observations: String
 }
 
 input InfractionWithNewTargetInput {
-    id: String
-    missionId: String!
-    actionId: String!
-    controlId: String
-    controlType: String!
-    infractionType: String
-    natinfs: [String]
-    observations: String
-    vesselIdentifier: String!
-    identityControlledPerson: String!
-    vesselType: VesselType!
-    vesselSize: VesselSize!
+  id: String
+  missionId: String!
+  actionId: String!
+  controlId: String
+  controlType: String!
+  infractionType: String
+  natinfs: [String]
+  observations: String
+  vesselIdentifier: String!
+  identityControlledPerson: String!
+  vesselType: VesselType!
+  vesselSize: VesselSize!
 }

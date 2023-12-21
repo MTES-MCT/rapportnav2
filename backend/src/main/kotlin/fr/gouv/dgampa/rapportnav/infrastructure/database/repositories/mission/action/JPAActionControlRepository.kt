@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Repository
-class JPAActionControlRepository (
+class JPAActionControlRepository(
     private val dbActionModelRepository: IDBActionControlRepository,
     private val mapper: ObjectMapper,
 ) : INavActionControlRepository {

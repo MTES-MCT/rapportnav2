@@ -25,19 +25,19 @@ class ActionEnvController(
         return listOf(
             ControlType.ADMINISTRATIVE.takeIf {
                 action.isAdministrativeControl == true &&
-                        getControlByActionId.getControlAdministrative(actionControlId = action.id.toString()) == null
+                    getControlByActionId.getControlAdministrative(actionControlId = action.id.toString()) == null
             },
             ControlType.NAVIGATION.takeIf {
                 action.isComplianceWithWaterRegulationsControl == true &&
-                        getControlByActionId.getControlNavigation(actionControlId = action.id.toString()) == null
+                    getControlByActionId.getControlNavigation(actionControlId = action.id.toString()) == null
             },
             ControlType.SECURITY.takeIf {
                 action.isSafetyEquipmentAndStandardsComplianceControl == true &&
-                        getControlByActionId.getControlSecurity(actionControlId = action.id.toString()) == null
+                    getControlByActionId.getControlSecurity(actionControlId = action.id.toString()) == null
             },
             ControlType.GENS_DE_MER.takeIf {
                 action.isSeafarersControl == true &&
-                        getControlByActionId.getControlGensDeMer(actionControlId = action.id.toString()) == null
+                    getControlByActionId.getControlGensDeMer(actionControlId = action.id.toString()) == null
             }
         ).mapNotNull { it }
     }

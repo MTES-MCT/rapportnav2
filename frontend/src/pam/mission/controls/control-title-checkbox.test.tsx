@@ -1,5 +1,5 @@
 import { vi } from 'vitest'
-import { fireEvent, getByRole, render, screen } from '../../../test-utils'
+import { fireEvent, render, screen } from '../../../test-utils'
 import { ControlType } from '../../../types/control-types'
 import ControlTitleCheckbox, { ControlTitleCheckboxProps } from './control-title-checkbox'
 

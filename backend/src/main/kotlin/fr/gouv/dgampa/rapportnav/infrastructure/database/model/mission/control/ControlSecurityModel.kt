@@ -36,8 +36,9 @@ class ControlSecurityModel(
             this.unitShouldConfirm = control.unitShouldConfirm
             this.observations = control.observations
         }
+
         fun fromControlSecurityEntity(control: ControlSecurityEntity): ControlSecurityModel {
-            val controlModel = ControlSecurityModel(id=control.id)
+            val controlModel = ControlSecurityModel(id = control.id)
             controlModel.copyCommonProperties(control)
             return controlModel
         }

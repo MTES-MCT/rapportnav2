@@ -1,4 +1,5 @@
 package fr.gouv.dgampa.rapportnav.config
+
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import org.springframework.security.core.Authentication
 

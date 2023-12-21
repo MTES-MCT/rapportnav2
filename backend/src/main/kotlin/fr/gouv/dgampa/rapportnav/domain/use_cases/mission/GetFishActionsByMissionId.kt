@@ -1,19 +1,12 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
 
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
 import io.sentry.Sentry
-import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.LoggerFactory
-import java.net.URI
-import java.net.http.HttpClient
-import java.net.http.HttpRequest
-import java.net.http.HttpResponse
 import java.time.ZonedDateTime
 
 
@@ -65,7 +58,7 @@ class GetFishActionsByMissionId(
                 id = 10,
                 missionId = 10,
                 vesselId = 5232556,
-                vesselName = "Le ZORBA",
+                vesselName = "UNKNOWN",
                 latitude = 48.389999,
                 longitude = -4.490000,
                 facade = "Outre-Mer",

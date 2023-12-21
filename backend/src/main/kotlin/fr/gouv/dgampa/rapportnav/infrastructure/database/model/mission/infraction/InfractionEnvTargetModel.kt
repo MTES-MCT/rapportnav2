@@ -38,8 +38,7 @@ data class InfractionEnvTargetModel(
     var infraction: InfractionModel? = null,
 
 
-
-) {
+    ) {
     fun toInfractionEnvTargetEntity(): InfractionEnvTargetEntity {
         return InfractionEnvTargetEntity(
             id = id,

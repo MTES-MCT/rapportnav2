@@ -4,6 +4,7 @@ interface ControlResultOption {
   label: string
   value: ControlResult
 }
+
 const defaultOptions: ControlResultOption[] = [
   {
     label: 'Oui',

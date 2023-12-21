@@ -5,7 +5,7 @@ interface ActionSelectionDropdownProps {
   onSelect: (key: ActionTypeEnum) => void
 }
 
-const ActionSelectionDropdown: React.FC<ActionSelectionDropdownProps> = ({ onSelect }) => {
+const ActionSelectionDropdown: React.FC<ActionSelectionDropdownProps> = ({onSelect}) => {
   return (
     <Dropdown Icon={Icon.Plus} onSelect={onSelect} title="Ajouter">
       <Dropdown.Item Icon={Icon.ControlUnit} eventKey={ActionTypeEnum.CONTROL}>

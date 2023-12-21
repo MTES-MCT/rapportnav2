@@ -25,16 +25,16 @@ function createActionStyled(options: ItemOptions) {
   `
 }
 
-const ActionControl = createActionStyled({ backgroundColor: '#ffffff', borderColor: '#cccfd6' })
-const ActionSurveillance = createActionStyled({ backgroundColor: '#e5e5eb', borderColor: '#cccfd6' })
-const ActionNote = createActionStyled({ backgroundColor: '#d4dde7', borderColor: '#cccfd6' })
-const ActionOther = createActionStyled({ backgroundColor: '#d4e5f4', borderColor: '#cccfd6' })
+const ActionControl = createActionStyled({backgroundColor: '#ffffff', borderColor: '#cccfd6'})
+const ActionSurveillance = createActionStyled({backgroundColor: '#e5e5eb', borderColor: '#cccfd6'})
+const ActionNote = createActionStyled({backgroundColor: '#d4dde7', borderColor: '#cccfd6'})
+const ActionOther = createActionStyled({backgroundColor: '#d4e5f4', borderColor: '#cccfd6'})
 const ActionStatus = createActionStyled({
   backgroundColor: undefined,
   borderColor: undefined,
   noMinHeight: true
 })
-const ActionContact = createActionStyled({ backgroundColor: undefined, borderColor: undefined, color: '#707785' })
+const ActionContact = createActionStyled({backgroundColor: undefined, borderColor: undefined, color: '#707785'})
 
 const getActionComponent = (
   actionSource: MissionSourceEnum,
@@ -69,10 +69,10 @@ const getActionComponent = (
 }
 
 const MissionTimelineItemContainer: React.FC<MissionTimelineItemContainerProps> = ({
-  children,
-  actionType,
-  actionSource
-}) => {
+                                                                                     children,
+                                                                                     actionType,
+                                                                                     actionSource
+                                                                                   }) => {
   const Component = getActionComponent(actionSource, actionType)
 
   if (!Component) {

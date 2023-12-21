@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.Ac
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
-interface IDBActionStatusRepository: JpaRepository<ActionStatusModel, UUID> {
+interface IDBActionStatusRepository : JpaRepository<ActionStatusModel, UUID> {
     fun findAllByMissionId(missionId: Int): List<ActionStatusModel>
 
     override fun findById(id: UUID): Optional<ActionStatusModel>

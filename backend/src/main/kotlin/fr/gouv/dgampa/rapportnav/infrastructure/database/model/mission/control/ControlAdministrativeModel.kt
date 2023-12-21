@@ -43,6 +43,7 @@ class ControlAdministrativeModel(
             this.unitShouldConfirm = control.unitShouldConfirm
             this.observations = control.observations
         }
+
         fun fromControlAdministrativeEntity(control: ControlAdministrativeEntity): ControlAdministrativeModel {
             val controlModel = ControlAdministrativeModel()
 

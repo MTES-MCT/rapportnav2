@@ -9,7 +9,7 @@ data class User(
     val password: String,
     var token: String? = null,
 ) {
-    constructor(user: User): this(
+    constructor(user: User) : this(
         id = user.id,
         serviceId = user.serviceId,
         firstName = user.firstName,
@@ -19,6 +19,7 @@ data class User(
         token = user.token,
     )
 }
+
 var User.token: String?
     get() = this.token
     set(value) {}

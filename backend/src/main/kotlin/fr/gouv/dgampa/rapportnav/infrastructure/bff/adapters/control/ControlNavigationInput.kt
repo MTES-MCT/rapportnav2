@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.control
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
-import java.time.ZonedDateTime
 import java.util.*
 
 data class ControlNavigationInput(

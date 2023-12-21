@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.C
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
-interface IDBControlSecurityRepository: JpaRepository<ControlSecurityModel, UUID> {
+interface IDBControlSecurityRepository : JpaRepository<ControlSecurityModel, UUID> {
 
     override fun existsById(id: UUID): Boolean
 

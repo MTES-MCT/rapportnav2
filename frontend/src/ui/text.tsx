@@ -52,7 +52,7 @@ const TextComponentMap = (color: string, weight?: string, fontStyle?: string, de
   ['h3']: H3(color, weight, fontStyle, decoration),
   ['h4']: H4(color, weight, fontStyle, decoration)
 })
-const Text: React.FC<TitleProps> = ({ children, as, color, weight, style, decoration }) => {
+const Text: React.FC<TitleProps> = ({children, as, color, weight, style, decoration}) => {
   const fontColor = color ?? THEME.color.charcoal
   const Component = TextComponentMap(fontColor, weight, style, decoration)[as]
 

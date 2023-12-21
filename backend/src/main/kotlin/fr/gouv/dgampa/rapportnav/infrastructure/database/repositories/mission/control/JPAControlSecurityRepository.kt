@@ -36,6 +36,7 @@ class JPAControlSecurityRepository(
         val control = dbControlSecurityRepository.findByActionControlId(actionControlId)
         return control
     }
+
     @Transactional
     override fun save(control: ControlSecurityEntity): ControlSecurityModel {
         return try {

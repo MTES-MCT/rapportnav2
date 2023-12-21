@@ -1,15 +1,14 @@
-import React, {useState} from 'react'
-import {Accent, Button, Icon, Size, THEME} from '@mtes-mct/monitor-ui'
-import {ControlType} from '../../../types/control-types'
-import {Infraction, InfractionEnvNewTarget} from '../../../types/infraction-types'
-
-import {MUTATION_ADD_OR_UPDATE_INFRACTION_ENV} from '../queries'
-import {useMutation} from '@apollo/client'
-import {useParams} from 'react-router-dom'
+import React, { useState } from 'react'
+import { Accent, Button, Icon, Size, THEME } from '@mtes-mct/monitor-ui'
+import { ControlType } from '../../../types/control-types'
+import { Infraction, InfractionEnvNewTarget } from '../../../types/infraction-types'
+import { MUTATION_ADD_OR_UPDATE_INFRACTION_ENV } from '../queries'
+import { useMutation } from '@apollo/client'
+import { useParams } from 'react-router-dom'
 import omit from 'lodash/omit'
-import {Stack} from 'rsuite'
+import { Stack } from 'rsuite'
 import EnvInfractionNewTargetForm from './env-infraction-new-target-form'
-import {GET_MISSION_TIMELINE} from "../timeline/use-mission-timeline.tsx";
+import { GET_MISSION_TIMELINE } from "../timeline/use-mission-timeline.tsx";
 
 export interface EnvInfractionNewTargetProps {
   availableControlTypesForInfraction?: ControlType[]

@@ -9,18 +9,16 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
-import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import io.sentry.Sentry
 import org.locationtech.jts.geom.Coordinate
-import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.GeometryFactory
+import org.locationtech.jts.geom.MultiPoint
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.LoggerFactory
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
-import java.time.Instant
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -35,7 +33,8 @@ class GetEnvMissionById(
 
         try {
             val client: HttpClient = HttpClient.newBuilder().build()
-            val request = HttpRequest.newBuilder()
+            val request = HttpRequest
+                .newBuilder()
                 .uri(
                     URI.create(
                         "https://monitorenv.din.developpement-durable.gouv.fr/api/v1/missions/$missionId"
@@ -64,12 +63,55 @@ class GetEnvMissionById(
                 subThemes = listOf("avitaillement", "soutage"),
                 protectedSpecies = listOf("fish1", "fish2")
             )
+
+
+            fun createMockMultiPoint(coordinates: List<Coordinate>): MultiPoint {
+                val factory = GeometryFactory()
+                val points = coordinates.map { factory.createPoint(it) }
+                return factory.createMultiPoint(points.toTypedArray())
+            }
+
+            val envActionControl1 = EnvActionControlEntity(
+                id = UUID.fromString("226d84bc-e6c5-4d29-8a5f-7db642f99d16"),
+                actionStartDateTimeUtc = ZonedDateTime.parse("2023-12-15T10:00:00Z"),
+                actionEndDateTimeUtc = null,  // Set to null if not provided in your API response
+                themes = listOf(
+                    ThemeEntity(
+                        theme = "Divers",
+                        subThemes = listOf("Autres contrôles (spécifier dans les observations)"),
+                        protectedSpecies = emptyList()
+                    )
+                ),
+                geom = createMockMultiPoint(listOf(Coordinate(-8.52318191, 48.30305604))),
+                actionNumberOfControls = 1,
+                actionTargetType = ActionTargetTypeEnum.VEHICLE,
+                vehicleType = VehicleTypeEnum.VESSEL,
+                observations = "Observation test",
+                isSeafarersControl = false,  // Adjust based on your API response
+                isAdministrativeControl = false,  // Adjust based on your API response
+                infractions = listOf(
+                    InfractionEntity(
+                        id = "91200795-2823-46b3-8814-a5b3bca29a47",
+                        natinf = listOf("0", "118"),
+                        registrationNumber = "kjhfieohfgs",
+                        companyName = null,
+                        relevantCourt = null,
+                        infractionType = InfractionTypeEnum.WITHOUT_REPORT,
+                        formalNotice = FormalNoticeEnum.NO,
+                        toProcess = false,
+                        controlledPersonIdentity = "Mr Loutre",
+                        vesselType = VesselTypeEnum.COMMERCIAL,
+                        vesselSize = VesselSizeEnum.FROM_24_TO_46m
+                    )
+                )
+            )
+
             var envMissionActionControl1 = EnvActionControlEntity(
                 id = UUID.fromString("17997de8-b0df-4095-b209-e8758df71b67"),
                 actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-16T04:50:09Z"),
                 actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-16T06:50:09Z"),
                 themes = listOf(controlTheme1),
-                geom = GeometryFactory().createPoint(Coordinate(52.4, 14.2)),
+                geom = createMockMultiPoint(listOf(Coordinate(-8.52318191, 48.30305604))),
                 actionNumberOfControls = 5,
                 actionTargetType = ActionTargetTypeEnum.VEHICLE,
                 vehicleType = VehicleTypeEnum.VESSEL,
@@ -99,7 +141,7 @@ class GetEnvMissionById(
                 actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-19T06:50:09Z"),
                 themes = listOf(controlTheme1),
                 actionNumberOfControls = 10,
-                geom = GeometryFactory().createPoint(Coordinate(52.4, 14.2)),
+                geom = createMockMultiPoint(listOf(Coordinate(-8.52318191, 48.30305604))),
                 actionTargetType = null,
                 vehicleType = null,
                 observations = null,
@@ -127,7 +169,7 @@ class GetEnvMissionById(
                 actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-21T04:50:09Z"),
                 actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-21T06:50:09Z"),
                 themes = listOf(controlTheme2),
-                geom = GeometryFactory().createPoint(Coordinate(52.4, 14.2)),
+                geom = createMockMultiPoint(listOf(Coordinate(-8.52318191, 48.30305604))),
                 actionNumberOfControls = 8,
                 actionTargetType = ActionTargetTypeEnum.INDIVIDUAL,
                 vehicleType = VehicleTypeEnum.VESSEL,
@@ -159,7 +201,12 @@ class GetEnvMissionById(
                 hasMissionOrder = false,
                 isUnderJdp = false,
                 isGeometryComputedFromControls = false,
-                envActions = listOf(envMissionActionControl1, envMissionActionControl2, envMissionActionControl3)
+                envActions = listOf(
+                    envActionControl1,
+                    envMissionActionControl1,
+                    envMissionActionControl2,
+                    envMissionActionControl3
+                )
             )
 
             // 2. MonitorFish - Get and add up MissionActions

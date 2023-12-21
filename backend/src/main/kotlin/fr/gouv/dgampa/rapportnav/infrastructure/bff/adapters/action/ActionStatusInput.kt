@@ -8,15 +8,15 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-    data class ActionStatusInput(
-        val id: UUID?,
-        val missionId: Int,
-        val startDateTimeUtc: String?,
-        val status: ActionStatusType,
-        val reason: ActionStatusReason?,
-        val isStart: Boolean,
-        val observations: String?
-    ) {
+data class ActionStatusInput(
+    val id: UUID?,
+    val missionId: Int,
+    val startDateTimeUtc: String?,
+    val status: ActionStatusType,
+    val reason: ActionStatusReason?,
+    val isStart: Boolean,
+    val observations: String?
+) {
     fun toActionStatus(): ActionStatusEntity {
         return ActionStatusEntity(
             id = id ?: UUID.randomUUID(),

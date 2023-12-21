@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Repository
-class JPAMissionGeneralInfoRepository (
+class JPAMissionGeneralInfoRepository(
     private val dbRepo: IDBMissionGeneralInfoRepository,
 ) : IMissionGeneralInfoRepository {
 

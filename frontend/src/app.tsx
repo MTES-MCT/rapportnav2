@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ApolloClient, ApolloProvider, InMemoryCache, NormalizedCacheObject } from '@apollo/client'
+import { ApolloClient, ApolloProvider, NormalizedCacheObject } from '@apollo/client'
 import { CachePersistor, LocalStorageWrapper } from 'apollo3-cache-persist'
 
 import { router } from './router/router'
@@ -39,7 +39,7 @@ const App: React.FC = () => {
   return (
     <ApolloProvider client={client}>
       <UIThemeWrapper>
-        <RouterProvider router={router} />
+        <RouterProvider router={router}/>
       </UIThemeWrapper>
     </ApolloProvider>
   )

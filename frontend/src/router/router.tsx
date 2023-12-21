@@ -9,24 +9,24 @@ import MissionPage from '../pam/mission/page'
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
-    errorElement: <ErrorPage />
+    element: <Home/>,
+    errorElement: <ErrorPage/>
   },
   {
     path: 'login',
-    element: <Login />
+    element: <Login/>
   },
   {
     path: 'signup',
-    element: <SignUp />
+    element: <SignUp/>
   },
   {
     path: 'pam/missions',
-    element: <MissionsPage />,
-    errorElement: <ErrorPage />
+    element: <MissionsPage/>,
+    errorElement: <ErrorPage/>
   },
   {
     path: 'pam/missions/:missionId/:actionId?',
-    element: <MissionPage />
+    element: <MissionPage/>
   }
 ])

@@ -1,16 +1,13 @@
-  package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
+package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
 
-  import com.fasterxml.jackson.annotation.JsonIgnore
-  import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-  import com.fasterxml.jackson.annotation.JsonManagedReference
-  import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
-  import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
-  import jakarta.persistence.*
-  import java.util.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
+import jakarta.persistence.*
+import java.util.*
 
-  @Entity
-  @Table(name = "agent")
-  class AgentModel(
+@Entity
+@Table(name = "agent")
+class AgentModel(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
@@ -27,32 +24,33 @@
 
     @ManyToMany
     @JoinTable(
-      name = "agent_service",
-      joinColumns = [JoinColumn(name = "agent_id")],
-      inverseJoinColumns = [JoinColumn(name = "service_id")]
+        name = "agent_service",
+        joinColumns = [JoinColumn(name = "agent_id")],
+        inverseJoinColumns = [JoinColumn(name = "service_id")]
     )
-    var services:  MutableSet<ServiceModel?> = HashSet(),
-  ) {
+    var services: MutableSet<ServiceModel?> = HashSet(),
+) {
 
     fun toAgentEntity(): AgentEntity {
-      return AgentEntity(
-        id = id,
-        firstName = firstName,
-        lastName = lastName,
-        deletedAt = deletedAt,
-        services = services.map { it?.toServiceEntity() }.toMutableSet()
+        return AgentEntity(
+            id = id,
+            firstName = firstName,
+            lastName = lastName,
+            deletedAt = deletedAt,
+            services = services.map { it?.toServiceEntity() }.toMutableSet()
         )
     }
-    companion object {
-      fun fromAgentEntity(agent: AgentEntity): AgentModel {
-        return AgentModel(
-          id = agent.id,
-          firstName = agent.firstName,
-          lastName = agent.lastName,
-          deletedAt = agent.deletedAt,
-          services = agent.services.map { ServiceModel.fromServiceEntity(it!!) }.toMutableSet()
 
-        )
-      }
+    companion object {
+        fun fromAgentEntity(agent: AgentEntity): AgentModel {
+            return AgentModel(
+                id = agent.id,
+                firstName = agent.firstName,
+                lastName = agent.lastName,
+                deletedAt = agent.deletedAt,
+                services = agent.services.map { ServiceModel.fromServiceEntity(it!!) }.toMutableSet()
+
+            )
+        }
     }
-  }
+}

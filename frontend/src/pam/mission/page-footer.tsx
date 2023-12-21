@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import {FlexboxGrid, Stack} from 'rsuite'
-import {Accent, Button, Icon, Size, THEME} from '@mtes-mct/monitor-ui'
-import {useNavigate} from 'react-router-dom'
+import { Stack } from 'rsuite'
+import { Accent, Button, Icon, Size, THEME } from '@mtes-mct/monitor-ui'
+import { useNavigate } from 'react-router-dom'
 import Text from "../../ui/text.tsx";
 
 const StyledFooter = styled.div`
