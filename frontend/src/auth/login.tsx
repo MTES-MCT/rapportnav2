@@ -45,6 +45,10 @@ const Login: React.FC = () => {
         })
       })
 
+      if (!response.ok) {
+        throw new Error(`Failed to fetch: ${response.status} - ${response.statusText}`);
+      }
+
       const content: LoginResponse = await response.json()
       if (content) {
         authToken.set(content.token)
