@@ -7,7 +7,7 @@ import omit from 'lodash/omit'
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
 import ControlInfraction from '../infractions/infraction-for-control'
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { GET_MISSION_TIMELINE } from "../timeline/use-mission-timeline.tsx";
 import { GET_ACTION_BY_ID } from "../actions/use-action-by-id.tsx";
 
@@ -17,11 +17,11 @@ interface ControlSecurityFormProps {
   unitShouldConfirm?: boolean
 }
 
-const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
-                                                                   data,
-                                                                   shouldCompleteControl,
-                                                                   unitShouldConfirm,
-                                                                 }) => {
+const ControlSecurityForm: FC<ControlSecurityFormProps> = ({
+                                                             data,
+                                                             shouldCompleteControl,
+                                                             unitShouldConfirm,
+                                                           }) => {
   const {missionId, actionId} = useParams()
 
   const [observationsValue, setObservationsValue] = useState<string | undefined>(data?.observations)
@@ -34,15 +34,15 @@ const ControlSecurityForm: React.FC<ControlSecurityFormProps> = ({
     setObservationsValue(data?.observations)
   }, [data])
 
-  const handleObservationsBlur = () => {
-    onChange('observations', observationsValue)
+  const handleObservationsBlur = async () => {
+    await onChange('observations', observationsValue)
   }
 
-  const [mutate, {statusData, statusLoading, statusError}] = useMutation(MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY, {
+  const [mutate] = useMutation(MUTATION_ADD_OR_UPDATE_CONTROL_SECURITY, {
     refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
   })
 
-  const [deleteControl, {deleteData, deleteLoading, deleteError}] = useMutation(DELETE_CONTROL_SECURITY, {
+  const [deleteControl] = useMutation(DELETE_CONTROL_SECURITY, {
     refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID],
   })
 

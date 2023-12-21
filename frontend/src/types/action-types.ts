@@ -8,7 +8,6 @@ import {
 } from './control-types'
 import { ActionTypeEnum, EnvAction, MissionSourceEnum, VesselSizeEnum, VesselTypeEnum } from './env-mission-types'
 import { FishAction } from './fish-mission-types'
-import { VesselSizeEnum, VesselTypeEnum } from './mission-types'
 
 export type Action = {
   id?: any

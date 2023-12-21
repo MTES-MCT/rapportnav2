@@ -8,7 +8,7 @@ import { ControlResultExtraOptions, controlResultOptions } from './control-resul
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
 import ControlInfraction from '../infractions/infraction-for-control'
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { GET_MISSION_TIMELINE } from "../timeline/use-mission-timeline.tsx";
 import { GET_ACTION_BY_ID } from "../actions/use-action-by-id.tsx";
 
@@ -18,11 +18,11 @@ interface ControlGensDeMerFormProps {
   unitShouldConfirm?: boolean
 }
 
-const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({
-                                                                     data,
-                                                                     shouldCompleteControl,
-                                                                     unitShouldConfirm,
-                                                                   }) => {
+const ControlGensDeMerForm: FC<ControlGensDeMerFormProps> = ({
+                                                               data,
+                                                               shouldCompleteControl,
+                                                               unitShouldConfirm,
+                                                             }) => {
   const {missionId, actionId} = useParams()
 
   const [observationsValue, setObservationsValue] = useState<string | undefined>(data?.observations)
@@ -35,15 +35,15 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({
     setObservationsValue(data?.observations)
   }, [data])
 
-  const handleObservationsBlur = () => {
-    onChange('observations', observationsValue)
+  const handleObservationsBlur = async () => {
+    await onChange('observations', observationsValue)
   }
 
-  const [mutate, {statusData, statusLoading, statusError}] = useMutation(MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER, {
+  const [mutate] = useMutation(MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER, {
     refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
   })
 
-  const [deleteControl, {deleteData, deleteLoading, deleteError}] = useMutation(DELETE_CONTROL_GENS_DE_MER, {
+  const [deleteControl] = useMutation(DELETE_CONTROL_GENS_DE_MER, {
     refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
   })
 
@@ -56,7 +56,7 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({
         }
       })
 
-  const onChange = (field?: string, value?: any) => {
+  const onChange = async (field?: string, value?: any) => {
     let updatedData = {
       ...omit(data, '__typename', 'infractions'),
       id: data?.id,
@@ -72,7 +72,7 @@ const ControlGensDeMerForm: React.FC<ControlGensDeMerFormProps> = ({
         [field]: value
       }
     }
-    mutate({variables: {control: updatedData}})
+    await mutate({variables: {control: updatedData}})
   }
 
   return (

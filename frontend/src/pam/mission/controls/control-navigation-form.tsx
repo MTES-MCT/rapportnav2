@@ -7,7 +7,7 @@ import omit from 'lodash/omit'
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
 import ControlInfraction from '../infractions/infraction-for-control'
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { GET_MISSION_TIMELINE } from "../timeline/use-mission-timeline.tsx";
 import { GET_ACTION_BY_ID } from "../actions/use-action-by-id.tsx";
 
@@ -17,11 +17,11 @@ interface ControlNavigationFormProps {
   unitShouldConfirm?: boolean
 }
 
-const ControlNavigationForm: React.FC<ControlNavigationFormProps> = ({
-                                                                       data,
-                                                                       shouldCompleteControl,
-                                                                       unitShouldConfirm,
-                                                                     }) => {
+const ControlNavigationForm: FC<ControlNavigationFormProps> = ({
+                                                                 data,
+                                                                 shouldCompleteControl,
+                                                                 unitShouldConfirm,
+                                                               }) => {
   const {missionId, actionId} = useParams()
 
   const [observationsValue, setObservationsValue] = useState<string | undefined>(data?.observations)
@@ -34,15 +34,15 @@ const ControlNavigationForm: React.FC<ControlNavigationFormProps> = ({
     setObservationsValue(data?.observations)
   }, [data])
 
-  const handleObservationsBlur = () => {
-    onChange('observations', observationsValue)
+  const handleObservationsBlur = async () => {
+    await onChange('observations', observationsValue)
   }
 
-  const [mutate, {statusData, statusLoading, statusError}] = useMutation(MUTATION_ADD_OR_UPDATE_CONTROL_NAVIGATION, {
+  const [mutate] = useMutation(MUTATION_ADD_OR_UPDATE_CONTROL_NAVIGATION, {
     refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
   })
 
-  const [deleteControl, {deleteData, deleteLoading, deleteError}] = useMutation(DELETE_CONTROL_NAVIGATION, {
+  const [deleteControl] = useMutation(DELETE_CONTROL_NAVIGATION, {
     refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
   })
 
@@ -55,7 +55,7 @@ const ControlNavigationForm: React.FC<ControlNavigationFormProps> = ({
         }
       })
 
-  const onChange = (field?: string, value?: any) => {
+  const onChange = async (field?: string, value?: any) => {
     let updatedData = {
       ...omit(data, '__typename', 'infractions'),
       id: data?.id,
@@ -71,7 +71,7 @@ const ControlNavigationForm: React.FC<ControlNavigationFormProps> = ({
         [field]: value
       }
     }
-    mutate({variables: {control: updatedData}})
+    await mutate({variables: {control: updatedData}})
   }
   return (
     <Panel

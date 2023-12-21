@@ -8,7 +8,7 @@ import { controlResultOptions } from './control-result'
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
 import ControlInfraction from '../infractions/infraction-for-control'
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { GET_MISSION_TIMELINE } from "../timeline/use-mission-timeline.tsx";
 import { GET_ACTION_BY_ID } from "../actions/use-action-by-id.tsx";
 
@@ -18,11 +18,11 @@ interface ControlAdministrativeFormProps {
   unitShouldConfirm?: boolean
 }
 
-const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
-                                                                               data,
-                                                                               shouldCompleteControl,
-                                                                               unitShouldConfirm,
-                                                                             }) => {
+const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
+                                                                         data,
+                                                                         shouldCompleteControl,
+                                                                         unitShouldConfirm,
+                                                                       }) => {
   const {missionId, actionId} = useParams()
 
   const [observationsValue, setObservationsValue] = useState<string | undefined>(data?.observations)
@@ -39,14 +39,14 @@ const ControlAdministrativeForm: React.FC<ControlAdministrativeFormProps> = ({
     await onChange('observations', observationsValue)
   }
 
-  const [mutate, {statusData, statusLoading, statusError}] = useMutation(
+  const [mutate] = useMutation(
     MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE,
     {
       refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
     }
   )
 
-  const [deleteControl, {deleteData, deleteLoading, deleteError}] = useMutation(DELETE_CONTROL_ADMINISTRATIVE, {
+  const [deleteControl] = useMutation(DELETE_CONTROL_ADMINISTRATIVE, {
     refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
   })
 
