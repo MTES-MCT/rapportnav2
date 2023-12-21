@@ -22,6 +22,6 @@ analyse_sonar:
           sonar-scanner -X
       else
         # -Dsonar.qualitygate.wait=true stop le job si le quality gate est KO
-        sonar-scanner $FAIL_SONAR_CONDITION
+        sonar-scanner -X $FAIL_SONAR_CONDITION
       fi
 
