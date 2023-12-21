@@ -1,0 +1,43 @@
+name: FRONTEND - Build and Test
+
+on:
+  push:
+    branches: [ "CHANGEME" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Setup Node.js environment"
+        uses: actions/setup-node@v3.8.0
+        with:
+          # cache: npm
+          # cache-dependency-path: ./frontend/package-lock.json
+          node-version: 20
+
+      - name: "Install dependencies"
+        run: make front-ci
+
+      - name: "Analyse dependencies"
+        uses: oke-py/npm-audit-action@v2
+        with:
+          audit_level: high
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          issue_assignees: lwih
+          issue_labels: vulnerability,test
+          dedupe_issues: true
+          working_directory: frontend
+
+      - name: "ESLint"
+        run: make front-lint
+
+      - name: "Tests"
+        run: make front-test
+
+      - name: "Build"
+        run: make front-build

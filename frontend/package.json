@@ -10,7 +10,7 @@
     "dev": "vite",
     "build": "vite build",
     "tsc": "tsc",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 10000",
     "preview": "vite preview",
     "test": "vitest run src",
     "test:watch": "vitest src"

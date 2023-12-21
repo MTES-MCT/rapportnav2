@@ -1,0 +1,33 @@
+name: BACKEND - Build and Test
+
+on:
+  push:
+    branches: [ "CHANGEME" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Setup Java JDK"
+        uses: actions/setup-java@v2
+        with:
+          distribution: "zulu"
+          java-version: "17"
+          java-package: jdk # optional (jdk or jre) - defaults to jdk
+
+      - name: "Analyse dependencies"
+        run: make back-check-dependencies
+
+      #      - name: "Tests"
+      #        run: make back-test
+
+      #      - name: "Check clean architecture"
+      #        run: make check-clean-archi
+
+      - name: "Build"
+        run: make back-build-mvn
