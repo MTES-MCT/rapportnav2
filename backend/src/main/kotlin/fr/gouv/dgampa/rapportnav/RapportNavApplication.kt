@@ -18,9 +18,7 @@ fun main(args: Array<String>) {
     val sentryDsn: String? = ctx.environment.getProperty("sentry.dsn")
 
     if (isSentryEnabled == "true") {
-        var proxy = Proxy()
-        proxy.host = "172.27.229.197"
-        proxy.port = "8090"
+        val proxy = Proxy("172.27.229.197", "8090")
         Sentry.init { options ->
             options.dsn = sentryDsn
             options.proxy = proxy
