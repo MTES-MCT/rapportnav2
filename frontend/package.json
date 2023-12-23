@@ -33,7 +33,7 @@
     "rsuite": "^5.44.0",
     "styled-components": "^5.3.11",
     "type-fest": "^4.8.2",
-    "typescript": "^5.2.2",
+    "typescript": "^5.3.2",
     "uuid": "^9.0.1",
     "web-vitals": "^2.1.4"
   },
