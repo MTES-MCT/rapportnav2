@@ -23,8 +23,10 @@ jobs:
       - name: "Analyse dependencies"
         run: make back-check-dependencies
 
-      #      - name: "Tests"
-      #        run: make back-test
+      - name: "Tests"
+        env:
+          CI: true
+        run: make back-test
 
       #      - name: "Check clean architecture"
       #        run: make check-clean-archi

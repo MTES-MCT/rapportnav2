@@ -38,7 +38,7 @@ BACKEND_DIR := backend
 BACKEND_CONFIGURATION_FOLDER=$(shell pwd)/infra/configurations/backend/
 
 
-.PHONY: back-clean-install back-check-dependencies back-test
+.PHONY: back-clean-install back-check-dependencies back-test back-verify-ci
 back-clean-install:
 	cd $(BACKEND_DIR) && ./mvnw clean install
 
@@ -46,8 +46,12 @@ back-check-dependencies:
 	cd $(BACKEND_DIR) && ./mvnw dependency-check:check
 
 back-test:
-	cd $(BACKEND_DIR) && ./mvnw test -Dspring-boot.run.arguments="--spring.config.additional-location="$(BACKEND_CONFIGURATION_FOLDER)"" \
-                                         		-Dspring-boot.run.profiles="dev"
+	cd $(BACKEND_DIR) && ./mvnw -B test -Pci -X
+
+back-verify-ci:
+	cd $(BACKEND_DIR) && ./mvnw clean verify -Pci -X
+
+
 
 
 

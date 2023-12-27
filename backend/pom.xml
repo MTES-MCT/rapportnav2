@@ -231,4 +231,26 @@
     </plugins>
   </build>
 
+  <profiles>
+    <profile>
+      <id>ci</id>
+      <!-- Configuration specific to CI environment -->
+      <!-- Disable starting the backend and running migrations -->
+      <properties>
+        <flyway.enabled>false</flyway.enabled>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
 </project>
