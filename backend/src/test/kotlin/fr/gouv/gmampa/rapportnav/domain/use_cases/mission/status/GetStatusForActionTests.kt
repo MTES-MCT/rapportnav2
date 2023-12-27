@@ -12,6 +12,8 @@ import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.junit.jupiter.Container
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
@@ -19,6 +21,20 @@ import java.util.*
 
 @SpringBootTest(classes = [RapportNavApplication::class])
 class GetStatusForActionTests {
+
+    companion object {
+        @Container
+        val container: PostgreSQLContainer<*> = PostgreSQLContainer<Nothing>("postgres:latest")
+            .apply {
+                withDatabaseName("rapportnavdb")
+                withUsername("postgres")
+                withPassword("postgres")
+            }
+
+        init {
+            container.start()
+        }
+    }
 
     private var missionId: Int = 1
 

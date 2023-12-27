@@ -46,10 +46,10 @@ back-check-dependencies:
 	cd $(BACKEND_DIR) && ./mvnw dependency-check:check
 
 back-test:
-	cd $(BACKEND_DIR) && ./mvnw -B test -Pci -X
+	cd $(BACKEND_DIR) && ./mvnw test -Pci -Dmaven.main.skip=true
 
 back-verify-ci:
-	cd $(BACKEND_DIR) && ./mvnw clean verify -Pci -X
+	cd $(BACKEND_DIR) && ./mvnw clean verify -Pci
 
 
 
