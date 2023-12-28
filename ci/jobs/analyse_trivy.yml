@@ -12,7 +12,7 @@ analyse_trivy:
     TRIVY_NON_SSL: "true"
     TRIVY_SERVER: "http://trivy.dsi.damgm.i2"
     FULL_IMAGE_NAME: $TAG_LATEST
-    BDD_IMAGE_NAME: $NEXUS_DOCKER_PROXY/postgres:15-bookworm
+    BDD_IMAGE_NAME: $NEXUS_DOCKER_PROXY/$BDD_IAMGE
     HTTP_PROXY: "http://172.27.229.197:8090"
     HTTPS_PROXY: "http://172.27.229.197:8090"
     NO_PROXY: "gitlab-sml.din.developpement-durable.gouv.fr,int-docker01,localhost,127.0.0.1,0.0.0.0,.dsi.damgm.i2"
