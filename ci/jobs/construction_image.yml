@@ -28,6 +28,7 @@ construction_image:
     - docker login $NEXUS_DOCKER_REPO -u $NEXUS_USER -p $NEXUS_PWD
     - docker image push --all-tags $NEXUS_DOCKER_REPO/$PROJECT_NAME
     - docker logout $NEXUS_DOCKER_REPO
+    - docker pull $NEXUS_DOCKER_PROXY/postgres:15-bookworm
   tags:
     - build
 
