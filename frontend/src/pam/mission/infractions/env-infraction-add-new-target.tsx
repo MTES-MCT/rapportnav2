@@ -31,11 +31,7 @@ const EnvInfractionAddNewTarget: React.FC<EnvInfractionNewTargetProps> = ({avail
         setFormData((prevData: any) => ({...(prevData || {}), target: {...(prevData || {}).target, [field]: value}}))
     }
 
-    const [mutate, {
-        mutateData,
-        mutateLoading,
-        mutateError
-    }] = useMutation(MUTATION_ADD_OR_UPDATE_INFRACTION_ENV, {
+    const [mutate] = useMutation(MUTATION_ADD_OR_UPDATE_INFRACTION_ENV, {
         refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
     })
 

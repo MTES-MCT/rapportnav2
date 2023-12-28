@@ -29,7 +29,7 @@ const EnvInfractionExistingTargets: React.FC<EnvInfractionExistingTargetProps> =
 
     const [formData, setFormData] = useState<Infraction | undefined>(undefined) // only 1 infraction for nav and fish
 
-    const [mutate, {data, error: updateError, loading}] = useMutation(MUTATION_ADD_OR_UPDATE_INFRACTION_ENV, {
+    const [mutate, {error: updateError}] = useMutation(MUTATION_ADD_OR_UPDATE_INFRACTION_ENV, {
         refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
     })
 

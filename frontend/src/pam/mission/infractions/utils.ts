@@ -1,6 +1,4 @@
 import { ControlType } from '../../../types/control-types'
-import { Infraction, InfractionByTarget, InfractionEnvNewTarget } from "../../../types/infraction-types.ts";
-import { VesselSizeEnum, VesselTypeEnum } from "../../../types/env-mission-types.ts";
 
 export const infractionTitleForControlType = (controlType: ControlType): string => {
     switch (controlType) {
@@ -9,7 +7,7 @@ export const infractionTitleForControlType = (controlType: ControlType): string 
         case ControlType.NAVIGATION:
             return 'Infraction règles de navigation'
         case ControlType.SECURITY:
-            return 'Infraction equipements et respect des normes de sécurité'
+            return 'Infraction équipements et respect des normes de sécurité'
         case ControlType.GENS_DE_MER:
             return 'Infraction administrative gens de mer'
         default:
