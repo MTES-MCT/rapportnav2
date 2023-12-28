@@ -23,7 +23,7 @@ analyse_trivy:
     - |
       if [[ "$FAIL_TRIVY_CONDITION" != "" && "$KEEP_RUNNING" != "true" ]]; then
         # Fail on critical vulnerabilities
-        time trivy image -d --server $TRIVY_SERVER --exit-code 1 --cache-dir .trivycache/ $FAIL_TRIVY_CONDITION --no-progress --format template --template "@/contrib/html.tpl" --output "container-scanning-report.html" "$FULL_IMAGE_NAME"
+        time trivy image -d --server $TRIVY_SERVER --exit-code 1 --cache-dir .trivycache/ $FAIL_TRIVY_CONDITION --no-progress --format template --template "@/contrib/html.tpl" --output "container-scanning-report-app.html" "$FULL_IMAGE_NAME"
       else
         # Builds report and puts it in the default workdir $CI_PROJECT_DIR, so `artifacts:` can take it from there
         time trivy image -d --server $TRIVY_SERVER --exit-code 0 --cache-dir .trivycache/ --no-progress --format template --template "@/contrib/html.tpl" --output "container-scanning-report-app.html" "$FULL_IMAGE_NAME"
@@ -33,7 +33,7 @@ analyse_trivy:
     - |
       if [[ "$FAIL_TRIVY_CONDITION" != "" && "$KEEP_RUNNING" != "true" ]]; then
         # Fail on critical vulnerabilities
-        time trivy image -d --server $TRIVY_SERVER --exit-code 1 --cache-dir .trivycache/ $FAIL_TRIVY_CONDITION --no-progress --format template --template "@/contrib/html.tpl" --output "container-scanning-report.html" "$BDD_IMAGE_NAME"
+        time trivy image -d --server $TRIVY_SERVER --exit-code 1 --cache-dir .trivycache/ $FAIL_TRIVY_CONDITION --no-progress --format template --template "@/contrib/html.tpl" --output "container-scanning-report_bdd.html" "$BDD_IMAGE_NAME"
       else
         # Builds report and puts it in the default workdir $CI_PROJECT_DIR, so `artifacts:` can take it from there
         time trivy image -d --server $TRIVY_SERVER --exit-code 0 --cache-dir .trivycache/ --no-progress --format template --template "@/contrib/html.tpl" --output "container-scanning-report-bdd.html" "$BDD_IMAGE_NAME"
