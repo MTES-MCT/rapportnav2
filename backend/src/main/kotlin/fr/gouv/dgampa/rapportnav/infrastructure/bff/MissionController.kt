@@ -14,7 +14,6 @@ import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
-import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 

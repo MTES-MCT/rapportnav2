@@ -36,6 +36,7 @@ class JPAControlNavigationRepository(
         val control = dbControlNavigationRepository.findByActionControlId(actionControlId)
         return control
     }
+
     @Transactional
     override fun save(control: ControlNavigationEntity): ControlNavigationModel {
         return try {

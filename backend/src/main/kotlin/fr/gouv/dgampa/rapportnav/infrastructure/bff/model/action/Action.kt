@@ -37,6 +37,7 @@ data class Action(
                             actionStartDateTimeUtc = it,
                             actionEndDateTimeUtc = envAction?.controlAction?.action?.actionEndDateTimeUtc,
                             actionType = envAction?.controlAction?.action?.actionType!!,
+                            geom = envAction?.controlAction?.action?.geom,
                             observations = envAction?.controlAction?.action?.observations,
                             actionNumberOfControls = envAction?.controlAction?.action?.actionNumberOfControls,
                             actionTargetType = envAction?.controlAction?.action?.actionTargetType,

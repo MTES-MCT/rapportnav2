@@ -25,6 +25,7 @@ data class ActionStatusEntity(
             statusAction = this
         )
     }
+
     fun toNavActionStatus(): NavActionStatus {
         return NavActionStatus(
             id = id,
@@ -35,6 +36,6 @@ data class ActionStatusEntity(
             isStart = isStart,
             observations = observations,
 
-        )
+            )
     }
 }

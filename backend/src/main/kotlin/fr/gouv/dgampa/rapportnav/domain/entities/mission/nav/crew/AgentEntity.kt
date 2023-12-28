@@ -8,5 +8,5 @@ data class AgentEntity(
     val firstName: String,
     val lastName: String,
     val deletedAt: Date? = null,
-    val services:  MutableSet<ServiceEntity?> = HashSet(),
+    val services: MutableSet<ServiceEntity?> = HashSet(),
 )

@@ -58,9 +58,11 @@ The following checks are performed through Github Actions:
 
 ### Pre-requisites
 
-As we are mirroring our repo onto our hoster's repo, who can also provide changes and commits, _make sure to align the two repos before deploying_:
+As we are mirroring our repo onto our hoster's repo, who can also provide changes and commits, _make sure to align the
+two repos before deploying_:
 
-- add mirror if you haven't: `git remote add mirror https://gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2.git`
+- add mirror if you
+  haven't: `git remote add mirror https://gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2.git`
 - fetch changes: `git fetch mirror`
   - username: use your @i-carre.net email
   - password: use token provided by other devs or devops at DSI
@@ -74,4 +76,5 @@ As we are mirroring our repo onto our hoster's repo, who can also provide change
 - Set version number in the variable `PROJECT_VERSION` in the file `.gitlab-ci.yml`
 - Create a GitHub release with the same version number
 - check the running `release` Action
-- check the pipeline [here](https://gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2/-/pipelines)
+- check the
+  pipeline [here](https://gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2/-/pipelines)

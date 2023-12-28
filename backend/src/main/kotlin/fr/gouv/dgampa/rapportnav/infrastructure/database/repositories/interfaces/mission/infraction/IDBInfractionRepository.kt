@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infractio
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
-interface IDBInfractionRepository: JpaRepository<InfractionModel, UUID> {
+interface IDBInfractionRepository : JpaRepository<InfractionModel, UUID> {
 
     fun findAllByActionId(actionId: String): List<InfractionModel>
 

@@ -4,7 +4,8 @@ import styled from 'styled-components'
 import { FlexboxGrid } from 'rsuite'
 import { Accent, Button } from '@mtes-mct/monitor-ui'
 
-interface HeaderProps {}
+interface HeaderProps {
+}
 
 const StyledHeader = styled.div`
   height: 104px;
@@ -16,7 +17,7 @@ const StyledHeader = styled.div`
 `
 
 export const Header: React.FC<HeaderProps> = () => {
-  const { isAuthenticated, logout } = useAuth()
+  const {isAuthenticated, logout} = useAuth()
 
   const handleLogout = () => {
     logout()
@@ -24,13 +25,13 @@ export const Header: React.FC<HeaderProps> = () => {
 
   return (
     <StyledHeader>
-      <FlexboxGrid justify="space-between" align="middle" style={{ height: '100%' }}>
+      <FlexboxGrid justify="space-between" align="middle" style={{height: '100%'}}>
         <FlexboxGrid.Item>
-          <FlexboxGrid justify="space-between" align="middle" style={{ height: '100%' }}>
+          <FlexboxGrid justify="space-between" align="middle" style={{height: '100%'}}>
             <FlexboxGrid.Item>
-              <img src={republique} alt="marianne logo" height={80} />
+              <img src={republique} alt="marianne logo" height={80}/>
             </FlexboxGrid.Item>
-            <FlexboxGrid.Item style={{ marginLeft: '1rem' }}>
+            <FlexboxGrid.Item style={{marginLeft: '1rem'}}>
               <h3>Rapport Nav</h3>
             </FlexboxGrid.Item>
           </FlexboxGrid>

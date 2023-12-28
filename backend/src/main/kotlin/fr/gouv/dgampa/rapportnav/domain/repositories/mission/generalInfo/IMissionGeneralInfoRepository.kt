@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalIn
 import java.util.*
 
 interface IMissionGeneralInfoRepository {
-    fun findByMissionId( missionId: Int): Optional<MissionGeneralInfoModel>
+    fun findByMissionId(missionId: Int): Optional<MissionGeneralInfoModel>
 
     fun findById(id: Int): Optional<MissionGeneralInfoModel>
 

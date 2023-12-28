@@ -9,14 +9,13 @@ import { GET_MISSIONS } from './queries'
 import { GET_MISSION_BY_ID } from '../mission/queries'
 
 const Missions: React.FC = () => {
-  const { loading, error, data, client } = useQuery(GET_MISSIONS)
+  const {loading, error, data, client} = useQuery(GET_MISSIONS)
 
   const prefetchMission = async (missionId: string) => {
-    const a = await client.query({
+    await client.query({
       query: GET_MISSION_BY_ID,
-      variables: { missionId }
+      variables: {missionId}
     })
-    console.log('prefetch', a)
   }
 
   if (data) {
@@ -25,7 +24,7 @@ const Missions: React.FC = () => {
       <FlexboxGrid
         // align="middle"
         justify="center"
-        style={{ padding: '4rem 2rem', display: 'flex', flex: 1 }}
+        style={{padding: '4rem 2rem', display: 'flex', flex: 1}}
       >
         <FlexboxGrid.Item as={Col} colspan={24} xxl={16}>
           <Stack direction="column" alignItems="flex-start">
@@ -33,11 +32,11 @@ const Missions: React.FC = () => {
               <h3>Missions</h3>
             </Stack.Item>
 
-            <Stack.Item style={{ paddingTop: '2rem' }}>
+            <Stack.Item style={{paddingTop: '2rem'}}>
               <h4>Mes rapports de mission</h4>
             </Stack.Item>
 
-            <Stack.Item alignSelf="flex-end" style={{ paddingTop: '2rem' }}>
+            <Stack.Item alignSelf="flex-end" style={{paddingTop: '2rem'}}>
               <Link to={`/pam/missions/0`}>
                 <Button accent={Accent.PRIMARY} Icon={Icon.Plus} size={Size.NORMAL} disabled={true}>
                   Créer un rapport de mission
@@ -45,15 +44,15 @@ const Missions: React.FC = () => {
               </Link>
             </Stack.Item>
 
-            <Stack.Item style={{ paddingTop: '2rem', width: '100%' }}>
+            <Stack.Item style={{paddingTop: '2rem', width: '100%'}}>
               {loading ? (
-                <Stack justifyContent="center" style={{ marginTop: '5rem' }}>
+                <Stack justifyContent="center" style={{marginTop: '5rem'}}>
                   <Stack.Item>
-                    <Loader />
+                    <Loader/>
                   </Stack.Item>
                 </Stack>
               ) : (
-                <MissionsList missions={missions} prefetchMission={prefetchMission} />
+                <MissionsList missions={missions} prefetchMission={prefetchMission}/>
               )}
             </Stack.Item>
           </Stack>

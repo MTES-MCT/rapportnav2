@@ -5,7 +5,7 @@ import Missions from './missions';
 const MissionsPage: React.FC = () => {
   return (
     <PageWrapper>
-      <Missions />
+      <Missions/>
     </PageWrapper>
   )
 };

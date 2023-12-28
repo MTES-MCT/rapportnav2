@@ -1,5 +1,5 @@
-import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client'
-import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev'
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
+import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev'
 import AuthToken from './auth/token'
 import { setContext } from '@apollo/client/link/context'
 
@@ -14,14 +14,14 @@ const httpLink = createHttpLink({
   uri: '/graphql'
 })
 
-const authLink = setContext((_, { headers }) => {
+const authLink = setContext((_, {headers}) => {
   const authToken = new AuthToken()
   const token = authToken.get()
   return {
     headers: {
       ...headers,
       'Content-Type': 'application/json',
-      ...(token ? { authorization: `Bearer ${token}` } : {})
+      ...(token ? {authorization: `Bearer ${token}`} : {})
     }
   }
 })

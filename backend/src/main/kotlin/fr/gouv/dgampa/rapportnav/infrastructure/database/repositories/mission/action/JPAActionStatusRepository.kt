@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Repository
-class JPAActionStatusRepository (
+class JPAActionStatusRepository(
     private val dbActionStatusRepository: IDBActionStatusRepository,
     private val mapper: ObjectMapper,
 ) : INavActionStatusRepository {
@@ -27,6 +27,7 @@ class JPAActionStatusRepository (
     override fun existsById(id: UUID): Boolean {
         return dbActionStatusRepository.existsById(id)
     }
+
     @Transactional
     override fun deleteById(id: UUID) {
         return dbActionStatusRepository.deleteById(id)

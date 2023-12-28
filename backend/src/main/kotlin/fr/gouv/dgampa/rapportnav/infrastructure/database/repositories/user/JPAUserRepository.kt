@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
-class JPAUserRepository (
+class JPAUserRepository(
     private val dbUserRepository: IDBUserRepository,
     private val mapper: ObjectMapper
 ) : IUserRepository {

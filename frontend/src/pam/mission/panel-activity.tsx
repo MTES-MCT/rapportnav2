@@ -3,9 +3,10 @@ import { Panel } from 'rsuite'
 import { THEME } from '@mtes-mct/monitor-ui'
 import Text from '../../ui/text'
 
-interface MissionActivityPanelProps {}
+interface MissionActivityPanelProps {
+}
 
-const MissionActivityPanel: React.FC<MissionActivityPanelProps> = ({}) => {
+const MissionActivityPanel: React.FC<MissionActivityPanelProps> = () => {
   return (
     <Panel
       header={
@@ -15,7 +16,7 @@ const MissionActivityPanel: React.FC<MissionActivityPanelProps> = ({}) => {
       }
       collapsible
       bordered
-      style={{ backgroundColor: THEME.color.cultured, border: 0 }}
+      style={{backgroundColor: THEME.color.cultured, border: 0}}
     >
       <div>todo</div>
     </Panel>

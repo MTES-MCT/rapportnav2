@@ -1,24 +1,36 @@
 import React from 'react'
-import PageWrapper from '../missions/page-wrapper'
-import Mission from './mission'
+import MissionComponent from './mission-component.tsx'
 import { useNavigate, useParams } from 'react-router-dom'
 import MissionPageHeader from './page-header'
 import MissionPageFooter from './page-footer'
 import { useApolloClient } from '@apollo/client'
+import useMissionExcerpt from "./general-info/use-mission-excerpt.tsx";
+import { formatMissionName } from "./utils.ts";
 
-const MissionsPage: React.FC = () => {
+const MissionPage: React.FC = () => {
   const navigate = useNavigate()
-  let { missionId } = useParams()
+  let {missionId} = useParams()
   const apolloClient = useApolloClient()
 
-  const exitMission = () => {
+  const {loading, error, data: mission} = useMissionExcerpt(missionId)
+
+
+  const exitMission = async () => {
     // TODO centralise the following into a class - also used in use-auth()
     // reset apollo store
-    apolloClient.resetStore()
+    await apolloClient.resetStore()
     // flush apollo persist cache
     apolloClient.cache.evict({})
 
     navigate('..')
+  }
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  if (error) {
+    return <div>error...</div>
   }
 
   return (
@@ -31,26 +43,15 @@ const MissionsPage: React.FC = () => {
         maxHeight: '100vh'
       }}
     >
-      <MissionPageHeader missionName={`Mission #${missionId}`} onClickClose={exitMission} />
-      {/* <main
-        style={{
-          display: 'flex',
-          flex: 1
-        }}
-      > */}
-      <Mission />
-      {/* </main> */}
+      <MissionPageHeader missionName={formatMissionName(mission?.startDateTimeUtc)}
+                         missionSource={mission?.missionSource}
+                         onClickClose={exitMission}/>
 
-      <MissionPageFooter missionName={`Mission #${missionId}`} exitMission={exitMission} />
+      <MissionComponent mission={mission}/>
+
+      <MissionPageFooter missionName={`Mission #${missionId}`} exitMission={exitMission}/>
     </div>
-    // <PageWrapper
-    //   showMenu={false}
-    //   header={<MissionPageHeader missionName={`Mission #${missionId}`} onClickClose={exitMission} />}
-    //   footer={<MissionPageFooter missionName={`Mission #${missionId}`} exitMission={exitMission} />}
-    // >
-    //   <Mission />
-    // </PageWrapper>
   )
 }
 
-export default MissionsPage
+export default MissionPage

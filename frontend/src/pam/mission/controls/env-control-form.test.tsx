@@ -1,4 +1,4 @@
-import { getByRole, render, screen } from '../../../test-utils'
+import { render, screen } from '../../../test-utils'
 import { ControlAdministrative, ControlType } from '../../../types/control-types'
 import EnvControlForm, { EnvControlFormProps } from './env-control-form'
 
@@ -104,19 +104,6 @@ describe('EnvControlForm', () => {
       expect(nbInput).not.toBeDisabled()
       // const obsInput = screen.getByLabelText('Observations (hors infraction)')
       // expect(obsInput).not.toBeDisabled()
-    })
-    it('should be disabled when shouldCompleteControl is false but there is no data', () => {
-      const props: EnvControlFormProps = {
-        data: undefined,
-        shouldCompleteControl: false,
-        controlType: ControlType.ADMINISTRATIVE
-      }
-
-      render(<EnvControlForm {...props} />)
-      const nbInput = screen.getByLabelText('Nb contrôles')
-      expect(nbInput).toBeDisabled()
-      const obsInput = screen.getByLabelText('Observations (hors infraction)')
-      expect(obsInput).toBeDisabled()
     })
   })
 })

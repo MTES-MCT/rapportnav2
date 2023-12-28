@@ -36,7 +36,7 @@ class ActionStatusModel(
     @Column(name = "observations", nullable = true)
     var observations: String?,
 
-) {
+    ) {
     fun toActionStatusEntity(): ActionStatusEntity {
         return ActionStatusEntity(
             id = id,

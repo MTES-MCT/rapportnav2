@@ -2,7 +2,7 @@ import { Icon, SideMenu } from '@mtes-mct/monitor-ui'
 import { ReactNode } from 'react'
 import useAuth from '../auth/use-auth'
 import { Header as CustomHeader } from './header'
-import { Container, Content, Footer, Sidebar, Header } from 'rsuite'
+import { Container, Content, Footer, Header, Sidebar } from 'rsuite'
 
 interface PageWrapperProps {
   header?: ReactNode
@@ -11,16 +11,16 @@ interface PageWrapperProps {
   children: ReactNode
 }
 
-const PageWrapper: React.FC<PageWrapperProps> = ({ children, header, footer, showMenu }) => {
-  const { isAuthenticated } = useAuth()
+const PageWrapper: React.FC<PageWrapperProps> = ({children, header, footer, showMenu}) => {
+  const {isAuthenticated} = useAuth()
   return (
-    <Container style={{ minHeight: '100vh' }}>
+    <Container style={{minHeight: '100vh', maxHeight: '100vh', overflow: 'hidden'}}>
       <Header>{!!header && <>{header}</>}</Header>
-      <Container>
+      <Container style={{}}>
         {isAuthenticated && (
           <>
             {showMenu && (
-              <Sidebar style={{ flex: 0, width: '64px' }}>
+              <Sidebar style={{flex: 0, width: '64px'}}>
                 <SideMenu>
                   <SideMenu.Button
                     Icon={Icon.MissionAction}
@@ -33,7 +33,11 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ children, header, footer, sho
             )}
           </>
         )}
-        <Content style={{ display: 'flex' }}>{children}</Content>
+        <Content style={{
+          maxHeight: 'calc(100vh - 104px - 50px)', // full viewportHeight - headerHeight - extra margin
+          overflow: 'auto',
+          display: 'flex'
+        }}>{children}</Content>
         {footer && <Footer>{footer}</Footer>}
       </Container>
     </Container>
@@ -41,7 +45,7 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ children, header, footer, sho
 }
 
 PageWrapper.defaultProps = {
-  header: <CustomHeader />,
+  header: <CustomHeader/>,
   showMenu: true
 }
 

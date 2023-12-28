@@ -2,7 +2,7 @@ analyse_sonar:
   stage: analyze
   image:
     name: sonarsource/sonar-scanner-cli:latest
-    entrypoint: [""]
+    entrypoint: [ "" ]
   tags:
     - analyze
   variables:
@@ -18,9 +18,10 @@ analyse_sonar:
     - |
       if [ $KEEP_RUNNING == "true" ]
         then
-          sonar-scanner 
+          # -X is for debug logs 
+          sonar-scanner -X
       else
         # -Dsonar.qualitygate.wait=true stop le job si le quality gate est KO
-        sonar-scanner $FAIL_SONAR_CONDITION
+        sonar-scanner -X $FAIL_SONAR_CONDITION
       fi
 

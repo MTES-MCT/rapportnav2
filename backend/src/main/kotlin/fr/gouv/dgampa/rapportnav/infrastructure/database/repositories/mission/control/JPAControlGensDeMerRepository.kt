@@ -36,6 +36,7 @@ class JPAControlGensDeMerRepository(
         val control = dbControlGensDeMerRepository.findByActionControlId(actionControlId)
         return control
     }
+
     @Transactional
     override fun save(control: ControlGensDeMerEntity): ControlGensDeMerModel {
         return try {

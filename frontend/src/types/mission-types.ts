@@ -1,5 +1,4 @@
 import { Action } from './action-types'
-
 import { ControlUnit } from './control-unit-types'
 import { MissionSourceEnum, MissionTypeEnum, SeaFrontEnum } from './env-mission-types'
 

@@ -1,4 +1,4 @@
-import { test, describe, expect } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { render, screen } from '../../test-utils'
 
 import MissionsList from './missions-list'
@@ -23,15 +23,15 @@ const endedMission = {
 
 describe('MissionsList component', () => {
   test('should render the brouillon status', () => {
-    render(<MissionsList missions={[openedMission]} />)
+    render(<MissionsList missions={[openedMission]}/>)
     expect(screen.getByText('● Brouillon')).toBeInTheDocument()
   })
   test('should render the NA status', () => {
-    render(<MissionsList missions={[closedMission]} />)
+    render(<MissionsList missions={[closedMission]}/>)
     expect(screen.getByText('❌ N/A')).toBeInTheDocument()
   })
   test('should render the cloturée status', () => {
-    render(<MissionsList missions={[endedMission]} />)
+    render(<MissionsList missions={[endedMission]}/>)
     expect(screen.getByText('✓ Clôturée')).toBeInTheDocument()
   })
 })

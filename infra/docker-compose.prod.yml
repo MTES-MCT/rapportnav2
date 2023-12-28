@@ -24,7 +24,7 @@ services:
         max-size: "1024m"
 
   db:
-    image: postgres:15
+    image: postgres:15-bookworm
     volumes:
       - "${RAPPORTNAV_BACKUPS_FOLDER}:/opt/rapportnav_backups"
       - db:/var/lib/postgresql/data
@@ -38,7 +38,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 1s
       timeout: 1s
       retries: 30

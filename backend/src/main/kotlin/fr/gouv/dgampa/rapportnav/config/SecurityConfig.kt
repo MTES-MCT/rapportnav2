@@ -22,7 +22,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher
  */
 @Configuration
 @EnableWebSecurity
-class SecurityConfig (
+class SecurityConfig(
     private val tokenService: TokenService,
 ) {
     @Bean
@@ -51,14 +51,13 @@ class SecurityConfig (
             }
 //        http.headers().frameOptions().disable()
 //        http.headers().xssProtection().disable()
-        http.authorizeHttpRequests {
-            authorize ->
-                authorize
-                    .requestMatchers(AntPathRequestMatcher("/api/v1/auth/login")).permitAll()
-                    .requestMatchers(AntPathRequestMatcher("/api/v1/auth/register")).permitAll()
-                    .requestMatchers(AntPathRequestMatcher("/graphql")).authenticated()
-                    .requestMatchers(AntPathRequestMatcher("/**")).permitAll()
-                    .anyRequest().permitAll()
+        http.authorizeHttpRequests { authorize ->
+            authorize
+                .requestMatchers(AntPathRequestMatcher("/api/v1/auth/login")).permitAll()
+                .requestMatchers(AntPathRequestMatcher("/api/v1/auth/register")).permitAll()
+                .requestMatchers(AntPathRequestMatcher("/graphql")).authenticated()
+                .requestMatchers(AntPathRequestMatcher("/**")).permitAll()
+                .anyRequest().permitAll()
         }
 //         http.authorizeHttpRequests()
 //            .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()

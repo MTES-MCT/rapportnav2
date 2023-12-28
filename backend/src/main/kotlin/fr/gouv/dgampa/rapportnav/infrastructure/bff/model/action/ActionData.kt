@@ -99,7 +99,6 @@ data class FishActionData(
 ) : ActionData()
 
 
-
 data class NavActionStatus(
     val id: UUID,
     val missionId: Int,

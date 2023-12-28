@@ -1,14 +1,14 @@
 import { render, screen, waitFor } from '../test-utils'
 import userEvent from '@testing-library/user-event'
 import Login from './login'
-import { loginServer, login_failed_handler } from './test-server'
-import { beforeAll, afterEach, afterAll, it, describe } from 'vitest'
+import { loginFailedHandler, loginServer, loginSuccessHandler } from './test-server'
+import { afterAll, afterEach, beforeAll, describe, it } from 'vitest'
 
 const server = loginServer()
 
 describe('Login Component', () => {
   // Establish API mocking before all tests.
-  beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
+  beforeAll(() => server.listen({onUnhandledRequest: 'error'}))
 
   // Reset any request handlers that we may add during the tests,
   // so they don't affect other tests.
@@ -18,7 +18,7 @@ describe('Login Component', () => {
   afterAll(() => server.close())
 
   it('should display validation error for invalid email address', async () => {
-    render(<Login />)
+    render(<Login/>)
 
     // Fill in the email and password fields
     await userEvent.type(screen.getByLabelText('Email'), 'invalid-email')
@@ -33,12 +33,13 @@ describe('Login Component', () => {
     })
   })
 
-  it.only('should set token in local storage and go to root path on successful form submission', async () => {
+  it('should set token in local storage and go to root path on successful form submission', async () => {
+    server.use(loginSuccessHandler[0])
     // set router to a different route to correctly test the redirection - avoiding false positives
     window.history.pushState({}, '', '/login')
     expect(window.location.pathname).toEqual('/login')
 
-    render(<Login />)
+    render(<Login/>)
 
     const submitButton = screen.getByText('Se connecter')
 
@@ -58,9 +59,9 @@ describe('Login Component', () => {
 
   it('should display error message when API call fails', async () => {
     // Mock httpClient to return a rejected promise
-    server.use(login_failed_handler)
+    server.use(loginFailedHandler)
 
-    render(<Login />)
+    render(<Login/>)
 
     // Fill in the email and password fields
     await userEvent.type(screen.getByLabelText('Email'), 'test@example.com')

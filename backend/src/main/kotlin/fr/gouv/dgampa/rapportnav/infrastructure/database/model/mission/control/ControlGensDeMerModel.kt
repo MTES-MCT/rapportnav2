@@ -18,7 +18,7 @@ class ControlGensDeMerModel(
 
     @Column(name = "knowledge_of_french_law_and_language", nullable = true)
     var knowledgeOfFrenchLawAndLanguage: String? = null,
-): ControlModel()  {
+) : ControlModel() {
     fun toControlGensDeMerEntity() = ControlGensDeMerEntity(
         id = id,
         missionId = missionId,
@@ -43,6 +43,7 @@ class ControlGensDeMerModel(
             this.unitShouldConfirm = control.unitShouldConfirm
             this.observations = control.observations
         }
+
         fun fromControlGensDeMerEntity(control: ControlGensDeMerEntity): ControlGensDeMerModel {
             val controlModel = ControlGensDeMerModel()
 

@@ -1,10 +1,10 @@
-import { MultiRadio, Icon, Button, Accent, THEME, Label } from '@mtes-mct/monitor-ui'
-import { ActionTypeEnum, missionTypeEnum } from '../../../types/env-mission-types'
+import { Label, MultiRadio, THEME } from '@mtes-mct/monitor-ui'
+import { missionTypeEnum } from '../../../types/env-mission-types'
 import { Stack } from 'rsuite'
 import Text from '../../../ui/text'
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import { VesselTypeEnum } from '../../../types/mission-types'
-import { ControlTarget, ControlTargetText } from '../../../types/control-types'
+import { ControlTarget } from '../../../types/control-types'
 import { vesselTypeToHumanString } from './utils'
 import IconVesselCommerce from '../../../ui/icon/IconVesselCommerce'
 import IconVesselFishing from '../../../ui/icon/IconVesselFishing'
@@ -64,12 +64,12 @@ interface ControlSelectionProps {
   onSelect: (controlType: string, targetType: ControlTarget) => void
 }
 
-const ControlSelection: React.FC<ControlSelectionProps> = ({ onSelect }) => {
+const ControlSelection: FC<ControlSelectionProps> = ({onSelect}) => {
   const [selectedControlType, setSelectedControlType] = useState<string>(missionTypeEnum.SEA.code)
 
   return (
     <>
-      <Stack direction="column" spacing="1.5rem" alignItems="flex-start" style={{ padding: '1rem' }}>
+      <Stack direction="column" spacing="1.5rem" alignItems="flex-start" style={{padding: '1rem'}}>
         {/* <Stack.Item style={{ width: '100%' }} alignSelf="flex-start">
           <Text as="h2">Ajouter des contrôles</Text>
         </Stack.Item> */}
@@ -84,18 +84,18 @@ const ControlSelection: React.FC<ControlSelectionProps> = ({ onSelect }) => {
           />
         </Stack.Item>
 
-        <Stack.Item style={{ width: '100%' }}>
+        <Stack.Item style={{width: '100%'}}>
           <Stack direction="column" spacing="1rem" alignItems="flex-start">
             {controls.map((control: { type: VesselTypeEnum; icon: any }) => {
               const Icon = control.icon
               return (
-                <Stack.Item onClick={() => onSelect(selectedControlType, control.type)} style={{ width: '100%' }}>
+                <Stack.Item onClick={() => onSelect(selectedControlType, control.type)} style={{width: '100%'}}>
                   <StyledItem>
-                    <Stack direction="row" spacing="1rem" alignItems="center" style={{ width: '100%' }}>
-                      <Stack.Item style={{ width: '15%' }}>
-                        <Icon />
+                    <Stack direction="row" spacing="1rem" alignItems="center" style={{width: '100%'}}>
+                      <Stack.Item style={{width: '15%'}}>
+                        <Icon/>
                       </Stack.Item>
-                      <Stack.Item style={{ width: '80%' }}>
+                      <Stack.Item style={{width: '80%'}}>
                         <Text as="h3" weight="normal">
                           Contrôles de <b>{vesselTypeToHumanString(control.type).toLowerCase()}</b>
                         </Text>

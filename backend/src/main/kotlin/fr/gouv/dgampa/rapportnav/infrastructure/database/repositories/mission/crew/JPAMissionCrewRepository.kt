@@ -13,36 +13,36 @@ import java.util.*
 
 @Repository
 class JPAMissionCrewRepository(
-  private val dbMissionCrewRepository: IDBMissionCrewRepository,
-  private val dbAgentRepository: IDBAgentRepository,
-  private val dbAgentRoleRepository: IDBAgentRoleRepository,
+    private val dbMissionCrewRepository: IDBMissionCrewRepository,
+    private val dbAgentRepository: IDBAgentRepository,
+    private val dbAgentRoleRepository: IDBAgentRoleRepository,
 ) : IMissionCrewRepository {
-  override fun findByMissionId(missionId: Int): List<MissionCrewModel> {
-    return dbMissionCrewRepository.findByMissionId(missionId)
-  }
-
-  @Transactional
-  override fun save(crew: MissionCrewEntity): MissionCrewModel {
-    return try {
-      val agent = dbAgentRepository.findById(crew.agent.id!!).orElseThrow()
-      val role = dbAgentRoleRepository.findById(crew.role.id!!).orElseThrow()
-
-      val crewModel = MissionCrewModel.fromMissionCrewEntity(crew)
-      crewModel.agent = agent
-      crewModel.role = role
-      dbMissionCrewRepository.save(crewModel)
-    } catch (e: InvalidDataAccessApiUsageException) {
-      throw Exception("[JPA] Error saving or updating MissionCrew", e)
+    override fun findByMissionId(missionId: Int): List<MissionCrewModel> {
+        return dbMissionCrewRepository.findByMissionId(missionId)
     }
-  }
 
-  @Transactional
-  override fun deleteById(id: Int): Boolean {
-    val crew: Optional<MissionCrewModel> = dbMissionCrewRepository.findById(id)
-    if (crew.isPresent) {
-      dbMissionCrewRepository.deleteById(id)
-      return true;
+    @Transactional
+    override fun save(crew: MissionCrewEntity): MissionCrewModel {
+        return try {
+            val agent = dbAgentRepository.findById(crew.agent.id!!).orElseThrow()
+            val role = dbAgentRoleRepository.findById(crew.role.id!!).orElseThrow()
+
+            val crewModel = MissionCrewModel.fromMissionCrewEntity(crew)
+            crewModel.agent = agent
+            crewModel.role = role
+            dbMissionCrewRepository.save(crewModel)
+        } catch (e: InvalidDataAccessApiUsageException) {
+            throw Exception("[JPA] Error saving or updating MissionCrew", e)
+        }
     }
-    throw NoSuchElementException("AgentCrew with ID $id not found")
-  }
+
+    @Transactional
+    override fun deleteById(id: Int): Boolean {
+        val crew: Optional<MissionCrewModel> = dbMissionCrewRepository.findById(id)
+        if (crew.isPresent) {
+            dbMissionCrewRepository.deleteById(id)
+            return true;
+        }
+        throw NoSuchElementException("AgentCrew with ID $id not found")
+    }
 }

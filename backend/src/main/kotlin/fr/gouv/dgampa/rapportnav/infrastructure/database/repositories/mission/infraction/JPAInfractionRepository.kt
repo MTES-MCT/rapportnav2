@@ -30,10 +30,19 @@ class JPAInfractionRepository(
             val infractionModel = InfractionModel.fromInfractionEntity(infraction)
 
             val control = when (infraction.controlType) {
-                ControlType.ADMINISTRATIVE -> infraction.controlId?.let { dbControlAdministrativeRepo.findById(it).orElse(null) }
+                ControlType.ADMINISTRATIVE -> infraction.controlId?.let {
+                    dbControlAdministrativeRepo.findById(it).orElse(null)
+                }
+
                 ControlType.SECURITY -> infraction.controlId?.let { dbControlSecurityRepo.findById(it).orElse(null) }
-                ControlType.NAVIGATION -> infraction.controlId?.let { dbControlNavigationRepo.findById(it).orElse(null) }
-                ControlType.GENS_DE_MER -> infraction.controlId?.let { dbControlGensDeMerRepo.findById(it).orElse(null) }
+                ControlType.NAVIGATION -> infraction.controlId?.let {
+                    dbControlNavigationRepo.findById(it).orElse(null)
+                }
+
+                ControlType.GENS_DE_MER -> infraction.controlId?.let {
+                    dbControlGensDeMerRepo.findById(it).orElse(null)
+                }
+
                 null -> null
             } ?: throw Exception("Error saving or updating Infraction - cannot find associated Control")
 
@@ -53,7 +62,7 @@ class JPAInfractionRepository(
 
 
     override fun findAllByActionId(actionId: String): List<InfractionModel> {
-        return dbRepo.findAllByActionId(actionId=actionId)
+        return dbRepo.findAllByActionId(actionId = actionId)
     }
 
     override fun findById(id: UUID): Optional<InfractionModel> {

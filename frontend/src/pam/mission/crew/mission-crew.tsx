@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
-import { THEME, Label, Select, Icon, Button, Accent, Size, Dropdown } from '@mtes-mct/monitor-ui'
+import { Accent, Button, Dropdown, Icon, Label, Select, Size, THEME } from '@mtes-mct/monitor-ui'
 import omit from 'lodash/omit'
 import { useParams } from 'react-router-dom'
-import { Agent, MissionCrew as MissionCrewModel, AgentRole } from '../../../types/crew-types'
+import { Agent, AgentRole, MissionCrew as MissionCrewModel } from '../../../types/crew-types'
 import Text from '../../../ui/text'
 import useAgentRoles from './use-agent-roles'
 import useAgentsByUserService from './use-agents-by-user-service'
@@ -11,16 +11,17 @@ import useAddOrUpdateMissionCrew, { AddOrUpdateMissionCrewInput } from './use-ad
 import useMissionCrew from './use-mission-crew'
 import useDeleteMissionCrew from './use-delete-mission-crew'
 
-interface MissionCrewProps {}
+interface MissionCrewProps {
+}
 
-const MissionCrew: React.FC<MissionCrewProps> = ({}) => {
-  const { missionId } = useParams()
+const MissionCrew: React.FC<MissionCrewProps> = () => {
+  const {missionId} = useParams()
 
-  const { data: agentRoles, agentRolesLoading, agentRolesError } = useAgentRoles()
-  const { data: agents, agentsLoading, agentsError } = useAgentsByUserService()
-  const { data: crew, crewLoading, crewError } = useMissionCrew(missionId!)
-  const [addOrUpdateCrew, { updateData, updateLoading, updateError }] = useAddOrUpdateMissionCrew()
-  const [deleteCrew, { deleteData, deleteLoading, deleteError }] = useDeleteMissionCrew()
+  const {data: agentRoles, agentRolesLoading, agentRolesError} = useAgentRoles()
+  const {data: agents, agentsLoading, agentsError} = useAgentsByUserService()
+  const {data: crew, crewLoading, crewError} = useMissionCrew(missionId!)
+  const [addOrUpdateCrew, {updateData, updateLoading, updateError}] = useAddOrUpdateMissionCrew()
+  const [deleteCrew, {deleteData, deleteLoading, deleteError}] = useDeleteMissionCrew()
 
   const [crewList, setCrewList] = useState<MissionCrewModel[] | undefined>(crew)
   const [hideAddButton, setHideAddButton] = useState<boolean>(false)
@@ -42,7 +43,7 @@ const MissionCrew: React.FC<MissionCrewProps> = ({}) => {
       setHideAddButton(false)
     } else {
       // delete exising crew
-      await deleteCrew({ variables: { id } })
+      await deleteCrew({variables: {id}})
     }
   }
 
@@ -71,7 +72,7 @@ const MissionCrew: React.FC<MissionCrewProps> = ({}) => {
       }
     }
 
-    await addOrUpdateCrew({ variables: { crew: data } })
+    await addOrUpdateCrew({variables: {crew: data}})
   }
 
   const addNewCrew = async (field?: string, value?: any) => {
@@ -92,7 +93,7 @@ const MissionCrew: React.FC<MissionCrewProps> = ({}) => {
         agent: newCrew.agent,
         role: newCrew.role
       }
-      await addOrUpdateCrew({ variables: { crew: data } })
+      await addOrUpdateCrew({variables: {crew: data}})
       setHideAddButton(false)
     }
   }
@@ -113,21 +114,21 @@ const MissionCrew: React.FC<MissionCrewProps> = ({}) => {
   return (
     <>
       <Label>Equipage à bord</Label>
-      <Stack direction="column" alignItems="flex-start" spacing="0.25rem" style={{ width: '100%' }}>
+      <Stack direction="column" alignItems="flex-start" spacing="0.25rem" style={{width: '100%'}}>
         {!!!crewList || !crewList.length ? (
-          <Stack.Item style={{ width: '100%', backgroundColor: THEME.color.gainsboro, padding: '0.5rem' }}>
+          <Stack.Item style={{width: '100%', backgroundColor: THEME.color.gainsboro, padding: '0.5rem'}}>
             <Text as="h3">Aucun membre d'équipage renseigné</Text>
           </Stack.Item>
         ) : (
           crewList?.map((crew: MissionCrewModel) => (
-            <Stack.Item key={crew.id} style={{ width: '100%', backgroundColor: THEME.color.gainsboro }}>
+            <Stack.Item key={crew.id} style={{width: '100%', backgroundColor: THEME.color.gainsboro}}>
               <Stack
                 direction="row"
                 alignItems="flex-start"
                 spacing="1rem"
-                style={{ width: '100%', backgroundColor: THEME.color.gainsboro, padding: '0.5rem' }}
+                style={{width: '100%', backgroundColor: THEME.color.gainsboro, padding: '0.5rem'}}
               >
-                <Stack.Item style={{ flex: 1 }}>
+                <Stack.Item style={{flex: 1}}>
                   <Select
                     name="agent"
                     label="Identité"
@@ -143,30 +144,31 @@ const MissionCrew: React.FC<MissionCrewProps> = ({}) => {
                     onChange={(nextValue?: string) => onChange(crew, 'agent', nextValue)}
                   />
                 </Stack.Item>
-                <Stack.Item style={{ flex: 1 }}>
+                <Stack.Item style={{flex: 1}}>
                   <Select
                     label="Fonction"
                     name="role"
                     isLight={true}
                     value={crew?.role?.id}
-                    options={agentRoles?.map(({ id, title }) => ({ value: id, label: title })) as any}
+                    options={agentRoles?.map(({id, title}) => ({value: id, label: title})) as any}
                     disabled={!crew?.agent?.lastName}
                     onChange={(nextValue?: string) => onChange(crew, 'role', nextValue)}
                   />
                 </Stack.Item>
-                <Stack.Item style={{ flex: 0 }} alignSelf="center">
+                <Stack.Item style={{flex: 0}} alignSelf="center">
                   <Label>&nbsp;</Label> {/*  fake label to align the icon with the fields */}
                   <Dropdown
                     Icon={Icon.More}
                     accent={Accent.SECONDARY}
-                    onSelect={function noRefCheck() {}}
+                    onSelect={function noRefCheck() {
+                    }}
                     title=""
                     placement="bottomEnd"
                   >
                     <Dropdown.Item
                       eventKey="DELETE"
                       onClick={() => onDeleteCrewMember(crew?.id)}
-                      style={{ backgroundColor: THEME.color.white }}
+                      style={{backgroundColor: THEME.color.white}}
                     >
                       Supprimer le membre
                     </Dropdown.Item>

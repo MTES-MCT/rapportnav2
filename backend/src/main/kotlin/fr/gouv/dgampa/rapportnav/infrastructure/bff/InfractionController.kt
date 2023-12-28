@@ -7,7 +7,6 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfracti
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetNatinfs
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.infraction.InfractionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.infraction.InfractionWithNewTargetInput
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.crew.AgentRole
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Infraction
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Natinf
 import org.springframework.graphql.data.method.annotation.Argument

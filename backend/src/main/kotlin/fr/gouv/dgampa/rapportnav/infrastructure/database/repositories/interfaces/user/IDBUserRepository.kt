@@ -3,6 +3,6 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interface
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.user.UserModel
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface IDBUserRepository: JpaRepository<UserModel, Int> {
-    fun findByEmail(email:String): UserModel?
+interface IDBUserRepository : JpaRepository<UserModel, Int> {
+    fun findByEmail(email: String): UserModel?
 }

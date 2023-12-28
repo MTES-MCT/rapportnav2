@@ -21,7 +21,7 @@ front-build:
 
 front-lint:
 	cd $(FRONTEND_DIR) && npm run lint
-	
+
 front-test:
 	cd $(FRONTEND_DIR) && npm run test
 
@@ -38,12 +38,20 @@ BACKEND_DIR := backend
 BACKEND_CONFIGURATION_FOLDER=$(shell pwd)/infra/configurations/backend/
 
 
-.PHONY: back-clean-install back-check-dependencies
+.PHONY: back-clean-install back-check-dependencies back-test back-verify-ci
 back-clean-install:
-	cd $(BACKEND_DIR) && mvn clean install
+	cd $(BACKEND_DIR) && ./mvnw clean install
 
 back-check-dependencies:
-	cd $(BACKEND_DIR) && mvn dependency-check:check
+	cd $(BACKEND_DIR) && ./mvnw dependency-check:check
+
+back-test:
+	cd $(BACKEND_DIR) && ./mvnw test -Pci -Dmaven.main.skip=true
+
+back-verify-ci:
+	cd $(BACKEND_DIR) && ./mvnw clean verify -Pci
+
+
 
 
 
@@ -56,7 +64,7 @@ check-clean-archi:
 back-build-mvn:
 	cd $(BACKEND_DIR) \
 	&& \
-	mvn clean package -DskipTests=true
+	./mvnw clean package -DskipTests=true
 
 # OK
 back-start-dev:
@@ -92,7 +100,7 @@ logs-backend:
 
 
 
-.PHONY: docker-build-app docker-tag-app docker-push-app 
+.PHONY: docker-build-app docker-tag-app docker-push-app
 
 docker-build-app:
 	docker buildx build -f infra/docker/app/Dockerfile .  \
@@ -101,7 +109,7 @@ docker-build-app:
 		--load \
 		--build-arg VERSION=$(VERSION) \
 		--build-arg ENV_PROFILE=$(ENV_PROFILE) \
-		--build-arg GITHUB_SHA=$(GITHUB_SHA) 
+		--build-arg GITHUB_SHA=$(GITHUB_SHA)
 
 # not used
 docker-tag-app:

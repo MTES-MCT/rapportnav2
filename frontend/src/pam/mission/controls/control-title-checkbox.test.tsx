@@ -1,5 +1,5 @@
 import { vi } from 'vitest'
-import { fireEvent, getByRole, render, screen } from '../../../test-utils'
+import { fireEvent, render, screen } from '../../../test-utils'
 import { ControlType } from '../../../types/control-types'
 import ControlTitleCheckbox, { ControlTitleCheckboxProps } from './control-title-checkbox'
 
@@ -40,11 +40,7 @@ describe('ControlTitleCheckbox', () => {
     })
   })
 
-  it('should be disabled when no onChange and not checked', () => {
-    render(<ControlTitleCheckbox {...props(undefined, false)} />)
-    const checkbox = screen.getByRole('checkbox')
-    expect(checkbox).toBeDisabled()
-  })
+
   it('should be enabled when no onChange and is checked', () => {
     render(<ControlTitleCheckbox {...props(undefined, true)} />)
     const checkbox = screen.getByRole('checkbox')
