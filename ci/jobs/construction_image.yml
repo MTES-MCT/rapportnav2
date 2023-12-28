@@ -27,8 +27,9 @@ construction_image:
       --build-arg GITHUB_SHA=$CI_COMMIT_SHA
     - docker login $NEXUS_DOCKER_REPO -u $NEXUS_USER -p $NEXUS_PWD
     - docker image push --all-tags $NEXUS_DOCKER_REPO/$PROJECT_NAME
-    - docker logout $NEXUS_DOCKER_REPO
     - docker pull $NEXUS_DOCKER_PROXY/postgres:15-bookworm
+    - docker logout $NEXUS_DOCKER_REPO
+    
   tags:
     - build
 
