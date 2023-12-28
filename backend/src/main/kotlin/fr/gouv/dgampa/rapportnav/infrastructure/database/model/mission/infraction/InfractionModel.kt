@@ -69,21 +69,20 @@ class InfractionModel(
     }
 
     companion object {
-        fun fromInfractionEntity(infraction: InfractionEntity) = InfractionModel(
-            id = infraction.id,
-            missionId = infraction.missionId,
-            actionId = infraction.actionId,
-            controlType = infraction.controlType.toString(),
-            infractionType = infraction.infractionType?.toString(),
-            natinfs = infraction.natinfs,
-            observations = infraction.observations,
-            target = infraction.target?.let {
-                listOf(
-                    InfractionEnvTargetModel.fromInfractionEnvTargetEntity(
-                        infraction.target!!
-                    )
-                )
-            }
-        )
+        fun fromInfractionEntity(infraction: InfractionEntity): InfractionModel {
+            return InfractionModel(
+                id = infraction.id,
+                missionId = infraction.missionId,
+                actionId = infraction.actionId,
+                controlType = infraction.controlType.toString(),
+                infractionType = infraction.infractionType?.toString(),
+                natinfs = infraction.natinfs,
+                observations = infraction.observations,
+                target = infraction.target?.let {
+                    listOf(InfractionEnvTargetModel.fromInfractionEnvTargetEntity(it))
+                } ?: emptyList()  // Provide an empty list if target is null
+            )
+        }
+
     }
 }
