@@ -18,8 +18,8 @@ RUN mvn dependency:go-offline -B
 # Stage 2: Build the application
 FROM maven:3.8.5-openjdk-17-slim as build-backend
 
-ARG GITHUB_SHA
-ARG VERSION
+ARG GITHUB_SHA=NO_COMMIT
+ARG VERSION=NO_VERSION
 
 WORKDIR /tmp/backend
 COPY backend/ /tmp/backend
@@ -74,7 +74,7 @@ ENV ENV_DB_URL=""
 COPY --from=build-backend /tmp/backend/target/rapportnav-${VERSION}.jar /home/rapportnav
 COPY infra/configurations/backend /home/rapportnav/configurations/
 
-
+# copy frontend related things
 RUN mkdir /home/rapportnav/public
 # COPY --from=buildSourcemaps /tmp/frontend/build /home/rapportnav/public/
 COPY --from=build-frontend /tmp/frontend/dist /home/rapportnav/public/
@@ -86,7 +86,6 @@ RUN mkdir /home/rapportnav/logs
 # Set up environement variable that define the root folder use for serving static files
 # It must point to the front (React) files
 ENV STATIC_FILES_PATH=/home/rapportnav/public
-
 
 # CMD exec java -jar "/home/rapportnav/rapportnav-${VERSION}.jar"
 CMD exec java -Dspring.config.additional-location="/home/rapportnav/configurations/" -Dspring.profiles.active=$ENV_PROFILE -jar "/home/rapportnav/rapportnav-${VERSION}.jar"
