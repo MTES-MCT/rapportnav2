@@ -19,7 +19,7 @@ services:
     #   - backend-network
 
   db:
-    image: postgres:15-bookworm
+    image: postgres:15.5-bookworm
     ports:
       - "5432:5432"
     environment:

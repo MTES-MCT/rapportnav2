@@ -24,7 +24,7 @@ services:
         max-size: "1024m"
 
   db:
-    image: postgres:15-bookworm
+    image: postgres:15.5-bookworm
     volumes:
       - "${RAPPORTNAV_BACKUPS_FOLDER}:/opt/rapportnav_backups"
       - db:/var/lib/postgresql/data
