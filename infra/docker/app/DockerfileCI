@@ -13,7 +13,7 @@ ARG VERSION=NO_VERSION
 FROM maven:3.8.5-openjdk-17-slim as maven-dependencies
 WORKDIR /tmp/backend
 COPY backend/pom.xml pom.xml
-RUN mvn dependency:go-offline -B -Dhttps.proxyHost=172.27.229.197 -Dhttps.proxyPort=8090
+RUN mvn dependency:go-offline -B
 
 # Stage 2: Build the application
 FROM maven:3.8.5-openjdk-17-slim as build-backend
@@ -41,8 +41,6 @@ RUN mvn clean package -DskipTests=true -Dhttps.proxyHost=172.27.229.197 -Dhttps.
 FROM node:18 AS npm-dependencies
 WORKDIR /tmp/frontend
 COPY frontend/package.json frontend/package-lock.json ./
-RUN npm config set proxy http://172.27.229.197:8090
-RUN npm config set https-proxy http://172.27.229.197:8090
 RUN npm ci
 
 # Stage 2: Build the application
