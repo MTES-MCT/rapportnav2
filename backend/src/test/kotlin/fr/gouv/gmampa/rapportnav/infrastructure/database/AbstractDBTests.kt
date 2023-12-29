@@ -23,8 +23,7 @@ abstract class AbstractDBTests {
             .apply {
                 withExposedPorts(5432)
                 withEnv("POSTGRES_DB", "testdb")
-                withEnv("POSTGRES_USER", "postgres")
-                withEnv("POSTGRES_PASSWORD", "postgres")
+//
                 waitingFor(
                     Wait.forLogMessage(".*ready to accept connections.*\\s", 2),
                 )
