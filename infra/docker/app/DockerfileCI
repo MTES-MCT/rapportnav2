@@ -2,8 +2,8 @@
 # Multi stage build #
 #####################
 
-ARG GITHUB_SHA=NO_COMMIT
-ARG VERSION=NO_VERSION
+ARG GITHUB_SHA
+ARG VERSION
 
 ########################################
 # Build rapportnav backend with maven #
@@ -18,8 +18,8 @@ RUN mvn dependency:go-offline -B
 # Stage 2: Build the application
 FROM maven:3.8.5-openjdk-17-slim as build-backend
 
-ARG GITHUB_SHA=NO_COMMIT
-ARG VERSION=NO_VERSION
+ARG GITHUB_SHA
+ARG VERSION
 
 WORKDIR /tmp/backend
 COPY backend/ /tmp/backend
