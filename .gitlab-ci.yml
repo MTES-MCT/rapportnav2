@@ -12,7 +12,7 @@ variables:
     value: rapportnav-v2
     description: "Nom du projet à déployer"
   BDD_IAMGE:
-    value: postgres:15.5-bookworm
+    value: postgres:15.5-alpine
     description: "Image de la base de données"
   PROJECT_VERSION:
     value: "0.0.1-alpha.10"
