@@ -22,7 +22,7 @@ services:
       dockerfile: ./infra/docker/app/DockerfileDev.old
       target: run-backend
     ports:
-      - 8080:8080
+      - 80:80
       - 8880:8880
     volumes:
       - ./backend:/tmp/backend

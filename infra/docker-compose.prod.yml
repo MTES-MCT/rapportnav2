@@ -9,7 +9,7 @@ services:
     ports:
       # - ${BACKEND_HTTP_PORT}:8880
       - 8880:8880
-      - 8080:8080
+      - 80:80
       - 8000:8000
     volumes:
       - "${RAPPORTNAV_LOGS_FOLDER}:/home/rapportnav/logs"
