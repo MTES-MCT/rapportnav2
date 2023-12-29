@@ -43,7 +43,7 @@ abstract class AbstractDBTests {
 
             return "jdbc:postgresql://" + container.containerIpAddress + ":" + container.getMappedPort(
                 PostgreSQLContainer.POSTGRESQL_PORT,
-            ).toString() + "/testdb?user=postgres&password=postgres"
+            ).toString() + "/testdb"
         }
     }
 }
