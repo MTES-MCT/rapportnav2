@@ -7,7 +7,7 @@ name: trivy
 
 on:
   push:
-    branches: ["CHANGEME"]
+    branches: [ "main" ]
   # pull_request:
   #   # The branches below must be a subset of the branches above
   #   branches: [ "main" ]
@@ -50,7 +50,7 @@ jobs:
         with:
           context: .
           builder: ${{ steps.buildx.outputs.name }}
-          file: infra/docker/app/Dockerfile
+          file: infra/docker/app/DockerfileCI
           push: true
           tags: |
             ghcr.io/mtes-mct/rapportnav2/rapportnav-app:${{ github.sha }}
