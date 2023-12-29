@@ -41,18 +41,21 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Get Version
-        id: getVersion
-        uses: ./backend
+      - uses: avides/actions-project-version-check@latest
+        id: backend_version
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          file-to-check: "backend/pom.xml"
 
-      - name: Print the version
-        run: echo "The version we just got is ${{ steps.getVersion.outputs.version }}"
+      - name: use-version-from-check
+        run:
+          echo "New version is: "${{ steps.backend_version.outputs.version }}"
 
       - name: Build image
         uses: docker/build-push-action@v4
         env:
           GITHUB_SHA: ${{ github.sha }}
-          VERSION: ${{ steps.getVersion.outputs.version }}
+          VERSION: ${{ steps.backend_version.outputs.version }}
           ENV_PROFILE: "prod"
         with:
           context: .
