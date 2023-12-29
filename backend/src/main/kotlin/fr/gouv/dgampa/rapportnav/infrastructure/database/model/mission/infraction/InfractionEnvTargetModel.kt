@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infracti
 import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEnvTargetEntity
 import jakarta.persistence.*
 import java.util.*
@@ -53,14 +54,19 @@ data class InfractionEnvTargetModel(
     }
 
     companion object {
-        fun fromInfractionEnvTargetEntity(infraction: InfractionEnvTargetEntity) = InfractionEnvTargetModel(
-            id = infraction.id,
-            missionId = infraction.missionId,
-            actionId = infraction.actionId,
-            vesselIdentifier = infraction.vesselIdentifier,
-            identityControlledPerson = infraction.identityControlledPerson,
-            vesselType = infraction.vesselType.toString(),
-            vesselSize = infraction.vesselSize.toString(),
-        )
+        fun fromInfractionEnvTargetEntity(
+            infractionTarget: InfractionEnvTargetEntity,
+            infraction: InfractionEntity? = null
+        ) =
+            InfractionEnvTargetModel(
+                id = infractionTarget.id,
+                missionId = infractionTarget.missionId,
+                actionId = infractionTarget.actionId,
+                infraction = infraction?.let { it -> InfractionModel.fromInfractionEntity(it) },
+                vesselIdentifier = infractionTarget.vesselIdentifier,
+                identityControlledPerson = infractionTarget.identityControlledPerson,
+                vesselType = infractionTarget.vesselType.toString(),
+                vesselSize = infractionTarget.vesselSize.toString(),
+            )
     }
 }

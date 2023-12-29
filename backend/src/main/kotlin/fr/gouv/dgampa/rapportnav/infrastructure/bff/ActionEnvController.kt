@@ -86,14 +86,14 @@ class ActionEnvController(
         infractionsByVessel = infractionsByVessel.map { byVessel ->
             // a target reported by monitorEnv will have an infraction with controlType null
             // the next field is to help the frontend hide/show information according to whom has reported the target
-            val targetAddedInRapportNav = !byVessel.infractions.any { it.controlType == null }
+            val targetAddedByUnit = !byVessel.infractions.any { it.controlType == null }
 
             // the next field is to help the frontend show different options for which control type to report an infraction
             val reportedControlTypes = byVessel.infractions.mapNotNull { it.controlType }
 
             val updatedByVessel = byVessel.copy(
                 controlTypesWithInfraction = reportedControlTypes,
-                targetAddedInRapportNav = targetAddedInRapportNav
+                targetAddedByUnit = targetAddedByUnit
             )
             updatedByVessel
         }

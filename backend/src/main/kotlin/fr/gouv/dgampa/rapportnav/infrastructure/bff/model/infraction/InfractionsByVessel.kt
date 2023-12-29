@@ -8,7 +8,7 @@ data class InfractionsByVessel(
     val vesselIdentifier: String? = null,
     val vesselType: VesselTypeEnum? = null,
     val controlTypesWithInfraction: List<ControlType>? = null,
-    val targetAddedInRapportNav: Boolean? = null,
+    val targetAddedByUnit: Boolean? = null,
     val infractions: List<Infraction>
 ) {
     fun groupInfractionsByVesselIdentifier(infractions: List<Infraction>): List<InfractionsByVessel> {
@@ -20,7 +20,7 @@ data class InfractionsByVessel(
                     vesselType = infractions.firstOrNull()?.target?.vesselType,
                     infractions = infractions,
                     controlTypesWithInfraction = controlTypesWithInfraction,
-                    targetAddedInRapportNav = targetAddedInRapportNav,
+                    targetAddedByUnit = targetAddedByUnit,
                 )
             }
     }

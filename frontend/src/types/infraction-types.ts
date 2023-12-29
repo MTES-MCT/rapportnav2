@@ -30,7 +30,7 @@ export type InfractionByTarget = {
   vesselType: VesselTypeEnum
   infractions: Infraction[]
   controlTypesWithInfraction?: ControlType[]
-  targetAddedInRapportNav?: boolean
+  targetAddedByUnit?: boolean
 }
 
 export type InfractionEnvNewTarget = Infraction & {

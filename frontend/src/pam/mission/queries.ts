@@ -142,7 +142,7 @@ export const GET_MISSION_BY_ID = gql`
             infractions {
               vesselIdentifier
               vesselType
-              targetAddedInRapportNav
+              targetAddedByUnit
               controlTypesWithInfraction
               infractions {
                 id

@@ -8,7 +8,11 @@ import java.util.*
 @UseCase
 class GetInfractionById(private val repo: IInfractionRepository) {
     fun execute(id: UUID): InfractionEntity? {
-        val optionalInfractionModel = repo.findById(id)
-        return optionalInfractionModel.map { it.toInfractionEntity() }.orElse(null)
+        val infractionModel = repo.findById(id)
+        if (infractionModel.isPresent) {
+            return infractionModel.get().toInfractionEntity()
+        } else {
+            return null
+        }
     }
 }
