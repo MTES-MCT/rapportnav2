@@ -29,7 +29,7 @@ RUN sed -e 's/COMMIT_TO_CHANGE/${GITHUB_SHA}/' \
   -e 's/VERSION_TO_CHANGE/${VERSION}/' \
   POM_WITH_ENV_VARS > pom.xml
 
-RUN mvn clean package -DskipTests=true -Dhttps.proxyHost=172.27.229.197 -Dhttps.proxyPort=8090
+RUN mvn clean package -DskipTests=true
 
 
 
