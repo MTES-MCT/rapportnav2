@@ -48,8 +48,7 @@ jobs:
           file-to-check: "backend/pom.xml"
 
       - name: use-version-from-check
-        run:
-          echo "New version is: ${{ steps.backend_version.outputs.version }}"
+        run: echo "The version we just got is ${{ steps.backend_version.outputs.version }}"
 
       - name: Build image
         uses: docker/build-push-action@v4
