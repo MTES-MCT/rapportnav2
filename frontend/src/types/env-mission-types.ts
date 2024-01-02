@@ -170,7 +170,8 @@ export enum VesselTypeEnum {
   COMMERCIAL = 'COMMERCIAL',
   FISHING = 'FISHING',
   MOTOR = 'MOTOR',
-  SAILING = 'SAILING'
+  SAILING = 'SAILING',
+  SAILING_LEISURE = 'SAILING_LEISURE'
 }
 
 export const vesselTypeLabels = {
