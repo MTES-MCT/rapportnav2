@@ -9,5 +9,6 @@ class GetAgentsCrewByMissionId(private val agentCrewRepository: IMissionCrewRepo
 
     fun execute(missionId: Int): List<MissionCrewEntity> {
         return agentCrewRepository.findByMissionId(missionId = missionId).map { it.toMissionCrewEntity() }
+            .sortedBy { it.id }
     }
 }
