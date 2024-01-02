@@ -12,7 +12,8 @@ data class Mission(
     val missionSource: MissionSourceEnum,
     val startDateTimeUtc: ZonedDateTime,
     val endDateTimeUtc: ZonedDateTime?,
-    val actions: List<Action>?
+    val actions: List<Action>?,
+    val openBy: String? = null,
 ) {
 //    fun fromMissionEntity(mission: MissionEntity): Mission {
 //        return Mission(
@@ -49,7 +50,8 @@ data class Mission(
                 missionSource = mission.missionSource,
                 startDateTimeUtc = mission.startDateTimeUtc,
                 endDateTimeUtc = mission.endDateTimeUtc,
-                actions = actions
+                actions = actions,
+                openBy = mission.openBy,
             )
         }
 

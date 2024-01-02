@@ -6,9 +6,22 @@ import Text from '../../ui/text'
 
 interface MissionOpenByTagProps {
   missionSource?: MissionSourceEnum
+  isFake?: boolean
 }
 
-const MissionOpenByTag: React.FC<MissionOpenByTagProps> = ({missionSource}) => {
+const MissionOpenByTag: React.FC<MissionOpenByTagProps> = ({missionSource, isFake}) => {
+  if (!!isFake) {
+    return (
+      <Tag
+        backgroundColor={THEME.color.gunMetal}
+        color={THEME.color.white}
+      >
+        <Text as={"h3"} weight="medium" color={THEME.color.white}>
+          Mission fictive
+        </Text>
+      </Tag>
+    )
+  }
   return (
     <Tag
       backgroundColor={

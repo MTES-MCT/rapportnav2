@@ -34,7 +34,6 @@ class CrewController(
     @QueryMapping
     fun agentsByServiceId(@Argument serviceId: Int): List<Agent>? {
         return try {
-
             getAgentsByServiceId.execute(
                 serviceId = serviceId
             ).map { Agent.fromAgentEntity(it) }

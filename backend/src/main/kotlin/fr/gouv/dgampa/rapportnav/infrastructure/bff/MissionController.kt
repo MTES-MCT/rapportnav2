@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.generalInfo.MissionGeneralInfoInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.Mission
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.generalInfo.MissionGeneralInfo
+import org.slf4j.LoggerFactory
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
@@ -29,28 +30,51 @@ class MissionController(
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val addOrUpdateMissionGeneralInfo: AddOrUpdateMissionGeneralInfo,
     private val getControlUnitsForUser: GetControlUnitsForUser,
+    private val fakeMissionData: FakeMissionData,
 ) {
+
+    private val logger = LoggerFactory.getLogger(MissionController::class.java)
+
 
     @QueryMapping
     fun missions(): List<Mission>? {
-        // query with the following filters
-        return getEnvMissions.execute(
-            startedAfterDateTime = ZonedDateTime.of(2023, 12, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
-            startedBeforeDateTime = null,
-            pageNumber = null,
-            pageSize = null,
-            controlUnits = getControlUnitsForUser.execute()
-        )?.map { Mission.fromMissionEntity(it) }
+        try {
+            // query with the following filters
+            var missions = getEnvMissions.execute(
+                startedAfterDateTime = ZonedDateTime.of(2023, 12, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
+                startedBeforeDateTime = null,
+                pageNumber = null,
+                pageSize = null,
+                controlUnits = getControlUnitsForUser.execute()
+            )?.map { Mission.fromMissionEntity(it) }.orEmpty()
+
+            // temporarily add fictive missions
+            val user = getUserFromToken.execute()
+            val fakeMissions = fakeMissionData.getFakeMissionsforUser(user).map { Mission.fromMissionEntity(it) }
+
+            return missions + fakeMissions
+        } catch (e: Exception) {
+            logger.error("MissionController - failed to load missions from MonitorEnv", e)
+            throw Exception(e)
+        }
     }
 
     @QueryMapping
     fun mission(@Argument missionId: Int): Mission? {
-        val envMission = getEnvMissionById.execute(missionId = missionId) ?: return null
+        if (missionId in fakeMissionData.getEmptyMissionIds()) {
+            val fakeMission = Mission.fromMissionEntity(fakeMissionData.emptyMission(missionId))
+            return fakeMission
+        } else if (missionId in fakeMissionData.getFullMissionIds()) {
+            val fakeMission = Mission.fromMissionEntity(fakeMissionData.fullMission(missionId))
+            return fakeMission
+        } else {
+            val envMission = getEnvMissionById.execute(missionId = missionId) ?: return null
 
-        val fishMissionActions = getFishActionsByMissionId.execute(missionId = missionId)
-        val navMission = getNavMissionById.execute(missionId = missionId)
+            val fishMissionActions = getFishActionsByMissionId.execute(missionId = missionId)
+            val navMission = getNavMissionById.execute(missionId = missionId)
 
-        return Mission.fromMissionEntity(MissionEntity(envMission, navMission, fishMissionActions))
+            return Mission.fromMissionEntity(MissionEntity(envMission, navMission, fishMissionActions))
+        }
     }
 
     @QueryMapping

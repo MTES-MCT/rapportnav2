@@ -26,6 +26,8 @@ interface MissionsListProps {
 const MissionStatus: React.FC<{ mission: Mission }> = ({mission}) => {
   const missionStatus = getMissionStatus(mission)
   switch (missionStatus) {
+    case MissionStatusEnum.UPCOMING:
+      return <p style={{color: THEME.color.charcoal, fontSize: '13px'}}>&#8674; À venir</p>
     case MissionStatusEnum.PENDING:
       return <p style={{color: THEME.color.maximumRed, fontSize: '13px'}}>&#9679; Brouillon</p>
     case MissionStatusEnum.ENDED:
@@ -76,7 +78,7 @@ const MissionsList: React.FC<MissionsListProps> = ({missions, prefetchMission}) 
                   >{formatMissionName(mission.startDateTimeUtc)}</p>
                 </FlexboxGrid.Item>
                 <FlexboxGrid.Item colspan={5}>
-                  <MissionOpenByTag missionSource={mission.missionSource}/>
+                  <MissionOpenByTag missionSource={mission.missionSource} isFake={mission.openBy === 'fake'}/>
                 </FlexboxGrid.Item>
                 <FlexboxGrid.Item colspan={3}>
                   <p style={{color: THEME.color.charcoal, fontSize: '13px'}}>
