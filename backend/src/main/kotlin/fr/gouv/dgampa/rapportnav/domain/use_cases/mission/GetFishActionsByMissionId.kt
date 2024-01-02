@@ -171,7 +171,7 @@ class GetFishActionsByMissionId(
             Sentry.captureMessage("GetFishActionsByMissionId failed loading Actions")
 
             Sentry.captureException(e)
-
+            return listOf()
 //            return getFakeActions(missionId)
         }
 
