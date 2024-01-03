@@ -1,5 +1,5 @@
 import React from 'react'
-import { Divider, FlexboxGrid, Stack } from 'rsuite'
+import { Divider, FlexboxGrid, Loader, Stack } from 'rsuite'
 import { THEME } from '@mtes-mct/monitor-ui'
 import MissionTimelineItemContainer from './timeline-item-container'
 import MissionTimelineItem from './timeline-item'
@@ -21,15 +21,42 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({missionId, onSelectAct
   const {data: mission, loading, error} = useGetMissionTimeline(missionId)
 
   if (error) {
-    // TODO
+    return (
+      <Stack justifyContent={"center"} alignItems={"center"} style={{height: '100%'}}>
+        <Stack.Item alignSelf={"center"}>
+          <Text as={"h3"} color={THEME.color.maximumRed}>
+            Une erreur s'est produite lors du chargement de la timeline.<br/>
+            Si le problème persiste, veuillez contacter l'équipe RapportNav.
+          </Text>
+          <Text as={"h3"} color={THEME.color.lightGray}>
+            Erreur: {error.message}
+          </Text>
+        </Stack.Item>
+      </Stack>
+    )
   }
 
   if (loading) {
     return (
-      <div>loading</div>
+      <Stack justifyContent={"center"} alignItems={"center"} style={{paddingTop: '5rem'}}>
+        <Stack.Item alignSelf={"center"}>
+          <Loader center={true} size={'md'} vertical={true}/>
+        </Stack.Item>
+      </Stack>
     )
   }
 
+  if (mission && !!!mission.actions?.length) {
+    return (
+      <Stack justifyContent={"center"} alignItems={"center"} style={{height: '100%'}}>
+        <Stack.Item alignSelf={"center"}>
+          <Text as={"h3"} color={THEME.color.maximumRed}>
+            Aucune action n'est ajoutée pour le moment
+          </Text>
+        </Stack.Item>
+      </Stack>
+    )
+  }
 
   if (mission) {
     return (

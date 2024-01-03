@@ -124,7 +124,8 @@ const MissionComponent: React.FC<MissionProps> = ({mission}) => {
               flex: 1,
               overflowY: 'hidden',
               minHeight: 'calc(100vh - 2 * 60px)',
-              maxHeight: 'calc(100vh - 2 * 60px)'
+              maxHeight: 'calc(100vh - 2 * 60px)',
+              height: '2000px', // for having 100% height children
             }}
           >
             <FlexboxGrid>
@@ -163,7 +164,8 @@ const MissionComponent: React.FC<MissionProps> = ({mission}) => {
                 width: '100%',
                 overflowY: 'auto',
                 minHeight: 'calc(100vh - 260px)',
-                maxHeight: 'calc(100vh - 260px)'
+                maxHeight: 'calc(100vh - 260px)',
+                height: '2000px', // for having 100% height children
               }}>
                 <MissionTimeline missionId={missionId} onSelectAction={selectAction}/>
               </FlexboxGrid.Item>
@@ -176,7 +178,8 @@ const MissionComponent: React.FC<MissionProps> = ({mission}) => {
               flex: 1,
               overflowY: 'auto',
               minHeight: 'calc(100vh - 2 * 60px)',
-              maxHeight: 'calc(100vh - 2 * 60px)'
+              maxHeight: 'calc(100vh - 2 * 60px)',
+              height: '2000px', // for having 100% height children
             }}
           >
             <FlexboxGrid justify="start" align="middle" style={{padding: '2rem', width: '100%'}}>
