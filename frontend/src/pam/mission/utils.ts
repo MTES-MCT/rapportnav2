@@ -1,4 +1,4 @@
-import { formatDateForMissionNHame } from "../../utils/dates.ts";
+import { formatDateForMissionName } from "../../utils/dates.ts";
 
 export function groupByDay(obj: any[], dateField: string) {
   return obj.reduce((groupedObj, subObj) => {
@@ -16,5 +16,5 @@ export function groupByDay(obj: any[], dateField: string) {
 }
 
 export const formatMissionName = (startDate?: string): string => {
-  return `Mission #${formatDateForMissionNHame(startDate)}`
+  return `Mission #${formatDateForMissionName(startDate)}`
 }

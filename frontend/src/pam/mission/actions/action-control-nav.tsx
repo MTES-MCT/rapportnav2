@@ -20,7 +20,7 @@ import { VesselTypeEnum } from '../../../types/mission-types'
 import { Action, ActionControl } from '../../../types/action-types'
 import { Stack } from 'rsuite'
 import Text from '../../../ui/text'
-import { formatDateTimeForFrenchHumans } from '../../../utils/dates.ts'
+import { formatDateForServers, formatDateTimeForFrenchHumans, toLocalISOString } from '../../../utils/dates.ts'
 import { DELETE_ACTION_CONTROL, MUTATION_ADD_OR_UPDATE_ACTION_CONTROL } from '../queries'
 import { useMutation } from '@apollo/client'
 import omit from 'lodash/omit'
@@ -140,7 +140,6 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
       navigate(`/pam/missions/${missionId}`)
     }
 
-
     return (
       <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{width: '100%'}}>
         {/* TITLE AND BUTTONS */}
@@ -202,7 +201,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
         {/* DATE FIELDS */}
         <Stack.Item>
           <DateRangePicker
-            defaultValue={[navAction.startDateTimeUtc || new Date(), navAction.endDateTimeUtc || new Date()]}
+            defaultValue={[navAction.startDateTimeUtc || formatDateForServers(toLocalISOString()), navAction.endDateTimeUtc || formatDateForServers(new Date() as any)]}
             label="Date et heure de début et de fin"
             withTime={true}
             isCompact={true}

@@ -16,6 +16,7 @@ import { MUTATION_ADD_OR_UPDATE_ACTION_CONTROL, MUTATION_ADD_OR_UPDATE_ACTION_ST
 import StatusSelectionDropdown from './status/status-selection-dropdown'
 import find from 'lodash/find'
 import { GET_MISSION_TIMELINE } from "./timeline/use-mission-timeline.tsx";
+import { formatDateForServers, toLocalISOString } from "../../utils/dates.ts";
 
 export interface MissionProps {
   mission?: Mission
@@ -56,6 +57,7 @@ const MissionComponent: React.FC<MissionProps> = ({mission}) => {
   const addNewStatus = async (key: ActionStatusType) => {
     const newActionData = {
       missionId: parseInt(missionId!, 10),
+      startDateTimeUtc: formatDateForServers(toLocalISOString()),
       status: key,
       isStart: true,
       reason: null,
@@ -74,9 +76,11 @@ const MissionComponent: React.FC<MissionProps> = ({mission}) => {
 
   const addNewControl = async (controlMethod: string, vesselType: VesselTypeEnum) => {
     setShowControlTypesModal(false)
-    // TODO id creation should be in backend
+
     const newControl = {
       missionId: parseInt(missionId!, 10),
+      startDateTimeUtc: formatDateForServers(toLocalISOString()),
+      endDateTimeUtc: formatDateForServers(toLocalISOString()),
       controlMethod,
       vesselType
     }
