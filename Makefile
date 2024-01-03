@@ -51,6 +51,8 @@ back-sonar:
             -Dsonar.organization=$(organization) \
             -Dsonar.host.url=$(url) \
             -Dsonar.token=$(token) \
+            -Dsonar.java.binaries=. \
+            -Dsonar.java.libraries=. \
             -Dsonar.verbose=true
 
 back-test:
