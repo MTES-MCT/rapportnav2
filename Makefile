@@ -40,13 +40,14 @@ BACKEND_CONFIGURATION_FOLDER=$(shell pwd)/infra/configurations/backend/
 
 .PHONY: back-clean-install back-check-dependencies back-test back-sonar
 back-clean-install:
-	cd $(BACKEND_DIR) && ./mvnw clean install
+	cd $(BACKEND_DIR) && ./mvnw clean install -DskipTests
 
 back-check-dependencies:
 	cd $(BACKEND_DIR) && ./mvnw dependency-check:check
 
 back-sonar:
 	cd $(BACKEND_DIR) && ./mvnw clean install sonar:sonar \
+	    -DskipTests \
 	    -Dsonar.projectKey$(projectKey) \
             -Dsonar.organization=$(organization) \
             -Dsonar.host.url=$(url) \
