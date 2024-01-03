@@ -206,6 +206,11 @@
             <goals>
               <goal>check</goal>
             </goals>
+            <configuration>
+              <!-- skip so that it's not run at every install-->
+              <!-- run it with 'make back-check-dependencies' instead-->
+              <skip>true</skip>
+            </configuration>
           </execution>
         </executions>
       </plugin>
