@@ -54,6 +54,9 @@ jobs:
           java-version: "17"
           java-package: jdk # optional (jdk or jre) - defaults to jdk
 
+      - name: Install dependencies
+        run: make back-clean-install
+
       - name: Build and analyze with SonarCloud
         run: |
           make back-sonar \

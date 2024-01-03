@@ -46,8 +46,7 @@ back-check-dependencies:
 	cd $(BACKEND_DIR) && ./mvnw dependency-check:check
 
 back-sonar:
-	cd $(BACKEND_DIR) && ./mvnw clean install sonar:sonar \
-	    -DskipTests \
+	cd $(BACKEND_DIR) && ./mvnw sonar:sonar \
 	    -Dsonar.projectKey$(projectKey) \
             -Dsonar.organization=$(organization) \
             -Dsonar.host.url=$(url) \
