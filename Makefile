@@ -38,21 +38,18 @@ BACKEND_DIR := backend
 BACKEND_CONFIGURATION_FOLDER=$(shell pwd)/infra/configurations/backend/
 
 
-.PHONY: back-clean-install back-check-dependencies back-test back-verify-ci
+.PHONY: back-clean-install back-check-dependencies back-test back-check-sonar
 back-clean-install:
 	cd $(BACKEND_DIR) && ./mvnw clean install
 
 back-check-dependencies:
 	cd $(BACKEND_DIR) && ./mvnw dependency-check:check
 
+back-check-sonar:
+	cd $(BACKEND_DIR) && ./mvnw clean install sonar:sonar
+
 back-test:
 	cd $(BACKEND_DIR) && ./mvnw test -Pci -Dmaven.main.skip=true
-
-back-verify-ci:
-	cd $(BACKEND_DIR) && ./mvnw clean verify -Pci
-
-
-
 
 
 .PHONY: check-clean-archi back-start-dev back-build-mvn

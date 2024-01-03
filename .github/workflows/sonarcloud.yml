@@ -56,11 +56,11 @@ jobs:
 
       - name: Build and analyze with SonarCloud
         run: |
-          cd backend && ./mvnw clean install sonar:sonar \
+          make back-check-sonar \
             -Dsonar.projectKey=MTES-MCT_rapportnav2 \
             -Dsonar.organization=mtes-mct \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }}
 
   sonarcloudScan-frontend:
     name: SonarCloudScanFrontend
