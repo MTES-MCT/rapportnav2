@@ -51,6 +51,7 @@ back-sonar:
             -Dsonar.organization=$(organization) \
             -Dsonar.host.url=$(url) \
             -Dsonar.token=$(token)
+            -Dsonar.verbose=true
 
 back-test:
 	cd $(BACKEND_DIR) && ./mvnw test -Pci -Dmaven.main.skip=true
