@@ -50,7 +50,7 @@ back-sonar:
 	    -Dsonar.projectKey$(projectKey) \
             -Dsonar.organization=$(organization) \
             -Dsonar.host.url=$(url) \
-            -Dsonar.token=$(token)
+            -Dsonar.token=$(token) \
             -Dsonar.verbose=true
 
 back-test:
