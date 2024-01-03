@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.AddOrUpdateMissionGeneralInfo
@@ -62,11 +63,17 @@ class MissionController(
     @QueryMapping
     fun mission(@Argument missionId: Int): Mission? {
         if (missionId in fakeMissionData.getEmptyMissionIds()) {
-            val fakeMission = Mission.fromMissionEntity(fakeMissionData.emptyMission(missionId))
-            return fakeMission
+            var fakeMission = fakeMissionData.emptyMission(missionId)
+            val navMission = getNavMissionById.execute(missionId = missionId)
+            fakeMission.actions =
+                fakeMission.actions?.plus(navMission.actions.map { MissionActionEntity.NavAction(it) })
+            return Mission.fromMissionEntity(fakeMission)
         } else if (missionId in fakeMissionData.getFullMissionIds()) {
-            val fakeMission = Mission.fromMissionEntity(fakeMissionData.fullMission(missionId))
-            return fakeMission
+            val fakeMission = fakeMissionData.fullMission(missionId)
+            val navMission = getNavMissionById.execute(missionId = missionId)
+            fakeMission.actions =
+                fakeMission.actions?.plus(navMission.actions.map { MissionActionEntity.NavAction(it) })
+            return Mission.fromMissionEntity(fakeMission)
         } else {
             val envMission = getEnvMissionById.execute(missionId = missionId) ?: return null
 
