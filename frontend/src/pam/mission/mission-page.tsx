@@ -1,13 +1,14 @@
 import React from 'react'
-import MissionComponent from './mission-component.tsx'
+import MissionContent from './mission-content.tsx'
 import { useNavigate, useParams } from 'react-router-dom'
 import MissionPageHeader from './page-header'
 import MissionPageFooter from './page-footer'
 import { useApolloClient } from '@apollo/client'
-import useMissionExcerpt from "./general-info/use-mission-excerpt.tsx";
-import { formatMissionName } from "./utils.ts";
+import useMissionExcerpt from "./general-info/use-mission-excerpt";
+import { formatMissionName } from "./utils";
 
 const MissionPage: React.FC = () => {
+
   const navigate = useNavigate()
   let {missionId} = useParams()
   const apolloClient = useApolloClient()
@@ -47,7 +48,7 @@ const MissionPage: React.FC = () => {
                          missionSource={mission?.missionSource}
                          onClickClose={exitMission}/>
 
-      <MissionComponent mission={mission}/>
+      <MissionContent mission={mission}/>
 
       <MissionPageFooter missionName={`Mission #${missionId}`} exitMission={exitMission}/>
     </div>

@@ -15,14 +15,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Print Local Path
-        run: |
-          echo "Local Path: $GITHUB_WORKSPACE"
-
-      - name: List Folder Contents
-        run: |
-          ls -l backend
-
       - name: Get backend version
         uses: avides/actions-project-version-check@v1.4.0
         id: backend_version

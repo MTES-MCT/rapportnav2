@@ -22,7 +22,7 @@ export interface MissionProps {
   mission?: Mission
 }
 
-const MissionComponent: React.FC<MissionProps> = ({mission}) => {
+const MissionContent: React.FC<MissionProps> = ({mission}) => {
   const {missionId, actionId} = useParams()
 
   let navigate = useNavigate()
@@ -208,4 +208,4 @@ const MissionComponent: React.FC<MissionProps> = ({mission}) => {
   }
 }
 
-export default MissionComponent
+export default MissionContent

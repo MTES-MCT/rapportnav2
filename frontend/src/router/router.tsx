@@ -4,7 +4,7 @@ import Login from '../auth/login'
 import SignUp from '../auth/signup'
 import Home from '../home'
 import MissionsPage from '../pam/missions/missions-page'
-import MissionPage from '../pam/mission/page'
+import MissionPage from '../pam/mission/mission-page'
 
 export const router = createBrowserRouter([
   {
