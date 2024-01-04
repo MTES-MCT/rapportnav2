@@ -1,10 +1,12 @@
 name: BACKEND - Build and Test
 
 on:
-  push:
-    branches: [ "CHANGEME" ]
+  #  push:
+  #    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  schedule:
+    - cron: "0 3 * * *" # 3am every night
 
 jobs:
   build-and-test-backend:

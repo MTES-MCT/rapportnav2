@@ -10,7 +10,7 @@
   </parent>
   <groupId>fr.gouv.dgampa</groupId>
   <artifactId>rapportnav</artifactId>
-  <version>0.0.1-alpha.10</version>
+  <version>0.0.1-alpha.11</version>
   <name>RapportNav</name>
   <description>RapportNav</description>
   <properties>
