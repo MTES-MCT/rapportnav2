@@ -24,7 +24,7 @@ jobs:
         id: backend_version
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          file-to-check: "frontend/package.json"
+          file-to-check: ${{ github.workspace }}/frontend/package.json
 
       - name: Set env VERSION
         id: version
