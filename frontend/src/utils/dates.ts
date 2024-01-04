@@ -19,7 +19,7 @@ function toLocalISOString(date: DateTypes = new Date()): string | undefined {
     return
   }
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const userTime = new Date(date.toLocaleString(frLocale.code, {timeZone: userTimeZone}));
+  const userTime = new Date(date.toLocaleString('en-US', {timeZone: userTimeZone}));
 
 // Convert user's local time to UTC
   const utcTime = new Date(userTime.getTime() - userTime.getTimezoneOffset() * 60000);
