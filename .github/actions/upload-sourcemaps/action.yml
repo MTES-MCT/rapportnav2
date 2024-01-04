@@ -28,10 +28,6 @@ runs:
       shell: bash
       run: npm install -g @sentry/cli
 
-    - name: Init sentry-cli with host
-      shell: bash
-      run: sentry-cli init --url https://sentry.incubateur.net/
-
     - name: Sentry Upload
       shell: bash
       run: |
@@ -39,9 +35,8 @@ runs:
         upload-sourcemaps \
         --url-prefix '~/frontend/dist' \
         --validate frontend/dist/assets \
-        --url https://sentry.incubateur.net/ \
-        -o betagouv \
-        -p rapportnav2
+        --org betagouv \
+        --project rapportnav2
       env:
         SENTRY_AUTH_TOKEN: ${{ inputs.SENTRY_AUTH_TOKEN }}
 
