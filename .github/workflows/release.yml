@@ -31,11 +31,6 @@ jobs:
           file-to-check: backend/pom.xml
           only-return-version: true
 
-      - name: Set env VERSION
-        id: version
-        run: export VERSION=${{ steps.backend_version.outputs.version }}
-
-
       #      - name: Mirror + trigger CI
       #        uses: SvanBoxel/gitlab-mirror-and-ci-action@master
       #        with:
@@ -54,5 +49,5 @@ jobs:
         uses: ./.github/actions/upload-sourcemaps
         with:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          VERSION: ${{ env.VERSION }}
+          VERSION: ${{ steps.backend_version.outputs.version }}
 
