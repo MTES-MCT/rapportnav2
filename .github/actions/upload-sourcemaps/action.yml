@@ -15,21 +15,26 @@ runs:
 
     - uses: avides/actions-project-version-check@v1.4.0
       id: backend_version
+      shell: bash
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         file-to-check: "backend/pom.xml"
 
     - name: set env VERSION
+      shell: bash
       id: version
       run: export VERSION=${{ steps.backend_version.outputs.version }}
 
     - name: Install and Build Frontend
+      shell: bash
       uses: ./.github/actions/install-and-build-frontend
 
     - name: Install Sentry CLI
+      shell: bash
       run: npm install -g @sentry/cli
 
     - name: Sentry Upload
+      shell: bash
       run: |
         sentry-cli releases files ${{ env.VERSION }} \
         upload-sourcemaps \

@@ -8,7 +8,7 @@ FRONTEND_DIR := frontend
 .PHONY: front-install front-start front-build front-test front-lint
 
 front-ci:
-	cd $(FRONTEND_DIR) && npm ci --verbose
+	cd $(FRONTEND_DIR) && npm ci
 
 front-install:
 	cd $(FRONTEND_DIR) && npm install
