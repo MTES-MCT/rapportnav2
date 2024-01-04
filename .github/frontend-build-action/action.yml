@@ -1,0 +1,16 @@
+name: 'Frontend Build'
+description: 'Install and build frontend'
+version: 'v1.0.0'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Install npm dependencies
+      run: make front-ci
+
+    - name: Build Frontend
+      run: make front-build
+

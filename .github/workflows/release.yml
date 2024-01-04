@@ -15,23 +15,52 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Extract Tag Name
-        id: extract_tag
-        run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      #      - name: Extract Tag Name
+      #        id: extract_tag
+      #        run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - uses: avides/actions-project-version-check@v1.4.0
+        id: backend_version
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          file-to-check: "backend/pom.xml"
 
       - name: set env VERSION
         id: version
-        run: export VERSION=${{ steps.extract_tag.outputs.tag }}
+        run: export VERSION=${{ steps.backend_version.outputs.version }}
 
-      - name: Mirror + trigger CI
-        uses: SvanBoxel/gitlab-mirror-and-ci-action@master
+      #      - name: Mirror + trigger CI
+      #        uses: SvanBoxel/gitlab-mirror-and-ci-action@master
+      #        with:
+      #          args: https://gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2.git
+      #        env:
+      #          FOLLOW_TAGS: "true"
+      #          FORCE_PUSH: "false"
+      #          GITLAB_HOSTNAME: "gitlab-sml.din.developpement-durable.gouv.fr"
+      #          GITLAB_USERNAME: ${{ github.actor }}
+      #          GITLAB_PASSWORD: ${{ secrets.GITLAB_MIRROR_TOKEN }}
+      #          GITLAB_PROJECT_ID: "num3-exploitation/deploiement-continu"
+      #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Setup Node.js environment"
+        uses: actions/setup-node@v3.8.0
         with:
-          args: https://gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2.git
+          # cache: npm
+          # cache-dependency-path: ./frontend/package-lock.json
+          node-version: 20
+
+      - name: Install and Build Frontend
+        uses: MTES-MCT/rapportnav2/frontend-build-action@v1.0.0
+
+      - name: Upload frontend sourcemaps to Sentry
         env:
-          FOLLOW_TAGS: "true"
-          FORCE_PUSH: "false"
-          GITLAB_HOSTNAME: "gitlab-sml.din.developpement-durable.gouv.fr"
-          GITLAB_USERNAME: ${{ github.actor }}
-          GITLAB_PASSWORD: ${{ secrets.GITLAB_MIRROR_TOKEN }}
-          GITLAB_PROJECT_ID: "num3-exploitation/deploiement-continu"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        run: make front-build
+
+      - name: Install Sentry CLI
+        run: npm install -g @sentry/cli
+
+      - name: Sentry Upload
+        run: sentry-cli releases files ${{ VERSION }} upload-sourcemaps --url-prefix '~/dist' --validate
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
