@@ -50,7 +50,7 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({missionId, onSelectAct
     return (
       <Stack justifyContent={"center"} alignItems={"center"} style={{height: '100%'}}>
         <Stack.Item alignSelf={"center"}>
-          <Text as={"h3"} color={THEME.color.maximumRed}>
+          <Text as={"h3"}>
             Aucune action n'est ajoutée pour le moment
           </Text>
         </Stack.Item>
