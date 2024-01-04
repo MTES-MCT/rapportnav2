@@ -21,7 +21,7 @@ jobs:
           node-version: 20
 
       - name: Install and Build Frontend
-        uses: MTES-MCT/rapportnav2/frontend-build-action@v1.0.0
+        uses: ./.github/frontend-build-action
 
       - name: "Analyse dependencies"
         uses: oke-py/npm-audit-action@v2
