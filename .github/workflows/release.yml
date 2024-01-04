@@ -54,5 +54,5 @@ jobs:
         uses: ./.github/actions/upload-sourcemaps
         with:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          VERSION: 0.0.1-alpha.10
+          VERSION: ${{ env.VERSION }}
 
