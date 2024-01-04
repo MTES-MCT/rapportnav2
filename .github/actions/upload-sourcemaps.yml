@@ -1,0 +1,44 @@
+name: 'Frontend Build'
+description: 'Install and build frontend'
+version: 'v1.0.0'
+
+runs:
+  using: 'composite'
+  steps:
+
+    - name: "Setup Node.js environment"
+      uses: actions/setup-node@v3.8.0
+      with:
+        cache: npm
+        cache-dependency-path: ./frontend/package-lock.json
+        node-version: 20
+
+    - uses: avides/actions-project-version-check@v1.4.0
+      id: backend_version
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        file-to-check: "backend/pom.xml"
+
+    - name: set env VERSION
+      id: version
+      run: export VERSION=${{ steps.backend_version.outputs.version }}
+
+    - name: Install and Build Frontend
+      uses: ./.github/actions/install-and-build-frontend
+
+    - name: Install Sentry CLI
+      run: npm install -g @sentry/cli
+
+    - name: Sentry Upload
+      run: |
+        sentry-cli releases files ${{ env.VERSION }} \
+        upload-sourcemaps \
+        --url-prefix '~/frontend/dist' \
+        --validate frontend/dist/assets \
+        --url https://sentry.incubateur.net/ \
+        -o betagouv \
+        -p rapportnav2
+      env:
+        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+
+

@@ -2,7 +2,7 @@ name: FRONTEND - Build and Test
 
 on:
   push:
-    branches: [ "CHANGEME" ]
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -16,12 +16,12 @@ jobs:
       - name: "Setup Node.js environment"
         uses: actions/setup-node@v3.8.0
         with:
-          # cache: npm
-          # cache-dependency-path: ./frontend/package-lock.json
+          cache: npm
+          cache-dependency-path: ./frontend/package-lock.json
           node-version: 20
 
       - name: Install and Build Frontend
-        uses: ./.github/frontend-build-action
+        uses: ./.github/actions/install-and-build-frontend
 
       - name: "Analyse dependencies"
         uses: oke-py/npm-audit-action@v2
