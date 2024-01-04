@@ -19,7 +19,7 @@ jobs:
         uses: avides/actions-project-version-check@v1.4.0
         id: backend_version
         with:
-          token: ${{ env.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           file-to-check: "backend/pom.xml"
 
       - name: Set env VERSION
