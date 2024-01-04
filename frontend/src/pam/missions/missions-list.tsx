@@ -43,7 +43,7 @@ const MissionsList: React.FC<MissionsListProps> = ({missions, prefetchMission}) 
       <Stack.Item style={{width: '100%'}}>
         <FlexboxGrid align="middle" style={{height: '100%', padding: '0.5rem 1rem'}}>
           <FlexboxGrid.Item colspan={1} style={{paddingTop: '8px'}}></FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={4}></FlexboxGrid.Item>
+          <FlexboxGrid.Item colspan={5}></FlexboxGrid.Item>
           <FlexboxGrid.Item colspan={5}></FlexboxGrid.Item>
           <FlexboxGrid.Item colspan={3}>
             <p style={{color: THEME.color.slateGray, fontSize: '12px'}}>Date de début</p>
@@ -51,7 +51,7 @@ const MissionsList: React.FC<MissionsListProps> = ({missions, prefetchMission}) 
           <FlexboxGrid.Item colspan={3}>
             <p style={{color: THEME.color.slateGray, fontSize: '12px'}}>Statut</p>
           </FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={7}></FlexboxGrid.Item>
+          <FlexboxGrid.Item colspan={6}></FlexboxGrid.Item>
           <FlexboxGrid.Item colspan={1}></FlexboxGrid.Item>
         </FlexboxGrid>
       </Stack.Item>
@@ -72,7 +72,7 @@ const MissionsList: React.FC<MissionsListProps> = ({missions, prefetchMission}) 
                 <FlexboxGrid.Item colspan={1} style={{paddingTop: '8px'}}>
                   <Icon.MissionAction size={28}/>
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item colspan={4}>
+                <FlexboxGrid.Item colspan={5}>
                   <p
                     style={{color: THEME.color.charcoal, fontSize: '16px', fontWeight: 'bold'}}
                   >{formatMissionName(mission.startDateTimeUtc)}</p>
@@ -89,7 +89,7 @@ const MissionsList: React.FC<MissionsListProps> = ({missions, prefetchMission}) 
                 <FlexboxGrid.Item colspan={3}>
                   <MissionStatus mission={mission}/>
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item colspan={7}></FlexboxGrid.Item>
+                <FlexboxGrid.Item colspan={6}></FlexboxGrid.Item>
                 <FlexboxGrid.Item colspan={1}>
                   <Icon.Edit size={20} style={{color: THEME.color.charcoal}}/>
                 </FlexboxGrid.Item>
