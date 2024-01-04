@@ -4,6 +4,7 @@ version: 'v1.0.0'
 
 runs:
   using: 'composite'
+  shell: bash
   steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
