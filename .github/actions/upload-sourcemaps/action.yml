@@ -2,6 +2,14 @@ name: 'Frontend Build'
 description: 'Install and build frontend'
 version: 'v1.0.0'
 
+inputs:
+  SENTRY_AUTH_TOKEN:
+    description: 'The authentication token for Sentry'
+    required: true
+  VERSION:
+    description: 'The version information'
+    required: true
+
 runs:
   using: 'composite'
   steps:
@@ -23,7 +31,7 @@ runs:
     - name: Sentry Upload
       shell: bash
       run: |
-        sentry-cli releases files ${{ env.VERSION }} \
+        sentry-cli releases files ${{ inputs.VERSION }} \
         upload-sourcemaps \
         --url-prefix '~/frontend/dist' \
         --validate frontend/dist/assets \
@@ -31,6 +39,6 @@ runs:
         -o betagouv \
         -p rapportnav2
       env:
-        SENTRY_AUTH_TOKEN: ${{ env.SENTRY_AUTH_TOKEN }}
+        SENTRY_AUTH_TOKEN: ${{ inputs.SENTRY_AUTH_TOKEN }}
 
 

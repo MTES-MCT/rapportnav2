@@ -44,7 +44,6 @@ jobs:
       - name: Upload Frontend sourcemaps
         uses: ./.github/actions/upload-sourcemaps
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           VERSION: ${{ env.VERSION }}
 
