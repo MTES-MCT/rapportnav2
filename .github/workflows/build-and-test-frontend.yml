@@ -20,8 +20,8 @@ jobs:
           # cache-dependency-path: ./frontend/package-lock.json
           node-version: 20
 
-      - name: "Install dependencies"
-        run: make front-ci
+      - name: Install and Build Frontend
+        uses: MTES-MCT/rapportnav2/frontend-build-action@v1.0.0
 
       - name: "Analyse dependencies"
         uses: oke-py/npm-audit-action@v2
@@ -39,5 +39,3 @@ jobs:
       - name: "Tests"
         run: make front-test
 
-      - name: "Build"
-        run: make front-build
