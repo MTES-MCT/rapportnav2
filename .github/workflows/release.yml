@@ -19,12 +19,16 @@ jobs:
         run: |
           echo "Local Path: $GITHUB_WORKSPACE"
 
+      - name: List Folder Contents
+        run: |
+          ls -l
+
       - name: Get backend version
         uses: avides/actions-project-version-check@v1.4.0
         id: backend_version
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          file-to-check: ${{ github.workspace }}/frontend/package.json
+          file-to-check: frontend/package.json
 
       - name: Set env VERSION
         id: version
