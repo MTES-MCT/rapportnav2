@@ -1,5 +1,6 @@
 name: 'Frontend Build'
 description: 'Install and build frontend'
+version: 'v1.0.0'
 
 runs:
   using: 'composite'
