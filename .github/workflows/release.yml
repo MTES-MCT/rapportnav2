@@ -23,16 +23,13 @@ jobs:
         run: |
           ls -l backend
 
-      - name: Print Current Branch
-        run:
-          echo "Current Branch: $GITHUB_REF"
-
       - name: Get backend version
         uses: avides/actions-project-version-check@v1.4.0
         id: backend_version
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           file-to-check: backend/pom.xml
+          only-return-version: true
 
       - name: Set env VERSION
         id: version
