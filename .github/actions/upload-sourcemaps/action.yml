@@ -36,7 +36,7 @@ runs:
         --url-prefix '~/frontend/dist' \
         --validate frontend/dist/assets \
         --org betagouv \
-        --project rapportnav2
+        --project rapportnav2 \
         --release ${{ inputs.VERSION }}
       env:
         SENTRY_AUTH_TOKEN: ${{ inputs.SENTRY_AUTH_TOKEN }}
