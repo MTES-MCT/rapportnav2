@@ -15,7 +15,6 @@ runs:
 
     - uses: avides/actions-project-version-check@v1.4.0
       id: backend_version
-      shell: bash
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         file-to-check: "backend/pom.xml"
@@ -26,7 +25,6 @@ runs:
       run: export VERSION=${{ steps.backend_version.outputs.version }}
 
     - name: Install and Build Frontend
-      shell: bash
       uses: ./.github/actions/install-and-build-frontend
 
     - name: Install Sentry CLI
