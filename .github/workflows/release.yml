@@ -61,6 +61,6 @@ jobs:
         run: npm install -g @sentry/cli
 
       - name: Sentry Upload
-        run: sentry-cli releases files ${{ VERSION }} upload-sourcemaps --url-prefix '~/dist' --validate
+        run: sentry-cli releases files ${{ env.VERSION }} upload-sourcemaps --url-prefix '~/dist' --validate
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
