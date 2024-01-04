@@ -50,7 +50,7 @@ jobs:
           node-version: 20
 
       - name: Install and Build Frontend
-        uses: MTES-MCT/rapportnav2/frontend-build-action@v1.0.0
+        uses: MTES-MCT/rapportnav2/frontend-build-action
 
       - name: Upload frontend sourcemaps to Sentry
         env:
