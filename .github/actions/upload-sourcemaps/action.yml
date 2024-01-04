@@ -13,17 +13,6 @@ runs:
         cache-dependency-path: ./frontend/package-lock.json
         node-version: 20
 
-    - uses: avides/actions-project-version-check@v1.4.0
-      id: backend_version
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        file-to-check: "backend/pom.xml"
-
-    - name: set env VERSION
-      shell: bash
-      id: version
-      run: export VERSION=${{ steps.backend_version.outputs.version }}
-
     - name: Install and Build Frontend
       uses: ./.github/actions/install-and-build-frontend
 
@@ -42,6 +31,6 @@ runs:
         -o betagouv \
         -p rapportnav2
       env:
-        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        SENTRY_AUTH_TOKEN: ${{ env.SENTRY_AUTH_TOKEN }}
 
 

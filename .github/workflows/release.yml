@@ -15,6 +15,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Get backend version
+        uses: avides/actions-project-version-check@v1.4.0
+        id: backend_version
+        with:
+          token: ${{ env.GITHUB_TOKEN }}
+          file-to-check: "backend/pom.xml"
+
+      - name: Set env VERSION
+        id: version
+        run: export VERSION=${{ steps.backend_version.outputs.version }}
+
 
       #      - name: Mirror + trigger CI
       #        uses: SvanBoxel/gitlab-mirror-and-ci-action@master
@@ -32,4 +43,8 @@ jobs:
 
       - name: Upload Frontend sourcemaps
         uses: ./.github/actions/upload-sourcemaps
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          VERSION: ${{ env.VERSION }}
 
