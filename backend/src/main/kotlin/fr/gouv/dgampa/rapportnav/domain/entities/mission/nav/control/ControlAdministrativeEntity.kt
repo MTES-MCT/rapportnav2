@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.Infracti
 import java.util.*
 
 data class ControlAdministrativeEntity(
-    val id: UUID,
+    var id: UUID,
     val missionId: Int,
     val actionControlId: String,
     val amountOfControls: Int,

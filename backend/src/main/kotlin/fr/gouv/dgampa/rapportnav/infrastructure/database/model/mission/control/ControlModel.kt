@@ -14,7 +14,7 @@ abstract class ControlModel {
     @Column(name = "mission_id", nullable = false)
     var missionId: Int = 0
 
-    @Column(name = "action_control_id", nullable = false)
+    @Column(name = "action_control_id", nullable = false, unique = true)
     lateinit var actionControlId: String
 
     @Column(name = "amount_of_controls", nullable = false)
