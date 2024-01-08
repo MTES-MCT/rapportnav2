@@ -67,7 +67,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
 
   if (loading) {
     return (
-      <div>loading</div>
+      <div>Chargement...</div>
     )
   }
   if (error) {

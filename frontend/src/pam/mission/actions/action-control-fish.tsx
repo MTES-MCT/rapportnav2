@@ -43,7 +43,7 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({action}) => {
 
   if (loading) {
     return (
-      <div>loading</div>
+      <div>Chargement...</div>
     )
   }
   if (error) {

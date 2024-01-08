@@ -33,7 +33,7 @@ const App: React.FC = () => {
 
   if (loading) {
     // Render a loading indicator or anything you like
-    return <div>Loading...</div>
+    return <div>Chargement...</div>
   }
 
   return (
