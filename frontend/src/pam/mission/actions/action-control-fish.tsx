@@ -98,7 +98,7 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({action}) => {
               actionData?.latitude as any,
               actionData?.longitude as any
             ]}
-            coordinatesFormat={CoordinatesFormat.DECIMAL_DEGREES}
+            coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_SECONDS}
             // label="Lieu du contrôle"
             // isLight={true}
             disabled={true}
