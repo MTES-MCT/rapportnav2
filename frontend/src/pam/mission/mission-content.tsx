@@ -30,7 +30,7 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
   const [showControlTypesModal, setShowControlTypesModal] = useState<boolean>(false)
 
 
-  const [addStatus] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_STATUS, {
+  const [addStatus, {loading: addStatusLoading}] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_STATUS, {
     refetchQueries: [GET_MISSION_TIMELINE]
   })
   const [addControl] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_CONTROL, {
@@ -153,7 +153,7 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
                         />
                       </Stack.Item> */}
                       <Stack.Item style={{paddingLeft: '0.5rem'}}>
-                        <StatusSelectionDropdown onSelect={addNewStatus}/>
+                        <StatusSelectionDropdown onSelect={addNewStatus} loading={addStatusLoading}/>
                       </Stack.Item>
                     </Stack>
                   </FlexboxGrid.Item>

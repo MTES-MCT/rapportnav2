@@ -11,6 +11,10 @@ export default defineConfig({
       deps: {
         inline: ['@mtes-mct/monitor-ui']
       }
-    }
+    },
+    coverage: {
+      provider: "istanbul",
+      reporter: ['text', 'json', 'html'],
+    },
   }
 })
