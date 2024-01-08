@@ -1,4 +1,4 @@
-name: FRONTEND - Build and Test
+name: "[Build & Test] Frontend"
 
 on:
   #  push:

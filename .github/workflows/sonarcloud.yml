@@ -26,7 +26,7 @@
 # Feel free to take a look at our documentation (https://docs.sonarcloud.io/getting-started/github/)
 # or reach out to our community forum if you need some help (https://community.sonarsource.com/c/help/sc/9)
 
-name: SonarCloud analysis
+name: "[Analyse] SonarCloud"
 
 on:
   #  push:
@@ -42,7 +42,7 @@ permissions:
   pull-requests: read # allows SonarCloud to decorate PRs with analysis results
 
 jobs:
-  sonarcloudScan-backend:
+  backend:
     name: SonarCloudScanBackend
     runs-on: ubuntu-latest
     steps:
@@ -75,7 +75,7 @@ jobs:
             url=https://sonarcloud.io \
             token=${{ secrets.SONAR_TOKEN }}
 
-  sonarcloudScan-frontend:
+  frontend:
     name: SonarCloudScanFrontend
     runs-on: ubuntu-latest
     steps:
