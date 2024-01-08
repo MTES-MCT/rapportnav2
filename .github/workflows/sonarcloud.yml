@@ -43,7 +43,7 @@ permissions:
 
 jobs:
   backend:
-    name: SonarCloudScanBackend
+    name: Backend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -76,7 +76,7 @@ jobs:
             token=${{ secrets.SONAR_TOKEN }}
 
   frontend:
-    name: SonarCloudScanFrontend
+    name: Frontend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

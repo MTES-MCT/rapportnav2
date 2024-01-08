@@ -1,6 +1,8 @@
 # RapportNav
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=MTES-MCT_rapportnav2&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=MTES-MCT_rapportnav2)
+[![[Build & Test] Frontend](https://github.com/MTES-MCT/rapportnav2/actions/workflows/build-and-test-frontend.yml/badge.svg)](https://github.com/MTES-MCT/rapportnav2/actions/workflows/build-and-test-frontend.yml)
+[![[Build & Test] Backend](https://github.com/MTES-MCT/rapportnav2/actions/workflows/build-and-test-backend.yml/badge.svg)](https://github.com/MTES-MCT/rapportnav2/actions/workflows/build-and-test-backend.yml)
 
 ## What is it ?
 
