@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC } from "react";
 import { Stack, Toggle } from 'rsuite'
 import { Accent, Button, Size, Textarea, THEME } from '@mtes-mct/monitor-ui'
 import Text from '../../../ui/text'
@@ -13,13 +13,13 @@ export interface InfractionFormData {
   observations?: string
 }
 
-interface InfractionFormProps {
+export interface InfractionFormProps {
   infraction?: InfractionFormData
   onChange: (field: string, value: any) => void
   onCancel: () => void
 }
 
-const InfractionForm: React.FC<InfractionFormProps> = ({infraction, onChange, onCancel}) => {
+const InfractionForm: FC<InfractionFormProps> = ({infraction, onChange, onCancel}) => {
   return (
     <>
       <input type="hidden" value={infraction?.id} name="id"/>
@@ -27,7 +27,6 @@ const InfractionForm: React.FC<InfractionFormProps> = ({infraction, onChange, on
         <Stack.Item style={{width: '100%'}}>
           <Stack direction="row" alignItems="baseline" spacing={'0.5rem'}>
             <Stack.Item>
-              {/* TODO add Toggle component to monitor-ui */}
               <Toggle
                 checked={infraction?.infractionType === InfractionTypeEnum.WITH_REPORT}
                 defaultValue={InfractionTypeEnum.WITHOUT_REPORT}
@@ -54,6 +53,7 @@ const InfractionForm: React.FC<InfractionFormProps> = ({infraction, onChange, on
             label="Observations"
             value={infraction?.observations}
             name="observations"
+            role="observations"
             onChange={(nextValue?: string) => onChange('observations', nextValue)}
           />
         </Stack.Item>
