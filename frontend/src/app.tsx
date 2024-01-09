@@ -6,6 +6,7 @@ import { router } from './router/router'
 import UIThemeWrapper from './ui/ui-theme-wrapper'
 import apolloClient, { apolloCache } from './apollo-client'
 import RouterProvider from './router/router-provider'
+import { FrontendErrorBoundary } from "./error/error-boundary.tsx";
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true)
@@ -37,11 +38,13 @@ const App: React.FC = () => {
   }
 
   return (
-    <ApolloProvider client={client}>
-      <UIThemeWrapper>
-        <RouterProvider router={router}/>
-      </UIThemeWrapper>
-    </ApolloProvider>
+    <FrontendErrorBoundary>
+      <ApolloProvider client={client}>
+        <UIThemeWrapper>
+          <RouterProvider router={router}/>
+        </UIThemeWrapper>
+      </ApolloProvider>
+    </FrontendErrorBoundary>
   )
 }
 
