@@ -9,6 +9,10 @@ import dotenv from 'dotenv';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  define: {
+    // https://www.apollographql.com/docs/react/development-testing/reducing-bundle-size
+    "globalThis.__DEV__": JSON.stringify(false),
+  },
   build: {
     rollupOptions: {
       output: {
