@@ -9,7 +9,6 @@ import { GraphQLError } from "graphql/error";
 import { fireEvent } from "../../../test-utils.tsx";
 import { VesselTypeEnum } from "../../../types/mission-types.ts";
 
-const useActionByIdMock = vi.fn();
 const mutateControlMock = vi.fn()
 const deleteControlMock = vi.fn()
 vi.mock("./use-action-by-id.tsx", async (importOriginal) => {
@@ -74,9 +73,13 @@ describe('ActionControlNav', () => {
 
         test('renders data', async () => {
             ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
-            ;(useActionById as any).useActionById = useActionByIdMock;
             render(<ActionControlNav action={actionMock}/>);
             expect(screen.getByText('Dupliquer')).toBeInTheDocument()
+        });
+        test('renders null when none above', async () => {
+            ;(useActionById as any).mockReturnValue({...mockedQueryResult(undefined, false), data: null})
+            render(<ActionControlNav action={actionMock}/>);
+            expect(screen.queryByTestId('action-control-nav')).not.toBeInTheDocument();
         });
     })
 

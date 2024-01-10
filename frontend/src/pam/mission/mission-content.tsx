@@ -11,13 +11,11 @@ import { Action, ActionStatusType } from '../../types/action-types'
 import ActionSelectionDropdown from './actions/action-selection-dropdown'
 import { ActionTypeEnum } from '../../types/env-mission-types'
 import ControlSelection from './controls/control-selection'
-import { useMutation } from '@apollo/client'
-import { MUTATION_ADD_OR_UPDATE_ACTION_STATUS } from './queries'
 import StatusSelectionDropdown from './status/status-selection-dropdown'
 import find from 'lodash/find'
-import { GET_MISSION_TIMELINE } from "./timeline/use-mission-timeline.tsx";
 import { formatDateForServers, toLocalISOString } from "../../utils/dates.ts";
-import { MUTATION_ADD_OR_UPDATE_ACTION_CONTROL } from "./controls/use-add-update-control.tsx";
+import useAddOrUpdateControl from "./controls/use-add-update-control.tsx";
+import useAddOrUpdateStatus from "./status/use-add-update-status.tsx";
 
 export interface MissionProps {
     mission?: Mission
@@ -31,12 +29,8 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
     const [showControlTypesModal, setShowControlTypesModal] = useState<boolean>(false)
 
 
-    const [addStatus, {loading: addStatusLoading}] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_STATUS, {
-        refetchQueries: [GET_MISSION_TIMELINE]
-    })
-    const [addControl] = useMutation(MUTATION_ADD_OR_UPDATE_ACTION_CONTROL, {
-        refetchQueries: [GET_MISSION_TIMELINE]
-    })
+    const [addStatus, {loading: addStatusLoading}] = useAddOrUpdateStatus()
+    const [addControl] = useAddOrUpdateControl()
 
     const selectedAction = useMemo(() => {
         if (actionId) {

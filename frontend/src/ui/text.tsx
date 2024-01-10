@@ -3,18 +3,18 @@ import styled from 'styled-components';
 import { THEME } from '@mtes-mct/monitor-ui';
 
 interface TextProps {
-  as: 'h1' | 'h2' | 'h3' | 'h4';
-  color?: string;
-  weight?: 'normal' | 'medium' | 'bold';
-  fontStyle?: 'normal' | 'italic';
-  decoration?: 'normal' | 'underline';
-  children: ReactNode;
+    as: 'h1' | 'h2' | 'h3' | 'h4';
+    color?: string;
+    weight?: 'normal' | 'medium' | 'bold';
+    fontStyle?: 'normal' | 'italic';
+    decoration?: 'normal' | 'underline';
+    children: ReactNode;
 }
 
 const fontWeights = {
-  normal: '400',
-  medium: '500',
-  bold: '700'
+    normal: '400',
+    medium: '500',
+    bold: '700'
 };
 
 type StyledTextProps = Pick<TextProps, 'children' | 'color' | 'weight' | 'fontStyle' | 'decoration'>;
@@ -49,31 +49,32 @@ const H4 = styled(BaseText)<{ fontSize: number }>`
 `;
 
 const TextComponentMap: Record<TextProps['as'], FC<StyledTextProps & { fontSize: number }>> = {
-  h1: H1,
-  h2: H2,
-  h3: H3,
-  h4: H4
+    h1: H1,
+    h2: H2,
+    h3: H3,
+    h4: H4
 };
 
-const Text: FC<TextProps> = ({children, as, color, weight, fontStyle, decoration}) => {
-  const fontSize = as === 'h1' ? 22 : as === 'h2' ? 16 : as === 'h3' ? 13 : 11;
-  const StyledComponent = TextComponentMap[as];
+const Text: FC<TextProps> = ({children, as, color, weight, fontStyle, decoration, ...rest}) => {
+    const fontSize = as === 'h1' ? 22 : as === 'h2' ? 16 : as === 'h3' ? 13 : 11;
+    const StyledComponent = TextComponentMap[as];
 
-  if (!StyledComponent) {
-    return null;
-  }
+    if (!StyledComponent) {
+        return null;
+    }
 
-  return (
-    <StyledComponent
-      color={color}
-      weight={weight}
-      fontStyle={fontStyle}
-      decoration={decoration}
-      fontSize={fontSize}
-    >
-      {children}
-    </StyledComponent>
-  );
+    return (
+        <StyledComponent
+            color={color}
+            weight={weight}
+            fontStyle={fontStyle}
+            decoration={decoration}
+            fontSize={fontSize}
+            {...rest}
+        >
+            {children}
+        </StyledComponent>
+    );
 };
 
 export default Text;

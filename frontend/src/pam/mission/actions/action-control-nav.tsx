@@ -135,7 +135,8 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
         }
 
         return (
-            <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{width: '100%'}}>
+            <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{width: '100%'}}
+                   data-testid={"action-control-nav"}>
                 {/* TITLE AND BUTTONS */}
                 <Stack.Item style={{width: '100%'}}>
                     <Stack direction="row" spacing="0.5rem" style={{width: '100%'}}>

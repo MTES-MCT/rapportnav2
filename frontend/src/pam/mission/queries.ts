@@ -268,25 +268,6 @@ export const GET_MISSION_BY_ID = gql`
 `
 
 
-export const MUTATION_ADD_OR_UPDATE_ACTION_STATUS = gql`
-    mutation AddOrUpdateStatus($statusAction: ActionStatusInput!) {
-        addOrUpdateStatus(statusAction: $statusAction) {
-            id
-            startDateTimeUtc
-            status
-            reason
-            isStart
-            observations
-        }
-    }
-`
-
-export const DELETE_ACTION_STATUS = gql`
-    mutation DeleteStatus($id: String!) {
-        deleteStatus(id: $id)
-    }
-`
-
 export const MUTATION_ADD_OR_UPDATE_CONTROL_GENS_DE_MER = gql`
     mutation AddOrUpdateControlGensDeMer($control: ControlGensDeMerInput!) {
         addOrUpdateControlGensDeMer(control: $control) {
@@ -365,59 +346,12 @@ export const DELETE_CONTROL_GENS_DE_MER = gql`
     }
 `
 
-export const MUTATION_ADD_OR_UPDATE_INFRACTION = gql`
-    mutation AddOrUpdateInfraction($infraction: InfractionInput!) {
-        addOrUpdateInfraction(infraction: $infraction) {
-            id
-            controlType
-            infractionType
-            natinfs
-            observations
-        }
-    }
-`
-
-export const MUTATION_DELETE_INFRACTION = gql`
-    mutation DeleteInfraction($id: String!) {
-        deleteInfraction(id: $id)
-    }
-`
-
-export const MUTATION_ADD_OR_UPDATE_INFRACTION_ENV = gql`
-    mutation AddOrUpdateInfractionForEnvTarget($infraction: InfractionWithNewTargetInput!) {
-        addOrUpdateInfractionForEnvTarget(infraction: $infraction) {
-            id
-            controlType
-            infractionType
-            natinfs
-            observations
-            target {
-                id
-                identityControlledPerson
-                vesselIdentifier
-                vesselSize
-                vesselType
-            }
-        }
-    }
-`
 
 // export const MUTATION_DELETE_INFRACTION_ENV = gql`
 //   mutation DeleteInfractionForEnvTarget($id: String!) {
 //     deleteInfractionForEnvTarget(id: $id)
 //   }
 // `
-
-export const MUTATION_ADD_OR_UPDATE_DISTANCE_CONSUMPTION = gql`
-    mutation UpdateMissionGeneralInfo($info: MissionGeneralInfoInput!) {
-        updateMissionGeneralInfo(info: $info) {
-            id
-            distanceInNauticalMiles
-            consumedGOInLiters
-            consumedFuelInLiters
-        }
-    }
-`
 
 
 export const GET_AGENTS_BY_SERVICE = gql`

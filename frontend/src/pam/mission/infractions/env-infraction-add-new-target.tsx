@@ -2,14 +2,11 @@ import React, { useState } from 'react'
 import { Accent, Button, Icon, Size, THEME } from '@mtes-mct/monitor-ui'
 import { ControlType } from '../../../types/control-types'
 import { Infraction, InfractionEnvNewTarget } from '../../../types/infraction-types'
-import { MUTATION_ADD_OR_UPDATE_INFRACTION_ENV } from '../queries'
-import { useMutation } from '@apollo/client'
 import { useParams } from 'react-router-dom'
 import omit from 'lodash/omit'
 import { Stack } from 'rsuite'
 import EnvInfractionTargetAddedByUnitForm from './env-infraction-target-added-by-unit-form.tsx'
-import { GET_MISSION_TIMELINE } from "../timeline/use-mission-timeline.tsx";
-import { GET_ACTION_BY_ID } from "../actions/use-action-by-id.tsx";
+import useAddOrUpdateInfractionEnv from "./use-add-update-infraction-env.tsx";
 
 export interface EnvInfractionNewTargetProps {
     availableControlTypesForInfraction?: ControlType[]
@@ -31,9 +28,7 @@ const EnvInfractionAddNewTarget: React.FC<EnvInfractionNewTargetProps> = ({avail
         setFormData((prevData: any) => ({...(prevData || {}), target: {...(prevData || {}).target, [field]: value}}))
     }
 
-    const [mutate] = useMutation(MUTATION_ADD_OR_UPDATE_INFRACTION_ENV, {
-        refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
-    })
+    const [mutate] = useAddOrUpdateInfractionEnv()
 
     const onSubmit = async (e: React.FormEvent, infraction?: Infraction) => {
         e.preventDefault()
@@ -64,7 +59,7 @@ const EnvInfractionAddNewTarget: React.FC<EnvInfractionNewTargetProps> = ({avail
                     padding: '1rem'
                 }}>
                     <form
-                        onSubmit={(e: React.FormEvent) => onSubmit(e, formData)}>
+                        onSubmit={(e: React.FormEvent) => onSubmit(e, formData)} data-testid={"new-target-form"}>
                         <EnvInfractionTargetAddedByUnitForm
                             infraction={formData}
                             onChange={onChangeFormField}
@@ -85,6 +80,7 @@ const EnvInfractionAddNewTarget: React.FC<EnvInfractionNewTargetProps> = ({avail
                             accent={Accent.SECONDARY}
                             size={Size.NORMAL}
                             Icon={Icon.Plus}
+                            role={'add-target'}
                         >
                             Ajouter une nouvelle cible avec infraction
                         </Button>

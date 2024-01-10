@@ -5,12 +5,10 @@ import { Infraction } from '../../../types/infraction-types'
 import InfractionSummary from './infraction-summary'
 import InfractionForm, { InfractionFormData } from './infraction-form'
 import { infractionButtonTitle } from './utils'
-import { MUTATION_ADD_OR_UPDATE_INFRACTION, MUTATION_DELETE_INFRACTION } from '../queries'
-import { useMutation } from '@apollo/client'
 import { useParams } from 'react-router-dom'
 import omit from 'lodash/omit'
-import { GET_MISSION_TIMELINE } from "../timeline/use-mission-timeline.tsx";
-import { GET_ACTION_BY_ID } from "../actions/use-action-by-id.tsx";
+import useDeleteInfraction from "./use-delete-infraction.tsx";
+import useAddOrUpdateInfraction from "./use-add-update-infraction.tsx";
 
 export interface ControlInfractionProps {
     controlId?: string
@@ -32,12 +30,8 @@ const ControlInfraction: React.FC<ControlInfractionProps> = ({controlId, control
         setFormData((prevData: any) => ({...prevData, [field]: value}))
     }
 
-    const [mutate] = useMutation(MUTATION_ADD_OR_UPDATE_INFRACTION, {
-        refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
-    })
-    const [deleteMutation] = useMutation(MUTATION_DELETE_INFRACTION, {
-        refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
-    })
+    const [mutate] = useAddOrUpdateInfraction()
+    const [deleteMutation] = useDeleteInfraction()
 
     const onSubmit = async (e: React.FormEvent, infraction?: Infraction) => {
         e.preventDefault()

@@ -2,16 +2,14 @@ import React, { useState } from 'react'
 import { THEME } from '@mtes-mct/monitor-ui'
 import { ControlType } from '../../../types/control-types'
 import { Infraction, InfractionByTarget, InfractionEnvNewTarget } from '../../../types/infraction-types'
-import { MUTATION_ADD_OR_UPDATE_INFRACTION_ENV, MUTATION_DELETE_INFRACTION } from '../queries'
-import { useMutation } from '@apollo/client'
 import { useParams } from 'react-router-dom'
 import omit from 'lodash/omit'
 import EnvInfractionSummary from './env-infraction-summary'
-import { GET_MISSION_TIMELINE } from "../timeline/use-mission-timeline.tsx";
 import EnvInfractionTargetAddedByCacemForm from "./env-infraction-target-added-by-cacem-form.tsx";
 import EnvInfractionTargetAddedByUnitForm from "./env-infraction-target-added-by-unit-form.tsx";
-import { GET_ACTION_BY_ID } from "../actions/use-action-by-id.tsx";
 import Text from '../../../ui/text'
+import useDeleteInfraction from "./use-delete-infraction.tsx";
+import useAddOrUpdateInfractionEnv from "./use-add-update-infraction-env.tsx";
 
 
 export interface EnvInfractionExistingTargetProps {
@@ -29,13 +27,9 @@ const EnvInfractionExistingTargets: React.FC<EnvInfractionExistingTargetProps> =
 
     const [formData, setFormData] = useState<Infraction | undefined>(undefined) // only 1 infraction for nav and fish
 
-    const [mutate, {error: updateError}] = useMutation(MUTATION_ADD_OR_UPDATE_INFRACTION_ENV, {
-        refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
-    })
+    const [mutate, {error: updateError}] = useAddOrUpdateInfractionEnv()
 
-    const [deleteMutation] = useMutation(MUTATION_DELETE_INFRACTION, {
-        refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
-    })
+    const [deleteMutation] = useDeleteInfraction()
 
     const onChangeFormField = (field: string, value: any) => {
         setFormData((prevData: any) => ({...prevData, [field]: value}))
@@ -75,7 +69,7 @@ const EnvInfractionExistingTargets: React.FC<EnvInfractionExistingTargetProps> =
     return (
         <>
             {!!infractionsByTarget?.length &&
-                infractionsByTarget?.map((infractionByTarget: InfractionByTarget, i: number) => (
+                infractionsByTarget?.map((infractionByTarget: InfractionByTarget) => (
                     <div key={infractionByTarget.vesselIdentifier} style={{
                         width: '100%',
                         backgroundColor: THEME.color.white,
@@ -85,7 +79,8 @@ const EnvInfractionExistingTargets: React.FC<EnvInfractionExistingTargetProps> =
                         {selectedVessel === infractionByTarget.vesselIdentifier ? (
                             <>
 
-                                <form onSubmit={(e: React.FormEvent) => onSubmit(e, formData)}>
+                                <form onSubmit={(e: React.FormEvent) => onSubmit(e, formData)}
+                                      data-testid={"env-infraction-form"}>
                                     {
                                         infractionByTarget.targetAddedByUnit ? (
                                                 <EnvInfractionTargetAddedByUnitForm
@@ -122,7 +117,8 @@ const EnvInfractionExistingTargets: React.FC<EnvInfractionExistingTargetProps> =
                                         !!updateError && (
                                             <div style={{padding: '0 1rem'}}>
                                                 <Text as={'h3'} weight={'medium'}
-                                                      color={THEME.color.maximumRed}>ERREUR: {updateError?.message}</Text>
+                                                      color={THEME.color.maximumRed}
+                                                      data-testid={"mutation-error"}>ERREUR: {updateError?.message}</Text>
                                             </div>
                                         )
                                     }

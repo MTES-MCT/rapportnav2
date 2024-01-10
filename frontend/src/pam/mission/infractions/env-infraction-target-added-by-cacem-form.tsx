@@ -107,7 +107,7 @@ const EnvInfractionTargetAddedByCacemForm: React.FC<EnvInfractionNewTargetFormPr
                 <Stack direction="row" spacing={'2rem'}>
                     <Stack.Item>
                         <Legend>Tribunal compétent</Legend>
-                        <Text as="h3" weight="medium">
+                        <Text as="h3" weight="medium" data-testid={"relevantCourt"}>
                             {formData?.target?.relevantCourt || '--'}
                         </Text>
                     </Stack.Item>
@@ -119,7 +119,7 @@ const EnvInfractionTargetAddedByCacemForm: React.FC<EnvInfractionNewTargetFormPr
             </Stack.Item>
             <Stack.Item style={{width: '100%'}}>
                 <Legend>Observations</Legend>
-                <Text as="h3" weight="medium">
+                <Text as="h3" weight="medium" data-testid={"observations"}>
                     {formData?.target?.observations ?? '--'}
                 </Text>
             </Stack.Item>

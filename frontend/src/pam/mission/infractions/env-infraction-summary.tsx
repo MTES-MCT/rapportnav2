@@ -39,6 +39,7 @@ const EnvInfractionSummary: React.FC<EnvInfractionSummaryProps> = ({
                             accent={Accent.SECONDARY}
                             size={Size.NORMAL}
                             Icon={Icon.Plus}
+                            role={"add-infraction"}
                         >
                             infraction pour cette cible
                         </Button>
@@ -86,6 +87,7 @@ const EnvInfractionSummary: React.FC<EnvInfractionSummaryProps> = ({
                                             Icon={Icon.Delete}
                                             accent={Accent.SECONDARY}
                                             size={Size.NORMAL}
+                                            role="delete-infraction"
                                             onClick={() => onDeleteInfraction(infraction.id)}
                                         />
                                     </Stack.Item>

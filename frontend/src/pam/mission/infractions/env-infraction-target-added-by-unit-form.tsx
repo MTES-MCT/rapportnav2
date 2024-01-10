@@ -70,6 +70,7 @@ const EnvInfractionTargetAddedByUnitForm: React.FC<EnvInfractionNewTargetFormPro
                                     label="Immatriculation"
                                     value={infraction?.target?.vesselIdentifier}
                                     name="vesselIdentifier"
+                                    role="vesselIdentifier"
                                     onChange={(nextValue?: string) => onChangeTarget('vesselIdentifier', nextValue)}
                                 />
                             </Stack.Item>
@@ -78,6 +79,7 @@ const EnvInfractionTargetAddedByUnitForm: React.FC<EnvInfractionNewTargetFormPro
                                     label="Identité de la personne contrôlée"
                                     value={infraction?.target?.identityControlledPerson}
                                     name="identityControlledPerson"
+                                    role="identityControlledPerson"
                                     onChange={(nextValue?: string) => onChangeTarget('identityControlledPerson', nextValue)}
                                 />
                             </Stack.Item>
