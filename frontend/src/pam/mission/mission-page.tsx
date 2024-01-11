@@ -9,50 +9,50 @@ import { formatMissionName } from "./utils";
 
 const MissionPage: React.FC = () => {
 
-  const navigate = useNavigate()
-  let {missionId} = useParams()
-  const apolloClient = useApolloClient()
+    const navigate = useNavigate()
+    let {missionId} = useParams()
+    const apolloClient = useApolloClient()
 
-  const {loading, error, data: mission} = useMissionExcerpt(missionId)
+    const {loading, error, data: mission} = useMissionExcerpt(missionId)
 
 
-  const exitMission = async () => {
-    // TODO centralise the following into a class - also used in use-auth()
-    // reset apollo store
-    await apolloClient.resetStore()
-    // flush apollo persist cache
-    apolloClient.cache.evict({})
+    const exitMission = async () => {
+        // TODO centralise the following into a class - also used in use-auth()
+        // reset apollo store
+        await apolloClient.resetStore()
+        // flush apollo persist cache
+        apolloClient.cache.evict({})
 
-    navigate('..')
-  }
+        navigate('..')
+    }
 
-  if (loading) {
-    return <div>Chargement...</div>
-  }
+    if (loading) {
+        return <div>Chargement...</div>
+    }
 
-  if (error) {
-    return <div>error...</div>
-  }
+    if (error) {
+        return <div>error...</div>
+    }
 
-  return (
-    <div
-      style={{
-        margin: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh',
-        maxHeight: '100vh'
-      }}
-    >
-      <MissionPageHeader missionName={formatMissionName(mission?.startDateTimeUtc)}
-                         missionSource={mission?.missionSource}
-                         onClickClose={exitMission}/>
+    return (
+        <div
+            style={{
+                margin: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: '100vh',
+                maxHeight: '100vh'
+            }}
+        >
+            <MissionPageHeader missionName={formatMissionName(mission?.startDateTimeUtc)}
+                               missionSource={mission?.missionSource}
+                               onClickClose={exitMission}/>
 
-      <MissionContent mission={mission}/>
+            <MissionContent mission={mission}/>
 
-      <MissionPageFooter missionName={`Mission #${missionId}`} exitMission={exitMission}/>
-    </div>
-  )
+            <MissionPageFooter missionName={`Mission #${missionId}`} exitMission={exitMission}/>
+        </div>
+    )
 }
 
 export default MissionPage

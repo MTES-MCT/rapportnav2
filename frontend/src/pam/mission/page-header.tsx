@@ -15,47 +15,48 @@ const StyledHeader = styled.div`
 `
 
 interface MissionPageHeaderProps {
-  missionName: string
-  missionSource?: MissionSourceEnum
-  onClickClose: () => void
+    missionName: string
+    missionSource?: MissionSourceEnum
+    onClickClose: () => void
 }
 
 const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({missionName, missionSource, onClickClose}) => {
-  return (
-    <StyledHeader>
-      <FlexboxGrid justify="space-between" align="middle" style={{height: '100%'}}>
-        <FlexboxGrid.Item>
-          <Stack direction="row" spacing={'1rem'}>
-            <Stack.Item>
-              <Text as="h1" weight="bold" color={THEME.color.gainsboro}>
-                {missionName}
-              </Text>
-            </Stack.Item>
-            {
-              !!missionSource && (
-                <Stack.Item>
-                  {/*<Text as="h1" weight="bold" color={THEME.color.gainsboro}>*/}
-                  <MissionOpenByTag missionSource={missionSource}/>
-                  {/*</Text>*/}
-                </Stack.Item>
-              )
-            }
-          </Stack>
-        </FlexboxGrid.Item>
-        <FlexboxGrid.Item colspan={2}>
-          <FlexboxGrid justify="end" align="middle" style={{height: '100%'}}>
-            <IconButton
-              Icon={Icon.Close}
-              accent={Accent.TERTIARY}
-              size={Size.NORMAL}
-              color={THEME.color.gainsboro}
-              onClick={onClickClose}
-            />
-          </FlexboxGrid>
-        </FlexboxGrid.Item>
-      </FlexboxGrid>
-    </StyledHeader>
-  )
+    return (
+        <StyledHeader>
+            <FlexboxGrid justify="space-between" align="middle" style={{height: '100%'}}>
+                <FlexboxGrid.Item>
+                    <Stack direction="row" spacing={'1rem'}>
+                        <Stack.Item>
+                            <Text as="h1" weight="bold" color={THEME.color.gainsboro}>
+                                {missionName}
+                            </Text>
+                        </Stack.Item>
+                        {
+                            !!missionSource && (
+                                <Stack.Item>
+                                    {/*<Text as="h1" weight="bold" color={THEME.color.gainsboro}>*/}
+                                    <MissionOpenByTag missionSource={missionSource}/>
+                                    {/*</Text>*/}
+                                </Stack.Item>
+                            )
+                        }
+                    </Stack>
+                </FlexboxGrid.Item>
+                <FlexboxGrid.Item colspan={2}>
+                    <FlexboxGrid justify="end" align="middle" style={{height: '100%'}}>
+                        <IconButton
+                            Icon={Icon.Close}
+                            accent={Accent.TERTIARY}
+                            size={Size.NORMAL}
+                            color={THEME.color.gainsboro}
+                            onClick={onClickClose}
+                            role={'quit-mission-cross'}
+                        />
+                    </FlexboxGrid>
+                </FlexboxGrid.Item>
+            </FlexboxGrid>
+        </StyledHeader>
+    )
 }
 
 export default MissionPageHeader
