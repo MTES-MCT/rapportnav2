@@ -5,7 +5,7 @@
 #########################
 FRONTEND_DIR := frontend
 
-.PHONY: front-install front-start front-build front-test front-lint front-visualize-bundle
+.PHONY: front-install front-start front-build front-test front-coverage front-lint front-visualize-bundle
 
 front-ci:
 	cd $(FRONTEND_DIR) && npm ci
@@ -24,6 +24,9 @@ front-lint:
 
 front-test:
 	cd $(FRONTEND_DIR) && npm run test
+
+front-coverage:
+	cd $(FRONTEND_DIR) && npm run test:coverage
 
 front-visualize-bundle:
 	cd $(FRONTEND_DIR) && npx vite-bundle-visualizer

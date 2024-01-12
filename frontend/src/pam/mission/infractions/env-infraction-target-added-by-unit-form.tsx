@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
 import { OptionValue, Select, TextInput } from '@mtes-mct/monitor-ui'
 import { ControlType } from '../../../types/control-types'
@@ -26,6 +26,27 @@ const EnvInfractionTargetAddedByUnitForm: React.FC<EnvInfractionNewTargetFormPro
                                                                                            onChangeTarget,
                                                                                            onCancel
                                                                                        }) => {
+
+    const [identityControlledPersonValue, setIdentityControlledPersonValue] = useState<string | undefined>(undefined)
+    const [vesselIdentifierValue, setVesselIdentifierValue] = useState<string | undefined>(undefined)
+
+    useEffect(() => {
+        setIdentityControlledPersonValue(infraction?.target?.identityControlledPerson)
+        setVesselIdentifierValue(infraction?.target?.vesselIdentifier)
+    }, [infraction])
+
+    const handleIdentityControlledPersonChange = (nextValue?: string) => {
+        setIdentityControlledPersonValue(nextValue)
+    }
+    const handleIdentityControlledPersonBlur = async () => {
+        onChangeTarget('identityControlledPerson', identityControlledPersonValue)
+    }
+    const handleVesselIdentifierChange = (nextValue?: string) => {
+        setVesselIdentifierValue(nextValue)
+    }
+    const handleVesselIdentifierBlur = async () => {
+        onChangeTarget('vesselIdentifier', vesselIdentifierValue)
+    }
 
     return (
         <Stack direction="column" spacing={'2rem'} style={{width: '100%', padding: '1rem'}}>
@@ -68,19 +89,21 @@ const EnvInfractionTargetAddedByUnitForm: React.FC<EnvInfractionNewTargetFormPro
                             <Stack.Item style={{width: '40%'}}>
                                 <TextInput
                                     label="Immatriculation"
-                                    value={infraction?.target?.vesselIdentifier}
+                                    value={vesselIdentifierValue}
                                     name="vesselIdentifier"
                                     role="vesselIdentifier"
-                                    onChange={(nextValue?: string) => onChangeTarget('vesselIdentifier', nextValue)}
+                                    onChange={handleVesselIdentifierChange}
+                                    onBlur={handleVesselIdentifierBlur}
                                 />
                             </Stack.Item>
                             <Stack.Item style={{width: '60%'}}>
                                 <TextInput
                                     label="Identité de la personne contrôlée"
-                                    value={infraction?.target?.identityControlledPerson}
+                                    value={identityControlledPersonValue}
                                     name="identityControlledPerson"
                                     role="identityControlledPerson"
-                                    onChange={(nextValue?: string) => onChangeTarget('identityControlledPerson', nextValue)}
+                                    onChange={handleIdentityControlledPersonChange}
+                                    onBlur={handleIdentityControlledPersonBlur}
                                 />
                             </Stack.Item>
                         </Stack>

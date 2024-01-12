@@ -11,6 +11,7 @@ build_projet_npm:
     - npm config set proxy $HTTP_PROXY
     - npm config set https-proxy $HTTPS_PROXY
     - npm ci
+    - npm run test:coverage
     - npm run build --verbose
   tags:
     - build
