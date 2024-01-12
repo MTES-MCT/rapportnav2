@@ -41,12 +41,9 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
 
     const navigate = useNavigate()
     const {missionId, actionId} = useParams()
-    const [observationsValue, setObservationsValue] = useState<string | undefined>(
-        undefined
-    )
-    const [identityControlledPersonValue, setIdentityControlledPersonValue] = useState<string | undefined>(
-        undefined
-    )
+    const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
+    const [identityControlledPersonValue, setIdentityControlledPersonValue] = useState<string | undefined>(undefined)
+    const [vesselIdentifierValue, setVesselIdentifierValue] = useState<string | undefined>(undefined)
 
     const [mutateControl] = useAddOrUpdateControl()
 
@@ -57,6 +54,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
     useEffect(() => {
         setObservationsValue(navAction?.data?.observations)
         setIdentityControlledPersonValue(navAction?.data?.identityControlledPerson)
+        setVesselIdentifierValue(navAction?.data?.vesselIdentifier)
     }, [navAction])
 
     if (loading) {
@@ -86,7 +84,12 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
         const handleIdentityControlledPersonBlur = async () => {
             await onChange('identityControlledPerson', identityControlledPersonValue)
         }
-
+        const handleVesselIdentifierChange = (nextValue?: string) => {
+            setVesselIdentifierValue(nextValue)
+        }
+        const handleVesselIdentifierBlur = async () => {
+            await onChange('vesselIdentifier', vesselIdentifierValue)
+        }
 
         const onChange = async (field: string, value: any) => {
             let updatedField = {}
@@ -236,11 +239,12 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
                         <Stack.Item grow={1} basis={'25%'}>
                             <TextInput
                                 label="Immatriculation"
-                                value={control.vesselIdentifier}
                                 isLight={true}
                                 data-testid={"vesselIdentifier"}
                                 name="vesselIdentifier"
-                                onChange={(nextValue?: string) => onChange('vesselIdentifier', nextValue)}
+                                value={vesselIdentifierValue}
+                                onChange={handleVesselIdentifierChange}
+                                onBlur={handleVesselIdentifierBlur}
                             />
                         </Stack.Item>
                         <Stack.Item grow={2} basis={'50%'}>
