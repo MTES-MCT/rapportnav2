@@ -24,6 +24,9 @@ runs:
     - name: Install and Build Frontend
       uses: ./.github/actions/install-and-build-frontend
 
+    - name: Build sourcemap
+      uses: make front-sourcemap
+
     - name: Install Sentry CLI
       shell: bash
       run: npm install -g @sentry/cli

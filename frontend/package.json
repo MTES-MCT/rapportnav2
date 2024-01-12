@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "0.0.1-alpha.12",
+  "version": "0.0.1-alpha.13",
   "private": true,
   "type": "module",
   "engines": {
@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:with-sourcemaps": "vite build --sourcemap",
     "tsc": "tsc",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 10000",
     "preview": "vite preview",
