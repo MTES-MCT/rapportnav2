@@ -16,6 +16,12 @@ export default defineConfig({
             reportOnFailure: true,
             provider: "istanbul",
             reporter: ['text', 'lcov', 'json-summary', 'json'],
+            thresholds: {
+                lines: 80,
+                branches: 80,
+                functions: 80,
+                statements: 80
+            }
         },
     }
 })
