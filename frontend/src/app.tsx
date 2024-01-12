@@ -48,4 +48,4 @@ const App: FC = () => {
     )
 }
 
-export default App
+export default Sentry.withProfiler(App);

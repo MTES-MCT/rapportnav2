@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client'
 import App from './app'
 import * as Sentry from '@sentry/react'
 import { createRoutesFromChildren, matchRoutes, useLocation, useNavigationType } from 'react-router-dom'
+import { HttpClient, CaptureConsole, Debug } from "@sentry/integrations";
 
 import 'react-toastify/dist/ReactToastify.css'
 import 'rsuite/dist/rsuite.min.css'
@@ -24,11 +25,14 @@ Sentry.init({
                 matchRoutes
             )
         }),
-        new Sentry.Replay()
+        new Sentry.Replay(),
+        new HttpClient(),
+        new Debug(),
+        new CaptureConsole(),
     ],
-    tracesSampleRate: 1.0,
+    replaysOnErrorSampleRate: 1.0,
     replaysSessionSampleRate: 0.1,
-    replaysOnErrorSampleRate: 1.0
+    tracesSampleRate: 1.0
 })
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
