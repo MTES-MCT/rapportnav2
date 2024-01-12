@@ -38,12 +38,14 @@ jobs:
       - name: "ESLint"
         run: make front-lint
 
-      - name: "Tests"
-        run: make front-test
+      - name: "Tests & Coverage"
+        run: make front-coverage
 
       - name: 'Report Coverage'
         # Set if: always() to also generate the report if tests are failing
         # Only works if you set `reportOnFailure: true` in your vite config as specified above
         if: always()
         uses: davelosert/vitest-coverage-report-action@v2
+        with:
+          working-directory: frontend
 
