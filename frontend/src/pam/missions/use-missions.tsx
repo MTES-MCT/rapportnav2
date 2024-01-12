@@ -1,4 +1,4 @@
-import { ApolloError, gql, useQuery } from '@apollo/client'
+import { ApolloClient, ApolloError, gql, useQuery } from '@apollo/client'
 import { Mission } from "../../types/mission-types.ts";
 
 export const GET_MISSIONS = gql`
@@ -14,12 +14,17 @@ export const GET_MISSIONS = gql`
 `
 
 
-const useMissions = (): { data?: Mission[]; loading: boolean; error?: ApolloError } => {
-    const {loading, error, data} = useQuery(GET_MISSIONS, {
+const useMissions = (): {
+    data?: Mission[];
+    loading: boolean;
+    error?: ApolloError,
+    client: ApolloClient<any>
+} => {
+    const {loading, error, data, ...rest} = useQuery(GET_MISSIONS, {
         // fetchPolicy: 'cache-only'
     })
 
-    return {loading, error, data: data?.missions}
+    return {loading, error, data: data?.missions, ...rest}
 }
 
 export default useMissions
