@@ -5,7 +5,8 @@ import { router } from './router/router'
 import UIThemeWrapper from './ui/ui-theme-wrapper'
 import apolloClient, { apolloCache } from './apollo-client'
 import RouterProvider from './router/router-provider'
-import { FrontendErrorBoundary } from "./error/error-boundary.tsx";
+import * as Sentry from "@sentry/react";
+import ErrorPage from "./error-page.tsx";
 
 const App: FC = () => {
     const [loading, setLoading] = useState(true)
@@ -37,14 +38,14 @@ const App: FC = () => {
     }
 
     return (
-        <FrontendErrorBoundary>
+        <Sentry.ErrorBoundary fallback={ErrorPage}>
             <ApolloProvider client={client}>
                 <UIThemeWrapper>
                     <RouterProvider router={router}/>
                 </UIThemeWrapper>
             </ApolloProvider>
-        </FrontendErrorBoundary>
+        </Sentry.ErrorBoundary>
     )
 }
 
-export default App
+export default Sentry.withProfiler(App);

@@ -38,7 +38,7 @@ const MissionCrew: React.FC<MissionCrewProps> = () => {
 
     const onDeleteCrewMember = async (id?: string) => {
         if (!id) {
-            // delete crew being added
+            // delete crew member currently being added
             setCrewList(crew)
             setHideAddButton(false)
         } else {

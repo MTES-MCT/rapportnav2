@@ -131,7 +131,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
         const deleteAction = async () => {
             await deleteControl({
                 variables: {
-                    id: action.id!
+                    id: action.id
                 }
             })
             navigate(`/pam/missions/${missionId}`)
