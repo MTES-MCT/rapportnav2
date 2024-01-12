@@ -21,7 +21,6 @@
     "@mtes-mct/monitor-ui": "^10.15.2",
     "@sentry/integrations": "^7.93.0",
     "@sentry/react": "^7.93.0",
-    "@sentry/tracing": "^7.93.0",
     "apollo3-cache-persist": "^0.14.1",
     "date-fns": "^2.30.0",
     "email-validator": "^2.0.4",
