@@ -1,14 +1,15 @@
 import { fireEvent, render, screen } from '../../../test-utils'
-import { ControlType, Infraction } from '../../../types/control-types'
+import { ControlType } from '../../../types/control-types'
 import ControlInfraction, { ControlInfractionProps } from '../infractions/infraction-for-control'
 import { infractionTitleForControlType } from '../infractions/utils'
 import { InfractionTypeEnum } from "../../../types/env-mission-types.ts";
+import { Infraction } from "../../../types/infraction-types.ts";
 
 const props = (infractions?: Infraction[]) =>
   ({
     controlId: '1',
     controlType: ControlType.ADMINISTRATIVE,
-    infractions
+    infractions: infractions
   } as ControlInfractionProps)
 
 describe('ControlInfraction', () => {

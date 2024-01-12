@@ -104,10 +104,10 @@ const MissionCrew: React.FC<MissionCrewProps> = () => {
         }
         if (missionCrew.id) {
             // case: crew member already exists
-            updateExistingCrew(missionCrew, field, value)
+            await updateExistingCrew(missionCrew, field, value)
         } else {
             // case: new crew member being created
-            addNewCrew(field, value)
+            await addNewCrew(field, value)
         }
     }
 
@@ -150,7 +150,7 @@ const MissionCrew: React.FC<MissionCrewProps> = () => {
                                         name="role"
                                         isLight={true}
                                         value={crew?.role?.id}
-                                        options={agentRoles?.map(({id, title}) => ({value: id, label: title})) as any}
+                                        options={(agentRoles || [])?.map(({id, title}) => ({value: id, label: title})) as any}
                                         disabled={!crew?.agent?.lastName}
                                         onChange={(nextValue?: string) => onChange(crew, 'role', nextValue)}
                                     />
