@@ -211,7 +211,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
                 <Stack.Item>
                     <CoordinatesInput
                         defaultValue={[control.latitude, control.longitude]}
-                        coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_SECONDS}
+                        coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
                         label="Lieu du contrôle"
                         isLight={true}
                         role={"coordinates"}

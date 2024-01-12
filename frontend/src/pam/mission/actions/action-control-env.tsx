@@ -92,7 +92,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({action}) => {
                                     latitude as any,
                                     longitude as any
                                 ]}
-                                coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_SECONDS}
+                                coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
                                 // label="Lieu du contrôle"
                                 // isLight={true}
                                 disabled={true}
