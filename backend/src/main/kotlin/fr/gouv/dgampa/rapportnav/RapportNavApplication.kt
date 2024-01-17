@@ -8,7 +8,7 @@ import org.springframework.boot.runApplication
 
 
 @SpringBootApplication(exclude = [SecurityAutoConfiguration::class])
-class RapportNavApplication
+open class RapportNavApplication
 
 fun main(args: Array<String>) {
 
@@ -25,11 +25,4 @@ fun main(args: Array<String>) {
         }
     }
 
-    Sentry.captureMessage("Something went wrong2")
-
-    try {
-        throw Exception("This is a test.2")
-    } catch (e: Exception) {
-        Sentry.captureException(e)
-    }
 }
