@@ -44,6 +44,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
     const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
     const [identityControlledPersonValue, setIdentityControlledPersonValue] = useState<string | undefined>(undefined)
     const [vesselIdentifierValue, setVesselIdentifierValue] = useState<string | undefined>(undefined)
+    const [geoCoordsValue, setGeoCoordsValue] = useState<Coordinates | undefined>(undefined)
 
     const [mutateControl] = useAddOrUpdateControl()
 
@@ -55,6 +56,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
         setObservationsValue(navAction?.data?.observations)
         setIdentityControlledPersonValue(navAction?.data?.identityControlledPerson)
         setVesselIdentifierValue(navAction?.data?.vesselIdentifier)
+        setGeoCoordsValue([navAction?.data?.latitude, navAction?.data?.longitude])
     }, [navAction])
 
     if (loading) {
@@ -90,6 +92,12 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
         const handleVesselIdentifierBlur = async () => {
             await onChange('vesselIdentifier', vesselIdentifierValue)
         }
+        const handleGeoCoordsChange = (nextValue?: Coordinates) => {
+            setGeoCoordsValue(nextValue)
+        }
+        const handleGeoCoordsBlur = async () => {
+            await onChange('geoCoords', geoCoordsValue)
+        }
 
         const onChange = async (field: string, value: any) => {
             let updatedField = {}
@@ -100,7 +108,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
                     startDateTimeUtc,
                     endDateTimeUtc
                 }
-            } else if (field === 'geom') {
+            } else if (field === 'geoCoords') {
                 updatedField = {
                     latitude: value[0],
                     longitude: value[1]
@@ -213,12 +221,17 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
                 {/* CONTROL ZONES FIELD */}
                 <Stack.Item>
                     <CoordinatesInput
-                        defaultValue={[control.latitude, control.longitude]}
+                        defaultValue={geoCoordsValue}
                         coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
                         label="Lieu du contrôle"
                         isLight={true}
                         role={"coordinates"}
-                        onChange={(nextCoordinates?: Coordinates) => onChange('geom', nextCoordinates)}
+                        onChange={(nextCoordinates?: Coordinates) => {
+                            handleGeoCoordsChange(nextCoordinates)
+                        }}
+                        onBlur={async () => {
+                            await handleGeoCoordsBlur()
+                        }}
                     />
                 </Stack.Item>
                 {/* VESSEL INFORMATION */}
