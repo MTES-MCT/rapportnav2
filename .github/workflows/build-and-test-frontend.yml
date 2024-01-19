@@ -3,8 +3,9 @@ name: "[Build & Test] Frontend"
 on:
   #  push:
   #    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  #  pull_request:
+  #    branches: [ "main" ]
+  workflow_dispatch:
   schedule:
     - cron: "0 3 * * *" # 3am every night
 
