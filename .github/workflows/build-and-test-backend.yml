@@ -1,8 +1,8 @@
 name: "[Build & Test] Backend"
 
 on:
-  #  push:
-  #    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
@@ -21,18 +21,19 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - uses: gradle/gradle-build-action@v2.9.0
-        id: setup-gradle
-        with:
-          gradle-version: wrapper
-
       - name: Print JAVA_HOME
         run: |
           echo "JAVA_HOME is $JAVA_HOME"
           echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
 
-      - name: build and test
-        run: make back-build
+      - uses: gradle/gradle-build-action@v2.9.0
+        id: setup-gradle
+        with:
+          gradle-version: wrapper
+          arguments: build
+
+      #      - name: build and test
+      #        run: make back-build
 
       #      - name: dependency-check
       #        uses: dependency-check/Dependency-Check_Action@main
