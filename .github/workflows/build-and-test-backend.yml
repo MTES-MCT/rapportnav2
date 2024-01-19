@@ -30,6 +30,10 @@ jobs:
         with:
           gradle-version: wrapper
 
+      - name: Print JAVA_HOME
+        run: |
+          echo "JAVA_HOME is $JAVA_HOME"
+
       - name: build
         run: make back-build
 
