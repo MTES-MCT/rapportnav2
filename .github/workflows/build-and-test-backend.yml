@@ -38,7 +38,6 @@ jobs:
         with:
           gradle-version: wrapper
           dependency-graph: generate-and-submit
-          add-job-summary-as-pr-comment: on-failure
 
       - name: build and test
         run: make back-build
