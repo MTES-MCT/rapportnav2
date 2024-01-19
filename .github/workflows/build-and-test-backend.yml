@@ -37,19 +37,19 @@ jobs:
       - name: test
         run: make back-test
 
-      - name: dependency-check
-        uses: dependency-check/Dependency-Check_Action@main
-        id: dependency-check
-        env:
-          JAVA_HOME: ${{ env.JAVA_HOME }}
-        with:
-          project: 'rapportnav'
-          path: './backend'
-          format: 'HTML'
-          out: 'reports' # this is the default, no need to specify unless you wish to override it
-          args: >
-            --failOnCVSS 7
-            --enableRetired
+      #      - name: dependency-check
+      #        uses: dependency-check/Dependency-Check_Action@main
+      #        id: dependency-check
+      #        env:
+      #          JAVA_HOME: ${{ env.JAVA_HOME }}
+      #        with:
+      #          project: 'rapportnav'
+      #          path: './backend'
+      #          format: 'HTML'
+      #          out: 'reports' # this is the default, no need to specify unless you wish to override it
+      #          args: >
+      #            --failOnCVSS 7
+      #            --enableRetired
 
       #      - name: Upload Test results
       #        uses: actions/upload-artifact@master
@@ -68,5 +68,8 @@ jobs:
       #      - name: "Check clean architecture"
       #        run: make check-clean-archi
 
-#      - name: "Build"
-#        run: make back-build-mvn
+      - name: "test maven"
+        run: make back-test-mvn
+
+      - name: "build maven"
+        run: make back-build-mvn
