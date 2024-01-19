@@ -1,13 +1,17 @@
 name: "[Build & Test] Backend"
 
 on:
-  #  push:
-  #    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
   schedule:
     - cron: "0 3 * * *" # 3am every night
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   build-and-test-backend:
@@ -21,15 +25,19 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - uses: gradle/gradle-build-action@v2.9.0
-        id: setup-gradle
-        with:
-          gradle-version: wrapper
-
       - name: Print JAVA_HOME
         run: |
           echo "JAVA_HOME is $JAVA_HOME"
           echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
+
+      - name: cd backend
+        run: cd backend
+
+      - uses: gradle/gradle-build-action@v2.9.0
+        id: setup-gradle
+        with:
+          gradle-version: wrapper
+          dependency-graph: generate-and-submit
 
       - name: build and test
         run: make back-build
