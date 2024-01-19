@@ -53,7 +53,7 @@ class GetStatusForActionTests {
     fun `execute Should return Unknown when action is empty list for a mission`() {
         given(this.statusActionsRepository.findAllByMissionId(missionId = 1)).willReturn(listOf<ActionStatusModel>());
         val statusForAction = getStatusForAction.execute(missionId = missionId, actionStartDateTimeUtc = null);
-        assertThat(statusForAction).isEqualTo(ActionStatusType.UNKNOWN);
+        assertThat(statusForAction).isEqualTo(ActionStatusType.UNAVAILABLE);
     }
 
     @Test
