@@ -31,11 +31,8 @@ jobs:
           echo "JAVA_HOME is $JAVA_HOME"
           echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
 
-      - name: build
+      - name: build and test
         run: make back-build
-
-      - name: test
-        run: make back-test
 
       #      - name: dependency-check
       #        uses: dependency-check/Dependency-Check_Action@main
