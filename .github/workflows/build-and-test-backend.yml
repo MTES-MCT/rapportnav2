@@ -29,12 +29,17 @@ jobs:
 
 
 
-      - name: build & test
+      - name: build
         run: make back-build
+
+      - name: test
+        run: make back-test
 
       - name: dependency-check
         uses: dependency-check/Dependency-Check_Action@main
         id: dependency-check
+        env:
+          JAVA_HOME: /opt/jdk
         with:
           project: 'rapportnav'
           path: './backend'

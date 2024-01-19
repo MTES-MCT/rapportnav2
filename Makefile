@@ -47,7 +47,7 @@ front-visualize-bundle:
 BACKEND_DIR := backend
 BACKEND_CONFIGURATION_FOLDER=$(shell pwd)/infra/configurations/backend/
 
-.PHONY: back-show-dependencies back-build back-local
+.PHONY: back-show-dependencies back-build back-test back-local
 
 back-show-dependencies:
 	cd $(BACKEND_DIR) && ./gradlew dependencies
@@ -55,11 +55,14 @@ back-show-dependencies:
 back-build:
 	cd $(BACKEND_DIR) && ./gradlew build
 
+back-test:
+	cd $(BACKEND_DIR) && ./gradlew test
+
 back-start-local:
 	cd $(BACKEND_DIR) && ./gradlew bootRun --args='--spring.profiles.active=local --spring.config.additional-location=$(BACKEND_CONFIGURATION_FOLDER)'
 
 
-.PHONY: back-clean-install back-check-dependencies back-test back-sonar
+.PHONY: back-clean-install back-check-dependencies back-test-mvn back-sonar
 back-clean-install:
 	cd $(BACKEND_DIR) && ./mvnw clean install -DskipTests
 
@@ -76,7 +79,7 @@ back-sonar:
             -Dsonar.java.libraries=. \
             -Dsonar.verbose=true
 
-back-test:
+back-test-mvn:
 	cd $(BACKEND_DIR) && ./mvnw test -Pci -Dmaven.main.skip=true
 
 
