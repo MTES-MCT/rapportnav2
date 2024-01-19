@@ -47,10 +47,13 @@ front-visualize-bundle:
 BACKEND_DIR := backend
 BACKEND_CONFIGURATION_FOLDER=$(shell pwd)/infra/configurations/backend/
 
-.PHONY: back-show-dependencies back-build back-test back-local
+.PHONY: back-show-dependencies back-assemble back-build back-test back-local
 
 back-show-dependencies:
 	cd $(BACKEND_DIR) && ./gradlew dependencies
+
+back-assemble:
+	cd $(BACKEND_DIR) && ./gradlew assemble
 
 back-build:
 	cd $(BACKEND_DIR) && ./gradlew build
