@@ -20,10 +20,6 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-          cache: 'gradle'
-          cache-dependency-path: | # optional
-            backend/*.gradle*
-            backend/**/gradle-wrapper.properties
 
       - uses: gradle/gradle-build-action@v2.9.0
         id: setup-gradle
@@ -33,6 +29,7 @@ jobs:
       - name: Print JAVA_HOME
         run: |
           echo "JAVA_HOME is $JAVA_HOME"
+          echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
 
       - name: build
         run: make back-build
@@ -53,11 +50,12 @@ jobs:
           args: >
             --failOnCVSS 7
             --enableRetired
-      - name: Upload Test results
-        uses: actions/upload-artifact@master
-        with:
-          name: dependency-check-report
-          path: ${{github.workspace}}/reports
+
+      #      - name: Upload Test results
+      #        uses: actions/upload-artifact@master
+      #        with:
+      #          name: dependency-check-report
+      #          path: ${{github.workspace}}/reports
 
       #      - name: "Analyse dependencies"
       #        run: make back-check-dependencies
