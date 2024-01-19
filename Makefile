@@ -47,10 +47,13 @@ front-visualize-bundle:
 BACKEND_DIR := backend
 BACKEND_CONFIGURATION_FOLDER=$(shell pwd)/infra/configurations/backend/
 
-.PHONY: back-show-dependencies back-local
+.PHONY: back-show-dependencies back-build back-local
 
 back-show-dependencies:
 	cd $(BACKEND_DIR) && ./gradlew dependencies
+
+back-build:
+	cd $(BACKEND_DIR) && ./gradlew build
 
 back-start-local:
 	cd $(BACKEND_DIR) && ./gradlew bootRun --args='--spring.profiles.active=local --spring.config.additional-location=$(BACKEND_CONFIGURATION_FOLDER)'
