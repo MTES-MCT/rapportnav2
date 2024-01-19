@@ -20,14 +20,15 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+          cache: 'gradle'
+          cache-dependency-path: | # optional
+            backend/*.gradle*
+            backend/**/gradle-wrapper.properties
 
       - uses: gradle/gradle-build-action@v2
         id: setup-gradle
         with:
           gradle-version: wrapper
-
-
-
 
       - name: build
         run: make back-build
@@ -39,7 +40,7 @@ jobs:
         uses: dependency-check/Dependency-Check_Action@main
         id: dependency-check
         env:
-          JAVA_HOME: /opt/jdk
+          JAVA_HOME: /opt/hostedtoolcache
         with:
           project: 'rapportnav'
           path: './backend'
