@@ -26,6 +26,9 @@ jobs:
           echo "JAVA_HOME is $JAVA_HOME"
           echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
 
+      - name: cd backend
+        run: cd backend
+
       - uses: gradle/gradle-build-action@v2.9.0
         id: setup-gradle
         with:
