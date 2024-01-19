@@ -44,7 +44,7 @@ jobs:
         uses: dependency-check/Dependency-Check_Action@main
         id: dependency-check
         env:
-          JAVA_HOME: /opt/hostedtoolcache
+          JAVA_HOME: ${{ env.JAVA_HOME }}
         with:
           project: 'rapportnav'
           path: './backend'
