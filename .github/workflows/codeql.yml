@@ -45,10 +45,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: "Setup Java JDK"
-        uses: actions/setup-java@v2
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
         with:
           distribution: "zulu"
           java-version: "17"

@@ -47,16 +47,19 @@ front-visualize-bundle:
 BACKEND_DIR := backend
 BACKEND_CONFIGURATION_FOLDER=$(shell pwd)/infra/configurations/backend/
 
-.PHONY: back-show-dependencies back-assemble back-build back-test back-local
+.PHONY: back-version back-show-dependencies back-assemble back-build back-test back-local
+
+back-version:
+	cd $(BACKEND_DIR) && ./gradlew properties | grep -w 'version' | awk -F': ' '{ if ($1 == "version") print $2 }'
 
 back-show-dependencies:
 	cd $(BACKEND_DIR) && ./gradlew dependencies
 
 back-assemble:
-	cd $(BACKEND_DIR) && ./gradlew assemble
+	cd $(BACKEND_DIR) && ./gradlew clean assemble
 
 back-build:
-	cd $(BACKEND_DIR) && ./gradlew build
+	cd $(BACKEND_DIR) && ./gradlew clean build
 
 back-test:
 	cd $(BACKEND_DIR) && ./gradlew test
@@ -73,14 +76,14 @@ back-check-dependencies:
 	cd $(BACKEND_DIR) && ./mvnw dependency-check:check
 
 back-sonar:
-	cd $(BACKEND_DIR) && ./mvnw sonar:sonar \
+	cd $(BACKEND_DIR) && ./gradlew sonar \
 	    -Dsonar.projectKey$(projectKey) \
-            -Dsonar.organization=$(organization) \
-            -Dsonar.host.url=$(url) \
-            -Dsonar.token=$(token) \
-            -Dsonar.java.binaries=. \
-            -Dsonar.java.libraries=. \
-            -Dsonar.verbose=true
+		-Dsonar.organization=$(organization) \
+		-Dsonar.host.url=$(url) \
+		-Dsonar.token=$(token) \
+		-Dsonar.java.binaries=. \
+		-Dsonar.java.libraries=. \
+		-Dsonar.verbose=true
 
 back-test-mvn:
 	cd $(BACKEND_DIR) && ./mvnw test -Pci -Dmaven.main.skip=true

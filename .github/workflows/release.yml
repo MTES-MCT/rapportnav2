@@ -11,17 +11,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Get backend version
-        uses: avides/actions-project-version-check@v1.4.0
+      - name: backend version
         id: backend_version
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          file-to-check: backend/pom.xml
-          only-return-version: true
+        run: |
+          version=$(make back-version)
+          echo "Version: $version"
+          echo "::set-output name=version::$version"
 
       - name: Upload Frontend sourcemaps
         uses: ./.github/actions/upload-sourcemaps
