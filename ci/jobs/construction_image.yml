@@ -16,7 +16,7 @@ construction_image:
   services:
     - name: docker:20.10.5-dind
       alias: dockerhost
-      entrypoint: ["sh", "-c", "dockerd-entrypoint.sh"]
+      entrypoint: [ "sh", "-c", "dockerd-entrypoint.sh" ]
   script:
     # TODO à adapter en fonction du projet
     - docker build -f infra/docker/app/Dockerfile .
@@ -35,6 +35,6 @@ construction_image:
     - build
 
   needs:
-    - job: build_projet_maven
+    - job: build_projet_gradle
     - job: build_projet_npm
       artifacts: true

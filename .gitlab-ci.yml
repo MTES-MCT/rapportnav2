@@ -38,7 +38,7 @@ variables:
 
 include:
   - "/ci/jobs/verif_image_checksum.yml"
-  - "/ci/jobs/build_projet_maven.yml"
+  - "/ci/jobs/build_projet_gradle.yml"
   - "/ci/jobs/build_projet_npm.yml"
   - "/ci/jobs/construction_image.yml"
   - "/ci/jobs/dependency-check.yml"
