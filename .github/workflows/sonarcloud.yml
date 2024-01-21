@@ -47,7 +47,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: backend
+          args: >
+            -Dsonar.organization=mtes-mct
+            -Dsonar.projectKey=MTES-MCT_rapportnav2
+            -Dsonar.verbose=true
+          #            -Dsonar.python.coverage.reportPaths=coverage.xml
+          #            -Dsonar.sources=lib/
+          #            -Dsonar.test.exclusions=tests/**
+          #            -Dsonar.tests=tests/
+
       - name: Install and Build Backend
         uses: ./.github/actions/install-and-build-backend
 

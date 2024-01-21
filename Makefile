@@ -76,8 +76,7 @@ back-check-dependencies:
 	cd $(BACKEND_DIR) && ./mvnw dependency-check:check
 
 back-sonar:
-	cd $(BACKEND_DIR) && ./gradlew sonar \
-		--stacktrace \
+	cd $(BACKEND_DIR) && ./gradlew sonar --info \
 		--debug \
 	    -Dsonar.projectKey$(projectKey) \
 		-Dsonar.organization=$(organization) \
