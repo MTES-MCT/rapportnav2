@@ -79,6 +79,7 @@ back-sonar:
 	cd $(BACKEND_DIR) && ./gradlew sonar --info \
 		--debug \
 	    -Dsonar.projectKey$(projectKey) \
+	    -Dsonar.projectKey$(projectKey) \
 		-Dsonar.organization=$(organization) \
 		-Dsonar.host.url=$(url) \
 		-Dsonar.token=$(token) \
