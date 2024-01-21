@@ -77,6 +77,8 @@ back-check-dependencies:
 
 back-sonar:
 	cd $(BACKEND_DIR) && ./gradlew sonar \
+		--stacktrace \
+		--debug \
 	    -Dsonar.projectKey$(projectKey) \
 		-Dsonar.organization=$(organization) \
 		-Dsonar.host.url=$(url) \
