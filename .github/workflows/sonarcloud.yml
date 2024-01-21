@@ -46,6 +46,8 @@ jobs:
     name: Backend
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        
       - name: Install and Build Backend
         uses: ./.github/actions/install-and-build-backend
 
@@ -61,6 +63,8 @@ jobs:
     name: Frontend
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+
       - name: Install and Build Frontend
         uses: ./.github/actions/install-and-build-frontend
 
