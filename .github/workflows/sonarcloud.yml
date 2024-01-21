@@ -59,21 +59,9 @@ jobs:
             -Dsonar.organization=mtes-mct
             -Dsonar.projectKey=MTES-MCT_rapportnav2
             -Dsonar.verbose=true
-          #            -Dsonar.python.coverage.reportPaths=coverage.xml
           #            -Dsonar.sources=lib/
           #            -Dsonar.test.exclusions=tests/**
           #            -Dsonar.tests=tests/
-
-      - name: Install and Build Backend
-        uses: ./.github/actions/install-and-build-backend
-
-      - name: Build and analyze with SonarCloud
-        run: |
-          make back-sonar \
-            projectKey=MTES-MCT_rapportnav2 \
-            organization=mtes-mct \
-            url=https://sonarcloud.io \
-            token=${{ secrets.SONAR_TOKEN }}
 
   frontend:
     name: Frontend
