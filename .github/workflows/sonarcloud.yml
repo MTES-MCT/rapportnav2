@@ -46,26 +46,8 @@ jobs:
     name: Backend
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          distribution: "zulu"
-          java-version: "17"
-          java-package: jdk # optional (jdk or jre) - defaults to jdk
-
-      ## Set up Maven Cache
-      - name: Cache Maven packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-
-      - name: Install dependencies
-        run: make back-clean-install
+      - name: Install and Build Backend
+        uses: ./.github/actions/install-and-build-backend
 
       - name: Build and analyze with SonarCloud
         run: |
@@ -79,18 +61,10 @@ jobs:
     name: Frontend
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: 'Install Node'
-        uses: actions/setup-node@v4
-        with:
-          cache: npm
-          cache-dependency-path: ./frontend/package-lock.json
-          node-version: 20
+      - name: Install and Build Frontend
+        uses: ./.github/actions/install-and-build-frontend
 
-      - name: Install npm dependencies
-        run: make front-ci
-
-      - name: "Test coverage"
+      - name: Test coverage
         run: make front-coverage
 
       - name: SonarCloud Scan

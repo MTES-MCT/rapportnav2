@@ -1,0 +1,32 @@
+name: 'Backend Build'
+description: 'Install and build build'
+version: 'v1.0.0'
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: 17
+
+    - name: Print JAVA_HOME
+      run: |
+        echo "JAVA_HOME is $JAVA_HOME"
+        echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
+
+    - name: cd backend
+      run: cd backend
+
+    - uses: gradle/gradle-build-action@v2.9.0
+      id: setup-gradle
+      with:
+        gradle-version: wrapper
+        dependency-graph: generate-and-submit
+
+    - name: build package
+      shell: bash
+      run: make build
+

@@ -13,14 +13,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-
-    - name: "Setup Node.js environment"
-      uses: actions/setup-node@v3.8.0
-      with:
-        cache: npm
-        cache-dependency-path: ./frontend/package-lock.json
-        node-version: 20
-
     - name: Install and Build Frontend
       uses: ./.github/actions/install-and-build-frontend
 

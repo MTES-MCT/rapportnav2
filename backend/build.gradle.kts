@@ -1,13 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "fr.gouv.dgampa"
-version = "VERSION_TO_CHANGE"
+version = "0.0.1-alpha.15"
 description = "RapportNav"
 
-val kotlinVersion by extra("1.9.0")
+val kotlinVersion by extra("1.9.21")
 val serializationVersion by extra("1.6.2")
-val springVersion by extra("3.2.0")
-val testcontainersVersion by extra("1.19.2")
+val springVersion by extra("3.2.1")
+val testcontainersVersion by extra("1.19.3")
 
 plugins {
     `java-library`
@@ -18,6 +18,7 @@ plugins {
     id("org.springframework.boot") version "3.2.0"
     id("io.spring.dependency-management") version "1.1.4"
     id("org.owasp.dependencycheck") version "8.4.0"
+    id("org.sonarqube") version "4.4.1.3373"
 }
 
 springBoot {
@@ -89,7 +90,6 @@ tasks.withType<KotlinCompile> {
     }
 }
 
-
 tasks.named<Test>("test") {
     useJUnitPlatform()
 
@@ -99,29 +99,3 @@ tasks.named<Test>("test") {
 }
 
 
-//val sonarOrganization by extra("mtes-mct")
-//val sonarProjectKey by extra("MTES-MCT_rapportnav2")
-//
-//configure<org.sonarqube.gradle.SonarQubeExtension> {
-//  properties {
-//    property("sonar.organization", sonarOrganization)
-//    property("sonar.projectKey", sonarProjectKey)
-//  }
-//}
-
-//configure<org.owasp.dependencycheck.dependencycheckBasePluginExtension> {
-//  skip = true
-//}
-
-//val ci by profiles.creating {
-//  val flywayEnabled by extra(false)
-//  properties["flyway.enabled"] = flywayEnabled
-//  configure<org.springframework.boot.gradle.plugin.SpringBootPluginExtension> {
-//    isEnabled = false
-//  }
-//}
-
-//val sonar by profiles.creating {
-//  properties["sonar.organization"] = sonarOrganization
-//  properties["sonar.projectKey"] = sonarProjectKey
-//}
