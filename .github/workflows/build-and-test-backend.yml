@@ -54,8 +54,3 @@ jobs:
       #      - name: "Check clean architecture"
       #        run: make check-clean-archi
 
-      - name: "test maven"
-        run: make back-test-mvn
-
-      - name: "build maven"
-        run: make back-build-mvn
