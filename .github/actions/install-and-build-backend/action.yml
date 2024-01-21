@@ -13,6 +13,7 @@ runs:
         java-version: 17
 
     - name: Print JAVA_HOME
+      shell: bash
       run: |
         echo "JAVA_HOME is $JAVA_HOME"
         echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
