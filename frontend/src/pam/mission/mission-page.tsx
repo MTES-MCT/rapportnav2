@@ -6,6 +6,7 @@ import MissionPageFooter from './page-footer'
 import { useApolloClient } from '@apollo/client'
 import useMissionExcerpt from "./general-info/use-mission-excerpt";
 import { formatMissionName } from "./utils";
+import useMissionExport from "./export/use-mission-export.tsx";
 import { Stack } from "rsuite";
 import Text from "../../ui/text.tsx";
 import { Accent, Button, Size } from "@mtes-mct/monitor-ui";
@@ -18,6 +19,7 @@ const MissionPage: React.FC = () => {
   const apolloClient = useApolloClient()
 
   const {loading, error, data: mission} = useMissionExcerpt(missionId)
+  const {loading: loadingExport, error: errorExport, data: missionExport} = useMissionExport(missionId)
 
 
   const exitMission = async () => {
@@ -28,6 +30,40 @@ const MissionPage: React.FC = () => {
     apolloClient.cache.evict({})
 
     navigate('..')
+  }
+
+  const handleDownload = () => {
+    debugger
+    if (missionExport) {
+      // Decode base64 string
+      const decodedContent = atob(missionExport?.fileContent);
+
+      // Convert the decoded content to a Uint8Array
+      const uint8Array = new Uint8Array(decodedContent.length);
+      for (let i = 0; i < decodedContent.length; i++) {
+        uint8Array[i] = decodedContent.charCodeAt(i);
+      }
+
+      // Create a Blob from the Uint8Array
+      const blob = new Blob([uint8Array], {type: 'application/vnd.oasis.opendocument.text'});
+
+      // Create a temporary link element
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = missionExport.fileName
+
+      // Append the link to the document body and trigger a click event
+      document.body.appendChild(link);
+      link.click();
+
+      // Remove the link element from the document body
+      document.body.removeChild(link);
+    }
+  };
+
+  const exportMission = async () => {
+    debugger
+    handleDownload()
   }
 
   if (loading) {
@@ -81,7 +117,9 @@ const MissionPage: React.FC = () => {
     >
       <MissionPageHeader missionName={formatMissionName(mission?.startDateTimeUtc)}
                          missionSource={mission?.missionSource}
-                         onClickClose={exitMission}/>
+                         onClickClose={exitMission}
+                         onClickExport={exportMission}
+      />
 
       <MissionContent mission={mission}/>
 

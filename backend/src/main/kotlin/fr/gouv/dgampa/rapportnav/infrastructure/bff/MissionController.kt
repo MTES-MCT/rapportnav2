@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.AddOrUpdateMissionGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
@@ -10,14 +11,17 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.generalInfo.MissionGeneralInfoInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.Mission
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.generalInfo.MissionGeneralInfo
+import org.odftoolkit.odfdom.doc.OdfTextDocument
 import org.slf4j.LoggerFactory
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
+import java.io.ByteArrayOutputStream
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.util.*
 
 
 @Controller
@@ -36,6 +40,61 @@ class MissionController(
 
     private val logger = LoggerFactory.getLogger(MissionController::class.java)
 
+    private var inMemoryOdtFile: ByteArray? = null
+
+    fun generateOdtFile(): String {
+        try {
+
+
+            // Create a new ODT document
+            val textDocument = OdfTextDocument.newTextDocument()
+
+            // Add content to the document
+            val paragraph = textDocument.addText("some text")
+
+            // Convert the document to a byte array
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            textDocument.save(byteArrayOutputStream)
+
+            // Keep the byte array in memory
+            inMemoryOdtFile = byteArrayOutputStream.toByteArray()
+
+            // Return a unique identifier for the in-memory file
+            return "in-memory-odt"
+        } catch (e: Exception) {
+            // Handle exceptions
+            e.printStackTrace()
+            // Return an error message or null
+            return "Error generating in-memory ODT file."
+        }
+    }
+
+    private fun getInMemoryOdtFile(id: String): ByteArray? {
+        // Return the in-memory ODT file based on the provided identifier
+        return if (id.startsWith("in-memory-odt")) inMemoryOdtFile else null
+    }
+
+
+    @QueryMapping
+    fun missionExport(@Argument missionId: Int): MissionExportEntity {
+        try {
+            val file = generateOdtFile()
+            val fileContent = getInMemoryOdtFile("in-memory-odt")
+            if (fileContent != null) {
+                val lol = Base64.getEncoder().encodeToString(fileContent)
+                return MissionExportEntity(
+                    fileName = "export-poc.odt",
+                    fileContent = lol
+                )
+            } else {
+                throw RuntimeException("File not found")
+            }
+        } catch (e: Exception) {
+            logger.error("MissionController - failed to load missions from MonitorEnv", e)
+            throw Exception(e)
+        }
+    }
+
 
     @QueryMapping
     fun missions(): List<Mission>? {
@@ -48,6 +107,7 @@ class MissionController(
                 pageSize = null,
                 controlUnits = getControlUnitsForUser.execute()
             )?.map { Mission.fromMissionEntity(it) }.orEmpty()
+
 
             // temporarily add fictive missions
             val user = getUserFromToken.execute()
