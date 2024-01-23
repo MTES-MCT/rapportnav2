@@ -15,18 +15,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: "Setup Node.js environment"
-        uses: actions/setup-node@v4
-        with:
-          cache: npm
-          cache-dependency-path: ./frontend/package-lock.json
-          node-version: 20
-
+        
       - name: Install and Build Frontend
         uses: ./.github/actions/install-and-build-frontend
 
-      - name: "Analyse dependencies"
+      - name: Analyse dependencies
         uses: oke-py/npm-audit-action@v2
         with:
           audit_level: high
@@ -36,13 +29,13 @@ jobs:
           dedupe_issues: true
           working_directory: frontend
 
-      - name: "ESLint"
+      - name: ESLint
         run: make front-lint
 
-      - name: "Tests & Coverage"
+      - name: Tests & Coverage
         run: make front-coverage
 
-      - name: 'Report Coverage'
+      - name: Report Coverage
         # Set if: always() to also generate the report if tests are failing
         # Only works if you set `reportOnFailure: true` in your vite config as specified above
         if: always()

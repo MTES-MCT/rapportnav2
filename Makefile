@@ -47,16 +47,19 @@ front-visualize-bundle:
 BACKEND_DIR := backend
 BACKEND_CONFIGURATION_FOLDER=$(shell pwd)/infra/configurations/backend/
 
-.PHONY: back-show-dependencies back-assemble back-build back-test back-local
+.PHONY: back-version back-show-dependencies back-assemble back-build back-test back-local back-clean-archi
+
+back-version:
+	cd $(BACKEND_DIR) && ./gradlew properties | grep -w 'version' | awk -F': ' '{ if ($1 == "version") print $2 }'
 
 back-show-dependencies:
 	cd $(BACKEND_DIR) && ./gradlew dependencies
 
 back-assemble:
-	cd $(BACKEND_DIR) && ./gradlew assemble
+	cd $(BACKEND_DIR) && ./gradlew clean assemble
 
 back-build:
-	cd $(BACKEND_DIR) && ./gradlew build
+	cd $(BACKEND_DIR) && ./gradlew clean build
 
 back-test:
 	cd $(BACKEND_DIR) && ./gradlew test
@@ -64,46 +67,8 @@ back-test:
 back-start-local:
 	cd $(BACKEND_DIR) && ./gradlew bootRun --args='--spring.profiles.active=local --spring.config.additional-location=$(BACKEND_CONFIGURATION_FOLDER)'
 
-
-.PHONY: back-clean-install back-check-dependencies back-test-mvn back-sonar
-back-clean-install:
-	cd $(BACKEND_DIR) && ./mvnw clean install -DskipTests
-
-back-check-dependencies:
-	cd $(BACKEND_DIR) && ./mvnw dependency-check:check
-
-back-sonar:
-	cd $(BACKEND_DIR) && ./mvnw sonar:sonar \
-	    -Dsonar.projectKey$(projectKey) \
-            -Dsonar.organization=$(organization) \
-            -Dsonar.host.url=$(url) \
-            -Dsonar.token=$(token) \
-            -Dsonar.java.binaries=. \
-            -Dsonar.java.libraries=. \
-            -Dsonar.verbose=true
-
-back-test-mvn:
-	cd $(BACKEND_DIR) && ./mvnw test -Pci -Dmaven.main.skip=true
-
-
-.PHONY: check-clean-archi back-start-dev back-build-mvn
-
-check-clean-archi:
+back-clean-archi:
 	cd $(BACKEND_DIR)/tools && ./check-clean-architecture.sh
-
-# OK
-back-build-mvn:
-	cd $(BACKEND_DIR) \
-	&& \
-	./mvnw clean package -DskipTests=true
-
-# OK
-back-start-dev:
-	cd $(BACKEND_DIR) \
-	&& \
-	./mvnw spring-boot:run \
-		-Dspring-boot.run.arguments="--spring.config.additional-location="$(BACKEND_CONFIGURATION_FOLDER)"" \
-		-Dspring-boot.run.profiles="dev"
 
 
 #########################
@@ -131,7 +96,7 @@ logs-backend:
 
 
 
-.PHONY: docker-build-app docker-tag-app docker-push-app
+.PHONY: docker-build-app
 
 docker-build-app:
 	docker buildx build -f infra/docker/app/Dockerfile .  \
@@ -141,15 +106,6 @@ docker-build-app:
 		--build-arg VERSION=$(VERSION) \
 		--build-arg ENV_PROFILE=$(ENV_PROFILE) \
 		--build-arg GITHUB_SHA=$(GITHUB_SHA)
-
-# not used
-docker-tag-app:
-	docker tag rapportnav-app:latest ghcr.io/mtes-mct/rapportnav2/rapportnav-app:latest
-
-# not used
-docker-push-app:
-	docker push ghcr.io/mtes-mct/rapportnav2/rapportnav-app:latest
-
 
 
 docker-run-local:

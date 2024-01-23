@@ -29,13 +29,13 @@
 name: "[Analyse] SonarCloud"
 
 on:
-  #  push:
-  #    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
     types: [ opened, synchronize, reopened ]
-  schedule:
-    - cron: "0 3 * * *" # 3am every night
+  #  schedule:
+  #    - cron: "0 3 * * *" # 3am every night
   workflow_dispatch:
 
 permissions:
@@ -46,51 +46,33 @@ jobs:
     name: Backend
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          distribution: "zulu"
-          java-version: "17"
-          java-package: jdk # optional (jdk or jre) - defaults to jdk
+      - uses: actions/checkout@v4
 
-      ## Set up Maven Cache
-      - name: Cache Maven packages
-        uses: actions/cache@v1
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-
-      - name: Install dependencies
-        run: make back-clean-install
-
-      - name: Build and analyze with SonarCloud
-        run: |
-          make back-sonar \
-            projectKey=MTES-MCT_rapportnav2 \
-            organization=mtes-mct \
-            url=https://sonarcloud.io \
-            token=${{ secrets.SONAR_TOKEN }}
+          projectBaseDir: backend
+          args: >
+            -Dsonar.organization=mtes-mct
+            -Dsonar.projectKey=MTES-MCT_rapportnav2
+            -Dsonar.verbose=true
+          #            -Dsonar.sources=lib/
+          #            -Dsonar.test.exclusions=tests/**
+          #            -Dsonar.tests=tests/
 
   frontend:
     name: Frontend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: 'Install Node'
-        uses: actions/setup-node@v4
-        with:
-          cache: npm
-          cache-dependency-path: ./frontend/package-lock.json
-          node-version: 20
 
-      - name: Install npm dependencies
-        run: make front-ci
+      - name: Install and Build Frontend
+        uses: ./.github/actions/install-and-build-frontend
 
-      - name: "Test coverage"
+      - name: Test coverage
         run: make front-coverage
 
       - name: SonarCloud Scan
