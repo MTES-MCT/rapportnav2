@@ -23,7 +23,7 @@ variables:
   SERVER_ENV_PROD:
     value: "prod-rapportnav-appli01"
     description: "Serveur cible de production"
-  TAG_LATEST: $NEXUS_DOCKER_REPO/$PROJECT_NAME:latest
+  TAG_LATEST: $NEXUS_DOCKER_REPO/$PROJECT_NAME:int
   TAG_VERSION: $NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION
   FAIL_SONAR_CONDITION:
     value: "-Dsonar.qualitygate.wait=true"
