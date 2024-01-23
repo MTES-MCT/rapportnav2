@@ -21,6 +21,7 @@ construction_image:
     # TODO à adapter en fonction du projet
     - docker build -f infra/docker/app/Dockerfile .
       -t $TAG_VERSION
+      -t int
       -t $TAG_LATEST
       --build-arg VERSION=$PROJECT_VERSION
       --build-arg ENV_PROFILE="prod"
