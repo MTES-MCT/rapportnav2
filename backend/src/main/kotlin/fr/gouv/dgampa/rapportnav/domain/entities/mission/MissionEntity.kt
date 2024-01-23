@@ -26,7 +26,7 @@ data class MissionEntity(
     val missionSource: MissionSourceEnum,
     val hasMissionOrder: Boolean,
     val isUnderJdp: Boolean,
-    val actions: List<MissionActionEntity>?,
+    var actions: List<MissionActionEntity>?,
 ) {
     constructor(
         envMission: ExtendedEnvMissionEntity,

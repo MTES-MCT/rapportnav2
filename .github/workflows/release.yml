@@ -15,13 +15,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Extract Tag Name
-        id: extract_tag
-        run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      - name: Get backend version
+        uses: avides/actions-project-version-check@v1.4.0
+        id: backend_version
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          file-to-check: backend/pom.xml
+          only-return-version: true
 
-      - name: set env VERSION
-        id: version
-        run: export VERSION=${{ steps.extract_tag.outputs.tag }}
+      - name: Upload Frontend sourcemaps
+        uses: ./.github/actions/upload-sourcemaps
+        with:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          VERSION: ${{ steps.backend_version.outputs.version }}
 
       - name: Mirror + trigger CI
         uses: SvanBoxel/gitlab-mirror-and-ci-action@master
@@ -35,3 +41,7 @@ jobs:
           GITLAB_PASSWORD: ${{ secrets.GITLAB_MIRROR_TOKEN }}
           GITLAB_PROJECT_ID: "num3-exploitation/deploiement-continu"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+
+

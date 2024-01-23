@@ -5,10 +5,10 @@
 #########################
 FRONTEND_DIR := frontend
 
-.PHONY: front-install front-start front-build front-test front-lint
+.PHONY: front-install front-start front-build front-test front-coverage front-lint front-visualize-bundle front-sourcemap
 
 front-ci:
-	cd $(FRONTEND_DIR) && npm ci --verbose
+	cd $(FRONTEND_DIR) && npm ci
 
 front-install:
 	cd $(FRONTEND_DIR) && npm install
@@ -25,6 +25,16 @@ front-lint:
 front-test:
 	cd $(FRONTEND_DIR) && npm run test
 
+front-coverage:
+	cd $(FRONTEND_DIR) && npm run test:coverage
+
+front-sourcemap:
+	cd $(FRONTEND_DIR) && npm run build:with-sourcemaps
+
+front-visualize-bundle:
+	cd $(FRONTEND_DIR) && npx vite-bundle-visualizer
+
+
 #########################
 # END FRONTEND
 #########################
@@ -37,22 +47,34 @@ front-test:
 BACKEND_DIR := backend
 BACKEND_CONFIGURATION_FOLDER=$(shell pwd)/infra/configurations/backend/
 
+.PHONY: back-show-dependencies back-local
 
-.PHONY: back-clean-install back-check-dependencies back-test back-verify-ci
+back-show-dependencies:
+	cd $(BACKEND_DIR) && ./gradlew dependencies
+
+back-start-local:
+	cd $(BACKEND_DIR) && ./gradlew bootRun --args='--spring.profiles.active=local --spring.config.additional-location=$(BACKEND_CONFIGURATION_FOLDER)'
+
+
+.PHONY: back-clean-install back-check-dependencies back-test back-sonar
 back-clean-install:
-	cd $(BACKEND_DIR) && ./mvnw clean install
+	cd $(BACKEND_DIR) && ./mvnw clean install -DskipTests
 
 back-check-dependencies:
 	cd $(BACKEND_DIR) && ./mvnw dependency-check:check
 
+back-sonar:
+	cd $(BACKEND_DIR) && ./mvnw sonar:sonar \
+	    -Dsonar.projectKey$(projectKey) \
+            -Dsonar.organization=$(organization) \
+            -Dsonar.host.url=$(url) \
+            -Dsonar.token=$(token) \
+            -Dsonar.java.binaries=. \
+            -Dsonar.java.libraries=. \
+            -Dsonar.verbose=true
+
 back-test:
 	cd $(BACKEND_DIR) && ./mvnw test -Pci -Dmaven.main.skip=true
-
-back-verify-ci:
-	cd $(BACKEND_DIR) && ./mvnw clean verify -Pci
-
-
-
 
 
 .PHONY: check-clean-archi back-start-dev back-build-mvn

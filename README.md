@@ -1,5 +1,9 @@
 # RapportNav
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=MTES-MCT_rapportnav2&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=MTES-MCT_rapportnav2)
+[![[Build & Test] Frontend](https://github.com/MTES-MCT/rapportnav2/actions/workflows/build-and-test-frontend.yml/badge.svg)](https://github.com/MTES-MCT/rapportnav2/actions/workflows/build-and-test-frontend.yml)
+[![[Build & Test] Backend](https://github.com/MTES-MCT/rapportnav2/actions/workflows/build-and-test-backend.yml/badge.svg)](https://github.com/MTES-MCT/rapportnav2/actions/workflows/build-and-test-backend.yml)
+
 ## What is it ?
 
 RapportNav is a mission reporting tools developped by the French administration (https://mer.gouv.fr/).
@@ -39,7 +43,7 @@ From the root dir, the following commands are available:
 
 - backend
   - install dependencies: make back-clean-install
-  - run local backend: make back-start-dev (http://localhost:8080/)
+  - run local backend: make back-start-dev (http://localhost:80/)
 - frontend
   - install dependencies: make front-install
   - run local frontend: make front-start (http://localhost:5173/)

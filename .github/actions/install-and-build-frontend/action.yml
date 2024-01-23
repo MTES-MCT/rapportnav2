@@ -1,0 +1,16 @@
+name: 'Frontend Build'
+description: 'Install and build frontend'
+version: 'v1.0.0'
+
+runs:
+  using: 'composite'
+  steps:
+
+    - name: Install npm dependencies
+      shell: bash
+      run: make front-ci
+
+    - name: Build Frontend
+      shell: bash
+      run: make front-build
+

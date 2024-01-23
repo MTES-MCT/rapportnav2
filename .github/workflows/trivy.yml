@@ -3,16 +3,16 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: trivy
+name: "[Analyse] Trivy"
 
 on:
-  push:
-    branches: ["CHANGEME"]
+  #  push:
+  #    branches: [ "main" ]
   # pull_request:
   #   # The branches below must be a subset of the branches above
   #   branches: [ "main" ]
   schedule:
-    - cron: "0 3 * * 0" # 3am every sunday
+    - cron: "0 3 * * *" # 3am every night
 
 permissions:
   contents: read
@@ -24,7 +24,7 @@ jobs:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-    name: Build
+    name: Analyse
     runs-on: "ubuntu-20.04"
     steps:
       - name: Checkout code
@@ -41,16 +41,25 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v1
 
+      - uses: avides/actions-project-version-check@v1.4.0
+        id: backend_version
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          file-to-check: "backend/pom.xml"
+
+      - name: use-version-from-check
+        run: echo "The version we just got is ${{ steps.backend_version.outputs.version }}"
+
       - name: Build image
         uses: docker/build-push-action@v4
         env:
           GITHUB_SHA: ${{ github.sha }}
-          VERSION: NO_VERSION
+          VERSION: ${{ steps.backend_version.outputs.version }}
           ENV_PROFILE: "prod"
         with:
           context: .
           builder: ${{ steps.buildx.outputs.name }}
-          file: infra/docker/app/Dockerfile
+          file: infra/docker/app/DockerfileCI
           push: true
           tags: |
             ghcr.io/mtes-mct/rapportnav2/rapportnav-app:${{ github.sha }}
@@ -59,7 +68,7 @@ jobs:
             ENV_PROFILE=${{ env.ENV_PROFILE }}
             GITHUB_SHA=${{ github.sha }}
 
-      - name: Run Trivy vulnerability scanner
+      - name: Run Trivy on Docker build
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: "ghcr.io/mtes-mct/rapportnav2/rapportnav-app:${{ github.sha }}"

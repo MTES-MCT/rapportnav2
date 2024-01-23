@@ -1,10 +1,12 @@
-name: BACKEND - Build and Test
+name: "[Build & Test] Backend"
 
 on:
-  push:
-    branches: [ "CHANGEME" ]
+  #  push:
+  #    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  schedule:
+    - cron: "0 3 * * *" # 3am every night
 
 jobs:
   build-and-test-backend:
@@ -19,6 +21,14 @@ jobs:
           distribution: "zulu"
           java-version: "17"
           java-package: jdk # optional (jdk or jre) - defaults to jdk
+
+      ## Set up Maven Cache
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
 
       - name: "Analyse dependencies"
         run: make back-check-dependencies

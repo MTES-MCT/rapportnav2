@@ -10,11 +10,27 @@ const SHORT_TIME = 'HH:mm'
 const EMPTY_SHORT_TIME = '--:--'
 const FRENCH_DAY_MONTH_YEAR_DATETIME = `${SHORT_DAY_MONTH} à ${SHORT_TIME}`
 const EMPTY_FRENCH_DAY_MONTH_YEAR_DATETIME = `${EMPTY_SHORT_DAY_MONTH} - ${EMPTY_SHORT_TIME}`
+const SERVER_FORMAT = "yyyy-MM-dd'T'HH:mm'Z'"
 
-type DateTypes = string | undefined | null
+type DateTypes = Date | string | undefined | null
+
+function toLocalISOString(date: DateTypes = new Date()): string | undefined {
+  if (!date) {
+    return
+  }
+  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const userTime = new Date(date.toLocaleString('en-US', {timeZone: userTimeZone}));
+
+// Convert user's local time to UTC
+  const utcTime = new Date(userTime.getTime() - userTime.getTimezoneOffset() * 60000);
+
+// Use toISOString to get the UTC string
+  const isoString = utcTime.toISOString();
+  return isoString
+}
 
 
-function formatDate(date: DateTypes, dateFormat: string, emptyDateFormat: string, timeZone: string = 'Europe/Paris') {
+function formatDate(date: DateTypes, dateFormat: string, emptyDateFormat: string, timeZone: string = 'Europe/Paris'): string {
   if (!date) {
     return emptyDateFormat;
   }
@@ -35,8 +51,11 @@ function formatDate(date: DateTypes, dateFormat: string, emptyDateFormat: string
   }
 }
 
+const formatDateForServers = (date: DateTypes): string =>
+  formatDate(date, SERVER_FORMAT, '')
 
-const formatDateForMissionNHame = (date: DateTypes): string =>
+
+const formatDateForMissionName = (date: DateTypes): string =>
   formatDate(date, MISSION_NAME_FORMAT, EMPTY_FRENCH_DAY_MONTH_YEAR)
 
 const formatDateForFrenchHumans = (date: DateTypes): string =>
@@ -50,10 +69,12 @@ const formatShortDate = (date: DateTypes): string => formatDate(date, SHORT_DAY_
 const formatTime = (date: DateTypes): string => formatDate(date, SHORT_TIME, EMPTY_SHORT_TIME)
 
 export {
-  formatDateForMissionNHame,
+  formatDateForServers,
+  formatDateForMissionName,
   formatDateForFrenchHumans,
   formatDateTimeForFrenchHumans,
   formatShortDate,
-  formatTime
+  formatTime,
+  toLocalISOString
 }
 export * from 'date-fns'

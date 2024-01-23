@@ -1,68 +1,80 @@
-import React, { ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 import { THEME } from '@mtes-mct/monitor-ui';
 
-interface TitleProps {
-  as: 'h1' | 'h2' | 'h3' | 'h4';
-  color?: string;
-  weight?: 'normal' | 'medium' | 'bold';
-  style?: 'normal' | 'italic';
-  decoration?: 'normal' | 'underline';
-  children: ReactNode;
+interface TextProps {
+    as: 'h1' | 'h2' | 'h3' | 'h4';
+    color?: string;
+    weight?: 'normal' | 'medium' | 'bold';
+    fontStyle?: 'normal' | 'italic';
+    decoration?: 'normal' | 'underline';
+    children: ReactNode;
 }
 
 const fontWeights = {
-  normal: '400',
-  medium: '500',
-  bold: '700'
+    normal: '400',
+    medium: '500',
+    bold: '700'
 };
 
-const createTitleStyled = (
-  fontSize: number,
-  fontWeight: string,
-  color: string,
-  fontStyle?: string,
-  decoration?: string
-) => styled.p`
-  color: ${color || '#282f3e'};
-  font-size: ${fontSize}px;
-  font-weight: ${fontWeights[fontWeight]};
-  font-style: ${fontStyle || 'normal'};
-  text-decoration: ${decoration || 'none'};
+type StyledTextProps = Pick<TextProps, 'children' | 'color' | 'weight' | 'fontStyle' | 'decoration'>;
+
+const BaseText = styled.p<StyledTextProps>`
+  color: ${(props) => props.color || THEME.color.charcoal};
+  font-weight: ${(props) => fontWeights[props.weight || 'normal']};
+  font-style: ${(props) => props.fontStyle || 'normal'};
+  text-decoration: ${(props) => props.decoration || 'none'};
   letter-spacing: 0px;
   text-align: left;
   line-spacing: 18px;
   character-spacing: 0;
 `;
 
-const H1 = (color: string, weight: string = 'bold', fontStyle?: string, decoration?: string) =>
-  createTitleStyled(22, weight, color, fontStyle, decoration);
+const H1 = styled(BaseText)<{ fontSize: number }>`
+  font-size: ${(props) => props.fontSize}px;
+  font-weight: bold;
+`;
 
-const H2 = (color: string, weight: string = 'bold', fontStyle?: string, decoration?: string) =>
-  createTitleStyled(16, weight, color, fontStyle, decoration);
+const H2 = styled(BaseText)<{ fontSize: number }>`
+  font-size: ${(props) => props.fontSize}px;
+  font-weight: bold;
+`;
 
-const H3 = (color: string, weight: string = 'normal', fontStyle?: string, decoration?: string) =>
-  createTitleStyled(13, weight, color, fontStyle, decoration);
+const H3 = styled(BaseText)<{ fontSize: number }>`
+  font-size: ${(props) => props.fontSize}px;
+`;
 
-const H4 = (color: string, weight: string = 'normal', fontStyle?: string, decoration?: string) =>
-  createTitleStyled(11, weight, color, fontStyle, decoration);
+const H4 = styled(BaseText)<{ fontSize: number }>`
+  font-size: ${(props) => props.fontSize}px;
+`;
 
-const TextComponentMap = (color: string, weight?: string, fontStyle?: string, decoration?: string) => ({
-  h1: H1(color, weight, fontStyle, decoration),
-  h2: H2(color, weight, fontStyle, decoration),
-  h3: H3(color, weight, fontStyle, decoration),
-  h4: H4(color, weight, fontStyle, decoration)
-});
+const TextComponentMap: Record<TextProps['as'], FC<StyledTextProps & { fontSize: number }>> = {
+    h1: H1,
+    h2: H2,
+    h3: H3,
+    h4: H4
+};
 
-const Text: React.FC<TitleProps> = ({children, as, color, weight, style, decoration}) => {
-  const fontColor = color ?? THEME.color.charcoal;
-  const Component = TextComponentMap(fontColor, weight, style, decoration)[as];
+const Text: FC<TextProps> = ({children, as, color, weight, fontStyle, decoration, ...rest}) => {
+    const fontSize = as === 'h1' ? 22 : as === 'h2' ? 16 : as === 'h3' ? 13 : 11;
+    const StyledComponent = TextComponentMap[as];
 
-  if (!Component) {
-    return null;
-  }
+    if (!StyledComponent) {
+        return null;
+    }
 
-  return <Component>{children}</Component>;
+    return (
+        <StyledComponent
+            color={color}
+            weight={weight}
+            fontStyle={fontStyle}
+            decoration={decoration}
+            fontSize={fontSize}
+            {...rest}
+        >
+            {children}
+        </StyledComponent>
+    );
 };
 
 export default Text;

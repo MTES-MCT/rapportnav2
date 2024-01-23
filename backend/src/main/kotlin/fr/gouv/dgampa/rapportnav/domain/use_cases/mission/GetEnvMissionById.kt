@@ -22,6 +22,11 @@ import java.net.http.HttpResponse
 import java.time.ZonedDateTime
 import java.util.*
 
+fun createMockMultiPoint(coordinates: List<Coordinate>): MultiPoint {
+    val factory = GeometryFactory()
+    val points = coordinates.map { factory.createPoint(it) }
+    return factory.createMultiPoint(points.toTypedArray())
+}
 
 @UseCase
 class GetEnvMissionById(
@@ -64,12 +69,6 @@ class GetEnvMissionById(
                 protectedSpecies = listOf("fish1", "fish2")
             )
 
-
-            fun createMockMultiPoint(coordinates: List<Coordinate>): MultiPoint {
-                val factory = GeometryFactory()
-                val points = coordinates.map { factory.createPoint(it) }
-                return factory.createMultiPoint(points.toTypedArray())
-            }
 
             val envActionControl1 = EnvActionControlEntity(
                 id = UUID.fromString("226d84bc-e6c5-4d29-8a5f-7db642f99d16"),

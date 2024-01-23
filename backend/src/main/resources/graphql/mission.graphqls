@@ -23,6 +23,7 @@ type Mission {
   endDateTimeUtc: String
   actions: [Action]
   generalInfo: MissionGeneralInfo
+  openBy: String
 }
 
 type MissionGeneralInfo {

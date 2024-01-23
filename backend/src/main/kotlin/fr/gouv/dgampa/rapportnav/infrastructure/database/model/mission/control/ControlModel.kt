@@ -9,25 +9,25 @@ import java.util.*
 abstract class ControlModel {
     @Id
     @Column(name = "id", unique = true, nullable = false)
-    lateinit var id: UUID
+    open var id: UUID = UUID.randomUUID()
 
     @Column(name = "mission_id", nullable = false)
-    var missionId: Int = 0
+    open var missionId: Int = 0
 
-    @Column(name = "action_control_id", nullable = false)
-    lateinit var actionControlId: String
+    @Column(name = "action_control_id", nullable = false, unique = true)
+    open var actionControlId: String = ""
 
     @Column(name = "amount_of_controls", nullable = false)
-    var amountOfControls: Int = 1
+    open var amountOfControls: Int = 1
 
     @Column(name = "unit_should_confirm", nullable = true)
-    var unitShouldConfirm: Boolean? = false
+    open var unitShouldConfirm: Boolean? = false
 
     @Column(name = "unit_has_confirmed", nullable = true)
-    var unitHasConfirmed: Boolean? = false
+    open var unitHasConfirmed: Boolean? = false
 
     @Column(name = "observations", nullable = true)
-    var observations: String? = null
+    open var observations: String? = null
 
     @OneToMany(
         cascade = [CascadeType.ALL],
@@ -35,5 +35,5 @@ abstract class ControlModel {
         mappedBy = "control",
         targetEntity = InfractionModel::class
     )
-    var infractions: List<InfractionModel>? = null
+    open var infractions: List<InfractionModel>? = null
 }

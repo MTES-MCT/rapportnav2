@@ -8,7 +8,7 @@ services:
     ports:
       # - ${BACKEND_HTTP_PORT}:8880
       - 8880:8880
-      - 8080:8080
+      - 80:80
       - 8000:8000
     volumes:
       - ./frontend:/tmp/frontend
@@ -19,7 +19,7 @@ services:
     #   - backend-network
 
   db:
-    image: postgres:15-bookworm
+    image: postgres:15.5-alpine
     ports:
       - "5432:5432"
     environment:

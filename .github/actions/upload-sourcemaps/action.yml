@@ -1,0 +1,48 @@
+name: 'Upload sourcemaps'
+description: 'Upload frontend sourcemaps to any provider'
+version: 'v1.0.0'
+
+inputs:
+  SENTRY_AUTH_TOKEN:
+    description: 'The authentication token for Sentry'
+    required: true
+  VERSION:
+    description: 'The version information'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+
+    - name: "Setup Node.js environment"
+      uses: actions/setup-node@v3.8.0
+      with:
+        cache: npm
+        cache-dependency-path: ./frontend/package-lock.json
+        node-version: 20
+
+    - name: Install and Build Frontend
+      uses: ./.github/actions/install-and-build-frontend
+
+    - name: Build sourcemap
+      shell: bash
+      run: make front-sourcemap
+
+    - name: Install Sentry CLI
+      shell: bash
+      run: npm install -g @sentry/cli
+
+    - name: Sentry Upload
+      shell: bash
+      run: |
+        sentry-cli releases files ${{ inputs.VERSION }} \
+        upload-sourcemaps \
+        --url-prefix '~/frontend/dist' \
+        --validate frontend/dist/assets \
+        --org betagouv \
+        --project rapportnav2 \
+        --release ${{ inputs.VERSION }}
+      env:
+        SENTRY_AUTH_TOKEN: ${{ inputs.SENTRY_AUTH_TOKEN }}
+
+

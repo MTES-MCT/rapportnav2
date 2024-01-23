@@ -19,12 +19,11 @@ abstract class AbstractDBTests {
 
     companion object {
         @JvmStatic
-        val container = PostgreSQLContainer("postgres:15-bookworm")
+        val container = PostgreSQLContainer("postgres:15.5-alpine")
             .apply {
                 withExposedPorts(5432)
                 withEnv("POSTGRES_DB", "testdb")
-                withEnv("POSTGRES_USER", "postgres")
-                withEnv("POSTGRES_PASSWORD", "postgres")
+//
                 waitingFor(
                     Wait.forLogMessage(".*ready to accept connections.*\\s", 2),
                 )
@@ -44,7 +43,7 @@ abstract class AbstractDBTests {
 
             return "jdbc:postgresql://" + container.containerIpAddress + ":" + container.getMappedPort(
                 PostgreSQLContainer.POSTGRESQL_PORT,
-            ).toString() + "/testdb?user=postgres&password=postgres"
+            ).toString() + "/testdb"
         }
     }
 }
