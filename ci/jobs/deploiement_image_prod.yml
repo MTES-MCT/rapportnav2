@@ -10,6 +10,10 @@ tag_image_docker:
     DOCKER_HOST: tcp://dockerhost:2375/
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
+  services:
+    - name: docker:20.10.5-dind
+      alias: dockerhost
+      entrypoint: ["sh", "-c", "dockerd-entrypoint.sh"]
   script:
     - docker login $NEXUS_DOCKER_REPO -u $NEXUS_USER -p $NEXUS_PWD
     - docker pull $NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION
@@ -26,6 +30,8 @@ recup_inventaire_prod:
   image: alpine/curl
   tags:
     - deployment
+  needs:
+    - tag_image_docker
   script:
     - cd $CI_PROJECT_DIR
     - curl -H "PRIVATE-TOKEN:$PROJET_INVENTAIRE_PROD_ACCESS_TOKEN" "$CI_API_V4_URL/projects/$ID_PROJET_INVENTAIRE_PROD/repository/files/topologie.ini/raw" --output inventory.ini
