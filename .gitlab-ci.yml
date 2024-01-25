@@ -1,12 +1,12 @@
 stages:
-  # - build
-  # - pre-analyze
-  # - analyze
-  # - pre-deploy-int
-  # - deploy-int
+  - build
+  - pre-analyze
+  - analyze
+  - pre-deploy-int
+  - deploy-int
   - tag-image-prod
-  # - pre-deploy-prod
-  # - deploy-prod
+  - pre-deploy-prod
+  - deploy-prod
 variables:
   #  Configuration spécifique projet
   PROJECT_NAME:
@@ -34,12 +34,12 @@ variables:
     description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
 
 include:
-  - "/ci/jobs/verif_image_checksum.yml"
-  - "/ci/jobs/build_projet_maven.yml"
-  - "/ci/jobs/build_projet_npm.yml"
-  - "/ci/jobs/construction_image.yml"
-  - "/ci/jobs/dependency-check.yml"
-  - "/ci/jobs/analyse_sonar.yml"
-  - "/ci/jobs/analyse_trivy.yml"
-  - "/ci/jobs/deploiement_image_int.yml"
+  # - "/ci/jobs/verif_image_checksum.yml"
+  # - "/ci/jobs/build_projet_maven.yml"
+  # - "/ci/jobs/build_projet_npm.yml"
+  # - "/ci/jobs/construction_image.yml"
+  # - "/ci/jobs/dependency-check.yml"
+  # - "/ci/jobs/analyse_sonar.yml"
+  # - "/ci/jobs/analyse_trivy.yml"
+  # - "/ci/jobs/deploiement_image_int.yml"
   - "/ci/jobs/deploiement_image_prod.yml"
