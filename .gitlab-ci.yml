@@ -32,6 +32,9 @@ variables:
   FAIL_TRIVY_CONDITION:
     value: "--severity CRITICAL"
     description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
+  FAIL_DP_CHECK_LVL:
+    value: "8"
+    description: "Niveau de la criticité limite de l'analyse Dependency-Check"
 
 include:
   - "/ci/jobs/verif_image_checksum.yml"
