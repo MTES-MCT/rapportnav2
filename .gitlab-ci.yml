@@ -1,12 +1,12 @@
 stages:
-  # - build
-  # - pre-analyze
-  # - analyze
-  # - pre-deploy-int
-  # - deploy-int
+  - build
+  - pre-analyze
+  - analyze
+  - pre-deploy-int
+  - deploy-int
   - tag-image-prod
-  # - pre-deploy-prod
-  # - deploy-prod
+  - pre-deploy-prod
+  - deploy-prod
 variables:
   #  Configuration spécifique projet
   PROJECT_NAME:
