@@ -16,7 +16,7 @@ dependency_check:
   artifacts:
     when: on_success
     paths:
-      - backend/target/dependency-check-report.html
+      - backend/build/dependency-check-report.html
       - dependency-check-report.html
   needs:
     - job: build_projet_gradle
