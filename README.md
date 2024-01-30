@@ -17,6 +17,7 @@ RapportNav is a mission reporting tools developped by the French administration 
   - Gradle
   - Kotlin
   - Spring-boot
+  - Flyway migrations
 - Database:
   - PostgreSQL 15
 - Frontend:
