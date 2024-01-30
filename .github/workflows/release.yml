@@ -11,24 +11,28 @@ jobs:
   publish-release:
     runs-on: ubuntu-latest
 
+    env:
+      ACTIONS_RUNNER_DEBUG: true
+
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      #
+      #      - name: Get frontend version
+      #        uses: avides/actions-project-version-check@v1.4.0
+      #        id: frontend_version
+      #        with:
+      #          token: ${{ secrets.GITHUB_TOKEN }}
+      #          file-to-check: frontend/package.json
+      #          only-return-version: true
+      #
+      #      - name: Upload Frontend sourcemaps
+      #        uses: ./.github/actions/upload-sourcemaps
+      #        with:
+      #          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      #          VERSION: ${{ steps.frontend_version.outputs.version }}
 
-      - name: Get frontend version
-        uses: avides/actions-project-version-check@v1.4.0
-        id: frontend_version
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          file-to-check: frontend/package.json
-          only-return-version: true
-
-      - name: Upload Frontend sourcemaps
-        uses: ./.github/actions/upload-sourcemaps
-        with:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          VERSION: ${{ steps.frontend_version.outputs.version }}
 
       - name: Mirror + trigger CI
         uses: SvanBoxel/gitlab-mirror-and-ci-action@master
