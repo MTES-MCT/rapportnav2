@@ -25,7 +25,7 @@ build_projet_gradle:
       -Dhttps.proxyHost="$HTTPS_PROXY_HOST" \
       -Dhttps.proxyPort="$HTTPS_PROXY_PORT" \
       -Dhttp.nonProxyHosts="$NO_PROXY" \
-      -Dhttps.proxyProtocol="http"
+      -Djava.net.useSystemProxies=true
 
   tags:
     - build
