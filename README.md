@@ -21,7 +21,9 @@ RapportNav is a mission reporting tools developped by the French administration 
 - Database:
   - PostgreSQL 15
 - Frontend:
-  - React (Vite)
+  - TypeScript
+  - React
+  - Vite + Vitest
   - [Monitor-ui](https://mtes-mct.github.io/monitor-ui/) design system
 
 ## Development process
