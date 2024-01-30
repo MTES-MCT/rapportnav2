@@ -43,36 +43,10 @@ class GetStatusForActionTests {
     @Autowired
     private lateinit var getStatusForAction: GetStatusForAction
 
-    //    @Test
-//    fun `execute Should return Unknown when action is null for a mission`() {
-//        given(this.statusActionsRepository.findAllByMissionId(missionId)).willReturn(null);
-//        val statusForAction = getStatusForAction.execute(missionId=missionId, actionStartDateTimeUtc=null);
-//        assertThat(statusForAction).isEqualTo(ActionStatusType.UNKNOWN);
-//    }
     @Test
     fun `execute Should return Unknown when action is empty list for a mission`() {
         given(this.statusActionsRepository.findAllByMissionId(missionId = 1)).willReturn(listOf<ActionStatusModel>());
         val statusForAction = getStatusForAction.execute(missionId = missionId, actionStartDateTimeUtc = null);
-        assertThat(statusForAction).isEqualTo(ActionStatusType.UNKNOWN);
-    }
-
-    @Test
-    fun `execute Should return Unknown if only finishing actions`() {
-        val startDatetime = ZonedDateTime.of(2023, 6, 19, 10, 0, 0, 0, ZoneId.of("Europe/Berlin"))
-        val finishingAction = ActionStatusEntity(
-            id = UUID.randomUUID(),
-            missionId = missionId,
-            startDateTimeUtc = startDatetime,
-            isStart = false,
-            status = ActionStatusType.UNAVAILABLE,
-        )
-        val actions = listOf(finishingAction)
-        given(this.statusActionsRepository.findAllByMissionId(missionId = 1)).willReturn(actions.map {
-            ActionStatusModel.fromActionStatusEntity(
-                it
-            )
-        });
-        val statusForAction = getStatusForAction.execute(missionId = missionId, actionStartDateTimeUtc = startDatetime);
         assertThat(statusForAction).isEqualTo(ActionStatusType.UNKNOWN);
     }
 
@@ -83,7 +57,6 @@ class GetStatusForActionTests {
             id = UUID.randomUUID(),
             missionId = missionId,
             startDateTimeUtc = startDatetime,
-            isStart = true,
             status = ActionStatusType.UNAVAILABLE,
         )
         val actions = listOf(startingAction)
@@ -94,32 +67,5 @@ class GetStatusForActionTests {
         });
         val statusForAction = getStatusForAction.execute(missionId = missionId, actionStartDateTimeUtc = startDatetime);
         assertThat(statusForAction).isEqualTo(ActionStatusType.UNAVAILABLE);
-    }
-
-    @Test
-    fun `execute Should return the last started action status if last action is ending but at the same timestamp as a starting status action`() {
-        val startDatetime = ZonedDateTime.of(2023, 6, 19, 10, 0, 0, 0, ZoneId.of("Europe/Berlin"))
-        val startingAction = ActionStatusEntity(
-            id = UUID.randomUUID(),
-            missionId = missionId,
-            startDateTimeUtc = startDatetime,
-            isStart = true,
-            status = ActionStatusType.UNAVAILABLE,
-        )
-        val finishingAction = ActionStatusEntity(
-            id = UUID.randomUUID(),
-            missionId = missionId,
-            startDateTimeUtc = startDatetime,
-            isStart = false,
-            status = ActionStatusType.DOCKED,
-        )
-        val actions = listOf(finishingAction, startingAction)
-        given(this.statusActionsRepository.findAllByMissionId(missionId = 1)).willReturn(actions.map {
-            ActionStatusModel.fromActionStatusEntity(
-                it
-            )
-        });
-        val statusForAction = getStatusForAction.execute(missionId = missionId, actionStartDateTimeUtc = startDatetime);
-        assertThat(statusForAction).isEqualTo(startingAction.status);
     }
 }

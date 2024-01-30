@@ -154,8 +154,6 @@ data class Action(
         fun sortForTimeline(allActions: List<Action>?): List<Action>? {
             return allActions?.sortedWith(compareByDescending<Action> { it.startDateTimeUtc }
                 .thenBy { it.data is NavActionStatus }
-                .thenBy { (it.data as? NavActionStatus)?.isStart == false }
-                .thenBy { (it.data as? NavActionStatus)?.isStart == true }
             )
         }
 

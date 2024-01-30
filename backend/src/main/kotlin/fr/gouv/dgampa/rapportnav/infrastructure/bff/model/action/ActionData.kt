@@ -105,7 +105,6 @@ data class NavActionStatus(
     val startDateTimeUtc: ZonedDateTime,
     val status: ActionStatusType,
     val reason: ActionStatusReason? = null,
-    val isStart: Boolean,
     val observations: String? = null
 ) : ActionData()
 

@@ -30,9 +30,6 @@ class ActionStatusModel(
     @Column(name = "reason", nullable = true)
     var reason: String?,
 
-    @Column(name = "is_start", nullable = false)
-    var isStart: Boolean,
-
     @Column(name = "observations", nullable = true)
     var observations: String?,
 
@@ -44,7 +41,6 @@ class ActionStatusModel(
             startDateTimeUtc = startDateTimeUtc,
             status = mapStringToActionStatusType(status),
             reason = mapStringToActionStatusReason(reason),
-            isStart = isStart,
             observations = observations,
         )
     }
@@ -56,7 +52,6 @@ class ActionStatusModel(
             startDateTimeUtc = statusAction.startDateTimeUtc,
             status = statusAction.status.toString(),
             reason = statusAction.reason.toStringOrNull(),
-            isStart = statusAction.isStart,
             observations = statusAction.observations,
         )
     }

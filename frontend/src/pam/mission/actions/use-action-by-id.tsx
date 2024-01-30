@@ -201,7 +201,6 @@ export const GET_ACTION_BY_ID = gql`
           startDateTimeUtc
           status
           reason
-          isStart
           observations
         }
         ... on NavActionControl {

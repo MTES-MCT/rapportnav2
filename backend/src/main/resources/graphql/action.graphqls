@@ -25,7 +25,6 @@ input ActionStatusInput {
   startDateTimeUtc: String
   status: ActionStatusType!
   reason: ActionStatusReason
-  isStart: Boolean!
   observations: String
 }
 
@@ -63,7 +62,6 @@ type NavActionStatus {
   startDateTimeUtc: String!
   status: ActionStatusType!
   reason: ActionStatusReason
-  isStart: Boolean!
   observations: String
 }
 
