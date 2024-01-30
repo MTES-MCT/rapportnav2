@@ -9,14 +9,15 @@ build_projet_gradle:
   script:
     - cd backend
     - chmod +x gradlew
-    - HTTP_PROXY_HOST=$(echo $HTTP_PROXY | sed 's/http:\/\/\([^:]*\):.*/\1/')
-    - HTTP_PROXY_PORT=$(echo $HTTP_PROXY | sed 's/http:\/\/[^:]*:\([^:]*\)/\1/')
-    - HTTPS_PROXY_HOST=$(echo $HTTPS_PROXY | sed 's/http:\/\/\([^:]*\):.*/\1/')
-    - HTTPS_PROXY_PORT=$(echo $HTTPS_PROXY | sed 's/http:\/\/[^:]*:\([^:]*\)/\1/')
-    - echo "HTTP_PROXY_HOST: ${HTTP_PROXY_HOST}"
-    - echo "HTTP_PROXY_PORT: ${HTTP_PROXY_PORT}"
-    - echo "HTTPS_PROXY_HOST: ${HTTPS_PROXY_HOST}"
-    - echo "HTTPS_PROXY_PORT: ${HTTPS_PROXY_PORT}"
+    - |
+      HTTP_PROXY_HOST=$(echo $HTTP_PROXY | sed 's/http:\/\/\([^:]*\):.*/\1/')
+      HTTP_PROXY_PORT=$(echo $HTTP_PROXY | sed 's/http:\/\/[^:]*:\([^:]*\)/\1/')
+      HTTPS_PROXY_HOST=$(echo $HTTPS_PROXY | sed 's/http:\/\/\([^:]*\):.*/\1/')
+      HTTPS_PROXY_PORT=$(echo $HTTPS_PROXY | sed 's/http:\/\/[^:]*:\([^:]*\)/\1/')
+      echo "HTTP_PROXY_HOST: ${HTTP_PROXY_HOST}"
+      echo "HTTP_PROXY_PORT: ${HTTP_PROXY_PORT}"
+      echo "HTTPS_PROXY_HOST: ${HTTPS_PROXY_HOST}"
+      echo "HTTPS_PROXY_PORT: ${HTTPS_PROXY_PORT}"
     - ./gradlew clean assemble \
       -Dhttp.proxyHost=$HTTP_PROXY_HOST \
       -Dhttp.proxyPort=$HTTP_PROXY_PORT \
