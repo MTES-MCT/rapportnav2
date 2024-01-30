@@ -66,7 +66,7 @@ The following checks are performed through Github Actions:
 
 ### Pre-requisites
 
-As we are mirroring our repo onto our hoster's repo, who can also provide changes and commits, _make sure to align the
+As we are mirroring our repo onto our host's repo, who can also provide changes and commits, _make sure to align the
 two repos before deploying_:
 
 - add mirror if you
