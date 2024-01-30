@@ -6,26 +6,32 @@ build_projet_gradle:
     HTTP_PROXY: "http://172.27.229.197:8090"
     HTTPS_PROXY: "http://172.27.229.197:8090"
     NO_PROXY: "gitlab-sml.din.developpement-durable.gouv.fr,localhost,127.0.0.1,0.0.0.0,.dsi.damgm.i2"
+  before_script:
+    - HTTP_PROXY_HOST=$(echo $HTTP_PROXY | sed 's/http:\/\/\([^:]*\):.*/\1/')
+    - HTTP_PROXY_PORT=$(echo $HTTP_PROXY | sed 's/http:\/\/[^:]*:\([^:]*\)/\1/')
+    - HTTPS_PROXY_HOST=$(echo $HTTPS_PROXY | sed 's/http:\/\/\([^:]*\):.*/\1/')
+    - HTTPS_PROXY_PORT=$(echo $HTTPS_PROXY | sed 's/http:\/\/[^:]*:\([^:]*\)/\1/')
+    - export JAVA_OPTS="-Dhttp.proxyHost=$HTTP_PROXY_HOST -Dhttp.proxyPort=$HTTP_PROXY_PORT -Dhttps.proxyHost=$HTTPS_PROXY_HOST -Dhttps.proxyPort=$HTTPS_PROXY_PORT -Dhttp.nonProxyHosts=\"$NO_PROXY\""
   script:
     - cd backend
     - chmod +x gradlew
-    #    - ./gradlew clean assemble
-    - |
-      HTTP_PROXY_HOST=$(echo $HTTP_PROXY | sed 's/http:\/\/\([^:]*\):.*/\1/')
-      HTTP_PROXY_PORT=$(echo $HTTP_PROXY | sed 's/http:\/\/[^:]*:\([^:]*\)/\1/')
-      HTTPS_PROXY_HOST=$(echo $HTTPS_PROXY | sed 's/http:\/\/\([^:]*\):.*/\1/')
-      HTTPS_PROXY_PORT=$(echo $HTTPS_PROXY | sed 's/http:\/\/[^:]*:\([^:]*\)/\1/')
-      echo "HTTP_PROXY_HOST: ${HTTP_PROXY_HOST}"
-      echo "HTTP_PROXY_PORT: ${HTTP_PROXY_PORT}"
-      echo "HTTPS_PROXY_HOST: ${HTTPS_PROXY_HOST}"
-      echo "HTTPS_PROXY_PORT: ${HTTPS_PROXY_PORT}"
-    - ./gradlew clean assemble \
-      -Dhttp.proxyHost="$HTTP_PROXY_HOST" \
-      -Dhttp.proxyPort="$HTTP_PROXY_PORT" \
-      -Dhttps.proxyHost="$HTTPS_PROXY_HOST" \
-      -Dhttps.proxyPort="$HTTPS_PROXY_PORT" \
-      -Dhttp.nonProxyHosts="$NO_PROXY" \
-      -Djava.net.useSystemProxies=true
+    - ./gradlew clean assemble
+    #    - |
+    #      HTTP_PROXY_HOST=$(echo $HTTP_PROXY | sed 's/http:\/\/\([^:]*\):.*/\1/')
+    #      HTTP_PROXY_PORT=$(echo $HTTP_PROXY | sed 's/http:\/\/[^:]*:\([^:]*\)/\1/')
+    #      HTTPS_PROXY_HOST=$(echo $HTTPS_PROXY | sed 's/http:\/\/\([^:]*\):.*/\1/')
+    #      HTTPS_PROXY_PORT=$(echo $HTTPS_PROXY | sed 's/http:\/\/[^:]*:\([^:]*\)/\1/')
+    #      echo "HTTP_PROXY_HOST: ${HTTP_PROXY_HOST}"
+    #      echo "HTTP_PROXY_PORT: ${HTTP_PROXY_PORT}"
+    #      echo "HTTPS_PROXY_HOST: ${HTTPS_PROXY_HOST}"
+    #      echo "HTTPS_PROXY_PORT: ${HTTPS_PROXY_PORT}"
+    #    - ./gradlew clean assemble \
+    #      -Dhttp.proxyHost="$HTTP_PROXY_HOST" \
+    #      -Dhttp.proxyPort="$HTTP_PROXY_PORT" \
+    #      -Dhttps.proxyHost="$HTTPS_PROXY_HOST" \
+    #      -Dhttps.proxyPort="$HTTPS_PROXY_PORT" \
+    #      -Dhttp.nonProxyHosts="$NO_PROXY" \
+    #      -Djava.net.useSystemProxies=true
 
   tags:
     - build
