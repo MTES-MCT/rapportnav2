@@ -20,12 +20,12 @@ build_projet_gradle:
       echo "HTTPS_PROXY_HOST: ${HTTPS_PROXY_HOST}"
       echo "HTTPS_PROXY_PORT: ${HTTPS_PROXY_PORT}"
     - ./gradlew clean assemble \
-      -Dhttp.proxyHost=$HTTP_PROXY_HOST \
-      -Dhttp.proxyPort=$HTTP_PROXY_PORT \
-      -Dhttps.proxyHost=$HTTPS_PROXY_HOST \
-      -Dhttps.proxyPort=$HTTPS_PROXY_PORT \
-      -Dhttp.nonProxyHosts="$NO_PROXY" \
-      -Dhttps.nonProxyHosts="$NO_PROXY"
+      -Dhttp.proxyHost="$HTTP_PROXY_HOST" \
+      -Dhttp.proxyPort="$HTTP_PROXY_PORT" \
+      -Dhttps.proxyHost="$HTTPS_PROXY_HOST" \
+      -Dhttps.proxyPort="$HTTPS_PROXY_PORT" \
+      -Dhttp.nonProxyHosts="$NO_PROXY"
+
   tags:
     - build
   artifacts:
