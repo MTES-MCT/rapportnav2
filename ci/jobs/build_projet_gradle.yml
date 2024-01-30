@@ -9,7 +9,7 @@ build_projet_gradle:
   script:
     - cd backend
     - chmod +x gradlew
-    - ./gradlew clean assemble -Dhttps.proxyHost=172.27.229.197 -Dhttps.proxyPort=8090
+    - ./gradlew clean assemble -Dhttp.proxyHost=172.27.229.197 -Dhttp.proxyPort=8090
   tags:
     - build
   artifacts:

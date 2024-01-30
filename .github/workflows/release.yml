@@ -1,12 +1,11 @@
 name: "Release"
 
-
-#commentaire
 on:
   push:
     branches: [ "main" ]
   release:
     types: [ published ]
+  workflow_dispatch:
 
 jobs:
   publish-release:
@@ -25,19 +24,19 @@ jobs:
           file-to-check: frontend/package.json
           only-return-version: true
 
-      #      - name: Upload Frontend sourcemaps
-      #        uses: ./.github/actions/upload-sourcemaps
-      #        with:
-      #          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-      #          VERSION: ${{ steps.frontend_version.outputs.version }}
+      - name: Upload Frontend sourcemaps
+        uses: ./.github/actions/upload-sourcemaps
+        with:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          VERSION: ${{ steps.frontend_version.outputs.version }}
 
       - name: Mirror + trigger CI
         uses: SvanBoxel/gitlab-mirror-and-ci-action@master
         with:
           args: https://gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2.git
         env:
-          FOLLOW_TAGS: "true"
-          FORCE_PUSH: "true"
+          FOLLOW_TAGS: true
+          FORCE_PUSH: true
           GITLAB_HOSTNAME: "gitlab-sml.din.developpement-durable.gouv.fr"
           GITLAB_USERNAME: ${{ github.actor }}
           GITLAB_PASSWORD: ${{ secrets.GITLAB_MIRROR_TOKEN }}
