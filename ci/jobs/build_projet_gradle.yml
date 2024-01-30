@@ -3,13 +3,21 @@ build_projet_gradle:
   stage: build
   image: gradle:8.5-jdk17
   variables:
-    HTTP_PROXY: "http://172.27.229.197:8090"
-    HTTPS_PROXY: "http://172.27.229.197:8090"
-    NO_PROXY: "gitlab-sml.din.developpement-durable.gouv.fr,localhost,127.0.0.1,0.0.0.0,.dsi.damgm.i2"
+    variables:
+      HTTP_PROXY_HOST: "172.27.229.197"
+      HTTP_PROXY_PORT: "8090"
+      HTTPS_PROXY_HOST: "172.27.229.197"
+      HTTPS_PROXY_PORT: "8090"
+      NO_PROXY: "gitlab-sml.din.developpement-durable.gouv.fr,localhost,127.0.0.1,0.0.0.0,.dsi.damgm.i2"
   script:
     - cd backend
     - chmod +x gradlew
-    - ./gradlew clean assemble -Dhttp.proxyHost=172.27.229.197 -Dhttp.proxyPort=8090
+    - ./gradlew clean assemble \
+      -Dhttp.proxyHost=$HTTP_PROXY_HOST \
+      -Dhttp.proxyPort=$HTTP_PROXY_PORT \
+      -Dhttps.proxyHost=$HTTPS_PROXY_HOST \
+      -Dhttps.proxyPort=$HTTPS_PROXY_PORT \
+      -Dhttp.nonProxyHosts="$NO_PROXY"
   tags:
     - build
   artifacts:
