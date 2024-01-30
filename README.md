@@ -14,6 +14,7 @@ RapportNav is a mission reporting tools developped by the French administration 
   - Docker
   - GitHub Actions
 - Backend:
+  - Gradle
   - Kotlin
   - Spring-boot
 - Database:
@@ -76,7 +77,8 @@ two repos before deploying_:
 ### Instructions
 
 - Make sure you have the last changes from the mirror: so fetch & pull code from mirror
-- Set version number `in pom.xml`
+- Set version number in `build.gradle.kts`
+- Set version number in `package.json` and `make front-ci` again to regen the `package-lock.json`
 - Set version number in the variable `PROJECT_VERSION` in the file `.gitlab-ci.yml`
 - Create a GitHub release with the same version number
 - check the running `release` Action
