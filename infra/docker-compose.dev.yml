@@ -19,11 +19,10 @@ services:
   backend:
     build:
       context: ..
-      dockerfile: ./infra/docker/app/DockerfileDev.old
+      dockerfile: ./infra/docker/app/DockerfileDev
       target: run-backend
     ports:
-      - 80:80
-      - 8880:8880
+      - "80:80"
     volumes:
       - ./backend:/tmp/backend
     depends_on:
@@ -33,18 +32,17 @@ services:
   frontend:
     build:
       context: ..
-      dockerfile: ./infra/docker/app/DockerfileDev.old
+      dockerfile: ./infra/docker/app/DockerfileDev
       target: run-frontend
     ports:
-      - 5173:5173
-      # - 3000:3000
+      - "5173:5173"
     volumes:
       - ./frontend:/tmp/frontend
 
   metabase:
     image: metabase/metabase:latest
     ports:
-      - 3000:3000
+      - "3000:3000"
     volumes:
       - metabase_data:/metabase-data
     environment:
