@@ -1,7 +1,5 @@
 name: "[Release] Mirror push to gitlab"
 
-#commen`taiur
-
 on:
   push:
     branches: [ "main" ]
