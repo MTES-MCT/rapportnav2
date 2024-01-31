@@ -1,6 +1,6 @@
 name: "[Release] Mirror push to gitlab"
 
-#commen`taiure
+#commen`taiur
 
 on:
   push:
