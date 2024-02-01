@@ -1,5 +1,6 @@
 name: "[Release] Mirror push to gitlab"
 
+#test
 on:
   push:
     branches: [ "main" ]
