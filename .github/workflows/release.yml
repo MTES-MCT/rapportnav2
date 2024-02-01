@@ -19,6 +19,7 @@ jobs:
         with:
           fetch-depth: 0
 
+<<<<<<< HEAD
       - name: Get frontend version
         uses: avides/actions-project-version-check@v1.4.0
         id: frontend_version
@@ -32,6 +33,21 @@ jobs:
         with:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           VERSION: ${{ steps.frontend_version.outputs.version }}
+=======
+      #      - name: Get frontend version
+      #        uses: avides/actions-project-version-check@v1.4.0
+      #        id: frontend_version
+      #        with:
+      #          token: ${{ secrets.GITHUB_TOKEN }}
+      #          file-to-check: frontend/package.json
+      #          only-return-version: true
+      #
+      #      - name: Upload Frontend sourcemaps
+      #        uses: ./.github/actions/upload-sourcemaps
+      #        with:
+      #          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      #          VERSION: ${{ steps.frontend_version.outputs.version }}
+>>>>>>> 7d9815f (initial commit)
 
       - uses: yesolutions/mirror-action@master
         with:
