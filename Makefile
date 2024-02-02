@@ -2,7 +2,7 @@
 #########################
 # FRONTEND
 #########################
-#########################
+
 FRONTEND_DIR := frontend
 
 .PHONY: front-install front-start front-build front-test front-coverage front-lint front-visualize-bundle front-sourcemap
@@ -34,15 +34,12 @@ front-sourcemap:
 front-visualize-bundle:
 	cd $(FRONTEND_DIR) && npx vite-bundle-visualizer
 
-
-#########################
 # END FRONTEND
 #########################
 
 
 #########################
 # BACKEND
-#########################
 #########################
 BACKEND_DIR := backend
 BACKEND_CONFIGURATION_FOLDER=$(shell pwd)/infra/configurations/backend/
@@ -70,45 +67,36 @@ back-start-local:
 back-clean-archi:
 	cd $(BACKEND_DIR)/tools && ./check-clean-architecture.sh
 
-
-#########################
 # END BACKEND
 #########################
 
 
+#########################
+# DOCKER
+#########################
 
-#########################
-# MAINTENANCE
-#########################
-#########################
-.PHONY: docker-prune logs-backend
+INFRA_DIR := infra
+
+.PHONY: docker-prune docker-logs-backend
 
 docker-prune:
 	docker image prune -a
-logs-backend:
-	docker container logs -f rapportnav_backend
+docker-logs-backend:
+	docker container logs -f backend
 
 
-#########################
-# END MAINTENANCE
-#########################
+.PHONY: docker-build-back docker-build-front docker-run-local
 
+docker-build-back:
+	cd $(INFRA_DIR) && docker compose -f docker-compose.local.yml build backend
 
-
-
-.PHONY: docker-build-app
-
-docker-build-app:
-	docker buildx build -f infra/docker/app/Dockerfile .  \
-		-t rapportnav-app:$(VERSION) \
-		-t rapportnav-app:latest \
-		--load \
-		--build-arg VERSION=$(VERSION) \
-		--build-arg ENV_PROFILE=$(ENV_PROFILE) \
-		--build-arg GITHUB_SHA=$(GITHUB_SHA)
-
+docker-build-front:
+	cd $(INFRA_DIR) && docker compose -f docker-compose.local.yml build frontend
 
 docker-run-local:
-	docker-compose -f ./infra/docker-compose.dev.yml up
+	cd $(INFRA_DIR) && docker compose -f docker-compose.local.yml up -d
+
+# END DOCKER
+#########################
 
 

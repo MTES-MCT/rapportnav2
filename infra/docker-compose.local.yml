@@ -1,19 +1,29 @@
-version: "3"
+version: '3.8'
+
 services:
-  app:
+  backend:
     build:
-      context: .
-      dockerfile: infra/docker/app/DockerfileLocalBack
-      target: build-all
+      context: ..
+      dockerfile: docker/app/DockerfileLocalBack
     ports:
       - "80:80"
-    volumes:
-      - ./frontend:/tmp/frontend
     depends_on:
       - db
-      - metabase
-    # networks:
-    #   - backend-network
+    volumes:
+      - ../backend:/tmp/backend
+      - ./infra/configurations/backend:/tmp/backend/configurations
+    environment:
+      - VERSION=1.0.3
+      - ENV_PROFILE=local
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: docker/app/DockerfileLocalFront
+    ports:
+      - "5173:5173"
+    volumes:
+      - ../frontend:/tmp/frontend
 
   db:
     image: postgres:15.6-alpine
@@ -24,14 +34,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
-      - db_data:/var/lib/postgresql/data
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-      interval: 1s
-      timeout: 1s
-      retries: 30
-    # networks:
-    #   - backend-network
+      - db:/var/lib/postgresql/data
 
   metabase:
     image: metabase/metabase:latest
@@ -52,17 +55,8 @@ services:
     restart: always
     depends_on:
       - db
-  # networks:
-  #   - backend-network
-
-# networks:
-#   backend-network:
-#     external: false
-#     name: backend-network
-#   default:
-#     driver: bridge
 
 volumes:
-  db_data:
-    name: db
+  db:
+    name: rapportnavdb
   metabase_data:

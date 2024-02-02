@@ -43,6 +43,7 @@ dependencyManagement {
 }
 
 dependencies {
+  runtimeOnly("org.springframework.boot:spring-boot-devtools:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-data-rest:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
