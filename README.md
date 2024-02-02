@@ -43,14 +43,10 @@ Before trying to run the project, make sure you have:
 
 ### Running the project
 
-From the root dir, the following commands are available:
+The app is fully dockerized for local development. Run the command `make docker-run-local`
 
-- backend
-  - install dependencies: make back-clean-install
-  - run local backend: make back-start-dev (http://localhost:80/)
-- frontend
-  - install dependencies: make front-install
-  - run local frontend: make front-start (http://localhost:5173/)
+- frontend is available at http://localhost:5173/
+- backend is available at http://localhost:80/
 
 ## Security and Vulnerabilities analysis
 
@@ -87,3 +83,4 @@ two repos before deploying_:
 - check the running `release` Action
 - check the
   pipeline [here](https://gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2/-/pipelines)
+
