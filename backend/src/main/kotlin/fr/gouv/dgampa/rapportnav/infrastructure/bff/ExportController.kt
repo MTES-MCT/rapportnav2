@@ -19,7 +19,7 @@ class ExportController(
             exportMission.exportOdt(missionId)
         }
         catch (e: Exception) {
-            logger.error("MissionController - failed to load mission from RapportNav 1", e)
+            logger.error("MissionController - failed to load missions from MonitorEnv", e)
             throw Exception(e)
         }
     }
