@@ -11,4 +11,5 @@ data class NavActionEntity(
     val actionType: ActionType,
     val controlAction: ActionControlEntity? = null,
     val statusAction: ActionStatusEntity? = null,
+    val freeNoteAction: ActionFreeNoteEntity? = null
 )

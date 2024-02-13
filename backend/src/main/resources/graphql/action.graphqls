@@ -1,11 +1,15 @@
 extend type Query {
   actionById(id: ID!, missionId: ID!, source: MissionSource!, type: ActionType!): Action
+  freeNotesByMissionId(missionId: Int!): [NavActionFreeNote]
 }
 extend type Mutation {
   addOrUpdateStatus(statusAction: ActionStatusInput!): NavActionStatus!
   deleteStatus(id: String!): Boolean!
   addOrUpdateControl(controlAction: ActionControlInput!): NavActionControl!
   deleteControl(id: String!): Boolean!
+  addOrUpdateFreeNote(freeNoteAction: ActionFreeNoteInput!): NavActionFreeNote
+  deleteFreeNote(id: String!): Boolean
+
 }
 
 type Action {
@@ -43,6 +47,14 @@ input ActionControlInput {
   observations: String
 }
 
+input ActionFreeNoteInput {
+  id: String
+  missionId: Int!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String!
+  observations: String!
+}
+
 enum MissionSource {
   MONITORENV
   MONITORFISH
@@ -63,6 +75,13 @@ type NavActionStatus {
   status: ActionStatusType!
   reason: ActionStatusReason
   observations: String
+}
+
+type NavActionFreeNote {
+  id: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String!
+  observations: String!
 }
 
 enum ActionStatusType {

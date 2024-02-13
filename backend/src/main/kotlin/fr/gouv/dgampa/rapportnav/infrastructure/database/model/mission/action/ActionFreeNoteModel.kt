@@ -1,0 +1,52 @@
+package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
+
+import com.fasterxml.jackson.databind.ObjectMapper
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionFreeNoteEntity
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.Table
+import java.time.ZonedDateTime
+import java.util.*
+
+@Entity
+@Table(name = "mission_action_free_note")
+class ActionFreeNoteModel(
+    @Id
+    @Column(name = "id")
+    var id: UUID,
+
+    @Column(name = "mission_id", nullable = false)
+    var missionId: Int,
+
+    @Column(name = "start_datetime_utc", nullable = false)
+    var startDateTimeUtc: ZonedDateTime,
+
+    @Column(name = "end_datetime_utc", nullable = false)
+    var endDateTimeUtc: ZonedDateTime,
+
+    @Column(name = "observations", nullable = false, columnDefinition = "LONGTEXT")
+    var observations: String,
+)
+{
+
+    fun toActionFreeNoteEntity(): ActionFreeNoteEntity {
+        return ActionFreeNoteEntity(
+            id = id,
+            missionId = missionId,
+            startDateTimeUtc = startDateTimeUtc,
+            endDateTimeUtc = endDateTimeUtc,
+            observations = observations
+        )
+    }
+
+    companion object {
+        fun fromActionFreeNote(freeNoteAction: ActionFreeNoteEntity, mapper: ObjectMapper) = ActionFreeNoteModel(
+            id = freeNoteAction.id,
+            missionId = freeNoteAction.missionId,
+            startDateTimeUtc = freeNoteAction.startDateTimeUtc,
+            endDateTimeUtc = freeNoteAction.endDateTimeUtc,
+            observations = freeNoteAction.observations
+        )
+    }
+}

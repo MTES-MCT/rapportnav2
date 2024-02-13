@@ -126,3 +126,11 @@ data class NavActionControl(
     val controlNavigation: ControlNavigation? = null,
     val controlSecurity: ControlSecurity? = null
 ) : ActionData()
+
+data class NavActionFreeNote(
+    val id: UUID,
+    val missionId: Int,
+    val startDateTimeUtc: ZonedDateTime,
+    val endDateTimeUtc: ZonedDateTime?,
+    val observations: String
+) : ActionData()
