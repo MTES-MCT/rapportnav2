@@ -43,20 +43,20 @@ variables:
     description: "Niveau de la criticité limite de l'analyse Dependency-Check"
 
 include:
-  # - "/jobs-build-CI/build_projet_gradle.yml"
-  # - "/jobs-build-CI/build_projet_npm.yml"
-  # - "/jobs-build-CI/construction_image.yml"
-  # - project: 'num3-exploitation/deploiement-continu/sources-ci'
-  #   ref: main
-  #   file: '/jobs/analyse_trivy.yml'
+  - "/jobs-build-CI/build_projet_gradle.yml"
+  - "/jobs-build-CI/build_projet_npm.yml"
+  - "/jobs-build-CI/construction_image.yml"
+  - project: 'num3-exploitation/deploiement-continu/sources-ci'
+    ref: main
+    file: '/jobs/analyse_trivy.yml'
   - project: 'num3-exploitation/deploiement-continu/sources-ci'
     ref: main
     file: '/jobs/analyse_sonar.yml'
-  # - "/jobs-build-CI/analyse_dependency-check.yml"
-  # - project: 'num3-exploitation/deploiement-continu/sources-ci'
-  #   ref: main
-  #   file: '/jobs/deploiement_image_int.yml'
-  # - project: 'num3-exploitation/deploiement-continu/sources-ci'
-  #   ref: main
-  #   file: '/jobs/deploiement_image_prod.yml'
+  - "/jobs-build-CI/analyse_dependency-check.yml"
+  - project: 'num3-exploitation/deploiement-continu/sources-ci'
+    ref: main
+    file: '/jobs/deploiement_image_int.yml'
+  - project: 'num3-exploitation/deploiement-continu/sources-ci'
+    ref: main
+    file: '/jobs/deploiement_image_prod.yml'
 
