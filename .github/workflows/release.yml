@@ -35,7 +35,6 @@ jobs:
 
       - uses: yesolutions/mirror-action@master
         with:
-          #          REMOTE: https://gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2.git
           REMOTE: https://gitlab-sml.din.developpement-durable.gouv.fr/rapportnav-v2/rapportnav_v2.git
           GIT_USERNAME: ${{ github.actor }}
           GIT_PASSWORD: ${{ secrets.GITLAB_MIRROR_TOKEN }}
