@@ -5,8 +5,8 @@ construction_image:
       - $IMAGE_CHECKSUM
   image: docker:20.10.5
   variables:
-    HTTP_PROXY: "http://172.27.229.197:8090"
-    HTTPS_PROXY: "http://172.27.229.197:8090"
+    HTTP_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
+    HTTPS_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
     NO_PROXY: "docker,dockerhost,gitlab-sml.din.developpement-durable.gouv.fr,int-docker01,localhost,127.0.0.1,0.0.0.0,.dsi.damgm.i2"
     GIT_STRATEGY: fetch
     GIT_CLEAN_FLAGS: none
@@ -21,7 +21,7 @@ construction_image:
     # TODO à adapter en fonction du projet
     - docker build -f infra/docker/app/Dockerfile .
       -t $TAG_VERSION
-      -t $TAG_LATEST
+      -t $NEXUS_DOCKER_REPO/$PROJECT_NAME:Int
       --build-arg VERSION=$PROJECT_VERSION
       --build-arg ENV_PROFILE="prod"
       --build-arg GITHUB_SHA=$CI_COMMIT_SHA

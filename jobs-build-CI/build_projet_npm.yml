@@ -3,8 +3,8 @@ build_projet_npm:
   stage: build
   image: node:20
   variables:
-    HTTP_PROXY: "http://172.27.229.197:8090"
-    HTTPS_PROXY: "http://172.27.229.197:8090"
+    HTTP_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
+    HTTPS_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
     NO_PROXY: "gitlab-sml.din.developpement-durable.gouv.fr,localhost,127.0.0.1,0.0.0.0,.dsi.damgm.i2"
   script:
     - cd frontend

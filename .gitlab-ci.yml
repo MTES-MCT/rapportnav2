@@ -1,6 +1,5 @@
 stages:
   - build
-  - pre-analyze
   - analyze
   - pre-deploy-int
   - deploy-int
@@ -24,25 +23,40 @@ variables:
   SERVER_ENV_PROD:
     value: "prod-rapportnav-appli01"
     description: "Serveur cible de production"
-  TAG_LATEST: $NEXUS_DOCKER_REPO/$PROJECT_NAME:latest
+  PROXY_HOST: "172.27.229.197"
+  PROXY_PORT: "8090"
   TAG_VERSION: $NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION
-  FAIL_SONAR_CONDITION:
-    value: "-Dsonar.qualitygate.wait=true"
-    description: "Détermine la commande à passer au scanner Sonar pour bloquer ou non le job. -Dsonar.qualitygate.wait=true fait échouer le job si le quality gate Sonar n'est pas conforme."
+
+  #Anlayse Trivy
   FAIL_TRIVY_CONDITION:
     value: "--severity CRITICAL"
     description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
+
+  #Analyse Sonar
+  FAIL_SONAR_CONDITION:
+    value: "-Dsonar.qualitygate.wait=true"
+    description: "Détermine la commande à passer au scanner Sonar pour bloquer ou non le job. -Dsonar.qualitygate.wait=true fait échouer le job si le quality gate Sonar n'est pas conforme."
+
+  #Analyse Dependency-check
   FAIL_DP_CHECK_LVL:
     value: "8"
     description: "Niveau de la criticité limite de l'analyse Dependency-Check"
 
 include:
-  - "/ci/jobs/verif_image_checksum.yml"
-  - "/ci/jobs/build_projet_gradle.yml"
-  - "/ci/jobs/build_projet_npm.yml"
-  - "/ci/jobs/construction_image.yml"
-  - "/ci/jobs/dependency-check.yml"
-  - "/ci/jobs/analyse_sonar.yml"
-  - "/ci/jobs/analyse_trivy.yml"
-  - "/ci/jobs/deploiement_image_int.yml"
-  - "/ci/jobs/deploiement_image_prod.yml"
+  # - "/jobs-build-CI/build_projet_gradle.yml"
+  # - "/jobs-build-CI/build_projet_npm.yml"
+  # - "/jobs-build-CI/construction_image.yml"
+  # - project: 'num3-exploitation/deploiement-continu/sources-ci'
+  #   ref: main
+  #   file: '/jobs/analyse_trivy.yml'
+  - project: 'num3-exploitation/deploiement-continu/sources-ci'
+    ref: main
+    file: '/jobs/analyse_sonar.yml'
+  # - "/jobs-build-CI/analyse_dependency-check.yml"
+  # - project: 'num3-exploitation/deploiement-continu/sources-ci'
+  #   ref: main
+  #   file: '/jobs/deploiement_image_int.yml'
+  # - project: 'num3-exploitation/deploiement-continu/sources-ci'
+  #   ref: main
+  #   file: '/jobs/deploiement_image_prod.yml'
+

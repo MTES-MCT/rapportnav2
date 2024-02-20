@@ -1,6 +1,0 @@
-- hosts: "{{ inventory_hostname }}"
-  roles:
-    - stop_docker_containers
-    - install_docker_image
-    - start_docker_containers
-    - clean_docker_images

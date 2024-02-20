@@ -1,5 +1,0 @@
----
-
-# Suppression images obsolètes
-- name: "Remove old images"
-  command: docker image prune -a -f

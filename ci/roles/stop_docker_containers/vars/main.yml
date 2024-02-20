@@ -1,3 +1,0 @@
----
-project_name: "{{ lookup('env', 'PROJECT_NAME') }}"
-docker_compose_path: "/opt/dockers/{{ project_name }}"

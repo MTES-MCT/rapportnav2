@@ -1,7 +1,0 @@
----
-project_name: "{{ lookup('env', 'PROJECT_NAME') }}"
-docker_image_path: "{{ lookup('env', 'TAG_VERSION') }}"
-docker_compose_path: "/opt/dockers/{{ project_name }}"
-project_ports: "{{ lookup('env', 'PROJECT_PORTS') }}"
-project_volumes: "{{ lookup('env', 'PROJECT_VOLUMES') }}"
-image_bdd: "{{ lookup('env', 'BDD_IAMGE') }}"

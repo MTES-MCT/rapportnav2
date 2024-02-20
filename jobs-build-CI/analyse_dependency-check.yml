@@ -1,0 +1,23 @@
+dependency_check:
+  stage: analyze
+  image:
+    name: owasp/dependency-check:8.4.2
+    entrypoint: [ "" ]
+  variables:
+    HTTP_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
+    HTTPS_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
+    NO_PROXY: "gitlab-sml.din.developpement-durable.gouv.fr,localhost,127.0.0.1,0.0.0.0,.dsi.damgm.i2"
+  script:
+    - /usr/share/dependency-check/bin/dependency-check.sh --scan frontend/ --project "${PROJECT_NAME} ${PROJECT_VERSION}" --failOnCVSS $FAIL_DP_CHECK_LVL --proxyserver $PROXY_HOST --proxyport $PROXY_PORT --data /usr/share/dependency-check/data --out $PROJECT_NAME-$PROJECT_VERSION-frontend-DP-check.html
+    - /usr/share/dependency-check/bin/dependency-check.sh --scan backend/build/libs/rapportnav-${PROJECT_VERSION}.jar --project "${PROJECT_NAME} ${PROJECT_VERSION}" --failOnCVSS $FAIL_DP_CHECK_LVL --proxyserver $PROXY_HOST --proxyport $PROXY_PORT --data /usr/share/dependency-check/data --out $PROJECT_NAME-$PROJECT_VERSION-backend-DP-check.html
+  tags:
+    - analyze
+  artifacts:
+    when: on_success
+    paths:
+      - $PROJECT_NAME-$PROJECT_VERSION-frontend-DP-check.html
+      - $PROJECT_NAME-$PROJECT_VERSION-backend-DP-check.html
+  needs:
+    - job: build_projet_gradle
+    - job: build_projet_npm
+      artifacts: true
