@@ -32,7 +32,7 @@ jobs:
       #        with:
       #          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       #          VERSION: ${{ steps.frontend_version.outputs.version }}
-
+      #test
       - uses: yesolutions/mirror-action@master
         with:
           REMOTE: https://gitlab-sml.din.developpement-durable.gouv.fr/rapportnav-v2/rapportnav_v2.git
