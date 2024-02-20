@@ -26,7 +26,6 @@ export type ActionStatus = {
   id: string
   status: ActionStatusType
   startDateTimeUtc: string
-  isStart: boolean
   reason?: ActionStatusReason
   observations?: string
 }

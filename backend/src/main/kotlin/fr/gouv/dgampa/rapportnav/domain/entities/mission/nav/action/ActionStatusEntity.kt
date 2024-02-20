@@ -12,7 +12,6 @@ data class ActionStatusEntity(
     val startDateTimeUtc: ZonedDateTime,
     val status: ActionStatusType,
     val reason: ActionStatusReason? = null,
-    val isStart: Boolean,
     val observations: String? = null,
 ) {
     fun toNavAction(): NavActionEntity {
@@ -33,9 +32,7 @@ data class ActionStatusEntity(
             startDateTimeUtc = startDateTimeUtc,
             status = status,
             reason = reason,
-            isStart = isStart,
             observations = observations,
-
-            )
+        )
     }
 }

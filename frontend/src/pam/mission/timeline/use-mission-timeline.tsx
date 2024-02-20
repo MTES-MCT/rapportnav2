@@ -39,7 +39,6 @@ export const GET_MISSION_TIMELINE = gql`
             startDateTimeUtc
             status
             reason
-            isStart
             observations
           }
           ... on NavActionControl {

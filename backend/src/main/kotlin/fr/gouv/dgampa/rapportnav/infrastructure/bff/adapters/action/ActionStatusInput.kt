@@ -14,7 +14,6 @@ data class ActionStatusInput(
     val startDateTimeUtc: String?,
     val status: ActionStatusType,
     val reason: ActionStatusReason?,
-    val isStart: Boolean,
     val observations: String?
 ) {
     fun toActionStatus(): ActionStatusEntity {
@@ -26,7 +25,6 @@ data class ActionStatusInput(
             } ?: ZonedDateTime.now(ZoneId.of("UTC")),
             status = status,
             reason = reason,
-            isStart = isStart,
             observations = observations
         )
     }
