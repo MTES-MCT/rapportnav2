@@ -8,16 +8,14 @@ data class ActionFreeNoteEntity(
     val id: UUID,
     val missionId: Int,
     val startDateTimeUtc: ZonedDateTime,
-    val endDateTimeUtc: ZonedDateTime,
-    val observations: String
-)
-{
+    val observations: String? = null
+) {
     fun toNavAction(): NavActionEntity {
         return NavActionEntity(
             id = id,
             missionId = missionId,
             startDateTimeUtc = startDateTimeUtc,
-            endDateTimeUtc = endDateTimeUtc,
+            endDateTimeUtc = null,
             actionType = ActionType.NOTE,
             freeNoteAction = this
         )
@@ -28,8 +26,7 @@ data class ActionFreeNoteEntity(
             id = id,
             missionId = missionId,
             startDateTimeUtc = startDateTimeUtc,
-            endDateTimeUtc = endDateTimeUtc,
             observations = observations
-            )
+        )
     }
 }

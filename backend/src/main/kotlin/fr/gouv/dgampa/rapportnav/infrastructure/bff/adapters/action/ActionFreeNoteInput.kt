@@ -10,18 +10,14 @@ class ActionFreeNoteInput(
     val id: UUID? = null,
     val missionId: Int,
     val startDateTimeUtc: String,
-    val endDateTimeUtc: String,
-    val observations: String
+    val observations: String? = null
 
 ) {
     fun toActionFreeNoteEntity(): ActionFreeNoteEntity {
         return ActionFreeNoteEntity(
-            id = UUID.randomUUID(),
+            id = id ?: UUID.randomUUID(),
             missionId = missionId,
             startDateTimeUtc = startDateTimeUtc.let {
-                ZonedDateTime.parse(it, DateTimeFormatter.ISO_ZONED_DATE_TIME)
-            } ?: ZonedDateTime.now(ZoneId.of("UTC")),
-            endDateTimeUtc = endDateTimeUtc.let {
                 ZonedDateTime.parse(it, DateTimeFormatter.ISO_ZONED_DATE_TIME)
             } ?: ZonedDateTime.now(ZoneId.of("UTC")),
             observations = observations

@@ -1,12 +1,11 @@
 import { render, screen } from '../../../test-utils'
 import { ActionTypeEnum, MissionSourceEnum } from "../../../types/env-mission-types.ts";
-import ActionStatusForm from "./action-status-form.tsx";
-import { Action, ActionControl, ActionStatusType } from "../../../types/action-types.ts";
-import { ControlMethod } from "../../../types/control-types.ts";
+import { Action, ActionFreeNote, ActionStatusType } from "../../../types/action-types.ts";
 import { vi } from 'vitest';
 import useActionById from "./use-action-by-id.tsx";
 import { GraphQLError } from "graphql/error";
 import { fireEvent } from "../../../test-utils.tsx";
+import ActionNoteForm from "./action-note-form.tsx";
 
 const mutateMock = vi.fn()
 const deleteMock = vi.fn()
@@ -18,11 +17,11 @@ vi.mock("./use-action-by-id.tsx", async (importOriginal) => {
     }
 })
 
-vi.mock("../status/use-add-update-status.tsx", () => ({
+vi.mock("../notes/use-add-update-note.tsx", () => ({
     default: () => [mutateMock],
 }));
 
-vi.mock("../status/use-delete-status.tsx", () => ({
+vi.mock("../notes/use-delete-note.tsx", () => ({
     default: () => [deleteMock],
 }));
 
@@ -38,12 +37,9 @@ const actionMock = {
     summaryTags: undefined,
     controlsToComplete: undefined,
     data: {
-        controlMethod: ControlMethod.AIR,
-        latitude: 123,
-        longitude: 123,
         startDateTimeUtc: '2022-01-01T00:00:00Z',
-        endDateTimeUtc: '2022-01-01T01:00:00Z',
-    } as any as ActionControl
+        observations: 'test'
+    } as any as ActionFreeNote
 }
 
 
@@ -55,30 +51,30 @@ const mockedQueryResult = (action: Action = actionMock as any, loading: boolean 
 })
 
 
-describe('ActionStatusForm', () => {
+describe('ActionNoteForm', () => {
 
     describe('Testing rendering according to Query result', () => {
         test('renders loading state', async () => {
             ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, true))
-            render(<ActionStatusForm action={actionMock}/>);
+            render(<ActionNoteForm action={actionMock}/>);
             expect(screen.getByText('Chargement...')).toBeInTheDocument()
         });
 
         test('renders error state', async () => {
             ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false, new GraphQLError("Error!")))
-            render(<ActionStatusForm action={actionMock}/>);
+            render(<ActionNoteForm action={actionMock}/>);
             expect(screen.getByText('error')).toBeInTheDocument()
         });
 
         test('renders data', async () => {
             ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
-            render(<ActionStatusForm action={actionMock}/>);
+            render(<ActionNoteForm action={actionMock}/>);
             expect(screen.getByText('Dupliquer')).toBeInTheDocument()
         });
         test('renders null when none above', async () => {
             ;(useActionById as any).mockReturnValue({...mockedQueryResult(undefined, false), data: null})
-            render(<ActionStatusForm action={actionMock}/>);
-            expect(screen.queryByTestId('action-status-form')).not.toBeInTheDocument();
+            render(<ActionNoteForm action={actionMock}/>);
+            expect(screen.queryByTestId('action-note-form')).not.toBeInTheDocument();
         });
     })
 
@@ -89,7 +85,7 @@ describe('ActionStatusForm', () => {
         it('should be called when changing observations', async () => {
             ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
 
-            render(<ActionStatusForm action={actionMock}/>);
+            render(<ActionNoteForm action={actionMock}/>);
 
             const field = screen.getByTestId('observations')
             const value = 'test'
@@ -98,13 +94,9 @@ describe('ActionStatusForm', () => {
 
             expect(mutateMock).toHaveBeenCalledWith({
                 "variables": {
-                    "statusAction": {
+                    "freeNoteAction": {
                         // actionId and missionId are undefined because useParam is not setup in the test run
                         "missionId": undefined,
-                        "controlMethod": "AIR",
-                        "endDateTimeUtc": "2022-01-01T01:00:00Z",
-                        "latitude": 123,
-                        "longitude": 123,
                         "startDateTimeUtc": "2022-01-01T00:00:00Z",
                         "observations": value,
                     },
@@ -116,7 +108,7 @@ describe('ActionStatusForm', () => {
     describe('The delete mutation', () => {
         it('should be called when changing clicking on the delete button', async () => {
             ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
-            render(<ActionStatusForm action={actionMock}/>);
+            render(<ActionNoteForm action={actionMock}/>);
             const button = screen.getByTestId('deleteButton')
             fireEvent.click(button)
             expect(deleteMock).toHaveBeenCalled()

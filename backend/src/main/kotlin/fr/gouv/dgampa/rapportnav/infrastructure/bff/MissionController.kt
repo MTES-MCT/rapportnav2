@@ -76,7 +76,6 @@ class MissionController(
             return Mission.fromMissionEntity(fakeMission)
         } else {
             val envMission = getEnvMissionById.execute(missionId = missionId) ?: return null
-
             val fishMissionActions = getFishActionsByMissionId.execute(missionId = missionId)
             val navMission = getNavMissionById.execute(missionId = missionId)
 

@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '../../../test-utils'
 import '@testing-library/jest-dom';
 import ControlSelection from './control-selection.tsx';
-import { VesselTypeEnum, ControlTarget } from '../../../types/mission-types';
+import { VesselTypeEnum } from '../../../types/mission-types';
 import { missionTypeEnum } from '../../../types/env-mission-types';
 
 describe('ControlSelection', () => {

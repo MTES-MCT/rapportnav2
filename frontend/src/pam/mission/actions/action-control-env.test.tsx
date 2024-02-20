@@ -11,7 +11,6 @@ import useActionById from "./use-action-by-id.tsx";
 import { GraphQLError } from "graphql/error";
 import ActionControlNav from "./action-control-nav.tsx";
 
-const useActionByIdMock = vi.fn();
 vi.mock("./use-action-by-id.tsx", async (importOriginal) => {
     const actual = await importOriginal()
     return {

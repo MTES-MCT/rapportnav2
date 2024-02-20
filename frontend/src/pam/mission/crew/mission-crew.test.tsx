@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '../../../test-utils'
-import { Agent, AgentRole, MissionCrew as MissionCrewType, Service } from '../../../types/crew-types'
+import { MissionCrew as MissionCrewType } from '../../../types/crew-types'
 import MissionCrew from "./mission-crew.tsx";
 import { vi } from 'vitest';
 import useMissionCrew from "./use-mission-crew.tsx";

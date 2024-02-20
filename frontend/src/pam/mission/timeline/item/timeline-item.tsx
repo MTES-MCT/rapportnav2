@@ -1,14 +1,15 @@
 import React from 'react'
 import { THEME } from '@mtes-mct/monitor-ui'
 import { ActionTypeEnum, MissionSourceEnum } from '../../../../types/env-mission-types.ts'
-import { FlexboxGrid, Stack } from 'rsuite'
+import { FlexboxGrid } from 'rsuite'
 import { Action } from '../../../../types/action-types.ts'
 import ActionEnvControl from "./timeline-item-control-env.tsx";
 import ActionFishControl from "./timeline-item-control-fish.tsx";
 import ActionNavControl from "./timeline-item-control-nav.tsx";
 import ActionStatus from "./timeline-item-status.tsx";
+import ActionNote from "./timeline-item-note.tsx";
 
-interface MissionTimelineItemProps {
+export interface MissionTimelineItemProps {
     action: Action
     onClick: (action: Action) => void
 }
@@ -54,6 +55,8 @@ const getActionComponent = (action: Action) => {
                 return ActionNavControl
             case ActionTypeEnum.STATUS:
                 return ActionStatus
+            case ActionTypeEnum.NOTE:
+                return ActionNote
             default:
                 return null
         }

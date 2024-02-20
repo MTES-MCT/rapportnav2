@@ -2,7 +2,6 @@ import { render, screen, fireEvent } from '../../../test-utils'
 import EnvInfractionTargetAddedByUnitForm from "./env-infraction-target-added-by-unit-form.tsx";
 import { ControlType } from "../../../types/control-types.ts";
 import { InfractionTypeEnum } from "../../../types/env-mission-types.ts";
-import { Infraction } from "../../../types/infraction-types.ts";
 
 const infractionMock = {
     id: '123',

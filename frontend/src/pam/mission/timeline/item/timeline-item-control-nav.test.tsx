@@ -1,11 +1,6 @@
 import { render, screen } from '../../../../test-utils.tsx'
 import { Action } from "@sentry/react/types/types";
-import {
-    ActionTargetTypeEnum,
-    ActionTypeEnum,
-    NavAction,
-    MissionSourceEnum
-} from "../../../../types/env-mission-types.ts";
+import { ActionTypeEnum, MissionSourceEnum } from "../../../../types/env-mission-types.ts";
 import { ActionControl, ActionStatusType } from "../../../../types/action-types.ts";
 import ActionNavControl from "./timeline-item-control-nav.tsx";
 import { ControlMethod } from "../../../../types/control-types.ts";

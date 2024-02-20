@@ -4,8 +4,6 @@ import EnvInfractionExistingTargets from "./env-infraction-existing-targets.tsx"
 import { vi } from 'vitest';
 import { Infraction, InfractionByTarget } from "../../../types/infraction-types.ts";
 import { ControlType } from "../../../types/control-types.ts";
-import EnvInfractionTargetAddedByUnitForm from "./env-infraction-target-added-by-unit-form.tsx";
-import { waitFor } from "@testing-library/react";
 
 const mutateMock = vi.fn()
 const deleteMock = vi.fn()

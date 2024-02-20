@@ -1,7 +1,6 @@
 import { render, screen } from '../../../../test-utils.tsx'
 import ActionContainer from "./timeline-item-container.tsx";
 import { ActionTypeEnum, MissionSourceEnum } from "../../../../types/env-mission-types.ts";
-import { ReactNode } from "react";
 
 const props = (actionType: ActionTypeEnum, actionSource: MissionSourceEnum) => ({
     actionType,

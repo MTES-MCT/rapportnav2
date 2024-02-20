@@ -41,7 +41,6 @@ class ActionController(
     private val fakeMissionData: FakeMissionData,
     private val addOrUpdateActionFreeNote: AddOrUpdateActionFreeNote,
     private val deleteActionFreeNote: DeleteActionFreeNote,
-    private val getNavActionFreeNoteByMissionId: GetNavActionsFreeNotesByMissionId
 ) {
 
     private val logger = LoggerFactory.getLogger(ActionController::class.java)
@@ -293,15 +292,11 @@ class ActionController(
         val data = freeNoteAction.toActionFreeNoteEntity()
         return addOrUpdateActionFreeNote.execute(data).toNavActionFreeNote()
     }
+
     @MutationMapping
     fun deleteFreeNote(@Argument id: UUID): Boolean {
         return deleteActionFreeNote.execute(id)
     }
-    @QueryMapping
-    fun freeNotesByMissionId(@Argument missionId: Int): List<NavActionFreeNote> {
-        val actionsFreeNote = getNavActionFreeNoteByMissionId.execute(missionId)
 
-        return actionsFreeNote.map { it.toNavActionFreeNote() }
-    }
 
 }

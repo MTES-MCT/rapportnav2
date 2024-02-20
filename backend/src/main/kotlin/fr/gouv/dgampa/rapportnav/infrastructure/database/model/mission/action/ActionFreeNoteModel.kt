@@ -22,20 +22,15 @@ class ActionFreeNoteModel(
     @Column(name = "start_datetime_utc", nullable = false)
     var startDateTimeUtc: ZonedDateTime,
 
-    @Column(name = "end_datetime_utc", nullable = false)
-    var endDateTimeUtc: ZonedDateTime,
-
-    @Column(name = "observations", nullable = false, columnDefinition = "LONGTEXT")
-    var observations: String,
-)
-{
+    @Column(name = "observations", nullable = true, columnDefinition = "LONGTEXT")
+    var observations: String? = null,
+) {
 
     fun toActionFreeNoteEntity(): ActionFreeNoteEntity {
         return ActionFreeNoteEntity(
             id = id,
             missionId = missionId,
             startDateTimeUtc = startDateTimeUtc,
-            endDateTimeUtc = endDateTimeUtc,
             observations = observations
         )
     }
@@ -45,7 +40,6 @@ class ActionFreeNoteModel(
             id = freeNoteAction.id,
             missionId = freeNoteAction.missionId,
             startDateTimeUtc = freeNoteAction.startDateTimeUtc,
-            endDateTimeUtc = freeNoteAction.endDateTimeUtc,
             observations = freeNoteAction.observations
         )
     }
