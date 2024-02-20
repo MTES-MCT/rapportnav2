@@ -1,7 +1,0 @@
-extend type Query {
-  export(missionId: ID): Void
-}
-
-enum Void {
-    NO_RESULT
-}
