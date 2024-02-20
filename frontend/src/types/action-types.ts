@@ -19,7 +19,7 @@ export type Action = {
   endDateTimeUtc?: string
   summaryTags?: string[]
   controlsToComplete?: ControlType[]
-  data: [EnvAction | FishAction | ActionStatus | ActionControl]
+  data: [EnvAction | FishAction | ActionStatus | ActionControl | ActionFreeNote]
 }
 
 export type ActionStatus = {
@@ -71,3 +71,10 @@ export enum ActionStatusReason {
 }
 
 
+export type ActionFreeNote = {
+  id: string
+  status: ActionStatusType
+  startDateTimeUtc: string
+  isStart: boolean
+  observations?: string
+}

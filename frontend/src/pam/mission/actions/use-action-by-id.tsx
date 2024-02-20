@@ -203,6 +203,12 @@ export const GET_ACTION_BY_ID = gql`
           reason
           observations
         }
+        ... on NavActionFreeNote {
+          id
+          startDateTimeUtc
+          status
+          observations
+        }
         ... on NavActionControl {
           id
           latitude

@@ -7,73 +7,76 @@ import ActionEnvControl from "./timeline-item-control-env.tsx";
 import ActionFishControl from "./timeline-item-control-fish.tsx";
 import ActionNavControl from "./timeline-item-control-nav.tsx";
 import ActionStatus from "./timeline-item-status.tsx";
+import ActionNote from "./timeline-item-note.tsx";
 
-interface MissionTimelineItemProps {
-    action: Action
-    onClick: (action: Action) => void
+export interface MissionTimelineItemProps {
+  action: Action
+  onClick: (action: Action) => void
 }
 
 export const TimelineItemWrapper: React.FC<{
-    onClick: any;
-    children: any;
-    borderWhenSelected?: boolean
+  onClick: any;
+  children: any;
+  borderWhenSelected?: boolean
 }> = ({
-          onClick,
-          children,
-          borderWhenSelected = null
+        onClick,
+        children,
+        borderWhenSelected = null
       }) => {
-    return (
-        <div onClick={onClick}>
-            <FlexboxGrid
-                style={{
-                    width: '100%',
-                    border: !!borderWhenSelected ? `3px solid ${THEME.color.blueGray}` : 'none',
-                    cursor: 'pointer'
-                }}
-                justify="start"
-            >
-                {children}
-            </FlexboxGrid>
-        </div>
-    )
+  return (
+    <div onClick={onClick}>
+      <FlexboxGrid
+        style={{
+          width: '100%',
+          border: !!borderWhenSelected ? `3px solid ${THEME.color.blueGray}` : 'none',
+          cursor: 'pointer'
+        }}
+        justify="start"
+      >
+        {children}
+      </FlexboxGrid>
+    </div>
+  )
 }
 
 
 const getActionComponent = (action: Action) => {
-    if (action.source === MissionSourceEnum.MONITORENV) {
-        if (action.type === ActionTypeEnum.CONTROL) {
-            return ActionEnvControl
-        }
-    } else if (action.source === MissionSourceEnum.MONITORFISH) {
-        if (action.type === ActionTypeEnum.CONTROL) {
-            return ActionFishControl
-        }
-    } else if (action.source === MissionSourceEnum.RAPPORTNAV) {
-        switch (action.type) {
-            case ActionTypeEnum.CONTROL:
-                return ActionNavControl
-            case ActionTypeEnum.STATUS:
-                return ActionStatus
-            default:
-                return null
-        }
+  if (action.source === MissionSourceEnum.MONITORENV) {
+    if (action.type === ActionTypeEnum.CONTROL) {
+      return ActionEnvControl
     }
-    return null
+  } else if (action.source === MissionSourceEnum.MONITORFISH) {
+    if (action.type === ActionTypeEnum.CONTROL) {
+      return ActionFishControl
+    }
+  } else if (action.source === MissionSourceEnum.RAPPORTNAV) {
+    switch (action.type) {
+      case ActionTypeEnum.CONTROL:
+        return ActionNavControl
+      case ActionTypeEnum.STATUS:
+        return ActionStatus
+      case ActionTypeEnum.NOTE:
+        return ActionNote
+      default:
+        return null
+    }
+  }
+  return null
 }
 
 const MissionTimelineItem: React.FC<MissionTimelineItemProps> = ({
-                                                                     action,
-                                                                     onClick
-                                                                     // componentMap = ActionComponentMap
+                                                                   action,
+                                                                   onClick
+                                                                   // componentMap = ActionComponentMap
                                                                  }) => {
-    const Component = getActionComponent(action)
-    // const Component = componentMap[action.actionType]
+  const Component = getActionComponent(action)
+  // const Component = componentMap[action.actionType]
 
-    if (!Component) {
-        return null
-    }
+  if (!Component) {
+    return null
+  }
 
-    return <Component action={action as any} onClick={onClick}/>
+  return <Component action={action as any} onClick={onClick}/>
 }
 
 export default MissionTimelineItem

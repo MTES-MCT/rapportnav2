@@ -16,6 +16,7 @@ import find from 'lodash/find'
 import { formatDateForServers, toLocalISOString } from "../../utils/dates.ts";
 import useAddOrUpdateControl from "./controls/use-add-update-control.tsx";
 import useAddOrUpdateStatus from "./status/use-add-update-status.tsx";
+import useAddOrUpdateNote from "./notes/use-add-update-note.tsx";
 
 export interface MissionProps {
   mission?: Mission
@@ -31,6 +32,7 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
 
   const [addStatus, {loading: addStatusLoading}] = useAddOrUpdateStatus()
   const [addControl] = useAddOrUpdateControl()
+  const [addFreeNote] = useAddOrUpdateNote()
 
   const selectedAction = useMemo(() => {
     if (actionId) {
@@ -40,12 +42,13 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
 
   const selectAction = (action: Action) => {
     navigate(`/pam/missions/${missionId}/${action.id}`)
-    // setSelectedAction(action)
   }
 
-  const addNewAction = (key: ActionTypeEnum) => {
+  const addNewAction = async (key: ActionTypeEnum) => {
     if (key === ActionTypeEnum.CONTROL) {
       setShowControlTypesModal(true)
+    } else if (key === ActionTypeEnum.NOTE) {
+      await addNewFreeNote()
     }
   }
 
@@ -65,7 +68,7 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
     })
 
     // TODO change this
-    navigate(`/pam/missions/${missionId}/${response.data.addOrUpdateStatus.id}`)
+    navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateStatus.id}`)
   }
 
   const addNewControl = async (controlMethod: string, vesselType: VesselTypeEnum) => {
@@ -80,7 +83,18 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
     }
 
     const response = await addControl({variables: {controlAction: newControl}})
-    navigate(`/pam/missions/${missionId}/${response.data.addOrUpdateControl.id}`)
+    navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateControl.id}`)
+  }
+  const addNewFreeNote = async () => {
+    setShowControlTypesModal(false)
+
+    const newNote = {
+      missionId: parseInt(missionId!, 10),
+      startDateTimeUtc: formatDateForServers(toLocalISOString())
+    }
+
+    const response = await addFreeNote({variables: {controlAction: newNote}})
+    navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateFreeNote.id}`)
   }
 
 
