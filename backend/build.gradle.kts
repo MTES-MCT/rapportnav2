@@ -54,7 +54,7 @@ dependencies {
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib")
-  runtimeOnly("org.postgresql:postgresql:42.7.0")
+  runtimeOnly("org.postgresql:postgresql:42.7.2")
   implementation("org.flywaydb:flyway-core:9.22.3")
   implementation("org.n52.jackson:jackson-datatype-jts:1.2.10") {
     exclude(group = "org.locationtech.jts", module = "jts-core")
