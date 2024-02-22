@@ -19,70 +19,107 @@ class ExportMission(
     private val agentsCrewByMissionId: GetAgentsCrewByMissionId,
     private val getEnvMissionById: GetEnvMissionById,
     private val getNavMissionById: GetNavMissionById,
-    private val getFishActionsByMissionId: GetFishActionsByMissionId
+    private val getFishActionsByMissionId: GetFishActionsByMissionId,
+    private val navActionStatus: INavActionStatusRepository
 )
 {
     private val logger = LoggerFactory.getLogger(ExportMission::class.java)
 
     fun exportOdt(missionId: Int) {
 
-        val generalInfo: MissionGeneralInfoEntity? = getMissionGeneralInfoByMissionId.execute(missionId)
-        val agentsCrew: List<MissionCrewEntity> = agentsCrewByMissionId.execute(missionId = missionId)
+        val mission: ExtendedEnvMissionEntity? = getEnvMissionById.execute(missionId = missionId)
 
-    /*    val envMission = getEnvMissionById.execute(missionId = missionId)
-        val fishMissionActions = getFishActionsByMissionId.execute(missionId = missionId)
-        val navMission = getNavMissionById.execute(missionId = missionId)
-
-        if (envMission === null) {
-            logger.error("MissionExport - failed to load mission from MonitorEnv")
-            return;
+        if (mission?.mission == null) {
+            return
         }
+        else {
+            val generalInfo: MissionGeneralInfoEntity? = getMissionGeneralInfoByMissionId.execute(missionId)
+            val agentsCrew: List<MissionCrewEntity> = agentsCrewByMissionId.execute(missionId = missionId)
+            val statuses = navActionStatus.findAllByMissionId(missionId = missionId).sortedBy { it.startDateTimeUtc }.map { it.toActionStatusEntity() }
 
-        val mission: Mission = Mission.fromMissionEntity(MissionEntity(envMission, navMission, fishMissionActions))*/
+            val missionStartDateTime = mission.mission.startDateTimeUtc
+            val missionEndDateTime = mission.mission.endDateTimeUtc
+            val seaPresence: MutableMap<String, Long> = mutableMapOf()
 
+            /*    val envMission = getEnvMissionById.execute(missionId = missionId)
+                val fishMissionActions = getFishActionsByMissionId.execute(missionId = missionId)
+                val navMission = getNavMissionById.execute(missionId = missionId)
 
-        val presenceMer = mapOf(
-            "navigationEffective" to 25,
-            "mouillage" to 201,
-            "total" to 226
-        )
+                if (envMission === null) {
+                    logger.error("MissionExport - failed to load mission from MonitorEnv")
+                    return;
+                }
 
-        val presenceQuai = mapOf(
-            "maintenance" to 40,
-            "meteo" to 5,
-            "representation" to 7,
-            "adminFormation" to 4,
-            "autre" to 8,
-            "contrPol" to 9,
-            "total" to 25
-        )
+                val mission: Mission = Mission.fromMissionEntity(MissionEntity(envMission, navMission, fishMissionActions))*/
 
-        val indisponibilite = mapOf(
-            "technique" to 25,
-            "personnel" to 201,
-            "total" to 78
-        )
+            statuses.mapIndexed { index, actionStatusEntity -> {
 
 
+                // 2. remplir tableau
+                var navigation: Long? = null;
+                var anchorage: Long? = null;
+                when (actionStatusEntity.status.name) {
+                    ActionStatusType.NAVIGATING.toString() -> navigation = hours
+                    ActionStatusType.ANCHORED.toString() -> anchorage = hours
+                    else -> null
+                }
+                var totalSeaPresence: Long? = navigation?.plus(anchorage ?: 0L)
 
-        if (generalInfo != null) {
-            exportRepository.exportOdt(
-                service = "pam-iris-a",
-                id = "NAMO-2024-4",
-                startDateTime = "2024-02-12T12:34:56",
-                endDateTime = "2024-02-12T12:34:56",
-                presenceMer = presenceMer,
-                presenceQuai = presenceQuai,
-                indisponibilite = indisponibilite,
-                nbJoursMer = 4,
-                dureeMission = 3,
-                patrouilleEnv = 2,
-                patrouilleMigrant = 4,
-                distanceMilles = generalInfo.distanceInNauticalMiles,
-                goMarine = generalInfo.consumedGOInLiters,
-                essence = generalInfo.consumedFuelInLiters,
-                crew = agentsCrew,
+
+
+
+            } }
+
+//            [
+//                {status: ActionStatusType.UNAVAILABLE, value: 123, reason: ActionStatusReason.ADMINISTRATION },
+//                {status: ActionStatusType.UNAVAILABLE, value: 123, reason: ActionStatusReason.METEO },
+//                  {status: ActionStatusType.ANCHORED, value: 123, },
+//            ]
+
+            val presenceMer = mapOf(
+                "navigationEffective" to VARIABLE.find({status = nagivation, reason = ...}),
+                "mouillage" to VARIABLE.find({status = ActionStatusType.ANCHORED}),
+                "total" to 226
             )
+
+            val presenceQuai = mapOf(
+                "maintenance" to 40,
+                "meteo" to 5,
+                "representation" to 7,
+                "adminFormation" to 4,
+                "autre" to 8,
+                "contrPol" to 9,
+                "total" to 25
+            )
+
+            val indisponibilite = mapOf(
+                "technique" to 25,
+                "personnel" to 201,
+                "total" to 78
+            )
+
+
+
+            if (generalInfo != null) {
+                exportRepository.exportOdt(
+                    service = "pam-iris-a",
+                    id = "NAMO-2024-4",
+                    startDateTime = "2024-02-12T12:34:56",
+                    endDateTime = "2024-02-12T12:34:56",
+                    presenceMer = presenceMer,
+                    presenceQuai = presenceQuai,
+                    indisponibilite = indisponibilite,
+                    nbJoursMer = 4,
+                    dureeMission = 3,
+                    patrouilleEnv = 2,
+                    patrouilleMigrant = 4,
+                    distanceMilles = generalInfo.distanceInNauticalMiles,
+                    goMarine = generalInfo.consumedGOInLiters,
+                    essence = generalInfo.consumedFuelInLiters,
+                    crew = agentsCrew,
+                )
+            }
         }
+
     }
 }
