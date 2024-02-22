@@ -5,10 +5,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEnt
 interface IRpnExportRepository {
 
     fun exportOdt(
-        service: String,
+        service: String?,
         id: String,
-        startDateTime: String,
-        endDateTime: String,
+        startDateTime: String?,
+        endDateTime: String?,
         presenceMer: Map<String, Int>,
         presenceQuai: Map<String, Int>,
         indisponibilite: Map<String, Int>,
@@ -16,9 +16,9 @@ interface IRpnExportRepository {
         dureeMission: Int,
         patrouilleEnv: Int,
         patrouilleMigrant: Int,
-        distanceMilles: Int,
-        goMarine: Int,
-        essence: Int,
+        distanceMilles: Float?,
+        goMarine: Float?,
+        essence: Float?,
         crew: List<MissionCrewEntity>
 
     )
