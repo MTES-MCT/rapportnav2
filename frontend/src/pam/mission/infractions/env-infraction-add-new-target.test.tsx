@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '../../../test-utils'
-import { InfractionTypeEnum, VesselTypeEnum } from "../../../types/env-mission-types.ts";
+import { InfractionTypeEnum } from "../../../types/env-mission-types.ts";
 import EnvInfractionAddNewTarget from "./env-infraction-add-new-target.tsx";
 import { vi } from 'vitest';
 import { Infraction } from "../../../types/infraction-types.ts";
@@ -11,22 +11,22 @@ vi.mock("./use-add-update-infraction-env.tsx", () => ({
     default: () => [mutateMock, {error: undefined}],
 }));
 
-const infractionMock = {
-    id: '123',
-    controlType: ControlType.ADMINISTRATIVE,
-    infractionType: InfractionTypeEnum.WITHOUT_REPORT,
-    natinfs: ['123'],
-    observations: undefined,
-    target: undefined
-}
-const infractionMockEnv = {
-    id: '456',
-    controlType: null,
-    infractionType: InfractionTypeEnum.WITHOUT_REPORT,
-    natinfs: ['123'],
-    observations: undefined,
-    target: undefined
-}
+// const infractionMock = {
+//     id: '123',
+//     controlType: ControlType.ADMINISTRATIVE,
+//     infractionType: InfractionTypeEnum.WITHOUT_REPORT,
+//     natinfs: ['123'],
+//     observations: undefined,
+//     target: undefined
+// }
+// const infractionMockEnv = {
+//     id: '456',
+//     controlType: null,
+//     infractionType: InfractionTypeEnum.WITHOUT_REPORT,
+//     natinfs: ['123'],
+//     observations: undefined,
+//     target: undefined
+// }
 
 const props = (infractions?: Infraction[]) => ({
     availableControlTypesForInfraction: [ControlType.ADMINISTRATIVE],

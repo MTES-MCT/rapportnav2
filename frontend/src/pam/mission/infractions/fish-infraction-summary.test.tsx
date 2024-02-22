@@ -1,7 +1,5 @@
-import { render, screen, fireEvent } from '../../../test-utils'
+import { render, screen } from '../../../test-utils'
 import FishInfractionSummary from "./fish-infraction-summary.tsx";
-import { ControlType } from "../../../types/control-types.ts";
-import { InfractionTypeEnum } from "../../../types/env-mission-types.ts";
 import {
     GearInfraction, InfractionType,
     LogbookInfraction,

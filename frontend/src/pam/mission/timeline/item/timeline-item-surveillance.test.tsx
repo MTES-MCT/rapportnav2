@@ -1,4 +1,4 @@
-import { render, screen } from '../../../../test-utils.tsx'
+import { render } from '../../../../test-utils.tsx'
 import ActionSurveillance from "./timeline-item-surveillance.tsx";
 
 

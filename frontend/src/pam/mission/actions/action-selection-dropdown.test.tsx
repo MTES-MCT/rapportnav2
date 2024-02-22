@@ -1,7 +1,5 @@
-import { render, screen, fireEvent } from '../../../test-utils'
+import { render, screen } from '../../../test-utils'
 import ActionSelectionDropdown from './action-selection-dropdown.tsx';
-import { VesselTypeEnum } from '../../../types/mission-types';
-import { ActionTypeEnum, missionTypeEnum } from '../../../types/env-mission-types';
 
 describe('ActionSelectionDropdown', () => {
     test('renders control selection options', () => {

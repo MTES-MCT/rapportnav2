@@ -2,6 +2,7 @@ import { gql, MutationTuple, useMutation } from '@apollo/client'
 import { GET_MISSION_TIMELINE } from "../timeline/use-mission-timeline.tsx";
 import { GET_ACTION_BY_ID } from "../actions/use-action-by-id.tsx";
 import { Infraction } from "../../../types/infraction-types.ts";
+import { useParams } from "react-router-dom";
 
 export const MUTATION_ADD_OR_UPDATE_INFRACTION = gql`
     mutation AddOrUpdateInfraction($infraction: InfractionInput!) {
@@ -17,8 +18,12 @@ export const MUTATION_ADD_OR_UPDATE_INFRACTION = gql`
 
 
 const useAddOrUpdateInfraction = (): MutationTuple<Infraction[], Record<string, any>> => {
+    const {missionId, actionId} = useParams()
     const mutation = useMutation(MUTATION_ADD_OR_UPDATE_INFRACTION, {
-        refetchQueries: [GET_MISSION_TIMELINE, GET_ACTION_BY_ID]
+        refetchQueries: [
+            {query: GET_MISSION_TIMELINE, variables: {missionId}},
+            {query: GET_ACTION_BY_ID, variables: {id: actionId, missionId}},
+        ]
     })
 
     return mutation

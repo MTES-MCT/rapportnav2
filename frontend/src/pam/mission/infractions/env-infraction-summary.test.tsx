@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '../../../test-utils'
 import EnvInfractionSummary from "./env-infraction-summary.tsx";
 import { ControlType } from "../../../types/control-types.ts";
 import { InfractionTypeEnum, VesselTypeEnum } from "../../../types/env-mission-types.ts";
-import { Infraction, InfractionByTarget } from "../../../types/infraction-types.ts";
+import { Infraction } from "../../../types/infraction-types.ts";
 
 const infractionMock = {
     id: '123',

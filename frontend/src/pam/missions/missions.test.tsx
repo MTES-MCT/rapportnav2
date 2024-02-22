@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '../../test-utils'
+import { render, screen } from '../../test-utils'
 import { vi } from 'vitest';
 import useMissions from "./use-missions.tsx";
 import { Mission } from "../../types/mission-types.ts";

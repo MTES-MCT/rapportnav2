@@ -6,6 +6,7 @@ import { isEnvAction, isFishAction, isNavAction } from './utils'
 import ActionControlFish from './action-control-fish'
 import ActionControlNav from './action-control-nav'
 import ActionStatusForm from './action-status-form'
+import ActionNoteForm from "./action-note-form.tsx";
 
 export const getComponentForAction = (action?: Action): FC<any> | null => {
   if (!action) {
@@ -28,7 +29,7 @@ export const getComponentForAction = (action?: Action): FC<any> | null => {
       case ActionTypeEnum.STATUS:
         return ActionStatusForm
       case ActionTypeEnum.NOTE:
-        return null
+        return ActionNoteForm
       case ActionTypeEnum.CONTACT:
         return null
       case ActionTypeEnum.RESCUE:

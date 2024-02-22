@@ -13,6 +13,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetFishActionsByMissio
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsByActionId
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionControlInput
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionFreeNoteInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionStatusInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.*
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Infraction
@@ -38,6 +39,8 @@ class ActionController(
     private val getNavActionByIdAndMissionId: GetNavActionByIdAndMissionId,
     private val getInfractionsByActionId: GetInfractionsByActionId,
     private val fakeMissionData: FakeMissionData,
+    private val addOrUpdateActionFreeNote: AddOrUpdateActionFreeNote,
+    private val deleteActionFreeNote: DeleteActionFreeNote,
 ) {
 
     private val logger = LoggerFactory.getLogger(ActionController::class.java)
@@ -183,6 +186,7 @@ class ActionController(
 
                 is NavActionControl -> ActionType.CONTROL
                 is NavActionStatus -> ActionType.STATUS
+                is NavActionFreeNote -> ActionType.NOTE
                 else -> ActionType.OTHER
 
             }
@@ -282,5 +286,17 @@ class ActionController(
 
         return null
     }
+
+    @MutationMapping
+    fun addOrUpdateFreeNote(@Argument freeNoteAction: ActionFreeNoteInput): NavActionFreeNote {
+        val data = freeNoteAction.toActionFreeNoteEntity()
+        return addOrUpdateActionFreeNote.execute(data).toNavActionFreeNote()
+    }
+
+    @MutationMapping
+    fun deleteFreeNote(@Argument id: UUID): Boolean {
+        return deleteActionFreeNote.execute(id)
+    }
+
 
 }

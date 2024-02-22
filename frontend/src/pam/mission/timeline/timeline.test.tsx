@@ -1,10 +1,9 @@
 import { render, screen } from '../../../test-utils.tsx'
 import Timeline from "./timeline";
-import { Action, ActionControl, ActionStatusType } from "../../../types/action-types.ts";
+import { ActionControl, ActionStatusType } from "../../../types/action-types.ts";
 import { vi } from "vitest";
 import useGetMissionTimeline from "./use-mission-timeline.tsx";
 import { Mission, VesselTypeEnum } from "../../../types/mission-types.ts";
-import { ApolloError } from "@apollo/client";
 import { GraphQLError } from "graphql/error";
 import { ActionTypeEnum, MissionSourceEnum } from "../../../types/env-mission-types.ts";
 import { ControlMethod } from "../../../types/control-types.ts";

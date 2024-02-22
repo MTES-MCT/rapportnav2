@@ -1,11 +1,6 @@
 import { render, screen } from '../../../../test-utils.tsx'
 import { Action } from "@sentry/react/types/types";
-import {
-    ActionTargetTypeEnum,
-    ActionTypeEnum,
-    FishAction,
-    MissionSourceEnum
-} from "../../../../types/env-mission-types.ts";
+import { ActionTypeEnum, MissionSourceEnum } from "../../../../types/env-mission-types.ts";
 import { ActionStatusType } from "../../../../types/action-types.ts";
 import ActionFishControl from "./timeline-item-control-fish.tsx";
 

@@ -8,7 +8,6 @@ import useActionById from "./use-action-by-id.tsx";
 import { GraphQLError } from "graphql/error";
 import { fireEvent } from "../../../test-utils.tsx";
 
-const useActionByIdMock = vi.fn();
 const mutateMock = vi.fn()
 const deleteMock = vi.fn()
 vi.mock("./use-action-by-id.tsx", async (importOriginal) => {

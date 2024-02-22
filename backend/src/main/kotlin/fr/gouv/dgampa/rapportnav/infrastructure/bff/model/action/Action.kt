@@ -140,6 +140,8 @@ data class Action(
                 data = navAction.statusAction.toNavActionStatus()
             } else if (navAction.controlAction != null) {
                 data = navAction.controlAction.toNavActionControl()
+            } else if (navAction.freeNoteAction != null) {
+                data = navAction.freeNoteAction.toNavActionFreeNote()
             }
             return Action(
                 id = navAction.id,

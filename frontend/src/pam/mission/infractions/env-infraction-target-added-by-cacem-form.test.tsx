@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '../../../test-utils'
+import { render, screen } from '../../../test-utils'
 import EnvInfractionTargetAddedByCacemForm from "./env-infraction-target-added-by-cacem-form.tsx";
 import { ControlType } from "../../../types/control-types.ts";
 import { InfractionTypeEnum, VesselTypeEnum } from "../../../types/env-mission-types.ts";
