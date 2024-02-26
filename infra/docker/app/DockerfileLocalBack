@@ -17,8 +17,10 @@ RUN ./gradlew --no-daemon dependencies
 ########################################
 FROM backend-dependencies as backend-run
 
-ENV VERSION=1.0.3
-ENV ENV_PROFILE=local
+ARG VERSION
+ENV VERSION=$VERSION
+ARG ENV_PROFILE
+ENV ENV_PROFILE=$ENV_PROFILE
 
 WORKDIR /tmp/backend
 
