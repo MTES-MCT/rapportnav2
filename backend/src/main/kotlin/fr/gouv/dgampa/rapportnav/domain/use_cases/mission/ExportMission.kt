@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IRpnExportRepositor
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionStatusRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations
 import org.slf4j.LoggerFactory
 import java.time.Duration
 
@@ -20,9 +21,9 @@ class ExportMission(
     private val getEnvMissionById: GetEnvMissionById,
     private val getNavMissionById: GetNavMissionById,
     private val getFishActionsByMissionId: GetFishActionsByMissionId,
-    private val navActionStatus: INavActionStatusRepository
-)
-{
+    private val navActionStatus: INavActionStatusRepository,
+    private val getStatusDurations: GetStatusDurations,
+) {
     private val logger = LoggerFactory.getLogger(ExportMission::class.java)
 
     fun exportOdt(missionId: Int) {
@@ -35,11 +36,18 @@ class ExportMission(
         else {
             val generalInfo: MissionGeneralInfoEntity? = getMissionGeneralInfoByMissionId.execute(missionId)
             val agentsCrew: List<MissionCrewEntity> = agentsCrewByMissionId.execute(missionId = missionId)
-            val statuses = navActionStatus.findAllByMissionId(missionId = missionId).sortedBy { it.startDateTimeUtc }.map { it.toActionStatusEntity() }
+            val statuses = navActionStatus.findAllByMissionId(missionId = missionId).sortedBy { it.startDateTimeUtc }
+                .map { it.toActionStatusEntity() }
 
             val missionStartDateTime = mission.mission.startDateTimeUtc
             val missionEndDateTime = mission.mission.endDateTimeUtc
             val seaPresence: MutableMap<String, Long> = mutableMapOf()
+
+            val durations = getStatusDurations.computeActionDurations(
+                missionStartDateTime = mission.mission.startDateTimeUtc,
+                missionEndDateTime = mission.mission.endDateTimeUtc,
+                actions = statuses,
+            )
 
             /*    val envMission = getEnvMissionById.execute(missionId = missionId)
                 val fishMissionActions = getFishActionsByMissionId.execute(missionId = missionId)
