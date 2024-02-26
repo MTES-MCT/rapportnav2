@@ -29,11 +29,11 @@
 name: "[Analyse] SonarCloud"
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-    types: [ opened, synchronize, reopened ]
+  #  push:
+  #    branches: [ "main" ]
+  #  pull_request:
+  #    branches: [ "main" ]
+  #    types: [ opened, synchronize, reopened ]
   #  schedule:
   #    - cron: "0 3 * * *" # 3am every night
   workflow_dispatch:
