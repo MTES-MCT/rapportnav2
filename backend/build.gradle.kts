@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "fr.gouv.dgampa"
-version = "1.0.3"
+version = "1.1.0"
 description = "RapportNav"
 
 val kotlinVersion by extra("1.9.21")
