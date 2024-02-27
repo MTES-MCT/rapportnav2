@@ -43,7 +43,7 @@ dependencyManagement {
 }
 
 dependencies {
-  runtimeOnly("org.springframework.boot:spring-boot-devtools:$springVersion")
+  developmentOnly("org.springframework.boot:spring-boot-devtools")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-data-rest:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
@@ -99,4 +99,19 @@ tasks.named<Test>("test") {
   }
 }
 
+// for hot-reload:
+tasks.register<Copy>("getDependencies") {
+  from(sourceSets.main.get().runtimeClasspath)
+  into("runtime/")
+
+  doFirst {
+    val runtimeDir = File("runtime")
+    runtimeDir.deleteRecursively()
+    runtimeDir.mkdir()
+  }
+
+  doLast {
+    File("runtime").deleteRecursively()
+  }
+}
 

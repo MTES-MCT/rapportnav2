@@ -33,5 +33,5 @@ COPY infra/configurations/backend ./configurations/
 EXPOSE 80
 
 # Run the backend application
-CMD ./gradlew bootRun --args='--spring.profiles.active=local --spring.config.additional-location=/tmp/backend/configurations/'
+CMD (./gradlew -t :bootJar) & ./gradlew bootRun -PskipDownload=true --args='--spring.profiles.active=local --spring.config.additional-location=/tmp/backend/configurations/'
 
