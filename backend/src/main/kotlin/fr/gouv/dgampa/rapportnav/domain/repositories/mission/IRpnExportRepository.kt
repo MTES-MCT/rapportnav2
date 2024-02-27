@@ -1,17 +1,18 @@
 package fr.gouv.dgampa.rapportnav.domain.repositories.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
+import java.time.ZonedDateTime
 
 interface IRpnExportRepository {
 
     fun exportOdt(
         service: String?,
         id: String,
-        startDateTime: String?,
-        endDateTime: String?,
-        presenceMer: Map<String, Int>,
-        presenceQuai: Map<String, Int>,
-        indisponibilite: Map<String, Int>,
+        startDateTime: ZonedDateTime?,
+        endDateTime: ZonedDateTime?,
+        presenceMer: Map<String, Long>,
+        presenceQuai: Map<String, Long>,
+        indisponibilite: Map<String, Long>,
         nbJoursMer: Int,
         dureeMission: Int,
         patrouilleEnv: Int,
