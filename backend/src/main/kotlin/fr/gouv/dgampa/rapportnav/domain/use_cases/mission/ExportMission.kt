@@ -41,27 +41,39 @@ class ExportMission(
                 actions = statuses,
             )
 
-            val presenceMer = mapOf(
+            val presenceMer = mutableMapOf(
                 "navigationEffective" to (durations.find {it.status == ActionStatusType.NAVIGATING}?.value ?: 0),
                 "mouillage" to (durations.find { it.status === ActionStatusType.ANCHORED }?.value ?: 0),
-                "total" to 226
+                "total" to 0
             )
 
-            val presenceQuai = mapOf(
+            val totalPresenceMer = presenceMer.values.sum()
+            presenceMer["total"] = totalPresenceMer
+
+
+            val presenceQuai = mutableMapOf(
                 "maintenance" to (durations.find { it.reason === ActionStatusReason.MAINTENANCE }?.value ?: 0),
                 "meteo" to (durations.find { it.reason === ActionStatusReason.WEATHER }?.value ?: 0),
                 "representation" to (durations.find { it.reason === ActionStatusReason.REPRESENTATION }?.value ?: 0),
                 "adminFormation" to (durations.find { it.reason === ActionStatusReason.ADMINISTRATION }?.value ?: 0),
                 "autre" to (durations.find { it.reason === ActionStatusReason.OTHER }?.value ?: 0),
                 "contrPol" to (durations.find { it.reason === ActionStatusReason.HARBOUR_CONTROL }?.value ?: 0),
-                "total" to 25
+                "total" to 0
             )
 
-            val indisponibilite = mapOf(
+            val totalQuai = presenceQuai.values.sum()
+            presenceQuai["total"] = totalQuai
+
+            val indisponibilite = mutableMapOf(
                 "technique" to (durations.find { it.reason === ActionStatusReason.TECHNICAL }?.value ?: 0),
                 "personnel" to (durations.find { it.reason === ActionStatusReason.PERSONNEL }?.value ?: 0),
                 "total" to 78
             )
+
+            val totalIndisponibilite = indisponibilite.values.sum()
+            indisponibilite["total"] = totalIndisponibilite
+
+            val dureeMission = totalPresenceMer + totalQuai + totalIndisponibilite
 
 
 
@@ -75,7 +87,7 @@ class ExportMission(
                     presenceQuai = presenceQuai,
                     indisponibilite = indisponibilite,
                     nbJoursMer = 4,
-                    dureeMission = 3,
+                    dureeMission = dureeMission,
                     patrouilleEnv = 2,
                     patrouilleMigrant = 4,
                     distanceMilles = generalInfo.distanceInNauticalMiles,
