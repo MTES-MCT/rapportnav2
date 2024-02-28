@@ -31,7 +31,7 @@ data class Mission(
 
                     is MissionActionEntity.NavAction -> Action.fromNavAction(missionAction.navAction)
                 }
-            }?.let { Action.sortForTimeline(it) }
+            }
 
             return Mission(
                 id = mission.id,

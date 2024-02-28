@@ -1,10 +1,13 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status
 
+import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import java.time.ZonedDateTime
 
+
+@UseCase
 class GetStatusDurations() {
 
     data class ActionStatusWithDuration(

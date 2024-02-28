@@ -26,7 +26,7 @@ data class MissionEntity(
     val missionSource: MissionSourceEnum,
     val hasMissionOrder: Boolean,
     val isUnderJdp: Boolean,
-    var actions: List<MissionActionEntity>?,
+    var actions: List<MissionActionEntity>? = null,
 ) {
     constructor(
         envMission: ExtendedEnvMissionEntity,
@@ -50,9 +50,27 @@ data class MissionEntity(
         missionSource = envMission.mission.missionSource,
         hasMissionOrder = envMission.mission.hasMissionOrder,
         isUnderJdp = envMission.mission.isUnderJdp,
-        actions = (envMission.actions?.map { MissionActionEntity.EnvAction(it) } ?: listOf()) +
-            (fishMissionActions?.map { MissionActionEntity.FishAction(it) } ?: listOf()) +
-            (navMission?.actions?.map { MissionActionEntity.NavAction(it) } ?: listOf())
-
+        actions = sortActions(
+            envMission.actions?.map { MissionActionEntity.EnvAction(it) } ?: emptyList(),
+            fishMissionActions?.map { MissionActionEntity.FishAction(it) } ?: emptyList(),
+            navMission?.actions?.map { MissionActionEntity.NavAction(it) } ?: emptyList()
+        )
     )
+
+    companion object {
+        private fun sortActions(
+            envActions: List<MissionActionEntity.EnvAction>,
+            fishActions: List<MissionActionEntity.FishAction>,
+            navActions: List<MissionActionEntity.NavAction>
+        ): List<MissionActionEntity> {
+            return (envActions + fishActions + navActions).sortedBy { action ->
+                when (action) {
+                    is MissionActionEntity.EnvAction -> action.envAction?.controlAction?.action?.actionStartDateTimeUtc
+                    is MissionActionEntity.FishAction -> action.fishAction.controlAction?.action?.actionDatetimeUtc
+                    is MissionActionEntity.NavAction -> action.navAction.startDateTimeUtc
+                }
+            }
+        }
+    }
 }
+

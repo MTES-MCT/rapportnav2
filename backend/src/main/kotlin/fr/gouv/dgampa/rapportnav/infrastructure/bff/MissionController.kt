@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.AddOrUpdateMissionGeneralInfo
@@ -26,10 +25,8 @@ import java.util.*
 class MissionController(
     private val getUserFromToken: GetUserFromToken,
     private val getEnvMissions: GetEnvMissions,
+    private val getMissionById: GetMissionById,
     private val getNavMissionById: GetNavMissionById,
-    private val getEnvMissionById: GetEnvMissionById,
-    private val getFishActionsByMissionId: GetFishActionsByMissionId,
-    private val updateEnvMission: UpdateEnvMission,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val addOrUpdateMissionGeneralInfo: AddOrUpdateMissionGeneralInfo,
     private val getControlUnitsForUser: GetControlUnitsForUser,
@@ -49,7 +46,6 @@ class MissionController(
                 pageSize = null,
                 controlUnits = getControlUnitsForUser.execute()
             )?.map { Mission.fromMissionEntity(it) }.orEmpty()
-
 
             // temporarily add fictive missions
             val user = getUserFromToken.execute()
@@ -77,11 +73,8 @@ class MissionController(
                 fakeMission.actions?.plus(navMission.actions.map { MissionActionEntity.NavAction(it) })
             Mission.fromMissionEntity(fakeMission)
         } else {
-            val envMission = getEnvMissionById.execute(missionId = missionId) ?: return null
-            val fishMissionActions = getFishActionsByMissionId.execute(missionId = missionId)
-            val navMission = getNavMissionById.execute(missionId = missionId)
-
-            Mission.fromMissionEntity(MissionEntity(envMission, navMission, fishMissionActions))
+            val mission = getMissionById.execute(missionId = missionId)
+            mission?.let { Mission.fromMissionEntity(it) }
         }
     }
 

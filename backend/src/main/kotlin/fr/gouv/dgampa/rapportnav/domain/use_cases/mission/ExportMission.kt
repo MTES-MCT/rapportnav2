@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.ExtendedEnvMissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
@@ -17,32 +17,31 @@ class ExportMission(
     private val exportRepository: IRpnExportRepository,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val agentsCrewByMissionId: GetAgentsCrewByMissionId,
-    private val getEnvMissionById: GetEnvMissionById,
+    private val getMissionById: GetMissionById,
     private val navActionStatus: INavActionStatusRepository,
     private val getStatusDurations: GetStatusDurations,
 ) {
 
     fun exportOdt(missionId: Int) {
 
-        val mission: ExtendedEnvMissionEntity? = getEnvMissionById.execute(missionId = missionId)
+        val mission: MissionEntity? = getMissionById.execute(missionId = missionId)
 
-        if (mission?.mission == null) {
+        if (mission == null) {
             return
-        }
-        else {
+        } else {
             val generalInfo: MissionGeneralInfoEntity? = getMissionGeneralInfoByMissionId.execute(missionId)
             val agentsCrew: List<MissionCrewEntity> = agentsCrewByMissionId.execute(missionId = missionId)
             val statuses = navActionStatus.findAllByMissionId(missionId = missionId).sortedBy { it.startDateTimeUtc }
                 .map { it.toActionStatusEntity() }
 
             val durations = getStatusDurations.computeActionDurations(
-                missionStartDateTime = mission.mission.startDateTimeUtc,
-                missionEndDateTime = mission.mission.endDateTimeUtc,
+                missionStartDateTime = mission.startDateTimeUtc,
+                missionEndDateTime = mission.endDateTimeUtc,
                 actions = statuses,
             )
 
             val presenceMer = mutableMapOf(
-                "navigationEffective" to (durations.find {it.status == ActionStatusType.NAVIGATING}?.value ?: 0),
+                "navigationEffective" to (durations.find { it.status == ActionStatusType.NAVIGATING }?.value ?: 0),
                 "mouillage" to (durations.find { it.status === ActionStatusType.ANCHORED }?.value ?: 0),
                 "total" to 0
             )
@@ -79,10 +78,10 @@ class ExportMission(
 
             if (generalInfo != null) {
                 exportRepository.exportOdt(
-                    service = mission.mission.openBy,
-                    id = "pam" + mission.mission.id,
-                    startDateTime = mission.mission.startDateTimeUtc,
-                    endDateTime = mission.mission.endDateTimeUtc,
+                    service = mission.openBy,
+                    id = "pam" + mission.id,
+                    startDateTime = mission.startDateTimeUtc,
+                    endDateTime = mission.endDateTimeUtc,
                     presenceMer = presenceMer,
                     presenceQuai = presenceQuai,
                     indisponibilite = indisponibilite,
