@@ -1,10 +1,10 @@
 name: "[Release] Mirror push to gitlab"
 
 on:
-  push:
-    branches: [ "main" ]
-  release:
-    types: [ published ]
+  #  push:
+  #    branches: [ "main" ]
+  #  release:
+  #    types: [ published ]
   workflow_dispatch:
 
 jobs:
@@ -38,6 +38,6 @@ jobs:
           REMOTE: https://gitlab-sml.din.developpement-durable.gouv.fr/rapportnav-v2/rapportnav_v2.git
           GIT_USERNAME: ${{ github.actor }}
           GIT_PASSWORD: ${{ secrets.GITLAB_MIRROR_TOKEN }}
-          #          GIT_PUSH_ARGS: "--tags --prune"
+          GIT_PUSH_ARGS: "--tags --prune"
           PUSH_ALL_REFS: false
           DEBUG: true
