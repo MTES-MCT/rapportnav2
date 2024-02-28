@@ -15,7 +15,7 @@ plugins {
   kotlin("jvm") version "1.9.21"
   kotlin("plugin.spring") version "1.9.21"
   kotlin("plugin.jpa") version "1.9.21"
-  id("org.springframework.boot") version "3.2.1"
+  id("org.springframework.boot") version "3.2.3"
   id("io.spring.dependency-management") version "1.1.4"
   id("org.owasp.dependencycheck") version "8.4.0"
   id("org.sonarqube") version "4.4.1.3373"
@@ -68,7 +68,7 @@ dependencies {
   implementation("io.sentry:sentry-spring-boot-starter-jakarta:7.0.0")
   implementation("io.sentry:sentry-log4j2:7.0.0")
   testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
-  testImplementation("org.springframework:spring-webflux")
+  testImplementation("org.springframework:spring-webflux:6.1.4")
   testImplementation("org.springframework.graphql:spring-graphql-test:1.2.4")
   testImplementation("org.testcontainers:testcontainers")
   testImplementation("org.testcontainers:junit-jupiter")
