@@ -46,17 +46,17 @@ include:
   - "/jobs-build-CI/build_projet_gradle.yml"
   - "/jobs-build-CI/build_projet_npm.yml"
   - "/jobs-build-CI/construction_image.yml"
-  - project: 'num3-exploitation/deploiement-continu/sources-ci'
+  - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
     ref: main
     file: '/jobs/analyse_trivy.yml'
-  - project: 'num3-exploitation/deploiement-continu/sources-ci'
+  - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
     ref: main
     file: '/jobs/analyse_sonar.yml'
   - "/jobs-build-CI/analyse_dependency-check.yml"
-  - project: 'num3-exploitation/deploiement-continu/sources-ci'
+  - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
     ref: main
     file: '/jobs/deploiement_image_int.yml'
-  - project: 'num3-exploitation/deploiement-continu/sources-ci'
+  - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
     ref: main
     file: '/jobs/deploiement_image_prod.yml'
 
