@@ -3,9 +3,9 @@ import { Col, FlexboxGrid, Loader, Stack } from 'rsuite'
 import { Accent, Button, Icon, Size, THEME } from '@mtes-mct/monitor-ui'
 import MissionsList from './missions-list'
 import { Link } from 'react-router-dom'
-import { GET_MISSION_BY_ID } from '../mission/queries'
 import Text from "../../ui/text.tsx";
 import useMissions from "./use-missions.tsx";
+import { GET_MISSION_BY_ID } from "../mission/use-mission-by-id.tsx";
 
 const Missions: React.FC = () => {
     const {loading, data: missions, error, client} = useMissions()
