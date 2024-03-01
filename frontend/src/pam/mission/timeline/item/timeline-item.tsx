@@ -11,6 +11,7 @@ import ActionNote from "./timeline-item-note.tsx";
 
 export interface MissionTimelineItemProps {
     action: Action
+    previousActionWithSameType?: Action
     onClick: (action: Action) => void
 }
 
@@ -64,19 +65,15 @@ const getActionComponent = (action: Action) => {
     return null
 }
 
-const MissionTimelineItem: React.FC<MissionTimelineItemProps> = ({
-                                                                     action,
-                                                                     onClick
-                                                                     // componentMap = ActionComponentMap
-                                                                 }) => {
-    const Component = getActionComponent(action)
+const MissionTimelineItem: React.FC<MissionTimelineItemProps> = (props: MissionTimelineItemProps) => {
+    const Component = getActionComponent(props.action)
     // const Component = componentMap[action.actionType]
 
     if (!Component) {
         return null
     }
 
-    return <Component action={action as any} onClick={onClick}/>
+    return <Component {...props}/>
 }
 
 export default MissionTimelineItem

@@ -10,6 +10,7 @@ import { getColorForStatus } from '../status/utils'
 import { ActionTypeEnum } from '../../../types/env-mission-types'
 import { groupByDay } from '../utils'
 import useGetMissionTimeline from "./use-mission-timeline.tsx";
+import { find } from "lodash";
 
 interface MissionTimelineProps {
     missionId?: string
@@ -111,6 +112,12 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({missionId, onSelectAct
                                                                     actionType={action.type as any}
                                                                 >
                                                                     <MissionTimelineItem action={action}
+                                                                                         previousActionWithSameType={
+                                                                                             find(
+                                                                                                 mission.actions,
+                                                                                                 {type: action.type},
+                                                                                                 mission.actions.findIndex(item => item === action) + 1
+                                                                                             )}
                                                                                          onClick={() => onSelectAction(action)}/>
                                                                 </MissionTimelineItemContainer>
                                                             </Stack.Item>
