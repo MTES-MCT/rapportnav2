@@ -104,7 +104,8 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({missionId, onSelectAct
                                                                     </Stack.Item>
                                                                 </Stack>
                                                             </Stack.Item>
-                                                            <Stack.Item style={{width: '100%'}}>
+                                                            <Stack.Item
+                                                                style={{width: '100%', maxWidth: 'calc(100% - 5rem'}}>
                                                                 <MissionTimelineItemContainer
                                                                     actionSource={action.source}
                                                                     actionType={action.type as any}

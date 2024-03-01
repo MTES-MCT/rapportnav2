@@ -24,10 +24,15 @@ const ActionNote: React.FC<MissionTimelineItemProps> = ({action, onClick}) => {
                     <Stack.Item alignSelf="flex-start">
                         <Icon.Note color={THEME.color.charcoal} size={20}/>
                     </Stack.Item>
-                    <Stack.Item alignSelf="flex-start" style={{width: '100%'}}>
-                        <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
+                    <Stack.Item alignSelf="flex-start" style={{maxWidth: 'calc(100% - 3rem)'}}>
+                        <Text as="h3" weight="medium" color={THEME.color.gunMetal} style={{
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                        }}>
                             {capitalize(actionData?.observations) || 'Note libre'}
                         </Text>
+
                     </Stack.Item>
                 </Stack>
             </FlexboxGrid.Item>
