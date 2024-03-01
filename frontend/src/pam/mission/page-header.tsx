@@ -48,30 +48,34 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
             }
           </Stack>
         </FlexboxGrid.Item>
-        <FlexboxGrid.Item colspan={4}>
+        <FlexboxGrid.Item colspan={6}>
           <FlexboxGrid justify="end" align="middle" style={{height: '100%'}}>
-            <Button
-              Icon={Icon.Download}
-              accent={Accent.PRIMARY}
-              size={Size.NORMAL}
-              // color={THEME.color.gainsboro}
-              onClick={onClickExport}
-              role={'dl-mission-export'}
-            >
-              Exporter le rapport de la mission
-            </Button>
-          </FlexboxGrid>
-        </FlexboxGrid.Item>
-        <FlexboxGrid.Item colspan={2}>
-          <FlexboxGrid justify="end" align="middle" style={{height: '100%'}}>
-            <IconButton
-              Icon={Icon.Close}
-              accent={Accent.TERTIARY}
-              size={Size.NORMAL}
-              color={THEME.color.gainsboro}
-              onClick={onClickClose}
-              role={'quit-mission-cross'}
-            />
+            <Stack direction={"row"} alignItems={"center"} spacing={"2rem"}>
+              <Stack.Item>
+                {/*TODO uncomment following component when the time will be right*/}
+                {/*<Button*/}
+                {/*  Icon={Icon.Download}*/}
+                {/*  accent={Accent.PRIMARY}*/}
+                {/*  size={Size.NORMAL}*/}
+                {/*  // color={THEME.color.gainsboro}*/}
+                {/*  onClick={onClickExport}*/}
+                {/*  role={'dl-mission-export'}*/}
+                {/*>*/}
+                {/*  Exporter le rapport de la mission*/}
+                {/*</Button>*/}
+              </Stack.Item>
+              <Stack.Item>
+                <IconButton
+                  Icon={Icon.Close}
+                  accent={Accent.TERTIARY}
+                  size={Size.NORMAL}
+                  color={THEME.color.gainsboro}
+                  onClick={onClickClose}
+                  role={'quit-mission-cross'}
+                />
+              </Stack.Item>
+            </Stack>
+
           </FlexboxGrid>
         </FlexboxGrid.Item>
       </FlexboxGrid>
