@@ -7,30 +7,37 @@ import MissionsPage from '../pam/missions/missions-page'
 import MissionPage from '../pam/mission/mission-page'
 import * as Sentry from "@sentry/react"
 
+export const getPath = (path: string) => `/${path}`
+
+export const LOGIN_PATH = 'login'
+export const SIGNUP_PATH = 'signup'
+export const PAM_HOME_PATH = 'pam/missions'
+
+
 const sentryCreateBrowserRouter =
-    Sentry.wrapCreateBrowserRouter(createBrowserRouter);
+  Sentry.wrapCreateBrowserRouter(createBrowserRouter);
 
 export const router = sentryCreateBrowserRouter([
-    {
-        path: '/',
-        element: <Home/>,
-        errorElement: <ErrorPage/>
-    },
-    {
-        path: 'login',
-        element: <Login/>
-    },
-    {
-        path: 'signup',
-        element: <SignUp/>
-    },
-    {
-        path: 'pam/missions',
-        element: <MissionsPage/>,
-        errorElement: <ErrorPage/>
-    },
-    {
-        path: 'pam/missions/:missionId/:actionId?',
-        element: <MissionPage/>
-    }
+  {
+    path: '/',
+    element: <Home/>,
+    errorElement: <ErrorPage/>
+  },
+  {
+    path: LOGIN_PATH,
+    element: <Login/>
+  },
+  {
+    path: SIGNUP_PATH,
+    element: <SignUp/>
+  },
+  {
+    path: PAM_HOME_PATH,
+    element: <MissionsPage/>,
+    errorElement: <ErrorPage/>
+  },
+  {
+    path: 'pam/missions/:missionId/:actionId?',
+    element: <MissionPage/>
+  }
 ])
