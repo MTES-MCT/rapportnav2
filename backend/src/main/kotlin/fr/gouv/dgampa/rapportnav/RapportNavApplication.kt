@@ -20,7 +20,10 @@ fun main(args: Array<String>) {
     if (isSentryEnabled == "true") {
         Sentry.init { options ->
             options.dsn = sentryDsn
-            options.proxy = SentryOptions.Proxy("172.27.229.197", "8090")
+            options.proxy = SentryOptions.Proxy(
+                ctx.environment.getProperty("sentry.proxy.host"),
+                ctx.environment.getProperty("sentry.proxy.port")
+            )
             options.tracesSampleRate = 1.0
         }
     }

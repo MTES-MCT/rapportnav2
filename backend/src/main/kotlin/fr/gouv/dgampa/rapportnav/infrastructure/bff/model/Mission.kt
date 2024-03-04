@@ -15,17 +15,6 @@ data class Mission(
     val actions: List<Action>?,
     val openBy: String? = null,
 ) {
-//    fun fromMissionEntity(mission: MissionEntity): Mission {
-//        return Mission(
-//            id = mission.id,
-//            isClosed = mission.isClosed,
-//            missionSource = mission.missionSource,
-//            startDateTimeUtc = mission.startDateTimeUtc,
-//            endDateTimeUtc = mission.endDateTimeUtc,
-//            actions = mission.actions
-//        )
-//    }
-
     companion object {
         fun fromMissionEntity(mission: MissionEntity): Mission {
             val actions: List<Action>? = mission.actions?.mapNotNull { missionAction ->

@@ -62,7 +62,7 @@ data class InfractionEnvTargetModel(
                 id = infractionTarget.id,
                 missionId = infractionTarget.missionId,
                 actionId = infractionTarget.actionId,
-                infraction = infraction?.let { it -> InfractionModel.fromInfractionEntity(it) },
+                infraction = infraction?.let { InfractionModel.fromInfractionEntity(it) },
                 vesselIdentifier = infractionTarget.vesselIdentifier,
                 identityControlledPerson = infractionTarget.identityControlledPerson,
                 vesselType = infractionTarget.vesselType.toString(),

@@ -62,7 +62,7 @@ class ActionController(
         } else if (id in fakeMissionData.getFishActionIds()) {
             val fakeAction =
                 getFishActionsByMissionId.getFakeActions(missionId)
-                    .first { it -> it.controlAction?.action?.id.toString() == id }
+                    .first { it.controlAction?.action?.id.toString() == id }
             return Action.fromFishAction(
                 fishAction = fakeAction,
                 missionId = missionId
@@ -145,10 +145,8 @@ class ActionController(
     fun getActionStatus(action: Action): ActionStatusType {
 
         // if already a status action - no need to recompute
-        if (action.source == MissionSourceEnum.RAPPORTNAV) {
-            if (action.data is NavActionStatus) {
-                return action.data.status
-            }
+        if (action.source == MissionSourceEnum.RAPPORTNAV && action.data is NavActionStatus) {
+            return action.data.status
         }
 
         // get last started status for this time and missionId
@@ -273,7 +271,7 @@ class ActionController(
                 }
             }
             val withReportCountNatinf =
-                allNatinfs?.count { it != null }
+                allNatinfs?.count { true }
 
             val natinfTag = if (withReportCountNatinf == 0) {
                 "Sans infraction"
