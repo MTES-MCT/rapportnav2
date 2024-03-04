@@ -10,70 +10,69 @@ import ActionStatus from "./timeline-item-status.tsx";
 import ActionNote from "./timeline-item-note.tsx";
 
 export interface MissionTimelineItemProps {
-    action: Action
-    previousActionWithSameType?: Action
-    onClick: (action: Action) => void
+  action: Action
+  previousActionWithSameType?: Action
+  onClick: (action: Action) => void
 }
 
 export const TimelineItemWrapper: React.FC<{
-    onClick: any;
-    children: any;
-    borderWhenSelected?: boolean
+  onClick: any;
+  children: any;
+  borderWhenSelected?: boolean
 }> = ({
-          onClick,
-          children,
-          borderWhenSelected = null
+        onClick,
+        children,
+        borderWhenSelected = null
       }) => {
-    return (
-        <div onClick={onClick}>
-            <FlexboxGrid
-                style={{
-                    width: '100%',
-                    border: !!borderWhenSelected ? `3px solid ${THEME.color.blueGray}` : 'none',
-                    cursor: 'pointer'
-                }}
-                justify="start"
-            >
-                {children}
-            </FlexboxGrid>
-        </div>
-    )
+  return (
+    <FlexboxGrid
+      onClick={onClick}
+      style={{
+        width: '100%',
+        border: !!borderWhenSelected ? `3px solid ${THEME.color.blueGray}` : 'none',
+        cursor: 'pointer'
+      }}
+      justify="start"
+    >
+      {children}
+    </FlexboxGrid>
+  )
 }
 
 
 const getActionComponent = (action: Action) => {
-    if (action.source === MissionSourceEnum.MONITORENV) {
-        if (action.type === ActionTypeEnum.CONTROL) {
-            return ActionEnvControl
-        }
-    } else if (action.source === MissionSourceEnum.MONITORFISH) {
-        if (action.type === ActionTypeEnum.CONTROL) {
-            return ActionFishControl
-        }
-    } else if (action.source === MissionSourceEnum.RAPPORTNAV) {
-        switch (action.type) {
-            case ActionTypeEnum.CONTROL:
-                return ActionNavControl
-            case ActionTypeEnum.STATUS:
-                return ActionStatus
-            case ActionTypeEnum.NOTE:
-                return ActionNote
-            default:
-                return null
-        }
+  if (action.source === MissionSourceEnum.MONITORENV) {
+    if (action.type === ActionTypeEnum.CONTROL) {
+      return ActionEnvControl
     }
-    return null
+  } else if (action.source === MissionSourceEnum.MONITORFISH) {
+    if (action.type === ActionTypeEnum.CONTROL) {
+      return ActionFishControl
+    }
+  } else if (action.source === MissionSourceEnum.RAPPORTNAV) {
+    switch (action.type) {
+      case ActionTypeEnum.CONTROL:
+        return ActionNavControl
+      case ActionTypeEnum.STATUS:
+        return ActionStatus
+      case ActionTypeEnum.NOTE:
+        return ActionNote
+      default:
+        return null
+    }
+  }
+  return null
 }
 
 const MissionTimelineItem: React.FC<MissionTimelineItemProps> = (props: MissionTimelineItemProps) => {
-    const Component = getActionComponent(props.action)
-    // const Component = componentMap[action.actionType]
+  const Component = getActionComponent(props.action)
+  // const Component = componentMap[action.actionType]
 
-    if (!Component) {
-        return null
-    }
+  if (!Component) {
+    return null
+  }
 
-    return <Component {...props}/>
+  return <Component {...props}/>
 }
 
 export default MissionTimelineItem
