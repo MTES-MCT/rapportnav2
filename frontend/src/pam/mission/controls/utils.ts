@@ -54,7 +54,7 @@ export const VESSEL_TYPE_OPTIONS = [
   }
 ]
 
-export const vesselSizeToHumanString = (vesselSize?: VesselSizeEnum | VesselSizeEnum | null): string => {
+export const vesselSizeToHumanString = (vesselSize?: VesselSizeEnum | null): string => {
   switch (vesselSize) {
     case VesselSizeEnum.LESS_THAN_12m:
       return 'Moins de 12m'

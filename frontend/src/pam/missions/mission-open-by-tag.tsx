@@ -9,6 +9,38 @@ interface MissionOpenByTagProps {
   isFake?: boolean
 }
 
+const getTagBackgroundColor = (missionSource?: MissionSourceEnum): string => {
+  switch (missionSource) {
+    case MissionSourceEnum.MONITORENV:
+    case MissionSourceEnum.POSEIDON_CACEM:
+      return THEME.color.mediumSeaGreen;
+    case MissionSourceEnum.MONITORFISH:
+    case MissionSourceEnum.POSEIDON_CNSP:
+      return THEME.color.blueGray;
+    default:
+      return THEME.color.gainsboro;
+  }
+};
+
+const getTagTextColor = (missionSource?: MissionSourceEnum): string => {
+  return missionSource === MissionSourceEnum.RAPPORTNAV ? THEME.color.charcoal : THEME.color.white;
+};
+
+const getTagTextContent = (missionSource?: MissionSourceEnum): string => {
+  switch (missionSource) {
+    case MissionSourceEnum.RAPPORTNAV:
+      return "Ouverte par l'unité";
+    case MissionSourceEnum.MONITORENV:
+    case MissionSourceEnum.POSEIDON_CACEM:
+      return 'Ouverte par le CACEM';
+    case MissionSourceEnum.MONITORFISH:
+    case MissionSourceEnum.POSEIDON_CNSP:
+      return 'Ouverte par le CNSP';
+    default:
+      return 'Ouverte par N/A';
+  }
+};
+
 const MissionOpenByTag: React.FC<MissionOpenByTagProps> = ({missionSource, isFake}) => {
   if (!!isFake) {
     return (
@@ -20,31 +52,24 @@ const MissionOpenByTag: React.FC<MissionOpenByTagProps> = ({missionSource, isFak
           Mission fictive
         </Text>
       </Tag>
-    )
+    );
   }
+
+  const backgroundColor = getTagBackgroundColor(missionSource);
+  const textColor = getTagTextColor(missionSource);
+  const textContent = getTagTextContent(missionSource);
+
   return (
     <Tag
-      backgroundColor={
-        missionSource === MissionSourceEnum.MONITORENV || missionSource === MissionSourceEnum.POSEIDON_CACEM
-          ? THEME.color.mediumSeaGreen
-          : missionSource === MissionSourceEnum.MONITORFISH || missionSource === MissionSourceEnum.POSEIDON_CNSP
-            ? THEME.color.blueGray
-            : THEME.color.gainsboro
-      }
-      color={missionSource === MissionSourceEnum.RAPPORTNAV ? THEME.color.charcoal : THEME.color.white}
+      backgroundColor={backgroundColor}
+      color={textColor}
     >
-      <Text as={"h3"} weight="medium"
-            color={missionSource === MissionSourceEnum.RAPPORTNAV ? THEME.color.charcoal : THEME.color.white}>
-        {missionSource === MissionSourceEnum.RAPPORTNAV
-          ? "Ouverte par l'unité"
-          : missionSource === MissionSourceEnum.MONITORENV || missionSource === MissionSourceEnum.POSEIDON_CACEM
-            ? 'Ouverte par le CACEM'
-            : missionSource === MissionSourceEnum.MONITORFISH || missionSource === MissionSourceEnum.POSEIDON_CNSP
-              ? 'Ouverte par le CNSP'
-              : 'Ouverte par N/A'}
+      <Text as={"h3"} weight="medium" color={textColor}>
+        {textContent}
       </Text>
     </Tag>
-  )
-}
+  );
+};
+
 
 export default MissionOpenByTag
