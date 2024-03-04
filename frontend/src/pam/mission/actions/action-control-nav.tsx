@@ -29,8 +29,8 @@ import ControlGensDeMerForm from '../controls/control-gens-de-mer-form'
 import ControlSecurityForm from '../controls/control-security-form'
 import { controlMethodToHumanString, VESSEL_SIZE_OPTIONS, vesselTypeToHumanString } from '../controls/utils'
 import useActionById from "./use-action-by-id.tsx";
-import useAddOrUpdateControl from "../controls/use-add-update-control.tsx";
-import useDeleteControl from "../controls/use-delete-control.tsx";
+import useAddOrUpdateControl from "./use-add-update-action-control.tsx";
+import useDeleteActionControl from "./use-delete-action-control.tsx";
 
 export interface ActionControlNavProps {
     action: Action
@@ -48,7 +48,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
 
     const [mutateControl] = useAddOrUpdateControl()
 
-    const [deleteControl] = useDeleteControl()
+    const [deleteControl] = useDeleteActionControl()
 
     const {data: navAction, loading, error} = useActionById(actionId, missionId, action.source, action.type)
 

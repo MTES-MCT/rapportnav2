@@ -14,7 +14,7 @@ import ControlSelection from './controls/control-selection'
 import StatusSelectionDropdown from './status/status-selection-dropdown'
 import find from 'lodash/find'
 import { formatDateForServers, toLocalISOString } from "../../utils/dates.ts";
-import useAddOrUpdateControl from "./controls/use-add-update-control.tsx";
+import useAddOrUpdateControl from "./actions/use-add-update-action-control.tsx";
 import useAddOrUpdateStatus from "./status/use-add-update-status.tsx";
 import useAddOrUpdateNote from "./notes/use-add-update-note.tsx";
 

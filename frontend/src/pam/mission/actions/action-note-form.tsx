@@ -62,7 +62,7 @@ const ActionNoteForm: React.FC<ActionNoteFormProps> = ({action}) => {
             const updatedData = {
                 missionId: missionId,
                 ...omit(note, '__typename'),
-                [field]: value
+                [field]: value?.trim()
             }
             await mutateNote({variables: {freeNoteAction: updatedData}})
         }
