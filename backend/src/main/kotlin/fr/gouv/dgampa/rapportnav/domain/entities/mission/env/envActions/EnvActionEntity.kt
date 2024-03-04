@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
@@ -21,15 +20,15 @@ import java.util.*
     JsonSubTypes.Type(EnvActionNoteEntity::class, name = "NOTE"),
 )
 abstract class EnvActionEntity(
-  open val id: UUID,
-  open val actionType: ActionTypeEnum,
-  open val actionStartDateTimeUtc: ZonedDateTime? = null,
-  open val actionEndDateTimeUtc: ZonedDateTime? = null,
-  open val department: String? = null,
-  open val facade: String? = null,
-  @JsonDeserialize(using = GeometryDeserializer::class) open val geom: Geometry? = null,
-  open val isAdministrativeControl: Boolean? = null,
-  open val isComplianceWithWaterRegulationsControl: Boolean? = null,
-  open val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
-  open val isSeafarersControl: Boolean? = null,
+    open val id: UUID,
+    open val actionType: ActionTypeEnum,
+    open val actionStartDateTimeUtc: ZonedDateTime? = null,
+    open val actionEndDateTimeUtc: ZonedDateTime? = null,
+    open val department: String? = null,
+    open val facade: String? = null,
+    @JsonDeserialize(using = GeometryDeserializer::class) open val geom: Geometry? = null,
+    open val isAdministrativeControl: Boolean? = null,
+    open val isComplianceWithWaterRegulationsControl: Boolean? = null,
+    open val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
+    open val isSeafarersControl: Boolean? = null,
 )

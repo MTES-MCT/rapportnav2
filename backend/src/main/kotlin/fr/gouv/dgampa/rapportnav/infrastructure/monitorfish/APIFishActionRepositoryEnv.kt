@@ -30,13 +30,12 @@ class APIFishActionRepositoryEnv(
 
         val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
-        if (response.statusCode() in 200..299) {
+        return if (response.statusCode() in 200..299) {
             mapper.registerModule(JtsModule())
-            val fishActions = mapper.readValue(response.body(), object : TypeReference<List<MissionAction>>() {})
-            return fishActions
+            mapper.readValue(response.body(), object : TypeReference<List<MissionAction>>() {})
         } else {
             logger.info("Failed to fetch data. Status code: ${response.statusCode()}")
-            return listOf()
+            emptyList()
         }
     }
 }

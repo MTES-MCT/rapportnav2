@@ -22,7 +22,7 @@ class AddOrUpdateControl(
 
     fun addOrUpdateControlAdministrative(control: ControlAdministrativeEntity): ControlAdministrativeEntity {
         val existingControl = getControlByActionId.getControlAdministrative(control.actionControlId)
-        var controlToSave: ControlAdministrativeEntity? = null
+        var controlToSave: ControlAdministrativeEntity?
         if (existingControl != null) {
             controlToSave = control
             controlToSave.id = existingControl.id
@@ -35,7 +35,7 @@ class AddOrUpdateControl(
 
     fun addOrUpdateControlSecurity(control: ControlSecurityEntity): ControlSecurityEntity {
         val existingControl = getControlByActionId.getControlSecurity(control.actionControlId)
-        var controlToSave: ControlSecurityEntity? = null
+        var controlToSave: ControlSecurityEntity?
         if (existingControl != null) {
             controlToSave = control
             controlToSave.id = existingControl.id
@@ -48,7 +48,7 @@ class AddOrUpdateControl(
 
     fun addOrUpdateControlNavigation(control: ControlNavigationEntity): ControlNavigationEntity {
         val existingControl = getControlByActionId.getControlNavigation(control.actionControlId)
-        var controlToSave: ControlNavigationEntity? = null
+        var controlToSave: ControlNavigationEntity?
         if (existingControl != null) {
             controlToSave = control
             controlToSave.id = existingControl.id
@@ -61,7 +61,7 @@ class AddOrUpdateControl(
 
     fun addOrUpdateControlGensDeMer(control: ControlGensDeMerEntity): ControlGensDeMerEntity {
         val existingControl = getControlByActionId.getControlGensDeMer(control.actionControlId)
-        var controlToSave: ControlGensDeMerEntity? = null
+        var controlToSave: ControlGensDeMerEntity?
         if (existingControl != null) {
             controlToSave = control
             controlToSave.id = existingControl.id

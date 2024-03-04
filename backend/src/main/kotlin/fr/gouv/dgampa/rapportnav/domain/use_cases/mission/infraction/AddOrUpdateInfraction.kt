@@ -24,9 +24,9 @@ class AddOrUpdateInfraction(
     fun execute(infraction: InfractionEntity): InfractionEntity {
         // create control if it doesn't exist
         // users might add infractions without having checked a control
-        if (infraction.controlId != null) {
+        return if (infraction.controlId != null) {
             val savedData = infractionRepo.save(infraction).toInfractionEntity()
-            return savedData
+            savedData
         } else {
             // Check if any of the controls already exist
             val existingControl =
@@ -74,7 +74,7 @@ class AddOrUpdateInfraction(
 
                 if (newControl != null) {
                     // save the control
-                    val control = when (infraction.controlType) {
+                    when (infraction.controlType) {
                         ControlType.ADMINISTRATIVE -> controlAdministrativeRepo.save(newControl as ControlAdministrativeEntity)
                         ControlType.SECURITY -> controlSecurityRepo.save(newControl as ControlSecurityEntity)
                         ControlType.NAVIGATION -> controlNavigationRepo.save(newControl as ControlNavigationEntity)
@@ -89,7 +89,7 @@ class AddOrUpdateInfraction(
 
 
             val savedData = infractionRepo.save(infraction).toInfractionEntity()
-            return savedData
+            savedData
         }
 
     }

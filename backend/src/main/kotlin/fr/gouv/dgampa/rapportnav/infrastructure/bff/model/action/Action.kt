@@ -24,8 +24,8 @@ data class Action(
     companion object {
         fun fromEnvAction(envAction: ExtendedEnvActionEntity? = null, missionId: Int): Action? {
 
-            if (envAction?.controlAction?.action != null) {
-                return Action(
+            return envAction?.controlAction?.action?.let {
+                Action(
                     id = envAction.controlAction.action.id,
                     missionId = missionId,
                     source = MissionSourceEnum.MONITORENV,
@@ -36,7 +36,7 @@ data class Action(
                             id = envAction.controlAction.action.id,
                             actionStartDateTimeUtc = it,
                             actionEndDateTimeUtc = envAction.controlAction.action.actionEndDateTimeUtc,
-                            actionType = envAction.controlAction.action.actionType!!,
+                            actionType = envAction.controlAction.action.actionType,
                             geom = envAction.controlAction.action.geom,
                             observations = envAction.controlAction.action.observations,
                             actionNumberOfControls = envAction.controlAction.action.actionNumberOfControls,
@@ -55,14 +55,12 @@ data class Action(
                         )
                     }
                 )
-            } else {
-                return null
             }
         }
 
         fun fromFishAction(fishAction: ExtendedFishActionEntity, missionId: Int): Action? {
-            if (fishAction?.controlAction?.action != null) {
-                val action = fishAction?.controlAction?.action
+            return fishAction.controlAction?.action?.let {
+                val action = fishAction.controlAction?.action
                 return Action(
                     id = action.id.toString(),
                     missionId = missionId,
@@ -122,26 +120,30 @@ data class Action(
                         isSafetyEquipmentAndStandardsComplianceControl = action.isSafetyEquipmentAndStandardsComplianceControl,
                         isSeafarersControl = action.isSeafarersControl,
                         // controls
-                        controlAdministrative = ControlAdministrative.fromControlAdministrativeEntity(fishAction?.controlAction?.controlAdministrative),
-                        controlNavigation = ControlNavigation.fromControlNavigationEntity(fishAction?.controlAction?.controlNavigation),
-                        controlSecurity = ControlSecurity.fromControlSecurityEntity(fishAction?.controlAction?.controlSecurity),
-                        controlGensDeMer = ControlGensDeMer.fromControlGensDeMerEntity(fishAction?.controlAction?.controlGensDeMer),
+                        controlAdministrative = ControlAdministrative.fromControlAdministrativeEntity(fishAction.controlAction?.controlAdministrative),
+                        controlNavigation = ControlNavigation.fromControlNavigationEntity(fishAction.controlAction?.controlNavigation),
+                        controlSecurity = ControlSecurity.fromControlSecurityEntity(fishAction.controlAction?.controlSecurity),
+                        controlGensDeMer = ControlGensDeMer.fromControlGensDeMerEntity(fishAction.controlAction?.controlGensDeMer),
                     )
                 )
-            } else {
-                return null
             }
         }
 
 
         fun fromNavAction(navAction: NavActionEntity): Action? {
             var data: ActionData? = null
-            if (navAction.statusAction != null) {
-                data = navAction.statusAction.toNavActionStatus()
-            } else if (navAction.controlAction != null) {
-                data = navAction.controlAction.toNavActionControl()
-            } else if (navAction.freeNoteAction != null) {
-                data = navAction.freeNoteAction.toNavActionFreeNote()
+            when {
+                navAction.statusAction != null -> {
+                    data = navAction.statusAction.toNavActionStatus()
+                }
+
+                navAction.controlAction != null -> {
+                    data = navAction.controlAction.toNavActionControl()
+                }
+
+                navAction.freeNoteAction != null -> {
+                    data = navAction.freeNoteAction.toNavActionFreeNote()
+                }
             }
             return Action(
                 id = navAction.id,

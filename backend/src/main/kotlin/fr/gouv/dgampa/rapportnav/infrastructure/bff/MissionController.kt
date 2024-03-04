@@ -62,24 +62,24 @@ class MissionController(
 
     @QueryMapping
     fun mission(@Argument missionId: Int): Mission? {
-        if (missionId in fakeMissionData.getEmptyMissionIds()) {
+        return if (missionId in fakeMissionData.getEmptyMissionIds()) {
             var fakeMission = fakeMissionData.emptyMission(missionId)
             val navMission = getNavMissionById.execute(missionId = missionId)
             fakeMission.actions =
                 fakeMission.actions?.plus(navMission.actions.map { MissionActionEntity.NavAction(it) })
-            return Mission.fromMissionEntity(fakeMission)
+            Mission.fromMissionEntity(fakeMission)
         } else if (missionId in fakeMissionData.getFullMissionIds()) {
             val fakeMission = fakeMissionData.fullMission(missionId)
             val navMission = getNavMissionById.execute(missionId = missionId)
             fakeMission.actions =
                 fakeMission.actions?.plus(navMission.actions.map { MissionActionEntity.NavAction(it) })
-            return Mission.fromMissionEntity(fakeMission)
+            Mission.fromMissionEntity(fakeMission)
         } else {
             val envMission = getEnvMissionById.execute(missionId = missionId) ?: return null
             val fishMissionActions = getFishActionsByMissionId.execute(missionId = missionId)
             val navMission = getNavMissionById.execute(missionId = missionId)
 
-            return Mission.fromMissionEntity(MissionEntity(envMission, navMission, fishMissionActions))
+            Mission.fromMissionEntity(MissionEntity(envMission, navMission, fishMissionActions))
         }
     }
 

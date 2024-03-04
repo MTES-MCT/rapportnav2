@@ -9,10 +9,10 @@ import java.util.*
 class GetInfractionById(private val repo: IInfractionRepository) {
     fun execute(id: UUID): InfractionEntity? {
         val infractionModel = repo.findById(id)
-        if (infractionModel.isPresent) {
-            return infractionModel.get().toInfractionEntity()
+        return if (infractionModel.isPresent) {
+            infractionModel.get().toInfractionEntity()
         } else {
-            return null
+            null
         }
     }
 }

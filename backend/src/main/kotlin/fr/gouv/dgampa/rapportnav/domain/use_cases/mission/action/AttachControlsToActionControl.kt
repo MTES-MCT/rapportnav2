@@ -14,16 +14,16 @@ class AttachControlsToActionControl(
         actionId: String?,
         action: ExtendedFishActionEntity
     ): ExtendedFishActionEntity {
-        if (actionId != null && action != null) {
-            action?.controlAction?.controlAdministrative =
+        if (actionId != null) {
+            action.controlAction?.controlAdministrative =
                 getControlByActionId.getControlAdministrative(actionControlId = actionId)
-            action?.controlAction?.controlSecurity =
+            action.controlAction?.controlSecurity =
                 getControlByActionId.getControlSecurity(actionControlId = actionId)
-            action?.controlAction?.controlNavigation =
+            action.controlAction?.controlNavigation =
                 getControlByActionId.getControlNavigation(
                     actionControlId = actionId
                 )
-            action?.controlAction?.controlGensDeMer =
+            action.controlAction?.controlGensDeMer =
                 getControlByActionId.getControlGensDeMer(actionControlId = actionId)
 
             return action
@@ -36,15 +36,15 @@ class AttachControlsToActionControl(
         action: ExtendedEnvActionEntity
     ): ExtendedEnvActionEntity {
         if (actionId != null) {
-            action?.controlAction?.controlAdministrative =
+            action.controlAction?.controlAdministrative =
                 getControlByActionId.getControlAdministrative(actionControlId = actionId)
-            action?.controlAction?.controlSecurity =
+            action.controlAction?.controlSecurity =
                 getControlByActionId.getControlSecurity(actionControlId = actionId)
-            action?.controlAction?.controlNavigation =
+            action.controlAction?.controlNavigation =
                 getControlByActionId.getControlNavigation(
                     actionControlId = actionId
                 )
-            action?.controlAction?.controlGensDeMer =
+            action.controlAction?.controlGensDeMer =
                 getControlByActionId.getControlGensDeMer(actionControlId = actionId)
 
             return action

@@ -27,7 +27,6 @@ class JPAUserRepository(
     @Transactional
     override fun save(user: User): User? {
         return try {
-//            user.setPassword(user.password)
             val userModel = UserModel.fromUser(user, mapper)
             dbUserRepository.save(userModel).toUser(mapper)
         } catch (e: InvalidDataAccessApiUsageException) {

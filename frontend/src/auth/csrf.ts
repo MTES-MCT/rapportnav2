@@ -1,2 +1,4 @@
-export const csrfToken = (): string | null =>
-  document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$)|^.*$/, '$1')
+export const csrfToken = (): string | null => {
+  const match = /XSRF-TOKEN=([^;]*)/.exec(document.cookie);
+  return match ? match[1] : null;
+}
