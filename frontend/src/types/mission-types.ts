@@ -43,3 +43,8 @@ export type MissionGeneralInfo = {
   consumedGOInLiters?: number
   consumedFuelInLiters?: number
 }
+
+export type MissionExport = {
+  fileName: string
+  fileContent: string
+}

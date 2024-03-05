@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.AddOrUpdateMissionGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
@@ -18,6 +19,7 @@ import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.util.*
 
 
 @Controller
@@ -36,7 +38,6 @@ class MissionController(
 
     private val logger = LoggerFactory.getLogger(MissionController::class.java)
 
-
     @QueryMapping
     fun missions(): List<Mission>? {
         try {
@@ -48,6 +49,7 @@ class MissionController(
                 pageSize = null,
                 controlUnits = getControlUnitsForUser.execute()
             )?.map { Mission.fromMissionEntity(it) }.orEmpty()
+
 
             // temporarily add fictive missions
             val user = getUserFromToken.execute()
@@ -103,6 +105,28 @@ class MissionController(
         val savedData = addOrUpdateMissionGeneralInfo.execute(data)
         val returnData = MissionGeneralInfo.fromMissionGeneralInfoEntity(savedData)
         return returnData
+    }
+
+    @QueryMapping
+    fun missionExport(@Argument missionId: Int): MissionExportEntity {
+        try {
+//            TODO replace with use case from Aleck
+//            val file = generateOdtFile()
+//            val fileContent = getInMemoryOdtFile("in-memory-odt")
+            val fileContent = null
+            if (fileContent != null) {
+                val encodedFileContent = Base64.getEncoder().encodeToString(fileContent)
+                return MissionExportEntity(
+                    fileName = "export-poc.odt",
+                    fileContent = encodedFileContent
+                )
+            } else {
+                throw RuntimeException("File not found")
+            }
+        } catch (e: Exception) {
+            logger.error("MissionController - failed to load missions from MonitorEnv", e)
+            throw Exception(e)
+        }
     }
 
 }

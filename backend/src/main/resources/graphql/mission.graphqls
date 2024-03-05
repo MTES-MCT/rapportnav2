@@ -1,7 +1,13 @@
 type Query {
+  missionExport(missionId: ID): MissionExport
   missions: [Mission]
   mission(missionId: ID): Mission
   missionGeneralInfo(missionId: ID): MissionGeneralInfo
+}
+
+type MissionExport {
+  fileName: String
+  fileContent: String
 }
 
 type Mutation {
