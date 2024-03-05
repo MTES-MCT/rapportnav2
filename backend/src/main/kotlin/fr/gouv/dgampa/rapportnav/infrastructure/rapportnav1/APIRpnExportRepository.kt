@@ -11,16 +11,17 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpRequest.BodyPublishers
 import java.net.http.HttpResponse.BodyHandlers
+import java.time.ZonedDateTime
 
 @Repository
 class APIRpnExportRepository(
     private val mapper: ObjectMapper
-): IRpnExportRepository {
+) : IRpnExportRepository {
     override fun exportOdt(
         service: String?,
         id: String,
-        startDateTime: String?,
-        endDateTime: String?,
+        startDateTime: ZonedDateTime?,
+        endDateTime: ZonedDateTime?,
         presenceMer: Map<String, Int>,
         presenceQuai: Map<String, Int>,
         indisponibilite: Map<String, Int>,
@@ -37,21 +38,21 @@ class APIRpnExportRepository(
         val client = HttpClient.newHttpClient()
 
         val content = RpnExportOdtOutput(
-            service,
-            id,
-            startDateTime,
-            endDateTime,
-            presenceMer,
-            presenceQuai,
-            indisponibilite,
-            nbJoursMer,
-            dureeMission,
-            patrouilleEnv,
-            patrouilleMigrant,
-            distanceMilles,
-            goMarine,
-            essence,
-            crew
+            service = service,
+            id = id,
+            startDateTime = startDateTime?.toString(),
+            endDateTime = endDateTime?.toString(),
+            presenceMer = presenceMer,
+            presenceQuai = presenceQuai,
+            indisponibilite = indisponibilite,
+            nbJoursMer = nbJoursMer,
+            dureeMission = dureeMission,
+            patrouilleEnv = patrouilleEnv,
+            patrouilleMigrant = patrouilleMigrant,
+            distanceMilles = distanceMilles,
+            goMarine = goMarine,
+            essence = essence,
+            crew = crew
         )
 
         val gson = Gson();

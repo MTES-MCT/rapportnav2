@@ -10,17 +10,16 @@ interface IRpnExportRepository {
         id: String,
         startDateTime: ZonedDateTime?,
         endDateTime: ZonedDateTime?,
-        presenceMer: Map<String, Long>,
-        presenceQuai: Map<String, Long>,
-        indisponibilite: Map<String, Long>,
-        nbJoursMer: Long,
-        dureeMission: Long,
+        presenceMer: Map<String, Int>,
+        presenceQuai: Map<String, Int>,
+        indisponibilite: Map<String, Int>,
+        nbJoursMer: Int,
+        dureeMission: Int,
         patrouilleEnv: Int,
         patrouilleMigrant: Int,
         distanceMilles: Float?,
         goMarine: Float?,
         essence: Float?,
         crew: List<MissionCrewEntity>
-
     )
 }

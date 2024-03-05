@@ -22,6 +22,10 @@ class ExportMission(
     private val getStatusDurations: GetStatusDurations,
 ) {
 
+    private inline fun List<GetStatusDurations.ActionStatusWithDuration>.findDuration(predicate: (GetStatusDurations.ActionStatusWithDuration) -> Boolean): Int {
+        return find(predicate)?.value?.toInt() ?: 0
+    }
+
     fun exportOdt(missionId: Int) {
 
         val mission: MissionEntity? = getMissionById.execute(missionId = missionId)
@@ -34,46 +38,43 @@ class ExportMission(
             val statuses = navActionStatus.findAllByMissionId(missionId = missionId).sortedBy { it.startDateTimeUtc }
                 .map { it.toActionStatusEntity() }
 
+
             val durations = getStatusDurations.computeActionDurations(
                 missionStartDateTime = mission.startDateTimeUtc,
                 missionEndDateTime = mission.endDateTimeUtc,
                 actions = statuses,
             )
 
-            val presenceMer = mutableMapOf(
-                "navigationEffective" to (durations.find { it.status == ActionStatusType.NAVIGATING }?.value ?: 0),
-                "mouillage" to (durations.find { it.status === ActionStatusType.ANCHORED }?.value ?: 0),
+            val atSeaDurations = mapOf(
+                "navigationEffective" to durations.findDuration { it.status == ActionStatusType.NAVIGATING },
+                "mouillage" to durations.findDuration { it.status == ActionStatusType.ANCHORED },
                 "total" to 0
-            )
-
-            val totalPresenceMer = presenceMer.values.sum()
-            presenceMer["total"] = totalPresenceMer
+            ).toMutableMap()
+            atSeaDurations["total"] = atSeaDurations.values.sum()
 
 
-            val presenceQuai = mutableMapOf(
-                "maintenance" to (durations.find { it.reason === ActionStatusReason.MAINTENANCE }?.value ?: 0),
-                "meteo" to (durations.find { it.reason === ActionStatusReason.WEATHER }?.value ?: 0),
-                "representation" to (durations.find { it.reason === ActionStatusReason.REPRESENTATION }?.value ?: 0),
-                "adminFormation" to (durations.find { it.reason === ActionStatusReason.ADMINISTRATION }?.value ?: 0),
-                "autre" to (durations.find { it.reason === ActionStatusReason.OTHER }?.value ?: 0),
-                "contrPol" to (durations.find { it.reason === ActionStatusReason.HARBOUR_CONTROL }?.value ?: 0),
+            val dockingDurations = mapOf(
+                "maintenance" to durations.findDuration { it.reason == ActionStatusReason.MAINTENANCE },
+                "meteo" to durations.findDuration { it.reason == ActionStatusReason.WEATHER },
+                "representation" to durations.findDuration { it.reason == ActionStatusReason.REPRESENTATION },
+                "adminFormation" to durations.findDuration { it.reason == ActionStatusReason.ADMINISTRATION },
+                "autre" to durations.findDuration { it.reason == ActionStatusReason.OTHER },
+                "contrPol" to durations.findDuration { it.reason == ActionStatusReason.HARBOUR_CONTROL },
                 "total" to 0
-            )
+            ).toMutableMap()
+            dockingDurations["total"] = dockingDurations.values.sum()
 
-            val totalQuai = presenceQuai.values.sum()
-            presenceQuai["total"] = totalQuai
 
-            val indisponibilite = mutableMapOf(
-                "technique" to (durations.find { it.reason === ActionStatusReason.TECHNICAL }?.value ?: 0),
-                "personnel" to (durations.find { it.reason === ActionStatusReason.PERSONNEL }?.value ?: 0),
-                "total" to 78
-            )
+            val unavailabilityDurations = mapOf(
+                "technique" to durations.findDuration { it.reason == ActionStatusReason.TECHNICAL },
+                "personnel" to durations.findDuration { it.reason == ActionStatusReason.PERSONNEL },
+                "total" to 0
+            ).toMutableMap()
+            unavailabilityDurations["total"] = unavailabilityDurations.values.sum()
 
-            val totalIndisponibilite = indisponibilite.values.sum()
-            indisponibilite["total"] = totalIndisponibilite
-
-            val dureeMission = totalPresenceMer + totalQuai + totalIndisponibilite
-
+            val missionDuration =
+                (atSeaDurations["total"] ?: 0) + (dockingDurations["total"] ?: 0) + (unavailabilityDurations["total"]
+                    ?: 0)
 
 
             if (generalInfo != null) {
@@ -82,11 +83,11 @@ class ExportMission(
                     id = "pam" + mission.id,
                     startDateTime = mission.startDateTimeUtc,
                     endDateTime = mission.endDateTimeUtc,
-                    presenceMer = presenceMer,
-                    presenceQuai = presenceQuai,
-                    indisponibilite = indisponibilite,
+                    presenceMer = atSeaDurations,
+                    presenceQuai = dockingDurations,
+                    indisponibilite = unavailabilityDurations,
                     nbJoursMer = 4,
-                    dureeMission = dureeMission,
+                    dureeMission = missionDuration,
                     patrouilleEnv = 2,
                     patrouilleMigrant = 4,
                     distanceMilles = generalInfo.distanceInNauticalMiles,
