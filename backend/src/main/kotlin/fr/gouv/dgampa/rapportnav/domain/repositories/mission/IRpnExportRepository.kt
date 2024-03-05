@@ -1,6 +1,8 @@
 package fr.gouv.dgampa.rapportnav.domain.repositories.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
+import java.time.LocalDate
 import java.time.ZonedDateTime
 
 interface IRpnExportRepository {
@@ -20,6 +22,7 @@ interface IRpnExportRepository {
         distanceMilles: Float?,
         goMarine: Float?,
         essence: Float?,
-        crew: List<MissionCrewEntity>
-    )
+        crew: List<MissionCrewEntity>,
+        timeline: Map<LocalDate, List<String>>?
+    ) : MissionExportEntity?
 }

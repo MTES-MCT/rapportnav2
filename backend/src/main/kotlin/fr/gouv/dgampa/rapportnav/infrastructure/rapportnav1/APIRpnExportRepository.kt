@@ -3,14 +3,16 @@ package fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IRpnExportRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.outputs.RpnExportOdtOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.ExportMissionODTInput
 import org.springframework.stereotype.Repository
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpRequest.BodyPublishers
 import java.net.http.HttpResponse.BodyHandlers
+import java.time.LocalDate
 import java.time.ZonedDateTime
 
 @Repository
@@ -32,12 +34,13 @@ class APIRpnExportRepository(
         distanceMilles: Float?,
         goMarine: Float?,
         essence: Float?,
-        crew: List<MissionCrewEntity>
-    ) {
-        val url = "http://127.0.0.1:8000/public_api/export/odt"
+        crew: List<MissionCrewEntity>,
+        timeline: Map<LocalDate, List<String>>?
+    ): MissionExportEntity? {
+        val url = "https://rapport-mission-dcs.din.developpement-durable.gouv.fr/public_api/export/odt"
         val client = HttpClient.newHttpClient()
 
-        val content = RpnExportOdtOutput(
+        val content = ExportMissionODTInput(
             service = service,
             id = id,
             startDateTime = startDateTime?.toString(),
@@ -52,7 +55,8 @@ class APIRpnExportRepository(
             distanceMilles = distanceMilles,
             goMarine = goMarine,
             essence = essence,
-            crew = crew
+            crew = crew,
+            timeline = timeline
         )
 
         val gson = Gson();
@@ -65,5 +69,7 @@ class APIRpnExportRepository(
             .build()
 
         val response = client.send(request, BodyHandlers.ofString())
+
+        return gson.fromJson(response.body(), MissionExportEntity::class.java)
     }
 }

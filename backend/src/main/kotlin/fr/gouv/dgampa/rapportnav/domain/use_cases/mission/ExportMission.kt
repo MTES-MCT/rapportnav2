@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
@@ -140,12 +141,12 @@ class ExportMission(
         return formattedActions
     }
 
-    fun exportOdt(missionId: Int) {
+    fun exportOdt(missionId: Int): MissionExportEntity? {
 
         val mission: MissionEntity? = getMissionById.execute(missionId = missionId)
 
         if (mission == null) {
-            return
+            return null
         } else {
             val generalInfo: MissionGeneralInfoEntity? = getMissionGeneralInfoByMissionId.execute(missionId)
             val agentsCrew: List<MissionCrewEntity> = agentsCrewByMissionId.execute(missionId = missionId)
@@ -162,25 +163,24 @@ class ExportMission(
 
             val timeline = formatActionsForTimeline(mission.actions)
 
-            if (generalInfo != null) {
-                exportRepository.exportOdt(
-                    service = mission.openBy,
-                    id = "pam" + mission.id,
-                    startDateTime = mission.startDateTimeUtc,
-                    endDateTime = mission.endDateTimeUtc,
-                    presenceMer = durations["atSeaDurations"].orEmpty(),
-                    presenceQuai = durations["dockingDurations"].orEmpty(),
-                    indisponibilite = durations["unavailabilityDurations"].orEmpty(),
-                    nbJoursMer = 4,
-                    dureeMission = missionDuration,
-                    patrouilleEnv = 2,
-                    patrouilleMigrant = 4,
-                    distanceMilles = generalInfo.distanceInNauticalMiles,
-                    goMarine = generalInfo.consumedGOInLiters,
-                    essence = generalInfo.consumedFuelInLiters,
-                    crew = agentsCrew,
-                )
-            }
+            return exportRepository.exportOdt(
+                service = mission.openBy,
+                id = "pam" + mission.id,
+                startDateTime = mission.startDateTimeUtc,
+                endDateTime = mission.endDateTimeUtc,
+                presenceMer = durations["atSeaDurations"].orEmpty(),
+                presenceQuai = durations["dockingDurations"].orEmpty(),
+                indisponibilite = durations["unavailabilityDurations"].orEmpty(),
+                nbJoursMer = 0,
+                dureeMission = missionDuration,
+                patrouilleEnv = 0,
+                patrouilleMigrant = 0,
+                distanceMilles = generalInfo?.distanceInNauticalMiles,
+                goMarine = generalInfo?.consumedGOInLiters,
+                essence = generalInfo?.consumedFuelInLiters,
+                crew = agentsCrew,
+                timeline = timeline
+            )
         }
 
     }
