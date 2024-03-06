@@ -2,14 +2,15 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ThemeEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesControl
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionFreeNoteEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionToString
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.NavActionControlMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.NavActionFreeNoteMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.NavActionStatusMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -74,9 +75,71 @@ class FormatActionToStringTests {
     }
 
     @Test
+    fun `formatEnvControl should return the complete formatted string`() {
+        val action: EnvActionControlEntity = EnvActionControlMock.create(
+            actionNumberOfControls = 2,
+            facade = "Golfe de Gascogne",
+            themes = listOf(
+                ThemeEntity(
+                    theme = "Rejets illicites",
+                )
+            )
+        )
+        assertThat(formatActionToString.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - Golfe de Gascogne - Rejets illicites - 2 contrôles")
+    }
+
+    @Test
     fun `formatEnvControl should return null if action is null`() {
         val action = null
         assertThat(formatActionToString.formatEnvControl(action)).isNull()
+    }
+
+    @Test
+    fun `formatFishControl should return the formatted string`() {
+        val action: MissionAction = FishActionControlMock.create()
+        assertThat(formatActionToString.formatFishControl(action)).isEqualTo("12:00 - Contrôle Pêche - 52.14/14.3 - Le Pi - 314 - Espèces contrôlées: N/A - Infractions: sans PV - RAS")
+    }
+
+    @Test
+    fun `formatFishControl should return the formatted string with natinfs`() {
+        val action: MissionAction = FishActionControlMock.create(
+            speciesInfractions = listOf(
+                SpeciesInfraction().apply {
+                    infractionType = InfractionType.WITH_RECORD
+                    natinf = 123
+                },
+                SpeciesInfraction().apply {
+                    infractionType = InfractionType.WITHOUT_RECORD
+                    natinf = 456
+                }
+            )
+        )
+        assertThat(formatActionToString.formatFishControl(action)).isEqualTo("12:00 - Contrôle Pêche - 52.14/14.3 - Le Pi - 314 - Espèces contrôlées: N/A - Infractions: avec PV - NATINF: 123 + 456")
+    }
+
+    @Test
+    fun `formatFishControl should return the complete formatted string with species`() {
+        val action: MissionAction = FishActionControlMock.create(
+            speciesOnboard = listOf(
+                SpeciesControl().apply {
+                    speciesCode = "COD"
+                    declaredWeight = 12.2
+                    controlledWeight = null
+                },
+                SpeciesControl().apply {
+                    speciesCode = "SOL"
+                    declaredWeight = 12.2
+                    controlledWeight = 14.2
+                }
+            )
+        )
+        assertThat(formatActionToString.formatFishControl(action)).isEqualTo("12:00 - Contrôle Pêche - 52.14/14.3 - Le Pi - 314 - Espèces contrôlées: COD: N/A/12.2 kg - SOL: 14.2/12.2 kg - Infractions: sans PV - RAS")
+    }
+
+    @Test
+    fun `formatFishControl should return null if action is null`() {
+        val action = null
+        assertThat(formatActionToString.formatFishControl(action)).isNull()
     }
 
     @Test

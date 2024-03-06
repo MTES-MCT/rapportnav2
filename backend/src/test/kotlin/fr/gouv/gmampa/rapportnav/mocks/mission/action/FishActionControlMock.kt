@@ -2,17 +2,27 @@ package fr.gouv.gmampa.rapportnav.mocks.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesControl
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesInfraction
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.util.*
 
 object FishActionControlMock {
     fun create(
-        missionId: Int,
-        actionDatetimeUtc: ZonedDateTime,
+        missionId: Int = 1,
+        actionDatetimeUtc: ZonedDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
         actionType: MissionActionType = MissionActionType.SEA_CONTROL,
         isDeleted: Boolean = false,
         hasSomeGearsSeized: Boolean = false,
         hasSomeSpeciesSeized: Boolean = false,
+        latitude: Double? = 52.14,
+        longitude: Double? = 14.3,
+        vesselId: Int? = 314,
+        vesselName: String? = "Le Pi",
+        speciesOnboard: List<SpeciesControl> = listOf(),
+        speciesInfractions: List<SpeciesInfraction> = listOf(),
     ): MissionAction {
         return MissionAction(
             id = UUID.randomUUID().hashCode(),
@@ -21,8 +31,13 @@ object FishActionControlMock {
             actionType = actionType,
             isDeleted = isDeleted,
             hasSomeGearsSeized = hasSomeGearsSeized,
-            hasSomeSpeciesSeized = hasSomeSpeciesSeized
-            // Set other properties to their default values or mocks as needed
+            hasSomeSpeciesSeized = hasSomeSpeciesSeized,
+            latitude = latitude,
+            longitude = longitude,
+            vesselId = vesselId,
+            vesselName = vesselName,
+            speciesOnboard = speciesOnboard,
+            speciesInfractions = speciesInfractions
         )
     }
 }
