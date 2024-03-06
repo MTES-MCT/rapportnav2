@@ -18,7 +18,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@apollo/client": "^3.8.6",
+    "@apollo/client": "^3.9.4",
     "@mtes-mct/monitor-ui": "^11.8.0",
     "@sentry/integrations": "^7.93.0",
     "@sentry/react": "^7.93.0",
