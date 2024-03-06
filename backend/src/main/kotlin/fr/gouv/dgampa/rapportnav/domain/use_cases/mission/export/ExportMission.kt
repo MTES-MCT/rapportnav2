@@ -1,11 +1,10 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
+package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionFreeNoteEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
@@ -17,6 +16,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.ExportParams
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IRpnExportRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionStatusRepository
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
@@ -32,6 +32,7 @@ class ExportMission(
     private val navActionStatus: INavActionStatusRepository,
     private val getStatusDurations: GetStatusDurations,
     private val groupActionByDate: GroupActionByDate,
+    private val formatActionToString: FormatActionToString,
 ) {
 
     private inline fun List<GetStatusDurations.ActionStatusWithDuration>.findDuration(predicate: (GetStatusDurations.ActionStatusWithDuration) -> Boolean): Int {
@@ -78,35 +79,6 @@ class ExportMission(
     }
 
 
-    fun formatEnvControlForTimeline(action: EnvActionControlEntity): String {
-        // Code to format EnvActionControlEntity
-        return "EnvControlForTimeline"
-    }
-
-    fun formatFishControlForTimeline(action: MissionAction): String {
-        // Code to format MissionActionEntity (Fish)
-        return "FishControlForTimeline"
-    }
-
-    fun formatNavNoteForTimeline(action: ActionFreeNoteEntity?): String? {
-        return action?.let {
-            val startTime = action.startDateTimeUtc.toLocalTime().toString().padStart(5, '0')
-            val observation = action.observations ?: ""
-            return "$startTime - $observation"
-        }
-    }
-
-
-    fun formatNavStatusForTimeline(action: NavActionEntity): String {
-        // Code to format NavActionEntity with ActionType.STATUS
-        return "NavStatusForTimeline"
-    }
-
-    fun formatNavControlForTimeline(action: NavActionEntity): String {
-        // Code to format NavActionEntity with ActionType.CONTROL
-        return "NavControlForTimeline"
-    }
-
     fun formatActionsForTimeline(actions: List<MissionActionEntity>?): Map<LocalDate, List<String>>? {
 
         if (actions.isNullOrEmpty()) {
@@ -121,29 +93,28 @@ class ExportMission(
                 when (action) {
                     is MissionActionEntity.EnvAction -> {
                         if (action.envAction?.controlAction?.action is EnvActionControlEntity) {
-                            formatEnvControlForTimeline(action.envAction.controlAction.action)
+                            formatActionToString.formatEnvControl(action.envAction.controlAction.action)
                         } else null
                     }
 
                     is MissionActionEntity.FishAction -> {
                         if (action.fishAction.controlAction?.action is MissionAction) {
-                            formatFishControlForTimeline(action.fishAction.controlAction.action)
+                            formatActionToString.formatFishControl(action.fishAction.controlAction.action)
                         } else null
                     }
 
                     is MissionActionEntity.NavAction -> {
                         val navAction: NavActionEntity = action.navAction
                         when (navAction.actionType) {
-                            ActionType.NOTE -> formatNavNoteForTimeline(navAction.freeNoteAction)
-                            ActionType.STATUS -> formatNavStatusForTimeline(navAction)
-                            ActionType.CONTROL -> formatNavControlForTimeline(navAction)
+                            ActionType.NOTE -> formatActionToString.formatNavNote(navAction.freeNoteAction)
+                            ActionType.STATUS -> formatActionToString.formatNavStatus(navAction.statusAction)
+                            ActionType.CONTROL -> formatActionToString.formatNavControl(navAction.controlAction)
                             else -> null
                         }
                     }
                 }
             }
         }
-
         return formattedActions
     }
 

@@ -19,3 +19,13 @@ fun mapStringToActionStatusType(value: String): ActionStatusType {
         else -> ActionStatusType.UNKNOWN
     }
 }
+
+fun mapActionStatusTypeToHumanString(value: ActionStatusType): String {
+    return when (value) {
+        ActionStatusType.NAVIGATING -> "Navigation"
+        ActionStatusType.ANCHORED -> "Mouillage"
+        ActionStatusType.DOCKED -> "Présence à quai"
+        ActionStatusType.UNAVAILABLE -> "Indisponibilité"
+        else -> "Inconnu"
+    }
+}

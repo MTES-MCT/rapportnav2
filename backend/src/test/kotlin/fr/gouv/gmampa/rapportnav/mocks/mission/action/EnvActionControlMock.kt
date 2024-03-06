@@ -2,14 +2,16 @@ package fr.gouv.gmampa.rapportnav.mocks.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import org.locationtech.jts.geom.Geometry
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.util.*
 
 object EnvActionControlMock {
     fun create(
         id: UUID = UUID.randomUUID(),
-        actionStartDateTimeUtc: ZonedDateTime? = null,
-        actionEndDateTimeUtc: ZonedDateTime? = null,
+        actionStartDateTimeUtc: ZonedDateTime? = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
+        actionEndDateTimeUtc: ZonedDateTime? = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 14, 0), ZoneOffset.UTC),
         geom: Geometry? = null,
         facade: String? = null,
         department: String? = null,
@@ -17,7 +19,7 @@ object EnvActionControlMock {
         isComplianceWithWaterRegulationsControl: Boolean? = null,
         isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
         isSeafarersControl: Boolean? = null,
-        themes: List<ThemeEntity>? = emptyList(),
+        themes: List<ThemeEntity>? = null,
         observations: String? = null,
         actionNumberOfControls: Int? = null,
         actionTargetType: ActionTargetTypeEnum? = null,
