@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionFreeNoteEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
@@ -13,6 +14,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExpor
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.ExportParams
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IRpnExportRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionStatusRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
@@ -86,10 +88,14 @@ class ExportMission(
         return "FishControlForTimeline"
     }
 
-    fun formatNavNoteForTimeline(action: NavActionEntity): String {
-        // Code to format NavActionEntity with ActionType.NOTE
-        return "NavNoteForTimeline"
+    fun formatNavNoteForTimeline(action: ActionFreeNoteEntity?): String? {
+        return action?.let {
+            val startTime = action.startDateTimeUtc.toLocalTime().toString().padStart(5, '0')
+            val observation = action.observations ?: ""
+            return "$startTime - $observation"
+        }
     }
+
 
     fun formatNavStatusForTimeline(action: NavActionEntity): String {
         // Code to format NavActionEntity with ActionType.STATUS
@@ -128,7 +134,7 @@ class ExportMission(
                     is MissionActionEntity.NavAction -> {
                         val navAction: NavActionEntity = action.navAction
                         when (navAction.actionType) {
-                            ActionType.NOTE -> formatNavNoteForTimeline(navAction)
+                            ActionType.NOTE -> formatNavNoteForTimeline(navAction.freeNoteAction)
                             ActionType.STATUS -> formatNavStatusForTimeline(navAction)
                             ActionType.CONTROL -> formatNavControlForTimeline(navAction)
                             else -> null
@@ -145,8 +151,8 @@ class ExportMission(
 
         val mission: MissionEntity? = getMissionById.execute(missionId = missionId)
 
-        if (mission == null) {
-            return null
+        return if (mission == null) {
+            null
         } else {
             val generalInfo: MissionGeneralInfoEntity? = getMissionGeneralInfoByMissionId.execute(missionId)
             val agentsCrew: List<MissionCrewEntity> = agentsCrewByMissionId.execute(missionId = missionId)
@@ -163,7 +169,7 @@ class ExportMission(
 
             val timeline = formatActionsForTimeline(mission.actions)
 
-            return exportRepository.exportOdt(
+            val exportParams = ExportParams(
                 service = mission.openBy,
                 id = "pam" + mission.id,
                 startDateTime = mission.startDateTimeUtc,
@@ -181,6 +187,9 @@ class ExportMission(
                 crew = agentsCrew,
                 timeline = timeline
             )
+//            return null
+            exportRepository.exportOdt(exportParams)
+
         }
 
     }
