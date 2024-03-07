@@ -1,20 +1,70 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControlEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionFreeNoteEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.mapActionStatusTypeToHumanString
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
+import java.time.LocalDate
 import java.time.ZonedDateTime
 
 @UseCase
-class FormatActionToString() {
+class FormatActionsForTimeline(
+    private val groupActionByDate: GroupActionByDate,
+) {
+
+    fun formatTimeline(actions: List<MissionActionEntity>?): Map<LocalDate, List<String>>? {
+
+        if (actions.isNullOrEmpty()) {
+            return null
+        }
+        // Group actions by date
+        val groupedActions = groupActionByDate.execute(actions = actions)
+
+        // Map each group to list of formatted strings
+        return groupedActions?.mapValues { (_, actionsOnDate) ->
+            actionsOnDate.mapNotNull { action ->
+                formatAction(action)
+            }
+        }
+    }
+
+    private fun formatAction(action: MissionActionEntity): String? {
+        return when (action) {
+            is MissionActionEntity.EnvAction -> formatEnvAction(action)
+            is MissionActionEntity.FishAction -> formatFishAction(action)
+            is MissionActionEntity.NavAction -> formatNavAction(action)
+        }
+    }
+
+    private fun formatEnvAction(action: MissionActionEntity.EnvAction): String? {
+        return action.envAction?.controlAction?.action?.let { envControlAction ->
+            formatEnvControl(envControlAction)
+        }
+    }
+
+    private fun formatFishAction(action: MissionActionEntity.FishAction): String? {
+        return action.fishAction.controlAction?.action?.let { fishControlAction ->
+            formatFishControl(fishControlAction)
+        }
+    }
+
+    private fun formatNavAction(action: MissionActionEntity.NavAction): String? {
+        val navAction = action.navAction
+        return when (navAction.actionType) {
+            ActionType.NOTE -> formatNavNote(navAction.freeNoteAction)
+            ActionType.STATUS -> formatNavStatus(navAction.statusAction)
+            ActionType.CONTROL -> formatNavControl(navAction.controlAction)
+            else -> null
+        }
+    }
+
 
     fun formatTime(dateTime: ZonedDateTime?): String? {
-        return dateTime?.let { it.toLocalTime().toString().padStart(5, '0') } ?: "N/A"
+        return dateTime?.toLocalTime()?.toString()?.padStart(5, '0') ?: "N/A"
     }
 
 

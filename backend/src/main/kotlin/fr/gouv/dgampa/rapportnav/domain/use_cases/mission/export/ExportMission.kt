@@ -1,27 +1,17 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.ExportParams
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IRpnExportRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionStatusRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMissionById
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations
-import java.time.LocalDate
+import org.slf4j.LoggerFactory
 
 @UseCase
 class ExportMission(
@@ -30,115 +20,31 @@ class ExportMission(
     private val agentsCrewByMissionId: GetAgentsCrewByMissionId,
     private val getMissionById: GetMissionById,
     private val navActionStatus: INavActionStatusRepository,
-    private val getStatusDurations: GetStatusDurations,
-    private val groupActionByDate: GroupActionByDate,
-    private val formatActionToString: FormatActionToString,
+    private val mapStatusDurations: MapStatusDurations,
+    private val formatActionsForTimeline: FormatActionsForTimeline,
 ) {
 
-    private inline fun List<GetStatusDurations.ActionStatusWithDuration>.findDuration(predicate: (GetStatusDurations.ActionStatusWithDuration) -> Boolean): Int {
-        return find(predicate)?.value?.toInt() ?: 0
-    }
-
-    fun computeDurations(mission: MissionEntity, statuses: List<ActionStatusEntity>): Map<String, Map<String, Int>> {
-        val durations = getStatusDurations.computeActionDurations(
-            missionStartDateTime = mission.startDateTimeUtc,
-            missionEndDateTime = mission.endDateTimeUtc,
-            actions = statuses,
-        )
-
-        val atSeaDurations = mapOf(
-            "navigationEffective" to durations.findDuration { it.status == ActionStatusType.NAVIGATING },
-            "mouillage" to durations.findDuration { it.status == ActionStatusType.ANCHORED },
-            "total" to 0
-        ).toMutableMap()
-        atSeaDurations["total"] = atSeaDurations.values.sum()
-
-        val dockingDurations = mapOf(
-            "maintenance" to durations.findDuration { it.reason == ActionStatusReason.MAINTENANCE },
-            "meteo" to durations.findDuration { it.reason == ActionStatusReason.WEATHER },
-            "representation" to durations.findDuration { it.reason == ActionStatusReason.REPRESENTATION },
-            "adminFormation" to durations.findDuration { it.reason == ActionStatusReason.ADMINISTRATION },
-            "autre" to durations.findDuration { it.reason == ActionStatusReason.OTHER },
-            "contrPol" to durations.findDuration { it.reason == ActionStatusReason.HARBOUR_CONTROL },
-            "total" to 0
-        ).toMutableMap()
-        dockingDurations["total"] = dockingDurations.values.sum()
-
-        val unavailabilityDurations = mapOf(
-            "technique" to durations.findDuration { it.reason == ActionStatusReason.TECHNICAL },
-            "personnel" to durations.findDuration { it.reason == ActionStatusReason.PERSONNEL },
-            "total" to 0
-        ).toMutableMap()
-        unavailabilityDurations["total"] = unavailabilityDurations.values.sum()
-
-        return mapOf(
-            "atSeaDurations" to atSeaDurations.toMap(),
-            "dockingDurations" to dockingDurations.toMap(),
-            "unavailabilityDurations" to unavailabilityDurations.toMap()
-        )
-    }
-
-
-    fun formatActionsForTimeline(actions: List<MissionActionEntity>?): Map<LocalDate, List<String>>? {
-
-        if (actions.isNullOrEmpty()) {
-            return null
-        }
-        // Group actions by date
-        val groupedActions = groupActionByDate.execute(actions = actions)
-
-        // Map each group to list of formatted strings
-        val formattedActions = groupedActions?.mapValues { (_, actionsOnDate) ->
-            actionsOnDate.mapNotNull { action ->
-                when (action) {
-                    is MissionActionEntity.EnvAction -> {
-                        if (action.envAction?.controlAction?.action is EnvActionControlEntity) {
-                            formatActionToString.formatEnvControl(action.envAction.controlAction.action)
-                        } else null
-                    }
-
-                    is MissionActionEntity.FishAction -> {
-                        if (action.fishAction.controlAction?.action is MissionAction) {
-                            formatActionToString.formatFishControl(action.fishAction.controlAction.action)
-                        } else null
-                    }
-
-                    is MissionActionEntity.NavAction -> {
-                        val navAction: NavActionEntity = action.navAction
-                        when (navAction.actionType) {
-                            ActionType.NOTE -> formatActionToString.formatNavNote(navAction.freeNoteAction)
-                            ActionType.STATUS -> formatActionToString.formatNavStatus(navAction.statusAction)
-                            ActionType.CONTROL -> formatActionToString.formatNavControl(navAction.controlAction)
-                            else -> null
-                        }
-                    }
-                }
-            }
-        }
-        return formattedActions
-    }
+    private val logger = LoggerFactory.getLogger(ExportMission::class.java)
 
     fun exportOdt(missionId: Int): MissionExportEntity? {
+        try {
+            val mission: MissionEntity? = getMissionById.execute(missionId = missionId)
+            if (mission == null) {
+                logger.error("[exportOdt] Mission not found for missionId: $missionId")
+                return null
+            }
 
-        val mission: MissionEntity? = getMissionById.execute(missionId = missionId)
-
-        return if (mission == null) {
-            null
-        } else {
             val generalInfo: MissionGeneralInfoEntity? = getMissionGeneralInfoByMissionId.execute(missionId)
             val agentsCrew: List<MissionCrewEntity> = agentsCrewByMissionId.execute(missionId = missionId)
             val statuses = navActionStatus.findAllByMissionId(missionId = missionId).sortedBy { it.startDateTimeUtc }
                 .map { it.toActionStatusEntity() }
 
-
-            val durations = computeDurations(mission, statuses)
-
-            // TODO quelle formule utiliser? celle ci ou plutot missionEnd - missionStart ?
+            val durations = mapStatusDurations.execute(mission, statuses)
             val missionDuration = (durations["atSeaDurations"]?.get("total") ?: 0) +
                 (durations["dockingDurations"]?.get("total") ?: 0) +
                 (durations["unavailabilityDurations"]?.get("total") ?: 0)
 
-            val timeline = formatActionsForTimeline(mission.actions)
+            val timeline = formatActionsForTimeline.formatTimeline(mission.actions)
 
             val exportParams = ExportParams(
                 service = mission.openBy,
@@ -158,10 +64,12 @@ class ExportMission(
                 crew = agentsCrew,
                 timeline = timeline
             )
-//            return null
-            exportRepository.exportOdt(exportParams)
 
+            return exportRepository.exportOdt(exportParams)
+        } catch (e: Exception) {
+            logger.error("[exportOdt] error occurred during exportOdt: ${e.message}")
+            return null
         }
-
     }
+
 }
