@@ -59,9 +59,8 @@ jobs:
             -Dsonar.organization=mtes-mct
             -Dsonar.projectKey=MTES-MCT_rapportnav2
             -Dsonar.verbose=true
-          #            -Dsonar.sources=lib/
-          #            -Dsonar.test.exclusions=tests/**
-          #            -Dsonar.tests=tests/
+            -Dsonar.sources=./src/main
+            -Dsonar.tests=./src/test/kotlin
 
   frontend:
     name: Frontend
@@ -85,5 +84,6 @@ jobs:
           args:
             -Dsonar.projectKey=MTES-MCT_rapportnav2
             -Dsonar.organization=mtes-mct
+            -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
 
 
