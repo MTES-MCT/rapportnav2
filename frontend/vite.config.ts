@@ -1,11 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import eslint from 'vite-plugin-eslint';
-import dotenv from 'dotenv';
-
-// if (process.env.NODE_ENV === 'development') {
-//   dotenv.config();
-// }
+import importMetaEnv from '@import-meta-env/unplugin'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -32,6 +28,10 @@ export default defineConfig({
   plugins: [
     react(),
     eslint(),
+    importMetaEnv.vite({
+      env: './.env',
+      example: './.env.example'
+    })
   ],
   server: {
     host: true,

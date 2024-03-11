@@ -7,8 +7,7 @@ import { ErrorResponse, onError } from "@apollo/client/link/error";
 
 const authToken = new AuthToken()
 
-if (true) {
-  // if (__DEV__) {
+if (import.meta.env.DEV) {
   // Adds messages only in a dev environment
   loadDevMessages()
   loadErrorMessages()
@@ -32,7 +31,7 @@ const authLink = setContext((_, {headers}) => {
   }
 })
 
-const errorLink = onError(({graphQLErrors, networkError, operation, forward}: ErrorResponse) => {
+const errorLink = onError(({operation, forward}: ErrorResponse) => {
   const {response} = operation.getContext()
 
   if ([401, 403].indexOf(response.status) !== -1) {

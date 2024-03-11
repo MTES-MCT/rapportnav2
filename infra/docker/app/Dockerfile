@@ -1,5 +1,5 @@
 
-FROM azul/zulu-openjdk-alpine:17.0.7-17.42.19 as build-all
+FROM azul/zulu-openjdk-alpine:17.0.7-17.42.19 AS build-all
 
 WORKDIR /home/rapportnav
 
@@ -31,6 +31,4 @@ RUN mkdir /home/rapportnav/logs
 # It must point to the front (React) files
 ENV STATIC_FILES_PATH=/home/rapportnav/public
 
-
-# CMD exec java -jar "/home/rapportnav/rapportnav-${VERSION}.jar"
-CMD exec java -Dspring.config.additional-location="/home/rapportnav/configurations/" -Dspring.profiles.active=$ENV_PROFILE -jar "/home/rapportnav/rapportnav-${VERSION}.jar"
+CMD exec java -Dspring.config.additional-location="/home/rapportnav/configurations/" -Dspring.profiles.active="$ENV_PROFILE" -jar "/home/rapportnav/rapportnav-${VERSION}.jar"
