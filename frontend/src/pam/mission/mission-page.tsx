@@ -6,11 +6,13 @@ import MissionPageFooter from './page-footer'
 import { useApolloClient } from '@apollo/client'
 import useMissionExcerpt from "./general-info/use-mission-excerpt";
 import { formatMissionName } from "./utils";
-import useMissionExport from "./export/use-mission-export.tsx";
+import useLazyMissionExport from "./export/use-lazy-mission-export.tsx";
 import { Stack } from "rsuite";
 import Text from "../../ui/text.tsx";
-import { Accent, Button, Size } from "@mtes-mct/monitor-ui";
+import { Accent, Button, logSoftError, Size } from "@mtes-mct/monitor-ui";
 import { getPath, PAM_HOME_PATH } from "../../router/router.tsx";
+import { MissionExport } from "../../types/mission-types.ts";
+import * as Sentry from "@sentry/react";
 
 const MissionPage: React.FC = () => {
 
@@ -19,7 +21,7 @@ const MissionPage: React.FC = () => {
   const apolloClient = useApolloClient()
 
   const {loading, error, data: mission} = useMissionExcerpt(missionId)
-  const {loading: loadingExport, error: errorExport, data: missionExport} = useMissionExport(missionId)
+  const [getMissionReport] = useLazyMissionExport()
 
 
   const exitMission = async () => {
@@ -32,38 +34,54 @@ const MissionPage: React.FC = () => {
     navigate('..')
   }
 
-  const handleDownload = () => {
-    debugger
+  const handleDownload = (missionExport?: MissionExport) => {
     if (missionExport) {
-      // Decode base64 string
-      const decodedContent = atob(missionExport?.fileContent);
+      try {
+        const content = missionExport?.fileContent
+        // Decode base64 string
+        const decodedContent = atob(content);
 
-      // Convert the decoded content to a Uint8Array
-      const uint8Array = new Uint8Array(decodedContent.length);
-      for (let i = 0; i < decodedContent.length; i++) {
-        uint8Array[i] = decodedContent.charCodeAt(i);
+        // Convert the decoded content to a Uint8Array
+        const uint8Array = new Uint8Array(decodedContent.length);
+        for (let i = 0; i < decodedContent.length; i++) {
+          uint8Array[i] = decodedContent.charCodeAt(i);
+        }
+
+        // Create a Blob from the Uint8Array
+        const blob = new Blob([uint8Array], {type: 'application/vnd.oasis.opendocument.text'});
+
+        // Create a temporary link element
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = missionExport.fileName
+
+        // Append the link to the document body and trigger a click event
+        document.body.appendChild(link);
+        link.click();
+
+        // Remove the link element from the document body
+        document.body.removeChild(link);
+      } catch (error) {
+        console.log('handleDownload error: ', error)
+        Sentry.captureException(error);
       }
-
-      // Create a Blob from the Uint8Array
-      const blob = new Blob([uint8Array], {type: 'application/vnd.oasis.opendocument.text'});
-
-      // Create a temporary link element
-      const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
-      link.download = missionExport.fileName
-
-      // Append the link to the document body and trigger a click event
-      document.body.appendChild(link);
-      link.click();
-
-      // Remove the link element from the document body
-      document.body.removeChild(link);
     }
   };
 
   const exportMission = async () => {
-    debugger
-    handleDownload()
+    const {data, error, loading, called} = await getMissionReport({variables: {missionId}})
+    // if (loading && called) {
+    //   toast.info("loading")
+    // } else
+    if (error) {
+      logSoftError({
+        isSideWindowError: false,
+        message: error.message,
+        userMessage: `Le rapport n'a pas pu être généré. Si l'erreur persiste, veuillez contacter l'équipe RapportNav/SNC3.`
+      })
+    } else if (data) {
+      handleDownload((data as any)?.missionExport as any)
+    }
   }
 
   if (loading) {

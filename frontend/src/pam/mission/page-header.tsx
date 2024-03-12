@@ -52,17 +52,17 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
           <FlexboxGrid justify="end" align="middle" style={{height: '100%'}}>
             <Stack direction={"row"} alignItems={"center"} spacing={"2rem"}>
               <Stack.Item>
-                {/*TODO uncomment following component when the time will be right*/}
-                {/*<Button*/}
-                {/*  Icon={Icon.Download}*/}
-                {/*  accent={Accent.PRIMARY}*/}
-                {/*  size={Size.NORMAL}*/}
-                {/*  // color={THEME.color.gainsboro}*/}
-                {/*  onClick={onClickExport}*/}
-                {/*  role={'dl-mission-export'}*/}
-                {/*>*/}
-                {/*  Exporter le rapport de la mission*/}
-                {/*</Button>*/}
+                <Button
+                  Icon={Icon.Download}
+                  accent={Accent.PRIMARY}
+                  size={Size.NORMAL}
+                  // color={THEME.color.gainsboro}
+                  onClick={onClickExport}
+                  role={'dl-mission-export'}
+                  style={{display: "none"}}
+                >
+                  Exporter le rapport de la mission
+                </Button>
               </Stack.Item>
               <Stack.Item>
                 <IconButton
