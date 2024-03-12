@@ -129,7 +129,6 @@ data class Action(
             }
         }
 
-
         fun fromNavAction(navAction: NavActionEntity): Action? {
             var data: ActionData? = null
             when {
@@ -154,13 +153,6 @@ data class Action(
                 data = data
             )
         }
-
-        fun sortForTimeline(allActions: List<Action>?): List<Action>? {
-            return allActions?.sortedWith(compareByDescending<Action> { it.startDateTimeUtc }
-                .thenBy { it.data is NavActionStatus }
-            )
-        }
-
 
     }
 }
