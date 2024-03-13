@@ -18,7 +18,8 @@ class APIRpnExportRepository(
     private val mapper: ObjectMapper
 ) : IRpnExportRepository {
     override fun exportOdt(params: ExportParams): MissionExportEntity? {
-        val url = "https://rapport-mission-dcs.din.developpement-durable.gouv.fr/public_api/export/odt"
+//        val url = "https://rapport-mission-dcs.din.developpement-durable.gouv.fr/public_api/export/odt"
+        val url = "https://rapportnav.kalik-sandbox.ovh/public_api/export/odt"
         val client = HttpClient.newHttpClient()
 
         val content = ExportMissionODTInput(
