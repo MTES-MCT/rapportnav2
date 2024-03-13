@@ -1,9 +1,8 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
-import java.time.LocalDate
 
-class ExportMissionODTInput (
+class ExportMissionODTInput(
     val service: String?,
     val id: String?,
     val startDateTime: String?,
@@ -19,5 +18,5 @@ class ExportMissionODTInput (
     val goMarine: Float?,
     val essence: Float?,
     val crew: List<MissionCrewEntity>,
-    val timeline: Map<LocalDate, List<String>>?
+    val timeline: Map<String, List<String>>?
 )

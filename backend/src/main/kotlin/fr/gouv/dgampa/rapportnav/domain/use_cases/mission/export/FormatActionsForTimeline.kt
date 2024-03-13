@@ -5,10 +5,12 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControlEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionFreeNoteEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.mapActionStatusTypeToHumanString
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
-import java.time.LocalDate
 import java.time.ZonedDateTime
 
 @UseCase
@@ -16,7 +18,7 @@ class FormatActionsForTimeline(
     private val groupActionByDate: GroupActionByDate,
 ) {
 
-    fun formatTimeline(actions: List<MissionActionEntity>?): Map<LocalDate, List<String>>? {
+    fun formatTimeline(actions: List<MissionActionEntity>?): Map<String, List<String>>? {
 
         if (actions.isNullOrEmpty()) {
             return null

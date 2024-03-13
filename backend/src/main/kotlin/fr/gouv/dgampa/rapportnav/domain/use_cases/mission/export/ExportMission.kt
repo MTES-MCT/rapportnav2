@@ -49,8 +49,8 @@ class ExportMission(
             val exportParams = ExportParams(
                 service = mission.openBy,
                 id = "pam" + mission.id,
-                startDateTime = mission.startDateTimeUtc,
-                endDateTime = mission.endDateTimeUtc,
+                startDateTime = mission.startDateTimeUtc.toString(),
+                endDateTime = mission.endDateTimeUtc?.toString(),
                 presenceMer = durations["atSeaDurations"].orEmpty(),
                 presenceQuai = durations["dockingDurations"].orEmpty(),
                 indisponibilite = durations["unavailabilityDurations"].orEmpty(),
