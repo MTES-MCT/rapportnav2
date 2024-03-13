@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExpor
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.ExportParams
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IRpnExportRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.ExportMissionODTInput
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Repository
 import java.net.URI
 import java.net.http.HttpClient
@@ -15,8 +16,10 @@ import java.net.http.HttpResponse.BodyHandlers
 
 @Repository
 class APIRpnExportRepository(
-    private val mapper: ObjectMapper
+    private val mapper: ObjectMapper,
 ) : IRpnExportRepository {
+
+    private val logger = LoggerFactory.getLogger(APIRpnExportRepository::class.java)
     override fun exportOdt(params: ExportParams): MissionExportEntity? {
 //        val url = "https://rapport-mission-dcs.din.developpement-durable.gouv.fr/public_api/export/odt"
         val url = "https://rapportnav.kalik-sandbox.ovh/public_api/export/odt"
@@ -43,6 +46,8 @@ class APIRpnExportRepository(
 
         val gson = Gson();
         val json = gson.toJson(content)
+
+        logger.info(json)
 
         val request = HttpRequest.newBuilder()
             .uri(URI.create(url))
