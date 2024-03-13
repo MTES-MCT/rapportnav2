@@ -8,11 +8,16 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IRpnExportRepositor
 import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.ExportMissionODTInput
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Repository
+import java.io.IOException
+import java.net.InetSocketAddress
+import java.net.Proxy
+import java.net.SocketAddress
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpRequest.BodyPublishers
 import java.net.http.HttpResponse.BodyHandlers
+
 
 @Repository
 class APIRpnExportRepository(
@@ -23,7 +28,32 @@ class APIRpnExportRepository(
     override fun exportOdt(params: ExportParams): MissionExportEntity? {
 //        val url = "https://rapport-mission-dcs.din.developpement-durable.gouv.fr/public_api/export/odt"
         val url = "https://rapportnav.kalik-sandbox.ovh/public_api/export/odt"
-        val client = HttpClient.newHttpClient()
+
+        // Set the proxy host and port
+        val proxyHost = "172.27.229.197"
+        val proxyPort = 8090
+
+        // Create a Proxy object
+        val proxy = Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyHost, proxyPort))
+
+        // Create a ProxySelector with the given Proxy
+        val proxySelector = object : java.net.ProxySelector() {
+            override fun select(uri: URI?): MutableList<Proxy> {
+                val list = mutableListOf<Proxy>()
+                list.add(proxy)
+                return list
+            }
+
+            override fun connectFailed(uri: URI?, sa: SocketAddress?, ioe: IOException?) {
+                // Handle connection failure here if needed
+                throw Exception("ExportMission - connectFailed")
+            }
+        }
+
+        // Create an HttpClient with the proxy selector
+        val client = HttpClient.newBuilder()
+            .proxy(proxySelector)
+            .build()
 
         val content = ExportMissionODTInput(
             service = params.service,
