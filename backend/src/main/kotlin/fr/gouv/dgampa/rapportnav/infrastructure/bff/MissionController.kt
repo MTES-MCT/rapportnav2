@@ -2,7 +2,10 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeMissionData
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMissionById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetNavMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.AddOrUpdateMissionGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
@@ -19,7 +22,6 @@ import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.util.*
 
 
 @Controller
@@ -32,6 +34,7 @@ class MissionController(
     private val addOrUpdateMissionGeneralInfo: AddOrUpdateMissionGeneralInfo,
     private val getControlUnitsForUser: GetControlUnitsForUser,
     private val fakeMissionData: FakeMissionData,
+    private val exportMission: ExportMission
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionController::class.java)
@@ -104,12 +107,11 @@ class MissionController(
     @QueryMapping
     fun missionExport(@Argument missionId: Int): MissionExportEntity {
         try {
-            val fileContent = null
-            if (fileContent != null) {
-                val encodedFileContent = Base64.getEncoder().encodeToString(fileContent)
+            val file = exportMission.exportOdt(missionId)
+            if (file != null) {
                 return MissionExportEntity(
                     fileName = "rapport-de-patrouille-$missionId.odt",
-                    fileContent = encodedFileContent
+                    fileContent = file.fileContent
                 )
             } else {
                 throw RuntimeException("Error - can't send rapport de patrouille to client as it is null")
