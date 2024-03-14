@@ -10,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsForTimeline
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.MapStatusDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
 import fr.gouv.gmampa.rapportnav.mocks.mission.NavMissionMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -50,6 +51,9 @@ class ExportMissionTests {
 
     @MockBean
     private lateinit var formatActionsForTimeline: FormatActionsForTimeline
+
+    @MockBean
+    private lateinit var getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus
 
     @BeforeEach
     fun setUp() {
@@ -92,7 +96,7 @@ class ExportMissionTests {
         // check why mockito.any() did not work, hence the creation of this mock var
         val exportParams = ExportParams(
             service = null,
-            id = "pam1",
+            id = "2022-01-02",
             startDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
             endDateTime = null,
             presenceMer = emptyMap(),
@@ -106,7 +110,7 @@ class ExportMissionTests {
             goMarine = null,
             essence = null,
             crew = emptyList(),
-            timeline = emptyMap()
+            timeline = emptyList()
         )
         `when`(getMissionById.execute(missionId)).thenReturn(NavMissionMock.create())
         `when`(exportRepository.exportOdt(exportParams)).thenReturn(output)

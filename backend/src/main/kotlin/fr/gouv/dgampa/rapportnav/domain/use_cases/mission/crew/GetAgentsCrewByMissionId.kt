@@ -7,8 +7,9 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRe
 @UseCase
 class GetAgentsCrewByMissionId(private val agentCrewRepository: IMissionCrewRepository) {
 
-    fun execute(missionId: Int): List<MissionCrewEntity> {
-        return agentCrewRepository.findByMissionId(missionId = missionId).map { it.toMissionCrewEntity() }
+    fun execute(missionId: Int, commentDefaultsToString: Boolean? = false): List<MissionCrewEntity> {
+        return agentCrewRepository.findByMissionId(missionId = missionId)
+            .map { it.toMissionCrewEntity(commentDefaultsToString) }
             .sortedBy { it.id }
     }
 }

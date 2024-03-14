@@ -11,14 +11,18 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.mapActionStatusTypeToHumanString
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
+import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActionItem
+import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActions
+import java.time.LocalDate
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 @UseCase
 class FormatActionsForTimeline(
     private val groupActionByDate: GroupActionByDate,
 ) {
 
-    fun formatTimeline(actions: List<MissionActionEntity>?): Map<String, List<String>>? {
+    fun formatTimeline(actions: List<MissionActionEntity>?): Map<LocalDate, List<String>>? {
 
         if (actions.isNullOrEmpty()) {
             return null
@@ -32,6 +36,15 @@ class FormatActionsForTimeline(
                 formatAction(action)
             }
         }
+    }
+
+    fun formatForRapportNav1(actions: Map<LocalDate, List<String>>?): List<TimelineActions> {
+        return actions?.map { (date, actionsAsString) ->
+            TimelineActions(
+                date = date.toString(),
+                freeNote = actionsAsString.map { TimelineActionItem(it) }
+            )
+        } ?: emptyList()
     }
 
     private fun formatAction(action: MissionActionEntity): String? {
@@ -65,8 +78,8 @@ class FormatActionsForTimeline(
     }
 
 
-    fun formatTime(dateTime: ZonedDateTime?): String? {
-        return dateTime?.toLocalTime()?.toString()?.padStart(5, '0') ?: "N/A"
+    fun formatTime(dateTime: ZonedDateTime?): String {
+        return dateTime?.format(DateTimeFormatter.ofPattern("HH:mm")) ?: "N/A"
     }
 
 
@@ -76,7 +89,7 @@ class FormatActionsForTimeline(
             val endTime = formatTime(action.actionEndDateTimeUtc)
             val facade = action.facade?.let { " - $it" } ?: ""
             val themes = action.themes?.let { " - ${it.map { theme -> theme.theme }.joinToString(" + ")}" } ?: ""
-            val amountOfControls = action.actionNumberOfControls?.let { " - $it contrôles" } ?: ""
+            val amountOfControls = action.actionNumberOfControls?.let { " - $it contrôle(s)" } ?: ""
             return "$startTime / $endTime - Contrôle Environnement$facade$themes$amountOfControls"
         }
     }
@@ -88,15 +101,15 @@ class FormatActionsForTimeline(
             val vesselInfo = "${action.vesselName ?: "N/A"} - ${action.vesselId}"
             val seizureAndDiversion = action.seizureAndDiversion?.let { " - retour du navire au port" } ?: ""
             val natinfs: String = listOf(
-                action.gearInfractions.map { it.natinf.toString() },
-                action.logbookInfractions.map { it.natinf.toString() },
-                action.speciesInfractions.map { it.natinf.toString() },
-                action.otherInfractions.map { it.natinf.toString() }
+                action.gearInfractions.map { it.natinf },
+                action.logbookInfractions.map { it.natinf },
+                action.speciesInfractions.map { it.natinf },
+                action.otherInfractions.map { it.natinf }
             ).flatten().distinct().let { list ->
                 if (list.isEmpty()) {
                     " - RAS"
                 } else {
-                    " - NATINF: ${list.joinToString(" + ")}"
+                    " - NATINF: ${list.filterNotNull().joinToString(" + ")}"
                 }
             }
             val pvCount = listOf(

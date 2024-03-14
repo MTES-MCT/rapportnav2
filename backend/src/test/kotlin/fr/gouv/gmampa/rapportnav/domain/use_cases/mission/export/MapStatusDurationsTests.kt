@@ -57,60 +57,64 @@ class MapStatusDurationsTests {
             )
         )
         val mockData = listOf(
-            GetStatusDurations.ActionStatusWithDuration(status = ActionStatusType.ANCHORED, value = 120, reason = null),
+            GetStatusDurations.ActionStatusWithDuration(
+                status = ActionStatusType.ANCHORED,
+                duration = 120,
+                reason = null
+            ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
-                value = 0,
+                duration = 0,
                 reason = ActionStatusReason.MAINTENANCE
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
-                value = 120,
+                duration = 120,
                 reason = ActionStatusReason.WEATHER
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
-                value = 120,
+                duration = 120,
                 reason = ActionStatusReason.REPRESENTATION
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
-                value = 0,
+                duration = 0,
                 reason = ActionStatusReason.ADMINISTRATION
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
-                value = 0,
+                duration = 0,
                 reason = ActionStatusReason.HARBOUR_CONTROL
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
-                value = 0,
+                duration = 0,
                 reason = ActionStatusReason.OTHER
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.NAVIGATING,
-                value = 120,
+                duration = 120,
                 reason = null
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.UNAVAILABLE,
-                value = 0,
+                duration = 0,
                 reason = ActionStatusReason.TECHNICAL
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.UNAVAILABLE,
-                value = 120,
+                duration = 120,
                 reason = ActionStatusReason.PERSONNEL
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.UNAVAILABLE,
-                value = 0,
+                duration = 0,
                 reason = ActionStatusReason.OTHER
             )
         )
         Mockito.`when`(
-            getStatusDurations.computeActionDurations(
+            getStatusDurations.computeActionDurationsForAllMission(
                 missionStartDateTime = inputMission.startDateTimeUtc,
                 missionEndDateTime = inputMission.endDateTimeUtc,
                 actions = inputStatuses

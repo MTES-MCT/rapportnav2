@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations
+import kotlin.time.DurationUnit
 
 @UseCase
 class MapStatusDurations(
@@ -13,14 +14,19 @@ class MapStatusDurations(
 ) {
 
     private inline fun List<GetStatusDurations.ActionStatusWithDuration>.findDuration(predicate: (GetStatusDurations.ActionStatusWithDuration) -> Boolean): Int {
-        return find(predicate)?.value?.toInt() ?: 0
+        return find(predicate)?.duration?.toInt() ?: 0
     }
 
-    fun execute(mission: MissionEntity, statuses: List<ActionStatusEntity>): Map<String, Map<String, Int>> {
-        val durations = getStatusDurations.computeActionDurations(
+    fun execute(
+        mission: MissionEntity,
+        statuses: List<ActionStatusEntity>,
+        durationUnit: DurationUnit = DurationUnit.SECONDS
+    ): Map<String, Map<String, Int>> {
+        val durations = getStatusDurations.computeActionDurationsForAllMission(
             missionStartDateTime = mission.startDateTimeUtc,
             missionEndDateTime = mission.endDateTimeUtc,
             actions = statuses,
+            durationUnit = durationUnit
         )
 
         val atSeaDurations = mapOf(

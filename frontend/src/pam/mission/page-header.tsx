@@ -5,6 +5,8 @@ import { Accent, Button, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor
 import Text from '../../ui/text'
 import { MissionSourceEnum } from "../../types/env-mission-types.ts";
 import MissionOpenByTag from "../missions/mission-open-by-tag.tsx";
+import GearIcon from '@rsuite/icons/Gear';
+
 
 const StyledHeader = styled.div`
   height: 60px;
@@ -19,13 +21,15 @@ interface MissionPageHeaderProps {
   missionSource?: MissionSourceEnum
   onClickClose: () => void
   onClickExport: () => void
+  exportLoading?: boolean
 }
 
 const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
                                                                missionName,
                                                                missionSource,
                                                                onClickClose,
-                                                               onClickExport
+                                                               onClickExport,
+                                                               exportLoading
                                                              }) => {
   return (
     <StyledHeader>
@@ -53,13 +57,17 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
             <Stack direction={"row"} alignItems={"center"} spacing={"2rem"}>
               <Stack.Item>
                 <Button
-                  Icon={Icon.Download}
+                  Icon={exportLoading ?
+                    () => <GearIcon spin width={16} height={16} color={THEME.color.white}
+                                    style={{fontSize: '2em', marginRight: '0.5rem'}}/>
+                    : Icon.Download
+                  }
                   accent={Accent.PRIMARY}
                   size={Size.NORMAL}
                   // color={THEME.color.gainsboro}
                   onClick={onClickExport}
                   role={'dl-mission-export'}
-                  style={{display: "none"}}
+                  // style={{display: "none"}}
                 >
                   Exporter le rapport de la mission
                 </Button>

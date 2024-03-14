@@ -30,7 +30,7 @@ class GetNavMissionById(
 
         val statuses = navStatusRepository.findAllByMissionId(missionId = missionId)
             .map { it.toActionStatusEntity() }
-            .map { it.toNavAction() }
+            .map { it.toNavActionEntity() }
 
         val notes = navFreeNoteRepository.findAllByMissionId(missionId = missionId)
             .map { it.toActionFreeNoteEntity() }

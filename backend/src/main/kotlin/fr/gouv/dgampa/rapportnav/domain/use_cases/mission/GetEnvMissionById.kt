@@ -193,7 +193,7 @@ class GetEnvMissionById(
                 facade = "Outre-Mer",
                 observationsCacem = null,
                 startDateTimeUtc = ZonedDateTime.parse("2022-02-15T04:50:09Z"),
-//            endDateTimeUtc = ZonedDateTime.parse("2022-02-23T20:29:03Z"),
+                endDateTimeUtc = ZonedDateTime.parse("2022-02-23T20:29:03Z"),
                 isClosed = false,
                 isDeleted = false,
                 missionSource = MissionSourceEnum.RAPPORTNAV,
