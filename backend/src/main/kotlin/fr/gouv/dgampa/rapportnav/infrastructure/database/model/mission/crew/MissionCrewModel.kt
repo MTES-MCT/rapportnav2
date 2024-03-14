@@ -28,15 +28,16 @@ class MissionCrewModel(
 
     ) {
 
-    fun toMissionCrewEntity(): MissionCrewEntity {
+    fun toMissionCrewEntity(commentDefaultsToString: Boolean? = false): MissionCrewEntity {
         return MissionCrewEntity(
             id = id,
             missionId = missionId,
             agent = agent.toAgentEntity(),
             role = role.toAgentRoleEntity(),
-            comment = comment
+            comment = if (comment == null && commentDefaultsToString == true) "" else comment
         )
     }
+
 
     companion object {
         fun fromMissionCrewEntity(crew: MissionCrewEntity): MissionCrewModel {

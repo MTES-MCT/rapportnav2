@@ -5,7 +5,7 @@ data class MissionCrewEntity(
 
     val id: Int? = null,
     val agent: AgentEntity,
-    val comment: String?,
+    val comment: String? = null,
     val role: AgentRoleEntity,
     val missionId: Int,
 )

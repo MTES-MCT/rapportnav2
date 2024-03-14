@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import MissionContent from './mission-content.tsx'
 import { useNavigate, useParams } from 'react-router-dom'
 import MissionPageHeader from './page-header'
@@ -20,6 +20,7 @@ const MissionPage: React.FC = () => {
   let {missionId} = useParams()
   const apolloClient = useApolloClient()
 
+  const [exportLoading, setExportLoading] = useState<boolean>(false)
   const {loading, error, data: mission} = useMissionExcerpt(missionId)
   const [getMissionReport] = useLazyMissionExport()
 
@@ -69,19 +70,21 @@ const MissionPage: React.FC = () => {
   };
 
   const exportMission = async () => {
+    setExportLoading(true)
     const {data, error, loading, called} = await getMissionReport({variables: {missionId}})
-    // if (loading && called) {
-    //   toast.info("loading")
-    // } else
+
     if (error) {
+      setExportLoading(false)
       logSoftError({
         isSideWindowError: false,
         message: error.message,
         userMessage: `Le rapport n'a pas pu être généré. Si l'erreur persiste, veuillez contacter l'équipe RapportNav/SNC3.`
       })
     } else if (data) {
+      setExportLoading(false)
       handleDownload((data as any)?.missionExport as any)
     }
+
   }
 
   if (loading) {
@@ -137,6 +140,7 @@ const MissionPage: React.FC = () => {
                          missionSource={mission?.missionSource}
                          onClickClose={exitMission}
                          onClickExport={exportMission}
+                         exportLoading={exportLoading}
       />
 
       <MissionContent mission={mission}/>

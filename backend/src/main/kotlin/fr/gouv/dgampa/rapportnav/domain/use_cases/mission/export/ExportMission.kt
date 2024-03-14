@@ -11,7 +11,10 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionSt
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
 import org.slf4j.LoggerFactory
+import java.time.format.DateTimeFormatter
+import kotlin.time.DurationUnit
 
 @UseCase
 class ExportMission(
@@ -22,6 +25,7 @@ class ExportMission(
     private val navActionStatus: INavActionStatusRepository,
     private val mapStatusDurations: MapStatusDurations,
     private val formatActionsForTimeline: FormatActionsForTimeline,
+    private val getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus,
 ) {
 
     private val logger = LoggerFactory.getLogger(ExportMission::class.java)
@@ -30,31 +34,39 @@ class ExportMission(
         try {
             val mission: MissionEntity? = getMissionById.execute(missionId = missionId)
             if (mission == null) {
-                logger.error("[exportOdt] Mission not found for missionId: $missionId")
+                logger.error("[RapportDePatrouille] - Mission not found for missionId: $missionId")
                 return null
             }
 
             val generalInfo: MissionGeneralInfoEntity? = getMissionGeneralInfoByMissionId.execute(missionId)
-            val agentsCrew: List<MissionCrewEntity> = agentsCrewByMissionId.execute(missionId = missionId)
+            val agentsCrew: List<MissionCrewEntity> =
+                agentsCrewByMissionId.execute(missionId = missionId, commentDefaultsToString = true)
             val statuses = navActionStatus.findAllByMissionId(missionId = missionId).sortedBy { it.startDateTimeUtc }
                 .map { it.toActionStatusEntity() }
 
-            val durations = mapStatusDurations.execute(mission, statuses)
+            val durations = mapStatusDurations.execute(mission, statuses, DurationUnit.HOURS)
             val missionDuration = (durations["atSeaDurations"]?.get("total") ?: 0) +
                 (durations["dockingDurations"]?.get("total") ?: 0) +
                 (durations["unavailabilityDurations"]?.get("total") ?: 0)
+
+            val nbOfDaysAtSea = getNbOfDaysAtSeaFromNavigationStatus.execute(
+                missionStartDateTime = mission.startDateTimeUtc,
+                missionEndDateTime = mission.endDateTimeUtc,
+                actions = statuses,
+                durationUnit = DurationUnit.HOURS
+            )
 
             val timeline = formatActionsForTimeline.formatTimeline(mission.actions)
 
             val exportParams = ExportParams(
                 service = mission.openBy,
-                id = "pam" + mission.id,
-                startDateTime = mission.startDateTimeUtc.toString(),
-                endDateTime = mission.endDateTimeUtc?.toString(),
+                id = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(mission.startDateTimeUtc),
+                startDateTime = mission.startDateTimeUtc,
+                endDateTime = mission.endDateTimeUtc,
                 presenceMer = durations["atSeaDurations"].orEmpty(),
                 presenceQuai = durations["dockingDurations"].orEmpty(),
                 indisponibilite = durations["unavailabilityDurations"].orEmpty(),
-                nbJoursMer = 0,
+                nbJoursMer = nbOfDaysAtSea,
                 dureeMission = missionDuration,
                 patrouilleEnv = 0,
                 patrouilleMigrant = 0,
@@ -62,12 +74,12 @@ class ExportMission(
                 goMarine = generalInfo?.consumedGOInLiters,
                 essence = generalInfo?.consumedFuelInLiters,
                 crew = agentsCrew,
-                timeline = timeline
+                timeline = formatActionsForTimeline.formatForRapportNav1(timeline)
             )
 
             return exportRepository.exportOdt(exportParams)
         } catch (e: Exception) {
-            logger.error("[exportOdt] error occurred during exportOdt: ${e.message}")
+            logger.error("[RapportDePatrouille] - Error building data before sending it to RapportNav1: ${e.message}")
             return null
         }
     }

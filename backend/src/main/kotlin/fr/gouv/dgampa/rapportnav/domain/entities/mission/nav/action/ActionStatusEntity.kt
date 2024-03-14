@@ -14,7 +14,7 @@ data class ActionStatusEntity(
     val reason: ActionStatusReason? = null,
     val observations: String? = null,
 ) {
-    fun toNavAction(): NavActionEntity {
+    fun toNavActionEntity(): NavActionEntity {
         return NavActionEntity(
             id = id,
             missionId = missionId,

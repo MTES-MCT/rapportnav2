@@ -4,17 +4,63 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import java.time.ZonedDateTime
+import kotlin.time.DurationUnit
 
 
 @UseCase
-class GetStatusDurations() {
+class GetStatusDurations(
+    private val computeDurations: ComputeDurations
+) {
 
     data class ActionStatusWithDuration(
         val status: ActionStatusType,
-        val value: Long,
-        val reason: ActionStatusReason? = null
+        val duration: Long,
+        val reason: ActionStatusReason? = null,
+        val date: ZonedDateTime? = null
     )
+
+    fun computeActionDurationsPerAction(
+        missionStartDateTime: ZonedDateTime,
+        missionEndDateTime: ZonedDateTime? = null,
+        actions: List<ActionStatusEntity>? = listOf(),
+        durationUnit: DurationUnit = DurationUnit.SECONDS
+    ): MutableList<ActionStatusWithDuration> {
+        val durations = mutableListOf<ActionStatusWithDuration>()
+
+
+        var previousActionTime = missionStartDateTime
+        if (!actions.isNullOrEmpty()) {
+            for ((index, action) in actions.withIndex()) {
+                val startTime = if (index == 0) missionStartDateTime else previousActionTime
+                val durationInSeconds = if (missionEndDateTime != null || index < actions.size - 1) {
+                    // If missionEndDateTime is provided or it's not the last action, calculate duration normally
+                    val endTime =
+                        if (index == actions.size - 1) missionEndDateTime else actions[index + 1].startDateTimeUtc
+                    computeDurations.durationInSeconds(startTime, endTime)
+                } else {
+                    // If missionEndDateTime is null and it's the last action, exclude this duration
+                    0
+                }
+
+                // Convert duration to the selected unit
+                val duration = computeDurations.convertFromSeconds(durationInSeconds, durationUnit)
+
+                durations.add(
+                    ActionStatusWithDuration(
+                        status = action.status,
+                        duration = duration.toLong(),
+                        reason = action.reason,
+                        date = action.startDateTimeUtc
+                    )
+                )
+
+                previousActionTime = action.startDateTimeUtc
+            }
+        }
+        return durations
+    }
 
     /**
      * Computes the durations of various action statuses along with their reasons, returning an exhaustive list.
@@ -47,41 +93,21 @@ class GetStatusDurations() {
      *     until this time; otherwise, durations are calculated until the current time for all but the last action.
      * @param actions The list of action status entities (optional). If not provided, default durations with zero
      *     values for all possible status and reason combinations are returned.
+     * @param durationUnit which duration unit (seconds, minutes, hours)
      * @return A list of ActionStatusWithDuration objects representing the computed durations for each action status.
      */
-    fun computeActionDurations(
+    fun computeActionDurationsForAllMission(
         missionStartDateTime: ZonedDateTime,
         missionEndDateTime: ZonedDateTime? = null,
-        actions: List<ActionStatusEntity>? = listOf()
+        actions: List<ActionStatusEntity>? = listOf(),
+        durationUnit: DurationUnit = DurationUnit.SECONDS
     ): List<ActionStatusWithDuration> {
-        val durations = mutableListOf<ActionStatusWithDuration>()
-
-
-        var previousActionTime = missionStartDateTime
-        if (!actions.isNullOrEmpty()) {
-            for ((index, action) in actions.withIndex()) {
-                val startTime = if (index == 0) missionStartDateTime else previousActionTime
-                val duration = if (missionEndDateTime != null || index < actions.size - 1) {
-                    // If missionEndDateTime is provided or it's not the last action, calculate duration normally
-                    val endTime =
-                        if (index == actions.size - 1) missionEndDateTime else actions[index + 1].startDateTimeUtc
-                    endTime?.toEpochSecond()?.minus(startTime.toEpochSecond()) ?: 0
-                } else {
-                    // If missionEndDateTime is null and it's the last action, exclude this duration
-                    0
-                }
-
-                durations.add(
-                    ActionStatusWithDuration(
-                        status = action.status,
-                        value = duration,
-                        reason = action.reason
-                    )
-                )
-
-                previousActionTime = action.startDateTimeUtc
-            }
-        }
+        val durations = this.computeActionDurationsPerAction(
+            missionStartDateTime = missionStartDateTime,
+            missionEndDateTime = missionEndDateTime,
+            actions = actions,
+            durationUnit = durationUnit
+        )
 
         // Add default values for all combinations of status and reason
         for (status in ActionStatusType.values()) {
@@ -89,7 +115,7 @@ class GetStatusDurations() {
                 val reasons = getSelectOptionsForType(status) ?: listOf(null)
                 for (reason in reasons) {
                     if (durations.none { it.status == status && it.reason == reason }) {
-                        durations.add(ActionStatusWithDuration(status = status, value = 0, reason = reason))
+                        durations.add(ActionStatusWithDuration(status = status, duration = 0, reason = reason))
                     }
                 }
             }

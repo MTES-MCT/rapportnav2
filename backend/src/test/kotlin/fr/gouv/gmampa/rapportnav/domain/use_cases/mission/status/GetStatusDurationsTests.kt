@@ -13,6 +13,7 @@ import java.time.Duration
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
+import kotlin.time.DurationUnit
 
 
 @SpringBootTest(classes = [GetStatusDurations::class])
@@ -39,7 +40,7 @@ class GetStatusDurationsTests {
     @Test
     fun `execute should return the default when statuses is null`() {
         val statuses = null
-        val values = getStatusDurations.computeActionDurations(
+        val values = getStatusDurations.computeActionDurationsForAllMission(
             missionStartDateTime,
             missionEndDateTime,
             statuses
@@ -50,7 +51,7 @@ class GetStatusDurationsTests {
     @Test
     fun `execute should return the default when statuses is empty`() {
         val statuses = listOf<ActionStatusEntity>()
-        val values = getStatusDurations.computeActionDurations(
+        val values = getStatusDurations.computeActionDurationsForAllMission(
             missionStartDateTime,
             missionEndDateTime,
             statuses
@@ -70,7 +71,7 @@ class GetStatusDurationsTests {
         )
         val statuses = listOf(actionStatus)
 
-        val values = getStatusDurations.computeActionDurations(
+        val values = getStatusDurations.computeActionDurationsForAllMission(
             missionStartDateTime,
             missionEndDateTime,
             statuses
@@ -108,22 +109,48 @@ class GetStatusDurationsTests {
         )
 
         // Call the computeActionDurations function with missionEndDateTime as null
-        val values = getStatusDurations.computeActionDurations(
+        val valuesInSeconds = getStatusDurations.computeActionDurationsForAllMission(
             missionStartDateTime,
             null,
             actions
         )
-
-        // Calculate expected durations excluding the last action
+        // Calculate expected durations in seconds excluding the last action
         val expectedValues = listOf(
             GetStatusDurations.ActionStatusWithDuration(ActionStatusType.NAVIGATING, 7200),
             GetStatusDurations.ActionStatusWithDuration(ActionStatusType.ANCHORED, 18000),
             GetStatusDurations.ActionStatusWithDuration(ActionStatusType.DOCKED, 18000, ActionStatusReason.WEATHER),
             GetStatusDurations.ActionStatusWithDuration(ActionStatusType.UNAVAILABLE, 0, ActionStatusReason.TECHNICAL),
         )
-
         // Assert that the computed durations match the expected values
-        assertThat(values).containsAll(expectedValues)
+        assertThat(valuesInSeconds).containsAll(expectedValues)
+
+        // same but with values in minutes
+        val valuesInMinutes = getStatusDurations.computeActionDurationsForAllMission(
+            missionStartDateTime,
+            null,
+            actions,
+            DurationUnit.MINUTES
+        )
+        val expectedValuesInMinutes = listOf(
+            GetStatusDurations.ActionStatusWithDuration(ActionStatusType.NAVIGATING, 120),
+            GetStatusDurations.ActionStatusWithDuration(ActionStatusType.ANCHORED, 300),
+            GetStatusDurations.ActionStatusWithDuration(ActionStatusType.DOCKED, 300, ActionStatusReason.WEATHER),
+        )
+        assertThat(valuesInMinutes).containsAll(expectedValuesInMinutes)
+
+        // same but with values in hours
+        val valuesInHours = getStatusDurations.computeActionDurationsForAllMission(
+            missionStartDateTime,
+            null,
+            actions,
+            DurationUnit.HOURS
+        )
+        val expectedValuesInHours = listOf(
+            GetStatusDurations.ActionStatusWithDuration(ActionStatusType.NAVIGATING, 2),
+            GetStatusDurations.ActionStatusWithDuration(ActionStatusType.ANCHORED, 5),
+            GetStatusDurations.ActionStatusWithDuration(ActionStatusType.DOCKED, 5, ActionStatusReason.WEATHER),
+        )
+        assertThat(valuesInHours).containsAll(expectedValuesInHours)
     }
 
 }

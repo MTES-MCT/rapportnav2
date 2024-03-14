@@ -31,7 +31,7 @@ class GetNavActionByIdAndMissionId(
             }
 
             ActionType.STATUS -> {
-                statusActionsRepository.findById(id).orElse(null)?.toActionStatusEntity()?.toNavAction()
+                statusActionsRepository.findById(id).orElse(null)?.toActionStatusEntity()?.toNavActionEntity()
             }
 
             ActionType.NOTE -> {

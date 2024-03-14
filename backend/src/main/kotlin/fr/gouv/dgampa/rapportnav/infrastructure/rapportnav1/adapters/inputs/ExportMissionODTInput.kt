@@ -2,6 +2,16 @@ package fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 
+data class TimelineActions(
+    val date: String,
+    val freeNote: List<TimelineActionItem>
+)
+
+data class TimelineActionItem(
+    val observations: String
+)
+
+
 class ExportMissionODTInput(
     val service: String?,
     val id: String?,
@@ -18,5 +28,5 @@ class ExportMissionODTInput(
     val goMarine: Float?,
     val essence: Float?,
     val crew: List<MissionCrewEntity>,
-    val timeline: Map<String, List<String>>?
+    val timeline: List<TimelineActions>
 )

@@ -10,6 +10,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Specie
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsForTimeline
+import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActionItem
+import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActions
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -39,7 +41,8 @@ class FormatActionsForTimelineTests {
         MissionActionEntity.FishAction(ExtendedFishActionEntity.fromMissionAction(FishActionControlMock.create()))
     private val navControl =
         MissionActionEntity.NavAction(NavActionControlMock.createActionControlEntity().toNavAction())
-    private val navStatus = MissionActionEntity.NavAction(NavActionStatusMock.createActionStatusEntity().toNavAction())
+    private val navStatus =
+        MissionActionEntity.NavAction(NavActionStatusMock.createActionStatusEntity().toNavActionEntity())
     private val navFreeNote = MissionActionEntity.NavAction(NavActionFreeNoteMock.create().toNavAction())
 
     @BeforeEach
@@ -90,6 +93,48 @@ class FormatActionsForTimelineTests {
     }
 
     @Test
+    fun `formatForRapportNav1 should return empty list when actions are null`() {
+        assertThat(formatActionsForTimeline.formatForRapportNav1(null)).isEmpty()
+    }
+
+    @Test
+    fun `formatForRapportNav1 should return empty list when actions are empty`() {
+        assertThat(formatActionsForTimeline.formatForRapportNav1(emptyMap())).isEmpty()
+    }
+
+    @Test
+    fun `formatForRapportNav1 should return the correct list`() {
+        val data = formatActionsForTimeline.formatTimeline(
+            listOf(
+                envControl,
+                fishControl,
+                navControl,
+                navStatus,
+                navFreeNote
+            )
+        )
+        val expected: List<TimelineActions> = listOf(
+            TimelineActions(
+                date = "2022-01-01",
+                freeNote = listOf<TimelineActionItem>(
+                    TimelineActionItem(observations = "12:00 / 14:00 - Contrôle Environnement"),
+                    TimelineActionItem(observations = "12:00 - Contrôle Pêche - 52.14/14.3 - Le Pi - 314 - Espèces contrôlées: N/A - Infractions: sans PV - RAS"),
+                )
+            ),
+            TimelineActions(
+                date = "2022-01-02",
+                freeNote = listOf<TimelineActionItem>(
+                    TimelineActionItem(observations = "12:00 / 14:00 - Contrôle administratif "),
+                    TimelineActionItem(observations = "12:00 - Navigation - début - observations"),
+                    TimelineActionItem(observations = "12:06 - Largué, appareillé"),
+                )
+            ),
+        )
+        assertThat(formatActionsForTimeline.formatForRapportNav1(data)).isEqualTo(expected)
+    }
+
+
+    @Test
     fun `formatTime should return formatted time`() {
         assertThat(
             formatActionsForTimeline.formatTime(
@@ -135,7 +180,7 @@ class FormatActionsForTimelineTests {
     @Test
     fun `formatEnvControl should return formatted string with amount of controls`() {
         val action: EnvActionControlEntity = EnvActionControlMock.create(actionNumberOfControls = 2)
-        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - 2 contrôles")
+        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - 2 contrôle(s)")
     }
 
     @Test
@@ -149,7 +194,7 @@ class FormatActionsForTimelineTests {
                 )
             )
         )
-        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - Golfe de Gascogne - Rejets illicites - 2 contrôles")
+        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - Golfe de Gascogne - Rejets illicites - 2 contrôle(s)")
     }
 
     @Test

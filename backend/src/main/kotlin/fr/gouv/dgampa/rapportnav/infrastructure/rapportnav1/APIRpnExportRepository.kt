@@ -56,10 +56,10 @@ class APIRpnExportRepository(
             .build()
 
         val content = ExportMissionODTInput(
-            service = params.service,
+            service = params.service ?: "",
             id = params.id,
-            startDateTime = params.startDateTime,
-            endDateTime = params.endDateTime,
+            startDateTime = params.startDateTime?.toLocalDate().toString(),
+            endDateTime = params.endDateTime?.toLocalDate().toString(),
             presenceMer = params.presenceMer,
             presenceQuai = params.presenceQuai,
             indisponibilite = params.indisponibilite,
@@ -67,9 +67,9 @@ class APIRpnExportRepository(
             dureeMission = params.dureeMission,
             patrouilleEnv = params.patrouilleEnv,
             patrouilleMigrant = params.patrouilleMigrant,
-            distanceMilles = params.distanceMilles,
-            goMarine = params.goMarine,
-            essence = params.essence,
+            distanceMilles = params.distanceMilles ?: 0.0f,
+            goMarine = params.goMarine ?: 0.0f,
+            essence = params.essence ?: 0.0f,
             crew = params.crew,
             timeline = params.timeline
         )
@@ -85,8 +85,12 @@ class APIRpnExportRepository(
             .POST(BodyPublishers.ofString(json))
             .build()
 
-        val response = client.send(request, BodyHandlers.ofString())
-
-        return gson.fromJson(response.body(), MissionExportEntity::class.java)
+        return try {
+            val response = client.send(request, BodyHandlers.ofString())
+            gson.fromJson(response.body(), MissionExportEntity::class.java)
+        } catch (e: Exception) {
+            logger.error("[RapportDePatrouille] - RapportNav1 returns error: ${e.message}", e)
+            null // or handle the error according to your use case
+        }
     }
 }
