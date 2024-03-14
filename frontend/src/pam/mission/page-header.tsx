@@ -67,7 +67,7 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
                   // color={THEME.color.gainsboro}
                   onClick={onClickExport}
                   role={'dl-mission-export'}
-                  // style={{display: "none"}}
+                  style={{display: "none"}}
                 >
                   Exporter le rapport de la mission
                 </Button>
