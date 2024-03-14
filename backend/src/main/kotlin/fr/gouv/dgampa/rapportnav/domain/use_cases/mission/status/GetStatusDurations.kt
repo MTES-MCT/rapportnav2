@@ -29,7 +29,6 @@ class GetStatusDurations(
     ): MutableList<ActionStatusWithDuration> {
         val durations = mutableListOf<ActionStatusWithDuration>()
 
-
         var previousActionTime = missionStartDateTime
         if (!actions.isNullOrEmpty()) {
             for ((index, action) in actions.withIndex()) {
