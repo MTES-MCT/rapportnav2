@@ -1,6 +1,6 @@
 import React from 'react'
 import { Divider, FlexboxGrid, Loader, Stack } from 'rsuite'
-import { THEME } from '@mtes-mct/monitor-ui'
+import { ExclamationPoint, THEME } from '@mtes-mct/monitor-ui'
 import MissionTimelineItemContainer from './item/timeline-item-container.tsx'
 import MissionTimelineItem from './item/timeline-item.tsx'
 import { Action } from '../../../types/action-types'
@@ -49,7 +49,7 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({missionId, onSelectAct
     )
   }
 
-  if (mission && !!!mission.actions?.length) {
+  if (mission && !mission.actions?.length) {
     return (
       <Stack justifyContent={"center"} alignItems={"center"} style={{height: '100%'}}>
         <Stack.Item alignSelf={"center"}>
@@ -106,7 +106,7 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({missionId, onSelectAct
                                 </Stack>
                               </Stack.Item>
                               <Stack.Item
-                                style={{width: '100%', maxWidth: 'calc(100% - 5rem'}}>
+                                style={{width: '100%', maxWidth: 'calc(100% - 5.4rem', overflow: "hidden"}}>
                                 <MissionTimelineItemContainer
                                   actionSource={action.source}
                                   actionType={action.type as any}
@@ -122,19 +122,35 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({missionId, onSelectAct
                                 </MissionTimelineItemContainer>
                               </Stack.Item>
                               {action.type !== ActionTypeEnum.STATUS && (
-                                <Stack.Item alignSelf="stretch"
-                                            style={{width: '10px', padding: '5px 0'}}
-                                            data-testid={"timeline-item-status"}>
-                                  <div
-                                    style={{
-                                      height: '100%',
-                                      backgroundColor: getColorForStatus(action.status),
-                                      borderRadius: '5px'
-                                    }}
-                                  >
-                                    &nbsp;
-                                  </div>
-                                </Stack.Item>
+                                <>
+                                  {action.dataIsComplete
+                                    ? (
+                                      <Stack.Item alignSelf="stretch"
+                                                  style={{width: '10px', padding: '5px 0'}}
+                                                  data-testid={"timeline-item-status"}>
+                                        <div
+                                          style={{
+                                            height: '100%',
+                                            backgroundColor: getColorForStatus(action.status),
+                                            borderRadius: '5px'
+                                          }}
+                                        >
+                                          &nbsp;
+                                        </div>
+                                      </Stack.Item>
+                                    )
+                                    : (
+                                      <Stack.Item data-testid={"timeline-item-incomplete-report"}>
+                                        <ExclamationPoint
+                                          backgroundColor={getColorForStatus(action.status)}
+                                          title={"Cet évènement contient des données manquantes indispensables pour les statistiques."}
+                                        />
+                                      </Stack.Item>
+
+                                    )
+                                  }
+                                </>
+
                               )}
                             </Stack>
                           </Stack.Item>

@@ -30,6 +30,34 @@ type Mission {
   actions: [Action]
   generalInfo: MissionGeneralInfo
   openBy: String
+  status: MissionStatusEnum!
+  reportStatus: [MissionReportStatus]
+}
+
+enum MissionSourceEnum {
+  MONITORENV,
+  MONITORFISH,
+  POSEIDON_CACEM,
+  POSEIDON_CNSP,
+  RAPPORTNAV,
+}
+
+enum MissionStatusEnum {
+  UPCOMING,
+  PENDING,
+  CLOSED,
+  ENDED,
+  UNAVAILABLE
+}
+
+enum MissionReportStatusEnum {
+  COMPLETE,
+  INCOMPLETE,
+}
+
+type MissionReportStatus {
+  status: MissionReportStatusEnum!
+  source: [MissionSourceEnum]
 }
 
 type MissionGeneralInfo {

@@ -1,7 +1,7 @@
 import { Tag, THEME } from '@mtes-mct/monitor-ui'
-import { MissionSourceEnum } from '../../types/env-mission-types'
+import { MissionSourceEnum } from '../../types/env-mission-types.ts'
 import React from "react";
-import Text from '../../ui/text'
+import Text from '../../ui/text.tsx'
 
 
 interface MissionOpenByTagProps {
@@ -18,12 +18,16 @@ const getTagBackgroundColor = (missionSource?: MissionSourceEnum): string => {
     case MissionSourceEnum.POSEIDON_CNSP:
       return THEME.color.blueGray;
     default:
-      return THEME.color.gainsboro;
+      return THEME.color.gunMetal;
   }
 };
 
 const getTagTextColor = (missionSource?: MissionSourceEnum): string => {
-  return missionSource === MissionSourceEnum.RAPPORTNAV ? THEME.color.charcoal : THEME.color.white;
+  return missionSource === MissionSourceEnum.RAPPORTNAV ? THEME.color.white : THEME.color.white;
+};
+
+const getTagBorderColor = (missionSource?: MissionSourceEnum): string => {
+  return missionSource === MissionSourceEnum.RAPPORTNAV ? THEME.color.white : 'transparent';
 };
 
 const getTagTextContent = (missionSource?: MissionSourceEnum): string => {
@@ -57,11 +61,13 @@ const MissionOpenByTag: React.FC<MissionOpenByTagProps> = ({missionSource, isFak
 
   const backgroundColor = getTagBackgroundColor(missionSource);
   const textColor = getTagTextColor(missionSource);
+  const borderColor = getTagBorderColor(missionSource);
   const textContent = getTagTextContent(missionSource);
 
   return (
     <Tag
       backgroundColor={backgroundColor}
+      borderColor={borderColor}
       color={textColor}
     >
       <Text as={"h3"} weight="medium" color={textColor}>

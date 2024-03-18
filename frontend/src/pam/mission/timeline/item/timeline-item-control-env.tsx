@@ -35,7 +35,7 @@ const ActionEnvControl: React.FC<{ action: Action; onClick: any }> = ({action, o
                   </Stack.Item>
                   <Stack.Item>
                     <Text as="h3" weight="bold" color={THEME.color.gunMetal} data-testid={"theme"}>
-                      {actionData && 'themes' in actionData && actionData?.themes[0]?.theme ? actionData?.themes[0]?.theme : ''}
+                      {actionData && 'themes' in actionData && actionData?.themes[0].theme ? actionData?.themes[0].theme : 'environnement'}
                     </Text>
                   </Stack.Item>
                 </Stack>

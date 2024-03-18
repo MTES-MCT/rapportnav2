@@ -13,12 +13,12 @@ import java.time.ZonedDateTime
 data class Action(
     val id: Any?,
     val missionId: Int,
-//    val type: ActionTypeEnum,
     val source: MissionSourceEnum,
     val startDateTimeUtc: ZonedDateTime?,
     val endDateTimeUtc: ZonedDateTime?,
     val summaryTags: List<String>? = null,
-    val data: ActionData?
+    val data: ActionData? = null,
+    val dataIsComplete: Boolean? = null,
 ) {
 
     companion object {
@@ -33,6 +33,7 @@ data class Action(
                         source = MissionSourceEnum.MONITORENV,
                         startDateTimeUtc = action.actionStartDateTimeUtc,
                         endDateTimeUtc = action.actionEndDateTimeUtc,
+                        dataIsComplete = false,
                         data = action.actionStartDateTimeUtc?.let {
                             EnvActionData(
                                 id = action.id,
@@ -47,6 +48,7 @@ data class Action(
                         }
                     )
                 }
+
                 envAction?.controlAction != null -> {
                     val action = envAction.controlAction.action ?: return null
                     Action(
@@ -55,6 +57,7 @@ data class Action(
                         source = MissionSourceEnum.MONITORENV,
                         startDateTimeUtc = action.actionStartDateTimeUtc,
                         endDateTimeUtc = action.actionEndDateTimeUtc,
+                        dataIsComplete = false,
                         data = action.actionStartDateTimeUtc?.let {
                             EnvActionData(
                                 id = action.id,
@@ -80,6 +83,7 @@ data class Action(
                         }
                     )
                 }
+
                 else -> null
             }
         }
@@ -176,6 +180,7 @@ data class Action(
                 source = MissionSourceEnum.RAPPORTNAV,
                 startDateTimeUtc = navAction.startDateTimeUtc,
                 endDateTimeUtc = navAction.endDateTimeUtc,
+                dataIsComplete = false,
                 data = data
             )
         }
