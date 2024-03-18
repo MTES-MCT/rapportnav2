@@ -1,14 +1,14 @@
-import { render, screen } from '../../test-utils'
+import { render, screen } from '../../test-utils.tsx'
 
-import MissionOpenByTag from './mission-open-by-tag'
-import { MissionSourceEnum } from '../../types/env-mission-types'
+import MissionOpenByTag from './mission-open-by-tag.tsx'
+import { MissionSourceEnum } from '../../types/env-mission-types.ts'
 
 describe('MissionOpenByTag component', () => {
   test('renders "Ouverte par l\'unité" with PRIMARY accent when missionSource is RAPPORTNAV', () => {
     render(<MissionOpenByTag missionSource={MissionSourceEnum.RAPPORTNAV}/>)
     const tagElement = screen.getByText("Ouverte par l'unité")
     expect(tagElement).toBeInTheDocument()
-    expect(getComputedStyle(tagElement.parentElement).backgroundColor).toBe('rgb(229, 229, 235)')
+    expect(getComputedStyle(tagElement.parentElement).backgroundColor).toBe('rgb(40, 47, 62)')
   })
 
   test('renders "Ouverte par le CACEM" with SECONDARY accent when missionSource is MONITORENV', () => {
@@ -39,6 +39,6 @@ describe('MissionOpenByTag component', () => {
     render(<MissionOpenByTag missionSource={undefined}/>)
     const tagElement = screen.getByText('Ouverte par N/A')
     expect(tagElement).toBeInTheDocument()
-    expect(getComputedStyle(tagElement.parentElement).backgroundColor).toBe('rgb(229, 229, 235)')
+    expect(getComputedStyle(tagElement.parentElement).backgroundColor).toBe('rgb(40, 47, 62)')
   })
 })

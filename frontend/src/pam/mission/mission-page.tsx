@@ -5,7 +5,6 @@ import MissionPageHeader from './page-header'
 import MissionPageFooter from './page-footer'
 import { useApolloClient } from '@apollo/client'
 import useMissionExcerpt from "./general-info/use-mission-excerpt";
-import { formatMissionName } from "./utils";
 import useLazyMissionExport from "./export/use-lazy-mission-export.tsx";
 import { Stack } from "rsuite";
 import Text from "../../ui/text.tsx";
@@ -136,8 +135,7 @@ const MissionPage: React.FC = () => {
         maxHeight: '100vh'
       }}
     >
-      <MissionPageHeader missionName={formatMissionName(mission?.startDateTimeUtc)}
-                         missionSource={mission?.missionSource}
+      <MissionPageHeader mission={mission}
                          onClickClose={exitMission}
                          onClickExport={exportMission}
                          exportLoading={exportLoading}

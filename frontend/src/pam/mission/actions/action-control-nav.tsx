@@ -16,8 +16,8 @@ import {
   THEME
 } from '@mtes-mct/monitor-ui'
 import { VesselTypeEnum } from '../../../types/mission-types'
-import { Action, ActionControl } from '../../../types/action-types'
-import { Stack } from 'rsuite'
+import { ActionControl } from '../../../types/action-types'
+import { Divider, Stack } from 'rsuite'
 import Text from '../../../ui/text'
 import { formatDateTimeForFrenchHumans } from '../../../utils/dates.ts'
 import omit from 'lodash/omit'
@@ -31,12 +31,12 @@ import useActionById from "./use-action-by-id.tsx";
 import useAddOrUpdateControl from "./use-add-update-action-control.tsx";
 import useDeleteActionControl from "./use-delete-action-control.tsx";
 import { isEqual } from "lodash";
+import { ActionDetailsProps } from "./action-mapping.ts";
+import ActionReportStatus from "./action-report-status.tsx";
 
-export interface ActionControlNavProps {
-  action: Action
-}
+type ActionControlNavProps = ActionDetailsProps
 
-const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
+const ActionControlNav: React.FC<ActionControlNavProps> = ({action, missionStatus}) => {
 
   const navigate = useNavigate()
   const {missionId, actionId} = useParams()
@@ -152,11 +152,6 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
                     Contrôles {navAction.startDateTimeUtc && `(${formatDateTimeForFrenchHumans(navAction.startDateTimeUtc)})`}
                   </Text>
                 </Stack.Item>
-                <Stack.Item>
-                  <Text as="h2">
-                    {controlMethodToHumanString(control?.controlMethod)} - {vesselTypeToHumanString(control?.vesselType)}
-                  </Text>
-                </Stack.Item>
               </Stack>
             </Stack.Item>
             <Stack.Item>
@@ -177,6 +172,13 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
             </Stack.Item>
           </Stack>
         </Stack.Item>
+        <Stack.Item style={{width: '100%'}}>
+          <ActionReportStatus missionStatus={missionStatus} actionSource={action.source}
+                              dataIsComplete={action.dataIsComplete}/>
+        </Stack.Item>
+        <Stack.Item style={{width: '100%'}}>
+          <Divider style={{backgroundColor: THEME.color.charcoal, margin: 0}}/>
+        </Stack.Item>
         {/* INFO TEXT */}
         <Stack.Item>
           <Stack direction="row" spacing="0.5rem" style={{width: '100%'}}>
@@ -184,7 +186,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
               <Icon.Info color={THEME.color.charcoal} size={20}/>
             </Stack.Item>
             <Stack.Item>
-              <Text as="h3" weight="normal" fontStyle="italic">
+              <Text as="h4" weight="normal" fontStyle="italic">
                 Pour la saisie des contrôles de la pêche et de l’environnement marin, veuillez appeler
                 les
                 centres
@@ -195,11 +197,21 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
             </Stack.Item>
           </Stack>
         </Stack.Item>
+        <Stack.Item style={{width: '100%'}}>
+          <Stack direction={"column"}>
+            <Stack.Item style={{width: '100%'}}>
+              <Text as={"h3"}>Type de contrôle: <b>{controlMethodToHumanString(control?.controlMethod)}</b></Text>
+            </Stack.Item>
+            <Stack.Item style={{width: '100%'}}>
+              <Text as={"h3"}>Type de cible: <b>{vesselTypeToHumanString(control?.vesselType)}</b></Text>
+            </Stack.Item>
+          </Stack>
+        </Stack.Item>
         {/* DATE FIELDS */}
         <Stack.Item>
           <DateRangePicker
             name="dates"
-            // defaultValue={[navAction.startDateTimeUtc ?? formatDateForServers(toLocalISOString()), navAction.endDateTimeUtc ?? formatDateForServers(new Date() as any)]}
+            isRequired={true}
             defaultValue={navAction.startDateTimeUtc && navAction.endDateTimeUtc ? [navAction.startDateTimeUtc, navAction.endDateTimeUtc] : undefined}
             label="Date et heure de début et de fin"
             withTime={true}
@@ -215,6 +227,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
         <Stack.Item>
           <CoordinatesInput
             name="geoCoords"
+            isRequired={true}
             defaultValue={[control.latitude, control.longitude]}
             coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
             label="Lieu du contrôle"
@@ -233,6 +246,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
             <Stack.Item grow={1} basis={'25%'}>
               <Select
                 label="Taille du navire"
+                isRequired={true}
                 isLight={true}
                 options={VESSEL_SIZE_OPTIONS}
                 value={control.vesselSize}
@@ -245,6 +259,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
             <Stack.Item grow={1} basis={'25%'}>
               <TextInput
                 label="Immatriculation"
+                isRequired={true}
                 isLight={true}
                 data-testid={"vesselIdentifier"}
                 name="vesselIdentifier"
@@ -256,6 +271,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
             <Stack.Item grow={2} basis={'50%'}>
               <TextInput
                 label="Identité de la personne contrôlée"
+                isRequired={true}
                 isLight={true}
                 name="identityControlledPerson"
                 data-testid={"identityControlledPerson"}

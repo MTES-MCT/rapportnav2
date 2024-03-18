@@ -13,12 +13,12 @@ import java.time.ZonedDateTime
 data class Action(
     val id: Any?,
     val missionId: Int,
-//    val type: ActionTypeEnum,
     val source: MissionSourceEnum,
     val startDateTimeUtc: ZonedDateTime?,
     val endDateTimeUtc: ZonedDateTime?,
     val summaryTags: List<String>? = null,
-    val data: ActionData?
+    val data: ActionData? = null,
+    val dataIsComplete: Boolean? = null,
 ) {
 
     companion object {
@@ -31,6 +31,7 @@ data class Action(
                     source = MissionSourceEnum.MONITORENV,
                     startDateTimeUtc = envAction.controlAction.action.actionStartDateTimeUtc,
                     endDateTimeUtc = envAction.controlAction.action.actionEndDateTimeUtc,
+                    dataIsComplete = false,
                     data = envAction.controlAction.action.actionStartDateTimeUtc?.let {
                         EnvActionData(
                             id = envAction.controlAction.action.id,
@@ -67,6 +68,7 @@ data class Action(
                     source = MissionSourceEnum.MONITORFISH,
                     startDateTimeUtc = action.actionDatetimeUtc,
                     endDateTimeUtc = null, // Set to null for FishAction since it doesn't have an endDateTime
+                    dataIsComplete = false,
                     data = FishActionData(
                         id = action.id.toString(),
                         missionId = action.missionId,
@@ -150,6 +152,7 @@ data class Action(
                 source = MissionSourceEnum.RAPPORTNAV,
                 startDateTimeUtc = navAction.startDateTimeUtc,
                 endDateTimeUtc = navAction.endDateTimeUtc,
+                dataIsComplete = false,
                 data = data
             )
         }

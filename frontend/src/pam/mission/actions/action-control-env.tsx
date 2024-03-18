@@ -6,7 +6,6 @@ import Text from '../../../ui/text'
 import { formatDateTimeForFrenchHumans } from '../../../utils/dates.ts'
 import ControlsToCompleteTag from '../controls/controls-to-complete-tag'
 import EnvControlForm from '../controls/env-control-form'
-import { Action } from '../../../types/action-types'
 import { ControlType } from '../../../types/control-types'
 import { actionTargetTypeLabels, EnvActionControl, vehicleTypeLabels } from '../../../types/env-mission-types'
 import { useParams } from 'react-router-dom'
@@ -15,12 +14,11 @@ import EnvInfractionExistingTargets from '../infractions/env-infraction-existing
 import useActionById from "./use-action-by-id.tsx";
 import { extractLatLonFromMultiPoint } from "../../../utils/geometry.ts";
 import { Coordinates } from "@mtes-mct/monitor-ui/types/definitions";
+import { ActionDetailsProps } from "./action-mapping.ts";
 
-interface ActionControlPropsEnv {
-  action: Action
-}
+type ActionControlPropsEnv = ActionDetailsProps
 
-const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({action}) => {
+const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({action, missionStatus}) => {
   const {missionId, actionId} = useParams()
 
   const {
@@ -112,7 +110,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({action}) => {
                     <Stack.Item>
                       <Label>Type de cible</Label>
                       <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-                        {!!actionData?.actionTargetType
+                        {actionData?.actionTargetType
                           ? actionTargetTypeLabels[actionData?.actionTargetType].libelle
                           : 'inconnu'}
                       </Text>
@@ -120,7 +118,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({action}) => {
                     <Stack.Item>
                       <Label>Type de véhicule</Label>
                       <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-                        {!!actionData?.vehicleType ? vehicleTypeLabels[actionData?.vehicleType].libelle : 'inconnu'}
+                        {actionData?.vehicleType ? vehicleTypeLabels[actionData?.vehicleType].libelle : 'inconnu'}
                       </Text>
                     </Stack.Item>
                     <Stack.Item>
@@ -135,7 +133,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({action}) => {
                 <Stack.Item style={{width: '67%'}}>
                   <Stack direction="column" alignItems="flex-start" spacing={'1.5rem'}
                          style={{width: '100%'}}>
-                    {(actionData?.controlsToComplete?.length || 0) > 0 && (
+                    {(actionData?.controlsToComplete?.length ?? 0) > 0 && (
                       <Stack.Item alignSelf="flex-end">
                         <ControlsToCompleteTag
                           amountOfControlsToComplete={

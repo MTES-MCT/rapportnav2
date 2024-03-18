@@ -63,12 +63,14 @@ interface StatusReasonDropdownProps {
   actionType: ActionStatusType
   value: ActionStatusReason
   onSelect: (key: string, value: string) => void
+  isRequired: boolean
 }
 
-const StatusReasonDropdown: React.FC<StatusReasonDropdownProps> = ({actionType, value, onSelect}) => {
+const StatusReasonDropdown: React.FC<StatusReasonDropdownProps> = ({actionType, value, isRequired, onSelect}) => {
   const options = getSelectOptionsForType(actionType)
   return !options ? null : (
     <Select
+      isRequired={isRequired}
       label="Motif"
       name="reason"
       isLight={true}

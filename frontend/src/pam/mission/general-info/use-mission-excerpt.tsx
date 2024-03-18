@@ -8,6 +8,11 @@ export const GET_MISSION_EXCERPT = gql`
       missionSource
       startDateTimeUtc
       endDateTimeUtc
+      status
+      reportStatus {
+        status
+        source
+      }
       generalInfo {
         id
         distanceInNauticalMiles

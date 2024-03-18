@@ -1,12 +1,14 @@
-import { getMissionStatus, Mission, MissionStatusEnum } from '../../types/env-mission-types'
 import { FlexboxGrid, Stack } from 'rsuite'
 import { Link } from 'react-router-dom'
-import MissionOpenByTag from './mission-open-by-tag'
+import MissionOpenByTag from '../mission/mission-open-by-tag.tsx'
 import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import { formatDateForFrenchHumans } from '../../utils/dates.ts'
 import React from 'react'
 import styled from "styled-components";
 import { formatMissionName } from "../mission/utils.ts";
+import { Mission } from "../../types/mission-types.ts";
+import MissionStatusTag from "../mission/mission-status-tag.tsx";
+import MissionReportStatusTag from "../mission/mission-report-status-tag.tsx";
 
 const ListItemWithHover = styled.div`
   height: inherit;
@@ -23,20 +25,6 @@ interface MissionsListProps {
   prefetchMission: (missionId: string) => void
 }
 
-const MissionStatus: React.FC<{ mission: Mission }> = ({mission}) => {
-  const missionStatus = getMissionStatus(mission)
-  switch (missionStatus) {
-    case MissionStatusEnum.UPCOMING:
-      return <p style={{color: THEME.color.charcoal, fontSize: '13px'}}>&#8674; À venir</p>
-    case MissionStatusEnum.PENDING:
-      return <p style={{color: THEME.color.maximumRed, fontSize: '13px'}}>&#9679; Brouillon</p>
-    case MissionStatusEnum.ENDED:
-      return <p style={{color: THEME.color.charcoal, fontSize: '13px'}}>&#10003; Clôturée</p>
-    default:
-      return <p style={{color: THEME.color.charcoal, fontSize: '13px'}}>&#10060; N/A</p>
-  }
-}
-
 const MissionsList: React.FC<MissionsListProps> = ({missions, prefetchMission}) => {
   return (
     <Stack direction="column" alignItems="flex-start" spacing="0.5rem" style={{width: '100%'}}>
@@ -49,9 +37,12 @@ const MissionsList: React.FC<MissionsListProps> = ({missions, prefetchMission}) 
             <p style={{color: THEME.color.slateGray, fontSize: '12px'}}>Date de début</p>
           </FlexboxGrid.Item>
           <FlexboxGrid.Item colspan={3}>
-            <p style={{color: THEME.color.slateGray, fontSize: '12px'}}>Statut</p>
+            <p style={{color: THEME.color.slateGray, fontSize: '12px'}}>Statut mission</p>
           </FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={6}></FlexboxGrid.Item>
+          <FlexboxGrid.Item colspan={3}>
+            <p style={{color: THEME.color.slateGray, fontSize: '12px'}}>Statut du rapport</p>
+          </FlexboxGrid.Item>
+          <FlexboxGrid.Item colspan={3}></FlexboxGrid.Item>
           <FlexboxGrid.Item colspan={1}></FlexboxGrid.Item>
         </FlexboxGrid>
       </Stack.Item>
@@ -64,7 +55,7 @@ const MissionsList: React.FC<MissionsListProps> = ({missions, prefetchMission}) 
               style={{
                 textDecoration: 'none'
               }}
-              onMouseOver={(event: any) => {
+              onMouseOver={() => {
                 prefetchMission(mission.id)
               }}
             >
@@ -87,9 +78,12 @@ const MissionsList: React.FC<MissionsListProps> = ({missions, prefetchMission}) 
                   </p>
                 </FlexboxGrid.Item>
                 <FlexboxGrid.Item colspan={3}>
-                  <MissionStatus mission={mission}/>
+                  <MissionStatusTag status={mission.status}/>
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item colspan={6}></FlexboxGrid.Item>
+                <FlexboxGrid.Item colspan={3}>
+                  <MissionReportStatusTag missionStatus={mission.status} reportStatus={mission.reportStatus?.status}/>
+                </FlexboxGrid.Item>
+                <FlexboxGrid.Item colspan={3}></FlexboxGrid.Item>
                 <FlexboxGrid.Item colspan={1}>
                   <Icon.Edit size={20} style={{color: THEME.color.charcoal}}/>
                 </FlexboxGrid.Item>

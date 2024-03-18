@@ -3,78 +3,79 @@ import { Mission } from "../../../types/mission-types.ts";
 
 
 export const GET_MISSION_TIMELINE = gql`
-    query GetMissionTimeline($missionId: ID) {
-        mission(missionId: $missionId) {
+  query GetMissionTimeline($missionId: ID) {
+    mission(missionId: $missionId) {
+      id
+      startDateTimeUtc
+      endDateTimeUtc
+      actions {
+        id
+        type
+        source
+        status
+        summaryTags
+        startDateTimeUtc
+        endDateTimeUtc
+        dataIsComplete
+        data {
+          ... on FishActionData {
+            id
+            actionDatetimeUtc
+            actionType
+            vesselId
+            vesselName
+            controlsToComplete
+          }
+          ... on EnvActionData {
+            id
+            actionNumberOfControls
+            actionTargetType
+            vehicleType
+            controlsToComplete
+            themes {
+              theme
+            }
+          }
+          ... on NavActionFreeNote {
             id
             startDateTimeUtc
-            endDateTimeUtc
-            actions {
-                id
-                type
-                source
-                status
-                summaryTags
-                startDateTimeUtc
-                endDateTimeUtc
-                data {
-                    ... on FishActionData {
-                        id
-                        actionDatetimeUtc
-                        actionType
-                        vesselId
-                        vesselName
-                        controlsToComplete
-                    }
-                    ... on EnvActionData {
-                        id
-                        actionNumberOfControls
-                        actionTargetType
-                        vehicleType
-                        controlsToComplete
-                        themes {
-                            theme
-                        }
-                    }
-                    ... on NavActionFreeNote {
-                        id
-                        startDateTimeUtc
-                        observations
-                    }
-                    ... on NavActionStatus {
-                        id
-                        startDateTimeUtc
-                        status
-                        reason
-                        observations
-                    }
-                    ... on NavActionControl {
-                        id
-                        controlMethod
-                        vesselIdentifier
-                        vesselType
-                        vesselSize
-                    }
-                }
-            }
+            observations
+          }
+          ... on NavActionStatus {
+            id
+            startDateTimeUtc
+            status
+            reason
+            observations
+          }
+          ... on NavActionControl {
+            id
+            controlMethod
+            vesselIdentifier
+            vesselType
+            vesselSize
+          }
         }
+      }
     }
+  }
 `
 
 const useGetMissionTimeline = (missionId?: string): {
-    data?: Mission;
-    loading: boolean;
-    error?: ApolloError;
+  data?: Mission;
+  loading: boolean;
+  error?: ApolloError;
 } => {
-    const {loading, error, data} = useQuery(GET_MISSION_TIMELINE, {
-        variables: {missionId},
-        // fetchPolicy: 'cache-only'
-    });
+  const {loading, error, data} = useQuery(GET_MISSION_TIMELINE, {
+    variables: {missionId},
+    // fetchPolicy: 'cache-only'
+  });
 
-    if (!missionId) {
-        return {loading: false, error: undefined, data: undefined};
-    }
+  if (!missionId) {
+    return {loading: false, error: undefined, data: undefined};
+  }
 
-    return {loading, error, data: data?.mission};
+  return {loading, error, data: data?.mission};
 };
 
 export default useGetMissionTimeline;

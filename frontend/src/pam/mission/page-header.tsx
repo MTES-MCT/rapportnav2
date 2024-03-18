@@ -1,33 +1,33 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FlexboxGrid, Stack } from 'rsuite'
-import { Accent, Button, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
+import { Accent, Button, Icon, IconButton, Size, TagGroup, THEME } from '@mtes-mct/monitor-ui'
 import Text from '../../ui/text'
-import { MissionSourceEnum } from "../../types/env-mission-types.ts";
-import MissionOpenByTag from "../missions/mission-open-by-tag.tsx";
+import MissionOpenByTag from "./mission-open-by-tag.tsx";
 import GearIcon from '@rsuite/icons/Gear';
 import { useFlag } from "@unleash/proxy-client-react";
+import MissionStatusTag from "./mission-status-tag.tsx";
+import { Mission } from "../../types/mission-types.ts";
+import { formatMissionName } from "./utils.ts";
+import MissionReportStatusTag from "./mission-report-status-tag.tsx";
 
 
 const StyledHeader = styled.div`
   height: 60px;
-  background: var(--charcoal-3b4559-) 0% 0% no-repeat padding-box;
-  background: #3b4559 0% 0% no-repeat padding-box;
+  background: #3b4559 0 0 no-repeat padding-box;
   opacity: 1;
   padding: 0 2rem;
 `
 
 interface MissionPageHeaderProps {
-  missionName: string
-  missionSource?: MissionSourceEnum
+  mission?: Mission
   onClickClose: () => void
   onClickExport: () => void
   exportLoading?: boolean
 }
 
 const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
-                                                               missionName,
-                                                               missionSource,
+                                                               mission,
                                                                onClickClose,
                                                                onClickExport,
                                                                exportLoading
@@ -42,18 +42,18 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
           <Stack direction="row" spacing={'1rem'}>
             <Stack.Item>
               <Text as="h1" weight="bold" color={THEME.color.gainsboro}>
-                {missionName}
+                {formatMissionName(mission?.startDateTimeUtc)}
               </Text>
             </Stack.Item>
-            {
-              !!missionSource && (
-                <Stack.Item>
-                  {/*<Text as="h1" weight="bold" color={THEME.color.gainsboro}>*/}
-                  <MissionOpenByTag missionSource={missionSource}/>
-                  {/*</Text>*/}
-                </Stack.Item>
-              )
-            }
+
+            <Stack.Item>
+              <TagGroup>
+                <MissionOpenByTag missionSource={mission?.missionSource}/>
+                <MissionStatusTag status={mission?.status}/>
+                <MissionReportStatusTag missionStatus={mission?.status} reportStatus={mission?.reportStatus?.status}/>
+              </TagGroup>
+            </Stack.Item>
+
           </Stack>
         </FlexboxGrid.Item>
         <FlexboxGrid.Item colspan={6}>
