@@ -6,6 +6,7 @@ import Text from '../../ui/text'
 import { MissionSourceEnum } from "../../types/env-mission-types.ts";
 import MissionOpenByTag from "../missions/mission-open-by-tag.tsx";
 import GearIcon from '@rsuite/icons/Gear';
+import { useFlag } from "@unleash/proxy-client-react";
 
 
 const StyledHeader = styled.div`
@@ -31,6 +32,9 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
                                                                onClickExport,
                                                                exportLoading
                                                              }) => {
+
+  const exportRapportEnabled = useFlag('export_rapport');
+
   return (
     <StyledHeader>
       <FlexboxGrid justify="space-between" align="middle" style={{height: '100%'}}>
@@ -64,14 +68,14 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
                   }
                   accent={Accent.PRIMARY}
                   size={Size.NORMAL}
-                  // color={THEME.color.gainsboro}
                   onClick={onClickExport}
                   role={'dl-mission-export'}
-                  style={{display: "none"}}
+                  style={{display: !!exportRapportEnabled ? "visible" : "none"}}
                 >
                   Exporter le rapport de la mission
                 </Button>
               </Stack.Item>
+
               <Stack.Item>
                 <IconButton
                   Icon={Icon.Close}

@@ -9,7 +9,16 @@
   <link rel="manifest" href="./manifest.json"/>
 </head>
 <body>
+<!-- React root -->
 <div id="root"></div>
+
+<!-- This script will be used by the `import-meta-env` library to inject -->
+<!-- runtime environment variables when running in production -->
+<!-- see: https://import-meta-env.org/guide/getting-started/introduction.html -->
+<script>
+  globalThis.import_meta_env = JSON.parse('"import_meta_env_placeholder"')
+</script>
+
 <script type="module" src="/src/index.tsx"></script>
 </body>
 </html>

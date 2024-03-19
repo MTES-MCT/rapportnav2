@@ -14,15 +14,15 @@ fun main(args: Array<String>) {
 
     val ctx = runApplication<RapportNavApplication>(*args)
 
-    val isSentryEnabled: String? = ctx.environment.getProperty("sentry.enabled")
-    val sentryDsn: String? = ctx.environment.getProperty("sentry.dsn")
+    val isSentryEnabled: String? = ctx.environment.getProperty("rapportnav.sentry.enabled")
+    val sentryDsn: String? = ctx.environment.getProperty("rapportnav.sentry.dsn")
 
     if (isSentryEnabled == "true") {
         Sentry.init { options ->
             options.dsn = sentryDsn
             options.proxy = SentryOptions.Proxy(
-                ctx.environment.getProperty("sentry.proxy.host"),
-                ctx.environment.getProperty("sentry.proxy.port")
+                ctx.environment.getProperty("rapportnav.sentry.proxy.host"),
+                ctx.environment.getProperty("rapportnav.sentry.proxy.port")
             )
             options.tracesSampleRate = 1.0
         }

@@ -1,49 +1,40 @@
-version: "3.7"
-
+version: '3.8'
+name: rapportnav2
 services:
-  app:
-    image: "{{ docker_image_path }}"
-    container_name: rapportnav_backend
-    # user: "rapportnav:${MONITORENV_LOGS_AND_BACKUPS_GID}"
-    environment:
-      - ENV_DB_URL=jdbc:postgresql://db:5432/rapportnavdb?user=postgres&password=postgres
-      - SPRING_PROFILES_ACTIVE=prod
+  backend:
+    build:
+      context: ..
+      dockerfile: ./infra/docker/app/DockerfileLocalBack
     ports:
-      # - ${BACKEND_HTTP_PORT}:8880
-      - 8880:8880
-      - 80:80
-      - 8000:8000
-#    volumes:
-    #  - "${RAPPORTNAV_LOGS_FOLDER}:/home/rapportnav/logs"
-    # networks:
-    #   - backend_network
+      - "80:80"
     depends_on:
       - db
-    restart: always
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1024m"
+    volumes:
+      - ../backend:/tmp/backend
+      - ./infra/configurations/backend:/tmp/backend/configurations
+    environment:
+      - VERSION=NO_VERSION
+      - ENV_PROFILE=local
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: ../infra/docker/app/DockerfileLocalFront
+    ports:
+      - "5173:5173"
+    volumes:
+      - ../frontend:/tmp/frontend
 
   db:
-    image: "{{ nexus_proxy }}/postgres:15.6-alpine"
-    volumes:
-    #  - "${RAPPORTNAV_BACKUPS_FOLDER}:/opt/rapportnav_backups"
-      - db:/var/lib/postgresql/data
-    # networks:
-    #   - backend_network
-    restart: always
+    image: postgres:15.6-alpine
     ports:
       - "5432:5432"
     environment:
       POSTGRES_DB: rapportnavdb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 1s
-      timeout: 1s
-      retries: 30
+    volumes:
+      - db:/var/lib/postgresql/data
 
   unleash_proxy:
     image: unleashorg/unleash-proxy:v1.1.1
@@ -71,8 +62,27 @@ services:
       timeout: 1m
       retries: 5
 
+#  metabase:
+#    image: metabase/metabase:latest
+#    ports:
+#      - "3000:3000"
+#    volumes:
+#      - metabase_data:/metabase-data
+#    environment:
+#      # - MB_DB_CONNECTION_URI="db:5432/rapportnavdb?user=postgres&password=postgres"
+#      - MB_DB_CONNECTION_URI=postgres://db:5432/rapportnavdb?currentSchema=metabase
+#      - MB_DB_FILE=/metabase-data/metabase.db
+#      - MB_DB_TYPE=postgres
+#      # - MB_DB_DBNAME=rapportnavdb
+#      # - MB_DB_PORT=5432
+#      - MB_DB_USER=postgres
+#      - MB_DB_PASS=postgres
+#      # - MB_DB_HOST=db
+#    restart: always
+#    depends_on:
+#      - db
+
 volumes:
   db:
     name: rapportnavdb
-
-
+#  metabase_data:

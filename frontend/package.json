@@ -7,8 +7,9 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "env-prepare": "import-meta-env-prepare -x ./.env.local.defaults",
+    "dev": "npm run env-prepare && vite",
+    "build": "npm run env-prepare && vite build && import-meta-env -x .env.example -p dist/index.html",
     "build:with-sourcemaps": "vite build --sourcemap",
     "tsc": "tsc",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 10000",
@@ -22,6 +23,7 @@
     "@mtes-mct/monitor-ui": "^13.7.2",
     "@sentry/integrations": "^7.101.1",
     "@sentry/react": "^7.100.1",
+    "@unleash/proxy-client-react": "^4.2.2",
     "apollo3-cache-persist": "^0.14.1",
     "date-fns": "^2.30.0",
     "email-validator": "^2.0.4",
@@ -35,10 +37,14 @@
     "rsuite": "^5.53.2",
     "styled-components": "^5.3.11",
     "type-fest": "^4.10.2",
+    "unleash-proxy-client": "^3.3.1",
     "uuid": "^9.0.1",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@import-meta-env/cli": "^0.6.8",
+    "@import-meta-env/prepare": "0.1.13",
+    "@import-meta-env/unplugin": "^0.5.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",

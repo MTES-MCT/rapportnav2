@@ -1,0 +1,37 @@
+########################################
+# Dependencies                         #
+########################################
+# Stage 1: Build backend dependencies
+FROM openjdk:17-jdk-alpine AS backend-dependencies
+
+WORKDIR /tmp/backend
+# Copy backend Gradle build files
+COPY backend/build.gradle.kts backend/settings.gradle.kts backend/gradlew ./
+COPY backend/gradle ./gradle
+# Resolve and cache dependencies
+RUN ./gradlew --no-daemon dependencies
+
+
+########################################
+# Package and Serve on :80             #
+########################################
+FROM backend-dependencies as backend-run
+
+ARG VERSION
+ENV VERSION=$VERSION
+ARG ENV_PROFILE
+ENV ENV_PROFILE=$ENV_PROFILE
+
+WORKDIR /tmp/backend
+
+COPY backend/ .
+
+# Copy config
+COPY infra/configurations/backend ./configurations/
+
+# Expose ports
+EXPOSE 80
+
+# Run the backend application
+CMD (./gradlew -t :bootJar) & ./gradlew bootRun -PskipDownload=true --args='--spring.profiles.active=local --spring.config.additional-location=/tmp/backend/configurations/'
+
