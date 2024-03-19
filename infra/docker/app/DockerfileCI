@@ -40,7 +40,7 @@ FROM node:18 AS build-frontend
 WORKDIR /tmp/frontend
 COPY --from=npm-dependencies /tmp/frontend/node_modules ./node_modules
 COPY frontend .
-RUN npm run build --verbose --mode ci
+RUN npm run build --verbose --mode production
 
 
 
