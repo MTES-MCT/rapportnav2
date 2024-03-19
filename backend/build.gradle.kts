@@ -6,7 +6,7 @@ description = "RapportNav"
 
 val kotlinVersion by extra("1.9.21")
 val serializationVersion by extra("1.6.2")
-val springVersion by extra("3.2.1")
+val springVersion by extra("3.2.3")
 val testcontainersVersion by extra("1.19.3")
 
 plugins {
