@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "import-meta-env-prepare -x ./.env.local.defaults && vite",
-    "build": "vite build && import-meta-env -x .env.example -p dist/index.html",
+    "build": "import-meta-env-prepare -x ./.env.local.defaults && vite build && import-meta-env -x .env.example -p dist/index.html",
     "build:with-sourcemaps": "vite build --sourcemap",
     "tsc": "tsc",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 10000",
