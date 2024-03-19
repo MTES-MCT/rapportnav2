@@ -7,7 +7,8 @@ const initSentry = () => {
   const FRONTEND_SENTRY_DSN = import.meta.env.FRONTEND_SENTRY_DSN
   const viteMode = import.meta.env.MODE
   const isDev = import.meta.env.DEV
-  const release = "rapportnav2@" + process.env.npm_package_version
+  // const release = "rapportnav2@" + process.env.npm_package_version
+  const release = "rapportnav2@" + "1"
 
   init({
     dsn: FRONTEND_SENTRY_DSN,
