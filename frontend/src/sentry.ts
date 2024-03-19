@@ -2,13 +2,15 @@ import { useEffect } from "react";
 import { init, reactRouterV6BrowserTracingIntegration, replayIntegration } from "@sentry/react";
 import { createRoutesFromChildren, matchRoutes, useLocation, useNavigationType } from "react-router-dom";
 import { captureConsoleIntegration, debugIntegration, httpClientIntegration } from "@sentry/integrations";
+import packageJson from '../package.json';
+
+const version = packageJson.version;
 
 const initSentry = () => {
   const FRONTEND_SENTRY_DSN = import.meta.env.FRONTEND_SENTRY_DSN
   const viteMode = import.meta.env.MODE
   const isDev = import.meta.env.DEV
-  // const release = "rapportnav2@" + process.env.npm_package_version
-  const release = "rapportnav2@" + "1"
+  const release = version
 
   init({
     dsn: FRONTEND_SENTRY_DSN,
