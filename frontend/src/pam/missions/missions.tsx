@@ -6,14 +6,10 @@ import { Link } from 'react-router-dom'
 import Text from "../../ui/text.tsx";
 import useMissions from "./use-missions.tsx";
 import { GET_MISSION_BY_ID } from "../mission/use-mission-by-id.tsx";
-import { useFlag } from "@unleash/proxy-client-react";
 
 
 const Missions: React.FC = () => {
     const {loading, data: missions, error, client} = useMissions()
-
-    const export_rapport = useFlag('export_rapport');
-    console.log('export_rapport enabled: ', export_rapport)
 
     const prefetchMission = async (missionId: string) => {
         await client.query({
