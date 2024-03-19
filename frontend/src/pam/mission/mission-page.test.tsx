@@ -6,6 +6,15 @@ import useMissionExcerpt from "./general-info/use-mission-excerpt";
 import { GraphQLError } from "graphql/error";
 import { useNavigate } from "react-router-dom";
 
+vi.mock("@unleash/proxy-client-react", async (importOriginal) => {
+  const actual = await importOriginal()
+  return {
+    ...actual,
+    useFlag: vi.fn(),
+    default: vi.fn()
+  }
+})
+
 // Mock the useApolloClient hook
 const mockApolloClient = {
   resetStore: vi.fn(),

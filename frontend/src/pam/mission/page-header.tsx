@@ -18,82 +18,81 @@ const StyledHeader = styled.div`
 `
 
 interface MissionPageHeaderProps {
-    missionName: string
-    missionSource?: MissionSourceEnum
-    onClickClose: () => void
-    onClickExport: () => void
-    exportLoading?: boolean
+  missionName: string
+  missionSource?: MissionSourceEnum
+  onClickClose: () => void
+  onClickExport: () => void
+  exportLoading?: boolean
 }
 
 const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
-                                                                 missionName,
-                                                                 missionSource,
-                                                                 onClickClose,
-                                                                 onClickExport,
-                                                                 exportLoading
+                                                               missionName,
+                                                               missionSource,
+                                                               onClickClose,
+                                                               onClickExport,
+                                                               exportLoading
                                                              }) => {
 
-    const exportRapportEnabled = useFlag('export_rapport');
+  const exportRapportEnabled = useFlag('export_rapport');
 
-    return (
-        <StyledHeader>
-            <FlexboxGrid justify="space-between" align="middle" style={{height: '100%'}}>
-                <FlexboxGrid.Item>
-                    <Stack direction="row" spacing={'1rem'}>
-                        <Stack.Item>
-                            <Text as="h1" weight="bold" color={THEME.color.gainsboro}>
-                                {missionName}
-                            </Text>
-                        </Stack.Item>
-                        {
-                            !!missionSource && (
-                                <Stack.Item>
-                                    {/*<Text as="h1" weight="bold" color={THEME.color.gainsboro}>*/}
-                                    <MissionOpenByTag missionSource={missionSource}/>
-                                    {/*</Text>*/}
-                                </Stack.Item>
-                            )
-                        }
-                    </Stack>
-                </FlexboxGrid.Item>
-                <FlexboxGrid.Item colspan={6}>
-                    <FlexboxGrid justify="end" align="middle" style={{height: '100%'}}>
-                        <Stack direction={"row"} alignItems={"center"} spacing={"2rem"}>
-                            <Stack.Item>
-                                <Button
-                                    Icon={exportLoading ?
-                                        () => <GearIcon spin width={16} height={16} color={THEME.color.white}
-                                                        style={{fontSize: '2em', marginRight: '0.5rem'}}/>
-                                        : Icon.Download
-                                    }
-                                    accent={Accent.PRIMARY}
-                                    size={Size.NORMAL}
-                                    // color={THEME.color.gainsboro}
-                                    onClick={onClickExport}
-                                    role={'dl-mission-export'}
-                                    style={{display: !!exportRapportEnabled ? "visible" : "none"}}
-                                >
-                                    Exporter le rapport de la mission
-                                </Button>
-                            </Stack.Item>
+  return (
+    <StyledHeader>
+      <FlexboxGrid justify="space-between" align="middle" style={{height: '100%'}}>
+        <FlexboxGrid.Item>
+          <Stack direction="row" spacing={'1rem'}>
+            <Stack.Item>
+              <Text as="h1" weight="bold" color={THEME.color.gainsboro}>
+                {missionName}
+              </Text>
+            </Stack.Item>
+            {
+              !!missionSource && (
+                <Stack.Item>
+                  {/*<Text as="h1" weight="bold" color={THEME.color.gainsboro}>*/}
+                  <MissionOpenByTag missionSource={missionSource}/>
+                  {/*</Text>*/}
+                </Stack.Item>
+              )
+            }
+          </Stack>
+        </FlexboxGrid.Item>
+        <FlexboxGrid.Item colspan={6}>
+          <FlexboxGrid justify="end" align="middle" style={{height: '100%'}}>
+            <Stack direction={"row"} alignItems={"center"} spacing={"2rem"}>
+              <Stack.Item>
+                <Button
+                  Icon={exportLoading ?
+                    () => <GearIcon spin width={16} height={16} color={THEME.color.white}
+                                    style={{fontSize: '2em', marginRight: '0.5rem'}}/>
+                    : Icon.Download
+                  }
+                  accent={Accent.PRIMARY}
+                  size={Size.NORMAL}
+                  onClick={onClickExport}
+                  role={'dl-mission-export'}
+                  style={{display: !!exportRapportEnabled ? "visible" : "none"}}
+                >
+                  Exporter le rapport de la mission
+                </Button>
+              </Stack.Item>
 
-                            <Stack.Item>
-                                <IconButton
-                                    Icon={Icon.Close}
-                                    accent={Accent.TERTIARY}
-                                    size={Size.NORMAL}
-                                    color={THEME.color.gainsboro}
-                                    onClick={onClickClose}
-                                    role={'quit-mission-cross'}
-                                />
-                            </Stack.Item>
-                        </Stack>
+              <Stack.Item>
+                <IconButton
+                  Icon={Icon.Close}
+                  accent={Accent.TERTIARY}
+                  size={Size.NORMAL}
+                  color={THEME.color.gainsboro}
+                  onClick={onClickClose}
+                  role={'quit-mission-cross'}
+                />
+              </Stack.Item>
+            </Stack>
 
-                    </FlexboxGrid>
-                </FlexboxGrid.Item>
-            </FlexboxGrid>
-        </StyledHeader>
-    )
+          </FlexboxGrid>
+        </FlexboxGrid.Item>
+      </FlexboxGrid>
+    </StyledHeader>
+  )
 }
 
 export default MissionPageHeader
