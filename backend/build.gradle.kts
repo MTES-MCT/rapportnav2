@@ -18,7 +18,7 @@ plugins {
   id("org.springframework.boot") version "3.2.3"
   id("io.spring.dependency-management") version "1.1.4"
   id("org.owasp.dependencycheck") version "8.4.0"
-  id("org.sonarqube") version "4.4.1.3373"
+//  id("org.sonarqube") version "4.4.1.3373"
 }
 
 springBoot {
@@ -38,7 +38,8 @@ dependencyManagement {
     mavenBom("org.testcontainers:testcontainers-bom:$testcontainersVersion")
   }
   dependencies {
-    dependency("com.graphql-java:graphql-java:21.1")
+//    dependency("com.graphql-java:graphql-java:21.1")
+    dependency("org.springframework.security:spring-security-core:6.2.3")
   }
 }
 

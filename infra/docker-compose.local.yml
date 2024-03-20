@@ -11,10 +11,11 @@ services:
       - db
     volumes:
       - ../backend:/tmp/backend
-      - ./infra/configurations/backend:/tmp/backend/configurations
+      - ../infra/configurations/backend:/tmp/backend/configurations
     environment:
       - VERSION=NO_VERSION
       - ENV_PROFILE=local
+      - ENV_DB_URL=jdbc:postgresql://db:5432/rapportnavdb?user=postgres&password=postgres
 
   frontend:
     build:

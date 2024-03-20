@@ -85,10 +85,13 @@ docker-logs-backend:
 	docker container logs -f backend
 
 
-.PHONY: docker-build-back docker-build-front docker-run-local
+.PHONY: docker-build-back docker-restart-back docker-build-front docker-run-local
 
 docker-build-back:
 	cd $(INFRA_DIR) && docker compose -f docker-compose.local.yml build backend
+
+docker-restart-back:
+	cd $(INFRA_DIR) && docker compose -f docker-compose.local.yml restart backend
 
 docker-build-front:
 	cd $(INFRA_DIR) && docker compose -f docker-compose.local.yml build frontend
