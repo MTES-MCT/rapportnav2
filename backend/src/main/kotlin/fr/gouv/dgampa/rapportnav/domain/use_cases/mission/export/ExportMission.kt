@@ -79,7 +79,7 @@ class ExportMission(
 
             return exportRepository.exportOdt(exportParams)
         } catch (e: Exception) {
-            logger.error("[RapportDePatrouille] - Error building data before sending it to RapportNav1: ${e.message}")
+            logger.error("[RapportDePatrouille] - Error building data before sending it to RapportNav1 : ${e.message}")
             return null
         }
     }
