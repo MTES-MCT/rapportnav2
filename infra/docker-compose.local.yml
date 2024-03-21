@@ -53,7 +53,6 @@ services:
       # This is the API token that the Proxy uses to communicate with
       # the Unleash server.
       UNLEASH_API_TOKEN: "glpat-6f7PUWe9PwRoa53LUmsZ"
-      ENABLE_ALL_ENDPOINT: true
       LOG_LEVEL: "debug"
     #    depends_on:
     #      - web
