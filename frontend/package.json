@@ -26,6 +26,7 @@
     "@unleash/proxy-client-react": "^4.2.2",
     "apollo3-cache-persist": "^0.14.1",
     "date-fns": "^2.30.0",
+    "dotenv": "^16.4.5",
     "email-validator": "^2.0.4",
     "formik": "^2.4.5",
     "graphql": "^16.8.1",
