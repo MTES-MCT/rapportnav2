@@ -59,57 +59,57 @@ class MapStatusDurationsTests {
         val mockData = listOf(
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.ANCHORED,
-                duration = 120,
+                duration = 120.0,
                 reason = null
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
-                duration = 0,
+                duration = 0.0,
                 reason = ActionStatusReason.MAINTENANCE
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
-                duration = 120,
+                duration = 120.0,
                 reason = ActionStatusReason.WEATHER
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
-                duration = 120,
+                duration = 120.0,
                 reason = ActionStatusReason.REPRESENTATION
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
-                duration = 0,
+                duration = 0.0,
                 reason = ActionStatusReason.ADMINISTRATION
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
-                duration = 0,
+                duration = 0.0,
                 reason = ActionStatusReason.HARBOUR_CONTROL
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
-                duration = 0,
+                duration = 0.0,
                 reason = ActionStatusReason.OTHER
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.NAVIGATING,
-                duration = 120,
+                duration = 120.0,
                 reason = null
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.UNAVAILABLE,
-                duration = 0,
+                duration = 0.0,
                 reason = ActionStatusReason.TECHNICAL
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.UNAVAILABLE,
-                duration = 120,
+                duration = 120.0,
                 reason = ActionStatusReason.PERSONNEL
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.UNAVAILABLE,
-                duration = 0,
+                duration = 0.0,
                 reason = ActionStatusReason.OTHER
             )
         )

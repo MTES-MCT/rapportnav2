@@ -36,15 +36,15 @@ class GetNbOfDaysAtSeaFromNavigationStatus(
         if (actions.isNullOrEmpty()) {
             return 0
         }
-        val statusesWithDurations = getStatusDurations.computeActionDurationsPerAction(
+        val statusesWithDurations = getStatusDurations.computeDurationsByAction(
             missionStartDateTime = missionStartDateTime,
             missionEndDateTime = missionEndDateTime,
             actions = actions,
             durationUnit = durationUnit
-        ).filter { it.status === ActionStatusType.NAVIGATING }
-        val actionsPerDay = statusesWithDurations.groupBy { it.date?.toLocalDate() }
+        ).filter { listOf(ActionStatusType.NAVIGATING, ActionStatusType.DOCKED).contains(it.status) }
+        val actionsPerDay = statusesWithDurations.groupBy { it.date }
         val exceedsFourHoursPerDay = actionsPerDay.mapValues { (_, statuses) ->
-            statuses.sumOf { it.duration } > 4
+            statuses.sumOf { it.duration } > 4.0
         }
         val numberOfDaysExceedingFourHours = exceedsFourHoursPerDay.count { it.value }
         return numberOfDaysExceedingFourHours
