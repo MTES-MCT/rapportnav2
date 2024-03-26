@@ -27,8 +27,11 @@ class FormatActionsForTimeline(
         if (actions.isNullOrEmpty()) {
             return null
         }
+        // Sort missions ASC
+        val chronoActions = actions.reversed()
+        
         // Group actions by date
-        val groupedActions = groupActionByDate.execute(actions = actions)
+        val groupedActions = groupActionByDate.execute(actions = chronoActions)
 
         // Map each group to list of formatted strings
         return groupedActions?.mapValues { (_, actionsOnDate) ->
