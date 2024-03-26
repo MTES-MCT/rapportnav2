@@ -25,6 +25,8 @@ const ControlGensDeMerForm: FC<ControlGensDeMerFormProps> = ({
 
     const [observationsValue, setObservationsValue] = useState<string | undefined>(data?.observations)
 
+    const controlOptions = controlResultOptions()
+
     const handleObservationsChange = (nextValue?: string) => {
         setObservationsValue(nextValue)
     }
@@ -104,29 +106,29 @@ const ControlGensDeMerForm: FC<ControlGensDeMerFormProps> = ({
                 )}
                 <Stack.Item style={{width: '100%'}}>
                     <MultiRadio
-                        value={data?.staffOutnumbered}
+                        value={data?.staffOutnumbered ?? undefined}
                         error=""
                         isInline
                         label="Décision d’effectif conforme au nombre de personnes à bord"
                         name="staffOutnumbered"
                         onChange={(nextValue: OptionValue) => onChange('staffOutnumbered', nextValue)}
-                        options={controlResultOptions()}
+                        options={controlOptions}
                     />
                 </Stack.Item>
                 <Stack.Item style={{width: '100%'}}>
                     <MultiRadio
-                        value={data?.upToDateMedicalCheck}
+                        value={data?.upToDateMedicalCheck ?? undefined}
                         error=""
                         isInline
                         label="Aptitudes médicales ; Visites médicales à jour"
                         name="upToDateMedicalCheck"
                         onChange={(nextValue: OptionValue) => onChange('upToDateMedicalCheck', nextValue)}
-                        options={controlResultOptions()}
+                        options={controlOptions}
                     />
                 </Stack.Item>
                 <Stack.Item style={{width: '100%'}}>
                     <MultiRadio
-                        value={data?.knowledgeOfFrenchLawAndLanguage}
+                        value={data?.knowledgeOfFrenchLawAndLanguage ?? undefined}
                         error=""
                         isInline
                         label="Connaissance suffisante de la langue et de la loi français (navires fr/esp)"

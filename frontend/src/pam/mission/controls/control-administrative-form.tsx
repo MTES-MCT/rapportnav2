@@ -25,6 +25,8 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
 
     const [observationsValue, setObservationsValue] = useState<string | undefined>(data?.observations)
 
+    const controlOptions = controlResultOptions()
+
     const handleObservationsChange = (nextValue?: string) => {
         setObservationsValue(nextValue)
     }
@@ -105,35 +107,35 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
                 )}
                 <Stack.Item style={{width: '100%'}}>
                     <MultiRadio
-                        value={data?.compliantOperatingPermit}
+                        value={data?.compliantOperatingPermit ?? undefined}
                         error=""
                         isInline
                         label="Permis de mise en exploitation (autorisation à pêcher) conforme"
                         name="compliantOperatingPermit"
                         onChange={(nextValue: OptionValue) => onChange('compliantOperatingPermit', nextValue)}
-                        options={controlResultOptions()}
+                        options={controlOptions}
                     />
                 </Stack.Item>
                 <Stack.Item style={{width: '100%'}}>
                     <MultiRadio
-                        value={data?.upToDateNavigationPermit}
+                        value={data?.upToDateNavigationPermit ?? undefined}
                         error=""
                         isInline
                         label="Permis de navigation à jour"
                         name="upToDateNavigationPermit"
                         onChange={(nextValue: OptionValue) => onChange('upToDateNavigationPermit', nextValue)}
-                        options={controlResultOptions()}
+                        options={controlOptions}
                     />
                 </Stack.Item>
                 <Stack.Item style={{width: '100%'}}>
                     <MultiRadio
-                        value={data?.compliantSecurityDocuments}
+                        value={data?.compliantSecurityDocuments ?? undefined}
                         error=""
                         isInline
                         label="Titres de sécurité conformes"
                         name="compliantSecurityDocuments"
                         onChange={(nextValue: OptionValue) => onChange('compliantSecurityDocuments', nextValue)}
-                        options={controlResultOptions()}
+                        options={controlOptions}
                     />
                 </Stack.Item>
                 <Stack.Item style={{width: '100%'}}>
