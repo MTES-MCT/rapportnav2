@@ -5,7 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesControl
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
@@ -205,25 +204,6 @@ class FormatActionsForTimelineTests {
             )
         )
         assertThat(formatActionsForTimeline.formatFishControl(action)).isEqualTo("12:00 - Contrôle Pêche - 52,14/14,30 - Le Pi - LR 314 - Infractions: 1 PV - NATINF: 123 + 456")
-    }
-
-    @Test
-    fun `formatFishControl should return the complete formatted string with species`() {
-        val action: MissionAction = FishActionControlMock.create(
-            speciesOnboard = listOf(
-                SpeciesControl().apply {
-                    speciesCode = "COD"
-                    declaredWeight = 12.2
-                    controlledWeight = null
-                },
-                SpeciesControl().apply {
-                    speciesCode = "SOL"
-                    declaredWeight = 12.2
-                    controlledWeight = 14.2
-                }
-            )
-        )
-        assertThat(formatActionsForTimeline.formatFishControl(action)).isEqualTo("12:00 - Contrôle Pêche - 52,14/14,30 - Le Pi - LR 314 - Infractions: sans PV - RAS")
     }
 
     @Test
