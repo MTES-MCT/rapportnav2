@@ -30,5 +30,6 @@ data class EnvActionData(
     val controlAdministrative: ControlAdministrative? = null,
     val controlGensDeMer: ControlGensDeMer? = null,
     val controlNavigation: ControlNavigation? = null,
-    val controlSecurity: ControlSecurity? = null
+    val controlSecurity: ControlSecurity? = null,
+    val coverMissionZone: Boolean? = null,
 ) : ActionData()
