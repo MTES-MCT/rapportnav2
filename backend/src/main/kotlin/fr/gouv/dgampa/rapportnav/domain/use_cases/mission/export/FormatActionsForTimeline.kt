@@ -11,15 +11,17 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.mapActionStatusTypeToHumanString
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
+import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
+import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatGeoCoords
 import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActionItem
 import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActions
 import java.time.LocalDate
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 
 @UseCase
 class FormatActionsForTimeline(
     private val groupActionByDate: GroupActionByDate,
+    private val formatDateTime: FormatDateTime,
+    private val formatGeoCoords: FormatGeoCoords,
 ) {
 
     fun formatTimeline(actions: List<MissionActionEntity>?): Map<LocalDate, List<String>>? {
@@ -29,7 +31,7 @@ class FormatActionsForTimeline(
         }
         // Sort missions ASC
         val chronoActions = actions.reversed()
-        
+
         // Group actions by date
         val groupedActions = groupActionByDate.execute(actions = chronoActions)
 
@@ -81,15 +83,10 @@ class FormatActionsForTimeline(
     }
 
 
-    fun formatTime(dateTime: ZonedDateTime?): String {
-        return dateTime?.format(DateTimeFormatter.ofPattern("HH:mm")) ?: "N/A"
-    }
-
-
     fun formatEnvControl(action: EnvActionControlEntity?): String? {
         return action?.let {
-            val startTime = formatTime(action.actionStartDateTimeUtc)
-            val endTime = formatTime(action.actionEndDateTimeUtc)
+            val startTime = formatDateTime.formatTime(action.actionStartDateTimeUtc)
+            val endTime = formatDateTime.formatTime(action.actionEndDateTimeUtc)
             val facade = action.facade?.let { " - $it" } ?: ""
             val themes = action.themes?.let { " - ${it.map { theme -> theme.theme }.joinToString(" + ")}" } ?: ""
             val amountOfControls = action.actionNumberOfControls?.let { " - $it contrôle(s)" } ?: ""
@@ -99,9 +96,11 @@ class FormatActionsForTimeline(
 
     fun formatFishControl(action: MissionAction?): String? {
         return action?.let {
-            val startTime = formatTime(action.actionDatetimeUtc)
-            val coords = "${action.latitude ?: "N/A"}/${action.longitude ?: "N/A"}"
-            val vesselInfo = "${action.vesselName ?: "N/A"} - ${action.vesselId}"
+            val startTime = formatDateTime.formatTime(action.actionDatetimeUtc)
+            val coords = formatGeoCoords.formatLatLon(action.latitude, action.longitude).let {
+                "${it.first}/${it.second}"
+            }
+            val vesselInfo = "${action.vesselName ?: "N/A"} - ${action.portLocode ?: ""} ${action.vesselId}"
             val seizureAndDiversion = action.seizureAndDiversion?.let { " - retour du navire au port" } ?: ""
             val natinfs: String = listOf(
                 action.gearInfractions.map { it.natinf },
@@ -121,21 +120,15 @@ class FormatActionsForTimeline(
                 action.speciesInfractions.map { it.infractionType },
                 action.otherInfractions.map { it.infractionType }
             ).flatten().count { it == InfractionType.WITH_RECORD }
-            val pv = if (pvCount > 0) "avec PV" else "sans PV"
+            val pv = if (pvCount > 0) "$pvCount PV" else "sans PV"
 
-            val species = if (action.speciesOnboard.isNotEmpty()) {
-                "Espèces contrôlées: " + action.speciesOnboard.joinToString(" - ") { "${it.speciesCode}: ${it.controlledWeight ?: "N/A"}/${it.declaredWeight ?: "N/A"} kg" }
-            } else {
-                "Espèces contrôlées: N/A"
-            }
-
-            return "$startTime - Contrôle Pêche - $coords - $vesselInfo - $species - Infractions: $pv$natinfs$seizureAndDiversion"
+            return "$startTime - Contrôle Pêche - $coords - $vesselInfo - Infractions: $pv$natinfs$seizureAndDiversion"
         }
     }
 
     fun formatNavNote(action: ActionFreeNoteEntity?): String? {
         return action?.let {
-            val startTime = formatTime(action.startDateTimeUtc)
+            val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
             val observation = action.observations ?: ""
             return "$startTime - $observation"
         }
@@ -144,17 +137,17 @@ class FormatActionsForTimeline(
 
     fun formatNavStatus(action: ActionStatusEntity?): String? {
         return action?.let {
-            val startTime = formatTime(action.startDateTimeUtc)
+            val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
             val status = mapActionStatusTypeToHumanString(action.status)
             val observation = action.observations?.let { "- $it" } ?: ""
-            return "$startTime - $status - début $observation"
+            return "$startTime - $status $observation"
         }
     }
 
     fun formatNavControl(action: ActionControlEntity?): String? {
         return action?.let {
-            val startTime = formatTime(action.startDateTimeUtc)
-            val endTime = formatTime(action.endDateTimeUtc)
+            val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
+            val endTime = formatDateTime.formatTime(action.endDateTimeUtc)
             val vesselIdentifier = action.vesselIdentifier?.let { "- $it" } ?: ""
             return "$startTime / $endTime - Contrôle administratif $vesselIdentifier"
         }
