@@ -39,6 +39,21 @@ const ActionSurveillance: React.FC<{ action: Action; onClick: any }> = ({action,
                 </Stack>
               </Stack.Item>
 
+              <Stack.Item alignSelf="flex-end" style={{width: '100%'}}>
+                <Stack direction="row" spacing="1rem" style={{width: '100%'}}>
+
+                  <Stack.Item alignSelf="flex-end" style={{width: '30%'}}>
+                    <Stack direction="column" alignItems="flex-end">
+                      <Stack.Item alignSelf="flex-end">
+                        <Text as="h4" color={THEME.color.slateGray} fontStyle={"italic"}>
+                          ajouté par CACEM
+                        </Text>
+                      </Stack.Item>
+                    </Stack>
+                  </Stack.Item>
+                </Stack>
+              </Stack.Item>
+
             </Stack>
           </Stack.Item>
         </Stack>
