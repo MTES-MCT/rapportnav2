@@ -1,14 +1,14 @@
 import { MultiSelect, OptionValue } from '@mtes-mct/monitor-ui'
-import React from "react";
-import useNatinfs from "./use-natinfs.tsx";
+import React from 'react'
+import useNatinfs from './use-natinfs.tsx'
 
 interface NatinfsMultiSelectProps {
   selectedNatinfs?: string[]
   onChange: (field: string, value: any) => void
 }
 
-const NatinfsMultiSelect: React.FC<NatinfsMultiSelectProps> = ({selectedNatinfs, onChange}) => {
-  const {data: natinfs, loading, error} = useNatinfs()
+const NatinfsMultiSelect: React.FC<NatinfsMultiSelectProps> = ({ selectedNatinfs, onChange }) => {
+  const { data: natinfs, loading, error } = useNatinfs()
 
   if (loading || error) {
     return
@@ -19,11 +19,13 @@ const NatinfsMultiSelect: React.FC<NatinfsMultiSelectProps> = ({selectedNatinfs,
       label="NATINF"
       name="natinfs"
       value={selectedNatinfs || []}
-      onChange={(nextValue?: OptionValue[]) => onChange("natinfs", nextValue)}
-      options={natinfs?.map(({natinfCode, infraction}) => ({
-        value: natinfCode,
-        label: `${natinfCode} - ${infraction}`
-      })) as any}
+      onChange={(nextValue?: OptionValue[]) => onChange('natinfs', nextValue)}
+      options={
+        natinfs?.map(({ natinfCode, infraction }) => ({
+          value: natinfCode,
+          label: `${natinfCode} - ${infraction}`
+        })) as any
+      }
       placeholder=""
       searchable={true}
       virtualized={true}

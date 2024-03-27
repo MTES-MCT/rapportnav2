@@ -1,5 +1,5 @@
 import { ApolloError, gql, useQuery } from '@apollo/client'
-import { Natinf } from "../../../types/infraction-types.ts";
+import { Natinf } from '../../../types/infraction-types.ts'
 
 export const GET_NATINFS = gql`
   query GetNatinfs {
@@ -11,11 +11,11 @@ export const GET_NATINFS = gql`
 `
 
 const useNatinfs = (): { data?: Natinf[]; loading: boolean; error?: ApolloError } => {
-  const {loading, error, data} = useQuery(GET_NATINFS, {
+  const { loading, error, data } = useQuery(GET_NATINFS, {
     // fetchPolicy: 'cache-only'
   })
 
-  return {loading, error, data: data?.natinfs}
+  return { loading, error, data: data?.natinfs }
 }
 
 export default useNatinfs
