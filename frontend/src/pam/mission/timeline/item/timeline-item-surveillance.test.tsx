@@ -5,7 +5,7 @@ import {
     MissionSourceEnum
 } from "../../../../types/env-mission-types.ts";
 import { Action, ActionStatusType } from "../../../../types/action-types.ts";
-import ActionSurveillance from './timeline-item-surveillance.tsx'
+import ActionEnvSurveillance from './timeline-item-surveillance.tsx'
 
 
 const actionMock = {
@@ -34,12 +34,12 @@ const props = (action: Action = actionMock, onClick = vi.fn()) => ({
 })
 describe('ActionEnvSurveillance', () => {
     test('should render', () => {
-        render(<ActionSurveillance {...props()} />);
+        render(<ActionEnvSurveillance {...props()} />);
         expect(screen.getByText('ajouté par CACEM')).toBeInTheDocument();
     });
     describe('the title', () => {
         test('should render the theme', () => {
-            render(<ActionSurveillance {...props()} />);
+            render(<ActionEnvSurveillance {...props()} />);
             expect(screen.getByText('environnement - police mouillage')).toBeInTheDocument();
         });
         test('should render empty text when no theme', () => {
@@ -50,7 +50,7 @@ describe('ActionEnvSurveillance', () => {
                     }]
                 }
             }
-            render(<ActionSurveillance {...props(mock)} />);
+            render(<ActionEnvSurveillance {...props(mock)} />);
             expect(screen.getByTestId('theme').textContent).toEqual('');
         });
 
