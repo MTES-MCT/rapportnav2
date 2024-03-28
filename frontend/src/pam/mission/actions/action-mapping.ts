@@ -7,6 +7,7 @@ import ActionControlFish from './action-control-fish'
 import ActionControlNav from './action-control-nav'
 import ActionStatusForm from './action-status-form'
 import ActionNoteForm from "./action-note-form.tsx";
+import ActionSurveillanceEnv from './action-surveillance-env.tsx'
 
 export const getComponentForAction = (action?: Action): FC<any> | null => {
   if (!action) {
@@ -15,6 +16,9 @@ export const getComponentForAction = (action?: Action): FC<any> | null => {
   if (isEnvAction(action)) {
     if (action.type === ActionTypeEnum.CONTROL) {
       return ActionControlEnv
+    }
+    if (action.type === ActionTypeEnum.SURVEILLANCE) {
+      return ActionSurveillanceEnv
     }
   } else if (isFishAction(action)) {
     if (action.type === ActionTypeEnum.CONTROL) {
