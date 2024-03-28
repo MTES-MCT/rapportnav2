@@ -98,7 +98,7 @@ class FormatActionsForTimeline(
         return action?.let {
             val startTime = formatDateTime.formatTime(action.actionDatetimeUtc)
             val coords = formatGeoCoords.formatLatLon(action.latitude, action.longitude).let {
-                "${it.first}/${it.second}"
+                "(DD): ${it.first},${it.second}"
             }
             val vesselInfo = "${action.vesselName ?: "N/A"} - ${action.portLocode ?: ""} ${action.vesselId}"
             val seizureAndDiversion = action.seizureAndDiversion?.let { " - retour du navire au port" } ?: ""
