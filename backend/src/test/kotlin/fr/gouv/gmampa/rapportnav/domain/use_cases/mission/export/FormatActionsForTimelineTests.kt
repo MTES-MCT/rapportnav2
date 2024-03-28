@@ -79,7 +79,7 @@ class FormatActionsForTimelineTests {
             mapOf(
                 LocalDate.of(2022, 1, 1) to listOf(
                     "12:00 / 14:00 - Contrôle Environnement",
-                    "12:00 - Contrôle Pêche - 52,14/14,30 - Le Pi - LR 314 - Infractions: sans PV - RAS",
+                    "12:00 - Contrôle Pêche - 52.14/14.30 - Le Pi - LR 314 - Infractions: sans PV - RAS",
                 ),
                 LocalDate.of(2022, 1, 2) to listOf(
                     "12:00 / 14:00 - Contrôle administratif ",
@@ -116,7 +116,7 @@ class FormatActionsForTimelineTests {
                 date = "2022-01-01",
                 freeNote = listOf<TimelineActionItem>(
                     TimelineActionItem(observations = "12:00 / 14:00 - Contrôle Environnement"),
-                    TimelineActionItem(observations = "12:00 - Contrôle Pêche - 52,14/14,30 - Le Pi - LR 314 - Infractions: sans PV - RAS"),
+                    TimelineActionItem(observations = "12:00 - Contrôle Pêche - 52.14/14.30 - Le Pi - LR 314 - Infractions: sans PV - RAS"),
                 )
             ),
             TimelineActions(
@@ -186,7 +186,7 @@ class FormatActionsForTimelineTests {
     @Test
     fun `formatFishControl should return the formatted string`() {
         val action: MissionAction = FishActionControlMock.create()
-        assertThat(formatActionsForTimeline.formatFishControl(action)).isEqualTo("12:00 - Contrôle Pêche - 52,14/14,30 - Le Pi - LR 314 - Infractions: sans PV - RAS")
+        assertThat(formatActionsForTimeline.formatFishControl(action)).isEqualTo("12:00 - Contrôle Pêche - 52.14/14.30 - Le Pi - LR 314 - Infractions: sans PV - RAS")
     }
 
     @Test
@@ -203,7 +203,7 @@ class FormatActionsForTimelineTests {
                 }
             )
         )
-        assertThat(formatActionsForTimeline.formatFishControl(action)).isEqualTo("12:00 - Contrôle Pêche - 52,14/14,30 - Le Pi - LR 314 - Infractions: 1 PV - NATINF: 123 + 456")
+        assertThat(formatActionsForTimeline.formatFishControl(action)).isEqualTo("12:00 - Contrôle Pêche - 52.14/14.30 - Le Pi - LR 314 - Infractions: 1 PV - NATINF: 123 + 456")
     }
 
     @Test
