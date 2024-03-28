@@ -7,7 +7,7 @@ import { FlexboxGrid, Stack } from 'rsuite'
 import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import Text from '../../../../ui/text.tsx'
 
-const ActionSurveillance: React.FC<{ action: Action; onClick: any }> = ({action, onClick}) => {
+const ActionEnvSurveillance: React.FC<{ action: Action; onClick: any }> = ({action, onClick}) => {
   const {actionId} = useParams()
   const actionData = action.data as unknown as EnvActionControl
   return (
@@ -62,4 +62,4 @@ const ActionSurveillance: React.FC<{ action: Action; onClick: any }> = ({action,
   )
 }
 
-export default ActionSurveillance
+export default ActionEnvSurveillance
