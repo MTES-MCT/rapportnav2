@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
 version = "1.2.0"
@@ -45,6 +46,7 @@ dependencyManagement {
 
 dependencies {
   developmentOnly("org.springframework.boot:spring-boot-devtools")
+  runtimeOnly("org.postgresql:postgresql:42.7.2")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-data-rest:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
@@ -56,7 +58,6 @@ dependencies {
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib")
-  runtimeOnly("org.postgresql:postgresql:42.7.2")
   implementation("org.flywaydb:flyway-core:9.22.3")
   implementation("org.n52.jackson:jackson-datatype-jts:1.2.10") {
     exclude(group = "org.locationtech.jts", module = "jts-core")
@@ -95,8 +96,15 @@ tasks.withType<KotlinCompile> {
 tasks.named<Test>("test") {
   useJUnitPlatform()
 
-  testLogging {
-    events("passed")
+  if (getenv("CI") != null) {
+    testLogging {
+      // set options for log level LIFECYCLE
+      events("failed")
+    }
+  } else {
+    testLogging {
+      events("passed")
+    }
   }
 }
 
