@@ -61,7 +61,6 @@ describe('ActionSurveillanceEnv', () => {
     });
 
     test('renders data', async () => {
-      console.log(actionMock)
       ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
       render(<ActionSurveillanceEnv action={actionMock}/>);
       expect(screen.getByText('Surveillance Environnement')).toBeInTheDocument()
