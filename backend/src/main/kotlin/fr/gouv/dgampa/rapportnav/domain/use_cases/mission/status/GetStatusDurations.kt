@@ -39,12 +39,15 @@ class GetStatusDurations(
                         if (index == actions.size - 1) missionEndDateTime else actions[index + 1].startDateTimeUtc
                     computeDurations.durationInSeconds(startTime, endTime)
                 } else {
-                    // If missionEndDateTime is null and it's the last action, exclude this duration
+                    // If missionEndDateTime is null, and it's the last action, exclude this duration
                     0
                 }
 
                 // Convert duration to the selected unit
-                val duration = computeDurations.convertFromSeconds(durationInSeconds, durationUnit)
+                val duration = if (durationInSeconds != null) computeDurations.convertFromSeconds(
+                    durationInSeconds,
+                    durationUnit
+                ) else 0.0
 
                 durations.add(
                     ActionStatusWithDuration(
@@ -72,17 +75,17 @@ class GetStatusDurations(
      * Example of default output:
      * ```
      * [
-     *     ActionStatusWithDuration(status=ANCHORED, value=0, reason=null),
-     *     ActionStatusWithDuration(status=DOCKED, value=0, reason=MAINTENANCE),
-     *     ActionStatusWithDuration(status=DOCKED, value=0, reason=WEATHER),
-     *     ActionStatusWithDuration(status=DOCKED, value=0, reason=REPRESENTATION),
-     *     ActionStatusWithDuration(status=DOCKED, value=0, reason=ADMINISTRATION),
-     *     ActionStatusWithDuration(status=DOCKED, value=0, reason=HARBOUR_CONTROL),
-     *     ActionStatusWithDuration(status=DOCKED, value=0, reason=OTHER),
-     *     ActionStatusWithDuration(status=NAVIGATING, value=0, reason=null),
-     *     ActionStatusWithDuration(status=UNAVAILABLE, value=0, reason=TECHNICAL),
-     *     ActionStatusWithDuration(status=UNAVAILABLE, value=0, reason=PERSONNEL),
-     *     ActionStatusWithDuration(status=UNAVAILABLE, value=0, reason=OTHER)
+     *     ActionStatusWithDuration(status=ANCHORED, duration=0, reason=null, date=null),
+     *     ActionStatusWithDuration(status=DOCKED, duration=0, reason=MAINTENANCE, date=null),
+     *     ActionStatusWithDuration(status=DOCKED, duration=0, reason=WEATHER, date=null),
+     *     ActionStatusWithDuration(status=DOCKED, duration=0, reason=REPRESENTATION, date=null),
+     *     ActionStatusWithDuration(status=DOCKED, duration=0, reason=ADMINISTRATION, date=null),
+     *     ActionStatusWithDuration(status=DOCKED, duration=0, reason=HARBOUR_CONTROL, date=null),
+     *     ActionStatusWithDuration(status=DOCKED, duration=0, reason=OTHER, date=null),
+     *     ActionStatusWithDuration(status=NAVIGATING, duration=0, reason=null, date=null),
+     *     ActionStatusWithDuration(status=UNAVAILABLE, duration=0, reason=TECHNICAL, date=null),
+     *     ActionStatusWithDuration(status=UNAVAILABLE, duration=0, reason=PERSONNEL, date=null),
+     *     ActionStatusWithDuration(status=UNAVAILABLE, duration=0, reason=OTHER, date=null)
      * ]
      * ```
      *
