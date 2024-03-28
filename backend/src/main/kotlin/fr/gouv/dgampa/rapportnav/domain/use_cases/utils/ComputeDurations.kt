@@ -7,20 +7,24 @@ import kotlin.time.DurationUnit
 
 @UseCase
 class ComputeDurations {
-    fun durationInSeconds(startDateTimeUtc: ZonedDateTime, endDateTimeUtc: ZonedDateTime?): Int {
+
+    fun durationInSeconds(startDateTimeUtc: ZonedDateTime, endDateTimeUtc: ZonedDateTime?): Int? {
+        if (endDateTimeUtc == null) {
+            return null
+        }
+        val endTime = endDateTimeUtc.toEpochSecond()
         val startTime = startDateTimeUtc.toEpochSecond()
-        val endTime = endDateTimeUtc?.toEpochSecond() ?: ZonedDateTime.now().toEpochSecond()
         return (endTime - startTime).toInt()
     }
 
     fun convertFromSeconds(durationInSeconds: Int, durationUnit: DurationUnit): Double {
         val result = when (durationUnit) {
-            DurationUnit.SECONDS -> durationInSeconds.toDouble()
-            DurationUnit.MINUTES -> (durationInSeconds / 60.0)
-            DurationUnit.HOURS -> (durationInSeconds / 3600.0)
             DurationUnit.NANOSECONDS -> (durationInSeconds * 1_000_000_000.0)
             DurationUnit.MICROSECONDS -> (durationInSeconds * 1_000_000.0)
             DurationUnit.MILLISECONDS -> (durationInSeconds * 1_000.0)
+            DurationUnit.SECONDS -> durationInSeconds.toDouble()
+            DurationUnit.MINUTES -> (durationInSeconds / 60.0)
+            DurationUnit.HOURS -> (durationInSeconds / 3600.0)
             DurationUnit.DAYS -> (durationInSeconds / (24.0 * 3600.0))
         }
 
