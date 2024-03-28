@@ -1,6 +1,5 @@
 name: 'Backend Build'
 description: 'Install and build build'
-version: 'v1.0.0'
 
 runs:
   using: 'composite'
@@ -30,5 +29,9 @@ runs:
 
     - name: build package
       shell: bash
-      run: make back-build
+      run: make back-assemble
+
+    - name: run tests
+      shell: bash
+      run: make back-test
 

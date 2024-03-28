@@ -5,11 +5,12 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesControl
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsForTimeline
+import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
+import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatGeoCoords
 import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActionItem
 import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActions
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.*
@@ -22,11 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
 
-@SpringBootTest(classes = [FormatActionsForTimeline::class])
+@SpringBootTest(classes = [FormatActionsForTimeline::class, FormatDateTime::class, FormatGeoCoords::class])
 class FormatActionsForTimelineTests {
 
     @Autowired
@@ -81,11 +79,11 @@ class FormatActionsForTimelineTests {
             mapOf(
                 LocalDate.of(2022, 1, 1) to listOf(
                     "12:00 / 14:00 - Contrôle Environnement",
-                    "12:00 - Contrôle Pêche - 52.14/14.3 - Le Pi - 314 - Espèces contrôlées: N/A - Infractions: sans PV - RAS",
+                    "12:00 - Contrôle Pêche - 52.14/14.30 - Le Pi - LR 314 - Infractions: sans PV - RAS",
                 ),
                 LocalDate.of(2022, 1, 2) to listOf(
                     "12:00 / 14:00 - Contrôle administratif ",
-                    "12:00 - Navigation - début - observations",
+                    "12:00 - Navigation - observations",
                     "12:06 - Largué, appareillé"
                 )
             )
@@ -118,37 +116,19 @@ class FormatActionsForTimelineTests {
                 date = "2022-01-01",
                 freeNote = listOf<TimelineActionItem>(
                     TimelineActionItem(observations = "12:00 / 14:00 - Contrôle Environnement"),
-                    TimelineActionItem(observations = "12:00 - Contrôle Pêche - 52.14/14.3 - Le Pi - 314 - Espèces contrôlées: N/A - Infractions: sans PV - RAS"),
+                    TimelineActionItem(observations = "12:00 - Contrôle Pêche - 52.14/14.30 - Le Pi - LR 314 - Infractions: sans PV - RAS"),
                 )
             ),
             TimelineActions(
                 date = "2022-01-02",
                 freeNote = listOf<TimelineActionItem>(
                     TimelineActionItem(observations = "12:00 / 14:00 - Contrôle administratif "),
-                    TimelineActionItem(observations = "12:00 - Navigation - début - observations"),
+                    TimelineActionItem(observations = "12:00 - Navigation - observations"),
                     TimelineActionItem(observations = "12:06 - Largué, appareillé"),
                 )
             ),
         )
         assertThat(formatActionsForTimeline.formatForRapportNav1(data)).isEqualTo(expected)
-    }
-
-
-    @Test
-    fun `formatTime should return formatted time`() {
-        assertThat(
-            formatActionsForTimeline.formatTime(
-                ZonedDateTime.of(
-                    LocalDateTime.of(2022, 1, 2, 12, 0),
-                    ZoneOffset.UTC
-                )
-            )
-        ).isEqualTo("12:00")
-    }
-
-    @Test
-    fun `formatTime should return NA when null`() {
-        assertThat(formatActionsForTimeline.formatTime(null)).isEqualTo("N/A")
     }
 
     @Test
@@ -206,7 +186,7 @@ class FormatActionsForTimelineTests {
     @Test
     fun `formatFishControl should return the formatted string`() {
         val action: MissionAction = FishActionControlMock.create()
-        assertThat(formatActionsForTimeline.formatFishControl(action)).isEqualTo("12:00 - Contrôle Pêche - 52.14/14.3 - Le Pi - 314 - Espèces contrôlées: N/A - Infractions: sans PV - RAS")
+        assertThat(formatActionsForTimeline.formatFishControl(action)).isEqualTo("12:00 - Contrôle Pêche - 52.14/14.30 - Le Pi - LR 314 - Infractions: sans PV - RAS")
     }
 
     @Test
@@ -223,26 +203,7 @@ class FormatActionsForTimelineTests {
                 }
             )
         )
-        assertThat(formatActionsForTimeline.formatFishControl(action)).isEqualTo("12:00 - Contrôle Pêche - 52.14/14.3 - Le Pi - 314 - Espèces contrôlées: N/A - Infractions: avec PV - NATINF: 123 + 456")
-    }
-
-    @Test
-    fun `formatFishControl should return the complete formatted string with species`() {
-        val action: MissionAction = FishActionControlMock.create(
-            speciesOnboard = listOf(
-                SpeciesControl().apply {
-                    speciesCode = "COD"
-                    declaredWeight = 12.2
-                    controlledWeight = null
-                },
-                SpeciesControl().apply {
-                    speciesCode = "SOL"
-                    declaredWeight = 12.2
-                    controlledWeight = 14.2
-                }
-            )
-        )
-        assertThat(formatActionsForTimeline.formatFishControl(action)).isEqualTo("12:00 - Contrôle Pêche - 52.14/14.3 - Le Pi - 314 - Espèces contrôlées: COD: N/A/12.2 kg - SOL: 14.2/12.2 kg - Infractions: sans PV - RAS")
+        assertThat(formatActionsForTimeline.formatFishControl(action)).isEqualTo("12:00 - Contrôle Pêche - 52.14/14.30 - Le Pi - LR 314 - Infractions: 1 PV - NATINF: 123 + 456")
     }
 
     @Test
@@ -266,13 +227,13 @@ class FormatActionsForTimelineTests {
     @Test
     fun `formatNavStatus should return formatted string`() {
         val action: ActionStatusEntity = NavActionStatusMock.createActionStatusEntity()
-        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("12:00 - Navigation - début - observations")
+        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("12:00 - Navigation - observations")
     }
 
     @Test
     fun `formatNavStatus should return formatted string without observations`() {
         val action: ActionStatusEntity = NavActionStatusMock.createActionStatusEntity(observations = null)
-        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("12:00 - Navigation - début ")
+        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("12:00 - Navigation ")
     }
 
     @Test

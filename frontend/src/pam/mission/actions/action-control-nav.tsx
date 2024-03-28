@@ -8,14 +8,13 @@ import {
   DateRangePicker,
   Icon,
   Label,
-  OptionValueType,
   Select,
   Size,
   Textarea,
   TextInput,
   THEME
 } from '@mtes-mct/monitor-ui'
-import { VesselTypeEnum } from '../../../types/mission-types'
+import { VesselSizeEnum, VesselTypeEnum } from '../../../types/mission-types'
 import { Action, ActionControl } from '../../../types/action-types'
 import { Stack } from 'rsuite'
 import Text from '../../../ui/text'
@@ -27,19 +26,18 @@ import ControlNavigationForm from '../controls/control-navigation-form'
 import ControlGensDeMerForm from '../controls/control-gens-de-mer-form'
 import ControlSecurityForm from '../controls/control-security-form'
 import { controlMethodToHumanString, VESSEL_SIZE_OPTIONS, vesselTypeToHumanString } from '../controls/utils'
-import useActionById from "./use-action-by-id.tsx";
-import useAddOrUpdateControl from "./use-add-update-action-control.tsx";
-import useDeleteActionControl from "./use-delete-action-control.tsx";
-import { isEqual } from "lodash";
+import useActionById from './use-action-by-id.tsx'
+import useAddOrUpdateControl from './use-add-update-action-control.tsx'
+import useDeleteActionControl from './use-delete-action-control.tsx'
+import { isEqual } from 'lodash'
 
 export interface ActionControlNavProps {
   action: Action
 }
 
-const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
-
+const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
   const navigate = useNavigate()
-  const {missionId, actionId} = useParams()
+  const { missionId, actionId } = useParams()
   const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
   const [identityControlledPersonValue, setIdentityControlledPersonValue] = useState<string | undefined>(undefined)
   const [vesselIdentifierValue, setVesselIdentifierValue] = useState<string | undefined>(undefined)
@@ -48,7 +46,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
 
   const [deleteControl] = useDeleteActionControl()
 
-  const {data: navAction, loading, error} = useActionById(actionId, missionId, action.source, action.type)
+  const { data: navAction, loading, error } = useActionById(actionId, missionId, action.source, action.type)
 
   useEffect(() => {
     setObservationsValue(navAction?.data?.observations)
@@ -57,18 +55,13 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
   }, [navAction])
 
   if (loading) {
-    return (
-      <div>Chargement...</div>
-    )
+    return <div>Chargement...</div>
   }
   if (error) {
-    return (
-      <div>error</div>
-    )
+    return <div>error</div>
   }
   if (navAction) {
     const control = navAction?.data as unknown as ActionControl
-
 
     const handleObservationsChange = (nextValue?: string) => {
       setObservationsValue(nextValue)
@@ -124,7 +117,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
         ...updatedField
       }
 
-      await mutateControl({variables: {controlAction: updatedData}})
+      await mutateControl({ variables: { controlAction: updatedData } })
     }
 
     const deleteAction = async () => {
@@ -137,24 +130,31 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
     }
 
     return (
-      <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{width: '100%'}}
-             data-testid={"action-control-nav"}>
+      <Stack
+        direction="column"
+        spacing="2rem"
+        alignItems="flex-start"
+        style={{ width: '100%' }}
+        data-testid={'action-control-nav'}
+      >
         {/* TITLE AND BUTTONS */}
-        <Stack.Item style={{width: '100%'}}>
-          <Stack direction="row" spacing="0.5rem" style={{width: '100%'}}>
+        <Stack.Item style={{ width: '100%' }}>
+          <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
             <Stack.Item alignSelf="baseline">
-              <Icon.ControlUnit color={THEME.color.charcoal} size={20}/>
+              <Icon.ControlUnit color={THEME.color.charcoal} size={20} />
             </Stack.Item>
             <Stack.Item grow={2}>
               <Stack direction="column" alignItems="flex-start">
                 <Stack.Item>
                   <Text as="h2">
-                    Contrôles {navAction.startDateTimeUtc && `(${formatDateTimeForFrenchHumans(navAction.startDateTimeUtc)})`}
+                    Contrôles{' '}
+                    {navAction.startDateTimeUtc && `(${formatDateTimeForFrenchHumans(navAction.startDateTimeUtc)})`}
                   </Text>
                 </Stack.Item>
                 <Stack.Item>
                   <Text as="h2">
-                    {controlMethodToHumanString(control?.controlMethod)} - {vesselTypeToHumanString(control?.vesselType)}
+                    {controlMethodToHumanString(control?.controlMethod)} -{' '}
+                    {vesselTypeToHumanString(control?.vesselType)}
                   </Text>
                 </Stack.Item>
               </Stack>
@@ -162,14 +162,18 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
             <Stack.Item>
               <Stack direction="row" spacing="0.5rem">
                 <Stack.Item>
-                  <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Duplicate}
-                          disabled={true}>
+                  <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Duplicate} disabled={true}>
                     Dupliquer
                   </Button>
                 </Stack.Item>
                 <Stack.Item>
-                  <Button accent={Accent.PRIMARY} size={Size.SMALL} Icon={Icon.Delete}
-                          onClick={deleteAction} data-testid={"deleteButton"}>
+                  <Button
+                    accent={Accent.PRIMARY}
+                    size={Size.SMALL}
+                    Icon={Icon.Delete}
+                    onClick={deleteAction}
+                    data-testid={'deleteButton'}
+                  >
                     Supprimer
                   </Button>
                 </Stack.Item>
@@ -179,17 +183,15 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
         </Stack.Item>
         {/* INFO TEXT */}
         <Stack.Item>
-          <Stack direction="row" spacing="0.5rem" style={{width: '100%'}}>
+          <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
             <Stack.Item alignSelf="baseline">
-              <Icon.Info color={THEME.color.charcoal} size={20}/>
+              <Icon.Info color={THEME.color.charcoal} size={20} />
             </Stack.Item>
             <Stack.Item>
               <Text as="h3" weight="normal" fontStyle="italic">
-                Pour la saisie des contrôles de la pêche et de l’environnement marin, veuillez appeler
-                les
-                centres
+                Pour la saisie des contrôles de la pêche et de l’environnement marin, veuillez appeler les centres
                 concernés.
-                <br/>
+                <br />
                 Pêche : CNSP / Environnement Marin : CACEM
               </Text>
             </Stack.Item>
@@ -200,12 +202,16 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
           <DateRangePicker
             name="dates"
             // defaultValue={[navAction.startDateTimeUtc ?? formatDateForServers(toLocalISOString()), navAction.endDateTimeUtc ?? formatDateForServers(new Date() as any)]}
-            defaultValue={navAction.startDateTimeUtc && navAction.endDateTimeUtc ? [navAction.startDateTimeUtc, navAction.endDateTimeUtc] : undefined}
+            defaultValue={
+              navAction.startDateTimeUtc && navAction.endDateTimeUtc
+                ? [navAction.startDateTimeUtc, navAction.endDateTimeUtc]
+                : undefined
+            }
             label="Date et heure de début et de fin"
             withTime={true}
             isCompact={true}
             isLight={true}
-            role={"ok"}
+            role={'ok'}
             onChange={async (nextValue?: [Date, Date] | [string, string]) => {
               await onChange('dates', nextValue)
             }}
@@ -219,7 +225,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
             coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
             label="Lieu du contrôle"
             isLight={true}
-            role={"coordinates"}
+            role={'coordinates'}
             onChange={async (nextCoordinates?: Coordinates, prevCoordinates?: Coordinates) => {
               if (!isEqual(nextCoordinates, prevCoordinates)) {
                 await onChange('geoCoords', nextCoordinates)
@@ -228,25 +234,24 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
           />
         </Stack.Item>
         {/* VESSEL INFORMATION */}
-        <Stack.Item style={{width: '100%'}}>
-          <Stack spacing="0.5rem" style={{width: '100%'}}>
+        <Stack.Item style={{ width: '100%' }}>
+          <Stack spacing="0.5rem" style={{ width: '100%' }}>
             <Stack.Item grow={1} basis={'25%'}>
               <Select
                 label="Taille du navire"
                 isLight={true}
                 options={VESSEL_SIZE_OPTIONS}
                 value={control.vesselSize}
-                data-testid={"vesselSize"}
+                data-testid={'vesselSize'}
                 name="vesselSize"
-                role="vesselSize"
-                onChange={(nextValue: OptionValueType) => onChange('vesselSize', nextValue)}
+                onChange={(nextValue: VesselSizeEnum | undefined) => onChange('vesselSize', nextValue)}
               />
             </Stack.Item>
             <Stack.Item grow={1} basis={'25%'}>
               <TextInput
                 label="Immatriculation"
                 isLight={true}
-                data-testid={"vesselIdentifier"}
+                data-testid={'vesselIdentifier'}
                 name="vesselIdentifier"
                 value={vesselIdentifierValue}
                 onChange={handleVesselIdentifierChange}
@@ -258,7 +263,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
                 label="Identité de la personne contrôlée"
                 isLight={true}
                 name="identityControlledPerson"
-                data-testid={"identityControlledPerson"}
+                data-testid={'identityControlledPerson'}
                 value={identityControlledPersonValue}
                 onChange={handleIdentityControlledPersonChange}
                 onBlur={handleIdentityControlledPersonBlur}
@@ -266,29 +271,29 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({action}) => {
             </Stack.Item>
           </Stack>
         </Stack.Item>
-        <Stack.Item style={{width: '100%'}}>
-          <Stack direction="column" spacing="0.5rem" style={{width: '100%'}}>
-            <Stack.Item style={{width: '100%'}}>
+        <Stack.Item style={{ width: '100%' }}>
+          <Stack direction="column" spacing="0.5rem" style={{ width: '100%' }}>
+            <Stack.Item style={{ width: '100%' }}>
               <Label>Contrôle(s) effectué(s) par l’unité sur le navire</Label>
             </Stack.Item>
-            <Stack.Item style={{width: '100%'}}>
-              <ControlAdministrativeForm data={control.controlAdministrative}/>
+            <Stack.Item style={{ width: '100%' }}>
+              <ControlAdministrativeForm data={control.controlAdministrative} />
             </Stack.Item>
-            <Stack.Item style={{width: '100%'}}>
-              <ControlNavigationForm data={control.controlNavigation}/>
+            <Stack.Item style={{ width: '100%' }}>
+              <ControlNavigationForm data={control.controlNavigation} />
             </Stack.Item>
             {/* ne pas montrer les controles gens de mer pour la plaisance de loisir */}
             {control.vesselType !== VesselTypeEnum.SAILING_LEISURE && (
-              <Stack.Item style={{width: '100%'}}>
-                <ControlGensDeMerForm data={control.controlGensDeMer}/>
+              <Stack.Item style={{ width: '100%' }}>
+                <ControlGensDeMerForm data={control.controlGensDeMer} />
               </Stack.Item>
             )}
-            <Stack.Item style={{width: '100%'}}>
-              <ControlSecurityForm data={control.controlSecurity}/>
+            <Stack.Item style={{ width: '100%' }}>
+              <ControlSecurityForm data={control.controlSecurity} />
             </Stack.Item>
           </Stack>
         </Stack.Item>
-        <Stack.Item style={{width: '100%'}}>
+        <Stack.Item style={{ width: '100%' }}>
           <Textarea
             label="Observations générales sur le contrôle"
             isLight={true}

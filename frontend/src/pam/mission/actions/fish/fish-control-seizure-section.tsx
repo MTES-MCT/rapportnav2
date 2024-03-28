@@ -8,14 +8,14 @@ interface FishControlSeizureSectionProps {
   action: FishAction
 }
 
-const FishControlSeizureSection: React.FC<FishControlSeizureSectionProps> = ({action}) => {
+const FishControlSeizureSection: React.FC<FishControlSeizureSectionProps> = ({ action }) => {
   return (
     <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
       <Stack.Item>
         <Label>Appréhension et déroutement du navire</Label>
       </Stack.Item>
 
-      <Stack.Item style={{backgroundColor: THEME.color.white, width: '100%', padding: '1rem'}}>
+      <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
         <Stack direction="column" alignItems="flex-start" spacing={'1rem'}>
           <Stack.Item>
             <Checkbox
@@ -25,7 +25,7 @@ const FishControlSeizureSection: React.FC<FishControlSeizureSectionProps> = ({ac
               checked={!!action.seizureAndDiversion}
             />
           </Stack.Item>
-          <Stack.Item style={{paddingLeft: '1.5rem'}}>
+          <Stack.Item style={{ paddingLeft: '1.5rem' }}>
             <Checkbox
               readOnly={true}
               name="hasSomeSpeciesSeized"
@@ -33,7 +33,7 @@ const FishControlSeizureSection: React.FC<FishControlSeizureSectionProps> = ({ac
               checked={!!action.hasSomeSpeciesSeized}
             />
           </Stack.Item>
-          <Stack.Item style={{paddingLeft: '1.5rem'}}>
+          <Stack.Item style={{ paddingLeft: '1.5rem' }}>
             <Checkbox
               readOnly={true}
               name="hasSomeGearsSeized"
@@ -44,7 +44,7 @@ const FishControlSeizureSection: React.FC<FishControlSeizureSectionProps> = ({ac
         </Stack>
       </Stack.Item>
 
-      <Stack.Item style={{backgroundColor: THEME.color.white, width: '100%', padding: '1rem'}}>
+      <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
         <Label>Observations sur l’appréhension du navire / le déroutement</Label>
         <Text as="h3" weight="medium">
           {!!action?.seizureAndDiversionComments ? action.seizureAndDiversionComments : 'Aucune observation'}

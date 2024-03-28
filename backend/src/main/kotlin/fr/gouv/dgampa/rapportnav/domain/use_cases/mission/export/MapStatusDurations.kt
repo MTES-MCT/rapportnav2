@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations
+import kotlin.math.ceil
 import kotlin.time.DurationUnit
 
 @UseCase
@@ -14,7 +15,7 @@ class MapStatusDurations(
 ) {
 
     private inline fun List<GetStatusDurations.ActionStatusWithDuration>.findDuration(predicate: (GetStatusDurations.ActionStatusWithDuration) -> Boolean): Int {
-        return find(predicate)?.duration?.toInt() ?: 0
+        return ceil(find(predicate)?.duration ?: 0.0).toInt()
     }
 
     fun execute(

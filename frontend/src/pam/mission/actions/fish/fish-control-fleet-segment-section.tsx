@@ -8,14 +8,14 @@ interface FishControlFleetSegmentSectionProps {
   action: FishAction
 }
 
-const FishControlFleetSegmentSection: React.FC<FishControlFleetSegmentSectionProps> = ({action}) => {
+const FishControlFleetSegmentSection: React.FC<FishControlFleetSegmentSectionProps> = ({ action }) => {
   return (
     <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
       <Stack.Item>
         <Label>Segment de flotte</Label>
       </Stack.Item>
 
-      <Stack.Item style={{backgroundColor: THEME.color.white, width: '100%', padding: '1rem'}}>
+      <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
         <Stack direction="column" alignItems="flex-start" spacing={'1rem'}>
           <Stack.Item>
             <Label>Zones de pêche de la marée (issues des FAR)</Label>

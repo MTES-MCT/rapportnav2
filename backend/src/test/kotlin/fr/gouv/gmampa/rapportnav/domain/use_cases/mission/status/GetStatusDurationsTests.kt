@@ -37,8 +37,8 @@ class GetStatusDurationsTests {
     fun setUp() {
         defaultReturnValues = ActionStatusType.values().filter { it != ActionStatusType.UNKNOWN }.flatMap { status ->
             getStatusDurations.getSelectOptionsForType(status)?.map { reason ->
-                GetStatusDurations.ActionStatusWithDuration(status, 0, reason)
-            } ?: listOf(GetStatusDurations.ActionStatusWithDuration(status, 0))
+                GetStatusDurations.ActionStatusWithDuration(status, 0.0, reason)
+            } ?: listOf(GetStatusDurations.ActionStatusWithDuration(status, 0.0))
         }
     }
 
@@ -79,7 +79,7 @@ class GetStatusDurationsTests {
         Mockito.`when`(computeDurations.durationInSeconds(actionStatus.startDateTimeUtc, missionEndDateTime))
             .thenReturn(expectedDuration.toInt())
         Mockito.`when`(computeDurations.convertFromSeconds(expectedDuration.toInt(), DurationUnit.SECONDS))
-            .thenReturn(expectedDuration.toInt())
+            .thenReturn(expectedDuration.toInt().toDouble())
 
         val values = getStatusDurations.computeActionDurationsForAllMission(
             missionStartDateTime,
@@ -90,9 +90,9 @@ class GetStatusDurationsTests {
         assertThat(values).contains(
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.NAVIGATING,
-                duration = expectedDuration,
+                duration = expectedDuration.toDouble(),
                 reason = null,
-                date = missionStartDateTime
+                date = missionStartDateTime.toLocalDate()
             )
         )
     }

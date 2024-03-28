@@ -82,32 +82,32 @@ class GetNbOfDaysAtSeaFromNavigationStatusTests {
         val mock = mutableListOf(
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.ANCHORED,
-                duration = 1,
-                date = startDateTime
+                duration = 1.0,
+                date = startDateTime.toLocalDate()
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.NAVIGATING,
-                duration = 1,
-                date = startDateTime.plusHours(1)
+                duration = 1.0,
+                date = startDateTime.plusHours(1).toLocalDate()
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.ANCHORED,
-                duration = 22,
-                date = startDateTime.plusHours(2)
+                duration = 22.0,
+                date = startDateTime.plusHours(2).toLocalDate()
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.NAVIGATING,
-                duration = 6,
-                date = startDateTime.plusHours(24)
+                duration = 6.0,
+                date = startDateTime.plusHours(24).toLocalDate()
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.ANCHORED,
-                duration = 6,
-                date = startDateTime.plusHours(30)
+                duration = 6.0,
+                date = startDateTime.plusHours(30).toLocalDate()
             ),
         )
         given(
-            this.getStatusDurations.computeActionDurationsPerAction(
+            this.getStatusDurations.computeDurationsByAction(
                 missionStartDateTime = missionStartDateTime,
                 missionEndDateTime = missionEndDateTime,
                 actions = statuses,
