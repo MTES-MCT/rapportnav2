@@ -23,11 +23,18 @@ class GetEnvActionByIdAndMissionId(
 
         // TODO fetch controls
 
-        return mission?.actions?.firstOrNull { it?.controlAction?.action?.id == id }?.let {
-            attachControlsToActionControl.toEnvAction(
-                actionId = id.toString(),
-                action = it
-            )
+        return mission?.actions?.firstOrNull {
+            (it?.controlAction?.action?.id == id) ||
+                (it?.surveillanceAction?.action?.id == id)
+        }?.let {
+            if (it.surveillanceAction != null) {
+                it
+            } else {
+                attachControlsToActionControl.toEnvAction(
+                    actionId = id.toString(),
+                    action = it
+                )
+            }
         }
     }
 }
