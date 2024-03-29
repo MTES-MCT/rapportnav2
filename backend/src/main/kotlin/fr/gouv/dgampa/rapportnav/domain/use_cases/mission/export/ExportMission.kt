@@ -12,6 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
+import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import org.slf4j.LoggerFactory
 import java.time.format.DateTimeFormatter
 import kotlin.time.DurationUnit
@@ -26,6 +27,7 @@ class ExportMission(
     private val mapStatusDurations: MapStatusDurations,
     private val formatActionsForTimeline: FormatActionsForTimeline,
     private val getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus,
+    private val computeDurations: ComputeDurations
 ) {
 
     private val logger = LoggerFactory.getLogger(ExportMission::class.java)
@@ -45,9 +47,14 @@ class ExportMission(
                 .map { it.toActionStatusEntity() }
 
             val durations = mapStatusDurations.execute(mission, statuses, DurationUnit.HOURS)
-            val missionDuration = (durations["atSeaDurations"]?.get("total") ?: 0) +
-                (durations["dockingDurations"]?.get("total") ?: 0) +
-                (durations["unavailabilityDurations"]?.get("total") ?: 0)
+            val missionDuration = computeDurations.convertFromSeconds(
+                computeDurations.durationInSeconds(
+                    mission.startDateTimeUtc,
+                    mission.endDateTimeUtc,
+
+                    ) ?: 0,
+                DurationUnit.HOURS
+            )
 
             val nbOfDaysAtSea = getNbOfDaysAtSeaFromNavigationStatus.execute(
                 missionStartDateTime = mission.startDateTimeUtc,
@@ -67,7 +74,7 @@ class ExportMission(
                 presenceQuai = durations["dockingDurations"].orEmpty(),
                 indisponibilite = durations["unavailabilityDurations"].orEmpty(),
                 nbJoursMer = nbOfDaysAtSea,
-                dureeMission = missionDuration,
+                dureeMission = missionDuration.toInt(),
                 patrouilleEnv = 0,
                 patrouilleMigrant = 0,
                 distanceMilles = generalInfo?.distanceInNauticalMiles,
