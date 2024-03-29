@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import java.time.Duration
-import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
@@ -84,7 +83,6 @@ class GetStatusDurationsTests {
                 status = ActionStatusType.NAVIGATING,
                 duration = expectedDuration.toDouble(),
                 reason = null,
-                date = missionStartDateTime.toLocalDate()
             )
         )
     }
@@ -111,72 +109,7 @@ class GetStatusDurationsTests {
             )
         )
 
-        // Call the computeActionDurations function with missionEndDateTime as null
-//        val valuesInSeconds = getStatusDurations.computeActionDurationsForAllMission(
-//            missionStartDateTime,
-//            null,
-//            actions
-//        )
-//        // Calculate expected durations in seconds excluding the last action
-//        val expectedValues = listOf(
-//            GetStatusDurations.ActionStatusWithDuration(
-//                ActionStatusType.NAVIGATING,
-//                7200.0,
-//                null,
-//                LocalDate.parse("2023-06-19")
-//            ),
-//            GetStatusDurations.ActionStatusWithDuration(
-//                ActionStatusType.ANCHORED,
-//                18000.0,
-//                null,
-//                LocalDate.parse("2023-06-19")
-//            ),
-//            GetStatusDurations.ActionStatusWithDuration(
-//                ActionStatusType.DOCKED,
-//                18000.0,
-//                ActionStatusReason.WEATHER,
-//                LocalDate.parse("2023-06-19")
-//            ),
-//            GetStatusDurations.ActionStatusWithDuration(
-//                ActionStatusType.UNAVAILABLE,
-//                0.0,
-//                ActionStatusReason.TECHNICAL,
-//                LocalDate.parse("2023-06-19")
-//            ),
-//        )
-//        // Assert that the computed durations match the expected values
-//        assertThat(valuesInSeconds).containsAll(expectedValues)
-//
-//        // same but with values in minutes
-//        val valuesInMinutes = getStatusDurations.computeActionDurationsForAllMission(
-//            missionStartDateTime,
-//            null,
-//            actions,
-//            DurationUnit.MINUTES
-//        )
-//        val expectedValuesInMinutes = listOf(
-//            GetStatusDurations.ActionStatusWithDuration(
-//                ActionStatusType.NAVIGATING,
-//                120.0,
-//                null,
-//                LocalDate.parse("2023-06-19")
-//            ),
-//            GetStatusDurations.ActionStatusWithDuration(
-//                ActionStatusType.ANCHORED,
-//                300.0,
-//                null,
-//                LocalDate.parse("2023-06-19")
-//            ),
-//            GetStatusDurations.ActionStatusWithDuration(
-//                ActionStatusType.DOCKED,
-//                300.0,
-//                ActionStatusReason.WEATHER,
-//                LocalDate.parse("2023-06-19")
-//            ),
-//        )
-//        assertThat(valuesInMinutes).containsAll(expectedValuesInMinutes)
-
-        // same but with values in hours
+        // values in hours
         val valuesInHours = getStatusDurations.computeActionDurationsForAllMission(
             missionStartDateTime,
             missionEndDateTime,
@@ -188,28 +121,54 @@ class GetStatusDurationsTests {
                 ActionStatusType.NAVIGATING,
                 2.0,
                 null,
-                LocalDate.parse("2023-06-19")
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 ActionStatusType.ANCHORED,
                 3.0,
                 null,
-                LocalDate.parse("2023-06-19")
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 ActionStatusType.DOCKED,
                 2.0,
                 ActionStatusReason.WEATHER,
-                LocalDate.parse("2023-06-19")
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 ActionStatusType.UNAVAILABLE,
                 257.0, // all the rest of the mission
                 ActionStatusReason.TECHNICAL,
-                LocalDate.parse("2023-06-19")
             )
         )
         assertThat(valuesInHours).containsAll(expectedValuesInHours)
+    }
+
+
+    @Test
+    fun `sumDurationsByStatusAndReason should correctly sum durations by status and reason`() {
+        val actions = listOf(
+            GetStatusDurations.ActionStatusWithDuration(ActionStatusType.NAVIGATING, 10.0, null, ZonedDateTime.now()),
+            GetStatusDurations.ActionStatusWithDuration(ActionStatusType.NAVIGATING, 5.0, null, ZonedDateTime.now()),
+            GetStatusDurations.ActionStatusWithDuration(
+                ActionStatusType.DOCKED,
+                8.0,
+                ActionStatusReason.TECHNICAL,
+                ZonedDateTime.now()
+            ),
+            GetStatusDurations.ActionStatusWithDuration(
+                ActionStatusType.DOCKED,
+                3.0,
+                ActionStatusReason.WEATHER,
+                ZonedDateTime.now()
+            )
+        )
+
+        val result = getStatusDurations.sumDurationsByStatusAndReason(actions)
+
+        assertThat(result).hasSize(3)
+        assertThat(result).containsExactlyInAnyOrder(
+            GetStatusDurations.ActionStatusWithDuration(ActionStatusType.NAVIGATING, 15.0, null),
+            GetStatusDurations.ActionStatusWithDuration(ActionStatusType.DOCKED, 8.0, ActionStatusReason.TECHNICAL),
+            GetStatusDurations.ActionStatusWithDuration(ActionStatusType.DOCKED, 3.0, ActionStatusReason.WEATHER)
+        )
     }
 
 }
