@@ -11,6 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsFo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.MapStatusDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
+import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import fr.gouv.gmampa.rapportnav.mocks.mission.NavMissionMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -25,7 +26,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 
-@SpringBootTest(classes = [ExportMission::class])
+@SpringBootTest(classes = [ExportMission::class, ComputeDurations::class])
 class ExportMissionTests {
 
     @Autowired
