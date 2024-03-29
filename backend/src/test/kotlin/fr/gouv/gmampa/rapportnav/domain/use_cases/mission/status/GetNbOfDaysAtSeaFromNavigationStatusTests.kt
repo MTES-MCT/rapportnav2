@@ -3,31 +3,26 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.status
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations
+import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.NavActionStatusMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
-import kotlin.time.DurationUnit
 
 
-@SpringBootTest(classes = [GetNbOfDaysAtSeaFromNavigationStatus::class])
+@SpringBootTest(classes = [GetNbOfDaysAtSeaFromNavigationStatus::class, GetStatusDurations::class, ComputeDurations::class])
 
 class GetNbOfDaysAtSeaFromNavigationStatusTests {
 
     @Autowired
     private lateinit var getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus
 
-    @MockBean
-    private lateinit var getStatusDurations: GetStatusDurations
-
     private val missionStartDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 1, 12, 0), ZoneOffset.UTC)
-    private val missionEndDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 22, 0), ZoneOffset.UTC)
+    private val missionEndDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 12, 22, 0), ZoneOffset.UTC)
 
 
     @Test
@@ -42,8 +37,8 @@ class GetNbOfDaysAtSeaFromNavigationStatusTests {
     }
 
     @Test
-    fun `execute should return 0 when no Navigation statuses`() {
-        val statuses = listOf(NavActionStatusMock.createActionStatusEntity(status = ActionStatusType.ANCHORED))
+    fun `execute should return 0 when no Navigation or Anchored statuses`() {
+        val statuses = listOf(NavActionStatusMock.createActionStatusEntity(status = ActionStatusType.DOCKED))
         val value = getNbOfDaysAtSeaFromNavigationStatus.execute(
             missionStartDateTime,
             missionEndDateTime,
@@ -54,72 +49,109 @@ class GetNbOfDaysAtSeaFromNavigationStatusTests {
 
     @Test
     fun `execute should return the amount of days exceeding fours hours of navigation`() {
-        // first day has only one hour of navigation
-        // second day has 6
-        val startDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 1, 12, 0), ZoneOffset.UTC)
         val statuses = listOf(
-            NavActionStatusMock.createActionStatusEntity(
-                status = ActionStatusType.ANCHORED,
-                startDateTimeUtc = startDateTime
-            ),
+            // first day has only 2 hours of navigation
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.NAVIGATING,
-                startDateTimeUtc = startDateTime.plusHours(1)
+                startDateTimeUtc = missionStartDateTime
+            ),
+            NavActionStatusMock.createActionStatusEntity(
+                status = ActionStatusType.DOCKED,
+                startDateTimeUtc = missionStartDateTime.plusHours(1)
             ),
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.ANCHORED,
-                startDateTimeUtc = startDateTime.plusHours(2)
+                startDateTimeUtc = missionStartDateTime.plusHours(2)
             ),
+            NavActionStatusMock.createActionStatusEntity(
+                status = ActionStatusType.UNAVAILABLE,
+                startDateTimeUtc = missionStartDateTime.plusHours(3)
+            ),
+            // second day has 7
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.NAVIGATING,
-                startDateTimeUtc = startDateTime.plusHours(24)
+                startDateTimeUtc = missionStartDateTime.plusHours(25)
             ),
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.ANCHORED,
-                startDateTimeUtc = startDateTime.plusHours(30)
+                startDateTimeUtc = missionStartDateTime.plusHours(30)
             ),
+            NavActionStatusMock.createActionStatusEntity(
+                status = ActionStatusType.UNAVAILABLE,
+                startDateTimeUtc = missionStartDateTime.plusHours(32)
+            ),
+            // the rest of the days doesn't count
         )
-        val mock = mutableListOf(
-            GetStatusDurations.ActionStatusWithDuration(
-                status = ActionStatusType.ANCHORED,
-                duration = 1.0,
-                date = startDateTime.toLocalDate()
-            ),
-            GetStatusDurations.ActionStatusWithDuration(
-                status = ActionStatusType.NAVIGATING,
-                duration = 1.0,
-                date = startDateTime.plusHours(1).toLocalDate()
-            ),
-            GetStatusDurations.ActionStatusWithDuration(
-                status = ActionStatusType.ANCHORED,
-                duration = 22.0,
-                date = startDateTime.plusHours(2).toLocalDate()
-            ),
-            GetStatusDurations.ActionStatusWithDuration(
-                status = ActionStatusType.NAVIGATING,
-                duration = 6.0,
-                date = startDateTime.plusHours(24).toLocalDate()
-            ),
-            GetStatusDurations.ActionStatusWithDuration(
-                status = ActionStatusType.ANCHORED,
-                duration = 6.0,
-                date = startDateTime.plusHours(30).toLocalDate()
-            ),
-        )
-        given(
-            this.getStatusDurations.computeDurationsByAction(
-                missionStartDateTime = missionStartDateTime,
-                missionEndDateTime = missionEndDateTime,
-                actions = statuses,
-                durationUnit = DurationUnit.HOURS
-            )
-        ).willReturn(mock)
+
         val value = getNbOfDaysAtSeaFromNavigationStatus.execute(
             missionStartDateTime,
             missionEndDateTime,
             statuses
         );
         assertThat(value).isEqualTo(1)
+    }
+
+    @Test
+    fun `execute should return the amount of days exceeding fours hours of navigation even when a status spans over several days`() {
+        val startDateTime = ZonedDateTime.of(LocalDateTime.of(2024, 3, 11, 7, 0), ZoneOffset.UTC)
+        val endDateTime = ZonedDateTime.of(LocalDateTime.of(2024, 3, 22, 18, 0), ZoneOffset.UTC)
+        val statuses = listOf(
+            // day 1
+            NavActionStatusMock.createActionStatusEntity(
+                status = ActionStatusType.DOCKED,
+                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 11, 4, 0), ZoneOffset.UTC)
+            ),
+            // day 2
+            NavActionStatusMock.createActionStatusEntity(
+                status = ActionStatusType.NAVIGATING,
+                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 12, 6, 48), ZoneOffset.UTC)
+            ),
+            NavActionStatusMock.createActionStatusEntity(
+                status = ActionStatusType.DOCKED,
+                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 12, 16, 54), ZoneOffset.UTC)
+            ),
+            // day 3
+            NavActionStatusMock.createActionStatusEntity(
+                status = ActionStatusType.NAVIGATING,
+                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 13, 7, 12), ZoneOffset.UTC)
+            ),
+            // day 4
+            NavActionStatusMock.createActionStatusEntity(
+                status = ActionStatusType.DOCKED,
+                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 14, 21, 48), ZoneOffset.UTC)
+            ),
+            // day 5
+            NavActionStatusMock.createActionStatusEntity(
+                status = ActionStatusType.NAVIGATING,
+                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 15, 19, 54), ZoneOffset.UTC)
+            ),
+            // skip to day 10
+            NavActionStatusMock.createActionStatusEntity(
+                status = ActionStatusType.ANCHORED,
+                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 20, 18, 0), ZoneOffset.UTC)
+            ),
+            // day 11
+            NavActionStatusMock.createActionStatusEntity(
+                status = ActionStatusType.NAVIGATING,
+                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 21, 7, 54), ZoneOffset.UTC)
+            ),
+            NavActionStatusMock.createActionStatusEntity(
+                status = ActionStatusType.DOCKED,
+                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 21, 13, 42), ZoneOffset.UTC)
+            ),
+            // day 12
+            NavActionStatusMock.createActionStatusEntity(
+                status = ActionStatusType.DOCKED,
+                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 22, 16, 0), ZoneOffset.UTC)
+            ),
+        )
+
+        val value = getNbOfDaysAtSeaFromNavigationStatus.execute(
+            startDateTime,
+            endDateTime,
+            statuses
+        );
+        assertThat(value).isEqualTo(10)
     }
 
 

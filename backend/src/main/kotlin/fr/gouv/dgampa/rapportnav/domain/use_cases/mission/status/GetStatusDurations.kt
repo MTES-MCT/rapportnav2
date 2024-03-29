@@ -5,7 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
-import java.time.LocalDate
 import java.time.ZonedDateTime
 import kotlin.time.DurationUnit
 
@@ -19,7 +18,7 @@ class GetStatusDurations(
         val status: ActionStatusType,
         val duration: Double,
         val reason: ActionStatusReason? = null,
-        val date: LocalDate? = null
+        val datetime: ZonedDateTime? = null
     )
 
     fun computeDurationsByAction(
@@ -54,13 +53,22 @@ class GetStatusDurations(
                         status = action.status,
                         duration = duration,
                         reason = action.reason,
-                        date = action.startDateTimeUtc.toLocalDate()
+                        datetime = action.startDateTimeUtc
                     )
                 )
 
             }
         }
         return durations
+    }
+
+    fun sumDurationsByStatusAndReason(actions: List<ActionStatusWithDuration>): MutableList<ActionStatusWithDuration> {
+        return actions.groupBy { it.status to it.reason }
+            .map { (key, group) ->
+                val (status, reason) = key
+                val totalDuration = group.sumOf { it.duration }
+                ActionStatusWithDuration(status, totalDuration, reason)
+            }.toMutableList()
     }
 
     /**
@@ -103,12 +111,14 @@ class GetStatusDurations(
         actions: List<ActionStatusEntity>? = listOf(),
         durationUnit: DurationUnit = DurationUnit.SECONDS
     ): List<ActionStatusWithDuration> {
-        val durations = this.computeDurationsByAction(
+        val durationsPerStatusAction = this.computeDurationsByAction(
             missionStartDateTime = missionStartDateTime,
             missionEndDateTime = missionEndDateTime,
             actions = actions,
             durationUnit = durationUnit
         )
+
+        val durations = this.sumDurationsByStatusAndReason(durationsPerStatusAction)
 
         // Add default values for all combinations of status and reason
         for (status in ActionStatusType.values()) {
