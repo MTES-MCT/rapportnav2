@@ -26,8 +26,8 @@ class APIRpnExportRepository(
 
     private val logger = LoggerFactory.getLogger(APIRpnExportRepository::class.java)
     override fun exportOdt(params: ExportParams): MissionExportEntity? {
-//        val url = "https://rapport-mission-dcs.din.developpement-durable.gouv.fr/public_api/export/odt"
-        val url = "https://rapportnav.kalik-sandbox.ovh/public_api/export/odt"
+        val url = "https://rapport-mission-dcs.din.developpement-durable.gouv.fr/public_api/export/odt"
+//        val url = "https://rapportnav.kalik-sandbox.ovh/public_api/export/odt"
 
         // Set the proxy host and port
         val proxyHost = "172.27.229.197"
@@ -46,7 +46,7 @@ class APIRpnExportRepository(
 
             override fun connectFailed(uri: URI?, sa: SocketAddress?, ioe: IOException?) {
                 // Handle connection failure here if needed
-                throw Exception("ExportMission - connectFailed")
+                throw Exception("[RapportDePatrouille] - fail to connect to RapportNav1")
             }
         }
 
