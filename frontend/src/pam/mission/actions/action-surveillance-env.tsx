@@ -1,5 +1,5 @@
 import React from 'react'
-import { DatePicker, Icon, Label, Textarea, THEME } from '@mtes-mct/monitor-ui'
+import { DateRangePicker, Icon, Label, Textarea, THEME } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
 import Text from '../../../ui/text'
 import { formatDateTimeForFrenchHumans } from '../../../utils/dates.ts'
@@ -51,14 +51,12 @@ const ActionSurveillanceEnv: React.FC<ActionSurveillancePropsEnv> = ({action}) =
           </Stack>
         </Stack.Item>
         <Stack.Item style={{width: '100%'}}>
-          <Label>Date et heure</Label>
-          <DatePicker
-            defaultValue={envAction.startDateTimeUtc}
-            // label="Date et heure"
+          <Label>Date et heure de début et de fin</Label>
+          <DateRangePicker
+            defaultValue={[envAction.startDateTimeUtc, envAction.endDateTimeUtc || new Date()]}
+             // label="Dates du rapport"
             withTime={true}
-            isCompact={false}
-            isLight={true}
-            name="startDateTimeUtc"
+            isCompact={true}
             readOnly={true}
             disabled={true}
           />
