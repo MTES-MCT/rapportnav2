@@ -62,6 +62,8 @@ const getActionComponent = (
     switch (actionType) {
       case ActionTypeEnum.CONTROL:
         return ActionControl
+      case ActionTypeEnum.SURVEILLANCE:
+        return ActionSurveillance
       default:
         return null
     }

@@ -19,7 +19,7 @@ export type Action = {
     endDateTimeUtc?: string
     summaryTags?: string[]
     controlsToComplete?: ControlType[]
-    data: [EnvAction | FishAction | ActionStatus | ActionControl | ActionFreeNote]
+    data: [EnvAction | FishAction | ActionStatus | ActionControl | ActionFreeNote | ActionSurveillance | ActionRescue]
 }
 
 export type ActionStatus = {
@@ -75,4 +75,24 @@ export type ActionFreeNote = {
     id: string
     startDateTimeUtc: string
     observations?: string
+}
+
+export type ActionSurveillance = {
+  id: string
+  startDateTimeUtc: string
+  endDateTimeUtc: string
+  observations?: string
+}
+
+
+export type ActionRescue = {
+  id: string
+  startDateTimeUtc: string
+  endDateTimeUtc: string
+  geom?: string
+  isNavireRescue: boolean
+  isPersonRescueNeeded: boolean
+  shipNoticeRequired: boolean
+  shipTowRequired: boolean
+  observations: string
 }

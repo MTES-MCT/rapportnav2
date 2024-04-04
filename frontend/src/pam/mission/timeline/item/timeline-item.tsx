@@ -8,7 +8,8 @@ import ActionFishControl from "./timeline-item-control-fish.tsx";
 import ActionNavControl from "./timeline-item-control-nav.tsx";
 import ActionStatus from "./timeline-item-status.tsx";
 import ActionNote from "./timeline-item-note.tsx";
-import ActionSurveillance from './timeline-item-surveillance.tsx'
+import ActionEnvSurveillance from './timeline-item-surveillance.tsx'
+import ActionRescue from './timeline-item-rescue.tsx'
 
 export interface MissionTimelineItemProps {
   action: Action
@@ -47,7 +48,7 @@ const getActionComponent = (action: Action) => {
       return ActionEnvControl
     }
     if (action.type === ActionTypeEnum.SURVEILLANCE) {
-      return ActionSurveillance
+      return ActionEnvSurveillance
     }
   } else if (action.source === MissionSourceEnum.MONITORFISH) {
     if (action.type === ActionTypeEnum.CONTROL) {
@@ -61,6 +62,8 @@ const getActionComponent = (action: Action) => {
         return ActionStatus
       case ActionTypeEnum.NOTE:
         return ActionNote
+      case ActionTypeEnum.RESCUE:
+        return ActionRescue
       default:
         return null
     }
