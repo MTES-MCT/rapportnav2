@@ -50,6 +50,9 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
         } else if (key === ActionTypeEnum.NOTE) {
             await addNewFreeNote()
         }
+        else if (key === ActionTypeEnum.RESCUE) {
+          await addNewRescue()
+        }
     }
 
     const addNewStatus = async (key: ActionStatusType) => {
@@ -95,6 +98,18 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
 
         const response = await addFreeNote({variables: {freeNoteAction: newNote}})
         navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateFreeNote.id}`)
+    }
+
+    const addNewRescue = async () => {
+      setShowControlTypesModal(false)
+      const newRescue = {
+        missionId: parseInt(missionId!, 10),
+        startDateTimeUtc: formatDateForServers(toLocalISOString()),
+        endDateTimeUtc: formatDateForServers(toLocalISOString()),
+        data: {
+          geom: null
+        }
+      }
     }
 
 
