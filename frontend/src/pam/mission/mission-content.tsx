@@ -43,16 +43,15 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
     navigate(`/pam/missions/${missionId}/${action.id}`)
   }
 
-    const addNewAction = async (key: ActionTypeEnum) => {
-        if (key === ActionTypeEnum.CONTROL) {
-            setShowControlTypesModal(true)
-        } else if (key === ActionTypeEnum.NOTE) {
-            await addNewFreeNote()
-        }
-        else if (key === ActionTypeEnum.RESCUE) {
-          await addNewRescue()
-        }
+  const addNewAction = async (key: ActionTypeEnum) => {
+    if (key === ActionTypeEnum.CONTROL) {
+      setShowControlTypesModal(true)
+    } else if (key === ActionTypeEnum.NOTE) {
+      await addNewFreeNote()
+    } else if (key === ActionTypeEnum.RESCUE) {
+      await addNewRescue()
     }
+  }
 
   const addNewStatus = async (key: ActionStatusType) => {
     const newActionData = {
@@ -99,18 +98,17 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
     navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateFreeNote.id}`)
   }
 
-    const addNewRescue = async () => {
-      setShowControlTypesModal(false)
-      const newRescue = {
-        missionId: parseInt(missionId!, 10),
-        startDateTimeUtc: formatDateForServers(toLocalISOString()),
-        endDateTimeUtc: formatDateForServers(toLocalISOString()),
-        data: {
-          geom: null
-        }
+  const addNewRescue = async () => {
+    setShowControlTypesModal(false)
+    const newRescue = {
+      missionId: parseInt(missionId!, 10),
+      startDateTimeUtc: formatDateForServers(toLocalISOString()),
+      endDateTimeUtc: formatDateForServers(toLocalISOString()),
+      data: {
+        geom: null
       }
     }
-
+  }
 
   if (mission) {
     const MissionActionComponent = getComponentForAction(selectedAction)

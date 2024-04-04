@@ -1,8 +1,7 @@
 import { OptionValue, Select } from '@mtes-mct/monitor-ui'
 import { ActionStatusReason, ActionStatusType } from '../../../types/action-types'
-import React from "react";
-import { statusReasonToHumanString } from "./utils.ts";
-
+import React from 'react'
+import { statusReasonToHumanString } from './utils.ts'
 
 const DOCKED_REASON_OPTIONS: { label: string | undefined; value: ActionStatusReason }[] = [
   {
@@ -45,17 +44,21 @@ const UNAVAILABLE_REASON_OPTIONS: { label: string | undefined; value: ActionStat
   }
 ]
 
-const getSelectOptionsForType = (type: ActionStatusType): {
-  label: string | undefined;
-  value: ActionStatusReason
-}[] | undefined => {
+const getSelectOptionsForType = (
+  type: ActionStatusType
+):
+  | {
+      label: string | undefined
+      value: ActionStatusReason
+    }[]
+  | undefined => {
   switch (type) {
     case ActionStatusType.DOCKED:
-      return DOCKED_REASON_OPTIONS;
+      return DOCKED_REASON_OPTIONS
     case ActionStatusType.UNAVAILABLE:
-      return UNAVAILABLE_REASON_OPTIONS;
+      return UNAVAILABLE_REASON_OPTIONS
     default:
-      return undefined;
+      return undefined
   }
 }
 
@@ -66,7 +69,7 @@ interface StatusReasonDropdownProps {
   isRequired: boolean
 }
 
-const StatusReasonDropdown: React.FC<StatusReasonDropdownProps> = ({actionType, value, isRequired, onSelect}) => {
+const StatusReasonDropdown: React.FC<StatusReasonDropdownProps> = ({ actionType, value, isRequired, onSelect }) => {
   const options = getSelectOptionsForType(actionType)
   return !options ? null : (
     <Select
@@ -80,6 +83,5 @@ const StatusReasonDropdown: React.FC<StatusReasonDropdownProps> = ({actionType, 
     />
   )
 }
-
 
 export default StatusReasonDropdown

@@ -29,8 +29,8 @@ const Login: React.FC = () => {
   const navigate = useNavigate()
 
   const handleSubmit = async (
-    {email, password}: LoginFormValues,
-    {setStatus, setSubmitting}: FormikHelpers<LoginFormValues>
+    { email, password }: LoginFormValues,
+    { setStatus, setSubmitting }: FormikHelpers<LoginFormValues>
   ) => {
     try {
       const response = await fetch(`${window.location.origin}${LOGIN_ENDPOINT}`, {
@@ -46,13 +46,13 @@ const Login: React.FC = () => {
       })
 
       if (!response.ok) {
-        throw new Error(`Failed to fetch: ${response.status} - ${response.statusText}`);
+        throw new Error(`Failed to fetch: ${response.status} - ${response.statusText}`)
       }
 
       const content: LoginResponse = await response.json()
       if (content) {
         authToken.set(content.token)
-        navigate('/', {replace: true})
+        navigate('/', { replace: true })
       }
     } catch (error) {
       setStatus('La connexion a échoué. Veuillez vérifier vos identifiants.')
@@ -79,7 +79,7 @@ const Login: React.FC = () => {
 
   return (
     <PageWrapper>
-      <FlexboxGrid justify="center" align="middle" style={{width: '100%'}}>
+      <FlexboxGrid justify="center" align="middle" style={{ width: '100%' }}>
         <FlexboxGrid.Item colspan={5}>
           <Formik
             initialValues={initialValues}
@@ -87,13 +87,13 @@ const Login: React.FC = () => {
             validate={validateForm}
             validateOnChange={false}
           >
-            {({isSubmitting, status}) => (
+            {({ isSubmitting, status }) => (
               <Form>
                 <Stack direction="column" alignItems="flex-start">
-                  <Stack.Item style={{marginTop: '1rem', marginBottom: '1rem'}}>
+                  <Stack.Item style={{ marginTop: '1rem', marginBottom: '1rem' }}>
                     <h4>Connexion</h4>
                   </Stack.Item>
-                  <Stack.Item style={{marginTop: '1rem', width: '100%'}}>
+                  <Stack.Item style={{ marginTop: '1rem', width: '100%' }}>
                     <FormikTextInput
                       name="email"
                       label="Email"
@@ -103,7 +103,7 @@ const Login: React.FC = () => {
                       size={Size.LARGE}
                     />
                   </Stack.Item>
-                  <Stack.Item style={{marginTop: '1rem', width: '100%'}}>
+                  <Stack.Item style={{ marginTop: '1rem', width: '100%' }}>
                     <FormikTextInput
                       name="password"
                       label="Mot de passe"
@@ -113,7 +113,7 @@ const Login: React.FC = () => {
                       size={Size.LARGE}
                     />
                   </Stack.Item>
-                  <Stack.Item style={{marginTop: '2rem', width: '100%'}} alignSelf="flex-end">
+                  <Stack.Item style={{ marginTop: '2rem', width: '100%' }} alignSelf="flex-end">
                     <Button
                       accent={Accent.PRIMARY}
                       type="submit"

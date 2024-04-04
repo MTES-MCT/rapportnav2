@@ -3,11 +3,11 @@ import { THEME } from '@mtes-mct/monitor-ui'
 import { ActionTypeEnum, MissionSourceEnum } from '../../../../types/env-mission-types.ts'
 import { FlexboxGrid } from 'rsuite'
 import { Action } from '../../../../types/action-types.ts'
-import ActionEnvControl from "./timeline-item-control-env.tsx";
-import ActionFishControl from "./timeline-item-control-fish.tsx";
-import ActionNavControl from "./timeline-item-control-nav.tsx";
-import ActionStatus from "./timeline-item-status.tsx";
-import ActionNote from "./timeline-item-note.tsx";
+import ActionEnvControl from './timeline-item-control-env.tsx'
+import ActionFishControl from './timeline-item-control-fish.tsx'
+import ActionNavControl from './timeline-item-control-nav.tsx'
+import ActionStatus from './timeline-item-status.tsx'
+import ActionNote from './timeline-item-note.tsx'
 import ActionEnvSurveillance from './timeline-item-surveillance.tsx'
 import ActionRescue from './timeline-item-rescue.tsx'
 
@@ -18,14 +18,10 @@ export interface MissionTimelineItemProps {
 }
 
 export const TimelineItemWrapper: React.FC<{
-  onClick: any;
-  children: any;
+  onClick: any
+  children: any
   borderWhenSelected?: boolean
-}> = ({
-        onClick,
-        children,
-        borderWhenSelected = null
-      }) => {
+}> = ({ onClick, children, borderWhenSelected = null }) => {
   return (
     <FlexboxGrid
       onClick={onClick}
@@ -40,7 +36,6 @@ export const TimelineItemWrapper: React.FC<{
     </FlexboxGrid>
   )
 }
-
 
 const getActionComponent = (action: Action) => {
   if (action.source === MissionSourceEnum.MONITORENV) {
@@ -79,7 +74,7 @@ const MissionTimelineItem: React.FC<MissionTimelineItemProps> = (props: MissionT
     return null
   }
 
-  return <Component {...props}/>
+  return <Component {...props} />
 }
 
 export default MissionTimelineItem

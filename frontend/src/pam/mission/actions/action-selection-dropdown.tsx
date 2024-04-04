@@ -1,12 +1,12 @@
 import { Dropdown, Icon } from '@mtes-mct/monitor-ui'
 import { ActionTypeEnum } from '../../../types/env-mission-types'
-import { FC } from "react";
+import { FC } from 'react'
 
 interface ActionSelectionDropdownProps {
   onSelect: (key: ActionTypeEnum) => void
 }
 
-const ActionSelectionDropdown: FC<ActionSelectionDropdownProps> = ({onSelect}) => {
+const ActionSelectionDropdown: FC<ActionSelectionDropdownProps> = ({ onSelect }) => {
   return (
     <Dropdown Icon={Icon.Plus} onSelect={onSelect} title="Ajoufter">
       <Dropdown.Item Icon={Icon.ControlUnit} eventKey={ActionTypeEnum.CONTROL}>

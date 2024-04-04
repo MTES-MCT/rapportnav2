@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import { ActionTypeEnum, MissionSourceEnum } from '../../../../types/env-mission-types.ts'
-import { THEME } from "@mtes-mct/monitor-ui";
+import { THEME } from '@mtes-mct/monitor-ui'
 
 interface MissionTimelineItemContainerProps {
   actionType: ActionTypeEnum
@@ -30,11 +30,10 @@ const ActionControl = createActionStyled({
   backgroundColor: THEME.color.white,
   borderColor: THEME.color.lightGray
 })
-const ActionSurveillance = createActionStyled(
-  {
-    backgroundColor: '#e5e5eb',
-    borderColor: THEME.color.lightGray
-  })
+const ActionSurveillance = createActionStyled({
+  backgroundColor: '#e5e5eb',
+  borderColor: THEME.color.lightGray
+})
 const ActionNote = createActionStyled({
   backgroundColor: THEME.color.blueYonder25,
   borderColor: THEME.color.lightGray
@@ -91,10 +90,10 @@ const getActionComponent = (
 }
 
 const MissionTimelineItemContainer: React.FC<MissionTimelineItemContainerProps> = ({
-                                                                                     children,
-                                                                                     actionType,
-                                                                                     actionSource
-                                                                                   }) => {
+  children,
+  actionType,
+  actionSource
+}) => {
   const Component = getActionComponent(actionSource, actionType)
 
   if (!Component) {

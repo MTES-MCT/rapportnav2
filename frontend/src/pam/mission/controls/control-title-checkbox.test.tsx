@@ -9,7 +9,7 @@ const props = (onChange: any, checked?: boolean = null) =>
     checked,
     shouldCompleteControl: false,
     controlType: ControlType.ADMINISTRATIVE
-  } as ControlTitleCheckboxProps)
+  }) as ControlTitleCheckboxProps
 
 describe('ControlTitleCheckbox', () => {
   describe('changing the checkbox value', () => {
@@ -39,7 +39,6 @@ describe('ControlTitleCheckbox', () => {
       expect(onChange).toHaveBeenCalledTimes(1)
     })
   })
-
 
   it('should be enabled when no onChange and is checked', () => {
     render(<ControlTitleCheckbox {...props(undefined, true)} />)

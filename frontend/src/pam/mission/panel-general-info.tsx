@@ -10,7 +10,7 @@ interface MissionGeneralInfoPanelProps {
   mission: Mission
 }
 
-const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({mission}) => {
+const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({ mission }) => {
   return (
     <Panel
       header={
@@ -21,12 +21,12 @@ const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({missio
       collapsible
       defaultExpanded
       bordered
-      style={{backgroundColor: THEME.color.cultured, border: 0, overflow: 'visible'}}
+      style={{ backgroundColor: THEME.color.cultured, border: 0, overflow: 'visible' }}
     >
-      <FlexboxGrid style={{width: '100%'}}>
-        <FlexboxGrid.Item style={{width: '100%'}}>
-          <Stack direction="column" alignItems="flex-start" spacing="2rem" style={{width: '100%'}}>
-            <Stack.Item style={{width: '100%'}}>
+      <FlexboxGrid style={{ width: '100%' }}>
+        <FlexboxGrid.Item style={{ width: '100%' }}>
+          <Stack direction="column" alignItems="flex-start" spacing="2rem" style={{ width: '100%' }}>
+            <Stack.Item style={{ width: '100%' }}>
               <Label>Dates du rapport</Label>
               <DateRangePicker
                 defaultValue={[mission.startDateTimeUtc || new Date(), mission.endDateTimeUtc || new Date()]}
@@ -37,11 +37,11 @@ const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({missio
                 disabled={true}
               />
             </Stack.Item>
-            <Stack.Item style={{width: '100%'}}>
-              <MissionCrew/>
+            <Stack.Item style={{ width: '100%' }}>
+              <MissionCrew />
             </Stack.Item>
-            <Stack.Item style={{width: '100%'}}>
-              <MissionDistanceAndConsumption info={mission.generalInfo}/>
+            <Stack.Item style={{ width: '100%' }}>
+              <MissionDistanceAndConsumption info={mission.generalInfo} />
             </Stack.Item>
           </Stack>
         </FlexboxGrid.Item>

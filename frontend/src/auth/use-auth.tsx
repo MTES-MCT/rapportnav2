@@ -21,7 +21,7 @@ const useAuth = (): { isAuthenticated: boolean; logout: () => void } => {
     // flush apollo persist cache
     apolloClient.cache.evict({})
     // Reset history to /login
-    navigate('/login', {replace: true})
+    navigate('/login', { replace: true })
   }
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const useAuth = (): { isAuthenticated: boolean; logout: () => void } => {
     }
   }, [isAuthenticated])
 
-  return {isAuthenticated, logout}
+  return { isAuthenticated, logout }
 }
 
 export default useAuth

@@ -1,6 +1,5 @@
 import { ApolloError, gql, useQuery } from '@apollo/client'
-import { Mission } from "../../../types/mission-types.ts";
-
+import { Mission } from '../../../types/mission-types.ts'
 
 export const GET_MISSION_TIMELINE = gql`
   query GetMissionTimeline($missionId: ID) {
@@ -61,21 +60,23 @@ export const GET_MISSION_TIMELINE = gql`
   }
 `
 
-const useGetMissionTimeline = (missionId?: string): {
-  data?: Mission;
-  loading: boolean;
-  error?: ApolloError;
+const useGetMissionTimeline = (
+  missionId?: string
+): {
+  data?: Mission
+  loading: boolean
+  error?: ApolloError
 } => {
-  const {loading, error, data} = useQuery(GET_MISSION_TIMELINE, {
-    variables: {missionId},
+  const { loading, error, data } = useQuery(GET_MISSION_TIMELINE, {
+    variables: { missionId }
     // fetchPolicy: 'cache-only'
-  });
+  })
 
   if (!missionId) {
-    return {loading: false, error: undefined, data: undefined};
+    return { loading: false, error: undefined, data: undefined }
   }
 
-  return {loading, error, data: data?.mission};
-};
+  return { loading, error, data: data?.mission }
+}
 
-export default useGetMissionTimeline;
+export default useGetMissionTimeline

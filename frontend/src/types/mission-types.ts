@@ -67,5 +67,5 @@ export enum MissionStatusEnum {
 
 export enum MissionReportStatusEnum {
   COMPLETE = 'COMPLETE',
-  INCOMPLETE = 'INCOMPLETE',
+  INCOMPLETE = 'INCOMPLETE'
 }

@@ -5,19 +5,19 @@ describe('controlResultOptions', () => {
   it('should return default options when no extra options are provided', () => {
     const result = controlResultOptions()
     expect(result).toEqual([
-      {label: 'Oui', value: ControlResult.YES},
-      {label: 'Non', value: ControlResult.NO},
-      {label: 'Non contrôlé', value: ControlResult.NOT_CONTROLLED}
+      { label: 'Oui', value: ControlResult.YES },
+      { label: 'Non', value: ControlResult.NO },
+      { label: 'Non contrôlé', value: ControlResult.NOT_CONTROLLED }
     ])
   })
 
   it('should include extra options when provided', () => {
     const result = controlResultOptions([ControlResultExtraOptions.NOT_CONCERNED])
     expect(result).toEqual([
-      {label: 'Oui', value: ControlResult.YES},
-      {label: 'Non', value: ControlResult.NO},
-      {label: 'Non contrôlé', value: ControlResult.NOT_CONTROLLED},
-      {label: 'Non concerné', value: ControlResult.NOT_CONCERNED}
+      { label: 'Oui', value: ControlResult.YES },
+      { label: 'Non', value: ControlResult.NO },
+      { label: 'Non contrôlé', value: ControlResult.NOT_CONTROLLED },
+      { label: 'Non concerné', value: ControlResult.NOT_CONCERNED }
     ])
   })
 

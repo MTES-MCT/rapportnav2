@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 // import reportWebVitals from './report-web-vitals'
 import App from './app'
-import initSentry from "./sentry.ts";
+import initSentry from './sentry.ts'
 
 import 'react-toastify/dist/ReactToastify.css'
 import 'rsuite/dist/rsuite.min.css'
@@ -15,7 +15,7 @@ initSentry()
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <App/>
+    <App />
   </React.StrictMode>
 )
 

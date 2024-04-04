@@ -1,5 +1,5 @@
-import { ApolloClient, ApolloError, gql, useQuery } from "@apollo/client";
-import { Mission } from "../../types/mission-types.ts";
+import { ApolloClient, ApolloError, gql, useQuery } from '@apollo/client'
+import { Mission } from '../../types/mission-types.ts'
 
 export const GET_MISSION_BY_ID = gql`
   query GetMissionById($missionId: ID) {
@@ -273,16 +273,16 @@ export const GET_MISSION_BY_ID = gql`
 `
 
 const useMissionById = (): {
-  data?: Mission;
-  loading: boolean;
-  error?: ApolloError,
+  data?: Mission
+  loading: boolean
+  error?: ApolloError
   client: ApolloClient<any>
 } => {
-  const {loading, error, data, ...rest} = useQuery(GET_MISSION_BY_ID, {
+  const { loading, error, data, ...rest } = useQuery(GET_MISSION_BY_ID, {
     // fetchPolicy: 'cache-only'
   })
 
-  return {loading, error, data: data?.mission, ...rest}
+  return { loading, error, data: data?.mission, ...rest }
 }
 
 export default useMissionById

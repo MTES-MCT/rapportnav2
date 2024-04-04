@@ -71,7 +71,6 @@ export enum ActionStatusReason {
   'OTHER' = 'OTHER'
 }
 
-
 export type ActionFreeNote = {
   id: string
   startDateTimeUtc: string
@@ -84,7 +83,6 @@ export type ActionSurveillance = {
   endDateTimeUtc: string
   observations?: string
 }
-
 
 export type ActionRescue = {
   id: string
