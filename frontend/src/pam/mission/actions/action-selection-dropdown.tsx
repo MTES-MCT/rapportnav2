@@ -8,17 +8,17 @@ interface ActionSelectionDropdownProps {
 
 const ActionSelectionDropdown: FC<ActionSelectionDropdownProps> = ({onSelect}) => {
   return (
-    <Dropdown Icon={Icon.Plus} onSelect={onSelect} title="Ajouter">
+    <Dropdown Icon={Icon.Plus} onSelect={onSelect} title="Ajoufter">
       <Dropdown.Item Icon={Icon.ControlUnit} eventKey={ActionTypeEnum.CONTROL}>
         Ajouter des contrôles
       </Dropdown.Item>
       <Dropdown.Item Icon={Icon.Note} eventKey={ActionTypeEnum.NOTE}>
         Ajouter une note libre
       </Dropdown.Item>
-      <Dropdown.Item Icon={Icon.Rescue} eventKey={ActionTypeEnum.RESCUE} disabled>
+      <Dropdown.Item Icon={Icon.Rescue} eventKey={ActionTypeEnum.RESCUE}>
         Ajouter une assistance / sauvetage
       </Dropdown.Item>
-      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.OTHER} disabled>
+      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.OTHER}>
         Ajouter une autre activité de mission
       </Dropdown.Item>
     </Dropdown>
