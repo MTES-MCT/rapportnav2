@@ -47,7 +47,7 @@ describe('ActionEnvControl', () => {
       render(<ActionEnvControl {...props()} />)
       expect(screen.getByText('rejets illicites')).toBeInTheDocument()
     })
-    test('should render empty text when no theme', () => {
+    test('should render "environnement" when no theme', () => {
       const mock = {
         ...actionMock,
         data: {
@@ -60,7 +60,7 @@ describe('ActionEnvControl', () => {
         }
       }
       render(<ActionEnvControl {...props(mock)} />)
-      expect(screen.getByTestId('theme').textContent).toEqual('')
+      expect(screen.getByTestId('theme').textContent).toEqual('environnement')
     })
   })
   describe('the target', () => {

@@ -1,28 +1,24 @@
 import { FC } from 'react'
-import { ExclamationPoint, Icon, THEME } from '@mtes-mct/monitor-ui'
+import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import { MissionSourceEnum } from '../../../types/env-mission-types'
-import { MissionStatusEnum } from '../../../types/mission-types.ts'
 import { Stack } from 'rsuite'
 import Text from '../../../ui/text.tsx'
 
 export interface ActionReportStatusProps {
-  missionStatus: MissionStatusEnum
   actionSource: MissionSourceEnum
-  dataIsComplete?: boolean
+  isCompleteForStats?: boolean
+  isMissionFinished?: boolean
 }
 
-const colorForReportStatus = (missionStatus: MissionStatusEnum, dataIsComplete?: boolean) => {
-  if (dataIsComplete) {
-    return THEME.color.mediumSeaGreen
-  }
-  if (missionStatus === MissionStatusEnum.ENDED) {
-    return THEME.color.maximumRed
+const colorForReportStatus = (isMissionFinished?: boolean, isCompleteForStats?: boolean) => {
+  if (isMissionFinished) {
+    return isCompleteForStats ? THEME.color.mediumSeaGreen : THEME.color.maximumRed
   }
   return THEME.color.charcoal
 }
 
-const messageForReportStatus = (actionSource: MissionSourceEnum, dataIsComplete?: boolean) => {
-  if (dataIsComplete) {
+const messageForReportStatus = (actionSource: MissionSourceEnum, isCompleteForStats?: boolean) => {
+  if (isCompleteForStats) {
     return 'Les champs indispensables aux statistiques sont remplis.'
   }
 
@@ -41,12 +37,17 @@ const messageForReportStatus = (actionSource: MissionSourceEnum, dataIsComplete?
   return `Des champs indispensables sont à remplir par ${sourceName}.`
 }
 
-const ActionReportStatus: FC<ActionReportStatusProps> = ({ missionStatus, actionSource, dataIsComplete }) => {
-  const AppropriateIcon = dataIsComplete
-    ? () => <Icon.Confirm color={colorForReportStatus(missionStatus, dataIsComplete)} data-testid={'report-complete'} />
+const ActionReportStatus: FC<ActionReportStatusProps> = ({ actionSource, isMissionFinished, isCompleteForStats }) => {
+  const AppropriateIcon = isCompleteForStats
+    ? () => (
+        <Icon.Confirm
+          color={colorForReportStatus(isMissionFinished, isCompleteForStats)}
+          data-testid={'report-complete'}
+        />
+      )
     : () => (
-        <ExclamationPoint
-          backgroundColor={colorForReportStatus(missionStatus, dataIsComplete)}
+        <Icon.AttentionFilled
+          color={colorForReportStatus(isMissionFinished, isCompleteForStats)}
           data-testid={'report-incomplete'}
         />
       )
@@ -57,8 +58,8 @@ const ActionReportStatus: FC<ActionReportStatusProps> = ({ missionStatus, action
         <AppropriateIcon />
       </Stack.Item>
       <Stack.Item alignSelf={'center'}>
-        <Text as={'h3'} color={colorForReportStatus(missionStatus, dataIsComplete)}>
-          {messageForReportStatus(actionSource, dataIsComplete)}
+        <Text as={'h3'} color={colorForReportStatus(isMissionFinished, isCompleteForStats)}>
+          {messageForReportStatus(actionSource, isCompleteForStats)}
         </Text>
       </Stack.Item>
     </Stack>

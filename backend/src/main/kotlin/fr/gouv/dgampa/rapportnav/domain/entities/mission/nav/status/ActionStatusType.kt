@@ -10,6 +10,12 @@ enum class ActionStatusType {
     UNKNOWN
 }
 
+// the following are used in conjunction with annotations (like @MandatoryForStats)
+// annotations don't allow code like "ActionStatusType.DOCKED.toString()"
+// hence these two const val
+const val DOCKED_STATUS_AS_STRING: String = "DOCKED"
+const val UNAVAILABLE_STATUS_AS_STRING: String = "UNAVAILABLE"
+
 fun mapStringToActionStatusType(value: String): ActionStatusType {
     return when (value.uppercase(Locale.getDefault())) {
         "NAVIGATING" -> ActionStatusType.NAVIGATING

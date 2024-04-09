@@ -23,6 +23,9 @@ class ActionControlModel(
     @Column(name = "mission_id", nullable = false)
     var missionId: Int,
 
+    @Column(name = "is_complete_for_stats", nullable = true)
+    var isCompleteForStats: Boolean? = null,
+
     @Column(name = "start_datetime_utc", nullable = false)
     var startDateTimeUtc: ZonedDateTime,
 
@@ -74,6 +77,7 @@ class ActionControlModel(
         return ActionControlEntity(
             id = id,
             missionId = missionId,
+            isCompleteForStats = isCompleteForStats,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
             latitude = latitude,
@@ -95,6 +99,7 @@ class ActionControlModel(
         fun fromActionControl(controlAction: ActionControlEntity, mapper: ObjectMapper) = ActionControlModel(
             id = controlAction.id,
             missionId = controlAction.missionId,
+            isCompleteForStats = controlAction.isCompleteForStats,
             startDateTimeUtc = controlAction.startDateTimeUtc,
             endDateTimeUtc = controlAction.endDateTimeUtc,
             latitude = controlAction.latitude,

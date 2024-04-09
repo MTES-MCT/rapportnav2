@@ -11,7 +11,7 @@ export const GET_MISSION_BY_ID = gql`
       status
       reportStatus {
         status
-        source
+        sources
       }
       generalInfo {
         id
@@ -26,6 +26,7 @@ export const GET_MISSION_BY_ID = gql`
         status
         startDateTimeUtc
         endDateTimeUtc
+        isCompleteForStats
         data {
           ... on FishActionData {
             id

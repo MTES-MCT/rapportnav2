@@ -10,7 +10,7 @@ import java.time.format.DateTimeParseException
 
 data class MissionReportStatus(
     val status: MissionReportStatusEnum,
-    val source: List<MissionSourceEnum>? = null
+    val sources: List<MissionSourceEnum>? = null
 )
 
 data class Mission(
@@ -22,7 +22,7 @@ data class Mission(
     val actions: List<Action>?,
     val openBy: String? = null,
     val status: MissionStatusEnum? = null,
-    val reportStatus: List<MissionReportStatus>? = null
+    val reportStatus: MissionReportStatus? = null
 ) {
 
     private val logger = LoggerFactory.getLogger(Mission::class.java)
@@ -94,16 +94,19 @@ data class Mission(
         return MissionStatusEnum.PENDING
     }
 
-    fun calculateMissionReportStatus(): List<MissionReportStatus>? {
+    fun calculateMissionReportStatus(): MissionReportStatus {
 
-        // loop over actions and check status
-        return listOf(
-            MissionReportStatus(
-                status = MissionReportStatusEnum.INCOMPLETE,
-                source = listOf(MissionSourceEnum.MONITORENV)
-            )
+        // switch from none { it.isCompleteForStats == true } to any { it.isCompleteForStats != true } once Monitor is integrated
+        val status: MissionReportStatusEnum =
+            if (this.actions?.none { it.isCompleteForStats == false } == false) MissionReportStatusEnum.INCOMPLETE else MissionReportStatusEnum.COMPLETE
+        val sources = this.actions?.filterNot { it.isCompleteForStats == true || it.isCompleteForStats == null }
+            ?.mapNotNull { it.source }
+            ?.distinct()
+
+        return MissionReportStatus(
+            status = status,
+            sources = sources
         )
-
 
     }
 }

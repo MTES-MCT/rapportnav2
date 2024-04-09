@@ -3,7 +3,6 @@ import { CoordinatesFormat, CoordinatesInput, DatePicker, Icon, Label, THEME } f
 import Divider from 'rsuite/Divider'
 import { Stack } from 'rsuite'
 import Text from '../../../ui/text'
-import { formatDateTimeForFrenchHumans } from '../../../utils/dates.ts'
 import ControlsToCompleteTag from '../controls/controls-to-complete-tag'
 import EnvControlForm from '../controls/env-control-form'
 import { ControlType } from '../../../types/control-types'
@@ -15,13 +14,14 @@ import useActionById from './use-action-by-id.tsx'
 import { extractLatLonFromMultiPoint } from '../../../utils/geometry.ts'
 import { Coordinates } from '@mtes-mct/monitor-ui/types/definitions'
 import { ActionDetailsProps } from './action-mapping.ts'
-import { formatMissionActionTypeForHumans } from '../../../types/fish-mission-types.ts'
 import ActionHeader from './action-header.tsx'
+import useIsMissionFinished from '../use-is-mission-finished.tsx'
 
 type ActionControlPropsEnv = ActionDetailsProps
 
-const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action, missionStatus }) => {
+const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
   const { missionId, actionId } = useParams()
+  const isMissionFinished = useIsMissionFinished(missionId)
 
   const { data: envAction, loading, error } = useActionById(actionId, missionId, action.source, action.type)
 
@@ -48,9 +48,10 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action, missionStat
             date={envAction.startDateTimeUtc}
             showButtons={false}
             showStatus={true}
-            missionStatus={action.status}
-            actionSource={action.source}
-            dataIsComplete={action.dataIsComplete}
+            missionStatus={envAction.status}
+            actionSource={envAction.source}
+            isMissionFinished={isMissionFinished}
+            isCompleteForStats={envAction.isCompleteForStats}
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>

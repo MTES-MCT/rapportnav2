@@ -21,6 +21,9 @@ class ActionStatusModel(
     @Column(name = "mission_id", nullable = false)
     var missionId: Int,
 
+    @Column(name = "is_complete_for_stats", nullable = true)
+    var isCompleteForStats: Boolean? = null,
+
     @Column(name = "start_datetime_utc", nullable = false)
     var startDateTimeUtc: ZonedDateTime,
 
@@ -38,6 +41,7 @@ class ActionStatusModel(
         return ActionStatusEntity(
             id = id,
             missionId = missionId,
+            isCompleteForStats = isCompleteForStats,
             startDateTimeUtc = startDateTimeUtc,
             status = mapStringToActionStatusType(status),
             reason = mapStringToActionStatusReason(reason),
@@ -49,6 +53,7 @@ class ActionStatusModel(
         fun fromActionStatusEntity(statusAction: ActionStatusEntity) = ActionStatusModel(
             id = statusAction.id,
             missionId = statusAction.missionId,
+            isCompleteForStats = statusAction.isCompleteForStats,
             startDateTimeUtc = statusAction.startDateTimeUtc,
             status = statusAction.status.toString(),
             reason = statusAction.reason.toStringOrNull(),

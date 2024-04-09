@@ -11,7 +11,7 @@ export const GET_MISSION_EXCERPT = gql`
       status
       reportStatus {
         status
-        source
+        sources
       }
       generalInfo {
         id
@@ -24,6 +24,7 @@ export const GET_MISSION_EXCERPT = gql`
         type
         source
         status
+        isCompleteForStats
       }
     }
   }

@@ -5,7 +5,6 @@ import { Accent, Button, Icon, IconButton, Size, TagGroup, THEME } from '@mtes-m
 import Text from '../../ui/text'
 import MissionOpenByTag from './mission-open-by-tag.tsx'
 import GearIcon from '@rsuite/icons/Gear'
-import { useFlag } from '@unleash/proxy-client-react'
 import MissionStatusTag from './mission-status-tag.tsx'
 import { Mission, MissionStatusEnum } from '../../types/mission-types.ts'
 import { formatMissionName } from './utils.ts'
@@ -36,7 +35,8 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
   onClickExport,
   exportLoading
 }) => {
-  const exportRapportEnabled = useFlag('export_rapport')
+  // const exportRapportEnabled = useFlag('export_rapport')
+  const exportRapportEnabled = true
 
   return (
     <>
@@ -73,8 +73,7 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
                     onClick={onClickExport}
                     role={'dl-mission-export'}
                     style={{
-                      display:
-                        !!exportRapportEnabled || mission?.status === MissionStatusEnum.ENDED ? 'visible' : 'none'
+                      display: exportRapportEnabled || mission?.status === MissionStatusEnum.ENDED ? 'visible' : 'none'
                     }}
                   >
                     Exporter le rapport de la mission
@@ -96,7 +95,7 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
           </FlexboxGrid.Item>
         </FlexboxGrid>
       </StyledHeader>
-      {/*{mission?.status === MissionStatusEnum.ENDED && <MissionPageHeaderBanner reportStatus={mission.reportStatus} />}*/}
+      {mission?.status === MissionStatusEnum.ENDED && <MissionPageHeaderBanner reportStatus={mission.reportStatus} />}
     </>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Divider, FlexboxGrid, Loader, Stack } from 'rsuite'
-import { ExclamationPoint, THEME } from '@mtes-mct/monitor-ui'
+import { Accent, Icon, IconButton, THEME } from '@mtes-mct/monitor-ui'
 import MissionTimelineItemContainer from './item/timeline-item-container.tsx'
 import MissionTimelineItem from './item/timeline-item.tsx'
 import { Action } from '../../../types/action-types'
@@ -118,36 +118,35 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ missionId, onSelectAc
                                   />
                                 </MissionTimelineItemContainer>
                               </Stack.Item>
-                              {action.type !== ActionTypeEnum.STATUS && (
-                                <>
-                                  {action.dataIsComplete ? (
-                                    <Stack.Item
-                                      alignSelf="stretch"
-                                      style={{ width: '10px', padding: '5px 0' }}
-                                      data-testid={'timeline-item-status'}
-                                    >
-                                      <div
-                                        style={{
-                                          height: '100%',
-                                          backgroundColor: getColorForStatus(action.status),
-                                          borderRadius: '5px'
-                                        }}
-                                      >
-                                        &nbsp;
-                                      </div>
-                                    </Stack.Item>
-                                  ) : (
-                                    <Stack.Item data-testid={'timeline-item-incomplete-report'}>
-                                      <ExclamationPoint
-                                        backgroundColor={getColorForStatus(action.status)}
-                                        title={
-                                          'Cet évènement contient des données manquantes indispensables pour les statistiques.'
-                                        }
-                                      />
-                                    </Stack.Item>
-                                  )}
-                                </>
-                              )}
+                              {action.isCompleteForStats && action.type !== ActionTypeEnum.STATUS ? (
+                                <Stack.Item
+                                  alignSelf="stretch"
+                                  style={{ width: '10px', padding: '5px 0' }}
+                                  data-testid={'timeline-item-status'}
+                                >
+                                  <div
+                                    style={{
+                                      height: '100%',
+                                      backgroundColor: getColorForStatus(action.status),
+                                      borderRadius: '5px'
+                                    }}
+                                  >
+                                    &nbsp;
+                                  </div>
+                                </Stack.Item>
+                              ) : action.isCompleteForStats === false ? (
+                                <Stack.Item data-testid={'timeline-item-incomplete-report'}>
+                                  <IconButton
+                                    accent={Accent.TERTIARY}
+                                    Icon={Icon.AttentionFilled}
+                                    color={getColorForStatus(action.status)}
+                                    title={
+                                      'Cet évènement contient des données manquantes indispensables pour les statistiques.'
+                                    }
+                                    style={{ cursor: 'auto' }}
+                                  />
+                                </Stack.Item>
+                              ) : undefined}
                             </Stack>
                           </Stack.Item>
                         )

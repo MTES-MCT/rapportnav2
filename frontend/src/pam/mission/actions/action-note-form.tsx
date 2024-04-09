@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Accent, Button, DatePicker, Icon, Size, Textarea, THEME } from '@mtes-mct/monitor-ui'
+import { DatePicker, Icon, Textarea } from '@mtes-mct/monitor-ui'
 import { ActionFreeNote } from '../../../types/action-types'
 import { Stack } from 'rsuite'
-import Text from '../../../ui/text'
-import { formatDateTimeForFrenchHumans } from '../../../utils/dates.ts'
 import { useNavigate, useParams } from 'react-router-dom'
 import omit from 'lodash/omit'
 import useActionById from './use-action-by-id.tsx'
@@ -11,12 +9,14 @@ import useAddOrUpdateNote from '../notes/use-add-update-note.tsx'
 import useDeleteNote from '../notes/use-delete-note.tsx'
 import { ActionDetailsProps } from './action-mapping.ts'
 import ActionHeader from './action-header.tsx'
+import useIsMissionFinished from '../use-is-mission-finished.tsx'
 
 type ActionNoteFormProps = ActionDetailsProps
 
-const ActionNoteForm: React.FC<ActionNoteFormProps> = ({ action, missionStatus }) => {
+const ActionNoteForm: React.FC<ActionNoteFormProps> = ({ action }) => {
   const navigate = useNavigate()
   const { missionId, actionId } = useParams()
+  const isMissionFinished = useIsMissionFinished(missionId)
 
   const { data: navAction, loading, error } = useActionById(actionId, missionId, action.source, action.type)
   const [mutateNote] = useAddOrUpdateNote()
@@ -77,7 +77,8 @@ const ActionNoteForm: React.FC<ActionNoteFormProps> = ({ action, missionStatus }
               onDelete={deleteAction}
               missionStatus={action.status}
               actionSource={action.source}
-              dataIsComplete={action.dataIsComplete}
+              isMissionFinished={isMissionFinished}
+              isCompleteForStats={action.isCompleteForStats}
             />
           </Stack.Item>
 

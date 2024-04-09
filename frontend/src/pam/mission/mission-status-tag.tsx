@@ -14,7 +14,7 @@ const MissionStatusTag: FC<MissionStatusTagProps> = ({ status }) => {
     case MissionStatusEnum.UPCOMING:
     case MissionStatusEnum.PENDING:
       iconColor = THEME.color.babyBlueEyes
-      IconComponent = Icon.More
+      IconComponent = Icon.ClockDashed
       text = 'À venir'
       break
     case MissionStatusEnum.IN_PROGRESS:
@@ -40,7 +40,13 @@ const MissionStatusTag: FC<MissionStatusTagProps> = ({ status }) => {
   }
 
   return (
-    <Tag iconColor={iconColor} backgroundColor={THEME.color.cultured} color={THEME.color.charcoal} Icon={IconComponent}>
+    <Tag
+      iconColor={iconColor}
+      backgroundColor={THEME.color.cultured}
+      color={THEME.color.charcoal}
+      Icon={IconComponent}
+      withCircleIcon={true}
+    >
       <Text as="h3" weight="medium" color={THEME.color.charcoal}>
         {text}
       </Text>

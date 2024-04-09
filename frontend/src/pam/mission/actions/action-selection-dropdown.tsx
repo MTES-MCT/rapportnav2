@@ -8,7 +8,7 @@ interface ActionSelectionDropdownProps {
 
 const ActionSelectionDropdown: FC<ActionSelectionDropdownProps> = ({ onSelect }) => {
   return (
-    <Dropdown Icon={Icon.Plus} onSelect={onSelect} title="Ajoufter">
+    <Dropdown Icon={Icon.Plus} onSelect={onSelect} title="Ajouter">
       <Dropdown.Item Icon={Icon.ControlUnit} eventKey={ActionTypeEnum.CONTROL}>
         Ajouter des contrôles
       </Dropdown.Item>

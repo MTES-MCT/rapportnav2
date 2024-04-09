@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Accent, Button, DatePicker, Icon, Size, Tag, Textarea, THEME } from '@mtes-mct/monitor-ui'
+import { DatePicker, Icon, Tag, Textarea } from '@mtes-mct/monitor-ui'
 import { ActionStatus, ActionStatusType } from '../../../types/action-types'
 import { Stack } from 'rsuite'
-import Text from '../../../ui/text'
-import { formatDateTimeForFrenchHumans } from '../../../utils/dates.ts'
 import { getColorForStatus, mapStatusToText } from '../status/utils'
 import { useNavigate, useParams } from 'react-router-dom'
 import omit from 'lodash/omit'
@@ -13,12 +11,14 @@ import useAddOrUpdateStatus from '../status/use-add-update-status.tsx'
 import useDeleteStatus from '../status/use-delete-status.tsx'
 import { ActionDetailsProps } from './action-mapping.ts'
 import ActionHeader from './action-header.tsx'
+import useIsMissionFinished from '../use-is-mission-finished.tsx'
 
 type ActionStatusFormProps = ActionDetailsProps
 
-const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action, missionStatus }) => {
+const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
   const navigate = useNavigate()
   const { missionId, actionId } = useParams()
+  const isMissionFinished = useIsMissionFinished(missionId)
 
   const { data: navAction, loading, error } = useActionById(actionId, missionId, action.source, action.type)
   const [mutateStatus] = useAddOrUpdateStatus()
@@ -77,14 +77,20 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action, missionStat
               onDelete={deleteAction}
               showButtons={true}
               showStatus={true}
-              missionStatus={action.status}
-              actionSource={action.source}
-              dataIsComplete={action.dataIsComplete}
+              missionStatus={navAction.status}
+              actionSource={navAction.source}
+              isMissionFinished={isMissionFinished}
+              isCompleteForStats={navAction.isCompleteForStats}
             />
           </Stack.Item>
           {/* STATUS FIELDS */}
           <Stack.Item style={{ width: '100%' }}>
-            <Tag bullet="DISK" bulletColor={getColorForStatus(ActionStatusType[action.status])} isLight>
+            <Tag
+              Icon={Icon.CircleFilled}
+              iconColor={getColorForStatus(ActionStatusType[action.status])}
+              isLight
+              withCircleIcon={true}
+            >
               {mapStatusToText(ActionStatusType[action.status])}
             </Tag>
           </Stack.Item>
@@ -112,6 +118,11 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action, missionStat
                   value={status.reason}
                   onSelect={onChange}
                   isRequired={true}
+                  error={
+                    isMissionFinished &&
+                    !status.reason &&
+                    [ActionStatusType.DOCKED, ActionStatusType.UNAVAILABLE].indexOf(status.status) !== -1
+                  }
                 />
               </Stack.Item>
             </Stack>

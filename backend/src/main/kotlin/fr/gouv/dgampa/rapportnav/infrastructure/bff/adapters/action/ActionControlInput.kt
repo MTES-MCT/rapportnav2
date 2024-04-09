@@ -31,7 +31,7 @@ data class ActionControlInput(
     val controlNavigation: ControlNavigation? = null,
     val controlSecurity: ControlSecurity? = null
 ) {
-    fun toActionControl(): ActionControlEntity {
+    fun toActionControlEntity(): ActionControlEntity {
         return ActionControlEntity(
             id = id ?: UUID.randomUUID(),
             missionId = missionId,
@@ -63,5 +63,6 @@ data class ActionControlInput(
             ),
             controlSecurity = controlSecurity?.toControlSecurityEntity(missionId = missionId, actionId = id.toString()),
         )
+
     }
 }
