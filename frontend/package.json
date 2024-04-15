@@ -22,7 +22,7 @@
     "@apollo/client": "^3.9.5",
     "@mtes-mct/monitor-ui": "^13.10.0",
     "@sentry/integrations": "^7.101.1",
-    "@sentry/react": "^7.100.1",
+    "@sentry/react": "^7.108.0",
     "@unleash/proxy-client-react": "^4.2.2",
     "apollo3-cache-persist": "^0.14.1",
     "date-fns": "^2.30.0",
