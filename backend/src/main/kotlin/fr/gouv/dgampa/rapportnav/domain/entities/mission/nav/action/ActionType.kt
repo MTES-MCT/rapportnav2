@@ -8,6 +8,7 @@ enum class ActionType {
     CONTACT,
     NOTE,
     STATUS,
+    RESCUE,
     OTHER
 }
 
@@ -18,6 +19,7 @@ fun mapStringToActionType(value: String): ActionType {
         "CONTACT" -> ActionType.CONTACT
         "NOTE" -> ActionType.NOTE
         "STATUS" -> ActionType.STATUS
+        "RESCUE" -> ActionType.RESCUE
         else -> ActionType.OTHER
     }
 }

@@ -14,6 +14,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsByActionId
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionControlInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionFreeNoteInput
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionRescueInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionStatusInput
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.*
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Infraction
@@ -41,6 +42,7 @@ class ActionController(
     private val fakeMissionData: FakeMissionData,
     private val addOrUpdateActionFreeNote: AddOrUpdateActionFreeNote,
     private val deleteActionFreeNote: DeleteActionFreeNote,
+    private val addOrUpdateActionRescue: AddOrUpdateActionRescue
 ) {
 
     private val logger = LoggerFactory.getLogger(ActionController::class.java)
@@ -185,6 +187,7 @@ class ActionController(
                 is NavActionControl -> ActionType.CONTROL
                 is NavActionStatus -> ActionType.STATUS
                 is NavActionFreeNote -> ActionType.NOTE
+                is NavActionRescue -> ActionType.RESCUE
                 else -> ActionType.OTHER
 
             }
@@ -294,6 +297,12 @@ class ActionController(
     @MutationMapping
     fun deleteFreeNote(@Argument id: UUID): Boolean {
         return deleteActionFreeNote.execute(id)
+    }
+
+    @MutationMapping
+    fun addOrUpdateActionRescue(@Argument rescueAction: ActionRescueInput): NavActionRescue {
+        val data = rescueAction.toActionRescueEntity()
+        return addOrUpdateActionRescue.execute(data).toNavActionRescue()
     }
 
 
