@@ -12,10 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeMissionData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetFishActionsByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsByActionId
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionControlInput
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionFreeNoteInput
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionRescueInput
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionStatusInput
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.*
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.*
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Infraction
 import org.slf4j.LoggerFactory
@@ -42,7 +39,8 @@ class ActionController(
     private val fakeMissionData: FakeMissionData,
     private val addOrUpdateActionFreeNote: AddOrUpdateActionFreeNote,
     private val deleteActionFreeNote: DeleteActionFreeNote,
-    private val addOrUpdateActionRescue: AddOrUpdateActionRescue
+    private val addOrUpdateActionRescue: AddOrUpdateActionRescue,
+    private val addOrUpdateActionNauticalEvent: AddOrUpdateActionNauticalEvent
 ) {
 
     private val logger = LoggerFactory.getLogger(ActionController::class.java)
@@ -303,6 +301,12 @@ class ActionController(
     fun addOrUpdateActionRescue(@Argument rescueAction: ActionRescueInput): NavActionRescue {
         val data = rescueAction.toActionRescueEntity()
         return addOrUpdateActionRescue.execute(data).toNavActionRescue()
+    }
+
+    @MutationMapping
+    fun addOrUpdateActionNauticalEvent(@Argument nauticalAction: ActionNauticalEventInput): NavActionNauticalEvent {
+        val data = nauticalAction.toActionNauticalEventEntity()
+        return addOrUpdateActionNauticalEvent.execute(data).toNavActionNauticalEvent()
     }
 
 
