@@ -10,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.adapters.ApiException
 import fr.gouv.dgampa.rapportnav.infrastructure.api.adapters.inputs.AuthLoginDataInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.adapters.inputs.AuthRegisterDataInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.adapters.outputs.AuthLoginDataOutput
+import io.sentry.Sentry
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -28,35 +29,44 @@ class ApiAuthController(
 ) {
     @PostMapping("register")
     fun register(@RequestBody body: AuthRegisterDataInput): ResponseEntity<Any> {
-        val user = User(
-            id = body.id,
-            firstName = body.firstName.lowercase().trim(),
-            lastName = body.lastName.lowercase().trim(),
-            email = body.email.trim(),
-            password = hashService.hashBcrypt(body.password),
-            serviceId = body.serviceId
-        )
+        try {
+            val user = User(
+                id = body.id,
+                firstName = body.firstName.lowercase().trim(),
+                lastName = body.lastName.lowercase().trim(),
+                email = body.email.trim(),
+                password = hashService.hashBcrypt(body.password),
+                serviceId = body.serviceId
+            )
 
-        if (findByEmail.execute(body.email) != null) {
-            return ResponseEntity.badRequest().body(ApiException(400, "Email already exists"))
+            if (findByEmail.execute(body.email) != null) {
+                return ResponseEntity.badRequest().body(ApiException(400, "Email already exists"))
+            }
+
+            return ResponseEntity.ok(save.execute(user))
+        } catch (ex: Exception) {
+            Sentry.captureException(ex)
+            throw ex
         }
-
-        return ResponseEntity.ok(save.execute(user))
 
     }
 
     @PostMapping("login")
     fun login(@RequestBody body: AuthLoginDataInput, response: HttpServletResponse): AuthLoginDataOutput {
-        val user = findByEmail.execute(body.email.trim()) ?: throw ApiException(400, "Login failed")
+        try {
+            val user =
+                findByEmail.execute(body.email.trim()) ?: throw ApiException(400, "Login failed - user not found")
 
-        if (!hashService.checkBcrypt(body.password, user.password)) {
-            throw ApiException(400, "Login failed")
+            if (!hashService.checkBcrypt(body.password, user.password)) {
+                throw ApiException(400, "Login failed")
+            }
+
+            return AuthLoginDataOutput(
+                token = tokenService.createToken(user),
+            )
+        } catch (ex: Exception) {
+            Sentry.captureException(ex)
+            throw ex
         }
-
-        return AuthLoginDataOutput(
-            token = tokenService.createToken(user),
-        )
-
-
     }
 }
