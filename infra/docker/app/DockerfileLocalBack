@@ -8,6 +8,8 @@ WORKDIR /tmp/backend
 # Copy backend Gradle build files
 COPY backend/build.gradle.kts backend/settings.gradle.kts backend/gradlew ./
 COPY backend/gradle ./gradle
+# Change launch mechanism for Apple chipset
+ENV JAVA_TOOL_OPTIONS="-Djdk.lang.Process.launchMechanism=vfork"
 # Resolve and cache dependencies
 RUN ./gradlew --no-daemon dependencies
 
