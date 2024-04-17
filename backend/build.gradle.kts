@@ -7,7 +7,7 @@ description = "RapportNav"
 
 val kotlinVersion by extra("1.9.21")
 val serializationVersion by extra("1.6.2")
-val springVersion by extra("3.2.3")
+val springVersion by extra("3.2.4")
 val testcontainersVersion by extra("1.19.3")
 
 plugins {
@@ -71,7 +71,7 @@ dependencies {
   implementation("io.sentry:sentry-spring-boot-starter-jakarta:7.1.0")
   implementation("io.sentry:sentry-log4j2:7.0.0")
   testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
-  testImplementation("org.springframework:spring-webflux:6.1.4")
+  testImplementation("org.springframework:spring-webflux:6.1.6")
   testImplementation("org.springframework.graphql:spring-graphql-test:1.2.4")
   testImplementation("org.testcontainers:testcontainers")
   testImplementation("org.testcontainers:junit-jupiter")
