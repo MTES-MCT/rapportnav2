@@ -39,8 +39,8 @@ dependencyManagement {
     mavenBom("org.testcontainers:testcontainers-bom:$testcontainersVersion")
   }
   dependencies {
-//    dependency("com.graphql-java:graphql-java:21.1")
     dependency("org.springframework.security:spring-security-core:6.2.3")
+    dependency("org.springframework:spring-web:6.1.6")
   }
 }
 
