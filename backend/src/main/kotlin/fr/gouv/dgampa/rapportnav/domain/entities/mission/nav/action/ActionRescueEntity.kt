@@ -19,7 +19,7 @@ data class ActionRescueEntity(
     val isInSRRorFollowedByCROSSMRCC: Boolean? = false,
     val numberPersonsRescued: Int?,
     val numberOfDeaths: Int?,
-    val operationFollowsSRR: Boolean = false,
+    val operationFollowsDEFREP: Boolean = false,
     val observations: String?,
     val locationDescription: String? = null
 ){
@@ -46,7 +46,7 @@ data class ActionRescueEntity(
             isPersonRescue = isPersonRescue,
             observations = observations,
             numberOfDeaths = numberOfDeaths,
-            operationFollowsSRR = operationFollowsSRR,
+            operationFollowsDEFREP = operationFollowsDEFREP,
             geom = geom,
             isInSRRorFollowedByCROSSMRCC = isInSRRorFollowedByCROSSMRCC,
             numberPersonsRescued = numberPersonsRescued

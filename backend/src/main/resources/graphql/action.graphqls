@@ -67,7 +67,7 @@ input ActionRescueInput {
   isInSRRorFollowedByCROSSMRCC: Boolean
   numberPersonsRescued: String
   numberOfDeaths: String
-  operationFollowsSRR: Boolean
+  operationFollowsDEFREP: Boolean
   locationDescription: String
 }
 

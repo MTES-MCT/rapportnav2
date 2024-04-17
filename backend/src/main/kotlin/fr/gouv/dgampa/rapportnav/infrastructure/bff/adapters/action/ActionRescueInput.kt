@@ -19,7 +19,7 @@ class ActionRescueInput(
     val isInSRRorFollowedByCROSSMRCC: Boolean? = false,
     val numberPersonsRescued: Int? = null,
     val numberOfDeaths: Int? = null,
-    val operationFollowsSRR: Boolean = false,
+    val operationFollowsDEFREP: Boolean = false,
     val locationDescription: String? = null
 )
 {
@@ -33,7 +33,7 @@ class ActionRescueInput(
             observations = observations,
             isPersonRescue = isPersonRescue,
             numberOfDeaths = numberOfDeaths,
-            operationFollowsSRR = operationFollowsSRR,
+            operationFollowsDEFREP = operationFollowsDEFREP,
             isVesselNoticed = isVesselNoticed,
             isVesselTowed = isVesselTowed,
             geom = geom,

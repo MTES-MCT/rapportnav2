@@ -48,7 +48,7 @@ data class ActionRescueModel(
     val numberOfDeaths: Int?,
 
     @Column(name = "operation_follows_srr", nullable = false)
-    val operationFollowsSRR: Boolean = false,
+    val operationFollowsDEFREP: Boolean = false,
 
     @Column(name = "location_description", nullable = true)
     val locationDescription: String? = null
@@ -64,7 +64,7 @@ data class ActionRescueModel(
             isVesselTowed = isVesselTowed,
             numberPersonsRescued = numberPersonsRescued,
             numberOfDeaths = numberOfDeaths,
-            operationFollowsSRR = operationFollowsSRR,
+            operationFollowsDEFREP = operationFollowsDEFREP,
             isVesselNoticed = isVesselNoticed,
             isVesselRescue = isVesselRescue,
             isPersonRescue = isPersonRescue,

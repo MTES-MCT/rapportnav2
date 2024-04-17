@@ -18,7 +18,7 @@ data class NavActionRescue(
     val isVesselServedNotice: Boolean = false,
     val numberPersonsRescued: Int? = null,
     val numberOfDeaths: Int? = null,
-    val operationFollowsSRR: Boolean = false,
+    val operationFollowsDEFREP: Boolean = false,
     val locationDescription: String? = null
 
 ): ActionData()
