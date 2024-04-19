@@ -38,7 +38,7 @@ class FormatActionsForTimelineTests {
     private val fishControl =
         MissionActionEntity.FishAction(ExtendedFishActionEntity.fromMissionAction(FishActionControlMock.create()))
     private val navControl =
-        MissionActionEntity.NavAction(NavActionControlMock.createActionControlEntity().toNavAction())
+        MissionActionEntity.NavAction(NavActionControlMock.createActionControlEntity().toNavActionEntity())
     private val navStatus =
         MissionActionEntity.NavAction(NavActionStatusMock.createActionStatusEntity().toNavActionEntity())
     private val navFreeNote = MissionActionEntity.NavAction(NavActionFreeNoteMock.create().toNavAction())

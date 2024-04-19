@@ -9,7 +9,6 @@ import ControlAdministrativeForm from '../controls/control-administrative-form'
 import ControlNavigationForm from '../controls/control-navigation-form'
 import ControlGensDeMerForm from '../controls/control-gens-de-mer-form'
 import ControlSecurityForm from '../controls/control-security-form'
-import { formatDateTimeForFrenchHumans } from '../../../utils/dates.ts'
 import FishControlAdministrativeSection from './fish/fish-control-administrative-section'
 import FishControlEnginesSection from './fish/fish-control-engines-section'
 import FishControlSpeciesSection from './fish/fish-control-species-section'
@@ -22,6 +21,7 @@ import FishControlOtherInfractionsSection from './fish/fish-control-other-infrac
 import { vesselNameOrUnknown } from './utils.ts'
 import { ActionDetailsProps } from './action-mapping.ts'
 import ActionHeader from './action-header.tsx'
+import useIsMissionFinished from '../use-is-mission-finished.tsx'
 
 export const controlCheckMultiRadioOptions = Object.keys(ControlCheck).map(key => {
   let label
@@ -49,8 +49,9 @@ export const BOOLEAN_AS_OPTIONS: Array<Option<boolean>> = [
 
 type ActionControlPropsFish = ActionDetailsProps
 
-const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action, missionStatus }) => {
+const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action }) => {
   const { missionId, actionId } = useParams()
+  const isMissionFinished = useIsMissionFinished(missionId)
 
   const { data: fishAction, loading, error } = useActionById(actionId, missionId, action.source, action.type)
 
@@ -77,9 +78,10 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action, missionSt
             date={fishAction.startDateTimeUtc}
             showButtons={false}
             showStatus={true}
-            missionStatus={action.status}
-            actionSource={action.source}
-            dataIsComplete={action.dataIsComplete}
+            missionStatus={fishAction.status}
+            actionSource={fishAction.source}
+            isMissionFinished={isMissionFinished}
+            isCompleteForStats={fishAction.isCompleteForStats}
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>

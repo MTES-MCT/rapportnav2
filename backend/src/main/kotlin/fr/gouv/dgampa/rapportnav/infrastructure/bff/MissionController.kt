@@ -45,7 +45,7 @@ class MissionController(
     fun missions(): List<Mission>? {
         try {
             // query with the following filters
-            var missions = getEnvMissions.execute(
+            val missions = getEnvMissions.execute(
                 startedAfterDateTime = ZonedDateTime.of(2024, 1, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
                 startedBeforeDateTime = null,
                 pageNumber = null,
@@ -66,21 +66,27 @@ class MissionController(
 
     @QueryMapping
     fun mission(@Argument missionId: Int): Mission? {
-        return if (missionId in fakeMissionData.getEmptyMissionIds()) {
-            var fakeMission = fakeMissionData.emptyMission(missionId)
-            val navMission = getNavMissionById.execute(missionId = missionId)
-            fakeMission.actions =
-                fakeMission.actions?.plus(navMission.actions.map { MissionActionEntity.NavAction(it) })
-            Mission.fromMissionEntity(fakeMission)
-        } else if (missionId in fakeMissionData.getFullMissionIds()) {
-            val fakeMission = fakeMissionData.fullMission(missionId)
-            val navMission = getNavMissionById.execute(missionId = missionId)
-            fakeMission.actions =
-                fakeMission.actions?.plus(navMission.actions.map { MissionActionEntity.NavAction(it) })
-            Mission.fromMissionEntity(fakeMission)
-        } else {
-            val mission = getMissionById.execute(missionId = missionId)
-            mission?.let { Mission.fromMissionEntity(it) }
+        return when (missionId) {
+            in fakeMissionData.getEmptyMissionIds() -> {
+                val fakeMission = fakeMissionData.emptyMission(missionId)
+                val navMission = getNavMissionById.execute(missionId = missionId)
+                fakeMission.actions =
+                    fakeMission.actions?.plus(navMission.actions.map { MissionActionEntity.NavAction(it) })
+                Mission.fromMissionEntity(fakeMission)
+            }
+
+            in fakeMissionData.getFullMissionIds() -> {
+                val fakeMission = fakeMissionData.fullMission(missionId)
+                val navMission = getNavMissionById.execute(missionId = missionId)
+                fakeMission.actions =
+                    fakeMission.actions?.plus(navMission.actions.map { MissionActionEntity.NavAction(it) })
+                Mission.fromMissionEntity(fakeMission)
+            }
+
+            else -> {
+                val mission = getMissionById.execute(missionId = missionId)
+                mission?.let { Mission.fromMissionEntity(it) }
+            }
         }
     }
 
@@ -136,7 +142,7 @@ class MissionController(
     }
 
     @SchemaMapping(typeName = "Mission", field = "reportStatus")
-    fun missionReportStatus(mission: Mission): List<MissionReportStatus>? {
+    fun missionReportStatus(mission: Mission): MissionReportStatus {
         return mission.calculateMissionReportStatus()
     }
 

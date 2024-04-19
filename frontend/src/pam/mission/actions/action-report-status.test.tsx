@@ -9,9 +9,10 @@ describe('ActionReportStatus', () => {
   test('renders that everything is complete when mission has ended and data is complete', () => {
     render(
       <ActionReportStatus
+        isMissionFinished={true}
         missionStatus={MissionStatusEnum.ENDED}
         actionSource={MissionSourceEnum.RAPPORTNAV}
-        dataIsComplete={true}
+        isCompleteForStats={true}
       />
     )
     const element = screen.getByText('Les champs indispensables aux statistiques sont remplis.')
@@ -21,9 +22,10 @@ describe('ActionReportStatus', () => {
   test('renders data missing text in red when mission is ended', () => {
     render(
       <ActionReportStatus
+        isMissionFinished={true}
         missionStatus={MissionStatusEnum.ENDED}
         actionSource={MissionSourceEnum.RAPPORTNAV}
-        dataIsComplete={false}
+        isCompleteForStats={false}
       />
     )
     const element = screen.getByText("Des champs indispensables sont à remplir par l'unité.")
@@ -35,7 +37,7 @@ describe('ActionReportStatus', () => {
       <ActionReportStatus
         missionStatus={MissionStatusEnum.IN_PROGRESS}
         actionSource={MissionSourceEnum.RAPPORTNAV}
-        dataIsComplete={false}
+        isCompleteForStats={false}
       />
     )
     const element = screen.getByText("Des champs indispensables sont à remplir par l'unité.")
@@ -47,7 +49,7 @@ describe('ActionReportStatus', () => {
       <ActionReportStatus
         missionStatus={MissionStatusEnum.IN_PROGRESS}
         actionSource={MissionSourceEnum.MONITORENV}
-        dataIsComplete={false}
+        isCompleteForStats={false}
       />
     )
     const element = screen.getByText('Des champs indispensables sont à remplir par le CACEM.')
@@ -58,7 +60,7 @@ describe('ActionReportStatus', () => {
       <ActionReportStatus
         missionStatus={MissionStatusEnum.IN_PROGRESS}
         actionSource={MissionSourceEnum.MONITORFISH}
-        dataIsComplete={false}
+        isCompleteForStats={false}
       />
     )
     const element = screen.getByText('Des champs indispensables sont à remplir par le CNSP.')
@@ -69,7 +71,7 @@ describe('ActionReportStatus', () => {
       <ActionReportStatus
         missionStatus={MissionStatusEnum.IN_PROGRESS}
         actionSource={MissionSourceEnum.MONITORFISH}
-        dataIsComplete={false}
+        isCompleteForStats={false}
       />
     )
     expect(screen.getByTestId('report-incomplete')).toBeInTheDocument()
@@ -79,7 +81,7 @@ describe('ActionReportStatus', () => {
       <ActionReportStatus
         missionStatus={MissionStatusEnum.IN_PROGRESS}
         actionSource={MissionSourceEnum.MONITORFISH}
-        dataIsComplete={true}
+        isCompleteForStats={true}
       />
     )
     expect(screen.getByTestId('report-complete')).toBeInTheDocument()

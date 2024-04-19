@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import {
-  Accent,
-  Button,
   Coordinates,
   CoordinatesFormat,
   CoordinatesInput,
@@ -9,16 +7,14 @@ import {
   Icon,
   Label,
   Select,
-  Size,
   Textarea,
   TextInput,
   THEME
 } from '@mtes-mct/monitor-ui'
 import { VesselSizeEnum, VesselTypeEnum } from '../../../types/mission-types'
 import { ActionControl } from '../../../types/action-types'
-import { Divider, Stack } from 'rsuite'
+import { Stack } from 'rsuite'
 import Text from '../../../ui/text'
-import { formatDateTimeForFrenchHumans } from '../../../utils/dates.ts'
 import omit from 'lodash/omit'
 import { useNavigate, useParams } from 'react-router-dom'
 import ControlAdministrativeForm from '../controls/control-administrative-form'
@@ -31,14 +27,15 @@ import useAddOrUpdateControl from './use-add-update-action-control.tsx'
 import useDeleteActionControl from './use-delete-action-control.tsx'
 import { isEqual } from 'lodash'
 import { ActionDetailsProps } from './action-mapping.ts'
-import ActionReportStatus from './action-report-status.tsx'
 import ActionHeader from './action-header.tsx'
+import useIsMissionFinished from '../use-is-mission-finished.tsx'
 
 type ActionControlNavProps = ActionDetailsProps
 
 const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
   const navigate = useNavigate()
   const { missionId, actionId } = useParams()
+  const isMissionFinished = useIsMissionFinished(missionId)
   const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
   const [identityControlledPersonValue, setIdentityControlledPersonValue] = useState<string | undefined>(undefined)
   const [vesselIdentifierValue, setVesselIdentifierValue] = useState<string | undefined>(undefined)
@@ -149,7 +146,8 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
             showStatus={true}
             missionStatus={action.status}
             actionSource={action.source}
-            dataIsComplete={action.dataIsComplete}
+            isMissionFinished={isMissionFinished}
+            isCompleteForStats={action.isCompleteForStats}
           />
         </Stack.Item>
 
@@ -199,6 +197,10 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
             isCompact={true}
             isLight={true}
             role={'ok'}
+            error={
+              isMissionFinished && (!navAction.startDateTimeUtc || !navAction.startDateTimeUtc) ? 'error' : undefined
+            }
+            isErrorMessageHidden={true}
             onChange={async (nextValue?: [Date, Date] | [string, string]) => {
               await onChange('dates', nextValue)
             }}
@@ -214,6 +216,8 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
             label="Lieu du contrôle"
             isLight={true}
             role={'coordinates'}
+            error={isMissionFinished && (!control.latitude || !control.longitude) ? 'error' : undefined}
+            isErrorMessageHidden={true}
             onChange={async (nextCoordinates?: Coordinates, prevCoordinates?: Coordinates) => {
               if (!isEqual(nextCoordinates, prevCoordinates)) {
                 await onChange('geoCoords', nextCoordinates)
@@ -233,6 +237,8 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
                 value={control.vesselSize}
                 data-testid={'vesselSize'}
                 name="vesselSize"
+                error={isMissionFinished && !control.vesselSize ? 'error' : undefined}
+                isErrorMessageHidden={true}
                 onChange={(nextValue: VesselSizeEnum | undefined) => onChange('vesselSize', nextValue)}
               />
             </Stack.Item>
@@ -244,6 +250,8 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
                 data-testid={'vesselIdentifier'}
                 name="vesselIdentifier"
                 value={vesselIdentifierValue}
+                error={isMissionFinished && !vesselIdentifierValue ? 'error' : undefined}
+                isErrorMessageHidden={true}
                 onChange={handleVesselIdentifierChange}
                 onBlur={handleVesselIdentifierBlur}
               />
@@ -256,6 +264,8 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
                 name="identityControlledPerson"
                 data-testid={'identityControlledPerson'}
                 value={identityControlledPersonValue}
+                error={isMissionFinished && !identityControlledPersonValue ? 'error' : undefined}
+                isErrorMessageHidden={true}
                 onChange={handleIdentityControlledPersonChange}
                 onBlur={handleIdentityControlledPersonBlur}
               />

@@ -1,4 +1,4 @@
-import React, { FC, type ReactNode } from 'react'
+import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { Accent, Button, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import Text from '../../../ui/text.tsx'
@@ -12,6 +12,7 @@ export type ActionHeaderProps = ActionReportStatusProps & {
   showStatus: boolean
   showButtons: boolean
   onDelete?: () => void
+  isMissionFinished?: boolean
 }
 
 const ActionHeader: FC<ActionHeaderProps> = ({
@@ -21,13 +22,13 @@ const ActionHeader: FC<ActionHeaderProps> = ({
   showButtons,
   showStatus,
   onDelete,
-  missionStatus,
   actionSource,
-  dataIsComplete
+  isCompleteForStats,
+  isMissionFinished
 }) => {
   const ActionIcon = icon
   return (
-    <Stack direction="column">
+    <Stack direction="column" spacing={'0.5rem'}>
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" spacing="0.5rem" style={{ width: '100%', alignItems: 'initial' }}>
           <Stack.Item alignSelf="baseline">
@@ -49,14 +50,14 @@ const ActionHeader: FC<ActionHeaderProps> = ({
             {showButtons ? (
               <Stack direction="row" spacing="0.5rem">
                 <Stack.Item>
-                  <Button accent={Accent.SECONDARY} size={Size.NORMAL} Icon={Icon.Duplicate} disabled={true}>
+                  <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Duplicate} disabled={true}>
                     Dupliquer
                   </Button>
                 </Stack.Item>
                 <Stack.Item>
                   <IconButton
                     accent={Accent.SECONDARY}
-                    size={Size.NORMAL}
+                    size={Size.SMALL}
                     Icon={Icon.Delete}
                     color={THEME.color.maximumRed}
                     onClick={onDelete}
@@ -65,7 +66,7 @@ const ActionHeader: FC<ActionHeaderProps> = ({
                 </Stack.Item>
               </Stack>
             ) : (
-              <div style={{ height: '32px' }}></div> // normal button height
+              <div style={{ height: '24px' }}></div> // small button height
             )}
           </Stack.Item>
         </Stack>
@@ -73,9 +74,9 @@ const ActionHeader: FC<ActionHeaderProps> = ({
       <Stack.Item style={{ width: '100%' }}>
         {showStatus ? (
           <ActionReportStatus
-            missionStatus={missionStatus}
             actionSource={actionSource}
-            dataIsComplete={dataIsComplete}
+            isCompleteForStats={isCompleteForStats}
+            isMissionFinished={isMissionFinished}
           />
         ) : (
           <div style={{ height: '20px' }}></div> // status icon height

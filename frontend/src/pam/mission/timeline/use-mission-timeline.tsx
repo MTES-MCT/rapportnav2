@@ -7,6 +7,10 @@ export const GET_MISSION_TIMELINE = gql`
       id
       startDateTimeUtc
       endDateTimeUtc
+      reportStatus {
+        status
+        sources
+      }
       actions {
         id
         type
@@ -15,7 +19,7 @@ export const GET_MISSION_TIMELINE = gql`
         summaryTags
         startDateTimeUtc
         endDateTimeUtc
-        dataIsComplete
+        isCompleteForStats
         data {
           ... on FishActionData {
             id
@@ -69,7 +73,6 @@ const useGetMissionTimeline = (
 } => {
   const { loading, error, data } = useQuery(GET_MISSION_TIMELINE, {
     variables: { missionId }
-    // fetchPolicy: 'cache-only'
   })
 
   if (!missionId) {

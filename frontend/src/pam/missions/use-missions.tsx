@@ -12,7 +12,7 @@ export const GET_MISSIONS = gql`
       status
       reportStatus {
         status
-        source
+        sources
       }
     }
   }

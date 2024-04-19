@@ -9,11 +9,9 @@ import ActionStatusForm from './action-status-form'
 import ActionNoteForm from './action-note-form.tsx'
 import ActionSurveillanceEnv from './action-surveillance-env.tsx'
 import ActionRescueForm from './action-rescue-form.tsx'
-import { MissionStatusEnum } from '../../../types/mission-types.ts'
 
 export interface ActionDetailsProps {
   action: Action
-  missionStatus: MissionStatusEnum
 }
 
 export const getComponentForAction = (action?: Action): FC<any> | null => {

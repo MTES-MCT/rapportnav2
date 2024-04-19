@@ -46,6 +46,8 @@ class GetFishActionsByMissionId(
             latitude = 48.389999,
             longitude = -4.490000,
             facade = "Outre-Mer",
+            portLocode = "LR",
+            portName = "La Rochelle",
             actionType = MissionActionType.SEA_CONTROL,
             actionDatetimeUtc = ZonedDateTime.parse("2024-01-08T14:00:00Z"),
             flightGoals = listOf(),

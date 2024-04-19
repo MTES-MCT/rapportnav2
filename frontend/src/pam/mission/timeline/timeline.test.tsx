@@ -27,7 +27,7 @@ const actionMock1 = {
   endDateTimeUtc: '2022-01-01T01:00:00Z',
   summaryTags: undefined,
   controlsToComplete: undefined,
-  dataIsComplete: true,
+  isCompleteForStats: true,
   data: {
     controlMethod: ControlMethod.SEA,
     latitude: 123,
@@ -90,7 +90,7 @@ describe('Timeline', () => {
       expect(screen.queryAllByTestId('timeline-item-status')).toHaveLength(actions.actions.length - 1)
     })
     test('should not render the warning icon when data is incomplete', () => {
-      const actions = { actions: [{ ...actionMock1, dataIsComplete: false }] }
+      const actions = { actions: [{ ...actionMock1, isCompleteForStats: false }] }
       ;(useGetMissionTimeline as any).mockReturnValue(mockedQueryResult(actions))
       render(<Timeline {...props()} />)
       expect(screen.getByTestId('timeline-item-incomplete-report')).toBeInTheDocument()

@@ -19,7 +19,7 @@ export type Action = {
   endDateTimeUtc?: string
   summaryTags?: string[]
   controlsToComplete?: ControlType[]
-  dataIsComplete?: boolean
+  isCompleteForStats?: boolean
   data: [EnvAction | FishAction | ActionStatus | ActionControl | ActionFreeNote | ActionSurveillance | ActionRescue]
 }
 

@@ -53,7 +53,7 @@ export type MissionExport = {
 
 export type MissionReportStatus = {
   status: MissionReportStatusEnum
-  source?: MissionSourceEnum[]
+  sources?: MissionSourceEnum[]
 }
 
 export enum MissionStatusEnum {
