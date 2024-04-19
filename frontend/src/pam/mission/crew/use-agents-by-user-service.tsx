@@ -12,11 +12,11 @@ export const GET_AGENTS_BY_USER_SERVICE = gql`
 `
 
 const useAgentsByUserService = (): { data?: Agent[]; loading: boolean; error?: ApolloError } => {
-  const {loading, error, data} = useQuery(GET_AGENTS_BY_USER_SERVICE, {
+  const { loading, error, data } = useQuery(GET_AGENTS_BY_USER_SERVICE, {
     // fetchPolicy: 'cache-only'
   })
 
-  return {loading, error, data: data?.agentsByUserService}
+  return { loading, error, data: data?.agentsByUserService }
 }
 
 export default useAgentsByUserService

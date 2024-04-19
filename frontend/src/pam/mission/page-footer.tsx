@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Stack } from 'rsuite'
 import { Accent, Button, Icon, Size, THEME } from '@mtes-mct/monitor-ui'
-import Text from "../../ui/text.tsx";
+import Text from '../../ui/text.tsx'
 
 const StyledFooter = styled.div`
   height: 60px;
@@ -14,49 +14,44 @@ const StyledFooter = styled.div`
 `
 
 interface MissionPageFooterProps {
-    missionName: string
-    exitMission: () => void
+  missionName: string
+  exitMission: () => void
 }
 
-const MissionPageFooter: React.FC<MissionPageFooterProps> = ({missionName, exitMission}) => {
+const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionName, exitMission }) => {
+  const deleteMission = () => {
+    // TODO add delete
+    alert('Fonctionnalité pas encore implémentée')
+    exitMission()
+  }
 
-    const deleteMission = () => {
-        // TODO add delete
-        alert('Fonctionnalité pas encore implémentée')
-        exitMission()
-    }
-
-
-    return (
-        <StyledFooter>
-            <Stack direction="row" justifyContent="space-between" alignItems="center" style={{height: '100%'}}>
-                <Stack.Item style={{paddingLeft: '1rem'}}>
-                    <Button accent={Accent.SECONDARY}
-                            size={Size.NORMAL}
-                            Icon={Icon.Delete}
-                            onClick={deleteMission}
-                            disabled={true}
-                    >
-                        Supprimer la mission
-                    </Button>
-                </Stack.Item>
-                <Stack.Item style={{paddingLeft: '1rem'}}>
-                    <Text as={'h2'} color={THEME.color.lightGray}>
-                        RapportNav - Version test - Janvier 2024
-                    </Text>
-                </Stack.Item>
-                <Stack.Item style={{paddingLeft: '1rem'}}>
-                    <Button accent={Accent.PRIMARY}
-                            size={Size.NORMAL}
-                            Icon={Icon.Save}
-                            onClick={exitMission}
-                    >
-                        Quitter le rapport
-                    </Button>
-                </Stack.Item>
-            </Stack>
-        </StyledFooter>
-    )
+  return (
+    <StyledFooter>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" style={{ height: '100%' }}>
+        <Stack.Item style={{ paddingLeft: '1rem' }}>
+          <Button
+            accent={Accent.SECONDARY}
+            size={Size.NORMAL}
+            Icon={Icon.Delete}
+            onClick={deleteMission}
+            disabled={true}
+          >
+            Supprimer la mission
+          </Button>
+        </Stack.Item>
+        <Stack.Item style={{ paddingLeft: '1rem' }}>
+          <Text as={'h2'} color={THEME.color.lightGray}>
+            RapportNav - Version test - Janvier 2024
+          </Text>
+        </Stack.Item>
+        <Stack.Item style={{ paddingLeft: '1rem' }}>
+          <Button accent={Accent.PRIMARY} size={Size.NORMAL} Icon={Icon.Save} onClick={exitMission}>
+            Quitter le rapport
+          </Button>
+        </Stack.Item>
+      </Stack>
+    </StyledFooter>
+  )
 }
 
 export default MissionPageFooter

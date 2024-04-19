@@ -19,6 +19,9 @@ class ActionFreeNoteModel(
     @Column(name = "mission_id", nullable = false)
     var missionId: Int,
 
+    @Column(name = "is_complete_for_stats", nullable = true)
+    var isCompleteForStats: Boolean? = null,
+
     @Column(name = "start_datetime_utc", nullable = false)
     var startDateTimeUtc: ZonedDateTime,
 
@@ -30,8 +33,9 @@ class ActionFreeNoteModel(
         return ActionFreeNoteEntity(
             id = id,
             missionId = missionId,
+            isCompleteForStats = isCompleteForStats,
             startDateTimeUtc = startDateTimeUtc,
-            observations = observations
+            observations = observations,
         )
     }
 
@@ -39,6 +43,7 @@ class ActionFreeNoteModel(
         fun fromActionFreeNote(freeNoteAction: ActionFreeNoteEntity, mapper: ObjectMapper) = ActionFreeNoteModel(
             id = freeNoteAction.id,
             missionId = freeNoteAction.missionId,
+            isCompleteForStats = freeNoteAction.isCompleteForStats,
             startDateTimeUtc = freeNoteAction.startDateTimeUtc,
             observations = freeNoteAction.observations
         )

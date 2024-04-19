@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import { init, reactRouterV6BrowserTracingIntegration, replayIntegration } from "@sentry/react";
-import { createRoutesFromChildren, matchRoutes, useLocation, useNavigationType } from "react-router-dom";
-import { captureConsoleIntegration, debugIntegration, httpClientIntegration } from "@sentry/integrations";
-import packageJson from '../package.json';
+import { useEffect } from 'react'
+import { init, reactRouterV6BrowserTracingIntegration, replayIntegration } from '@sentry/react'
+import { createRoutesFromChildren, matchRoutes, useLocation, useNavigationType } from 'react-router-dom'
+import { captureConsoleIntegration, debugIntegration, httpClientIntegration } from '@sentry/integrations'
+import packageJson from '../package.json'
 
-const version = packageJson.version;
+const version = packageJson.version
 
 const initSentry = () => {
   const FRONTEND_SENTRY_DSN = import.meta.env.FRONTEND_SENTRY_DSN
@@ -23,12 +23,12 @@ const initSentry = () => {
         useLocation,
         useNavigationType,
         createRoutesFromChildren,
-        matchRoutes,
+        matchRoutes
       }),
       replayIntegration(),
       httpClientIntegration(),
       debugIntegration(),
-      captureConsoleIntegration(),
+      captureConsoleIntegration()
     ],
     replaysOnErrorSampleRate: 1.0,
     replaysSessionSampleRate: 0.1,

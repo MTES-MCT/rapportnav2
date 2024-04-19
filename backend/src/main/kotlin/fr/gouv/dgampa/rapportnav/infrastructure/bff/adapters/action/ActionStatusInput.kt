@@ -25,7 +25,7 @@ data class ActionStatusInput(
             } ?: ZonedDateTime.now(ZoneId.of("UTC")),
             status = status,
             reason = reason,
-            observations = observations
+            observations = observations,
         )
     }
 }

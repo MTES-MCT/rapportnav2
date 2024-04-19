@@ -2,15 +2,15 @@ import { fireEvent, render, screen } from '../../../test-utils'
 import { ControlType } from '../../../types/control-types'
 import ControlInfraction, { ControlInfractionProps } from '../infractions/infraction-for-control'
 import { infractionTitleForControlType } from '../infractions/utils'
-import { InfractionTypeEnum } from "../../../types/env-mission-types.ts";
-import { Infraction } from "../../../types/infraction-types.ts";
+import { InfractionTypeEnum } from '../../../types/env-mission-types.ts'
+import { Infraction } from '../../../types/infraction-types.ts'
 
 const props = (infractions?: Infraction[]) =>
   ({
     controlId: '1',
     controlType: ControlType.ADMINISTRATIVE,
     infractions: infractions
-  } as ControlInfractionProps)
+  }) as ControlInfractionProps
 
 describe('ControlInfraction', () => {
   it('should display the Add Infraction button when no Infractrion data undefined', () => {
@@ -24,7 +24,7 @@ describe('ControlInfraction', () => {
     expect(button).toBeInTheDocument()
   })
   it('should display the Infraction summary when there is Infractrion data', () => {
-    render(<ControlInfraction {...props([{id: '123', infractions: []}])} />)
+    render(<ControlInfraction {...props([{ id: '123', infractions: [] }])} />)
     const text = screen.getByText(infractionTitleForControlType(ControlType.ADMINISTRATIVE))
     expect(text).not.toBeUndefined()
   })
@@ -38,12 +38,14 @@ describe('ControlInfraction', () => {
   it('should display the Infraction form with prefilled data when editing an infraction', () => {
     render(
       <ControlInfraction
-        {...props([{
-          id: '123',
-          infractions: [],
-          infractionType: InfractionTypeEnum.WITH_REPORT,
-          observations: 'observations dummy'
-        }])}
+        {...props([
+          {
+            id: '123',
+            infractions: [],
+            infractionType: InfractionTypeEnum.WITH_REPORT,
+            observations: 'observations dummy'
+          }
+        ])}
       />
     )
     const editButton = screen.getByRole('edit-infraction')

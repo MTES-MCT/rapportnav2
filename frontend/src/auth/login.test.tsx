@@ -8,7 +8,7 @@ const server = loginServer()
 
 describe('Login Component', () => {
   // Establish API mocking before all tests.
-  beforeAll(() => server.listen({onUnhandledRequest: 'error'}))
+  beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
 
   // Reset any request handlers that we may add during the tests,
   // so they don't affect other tests.
@@ -18,7 +18,7 @@ describe('Login Component', () => {
   afterAll(() => server.close())
 
   it('should display validation error for invalid email address', async () => {
-    render(<Login/>)
+    render(<Login />)
 
     // Fill in the email and password fields
     await userEvent.type(screen.getByLabelText('Email'), 'invalid-email')
@@ -39,7 +39,7 @@ describe('Login Component', () => {
     window.history.pushState({}, '', '/login')
     expect(window.location.pathname).toEqual('/login')
 
-    render(<Login/>)
+    render(<Login />)
 
     const submitButton = screen.getByText('Se connecter')
 
@@ -61,7 +61,7 @@ describe('Login Component', () => {
     // Mock httpClient to return a rejected promise
     server.use(loginFailedHandler)
 
-    render(<Login/>)
+    render(<Login />)
 
     // Fill in the email and password fields
     await userEvent.type(screen.getByLabelText('Email'), 'test@example.com')

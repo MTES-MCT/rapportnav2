@@ -3,7 +3,7 @@ import { Stack } from 'rsuite'
 import Text from '../../../ui/text'
 import { ControlType } from '../../../types/control-types'
 import { controlTitle } from './utils'
-import { FC } from "react";
+import { FC } from 'react'
 
 export interface ControlTitleCheckboxProps {
   controlType: ControlType
@@ -14,12 +14,12 @@ export interface ControlTitleCheckboxProps {
 }
 
 const ControlTitleCheckbox: FC<ControlTitleCheckboxProps> = ({
-                                                               controlType,
-                                                               checked,
-                                                               disabled,
-                                                               shouldCompleteControl,
-                                                               onChange
-                                                             }) => {
+  controlType,
+  checked,
+  disabled,
+  shouldCompleteControl,
+  onChange
+}) => {
   return (
     <Stack direction="row" alignItems="center" spacing={'0.2rem'}>
       <Stack.Item alignSelf="baseline">
@@ -39,7 +39,7 @@ const ControlTitleCheckbox: FC<ControlTitleCheckboxProps> = ({
       </Stack.Item>
       {!!shouldCompleteControl && (
         <Stack.Item>
-          <p style={{color: THEME.color.maximumRed}}>●</p>
+          <p style={{ color: THEME.color.maximumRed }}>●</p>
         </Stack.Item>
       )}
     </Stack>

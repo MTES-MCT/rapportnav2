@@ -13,57 +13,88 @@ import java.time.ZonedDateTime
 data class Action(
     val id: Any?,
     val missionId: Int,
-//    val type: ActionTypeEnum,
     val source: MissionSourceEnum,
     val startDateTimeUtc: ZonedDateTime?,
     val endDateTimeUtc: ZonedDateTime?,
     val summaryTags: List<String>? = null,
-    val data: ActionData?
+    val data: ActionData? = null,
+    val isCompleteForStats: Boolean? = null,
 ) {
 
     companion object {
         fun fromEnvAction(envAction: ExtendedEnvActionEntity? = null, missionId: Int): Action? {
 
-            return envAction?.controlAction?.action?.let {
-                Action(
-                    id = envAction.controlAction.action.id,
-                    missionId = missionId,
-                    source = MissionSourceEnum.MONITORENV,
-                    startDateTimeUtc = envAction.controlAction.action.actionStartDateTimeUtc,
-                    endDateTimeUtc = envAction.controlAction.action.actionEndDateTimeUtc,
-                    data = envAction.controlAction.action.actionStartDateTimeUtc?.let {
-                        EnvActionData(
-                            id = envAction.controlAction.action.id,
-                            actionStartDateTimeUtc = it,
-                            actionEndDateTimeUtc = envAction.controlAction.action.actionEndDateTimeUtc,
-                            actionType = envAction.controlAction.action.actionType,
-                            geom = envAction.controlAction.action.geom,
-                            observations = envAction.controlAction.action.observations,
-                            actionNumberOfControls = envAction.controlAction.action.actionNumberOfControls,
-                            actionTargetType = envAction.controlAction.action.actionTargetType,
-                            vehicleType = envAction.controlAction.action.vehicleType,
-                            infractions = envAction.controlAction.action.infractions,
-                            themes = envAction.controlAction.action.themes,
-                            isAdministrativeControl = envAction.controlAction.action.isAdministrativeControl,
-                            isComplianceWithWaterRegulationsControl = envAction.controlAction.action.isComplianceWithWaterRegulationsControl,
-                            isSafetyEquipmentAndStandardsComplianceControl = envAction.controlAction.action.isSafetyEquipmentAndStandardsComplianceControl,
-                            isSeafarersControl = envAction.controlAction.action.isSeafarersControl,
-                            controlAdministrative = ControlAdministrative.fromControlAdministrativeEntity(envAction.controlAction.controlAdministrative),
-                            controlNavigation = ControlNavigation.fromControlNavigationEntity(envAction.controlAction.controlNavigation),
-                            controlSecurity = ControlSecurity.fromControlSecurityEntity(envAction.controlAction.controlSecurity),
-                            controlGensDeMer = ControlGensDeMer.fromControlGensDeMerEntity(envAction.controlAction.controlGensDeMer),
-                        )
-                    }
-                )
+            return when {
+                envAction?.surveillanceAction != null -> {
+                    val action = envAction.surveillanceAction.action
+                    Action(
+                        id = action.id,
+                        missionId = missionId,
+                        isCompleteForStats = true,
+                        source = MissionSourceEnum.MONITORENV,
+                        startDateTimeUtc = action.actionStartDateTimeUtc,
+                        endDateTimeUtc = action.actionEndDateTimeUtc,
+                        data = action.actionStartDateTimeUtc?.let {
+                            EnvActionData(
+                                id = action.id,
+                                actionStartDateTimeUtc = it,
+                                actionEndDateTimeUtc = action.actionEndDateTimeUtc,
+                                actionType = action.actionType,
+                                geom = action.geom,
+                                observations = action.observations,
+                                themes = action.themes,
+                                coverMissionZone = action.coverMissionZone
+                            )
+                        }
+                    )
+                }
+
+                envAction?.controlAction != null -> {
+                    val action = envAction.controlAction.action ?: return null
+                    Action(
+                        id = action.id,
+                        missionId = missionId,
+                        isCompleteForStats = true,
+                        source = MissionSourceEnum.MONITORENV,
+                        startDateTimeUtc = action.actionStartDateTimeUtc,
+                        endDateTimeUtc = action.actionEndDateTimeUtc,
+                        data = action.actionStartDateTimeUtc?.let {
+                            EnvActionData(
+                                id = action.id,
+                                actionStartDateTimeUtc = it,
+                                actionEndDateTimeUtc = action.actionEndDateTimeUtc,
+                                actionType = action.actionType,
+                                geom = action.geom,
+                                observations = action.observations,
+                                actionNumberOfControls = action.actionNumberOfControls,
+                                actionTargetType = action.actionTargetType,
+                                vehicleType = action.vehicleType,
+                                infractions = action.infractions,
+                                themes = action.themes,
+                                isAdministrativeControl = action.isAdministrativeControl,
+                                isComplianceWithWaterRegulationsControl = action.isComplianceWithWaterRegulationsControl,
+                                isSafetyEquipmentAndStandardsComplianceControl = action.isSafetyEquipmentAndStandardsComplianceControl,
+                                isSeafarersControl = action.isSeafarersControl,
+                                controlAdministrative = ControlAdministrative.fromControlAdministrativeEntity(envAction.controlAction.controlAdministrative),
+                                controlNavigation = ControlNavigation.fromControlNavigationEntity(envAction.controlAction.controlNavigation),
+                                controlSecurity = ControlSecurity.fromControlSecurityEntity(envAction.controlAction.controlSecurity),
+                                controlGensDeMer = ControlGensDeMer.fromControlGensDeMerEntity(envAction.controlAction.controlGensDeMer)
+                            )
+                        }
+                    )
+                }
+
+                else -> null
             }
         }
 
         fun fromFishAction(fishAction: ExtendedFishActionEntity, missionId: Int): Action? {
             return fishAction.controlAction?.action?.let {
-                val action = fishAction.controlAction?.action
+                val action = fishAction.controlAction.action
                 return Action(
                     id = action.id.toString(),
                     missionId = missionId,
+                    isCompleteForStats = true,
                     source = MissionSourceEnum.MONITORFISH,
                     startDateTimeUtc = action.actionDatetimeUtc,
                     endDateTimeUtc = null, // Set to null for FishAction since it doesn't have an endDateTime
@@ -120,16 +151,16 @@ data class Action(
                         isSafetyEquipmentAndStandardsComplianceControl = action.isSafetyEquipmentAndStandardsComplianceControl,
                         isSeafarersControl = action.isSeafarersControl,
                         // controls
-                        controlAdministrative = ControlAdministrative.fromControlAdministrativeEntity(fishAction.controlAction?.controlAdministrative),
-                        controlNavigation = ControlNavigation.fromControlNavigationEntity(fishAction.controlAction?.controlNavigation),
-                        controlSecurity = ControlSecurity.fromControlSecurityEntity(fishAction.controlAction?.controlSecurity),
-                        controlGensDeMer = ControlGensDeMer.fromControlGensDeMerEntity(fishAction.controlAction?.controlGensDeMer),
+                        controlAdministrative = ControlAdministrative.fromControlAdministrativeEntity(fishAction.controlAction.controlAdministrative),
+                        controlNavigation = ControlNavigation.fromControlNavigationEntity(fishAction.controlAction.controlNavigation),
+                        controlSecurity = ControlSecurity.fromControlSecurityEntity(fishAction.controlAction.controlSecurity),
+                        controlGensDeMer = ControlGensDeMer.fromControlGensDeMerEntity(fishAction.controlAction.controlGensDeMer),
                     )
                 )
             }
         }
 
-        fun fromNavAction(navAction: NavActionEntity): Action? {
+        fun fromNavAction(navAction: NavActionEntity): Action {
             var data: ActionData? = null
             when {
                 navAction.statusAction != null -> {
@@ -150,6 +181,7 @@ data class Action(
                 source = MissionSourceEnum.RAPPORTNAV,
                 startDateTimeUtc = navAction.startDateTimeUtc,
                 endDateTimeUtc = navAction.endDateTimeUtc,
+                isCompleteForStats = navAction.isCompleteForStats,
                 data = data
             )
         }

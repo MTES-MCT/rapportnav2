@@ -24,7 +24,7 @@ class GetNavMissionById(
                 attachControlsToActionControl.toNavAction(
                     actionId = actionControl.id.toString(),
                     action = actionControl
-                ).toNavAction()
+                ).toNavActionEntity()
             }
 
 

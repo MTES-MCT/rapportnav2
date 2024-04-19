@@ -35,6 +35,8 @@ export type Mission = {
   startDateTimeUtc: string
   actions: Action[]
   generalInfo: MissionGeneralInfo
+  status: MissionStatusEnum
+  reportStatus?: MissionReportStatus
 }
 
 export type MissionGeneralInfo = {
@@ -47,4 +49,23 @@ export type MissionGeneralInfo = {
 export type MissionExport = {
   fileName: string
   fileContent: string
+}
+
+export type MissionReportStatus = {
+  status: MissionReportStatusEnum
+  sources?: MissionSourceEnum[]
+}
+
+export enum MissionStatusEnum {
+  UPCOMING = 'UPCOMING',
+  PENDING = 'PENDING',
+  IN_PROGRESS = 'IN_PROGRESS',
+  CLOSED = 'CLOSED',
+  ENDED = 'ENDED',
+  UNAVAILABLE = 'UNAVAILABLE'
+}
+
+export enum MissionReportStatusEnum {
+  COMPLETE = 'COMPLETE',
+  INCOMPLETE = 'INCOMPLETE'
 }

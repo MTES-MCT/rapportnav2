@@ -11,16 +11,16 @@ interface PageWrapperProps {
   children: ReactNode
 }
 
-const PageWrapper: React.FC<PageWrapperProps> = ({children, header, footer, showMenu}) => {
-  const {isAuthenticated} = useAuth()
+const PageWrapper: React.FC<PageWrapperProps> = ({ children, header, footer, showMenu }) => {
+  const { isAuthenticated } = useAuth()
   return (
-    <Container style={{minHeight: '100vh', maxHeight: '100vh', overflow: 'hidden'}}>
+    <Container style={{ minHeight: '100vh', maxHeight: '100vh', overflow: 'hidden' }}>
       <Header>{!!header && <>{header}</>}</Header>
       <Container style={{}}>
         {isAuthenticated && (
           <>
             {showMenu && (
-              <Sidebar style={{flex: 0, width: '64px'}}>
+              <Sidebar style={{ flex: 0, width: '64px' }}>
                 <SideMenu>
                   <SideMenu.Button
                     Icon={Icon.MissionAction}
@@ -33,11 +33,15 @@ const PageWrapper: React.FC<PageWrapperProps> = ({children, header, footer, show
             )}
           </>
         )}
-        <Content style={{
-          maxHeight: 'calc(100vh - 104px - 50px)', // full viewportHeight - headerHeight - extra margin
-          overflow: 'auto',
-          display: 'flex'
-        }}>{children}</Content>
+        <Content
+          style={{
+            maxHeight: 'calc(100vh - 104px - 50px)', // full viewportHeight - headerHeight - extra margin
+            overflow: 'auto',
+            display: 'flex'
+          }}
+        >
+          {children}
+        </Content>
         {footer && <Footer>{footer}</Footer>}
       </Container>
     </Container>
@@ -45,7 +49,7 @@ const PageWrapper: React.FC<PageWrapperProps> = ({children, header, footer, show
 }
 
 PageWrapper.defaultProps = {
-  header: <CustomHeader/>,
+  header: <CustomHeader />,
   showMenu: true
 }
 
