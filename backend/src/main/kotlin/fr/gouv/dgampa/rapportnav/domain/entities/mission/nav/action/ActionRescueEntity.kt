@@ -2,7 +2,6 @@
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.NavActionRescue
-import org.locationtech.jts.geom.MultiPolygon
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -11,7 +10,8 @@ data class ActionRescueEntity(
     val missionId: Int,
     val startDateTimeUtc: ZonedDateTime,
     val endDateTimeUtc: ZonedDateTime? = null,
-    val geom: MultiPolygon? = null,
+    val latitude: Float? = null,
+    val longitude: Float? = null,
     val isVesselRescue: Boolean = false,
     val isPersonRescue: Boolean = false,
     val isVesselNoticed: Boolean = false,
@@ -47,7 +47,8 @@ data class ActionRescueEntity(
             observations = observations,
             numberOfDeaths = numberOfDeaths,
             operationFollowsDEFREP = operationFollowsDEFREP,
-            geom = geom,
+            latitude = latitude,
+            longitude = longitude,
             isInSRRorFollowedByCROSSMRCC = isInSRRorFollowedByCROSSMRCC,
             numberPersonsRescued = numberPersonsRescued
         )

@@ -1,6 +1,5 @@
 
 import jakarta.persistence.*
-import org.locationtech.jts.geom.MultiPolygon
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -20,8 +19,11 @@ data class ActionRescueModel(
     @Column(name = "end_datetime_utc", nullable = false)
     val endDateTimeUtc: ZonedDateTime? = null,
 
-    @Column(name = "geom", nullable = true)
-    val geom: MultiPolygon? = null,
+    @Column(name = "latitude", nullable = true)
+    var latitude: Float? = null,
+
+    @Column(name = "longitude", nullable = true)
+    var longitude: Float? = null,
 
     @Column(name = "is_vessel_rescue", nullable = false)
     val isVesselRescue: Boolean = false,
@@ -59,7 +61,8 @@ data class ActionRescueModel(
             id = id,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
-            geom = geom,
+            latitude = latitude,
+            longitude = longitude,
             observations = observations,
             isVesselTowed = isVesselTowed,
             numberPersonsRescued = numberPersonsRescued,
