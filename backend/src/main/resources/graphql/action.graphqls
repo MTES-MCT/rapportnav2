@@ -11,6 +11,7 @@ extend type Mutation {
     deleteFreeNote(id: String!): Boolean
     addOrUpdateActionRescue(rescueAction: ActionRescueInput!): NavActionRescue
     addOrUpdateActionNauticalEvent(nauticalAction: ActionNauticalEventInput!): NavActionNauticalEvent
+    addOrUpdateActionVigimer(vigimerAction: ActionVigimerInput!): NavActionVigimer
 }
 
 type Action {
@@ -82,6 +83,14 @@ input ActionNauticalEventInput {
   observations: String
 }
 
+input ActionVigimerInput {
+  id: String
+  missionId: Int!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
 enum MissionSource {
     MONITORENV
     MONITORFISH
@@ -131,6 +140,14 @@ type NavActionRescue {
 }
 
 type NavActionNauticalEvent {
+  id: String
+  missionId: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+type NavActionVigimer {
   id: String
   missionId: String!
   startDateTimeUtc: String!

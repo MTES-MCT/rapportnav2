@@ -40,7 +40,8 @@ class ActionController(
     private val addOrUpdateActionFreeNote: AddOrUpdateActionFreeNote,
     private val deleteActionFreeNote: DeleteActionFreeNote,
     private val addOrUpdateActionRescue: AddOrUpdateActionRescue,
-    private val addOrUpdateActionNauticalEvent: AddOrUpdateActionNauticalEvent
+    private val addOrUpdateActionNauticalEvent: AddOrUpdateActionNauticalEvent,
+    private val addOrUpdateActionVigimer: AddOrUpdateActionVigimer
 ) {
 
     private val logger = LoggerFactory.getLogger(ActionController::class.java)
@@ -307,6 +308,12 @@ class ActionController(
     fun addOrUpdateActionNauticalEvent(@Argument nauticalAction: ActionNauticalEventInput): NavActionNauticalEvent {
         val data = nauticalAction.toActionNauticalEventEntity()
         return addOrUpdateActionNauticalEvent.execute(data).toNavActionNauticalEvent()
+    }
+
+    @MutationMapping
+    fun addOrUpdateActionVigimer(@Argument vigimerAction: ActionVigimerInput): NavActionVigimer {
+        val data = vigimerAction.toActionVigimerEntity()
+        return addOrUpdateActionVigimer.execute(data).toNavActionVigimer()
     }
 
 
