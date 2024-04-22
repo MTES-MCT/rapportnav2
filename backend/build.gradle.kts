@@ -24,6 +24,14 @@ plugins {
 
 springBoot {
   mainClass.set("fr.gouv.dgampa.rapportnav.RapportNavApplicationKt")
+
+  buildInfo {
+    properties {
+      additional = mapOf(
+        "commit.hash" to "COMMIT_TO_CHANGE",
+      )
+    }
+  }
 }
 
 repositories {
