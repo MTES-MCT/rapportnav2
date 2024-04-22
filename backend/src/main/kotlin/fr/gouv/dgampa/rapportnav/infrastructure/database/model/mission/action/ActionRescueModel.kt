@@ -1,11 +1,12 @@
-
+package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
+import ActionRescueEntity
 import jakarta.persistence.*
 import java.time.ZonedDateTime
 import java.util.*
 
 @Entity
 @Table(name = "mission_action_rescue")
-data class ActionRescueModel(
+class ActionRescueModel(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: UUID,
@@ -28,7 +29,7 @@ data class ActionRescueModel(
     @Column(name = "is_vessel_rescue", nullable = false)
     val isVesselRescue: Boolean = false,
 
-    @Column(name = "is_vessel_rescue", nullable = false)
+    @Column(name = "is_person_rescue", nullable = false)
     val isPersonRescue: Boolean = false,
 
     @Column(name = "is_vessel_noticed", nullable = false)
@@ -49,7 +50,7 @@ data class ActionRescueModel(
     @Column(name = "number_of_deaths", nullable = true)
     val numberOfDeaths: Int?,
 
-    @Column(name = "operation_follows_srr", nullable = false)
+    @Column(name = "operation_follows_defrep", nullable = false)
     val operationFollowsDEFREP: Boolean = false,
 
     @Column(name = "location_description", nullable = true)

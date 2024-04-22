@@ -9,7 +9,8 @@ extend type Mutation {
     deleteControl(id: String!): Boolean!
     addOrUpdateFreeNote(freeNoteAction: ActionFreeNoteInput!): NavActionFreeNote
     deleteFreeNote(id: String!): Boolean
-  addOrUpdateActionRescue(rescueAction: ActionRescueInput!): NavActionRescue
+    addOrUpdateActionRescue(rescueAction: ActionRescueInput!): NavActionRescue
+    addOrUpdateActionNauticalEvent(nauticalAction: ActionNauticalEventInput!): NavActionNauticalEvent
 }
 
 type Action {
@@ -73,6 +74,14 @@ input ActionRescueInput {
   locationDescription: String
 }
 
+input ActionNauticalEventInput {
+  id: String
+  missionId: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
 enum MissionSource {
     MONITORENV
     MONITORFISH
@@ -119,6 +128,14 @@ type NavActionRescue {
   numberOfDeaths: Int
   operationFollowsDEFREP: Boolean
   locationDescription: String
+}
+
+type NavActionNauticalEvent {
+  id: String
+  missionId: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
 }
 
 enum ActionStatusType {

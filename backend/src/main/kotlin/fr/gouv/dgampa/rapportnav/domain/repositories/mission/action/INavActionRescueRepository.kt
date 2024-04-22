@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.repositories.mission.action
 
 import ActionRescueEntity
-import ActionRescueModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionRescueModel
 import java.util.*
 
 interface INavActionRescueRepository {
