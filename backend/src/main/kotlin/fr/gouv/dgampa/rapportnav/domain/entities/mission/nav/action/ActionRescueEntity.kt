@@ -1,6 +1,5 @@
+package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.NavActionRescue
 import java.time.ZonedDateTime
 import java.util.*
@@ -41,7 +40,7 @@ data class ActionRescueEntity(
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
             isVesselTowed = isVesselTowed,
-            isVesselServedNotice = isVesselNoticed,
+            isVesselNoticed = isVesselNoticed,
             isVesselRescue = isVesselRescue,
             isPersonRescue = isPersonRescue,
             observations = observations,

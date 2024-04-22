@@ -1,6 +1,10 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
-import ActionRescueEntity
-import jakarta.persistence.*
+import com.fasterxml.jackson.databind.ObjectMapper
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionRescueEntity
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -8,7 +12,7 @@ import java.util.*
 @Table(name = "mission_action_rescue")
 class ActionRescueModel(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     val id: UUID,
 
     @Column(name = "mission_id", nullable = false)
@@ -42,7 +46,7 @@ class ActionRescueModel(
     val observations: String?,
 
     @Column(name = "is_in_srr_or_followed_by_cross_mrcc", nullable = false)
-    val isInSRRorFollowedByCROSSMRCC: Boolean = false,
+    val isInSRRorFollowedByCROSSMRCC: Boolean? = false,
 
     @Column(name = "number_persons_rescued", nullable = true)
     val numberPersonsRescued: Int?,
@@ -75,6 +79,27 @@ class ActionRescueModel(
             isInSRRorFollowedByCROSSMRCC = isInSRRorFollowedByCROSSMRCC,
             missionId = missionId,
             locationDescription = locationDescription
+        )
+    }
+
+    companion object {
+        fun fromActionRescue(rescueAction: ActionRescueEntity, mapper: ObjectMapper) = ActionRescueModel(
+            id = rescueAction.id,
+            missionId = rescueAction.missionId,
+            startDateTimeUtc = rescueAction.startDateTimeUtc,
+            observations = rescueAction.observations,
+            isPersonRescue = rescueAction.isPersonRescue,
+            isVesselNoticed = rescueAction.isVesselNoticed,
+            isVesselTowed = rescueAction.isVesselTowed,
+            isInSRRorFollowedByCROSSMRCC = rescueAction.isInSRRorFollowedByCROSSMRCC,
+            isVesselRescue = rescueAction.isVesselRescue,
+            numberOfDeaths = rescueAction.numberOfDeaths,
+            numberPersonsRescued = rescueAction.numberPersonsRescued,
+            latitude = rescueAction.latitude,
+            longitude = rescueAction.longitude,
+            locationDescription = rescueAction.locationDescription,
+            endDateTimeUtc = rescueAction.endDateTimeUtc,
+            operationFollowsDEFREP = rescueAction.operationFollowsDEFREP
         )
     }
 }

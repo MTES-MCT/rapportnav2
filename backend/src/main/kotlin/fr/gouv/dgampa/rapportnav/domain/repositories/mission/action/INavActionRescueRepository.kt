@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.repositories.mission.action
 
-import ActionRescueEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionRescueEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionRescueModel
 import java.util.*
 
@@ -10,7 +10,7 @@ interface INavActionRescueRepository {
 
     fun findById(id: UUID): Optional<ActionRescueModel>
 
-    fun save(rescueModel: ActionRescueEntity): ActionRescueModel
+    fun save(rescueAction: ActionRescueEntity): ActionRescueModel
 
     fun deleteById(id: UUID)
 

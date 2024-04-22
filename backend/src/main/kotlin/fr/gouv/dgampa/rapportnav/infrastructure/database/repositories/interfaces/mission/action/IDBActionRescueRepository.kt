@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action
 
-import ActionRescueEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionRescueEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionRescueModel
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*

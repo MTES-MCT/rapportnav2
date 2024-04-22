@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
 
-import ActionRescueEntity
 import java.time.ZonedDateTime
 import java.util.*
 

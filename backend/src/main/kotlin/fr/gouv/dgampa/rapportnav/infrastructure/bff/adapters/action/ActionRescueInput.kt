@@ -1,21 +1,23 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action
 
-import ActionRescueEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionRescueEntity
+import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class ActionRescueInput(
-    val id: UUID,
+    val id: UUID? = null,
     val missionId: Int,
-    val startDateTimeUtc: ZonedDateTime,
-    val endDateTimeUtc: ZonedDateTime? = null,
+    val startDateTimeUtc: String,
+    val endDateTimeUtc: String? = null,
     val latitude: Float? = null,
     val longitude: Float? = null,
     val isVesselRescue: Boolean = false,
     val isPersonRescue: Boolean = false,
     val isVesselNoticed: Boolean = false,
     val isVesselTowed: Boolean = false,
-    val observations: String,
+    val observations: String?,
     val isInSRRorFollowedByCROSSMRCC: Boolean? = false,
     val numberPersonsRescued: Int? = null,
     val numberOfDeaths: Int? = null,
@@ -25,10 +27,14 @@ class ActionRescueInput(
 {
     fun toActionRescueEntity(): ActionRescueEntity {
         return ActionRescueEntity(
-            id = id,
+            id = id?: UUID.randomUUID(),
             missionId = missionId,
-            startDateTimeUtc = startDateTimeUtc,
-            endDateTimeUtc = endDateTimeUtc,
+            startDateTimeUtc = startDateTimeUtc.let {
+                ZonedDateTime.parse(it, DateTimeFormatter.ISO_ZONED_DATE_TIME)
+            } ?: ZonedDateTime.now(ZoneId.of("UTC")),
+            endDateTimeUtc = endDateTimeUtc.let {
+                ZonedDateTime.parse(it, DateTimeFormatter.ISO_ZONED_DATE_TIME)
+            } ?: ZonedDateTime.now(ZoneId.of("UTC")),
             isVesselRescue = isVesselRescue,
             observations = observations,
             isPersonRescue = isPersonRescue,

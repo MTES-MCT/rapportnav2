@@ -57,7 +57,7 @@ input ActionFreeNoteInput {
 
 input ActionRescueInput {
   id: String
-  missionId: String!
+  missionId: Int!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   longitude: Float
