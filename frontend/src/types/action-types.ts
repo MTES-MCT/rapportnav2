@@ -89,10 +89,17 @@ export type ActionRescue = {
   id: string
   startDateTimeUtc: string
   endDateTimeUtc: string
-  geom?: string
-  isNavireRescue: boolean
-  isPersonRescueNeeded: boolean
-  shipNoticeRequired: boolean
-  shipTowRequired: boolean
-  observations: string
+  longitude: number
+  latitude: number
+  isVesselRescue: boolean
+  isPersonRescue: boolean
+  isInSRRorFollowedByCROSSMRCC: boolean
+  isVesselServedNotice: boolean
+  isVesselTowed: boolean
+  numberPersonsRescued: string
+  numberOfDeaths: string
+  isOperationFollowedByDEFREP: boolean
+  observations?: string
+  locationDescription?: string
 }
+

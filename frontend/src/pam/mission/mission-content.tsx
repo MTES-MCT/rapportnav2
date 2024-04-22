@@ -17,6 +17,7 @@ import { formatDateForServers, toLocalISOString } from "../../utils/dates.ts";
 import useAddOrUpdateControl from "./actions/use-add-update-action-control.tsx";
 import useAddOrUpdateStatus from "./status/use-add-update-status.tsx";
 import useAddOrUpdateNote from "./notes/use-add-update-note.tsx";
+import useAddOrUpdateRescue from './rescues/use-add-update-rescue.tsx'
 
 export interface MissionProps {
     mission?: Mission
@@ -33,6 +34,7 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
     const [addStatus, {loading: addStatusLoading}] = useAddOrUpdateStatus()
     const [addControl] = useAddOrUpdateControl()
     const [addFreeNote] = useAddOrUpdateNote()
+    const [addActionRescue] = useAddOrUpdateRescue()
 
     const selectedAction = useMemo(() => {
         if (actionId) {
@@ -106,10 +108,19 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
         missionId: parseInt(missionId!, 10),
         startDateTimeUtc: formatDateForServers(toLocalISOString()),
         endDateTimeUtc: formatDateForServers(toLocalISOString()),
-        data: {
-          geom: null
-        }
+        isVesselRescue: false,
+        isPersonRescue: false,
+        isVesselNoticed: false,
+        longitude: 0.0,
+        latitude: 0.0,
+        isInSRRorFollowedByCROSSMRCC: false,
+        isVesselTowed: false,
+        numberPersonsRescued: 0,
+        numberOfDeaths: 0,
+        operationFollowsDEFREP: false
       }
+      const response = await addActionRescue({variables: {rescueAction: newRescue}})
+      navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionRescue.id}`)
     }
 
 
