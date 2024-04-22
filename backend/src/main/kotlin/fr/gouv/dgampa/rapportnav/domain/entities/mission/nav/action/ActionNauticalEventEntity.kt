@@ -5,11 +5,11 @@ import java.time.ZonedDateTime
 import java.util.*
 
 class ActionNauticalEventEntity(
-    var id: UUID,
-    var missionId: Int,
-    var startDateTimeUtc: ZonedDateTime,
-    var endDateTimeUtc: ZonedDateTime,
-    var observations: String? = null,
+    val id: UUID,
+    val missionId: Int,
+    val startDateTimeUtc: ZonedDateTime,
+    val endDateTimeUtc: ZonedDateTime,
+    val observations: String? = null,
 ) {
     fun toNavActionNauticalEvent(): NavActionNauticalEvent {
         return NavActionNauticalEvent(

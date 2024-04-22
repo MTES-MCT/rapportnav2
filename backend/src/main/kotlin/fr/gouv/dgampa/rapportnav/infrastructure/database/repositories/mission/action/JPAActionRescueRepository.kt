@@ -29,7 +29,7 @@ class JPAActionRescueRepository(
             val rescueModel = ActionRescueModel.fromActionRescue(rescueAction, mapper)
             dbActionRescueRepository.save(rescueModel)
         } catch (e: InvalidDataAccessApiUsageException) {
-            throw Exception("Error saving or updating action free note", e)
+            throw Exception("Error saving or updating action rescue", e)
         }
     }
 

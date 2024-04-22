@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionNauticalEventEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -37,4 +38,16 @@ data class ActionNauticalEventModel(
             observations = observations
         )
     }
-}
+
+    companion object {
+        fun fromNauticalEvent(nauticalEventAction: ActionNauticalEventEntity, mapper: ObjectMapper) = ActionNauticalEventModel(
+            id = nauticalEventAction.id,
+            missionId = nauticalEventAction.missionId,
+            startDateTimeUtc = nauticalEventAction.startDateTimeUtc,
+            endDateTimeUtc = nauticalEventAction.endDateTimeUtc,
+            observations = nauticalEventAction.observations
+        )
+        }
+    }
+
+

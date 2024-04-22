@@ -5,7 +5,7 @@ import java.time.ZonedDateTime
 import java.util.*
 
 class ActionNauticalEventInput(
-    var id: UUID,
+    var id: UUID? = null,
     var missionId: Int,
     var startDateTimeUtc: ZonedDateTime,
     var endDateTimeUtc: ZonedDateTime,
@@ -14,7 +14,7 @@ class ActionNauticalEventInput(
 
     fun toActionNauticalEventEntity(): ActionNauticalEventEntity {
         return ActionNauticalEventEntity(
-            id = id,
+            id = id?: UUID.randomUUID(),
             missionId = missionId,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,

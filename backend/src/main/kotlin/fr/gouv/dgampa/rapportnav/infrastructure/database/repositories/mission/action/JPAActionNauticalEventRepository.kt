@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionNautic
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionNauticalEventRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionNauticalEventModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBActionNauticalEventRepository
+import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -24,7 +25,12 @@ class JPAActionNauticalEventRepository(
 
     @Transactional
     override fun save(nauticalEvent: ActionNauticalEventEntity): ActionNauticalEventModel {
-       return dbActionNauticalEventRepository.save(nauticalEvent)
+        return try {
+            val nauticalModel = ActionNauticalEventModel.fromNauticalEvent(nauticalEvent, mapper)
+            dbActionNauticalEventRepository.save(nauticalModel)
+        } catch (e: InvalidDataAccessApiUsageException) {
+            throw Exception("Error saving or updating action nautical event", e)
+        }
     }
 
     @Transactional

@@ -76,7 +76,7 @@ input ActionRescueInput {
 
 input ActionNauticalEventInput {
   id: String
-  missionId: String!
+  missionId: Int!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   observations: String
