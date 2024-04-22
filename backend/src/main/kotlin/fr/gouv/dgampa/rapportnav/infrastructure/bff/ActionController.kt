@@ -41,7 +41,8 @@ class ActionController(
     private val deleteActionFreeNote: DeleteActionFreeNote,
     private val addOrUpdateActionRescue: AddOrUpdateActionRescue,
     private val addOrUpdateActionNauticalEvent: AddOrUpdateActionNauticalEvent,
-    private val addOrUpdateActionVigimer: AddOrUpdateActionVigimer
+    private val addOrUpdateActionVigimer: AddOrUpdateActionVigimer,
+    private val addOrUpdateActionAntiPollution: AddOrUpdateActionAntiPollution
 ) {
 
     private val logger = LoggerFactory.getLogger(ActionController::class.java)
@@ -314,6 +315,12 @@ class ActionController(
     fun addOrUpdateActionVigimer(@Argument vigimerAction: ActionVigimerInput): NavActionVigimer {
         val data = vigimerAction.toActionVigimerEntity()
         return addOrUpdateActionVigimer.execute(data).toNavActionVigimer()
+    }
+
+    @MutationMapping
+    fun addOrUpdateActionAntiPollution(@Argument antiPollutionAction: ActionAntiPollutionInput): NavActionAntiPollution {
+        val data = antiPollutionAction.toActionAntiPollutionEntity()
+        return addOrUpdateActionAntiPollution.execute(data).toNavActionAntiPollution()
     }
 
 
