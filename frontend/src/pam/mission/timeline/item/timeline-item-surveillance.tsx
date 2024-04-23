@@ -35,7 +35,7 @@ const ActionEnvSurveillance: React.FC<{ action: Action; onClick: any }> = ({ act
                     <Text as="h3" weight="bold" color={THEME.color.gunMetal} data-testid={'theme'}>
                       {actionData &&
                       'themes' in actionData &&
-                      !!actionData?.themes.length &&
+                      !!actionData?.themes?.length &&
                       actionData?.themes[0]?.theme
                         ? actionData?.themes[0]?.theme
                         : ''}

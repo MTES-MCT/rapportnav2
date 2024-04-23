@@ -57,13 +57,13 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
         <Stack.Item style={{ width: '100%' }}>
           <Label>Thématique de contrôle</Label>
           <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-            {(!!actionData?.themes.length && actionData?.themes[0]?.theme) ?? 'inconnue'}
+            {(!!actionData?.themes?.length && actionData?.themes[0]?.theme) ?? 'inconnue'}
           </Text>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <Label>Sous-thématiques de contrôle</Label>
           <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-            {!!actionData?.themes.length && !!actionData?.themes[0]?.subThemes?.length
+            {!!actionData?.themes?.length && !!actionData?.themes[0]?.subThemes?.length
               ? actionData?.themes[0].subThemes?.join(', ')
               : 'inconnues'}
           </Text>
