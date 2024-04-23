@@ -169,6 +169,10 @@ data class Action(
                 navAction.freeNoteAction != null -> {
                     data = navAction.freeNoteAction.toNavActionFreeNote()
                 }
+
+                navAction.rescueAction != null -> {
+                    data = navAction.rescueAction.toNavActionRescue()
+                }
             }
             return Action(
                 id = navAction.id,

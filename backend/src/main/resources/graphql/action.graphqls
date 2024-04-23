@@ -114,6 +114,7 @@ union ActionData =
     | NavActionControl
     | NavActionStatus
     | NavActionFreeNote
+    | NavActionRescue
 
 type NavActionStatus {
     id: String!
@@ -130,8 +131,8 @@ type NavActionFreeNote {
 }
 
 type NavActionRescue {
-  id: String
-  missionId: String!
+  id: String!
+  missionId: String
   startDateTimeUtc: String!
   endDateTimeUtc: String
   longitude: Float
@@ -236,6 +237,7 @@ enum ActionType {
     NOTE
     STATUS
     OTHER
+    RESCUE
 }
 
 type EnvActionData {

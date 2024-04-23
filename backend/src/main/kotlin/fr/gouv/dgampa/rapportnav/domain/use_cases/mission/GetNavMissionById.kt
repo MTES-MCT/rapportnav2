@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.NavMissionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionControlRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionFreeNoteRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionRescueRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionStatusRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
 import org.slf4j.LoggerFactory
@@ -14,6 +15,7 @@ class GetNavMissionById(
     private val navStatusRepository: INavActionStatusRepository,
     private val navFreeNoteRepository: INavActionFreeNoteRepository,
     private val attachControlsToActionControl: AttachControlsToActionControl,
+    private val navRescueRepository: INavActionRescueRepository
 ) {
     private val logger = LoggerFactory.getLogger(GetNavMissionById::class.java)
 
@@ -36,7 +38,11 @@ class GetNavMissionById(
             .map { it.toActionFreeNoteEntity() }
             .map { it.toNavAction() }
 
-        val actions = controls + statuses + notes
+        val rescues = navRescueRepository.findAllByMissionId(missionId = missionId)
+            .map { it.toActionRescueEntity() }
+            .map { it.toNavAction() }
+
+        val actions = controls + statuses + notes + rescues
         val mission = NavMissionEntity(id = missionId, actions = actions)
         return mission
     }
