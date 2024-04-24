@@ -20,4 +20,15 @@ class ActionVigimerEntity(
             observations = observations
         )
     }
+
+    fun toNavAction(): NavActionEntity {
+        return NavActionEntity(
+            id = id,
+            missionId = missionId,
+            startDateTimeUtc = startDateTimeUtc,
+            endDateTimeUtc = endDateTimeUtc,
+            actionType = ActionType.VIGIMER,
+            vigimerAction = this
+        )
+    }
 }

@@ -115,6 +115,8 @@ union ActionData =
     | NavActionStatus
     | NavActionFreeNote
     | NavActionRescue
+    | NavActionNauticalEvent
+    | NavActionVigimer
 
 type NavActionStatus {
     id: String!
@@ -150,7 +152,7 @@ type NavActionRescue {
 }
 
 type NavActionNauticalEvent {
-  id: String
+  id: String!
   missionId: String!
   startDateTimeUtc: String!
   endDateTimeUtc: String
@@ -158,7 +160,7 @@ type NavActionNauticalEvent {
 }
 
 type NavActionVigimer {
-  id: String
+  id: String!
   missionId: String!
   startDateTimeUtc: String!
   endDateTimeUtc: String
@@ -238,6 +240,10 @@ enum ActionType {
     STATUS
     OTHER
     RESCUE
+    NAUTICAL_EVENT
+    VIGIMER
+    ANTI_POLLUTION
+    BAAEM_PERMANENCE
 }
 
 type EnvActionData {

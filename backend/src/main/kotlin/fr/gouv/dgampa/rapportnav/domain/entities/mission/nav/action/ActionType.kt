@@ -9,7 +9,11 @@ enum class ActionType {
     NOTE,
     STATUS,
     RESCUE,
-    OTHER
+    OTHER,
+    NAUTICAL_EVENT,
+    ANTI_POLLUTION,
+    BAAEM_PERMANENCE,
+    VIGIMER
 }
 
 fun mapStringToActionType(value: String): ActionType {
@@ -20,6 +24,10 @@ fun mapStringToActionType(value: String): ActionType {
         "NOTE" -> ActionType.NOTE
         "STATUS" -> ActionType.STATUS
         "RESCUE" -> ActionType.RESCUE
+        "NAUTICAL_EVENT" -> ActionType.NAUTICAL_EVENT
+        "ANTI_POLLUTION" -> ActionType.ANTI_POLLUTION
+        "BAAEM_PERMANENCE" -> ActionType.BAAEM_PERMANENCE
+        "VIGIMER" -> ActionType.VIGIMER
         else -> ActionType.OTHER
     }
 }

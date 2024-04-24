@@ -188,6 +188,10 @@ class ActionController(
                 is NavActionStatus -> ActionType.STATUS
                 is NavActionFreeNote -> ActionType.NOTE
                 is NavActionRescue -> ActionType.RESCUE
+                is NavActionNauticalEvent -> ActionType.NAUTICAL_EVENT
+                is NavActionVigimer -> ActionType.VIGIMER
+                is NavActionAntiPollution -> ActionType.ANTI_POLLUTION
+                is NavActionBAAEMPermanence -> ActionType.BAAEM_PERMANENCE
                 else -> ActionType.OTHER
 
             }

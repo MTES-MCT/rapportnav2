@@ -173,6 +173,18 @@ data class Action(
                 navAction.rescueAction != null -> {
                     data = navAction.rescueAction.toNavActionRescue()
                 }
+                navAction.nauticalEventAction != null -> {
+                    data = navAction.nauticalEventAction.toNavActionNauticalEvent()
+                }
+                navAction.baaemPermanenceAction!= null -> {
+                    data = navAction.baaemPermanenceAction.toNavActionBAAEMPermanence()
+                }
+                navAction.vigimerAction != null -> {
+                    data = navAction.vigimerAction.toNavActionVigimer()
+                }
+                navAction.antiPollutionAction != null -> {
+                    data = navAction.antiPollutionAction.toNavActionAntiPollution()
+                }
             }
             return Action(
                 id = navAction.id,

@@ -20,4 +20,15 @@ class ActionNauticalEventEntity(
             observations = observations
         )
     }
+
+    fun toNavAction(): NavActionEntity {
+        return NavActionEntity(
+            id = id,
+            missionId = missionId,
+            startDateTimeUtc = startDateTimeUtc,
+            endDateTimeUtc = endDateTimeUtc,
+            actionType = ActionType.NAUTICAL_EVENT,
+            nauticalEventAction = this
+        )
+    }
 }
