@@ -76,35 +76,36 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({action}) => {
     }
 
     const onChange = async (field: string, value: any) => {
-
+      let updatedField: {}
       if (field === 'dates') {
-        let updatedField = {
-          startDateTimeUtc: value[0].toISOString(),
-          endDateTimeUtc: value[1].toISOString(),
-          missionId: missionId,
-          ...omit(actionData,
-            '__typename'),
+        const startDateTimeUtc = value[0].toISOString()
+        const endDateTimeUtc = value[1].toISOString()
+        updatedField = {
+          startDateTimeUtc,
+          endDateTimeUtc
         }
-        await mutateRescue({variables: {rescueAction: updatedField}})
-      }
-      else if (field === 'geoCoords') {
-        let updatedField = {
+      } else if (field === 'geoCoords') {
+        updatedField = {
           latitude: value[0],
-          longitude: value[1],
-          missionId: missionId,
-          ...omit(actionData,
-            '__typename'),
+          longitude: value[1]
         }
-        await mutateRescue({variables: {rescueAction: updatedField}})
-      }
-      else {
-        const updatedData = {
-          missionId: missionId,
-          ...omit(actionData, '__typename'),
-          [field]: typeof value === 'string' ? value.trim() : value
+      } else {
+        updatedField = {
+          [field]: value
         }
-        await mutateRescue({variables: {rescueAction: updatedData}})
       }
+
+      const updatedData = {
+        missionId: missionId,
+        ...omit(actionData, [
+          '__typename',
+        ]),
+        startDateTimeUtc: navAction.startDateTimeUtc,
+        endDateTimeUtc: navAction.endDateTimeUtc,
+        ...updatedField
+      }
+
+      await mutateRescue({ variables: { rescueAction: updatedData } })
     }
 
     const toggleRescue = (isChecked) => {
@@ -194,16 +195,16 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({action}) => {
               label={"lieu"}
               name={"geoCoords"}
               defaultValue={[
-                actionData?.latitude ?? 0.0 as any,
-                actionData?.longitude ?? 0.0 as any
+                actionData?.latitude  as any,
+                actionData?.longitude  as any
               ]}
               coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
               // label="Lieu du contrôle"
                isLight={true}
               disabled={false}
-              onChange={ (nextCoordinates?: Coordinates, prevCoordinates?: Coordinates) => {
+              onChange={ async (nextCoordinates?: Coordinates, prevCoordinates?: Coordinates) => {
                 if (!isEqual(nextCoordinates, prevCoordinates)) {
-                   onChange('geoCoords', nextCoordinates)
+                  await onChange('geoCoords', nextCoordinates)
                 }
               }}
             />
