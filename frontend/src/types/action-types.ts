@@ -94,10 +94,10 @@ export type ActionRescue = {
   isVesselRescue: boolean
   isPersonRescue: boolean
   isInSRRorFollowedByCROSSMRCC: boolean
-  isVesselServedNotice: boolean
+  isVesselNoticed: boolean
   isVesselTowed: boolean
-  numberPersonsRescued: string
-  numberOfDeaths: string
+  numberPersonsRescued: number
+  numberOfDeaths: number
   isOperationFollowedByDEFREP: boolean
   observations?: string
   locationDescription?: string

@@ -40,6 +40,11 @@ export const GET_MISSION_TIMELINE = gql`
                         startDateTimeUtc
                         observations
                     }
+                    ... on NavActionRescue {
+                        id
+                        startDateTimeUtc
+                        observations
+                    }
                     ... on NavActionStatus {
                         id
                         startDateTimeUtc

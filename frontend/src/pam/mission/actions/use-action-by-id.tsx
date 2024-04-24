@@ -208,6 +208,20 @@ export const GET_ACTION_BY_ID = gql`
                     startDateTimeUtc
                     observations
                 }
+                ... on NavActionRescue {
+                    id
+                    startDateTimeUtc
+                    observations
+                    isVesselRescue
+                    isPersonRescue
+                    locationDescription
+                    latitude
+                    longitude
+                    numberOfDeaths
+                    numberPersonsRescued
+                    isVesselTowed
+                    isVesselNoticed
+                }
                 ... on NavActionControl {
                     id
                     latitude

@@ -10,6 +10,10 @@ export const MUTATION_ADD_UPDATE_ACTION_RESCUE = gql`
         id
         startDateTimeUtc
         endDateTimeUtc
+        isVesselRescue
+        isPersonRescue
+        locationDescription
+        observations
       }
     }`
 
