@@ -32,7 +32,7 @@ class ActionRescueInput(
             startDateTimeUtc = startDateTimeUtc.let {
                 ZonedDateTime.parse(it, DateTimeFormatter.ISO_ZONED_DATE_TIME)
             } ?: ZonedDateTime.now(ZoneId.of("UTC")),
-            endDateTimeUtc = endDateTimeUtc.let {
+            endDateTimeUtc = endDateTimeUtc?.let {
                 ZonedDateTime.parse(it, DateTimeFormatter.ISO_ZONED_DATE_TIME)
             } ?: ZonedDateTime.now(ZoneId.of("UTC")),
             isVesselRescue = isVesselRescue,
