@@ -49,7 +49,8 @@ data class ActionRescueEntity(
             latitude = latitude,
             longitude = longitude,
             isInSRRorFollowedByCROSSMRCC = isInSRRorFollowedByCROSSMRCC,
-            numberPersonsRescued = numberPersonsRescued
+            numberPersonsRescued = numberPersonsRescued,
+            locationDescription = locationDescription
         )
     }
 }
