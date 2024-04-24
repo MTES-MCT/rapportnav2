@@ -45,6 +45,16 @@ export const GET_MISSION_TIMELINE = gql`
                         startDateTimeUtc
                         observations
                     }
+                    ... on NavActionNauticalEvent {
+                        id
+                        startDateTimeUtc
+                        observations
+                    }
+                    ... on NavActionVigimer {
+                        id
+                        startDateTimeUtc
+                        observations
+                    }
                     ... on NavActionStatus {
                         id
                         startDateTimeUtc

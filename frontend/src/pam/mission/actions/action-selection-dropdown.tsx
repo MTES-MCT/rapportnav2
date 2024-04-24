@@ -1,5 +1,4 @@
 import { Dropdown, Icon } from '@mtes-mct/monitor-ui'
-import { Dropdown as RSuiteDropdown} from 'rsuite'
 import { ActionTypeEnum } from '../../../types/env-mission-types'
 import React, { FC } from "react";
 
@@ -19,11 +18,12 @@ const ActionSelectionDropdown: FC<ActionSelectionDropdownProps> = ({onSelect}) =
       <Dropdown.Item Icon={Icon.Rescue} eventKey={ActionTypeEnum.RESCUE}>
         Ajouter une assistance / sauvetage
       </Dropdown.Item>
-      <RSuiteDropdown.Menu title="Ajouter une autre activité de mission" eventKey={ActionTypeEnum.OTHER} >
-        <RSuiteDropdown.Item>Item 2-1-1</RSuiteDropdown.Item>
-        <RSuiteDropdown.Item>Item 2-1-2</RSuiteDropdown.Item>
-        <RSuiteDropdown.Item>Item 2-1-3</RSuiteDropdown.Item>
-      </RSuiteDropdown.Menu>
+      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.NAUTICAL_EVENT}>
+        Manifestation nautique
+      </Dropdown.Item>
+      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.VIGIMER}>
+        Permanence Vigimer
+      </Dropdown.Item>
     </Dropdown>
   )
 }

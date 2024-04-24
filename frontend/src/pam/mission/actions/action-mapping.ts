@@ -9,6 +9,8 @@ import ActionStatusForm from './action-status-form'
 import ActionNoteForm from "./action-note-form.tsx";
 import ActionSurveillanceEnv from './action-surveillance-env.tsx'
 import ActionRescueForm from './action-rescue-form.tsx'
+import ActionNauticalEventForm from './action-nautical-event-form.tsx'
+import ActionVigimerForm from './action-vigimer-form.tsx'
 
 export const getComponentForAction = (action?: Action): FC<any> | null => {
   if (!action) {
@@ -39,6 +41,10 @@ export const getComponentForAction = (action?: Action): FC<any> | null => {
         return null
       case ActionTypeEnum.RESCUE:
         return ActionRescueForm
+      case ActionTypeEnum.NAUTICAL_EVENT:
+        return ActionNauticalEventForm
+      case ActionTypeEnum.VIGIMER:
+        return ActionVigimerForm
       case ActionTypeEnum.OTHER:
         return null
       default:

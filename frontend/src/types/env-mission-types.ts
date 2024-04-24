@@ -16,7 +16,11 @@ export enum ActionTypeEnum {
   STATUS = 'STATUS',
   CONTACT = 'CONTACT',
   RESCUE = 'RESCUE',
-  OTHER = 'OTHER'
+  OTHER = 'OTHER',
+  NAUTICAL_EVENT = 'NAUTICAL_EVENT',
+  VIGIMER = 'VIGIMER',
+  ANTI_POLLUTION = 'ANTI_POLLUTION',
+  BAAEM_PERMANENCE = 'BAAEM_PERMANENCE'
 }
 
 export const actionTypeLabels = {

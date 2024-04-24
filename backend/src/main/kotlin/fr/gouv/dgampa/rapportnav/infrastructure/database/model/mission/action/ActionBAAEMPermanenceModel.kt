@@ -30,7 +30,7 @@ data class ActionBAAEMPermanenceModel(
     var observations: String? = null,
 ) {
 
-    fun toActionNauticalEventEntity(): ActionBAAEMPermanenceEntity {
+    fun toActionBAAEMPermanenceEntity(): ActionBAAEMPermanenceEntity {
         return ActionBAAEMPermanenceEntity(
             id = id,
             missionId = missionId,
@@ -41,7 +41,7 @@ data class ActionBAAEMPermanenceModel(
     }
 
     companion object {
-        fun fromNauticalEvent(baaemPermanence: NavActionBAAEMPermanence, mapper: ObjectMapper) = ActionBAAEMPermanenceModel(
+        fun fromBAAEMPermanence(baaemPermanence: NavActionBAAEMPermanence, mapper: ObjectMapper) = ActionBAAEMPermanenceModel(
             id = baaemPermanence.id,
             missionId = baaemPermanence.missionId,
             startDateTimeUtc = baaemPermanence.startDateTimeUtc,

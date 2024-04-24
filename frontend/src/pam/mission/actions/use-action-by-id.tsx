@@ -222,6 +222,18 @@ export const GET_ACTION_BY_ID = gql`
                     isVesselTowed
                     isVesselNoticed
                 }
+                ... on NavActionNauticalEvent {
+                    id
+                    startDateTimeUtc
+                    endDateTimeUtc
+                    observations
+                }
+                ... on NavActionVigimer {
+                    id
+                    startDateTimeUtc
+                    endDateTimeUtc
+                    observations
+                }
                 ... on NavActionControl {
                     id
                     latitude
