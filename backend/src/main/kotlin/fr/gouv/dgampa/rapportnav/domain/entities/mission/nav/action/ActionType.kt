@@ -13,7 +13,9 @@ enum class ActionType {
     NAUTICAL_EVENT,
     ANTI_POLLUTION,
     BAAEM_PERMANENCE,
-    VIGIMER
+    VIGIMER,
+    PUBLIC_ORDER,
+    REPRESENTATION
 }
 
 fun mapStringToActionType(value: String): ActionType {

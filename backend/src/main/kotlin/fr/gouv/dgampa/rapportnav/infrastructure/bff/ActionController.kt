@@ -43,7 +43,9 @@ class ActionController(
     private val addOrUpdateActionNauticalEvent: AddOrUpdateActionNauticalEvent,
     private val addOrUpdateActionVigimer: AddOrUpdateActionVigimer,
     private val addOrUpdateActionAntiPollution: AddOrUpdateActionAntiPollution,
-    private val addOrUpdateActionBAAEMPermanence: AddOrUpdateActionBAAEMPermanence
+    private val addOrUpdateActionBAAEMPermanence: AddOrUpdateActionBAAEMPermanence,
+    private val addOrUpdateActionPublicOrder: AddOrUpdateActionPublicOrder,
+    private val addOrUpdateActionRepresentation: AddOrUpdateActionRepresentation
 ) {
 
     private val logger = LoggerFactory.getLogger(ActionController::class.java)
@@ -193,6 +195,8 @@ class ActionController(
                 is NavActionVigimer -> ActionType.VIGIMER
                 is NavActionAntiPollution -> ActionType.ANTI_POLLUTION
                 is NavActionBAAEMPermanence -> ActionType.BAAEM_PERMANENCE
+                is NavActionPublicOrder -> ActionType.PUBLIC_ORDER
+                is NavActionRepresentation -> ActionType.REPRESENTATION
                 else -> ActionType.OTHER
 
             }
@@ -330,9 +334,20 @@ class ActionController(
 
     @MutationMapping
     fun addOrUpdateActionBAAEMPermanence(@Argument baaemPermanenceAction: ActionBAAEMPermanenceInput): NavActionBAAEMPermanence {
-        println("controller")
         val data = baaemPermanenceAction.toActionBAAEMPermanenceEntity()
         return addOrUpdateActionBAAEMPermanence.execute(data).toNavActionBAAEMPermanence()
+    }
+
+    @MutationMapping
+    fun addOrUpdateActionPublicOrder(@Argument publicOrderAction: ActionPublicOrderInput): NavActionPublicOrder {
+        val data = publicOrderAction.toActionPublicOrderEntity()
+        return addOrUpdateActionPublicOrder.execute(data).toNavActionPublicOrder()
+    }
+
+    @MutationMapping
+    fun addOrUpdateActionRepresentation(@Argument representationAction: ActionRepresentationInput): NavActionRepresentation {
+        val data = representationAction.toActionRepresentationEntity()
+        return addOrUpdateActionRepresentation.execute(data).toNavActionRepresentation()
     }
 
 

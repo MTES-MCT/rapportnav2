@@ -14,6 +14,8 @@ extend type Mutation {
     addOrUpdateActionVigimer(vigimerAction: ActionVigimerInput!): NavActionVigimer
     addOrUpdateActionAntiPollution(antiPollutionAction: ActionAntiPollutionInput!): NavActionAntiPollution
     addOrUpdateActionBAAEMPermanence(baaemPermanenceAction: ActionBAAEMPermanenceInput!): NavActionBAAEMPermanence
+    addOrUpdateActionPublicOrder(publicOrderAction: ActionPublicOrderInput!): NavActionPublicOrder
+    addOrUpdateActionRepresentation(representationAction: ActionRepresentationInput!): NavActionRepresentation
 }
 
 type Action {
@@ -109,6 +111,22 @@ input ActionBAAEMPermanenceInput {
   observations: String
 }
 
+input ActionPublicOrderInput {
+  id: String
+  missionId: Int!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+input ActionRepresentationInput {
+  id: String
+  missionId: Int!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
 enum MissionSource {
     MONITORENV
     MONITORFISH
@@ -128,6 +146,8 @@ union ActionData =
     | NavActionVigimer
     | NavActionAntiPollution
     | NavActionBAAEMPermanence
+    | NavActionPublicOrder
+    | NavActionRepresentation
 
 type NavActionStatus {
     id: String!
@@ -187,6 +207,22 @@ type NavActionAntiPollution {
 }
 
 type NavActionBAAEMPermanence {
+  id: String!
+  missionId: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+type NavActionPublicOrder {
+  id: String!
+  missionId: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+type NavActionRepresentation {
   id: String!
   missionId: String!
   startDateTimeUtc: String!
@@ -263,6 +299,8 @@ enum ActionType {
     VIGIMER
     ANTI_POLLUTION
     BAAEM_PERMANENCE
+    PUBLIC_ORDER
+    REPRESENTATION
 }
 
 type EnvActionData {
