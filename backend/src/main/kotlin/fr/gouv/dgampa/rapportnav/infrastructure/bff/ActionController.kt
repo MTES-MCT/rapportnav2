@@ -42,7 +42,8 @@ class ActionController(
     private val addOrUpdateActionRescue: AddOrUpdateActionRescue,
     private val addOrUpdateActionNauticalEvent: AddOrUpdateActionNauticalEvent,
     private val addOrUpdateActionVigimer: AddOrUpdateActionVigimer,
-    private val addOrUpdateActionAntiPollution: AddOrUpdateActionAntiPollution
+    private val addOrUpdateActionAntiPollution: AddOrUpdateActionAntiPollution,
+    private val addOrUpdateActionBAAEMPermanence: AddOrUpdateActionBAAEMPermanence
 ) {
 
     private val logger = LoggerFactory.getLogger(ActionController::class.java)
@@ -325,6 +326,13 @@ class ActionController(
     fun addOrUpdateActionAntiPollution(@Argument antiPollutionAction: ActionAntiPollutionInput): NavActionAntiPollution {
         val data = antiPollutionAction.toActionAntiPollutionEntity()
         return addOrUpdateActionAntiPollution.execute(data).toNavActionAntiPollution()
+    }
+
+    @MutationMapping
+    fun addOrUpdateActionBAAEMPermanence(@Argument baaemPermanenceAction: ActionBAAEMPermanenceInput): NavActionBAAEMPermanence {
+        println("controller")
+        val data = baaemPermanenceAction.toActionBAAEMPermanenceEntity()
+        return addOrUpdateActionBAAEMPermanence.execute(data).toNavActionBAAEMPermanence()
     }
 
 

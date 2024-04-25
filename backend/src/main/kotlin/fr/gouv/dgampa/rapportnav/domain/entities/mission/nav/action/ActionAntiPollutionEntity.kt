@@ -20,4 +20,15 @@ class ActionAntiPollutionEntity(
             observations = observations
         )
     }
+
+    fun toNavAction(): NavActionEntity {
+        return NavActionEntity(
+            id = id,
+            missionId = missionId,
+            startDateTimeUtc = startDateTimeUtc,
+            endDateTimeUtc = endDateTimeUtc,
+            actionType = ActionType.ANTI_POLLUTION,
+            antiPollutionAction = this
+        )
+    }
 }

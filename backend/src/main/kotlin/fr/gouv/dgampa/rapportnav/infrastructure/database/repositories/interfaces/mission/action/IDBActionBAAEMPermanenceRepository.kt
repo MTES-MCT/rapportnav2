@@ -11,7 +11,7 @@ interface IDBActionBAAEMPermanenceRepository: JpaRepository<ActionBAAEMPermanenc
 
     override fun findById(id: UUID): Optional<ActionBAAEMPermanenceModel>
 
-    fun save(rescueModel: ActionBAAEMPermanenceEntity): ActionBAAEMPermanenceModel
+    fun save(permanenceBAAEM: ActionBAAEMPermanenceEntity): ActionBAAEMPermanenceModel
 
     override fun deleteById(id: UUID)
 

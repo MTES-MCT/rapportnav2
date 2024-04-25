@@ -12,7 +12,8 @@ extend type Mutation {
     addOrUpdateActionRescue(rescueAction: ActionRescueInput!): NavActionRescue
     addOrUpdateActionNauticalEvent(nauticalAction: ActionNauticalEventInput!): NavActionNauticalEvent
     addOrUpdateActionVigimer(vigimerAction: ActionVigimerInput!): NavActionVigimer
-    addOrUpdateActionAntiPollution(antiPollutionAction: ActionOtherInput!): NavActionOther
+    addOrUpdateActionAntiPollution(antiPollutionAction: ActionAntiPollutionInput!): NavActionAntiPollution
+    addOrUpdateActionBAAEMPermanence(baaemPermanenceAction: ActionBAAEMPermanenceInput!): NavActionBAAEMPermanence
 }
 
 type Action {
@@ -92,7 +93,15 @@ input ActionVigimerInput {
   observations: String
 }
 
-input ActionOtherInput {
+input ActionAntiPollutionInput {
+  id: String
+  missionId: Int!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+input ActionBAAEMPermanenceInput {
   id: String
   missionId: Int!
   startDateTimeUtc: String!
@@ -117,6 +126,8 @@ union ActionData =
     | NavActionRescue
     | NavActionNauticalEvent
     | NavActionVigimer
+    | NavActionAntiPollution
+    | NavActionBAAEMPermanence
 
 type NavActionStatus {
     id: String!
@@ -167,8 +178,16 @@ type NavActionVigimer {
   observations: String
 }
 
-type NavActionOther {
-  id: String
+type NavActionAntiPollution {
+  id: String!
+  missionId: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+type NavActionBAAEMPermanence {
+  id: String!
   missionId: String!
   startDateTimeUtc: String!
   endDateTimeUtc: String
