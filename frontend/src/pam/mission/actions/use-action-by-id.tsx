@@ -260,6 +260,17 @@ export const GET_ACTION_BY_ID = gql`
                     endDateTimeUtc
                     observations
                 }
+                ... on NavActionIllegalImmigration {
+                    id
+                    startDateTimeUtc
+                    endDateTimeUtc
+                    observations
+                    latitude
+                    longitude
+                    nbOfInterceptedVessels
+                    nbOfInterceptedMigrants
+                    nbOfSuspectedSmugglers
+                }
                 ... on NavActionControl {
                     id
                     latitude

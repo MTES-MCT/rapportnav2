@@ -60,6 +60,21 @@ export const GET_MISSION_TIMELINE = gql`
                         startDateTimeUtc
                         observations
                     }
+                    ... on NavActionPublicOrder {
+                        id
+                        startDateTimeUtc
+                        observations
+                    }
+                    ... on NavActionRepresentation {
+                        id
+                        startDateTimeUtc
+                        observations
+                    }
+                    ... on NavActionIllegalImmigration {
+                        id
+                        startDateTimeUtc
+                        observations
+                    }
                     ... on NavActionStatus {
                         id
                         startDateTimeUtc

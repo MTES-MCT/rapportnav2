@@ -15,6 +15,7 @@ import ActionAntiPollutionForm from './action-anti-pollution-form.tsx'
 import ActionBAAEMPermanenceForm from './action-baaem-permanence-form.tsx'
 import ActionPublicOrderForm from './action-public-order-form.tsx'
 import ActionRepresentationForm from './action-representation-form.tsx'
+import ActionIllegalImmigrationForm from './action-illegal-immigration-form.tsx'
 
 export const getComponentForAction = (action?: Action): FC<any> | null => {
   if (!action) {
@@ -57,6 +58,8 @@ export const getComponentForAction = (action?: Action): FC<any> | null => {
         return ActionPublicOrderForm
       case ActionTypeEnum.REPRESENTATION:
         return ActionRepresentationForm
+      case ActionTypeEnum.ILLEGAL_IMMIGRATION:
+        return ActionIllegalImmigrationForm
       case ActionTypeEnum.OTHER:
         return null
       default:

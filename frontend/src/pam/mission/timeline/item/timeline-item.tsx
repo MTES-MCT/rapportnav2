@@ -14,6 +14,9 @@ import ActionNauticalEvent from './timeline-item-nautical-event.tsx'
 import ActionVigimer from './timeline-item-vigimer.tsx'
 import ActionAntiPollution from './timeline-item-anti-pollution.tsx'
 import ActionBaaemPermanence from './timeline-item-baaem-permanence.tsx'
+import ActionRepresentation from './timeline-item-representation.tsx'
+import ActionPublicOrder from './timeline-item-public-order.tsx'
+import ActionIllegalImmigration from './timeline-item-illegal-immigration.tsx'
 
 export interface MissionTimelineItemProps {
   action: Action
@@ -78,6 +81,12 @@ const getActionComponent = (action: Action) => {
         return ActionAntiPollution
       case ActionTypeEnum.BAAEM_PERMANENCE:
         return ActionBaaemPermanence
+      case ActionTypeEnum.REPRESENTATION:
+        return ActionRepresentation
+      case ActionTypeEnum.PUBLIC_ORDER:
+        return ActionPublicOrder
+      case ActionTypeEnum.ILLEGAL_IMMIGRATION:
+        return ActionIllegalImmigration
       default:
         return null
     }

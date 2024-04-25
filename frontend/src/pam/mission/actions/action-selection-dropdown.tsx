@@ -36,6 +36,9 @@ const ActionSelectionDropdown: FC<ActionSelectionDropdownProps> = ({onSelect}) =
       <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.REPRESENTATION}>
         Representation
       </Dropdown.Item>
+      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.ILLEGAL_IMMIGRATION}>
+        Lutte contre l'immigration irrégulière
+      </Dropdown.Item>
     </Dropdown>
   )
 }

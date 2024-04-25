@@ -89,6 +89,11 @@ const ActionBAAEMPermanence = createActionStyled({
   borderColor: THEME.color.lightGray
 })
 
+const ActionIllegalImmigration = createActionStyled({
+  backgroundColor: THEME.color.blueYonder25,
+  borderColor: THEME.color.lightGray
+})
+
 
 const getActionComponent = (
   actionSource: MissionSourceEnum,
@@ -132,6 +137,8 @@ const getActionComponent = (
         return ActionAntiPollution
       case ActionTypeEnum.BAAEM_PERMANENCE:
         return ActionBAAEMPermanence
+      case ActionTypeEnum.ILLEGAL_IMMIGRATION:
+        return ActionIllegalImmigration
       default:
         return null
     }

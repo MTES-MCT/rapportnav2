@@ -24,6 +24,7 @@ import useAddAntiPollution from './others/anti-pollution/use-add-anti-pollution.
 import useAddOrUpdateBAAEMPermanence from './others/baaem/use-add-baaem-permanence.tsx'
 import useAddOrUpdatePublicOrder from './others/public-order/use-add-public-order.tsx'
 import useAddRepresentation from './others/representation/use-add-representation.tsx'
+import useAddIllegalImmigration from './others/illegal-immigration/use-add-illegal-immigration.tsx'
 
 export interface MissionProps {
     mission?: Mission
@@ -47,6 +48,7 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
     const [addActionBaaemPermanence] = useAddOrUpdateBAAEMPermanence()
     const [addActionPublicOrder] = useAddOrUpdatePublicOrder()
     const [addActionRepresentation] = useAddRepresentation()
+    const [addActionIllegalImmigration] = useAddIllegalImmigration()
 
     const selectedAction = useMemo(() => {
         if (actionId) {
@@ -84,6 +86,9 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
         }
         else if (key === ActionTypeEnum.REPRESENTATION) {
           await addNewOther(ActionTypeEnum.REPRESENTATION)
+        }
+        else if (key === ActionTypeEnum.ILLEGAL_IMMIGRATION) {
+          await addNewOther(ActionTypeEnum.ILLEGAL_IMMIGRATION)
         }
     }
 
@@ -193,6 +198,15 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
       case ActionTypeEnum.REPRESENTATION:
         response = await addActionRepresentation({variables: {representationAction: newOther}})
         navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionRepresentation.id}`)
+        break
+      case ActionTypeEnum.ILLEGAL_IMMIGRATION:
+        const newIllegalImmigration = {
+          missionId: parseInt(missionId!, 10),
+          startDateTimeUtc: formatDateForServers(toLocalISOString()),
+          endDateTimeUtc: formatDateForServers(toLocalISOString()),
+        }
+        response = await addActionIllegalImmigration({variables: {illegalImmigrationAction: newIllegalImmigration}})
+        navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionIllegalImmigration.id}`)
         break
       default:
         break
