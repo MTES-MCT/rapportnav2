@@ -7,15 +7,15 @@ import {
   Size,
   Textarea,
 } from '@mtes-mct/monitor-ui'
-import { Action, ActionAntiPollution, ActionRepresentation } from '../../../types/action-types'
+import { Action, ActionRepresentation } from '../../../types/action-types'
 import { Stack } from 'rsuite'
 import Text from '../../../ui/text'
 import { formatDateTimeForFrenchHumans } from '../../../utils/dates.ts'
 import { useNavigate, useParams } from 'react-router-dom'
 import omit from 'lodash/omit'
 import useActionById from "./use-action-by-id.tsx";
-import useAddOrUpdateAntiPollution from '../others/anti-pollution/use-add-anti-pollution.tsx'
 import useAddOrUpdateRepresentation from '../others/representation/use-add-representation.tsx'
+import useDeleteRepresentation from '../others/representation/use-delete-representation.tsx'
 
 interface ActionRepresentationFormProps {
   action: Action
@@ -27,7 +27,7 @@ const ActionRepresentationForm: React.FC<ActionRepresentationFormProps> = ({acti
 
   const {data: navAction, loading, error} = useActionById(actionId, missionId, action.source, action.type)
   const [mutateRepresentation] = useAddOrUpdateRepresentation()
-  //const [deleteNote] = useDeleteNote()
+  const [deleteRepresentation] = useDeleteRepresentation()
 
   const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
 
@@ -88,12 +88,12 @@ const ActionRepresentationForm: React.FC<ActionRepresentationFormProps> = ({acti
     }
 
     const deleteAction = async () => {
-   /*   await deleteNote({
+      await deleteRepresentation({
         variables: {
           id: action.id!
         }
       })
-      navigate(`/pam/missions/${missionId}`)*/
+      navigate(`/pam/missions/${missionId}`)
     }
 
     return (
@@ -120,7 +120,15 @@ const ActionRepresentationForm: React.FC<ActionRepresentationFormProps> = ({acti
                     </Button>
                   </Stack.Item>
                   <Stack.Item>
-
+                    <Button
+                      accent={Accent.PRIMARY}
+                      size={Size.SMALL}
+                      Icon={Icon.Delete}
+                      onClick={deleteAction}
+                      data-testid={'deleteButton'}
+                    >
+                      Supprimer
+                    </Button>
                   </Stack.Item>
                 </Stack>
               </Stack.Item>

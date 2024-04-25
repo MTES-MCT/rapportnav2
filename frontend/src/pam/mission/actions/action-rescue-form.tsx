@@ -18,6 +18,7 @@ import { RESCUE_TYPE_OPTIONS } from '../controls/utils.ts'
 import omit from 'lodash/omit'
 import useAddUpdateRescue from '../rescues/use-add-update-rescue.tsx'
 import { isEqual } from 'lodash'
+import useDeleteRescue from '../rescues/use-delete-rescue.tsx'
 
 interface ActionRescueFormProps {
   action: Action
@@ -33,7 +34,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({action}) => {
 
   const {data: navAction, loading, error} = useActionById(actionId, missionId, action.source, action.type)
   const [mutateRescue] = useAddUpdateRescue()
-//  const [deleteNote] = useDeleteNote()
+  const [deleteRescue] = useDeleteRescue()
 
   const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
 
@@ -124,11 +125,11 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({action}) => {
     }
 
     const deleteAction = async () => {
-     /** await deleteNote({
+      await deleteRescue({
         variables: {
           id: action.id!
         }
-      })**/
+      })
       navigate(`/pam/missions/${missionId}`)
     }
 

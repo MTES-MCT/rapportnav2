@@ -15,6 +15,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import omit from 'lodash/omit'
 import useActionById from "./use-action-by-id.tsx";
 import useAddOrUpdateAntiPollution from '../others/anti-pollution/use-add-anti-pollution.tsx'
+import useDeleteAntiPollution from '../others/anti-pollution/use-delete-anti-pollution.tsx'
 
 interface ActionAntiPollutionFormProps {
   action: Action
@@ -26,7 +27,7 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({action
 
   const {data: navAction, loading, error} = useActionById(actionId, missionId, action.source, action.type)
   const [mutateAntiPollution] = useAddOrUpdateAntiPollution()
-  //const [deleteNote] = useDeleteNote()
+  const [deleteAntiPollution] = useDeleteAntiPollution()
 
   const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
 
@@ -87,12 +88,12 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({action
     }
 
     const deleteAction = async () => {
-   /*   await deleteNote({
+      await deleteAntiPollution({
         variables: {
           id: action.id!
         }
       })
-      navigate(`/pam/missions/${missionId}`)*/
+      navigate(`/pam/missions/${missionId}`)
     }
 
     return (
@@ -119,7 +120,15 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({action
                     </Button>
                   </Stack.Item>
                   <Stack.Item>
-
+                    <Button
+                      accent={Accent.PRIMARY}
+                      size={Size.SMALL}
+                      Icon={Icon.Delete}
+                      onClick={deleteAction}
+                      data-testid={'deleteButton'}
+                    >
+                      Supprimer
+                    </Button>
                   </Stack.Item>
                 </Stack>
               </Stack.Item>

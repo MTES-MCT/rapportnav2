@@ -15,6 +15,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import omit from 'lodash/omit'
 import useActionById from "./use-action-by-id.tsx";
 import useAddOrUpdatePublicOrder from '../others/public-order/use-add-public-order.tsx'
+import useDeletePublicOrder from '../others/public-order/use-delete-public-order.tsx'
 
 interface ActionPublicOrderFormProps {
   action: Action
@@ -26,7 +27,7 @@ const ActionPublicOrderForm: React.FC<ActionPublicOrderFormProps> = ({action}) =
 
   const {data: navAction, loading, error} = useActionById(actionId, missionId, action.source, action.type)
   const [mutatePublicOrder] = useAddOrUpdatePublicOrder()
-  //const [deleteNote] = useDeleteNote()
+  const [deletePublicOrder] = useDeletePublicOrder()
 
   const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
 
@@ -85,12 +86,12 @@ const ActionPublicOrderForm: React.FC<ActionPublicOrderFormProps> = ({action}) =
     }
 
     const deleteAction = async () => {
-   /*   await deleteNote({
+      await deletePublicOrder({
         variables: {
           id: action.id!
         }
       })
-      navigate(`/pam/missions/${missionId}`)*/
+      navigate(`/pam/missions/${missionId}`)
     }
 
     return (
@@ -117,7 +118,15 @@ const ActionPublicOrderForm: React.FC<ActionPublicOrderFormProps> = ({action}) =
                     </Button>
                   </Stack.Item>
                   <Stack.Item>
-
+                    <Button
+                      accent={Accent.PRIMARY}
+                      size={Size.SMALL}
+                      Icon={Icon.Delete}
+                      onClick={deleteAction}
+                      data-testid={'deleteButton'}
+                    >
+                      Supprimer
+                    </Button>
                   </Stack.Item>
                 </Stack>
               </Stack.Item>

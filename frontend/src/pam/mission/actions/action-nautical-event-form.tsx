@@ -16,6 +16,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import omit from 'lodash/omit'
 import useActionById from "./use-action-by-id.tsx";
 import useAddOrUpdateNauticalEvent from '../others/nautical-event/use-add-nautical-event.tsx'
+import useDeleteNauticalEvent from '../others/nautical-event/use-delete-nautical-event.tsx'
 
 interface ActionNauticalEventFormProps {
   action: Action
@@ -27,7 +28,7 @@ const ActionNauticalEventForm: React.FC<ActionNauticalEventFormProps> = ({action
 
   const {data: navAction, loading, error} = useActionById(actionId, missionId, action.source, action.type)
   const [mutateNauticalEvent] = useAddOrUpdateNauticalEvent()
-  //const [deleteNote] = useDeleteNote()
+  const [deleteNauticalEvent] = useDeleteNauticalEvent()
 
   const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
 
@@ -86,12 +87,12 @@ const ActionNauticalEventForm: React.FC<ActionNauticalEventFormProps> = ({action
     }
 
     const deleteAction = async () => {
-   /*   await deleteNote({
+      await deleteNauticalEvent({
         variables: {
           id: action.id!
         }
       })
-      navigate(`/pam/missions/${missionId}`)*/
+      navigate(`/pam/missions/${missionId}`)
     }
 
     return (
@@ -119,7 +120,15 @@ const ActionNauticalEventForm: React.FC<ActionNauticalEventFormProps> = ({action
                     </Button>
                   </Stack.Item>
                   <Stack.Item>
-
+                    <Button
+                      accent={Accent.PRIMARY}
+                      size={Size.SMALL}
+                      Icon={Icon.Delete}
+                      onClick={deleteAction}
+                      data-testid={'deleteButton'}
+                    >
+                      Supprimer
+                    </Button>
                   </Stack.Item>
                 </Stack>
               </Stack.Item>

@@ -15,6 +15,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import omit from 'lodash/omit'
 import useActionById from "./use-action-by-id.tsx";
 import useAddOrUpdateVigimer from '../others/vigimer/use-add-vigimer.tsx'
+import useDeleteVigimer from '../others/vigimer/use-delete-vigimer.tsx'
 
 interface ActionVigimerFormProps {
   action: Action
@@ -26,7 +27,7 @@ const ActionVigimerForm: React.FC<ActionVigimerFormProps> = ({action}) => {
 
   const {data: navAction, loading, error} = useActionById(actionId, missionId, action.source, action.type)
   const [mutateVigimer] = useAddOrUpdateVigimer()
-  //const [deleteNote] = useDeleteNote()
+  const [deleteVigimer] = useDeleteVigimer()
 
   const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
 
@@ -85,12 +86,12 @@ const ActionVigimerForm: React.FC<ActionVigimerFormProps> = ({action}) => {
     }
 
     const deleteAction = async () => {
-   /*   await deleteNote({
+      await deleteVigimer({
         variables: {
           id: action.id!
         }
       })
-      navigate(`/pam/missions/${missionId}`)*/
+      navigate(`/pam/missions/${missionId}`)
     }
 
     return (
@@ -117,7 +118,15 @@ const ActionVigimerForm: React.FC<ActionVigimerFormProps> = ({action}) => {
                     </Button>
                   </Stack.Item>
                   <Stack.Item>
-
+                    <Button
+                      accent={Accent.PRIMARY}
+                      size={Size.SMALL}
+                      Icon={Icon.Delete}
+                      onClick={deleteAction}
+                      data-testid={'deleteButton'}
+                    >
+                      Supprimer
+                    </Button>
                   </Stack.Item>
                 </Stack>
               </Stack.Item>

@@ -19,7 +19,7 @@ export type Action = {
     endDateTimeUtc?: string
     summaryTags?: string[]
     controlsToComplete?: ControlType[]
-    data: [EnvAction | FishAction | ActionStatus | ActionControl | ActionFreeNote | ActionSurveillance | ActionRescue | ActionNauticalEvent | ActionVigimer | ActionAntiPollution | ActionBAAEMPermanence | ActionRepresentation | ActionPublicOrder]
+    data: [EnvAction | FishAction | ActionStatus | ActionControl | ActionFreeNote | ActionSurveillance | ActionRescue | ActionNauticalEvent | ActionVigimer | ActionAntiPollution | ActionBAAEMPermanence | ActionRepresentation | ActionPublicOrder | ActionIllegalImmigration]
 }
 
 export type ActionStatus = {
@@ -143,4 +143,16 @@ export type ActionRepresentation = {
   startDateTimeUtc: string
   endDateTimeUtc: string
   observations: string
+}
+
+export type ActionIllegalImmigration = {
+  id: string
+  startDateTimeUtc: string
+  endDateTimeUtc: string
+  observations: string
+  nbOfInterceptedVessels?: number
+  nbOfInterceptedMigrants?: number
+  nbOfSuspectedSmugglers?: number
+  latitude?: number
+  longitude?: number
 }

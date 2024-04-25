@@ -16,6 +16,7 @@ import omit from 'lodash/omit'
 import useActionById from "./use-action-by-id.tsx";
 import useAddOrUpdateIllegalImmigration from '../others/illegal-immigration/use-add-illegal-immigration.tsx'
 import { isEqual } from 'lodash'
+import useDeleteIllegalImmigration from '../others/illegal-immigration/use-delete-illegal-immigration.tsx'
 
 interface ActionIllegalImmigrationFormProps {
   action: Action
@@ -27,7 +28,7 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
 
   const {data: navAction, loading, error} = useActionById(actionId, missionId, action.source, action.type)
   const [mutateIllegalImmigration] = useAddOrUpdateIllegalImmigration()
-  //const [deleteNote] = useDeleteNote()
+  const [deleteIllegalImmigration] = useDeleteIllegalImmigration()
 
   const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
 
@@ -94,12 +95,12 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
     }
 
     const deleteAction = async () => {
-   /*   await deleteNote({
+      await deleteIllegalImmigration({
         variables: {
           id: action.id!
         }
       })
-      navigate(`/pam/missions/${missionId}`)*/
+      navigate(`/pam/missions/${missionId}`)
     }
 
     return (
@@ -126,7 +127,15 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
                     </Button>
                   </Stack.Item>
                   <Stack.Item>
-
+                    <Button
+                      accent={Accent.PRIMARY}
+                      size={Size.SMALL}
+                      Icon={Icon.Delete}
+                      onClick={deleteAction}
+                      data-testid={'deleteButton'}
+                    >
+                      Supprimer
+                    </Button>
                   </Stack.Item>
                 </Stack>
               </Stack.Item>
