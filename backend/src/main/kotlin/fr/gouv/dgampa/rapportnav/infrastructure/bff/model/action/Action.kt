@@ -185,6 +185,15 @@ data class Action(
                 navAction.antiPollutionAction != null -> {
                     data = navAction.antiPollutionAction.toNavActionAntiPollution()
                 }
+                navAction.publicOrderAction != null -> {
+                    data = navAction.publicOrderAction.toNavActionPublicOrder()
+                }
+                navAction.representationAction != null -> {
+                    data = navAction.representationAction.toNavActionRepresentation()
+                }
+                navAction.illegalImmigrationAction != null -> {
+                    data = navAction.illegalImmigrationAction.toNavActionIllegalImmigration()
+                }
             }
             return Action(
                 id = navAction.id,

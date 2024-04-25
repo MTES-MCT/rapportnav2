@@ -18,6 +18,9 @@ class GetNavActionByIdAndMissionId(
     private val vigimerRepository: INavActionVigimerRepository,
     private val antiPollutionRepository: INavActionAntiPollutionRepository,
     private val baaemRepository: INavActionBAAEMRepository,
+    private val publicOrderRepository: INavActionPublicOrderRepository,
+    private val representationRepository: INavActionRepresentationRepository,
+    private val illegalImmigrationRepository: INavActionIllegalImmigrationRepository,
     private val mapper: ObjectMapper
 ) {
     fun execute(id: UUID, missionId: Int, actionType: ActionType): NavActionEntity? {
@@ -59,6 +62,15 @@ class GetNavActionByIdAndMissionId(
 
             ActionType.ANTI_POLLUTION -> {
                 antiPollutionRepository.findById(id).orElse(null)?.toAntiPollutionEntity()?.toNavAction()
+            }
+            ActionType.PUBLIC_ORDER -> {
+                publicOrderRepository.findById(id).orElse(null)?.toPublicOrderEntity()?.toNavAction()
+            }
+            ActionType.REPRESENTATION -> {
+                representationRepository.findById(id).orElse(null)?.toRepresentationEntity()?.toNavAction()
+            }
+            ActionType.ILLEGAL_IMMIGRATION -> {
+                illegalImmigrationRepository.findById(id).orElse(null)?.toActionIllegalImmigrationEntity()?.toNavAction()
             }
 
             else -> null

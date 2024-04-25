@@ -16,6 +16,7 @@ extend type Mutation {
     addOrUpdateActionBAAEMPermanence(baaemPermanenceAction: ActionBAAEMPermanenceInput!): NavActionBAAEMPermanence
     addOrUpdateActionPublicOrder(publicOrderAction: ActionPublicOrderInput!): NavActionPublicOrder
     addOrUpdateActionRepresentation(representationAction: ActionRepresentationInput!): NavActionRepresentation
+    addOrUpdateActionIllegalImmigration(illegalImmigrationAction: ActionIllegalImmigrationInput!): NavActionIllegalImmigration
 }
 
 type Action {
@@ -127,6 +128,19 @@ input ActionRepresentationInput {
   observations: String
 }
 
+input ActionIllegalImmigrationInput {
+  id: String
+  missionId: Int!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+  nbOfInterceptedVessels: Int
+  nbOfInterceptedMigrants: Int
+  nbOfSuspectedSmugglers: Int
+  latitude: Float
+  longitude: Float
+}
+
 enum MissionSource {
     MONITORENV
     MONITORFISH
@@ -148,6 +162,7 @@ union ActionData =
     | NavActionBAAEMPermanence
     | NavActionPublicOrder
     | NavActionRepresentation
+    | NavActionIllegalImmigration
 
 type NavActionStatus {
     id: String!
@@ -230,6 +245,19 @@ type NavActionRepresentation {
   observations: String
 }
 
+type NavActionIllegalImmigration {
+  id: String!
+  missionId: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+  nbOfInterceptedVessels: Int
+  nbOfInterceptedMigrants: Int
+  nbOfSuspectedSmugglers: Int
+  latitude: Float
+  longitude: Float
+}
+
 enum ActionStatusType {
     NAVIGATING
     ANCHORED
@@ -301,6 +329,7 @@ enum ActionType {
     BAAEM_PERMANENCE
     PUBLIC_ORDER
     REPRESENTATION
+    ILLEGAL_IMMIGRATION
 }
 
 type EnvActionData {

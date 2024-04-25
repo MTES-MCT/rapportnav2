@@ -18,5 +18,6 @@ data class NavActionEntity(
     val baaemPermanenceAction: ActionBAAEMPermanenceEntity? = null,
     val antiPollutionAction: ActionAntiPollutionEntity? = null,
     val publicOrderAction: ActionPublicOrderEntity? = null,
-    val representationAction: ActionRepresentationEntity? = null
+    val representationAction: ActionRepresentationEntity? = null,
+    val illegalImmigrationAction: ActionIllegalImmigrationEntity? = null
 )

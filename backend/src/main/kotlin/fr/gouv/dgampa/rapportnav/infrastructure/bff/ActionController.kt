@@ -45,7 +45,8 @@ class ActionController(
     private val addOrUpdateActionAntiPollution: AddOrUpdateActionAntiPollution,
     private val addOrUpdateActionBAAEMPermanence: AddOrUpdateActionBAAEMPermanence,
     private val addOrUpdateActionPublicOrder: AddOrUpdateActionPublicOrder,
-    private val addOrUpdateActionRepresentation: AddOrUpdateActionRepresentation
+    private val addOrUpdateActionRepresentation: AddOrUpdateActionRepresentation,
+    private val addOrUpdateActionIllegalImmigration: AddOrUpdateActionIllegalImmigration
 ) {
 
     private val logger = LoggerFactory.getLogger(ActionController::class.java)
@@ -197,6 +198,7 @@ class ActionController(
                 is NavActionBAAEMPermanence -> ActionType.BAAEM_PERMANENCE
                 is NavActionPublicOrder -> ActionType.PUBLIC_ORDER
                 is NavActionRepresentation -> ActionType.REPRESENTATION
+                is NavActionIllegalImmigration -> ActionType.ILLEGAL_IMMIGRATION
                 else -> ActionType.OTHER
 
             }
@@ -348,6 +350,12 @@ class ActionController(
     fun addOrUpdateActionRepresentation(@Argument representationAction: ActionRepresentationInput): NavActionRepresentation {
         val data = representationAction.toActionRepresentationEntity()
         return addOrUpdateActionRepresentation.execute(data).toNavActionRepresentation()
+    }
+
+    @MutationMapping
+    fun addOrUpdateActionIllegalImmigration(@Argument illegalImmigrationAction: ActionIllegalImmigrationInput): NavActionIllegalImmigration {
+        val data = illegalImmigrationAction.toActionIllegalImmigrationEntity()
+        return addOrUpdateActionIllegalImmigration.execute(data).toNavActionIllegalImmigration()
     }
 
 

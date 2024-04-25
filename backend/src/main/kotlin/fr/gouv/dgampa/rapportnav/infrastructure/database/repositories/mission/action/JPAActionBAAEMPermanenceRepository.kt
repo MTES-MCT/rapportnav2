@@ -26,7 +26,6 @@ class JPAActionBAAEMPermanenceRepository(
     @Transactional
     override fun save(permanenceBAAEM: ActionBAAEMPermanenceEntity): ActionBAAEMPermanenceModel {
         return try {
-            println("Aleck saving or updating action BAAEM")
             val baaemModel = ActionBAAEMPermanenceModel.fromBAAEMPermanence(permanenceBAAEM.toNavActionBAAEMPermanence(), mapper)
             dbActionBAAEMPermanenceRepository.save(baaemModel)
         } catch (e: InvalidDataAccessApiUsageException) {

@@ -15,7 +15,8 @@ enum class ActionType {
     BAAEM_PERMANENCE,
     VIGIMER,
     PUBLIC_ORDER,
-    REPRESENTATION
+    REPRESENTATION,
+    ILLEGAL_IMMIGRATION
 }
 
 fun mapStringToActionType(value: String): ActionType {
@@ -30,6 +31,9 @@ fun mapStringToActionType(value: String): ActionType {
         "ANTI_POLLUTION" -> ActionType.ANTI_POLLUTION
         "BAAEM_PERMANENCE" -> ActionType.BAAEM_PERMANENCE
         "VIGIMER" -> ActionType.VIGIMER
+        "ILLEGAL_IMMIGRATION" -> ActionType.ILLEGAL_IMMIGRATION
+        "PUBLIC_ORDER" -> ActionType.PUBLIC_ORDER
+        "REPRESENTATION" -> ActionType.REPRESENTATION
         else -> ActionType.OTHER
     }
 }

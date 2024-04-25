@@ -18,7 +18,8 @@ class GetNavMissionById(
     private val navAntiPollutionRepository: INavActionAntiPollutionRepository,
     private val navBAAEMRepository: INavActionBAAEMRepository,
     private val navPublicOrderRepository: INavActionPublicOrderRepository,
-    private val navRepresentationRepository: INavActionRepresentationRepository
+    private val navRepresentationRepository: INavActionRepresentationRepository,
+    private val navIllegalImmigrationRepository: INavActionIllegalImmigrationRepository
 ) {
     private val logger = LoggerFactory.getLogger(GetNavMissionById::class.java)
 
@@ -69,7 +70,11 @@ class GetNavMissionById(
             .map { it.toRepresentationEntity() }
             .map { it.toNavAction() }
 
-        val actions = controls + statuses + notes + rescues + nauticalEvents + vigimers + antiPollutions + baaemPermanences + representations + publicOrders
+        val illegalImmigrations = navIllegalImmigrationRepository.findAllByMissionId(missionId = missionId)
+            .map { it.toActionIllegalImmigrationEntity() }
+            .map { it.toNavAction() }
+
+        val actions = controls + statuses + notes + rescues + nauticalEvents + vigimers + antiPollutions + baaemPermanences + representations + publicOrders + illegalImmigrations
         val mission = NavMissionEntity(id = missionId, actions = actions)
         return mission
     }
