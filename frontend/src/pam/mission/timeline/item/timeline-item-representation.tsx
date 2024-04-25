@@ -5,12 +5,12 @@ import { FlexboxGrid, Stack } from "rsuite";
 import { Icon, THEME } from "@mtes-mct/monitor-ui";
 import Text from "../../../../ui/text.tsx";
 import { capitalize } from "lodash";
-import { ActionBAAEMPermanence as NavActionBaaemPermanence } from '../../../../types/action-types.ts'
+import { ActionRepresentation as NavActionRepresentation } from '../../../../types/action-types.ts'
 
 
-const ActionBaaemPermanence: React.FC<MissionTimelineItemProps> = ({action, onClick}) => {
+const ActionRepresentation: React.FC<MissionTimelineItemProps> = ({action, onClick}) => {
   const {actionId} = useParams()
-  const actionData = action.data as unknown as NavActionBaaemPermanence
+  const actionData = action.data as unknown as NavActionRepresentation
 
   return (
     <TimelineItemWrapper onClick={onClick} borderWhenSelected={action.id === actionId}>
@@ -30,7 +30,7 @@ const ActionBaaemPermanence: React.FC<MissionTimelineItemProps> = ({action, onCl
               overflow: 'hidden',
               textOverflow: 'ellipsis',
             }}>
-              {capitalize(actionData?.observations) || 'Permanence BAAEM'}
+              {capitalize(actionData?.observations) || 'Représentation'}
             </Text>
 
           </Stack.Item>
@@ -40,4 +40,4 @@ const ActionBaaemPermanence: React.FC<MissionTimelineItemProps> = ({action, onCl
   )
 }
 
-export default ActionBaaemPermanence
+export default ActionRepresentation

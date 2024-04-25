@@ -19,7 +19,7 @@ export type Action = {
     endDateTimeUtc?: string
     summaryTags?: string[]
     controlsToComplete?: ControlType[]
-    data: [EnvAction | FishAction | ActionStatus | ActionControl | ActionFreeNote | ActionSurveillance | ActionRescue | ActionNauticalEvent | ActionVigimer | ActionAntiPollution]
+    data: [EnvAction | FishAction | ActionStatus | ActionControl | ActionFreeNote | ActionSurveillance | ActionRescue | ActionNauticalEvent | ActionVigimer | ActionAntiPollution | ActionBAAEMPermanence | ActionRepresentation | ActionPublicOrder]
 }
 
 export type ActionStatus = {
@@ -125,6 +125,20 @@ export type ActionAntiPollution = {
 }
 
 export type ActionBAAEMPermanence = {
+  id: string
+  startDateTimeUtc: string
+  endDateTimeUtc: string
+  observations: string
+}
+
+export type ActionPublicOrder = {
+  id: string
+  startDateTimeUtc: string
+  endDateTimeUtc: string
+  observations: string
+}
+
+export type ActionRepresentation = {
   id: string
   startDateTimeUtc: string
   endDateTimeUtc: string

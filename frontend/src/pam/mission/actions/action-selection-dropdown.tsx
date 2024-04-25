@@ -30,6 +30,12 @@ const ActionSelectionDropdown: FC<ActionSelectionDropdownProps> = ({onSelect}) =
       <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.BAAEM_PERMANENCE}>
         Permanence BAAEM
       </Dropdown.Item>
+      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.PUBLIC_ORDER}>
+        Maintien de l'ordre public
+      </Dropdown.Item>
+      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.REPRESENTATION}>
+        Representation
+      </Dropdown.Item>
     </Dropdown>
   )
 }

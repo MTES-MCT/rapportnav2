@@ -13,6 +13,8 @@ import ActionNauticalEventForm from './action-nautical-event-form.tsx'
 import ActionVigimerForm from './action-vigimer-form.tsx'
 import ActionAntiPollutionForm from './action-anti-pollution-form.tsx'
 import ActionBAAEMPermanenceForm from './action-baaem-permanence-form.tsx'
+import ActionPublicOrderForm from './action-public-order-form.tsx'
+import ActionRepresentationForm from './action-representation-form.tsx'
 
 export const getComponentForAction = (action?: Action): FC<any> | null => {
   if (!action) {
@@ -51,6 +53,10 @@ export const getComponentForAction = (action?: Action): FC<any> | null => {
         return ActionAntiPollutionForm
       case ActionTypeEnum.BAAEM_PERMANENCE:
         return ActionBAAEMPermanenceForm
+      case ActionTypeEnum.PUBLIC_ORDER:
+        return ActionPublicOrderForm
+      case ActionTypeEnum.REPRESENTATION:
+        return ActionRepresentationForm
       case ActionTypeEnum.OTHER:
         return null
       default:

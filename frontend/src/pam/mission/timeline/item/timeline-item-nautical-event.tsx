@@ -22,7 +22,7 @@ const ActionNauticalEvent: React.FC<MissionTimelineItemProps> = ({action, onClic
       >
         <Stack direction="row" spacing="0.5rem">
           <Stack.Item alignSelf="flex-start">
-            <Icon.Note color={THEME.color.charcoal} size={20}/>
+            <Icon.More color={THEME.color.charcoal} size={20}/>
           </Stack.Item>
           <Stack.Item alignSelf="flex-start" style={{maxWidth: 'calc(100% - 3rem)'}}>
             <Text as="h3" weight="medium" color={THEME.color.gunMetal} style={{
@@ -30,7 +30,7 @@ const ActionNauticalEvent: React.FC<MissionTimelineItemProps> = ({action, onClic
               overflow: 'hidden',
               textOverflow: 'ellipsis',
             }}>
-              {capitalize(actionData?.observations) || 'Note libre'}
+              {capitalize(actionData?.observations) || 'Manifestation nautique'}
             </Text>
 
           </Stack.Item>

@@ -22,6 +22,8 @@ import useAddNauticalEvent from './others/nautical-event/use-add-nautical-event.
 import useAddVigimer from './others/vigimer/use-add-vigimer.tsx'
 import useAddAntiPollution from './others/anti-pollution/use-add-anti-pollution.tsx'
 import useAddOrUpdateBAAEMPermanence from './others/baaem/use-add-baaem-permanence.tsx'
+import useAddOrUpdatePublicOrder from './others/public-order/use-add-public-order.tsx'
+import useAddRepresentation from './others/representation/use-add-representation.tsx'
 
 export interface MissionProps {
     mission?: Mission
@@ -42,7 +44,9 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
     const [addActionNauticalEvent] = useAddNauticalEvent()
     const [addActionVigimer] = useAddVigimer()
     const [addActionAntiPollution] = useAddAntiPollution()
-    const [addActionBaaemPermanence] = useAddOrUpdateBAAEMPermanence();
+    const [addActionBaaemPermanence] = useAddOrUpdateBAAEMPermanence()
+    const [addActionPublicOrder] = useAddOrUpdatePublicOrder()
+    const [addActionRepresentation] = useAddRepresentation()
 
     const selectedAction = useMemo(() => {
         if (actionId) {
@@ -74,6 +78,12 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
         }
         else if (key === ActionTypeEnum.BAAEM_PERMANENCE) {
           await addNewOther(ActionTypeEnum.BAAEM_PERMANENCE)
+        }
+        else if (key === ActionTypeEnum.PUBLIC_ORDER) {
+          await addNewOther(ActionTypeEnum.PUBLIC_ORDER)
+        }
+        else if (key === ActionTypeEnum.REPRESENTATION) {
+          await addNewOther(ActionTypeEnum.REPRESENTATION)
         }
     }
 
@@ -175,6 +185,14 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
       case ActionTypeEnum.ANTI_POLLUTION:
          response = await addActionAntiPollution({variables: {antiPollutionAction: newOther}})
         navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionAntiPollution.id}`)
+        break
+      case ActionTypeEnum.PUBLIC_ORDER:
+        response = await addActionPublicOrder({variables: {publicOrderAction: newOther}})
+        navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionPublicOrder.id}`)
+        break
+      case ActionTypeEnum.REPRESENTATION:
+        response = await addActionRepresentation({variables: {representationAction: newOther}})
+        navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionRepresentation.id}`)
         break
       default:
         break

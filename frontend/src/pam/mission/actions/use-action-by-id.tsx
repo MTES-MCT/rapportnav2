@@ -246,6 +246,20 @@ export const GET_ACTION_BY_ID = gql`
                     endDateTimeUtc
                     observations
                 }
+
+                ... on NavActionPublicOrder {
+                    id
+                    startDateTimeUtc
+                    endDateTimeUtc
+                    observations
+                }
+
+                ... on NavActionRepresentation {
+                    id
+                    startDateTimeUtc
+                    endDateTimeUtc
+                    observations
+                }
                 ... on NavActionControl {
                     id
                     latitude
