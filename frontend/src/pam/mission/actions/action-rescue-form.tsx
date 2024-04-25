@@ -139,13 +139,13 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({action}) => {
           <Stack.Item style={{width: '100%'}}>
             <Stack direction="row" spacing="0.5rem" style={{width: '100%'}}>
               <Stack.Item alignSelf="baseline">
-                <Icon.Note color={THEME.color.charcoal} size={20}/>
+                <Icon.Rescue color={THEME.color.charcoal} size={20}/>
               </Stack.Item>
               <Stack.Item grow={2}>
                 <Stack direction="column" alignItems="flex-start">
                   <Stack.Item>
                     <Text as="h2" weight="bold">
-                      Assistance / sauvetage
+                      Assistance et sauvetage
                     </Text>
                   </Stack.Item>
                 </Stack>
@@ -180,7 +180,6 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({action}) => {
                   withTime={true}
                   isCompact={true}
                   isLight={true}
-                  role={"ok"}
                   onChange={async (nextValue?: [Date, Date] | [string, string]) => {
                     await onChange('dates', nextValue)
                   }}

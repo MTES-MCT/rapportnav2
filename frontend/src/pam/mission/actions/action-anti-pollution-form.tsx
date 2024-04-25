@@ -137,7 +137,6 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({action
                   withTime={true}
                   isCompact={true}
                   isLight={true}
-                  role={"ok"}
                   onChange={async (nextValue?: [Date, Date] | [string, string]) => {
                     await onChange('dates', nextValue)
                   }}

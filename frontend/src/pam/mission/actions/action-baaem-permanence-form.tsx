@@ -135,7 +135,6 @@ const ActionBAAEMPermanenceForm: React.FC<ActionBAAEMPermanenceFormProps> = ({ac
                   withTime={true}
                   isCompact={true}
                   isLight={true}
-                  role={"ok"}
                   onChange={async (nextValue?: [Date, Date] | [string, string]) => {
                     await onChange('dates', nextValue)
                   }}

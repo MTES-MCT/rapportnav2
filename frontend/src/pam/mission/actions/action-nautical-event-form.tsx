@@ -137,7 +137,6 @@ const ActionNauticalEventForm: React.FC<ActionNauticalEventFormProps> = ({action
                   withTime={true}
                   isCompact={true}
                   isLight={true}
-                  role={"ok"}
                   onChange={async (nextValue?: [Date, Date] | [string, string]) => {
                     await onChange('dates', nextValue)
                   }}
