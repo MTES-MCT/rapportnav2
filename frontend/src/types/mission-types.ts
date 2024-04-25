@@ -60,7 +60,6 @@ export enum MissionStatusEnum {
   UPCOMING = 'UPCOMING',
   PENDING = 'PENDING',
   IN_PROGRESS = 'IN_PROGRESS',
-  CLOSED = 'CLOSED',
   ENDED = 'ENDED',
   UNAVAILABLE = 'UNAVAILABLE'
 }

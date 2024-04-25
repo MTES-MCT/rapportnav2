@@ -30,7 +30,7 @@ type Mission {
   actions: [Action]
   generalInfo: MissionGeneralInfo
   openBy: String
-  status: MissionStatusEnum!
+  status: MissionStatusEnum
   reportStatus: MissionReportStatus
 }
 
@@ -45,7 +45,6 @@ enum MissionSourceEnum {
 enum MissionStatusEnum {
   UPCOMING,
   PENDING,
-  CLOSED,
   ENDED,
   UNAVAILABLE,
   IN_PROGRESS

@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { Stack } from 'rsuite'
 import { Accent, Button, Icon, Size, THEME } from '@mtes-mct/monitor-ui'
 import Text from '../../ui/text.tsx'
+import useApolloLastSync from '../../shared/use-apollo-last-sync.tsx'
+import { formatTime, toLocalISOString } from '../../utils/dates.ts'
 
 const StyledFooter = styled.div`
   height: 60px;
@@ -14,11 +16,11 @@ const StyledFooter = styled.div`
 `
 
 interface MissionPageFooterProps {
-  missionName: string
+  lastSyncText?: string
   exitMission: () => void
 }
 
-const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionName, exitMission }) => {
+const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ lastSyncText, exitMission }) => {
   const deleteMission = () => {
     // TODO add delete
     alert('Fonctionnalité pas encore implémentée')
@@ -35,18 +37,19 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionName, exit
             Icon={Icon.Delete}
             onClick={deleteMission}
             disabled={true}
+            title={"Cette fonctionnalité n'a pas encore été implémentée"}
           >
             Supprimer la mission
           </Button>
         </Stack.Item>
         <Stack.Item style={{ paddingLeft: '1rem' }}>
-          <Text as={'h2'} color={THEME.color.lightGray}>
-            RapportNav - Version test - Janvier 2024
+          <Text as={'h3'} color={THEME.color.charcoal}>
+            {lastSyncText ? `Dernière synchronisation à ${lastSyncText} ` : ''}
           </Text>
         </Stack.Item>
         <Stack.Item style={{ paddingLeft: '1rem' }}>
-          <Button accent={Accent.PRIMARY} size={Size.NORMAL} Icon={Icon.Save} onClick={exitMission}>
-            Quitter le rapport
+          <Button accent={Accent.SECONDARY} size={Size.NORMAL} Icon={Icon.Close} onClick={exitMission}>
+            Fermer la mission
           </Button>
         </Stack.Item>
       </Stack>

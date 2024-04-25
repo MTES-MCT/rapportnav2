@@ -11,7 +11,8 @@ object NavActionControlMock {
 
     fun createActionControlEntity(
         startDateTimeUtc: ZonedDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
-        observations: String? = "observations"
+        observations: String? = "observations",
+        isCompleteForStats: Boolean? = null,
     ): ActionControlEntity {
         return ActionControlEntity(
             id = UUID.randomUUID(),
@@ -19,7 +20,8 @@ object NavActionControlMock {
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = startDateTimeUtc.plusHours(2),
             controlMethod = ControlMethod.SEA,
-            observations = observations
+            observations = observations,
+            isCompleteForStats = isCompleteForStats
         )
     }
 }

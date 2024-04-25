@@ -136,6 +136,7 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
               data-testid="observations"
               onChange={handleObservationsChange}
               onBlur={handleObservationsBlur}
+              style={{ minWidth: '100%' }}
             />
           </Stack.Item>
         </Stack>

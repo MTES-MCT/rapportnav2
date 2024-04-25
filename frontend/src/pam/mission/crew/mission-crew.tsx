@@ -10,6 +10,7 @@ import useAgentsByUserService from './use-agents-by-user-service'
 import useAddOrUpdateMissionCrew, { AddOrUpdateMissionCrewInput } from './use-add-update-mission-crew'
 import useMissionCrew from './use-mission-crew'
 import useDeleteMissionCrew from './use-delete-mission-crew'
+import useIsMissionFinished from '../use-is-mission-finished.tsx'
 
 interface MissionCrewProps {}
 
@@ -19,6 +20,7 @@ const MissionCrew: React.FC<MissionCrewProps> = () => {
   const { data: agentRoles } = useAgentRoles()
   const { data: agents } = useAgentsByUserService()
   const { data: crew } = useMissionCrew(missionId!)
+  const isMissionFinished = useIsMissionFinished(missionId)
   const [addOrUpdateCrew] = useAddOrUpdateMissionCrew()
   const [deleteCrew] = useDeleteMissionCrew()
 
@@ -31,7 +33,7 @@ const MissionCrew: React.FC<MissionCrewProps> = () => {
   }, [crew])
 
   const onClickAddCrewMember = () => {
-    setCrewList([...(crewList || []), {} as MissionCrewModel])
+    setCrewList([...(crewList ?? []), {} as MissionCrewModel])
     setHideAddButton(true)
   }
 
@@ -75,13 +77,13 @@ const MissionCrew: React.FC<MissionCrewProps> = () => {
   }
 
   const addNewCrew = async (field?: string, value?: any) => {
-    const newCrew = crewList?.[crewList?.length - 1] || ({} as MissionCrewModel)
+    const newCrew = crewList?.[crewList?.length - 1] ?? ({} as MissionCrewModel)
     if (field === 'agent') {
       newCrew.agent = omit(
         agents?.find((agent: Agent) => agent.id === value),
         '__typename'
       )
-      setCrewList([...(crewList?.slice(0, -1) || []), newCrew])
+      setCrewList([...(crewList?.slice(0, -1) ?? []), newCrew])
     } else if (field === 'role') {
       newCrew.role = omit(
         agentRoles?.find((role: AgentRole) => role.id === value),
@@ -114,9 +116,17 @@ const MissionCrew: React.FC<MissionCrewProps> = () => {
     <>
       <Label>Equipage à bord</Label>
       <Stack direction="column" alignItems="flex-start" spacing="0.25rem" style={{ width: '100%' }}>
-        {!!!crewList || !crewList.length ? (
-          <Stack.Item style={{ width: '100%', backgroundColor: THEME.color.gainsboro, padding: '0.5rem' }}>
-            <Text as="h3">Aucun membre d'équipage renseigné</Text>
+        {!crewList || !crewList.length ? (
+          <Stack.Item
+            style={{
+              width: '100%',
+              backgroundColor: THEME.color.gainsboro,
+              padding: '0.5rem'
+            }}
+          >
+            <Text as="h3" color={isMissionFinished ? THEME.color.maximumRed : THEME.color.charcoal}>
+              Aucun membre d'équipage renseigné
+            </Text>
           </Stack.Item>
         ) : (
           crewList?.map((crew: MissionCrewModel) => (
@@ -149,7 +159,7 @@ const MissionCrew: React.FC<MissionCrewProps> = () => {
                     name="role"
                     isLight={true}
                     value={crew?.role?.id}
-                    options={(agentRoles || [])?.map(({ id, title }) => ({ value: id, label: title })) as any}
+                    options={(agentRoles ?? [])?.map(({ id, title }) => ({ value: id, label: title })) as any}
                     disabled={!crew?.agent?.lastName}
                     onChange={(nextValue?: string) => onChange(crew, 'role', nextValue)}
                   />

@@ -4,6 +4,7 @@ import { Label, NumberInput, THEME } from '@mtes-mct/monitor-ui'
 import { useParams } from 'react-router-dom'
 import { MissionGeneralInfo } from '../../../types/mission-types.ts'
 import useAddOrUpdateDistanceConsumption from './use-add-update-distance-consumption.tsx'
+import useIsMissionFinished from '../use-is-mission-finished.tsx'
 
 interface MissionDistanceAndConsumptionProps {
   info?: MissionGeneralInfo
@@ -17,6 +18,7 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
     consumedFuelInLiters: info?.consumedFuelInLiters
   })
 
+  const isMissionFinished = useIsMissionFinished(missionId)
   const [mutate] = useAddOrUpdateDistanceConsumption()
 
   const onChange = async (field: string, value?: number) => {
@@ -53,6 +55,8 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
             placeholder="0"
             isLight={true}
             value={formData?.distanceInNauticalMiles}
+            isErrorMessageHidden={true}
+            error={isMissionFinished && formData?.distanceInNauticalMiles === undefined ? 'error' : undefined}
             onChange={(nextValue?: number) => onChange('distanceInNauticalMiles', nextValue)}
             onBlur={() => onBlur()}
           />
@@ -65,6 +69,8 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
             placeholder="0"
             isLight={true}
             value={formData?.consumedGOInLiters}
+            isErrorMessageHidden={true}
+            error={isMissionFinished && formData?.consumedGOInLiters === undefined ? 'error' : undefined}
             onChange={(nextValue?: number) => onChange('consumedGOInLiters', nextValue)}
             onBlur={() => onBlur()}
           />
@@ -77,6 +83,8 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
             placeholder="0"
             isLight={true}
             value={formData?.consumedFuelInLiters}
+            isErrorMessageHidden={true}
+            error={isMissionFinished && formData?.consumedFuelInLiters === undefined ? 'error' : undefined}
             onChange={(nextValue?: number) => onChange('consumedFuelInLiters', nextValue)}
             onBlur={() => onBlur()}
           />

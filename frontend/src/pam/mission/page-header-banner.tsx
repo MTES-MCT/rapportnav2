@@ -16,6 +16,11 @@ const message = (reportStatus?: MissionReportStatus): string => {
       "La mission est terminée mais le rapport n'est pas complet : des données sont manquantes dans des champs à remplir "
     if (reportStatus?.sources?.indexOf(MissionSourceEnum.RAPPORTNAV) !== -1) {
       message += 'par votre unité.'
+    } else if (
+      reportStatus?.sources?.indexOf(MissionSourceEnum.MONITORFISH) !== -1 &&
+      reportStatus?.sources?.indexOf(MissionSourceEnum.MONITORENV) !== -1
+    ) {
+      message += 'par le CNSP et le CACEM.'
     } else if (reportStatus?.sources?.indexOf(MissionSourceEnum.MONITORFISH) !== -1) {
       message += 'par le CNSP.'
     } else if (reportStatus?.sources?.indexOf(MissionSourceEnum.MONITORENV) !== -1) {

@@ -60,7 +60,7 @@ const MissionsList: React.FC<MissionsListProps> = ({ missions, prefetchMission }
             >
               <FlexboxGrid align="middle" style={{ height: '100%', padding: '0.5rem 1rem' }}>
                 <FlexboxGrid.Item colspan={1} style={{ paddingTop: '8px' }}>
-                  <Icon.MissionAction size={28} />
+                  <Icon.MissionAction size={28} color={THEME.color.charcoal} />
                 </FlexboxGrid.Item>
                 <FlexboxGrid.Item colspan={5}>
                   <p style={{ color: THEME.color.charcoal, fontSize: '16px', fontWeight: 'bold' }}>

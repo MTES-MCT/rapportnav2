@@ -12,7 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.MapStatusDurati
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
-import fr.gouv.gmampa.rapportnav.mocks.mission.NavMissionMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -113,7 +113,7 @@ class ExportMissionTests {
             crew = emptyList(),
             timeline = emptyList()
         )
-        `when`(getMissionById.execute(missionId)).thenReturn(NavMissionMock.create())
+        `when`(getMissionById.execute(missionId)).thenReturn(MissionEntityMock.create())
         `when`(exportRepository.exportOdt(exportParams)).thenReturn(output)
 
         val result = exportMission.exportOdt(missionId)

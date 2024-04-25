@@ -1,10 +1,9 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.bff.model
+package fr.gouv.dgampa.rapportnav.domain.entities.mission
 
 enum class MissionStatusEnum {
     UPCOMING,
     PENDING,
     IN_PROGRESS,
-    CLOSED,
     ENDED,
     UNAVAILABLE
 }

@@ -46,6 +46,13 @@ vi.mock('./general-info/use-mission-excerpt', async importOriginal => {
     default: vi.fn()
   }
 })
+vi.mock('../../shared/use-apollo-last-sync', async importOriginal => {
+  const actual = await importOriginal()
+  return {
+    ...actual,
+    default: () => new Date().getTime().toString()
+  }
+})
 
 const mock = {
   id: 1,
@@ -103,7 +110,7 @@ describe('MissionPage', () => {
       ;(useMissionExcerpt as any).mockReturnValue(mockedQueryResult(mock))
       render(<MissionPage />)
 
-      const button = screen.getByText('Quitter le rapport')
+      const button = screen.getByText('Fermer la mission')
       fireEvent.click(button)
 
       expect(mockApolloClient.resetStore).toHaveBeenCalled()

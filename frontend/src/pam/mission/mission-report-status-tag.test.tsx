@@ -4,14 +4,14 @@ import { MissionReportStatusEnum, MissionStatusEnum } from '../../types/mission-
 import MissionReportStatusTag from './mission-report-status-tag.tsx'
 
 describe('MissionReportStatusTag component', () => {
-  test('renders "indisponible" when missionStatus is undefined', () => {
+  test('renders "À compléter" when missionStatus is undefined', () => {
     render(<MissionReportStatusTag reportStatus={MissionReportStatusEnum.INCOMPLETE} missionStatus={undefined} />)
-    const tagElement = screen.getByText('Indisponible')
+    const tagElement = screen.getByText('À compléter')
     expect(tagElement).toBeInTheDocument()
   })
-  test('renders "indisponible" when reportStatus is undefined', () => {
+  test('renders "À compléter" when reportStatus is undefined', () => {
     render(<MissionReportStatusTag reportStatus={undefined} missionStatus={MissionStatusEnum.UPCOMING} />)
-    const tagElement = screen.getByText('Indisponible')
+    const tagElement = screen.getByText('À compléter')
     expect(tagElement).toBeInTheDocument()
   })
   test('renders "Données à jour" when missionStatus is IN_PROGRESS and reportStatus is COMPLETE', () => {

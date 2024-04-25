@@ -1,4 +1,4 @@
-import { Accent, Tag, TagBullet, TagProps, THEME } from '@mtes-mct/monitor-ui'
+import { Accent, Icon, Tag, TagProps, THEME } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 
 type ControlsToCompleteTagProps = TagProps & {
@@ -11,8 +11,9 @@ const ControlsToCompleteTag: FC<ControlsToCompleteTagProps> = ({ amountOfControl
   }
   return (
     <Tag
-      bullet={TagBullet.DISK}
-      bulletColor={THEME.color.maximumRed}
+      Icon={Icon.CircleFilled}
+      iconColor={THEME.color.maximumRed}
+      withCircleIcon={true}
       accent={Accent.PRIMARY}
       isLight={tagProps.isLight}
       data-testid={'controls-to-complete-tag'}

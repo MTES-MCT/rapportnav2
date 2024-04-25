@@ -12,6 +12,8 @@ import { Accent, Button, logSoftError, Size } from '@mtes-mct/monitor-ui'
 import { getPath, PAM_HOME_PATH } from '../../router/router.tsx'
 import { MissionExport } from '../../types/mission-types.ts'
 import * as Sentry from '@sentry/react'
+import useApolloLastSync from '../../shared/use-apollo-last-sync.tsx'
+import { formatTime, toLocalISOString } from '../../utils/dates.ts'
 
 const MissionPage: React.FC = () => {
   const navigate = useNavigate()
@@ -21,6 +23,8 @@ const MissionPage: React.FC = () => {
   const [exportLoading, setExportLoading] = useState<boolean>(false)
   const { loading, error, data: mission } = useMissionExcerpt(missionId)
   const [getMissionReport] = useLazyMissionExport()
+  const lastSync = useApolloLastSync()
+  const lastSyncText = lastSync ? formatTime(toLocalISOString(new Date(parseInt(lastSync!!, 10)))) : undefined
 
   const exitMission = async () => {
     // TODO centralise the following into a class - also used in use-auth()
@@ -133,7 +137,7 @@ const MissionPage: React.FC = () => {
 
       <MissionContent mission={mission} />
 
-      <MissionPageFooter missionName={`Mission #${missionId}`} exitMission={exitMission} />
+      <MissionPageFooter lastSyncText={lastSyncText} exitMission={exitMission} />
     </div>
   )
 }

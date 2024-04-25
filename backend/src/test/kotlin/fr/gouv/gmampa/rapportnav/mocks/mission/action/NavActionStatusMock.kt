@@ -14,7 +14,8 @@ object NavActionStatusMock {
         status: ActionStatusType = ActionStatusType.NAVIGATING,
         startDateTimeUtc: ZonedDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
         reason: ActionStatusReason? = null,
-        observations: String? = "observations"
+        observations: String? = "observations",
+        isCompleteForStats: Boolean? = null,
     ): ActionStatusEntity {
         return ActionStatusEntity(
             id = UUID.randomUUID(),
@@ -22,7 +23,8 @@ object NavActionStatusMock {
             startDateTimeUtc = startDateTimeUtc,
             status = status,
             reason = reason,
-            observations = observations
+            observations = observations,
+            isCompleteForStats = isCompleteForStats
         )
     }
 }
