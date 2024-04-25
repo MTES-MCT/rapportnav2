@@ -24,6 +24,12 @@ const ActionSelectionDropdown: FC<ActionSelectionDropdownProps> = ({onSelect}) =
       <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.VIGIMER}>
         Permanence Vigimer
       </Dropdown.Item>
+      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.ANTI_POLLUTION}>
+        Opération de lutte anti-pollution
+      </Dropdown.Item>
+      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.BAAEM_PERMANENCE}>
+        Permanence BAAEM
+      </Dropdown.Item>
     </Dropdown>
   )
 }

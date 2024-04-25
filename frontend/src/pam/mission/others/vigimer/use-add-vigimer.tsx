@@ -1,6 +1,6 @@
 import { gql, MutationTuple, useMutation } from '@apollo/client'
 import { useParams } from 'react-router-dom'
-import { ActionNauticalEvent, ActionVigimer } from '../../../../types/action-types.ts'
+import {  ActionVigimer } from '../../../../types/action-types.ts'
 import { GET_MISSION_TIMELINE } from '../../timeline/use-mission-timeline.tsx'
 import { GET_ACTION_BY_ID } from '../../actions/use-action-by-id.tsx'
 

@@ -9,7 +9,11 @@ import ActionNavControl from "./timeline-item-control-nav.tsx";
 import ActionStatus from "./timeline-item-status.tsx";
 import ActionNote from "./timeline-item-note.tsx";
 import ActionEnvSurveillance from './timeline-item-surveillance.tsx'
-import ActionRescue from './timeline-item-rescue.tsx'
+import ActionOtherRescue from './timeline-item-rescue.tsx'
+import ActionNauticalEvent from './timeline-item-nautical-event.tsx'
+import ActionVigimer from './timeline-item-vigimer.tsx'
+import ActionAntiPollution from './timeline-item-anti-pollution.tsx'
+import ActionBaaemPermanence from './timeline-item-baaem-permanence.tsx'
 
 export interface MissionTimelineItemProps {
   action: Action
@@ -43,11 +47,13 @@ export const TimelineItemWrapper: React.FC<{
 
 
 const getActionComponent = (action: Action) => {
+
   if (action.source === MissionSourceEnum.MONITORENV) {
     if (action.type === ActionTypeEnum.CONTROL) {
       return ActionEnvControl
     }
     if (action.type === ActionTypeEnum.SURVEILLANCE) {
+      console.log(action.type)
       return ActionEnvSurveillance
     }
   } else if (action.source === MissionSourceEnum.MONITORFISH) {
@@ -63,7 +69,15 @@ const getActionComponent = (action: Action) => {
       case ActionTypeEnum.NOTE:
         return ActionNote
       case ActionTypeEnum.RESCUE:
-        return ActionRescue
+        return ActionOtherRescue
+      case ActionTypeEnum.NAUTICAL_EVENT:
+        return ActionNauticalEvent
+      case ActionTypeEnum.VIGIMER:
+        return ActionVigimer
+      case ActionTypeEnum.ANTI_POLLUTION:
+        return ActionAntiPollution
+      case ActionTypeEnum.BAAEM_PERMANENCE:
+        return ActionBaaemPermanence
       default:
         return null
     }

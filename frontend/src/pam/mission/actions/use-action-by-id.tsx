@@ -234,6 +234,18 @@ export const GET_ACTION_BY_ID = gql`
                     endDateTimeUtc
                     observations
                 }
+                ... on NavActionAntiPollution {
+                    id
+                    startDateTimeUtc
+                    endDateTimeUtc
+                    observations
+                }
+                ... on NavActionBAAEMPermanence {
+                    id
+                    startDateTimeUtc
+                    endDateTimeUtc
+                    observations
+                }
                 ... on NavActionControl {
                     id
                     latitude

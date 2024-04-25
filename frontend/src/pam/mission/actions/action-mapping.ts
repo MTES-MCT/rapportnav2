@@ -11,6 +11,8 @@ import ActionSurveillanceEnv from './action-surveillance-env.tsx'
 import ActionRescueForm from './action-rescue-form.tsx'
 import ActionNauticalEventForm from './action-nautical-event-form.tsx'
 import ActionVigimerForm from './action-vigimer-form.tsx'
+import ActionAntiPollutionForm from './action-anti-pollution-form.tsx'
+import ActionBAAEMPermanenceForm from './action-baaem-permanence-form.tsx'
 
 export const getComponentForAction = (action?: Action): FC<any> | null => {
   if (!action) {
@@ -45,6 +47,10 @@ export const getComponentForAction = (action?: Action): FC<any> | null => {
         return ActionNauticalEventForm
       case ActionTypeEnum.VIGIMER:
         return ActionVigimerForm
+      case ActionTypeEnum.ANTI_POLLUTION:
+        return ActionAntiPollutionForm
+      case ActionTypeEnum.BAAEM_PERMANENCE:
+        return ActionBAAEMPermanenceForm
       case ActionTypeEnum.OTHER:
         return null
       default:

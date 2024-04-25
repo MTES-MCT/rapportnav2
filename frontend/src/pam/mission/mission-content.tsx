@@ -20,6 +20,8 @@ import useAddOrUpdateNote from "./notes/use-add-update-note.tsx";
 import useAddOrUpdateRescue from './rescues/use-add-update-rescue.tsx'
 import useAddNauticalEvent from './others/nautical-event/use-add-nautical-event.tsx'
 import useAddVigimer from './others/vigimer/use-add-vigimer.tsx'
+import useAddAntiPollution from './others/anti-pollution/use-add-anti-pollution.tsx'
+import useAddOrUpdateBAAEMPermanence from './others/baaem/use-add-baaem-permanence.tsx'
 
 export interface MissionProps {
     mission?: Mission
@@ -39,6 +41,8 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
     const [addActionRescue] = useAddOrUpdateRescue()
     const [addActionNauticalEvent] = useAddNauticalEvent()
     const [addActionVigimer] = useAddVigimer()
+    const [addActionAntiPollution] = useAddAntiPollution()
+    const [addActionBaaemPermanence] = useAddOrUpdateBAAEMPermanence();
 
     const selectedAction = useMemo(() => {
         if (actionId) {
@@ -69,7 +73,7 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
           await addNewOther(ActionTypeEnum.ANTI_POLLUTION)
         }
         else if (key === ActionTypeEnum.BAAEM_PERMANENCE) {
-          await addNewOther(ActionTypeEnum.VIGIMER)
+          await addNewOther(ActionTypeEnum.BAAEM_PERMANENCE)
         }
     }
 
@@ -164,13 +168,14 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
          response = await addActionVigimer({variables: {vigimerAction: newOther}})
         navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionVigimer.id}`)
         break
-    /*  case ActionTypeEnum.BAAEM_PERMANENCE:
-         response = await addActionNauticalEvent({variables: {nauticalAction: newNautical}})
-        navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionNauticalEvent.id}`)
+      case ActionTypeEnum.BAAEM_PERMANENCE:
+         response = await addActionBaaemPermanence({variables: {baaemPermanenceAction: newOther}})
+        navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionBAAEMPermanence.id}`)
         break
       case ActionTypeEnum.ANTI_POLLUTION:
-         response = await addActionNauticalEvent({variables: {nauticalAction: newNautical}})
-        navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionNauticalEvent.id}`)*/
+         response = await addActionAntiPollution({variables: {antiPollutionAction: newOther}})
+        navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionAntiPollution.id}`)
+        break
       default:
         break
     }
