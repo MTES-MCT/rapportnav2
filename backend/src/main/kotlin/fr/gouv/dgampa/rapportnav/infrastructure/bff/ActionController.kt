@@ -46,7 +46,15 @@ class ActionController(
     private val addOrUpdateActionBAAEMPermanence: AddOrUpdateActionBAAEMPermanence,
     private val addOrUpdateActionPublicOrder: AddOrUpdateActionPublicOrder,
     private val addOrUpdateActionRepresentation: AddOrUpdateActionRepresentation,
-    private val addOrUpdateActionIllegalImmigration: AddOrUpdateActionIllegalImmigration
+    private val addOrUpdateActionIllegalImmigration: AddOrUpdateActionIllegalImmigration,
+    private val deleteActionIllegalImmigration: DeleteActionIllegalImmigration,
+    private val deleteActionVigimer: DeleteActionVigimer,
+    private val deleteActionBAAEMPermanence: DeleteActionBAAEMPermanence,
+    private val deleteActionRepresentation: DeleteActionRepresentation,
+    private val deleteActionNauticalEvent: DeleteActionNauticalEvent,
+    private val deleteActionPublicOrder: DeleteActionPublicOrder,
+    private val deleteActionRescue: DeleteActionRescue,
+    private val deleteActionAntiPollution: DeleteActionAntiPollution
 ) {
 
     private val logger = LoggerFactory.getLogger(ActionController::class.java)
@@ -356,6 +364,45 @@ class ActionController(
     fun addOrUpdateActionIllegalImmigration(@Argument illegalImmigrationAction: ActionIllegalImmigrationInput): NavActionIllegalImmigration {
         val data = illegalImmigrationAction.toActionIllegalImmigrationEntity()
         return addOrUpdateActionIllegalImmigration.execute(data).toNavActionIllegalImmigration()
+    }
+    @MutationMapping
+    fun deleteRescue(@Argument id: UUID): Boolean {
+        return deleteActionRescue.execute(id)
+    }
+
+    @MutationMapping
+    fun deleteNauticalEvent(@Argument id: UUID): Boolean {
+        return deleteActionNauticalEvent.execute(id)
+    }
+
+    @MutationMapping
+    fun deleteVigimer(@Argument id: UUID): Boolean {
+        return deleteActionVigimer.execute(id)
+    }
+
+    @MutationMapping
+    fun deleteBAAEMPermanence(@Argument id: UUID): Boolean {
+        return deleteActionBAAEMPermanence.execute(id)
+    }
+
+    @MutationMapping
+    fun deleteAntiPollution(@Argument id: UUID): Boolean {
+        return deleteActionAntiPollution.execute(id)
+    }
+
+    @MutationMapping
+    fun deleteRepresentation(@Argument id: UUID): Boolean {
+        return deleteActionRepresentation.execute(id)
+    }
+
+    @MutationMapping
+    fun deletePublicOrder(@Argument id: UUID): Boolean {
+        return deleteActionPublicOrder.execute(id)
+    }
+
+    @MutationMapping
+    fun deleteIllegalImmigration(@Argument id: UUID): Boolean {
+        return deleteActionIllegalImmigration.execute(id)
     }
 
 

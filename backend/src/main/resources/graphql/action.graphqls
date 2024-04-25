@@ -17,6 +17,15 @@ extend type Mutation {
     addOrUpdateActionPublicOrder(publicOrderAction: ActionPublicOrderInput!): NavActionPublicOrder
     addOrUpdateActionRepresentation(representationAction: ActionRepresentationInput!): NavActionRepresentation
     addOrUpdateActionIllegalImmigration(illegalImmigrationAction: ActionIllegalImmigrationInput!): NavActionIllegalImmigration
+    deleteRescue(id: String!): Boolean
+    deleteNauticalEvent(id: String!): Boolean
+    deleteVigimer(id: String!): Boolean
+    deleteBAAEMPermanence(id: String!): Boolean
+    deleteAntiPollution(id: String!): Boolean
+    deleteRepresentation(id: String!): Boolean
+    deletePublicOrder(id: String!): Boolean
+    deleteIllegalImmigration(id: String!): Boolean
+
 }
 
 type Action {
