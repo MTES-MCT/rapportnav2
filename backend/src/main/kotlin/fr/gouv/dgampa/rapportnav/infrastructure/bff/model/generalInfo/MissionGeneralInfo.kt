@@ -20,12 +20,14 @@ data class MissionGeneralInfo(
     }
 
     companion object {
-        fun fromMissionGeneralInfoEntity(info: MissionGeneralInfoEntity) = MissionGeneralInfo(
-            id = info.id,
-            missionId = info.missionId,
-            distanceInNauticalMiles = info.distanceInNauticalMiles,
-            consumedGOInLiters = info.consumedGOInLiters,
-            consumedFuelInLiters = info.consumedFuelInLiters
-        )
+        fun fromMissionGeneralInfoEntity(info: MissionGeneralInfoEntity?) = info?.let {
+            MissionGeneralInfo(
+                id = it.id,
+                missionId = info.missionId,
+                distanceInNauticalMiles = info.distanceInNauticalMiles,
+                consumedGOInLiters = info.consumedGOInLiters,
+                consumedFuelInLiters = info.consumedFuelInLiters
+            )
+        }
     }
 }

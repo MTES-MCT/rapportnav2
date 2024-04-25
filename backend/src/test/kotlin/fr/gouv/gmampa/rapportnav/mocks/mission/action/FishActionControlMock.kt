@@ -1,9 +1,6 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission.action
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesControl
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesInfraction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
@@ -25,6 +22,7 @@ object FishActionControlMock {
         vesselName: String? = "Le Pi",
         speciesOnboard: List<SpeciesControl> = listOf(),
         speciesInfractions: List<SpeciesInfraction> = listOf(),
+        completion: Completion = Completion.COMPLETED,
     ): MissionAction {
         return MissionAction(
             id = UUID.randomUUID().hashCode(),
@@ -41,7 +39,8 @@ object FishActionControlMock {
             vesselId = vesselId,
             vesselName = vesselName,
             speciesOnboard = speciesOnboard,
-            speciesInfractions = speciesInfractions
+            speciesInfractions = speciesInfractions,
+            completion = completion
         )
     }
 }

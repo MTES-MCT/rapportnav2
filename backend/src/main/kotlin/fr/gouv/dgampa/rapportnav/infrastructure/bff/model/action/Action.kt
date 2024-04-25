@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
@@ -9,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlGensDeM
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlNavigation
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlSecurity
 import java.time.ZonedDateTime
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Completion
 
 data class Action(
     val id: Any?,
@@ -30,7 +32,7 @@ data class Action(
                     Action(
                         id = action.id,
                         missionId = missionId,
-                        isCompleteForStats = true,
+                        isCompleteForStats = action.completion === ActionCompletionEnum.COMPLETED,
                         source = MissionSourceEnum.MONITORENV,
                         startDateTimeUtc = action.actionStartDateTimeUtc,
                         endDateTimeUtc = action.actionEndDateTimeUtc,
@@ -43,7 +45,7 @@ data class Action(
                                 geom = action.geom,
                                 observations = action.observations,
                                 themes = action.themes,
-                                coverMissionZone = action.coverMissionZone
+                                coverMissionZone = action.coverMissionZone,
                             )
                         }
                     )
@@ -54,7 +56,7 @@ data class Action(
                     Action(
                         id = action.id,
                         missionId = missionId,
-                        isCompleteForStats = true,
+                        isCompleteForStats = action.completion === ActionCompletionEnum.COMPLETED,
                         source = MissionSourceEnum.MONITORENV,
                         startDateTimeUtc = action.actionStartDateTimeUtc,
                         endDateTimeUtc = action.actionEndDateTimeUtc,
@@ -94,7 +96,7 @@ data class Action(
                 return Action(
                     id = action.id.toString(),
                     missionId = missionId,
-                    isCompleteForStats = true,
+                    isCompleteForStats = action.completion === Completion.COMPLETED,
                     source = MissionSourceEnum.MONITORFISH,
                     startDateTimeUtc = action.actionDatetimeUtc,
                     endDateTimeUtc = null, // Set to null for FishAction since it doesn't have an endDateTime
@@ -182,7 +184,7 @@ data class Action(
                 startDateTimeUtc = navAction.startDateTimeUtc,
                 endDateTimeUtc = navAction.endDateTimeUtc,
                 isCompleteForStats = navAction.isCompleteForStats,
-                data = data
+                data = data,
             )
         }
 

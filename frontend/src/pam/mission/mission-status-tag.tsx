@@ -27,11 +27,6 @@ const MissionStatusTag: FC<MissionStatusTagProps> = ({ status }) => {
       IconComponent = Icon.Confirm
       text = 'Terminée'
       break
-    case MissionStatusEnum.CLOSED:
-      iconColor = THEME.color.maximumRed
-      IconComponent = Icon.Reject
-      text = 'Clôturée'
-      break
     case MissionStatusEnum.UNAVAILABLE:
     default:
       iconColor = THEME.color.maximumRed

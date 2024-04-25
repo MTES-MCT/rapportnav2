@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.MapStatusDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations
-import fr.gouv.gmampa.rapportnav.mocks.mission.NavMissionMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.NavActionStatusMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -27,7 +27,7 @@ class MapStatusDurationsTests {
 
     @Test
     fun `formatTimeline should return null when null given`() {
-        val inputMission = NavMissionMock.create(
+        val inputMission = MissionEntityMock.create(
             startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
             endDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 22, 0), ZoneOffset.UTC),
         )

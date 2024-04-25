@@ -2,16 +2,13 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff.model
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionReportStatusEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.Action
-import org.slf4j.LoggerFactory
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.crew.MissionCrew
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.generalInfo.MissionGeneralInfo
 import java.time.ZonedDateTime
-import java.time.format.DateTimeParseException
-
-data class MissionReportStatus(
-    val status: MissionReportStatusEnum,
-    val sources: List<MissionSourceEnum>? = null
-)
 
 data class Mission(
     val id: Int,
@@ -22,11 +19,10 @@ data class Mission(
     val actions: List<Action>?,
     val openBy: String? = null,
     val status: MissionStatusEnum? = null,
-    val reportStatus: MissionReportStatus? = null
+    val reportStatus: MissionReportStatusEntity? = null,
+    val crew: List<MissionCrew>? = null,
+    val generalInfo: MissionGeneralInfo? = null
 ) {
-
-    private val logger = LoggerFactory.getLogger(Mission::class.java)
-
     companion object {
         fun fromMissionEntity(mission: MissionEntity): Mission {
             val actions: List<Action>? = mission.actions?.mapNotNull { missionAction ->
@@ -53,60 +49,12 @@ data class Mission(
                 endDateTimeUtc = mission.endDateTimeUtc,
                 actions = actions,
                 openBy = mission.openBy,
+                crew = mission.crew?.map { MissionCrew.fromMissionCrewEntity(it) },
+                generalInfo = MissionGeneralInfo.fromMissionGeneralInfoEntity(mission.generalInfo),
+                status = mission.status,
+                reportStatus = mission.reportStatus
             )
         }
     }
 
-    fun calculateMissionStatus(): MissionStatusEnum {
-        val compareDate = ZonedDateTime.now()
-        val endDateTimeUtc = this.endDateTimeUtc
-        val isClosed = this.isClosed
-        val startDateTimeUtc = this.startDateTimeUtc
-
-        if (isClosed) {
-            return MissionStatusEnum.CLOSED
-        }
-
-        try {
-            val startDateTime = ZonedDateTime.parse(startDateTimeUtc.toString())
-            if (startDateTime.isAfter(compareDate) || startDateTime.isEqual(compareDate)) {
-                return MissionStatusEnum.UPCOMING
-            }
-        } catch (e: DateTimeParseException) {
-            logger.error("Mission > calculateMissionStatus - error with startDateTime", e)
-            return MissionStatusEnum.UNAVAILABLE
-        }
-
-        if (endDateTimeUtc != null) {
-            try {
-                val endDateTime = ZonedDateTime.parse(endDateTimeUtc.toString())
-                if (endDateTime.isAfter(compareDate)) {
-                    return MissionStatusEnum.IN_PROGRESS
-                } else if (endDateTime.isBefore(compareDate) || endDateTime.isEqual(compareDate)) {
-                    return MissionStatusEnum.ENDED
-                }
-            } catch (e: DateTimeParseException) {
-                logger.error("Mission > calculateMissionStatus - error with endDateTime", e)
-                return MissionStatusEnum.UNAVAILABLE
-            }
-        }
-
-        return MissionStatusEnum.PENDING
-    }
-
-    fun calculateMissionReportStatus(): MissionReportStatus {
-
-        // switch from none { it.isCompleteForStats == true } to any { it.isCompleteForStats != true } once Monitor is integrated
-        val status: MissionReportStatusEnum =
-            if (this.actions?.none { it.isCompleteForStats == false } == false) MissionReportStatusEnum.INCOMPLETE else MissionReportStatusEnum.COMPLETE
-        val sources = this.actions?.filterNot { it.isCompleteForStats == true || it.isCompleteForStats == null }
-            ?.mapNotNull { it.source }
-            ?.distinct()
-
-        return MissionReportStatus(
-            status = status,
-            sources = sources
-        )
-
-    }
 }

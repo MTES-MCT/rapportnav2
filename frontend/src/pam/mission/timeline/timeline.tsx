@@ -139,7 +139,11 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ missionId, onSelectAc
                                   <IconButton
                                     accent={Accent.TERTIARY}
                                     Icon={Icon.AttentionFilled}
-                                    color={getColorForStatus(action.status)}
+                                    color={
+                                      getColorForStatus(action.status) === 'transparent'
+                                        ? THEME.color.charcoal
+                                        : getColorForStatus(action.status)
+                                    }
                                     title={
                                       'Cet évènement contient des données manquantes indispensables pour les statistiques.'
                                     }
