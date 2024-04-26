@@ -178,7 +178,7 @@ class GetEnvMissionById(
                 .newBuilder()
                 .uri(
                     URI.create(
-                        "https://monitorenv.din.developpement-durable.gouv.fr/bff/v1/missions/$missionId"
+                        "https://monitorenv.din.developpement-durable.gouv.fr/api/v1/missions/$missionId"
                     )
                 )
                 .build()

@@ -37,7 +37,7 @@ class APIEnvMissionRepository(
         controlUnits: List<Int>?
     ): List<MissionEntity>? {
 
-        val uriBuilder = StringBuilder("https://monitorenv.din.developpement-durable.gouv.fr/bff/v1/missions")
+        val uriBuilder = StringBuilder("https://monitorenv.din.developpement-durable.gouv.fr/api/v1/missions")
 
         // Append query parameters
         uriBuilder.append("?")
