@@ -39,8 +39,9 @@ export const GET_MISSION_TIMELINE = gql`
             actionTargetType
             vehicleType
             controlsToComplete
-            themes {
-              theme
+            formattedControlPlans {
+              themes
+              subThemes
             }
           }
           ... on NavActionFreeNote {

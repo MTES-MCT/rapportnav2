@@ -33,9 +33,11 @@ const ActionEnvSurveillance: React.FC<{ action: Action; onClick: any }> = ({ act
                   </Stack.Item>
                   <Stack.Item>
                     <Text as="h3" weight="bold" color={THEME.color.gunMetal} data-testid={'theme'}>
-                      {actionData && 'themes' in actionData && actionData?.themes[0]?.theme
-                        ? actionData?.themes[0]?.theme
-                        : ' environnement marin'}
+                      {actionData &&
+                      'formattedControlPlans' in actionData &&
+                      actionData?.formattedControlPlans?.themes?.length
+                        ? actionData?.formattedControlPlans?.themes[0]
+                        : 'environnement marin'}
                     </Text>
                   </Stack.Item>
                 </Stack>

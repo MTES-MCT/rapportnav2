@@ -32,10 +32,10 @@ const actionMock = {
     infractions: [],
     observations: null,
     geom: 'MULTIPOINT ((-8.52318191 48.30305604))',
-    themes: [
+    formattedControlPlans: [
       {
         subThemes: ['subtheme1', 'subtheme2'],
-        theme: 'rejet illicite'
+        themes: ['rejet illicite']
       }
     ]
   } as any as EnvAction

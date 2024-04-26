@@ -17,7 +17,6 @@ data class EnvActionData(
     val department: String? = null,
     val facade: String? = null,
     val geom: Geometry? = null,
-    val themes: List<ThemeEntity>? = listOf(),
     val observations: String? = null,
     val actionNumberOfControls: Int? = null,
     val actionTargetType: ActionTargetTypeEnum? = null,
@@ -32,4 +31,6 @@ data class EnvActionData(
     val controlNavigation: ControlNavigation? = null,
     val controlSecurity: ControlSecurity? = null,
     val coverMissionZone: Boolean? = null,
+    val controlPlans: List<EnvActionControlPlanEntity>? = null,
+    val formattedControlPlans: FormattedEnvActionControlPlan? = null,
 ) : ActionData()

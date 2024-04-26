@@ -393,10 +393,10 @@ export type EnvActionCommonProperties = {
   actionStatus: string
 }
 
-export type EnvActionTheme = {
-  protectedSpecies?: string[]
+export type FormattedControlPlans = {
+  themes?: string[]
   subThemes?: string[]
-  theme: string
+  tags?: string[]
 }
 export type NewEnvActionControl = EnvActionCommonProperties & {
   actionNumberOfControls?: number
@@ -404,8 +404,8 @@ export type NewEnvActionControl = EnvActionCommonProperties & {
   actionType: ActionTypeEnum.CONTROL
   infractions: InfractionByTarget[]
   observations: string | null
-  themes: EnvActionTheme[]
   vehicleType?: string
+  formattedControlPlans: FormattedControlPlans
 }
 export type EnvActionControl = NewEnvActionControl & {
   actionTargetType: string
@@ -422,7 +422,7 @@ export type EnvActionSurveillance = EnvActionCommonProperties & {
   coverMissionZone?: boolean
   durationMatchesMission?: boolean
   observations: string | undefined | null
-  themes: EnvActionTheme[]
+  formattedControlPlans: FormattedControlPlans
 }
 
 export type EnvActionNote = EnvActionCommonProperties & {

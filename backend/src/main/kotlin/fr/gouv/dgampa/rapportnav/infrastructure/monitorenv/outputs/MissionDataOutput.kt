@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input
+package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity

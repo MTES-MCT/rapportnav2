@@ -1,8 +1,8 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionSurveillanceEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ThemeEntity
 import org.locationtech.jts.geom.Geometry
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -17,7 +17,7 @@ object EnvActionSurveillanceMock {
         geom: Geometry? = null,
         facade: String? = null,
         department: String? = null,
-        themes: List<ThemeEntity>? = null,
+        controlPlans: List<EnvActionControlPlanEntity>? = null,
         observations: String? = null,
         completion: ActionCompletionEnum = ActionCompletionEnum.COMPLETED,
         completedBy: String? = null,
@@ -31,7 +31,7 @@ object EnvActionSurveillanceMock {
             geom = geom,
             facade = facade,
             department = department,
-            themes = themes,
+            controlPlans = controlPlans,
             observations = observations,
             completion = completion,
             openBy = openBy,

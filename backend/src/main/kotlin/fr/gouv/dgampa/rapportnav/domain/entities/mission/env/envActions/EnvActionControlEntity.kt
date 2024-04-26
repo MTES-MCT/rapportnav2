@@ -20,7 +20,6 @@ data class EnvActionControlEntity(
     override val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
     override val isSeafarersControl: Boolean? = null,
     override val openBy: String? = null,
-    val themes: List<ThemeEntity>? = listOf(),
     val observations: String? = null,
     val actionNumberOfControls: Int? = null,
     val actionTargetType: ActionTargetTypeEnum? = null,

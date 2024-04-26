@@ -145,8 +145,8 @@ export const GET_MISSION_BY_ID = gql`
             vehicleType
             controlsToComplete
             availableControlTypesForInfraction
-            themes {
-              theme
+            formattedControlPlans {
+              themes
               subThemes
             }
             infractions {

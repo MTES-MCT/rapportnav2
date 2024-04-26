@@ -60,13 +60,15 @@ const ActionSurveillanceEnv: React.FC<ActionSurveillancePropsEnv> = ({ action })
         <Stack.Item style={{ width: '100%' }}>
           <Label>Thématique de contrôle</Label>
           <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-            {actionData?.themes[0]?.theme ?? 'inconnue'}
+            {actionData?.formattedControlPlans.themes[0] ?? 'inconnue'}
           </Text>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <Label>Sous-thématiques de contrôle</Label>
           <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-            {actionData?.themes[0]?.subThemes?.length ? actionData?.themes[0].subThemes?.join(', ') : 'inconnues'}
+            {actionData?.formattedControlPlans.subThemes?.length
+              ? actionData?.formattedControlPlans.themes?.join(', ')
+              : 'inconnues'}
           </Text>
         </Stack.Item>
 
@@ -76,10 +78,6 @@ const ActionSurveillanceEnv: React.FC<ActionSurveillancePropsEnv> = ({ action })
             {actionData?.observations || 'aucunes'}
           </Text>
         </Stack.Item>
-
-        {/*<Stack.Item style={{ width: '100%' }}>*/}
-        {/*  <Textarea label="Observations (unité)" isLight={true} name="observations" data-testid="observations" />*/}
-        {/*</Stack.Item>*/}
       </Stack>
     )
   }

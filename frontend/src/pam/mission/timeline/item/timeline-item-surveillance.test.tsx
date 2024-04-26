@@ -15,12 +15,10 @@ const actionMock = {
     actionType: ActionTypeEnum.SURVEILLANCE,
     observations: null,
     geom: 'MULTIPOINT ((-8.52318191 48.30305604))',
-    themes: [
-      {
-        subThemes: ['subtheme1', 'subtheme2'],
-        theme: 'environnement - police mouillage'
-      }
-    ]
+    formattedControlPlans: {
+      subThemes: ['subtheme1', 'subtheme2'],
+      themes: ['environnement - police mouillage']
+    }
   } as any as EnvAction
 }
 
@@ -43,15 +41,15 @@ describe('ActionEnvSurveillance', () => {
         ...actionMock,
         data: {
           ...actionMock.data,
-          themes: [
+          formattedControlPlans: [
             {
-              theme: undefined
+              themes: undefined
             }
           ]
         }
       }
       render(<ActionEnvSurveillance {...props(mock)} />)
-      expect(screen.getByTestId('theme').textContent).toEqual(' environnement marin')
+      expect(screen.getByTestId('theme').textContent).toEqual('environnement marin')
     })
   })
 })
