@@ -56,7 +56,7 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
             isLight={true}
             value={formData?.distanceInNauticalMiles}
             isErrorMessageHidden={true}
-            error={isMissionFinished && formData?.distanceInNauticalMiles === undefined ? 'error' : undefined}
+            error={isMissionFinished && !formData?.distanceInNauticalMiles ? 'error' : undefined}
             onChange={(nextValue?: number) => onChange('distanceInNauticalMiles', nextValue)}
             onBlur={() => onBlur()}
           />
@@ -70,7 +70,7 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
             isLight={true}
             value={formData?.consumedGOInLiters}
             isErrorMessageHidden={true}
-            error={isMissionFinished && formData?.consumedGOInLiters === undefined ? 'error' : undefined}
+            error={isMissionFinished && !formData?.consumedGOInLiters ? 'error' : undefined}
             onChange={(nextValue?: number) => onChange('consumedGOInLiters', nextValue)}
             onBlur={() => onBlur()}
           />
@@ -84,7 +84,7 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
             isLight={true}
             value={formData?.consumedFuelInLiters}
             isErrorMessageHidden={true}
-            error={isMissionFinished && formData?.consumedFuelInLiters === undefined ? 'error' : undefined}
+            error={isMissionFinished && !formData?.consumedFuelInLiters ? 'error' : undefined}
             onChange={(nextValue?: number) => onChange('consumedFuelInLiters', nextValue)}
             onBlur={() => onBlur()}
           />

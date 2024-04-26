@@ -10,6 +10,7 @@ import { Mission, MissionStatusEnum } from '../../types/mission-types.ts'
 import { formatMissionName } from './utils.ts'
 import MissionReportStatusTag from './mission-report-status-tag.tsx'
 import MissionPageHeaderBanner from './page-header-banner.tsx'
+import useIsMissionReportComplete from './use-is-mission-report-complete.tsx'
 
 const StyledHeader = styled.div`
   height: 60px;
@@ -35,8 +36,7 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
   onClickExport,
   exportLoading
 }) => {
-  // const exportRapportEnabled = useFlag('export_rapport')
-  const exportRapportEnabled = true
+  const exportRapportEnabled = useIsMissionReportComplete(mission?.id ? mission?.id.toString() : undefined)
 
   return (
     <>
@@ -73,7 +73,7 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
                     onClick={onClickExport}
                     role={'dl-mission-export'}
                     style={{
-                      display: exportRapportEnabled || mission?.status === MissionStatusEnum.ENDED ? 'visible' : 'none'
+                      display: exportRapportEnabled ? 'visible' : 'none'
                     }}
                   >
                     Exporter le rapport de la mission
