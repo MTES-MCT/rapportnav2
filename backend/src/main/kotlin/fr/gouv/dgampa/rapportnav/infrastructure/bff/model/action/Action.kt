@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Completion
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
@@ -10,7 +11,6 @@ import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlGensDeM
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlNavigation
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlSecurity
 import java.time.ZonedDateTime
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Completion
 
 data class Action(
     val id: Any?,
@@ -32,7 +32,7 @@ data class Action(
                     Action(
                         id = action.id,
                         missionId = missionId,
-                        isCompleteForStats = action.completion === ActionCompletionEnum.COMPLETED,
+                        isCompleteForStats = action.completion !== ActionCompletionEnum.TO_COMPLETE,
                         source = MissionSourceEnum.MONITORENV,
                         startDateTimeUtc = action.actionStartDateTimeUtc,
                         endDateTimeUtc = action.actionEndDateTimeUtc,
@@ -56,7 +56,7 @@ data class Action(
                     Action(
                         id = action.id,
                         missionId = missionId,
-                        isCompleteForStats = action.completion === ActionCompletionEnum.COMPLETED,
+                        isCompleteForStats = action.completion !== ActionCompletionEnum.TO_COMPLETE,
                         source = MissionSourceEnum.MONITORENV,
                         startDateTimeUtc = action.actionStartDateTimeUtc,
                         endDateTimeUtc = action.actionEndDateTimeUtc,
