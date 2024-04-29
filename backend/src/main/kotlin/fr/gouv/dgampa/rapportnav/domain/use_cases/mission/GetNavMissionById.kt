@@ -2,9 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.NavMissionEntity
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionControlRepository
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionFreeNoteRepository
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionStatusRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
@@ -18,6 +16,14 @@ class GetNavMissionById(
     private val attachControlsToActionControl: AttachControlsToActionControl,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val getAgentsCrewByMissionId: GetAgentsCrewByMissionId,
+    private val navRescueRepository: INavActionRescueRepository,
+    private val navNauticalEventRepository: INavActionNauticalEventRepository,
+    private val navVigimerRepository: INavActionVigimerRepository,
+    private val navAntiPollutionRepository: INavActionAntiPollutionRepository,
+    private val navBAAEMRepository: INavActionBAAEMRepository,
+    private val navPublicOrderRepository: INavActionPublicOrderRepository,
+    private val navRepresentationRepository: INavActionRepresentationRepository,
+    private val navIllegalImmigrationRepository: INavActionIllegalImmigrationRepository
 ) {
     private val logger = LoggerFactory.getLogger(GetNavMissionById::class.java)
 
@@ -40,12 +46,45 @@ class GetNavMissionById(
             .map { it.toActionFreeNoteEntity() }
             .map { it.toNavAction() }
 
-        val actions = controls + statuses + notes
         val generalInfo = getMissionGeneralInfoByMissionId.execute(missionId)
 
         val crew = getAgentsCrewByMissionId.execute(
             missionId = missionId
         )
+
+        val rescues = navRescueRepository.findAllByMissionId(missionId = missionId)
+            .map { it.toActionRescueEntity() }
+            .map { it.toNavAction() }
+
+        val nauticalEvents = navNauticalEventRepository.findAllByMissionId(missionId = missionId)
+            .map { it.toActionNauticalEventEntity() }
+            .map { it.toNavAction() }
+
+        val vigimers = navVigimerRepository.findAllByMissionId(missionId = missionId)
+            .map { it.toActionVigimerEntity() }
+            .map { it.toNavAction() }
+
+        val antiPollutions = navAntiPollutionRepository.findAllByMissionId(missionId = missionId)
+            .map { it.toAntiPollutionEntity() }
+            .map { it.toNavAction() }
+
+        val baaemPermanences = navBAAEMRepository.findAllByMissionId(missionId = missionId)
+            .map { it.toActionBAAEMPermanenceEntity() }
+            .map { it.toNavAction() }
+
+        val publicOrders = navPublicOrderRepository.findAllByMissionId(missionId = missionId)
+            .map { it.toPublicOrderEntity() }
+            .map { it.toNavAction() }
+
+        val representations = navRepresentationRepository.findAllByMissionId(missionId = missionId)
+            .map { it.toRepresentationEntity() }
+            .map { it.toNavAction() }
+
+        val illegalImmigrations = navIllegalImmigrationRepository.findAllByMissionId(missionId = missionId)
+            .map { it.toActionIllegalImmigrationEntity() }
+            .map { it.toNavAction() }
+
+        val actions = controls + statuses + notes + rescues + nauticalEvents + vigimers + antiPollutions + baaemPermanences + representations + publicOrders + illegalImmigrations
         val mission = NavMissionEntity(id = missionId, actions = actions, generalInfo = generalInfo, crew = crew)
         return mission
     }

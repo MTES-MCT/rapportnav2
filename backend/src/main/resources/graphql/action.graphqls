@@ -3,12 +3,29 @@ extend type Query {
 }
 
 extend type Mutation {
-  addOrUpdateStatus(statusAction: ActionStatusInput!): NavActionStatus!
-  deleteStatus(id: String!): Boolean!
-  addOrUpdateControl(controlAction: ActionControlInput!): NavActionControl!
-  deleteControl(id: String!): Boolean!
-  addOrUpdateFreeNote(freeNoteAction: ActionFreeNoteInput!): NavActionFreeNote
-  deleteFreeNote(id: String!): Boolean
+    addOrUpdateStatus(statusAction: ActionStatusInput!): NavActionStatus!
+    deleteStatus(id: String!): Boolean!
+    addOrUpdateControl(controlAction: ActionControlInput!): NavActionControl!
+    deleteControl(id: String!): Boolean!
+    addOrUpdateFreeNote(freeNoteAction: ActionFreeNoteInput!): NavActionFreeNote
+    deleteFreeNote(id: String!): Boolean
+    addOrUpdateActionRescue(rescueAction: ActionRescueInput!): NavActionRescue
+    addOrUpdateActionNauticalEvent(nauticalAction: ActionNauticalEventInput!): NavActionNauticalEvent
+    addOrUpdateActionVigimer(vigimerAction: ActionVigimerInput!): NavActionVigimer
+    addOrUpdateActionAntiPollution(antiPollutionAction: ActionAntiPollutionInput!): NavActionAntiPollution
+    addOrUpdateActionBAAEMPermanence(baaemPermanenceAction: ActionBAAEMPermanenceInput!): NavActionBAAEMPermanence
+    addOrUpdateActionPublicOrder(publicOrderAction: ActionPublicOrderInput!): NavActionPublicOrder
+    addOrUpdateActionRepresentation(representationAction: ActionRepresentationInput!): NavActionRepresentation
+    addOrUpdateActionIllegalImmigration(illegalImmigrationAction: ActionIllegalImmigrationInput!): NavActionIllegalImmigration
+    deleteRescue(id: String!): Boolean
+    deleteNauticalEvent(id: String!): Boolean
+    deleteVigimer(id: String!): Boolean
+    deleteBAAEMPermanence(id: String!): Boolean
+    deleteAntiPollution(id: String!): Boolean
+    deleteRepresentation(id: String!): Boolean
+    deletePublicOrder(id: String!): Boolean
+    deleteIllegalImmigration(id: String!): Boolean
+
 }
 
 type Action {
@@ -54,6 +71,89 @@ input ActionFreeNoteInput {
   observations: String
 }
 
+input ActionRescueInput {
+  id: String
+  missionId: Int!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  longitude: Float
+  latitude: Float
+  isVesselRescue: Boolean
+  isPersonRescue: Boolean
+  isVesselNoticed: Boolean
+  isVesselTowed: Boolean
+  observations: String
+  isInSRRorFollowedByCROSSMRCC: Boolean
+  numberPersonsRescued: Int
+  numberOfDeaths: Int
+  operationFollowsDEFREP: Boolean
+  locationDescription: String
+  isMigrationRescue: Boolean
+  nbAssistedVesselsReturningToShore: Int
+  nbOfVesselsTrackedWithoutIntervention: Int
+}
+
+input ActionNauticalEventInput {
+  id: String
+  missionId: Int!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+input ActionVigimerInput {
+  id: String
+  missionId: Int!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+input ActionAntiPollutionInput {
+  id: String
+  missionId: Int!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+input ActionBAAEMPermanenceInput {
+  id: String
+  missionId: Int!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+input ActionPublicOrderInput {
+  id: String
+  missionId: Int!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+input ActionRepresentationInput {
+  id: String
+  missionId: Int!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+input ActionIllegalImmigrationInput {
+  id: String
+  missionId: Int!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+  nbOfInterceptedVessels: Int
+  nbOfInterceptedMigrants: Int
+  nbOfSuspectedSmugglers: Int
+  latitude: Float
+  longitude: Float
+}
+
 enum MissionSource {
   MONITORENV
   MONITORFISH
@@ -63,11 +163,19 @@ enum MissionSource {
 }
 
 union ActionData =
-  FishActionData
-  | EnvActionData
-  | NavActionControl
-  | NavActionStatus
-  | NavActionFreeNote
+    FishActionData
+    | EnvActionData
+    | NavActionControl
+    | NavActionStatus
+    | NavActionFreeNote
+    | NavActionRescue
+    | NavActionNauticalEvent
+    | NavActionVigimer
+    | NavActionAntiPollution
+    | NavActionBAAEMPermanence
+    | NavActionPublicOrder
+    | NavActionRepresentation
+    | NavActionIllegalImmigration
 
 type NavActionStatus {
   id: String!
@@ -81,6 +189,90 @@ type NavActionFreeNote {
   id: String!
   startDateTimeUtc: String!
   observations: String
+}
+
+type NavActionRescue {
+  id: String!
+  missionId: String
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  longitude: Float
+  latitude: Float
+  isVesselRescue: Boolean
+  isPersonRescue: Boolean
+  isVesselNoticed: Boolean
+  isVesselTowed: Boolean
+  observations: String
+  isInSRRorFollowedByCROSSMRCC: Boolean
+  numberPersonsRescued: Int
+  numberOfDeaths: Int
+  operationFollowsDEFREP: Boolean
+  locationDescription: String
+  isMigrationRescue: Boolean
+  nbAssistedVesselsReturningToShore: Int
+  nbOfVesselsTrackedWithoutIntervention: Int
+
+}
+
+type NavActionNauticalEvent {
+  id: String!
+  missionId: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+type NavActionVigimer {
+  id: String!
+  missionId: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+type NavActionAntiPollution {
+  id: String!
+  missionId: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+type NavActionBAAEMPermanence {
+  id: String!
+  missionId: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+type NavActionPublicOrder {
+  id: String!
+  missionId: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+type NavActionRepresentation {
+  id: String!
+  missionId: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+}
+
+type NavActionIllegalImmigration {
+  id: String!
+  missionId: String!
+  startDateTimeUtc: String!
+  endDateTimeUtc: String
+  observations: String
+  nbOfInterceptedVessels: Int
+  nbOfInterceptedMigrants: Int
+  nbOfSuspectedSmugglers: Int
+  latitude: Float
+  longitude: Float
 }
 
 enum ActionStatusType {
@@ -141,12 +333,20 @@ enum VesselSize {
 }
 
 enum ActionType {
-  CONTROL
-  SURVEILLANCE
-  CONTACT
-  NOTE
-  STATUS
-  OTHER
+    CONTROL
+    SURVEILLANCE
+    CONTACT
+    NOTE
+    STATUS
+    OTHER
+    RESCUE
+    NAUTICAL_EVENT
+    VIGIMER
+    ANTI_POLLUTION
+    BAAEM_PERMANENCE
+    PUBLIC_ORDER
+    REPRESENTATION
+    ILLEGAL_IMMIGRATION
 }
 
 type EnvActionData {

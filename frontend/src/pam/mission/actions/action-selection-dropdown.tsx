@@ -1,6 +1,6 @@
 import { Dropdown, Icon } from '@mtes-mct/monitor-ui'
 import { ActionTypeEnum } from '../../../types/env-mission-types'
-import { FC } from 'react'
+import React, { FC } from "react";
 
 interface ActionSelectionDropdownProps {
   onSelect: (key: ActionTypeEnum) => void
@@ -18,8 +18,26 @@ const ActionSelectionDropdown: FC<ActionSelectionDropdownProps> = ({ onSelect })
       <Dropdown.Item Icon={Icon.Rescue} eventKey={ActionTypeEnum.RESCUE}>
         Ajouter une assistance / sauvetage
       </Dropdown.Item>
-      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.OTHER}>
-        Ajouter une autre activité de mission
+      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.NAUTICAL_EVENT}>
+        Manifestation nautique
+      </Dropdown.Item>
+      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.VIGIMER}>
+        Permanence Vigimer
+      </Dropdown.Item>
+      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.ANTI_POLLUTION}>
+        Opération de lutte anti-pollution
+      </Dropdown.Item>
+      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.BAAEM_PERMANENCE}>
+        Permanence BAAEM
+      </Dropdown.Item>
+      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.PUBLIC_ORDER}>
+        Maintien de l'ordre public
+      </Dropdown.Item>
+      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.REPRESENTATION}>
+        Representation
+      </Dropdown.Item>
+      <Dropdown.Item Icon={Icon.More} eventKey={ActionTypeEnum.ILLEGAL_IMMIGRATION}>
+        Lutte contre l'immigration irrégulière
       </Dropdown.Item>
     </Dropdown>
   )

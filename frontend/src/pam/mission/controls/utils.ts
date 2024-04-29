@@ -88,6 +88,17 @@ export const VESSEL_SIZE_OPTIONS = [
   }
 ]
 
+export const RESCUE_TYPE_OPTIONS = [
+  {
+    label: 'Assistance de navire en difficulté',
+    value: true
+  },
+  {
+    label: 'Sauvetage de la vie humaine',
+    value: false
+  }
+]
+
 export const controlTitle = (controlType: ControlType) => {
   switch (controlType) {
     case ControlType.ADMINISTRATIVE:

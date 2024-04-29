@@ -12,9 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeMissionData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetFishActionsByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsByActionId
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionControlInput
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionFreeNoteInput
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.ActionStatusInput
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.adapters.action.*
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.*
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Infraction
 import org.slf4j.LoggerFactory
@@ -41,6 +39,22 @@ class ActionController(
     private val fakeMissionData: FakeMissionData,
     private val addOrUpdateActionFreeNote: AddOrUpdateActionFreeNote,
     private val deleteActionFreeNote: DeleteActionFreeNote,
+    private val addOrUpdateActionRescue: AddOrUpdateActionRescue,
+    private val addOrUpdateActionNauticalEvent: AddOrUpdateActionNauticalEvent,
+    private val addOrUpdateActionVigimer: AddOrUpdateActionVigimer,
+    private val addOrUpdateActionAntiPollution: AddOrUpdateActionAntiPollution,
+    private val addOrUpdateActionBAAEMPermanence: AddOrUpdateActionBAAEMPermanence,
+    private val addOrUpdateActionPublicOrder: AddOrUpdateActionPublicOrder,
+    private val addOrUpdateActionRepresentation: AddOrUpdateActionRepresentation,
+    private val addOrUpdateActionIllegalImmigration: AddOrUpdateActionIllegalImmigration,
+    private val deleteActionIllegalImmigration: DeleteActionIllegalImmigration,
+    private val deleteActionVigimer: DeleteActionVigimer,
+    private val deleteActionBAAEMPermanence: DeleteActionBAAEMPermanence,
+    private val deleteActionRepresentation: DeleteActionRepresentation,
+    private val deleteActionNauticalEvent: DeleteActionNauticalEvent,
+    private val deleteActionPublicOrder: DeleteActionPublicOrder,
+    private val deleteActionRescue: DeleteActionRescue,
+    private val deleteActionAntiPollution: DeleteActionAntiPollution
 ) {
 
     private val logger = LoggerFactory.getLogger(ActionController::class.java)
@@ -185,6 +199,14 @@ class ActionController(
                 is NavActionControl -> ActionType.CONTROL
                 is NavActionStatus -> ActionType.STATUS
                 is NavActionFreeNote -> ActionType.NOTE
+                is NavActionRescue -> ActionType.RESCUE
+                is NavActionNauticalEvent -> ActionType.NAUTICAL_EVENT
+                is NavActionVigimer -> ActionType.VIGIMER
+                is NavActionAntiPollution -> ActionType.ANTI_POLLUTION
+                is NavActionBAAEMPermanence -> ActionType.BAAEM_PERMANENCE
+                is NavActionPublicOrder -> ActionType.PUBLIC_ORDER
+                is NavActionRepresentation -> ActionType.REPRESENTATION
+                is NavActionIllegalImmigration -> ActionType.ILLEGAL_IMMIGRATION
                 else -> ActionType.OTHER
 
             }
@@ -294,6 +316,93 @@ class ActionController(
     @MutationMapping
     fun deleteFreeNote(@Argument id: UUID): Boolean {
         return deleteActionFreeNote.execute(id)
+    }
+
+    @MutationMapping
+    fun addOrUpdateActionRescue(@Argument rescueAction: ActionRescueInput): NavActionRescue {
+        val data = rescueAction.toActionRescueEntity()
+        return addOrUpdateActionRescue.execute(data).toNavActionRescue()
+    }
+
+    @MutationMapping
+    fun addOrUpdateActionNauticalEvent(@Argument nauticalAction: ActionNauticalEventInput): NavActionNauticalEvent {
+        val data = nauticalAction.toActionNauticalEventEntity()
+        return addOrUpdateActionNauticalEvent.execute(data).toNavActionNauticalEvent()
+    }
+
+    @MutationMapping
+    fun addOrUpdateActionVigimer(@Argument vigimerAction: ActionVigimerInput): NavActionVigimer {
+        val data = vigimerAction.toActionVigimerEntity()
+        return addOrUpdateActionVigimer.execute(data).toNavActionVigimer()
+    }
+
+    @MutationMapping
+    fun addOrUpdateActionAntiPollution(@Argument antiPollutionAction: ActionAntiPollutionInput): NavActionAntiPollution {
+        val data = antiPollutionAction.toActionAntiPollutionEntity()
+        return addOrUpdateActionAntiPollution.execute(data).toNavActionAntiPollution()
+    }
+
+    @MutationMapping
+    fun addOrUpdateActionBAAEMPermanence(@Argument baaemPermanenceAction: ActionBAAEMPermanenceInput): NavActionBAAEMPermanence {
+        val data = baaemPermanenceAction.toActionBAAEMPermanenceEntity()
+        return addOrUpdateActionBAAEMPermanence.execute(data).toNavActionBAAEMPermanence()
+    }
+
+    @MutationMapping
+    fun addOrUpdateActionPublicOrder(@Argument publicOrderAction: ActionPublicOrderInput): NavActionPublicOrder {
+        val data = publicOrderAction.toActionPublicOrderEntity()
+        return addOrUpdateActionPublicOrder.execute(data).toNavActionPublicOrder()
+    }
+
+    @MutationMapping
+    fun addOrUpdateActionRepresentation(@Argument representationAction: ActionRepresentationInput): NavActionRepresentation {
+        val data = representationAction.toActionRepresentationEntity()
+        return addOrUpdateActionRepresentation.execute(data).toNavActionRepresentation()
+    }
+
+    @MutationMapping
+    fun addOrUpdateActionIllegalImmigration(@Argument illegalImmigrationAction: ActionIllegalImmigrationInput): NavActionIllegalImmigration {
+        val data = illegalImmigrationAction.toActionIllegalImmigrationEntity()
+        return addOrUpdateActionIllegalImmigration.execute(data).toNavActionIllegalImmigration()
+    }
+    @MutationMapping
+    fun deleteRescue(@Argument id: UUID): Boolean {
+        return deleteActionRescue.execute(id)
+    }
+
+    @MutationMapping
+    fun deleteNauticalEvent(@Argument id: UUID): Boolean {
+        return deleteActionNauticalEvent.execute(id)
+    }
+
+    @MutationMapping
+    fun deleteVigimer(@Argument id: UUID): Boolean {
+        return deleteActionVigimer.execute(id)
+    }
+
+    @MutationMapping
+    fun deleteBAAEMPermanence(@Argument id: UUID): Boolean {
+        return deleteActionBAAEMPermanence.execute(id)
+    }
+
+    @MutationMapping
+    fun deleteAntiPollution(@Argument id: UUID): Boolean {
+        return deleteActionAntiPollution.execute(id)
+    }
+
+    @MutationMapping
+    fun deleteRepresentation(@Argument id: UUID): Boolean {
+        return deleteActionRepresentation.execute(id)
+    }
+
+    @MutationMapping
+    fun deletePublicOrder(@Argument id: UUID): Boolean {
+        return deleteActionPublicOrder.execute(id)
+    }
+
+    @MutationMapping
+    fun deleteIllegalImmigration(@Argument id: UUID): Boolean {
+        return deleteActionIllegalImmigration.execute(id)
     }
 
 

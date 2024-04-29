@@ -12,7 +12,13 @@ data class NavActionEntity(
     val actionType: ActionType,
     val controlAction: ActionControlEntity? = null,
     val statusAction: ActionStatusEntity? = null,
-    val freeNoteAction: ActionFreeNoteEntity? = null
-) {
-
-}
+    val freeNoteAction: ActionFreeNoteEntity? = null,
+    val rescueAction: ActionRescueEntity? = null,
+    val nauticalEventAction: ActionNauticalEventEntity? = null,
+    val vigimerAction: ActionVigimerEntity? = null,
+    val baaemPermanenceAction: ActionBAAEMPermanenceEntity? = null,
+    val antiPollutionAction: ActionAntiPollutionEntity? = null,
+    val publicOrderAction: ActionPublicOrderEntity? = null,
+    val representationAction: ActionRepresentationEntity? = null,
+    val illegalImmigrationAction: ActionIllegalImmigrationEntity? = null
+)

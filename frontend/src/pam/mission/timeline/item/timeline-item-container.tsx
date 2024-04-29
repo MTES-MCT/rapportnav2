@@ -53,6 +53,47 @@ const ActionContact = createActionStyled({
   color: '#707785'
 })
 
+const ActionRescue = createActionStyled({
+  backgroundColor: THEME.color.goldenPoppy25,
+  borderColor: THEME.color.blueYonder25
+})
+
+const ActionVigimer = createActionStyled({
+  backgroundColor: THEME.color.blueYonder25,
+  borderColor: THEME.color.lightGray
+})
+
+const ActionNauticalEvent = createActionStyled({
+  backgroundColor: THEME.color.blueYonder25,
+  borderColor: THEME.color.lightGray
+})
+
+const ActionPublicOrder = createActionStyled({
+  backgroundColor: THEME.color.blueYonder25,
+  borderColor: THEME.color.lightGray
+})
+
+const ActionRepresentation = createActionStyled({
+  backgroundColor: THEME.color.blueYonder25,
+  borderColor: THEME.color.lightGray
+})
+
+const ActionAntiPollution = createActionStyled({
+  backgroundColor: THEME.color.blueYonder25,
+  borderColor: THEME.color.lightGray
+})
+
+const ActionBAAEMPermanence = createActionStyled({
+  backgroundColor: THEME.color.blueYonder25,
+  borderColor: THEME.color.lightGray
+})
+
+const ActionIllegalImmigration = createActionStyled({
+  backgroundColor: THEME.color.blueYonder25,
+  borderColor: THEME.color.lightGray
+})
+
+
 const getActionComponent = (
   actionSource: MissionSourceEnum,
   actionType?: ActionTypeEnum
@@ -81,6 +122,22 @@ const getActionComponent = (
         return ActionStatus
       case ActionTypeEnum.NOTE:
         return ActionNote
+      case ActionTypeEnum.VIGIMER:
+        return ActionVigimer
+      case ActionTypeEnum.NAUTICAL_EVENT:
+        return ActionNauticalEvent
+      case ActionTypeEnum.RESCUE:
+        return ActionRescue
+      case ActionTypeEnum.REPRESENTATION:
+        return ActionRepresentation
+      case ActionTypeEnum.PUBLIC_ORDER:
+        return ActionPublicOrder
+      case ActionTypeEnum.ANTI_POLLUTION:
+        return ActionAntiPollution
+      case ActionTypeEnum.BAAEM_PERMANENCE:
+        return ActionBAAEMPermanence
+      case ActionTypeEnum.ILLEGAL_IMMIGRATION:
+        return ActionIllegalImmigration
       default:
         return null
     }

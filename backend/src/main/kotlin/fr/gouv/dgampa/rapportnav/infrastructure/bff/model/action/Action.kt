@@ -45,12 +45,11 @@ data class Action(
                                 geom = action.geom,
                                 observations = action.observations,
                                 themes = action.themes,
-                                coverMissionZone = action.coverMissionZone,
+                                coverMissionZone = action.coverMissionZone
                             )
                         }
                     )
                 }
-
                 envAction?.controlAction != null -> {
                     val action = envAction.controlAction.action ?: return null
                     Action(
@@ -85,7 +84,6 @@ data class Action(
                         }
                     )
                 }
-
                 else -> null
             }
         }
@@ -175,6 +173,31 @@ data class Action(
 
                 navAction.freeNoteAction != null -> {
                     data = navAction.freeNoteAction.toNavActionFreeNote()
+                }
+
+                navAction.rescueAction != null -> {
+                    data = navAction.rescueAction.toNavActionRescue()
+                }
+                navAction.nauticalEventAction != null -> {
+                    data = navAction.nauticalEventAction.toNavActionNauticalEvent()
+                }
+                navAction.baaemPermanenceAction!= null -> {
+                    data = navAction.baaemPermanenceAction.toNavActionBAAEMPermanence()
+                }
+                navAction.vigimerAction != null -> {
+                    data = navAction.vigimerAction.toNavActionVigimer()
+                }
+                navAction.antiPollutionAction != null -> {
+                    data = navAction.antiPollutionAction.toNavActionAntiPollution()
+                }
+                navAction.publicOrderAction != null -> {
+                    data = navAction.publicOrderAction.toNavActionPublicOrder()
+                }
+                navAction.representationAction != null -> {
+                    data = navAction.representationAction.toNavActionRepresentation()
+                }
+                navAction.illegalImmigrationAction != null -> {
+                    data = navAction.illegalImmigrationAction.toNavActionIllegalImmigration()
                 }
             }
             return Action(

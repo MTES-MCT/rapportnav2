@@ -6,12 +6,19 @@ import { isEnvAction, isFishAction, isNavAction } from './utils'
 import ActionControlFish from './action-control-fish'
 import ActionControlNav from './action-control-nav'
 import ActionStatusForm from './action-status-form'
-import ActionNoteForm from './action-note-form.tsx'
+import ActionNoteForm from "./action-note-form.tsx";
 import ActionSurveillanceEnv from './action-surveillance-env.tsx'
 import ActionRescueForm from './action-rescue-form.tsx'
+import ActionNauticalEventForm from './action-nautical-event-form.tsx'
+import ActionVigimerForm from './action-vigimer-form.tsx'
+import ActionAntiPollutionForm from './action-anti-pollution-form.tsx'
+import ActionBAAEMPermanenceForm from './action-baaem-permanence-form.tsx'
+import ActionPublicOrderForm from './action-public-order-form.tsx'
+import ActionRepresentationForm from './action-representation-form.tsx'
+import ActionIllegalImmigrationForm from './action-illegal-immigration-form.tsx'
 
 export interface ActionDetailsProps {
-  action: Action
+action: Action
 }
 
 export const getComponentForAction = (action?: Action): FC<any> | null => {
@@ -43,6 +50,20 @@ export const getComponentForAction = (action?: Action): FC<any> | null => {
         return null
       case ActionTypeEnum.RESCUE:
         return ActionRescueForm
+      case ActionTypeEnum.NAUTICAL_EVENT:
+        return ActionNauticalEventForm
+      case ActionTypeEnum.VIGIMER:
+        return ActionVigimerForm
+      case ActionTypeEnum.ANTI_POLLUTION:
+        return ActionAntiPollutionForm
+      case ActionTypeEnum.BAAEM_PERMANENCE:
+        return ActionBAAEMPermanenceForm
+      case ActionTypeEnum.PUBLIC_ORDER:
+        return ActionPublicOrderForm
+      case ActionTypeEnum.REPRESENTATION:
+        return ActionRepresentationForm
+      case ActionTypeEnum.ILLEGAL_IMMIGRATION:
+        return ActionIllegalImmigrationForm
       case ActionTypeEnum.OTHER:
         return null
       default:

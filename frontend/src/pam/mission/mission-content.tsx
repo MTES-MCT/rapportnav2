@@ -13,10 +13,18 @@ import { ActionTypeEnum } from '../../types/env-mission-types'
 import ControlSelection from './controls/control-selection'
 import StatusSelectionDropdown from './status/status-selection-dropdown'
 import find from 'lodash/find'
-import { formatDateForServers, toLocalISOString } from '../../utils/dates.ts'
-import useAddOrUpdateControl from './actions/use-add-update-action-control.tsx'
-import useAddOrUpdateStatus from './status/use-add-update-status.tsx'
-import useAddOrUpdateNote from './notes/use-add-update-note.tsx'
+import { formatDateForServers, toLocalISOString } from "../../utils/dates.ts";
+import useAddOrUpdateControl from "./actions/use-add-update-action-control.tsx";
+import useAddOrUpdateStatus from "./status/use-add-update-status.tsx";
+import useAddOrUpdateNote from "./notes/use-add-update-note.tsx";
+import useAddOrUpdateRescue from './rescues/use-add-update-rescue.tsx'
+import useAddNauticalEvent from './others/nautical-event/use-add-nautical-event.tsx'
+import useAddVigimer from './others/vigimer/use-add-vigimer.tsx'
+import useAddAntiPollution from './others/anti-pollution/use-add-anti-pollution.tsx'
+import useAddOrUpdateBAAEMPermanence from './others/baaem/use-add-baaem-permanence.tsx'
+import useAddOrUpdatePublicOrder from './others/public-order/use-add-public-order.tsx'
+import useAddRepresentation from './others/representation/use-add-representation.tsx'
+import useAddIllegalImmigration from './others/illegal-immigration/use-add-illegal-immigration.tsx'
 
 export interface MissionProps {
   mission?: Mission
@@ -29,9 +37,18 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
 
   const [showControlTypesModal, setShowControlTypesModal] = useState<boolean>(false)
 
-  const [addStatus, { loading: addStatusLoading }] = useAddOrUpdateStatus()
-  const [addControl] = useAddOrUpdateControl()
-  const [addFreeNote] = useAddOrUpdateNote()
+
+    const [addStatus, {loading: addStatusLoading}] = useAddOrUpdateStatus()
+    const [addControl] = useAddOrUpdateControl()
+    const [addFreeNote] = useAddOrUpdateNote()
+    const [addActionRescue] = useAddOrUpdateRescue()
+    const [addActionNauticalEvent] = useAddNauticalEvent()
+    const [addActionVigimer] = useAddVigimer()
+    const [addActionAntiPollution] = useAddAntiPollution()
+    const [addActionBaaemPermanence] = useAddOrUpdateBAAEMPermanence()
+    const [addActionPublicOrder] = useAddOrUpdatePublicOrder()
+    const [addActionRepresentation] = useAddRepresentation()
+    const [addActionIllegalImmigration] = useAddIllegalImmigration()
 
   const selectedAction = useMemo(() => {
     if (actionId) {
@@ -43,15 +60,37 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
     navigate(`/pam/missions/${missionId}/${action.id}`)
   }
 
-  const addNewAction = async (key: ActionTypeEnum) => {
-    if (key === ActionTypeEnum.CONTROL) {
-      setShowControlTypesModal(true)
-    } else if (key === ActionTypeEnum.NOTE) {
-      await addNewFreeNote()
-    } else if (key === ActionTypeEnum.RESCUE) {
-      await addNewRescue()
+    const addNewAction = async (key: ActionTypeEnum) => {
+        if (key === ActionTypeEnum.CONTROL) {
+            setShowControlTypesModal(true)
+        } else if (key === ActionTypeEnum.NOTE) {
+            await addNewFreeNote()
+        }
+        else if (key === ActionTypeEnum.RESCUE) {
+          await addNewRescue()
+        }
+        else if (key === ActionTypeEnum.NAUTICAL_EVENT) {
+          await addNewNauticalEvent()
+        }
+        else if (key === ActionTypeEnum.VIGIMER) {
+          await addNewOther(ActionTypeEnum.VIGIMER)
+        }
+        else if (key === ActionTypeEnum.ANTI_POLLUTION) {
+          await addNewOther(ActionTypeEnum.ANTI_POLLUTION)
+        }
+        else if (key === ActionTypeEnum.BAAEM_PERMANENCE) {
+          await addNewOther(ActionTypeEnum.BAAEM_PERMANENCE)
+        }
+        else if (key === ActionTypeEnum.PUBLIC_ORDER) {
+          await addNewOther(ActionTypeEnum.PUBLIC_ORDER)
+        }
+        else if (key === ActionTypeEnum.REPRESENTATION) {
+          await addNewOther(ActionTypeEnum.REPRESENTATION)
+        }
+        else if (key === ActionTypeEnum.ILLEGAL_IMMIGRATION) {
+          await addNewOther(ActionTypeEnum.ILLEGAL_IMMIGRATION)
+        }
     }
-  }
 
   const addNewStatus = async (key: ActionStatusType) => {
     const newActionData = {
@@ -98,17 +137,73 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
     navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateFreeNote.id}`)
   }
 
-  const addNewRescue = async () => {
+    const addNewRescue = async () => {
+      setShowControlTypesModal(false)
+      const newRescue = {
+        missionId: parseInt(missionId!, 10),
+        startDateTimeUtc: formatDateForServers(toLocalISOString()),
+        endDateTimeUtc: formatDateForServers(toLocalISOString()),
+      }
+      const response = await addActionRescue({variables: {rescueAction: newRescue}})
+      navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionRescue.id}`)
+    }
+
+  const addNewNauticalEvent = async () => {
     setShowControlTypesModal(false)
-    const newRescue = {
+    const newNautical = {
       missionId: parseInt(missionId!, 10),
       startDateTimeUtc: formatDateForServers(toLocalISOString()),
-      endDateTimeUtc: formatDateForServers(toLocalISOString()),
-      data: {
-        geom: null
-      }
+      endDateTimeUtc: formatDateForServers(toLocalISOString())
     }
+    const response = await addActionNauticalEvent({variables: {nauticalAction: newNautical}})
+    navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionNauticalEvent.id}`)
   }
+
+  const addNewOther = async (type: ActionTypeEnum) => {
+    setShowControlTypesModal(false)
+    const newOther = {
+      missionId: parseInt(missionId!, 10),
+      startDateTimeUtc: formatDateForServers(toLocalISOString()),
+      endDateTimeUtc: formatDateForServers(toLocalISOString())
+    }
+
+    let response
+    switch (type) {
+      case ActionTypeEnum.VIGIMER:
+         response = await addActionVigimer({variables: {vigimerAction: newOther}})
+        navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionVigimer.id}`)
+        break
+      case ActionTypeEnum.BAAEM_PERMANENCE:
+         response = await addActionBaaemPermanence({variables: {baaemPermanenceAction: newOther}})
+        navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionBAAEMPermanence.id}`)
+        break
+      case ActionTypeEnum.ANTI_POLLUTION:
+         response = await addActionAntiPollution({variables: {antiPollutionAction: newOther}})
+        navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionAntiPollution.id}`)
+        break
+      case ActionTypeEnum.PUBLIC_ORDER:
+        response = await addActionPublicOrder({variables: {publicOrderAction: newOther}})
+        navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionPublicOrder.id}`)
+        break
+      case ActionTypeEnum.REPRESENTATION:
+        response = await addActionRepresentation({variables: {representationAction: newOther}})
+        navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionRepresentation.id}`)
+        break
+      case ActionTypeEnum.ILLEGAL_IMMIGRATION:
+        const newIllegalImmigration = {
+          missionId: parseInt(missionId!, 10),
+          startDateTimeUtc: formatDateForServers(toLocalISOString()),
+          endDateTimeUtc: formatDateForServers(toLocalISOString()),
+        }
+        response = await addActionIllegalImmigration({variables: {illegalImmigrationAction: newIllegalImmigration}})
+        navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionIllegalImmigration.id}`)
+        break
+      default:
+        break
+    }
+
+  }
+
 
   if (mission) {
     const MissionActionComponent = getComponentForAction(selectedAction)

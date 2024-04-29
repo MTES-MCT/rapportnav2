@@ -1,51 +1,61 @@
-import React, { useEffect, useState } from 'react'
+import React, { SetStateAction, useEffect, useState } from 'react'
 import {
   Accent,
-  Button,
-  Coordinates,
-  CoordinatesFormat,
-  CoordinatesInput,
+  Button, Checkbox, Coordinates, CoordinatesFormat, CoordinatesInput,
   DateRangePicker,
-  Icon,
-  Label,
+  Icon, Label, MultiRadio, NumberInput,
   Size,
   Textarea,
+  TextInput,
   THEME
 } from '@mtes-mct/monitor-ui'
 import { Action, ActionRescue } from '../../../types/action-types'
-import { Stack } from 'rsuite'
+import { Divider, FlexboxGrid, Stack, Toggle } from 'rsuite'
 import Text from '../../../ui/text'
-import { formatDateTimeForFrenchHumans } from '../../../utils/dates.ts'
 import { useNavigate, useParams } from 'react-router-dom'
+import useActionById from "./use-action-by-id.tsx";
+import { RESCUE_TYPE_OPTIONS } from '../controls/utils.ts'
 import omit from 'lodash/omit'
-import useActionById from './use-action-by-id.tsx'
-import useAddOrUpdateNote from '../notes/use-add-update-note.tsx'
-import useDeleteNote from '../notes/use-delete-note.tsx'
-import { extractLatLonFromMultiPoint } from '../../../utils/geometry.ts'
+import useAddUpdateRescue from '../rescues/use-add-update-rescue.tsx'
+import { isEqual } from 'lodash'
+import useDeleteRescue from '../rescues/use-delete-rescue.tsx'
+import FormGroup from 'rsuite/FormGroup'
+import { formatDateTimeForFrenchHumans } from '../../../utils/dates.ts'
 
 interface ActionRescueFormProps {
   action: Action
 }
 
-const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
+const ActionRescueForm: React.FC<ActionRescueFormProps> = ({action}) => {
   const navigate = useNavigate()
-  const { missionId, actionId } = useParams()
+  const {missionId, actionId} = useParams()
 
-  const { data: navAction, loading, error } = useActionById(actionId, missionId, action.source, action.type)
-  // const [mutateNote] = useAddOrUpdateNote()
-  //  const [deleteNote] = useDeleteNote()
+  const [outputValueWithBoolean, setOutputValueWithBoolean] = useState<boolean | undefined>(undefined);
+  const [showVesselStack, setShowVesselStack] = useState(false);
+  const [showPersonStack, setShowPersonStack] = useState(true);
+
+  const {data: navAction, loading, error} = useActionById(actionId, missionId, action.source, action.type)
+  const [mutateRescue] = useAddUpdateRescue()
+  const [deleteRescue] = useDeleteRescue()
 
   const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
 
+  const [locationObservationValue, setLocationObservationValue] = useState<string | undefined>(undefined)
+
   useEffect(() => {
     setObservationsValue(navAction?.data?.observations)
+    setLocationObservationValue(navAction?.data?.locationDescription)
   }, [navAction])
 
   if (loading) {
-    return <div>Chargement...</div>
+    return (
+      <div>Chargement...</div>
+    )
   }
   if (error) {
-    return <div>error</div>
+    return (
+      <div>error</div>
+    )
   }
   if (navAction) {
     const actionData = navAction?.data as ActionRescue
@@ -54,42 +64,91 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
       setObservationsValue(nextValue)
     }
 
+    const handleLocationObservationChange = (nextValue?: string) => {
+      setLocationObservationValue(nextValue)
+    }
+
+    const handleLocationDescriptionBlur = async () => {
+      await onChange('locationDescription', locationObservationValue)
+    }
+
+
+
     const handleObservationsBlur = async () => {
       await onChange('observations', observationsValue)
     }
 
     const onChange = async (field: string, value: any) => {
+      let updatedField: {}
+      if (field === 'dates') {
+        const startDateTimeUtc = value[0].toISOString()
+        const endDateTimeUtc = value[1].toISOString()
+        updatedField = {
+          startDateTimeUtc,
+          endDateTimeUtc
+        }
+      } else if (field === 'geoCoords') {
+        updatedField = {
+          latitude: value[0],
+          longitude: value[1]
+        }
+      } else {
+        updatedField = {
+          [field]: value
+        }
+      }
+
       const updatedData = {
         missionId: missionId,
-        ...omit(note, '__typename'),
-        [field]: value?.trim()
+        ...omit(actionData, [
+          '__typename',
+        ]),
+        startDateTimeUtc: navAction.startDateTimeUtc,
+        endDateTimeUtc: navAction.endDateTimeUtc,
+        ...updatedField
       }
-      //await mutateNote({variables: {freeNoteAction: updatedData}})
+
+      await mutateRescue({ variables: { rescueAction: updatedData } })
+    }
+
+    const toggleRescue = async (isChecked) => {
+      setOutputValueWithBoolean(isChecked)
+      if (isChecked) {
+        setShowVesselStack(true)
+        setShowPersonStack(false)
+        await onChange('isVesselRescue', true)
+        await onChange('isPersonRescue', false)
+      } else {
+        setShowVesselStack(false)
+        setShowPersonStack(true)
+        await onChange('isPersonRescue', true)
+        await onChange('isVesselRescue', false)
+      }
     }
 
     const deleteAction = async () => {
-      /** await deleteNote({
+      await deleteRescue({
         variables: {
           id: action.id!
         }
-      })**/
+      })
       navigate(`/pam/missions/${missionId}`)
     }
 
     return (
-      <form style={{ width: '100%' }} data-testid={'action-rescue-form'}>
-        <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
+      <form style={{width: '100%'}} data-testid={"action-rescue-form"}>
+        <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{width: '100%'}}>
           {/* TITLE AND BUTTONS */}
-          <Stack.Item style={{ width: '100%' }}>
-            <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
+          <Stack.Item style={{width: '100%'}}>
+            <Stack direction="row" spacing="0.5rem" style={{width: '100%'}}>
               <Stack.Item alignSelf="baseline">
-                <Icon.Note color={THEME.color.charcoal} size={20} />
+                <Icon.Rescue color={THEME.color.charcoal} size={20}/>
               </Stack.Item>
               <Stack.Item grow={2}>
                 <Stack direction="column" alignItems="flex-start">
                   <Stack.Item>
                     <Text as="h2" weight="bold">
-                      Assistance sauvetage
+                      Assistance et sauvetage {actionData.startDateTimeUtc && `(${formatDateTimeForFrenchHumans(actionData.startDateTimeUtc)})`}
                     </Text>
                   </Stack.Item>
                 </Stack>
@@ -97,18 +156,14 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
               <Stack.Item>
                 <Stack direction="row" spacing="0.5rem">
                   <Stack.Item>
-                    <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Duplicate} disabled>
+                    <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Duplicate}
+                            disabled>
                       Dupliquer
                     </Button>
                   </Stack.Item>
                   <Stack.Item>
-                    <Button
-                      accent={Accent.SECONDARY}
-                      size={Size.SMALL}
-                      Icon={Icon.Delete}
-                      onClick={deleteAction}
-                      data-testid={'deleteButton'}
-                    >
+                    <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Delete}
+                            onClick={deleteAction} data-testid={"deleteButton"}>
                       Supprimer
                     </Button>
                   </Stack.Item>
@@ -117,22 +172,17 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
             </Stack>
           </Stack.Item>
 
-          <Stack.Item style={{ width: '100%' }}>
-            <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
+          <Stack.Item style={{width: '100%'}}>
+            <Stack direction="row" spacing="0.5rem" style={{width: '100%'}}>
               <Stack.Item grow={1}>
                 <DateRangePicker
                   name="dates"
                   // defaultValue={[navAction.startDateTimeUtc ?? formatDateForServers(toLocalISOString()), navAction.endDateTimeUtc ?? formatDateForServers(new Date() as any)]}
-                  defaultValue={
-                    navAction.startDateTimeUtc && navAction.endDateTimeUtc
-                      ? [navAction.startDateTimeUtc, navAction.endDateTimeUtc]
-                      : undefined
-                  }
+                  defaultValue={navAction.startDateTimeUtc && navAction.endDateTimeUtc ? [navAction.startDateTimeUtc, navAction.endDateTimeUtc] : undefined}
                   label="Date et heure de début et de fin"
                   withTime={true}
                   isCompact={true}
                   isLight={true}
-                  role={'ok'}
                   onChange={async (nextValue?: [Date, Date] | [string, string]) => {
                     await onChange('dates', nextValue)
                   }}
@@ -141,17 +191,208 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
             </Stack>
           </Stack.Item>
 
-          <Stack.Item style={{ width: '100%' }}>
-            <Label>Lieu du contrôle</Label>
+          <Stack.Item style={{width: '100%'}}>
             <CoordinatesInput
-              defaultValue={(extractLatLonFromMultiPoint(actionData?.geom) as Coordinates) || undefined}
+              label={"Lieu de l'opération"}
+              name={"geoCoords"}
+              defaultValue={[
+                actionData?.latitude  as any,
+                actionData?.longitude  as any
+              ]}
               coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
-              // label="Lieu du contrôle"
-              // isLight={true}
-              disabled={true}
+               isLight={true}
+              disabled={false}
+              onChange={ async (nextCoordinates?: Coordinates, prevCoordinates?: Coordinates) => {
+                if (!isEqual(nextCoordinates, prevCoordinates)) {
+                  await onChange('geoCoords', nextCoordinates)
+                }
+              }}
+            />
+          </Stack.Item>
+
+          <Stack.Item style={{width: '100%'}}>
+            <TextInput label={"Précision concernant la localisation"}
+                       name={"locationDescription"}
+                       isLight={true}
+                       value={locationObservationValue}
+                       onChange={handleLocationObservationChange}
+                       onBlur={handleLocationDescriptionBlur}
+            />
+          </Stack.Item>
+
+          <Stack.Item style={{ width: '100%' }}>
+            <MultiRadio
+              value={actionData?.isVesselRescue ?? undefined}
+              label=""
+              name="myMultiRadioWithBooleans"
+              onChange={nextOptionValue => toggleRescue(nextOptionValue)}
+              options={RESCUE_TYPE_OPTIONS} />
+
+          </Stack.Item>
+
+
+        </Stack>
+        {showVesselStack && (
+          <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{width: '100%', marginTop:'35px'}} >
+            <Stack.Item>
+              <Toggle
+                checked={actionData?.operationFollowsDEFREP}
+                size="sm"
+                onChange={(checked: boolean) => onChange('operationFollowsDEFREP', checked)}
+              />
+            </Stack.Item>
+
+            <Stack.Item style={{marginBottom: 15}}>
+              <Checkbox
+                readOnly={false}
+                isLight
+                name="isVesselNoticed"
+                label="Le navire a été mis en demeure"
+                checked={actionData?.isVesselNoticed}
+                style={{marginBottom: 8}}
+                onChange={ async (nextValue) => {
+                  await onChange('isVesselNoticed', nextValue)
+                }}
+              />
+              <Checkbox
+                readOnly={false}
+                isLight
+                name="isVesselTowed"
+                label="Le navire a été remorqué"
+                checked={actionData?.isVesselTowed}
+                onChange={ async (nextValue) => {
+                  await onChange('isVesselTowed', nextValue)
+                }}
+              />
+            </Stack.Item>
+        </Stack>)}
+
+        {showPersonStack && (
+          <Stack>
+            <Stack.Item>
+              <Stack style={{width: '100%', marginBottom: 25, marginTop: 25}}>
+                <Stack.Item>
+                  <NumberInput
+                    style={{marginRight: 10}}
+                    label="Nb de personnes secourues"
+                    name="numberOfPersonRescued"
+                    placeholder="0"
+                    isLight={true}
+                    value={actionData?.numberPersonsRescued}
+                    onChange={ async (nextValue) => {
+                      await onChange('numberPersonsRescued', nextValue)
+                    }}
+                  />
+                </Stack.Item>
+                <Stack.Item>
+                  <NumberInput
+                    label="Nb de personnes disparues / décédées"
+                    name="numberOfDeaths"
+                    placeholder="0"
+                    isLight={true}
+                    value={actionData?.numberOfDeaths}
+                    onChange={ async (nextValue) => {
+                      await onChange('numberOfDeaths', nextValue)
+                    }}
+                  />
+                </Stack.Item>
+              </Stack>
+
+              <Stack.Item>
+                <Checkbox
+                  readOnly={false}
+                  isLight
+                  name="isInSRRorFollowedByCROSSMRCC"
+                  label="Opération en zone SRR ou suivie par un CROSS / MRCC"
+                  checked={actionData?.isInSRRorFollowedByCROSSMRCC}
+                  style={{marginBottom: 25}}
+                  onChange={ async (nextValue) => {
+                    await onChange('isInSRRorFollowedByCROSSMRCC', nextValue)
+                  }}
+                />
+              </Stack.Item>
+            </Stack.Item>
+
+
+
+
+          </Stack>)
+        }
+
+
+        <Stack>
+          <Stack.Item style={{width: '100%'}}>
+            <Textarea
+              label="Observations"
+              value={observationsValue}
+              isLight={true}
+              name="observations"
+              data-testid="observations"
+              onChange={handleObservationsChange}
+              onBlur={handleObservationsBlur}
             />
           </Stack.Item>
         </Stack>
+
+        <Stack>
+          <Stack.Item style={{width: '100%'}}>
+            <Divider style={{backgroundColor: THEME.color.charcoal}}/>
+          </Stack.Item>
+        </Stack>
+        {showPersonStack && (
+        <Stack style={{marginBottom: 15}}>
+          <Stack.Item style={{ width: '100%' }}>
+            <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
+              <Stack.Item>
+                {/* TODO add Toggle component to monitor-ui */}
+                <Toggle
+                  checked={!!actionData?.isMigrationRescue}
+                  size="sm"
+                  onChange={(checked: boolean) => onChange('isMigrationRescue', checked)}
+                />
+              </Stack.Item>
+              <Stack.Item alignSelf="flex-end">
+                <Label style={{ marginBottom: 0 }}>
+                  <b>Sauvetage dans le cadre d'un phénomène migratoire</b>
+                </Label>
+              </Stack.Item>
+            </Stack>
+          </Stack.Item>
+        </Stack>)}
+
+        {showPersonStack && (
+
+        <Stack>
+          <Stack.Item>
+            <NumberInput
+              label="Nb d'embarcations suivies sans nécessité d'intervention"
+              name="nbOfVesselsTrackedWithoutIntervention"
+              placeholder="0"
+              style={{marginRight: '8px'}}
+              isLight={true}
+              value={actionData?.nbOfVesselsTrackedWithoutIntervention}
+              onChange={ async (nextValue) => {
+                await onChange('nbOfVesselsTrackedWithoutIntervention', nextValue)
+              }}
+              disabled={!actionData?.isMigrationRescue}
+            />
+          </Stack.Item>
+          <Stack.Item>
+            <NumberInput
+              label="Nb d'embarcations assistées pour un retour à terre"
+              name="nbAssistedVesselsReturningToShore"
+              placeholder="0"
+              isLight={true}
+              value={actionData?.nbAssistedVesselsReturningToShore}
+              onChange={ async (nextValue) => {
+                await onChange('nbAssistedVesselsReturningToShore', nextValue)
+              }}
+              disabled={!actionData?.isMigrationRescue}
+            />
+          </Stack.Item>
+        </Stack>)}
+
+
       </form>
     )
   }

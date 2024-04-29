@@ -10,17 +10,17 @@ import { ActionTypeEnum, EnvAction, MissionSourceEnum, VesselSizeEnum, VesselTyp
 import { FishAction } from './fish-mission-types'
 
 export type Action = {
-  id?: any
-  missionId: number
-  type: ActionTypeEnum
-  source: MissionSourceEnum
-  status: ActionStatusType
-  startDateTimeUtc?: string
-  endDateTimeUtc?: string
-  summaryTags?: string[]
-  controlsToComplete?: ControlType[]
-  isCompleteForStats?: boolean
-  data: [EnvAction | FishAction | ActionStatus | ActionControl | ActionFreeNote | ActionSurveillance | ActionRescue]
+    id?: any
+    missionId: number
+    type: ActionTypeEnum
+    source: MissionSourceEnum
+    status: ActionStatusType
+    startDateTimeUtc?: string
+    endDateTimeUtc?: string
+    summaryTags?: string[]
+    controlsToComplete?: ControlType[]
+    isCompleteForStats?: boolean
+    data: [EnvAction | FishAction | ActionStatus | ActionControl | ActionFreeNote | ActionSurveillance | ActionRescue | ActionNauticalEvent | ActionVigimer | ActionAntiPollution | ActionBAAEMPermanence | ActionRepresentation | ActionPublicOrder | ActionIllegalImmigration]
 }
 
 export type ActionStatus = {
@@ -84,14 +84,78 @@ export type ActionSurveillance = {
   observations?: string
 }
 
+
 export type ActionRescue = {
   id: string
   startDateTimeUtc: string
   endDateTimeUtc: string
-  geom?: string
-  isNavireRescue: boolean
-  isPersonRescueNeeded: boolean
-  shipNoticeRequired: boolean
-  shipTowRequired: boolean
+  longitude: number
+  latitude: number
+  isVesselRescue: boolean
+  isPersonRescue: boolean
+  isInSRRorFollowedByCROSSMRCC: boolean
+  isVesselNoticed: boolean
+  isVesselTowed: boolean
+  numberPersonsRescued: number
+  numberOfDeaths: number
+  operationFollowsDEFREP: boolean
+  observations?: string
+  locationDescription?: string
+  isMigrationRescue: boolean
+  nbAssistedVesselsReturningToShore: number
+  nbOfVesselsTrackedWithoutIntervention: number
+}
+
+export type ActionNauticalEvent = {
+  id: string
+  startDateTimeUtc: string
+  endDateTimeUtc: string
   observations: string
+}
+
+export type ActionVigimer = {
+  id: string
+  startDateTimeUtc: string
+  endDateTimeUtc: string
+  observations: string
+}
+
+export type ActionAntiPollution = {
+  id: string
+  startDateTimeUtc: string
+  endDateTimeUtc: string
+  observations: string
+}
+
+export type ActionBAAEMPermanence = {
+  id: string
+  startDateTimeUtc: string
+  endDateTimeUtc: string
+  observations: string
+}
+
+export type ActionPublicOrder = {
+  id: string
+  startDateTimeUtc: string
+  endDateTimeUtc: string
+  observations: string
+}
+
+export type ActionRepresentation = {
+  id: string
+  startDateTimeUtc: string
+  endDateTimeUtc: string
+  observations: string
+}
+
+export type ActionIllegalImmigration = {
+  id: string
+  startDateTimeUtc: string
+  endDateTimeUtc: string
+  observations: string
+  nbOfInterceptedVessels?: number
+  nbOfInterceptedMigrants?: number
+  nbOfSuspectedSmugglers?: number
+  latitude?: number
+  longitude?: number
 }
