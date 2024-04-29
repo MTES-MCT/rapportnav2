@@ -41,36 +41,40 @@ class GetNavActionByIdAndMissionId(
             }
 
             ActionType.NOTE -> {
-                freeNoteActionsRepository.findById(id).orElse(null)?.toActionFreeNoteEntity()?.toNavAction()
+                freeNoteActionsRepository.findById(id).orElse(null)?.toActionFreeNoteEntity()?.toNavActionEntity()
             }
 
             ActionType.RESCUE -> {
-                rescueActionsRepository.findById(id).orElse(null)?.toActionRescueEntity()?.toNavAction()
+                rescueActionsRepository.findById(id).orElse(null)?.toActionRescueEntity()?.toNavActionEntity()
             }
 
             ActionType.NAUTICAL_EVENT -> {
-                nauticalEventRepository.findById(id).orElse(null)?.toActionNauticalEventEntity()?.toNavAction()
+                nauticalEventRepository.findById(id).orElse(null)?.toActionNauticalEventEntity()?.toNavActionEntity()
             }
 
             ActionType.VIGIMER -> {
-                vigimerRepository.findById(id).orElse(null)?.toActionVigimerEntity()?.toNavAction()
+                vigimerRepository.findById(id).orElse(null)?.toActionVigimerEntity()?.toNavActionEntity()
             }
 
             ActionType.BAAEM_PERMANENCE -> {
-                baaemRepository.findById(id).orElse(null)?.toActionBAAEMPermanenceEntity()?.toNavAction()
+                baaemRepository.findById(id).orElse(null)?.toActionBAAEMPermanenceEntity()?.toNavActionEntity()
             }
 
             ActionType.ANTI_POLLUTION -> {
-                antiPollutionRepository.findById(id).orElse(null)?.toAntiPollutionEntity()?.toNavAction()
+                antiPollutionRepository.findById(id).orElse(null)?.toAntiPollutionEntity()?.toNavActionEntity()
             }
+
             ActionType.PUBLIC_ORDER -> {
-                publicOrderRepository.findById(id).orElse(null)?.toPublicOrderEntity()?.toNavAction()
+                publicOrderRepository.findById(id).orElse(null)?.toPublicOrderEntity()?.toNavActionEntity()
             }
+
             ActionType.REPRESENTATION -> {
-                representationRepository.findById(id).orElse(null)?.toRepresentationEntity()?.toNavAction()
+                representationRepository.findById(id).orElse(null)?.toRepresentationEntity()?.toNavActionEntity()
             }
+
             ActionType.ILLEGAL_IMMIGRATION -> {
-                illegalImmigrationRepository.findById(id).orElse(null)?.toActionIllegalImmigrationEntity()?.toNavAction()
+                illegalImmigrationRepository.findById(id).orElse(null)?.toActionIllegalImmigrationEntity()
+                    ?.toNavActionEntity()
             }
 
             else -> null

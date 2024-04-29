@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionPublicOrderEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionPublicOrderRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionPublicOrderModel
@@ -13,8 +12,7 @@ import java.util.*
 @Repository
 class JPAActionPublicOrderRepository(
     private val dbActionPublicOrderRepository: IDBActionPublicOrderRepository,
-    private val mapper: ObjectMapper
-): INavActionPublicOrderRepository {
+) : INavActionPublicOrderRepository {
     override fun findAllByMissionId(missionId: Int): List<ActionPublicOrderModel> {
         return dbActionPublicOrderRepository.findAllByMissionId(missionId)
     }
@@ -26,7 +24,7 @@ class JPAActionPublicOrderRepository(
     @Transactional
     override fun save(publicOrderEntity: ActionPublicOrderEntity): ActionPublicOrderModel {
         return try {
-            val publicOrderModel = ActionPublicOrderModel.fromPublicOrder(publicOrderEntity.toNavActionPublicOrder(), mapper)
+            val publicOrderModel = ActionPublicOrderModel.fromPublicOrderEntity(publicOrderEntity)
             dbActionPublicOrderRepository.save(publicOrderModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating action public order", e)

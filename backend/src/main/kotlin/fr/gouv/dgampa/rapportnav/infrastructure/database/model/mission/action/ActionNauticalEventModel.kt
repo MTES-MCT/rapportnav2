@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionNauticalEventEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -19,6 +18,9 @@ data class ActionNauticalEventModel(
     @Column(name = "mission_id", nullable = false)
     var missionId: Int,
 
+    @Column(name = "is_complete_for_stats", nullable = true)
+    var isCompleteForStats: Boolean? = null,
+
     @Column(name = "start_datetime_utc", nullable = false)
     var startDateTimeUtc: ZonedDateTime,
 
@@ -33,6 +35,7 @@ data class ActionNauticalEventModel(
         return ActionNauticalEventEntity(
             id = id,
             missionId = missionId,
+            isCompleteForStats = isCompleteForStats,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
             observations = observations
@@ -40,14 +43,15 @@ data class ActionNauticalEventModel(
     }
 
     companion object {
-        fun fromNauticalEvent(nauticalEventAction: ActionNauticalEventEntity, mapper: ObjectMapper) = ActionNauticalEventModel(
-            id = nauticalEventAction.id,
-            missionId = nauticalEventAction.missionId,
-            startDateTimeUtc = nauticalEventAction.startDateTimeUtc,
-            endDateTimeUtc = nauticalEventAction.endDateTimeUtc,
-            observations = nauticalEventAction.observations
+        fun fromNauticalEventEntity(action: ActionNauticalEventEntity) = ActionNauticalEventModel(
+            id = action.id,
+            missionId = action.missionId,
+            isCompleteForStats = action.isCompleteForStats,
+            startDateTimeUtc = action.startDateTimeUtc,
+            endDateTimeUtc = action.endDateTimeUtc,
+            observations = action.observations
         )
-        }
     }
+}
 
 

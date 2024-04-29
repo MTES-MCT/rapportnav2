@@ -1,32 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Accent,
-  Button,
-  DatePicker, DateRangePicker,
-  Icon,
-  Size,
-  Textarea,
-  THEME
-} from '@mtes-mct/monitor-ui'
+import { DateRangePicker, Textarea } from '@mtes-mct/monitor-ui'
 import { Action, ActionNauticalEvent } from '../../../types/action-types'
 import { Stack } from 'rsuite'
-import Text from '../../../ui/text'
-import { formatDateTimeForFrenchHumans } from '../../../utils/dates.ts'
 import { useNavigate, useParams } from 'react-router-dom'
 import omit from 'lodash/omit'
-import useActionById from "./use-action-by-id.tsx";
+import useActionById from './use-action-by-id.tsx'
 import useAddOrUpdateNauticalEvent from '../others/nautical-event/use-add-nautical-event.tsx'
 import useDeleteNauticalEvent from '../others/nautical-event/use-delete-nautical-event.tsx'
+import useIsMissionFinished from '../use-is-mission-finished.tsx'
+import ActionHeader from './action-header.tsx'
 
 interface ActionNauticalEventFormProps {
   action: Action
 }
 
-const ActionNauticalEventForm: React.FC<ActionNauticalEventFormProps> = ({action}) => {
+const ActionNauticalEventForm: React.FC<ActionNauticalEventFormProps> = ({ action }) => {
   const navigate = useNavigate()
-  const {missionId, actionId} = useParams()
+  const { missionId, actionId } = useParams()
+  const isMissionFinished = useIsMissionFinished(missionId)
 
-  const {data: navAction, loading, error} = useActionById(actionId, missionId, action.source, action.type)
+  const { data: navAction, loading, error } = useActionById(actionId, missionId, action.source, action.type)
   const [mutateNauticalEvent] = useAddOrUpdateNauticalEvent()
   const [deleteNauticalEvent] = useDeleteNauticalEvent()
 
@@ -37,14 +30,10 @@ const ActionNauticalEventForm: React.FC<ActionNauticalEventFormProps> = ({action
   }, [navAction])
 
   if (loading) {
-    return (
-      <div>Chargement...</div>
-    )
+    return <div>Chargement...</div>
   }
   if (error) {
-    return (
-      <div>error</div>
-    )
+    return <div>error</div>
   }
   if (navAction) {
     const actionData = navAction?.data as unknown as ActionNauticalEvent
@@ -52,7 +41,6 @@ const ActionNauticalEventForm: React.FC<ActionNauticalEventFormProps> = ({action
     const handleObservationsChange = (nextValue?: string) => {
       setObservationsValue(nextValue)
     }
-
 
     const handleObservationsBlur = async () => {
       await onChange('observations', observationsValue)
@@ -75,9 +63,7 @@ const ActionNauticalEventForm: React.FC<ActionNauticalEventFormProps> = ({action
 
       const updatedData = {
         missionId: missionId,
-        ...omit(actionData, [
-          '__typename',
-        ]),
+        ...omit(actionData, ['__typename']),
         startDateTimeUtc: navAction.startDateTimeUtc,
         endDateTimeUtc: navAction.endDateTimeUtc,
         ...updatedField
@@ -96,52 +82,35 @@ const ActionNauticalEventForm: React.FC<ActionNauticalEventFormProps> = ({action
     }
 
     return (
-      <form style={{width: '100%'}} data-testid={"action-nautical-event-form"}>
-        <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{width: '100%'}}>
+      <form style={{ width: '100%' }} data-testid={'action-nautical-event-form'}>
+        <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
           {/* TITLE AND BUTTONS */}
-          <Stack.Item style={{width: '100%'}}>
-            <Stack direction="row" spacing="0.5rem" style={{width: '100%'}}>
-              <Stack.Item grow={2}>
-                <Stack direction="column" alignItems="flex-start">
-                  <Stack.Item>
-                    <Text as="h2" weight="bold">
-                      Manifestation nautique{' '}
-                      {actionData.startDateTimeUtc && `(${formatDateTimeForFrenchHumans(actionData.startDateTimeUtc)})`}
-                    </Text>
-                  </Stack.Item>
-                </Stack>
-              </Stack.Item>
-              <Stack.Item>
-                <Stack direction="row" spacing="0.5rem">
-                  <Stack.Item>
-                    <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Duplicate}
-                            disabled>
-                      Dupliquer
-                    </Button>
-                  </Stack.Item>
-                  <Stack.Item>
-                    <Button
-                      accent={Accent.PRIMARY}
-                      size={Size.SMALL}
-                      Icon={Icon.Delete}
-                      onClick={deleteAction}
-                      data-testid={'deleteButton'}
-                    >
-                      Supprimer
-                    </Button>
-                  </Stack.Item>
-                </Stack>
-              </Stack.Item>
-            </Stack>
+          <Stack.Item style={{ width: '100%' }}>
+            <ActionHeader
+              icon={undefined}
+              title={'Manifestation nautique'}
+              date={actionData.startDateTimeUtc}
+              onDelete={deleteAction}
+              showButtons={true}
+              showStatus={true}
+              missionStatus={navAction.status}
+              actionSource={action.source}
+              isMissionFinished={isMissionFinished}
+              isCompleteForStats={navAction.isCompleteForStats}
+            />
           </Stack.Item>
 
-          <Stack.Item style={{width: '100%'}}>
-            <Stack direction="row" spacing="0.5rem" style={{width: '100%'}}>
+          <Stack.Item style={{ width: '100%' }}>
+            <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
               <Stack.Item grow={1}>
                 <DateRangePicker
                   name="dates"
                   // defaultValue={[navAction.startDateTimeUtc ?? formatDateForServers(toLocalISOString()), navAction.endDateTimeUtc ?? formatDateForServers(new Date() as any)]}
-                  defaultValue={navAction.startDateTimeUtc && navAction.endDateTimeUtc ? [navAction.startDateTimeUtc, navAction.endDateTimeUtc] : undefined}
+                  defaultValue={
+                    navAction.startDateTimeUtc && navAction.endDateTimeUtc
+                      ? [navAction.startDateTimeUtc, navAction.endDateTimeUtc]
+                      : undefined
+                  }
                   label="Date et heure de début et de fin"
                   withTime={true}
                   isCompact={true}
@@ -154,7 +123,7 @@ const ActionNauticalEventForm: React.FC<ActionNauticalEventFormProps> = ({action
             </Stack>
           </Stack.Item>
 
-          <Stack.Item style={{width: '100%'}}>
+          <Stack.Item style={{ width: '100%' }}>
             <Textarea
               label="Observations"
               value={observationsValue}

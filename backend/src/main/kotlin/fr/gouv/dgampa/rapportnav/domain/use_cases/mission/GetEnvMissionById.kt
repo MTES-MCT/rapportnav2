@@ -33,7 +33,18 @@ class GetEnvMissionById(
 ) {
     private val logger = LoggerFactory.getLogger(GetEnvMissionById::class.java)
 
-    private fun getFakeActions(): List<EnvActionControlEntity> {
+    private fun getFakeSurveillance(): List<EnvActionSurveillanceEntity> {
+        val envMissionActionSurveillance1 = EnvActionSurveillanceEntity(
+            id = UUID.randomUUID(),
+            actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-17T04:50:09Z"),
+            actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-17T06:50:09Z"),
+            completion = ActionCompletionEnum.COMPLETED
+        )
+
+        return listOf(envMissionActionSurveillance1)
+    }
+
+    private fun getFakeControls(): List<EnvActionControlEntity> {
         val controlTheme1 = ThemeEntity(
             theme = "Rejets illicites",
             subThemes = listOf("avitaillement", "soutage"),
@@ -156,16 +167,6 @@ class GetEnvMissionById(
             isComplianceWithWaterRegulationsControl = true,
             infractions = listOf(),
         )
-//        val envMissionActionSurveillance = EnvActionSurveillanceEntity(
-//            id = UUID.randomUUID(),
-//            actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-17T04:50:09Z"),
-//            actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-17T06:50:09Z")
-//        )
-//        val envMissionActionNote = EnvActionNoteEntity(
-//            id = UUID.randomUUID(),
-//            actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-18T04:50:09Z"),
-//            actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-18T06:50:09Z")
-//        )
 
         return listOf(envActionControl1, envMissionActionControl1, envMissionActionControl2, envMissionActionControl3)
     }
@@ -196,8 +197,7 @@ class GetEnvMissionById(
             return null
 
 //            var envMission = getEnvMissions.mockedMissions.find { missionId == it.id }!!
-//            envMission.envActions = this.getFakeActions()
-//
+//            envMission.envActions = this.getFakeControls() + this.getFakeSurveillance()
 //            return ExtendedEnvMissionEntity.fromEnvMission(envMission)
         }
 

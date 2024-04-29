@@ -44,7 +44,7 @@ class GetNavMissionById(
 
         val notes = navFreeNoteRepository.findAllByMissionId(missionId = missionId)
             .map { it.toActionFreeNoteEntity() }
-            .map { it.toNavAction() }
+            .map { it.toNavActionEntity() }
 
         val generalInfo = getMissionGeneralInfoByMissionId.execute(missionId)
 
@@ -54,37 +54,38 @@ class GetNavMissionById(
 
         val rescues = navRescueRepository.findAllByMissionId(missionId = missionId)
             .map { it.toActionRescueEntity() }
-            .map { it.toNavAction() }
+            .map { it.toNavActionEntity() }
 
         val nauticalEvents = navNauticalEventRepository.findAllByMissionId(missionId = missionId)
             .map { it.toActionNauticalEventEntity() }
-            .map { it.toNavAction() }
+            .map { it.toNavActionEntity() }
 
         val vigimers = navVigimerRepository.findAllByMissionId(missionId = missionId)
             .map { it.toActionVigimerEntity() }
-            .map { it.toNavAction() }
+            .map { it.toNavActionEntity() }
 
         val antiPollutions = navAntiPollutionRepository.findAllByMissionId(missionId = missionId)
             .map { it.toAntiPollutionEntity() }
-            .map { it.toNavAction() }
+            .map { it.toNavActionEntity() }
 
         val baaemPermanences = navBAAEMRepository.findAllByMissionId(missionId = missionId)
             .map { it.toActionBAAEMPermanenceEntity() }
-            .map { it.toNavAction() }
+            .map { it.toNavActionEntity() }
 
         val publicOrders = navPublicOrderRepository.findAllByMissionId(missionId = missionId)
             .map { it.toPublicOrderEntity() }
-            .map { it.toNavAction() }
+            .map { it.toNavActionEntity() }
 
         val representations = navRepresentationRepository.findAllByMissionId(missionId = missionId)
             .map { it.toRepresentationEntity() }
-            .map { it.toNavAction() }
+            .map { it.toNavActionEntity() }
 
         val illegalImmigrations = navIllegalImmigrationRepository.findAllByMissionId(missionId = missionId)
             .map { it.toActionIllegalImmigrationEntity() }
-            .map { it.toNavAction() }
+            .map { it.toNavActionEntity() }
 
-        val actions = controls + statuses + notes + rescues + nauticalEvents + vigimers + antiPollutions + baaemPermanences + representations + publicOrders + illegalImmigrations
+        val actions =
+            controls + statuses + notes + rescues + nauticalEvents + vigimers + antiPollutions + baaemPermanences + representations + publicOrders + illegalImmigrations
         val mission = NavMissionEntity(id = missionId, actions = actions, generalInfo = generalInfo, crew = crew)
         return mission
     }

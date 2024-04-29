@@ -1,8 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionPublicOrderEntity
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.NavActionPublicOrder
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -20,6 +18,9 @@ data class ActionPublicOrderModel(
     @Column(name = "mission_id", nullable = false)
     var missionId: Int,
 
+    @Column(name = "is_complete_for_stats", nullable = true)
+    var isCompleteForStats: Boolean? = null,
+
     @Column(name = "start_datetime_utc", nullable = false)
     var startDateTimeUtc: ZonedDateTime,
 
@@ -34,6 +35,7 @@ data class ActionPublicOrderModel(
         return ActionPublicOrderEntity(
             id = id,
             missionId = missionId,
+            isCompleteForStats = isCompleteForStats,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
             observations = observations
@@ -41,14 +43,15 @@ data class ActionPublicOrderModel(
     }
 
     companion object {
-        fun fromPublicOrder(publicOrder: NavActionPublicOrder, mapper: ObjectMapper) = ActionPublicOrderModel(
-            id = publicOrder.id,
-            missionId = publicOrder.missionId,
-            startDateTimeUtc = publicOrder.startDateTimeUtc,
-            endDateTimeUtc = publicOrder.endDateTimeUtc,
-            observations = publicOrder.observations
+        fun fromPublicOrderEntity(action: ActionPublicOrderEntity) = ActionPublicOrderModel(
+            id = action.id,
+            missionId = action.missionId,
+            isCompleteForStats = action.isCompleteForStats,
+            startDateTimeUtc = action.startDateTimeUtc,
+            endDateTimeUtc = action.endDateTimeUtc,
+            observations = action.observations
         )
-        }
     }
+}
 
 

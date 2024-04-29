@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionAntiPollutionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionAntiPollutionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionAntiPollutionModel
@@ -13,8 +12,7 @@ import java.util.*
 @Repository
 class JPAActionAntiPollutionRepository(
     private val dbActionAntipollutionRepository: IDBActionAntiPollutionRepository,
-    private val mapper: ObjectMapper
-): INavActionAntiPollutionRepository {
+) : INavActionAntiPollutionRepository {
     override fun findAllByMissionId(missionId: Int): List<ActionAntiPollutionModel> {
         return dbActionAntipollutionRepository.findAllByMissionId(missionId)
     }
@@ -26,7 +24,7 @@ class JPAActionAntiPollutionRepository(
     @Transactional
     override fun save(antiPollutionEntity: ActionAntiPollutionEntity): ActionAntiPollutionModel {
         return try {
-            val antiPollutionModel = ActionAntiPollutionModel.fromAntiPollution(antiPollutionEntity.toNavActionAntiPollution(), mapper)
+            val antiPollutionModel = ActionAntiPollutionModel.fromAntiPollutionEntity(antiPollutionEntity)
             dbActionAntipollutionRepository.save(antiPollutionModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating action vigimer", e)

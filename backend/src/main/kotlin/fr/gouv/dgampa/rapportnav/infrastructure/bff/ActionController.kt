@@ -207,8 +207,6 @@ class ActionController(
                 is NavActionPublicOrder -> ActionType.PUBLIC_ORDER
                 is NavActionRepresentation -> ActionType.REPRESENTATION
                 is NavActionIllegalImmigration -> ActionType.ILLEGAL_IMMIGRATION
-                else -> ActionType.OTHER
-
             }
         }
         return ActionType.OTHER
@@ -365,6 +363,7 @@ class ActionController(
         val data = illegalImmigrationAction.toActionIllegalImmigrationEntity()
         return addOrUpdateActionIllegalImmigration.execute(data).toNavActionIllegalImmigration()
     }
+
     @MutationMapping
     fun deleteRescue(@Argument id: UUID): Boolean {
         return deleteActionRescue.execute(id)
