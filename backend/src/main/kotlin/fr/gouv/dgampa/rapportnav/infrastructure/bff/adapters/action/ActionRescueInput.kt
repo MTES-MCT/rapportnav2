@@ -13,16 +13,19 @@ class ActionRescueInput(
     val endDateTimeUtc: String? = null,
     val latitude: Float? = null,
     val longitude: Float? = null,
-    val isVesselRescue: Boolean = false,
-    val isPersonRescue: Boolean = false,
-    val isVesselNoticed: Boolean = false,
-    val isVesselTowed: Boolean = false,
+    val isVesselRescue: Boolean? = false,
+    val isPersonRescue: Boolean? = false,
+    val isVesselNoticed: Boolean? = false,
+    val isVesselTowed: Boolean? = false,
     val observations: String?,
     val isInSRRorFollowedByCROSSMRCC: Boolean? = false,
     val numberPersonsRescued: Int? = null,
     val numberOfDeaths: Int? = null,
-    val operationFollowsDEFREP: Boolean = false,
-    val locationDescription: String? = null
+    val operationFollowsDEFREP: Boolean? = false,
+    val locationDescription: String? = null,
+    val isMigrationRescue: Boolean? = false,
+    val nbOfVesselsTrackedWithoutIntervention: Int? = null,
+    val nbAssistedVesselsReturningToShore: Int? = null,
 )
 {
     fun toActionRescueEntity(): ActionRescueEntity {
@@ -46,7 +49,10 @@ class ActionRescueInput(
             latitude = latitude,
             isInSRRorFollowedByCROSSMRCC = isInSRRorFollowedByCROSSMRCC,
             numberPersonsRescued = numberPersonsRescued,
-            locationDescription = locationDescription
+            locationDescription = locationDescription,
+            isMigrationRescue = isMigrationRescue,
+            nbOfVesselsTrackedWithoutIntervention = nbOfVesselsTrackedWithoutIntervention,
+            nbAssistedVesselsReturningToShore = nbAssistedVesselsReturningToShore,
         )
     }
 }

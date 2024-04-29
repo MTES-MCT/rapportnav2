@@ -44,6 +44,8 @@ export const GET_MISSION_TIMELINE = gql`
                         id
                         startDateTimeUtc
                         observations
+                        isPersonRescue
+                        isVesselRescue
                     }
                     ... on NavActionNauticalEvent {
                         id

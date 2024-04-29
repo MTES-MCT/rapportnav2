@@ -87,6 +87,9 @@ input ActionRescueInput {
   numberOfDeaths: Int
   operationFollowsDEFREP: Boolean
   locationDescription: String
+  isMigrationRescue: Boolean
+  nbAssistedVesselsReturningToShore: Int
+  nbOfVesselsTrackedWithoutIntervention: Int
 }
 
 input ActionNauticalEventInput {
@@ -204,6 +207,10 @@ type NavActionRescue {
   numberOfDeaths: Int
   operationFollowsDEFREP: Boolean
   locationDescription: String
+  isMigrationRescue: Boolean
+  nbAssistedVesselsReturningToShore: Int
+  nbOfVesselsTrackedWithoutIntervention: Int
+
 }
 
 type NavActionNauticalEvent {

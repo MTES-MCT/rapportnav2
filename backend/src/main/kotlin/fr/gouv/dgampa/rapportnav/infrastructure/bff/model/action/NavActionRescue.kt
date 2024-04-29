@@ -11,14 +11,17 @@ data class NavActionRescue(
     val latitude: Float? = null,
     val longitude: Float? = null,
     val observations: String? = null,
-    val isVesselRescue: Boolean = false,
-    val isPersonRescue: Boolean = false,
-    val isVesselTowed: Boolean = false,
+    val isVesselRescue: Boolean? = false,
+    val isPersonRescue: Boolean? = false,
+    val isVesselTowed: Boolean? = false,
     val isInSRRorFollowedByCROSSMRCC: Boolean? = false,
-    val isVesselNoticed: Boolean = false,
+    val isVesselNoticed: Boolean? = false,
     val numberPersonsRescued: Int? = null,
     val numberOfDeaths: Int? = null,
-    val operationFollowsDEFREP: Boolean = false,
-    val locationDescription: String? = null
+    val operationFollowsDEFREP: Boolean? = false,
+    val locationDescription: String? = null,
+    val isMigrationRescue: Boolean? = false,
+    val nbAssistedVesselsReturningToShore: Int? = null,
+    val nbOfVesselsTrackedWithoutIntervention: Int? = null,
 
 ): ActionData()

@@ -98,9 +98,12 @@ export type ActionRescue = {
   isVesselTowed: boolean
   numberPersonsRescued: number
   numberOfDeaths: number
-  isOperationFollowedByDEFREP: boolean
+  operationFollowsDEFREP: boolean
   observations?: string
   locationDescription?: string
+  isMigrationRescue: boolean
+  nbAssistedVesselsReturningToShore: number
+  nbOfVesselsTrackedWithoutIntervention: number
 }
 
 export type ActionNauticalEvent = {

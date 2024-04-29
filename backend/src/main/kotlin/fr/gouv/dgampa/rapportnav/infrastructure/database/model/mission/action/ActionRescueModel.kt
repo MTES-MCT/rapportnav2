@@ -30,22 +30,22 @@ class ActionRescueModel(
     @Column(name = "longitude", nullable = true)
     var longitude: Float? = null,
 
-    @Column(name = "is_vessel_rescue", nullable = false)
-    val isVesselRescue: Boolean = false,
+    @Column(name = "is_vessel_rescue", nullable = true)
+    val isVesselRescue: Boolean? = false,
 
-    @Column(name = "is_person_rescue", nullable = false)
-    val isPersonRescue: Boolean = false,
+    @Column(name = "is_person_rescue", nullable = true)
+    val isPersonRescue: Boolean? = false,
 
-    @Column(name = "is_vessel_noticed", nullable = false)
-    val isVesselNoticed: Boolean = false,
+    @Column(name = "is_vessel_noticed", nullable = true)
+    val isVesselNoticed: Boolean? = false,
 
-    @Column(name = "is_vessel_towed", nullable = false)
-    val isVesselTowed: Boolean = false,
+    @Column(name = "is_vessel_towed", nullable = true)
+    val isVesselTowed: Boolean? = false,
 
     @Column(name = "observations", nullable = true)
     val observations: String?,
 
-    @Column(name = "is_in_srr_or_followed_by_cross_mrcc", nullable = false)
+    @Column(name = "is_in_srr_or_followed_by_cross_mrcc", nullable = true)
     val isInSRRorFollowedByCROSSMRCC: Boolean? = false,
 
     @Column(name = "number_persons_rescued", nullable = true)
@@ -54,11 +54,21 @@ class ActionRescueModel(
     @Column(name = "number_of_deaths", nullable = true)
     val numberOfDeaths: Int?,
 
-    @Column(name = "operation_follows_defrep", nullable = false)
-    val operationFollowsDEFREP: Boolean = false,
+    @Column(name = "operation_follows_defrep", nullable = true)
+    val operationFollowsDEFREP: Boolean? = false,
 
     @Column(name = "location_description", nullable = true)
-    val locationDescription: String? = null
+    val locationDescription: String? = null,
+
+    @Column(name = "is_migration_rescue", nullable = true)
+    val isMigrationRescue: Boolean? = false,
+
+    @Column(name = "nb_vessels_tracked_without_intervention", nullable = true)
+    var nbOfVesselsTrackedWithoutIntervention: Int? = null,
+
+    @Column(name = "nb_assisted_vessels_returning_to_shore", nullable = true)
+    val nbAssistedVesselsReturningToShore: Int? = null,
+
 ){
 
     fun toActionRescueEntity(): ActionRescueEntity {
@@ -78,7 +88,10 @@ class ActionRescueModel(
             isPersonRescue = isPersonRescue,
             isInSRRorFollowedByCROSSMRCC = isInSRRorFollowedByCROSSMRCC,
             missionId = missionId,
-            locationDescription = locationDescription
+            locationDescription = locationDescription,
+            isMigrationRescue = isMigrationRescue,
+            nbOfVesselsTrackedWithoutIntervention = nbOfVesselsTrackedWithoutIntervention,
+            nbAssistedVesselsReturningToShore = nbAssistedVesselsReturningToShore,
         )
     }
 
@@ -99,7 +112,10 @@ class ActionRescueModel(
             longitude = rescueAction.longitude,
             locationDescription = rescueAction.locationDescription,
             endDateTimeUtc = rescueAction.endDateTimeUtc,
-            operationFollowsDEFREP = rescueAction.operationFollowsDEFREP
+            operationFollowsDEFREP = rescueAction.operationFollowsDEFREP,
+            isMigrationRescue = rescueAction.isMigrationRescue,
+            nbOfVesselsTrackedWithoutIntervention = rescueAction.nbOfVesselsTrackedWithoutIntervention,
+            nbAssistedVesselsReturningToShore = rescueAction.nbAssistedVesselsReturningToShore,
         )
     }
 }

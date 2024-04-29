@@ -221,6 +221,11 @@ export const GET_ACTION_BY_ID = gql`
                     numberPersonsRescued
                     isVesselTowed
                     isVesselNoticed
+                    isInSRRorFollowedByCROSSMRCC
+                    operationFollowsDEFREP
+                    isMigrationRescue
+                    nbAssistedVesselsReturningToShore
+                    nbOfVesselsTrackedWithoutIntervention
                 }
                 ... on NavActionNauticalEvent {
                     id

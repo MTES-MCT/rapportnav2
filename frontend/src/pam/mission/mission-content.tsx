@@ -143,16 +143,6 @@ const MissionContent: React.FC<MissionProps> = ({mission}) => {
         missionId: parseInt(missionId!, 10),
         startDateTimeUtc: formatDateForServers(toLocalISOString()),
         endDateTimeUtc: formatDateForServers(toLocalISOString()),
-        isVesselRescue: false,
-        isPersonRescue: false,
-        isVesselNoticed: false,
-        longitude: 0.0,
-        latitude: 0.0,
-        isInSRRorFollowedByCROSSMRCC: false,
-        isVesselTowed: false,
-        numberPersonsRescued: 0,
-        numberOfDeaths: 0,
-        operationFollowsDEFREP: false
       }
       const response = await addActionRescue({variables: {rescueAction: newRescue}})
       navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionRescue.id}`)
