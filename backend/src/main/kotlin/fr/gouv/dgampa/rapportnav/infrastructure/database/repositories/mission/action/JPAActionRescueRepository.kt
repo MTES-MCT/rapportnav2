@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionRescueEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionRescueRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionRescueModel
@@ -13,8 +12,7 @@ import java.util.*
 @Repository
 class JPAActionRescueRepository(
     private val dbActionRescueRepository: IDBActionRescueRepository,
-    private val mapper: ObjectMapper
-): INavActionRescueRepository {
+) : INavActionRescueRepository {
     override fun findAllByMissionId(missionId: Int): List<ActionRescueModel> {
         return dbActionRescueRepository.findAllByMissionId(missionId)
     }
@@ -26,7 +24,7 @@ class JPAActionRescueRepository(
     @Transactional
     override fun save(rescueAction: ActionRescueEntity): ActionRescueModel {
         return try {
-            val rescueModel = ActionRescueModel.fromActionRescue(rescueAction, mapper)
+            val rescueModel = ActionRescueModel.fromActionRescueEntity(rescueAction)
             dbActionRescueRepository.save(rescueModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating action rescue", e)

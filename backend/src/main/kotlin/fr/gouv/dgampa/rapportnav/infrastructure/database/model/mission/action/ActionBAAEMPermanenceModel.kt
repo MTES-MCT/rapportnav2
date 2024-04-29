@@ -1,8 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionBAAEMPermanenceEntity
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.NavActionBAAEMPermanence
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -20,6 +18,9 @@ data class ActionBAAEMPermanenceModel(
     @Column(name = "mission_id", nullable = false)
     var missionId: Int,
 
+    @Column(name = "is_complete_for_stats", nullable = true)
+    var isCompleteForStats: Boolean? = null,
+
     @Column(name = "start_datetime_utc", nullable = false)
     var startDateTimeUtc: ZonedDateTime,
 
@@ -34,6 +35,7 @@ data class ActionBAAEMPermanenceModel(
         return ActionBAAEMPermanenceEntity(
             id = id,
             missionId = missionId,
+            isCompleteForStats = isCompleteForStats,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
             observations = observations
@@ -41,14 +43,16 @@ data class ActionBAAEMPermanenceModel(
     }
 
     companion object {
-        fun fromBAAEMPermanence(baaemPermanence: NavActionBAAEMPermanence, mapper: ObjectMapper) = ActionBAAEMPermanenceModel(
-            id = baaemPermanence.id,
-            missionId = baaemPermanence.missionId,
-            startDateTimeUtc = baaemPermanence.startDateTimeUtc,
-            endDateTimeUtc = baaemPermanence.endDateTimeUtc,
-            observations = baaemPermanence.observations
-        )
-        }
+        fun fromBAAEMPermanenceEntity(action: ActionBAAEMPermanenceEntity) =
+            ActionBAAEMPermanenceModel(
+                id = action.id,
+                missionId = action.missionId,
+                isCompleteForStats = action.isCompleteForStats,
+                startDateTimeUtc = action.startDateTimeUtc,
+                endDateTimeUtc = action.endDateTimeUtc,
+                observations = action.observations
+            )
     }
+}
 
 

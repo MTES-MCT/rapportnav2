@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionNauticalEventEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionNauticalEventRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionNauticalEventModel
@@ -13,8 +12,7 @@ import java.util.*
 @Repository
 class JPAActionNauticalEventRepository(
     private val dbActionNauticalEventRepository: IDBActionNauticalEventRepository,
-    private val mapper: ObjectMapper
-): INavActionNauticalEventRepository {
+) : INavActionNauticalEventRepository {
     override fun findAllByMissionId(missionId: Int): List<ActionNauticalEventModel> {
         return dbActionNauticalEventRepository.findAllByMissionId(missionId)
     }
@@ -26,7 +24,7 @@ class JPAActionNauticalEventRepository(
     @Transactional
     override fun save(nauticalEvent: ActionNauticalEventEntity): ActionNauticalEventModel {
         return try {
-            val nauticalModel = ActionNauticalEventModel.fromNauticalEvent(nauticalEvent, mapper)
+            val nauticalModel = ActionNauticalEventModel.fromNauticalEventEntity(nauticalEvent)
             dbActionNauticalEventRepository.save(nauticalModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating action nautical event", e)

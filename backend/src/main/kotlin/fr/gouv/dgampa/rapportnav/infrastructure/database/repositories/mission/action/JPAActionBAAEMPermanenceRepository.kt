@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionBAAEMPermanenceEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionBAAEMRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionBAAEMPermanenceModel
@@ -13,8 +12,7 @@ import java.util.*
 @Repository
 class JPAActionBAAEMPermanenceRepository(
     private val dbActionBAAEMPermanenceRepository: IDBActionBAAEMPermanenceRepository,
-    private val mapper: ObjectMapper
-): INavActionBAAEMRepository {
+) : INavActionBAAEMRepository {
     override fun findAllByMissionId(missionId: Int): List<ActionBAAEMPermanenceModel> {
         return dbActionBAAEMPermanenceRepository.findAllByMissionId(missionId = missionId)
     }
@@ -26,7 +24,7 @@ class JPAActionBAAEMPermanenceRepository(
     @Transactional
     override fun save(permanenceBAAEM: ActionBAAEMPermanenceEntity): ActionBAAEMPermanenceModel {
         return try {
-            val baaemModel = ActionBAAEMPermanenceModel.fromBAAEMPermanence(permanenceBAAEM.toNavActionBAAEMPermanence(), mapper)
+            val baaemModel = ActionBAAEMPermanenceModel.fromBAAEMPermanenceEntity(permanenceBAAEM)
             dbActionBAAEMPermanenceRepository.save(baaemModel)
         } catch (e: InvalidDataAccessApiUsageException) {
 

@@ -6,7 +6,7 @@ import { formatDateTimeForFrenchHumans } from '../../../utils/dates.ts'
 import ActionReportStatus, { ActionReportStatusProps } from './action-report-status.tsx'
 
 export type ActionHeaderProps = ActionReportStatusProps & {
-  icon: Element
+  icon?: Element
   title: string
   date?: string
   showStatus: boolean
@@ -31,9 +31,11 @@ const ActionHeader: FC<ActionHeaderProps> = ({
     <Stack direction="column" spacing={'0.5rem'}>
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" spacing="0.5rem" style={{ width: '100%', alignItems: 'initial' }}>
-          <Stack.Item alignSelf="baseline">
-            <ActionIcon color={THEME.color.charcoal} size={20} />
-          </Stack.Item>
+          {icon && (
+            <Stack.Item alignSelf="baseline">
+              <ActionIcon color={THEME.color.charcoal} size={20} />
+            </Stack.Item>
+          )}
           <Stack.Item grow={2}>
             <Stack direction="row" spacing={'0.5rem'}>
               <Stack.Item>

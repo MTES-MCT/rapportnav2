@@ -19,10 +19,10 @@ type ItemOptions = {
 function createActionStyled(options: ItemOptions) {
   return styled.div`
     min-height: ${options.noMinHeight ? 0 : options.borderColor ? '48px' : '52px'};
-    background: ${options.backgroundColor || 'inherit'} 0% 0% no-repeat padding-box;
+    background: ${options.backgroundColor ?? 'inherit'} 0% 0% no-repeat padding-box;
     border: ${options.borderColor ? `1px solid ${options.borderColor}` : 'none'};
     text-align: left;
-    letter-spacing: 0px;
+    letter-spacing: 0;
   `
 }
 
@@ -38,10 +38,7 @@ const ActionNote = createActionStyled({
   backgroundColor: THEME.color.blueYonder25,
   borderColor: THEME.color.lightGray
 })
-const ActionOther = createActionStyled({
-  backgroundColor: THEME.color.blueYonder25,
-  borderColor: THEME.color.lightGray
-})
+
 const ActionStatus = createActionStyled({
   backgroundColor: undefined,
   borderColor: undefined,
@@ -59,40 +56,39 @@ const ActionRescue = createActionStyled({
 })
 
 const ActionVigimer = createActionStyled({
-  backgroundColor: THEME.color.blueYonder25,
+  backgroundColor: THEME.color.blueGray25,
   borderColor: THEME.color.lightGray
 })
 
 const ActionNauticalEvent = createActionStyled({
-  backgroundColor: THEME.color.blueYonder25,
+  backgroundColor: THEME.color.blueGray25,
   borderColor: THEME.color.lightGray
 })
 
 const ActionPublicOrder = createActionStyled({
-  backgroundColor: THEME.color.blueYonder25,
+  backgroundColor: THEME.color.blueGray25,
   borderColor: THEME.color.lightGray
 })
 
 const ActionRepresentation = createActionStyled({
-  backgroundColor: THEME.color.blueYonder25,
+  backgroundColor: THEME.color.blueGray25,
   borderColor: THEME.color.lightGray
 })
 
 const ActionAntiPollution = createActionStyled({
-  backgroundColor: THEME.color.blueYonder25,
+  backgroundColor: THEME.color.blueGray25,
   borderColor: THEME.color.lightGray
 })
 
 const ActionBAAEMPermanence = createActionStyled({
-  backgroundColor: THEME.color.blueYonder25,
+  backgroundColor: THEME.color.blueGray25,
   borderColor: THEME.color.lightGray
 })
 
 const ActionIllegalImmigration = createActionStyled({
-  backgroundColor: THEME.color.blueYonder25,
+  backgroundColor: THEME.color.blueGray25,
   borderColor: THEME.color.lightGray
 })
-
 
 const getActionComponent = (
   actionSource: MissionSourceEnum,

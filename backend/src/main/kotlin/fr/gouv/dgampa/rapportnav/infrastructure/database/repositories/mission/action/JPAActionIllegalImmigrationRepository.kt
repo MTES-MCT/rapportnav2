@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionIllegalImmigrationEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionIllegalImmigrationRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionIllegalImmigrationModel
@@ -13,8 +12,7 @@ import java.util.*
 @Repository
 class JPAActionIllegalImmigrationRepository(
     private val dbActionIllegalImmigrationRepository: IDBActionIllegalImmigrationRepository,
-    private val mapper: ObjectMapper
-): INavActionIllegalImmigrationRepository {
+) : INavActionIllegalImmigrationRepository {
     override fun findAllByMissionId(missionId: Int): List<ActionIllegalImmigrationModel> {
         return dbActionIllegalImmigrationRepository.findAllByMissionId(missionId)
     }
@@ -26,7 +24,8 @@ class JPAActionIllegalImmigrationRepository(
     @Transactional
     override fun save(illegalImmigrationEntity: ActionIllegalImmigrationEntity): ActionIllegalImmigrationModel {
         return try {
-            val illegalImmigrationModel = ActionIllegalImmigrationModel.fromIllegalImmigration(illegalImmigrationEntity.toNavActionIllegalImmigration(), mapper)
+            val illegalImmigrationModel =
+                ActionIllegalImmigrationModel.fromIllegalImmigrationEntity(illegalImmigrationEntity)
             dbActionIllegalImmigrationRepository.save(illegalImmigrationModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating action illegal immigration", e)

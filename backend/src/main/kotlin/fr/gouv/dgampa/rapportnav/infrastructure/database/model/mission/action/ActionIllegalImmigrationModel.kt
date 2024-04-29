@@ -1,8 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionIllegalImmigrationEntity
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.NavActionIllegalImmigration
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -19,6 +17,9 @@ data class ActionIllegalImmigrationModel(
 
     @Column(name = "mission_id", nullable = false)
     var missionId: Int,
+
+    @Column(name = "is_complete_for_stats", nullable = true)
+    var isCompleteForStats: Boolean? = null,
 
     @Column(name = "start_datetime_utc", nullable = false)
     var startDateTimeUtc: ZonedDateTime,
@@ -49,6 +50,7 @@ data class ActionIllegalImmigrationModel(
         return ActionIllegalImmigrationEntity(
             id = id,
             missionId = missionId,
+            isCompleteForStats = isCompleteForStats,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
             observations = observations,
@@ -61,19 +63,21 @@ data class ActionIllegalImmigrationModel(
     }
 
     companion object {
-        fun fromIllegalImmigration(illegalImmigrationAction: NavActionIllegalImmigration, mapper: ObjectMapper) = ActionIllegalImmigrationModel(
-            id = illegalImmigrationAction.id,
-            missionId = illegalImmigrationAction.missionId,
-            startDateTimeUtc = illegalImmigrationAction.startDateTimeUtc,
-            endDateTimeUtc = illegalImmigrationAction.endDateTimeUtc,
-            observations = illegalImmigrationAction.observations,
-            nbOfInterceptedMigrants = illegalImmigrationAction.nbOfInterceptedMigrants,
-            nbOfSuspectedSmugglers = illegalImmigrationAction.nbOfSuspectedSmugglers,
-            nbOfInterceptedVessels = illegalImmigrationAction.nbOfInterceptedVessels,
-            latitude = illegalImmigrationAction.latitude,
-            longitude = illegalImmigrationAction.longitude
-        )
-        }
+        fun fromIllegalImmigrationEntity(action: ActionIllegalImmigrationEntity) =
+            ActionIllegalImmigrationModel(
+                id = action.id,
+                missionId = action.missionId,
+                isCompleteForStats = action.isCompleteForStats,
+                startDateTimeUtc = action.startDateTimeUtc,
+                endDateTimeUtc = action.endDateTimeUtc,
+                observations = action.observations,
+                nbOfInterceptedMigrants = action.nbOfInterceptedMigrants,
+                nbOfSuspectedSmugglers = action.nbOfSuspectedSmugglers,
+                nbOfInterceptedVessels = action.nbOfInterceptedVessels,
+                latitude = action.latitude,
+                longitude = action.longitude
+            )
     }
+}
 
 

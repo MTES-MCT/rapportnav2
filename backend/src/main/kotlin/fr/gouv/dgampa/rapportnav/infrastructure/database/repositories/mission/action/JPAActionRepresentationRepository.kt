@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionRepresentationEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionRepresentationRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionRepresentationModel
@@ -13,8 +12,7 @@ import java.util.*
 @Repository
 class JPAActionRepresentationRepository(
     private val dbActionRepresentationRepository: IDBActionRepresentationRepository,
-    private val mapper: ObjectMapper
-): INavActionRepresentationRepository {
+) : INavActionRepresentationRepository {
     override fun findAllByMissionId(missionId: Int): List<ActionRepresentationModel> {
         return dbActionRepresentationRepository.findAllByMissionId(missionId)
     }
@@ -26,7 +24,7 @@ class JPAActionRepresentationRepository(
     @Transactional
     override fun save(representationEntity: ActionRepresentationEntity): ActionRepresentationModel {
         return try {
-            val representationModel = ActionRepresentationModel.fromRepresentation(representationEntity.toNavActionRepresentation(), mapper)
+            val representationModel = ActionRepresentationModel.fromRepresentationEntity(representationEntity)
             dbActionRepresentationRepository.save(representationModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating action representation", e)

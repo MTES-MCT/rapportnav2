@@ -41,7 +41,7 @@ class FormatActionsForTimelineTests {
         MissionActionEntity.NavAction(NavActionControlMock.createActionControlEntity().toNavActionEntity())
     private val navStatus =
         MissionActionEntity.NavAction(NavActionStatusMock.createActionStatusEntity().toNavActionEntity())
-    private val navFreeNote = MissionActionEntity.NavAction(NavActionFreeNoteMock.create().toNavAction())
+    private val navFreeNote = MissionActionEntity.NavAction(NavActionFreeNoteMock.create().toNavActionEntity())
 
     @BeforeEach
     fun setUp() {

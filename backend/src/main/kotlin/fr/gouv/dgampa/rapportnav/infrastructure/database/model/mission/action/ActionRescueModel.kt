@@ -1,5 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
-import com.fasterxml.jackson.databind.ObjectMapper
+
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionRescueEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -17,6 +17,9 @@ class ActionRescueModel(
 
     @Column(name = "mission_id", nullable = false)
     val missionId: Int,
+
+    @Column(name = "is_complete_for_stats", nullable = true)
+    var isCompleteForStats: Boolean? = null,
 
     @Column(name = "start_datetime_utc", nullable = false)
     val startDateTimeUtc: ZonedDateTime,
@@ -69,11 +72,13 @@ class ActionRescueModel(
     @Column(name = "nb_assisted_vessels_returning_to_shore", nullable = true)
     val nbAssistedVesselsReturningToShore: Int? = null,
 
-){
+    ) {
 
     fun toActionRescueEntity(): ActionRescueEntity {
         return ActionRescueEntity(
             id = id,
+            missionId = missionId,
+            isCompleteForStats = isCompleteForStats,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
             latitude = latitude,
@@ -87,7 +92,6 @@ class ActionRescueModel(
             isVesselRescue = isVesselRescue,
             isPersonRescue = isPersonRescue,
             isInSRRorFollowedByCROSSMRCC = isInSRRorFollowedByCROSSMRCC,
-            missionId = missionId,
             locationDescription = locationDescription,
             isMigrationRescue = isMigrationRescue,
             nbOfVesselsTrackedWithoutIntervention = nbOfVesselsTrackedWithoutIntervention,
@@ -96,26 +100,27 @@ class ActionRescueModel(
     }
 
     companion object {
-        fun fromActionRescue(rescueAction: ActionRescueEntity, mapper: ObjectMapper) = ActionRescueModel(
-            id = rescueAction.id,
-            missionId = rescueAction.missionId,
-            startDateTimeUtc = rescueAction.startDateTimeUtc,
-            observations = rescueAction.observations,
-            isPersonRescue = rescueAction.isPersonRescue,
-            isVesselNoticed = rescueAction.isVesselNoticed,
-            isVesselTowed = rescueAction.isVesselTowed,
-            isInSRRorFollowedByCROSSMRCC = rescueAction.isInSRRorFollowedByCROSSMRCC,
-            isVesselRescue = rescueAction.isVesselRescue,
-            numberOfDeaths = rescueAction.numberOfDeaths,
-            numberPersonsRescued = rescueAction.numberPersonsRescued,
-            latitude = rescueAction.latitude,
-            longitude = rescueAction.longitude,
-            locationDescription = rescueAction.locationDescription,
-            endDateTimeUtc = rescueAction.endDateTimeUtc,
-            operationFollowsDEFREP = rescueAction.operationFollowsDEFREP,
-            isMigrationRescue = rescueAction.isMigrationRescue,
-            nbOfVesselsTrackedWithoutIntervention = rescueAction.nbOfVesselsTrackedWithoutIntervention,
-            nbAssistedVesselsReturningToShore = rescueAction.nbAssistedVesselsReturningToShore,
+        fun fromActionRescueEntity(action: ActionRescueEntity) = ActionRescueModel(
+            id = action.id,
+            missionId = action.missionId,
+            isCompleteForStats = action.isCompleteForStats,
+            startDateTimeUtc = action.startDateTimeUtc,
+            observations = action.observations,
+            isPersonRescue = action.isPersonRescue,
+            isVesselNoticed = action.isVesselNoticed,
+            isVesselTowed = action.isVesselTowed,
+            isInSRRorFollowedByCROSSMRCC = action.isInSRRorFollowedByCROSSMRCC,
+            isVesselRescue = action.isVesselRescue,
+            numberOfDeaths = action.numberOfDeaths,
+            numberPersonsRescued = action.numberPersonsRescued,
+            latitude = action.latitude,
+            longitude = action.longitude,
+            locationDescription = action.locationDescription,
+            endDateTimeUtc = action.endDateTimeUtc,
+            operationFollowsDEFREP = action.operationFollowsDEFREP,
+            isMigrationRescue = action.isMigrationRescue,
+            nbOfVesselsTrackedWithoutIntervention = action.nbOfVesselsTrackedWithoutIntervention,
+            nbAssistedVesselsReturningToShore = action.nbAssistedVesselsReturningToShore,
         )
     }
 }

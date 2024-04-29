@@ -36,7 +36,7 @@ data class ActionFreeNoteEntity(
         this.isCompleteForStats = EntityCompletenessValidator.isCompleteForStats(this)
     }
 
-    fun toNavAction(): NavActionEntity {
+    fun toNavActionEntity(): NavActionEntity {
         return NavActionEntity(
             id = id,
             missionId = missionId,

@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionVigimerEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionVigimerRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionVigimerModel
@@ -13,8 +12,7 @@ import java.util.*
 @Repository
 class JPAActionVigimerRepository(
     private val dbActionVigimerRepository: IDBActionVigimerRepository,
-    private val mapper: ObjectMapper
-): INavActionVigimerRepository {
+) : INavActionVigimerRepository {
     override fun findAllByMissionId(missionId: Int): List<ActionVigimerModel> {
         return dbActionVigimerRepository.findAllByMissionId(missionId)
     }
@@ -26,7 +24,7 @@ class JPAActionVigimerRepository(
     @Transactional
     override fun save(vigimerEntity: ActionVigimerEntity): ActionVigimerModel {
         return try {
-            val vigimerModel = ActionVigimerModel.fromVigimer(vigimerEntity.toNavActionVigimer(), mapper)
+            val vigimerModel = ActionVigimerModel.fromVigimerEntity(vigimerEntity)
             dbActionVigimerRepository.save(vigimerModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw Exception("Error saving or updating action vigimer", e)
