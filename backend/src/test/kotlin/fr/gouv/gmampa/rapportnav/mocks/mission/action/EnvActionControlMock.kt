@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission.action
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import org.locationtech.jts.geom.Geometry
 import java.time.LocalDateTime
@@ -25,6 +26,7 @@ object EnvActionControlMock {
         actionTargetType: ActionTargetTypeEnum? = null,
         vehicleType: VehicleTypeEnum? = null,
         infractions: List<InfractionEntity>? = emptyList(),
+        completion: ActionCompletionEnum = ActionCompletionEnum.COMPLETED
     ): EnvActionControlEntity {
         return EnvActionControlEntity(
             id = id,
@@ -42,7 +44,8 @@ object EnvActionControlMock {
             actionNumberOfControls = actionNumberOfControls,
             actionTargetType = actionTargetType,
             vehicleType = vehicleType,
-            infractions = infractions
+            infractions = infractions,
+            completion = completion
             // Set other properties to their default values or mocks as needed
         )
     }

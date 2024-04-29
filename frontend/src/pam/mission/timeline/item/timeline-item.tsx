@@ -25,14 +25,10 @@ export interface MissionTimelineItemProps {
 }
 
 export const TimelineItemWrapper: React.FC<{
-  onClick: any;
-  children: any;
+  onClick: any
+  children: any
   borderWhenSelected?: boolean
-}> = ({
-        onClick,
-        children,
-        borderWhenSelected = null
-      }) => {
+}> = ({ onClick, children, borderWhenSelected = null }) => {
   return (
     <FlexboxGrid
       onClick={onClick}
@@ -48,7 +44,6 @@ export const TimelineItemWrapper: React.FC<{
   )
 }
 
-
 const getActionComponent = (action: Action) => {
 
   if (action.source === MissionSourceEnum.MONITORENV) {
@@ -56,7 +51,6 @@ const getActionComponent = (action: Action) => {
       return ActionEnvControl
     }
     if (action.type === ActionTypeEnum.SURVEILLANCE) {
-      console.log(action.type)
       return ActionEnvSurveillance
     }
   } else if (action.source === MissionSourceEnum.MONITORFISH) {
@@ -102,7 +96,7 @@ const MissionTimelineItem: React.FC<MissionTimelineItemProps> = (props: MissionT
     return null
   }
 
-  return <Component {...props}/>
+  return <Component {...props} />
 }
 
 export default MissionTimelineItem

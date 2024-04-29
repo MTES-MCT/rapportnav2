@@ -6,11 +6,10 @@ import { Action } from '../../../../types/action-types'
 import ControlsToCompleteTag from '../../controls/controls-to-complete-tag'
 import Text from '../../../../ui/text'
 import { useParams } from 'react-router-dom'
-import { TimelineItemWrapper } from "./timeline-item.tsx";
+import { TimelineItemWrapper } from './timeline-item.tsx'
 
-
-const ActionEnvControl: React.FC<{ action: Action; onClick: any }> = ({action, onClick}) => {
-  const {actionId} = useParams()
+const ActionEnvControl: React.FC<{ action: Action; onClick: any }> = ({ action, onClick }) => {
+  const { actionId } = useParams()
   const actionData = action.data as unknown as EnvActionControl
   return (
     <TimelineItemWrapper onClick={onClick} borderWhenSelected={action.id === actionId}>
@@ -22,10 +21,10 @@ const ActionEnvControl: React.FC<{ action: Action; onClick: any }> = ({action, o
       >
         <Stack direction="row" spacing="0.5rem">
           <Stack.Item alignSelf="flex-start">
-            <Icon.ControlUnit color={THEME.color.charcoal} size={20}/>
+            <Icon.ControlUnit color={THEME.color.charcoal} size={20} />
           </Stack.Item>
-          <Stack.Item alignSelf="flex-start" style={{width: '100%'}}>
-            <Stack direction="column" spacing="0.5rem" alignItems="flex-start" style={{width: '100%'}}>
+          <Stack.Item alignSelf="flex-start" style={{ width: '100%' }}>
+            <Stack direction="column" spacing="0.5rem" alignItems="flex-start" style={{ width: '100%' }}>
               <Stack.Item>
                 <Stack direction="row" spacing="0.25rem">
                   <Stack.Item>
@@ -34,8 +33,13 @@ const ActionEnvControl: React.FC<{ action: Action; onClick: any }> = ({action, o
                     </Text>
                   </Stack.Item>
                   <Stack.Item>
-                    <Text as="h3" weight="bold" color={THEME.color.gunMetal} data-testid={"theme"}>
-                      {actionData && 'themes' in actionData && actionData?.themes[0]?.theme ? actionData?.themes[0]?.theme : ''}
+                    <Text as="h3" weight="bold" color={THEME.color.gunMetal} data-testid={'theme'}>
+                      {actionData &&
+                      'themes' in actionData &&
+                      !!actionData?.themes?.length &&
+                      actionData?.themes[0].theme
+                        ? actionData?.themes[0].theme
+                        : 'environnement'}
                     </Text>
                   </Stack.Item>
                 </Stack>
@@ -45,8 +49,8 @@ const ActionEnvControl: React.FC<{ action: Action; onClick: any }> = ({action, o
                   <b>
                     {actionData && 'actionNumberOfControls' in actionData && actionData.actionNumberOfControls
                       ? `${actionData.actionNumberOfControls} ${
-                        actionData.actionNumberOfControls > 1 ? 'contrôles' : 'contrôle'
-                      }`
+                          actionData.actionNumberOfControls > 1 ? 'contrôles' : 'contrôle'
+                        }`
                       : 'Nombre de contrôles inconnu'}
                   </b>
                   &nbsp;
@@ -65,30 +69,25 @@ const ActionEnvControl: React.FC<{ action: Action; onClick: any }> = ({action, o
                 </Text>
               </Stack.Item>
 
-              <Stack.Item alignSelf="flex-start" style={{width: '100%'}}>
-                <Stack direction="row" spacing="1rem" style={{width: '100%'}}>
-                  <Stack.Item style={{width: '70%'}}>
-                    {actionData?.controlsToComplete !== undefined &&
-                    actionData?.controlsToComplete?.length > 0 ? (
-                      <ControlsToCompleteTag
-                        amountOfControlsToComplete={actionData?.controlsToComplete?.length}
-                      />
+              <Stack.Item alignSelf="flex-start" style={{ width: '100%' }}>
+                <Stack direction="row" spacing="1rem" style={{ width: '100%' }}>
+                  <Stack.Item style={{ width: '70%' }}>
+                    {actionData?.controlsToComplete !== undefined && actionData?.controlsToComplete?.length > 0 ? (
+                      <ControlsToCompleteTag amountOfControlsToComplete={actionData?.controlsToComplete?.length} />
                     ) : (
                       <>
-                        {
-                          action.summaryTags?.map((tag: string) => (
-                            <Tag key={tag}
-                                 accent={Accent.PRIMARY}
-                                 style={{marginRight: '0.5rem'}}>{tag}</Tag>
-                          ))
-                        }
+                        {action.summaryTags?.map((tag: string) => (
+                          <Tag key={tag} accent={Accent.PRIMARY} style={{ marginRight: '0.5rem' }}>
+                            {tag}
+                          </Tag>
+                        ))}
                       </>
                     )}
                   </Stack.Item>
-                  <Stack.Item alignSelf="flex-end" style={{width: '30%'}}>
+                  <Stack.Item alignSelf="flex-end" style={{ width: '30%' }}>
                     <Stack direction="column" alignItems="flex-end">
                       <Stack.Item alignSelf="flex-end">
-                        <Text as="h4" color={THEME.color.slateGray} fontStyle={"italic"}>
+                        <Text as="h4" color={THEME.color.slateGray} fontStyle={'italic'}>
                           ajouté par CACEM
                         </Text>
                       </Stack.Item>

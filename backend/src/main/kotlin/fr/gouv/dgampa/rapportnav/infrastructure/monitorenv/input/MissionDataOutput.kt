@@ -14,7 +14,7 @@ data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) co
     val missionTypes: List<MissionTypeEnum>,
     val controlUnits: List<LegacyControlUnitEntity>? = listOf(),
     val openBy: String? = null,
-    val closedBy: String? = null,
+    val completedBy: String? = null,
     val observationsCacem: String? = null,
     val observationsCnsp: String? = null,
     val facade: String? = null,
@@ -27,9 +27,7 @@ data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) co
     val hasMissionOrder: Boolean,
     val isUnderJdp: Boolean,
     val isGeometryComputedFromControls: Boolean,
-
-
-    ) {
+) {
 
     fun toMissionEntity(): MissionEntity {
         return MissionEntity(
@@ -37,7 +35,7 @@ data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) co
             missionTypes = missionTypes,
             controlUnits = controlUnits.orEmpty(),
             openBy = openBy,
-            closedBy = closedBy,
+            completedBy = completedBy,
             observationsCacem = observationsCacem,
             observationsCnsp = observationsCnsp,
             facade = facade,
@@ -63,7 +61,7 @@ data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) co
                 missionTypes = mission.missionTypes,
                 controlUnits = mission.controlUnits,
                 openBy = mission.openBy,
-                closedBy = mission.closedBy,
+                completedBy = mission.completedBy,
                 observationsCacem = mission.observationsCacem,
                 observationsCnsp = mission.observationsCnsp,
                 facade = mission.facade,

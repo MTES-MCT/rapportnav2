@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import java.time.ZonedDateTime
 
 typealias FishAction = MissionAction
+
 data class MissionAction(
     val id: Int? = null,
     val missionId: Int,
@@ -57,46 +58,6 @@ data class MissionAction(
     val isComplianceWithWaterRegulationsControl: Boolean? = null,
     val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
     val isSeafarersControl: Boolean? = null,
-) {
-    fun verify() {
-        val controlTypes = listOf(
-            MissionActionType.AIR_CONTROL,
-            MissionActionType.LAND_CONTROL,
-            MissionActionType.SEA_CONTROL,
-        )
-
-        if (controlTypes.any { it == this.actionType }) {
-            require(this.vesselId != null) {
-                "A control must specify a vessel: the `vesselId` must be given."
-            }
-
-            when (this.actionType) {
-                MissionActionType.AIR_CONTROL -> checkControlPosition()
-                MissionActionType.SEA_CONTROL -> checkControlPosition()
-                MissionActionType.LAND_CONTROL -> checkControlPort()
-                else -> {}
-            }
-        }
-    }
-
-    private fun checkControlPosition() {
-        require(this.longitude != null) {
-            "A control must specify a position: the `longitude` must be given."
-        }
-        require(this.latitude != null) {
-            "A control must specify a position: the `latitude` must be given."
-        }
-        require(this.userTrigram != null) {
-            "A control must specify a user trigram: the `userTrigram` must be given."
-        }
-    }
-
-    private fun checkControlPort() {
-        require(this.portLocode != null) {
-            "A land control must specify a port: the `portLocode` must be given."
-        }
-        require(this.userTrigram != null) {
-            "A control must specify a user trigram: the `userTrigram` must be given."
-        }
-    }
-}
+    val completedBy: String? = null,
+    val completion: Completion,
+)

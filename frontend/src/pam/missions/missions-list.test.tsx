@@ -1,37 +1,41 @@
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import { render, screen } from '../../test-utils'
 
 import MissionsList from './missions-list'
 import { Mission } from '../../types/env-mission-types'
+import { MissionStatusEnum } from '../../types/mission-types.ts'
 
 const openedMission = {
   id: 1,
-  startDateTimeUtc: Date.now().toString()
-} as Mission
+  startDateTimeUtc: Date.now().toString(),
+  status: MissionStatusEnum.IN_PROGRESS
+} as unknown as Mission
 
 const closedMission = {
   id: 2,
   isClosed: true,
-  startDateTimeUtc: '2022-08-07T12:00:00Z'
-} as Mission
+  startDateTimeUtc: '2022-08-07T12:00:00Z',
+  status: MissionStatusEnum.CLOSED
+} as unknown as Mission
 
 const endedMission = {
   id: 3,
   startDateTimeUtc: '2022-08-07T12:00:00Z',
-  endDateTimeUtc: '2022-08-19T12:00:00Z'
-} as Mission
+  endDateTimeUtc: '2022-08-19T12:00:00Z',
+  status: MissionStatusEnum.ENDED
+} as unknown as Mission
 
 describe('MissionsList component', () => {
-  test('should render the brouillon status', () => {
-    render(<MissionsList missions={[openedMission]}/>)
-    expect(screen.getByText('● Brouillon')).toBeInTheDocument()
+  test('should render the En cours status', () => {
+    render(<MissionsList missions={[openedMission]} prefetchMission={vi.fn()} />)
+    expect(screen.getByText('En cours', { exact: false })).toBeInTheDocument()
   })
-  test('should render the NA status', () => {
-    render(<MissionsList missions={[closedMission]}/>)
-    expect(screen.getByText('❌ N/A')).toBeInTheDocument()
+  test('should render the Indisponible status', () => {
+    render(<MissionsList missions={[closedMission]} prefetchMission={vi.fn()} />)
+    expect(screen.getByText('Indisponible', { exact: false })).toBeInTheDocument()
   })
-  test('should render the cloturée status', () => {
-    render(<MissionsList missions={[endedMission]}/>)
-    expect(screen.getByText('✓ Clôturée')).toBeInTheDocument()
+  test('should render the Terminée status', () => {
+    render(<MissionsList missions={[endedMission]} prefetchMission={vi.fn()} />)
+    expect(screen.getByText('Terminée', { exact: false })).toBeInTheDocument()
   })
 })

@@ -1,6 +1,6 @@
 import { ApolloError, gql, useQuery } from '@apollo/client'
-import { Action } from "../../../types/action-types.ts";
-import { ActionTypeEnum, MissionSourceEnum } from "../../../types/env-mission-types.ts";
+import { Action } from '../../../types/action-types.ts'
+import { ActionTypeEnum, MissionSourceEnum } from '../../../types/env-mission-types.ts'
 
 export const GET_ACTION_BY_ID = gql`
     query GetActionById($id: ID!, $missionId: ID!, $source: MissionSource!, $type: ActionType!) {
@@ -11,6 +11,7 @@ export const GET_ACTION_BY_ID = gql`
             status
             startDateTimeUtc
             endDateTimeUtc
+            isCompleteForStats
             data {
                 ... on FishActionData {
                     id
@@ -351,25 +352,25 @@ export const GET_ACTION_BY_ID = gql`
 `
 
 const useActionById = (
-    id: string | undefined = undefined,
-    missionId: string | undefined = undefined,
-    source: MissionSourceEnum,
-    type: ActionTypeEnum
+  id: string | undefined = undefined,
+  missionId: string | undefined = undefined,
+  source: MissionSourceEnum,
+  type: ActionTypeEnum
 ): {
-    data?: Action;
-    loading: boolean;
-    error?: ApolloError;
+  data?: Action
+  loading: boolean
+  error?: ApolloError
 } => {
-    const {loading, error, data, ...rest} = useQuery(GET_ACTION_BY_ID, {
-        variables: {id, missionId, source, type},
-        // fetchPolicy: 'cache-only'
-    });
+  const { loading, error, data, ...rest } = useQuery(GET_ACTION_BY_ID, {
+    variables: { id, missionId, source, type }
+    // fetchPolicy: 'cache-only'
+  })
 
-    if (!id || !missionId) {
-        return {loading: false, error: undefined, data: undefined};
-    }
+  if (!id || !missionId) {
+    return { loading: false, error: undefined, data: undefined }
+  }
 
-    return {loading, error, data: data?.actionById, ...rest};
-};
+  return { loading, error, data: data?.actionById, ...rest }
+}
 
-export default useActionById;
+export default useActionById

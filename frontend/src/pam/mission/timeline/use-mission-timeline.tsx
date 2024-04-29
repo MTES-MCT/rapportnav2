@@ -1,6 +1,5 @@
 import { ApolloError, gql, useQuery } from '@apollo/client'
-import { Mission } from "../../../types/mission-types.ts";
-
+import { Mission } from '../../../types/mission-types.ts'
 
 export const GET_MISSION_TIMELINE = gql`
     query GetMissionTimeline($missionId: ID) {
@@ -8,6 +7,10 @@ export const GET_MISSION_TIMELINE = gql`
             id
             startDateTimeUtc
             endDateTimeUtc
+            reportStatus {
+                    status
+                    sources
+                  }
             actions {
                 id
                 type
@@ -16,6 +19,7 @@ export const GET_MISSION_TIMELINE = gql`
                 summaryTags
                 startDateTimeUtc
                 endDateTimeUtc
+                isCompleteForStats
                 data {
                     ... on FishActionData {
                         id
@@ -97,21 +101,22 @@ export const GET_MISSION_TIMELINE = gql`
     }
 `
 
-const useGetMissionTimeline = (missionId?: string): {
-    data?: Mission;
-    loading: boolean;
-    error?: ApolloError;
+const useGetMissionTimeline = (
+  missionId?: string
+): {
+  data?: Mission
+  loading: boolean
+  error?: ApolloError
 } => {
-    const {loading, error, data} = useQuery(GET_MISSION_TIMELINE, {
-        variables: {missionId},
-        // fetchPolicy: 'cache-only'
-    });
+  const { loading, error, data } = useQuery(GET_MISSION_TIMELINE, {
+    variables: { missionId }
+  })
 
-    if (!missionId) {
-        return {loading: false, error: undefined, data: undefined};
-    }
+  if (!missionId) {
+    return { loading: false, error: undefined, data: undefined }
+  }
 
-    return {loading, error, data: data?.mission};
-};
+  return { loading, error, data: data?.mission }
+}
 
-export default useGetMissionTimeline;
+export default useGetMissionTimeline

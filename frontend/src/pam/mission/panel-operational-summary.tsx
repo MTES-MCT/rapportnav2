@@ -3,8 +3,7 @@ import { Panel } from 'rsuite'
 import { THEME } from '@mtes-mct/monitor-ui'
 import Text from '../../ui/text'
 
-interface MissionOperationalSummaryPanelProps {
-}
+interface MissionOperationalSummaryPanelProps {}
 
 const MissionOperationalSummaryPanel: React.FC<MissionOperationalSummaryPanelProps> = () => {
   return (
@@ -16,7 +15,7 @@ const MissionOperationalSummaryPanel: React.FC<MissionOperationalSummaryPanelPro
       }
       collapsible
       bordered
-      style={{backgroundColor: THEME.color.cultured, border: 0}}
+      style={{ backgroundColor: THEME.color.cultured, border: 0 }}
     >
       <div>todo</div>
     </Panel>

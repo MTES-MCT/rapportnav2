@@ -15,7 +15,7 @@ describe('Header', () => {
       logout: vi.fn()
     })
 
-    render(<Header/>)
+    render(<Header />)
     const logoutButton = screen.getByText('Logout')
     expect(logoutButton).toBeInTheDocument()
   })
@@ -27,7 +27,7 @@ describe('Header', () => {
       logout: vi.fn()
     })
 
-    render(<Header/>)
+    render(<Header />)
     const logoutButton = screen.getByText('Logout')
 
     fireEvent.click(logoutButton)
@@ -43,7 +43,7 @@ describe('Header', () => {
       logout: vi.fn()
     })
 
-    render(<Header/>)
+    render(<Header />)
     const logoutButton = screen.queryByText('Logout')
     expect(logoutButton).not.toBeInTheDocument()
   })

@@ -1,5 +1,5 @@
 import { format, parseISO } from 'date-fns'
-import frLocale from 'date-fns/locale/fr';
+import frLocale from 'date-fns/locale/fr'
 
 const MISSION_NAME_FORMAT = 'yyyy-MM-dd'
 const FRENCH_DAY_MONTH_YEAR = 'dd/MM/yyyy'
@@ -18,42 +18,50 @@ function toLocalISOString(date: DateTypes = new Date()): string | undefined {
   if (!date) {
     return
   }
-  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const userTime = new Date(date.toLocaleString('en-US', {timeZone: userTimeZone}));
+  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  const userTime = new Date(date.toLocaleString('en-US', { timeZone: userTimeZone }))
 
-// Convert user's local time to UTC
-  const utcTime = new Date(userTime.getTime() - userTime.getTimezoneOffset() * 60000);
+  // Convert user's local time to UTC
+  const utcTime = new Date(userTime.getTime() - userTime.getTimezoneOffset() * 60000)
 
-// Use toISOString to get the UTC string
-  const isoString = utcTime.toISOString();
+  // Use toISOString to get the UTC string
+  const isoString = utcTime.toISOString()
   return isoString
 }
 
-
-function formatDate(date: DateTypes, dateFormat: string, emptyDateFormat: string, timeZone: string = 'Europe/Paris'): string {
+function formatDate(
+  date: DateTypes,
+  dateFormat: string,
+  emptyDateFormat: string,
+  timeZone: string = 'Europe/Paris'
+): string {
   if (!date) {
-    return emptyDateFormat;
+    return emptyDateFormat
   }
 
   try {
     // Assuming date is a string in ISO format, parse it to Date
-    const dateObj = parseISO(date);
+    const dateObj = parseISO(date)
 
     // Set the timezone explicitly to UTC
-    const dateInUTC = new Date(dateObj.getUTCFullYear(), dateObj.getUTCMonth(), dateObj.getUTCDate(), dateObj.getUTCHours(), dateObj.getUTCMinutes(), dateObj.getUTCSeconds());
+    const dateInUTC = new Date(
+      dateObj.getUTCFullYear(),
+      dateObj.getUTCMonth(),
+      dateObj.getUTCDate(),
+      dateObj.getUTCHours(),
+      dateObj.getUTCMinutes(),
+      dateObj.getUTCSeconds()
+    )
 
     // Format the date
-    const formattedDate = format(dateInUTC, dateFormat, {locale: frLocale});
-    return formattedDate;
-
+    const formattedDate = format(dateInUTC, dateFormat, { locale: frLocale })
+    return formattedDate
   } catch (e) {
-    return emptyDateFormat;
+    return emptyDateFormat
   }
 }
 
-const formatDateForServers = (date: DateTypes): string =>
-  formatDate(date, SERVER_FORMAT, '')
-
+const formatDateForServers = (date: DateTypes): string => formatDate(date, SERVER_FORMAT, '')
 
 const formatDateForMissionName = (date: DateTypes): string =>
   formatDate(date, MISSION_NAME_FORMAT, EMPTY_FRENCH_DAY_MONTH_YEAR)

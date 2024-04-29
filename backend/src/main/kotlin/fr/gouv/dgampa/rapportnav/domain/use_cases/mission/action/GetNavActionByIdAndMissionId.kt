@@ -31,7 +31,7 @@ class GetNavActionByIdAndMissionId(
                         attachControlsToActionControl.toNavAction(
                             actionId = id.toString(),
                             action = actionControl
-                        ).toNavAction()
+                        ).toNavActionEntity()
                     }
                 }
             }

@@ -17,6 +17,10 @@ import ActionPublicOrderForm from './action-public-order-form.tsx'
 import ActionRepresentationForm from './action-representation-form.tsx'
 import ActionIllegalImmigrationForm from './action-illegal-immigration-form.tsx'
 
+export interface ActionDetailsProps {
+action: Action
+}
+
 export const getComponentForAction = (action?: Action): FC<any> | null => {
   if (!action) {
     return null

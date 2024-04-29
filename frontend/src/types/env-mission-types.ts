@@ -5,7 +5,7 @@ import {
   ControlGensDeMer,
   ControlNavigation,
   ControlSecurity,
-  ControlType,
+  ControlType
 } from './control-types'
 import { InfractionByTarget } from './infraction-types'
 
@@ -104,15 +104,15 @@ export const formalNoticeLabels = {
   }
 }
 
-export function transformFormatToOptions(labels: Record<string, any>): { value: string, label: string }[] {
-  return Object.keys(labels).map((key) => {
-    const {code, libelle} = labels[key];
+export function transformFormatToOptions(labels: Record<string, any>): { value: string; label: string }[] {
+  return Object.keys(labels).map(key => {
+    const { code, libelle } = labels[key]
     return {
       label: libelle,
-      value: code,
+      value: code
       // Add additional properties as needed
-    };
-  });
+    }
+  })
 }
 
 export enum ActionTargetTypeEnum {
@@ -450,7 +450,7 @@ export type Infraction = NewInfraction & {
 }
 
 export const getMissionStatus = (mission: Mission, compareDate = Date.now()): MissionStatusEnum | string => {
-  const {endDateTimeUtc, isClosed, startDateTimeUtc} = mission
+  const { endDateTimeUtc, isClosed, startDateTimeUtc } = mission
   if (isClosed) {
     return MissionStatusEnum.CLOSED
   }

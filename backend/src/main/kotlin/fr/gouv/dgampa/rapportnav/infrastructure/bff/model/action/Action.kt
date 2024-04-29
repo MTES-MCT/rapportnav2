@@ -1,6 +1,8 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Completion
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
@@ -13,12 +15,12 @@ import java.time.ZonedDateTime
 data class Action(
     val id: Any?,
     val missionId: Int,
-//    val type: ActionTypeEnum,
     val source: MissionSourceEnum,
     val startDateTimeUtc: ZonedDateTime?,
     val endDateTimeUtc: ZonedDateTime?,
     val summaryTags: List<String>? = null,
-    val data: ActionData?
+    val data: ActionData? = null,
+    val isCompleteForStats: Boolean? = null,
 ) {
 
     companion object {
@@ -30,6 +32,7 @@ data class Action(
                     Action(
                         id = action.id,
                         missionId = missionId,
+                        isCompleteForStats = action.completion !== ActionCompletionEnum.TO_COMPLETE,
                         source = MissionSourceEnum.MONITORENV,
                         startDateTimeUtc = action.actionStartDateTimeUtc,
                         endDateTimeUtc = action.actionEndDateTimeUtc,
@@ -52,6 +55,7 @@ data class Action(
                     Action(
                         id = action.id,
                         missionId = missionId,
+                        isCompleteForStats = action.completion !== ActionCompletionEnum.TO_COMPLETE,
                         source = MissionSourceEnum.MONITORENV,
                         startDateTimeUtc = action.actionStartDateTimeUtc,
                         endDateTimeUtc = action.actionEndDateTimeUtc,
@@ -86,10 +90,11 @@ data class Action(
 
         fun fromFishAction(fishAction: ExtendedFishActionEntity, missionId: Int): Action? {
             return fishAction.controlAction?.action?.let {
-                val action = fishAction.controlAction?.action
+                val action = fishAction.controlAction.action
                 return Action(
                     id = action.id.toString(),
                     missionId = missionId,
+                    isCompleteForStats = action.completion === Completion.COMPLETED,
                     source = MissionSourceEnum.MONITORFISH,
                     startDateTimeUtc = action.actionDatetimeUtc,
                     endDateTimeUtc = null, // Set to null for FishAction since it doesn't have an endDateTime
@@ -146,16 +151,16 @@ data class Action(
                         isSafetyEquipmentAndStandardsComplianceControl = action.isSafetyEquipmentAndStandardsComplianceControl,
                         isSeafarersControl = action.isSeafarersControl,
                         // controls
-                        controlAdministrative = ControlAdministrative.fromControlAdministrativeEntity(fishAction.controlAction?.controlAdministrative),
-                        controlNavigation = ControlNavigation.fromControlNavigationEntity(fishAction.controlAction?.controlNavigation),
-                        controlSecurity = ControlSecurity.fromControlSecurityEntity(fishAction.controlAction?.controlSecurity),
-                        controlGensDeMer = ControlGensDeMer.fromControlGensDeMerEntity(fishAction.controlAction?.controlGensDeMer),
+                        controlAdministrative = ControlAdministrative.fromControlAdministrativeEntity(fishAction.controlAction.controlAdministrative),
+                        controlNavigation = ControlNavigation.fromControlNavigationEntity(fishAction.controlAction.controlNavigation),
+                        controlSecurity = ControlSecurity.fromControlSecurityEntity(fishAction.controlAction.controlSecurity),
+                        controlGensDeMer = ControlGensDeMer.fromControlGensDeMerEntity(fishAction.controlAction.controlGensDeMer),
                     )
                 )
             }
         }
 
-        fun fromNavAction(navAction: NavActionEntity): Action? {
+        fun fromNavAction(navAction: NavActionEntity): Action {
             var data: ActionData? = null
             when {
                 navAction.statusAction != null -> {
@@ -201,7 +206,8 @@ data class Action(
                 source = MissionSourceEnum.RAPPORTNAV,
                 startDateTimeUtc = navAction.startDateTimeUtc,
                 endDateTimeUtc = navAction.endDateTimeUtc,
-                data = data
+                isCompleteForStats = navAction.isCompleteForStats,
+                data = data,
             )
         }
 

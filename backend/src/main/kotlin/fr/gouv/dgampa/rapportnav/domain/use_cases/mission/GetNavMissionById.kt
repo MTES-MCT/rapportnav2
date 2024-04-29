@@ -4,6 +4,8 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.NavMissionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import org.slf4j.LoggerFactory
 
 @UseCase
@@ -12,6 +14,8 @@ class GetNavMissionById(
     private val navStatusRepository: INavActionStatusRepository,
     private val navFreeNoteRepository: INavActionFreeNoteRepository,
     private val attachControlsToActionControl: AttachControlsToActionControl,
+    private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
+    private val getAgentsCrewByMissionId: GetAgentsCrewByMissionId,
     private val navRescueRepository: INavActionRescueRepository,
     private val navNauticalEventRepository: INavActionNauticalEventRepository,
     private val navVigimerRepository: INavActionVigimerRepository,
@@ -30,7 +34,7 @@ class GetNavMissionById(
                 attachControlsToActionControl.toNavAction(
                     actionId = actionControl.id.toString(),
                     action = actionControl
-                ).toNavAction()
+                ).toNavActionEntity()
             }
 
 
@@ -41,6 +45,12 @@ class GetNavMissionById(
         val notes = navFreeNoteRepository.findAllByMissionId(missionId = missionId)
             .map { it.toActionFreeNoteEntity() }
             .map { it.toNavAction() }
+
+        val generalInfo = getMissionGeneralInfoByMissionId.execute(missionId)
+
+        val crew = getAgentsCrewByMissionId.execute(
+            missionId = missionId
+        )
 
         val rescues = navRescueRepository.findAllByMissionId(missionId = missionId)
             .map { it.toActionRescueEntity() }
@@ -75,7 +85,7 @@ class GetNavMissionById(
             .map { it.toNavAction() }
 
         val actions = controls + statuses + notes + rescues + nauticalEvents + vigimers + antiPollutions + baaemPermanences + representations + publicOrders + illegalImmigrations
-        val mission = NavMissionEntity(id = missionId, actions = actions)
+        val mission = NavMissionEntity(id = missionId, actions = actions, generalInfo = generalInfo, crew = crew)
         return mission
     }
 

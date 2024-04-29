@@ -1,5 +1,5 @@
 import { ApolloError, gql, useQuery } from '@apollo/client'
-import { Mission } from "../../../types/mission-types.ts";
+import { Mission } from '../../../types/mission-types.ts'
 
 export const GET_MISSION_EXCERPT = gql`
   query GetMissionExcerpt($missionId: ID) {
@@ -8,6 +8,11 @@ export const GET_MISSION_EXCERPT = gql`
       missionSource
       startDateTimeUtc
       endDateTimeUtc
+      status
+      reportStatus {
+        status
+        sources
+      }
       generalInfo {
         id
         distanceInNauticalMiles
@@ -19,19 +24,19 @@ export const GET_MISSION_EXCERPT = gql`
         type
         source
         status
+        isCompleteForStats
       }
     }
   }
 `
 
-
 const useMissionExcerpt = (missionId?: string): { data?: Mission; loading: boolean; error?: ApolloError } => {
-  const {loading, error, data} = useQuery(GET_MISSION_EXCERPT, {
-    variables: {missionId}
+  const { loading, error, data } = useQuery(GET_MISSION_EXCERPT, {
+    variables: { missionId }
     // fetchPolicy: 'cache-only'
   })
 
-  return {loading, error, data: data?.mission}
+  return { loading, error, data: data?.mission }
 }
 
 export default useMissionExcerpt

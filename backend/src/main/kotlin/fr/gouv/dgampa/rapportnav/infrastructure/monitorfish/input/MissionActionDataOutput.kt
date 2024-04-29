@@ -51,12 +51,14 @@ data class MissionActionDataOutput(
     val vesselTargeted: ControlCheck? = null,
     val hasSomeGearsSeized: Boolean,
     val hasSomeSpeciesSeized: Boolean,
-    val closedBy: String? = null,
     val isFromPoseidon: Boolean,
+    val completedBy: String? = null,
+    val completion: Completion,
     val isAdministrativeControl: Boolean? = null,
     val isComplianceWithWaterRegulationsControl: Boolean? = null,
     val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
     val isSeafarersControl: Boolean? = null,
-) {
+
+    ) {
 
 }

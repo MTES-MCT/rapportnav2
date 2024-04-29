@@ -145,7 +145,7 @@ class ActionController(
 
     @MutationMapping
     fun addOrUpdateControl(@Argument controlAction: ActionControlInput): NavActionControl {
-        val data = controlAction.toActionControl()
+        val data = controlAction.toActionControlEntity()
         return addOrUpdateActionControl.execute(data).toNavActionControl()
     }
 
@@ -222,7 +222,7 @@ class ActionController(
 
             val navInfractionTypes: List<InfractionTypeEnum> = navInfractions.map {
                 it.infractionType
-            }.orEmpty().filterNotNull()
+            }.filterNotNull()
 
             val allInfractionTypes = when (action.data) {
                 is NavActionControl -> {

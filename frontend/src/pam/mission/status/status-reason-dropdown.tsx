@@ -1,8 +1,7 @@
 import { OptionValue, Select } from '@mtes-mct/monitor-ui'
 import { ActionStatusReason, ActionStatusType } from '../../../types/action-types'
-import React from "react";
-import { statusReasonToHumanString } from "./utils.ts";
-
+import React from 'react'
+import { statusReasonToHumanString } from './utils.ts'
 
 const DOCKED_REASON_OPTIONS: { label: string | undefined; value: ActionStatusReason }[] = [
   {
@@ -45,17 +44,21 @@ const UNAVAILABLE_REASON_OPTIONS: { label: string | undefined; value: ActionStat
   }
 ]
 
-const getSelectOptionsForType = (type: ActionStatusType): {
-  label: string | undefined;
-  value: ActionStatusReason
-}[] | undefined => {
+const getSelectOptionsForType = (
+  type: ActionStatusType
+):
+  | {
+      label: string | undefined
+      value: ActionStatusReason
+    }[]
+  | undefined => {
   switch (type) {
     case ActionStatusType.DOCKED:
-      return DOCKED_REASON_OPTIONS;
+      return DOCKED_REASON_OPTIONS
     case ActionStatusType.UNAVAILABLE:
-      return UNAVAILABLE_REASON_OPTIONS;
+      return UNAVAILABLE_REASON_OPTIONS
     default:
-      return undefined;
+      return undefined
   }
 }
 
@@ -63,21 +66,31 @@ interface StatusReasonDropdownProps {
   actionType: ActionStatusType
   value: ActionStatusReason
   onSelect: (key: string, value: string) => void
+  isRequired: boolean
+  error: boolean
 }
 
-const StatusReasonDropdown: React.FC<StatusReasonDropdownProps> = ({actionType, value, onSelect}) => {
+const StatusReasonDropdown: React.FC<StatusReasonDropdownProps> = ({
+  actionType,
+  value,
+  error,
+  isRequired,
+  onSelect
+}) => {
   const options = getSelectOptionsForType(actionType)
   return !options ? null : (
     <Select
+      isRequired={isRequired}
       label="Motif"
       name="reason"
       isLight={true}
       options={options}
       value={value}
+      error={error ? 'error ' : undefined}
+      isErrorMessageHidden={true}
       onChange={(nextValue: OptionValue) => onSelect('reason', nextValue)}
     />
   )
 }
-
 
 export default StatusReasonDropdown

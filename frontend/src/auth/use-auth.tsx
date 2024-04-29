@@ -10,18 +10,18 @@ const useAuth = (): { isAuthenticated: boolean; logout: () => void } => {
   const navigate = useNavigate()
   const apolloClient = useApolloClient()
 
-  const logout = (): void => {
+  const logout = async (): Promise<void> => {
     // Remove the token from localStorage
     authToken.remove()
     // Update the state to reflect that the user is not authenticated
     setIsAuthenticated(false)
     // TODO centralise the following two lines into a class - also used elsewhere
     // reset apollo store
-    apolloClient.resetStore()
+    await apolloClient.clearStore()
     // flush apollo persist cache
     apolloClient.cache.evict({})
     // Reset history to /login
-    navigate('/login', {replace: true})
+    navigate('/login', { replace: true })
   }
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const useAuth = (): { isAuthenticated: boolean; logout: () => void } => {
     }
   }, [isAuthenticated])
 
-  return {isAuthenticated, logout}
+  return { isAuthenticated, logout }
 }
 
 export default useAuth
