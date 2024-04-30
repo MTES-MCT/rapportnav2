@@ -13,6 +13,7 @@ import {
   TextInput,
   THEME
 } from '@mtes-mct/monitor-ui'
+import Text from '../../../ui/text'
 import { Action, ActionRescue } from '../../../types/action-types'
 import { Divider, Stack, Toggle } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -97,6 +98,12 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
         updatedField = {
           isVesselRescue: !value,
           isPersonRescue: value
+        }
+      } else if (field === 'isMigrationRescue' && value === false) {
+        updatedField = {
+          [field]: value,
+          nbAssistedVesselsReturningToShore: undefined,
+          nbOfVesselsTrackedWithoutIntervention: undefined
         }
       } else {
         updatedField = {
@@ -233,9 +240,9 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                   />
                 </Stack.Item>
                 <Stack.Item alignSelf="flex-end">
-                  <Label style={{ marginBottom: 0 }}>
-                    <b>Opération suivie (DEFREP)</b>
-                  </Label>
+                  <Text as={'h3'} weight={'medium'}>
+                    Opération suivie (DEFREP)
+                  </Text>
                 </Stack.Item>
               </Stack>
             </Stack.Item>
@@ -346,12 +353,11 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
 
         {showPersonStack && (
           <>
-            <Stack>
+            <Stack direction={'column'} spacing={'1rem'} alignItems={'flex-start'}>
               <Stack.Item style={{ width: '100%' }}>
                 <Divider style={{ backgroundColor: THEME.color.charcoal }} />
               </Stack.Item>
-            </Stack>
-            <Stack style={{ marginBottom: 15 }}>
+
               <Stack.Item style={{ width: '100%' }}>
                 <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
                   <Stack.Item>
@@ -363,46 +369,42 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                     />
                   </Stack.Item>
                   <Stack.Item alignSelf="flex-end">
-                    <Label style={{ marginBottom: 0 }}>
-                      <b>Sauvetage dans le cadre d'un phénomène migratoire</b>
-                    </Label>
+                    <Text as={'h3'} weight={'medium'}>
+                      Sauvetage dans le cadre d'un phénomène migratoire
+                    </Text>
                   </Stack.Item>
                 </Stack>
               </Stack.Item>
+
+              <Stack.Item style={{ width: '50%', maxWidth: '50%' }}>
+                <NumberInput
+                  label="Nb d'embarcations suivies sans nécessité d'intervention"
+                  name="nbOfVesselsTrackedWithoutIntervention"
+                  placeholder="0"
+                  isLight={true}
+                  value={actionData?.nbOfVesselsTrackedWithoutIntervention}
+                  onChange={async nextValue => {
+                    await onChange('nbOfVesselsTrackedWithoutIntervention', nextValue)
+                  }}
+                  disabled={!actionData?.isMigrationRescue}
+                />
+              </Stack.Item>
+
+              <Stack.Item style={{ width: '50%', maxWidth: '50%' }}>
+                <NumberInput
+                  label="Nb d'embarcations assistées pour un retour à terre"
+                  name="nbAssistedVesselsReturningToShore"
+                  placeholder="0"
+                  isLight={true}
+                  value={actionData?.nbAssistedVesselsReturningToShore}
+                  onChange={async nextValue => {
+                    await onChange('nbAssistedVesselsReturningToShore', nextValue)
+                  }}
+                  disabled={!actionData?.isMigrationRescue}
+                />
+              </Stack.Item>
             </Stack>
           </>
-        )}
-
-        {showPersonStack && (
-          <Stack>
-            <Stack.Item>
-              <NumberInput
-                label="Nb d'embarcations suivies sans nécessité d'intervention"
-                name="nbOfVesselsTrackedWithoutIntervention"
-                placeholder="0"
-                style={{ marginRight: '8px' }}
-                isLight={true}
-                value={actionData?.nbOfVesselsTrackedWithoutIntervention}
-                onChange={async nextValue => {
-                  await onChange('nbOfVesselsTrackedWithoutIntervention', nextValue)
-                }}
-                disabled={!actionData?.isMigrationRescue}
-              />
-            </Stack.Item>
-            <Stack.Item>
-              <NumberInput
-                label="Nb d'embarcations assistées pour un retour à terre"
-                name="nbAssistedVesselsReturningToShore"
-                placeholder="0"
-                isLight={true}
-                value={actionData?.nbAssistedVesselsReturningToShore}
-                onChange={async nextValue => {
-                  await onChange('nbAssistedVesselsReturningToShore', nextValue)
-                }}
-                disabled={!actionData?.isMigrationRescue}
-              />
-            </Stack.Item>
-          </Stack>
         )}
       </form>
     )
