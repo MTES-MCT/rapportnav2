@@ -119,7 +119,7 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
               <Stack.Item grow={1}>
                 <DateRangePicker
                   name="dates"
-                  // defaultValue={[navAction.startDateTimeUtc ?? formatDateForServers(toLocalISOString()), navAction.endDateTimeUtc ?? formatDateForServers(new Date() as any)]}
+                  isRequired={true}
                   defaultValue={
                     navAction.startDateTimeUtc && navAction.endDateTimeUtc
                       ? [navAction.startDateTimeUtc, navAction.endDateTimeUtc]
@@ -153,81 +153,90 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
               }}
             />
           </Stack.Item>
-        </Stack>
 
-        <Stack
-          direction="row"
-          alignItems="flex-start"
-          spacing="1rem"
-          style={{ width: '100%', backgroundColor: THEME.color.gainsboro, padding: '0.5rem' }}
-        >
-          <Stack.Item style={{ flex: 1 }}>
-            <NumberInput
-              isRequired={true}
-              error={
-                actionData?.nbOfInterceptedVessels === undefined || actionData?.nbOfInterceptedVessels === null
-                  ? 'error'
-                  : undefined
-              }
-              isErrorMessageHidden={true}
-              label="Nb de navires/embarcations interceptées"
-              name="nbOfInterceptedVessels"
-              role="nbOfInterceptedVessels"
-              placeholder="0"
-              isLight={true}
-              value={actionData?.nbOfInterceptedVessels}
-              onChange={(nextValue?: number) => onChange('nbOfInterceptedVessels', nextValue)}
-            />
-          </Stack.Item>
-          <Stack.Item style={{ flex: 1 }}>
-            <NumberInput
-              isRequired={true}
-              error={
-                actionData?.nbOfInterceptedMigrants === undefined || actionData?.nbOfInterceptedMigrants === null
-                  ? 'error'
-                  : undefined
-              }
-              isErrorMessageHidden={true}
-              label="Nb de migrants interceptés"
-              name="nbOfInterceptedMigrants"
-              role="nbOfInterceptedMigrants"
-              placeholder="0"
-              isLight={true}
-              value={actionData?.nbOfInterceptedMigrants}
-              onChange={(nextValue?: number) => onChange('nbOfInterceptedMigrants', nextValue)}
-            />
-          </Stack.Item>
-          <Stack.Item style={{ flex: 1 }}>
-            <NumberInput
-              isRequired={true}
-              error={
-                actionData?.nbOfSuspectedSmugglers === undefined || actionData?.nbOfSuspectedSmugglers === null
-                  ? 'error'
-                  : undefined
-              }
-              isErrorMessageHidden={true}
-              label="Nb de passeurs présumés"
-              name="nbOfSuspectedSmugglers"
-              role="nbOfSuspectedSmugglers"
-              placeholder="0"
-              isLight={true}
-              value={actionData?.nbOfSuspectedSmugglers}
-              onChange={(nextValue?: number) => onChange('nbOfSuspectedSmugglers', nextValue)}
-            />
-          </Stack.Item>
-        </Stack>
-
-        <Stack>
           <Stack.Item style={{ width: '100%' }}>
-            <Textarea
-              label="Observations"
-              value={observationsValue}
-              isLight={true}
-              name="observations"
-              data-testid="observations"
-              onChange={handleObservationsChange}
-              onBlur={handleObservationsBlur}
-            />
+            <Stack
+              direction="column"
+              alignItems="flex-start"
+              spacing="1rem"
+              style={{ width: '100%', backgroundColor: THEME.color.gainsboro, padding: '0.5rem' }}
+            >
+              <Stack.Item style={{ width: '100%' }}>
+                <NumberInput
+                  isRequired={true}
+                  error={
+                    actionData?.nbOfInterceptedVessels === undefined || actionData?.nbOfInterceptedVessels === null
+                      ? 'error'
+                      : undefined
+                  }
+                  isErrorMessageHidden={true}
+                  label="Nb de navires/embarcations interceptées"
+                  name="nbOfInterceptedVessels"
+                  role="nbOfInterceptedVessels"
+                  placeholder="0"
+                  isLight={true}
+                  value={actionData?.nbOfInterceptedVessels}
+                  onChange={(nextValue?: number) => onChange('nbOfInterceptedVessels', nextValue)}
+                />
+              </Stack.Item>
+              <Stack.Item style={{ width: '100%' }}>
+                <Stack direction={'row'} spacing={'1rem'}>
+                  <Stack.Item style={{ flex: 1 }}>
+                    <NumberInput
+                      isRequired={true}
+                      error={
+                        actionData?.nbOfInterceptedMigrants === undefined ||
+                        actionData?.nbOfInterceptedMigrants === null
+                          ? 'error'
+                          : undefined
+                      }
+                      isErrorMessageHidden={true}
+                      label="Nb de migrants interceptés"
+                      name="nbOfInterceptedMigrants"
+                      role="nbOfInterceptedMigrants"
+                      placeholder="0"
+                      isLight={true}
+                      value={actionData?.nbOfInterceptedMigrants}
+                      onChange={(nextValue?: number) => onChange('nbOfInterceptedMigrants', nextValue)}
+                    />
+                  </Stack.Item>
+                  <Stack.Item style={{ flex: 1 }}>
+                    <NumberInput
+                      isRequired={true}
+                      error={
+                        actionData?.nbOfSuspectedSmugglers === undefined || actionData?.nbOfSuspectedSmugglers === null
+                          ? 'error'
+                          : undefined
+                      }
+                      isErrorMessageHidden={true}
+                      label="Nb de passeurs présumés"
+                      name="nbOfSuspectedSmugglers"
+                      role="nbOfSuspectedSmugglers"
+                      placeholder="0"
+                      isLight={true}
+                      value={actionData?.nbOfSuspectedSmugglers}
+                      onChange={(nextValue?: number) => onChange('nbOfSuspectedSmugglers', nextValue)}
+                    />
+                  </Stack.Item>
+                </Stack>
+              </Stack.Item>
+            </Stack>
+          </Stack.Item>
+
+          <Stack.Item style={{ width: '100%' }}>
+            <Stack>
+              <Stack.Item style={{ width: '100%' }}>
+                <Textarea
+                  label="Observations"
+                  value={observationsValue}
+                  isLight={true}
+                  name="observations"
+                  data-testid="observations"
+                  onChange={handleObservationsChange}
+                  onBlur={handleObservationsBlur}
+                />
+              </Stack.Item>
+            </Stack>
           </Stack.Item>
         </Stack>
       </form>

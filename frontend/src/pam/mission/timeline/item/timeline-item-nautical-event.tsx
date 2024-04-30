@@ -1,15 +1,13 @@
-import React from 'react'
-import { useParams } from "react-router-dom";
-import { MissionTimelineItemProps, TimelineItemWrapper } from "./timeline-item.tsx";
-import { FlexboxGrid, Stack } from "rsuite";
-import { Icon, THEME } from "@mtes-mct/monitor-ui";
-import Text from "../../../../ui/text.tsx";
+import { FC } from 'react'
+import { useParams } from 'react-router-dom'
+import { MissionTimelineItemProps, TimelineItemWrapper } from './timeline-item.tsx'
+import { FlexboxGrid, Stack } from 'rsuite'
+import { Icon, THEME } from '@mtes-mct/monitor-ui'
+import Text from '../../../../ui/text.tsx'
 import { ActionNauticalEvent as NavActionNauticalEvent } from '../../../../types/action-types.ts'
-import { capitalize } from "lodash";
 
-
-const ActionNauticalEvent: React.FC<MissionTimelineItemProps> = ({action, onClick}) => {
-  const {actionId} = useParams()
+const ActionNauticalEvent: FC<MissionTimelineItemProps> = ({ action, onClick }) => {
+  const { actionId } = useParams()
   const actionData = action.data as unknown as NavActionNauticalEvent
 
   return (
@@ -22,17 +20,21 @@ const ActionNauticalEvent: React.FC<MissionTimelineItemProps> = ({action, onClic
       >
         <Stack direction="row" spacing="0.5rem">
           <Stack.Item alignSelf="flex-start">
-            <Icon.More color={THEME.color.charcoal} size={20}/>
+            <Icon.More color={THEME.color.charcoal} size={20} />
           </Stack.Item>
-          <Stack.Item alignSelf="flex-start" style={{maxWidth: 'calc(100% - 3rem)'}}>
-            <Text as="h3" weight="medium" color={THEME.color.gunMetal} style={{
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}>
-              {capitalize(actionData?.observations) || 'Manifestation nautique'}
+          <Stack.Item alignSelf="flex-start" style={{ maxWidth: 'calc(100% - 3rem)' }}>
+            <Text
+              as="h3"
+              weight="medium"
+              color={THEME.color.gunMetal}
+              style={{
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
+              }}
+            >
+              {'Manifestation nautique'}
             </Text>
-
           </Stack.Item>
         </Stack>
       </FlexboxGrid.Item>

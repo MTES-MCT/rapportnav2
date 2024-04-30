@@ -1,3 +1,4 @@
+import { FC, useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
 import {
   ControlAdministrative,
@@ -10,7 +11,6 @@ import { NumberInput, TextInput } from '@mtes-mct/monitor-ui'
 import omit from 'lodash/omit'
 import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from './control-title-checkbox'
-import { useEffect, useState } from 'react'
 import useAddOrUpdateControl from './use-add-update-control.tsx'
 import useDeleteControl from './use-delete-control.tsx'
 
@@ -21,12 +21,7 @@ export interface EnvControlFormProps {
   shouldCompleteControl?: boolean
 }
 
-const EnvControlForm: React.FC<EnvControlFormProps> = ({
-  controlType,
-  data,
-  maxAmountOfControls,
-  shouldCompleteControl
-}) => {
+const EnvControlForm: FC<EnvControlFormProps> = ({ controlType, data, maxAmountOfControls, shouldCompleteControl }) => {
   const { missionId, actionId } = useParams()
 
   const [observationsValue, setObservationsValue] = useState<string | undefined>(data?.observations)
@@ -60,7 +55,14 @@ const EnvControlForm: React.FC<EnvControlFormProps> = ({
       ...omit(data, '__typename'),
       missionId: missionId,
       actionControlId: actionId,
-      amountOfControls: data?.amountOfControls || 1
+      amountOfControls: data?.amountOfControls
+    }
+
+    // do not create a control just because of a blur on observations
+    if (field === 'observations') {
+      if (observationsValue === undefined && value === undefined) {
+        return
+      }
     }
 
     if (!!field && !!value) {
@@ -69,7 +71,16 @@ const EnvControlForm: React.FC<EnvControlFormProps> = ({
         [field]: value
       }
     }
-    await mutateControl({ variables: { control: updatedData } })
+
+    if (field === 'amountOfControls' && (value === 0 || value === undefined)) {
+      await deleteControl({
+        variables: {
+          actionId
+        }
+      })
+    } else {
+      await mutateControl({ variables: { control: updatedData } })
+    }
   }
 
   return (
@@ -78,8 +89,8 @@ const EnvControlForm: React.FC<EnvControlFormProps> = ({
         <ControlTitleCheckbox
           controlType={controlType}
           checked={!!data || shouldCompleteControl}
-          disabled={mutationLoading}
-          shouldCompleteControl={!!shouldCompleteControl && !!!data}
+          // disabled={mutationLoading?.loading}
+          shouldCompleteControl={!!shouldCompleteControl && !data}
           onChange={(isChecked: boolean) => toggleControl(isChecked)}
         />
       </Stack.Item>
@@ -89,8 +100,9 @@ const EnvControlForm: React.FC<EnvControlFormProps> = ({
             <NumberInput
               label="Nb contrôles"
               name="amountOfControls"
+              // disabled={mutationLoading?.loading}
               value={data?.amountOfControls}
-              max={maxAmountOfControls}
+              // max={maxAmountOfControls}
               isLight={true}
               onChange={(nextValue?: number) => onChange('amountOfControls', nextValue)}
             />
@@ -100,6 +112,7 @@ const EnvControlForm: React.FC<EnvControlFormProps> = ({
               label="Observations (hors infraction)"
               name="observations"
               isLight={true}
+              // disabled={mutationLoading?.loading}
               value={observationsValue}
               onChange={handleObservationsChange}
               onBlur={handleObservationsBlur}

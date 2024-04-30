@@ -39,14 +39,13 @@ const ActionSurveillanceEnv: React.FC<ActionSurveillancePropsEnv> = ({ action })
           <ActionHeader
             icon={Icon.Observation}
             title={'Surveillance Environnement'}
-            date={actionData.startDateTimeUtc}
-            onDelete={deleteAction}
-            showButtons={true}
+            date={action.startDateTimeUtc}
+            showButtons={false}
             showStatus={true}
-            missionStatus={navAction.status}
+            missionStatus={action.status}
             actionSource={action.source}
             isMissionFinished={isMissionFinished}
-            isCompleteForStats={navAction.isCompleteForStats}
+            isCompleteForStats={action.isCompleteForStats}
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>

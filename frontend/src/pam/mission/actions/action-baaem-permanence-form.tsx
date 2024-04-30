@@ -105,7 +105,7 @@ const ActionBAAEMPermanenceForm: React.FC<ActionBAAEMPermanenceFormProps> = ({ a
               <Stack.Item grow={1}>
                 <DateRangePicker
                   name="dates"
-                  // defaultValue={[navAction.startDateTimeUtc ?? formatDateForServers(toLocalISOString()), navAction.endDateTimeUtc ?? formatDateForServers(new Date() as any)]}
+                  isRequired={true}
                   defaultValue={
                     navAction.startDateTimeUtc && navAction.endDateTimeUtc
                       ? [navAction.startDateTimeUtc, navAction.endDateTimeUtc]
