@@ -121,7 +121,7 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ missionId, onSelectAc
                               {action.isCompleteForStats && action.type !== ActionTypeEnum.STATUS ? (
                                 <Stack.Item
                                   alignSelf="stretch"
-                                  style={{ width: '10px', padding: '5px 0' }}
+                                  style={{ width: '15px', padding: '5px 0 5px 5px' }}
                                   data-testid={'timeline-item-status'}
                                 >
                                   <div
@@ -147,7 +147,7 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ missionId, onSelectAc
                                     title={
                                       'Cet évènement contient des données manquantes indispensables pour les statistiques.'
                                     }
-                                    style={{ cursor: 'auto' }}
+                                    style={{ cursor: 'auto', width: '20px' }}
                                   />
                                 </Stack.Item>
                               ) : undefined}

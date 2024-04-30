@@ -2,6 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionSurveillanceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
@@ -35,6 +36,8 @@ class FormatActionsForTimelineTests {
 
     private val envControl =
         MissionActionEntity.EnvAction(ExtendedEnvActionEntity.fromEnvActionEntity(EnvActionControlMock.create()))
+    private val envSurveillance =
+        MissionActionEntity.EnvAction(ExtendedEnvActionEntity.fromEnvActionEntity(EnvActionSurveillanceMock.create()))
     private val fishControl =
         MissionActionEntity.FishAction(ExtendedFishActionEntity.fromMissionAction(FishActionControlMock.create()))
     private val navControl =
@@ -47,7 +50,7 @@ class FormatActionsForTimelineTests {
     fun setUp() {
         // Set up mock behavior for GroupActionByDate
         val data: Map<LocalDate, List<MissionActionEntity>> = mapOf(
-            LocalDate.of(2022, 1, 1) to listOf(envControl, fishControl),
+            LocalDate.of(2022, 1, 1) to listOf(envControl, fishControl, envSurveillance),
             LocalDate.of(2022, 1, 2) to listOf(navControl, navStatus, navFreeNote)
         )
         Mockito.`when`(groupActionByDate.execute(any())).thenReturn(data)
@@ -70,6 +73,7 @@ class FormatActionsForTimelineTests {
                 listOf(
                     envControl,
                     fishControl,
+                    envSurveillance,
                     navControl,
                     navStatus,
                     navFreeNote
@@ -80,6 +84,7 @@ class FormatActionsForTimelineTests {
                 LocalDate.of(2022, 1, 1) to listOf(
                     "12:00 / 14:00 - Contrôle Environnement",
                     "12:00 - Contrôle Pêche - (DD): 52.14,14.30 - Le Pi - LR 314 - Infractions: sans PV - RAS",
+                    "12:00 / 14:00 - Surveillance Environnement",
                 ),
                 LocalDate.of(2022, 1, 2) to listOf(
                     "12:00 / 14:00 - Contrôle administratif ",
@@ -106,6 +111,7 @@ class FormatActionsForTimelineTests {
             listOf(
                 envControl,
                 fishControl,
+                envSurveillance,
                 navControl,
                 navStatus,
                 navFreeNote
@@ -117,6 +123,7 @@ class FormatActionsForTimelineTests {
                 freeNote = listOf<TimelineActionItem>(
                     TimelineActionItem(observations = "12:00 / 14:00 - Contrôle Environnement"),
                     TimelineActionItem(observations = "12:00 - Contrôle Pêche - (DD): 52.14,14.30 - Le Pi - LR 314 - Infractions: sans PV - RAS"),
+                    TimelineActionItem(observations = "12:00 / 14:00 - Surveillance Environnement"),
                 )
             ),
             TimelineActions(
@@ -135,6 +142,12 @@ class FormatActionsForTimelineTests {
     fun `formatEnvControl should return basic formatted string`() {
         val action: EnvActionControlEntity = EnvActionControlMock.create()
         assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement")
+    }
+
+    @Test
+    fun `formatEnvSurveillance should return basic formatted string`() {
+        val action: EnvActionSurveillanceEntity = EnvActionSurveillanceMock.create()
+        assertThat(formatActionsForTimeline.formatEnvSurveillance(action)).isEqualTo("12:00 / 14:00 - Surveillance Environnement")
     }
 
     @Test
