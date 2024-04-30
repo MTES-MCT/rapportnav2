@@ -52,6 +52,7 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
             label="Distance parcourue en milles"
             name="distanceInNauticalMiles"
             role="distanceInNauticalMiles"
+            isRequired={true}
             placeholder="0"
             isLight={true}
             value={formData?.distanceInNauticalMiles}
@@ -66,6 +67,7 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
             label="GO marine consommé en litres"
             name="consumedGOInLiters"
             role="consumedGOInLiters"
+            isRequired={true}
             placeholder="0"
             isLight={true}
             value={formData?.consumedGOInLiters}
@@ -80,6 +82,7 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
             label="Essence consommée en litres"
             name="consumedFuelInLiters"
             role="consumedFuelInLiters"
+            isRequired={true}
             placeholder="0"
             isLight={true}
             value={formData?.consumedFuelInLiters}
