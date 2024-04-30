@@ -1,15 +1,13 @@
-import React from 'react'
-import { useParams } from "react-router-dom";
-import { MissionTimelineItemProps, TimelineItemWrapper } from "./timeline-item.tsx";
-import { FlexboxGrid, Stack } from "rsuite";
-import { Icon, THEME } from "@mtes-mct/monitor-ui";
-import Text from "../../../../ui/text.tsx";
-import { capitalize } from "lodash";
+import { FC } from 'react'
+import { useParams } from 'react-router-dom'
+import { MissionTimelineItemProps, TimelineItemWrapper } from './timeline-item.tsx'
+import { FlexboxGrid, Stack } from 'rsuite'
+import { Icon, THEME } from '@mtes-mct/monitor-ui'
+import Text from '../../../../ui/text.tsx'
 import { ActionAntiPollution as NavActionAntiPollution } from '../../../../types/action-types.ts'
 
-
-const ActionAntiPollution: React.FC<MissionTimelineItemProps> = ({action, onClick}) => {
-  const {actionId} = useParams()
+const ActionAntiPollution: FC<MissionTimelineItemProps> = ({ action, onClick }) => {
+  const { actionId } = useParams()
   const actionData = action.data as unknown as NavActionAntiPollution
 
   return (
@@ -22,17 +20,21 @@ const ActionAntiPollution: React.FC<MissionTimelineItemProps> = ({action, onClic
       >
         <Stack direction="row" spacing="0.5rem">
           <Stack.Item alignSelf="flex-start">
-            <Icon.More color={THEME.color.charcoal} size={20}/>
+            <Icon.More color={THEME.color.charcoal} size={20} />
           </Stack.Item>
-          <Stack.Item alignSelf="flex-start" style={{maxWidth: 'calc(100% - 3rem)'}}>
-            <Text as="h3" weight="medium" color={THEME.color.gunMetal} style={{
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}>
-              {capitalize(actionData?.observations) || 'Opération de lutte anti-pollution'}
+          <Stack.Item alignSelf="flex-start" style={{ maxWidth: 'calc(100% - 3rem)' }}>
+            <Text
+              as="h3"
+              weight="medium"
+              color={THEME.color.gunMetal}
+              style={{
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
+              }}
+            >
+              {'Opération de lutte anti-pollution'}
             </Text>
-
           </Stack.Item>
         </Stack>
       </FlexboxGrid.Item>

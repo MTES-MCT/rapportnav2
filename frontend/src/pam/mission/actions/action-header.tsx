@@ -37,7 +37,7 @@ const ActionHeader: FC<ActionHeaderProps> = ({
             </Stack.Item>
           )}
           <Stack.Item grow={2}>
-            <Stack direction="row" spacing={'0.5rem'}>
+            <Stack direction="row" spacing={'0.5rem'} wrap={true}>
               <Stack.Item>
                 <Text as="h2">{title}</Text>
               </Stack.Item>
