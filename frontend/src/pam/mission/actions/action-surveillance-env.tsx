@@ -75,13 +75,13 @@ const ActionSurveillanceEnv: React.FC<ActionSurveillancePropsEnv> = ({ action })
         <Stack.Item>
           <Label>Observations</Label>
           <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-            {actionData?.observations ?? 'aucunes'}
+            {actionData?.observations || 'aucunes'}
           </Text>
         </Stack.Item>
 
-        <Stack.Item style={{ width: '100%' }}>
-          <Textarea label="Observations (unité)" isLight={true} name="observations" data-testid="observations" />
-        </Stack.Item>
+        {/*<Stack.Item style={{ width: '100%' }}>*/}
+        {/*  <Textarea label="Observations (unité)" isLight={true} name="observations" data-testid="observations" />*/}
+        {/*</Stack.Item>*/}
       </Stack>
     )
   }
