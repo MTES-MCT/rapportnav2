@@ -1,6 +1,6 @@
 import { MissionStatusEnum } from '../../types/mission-types.ts'
 import client from '../../apollo-client.ts'
-import { GET_MISSION_EXCERPT } from './general-info/use-mission-excerpt.tsx'
+import { GET_MISSION_TIMELINE } from './timeline/use-mission-timeline.tsx'
 
 /**
  * A custom React hook to determine whether a mission is finished based on its status,
@@ -24,7 +24,7 @@ import { GET_MISSION_EXCERPT } from './general-info/use-mission-excerpt.tsx'
 const useIsMissionFinished = (missionId?: string): boolean | undefined => {
   try {
     const { mission } = client.readQuery({
-      query: GET_MISSION_EXCERPT,
+      query: GET_MISSION_TIMELINE,
       variables: { missionId }
     })
     return mission?.status === MissionStatusEnum.ENDED

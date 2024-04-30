@@ -36,7 +36,7 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
   onClickExport,
   exportLoading
 }) => {
-  const exportRapportEnabled = useIsMissionReportComplete(mission?.id ? mission?.id.toString() : undefined)
+  const exportRapportEnabled = useIsMissionReportComplete(mission?.id)
 
   return (
     <>
@@ -66,18 +66,17 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
             <FlexboxGrid justify="end" align="middle" style={{ height: '100%' }}>
               <Stack direction={'row'} alignItems={'center'} spacing={'2rem'}>
                 <Stack.Item>
-                  <Button
-                    Icon={exportLoading ? LoadingIcon : Icon.Download}
-                    accent={Accent.PRIMARY}
-                    size={Size.NORMAL}
-                    onClick={onClickExport}
-                    role={'dl-mission-export'}
-                    style={{
-                      display: exportRapportEnabled ? 'visible' : 'none'
-                    }}
-                  >
-                    Exporter le rapport de la mission
-                  </Button>
+                  {exportRapportEnabled && (
+                    <Button
+                      Icon={exportLoading ? LoadingIcon : Icon.Download}
+                      accent={Accent.PRIMARY}
+                      size={Size.NORMAL}
+                      onClick={onClickExport}
+                      role={'dl-mission-export'}
+                    >
+                      Exporter le rapport de la mission
+                    </Button>
+                  )}
                 </Stack.Item>
 
                 <Stack.Item>
