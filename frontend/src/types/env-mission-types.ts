@@ -421,7 +421,7 @@ export type EnvActionSurveillance = EnvActionCommonProperties & {
   actionType: ActionTypeEnum.SURVEILLANCE
   coverMissionZone?: boolean
   durationMatchesMission?: boolean
-  observations: string | null
+  observations: string | undefined | null
   themes: EnvActionTheme[]
 }
 
