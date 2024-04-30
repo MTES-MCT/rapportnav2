@@ -87,7 +87,14 @@ data class MissionEntity(
         ): List<MissionActionEntity> {
             return (envActions + fishActions + navActions).sortedByDescending { action ->
                 when (action) {
-                    is MissionActionEntity.EnvAction -> action.envAction?.controlAction?.action?.actionStartDateTimeUtc
+                    is MissionActionEntity.EnvAction -> {
+                        if (action.envAction?.controlAction !== null) {
+                            action.envAction.controlAction.action?.actionStartDateTimeUtc
+                        } else {
+                            action.envAction?.surveillanceAction?.action?.actionStartDateTimeUtc
+                        }
+                    }
+
                     is MissionActionEntity.FishAction -> action.fishAction.controlAction?.action?.actionDatetimeUtc
                     is MissionActionEntity.NavAction -> action.navAction.startDateTimeUtc
                 }

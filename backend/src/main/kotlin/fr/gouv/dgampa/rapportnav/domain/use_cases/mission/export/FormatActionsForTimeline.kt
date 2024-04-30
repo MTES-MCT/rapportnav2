@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionSurveillanceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControlEntity
@@ -61,9 +62,18 @@ class FormatActionsForTimeline(
     }
 
     private fun formatEnvAction(action: MissionActionEntity.EnvAction): String? {
-        return action.envAction?.controlAction?.action?.let { envControlAction ->
-            formatEnvControl(envControlAction)
+        return if (action.envAction?.controlAction != null) {
+            action.envAction.controlAction.action?.let { envControlAction ->
+                formatEnvControl(envControlAction)
+            }
+        } else if (action.envAction?.surveillanceAction != null) {
+            action.envAction.surveillanceAction.action.let { envSurveillanceAction ->
+                formatEnvSurveillance(envSurveillanceAction)
+            }
+        } else {
+            null
         }
+
     }
 
     private fun formatFishAction(action: MissionActionEntity.FishAction): String? {
@@ -91,6 +101,14 @@ class FormatActionsForTimeline(
             val themes = action.themes?.let { " - ${it.map { theme -> theme.theme }.joinToString(" + ")}" } ?: ""
             val amountOfControls = action.actionNumberOfControls?.let { " - $it contrôle(s)" } ?: ""
             return "$startTime / $endTime - Contrôle Environnement$facade$themes$amountOfControls"
+        }
+    }
+
+    fun formatEnvSurveillance(action: EnvActionSurveillanceEntity?): String? {
+        return action?.let {
+            val startTime = formatDateTime.formatTime(action.actionStartDateTimeUtc)
+            val endTime = formatDateTime.formatTime(action.actionEndDateTimeUtc)
+            return "$startTime / $endTime - Surveillance Environnement"
         }
     }
 

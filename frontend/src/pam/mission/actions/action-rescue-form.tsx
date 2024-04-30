@@ -34,7 +34,6 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
   const { missionId, actionId } = useParams()
   const isMissionFinished = useIsMissionFinished(missionId)
 
-  const [outputValueWithBoolean, setOutputValueWithBoolean] = useState<boolean | undefined>(undefined)
   const [showVesselStack, setShowVesselStack] = useState(false)
   const [showPersonStack, setShowPersonStack] = useState(true)
 
@@ -43,7 +42,6 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
   const [deleteRescue] = useDeleteRescue()
 
   const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
-
   const [locationObservationValue, setLocationObservationValue] = useState<string | undefined>(undefined)
 
   useEffect(() => {
@@ -90,6 +88,16 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
           latitude: value[0],
           longitude: value[1]
         }
+      } else if (field === 'isVesselRescue') {
+        updatedField = {
+          isVesselRescue: value,
+          isPersonRescue: !value
+        }
+      } else if (field === 'isPersonRescue') {
+        updatedField = {
+          isVesselRescue: !value,
+          isPersonRescue: value
+        }
       } else {
         updatedField = {
           [field]: value
@@ -107,18 +115,15 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
       await mutateRescue({ variables: { rescueAction: updatedData } })
     }
 
-    const toggleRescue = async isChecked => {
-      setOutputValueWithBoolean(isChecked)
+    const toggleRescue = async (isChecked?: boolean) => {
       if (isChecked) {
         setShowVesselStack(true)
         setShowPersonStack(false)
         await onChange('isVesselRescue', true)
-        await onChange('isPersonRescue', false)
       } else {
         setShowVesselStack(false)
         setShowPersonStack(true)
         await onChange('isPersonRescue', true)
-        await onChange('isVesselRescue', false)
       }
     }
 
@@ -155,7 +160,9 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
               <Stack.Item grow={1}>
                 <DateRangePicker
                   name="dates"
-                  // defaultValue={[navAction.startDateTimeUtc ?? formatDateForServers(toLocalISOString()), navAction.endDateTimeUtc ?? formatDateForServers(new Date() as any)]}
+                  error={!navAction.startDateTimeUtc && !navAction.endDateTimeUtc ? 'error' : undefined}
+                  isErrorMessageHidden={true}
+                  isRequired={true}
                   defaultValue={
                     navAction.startDateTimeUtc && navAction.endDateTimeUtc
                       ? [navAction.startDateTimeUtc, navAction.endDateTimeUtc]
@@ -176,6 +183,9 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
           <Stack.Item style={{ width: '100%' }}>
             <CoordinatesInput
               label={"Lieu de l'opération"}
+              isRequired={true}
+              error={!actionData.latitude && !actionData.longitude ? 'error' : undefined}
+              isErrorMessageHidden={true}
               name={'geoCoords'}
               defaultValue={[actionData?.latitude as any, actionData?.longitude as any]}
               coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
@@ -202,22 +212,32 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
 
           <Stack.Item style={{ width: '100%' }}>
             <MultiRadio
-              value={actionData?.isVesselRescue ?? undefined}
+              value={actionData?.isVesselRescue}
               label=""
-              name="myMultiRadioWithBooleans"
+              name="rescue-type"
               onChange={nextOptionValue => toggleRescue(nextOptionValue)}
               options={RESCUE_TYPE_OPTIONS}
             />
           </Stack.Item>
         </Stack>
+
         {showVesselStack && (
           <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%', marginTop: '35px' }}>
-            <Stack.Item>
-              <Toggle
-                checked={actionData?.operationFollowsDEFREP}
-                size="sm"
-                onChange={(checked: boolean) => onChange('operationFollowsDEFREP', checked)}
-              />
+            <Stack.Item style={{ width: '100%' }}>
+              <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
+                <Stack.Item>
+                  <Toggle
+                    checked={actionData?.operationFollowsDEFREP}
+                    size="sm"
+                    onChange={(checked: boolean) => onChange('operationFollowsDEFREP', checked)}
+                  />
+                </Stack.Item>
+                <Stack.Item alignSelf="flex-end">
+                  <Label style={{ marginBottom: 0 }}>
+                    <b>Opération suivie (DEFREP)</b>
+                  </Label>
+                </Stack.Item>
+              </Stack>
             </Stack.Item>
 
             <Stack.Item style={{ marginBottom: 15 }}>
@@ -252,6 +272,14 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
               <Stack style={{ width: '100%', marginBottom: 25, marginTop: 25 }}>
                 <Stack.Item>
                   <NumberInput
+                    isRequired={true}
+                    error={
+                      actionData.isPersonRescue &&
+                      (actionData.numberPersonsRescued === undefined || actionData.numberPersonsRescued === null)
+                        ? 'error'
+                        : undefined
+                    }
+                    isErrorMessageHidden={true}
                     style={{ marginRight: 10 }}
                     label="Nb de personnes secourues"
                     name="numberOfPersonRescued"
@@ -265,6 +293,14 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                 </Stack.Item>
                 <Stack.Item>
                   <NumberInput
+                    isRequired={true}
+                    error={
+                      actionData.isPersonRescue &&
+                      (actionData.numberOfDeaths === undefined || actionData.numberOfDeaths === null)
+                        ? 'error'
+                        : undefined
+                    }
+                    isErrorMessageHidden={true}
                     label="Nb de personnes disparues / décédées"
                     name="numberOfDeaths"
                     placeholder="0"
@@ -308,31 +344,33 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
           </Stack.Item>
         </Stack>
 
-        <Stack>
-          <Stack.Item style={{ width: '100%' }}>
-            <Divider style={{ backgroundColor: THEME.color.charcoal }} />
-          </Stack.Item>
-        </Stack>
         {showPersonStack && (
-          <Stack style={{ marginBottom: 15 }}>
-            <Stack.Item style={{ width: '100%' }}>
-              <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
-                <Stack.Item>
-                  {/* TODO add Toggle component to monitor-ui */}
-                  <Toggle
-                    checked={!!actionData?.isMigrationRescue}
-                    size="sm"
-                    onChange={(checked: boolean) => onChange('isMigrationRescue', checked)}
-                  />
-                </Stack.Item>
-                <Stack.Item alignSelf="flex-end">
-                  <Label style={{ marginBottom: 0 }}>
-                    <b>Sauvetage dans le cadre d'un phénomène migratoire</b>
-                  </Label>
-                </Stack.Item>
-              </Stack>
-            </Stack.Item>
-          </Stack>
+          <>
+            <Stack>
+              <Stack.Item style={{ width: '100%' }}>
+                <Divider style={{ backgroundColor: THEME.color.charcoal }} />
+              </Stack.Item>
+            </Stack>
+            <Stack style={{ marginBottom: 15 }}>
+              <Stack.Item style={{ width: '100%' }}>
+                <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
+                  <Stack.Item>
+                    {/* TODO add Toggle component to monitor-ui */}
+                    <Toggle
+                      checked={!!actionData?.isMigrationRescue}
+                      size="sm"
+                      onChange={(checked: boolean) => onChange('isMigrationRescue', checked)}
+                    />
+                  </Stack.Item>
+                  <Stack.Item alignSelf="flex-end">
+                    <Label style={{ marginBottom: 0 }}>
+                      <b>Sauvetage dans le cadre d'un phénomène migratoire</b>
+                    </Label>
+                  </Stack.Item>
+                </Stack>
+              </Stack.Item>
+            </Stack>
+          </>
         )}
 
         {showPersonStack && (

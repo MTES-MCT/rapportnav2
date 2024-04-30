@@ -163,6 +163,13 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
         >
           <Stack.Item style={{ flex: 1 }}>
             <NumberInput
+              isRequired={true}
+              error={
+                actionData?.nbOfInterceptedVessels === undefined || actionData?.nbOfInterceptedVessels === null
+                  ? 'error'
+                  : undefined
+              }
+              isErrorMessageHidden={true}
               label="Nb de navires/embarcations interceptées"
               name="nbOfInterceptedVessels"
               role="nbOfInterceptedVessels"
@@ -174,6 +181,13 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
           </Stack.Item>
           <Stack.Item style={{ flex: 1 }}>
             <NumberInput
+              isRequired={true}
+              error={
+                actionData?.nbOfInterceptedMigrants === undefined || actionData?.nbOfInterceptedMigrants === null
+                  ? 'error'
+                  : undefined
+              }
+              isErrorMessageHidden={true}
               label="Nb de migrants interceptés"
               name="nbOfInterceptedMigrants"
               role="nbOfInterceptedMigrants"
@@ -185,6 +199,13 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
           </Stack.Item>
           <Stack.Item style={{ flex: 1 }}>
             <NumberInput
+              isRequired={true}
+              error={
+                actionData?.nbOfSuspectedSmugglers === undefined || actionData?.nbOfSuspectedSmugglers === null
+                  ? 'error'
+                  : undefined
+              }
+              isErrorMessageHidden={true}
               label="Nb de passeurs présumés"
               name="nbOfSuspectedSmugglers"
               role="nbOfSuspectedSmugglers"
