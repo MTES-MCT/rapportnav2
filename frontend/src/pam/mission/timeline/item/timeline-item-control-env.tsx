@@ -70,8 +70,8 @@ const ActionEnvControl: React.FC<{ action: Action; onClick: any }> = ({ action, 
               </Stack.Item>
 
               <Stack.Item alignSelf="flex-start" style={{ width: '100%' }}>
-                <Stack direction="row" spacing="1rem" style={{ width: '100%' }}>
-                  <Stack.Item style={{ width: '70%' }}>
+                <Stack direction="row" spacing="1rem" wrap={true}>
+                  <Stack.Item grow={3}>
                     {actionData?.controlsToComplete !== undefined && actionData?.controlsToComplete?.length > 0 ? (
                       <ControlsToCompleteTag amountOfControlsToComplete={actionData?.controlsToComplete?.length} />
                     ) : (
@@ -84,14 +84,10 @@ const ActionEnvControl: React.FC<{ action: Action; onClick: any }> = ({ action, 
                       </>
                     )}
                   </Stack.Item>
-                  <Stack.Item alignSelf="flex-end" style={{ width: '30%' }}>
-                    <Stack direction="column" alignItems="flex-end">
-                      <Stack.Item alignSelf="flex-end">
-                        <Text as="h4" color={THEME.color.slateGray} fontStyle={'italic'}>
-                          ajouté par CACEM
-                        </Text>
-                      </Stack.Item>
-                    </Stack>
+                  <Stack.Item alignSelf="flex-end">
+                    <Text as="h4" color={THEME.color.slateGray} fontStyle={'italic'}>
+                      ajouté par CACEM
+                    </Text>
                   </Stack.Item>
                 </Stack>
               </Stack.Item>

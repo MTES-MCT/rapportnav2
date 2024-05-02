@@ -29,6 +29,21 @@ data class ActionAntiPollutionModel(
 
     @Column(name = "observations", nullable = true, columnDefinition = "LONGTEXT")
     var observations: String? = null,
+
+    @Column(name = "latitude", nullable = true)
+    val latitude: Double? = null,
+
+    @Column(name = "longitude", nullable = true)
+    val longitude: Double? = null,
+
+    @Column(name = "detected_pollution", nullable = true)
+    val detectedPollution: Boolean? = null,
+
+    @Column(name = "pollution_observed_by_authorized_agent", nullable = true)
+    val pollutionObservedByAuthorizedAgent: Boolean? = null,
+
+    @Column(name = "diversion_carried_out", nullable = true)
+    val diversionCarriedOut: Boolean? = null,
 ) {
 
     fun toAntiPollutionEntity(): ActionAntiPollutionEntity {
@@ -38,7 +53,12 @@ data class ActionAntiPollutionModel(
             isCompleteForStats = isCompleteForStats,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
-            observations = observations
+            observations = observations,
+            latitude = latitude,
+            longitude = longitude,
+            detectedPollution = detectedPollution,
+            pollutionObservedByAuthorizedAgent = pollutionObservedByAuthorizedAgent,
+            diversionCarriedOut = diversionCarriedOut
         )
     }
 
@@ -49,7 +69,12 @@ data class ActionAntiPollutionModel(
             isCompleteForStats = action.isCompleteForStats,
             startDateTimeUtc = action.startDateTimeUtc,
             endDateTimeUtc = action.endDateTimeUtc,
-            observations = action.observations
+            observations = action.observations,
+            latitude = action.latitude,
+            longitude = action.longitude,
+            detectedPollution = action.detectedPollution,
+            pollutionObservedByAuthorizedAgent = action.pollutionObservedByAuthorizedAgent,
+            diversionCarriedOut = action.diversionCarriedOut
         )
     }
 }

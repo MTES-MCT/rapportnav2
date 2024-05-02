@@ -9,4 +9,9 @@ data class NavActionAntiPollution(
     var startDateTimeUtc: ZonedDateTime,
     var endDateTimeUtc: ZonedDateTime,
     var observations: String? = null,
+    val latitude: Double? = null,
+    val longitude: Double? = null,
+    val detectedPollution: Boolean? = null,
+    val pollutionObservedByAuthorizedAgent: Boolean? = null,
+    val diversionCarriedOut: Boolean? = null,
 ) : ActionData()

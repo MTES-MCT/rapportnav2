@@ -75,7 +75,7 @@ const ActionNauticalEventForm: React.FC<ActionNauticalEventFormProps> = ({ actio
     const deleteAction = async () => {
       await deleteNauticalEvent({
         variables: {
-          id: action.id!
+          id: action.id
         }
       })
       navigate(`/pam/missions/${missionId}`)
@@ -88,7 +88,7 @@ const ActionNauticalEventForm: React.FC<ActionNauticalEventFormProps> = ({ actio
           <Stack.Item style={{ width: '100%' }}>
             <ActionHeader
               icon={undefined}
-              title={'Surveillance de manifestation nautique'}
+              title={'Sécu de manifestation nautique'}
               date={actionData.startDateTimeUtc}
               onDelete={deleteAction}
               showButtons={true}
