@@ -229,34 +229,30 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
           >
             <FlexboxGrid>
               <FlexboxGrid.Item style={{ width: '100%' }}>
-                <FlexboxGrid justify="space-between">
-                  <FlexboxGrid.Item>
-                    <Stack alignItems="center">
+                <Stack direction={'row'} justifyContent={'space-between'} spacing={'0.5rem'} wrap={true}>
+                  <Stack.Item>
+                    <Stack direction={'row'} spacing={'0.5rem'}>
                       <Stack.Item>
                         <Text as="h2" weight="bold">
                           Actions réalisées en mission
                         </Text>
                       </Stack.Item>
-                      <Stack.Item style={{ paddingLeft: '0.5rem' }}>
+                      <Stack.Item>
                         <ActionSelectionDropdown onSelect={addNewAction} />
                       </Stack.Item>
                     </Stack>
-                  </FlexboxGrid.Item>
-                  <FlexboxGrid.Item>
-                    <Stack>
-                      {/* <Stack.Item>
-                        <IconButton
-                          Icon={Icon.Phone}
-                          accent={Accent.PRIMARY}
-                          size={Size.NORMAL}
-                        />
-                      </Stack.Item> */}
-                      <Stack.Item style={{ paddingLeft: '0.5rem' }}>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Stack direction={'row'}>
+                      <Stack.Item>
+                        {/*<StatusSelectionDropdown onSelect={addNewStatus} loading={addStatusLoading} />*!/*/}
+                      </Stack.Item>
+                      <Stack.Item>
                         <StatusSelectionDropdown onSelect={addNewStatus} loading={addStatusLoading} />
                       </Stack.Item>
                     </Stack>
-                  </FlexboxGrid.Item>
-                </FlexboxGrid>
+                  </Stack.Item>
+                </Stack>
                 <Divider style={{ backgroundColor: THEME.color.charcoal, marginTop: '2.5rem' }} />
               </FlexboxGrid.Item>
               <FlexboxGrid.Item
