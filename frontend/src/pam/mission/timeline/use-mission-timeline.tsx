@@ -7,6 +7,7 @@ export const GET_MISSION_TIMELINE = gql`
       id
       startDateTimeUtc
       endDateTimeUtc
+      status
       reportStatus {
         status
         sources
