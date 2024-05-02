@@ -22,6 +22,16 @@ class ActionAntiPollutionEntity(
     val endDateTimeUtc: ZonedDateTime,
 
     val observations: String? = null,
+
+    val latitude: Double? = null,
+
+    val longitude: Double? = null,
+
+    val detectedPollution: Boolean? = null,
+
+    val pollutionObservedByAuthorizedAgent: Boolean? = null,
+
+    val diversionCarriedOut: Boolean? = null,
 ) {
 
     constructor(
@@ -29,14 +39,24 @@ class ActionAntiPollutionEntity(
         missionId: Int,
         startDateTimeUtc: ZonedDateTime,
         endDateTimeUtc: ZonedDateTime,
-        observations: String?
+        observations: String?,
+        latitude: Double? = null,
+        longitude: Double? = null,
+        detectedPollution: Boolean? = null,
+        pollutionObservedByAuthorizedAgent: Boolean? = null,
+        diversionCarriedOut: Boolean? = null,
     ) : this(
         id = id,
         missionId = missionId,
         isCompleteForStats = null,
         startDateTimeUtc = startDateTimeUtc,
         endDateTimeUtc = endDateTimeUtc,
-        observations = observations
+        observations = observations,
+        latitude = latitude,
+        longitude = longitude,
+        detectedPollution = detectedPollution,
+        pollutionObservedByAuthorizedAgent = pollutionObservedByAuthorizedAgent,
+        diversionCarriedOut = diversionCarriedOut
     ) {
         // completeness for stats being computed at class instantiation in constructor
         this.isCompleteForStats = EntityCompletenessValidator.isCompleteForStats(this)
@@ -48,7 +68,12 @@ class ActionAntiPollutionEntity(
             missionId = missionId,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
-            observations = observations
+            observations = observations,
+            latitude = latitude,
+            longitude = longitude,
+            detectedPollution = detectedPollution,
+            pollutionObservedByAuthorizedAgent = pollutionObservedByAuthorizedAgent,
+            diversionCarriedOut = diversionCarriedOut
         )
     }
 

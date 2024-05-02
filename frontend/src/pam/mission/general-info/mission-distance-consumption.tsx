@@ -22,9 +22,10 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
   const [mutate] = useAddOrUpdateDistanceConsumption()
 
   const onChange = async (field: string, value?: number) => {
+    const updatedValue = value !== undefined && value !== null ? value?.toString() : undefined
     setFormData({
       ...formData,
-      [field]: value?.toString()
+      [field]: updatedValue
     })
   }
 

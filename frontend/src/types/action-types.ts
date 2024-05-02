@@ -10,17 +10,32 @@ import { ActionTypeEnum, EnvAction, MissionSourceEnum, VesselSizeEnum, VesselTyp
 import { FishAction } from './fish-mission-types'
 
 export type Action = {
-    id?: any
-    missionId: number
-    type: ActionTypeEnum
-    source: MissionSourceEnum
-    status: ActionStatusType
-    startDateTimeUtc?: string
-    endDateTimeUtc?: string
-    summaryTags?: string[]
-    controlsToComplete?: ControlType[]
-    isCompleteForStats?: boolean
-    data: [EnvAction | FishAction | ActionStatus | ActionControl | ActionFreeNote | ActionSurveillance | ActionRescue | ActionNauticalEvent | ActionVigimer | ActionAntiPollution | ActionBAAEMPermanence | ActionRepresentation | ActionPublicOrder | ActionIllegalImmigration]
+  id?: any
+  missionId: number
+  type: ActionTypeEnum
+  source: MissionSourceEnum
+  status: ActionStatusType
+  startDateTimeUtc?: string
+  endDateTimeUtc?: string
+  summaryTags?: string[]
+  controlsToComplete?: ControlType[]
+  isCompleteForStats?: boolean
+  data: [
+    | EnvAction
+    | FishAction
+    | ActionStatus
+    | ActionControl
+    | ActionFreeNote
+    | ActionSurveillance
+    | ActionRescue
+    | ActionNauticalEvent
+    | ActionVigimer
+    | ActionAntiPollution
+    | ActionBAAEMPermanence
+    | ActionRepresentation
+    | ActionPublicOrder
+    | ActionIllegalImmigration
+  ]
 }
 
 export type ActionStatus = {
@@ -84,7 +99,6 @@ export type ActionSurveillance = {
   observations?: string
 }
 
-
 export type ActionRescue = {
   id: string
   startDateTimeUtc: string
@@ -125,6 +139,11 @@ export type ActionAntiPollution = {
   startDateTimeUtc: string
   endDateTimeUtc: string
   observations: string
+  latitude?: number
+  longitude?: number
+  detectedPollution?: boolean
+  pollutionObservedByAuthorizedAgent?: boolean
+  diversionCarriedOut?: boolean
 }
 
 export type ActionBAAEMPermanence = {

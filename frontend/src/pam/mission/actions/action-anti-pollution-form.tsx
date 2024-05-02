@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { DateRangePicker, Textarea } from '@mtes-mct/monitor-ui'
+import {
+  Checkbox,
+  Coordinates,
+  CoordinatesFormat,
+  CoordinatesInput,
+  DateRangePicker,
+  Icon,
+  Textarea,
+  THEME
+} from '@mtes-mct/monitor-ui'
 import { Action, ActionAntiPollution } from '../../../types/action-types'
 import { Stack } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -9,6 +18,8 @@ import useAddOrUpdateAntiPollution from '../others/anti-pollution/use-add-anti-p
 import useDeleteAntiPollution from '../others/anti-pollution/use-delete-anti-pollution.tsx'
 import useIsMissionFinished from '../use-is-mission-finished.tsx'
 import ActionHeader from './action-header.tsx'
+import Text from '../../../ui/text.tsx'
+import { isEqual } from 'lodash'
 
 interface ActionAntiPollutionFormProps {
   action: Action
@@ -55,6 +66,11 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ actio
           startDateTimeUtc,
           endDateTimeUtc
         }
+      } else if (field === 'geoCoords') {
+        updatedField = {
+          latitude: value[0],
+          longitude: value[1]
+        }
       } else {
         updatedField = {
           [field]: value
@@ -68,8 +84,6 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ actio
         endDateTimeUtc: navAction.endDateTimeUtc,
         ...updatedField
       }
-
-      console.log(updatedData)
 
       await mutateAntiPollution({ variables: { antiPollutionAction: updatedData } })
     }
@@ -104,6 +118,24 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ actio
 
           <Stack.Item style={{ width: '100%' }}>
             <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
+              <Stack.Item alignSelf="baseline">
+                <Icon.Info color={THEME.color.charcoal} size={20} />
+              </Stack.Item>
+              <Stack.Item>
+                <Text as="h4" weight="normal" fontStyle="italic">
+                  Ces actions conernent des opérations menées en coordination avec le CROSS lors de la suspicion /
+                  détection / signalement de pollution en mer (rejets illicites...)
+                  <br />
+                  Les contrôles effectués de manière autonomes sont à rapporter au CACEM
+                  <br />
+                  En cas de doute, appelez le CACEM
+                </Text>
+              </Stack.Item>
+            </Stack>
+          </Stack.Item>
+
+          <Stack.Item style={{ width: '100%' }}>
+            <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
               <Stack.Item grow={1}>
                 <DateRangePicker
                   name="dates"
@@ -119,6 +151,66 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ actio
                   isLight={true}
                   onChange={async (nextValue?: [Date, Date] | [string, string]) => {
                     await onChange('dates', nextValue)
+                  }}
+                />
+              </Stack.Item>
+            </Stack>
+          </Stack.Item>
+
+          <Stack.Item style={{ width: '100%' }}>
+            <CoordinatesInput
+              label={"Lieu de l'opération"}
+              isRequired={true}
+              error={!actionData.latitude && !actionData.longitude ? 'error' : undefined}
+              isErrorMessageHidden={true}
+              name={'geoCoords'}
+              defaultValue={[actionData?.latitude as any, actionData?.longitude as any]}
+              coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
+              isLight={true}
+              disabled={false}
+              onChange={async (nextCoordinates?: Coordinates, prevCoordinates?: Coordinates) => {
+                if (!isEqual(nextCoordinates, prevCoordinates)) {
+                  await onChange('geoCoords', nextCoordinates)
+                }
+              }}
+            />
+          </Stack.Item>
+
+          <Stack.Item style={{ width: '100%' }}>
+            <Stack direction={'column'} spacing={'0.5rem'}>
+              <Stack.Item style={{ width: '100%' }}>
+                <Checkbox
+                  readOnly={false}
+                  isLight
+                  name="detectedPollution"
+                  label="Pollution détectée"
+                  checked={actionData?.detectedPollution}
+                  onChange={async nextValue => {
+                    await onChange('detectedPollution', nextValue)
+                  }}
+                />
+              </Stack.Item>
+              <Stack.Item style={{ width: '100%' }}>
+                <Checkbox
+                  readOnly={false}
+                  isLight
+                  name="pollutionObservedByAuthorizedAgent"
+                  label="Pollution constatée par un agent habilité"
+                  checked={actionData?.pollutionObservedByAuthorizedAgent}
+                  onChange={async nextValue => {
+                    await onChange('pollutionObservedByAuthorizedAgent', nextValue)
+                  }}
+                />
+              </Stack.Item>
+              <Stack.Item style={{ width: '100%' }}>
+                <Checkbox
+                  readOnly={false}
+                  isLight
+                  name="diversionCarriedOut"
+                  label="Déroutement effectué"
+                  checked={actionData?.diversionCarriedOut}
+                  onChange={async nextValue => {
+                    await onChange('diversionCarriedOut', nextValue)
                   }}
                 />
               </Stack.Item>
