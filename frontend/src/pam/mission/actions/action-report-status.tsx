@@ -57,7 +57,7 @@ const ActionReportStatus: FC<ActionReportStatusProps> = ({ actionSource, isMissi
       <Stack.Item alignSelf={'center'}>
         <AppropriateIcon />
       </Stack.Item>
-      <Stack.Item alignSelf={'center'}>
+      <Stack.Item alignSelf={'baseline'}>
         <Text as={'h3'} color={colorForReportStatus(isMissionFinished, isCompleteForStats)}>
           {messageForReportStatus(actionSource, isCompleteForStats)}
         </Text>
