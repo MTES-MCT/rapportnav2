@@ -9,7 +9,7 @@ export const GET_MISSION_BY_ID = gql`
       startDateTimeUtc
       endDateTimeUtc
       status
-      reportStatus {
+      completenessForStats {
         status
         sources
       }
@@ -26,7 +26,10 @@ export const GET_MISSION_BY_ID = gql`
         status
         startDateTimeUtc
         endDateTimeUtc
-        isCompleteForStats
+        completenessForStats {
+          status
+          sources
+        }
         data {
           ... on FishActionData {
             id

@@ -6,7 +6,10 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.ExtendedEnvMissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.EnvMission
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
 import io.sentry.Sentry
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.GeometryFactory
@@ -30,12 +33,13 @@ fun createMockMultiPoint(coordinates: List<Coordinate>): MultiPoint {
 class GetEnvMissionById(
     private val mapper: ObjectMapper,
     private val getEnvMissions: GetEnvMissions,
+    private val attachControlsToActionControl: AttachControlsToActionControl,
 ) {
     private val logger = LoggerFactory.getLogger(GetEnvMissionById::class.java)
 
     private fun getFakeSurveillance(): List<EnvActionSurveillanceEntity> {
         val envMissionActionSurveillance1 = EnvActionSurveillanceEntity(
-            id = UUID.randomUUID(),
+            id = UUID.fromString("226d84bc-e6c5-4d29-8a5f-7db642f99d99"),
             actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-17T04:50:09Z"),
             actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-17T06:50:09Z"),
             completion = ActionCompletionEnum.COMPLETED
@@ -135,7 +139,7 @@ class GetEnvMissionById(
             observations = null,
             isSeafarersControl = true,
             isAdministrativeControl = true,
-            completion = ActionCompletionEnum.TO_COMPLETE,
+            completion = ActionCompletionEnum.COMPLETED,
             infractions = listOf(
                 InfractionEntity(
                     id = "12342",
@@ -171,6 +175,30 @@ class GetEnvMissionById(
         return listOf(envActionControl1, envMissionActionControl1, envMissionActionControl2, envMissionActionControl3)
     }
 
+    fun getMissionWithControls(envMission: MissionEntity): ExtendedEnvMissionEntity {
+        var mission = ExtendedEnvMissionEntity.fromEnvMission(envMission)
+
+        // need to attach nav controls to calculate correctly the completeness
+        mission.actions?.map {
+            if (it?.controlAction != null) {
+                val actionWithControls = attachControlsToActionControl.toEnvAction(
+                    actionId = it.controlAction.action?.id.toString(),
+                    action = it
+                )
+                actionWithControls.controlAction?.computeCompleteness()
+                ExtendedEnvActionEntity(
+                    controlAction = actionWithControls.controlAction
+                )
+            } else {
+                // no need for Surveillances
+                ExtendedEnvActionEntity(
+                    surveillanceAction = it?.surveillanceAction
+                )
+            }
+        }
+        return mission
+    }
+
     fun execute(missionId: Int): ExtendedEnvMissionEntity? {
 
         try {
@@ -189,16 +217,17 @@ class GetEnvMissionById(
             mapper.registerModule(JtsModule())
 
             val envMission = mapper.readValue(response.body(), object : TypeReference<EnvMission>() {})
-            return ExtendedEnvMissionEntity.fromEnvMission(envMission)
+            var mission = getMissionWithControls(envMission)
+            return mission
         } catch (e: Exception) {
             logger.error("GetEnvMissionById failed loading EnvMission", e)
             Sentry.captureMessage("GetEnvMissionById failed loading EnvMission")
             Sentry.captureException(e)
             return null
-
 //            var envMission = getEnvMissions.mockedMissions.find { missionId == it.id }!!
 //            envMission.envActions = this.getFakeControls() + this.getFakeSurveillance()
-//            return ExtendedEnvMissionEntity.fromEnvMission(envMission)
+//            var mission = getMissionWithControls(envMission)
+//            return mission
         }
 
 

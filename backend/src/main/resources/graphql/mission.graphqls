@@ -31,7 +31,7 @@ type Mission {
   generalInfo: MissionGeneralInfo
   openBy: String
   status: MissionStatusEnum
-  reportStatus: MissionReportStatus
+  completenessForStats: CompletenessForStats
 }
 
 enum MissionSourceEnum {
@@ -50,13 +50,13 @@ enum MissionStatusEnum {
   IN_PROGRESS
 }
 
-enum MissionReportStatusEnum {
+enum CompletenessForStatsStatusEnum {
   COMPLETE,
   INCOMPLETE,
 }
 
-type MissionReportStatus {
-  status: MissionReportStatusEnum!
+type CompletenessForStats {
+  status: CompletenessForStatsStatusEnum
   sources: [MissionSourceEnum]
 }
 

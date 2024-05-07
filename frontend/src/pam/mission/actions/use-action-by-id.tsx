@@ -11,7 +11,10 @@ export const GET_ACTION_BY_ID = gql`
       status
       startDateTimeUtc
       endDateTimeUtc
-      isCompleteForStats
+      completenessForStats {
+        status
+        sources
+      }
       data {
         ... on FishActionData {
           id

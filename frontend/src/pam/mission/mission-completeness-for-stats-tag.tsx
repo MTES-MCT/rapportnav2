@@ -1,18 +1,18 @@
 import { FC } from 'react'
 import { Icon, Tag, THEME } from '@mtes-mct/monitor-ui'
-import { MissionReportStatusEnum, MissionStatusEnum } from '../../types/mission-types.ts'
+import { CompletenessForStatsStatusEnum, MissionStatusEnum } from '../../types/mission-types.ts'
 import Text from '../../ui/text.tsx'
 
 interface MissionStatusTagProps {
   missionStatus?: MissionStatusEnum
-  reportStatus?: MissionReportStatusEnum
+  completenessForStats?: CompletenessForStatsStatusEnum
 }
 
-const MissionReportStatusTag: FC<MissionStatusTagProps> = ({ missionStatus, reportStatus }) => {
+const MissionCompletenessForStatsTag: FC<MissionStatusTagProps> = ({ missionStatus, completenessForStats }) => {
   let color, IconComponent, text
-  
-  if (reportStatus && missionStatus === MissionStatusEnum.ENDED) {
-    if (reportStatus === MissionReportStatusEnum.COMPLETE) {
+
+  if (completenessForStats && missionStatus === MissionStatusEnum.ENDED) {
+    if (completenessForStats === CompletenessForStatsStatusEnum.COMPLETE) {
       color = THEME.color.mediumSeaGreen
       IconComponent = Icon.Confirm
       text = 'Complété'
@@ -22,7 +22,7 @@ const MissionReportStatusTag: FC<MissionStatusTagProps> = ({ missionStatus, repo
       text = 'À compléter'
     }
   } else {
-    if (reportStatus === MissionReportStatusEnum.COMPLETE) {
+    if (completenessForStats === CompletenessForStatsStatusEnum.COMPLETE) {
       color = THEME.color.mediumSeaGreen
       IconComponent = Icon.Confirm
       text = 'Données à jour'
@@ -48,4 +48,4 @@ const MissionReportStatusTag: FC<MissionStatusTagProps> = ({ missionStatus, repo
   )
 }
 
-export default MissionReportStatusTag
+export default MissionCompletenessForStatsTag

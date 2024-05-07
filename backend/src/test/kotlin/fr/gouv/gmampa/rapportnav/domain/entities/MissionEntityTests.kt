@@ -114,7 +114,7 @@ class MissionEntityTests {
 
 
     @Nested
-    inner class CalculateMissionReportStatus {
+    inner class CalculateCompletenessForStats {
 
         private val validMissionGeneralInfoEntity = MissionGeneralInfoEntity(
             id = 1,
@@ -148,11 +148,11 @@ class MissionEntityTests {
                     actions = listOf()
                 )
             )
-            val expected = MissionReportStatusEntity(
-                status = MissionReportStatusEnum.INCOMPLETE,
+            val expected = CompletenessForStatsEntity(
+                status = CompletenessForStatsStatusEnum.INCOMPLETE,
                 sources = listOf(MissionSourceEnum.RAPPORTNAV)
             )
-            assertThat(mission.reportStatus).isEqualTo(expected)
+            assertThat(mission.completenessForStats).isEqualTo(expected)
         }
 
         @Test
@@ -168,11 +168,11 @@ class MissionEntityTests {
                     actions = listOf()
                 )
             )
-            val expected = MissionReportStatusEntity(
-                status = MissionReportStatusEnum.INCOMPLETE,
+            val expected = CompletenessForStatsEntity(
+                status = CompletenessForStatsStatusEnum.INCOMPLETE,
                 sources = listOf(MissionSourceEnum.RAPPORTNAV)
             )
-            assertThat(mission.reportStatus).isEqualTo(expected)
+            assertThat(mission.completenessForStats).isEqualTo(expected)
         }
 
 
@@ -197,15 +197,15 @@ class MissionEntityTests {
                     )
                 )
             )
-            val expected = MissionReportStatusEntity(
-                status = MissionReportStatusEnum.INCOMPLETE,
+            val expected = CompletenessForStatsEntity(
+                status = CompletenessForStatsStatusEnum.INCOMPLETE,
                 sources = listOf(
                     MissionSourceEnum.MONITORENV,
                     MissionSourceEnum.MONITORFISH,
                     MissionSourceEnum.RAPPORTNAV,
                 )
             )
-            assertThat(mission.reportStatus).isEqualTo(expected)
+            assertThat(mission.completenessForStats).isEqualTo(expected)
         }
     }
 }

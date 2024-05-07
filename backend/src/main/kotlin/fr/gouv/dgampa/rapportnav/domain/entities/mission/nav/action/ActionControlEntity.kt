@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
 
 import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
@@ -21,6 +22,7 @@ data class ActionControlEntity(
     val missionId: Int,
 
     var isCompleteForStats: Boolean? = null,
+    var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
 
     @MandatoryForStats
     val startDateTimeUtc: ZonedDateTime,
@@ -95,6 +97,7 @@ data class ActionControlEntity(
     ) {
         // completeness for stats being computed at class instantiation in constructor
         this.isCompleteForStats = EntityCompletenessValidator.isCompleteForStats(this)
+        this.sourcesOfMissingDataForStats = listOf(MissionSourceEnum.RAPPORTNAV)
     }
 
     fun toNavActionEntity(): NavActionEntity {
@@ -105,7 +108,8 @@ data class ActionControlEntity(
             endDateTimeUtc = endDateTimeUtc,
             actionType = ActionType.CONTROL,
             controlAction = this,
-            isCompleteForStats = isCompleteForStats
+            isCompleteForStats = isCompleteForStats,
+            sourcesOfMissingDataForStats = sourcesOfMissingDataForStats,
         )
     }
 

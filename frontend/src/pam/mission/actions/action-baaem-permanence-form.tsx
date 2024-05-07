@@ -75,7 +75,7 @@ const ActionBAAEMPermanenceForm: React.FC<ActionBAAEMPermanenceFormProps> = ({ a
     const deleteAction = async () => {
       await deleteBAAEMPermanence({
         variables: {
-          id: action.id!
+          id: action.id
         }
       })
       navigate(`/pam/missions/${missionId}`)
@@ -93,10 +93,8 @@ const ActionBAAEMPermanenceForm: React.FC<ActionBAAEMPermanenceFormProps> = ({ a
               onDelete={deleteAction}
               showButtons={true}
               showStatus={true}
-              missionStatus={navAction.status}
-              actionSource={action.source}
               isMissionFinished={isMissionFinished}
-              isCompleteForStats={navAction.isCompleteForStats}
+              completenessForStats={navAction.completenessForStats}
             />
           </Stack.Item>
 

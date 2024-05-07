@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
 
 import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.NavActionBAAEMPermanence
 import java.time.ZonedDateTime
@@ -14,6 +15,7 @@ class ActionBAAEMPermanenceEntity(
     val missionId: Int,
 
     var isCompleteForStats: Boolean? = null,
+    var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
 
     @MandatoryForStats
     val startDateTimeUtc: ZonedDateTime,
@@ -40,6 +42,7 @@ class ActionBAAEMPermanenceEntity(
     ) {
         // completeness for stats being computed at class instantiation in constructor
         this.isCompleteForStats = EntityCompletenessValidator.isCompleteForStats(this)
+        this.sourcesOfMissingDataForStats = listOf(MissionSourceEnum.RAPPORTNAV)
     }
 
     fun toNavActionBAAEMPermanence(): NavActionBAAEMPermanence {
@@ -57,6 +60,7 @@ class ActionBAAEMPermanenceEntity(
             id = id,
             missionId = missionId,
             isCompleteForStats = isCompleteForStats,
+            sourcesOfMissingDataForStats = sourcesOfMissingDataForStats,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
             actionType = ActionType.BAAEM_PERMANENCE,

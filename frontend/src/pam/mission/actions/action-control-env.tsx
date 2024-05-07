@@ -48,10 +48,8 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
             date={envAction.startDateTimeUtc}
             showButtons={false}
             showStatus={true}
-            missionStatus={envAction.status}
-            actionSource={envAction.source}
             isMissionFinished={isMissionFinished}
-            isCompleteForStats={envAction.isCompleteForStats}
+            completenessForStats={envAction.completenessForStats}
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>

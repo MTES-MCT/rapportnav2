@@ -3,9 +3,12 @@ import { Divider, Stack } from 'rsuite'
 import { Accent, Button, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import Text from '../../../ui/text.tsx'
 import { formatDateTimeForFrenchHumans } from '../../../utils/dates.ts'
-import ActionReportStatus, { ActionReportStatusProps } from './action-report-status.tsx'
+import ActionCompletenessForStatsMessage, {
+  ActionCompletenessForStatsMessageProps
+} from './action-completeness-for-stats-message.tsx'
+import { CompletenessForStats } from '../../../types/mission-types.ts'
 
-export type ActionHeaderProps = ActionReportStatusProps & {
+export type ActionHeaderProps = ActionCompletenessForStatsMessageProps & {
   icon?: Element
   title: string
   date?: string
@@ -13,6 +16,7 @@ export type ActionHeaderProps = ActionReportStatusProps & {
   showButtons: boolean
   onDelete?: () => void
   isMissionFinished?: boolean
+  completenessForStats?: CompletenessForStats
 }
 
 const ActionHeader: FC<ActionHeaderProps> = ({
@@ -22,9 +26,8 @@ const ActionHeader: FC<ActionHeaderProps> = ({
   showButtons,
   showStatus,
   onDelete,
-  actionSource,
-  isCompleteForStats,
-  isMissionFinished
+  isMissionFinished,
+  completenessForStats
 }) => {
   const ActionIcon = icon
   return (
@@ -75,9 +78,8 @@ const ActionHeader: FC<ActionHeaderProps> = ({
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         {showStatus ? (
-          <ActionReportStatus
-            actionSource={actionSource}
-            isCompleteForStats={isCompleteForStats}
+          <ActionCompletenessForStatsMessage
+            completenessForStats={completenessForStats}
             isMissionFinished={isMissionFinished}
           />
         ) : (

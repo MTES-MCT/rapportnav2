@@ -6,7 +6,6 @@ import {
   CoordinatesInput,
   DateRangePicker,
   Icon,
-  Label,
   MultiRadio,
   NumberInput,
   Textarea,
@@ -155,10 +154,8 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
               onDelete={deleteAction}
               showButtons={true}
               showStatus={true}
-              missionStatus={navAction.status}
-              actionSource={action.source}
               isMissionFinished={isMissionFinished}
-              isCompleteForStats={navAction.isCompleteForStats}
+              completenessForStats={navAction.completenessForStats}
             />
           </Stack.Item>
 
@@ -352,59 +349,57 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
         </Stack>
 
         {showPersonStack && (
-          <>
-            <Stack direction={'column'} spacing={'1rem'} alignItems={'flex-start'}>
-              <Stack.Item style={{ width: '100%' }}>
-                <Divider style={{ backgroundColor: THEME.color.charcoal }} />
-              </Stack.Item>
+          <Stack direction={'column'} spacing={'1rem'} alignItems={'flex-start'}>
+            <Stack.Item style={{ width: '100%' }}>
+              <Divider style={{ backgroundColor: THEME.color.charcoal }} />
+            </Stack.Item>
 
-              <Stack.Item style={{ width: '100%' }}>
-                <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
-                  <Stack.Item>
-                    {/* TODO add Toggle component to monitor-ui */}
-                    <Toggle
-                      checked={!!actionData?.isMigrationRescue}
-                      size="sm"
-                      onChange={(checked: boolean) => onChange('isMigrationRescue', checked)}
-                    />
-                  </Stack.Item>
-                  <Stack.Item alignSelf="flex-end">
-                    <Text as={'h3'} weight={'medium'}>
-                      Sauvetage dans le cadre d'un phénomène migratoire
-                    </Text>
-                  </Stack.Item>
-                </Stack>
-              </Stack.Item>
+            <Stack.Item style={{ width: '100%' }}>
+              <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
+                <Stack.Item>
+                  {/* TODO add Toggle component to monitor-ui */}
+                  <Toggle
+                    checked={!!actionData?.isMigrationRescue}
+                    size="sm"
+                    onChange={(checked: boolean) => onChange('isMigrationRescue', checked)}
+                  />
+                </Stack.Item>
+                <Stack.Item alignSelf="flex-end">
+                  <Text as={'h3'} weight={'medium'}>
+                    Sauvetage dans le cadre d'un phénomène migratoire
+                  </Text>
+                </Stack.Item>
+              </Stack>
+            </Stack.Item>
 
-              <Stack.Item style={{ width: '50%', maxWidth: '50%' }}>
-                <NumberInput
-                  label="Nb d'embarcations suivies sans nécessité d'intervention"
-                  name="nbOfVesselsTrackedWithoutIntervention"
-                  placeholder="0"
-                  isLight={true}
-                  value={actionData?.nbOfVesselsTrackedWithoutIntervention}
-                  onChange={async nextValue => {
-                    await onChange('nbOfVesselsTrackedWithoutIntervention', nextValue)
-                  }}
-                  disabled={!actionData?.isMigrationRescue}
-                />
-              </Stack.Item>
+            <Stack.Item style={{ width: '50%', maxWidth: '50%' }}>
+              <NumberInput
+                label="Nb d'embarcations suivies sans nécessité d'intervention"
+                name="nbOfVesselsTrackedWithoutIntervention"
+                placeholder="0"
+                isLight={true}
+                value={actionData?.nbOfVesselsTrackedWithoutIntervention}
+                onChange={async nextValue => {
+                  await onChange('nbOfVesselsTrackedWithoutIntervention', nextValue)
+                }}
+                disabled={!actionData?.isMigrationRescue}
+              />
+            </Stack.Item>
 
-              <Stack.Item style={{ width: '50%', maxWidth: '50%' }}>
-                <NumberInput
-                  label="Nb d'embarcations assistées pour un retour à terre"
-                  name="nbAssistedVesselsReturningToShore"
-                  placeholder="0"
-                  isLight={true}
-                  value={actionData?.nbAssistedVesselsReturningToShore}
-                  onChange={async nextValue => {
-                    await onChange('nbAssistedVesselsReturningToShore', nextValue)
-                  }}
-                  disabled={!actionData?.isMigrationRescue}
-                />
-              </Stack.Item>
-            </Stack>
-          </>
+            <Stack.Item style={{ width: '50%', maxWidth: '50%' }}>
+              <NumberInput
+                label="Nb d'embarcations assistées pour un retour à terre"
+                name="nbAssistedVesselsReturningToShore"
+                placeholder="0"
+                isLight={true}
+                value={actionData?.nbAssistedVesselsReturningToShore}
+                onChange={async nextValue => {
+                  await onChange('nbAssistedVesselsReturningToShore', nextValue)
+                }}
+                disabled={!actionData?.isMigrationRescue}
+              />
+            </Stack.Item>
+          </Stack>
         )}
       </form>
     )

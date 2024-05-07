@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.bff.model
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionReportStatusEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.Action
@@ -19,7 +19,7 @@ data class Mission(
     val actions: List<Action>?,
     val openBy: String? = null,
     val status: MissionStatusEnum? = null,
-    val reportStatus: MissionReportStatusEntity? = null,
+    val completenessForStats: CompletenessForStatsEntity? = null,
     val crew: List<MissionCrew>? = null,
     val generalInfo: MissionGeneralInfo? = null
 ) {
@@ -52,7 +52,7 @@ data class Mission(
                 crew = mission.crew?.map { MissionCrew.fromMissionCrewEntity(it) },
                 generalInfo = MissionGeneralInfo.fromMissionGeneralInfoEntity(mission.generalInfo),
                 status = mission.status,
-                reportStatus = mission.reportStatus
+                completenessForStats = mission.completenessForStats
             )
         }
     }

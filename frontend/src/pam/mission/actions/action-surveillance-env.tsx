@@ -1,5 +1,5 @@
 import React from 'react'
-import { DateRangePicker, Icon, Label, Textarea, THEME } from '@mtes-mct/monitor-ui'
+import { DateRangePicker, Icon, Label, THEME } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
 import Text from '../../../ui/text'
 import { Action } from '../../../types/action-types'
@@ -42,10 +42,8 @@ const ActionSurveillanceEnv: React.FC<ActionSurveillancePropsEnv> = ({ action })
             date={action.startDateTimeUtc}
             showButtons={false}
             showStatus={true}
-            missionStatus={action.status}
-            actionSource={action.source}
             isMissionFinished={isMissionFinished}
-            isCompleteForStats={action.isCompleteForStats}
+            completenessForStats={action.completenessForStats}
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>

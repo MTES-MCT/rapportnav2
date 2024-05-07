@@ -1,4 +1,4 @@
-import { MissionReportStatusEnum } from '../../types/mission-types.ts'
+import { CompletenessForStatsStatusEnum } from '../../types/mission-types.ts'
 import client from '../../apollo-client.ts'
 import { GET_MISSION_TIMELINE } from './timeline/use-mission-timeline.tsx'
 
@@ -21,17 +21,17 @@ import { GET_MISSION_TIMELINE } from './timeline/use-mission-timeline.tsx'
  * }
  */
 
-const useIsMissionReportComplete = (missionId?: number): boolean | undefined => {
+const useIsMissionCompleteForStats = (missionId?: number): boolean | undefined => {
   try {
     const { mission } = client.readQuery({
       query: GET_MISSION_TIMELINE,
       variables: { missionId }
     })
-    
-    return mission?.reportStatus?.status === MissionReportStatusEnum.COMPLETE
+
+    return mission?.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE
   } catch (error) {
     return undefined
   }
 }
 
-export default useIsMissionReportComplete
+export default useIsMissionCompleteForStats

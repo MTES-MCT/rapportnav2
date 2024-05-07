@@ -8,6 +8,7 @@ import {
 } from './control-types'
 import { ActionTypeEnum, EnvAction, MissionSourceEnum, VesselSizeEnum, VesselTypeEnum } from './env-mission-types'
 import { FishAction } from './fish-mission-types'
+import { CompletenessForStats } from './mission-types.ts'
 
 export type Action = {
   id?: any
@@ -19,7 +20,7 @@ export type Action = {
   endDateTimeUtc?: string
   summaryTags?: string[]
   controlsToComplete?: ControlType[]
-  isCompleteForStats?: boolean
+  completenessForStats: CompletenessForStats
   data: [
     | EnvAction
     | FishAction

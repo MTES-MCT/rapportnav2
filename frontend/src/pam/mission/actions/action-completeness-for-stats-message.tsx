@@ -3,10 +3,10 @@ import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import { MissionSourceEnum } from '../../../types/env-mission-types'
 import { Stack } from 'rsuite'
 import Text from '../../../ui/text.tsx'
+import { CompletenessForStats, CompletenessForStatsStatusEnum } from '../../../types/mission-types.ts'
 
-export interface ActionReportStatusProps {
-  actionSource: MissionSourceEnum
-  isCompleteForStats?: boolean
+export interface ActionCompletenessForStatsMessageProps {
+  completenessForStats?: CompletenessForStats
   isMissionFinished?: boolean
 }
 
@@ -17,27 +17,27 @@ const colorForReportStatus = (isMissionFinished?: boolean, isCompleteForStats?: 
   return THEME.color.charcoal
 }
 
-const messageForReportStatus = (actionSource: MissionSourceEnum, isCompleteForStats?: boolean) => {
-  if (isCompleteForStats) {
+const messageForReportStatus = (completenessForStats?: CompletenessForStats) => {
+  if (completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE) {
     return 'Les champs indispensables aux statistiques sont remplis.'
   }
 
-  let sourceName
-  switch (actionSource) {
-    case MissionSourceEnum.RAPPORTNAV:
-      sourceName = "l'unité"
-      break
-    case MissionSourceEnum.MONITORENV:
-      sourceName = 'le CACEM'
-      break
-    default:
-      sourceName = 'le CNSP'
+  let sourceName = ''
+  if (completenessForStats?.sources?.indexOf(MissionSourceEnum.RAPPORTNAV) !== -1) {
+    sourceName = "par l'unité"
+  } else if (completenessForStats?.sources?.indexOf(MissionSourceEnum.MONITORENV) !== -1) {
+    sourceName = 'par le CACEM'
+  } else if (completenessForStats?.sources?.indexOf(MissionSourceEnum.MONITORFISH) !== -1) {
+    sourceName = 'par le CNSP'
   }
-
-  return `Des champs indispensables sont à remplir par ${sourceName}.`
+  return `Des champs indispensables sont à remplir ${sourceName}.`
 }
 
-const ActionReportStatus: FC<ActionReportStatusProps> = ({ actionSource, isMissionFinished, isCompleteForStats }) => {
+const ActionCompletenessForStatsMessage: FC<ActionCompletenessForStatsMessageProps> = ({
+  isMissionFinished,
+  completenessForStats
+}) => {
+  const isCompleteForStats = completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE
   const AppropriateIcon = isCompleteForStats
     ? () => (
         <Icon.Confirm
@@ -59,11 +59,11 @@ const ActionReportStatus: FC<ActionReportStatusProps> = ({ actionSource, isMissi
       </Stack.Item>
       <Stack.Item alignSelf={'baseline'}>
         <Text as={'h3'} color={colorForReportStatus(isMissionFinished, isCompleteForStats)}>
-          {messageForReportStatus(actionSource, isCompleteForStats)}
+          {messageForReportStatus(completenessForStats)}
         </Text>
       </Stack.Item>
     </Stack>
   )
 }
 
-export default ActionReportStatus
+export default ActionCompletenessForStatsMessage

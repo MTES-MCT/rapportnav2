@@ -36,7 +36,7 @@ export type Mission = {
   actions: Action[]
   generalInfo: MissionGeneralInfo
   status: MissionStatusEnum
-  reportStatus?: MissionReportStatus
+  completenessForStats?: CompletenessForStats
 }
 
 export type MissionGeneralInfo = {
@@ -51,8 +51,8 @@ export type MissionExport = {
   fileContent: string
 }
 
-export type MissionReportStatus = {
-  status: MissionReportStatusEnum
+export type CompletenessForStats = {
+  status?: CompletenessForStatsStatusEnum
   sources?: MissionSourceEnum[]
 }
 
@@ -64,7 +64,7 @@ export enum MissionStatusEnum {
   UNAVAILABLE = 'UNAVAILABLE'
 }
 
-export enum MissionReportStatusEnum {
+export enum CompletenessForStatsStatusEnum {
   COMPLETE = 'COMPLETE',
   INCOMPLETE = 'INCOMPLETE'
 }

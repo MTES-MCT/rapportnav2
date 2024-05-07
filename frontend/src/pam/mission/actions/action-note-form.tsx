@@ -75,10 +75,8 @@ const ActionNoteForm: React.FC<ActionNoteFormProps> = ({ action }) => {
               showButtons={true}
               showStatus={false}
               onDelete={deleteAction}
-              missionStatus={action.status}
-              actionSource={action.source}
               isMissionFinished={isMissionFinished}
-              isCompleteForStats={action.isCompleteForStats}
+              completenessForStats={navAction.completenessForStats}
             />
           </Stack.Item>
 

@@ -11,6 +11,7 @@ import { ActionTypeEnum } from '../../../types/env-mission-types'
 import { groupByDay } from '../utils'
 import useGetMissionTimeline from './use-mission-timeline.tsx'
 import { find } from 'lodash'
+import { CompletenessForStatsStatusEnum } from '../../../types/mission-types.ts'
 
 interface MissionTimelineProps {
   missionId?: string
@@ -118,7 +119,8 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ missionId, onSelectAc
                                   />
                                 </MissionTimelineItemContainer>
                               </Stack.Item>
-                              {action.isCompleteForStats && action.type !== ActionTypeEnum.STATUS ? (
+                              {action.completenessForStats.status === CompletenessForStatsStatusEnum.COMPLETE &&
+                              action.type !== ActionTypeEnum.STATUS ? (
                                 <Stack.Item
                                   alignSelf="stretch"
                                   style={{ width: '15px', padding: '5px 0 5px 5px' }}
@@ -134,7 +136,7 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ missionId, onSelectAc
                                     &nbsp;
                                   </div>
                                 </Stack.Item>
-                              ) : action.isCompleteForStats === false ? (
+                              ) : action.completenessForStats.status === CompletenessForStatsStatusEnum.INCOMPLETE ? (
                                 <Stack.Item data-testid={'timeline-item-incomplete-report'}>
                                   <IconButton
                                     accent={Accent.TERTIARY}
