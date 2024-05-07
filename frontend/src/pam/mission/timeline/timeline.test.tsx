@@ -3,7 +3,7 @@ import Timeline from './timeline'
 import { ActionControl, ActionStatusType } from '../../../types/action-types.ts'
 import { vi } from 'vitest'
 import useGetMissionTimeline from './use-mission-timeline.tsx'
-import { Mission, VesselTypeEnum } from '../../../types/mission-types.ts'
+import { CompletenessForStatsStatusEnum, Mission, VesselTypeEnum } from '../../../types/mission-types.ts'
 import { GraphQLError } from 'graphql/error'
 import { ActionTypeEnum, MissionSourceEnum } from '../../../types/env-mission-types.ts'
 import { ControlMethod } from '../../../types/control-types.ts'
@@ -28,6 +28,10 @@ const actionMock1 = {
   summaryTags: undefined,
   controlsToComplete: undefined,
   isCompleteForStats: true,
+  completenessForStats: {
+    status: CompletenessForStatsStatusEnum.COMPLETE,
+    sources: undefined
+  },
   data: {
     controlMethod: ControlMethod.SEA,
     latitude: 123,
@@ -90,7 +94,14 @@ describe('Timeline', () => {
       expect(screen.queryAllByTestId('timeline-item-status')).toHaveLength(actions.actions.length - 1)
     })
     test('should not render the warning icon when data is incomplete', () => {
-      const actions = { actions: [{ ...actionMock1, isCompleteForStats: false }] }
+      const actions = {
+        actions: [
+          {
+            ...actionMock1,
+            completenessForStats: { status: CompletenessForStatsStatusEnum.INCOMPLETE }
+          }
+        ]
+      }
       ;(useGetMissionTimeline as any).mockReturnValue(mockedQueryResult(actions))
       render(<Timeline {...props()} />)
       expect(screen.getByTestId('timeline-item-incomplete-report')).toBeInTheDocument()

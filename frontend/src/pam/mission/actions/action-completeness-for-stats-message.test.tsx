@@ -1,18 +1,19 @@
 import { render, screen } from '../../../test-utils'
-import ActionReportStatus from './action-report-status.tsx'
-import { MissionStatusEnum } from '../../../types/mission-types.ts'
-import { MissionSourceEnum } from '../../../types/env-mission-types.ts'
+import { CompletenessForStatsStatusEnum } from '../../../types/mission-types.ts'
 import { THEME } from '@mtes-mct/monitor-ui'
 import { hexToRgb } from '../../../utils/colors.ts'
+import { MissionSourceEnum } from '../../../types/env-mission-types.ts'
+import ActionCompletenessForStatsMessage from './action-completeness-for-stats-message.tsx'
 
-describe('ActionReportStatus', () => {
+describe('ActionCompletenessForStatsMessage', () => {
   test('renders that everything is complete when mission has ended and data is complete', () => {
     render(
-      <ActionReportStatus
+      <ActionCompletenessForStatsMessage
         isMissionFinished={true}
-        missionStatus={MissionStatusEnum.ENDED}
-        actionSource={MissionSourceEnum.RAPPORTNAV}
-        isCompleteForStats={true}
+        completenessForStats={{
+          status: CompletenessForStatsStatusEnum.COMPLETE,
+          sources: undefined
+        }}
       />
     )
     const element = screen.getByText('Les champs indispensables aux statistiques sont remplis.')
@@ -21,11 +22,12 @@ describe('ActionReportStatus', () => {
   })
   test('renders data missing text in red when mission is ended', () => {
     render(
-      <ActionReportStatus
+      <ActionCompletenessForStatsMessage
         isMissionFinished={true}
-        missionStatus={MissionStatusEnum.ENDED}
-        actionSource={MissionSourceEnum.RAPPORTNAV}
-        isCompleteForStats={false}
+        completenessForStats={{
+          status: CompletenessForStatsStatusEnum.INCOMPLETE,
+          sources: [MissionSourceEnum.RAPPORTNAV]
+        }}
       />
     )
     const element = screen.getByText("Des champs indispensables sont à remplir par l'unité.")
@@ -34,10 +36,11 @@ describe('ActionReportStatus', () => {
   })
   test('renders data missing text in charcoal when mission is ongoing', () => {
     render(
-      <ActionReportStatus
-        missionStatus={MissionStatusEnum.IN_PROGRESS}
-        actionSource={MissionSourceEnum.RAPPORTNAV}
-        isCompleteForStats={false}
+      <ActionCompletenessForStatsMessage
+        completenessForStats={{
+          status: CompletenessForStatsStatusEnum.INCOMPLETE,
+          sources: [MissionSourceEnum.RAPPORTNAV]
+        }}
       />
     )
     const element = screen.getByText("Des champs indispensables sont à remplir par l'unité.")
@@ -46,10 +49,11 @@ describe('ActionReportStatus', () => {
   })
   test('renders data missing text from CACEM', () => {
     render(
-      <ActionReportStatus
-        missionStatus={MissionStatusEnum.IN_PROGRESS}
-        actionSource={MissionSourceEnum.MONITORENV}
-        isCompleteForStats={false}
+      <ActionCompletenessForStatsMessage
+        completenessForStats={{
+          status: CompletenessForStatsStatusEnum.INCOMPLETE,
+          sources: [MissionSourceEnum.MONITORENV]
+        }}
       />
     )
     const element = screen.getByText('Des champs indispensables sont à remplir par le CACEM.')
@@ -57,10 +61,11 @@ describe('ActionReportStatus', () => {
   })
   test('renders data missing text from CNSP', () => {
     render(
-      <ActionReportStatus
-        missionStatus={MissionStatusEnum.IN_PROGRESS}
-        actionSource={MissionSourceEnum.MONITORFISH}
-        isCompleteForStats={false}
+      <ActionCompletenessForStatsMessage
+        completenessForStats={{
+          status: CompletenessForStatsStatusEnum.INCOMPLETE,
+          sources: [MissionSourceEnum.MONITORFISH]
+        }}
       />
     )
     const element = screen.getByText('Des champs indispensables sont à remplir par le CNSP.')
@@ -68,20 +73,22 @@ describe('ActionReportStatus', () => {
   })
   test('renders the incomplete data icon', () => {
     render(
-      <ActionReportStatus
-        missionStatus={MissionStatusEnum.IN_PROGRESS}
-        actionSource={MissionSourceEnum.MONITORFISH}
-        isCompleteForStats={false}
+      <ActionCompletenessForStatsMessage
+        completenessForStats={{
+          status: CompletenessForStatsStatusEnum.INCOMPLETE,
+          sources: [MissionSourceEnum.RAPPORTNAV]
+        }}
       />
     )
     expect(screen.getByTestId('report-incomplete')).toBeInTheDocument()
   })
   test('renders the complete data icon', () => {
     render(
-      <ActionReportStatus
-        missionStatus={MissionStatusEnum.IN_PROGRESS}
-        actionSource={MissionSourceEnum.MONITORFISH}
-        isCompleteForStats={true}
+      <ActionCompletenessForStatsMessage
+        completenessForStats={{
+          status: CompletenessForStatsStatusEnum.COMPLETE,
+          sources: undefined
+        }}
       />
     )
     expect(screen.getByTestId('report-complete')).toBeInTheDocument()

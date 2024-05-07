@@ -36,7 +36,7 @@ type Action {
   status: ActionStatusType!
   type: ActionType
   summaryTags: [String]
-  isCompleteForStats: Boolean
+  completenessForStats: CompletenessForStats
   data: ActionData
 }
 

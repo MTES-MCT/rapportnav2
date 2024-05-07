@@ -91,7 +91,7 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ actio
     const deleteAction = async () => {
       await deleteAntiPollution({
         variables: {
-          id: action.id!
+          id: action.id
         }
       })
       navigate(`/pam/missions/${missionId}`)
@@ -109,10 +109,9 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ actio
               onDelete={deleteAction}
               showButtons={true}
               showStatus={true}
-              missionStatus={navAction.status}
               actionSource={action.source}
               isMissionFinished={isMissionFinished}
-              isCompleteForStats={navAction.isCompleteForStats}
+              completenessForStats={navAction.completenessForStats}
             />
           </Stack.Item>
 

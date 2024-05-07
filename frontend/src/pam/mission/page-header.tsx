@@ -8,9 +8,9 @@ import GearIcon from '@rsuite/icons/Gear'
 import MissionStatusTag from './mission-status-tag.tsx'
 import { Mission, MissionStatusEnum } from '../../types/mission-types.ts'
 import { formatMissionName } from './utils.ts'
-import MissionReportStatusTag from './mission-report-status-tag.tsx'
+import MissionCompletenessForStatsTag from './mission-completeness-for-stats-tag.tsx'
 import MissionPageHeaderBanner from './page-header-banner.tsx'
-import useIsMissionReportComplete from './use-is-mission-report-complete.tsx'
+import useIsMissionCompleteForStats from './use-is-mission-complete-for-stats.tsx'
 
 const StyledHeader = styled.div`
   height: 60px;
@@ -36,7 +36,7 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
   onClickExport,
   exportLoading
 }) => {
-  const exportRapportEnabled = useIsMissionReportComplete(mission?.id)
+  const exportRapportEnabled = useIsMissionCompleteForStats(mission?.id)
 
   return (
     <>
@@ -54,9 +54,9 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
                 <TagGroup>
                   <MissionOpenByTag missionSource={mission?.missionSource} />
                   <MissionStatusTag status={mission?.status} />
-                  <MissionReportStatusTag
+                  <MissionCompletenessForStatsTag
                     missionStatus={mission?.status}
-                    reportStatus={mission?.reportStatus?.status}
+                    completenessForStats={mission?.completenessForStats?.status}
                   />
                 </TagGroup>
               </Stack.Item>
@@ -94,7 +94,9 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
           </FlexboxGrid.Item>
         </FlexboxGrid>
       </StyledHeader>
-      {mission?.status === MissionStatusEnum.ENDED && <MissionPageHeaderBanner reportStatus={mission.reportStatus} />}
+      {mission?.status === MissionStatusEnum.ENDED && (
+        <MissionPageHeaderBanner completenessForStats={mission.completenessForStats} />
+      )}
     </>
   )
 }

@@ -95,10 +95,8 @@ const ActionRepresentationForm: React.FC<ActionRepresentationFormProps> = ({ act
               onDelete={deleteAction}
               showButtons={true}
               showStatus={true}
-              missionStatus={navAction.status}
-              actionSource={action.source}
               isMissionFinished={isMissionFinished}
-              isCompleteForStats={navAction.isCompleteForStats}
+              completenessForStats={navAction.completenessForStats}
             />
           </Stack.Item>
 

@@ -30,7 +30,6 @@ const useLazyMissionExport = (): LazyQueryResultTuple<MissionExport, { missionId
     try {
       return await execute({ ...options, fetchPolicy: 'cache-and-network' })
     } catch (error) {
-      debugger
       console.error('Mission export error: ', error)
       Sentry.captureException(error)
       throw error

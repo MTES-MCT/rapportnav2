@@ -41,7 +41,7 @@ class GetFishActionsByMissionId(
         val missionAction1 = MissionAction(
             id = missionId + 1,
             missionId = missionId,
-            completion = Completion.TO_COMPLETE,
+            completion = Completion.COMPLETED,
             vesselId = 5232556,
             vesselName = "UNKNOWN",
             latitude = 48.389999,
@@ -143,7 +143,9 @@ class GetFishActionsByMissionId(
             feedbackSheetRequired = false,
             userTrigram = null,
             faoAreas = listOf("38.1"),
-            segments = listOf(FleetSegment("MED01", "Chaluts de fond"))
+            segments = listOf(FleetSegment("MED01", "Chaluts de fond")),
+            isComplianceWithWaterRegulationsControl = true,
+            isSeafarersControl = true
         )
 
         val missionAction3 = MissionAction(
@@ -155,12 +157,15 @@ class GetFishActionsByMissionId(
             latitude = 48.389999,
             longitude = -4.490000,
             actionType = MissionActionType.OBSERVATION,
-            actionDatetimeUtc = ZonedDateTime.parse("2024-01-09T11:00:00Z"),
+            actionDatetimeUtc = ZonedDateTime.parse("2024-01-09T12:00:00Z"),
             isDeleted = false,
             isAdministrativeControl = true,
             licencesAndLogbookObservations = null,
             hasSomeGearsSeized = false,
             hasSomeSpeciesSeized = false,
+            isComplianceWithWaterRegulationsControl = true,
+            isSafetyEquipmentAndStandardsComplianceControl = true,
+            isSeafarersControl = true
         )
 
         val actions = listOf(missionAction1, missionAction2, missionAction3).filter {
@@ -175,6 +180,8 @@ class GetFishActionsByMissionId(
                     actionId = it.id?.toString(),
                     action = action
                 )
+                // recompute completeness once controls have been attached
+                action.controlAction?.computeCompleteness()
                 action
             }
 
@@ -184,6 +191,7 @@ class GetFishActionsByMissionId(
     fun execute(missionId: Int): List<ExtendedFishActionEntity> {
         try {
             val fishActions = fishActionRepo.findFishActions(missionId = missionId)
+            // TODO maybe this filter should be somewhere else
             val actions = fishActions.filter {
                 listOf(
                     MissionActionType.SEA_CONTROL,
@@ -195,6 +203,8 @@ class GetFishActionsByMissionId(
                     actionId = it.id?.toString(),
                     action = action
                 )
+                // recompute completeness once controls have been attached
+                action.controlAction?.computeCompleteness()
                 action
             }
             return actions

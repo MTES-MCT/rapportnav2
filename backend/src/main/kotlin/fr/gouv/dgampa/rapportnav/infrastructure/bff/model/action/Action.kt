@@ -1,8 +1,8 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Completion
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
@@ -20,7 +20,7 @@ data class Action(
     val endDateTimeUtc: ZonedDateTime?,
     val summaryTags: List<String>? = null,
     val data: ActionData? = null,
-    val isCompleteForStats: Boolean? = null,
+    val completenessForStats: CompletenessForStatsEntity? = null,
 ) {
 
     companion object {
@@ -29,10 +29,14 @@ data class Action(
             return when {
                 envAction?.surveillanceAction != null -> {
                     val action = envAction.surveillanceAction.action
+                    val completenessForStats = CompletenessForStatsEntity(
+                        status = if (envAction.surveillanceAction.isCompleteForStats == true) CompletenessForStatsStatusEnum.COMPLETE else CompletenessForStatsStatusEnum.INCOMPLETE,
+                        sources = envAction.surveillanceAction.sourcesOfMissingDataForStats
+                    )
                     Action(
                         id = action.id,
                         missionId = missionId,
-                        isCompleteForStats = action.completion !== ActionCompletionEnum.TO_COMPLETE,
+                        completenessForStats = completenessForStats,
                         source = MissionSourceEnum.MONITORENV,
                         startDateTimeUtc = action.actionStartDateTimeUtc,
                         endDateTimeUtc = action.actionEndDateTimeUtc,
@@ -53,10 +57,14 @@ data class Action(
 
                 envAction?.controlAction != null -> {
                     val action = envAction.controlAction.action ?: return null
+                    val completenessForStats = CompletenessForStatsEntity(
+                        status = if (envAction.controlAction.isCompleteForStats == true) CompletenessForStatsStatusEnum.COMPLETE else CompletenessForStatsStatusEnum.INCOMPLETE,
+                        sources = envAction.controlAction.sourcesOfMissingDataForStats
+                    )
                     Action(
                         id = action.id,
                         missionId = missionId,
-                        isCompleteForStats = action.completion !== ActionCompletionEnum.TO_COMPLETE,
+                        completenessForStats = completenessForStats,
                         source = MissionSourceEnum.MONITORENV,
                         startDateTimeUtc = action.actionStartDateTimeUtc,
                         endDateTimeUtc = action.actionEndDateTimeUtc,
@@ -93,10 +101,14 @@ data class Action(
         fun fromFishAction(fishAction: ExtendedFishActionEntity, missionId: Int): Action? {
             return fishAction.controlAction?.action?.let {
                 val action = fishAction.controlAction.action
+                val completenessForStats = CompletenessForStatsEntity(
+                    status = if (fishAction.controlAction.isCompleteForStats == true) CompletenessForStatsStatusEnum.COMPLETE else CompletenessForStatsStatusEnum.INCOMPLETE,
+                    sources = fishAction.controlAction.sourcesOfMissingDataForStats
+                )
                 return Action(
                     id = action.id.toString(),
                     missionId = missionId,
-                    isCompleteForStats = action.completion === Completion.COMPLETED,
+                    completenessForStats = completenessForStats,
                     source = MissionSourceEnum.MONITORFISH,
                     startDateTimeUtc = action.actionDatetimeUtc,
                     endDateTimeUtc = null, // Set to null for FishAction since it doesn't have an endDateTime
@@ -209,13 +221,29 @@ data class Action(
                     data = navAction.illegalImmigrationAction.toNavActionIllegalImmigration()
                 }
             }
+            val completenessForStats = CompletenessForStatsEntity(
+                status = when (navAction.isCompleteForStats) {
+                    true -> {
+                        CompletenessForStatsStatusEnum.COMPLETE
+                    }
+
+                    false -> {
+                        CompletenessForStatsStatusEnum.INCOMPLETE
+                    }
+
+                    else -> {
+                        null
+                    }
+                },
+                sources = navAction.sourcesOfMissingDataForStats
+            )
             return Action(
                 id = navAction.id,
                 missionId = navAction.missionId,
                 source = MissionSourceEnum.RAPPORTNAV,
                 startDateTimeUtc = navAction.startDateTimeUtc,
                 endDateTimeUtc = navAction.endDateTimeUtc,
-                isCompleteForStats = navAction.isCompleteForStats,
+                completenessForStats = completenessForStats,
                 data = data,
             )
         }

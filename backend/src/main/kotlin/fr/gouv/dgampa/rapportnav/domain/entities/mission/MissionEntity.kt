@@ -1,10 +1,8 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Completion
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.NavMissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
@@ -36,7 +34,7 @@ data class MissionEntity(
     val generalInfo: MissionGeneralInfoEntity? = null,
     val crew: List<MissionCrewEntity>? = null,
     var status: MissionStatusEnum? = null,
-    var reportStatus: MissionReportStatusEntity? = null
+    var completenessForStats: CompletenessForStatsEntity? = null
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionEntity::class.java)
@@ -76,7 +74,7 @@ data class MissionEntity(
             startDateTimeUtc = envMission.mission.startDateTimeUtc,
             endDateTimeUtc = envMission.mission.endDateTimeUtc,
         )
-        this.reportStatus = this.calculateMissionReportStatus()
+        this.completenessForStats = this.calculateCompletenessForStats()
     }
 
     companion object {
@@ -140,9 +138,9 @@ data class MissionEntity(
         return MissionStatusEnum.PENDING
     }
 
-    private fun calculateMissionReportStatus(): MissionReportStatusEntity {
+    private fun calculateCompletenessForStats(): CompletenessForStatsEntity {
 
-        var status: MissionReportStatusEnum = MissionReportStatusEnum.COMPLETE
+        var status: CompletenessForStatsStatusEnum = CompletenessForStatsStatusEnum.COMPLETE
         val sources: MutableList<MissionSourceEnum> = mutableListOf()
 
         // check all actions
@@ -150,39 +148,46 @@ data class MissionEntity(
             when {
                 action is MissionActionEntity.NavAction && action.navAction.isCompleteForStats == false -> {
                     sources.add(MissionSourceEnum.RAPPORTNAV)
-                    status = MissionReportStatusEnum.INCOMPLETE
+                    status = CompletenessForStatsStatusEnum.INCOMPLETE
                 }
 
                 action is MissionActionEntity.EnvAction -> {
-                    if (action.envAction?.controlAction?.action?.completion == ActionCompletionEnum.TO_COMPLETE
-                        ||
-                        action.envAction?.surveillanceAction?.action?.completion == ActionCompletionEnum.TO_COMPLETE
-                    ) {
-                        sources.add(MissionSourceEnum.MONITORENV)
-                        status = MissionReportStatusEnum.INCOMPLETE
+                    if (action.envAction?.controlAction != null && action.envAction.controlAction.isCompleteForStats != true) {
+                        action.envAction.controlAction.sourcesOfMissingDataForStats?.map {
+                            sources.add(it)
+                        }
+                        status = CompletenessForStatsStatusEnum.INCOMPLETE
+                    }
+                    if (action.envAction?.surveillanceAction != null && action.envAction.surveillanceAction.isCompleteForStats != true) {
+                        action.envAction.surveillanceAction.sourcesOfMissingDataForStats?.map {
+                            sources.add(it)
+                        }
+                        status = CompletenessForStatsStatusEnum.INCOMPLETE
                     }
                 }
 
-                action is MissionActionEntity.FishAction && action.fishAction.controlAction?.action?.completion == Completion.TO_COMPLETE -> {
-                    sources.add(MissionSourceEnum.MONITORFISH)
-                    status = MissionReportStatusEnum.INCOMPLETE
+                action is MissionActionEntity.FishAction && (action.fishAction.controlAction?.isCompleteForStats != true) -> {
+                    action.fishAction.controlAction?.sourcesOfMissingDataForStats?.map {
+                        sources.add(it)
+                    }
+                    status = CompletenessForStatsStatusEnum.INCOMPLETE
                 }
             }
         }
 
         // check crew
         if (this.crew.isNullOrEmpty()) {
-            status = MissionReportStatusEnum.INCOMPLETE
+            status = CompletenessForStatsStatusEnum.INCOMPLETE
             sources.add(MissionSourceEnum.RAPPORTNAV)
         }
 
         // check general info
         if (this.generalInfo === null || (this.generalInfo.consumedFuelInLiters === null || this.generalInfo.consumedGOInLiters == null || this.generalInfo.distanceInNauticalMiles === null)) {
-            status = MissionReportStatusEnum.INCOMPLETE
+            status = CompletenessForStatsStatusEnum.INCOMPLETE
             sources.add(MissionSourceEnum.RAPPORTNAV)
         }
 
-        return MissionReportStatusEntity(
+        return CompletenessForStatsEntity(
             status = status,
             sources = sources.distinct()
         )

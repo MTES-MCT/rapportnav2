@@ -8,7 +8,7 @@ export const GET_MISSION_TIMELINE = gql`
       startDateTimeUtc
       endDateTimeUtc
       status
-      reportStatus {
+      completenessForStats {
         status
         sources
       }
@@ -20,7 +20,10 @@ export const GET_MISSION_TIMELINE = gql`
         summaryTags
         startDateTimeUtc
         endDateTimeUtc
-        isCompleteForStats
+        completenessForStats {
+          status
+          sources
+        }
         data {
           ... on FishActionData {
             id

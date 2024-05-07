@@ -10,7 +10,7 @@ export const GET_MISSIONS = gql`
       endDateTimeUtc
       openBy
       status
-      reportStatus {
+      completenessForStats {
         status
         sources
       }

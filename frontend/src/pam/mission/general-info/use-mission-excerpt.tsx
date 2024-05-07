@@ -9,7 +9,7 @@ export const GET_MISSION_EXCERPT = gql`
       startDateTimeUtc
       endDateTimeUtc
       status
-      reportStatus {
+      completenessForStats {
         status
         sources
       }
@@ -24,7 +24,10 @@ export const GET_MISSION_EXCERPT = gql`
         type
         source
         status
-        isCompleteForStats
+        completenessForStats {
+          status
+          sources
+        }
       }
     }
   }

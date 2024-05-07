@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
 
 import fr.gouv.dgampa.rapportnav.config.DependentFieldValue
 import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.NavActionRescue
 import java.time.ZonedDateTime
@@ -15,6 +16,7 @@ data class ActionRescueEntity(
     val missionId: Int,
 
     var isCompleteForStats: Boolean? = null,
+    var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
 
     @MandatoryForStats
     val startDateTimeUtc: ZonedDateTime,
@@ -82,8 +84,7 @@ data class ActionRescueEntity(
         isMigrationRescue: Boolean? = false,
         nbAssistedVesselsReturningToShore: Int? = null,
         nbOfVesselsTrackedWithoutIntervention: Int? = null,
-
-        ) : this(
+    ) : this(
         id = id,
         missionId = missionId,
         isCompleteForStats = null,
@@ -107,6 +108,7 @@ data class ActionRescueEntity(
     ) {
         // completeness for stats being computed at class instantiation in constructor
         this.isCompleteForStats = EntityCompletenessValidator.isCompleteForStats(this)
+        this.sourcesOfMissingDataForStats = listOf(MissionSourceEnum.RAPPORTNAV)
     }
 
 
@@ -115,6 +117,7 @@ data class ActionRescueEntity(
             id = id,
             missionId = missionId,
             isCompleteForStats = isCompleteForStats,
+            sourcesOfMissingDataForStats = sourcesOfMissingDataForStats,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
             actionType = ActionType.RESCUE,

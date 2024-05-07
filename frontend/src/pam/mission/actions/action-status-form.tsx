@@ -77,10 +77,8 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
               onDelete={deleteAction}
               showButtons={true}
               showStatus={true}
-              missionStatus={navAction.status}
-              actionSource={navAction.source}
               isMissionFinished={isMissionFinished}
-              isCompleteForStats={navAction.isCompleteForStats}
+              completenessForStats={navAction.completenessForStats}
             />
           </Stack.Item>
           {/* STATUS FIELDS */}

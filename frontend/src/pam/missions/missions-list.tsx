@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { formatMissionName } from '../mission/utils.ts'
 import { Mission } from '../../types/mission-types.ts'
 import MissionStatusTag from '../mission/mission-status-tag.tsx'
-import MissionReportStatusTag from '../mission/mission-report-status-tag.tsx'
+import MissionCompletenessForStatsTag from '../mission/mission-completeness-for-stats-tag.tsx'
 
 const ListItemWithHover = styled.div`
   height: inherit;
@@ -80,7 +80,10 @@ const MissionsList: React.FC<MissionsListProps> = ({ missions, prefetchMission }
                   <MissionStatusTag status={mission.status} />
                 </FlexboxGrid.Item>
                 <FlexboxGrid.Item colspan={3}>
-                  <MissionReportStatusTag missionStatus={mission.status} reportStatus={mission.reportStatus?.status} />
+                  <MissionCompletenessForStatsTag
+                    missionStatus={mission.status}
+                    completenessForStats={mission.completenessForStats?.status}
+                  />
                 </FlexboxGrid.Item>
                 <FlexboxGrid.Item colspan={3}></FlexboxGrid.Item>
                 <FlexboxGrid.Item colspan={1}>

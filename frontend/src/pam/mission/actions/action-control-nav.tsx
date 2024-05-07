@@ -144,10 +144,8 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
             onDelete={deleteAction}
             showButtons={true}
             showStatus={true}
-            missionStatus={action.status}
-            actionSource={action.source}
             isMissionFinished={isMissionFinished}
-            isCompleteForStats={action.isCompleteForStats}
+            completenessForStats={navAction.completenessForStats}
           />
         </Stack.Item>
 
@@ -198,7 +196,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
             isLight={true}
             role={'ok'}
             error={
-              isMissionFinished && (!navAction.startDateTimeUtc || !navAction.startDateTimeUtc) ? 'error' : undefined
+              isMissionFinished && (!navAction.startDateTimeUtc || !navAction.endDateTimeUtc) ? 'error' : undefined
             }
             isErrorMessageHidden={true}
             onChange={async (nextValue?: [Date, Date] | [string, string]) => {

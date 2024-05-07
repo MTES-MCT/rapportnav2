@@ -40,7 +40,7 @@ const ActionSelectionDropdown: FC<ActionSelectionDropdownProps> = ({ onSelect })
         Maintien de l'ordre public
       </Dropdown.Item>
       <Dropdown.Item icon={<MoreIcon />} eventKey={ActionTypeEnum.REPRESENTATION}>
-        Representation
+        Représentation
       </Dropdown.Item>
       <Dropdown.Item icon={<MoreIcon />} eventKey={ActionTypeEnum.ILLEGAL_IMMIGRATION}>
         Lutte contre l'immigration irrégulière

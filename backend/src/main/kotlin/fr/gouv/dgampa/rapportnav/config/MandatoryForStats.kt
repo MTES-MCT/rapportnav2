@@ -20,6 +20,7 @@ annotation class DependentFieldValue(
  *         DependentFieldValue(field = "status", value = arrayOf("42")), // For numeric, convert them to strings
  *         DependentFieldValue(field = "isFinished", value = arrayOf("true")), // For bools, convert them to strings
  *         DependentFieldValue(field = "someEnum", value = arrayOf("X", "Y")) // For enums, use their names as strings
+ *         DependentFieldValue(field = "action.isComplete", value = arrayOf("true")) // For nester fields
  *     ]
  * )
  *

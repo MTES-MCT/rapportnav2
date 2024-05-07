@@ -16,7 +16,6 @@ import java.util.*
 class GetEnvActionByIdAndMissionId(
     private val getEnvMissionById: GetEnvMissionById,
     private val attachControlsToActionControl: AttachControlsToActionControl,
-    private val mapper: ObjectMapper
 ) {
     fun execute(id: UUID, missionId: Int): ExtendedEnvActionEntity? {
         val mission = getEnvMissionById.execute(missionId = missionId)
@@ -28,12 +27,16 @@ class GetEnvActionByIdAndMissionId(
                 (it?.surveillanceAction?.action?.id == id)
         }?.let {
             if (it.surveillanceAction != null) {
+                it.surveillanceAction.computeCompleteness()
                 it
             } else {
                 attachControlsToActionControl.toEnvAction(
                     actionId = id.toString(),
                     action = it
                 )
+                // recompute completeness once controls have been attached
+                it.controlAction?.computeCompleteness()
+                it
             }
         }
     }

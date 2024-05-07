@@ -78,10 +78,8 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action }) => {
             date={fishAction.startDateTimeUtc}
             showButtons={false}
             showStatus={true}
-            missionStatus={fishAction.status}
-            actionSource={fishAction.source}
             isMissionFinished={isMissionFinished}
-            isCompleteForStats={fishAction.isCompleteForStats}
+            completenessForStats={fishAction.completenessForStats}
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
