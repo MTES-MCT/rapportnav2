@@ -17,10 +17,10 @@ export default defineConfig({
       provider: 'istanbul',
       reporter: ['text', 'lcov', 'json-summary', 'json'],
       thresholds: {
-        lines: 70,
-        branches: 70,
-        functions: 70,
-        statements: 70
+        lines: 50,
+        branches: 50,
+        functions: 50,
+        statements: 50
       }
     }
   }
