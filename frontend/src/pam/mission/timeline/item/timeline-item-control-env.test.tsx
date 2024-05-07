@@ -24,12 +24,10 @@ const actionMock = {
     infractions: [],
     observations: null,
     geom: 'MULTIPOINT ((-8.52318191 48.30305604))',
-    themes: [
-      {
-        subThemes: ['subtheme1', 'subtheme2'],
-        theme: 'rejets illicites'
-      }
-    ]
+    formattedControlPlans: {
+      subThemes: ['subtheme1', 'subtheme2'],
+      themes: ['rejets illicites']
+    }
   } as any as EnvAction
 }
 
@@ -52,9 +50,9 @@ describe('ActionEnvControl', () => {
         ...actionMock,
         data: {
           ...actionMock.data,
-          themes: [
+          formattedControlPlans: [
             {
-              theme: undefined
+              themes: undefined
             }
           ]
         }

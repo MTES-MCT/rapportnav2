@@ -3,12 +3,12 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionSurveillanceEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsForTimeline
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatGeoCoords
@@ -34,6 +34,9 @@ class FormatActionsForTimelineTests {
     @MockBean
     private lateinit var groupActionByDate: GroupActionByDate
 
+    @MockBean
+    private lateinit var mapEnvActionControlPlans: MapEnvActionControlPlans
+
     private val envControl =
         MissionActionEntity.EnvAction(ExtendedEnvActionEntity.fromEnvActionEntity(EnvActionControlMock.create()))
     private val envSurveillance =
@@ -49,11 +52,13 @@ class FormatActionsForTimelineTests {
     @BeforeEach
     fun setUp() {
         // Set up mock behavior for GroupActionByDate
-        val data: Map<LocalDate, List<MissionActionEntity>> = mapOf(
+        val groupActionByDateData: Map<LocalDate, List<MissionActionEntity>> = mapOf(
             LocalDate.of(2022, 1, 1) to listOf(envControl, fishControl, envSurveillance),
             LocalDate.of(2022, 1, 2) to listOf(navControl, navStatus, navFreeNote)
         )
-        Mockito.`when`(groupActionByDate.execute(any())).thenReturn(data)
+        Mockito.`when`(groupActionByDate.execute(any())).thenReturn(groupActionByDateData)
+        val mapEnvActionControlPlansData = ControlPlanMock().createListWithFirst()
+        Mockito.`when`(mapEnvActionControlPlans.execute(any())).thenReturn(mapEnvActionControlPlansData)
     }
 
     @Test
@@ -82,9 +87,9 @@ class FormatActionsForTimelineTests {
         ).isEqualTo(
             mapOf(
                 LocalDate.of(2022, 1, 1) to listOf(
-                    "12:00 / 14:00 - Contrôle Environnement",
+                    "12:00 / 14:00 - Contrôle Environnement - AMP sans réglementation particulière",
                     "12:00 - Contrôle Pêche - (DD): 52.14,14.30 - Le Pi - LR 314 - Infractions: sans PV - RAS",
-                    "12:00 / 14:00 - Surveillance Environnement",
+                    "12:00 / 14:00 - Surveillance Environnement - AMP sans réglementation particulière",
                 ),
                 LocalDate.of(2022, 1, 2) to listOf(
                     "12:00 / 14:00 - Contrôle administratif ",
@@ -121,9 +126,9 @@ class FormatActionsForTimelineTests {
             TimelineActions(
                 date = "2022-01-01",
                 freeNote = listOf<TimelineActionItem>(
-                    TimelineActionItem(observations = "12:00 / 14:00 - Contrôle Environnement"),
+                    TimelineActionItem(observations = "12:00 / 14:00 - Contrôle Environnement - AMP sans réglementation particulière"),
                     TimelineActionItem(observations = "12:00 - Contrôle Pêche - (DD): 52.14,14.30 - Le Pi - LR 314 - Infractions: sans PV - RAS"),
-                    TimelineActionItem(observations = "12:00 / 14:00 - Surveillance Environnement"),
+                    TimelineActionItem(observations = "12:00 / 14:00 - Surveillance Environnement - AMP sans réglementation particulière"),
                 )
             ),
             TimelineActions(
@@ -141,39 +146,32 @@ class FormatActionsForTimelineTests {
     @Test
     fun `formatEnvControl should return basic formatted string`() {
         val action: EnvActionControlEntity = EnvActionControlMock.create()
-        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement")
+        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - AMP sans réglementation particulière")
     }
 
     @Test
     fun `formatEnvSurveillance should return basic formatted string`() {
         val action: EnvActionSurveillanceEntity = EnvActionSurveillanceMock.create()
-        assertThat(formatActionsForTimeline.formatEnvSurveillance(action)).isEqualTo("12:00 / 14:00 - Surveillance Environnement")
+        assertThat(formatActionsForTimeline.formatEnvSurveillance(action)).isEqualTo("12:00 / 14:00 - Surveillance Environnement - AMP sans réglementation particulière")
     }
 
     @Test
     fun `formatEnvControl should return formatted string with facade`() {
         val action: EnvActionControlEntity = EnvActionControlMock.create(facade = "Golfe de Gascogne")
-        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - Golfe de Gascogne")
+        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - Golfe de Gascogne - AMP sans réglementation particulière")
     }
 
     @Test
     fun `formatEnvControl should return formatted string with themes`() {
-        val themes = listOf(
-            ThemeEntity(
-                theme = "Rejets illicites",
-            ),
-            ThemeEntity(
-                theme = "Natura 2000",
-            )
-        )
-        val action: EnvActionControlEntity = EnvActionControlMock.create(themes = themes)
-        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - Rejets illicites + Natura 2000")
+        val controlPlans = EnvActionControlPlanMock().createList()
+        val action: EnvActionControlEntity = EnvActionControlMock.create(controlPlans = controlPlans)
+        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - AMP sans réglementation particulière")
     }
 
     @Test
     fun `formatEnvControl should return formatted string with amount of controls`() {
         val action: EnvActionControlEntity = EnvActionControlMock.create(actionNumberOfControls = 2)
-        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - 2 contrôle(s)")
+        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - AMP sans réglementation particulière - 2 contrôle(s)")
     }
 
     @Test
@@ -181,13 +179,9 @@ class FormatActionsForTimelineTests {
         val action: EnvActionControlEntity = EnvActionControlMock.create(
             actionNumberOfControls = 2,
             facade = "Golfe de Gascogne",
-            themes = listOf(
-                ThemeEntity(
-                    theme = "Rejets illicites",
-                )
-            )
+            controlPlans = listOf(EnvActionControlPlanMock().controlPlan1)
         )
-        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - Golfe de Gascogne - Rejets illicites - 2 contrôle(s)")
+        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - Golfe de Gascogne - AMP sans réglementation particulière - 2 contrôle(s)")
     }
 
     @Test

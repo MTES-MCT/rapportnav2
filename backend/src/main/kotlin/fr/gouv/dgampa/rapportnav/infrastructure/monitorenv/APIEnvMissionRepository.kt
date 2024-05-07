@@ -2,10 +2,13 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.ExtendedEnvMissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
+import com.google.gson.Gson
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.MissionDataOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.MissionDataOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.controlPlans.ControlPlanDataOutput
+import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Repository
@@ -24,6 +27,29 @@ class APIEnvMissionRepository(
     private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepository::class.java)
     private val zoneDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.000X")
 
+    // TODO set as env var when available
+    private val host = "https://monitorenv.din.developpement-durable.gouv.fr"
+
+    override fun findMissionById(missionId: Int): MissionEntity? {
+        val client: HttpClient = HttpClient.newBuilder().build()
+        val request = HttpRequest
+            .newBuilder()
+            .uri(
+                URI.create(
+                    "$host/api/v1/missions/$missionId"
+                )
+            )
+            .build()
+
+        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+
+        mapper.registerModule(JtsModule())
+
+        val missionDataOutput: MissionDataOutput = mapper.readValue(response.body())
+        val envMission: MissionEntity = missionDataOutput.toMissionEntity()
+
+        return envMission
+    }
 
     override fun findAllMissions(
         pageNumber: Int?,
@@ -37,7 +63,7 @@ class APIEnvMissionRepository(
         controlUnits: List<Int>?
     ): List<MissionEntity>? {
 
-        val uriBuilder = StringBuilder("https://monitorenv.din.developpement-durable.gouv.fr/api/v1/missions")
+        val uriBuilder = StringBuilder("$host/api/v1/missions")
 
         // Append query parameters
         uriBuilder.append("?")
@@ -104,13 +130,14 @@ class APIEnvMissionRepository(
                 logger.info("Transformed MissionEntity: $missionEntity")
             }
 
-            val missions = missionEntityList.map {
-                MissionEntity(
-                    envMission = ExtendedEnvMissionEntity.fromEnvMission(
-                        it
-                    )
-                )
-            }
+            val missions = missionEntityList
+//                .map {
+//                MissionEntity(
+//                    envMission = ExtendedEnvMissionEntity.fromEnvMission(
+//                        it
+//                    )
+//                )
+//            }
 
             return missions
         } else {
@@ -119,6 +146,22 @@ class APIEnvMissionRepository(
 
         return null
 
+    }
+
+    override fun findAllControlPlans(): ControlPlansEntity? {
+        try {
+            val gson = Gson();
+            val client: HttpClient = HttpClient.newBuilder().build()
+            val request = HttpRequest.newBuilder().uri(
+                URI.create("$host/bff/v1/control_plans")
+            ).build();
+
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+            val output: ControlPlanDataOutput = gson.fromJson(response.body(), ControlPlanDataOutput::class.java)
+            return output.toControlPlansEntity()
+        } catch (ex: Exception) {
+            return null
+        }
     }
 
 }

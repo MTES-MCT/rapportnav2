@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.ExtendedEnvMissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.EnvMission
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
@@ -12,7 +13,7 @@ import java.time.ZonedDateTime
 
 @UseCase
 class GetEnvMissions(
-    private val missionRepo: IEnvMissionRepository
+    private val monitorEnvApiRepo: IEnvMissionRepository
 ) {
     private val logger = LoggerFactory.getLogger(GetEnvMissions::class.java)
 
@@ -115,13 +116,22 @@ class GetEnvMissions(
         controlUnits: List<Int>? = null
     ): List<MissionEntity>? {
         try {
-            val missions = missionRepo.findAllMissions(
-                startedAfterDateTime = startedAfterDateTime,
-                startedBeforeDateTime = startedBeforeDateTime,
-                pageNumber = pageNumber,
-                pageSize = pageSize,
-                controlUnits = controlUnits,
-            )
+            val envMissions: List<fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity>? =
+                monitorEnvApiRepo.findAllMissions(
+                    startedAfterDateTime = startedAfterDateTime,
+                    startedBeforeDateTime = startedBeforeDateTime,
+                    pageNumber = pageNumber,
+                    pageSize = pageSize,
+                    controlUnits = controlUnits,
+                )
+
+            val missions = envMissions?.map {
+                MissionEntity(
+                    envMission = ExtendedEnvMissionEntity.fromEnvMission(
+                        it
+                    )
+                )
+            }
             return missions
         } catch (e: Exception) {
             logger.error("GetEnvMissions failed loading Missions", e)

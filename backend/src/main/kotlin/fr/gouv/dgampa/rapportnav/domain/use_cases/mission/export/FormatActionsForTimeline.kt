@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionSurveillanceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
@@ -12,6 +13,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.mapActionStatusTypeToHumanString
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatGeoCoords
 import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActionItem
@@ -23,6 +25,7 @@ class FormatActionsForTimeline(
     private val groupActionByDate: GroupActionByDate,
     private val formatDateTime: FormatDateTime,
     private val formatGeoCoords: FormatGeoCoords,
+    private val mapEnvActionControlPlans: MapEnvActionControlPlans,
 ) {
 
     fun formatTimeline(actions: List<MissionActionEntity>?): Map<LocalDate, List<String>>? {
@@ -98,9 +101,10 @@ class FormatActionsForTimeline(
             val startTime = formatDateTime.formatTime(action.actionStartDateTimeUtc)
             val endTime = formatDateTime.formatTime(action.actionEndDateTimeUtc)
             val facade = action.facade?.let { " - $it" } ?: ""
-            val themes = action.themes?.let { " - ${it.map { theme -> theme.theme }.joinToString(" + ")}" } ?: ""
+            val filteredControlPlans: ControlPlansEntity? = mapEnvActionControlPlans.execute(action.controlPlans)
+            val themes = filteredControlPlans?.themes?.mapNotNull { it.theme }?.joinToString(", ")
             val amountOfControls = action.actionNumberOfControls?.let { " - $it contrôle(s)" } ?: ""
-            return "$startTime / $endTime - Contrôle Environnement$facade$themes$amountOfControls"
+            return "$startTime / $endTime - Contrôle Environnement$facade - $themes$amountOfControls"
         }
     }
 
@@ -108,7 +112,9 @@ class FormatActionsForTimeline(
         return action?.let {
             val startTime = formatDateTime.formatTime(action.actionStartDateTimeUtc)
             val endTime = formatDateTime.formatTime(action.actionEndDateTimeUtc)
-            return "$startTime / $endTime - Surveillance Environnement"
+            val filteredControlPlans: ControlPlansEntity? = mapEnvActionControlPlans.execute(action.controlPlans)
+            val themes = filteredControlPlans?.themes?.mapNotNull { it.theme }?.joinToString(", ")
+            return "$startTime / $endTime - Surveillance Environnement - $themes"
         }
     }
 

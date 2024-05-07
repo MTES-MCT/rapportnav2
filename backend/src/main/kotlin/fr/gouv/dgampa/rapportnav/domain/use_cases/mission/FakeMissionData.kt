@@ -44,11 +44,11 @@ class FakeMissionData(
             id = UUID.fromString("226d84bc-e6c5-4d29-8a5f-7db642f99$missionId"),
             actionStartDateTimeUtc = ZonedDateTime.parse("2024-01-09T10:00:00Z"),
             actionEndDateTimeUtc = null,  // Set to null if not provided in your API response
-            themes = listOf(
-                ThemeEntity(
-                    theme = "Rejets illicites",
-                    subThemes = listOf("avitaillement", "soutage"),
-                    protectedSpecies = listOf()
+            controlPlans = listOf(
+                EnvActionControlPlanEntity(
+                    themeId = 1,
+                    subThemeIds = listOf(1),
+                    tagIds = listOf(1),
                 )
             ),
             geom = createMockMultiPoint(listOf(Coordinate(-8.52318191, 48.30305604))),
@@ -125,19 +125,19 @@ class FakeMissionData(
         return when (user?.serviceId) {
             // bouteillon
             7 -> {
-                return listOf(fullMission(621), emptyMission(622))
+                listOf(fullMission(621), emptyMission(622))
             }
             // Ariane
             3 -> {
-                return listOf(fullMission(311), emptyMission(312))
+                listOf(fullMission(311), emptyMission(312))
             }
             // d'Alba
             6 -> {
-                return listOf(fullMission(761), emptyMission(762))
+                listOf(fullMission(761), emptyMission(762))
             }
             // else
             else -> {
-                return listOf()
+                listOf()
             }
         }
     }

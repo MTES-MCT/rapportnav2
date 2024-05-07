@@ -1,9 +1,12 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.bff
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.GetControlByActionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsByActionId
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.EnvActionData
+import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.FormattedEnvActionControlPlan
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.Infraction
 import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.infraction.InfractionsByVessel
 import org.springframework.graphql.data.method.annotation.SchemaMapping
@@ -13,7 +16,8 @@ import org.springframework.stereotype.Controller
 @Controller
 class ActionEnvController(
     private val getControlByActionId: GetControlByActionId,
-    private val getInfractionsByActionId: GetInfractionsByActionId
+    private val getInfractionsByActionId: GetInfractionsByActionId,
+    private val mapEnvActionControlPlans: MapEnvActionControlPlans,
 ) {
     /**
      * Some controls are marked as to be completed by the centers CNSP/CACEM
@@ -100,6 +104,12 @@ class ActionEnvController(
 
 
         return infractionsByVessel
+    }
+
+    @SchemaMapping(typeName = "EnvActionData", field = "formattedControlPlans")
+    fun getFormattedControlTypes(action: EnvActionData): FormattedEnvActionControlPlan? {
+        val filteredControlPlans: ControlPlansEntity? = mapEnvActionControlPlans.execute(action.controlPlans)
+        return FormattedEnvActionControlPlan.fromControlPlansEntity(filteredControlPlans)
     }
 
 

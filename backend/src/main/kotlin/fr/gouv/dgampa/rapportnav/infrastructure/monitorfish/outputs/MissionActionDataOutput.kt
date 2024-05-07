@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.input
+package fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.outputs
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*

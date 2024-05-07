@@ -48,8 +48,8 @@ data class Action(
                                 actionType = action.actionType,
                                 geom = action.geom,
                                 observations = action.observations,
-                                themes = action.themes,
-                                coverMissionZone = action.coverMissionZone
+                                coverMissionZone = action.coverMissionZone,
+                                controlPlans = action.controlPlans,
                             )
                         }
                     )
@@ -80,7 +80,7 @@ data class Action(
                                 actionTargetType = action.actionTargetType,
                                 vehicleType = action.vehicleType,
                                 infractions = action.infractions,
-                                themes = action.themes,
+                                controlPlans = action.controlPlans,
                                 isAdministrativeControl = action.isAdministrativeControl,
                                 isComplianceWithWaterRegulationsControl = action.isComplianceWithWaterRegulationsControl,
                                 isSafetyEquipmentAndStandardsComplianceControl = action.isSafetyEquipmentAndStandardsComplianceControl,
