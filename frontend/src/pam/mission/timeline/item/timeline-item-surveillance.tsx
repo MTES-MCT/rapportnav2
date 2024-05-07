@@ -28,16 +28,14 @@ const ActionEnvSurveillance: React.FC<{ action: Action; onClick: any }> = ({ act
                 <Stack direction="row" spacing="0.25rem">
                   <Stack.Item>
                     <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-                      Surveillance
-                    </Text>
-                  </Stack.Item>
-                  <Stack.Item>
-                    <Text as="h3" weight="bold" color={THEME.color.gunMetal} data-testid={'theme'}>
-                      {actionData &&
-                      'formattedControlPlans' in actionData &&
-                      actionData?.formattedControlPlans?.themes?.length
-                        ? actionData?.formattedControlPlans?.themes[0]
-                        : 'environnement marin'}
+                      Surveillance{' '}
+                      <b data-testid={'theme'}>
+                        {actionData &&
+                        'formattedControlPlans' in actionData &&
+                        actionData?.formattedControlPlans?.themes?.length
+                          ? actionData?.formattedControlPlans?.themes[0]
+                          : 'environnement marin'}
+                      </b>
                     </Text>
                   </Stack.Item>
                 </Stack>

@@ -29,16 +29,14 @@ const ActionEnvControl: React.FC<{ action: Action; onClick: any }> = ({ action, 
                 <Stack direction="row" spacing="0.25rem">
                   <Stack.Item>
                     <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-                      Contrôle
-                    </Text>
-                  </Stack.Item>
-                  <Stack.Item>
-                    <Text as="h3" weight="bold" color={THEME.color.gunMetal} data-testid={'theme'}>
-                      {actionData &&
-                      'formattedControlPlans' in actionData &&
-                      !!actionData?.formattedControlPlans?.themes?.length
-                        ? actionData?.formattedControlPlans?.themes[0]
-                        : 'environnement'}
+                      Contrôle{' '}
+                      <b data-testid={'theme'}>
+                        {actionData &&
+                        'formattedControlPlans' in actionData &&
+                        !!actionData?.formattedControlPlans?.themes?.length
+                          ? actionData?.formattedControlPlans?.themes[0]
+                          : 'environnement'}
+                      </b>
                     </Text>
                   </Stack.Item>
                 </Stack>

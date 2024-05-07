@@ -43,14 +43,14 @@ class GetFishActionsByMissionId(
             missionId = missionId,
             completion = Completion.COMPLETED,
             vesselId = 5232556,
-            vesselName = "UNKNOWN",
+            vesselName = "Le Stella",
             latitude = 48.389999,
             longitude = -4.490000,
             facade = "Outre-Mer",
             portLocode = "LR",
             portName = "La Rochelle",
-            actionType = MissionActionType.SEA_CONTROL,
-            actionDatetimeUtc = ZonedDateTime.parse("2024-01-08T14:00:00Z"),
+            actionType = MissionActionType.LAND_CONTROL,
+            actionDatetimeUtc = ZonedDateTime.parse("2024-01-09T14:00:00Z"),
             flightGoals = listOf(),
             logbookInfractions = listOf(),
             gearInfractions = listOf(),
@@ -98,7 +98,7 @@ class GetFishActionsByMissionId(
         val missionAction2 = MissionAction(
             id = missionId + 2,
             missionId = missionId,
-            completion = Completion.COMPLETED,
+            completion = Completion.TO_COMPLETE,
             vesselId = 5232556,
             vesselName = "Le POILLET",
             latitude = 48.389999,
@@ -168,7 +168,8 @@ class GetFishActionsByMissionId(
             isSeafarersControl = true
         )
 
-        val actions = listOf(missionAction1, missionAction2, missionAction3).filter {
+//        val actions = listOf(missionAction1, missionAction2, missionAction3).filter {
+        val actions = listOf(missionAction1).filter {
             listOf(
                 MissionActionType.SEA_CONTROL,
                 MissionActionType.LAND_CONTROL
