@@ -1,6 +1,9 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionRescueEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionRescueRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionRescueModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBActionRescueRepository
@@ -27,7 +30,16 @@ class JPAActionRescueRepository(
             val rescueModel = ActionRescueModel.fromActionRescueEntity(rescueAction)
             dbActionRescueRepository.save(rescueModel)
         } catch (e: InvalidDataAccessApiUsageException) {
-            throw Exception("Error saving or updating action rescue", e)
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,
+                message = "Unable to save ActionRescue='${rescueAction.id}'",
+                e,
+            )
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Unable to prepare data before saving ActionRescue='${rescueAction.id}'",
+                originalException = e
+            )
         }
     }
 

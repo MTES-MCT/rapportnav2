@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
 import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.NavActionBAAEMPermanence
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.NavActionBAAEMPermanence
 import java.time.ZonedDateTime
 import java.util.*
 

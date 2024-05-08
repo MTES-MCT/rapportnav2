@@ -2,6 +2,9 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.a
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionFreeNoteEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionFreeNoteRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionFreeNoteModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBActionFreeNoteRepository
@@ -14,8 +17,7 @@ import java.util.*
 class JPAActionFreeNoteRepository(
     private val dbActionFreeNoteRepository: IDBActionFreeNoteRepository,
     private val mapper: ObjectMapper
-) : INavActionFreeNoteRepository
-{
+) : INavActionFreeNoteRepository {
 
     override fun findAllByMissionId(missionId: Int): List<ActionFreeNoteModel> {
         return dbActionFreeNoteRepository.findAllByMissionId(missionId)
@@ -32,7 +34,16 @@ class JPAActionFreeNoteRepository(
             val freeNoteModel = ActionFreeNoteModel.fromActionFreeNote(freeNoteAction, mapper)
             dbActionFreeNoteRepository.save(freeNoteModel)
         } catch (e: InvalidDataAccessApiUsageException) {
-            throw Exception("Error saving or updating action free note", e)
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,
+                message = "Unable to save ActionNote='${freeNoteAction.id}'",
+                e,
+            )
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Unable to prepare data before saving ActionNote='${freeNoteAction.id}'",
+                originalException = e
+            )
         }
     }
 

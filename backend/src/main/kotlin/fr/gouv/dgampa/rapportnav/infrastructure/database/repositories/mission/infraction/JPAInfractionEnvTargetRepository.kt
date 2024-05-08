@@ -2,6 +2,9 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.i
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEnvTargetEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.infraction.IInfractionEnvTargetRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.InfractionEnvTargetModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.infraction.IDBInfractionEnvTargetRepository
@@ -24,7 +27,16 @@ class JPAInfractionEnvTargetRepository(
             val model = InfractionEnvTargetModel.fromInfractionEnvTargetEntity(infractionTarget, infraction)
             dbRepo.save(model)
         } catch (e: InvalidDataAccessApiUsageException) {
-            throw Exception("Error saving or updating Infraction Env Target", e)
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,
+                message = "Unable to save InfractionEnvTarget='${infractionTarget.id}'",
+                e,
+            )
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Unable to prepare data before saving InfractionEnvTarget='${infractionTarget.id}'",
+                originalException = e
+            )
         }
     }
 

@@ -6,11 +6,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSi
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.NavActionControl
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlAdministrative
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlGensDeMer
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlNavigation
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.control.ControlSecurity
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.NavActionControl
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlAdministrative
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlGensDeMer
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlNavigation
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlSecurity
 import java.time.ZonedDateTime
 import java.util.*
 

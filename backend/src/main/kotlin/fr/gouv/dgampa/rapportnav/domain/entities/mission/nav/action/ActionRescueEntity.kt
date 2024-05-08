@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.DependentFieldValue
 import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
-import fr.gouv.dgampa.rapportnav.infrastructure.bff.model.action.NavActionRescue
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.NavActionRescue
 import java.time.ZonedDateTime
 import java.util.*
 
