@@ -28,7 +28,7 @@ class APIEnvMissionRepository(
     private val zoneDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.000X")
 
     // TODO set as env var when available
-    private val host = "https://monitorenv.din.developpement-durable.gouv.fr"
+    private val host = "http://monitorenv.din.developpement-durable.gouv.fr"
 
     override fun findMissionById(missionId: Int): MissionEntity? {
         val client: HttpClient = HttpClient.newBuilder().build()
