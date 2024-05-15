@@ -17,7 +17,7 @@ class GetNatinfs(private val mapper: ObjectMapper) {
         val client: HttpClient = HttpClient.newBuilder().build()
         val request = HttpRequest.newBuilder().uri(
             URI.create(
-                "http://monitorenv.din.developpement-durable.gouv.fr/bff/v1/natinfs"
+                "https://monitorenv.din.developpement-durable.gouv.fr/bff/v1/natinfs"
             )
         ).build();
 
