@@ -13,7 +13,7 @@ build_projet_npm:
     - npm ci
     - npm run build --verbose
   tags:
-    - deployment_int
+    - build
   artifacts:
     name: "Npm artifacts from $CI_PROJECT_NAME on $CI_COMMIT_REF_SLUG"
     paths:
