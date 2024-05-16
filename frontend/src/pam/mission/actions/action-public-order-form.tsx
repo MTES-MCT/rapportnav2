@@ -88,7 +88,7 @@ const ActionPublicOrderForm: React.FC<ActionPublicOrderFormProps> = ({ action })
           <Stack.Item style={{ width: '100%' }}>
             <ActionHeader
               icon={undefined}
-              title={"Maintien de l'odre public"}
+              title={"Maintien de l'ordre public"}
               date={actionData.startDateTimeUtc}
               onDelete={deleteAction}
               showButtons={true}

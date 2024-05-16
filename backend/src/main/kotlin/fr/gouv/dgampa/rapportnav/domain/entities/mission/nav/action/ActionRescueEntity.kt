@@ -10,17 +10,17 @@ import java.util.*
 
 data class ActionRescueEntity(
     @MandatoryForStats
-    val id: UUID,
+    override val id: UUID,
 
     @MandatoryForStats
-    val missionId: Int,
+    override val missionId: Int,
 
-    var isCompleteForStats: Boolean? = null,
-    var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
+    override var isCompleteForStats: Boolean? = null,
+    override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
 
     @MandatoryForStats
-    val startDateTimeUtc: ZonedDateTime,
-    val endDateTimeUtc: ZonedDateTime? = null,
+    override val startDateTimeUtc: ZonedDateTime,
+    override val endDateTimeUtc: ZonedDateTime? = null,
 
     @MandatoryForStats
     val latitude: Float? = null,
@@ -57,12 +57,12 @@ data class ActionRescueEntity(
 
 
     val operationFollowsDEFREP: Boolean? = false,
-    val observations: String?,
+    override val observations: String?,
     val locationDescription: String? = null,
     val isMigrationRescue: Boolean? = false,
     val nbAssistedVesselsReturningToShore: Int? = null,
     val nbOfVesselsTrackedWithoutIntervention: Int? = null,
-) {
+) : BaseAction {
 
     constructor(
         id: UUID,

@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
@@ -27,7 +28,8 @@ class ExportMission(
     private val mapStatusDurations: MapStatusDurations,
     private val formatActionsForTimeline: FormatActionsForTimeline,
     private val getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus,
-    private val computeDurations: ComputeDurations
+    private val computeDurations: ComputeDurations,
+    private val getInfoAboutNavAction: GetInfoAboutNavAction,
 ) {
 
     private val logger = LoggerFactory.getLogger(ExportMission::class.java)
@@ -64,6 +66,24 @@ class ExportMission(
             )
 
             val timeline = formatActionsForTimeline.formatTimeline(mission.actions)
+
+            val rescueInfo =
+                getInfoAboutNavAction.execute(actions = mission.actions, actionTypes = listOf(ActionType.RESCUE))
+            val nauticalEventsInfo =
+                getInfoAboutNavAction.execute(
+                    actions = mission.actions,
+                    actionTypes = listOf(ActionType.NAUTICAL_EVENT)
+                )
+            val antiPollutionInfo =
+                getInfoAboutNavAction.execute(
+                    actions = mission.actions,
+                    actionTypes = listOf(ActionType.ANTI_POLLUTION)
+                )
+            val baaemAndVigimerInfo = getInfoAboutNavAction.execute(
+                actions = mission.actions,
+                actionTypes = listOf(ActionType.VIGIMER, ActionType.BAAEM_PERMANENCE)
+            )
+//            val surveillanceInfo =
 
             val exportParams = ExportParams(
                 service = mission.openBy,

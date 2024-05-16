@@ -9,21 +9,21 @@ import java.util.*
 
 class ActionIllegalImmigrationEntity(
     @MandatoryForStats
-    val id: UUID,
+    override val id: UUID,
 
     @MandatoryForStats
-    val missionId: Int,
+    override val missionId: Int,
 
-    var isCompleteForStats: Boolean? = null,
-    var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
-
-    @MandatoryForStats
-    val startDateTimeUtc: ZonedDateTime,
+    override var isCompleteForStats: Boolean? = null,
+    override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
 
     @MandatoryForStats
-    val endDateTimeUtc: ZonedDateTime,
+    override val startDateTimeUtc: ZonedDateTime,
 
-    val observations: String? = null,
+    @MandatoryForStats
+    override val endDateTimeUtc: ZonedDateTime,
+
+    override val observations: String? = null,
     val latitude: Float? = null,
     val longitude: Float? = null,
 
@@ -35,7 +35,7 @@ class ActionIllegalImmigrationEntity(
 
     @MandatoryForStats
     val nbOfSuspectedSmugglers: Int? = null,
-) {
+) : BaseAction {
 
     constructor(
         id: UUID,

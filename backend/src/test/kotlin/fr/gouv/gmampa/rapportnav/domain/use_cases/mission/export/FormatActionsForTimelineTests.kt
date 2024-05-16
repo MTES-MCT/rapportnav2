@@ -24,6 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
 
 @SpringBootTest(classes = [FormatActionsForTimeline::class, FormatDateTime::class, FormatGeoCoords::class])
 class FormatActionsForTimelineTests {
@@ -47,7 +50,16 @@ class FormatActionsForTimelineTests {
         MissionActionEntity.NavAction(NavActionControlMock.createActionControlEntity().toNavActionEntity())
     private val navStatus =
         MissionActionEntity.NavAction(NavActionStatusMock.createActionStatusEntity().toNavActionEntity())
-    private val navFreeNote = MissionActionEntity.NavAction(NavActionFreeNoteMock.create().toNavActionEntity())
+    private val navFreeNote =
+        MissionActionEntity.NavAction(
+            ActionMockFactory.create<ActionVigimerEntity>(
+                additionalParams = mapOf(
+                    "endDateTimeUtc" to ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 6), ZoneOffset.UTC),
+                    "endDateTimeUtc" to null,
+                    "observations" to "Largué, appareillé"
+                )
+            ).toNavActionEntity()
+        )
 
     @BeforeEach
     fun setUp() {
@@ -220,18 +232,6 @@ class FormatActionsForTimelineTests {
     }
 
     @Test
-    fun `formatNavNote should return formatted string`() {
-        val action: ActionFreeNoteEntity = NavActionFreeNoteMock.create()
-        assertThat(formatActionsForTimeline.formatNavNote(action)).isEqualTo("12:06 - Largué, appareillé")
-    }
-
-    @Test
-    fun `formatNavNote should return null if action is null`() {
-        val action = null
-        assertThat(formatActionsForTimeline.formatNavNote(action)).isNull()
-    }
-
-    @Test
     fun `formatNavStatus should return formatted string`() {
         val action: ActionStatusEntity = NavActionStatusMock.createActionStatusEntity()
         assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("12:00 - Navigation - observations")
@@ -259,6 +259,84 @@ class FormatActionsForTimelineTests {
     fun `formatNavControl should return null if action is null`() {
         val action = null
         assertThat(formatActionsForTimeline.formatNavControl(action)).isNull()
+    }
+
+    @Test
+    fun `formatNavNote should return formatted string`() {
+        val action = MissionActionEntity.NavAction(
+            ActionMockFactory.create<ActionVigimerEntity>(
+                additionalParams = mapOf(
+                    "endDateTimeUtc" to null,
+                    "observations" to "Largué, appareillé"
+                )
+            ).toNavActionEntity()
+        )
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 - Largué, appareillé")
+    }
+
+    @Test
+    fun `formatNavActionCommon for IllegalImmigration should return a correctly formatted string`() {
+        val action = MissionActionEntity.NavAction(
+            ActionMockFactory.create<ActionIllegalImmigrationEntity>().toNavActionEntity()
+        )
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Lutte contre l'immigration irrégulière")
+    }
+
+    @Test
+    fun `formatNavActionCommon for Representation should return a correctly formatted string`() {
+        val action = MissionActionEntity.NavAction(
+            ActionMockFactory.create<ActionRepresentationEntity>().toNavActionEntity()
+        )
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Représentation")
+    }
+
+    @Test
+    fun `formatNavActionCommon for Vigimer should return a correctly formatted string`() {
+        val action = MissionActionEntity.NavAction(
+            ActionMockFactory.create<ActionVigimerEntity>().toNavActionEntity()
+        )
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Permanence Vigimer")
+    }
+
+    @Test
+    fun `formatNavActionCommon for BAAEM should return a correctly formatted string`() {
+        val action = MissionActionEntity.NavAction(
+            ActionMockFactory.create<ActionBAAEMPermanenceEntity>().toNavActionEntity()
+        )
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Permanence BAAEM")
+    }
+
+
+    @Test
+    fun `formatNavActionCommon for PublicOrder should return a correctly formatted string`() {
+        val action = MissionActionEntity.NavAction(
+            ActionMockFactory.create<ActionPublicOrderEntity>().toNavActionEntity()
+        )
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Maintien de l'ordre public")
+    }
+
+    @Test
+    fun `formatNavActionCommon for NauticalEvent should return a correctly formatted string`() {
+        val action = MissionActionEntity.NavAction(
+            ActionMockFactory.create<ActionNauticalEventEntity>(
+                additionalParams = mapOf(
+                    "observations" to "RAS"
+                )
+            ).toNavActionEntity()
+        )
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Sécu de manifestation nautique - RAS")
+    }
+
+    @Test
+    fun `formatNavActionCommon for Rescue should return a correctly formatted string`() {
+        val action = MissionActionEntity.NavAction(
+            ActionMockFactory.create<ActionRescueEntity>(
+                additionalParams = mapOf(
+                    "observations" to "RAS"
+                )
+            ).toNavActionEntity()
+        )
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Assistance et sauvetage - RAS")
     }
 
 
