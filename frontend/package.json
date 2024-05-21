@@ -24,7 +24,7 @@
     "@sentry/integrations": "^7.111.0",
     "@sentry/react": "^7.111.0",
     "@unleash/proxy-client-react": "^4.2.2",
-    "apollo3-cache-persist": "^0.14.1",
+    "apollo3-cache-persist": "^0.15.0",
     "date-fns": "^2.30.0",
     "dotenv": "^16.4.5",
     "email-validator": "^2.0.4",
