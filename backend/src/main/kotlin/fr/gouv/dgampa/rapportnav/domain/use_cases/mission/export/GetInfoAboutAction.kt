@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.NavActionInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import kotlin.time.DurationUnit
 
@@ -11,21 +12,15 @@ class GetInfoAboutNavAction(
     private val computeDurations: ComputeDurations
 ) {
 
-    data class NavActionInfo(
-        val count: Int,
-        val durationInHours: Double,
-        val amountOfInterrogatedShips: Int? = null
-    )
-
     fun execute(
         actions: List<MissionActionEntity>?,
         actionTypes: List<ActionType>
-    ): NavActionInfo? {
+    ): NavActionInfoEntity? {
         return actions?.takeIf { it.isNotEmpty() }?.let { nonNullActions ->
             actionTypes.takeIf { it.isNotEmpty() }?.let {
                 val navActionsForActionTypes =
                     this.filterNavActionPerType(actions = nonNullActions, actionTypes = actionTypes)
-                NavActionInfo(
+                NavActionInfoEntity(
                     count = this.getCount(navActionsForActionTypes),
                     durationInHours = this.getAccumulatedDurationInHours(navActionsForActionTypes)
                 )

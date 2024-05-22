@@ -52,9 +52,9 @@ class FormatActionsForTimelineTests {
         MissionActionEntity.NavAction(NavActionStatusMock.createActionStatusEntity().toNavActionEntity())
     private val navFreeNote =
         MissionActionEntity.NavAction(
-            ActionMockFactory.create<ActionVigimerEntity>(
+            ActionMockFactory.create<ActionFreeNoteEntity>(
                 additionalParams = mapOf(
-                    "endDateTimeUtc" to ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 6), ZoneOffset.UTC),
+                    "startDateTimeUtc" to ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 6), ZoneOffset.UTC),
                     "endDateTimeUtc" to null,
                     "observations" to "Largué, appareillé"
                 )
@@ -264,11 +264,9 @@ class FormatActionsForTimelineTests {
     @Test
     fun `formatNavNote should return formatted string`() {
         val action = MissionActionEntity.NavAction(
-            ActionMockFactory.create<ActionVigimerEntity>(
-                additionalParams = mapOf(
-                    "endDateTimeUtc" to null,
-                    "observations" to "Largué, appareillé"
-                )
+            ActionMockFactory.create<ActionFreeNoteEntity>(
+                observations = "Largué, appareillé",
+                endDateTimeUtc = null
             ).toNavActionEntity()
         )
         assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 - Largué, appareillé")
@@ -319,9 +317,7 @@ class FormatActionsForTimelineTests {
     fun `formatNavActionCommon for NauticalEvent should return a correctly formatted string`() {
         val action = MissionActionEntity.NavAction(
             ActionMockFactory.create<ActionNauticalEventEntity>(
-                additionalParams = mapOf(
-                    "observations" to "RAS"
-                )
+                observations = "RAS"
             ).toNavActionEntity()
         )
         assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Sécu de manifestation nautique - RAS")
@@ -331,9 +327,7 @@ class FormatActionsForTimelineTests {
     fun `formatNavActionCommon for Rescue should return a correctly formatted string`() {
         val action = MissionActionEntity.NavAction(
             ActionMockFactory.create<ActionRescueEntity>(
-                additionalParams = mapOf(
-                    "observations" to "RAS"
-                )
+                observations = "RAS"
             ).toNavActionEntity()
         )
         assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Assistance et sauvetage - RAS")

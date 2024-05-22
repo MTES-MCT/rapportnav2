@@ -77,6 +77,11 @@ class APIRpnExportRepository(
             essence = params.essence ?: 0.0f,
             crew = params.crew,
             timeline = params.timeline,
+            rescueInfo = params.rescueInfo,
+            nauticalEventsInfo = params.nauticalEventsInfo,
+            antiPollutionInfo = params.antiPollutionInfo,
+            baaemAndVigimerInfo = params.baaemAndVigimerInfo,
+            traficSurveillanceInfo = params.traficSurveillanceInfo,
         )
 
         val gson = Gson();

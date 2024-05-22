@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionBAAEMP
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionRescueEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionVigimerEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.NavActionInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.GetInfoAboutNavAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ActionMockFactory
@@ -68,7 +69,7 @@ class GetInfoAboutActionTests {
     @Test
     fun `should return the correct amount for 1 actionType`() {
         Assertions.assertThat(getInfoAboutNavAction.execute(actions, listOf(ActionType.RESCUE))).isEqualTo(
-            GetInfoAboutNavAction.NavActionInfo(count = 1, durationInHours = 1.0, amountOfInterrogatedShips = null)
+            NavActionInfoEntity(count = 1, durationInHours = 1.0, amountOfInterrogatedShips = null)
         )
     }
 
@@ -80,7 +81,7 @@ class GetInfoAboutActionTests {
                 listOf(ActionType.BAAEM_PERMANENCE, ActionType.VIGIMER)
             )
         ).isEqualTo(
-            GetInfoAboutNavAction.NavActionInfo(count = 2, durationInHours = 2.0, amountOfInterrogatedShips = null)
+            NavActionInfoEntity(count = 2, durationInHours = 2.0, amountOfInterrogatedShips = null)
         )
     }
 }

@@ -23,7 +23,7 @@ object ActionMockFactory {
         id: UUID = UUID.randomUUID(),
         missionId: Int = 1,
         startDateTimeUtc: ZonedDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
-        endDateTimeUtc: ZonedDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 14, 0), ZoneOffset.UTC),
+        endDateTimeUtc: ZonedDateTime? = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 14, 0), ZoneOffset.UTC),
         observations: String? = null,
         additionalParams: Map<String, Any?> = emptyMap()
     ): T {

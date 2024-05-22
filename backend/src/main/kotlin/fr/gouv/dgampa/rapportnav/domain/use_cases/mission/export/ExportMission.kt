@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.toMap
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.ExportParams
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IRpnExportRepository
@@ -69,21 +70,22 @@ class ExportMission(
 
             val rescueInfo =
                 getInfoAboutNavAction.execute(actions = mission.actions, actionTypes = listOf(ActionType.RESCUE))
+                    ?.toMap()
             val nauticalEventsInfo =
                 getInfoAboutNavAction.execute(
                     actions = mission.actions,
                     actionTypes = listOf(ActionType.NAUTICAL_EVENT)
-                )
+                )?.toMap()
             val antiPollutionInfo =
                 getInfoAboutNavAction.execute(
                     actions = mission.actions,
                     actionTypes = listOf(ActionType.ANTI_POLLUTION)
-                )
+                )?.toMap()
             val baaemAndVigimerInfo = getInfoAboutNavAction.execute(
                 actions = mission.actions,
                 actionTypes = listOf(ActionType.VIGIMER, ActionType.BAAEM_PERMANENCE)
-            )
-//            val surveillanceInfo =
+            )?.toMap()
+            val traficSurveillanceInfo = null
 
             val exportParams = ExportParams(
                 service = mission.openBy,
@@ -101,7 +103,12 @@ class ExportMission(
                 goMarine = generalInfo?.consumedGOInLiters,
                 essence = generalInfo?.consumedFuelInLiters,
                 crew = agentsCrew,
-                timeline = formatActionsForTimeline.formatForRapportNav1(timeline)
+                timeline = formatActionsForTimeline.formatForRapportNav1(timeline),
+                rescueInfo = rescueInfo,
+                nauticalEventsInfo = nauticalEventsInfo,
+                antiPollutionInfo = antiPollutionInfo,
+                baaemAndVigimerInfo = baaemAndVigimerInfo,
+                traficSurveillanceInfo = traficSurveillanceInfo
             )
 
             return exportRepository.exportOdt(exportParams)

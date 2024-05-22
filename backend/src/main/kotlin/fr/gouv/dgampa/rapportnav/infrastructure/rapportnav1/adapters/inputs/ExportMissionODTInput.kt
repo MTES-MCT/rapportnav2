@@ -28,5 +28,10 @@ class ExportMissionODTInput(
     val goMarine: Float?,
     val essence: Float?,
     val crew: List<MissionCrewEntity>,
-    val timeline: List<TimelineActions>
+    val timeline: List<TimelineActions>,
+    val rescueInfo: Map<String, String>?,
+    val nauticalEventsInfo: Map<String, String>?,
+    val antiPollutionInfo: Map<String, String>?,
+    val baaemAndVigimerInfo: Map<String, String>?,
+    val traficSurveillanceInfo: Map<String, String>?,
 )
