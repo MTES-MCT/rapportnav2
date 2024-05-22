@@ -160,7 +160,7 @@ class FormatActionsForTimeline(
                 "(DD): ${it.first},${it.second}"
             }
             val vesselInfo = "${action.vesselName ?: "N/A"} - ${action.portLocode ?: ""} ${action.vesselId}"
-            val seizureAndDiversion = action.seizureAndDiversion?.let { " - retour du navire au port" } ?: ""
+            val seizureAndDiversion = if (action.seizureAndDiversion == true) " - retour du navire au port" else ""
             val natinfs: String = listOf(
                 action.gearInfractions.map { it.natinf },
                 action.logbookInfractions.map { it.natinf },
