@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.NatinfEntity
+import org.springframework.cache.annotation.Cacheable
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -12,6 +13,7 @@ import java.net.http.HttpResponse
 @UseCase
 class GetNatinfs(private val mapper: ObjectMapper) {
 
+    @Cacheable("natinfs")
     fun execute(): List<NatinfEntity> {
 
         val client: HttpClient = HttpClient.newBuilder().build()
