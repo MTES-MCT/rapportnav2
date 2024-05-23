@@ -40,7 +40,8 @@
     "type-fest": "^4.16.0",
     "unleash-proxy-client": "^3.3.1",
     "uuid": "^9.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@import-meta-env/cli": "^0.6.8",
