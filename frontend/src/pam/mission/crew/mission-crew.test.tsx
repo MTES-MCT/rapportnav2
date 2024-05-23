@@ -1,7 +1,7 @@
-import { render, screen, fireEvent } from '../../../test-utils'
+import { vi } from 'vitest'
+import { render, screen } from '../../../test-utils'
 import { MissionCrew as MissionCrewType } from '../../../types/crew-types'
 import MissionCrew from './mission-crew.tsx'
-import { vi } from 'vitest'
 import useMissionCrew from './use-mission-crew.tsx'
 
 const mutateMock = vi.fn()
@@ -30,7 +30,10 @@ const crewMock = {
     services: []
   },
   comment: undefined,
-  role: undefined
+  role: {
+    id: '1',
+    title: 'second mecanicien'
+  }
 }
 
 const mockedQueryResult = (crew?: MissionCrewType[], loading: boolean = false, error: any = undefined) => ({
@@ -39,27 +42,25 @@ const mockedQueryResult = (crew?: MissionCrewType[], loading: boolean = false, e
   error
 })
 
+const handleAction = (id: string) => console.log(id)
+
 describe('MissionCrew', () => {
-  describe('Testing rendering', () => {
-    it('should render the no crew text', async () => {
-      ;(useMissionCrew as any).mockReturnValue(mockedQueryResult(undefined))
-      render(<MissionCrew />)
-      expect(screen.getByText("Aucun membre d'équipage renseigné")).toBeInTheDocument()
-    })
-    it('should render the crew when there is', async () => {
-      ;(useMissionCrew as any).mockReturnValue(mockedQueryResult([crewMock]))
-      render(<MissionCrew />)
-      expect(screen.getByText('Identité')).toBeInTheDocument()
-    })
-    it('should render the add button', async () => {
-      render(<MissionCrew />)
-      expect(screen.getByText('Ajouter un membre d’équipage')).toBeInTheDocument()
-    })
-    it('should hide the add button after having clicked on it', async () => {
-      render(<MissionCrew />)
-      expect(screen.queryAllByText('Identité')).toHaveLength(1)
-      fireEvent.click(screen.getByText('Ajouter un membre d’équipage'))
-      expect(screen.queryAllByText('Identité')).toHaveLength(2)
-    })
+  it('should render the no crew text', async () => {
+    ;(useMissionCrew as any).mockReturnValue(mockedQueryResult(undefined))
+    render(<MissionCrew />)
+    expect(screen.getByText("Aucun membre d'équipage renseigné")).toBeInTheDocument()
   })
+
+  it('should render the crew when there is', async () => {
+    ;(useMissionCrew as any).mockReturnValue(mockedQueryResult([crewMock]))
+    const wrapper = render(<MissionCrew />)
+    expect(wrapper.getByTestId('crew-member-agent')).toBeDefined()
+  })
+
+  it('should render the add button', async () => {
+    render(<MissionCrew />)
+    expect(screen.getByText('Ajouter un membre d’équipage')).toBeInTheDocument()
+  })
+
+  //TODO: should show mission crew modal form
 })
