@@ -1,14 +1,15 @@
+import { THEME } from '@mtes-mct/monitor-ui'
 import { FC, ReactNode } from 'react'
 import styled from 'styled-components'
-import { THEME } from '@mtes-mct/monitor-ui'
 
-interface TextProps {
+export interface TextProps {
   as: 'h1' | 'h2' | 'h3' | 'h4'
   color?: string
   weight?: 'normal' | 'medium' | 'bold'
   fontStyle?: 'normal' | 'italic'
   decoration?: 'normal' | 'underline'
   children: ReactNode
+  truncate?: boolean
 }
 
 const fontWeights = {
@@ -17,7 +18,7 @@ const fontWeights = {
   bold: '700'
 }
 
-type StyledTextProps = Pick<TextProps, 'children' | 'color' | 'weight' | 'fontStyle' | 'decoration'>
+type StyledTextProps = Pick<TextProps, 'children' | 'color' | 'weight' | 'fontStyle' | 'decoration' | 'truncate'>
 
 const BaseText = styled.p<StyledTextProps>`
   color: ${props => props.color ?? THEME.color.charcoal};
@@ -28,6 +29,9 @@ const BaseText = styled.p<StyledTextProps>`
   text-align: left;
   line-spacing: 18px;
   character-spacing: 0;
+  overflow: ${props => (props.truncate ? 'hidden' : 'unset')};
+  white-space: ${props => (props.truncate ? 'nowrap' : 'unset')};
+  text-overflow: ${props => (props.truncate ? 'ellipsis' : 'unset')};
 `
 
 const H1 = styled(BaseText)<{ fontSize: number }>`
