@@ -29,7 +29,11 @@ variables:
   DEPLOYEMENT_PATH: "jobs-build-CI/deploiement"
 
   #Anlayse Trivy
-  FAIL_TRIVY_CONDITION:
+  FAIL_TRIVY_CONDITION_LIBRARY:
+    value: "--severity CRITICAL"
+    description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
+  
+  FAIL_TRIVY_CONDITION_OS:
     value: "--severity CRITICAL"
     description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
 
