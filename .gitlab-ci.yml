@@ -39,7 +39,7 @@ variables:
 
   #Analyse Sonar
   FAIL_SONAR_CONDITION:
-    value: "-Dsonar.qualitygate.wait=false"
+    value: "-Dsonar.qualitygate.wait=true"
     description: "Détermine la commande à passer au scanner Sonar pour bloquer ou non le job. -Dsonar.qualitygate.wait=true fait échouer le job si le quality gate Sonar n'est pas conforme."
 
   #Analyse Dependency-check
