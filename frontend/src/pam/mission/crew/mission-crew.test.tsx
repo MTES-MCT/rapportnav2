@@ -1,5 +1,5 @@
 import { vi } from 'vitest'
-import { render, screen } from '../../../test-utils'
+import { fireEvent, render, screen } from '../../../test-utils'
 import { MissionCrew as MissionCrewType } from '../../../types/crew-types'
 import MissionCrew from './mission-crew.tsx'
 import useMissionCrew from './use-mission-crew.tsx'
@@ -62,5 +62,17 @@ describe('MissionCrew', () => {
     expect(screen.getByText('Ajouter un membre d’équipage')).toBeInTheDocument()
   })
 
-  //TODO: should show mission crew modal form
+  it('should render the modal add member to the crew', async () => {
+    render(<MissionCrew />)
+    const memberButton = screen.getByTestId('add-crew-member-button')
+    fireEvent.click(memberButton)
+    expect(screen.getByText('Ajouter un membre d’équipage')).toBeInTheDocument()
+  })
+
+  it('should render the modal update member of a crew', async () => {
+    render(<MissionCrew />)
+    const memberButton = screen.getByTestId('edit-crew-member-icon')
+    fireEvent.click(memberButton)
+    expect(screen.getByText('Mise à jour d’un membre d’équipage')).toBeInTheDocument()
+  })
 })
