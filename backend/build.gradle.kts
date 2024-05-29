@@ -7,7 +7,7 @@ description = "RapportNav"
 
 val kotlinVersion by extra("1.9.21")
 val serializationVersion by extra("1.6.2")
-val springVersion by extra("3.2.6")
+val springVersion by extra("3.3.0")
 val testcontainersVersion by extra("1.19.3")
 
 plugins {
@@ -16,7 +16,7 @@ plugins {
   kotlin("jvm") version "1.9.21"
   kotlin("plugin.spring") version "1.9.21"
   kotlin("plugin.jpa") version "1.9.21"
-  id("org.springframework.boot") version "3.2.6"
+  id("org.springframework.boot") version "3.3.0"
   id("io.spring.dependency-management") version "1.1.4"
   id("org.owasp.dependencycheck") version "8.4.0"
 //  id("org.sonarqube") version "4.4.1.3373"
@@ -46,9 +46,9 @@ dependencyManagement {
   imports {
     mavenBom("org.testcontainers:testcontainers-bom:$testcontainersVersion")
   }
-  dependencies {
-    dependency("org.springframework.security:spring-security-core:6.2.3")
-  }
+//  dependencies {
+//    dependency("org.springframework.security:spring-security-core:6.2.4")
+//  }
 }
 
 dependencies {
@@ -71,7 +71,7 @@ dependencies {
   }
   implementation("io.jsonwebtoken:jjwt-api:0.12.3")
   implementation("javax.xml.bind:jaxb-api:2.3.1")
-  implementation("org.springframework.security:spring-security-oauth2-jose:6.2.3")
+  implementation("org.springframework.security:spring-security-oauth2-jose:6.3.0")
   implementation("org.locationtech.jts:jts-core:1.19.0")
   implementation("io.swagger.core.v3:swagger-core:2.2.20")
   implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
