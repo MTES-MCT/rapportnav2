@@ -12,7 +12,7 @@ variables:
     value: rapportnav-v2
     description: "Nom du projet à déployer"
   BDD_IAMGE:
-    value: postgres:15.6-alpine
+    value: postgres:15.7-alpine
     description: "Image de la base de données"
   PROJECT_VERSION:
     value: "1.2.0"
@@ -32,7 +32,7 @@ variables:
   FAIL_TRIVY_CONDITION_LIBRARY:
     value: "--severity HIGH,CRITICAL"
     description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
-  
+
   FAIL_TRIVY_CONDITION_OS:
     value: "--severity LOW,MEDIUM,HIGH,CRITICAL"
     description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
