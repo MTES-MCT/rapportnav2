@@ -33,5 +33,5 @@ class ExportMissionODTInput(
     val nauticalEventsInfo: Map<String, String>?,
     val antiPollutionInfo: Map<String, String>?,
     val baaemAndVigimerInfo: Map<String, String>?,
-    val traficSurveillanceInfo: Map<String, String>?,
+    val observations: String? = ""
 )

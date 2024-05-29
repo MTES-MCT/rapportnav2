@@ -85,7 +85,6 @@ class ExportMission(
                 actions = mission.actions,
                 actionTypes = listOf(ActionType.VIGIMER, ActionType.BAAEM_PERMANENCE)
             )?.toMap()
-            val traficSurveillanceInfo = null
 
             val exportParams = ExportParams(
                 service = mission.openBy,
@@ -108,7 +107,7 @@ class ExportMission(
                 nauticalEventsInfo = nauticalEventsInfo,
                 antiPollutionInfo = antiPollutionInfo,
                 baaemAndVigimerInfo = baaemAndVigimerInfo,
-                traficSurveillanceInfo = traficSurveillanceInfo
+                observations = "",
             )
 
             return exportRepository.exportOdt(exportParams)

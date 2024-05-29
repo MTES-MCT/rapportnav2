@@ -81,7 +81,7 @@ class APIRpnExportRepository(
             nauticalEventsInfo = params.nauticalEventsInfo,
             antiPollutionInfo = params.antiPollutionInfo,
             baaemAndVigimerInfo = params.baaemAndVigimerInfo,
-            traficSurveillanceInfo = params.traficSurveillanceInfo,
+            observations = ""
         )
 
         val gson = Gson();

@@ -26,7 +26,7 @@ data class ExportParams(
     val nauticalEventsInfo: Map<String, String>? = null,
     val antiPollutionInfo: Map<String, String>? = null,
     val baaemAndVigimerInfo: Map<String, String>? = null,
-    val traficSurveillanceInfo: Map<String, String>? = null,
+    val observations: String? = ""
 )
 
 interface IRpnExportRepository {
