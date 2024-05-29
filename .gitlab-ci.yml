@@ -26,15 +26,20 @@ variables:
   PROXY_HOST: "172.27.229.197"
   PROXY_PORT: "8090"
   TAG_VERSION: $NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION
+  DEPLOYEMENT_PATH: "jobs-build-CI/deploiement"
 
   #Anlayse Trivy
-  FAIL_TRIVY_CONDITION:
-    value: "--severity CRITICAL"
+  FAIL_TRIVY_CONDITION_LIBRARY:
+    value: "--severity HIGH,CRITICAL"
+    description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
+  
+  FAIL_TRIVY_CONDITION_OS:
+    value: "--severity LOW,MEDIUM,HIGH,CRITICAL"
     description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
 
   #Analyse Sonar
   FAIL_SONAR_CONDITION:
-    value: "-Dsonar.qualitygate.wait=false"
+    value: "-Dsonar.qualitygate.wait=true"
     description: "Détermine la commande à passer au scanner Sonar pour bloquer ou non le job. -Dsonar.qualitygate.wait=true fait échouer le job si le quality gate Sonar n'est pas conforme."
 
   #Analyse Dependency-check
