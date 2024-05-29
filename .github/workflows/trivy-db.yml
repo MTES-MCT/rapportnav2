@@ -35,7 +35,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: "postgres:15.7-alpine"
-          format: sarif
+          format: "sarif"
           output: "postgres-trivy-results.sarif"
           severity: "LOW,MEDIUM,HIGH,CRITICAL"
 
@@ -43,3 +43,4 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: "postgres-trivy-results.sarif"
+          category: "trivy-db"
