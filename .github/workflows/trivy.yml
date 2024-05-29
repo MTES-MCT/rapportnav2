@@ -70,15 +70,30 @@ jobs:
             ENV_PROFILE=${{ env.ENV_PROFILE }}
             GITHUB_SHA=${{ github.sha }}
 
-      - name: Run Trivy on Docker build
+      - name: Run Trivy on OS
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: "ghcr.io/mtes-mct/rapportnav2/rapportnav-app:${{ github.sha }}"
           format: sarif
-          output: "trivy-results.sarif"
-          severity: "CRITICAL,HIGH"
+          vuln-type: "os"
+          output: "trivy-results-os.sarif"
+          severity: "LOW,MEDIUM,HIGH,CRITICAL"
 
-      - name: Upload Trivy scan results to GitHub Security tab
+      - name: Run Trivy on libraries
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "ghcr.io/mtes-mct/rapportnav2/rapportnav-app:${{ github.sha }}"
+          format: sarif
+          vuln-type: "library"
+          output: "trivy-results-libs.sarif"
+          severity: "HIGH,CRITICAL"
+
+      - name: Upload Trivy OS scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: "trivy-results.sarif"
+          sarif_file: "trivy-results-os.sarif"
+
+      - name: Upload Trivy Library scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: "trivy-results-libs.sarif"
