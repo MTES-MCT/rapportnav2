@@ -26,7 +26,7 @@ variables:
   PROXY_HOST: "172.27.229.197"
   PROXY_PORT: "8090"
   TAG_VERSION: $NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION
-  DEPLOYEMENT_PATH: "jobs-build-CI/deploiement"
+  DEPLOYEMENT_PATH: "../.gitlab-ci/templates"
 
   #Anlayse Trivy
   FAIL_TRIVY_CONDITION_LIBRARY:
@@ -48,16 +48,16 @@ variables:
     description: "Niveau de la criticité limite de l'analyse Dependency-Check"
 
 include:
-  - "/jobs-build-CI/build_projet_gradle.yml"
-  - "/jobs-build-CI/build_projet_npm.yml"
-  - "/jobs-build-CI/construction_image.yml"
+  - "/.gitlab-ci/jobs/build_projet_gradle.yml"
+  - "/.gitlab-ci/jobs/build_projet_npm.yml"
+  - "/.gitlab-ci/jobs/construction_image.yml"
   - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
     ref: main
     file: '/jobs/analyse_trivy.yml'
   - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
     ref: main
     file: '/jobs/analyse_sonar.yml'
-  - "/jobs-build-CI/analyse_dependency-check.yml"
+  - "/.gitlab-ci/jobs/analyse_dependency-check.yml"
   - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
     ref: main
     file: '/jobs/deploiement_image_int.yml'
