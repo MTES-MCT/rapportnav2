@@ -105,9 +105,10 @@ describe('MissionCrewForm', () => {
   })
 
   it('should render submit button and trigger submit method', async () => {
-    const submitButton = render(
-      <MissionCrewForm crewId={'1'} crewList={crewList} handleClose={handleClose} handleSubmitForm={handleSubmitForm} />
-    ).getByTestId('submit-crew-form-button')
+    const wrapper = render(
+      <MissionCrewForm crewId={'2'} crewList={crewList} handleClose={handleClose} handleSubmitForm={handleSubmitForm} />
+    )
+    const submitButton = wrapper.getByTestId('submit-crew-form-button')
     fireEvent.click(submitButton)
     await waitFor(() => {
       expect(handleSubmitForm).toHaveBeenCalledTimes(1)
@@ -121,7 +122,19 @@ describe('MissionCrewForm', () => {
     const submitButton = wrapper.getByTestId('submit-crew-form-button')
     fireEvent.click(submitButton)
     await waitFor(() => {
-      expect(wrapper.getAllByText('Required').length).toEqual(2)
+      expect(wrapper.getAllByText('Fonction requise.').length).toEqual(1)
+      expect(wrapper.getAllByText('Identité requise.').length).toEqual(1)
+    })
+  })
+
+  it('should render error for a comment with more than 23', async () => {
+    const wrapper = render(
+      <MissionCrewForm crewId={'1'} crewList={crewList} handleClose={handleClose} handleSubmitForm={handleSubmitForm} />
+    )
+    const submitButton = wrapper.getByTestId('submit-crew-form-button')
+    fireEvent.click(submitButton)
+    await waitFor(() => {
+      expect(wrapper.getAllByText('Maximum 23 caractères.').length).toEqual(1)
     })
   })
 })

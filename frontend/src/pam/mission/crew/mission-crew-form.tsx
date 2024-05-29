@@ -61,10 +61,12 @@ type CrewForm = {
   agentId?: string
 }
 
+const COMMENT_MAX_LENGTH = 23
+
 const crewSchema = Yup.object().shape({
-  comment: Yup.string(),
-  roleId: Yup.string().required('Required'),
-  agentId: Yup.string().required('Required')
+  roleId: Yup.string().required('Fonction requise.'),
+  agentId: Yup.string().required('Identité requise.'),
+  comment: Yup.string().max(COMMENT_MAX_LENGTH, 'Maximum 23 caractères.')
 })
 
 interface MissionCrewModalProps {
