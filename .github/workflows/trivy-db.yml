@@ -34,10 +34,10 @@ jobs:
       - name: Run Trivy on Postgres image
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: "postgres:15.6-alpine"
+          image-ref: "postgres:15.7-alpine"
           format: sarif
           output: "postgres-trivy-results.sarif"
-          severity: "CRITICAL,HIGH"
+          severity: "LOW,MEDIUM,HIGH,CRITICAL"
 
       - name: Upload Postgres Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
