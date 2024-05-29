@@ -19,13 +19,11 @@ export enum VesselSizeEnum {
 
 export type Mission = {
   id: number
-  closedBy: string
   controlUnits: Omit<ControlUnit, 'id'>[]
   endDateTimeUtc?: string
   facade: SeaFrontEnum
   geom?: Record<string, any>[]
   hasMissionOrder?: boolean
-  isClosed: boolean
   isUnderJdp?: boolean
   missionSource: MissionSourceEnum
   missionTypes: MissionTypeEnum[]

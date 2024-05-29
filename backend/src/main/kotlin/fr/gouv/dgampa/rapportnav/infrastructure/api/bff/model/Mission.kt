@@ -12,7 +12,6 @@ import java.time.ZonedDateTime
 
 data class Mission(
     val id: Int,
-    val isClosed: Boolean,
     val missionSource: MissionSourceEnum,
     val startDateTimeUtc: ZonedDateTime,
     val endDateTimeUtc: ZonedDateTime?,
@@ -43,7 +42,6 @@ data class Mission(
 
             return Mission(
                 id = mission.id,
-                isClosed = mission.isClosed,
                 missionSource = mission.missionSource,
                 startDateTimeUtc = mission.startDateTimeUtc,
                 endDateTimeUtc = mission.endDateTimeUtc,

@@ -13,7 +13,6 @@ const openedMission = {
 
 const closedMission = {
   id: 2,
-  isClosed: true,
   startDateTimeUtc: '2022-08-07T12:00:00Z',
   status: MissionStatusEnum.CLOSED
 } as unknown as Mission
