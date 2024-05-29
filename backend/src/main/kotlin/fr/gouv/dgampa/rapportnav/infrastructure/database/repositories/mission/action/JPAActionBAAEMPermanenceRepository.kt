@@ -1,6 +1,9 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionBAAEMPermanenceEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionBAAEMRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionBAAEMPermanenceModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBActionBAAEMPermanenceRepository
@@ -27,8 +30,16 @@ class JPAActionBAAEMPermanenceRepository(
             val baaemModel = ActionBAAEMPermanenceModel.fromBAAEMPermanenceEntity(permanenceBAAEM)
             dbActionBAAEMPermanenceRepository.save(baaemModel)
         } catch (e: InvalidDataAccessApiUsageException) {
-
-            throw Exception("Error saving or updating action BAAEM", e)
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,
+                message = "Unable to save ActionBAAEM='${permanenceBAAEM.id}'",
+                e,
+            )
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Unable to prepare data before saving ActionBAAEM='${permanenceBAAEM.id}'",
+                originalException = e
+            )
         }
     }
 

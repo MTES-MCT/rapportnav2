@@ -1,6 +1,9 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionVigimerEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionVigimerRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionVigimerModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBActionVigimerRepository
@@ -27,7 +30,16 @@ class JPAActionVigimerRepository(
             val vigimerModel = ActionVigimerModel.fromVigimerEntity(vigimerEntity)
             dbActionVigimerRepository.save(vigimerModel)
         } catch (e: InvalidDataAccessApiUsageException) {
-            throw Exception("Error saving or updating action vigimer", e)
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,
+                message = "Unable to save ActionVigimer='${vigimerEntity.id}'",
+                e,
+            )
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Unable to prepare data before saving ActionVigimer='${vigimerEntity.id}'",
+                originalException = e
+            )
         }
     }
 

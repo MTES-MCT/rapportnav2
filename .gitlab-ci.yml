@@ -6,16 +6,17 @@ stages:
   - tag-image-prod
   - pre-deploy-prod
   - deploy-prod
+
 variables:
   #  Configuration spécifique projet
   PROJECT_NAME:
-    value: rapportnav-v2
+    value: "rapportnav-v2"
     description: "Nom du projet à déployer"
-  BDD_IAMGE:
-    value: postgres:15.6-alpine
+  BDD_IMAGE:
+    value: "postgres:15.7-alpine"
     description: "Image de la base de données"
   PROJECT_VERSION:
-    value: "1.2.0"
+    value: "1.3.0"
     description: "Version du projet à déployer"
   SERVER_ENV_INT:
     value: "int-rapportnav-appli01"
@@ -28,21 +29,20 @@ variables:
   TAG_VERSION: $NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION
   DEPLOYEMENT_PATH: "../.gitlab-ci/templates"
 
-  #Anlayse Trivy
+  # Anlayse Trivy
   FAIL_TRIVY_CONDITION_LIBRARY:
     value: "--severity HIGH,CRITICAL"
     description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
-  
   FAIL_TRIVY_CONDITION_OS:
     value: "--severity LOW,MEDIUM,HIGH,CRITICAL"
     description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
 
-  #Analyse Sonar
+  # Analyse Sonar
   FAIL_SONAR_CONDITION:
     value: "-Dsonar.qualitygate.wait=true"
     description: "Détermine la commande à passer au scanner Sonar pour bloquer ou non le job. -Dsonar.qualitygate.wait=true fait échouer le job si le quality gate Sonar n'est pas conforme."
 
-  #Analyse Dependency-check
+  # Analyse Dependency-check
   FAIL_DP_CHECK_LVL:
     value: "8"
     description: "Niveau de la criticité limite de l'analyse Dependency-Check"
@@ -53,15 +53,14 @@ include:
   - "/.gitlab-ci/jobs/construction_image.yml"
   - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
     ref: main
-    file: '/jobs/analyse_trivy.yml'
-  - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
+    file: "/jobs/analyse_trivy.yml"
+  - project: "num3-exploitation/chaine-ci/template-analyse-deploiement"
     ref: main
     file: '/jobs/analyse_sonar.yml'
   - "/.gitlab-ci/jobs/analyse_dependency-check.yml"
   - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
     ref: main
-    file: '/jobs/deploiement_image_int.yml'
-  - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
+    file: "/jobs/deploiement_image_int.yml"
+  - project: "num3-exploitation/chaine-ci/template-analyse-deploiement"
     ref: main
-    file: '/jobs/deploiement_image_prod.yml'
-
+    file: "/jobs/deploiement_image_prod.yml"

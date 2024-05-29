@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlP
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.cache.annotation.Cacheable
 
 @UseCase
 class GetAllControlPlans(
@@ -51,6 +52,7 @@ class GetAllControlPlans(
         )
     }
 
+    @Cacheable("controlPlans")
     fun execute(): ControlPlansEntity? {
         try {
             val response =

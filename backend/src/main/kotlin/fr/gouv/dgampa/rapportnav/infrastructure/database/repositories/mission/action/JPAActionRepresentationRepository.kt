@@ -1,6 +1,9 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionRepresentationEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionRepresentationRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionRepresentationModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBActionRepresentationRepository
@@ -27,7 +30,16 @@ class JPAActionRepresentationRepository(
             val representationModel = ActionRepresentationModel.fromRepresentationEntity(representationEntity)
             dbActionRepresentationRepository.save(representationModel)
         } catch (e: InvalidDataAccessApiUsageException) {
-            throw Exception("Error saving or updating action representation", e)
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,
+                message = "Unable to save ActionRepresentation='${representationEntity.id}'",
+                e,
+            )
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Unable to prepare data before saving ActionRepresentation='${representationEntity.id}'",
+                originalException = e
+            )
         }
     }
 
