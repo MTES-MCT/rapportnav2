@@ -7,7 +7,7 @@ description = "RapportNav"
 
 val kotlinVersion by extra("1.9.21")
 val serializationVersion by extra("1.6.2")
-val springVersion by extra("3.2.5")
+val springVersion by extra("3.2.6")
 val testcontainersVersion by extra("1.19.3")
 
 plugins {
@@ -16,7 +16,7 @@ plugins {
   kotlin("jvm") version "1.9.21"
   kotlin("plugin.spring") version "1.9.21"
   kotlin("plugin.jpa") version "1.9.21"
-  id("org.springframework.boot") version "3.2.5"
+  id("org.springframework.boot") version "3.2.6"
   id("io.spring.dependency-management") version "1.1.4"
   id("org.owasp.dependencycheck") version "8.4.0"
 //  id("org.sonarqube") version "4.4.1.3373"
