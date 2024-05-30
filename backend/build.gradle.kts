@@ -5,7 +5,7 @@ group = "fr.gouv.dgampa"
 version = "1.3.0"
 description = "RapportNav"
 
-val kotlinVersion by extra("1.9.21")
+val kotlinVersion by extra("1.9.24")
 val serializationVersion by extra("1.6.2")
 val springVersion by extra("3.3.0")
 val testcontainersVersion by extra("1.19.3")
@@ -13,9 +13,9 @@ val testcontainersVersion by extra("1.19.3")
 plugins {
   `java-library`
   `maven-publish`
-  kotlin("jvm") version "1.9.21"
-  kotlin("plugin.spring") version "1.9.21"
-  kotlin("plugin.jpa") version "1.9.21"
+  kotlin("jvm") version "1.9.24"
+  kotlin("plugin.spring") version "1.9.24"
+  kotlin("plugin.jpa") version "1.9.24"
   id("org.springframework.boot") version "3.3.0"
   id("io.spring.dependency-management") version "1.1.4"
   id("org.owasp.dependencycheck") version "8.4.0"
