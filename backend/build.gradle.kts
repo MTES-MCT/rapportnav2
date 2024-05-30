@@ -62,6 +62,7 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib")
   implementation("org.flywaydb:flyway-core:10.13.0")
+  implementation("org.flywaydb:flyway-database-postgresql:10.13.0")
   implementation("org.n52.jackson:jackson-datatype-jts:1.2.10") {
     exclude(group = "org.locationtech.jts", module = "jts-core")
   }
