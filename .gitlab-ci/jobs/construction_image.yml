@@ -28,9 +28,6 @@ construction_image:
     - docker login $NEXUS_DOCKER_REPO -u $NEXUS_USER -p $NEXUS_PWD
     - docker image push --all-tags $NEXUS_DOCKER_REPO/$PROJECT_NAME
     - docker logout $NEXUS_DOCKER_REPO
-    - docker login $NEXUS_DOCKER_PROXY -u $NEXUS_USER -p $NEXUS_PWD
-    - docker image push $NEXUS_DOCKER_PROXY/$BDD_IMAGE
-    - docker logout $NEXUS_DOCKER_PROXY
 
   tags:
     - build
