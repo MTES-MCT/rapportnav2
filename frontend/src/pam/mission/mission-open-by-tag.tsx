@@ -21,8 +21,8 @@ const getTagBackgroundColor = (missionSource?: MissionSourceEnum): string => {
   }
 }
 
-const getTagTextColor = (missionSource?: MissionSourceEnum): string => {
-  return missionSource === MissionSourceEnum.RAPPORTNAV ? THEME.color.white : THEME.color.white
+const getTagTextColor = (): string => {
+  return THEME.color.white
 }
 
 const getTagBorderColor = (missionSource?: MissionSourceEnum): string => {
@@ -56,7 +56,7 @@ const MissionOpenByTag: React.FC<MissionOpenByTagProps> = ({ missionSource, isFa
   }
 
   const backgroundColor = getTagBackgroundColor(missionSource)
-  const textColor = getTagTextColor(missionSource)
+  const textColor = getTagTextColor()
   const borderColor = getTagBorderColor(missionSource)
   const textContent = getTagTextContent(missionSource)
 

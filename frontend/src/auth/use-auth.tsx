@@ -5,7 +5,7 @@ import { useApolloClient } from '@apollo/client'
 
 const authToken = new AuthToken()
 
-const useAuth = (): { isAuthenticated: boolean; logout: () => void } => {
+const useAuth = (): { isAuthenticated: boolean; logout: () => Promise<void> } => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!authToken.get())
   const navigate = useNavigate()
   const apolloClient = useApolloClient()
