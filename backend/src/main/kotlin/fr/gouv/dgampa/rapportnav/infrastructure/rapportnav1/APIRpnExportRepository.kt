@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.ExportParams
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IRpnExportRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.ExportMissionODTInput
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
 import java.io.IOException
 import java.net.InetSocketAddress
@@ -22,16 +23,14 @@ import java.net.http.HttpResponse.BodyHandlers
 @Repository
 class APIRpnExportRepository(
     private val mapper: ObjectMapper,
+    @Value("\${host.proxy.host}") private val proxyHost: String,
+    @Value("\${host.proxy.port}") private val proxyPort: Int
 ) : IRpnExportRepository {
 
     private val logger = LoggerFactory.getLogger(APIRpnExportRepository::class.java)
     override fun exportOdt(params: ExportParams): MissionExportEntity? {
-        val url = "https://rapport-mission-dcs.din.developpement-durable.gouv.fr/public_api/export/odt"
-//        val url = "https://rapportnav.kalik-sandbox.ovh/public_api/export/odt"
-
-        // Set the proxy host and port
-        val proxyHost = "172.27.229.197"
-        val proxyPort = 8090
+//        val url = "https://rapport-mission-dcs.din.developpement-durable.gouv.fr/public_api/export/odt"
+        val url = "https://rapportnav.kalik-sandbox.ovh/public_api/export/odt"
 
         // Create a Proxy object
         val proxy = Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyHost, proxyPort))
@@ -52,7 +51,7 @@ class APIRpnExportRepository(
 
         // Create an HttpClient with the proxy selector
         val client = HttpClient.newBuilder()
-        //    .proxy(proxySelector)
+            //    .proxy(proxySelector)
             .build()
 
         val content = ExportMissionODTInput(

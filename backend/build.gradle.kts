@@ -5,7 +5,7 @@ group = "fr.gouv.dgampa"
 version = "1.3.0"
 description = "RapportNav"
 
-val kotlinVersion by extra("1.9.21")
+val kotlinVersion by extra("1.9.24")
 val serializationVersion by extra("1.6.2")
 val springVersion by extra("3.3.0")
 val testcontainersVersion by extra("1.19.3")
@@ -13,13 +13,12 @@ val testcontainersVersion by extra("1.19.3")
 plugins {
   `java-library`
   `maven-publish`
-  kotlin("jvm") version "1.9.21"
-  kotlin("plugin.spring") version "1.9.21"
-  kotlin("plugin.jpa") version "1.9.21"
+  kotlin("jvm") version "1.9.24"
+  kotlin("plugin.spring") version "1.9.24"
+  kotlin("plugin.jpa") version "1.9.24"
   id("org.springframework.boot") version "3.3.0"
   id("io.spring.dependency-management") version "1.1.4"
   id("org.owasp.dependencycheck") version "8.4.0"
-//  id("org.sonarqube") version "4.4.1.3373"
 }
 
 springBoot {
@@ -46,9 +45,6 @@ dependencyManagement {
   imports {
     mavenBom("org.testcontainers:testcontainers-bom:$testcontainersVersion")
   }
-//  dependencies {
-//    dependency("org.springframework.security:spring-security-core:6.2.4")
-//  }
 }
 
 dependencies {
@@ -65,7 +61,7 @@ dependencies {
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib")
-  implementation("org.flywaydb:flyway-core:9.22.3")
+  implementation("org.flywaydb:flyway-core:10.13.0")
   implementation("org.n52.jackson:jackson-datatype-jts:1.2.10") {
     exclude(group = "org.locationtech.jts", module = "jts-core")
   }
