@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.auth
 
+import fr.gouv.dgampa.rapportnav.domain.entities.user.RoleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
@@ -41,7 +42,8 @@ class ApiAuthController(
             lastName = body.lastName.lowercase().trim(),
             email = body.email.trim(),
             password = hashService.hashBcrypt(body.password),
-            serviceId = body.serviceId
+            serviceId = body.serviceId,
+            roles = body.roles ?: listOf(RoleTypeEnum.USER_PAM)
         )
 
         if (findByEmail.execute(body.email) != null) {
