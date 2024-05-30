@@ -25,9 +25,14 @@ class MissionEntityTests {
     @Nested
     inner class CalculateMissionStatus {
         @Test
-        fun `should return ENDED when isClosed is true`() {
+        fun `should return ENDED when the endDate is prior than now`() {
             val mission = MissionEntity(
-                envMission = ExtendedEnvMissionEntity.fromEnvMission(EnvMissionMock.create(isClosed = true)),
+                envMission = ExtendedEnvMissionEntity.fromEnvMission(
+                    EnvMissionMock.create(
+                        startDateTimeUtc = ZonedDateTime.now().minusDays(14),
+                        endDateTimeUtc = ZonedDateTime.now().minusDays(2)
+                    )
+                ),
                 fishMissionActions = listOf(FishActionControlMock.create()).map {
                     ExtendedFishActionEntity.fromMissionAction(
                         it

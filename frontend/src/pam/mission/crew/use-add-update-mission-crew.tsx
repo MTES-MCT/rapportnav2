@@ -1,13 +1,14 @@
 import { gql, MutationTuple, useMutation } from '@apollo/client'
-import { Agent, AgentRole, MissionCrew } from '../../../types/crew-types'
-import { GET_MISSION_CREW } from './use-mission-crew.tsx'
 import { useParams } from 'react-router-dom'
+import { Agent, AgentRole, MissionCrew } from '../../../types/crew-types'
 import { GET_MISSION_EXCERPT } from '../general-info/use-mission-excerpt.tsx'
+import { GET_MISSION_CREW } from './use-mission-crew.tsx'
 
 export const MUTATION_ADD_OR_UPDATE_MISSION_CREW = gql`
   mutation AddOrUpdateMissionCrew($crew: MissionCrewInput!) {
     addOrUpdateMissionCrew(crew: $crew) {
       id
+      comment
       agent {
         id
         firstName
