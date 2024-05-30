@@ -1,9 +1,12 @@
 import { ApolloClient, ApolloLink, createHttpLink, InMemoryCache } from '@apollo/client'
 import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev'
-import AuthToken from './auth/token'
 import { setContext } from '@apollo/client/link/context'
-import { RetryLink } from '@apollo/client/link/retry'
 import { ErrorResponse, onError } from '@apollo/client/link/error'
+import { removeTypenameFromVariables } from '@apollo/client/link/remove-typename'
+import { RetryLink } from '@apollo/client/link/retry'
+import AuthToken from './auth/token'
+
+const removeTypenameLink = removeTypenameFromVariables()
 
 const authToken = new AuthToken()
 
@@ -63,7 +66,7 @@ export const apolloCache = new InMemoryCache({})
 
 const client = new ApolloClient({
   cache: apolloCache,
-  link: ApolloLink.from([authLink, errorLink, logTimeLink, retryLink, httpLink]),
+  link: ApolloLink.from([removeTypenameLink, authLink, errorLink, logTimeLink, retryLink, httpLink]),
   credentials: 'include',
   connectToDevTools: true
 })
