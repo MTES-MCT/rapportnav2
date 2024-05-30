@@ -26,6 +26,8 @@ data class ExportParams(
     val nauticalEventsInfo: Map<String, String>? = null,
     val antiPollutionInfo: Map<String, String>? = null,
     val baaemAndVigimerInfo: Map<String, String>? = null,
+    val patrouilleSurveillanceEnvInHours: Float? = null,
+    val patrouilleMigrantInHours: Float? = null,
     val observations: String? = ""
 )
 

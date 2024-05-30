@@ -8,8 +8,8 @@ import kotlin.time.DurationUnit
 @UseCase
 class ComputeDurations {
 
-    fun durationInSeconds(startDateTimeUtc: ZonedDateTime, endDateTimeUtc: ZonedDateTime?): Int? {
-        if (endDateTimeUtc == null) {
+    fun durationInSeconds(startDateTimeUtc: ZonedDateTime?, endDateTimeUtc: ZonedDateTime?): Int? {
+        if (endDateTimeUtc == null || startDateTimeUtc == null) {
             return null
         }
         val endTime = endDateTimeUtc.toEpochSecond()

@@ -137,7 +137,6 @@ class ExportMissionTests {
             nauticalEventsInfo = null,
             antiPollutionInfo = null,
             baaemAndVigimerInfo = null,
-            traficSurveillanceInfo = null,
         )
         `when`(getMissionById.execute(missionId)).thenReturn(MissionEntityMock.create())
         `when`(exportRepository.exportOdt(exportParams)).thenReturn(output)

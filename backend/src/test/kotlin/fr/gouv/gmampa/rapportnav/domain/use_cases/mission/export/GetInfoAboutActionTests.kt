@@ -1,6 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionBAAEMPermanenceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionRescueEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
@@ -53,22 +54,40 @@ class GetInfoAboutActionTests {
 
     @Test
     fun `should return null when arg actions is null`() {
-        Assertions.assertThat(getInfoAboutNavAction.execute(null, listOf(ActionType.VIGIMER))).isNull()
+        Assertions.assertThat(
+            getInfoAboutNavAction.execute(
+                null,
+                listOf(ActionType.VIGIMER),
+                MissionSourceEnum.RAPPORTNAV
+            )
+        ).isNull()
     }
 
     @Test
     fun `should return null when arg actions is empty`() {
-        Assertions.assertThat(getInfoAboutNavAction.execute(emptyList(), listOf(ActionType.VIGIMER))).isNull()
+        Assertions.assertThat(
+            getInfoAboutNavAction.execute(
+                emptyList(),
+                listOf(ActionType.VIGIMER),
+                MissionSourceEnum.RAPPORTNAV
+            )
+        ).isNull()
     }
 
     @Test
     fun `should return null when arg actionTypes is empty`() {
-        Assertions.assertThat(getInfoAboutNavAction.execute(actions, listOf())).isNull()
+        Assertions.assertThat(getInfoAboutNavAction.execute(actions, listOf(), MissionSourceEnum.RAPPORTNAV)).isNull()
     }
 
     @Test
     fun `should return the correct amount for 1 actionType`() {
-        Assertions.assertThat(getInfoAboutNavAction.execute(actions, listOf(ActionType.RESCUE))).isEqualTo(
+        Assertions.assertThat(
+            getInfoAboutNavAction.execute(
+                actions,
+                listOf(ActionType.RESCUE),
+                MissionSourceEnum.RAPPORTNAV
+            )
+        ).isEqualTo(
             NavActionInfoEntity(count = 1, durationInHours = 1.0, amountOfInterrogatedShips = null)
         )
     }
@@ -78,7 +97,8 @@ class GetInfoAboutActionTests {
         Assertions.assertThat(
             getInfoAboutNavAction.execute(
                 actions,
-                listOf(ActionType.BAAEM_PERMANENCE, ActionType.VIGIMER)
+                listOf(ActionType.BAAEM_PERMANENCE, ActionType.VIGIMER),
+                MissionSourceEnum.RAPPORTNAV
             )
         ).isEqualTo(
             NavActionInfoEntity(count = 2, durationInHours = 2.0, amountOfInterrogatedShips = null)

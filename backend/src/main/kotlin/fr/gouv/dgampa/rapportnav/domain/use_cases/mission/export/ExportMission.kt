@@ -2,10 +2,11 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.toMap
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.toMapForExport
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.ExportParams
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IRpnExportRepository
@@ -68,23 +69,36 @@ class ExportMission(
 
             val timeline = formatActionsForTimeline.formatTimeline(mission.actions)
 
-            val rescueInfo =
-                getInfoAboutNavAction.execute(actions = mission.actions, actionTypes = listOf(ActionType.RESCUE))
-                    ?.toMap()
-            val nauticalEventsInfo =
-                getInfoAboutNavAction.execute(
-                    actions = mission.actions,
-                    actionTypes = listOf(ActionType.NAUTICAL_EVENT)
-                )?.toMap()
-            val antiPollutionInfo =
-                getInfoAboutNavAction.execute(
-                    actions = mission.actions,
-                    actionTypes = listOf(ActionType.ANTI_POLLUTION)
-                )?.toMap()
+            val rescueInfo = getInfoAboutNavAction.execute(
+                actions = mission.actions,
+                actionTypes = listOf(ActionType.RESCUE),
+                actionSource = MissionSourceEnum.RAPPORTNAV,
+            )?.toMapForExport()
+            val nauticalEventsInfo = getInfoAboutNavAction.execute(
+                actions = mission.actions,
+                actionTypes = listOf(ActionType.NAUTICAL_EVENT),
+                actionSource = MissionSourceEnum.RAPPORTNAV
+            )?.toMapForExport()
+            val antiPollutionInfo = getInfoAboutNavAction.execute(
+                actions = mission.actions,
+                actionTypes = listOf(ActionType.ANTI_POLLUTION),
+                actionSource = MissionSourceEnum.RAPPORTNAV
+            )?.toMapForExport()
             val baaemAndVigimerInfo = getInfoAboutNavAction.execute(
                 actions = mission.actions,
-                actionTypes = listOf(ActionType.VIGIMER, ActionType.BAAEM_PERMANENCE)
-            )?.toMap()
+                actionTypes = listOf(ActionType.VIGIMER, ActionType.BAAEM_PERMANENCE),
+                actionSource = MissionSourceEnum.RAPPORTNAV
+            )?.toMapForExport()
+            val illegalImmigrationInfo = getInfoAboutNavAction.execute(
+                actions = mission.actions,
+                actionTypes = listOf(ActionType.ILLEGAL_IMMIGRATION),
+                actionSource = MissionSourceEnum.RAPPORTNAV
+            )?.toMapForExport()
+            val envSurveillanceInfo = getInfoAboutNavAction.execute(
+                actions = mission.actions,
+                actionTypes = listOf(ActionType.SURVEILLANCE),
+                actionSource = MissionSourceEnum.MONITORENV
+            )?.toMapForExport()
 
             val exportParams = ExportParams(
                 service = mission.openBy,
@@ -108,6 +122,8 @@ class ExportMission(
                 antiPollutionInfo = antiPollutionInfo,
                 baaemAndVigimerInfo = baaemAndVigimerInfo,
                 observations = "",
+                patrouilleSurveillanceEnvInHours = envSurveillanceInfo?.get("durationInHours")?.toFloatOrNull(),
+                patrouilleMigrantInHours = illegalImmigrationInfo?.get("durationInHours")?.toFloatOrNull()
             )
 
             return exportRepository.exportOdt(exportParams)

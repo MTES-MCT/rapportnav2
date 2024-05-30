@@ -55,8 +55,9 @@ class APIRpnExportRepository(
             }
         }
 
+
         // Create an HttpClient with the proxy selector
-        val client = HttpClient.newBuilder()
+        var client = HttpClient.newBuilder()
             .proxy(proxySelector)
             .build()
 
@@ -70,8 +71,8 @@ class APIRpnExportRepository(
             indisponibilite = params.indisponibilite,
             nbJoursMer = params.nbJoursMer,
             dureeMission = params.dureeMission,
-            patrouilleEnv = params.patrouilleEnv,
-            patrouilleMigrant = params.patrouilleMigrant,
+            patrouilleSurveillanceEnvInHours = params.patrouilleSurveillanceEnvInHours,
+            patrouilleMigrantInHours = params.patrouilleMigrantInHours,
             distanceMilles = params.distanceMilles ?: 0.0f,
             goMarine = params.goMarine ?: 0.0f,
             essence = params.essence ?: 0.0f,
