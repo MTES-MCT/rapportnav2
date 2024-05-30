@@ -51,7 +51,7 @@ class APIRpnExportRepository(
 
         // Create an HttpClient with the proxy selector
         val client = HttpClient.newBuilder()
-            //    .proxy(proxySelector)
+            .proxy(proxySelector)
             .build()
 
         val content = ExportMissionODTInput(
