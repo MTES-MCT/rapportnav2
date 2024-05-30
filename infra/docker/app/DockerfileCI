@@ -10,7 +10,7 @@ ARG VERSION
 ########################################
 # Build rapportnav backend with gradle #
 ########################################
-FROM gradle:8.5-jdk17 as build-backend
+FROM gradle:8.7-jdk17 as build-backend
 
 ARG GITHUB_SHA
 ARG VERSION
@@ -47,7 +47,7 @@ RUN npm run build --verbose --mode production
 ########################################
 # Run Application                      #
 ########################################
-FROM azul/zulu-openjdk-alpine:17.0.7-17.42.19 as build-all
+FROM azul/zulu-openjdk-alpine:17.0.11 as build-all
 
 WORKDIR /home/rapportnav
 
