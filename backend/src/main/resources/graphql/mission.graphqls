@@ -23,7 +23,6 @@ input MissionInput {
 
 type Mission {
   id: ID!
-  isClosed: Boolean!
   missionSource: String!
   startDateTimeUtc: String!
   endDateTimeUtc: String

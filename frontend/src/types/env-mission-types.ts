@@ -363,14 +363,12 @@ export type ResourceUnit = {
 
 export type Mission<EnvAction = EnvActionControl | EnvActionSurveillance | EnvActionNote> = {
   id: any
-  closedBy: string
   controlUnits: Omit<ControlUnit, 'id'>[]
   endDateTimeUtc?: string
   envActions: EnvAction[]
   facade: SeaFrontEnum
   geom?: Record<string, any>[]
   hasMissionOrder?: boolean
-  isClosed: boolean
   isUnderJdp?: boolean
   missionSource: MissionSourceEnum
   missionTypes: MissionTypeEnum[]
@@ -447,23 +445,4 @@ export type NewInfraction = {
 export type Infraction = NewInfraction & {
   formalNotice: FormalNoticeEnum
   infractionType: InfractionTypeEnum
-}
-
-export const getMissionStatus = (mission: Mission, compareDate = Date.now()): MissionStatusEnum | string => {
-  const { endDateTimeUtc, isClosed, startDateTimeUtc } = mission
-  if (isClosed) {
-    return MissionStatusEnum.CLOSED
-  }
-  if (startDateTimeUtc) {
-    if (parseISO(startDateTimeUtc) && compareAsc(parseISO(startDateTimeUtc), compareDate) >= 0) {
-      return MissionStatusEnum.UPCOMING
-    }
-    if (!!endDateTimeUtc && parseISO(endDateTimeUtc) && compareDesc(parseISO(endDateTimeUtc), compareDate) >= 0) {
-      return MissionStatusEnum.ENDED
-    }
-
-    return MissionStatusEnum.PENDING
-  }
-
-  return 'ERROR'
 }

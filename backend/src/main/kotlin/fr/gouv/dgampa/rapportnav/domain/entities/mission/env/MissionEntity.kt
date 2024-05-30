@@ -18,7 +18,6 @@ data class MissionEntity(
     val startDateTimeUtc: ZonedDateTime,
     val endDateTimeUtc: ZonedDateTime? = null,
     var envActions: List<EnvActionEntity>? = listOf(),
-    val isClosed: Boolean,
     val isDeleted: Boolean,
     val isGeometryComputedFromControls: Boolean,
     val missionSource: MissionSourceEnum,

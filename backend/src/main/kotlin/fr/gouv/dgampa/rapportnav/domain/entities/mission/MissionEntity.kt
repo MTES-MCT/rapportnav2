@@ -24,7 +24,6 @@ data class MissionEntity(
     val geom: MultiPolygon? = null,
     val startDateTimeUtc: ZonedDateTime,
     val endDateTimeUtc: ZonedDateTime? = null,
-    val isClosed: Boolean,
     val isDeleted: Boolean,
     val isGeometryComputedFromControls: Boolean,
     val missionSource: MissionSourceEnum,
@@ -55,7 +54,6 @@ data class MissionEntity(
         geom = envMission.mission.geom,
         startDateTimeUtc = envMission.mission.startDateTimeUtc,
         endDateTimeUtc = envMission.mission.endDateTimeUtc,
-        isClosed = envMission.mission.isClosed,
         isDeleted = envMission.mission.isDeleted,
         isGeometryComputedFromControls = envMission.mission.isGeometryComputedFromControls,
         missionSource = envMission.mission.missionSource,
@@ -70,7 +68,6 @@ data class MissionEntity(
         crew = navMission?.crew,
     ) {
         this.status = this.calculateMissionStatus(
-            isClosed = envMission.mission.isClosed,
             startDateTimeUtc = envMission.mission.startDateTimeUtc,
             endDateTimeUtc = envMission.mission.endDateTimeUtc,
         )
@@ -101,13 +98,12 @@ data class MissionEntity(
     }
 
     private fun calculateMissionStatus(
-        isClosed: Boolean,
         startDateTimeUtc: ZonedDateTime,
         endDateTimeUtc: ZonedDateTime? = null,
     ): MissionStatusEnum {
         val compareDate = ZonedDateTime.now()
 
-        if (isClosed) {
+        if (endDateTimeUtc != null && ZonedDateTime.parse(endDateTimeUtc.toString()).isBefore(compareDate)) {
             return MissionStatusEnum.ENDED
         }
 

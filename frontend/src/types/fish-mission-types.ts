@@ -32,7 +32,6 @@ export namespace LegacyControlUnit {
 export interface FishAction {
   actionDatetimeUtc: string
   actionType: MissionActionType
-  closedBy: string | undefined
   controlQualityComments: string | undefined
   controlUnits: LegacyControlUnit.LegacyControlUnit[]
   districtCode: string | undefined
