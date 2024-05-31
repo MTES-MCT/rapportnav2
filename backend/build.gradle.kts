@@ -2,13 +2,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
-version = "1.3.0"
+version = "1.4.0"
 description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
 val serializationVersion by extra("1.6.2")
 val springVersion by extra("3.3.0")
 val testcontainersVersion by extra("1.19.3")
+val flywayVersion by extra("10.13.0")
 
 plugins {
   `java-library`
@@ -19,6 +20,7 @@ plugins {
   id("org.springframework.boot") version "3.3.0"
   id("io.spring.dependency-management") version "1.1.4"
   id("org.owasp.dependencycheck") version "8.4.0"
+  id("org.flywaydb.flyway") version "10.13.0"
 }
 
 springBoot {
@@ -49,7 +51,7 @@ dependencyManagement {
 
 dependencies {
   developmentOnly("org.springframework.boot:spring-boot-devtools")
-  runtimeOnly("org.postgresql:postgresql:42.7.2")
+  runtimeOnly("org.postgresql:postgresql:42.7.3")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-data-rest:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
@@ -61,8 +63,8 @@ dependencies {
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib")
-  implementation("org.flywaydb:flyway-core:10.13.0")
-  implementation("org.flywaydb:flyway-database-postgresql:10.13.0")
+  implementation("org.flywaydb:flyway-core:$flywayVersion")
+  implementation("org.flywaydb:flyway-database-postgresql:$flywayVersion")
   implementation("org.n52.jackson:jackson-datatype-jts:1.2.10") {
     exclude(group = "org.locationtech.jts", module = "jts-core")
   }
