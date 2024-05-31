@@ -84,7 +84,12 @@ dependencies {
   testImplementation("org.testcontainers:postgresql")
 }
 
-java {
+buildscript {
+  dependencies {
+    classpath("org.flywaydb:flyway-database-postgresql:10.10.0")
+
+
+    java {
   sourceCompatibility = JavaVersion.VERSION_17
 }
 
