@@ -84,7 +84,8 @@ const MissionCrew: React.FC<MissionCrewProps> = () => {
   }
 
   const handleSubmitForm = async (data: AddOrUpdateMissionCrewInput) => {
-    const crew = { ...data, missionId }
+    if (!missionId) return
+    const crew = { ...data, missionId: Number(missionId) }
     await addOrUpdateCrew({ variables: { crew } })
     setOpenCrewForm(false)
   }
@@ -100,13 +101,13 @@ const MissionCrew: React.FC<MissionCrewProps> = () => {
             </EmptyCrewListText>
           </EmptyCrewListStackItem>
         ) : (
-          <CrewStackItem>
+          <Stack.Item style={{ width: '100%' }}>
             <CrewMemeberList
               crewList={crewList}
               handleEditCrew={handleOpenCrewForm}
               handleDeleteCrew={onDeleteCrewMember}
             />
-          </CrewStackItem>
+          </Stack.Item>
         )}
         <Stack.Item style={{ width: '100%' }}>
           <AddCrewMemberButton onClick={() => handleOpenCrewForm()}>Ajouter un membre d’équipage</AddCrewMemberButton>

@@ -25,9 +25,9 @@ export const MUTATION_ADD_OR_UPDATE_MISSION_CREW = gql`
 export type AddOrUpdateMissionCrewInput = {
   id?: string
   agent?: Agent
-  missionId?: string
   comment?: string
   role?: AgentRole
+  missionId: number
 }
 
 const useAddOrUpdateMissionCrew = (): MutationTuple<MissionCrew, Record<string, any>> => {
