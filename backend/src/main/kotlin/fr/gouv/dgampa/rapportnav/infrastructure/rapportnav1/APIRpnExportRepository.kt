@@ -24,7 +24,7 @@ import java.net.http.HttpResponse.BodyHandlers
 class APIRpnExportRepository(
     private val mapper: ObjectMapper,
     @Value("\${host.proxy.host}") private val proxyHost: String,
-    @Value("\${host.proxy.port}") private val proxyPort: Int
+    @Value("\${host.proxy.port}") private val proxyPort: String
 ) : IRpnExportRepository {
 
     private val logger = LoggerFactory.getLogger(APIRpnExportRepository::class.java)
@@ -32,14 +32,20 @@ class APIRpnExportRepository(
 //        val url = "https://rapport-mission-dcs.din.developpement-durable.gouv.fr/public_api/export/odt"
         val url = "https://rapportnav.kalik-sandbox.ovh/public_api/export/odt"
 
+
         // Create a Proxy object
-        val proxy = Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyHost, proxyPort))
+        var proxy: Proxy? = null
+        if (!proxyHost.isNullOrEmpty() && !proxyPort.isNullOrEmpty()) {
+            proxy = Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyHost, proxyPort.toInt()))
+        }
 
         // Create a ProxySelector with the given Proxy
         val proxySelector = object : java.net.ProxySelector() {
             override fun select(uri: URI?): MutableList<Proxy> {
                 val list = mutableListOf<Proxy>()
-                list.add(proxy)
+                if (proxy !== null) {
+                    list.add(proxy)
+                }
                 return list
             }
 
@@ -70,7 +76,7 @@ class APIRpnExportRepository(
             goMarine = params.goMarine ?: 0.0f,
             essence = params.essence ?: 0.0f,
             crew = params.crew,
-            timeline = params.timeline
+            timeline = params.timeline,
         )
 
         val gson = Gson();
