@@ -5,6 +5,7 @@ import { Agent, MissionCrew as MissionCrewModel } from '../../../types/crew-type
 import Text, { TextProps } from '../../../ui/text'
 
 const CrewList = styled(List)({
+  width: '100%',
   border: 'none',
   boxShadow: 'none'
 })
