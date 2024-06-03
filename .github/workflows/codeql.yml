@@ -73,7 +73,8 @@ jobs:
             architecture: x64
 
       - if: matrix.language == 'java'
-        name: Build with Maven
+        name: Build with Gradle
+        uses: gradle/gradle-build-action@v3
         run: ./gradlew clean build
 
       # ℹ️ Command-line programs to run using the OS shell.
