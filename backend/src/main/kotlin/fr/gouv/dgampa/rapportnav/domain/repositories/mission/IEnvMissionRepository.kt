@@ -19,6 +19,8 @@ interface IEnvMissionRepository {
         controlUnits: List<Int>? = null
     ): List<MissionEntity>?
 
+    fun updateMission(mission: MissionEntity?): MissionEntity?
+
     fun findAllControlPlans(): ControlPlansEntity?
 
 }

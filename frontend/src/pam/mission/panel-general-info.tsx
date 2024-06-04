@@ -5,12 +5,27 @@ import Text from '../../ui/text'
 import { Mission } from '../../types/mission-types'
 import MissionDistanceAndConsumption from './general-info/mission-distance-consumption'
 import MissionCrew from './crew/mission-crew'
+import useUpdateEnvMission, { EnvMissionUpdateInput } from './use-update-env-mission.tsx'
 
 interface MissionGeneralInfoPanelProps {
   mission: Mission
 }
 
 const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({ mission }) => {
+  const [mutateEnvMission] = useUpdateEnvMission()
+
+  const onChange = async (value: any) => {
+    debugger
+    const startDateTimeUtc = value[0].toISOString()
+    const endDateTimeUtc = value[1].toISOString()
+    const data: EnvMissionUpdateInput = {
+      id: mission.id,
+      startDateTimeUtc,
+      endDateTimeUtc
+    }
+    await mutateEnvMission({ variables: { data } })
+  }
+
   return (
     <Panel
       header={
@@ -33,8 +48,9 @@ const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({ missi
                 // label="Dates du rapport"
                 withTime={true}
                 isCompact={true}
-                readOnly={true}
-                disabled={true}
+                onChange={async (nextValue?: [Date, Date] | [string, string]) => {
+                  await onChange(nextValue)
+                }}
               />
             </Stack.Item>
             <Stack.Item style={{ width: '100%' }}>
