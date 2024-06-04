@@ -114,7 +114,8 @@ const useGetMissionTimeline = (
   error?: ApolloError
 } => {
   const { loading, error, data } = useQuery(GET_MISSION_TIMELINE, {
-    variables: { missionId }
+    variables: { missionId },
+    pollInterval: 500000 // 5 min
   })
 
   if (!missionId) {
