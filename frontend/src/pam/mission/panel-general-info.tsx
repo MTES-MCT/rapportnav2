@@ -6,12 +6,27 @@ import Text from '../../ui/text'
 import MissionCrew from './crew/mission-crew'
 import MissionDistanceAndConsumption from './general-info/mission-distance-consumption'
 import MissionService from './mission-service'
+import usePatchMissionEnv, { PatchMissionEnvInput } from './use-patch-mission-env.tsx'
 
 interface MissionGeneralInfoPanelProps {
   mission: Mission
 }
 
 const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({ mission }) => {
+  const [mutateEnvMission] = usePatchMissionEnv()
+
+  const onChange = async (value: any) => {
+    debugger
+    const startDateTimeUtc = value[0].toISOString()
+    const endDateTimeUtc = value[1].toISOString()
+    const data: PatchMissionEnvInput = {
+      missionId: mission.id,
+      startDateTimeUtc,
+      endDateTimeUtc
+    }
+    await mutateEnvMission({ variables: { mission: data } })
+  }
+
   return (
     <Panel
       header={
@@ -36,8 +51,9 @@ const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({ missi
                     // label="Dates du rapport"
                     withTime={true}
                     isCompact={true}
-                    readOnly={true}
-                    disabled={true}
+                    onChange={async (nextValue?: [Date, Date] | [string, string]) => {
+                      await onChange(nextValue)
+                    }}
                   />
                 </FlexboxGrid.Item>
                 <FlexboxGrid.Item colspan={4} style={{ display: 'flex', justifyContent: 'end' }}>

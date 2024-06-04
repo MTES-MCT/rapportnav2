@@ -8,8 +8,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.PatchMissionInput
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.inputs.CreateOrUpdateMissionDataInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.MissionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.controlPlans.ControlPlanDataOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -186,11 +188,38 @@ class APIEnvMissionRepository(
 
     }
 
+    override fun updateMission(mission: MissionEntity?): MissionEntity? {
+        if (mission == null) {
+            return null
+        }
+        try {
+            val gson = GsonSerializer().create()
+            val data = CreateOrUpdateMissionDataInput.fromMissionEntity(mission)
+            val encodedData = gson.toJson(data)
+
+            val url = "$host/api/v1/mission/${mission.id}"
+
+            val client: HttpClient = HttpClient.newBuilder().build()
+            val request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(encodedData))
+                .build()
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+            val output: MissionDataOutput = gson.fromJson(response.body(), MissionDataOutput::class.java)
+            return output.toMissionEntity()
+        } catch (ex: Exception) {
+            logger.error("Failed to update MonitorEnv's Mission : ${ex.message}")
+            return null
+//            return mission
+        }
+    }
+
     override fun findAllControlPlans(): ControlPlansEntity? {
         val url = "$host/api/v1/control_plans"
         logger.info("Starting to fetch ControlsPlans from MonitorEnv at $url")
         return try {
-            val gson = Gson()
+            val gson = GsonSerializer().create()
             val client: HttpClient = HttpClient.newBuilder().build()
             val request = HttpRequest.newBuilder().uri(
                 URI.create(url)
@@ -226,7 +255,7 @@ class APIEnvMissionRepository(
             val body = response.body()
             logger.debug(body)
 
-            mapper.registerModule(JtsModule());
+            mapper.registerModule(JtsModule())
             val missionDataOutput: MissionDataOutput? = mapper.readValue(body);
             missionDataOutput?.toMissionEntity();
         } catch (e: Exception) {

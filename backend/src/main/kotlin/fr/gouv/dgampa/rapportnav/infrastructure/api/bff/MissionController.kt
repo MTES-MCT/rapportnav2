@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.ExtendedEnvMissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
@@ -36,12 +37,24 @@ class MissionController(
     private val getControlUnitsForUser: GetControlUnitsForUser,
     private val fakeMissionData: FakeMissionData,
     private val exportMission: ExportMission,
+    private val getEnvMissionById: GetEnvMissionById,
+    private val updateEnvMission: UpdateEnvMission,
     private val updateMissionService: UpdateMissionService,
     private val patchEnvMission: PatchEnvMission,
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionController::class.java)
 
+
+    /**
+     * Retrieves a list of missions from the environment and adds fictive missions for the user.
+     *
+     * This function queries missions that started after January 1, 2024, and retrieves control units for the user.
+     * It then combines these missions with fictive missions specific to the user.
+     *
+     * @return A list of missions that includes both retrieved and fictive missions for the user, or null if an exception occurs.
+     * @throws Exception if there is an error during the mission retrieval process.
+     */
     @QueryMapping
     fun missions(): List<Mission>? {
         try {
@@ -65,6 +78,16 @@ class MissionController(
         }
     }
 
+    /**
+     * Retrieves a mission by its ID, including both real and fictive missions.
+     *
+     * This function checks if the mission ID belongs to a set of empty or full fictive missions. If it does,
+     * it retrieves the corresponding fictive mission and appends navigation actions from the actual mission
+     * with the same ID. If the mission ID is not in the fictive sets, it retrieves the real mission by its ID.
+     *
+     * @param missionId The ID of the mission to retrieve.
+     * @return The mission corresponding to the given ID, or null if no such mission exists.
+     */
     @QueryMapping
     fun mission(@Argument missionId: Int): Mission? {
         return when (missionId) {
@@ -91,6 +114,15 @@ class MissionController(
         }
     }
 
+    /**
+     * Retrieves general information about a mission by its ID, including distance and fuel consumption.
+     *
+     * This function queries the general information for a mission based on the provided mission ID.
+     * The general information includes details such as the distance traveled and the fuel consumption for the mission.
+     *
+     * @param missionId The ID of the mission for which to retrieve general information.
+     * @return The general information of the mission, including distance and fuel consumption, or null if no such information exists.
+     */
     @QueryMapping
     fun missionGeneralInfo(@Argument missionId: Int): MissionGeneralInfo? {
         val info = getMissionGeneralInfoByMissionId.execute(missionId)
@@ -98,6 +130,16 @@ class MissionController(
         return info
     }
 
+    /**
+     * Adds general information to a Mission object, including distance and fuel consumption.
+     *
+     * This function retrieves the general information for a given mission based on the mission's ID.
+     * The general information includes details such as the distance traveled and fuel consumption for the mission,
+     * and it adds this information to the Mission object.
+     *
+     * @param mission The mission object for which to retrieve and add general information.
+     * @return The general information of the mission, including distance and fuel consumption, or null if no such information exists.
+     */
     @SchemaMapping(typeName = "Mission", field = "generalInfo")
     fun missionGeneralInfoForMission(mission: Mission): MissionGeneralInfo? {
         val info = getMissionGeneralInfoByMissionId.execute(mission.id)
@@ -105,6 +147,16 @@ class MissionController(
         return info
     }
 
+    /**
+     * Updates the general information of a mission, including distance and fuel consumption.
+     *
+     * This function takes an input object containing the general information for a mission,
+     * such as distance traveled and fuel consumption. It converts this input into the appropriate entity,
+     * updates or adds the information in the database, and returns the updated general information.
+     *
+     * @param info The input object containing the general information to be updated.
+     * @return The updated general information of the mission, including distance and fuel consumption, or null if the update fails.
+     */
     @MutationMapping
     fun updateMissionGeneralInfo(@Argument info: MissionGeneralInfoInput): MissionGeneralInfo? {
         val data = info.toMissionGeneralInfo().toMissionGeneralInfoEntity()
@@ -113,6 +165,17 @@ class MissionController(
         return returnData
     }
 
+    /**
+     * Exports a file containing all the data from a mission, aka rapport de patrouille.
+     *
+     * This function generates an export file for a given mission based on its ID. The exported file is in ODT format
+     * and contains comprehensive data about the mission. If the export is successful, the function returns an
+     * entity containing the file name and file content. If the export fails, an exception is thrown.
+     *
+     * @param missionId The ID of the mission to export.
+     * @return An entity containing the exported file's name and content.
+     * @throws Exception if an error occurs during the export process or if the exported file is null.
+     */
     @QueryMapping
     fun missionExport(@Argument missionId: Int): MissionExportEntity {
         try {
