@@ -59,8 +59,28 @@ data class ActionRescueEntity(
     val operationFollowsDEFREP: Boolean? = false,
     override val observations: String?,
     val locationDescription: String? = null,
+
+
     val isMigrationRescue: Boolean? = false,
+
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(
+                field = "isMigrationRescue",
+                value = arrayOf("true")
+            ),
+        ]
+    )
     val nbAssistedVesselsReturningToShore: Int? = null,
+
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(
+                field = "isMigrationRescue",
+                value = arrayOf("true")
+            ),
+        ]
+    )
     val nbOfVesselsTrackedWithoutIntervention: Int? = null,
 ) : BaseAction {
 
