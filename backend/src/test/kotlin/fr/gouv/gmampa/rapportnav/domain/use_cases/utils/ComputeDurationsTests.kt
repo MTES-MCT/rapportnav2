@@ -22,7 +22,17 @@ class ComputeDurationsTests {
     )
 
     @Test
-    fun `formatTime should return NA when null`() {
+    fun `formatTime should return NA when startDate is null`() {
+        assertThat(
+            computeDurations.durationInSeconds(
+                null,
+                startDateTime.plusHours(2L)
+            )
+        ).isNull()
+    }
+
+    @Test
+    fun `formatTime should return NA when endDate is null`() {
         assertThat(
             computeDurations.durationInSeconds(
                 startDateTime,

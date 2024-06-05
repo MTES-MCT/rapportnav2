@@ -2,8 +2,11 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.toMapForExport
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.ExportParams
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IRpnExportRepository
@@ -27,7 +30,8 @@ class ExportMission(
     private val mapStatusDurations: MapStatusDurations,
     private val formatActionsForTimeline: FormatActionsForTimeline,
     private val getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus,
-    private val computeDurations: ComputeDurations
+    private val computeDurations: ComputeDurations,
+    private val getInfoAboutNavAction: GetInfoAboutNavAction,
 ) {
 
     private val logger = LoggerFactory.getLogger(ExportMission::class.java)
@@ -65,6 +69,37 @@ class ExportMission(
 
             val timeline = formatActionsForTimeline.formatTimeline(mission.actions)
 
+            val rescueInfo = getInfoAboutNavAction.execute(
+                actions = mission.actions,
+                actionTypes = listOf(ActionType.RESCUE),
+                actionSource = MissionSourceEnum.RAPPORTNAV,
+            )?.toMapForExport()
+            val nauticalEventsInfo = getInfoAboutNavAction.execute(
+                actions = mission.actions,
+                actionTypes = listOf(ActionType.NAUTICAL_EVENT),
+                actionSource = MissionSourceEnum.RAPPORTNAV
+            )?.toMapForExport()
+            val antiPollutionInfo = getInfoAboutNavAction.execute(
+                actions = mission.actions,
+                actionTypes = listOf(ActionType.ANTI_POLLUTION),
+                actionSource = MissionSourceEnum.RAPPORTNAV
+            )?.toMapForExport()
+            val baaemAndVigimerInfo = getInfoAboutNavAction.execute(
+                actions = mission.actions,
+                actionTypes = listOf(ActionType.VIGIMER, ActionType.BAAEM_PERMANENCE),
+                actionSource = MissionSourceEnum.RAPPORTNAV
+            )?.toMapForExport()
+            val illegalImmigrationInfo = getInfoAboutNavAction.execute(
+                actions = mission.actions,
+                actionTypes = listOf(ActionType.ILLEGAL_IMMIGRATION),
+                actionSource = MissionSourceEnum.RAPPORTNAV
+            )?.toMapForExport()
+            val envSurveillanceInfo = getInfoAboutNavAction.execute(
+                actions = mission.actions,
+                actionTypes = listOf(ActionType.SURVEILLANCE),
+                actionSource = MissionSourceEnum.MONITORENV
+            )?.toMapForExport()
+
             val exportParams = ExportParams(
                 service = mission.openBy,
                 id = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(mission.startDateTimeUtc),
@@ -81,7 +116,14 @@ class ExportMission(
                 goMarine = generalInfo?.consumedGOInLiters,
                 essence = generalInfo?.consumedFuelInLiters,
                 crew = agentsCrew,
-                timeline = formatActionsForTimeline.formatForRapportNav1(timeline)
+                timeline = formatActionsForTimeline.formatForRapportNav1(timeline),
+                rescueInfo = rescueInfo,
+                nauticalEventsInfo = nauticalEventsInfo,
+                antiPollutionInfo = antiPollutionInfo,
+                baaemAndVigimerInfo = baaemAndVigimerInfo,
+                observations = "",
+                patrouilleSurveillanceEnvInHours = envSurveillanceInfo?.get("durationInHours")?.toFloatOrNull(),
+                patrouilleMigrantInHours = illegalImmigrationInfo?.get("durationInHours")?.toFloatOrNull()
             )
 
             return exportRepository.exportOdt(exportParams)

@@ -14,16 +14,18 @@ import java.util.*
 
 data class ActionStatusEntity(
     @MandatoryForStats
-    val id: UUID,
+    override val id: UUID,
 
     @MandatoryForStats
-    val missionId: Int,
+    override val missionId: Int,
 
-    var isCompleteForStats: Boolean? = null,
-    var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
+    override var isCompleteForStats: Boolean? = null,
+    override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
 
     @MandatoryForStats
-    val startDateTimeUtc: ZonedDateTime,
+    override val startDateTimeUtc: ZonedDateTime,
+
+    override val endDateTimeUtc: ZonedDateTime? = null, // Default value to null
 
     @MandatoryForStats
     val status: ActionStatusType,
@@ -38,8 +40,8 @@ data class ActionStatusEntity(
     )
     val reason: ActionStatusReason? = null,
 
-    val observations: String? = null,
-) {
+    override val observations: String? = null,
+) : BaseAction {
 
     constructor(
         id: UUID,

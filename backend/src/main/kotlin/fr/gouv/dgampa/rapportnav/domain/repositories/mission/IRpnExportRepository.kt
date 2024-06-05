@@ -21,7 +21,14 @@ data class ExportParams(
     val goMarine: Float?,
     val essence: Float?,
     val crew: List<MissionCrewEntity>,
-    val timeline: List<TimelineActions>
+    val timeline: List<TimelineActions>,
+    val rescueInfo: Map<String, String>? = null,
+    val nauticalEventsInfo: Map<String, String>? = null,
+    val antiPollutionInfo: Map<String, String>? = null,
+    val baaemAndVigimerInfo: Map<String, String>? = null,
+    val patrouilleSurveillanceEnvInHours: Float? = null,
+    val patrouilleMigrantInHours: Float? = null,
+    val observations: String? = ""
 )
 
 interface IRpnExportRepository {

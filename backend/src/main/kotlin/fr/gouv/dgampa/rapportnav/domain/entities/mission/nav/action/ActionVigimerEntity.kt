@@ -7,24 +7,24 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.NavActionVi
 import java.time.ZonedDateTime
 import java.util.*
 
-class ActionVigimerEntity(
+data class ActionVigimerEntity(
     @MandatoryForStats
-    val id: UUID,
-
-    @MandatoryForStats
-    val missionId: Int,
-
-    var isCompleteForStats: Boolean? = null,
-    var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
+    override val id: UUID,
 
     @MandatoryForStats
-    val startDateTimeUtc: ZonedDateTime,
+    override val missionId: Int,
+
+    override var isCompleteForStats: Boolean? = null,
+    override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
 
     @MandatoryForStats
-    val endDateTimeUtc: ZonedDateTime,
+    override val startDateTimeUtc: ZonedDateTime,
 
-    val observations: String? = null,
-) {
+    @MandatoryForStats
+    override val endDateTimeUtc: ZonedDateTime,
+
+    override val observations: String? = null,
+) : BaseAction {
 
     constructor(
         id: UUID,

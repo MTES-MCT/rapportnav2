@@ -8,9 +8,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControlEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionFreeNoteEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.BaseAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.mapActionStatusTypeToHumanString
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
@@ -85,16 +85,51 @@ class FormatActionsForTimeline(
         }
     }
 
-    private fun formatNavAction(action: MissionActionEntity.NavAction): String? {
+    fun formatNavAction(action: MissionActionEntity.NavAction): String? {
         val navAction = action.navAction
         return when (navAction.actionType) {
-            ActionType.NOTE -> formatNavNote(navAction.freeNoteAction)
             ActionType.STATUS -> formatNavStatus(navAction.statusAction)
             ActionType.CONTROL -> formatNavControl(navAction.controlAction)
+            ActionType.NOTE -> formatNavActionCommon(action = navAction.freeNoteAction, title = null)
+            ActionType.ANTI_POLLUTION -> formatNavActionCommon(
+                action = navAction.antiPollutionAction,
+                title = "Opération de lutte anti-pollution"
+            )
+
+            ActionType.BAAEM_PERMANENCE -> formatNavActionCommon(
+                action = navAction.baaemPermanenceAction,
+                title = "Permanence BAAEM"
+            )
+
+            ActionType.ILLEGAL_IMMIGRATION -> formatNavActionCommon(
+                action = navAction.illegalImmigrationAction,
+                title = "Lutte contre l'immigration irrégulière"
+            )
+
+            ActionType.NAUTICAL_EVENT -> formatNavActionCommon(
+                action = navAction.nauticalEventAction,
+                title = "Sécu de manifestation nautique"
+            )
+
+            ActionType.PUBLIC_ORDER -> formatNavActionCommon(
+                action = navAction.publicOrderAction,
+                title = "Maintien de l'ordre public"
+            )
+
+            ActionType.REPRESENTATION -> formatNavActionCommon(
+                action = navAction.representationAction,
+                title = "Représentation"
+            )
+
+            ActionType.VIGIMER -> formatNavActionCommon(action = navAction.vigimerAction, title = "Permanence Vigimer")
+            ActionType.RESCUE -> formatNavActionCommon(
+                action = navAction.rescueAction,
+                title = "Assistance et sauvetage"
+            )
+
             else -> null
         }
     }
-
 
     fun formatEnvControl(action: EnvActionControlEntity?): String? {
         return action?.let {
@@ -125,7 +160,7 @@ class FormatActionsForTimeline(
                 "(DD): ${it.first},${it.second}"
             }
             val vesselInfo = "${action.vesselName ?: "N/A"} - ${action.portLocode ?: ""} ${action.vesselId}"
-            val seizureAndDiversion = action.seizureAndDiversion?.let { " - retour du navire au port" } ?: ""
+            val seizureAndDiversion = if (action.seizureAndDiversion == true) " - retour du navire au port" else ""
             val natinfs: String = listOf(
                 action.gearInfractions.map { it.natinf },
                 action.logbookInfractions.map { it.natinf },
@@ -150,15 +185,6 @@ class FormatActionsForTimeline(
         }
     }
 
-    fun formatNavNote(action: ActionFreeNoteEntity?): String? {
-        return action?.let {
-            val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
-            val observation = action.observations ?: ""
-            return "$startTime - $observation"
-        }
-    }
-
-
     fun formatNavStatus(action: ActionStatusEntity?): String? {
         return action?.let {
             val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
@@ -176,4 +202,18 @@ class FormatActionsForTimeline(
             return "$startTime / $endTime - Contrôle administratif $vesselIdentifier"
         }
     }
+
+    private fun <T : BaseAction> formatNavActionCommon(
+        action: T?,
+        title: String?
+    ): String? {
+        return action?.let {
+            val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
+            val endTime = action.endDateTimeUtc?.let { " / ${formatDateTime.formatTime(it)}" } ?: ""
+            val titleStr = if (!title.isNullOrEmpty()) " - $title" else ""
+            val observation = if (!action.observations.isNullOrEmpty()) " - ${action.observations}" else ""
+            "$startTime$endTime$titleStr$observation"
+        }
+    }
+
 }

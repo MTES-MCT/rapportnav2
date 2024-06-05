@@ -12,7 +12,7 @@ data class TimelineActionItem(
 )
 
 
-class ExportMissionODTInput(
+data class ExportMissionODTInput(
     val service: String?,
     val id: String?,
     val startDateTime: String?,
@@ -22,11 +22,16 @@ class ExportMissionODTInput(
     val indisponibilite: Map<String, Int>,
     val nbJoursMer: Int,
     val dureeMission: Int,
-    val patrouilleEnv: Int,
-    val patrouilleMigrant: Int,
-    val distanceMilles: Float?,
-    val goMarine: Float?,
-    val essence: Float?,
+    val patrouilleSurveillanceEnvInHours: Float? = null,
+    val patrouilleMigrantInHours: Float? = null,
+    val distanceMilles: Float? = null,
+    val goMarine: Float? = null,
+    val essence: Float? = null,
     val crew: List<MissionCrewEntity>,
-    val timeline: List<TimelineActions>
+    val timeline: List<TimelineActions>,
+    val rescueInfo: Map<String, String>? = null,
+    val nauticalEventsInfo: Map<String, String>? = null,
+    val antiPollutionInfo: Map<String, String>? = null,
+    val baaemAndVigimerInfo: Map<String, String>? = null,
+    val observations: String? = ""
 )
