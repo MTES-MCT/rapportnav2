@@ -42,7 +42,7 @@ type Action {
 
 input ActionStatusInput {
   id: String
-  missionId: Int!
+  missionId: ID!
   startDateTimeUtc: String
   status: ActionStatusType!
   reason: ActionStatusReason
@@ -51,7 +51,7 @@ input ActionStatusInput {
 
 input ActionControlInput {
   id: String
-  missionId: Int!
+  missionId: ID!
   startDateTimeUtc: String
   endDateTimeUtc: String
   controlMethod: ControlMethod!
@@ -66,14 +66,14 @@ input ActionControlInput {
 
 input ActionFreeNoteInput {
   id: String
-  missionId: Int!
+  missionId: ID!
   startDateTimeUtc: String!
   observations: String
 }
 
 input ActionRescueInput {
   id: String
-  missionId: Int!
+  missionId: ID!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   longitude: Float
@@ -95,7 +95,7 @@ input ActionRescueInput {
 
 input ActionNauticalEventInput {
   id: String
-  missionId: Int!
+  missionId: ID!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   observations: String
@@ -103,7 +103,7 @@ input ActionNauticalEventInput {
 
 input ActionVigimerInput {
   id: String
-  missionId: Int!
+  missionId: ID!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   observations: String
@@ -111,7 +111,7 @@ input ActionVigimerInput {
 
 input ActionAntiPollutionInput {
   id: String
-  missionId: Int!
+  missionId: ID!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   observations: String
@@ -124,7 +124,7 @@ input ActionAntiPollutionInput {
 
 input ActionBAAEMPermanenceInput {
   id: String
-  missionId: Int!
+  missionId: ID!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   observations: String
@@ -132,7 +132,7 @@ input ActionBAAEMPermanenceInput {
 
 input ActionPublicOrderInput {
   id: String
-  missionId: Int!
+  missionId: ID!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   observations: String
@@ -140,7 +140,7 @@ input ActionPublicOrderInput {
 
 input ActionRepresentationInput {
   id: String
-  missionId: Int!
+  missionId: ID!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   observations: String
@@ -148,7 +148,7 @@ input ActionRepresentationInput {
 
 input ActionIllegalImmigrationInput {
   id: String
-  missionId: Int!
+  missionId: ID!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   observations: String
@@ -198,7 +198,7 @@ type NavActionFreeNote {
 
 type NavActionRescue {
   id: String!
-  missionId: String
+  missionId: ID
   startDateTimeUtc: String!
   endDateTimeUtc: String
   longitude: Float
@@ -221,7 +221,7 @@ type NavActionRescue {
 
 type NavActionNauticalEvent {
   id: String!
-  missionId: String!
+  missionId: ID!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   observations: String
@@ -229,7 +229,7 @@ type NavActionNauticalEvent {
 
 type NavActionVigimer {
   id: String!
-  missionId: String!
+  missionId: ID!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   observations: String
@@ -237,7 +237,7 @@ type NavActionVigimer {
 
 type NavActionAntiPollution {
   id: String!
-  missionId: String!
+  missionId: ID!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   observations: String
@@ -250,7 +250,7 @@ type NavActionAntiPollution {
 
 type NavActionBAAEMPermanence {
   id: String!
-  missionId: String!
+  missionId: ID!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   observations: String
@@ -258,7 +258,7 @@ type NavActionBAAEMPermanence {
 
 type NavActionPublicOrder {
   id: String!
-  missionId: String!
+  missionId: ID!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   observations: String
@@ -266,7 +266,7 @@ type NavActionPublicOrder {
 
 type NavActionRepresentation {
   id: String!
-  missionId: String!
+  missionId: ID!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   observations: String
@@ -274,7 +274,7 @@ type NavActionRepresentation {
 
 type NavActionIllegalImmigration {
   id: String!
-  missionId: String!
+  missionId: ID!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   observations: String

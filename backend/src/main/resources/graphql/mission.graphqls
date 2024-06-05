@@ -68,7 +68,7 @@ type MissionGeneralInfo {
 
 input MissionGeneralInfoInput {
   id: String
-  missionId: String!
+  missionId: ID!
   distanceInNauticalMiles: Float
   consumedGOInLiters: Float
   consumedFuelInLiters: Float
