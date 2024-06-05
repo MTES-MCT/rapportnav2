@@ -40,7 +40,7 @@ describe('MissionDistanceAndConsumption', () => {
     it('should be called when changing distanceInNauticalMiles', async () => {
       render(<MissionDistanceAndConsumption {...props(mock)} />)
       const field = screen.getByRole('distanceInNauticalMiles')
-      const value = '2'
+      const value = 2
       fireEvent.change(field, { target: { value } })
       fireEvent.blur(field)
       expect(mutateMock).toHaveBeenCalledWith({
@@ -58,7 +58,7 @@ describe('MissionDistanceAndConsumption', () => {
     it('should be called when changing consumedGOInLiters', async () => {
       render(<MissionDistanceAndConsumption {...props(mock)} />)
       const field = screen.getByRole('consumedGOInLiters')
-      const value = '2'
+      const value = 2
       fireEvent.change(field, { target: { value } })
       fireEvent.blur(field)
       expect(mutateMock).toHaveBeenCalledWith({
@@ -76,7 +76,7 @@ describe('MissionDistanceAndConsumption', () => {
     it('should be called when changing consumedFuelInLiters', async () => {
       render(<MissionDistanceAndConsumption {...props(mock)} />)
       const field = screen.getByRole('consumedFuelInLiters')
-      const value = '2'
+      const value = 2
       fireEvent.change(field, { target: { value } })
       fireEvent.blur(field)
       expect(mutateMock).toHaveBeenCalledWith({

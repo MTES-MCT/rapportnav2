@@ -73,7 +73,7 @@ type ControlGensDeMer {
 
 input ControlNavigationInput {
   id: String
-  missionId: String!
+  missionId: ID!
   actionControlId: String!
   amountOfControls: Int!
   unitShouldConfirm: Boolean
@@ -83,7 +83,7 @@ input ControlNavigationInput {
 
 input ControlSecurityInput {
   id: String
-  missionId: String!
+  missionId: ID!
   actionControlId: String!
   amountOfControls: Int!
   unitShouldConfirm: Boolean

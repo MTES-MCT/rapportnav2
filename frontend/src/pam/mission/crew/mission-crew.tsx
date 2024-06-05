@@ -85,7 +85,7 @@ const MissionCrew: React.FC<MissionCrewProps> = () => {
 
   const handleSubmitForm = async (data: AddOrUpdateMissionCrewInput) => {
     if (!missionId) return
-    const crew = { ...data, missionId: Number(missionId) }
+    const crew = { ...data, missionId: missionId }
     await addOrUpdateCrew({ variables: { crew } })
     setOpenCrewForm(false)
   }

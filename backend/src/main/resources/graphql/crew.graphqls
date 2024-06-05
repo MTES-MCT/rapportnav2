@@ -38,7 +38,7 @@ type MissionCrew {
 input MissionCrewInput {
   id: ID
   agent: AgentInput
-  missionId: Int!
+  missionId: ID!
   comment: String
   role: AgentRoleInput
 }
