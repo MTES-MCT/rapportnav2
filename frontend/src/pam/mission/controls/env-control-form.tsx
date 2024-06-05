@@ -38,7 +38,7 @@ const EnvControlForm: FC<EnvControlFormProps> = ({ controlType, data, maxAmountO
     await onChange('observations', observationsValue)
   }
 
-  const [mutateControl, mutationLoading] = useAddOrUpdateControl({ controlType: controlType })
+  const [mutateControl] = useAddOrUpdateControl({ controlType: controlType })
   const [deleteControl] = useDeleteControl({ controlType: controlType })
 
   const toggleControl = async (isChecked: boolean) =>
@@ -99,6 +99,7 @@ const EnvControlForm: FC<EnvControlFormProps> = ({ controlType, data, maxAmountO
           <Stack.Item style={{ width: '33%' }}>
             <NumberInput
               label="Nb contrôles"
+              isRequired={shouldCompleteControl}
               name="amountOfControls"
               // disabled={mutationLoading?.loading}
               value={data?.amountOfControls}
