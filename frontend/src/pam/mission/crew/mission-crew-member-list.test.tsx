@@ -37,12 +37,12 @@ const crewList = [
 ]
 
 describe('MissionCrewMemberList', () => {
-  it('should render Agent firstname, lastname', async () => {
+  it('should render Agent firstname lastname', async () => {
     render(
       <MissionCrewMemberList crewList={crewList} handleEditCrew={handleEditCrew} handleDeleteCrew={handleDeleteCrew} />
     )
-    expect(screen.getByText('Ivan, Lapierre')).toBeInTheDocument()
-    expect(screen.getByText('Joseph, Dupont')).toBeInTheDocument()
+    expect(screen.getByText('Ivan Lapierre')).toBeInTheDocument()
+    expect(screen.getByText('Joseph Dupont')).toBeInTheDocument()
   })
 
   it('should render comment and active comment icon', async () => {
