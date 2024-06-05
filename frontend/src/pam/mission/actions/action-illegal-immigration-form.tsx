@@ -102,7 +102,7 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
           <Stack.Item style={{ width: '100%' }}>
             <ActionHeader
               icon={undefined}
-              title={"Lutte contre l'immigration irrégulière"}
+              title={"Lutte contre l'immigration illégale"}
               date={actionData.startDateTimeUtc}
               onDelete={deleteAction}
               showButtons={true}

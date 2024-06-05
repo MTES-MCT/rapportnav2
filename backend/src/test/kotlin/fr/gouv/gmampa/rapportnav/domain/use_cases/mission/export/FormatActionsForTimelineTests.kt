@@ -277,7 +277,7 @@ class FormatActionsForTimelineTests {
         val action = MissionActionEntity.NavAction(
             ActionMockFactory.create<ActionIllegalImmigrationEntity>().toNavActionEntity()
         )
-        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Lutte contre l'immigration irrégulière")
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Lutte contre l'immigration illégale")
     }
 
     @Test

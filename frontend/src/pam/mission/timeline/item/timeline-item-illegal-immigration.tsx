@@ -33,7 +33,7 @@ const ActionIllegalImmigration: FC<MissionTimelineItemProps> = ({ action, onClic
                 textOverflow: 'ellipsis'
               }}
             >
-              {"Lutte contre l'immigration irrégulière"}
+              {"Lutte contre l'immigration illégale"}
             </Text>
           </Stack.Item>
         </Stack>
