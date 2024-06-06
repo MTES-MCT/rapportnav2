@@ -94,7 +94,7 @@ export const RESCUE_TYPE_OPTIONS = [
     value: true
   },
   {
-    label: 'Sauvetage de la vie humaine',
+    label: 'Sauvegarde de la vie humaine',
     value: false
   }
 ]

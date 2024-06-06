@@ -43,7 +43,7 @@ const ActionSelectionDropdown: FC<ActionSelectionDropdownProps> = ({ onSelect })
         Représentation
       </Dropdown.Item>
       <Dropdown.Item icon={<MoreIcon />} eventKey={ActionTypeEnum.ILLEGAL_IMMIGRATION}>
-        Lutte contre l'immigration irrégulière
+        Lutte contre l'immigration illégale
       </Dropdown.Item>
       {/*</RSuiteDropdown.Menu>*/}
     </Dropdown>

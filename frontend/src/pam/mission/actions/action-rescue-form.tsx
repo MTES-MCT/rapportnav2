@@ -375,6 +375,13 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
             <Stack.Item style={{ width: '50%', maxWidth: '50%' }}>
               <NumberInput
                 label="Nb d'embarcations suivies sans nécessité d'intervention"
+                isRequired={!!actionData?.isMigrationRescue}
+                error={
+                  !actionData.nbOfVesselsTrackedWithoutIntervention && actionData?.isMigrationRescue
+                    ? 'error'
+                    : undefined
+                }
+                isErrorMessageHidden={true}
                 name="nbOfVesselsTrackedWithoutIntervention"
                 placeholder="0"
                 isLight={true}
@@ -389,6 +396,11 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
             <Stack.Item style={{ width: '50%', maxWidth: '50%' }}>
               <NumberInput
                 label="Nb d'embarcations assistées pour un retour à terre"
+                isRequired={!!actionData?.isMigrationRescue}
+                error={
+                  !actionData.nbAssistedVesselsReturningToShore && actionData?.isMigrationRescue ? 'error' : undefined
+                }
+                isErrorMessageHidden={true}
                 name="nbAssistedVesselsReturningToShore"
                 placeholder="0"
                 isLight={true}

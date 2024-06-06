@@ -103,7 +103,7 @@ class FormatActionsForTimeline(
 
             ActionType.ILLEGAL_IMMIGRATION -> formatNavActionCommon(
                 action = navAction.illegalImmigrationAction,
-                title = "Lutte contre l'immigration irrégulière"
+                title = "Lutte contre l'immigration illégale"
             )
 
             ActionType.NAUTICAL_EVENT -> formatNavActionCommon(

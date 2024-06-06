@@ -34,7 +34,7 @@ const ActionOtherRescue: FC<MissionTimelineItemProps> = ({ action, onClick }) =>
               }}
             >
               {`Assistance / `}
-              <b>{`${actionData?.isPersonRescue ? 'Sauvetage de la vie humaine' : 'Assistance de navire en difficulté'}`}</b>
+              <b>{`${actionData?.isPersonRescue ? 'Sauvegarde de la vie humaine' : 'Assistance de navire en difficulté'}`}</b>
             </Text>
           </Stack.Item>
         </Stack>

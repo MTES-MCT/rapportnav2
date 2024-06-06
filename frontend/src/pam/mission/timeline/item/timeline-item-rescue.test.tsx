@@ -16,9 +16,9 @@ const props = (action: any, onClick = vi.fn()) => ({
   onClick
 })
 describe('ActionOtherRescue', () => {
-  test('should render Sauvetage de la vie humaine', () => {
+  test('should render Sauvegarde de la vie humaine', () => {
     render(<ActionOtherRescue {...props(actionMock(false))} />)
-    expect(screen.getByText('Sauvetage de la vie humaine', { exact: false })).toBeInTheDocument()
+    expect(screen.getByText('Sauvegarde de la vie humaine', { exact: false })).toBeInTheDocument()
   })
   test('should render Assistance de navire en difficulté', () => {
     render(<ActionOtherRescue {...props(actionMock(true))} />)

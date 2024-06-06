@@ -14,6 +14,6 @@ describe('ActionSelectionDropdown', () => {
     expect(screen.getByText('Permanence BAAEM')).toBeInTheDocument()
     expect(screen.getByText("Maintien de l'ordre public")).toBeInTheDocument()
     expect(screen.getByText('Représentation')).toBeInTheDocument()
-    expect(screen.getByText("Lutte contre l'immigration irrégulière")).toBeInTheDocument()
+    expect(screen.getByText("Lutte contre l'immigration illégale")).toBeInTheDocument()
   })
 })
