@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.Action
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.generalInfo.MissionGeneralInfo
@@ -20,7 +21,8 @@ data class Mission(
     val status: MissionStatusEnum? = null,
     val completenessForStats: CompletenessForStatsEntity? = null,
     val crew: List<MissionCrew>? = null,
-    val generalInfo: MissionGeneralInfo? = null
+    val generalInfo: MissionGeneralInfo? = null,
+    val services: List<ServiceEntity>? = null
 ) {
     companion object {
         fun fromMissionEntity(mission: MissionEntity): Mission {
@@ -50,7 +52,8 @@ data class Mission(
                 crew = mission.crew?.map { MissionCrew.fromMissionCrewEntity(it) },
                 generalInfo = MissionGeneralInfo.fromMissionGeneralInfoEntity(mission.generalInfo),
                 status = mission.status,
-                completenessForStats = mission.completenessForStats
+                completenessForStats = mission.completenessForStats,
+                services = mission.services
             )
         }
     }

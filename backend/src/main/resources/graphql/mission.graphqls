@@ -31,6 +31,7 @@ type Mission {
   openBy: String
   status: MissionStatusEnum
   completenessForStats: CompletenessForStats
+  services: [Service]
 }
 
 enum MissionSourceEnum {

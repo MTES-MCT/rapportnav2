@@ -9,4 +9,5 @@ data class NavMissionEntity(
     val actions: List<NavActionEntity> = emptyList(),
     val generalInfo: MissionGeneralInfoEntity? = null,
     val crew: List<MissionCrewEntity>? = null,
+    val services: List<ServiceEntity>? = null
 )
