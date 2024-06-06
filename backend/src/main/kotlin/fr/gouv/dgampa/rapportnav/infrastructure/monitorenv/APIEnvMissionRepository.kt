@@ -2,12 +2,13 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.google.gson.Gson
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.inputs.CreateOrUpdateMissionDataInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.MissionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.controlPlans.ControlPlanDataOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -148,9 +149,36 @@ class APIEnvMissionRepository(
 
     }
 
+    override fun updateMission(mission: MissionEntity?): MissionEntity? {
+        if (mission == null) {
+            return null
+        }
+        try {
+            val gson = GsonSerializer().create()
+            val data = CreateOrUpdateMissionDataInput.fromMissionEntity(mission)
+            val encodedData = gson.toJson(data)
+
+            val url = "$host/api/v1/mission/${mission.id}"
+
+            val client: HttpClient = HttpClient.newBuilder().build()
+            val request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(encodedData))
+                .build()
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+            val output: MissionDataOutput = gson.fromJson(response.body(), MissionDataOutput::class.java)
+            return output.toMissionEntity()
+        } catch (ex: Exception) {
+            logger.error("Failed to update MonitorEnv's Mission : ${ex.message}")
+            return null
+//            return mission
+        }
+    }
+
     override fun findAllControlPlans(): ControlPlansEntity? {
         try {
-            val gson = Gson();
+            val gson = GsonSerializer().create()
             val client: HttpClient = HttpClient.newBuilder().build()
             val request = HttpRequest.newBuilder().uri(
                 URI.create("$host/bff/v1/control_plans")

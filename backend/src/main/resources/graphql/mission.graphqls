@@ -11,14 +11,14 @@ type MissionExport {
 }
 
 type Mutation {
-  updateMission(mission: MissionInput!): Mission!
+  updateEnvMissionInfo(data: EnvMissionUpdateInput!): Mission!
   updateMissionGeneralInfo(info: MissionGeneralInfoInput!): MissionGeneralInfo!
 }
 
-input MissionInput {
+input EnvMissionUpdateInput {
   id: ID!
   startDateTimeUtc: String!
-  endDateTimeUtc: String!
+  endDateTimeUtc: String
 }
 
 type Mission {
