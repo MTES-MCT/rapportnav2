@@ -9,7 +9,7 @@ import useLazyMissionExport from './export/use-lazy-mission-export.tsx'
 import { Stack } from 'rsuite'
 import Text from '../../ui/text.tsx'
 import { Accent, Button, logSoftError, Size } from '@mtes-mct/monitor-ui'
-import { getPath, PAM_HOME_PATH } from '../../router/router.tsx'
+import { getPath, ROOT_PATH } from '../../router/router.tsx'
 import { MissionExport } from '../../types/mission-types.ts'
 import * as Sentry from '@sentry/react'
 import useApolloLastSync from '../../shared/use-apollo-last-sync.tsx'
@@ -109,7 +109,7 @@ const MissionPage: React.FC = () => {
             <Text as={'h3'}>{error?.message}</Text>
           </Stack.Item>
           <Stack.Item>
-            <Button accent={Accent.PRIMARY} size={Size.LARGE} onClick={() => navigate(getPath(PAM_HOME_PATH))}>
+            <Button accent={Accent.PRIMARY} size={Size.LARGE} onClick={() => navigate(getPath(ROOT_PATH))}>
               Retourner à l'accueil
             </Button>
           </Stack.Item>

@@ -9,6 +9,7 @@ import * as Sentry from '@sentry/react'
 
 export const getPath = (path: string) => `/${path}`
 
+export const ROOT_PATH = '/'
 export const LOGIN_PATH = 'login'
 export const SIGNUP_PATH = 'signup'
 export const PAM_HOME_PATH = 'pam/missions'
@@ -17,7 +18,7 @@ const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(createBrowserRo
 
 export const router = sentryCreateBrowserRouter([
   {
-    path: '/',
+    path: ROOT_PATH,
     element: <Home />,
     errorElement: <ErrorPage />
   },
