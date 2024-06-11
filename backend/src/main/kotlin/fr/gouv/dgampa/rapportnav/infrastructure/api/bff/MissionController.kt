@@ -1,17 +1,16 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeMissionData
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMissionById
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetNavMissionById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.AddOrUpdateMissionGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.generalInfo.MissionGeneralInfoInput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.generalInfo.MissionServiceInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.Mission
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.generalInfo.MissionGeneralInfo
 import org.slf4j.LoggerFactory
@@ -34,7 +33,8 @@ class MissionController(
     private val addOrUpdateMissionGeneralInfo: AddOrUpdateMissionGeneralInfo,
     private val getControlUnitsForUser: GetControlUnitsForUser,
     private val fakeMissionData: FakeMissionData,
-    private val exportMission: ExportMission
+    private val exportMission: ExportMission,
+    private val updateMissionService: UpdateMissionService
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionController::class.java)
@@ -133,4 +133,8 @@ class MissionController(
         }
     }
 
+    @MutationMapping
+    fun updateMissionService(@Argument service: MissionServiceInput): ServiceEntity? {
+        return updateMissionService.execute(service)
+    }
 }

@@ -1,0 +1,38 @@
+package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
+
+import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentServiceRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IServiceRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.generalInfo.MissionServiceInput
+
+@UseCase
+class UpdateMissionService(
+    private val serviceRepo: IServiceRepository,
+    private val missionCrewRepo: IMissionCrewRepository,
+    private val infoRepo: IMissionGeneralInfoRepository,
+    private val agentServiceRepo: IAgentServiceRepository,
+) {
+    fun execute(input: MissionServiceInput): ServiceEntity? {
+
+        // save serviceId into generalInformation
+        val info = infoRepo.findByMissionId(input.missionId).get();
+        info.serviceId = input.serviceId;
+
+        // get crew on a mission and delete all
+        val oldMissionCrews = missionCrewRepo.findByMissionId(input.missionId);
+        oldMissionCrews.forEach { missionCrew ->
+            missionCrewRepo.deleteById(missionCrew.id!!)
+        }
+
+        // get agent on a service
+        val newMissionCrews = agentServiceRepo.findByServiceId(input.serviceId)
+            .map { agent -> agent.toMissionCrewModel(input.missionId) };
+        newMissionCrews.forEach { missionCrew -> missionCrewRepo.save(missionCrew!!.toMissionCrewEntity()) }
+
+        infoRepo.save(info.toMissionGeneralInfoEntity());
+        return serviceRepo.findById(input.serviceId).get().toServiceEntity();
+    }
+}
