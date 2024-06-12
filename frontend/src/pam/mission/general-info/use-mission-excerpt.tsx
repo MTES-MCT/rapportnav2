@@ -18,6 +18,7 @@ export const GET_MISSION_EXCERPT = gql`
         distanceInNauticalMiles
         consumedGOInLiters
         consumedFuelInLiters
+        serviceId
       }
       actions {
         id
@@ -28,6 +29,10 @@ export const GET_MISSION_EXCERPT = gql`
           status
           sources
         }
+      }
+      services {
+        id
+        name
       }
     }
   }

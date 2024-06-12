@@ -2,7 +2,6 @@ import { Accent, Button, ButtonProps, Icon, Label, LabelProps, Size } from '@mte
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Stack, StackProps } from 'rsuite'
-import { StackItemProps } from 'rsuite/esm/Stack/StackItem'
 import styled from 'styled-components'
 import { MissionCrew as MissionCrewModel } from '../../../types/crew-types'
 import Text, { TextProps } from '../../../ui/text'
@@ -13,12 +12,17 @@ import useAddOrUpdateMissionCrew, { AddOrUpdateMissionCrewInput } from './use-ad
 import useDeleteMissionCrew from './use-delete-mission-crew'
 import useMissionCrew from './use-mission-crew'
 
-const UnderlineTitleLabel = styled((props: LabelProps) => <Label {...props} />)(({ theme }) => ({
+const TitleLabel = styled((props: LabelProps) => <Label {...props} />)(({ theme }) => ({
   fontWeight: 'bold',
-  paddingBottom: 8,
-  color: theme.color.gunMetal,
-  borderBottom: `1px solid ${theme.color.charcoal}`
+  color: theme.color.gunMetal
 }))
+
+const UnderlineStack = styled((props: StackProps) => <Stack {...props} direction="row" alignItems="center" />)(
+  ({ theme }) => ({
+    paddingBottom: 8,
+    borderBottom: `1px solid ${theme.color.charcoal}`
+  })
+)
 
 const AddCrewMemberButton = styled((props: ButtonProps) => (
   <Button
@@ -35,23 +39,17 @@ const AddCrewMemberButton = styled((props: ButtonProps) => (
 }))
 
 const CrewStack = styled((props: StackProps) => (
-  <Stack {...props} direction="column" alignItems="flex-start" spacing="0.25rem" />
+  <Stack {...props} direction="column" alignItems="center" spacing="0.25rem" />
 ))({
   width: '100%'
 })
 
-const CrewStackItem = styled((props: StackItemProps) => <Stack.Item {...props} />)({
-  width: '100%'
-})
-
-const EmptyCrewListStackItem = styled((props: StackItemProps) => <CrewStackItem {...props} />)(({ theme }) => ({
-  padding: '0.5rem',
-  backgroundColor: theme.color.gainsboro
-}))
 
 const EmptyCrewListText = styled((props: Omit<TextProps, 'as'> & { isMissionFinished: boolean }) => (
   <Text {...props} as="h3" />
 ))(({ theme, isMissionFinished }) => ({
+  paddingLeft: 8,
+  fontStyle: 'italic',
   color: isMissionFinished ? theme.color.maximumRed : theme.color.charcoal
 }))
 
@@ -66,7 +64,7 @@ const MissionCrew: React.FC<MissionCrewProps> = () => {
 
   const [currentCrewId, setCurrentCrewId] = useState<string>()
   const [openCrewForm, setOpenCrewForm] = useState<boolean>(false)
-  const [crewList, setCrewList] = useState<MissionCrewModel[] | undefined>(crew)
+  const [crewList, setCrewList] = useState<MissionCrewModel[]>([])
 
   const handleOpenCrewForm = (id?: string): void => {
     setCurrentCrewId(id)
@@ -75,6 +73,7 @@ const MissionCrew: React.FC<MissionCrewProps> = () => {
 
   // refresh the crew var after a mutation's refetchQuery
   useEffect(() => {
+    if (!crew) return
     setCrewList(crew)
   }, [crew])
 
@@ -83,7 +82,7 @@ const MissionCrew: React.FC<MissionCrewProps> = () => {
     await deleteCrew({ variables: { id } })
   }
 
-  const handleSubmitForm = async (data: AddOrUpdateMissionCrewInput) => {
+  const handleSubmitForm = async (data: Omit<AddOrUpdateMissionCrewInput, 'missionId'>) => {
     if (!missionId) return
     const crew = { ...data, missionId: missionId }
     await addOrUpdateCrew({ variables: { crew } })
@@ -92,25 +91,27 @@ const MissionCrew: React.FC<MissionCrewProps> = () => {
 
   return (
     <>
-      <UnderlineTitleLabel>Equipage à bord</UnderlineTitleLabel>
-      <CrewStack>
-        {!crewList || !crewList.length ? (
-          <EmptyCrewListStackItem>
-            <EmptyCrewListText isMissionFinished={!!isMissionFinished}>
-              Aucun membre d'équipage renseigné
-            </EmptyCrewListText>
-          </EmptyCrewListStackItem>
-        ) : (
-          <Stack.Item style={{ width: '100%' }}>
-            <CrewMemeberList
-              crewList={crewList}
-              handleEditCrew={handleOpenCrewForm}
-              handleDeleteCrew={onDeleteCrewMember}
-            />
-          </Stack.Item>
+      <UnderlineStack>
+        <TitleLabel>Equipage</TitleLabel>
+        {crewList?.length === 0 && (
+          <EmptyCrewListText isMissionFinished={!!isMissionFinished}>
+            Selectionner votre bordée, pour importer votre liste d'équipage
+          </EmptyCrewListText>
         )}
+      </UnderlineStack>
+
+      <CrewStack>
         <Stack.Item style={{ width: '100%' }}>
-          <AddCrewMemberButton onClick={() => handleOpenCrewForm()}>Ajouter un membre d’équipage</AddCrewMemberButton>
+          <CrewMemeberList
+            crewList={crewList}
+            handleEditCrew={handleOpenCrewForm}
+            handleDeleteCrew={onDeleteCrewMember}
+          />
+        </Stack.Item>
+        <Stack.Item style={{ width: '100%', marginTop: 16 }}>
+          <AddCrewMemberButton disabled={crewList?.length === 0} onClick={() => handleOpenCrewForm()}>
+            Ajouter un membre d’équipage
+          </AddCrewMemberButton>
         </Stack.Item>
         <>
           {openCrewForm && crewList && (

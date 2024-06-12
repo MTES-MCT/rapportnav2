@@ -20,7 +20,7 @@ import styled from 'styled-components'
 import * as Yup from 'yup'
 import { Agent, MissionCrew as MissionCrewModel } from '../../../types/crew-types'
 import { AddOrUpdateMissionCrewInput } from './use-add-update-mission-crew'
-import useAgentsByUserService from './use-agents-by-user-service'
+import useAgents from './use-agents.tsx'
 
 const CrewFormDialogBody = styled((props: DialogProps) => <Dialog.Body {...props} />)(({ theme }) => ({
   padding: 24,
@@ -73,12 +73,12 @@ interface MissionCrewModalProps {
   crewId?: string
   crewList: MissionCrewModel[]
   handleClose: (open: boolean) => void
-  handleSubmitForm: (crew: AddOrUpdateMissionCrewInput) => Promise<void>
+  handleSubmitForm: (crew: Omit<AddOrUpdateMissionCrewInput, 'missionId'>) => Promise<void>
 }
 
 const MissionCrewForm: React.FC<MissionCrewModalProps> = ({ crewId, crewList, handleClose, handleSubmitForm }) => {
+  const { data: agents } = useAgents()
   const { data: agentRoles } = useAgentRoles()
-  const { data: agents } = useAgentsByUserService()
   const [initValue, setInitValue] = useState<CrewForm>()
 
   useEffect(() => {
@@ -89,20 +89,19 @@ const MissionCrewForm: React.FC<MissionCrewModalProps> = ({ crewId, crewList, ha
   const handleSubmit = async (value: CrewForm) => {
     const agent = agents?.find(agent => agent.id === value.agentId)
     const role = agentRoles?.find(role => role.id === value.roleId)
-    const crew: AddOrUpdateMissionCrewInput = {
+    await handleSubmitForm({
       role,
       agent,
       id: crewId,
       comment: value.comment
-    }
-    await handleSubmitForm(crew)
+    })
   }
 
   return (
     <Dialog>
       <Dialog.Title>
         <FlexboxGrid align="middle" justify="space-between" style={{ paddingLeft: 24, paddingRight: 24 }}>
-          <FlexboxGrid.Item>{`${crewId ? 'Mise à jour' : 'Ajout'} d’un membre d’équipage`}</FlexboxGrid.Item>
+          <FlexboxGrid.Item>{`${crewId ? 'Mise à jour' : 'Ajout'} d’un membre d’équipage ${crewId ? '' : 'du DCS'}`}</FlexboxGrid.Item>
           <FlexboxGrid.Item>
             <CloseIconButton onClick={() => handleClose(false)} />
           </FlexboxGrid.Item>
@@ -132,6 +131,7 @@ const MissionCrewForm: React.FC<MissionCrewModalProps> = ({ crewId, crewList, ha
                             label: `${agent.firstName} ${agent.lastName}`
                           })) || []
                         }
+                        searchable
                         disabledItemValues={crewList?.map(crew => crew.agent?.id).filter(Boolean) as string[]}
                       />
                     </Stack.Item>
