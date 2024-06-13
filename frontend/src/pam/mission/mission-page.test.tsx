@@ -1,10 +1,10 @@
-import { render, screen, fireEvent, waitFor } from '../../test-utils.tsx'
-import MissionPage from './mission-page.tsx'
-import { vi } from 'vitest'
-import { Mission } from '../../types/mission-types.ts'
-import useMissionExcerpt from './general-info/use-mission-excerpt'
 import { GraphQLError } from 'graphql/error'
 import { useNavigate } from 'react-router-dom'
+import { vi } from 'vitest'
+import { fireEvent, render, screen, waitFor } from '../../test-utils.tsx'
+import { Mission } from '../../types/mission-types.ts'
+import useMissionExcerpt from './general-info/use-mission-excerpt'
+import MissionPage from './mission-page.tsx'
 
 vi.mock('@unleash/proxy-client-react', async importOriginal => {
   const actual = await importOriginal()
@@ -128,14 +128,17 @@ describe('MissionPage', () => {
       render(<MissionPage />)
       expect(screen.getByText(errorMessage)).toBeInTheDocument()
     })
-    test('should redirect to the missions page when clicking the button', () => {
+
+    test('should redirect to the missions page when clicking the button', async () => {
       const mockNavigate = vi.fn()
       ;(useNavigate as jest.Mock).mockReturnValue(mockNavigate)
       ;(useMissionExcerpt as any).mockReturnValue(mockedQueryResult(undefined, false, new GraphQLError('errorMessage')))
       render(<MissionPage />)
       const button = screen.getByText("Retourner à l'accueil")
       fireEvent.click(button)
-      expect(mockNavigate).toHaveBeenCalledWith('/pam/missions')
+      await waitFor(() => {
+        expect(mockNavigate).toHaveBeenCalledWith('/')
+      })
     })
   })
 })

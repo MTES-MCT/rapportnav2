@@ -65,7 +65,7 @@ const CrewText = styled((props: Omit<TextProps, 'as'>) => <Text {...props} as="h
 }))
 
 const CrewAgentText = styled(({ agent, ...props }: Omit<TextProps, 'as' | 'children'> & { agent?: Agent }) => (
-  <Text {...props} as="h3" truncate data-testid="crew-member-agent">{`${agent?.firstName}, ${agent?.lastName}`}</Text>
+  <Text {...props} as="h3" truncate data-testid="crew-member-agent">{`${agent?.firstName} ${agent?.lastName}`}</Text>
 ))(({ theme }) => ({
   color: theme.color.gunMetal
 }))

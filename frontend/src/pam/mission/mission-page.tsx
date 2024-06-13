@@ -1,19 +1,19 @@
-import React, { useState } from 'react'
-import MissionContent from './mission-content.tsx'
-import { useNavigate, useParams } from 'react-router-dom'
-import MissionPageHeader from './page-header'
-import MissionPageFooter from './page-footer'
 import { useApolloClient } from '@apollo/client'
-import useMissionExcerpt from './general-info/use-mission-excerpt'
-import useLazyMissionExport from './export/use-lazy-mission-export.tsx'
-import { Stack } from 'rsuite'
-import Text from '../../ui/text.tsx'
-import { Accent, Button, logSoftError, Size } from '@mtes-mct/monitor-ui'
-import { getPath, ROOT_PATH } from '../../router/router.tsx'
-import { MissionExport } from '../../types/mission-types.ts'
+import { Accent, Button, Size, logSoftError } from '@mtes-mct/monitor-ui'
 import * as Sentry from '@sentry/react'
+import React, { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Stack } from 'rsuite'
+import { ROOT_PATH } from '../../router/router.tsx'
 import useApolloLastSync from '../../shared/use-apollo-last-sync.tsx'
+import { MissionExport } from '../../types/mission-types.ts'
+import Text from '../../ui/text.tsx'
 import { formatTime, toLocalISOString } from '../../utils/dates.ts'
+import useLazyMissionExport from './export/use-lazy-mission-export.tsx'
+import useMissionExcerpt from './general-info/use-mission-excerpt'
+import MissionContent from './mission-content.tsx'
+import MissionPageFooter from './page-footer'
+import MissionPageHeader from './page-header'
 
 const MissionPage: React.FC = () => {
   const navigate = useNavigate()
@@ -109,7 +109,7 @@ const MissionPage: React.FC = () => {
             <Text as={'h3'}>{error?.message}</Text>
           </Stack.Item>
           <Stack.Item>
-            <Button accent={Accent.PRIMARY} size={Size.LARGE} onClick={() => navigate(getPath(ROOT_PATH))}>
+            <Button accent={Accent.PRIMARY} size={Size.LARGE} onClick={() => navigate(ROOT_PATH)}>
               Retourner à l'accueil
             </Button>
           </Stack.Item>
