@@ -8,6 +8,7 @@ data class MissionGeneralInfo(
     var distanceInNauticalMiles: Float? = null,
     var consumedGOInLiters: Float? = null,
     var consumedFuelInLiters: Float? = null,
+    var serviceId: Int? = null
 ) {
     fun toMissionGeneralInfoEntity(): MissionGeneralInfoEntity {
         return MissionGeneralInfoEntity(
@@ -15,7 +16,8 @@ data class MissionGeneralInfo(
             missionId,
             distanceInNauticalMiles,
             consumedGOInLiters,
-            consumedFuelInLiters
+            consumedFuelInLiters,
+            serviceId
         )
     }
 
@@ -26,7 +28,8 @@ data class MissionGeneralInfo(
                 missionId = info.missionId,
                 distanceInNauticalMiles = info.distanceInNauticalMiles,
                 consumedGOInLiters = info.consumedGOInLiters,
-                consumedFuelInLiters = info.consumedFuelInLiters
+                consumedFuelInLiters = info.consumedFuelInLiters,
+                serviceId = info.serviceId
             )
         }
     }

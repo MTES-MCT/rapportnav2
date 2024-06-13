@@ -1,10 +1,12 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.NavMissionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetServiceByControlUnit
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import org.slf4j.LoggerFactory
 
@@ -16,6 +18,7 @@ class GetNavMissionById(
     private val attachControlsToActionControl: AttachControlsToActionControl,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val getAgentsCrewByMissionId: GetAgentsCrewByMissionId,
+    private val getServiceByControlUnit: GetServiceByControlUnit,
     private val navRescueRepository: INavActionRescueRepository,
     private val navNauticalEventRepository: INavActionNauticalEventRepository,
     private val navVigimerRepository: INavActionVigimerRepository,
@@ -27,7 +30,7 @@ class GetNavMissionById(
 ) {
     private val logger = LoggerFactory.getLogger(GetNavMissionById::class.java)
 
-    fun execute(missionId: Int): NavMissionEntity {
+    fun execute(missionId: Int, controlUnits: List<LegacyControlUnitEntity>? = null): NavMissionEntity {
         val controls = navActionControlRepository
             .findAllByMissionId(missionId = missionId)
             .map { actionControl ->
@@ -47,6 +50,7 @@ class GetNavMissionById(
             .map { it.toNavActionEntity() }
 
         val generalInfo = getMissionGeneralInfoByMissionId.execute(missionId)
+
 
         val crew = getAgentsCrewByMissionId.execute(
             missionId = missionId
@@ -84,9 +88,17 @@ class GetNavMissionById(
             .map { it.toActionIllegalImmigrationEntity() }
             .map { it.toNavActionEntity() }
 
+        val services = getServiceByControlUnit.execute(controlUnits)
+
         val actions =
             controls + statuses + notes + rescues + nauticalEvents + vigimers + antiPollutions + baaemPermanences + representations + publicOrders + illegalImmigrations
-        val mission = NavMissionEntity(id = missionId, actions = actions, generalInfo = generalInfo, crew = crew)
+        val mission = NavMissionEntity(
+            id = missionId,
+            actions = actions,
+            generalInfo = generalInfo,
+            crew = crew,
+            services = services
+        )
         return mission
     }
 

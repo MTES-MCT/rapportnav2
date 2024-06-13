@@ -48,7 +48,7 @@ describe('MissionCrew', () => {
   it('should render the no crew text', async () => {
     ;(useMissionCrew as any).mockReturnValue(mockedQueryResult(undefined))
     render(<MissionCrew />)
-    expect(screen.getByText("Aucun membre d'équipage renseigné")).toBeInTheDocument()
+    expect(screen.getByText("Selectionner votre bordée, pour importer votre liste d'équipage")).toBeInTheDocument()
   })
 
   it('should render the crew when there is', async () => {

@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.NavMissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
@@ -33,7 +34,8 @@ data class MissionEntity(
     val generalInfo: MissionGeneralInfoEntity? = null,
     val crew: List<MissionCrewEntity>? = null,
     var status: MissionStatusEnum? = null,
-    var completenessForStats: CompletenessForStatsEntity? = null
+    var completenessForStats: CompletenessForStatsEntity? = null,
+    var services: List<ServiceEntity>? = null
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionEntity::class.java)
@@ -41,7 +43,7 @@ data class MissionEntity(
     constructor(
         envMission: ExtendedEnvMissionEntity,
         navMission: NavMissionEntity? = null,
-        fishMissionActions: List<ExtendedFishActionEntity>? = null
+        fishMissionActions: List<ExtendedFishActionEntity>? = null,
     ) : this(
         id = (envMission.mission.id)!!,
         missionTypes = envMission.mission.missionTypes,
@@ -66,6 +68,7 @@ data class MissionEntity(
         ),
         generalInfo = navMission?.generalInfo,
         crew = navMission?.crew,
+        services = navMission?.services
     ) {
         this.status = this.calculateMissionStatus(
             startDateTimeUtc = envMission.mission.startDateTimeUtc,

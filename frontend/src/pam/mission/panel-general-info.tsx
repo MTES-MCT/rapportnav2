@@ -1,10 +1,11 @@
+import { DateRangePicker, Label, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { FlexboxGrid, Panel, Stack } from 'rsuite'
-import { DateRangePicker, Label, THEME } from '@mtes-mct/monitor-ui'
-import Text from '../../ui/text'
 import { Mission } from '../../types/mission-types'
-import MissionDistanceAndConsumption from './general-info/mission-distance-consumption'
+import Text from '../../ui/text'
 import MissionCrew from './crew/mission-crew'
+import MissionDistanceAndConsumption from './general-info/mission-distance-consumption'
+import MissionService from './mission-service'
 
 interface MissionGeneralInfoPanelProps {
   mission: Mission
@@ -27,15 +28,26 @@ const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({ missi
         <FlexboxGrid.Item style={{ width: '100%' }}>
           <Stack direction="column" alignItems="flex-start" spacing="2rem" style={{ width: '100%' }}>
             <Stack.Item style={{ width: '100%' }}>
-              <Label>Dates du rapport</Label>
-              <DateRangePicker
-                defaultValue={[mission.startDateTimeUtc || new Date(), mission.endDateTimeUtc || new Date()]}
-                // label="Dates du rapport"
-                withTime={true}
-                isCompact={true}
-                readOnly={true}
-                disabled={true}
-              />
+              <FlexboxGrid style={{ width: '100%' }}>
+                <FlexboxGrid.Item colspan={20}>
+                  <Label>Dates du rapport</Label>
+                  <DateRangePicker
+                    defaultValue={[mission.startDateTimeUtc || new Date(), mission.endDateTimeUtc || new Date()]}
+                    // label="Dates du rapport"
+                    withTime={true}
+                    isCompact={true}
+                    readOnly={true}
+                    disabled={true}
+                  />
+                </FlexboxGrid.Item>
+                <FlexboxGrid.Item colspan={4} style={{ display: 'flex', justifyContent: 'end' }}>
+                  <MissionService
+                    services={mission.services}
+                    missionId={Number(mission.id)}
+                    serviceId={mission.generalInfo?.serviceId}
+                  />
+                </FlexboxGrid.Item>
+              </FlexboxGrid>
             </Stack.Item>
             <Stack.Item style={{ width: '100%' }}>
               <MissionCrew />

@@ -1,6 +1,7 @@
 import { Action } from './action-types'
 import { ControlUnit } from './control-unit-types'
 import { MissionSourceEnum, MissionTypeEnum, SeaFrontEnum } from './env-mission-types'
+import { Service } from './service-types'
 
 export enum VesselTypeEnum {
   'FISHING' = 'FISHING',
@@ -35,6 +36,7 @@ export type Mission = {
   generalInfo: MissionGeneralInfo
   status: MissionStatusEnum
   completenessForStats?: CompletenessForStats
+  services: Service[]
 }
 
 export type MissionGeneralInfo = {
@@ -42,6 +44,7 @@ export type MissionGeneralInfo = {
   distanceInNauticalMiles?: number
   consumedGOInLiters?: number
   consumedFuelInLiters?: number
+  serviceId?: number
 }
 
 export type MissionExport = {

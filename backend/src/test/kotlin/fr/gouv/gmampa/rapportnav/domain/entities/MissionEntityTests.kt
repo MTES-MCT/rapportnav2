@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Completion
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentRoleEntity
@@ -211,6 +212,33 @@ class MissionEntityTests {
                 )
             )
             assertThat(mission.completenessForStats).isEqualTo(expected)
+        }
+
+
+        @Test
+        fun `should return have list of services`() {
+            val expected = listOf(
+                ServiceEntity(
+                    id = 3,
+                    name = "firstService",
+                    controlUnits = listOf(1, 3)
+                ), ServiceEntity(
+                    id = 4,
+                    name = "SecondService",
+                    controlUnits = listOf(3, 4)
+                )
+            );
+            val mission = MissionEntity(
+                envMission = ExtendedEnvMissionEntity.fromEnvMission(
+                    EnvMissionMock.create()
+                ),
+                fishMissionActions = listOf(),
+                navMission = NavMissionMock.create(
+                    services = expected
+                )
+            )
+            assertThat(mission.services).isNotNull()
+            assertThat(mission.services).isEqualTo(expected);
         }
     }
 }

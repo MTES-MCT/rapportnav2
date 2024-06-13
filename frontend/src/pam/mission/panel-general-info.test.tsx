@@ -12,4 +12,9 @@ describe('MissionGeneralInfoPanel', () => {
     render(<MissionGeneralInfoPanel mission={mock} />)
     expect(screen.getByText('Informations Générales')).toBeInTheDocument()
   })
+
+  test('should render mission service', () => {
+    render(<MissionGeneralInfoPanel mission={mock} />)
+    expect(screen.getByText('Bordée')).toBeInTheDocument()
+  })
 })

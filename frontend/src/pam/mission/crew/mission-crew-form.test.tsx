@@ -2,7 +2,6 @@ import { vi } from 'vitest'
 import { fireEvent, mockQueryResult, render, screen, waitFor } from '../../../test-utils.tsx'
 import MissionCrewForm from './mission-crew-form.tsx'
 import useAgentRoles from './use-agent-roles'
-import useAgentsByUserService from './use-agents-by-user-service'
 
 const handleClose = vi.fn()
 const handleSubmitForm = vi.fn()
@@ -58,14 +57,12 @@ const agents = [
   {
     id: 'agent1',
     firstName: 'Ivan',
-    lastName: 'Lapierre',
-    services: []
+    lastName: 'Lapierre'
   },
   {
     id: 'agent2',
     firstName: 'Joseph',
-    lastName: 'Dupont',
-    services: []
+    lastName: 'Dupont'
   }
 ]
 const agentRoles = [
@@ -79,13 +76,13 @@ const agentRoles = [
 describe('MissionCrewForm', () => {
   beforeEach(() => {
     ;(useAgentRoles as any).mockReturnValue(mockQueryResult(agentRoles))
-    ;(useAgentsByUserService as any).mockReturnValue(mockQueryResult(agents))
+    //;(useAgents as any).mockReturnValue(mockQueryResult(agents))
   })
 
   it('should render ajout for adding new member', async () => {
     render(<MissionCrewForm crewList={crewList} handleClose={handleClose} handleSubmitForm={handleSubmitForm} />)
     expect(screen.getByText('Ajouter un membre')).toBeInTheDocument()
-    expect(screen.getByText('Ajout d’un membre d’équipage')).toBeInTheDocument()
+    expect(screen.getByText('Ajout d’un membre d’équipage du DCS')).toBeInTheDocument()
   })
 
   it('should render update for modifying a member', async () => {

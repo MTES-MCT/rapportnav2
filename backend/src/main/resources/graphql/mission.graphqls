@@ -13,6 +13,7 @@ type MissionExport {
 type Mutation {
   updateMission(mission: MissionInput!): Mission!
   updateMissionGeneralInfo(info: MissionGeneralInfoInput!): MissionGeneralInfo!
+  updateMissionService(service: MissionServiceInput!): Service!
 }
 
 input MissionInput {
@@ -31,6 +32,7 @@ type Mission {
   openBy: String
   status: MissionStatusEnum
   completenessForStats: CompletenessForStats
+  services: [Service]
 }
 
 enum MissionSourceEnum {
@@ -64,6 +66,7 @@ type MissionGeneralInfo {
   distanceInNauticalMiles: Float
   consumedGOInLiters: Float
   consumedFuelInLiters: Float
+  serviceId: Int
 }
 
 input MissionGeneralInfoInput {
@@ -72,4 +75,9 @@ input MissionGeneralInfoInput {
   distanceInNauticalMiles: Float
   consumedGOInLiters: Float
   consumedFuelInLiters: Float
+}
+
+input MissionServiceInput {
+  missionId: Int
+  serviceId: Int
 }

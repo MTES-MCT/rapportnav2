@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceMo
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBServiceRepository
 import org.springframework.stereotype.Repository
 import java.util.*
+import java.util.logging.Filter
 
 @Repository
 class JPAServiceRepository(
@@ -21,5 +22,9 @@ class JPAServiceRepository(
 
     override fun findAll(): List<ServiceModel> {
         return repo.findAll()
+    }
+
+    override fun findByControlUnitId(controlUnitIds: List<Int>): List<ServiceModel>{
+        return repo.findAll().filter { serviceModel -> (serviceModel.controlUnits)!!.containsAll(controlUnitIds) }
     }
 }

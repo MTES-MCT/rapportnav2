@@ -7,4 +7,5 @@ interface IServiceRepository {
     fun existsById(id: Int): Boolean
     fun findById(id: Int): Optional<ServiceModel>
     fun findAll(): List<ServiceModel>
+    fun findByControlUnitId(controlUnitIds: List<Int>): List<ServiceModel>
 }

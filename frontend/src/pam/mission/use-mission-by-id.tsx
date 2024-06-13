@@ -18,6 +18,7 @@ export const GET_MISSION_BY_ID = gql`
         distanceInNauticalMiles
         consumedGOInLiters
         consumedFuelInLiters
+        serviceId
       }
       actions {
         id
@@ -271,6 +272,10 @@ export const GET_MISSION_BY_ID = gql`
             }
           }
         }
+      }
+      services {
+        id
+        name
       }
     }
   }
