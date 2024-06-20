@@ -22,7 +22,8 @@ data class Mission(
     val completenessForStats: CompletenessForStatsEntity? = null,
     val crew: List<MissionCrew>? = null,
     val generalInfo: MissionGeneralInfo? = null,
-    val services: List<ServiceEntity>? = null
+    val services: List<ServiceEntity>? = null,
+    val observationsByUnit: String? = null
 ) {
     companion object {
         fun fromMissionEntity(mission: MissionEntity): Mission {
@@ -53,7 +54,8 @@ data class Mission(
                 generalInfo = MissionGeneralInfo.fromMissionGeneralInfoEntity(mission.generalInfo),
                 status = mission.status,
                 completenessForStats = mission.completenessForStats,
-                services = mission.services
+                services = mission.services,
+                observationsByUnit = mission.observationsByUnit
             )
         }
     }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.MissionDataOutput
@@ -201,6 +202,27 @@ class APIEnvMissionRepository(
             logger.error("Failed to fetch ControlsPlans from MonitorEnv at $url", ex)
             null
         }
+    }
+
+    override fun updateMission(missionId: Int, mission: MissionEnvEntity): MissionEntity {
+        val gson = Gson();
+        gson.toJson(mission)
+        val client: HttpClient = HttpClient.newBuilder().build()
+        val request = HttpRequest
+            .newBuilder()
+            .uri(
+                URI.create(
+                    "$host/api/v1/missions/$missionId"
+                )
+            ).method("PATCH", HttpRequest.BodyPublishers.ofString(gson.toJson(mission)) )
+            .header("Content-Type", "application/json")
+            .build();
+
+        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+        mapper.registerModule(JtsModule())
+
+        val missionDataOutput: MissionDataOutput = mapper.readValue(response.body());
+        return missionDataOutput.toMissionEntity();
     }
 
 }
