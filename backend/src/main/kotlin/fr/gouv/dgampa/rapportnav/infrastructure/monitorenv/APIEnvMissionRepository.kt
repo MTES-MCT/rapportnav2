@@ -34,7 +34,7 @@ class APIEnvMissionRepository(
         val client: HttpClient = HttpClient.newBuilder().build()
         val url = URI.create("$host/api/v1/missions/$missionId")
 
-        logger.info("Sending request for Env mission ID $missionId. Status code: ${response.statusCode()}. URL: $url")
+        logger.info("Sending request for Env mission ID $missionId. URL: $url")
         val request = HttpRequest
             .newBuilder()
             .uri(url)
@@ -141,7 +141,7 @@ class APIEnvMissionRepository(
         val client: HttpClient = HttpClient.newBuilder().build()
         val request = HttpRequest.newBuilder()
             .uri(uri)
-            .build();
+            .build()
 
         logger.info("Fetching missions at URL: $uri")
 
@@ -180,18 +180,18 @@ class APIEnvMissionRepository(
     }
 
     override fun findAllControlPlans(): ControlPlansEntity? {
-        try {
-            val gson = Gson();
+        return try {
+            val gson = Gson()
             val client: HttpClient = HttpClient.newBuilder().build()
             val request = HttpRequest.newBuilder().uri(
                 URI.create("$host/bff/v1/control_plans")
-            ).build();
+            ).build()
 
             val response = client.send(request, HttpResponse.BodyHandlers.ofString())
             val output: ControlPlanDataOutput = gson.fromJson(response.body(), ControlPlanDataOutput::class.java)
-            return output.toControlPlansEntity()
+            output.toControlPlansEntity()
         } catch (ex: Exception) {
-            return null
+            null
         }
     }
 
