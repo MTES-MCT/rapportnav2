@@ -142,7 +142,7 @@ class MissionController(
     }
 
     @MutationMapping
-    fun updateMissionEnv(@Argument mission: MissionEnvInput): MissionEntity {
+    fun updateMissionEnv(@Argument mission: MissionEnvInput): MissionEntity? {
         return updateEnvMission.execute(mission)
     }
 }

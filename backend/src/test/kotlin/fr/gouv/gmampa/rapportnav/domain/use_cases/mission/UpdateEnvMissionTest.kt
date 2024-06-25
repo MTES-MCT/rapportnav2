@@ -31,7 +31,7 @@ class UpdateEnvMissionTest {
         val response =
             updateEnvMission.execute(MissionEnvInput(missionId = missionId, observationsByUnit = observationsByUnit));
         assertThat(response).isNotNull();
-        assertThat(response.observationsByUnit).isEqualTo(observationsByUnit);
+        assertThat(response?.observationsByUnit).isEqualTo(observationsByUnit);
 
     }
 }

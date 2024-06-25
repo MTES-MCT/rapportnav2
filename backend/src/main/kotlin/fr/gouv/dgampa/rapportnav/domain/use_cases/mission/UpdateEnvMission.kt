@@ -15,7 +15,7 @@ class UpdateEnvMission(
 
     fun execute(
         input: MissionEnvInput,
-    ): MissionEntity {
+    ): MissionEntity? {
         return envRepository.updateMission(
             input.missionId,
             MissionEnvEntity(observationsByUnit = input.observationsByUnit)

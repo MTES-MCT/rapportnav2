@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
+import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
@@ -23,9 +24,11 @@ import java.time.format.DateTimeFormatter
 
 @Repository
 class APIEnvMissionRepository(
-    private val mapper: ObjectMapper
+    private val mapper: ObjectMapper,
+    private val clientFactory: HttpClientFactory
 ) : IEnvMissionRepository {
-    private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepository::class.java)
+    private val client: HttpClient =  HttpClient.newBuilder().build();
+    private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepository::class.java);
     private val zoneDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.000X")
 
     // TODO set as env var when available
@@ -204,25 +207,21 @@ class APIEnvMissionRepository(
         }
     }
 
-    override fun updateMission(missionId: Int, mission: MissionEnvEntity): MissionEntity {
+    override fun updateMission(missionId: Int, mission: MissionEnvEntity): MissionEntity? {
         val gson = Gson();
-        gson.toJson(mission)
-        val client: HttpClient = HttpClient.newBuilder().build()
+        val client = clientFactory.create();
         val request = HttpRequest
             .newBuilder()
             .uri(
                 URI.create(
                     "$host/api/v1/missions/$missionId"
                 )
-            ).method("PATCH", HttpRequest.BodyPublishers.ofString(gson.toJson(mission)) )
+            ).method("PATCH", HttpRequest.BodyPublishers.ofString(gson.toJson(mission)))
             .header("Content-Type", "application/json")
             .build();
-
         val response = client.send(request, HttpResponse.BodyHandlers.ofString())
-        mapper.registerModule(JtsModule())
-
-        val missionDataOutput: MissionDataOutput = mapper.readValue(response.body());
-        return missionDataOutput.toMissionEntity();
+        mapper.registerModule(JtsModule());
+        val missionDataOutput: MissionDataOutput? = mapper.readValue(response.body())
+        return missionDataOutput?.toMissionEntity();
     }
-
 }
