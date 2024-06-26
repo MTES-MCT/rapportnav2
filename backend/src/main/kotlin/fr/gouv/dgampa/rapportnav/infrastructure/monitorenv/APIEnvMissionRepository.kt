@@ -54,7 +54,7 @@ class APIEnvMissionRepository(
             val contentType = response.headers().firstValue("Content-Type").orElse("")
             if (!contentType.startsWith("application/json")) {
                 logger.error("Unexpected content type: $contentType for Env mission id=$missionId")
-                return null
+                throw Exception("Unexpected content type: $contentType for Env mission id=$missionId")
             }
 
             when (response.statusCode()) {
@@ -77,12 +77,12 @@ class APIEnvMissionRepository(
 
                 else -> {
                     logger.error("Unexpected status code ${response.statusCode()} for Env mission id=$missionId")
-                    null
+                    throw Exception("Unexpected status code ${response.statusCode()} for Env mission id=$missionId")
                 }
             }
         } catch (e: Exception) {
             logger.error("Error while fetching Env mission with id=$missionId", e)
-            null
+            throw Exception("Error while fetching Env mission with id=$missionId", e)
         }
     }
 
