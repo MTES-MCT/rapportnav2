@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.v1
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMissionById
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.NavMissionEntity
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetNavMissionById
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.v1.adapters.outputs.ApiMissionDataOutput
 import io.swagger.v3.oas.annotations.Operation
 import jakarta.websocket.server.PathParam
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/v1/missions")
 class ApiMissionController(
-    private val getMissionById: GetMissionById,
+    private val getNavMissionById: GetNavMissionById,
 ) {
     @GetMapping("/{missionId}")
     @Operation(
@@ -24,8 +24,12 @@ class ApiMissionController(
         @PathVariable(name = "missionId")
         missionId: Int,
     ): ApiMissionDataOutput? {
-        val mission: MissionEntity? = getMissionById.execute(missionId = missionId)
-        return ApiMissionDataOutput.fromMissionEntity(mission)
+        val navMission: NavMissionEntity = getNavMissionById.execute(missionId = missionId)
+
+        return ApiMissionDataOutput(
+            id = missionId,
+            containsActionsAddedByUnit = navMission.actions.isNotEmpty()
+        )
     }
 
 }
