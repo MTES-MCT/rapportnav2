@@ -29,7 +29,7 @@ const MissionPage: React.FC = () => {
   const exitMission = async () => {
     // TODO centralise the following into a class - also used in use-auth()
     // reset apollo store
-    await apolloClient.resetStore()
+    await apolloClient.clearStore()
     // flush apollo persist cache
     apolloClient.cache.evict({})
 

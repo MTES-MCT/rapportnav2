@@ -17,7 +17,7 @@ vi.mock('@unleash/proxy-client-react', async importOriginal => {
 
 // Mock the useApolloClient hook
 const mockApolloClient = {
-  resetStore: vi.fn(),
+  clearStore: vi.fn(),
   cache: {
     evict: vi.fn()
   }
@@ -98,7 +98,7 @@ describe('MissionPage', () => {
       const button = screen.getByRole('quit-mission-cross')
       fireEvent.click(button)
 
-      expect(mockApolloClient.resetStore).toHaveBeenCalled()
+      expect(mockApolloClient.clearStore).toHaveBeenCalled()
       await waitFor(() => {
         expect(mockApolloClient.cache.evict).toHaveBeenCalled()
         expect(mockNavigate).toHaveBeenCalledWith('..')
@@ -113,7 +113,7 @@ describe('MissionPage', () => {
       const button = screen.getByText('Fermer la mission')
       fireEvent.click(button)
 
-      expect(mockApolloClient.resetStore).toHaveBeenCalled()
+      expect(mockApolloClient.clearStore).toHaveBeenCalled()
       await waitFor(() => {
         expect(mockApolloClient.cache.evict).toHaveBeenCalled()
         expect(mockNavigate).toHaveBeenCalledWith('..')
