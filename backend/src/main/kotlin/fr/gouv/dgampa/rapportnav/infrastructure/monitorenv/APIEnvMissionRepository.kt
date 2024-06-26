@@ -32,24 +32,55 @@ class APIEnvMissionRepository(
 
     override fun findMissionById(missionId: Int): MissionEntity? {
         val client: HttpClient = HttpClient.newBuilder().build()
+        val url = URI.create("$host/api/v1/missions/$missionId")
+
+        logger.info("Sending request for Env mission ID $missionId. URL: $url")
         val request = HttpRequest
             .newBuilder()
-            .uri(
-                URI.create(
-                    "$host/api/v1/missions/$missionId"
-                )
-            )
+            .uri(url)
             .build()
 
-        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+        return try {
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
-        mapper.registerModule(JtsModule())
+            logger.info("Response received for Env mission ID $missionId. Status code: ${response.statusCode()}. URL: $url")
+            logger.info("Raw response body: ${response.body()}")
 
-        val missionDataOutput: MissionDataOutput = mapper.readValue(response.body())
-        val envMission: MissionEntity = missionDataOutput.toMissionEntity()
+            val contentType = response.headers().firstValue("Content-Type").orElse("")
+            if (!contentType.startsWith("application/json")) {
+                logger.error("Unexpected content type: $contentType for Env mission ID $missionId")
+                return null
+            }
 
-        return envMission
+            when (response.statusCode()) {
+                200 -> {
+                    try {
+                        mapper.registerModule(JtsModule())
+                        val missionDataOutput: MissionDataOutput = mapper.readValue(response.body())
+                        logger.info("Successfully deserialized Env mission data for ID $missionId")
+                        missionDataOutput.toMissionEntity()
+                    } catch (e: Exception) {
+                        logger.error("Failed to deserialize Env mission data for ID $missionId", e)
+                        null
+                    }
+                }
+
+                404 -> {
+                    logger.warn("Env Mission with ID $missionId not found")
+                    null
+                }
+
+                else -> {
+                    logger.error("Unexpected status code ${response.statusCode()} for Env mission ID $missionId")
+                    null
+                }
+            }
+        } catch (e: Exception) {
+            logger.error("Error while fetching Env mission with ID $missionId", e)
+            null
+        }
     }
+
 
     override fun findAllMissions(
         pageNumber: Int?,
@@ -110,7 +141,7 @@ class APIEnvMissionRepository(
         val client: HttpClient = HttpClient.newBuilder().build()
         val request = HttpRequest.newBuilder()
             .uri(uri)
-            .build();
+            .build()
 
         logger.info("Fetching missions at URL: $uri")
 
@@ -149,18 +180,18 @@ class APIEnvMissionRepository(
     }
 
     override fun findAllControlPlans(): ControlPlansEntity? {
-        try {
-            val gson = Gson();
+        return try {
+            val gson = Gson()
             val client: HttpClient = HttpClient.newBuilder().build()
             val request = HttpRequest.newBuilder().uri(
                 URI.create("$host/bff/v1/control_plans")
-            ).build();
+            ).build()
 
             val response = client.send(request, HttpResponse.BodyHandlers.ofString())
             val output: ControlPlanDataOutput = gson.fromJson(response.body(), ControlPlanDataOutput::class.java)
-            return output.toControlPlansEntity()
+            output.toControlPlansEntity()
         } catch (ex: Exception) {
-            return null
+            null
         }
     }
 
