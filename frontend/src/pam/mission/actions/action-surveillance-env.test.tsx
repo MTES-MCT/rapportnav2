@@ -59,4 +59,46 @@ describe('ActionSurveillanceEnv', () => {
       expect(screen.getByText('Surveillance Environnement')).toBeInTheDocument()
     })
   })
+  describe('Themes and SubThemes', () => {
+    test('should render themes and subthemes', async () => {
+      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
+      render(<ActionSurveillanceEnv action={actionMock} />)
+      expect(screen.getByText('police des mouillages')).toBeInTheDocument()
+      expect(screen.getByText('mouillage individuel, ZMEL')).toBeInTheDocument()
+    })
+    test('should render fallback text when themes and subthemes are undefined', async () => {
+      const mock = {
+        ...actionMock,
+        data: {
+          observations: null,
+          geom: 'MULTIPOINT ((-8.52318191 48.30305604))',
+          formattedControlPlans: {
+            subThemes: undefined,
+            themes: undefined
+          }
+        }
+      }
+      ;(useActionById as any).mockReturnValue(mockedQueryResult(mock as any, false))
+      render(<ActionSurveillanceEnv action={mock} />)
+      expect(screen.getByText('inconnue')).toBeInTheDocument()
+      expect(screen.getByText('inconnues')).toBeInTheDocument()
+    })
+    test('should render fallback text when themes and subthemes are empty arrays', async () => {
+      const mock = {
+        ...actionMock,
+        data: {
+          observations: null,
+          geom: 'MULTIPOINT ((-8.52318191 48.30305604))',
+          formattedControlPlans: {
+            subThemes: [],
+            themes: []
+          }
+        }
+      }
+      ;(useActionById as any).mockReturnValue(mockedQueryResult(mock as any, false))
+      render(<ActionSurveillanceEnv action={mock} />)
+      expect(screen.getByText('inconnue')).toBeInTheDocument()
+      expect(screen.getByText('inconnues')).toBeInTheDocument()
+    })
+  })
 })

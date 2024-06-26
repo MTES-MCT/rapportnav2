@@ -60,14 +60,16 @@ const ActionSurveillanceEnv: React.FC<ActionSurveillancePropsEnv> = ({ action })
         <Stack.Item style={{ width: '100%' }}>
           <Label>Thématique de contrôle</Label>
           <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-            {actionData?.formattedControlPlans.themes[0] ?? 'inconnue'}
+            {actionData?.formattedControlPlans?.themes?.length
+              ? actionData?.formattedControlPlans?.themes[0]
+              : 'inconnue'}
           </Text>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <Label>Sous-thématiques de contrôle</Label>
           <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-            {actionData?.formattedControlPlans.subThemes?.length
-              ? actionData?.formattedControlPlans.themes?.join(', ')
+            {actionData?.formattedControlPlans?.subThemes?.length
+              ? actionData?.formattedControlPlans?.subThemes?.join(', ')
               : 'inconnues'}
           </Text>
         </Stack.Item>
