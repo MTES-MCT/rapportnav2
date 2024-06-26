@@ -1,5 +1,5 @@
+import { FC, useEffect, useState } from 'react'
 import { Select, SelectProps } from '@mtes-mct/monitor-ui'
-import { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
 import styled from 'styled-components'
 import { Service } from '../../types/crew-types'
@@ -15,7 +15,7 @@ interface MissionServiceProps {
   services?: Service[]
 }
 
-const MissionService: React.FC<MissionServiceProps> = ({ services, missionId, serviceId }) => {
+const MissionService: FC<MissionServiceProps> = ({ services, missionId, serviceId }) => {
   const [id, setId] = useState<string>()
   const [updateMissionService] = useUpdateMissionService()
 
@@ -36,7 +36,7 @@ const MissionService: React.FC<MissionServiceProps> = ({ services, missionId, se
     setId(nextValue)
     if (!nextValue) return
     const service = { missionId, serviceId: Number(nextValue) }
-    updateMissionService({
+    await updateMissionService({
       variables: {
         service
       }

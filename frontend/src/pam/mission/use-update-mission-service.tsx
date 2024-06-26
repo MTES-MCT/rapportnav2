@@ -4,15 +4,16 @@ import { GET_MISSION_CREW } from './crew/use-mission-crew'
 import { GET_MISSION_EXCERPT } from './general-info/use-mission-excerpt'
 
 export const MUTATION_UPDATE_MISSION_SERVICE = gql`
-mutation updateMissionService($service: MissionServiceInput!) {
-  updateMissionService(service: $service) {
-    id
+  mutation updateMissionService($service: MissionServiceInput!) {
+    updateMissionService(service: $service) {
+      id
+      name
+    }
   }
-}
 `
 
 export type UpdateMissionServiceInput = {
-  missionId: number,
+  missionId: number
   serviceId: number
 }
 
