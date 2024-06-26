@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlP
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.MissionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.controlPlans.ControlPlanDataOutput
+import io.sentry.Sentry
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -44,7 +45,11 @@ class APIEnvMissionRepository(
             val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
             logger.info("Response received for Env mission id=$missionId. Status code: ${response.statusCode()}. URL: $url")
-            logger.info("Raw response body for Env mission id=$missionId", response.body().toString())
+            logger.debug(
+                "Raw response body for Env mission id=$missionId: ${response.body()}",
+                response.body().toString()
+            )
+            Sentry.captureMessage("Sentry Raw response body for Env mission id=$missionId: ${response.body()}")
 
             val contentType = response.headers().firstValue("Content-Type").orElse("")
             if (!contentType.startsWith("application/json")) {
