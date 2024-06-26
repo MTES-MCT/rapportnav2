@@ -34,7 +34,7 @@ class APIEnvMissionRepository(
         val client: HttpClient = HttpClient.newBuilder().build()
         val url = URI.create("$host/api/v1/missions/$missionId")
 
-        logger.info("Sending request for Env mission ID $missionId. URL: $url")
+        logger.info("Sending request for Env mission id=$missionId. URL: $url")
         val request = HttpRequest
             .newBuilder()
             .uri(url)
@@ -43,12 +43,12 @@ class APIEnvMissionRepository(
         return try {
             val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
-            logger.info("Response received for Env mission ID $missionId. Status code: ${response.statusCode()}. URL: $url")
-            logger.info("Raw response body: ${response.body()}")
+            logger.info("Response received for Env mission id=$missionId. Status code: ${response.statusCode()}. URL: $url")
+            logger.info("Raw response body for Env mission id=$missionId", response.body().toString())
 
             val contentType = response.headers().firstValue("Content-Type").orElse("")
             if (!contentType.startsWith("application/json")) {
-                logger.error("Unexpected content type: $contentType for Env mission ID $missionId")
+                logger.error("Unexpected content type: $contentType for Env mission id=$missionId")
                 return null
             }
 
@@ -57,26 +57,26 @@ class APIEnvMissionRepository(
                     try {
                         mapper.registerModule(JtsModule())
                         val missionDataOutput: MissionDataOutput = mapper.readValue(response.body())
-                        logger.info("Successfully deserialized Env mission data for ID $missionId")
+                        logger.info("Successfully deserialized Env mission data for id=$missionId")
                         missionDataOutput.toMissionEntity()
                     } catch (e: Exception) {
-                        logger.error("Failed to deserialize Env mission data for ID $missionId", e)
+                        logger.error("Failed to deserialize Env mission data for id=$missionId", e)
                         null
                     }
                 }
 
                 404 -> {
-                    logger.warn("Env Mission with ID $missionId not found")
+                    logger.warn("Env Mission with id=$missionId not found")
                     null
                 }
 
                 else -> {
-                    logger.error("Unexpected status code ${response.statusCode()} for Env mission ID $missionId")
+                    logger.error("Unexpected status code ${response.statusCode()} for Env mission id=$missionId")
                     null
                 }
             }
         } catch (e: Exception) {
-            logger.error("Error while fetching Env mission with ID $missionId", e)
+            logger.error("Error while fetching Env mission with id=$missionId", e)
             null
         }
     }
