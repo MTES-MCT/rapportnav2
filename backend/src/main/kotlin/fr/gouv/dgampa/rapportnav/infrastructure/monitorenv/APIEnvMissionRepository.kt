@@ -8,7 +8,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlP
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.MissionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.controlPlans.ControlPlanDataOutput
-import io.sentry.Sentry
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -49,7 +48,6 @@ class APIEnvMissionRepository(
                 "Raw response body for Env mission id=$missionId: ${response.body()}",
                 response.body().toString()
             )
-            Sentry.captureMessage("Sentry Raw response body for Env mission id=$missionId: ${response.body()}")
 
             val contentType = response.headers().firstValue("Content-Type").orElse("")
             if (!contentType.startsWith("application/json")) {
@@ -185,17 +183,22 @@ class APIEnvMissionRepository(
     }
 
     override fun findAllControlPlans(): ControlPlansEntity? {
+        val url = "$host/api/v1/control_plans"
+        logger.info("Starting to fetch ControlsPlans from MonitorEnv at $url")
         return try {
             val gson = Gson()
             val client: HttpClient = HttpClient.newBuilder().build()
             val request = HttpRequest.newBuilder().uri(
-                URI.create("$host/bff/v1/control_plans")
+                URI.create(url)
             ).build()
 
             val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+            logger.info("Response received for Env ControlPlans. Status code: ${response.statusCode()}. URL: $url")
+
             val output: ControlPlanDataOutput = gson.fromJson(response.body(), ControlPlanDataOutput::class.java)
             output.toControlPlansEntity()
         } catch (ex: Exception) {
+            logger.error("Failed to fetch ControlsPlans from MonitorEnv at $url", ex)
             null
         }
     }
