@@ -189,7 +189,7 @@ class APIEnvMissionRepository(
             val gson = Gson()
             val client: HttpClient = HttpClient.newBuilder().build()
             val request = HttpRequest.newBuilder().uri(
-                URI.create("$host/bff/v1/control_plans")
+                URI.create("$host/api/v1/control_plans")
             ).build()
 
             val response = client.send(request, HttpResponse.BodyHandlers.ofString())
