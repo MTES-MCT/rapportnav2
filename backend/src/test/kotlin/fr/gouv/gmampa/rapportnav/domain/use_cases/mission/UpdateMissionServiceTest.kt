@@ -69,14 +69,28 @@ class UpdateMissionServiceTest {
 
         );
         val input = MissionServiceInput(missionId = 761, serviceId = 3)
-        val serviceModel = ServiceModel(id = 4, name="Themis_A");
+        val serviceModel = ServiceModel(id = 3, name="Themis_A");
         Mockito.`when`(serviceRepo.findById(3)).thenReturn(Optional.of(serviceModel));
         Mockito.`when`(agentServiceRepo.findByServiceId(3)).thenReturn(newMissionCrews);
         Mockito.`when`(missionCrewRepo.findByMissionId(761)).thenReturn(oldMissionCrews);
         Mockito.`when`(infoRepo.findByMissionId(761)).thenReturn(Optional.of(missionGeneralInfo));
 
         val response = updateMissionService.execute(input);
-
         assertThat(response).isNotNull();
+        assertThat(response?.id).isEqualTo(3);
+    }
+
+    @Test
+    fun `execute update mission service event if generalInfo is null`() {
+        val input = MissionServiceInput(missionId = 761, serviceId = 3)
+        val serviceModel = ServiceModel(id = 3, name="Themis_A");
+        Mockito.`when`(serviceRepo.findById(3)).thenReturn(Optional.of(serviceModel));
+        Mockito.`when`(agentServiceRepo.findByServiceId(3)).thenReturn(newMissionCrews);
+        Mockito.`when`(missionCrewRepo.findByMissionId(761)).thenReturn(oldMissionCrews);
+        Mockito.`when`(infoRepo.findByMissionId(761)).thenReturn(Optional.ofNullable(null));
+
+        val response = updateMissionService.execute(input);
+        assertThat(response).isNotNull();
+        assertThat(response?.id).isEqualTo(3);
     }
 }

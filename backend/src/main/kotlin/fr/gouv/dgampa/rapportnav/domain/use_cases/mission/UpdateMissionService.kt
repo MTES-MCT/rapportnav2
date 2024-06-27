@@ -2,11 +2,14 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentServiceRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IServiceRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.generalInfo.MissionServiceInput
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
+import kotlin.jvm.optionals.getOrNull
 
 @UseCase
 class UpdateMissionService(
@@ -16,10 +19,6 @@ class UpdateMissionService(
     private val agentServiceRepo: IAgentServiceRepository,
 ) {
     fun execute(input: MissionServiceInput): ServiceEntity? {
-
-        // save serviceId into generalInformation
-        val info = infoRepo.findByMissionId(input.missionId).get();
-        info.serviceId = input.serviceId;
 
         // get crew on a mission and delete all
         val oldMissionCrews = missionCrewRepo.findByMissionId(input.missionId);
@@ -32,7 +31,16 @@ class UpdateMissionService(
             .map { agent -> agent.toMissionCrewModel(input.missionId) };
         newMissionCrews.forEach { missionCrew -> missionCrewRepo.save(missionCrew!!.toMissionCrewEntity()) }
 
+        // save serviceId into generalInformation
+        var info = infoRepo.findByMissionId(input.missionId).getOrNull();
+        if (info == null) {
+            info = MissionGeneralInfoModel(
+                id = input.missionId,
+                missionId = input.missionId
+            )
+        }
+        info.serviceId = input.serviceId;
         infoRepo.save(info.toMissionGeneralInfoEntity());
-        return serviceRepo.findById(input.serviceId).get().toServiceEntity();
+        return serviceRepo.findById(input.serviceId).getOrNull()?.toServiceEntity();
     }
 }
