@@ -2,17 +2,17 @@ import { beforeEach } from 'node:test'
 import { vi } from 'vitest'
 import { fireEvent, mockQueryResult, render, screen } from '../../test-utils.tsx'
 import MissionObservationByUnit from './mission-observation-unit.tsx'
-import useUpdateMissionEnv from './use-update-mission-env.tsx'
+import usePatchMissionEnv from './use-patch-mission-env.tsx'
 
-const updateMissionObservationMock = vi.fn()
+const patchMissionObservationMock = vi.fn()
 
-vi.mock('./use-update-mission-env', () => ({
-  default: () => [updateMissionObservationMock, { error: undefined }]
+vi.mock('./use-patch-mission-env', () => ({
+  default: () => [patchMissionObservationMock, { error: undefined }]
 }))
 
 describe('MissionObservation', () => {
   beforeEach(() => {
-    ;(useUpdateMissionEnv as any).mockReturnValue(mockQueryResult({ id: 'myId' }))
+    ;(usePatchMissionEnv as any).mockReturnValue(mockQueryResult({ id: 'myId' }))
   })
   afterEach(() => {
     vi.clearAllMocks()
@@ -21,7 +21,7 @@ describe('MissionObservation', () => {
 
   it('should render observation', () => {
     render(<MissionObservationByUnit missionId={1} observationsByUnit={'My beautiful observation'} />)
-    expect(updateMissionObservationMock).not.toHaveBeenCalled()
+    expect(patchMissionObservationMock).not.toHaveBeenCalled()
     expect(screen.getByText('My beautiful observation')).toBeInTheDocument()
     expect(screen.getByText(`Observation générale à l'échelle de la mission (remarques, résumé)`)).toBeInTheDocument()
   })
@@ -32,7 +32,7 @@ describe('MissionObservation', () => {
     fireEvent.change(element, {
       target: { value: 'my new observations' }
     })
-    expect(updateMissionObservationMock).toHaveBeenCalled()
+    expect(patchMissionObservationMock).toHaveBeenCalled()
   })
 
   it('should not call update observation under 4', () => {
@@ -41,6 +41,6 @@ describe('MissionObservation', () => {
     fireEvent.change(element, {
       target: { value: 'my' }
     })
-    expect(updateMissionObservationMock).not.toHaveBeenCalled()
+    expect(patchMissionObservationMock).not.toHaveBeenCalled()
   })
 })

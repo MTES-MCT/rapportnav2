@@ -56,7 +56,7 @@ const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({ missi
             <Stack.Item style={{ width: '100%' }}>
               <MissionDistanceAndConsumption info={mission.generalInfo} />
             </Stack.Item>
-            <Stack.Item style={{ width: '100%' }}>
+            <Stack.Item style={{ width: '100%', display: 'none' }}>
               <MissionObservationUnit missionId={mission.id} observationsByUnit={mission.observationsByUnit} />
             </Stack.Item>
           </Stack>

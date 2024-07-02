@@ -1,7 +1,7 @@
 import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
-import useUpdateMissionEnv from './use-update-mission-env'
+import usePatchMissionEnv from './use-patch-mission-env.tsx'
 
 type ObservationByUnit = {
   observation?: string
@@ -13,7 +13,7 @@ interface MissionObservationByUnitProps {
 }
 
 const MissionObservationUnit: React.FC<MissionObservationByUnitProps> = ({ missionId, observationsByUnit }) => {
-  const [updateMissionObservation] = useUpdateMissionEnv()
+  const [patchMissionObservation] = usePatchMissionEnv()
   const [initValue, setInitValue] = useState<ObservationByUnit>()
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const MissionObservationUnit: React.FC<MissionObservationByUnitProps> = ({ missi
 
   const handleSubmit = ({ observation }: ObservationByUnit) => {
     if (!observation || observation.length < 4 || observation === observationsByUnit) return
-    updateMissionObservation({
+    patchMissionObservation({
       variables: {
         mission: {
           missionId,
