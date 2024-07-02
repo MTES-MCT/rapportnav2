@@ -76,6 +76,7 @@ dependencies {
   implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
   implementation("io.sentry:sentry-spring-boot-starter-jakarta:7.1.0")
   implementation("io.sentry:sentry-log4j2:7.0.0")
+  implementation("org.apache.commons:commons-text:1.12.0")
   testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
   testImplementation("org.springframework:spring-webflux:6.1.6")
   testImplementation("org.springframework.graphql:spring-graphql-test:1.2.4")
