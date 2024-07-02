@@ -37,7 +37,7 @@ class MissionController(
     private val fakeMissionData: FakeMissionData,
     private val exportMission: ExportMission,
     private val updateMissionService: UpdateMissionService,
-    private val updateEnvMission: UpdateEnvMission,
+    private val patchEnvMission: PatchEnvMission,
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionController::class.java)
@@ -142,7 +142,7 @@ class MissionController(
     }
 
     @MutationMapping
-    fun updateMissionEnv(@Argument mission: MissionEnvInput): MissionEntity? {
-        return updateEnvMission.execute(mission)
+    fun patchMissionEnv(@Argument mission: MissionEnvInput): MissionEntity? {
+        return patchEnvMission.execute(mission)
     }
 }

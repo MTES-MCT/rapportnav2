@@ -5,9 +5,9 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.config.ZonedDateTimeTypeAdapter
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.PatchMissionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.APIEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.MissionDataOutput
 import org.assertj.core.api.Assertions.assertThat
@@ -73,7 +73,7 @@ class APIEnvMissionRepositoryTest {
         )
             .thenReturn(httpResponse);
         val envRepo = APIEnvMissionRepository(mapper = objectMapper, clientFactory = httpClientFactory)
-        envRepo.updateMission(missionId = 761, MissionEnvEntity(observationsByUnit = "MyObservations"))
+        envRepo.patchMission(missionId = 761, PatchMissionInput(observationsByUnit = "MyObservations"))
         verify(httpClient).send(
             argThat { request -> request.uri().equals(URI.create("$host/api/v1/missions/761")) },
             Mockito.any<HttpResponse.BodyHandler<String>>()

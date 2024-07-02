@@ -12,7 +12,7 @@ type MissionExport {
 
 type Mutation {
   updateMission(mission: MissionInput!): Mission!
-  updateMissionEnv(mission: MissionEnvInput!): Mission!
+  patchMissionEnv(mission: MissionEnvInput!): Mission!
   updateMissionGeneralInfo(info: MissionGeneralInfoInput!): MissionGeneralInfo!
   updateMissionService(service: MissionServiceInput!): Service!
 }
