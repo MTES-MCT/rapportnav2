@@ -29,6 +29,7 @@ object EnvMissionMock {
         hasMissionOrder: Boolean = false,
         isUnderJdp: Boolean = false,
         envActions: List<EnvActionEntity>? = null,
+        observationsByUnit: String? = null
     ): MissionEntity {
         return MissionEntity(
             id = id,
@@ -47,7 +48,8 @@ object EnvMissionMock {
             missionSource = missionSource,
             hasMissionOrder = hasMissionOrder,
             isUnderJdp = isUnderJdp,
-            envActions = envActions
+            envActions = envActions,
+            observationsByUnit = observationsByUnit
         )
     }
 

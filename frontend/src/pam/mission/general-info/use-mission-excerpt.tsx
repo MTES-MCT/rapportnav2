@@ -34,6 +34,7 @@ export const GET_MISSION_EXCERPT = gql`
         id
         name
       }
+      observationsByUnit
     }
   }
 `

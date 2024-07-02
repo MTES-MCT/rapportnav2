@@ -26,6 +26,7 @@ data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) co
     val hasMissionOrder: Boolean,
     val isUnderJdp: Boolean,
     val isGeometryComputedFromControls: Boolean,
+    val observationsByUnit: String? =  null
 ) {
 
     fun toMissionEntity(): MissionEntity {
@@ -46,7 +47,8 @@ data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) co
             hasMissionOrder = hasMissionOrder,
             isUnderJdp = isUnderJdp,
             isGeometryComputedFromControls = isGeometryComputedFromControls,
-            isDeleted = false // TODO this is weird
+            isDeleted = false, // TODO this is weird,
+            observationsByUnit = observationsByUnit
         )
     }
 
@@ -71,6 +73,7 @@ data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) co
                 hasMissionOrder = mission.hasMissionOrder,
                 isUnderJdp = mission.isUnderJdp,
                 isGeometryComputedFromControls = mission.isGeometryComputedFromControls,
+                observationsByUnit = mission.observationsByUnit
             )
         }
     }

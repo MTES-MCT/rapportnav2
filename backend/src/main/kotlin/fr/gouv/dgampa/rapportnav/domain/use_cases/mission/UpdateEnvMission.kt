@@ -5,12 +5,12 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import org.slf4j.LoggerFactory
 
 @UseCase
-class UpdateEnvMission {
+class UpdateEnvMission() {
     private val logger = LoggerFactory.getLogger(UpdateEnvMission::class.java)
 
     fun execute(
-        mission: MissionEntity,
-    ): Any {
+        input: MissionEntity,
+    ): Any? {
         // TODO do API call to Monitor
         return {} as Any
     }

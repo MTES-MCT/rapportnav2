@@ -277,6 +277,7 @@ export const GET_MISSION_BY_ID = gql`
         id
         name
       }
+      observationsByUnit
     }
   }
 `
