@@ -18,6 +18,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatGeoCoords
 import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActionItem
 import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActions
+import org.apache.commons.text.StringEscapeUtils
 import java.time.LocalDate
 
 @UseCase
@@ -27,6 +28,14 @@ class FormatActionsForTimeline(
     private val formatGeoCoords: FormatGeoCoords,
     private val mapEnvActionControlPlans: MapEnvActionControlPlans,
 ) {
+
+    /**
+     * Some characters need to be escaped in a XML compliant manner
+     * most notably the following ones:  &, <, >
+     */
+    fun encodeSpecialChars(input: String?): String {
+        return StringEscapeUtils.escapeXml10(input)
+    }
 
     fun formatTimeline(actions: List<MissionActionEntity>?): Map<LocalDate, List<String>>? {
 
@@ -189,7 +198,7 @@ class FormatActionsForTimeline(
         return action?.let {
             val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
             val status = mapActionStatusTypeToHumanString(action.status)
-            val observation = action.observations?.let { "- $it" } ?: ""
+            val observation = action.observations?.let { "- ${encodeSpecialChars(it)}" } ?: ""
             return "$startTime - $status $observation"
         }
     }
@@ -211,7 +220,8 @@ class FormatActionsForTimeline(
             val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
             val endTime = action.endDateTimeUtc?.let { " / ${formatDateTime.formatTime(it)}" } ?: ""
             val titleStr = if (!title.isNullOrEmpty()) " - $title" else ""
-            val observation = if (!action.observations.isNullOrEmpty()) " - ${action.observations}" else ""
+            val observation =
+                if (!action.observations.isNullOrEmpty()) " - ${encodeSpecialChars(action.observations)}" else ""
             "$startTime$endTime$titleStr$observation"
         }
     }
