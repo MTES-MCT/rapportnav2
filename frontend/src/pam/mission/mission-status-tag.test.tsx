@@ -14,11 +14,6 @@ describe('MissionStatusTag component', () => {
     const tagElement = screen.getByText('À venir')
     expect(tagElement).toBeInTheDocument()
   })
-  test('renders "À venir" when status is PENDING', () => {
-    render(<MissionStatusTag status={MissionStatusEnum.PENDING} />)
-    const tagElement = screen.getByText('À venir')
-    expect(tagElement).toBeInTheDocument()
-  })
   test('renders "En cours" when status is IN_PROGRESS', () => {
     render(<MissionStatusTag status={MissionStatusEnum.IN_PROGRESS} />)
     const tagElement = screen.getByText('En cours')
