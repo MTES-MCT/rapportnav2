@@ -1,9 +1,8 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.ExtendedEnvMissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.EnvMission
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
@@ -14,7 +13,7 @@ import java.time.ZonedDateTime
 
 @UseCase
 class GetEnvMissions(
-    private val monitorEnvApiRepo: IEnvMissionRepository
+    private val monitorEnvApiRepo: IEnvMissionRepository,
 ) {
     private val logger = LoggerFactory.getLogger(GetEnvMissions::class.java)
 
@@ -101,7 +100,6 @@ class GetEnvMissions(
         isGeometryComputedFromControls = false
     )
 
-    val mockedMissions = listOf(mission1, mission2, mission3, mission4, mission5, mission6)
 
     @Cacheable(value = ["envMissions"])
     fun execute(
@@ -112,7 +110,7 @@ class GetEnvMissions(
         controlUnits: List<Int>? = null
     ): List<MissionEntity>? {
         try {
-            val envMissions: List<fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity>? =
+            val envMissions: List<MissionEntity>? =
                 monitorEnvApiRepo.findAllMissions(
                     startedAfterDateTime = startedAfterDateTime,
                     startedBeforeDateTime = startedBeforeDateTime,
@@ -121,20 +119,12 @@ class GetEnvMissions(
                     controlUnits = controlUnits,
                 )
 
-            val missions = envMissions?.map {
-                MissionEntity(
-                    envMission = ExtendedEnvMissionEntity.fromEnvMission(
-                        it
-                    )
-                )
-            }
-            return missions
+            return envMissions
         } catch (e: Exception) {
             logger.error("GetEnvMissions failed loading Missions", e)
             return null
-//            val envMissions = mockedMissions
-//            val missions = envMissions.map { MissionEntity(envMission = ExtendedEnvMissionEntity.fromEnvMission(it)) }
-//            return missions
+//            val mockedMissions = listOf(mission1, mission2, mission3, mission4, mission5, mission6)
+//            return mockedMissions
         }
 
 

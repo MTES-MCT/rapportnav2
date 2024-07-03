@@ -11,6 +11,8 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsT
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
@@ -72,6 +74,42 @@ class GetEnvMissionByIdTest {
         )
     }
 
+    @Test
+    fun `execute should return extended mission from inputEnvMission`() {
+        // Given
+        val missionId = 1
+        val inputEnvMission = EnvMissionMock.create()
+        val extendedEnvMission = ExtendedEnvMissionEntity.fromEnvMission(inputEnvMission)
+
+        // Mock behavior of findMissionById to return a MissionEntity
+        `when`(monitorEnvApiRepo.findMissionById(missionId)).thenReturn(inputEnvMission)
+
+        // When
+        val result = getEnvMissionById.execute(missionId, inputEnvMission)
+
+        // Then
+        assertNotNull(result)
+        assertEquals(extendedEnvMission, result)
+    }
+
+
+    @Test
+    fun `execute should return extended mission from repository`() {
+        // Given
+        val missionId = 1
+        val envMissionFromRepository = EnvMissionMock.create()
+        val extendedEnvMission = ExtendedEnvMissionEntity.fromEnvMission(envMissionFromRepository)
+
+        // Mock behavior of repository call
+        `when`(monitorEnvApiRepo.findMissionById(missionId)).thenReturn(envMissionFromRepository)
+
+        // When
+        val result = getEnvMissionById.execute(missionId)
+
+        // Then
+        assertNotNull(result)
+        assertEquals(extendedEnvMission, result)
+    }
 
     @Test
     fun `test execute returns ExtendedEnvMissionEntity`() {
@@ -83,10 +121,6 @@ class GetEnvMissionByIdTest {
 
         // Verify repository method was called
         verify(monitorEnvApiRepo, times(1)).findMissionById(missionId)
-
-        // Verify cache contains the result
-        val cachedResult = cacheManager.getCache("envMission")?.get(missionId)?.get()
-        assertThat(cachedResult).isEqualTo(extendedEnvMissionEntity)
     }
 
     @Test

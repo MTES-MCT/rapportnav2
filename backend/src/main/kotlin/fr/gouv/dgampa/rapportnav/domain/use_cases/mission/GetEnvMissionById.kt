@@ -156,6 +156,7 @@ class GetEnvMissionById(
             isSafetyEquipmentAndStandardsComplianceControl = true,
             isComplianceWithWaterRegulationsControl = true,
             infractions = listOf(),
+            completion = ActionCompletionEnum.COMPLETED,
         )
 
         return listOf(envActionControl1, envMissionActionControl1, envMissionActionControl2, envMissionActionControl3)
@@ -174,12 +175,13 @@ class GetEnvMissionById(
                     actionId = it.controlAction.action?.id.toString(),
                     action = it
                 )
+                // recompute completeness once extra data has been attached
                 actionWithControls.controlAction?.computeCompleteness()
                 ExtendedEnvActionEntity(
                     controlAction = actionWithControls.controlAction
                 )
             } else {
-                // no need for Surveillances
+                it?.surveillanceAction?.computeCompleteness()
                 ExtendedEnvActionEntity(
                     surveillanceAction = it?.surveillanceAction
                 )
@@ -188,11 +190,22 @@ class GetEnvMissionById(
         return mission
     }
 
+
+    /**
+     * Executes the process of attaching additional data to a mission coming from MonitorEnv
+     * If the mission is given as input, it will use it, otherwise it will fetch it from MonitorEnv.
+     * Some extra data is attached such as Controls, Infractions, a status for completeness...
+     *
+     *
+     * @param missionId
+     * @param inputEnvMission a MonitorEnv Mission
+     * @return A fully constructed MissionEntity containing extra data coming from RapportNav.
+     */
     @Cacheable(value = ["envMission"])
-    fun execute(missionId: Int): ExtendedEnvMissionEntity? {
+    fun execute(missionId: Int, inputEnvMission: MissionEntity? = null): ExtendedEnvMissionEntity? {
 
         try {
-            val envMission: MissionEntity? = monitorEnvApiRepo.findMissionById(missionId = missionId)
+            val envMission: MissionEntity? = inputEnvMission ?: monitorEnvApiRepo.findMissionById(missionId)
             var mission = getMissionWithControls(envMission)
             return mission
         } catch (e: Exception) {

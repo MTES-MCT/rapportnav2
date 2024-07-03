@@ -34,7 +34,12 @@ class GetNavMissionById(
 ) {
     private val logger = LoggerFactory.getLogger(GetNavMissionById::class.java)
 
-    fun execute(missionId: Int, controlUnits: List<LegacyControlUnitEntity>? = null): NavMissionEntity {
+    fun execute(missionId: Int?, controlUnits: List<LegacyControlUnitEntity>? = null): NavMissionEntity {
+        if (missionId == null) {
+            logger.error("GetNavMissionById received a null missionId")
+            throw IllegalArgumentException("GetNavMissionById should not receive null missionId")
+        }
+        
         logger.info("Retrieving Nav data for missionId: {}", missionId)
         try {
             val controls = fetchControls(missionId)

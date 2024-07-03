@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionAEMExportEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMissionById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEM
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
@@ -25,7 +25,7 @@ class ExportMissionAEMTests {
     private lateinit var fillAEMExcelRow: FillAEMExcelRow
 
     @MockBean
-    private lateinit var getMissionById: GetMissionById
+    private lateinit var getMissionById: GetMission
 
     @Test
     fun `execute AEM export return null when mission not exist`() {
@@ -40,7 +40,7 @@ class ExportMissionAEMTests {
 
     @Test
     fun `execute AEM export return a MissionAEMExportEntity when mission and action exist`() {
-       val action = NavActionControlMock.createActionControlEntity().toNavActionEntity()
+        val action = NavActionControlMock.createActionControlEntity().toNavActionEntity()
 
         val missionAction = MissionActionEntity.NavAction(action)
 

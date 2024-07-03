@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExpor
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.ExportParams
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IRpnExportRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionStatusRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMissionById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsForTimeline
@@ -55,7 +55,7 @@ class ExportMissionTests {
     private lateinit var agentsCrewByMissionId: GetAgentsCrewByMissionId
 
     @MockBean
-    private lateinit var getMissionById: GetMissionById
+    private lateinit var getMission: GetMission
 
     @MockBean
     private lateinit var navActionStatus: INavActionStatusRepository
@@ -66,13 +66,13 @@ class ExportMissionTests {
     @BeforeEach
     fun setUp() {
         reset(exportRepository)
-        reset(getMissionById)
+        reset(getMission)
     }
 
     @Test
     fun `exportOdt should return null if mission is not found`() {
         val missionId = 123
-        `when`(getMissionById.execute(missionId)).thenReturn(null)
+        `when`(getMission.execute(missionId)).thenReturn(null)
 
         val result = exportMission.exportOdt(missionId)
 
@@ -90,7 +90,7 @@ class ExportMissionTests {
     @Test
     fun `exportOdt should return null when throw`() {
         val missionId = 123
-        `when`(getMissionById.execute(missionId)).thenThrow()
+        `when`(getMission.execute(missionId)).thenThrow()
         assertThat(exportMission.exportOdt(missionId)).isNull()
     }
 
@@ -140,7 +140,7 @@ class ExportMissionTests {
             antiPollutionInfo = null,
             baaemAndVigimerInfo = null,
         )
-        `when`(getMissionById.execute(missionId)).thenReturn(MissionEntityMock.create())
+        `when`(getMission.execute(missionId)).thenReturn(MissionEntityMock.create())
         `when`(exportRepository.exportOdt(exportParams)).thenReturn(output)
 
         val result = exportMission.exportOdt(missionId)

@@ -11,7 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.Mission
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.ExportParams
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IRpnExportRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionStatusRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMissionById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
@@ -26,7 +26,7 @@ class ExportMission(
     private val exportRepository: IRpnExportRepository,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val agentsCrewByMissionId: GetAgentsCrewByMissionId,
-    private val getMissionById: GetMissionById,
+    private val getMission: GetMission,
     private val navActionStatus: INavActionStatusRepository,
     private val mapStatusDurations: MapStatusDurations,
     private val formatActionsForTimeline: FormatActionsForTimeline,
@@ -40,7 +40,7 @@ class ExportMission(
 
     fun exportOdt(missionId: Int): MissionExportEntity? {
         try {
-            val mission: MissionEntity? = getMissionById.execute(missionId = missionId)
+            val mission: MissionEntity? = getMission.execute(missionId = missionId)
             if (mission == null) {
                 logger.error("[RapportDePatrouille] - Mission not found for missionId: $missionId")
                 return null

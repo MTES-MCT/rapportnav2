@@ -187,7 +187,7 @@ data class MissionEntity(
         }
 
         // check general info
-        if (this.generalInfo === null || (this.generalInfo.consumedFuelInLiters === null || this.generalInfo.consumedGOInLiters == null || this.generalInfo.distanceInNauticalMiles === null)) {
+        if (this.generalInfo === null || (this.generalInfo.consumedFuelInLiters === null || this.generalInfo.consumedGOInLiters === null || this.generalInfo.distanceInNauticalMiles === null)) {
             status = CompletenessForStatsStatusEnum.INCOMPLETE
             sources.add(MissionSourceEnum.RAPPORTNAV)
         }

@@ -1,7 +1,5 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.ExtendedEnvMissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
@@ -47,12 +45,6 @@ class GetEnvMissionsTest {
         EnvMissionMock.create(id = 3)
     )
 
-    private val expectedMissions = listOf(
-        MissionEntity(envMission = ExtendedEnvMissionEntity.fromEnvMission(EnvMissionMock.create(id = 1))),
-        MissionEntity(envMission = ExtendedEnvMissionEntity.fromEnvMission(EnvMissionMock.create(id = 2))),
-        MissionEntity(envMission = ExtendedEnvMissionEntity.fromEnvMission(EnvMissionMock.create(id = 3))),
-    )
-
     @BeforeEach
     fun setup() {
         cacheManager.getCache("envMissions")?.clear()
@@ -76,7 +68,7 @@ class GetEnvMissionsTest {
         // First call
         val result1 = getEnvMissions.execute()
         assertThat(result1).isNotNull
-        assertThat(result1).isEqualTo(expectedMissions)
+        assertThat(result1).isEqualTo(mockEnvMissions)
 
         // Verify repository method was called
         verify(envMissionRepository, times(1)).findAllMissions(
