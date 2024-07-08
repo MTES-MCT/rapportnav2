@@ -238,6 +238,14 @@ class FormatActionsForTimelineTests {
     }
 
     @Test
+    fun `formatNavStatus should return formatted observations`() {
+        val action: ActionStatusEntity = NavActionStatusMock.createActionStatusEntity(
+            observations = "3 adultes & 2 enfants <> RAS"
+        )
+        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("12:00 - Navigation - 3 adultes &amp; 2 enfants &lt;&gt; RAS")
+    }
+
+    @Test
     fun `formatNavStatus should return formatted string without observations`() {
         val action: ActionStatusEntity = NavActionStatusMock.createActionStatusEntity(observations = null)
         assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("12:00 - Navigation ")
@@ -331,6 +339,17 @@ class FormatActionsForTimelineTests {
             ).toNavActionEntity()
         )
         assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Assistance et sauvetage - RAS")
+    }
+
+
+    @Test
+    fun `formatNavActionCommon for format special chars in observations`() {
+        val action = MissionActionEntity.NavAction(
+            ActionMockFactory.create<ActionRescueEntity>(
+                observations = "3 adultes & 2 enfants <> RAS"
+            ).toNavActionEntity()
+        )
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Assistance et sauvetage - 3 adultes &amp; 2 enfants &lt;&gt; RAS")
     }
 
 
