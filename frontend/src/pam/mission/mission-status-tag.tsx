@@ -12,7 +12,6 @@ const MissionStatusTag: FC<MissionStatusTagProps> = ({ status }) => {
 
   switch (status) {
     case MissionStatusEnum.UPCOMING:
-    case MissionStatusEnum.PENDING:
       iconColor = THEME.color.babyBlueEyes
       IconComponent = Icon.ClockDashed
       text = 'À venir'

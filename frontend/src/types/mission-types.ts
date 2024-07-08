@@ -59,7 +59,6 @@ export type CompletenessForStats = {
 
 export enum MissionStatusEnum {
   UPCOMING = 'UPCOMING',
-  PENDING = 'PENDING',
   IN_PROGRESS = 'IN_PROGRESS',
   ENDED = 'ENDED',
   UNAVAILABLE = 'UNAVAILABLE'

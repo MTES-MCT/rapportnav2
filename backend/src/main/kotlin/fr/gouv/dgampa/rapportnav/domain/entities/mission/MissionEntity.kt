@@ -106,6 +106,10 @@ data class MissionEntity(
     ): MissionStatusEnum {
         val compareDate = ZonedDateTime.now()
 
+        if (endDateTimeUtc == null) {
+            return MissionStatusEnum.UNAVAILABLE
+        }
+
         if (endDateTimeUtc != null && ZonedDateTime.parse(endDateTimeUtc.toString()).isBefore(compareDate)) {
             return MissionStatusEnum.ENDED
         }
@@ -134,7 +138,7 @@ data class MissionEntity(
             }
         }
 
-        return MissionStatusEnum.PENDING
+        return MissionStatusEnum.UNAVAILABLE
     }
 
     private fun calculateCompletenessForStats(): CompletenessForStatsEntity {

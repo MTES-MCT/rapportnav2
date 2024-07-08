@@ -45,7 +45,6 @@ enum MissionSourceEnum {
 
 enum MissionStatusEnum {
   UPCOMING,
-  PENDING,
   ENDED,
   UNAVAILABLE,
   IN_PROGRESS
