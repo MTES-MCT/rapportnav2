@@ -12,6 +12,7 @@ type MissionExport {
 
 type Mutation {
   updateMission(mission: MissionInput!): Mission!
+  patchMissionEnv(mission: MissionEnvInput!): Mission!
   updateMissionGeneralInfo(info: MissionGeneralInfoInput!): MissionGeneralInfo!
   updateMissionService(service: MissionServiceInput!): Service!
 }
@@ -33,6 +34,7 @@ type Mission {
   status: MissionStatusEnum
   completenessForStats: CompletenessForStats
   services: [Service]
+  observationsByUnit: String
 }
 
 enum MissionSourceEnum {
@@ -79,4 +81,9 @@ input MissionGeneralInfoInput {
 input MissionServiceInput {
   missionId: Int
   serviceId: Int
+}
+
+input MissionEnvInput {
+  missionId: ID!
+  observationsByUnit: String
 }

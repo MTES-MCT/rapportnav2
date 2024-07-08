@@ -5,6 +5,7 @@ import { Mission } from '../../types/mission-types'
 import Text from '../../ui/text'
 import MissionCrew from './crew/mission-crew'
 import MissionDistanceAndConsumption from './general-info/mission-distance-consumption'
+import MissionObservationUnit from './mission-observation-unit'
 import MissionService from './mission-service'
 
 interface MissionGeneralInfoPanelProps {
@@ -54,6 +55,9 @@ const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({ missi
             </Stack.Item>
             <Stack.Item style={{ width: '100%' }}>
               <MissionDistanceAndConsumption info={mission.generalInfo} />
+            </Stack.Item>
+            <Stack.Item style={{ width: '100%', display: 'none' }}>
+              <MissionObservationUnit missionId={mission.id} observationsByUnit={mission.observationsByUnit} />
             </Stack.Item>
           </Stack>
         </FlexboxGrid.Item>

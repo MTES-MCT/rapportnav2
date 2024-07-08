@@ -35,7 +35,8 @@ data class MissionEntity(
     val crew: List<MissionCrewEntity>? = null,
     var status: MissionStatusEnum? = null,
     var completenessForStats: CompletenessForStatsEntity? = null,
-    var services: List<ServiceEntity>? = null
+    var services: List<ServiceEntity>? = null,
+    var observationsByUnit: String? = null
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionEntity::class.java)
@@ -68,7 +69,8 @@ data class MissionEntity(
         ),
         generalInfo = navMission?.generalInfo,
         crew = navMission?.crew,
-        services = navMission?.services
+        services = navMission?.services,
+        observationsByUnit = envMission.mission.observationsByUnit
     ) {
         this.status = this.calculateMissionStatus(
             startDateTimeUtc = envMission.mission.startDateTimeUtc,

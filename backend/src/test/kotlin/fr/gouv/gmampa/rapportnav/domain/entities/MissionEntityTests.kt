@@ -243,6 +243,20 @@ class MissionEntityTests {
             assertThat(mission.services).isNotNull()
             assertThat(mission.services).isEqualTo(expected);
         }
+
+        @Test
+        fun `should return observationsByUnit`() {
+            val expected = "MyBeautifulObservations";
+            val mission = MissionEntity(
+                envMission = ExtendedEnvMissionEntity.fromEnvMission(
+                    EnvMissionMock.create(observationsByUnit = expected)
+                ),
+                fishMissionActions = listOf(),
+                navMission = NavMissionMock.create()
+            )
+            assertThat(mission.observationsByUnit).isNotNull()
+            assertThat(mission.observationsByUnit).isEqualTo(expected);
+        }
     }
 }
 
