@@ -10,23 +10,22 @@ data class AEMOutOfMigrationRescue(
     constructor(
         actionRescues: List<ActionRescueEntity?>
     ) : this(
-        nbrOfHourInSea = AEMOutOfMigrationRescue.processNbrOfHourInSea(actionRescues),
+        nbrOfHourInSea = AEMOutOfMigrationRescue.getNbrOfHourInSea(actionRescues),
         nbrOfRescuedOperation = actionRescues.size,
-        nbrPersonsRescued = AEMOutOfMigrationRescue.processNbrPersonsRescued(actionRescues)
+        nbrPersonsRescued = AEMOutOfMigrationRescue.getNbrPersonsRescued(actionRescues)
     ) {
 
     }
     companion object {
-        fun processNbrOfHourInSea(actionRescues: List<ActionRescueEntity?>): Int {
+        fun getNbrOfHourInSea(actionRescues: List<ActionRescueEntity?>): Int {
             //startDateTimeUtc = actionRescue.startDateTimeUtc,
             //endDateTimeUtc = actionRescue.endDateTimeUtc
             return 0;
         }
 
-        fun processNbrPersonsRescued(actionRescues: List<ActionRescueEntity?>): Int {
+        fun getNbrPersonsRescued(actionRescues: List<ActionRescueEntity?>): Int {
             //Reduce Action with SUM OF actionRescues.numberPersonsRescued
             return 0;
         }
     }
-
 }
