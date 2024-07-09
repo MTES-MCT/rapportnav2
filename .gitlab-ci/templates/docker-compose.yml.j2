@@ -5,7 +5,7 @@ services:
     image: "{{ docker_image_path }}"
     container_name: rapportnav_backend
     environment:
-      - ENV_DB_URL=jdbc:postgresql://db:5432/$POSTGRESQL_DB?user=$POSTGRESQL_USER&password=$POSTGRESQL_PWD
+      - ENV_DB_URL=jdbc:postgresql://db:5432/{{ rapportnav_psql_db }}?user={{ rapportnav_pslq_user }}&password={{ rapportnav_psql_pwd }}
       - SPRING_PROFILES_ACTIVE=prod
     ports:
       - 80:80
@@ -27,9 +27,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: $POSTGRESQL_DB
-      POSTGRES_USER: $POSTGRESQL_USER
-      POSTGRES_PASSWORD: $POSTGRESQL_PWD
+      POSTGRES_DB: {{ rapportnav_pslq_db }}
+      POSTGRES_USER: {{ rapportnav_pslq_user }}
+      POSTGRES_PASSWORD: {{ rapportnav_pslq_pwd }}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 1s
