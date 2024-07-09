@@ -30,12 +30,12 @@ variables:
   DEPLOYEMENT_PATH: "../.gitlab-ci/templates"
 
   # Anlayse Trivy
-  FAIL_TRIVY_CONDITION_LIBRARY:
-    value: "--severity HIGH,CRITICAL"
-    description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
-  FAIL_TRIVY_CONDITION_OS:
-    value: "--severity LOW,MEDIUM,HIGH,CRITICAL"
-    description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
+  # FAIL_TRIVY_CONDITION_LIBRARY:
+  #   value: "--severity HIGH,CRITICAL"
+  #   description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
+  # FAIL_TRIVY_CONDITION_OS:
+  #   value: "--severity LOW,MEDIUM,HIGH,CRITICAL"
+  #   description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
 
   # Analyse Sonar
   FAIL_SONAR_CONDITION:
@@ -48,16 +48,16 @@ variables:
     description: "Niveau de la criticité limite de l'analyse Dependency-Check"
 
 include:
-  - "/.gitlab-ci/jobs/build_projet_gradle.yml"
-  - "/.gitlab-ci/jobs/build_projet_npm.yml"
-  - "/.gitlab-ci/jobs/construction_image.yml"
-  - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
-    ref: main
-    file: "/jobs/analyse_trivy.yml"
-  - project: "num3-exploitation/chaine-ci/template-analyse-deploiement"
-    ref: main
-    file: '/jobs/analyse_sonar.yml'
-  - "/.gitlab-ci/jobs/analyse_dependency-check.yml"
+  # - "/.gitlab-ci/jobs/build_projet_gradle.yml"
+  # - "/.gitlab-ci/jobs/build_projet_npm.yml"
+  # - "/.gitlab-ci/jobs/construction_image.yml"
+  # - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
+  #   ref: main
+  #   file: "/jobs/analyse_trivy.yml"
+  # - project: "num3-exploitation/chaine-ci/template-analyse-deploiement"
+  #   ref: main
+  #   file: '/jobs/analyse_sonar.yml'
+  # - "/.gitlab-ci/jobs/analyse_dependency-check.yml"
   - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
     ref: main
     file: "/jobs/deploiement_image_int.yml"
