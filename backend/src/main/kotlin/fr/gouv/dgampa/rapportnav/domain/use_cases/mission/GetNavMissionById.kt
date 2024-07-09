@@ -35,7 +35,7 @@ class GetNavMissionById(
     private val logger = LoggerFactory.getLogger(GetNavMissionById::class.java)
 
     fun execute(missionId: Int, controlUnits: List<LegacyControlUnitEntity>? = null): NavMissionEntity {
-        logger.info("Starting execution for missionId: {}", missionId)
+        logger.info("Retrieving Nav data for missionId: {}", missionId)
         try {
             val controls = fetchControls(missionId)
             val statuses = fetchStatuses(missionId)
@@ -62,10 +62,10 @@ class GetNavMissionById(
                 crew = crew,
                 services = services
             )
-            logger.info("Successfully executed for missionId: {}", missionId)
+            logger.info("Successfully retrieved all Nav data for missionId: {}", missionId)
             return mission
         } catch (e: Exception) {
-            logger.error("Error executing GetNavMissionById for missionId: {}", missionId, e)
+            logger.error("Error retrieving Nav data for missionId: {}", missionId, e)
             throw e
         }
     }

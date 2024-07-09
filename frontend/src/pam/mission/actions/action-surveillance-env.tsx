@@ -39,7 +39,7 @@ const ActionSurveillanceEnv: React.FC<ActionSurveillancePropsEnv> = ({ action })
           <ActionHeader
             icon={Icon.Observation}
             title={'Surveillance Environnement'}
-            date={action.startDateTimeUtc}
+            date={envAction.startDateTimeUtc}
             showButtons={false}
             showStatus={true}
             isMissionFinished={isMissionFinished}

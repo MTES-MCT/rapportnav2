@@ -51,6 +51,7 @@ class APIRpnExportRepository(
 
             override fun connectFailed(uri: URI?, sa: SocketAddress?, ioe: IOException?) {
                 // Handle connection failure here if needed
+                logger.error("[RapportDePatrouille] - fail to connect to RapportNav1 at ${uri?.toString()}")
                 throw Exception("[RapportDePatrouille] - fail to connect to RapportNav1")
             }
         }
@@ -88,8 +89,6 @@ class APIRpnExportRepository(
         val gson = Gson();
         val json = gson.toJson(content)
 
-        logger.info(json)
-
         val request = HttpRequest.newBuilder()
             .uri(URI.create(url))
             .header("Content-Type", "application/json")
@@ -97,7 +96,11 @@ class APIRpnExportRepository(
             .build()
 
         return try {
+            logger.info("[RapportDePatrouille] - sending request to RapportNav1 at $url")
+            logger.info(json)
             val response = client.send(request, BodyHandlers.ofString())
+            logger.info("[RapportDePatrouille] - received response RapportNav1 at $url, status = ${response.statusCode()}")
+            logger.info(response.body().toString())
             gson.fromJson(response.body(), MissionExportEntity::class.java)
         } catch (e: Exception) {
             logger.error("[RapportDePatrouille] - RapportNav1 returns error: ${e.message}", e)
