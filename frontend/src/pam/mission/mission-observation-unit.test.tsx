@@ -1,7 +1,7 @@
 import { beforeEach } from 'node:test'
 import { vi } from 'vitest'
 import { fireEvent, mockQueryResult, render, screen } from '../../test-utils.tsx'
-import MissionObservationByUnit from './mission-observation-unit.tsx'
+import MissionObservationByUnit from './mission-observations-unit.tsx'
 import usePatchMissionEnv from './use-patch-mission-env.tsx'
 
 const patchMissionObservationMock = vi.fn()

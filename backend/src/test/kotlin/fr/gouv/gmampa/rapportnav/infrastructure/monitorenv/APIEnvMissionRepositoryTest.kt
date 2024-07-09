@@ -10,7 +10,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.PatchMissionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.APIEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.MissionDataOutput
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentMatchers.argThat
@@ -61,7 +60,7 @@ class APIEnvMissionRepositoryTest {
 
 
     @Test
-    fun `execute should update mission env with patch and observationByUnit`() {
+    fun `execute should update mission env with patch and observationsByUnit`() {
 
         Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient);
         Mockito.`when`(httpResponse.body()).thenReturn(getMissionString());
@@ -80,7 +79,7 @@ class APIEnvMissionRepositoryTest {
         )
     }
 
-    //TODO: write test on verofying the response value.
+    //TODO: write test on verifying the response value.
 
     private fun getMissionString(): String {
         val gson: Gson = GsonBuilder()

@@ -3,30 +3,32 @@ import { Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import usePatchMissionEnv from './use-patch-mission-env.tsx'
 
-type ObservationByUnit = {
-  observation?: string
+type ObservationsByUnit = {
+  observations?: string
 }
 
-interface MissionObservationByUnitProps {
+interface MissionObservationsByUnitProps {
   missionId: number
   observationsByUnit?: string
 }
 
-const MissionObservationUnit: React.FC<MissionObservationByUnitProps> = ({ missionId, observationsByUnit }) => {
+const MissionObservationsUnit: React.FC<MissionObservationsByUnitProps> = ({ missionId, observationsByUnit }) => {
   const [patchMissionObservation] = usePatchMissionEnv()
-  const [initValue, setInitValue] = useState<ObservationByUnit>()
+  const [initValue, setInitValue] = useState<ObservationsByUnit>()
 
   useEffect(() => {
-    setInitValue({ observation: observationsByUnit })
+    setInitValue({ observations: observationsByUnit })
   }, [observationsByUnit])
 
-  const handleSubmit = ({ observation }: ObservationByUnit) => {
-    if (!observation || observation.length < 4 || observation === observationsByUnit) return
-    patchMissionObservation({
+  const handleSubmit = async ({ observations }: ObservationsByUnit) => {
+    if (!observations || observations.length < 4 || observations === observationsByUnit) return
+    debugger
+
+    await patchMissionObservation({
       variables: {
         mission: {
           missionId,
-          observationsByUnit: observation
+          observationsByUnit: observations
         }
       }
     })
@@ -40,7 +42,7 @@ const MissionObservationUnit: React.FC<MissionObservationByUnitProps> = ({ missi
             <FormikEffect onChange={handleSubmit} />
             <FormikTextarea
               isLight={false}
-              name="observation"
+              name="observations"
               data-testid="mission-general-observation"
               label="Observation générale à l'échelle de la mission (remarques, résumé)"
             />
@@ -51,4 +53,4 @@ const MissionObservationUnit: React.FC<MissionObservationByUnitProps> = ({ missi
   )
 }
 
-export default MissionObservationUnit
+export default MissionObservationsUnit
