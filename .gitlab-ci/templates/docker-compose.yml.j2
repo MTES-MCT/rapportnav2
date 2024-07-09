@@ -27,9 +27,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: {{ rapportnav_pslq_db }}
-      POSTGRES_USER: {{ rapportnav_pslq_user }}
-      POSTGRES_PASSWORD: {{ rapportnav_pslq_pwd }}
+      POSTGRES_DB: {{ rapportnav_psql_db }}
+      POSTGRES_USER: {{ rapportnav_psql_user }}
+      POSTGRES_PASSWORD: {{ rapportnav_psql_pwd }}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 1s
