@@ -6,13 +6,14 @@ export const MUTATION_PATCH_MISSION_ENV = gql`
   mutation patchMissionEnv($mission: MissionEnvInput!) {
     patchMissionEnv(mission: $mission) {
       id
+      observationsByUnit
     }
   }
 `
 
 export type PatchMissionEnvInput = {
   missionId: number
-  observationByUnit?: string
+  observationsByUnit?: string
 }
 
 const usePatchMissionEnv = (): MutationTuple<void, Record<string, any>> => {
