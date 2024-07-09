@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.excel
 
 import org.apache.poi.ss.usermodel.Workbook
+import org.apache.poi.ss.util.CellReference
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -9,39 +10,45 @@ import java.io.IOException
 class ExportExcelFile(private val filePath: String) {
 
     private var workbook: Workbook = XSSFWorkbook()
-    private lateinit var file: FileInputStream
 
     init {
         FileInputStream(filePath).use { fis: FileInputStream ->
             this.workbook = XSSFWorkbook(fis)
-            this.file= fis
         }
     }
 
-    fun writeToCell(sheetName: String, rowIndex: Int, cellIndex: Int, value: String) {
+    fun writeToCell(sheetName: String, cellValue: String, value: Int) {
         var sheet = workbook.getSheet(sheetName)
         if (sheet == null) {
             sheet = workbook.createSheet(sheetName)
         }
 
-        var row = sheet.getRow(rowIndex)
+        val cellRef = cellReference(cellValue)
+
+        var row = cellRef["row"]?.let { sheet.getRow(it) }
         if (row == null) {
-            row = sheet.createRow(rowIndex)
+            row = cellRef["row"]?.let { sheet.getRow(it) }
         }
 
-        var cell = row.getCell(cellIndex)
+        var cell = cellRef["cell"]?.let { row?.getCell(it) }
         if (cell == null) {
-            cell = row.createCell(cellIndex)
+            cell = cellRef["cell"]?.let { row?.createCell(it) }
         }
 
-        cell.setCellValue(value)
+        cell?.setCellValue(value.toDouble())
     }
 
+    fun cellReference(cellRef: String): Map<String, Int>
+    {
+        val cellReference = CellReference(cellRef)
+        return mapOf("cell" to cellReference.col.toInt(), "row" to cellReference.row)
+    }
+
+
     @Throws(IOException::class)
-    fun save(): ByteArray {
+    fun save() {
         FileOutputStream(filePath).use { fos: FileOutputStream ->
             workbook.write(fos)
-            return this.file.readBytes()
         }
     }
 

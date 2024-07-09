@@ -3,7 +3,6 @@ type Query {
   missions: [Mission]
   mission(missionId: ID): Mission
   missionGeneralInfo(missionId: ID): MissionGeneralInfo
-  missionAEMExport(missionId: ID): MissionExport
 }
 
 type MissionExport {

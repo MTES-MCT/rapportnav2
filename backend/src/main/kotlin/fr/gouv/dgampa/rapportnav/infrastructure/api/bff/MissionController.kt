@@ -140,8 +140,4 @@ class MissionController(
     fun updateMissionService(@Argument service: MissionServiceInput): ServiceEntity? {
         return updateMissionService.execute(service)
     }
-
-    fun missionAEMExport(@Argument missionId: Int): MissionAEMExportEntity {
-        return exportAEMExcel.execute(5, 19, "77")
-    }
 }
