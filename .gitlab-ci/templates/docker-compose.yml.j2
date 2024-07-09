@@ -5,7 +5,7 @@ services:
     image: "{{ docker_image_path }}"
     container_name: rapportnav_backend
     environment:
-      - ENV_DB_URL=jdbc:postgresql://db:5432/{{ rapportnav_psql_db }}?user={{ rapportnav_pslq_user }}&password={{ rapportnav_psql_pwd }}
+      - ENV_DB_URL=jdbc:postgresql://db:5432/{{ rapportnav_psql_db }}?user={{ rapportnav_psql_user }}&password={{ rapportnav_psql_pwd }}
       - SPRING_PROFILES_ACTIVE=prod
     ports:
       - 80:80
