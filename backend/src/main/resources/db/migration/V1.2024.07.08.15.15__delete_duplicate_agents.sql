@@ -8,6 +8,10 @@ $$
     WHERE agent_id BETWEEN 93 AND 105;
 
     DELETE
+    from mission_crew
+    WHERE agent_id BETWEEN 93 AND 105;
+
+    DELETE
     FROM agent
     WHERE id BETWEEN 93 AND 105;
 
