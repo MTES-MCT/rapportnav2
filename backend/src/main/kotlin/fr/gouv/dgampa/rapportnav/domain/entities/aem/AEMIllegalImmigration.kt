@@ -43,18 +43,3 @@ data class AEMIllegalImmigration(
 
     }
 }
-
-/**
- *
- * 3.4.1 Nombre d’heures de mer	Autre activité de mission + Opération de lutte contre l'immigration illégale 	Durée (date et heure de début et fin)
- * 3.4.3 Nombre de navires/embarcations interceptés 	Autre activité de mission + Opération de lutte contre l'immigration illégale 	Champ nombre "Nb de navires / embarcations interceptés"
- * 3.4.4 Nombre de migrants interceptés 	Autre activité de mission + Opération de lutte contre l'immigration illégale 	Champ nombre "Nb de migrants interceptés"
- * 3.4.5 Nombre de passeurs présumés interceptés	Autre activité de mission + Opération de lutte contre l'immigration illégale 	Champ nombre "Nb de passeurs présumés"
- */
-/**
- *
- * 3.4.1 Nombre d’heures de mer	Autre activité de mission + Opération de lutte contre l'immigration illégale 	Durée (date et heure de début et fin)
- * 3.4.3 Nombre de navires/embarcations interceptés 	Autre activité de mission + Opération de lutte contre l'immigration illégale 	Champ nombre "Nb de navires / embarcations interceptés"
- * 3.4.4 Nombre de migrants interceptés 	Autre activité de mission + Opération de lutte contre l'immigration illégale 	Champ nombre "Nb de migrants interceptés"
- * 3.4.5 Nombre de passeurs présumés interceptés	Autre activité de mission + Opération de lutte contre l'immigration illégale 	Champ nombre "Nb de passeurs présumés"
- */
