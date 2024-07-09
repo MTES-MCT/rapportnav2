@@ -2,8 +2,10 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionAEMExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportAEMExcel
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.AddOrUpdateMissionGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
@@ -34,7 +36,8 @@ class MissionController(
     private val getControlUnitsForUser: GetControlUnitsForUser,
     private val fakeMissionData: FakeMissionData,
     private val exportMission: ExportMission,
-    private val updateMissionService: UpdateMissionService
+    private val updateMissionService: UpdateMissionService,
+    private val exportAEMExcel: ExportAEMExcel
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionController::class.java)
@@ -136,5 +139,9 @@ class MissionController(
     @MutationMapping
     fun updateMissionService(@Argument service: MissionServiceInput): ServiceEntity? {
         return updateMissionService.execute(service)
+    }
+
+    fun missionAEMExport(@Argument missionId: Int): MissionAEMExportEntity {
+        return exportAEMExcel.execute(5, 19, "77")
     }
 }
