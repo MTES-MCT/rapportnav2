@@ -74,7 +74,7 @@ class APIEnvMissionRepositoryTest {
         val envRepo = APIEnvMissionRepository(mapper = objectMapper, clientFactory = httpClientFactory)
         envRepo.patchMission(missionId = 761, PatchMissionInput(observationsByUnit = "MyObservations"))
         verify(httpClient).send(
-            argThat { request -> request.uri().equals(URI.create("$host/api/v1/missions/761")) },
+            argThat { request -> request.uri().equals(URI.create("$host/api/v2/missions/761")) },
             Mockito.any<HttpResponse.BodyHandler<String>>()
         )
     }
