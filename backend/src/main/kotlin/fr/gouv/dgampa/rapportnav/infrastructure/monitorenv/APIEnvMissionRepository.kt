@@ -208,7 +208,7 @@ class APIEnvMissionRepository(
     }
 
     override fun patchMission(missionId: Int, mission: PatchMissionInput): MissionEntity? {
-        val url = "$host/api/v1/missions/$missionId";
+        val url = "$host/api/v2/missions/$missionId";
         logger.info("Sending PATCH request for Env mission id=$missionId. URL: $url")
         return try {
             val gson = Gson();
