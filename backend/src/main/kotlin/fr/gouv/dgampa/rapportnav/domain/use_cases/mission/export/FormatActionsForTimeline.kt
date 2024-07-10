@@ -14,11 +14,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.BaseAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.mapActionStatusTypeToHumanString
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
+import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.EncodeSpecialChars
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatGeoCoords
 import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActionItem
 import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActions
-import org.apache.commons.text.StringEscapeUtils
 import java.time.LocalDate
 
 @UseCase
@@ -27,15 +27,14 @@ class FormatActionsForTimeline(
     private val formatDateTime: FormatDateTime,
     private val formatGeoCoords: FormatGeoCoords,
     private val mapEnvActionControlPlans: MapEnvActionControlPlans,
+    private val encodeSpecialChars: EncodeSpecialChars,
 ) {
 
     /**
      * Some characters need to be escaped in a XML compliant manner
      * most notably the following ones:  &, <, >
      */
-    fun encodeSpecialChars(input: String?): String {
-        return StringEscapeUtils.escapeXml10(input)
-    }
+
 
     fun formatTimeline(actions: List<MissionActionEntity>?): Map<LocalDate, List<String>>? {
 
@@ -198,7 +197,7 @@ class FormatActionsForTimeline(
         return action?.let {
             val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
             val status = mapActionStatusTypeToHumanString(action.status)
-            val observation = action.observations?.let { "- ${encodeSpecialChars(it)}" } ?: ""
+            val observation = action.observations?.let { "- ${encodeSpecialChars.escapeForXML(it)}" } ?: ""
             return "$startTime - $status $observation"
         }
     }
@@ -221,7 +220,7 @@ class FormatActionsForTimeline(
             val endTime = action.endDateTimeUtc?.let { " / ${formatDateTime.formatTime(it)}" } ?: ""
             val titleStr = if (!title.isNullOrEmpty()) " - $title" else ""
             val observation =
-                if (!action.observations.isNullOrEmpty()) " - ${encodeSpecialChars(action.observations)}" else ""
+                if (!action.observations.isNullOrEmpty()) " - ${encodeSpecialChars.escapeForXML(action.observations)}" else ""
             "$startTime$endTime$titleStr$observation"
         }
     }

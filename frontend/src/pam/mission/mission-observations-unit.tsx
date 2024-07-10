@@ -22,7 +22,6 @@ const MissionObservationsUnit: React.FC<MissionObservationsByUnitProps> = ({ mis
 
   const handleSubmit = async ({ observations }: ObservationsByUnit) => {
     if (!observations || observations.length < 4 || observations === observationsByUnit) return
-    debugger
 
     await patchMissionObservation({
       variables: {
