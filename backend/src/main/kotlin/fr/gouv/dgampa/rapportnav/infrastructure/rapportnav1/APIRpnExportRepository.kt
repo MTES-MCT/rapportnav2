@@ -1,11 +1,11 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.gson.Gson
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.ExportParams
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IRpnExportRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.ExportMissionODTInput
-import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
@@ -86,7 +86,7 @@ class APIRpnExportRepository(
             observations = params.observations
         )
 
-        val gson = GsonSerializer().create()
+        val gson = Gson();
         val json = gson.toJson(content)
 
         val request = HttpRequest.newBuilder()

@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory
 
 @UseCase
 class PatchEnvMission(private val envRepository: IEnvMissionRepository) {
-    private val logger = LoggerFactory.getLogger(UpdateEnvMission::class.java);
     fun execute(
         input: MissionEnvInput,
     ): MissionEntity? {

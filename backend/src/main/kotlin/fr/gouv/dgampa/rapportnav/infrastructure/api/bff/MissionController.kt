@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.ExtendedEnvMissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
@@ -37,8 +36,6 @@ class MissionController(
     private val getControlUnitsForUser: GetControlUnitsForUser,
     private val fakeMissionData: FakeMissionData,
     private val exportMission: ExportMission,
-    private val getEnvMissionById: GetEnvMissionById,
-    private val updateEnvMission: UpdateEnvMission,
     private val updateMissionService: UpdateMissionService,
     private val patchEnvMission: PatchEnvMission,
 ) {
