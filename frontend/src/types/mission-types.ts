@@ -30,6 +30,7 @@ export type Mission = {
   missionTypes: MissionTypeEnum[]
   observationsCacem?: string
   observationsCnsp?: string
+  observationsByUnit?: string
   openBy: string
   startDateTimeUtc: string
   actions: Action[]
@@ -59,7 +60,6 @@ export type CompletenessForStats = {
 
 export enum MissionStatusEnum {
   UPCOMING = 'UPCOMING',
-  PENDING = 'PENDING',
   IN_PROGRESS = 'IN_PROGRESS',
   ENDED = 'ENDED',
   UNAVAILABLE = 'UNAVAILABLE'

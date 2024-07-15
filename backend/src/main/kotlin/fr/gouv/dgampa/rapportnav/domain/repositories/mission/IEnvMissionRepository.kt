@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.repositories.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.PatchMissionInput
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
 import java.time.ZonedDateTime
 
@@ -21,4 +22,5 @@ interface IEnvMissionRepository {
 
     fun findAllControlPlans(): ControlPlansEntity?
 
+    fun patchMission(missionId: Int, mission: PatchMissionInput): MissionEntity?
 }

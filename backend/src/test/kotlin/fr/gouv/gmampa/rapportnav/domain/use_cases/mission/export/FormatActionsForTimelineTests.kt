@@ -10,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsForTimeline
+import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.EncodeSpecialChars
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatGeoCoords
 import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActionItem
@@ -28,7 +29,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 
-@SpringBootTest(classes = [FormatActionsForTimeline::class, FormatDateTime::class, FormatGeoCoords::class])
+@SpringBootTest(classes = [FormatActionsForTimeline::class, FormatDateTime::class, FormatGeoCoords::class, EncodeSpecialChars::class])
 class FormatActionsForTimelineTests {
 
     @Autowired
@@ -238,6 +239,14 @@ class FormatActionsForTimelineTests {
     }
 
     @Test
+    fun `formatNavStatus should return formatted observations`() {
+        val action: ActionStatusEntity = NavActionStatusMock.createActionStatusEntity(
+            observations = "3 adultes & 2 enfants <> RAS"
+        )
+        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("12:00 - Navigation - 3 adultes &amp; 2 enfants &lt;&gt; RAS")
+    }
+
+    @Test
     fun `formatNavStatus should return formatted string without observations`() {
         val action: ActionStatusEntity = NavActionStatusMock.createActionStatusEntity(observations = null)
         assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("12:00 - Navigation ")
@@ -331,6 +340,17 @@ class FormatActionsForTimelineTests {
             ).toNavActionEntity()
         )
         assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Assistance et sauvetage - RAS")
+    }
+
+
+    @Test
+    fun `formatNavActionCommon for format special chars in observations`() {
+        val action = MissionActionEntity.NavAction(
+            ActionMockFactory.create<ActionRescueEntity>(
+                observations = "3 adultes & 2 enfants <> RAS"
+            ).toNavActionEntity()
+        )
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Assistance et sauvetage - 3 adultes &amp; 2 enfants &lt;&gt; RAS")
     }
 
 

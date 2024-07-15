@@ -16,6 +16,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMi
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
+import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.EncodeSpecialChars
 import org.slf4j.LoggerFactory
 import java.time.format.DateTimeFormatter
 import kotlin.time.DurationUnit
@@ -32,6 +33,7 @@ class ExportMission(
     private val getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus,
     private val computeDurations: ComputeDurations,
     private val getInfoAboutNavAction: GetInfoAboutNavAction,
+    private val encodeSpecialChars: EncodeSpecialChars,
 ) {
 
     private val logger = LoggerFactory.getLogger(ExportMission::class.java)
@@ -105,6 +107,7 @@ class ExportMission(
                 id = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(mission.startDateTimeUtc),
                 startDateTime = mission.startDateTimeUtc,
                 endDateTime = mission.endDateTimeUtc,
+                observations = mission.observationsByUnit?.let { encodeSpecialChars.escapeForXML(it) } ?: "",
                 presenceMer = durations["atSeaDurations"].orEmpty(),
                 presenceQuai = durations["dockingDurations"].orEmpty(),
                 indisponibilite = durations["unavailabilityDurations"].orEmpty(),
@@ -121,7 +124,6 @@ class ExportMission(
                 nauticalEventsInfo = nauticalEventsInfo,
                 antiPollutionInfo = antiPollutionInfo,
                 baaemAndVigimerInfo = baaemAndVigimerInfo,
-                observations = "",
                 patrouilleSurveillanceEnvInHours = envSurveillanceInfo?.get("durationInHours")?.toFloatOrNull(),
                 patrouilleMigrantInHours = illegalImmigrationInfo?.get("durationInHours")?.toFloatOrNull()
             )

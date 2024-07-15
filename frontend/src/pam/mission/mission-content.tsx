@@ -25,6 +25,7 @@ import useAddOrUpdateBAAEMPermanence from './others/baaem/use-add-baaem-permanen
 import useAddOrUpdatePublicOrder from './others/public-order/use-add-public-order.tsx'
 import useAddRepresentation from './others/representation/use-add-representation.tsx'
 import useAddIllegalImmigration from './others/illegal-immigration/use-add-illegal-immigration.tsx'
+import MissionObservationsUnit from './mission-observations-unit.tsx'
 
 export interface MissionProps {
   mission?: Mission
@@ -209,9 +210,12 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
               <Stack.Item style={{ width: '100%', padding: '1rem' }}>
                 <MissionGeneralInfoPanel mission={mission} />
               </Stack.Item>
-              <Stack.Item style={{ width: '100%', padding: '1rem' }}>{/* <MissionActivityPanel /> */}</Stack.Item>
+              {/*<Stack.Item style={{ width: '100%', padding: '1rem' }}>/!* <MissionActivityPanel /> *!/</Stack.Item>*/}
+              {/*<Stack.Item style={{ width: '100%', padding: '1rem' }}>*/}
+              {/*  /!* <MissionOperationalSummaryPanel /> *!/*/}
+              {/*</Stack.Item>*/}
               <Stack.Item style={{ width: '100%', padding: '1rem' }}>
-                {/* <MissionOperationalSummaryPanel /> */}
+                <MissionObservationsUnit missionId={mission.id} observationsByUnit={mission.observationsByUnit} />
               </Stack.Item>
             </Stack>
           </FlexboxGrid.Item>

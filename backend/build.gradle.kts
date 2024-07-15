@@ -2,12 +2,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
-version = "1.5.13"
+version = "1.6.7"
 description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
 val serializationVersion by extra("1.6.2")
-val springVersion by extra("3.3.0")
+val springVersion by extra("3.3.1")
 val testcontainersVersion by extra("1.19.3")
 val flywayVersion by extra("10.10.0")
 
@@ -17,7 +17,7 @@ plugins {
   kotlin("jvm") version "1.9.24"
   kotlin("plugin.spring") version "1.9.24"
   kotlin("plugin.jpa") version "1.9.24"
-  id("org.springframework.boot") version "3.3.0"
+  id("org.springframework.boot") version "3.3.1"
   id("io.spring.dependency-management") version "1.1.4"
   id("org.owasp.dependencycheck") version "8.4.0"
   id("org.flywaydb.flyway") version "10.10.0"
@@ -78,6 +78,7 @@ dependencies {
   implementation("io.sentry:sentry-log4j2:7.0.0")
   implementation("org.apache.poi:poi:5.2.3")
   implementation("org.apache.poi:poi-ooxml:5.2.3")
+  implementation("org.apache.commons:commons-text:1.12.0")
   testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
   testImplementation("org.springframework:spring-webflux:6.1.6")
   testImplementation("org.springframework.graphql:spring-graphql-test:1.2.4")

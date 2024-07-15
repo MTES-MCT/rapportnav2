@@ -4,10 +4,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 
 data class AEMIllegalFish(
     val nbrOfHourInSea: Int, //4.3.1
-    val nbrOfPolFishAction: Int, // 4.1.3
-    val nbrOfTargetedVessel: Int, // 4.1.4
-    val nbrOfInfraction: Int, // 4.1.5
-    val nbrOfInfractionWithPV: Int, // 4.1.5
+    val nbrOfPolFishAction: Int, // 4.3.3
+    val nbrOfTargetedVessel: Int, // 4.3.4
+    val nbrOfInfraction: Int, // 4.3.5
+    val nbrOfInfractionWithPV: Int, // 4.3.6
     val nbrOfTowedVessel: Int, // 4.3.8
     val quantityOfFish: Int //4.3.9
 ) {

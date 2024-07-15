@@ -21,7 +21,7 @@ data class AEMTableExport(
     private val logger = LoggerFactory.getLogger(AEMTableExport::class.java)
 
     companion object {
-        fun fromMissionAction(actions: List<MissionActionEntity>): AEMTableExport {
+        fun fromMissionAction(actions: List<MissionActionEntity?>): AEMTableExport {
             val navActions = actions.filterIsInstance<MissionActionEntity.NavAction>().map { it.navAction };
             val envActions = actions.filterIsInstance<MissionActionEntity.EnvAction>().map { it.envAction };
             val fishActions = actions.filterIsInstance<MissionActionEntity.FishAction>().map { it.fishAction };

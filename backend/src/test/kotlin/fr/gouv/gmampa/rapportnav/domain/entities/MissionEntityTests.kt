@@ -49,7 +49,8 @@ class MissionEntityTests {
             val mission = MissionEntity(
                 envMission = ExtendedEnvMissionEntity.fromEnvMission(
                     EnvMissionMock.create(
-                        startDateTimeUtc = ZonedDateTime.now().plusDays(14)
+                        startDateTimeUtc = ZonedDateTime.now().plusDays(14),
+                        endDateTimeUtc = ZonedDateTime.now().plusDays(26),
                     )
                 ),
                 fishMissionActions = listOf(FishActionControlMock.create()).map {
@@ -81,24 +82,6 @@ class MissionEntityTests {
         }
 
         @Test
-        fun `should return PENDING when either startDateTimeUtc or endDateTimeUtc are before compareDate`() {
-            val mission = MissionEntity(
-                envMission = ExtendedEnvMissionEntity.fromEnvMission(
-                    EnvMissionMock.create(
-                        startDateTimeUtc = ZonedDateTime.now().minusDays(30),
-                    )
-                ),
-                fishMissionActions = listOf(FishActionControlMock.create()).map {
-                    ExtendedFishActionEntity.fromMissionAction(
-                        it
-                    )
-                },
-                navMission = NavMissionMock.create()
-            )
-            assertThat(mission.status).isEqualTo(MissionStatusEnum.PENDING)
-        }
-
-        @Test
         fun `should return IN_PROGRESS when after startDateTimeUtc but before endDateTimeUtc`() {
             val mission = MissionEntity(
                 envMission = ExtendedEnvMissionEntity.fromEnvMission(
@@ -115,6 +98,26 @@ class MissionEntityTests {
                 navMission = NavMissionMock.create()
             )
             assertThat(mission.status).isEqualTo(MissionStatusEnum.IN_PROGRESS)
+        }
+
+
+        @Test
+        fun `should return UNAVAILABLE when endDateTimeUtc is null`() {
+            val mission = MissionEntity(
+                envMission = ExtendedEnvMissionEntity.fromEnvMission(
+                    EnvMissionMock.create(
+                        startDateTimeUtc = ZonedDateTime.now().minusDays(30),
+                        endDateTimeUtc = null
+                    )
+                ),
+                fishMissionActions = listOf(FishActionControlMock.create()).map {
+                    ExtendedFishActionEntity.fromMissionAction(
+                        it
+                    )
+                },
+                navMission = NavMissionMock.create()
+            )
+            assertThat(mission.status).isEqualTo(MissionStatusEnum.UNAVAILABLE)
         }
     }
 
@@ -239,6 +242,20 @@ class MissionEntityTests {
             )
             assertThat(mission.services).isNotNull()
             assertThat(mission.services).isEqualTo(expected);
+        }
+
+        @Test
+        fun `should return observationsByUnit`() {
+            val expected = "MyBeautifulObservations";
+            val mission = MissionEntity(
+                envMission = ExtendedEnvMissionEntity.fromEnvMission(
+                    EnvMissionMock.create(observationsByUnit = expected)
+                ),
+                fishMissionActions = listOf(),
+                navMission = NavMissionMock.create()
+            )
+            assertThat(mission.observationsByUnit).isNotNull()
+            assertThat(mission.observationsByUnit).isEqualTo(expected);
         }
     }
 }
