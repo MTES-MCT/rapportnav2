@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import org.slf4j.LoggerFactory
+import org.springframework.cache.annotation.Cacheable
 import java.time.ZonedDateTime
 
 
@@ -102,6 +103,7 @@ class GetEnvMissions(
 
     val mockedMissions = listOf(mission1, mission2, mission3, mission4, mission5, mission6)
 
+    @Cacheable(value = ["envMissions"])
     fun execute(
         startedAfterDateTime: ZonedDateTime? = null,
         startedBeforeDateTime: ZonedDateTime? = null,

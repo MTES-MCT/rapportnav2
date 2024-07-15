@@ -14,6 +14,7 @@ import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.MultiPoint
 import org.slf4j.LoggerFactory
+import org.springframework.cache.annotation.Cacheable
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -190,6 +191,7 @@ class GetEnvMissionById(
         return mission
     }
 
+    @Cacheable(value = ["envMission"])
     fun execute(missionId: Int): ExtendedEnvMissionEntity? {
 
         try {

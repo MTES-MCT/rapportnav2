@@ -60,6 +60,8 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-log4j2:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-security:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:$springVersion")
+  implementation("org.springframework.boot:spring-boot-starter-cache:$springVersion")
+  implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib")
