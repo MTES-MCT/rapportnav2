@@ -2,7 +2,6 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.google.gson.Gson
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.PatchMissionInput
@@ -10,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlP
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.MissionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.controlPlans.ControlPlanDataOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -187,7 +187,7 @@ class APIEnvMissionRepository(
         val url = "$host/api/v1/control_plans"
         logger.info("Starting to fetch ControlsPlans from MonitorEnv at $url")
         return try {
-            val gson = Gson()
+            val gson = GsonSerializer().create()
             val client: HttpClient = HttpClient.newBuilder().build()
             val request = HttpRequest.newBuilder().uri(
                 URI.create(url)
@@ -208,7 +208,7 @@ class APIEnvMissionRepository(
         val url = "$host/api/v2/missions/$missionId";
         logger.info("Sending PATCH request for Env mission id=$missionId. URL: $url")
         return try {
-            val gson = Gson()
+            val gson = GsonSerializer().create()
             val client = clientFactory.create();
             val request = HttpRequest
                 .newBuilder()
