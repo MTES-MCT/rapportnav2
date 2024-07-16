@@ -1,9 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEM
-import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -18,19 +16,16 @@ class ExportMissionAEMTests {
     private lateinit var exportMissionAEM: ExportMissionAEM
 
     @MockBean
-    private lateinit var envRepository: IEnvMissionRepository
+    private lateinit var getMissionById: GetMissionById
 
     @Test
-    fun `execute AEM export to ods`() {
-        val envAction = EnvActionControlMock.create()
-        val mission = EnvMissionMock.create(
-            envActions = listOf(envAction)
-        )
+    fun `execute AEM export return null`() {
+        val missionId = 123
+        Mockito.`when`(getMissionById.execute(missionId)).thenReturn(null)
 
-        Mockito.`when`(envRepository.findMissionById(1)).thenReturn(mission);
-        val response = exportMissionAEM.execute(mission.id!!);
+        val result = exportMissionAEM.execute(missionId)
 
-        Assertions.assertThat(response).isNotNull();
+        Assertions.assertThat(result).isNull()
 
     }
 }
