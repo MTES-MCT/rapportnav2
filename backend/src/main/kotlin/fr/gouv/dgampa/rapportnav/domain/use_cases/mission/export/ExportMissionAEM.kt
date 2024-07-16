@@ -16,14 +16,13 @@ import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 
 @UseCase
-class ExportAEMExcel(
+class ExportMissionAEM(
     private val getMissionById: GetMissionById,
     private val fillAEMExcelRow: FillAEMExcelRow,
     @Value("\${aem.template.path}") private val aemTemplatePath: String,
     @Value("\${aem.tmp_xlsx.path}") private val aemTmpXLSXPath: String,
-    @Value("\${aem.export_dir.path}") private val aemExportDirPath: String,
     @Value("\${aem.tmp_ods.path}") private val aemTmpODSPath: String,
-    private val logger: Logger? = LoggerFactory.getLogger(ExportAEMExcel::class.java)
+    private val logger: Logger = LoggerFactory.getLogger(ExportMissionAEM::class.java)
 ) {
 
     fun execute(missionId: Int): MissionAEMExportEntity? {
@@ -38,17 +37,18 @@ class ExportAEMExcel(
             val tableExport = AEMTableExport.fromMissionAction(mission.actions!!)
             fillAEMExcelRow.fill(tableExport, excelFile, "Synthese", 3)
             excelFile.save()
-            val odsFile = excelFile.convertToOds(tmpPath.toString(), aemTmpODSPath, aemExportDirPath)
+            val odsFile = excelFile.convertToOds(tmpPath.toString(), aemTmpODSPath)
             val base64Content = excelFile.convertToBase64(odsFile)
 
+
             return MissionAEMExportEntity(
-                fileName = "AEM_PAM.ods",
+                fileName = "Rapport_AEM.ods",
                 fileContent = base64Content
             )
 
         }
 
-        logger?.error("Can't load data for AEM export. Cause : Mission or actions are empty. Mission ID : $missionId")
+        logger.error("Can't load data for AEM export. Cause : Mission or actions are empty. Mission ID : $missionId")
         return null
     }
 

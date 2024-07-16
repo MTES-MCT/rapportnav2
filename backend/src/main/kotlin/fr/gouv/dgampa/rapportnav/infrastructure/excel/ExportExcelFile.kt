@@ -3,6 +3,11 @@ package fr.gouv.dgampa.rapportnav.infrastructure.excel
 import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.ss.util.CellReference
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import org.jodconverter.local.LocalConverter
+import org.jodconverter.local.office.LocalOfficeManager
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
@@ -13,6 +18,7 @@ import java.util.*
 class ExportExcelFile(private val filePath: String) {
 
     private var workbook: Workbook = XSSFWorkbook()
+    private val logger: Logger = LoggerFactory.getLogger(ExportExcelFile::class.java)
 
     init {
         FileInputStream(filePath).use { fis: FileInputStream ->
@@ -55,13 +61,25 @@ class ExportExcelFile(private val filePath: String) {
         }
     }
 
-    fun convertToOds(xlsxPath: String, odsPath: String, exportDir: String): String {
-        val process = ProcessBuilder("soffice", "--headless", "--convert-to", "ods", "--outdir", exportDir, xlsxPath).start()
-        process.waitFor()
+    fun convertToOds(xlsxPath: String, odsPath: String): String {
+        val officeManager = LocalOfficeManager.install()
 
-        val odsFilePath = Path.of(exportDir, Path.of(xlsxPath).fileName.toString().replace(".xlsx", ".ods"))
+        try {
+            officeManager.start()
+            val converter = LocalConverter.make(officeManager)
+            converter.convert(File(xlsxPath)).to(File(odsPath)).execute()
+        } catch (e: Exception) {
+            logger.error("[ExportExcelFile::save() error : ${e.message}")
+        }
+        finally {
+            try {
+                officeManager.stop()
+            } catch (e: Exception) {
+                logger.error("[ExportExcelFile::save() error on officeManager.stop() : ${e.message}")
+            }
+        }
 
-        return odsFilePath.toString()
+        return odsPath
     }
 
     fun convertToBase64(filePath: String) : String {
