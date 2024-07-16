@@ -22,9 +22,10 @@ class ExportMissionAEM(
     @Value("\${aem.template.path}") private val aemTemplatePath: String,
     @Value("\${aem.tmp_xlsx.path}") private val aemTmpXLSXPath: String,
     @Value("\${aem.tmp_ods.path}") private val aemTmpODSPath: String,
-    private val logger: Logger = LoggerFactory.getLogger(ExportMissionAEM::class.java)
+
 ) {
 
+    private val logger: Logger = LoggerFactory.getLogger(ExportMissionAEM::class.java)
     fun execute(missionId: Int): MissionAEMExportEntity? {
         val path = Path.of(aemTemplatePath)
         val tmpPath = Path.of(aemTmpXLSXPath)
