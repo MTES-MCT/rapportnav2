@@ -15,6 +15,7 @@ type Mutation {
   patchMissionEnv(mission: MissionEnvInput!): Mission!
   updateMissionGeneralInfo(info: MissionGeneralInfoInput!): MissionGeneralInfo!
   updateMissionService(service: MissionServiceInput!): Service!
+  exportAEM(missionId: ID): MissionExport
 }
 
 input MissionInput {

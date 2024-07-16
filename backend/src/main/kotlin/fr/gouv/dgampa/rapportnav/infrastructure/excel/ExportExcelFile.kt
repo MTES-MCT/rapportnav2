@@ -6,6 +6,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Path
+import java.util.*
 
 class ExportExcelFile(private val filePath: String) {
 
@@ -38,7 +41,7 @@ class ExportExcelFile(private val filePath: String) {
         cell?.setCellValue(value.toDouble())
     }
 
-    fun cellReference(cellRef: String): Map<String, Int>
+    private fun cellReference(cellRef: String): Map<String, Int>
     {
         val cellReference = CellReference(cellRef)
         return mapOf("cell" to cellReference.col.toInt(), "row" to cellReference.row)
@@ -50,6 +53,21 @@ class ExportExcelFile(private val filePath: String) {
         FileOutputStream(filePath).use { fos: FileOutputStream ->
             workbook.write(fos)
         }
+    }
+
+    fun convertToOds(xlsxPath: String, odsPath: String, exportDir: String): String {
+        val process = ProcessBuilder("soffice", "--headless", "--convert-to", "ods", "--outdir", exportDir, xlsxPath).start()
+        process.waitFor()
+
+        val odsFilePath = Path.of(exportDir, Path.of(xlsxPath).fileName.toString().replace(".xlsx", ".ods"))
+
+        return odsFilePath.toString()
+    }
+
+    fun convertToBase64(filePath: String) : String {
+        val odsByte = Files.readAllBytes(Path.of(filePath))
+        Files.delete(Path.of(filePath))
+        return Base64.getEncoder().encodeToString(odsByte)
     }
 
 
