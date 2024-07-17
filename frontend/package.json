@@ -74,6 +74,11 @@
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.9.6"
   },
+  "overrides": {
+    "vite": {
+      "rollup": "npm:@rollup/wasm-node@^4.9.6"
+    }
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
