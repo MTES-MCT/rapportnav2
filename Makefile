@@ -59,7 +59,7 @@ back-build:
 	cd $(BACKEND_DIR) && ./gradlew clean build
 
 back-test:
-	cd $(BACKEND_DIR) && ./gradlew test --debug
+	cd $(BACKEND_DIR) && ./gradlew test
 
 back-start-local:
 	cd $(BACKEND_DIR) && ./gradlew bootRun --args='--spring.profiles.active=local --spring.config.additional-location=$(BACKEND_CONFIGURATION_FOLDER)'

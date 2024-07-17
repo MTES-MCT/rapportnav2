@@ -18,6 +18,7 @@ const NatinfsMultiSelect: React.FC<NatinfsMultiSelectProps> = ({ selectedNatinfs
       error=""
       label="NATINF"
       name="natinfs"
+      isRequired={true}
       value={selectedNatinfs || []}
       onChange={(nextValue?: OptionValue[]) => onChange('natinfs', nextValue)}
       options={

@@ -2,10 +2,14 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.c
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlGensDeMerRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlGensDeMerModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBActionControlRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.control.IDBControlGensDeMerRepository
+import org.hibernate.NonUniqueResultException
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -33,8 +37,16 @@ class JPAControlGensDeMerRepository(
     }
 
     override fun findByActionControlId(actionControlId: String): ControlGensDeMerModel {
-        val control = dbControlGensDeMerRepository.findByActionControlId(actionControlId)
-        return control
+        try {
+            val control = dbControlGensDeMerRepository.findByActionControlId(actionControlId)
+            return control
+        } catch (e: NonUniqueResultException) {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.TOO_MANY_ROWS_EXCEPTION,
+                message = "Too many ControlGensDeMer for ActionControl='$actionControlId'",
+                e,
+            )
+        }
     }
 
     @Transactional
@@ -43,7 +55,16 @@ class JPAControlGensDeMerRepository(
             val controlGensDeMerModel = ControlGensDeMerModel.fromControlGensDeMerEntity(control)
             dbControlGensDeMerRepository.save(controlGensDeMerModel)
         } catch (e: InvalidDataAccessApiUsageException) {
-            throw Exception("Error saving or updating GensDeMer Control", e)
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,
+                message = "Unable to save ControlGensDeMer='${control.id}'",
+                e,
+            )
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Unable to prepare data before saving ControlGensDeMer",
+                originalException = e
+            )
         }
     }
 

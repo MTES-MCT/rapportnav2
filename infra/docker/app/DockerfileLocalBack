@@ -2,7 +2,7 @@
 # Dependencies                         #
 ########################################
 # Stage 1: Build backend dependencies
-FROM openjdk:17-jdk-alpine AS backend-dependencies
+FROM openjdk:17-jdk-alpine:17.0.11 AS backend-dependencies
 
 WORKDIR /tmp/backend
 # Copy backend Gradle build files

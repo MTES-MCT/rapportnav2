@@ -30,55 +30,34 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Get frontend version
-        uses: avides/actions-project-version-check@v1.4.0
-        id: frontend_version
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          file-to-check: frontend/package.json
-          only-return-version: true
-
-      - name: use-version-from-check
-        run: echo "The version we just got is ${{ steps.frontend_version.outputs.version }}"
-
-      - name: Build image
-        uses: docker/build-push-action@v4
-        env:
-          GITHUB_SHA: ${{ github.sha }}
-          VERSION: ${{ steps.frontend_version.outputs.version }}
-          ENV_PROFILE: "prod"
-        with:
-          context: .
-          builder: ${{ steps.buildx.outputs.name }}
-          file: infra/docker/app/DockerfileCI
-          push: true
-          tags: |
-            ghcr.io/mtes-mct/rapportnav2/rapportnav-app:${{ github.sha }}
-          build-args: |
-            VERSION=${{ env.VERSION }}
-            ENV_PROFILE=${{ env.ENV_PROFILE }}
-            GITHUB_SHA=${{ github.sha }}
-
-      - name: Run Trivy on Docker build
+      - name: Run Trivy on OS
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: "ghcr.io/mtes-mct/rapportnav2/rapportnav-app:${{ github.sha }}"
-          format: sarif
-          output: "trivy-results.sarif"
-          severity: "CRITICAL,HIGH"
+          scan-type: "fs"
+          ignore-unfixed: true
+          format: "sarif"
+          vuln-type: "os"
+          output: "trivy-results-os.sarif"
+          severity: "LOW,MEDIUM,HIGH,CRITICAL"
 
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
+      - name: Upload Trivy OS scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: "trivy-results.sarif"
+          sarif_file: "trivy-results-os.sarif"
+          category: "trivy-os"
+
+      - name: Run Trivy on libraries
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: "fs"
+          ignore-unfixed: true
+          format: "sarif"
+          vuln-type: "library"
+          output: "trivy-results-libs.sarif"
+          severity: "HIGH,CRITICAL"
+
+      - name: Upload Trivy Library scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: "trivy-results-libs.sarif"
+          category: "trivy-libs"

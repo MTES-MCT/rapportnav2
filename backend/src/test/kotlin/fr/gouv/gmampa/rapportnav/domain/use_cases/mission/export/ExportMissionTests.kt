@@ -8,11 +8,14 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsForTimeline
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.GetInfoAboutNavAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.MapStatusDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
-import fr.gouv.gmampa.rapportnav.mocks.mission.NavMissionMock
+import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.EncodeSpecialChars
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -26,7 +29,17 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 
-@SpringBootTest(classes = [ExportMission::class, ComputeDurations::class])
+@SpringBootTest(
+    classes = [
+        ExportMission::class,
+        ComputeDurations::class,
+        GetInfoAboutNavAction::class,
+        MapStatusDurations::class,
+        GetStatusDurations::class,
+        GetNbOfDaysAtSeaFromNavigationStatus::class,
+        EncodeSpecialChars::class,
+    ]
+)
 class ExportMissionTests {
 
     @Autowired
@@ -48,13 +61,7 @@ class ExportMissionTests {
     private lateinit var navActionStatus: INavActionStatusRepository
 
     @MockBean
-    private lateinit var mapStatusDurations: MapStatusDurations
-
-    @MockBean
     private lateinit var formatActionsForTimeline: FormatActionsForTimeline
-
-    @MockBean
-    private lateinit var getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus
 
     @BeforeEach
     fun setUp() {
@@ -100,9 +107,25 @@ class ExportMissionTests {
             id = "2022-01-02",
             startDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
             endDateTime = null,
-            presenceMer = emptyMap(),
-            presenceQuai = emptyMap(),
-            indisponibilite = emptyMap(),
+            presenceMer = mapOf(
+                "navigationEffective" to 0,
+                "mouillage" to 0,
+                "total" to 0,
+            ),
+            presenceQuai = mapOf(
+                "maintenance" to 0,
+                "meteo" to 0,
+                "representation" to 0,
+                "adminFormation" to 0,
+                "autre" to 0,
+                "contrPol" to 0,
+                "total" to 0,
+            ),
+            indisponibilite = mapOf(
+                "technique" to 0,
+                "personnel" to 0,
+                "total" to 0,
+            ),
             nbJoursMer = 0,
             dureeMission = 0,
             patrouilleEnv = 0,
@@ -111,9 +134,13 @@ class ExportMissionTests {
             goMarine = null,
             essence = null,
             crew = emptyList(),
-            timeline = emptyList()
+            timeline = emptyList(),
+            rescueInfo = null,
+            nauticalEventsInfo = null,
+            antiPollutionInfo = null,
+            baaemAndVigimerInfo = null,
         )
-        `when`(getMissionById.execute(missionId)).thenReturn(NavMissionMock.create())
+        `when`(getMissionById.execute(missionId)).thenReturn(MissionEntityMock.create())
         `when`(exportRepository.exportOdt(exportParams)).thenReturn(output)
 
         val result = exportMission.exportOdt(missionId)

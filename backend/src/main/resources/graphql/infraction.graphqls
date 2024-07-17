@@ -60,7 +60,7 @@ enum FishInfractionType {
 
 input InfractionInput {
   id: String
-  missionId: String!
+  missionId: ID!
   actionId: String!
   controlId: String
   controlType: String!
@@ -71,7 +71,7 @@ input InfractionInput {
 
 input InfractionWithNewTargetInput {
   id: String
-  missionId: String!
+  missionId: ID!
   actionId: String!
   controlId: String
   controlType: String!

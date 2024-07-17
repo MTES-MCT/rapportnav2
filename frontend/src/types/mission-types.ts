@@ -1,6 +1,7 @@
 import { Action } from './action-types'
 import { ControlUnit } from './control-unit-types'
 import { MissionSourceEnum, MissionTypeEnum, SeaFrontEnum } from './env-mission-types'
+import { Service } from './service-types'
 
 export enum VesselTypeEnum {
   'FISHING' = 'FISHING',
@@ -19,22 +20,24 @@ export enum VesselSizeEnum {
 
 export type Mission = {
   id: number
-  closedBy: string
   controlUnits: Omit<ControlUnit, 'id'>[]
   endDateTimeUtc?: string
   facade: SeaFrontEnum
   geom?: Record<string, any>[]
   hasMissionOrder?: boolean
-  isClosed: boolean
   isUnderJdp?: boolean
   missionSource: MissionSourceEnum
   missionTypes: MissionTypeEnum[]
   observationsCacem?: string
   observationsCnsp?: string
+  observationsByUnit?: string
   openBy: string
   startDateTimeUtc: string
   actions: Action[]
   generalInfo: MissionGeneralInfo
+  status: MissionStatusEnum
+  completenessForStats?: CompletenessForStats
+  services: Service[]
 }
 
 export type MissionGeneralInfo = {
@@ -42,9 +45,27 @@ export type MissionGeneralInfo = {
   distanceInNauticalMiles?: number
   consumedGOInLiters?: number
   consumedFuelInLiters?: number
+  serviceId?: number
 }
 
 export type MissionExport = {
   fileName: string
   fileContent: string
+}
+
+export type CompletenessForStats = {
+  status?: CompletenessForStatsStatusEnum
+  sources?: MissionSourceEnum[]
+}
+
+export enum MissionStatusEnum {
+  UPCOMING = 'UPCOMING',
+  IN_PROGRESS = 'IN_PROGRESS',
+  ENDED = 'ENDED',
+  UNAVAILABLE = 'UNAVAILABLE'
+}
+
+export enum CompletenessForStatsStatusEnum {
+  COMPLETE = 'COMPLETE',
+  INCOMPLETE = 'INCOMPLETE'
 }

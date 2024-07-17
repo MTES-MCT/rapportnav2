@@ -6,4 +6,5 @@ data class MissionGeneralInfoEntity(
     var distanceInNauticalMiles: Float? = null,
     var consumedGOInLiters: Float? = null,
     var consumedFuelInLiters: Float? = null,
+    var serviceId: Int? = null
 )

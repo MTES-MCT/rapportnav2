@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import {
-  Accent,
-  Button,
   Coordinates,
   CoordinatesFormat,
   CoordinatesInput,
@@ -9,16 +7,14 @@ import {
   Icon,
   Label,
   Select,
-  Size,
   Textarea,
   TextInput,
   THEME
 } from '@mtes-mct/monitor-ui'
 import { VesselSizeEnum, VesselTypeEnum } from '../../../types/mission-types'
-import { Action, ActionControl } from '../../../types/action-types'
+import { ActionControl } from '../../../types/action-types'
 import { Stack } from 'rsuite'
 import Text from '../../../ui/text'
-import { formatDateTimeForFrenchHumans } from '../../../utils/dates.ts'
 import omit from 'lodash/omit'
 import { useNavigate, useParams } from 'react-router-dom'
 import ControlAdministrativeForm from '../controls/control-administrative-form'
@@ -30,14 +26,16 @@ import useActionById from './use-action-by-id.tsx'
 import useAddOrUpdateControl from './use-add-update-action-control.tsx'
 import useDeleteActionControl from './use-delete-action-control.tsx'
 import { isEqual } from 'lodash'
+import { ActionDetailsProps } from './action-mapping.ts'
+import ActionHeader from './action-header.tsx'
+import useIsMissionFinished from '../use-is-mission-finished.tsx'
 
-export interface ActionControlNavProps {
-  action: Action
-}
+type ActionControlNavProps = ActionDetailsProps
 
 const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
   const navigate = useNavigate()
   const { missionId, actionId } = useParams()
+  const isMissionFinished = useIsMissionFinished(missionId)
   const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
   const [identityControlledPersonValue, setIdentityControlledPersonValue] = useState<string | undefined>(undefined)
   const [vesselIdentifierValue, setVesselIdentifierValue] = useState<string | undefined>(undefined)
@@ -139,48 +137,18 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
       >
         {/* TITLE AND BUTTONS */}
         <Stack.Item style={{ width: '100%' }}>
-          <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
-            <Stack.Item alignSelf="baseline">
-              <Icon.ControlUnit color={THEME.color.charcoal} size={20} />
-            </Stack.Item>
-            <Stack.Item grow={2}>
-              <Stack direction="column" alignItems="flex-start">
-                <Stack.Item>
-                  <Text as="h2">
-                    Contrôles{' '}
-                    {navAction.startDateTimeUtc && `(${formatDateTimeForFrenchHumans(navAction.startDateTimeUtc)})`}
-                  </Text>
-                </Stack.Item>
-                <Stack.Item>
-                  <Text as="h2">
-                    {controlMethodToHumanString(control?.controlMethod)} -{' '}
-                    {vesselTypeToHumanString(control?.vesselType)}
-                  </Text>
-                </Stack.Item>
-              </Stack>
-            </Stack.Item>
-            <Stack.Item>
-              <Stack direction="row" spacing="0.5rem">
-                <Stack.Item>
-                  <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Duplicate} disabled={true}>
-                    Dupliquer
-                  </Button>
-                </Stack.Item>
-                <Stack.Item>
-                  <Button
-                    accent={Accent.PRIMARY}
-                    size={Size.SMALL}
-                    Icon={Icon.Delete}
-                    onClick={deleteAction}
-                    data-testid={'deleteButton'}
-                  >
-                    Supprimer
-                  </Button>
-                </Stack.Item>
-              </Stack>
-            </Stack.Item>
-          </Stack>
+          <ActionHeader
+            icon={Icon.ControlUnit}
+            title={'Contrôles'}
+            date={navAction.startDateTimeUtc}
+            onDelete={deleteAction}
+            showButtons={true}
+            showStatus={true}
+            isMissionFinished={isMissionFinished}
+            completenessForStats={navAction.completenessForStats}
+          />
         </Stack.Item>
+
         {/* INFO TEXT */}
         <Stack.Item>
           <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
@@ -188,7 +156,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
               <Icon.Info color={THEME.color.charcoal} size={20} />
             </Stack.Item>
             <Stack.Item>
-              <Text as="h3" weight="normal" fontStyle="italic">
+              <Text as="h4" weight="normal" fontStyle="italic">
                 Pour la saisie des contrôles de la pêche et de l’environnement marin, veuillez appeler les centres
                 concernés.
                 <br />
@@ -197,10 +165,25 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
             </Stack.Item>
           </Stack>
         </Stack.Item>
+        <Stack.Item style={{ width: '100%' }}>
+          <Stack direction={'column'}>
+            <Stack.Item style={{ width: '100%' }}>
+              <Text as={'h3'}>
+                Type de contrôle: <b>{controlMethodToHumanString(control?.controlMethod)}</b>
+              </Text>
+            </Stack.Item>
+            <Stack.Item style={{ width: '100%' }}>
+              <Text as={'h3'}>
+                Type de cible: <b>{vesselTypeToHumanString(control?.vesselType)}</b>
+              </Text>
+            </Stack.Item>
+          </Stack>
+        </Stack.Item>
         {/* DATE FIELDS */}
         <Stack.Item>
           <DateRangePicker
             name="dates"
+            isRequired={true}
             // defaultValue={[navAction.startDateTimeUtc ?? formatDateForServers(toLocalISOString()), navAction.endDateTimeUtc ?? formatDateForServers(new Date() as any)]}
             defaultValue={
               navAction.startDateTimeUtc && navAction.endDateTimeUtc
@@ -212,6 +195,10 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
             isCompact={true}
             isLight={true}
             role={'ok'}
+            error={
+              isMissionFinished && (!navAction.startDateTimeUtc || !navAction.endDateTimeUtc) ? 'error' : undefined
+            }
+            isErrorMessageHidden={true}
             onChange={async (nextValue?: [Date, Date] | [string, string]) => {
               await onChange('dates', nextValue)
             }}
@@ -221,11 +208,14 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
         <Stack.Item>
           <CoordinatesInput
             name="geoCoords"
+            isRequired={true}
             defaultValue={[control.latitude, control.longitude]}
             coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
             label="Lieu du contrôle"
             isLight={true}
             role={'coordinates'}
+            error={isMissionFinished && (!control.latitude || !control.longitude) ? 'error' : undefined}
+            isErrorMessageHidden={true}
             onChange={async (nextCoordinates?: Coordinates, prevCoordinates?: Coordinates) => {
               if (!isEqual(nextCoordinates, prevCoordinates)) {
                 await onChange('geoCoords', nextCoordinates)
@@ -239,21 +229,27 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
             <Stack.Item grow={1} basis={'25%'}>
               <Select
                 label="Taille du navire"
+                isRequired={true}
                 isLight={true}
                 options={VESSEL_SIZE_OPTIONS}
                 value={control.vesselSize}
                 data-testid={'vesselSize'}
                 name="vesselSize"
+                error={isMissionFinished && !control.vesselSize ? 'error' : undefined}
+                isErrorMessageHidden={true}
                 onChange={(nextValue: VesselSizeEnum | undefined) => onChange('vesselSize', nextValue)}
               />
             </Stack.Item>
             <Stack.Item grow={1} basis={'25%'}>
               <TextInput
                 label="Immatriculation"
+                isRequired={true}
                 isLight={true}
                 data-testid={'vesselIdentifier'}
                 name="vesselIdentifier"
                 value={vesselIdentifierValue}
+                error={isMissionFinished && !vesselIdentifierValue ? 'error' : undefined}
+                isErrorMessageHidden={true}
                 onChange={handleVesselIdentifierChange}
                 onBlur={handleVesselIdentifierBlur}
               />
@@ -261,10 +257,13 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
             <Stack.Item grow={2} basis={'50%'}>
               <TextInput
                 label="Identité de la personne contrôlée"
+                isRequired={true}
                 isLight={true}
                 name="identityControlledPerson"
                 data-testid={'identityControlledPerson'}
                 value={identityControlledPersonValue}
+                error={isMissionFinished && !identityControlledPersonValue ? 'error' : undefined}
+                isErrorMessageHidden={true}
                 onChange={handleIdentityControlledPersonChange}
                 onBlur={handleIdentityControlledPersonBlur}
               />

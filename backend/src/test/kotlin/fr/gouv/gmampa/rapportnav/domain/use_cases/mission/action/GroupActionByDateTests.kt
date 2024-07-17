@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvA
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionSurveillanceMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.NavActionStatusMock
 import org.assertj.core.api.Assertions.assertThat
@@ -31,9 +32,18 @@ class GroupActionByDateTest {
     @Test
     fun `execute should group actions by day`() {
         // Mock mission actions
-        val action1 = MissionActionEntity.EnvAction(
+        val actionEnvControl1 = MissionActionEntity.EnvAction(
             ExtendedEnvActionEntity.fromEnvActionEntity(
                 EnvActionControlMock.create(
+                    actionStartDateTimeUtc = ZonedDateTime.of(
+                        LocalDateTime.of(2022, 1, 1, 12, 0), ZoneOffset.UTC
+                    )
+                )
+            )
+        )
+        val actionEnvSurveillance1 = MissionActionEntity.EnvAction(
+            ExtendedEnvActionEntity.fromEnvActionEntity(
+                EnvActionSurveillanceMock.create(
                     actionStartDateTimeUtc = ZonedDateTime.of(
                         LocalDateTime.of(2022, 1, 1, 12, 0), ZoneOffset.UTC
                     )
@@ -57,13 +67,13 @@ class GroupActionByDateTest {
             NavActionStatusMock.createActionStatusEntity().toNavActionEntity()
         )
 
-        val actions = listOf(action1, action2, action3)
+        val actions = listOf(actionEnvControl1, actionEnvSurveillance1, action2, action3)
 
         val result = groupActionByDate.execute(actions)
 
         assertThat(result).isNotNull()
         assertThat(result!!.size).isEqualTo(2)
-        assertThat(result[LocalDate.of(2022, 1, 1)]?.size).isEqualTo(2)
+        assertThat(result[LocalDate.of(2022, 1, 1)]?.size).isEqualTo(3)
         assertThat(result[LocalDate.of(2022, 1, 2)]?.size).isEqualTo(1)
     }
 

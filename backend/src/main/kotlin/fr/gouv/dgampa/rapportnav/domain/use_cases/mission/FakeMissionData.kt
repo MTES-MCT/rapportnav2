@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
@@ -18,11 +19,11 @@ class FakeMissionData(
 ) {
 
     fun getEmptyMissionIds(): List<Int> {
-        return listOf(621, 311, 761)
+        return listOf(5, 621, 311, 761)
     }
 
     fun getFullMissionIds(): List<Int> {
-        return listOf(622, 312, 762)
+        return listOf(5, 622, 312, 762)
     }
 
     fun getEnvActionIds(): List<String> {
@@ -44,11 +45,11 @@ class FakeMissionData(
             id = UUID.fromString("226d84bc-e6c5-4d29-8a5f-7db642f99$missionId"),
             actionStartDateTimeUtc = ZonedDateTime.parse("2024-01-09T10:00:00Z"),
             actionEndDateTimeUtc = null,  // Set to null if not provided in your API response
-            themes = listOf(
-                ThemeEntity(
-                    theme = "Rejets illicites",
-                    subThemes = listOf("avitaillement", "soutage"),
-                    protectedSpecies = listOf()
+            controlPlans = listOf(
+                EnvActionControlPlanEntity(
+                    themeId = 1,
+                    subThemeIds = listOf(1),
+                    tagIds = listOf(1),
                 )
             ),
             geom = createMockMultiPoint(listOf(Coordinate(-8.52318191, 48.30305604))),
@@ -76,7 +77,25 @@ class FakeMissionData(
                 )
             )
         )
-        return listOf(ExtendedEnvActionEntity.fromEnvActionEntity(envActionControl1)!!)
+
+        val envActionSurveillance1 = EnvActionSurveillanceEntity(
+            id = UUID.fromString("226d84bc-e6c5-4d29-8a5f-799642f99$missionId"),
+            actionStartDateTimeUtc = ZonedDateTime.parse("2024-01-09T12:00:00Z"),
+            actionEndDateTimeUtc = ZonedDateTime.parse("2024-01-09T13:00:00Z"),
+            controlPlans = listOf(
+                EnvActionControlPlanEntity(
+                    themeId = 2,
+                    subThemeIds = listOf(2),
+                    tagIds = listOf(2),
+                )
+            ),
+            geom = createMockMultiPoint(listOf(Coordinate(-8.52318191, 48.30305604))),
+            completion = ActionCompletionEnum.COMPLETED,
+        )
+        return listOf(
+            ExtendedEnvActionEntity.fromEnvActionEntity(envActionControl1)!!,
+            ExtendedEnvActionEntity.fromEnvActionEntity(envActionSurveillance1)!!,
+        )
     }
 
     fun fullMission(missionId: Int): MissionEntity {
@@ -92,9 +111,8 @@ class FakeMissionData(
             id = missionId,
             missionTypes = listOf(MissionTypeEnum.SEA),
             missionSource = MissionSourceEnum.RAPPORTNAV,
-            startDateTimeUtc = ZonedDateTime.parse("2024-01-08T08:00:00Z"),
-            endDateTimeUtc = ZonedDateTime.parse("2024-01-22T20:00:00Z"),
-            isClosed = false,
+            startDateTimeUtc = ZonedDateTime.parse("2024-01-09T09:00:00Z"),
+            endDateTimeUtc = ZonedDateTime.parse("2024-01-09T15:00:00Z"),
             isDeleted = false,
             isGeometryComputedFromControls = false,
             hasMissionOrder = false,
@@ -109,9 +127,8 @@ class FakeMissionData(
             id = missionId,
             missionTypes = listOf(MissionTypeEnum.SEA),
             missionSource = MissionSourceEnum.RAPPORTNAV,
-            startDateTimeUtc = ZonedDateTime.parse("2024-01-08T08:00:00Z"),
-            endDateTimeUtc = ZonedDateTime.parse("2024-01-22T20:00:00Z"),
-            isClosed = false,
+            startDateTimeUtc = ZonedDateTime.parse("2024-01-09T09:00:00Z"),
+            endDateTimeUtc = ZonedDateTime.parse("2024-01-09T15:00:00Z"),
             isDeleted = false,
             isGeometryComputedFromControls = false,
             hasMissionOrder = false,
@@ -125,19 +142,19 @@ class FakeMissionData(
         return when (user?.serviceId) {
             // bouteillon
             7 -> {
-                return listOf(fullMission(621), emptyMission(622))
+                listOf(fullMission(621), emptyMission(622))
             }
             // Ariane
             3 -> {
-                return listOf(fullMission(311), emptyMission(312))
+                listOf(fullMission(311), emptyMission(312))
             }
             // d'Alba
             6 -> {
-                return listOf(fullMission(761), emptyMission(762))
+                listOf(fullMission(761), emptyMission(762))
             }
             // else
             else -> {
-                return listOf()
+                listOf()
             }
         }
     }

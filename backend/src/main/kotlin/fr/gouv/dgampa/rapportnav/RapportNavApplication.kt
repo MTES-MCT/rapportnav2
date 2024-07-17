@@ -5,9 +5,11 @@ import io.sentry.SentryOptions
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 import org.springframework.boot.runApplication
+import org.springframework.cache.annotation.EnableCaching
 
 
 @SpringBootApplication(exclude = [SecurityAutoConfiguration::class])
+@EnableCaching
 open class RapportNavApplication
 
 fun main(args: Array<String>) {
@@ -21,8 +23,8 @@ fun main(args: Array<String>) {
         Sentry.init { options ->
             options.dsn = sentryDsn
             options.proxy = SentryOptions.Proxy(
-                ctx.environment.getProperty("sentry.proxy.host"),
-                ctx.environment.getProperty("sentry.proxy.port")
+                ctx.environment.getProperty("host.proxy.host"),
+                ctx.environment.getProperty("host.proxy.port")
             )
             options.tracesSampleRate = 1.0
         }

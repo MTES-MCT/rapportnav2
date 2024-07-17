@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.ExportParams
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IRpnExportRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.ExportMissionODTInput
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
 import java.io.IOException
 import java.net.InetSocketAddress
@@ -22,6 +23,8 @@ import java.net.http.HttpResponse.BodyHandlers
 @Repository
 class APIRpnExportRepository(
     private val mapper: ObjectMapper,
+    @Value("\${host.proxy.host}") private val proxyHost: String,
+    @Value("\${host.proxy.port}") private val proxyPort: String
 ) : IRpnExportRepository {
 
     private val logger = LoggerFactory.getLogger(APIRpnExportRepository::class.java)
@@ -29,29 +32,33 @@ class APIRpnExportRepository(
 //        val url = "https://rapport-mission-dcs.din.developpement-durable.gouv.fr/public_api/export/odt"
         val url = "https://rapportnav.kalik-sandbox.ovh/public_api/export/odt"
 
-        // Set the proxy host and port
-        val proxyHost = "172.27.229.197"
-        val proxyPort = 8090
 
         // Create a Proxy object
-        val proxy = Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyHost, proxyPort))
+        var proxy: Proxy? = null
+        if (!proxyHost.isNullOrEmpty() && !proxyPort.isNullOrEmpty()) {
+            proxy = Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyHost, proxyPort.toInt()))
+        }
 
         // Create a ProxySelector with the given Proxy
         val proxySelector = object : java.net.ProxySelector() {
             override fun select(uri: URI?): MutableList<Proxy> {
                 val list = mutableListOf<Proxy>()
-                list.add(proxy)
+                if (proxy !== null) {
+                    list.add(proxy)
+                }
                 return list
             }
 
             override fun connectFailed(uri: URI?, sa: SocketAddress?, ioe: IOException?) {
                 // Handle connection failure here if needed
+                logger.error("[RapportDePatrouille] - fail to connect to RapportNav1 at ${uri?.toString()}")
                 throw Exception("[RapportDePatrouille] - fail to connect to RapportNav1")
             }
         }
 
+
         // Create an HttpClient with the proxy selector
-        val client = HttpClient.newBuilder()
+        var client = HttpClient.newBuilder()
             .proxy(proxySelector)
             .build()
 
@@ -65,19 +72,22 @@ class APIRpnExportRepository(
             indisponibilite = params.indisponibilite,
             nbJoursMer = params.nbJoursMer,
             dureeMission = params.dureeMission,
-            patrouilleEnv = params.patrouilleEnv,
-            patrouilleMigrant = params.patrouilleMigrant,
+            patrouilleSurveillanceEnvInHours = params.patrouilleSurveillanceEnvInHours,
+            patrouilleMigrantInHours = params.patrouilleMigrantInHours,
             distanceMilles = params.distanceMilles ?: 0.0f,
             goMarine = params.goMarine ?: 0.0f,
             essence = params.essence ?: 0.0f,
             crew = params.crew,
-            timeline = params.timeline
+            timeline = params.timeline,
+            rescueInfo = params.rescueInfo,
+            nauticalEventsInfo = params.nauticalEventsInfo,
+            antiPollutionInfo = params.antiPollutionInfo,
+            baaemAndVigimerInfo = params.baaemAndVigimerInfo,
+            observations = params.observations
         )
 
         val gson = Gson();
         val json = gson.toJson(content)
-
-        logger.info(json)
 
         val request = HttpRequest.newBuilder()
             .uri(URI.create(url))
@@ -86,7 +96,11 @@ class APIRpnExportRepository(
             .build()
 
         return try {
+            logger.info("[RapportDePatrouille] - sending request to RapportNav1 at $url")
+            logger.info(json)
             val response = client.send(request, BodyHandlers.ofString())
+            logger.info("[RapportDePatrouille] - received response RapportNav1 at $url, status = ${response.statusCode()}")
+            logger.info(response.body().toString())
             gson.fromJson(response.body(), MissionExportEntity::class.java)
         } catch (e: Exception) {
             logger.error("[RapportDePatrouille] - RapportNav1 returns error: ${e.message}", e)

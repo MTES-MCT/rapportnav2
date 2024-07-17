@@ -31,7 +31,7 @@ class GetStatusDurationsTests {
 
     @BeforeEach
     fun setUp() {
-        defaultReturnValues = ActionStatusType.values().filter { it != ActionStatusType.UNKNOWN }.flatMap { status ->
+        defaultReturnValues = ActionStatusType.entries.filter { it != ActionStatusType.UNKNOWN }.flatMap { status ->
             getStatusDurations.getSelectOptionsForType(status)?.map { reason ->
                 GetStatusDurations.ActionStatusWithDuration(status, 0.0, reason)
             } ?: listOf(GetStatusDurations.ActionStatusWithDuration(status, 0.0))
@@ -45,7 +45,7 @@ class GetStatusDurationsTests {
             missionStartDateTime,
             missionEndDateTime,
             statuses
-        );
+        )
         assertThat(values).containsExactlyInAnyOrder(*defaultReturnValues.toTypedArray())
     }
 
@@ -56,7 +56,7 @@ class GetStatusDurationsTests {
             missionStartDateTime,
             missionEndDateTime,
             statuses
-        );
+        )
         assertThat(values).containsExactlyInAnyOrder(*defaultReturnValues.toTypedArray())
     }
 
@@ -91,21 +91,31 @@ class GetStatusDurationsTests {
     fun `execute should return durations excluding last action when missionEndDateTime is null`() {
         // Define the list of action status entities
         val actions = listOf(
-            ActionStatusEntity(UUID.randomUUID(), 1, missionStartDateTime, ActionStatusType.NAVIGATING),
-            ActionStatusEntity(UUID.randomUUID(), 1, missionStartDateTime.plusHours(2), ActionStatusType.ANCHORED),
             ActionStatusEntity(
                 UUID.randomUUID(),
-                1,
-                missionStartDateTime.plusHours(5),
-                ActionStatusType.DOCKED,
-                ActionStatusReason.WEATHER
+                missionId = 1,
+                startDateTimeUtc = missionStartDateTime,
+                status = ActionStatusType.NAVIGATING
             ),
             ActionStatusEntity(
                 UUID.randomUUID(),
-                1,
-                missionStartDateTime.plusHours(7),
-                ActionStatusType.UNAVAILABLE,
-                ActionStatusReason.TECHNICAL
+                missionId = 1,
+                startDateTimeUtc = missionStartDateTime.plusHours(2),
+                status = ActionStatusType.ANCHORED
+            ),
+            ActionStatusEntity(
+                UUID.randomUUID(),
+                missionId = 1,
+                startDateTimeUtc = missionStartDateTime.plusHours(5),
+                status = ActionStatusType.DOCKED,
+                reason = ActionStatusReason.WEATHER
+            ),
+            ActionStatusEntity(
+                UUID.randomUUID(),
+                missionId = 1,
+                startDateTimeUtc = missionStartDateTime.plusHours(7),
+                status = ActionStatusType.UNAVAILABLE,
+                reason = ActionStatusReason.TECHNICAL
             )
         )
 

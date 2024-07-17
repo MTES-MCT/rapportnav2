@@ -1,34 +1,35 @@
-import React, { useState } from 'react'
-import MissionContent from './mission-content.tsx'
-import { useNavigate, useParams } from 'react-router-dom'
-import MissionPageHeader from './page-header'
-import MissionPageFooter from './page-footer'
 import { useApolloClient } from '@apollo/client'
-import useMissionExcerpt from "./general-info/use-mission-excerpt";
-import { formatMissionName } from "./utils";
-import useLazyMissionExport from "./export/use-lazy-mission-export.tsx";
-import { Stack } from "rsuite";
-import Text from "../../ui/text.tsx";
-import { Accent, Button, logSoftError, Size } from "@mtes-mct/monitor-ui";
-import { getPath, PAM_HOME_PATH } from "../../router/router.tsx";
-import { MissionExport } from "../../types/mission-types.ts";
-import * as Sentry from "@sentry/react";
+import { Accent, Button, Size, logSoftError } from '@mtes-mct/monitor-ui'
+import * as Sentry from '@sentry/react'
+import React, { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Stack } from 'rsuite'
+import { ROOT_PATH } from '../../router/router.tsx'
+import useApolloLastSync from '../../shared/use-apollo-last-sync.tsx'
+import { MissionExport } from '../../types/mission-types.ts'
+import Text from '../../ui/text.tsx'
+import { formatTime, toLocalISOString } from '../../utils/dates.ts'
+import useLazyMissionExport from './export/use-lazy-mission-export.tsx'
+import useMissionExcerpt from './general-info/use-mission-excerpt'
+import MissionContent from './mission-content.tsx'
+import MissionPageFooter from './page-footer'
+import MissionPageHeader from './page-header'
 
 const MissionPage: React.FC = () => {
-
   const navigate = useNavigate()
-  let {missionId} = useParams()
+  let { missionId } = useParams()
   const apolloClient = useApolloClient()
 
   const [exportLoading, setExportLoading] = useState<boolean>(false)
-  const {loading, error, data: mission} = useMissionExcerpt(missionId)
+  const { loading, error, data: mission } = useMissionExcerpt(missionId)
   const [getMissionReport] = useLazyMissionExport()
-
+  const lastSync = useApolloLastSync()
+  const lastSyncText = lastSync ? formatTime(toLocalISOString(new Date(parseInt(lastSync!!, 10)))) : undefined
 
   const exitMission = async () => {
     // TODO centralise the following into a class - also used in use-auth()
     // reset apollo store
-    await apolloClient.resetStore()
+    await apolloClient.clearStore()
     // flush apollo persist cache
     apolloClient.cache.evict({})
 
@@ -40,38 +41,38 @@ const MissionPage: React.FC = () => {
       try {
         const content = missionExport?.fileContent
         // Decode base64 string
-        const decodedContent = atob(content);
+        const decodedContent = atob(content)
 
         // Convert the decoded content to a Uint8Array
-        const uint8Array = new Uint8Array(decodedContent.length);
+        const uint8Array = new Uint8Array(decodedContent.length)
         for (let i = 0; i < decodedContent.length; i++) {
-          uint8Array[i] = decodedContent.charCodeAt(i);
+          uint8Array[i] = decodedContent.charCodeAt(i)
         }
 
         // Create a Blob from the Uint8Array
-        const blob = new Blob([uint8Array], {type: 'application/vnd.oasis.opendocument.text'});
+        const blob = new Blob([uint8Array], { type: 'application/vnd.oasis.opendocument.text' })
 
         // Create a temporary link element
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
+        const link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
         link.download = missionExport.fileName
 
         // Append the link to the document body and trigger a click event
-        document.body.appendChild(link);
-        link.click();
+        document.body.appendChild(link)
+        link.click()
 
         // Remove the link element from the document body
-        document.body.removeChild(link);
+        document.body.removeChild(link)
       } catch (error) {
         console.log('handleDownload error: ', error)
-        Sentry.captureException(error);
+        Sentry.captureException(error)
       }
     }
-  };
+  }
 
   const exportMission = async () => {
     setExportLoading(true)
-    const {data, error, loading, called} = await getMissionReport({variables: {missionId}})
+    const { data, error, loading, called } = await getMissionReport({ variables: { missionId } })
 
     if (error) {
       setExportLoading(false)
@@ -84,7 +85,6 @@ const MissionPage: React.FC = () => {
       setExportLoading(false)
       handleDownload((data as any)?.missionExport as any)
     }
-
   }
 
   if (loading) {
@@ -103,21 +103,13 @@ const MissionPage: React.FC = () => {
           maxHeight: '100vh'
         }}
       >
-        <Stack justifyContent={"center"} direction={"column"} spacing={"2rem"}>
-          <Stack.Item style={{maxWidth: '33%'}}>
-            <Text as={"h2"}>
-              Une erreur est survenue
-            </Text>
-            <Text as={"h3"}>
-              {error?.message}
-            </Text>
+        <Stack justifyContent={'center'} direction={'column'} spacing={'2rem'}>
+          <Stack.Item style={{ maxWidth: '33%' }}>
+            <Text as={'h2'}>Une erreur est survenue</Text>
+            <Text as={'h3'}>{error?.message}</Text>
           </Stack.Item>
           <Stack.Item>
-            <Button
-              accent={Accent.PRIMARY}
-              size={Size.LARGE}
-              onClick={() => navigate(getPath(PAM_HOME_PATH))}
-            >
+            <Button accent={Accent.PRIMARY} size={Size.LARGE} onClick={() => navigate(ROOT_PATH)}>
               Retourner à l'accueil
             </Button>
           </Stack.Item>
@@ -136,16 +128,16 @@ const MissionPage: React.FC = () => {
         maxHeight: '100vh'
       }}
     >
-      <MissionPageHeader missionName={formatMissionName(mission?.startDateTimeUtc)}
-                         missionSource={mission?.missionSource}
-                         onClickClose={exitMission}
-                         onClickExport={exportMission}
-                         exportLoading={exportLoading}
+      <MissionPageHeader
+        mission={mission}
+        onClickClose={exitMission}
+        onClickExport={exportMission}
+        exportLoading={exportLoading}
       />
 
-      <MissionContent mission={mission}/>
+      <MissionContent mission={mission} />
 
-      <MissionPageFooter missionName={`Mission #${missionId}`} exitMission={exitMission}/>
+      <MissionPageFooter lastSyncText={lastSyncText} exitMission={exitMission} />
     </div>
   )
 }

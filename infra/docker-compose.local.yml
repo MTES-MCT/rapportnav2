@@ -27,7 +27,7 @@ services:
       - ../frontend:/tmp/frontend
 
   db:
-    image: postgres:15.6-alpine
+    image: postgres:15.7-alpine
     ports:
       - "5432:5432"
     environment:
@@ -36,31 +36,6 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - db:/var/lib/postgresql/data
-
-  unleash_proxy:
-    image: unleashorg/unleash-proxy:v1.1.1
-    ports:
-      - "3000:3000"
-    environment:
-      # Proxy clients must use one of these keys to connect to the
-      # Proxy. To add more keys, separate them with a comma (`key1,key2`).
-      #      UNLEASH_PROXY_CLIENT_KEYS: "randomkey"
-      UNLEASH_PROXY_SECRETS: "randomkey"
-      UNLEASH_APP_NAME: "local"
-      # This points the Proxy to the Unleash server API
-      UNLEASH_URL: "https://gitlab.com/api/v4/feature_flags/unleash/55951570"
-      UNLEASH_INSTANCE_ID: "glffct-ceHLxPcFMqyXsyGPXSkx"
-      # This is the API token that the Proxy uses to communicate with
-      # the Unleash server.
-      UNLEASH_API_TOKEN: "glpat-6f7PUWe9PwRoa53LUmsZ"
-      LOG_LEVEL: "debug"
-    #    depends_on:
-    #      - web
-    healthcheck:
-      test: wget --no-verbose --tries=1 --spider http://localhost:3000/proxy/health || exit 1
-      interval: 1s
-      timeout: 1m
-      retries: 5
 
 #  metabase:
 #    image: metabase/metabase:latest

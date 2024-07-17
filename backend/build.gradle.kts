@@ -2,28 +2,37 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
-version = "1.2.0"
+version = "1.6.7"
 description = "RapportNav"
 
-val kotlinVersion by extra("1.9.21")
+val kotlinVersion by extra("1.9.24")
 val serializationVersion by extra("1.6.2")
-val springVersion by extra("3.2.3")
+val springVersion by extra("3.3.1")
 val testcontainersVersion by extra("1.19.3")
+val flywayVersion by extra("10.10.0")
 
 plugins {
   `java-library`
   `maven-publish`
-  kotlin("jvm") version "1.9.21"
-  kotlin("plugin.spring") version "1.9.21"
-  kotlin("plugin.jpa") version "1.9.21"
-  id("org.springframework.boot") version "3.2.3"
+  kotlin("jvm") version "1.9.24"
+  kotlin("plugin.spring") version "1.9.24"
+  kotlin("plugin.jpa") version "1.9.24"
+  id("org.springframework.boot") version "3.3.1"
   id("io.spring.dependency-management") version "1.1.4"
   id("org.owasp.dependencycheck") version "8.4.0"
-//  id("org.sonarqube") version "4.4.1.3373"
+  id("org.flywaydb.flyway") version "10.10.0"
 }
 
 springBoot {
   mainClass.set("fr.gouv.dgampa.rapportnav.RapportNavApplicationKt")
+
+  buildInfo {
+    properties {
+      additional = mapOf(
+        "commit.hash" to "COMMIT_TO_CHANGE",
+      )
+    }
+  }
 }
 
 repositories {
@@ -38,15 +47,11 @@ dependencyManagement {
   imports {
     mavenBom("org.testcontainers:testcontainers-bom:$testcontainersVersion")
   }
-  dependencies {
-//    dependency("com.graphql-java:graphql-java:21.1")
-    dependency("org.springframework.security:spring-security-core:6.2.3")
-  }
 }
 
 dependencies {
   developmentOnly("org.springframework.boot:spring-boot-devtools")
-  runtimeOnly("org.postgresql:postgresql:42.7.2")
+  runtimeOnly("org.postgresql:postgresql:42.7.3")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-data-rest:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
@@ -58,25 +63,34 @@ dependencies {
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib")
-  implementation("org.flywaydb:flyway-core:9.22.3")
+  implementation("org.flywaydb:flyway-core:$flywayVersion")
+  implementation("org.flywaydb:flyway-database-postgresql:$flywayVersion")
   implementation("org.n52.jackson:jackson-datatype-jts:1.2.10") {
     exclude(group = "org.locationtech.jts", module = "jts-core")
   }
   implementation("io.jsonwebtoken:jjwt-api:0.12.3")
   implementation("javax.xml.bind:jaxb-api:2.3.1")
-  implementation("org.springframework.security:spring-security-oauth2-jose:6.2.3")
+  implementation("org.springframework.security:spring-security-oauth2-jose:6.3.0")
   implementation("org.locationtech.jts:jts-core:1.19.0")
   implementation("io.swagger.core.v3:swagger-core:2.2.20")
   implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
   implementation("io.sentry:sentry-spring-boot-starter-jakarta:7.1.0")
   implementation("io.sentry:sentry-log4j2:7.0.0")
+  implementation("org.apache.commons:commons-text:1.12.0")
   testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
-  testImplementation("org.springframework:spring-webflux:6.1.4")
+  testImplementation("org.springframework:spring-webflux:6.1.6")
   testImplementation("org.springframework.graphql:spring-graphql-test:1.2.4")
   testImplementation("org.testcontainers:testcontainers")
   testImplementation("org.testcontainers:junit-jupiter")
   testImplementation("org.testcontainers:postgresql")
 }
+
+buildscript {
+  dependencies {
+    classpath("org.flywaydb:flyway-database-postgresql:10.10.0")
+  }
+}
+
 
 java {
   sourceCompatibility = JavaVersion.VERSION_17

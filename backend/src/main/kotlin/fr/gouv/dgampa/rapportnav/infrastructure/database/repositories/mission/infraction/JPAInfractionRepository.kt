@@ -2,6 +2,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.i
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.infraction.IInfractionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.InfractionModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.control.IDBControlAdministrativeRepository
@@ -44,14 +46,22 @@ class JPAInfractionRepository(
                 }
 
                 null -> null
-            } ?: throw Exception("Error saving or updating Infraction - cannot find associated Control")
+            } ?: throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_FIND_CONTROL_FOR_INFRACTION_EXCEPTION,
+                message = "Unable to find associated Control for Infraction='${infraction.id}'",
+                data = infraction
+            )
 
             infractionModel.control = control
             infractionModel.target?.map { it.infraction = infractionModel }
             dbRepo.save(infractionModel)
 
         } catch (e: InvalidDataAccessApiUsageException) {
-            throw Exception("Error saving or updating Infraction", e)
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,
+                message = "Unable to save Infraction='${infraction.id}'",
+                e,
+            )
         }
     }
 

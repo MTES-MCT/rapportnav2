@@ -41,13 +41,16 @@ class GetFishActionsByMissionId(
         val missionAction1 = MissionAction(
             id = missionId + 1,
             missionId = missionId,
+            completion = Completion.COMPLETED,
             vesselId = 5232556,
-            vesselName = "UNKNOWN",
+            vesselName = "Le Stella",
             latitude = 48.389999,
             longitude = -4.490000,
             facade = "Outre-Mer",
-            actionType = MissionActionType.SEA_CONTROL,
-            actionDatetimeUtc = ZonedDateTime.parse("2024-01-08T14:00:00Z"),
+            portLocode = "LR",
+            portName = "La Rochelle",
+            actionType = MissionActionType.LAND_CONTROL,
+            actionDatetimeUtc = ZonedDateTime.parse("2024-01-09T14:00:00Z"),
             flightGoals = listOf(),
             logbookInfractions = listOf(),
             gearInfractions = listOf(),
@@ -95,6 +98,7 @@ class GetFishActionsByMissionId(
         val missionAction2 = MissionAction(
             id = missionId + 2,
             missionId = missionId,
+            completion = Completion.TO_COMPLETE,
             vesselId = 5232556,
             vesselName = "Le POILLET",
             latitude = 48.389999,
@@ -139,17 +143,48 @@ class GetFishActionsByMissionId(
             feedbackSheetRequired = false,
             userTrigram = null,
             faoAreas = listOf("38.1"),
-            segments = listOf(FleetSegment("MED01", "Chaluts de fond"))
+            segments = listOf(FleetSegment("MED01", "Chaluts de fond")),
+            isComplianceWithWaterRegulationsControl = true,
+            isSeafarersControl = true
         )
 
-        val actions = listOf(missionAction1, missionAction2).map {
-            var action = ExtendedFishActionEntity.fromMissionAction(it)
-            action = attachControlsToActionControl.toFishAction(
-                actionId = it.id?.toString(),
-                action = action
-            )
-            action
+        val missionAction3 = MissionAction(
+            id = missionId + 3,
+            missionId = missionId,
+            completion = Completion.COMPLETED,
+            vesselId = 5232556,
+            vesselName = "Le ROSE",
+            latitude = 48.389999,
+            longitude = -4.490000,
+            actionType = MissionActionType.OBSERVATION,
+            actionDatetimeUtc = ZonedDateTime.parse("2024-01-09T12:00:00Z"),
+            isDeleted = false,
+            isAdministrativeControl = true,
+            licencesAndLogbookObservations = null,
+            hasSomeGearsSeized = false,
+            hasSomeSpeciesSeized = false,
+            isComplianceWithWaterRegulationsControl = true,
+            isSafetyEquipmentAndStandardsComplianceControl = true,
+            isSeafarersControl = true
+        )
+
+//        val actions = listOf(missionAction1, missionAction2, missionAction3).filter {
+        val actions = listOf(missionAction1).filter {
+            listOf(
+                MissionActionType.SEA_CONTROL,
+                MissionActionType.LAND_CONTROL
+            ).contains(it.actionType)
         }
+            .map {
+                var action = ExtendedFishActionEntity.fromMissionAction(it)
+                action = attachControlsToActionControl.toFishAction(
+                    actionId = it.id?.toString(),
+                    action = action
+                )
+                // recompute completeness once controls have been attached
+                action.controlAction?.computeCompleteness()
+                action
+            }
 
         return actions
     }
@@ -157,12 +192,20 @@ class GetFishActionsByMissionId(
     fun execute(missionId: Int): List<ExtendedFishActionEntity> {
         try {
             val fishActions = fishActionRepo.findFishActions(missionId = missionId)
-            val actions = fishActions.map {
+            // TODO maybe this filter should be somewhere else
+            val actions = fishActions.filter {
+                listOf(
+                    MissionActionType.SEA_CONTROL,
+                    MissionActionType.LAND_CONTROL
+                ).contains(it.actionType)
+            }.map {
                 var action = ExtendedFishActionEntity.fromMissionAction(it)
                 action = attachControlsToActionControl.toFishAction(
                     actionId = it.id?.toString(),
                     action = action
                 )
+                // recompute completeness once controls have been attached
+                action.controlAction?.computeCompleteness()
                 action
             }
             return actions

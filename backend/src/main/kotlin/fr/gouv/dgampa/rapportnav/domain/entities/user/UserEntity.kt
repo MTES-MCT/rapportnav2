@@ -8,6 +8,7 @@ data class User(
     val email: String,
     val password: String,
     var token: String? = null,
+    var roles: List<RoleTypeEnum>
 ) {
     constructor(user: User) : this(
         id = user.id,
@@ -17,6 +18,7 @@ data class User(
         email = user.email,
         password = user.password,
         token = user.token,
+        roles = user.roles
     )
 }
 

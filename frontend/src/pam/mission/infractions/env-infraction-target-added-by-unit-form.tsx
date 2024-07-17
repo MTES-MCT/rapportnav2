@@ -53,6 +53,7 @@ const EnvInfractionTargetAddedByUnitForm: React.FC<EnvInfractionNewTargetFormPro
       <Stack.Item style={{ width: '100%' }}>
         <Select
           label="Type de contrôle avec infraction"
+          isRequired={true}
           options={CONTROL_TYPE_OPTIONS}
           disabledItemValues={getDisabledControlTypes(availableControlTypesForInfraction)}
           value={infraction?.controlType}
@@ -67,6 +68,7 @@ const EnvInfractionTargetAddedByUnitForm: React.FC<EnvInfractionNewTargetFormPro
               <Stack.Item style={{ width: '40%' }}>
                 <Select
                   label="Taille du navire"
+                  isRequired={true}
                   options={VESSEL_SIZE_OPTIONS}
                   value={infraction?.target?.vesselSize}
                   name="vesselSize"
@@ -76,6 +78,7 @@ const EnvInfractionTargetAddedByUnitForm: React.FC<EnvInfractionNewTargetFormPro
               <Stack.Item style={{ width: '60%' }}>
                 <Select
                   label="Type de navire"
+                  isRequired={true}
                   options={VESSEL_TYPE_OPTIONS}
                   value={infraction?.target?.vesselType}
                   name="vesselType"
@@ -89,6 +92,7 @@ const EnvInfractionTargetAddedByUnitForm: React.FC<EnvInfractionNewTargetFormPro
               <Stack.Item style={{ width: '40%' }}>
                 <TextInput
                   label="Immatriculation"
+                  isRequired={true}
                   value={vesselIdentifierValue}
                   name="vesselIdentifier"
                   role="vesselIdentifier"
@@ -99,6 +103,7 @@ const EnvInfractionTargetAddedByUnitForm: React.FC<EnvInfractionNewTargetFormPro
               <Stack.Item style={{ width: '60%' }}>
                 <TextInput
                   label="Identité de la personne contrôlée"
+                  isRequired={true}
                   value={identityControlledPersonValue}
                   name="identityControlledPerson"
                   role="identityControlledPerson"

@@ -2,10 +2,15 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.ExtendedEnvMissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
+import com.google.gson.Gson
+import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.PatchMissionInput
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.MissionDataOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.MissionDataOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.controlPlans.ControlPlanDataOutput
+import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Repository
@@ -19,10 +24,69 @@ import java.time.format.DateTimeFormatter
 
 @Repository
 class APIEnvMissionRepository(
-    private val mapper: ObjectMapper
+    private val mapper: ObjectMapper,
+    private val clientFactory: HttpClientFactory
 ) : IEnvMissionRepository {
-    private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepository::class.java)
+    private val client: HttpClient = HttpClient.newBuilder().build();
+    private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepository::class.java);
     private val zoneDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.000X")
+
+    // TODO set as env var when available
+    private val host = "https://monitorenv.din.developpement-durable.gouv.fr"
+
+    override fun findMissionById(missionId: Int): MissionEntity? {
+        val client: HttpClient = HttpClient.newBuilder().build()
+        val url = URI.create("$host/api/v1/missions/$missionId")
+
+        logger.info("Sending GET request for Env mission id=$missionId. URL: $url")
+        val request = HttpRequest
+            .newBuilder()
+            .uri(url)
+            .build()
+
+        return try {
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+
+            logger.info("Response received for Env mission id=$missionId. Status code: ${response.statusCode()}. URL: $url")
+            logger.debug(
+                "Raw response body for Env mission id=$missionId: ${response.body()}",
+                response.body().toString()
+            )
+
+            val contentType = response.headers().firstValue("Content-Type").orElse("")
+            if (!contentType.startsWith("application/json")) {
+                logger.error("Unexpected content type: $contentType for Env mission id=$missionId")
+                throw Exception("Unexpected content type: $contentType for Env mission id=$missionId")
+            }
+
+            when (response.statusCode()) {
+                200 -> {
+                    try {
+                        mapper.registerModule(JtsModule())
+                        val missionDataOutput: MissionDataOutput = mapper.readValue(response.body())
+                        logger.info("Successfully deserialized Env mission data for id=$missionId")
+                        missionDataOutput.toMissionEntity()
+                    } catch (e: Exception) {
+                        logger.error("Failed to deserialize Env mission data for id=$missionId", e)
+                        null
+                    }
+                }
+
+                404 -> {
+                    logger.warn("Env Mission with id=$missionId not found")
+                    null
+                }
+
+                else -> {
+                    logger.error("Unexpected status code ${response.statusCode()} for Env mission id=$missionId")
+                    throw Exception("Unexpected status code ${response.statusCode()} for Env mission id=$missionId")
+                }
+            }
+        } catch (e: Exception) {
+            logger.error("Error while fetching Env mission with id=$missionId", e)
+            throw Exception("Error while fetching Env mission with id=$missionId", e)
+        }
+    }
 
 
     override fun findAllMissions(
@@ -37,7 +101,7 @@ class APIEnvMissionRepository(
         controlUnits: List<Int>?
     ): List<MissionEntity>? {
 
-        val uriBuilder = StringBuilder("https://monitorenv.din.developpement-durable.gouv.fr/api/v1/missions")
+        val uriBuilder = StringBuilder("$host/api/v1/missions")
 
         // Append query parameters
         uriBuilder.append("?")
@@ -84,7 +148,7 @@ class APIEnvMissionRepository(
         val client: HttpClient = HttpClient.newBuilder().build()
         val request = HttpRequest.newBuilder()
             .uri(uri)
-            .build();
+            .build()
 
         logger.info("Fetching missions at URL: $uri")
 
@@ -104,13 +168,14 @@ class APIEnvMissionRepository(
                 logger.info("Transformed MissionEntity: $missionEntity")
             }
 
-            val missions = missionEntityList.map {
-                MissionEntity(
-                    envMission = ExtendedEnvMissionEntity.fromEnvMission(
-                        it
-                    )
-                )
-            }
+            val missions = missionEntityList
+//                .map {
+//                MissionEntity(
+//                    envMission = ExtendedEnvMissionEntity.fromEnvMission(
+//                        it
+//                    )
+//                )
+//            }
 
             return missions
         } else {
@@ -121,4 +186,52 @@ class APIEnvMissionRepository(
 
     }
 
+    override fun findAllControlPlans(): ControlPlansEntity? {
+        val url = "$host/api/v1/control_plans"
+        logger.info("Starting to fetch ControlsPlans from MonitorEnv at $url")
+        return try {
+            val gson = Gson()
+            val client: HttpClient = HttpClient.newBuilder().build()
+            val request = HttpRequest.newBuilder().uri(
+                URI.create(url)
+            ).build()
+
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+            logger.info("Response received for Env ControlPlans. Status code: ${response.statusCode()}. URL: $url")
+
+            val output: ControlPlanDataOutput = gson.fromJson(response.body(), ControlPlanDataOutput::class.java)
+            output.toControlPlansEntity()
+        } catch (ex: Exception) {
+            logger.error("Failed to fetch ControlsPlans from MonitorEnv at $url", ex)
+            null
+        }
+    }
+
+    override fun patchMission(missionId: Int, mission: PatchMissionInput): MissionEntity? {
+        val url = "$host/api/v2/missions/$missionId";
+        logger.info("Sending PATCH request for Env mission id=$missionId. URL: $url")
+        return try {
+            val gson = Gson();
+            val client = clientFactory.create();
+            val request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(url))
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(gson.toJson(mission)))
+                .header("Content-Type", "application/json")
+                .build();
+
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            logger.debug("Response received, missionId: ${missionId}, Status code: ${response.statusCode()}");
+
+            val body = response.body()
+            logger.debug(body)
+
+            mapper.registerModule(JtsModule());
+            val missionDataOutput: MissionDataOutput? = mapper.readValue(body);
+            missionDataOutput?.toMissionEntity();
+        } catch (e: Exception) {
+            logger.error("Failed to PATCH request for Env mission id=$missionId. URL: $url", e);
+            null;
+        }
+    }
 }

@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.user
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.databind.ObjectMapper
+import fr.gouv.dgampa.rapportnav.domain.entities.user.RoleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import jakarta.persistence.*
 
@@ -28,6 +29,9 @@ class UserModel(
 
     @Column(name = "service_id")
     var serviceId: Int? = null,
+
+    @Column(name = "roles")
+    var roles:  List<RoleTypeEnum>
 ) {
 
 
@@ -38,6 +42,7 @@ class UserModel(
         firstName = firstName,
         lastName = lastName,
         password = password,
+        roles = roles
     )
 
     companion object {
@@ -48,6 +53,7 @@ class UserModel(
             lastName = user.lastName,
             email = user.email,
             password = user.password,
+            roles = user.roles
         )
     }
 }

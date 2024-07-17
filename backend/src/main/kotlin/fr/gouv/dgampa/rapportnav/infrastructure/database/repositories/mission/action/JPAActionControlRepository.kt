@@ -2,6 +2,9 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.a
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControlEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionControlRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.ActionControlModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBActionControlRepository
@@ -39,7 +42,16 @@ class JPAActionControlRepository(
             val controlActionModel = ActionControlModel.fromActionControl(controlAction, mapper)
             dbActionModelRepository.save(controlActionModel)
         } catch (e: InvalidDataAccessApiUsageException) {
-            throw Exception("Error saving or updating action control", e)
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,
+                message = "Unable to save ActionControl='${controlAction.id}'",
+                e,
+            )
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Unable to prepare data before saving ActionControl='${controlAction.id}'",
+                originalException = e
+            )
         }
     }
 

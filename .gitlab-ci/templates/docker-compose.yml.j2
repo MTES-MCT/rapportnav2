@@ -1,0 +1,43 @@
+version: "3.7"
+
+services:
+  app:
+    image: "{{ docker_image_path }}"
+    container_name: rapportnav_backend
+    environment:
+      - ENV_DB_URL=jdbc:postgresql://db:5432/{{ rapportnav_psql_db }}?user={{ rapportnav_psql_user }}&password={{ rapportnav_psql_pwd }}
+      - SPRING_PROFILES_ACTIVE=prod
+    ports:
+      - 80:80
+    # volumes:
+    #  - "${RAPPORTNAV_LOGS_FOLDER}:/home/rapportnav/logs"
+    depends_on:
+      - db
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
+
+  db:
+    image: "{{ nexus_proxy }}/postgres:15.7-alpine"
+    volumes:
+      - db:/var/lib/postgresql/data
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: {{ rapportnav_psql_db }}
+      POSTGRES_USER: {{ rapportnav_psql_user }}
+      POSTGRES_PASSWORD: {{ rapportnav_psql_pwd }}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 1s
+      timeout: 1s
+      retries: 30
+
+volumes:
+  db:
+    name: rapportnavdb
+
+

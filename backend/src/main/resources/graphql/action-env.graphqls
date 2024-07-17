@@ -1,0 +1,27 @@
+type EnvActionData {
+  id: String!
+  actionStartDateTimeUtc: String!
+  actionEndDateTimeUtc: String!
+  geom: String
+  facade: String
+  department: String
+  observations: String
+  infractions: [InfractionByTarget]
+  actionNumberOfControls: Int
+  actionTargetType: ActionTargetTypeEnum
+  vehicleType: VehicleTypeEnum
+  availableControlTypesForInfraction: [ControlType]
+  controlsToComplete: [ControlType]
+  controlAdministrative: ControlAdministrative
+  controlGensDeMer: ControlGensDeMer
+  controlNavigation: ControlNavigation
+  controlSecurity: ControlSecurity
+  formattedControlPlans: FormattedEnvActionControlPlan
+}
+
+type FormattedEnvActionControlPlan {
+  themes: [String]
+  subThemes: [String]
+  tags: [String]
+}
+

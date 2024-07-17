@@ -12,7 +12,9 @@ type MissionExport {
 
 type Mutation {
   updateMission(mission: MissionInput!): Mission!
+  patchMissionEnv(mission: MissionEnvInput!): Mission!
   updateMissionGeneralInfo(info: MissionGeneralInfoInput!): MissionGeneralInfo!
+  updateMissionService(service: MissionServiceInput!): Service!
 }
 
 input MissionInput {
@@ -23,13 +25,41 @@ input MissionInput {
 
 type Mission {
   id: ID!
-  isClosed: Boolean!
   missionSource: String!
   startDateTimeUtc: String!
   endDateTimeUtc: String
   actions: [Action]
   generalInfo: MissionGeneralInfo
   openBy: String
+  status: MissionStatusEnum
+  completenessForStats: CompletenessForStats
+  services: [Service]
+  observationsByUnit: String
+}
+
+enum MissionSourceEnum {
+  MONITORENV,
+  MONITORFISH,
+  POSEIDON_CACEM,
+  POSEIDON_CNSP,
+  RAPPORTNAV,
+}
+
+enum MissionStatusEnum {
+  UPCOMING,
+  ENDED,
+  UNAVAILABLE,
+  IN_PROGRESS
+}
+
+enum CompletenessForStatsStatusEnum {
+  COMPLETE,
+  INCOMPLETE,
+}
+
+type CompletenessForStats {
+  status: CompletenessForStatsStatusEnum
+  sources: [MissionSourceEnum]
 }
 
 type MissionGeneralInfo {
@@ -37,12 +67,23 @@ type MissionGeneralInfo {
   distanceInNauticalMiles: Float
   consumedGOInLiters: Float
   consumedFuelInLiters: Float
+  serviceId: Int
 }
 
 input MissionGeneralInfoInput {
   id: String
-  missionId: String!
+  missionId: ID!
   distanceInNauticalMiles: Float
   consumedGOInLiters: Float
   consumedFuelInLiters: Float
+}
+
+input MissionServiceInput {
+  missionId: Int
+  serviceId: Int
+}
+
+input MissionEnvInput {
+  missionId: ID!
+  observationsByUnit: String
 }

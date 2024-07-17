@@ -10,20 +10,20 @@ data class MissionEntity(
     val missionTypes: List<MissionTypeEnum>,
     val controlUnits: List<LegacyControlUnitEntity> = listOf(),
     val openBy: String? = null,
-    val closedBy: String? = null,
+    val completedBy: String? = null,
     val observationsCacem: String? = null,
     val observationsCnsp: String? = null,
     val facade: String? = null,
     val geom: MultiPolygon? = null,
     val startDateTimeUtc: ZonedDateTime,
     val endDateTimeUtc: ZonedDateTime? = null,
-    val envActions: List<EnvActionEntity>? = listOf(),
-    val isClosed: Boolean,
+    var envActions: List<EnvActionEntity>? = listOf(),
     val isDeleted: Boolean,
     val isGeometryComputedFromControls: Boolean,
     val missionSource: MissionSourceEnum,
     val hasMissionOrder: Boolean,
     val isUnderJdp: Boolean,
+    val observationsByUnit: String? = null
 )
 
 typealias EnvMission = MissionEntity
