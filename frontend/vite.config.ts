@@ -36,8 +36,10 @@ export default defineConfig({
   server: {
     host: true,
     proxy: {
-      '/api': 'http://localhost:80',
-      '/graphql': 'http://localhost:80'
+      // '/api': 'http://localhost:80',
+      // '/graphql': 'http://localhost:80'
+      '/api': 'http://backend:80',
+      '/graphql': 'http://backend:80'
     }
   }
 })

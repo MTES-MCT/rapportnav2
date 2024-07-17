@@ -37,25 +37,17 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
 
-#  metabase:
-#    image: metabase/metabase:latest
-#    ports:
-#      - "3000:3000"
-#    volumes:
-#      - metabase_data:/metabase-data
-#    environment:
-#      # - MB_DB_CONNECTION_URI="db:5432/rapportnavdb?user=postgres&password=postgres"
-#      - MB_DB_CONNECTION_URI=postgres://db:5432/rapportnavdb?currentSchema=metabase
-#      - MB_DB_FILE=/metabase-data/metabase.db
-#      - MB_DB_TYPE=postgres
-#      # - MB_DB_DBNAME=rapportnavdb
-#      # - MB_DB_PORT=5432
-#      - MB_DB_USER=postgres
-#      - MB_DB_PASS=postgres
-#      # - MB_DB_HOST=db
-#    restart: always
-#    depends_on:
-#      - db
+  libreoffice:
+    image: lscr.io/linuxserver/libreoffice:latest
+    environment:
+      - CUSTOM_PORT=8001
+      - CUSTOM_HTTPS_PORT=8001
+      #      - PUID=1000  # Set the user id
+      #      - PGID=1000  # Set the group id
+      - TZ=Europe/Paris  # Set the timezone
+    ports:
+      - "8100:8100"
+    command: /usr/bin/libreoffice --headless --accept="socket,host=0.0.0.0,port=8100;urp;StarOffice.ServiceManager" --norestore --nofirststartwizard
 
 volumes:
   db:
