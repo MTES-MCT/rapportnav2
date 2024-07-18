@@ -34,6 +34,10 @@ class ActionAntiPollutionEntity(
     val pollutionObservedByAuthorizedAgent: Boolean? = null,
 
     val diversionCarriedOut: Boolean? = null,
+
+    val isSimpleBrewingOperationDone: Boolean? = null,
+
+    val isAntiPolDeviceDeployed: Boolean? = null,
 ) : BaseAction {
 
     constructor(
