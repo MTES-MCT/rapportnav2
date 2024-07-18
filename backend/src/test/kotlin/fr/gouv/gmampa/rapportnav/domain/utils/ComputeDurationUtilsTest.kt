@@ -25,7 +25,7 @@ class ComputeDurationUtilsTest {
 
     @Test
     fun `Should compute duration in seconds from 2 dates`() {
-        val duration = 3600494;
+        val duration = 189000;
         val startDateUtc = ZonedDateTime.parse("2024-01-09T10:00:00Z");
         val endDateUtc = ZonedDateTime.parse("2024-01-11T14:30:00Z");
         assertThat(ComputeDurationUtils.durationInSeconds(startDateUtc, endDateUtc)).isEqualTo(duration);
