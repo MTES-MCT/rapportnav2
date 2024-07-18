@@ -1,46 +1,58 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VehicleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
+import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
 
 data class AEMSovereignProtect(
-    val nbrOfHourInSea: Int, // 7.1
-    val nbrOfReconizedVessel: Int, // 7.3
-    val nbrOfControlledVessel: Int, // 7.4
+    val nbrOfHourInSea: Int? = 0, // 7.1
+    val nbrOfReconizedVessel: Int? = 0, // 7.3
+    val nbrOfControlledVessel: Int? = 0, // 7.4
 ) {
     constructor(
-        anchoredActions: List<ActionStatusEntity?>,
-        navigationActions: List<ActionStatusEntity?>
+        navActions: List<NavActionEntity>,
+        envActions: List<ExtendedEnvActionEntity?>,
+        fishActions: List<ExtendedFishActionEntity?>
     ) : this(
-        nbrOfHourInSea = AEMSovereignProtect.getNbrOfHourInSea(anchoredActions, navigationActions),
-        nbrOfReconizedVessel = AEMSovereignProtect.getNbrOfReconizedVessel(anchoredActions, navigationActions),
-        nbrOfControlledVessel = AEMSovereignProtect.getNbrOfControlledVessel(anchoredActions, navigationActions),
+        nbrOfHourInSea = getNbrHourInSea(navActions),
+        nbrOfReconizedVessel = getNbOfRecognizedVessel(navActions),
+        nbrOfControlledVessel = getNbrOfControlledVessel(navActions, envActions, fishActions)
     ) {
     }
 
     companion object {
-        fun getNbrOfHourInSea(
-            anchoredActions: List<ActionStatusEntity?>,
-            navigationActions: List<ActionStatusEntity?>
+        fun getNbrHourInSea(
+            navActions: List<NavActionEntity>
         ): Int {
-            //startDateTimeUtc = actionRescue.startDateTimeUtc,
-            //endDateTimeUtc = actionRescue.endDateTimeUtc
-            return 0;
+            val statusActions = anchoredActionEntities(navActions) + navigationActionEntities(navActions);
+            return AEMUtils.getDurationInHours(statusActions).toInt();
         }
 
-        fun getNbrOfReconizedVessel(
-            anchoredActions: List<ActionStatusEntity?>,
-            navigationActions: List<ActionStatusEntity?>
+        fun getNbOfRecognizedVessel(
+            navActions: List<NavActionEntity>
         ): Int {
-            //Reduce Action with SUM OF actionRescues.numberPersonsRescued
             return 0;
         }
 
         fun getNbrOfControlledVessel(
-            anchoredActions: List<ActionStatusEntity?>,
-            navigationActions: List<ActionStatusEntity?>
+            navActions: List<NavActionEntity>,
+            envActions: List<ExtendedEnvActionEntity?>,
+            fishActions: List<ExtendedFishActionEntity?>
         ): Int {
-            //Reduce Action with SUM OF actionRescues.numberPersonsRescued
-            return 0;
+            return 0.plus(fishActions.size).plus(navActions.filter { it.controlAction != null }.size)
+                .plus(envActions.filter { it?.controlAction?.action?.vehicleType == VehicleTypeEnum.VESSEL }.size);
+        }
+
+        private fun navigationActionEntities(navActions: List<NavActionEntity>): List<ActionStatusEntity?> {
+            return navActions.filter { it.statusAction != null }.map { action -> action.statusAction }
+                .filter { it?.status == ActionStatusType.NAVIGATING }
+        }
+
+        private fun anchoredActionEntities(navActions: List<NavActionEntity>): List<ActionStatusEntity?> {
+            return navActions.filter { it.statusAction != null }.map { action -> action.statusAction }
+                .filter { it?.status == ActionStatusType.ANCHORED };
         }
     }
 }
