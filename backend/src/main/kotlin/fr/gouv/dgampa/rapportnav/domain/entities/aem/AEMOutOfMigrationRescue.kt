@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEnt
 import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 
 data class AEMOutOfMigrationRescue(
-    val nbrOfHourInSea: Int? = 0, //1.1.1
+    val nbrOfHourAtSea: Int? = 0, //1.1.1
     val nbrOfRescuedOperation: Int? = 0, //1.1.3.
     val nbrPersonsRescued: Int? = 0, //1.1.4
 ) {
@@ -14,7 +14,7 @@ data class AEMOutOfMigrationRescue(
     ) : this(
         nbrOfRescuedOperation = actionRescueEntities(navActions).size,
         nbrPersonsRescued = getNbrPersonsRescued(actionRescueEntities(navActions)),
-        nbrOfHourInSea = AEMUtils.getDurationInHours(actionRescueEntities(navActions)).toInt(),
+        nbrOfHourAtSea = AEMUtils.getDurationInHours(actionRescueEntities(navActions)).toInt(),
     ) {
     }
 

@@ -15,7 +15,7 @@ class AEMIllegalImmigrationTest {
 
     @Test
     fun `Should init illegal immigration with different values`() {
-        val nbrOfHourInSea = 3;
+        val nbrOfHourAtSea = 3;
         val nbrOfInterceptedVessel = 5;
         val nbrOfInterceptedMigrant = 14;
         val nbrOfSuspectedSmuggler = 2;
@@ -23,7 +23,7 @@ class AEMIllegalImmigrationTest {
         val illegalImmigration = AEMIllegalImmigration(navActions = actions);
 
         assertThat(illegalImmigration).isNotNull();
-        assertThat(illegalImmigration.nbrOfHourInSea).isEqualTo(nbrOfHourInSea);
+        assertThat(illegalImmigration.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea);
         assertThat(illegalImmigration.nbrOfInterceptedVessel).isEqualTo(nbrOfInterceptedVessel);
         assertThat(illegalImmigration.nbrOfInterceptedMigrant).isEqualTo(nbrOfInterceptedMigrant);
         assertThat(illegalImmigration.nbrOfSuspectedSmuggler).isEqualTo(nbrOfSuspectedSmuggler);

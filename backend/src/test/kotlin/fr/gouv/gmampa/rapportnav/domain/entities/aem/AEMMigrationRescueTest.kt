@@ -16,7 +16,7 @@ class AEMMigrationRescueTest {
 
     @Test
     fun `Should init migration rescue with different values`() {
-        val nbrOfHourInSea = 2;
+        val nbrOfHourAtSea = 2;
         val nbrOfOperation = 1;
         val nbrPersonsRescued = 2;
         val nbrAssistedVesselsReturningToShore = 1;
@@ -26,7 +26,7 @@ class AEMMigrationRescueTest {
         val migrationRescue = AEMMigrationRescue(navActions = actions);
 
         assertThat(migrationRescue).isNotNull();
-        assertThat(migrationRescue.nbrOfHourInSea).isEqualTo(nbrOfHourInSea);
+        assertThat(migrationRescue.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea);
         assertThat(migrationRescue.nbrPersonsRescued).isEqualTo(nbrPersonsRescued);
         assertThat(migrationRescue.nbrOfOperation).isEqualTo(nbrOfOperation);
         assertThat(migrationRescue.nbrAssistedVesselsReturningToShore).isEqualTo(nbrAssistedVesselsReturningToShore);

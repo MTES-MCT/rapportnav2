@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
 
 data class AEMIllegalFish(
-    val nbrOfHourInSea: Int? = 0, //4.3.1
+    val nbrOfHourAtSea: Int? = 0, //4.3.1
     val nbrOfPolFishAction: Int? = 0, // 4.3.3
     val nbrOfTargetedVessel: Int? = 0, // 4.3.4
     val nbrOfInfraction: Int? = 0, // 4.3.5
@@ -16,7 +16,7 @@ data class AEMIllegalFish(
     constructor(
         fishActions: List<ExtendedFishActionEntity?>
     ) : this(
-        nbrOfHourInSea = getNbrOfHourInSea(fishActions),
+        nbrOfHourAtSea = getNbrOfHourAtSea(fishActions),
         nbrOfPolFishAction = fishActions.size,
         nbrOfTargetedVessel = fishActions.size,
         nbrOfInfraction = getNbrOfInfraction(fishActions),
@@ -27,7 +27,7 @@ data class AEMIllegalFish(
     }
 
     companion object {
-        fun getNbrOfHourInSea(fishActions: List<ExtendedFishActionEntity?>): Int {
+        fun getNbrOfHourAtSea(fishActions: List<ExtendedFishActionEntity?>): Int {
             return fishActions.fold(0.0) { acc, fishAction ->
                 acc.plus(
                     ComputeDurationUtils.durationInHours(

@@ -15,7 +15,7 @@ class AEMNotPollutionControlSurveillanceTest {
 
     @Test
     fun `Should init not pollution control surveillance with different values`() {
-        val nbrOfHourInSea = 7;
+        val nbrOfHourAtSea = 7;
         val nbrOfInfraction = 3;
         val nbrOfInfractionWithNotice = 2;
 
@@ -23,7 +23,7 @@ class AEMNotPollutionControlSurveillanceTest {
         val notPollution = AEMNotPollutionControlSurveillance(envActions = actions);
 
         assertThat(notPollution).isNotNull();
-        assertThat(notPollution.nbrOfHourInSea).isEqualTo(nbrOfHourInSea);
+        assertThat(notPollution.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea);
         assertThat(notPollution.nbrOfInfraction).isEqualTo(nbrOfInfraction);
         assertThat(notPollution.nbrOfInfractionWithNotice).isEqualTo(nbrOfInfractionWithNotice);
     }

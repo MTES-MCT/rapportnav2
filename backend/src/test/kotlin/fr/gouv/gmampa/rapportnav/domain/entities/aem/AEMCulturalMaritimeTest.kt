@@ -23,8 +23,8 @@ class AEMCulturalMaritimeTest {
         val culturalMaritime = AEMCulturalMaritime(envActions = actions);
 
         assertThat(culturalMaritime).isNotNull();
-        assertThat(culturalMaritime.nbrOfHourInSea).isNotNull()
-        assertThat(culturalMaritime.nbrOfHourInSea).isEqualTo(3);
+        assertThat(culturalMaritime.nbrOfHourAtSea).isNotNull()
+        assertThat(culturalMaritime.nbrOfHourAtSea).isEqualTo(3);
         assertThat(culturalMaritime.nbrOfBCMPoliceOperation).isEqualTo(2);
         assertThat(culturalMaritime.nbrOfScientificOperation).isEqualTo(1);
     }

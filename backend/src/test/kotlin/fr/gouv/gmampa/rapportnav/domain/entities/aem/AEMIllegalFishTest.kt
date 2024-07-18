@@ -23,7 +23,7 @@ class AEMIllegalFishTest {
         assertThat(illegalImmigration).isNotNull();
         assertThat(illegalImmigration.quantityOfFish).isEqualTo(0);
         assertThat(illegalImmigration.nbrOfInfraction).isEqualTo(8);
-        assertThat(illegalImmigration.nbrOfHourInSea).isEqualTo(3);
+        assertThat(illegalImmigration.nbrOfHourAtSea).isEqualTo(3);
         assertThat(illegalImmigration.nbrOfPolFishAction).isEqualTo(2);
         assertThat(illegalImmigration.nbrOfInfractionWithPV).isEqualTo(4);
     }

@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
 
 data class AEMNotPollutionControlSurveillance(
-    val nbrOfHourInSea: Int? = 0, //4.1.1
+    val nbrOfHourAtSea: Int? = 0, //4.1.1
     val nbrOfAction: Int? = 0, // 4.1.3
     val nbrOfInfraction: Int? = 0, // 4.1.4
     val nbrOfInfractionWithNotice: Int? = 0 // 4.1.5
@@ -14,7 +14,7 @@ data class AEMNotPollutionControlSurveillance(
     constructor(
         envActions: List<ExtendedEnvActionEntity?>
     ) : this(
-        nbrOfHourInSea = AEMUtils.getEnvDurationInHours(notPollutionActionEntities(envActions)).toInt(),
+        nbrOfHourAtSea = AEMUtils.getEnvDurationInHours(notPollutionActionEntities(envActions)).toInt(),
         nbrOfAction = notPollutionActionEntities(envActions).size,
         nbrOfInfraction = getNbrOfInfraction(notPollutionActionEntities(envActions)),
         nbrOfInfractionWithNotice = getNbrOfInfractionWithNotice(notPollutionActionEntities(envActions))

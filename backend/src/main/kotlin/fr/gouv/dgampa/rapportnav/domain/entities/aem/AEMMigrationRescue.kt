@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEnt
 import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 
 data class AEMMigrationRescue(
-    val nbrOfHourInSea: Int? = 0, // 1.2.1
+    val nbrOfHourAtSea: Int? = 0, // 1.2.1
     val nbrOfOperation: Int? = 0,// 1.2.3
     val nbrOfVesselsTrackedWithoutIntervention: Int? = 0, //1.2.4
     val nbrAssistedVesselsReturningToShore: Int? = 0, //1.2.5
@@ -16,7 +16,7 @@ data class AEMMigrationRescue(
         navActions: List<NavActionEntity>
     ) : this(
         nbrOfRescuedOperation = actionRescueEntities(navActions).size,
-        nbrOfHourInSea = AEMUtils.getDurationInHours(actionRescueEntities(navActions)).toInt(),
+        nbrOfHourAtSea = AEMUtils.getDurationInHours(actionRescueEntities(navActions)).toInt(),
         nbrPersonsRescued = getNbrPersonsRescued(actionRescueEntities(navActions)),
         nbrOfOperation = actionRescueEntities(navActions).size, //TODO: Define correctly what that means
         nbrAssistedVesselsReturningToShore = getAssistedVesselsReturningToShore(actionRescueEntities(navActions)),

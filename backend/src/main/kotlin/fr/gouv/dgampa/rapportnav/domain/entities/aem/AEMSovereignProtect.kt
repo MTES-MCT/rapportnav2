@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
 
 data class AEMSovereignProtect(
-    val nbrOfHourInSea: Int? = 0, // 7.1
+    val nbrOfHourAtSea: Int? = 0, // 7.1
     val nbrOfReconizedVessel: Int? = 0, // 7.3
     val nbrOfControlledVessel: Int? = 0, // 7.4
 ) {
@@ -16,14 +16,14 @@ data class AEMSovereignProtect(
         envActions: List<ExtendedEnvActionEntity?>,
         fishActions: List<ExtendedFishActionEntity?>
     ) : this(
-        nbrOfHourInSea = getNbrHourInSea(navActions),
+        nbrOfHourAtSea = getNbrHourAtSea(navActions),
         nbrOfReconizedVessel = getNbOfRecognizedVessel(navActions),
         nbrOfControlledVessel = getNbrOfControlledVessel(navActions, envActions, fishActions)
     ) {
     }
 
     companion object {
-        fun getNbrHourInSea(
+        fun getNbrHourAtSea(
             navActions: List<NavActionEntity>
         ): Int {
             val statusActions = anchoredActionEntities(navActions) + navigationActionEntities(navActions);

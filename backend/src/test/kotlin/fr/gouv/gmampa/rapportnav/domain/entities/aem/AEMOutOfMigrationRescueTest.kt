@@ -16,7 +16,7 @@ class AEMOutOfMigrationRescueTest {
 
     @Test
     fun `Should init out fo migration rescue with different values`() {
-        val nbrOfHourInSea = 3;
+        val nbrOfHourAtSea = 3;
         val nbrPersonsRescued = 4;
         val nbrOfRescuedOperation = 1;
 
@@ -24,7 +24,7 @@ class AEMOutOfMigrationRescueTest {
         val migrationRescue = AEMOutOfMigrationRescue(navActions = actions);
 
         assertThat(migrationRescue).isNotNull();
-        assertThat(migrationRescue.nbrOfHourInSea).isEqualTo(nbrOfHourInSea);
+        assertThat(migrationRescue.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea);
         assertThat(migrationRescue.nbrPersonsRescued).isEqualTo(nbrPersonsRescued);
         assertThat(migrationRescue.nbrOfRescuedOperation).isEqualTo(nbrOfRescuedOperation);
     }

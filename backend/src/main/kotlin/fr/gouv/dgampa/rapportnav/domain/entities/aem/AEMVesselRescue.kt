@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEnt
 import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 
 data class AEMVesselRescue(
-    val nbrOfHourInSea: Int? = 0, // 2.1
+    val nbrOfHourAtSea: Int? = 0, // 2.1
     val nbrOfRescuedOperation: Int? = 0,// 2.3
     val nbrOfNoticedVessel: Int? = 0, // 2.4
     val nbrOfTowedVessel: Int? = 0, //2.5
@@ -16,7 +16,7 @@ data class AEMVesselRescue(
         nbrOfRescuedOperation = actionRescueEntities(navActions).size,
         nbrOfTowedVessel = getNbrOfTowedVessel(actionRescueEntities(navActions)),
         nbrOfNoticedVessel = getNbrOfNoticedVessel(actionRescueEntities(navActions)),
-        nbrOfHourInSea = AEMUtils.getDurationInHours(actionRescueEntities(navActions)).toInt()
+        nbrOfHourAtSea = AEMUtils.getDurationInHours(actionRescueEntities(navActions)).toInt()
     ) {
     }
 

@@ -16,7 +16,7 @@ class AEMVesselRescueTest {
 
     @Test
     fun `Should init vessel rescue with different values`() {
-        val nbrOfHourInSea = 5;
+        val nbrOfHourAtSea = 5;
         val nbrOfTowedVessel = 2;
         val nbrOfNoticedVessel = 1;
         val nbrOfRescuedOperation = 2;
@@ -25,7 +25,7 @@ class AEMVesselRescueTest {
         val vesselREscue = AEMVesselRescue(navActions = actions);
 
         assertThat(vesselREscue).isNotNull();
-        assertThat(vesselREscue.nbrOfHourInSea).isEqualTo(nbrOfHourInSea);
+        assertThat(vesselREscue.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea);
         assertThat(vesselREscue.nbrOfTowedVessel).isEqualTo(nbrOfTowedVessel);
         assertThat(vesselREscue.nbrOfNoticedVessel).isEqualTo(nbrOfNoticedVessel);
         assertThat(vesselREscue.nbrOfRescuedOperation).isEqualTo(nbrOfRescuedOperation);

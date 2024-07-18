@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
 
 data class AEMPollutionControlSurveillance(
-    val nbrOfHourInSea: Int? = 0, //4.2.1
+    val nbrOfHourAtSea: Int? = 0, //4.2.1
     val nbrOfSimpleBrewingOperation: Int? = 0, // 4.2.3
     val nbrOfAntiPolDeviceDeployed: Int? = 0, // 4.2.4
     val nbrOfInfraction: Int? = 0, // 4.2.4
@@ -20,7 +20,7 @@ data class AEMPollutionControlSurveillance(
         navActions: List<NavActionEntity>,
         envActions: List<ExtendedEnvActionEntity?>
     ) : this(
-        nbrOfHourInSea = getNbrOfHourInSea(
+        nbrOfHourAtSea = getNbrOfHourAtSea(
             illicitRejectActionEntities(envActions),
             actionAntiPollutionEntities(navActions)
         ).toInt(),
@@ -40,7 +40,7 @@ data class AEMPollutionControlSurveillance(
     }
 
     companion object {
-        fun getNbrOfHourInSea(
+        fun getNbrOfHourAtSea(
             illicitRejectsActions: List<ExtendedEnvActionEntity?>,
             antiPollutionActions: List<ActionAntiPollutionEntity?>
         ): Double {

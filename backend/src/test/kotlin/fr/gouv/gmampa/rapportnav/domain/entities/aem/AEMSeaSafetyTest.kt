@@ -15,7 +15,7 @@ class AEMSeaSafetyTest {
 
     @Test
     fun `Should init Sea safety with different values`() {
-        val nbrOfHourInSea = 14;
+        val nbrOfHourAtSea = 14;
         val nbrOfHourPublicOrder = 5;
         val nbrOfPublicOrderOperation = 2;
 
@@ -23,7 +23,7 @@ class AEMSeaSafetyTest {
         val seaSafety = AEMSeaSafety(navActions = actions);
 
         assertThat(seaSafety).isNotNull();
-        assertThat(seaSafety.nbrOfHourInSea).isEqualTo(nbrOfHourInSea);
+        assertThat(seaSafety.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea);
         assertThat(seaSafety.nbrOfHourPublicOrder).isEqualTo(nbrOfHourPublicOrder);
         assertThat(seaSafety.nbrOfPublicOrderOperation).isEqualTo(nbrOfPublicOrderOperation);
     }

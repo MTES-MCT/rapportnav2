@@ -23,8 +23,8 @@ class AEMEnvTrafficTest {
         val envTraffic = AEMEnvTraffic(envActions = actions);
 
         assertThat(envTraffic).isNotNull();
-        assertThat(envTraffic.nbrOfHourInSea).isNotNull()
-        assertThat(envTraffic.nbrOfHourInSea).isEqualTo(2);
+        assertThat(envTraffic.nbrOfHourAtSea).isNotNull()
+        assertThat(envTraffic.nbrOfHourAtSea).isEqualTo(2);
         assertThat(envTraffic.nbrOfSeizure).isEqualTo(0);
         assertThat(envTraffic.nbrOfRedirectShip).isEqualTo(0);
     }
