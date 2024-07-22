@@ -12,6 +12,7 @@ import useIsMissionCompleteForStats from './use-is-mission-complete-for-stats.ts
 import styled from 'styled-components'
 import * as Sentry from '@sentry/react'
 import useLazyMissionExport from './export/use-lazy-mission-export.tsx'
+import useLazyMissionAEMExport from './export/use-lazy-mission-aem-export.tsx'
 
 interface MissionItemProps {
   mission: Mission
@@ -31,6 +32,7 @@ const ListItemWithHover = styled.div`
 const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => {
 
   const [getMissionReport] = useLazyMissionExport()
+  const [getMissionAEMReport] = useLazyMissionAEMExport()
   const [exportLoading, setExportLoading] = useState<boolean>(false)
 
   const [exportationCanBeDisplayed, setExportationCanBeDisplayed] = useState<boolean>(false)
@@ -70,9 +72,15 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
     }
   }
 
-  const exportMission = async (missionId) => {
+  const exportMission = async (missionId, isAEMExport: boolean = false) => {
     setExportLoading(true)
-    const { data, error, loading, called } = await getMissionReport({ variables: { missionId } })
+
+    let { data, error, loading, called } = await getMissionReport({ variables: { missionId } })
+
+
+    if (isAEMExport) {
+      let { data, error, loading, called } = await getMissionAEMReport({ variables: { missionId } })
+    }
 
     if (error) {
       setExportLoading(false)
@@ -167,6 +175,7 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
                 accent={Accent.PRIMARY}
                 size={Size.NORMAL}
                 role={'dl-mission-export'}
+                onClick={() => exportMission(mission.id, true)}
               >
                 Télécharger les tableaux
               </Button>
