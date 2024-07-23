@@ -10,6 +10,7 @@ object FishActionControlMock {
     fun create(
         missionId: Int = 1,
         actionDatetimeUtc: ZonedDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
+        actionEndDatetimeUtc: ZonedDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 13, 0), ZoneOffset.UTC),
         actionType: MissionActionType = MissionActionType.SEA_CONTROL,
         isDeleted: Boolean = false,
         hasSomeGearsSeized: Boolean = false,
@@ -23,11 +24,15 @@ object FishActionControlMock {
         speciesOnboard: List<SpeciesControl> = listOf(),
         speciesInfractions: List<SpeciesInfraction> = listOf(),
         completion: Completion = Completion.COMPLETED,
+        gearInfractions: List<GearInfraction> = listOf(),
+        logbookInfractions: List<LogbookInfraction> = listOf(),
+        otherInfractions: List<OtherInfraction> = listOf()
     ): MissionAction {
         return MissionAction(
             id = UUID.randomUUID().hashCode(),
             missionId = missionId,
             actionDatetimeUtc = actionDatetimeUtc,
+            actionEndDatetimeUtc = actionEndDatetimeUtc,
             actionType = actionType,
             portLocode = portLocode,
             portName = portName,
@@ -40,7 +45,10 @@ object FishActionControlMock {
             vesselName = vesselName,
             speciesOnboard = speciesOnboard,
             speciesInfractions = speciesInfractions,
-            completion = completion
+            completion = completion,
+            gearInfractions = gearInfractions,
+            logbookInfractions = logbookInfractions,
+            otherInfractions = otherInfractions
         )
     }
 }
