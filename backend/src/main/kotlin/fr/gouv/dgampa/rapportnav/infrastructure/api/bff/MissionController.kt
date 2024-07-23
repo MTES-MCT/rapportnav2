@@ -6,8 +6,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionAEMExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEM
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMission
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEM
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.AddOrUpdateMissionGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
@@ -149,8 +149,8 @@ class MissionController(
         return patchEnvMission.execute(mission)
     }
 
-    @MutationMapping
-    fun exportAEM(@Argument missionId: Int): MissionAEMExportEntity? {
+    @QueryMapping
+    fun missionAEMExport(@Argument missionId: Int): MissionAEMExportEntity? {
         return exportExcelFile.execute(missionId)
     }
 }
