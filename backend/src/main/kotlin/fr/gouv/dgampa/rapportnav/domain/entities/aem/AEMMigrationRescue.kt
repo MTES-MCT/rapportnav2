@@ -1,49 +1,46 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionRescueEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 
 data class AEMMigrationRescue(
-    val nbrOfHourInSea: Int, // 1.2.1
-    val nbrOfOperation: Int?,// 1.2.3
-    val nbrOfVesselsTrackedWithoutIntervention: Int, //1.2.4
-    val nbrAssistedVesselsReturningToShore: Int?, //1.2.5
-    val nbrPersonsRescued: Int?,
-    val nbrOfRescuedOperation: Int?,// 1.2.3
+    val nbrOfHourAtSea: Int? = 0, // 1.2.1
+    val nbrOfOperation: Int? = 0,// 1.2.3
+    val nbrOfVesselsTrackedWithoutIntervention: Int? = 0, //1.2.4
+    val nbrAssistedVesselsReturningToShore: Int? = 0, //1.2.5
+    val nbrOfRescuedOperation: Int? = 0, //1.2/6
+    val nbrPersonsRescued: Int? = 0,// 1.2.7
 ) {
     constructor(
-        actionRescues: List<ActionRescueEntity?>
+        navActions: List<NavActionEntity>
     ) : this(
-        nbrOfHourInSea = AEMMigrationRescue.getNbrOfHourInSea(actionRescues),
-        nbrPersonsRescued = AEMMigrationRescue.getNbrPersonsRescued(actionRescues),
-        nbrOfOperation = 0, //TODO: Define correctly what that means
-        nbrOfVesselsTrackedWithoutIntervention = AEMMigrationRescue.getNbrOfVesselsTrackedWithoutIntervention(
-            actionRescues
-        ),
-        nbrAssistedVesselsReturningToShore = AEMMigrationRescue.getAssistedVesselsReturningToShore(actionRescues),
-        nbrOfRescuedOperation = actionRescues.size,
+        nbrOfRescuedOperation = actionRescueEntities(navActions).size,
+        nbrOfHourAtSea = AEMUtils.getDurationInHours(actionRescueEntities(navActions)).toInt(),
+        nbrPersonsRescued = getNbrPersonsRescued(actionRescueEntities(navActions)),
+        nbrOfOperation = actionRescueEntities(navActions).size, //TODO: Define correctly what that means
+        nbrAssistedVesselsReturningToShore = getAssistedVesselsReturningToShore(actionRescueEntities(navActions)),
+        nbrOfVesselsTrackedWithoutIntervention = getNbrOfVesselsTrackedWithoutIntervention(actionRescueEntities(navActions))
+
     ) {
 
     }
-    companion object {
-        fun getNbrOfHourInSea(actionRescues: List<ActionRescueEntity?>): Int {
-            //startDateTimeUtc = actionRescue.startDateTimeUtc,
-            //endDateTimeUtc = actionRescue.endDateTimeUtc
-            return 0;
-        }
 
+    companion object {
         fun getNbrPersonsRescued(actionRescues: List<ActionRescueEntity?>): Int {
-            //Reduce Action with SUM OF actionRescues.numberPersonsRescued
-            return 0;
+            return actionRescues.fold(0) { acc, actionRescue -> acc.plus(actionRescue?.numberPersonsRescued!!) }
         }
 
         fun getNbrOfVesselsTrackedWithoutIntervention(actionRescues: List<ActionRescueEntity?>): Int {
-            //Reduce Action with SUM OF actionRescues.numberPersonsRescued
-            return 0;
+            return actionRescues.fold(0) { acc, actionRescue -> acc.plus(actionRescue?.nbOfVesselsTrackedWithoutIntervention!!) }
         }
 
         fun getAssistedVesselsReturningToShore(actionRescues: List<ActionRescueEntity?>): Int {
-            //Reduce Action with SUM OF actionRescues.numberPersonsRescued
-            return 0;
+            return actionRescues.fold(0) { acc, actionRescue -> acc.plus(actionRescue?.nbAssistedVesselsReturningToShore!!) }
+        }
+
+        private fun actionRescueEntities(navActions: List<NavActionEntity>): List<ActionRescueEntity?> {
+            return navActions.filter { it.rescueAction != null }.map { action -> action.rescueAction }.filter { it?.isMigrationRescue == true };
         }
     }
 }

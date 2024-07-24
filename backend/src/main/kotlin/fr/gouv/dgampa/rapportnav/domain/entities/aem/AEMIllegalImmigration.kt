@@ -1,45 +1,42 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionIllegalImmigrationEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 
 data class AEMIllegalImmigration(
-    val nbrOfHourInSea: Int, //3.4.1
-    val nbrOfInterceptedShip: Int, // 3.4.3
-    val nbrOfInterceptedMigrant: Int, // 3.4.4
-    val nbrOfAllegedTrafficker: Int // 3.4.4
+    val nbrOfHourAtSea: Int? = 0, //3.4.1
+    val nbrOfInterceptedVessel: Int? = 0, // 3.4.3
+    val nbrOfInterceptedMigrant: Int? = 0, // 3.4.4
+    val nbrOfSuspectedSmuggler: Int? = 0 // 3.4.4
 ) {
     constructor(
-        illegalActions: List<ActionIllegalImmigrationEntity?>
+        navActions: List<NavActionEntity>
     ) : this(
-        nbrOfHourInSea = AEMIllegalImmigration.getNbrOfHourInSea(illegalActions),
-        nbrOfInterceptedShip = AEMIllegalImmigration.getNbrOfInterceptedShip(illegalActions),
-        nbrOfInterceptedMigrant = AEMIllegalImmigration.getNbrOfInterceptedMigrant(illegalActions),
-        nbrOfAllegedTrafficker = AEMIllegalImmigration.getNbrOfAllegedTrafficker(illegalActions)
+        nbrOfHourAtSea = AEMUtils.getDurationInHours(actionIllegalImmigrationEntities(navActions)).toInt(),
+        nbrOfInterceptedVessel = getNbrOfInterceptedVessel(actionIllegalImmigrationEntities(navActions)),
+        nbrOfInterceptedMigrant = getNbrOfInterceptedMigrant(actionIllegalImmigrationEntities(navActions)),
+        nbrOfSuspectedSmuggler = getNbrOfSuspectedSmuggler(actionIllegalImmigrationEntities(navActions))
     ) {
 
     }
 
     companion object {
-        fun getNbrOfHourInSea(illegalActions: List<ActionIllegalImmigrationEntity?>): Int {
-            //startDateTimeUtc = actionRescue.startDateTimeUtc,
-            //endDateTimeUtc = actionRescue.endDateTimeUtc
-            return 0;
-        }
-
-        fun getNbrOfInterceptedShip(illegalActions: List<ActionIllegalImmigrationEntity?>): Int {
-            //Reduce Action with SUM OF actionRescues.numberPersonsRescued
-            return 0;
+        fun getNbrOfInterceptedVessel(illegalActions: List<ActionIllegalImmigrationEntity?>): Int {
+            return illegalActions.fold(0) { acc, illegalAction -> acc.plus(illegalAction?.nbOfInterceptedVessels?:0) }
         }
 
         fun getNbrOfInterceptedMigrant(illegalActions: List<ActionIllegalImmigrationEntity?>): Int {
-            //Reduce Action with SUM OF actionRescues.numberPersonsRescued
-            return 0;
+            return illegalActions.fold(0) { acc, illegalAction -> acc.plus(illegalAction?.nbOfInterceptedMigrants?:0) }
         }
 
-        fun getNbrOfAllegedTrafficker(illegalActions: List<ActionIllegalImmigrationEntity?>): Int {
-            //Reduce Action with SUM OF actionRescues.numberPersonsRescued
-            return 0;
+        fun getNbrOfSuspectedSmuggler(illegalActions: List<ActionIllegalImmigrationEntity?>): Int {
+            return illegalActions.fold(0) { acc, illegalAction -> acc.plus(illegalAction?.nbOfSuspectedSmugglers?:0) }
         }
 
+        private fun actionIllegalImmigrationEntities(navActions: List<NavActionEntity>): List<ActionIllegalImmigrationEntity?> {
+            return navActions.filter { it.illegalImmigrationAction != null }
+                .map { action -> action.illegalImmigrationAction };
+        }
     }
 }

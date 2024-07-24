@@ -1,37 +1,43 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
+import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 
-data class AEMCulturalMaritime (
-    val nbrOfHourInSea: Int, //4.4.1
-    val nbrOfScientificOperation: Int, // 4.4.2
-    val nbrOfBCMPoliceOperation: Int, // 4.4.3
+data class AEMCulturalMaritime(
+    val nbrOfHourAtSea: Int = 0, //4.4.1
+    val nbrOfScientificOperation: Int = 0, // 4.4.2
+    val nbrOfBCMPoliceOperation: Int = 0, // 4.4.3
 ) {
     constructor(
         envActions: List<ExtendedEnvActionEntity?>
     ) : this(
-        nbrOfHourInSea = AEMCulturalMaritime.getNbrOfHourInSea(envActions),
-        nbrOfScientificOperation = AEMCulturalMaritime.getNbrOfScientificOperation(envActions),
-        nbrOfBCMPoliceOperation = AEMCulturalMaritime.getNbrOfBCMPoliceOperation(envActions),
-    ) {
-    }
+        nbrOfScientificOperation = scientificCampaignActionEntities(envActions).size,
+        nbrOfBCMPoliceOperation = culturalMaritimeActionEntities(envActions).size,
+        nbrOfHourAtSea = AEMUtils.getEnvDurationInHours(culturalMaritimeActionEntities(envActions)).toInt(),
+    )
+
     companion object {
-        fun getNbrOfHourInSea(envActions: List<ExtendedEnvActionEntity?>): Int {
-            //startDateTimeUtc = actionRescue.startDateTimeUtc,
-            //endDateTimeUtc = actionRescue.endDateTimeUtc
-            return 0;
+        val scientificCampaignControlPlanSubThemeIds = listOf(165);
+        val culturalMaritimeWellBeingControlPlanThemeIds = listOf(104);
+        private fun culturalMaritimeActionEntities(envActions: List<ExtendedEnvActionEntity?>): List<ExtendedEnvActionEntity?> {
+
+            return envActions.filter { action ->
+                action?.controlAction?.action?.controlPlans?.map { c -> c.themeId }
+                    ?.containsAll(culturalMaritimeWellBeingControlPlanThemeIds) == true ||
+                    action?.surveillanceAction?.action?.controlPlans?.map { c -> c.themeId }
+                        ?.containsAll(culturalMaritimeWellBeingControlPlanThemeIds) == true
+            }
         }
 
-        fun getNbrOfScientificOperation(envActions: List<ExtendedEnvActionEntity?>): Int {
-            //Reduce Action with SUM OF actionRescues.numberPersonsRescued
-            return 0;
-        }
+        private fun scientificCampaignActionEntities(envActions: List<ExtendedEnvActionEntity?>): List<ExtendedEnvActionEntity?> {
 
-        fun getNbrOfBCMPoliceOperation(envActions: List<ExtendedEnvActionEntity?>): Int {
-            //Reduce Action with SUM OF actionRescues.numberPersonsRescued
-            return 0;
+            return envActions.filter { action ->
+                action?.controlAction?.action?.controlPlans?.flatMap { it.subThemeIds!! }
+                    ?.containsAll(scientificCampaignControlPlanSubThemeIds) == true ||
+                    action?.surveillanceAction?.action?.controlPlans?.flatMap { it.subThemeIds!! }
+                        ?.containsAll(scientificCampaignControlPlanSubThemeIds) == true
+            }
         }
-
     }
 }
 

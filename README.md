@@ -48,6 +48,9 @@ The app is fully dockerized for local development. Run the command `make docker-
 - frontend is available at http://localhost:5173/
 - backend is available at http://localhost:80/
 
+If you have an Apple chipset don't forget to add the following line in your .bashrc:
+`export DOCKER_DEFAULT_PLATFORM=linux/amd64`
+
 ## Security and Vulnerabilities analysis
 
 The following checks are performed through Github Actions:
