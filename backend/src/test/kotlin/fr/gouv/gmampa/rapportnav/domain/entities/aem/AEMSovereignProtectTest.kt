@@ -21,7 +21,7 @@ class AEMSovereignProtectTest {
     @Test
     fun `Should init sovereign protect with different values`() {
         val nbrOfHourAtSea = 5;
-        val nbrOfReconizedVessel = 0;
+        val nbrOfRecognizedVessel = 0;
         val nbrOfControlledVessel = 4;
 
         val navActions = navActionEntities();
@@ -32,7 +32,7 @@ class AEMSovereignProtectTest {
 
         assertThat(sovereign).isNotNull();
         assertThat(sovereign.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea);
-        assertThat(sovereign.nbrOfReconizedVessel).isEqualTo(nbrOfReconizedVessel);
+        assertThat(sovereign.nbrOfRecognizedVessel).isEqualTo(nbrOfRecognizedVessel);
         assertThat(sovereign.nbrOfControlledVessel).isEqualTo(nbrOfControlledVessel);
     }
 
