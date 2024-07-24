@@ -46,6 +46,7 @@ export type MissionGeneralInfo = {
   consumedGOInLiters?: number
   consumedFuelInLiters?: number
   serviceId?: number
+  nbrOfRecognizedVessel?: number
 }
 
 export type MissionExport = {
