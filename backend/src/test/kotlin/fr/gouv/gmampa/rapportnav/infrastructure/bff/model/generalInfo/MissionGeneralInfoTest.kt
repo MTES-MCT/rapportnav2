@@ -1,21 +1,18 @@
-package fr.gouv.gmampa.rapportnav.infrastructure.database.model.mission.generalinfo
+package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.generalInfo
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.generalInfo.MissionGeneralInfo
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @ExtendWith(SpringExtension::class)
-@SpringBootTest(classes = [MissionGeneralInfoModel::class])
-class MissionGeneralInfoModelTest {
-
+class MissionGeneralInfoTest {
     @Test
     fun `execute should retrieve mission general info entity`() {
         val generalInfoEntity =
-            MissionGeneralInfoModel(
+            MissionGeneralInfo(
                 id = 1,
                 missionId = 1,
                 serviceId = 3,
@@ -36,7 +33,7 @@ class MissionGeneralInfoModelTest {
     }
 
     @Test
-    fun `execute should retrieve mission general modal from entity`() {
+    fun `execute should retrieve mission general from entity`() {
         val generalInfoEntity = MissionGeneralInfoEntity(
             id = 1,
             missionId = 1,
@@ -46,14 +43,14 @@ class MissionGeneralInfoModelTest {
             distanceInNauticalMiles = 1.9f,
             nbrOfRecognizedVessel = 9
         );
-        val generalInfoModel = MissionGeneralInfoModel.fromMissionGeneralInfoEntity(generalInfoEntity);
-        assertThat(generalInfoModel).isNotNull();
-        assertThat(generalInfoModel.id).isEqualTo(generalInfoEntity.id);
-        assertThat(generalInfoModel.missionId).isEqualTo(generalInfoEntity.missionId);
-        assertThat(generalInfoModel.serviceId).isEqualTo(generalInfoEntity.serviceId);
-        assertThat(generalInfoModel.consumedGOInLiters).isEqualTo(generalInfoEntity.consumedGOInLiters);
-        assertThat(generalInfoModel.consumedFuelInLiters).isEqualTo(generalInfoEntity.consumedFuelInLiters);
-        assertThat(generalInfoModel.distanceInNauticalMiles).isEqualTo(generalInfoEntity.distanceInNauticalMiles);
-        assertThat(generalInfoModel.nbrOfRecognizedVessel).isEqualTo(generalInfoEntity.nbrOfRecognizedVessel);
+        val generalInfo = MissionGeneralInfo.fromMissionGeneralInfoEntity(generalInfoEntity);
+        assertThat(generalInfo).isNotNull();
+        assertThat(generalInfo?.id).isEqualTo(generalInfoEntity.id);
+        assertThat(generalInfo?.missionId).isEqualTo(generalInfoEntity.missionId);
+        assertThat(generalInfo?.serviceId).isEqualTo(generalInfoEntity.serviceId);
+        assertThat(generalInfo?.consumedGOInLiters).isEqualTo(generalInfoEntity.consumedGOInLiters);
+        assertThat(generalInfo?.consumedFuelInLiters).isEqualTo(generalInfoEntity.consumedFuelInLiters);
+        assertThat(generalInfo?.distanceInNauticalMiles).isEqualTo(generalInfoEntity.distanceInNauticalMiles);
+        assertThat(generalInfo?.nbrOfRecognizedVessel).isEqualTo(generalInfoEntity.nbrOfRecognizedVessel);
     }
 }

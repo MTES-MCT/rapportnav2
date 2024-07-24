@@ -68,6 +68,7 @@ type MissionGeneralInfo {
   consumedGOInLiters: Float
   consumedFuelInLiters: Float
   serviceId: Int
+  nbrOfRecognizedVessel: Int
 }
 
 input MissionGeneralInfoInput {
@@ -76,6 +77,8 @@ input MissionGeneralInfoInput {
   distanceInNauticalMiles: Float
   consumedGOInLiters: Float
   consumedFuelInLiters: Float
+  serviceId: Int
+  nbrOfRecognizedVessel: Int
 }
 
 input MissionServiceInput {
