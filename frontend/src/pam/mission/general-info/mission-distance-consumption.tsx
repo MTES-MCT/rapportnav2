@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import { Stack } from 'rsuite'
 import { Label, NumberInput, THEME } from '@mtes-mct/monitor-ui'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { Stack } from 'rsuite'
 import { MissionGeneralInfo } from '../../../types/mission-types.ts'
-import useAddOrUpdateDistanceConsumption from './use-add-update-distance-consumption.tsx'
 import useIsMissionFinished from '../use-is-mission-finished.tsx'
+import useAddOrUpdateGeneralInfo from './use-add-update-distance-consumption.tsx'
 
 interface MissionDistanceAndConsumptionProps {
   info?: MissionGeneralInfo
@@ -19,7 +19,7 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
   })
 
   const isMissionFinished = useIsMissionFinished(missionId)
-  const [mutate] = useAddOrUpdateDistanceConsumption()
+  const [mutate] = useAddOrUpdateGeneralInfo()
 
   const onChange = async (field: string, value?: number) => {
     const updatedValue = value !== undefined && value !== null ? value : undefined
@@ -31,8 +31,8 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
 
   const onBlur = async () => {
     let updatedData = {
-      id: info?.id,
-      missionId: missionId,
+      ...info,
+      missionId,
       ...formData
     }
 
