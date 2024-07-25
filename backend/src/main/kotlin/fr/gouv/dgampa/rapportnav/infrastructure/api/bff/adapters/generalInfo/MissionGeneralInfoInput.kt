@@ -8,6 +8,8 @@ data class MissionGeneralInfoInput(
     var distanceInNauticalMiles: Float? = null,
     var consumedGOInLiters: Float? = null,
     var consumedFuelInLiters: Float? = null,
+    var serviceId: Int? = null,
+    var nbrOfRecognizedVessel: Int? = null
 ) {
     fun toMissionGeneralInfo(): MissionGeneralInfo {
         return MissionGeneralInfo(
@@ -15,7 +17,9 @@ data class MissionGeneralInfoInput(
             missionId,
             distanceInNauticalMiles,
             consumedGOInLiters,
-            consumedFuelInLiters
+            consumedFuelInLiters,
+            serviceId,
+            nbrOfRecognizedVessel
         )
     }
 

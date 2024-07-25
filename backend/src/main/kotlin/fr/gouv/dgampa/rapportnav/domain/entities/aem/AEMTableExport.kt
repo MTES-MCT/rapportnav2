@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import org.slf4j.LoggerFactory
 
 data class AEMTableExport(
@@ -39,6 +40,12 @@ data class AEMTableExport(
                 notPollutionControlSurveillance = AEMNotPollutionControlSurveillance(envActions),
                 pollutionControlSurveillance = AEMPollutionControlSurveillance(navActions, envActions)
             )
+        }
+
+        fun fromMission(mission: MissionEntity): AEMTableExport {
+            val tableExport = fromMissionAction(mission.actions ?: listOf());
+            tableExport.sovereignProtect?.nbrOfRecognizedVessel = mission.generalInfo?.nbrOfRecognizedVessel;
+            return tableExport
         }
 
     }

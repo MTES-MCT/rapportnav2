@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
 
 data class AEMSovereignProtect(
     val nbrOfHourAtSea: Int? = 0, // 7.1
-    val nbrOfReconizedVessel: Int? = 0, // 7.3
+    var nbrOfRecognizedVessel: Int? = 0, // 7.3
     val nbrOfControlledVessel: Int? = 0, // 7.4
 ) {
     constructor(
@@ -17,7 +17,7 @@ data class AEMSovereignProtect(
         fishActions: List<ExtendedFishActionEntity?>
     ) : this(
         nbrOfHourAtSea = getNbrHourAtSea(navActions),
-        nbrOfReconizedVessel = getNbOfRecognizedVessel(navActions),
+        nbrOfRecognizedVessel = getNbOfRecognizedVessel(navActions),
         nbrOfControlledVessel = getNbrOfControlledVessel(navActions, envActions, fishActions)
     ) {
     }
