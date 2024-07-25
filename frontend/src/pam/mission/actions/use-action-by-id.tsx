@@ -253,6 +253,8 @@ export const GET_ACTION_BY_ID = gql`
           detectedPollution
           pollutionObservedByAuthorizedAgent
           diversionCarriedOut
+          isSimpleBrewingOperationDone
+          isAntiPolDeviceDeployed
         }
         ... on NavActionBAAEMPermanence {
           id

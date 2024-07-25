@@ -15,6 +15,8 @@ class ActionAntiPollutionInput(
     val pollutionObservedByAuthorizedAgent: Boolean? = null,
     val diversionCarriedOut: Boolean? = null,
     val observations: String? = null,
+    val isSimpleBrewingOperationDone: Boolean? = null,
+    val isAntiPolDeviceDeployed: Boolean? = null,
 
     ) {
 
@@ -29,7 +31,9 @@ class ActionAntiPollutionInput(
             longitude = longitude,
             detectedPollution = detectedPollution,
             pollutionObservedByAuthorizedAgent = pollutionObservedByAuthorizedAgent,
-            diversionCarriedOut = diversionCarriedOut
+            diversionCarriedOut = diversionCarriedOut,
+            isSimpleBrewingOperationDone = isSimpleBrewingOperationDone,
+            isAntiPolDeviceDeployed = isAntiPolDeviceDeployed,
         )
     }
 }

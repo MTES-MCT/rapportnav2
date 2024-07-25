@@ -1,8 +1,8 @@
 import { gql, MutationTuple, useMutation } from '@apollo/client'
 import { useParams } from 'react-router-dom'
-import { GET_MISSION_TIMELINE } from '../../timeline/use-mission-timeline.tsx'
-import { GET_ACTION_BY_ID } from '../../actions/use-action-by-id.tsx'
 import { ActionAntiPollution } from '../../../../types/action-types.ts'
+import { GET_ACTION_BY_ID } from '../../actions/use-action-by-id.tsx'
+import { GET_MISSION_TIMELINE } from '../../timeline/use-mission-timeline.tsx'
 
 export const MUTATION_ADD_UPDATE_ACTION_ANTI_POLLUTION = gql`
   mutation AddOrUpdateActionAntiPollution($antiPollutionAction: ActionAntiPollutionInput!) {
@@ -16,6 +16,8 @@ export const MUTATION_ADD_UPDATE_ACTION_ANTI_POLLUTION = gql`
       detectedPollution
       pollutionObservedByAuthorizedAgent
       diversionCarriedOut
+      isSimpleBrewingOperationDone
+      isAntiPolDeviceDeployed
     }
   }
 `
