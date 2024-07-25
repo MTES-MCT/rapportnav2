@@ -72,7 +72,7 @@ const MissionPage: React.FC = () => {
 
   const exportMission = async () => {
     setExportLoading(true)
-    const { data, error, loading, called } = await getMissionReport({ variables: { missionId } })
+    const { data, error } = await getMissionReport({ variables: { missionId } })
 
     if (error) {
       setExportLoading(false)
