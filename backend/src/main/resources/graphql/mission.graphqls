@@ -6,22 +6,15 @@ type Query {
   missionAEMExport(missionId: ID): MissionExport
 }
 
-type MissionExport {
-  fileName: String
-  fileContent: String
-}
-
 type Mutation {
-  updateMission(mission: MissionInput!): Mission!
   patchMissionEnv(mission: MissionEnvInput!): Mission!
   updateMissionGeneralInfo(info: MissionGeneralInfoInput!): MissionGeneralInfo!
   updateMissionService(service: MissionServiceInput!): Service!
 }
 
-input MissionInput {
-  id: ID!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String!
+type MissionExport {
+  fileName: String
+  fileContent: String
 }
 
 type Mission {
@@ -90,4 +83,6 @@ input MissionServiceInput {
 input MissionEnvInput {
   missionId: ID!
   observationsByUnit: String
+  startDateTimeUtc: String
+  endDateTimeUtc: String
 }

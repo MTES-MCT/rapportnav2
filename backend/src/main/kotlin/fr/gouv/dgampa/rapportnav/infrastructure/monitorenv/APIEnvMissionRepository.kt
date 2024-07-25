@@ -2,7 +2,6 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.google.gson.Gson
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.PatchMissionInput
@@ -10,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlP
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.MissionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.controlPlans.ControlPlanDataOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -20,16 +20,13 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 
 @Repository
 class APIEnvMissionRepository(
     private val mapper: ObjectMapper,
     private val clientFactory: HttpClientFactory
 ) : IEnvMissionRepository {
-    private val client: HttpClient = HttpClient.newBuilder().build();
     private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepository::class.java);
-    private val zoneDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.000X")
 
     // TODO set as env var when available
     private val host = "https://monitorenv.din.developpement-durable.gouv.fr"
@@ -190,7 +187,7 @@ class APIEnvMissionRepository(
         val url = "$host/api/v1/control_plans"
         logger.info("Starting to fetch ControlsPlans from MonitorEnv at $url")
         return try {
-            val gson = Gson()
+            val gson = GsonSerializer().create()
             val client: HttpClient = HttpClient.newBuilder().build()
             val request = HttpRequest.newBuilder().uri(
                 URI.create(url)
@@ -211,7 +208,7 @@ class APIEnvMissionRepository(
         val url = "$host/api/v2/missions/$missionId";
         logger.info("Sending PATCH request for Env mission id=$missionId. URL: $url")
         return try {
-            val gson = Gson();
+            val gson = GsonSerializer().create()
             val client = clientFactory.create();
             val request = HttpRequest
                 .newBuilder()
@@ -226,7 +223,7 @@ class APIEnvMissionRepository(
             val body = response.body()
             logger.debug(body)
 
-            mapper.registerModule(JtsModule());
+            mapper.registerModule(JtsModule())
             val missionDataOutput: MissionDataOutput? = mapper.readValue(body);
             missionDataOutput?.toMissionEntity();
         } catch (e: Exception) {

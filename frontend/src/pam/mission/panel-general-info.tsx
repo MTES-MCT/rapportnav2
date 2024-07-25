@@ -1,4 +1,4 @@
-import { DateRangePicker, Label, THEME } from '@mtes-mct/monitor-ui'
+import { THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { FlexboxGrid, Panel, Stack } from 'rsuite'
 import { Mission } from '../../types/mission-types'
@@ -6,6 +6,7 @@ import Text from '../../ui/text'
 import MissionCrew from './crew/mission-crew'
 import MissionDistanceAndConsumption from './general-info/mission-distance-consumption'
 import MissionService from './mission-service'
+import MissionDatetime from './mission-datetime.tsx'
 
 interface MissionGeneralInfoPanelProps {
   mission: Mission
@@ -30,15 +31,7 @@ const MissionGeneralInfoPanel: React.FC<MissionGeneralInfoPanelProps> = ({ missi
             <Stack.Item style={{ width: '100%' }}>
               <FlexboxGrid style={{ width: '100%' }}>
                 <FlexboxGrid.Item colspan={20}>
-                  <Label>Dates du rapport</Label>
-                  <DateRangePicker
-                    defaultValue={[mission.startDateTimeUtc || new Date(), mission.endDateTimeUtc || new Date()]}
-                    // label="Dates du rapport"
-                    withTime={true}
-                    isCompact={true}
-                    readOnly={true}
-                    disabled={true}
-                  />
+                  <MissionDatetime mission={mission} />
                 </FlexboxGrid.Item>
                 <FlexboxGrid.Item colspan={4} style={{ display: 'flex', justifyContent: 'end' }}>
                   <MissionService

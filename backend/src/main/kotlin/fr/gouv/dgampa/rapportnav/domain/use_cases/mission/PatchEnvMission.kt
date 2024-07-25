@@ -8,14 +8,17 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import org.slf4j.LoggerFactory
 
 @UseCase
-class PatchEnvMission( private val envRepository: IEnvMissionRepository) {
-    private val logger = LoggerFactory.getLogger(UpdateEnvMission::class.java);
+class PatchEnvMission(private val envRepository: IEnvMissionRepository) {
     fun execute(
         input: MissionEnvInput,
     ): MissionEntity? {
         return envRepository.patchMission(
             input.missionId,
-            PatchMissionInput(observationsByUnit = input.observationsByUnit)
+            PatchMissionInput(
+                observationsByUnit = input.observationsByUnit,
+                startDateTimeUtc = input.startDateTimeUtc,
+                endDateTimeUtc = input.endDateTimeUtc,
+            )
         );
     }
 }

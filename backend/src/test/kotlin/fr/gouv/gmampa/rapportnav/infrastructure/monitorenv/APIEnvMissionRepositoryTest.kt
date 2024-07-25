@@ -2,14 +2,13 @@ package fr.gouv.gmampa.rapportnav.infrastructure.monitorenv
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
-import fr.gouv.dgampa.rapportnav.config.ZonedDateTimeTypeAdapter
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.PatchMissionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.APIEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.MissionDataOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentMatchers.argThat
@@ -38,6 +37,7 @@ class APIEnvMissionRepositoryTest {
         missionTypes = listOf(MissionTypeEnum.SEA),
         controlUnits = listOf(),
         startDateTimeUtc = ZonedDateTime.parse("2022-03-15T04:50:09Z"),
+        endDateTimeUtc = ZonedDateTime.parse("2022-03-27T04:50:09Z"),
         missionSource = MissionSourceEnum.MONITORENV,
         hasMissionOrder = false,
         isUnderJdp = false,
@@ -72,7 +72,14 @@ class APIEnvMissionRepositoryTest {
         )
             .thenReturn(httpResponse);
         val envRepo = APIEnvMissionRepository(mapper = objectMapper, clientFactory = httpClientFactory)
-        envRepo.patchMission(missionId = 761, PatchMissionInput(observationsByUnit = "MyObservations"))
+        envRepo.patchMission(
+            missionId = 761,
+            PatchMissionInput(
+                observationsByUnit = "MyObservations",
+                startDateTimeUtc = ZonedDateTime.parse("2022-03-15T04:50:09Z"),
+                endDateTimeUtc = ZonedDateTime.parse("2022-03-27T04:50:09Z")
+            )
+        )
         verify(httpClient).send(
             argThat { request -> request.uri().equals(URI.create("$host/api/v2/missions/761")) },
             Mockito.any<HttpResponse.BodyHandler<String>>()
@@ -82,9 +89,7 @@ class APIEnvMissionRepositoryTest {
     //TODO: write test on verifying the response value.
 
     private fun getMissionString(): String {
-        val gson: Gson = GsonBuilder()
-            .registerTypeAdapter(ZonedDateTime::class.java, ZonedDateTimeTypeAdapter())
-            .create();
+        val gson: Gson = GsonSerializer().create()
         return gson.toJson(mission);
     }
 }

@@ -7,6 +7,8 @@ export const MUTATION_PATCH_MISSION_ENV = gql`
     patchMissionEnv(mission: $mission) {
       id
       observationsByUnit
+      startDateTimeUtc
+      endDateTimeUtc
     }
   }
 `
@@ -14,6 +16,8 @@ export const MUTATION_PATCH_MISSION_ENV = gql`
 export type PatchMissionEnvInput = {
   missionId: number
   observationsByUnit?: string
+  startDateTimeUtc?: string
+  endDateTimeUtc?: string
 }
 
 const usePatchMissionEnv = (): MutationTuple<void, Record<string, any>> => {
