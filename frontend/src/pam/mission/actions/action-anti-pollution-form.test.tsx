@@ -55,7 +55,7 @@ describe('ActionAntiPollutionForm', () => {
 
   it('should call update action on brassage simple effectué', () => {
     const wrapper = render(<ActionAntiPollutionForm action={action} />)
-    const element = wrapper.getByTestId('action-antipol-antipol-device-deployed')
+    const element = wrapper.getByTestId('action-antipol-simple-brewing-operation')
     fireEvent.click(element)
     expect(updateAntiPollutionActionMock).toHaveBeenCalledTimes(1)
     expect(updateAntiPollutionActionMock).toHaveBeenCalledWith({

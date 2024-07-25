@@ -59,7 +59,7 @@ class FillAEMExcelRow {
 
         // 7) Souveraineté et protection des intérêts nationaux
         tableExport.sovereignProtect?.nbrOfHourAtSea?.let { excelFile.writeToCell(sheetName, "DA$row", it) }
-        tableExport.sovereignProtect?.nbrOfReconizedVessel?.let { excelFile.writeToCell(sheetName, "DC$row", it) }
+        tableExport.sovereignProtect?.nbrOfRecognizedVessel?.let { excelFile.writeToCell(sheetName, "DC$row", it) }
         tableExport.sovereignProtect?.nbrOfControlledVessel?.let { excelFile.writeToCell(sheetName, "DD$row", it) }
     }
 }
