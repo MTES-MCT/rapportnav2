@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Mission, MissionExport } from '../../types/mission-types.ts'
 import { Accent, Button, Icon, logSoftError, Size, THEME } from '@mtes-mct/monitor-ui'
 import { Link } from 'react-router-dom'
-import { FlexboxGrid, Stack } from 'rsuite'
+import { Divider, FlexboxGrid, Stack } from 'rsuite'
 import { formatMissionName } from './utils.ts'
 import MissionOpenByTag from './mission-open-by-tag.tsx'
 import { formatDateForFrenchHumans } from '../../utils/dates.ts'
@@ -38,7 +38,7 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
   const [exportationCanBeDisplayed, setExportationCanBeDisplayed] = useState<boolean>(false)
   const exportRapportEnabled = useIsMissionCompleteForStats(mission?.id)
 
-  const handleDownload = (missionExport?: MissionExport) => {
+  const handleDownload = (missionExport?: MissionExport, isSpreadSheet: boolean = false) => {
     if (missionExport) {
       try {
         const content = missionExport?.fileContent
@@ -51,8 +51,9 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
           uint8Array[i] = decodedContent.charCodeAt(i)
         }
 
+        const blobType = isSpreadSheet ? 'application/vnd.oasis.opendocument.spreadsheet' : 'application/vnd.oasis.opendocument.text'
         // Create a Blob from the Uint8Array
-        const blob = new Blob([uint8Array], { type: 'application/vnd.oasis.opendocument.text' })
+        const blob = new Blob([uint8Array], { type: blobType })
 
         // Create a temporary link element
         const link = document.createElement('a')
@@ -74,13 +75,7 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
 
   const exportMission = async (missionId, isAEMExport: boolean = false) => {
     setExportLoading(true)
-
-    let { data, error, loading, called } = await getMissionReport({ variables: { missionId } })
-
-
-    if (isAEMExport) {
-      let { data, error, loading, called } = await getMissionAEMReport({ variables: { missionId } })
-    }
+    let { data, error, loading, called } = isAEMExport ? await getMissionAEMReport({ variables: { missionId } }) : await getMissionReport({ variables: { missionId } });
 
     if (error) {
       setExportLoading(false)
@@ -91,7 +86,10 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
       })
     } else if (data) {
       setExportLoading(false)
-      handleDownload((data as any)?.missionExport as any)
+      handleDownload(
+        isAEMExport ? (data as any)?.missionAEMExport : (data as any)?.missionExport,
+        isAEMExport
+      );
     }
   }
 
@@ -155,7 +153,11 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
           </Link>
         </ListItemWithHover>
         {exportationCanBeDisplayed && (
-          <FlexboxGrid >
+          <FlexboxGrid>
+            <FlexboxGrid.Item colspan={24}>
+              <Divider></Divider>
+            </FlexboxGrid.Item>
+
             <FlexboxGrid.Item colspan={8} style={{ height: '100%', padding: '0.5rem 1rem' }}>
               <Button
                 Icon={Icon.Download}
@@ -166,9 +168,8 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
               >
                 Exporter le rapport de la mission
               </Button>
-
             </FlexboxGrid.Item>
-
+            <FlexboxGrid.Item colspan={8}> </FlexboxGrid.Item>
             <FlexboxGrid.Item colspan={8} style={{ height: '100%', padding: '0.5rem 1rem' }}>
               <Button
                 Icon={Icon.Download}
@@ -181,7 +182,7 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
               </Button>
             </FlexboxGrid.Item>
           </FlexboxGrid>
-        )}
+          )}
 
       </Stack.Item>
     </Stack>

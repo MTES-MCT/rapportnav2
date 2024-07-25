@@ -12,7 +12,7 @@ import { MissionExport } from '../../../types/mission-types.ts'
 
 export const GET_MISSION_AEM_EXPORT: DocumentNode = gql`
   query GetMissionAEMExport($missionId: ID) {
-    exportAEM(missionId: $missionId) {
+    missionAEMExport(missionId: $missionId) {
       fileName
       fileContent
     }
