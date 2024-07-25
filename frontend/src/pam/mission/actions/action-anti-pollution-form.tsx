@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react'
 import {
   Checkbox,
   Coordinates,
@@ -7,19 +6,34 @@ import {
   DateRangePicker,
   Icon,
   Textarea,
-  THEME
+  THEME,
+  Toggle,
+  ToggleProps
 } from '@mtes-mct/monitor-ui'
-import { Action, ActionAntiPollution } from '../../../types/action-types'
-import { Stack } from 'rsuite'
-import { useNavigate, useParams } from 'react-router-dom'
+import { isEqual } from 'lodash'
 import omit from 'lodash/omit'
-import useActionById from './use-action-by-id.tsx'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Stack } from 'rsuite'
+import styled from 'styled-components'
+import { Action, ActionAntiPollution } from '../../../types/action-types'
+import Text, { TextProps } from '../../../ui/text.tsx'
 import useAddOrUpdateAntiPollution from '../others/anti-pollution/use-add-anti-pollution.tsx'
 import useDeleteAntiPollution from '../others/anti-pollution/use-delete-anti-pollution.tsx'
 import useIsMissionFinished from '../use-is-mission-finished.tsx'
 import ActionHeader from './action-header.tsx'
-import Text from '../../../ui/text.tsx'
-import { isEqual } from 'lodash'
+import useActionById from './use-action-by-id.tsx'
+
+const ToggleLabel = styled((props: Omit<TextProps, 'as'>) => <Text {...props} as="h3" />)(({ theme }) => ({
+  color: theme.color.gunMetal,
+  fontWeight: 500
+}))
+
+const StyledToggle = styled((props: Omit<ToggleProps, 'label'>) => (
+  <Toggle {...props} label="" isLight isLabelHidden readOnly={false} />
+))(({ theme }) => ({
+  marginRight: 8
+}))
 
 interface ActionAntiPollutionFormProps {
   action: Action
@@ -177,6 +191,30 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ actio
 
           <Stack.Item style={{ width: '100%' }}>
             <Stack direction={'column'} spacing={'0.5rem'}>
+              <Stack.Item style={{ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'end' }}>
+                <StyledToggle
+                  name="isSimpleBrewingOperationDone"
+                  checked={actionData?.isSimpleBrewingOperationDone}
+                  onChange={async nextValue => {
+                    await onChange('isSimpleBrewingOperationDone', nextValue)
+                  }}
+                  data-testid="action-antipol-simple-brewing-operation"
+                />
+                <ToggleLabel>Opération de brassage simple effectuée</ToggleLabel>
+              </Stack.Item>
+              <Stack.Item
+                style={{ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'end', marginBottom: 32 }}
+              >
+                <StyledToggle
+                  name="isAntiPolDeviceDeployed"
+                  checked={actionData?.isAntiPolDeviceDeployed}
+                  onChange={async nextValue => {
+                    await onChange('isAntiPolDeviceDeployed', nextValue)
+                  }}
+                  data-testid="action-antipol-device-deployed"
+                />
+                <ToggleLabel>Mise en place d'un dispositif ANTIPOL (dispersant, barrage, etc...)</ToggleLabel>
+              </Stack.Item>
               <Stack.Item style={{ width: '100%' }}>
                 <Checkbox
                   readOnly={false}

@@ -145,6 +145,8 @@ export type ActionAntiPollution = {
   detectedPollution?: boolean
   pollutionObservedByAuthorizedAgent?: boolean
   diversionCarriedOut?: boolean
+  isAntiPolDeviceDeployed?: boolean
+  isSimpleBrewingOperationDone?: boolean
 }
 
 export type ActionBAAEMPermanence = {
