@@ -42,8 +42,6 @@ const mockedQueryResult = (crew?: MissionCrewType[], loading: boolean = false, e
   error
 })
 
-const handleAction = (id: string) => console.log(id)
-
 describe('MissionCrew', () => {
   it('should render the no crew text', async () => {
     ;(useMissionCrew as any).mockReturnValue(mockedQueryResult(undefined))

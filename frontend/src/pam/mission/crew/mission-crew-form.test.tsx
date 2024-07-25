@@ -2,6 +2,7 @@ import { vi } from 'vitest'
 import { fireEvent, mockQueryResult, render, screen, waitFor } from '../../../test-utils.tsx'
 import MissionCrewForm from './mission-crew-form.tsx'
 import useAgentRoles from './use-agent-roles'
+import useAgents from './use-agents.tsx'
 
 const handleClose = vi.fn()
 const handleSubmitForm = vi.fn()
@@ -14,7 +15,7 @@ vi.mock('./use-agent-roles', async importOriginal => {
   }
 })
 
-vi.mock('./use-agents-by-user-service', async importOriginal => {
+vi.mock('.//use-agents', async importOriginal => {
   const actual = await importOriginal()
   return {
     ...actual,
@@ -76,7 +77,7 @@ const agentRoles = [
 describe('MissionCrewForm', () => {
   beforeEach(() => {
     ;(useAgentRoles as any).mockReturnValue(mockQueryResult(agentRoles))
-    //;(useAgents as any).mockReturnValue(mockQueryResult(agents))
+    ;(useAgents as any).mockReturnValue(mockQueryResult(agents))
   })
 
   it('should render ajout for adding new member', async () => {
