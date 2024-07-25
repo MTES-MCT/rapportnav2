@@ -14,4 +14,6 @@ data class NavActionAntiPollution(
     val detectedPollution: Boolean? = null,
     val pollutionObservedByAuthorizedAgent: Boolean? = null,
     val diversionCarriedOut: Boolean? = null,
+    val isSimpleBrewingOperationDone: Boolean? = null,
+    val isAntiPolDeviceDeployed: Boolean? = null,
 ) : ActionData()

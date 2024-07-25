@@ -120,6 +120,8 @@ input ActionAntiPollutionInput {
   detectedPollution: Boolean
   pollutionObservedByAuthorizedAgent: Boolean
   diversionCarriedOut: Boolean
+  isSimpleBrewingOperationDone: Boolean
+  isAntiPolDeviceDeployed: Boolean
 }
 
 input ActionBAAEMPermanenceInput {
@@ -246,6 +248,8 @@ type NavActionAntiPollution {
   detectedPollution: Boolean
   pollutionObservedByAuthorizedAgent: Boolean
   diversionCarriedOut: Boolean
+  isSimpleBrewingOperationDone: Boolean
+  isAntiPolDeviceDeployed: Boolean
 }
 
 type NavActionBAAEMPermanence {

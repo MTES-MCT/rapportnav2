@@ -51,6 +51,8 @@ class ActionAntiPollutionEntity(
         detectedPollution: Boolean? = null,
         pollutionObservedByAuthorizedAgent: Boolean? = null,
         diversionCarriedOut: Boolean? = null,
+        isSimpleBrewingOperationDone: Boolean? = null,
+        isAntiPolDeviceDeployed: Boolean? = null,
     ) : this(
         id = id,
         missionId = missionId,
@@ -62,7 +64,9 @@ class ActionAntiPollutionEntity(
         longitude = longitude,
         detectedPollution = detectedPollution,
         pollutionObservedByAuthorizedAgent = pollutionObservedByAuthorizedAgent,
-        diversionCarriedOut = diversionCarriedOut
+        diversionCarriedOut = diversionCarriedOut,
+        isSimpleBrewingOperationDone = isSimpleBrewingOperationDone,
+        isAntiPolDeviceDeployed  = isAntiPolDeviceDeployed
     ) {
         // completeness for stats being computed at class instantiation in constructor
         this.isCompleteForStats = EntityCompletenessValidator.isCompleteForStats(this)
@@ -80,7 +84,9 @@ class ActionAntiPollutionEntity(
             longitude = longitude,
             detectedPollution = detectedPollution,
             pollutionObservedByAuthorizedAgent = pollutionObservedByAuthorizedAgent,
-            diversionCarriedOut = diversionCarriedOut
+            diversionCarriedOut = diversionCarriedOut,
+            isSimpleBrewingOperationDone = isSimpleBrewingOperationDone,
+            isAntiPolDeviceDeployed = isAntiPolDeviceDeployed,
         )
     }
 
