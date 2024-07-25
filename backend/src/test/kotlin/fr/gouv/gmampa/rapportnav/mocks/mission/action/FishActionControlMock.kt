@@ -8,6 +8,7 @@ import java.util.*
 
 object FishActionControlMock {
     fun create(
+        id: Int = UUID.randomUUID().hashCode(),
         missionId: Int = 1,
         actionDatetimeUtc: ZonedDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
         actionType: MissionActionType = MissionActionType.SEA_CONTROL,
@@ -25,7 +26,7 @@ object FishActionControlMock {
         completion: Completion = Completion.COMPLETED,
     ): MissionAction {
         return MissionAction(
-            id = UUID.randomUUID().hashCode(),
+            id = id,
             missionId = missionId,
             actionDatetimeUtc = actionDatetimeUtc,
             actionType = actionType,
