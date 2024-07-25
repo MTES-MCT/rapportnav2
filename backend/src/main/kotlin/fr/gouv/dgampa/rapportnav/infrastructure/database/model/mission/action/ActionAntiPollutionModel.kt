@@ -44,6 +44,12 @@ data class ActionAntiPollutionModel(
 
     @Column(name = "diversion_carried_out", nullable = true)
     val diversionCarriedOut: Boolean? = null,
+
+    @Column(name = "simple_brewing_operation", nullable = true)
+    val isSimpleBrewingOperationDone: Boolean? = null,
+
+    @Column(name = "anti_pol_device_deployed", nullable = true)
+    val isAntiPolDeviceDeployed: Boolean? = null,
 ) {
 
     fun toAntiPollutionEntity(): ActionAntiPollutionEntity {
@@ -58,7 +64,9 @@ data class ActionAntiPollutionModel(
             longitude = longitude,
             detectedPollution = detectedPollution,
             pollutionObservedByAuthorizedAgent = pollutionObservedByAuthorizedAgent,
-            diversionCarriedOut = diversionCarriedOut
+            diversionCarriedOut = diversionCarriedOut,
+            isAntiPolDeviceDeployed = isAntiPolDeviceDeployed,
+            isSimpleBrewingOperationDone = isSimpleBrewingOperationDone
         )
     }
 
@@ -74,8 +82,21 @@ data class ActionAntiPollutionModel(
             longitude = action.longitude,
             detectedPollution = action.detectedPollution,
             pollutionObservedByAuthorizedAgent = action.pollutionObservedByAuthorizedAgent,
-            diversionCarriedOut = action.diversionCarriedOut
+            diversionCarriedOut = action.diversionCarriedOut,
+            isAntiPolDeviceDeployed = action.isAntiPolDeviceDeployed,
+            isSimpleBrewingOperationDone = action.isSimpleBrewingOperationDone
         )
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hash(id)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as ActionAntiPollutionModel
+        return id == other.id
     }
 }
 
