@@ -52,7 +52,8 @@ class GetAllControlPlans(
         )
     }
 
-    @Cacheable("controlPlans")
+    // TODO move @Cacheable into findAllControlPlans() once there is an API mocking service in place
+    @Cacheable(value = ["controlPlans"])
     fun execute(): ControlPlansEntity? {
         try {
             val response =

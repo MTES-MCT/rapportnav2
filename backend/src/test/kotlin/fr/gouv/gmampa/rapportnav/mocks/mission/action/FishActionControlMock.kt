@@ -8,6 +8,7 @@ import java.util.*
 
 object FishActionControlMock {
     fun create(
+        id: Int = UUID.randomUUID().hashCode(),
         missionId: Int = 1,
         actionDatetimeUtc: ZonedDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
         actionEndDatetimeUtc: ZonedDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 13, 0), ZoneOffset.UTC),
@@ -29,7 +30,7 @@ object FishActionControlMock {
         otherInfractions: List<OtherInfraction> = listOf()
     ): MissionAction {
         return MissionAction(
-            id = UUID.randomUUID().hashCode(),
+            id = id,
             missionId = missionId,
             actionDatetimeUtc = actionDatetimeUtc,
             actionEndDatetimeUtc = actionEndDatetimeUtc,

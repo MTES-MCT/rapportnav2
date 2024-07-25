@@ -13,9 +13,11 @@ import java.net.http.HttpResponse
 @UseCase
 class GetNatinfs(private val mapper: ObjectMapper) {
 
-    @Cacheable("natinfs")
+    @Cacheable(value = ["natinfs"])
     fun execute(): List<NatinfEntity> {
 
+        // TODO: move this into infrastructure/APIMonitorEnv
+        // TODO: and then move @Cacheable in that newly created function
         val client: HttpClient = HttpClient.newBuilder().build()
         val request = HttpRequest.newBuilder().uri(
             URI.create(

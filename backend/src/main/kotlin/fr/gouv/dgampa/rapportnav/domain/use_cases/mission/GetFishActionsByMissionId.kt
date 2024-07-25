@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionReposito
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
 import io.sentry.Sentry
 import org.slf4j.LoggerFactory
+import org.springframework.cache.annotation.Cacheable
 import java.time.ZonedDateTime
 
 
@@ -189,6 +190,7 @@ class GetFishActionsByMissionId(
         return actions
     }
 
+    @Cacheable(value = ["fishActions"])
     fun execute(missionId: Int): List<ExtendedFishActionEntity> {
         try {
             val fishActions = fishActionRepo.findFishActions(missionId = missionId)

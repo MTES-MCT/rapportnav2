@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.ExtendedEnvMissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
@@ -14,6 +13,7 @@ import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.MultiPoint
 import org.slf4j.LoggerFactory
+import org.springframework.cache.annotation.Cacheable
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -25,8 +25,6 @@ fun createMockMultiPoint(coordinates: List<Coordinate>): MultiPoint {
 
 @UseCase
 class GetEnvMissionById(
-    private val mapper: ObjectMapper,
-    private val getEnvMissions: GetEnvMissions,
     private val monitorEnvApiRepo: IEnvMissionRepository,
     private val attachControlsToActionControl: AttachControlsToActionControl,
 ) {
@@ -190,6 +188,7 @@ class GetEnvMissionById(
         return mission
     }
 
+    @Cacheable(value = ["envMission"])
     fun execute(missionId: Int): ExtendedEnvMissionEntity? {
 
         try {
