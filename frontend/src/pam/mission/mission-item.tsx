@@ -165,6 +165,7 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
                 size={Size.NORMAL}
                 role={'dl-mission-export'}
                 onClick={() => exportMission(mission.id)}
+                data-testid="download-report-button"
               >
                 Exporter le rapport de la mission
               </Button>
@@ -177,6 +178,7 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
                 size={Size.NORMAL}
                 role={'dl-mission-export'}
                 onClick={() => exportMission(mission.id, true)}
+                data-testid="download-aem-button"
               >
                 Télécharger les tableaux
               </Button>
