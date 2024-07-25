@@ -3,6 +3,7 @@ type Query {
   missions: [Mission]
   mission(missionId: ID): Mission
   missionGeneralInfo(missionId: ID): MissionGeneralInfo
+  missionAEMExport(missionId: ID): MissionExport
 }
 
 type MissionExport {
@@ -68,6 +69,7 @@ type MissionGeneralInfo {
   consumedGOInLiters: Float
   consumedFuelInLiters: Float
   serviceId: Int
+  nbrOfRecognizedVessel: Int
 }
 
 input MissionGeneralInfoInput {
@@ -76,6 +78,8 @@ input MissionGeneralInfoInput {
   distanceInNauticalMiles: Float
   consumedGOInLiters: Float
   consumedFuelInLiters: Float
+  serviceId: Int
+  nbrOfRecognizedVessel: Int
 }
 
 input MissionServiceInput {

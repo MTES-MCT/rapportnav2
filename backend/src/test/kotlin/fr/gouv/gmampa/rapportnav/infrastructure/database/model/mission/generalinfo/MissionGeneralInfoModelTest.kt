@@ -21,7 +21,8 @@ class MissionGeneralInfoModelTest {
                 serviceId = 3,
                 consumedGOInLiters = 2.5f,
                 consumedFuelInLiters = 2.7f,
-                distanceInNauticalMiles = 1.9f
+                distanceInNauticalMiles = 1.9f,
+                nbrOfRecognizedVessel = 9
             ).toMissionGeneralInfoEntity();
 
         assertThat(generalInfoEntity).isNotNull();
@@ -31,6 +32,7 @@ class MissionGeneralInfoModelTest {
         assertThat(generalInfoEntity.consumedGOInLiters).isEqualTo(2.5f);
         assertThat(generalInfoEntity.consumedFuelInLiters).isEqualTo(2.7f);
         assertThat(generalInfoEntity.distanceInNauticalMiles).isEqualTo(1.9f);
+        assertThat(generalInfoEntity.nbrOfRecognizedVessel).isEqualTo(9);
     }
 
     @Test
@@ -41,7 +43,8 @@ class MissionGeneralInfoModelTest {
             serviceId = 3,
             consumedGOInLiters = 2.5f,
             consumedFuelInLiters = 2.7f,
-            distanceInNauticalMiles = 1.9f
+            distanceInNauticalMiles = 1.9f,
+            nbrOfRecognizedVessel = 9
         );
         val generalInfoModel = MissionGeneralInfoModel.fromMissionGeneralInfoEntity(generalInfoEntity);
         assertThat(generalInfoModel).isNotNull();
@@ -51,5 +54,6 @@ class MissionGeneralInfoModelTest {
         assertThat(generalInfoModel.consumedGOInLiters).isEqualTo(generalInfoEntity.consumedGOInLiters);
         assertThat(generalInfoModel.consumedFuelInLiters).isEqualTo(generalInfoEntity.consumedFuelInLiters);
         assertThat(generalInfoModel.distanceInNauticalMiles).isEqualTo(generalInfoEntity.distanceInNauticalMiles);
+        assertThat(generalInfoModel.nbrOfRecognizedVessel).isEqualTo(generalInfoEntity.nbrOfRecognizedVessel);
     }
 }

@@ -1,31 +1,32 @@
 import { Accent, Button, Dialog, THEME } from '@mtes-mct/monitor-ui'
-import { Divider, FlexboxGrid, Stack } from 'rsuite'
-import { useNavigate, useParams } from 'react-router-dom'
-import MissionGeneralInfoPanel from './panel-general-info'
-import MissionTimeline from './timeline/timeline'
-import React, { useMemo, useState } from 'react'
-import { getComponentForAction } from './actions/action-mapping'
-import Text from '../../ui/text'
-import { Mission, VesselTypeEnum } from '../../types/mission-types'
-import { Action, ActionStatusType } from '../../types/action-types'
-import ActionSelectionDropdown from './actions/action-selection-dropdown'
-import { ActionTypeEnum } from '../../types/env-mission-types'
-import ControlSelection from './controls/control-selection'
-import StatusSelectionDropdown from './status/status-selection-dropdown'
 import find from 'lodash/find'
+import React, { useMemo, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Divider, FlexboxGrid, Stack } from 'rsuite'
+import { Action, ActionStatusType } from '../../types/action-types'
+import { ActionTypeEnum } from '../../types/env-mission-types'
+import { Mission, VesselTypeEnum } from '../../types/mission-types'
+import Text from '../../ui/text'
 import { formatDateForServers, toLocalISOString } from '../../utils/dates.ts'
+import { getComponentForAction } from './actions/action-mapping'
+import ActionSelectionDropdown from './actions/action-selection-dropdown'
 import useAddOrUpdateControl from './actions/use-add-update-action-control.tsx'
-import useAddOrUpdateStatus from './status/use-add-update-status.tsx'
+import ControlSelection from './controls/control-selection'
+import MissionRecognizedVessel from './general-info/mission-recognized-vessel.tsx'
+import MissionObservationsUnit from './mission-observations-unit.tsx'
 import useAddOrUpdateNote from './notes/use-add-update-note.tsx'
-import useAddOrUpdateRescue from './rescues/use-add-update-rescue.tsx'
-import useAddNauticalEvent from './others/nautical-event/use-add-nautical-event.tsx'
-import useAddVigimer from './others/vigimer/use-add-vigimer.tsx'
 import useAddAntiPollution from './others/anti-pollution/use-add-anti-pollution.tsx'
 import useAddOrUpdateBAAEMPermanence from './others/baaem/use-add-baaem-permanence.tsx'
+import useAddIllegalImmigration from './others/illegal-immigration/use-add-illegal-immigration.tsx'
+import useAddNauticalEvent from './others/nautical-event/use-add-nautical-event.tsx'
 import useAddOrUpdatePublicOrder from './others/public-order/use-add-public-order.tsx'
 import useAddRepresentation from './others/representation/use-add-representation.tsx'
-import useAddIllegalImmigration from './others/illegal-immigration/use-add-illegal-immigration.tsx'
-import MissionObservationsUnit from './mission-observations-unit.tsx'
+import useAddVigimer from './others/vigimer/use-add-vigimer.tsx'
+import MissionGeneralInfoPanel from './panel-general-info'
+import useAddOrUpdateRescue from './rescues/use-add-update-rescue.tsx'
+import StatusSelectionDropdown from './status/status-selection-dropdown'
+import useAddOrUpdateStatus from './status/use-add-update-status.tsx'
+import MissionTimeline from './timeline/timeline'
 
 export interface MissionProps {
   mission?: Mission
@@ -214,6 +215,12 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
               {/*<Stack.Item style={{ width: '100%', padding: '1rem' }}>*/}
               {/*  /!* <MissionOperationalSummaryPanel /> *!/*/}
               {/*</Stack.Item>*/}
+              {
+                //TODO: nbrOfRecognizedVessel
+              }
+              <Stack.Item style={{ width: '100%', padding: '1rem' }}>
+                <MissionRecognizedVessel missionId={mission.id} generalInfo={mission.generalInfo} />
+              </Stack.Item>
               <Stack.Item style={{ width: '100%', padding: '1rem' }}>
                 <MissionObservationsUnit missionId={mission.id} observationsByUnit={mission.observationsByUnit} />
               </Stack.Item>

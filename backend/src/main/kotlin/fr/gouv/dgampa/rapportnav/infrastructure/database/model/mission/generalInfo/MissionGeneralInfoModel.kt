@@ -26,7 +26,10 @@ class MissionGeneralInfoModel(
     var consumedFuelInLiters: Float? = null,
 
     @Column(name = "service_id", nullable = true)
-    var serviceId: Int? = null
+    var serviceId: Int? = null,
+
+    @Column(name = "nbr_of_recognized_vessel", nullable = true)
+    var  nbrOfRecognizedVessel: Int? = null
 ) {
     fun toMissionGeneralInfoEntity(): MissionGeneralInfoEntity {
         return MissionGeneralInfoEntity(
@@ -35,7 +38,8 @@ class MissionGeneralInfoModel(
             distanceInNauticalMiles,
             consumedGOInLiters,
             consumedFuelInLiters,
-            serviceId
+            serviceId,
+            nbrOfRecognizedVessel
         )
     }
 
@@ -46,7 +50,8 @@ class MissionGeneralInfoModel(
             distanceInNauticalMiles = info.distanceInNauticalMiles,
             consumedGOInLiters = info.consumedGOInLiters,
             consumedFuelInLiters = info.consumedFuelInLiters,
-            serviceId = info.serviceId
+            serviceId = info.serviceId,
+            nbrOfRecognizedVessel = info.nbrOfRecognizedVessel
         )
     }
 }

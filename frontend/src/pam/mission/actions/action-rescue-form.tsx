@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react'
 import {
   Checkbox,
   Coordinates,
@@ -12,18 +11,19 @@ import {
   TextInput,
   THEME
 } from '@mtes-mct/monitor-ui'
-import Text from '../../../ui/text'
-import { Action, ActionRescue } from '../../../types/action-types'
-import { Divider, Stack, Toggle } from 'rsuite'
-import { useNavigate, useParams } from 'react-router-dom'
-import useActionById from './use-action-by-id.tsx'
-import { RESCUE_TYPE_OPTIONS } from '../controls/utils.ts'
-import omit from 'lodash/omit'
-import useAddUpdateRescue from '../rescues/use-add-update-rescue.tsx'
 import { isEqual } from 'lodash'
+import omit from 'lodash/omit'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Divider, Stack, Toggle } from 'rsuite'
+import { Action, ActionRescue } from '../../../types/action-types'
+import Text from '../../../ui/text'
+import { RESCUE_TYPE_OPTIONS } from '../controls/utils.ts'
+import useAddUpdateRescue from '../rescues/use-add-update-rescue.tsx'
 import useDeleteRescue from '../rescues/use-delete-rescue.tsx'
 import useIsMissionFinished from '../use-is-mission-finished.tsx'
 import ActionHeader from './action-header.tsx'
+import useActionById from './use-action-by-id.tsx'
 
 interface ActionRescueFormProps {
   action: Action
@@ -249,7 +249,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                 readOnly={false}
                 isLight
                 name="isVesselNoticed"
-                label="Le navire a été mis en demeure"
+                label="Le navire a été mis en demeure avant intervention"
                 checked={actionData?.isVesselNoticed}
                 style={{ marginBottom: 8 }}
                 onChange={async nextValue => {
