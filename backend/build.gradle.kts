@@ -79,7 +79,7 @@ dependencies {
   implementation("io.sentry:sentry-spring-boot-starter-jakarta:7.1.0")
   implementation("io.sentry:sentry-log4j2:7.0.0")
   implementation("org.apache.poi:poi:5.2.3")
-  implementation("org.apache.poi:poi-ooxml:5.2.3")
+  implementation("org.apache.poi:poi-ooxml:5.3.0")
   implementation("org.apache.commons:commons-text:1.12.0")
   implementation("org.jodconverter:jodconverter-local-lo:4.4.7")
   testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
