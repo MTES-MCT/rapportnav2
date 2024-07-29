@@ -35,7 +35,7 @@ class ExportMissionAEM(
 
 
         if (mission !== null && mission.actions !== null) {
-            val tableExport = AEMTableExport.fromMissionAction(mission.actions!!)
+            val tableExport = AEMTableExport.fromMission(mission)
             fillAEMExcelRow.fill(tableExport, excelFile, "Synthese", 3)
             excelFile.save()
             val odsFile = excelFile.convertToOds(tmpPath.toString(), aemTmpODSPath)
