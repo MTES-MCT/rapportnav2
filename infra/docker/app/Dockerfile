@@ -1,5 +1,5 @@
 
-FROM azul/zulu-openjdk-alpine:17.0.12-jre-headless AS build-all
+FROM azul/zulu-openjdk-alpine:17-jre-latest AS build-all
 
 WORKDIR /home/rapportnav
 

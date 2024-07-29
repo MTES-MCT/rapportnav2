@@ -2,7 +2,7 @@
 # Dependencies                         #
 ########################################
 # Stage 1: Build backend dependencies
-FROM openjdk:17-jdk-alpine:17.0.12 AS backend-dependencies
+FROM azul/zulu-openjdk-alpine:17-jre-latest AS backend-dependencies
 
 WORKDIR /tmp/backend
 # Copy backend Gradle build files
