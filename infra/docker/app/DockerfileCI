@@ -30,13 +30,13 @@ RUN gradle assemble
 ########################################
 # Stage 1: Download npm dependencies
 # this stage will not run if dependencies have not changed
-FROM node:18 AS npm-dependencies
+FROM node:20 AS npm-dependencies
 WORKDIR /tmp/frontend
 COPY frontend/package.json frontend/package-lock.json ./
 RUN npm ci
 
 # Stage 2: Build the application
-FROM node:18 AS build-frontend
+FROM node:20 AS build-frontend
 WORKDIR /tmp/frontend
 COPY --from=npm-dependencies /tmp/frontend/node_modules ./node_modules
 COPY frontend .
@@ -47,7 +47,7 @@ RUN npm run build --verbose --mode production
 ########################################
 # Run Application                      #
 ########################################
-FROM azul/zulu-openjdk-alpine:17.0.11-17.50-jre-headless as build-all
+FROM azul/zulu-openjdk-alpine:17.0.12-jre as build-all
 
 WORKDIR /home/rapportnav
 
