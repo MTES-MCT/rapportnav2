@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionAEMExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
@@ -31,7 +30,7 @@ import java.time.ZonedDateTime
 class MissionController(
     private val getUserFromToken: GetUserFromToken,
     private val getEnvMissions: GetEnvMissions,
-    private val getMissionById: GetMissionById,
+    private val getMission: GetMission,
     private val getNavMissionById: GetNavMissionById,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val addOrUpdateMissionGeneralInfo: AddOrUpdateMissionGeneralInfo,
@@ -58,14 +57,21 @@ class MissionController(
     @QueryMapping
     fun missions(): List<Mission>? {
         try {
-            // query with the following filters
-            val missions = getEnvMissions.execute(
+            // query MonitorEnv with the following filters
+            val envMissions = getEnvMissions.execute(
                 startedAfterDateTime = ZonedDateTime.of(2024, 1, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
                 startedBeforeDateTime = null,
                 pageNumber = null,
                 pageSize = null,
                 controlUnits = getControlUnitsForUser.execute()
-            )?.map { Mission.fromMissionEntity(it) }.orEmpty()
+            )
+
+            // reconstruct the Missions with full data in order to have the right status/completeness
+            val fullMissions = envMissions?.map { getMission.execute(it.id, it) }
+
+            // transform the data for the API
+            val missions = fullMissions?.mapNotNull { it?.let { Mission.fromMissionEntity(it) } } ?: emptyList()
+
 
             // temporarily add fictive missions
             val user = getUserFromToken.execute()
@@ -108,7 +114,7 @@ class MissionController(
             }
 
             else -> {
-                val mission = getMissionById.execute(missionId = missionId)
+                val mission = getMission.execute(missionId = missionId)
                 mission?.let { Mission.fromMissionEntity(it) }
             }
         }
@@ -205,7 +211,7 @@ class MissionController(
     }
 
     @MutationMapping
-    fun patchMissionEnv(@Argument mission: MissionEnvInput): MissionEntity? {
+    fun patchMissionEnv(@Argument mission: MissionEnvInput): fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity? {
         return patchEnvMission.execute(mission)
     }
 

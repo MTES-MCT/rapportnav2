@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMTableExport
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionAEMExportEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMissionById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
 import fr.gouv.dgampa.rapportnav.infrastructure.excel.ExportExcelFile
 import fr.gouv.dgampa.rapportnav.infrastructure.factories.ExportExcelFactory
@@ -17,13 +17,13 @@ import java.nio.file.StandardCopyOption
 
 @UseCase
 class ExportMissionAEM(
-    private val getMissionById: GetMissionById,
+    private val getMissionById: GetMission,
     private val fillAEMExcelRow: FillAEMExcelRow,
     @Value("\${aem.template.path}") private val aemTemplatePath: String,
     @Value("\${aem.tmp_xlsx.path}") private val aemTmpXLSXPath: String,
     @Value("\${aem.tmp_ods.path}") private val aemTmpODSPath: String,
 
-) {
+    ) {
 
     private val logger: Logger = LoggerFactory.getLogger(ExportMissionAEM::class.java)
     fun execute(missionId: Int): MissionAEMExportEntity? {

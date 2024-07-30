@@ -5,7 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
-import io.sentry.Sentry
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
 import java.time.ZonedDateTime
@@ -190,32 +189,42 @@ class GetFishActionsByMissionId(
         return actions
     }
 
+    /**
+     * This function has two aims:
+     * - only keep the allowed control types
+     * - attach Nav data to a Fish Action
+     */
+    private fun filterAndAttachControls(fishActions: List<MissionAction>): List<ExtendedFishActionEntity> {
+        return fishActions.filter {
+            listOf(
+                MissionActionType.SEA_CONTROL,
+                MissionActionType.LAND_CONTROL
+            ).contains(it.actionType)
+        }.map {
+            var action = ExtendedFishActionEntity.fromMissionAction(it)
+            action = attachControlsToActionControl.toFishAction(
+                actionId = it.id?.toString(),
+                action = action
+            )
+            // recompute completeness once controls have been attached
+            action.controlAction?.computeCompleteness()
+            action
+        }
+    }
+
     @Cacheable(value = ["fishActions"])
-    fun execute(missionId: Int): List<ExtendedFishActionEntity> {
-        try {
+    fun execute(missionId: Int?): List<ExtendedFishActionEntity> {
+        if (missionId == null) {
+            logger.error("GetFishActionsByMissionId received a null missionId")
+            throw IllegalArgumentException("GetFishActionsByMissionId should not receive null missionId")
+        }
+        return try {
             val fishActions = fishActionRepo.findFishActions(missionId = missionId)
-            // TODO maybe this filter should be somewhere else
-            val actions = fishActions.filter {
-                listOf(
-                    MissionActionType.SEA_CONTROL,
-                    MissionActionType.LAND_CONTROL
-                ).contains(it.actionType)
-            }.map {
-                var action = ExtendedFishActionEntity.fromMissionAction(it)
-                action = attachControlsToActionControl.toFishAction(
-                    actionId = it.id?.toString(),
-                    action = action
-                )
-                // recompute completeness once controls have been attached
-                action.controlAction?.computeCompleteness()
-                action
-            }
-            return actions
+            // Filtering actions based on action type
+            val actions = filterAndAttachControls(fishActions)
+            actions
         } catch (e: Exception) {
             logger.error("GetFishActionsByMissionId failed loading Actions", e)
-            Sentry.captureMessage("GetFishActionsByMissionId failed loading Actions")
-
-            Sentry.captureException(e)
             return listOf()
 //            return getFakeActions(missionId)
         }
