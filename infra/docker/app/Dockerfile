@@ -1,7 +1,12 @@
 
-FROM azul/zulu-openjdk-alpine:17-jre-latest AS build-all
+FROM azul/zulu-openjdk:17 AS build-all
 
 WORKDIR /home/rapportnav
+
+RUN apt-get update && \
+    apt-get install -y libreoffice && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 ARG VERSION
 ENV VERSION=$VERSION
