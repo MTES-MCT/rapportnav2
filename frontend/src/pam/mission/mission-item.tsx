@@ -94,6 +94,7 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
   }
 
   const onItemMouseOver = () => {
+    Sentry.captureMessage("[missionItem onItemMouseOver] exportRapportEnabled value : " + exportRapportEnabled)
     if (exportRapportEnabled) {
       setExportationCanBeDisplayed(true)
     }
