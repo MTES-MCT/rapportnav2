@@ -95,7 +95,10 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
 
   const onItemMouseOver = () => {
     Sentry.captureMessage("[missionItem onItemMouseOver] exportRapportEnabled value : " + exportRapportEnabled)
-    setExportationCanBeDisplayed(true)
+    if (exportRapportEnabled) {
+      setExportationCanBeDisplayed(true)
+    }
+
   }
 
   const onItemMouseOut = () => {
@@ -151,6 +154,7 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
             </FlexboxGrid>
           </Link>
         </ListItemWithHover>
+        {exportationCanBeDisplayed && (
           <FlexboxGrid>
             <FlexboxGrid.Item colspan={24}>
               <Divider></Divider>
@@ -182,7 +186,7 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
               </Button>
             </FlexboxGrid.Item>
           </FlexboxGrid>
-
+          )}
       </Stack.Item>
     </Stack>
 
