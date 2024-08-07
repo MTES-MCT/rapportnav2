@@ -73,4 +73,13 @@ describe('ActionControlEnv', () => {
       expect(screen.queryByTestId('action-control-env')).not.toBeInTheDocument()
     })
   })
+  describe('Observations by unit', () => {
+    test('should be rendered when not nullish', () => {
+      const mock = { ...actionMock, data: { ...actionMock.data, observationsByUnit: 'observationsByUnit' } }
+      console.log(mock)
+      ;(useActionById as any).mockReturnValue(mockedQueryResult(mock as any, false))
+      render(<ActionControlEnv action={mock} />)
+      expect(screen.getByText('observationsByUnit')).toBeInTheDocument()
+    })
+  })
 })

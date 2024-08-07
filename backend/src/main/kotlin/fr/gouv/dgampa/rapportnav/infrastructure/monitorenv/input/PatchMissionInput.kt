@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.domain.entities.mission.env
+package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input
 
 import java.time.ZonedDateTime
 

@@ -145,6 +145,7 @@ export const GET_ACTION_BY_ID = gql`
         ... on EnvActionData {
           id
           observations
+          observationsByUnit
           actionNumberOfControls
           actionTargetType
           vehicleType

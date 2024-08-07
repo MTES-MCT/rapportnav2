@@ -1,3 +1,14 @@
+extend type Mutation {
+  patchActionEnv(action: ActionEnvInput!): PatchedEnvAction
+}
+
+type PatchedEnvAction {
+  id: String!
+  observationsByUnit: String
+  startDateTimeUtc: String
+  endDateTimeUtc: String
+}
+
 type EnvActionData {
   id: String!
   actionStartDateTimeUtc: String!
@@ -6,6 +17,7 @@ type EnvActionData {
   facade: String
   department: String
   observations: String
+  observationsByUnit: String
   infractions: [InfractionByTarget]
   actionNumberOfControls: Int
   actionTargetType: ActionTargetTypeEnum
@@ -23,5 +35,13 @@ type FormattedEnvActionControlPlan {
   themes: [String]
   subThemes: [String]
   tags: [String]
+}
+
+input ActionEnvInput {
+  missionId: ID!
+  actionId: String!
+  observationsByUnit: String
+  startDateTimeUtc: String
+  endDateTimeUtc: String
 }
 

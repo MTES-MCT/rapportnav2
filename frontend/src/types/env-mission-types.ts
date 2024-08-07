@@ -1,4 +1,3 @@
-import { compareAsc, compareDesc, parseISO } from '../utils/dates.ts'
 import { ControlUnit } from './control-unit-types'
 import {
   ControlAdministrative,
@@ -378,10 +377,7 @@ export type Mission<EnvAction = EnvActionControl | EnvActionSurveillance | EnvAc
   startDateTimeUtc: string
 }
 
-export type NewMission = Omit<Mission, 'facade' | 'missionSource'>
-
 export type EnvAction = EnvActionControl | EnvActionSurveillance | EnvActionNote
-export type NewEnvAction = NewEnvActionControl | EnvActionSurveillance | EnvActionNote
 
 export type EnvActionCommonProperties = {
   actionEndDateTimeUtc?: string | null
@@ -389,6 +385,7 @@ export type EnvActionCommonProperties = {
   geom?: string
   id: string
   actionStatus: string
+  observationsByUnit?: string
 }
 
 export type FormattedControlPlans = {

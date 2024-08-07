@@ -3,12 +3,17 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.PatchEnvAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.GetControlByActionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsByActionId
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.action.ActionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.EnvActionData
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.FormattedEnvActionControlPlan
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.PatchedEnvAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.infraction.Infraction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.infraction.InfractionsByVessel
+import org.springframework.graphql.data.method.annotation.Argument
+import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
 
@@ -18,7 +23,21 @@ class ActionEnvController(
     private val getControlByActionId: GetControlByActionId,
     private val getInfractionsByActionId: GetInfractionsByActionId,
     private val mapEnvActionControlPlans: MapEnvActionControlPlans,
+    private val patchEnvAction: PatchEnvAction,
 ) {
+
+    /**
+     * Send a request to MonitorEnv to patch some data on an action
+     */
+    @MutationMapping
+    fun patchActionEnv(@Argument action: ActionEnvInput): PatchedEnvAction? {
+        val patchedAction = patchEnvAction.execute(input = action)
+        return patchedAction?.let {
+            PatchedEnvAction.fromPatchableEnvActionEntity(patchedAction)
+        }
+    }
+
+
     /**
      * Some controls are marked as to be completed by the centers CNSP/CACEM
      * The Units then have to fill these up in RapportNav
