@@ -18,6 +18,7 @@ data class EnvActionData(
     val facade: String? = null,
     val geom: Geometry? = null,
     val observations: String? = null,
+    val observationsByUnit: String? = null,
     val actionNumberOfControls: Int? = null,
     val actionTargetType: ActionTargetTypeEnum? = null,
     val vehicleType: VehicleTypeEnum? = null,

@@ -27,6 +27,7 @@ fun createMockMultiPoint(coordinates: List<Coordinate>): MultiPoint {
 class GetEnvMissionById(
     private val monitorEnvApiRepo: IEnvMissionRepository,
     private val attachControlsToActionControl: AttachControlsToActionControl,
+    private val getEnvMissions: GetEnvMissions,
 ) {
     private val logger = LoggerFactory.getLogger(GetEnvMissionById::class.java)
 
@@ -123,6 +124,7 @@ class GetEnvMissionById(
             actionTargetType = null,
             vehicleType = null,
             observations = null,
+            observationsByUnit = "dummy",
             isSeafarersControl = true,
             isAdministrativeControl = true,
             completion = ActionCompletionEnum.COMPLETED,
