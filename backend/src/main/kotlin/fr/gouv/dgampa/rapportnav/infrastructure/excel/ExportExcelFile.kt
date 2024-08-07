@@ -68,14 +68,15 @@ class ExportExcelFile(private val filePath: String) {
             officeManager.start()
             val converter = LocalConverter.make(officeManager)
             converter.convert(File(xlsxPath)).to(File(odsPath)).execute()
+            logger.info("Successfully converted XLSX to ODS: $odsPath")
         } catch (e: Exception) {
-            logger.error("[ExportExcelFile::save() error : ${e.message}")
+            logger.error("[ExportExcelFile::convertToOds] error : ${e.message}")
         }
         finally {
             try {
                 officeManager.stop()
             } catch (e: Exception) {
-                logger.error("[ExportExcelFile::save() error on officeManager.stop() : ${e.message}")
+                logger.error("[ExportExcelFile::convertToOds] error on officeManager.stop() : ${e.message}")
             }
         }
 
@@ -83,9 +84,16 @@ class ExportExcelFile(private val filePath: String) {
     }
 
     fun convertToBase64(filePath: String) : String {
-        val odsByte = Files.readAllBytes(Path.of(filePath))
-        Files.delete(Path.of(filePath))
-        return Base64.getEncoder().encodeToString(odsByte)
+        return try {
+            val odsBytes = Files.readAllBytes(Path.of(filePath))
+            Files.delete(Path.of(filePath))
+            val base64Content = Base64.getEncoder().encodeToString(odsBytes)
+            logger.info("Successfully converted file to Base64: $filePath")
+            base64Content
+        } catch (e: Exception) {
+            logger.error("[ExportExcelFile::convertToBase64] Error: ${e.message}", e)
+            throw e
+        }
     }
 
 

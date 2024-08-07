@@ -17,6 +17,16 @@ const mission = {
   }
 } as unknown as Mission
 
+const missionNotComplete = {
+  id: 3,
+  startDateTimeUtc: '2022-08-07T12:00:00Z',
+  endDateTimeUtc: '2022-08-19T12:00:00Z',
+  status: MissionStatusEnum.ENDED,
+  completenessForStats: {
+    status: CompletenessForStatsStatusEnum.INCOMPLETE
+  }
+} as unknown as Mission
+
 
 
 vi.mock('./use-is-mission-complete-for-stats', async importOriginal => {
@@ -78,7 +88,7 @@ describe('Mission Item component', () => {
   })
 
   test('should not render the Exporter le rapport de mission button on mouse over if the mission is not complete for stats', () => {
-    const { container } = render(<MissionItem mission={mission} prefetchMission={vi.fn()} />)
+    const { container } = render(<MissionItem mission={missionNotComplete} prefetchMission={vi.fn()} />)
     const missionItemElement = container.firstChild
     fireEvent.mouseOver(missionItemElement)
     expect(screen.queryByText('Exporter le rapport de la mission', { exact: true })).not.toBeInTheDocument()

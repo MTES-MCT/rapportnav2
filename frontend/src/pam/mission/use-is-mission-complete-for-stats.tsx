@@ -1,6 +1,7 @@
 import { CompletenessForStatsStatusEnum } from '../../types/mission-types.ts'
 import client from '../../apollo-client.ts'
 import { GET_MISSION_TIMELINE } from './timeline/use-mission-timeline.tsx'
+import * as Sentry from '@sentry/react'
 
 /**
  * A custom React hook to determine whether a mission is complete for stats based on its status,
@@ -30,6 +31,8 @@ const useIsMissionCompleteForStats = (missionId?: number): boolean | undefined =
 
     return mission?.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE
   } catch (error) {
+    console.error("[useIsMissionCompleteForStats] An error occured : " + error)
+    Sentry.captureException("[useIsMissionCompleteForStats] An error occured : " + error)
     return undefined
   }
 }

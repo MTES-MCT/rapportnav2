@@ -31,7 +31,7 @@ const useLazyMissionAEMExport = (): LazyQueryResultTuple<MissionExport, { missio
       return await execute({ ...options, fetchPolicy: 'cache-and-network' })
     } catch (error) {
       console.error('Mission AEM export error: ', error)
-      Sentry.captureException(error)
+      Sentry.captureException('Mission AEM export error: ' + error)
       throw error
     }
   }

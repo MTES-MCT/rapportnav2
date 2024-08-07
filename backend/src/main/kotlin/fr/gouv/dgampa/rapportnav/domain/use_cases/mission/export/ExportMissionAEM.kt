@@ -27,30 +27,44 @@ class ExportMissionAEM(
 
     private val logger: Logger = LoggerFactory.getLogger(ExportMissionAEM::class.java)
     fun execute(missionId: Int): MissionAEMExportEntity? {
-        val path = Path.of(aemTemplatePath)
-        val tmpPath = Path.of(aemTmpXLSXPath)
-        Files.copy(path, tmpPath, StandardCopyOption.REPLACE_EXISTING)
-        val excelFile: ExportExcelFile = ExportExcelFactory.create(tmpPath.toString())
-        val mission: MissionEntity? = getMissionById.execute(missionId)
+        return try {
 
+            val inputStream = javaClass.getResourceAsStream(aemTemplatePath)
+                ?: throw IllegalArgumentException("Template file not found: $aemTemplatePath")
 
-        if (mission !== null && mission.actions !== null) {
-            val tableExport = AEMTableExport.fromMission(mission)
-            fillAEMExcelRow.fill(tableExport, excelFile, "Synthese", 3)
-            excelFile.save()
-            val odsFile = excelFile.convertToOds(tmpPath.toString(), aemTmpODSPath)
-            val base64Content = excelFile.convertToBase64(odsFile)
+            val tmpPath = Path.of(aemTmpXLSXPath)
+            Files.copy(inputStream, tmpPath, StandardCopyOption.REPLACE_EXISTING)
+            inputStream.close()
 
+            logger.info("Template file copied to temporary path: $tmpPath")
 
-            return MissionAEMExportEntity(
-                fileName = "Rapport_AEM.ods",
-                fileContent = base64Content
-            )
+            val excelFile: ExportExcelFile = ExportExcelFactory.create(tmpPath.toString())
+            val mission: MissionEntity? = getMissionById.execute(missionId)
 
+            if (mission?.actions != null) {
+                val tableExport = AEMTableExport.fromMission(mission)
+                fillAEMExcelRow.fill(tableExport, excelFile, "Synthese", 3)
+                excelFile.save()
+
+                logger.info("Excel file processed and saved")
+
+                val odsFile = excelFile.convertToOds(tmpPath.toString(), aemTmpODSPath)
+                val base64Content = excelFile.convertToBase64(odsFile)
+
+                logger.info("ODS file created and converted to Base64")
+
+                return MissionAEMExportEntity(
+                    fileName = "Rapport_AEM.ods",
+                    fileContent = base64Content
+                )
+            } else {
+                logger.error("Mission or mission actions are null for missionId: $missionId")
+                null
+            }
+        } catch (e: Exception) {
+            logger.error("An error occurred during mission processing", e)
+            null
         }
-
-        logger.error("Can't load data for AEM export. Cause : Mission or actions are empty. Mission ID : $missionId")
-        return null
     }
 
 

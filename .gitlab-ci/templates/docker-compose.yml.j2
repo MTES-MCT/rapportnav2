@@ -13,7 +13,6 @@ services:
     #  - "${RAPPORTNAV_LOGS_FOLDER}:/home/rapportnav/logs"
     depends_on:
       - db
-      - libreoffice
     restart: always
     logging:
       driver: "json-file"
@@ -36,17 +35,6 @@ services:
       interval: 1s
       timeout: 1s
       retries: 30
-
-  libreoffice:
-    image: lscr.io/linuxserver/libreoffice:latest
-    container_name: libreoffice-container
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Etc/UTC
-    volumes:
-      - ./data:/data
-    command: tail -f /dev/null
 
 volumes:
   db:

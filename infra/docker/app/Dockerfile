@@ -1,7 +1,10 @@
 
-FROM azul/zulu-openjdk-alpine:17-jre-latest AS build-all
+FROM azul/zulu-openjdk:17 AS build-all
 
 WORKDIR /home/rapportnav
+
+ARG PROXY
+ENV PROXY=$PROXY
 
 ARG VERSION
 ENV VERSION=$VERSION
@@ -13,6 +16,11 @@ ENV SPRING_PROFILES_ACTIVE=$ENV_PROFILE
 
 # ENV REACT_APP_ENV=$ENV_PROFILE
 ENV ENV_DB_URL=""
+
+RUN http_proxy=${PROXY} apt-get update && \
+    http_proxy=${PROXY}  apt-get install -y libreoffice && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # copy backend related things
 COPY backend/build/libs/rapportnav-${VERSION}.jar /home/rapportnav
