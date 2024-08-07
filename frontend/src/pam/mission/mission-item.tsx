@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Mission, MissionExport } from '../../types/mission-types.ts'
+import { CompletenessForStatsStatusEnum, Mission, MissionExport } from '../../types/mission-types.ts'
 import { Accent, Button, Icon, logSoftError, Size, THEME } from '@mtes-mct/monitor-ui'
 import { Link } from 'react-router-dom'
 import { Divider, FlexboxGrid, Stack } from 'rsuite'
@@ -36,7 +36,7 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
   const [exportLoading, setExportLoading] = useState<boolean>(false)
 
   const [exportationCanBeDisplayed, setExportationCanBeDisplayed] = useState<boolean>(false)
-  const exportRapportEnabled = useIsMissionCompleteForStats(mission?.id)
+ // const exportRapportEnabled = useIsMissionCompleteForStats(mission?.id)
 
   const handleDownload = (missionExport?: MissionExport, isSpreadSheet: boolean = false) => {
     if (missionExport) {
@@ -94,8 +94,10 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
   }
 
   const onItemMouseOver = () => {
-    Sentry.captureMessage("[missionItem onItemMouseOver] exportRapportEnabled value : " + exportRapportEnabled)
-    if (exportRapportEnabled) {
+    const isCompleteForStats = mission?.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE
+    Sentry.captureMessage("[missionItem onItemMouseOver] isCompleteForStats : " + isCompleteForStats)
+
+    if (isCompleteForStats) {
       setExportationCanBeDisplayed(true)
     }
 
