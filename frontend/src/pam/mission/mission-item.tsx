@@ -8,7 +8,6 @@ import MissionOpenByTag from './mission-open-by-tag.tsx'
 import { formatDateForFrenchHumans } from '../../utils/dates.ts'
 import MissionStatusTag from './mission-status-tag.tsx'
 import MissionCompletenessForStatsTag from './mission-completeness-for-stats-tag.tsx'
-import useIsMissionCompleteForStats from './use-is-mission-complete-for-stats.tsx'
 import styled from 'styled-components'
 import * as Sentry from '@sentry/react'
 import useLazyMissionExport from './export/use-lazy-mission-export.tsx'
@@ -36,7 +35,6 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
   const [exportLoading, setExportLoading] = useState<boolean>(false)
 
   const [exportationCanBeDisplayed, setExportationCanBeDisplayed] = useState<boolean>(false)
- // const exportRapportEnabled = useIsMissionCompleteForStats(mission?.id)
 
   const handleDownload = (missionExport?: MissionExport, isSpreadSheet: boolean = false) => {
     if (missionExport) {
@@ -95,7 +93,6 @@ const MissionItem: React.FC<MissionItemProps> = ({mission, prefetchMission}) => 
 
   const onItemMouseOver = () => {
     const isCompleteForStats = mission?.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE
-    Sentry.captureMessage("[missionItem onItemMouseOver] isCompleteForStats : " + isCompleteForStats)
 
     if (isCompleteForStats) {
       setExportationCanBeDisplayed(true)

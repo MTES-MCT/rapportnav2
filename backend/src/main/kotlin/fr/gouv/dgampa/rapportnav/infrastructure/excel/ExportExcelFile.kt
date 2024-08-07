@@ -69,13 +69,13 @@ class ExportExcelFile(private val filePath: String) {
             val converter = LocalConverter.make(officeManager)
             converter.convert(File(xlsxPath)).to(File(odsPath)).execute()
         } catch (e: Exception) {
-            logger.error("[ExportExcelFile::save() error : ${e.message}")
+            logger.error("[ExportExcelFile::convertToOds() error : ${e.message}")
         }
         finally {
             try {
                 officeManager.stop()
             } catch (e: Exception) {
-                logger.error("[ExportExcelFile::save() error on officeManager.stop() : ${e.message}")
+                logger.error("[ExportExcelFile::convertToOds() error on officeManager.stop() : ${e.message}")
             }
         }
 
