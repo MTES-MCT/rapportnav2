@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom'
 import useActionById from './use-action-by-id.tsx'
 import useIsMissionFinished from '../use-is-mission-finished.tsx'
 import ActionHeader from './action-header.tsx'
+import ActionEnvObservationsUnit from './action-env-observations-unit.tsx'
 
 interface ActionSurveillancePropsEnv {
   action: Action
@@ -79,6 +80,15 @@ const ActionSurveillanceEnv: React.FC<ActionSurveillancePropsEnv> = ({ action })
           <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
             {actionData?.observations || 'aucunes'}
           </Text>
+        </Stack.Item>
+
+        <Stack.Item style={{ width: '100%' }}>
+          <ActionEnvObservationsUnit
+            missionId={missionId}
+            actionId={actionId}
+            observationsByUnit={actionData.observationsByUnit}
+            label={'Observations (unités)'}
+          />
         </Stack.Item>
       </Stack>
     )

@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.controlPlans
+package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.controlPlans
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlPlan.ControlPlanSubThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlPlan.ControlPlanTagEntity

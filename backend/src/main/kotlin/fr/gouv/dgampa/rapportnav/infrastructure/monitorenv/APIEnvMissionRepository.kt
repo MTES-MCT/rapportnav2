@@ -4,11 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.PatchMissionInput
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.PatchedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.MissionDataOutput
-import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.controlPlans.ControlPlanDataOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchActionInput
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.action.MissionEnvActionDataOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.controlPlans.ControlPlanDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
@@ -16,7 +19,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Repository
 import org.springframework.web.util.UriUtils
 import java.net.URI
-import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.time.ZonedDateTime
@@ -28,11 +30,14 @@ class APIEnvMissionRepository(
 ) : IEnvMissionRepository {
     private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepository::class.java);
 
+    private val gson = GsonSerializer().create()
+
+    private val client = clientFactory.create();
+
     // TODO set as env var when available
     private val host = "https://monitorenv.din.developpement-durable.gouv.fr"
 
     override fun findMissionById(missionId: Int): MissionEntity? {
-        val client: HttpClient = HttpClient.newBuilder().build()
         val url = URI.create("$host/api/v1/missions/$missionId")
 
         logger.info("Sending GET request for Env mission id=$missionId. URL: $url")
@@ -142,7 +147,6 @@ class APIEnvMissionRepository(
         // Build the URI
         val uri = URI.create(uriBuilder.toString())
 
-        val client: HttpClient = HttpClient.newBuilder().build()
         val request = HttpRequest.newBuilder()
             .uri(uri)
             .build()
@@ -187,8 +191,6 @@ class APIEnvMissionRepository(
         val url = "$host/api/v1/control_plans"
         logger.info("Starting to fetch ControlsPlans from MonitorEnv at $url")
         return try {
-            val gson = GsonSerializer().create()
-            val client: HttpClient = HttpClient.newBuilder().build()
             val request = HttpRequest.newBuilder().uri(
                 URI.create(url)
             ).build()
@@ -208,8 +210,6 @@ class APIEnvMissionRepository(
         val url = "$host/api/v2/missions/$missionId";
         logger.info("Sending PATCH request for Env mission id=$missionId. URL: $url")
         return try {
-            val gson = GsonSerializer().create()
-            val client = clientFactory.create();
             val request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
@@ -228,6 +228,34 @@ class APIEnvMissionRepository(
             missionDataOutput?.toMissionEntity();
         } catch (e: Exception) {
             logger.error("Failed to PATCH request for Env mission id=$missionId. URL: $url", e);
+            null;
+        }
+    }
+
+    override fun patchAction(actionId: String, action: PatchActionInput): PatchedEnvActionEntity? {
+        val url = "$host/api/v1/actions/$actionId";
+        logger.info("Sending PATCH request for Env mission id=$actionId. URL: $url")
+        return try {
+
+            val request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(url))
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(gson.toJson(action)))
+                .header("Content-Type", "application/json")
+                .build();
+
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            logger.debug("Response received, actionId: ${actionId}, Status code: ${response.statusCode()}");
+
+            val body = response.body()
+            logger.debug(body)
+
+            mapper.registerModule(JtsModule())
+            val output: MissionEnvActionDataOutput? = mapper.readValue(body);
+            output?.toPatchableEnvActionEntity();
+            null
+        } catch (e: Exception) {
+            logger.error("Failed to PATCH request for Env action id=$actionId. URL: $url", e);
             null;
         }
     }

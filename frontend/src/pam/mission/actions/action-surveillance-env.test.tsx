@@ -101,4 +101,12 @@ describe('ActionSurveillanceEnv', () => {
       expect(screen.getByText('inconnues')).toBeInTheDocument()
     })
   })
+  describe('Observations by unit', () => {
+    test('should be rendered when not nullish', () => {
+      const mock = { ...actionMock, data: { ...actionMock.data, observationsByUnit: 'observationsByUnit' } }
+      ;(useActionById as any).mockReturnValue(mockedQueryResult(mock as any, false))
+      render(<ActionSurveillanceEnv action={actionMock} />)
+      expect(screen.getByText('observationsByUnit')).toBeInTheDocument()
+    })
+  })
 })

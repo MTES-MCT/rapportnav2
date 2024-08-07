@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs.controlPlans
+package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.controlPlans
 
 data class ControlPlanThemeDataOutput(
     val id: Int,
