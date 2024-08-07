@@ -100,6 +100,8 @@ class GetEnvMissions(
         isGeometryComputedFromControls = false
     )
 
+    val mockedMissions = listOf(mission1, mission2, mission3, mission4, mission5, mission6)
+
 
     @Cacheable(value = ["envMissions"])
     fun execute(
@@ -123,7 +125,6 @@ class GetEnvMissions(
         } catch (e: Exception) {
             logger.error("GetEnvMissions failed loading Missions", e)
             return null
-//            val mockedMissions = listOf(mission1, mission2, mission3, mission4, mission5, mission6)
 //            return mockedMissions
         }
 

@@ -48,6 +48,7 @@ data class Action(
                                 actionType = action.actionType,
                                 geom = action.geom,
                                 observations = action.observations,
+                                observationsByUnit = action.observationsByUnit,
                                 coverMissionZone = action.coverMissionZone,
                                 controlPlans = action.controlPlans,
                             )
@@ -76,6 +77,7 @@ data class Action(
                                 actionType = action.actionType,
                                 geom = action.geom,
                                 observations = action.observations,
+                                observationsByUnit = action.observationsByUnit,
                                 actionNumberOfControls = action.actionNumberOfControls,
                                 actionTargetType = action.actionTargetType,
                                 vehicleType = action.vehicleType,

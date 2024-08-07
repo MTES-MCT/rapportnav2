@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.outputs
+package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
@@ -26,7 +26,7 @@ data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) co
     val hasMissionOrder: Boolean,
     val isUnderJdp: Boolean,
     val isGeometryComputedFromControls: Boolean,
-    val observationsByUnit: String? =  null
+    val observationsByUnit: String? = null
 ) {
 
     fun toMissionEntity(): MissionEntity {

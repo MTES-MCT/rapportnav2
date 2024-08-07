@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvA
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
@@ -45,6 +46,9 @@ class GetEnvMissionByIdTest {
 
     @Autowired
     private lateinit var cacheManager: CacheManager
+
+    @MockBean
+    private lateinit var getEnvMissions: GetEnvMissions
 
     @MockBean
     private lateinit var monitorEnvApiRepo: IEnvMissionRepository
