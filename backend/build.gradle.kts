@@ -88,6 +88,7 @@ dependencies {
   testImplementation("org.testcontainers:testcontainers")
   testImplementation("org.testcontainers:junit-jupiter")
   testImplementation("org.testcontainers:postgresql")
+  testImplementation("org.springframework.security:spring-security-test:6.3.1")
 }
 
 buildscript {
@@ -142,4 +143,3 @@ tasks.register<Copy>("getDependencies") {
     File("runtime").deleteRecursively()
   }
 }
-
