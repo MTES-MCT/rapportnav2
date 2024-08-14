@@ -15,7 +15,7 @@ export const MUTATION_PATCH_ACTION_ENV = gql`
 `
 
 export type PatchActionEnvInput = {
-  missionId?: number
+  missionId?: string
   actionId?: string
   observationsByUnit?: string
   startDateTimeUtc?: string

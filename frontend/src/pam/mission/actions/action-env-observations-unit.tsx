@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import usePatchActionEnv from './use-patch-action-env.tsx'
+import usePatchActionEnv, { PatchActionEnvInput } from './use-patch-action-env.tsx'
 import PatchableMonitorObservations from '../../forms/patchable-monitor-observations.tsx'
 import { logSoftError } from '@mtes-mct/monitor-ui'
 
@@ -20,19 +20,18 @@ const ActionEnvObservationsUnit: FC<ActionEnvObservationsUnitProps> = ({
   const [patch, { error }] = usePatchActionEnv()
 
   const handleSubmit = async (observationsByUnit: string) => {
+    const input: PatchActionEnvInput = {
+      missionId,
+      actionId,
+      observationsByUnit
+    }
     const output = await patch({
       variables: {
-        action: {
-          missionId,
-          actionId,
-          observationsByUnit
-        }
+        action: input
       }
     })
 
     if (!output?.data?.patchActionEnv || error) {
-      // if (!output.data.patchActionEnv || error) {
-      console.log('DFDSFDSFDSFDSFSDFSDFSDFDSFSDFSD')
       logSoftError({
         isSideWindowError: false,
         message: `patchActionEnv for action=${actionId} for observationsByUnit returns null`,

@@ -17,6 +17,7 @@ import { ActionDetailsProps } from './action-mapping.ts'
 import ActionHeader from './action-header.tsx'
 import useIsMissionFinished from '../use-is-mission-finished.tsx'
 import ActionEnvObservationsUnit from './action-env-observations-unit.tsx'
+import ActionEnvDateRange from './action-env-daterange.tsx'
 
 type ActionControlPropsEnv = ActionDetailsProps
 
@@ -70,16 +71,11 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
           </Text>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <Label>Date et heure</Label>
-          <DatePicker
-            defaultValue={envAction.startDateTimeUtc}
-            // label="Date et heure"
-            withTime={true}
-            isCompact={false}
-            isLight={true}
-            name="startDateTimeUtc"
-            readOnly={true}
-            disabled={true}
+          <ActionEnvDateRange
+            missionId={missionId}
+            actionId={actionId}
+            startDateTimeUtc={envAction.startDateTimeUtc}
+            endDateTimeUtc={envAction.endDateTimeUtc}
           />
         </Stack.Item>
         <Stack.Item>

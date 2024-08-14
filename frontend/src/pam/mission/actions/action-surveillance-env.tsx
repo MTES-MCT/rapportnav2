@@ -9,6 +9,7 @@ import useActionById from './use-action-by-id.tsx'
 import useIsMissionFinished from '../use-is-mission-finished.tsx'
 import ActionHeader from './action-header.tsx'
 import ActionEnvObservationsUnit from './action-env-observations-unit.tsx'
+import ActionEnvDateRange from './action-env-daterange.tsx'
 
 interface ActionSurveillancePropsEnv {
   action: Action
@@ -48,14 +49,11 @@ const ActionSurveillanceEnv: React.FC<ActionSurveillancePropsEnv> = ({ action })
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <Label>Date et heure de début et de fin</Label>
-          <DateRangePicker
-            defaultValue={[envAction.startDateTimeUtc, envAction.endDateTimeUtc ?? new Date()]}
-            // label="Dates du rapport"
-            withTime={true}
-            isCompact={true}
-            readOnly={true}
-            disabled={true}
+          <ActionEnvDateRange
+            missionId={missionId}
+            actionId={actionId}
+            startDateTimeUtc={envAction.startDateTimeUtc}
+            endDateTimeUtc={envAction.endDateTimeUtc}
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
