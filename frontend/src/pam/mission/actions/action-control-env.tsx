@@ -16,6 +16,7 @@ import { Coordinates } from '@mtes-mct/monitor-ui/types/definitions'
 import { ActionDetailsProps } from './action-mapping.ts'
 import ActionHeader from './action-header.tsx'
 import useIsMissionFinished from '../use-is-mission-finished.tsx'
+import ActionEnvObservationsUnit from './action-env-observations-unit.tsx'
 
 type ActionControlPropsEnv = ActionDetailsProps
 
@@ -194,6 +195,14 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
               />
             </Stack.Item>
           </Stack>
+        </Stack.Item>
+        <Stack.Item style={{ width: '100%' }}>
+          <ActionEnvObservationsUnit
+            missionId={missionId}
+            actionId={actionId}
+            observationsByUnit={actionData?.observationsByUnit}
+            label={'Observations de l’unité sur le contrôle de l’environnement marin'}
+          />
         </Stack.Item>
       </Stack>
     )

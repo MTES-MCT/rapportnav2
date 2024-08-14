@@ -21,6 +21,7 @@ data class EnvActionControlEntity(
     override val isSeafarersControl: Boolean? = null,
     override val openBy: String? = null,
     val observations: String? = null,
+    val observationsByUnit: String? = null,
     val actionNumberOfControls: Int? = null,
     val actionTargetType: ActionTargetTypeEnum? = null,
     val vehicleType: VehicleTypeEnum? = null,

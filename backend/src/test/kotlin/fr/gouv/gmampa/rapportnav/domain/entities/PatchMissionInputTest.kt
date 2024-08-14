@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.entities
 
 import com.google.gson.Gson
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.PatchMissionInput
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -73,5 +73,5 @@ class PatchMissionInputTest {
         // Assert equality
         assertThat(deserializedInput).isEqualTo(input)
     }
-    
+
 }

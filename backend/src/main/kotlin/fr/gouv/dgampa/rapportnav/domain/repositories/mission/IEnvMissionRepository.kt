@@ -1,8 +1,10 @@
 package fr.gouv.dgampa.rapportnav.domain.repositories.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.PatchMissionInput
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.PatchedEnvActionEntity
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchActionInput
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import java.time.ZonedDateTime
 
 interface IEnvMissionRepository {
@@ -23,4 +25,6 @@ interface IEnvMissionRepository {
     fun findAllControlPlans(): ControlPlansEntity?
 
     fun patchMission(missionId: Int, mission: PatchMissionInput): MissionEntity?
+
+    fun patchAction(actionId: String, action: PatchActionInput): PatchedEnvActionEntity?
 }
