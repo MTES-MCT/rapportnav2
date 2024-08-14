@@ -32,38 +32,28 @@ class SecurityConfig(
         http.authenticationManager { auth ->
             val jwt = auth as BearerTokenAuthenticationToken
             val user = tokenService.parseToken(jwt.token) ?: throw InvalidBearerTokenException("Invalid token")
-            UsernamePasswordAuthenticationToken(user, "", listOf(SimpleGrantedAuthority("USER")))
+            val grantedAuthorities = user.roles.map { role -> SimpleGrantedAuthority("ROLE_$role") }
+            UsernamePasswordAuthenticationToken(user, "", grantedAuthorities)
         }
 
         // Other configuration
         http.cors()
         http.sessionManagement { sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-//        http
-//            .csrf()
-//            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         val requestHandler = CsrfTokenRequestAttributeHandler()
         requestHandler.setCsrfRequestAttributeName(null)
-        http
-            .csrf { csrf ->
-                csrf
-                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                    .csrfTokenRequestHandler(requestHandler)
-            }
-//        http.headers().frameOptions().disable()
-//        http.headers().xssProtection().disable()
+        http.csrf { csrf ->
+            csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .csrfTokenRequestHandler(requestHandler)
+        }
         http.authorizeHttpRequests { authorize ->
             authorize
+                .requestMatchers(AntPathRequestMatcher("/graphql")).authenticated()
                 .requestMatchers(AntPathRequestMatcher("/api/v1/auth/login")).permitAll()
                 .requestMatchers(AntPathRequestMatcher("/api/v1/auth/register")).permitAll()
-                .requestMatchers(AntPathRequestMatcher("/graphql")).authenticated()
+                .requestMatchers(AntPathRequestMatcher("/api/v1/admin/**")).hasRole("ADMIN")
                 .requestMatchers(AntPathRequestMatcher("/**")).permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
         }
-//         http.authorizeHttpRequests()
-//            .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
-//            .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
-//            .requestMatchers("/graphql").authenticated()
-//            .anyRequest().permitAll()
 
         return http.build()
     }
