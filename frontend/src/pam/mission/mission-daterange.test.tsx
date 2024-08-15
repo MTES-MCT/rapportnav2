@@ -1,6 +1,6 @@
 import { vi } from 'vitest'
 import { render, screen } from '../../test-utils.tsx'
-import MissionDatetime from './mission-datetime.tsx'
+import MissionDaterange from './mission-daterange.tsx'
 import { MissionStatusEnum } from '../../types/mission-types.ts'
 import { Mission } from '../../types/mission-types.ts'
 
@@ -26,7 +26,7 @@ describe('Mission Datetime start/end', () => {
   })
 
   it('should render the dates', () => {
-    render(<MissionDatetime mission={mockMission} />)
+    render(<MissionDaterange mission={mockMission} />)
     expect(patchMissionMock).not.toHaveBeenCalled()
     expect(screen.getByDisplayValue('2022-02-15 ~ 2023-03-27')).toBeInTheDocument()
   })
