@@ -1,39 +1,38 @@
 import { FC } from 'react'
-import usePatchActionEnv, { PatchActionEnvInput } from './use-patch-action-env.tsx'
 import PatchableMonitorObservations from '../../forms/patchable-monitor-observations.tsx'
 import { logSoftError } from '@mtes-mct/monitor-ui'
+import usePatchActionFish from './use-patch-action-fish.tsx'
 
-export interface ActionEnvObservationsUnitProps {
+export interface ActionFishObservationsUnitProps {
   missionId?: string
   actionId?: string
   observationsByUnit?: string
   label: string
 }
 
-const ActionEnvObservationsUnit: FC<ActionEnvObservationsUnitProps> = ({
+const ActionFishObservationsUnit: FC<ActionFishObservationsUnitProps> = ({
   missionId,
   actionId,
   observationsByUnit,
   label
 }) => {
-  const [patch, { error }] = usePatchActionEnv()
+  const [patch, { error }] = usePatchActionFish()
 
   const handleSubmit = async (observationsByUnit: string) => {
-    const input: PatchActionEnvInput = {
-      missionId,
-      actionId,
-      observationsByUnit
-    }
     const output = await patch({
       variables: {
-        action: input
+        action: {
+          missionId,
+          actionId,
+          observationsByUnit
+        }
       }
     })
 
-    if (!output?.data?.patchActionEnv || error) {
+    if (!output?.data?.patchActionFish || error) {
       logSoftError({
         isSideWindowError: false,
-        message: `patchActionEnv for action=${actionId} for observationsByUnit returns null`,
+        message: `patchActionFish for action=${actionId} for observationsByUnit returns null`,
         userMessage: `Le champ observations n'a pas pu être sauvegardé. Réessayez ou contactez l'équipe RapportNav.`
       })
     }
@@ -49,4 +48,4 @@ const ActionEnvObservationsUnit: FC<ActionEnvObservationsUnitProps> = ({
   )
 }
 
-export default ActionEnvObservationsUnit
+export default ActionFishObservationsUnit

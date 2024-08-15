@@ -61,4 +61,5 @@ data class MissionAction(
     val isSeafarersControl: Boolean? = null,
     val completedBy: String? = null,
     val completion: Completion,
+    val observationsByUnit: String? = null,
 )

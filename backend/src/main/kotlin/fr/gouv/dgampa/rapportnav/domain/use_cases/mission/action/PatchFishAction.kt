@@ -1,0 +1,24 @@
+package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action
+
+import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.action.ActionFishInput
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.input.PatchActionInput
+
+@UseCase
+class PatchFishAction(private val fishRepository: IFishActionRepository) {
+    fun execute(
+        input: ActionFishInput,
+    ): MissionAction? {
+        val patchedAction = fishRepository.patchAction(
+            input.actionId,
+            PatchActionInput(
+                observationsByUnit = input.observationsByUnit,
+                actionStartDateTimeUtc = input.startDateTimeUtc,
+                actionEndDateTimeUtc = input.endDateTimeUtc,
+            )
+        )
+        return patchedAction
+    }
+}

@@ -58,7 +58,5 @@ data class MissionActionDataOutput(
     val isComplianceWithWaterRegulationsControl: Boolean? = null,
     val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
     val isSeafarersControl: Boolean? = null,
-
-    ) {
-
-}
+    val observationsByUnit: String? = null,
+)
