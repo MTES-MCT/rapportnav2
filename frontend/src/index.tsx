@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import 'rsuite/dist/rsuite.min.css'
 import './assets/css/index.css'
 import '@mtes-mct/monitor-ui/assets/stylesheets/rsuite-override.css'
+import { Provider } from 'react-redux'
+import { store } from './redux/store.ts'
 
 // setup sentry before starting
 initSentry()
@@ -15,7 +17,9 @@ initSentry()
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 )
 

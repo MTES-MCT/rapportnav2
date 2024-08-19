@@ -21,6 +21,7 @@
   "dependencies": {
     "@apollo/client": "^3.10.8",
     "@mtes-mct/monitor-ui": "^14.3.1",
+    "@reduxjs/toolkit": "^2.2.7",
     "@sentry/integrations": "^7.117.0",
     "@sentry/react": "^7.117.0",
     "@unleash/proxy-client-react": "^4.2.3",
@@ -33,6 +34,7 @@
     "lodash": "^4.17.21",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-redux": "^9.1.2",
     "react-router-dom": "^6.24.0",
     "react-toastify": "^9.1.3",
     "rsuite": "5.53.2",
