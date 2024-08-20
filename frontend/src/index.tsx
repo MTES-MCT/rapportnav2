@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import ReactDOM from 'react-dom/client'
 // import reportWebVitals from './report-web-vitals'
 import App from './app'
@@ -8,14 +8,21 @@ import 'react-toastify/dist/ReactToastify.css'
 import 'rsuite/dist/rsuite.min.css'
 import './assets/css/index.css'
 import '@mtes-mct/monitor-ui/assets/stylesheets/rsuite-override.css'
+import { store } from './redux/store.ts'
+import { Provider } from 'react-redux'
 
 // setup sentry before starting
 initSentry()
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+
+
+
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 )
 
