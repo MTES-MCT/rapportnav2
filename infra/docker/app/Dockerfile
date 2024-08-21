@@ -1,5 +1,5 @@
 
-FROM azul/zulu-openjdk:17 AS build-all
+FROM azul/zulu-openjdk:17.0.12 AS build-all
 
 WORKDIR /home/rapportnav
 

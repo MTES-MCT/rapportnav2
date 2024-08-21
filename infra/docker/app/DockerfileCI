@@ -47,7 +47,7 @@ RUN npm run build --verbose --mode production
 ########################################
 # Run Application                      #
 ########################################
-FROM azul/zulu-openjdk-alpine:17-jre-latest as build-all
+FROM azul/zulu-openjdk:17.0.12 as build-all
 
 WORKDIR /home/rapportnav
 
