@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
-version = "1.7.1"
+version = "1.7.2"
 description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
@@ -46,6 +46,10 @@ configurations.all {
 dependencyManagement {
   imports {
     mavenBom("org.testcontainers:testcontainers-bom:$testcontainersVersion")
+  }
+  dependencies {
+//    21/08/2024: remove following when moving to spring 3.3.3 or above
+    dependency("org.springframework:spring-web:6.1.12")
   }
 }
 
