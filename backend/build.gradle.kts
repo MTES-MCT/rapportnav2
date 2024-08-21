@@ -48,8 +48,9 @@ dependencyManagement {
     mavenBom("org.testcontainers:testcontainers-bom:$testcontainersVersion")
   }
   dependencies {
-//    21/08/2024: remove following when moving to spring 3.3.3 or above
+//    21/08/2024: remove the 2 following exclusions when moving to spring 3.3.3 or above
     dependency("org.springframework:spring-web:6.1.12")
+    dependency("org.springframework.security:spring-security-core:6.3.2")
   }
 }
 
@@ -76,7 +77,7 @@ dependencies {
   }
   implementation("io.jsonwebtoken:jjwt-api:0.12.3")
   implementation("javax.xml.bind:jaxb-api:2.3.1")
-  implementation("org.springframework.security:spring-security-oauth2-jose:6.3.0")
+  implementation("org.springframework.security:spring-security-oauth2-jose:6.3.2")
   implementation("org.locationtech.jts:jts-core:1.19.0")
   implementation("io.swagger.core.v3:swagger-core:2.2.20")
   implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
@@ -92,7 +93,7 @@ dependencies {
   testImplementation("org.testcontainers:testcontainers")
   testImplementation("org.testcontainers:junit-jupiter")
   testImplementation("org.testcontainers:postgresql")
-  testImplementation("org.springframework.security:spring-security-test:6.3.1")
+  testImplementation("org.springframework.security:spring-security-test:6.3.2")
 }
 
 buildscript {
