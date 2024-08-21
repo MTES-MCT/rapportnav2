@@ -20,7 +20,7 @@ services:
         max-size: "1024m"
 
   db:
-    image: "{{ nexus_proxy }}/postgres:15.7-alpine"
+    image: "{{ nexus_proxy }}/postgres:15.8-alpine"
     volumes:
       - db:/var/lib/postgresql/data
     restart: always
@@ -31,7 +31,7 @@ services:
       POSTGRES_USER: {{ rapportnav_psql_user }}
       POSTGRES_PASSWORD: {{ rapportnav_psql_pwd }}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 1s
       timeout: 1s
       retries: 30

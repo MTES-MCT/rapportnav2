@@ -13,7 +13,7 @@ variables:
     value: "rapportnav-v2"
     description: "Nom du projet à déployer"
   BDD_IMAGE:
-    value: "postgres:15.7-alpine"
+    value: "postgres:15.8-alpine"
     description: "Image de la base de données"
   PROJECT_VERSION:
     value: "1.7.2"
