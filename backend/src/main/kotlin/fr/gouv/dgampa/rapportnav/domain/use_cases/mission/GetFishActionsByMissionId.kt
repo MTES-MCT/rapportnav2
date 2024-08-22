@@ -212,7 +212,7 @@ class GetFishActionsByMissionId(
         }
     }
 
-    @Cacheable(value = ["fishActions"])
+    @Cacheable(value = ["fishActions"], key = "#missionId")
     fun execute(missionId: Int?): List<ExtendedFishActionEntity> {
         if (missionId == null) {
             logger.error("GetFishActionsByMissionId received a null missionId")

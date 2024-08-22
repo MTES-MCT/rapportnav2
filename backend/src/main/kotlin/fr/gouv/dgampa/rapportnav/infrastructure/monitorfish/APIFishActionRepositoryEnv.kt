@@ -71,7 +71,6 @@ class APIFishActionRepositoryEnv(
             mapper.registerModule(JtsModule())
             val output = mapper.readValue(body, object : TypeReference<MissionAction>() {});
             output
-            null
         } catch (e: Exception) {
             logger.error("Failed to PATCH request for Fish Action id=$actionId. URL: $url", e);
             null;
