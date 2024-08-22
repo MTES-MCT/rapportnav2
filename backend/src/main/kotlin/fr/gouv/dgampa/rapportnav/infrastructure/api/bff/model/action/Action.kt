@@ -113,7 +113,7 @@ data class Action(
                     completenessForStats = completenessForStats,
                     source = MissionSourceEnum.MONITORFISH,
                     startDateTimeUtc = action.actionDatetimeUtc,
-                    endDateTimeUtc = null, // Set to null for FishAction since it doesn't have an endDateTime
+                    endDateTimeUtc = action.actionEndDatetimeUtc,
                     data = FishActionData(
                         id = action.id.toString(),
                         missionId = action.missionId,
@@ -127,6 +127,8 @@ data class Action(
                         districtCode = action.districtCode,
                         faoAreas = action.faoAreas,
                         actionDatetimeUtc = action.actionDatetimeUtc,
+                        actionEndDatetimeUtc = action.actionEndDatetimeUtc,
+                        observationsByUnit = action.observationsByUnit,
                         emitsVms = action.emitsVms,
                         emitsAis = action.emitsAis,
                         flightGoals = action.flightGoals,

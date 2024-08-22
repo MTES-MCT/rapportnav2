@@ -1,9 +1,9 @@
 import { vi } from 'vitest'
 import { render, screen } from '../../../test-utils.tsx'
-import ActionEnvDateRange from './action-env-daterange.tsx'
+import ActionFishDateRange from './action-fish-daterange.tsx'
 
 const patchActionMock = vi.fn()
-vi.mock('./use-patch-action-env', () => ({
+vi.mock('./use-patch-action-fish', () => ({
   default: () => [patchActionMock, { error: undefined }]
 }))
 
@@ -14,7 +14,7 @@ const props = () => ({
   endDateTimeUtc: Date.parse('2023-03-27T05:55:09Z')
 })
 
-describe('Action Env Datetime start/end', () => {
+describe('Action Fish Datetime start/end', () => {
   beforeEach(() => {
     patchActionMock.mockReset()
   })
@@ -23,14 +23,14 @@ describe('Action Env Datetime start/end', () => {
   })
 
   it('should render the dates', () => {
-    render(<ActionEnvDateRange {...props()} />)
+    render(<ActionFishDateRange {...props()} />)
     expect(patchActionMock).not.toHaveBeenCalled()
     expect(screen.getByDisplayValue('2022-02-15 ~ 2023-03-27')).toBeInTheDocument()
   })
 
   // TODO find a way to trigger change on the DateTimePicker
   // it('should call update ', () => {
-  //   const wrapper = render(<ActionEnvDateRange {...props()} />)
+  //   const wrapper = render(<ActionFishDateRange {...props()} />)
   //   const element = wrapper.getByDisplayValue('2022-02-15 ~ 2023-03-27')
   //   fireEvent.change(element, {
   //     target: { value: '2022-02-16 ~ 2023-03-27' }

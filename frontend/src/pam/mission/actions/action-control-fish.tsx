@@ -22,6 +22,8 @@ import { vesselNameOrUnknown } from './utils.ts'
 import { ActionDetailsProps } from './action-mapping.ts'
 import ActionHeader from './action-header.tsx'
 import useIsMissionFinished from '../use-is-mission-finished.tsx'
+import ActionFishObservationsUnit from './action-fish-observations-unit.tsx'
+import ActionFishDateRange from './action-fish-daterange.tsx'
 
 export const controlCheckMultiRadioOptions = Object.keys(ControlCheck).map(key => {
   let label
@@ -93,16 +95,11 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action }) => {
           </Stack>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <Label>Date et heure</Label>
-          <DatePicker
-            defaultValue={fishAction.startDateTimeUtc}
-            // label="Date et heure"
-            withTime={true}
-            isCompact={false}
-            isLight={true}
-            name="startDateTimeUtc"
-            readOnly={true}
-            disabled={true}
+          <ActionFishDateRange
+            missionId={missionId}
+            actionId={actionId}
+            startDateTimeUtc={fishAction.startDateTimeUtc}
+            endDateTimeUtc={fishAction.endDateTimeUtc}
           />
         </Stack.Item>
         <Stack.Item>
@@ -194,6 +191,14 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action }) => {
               />
             </Stack.Item>
           </Stack>
+        </Stack.Item>
+        <Stack.Item style={{ width: '100%' }}>
+          <ActionFishObservationsUnit
+            missionId={missionId}
+            actionId={actionId}
+            observationsByUnit={actionData?.observationsByUnit}
+            label={'Observations de l’unité sur le contrôle de l’environnement marin'}
+          />
         </Stack.Item>
       </Stack>
     )

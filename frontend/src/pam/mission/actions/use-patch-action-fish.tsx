@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom'
 import { GET_MISSION_TIMELINE } from '../timeline/use-mission-timeline.tsx'
 import { GET_ACTION_BY_ID } from './use-action-by-id.tsx'
 
-export const MUTATION_PATCH_ACTION_ENV = gql`
-  mutation PatchActionEnv($action: ActionEnvInput!) {
-    patchActionEnv(action: $action) {
+export const MUTATION_PATCH_ACTION_FISH = gql`
+  mutation PatchActionFish($action: ActionFishInput!) {
+    patchActionFish(action: $action) {
       id
       startDateTimeUtc
       endDateTimeUtc
@@ -14,20 +14,20 @@ export const MUTATION_PATCH_ACTION_ENV = gql`
   }
 `
 
-export type PatchActionEnvInput = {
-  missionId?: string
+export type PatchActionFishInput = {
+  missionId?: number
   actionId?: string
   observationsByUnit?: string
   startDateTimeUtc?: string
   endDateTimeUtc?: string
 }
 
-const usePatchActionEnv = (): MutationTuple<void, Record<string, any>> => {
+const usePatchActionFish = (): MutationTuple<void, Record<string, any>> => {
   const { missionId } = useParams()
-  const mutation = useMutation(MUTATION_PATCH_ACTION_ENV, {
+  const mutation = useMutation(MUTATION_PATCH_ACTION_FISH, {
     refetchQueries: [{ query: GET_MISSION_TIMELINE, variables: { missionId } }, GET_ACTION_BY_ID]
   })
   return mutation
 }
 
-export default usePatchActionEnv
+export default usePatchActionFish

@@ -31,6 +31,8 @@ export namespace LegacyControlUnit {
 
 export interface FishAction {
   actionDatetimeUtc: string
+  actionEndDatetimeUtc?: string
+  observationsByUnit?: string
   actionType: MissionActionType
   controlQualityComments: string | undefined
   controlUnits: LegacyControlUnit.LegacyControlUnit[]

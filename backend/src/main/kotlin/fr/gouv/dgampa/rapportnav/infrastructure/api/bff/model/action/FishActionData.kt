@@ -21,6 +21,8 @@ data class FishActionData(
     val districtCode: String?,
     val faoAreas: List<String>,
     val actionDatetimeUtc: ZonedDateTime,
+    val actionEndDatetimeUtc: ZonedDateTime? = null,
+    val observationsByUnit: String? = null,
     val emitsVms: ControlCheck?,
     val emitsAis: ControlCheck?,
     val flightGoals: List<FlightGoal>,
