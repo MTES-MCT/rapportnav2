@@ -2,7 +2,7 @@
 # Dependencies                         #
 ########################################
 # Stage 1: Build backend dependencies
-FROM azul/zulu-openjdk:17.0.12 AS backend-dependencies
+FROM bellsoft/liberica-openjdk-alpine:17 AS backend-dependencies
 
 # LibreOffice install
 
