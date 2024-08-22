@@ -203,7 +203,7 @@ class GetEnvMissionById(
      * @param inputEnvMission a MonitorEnv Mission
      * @return A fully constructed MissionEntity containing extra data coming from RapportNav.
      */
-    @Cacheable(value = ["envMission"])
+    @Cacheable(value = ["envMission"], key = "#missionId")
     fun execute(missionId: Int, inputEnvMission: MissionEntity? = null): ExtendedEnvMissionEntity? {
 
         try {

@@ -5,9 +5,17 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.PatchedE
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.action.ActionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchActionInput
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Caching
 
 @UseCase
 class PatchEnvAction(private val envRepository: IEnvMissionRepository) {
+
+    @Caching(
+        evict = [
+            CacheEvict(value = ["envMission"], key = "#input.missionId"),
+        ]
+    )
     fun execute(
         input: ActionEnvInput,
     ): PatchedEnvActionEntity? {

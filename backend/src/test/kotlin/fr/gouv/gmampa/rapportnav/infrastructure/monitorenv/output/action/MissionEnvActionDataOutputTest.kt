@@ -16,13 +16,13 @@ class MissionEnvActionDataOutputTest {
         val actionType = ActionTypeEnum.CONTROL
         val observations = "Some observations"
 
-        val actionOutput = object : MissionEnvActionDataOutput(
+        val actionOutput = MissionEnvActionDataOutput(
             id = id,
             actionStartDateTimeUtc = startTime,
             actionEndDateTimeUtc = endTime,
             actionType = actionType,
             observationsByUnit = observations
-        ) {}
+        )
 
         val result = actionOutput.toPatchableEnvActionEntity()
 
