@@ -246,10 +246,10 @@ class APIEnvMissionRepository(
 
             val response = client.send(request, HttpResponse.BodyHandlers.ofString());
             logger.debug("Response received, actionId: ${actionId}, Status code: ${response.statusCode()}");
-            logger.error("Response received, actionId: ${actionId}, Status code: ${response.statusCode()}");
 
             val body = response.body()
             logger.debug(body)
+            logger.error("Response received, actionId: ${actionId}, Status code: ${response.statusCode()}");
 
             mapper.registerModule(JtsModule())
             val output: MissionEnvActionDataOutput? = mapper.readValue(body);
