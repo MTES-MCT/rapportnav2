@@ -249,13 +249,17 @@ class APIEnvMissionRepository(
 
             val body = response.body()
             logger.debug(body)
-            logger.error("Response received, actionId: ${actionId}, Status code: ${response.statusCode()}");
+            logger.info(body)
 
+            logger.info("mapper.readValue start");
             mapper.registerModule(JtsModule())
             val output: MissionEnvActionDataOutput? = mapper.readValue(body);
 
-            output?.toPatchableEnvActionEntity();
-            null
+            logger.info("toPatchableEnvActionEntity start");
+            val toReturn = output?.toPatchableEnvActionEntity();
+            logger.info("toPatchableEnvActionEntity end");
+            logger.error("dummy");
+            toReturn
         } catch (e: Exception) {
             logger.error("Failed to PATCH request for Env action id=$actionId. URL: $url", e);
             null;
