@@ -1,6 +1,6 @@
+import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { useParams } from 'react-router-dom'
-import { MissionTimelineItemProps, TimelineItemWrapper } from './timeline-item.tsx'
 import { FlexboxGrid, Stack } from 'rsuite'
 import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import Text from '../../../../../../common/components/ui/text.tsx'
@@ -8,7 +8,6 @@ import { ActionIllegalImmigration as NavActionIllegalImmigration } from '../../.
 
 const ActionIllegalImmigration: FC<MissionTimelineItemProps> = ({ action, onClick }) => {
   const { actionId } = useParams()
-  const actionData = action.data as unknown as NavActionIllegalImmigration
 
   return (
     <TimelineItemWrapper onClick={onClick} borderWhenSelected={action.id === actionId}>

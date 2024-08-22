@@ -1,6 +1,6 @@
+import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { useParams } from 'react-router-dom'
-import { MissionTimelineItemProps, TimelineItemWrapper } from './timeline-item.tsx'
 import { FlexboxGrid, Stack } from 'rsuite'
 import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import Text from '../../../../../../common/components/ui/text.tsx'
@@ -8,7 +8,6 @@ import { ActionVigimer as NavActionVigimer } from '../../../../../../common/type
 
 const ActionVigimer: FC<MissionTimelineItemProps> = ({ action, onClick }) => {
   const { actionId } = useParams()
-  const actionData = action.data as unknown as NavActionVigimer
 
   return (
     <TimelineItemWrapper onClick={onClick} borderWhenSelected={action.id === actionId}>
