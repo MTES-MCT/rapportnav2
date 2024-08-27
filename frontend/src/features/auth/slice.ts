@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import apolloClient from '../../apollo-client.ts'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import AuthToken from '../../auth/token.ts'
 
 interface User {
   userId: number;
@@ -42,7 +42,6 @@ const slice = createSlice({
       }
     },
     logout: (state) => {
-      localStorage.removeItem('jwt');
       state.user = null;
     },
     login: (state, action: PayloadAction<string>) => {
@@ -52,6 +51,20 @@ const slice = createSlice({
     }
   },
 });
+
+export const performLogout = createAsyncThunk(
+  'auth/logout',
+  async ({ navigate, apolloClient }: { navigate: any; apolloClient: any }, { dispatch }) => {
+    const authToken = new AuthToken();
+
+    authToken.remove();
+    await apolloClient.clearStore();
+    apolloClient.cache.evict({});
+    dispatch(logout());
+    navigate('/login', { replace: true });
+  }
+);
+
 
 export const { checkLoginStatus, logout, login } = slice.actions;
 

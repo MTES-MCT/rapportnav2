@@ -23,10 +23,6 @@ vi.mock('react-router-dom', async () => {
   };
 });
 
-vi.mock('../auth/use-auth', () => ({
-  default: vi.fn()
-}))
-
 const mockStore = (state: Partial<RootState>) => {
   return configureStore({
     preloadedState: state,
@@ -36,6 +32,22 @@ const mockStore = (state: Partial<RootState>) => {
   });
 };
 
+const mockApolloClient = {
+  clearStore: vi.fn(),
+  cache: {
+    evict: vi.fn()
+  }
+}
+
+
+vi.mock('@apollo/client', async importOriginal => {
+  const actual = await importOriginal()
+  return {
+    ...actual,
+    useApolloClient: vi.fn(() => mockApolloClient)
+  }
+})
+
 describe('AuthenticatedGuard', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -43,12 +55,7 @@ describe('AuthenticatedGuard', () => {
 
   it('renders MissionsPage when user navigates to /pam/missions and is logged in', async () => {
     // Configurer le store avec un utilisateur connecté
-    const store = mockStore({ auth: { user: { userId: 1, roles: ['ADMIN'] } } });
-
-    ;(useAuth as any).mockReturnValue({
-      isAuthenticated: false,
-      logout: vi.fn()
-    })
+    const store = mockStore({ auth: { user: { userId: 1, roles: ['USER'] } } });
 
     render(
       <Provider store={store}>
@@ -58,7 +65,7 @@ describe('AuthenticatedGuard', () => {
               path="/pam/missions"
               element={
                 <AuthenticatedGuard>
-                  <AdminPage/>
+                  <div>Hello protected page</div>
                 </AuthenticatedGuard>
               }
             />
@@ -68,7 +75,7 @@ describe('AuthenticatedGuard', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText('Hello admin')).toBeTruthy();
+      expect(screen.getByText('Hello protected page')).toBeTruthy();
     });
   });
 

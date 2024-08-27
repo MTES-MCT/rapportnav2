@@ -3,6 +3,8 @@ import { ReactNode } from 'react'
 import useAuth from '../auth/use-auth'
 import { Header as CustomHeader } from './header'
 import { Container, Content, Footer, Header, Sidebar } from 'rsuite'
+import { useSelector } from 'react-redux'
+import { RootState } from '../redux/store.ts'
 
 interface PageWrapperProps {
   header?: ReactNode
@@ -12,12 +14,12 @@ interface PageWrapperProps {
 }
 
 const PageWrapper: React.FC<PageWrapperProps> = ({ children, header, footer, showMenu }) => {
-  const { isAuthenticated } = useAuth()
+  const isLoggedIn = useSelector((state: RootState) => state.auth.user);
   return (
     <Container style={{ minHeight: '100vh', maxHeight: '100vh', overflow: 'hidden' }}>
       <Header>{!!header && <>{header}</>}</Header>
       <Container style={{}}>
-        {isAuthenticated && (
+        {isLoggedIn && (
           <>
             {showMenu && (
               <Sidebar style={{ flex: 0, width: '64px' }}>
