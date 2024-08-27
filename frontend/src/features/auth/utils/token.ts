@@ -20,7 +20,7 @@ class AuthToken {
     }
   }
 
-  ermove(): void {
+  remove(): void {
     try {
       localStorage.removeItem(this.LOCAL_STORAGE_JWT)
     } catch (error) {

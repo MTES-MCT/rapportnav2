@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '../../../../../../test-utils.tsx'
 import InfractionSummary from './infraction-summary.tsx'
-import { ControlType } from '../../../../../common/types/control-types.ts'
-import { InfractionTypeEnum } from '../../../../../common/types/env-mission-types.ts'
+import { ControlType } from '@common/types/control-types.ts'
+import { InfractionTypeEnum } from '@common/types/env-mission-types.ts'
 
 const infraction = {
   id: '123',

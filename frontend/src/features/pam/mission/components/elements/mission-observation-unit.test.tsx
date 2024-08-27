@@ -1,18 +1,13 @@
-import { beforeEach } from 'node:test'
 import { vi } from 'vitest'
-import { fireEvent, mockQueryResult, render, screen } from '../../../../../test-utils.tsx'
+import { fireEvent, render, screen, waitFor } from '../../../../../test-utils.tsx'
 import MissionObservationByUnit from './mission-observations-unit.tsx'
-import usePatchMissionEnv from '../../hooks/use-patch-mission-env.tsx'
+import * as usePatchModule from '@features/pam/mission/hooks/use-patch-mission-env'
 
-const patchMissionObservationMock = vi.fn()
-
-vi.mock('./use-patch-mission-env', () => ({
-  default: () => [patchMissionObservationMock, { error: undefined }]
-}))
+const patchMock = vi.fn()
 
 describe('MissionObservation', () => {
   beforeEach(() => {
-    ;(usePatchMissionEnv as any).mockReturnValue(mockQueryResult({ id: 'myId' }))
+    vi.spyOn(usePatchModule, 'default').mockReturnValue([patchMock, { error: undefined }])
   })
   afterEach(() => {
     vi.clearAllMocks()
@@ -21,9 +16,9 @@ describe('MissionObservation', () => {
 
   it('should render observation', () => {
     render(<MissionObservationByUnit missionId={1} observationsByUnit={'My beautiful observation'} />)
-    expect(patchMissionObservationMock).not.toHaveBeenCalled()
-    expect(screen.getByText('My beautiful observation')).toBeInTheDocument()
+    expect(patchMock).not.toHaveBeenCalled()
     expect(screen.getByText(`Observation générale à l'échelle de la mission (remarques, résumé)`)).toBeInTheDocument()
+    expect(screen.getByText('My beautiful observation')).toBeInTheDocument()
   })
 
   it('should call update observation', () => {
@@ -32,7 +27,9 @@ describe('MissionObservation', () => {
     fireEvent.change(element, {
       target: { value: 'my new observations' }
     })
-    expect(patchMissionObservationMock).toHaveBeenCalled()
+    waitFor(() => {
+      expect(patchMock).toHaveBeenCalled()
+    })
   })
 
   it('should not call update observation under 4', () => {
@@ -41,6 +38,6 @@ describe('MissionObservation', () => {
     fireEvent.change(element, {
       target: { value: 'my' }
     })
-    expect(patchMissionObservationMock).not.toHaveBeenCalled()
+    expect(patchMock).not.toHaveBeenCalled()
   })
 })

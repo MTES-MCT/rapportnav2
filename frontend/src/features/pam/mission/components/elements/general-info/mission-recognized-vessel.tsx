@@ -1,7 +1,7 @@
 import { FormikEffect, FormikNumberInput } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
-import { MissionGeneralInfo } from '../../../../../common/types/mission-types.ts'
+import { MissionGeneralInfo } from '@common/types/mission-types.ts'
 import useAddOrUpdateGeneralInfo from '../../../hooks/use-add-update-distance-consumption.tsx'
 
 type RecognizedVessel = {

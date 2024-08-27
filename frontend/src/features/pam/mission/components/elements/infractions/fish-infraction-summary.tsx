@@ -9,7 +9,7 @@ import {
   LogbookInfraction,
   OtherInfraction,
   SpeciesInfraction
-} from '../../../../../common/types/fish-mission-types.ts'
+} from '@common/types/fish-mission-types.ts'
 
 interface FishInfractionSummaryProps {
   title: string

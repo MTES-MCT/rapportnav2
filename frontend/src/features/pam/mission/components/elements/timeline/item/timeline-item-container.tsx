@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
-import { ActionTypeEnum, MissionSourceEnum } from '../../../../../../common/types/env-mission-types.ts'
+import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types.ts'
 import { THEME } from '@mtes-mct/monitor-ui'
 
 interface MissionTimelineItemContainerProps {

@@ -1,31 +1,11 @@
 import { render, screen, fireEvent } from '../../../../../../test-utils.tsx'
 import EnvInfractionAddNewTarget from './env-infraction-add-new-target.tsx'
 import { vi } from 'vitest'
-import { Infraction } from '../../../../../common/types/infraction-types.ts'
-import { ControlType } from '../../../../../common/types/control-types.ts'
+import { Infraction } from '@common/types/infraction-types.ts'
+import { ControlType } from '@common/types/control-types.ts'
+import * as useAddModule from '@features/pam/mission/hooks/use-add-update-infraction-env'
 
 const mutateMock = vi.fn()
-
-vi.mock('./use-add-update-infraction-env.tsx', () => ({
-  default: () => [mutateMock, { error: undefined }]
-}))
-
-// const infractionMock = {
-//     id: '123',
-//     controlType: ControlType.ADMINISTRATIVE,
-//     infractionType: InfractionTypeEnum.WITHOUT_REPORT,
-//     natinfs: ['123'],
-//     observations: undefined,
-//     target: undefined
-// }
-// const infractionMockEnv = {
-//     id: '456',
-//     controlType: null,
-//     infractionType: InfractionTypeEnum.WITHOUT_REPORT,
-//     natinfs: ['123'],
-//     observations: undefined,
-//     target: undefined
-// }
 
 const props = (infractions?: Infraction[]) => ({
   availableControlTypesForInfraction: [ControlType.ADMINISTRATIVE],
@@ -33,6 +13,9 @@ const props = (infractions?: Infraction[]) => ({
 })
 
 describe('EnvInfractionAddNewTarget', () => {
+  beforeEach(() => {
+    vi.spyOn(useAddModule, 'default').mockReturnValue([mutateMock, { error: undefined }])
+  })
   describe('testing rendering', () => {
     it('should show the add button by default', async () => {
       render(<EnvInfractionAddNewTarget {...props(undefined)} />)

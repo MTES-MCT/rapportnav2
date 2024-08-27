@@ -1,5 +1,5 @@
 import { Tag, THEME } from '@mtes-mct/monitor-ui'
-import { MissionSourceEnum } from '../../../../common/types/env-mission-types.ts'
+import { MissionSourceEnum } from '@common/types/env-mission-types.ts'
 import React from 'react'
 import Text from '../../../../common/components/ui/text.tsx'
 

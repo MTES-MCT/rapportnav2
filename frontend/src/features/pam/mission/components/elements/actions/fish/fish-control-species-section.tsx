@@ -1,6 +1,6 @@
 import React from 'react'
 import { Accent, Button, Checkbox, Icon, Label, MultiRadio, Size, THEME } from '@mtes-mct/monitor-ui'
-import { FishAction, SpeciesControl } from '../../../../../../common/types/fish-mission-types.ts'
+import { FishAction, SpeciesControl } from '@common/types/fish-mission-types.ts'
 import Text from '../../../../../../common/components/ui/text.tsx'
 import { Stack } from 'rsuite'
 import { BOOLEAN_AS_OPTIONS, controlCheckMultiRadioOptions } from '../action-control-fish.tsx'

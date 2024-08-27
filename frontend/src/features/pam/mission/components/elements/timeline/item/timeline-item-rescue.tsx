@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { ActionRescue } from '../../../../../../common/types/action-types.ts'
+import { ActionRescue } from '@common/types/action-types.ts'
 import { useParams } from 'react-router-dom'
 import { MissionTimelineItemProps, TimelineItemWrapper } from './timeline-item.tsx'
 import { FlexboxGrid, Stack } from 'rsuite'

@@ -4,7 +4,7 @@ import { MissionTimelineItemProps, TimelineItemWrapper } from './timeline-item.t
 import { FlexboxGrid, Stack } from 'rsuite'
 import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import Text from '../../../../../../common/components/ui/text.tsx'
-import { ActionFreeNote } from '../../../../../../common/types/action-types.ts'
+import { ActionFreeNote } from '@common/types/action-types.ts'
 import { capitalize } from 'lodash'
 
 const ActionNote: React.FC<MissionTimelineItemProps> = ({ action, onClick }) => {

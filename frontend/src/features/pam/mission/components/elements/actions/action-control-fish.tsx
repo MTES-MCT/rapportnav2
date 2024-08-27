@@ -1,14 +1,10 @@
 import React from 'react'
-import { CoordinatesFormat, CoordinatesInput, DatePicker, Icon, Label, Option, THEME } from '@mtes-mct/monitor-ui'
-import {
-  ControlCheck,
-  FishAction,
-  formatMissionActionTypeForHumans
-} from '../../../../../common/types/fish-mission-types.ts'
+import { CoordinatesFormat, CoordinatesInput, Icon, Label, Option, THEME } from '@mtes-mct/monitor-ui'
+import { ControlCheck, FishAction, formatMissionActionTypeForHumans } from '@common/types/fish-mission-types.ts'
 import Text from '../../../../../common/components/ui/text.tsx'
 import { Divider, Stack } from 'rsuite'
 import ControlsToCompleteTag from '../../ui/controls-to-complete-tag.tsx'
-import { ControlType } from '../../../../../common/types/control-types.ts'
+import { ControlType } from '@common/types/control-types.ts'
 import ControlAdministrativeForm from '../controls/control-administrative-form.tsx'
 import ControlNavigationForm from '../controls/control-navigation-form.tsx'
 import ControlGensDeMerForm from '../controls/control-gens-de-mer-form.tsx'

@@ -1,21 +1,17 @@
 import React from 'react'
-import { CoordinatesFormat, CoordinatesInput, DatePicker, Icon, Label, THEME } from '@mtes-mct/monitor-ui'
+import { CoordinatesFormat, CoordinatesInput, Icon, Label, THEME } from '@mtes-mct/monitor-ui'
 import Divider from 'rsuite/Divider'
 import { Stack } from 'rsuite'
 import Text from '../../../../../common/components/ui/text.tsx'
 import ControlsToCompleteTag from '../../ui/controls-to-complete-tag.tsx'
 import EnvControlForm from '../controls/env-control-form.tsx'
-import { ControlType } from '../../../../../common/types/control-types.ts'
-import {
-  actionTargetTypeLabels,
-  EnvActionControl,
-  vehicleTypeLabels
-} from '../../../../../common/types/env-mission-types.ts'
+import { ControlType } from '@common/types/control-types.ts'
+import { actionTargetTypeLabels, EnvActionControl, vehicleTypeLabels } from '@common/types/env-mission-types.ts'
 import { useParams } from 'react-router-dom'
 import EnvInfractionAddNewTarget from '../infractions/env-infraction-add-new-target.tsx'
 import EnvInfractionExistingTargets from '../infractions/env-infraction-existing-targets.tsx'
 import useActionById from '../../../hooks/use-action-by-id.tsx'
-import { extractLatLonFromMultiPoint } from '../../../../../common/utils/geometry.ts'
+import { extractLatLonFromMultiPoint } from '@common/utils/geometry.ts'
 import { Coordinates } from '@mtes-mct/monitor-ui/types/definitions'
 import { ActionDetailsProps } from './action-mapping.ts'
 import ActionHeader from './action-header.tsx'

@@ -1,8 +1,17 @@
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
+import * as path from 'path'
 
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      '@common': path.resolve(__dirname, './src/features/common'),
+      '@features': path.resolve(__dirname, './src/features'),
+      '@pages': path.resolve(__dirname, './src/pages'),
+      '@router': path.resolve(__dirname, './src/router')
+    }
+  },
   test: {
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     globals: true,
@@ -11,6 +20,13 @@ export default defineConfig({
       deps: {
         inline: ['@mtes-mct/monitor-ui']
       }
+    },
+    // the following mapping should match those in tsconfig.json
+    alias: {
+      '@common': path.resolve(__dirname, './src/features/common'),
+      '@features': path.resolve(__dirname, './src/features'),
+      '@pages': path.resolve(__dirname, './src/pages'),
+      '@router': path.resolve(__dirname, './src/router')
     },
     coverage: {
       reportOnFailure: true,

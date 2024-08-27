@@ -1,13 +1,7 @@
 import { vi } from 'vitest'
 import { render, screen } from '../../../../../test-utils.tsx'
-import { Service } from '../../../../common/types/crew-types.ts'
+import { Service } from '@common/types/crew-types.ts'
 import MissionService from './mission-service.tsx'
-
-const updateServiceMock = vi.fn()
-
-vi.mock('./use-update-mission-service', () => ({
-  default: () => [updateServiceMock, { error: undefined }]
-}))
 
 const services: Service[] = [
   { id: '1', name: 'Themis_A' },

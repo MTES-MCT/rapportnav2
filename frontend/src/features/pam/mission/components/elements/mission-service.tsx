@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import { Select, SelectProps } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
 import styled from 'styled-components'
-import { Service } from '../../../../common/types/crew-types.ts'
+import { Service } from '@common/types/crew-types.ts'
 import useUpdateMissionService from '../../hooks/use-update-mission-service.tsx'
 
 const StyledSelect = styled((props: SelectProps) => <Select placeholder={' '} {...props} />)({

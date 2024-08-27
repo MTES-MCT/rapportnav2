@@ -1,5 +1,5 @@
 import { Dropdown, Icon } from '@mtes-mct/monitor-ui'
-import { ActionStatusType } from '../../../../common/types/action-types.ts'
+import { ActionStatusType } from '@common/types/action-types.ts'
 import { Stack } from 'rsuite'
 import { getColorForStatus, mapStatusToText } from '../../utils/status-utils.ts'
 import { FC } from 'react'

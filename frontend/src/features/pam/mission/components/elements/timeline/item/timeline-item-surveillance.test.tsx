@@ -1,6 +1,6 @@
 import { render, screen } from '../../../../../../../test-utils.tsx'
-import { ActionTypeEnum, EnvAction, MissionSourceEnum } from '../../../../../../common/types/env-mission-types.ts'
-import { Action, ActionStatusType } from '../../../../../../common/types/action-types.ts'
+import { ActionTypeEnum, EnvAction, MissionSourceEnum } from '@common/types/env-mission-types.ts'
+import { Action, ActionStatusType } from '@common/types/action-types.ts'
 import ActionEnvSurveillance from './timeline-item-surveillance.tsx'
 
 const actionMock = {

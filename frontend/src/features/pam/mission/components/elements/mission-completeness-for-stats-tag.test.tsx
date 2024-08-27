@@ -1,6 +1,6 @@
 import { render, screen } from '../../../../../test-utils.tsx'
 
-import { CompletenessForStatsStatusEnum, MissionStatusEnum } from '../../../../common/types/mission-types.ts'
+import { CompletenessForStatsStatusEnum, MissionStatusEnum } from '@common/types/mission-types.ts'
 import MissionCompletenessForStatsTag from './mission-completeness-for-stats-tag.tsx'
 
 describe('MissionCompletenessForStatsTag component', () => {

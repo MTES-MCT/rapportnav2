@@ -1,7 +1,7 @@
 import { render, screen } from '../../../../../test-utils.tsx'
 
 import MissionOpenByTag from './mission-open-by-tag.tsx'
-import { MissionSourceEnum } from '../../../../common/types/env-mission-types.ts'
+import { MissionSourceEnum } from '@common/types/env-mission-types.ts'
 
 describe('MissionOpenByTag component', () => {
   test('renders "Ouverte par l\'unité" with PRIMARY accent when missionSource is RAPPORTNAV', () => {

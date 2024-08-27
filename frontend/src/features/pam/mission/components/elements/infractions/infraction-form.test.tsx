@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from '../../../../../../test-utils.tsx'
 import InfractionForm, { InfractionFormData } from './infraction-form.tsx'
-import { InfractionTypeEnum } from '../../../../../common/types/env-mission-types.ts'
+import { InfractionTypeEnum } from '@common/types/env-mission-types.ts'
 import { vi } from 'vitest'
-import { ControlType } from '../../../../../common/types/control-types.ts'
+import { ControlType } from '@common/types/control-types.ts'
 
 const emptyInfractionProps = {}
 const someInfractionProps = (props: InfractionFormData) => ({

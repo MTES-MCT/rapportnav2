@@ -1,11 +1,9 @@
 import { vi } from 'vitest'
 import { render, screen } from '../../../../../../test-utils.tsx'
 import ActionEnvDateRange from './action-env-daterange.tsx'
+import * as usePatchModule from '@features/pam/mission/hooks/use-patch-action-env'
 
-const patchActionMock = vi.fn()
-vi.mock('./use-patch-action-env', () => ({
-  default: () => [patchActionMock, { error: undefined }]
-}))
+const patchMock = vi.fn()
 
 const props = () => ({
   missionId: '1',
@@ -15,16 +13,13 @@ const props = () => ({
 })
 
 describe('Action Env Datetime start/end', () => {
-  beforeEach(() => {
-    patchActionMock.mockReset()
-  })
   afterEach(() => {
     vi.clearAllMocks()
   })
 
   it('should render the dates', () => {
     render(<ActionEnvDateRange {...props()} />)
-    expect(patchActionMock).not.toHaveBeenCalled()
+    expect(patchMock).not.toHaveBeenCalled()
     expect(screen.getByDisplayValue('2022-02-15 ~ 2023-03-27')).toBeInTheDocument()
   })
 
@@ -36,6 +31,6 @@ describe('Action Env Datetime start/end', () => {
   //     target: { value: '2022-02-16 ~ 2023-03-27' }
   //   })
   //   fireEvent.blur(element)
-  //   expect(patchActionMock).toHaveBeenCalled()
+  //   expect(patchMock).toHaveBeenCalled()
   // })
 })

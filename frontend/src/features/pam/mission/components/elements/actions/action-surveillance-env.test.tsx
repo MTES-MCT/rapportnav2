@@ -1,23 +1,10 @@
 import { render, screen } from '../../../../../../test-utils.tsx'
-import {
-  ActionTargetTypeEnum,
-  ActionTypeEnum,
-  EnvAction,
-  MissionSourceEnum
-} from '../../../../../common/types/env-mission-types.ts'
-import { Action, ActionStatusType } from '../../../../../common/types/action-types.ts'
+import { ActionTypeEnum, EnvAction, MissionSourceEnum } from '@common/types/env-mission-types.ts'
+import { ActionStatusType } from '@common/types/action-types.ts'
 import { vi } from 'vitest'
-import useActionById from '../../../hooks/use-action-by-id.tsx'
+import * as useActionByIdModule from '@features/pam/mission/hooks/use-action-by-id'
 import { GraphQLError } from 'graphql/error'
 import ActionSurveillanceEnv from './action-surveillance-env.tsx'
-
-vi.mock('./use-action-by-id.tsx', async importOriginal => {
-  const actual = await importOriginal()
-  return {
-    ...actual,
-    default: vi.fn()
-  }
-})
 
 const actionMock = {
   id: '1',
@@ -37,36 +24,35 @@ const actionMock = {
   } as any as EnvAction
 }
 
-// Set up the mock implementation for useActionById
-const mockedQueryResult = (action: Action = actionMock as any, loading: boolean = false, error: any = undefined) => ({
-  data: action,
-  loading,
-  error
-})
-
 describe('ActionSurveillanceEnv', () => {
   describe('Testing rendering according to Query result', () => {
     test('renders loading state', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, true))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: undefined, loading: true, error: null })
+
       render(<ActionSurveillanceEnv action={actionMock} />)
       expect(screen.getByText('Chargement...')).toBeInTheDocument()
     })
 
     test('renders error state', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false, new GraphQLError('Error!')))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({
+        data: undefined,
+        loading: false,
+        error: new GraphQLError('Error!')
+      })
       render(<ActionSurveillanceEnv action={actionMock} />)
       expect(screen.getByText('error')).toBeInTheDocument()
     })
 
     test('renders data', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
+      // ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: false, error: null })
       render(<ActionSurveillanceEnv action={actionMock} />)
       expect(screen.getByText('Surveillance Environnement')).toBeInTheDocument()
     })
   })
   describe('Themes and SubThemes', () => {
     test('should render themes and subthemes', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: false, error: null })
       render(<ActionSurveillanceEnv action={actionMock} />)
       expect(screen.getByText('police des mouillages')).toBeInTheDocument()
       expect(screen.getByText('mouillage individuel, ZMEL')).toBeInTheDocument()
@@ -83,7 +69,7 @@ describe('ActionSurveillanceEnv', () => {
           }
         }
       }
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(mock as any, false))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: mock, loading: false, error: null })
       render(<ActionSurveillanceEnv action={mock} />)
       expect(screen.getByText('inconnue')).toBeInTheDocument()
       expect(screen.getByText('inconnues')).toBeInTheDocument()
@@ -100,7 +86,7 @@ describe('ActionSurveillanceEnv', () => {
           }
         }
       }
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(mock as any, false))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: mock, loading: false, error: null })
       render(<ActionSurveillanceEnv action={mock} />)
       expect(screen.getByText('inconnue')).toBeInTheDocument()
       expect(screen.getByText('inconnues')).toBeInTheDocument()
@@ -109,7 +95,7 @@ describe('ActionSurveillanceEnv', () => {
   describe('Observations by unit', () => {
     test('should be rendered when not nullish', () => {
       const mock = { ...actionMock, data: { ...actionMock.data, observationsByUnit: 'observationsByUnit' } }
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(mock as any, false))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: mock, loading: false, error: null })
       render(<ActionSurveillanceEnv action={actionMock} />)
       expect(screen.getByText('observationsByUnit')).toBeInTheDocument()
     })

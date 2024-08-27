@@ -1,7 +1,7 @@
 import React from 'react'
 import Text from '../../../../common/components/ui/text.tsx'
 import useNatinfs from '../../hooks/use-natinfs.tsx'
-import { Natinf } from '../../../../common/types/infraction-types.ts'
+import { Natinf } from '@common/types/infraction-types.ts'
 import { Stack } from 'rsuite'
 
 interface InfractionTagProps {

@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import { Icon, THEME } from '@mtes-mct/monitor-ui'
-import { MissionSourceEnum } from '../../../../../common/types/env-mission-types.ts'
+import { MissionSourceEnum } from '@common/types/env-mission-types.ts'
 import { Stack } from 'rsuite'
 import Text from '../../../../../common/components/ui/text.tsx'
-import { CompletenessForStats, CompletenessForStatsStatusEnum } from '../../../../../common/types/mission-types.ts'
+import { CompletenessForStats, CompletenessForStatsStatusEnum } from '@common/types/mission-types.ts'
 
 export interface ActionCompletenessForStatsMessageProps {
   completenessForStats?: CompletenessForStats

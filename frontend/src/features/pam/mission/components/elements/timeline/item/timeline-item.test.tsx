@@ -1,7 +1,7 @@
 import { render, screen } from '../../../../../../../test-utils.tsx'
 import MissionTimelineItem from './timeline-item.tsx'
-import { ActionTypeEnum, MissionSourceEnum } from '../../../../../../common/types/env-mission-types.ts'
-import { Action } from '../../../../../../common/types/action-types.ts'
+import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types.ts'
+import { Action } from '@common/types/action-types.ts'
 
 const props = (action: Action) => ({
   action,

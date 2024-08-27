@@ -1,13 +1,10 @@
 import { render, screen, fireEvent } from '../../../../../../test-utils.tsx'
 import MissionDistanceAndConsumption from './mission-distance-consumption.tsx'
 import { vi } from 'vitest'
-import { MissionGeneralInfo } from '../../../../../common/types/mission-types.ts'
+import { MissionGeneralInfo } from '@common/types/mission-types.ts'
+import * as useAddModule from '@features/pam/mission/hooks/use-add-update-distance-consumption'
 
 const mutateMock = vi.fn()
-
-vi.mock('./use-add-update-distance-consumption.tsx', () => ({
-  default: () => [mutateMock, { error: undefined }]
-}))
 
 const emptyMock = {}
 const mock = {
@@ -38,6 +35,7 @@ describe('MissionDistanceAndConsumption', () => {
       mutateMock.mockReset()
     })
     it('should be called when changing distanceInNauticalMiles', async () => {
+      vi.spyOn(useAddModule, 'default').mockReturnValue([mutateMock, { error: undefined }])
       render(<MissionDistanceAndConsumption {...props(mock)} />)
       const field = screen.getByRole('distanceInNauticalMiles')
       const value = 2

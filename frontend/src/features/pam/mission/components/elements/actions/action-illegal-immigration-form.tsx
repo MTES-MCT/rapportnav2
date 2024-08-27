@@ -8,7 +8,7 @@ import {
   Textarea,
   THEME
 } from '@mtes-mct/monitor-ui'
-import { Action, ActionIllegalImmigration } from '../../../../../common/types/action-types.ts'
+import { Action, ActionIllegalImmigration } from '@common/types/action-types.ts'
 import { Stack } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'
 import omit from 'lodash/omit'

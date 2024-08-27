@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { DateRangePicker, Textarea } from '@mtes-mct/monitor-ui'
-import { Action, ActionRepresentation } from '../../../../../common/types/action-types.ts'
+import { Action, ActionRepresentation } from '@common/types/action-types.ts'
 import { Stack } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'
 import omit from 'lodash/omit'

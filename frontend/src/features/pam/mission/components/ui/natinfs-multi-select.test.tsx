@@ -1,17 +1,8 @@
 import { render, screen } from '../../../../../test-utils.tsx'
 import NatinfsMultiSelect from './natinfs-multi-select.tsx'
 import { vi } from 'vitest'
-import useNatinfs from '../../hooks/use-natinfs.tsx'
 import { GraphQLError } from 'graphql/error'
-import { Natinf } from '../../../../common/types/infraction-types.ts'
-
-vi.mock('././use-natinfs.tsx', async importOriginal => {
-  const actual = await importOriginal()
-  return {
-    ...actual,
-    default: vi.fn()
-  }
-})
+import * as useNatinfModule from '@features/pam/mission/hooks/use-natinfs'
 
 const mock = [
   {
@@ -20,28 +11,26 @@ const mock = [
   }
 ]
 
-const mockedQueryResult = (action: Natinf[] = mock as any, loading: boolean = false, error: any = undefined) => ({
-  data: action,
-  loading,
-  error
-})
-
 describe('NatinfsMultiSelect', () => {
   describe('Testing rendering according to Query result', () => {
     test('renders loading state', async () => {
-      ;(useNatinfs as any).mockReturnValue(mockedQueryResult(mock as any, true))
+      vi.spyOn(useNatinfModule, 'default').mockReturnValue({ data: undefined, loading: true, error: null })
       const { container } = render(<NatinfsMultiSelect selectedNatinfs={[]} onChange={vi.fn()} />)
       expect(container.firstChild).toBeNull()
     })
 
     test('renders error state', async () => {
-      ;(useNatinfs as any).mockReturnValue(mockedQueryResult(mock as any, false, new GraphQLError('Error!')))
+      vi.spyOn(useNatinfModule, 'default').mockReturnValue({
+        data: undefined,
+        loading: false,
+        error: new GraphQLError('Error!')
+      })
       const { container } = render(<NatinfsMultiSelect selectedNatinfs={[]} onChange={vi.fn()} />)
       expect(container.firstChild).toBeNull()
     })
 
     test('renders data', async () => {
-      ;(useNatinfs as any).mockReturnValue(mockedQueryResult(mock as any, false))
+      vi.spyOn(useNatinfModule, 'default').mockReturnValue({ data: mock, loading: false, error: null })
       render(<NatinfsMultiSelect selectedNatinfs={[]} onChange={vi.fn()} />)
       expect(screen.getByText('NATINF')).toBeInTheDocument()
     })

@@ -1,11 +1,13 @@
 import { describe, expect, test, vi } from 'vitest'
-import { mockQueryResult, render, screen } from '../../../../../test-utils.tsx'
+import { render, screen } from '../../../../../test-utils.tsx'
 
 import { Mission } from '../../../../common/types/mission-types.ts'
 import { CompletenessForStatsStatusEnum, MissionStatusEnum } from '../../../../common/types/mission-types.ts'
 import MissionItem from './mission-item.tsx'
 import { fireEvent } from '@testing-library/react'
-import useIsMissionCompleteForStats from '../../hooks/use-is-mission-complete-for-stats.tsx'
+import * as useIsMissionCompleteForStatsModule from '@features/pam/mission/hooks/use-is-mission-complete-for-stats'
+import * as useAEMModule from '@features/pam/mission/hooks/export/use-lazy-mission-aem-export'
+import * as useExportModule from '@features/pam/mission/hooks/export/use-lazy-mission-export'
 
 const mission = {
   id: 3,
@@ -27,25 +29,14 @@ const missionNotComplete = {
   }
 } as unknown as Mission
 
-vi.mock('./use-is-mission-complete-for-stats', async importOriginal => {
-  const actual = await importOriginal()
-  return {
-    ...actual,
-    default: vi.fn()
-  }
-})
-
 const exportLazyAEMMock = vi.fn()
 const exportLazyReportMock = vi.fn()
-vi.mock('./export/use-lazy-mission-aem-export.tsx', () => ({
-  default: () => [exportLazyAEMMock, {}]
-}))
-
-vi.mock('./export/use-lazy-mission-export.tsx', () => ({
-  default: () => [exportLazyReportMock, {}]
-}))
 
 describe('Mission Item component', () => {
+  beforeEach(() => {
+    vi.spyOn(useAEMModule, 'default').mockReturnValue([exportLazyAEMMock, { error: undefined }])
+    vi.spyOn(useExportModule, 'default').mockReturnValue([exportLazyReportMock, { error: undefined }])
+  })
   afterEach(() => {
     vi.clearAllMocks()
     vi.resetAllMocks()
@@ -74,7 +65,7 @@ describe('Mission Item component', () => {
   })
 
   test('should render the Exporter le rapport de mission button on mouse over if mission is complete for stats', () => {
-    ;(useIsMissionCompleteForStats as any).mockReturnValue(mockQueryResult(true))
+    vi.spyOn(useIsMissionCompleteForStatsModule, 'default').mockReturnValue({ data: true, loading: false, error: null })
 
     const { container } = render(<MissionItem mission={mission} prefetchMission={vi.fn()} />)
     const missionItemElement = container.firstChild
@@ -92,7 +83,7 @@ describe('Mission Item component', () => {
   })
 
   test('should trigger getMissionReport on click button Exporter le rapport de mission', () => {
-    ;(useIsMissionCompleteForStats as any).mockReturnValue(mockQueryResult(true))
+    vi.spyOn(useIsMissionCompleteForStatsModule, 'default').mockReturnValue({ data: true, loading: false, error: null })
 
     const { container } = render(<MissionItem mission={mission} prefetchMission={vi.fn()} />)
     const missionItemElement = container.firstChild
@@ -106,7 +97,8 @@ describe('Mission Item component', () => {
   })
 
   test('should trigger getMissionAEMReport on click Télécharger les tableaux', () => {
-    ;(useIsMissionCompleteForStats as any).mockReturnValue(mockQueryResult(true))
+    vi.spyOn(useIsMissionCompleteForStatsModule, 'default').mockReturnValue({ data: true, loading: false, error: null })
+    vi.spyOn(useIsMissionCompleteForStatsModule, 'default').mockReturnValue({ data: true, loading: false, error: null })
 
     const { container } = render(<MissionItem mission={mission} prefetchMission={vi.fn()} />)
     const missionItemElement = container.firstChild

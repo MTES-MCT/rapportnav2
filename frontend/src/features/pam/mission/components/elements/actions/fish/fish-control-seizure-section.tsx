@@ -1,6 +1,6 @@
 import React from 'react'
 import { Checkbox, Label, THEME } from '@mtes-mct/monitor-ui'
-import { FishAction } from '../../../../../../common/types/fish-mission-types.ts'
+import { FishAction } from '@common/types/fish-mission-types.ts'
 import Text from '../../../../../../common/components/ui/text.tsx'
 import { Stack } from 'rsuite'
 

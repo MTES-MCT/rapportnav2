@@ -1,7 +1,7 @@
 import { FlexboxGrid, Stack } from 'rsuite'
 import { THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
-import { Mission } from '../../../common/types/mission-types.ts'
+import { Mission } from '@common/types/mission-types.ts'
 import MissionItem from '../../mission/components/elements/mission-item.tsx'
 
 interface MissionsListProps {

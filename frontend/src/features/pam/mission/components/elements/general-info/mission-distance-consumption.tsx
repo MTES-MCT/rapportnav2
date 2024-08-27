@@ -2,7 +2,7 @@ import { Label, NumberInput, THEME } from '@mtes-mct/monitor-ui'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Stack } from 'rsuite'
-import { MissionGeneralInfo } from '../../../../../common/types/mission-types.ts'
+import { MissionGeneralInfo } from '@common/types/mission-types.ts'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
 import useAddOrUpdateGeneralInfo from '../../../hooks/use-add-update-distance-consumption.tsx'
 

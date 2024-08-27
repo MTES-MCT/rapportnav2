@@ -1,16 +1,14 @@
 import { fireEvent, render, screen } from '../../../../test-utils.tsx'
 import Header from './header.tsx'
-import useAuth from '../../../auth/hooks/use-auth.tsx'
+import * as useAuthModule from '@features/auth/hooks/use-auth'
 import { vi } from 'vitest'
 
-vi.mock('../auth/use-auth', () => ({
-  default: vi.fn()
-}))
+const logoutMock = vi.fn()
 
 describe('Header', () => {
   it('should render a logout button when user is authenticated', () => {
     // Mock the useAuth hook to return isAuthenticated as true
-    ;(useAuth as any).mockReturnValue({
+    vi.spyOn(useAuthModule, 'default').mockReturnValue({
       isAuthenticated: true,
       logout: vi.fn()
     })
@@ -22,9 +20,9 @@ describe('Header', () => {
 
   it('should call the logout function when the logout button is clicked', () => {
     // Mock the useAuth hook to return isAuthenticated as true
-    ;(useAuth as any).mockReturnValue({
+    vi.spyOn(useAuthModule, 'default').mockReturnValue({
       isAuthenticated: true,
-      logout: vi.fn()
+      logout: logoutMock
     })
 
     render(<Header />)
@@ -33,12 +31,12 @@ describe('Header', () => {
     fireEvent.click(logoutButton)
 
     // You can use the mocked implementation of the logout function to verify if it was called
-    expect(useAuth().logout).toHaveBeenCalled()
+    expect(logoutMock).toHaveBeenCalled()
   })
 
   it('should not render the logout button when user is not authenticated', () => {
     // Mock the useAuth hook to return isAuthenticated as false
-    ;(useAuth as any).mockReturnValue({
+    vi.spyOn(useAuthModule, 'default').mockReturnValue({
       isAuthenticated: false,
       logout: vi.fn()
     })

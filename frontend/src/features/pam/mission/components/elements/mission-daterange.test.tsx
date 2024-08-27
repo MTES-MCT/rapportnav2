@@ -3,12 +3,9 @@ import { render, screen } from '../../../../../test-utils.tsx'
 import MissionDaterange from './mission-daterange.tsx'
 import { MissionStatusEnum } from '../../../../common/types/mission-types.ts'
 import { Mission } from '../../../../common/types/mission-types.ts'
+import * as usePatchModule from '@features/pam/mission/hooks/use-patch-mission-env'
 
 const patchMissionMock = vi.fn()
-
-vi.mock('./use-patch-mission-env', () => ({
-  default: () => [patchMissionMock, { error: undefined }]
-}))
 
 const mockMission = {
   id: 1,

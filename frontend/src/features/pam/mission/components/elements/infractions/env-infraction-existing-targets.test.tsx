@@ -4,17 +4,11 @@ import EnvInfractionExistingTargets from './env-infraction-existing-targets.tsx'
 import { vi } from 'vitest'
 import { Infraction, InfractionByTarget } from '../../../../../common/types/infraction-types.ts'
 import { ControlType } from '../../../../../common/types/control-types.ts'
+import * as useAddModule from '@features/pam/mission/hooks/use-add-update-infraction-env'
+import * as useDeleteModule from '@features/pam/mission/hooks/use-delete-infraction'
 
 const mutateMock = vi.fn()
 const deleteMock = vi.fn()
-
-vi.mock('./use-add-update-infraction-env.tsx', () => ({
-  default: () => [mutateMock, { error: undefined }]
-}))
-
-vi.mock('./use-delete-infraction.tsx', () => ({
-  default: () => [deleteMock]
-}))
 
 const infractionMock = {
   id: '123',
@@ -45,6 +39,10 @@ const props = (infractionsByTarget?: InfractionByTarget[]) => ({
 })
 
 describe('EnvInfractionExistingTargets', () => {
+  beforeEach(() => {
+    vi.spyOn(useAddModule, 'default').mockReturnValue([mutateMock, { error: undefined }])
+    vi.spyOn(useDeleteModule, 'default').mockReturnValue([deleteMock, { error: undefined }])
+  })
   describe('testing rendering', () => {
     it('should not render anything when no infractionsByTarget', async () => {
       const { container } = render(<EnvInfractionExistingTargets {...props(undefined)} />)

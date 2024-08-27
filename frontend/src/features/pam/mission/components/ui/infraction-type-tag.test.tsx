@@ -1,7 +1,7 @@
 import { render, screen } from '../../../../../test-utils.tsx'
 import InfractionTypeTag from './infraction-type-tag.tsx'
-import { InfractionTypeEnum } from '../../../../common/types/env-mission-types.ts'
-import { InfractionType } from '../../../../common/types/fish-mission-types.ts'
+import { InfractionTypeEnum } from '@common/types/env-mission-types.ts'
+import { InfractionType } from '@common/types/fish-mission-types.ts'
 
 describe('InfractionTypeTag', () => {
   test('renders Sans PV when type is undefined', async () => {

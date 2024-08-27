@@ -1,9 +1,9 @@
 import { vi } from 'vitest'
 import { fireEvent, render, screen } from '../../../../../test-utils.tsx'
-import { ControlType } from '../../../../common/types/control-types.ts'
+import { ControlType } from '@common/types/control-types.ts'
 import ControlTitleCheckbox, { ControlTitleCheckboxProps } from './control-title-checkbox.tsx'
 
-const props = (onChange: any, checked?: boolean = null) =>
+const props = (onChange: any, checked?: boolean) =>
   ({
     onChange,
     checked,

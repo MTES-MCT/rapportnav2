@@ -1,31 +1,18 @@
 import { render, screen } from '../../../../../../test-utils.tsx'
-import { ActionTypeEnum, MissionSourceEnum } from '../../../../../common/types/env-mission-types.ts'
+import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types.ts'
 import ActionControlNav from './action-control-nav.tsx'
-import { Action, ActionControl, ActionStatusType } from '../../../../../common/types/action-types.ts'
-import { ControlMethod } from '../../../../../common/types/control-types.ts'
+import { Action, ActionBAAEMPermanence, ActionControl, ActionStatusType } from '@common/types/action-types.ts'
+import { ControlMethod } from '@common/types/control-types.ts'
 import { vi } from 'vitest'
-import useActionById from '../../../hooks/use-action-by-id.tsx'
+import * as useActionByIdModule from '@features/pam/mission/hooks/use-action-by-id'
+import * as useAddModule from '@features/pam/mission/hooks/use-add-update-action-control'
+import * as useDeleteModule from '@features/pam/mission/hooks/use-delete-action-control'
 import { GraphQLError } from 'graphql/error'
 import { fireEvent } from '../../../../../../test-utils.tsx'
-import { VesselTypeEnum } from '../../../../../common/types/mission-types.ts'
+import { VesselTypeEnum } from '@common/types/mission-types.ts'
 
-const mutateControlMock = vi.fn()
-const deleteControlMock = vi.fn()
-vi.mock('./use-action-by-id.tsx', async importOriginal => {
-  const actual = await importOriginal()
-  return {
-    ...actual,
-    default: vi.fn()
-  }
-})
-
-vi.mock('./use-add-update-action-control.tsx', () => ({
-  default: () => [mutateControlMock]
-}))
-
-vi.mock('./use-delete-action-control.tsx', () => ({
-  default: () => [deleteControlMock]
-}))
+const mutateMock = vi.fn()
+const deleteMock = vi.fn()
 
 const actionMock = {
   id: '1',
@@ -47,33 +34,32 @@ const actionMock = {
 }
 
 // Set up the mock implementation for useActionById
-const mockedQueryResult = (action: Action = actionMock as any, loading: boolean = false, error: any = undefined) => ({
-  data: action,
-  loading,
-  error
-})
 
 describe('ActionControlNav', () => {
   describe('Testing rendering according to Query result', () => {
     test('renders loading state', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, true))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: true, error: undefined })
       render(<ActionControlNav action={actionMock} />)
       expect(screen.getByText('Chargement...')).toBeInTheDocument()
     })
 
     test('renders error state', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false, new GraphQLError('Error!')))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({
+        data: actionMock,
+        loading: false,
+        error: new GraphQLError('Error!')
+      })
       render(<ActionControlNav action={actionMock} />)
       expect(screen.getByText('error')).toBeInTheDocument()
     })
 
     test('renders data', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: false, error: undefined })
       render(<ActionControlNav action={actionMock} />)
       expect(screen.getByText('Dupliquer')).toBeInTheDocument()
     })
     test('renders null when none above', async () => {
-      ;(useActionById as any).mockReturnValue({ ...mockedQueryResult(undefined, false), data: null })
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: undefined, loading: false, error: undefined })
       render(<ActionControlNav action={actionMock} />)
       expect(screen.queryByTestId('action-control-nav')).not.toBeInTheDocument()
     })
@@ -81,10 +67,11 @@ describe('ActionControlNav', () => {
 
   describe('The update mutation', () => {
     beforeEach(() => {
-      mutateControlMock.mockClear()
+      vi.spyOn(useAddModule, 'default').mockReturnValue([mutateMock, { error: undefined }])
+      vi.spyOn(useDeleteModule, 'default').mockReturnValue([deleteMock, { error: undefined }])
     })
     it('should be called when changing observations', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: false, error: undefined })
 
       render(<ActionControlNav action={actionMock} />)
 
@@ -93,7 +80,7 @@ describe('ActionControlNav', () => {
       fireEvent.change(field, { target: { value } })
       fireEvent.blur(field)
 
-      expect(mutateControlMock).toHaveBeenCalledWith({
+      expect(mutateMock).toHaveBeenCalledWith({
         variables: {
           controlAction: {
             // actionId and missionId are undefined because useParam is not setup in the test run
@@ -109,7 +96,7 @@ describe('ActionControlNav', () => {
       })
     })
     it('should be called when changing identity of the controlled person', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: false, error: undefined })
 
       render(<ActionControlNav action={actionMock} />)
 
@@ -118,7 +105,7 @@ describe('ActionControlNav', () => {
       fireEvent.change(field, { target: { value } })
       fireEvent.blur(field)
 
-      expect(mutateControlMock).toHaveBeenCalledWith({
+      expect(mutateMock).toHaveBeenCalledWith({
         variables: {
           controlAction: {
             // actionId and missionId are undefined because useParam is not setup in the test run
@@ -134,7 +121,7 @@ describe('ActionControlNav', () => {
       })
     })
     it('should be called when changing vessel identifier', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: false, error: undefined })
 
       render(<ActionControlNav action={actionMock} />)
 
@@ -143,7 +130,7 @@ describe('ActionControlNav', () => {
       fireEvent.change(field, { target: { value } })
       fireEvent.blur(field)
 
-      expect(mutateControlMock).toHaveBeenCalledWith({
+      expect(mutateMock).toHaveBeenCalledWith({
         variables: {
           controlAction: {
             // actionId and missionId are undefined because useParam is not setup in the test run
@@ -239,25 +226,25 @@ describe('ActionControlNav', () => {
 
   describe('The delete mutation', () => {
     it('should be called when changing clicking on the delete button', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: false, error: undefined })
       render(<ActionControlNav action={actionMock} />)
       const button = screen.getByTestId('deleteButton')
       fireEvent.click(button)
-      expect(deleteControlMock).toHaveBeenCalled()
+      expect(deleteMock).toHaveBeenCalled()
     })
   })
 
   describe('The controls', () => {
     it('should not show controls Gens de Mer for SAILING_LEISURE', async () => {
       const mock = { ...actionMock, data: { ...actionMock.data, vesselType: VesselTypeEnum.SAILING_LEISURE } }
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(mock as any, false))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: mock, loading: false, error: undefined })
       render(<ActionControlNav action={mock} />)
       const text = screen.queryByText('Contrôle administratif gens de mer')
       expect(text).toBeFalsy()
     })
     it('should show controls Gens de Mer for for other vessel types', async () => {
       const mock = { ...actionMock, data: { ...actionMock.data, vesselType: VesselTypeEnum.COMMERCIAL } }
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(mock as any, false))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: mock, loading: false, error: undefined })
       render(<ActionControlNav action={mock} />)
       const text = screen.getByText('Contrôle administratif gens de mer')
       expect(text).toBeInTheDocument()

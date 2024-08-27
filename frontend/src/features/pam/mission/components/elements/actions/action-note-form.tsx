@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { DatePicker, Icon, Textarea } from '@mtes-mct/monitor-ui'
-import { ActionFreeNote } from '../../../../../common/types/action-types.ts'
+import { ActionFreeNote } from '@common/types/action-types.ts'
 import { Stack } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'
 import omit from 'lodash/omit'

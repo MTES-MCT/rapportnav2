@@ -2,8 +2,8 @@ import { describe, expect, test, vi } from 'vitest'
 import { render, screen } from '../../../../test-utils.tsx'
 
 import MissionsList from './missions-list.tsx'
-import { Mission } from '../../../common/types/env-mission-types.ts'
-import { MissionStatusEnum } from '../../../common/types/mission-types.ts'
+import { Mission } from '@common/types/env-mission-types.ts'
+import { MissionStatusEnum } from '@common/types/mission-types.ts'
 
 const openedMission = {
   id: 1,

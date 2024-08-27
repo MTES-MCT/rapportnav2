@@ -1,6 +1,6 @@
 import React from 'react'
 import { Label } from '@mtes-mct/monitor-ui'
-import { FishAction } from '../../../../../../common/types/fish-mission-types.ts'
+import { FishAction } from '@common/types/fish-mission-types.ts'
 import { Stack } from 'rsuite'
 import FishInfractionSummary from '../../infractions/fish-infraction-summary.tsx'
 

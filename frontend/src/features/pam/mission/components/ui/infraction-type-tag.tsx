@@ -1,8 +1,8 @@
 import React from 'react'
 import { Accent, Tag } from '@mtes-mct/monitor-ui'
-import { InfractionTypeEnum, infractionTypeLabels } from '../../../../common/types/env-mission-types.ts'
+import { InfractionTypeEnum, infractionTypeLabels } from '@common/types/env-mission-types.ts'
 import Text from '../../../../common/components/ui/text.tsx'
-import { INFRACTION_TYPE_LABEL, InfractionType } from '../../../../common/types/fish-mission-types.ts'
+import { INFRACTION_TYPE_LABEL, InfractionType } from '@common/types/fish-mission-types.ts'
 
 interface InfractionTagProps {
   type?: InfractionTypeEnum | InfractionType

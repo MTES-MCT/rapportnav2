@@ -1,11 +1,9 @@
 import { vi } from 'vitest'
 import { render, screen } from '../../../../../../test-utils.tsx'
 import ActionFishDateRange from './action-fish-daterange.tsx'
+import * as usePatchModule from '@features/pam/mission/hooks/use-patch-action-fish'
 
-const patchActionMock = vi.fn()
-vi.mock('./use-patch-action-fish', () => ({
-  default: () => [patchActionMock, { error: undefined }]
-}))
+const patchMock = vi.fn()
 
 const props = () => ({
   missionId: '1',
@@ -16,7 +14,7 @@ const props = () => ({
 
 describe('Action Fish Datetime start/end', () => {
   beforeEach(() => {
-    patchActionMock.mockReset()
+    patchMock.mockReset()
   })
   afterEach(() => {
     vi.clearAllMocks()
@@ -24,7 +22,7 @@ describe('Action Fish Datetime start/end', () => {
 
   it('should render the dates', () => {
     render(<ActionFishDateRange {...props()} />)
-    expect(patchActionMock).not.toHaveBeenCalled()
+    expect(patchMock).not.toHaveBeenCalled()
     expect(screen.getByDisplayValue('2022-02-15 ~ 2023-03-27')).toBeInTheDocument()
   })
 

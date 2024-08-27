@@ -1,5 +1,5 @@
 import { render, screen } from '../../../../../../test-utils.tsx'
-import { ControlAdministrative, ControlType } from '../../../../../common/types/control-types.ts'
+import { ControlAdministrative, ControlType } from '@common/types/control-types.ts'
 import EnvControlForm, { EnvControlFormProps } from './env-control-form.tsx'
 
 const dummy_control = {

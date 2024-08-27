@@ -1,21 +1,12 @@
-import { render, screen } from '../../../../../../test-utils.tsx'
+import { render, screen, fireEvent } from '../../../../../../test-utils.tsx'
 import Timeline from './timeline.tsx'
-import { ActionControl, ActionStatusType } from '../../../../../common/types/action-types.ts'
+import { ActionControl, ActionStatusType } from '@common/types/action-types.ts'
 import { vi } from 'vitest'
-import useGetMissionTimeline from '../../../hooks/use-mission-timeline.tsx'
-import { CompletenessForStatsStatusEnum, Mission, VesselTypeEnum } from '../../../../../common/types/mission-types.ts'
+import * as useTimelineModule from '@features/pam/mission/hooks/use-mission-timeline'
+import { CompletenessForStatsStatusEnum, Mission, VesselTypeEnum } from '@common/types/mission-types.ts'
 import { GraphQLError } from 'graphql/error'
-import { ActionTypeEnum, MissionSourceEnum } from '../../../../../common/types/env-mission-types.ts'
-import { ControlMethod } from '../../../../../common/types/control-types.ts'
-import { fireEvent } from '@testing-library/react'
-
-vi.mock('./use-mission-timeline.tsx', async importOriginal => {
-  const actual = await importOriginal()
-  return {
-    ...actual,
-    default: vi.fn()
-  }
-})
+import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types.ts'
+import { ControlMethod } from '@common/types/control-types.ts'
 
 const actionMock1 = {
   id: '1',
@@ -47,12 +38,6 @@ const actionMock2 = { ...actionMock1, startDateTimeUtc: '2022-01-02T00:00:00Z' }
 
 const actionStatusMock = { ...actionMock2, type: ActionTypeEnum.STATUS }
 
-const mockedQueryResult = (mission?: Mission, loading: boolean = false, error: any = undefined) => ({
-  data: mission,
-  loading,
-  error
-})
-
 const props = () => ({
   missionId: '1',
   onSelectAction: vi.fn()
@@ -60,36 +45,40 @@ const props = () => ({
 describe('Timeline', () => {
   describe('testing rendering', () => {
     test('should render loading', () => {
-      ;(useGetMissionTimeline as any).mockReturnValue(mockedQueryResult(undefined, true))
+      vi.spyOn(useTimelineModule, 'default').mockReturnValue({ data: undefined, loading: true, error: undefined })
       render(<Timeline {...props()} />)
       expect(screen.getByTestId('timeline-loading')).toBeInTheDocument()
     })
     test('should render error', () => {
-      ;(useGetMissionTimeline as any).mockReturnValue(mockedQueryResult(undefined, false, new GraphQLError('Error!')))
+      vi.spyOn(useTimelineModule, 'default').mockReturnValue({
+        data: undefined,
+        loading: false,
+        error: new GraphQLError('Error!')
+      })
       render(<Timeline {...props()} />)
       expect(screen.getByTestId('timeline-error')).toBeInTheDocument()
     })
     test('should render empty action message', () => {
       const actions = { actions: [] }
-      ;(useGetMissionTimeline as any).mockReturnValue(mockedQueryResult(actions))
+      vi.spyOn(useTimelineModule, 'default').mockReturnValue({ data: actions, loading: false, error: undefined })
       render(<Timeline {...props()} />)
       expect(screen.getByText("Aucune action n'est ajoutée pour le moment")).toBeInTheDocument()
     })
     test('should render content', () => {
       const actions = { actions: [actionMock1, actionMock2] }
-      ;(useGetMissionTimeline as any).mockReturnValue(mockedQueryResult(actions))
+      vi.spyOn(useTimelineModule, 'default').mockReturnValue({ data: actions, loading: false, error: undefined })
       render(<Timeline {...props()} />)
       expect(screen.getByTestId('timeline-content')).toBeInTheDocument()
     })
     test('should render 1 less divider as there are actions', () => {
       const actions = { actions: [actionMock1, actionMock2] }
-      ;(useGetMissionTimeline as any).mockReturnValue(mockedQueryResult(actions))
+      vi.spyOn(useTimelineModule, 'default').mockReturnValue({ data: actions, loading: false, error: undefined })
       render(<Timeline {...props()} />)
       expect(screen.queryAllByTestId('timeline-day-divider')).toHaveLength(actions.actions.length - 1)
     })
     test('should not render status tag for status actions', () => {
       const actions = { actions: [actionMock1, actionStatusMock] }
-      ;(useGetMissionTimeline as any).mockReturnValue(mockedQueryResult(actions))
+      vi.spyOn(useTimelineModule, 'default').mockReturnValue({ data: actions, loading: false, error: undefined })
       render(<Timeline {...props()} />)
       expect(screen.queryAllByTestId('timeline-item-status')).toHaveLength(actions.actions.length - 1)
     })
@@ -102,13 +91,13 @@ describe('Timeline', () => {
           }
         ]
       }
-      ;(useGetMissionTimeline as any).mockReturnValue(mockedQueryResult(actions))
+      vi.spyOn(useTimelineModule, 'default').mockReturnValue({ data: actions, loading: false, error: undefined })
       render(<Timeline {...props()} />)
       expect(screen.getByTestId('timeline-item-incomplete-report')).toBeInTheDocument()
     })
     test('should render the date in french', () => {
       const actions = { actions: [actionMock1, actionMock2] }
-      ;(useGetMissionTimeline as any).mockReturnValue(mockedQueryResult(actions))
+      vi.spyOn(useTimelineModule, 'default').mockReturnValue({ data: actions, loading: false, error: undefined })
       render(<Timeline {...props()} />)
       expect(screen.getByText('01 janv.')).toBeInTheDocument()
       expect(screen.getByText('02 janv.')).toBeInTheDocument()
@@ -117,7 +106,7 @@ describe('Timeline', () => {
   describe('testing the action', () => {
     test('should call onSelect when clicking an item', () => {
       const actions = { actions: [actionMock1, actionStatusMock] }
-      ;(useGetMissionTimeline as any).mockReturnValue(mockedQueryResult(actions))
+      vi.spyOn(useTimelineModule, 'default').mockReturnValue({ data: actions, loading: false, error: undefined })
       const spy = vi.fn()
       render(<Timeline {...{ ...props(), onSelectAction: spy }} />)
 

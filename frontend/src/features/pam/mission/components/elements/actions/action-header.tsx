@@ -2,11 +2,11 @@ import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { Accent, Button, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import Text from '../../../../../common/components/ui/text.tsx'
-import { formatDateTimeForFrenchHumans } from '../../../../../common/utils/dates.ts'
+import { formatDateTimeForFrenchHumans } from '@common/utils/dates.ts'
 import ActionCompletenessForStatsMessage, {
   ActionCompletenessForStatsMessageProps
 } from './action-completeness-for-stats-message.tsx'
-import { CompletenessForStats } from '../../../../../common/types/mission-types.ts'
+import { CompletenessForStats } from '@common/types/mission-types.ts'
 
 export type ActionHeaderProps = ActionCompletenessForStatsMessageProps & {
   icon?: Element

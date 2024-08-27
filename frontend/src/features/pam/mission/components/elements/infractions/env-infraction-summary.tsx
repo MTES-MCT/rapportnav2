@@ -3,7 +3,7 @@ import { Stack } from 'rsuite'
 import { Accent, Button, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import Text from '../../../../../common/components/ui/text.tsx'
 import { controlTitle, vesselTypeToHumanString } from '../../../utils/control-utils.ts'
-import { Infraction, InfractionByTarget } from '../../../../../common/types/infraction-types.ts'
+import { Infraction, InfractionByTarget } from '@common/types/infraction-types.ts'
 import InfractionTypeTag from '../../ui/infraction-type-tag.tsx'
 import NatinfsTag from '../../ui/natinfs-tag.tsx'
 

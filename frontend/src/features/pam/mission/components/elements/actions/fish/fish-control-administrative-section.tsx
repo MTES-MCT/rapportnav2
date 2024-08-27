@@ -2,7 +2,7 @@ import React from 'react'
 import { Accent, Button, Icon, Label, MultiRadio, Size, THEME } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
 import { controlCheckMultiRadioOptions } from '../action-control-fish.tsx'
-import { FishAction } from '../../../../../../common/types/fish-mission-types.ts'
+import { FishAction } from '@common/types/fish-mission-types.ts'
 import Text from '../../../../../../common/components/ui/text.tsx'
 import FishInfractionSummary from '../../infractions/fish-infraction-summary.tsx'
 

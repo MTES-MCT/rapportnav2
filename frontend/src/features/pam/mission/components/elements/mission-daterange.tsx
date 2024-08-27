@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Mission } from '../../../../common/types/mission-types.ts'
+import { Mission } from '@common/types/mission-types.ts'
 import usePatchMissionEnv, { PatchMissionEnvInput } from '../../hooks/use-patch-mission-env.tsx'
 import PatchableMonitorDateRange from '../../../../common/components/elements/patchable-monitor-daterange.tsx'
 

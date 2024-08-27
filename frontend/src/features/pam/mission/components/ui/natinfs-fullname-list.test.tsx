@@ -1,16 +1,8 @@
 import { render, screen } from '../../../../../test-utils.tsx'
 import NatinfsFullNameList from './natinfs-fullname-list.tsx'
-import useNatinfs from '../../hooks/use-natinfs.tsx'
+import * as useNatinfModule from '@features/pam/mission/hooks/use-natinfs'
 import { GraphQLError } from 'graphql/error'
-import { Natinf } from '../../../../common/types/infraction-types.ts'
-
-vi.mock('././use-natinfs.tsx', async importOriginal => {
-  const actual = await importOriginal()
-  return {
-    ...actual,
-    default: vi.fn()
-  }
-})
+import { vi } from 'vitest'
 
 const mock = [
   {
@@ -19,41 +11,39 @@ const mock = [
   }
 ]
 
-const mockedQueryResult = (action: Natinf[] = mock as any, loading: boolean = false, error: any = undefined) => ({
-  data: action,
-  loading,
-  error
-})
-
 describe('NatinfsFullNameList', () => {
   describe('Testing rendering according to Query result', () => {
     test('renders null when no input natinf', async () => {
-      ;(useNatinfs as any).mockReturnValue(mockedQueryResult(mock as any, true))
+      vi.spyOn(useNatinfModule, 'default').mockReturnValue({ data: undefined, loading: false, error: null })
       const { container } = render(<NatinfsFullNameList natinfs={undefined} />)
       expect(container.firstChild).toBeNull()
     })
     test('renders loading state', async () => {
-      ;(useNatinfs as any).mockReturnValue(mockedQueryResult(mock as any, true))
+      vi.spyOn(useNatinfModule, 'default').mockReturnValue({ data: undefined, loading: true, error: null })
       const { container } = render(<NatinfsFullNameList natinfs={[]} />)
       expect(container.firstChild).toBeNull()
     })
     test('renders error state', async () => {
-      ;(useNatinfs as any).mockReturnValue(mockedQueryResult(mock as any, false, new GraphQLError('Error!')))
+      vi.spyOn(useNatinfModule, 'default').mockReturnValue({
+        data: undefined,
+        loading: false,
+        error: new GraphQLError('Error!')
+      })
       const { container } = render(<NatinfsFullNameList natinfs={[]} />)
       expect(container.firstChild).toBeNull()
     })
     test('renders empty text when empty natinfs', async () => {
-      ;(useNatinfs as any).mockReturnValue(mockedQueryResult(mock as any, false))
+      vi.spyOn(useNatinfModule, 'default').mockReturnValue({ data: mock, loading: false, error: null })
       render(<NatinfsFullNameList natinfs={[]} />)
       expect(screen.getByText('--')).toBeInTheDocument()
     })
     test('renders empty text when the input natinf does not match', async () => {
-      ;(useNatinfs as any).mockReturnValue(mockedQueryResult(mock as any, false))
+      vi.spyOn(useNatinfModule, 'default').mockReturnValue({ data: mock, loading: false, error: null })
       render(<NatinfsFullNameList natinfs={['2']} />)
       expect(screen.getByText('--')).toBeInTheDocument()
     })
     test('renders the full natinf name when the input natinf matches', async () => {
-      ;(useNatinfs as any).mockReturnValue(mockedQueryResult(mock as any, false))
+      vi.spyOn(useNatinfModule, 'default').mockReturnValue({ data: mock, loading: false, error: null })
       render(<NatinfsFullNameList natinfs={['1']} />)
       expect(screen.getByText('1 - text1')).toBeInTheDocument()
     })

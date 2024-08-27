@@ -2,9 +2,9 @@ import { FC } from 'react'
 import { Stack, Toggle } from 'rsuite'
 import { Accent, Button, Size, Textarea, THEME } from '@mtes-mct/monitor-ui'
 import Text from '../../../../../common/components/ui/text.tsx'
-import { InfractionTypeEnum } from '../../../../../common/types/env-mission-types.ts'
+import { InfractionTypeEnum } from '@common/types/env-mission-types.ts'
 import NatinfsMultiSelect from '../../ui/natinfs-multi-select.tsx'
-import { ControlType } from '../../../../../common/types/control-types.ts'
+import { ControlType } from '@common/types/control-types.ts'
 
 export interface InfractionFormData {
   controlType?: ControlType

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Accent, Icon, Tag, THEME } from '@mtes-mct/monitor-ui'
 import { FlexboxGrid, Stack } from 'rsuite'
-import { Action, ActionControl } from '../../../../../../common/types/action-types.ts'
+import { Action, ActionControl } from '@common/types/action-types.ts'
 import { controlMethodToHumanString, vesselTypeToHumanString } from '../../../../utils/control-utils.ts'
 import Text from '../../../../../../common/components/ui/text.tsx'
 import { useParams } from 'react-router-dom'

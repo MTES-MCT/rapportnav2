@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
 import { Select, TextInput } from '@mtes-mct/monitor-ui'
-import { ControlType } from '../../../../../common/types/control-types.ts'
-import { Infraction } from '../../../../../common/types/infraction-types.ts'
+import { ControlType } from '@common/types/control-types.ts'
+import { Infraction } from '@common/types/infraction-types.ts'
 import InfractionForm from './infraction-form.tsx'
 import {
   CONTROL_TYPE_OPTIONS,
@@ -10,7 +10,7 @@ import {
   VESSEL_SIZE_OPTIONS,
   VESSEL_TYPE_OPTIONS
 } from '../../../utils/control-utils.ts'
-import { VesselSizeEnum, VesselTypeEnum } from '../../../../../common/types/mission-types.ts'
+import { VesselSizeEnum, VesselTypeEnum } from '@common/types/mission-types.ts'
 
 interface EnvInfractionNewTargetFormProps {
   infraction?: Infraction

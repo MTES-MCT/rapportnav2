@@ -1,8 +1,9 @@
 import { render, screen } from '../../../../../../../test-utils.tsx'
 import { Action } from '@sentry/react/types/types'
-import { ActionTypeEnum, MissionSourceEnum } from '../../../../../../common/types/env-mission-types.ts'
-import { ActionStatusType } from '../../../../../../common/types/action-types.ts'
+import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types.ts'
+import { ActionStatusType } from '@common/types/action-types.ts'
 import ActionFishControl from './timeline-item-control-fish.tsx'
+import { FishAction } from '@common/types/fish-mission-types.ts'
 
 const actionMock = {
   id: '1',

@@ -1,8 +1,8 @@
 import { render, screen } from '../../../../../../test-utils.tsx'
 import EnvInfractionTargetAddedByCacemForm from './env-infraction-target-added-by-cacem-form.tsx'
-import { ControlType } from '../../../../../common/types/control-types.ts'
-import { InfractionTypeEnum, VesselTypeEnum } from '../../../../../common/types/env-mission-types.ts'
-import { Infraction, InfractionByTarget } from '../../../../../common/types/infraction-types.ts'
+import { ControlType } from '@common/types/control-types.ts'
+import { InfractionTypeEnum, VesselTypeEnum } from '@common/types/env-mission-types.ts'
+import { Infraction, InfractionByTarget } from '@common/types/infraction-types.ts'
 
 const infractionMock = {
   id: '123',

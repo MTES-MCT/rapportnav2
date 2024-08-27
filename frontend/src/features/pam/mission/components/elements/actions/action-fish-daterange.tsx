@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import usePatchActionEnv, { PatchActionEnvInput } from '../../../hooks/use-patch-action-env.tsx'
+import { PatchActionEnvInput } from '../../../hooks/use-patch-action-env.tsx'
 import PatchableMonitorDateRange from '../../../../../common/components/elements/patchable-monitor-daterange.tsx'
 import usePatchActionFish from '../../../hooks/use-patch-action-fish.tsx'
 

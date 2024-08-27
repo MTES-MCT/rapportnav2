@@ -1,9 +1,9 @@
 import { fireEvent, render, screen } from '../../../../../../test-utils.tsx'
-import { ControlType } from '../../../../../common/types/control-types.ts'
+import { ControlType } from '@common/types/control-types.ts'
 import ControlInfraction, { ControlInfractionProps } from '../infractions/infraction-for-control.tsx'
 import { infractionTitleForControlType } from '../../../utils/infraction-utils.ts'
-import { InfractionTypeEnum } from '../../../../../common/types/env-mission-types.ts'
-import { Infraction } from '../../../../../common/types/infraction-types.ts'
+import { InfractionTypeEnum } from '@common/types/env-mission-types.ts'
+import { Infraction } from '@common/types/infraction-types.ts'
 
 const props = (infractions?: Infraction[]) =>
   ({

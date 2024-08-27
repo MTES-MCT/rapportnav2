@@ -11,8 +11,8 @@ import {
   TextInput,
   THEME
 } from '@mtes-mct/monitor-ui'
-import { VesselSizeEnum, VesselTypeEnum } from '../../../../../common/types/mission-types.ts'
-import { ActionControl } from '../../../../../common/types/action-types.ts'
+import { VesselSizeEnum, VesselTypeEnum } from '@common/types/mission-types.ts'
+import { ActionControl } from '@common/types/action-types.ts'
 import { Stack } from 'rsuite'
 import Text from '../../../../../common/components/ui/text.tsx'
 import omit from 'lodash/omit'

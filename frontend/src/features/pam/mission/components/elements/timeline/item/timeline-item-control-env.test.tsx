@@ -1,11 +1,6 @@
 import { render, screen } from '../../../../../../../test-utils.tsx'
-import {
-  ActionTargetTypeEnum,
-  ActionTypeEnum,
-  EnvAction,
-  MissionSourceEnum
-} from '../../../../../../common/types/env-mission-types.ts'
-import { Action, ActionStatusType } from '../../../../../../common/types/action-types.ts'
+import { ActionTargetTypeEnum, ActionTypeEnum, EnvAction, MissionSourceEnum } from '@common/types/env-mission-types.ts'
+import { Action, ActionStatusType } from '@common/types/action-types.ts'
 import ActionEnvControl from './timeline-item-control-env.tsx'
 
 const actionMock = {

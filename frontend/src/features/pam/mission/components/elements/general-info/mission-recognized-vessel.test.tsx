@@ -1,8 +1,9 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '../../../../../../test-utils.tsx'
 import { vi } from 'vitest'
-import { MissionGeneralInfo } from '../../../../../common/types/mission-types.ts'
+import { MissionGeneralInfo } from '@common/types/mission-types.ts'
 import UIThemeWrapper from '../../../../../common/components/ui/ui-theme-wrapper.tsx'
 import MissionRecognizedVessel from './mission-recognized-vessel.tsx'
+import * as useAddModule from '@features/pam/mission/hooks/use-add-update-distance-consumption'
 
 const info = {
   id: 3,
@@ -13,13 +14,12 @@ const info = {
   nbrOfRecognizedVessel: 0
 } as MissionGeneralInfo
 
-const updateGeneralInfoMock = vi.fn()
-
-vi.mock('./use-add-update-distance-consumption.tsx', () => ({
-  default: () => [updateGeneralInfoMock, { error: undefined }]
-}))
+const mutateMock = vi.fn()
 
 describe('MissionRecognizedVessel', () => {
+  beforeEach(() => {
+    vi.spyOn(useAddModule, 'default').mockReturnValue([mutateMock, { error: undefined }])
+  })
   afterEach(() => {
     vi.clearAllMocks()
     vi.resetAllMocks()
@@ -31,7 +31,7 @@ describe('MissionRecognizedVessel', () => {
         <MissionRecognizedVessel missionId={1} generalInfo={info} />
       </UIThemeWrapper>
     )
-    expect(updateGeneralInfoMock).not.toHaveBeenCalled()
+    expect(mutateMock).not.toHaveBeenCalled()
     expect(screen.getByText(`Nombre total de navires reconnus dans les approches maritimes (ZEE)`)).toBeTruthy()
   })
 
@@ -45,6 +45,6 @@ describe('MissionRecognizedVessel', () => {
     fireEvent.change(element, {
       target: { value: 9 }
     })
-    expect(updateGeneralInfoMock).toHaveBeenCalled()
+    expect(mutateMock).toHaveBeenCalled()
   })
 })

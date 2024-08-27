@@ -1,16 +1,14 @@
 import { render, screen } from '../../../../test-utils.tsx'
 import PageWrapper from './page-wrapper.tsx'
-import useAuth from '../../../auth/hooks/use-auth.tsx'
-import { vi } from 'vitest'
+import * as useAuthModule from '@features/auth/hooks/use-auth'
 
-vi.mock('../auth/use-auth', () => ({
-  default: vi.fn()
-}))
+import { vi } from 'vitest'
 
 describe('PageWrapper component', () => {
   it('should not render the sidebar when not authenticated', () => {
-    ;(useAuth as any).mockReturnValue({
-      isAuthenticated: false
+    vi.spyOn(useAuthModule, 'default').mockReturnValue({
+      isAuthenticated: false,
+      logout: vi.fn()
     })
     render(
       <PageWrapper>
@@ -22,8 +20,9 @@ describe('PageWrapper component', () => {
     expect(sidebarElement).toBeNull()
   })
   it('should not render the sidebar when the showMenu prop is false', () => {
-    ;(useAuth as any).mockReturnValue({
-      isAuthenticated: true
+    vi.spyOn(useAuthModule, 'default').mockReturnValue({
+      isAuthenticated: true,
+      logout: vi.fn()
     })
     render(
       <PageWrapper showMenu={false}>
@@ -35,8 +34,9 @@ describe('PageWrapper component', () => {
     expect(sidebarElement).toBeNull()
   })
   it('should render the sidebar when the showMenu prop is true and authenticated', () => {
-    ;(useAuth as any).mockReturnValue({
-      isAuthenticated: true
+    vi.spyOn(useAuthModule, 'default').mockReturnValue({
+      isAuthenticated: true,
+      logout: vi.fn()
     })
     render(
       <PageWrapper>
@@ -48,8 +48,9 @@ describe('PageWrapper component', () => {
     expect(sidebarElement).not.toBeNull()
   })
   it('should render a custom header when provided', () => {
-    ;(useAuth as any).mockReturnValue({
-      isAuthenticated: true
+    vi.spyOn(useAuthModule, 'default').mockReturnValue({
+      isAuthenticated: true,
+      logout: vi.fn()
     })
     render(
       <PageWrapper header={<p>custom-header</p>}>
@@ -62,8 +63,9 @@ describe('PageWrapper component', () => {
     expect(headerElement).toBeInTheDocument()
   })
   it('should render the default header when no extra header provided', () => {
-    ;(useAuth as any).mockReturnValue({
-      isAuthenticated: true
+    vi.spyOn(useAuthModule, 'default').mockReturnValue({
+      isAuthenticated: true,
+      logout: vi.fn()
     })
     render(
       <PageWrapper>
@@ -76,8 +78,9 @@ describe('PageWrapper component', () => {
     expect(headerElement).toBeInTheDocument()
   })
   it('should render the sidebar when authenticated', () => {
-    ;(useAuth as any).mockReturnValue({
-      isAuthenticated: true
+    vi.spyOn(useAuthModule, 'default').mockReturnValue({
+      isAuthenticated: true,
+      logout: vi.fn()
     })
     render(
       <PageWrapper>

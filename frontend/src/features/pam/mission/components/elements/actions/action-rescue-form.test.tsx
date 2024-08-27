@@ -1,23 +1,10 @@
 import { vi } from 'vitest'
-import { fireEvent, mockQueryResult, render, waitFor } from '../../../../../../test-utils.tsx'
-import { Action, ActionRescue } from '../../../../../common/types/action-types.ts'
-import { ActionTypeEnum, MissionSourceEnum } from '../../../../../common/types/env-mission-types.ts'
+import { fireEvent, render, waitFor } from '../../../../../../test-utils.tsx'
+import { Action, ActionRescue } from '@common/types/action-types.ts'
+import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types.ts'
 import ActionRescueForm from './action-rescue-form.tsx'
-import useActionById from '../../../hooks/use-action-by-id.tsx'
-
-const mutateMock = vi.fn()
-
-vi.mock('./use-action-by-id', async importOriginal => {
-  const actual = await importOriginal()
-  return {
-    ...actual,
-    default: vi.fn()
-  }
-})
-
-vi.mock('../rescues/use-add-update-rescue', () => ({
-  default: () => [mutateMock]
-}))
+import * as useActionByIdModule from '@features/pam/mission/hooks/use-action-by-id'
+import * as useAddOrUpdateRescueModule from '@features/pam/mission/hooks/rescues/use-add-update-rescue'
 
 const action: Action = { source: MissionSourceEnum.RAPPORTNAV, type: ActionTypeEnum.RESCUE } as Action
 
@@ -44,9 +31,11 @@ const response = {
   } as ActionRescue
 }
 
+const mutateMock = vi.fn()
 describe('ActionRescueForm', () => {
   beforeEach(() => {
-    ;(useActionById as any).mockReturnValue(mockQueryResult(response))
+    vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: response, loading: false, error: null })
+    vi.spyOn(useAddOrUpdateRescueModule, 'default').mockReturnValue([mutateMock, { error: undefined }])
   })
 
   it('should render vessel notice label', async () => {

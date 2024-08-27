@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from '../../../../../../test-utils.tsx'
 import '@testing-library/jest-dom'
 import ControlSelection from './control-selection.tsx'
-import { VesselTypeEnum } from '../../../../../common/types/mission-types.ts'
-import { missionTypeEnum } from '../../../../../common/types/env-mission-types.ts'
+import { VesselTypeEnum } from '@common/types/mission-types.ts'
+import { missionTypeEnum } from '@common/types/env-mission-types.ts'
 
 describe('ControlSelection', () => {
   test('renders control selection options', () => {

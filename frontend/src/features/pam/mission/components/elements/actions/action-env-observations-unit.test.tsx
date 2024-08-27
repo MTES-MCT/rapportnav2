@@ -1,8 +1,9 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen, fireEvent } from '../../../../../../test-utils.tsx'
 import ActionEnvObservationsUnit, { ActionEnvObservationsUnitProps } from './action-env-observations-unit.tsx'
+import * as usePatchModule from '@features/pam/mission/hooks/use-patch-action-env'
 
-const mutateMock = vi.fn()
+const patchMock = vi.fn()
 const props = (observationsByUnit?: string): ActionEnvObservationsUnitProps => ({
   missionId: '1',
   actionId: '1',
@@ -21,14 +22,12 @@ describe('ActionEnvObservationsUnit', () => {
   })
 
   it('calls patch function on submit', async () => {
-    vi.mock('./use-patch-action-env.tsx', () => ({
-      default: () => [mutateMock, { error: undefined, loading: false }]
-    }))
+    vi.spyOn(usePatchModule, 'default').mockReturnValue([patchMock, { error: undefined }])
     render(<ActionEnvObservationsUnit {...props()} />)
     fireEvent.change(screen.getByTestId('observations-by-unit'), { target: { value: 'dummy text' } })
 
     await vi.waitFor(() => {
-      expect(mutateMock).toHaveBeenCalledWith({
+      expect(patchMock).toHaveBeenCalledWith({
         variables: {
           action: {
             missionId: '1',

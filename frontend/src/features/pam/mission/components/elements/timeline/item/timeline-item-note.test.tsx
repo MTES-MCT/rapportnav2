@@ -1,6 +1,6 @@
 import { render, screen } from '../../../../../../../test-utils.tsx'
 import ActionNote from './timeline-item-note.tsx'
-import { Action } from '../../../../../../common/types/action-types.ts'
+import { Action } from '@common/types/action-types.ts'
 
 const props = (observations?: string) => ({
   action: {

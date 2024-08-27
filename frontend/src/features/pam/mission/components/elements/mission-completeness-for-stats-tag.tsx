@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Icon, Tag, THEME } from '@mtes-mct/monitor-ui'
-import { CompletenessForStatsStatusEnum, MissionStatusEnum } from '../../../../common/types/mission-types.ts'
+import { CompletenessForStatsStatusEnum, MissionStatusEnum } from '@common/types/mission-types.ts'
 import Text from '../../../../common/components/ui/text.tsx'
 
 interface MissionStatusTagProps {

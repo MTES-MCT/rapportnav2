@@ -1,10 +1,10 @@
 import { render, screen } from '../../../../../../../test-utils.tsx'
 import { Action } from '@sentry/react/types/types'
-import { ActionTypeEnum, MissionSourceEnum } from '../../../../../../common/types/env-mission-types.ts'
-import { ActionControl, ActionStatusType } from '../../../../../../common/types/action-types.ts'
+import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types.ts'
+import { ActionControl, ActionStatusType } from '@common/types/action-types.ts'
 import ActionNavControl from './timeline-item-control-nav.tsx'
-import { ControlMethod } from '../../../../../../common/types/control-types.ts'
-import { VesselTypeEnum } from '../../../../../../common/types/mission-types.ts'
+import { ControlMethod } from '@common/types/control-types.ts'
+import { VesselTypeEnum } from '@common/types/mission-types.ts'
 
 const actionMock = {
   id: '1',

@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { Dropdown, Icon } from '@mtes-mct/monitor-ui'
 import { Dropdown as RSuiteDropdown } from 'rsuite'
-import { ActionTypeEnum } from '../../../../../common/types/env-mission-types.ts'
+import { ActionTypeEnum } from '@common/types/env-mission-types.ts'
 import MoreIcon from '@rsuite/icons/More'
 
 interface ActionSelectionDropdownProps {

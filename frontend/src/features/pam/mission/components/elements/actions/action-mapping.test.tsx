@@ -1,7 +1,7 @@
 import { render, screen } from '../../../../../../test-utils.tsx'
 import { getComponentForAction } from './action-mapping.ts'
-import { ActionTypeEnum, MissionSourceEnum } from '../../../../../common/types/env-mission-types.ts'
-import { Action } from '../../../../../common/types/action-types.ts' // Adjust the import path
+import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types.ts'
+import { Action } from '@common/types/action-types.ts' // Adjust the import path
 import { vi } from 'vitest'
 
 vi.mock('./action-control-env', () => ({ default: () => <div>Mock ActionControlEnv</div> }))

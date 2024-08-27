@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { DatePicker, Icon, Tag, Textarea } from '@mtes-mct/monitor-ui'
-import { ActionStatus, ActionStatusType } from '../../../../../common/types/action-types.ts'
+import { ActionStatus, ActionStatusType } from '@common/types/action-types.ts'
 import { Stack } from 'rsuite'
 import { getColorForStatus, mapStatusToText } from '../../../utils/status-utils.ts'
 import { useNavigate, useParams } from 'react-router-dom'

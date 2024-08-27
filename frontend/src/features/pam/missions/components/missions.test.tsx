@@ -1,17 +1,8 @@
 import { render, screen } from '../../../../test-utils.tsx'
 import { vi } from 'vitest'
-import useMissions from '../hooks/use-missions.tsx'
-import { Mission } from '../../../common/types/mission-types.ts'
 import Missions from './missions.tsx'
 import { GraphQLError } from 'graphql/error'
-
-vi.mock('./use-missions.tsx', async importOriginal => {
-  const actual = await importOriginal()
-  return {
-    ...actual,
-    default: vi.fn()
-  }
-})
+import * as useMissionsModule from '@features/pam/missions/hooks/use-missions'
 
 const mission = {
   id: '123',
@@ -25,28 +16,26 @@ const mission = {
   role: undefined
 }
 
-const mockedQueryResult = (crew?: Mission[], loading: boolean = false, error: any = undefined) => ({
-  data: crew,
-  loading,
-  error
-})
-
 describe('Missions', () => {
   describe('Testing rendering', () => {
     test('should render loading', () => {
-      ;(useMissions as any).mockReturnValue(mockedQueryResult(undefined, true))
+      vi.spyOn(useMissionsModule, 'default').mockReturnValue({ data: undefined, loading: true, error: null })
       render(<Missions />)
       expect(screen.getByText('Missions en cours de chargement')).toBeInTheDocument()
     })
 
     test('should render error', () => {
-      ;(useMissions as any).mockReturnValue(mockedQueryResult(undefined, false, new GraphQLError('Error!')))
+      vi.spyOn(useMissionsModule, 'default').mockReturnValue({
+        data: undefined,
+        loading: false,
+        error: new GraphQLError('Error!')
+      })
       render(<Missions />)
       expect(screen.getByText('Erreur: Error!')).toBeInTheDocument()
     })
 
     test('should render content', () => {
-      ;(useMissions as any).mockReturnValue(mockedQueryResult([mission]))
+      vi.spyOn(useMissionsModule, 'default').mockReturnValue({ data: [mission], loading: false, error: null })
       render(<Missions />)
       expect(screen.getByText('Mes rapports de mission')).toBeInTheDocument()
     })

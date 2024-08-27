@@ -1,5 +1,5 @@
 import { OptionValue, Select } from '@mtes-mct/monitor-ui'
-import { ActionStatusReason, ActionStatusType } from '../../../../common/types/action-types.ts'
+import { ActionStatusReason, ActionStatusType } from '@common/types/action-types.ts'
 import React from 'react'
 import { statusReasonToHumanString } from '../../utils/status-utils.ts'
 

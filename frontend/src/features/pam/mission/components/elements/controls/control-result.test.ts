@@ -1,4 +1,4 @@
-import { ControlResult } from '../../../../../common/types/control-types.ts'
+import { ControlResult } from '@common/types/control-types.ts'
 import { ControlResultExtraOptions, controlResultOptions } from './control-result.ts'
 
 describe('controlResultOptions', () => {

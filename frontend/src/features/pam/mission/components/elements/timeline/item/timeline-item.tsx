@@ -1,13 +1,13 @@
 import React from 'react'
 import { THEME } from '@mtes-mct/monitor-ui'
-import { ActionTypeEnum, MissionSourceEnum } from '../../../../../../common/types/env-mission-types.ts'
+import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types.ts'
 import { FlexboxGrid } from 'rsuite'
-import { Action } from '../../../../../../common/types/action-types.ts'
-import ActionEnvControl from "./timeline-item-control-env.tsx";
-import ActionFishControl from "./timeline-item-control-fish.tsx";
-import ActionNavControl from "./timeline-item-control-nav.tsx";
-import ActionStatus from "./timeline-item-status.tsx";
-import ActionNote from "./timeline-item-note.tsx";
+import { Action } from '@common/types/action-types.ts'
+import ActionEnvControl from './timeline-item-control-env.tsx'
+import ActionFishControl from './timeline-item-control-fish.tsx'
+import ActionNavControl from './timeline-item-control-nav.tsx'
+import ActionStatus from './timeline-item-status.tsx'
+import ActionNote from './timeline-item-note.tsx'
 import ActionEnvSurveillance from './timeline-item-surveillance.tsx'
 import ActionOtherRescue from './timeline-item-rescue.tsx'
 import ActionNauticalEvent from './timeline-item-nautical-event.tsx'
@@ -45,7 +45,6 @@ export const TimelineItemWrapper: React.FC<{
 }
 
 const getActionComponent = (action: Action) => {
-
   if (action.source === MissionSourceEnum.MONITORENV) {
     if (action.type === ActionTypeEnum.CONTROL) {
       return ActionEnvControl

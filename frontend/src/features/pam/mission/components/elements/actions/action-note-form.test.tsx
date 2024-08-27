@@ -1,29 +1,16 @@
-import { render, screen } from '../../../../../../test-utils.tsx'
-import { ActionTypeEnum, MissionSourceEnum } from '../../../../../common/types/env-mission-types.ts'
-import { Action, ActionFreeNote, ActionStatusType } from '../../../../../common/types/action-types.ts'
 import { vi } from 'vitest'
-import useActionById from '../../../hooks/use-action-by-id.tsx'
+import { render, screen, waitFor } from '../../../../../../test-utils.tsx'
+import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types.ts'
+import { ActionFreeNote, ActionStatusType } from '@common/types/action-types.ts'
 import { GraphQLError } from 'graphql/error'
-import { fireEvent } from '../../../../../../test-utils.tsx'
+import { fireEvent } from '@testing-library/dom'
 import ActionNoteForm from './action-note-form.tsx'
+import * as useActionByIdModule from '@features/pam/mission/hooks/use-action-by-id'
+import * as useAddModule from '@features/pam/mission/hooks/use-add-update-note'
+import * as useDeleteModule from '@features/pam/mission/hooks/use-delete-note'
 
 const mutateMock = vi.fn()
 const deleteMock = vi.fn()
-vi.mock('./use-action-by-id.tsx', async importOriginal => {
-  const actual = await importOriginal()
-  return {
-    ...actual,
-    default: vi.fn()
-  }
-})
-
-vi.mock('../notes/use-add-update-note.tsx', () => ({
-  default: () => [mutateMock]
-}))
-
-vi.mock('../notes/use-delete-note.tsx', () => ({
-  default: () => [deleteMock]
-}))
 
 const actionMock = {
   id: '1',
@@ -41,45 +28,43 @@ const actionMock = {
   } as any as ActionFreeNote
 }
 
-// Set up the mock implementation for useActionById
-const mockedQueryResult = (action: Action = actionMock as any, loading: boolean = false, error: any = undefined) => ({
-  data: action,
-  loading,
-  error
-})
-
 describe('ActionNoteForm', () => {
+  beforeEach(() => {
+    vi.spyOn(useAddModule, 'default').mockReturnValue([mutateMock, { error: undefined }])
+    vi.spyOn(useDeleteModule, 'default').mockReturnValue([deleteMock, { error: undefined }])
+  })
   describe('Testing rendering according to Query result', () => {
     test('renders loading state', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, true))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: true, error: null })
       render(<ActionNoteForm action={actionMock} />)
       expect(screen.getByText('Chargement...')).toBeInTheDocument()
     })
 
     test('renders error state', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false, new GraphQLError('Error!')))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({
+        data: actionMock,
+        loading: false,
+        error: new GraphQLError('Error!')
+      })
       render(<ActionNoteForm action={actionMock} />)
       expect(screen.getByText('error')).toBeInTheDocument()
     })
 
     test('renders data', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: false, error: null })
       render(<ActionNoteForm action={actionMock} />)
       expect(screen.getByText('Dupliquer')).toBeInTheDocument()
     })
     test('renders null when none above', async () => {
-      ;(useActionById as any).mockReturnValue({ ...mockedQueryResult(undefined, false), data: null })
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: undefined, loading: false, error: null })
       render(<ActionNoteForm action={actionMock} />)
       expect(screen.queryByTestId('action-note-form')).not.toBeInTheDocument()
     })
   })
 
   describe('The update mutation', () => {
-    beforeEach(() => {
-      mutateMock.mockClear()
-    })
     it('should be called when changing observations', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: false, error: null })
 
       render(<ActionNoteForm action={actionMock} />)
 
@@ -88,22 +73,24 @@ describe('ActionNoteForm', () => {
       fireEvent.change(field, { target: { value } })
       fireEvent.blur(field)
 
-      expect(mutateMock).toHaveBeenCalledWith({
-        variables: {
-          freeNoteAction: {
-            // actionId and missionId are undefined because useParam is not setup in the test run
-            missionId: undefined,
-            startDateTimeUtc: '2022-01-01T00:00:00Z',
-            observations: value
+      waitFor(() => {
+        expect(mutateMock).toHaveBeenCalledWith({
+          variables: {
+            freeNoteAction: {
+              // actionId and missionId are undefined because useParam is not setup in the test run
+              missionId: undefined,
+              startDateTimeUtc: '2022-01-01T00:00:00Z',
+              observations: value
+            }
           }
-        }
+        })
       })
     })
   })
 
   describe('The delete mutation', () => {
     it('should be called when changing clicking on the delete button', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: false, error: null })
       render(<ActionNoteForm action={actionMock} />)
       const button = screen.getByTestId('deleteButton')
       fireEvent.click(button)

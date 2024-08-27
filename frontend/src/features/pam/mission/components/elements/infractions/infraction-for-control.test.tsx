@@ -1,21 +1,15 @@
 import { render, screen } from '../../../../../../test-utils.tsx'
-import { InfractionTypeEnum } from '../../../../../common/types/env-mission-types.ts'
+import { InfractionTypeEnum } from '@common/types/env-mission-types.ts'
 import ControlInfraction from './infraction-for-control.tsx'
-import { ControlType } from '../../../../../common/types/control-types.ts'
+import { ControlType } from '@common/types/control-types.ts'
 import { vi } from 'vitest'
 import { fireEvent } from '../../../../../../test-utils.tsx'
-import { Infraction } from '../../../../../common/types/infraction-types.ts'
+import { Infraction } from '@common/types/infraction-types.ts'
+import * as useAddModule from '@features/pam/mission/hooks/use-add-update-infraction'
+import * as useDeleteModule from '@features/pam/mission/hooks/use-delete-infraction'
 
 const mutateMock = vi.fn()
 const deleteMock = vi.fn()
-
-vi.mock('./use-add-update-infraction.tsx', () => ({
-  default: () => [mutateMock]
-}))
-
-vi.mock('./use-delete-infraction.tsx', () => ({
-  default: () => [deleteMock]
-}))
 
 const infraction = {
   id: '123',
@@ -32,6 +26,10 @@ const props = (infractions?: Infraction[]) => ({
 })
 
 describe('ControlInfraction', () => {
+  beforeEach(() => {
+    vi.spyOn(useAddModule, 'default').mockReturnValue([mutateMock, { error: undefined }])
+    vi.spyOn(useDeleteModule, 'default').mockReturnValue([deleteMock, { error: undefined }])
+  })
   describe('The add infraction button', () => {
     it('should be shown when no infractions (undefined) and form not open', async () => {
       render(<ControlInfraction {...props(undefined)} />)

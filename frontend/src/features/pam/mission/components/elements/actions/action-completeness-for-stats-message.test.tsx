@@ -1,8 +1,8 @@
 import { render, screen } from '../../../../../../test-utils.tsx'
-import { CompletenessForStatsStatusEnum } from '../../../../../common/types/mission-types.ts'
+import { CompletenessForStatsStatusEnum } from '@common/types/mission-types.ts'
 import { THEME } from '@mtes-mct/monitor-ui'
-import { hexToRgb } from '../../../../../common/utils/colors.ts'
-import { MissionSourceEnum } from '../../../../../common/types/env-mission-types.ts'
+import { hexToRgb } from '@common/utils/colors.ts'
+import { MissionSourceEnum } from '@common/types/env-mission-types.ts'
 import ActionCompletenessForStatsMessage from './action-completeness-for-stats-message.tsx'
 
 describe('ActionCompletenessForStatsMessage', () => {

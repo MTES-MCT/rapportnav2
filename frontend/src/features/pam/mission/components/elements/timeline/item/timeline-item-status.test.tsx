@@ -1,6 +1,6 @@
 import { render, screen } from '../../../../../../../test-utils.tsx'
 import { Action } from '@sentry/react/types/types'
-import { ActionTypeEnum, MissionSourceEnum } from '../../../../../../common/types/env-mission-types.ts'
+import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types.ts'
 import {
   ActionStatusType,
   ActionStatus as ActionStatusBaseType,

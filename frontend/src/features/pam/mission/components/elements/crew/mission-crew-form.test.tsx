@@ -1,26 +1,10 @@
 import { vi } from 'vitest'
-import { fireEvent, mockQueryResult, render, screen, waitFor } from '../../../../../../test-utils.tsx'
+import { fireEvent, render, screen, waitFor } from '../../../../../../test-utils.tsx'
 import MissionCrewForm from './mission-crew-form.tsx'
-import useAgentRoles from '../../../hooks/use-agent-roles.tsx'
+import * as useAgentRolesModule from '../../../hooks/use-agent-roles.tsx'
 
 const handleClose = vi.fn()
 const handleSubmitForm = vi.fn()
-
-vi.mock('./use-agent-roles', async importOriginal => {
-  const actual = await importOriginal()
-  return {
-    ...actual,
-    default: vi.fn()
-  }
-})
-
-vi.mock('./use-agents-by-user-service', async importOriginal => {
-  const actual = await importOriginal()
-  return {
-    ...actual,
-    default: vi.fn()
-  }
-})
 
 const crewList = [
   {
@@ -53,18 +37,6 @@ const crewList = [
   }
 ]
 
-const agents = [
-  {
-    id: 'agent1',
-    firstName: 'Ivan',
-    lastName: 'Lapierre'
-  },
-  {
-    id: 'agent2',
-    firstName: 'Joseph',
-    lastName: 'Dupont'
-  }
-]
 const agentRoles = [
   {
     id: '1',
@@ -75,8 +47,7 @@ const agentRoles = [
 
 describe('MissionCrewForm', () => {
   beforeEach(() => {
-    ;(useAgentRoles as any).mockReturnValue(mockQueryResult(agentRoles))
-    //;(useAgents as any).mockReturnValue(mockQueryResult(agents))
+    vi.spyOn(useAgentRolesModule, 'default').mockReturnValue({ data: agentRoles, loading: false, error: null })
   })
 
   it('should render ajout for adding new member', async () => {

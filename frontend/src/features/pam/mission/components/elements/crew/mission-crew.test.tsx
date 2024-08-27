@@ -1,25 +1,12 @@
 import { vi } from 'vitest'
 import { fireEvent, render, screen } from '../../../../../../test-utils.tsx'
-import { MissionCrew as MissionCrewType } from '../../../../../common/types/crew-types.ts'
 import MissionCrew from './mission-crew.tsx'
-import useMissionCrew from '../../../hooks/use-mission-crew.tsx'
+import * as useMissionCrewModule from '@features/pam/mission/hooks/use-mission-crew'
+import * as useAddModule from '@features/pam/mission/hooks/use-add-update-mission-crew.tsx'
+import * as useDeleteModule from '@features/pam/mission/hooks/use-delete-mission-crew'
 
 const mutateMock = vi.fn()
 const deleteMock = vi.fn()
-
-vi.mock('./use-mission-crew.tsx', async importOriginal => {
-  const actual = await importOriginal()
-  return {
-    ...actual,
-    default: vi.fn()
-  }
-})
-vi.mock('./use-add-update-mission-crew', () => ({
-  default: () => [mutateMock, { error: undefined }]
-}))
-vi.mock('./use-delete-mission-crew', () => ({
-  default: () => [deleteMock, { error: undefined }]
-}))
 
 const crewMock = {
   id: '123',
@@ -36,23 +23,19 @@ const crewMock = {
   }
 }
 
-const mockedQueryResult = (crew?: MissionCrewType[], loading: boolean = false, error: any = undefined) => ({
-  data: crew,
-  loading,
-  error
-})
-
-const handleAction = (id: string) => console.log(id)
-
 describe('MissionCrew', () => {
+  beforeEach(() => {
+    vi.spyOn(useAddModule, 'default').mockReturnValue([mutateMock, { error: undefined }])
+    vi.spyOn(useDeleteModule, 'default').mockReturnValue([deleteMock, { error: undefined }])
+  })
   it('should render the no crew text', async () => {
-    ;(useMissionCrew as any).mockReturnValue(mockedQueryResult(undefined))
+    vi.spyOn(useMissionCrewModule, 'default').mockReturnValue({ data: undefined, loading: false, error: null })
     render(<MissionCrew />)
     expect(screen.getByText("Selectionner votre bordée, pour importer votre liste d'équipage")).toBeInTheDocument()
   })
 
   it('should render the crew when there is', async () => {
-    ;(useMissionCrew as any).mockReturnValue(mockedQueryResult([crewMock]))
+    vi.spyOn(useMissionCrewModule, 'default').mockReturnValue({ data: [crewMock], loading: false, error: null })
     const wrapper = render(<MissionCrew />)
     expect(wrapper.getByTestId('crew-member-agent')).toBeDefined()
   })

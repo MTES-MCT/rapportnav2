@@ -1,24 +1,11 @@
 import { render, screen } from '../../../../../../test-utils.tsx'
-import {
-  ActionTargetTypeEnum,
-  ActionTypeEnum,
-  EnvAction,
-  MissionSourceEnum
-} from '../../../../../common/types/env-mission-types.ts'
+import { ActionTargetTypeEnum, ActionTypeEnum, EnvAction, MissionSourceEnum } from '@common/types/env-mission-types.ts'
 import ActionControlEnv from './action-control-env.tsx'
-import { Action, ActionStatusType } from '../../../../../common/types/action-types.ts'
+import { Action, ActionStatusType } from '@common/types/action-types.ts'
 import { vi } from 'vitest'
-import useActionById from '../../../hooks/use-action-by-id.tsx'
+import * as useActionByIdModule from '@features/pam/mission/hooks/use-action-by-id'
 import { GraphQLError } from 'graphql/error'
 import ActionControlNav from './action-control-nav.tsx'
-
-vi.mock('./use-action-by-id.tsx', async importOriginal => {
-  const actual = await importOriginal()
-  return {
-    ...actual,
-    default: vi.fn()
-  }
-})
 
 const actionMock = {
   id: '1',
@@ -46,34 +33,31 @@ const actionMock = {
   } as any as EnvAction
 }
 
-// Set up the mock implementation for useActionById
-const mockedQueryResult = (action: Action = actionMock as any, loading: boolean = false, error: any = undefined) => ({
-  data: action,
-  loading,
-  error
-})
-
 describe('ActionControlEnv', () => {
   describe('Testing rendering according to Query result', () => {
     test('renders loading state', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, true))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: true, error: undefined })
       render(<ActionControlEnv action={actionMock} />)
       expect(screen.getByText('Chargement...')).toBeInTheDocument()
     })
 
     test('renders error state', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false, new GraphQLError('Error!')))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({
+        data: actionMock,
+        loading: false,
+        error: new GraphQLError('Error!')
+      })
       render(<ActionControlEnv action={actionMock} />)
       expect(screen.getByText('error')).toBeInTheDocument()
     })
 
     test('renders data', async () => {
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(actionMock as any, false))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: false, error: undefined })
       render(<ActionControlEnv action={actionMock} />)
       expect(screen.getByText('Thématique de contrôle')).toBeInTheDocument()
     })
     test('renders null when none above', async () => {
-      ;(useActionById as any).mockReturnValue({ ...mockedQueryResult(undefined, false), data: null })
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: false, error: undefined })
       render(<ActionControlNav action={actionMock} />)
       expect(screen.queryByTestId('action-control-env')).not.toBeInTheDocument()
     })
@@ -81,8 +65,7 @@ describe('ActionControlEnv', () => {
   describe('Observations by unit', () => {
     test('should be rendered when not nullish', () => {
       const mock = { ...actionMock, data: { ...actionMock.data, observationsByUnit: 'observationsByUnit' } }
-      console.log(mock)
-      ;(useActionById as any).mockReturnValue(mockedQueryResult(mock as any, false))
+      vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: mock, loading: false, error: undefined })
       render(<ActionControlEnv action={mock} />)
       expect(screen.getByText('observationsByUnit')).toBeInTheDocument()
     })
