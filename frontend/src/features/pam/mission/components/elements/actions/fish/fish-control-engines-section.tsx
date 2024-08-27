@@ -17,7 +17,10 @@ const FishControlEnginesSection: React.FC<FishControlEnginesSectionProps> = ({ a
         <Label>Engins à bord</Label>
       </Stack.Item>
       {action.gearOnboard?.map((gearControl: GearControl) => (
-        <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
+        <Stack.Item
+          style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}
+          key={gearControl.gearCode}
+        >
           <Stack direction="column" alignItems="flex-start" spacing={'1rem'}>
             <Stack.Item>
               <Text as="h3" weight="bold">
@@ -55,7 +58,7 @@ const FishControlEnginesSection: React.FC<FishControlEnginesSectionProps> = ({ a
                     readOnly={true}
                     name="hasUncontrolledMesh"
                     label="Maillage non mesuré"
-                    checked={!!gearControl.hasUncontrolledMesh}
+                    checked={gearControl.hasUncontrolledMesh}
                   />
                 </Stack.Item>
               </Stack>

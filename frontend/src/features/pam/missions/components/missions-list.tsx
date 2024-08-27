@@ -31,7 +31,7 @@ const MissionsList: React.FC<MissionsListProps> = ({ missions, prefetchMission }
         </FlexboxGrid>
       </Stack.Item>
       {missions.map((mission: Mission) => (
-        <Stack.Item style={{ width: '100%', height: '100%' }}>
+        <Stack.Item style={{ width: '100%', height: '100%' }} key={mission.id}>
           <MissionItem mission={mission} prefetchMission={prefetchMission}></MissionItem>
         </Stack.Item>
       ))}
