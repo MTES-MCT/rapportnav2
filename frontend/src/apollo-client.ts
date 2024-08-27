@@ -4,7 +4,7 @@ import { setContext } from '@apollo/client/link/context'
 import { ErrorResponse, onError } from '@apollo/client/link/error'
 import { removeTypenameFromVariables } from '@apollo/client/link/remove-typename'
 import { RetryLink } from '@apollo/client/link/retry'
-import AuthToken from './auth/token'
+import AuthToken from './features/auth/utils/token.ts'
 
 const removeTypenameLink = removeTypenameFromVariables()
 

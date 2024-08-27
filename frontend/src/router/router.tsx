@@ -1,10 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom'
-import ErrorPage from '../error-page'
-import Login from '../auth/login'
-import SignUp from '../auth/signup'
-import Home from '../home'
-import MissionsPage from '../pam/missions/missions-page'
-import MissionPage from '../pam/mission/mission-page'
+import ErrorPage from '../pages/error-page.tsx'
+import Login from '../pages/login.tsx'
+import SignUp from '../pages/signup.tsx'
+import Home from '../pages/home.tsx'
+import MissionsPage from '../pages/missions-page.tsx'
+import MissionPage from '../pages/mission-page.tsx'
 import * as Sentry from '@sentry/react'
 
 export const getPath = (path: string) => `/${path}`

@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { render, renderHook, RenderOptions } from '@testing-library/react'
 import React, { ReactElement } from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import UIThemeWrapper from './ui/ui-theme-wrapper'
+import UIThemeWrapper from './features/common/components/ui/ui-theme-wrapper'
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   return (
