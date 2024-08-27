@@ -1,7 +1,7 @@
 import { render, screen } from '../../../../../../test-utils.tsx'
 import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types.ts'
 import ActionControlNav from './action-control-nav.tsx'
-import { Action, ActionBAAEMPermanence, ActionControl, ActionStatusType } from '@common/types/action-types.ts'
+import { ActionControl, ActionStatusType } from '@common/types/action-types.ts'
 import { ControlMethod } from '@common/types/control-types.ts'
 import { vi } from 'vitest'
 import * as useActionByIdModule from '@features/pam/mission/hooks/use-action-by-id'
@@ -36,6 +36,15 @@ const actionMock = {
 // Set up the mock implementation for useActionById
 
 describe('ActionControlNav', () => {
+  beforeEach(() => {
+    vi.spyOn(useAddModule, 'default').mockReturnValue([mutateMock, { error: undefined }])
+    vi.spyOn(useDeleteModule, 'default').mockReturnValue([deleteMock, { error: undefined }])
+  })
+  afterEach(() => {
+    vi.clearAllMocks()
+    vi.resetAllMocks()
+  })
+
   describe('Testing rendering according to Query result', () => {
     test('renders loading state', async () => {
       vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: true, error: undefined })
@@ -66,13 +75,8 @@ describe('ActionControlNav', () => {
   })
 
   describe('The update mutation', () => {
-    beforeEach(() => {
-      vi.spyOn(useAddModule, 'default').mockReturnValue([mutateMock, { error: undefined }])
-      vi.spyOn(useDeleteModule, 'default').mockReturnValue([deleteMock, { error: undefined }])
-    })
     it('should be called when changing observations', async () => {
       vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: false, error: undefined })
-
       render(<ActionControlNav action={actionMock} />)
 
       const field = screen.getByTestId('observations')
@@ -97,7 +101,6 @@ describe('ActionControlNav', () => {
     })
     it('should be called when changing identity of the controlled person', async () => {
       vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: false, error: undefined })
-
       render(<ActionControlNav action={actionMock} />)
 
       const field = screen.getByTestId('identityControlledPerson')
@@ -122,7 +125,6 @@ describe('ActionControlNav', () => {
     })
     it('should be called when changing vessel identifier', async () => {
       vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: false, error: undefined })
-
       render(<ActionControlNav action={actionMock} />)
 
       const field = screen.getByTestId('vesselIdentifier')
