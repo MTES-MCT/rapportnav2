@@ -15,14 +15,25 @@ const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
+const AllTheProvidersNoMock = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <UIThemeWrapper>
+      <BrowserRouter>{children}</BrowserRouter>
+    </UIThemeWrapper>
+  )
+}
+
 const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
   render(ui, { wrapper: AllTheProviders, ...options })
+
+const customRenderNoMock = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
+  render(ui, { wrapper: AllTheProvidersNoMock, ...options })
 
 const customRenderHook = (hook: any, options?: Omit<RenderOptions, 'wrapper'>) =>
   renderHook(() => hook(), { wrapper: AllTheProviders, ...options })
 
 export * from '@testing-library/react'
-export { customRender as render, customRenderHook as renderHook }
+export { customRender as render, customRenderHook as renderHook, customRenderNoMock as renderNoMock }
 
 export const mockQueryResult = (data?: unknown, loading: boolean = false, error: any = undefined) => ({
   data,
