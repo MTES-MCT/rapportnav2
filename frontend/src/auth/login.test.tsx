@@ -3,8 +3,20 @@ import userEvent from '@testing-library/user-event'
 import Login from './login'
 import { loginFailedHandler, loginServer, loginSuccessHandler } from './test-server'
 import { afterAll, afterEach, beforeAll, describe, it } from 'vitest'
+import { RootState } from '../redux/store.ts'
+import { configureStore } from '@reduxjs/toolkit'
+import { Provider } from 'react-redux'
 
 const server = loginServer()
+
+const mockStore = (state: Partial<RootState>) => {
+  return configureStore({
+    preloadedState: state,
+    reducer: {
+      auth: (state = { user: null }) => state,
+    },
+  });
+};
 
 describe('Login Component', () => {
   // Establish API mocking before all tests.
@@ -18,7 +30,11 @@ describe('Login Component', () => {
   afterAll(() => server.close())
 
   it('should display validation error for invalid email address', async () => {
-    render(<Login />)
+
+    const store = mockStore({ auth: { user: null } });
+    render(
+      <Provider store={store}><Login /></Provider>
+    )
 
     // Fill in the email and password fields
     await userEvent.type(screen.getByLabelText('Email'), 'invalid-email')
@@ -39,7 +55,10 @@ describe('Login Component', () => {
     window.history.pushState({}, '', '/login')
     expect(window.location.pathname).toEqual('/login')
 
-    render(<Login />)
+    const store = mockStore({ auth: { user: null } });
+    render(
+      <Provider store={store}><Login /></Provider>
+    )
 
     const submitButton = screen.getByText('Se connecter')
 
@@ -61,7 +80,10 @@ describe('Login Component', () => {
     // Mock httpClient to return a rejected promise
     server.use(loginFailedHandler)
 
-    render(<Login />)
+    const store = mockStore({ auth: { user: null } });
+    render(
+      <Provider store={store}><Login /></Provider>
+    )
 
     // Fill in the email and password fields
     await userEvent.type(screen.getByLabelText('Email'), 'test@example.com')

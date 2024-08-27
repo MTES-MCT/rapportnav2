@@ -1,18 +1,20 @@
 import { FC, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAuth from './auth/use-auth'
+import { useSelector } from 'react-redux'
+import { RootState } from './redux/store.ts'
 
 const Home: FC = () => {
   let navigate = useNavigate()
-  const { isAuthenticated } = useAuth()
+  const isLoggedIn = useSelector((state: RootState) => state.auth.user);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isLoggedIn) {
       navigate('/pam/missions', { replace: true })
     } else {
       navigate('/login', { replace: true })
     }
-  }, [isAuthenticated, navigate])
+  }, [isLoggedIn, navigate])
 
   return <div />
 }
