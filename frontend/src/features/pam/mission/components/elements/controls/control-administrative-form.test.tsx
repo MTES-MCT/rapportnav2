@@ -1,16 +1,15 @@
-import { MockedProvider, MockedResponse } from '@apollo/client/testing'
-import { render, screen } from '@testing-library/react'
-import { BrowserRouter, Params } from 'react-router-dom'
+import { MockedProvider } from '@apollo/client/testing'
+import { ActionAntiPollution } from '@common/types/action-types'
+import { ControlAdministrative, ControlResult } from '@common/types/control-types'
+import { GET_ACTION_BY_ID } from '@features/pam/mission/hooks/use-action-by-id'
+import { MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE } from '@features/pam/mission/hooks/use-add-update-control'
+import { GET_MISSION_TIMELINE } from '@features/pam/mission/hooks/use-mission-timeline'
+import { Params } from 'react-router-dom'
 import { vi } from 'vitest'
-import { fireEvent, waitFor } from '../../../test-utils'
-import { ActionAntiPollution } from '../../../types/action-types.ts'
-import { ControlAdministrative, ControlResult } from '../../../types/control-types.ts'
-import UIThemeWrapper from '../../../ui/ui-theme-wrapper.tsx'
-import { GET_ACTION_BY_ID } from '../actions/use-action-by-id.tsx'
-import { GET_MISSION_TIMELINE } from '../timeline/use-mission-timeline.tsx'
+import { fireEvent, render, renderNoMock, screen, waitFor } from '../../../../../../test-utils'
 import ControlAdministrativeForm from './control-administrative-form'
-import { MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE } from './use-add-update-control.tsx'
-import { DELETE_CONTROL_ADMINISTRATIVE } from './use-delete-control.tsx'
+
+import { DELETE_CONTROL_ADMINISTRATIVE } from '@features/pam/mission/hooks/use-delete-control'
 
 vi.mock('react-router-dom', async importOriginal => {
   const actual = await importOriginal()
@@ -159,29 +158,13 @@ const MOCK_DATA_MUTATION_ADD_OR_UPDATE_CONTROL_ADMINISTRATIVE = {
 }
 const MOCK_DATA_DELETE_CONTROL_ADMINISTRATIVE = { deleteControlAdministrative: true }
 
-type ControlAdministrativeMockProps = {
-  unitShouldConfirm?: boolean
-  data?: ControlAdministrative
-  shouldCompleteControl?: boolean
-  mocks?: ReadonlyArray<MockedResponse<any, any>>
-}
-
-const renderControlAdministrativeForm = ({ mocks, ...props }: ControlAdministrativeMockProps) =>
-  render(
-    <UIThemeWrapper>
-      <MockedProvider addTypename={false} mocks={mocks}>
-        <BrowserRouter>{<ControlAdministrativeForm {...props} />}</BrowserRouter>
-      </MockedProvider>
-    </UIThemeWrapper>
-  )
-
 describe('ControlAdministrativeForm', () => {
   it('should render control administrative', () => {
     const data = {
       id: '',
       amountOfControls: 0
     } as ControlAdministrative
-    renderControlAdministrativeForm({ data })
+    render(<ControlAdministrativeForm data={data} />)
     expect(screen.getByText('Permis de mise en exploitation (autorisation à pêcher) conforme')).toBeInTheDocument()
   })
 
@@ -190,13 +173,13 @@ describe('ControlAdministrativeForm', () => {
       id: '',
       amountOfControls: 0
     } as ControlAdministrative
-    const wrapper = renderControlAdministrativeForm({ data, shouldCompleteControl: false })
+    const wrapper = render(<ControlAdministrativeForm data={data} shouldCompleteControl={false} />)
     const checkbox = wrapper.container.querySelectorAll("input[type='checkbox']")[0] as HTMLInputElement
     expect(checkbox).toBeChecked()
   })
 
   it('it should display required red ', () => {
-    const wrapper = renderControlAdministrativeForm({ shouldCompleteControl: true })
+    const wrapper = render(<ControlAdministrativeForm shouldCompleteControl={true} />)
     expect(wrapper.getAllByTestId('control-title-required-control')).not.toBeNull()
   })
 
@@ -205,7 +188,7 @@ describe('ControlAdministrativeForm', () => {
       id: '',
       amountOfControls: 0
     } as ControlAdministrative
-    renderControlAdministrativeForm({ data, unitShouldConfirm: true })
+    render(<ControlAdministrativeForm data={data} unitShouldConfirm={true} />)
     expect(screen.getByText('Contrôle confirmé par l’unité')).toBeInTheDocument()
   })
 
@@ -240,7 +223,11 @@ describe('ControlAdministrativeForm', () => {
         }
       }
     ]
-    const wrapper = renderControlAdministrativeForm({ mocks, shouldCompleteControl: false, unitShouldConfirm: false })
+    const wrapper = renderNoMock(
+      <MockedProvider addTypename={false} mocks={mocks}>
+        <ControlAdministrativeForm shouldCompleteControl={false} unitShouldConfirm={false} />
+      </MockedProvider>
+    )
     const checkbox = wrapper.container.querySelectorAll("input[type='checkbox']")[0] as HTMLInputElement
     fireEvent.click(checkbox)
     await waitFor(() => {
@@ -288,12 +275,11 @@ describe('ControlAdministrativeForm', () => {
       compliantOperatingPermit: ControlResult.NOT_CONCERNED
     } as ControlAdministrative
 
-    const wrapper = renderControlAdministrativeForm({
-      mocks,
-      data,
-      shouldCompleteControl: true,
-      unitShouldConfirm: false
-    })
+    const wrapper = renderNoMock(
+      <MockedProvider addTypename={false} mocks={mocks}>
+        <ControlAdministrativeForm data={data} shouldCompleteControl={true} unitShouldConfirm={false} />
+      </MockedProvider>
+    )
     const checkbox = wrapper.container.querySelectorAll("input[type='checkbox']")[0] as HTMLInputElement
     fireEvent.click(checkbox)
     await waitFor(() => {
@@ -333,7 +319,11 @@ describe('ControlAdministrativeForm', () => {
         }
       }
     ]
-    const wrapper = renderControlAdministrativeForm({ mocks, shouldCompleteControl: false, unitShouldConfirm: false })
+    const wrapper = renderNoMock(
+      <MockedProvider addTypename={false} mocks={mocks}>
+        <ControlAdministrativeForm shouldCompleteControl={false} unitShouldConfirm={false} />
+      </MockedProvider>
+    )
     const radio = wrapper.container.querySelectorAll("input[type='radio']")[0] as HTMLInputElement
     fireEvent.click(radio)
     expect(addOrUpdateControlMatcher).toHaveBeenCalledTimes(0)

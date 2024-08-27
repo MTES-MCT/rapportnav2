@@ -5,14 +5,21 @@ import omit from 'lodash/omit'
 import { FC, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Panel, Stack } from 'rsuite'
-import { ControlAdministrative, ControlResult, ControlType } from '../../../types/control-types'
+import styled from 'styled-components'
+import { ControlAdministrative, ControlResult, ControlType } from '../../../../../common/types/control-types'
+import useAddOrUpdateControl from '../../../../../pam/mission/hooks/use-add-update-control'
+import useDeleteControl from '../../../../../pam/mission/hooks/use-delete-control'
+import ControlTitleCheckbox from '../../ui/control-title-checkbox'
 import ControlInfraction from '../infractions/infraction-for-control'
 import { controlResultOptions } from './control-result'
-import ControlTitleCheckbox from './control-title-checkbox'
-import useAddOrUpdateControl from './use-add-update-control.tsx'
-import useDeleteControl from './use-delete-control.tsx'
 
 const DEBOUNCE_TIME_TRIGGER = 5000
+
+const StackItemStyled = styled(Stack.Item)({
+  width: '100%',
+  paddingTop: 2,
+  paddingBottom: 2
+})
 
 export type ControlAdministrativeFormInput = {
   observations?: string
@@ -126,7 +133,7 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
                   </Stack.Item>
                 )}
 
-                <Stack.Item style={{ width: '100%' }}>
+                <StackItemStyled>
                   <FormikMultiRadio
                     isInline
                     options={controlOptions}
@@ -134,24 +141,24 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
                     label="Permis de mise en exploitation (autorisation à pêcher) conforme"
                     data-testid="control-administrative-form-compliant"
                   />
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
+                </StackItemStyled>
+                <StackItemStyled>
                   <FormikMultiRadio
                     isInline
                     options={controlOptions}
                     name="upToDateNavigationPermit"
                     label="Permis de navigation à jour"
                   />
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
+                </StackItemStyled>
+                <StackItemStyled>
                   <FormikMultiRadio
                     isInline
                     options={controlOptions}
                     name="compliantSecurityDocuments"
                     label="Titres de sécurité conformes"
                   />
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
+                </StackItemStyled>
+                <Stack.Item style={{ width: '100%', paddingTop: 4 }}>
                   <FormikTextarea
                     name="observations"
                     label="Observations (hors infraction) sur les pièces administratives"
