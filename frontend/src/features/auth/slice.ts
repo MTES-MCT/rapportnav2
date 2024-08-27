@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import apolloClient from '../../apollo-client.ts'
 
 interface User {
   userId: number;
   exp: string;
   sub: string;
-  roles: [];
+  roles: string[];
 }
 
 interface AuthState {
@@ -23,12 +24,12 @@ const deserializeToken = (token: string): User | null => {
   }
 };
 
-const authSlice = createSlice({
+const slice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     checkLoginStatus: (state) => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('jwt');
       if (token) {
         const user = deserializeToken(token);
         if (user) {
@@ -41,17 +42,17 @@ const authSlice = createSlice({
       }
     },
     logout: (state) => {
-      localStorage.removeItem('token');
+      localStorage.removeItem('jwt');
       state.user = null;
     },
     login: (state, action: PayloadAction<string>) => {
       const token = action.payload;
-      localStorage.setItem('token', token);
+      localStorage.setItem('jwt', token);
       state.user = deserializeToken(token);
     }
   },
 });
 
-export const { checkLoginStatus, logout, login } = authSlice.actions;
+export const { checkLoginStatus, logout, login } = slice.actions;
 
-export default authSlice.reducer;
+export default slice.reducer;

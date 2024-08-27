@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../redux/store';
-import { checkLoginStatus } from '../features/auth/authSlice';
+import { checkLoginStatus } from '../features/auth/slice.ts';
 import PageWrapper from '../ui/page-wrapper.tsx'
 
 const AdminPage: React.FC = () => {
@@ -15,7 +15,7 @@ const AdminPage: React.FC = () => {
 
   return (
     <PageWrapper>
-      Hello {user?.userId}
+      Hello admin
     </PageWrapper>
   );
 };

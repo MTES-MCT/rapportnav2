@@ -7,6 +7,7 @@ import MissionsPage from '../pam/missions/missions-page'
 import MissionPage from '../pam/mission/mission-page'
 import * as Sentry from '@sentry/react'
 import AdminPage from '../admin/admin-page.tsx'
+import AuthenticatedGuard from './authenticated-guard.tsx'
 
 export const getPath = (path: string) => `/${path}`
 
@@ -22,7 +23,11 @@ const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(createBrowserRo
 export const router = sentryCreateBrowserRouter([
   {
     path: ROOT_PATH,
-    element: <Home />,
+    element: (
+      <AuthenticatedGuard>
+        <Home />
+      </AuthenticatedGuard>
+    ),
     errorElement: <ErrorPage />
   },
   {
@@ -35,15 +40,28 @@ export const router = sentryCreateBrowserRouter([
   },
   {
     path: PAM_HOME_PATH,
-    element: <MissionsPage />,
+    element: (
+      <AuthenticatedGuard>
+        <MissionsPage />
+      </AuthenticatedGuard>
+    ),
     errorElement: <ErrorPage />
   },
   {
     path: 'pam/missions/:missionId/:actionId?',
-    element: <MissionPage />
+    element: (
+      <AuthenticatedGuard>
+        <MissionPage />
+      </AuthenticatedGuard>
+    )
   },
   {
     path: ADMIN_PATH,
-    element: <AdminPage />
+    element: (
+      <AuthenticatedGuard adminOnly={true}>
+        <AdminPage />
+      </AuthenticatedGuard>
+    ),
+    errorElement: <ErrorPage />
   }
 ])
