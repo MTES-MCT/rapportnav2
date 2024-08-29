@@ -1,13 +1,9 @@
 import Text from '@common/components/ui/text'
 import { ControlType } from '@common/types/control-types'
 import { Checkbox, THEME } from '@mtes-mct/monitor-ui'
-import { Stack } from 'rsuite'
-import Text from '../../../../common/components/ui/text.tsx'
-import { ControlType } from '@common/types/control-types.ts'
-import { controlTitle } from '../../utils/control-utils.ts'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { controlTitle } from '../../utils/control-utils'
+import { controlTitle } from '../../utils/control-utils.ts'
 
 export interface ControlTitleCheckboxProps {
   controlType: ControlType

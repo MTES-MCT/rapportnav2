@@ -1,9 +1,9 @@
-import { ControlAdministrative, ControlResult } from '@common/types/control-types'
+import { ControlAdministrative, ControlGensDeMer, ControlResult } from '@common/types/control-types'
 import { Params } from 'react-router-dom'
 import { vi } from 'vitest'
 import { fireEvent, render, screen } from '../../../../../../test-utils'
 import * as useControlHook from '../../../hooks/control/use-control'
-import ControlAdministrativeForm from './control-administrative-form'
+import ControlGensDeMerForm from './control-gens-de-mer-form'
 
 const updateControlMock = vi.fn()
 const toogleControlMock = vi.fn()
@@ -17,33 +17,33 @@ vi.mock('react-router-dom', async importOriginal => {
   }
 })
 
-describe('ControlAdministrativeForm', () => {
+describe('ControlGensDeMer', () => {
   afterEach(() => {
     vi.clearAllMocks()
     vi.resetAllMocks()
   })
 
-  it('should render control administrative', () => {
+  it('should render control gens de mers', () => {
     const data = {
       id: '',
       amountOfControls: 0
-    } as ControlAdministrative
-    render(<ControlAdministrativeForm data={data} />)
-    expect(screen.getByText('Permis de mise en exploitation (autorisation à pêcher) conforme')).toBeInTheDocument()
+    } as ControlGensDeMer
+    render(<ControlGensDeMerForm data={data} />)
+    expect(screen.getByText('Décision d’effectif conforme au nombre de personnes à bord')).toBeInTheDocument()
   })
 
-  it('it should have control title check when should complete control is true', () => {
+  it('it should have control gens de mer title check when should complete control is true', () => {
     const data = {
       id: '',
       amountOfControls: 0
-    } as ControlAdministrative
-    const wrapper = render(<ControlAdministrativeForm data={data} shouldCompleteControl={false} />)
+    } as ControlGensDeMer
+    const wrapper = render(<ControlGensDeMerForm data={data} shouldCompleteControl={false} />)
     const checkbox = wrapper.container.querySelectorAll("input[type='checkbox']")[0] as HTMLInputElement
     expect(checkbox).toBeChecked()
   })
 
   it('it should display required red ', () => {
-    const wrapper = render(<ControlAdministrativeForm shouldCompleteControl={true} />)
+    const wrapper = render(<ControlGensDeMerForm shouldCompleteControl={true} />)
     expect(wrapper.getAllByTestId('control-title-required-control')).not.toBeNull()
   })
 
@@ -52,7 +52,7 @@ describe('ControlAdministrativeForm', () => {
       id: '',
       amountOfControls: 0
     } as ControlAdministrative
-    render(<ControlAdministrativeForm data={data} unitShouldConfirm={true} />)
+    render(<ControlGensDeMerForm data={data} unitShouldConfirm={true} />)
     expect(screen.getByText('Contrôle confirmé par l’unité')).toBeInTheDocument()
   })
 
@@ -74,9 +74,7 @@ describe('ControlAdministrativeForm', () => {
       compliantOperatingPermit: ControlResult.NOT_CONCERNED
     } as ControlAdministrative
 
-    const wrapper = render(
-      <ControlAdministrativeForm data={data} shouldCompleteControl={true} unitShouldConfirm={false} />
-    )
+    const wrapper = render(<ControlGensDeMerForm data={data} shouldCompleteControl={true} unitShouldConfirm={false} />)
     const checkbox = wrapper.container.querySelectorAll("input[type='checkbox']")[0] as HTMLInputElement
     fireEvent.click(checkbox)
     expect(toogleControlMock).toHaveBeenCalledTimes(1)
@@ -91,7 +89,7 @@ describe('ControlAdministrativeForm', () => {
       toggleControl: toogleControlMock,
       controlChanged: controlChangedMock
     })
-    const wrapper = render(<ControlAdministrativeForm shouldCompleteControl={false} unitShouldConfirm={false} />)
+    const wrapper = render(<ControlGensDeMerForm shouldCompleteControl={false} unitShouldConfirm={false} />)
     const radio = wrapper.container.querySelectorAll("input[type='radio']")[0] as HTMLInputElement
     fireEvent.click(radio)
     expect(controlChangedMock).toHaveBeenCalledTimes(1)
