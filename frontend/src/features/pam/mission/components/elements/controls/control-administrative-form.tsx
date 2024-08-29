@@ -86,6 +86,7 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
   }
 
   const handleToogleControl = async (isChecked: boolean) => {
+    if (controlIsChecked === isChecked) return
     toggleControl(isChecked, actionId, getControl(control))
   }
 
