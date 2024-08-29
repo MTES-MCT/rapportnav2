@@ -1,14 +1,13 @@
+import { useControl } from '@features/pam/mission/hooks/control/use-control'
 import { FormikEffect, FormikMultiRadio, FormikTextarea, FormikToggle, Label, THEME } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
 import _ from 'lodash'
 import omit from 'lodash/omit'
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Panel, Stack } from 'rsuite'
 import styled from 'styled-components'
 import { ControlAdministrative, ControlResult, ControlType } from '../../../../../common/types/control-types'
-import useAddOrUpdateControl from '../../../../../pam/mission/hooks/use-add-update-control'
-import useDeleteControl from '../../../../../pam/mission/hooks/use-delete-control'
 import ControlTitleCheckbox from '../../ui/control-title-checkbox'
 import ControlInfraction from '../infractions/infraction-for-control'
 import { controlResultOptions } from './control-result'
@@ -36,18 +35,18 @@ interface ControlAdministrativeFormProps {
 
 const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
   data,
-  shouldCompleteControl,
-  unitShouldConfirm
+  unitShouldConfirm,
+  shouldCompleteControl
 }) => {
   const { missionId, actionId } = useParams()
   const controlOptions = controlResultOptions()
-  const [isRequired, setIsRequired] = useState<boolean>()
-  const timerRef = useRef<ReturnType<typeof setTimeout>>()
-  const [checkedControl, setCheckedControl] = useState<boolean>()
   const [control, setControl] = useState<ControlAdministrativeFormInput>()
 
-  const [deleteControl] = useDeleteControl({ controlType: ControlType.ADMINISTRATIVE })
-  const [mutateControl] = useAddOrUpdateControl({ controlType: ControlType.ADMINISTRATIVE })
+  const { isRequired, controlChanged, toggleControl, controlIsChecked } = useControl(
+    data,
+    ControlType.ADMINISTRATIVE,
+    shouldCompleteControl
+  )
 
   const getControlInput = (data?: ControlAdministrative) =>
     data
@@ -64,48 +63,40 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
         )
       : ({} as ControlAdministrativeFormInput)
 
-  useEffect(() => {
-    setControl(getControlInput(data))
-    setIsRequired(!!shouldCompleteControl && !!!data)
-    setCheckedControl(!!data || shouldCompleteControl)
-  }, [data, shouldCompleteControl])
-
-  const handleChange = async (value: ControlAdministrativeFormInput): Promise<void> => {
-    clearTimeout(timerRef.current)
-    if (value === control) return
-    timerRef.current = setTimeout(() => handleUpdate(value), DEBOUNCE_TIME_TRIGGER)
-  }
-
-  const handleUpdate = async (value?: ControlAdministrativeFormInput) => {
+  const getControl = (value?: ControlAdministrativeFormInput) => {
     if (!value) return
     if (!_.isBoolean(value.unitHasConfirmed)) value.unitHasConfirmed = true
-    let variables = {
-      control: {
-        ...omit(data, 'infractions'),
-        missionId,
-        unitShouldConfirm,
-        amountOfControls: 1,
-        actionControlId: actionId,
-        ...value
-      }
+    return {
+      ...omit(data, 'infractions'),
+      missionId,
+      unitShouldConfirm,
+      amountOfControls: 1,
+      actionControlId: actionId,
+      ...value
     }
-    await mutateControl({ variables })
   }
 
-  const toggleControl = async (isChecked: boolean) => {
-    setCheckedControl(isChecked)
-    const variables = { actionId }
-    isChecked ? await handleUpdate(control) : await deleteControl({ variables })
+  useEffect(() => {
+    setControl(getControlInput(data))
+  }, [data])
+
+  const handleControlChange = async (value: ControlAdministrativeFormInput): Promise<void> => {
+    if (value === control) return
+    controlChanged(actionId, getControl(value))
+  }
+
+  const handleToogleControl = async (isChecked: boolean) => {
+    toggleControl(isChecked, actionId, getControl(control))
   }
 
   return (
     <Panel
       header={
         <ControlTitleCheckbox
-          checked={checkedControl}
+          checked={controlIsChecked}
           shouldCompleteControl={isRequired}
           controlType={ControlType.ADMINISTRATIVE}
-          onChange={(isChecked: boolean) => toggleControl(isChecked)}
+          onChange={(isChecked: boolean) => handleToogleControl(isChecked)}
         />
       }
       // collapsible
@@ -114,9 +105,14 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
     >
       <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
         {control !== undefined && (
-          <Formik initialValues={control} onSubmit={handleChange} validateOnChange={true} enableReinitialize={true}>
+          <Formik
+            initialValues={control}
+            onSubmit={handleControlChange}
+            validateOnChange={true}
+            enableReinitialize={true}
+          >
             <>
-              <FormikEffect onChange={handleChange} />
+              <FormikEffect onChange={handleControlChange} />
               <Form>
                 {unitShouldConfirm && (
                   <Stack.Item style={{ width: '100%' }}>
