@@ -80,6 +80,7 @@ const ControlGensDeMerForm: FC<ControlGensDeMerFormProps> = ({ data, shouldCompl
   }
 
   const handleToogleControl = async (isChecked: boolean) => {
+    if (controlIsChecked === isChecked) return
     toggleControl(isChecked, actionId, getControl(control))
   }
 
