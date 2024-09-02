@@ -12,8 +12,6 @@ import ControlTitleCheckbox from '../../ui/control-title-checkbox'
 import ControlInfraction from '../infractions/infraction-for-control'
 import { controlResultOptions } from './control-result'
 
-const DEBOUNCE_TIME_TRIGGER = 5000
-
 const StackItemStyled = styled(Stack.Item)({
   width: '100%',
   paddingTop: 2,
