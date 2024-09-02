@@ -18,6 +18,7 @@ export const GET_MISSION_EXCERPT = gql`
         distanceInNauticalMiles
         consumedGOInLiters
         consumedFuelInLiters
+        nbrOfRecognizedVessel
         serviceId
       }
       actions {
