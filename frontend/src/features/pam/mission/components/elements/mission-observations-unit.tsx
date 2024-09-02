@@ -1,7 +1,9 @@
 import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import usePatchMissionEnv from '../../hooks/use-patch-mission-env.tsx'
+
+const DEBOUNCE_TIME_TRIGGER = 5000
 
 type ObservationsByUnit = {
   observations?: string
@@ -14,20 +16,25 @@ interface MissionObservationsByUnitProps {
 
 const MissionObservationsUnit: React.FC<MissionObservationsByUnitProps> = ({ missionId, observationsByUnit }) => {
   const [patchMissionObservation] = usePatchMissionEnv()
+  const timerRef = useRef<ReturnType<typeof setTimeout>>()
   const [initValue, setInitValue] = useState<ObservationsByUnit>()
 
   useEffect(() => {
     setInitValue({ observations: observationsByUnit })
   }, [observationsByUnit])
 
-  const handleSubmit = async ({ observations }: ObservationsByUnit) => {
-    if (!observations || observations.length < 4 || observations === observationsByUnit) return
+  const handleSubmit = async ({ observations }: ObservationsByUnit): Promise<void> => {
+    clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(() => patchObservationUnit(observations), DEBOUNCE_TIME_TRIGGER)
+  }
 
+  const patchObservationUnit = async (observations?: string) => {
+    if (observations === observationsByUnit) return
     await patchMissionObservation({
       variables: {
         mission: {
           missionId,
-          observationsByUnit: observations
+          observationsByUnit: observations || ''
         }
       }
     })

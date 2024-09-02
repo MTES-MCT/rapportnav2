@@ -1,7 +1,7 @@
+import * as usePatchModule from '@features/pam/mission/hooks/use-patch-mission-env'
 import { vi } from 'vitest'
 import { fireEvent, render, screen, waitFor } from '../../../../../test-utils.tsx'
 import MissionObservationByUnit from './mission-observations-unit.tsx'
-import * as usePatchModule from '@features/pam/mission/hooks/use-patch-mission-env'
 
 const patchMock = vi.fn()
 
@@ -32,12 +32,33 @@ describe('MissionObservation', () => {
     })
   })
 
-  it('should not call update observation under 4', () => {
+  it('should trigger 5 secondes after typing', () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true })
+    const observationsByUnit = 'my observations!!!!!'
     const wrapper = render(<MissionObservationByUnit missionId={1} observationsByUnit={'My beautiful observation'} />)
     const element = wrapper.getByTestId('mission-general-observation')
     fireEvent.change(element, {
-      target: { value: 'my' }
+      target: { value: observationsByUnit }
     })
     expect(patchMock).not.toHaveBeenCalled()
+    vi.advanceTimersByTime(5000)
+    expect(patchMock).toHaveBeenCalled()
+    expect(patchMock).toHaveBeenCalledWith({
+      variables: { mission: expect.objectContaining({ observationsByUnit }) }
+    })
+  })
+
+  it('should call update observations event empty', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true })
+    const wrapper = render(<MissionObservationByUnit missionId={1} observationsByUnit={'My beautiful observation'} />)
+    const element = wrapper.getByTestId('mission-general-observation')
+    fireEvent.change(element, {
+      target: { value: '' }
+    })
+    vi.advanceTimersByTime(5000)
+    expect(patchMock).toHaveBeenCalled()
+    expect(patchMock).toHaveBeenCalledWith({
+      variables: { mission: expect.objectContaining({ observationsByUnit: '' }) }
+    })
   })
 })
