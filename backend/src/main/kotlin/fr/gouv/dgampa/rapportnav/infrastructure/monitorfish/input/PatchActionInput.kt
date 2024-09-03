@@ -4,6 +4,6 @@ import java.time.ZonedDateTime
 
 data class PatchActionInput(
     val observationsByUnit: String? = null,
-    val actionStartDateTimeUtc: ZonedDateTime? = null,
-    val actionEndDateTimeUtc: ZonedDateTime? = null,
+    val actionDatetimeUtc: ZonedDateTime? = null,
+    val actionEndDatetimeUtc: ZonedDateTime? = null,
 )
