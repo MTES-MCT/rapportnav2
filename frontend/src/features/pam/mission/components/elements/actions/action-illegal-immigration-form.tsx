@@ -1,21 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import {
-  Coordinates,
-  CoordinatesFormat,
-  CoordinatesInput,
-  DateRangePicker,
-  NumberInput,
-  Textarea,
-  THEME
-} from '@mtes-mct/monitor-ui'
+import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.tsx'
 import { Action, ActionIllegalImmigration } from '@common/types/action-types.ts'
-import { Stack } from 'rsuite'
-import { useNavigate, useParams } from 'react-router-dom'
-import omit from 'lodash/omit'
-import useActionById from '../../../hooks/use-action-by-id.tsx'
-import useAddOrUpdateIllegalImmigration from '../../../hooks/illegal-immigration/use-add-illegal-immigration.tsx'
+import { Coordinates, DateRangePicker, NumberInput, Textarea, THEME } from '@mtes-mct/monitor-ui'
 import { isEqual } from 'lodash'
+import omit from 'lodash/omit'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Stack } from 'rsuite'
+import useAddOrUpdateIllegalImmigration from '../../../hooks/illegal-immigration/use-add-illegal-immigration.tsx'
 import useDeleteIllegalImmigration from '../../../hooks/illegal-immigration/use-delete-illegal-immigration.tsx'
+import useActionById from '../../../hooks/use-action-by-id.tsx'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
 import ActionHeader from './action-header.tsx'
 
@@ -136,12 +129,10 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
           </Stack.Item>
 
           <Stack.Item style={{ width: '100%' }}>
-            <CoordinatesInput
+            <CoordinateInputDMD
               label={"Lieu de l'opération"}
               name={'geoCoords'}
               defaultValue={[actionData?.latitude as any, actionData?.longitude as any]}
-              coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
-              // label="Lieu du contrôle"
               isLight={true}
               disabled={false}
               onChange={async (nextCoordinates?: Coordinates, prevCoordinates?: Coordinates) => {
