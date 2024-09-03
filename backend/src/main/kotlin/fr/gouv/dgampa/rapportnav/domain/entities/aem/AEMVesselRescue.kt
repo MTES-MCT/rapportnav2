@@ -8,7 +8,7 @@ data class AEMVesselRescue(
     val nbrOfHourAtSea: Int? = 0, // 2.1
     val nbrOfRescuedOperation: Int? = 0,// 2.3
     val nbrOfNoticedVessel: Int? = 0, // 2.4
-    val nbrOfTowedVessel: Int? = 0, //2.5
+    val nbrOfTowedVessel: Int? = 0, //2.7
 ) {
     constructor(
         navActions: List<NavActionEntity>
