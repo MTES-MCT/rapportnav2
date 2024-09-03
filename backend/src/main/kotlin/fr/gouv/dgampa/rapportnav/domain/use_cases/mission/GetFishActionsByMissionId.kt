@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
 
+import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
@@ -7,8 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionReposito
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
-import java.time.ZonedDateTime
-import com.neovisionaries.i18n.CountryCode
+import java.time.Instant
 
 
 @UseCase
@@ -51,7 +51,7 @@ class GetFishActionsByMissionId(
             portLocode = "LR",
             portName = "La Rochelle",
             actionType = MissionActionType.LAND_CONTROL,
-            actionDatetimeUtc = ZonedDateTime.parse("2024-01-09T14:00:00Z"),
+            actionDatetimeUtc = Instant.parse("2024-01-09T14:00:00Z"),
             flightGoals = listOf(),
             logbookInfractions = listOf(),
             gearInfractions = listOf(),
@@ -108,7 +108,7 @@ class GetFishActionsByMissionId(
             longitude = -4.490000,
             facade = "Outre-Mer",
             actionType = MissionActionType.SEA_CONTROL,
-            actionDatetimeUtc = ZonedDateTime.parse("2024-01-09T11:00:00Z"),
+            actionDatetimeUtc = Instant.parse("2024-01-09T11:00:00Z"),
             flightGoals = listOf(),
             logbookInfractions = listOf(
                 LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD, natinf = 2212),
@@ -162,7 +162,7 @@ class GetFishActionsByMissionId(
             latitude = 48.389999,
             longitude = -4.490000,
             actionType = MissionActionType.OBSERVATION,
-            actionDatetimeUtc = ZonedDateTime.parse("2024-01-09T12:00:00Z"),
+            actionDatetimeUtc = Instant.parse("2024-01-09T12:00:00Z"),
             isDeleted = false,
             isAdministrativeControl = true,
             licencesAndLogbookObservations = null,

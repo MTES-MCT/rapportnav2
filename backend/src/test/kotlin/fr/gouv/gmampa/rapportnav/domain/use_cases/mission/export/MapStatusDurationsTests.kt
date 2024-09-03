@@ -12,9 +12,7 @@ import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
+import java.time.Instant
 
 @SpringBootTest(classes = [MapStatusDurations::class])
 class MapStatusDurationsTests {
@@ -26,34 +24,34 @@ class MapStatusDurationsTests {
     private lateinit var getStatusDurations: GetStatusDurations
 
     @Test
-    fun `formatTimeline should return null when null given`() {
+    fun `MapStatusDurations should return null when null given`() {
         val inputMission = MissionEntityMock.create(
-            startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
-            endDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 22, 0), ZoneOffset.UTC),
+            startDateTimeUtc = Instant.parse("2022-01-02T12:00:00.000+01:00"),
+            endDateTimeUtc = Instant.parse("2022-01-02T22:00:00.000+01:00")
         )
         val inputStatuses = listOf(
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.ANCHORED,
-                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC)
+                startDateTimeUtc = Instant.parse("2022-01-02T12:00:00.000+01:00"),
             ),
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.DOCKED,
                 reason = ActionStatusReason.WEATHER,
-                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 14, 0), ZoneOffset.UTC)
+                startDateTimeUtc = Instant.parse("2022-01-02T14:00:00.000+01:00"),
             ),
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.DOCKED,
                 reason = ActionStatusReason.REPRESENTATION,
-                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 16, 0), ZoneOffset.UTC)
+                startDateTimeUtc = Instant.parse("2022-01-02T16:00:00.000+01:00"),
             ),
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.NAVIGATING,
-                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 18, 0), ZoneOffset.UTC)
+                startDateTimeUtc = Instant.parse("2022-01-02T18:00:00.000+01:00"),
             ),
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.UNAVAILABLE,
                 reason = ActionStatusReason.PERSONNEL,
-                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 20, 0), ZoneOffset.UTC)
+                startDateTimeUtc = Instant.parse("2022-01-02T20:00:00.000+01:00"),
             )
         )
         val mockData = listOf(

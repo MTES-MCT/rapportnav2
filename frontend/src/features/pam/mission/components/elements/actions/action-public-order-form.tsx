@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { DateRangePicker, Textarea } from '@mtes-mct/monitor-ui'
+import { Textarea } from '@mtes-mct/monitor-ui'
+import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
 import { Action, ActionPublicOrder } from '@common/types/action-types.ts'
 import { Stack } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -9,6 +10,7 @@ import useAddOrUpdatePublicOrder from '../../../hooks/public-order/use-add-publi
 import useDeletePublicOrder from '../../../hooks/public-order/use-delete-public-order.tsx'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
 import ActionHeader from './action-header.tsx'
+import { DateRange } from '@mtes-mct/monitor-ui/types/definitions'
 
 interface ActionPublicOrderFormProps {
   action: Action
@@ -43,14 +45,14 @@ const ActionPublicOrderForm: React.FC<ActionPublicOrderFormProps> = ({ action })
     }
 
     const handleObservationsBlur = async () => {
-      await onChange('observations', observationsValue)
+      await onChange(observationsValue)('observations')
     }
 
-    const onChange = async (field: string, value: any) => {
+    const onChange = (value: any) => async (field: string) => {
       let updatedField: {}
       if (field === 'dates') {
-        const startDateTimeUtc = value[0].toISOString()
-        const endDateTimeUtc = value[1].toISOString()
+        const startDateTimeUtc = value[0]
+        const endDateTimeUtc = value[1]
         updatedField = {
           startDateTimeUtc,
           endDateTimeUtc
@@ -104,17 +106,13 @@ const ActionPublicOrderForm: React.FC<ActionPublicOrderFormProps> = ({ action })
                 <DateRangePicker
                   name="dates"
                   isRequired={true}
-                  defaultValue={
-                    navAction.startDateTimeUtc && navAction.endDateTimeUtc
-                      ? [navAction.startDateTimeUtc, navAction.endDateTimeUtc]
-                      : undefined
-                  }
+                  defaultValue={[actionData.startDateTimeUtc, actionData.endDateTimeUtc]}
                   label="Date et heure de début et de fin"
                   withTime={true}
                   isCompact={true}
                   isLight={true}
-                  onChange={async (nextValue?: [Date, Date] | [string, string]) => {
-                    await onChange('dates', nextValue)
+                  onChange={async (nextValue?: DateRange) => {
+                    await onChange(nextValue)('dates')
                   }}
                 />
               </Stack.Item>

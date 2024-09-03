@@ -1,5 +1,5 @@
 import { CompletenessForStatsStatusEnum } from '../../../common/types/mission-types.ts'
-import client from '../../../../apollo-client.ts'
+import client from '../../../../apollo-client/apollo-client.ts'
 import { GET_MISSION_TIMELINE } from './use-mission-timeline.tsx'
 import * as Sentry from '@sentry/react'
 
@@ -31,8 +31,8 @@ const useIsMissionCompleteForStats = (missionId?: number): boolean | undefined =
 
     return mission?.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE
   } catch (error) {
-    console.error("[useIsMissionCompleteForStats] An error occured : " + error)
-    Sentry.captureException("[useIsMissionCompleteForStats] An error occured : " + error)
+    console.error('[useIsMissionCompleteForStats] An error occured : ' + error)
+    Sentry.captureException('[useIsMissionCompleteForStats] An error occured : ' + error)
     return undefined
   }
 }

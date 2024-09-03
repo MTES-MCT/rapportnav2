@@ -10,7 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import org.locationtech.jts.geom.Coordinate
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 @UseCase
@@ -43,7 +43,7 @@ class FakeMissionData(
     fun envControls(missionId: Int): List<ExtendedEnvActionEntity> {
         val envActionControl1 = EnvActionControlEntity(
             id = UUID.fromString("226d84bc-e6c5-4d29-8a5f-7db642f99$missionId"),
-            actionStartDateTimeUtc = ZonedDateTime.parse("2024-01-09T10:00:00Z"),
+            actionStartDateTimeUtc = Instant.parse("2024-01-09T10:00:00Z"),
             actionEndDateTimeUtc = null,  // Set to null if not provided in your API response
             controlPlans = listOf(
                 EnvActionControlPlanEntity(
@@ -80,8 +80,8 @@ class FakeMissionData(
 
         val envActionSurveillance1 = EnvActionSurveillanceEntity(
             id = UUID.fromString("226d84bc-e6c5-4d29-8a5f-799642f99$missionId"),
-            actionStartDateTimeUtc = ZonedDateTime.parse("2024-01-09T12:00:00Z"),
-            actionEndDateTimeUtc = ZonedDateTime.parse("2024-01-09T13:00:00Z"),
+            actionStartDateTimeUtc = Instant.parse("2024-01-09T12:00:00Z"),
+            actionEndDateTimeUtc = Instant.parse("2024-01-09T13:00:00Z"),
             controlPlans = listOf(
                 EnvActionControlPlanEntity(
                     themeId = 2,
@@ -111,8 +111,8 @@ class FakeMissionData(
             id = missionId,
             missionTypes = listOf(MissionTypeEnum.SEA),
             missionSource = MissionSourceEnum.RAPPORTNAV,
-            startDateTimeUtc = ZonedDateTime.parse("2024-01-09T09:00:00Z"),
-            endDateTimeUtc = ZonedDateTime.parse("2024-01-09T15:00:00Z"),
+            startDateTimeUtc = Instant.parse("2024-01-09T09:00:00Z"),
+            endDateTimeUtc = Instant.parse("2024-01-09T15:00:00Z"),
             isDeleted = false,
             isGeometryComputedFromControls = false,
             hasMissionOrder = false,
@@ -127,8 +127,8 @@ class FakeMissionData(
             id = missionId,
             missionTypes = listOf(MissionTypeEnum.SEA),
             missionSource = MissionSourceEnum.RAPPORTNAV,
-            startDateTimeUtc = ZonedDateTime.parse("2024-01-09T09:00:00Z"),
-            endDateTimeUtc = ZonedDateTime.parse("2024-01-09T15:00:00Z"),
+            startDateTimeUtc = Instant.parse("2024-01-09T09:00:00Z"),
+            endDateTimeUtc = Instant.parse("2024-01-09T15:00:00Z"),
             isDeleted = false,
             isGeometryComputedFromControls = false,
             hasMissionOrder = false,

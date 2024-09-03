@@ -18,7 +18,8 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.action.NavActionStatusMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import java.time.ZonedDateTime
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 
 
 class MissionEntityTests {
@@ -30,8 +31,8 @@ class MissionEntityTests {
             val mission = MissionEntity(
                 envMission = ExtendedEnvMissionEntity.fromEnvMission(
                     EnvMissionMock.create(
-                        startDateTimeUtc = ZonedDateTime.now().minusDays(14),
-                        endDateTimeUtc = ZonedDateTime.now().minusDays(2)
+                        startDateTimeUtc = Instant.now().minus(14, ChronoUnit.DAYS),
+                        endDateTimeUtc = Instant.now().minus(2, ChronoUnit.DAYS),
                     )
                 ),
                 fishMissionActions = listOf(FishActionControlMock.create()).map {
@@ -49,8 +50,8 @@ class MissionEntityTests {
             val mission = MissionEntity(
                 envMission = ExtendedEnvMissionEntity.fromEnvMission(
                     EnvMissionMock.create(
-                        startDateTimeUtc = ZonedDateTime.now().plusDays(14),
-                        endDateTimeUtc = ZonedDateTime.now().plusDays(26),
+                        startDateTimeUtc = Instant.now().plus(14, ChronoUnit.DAYS),
+                        endDateTimeUtc = Instant.now().plus(26, ChronoUnit.DAYS),
                     )
                 ),
                 fishMissionActions = listOf(FishActionControlMock.create()).map {
@@ -68,7 +69,7 @@ class MissionEntityTests {
             val mission = MissionEntity(
                 envMission = ExtendedEnvMissionEntity.fromEnvMission(
                     EnvMissionMock.create(
-                        endDateTimeUtc = ZonedDateTime.now().minusDays(14)
+                        endDateTimeUtc = Instant.now().minus(14, ChronoUnit.DAYS)
                     )
                 ),
                 fishMissionActions = listOf(FishActionControlMock.create()).map {
@@ -86,8 +87,8 @@ class MissionEntityTests {
             val mission = MissionEntity(
                 envMission = ExtendedEnvMissionEntity.fromEnvMission(
                     EnvMissionMock.create(
-                        startDateTimeUtc = ZonedDateTime.now().minusDays(30),
-                        endDateTimeUtc = ZonedDateTime.now().plusDays(14)
+                        startDateTimeUtc = Instant.now().minus(30, ChronoUnit.DAYS),
+                        endDateTimeUtc = Instant.now().plus(14, ChronoUnit.DAYS)
                     )
                 ),
                 fishMissionActions = listOf(FishActionControlMock.create()).map {
@@ -106,7 +107,7 @@ class MissionEntityTests {
             val mission = MissionEntity(
                 envMission = ExtendedEnvMissionEntity.fromEnvMission(
                     EnvMissionMock.create(
-                        startDateTimeUtc = ZonedDateTime.now().minusDays(30),
+                        startDateTimeUtc = Instant.now().minus(30, ChronoUnit.DAYS),
                         endDateTimeUtc = null
                     )
                 ),

@@ -1,18 +1,16 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission.action
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
-import java.util.*
 import com.neovisionaries.i18n.CountryCode
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
+import java.time.Instant
+import java.util.*
 
 object FishActionControlMock {
     fun create(
         id: Int = UUID.randomUUID().hashCode(),
         missionId: Int = 1,
-        actionDatetimeUtc: ZonedDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
-        actionEndDatetimeUtc: ZonedDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 13, 0), ZoneOffset.UTC),
+        actionDatetimeUtc: Instant = Instant.parse("2022-01-02T12:00:01Z"),
+        actionEndDatetimeUtc: Instant = Instant.parse("2022-01-02T13:00:01Z"),
         actionType: MissionActionType = MissionActionType.SEA_CONTROL,
         isDeleted: Boolean = false,
         hasSomeGearsSeized: Boolean = false,

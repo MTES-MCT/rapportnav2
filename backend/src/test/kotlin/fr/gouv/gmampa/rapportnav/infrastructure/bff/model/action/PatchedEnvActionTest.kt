@@ -4,7 +4,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.PatchedE
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.PatchedEnvAction
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import java.time.ZonedDateTime
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import java.util.*
 
 class PatchedEnvActionTest {
@@ -12,8 +13,8 @@ class PatchedEnvActionTest {
     @Test
     fun `fromPatchableEnvActionEntity should correctly map properties`() {
         val id = UUID.randomUUID()
-        val startTime = ZonedDateTime.now()
-        val endTime = startTime.plusHours(1)
+        val startTime = Instant.now()
+        val endTime = startTime.plus(1, ChronoUnit.HOURS)
         val observations = "Some observations"
 
         val entity = PatchedEnvActionEntity(

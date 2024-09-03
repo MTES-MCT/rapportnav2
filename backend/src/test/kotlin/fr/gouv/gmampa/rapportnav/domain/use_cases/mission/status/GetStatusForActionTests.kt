@@ -13,8 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
-import java.time.ZoneId
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 
@@ -45,14 +44,14 @@ class GetStatusForActionTests {
 
     @Test
     fun `execute Should return Unknown when action is empty list for a mission`() {
-        given(this.statusActionsRepository.findAllByMissionId(missionId = 1)).willReturn(listOf<ActionStatusModel>());
+        given(this.statusActionsRepository.findAllByMissionId(missionId = 1)).willReturn(listOf());
         val statusForAction = getStatusForAction.execute(missionId = missionId, actionStartDateTimeUtc = null);
         assertThat(statusForAction).isEqualTo(ActionStatusType.UNKNOWN);
     }
 
     @Test
     fun `execute Should return the last action status if the last action is a starting status`() {
-        val startDatetime = ZonedDateTime.of(2023, 6, 19, 10, 0, 0, 0, ZoneId.of("Europe/Berlin"))
+        val startDatetime = Instant.parse("2022-01-01T11:00:00Z")
         val startingAction = ActionStatusEntity(
             id = UUID.randomUUID(),
             missionId = missionId,

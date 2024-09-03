@@ -1,6 +1,7 @@
 import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.tsx'
 import { Action, ActionIllegalImmigration } from '@common/types/action-types.ts'
-import { Coordinates, DateRangePicker, NumberInput, Textarea, THEME } from '@mtes-mct/monitor-ui'
+import { Coordinates, NumberInput, Textarea, THEME } from '@mtes-mct/monitor-ui'
+import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
 import { isEqual, isNil } from 'lodash'
 import omit from 'lodash/omit'
 import React, { useEffect, useState } from 'react'
@@ -11,6 +12,7 @@ import useDeleteIllegalImmigration from '../../../hooks/illegal-immigration/use-
 import useActionById from '../../../hooks/use-action-by-id.tsx'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
 import ActionHeader from './action-header.tsx'
+import { DateRange } from '@mtes-mct/monitor-ui/types/definitions'
 
 interface ActionIllegalImmigrationFormProps {
   action: Action
@@ -49,14 +51,14 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
     }
 
     const handleObservationsBlur = async () => {
-      await onChange('observations', observationsValue)
+      await onChange(observationsValue)('observations')
     }
 
-    const onChange = async (field: string, value: any) => {
+    const onChange = (value: any) => async (field: string) => {
       let updatedField: {}
       if (field === 'dates') {
-        const startDateTimeUtc = value[0].toISOString()
-        const endDateTimeUtc = value[1].toISOString()
+        const startDateTimeUtc = value[0]
+        const endDateTimeUtc = value[1]
         updatedField = {
           startDateTimeUtc,
           endDateTimeUtc
@@ -115,17 +117,13 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
                 <DateRangePicker
                   name="dates"
                   isRequired={true}
-                  defaultValue={
-                    navAction.startDateTimeUtc && navAction.endDateTimeUtc
-                      ? [navAction.startDateTimeUtc, navAction.endDateTimeUtc]
-                      : undefined
-                  }
+                  defaultValue={[actionData.startDateTimeUtc, actionData.endDateTimeUtc]}
                   label="Date et heure de début et de fin"
                   withTime={true}
                   isCompact={true}
                   isLight={true}
-                  onChange={async (nextValue?: [Date, Date] | [string, string]) => {
-                    await onChange('dates', nextValue)
+                  onChange={async (nextValue?: DateRange) => {
+                    await onChange(nextValue)('dates')
                   }}
                 />
               </Stack.Item>
@@ -141,7 +139,7 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
               disabled={false}
               onChange={async (nextCoordinates?: Coordinates, prevCoordinates?: Coordinates) => {
                 if (!isEqual(nextCoordinates, prevCoordinates)) {
-                  await onChange('geoCoords', nextCoordinates)
+                  await onChange(nextCoordinates)('geoCoords')
                 }
               }}
             />
@@ -165,7 +163,7 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
                   isLight={true}
                   value={actionData?.nbOfInterceptedVessels}
                   error={getError(actionData, 'nbOfInterceptedVessels')}
-                  onChange={(nextValue?: number) => onChange('nbOfInterceptedVessels', nextValue)}
+                  onChange={(nextValue?: number) => onChange(nextValue)('nbOfInterceptedVessels')}
                 />
               </Stack.Item>
               <Stack.Item style={{ width: '100%' }}>
@@ -181,7 +179,7 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
                       isLight={true}
                       value={actionData?.nbOfInterceptedMigrants}
                       error={getError(actionData, 'nbOfInterceptedMigrants')}
-                      onChange={(nextValue?: number) => onChange('nbOfInterceptedMigrants', nextValue)}
+                      onChange={(nextValue?: number) => onChange(nextValue)('nbOfInterceptedMigrants')}
                     />
                   </Stack.Item>
                   <Stack.Item style={{ flex: 1 }}>
@@ -195,7 +193,7 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
                       isLight={true}
                       value={actionData?.nbOfSuspectedSmugglers}
                       error={getError(actionData, 'nbOfSuspectedSmugglers')}
-                      onChange={(nextValue?: number) => onChange('nbOfSuspectedSmugglers', nextValue)}
+                      onChange={(nextValue?: number) => onChange(nextValue)('nbOfSuspectedSmugglers')}
                     />
                   </Stack.Item>
                 </Stack>

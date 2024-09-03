@@ -9,7 +9,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import java.time.ZonedDateTime
+import java.time.Instant
 
 
 @SpringBootTest(classes = [AEMIllegalFish::class])
@@ -37,8 +37,8 @@ class AEMIllegalFishTest {
                         gearInfractions = listOf(GearInfraction(infractionType = InfractionType.WITH_RECORD)),
                         otherInfractions = listOf(OtherInfraction()),
                         logbookInfractions = listOf(LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD)),
-                        actionDatetimeUtc = ZonedDateTime.parse("2019-09-09T00:00:00.000+01:00"),
-                        actionEndDatetimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00"),
+                        actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
+                        actionEndDatetimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                     )
                 )
             ),
@@ -52,8 +52,8 @@ class AEMIllegalFishTest {
                             SpeciesInfraction(infractionType = InfractionType.WITH_RECORD),
                             SpeciesInfraction(infractionType = InfractionType.WITHOUT_RECORD)
                         ),
-                        actionDatetimeUtc = ZonedDateTime.parse("2019-09-09T02:00:00.000+01:00"),
-                        actionEndDatetimeUtc = ZonedDateTime.parse("2019-09-09T04:00:00.000+01:00"),
+                        actionDatetimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
+                        actionEndDatetimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
                     )
                 )
             )

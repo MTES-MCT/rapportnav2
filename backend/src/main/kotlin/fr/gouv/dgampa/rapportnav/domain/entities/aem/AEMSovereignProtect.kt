@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VehicleT
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
-import java.time.ZonedDateTime
+import java.time.Instant
 
 data class AEMSovereignProtect(
     val nbrOfHourAtSea: Int? = 0, // 7.1
@@ -15,7 +15,7 @@ data class AEMSovereignProtect(
         navActions: List<NavActionEntity>,
         envActions: List<ExtendedEnvActionEntity?>,
         fishActions: List<ExtendedFishActionEntity?>,
-        missionEndDateTime: ZonedDateTime?
+        missionEndDateTime: Instant?
     ) : this(
         nbrOfHourAtSea = getNbrHourAtSea(navActions, missionEndDateTime),
         nbrOfRecognizedVessel = getNbOfRecognizedVessel(navActions),
@@ -26,7 +26,7 @@ data class AEMSovereignProtect(
     companion object {
         fun getNbrHourAtSea(
             navActions: List<NavActionEntity>,
-            missionEndDateTime: ZonedDateTime?
+            missionEndDateTime: Instant?
         ): Int {
             val sortedStatusActions =
                 navActions.filter { it.actionType == ActionType.STATUS }
@@ -37,7 +37,7 @@ data class AEMSovereignProtect(
             sortedStatusActions.windowed(2)
                 .forEach { (first, second) -> first?.endDateTimeUtc = second?.startDateTimeUtc }
 
-            if(sortedStatusActions.isNotEmpty()) sortedStatusActions.last()?.endDateTimeUtc = missionEndDateTime;
+            if (sortedStatusActions.isNotEmpty()) sortedStatusActions.last()?.endDateTimeUtc = missionEndDateTime;
             val statusActions =
                 anchoredActionEntities(sortedStatusActions) + navigationActionEntities(sortedStatusActions);
             return AEMUtils.getDurationInHours(statusActions).toInt();

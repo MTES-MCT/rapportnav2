@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.env
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import org.locationtech.jts.geom.MultiPolygon
-import java.time.ZonedDateTime
+import java.time.Instant
 
 data class MissionEntity(
     val id: Int? = null,
@@ -15,8 +15,8 @@ data class MissionEntity(
     val observationsCnsp: String? = null,
     val facade: String? = null,
     val geom: MultiPolygon? = null,
-    val startDateTimeUtc: ZonedDateTime,
-    val endDateTimeUtc: ZonedDateTime? = null,
+    val startDateTimeUtc: Instant,
+    val endDateTimeUtc: Instant? = null,
     var envActions: List<EnvActionEntity>? = listOf(),
     val isDeleted: Boolean,
     val isGeometryComputedFromControls: Boolean,

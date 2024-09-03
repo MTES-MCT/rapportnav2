@@ -10,14 +10,14 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlAdm
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlGensDeMer
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlNavigation
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlSecurity
-import java.time.ZonedDateTime
+import java.time.Instant
 
 data class Action(
     val id: Any?,
     val missionId: Int,
     val source: MissionSourceEnum,
-    val startDateTimeUtc: ZonedDateTime?,
-    val endDateTimeUtc: ZonedDateTime?,
+    val startDateTimeUtc: Instant?,
+    val endDateTimeUtc: Instant?,
     val summaryTags: List<String>? = null,
     val data: ActionData? = null,
     val completenessForStats: CompletenessForStatsEntity? = null,

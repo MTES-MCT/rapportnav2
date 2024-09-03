@@ -30,8 +30,8 @@ extend type Mutation {
 
 type Action {
   id: String
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   source: MissionSource!
   status: ActionStatusType!
   type: ActionType
@@ -43,7 +43,7 @@ type Action {
 input ActionStatusInput {
   id: String
   missionId: ID!
-  startDateTimeUtc: String
+  startDateTimeUtc: Instant
   status: ActionStatusType!
   reason: ActionStatusReason
   observations: String
@@ -52,8 +52,8 @@ input ActionStatusInput {
 input ActionControlInput {
   id: String
   missionId: ID!
-  startDateTimeUtc: String
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant
+  endDateTimeUtc: Instant
   controlMethod: ControlMethod!
   latitude: Float
   longitude: Float
@@ -67,15 +67,15 @@ input ActionControlInput {
 input ActionFreeNoteInput {
   id: String
   missionId: ID!
-  startDateTimeUtc: String!
+  startDateTimeUtc: Instant!
   observations: String
 }
 
 input ActionRescueInput {
   id: String
   missionId: ID!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   longitude: Float
   latitude: Float
   isVesselRescue: Boolean
@@ -96,24 +96,24 @@ input ActionRescueInput {
 input ActionNauticalEventInput {
   id: String
   missionId: ID!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   observations: String
 }
 
 input ActionVigimerInput {
   id: String
   missionId: ID!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   observations: String
 }
 
 input ActionAntiPollutionInput {
   id: String
   missionId: ID!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   observations: String
   latitude: Float
   longitude: Float
@@ -127,32 +127,32 @@ input ActionAntiPollutionInput {
 input ActionBAAEMPermanenceInput {
   id: String
   missionId: ID!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   observations: String
 }
 
 input ActionPublicOrderInput {
   id: String
   missionId: ID!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   observations: String
 }
 
 input ActionRepresentationInput {
   id: String
   missionId: ID!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   observations: String
 }
 
 input ActionIllegalImmigrationInput {
   id: String
   missionId: ID!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   observations: String
   nbOfInterceptedVessels: Int
   nbOfInterceptedMigrants: Int
@@ -186,7 +186,7 @@ union ActionData =
 
 type NavActionStatus {
   id: String!
-  startDateTimeUtc: String!
+  startDateTimeUtc: Instant!
   status: ActionStatusType!
   reason: ActionStatusReason
   observations: String
@@ -194,15 +194,15 @@ type NavActionStatus {
 
 type NavActionFreeNote {
   id: String!
-  startDateTimeUtc: String!
+  startDateTimeUtc: Instant!
   observations: String
 }
 
 type NavActionRescue {
   id: String!
   missionId: ID
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   longitude: Float
   latitude: Float
   isVesselRescue: Boolean
@@ -224,24 +224,24 @@ type NavActionRescue {
 type NavActionNauticalEvent {
   id: String!
   missionId: ID!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   observations: String
 }
 
 type NavActionVigimer {
   id: String!
   missionId: ID!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   observations: String
 }
 
 type NavActionAntiPollution {
   id: String!
   missionId: ID!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   observations: String
   latitude: Float
   longitude: Float
@@ -255,32 +255,32 @@ type NavActionAntiPollution {
 type NavActionBAAEMPermanence {
   id: String!
   missionId: ID!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   observations: String
 }
 
 type NavActionPublicOrder {
   id: String!
   missionId: ID!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   observations: String
 }
 
 type NavActionRepresentation {
   id: String!
   missionId: ID!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   observations: String
 }
 
 type NavActionIllegalImmigration {
   id: String!
   missionId: ID!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   observations: String
   nbOfInterceptedVessels: Int
   nbOfInterceptedMigrants: Int

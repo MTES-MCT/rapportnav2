@@ -19,7 +19,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 
@@ -70,15 +70,15 @@ class AEMTableExportTest {
     private fun missionEntity(): MissionEntity {
         val envMission = EnvMissionMock.create(
             envActions = listOf(),
-            endDateTimeUtc = ZonedDateTime.parse("2019-09-17T01:00:00.000+01:00")
+            endDateTimeUtc = Instant.parse("2019-09-17T01:00:00.000+01:00")
         );
         val envActions = listOf(
             ExtendedEnvActionEntityMock.create(
                 controlAction = ExtendedEnvActionControlEntity(
                     action = EnvActionControlEntity(
                         UUID.randomUUID(),
-                        actionStartDateTimeUtc = ZonedDateTime.parse("2019-09-09T00:00:00.000+01:00"),
-                        actionEndDateTimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00"),
+                        actionStartDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
+                        actionEndDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                         controlPlans = listOf(EnvActionControlPlanEntity(themeId = 104, subThemeIds = listOf(143)))
                     )
                 )
@@ -90,13 +90,13 @@ class AEMTableExportTest {
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.ILLEGAL_IMMIGRATION,
-                startDateTimeUtc = ZonedDateTime.parse("2019-09-09T00:00:00.000+01:00"),
-                endDateTimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00"),
+                startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
+                endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                 publicOrderAction = ActionPublicOrderEntity(
                     missionId = 761,
                     id = UUID.randomUUID(),
-                    startDateTimeUtc = ZonedDateTime.parse("2019-09-08T22:00:00.000+01:00"),
-                    endDateTimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00"),
+                    startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
+                    endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                 )
             )
         )
@@ -110,8 +110,8 @@ class AEMTableExportTest {
                     action = FishActionControlMock.create(
                         speciesInfractions = listOf(),
                         otherInfractions = listOf(OtherInfraction()),
-                        actionDatetimeUtc = ZonedDateTime.parse("2019-09-09T00:00:00.000+01:00"),
-                        actionEndDatetimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00"),
+                        actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
+                        actionEndDatetimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                         gearInfractions = listOf(GearInfraction(infractionType = InfractionType.WITH_RECORD)),
                         logbookInfractions = listOf(LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD))
                     )
@@ -123,7 +123,7 @@ class AEMTableExportTest {
             navMission = navMission,
             fishMissionActions = fishMissionActions,
 
-        );
+            );
         return mission
     }
 }

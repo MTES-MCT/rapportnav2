@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { DateRangePicker, Textarea } from '@mtes-mct/monitor-ui'
+import { Textarea } from '@mtes-mct/monitor-ui'
 import { Action, ActionVigimer } from '@common/types/action-types.ts'
 import { Stack } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -9,6 +9,8 @@ import useAddOrUpdateVigimer from '../../../hooks/vigimer/use-add-vigimer.tsx'
 import useDeleteVigimer from '../../../hooks/vigimer/use-delete-vigimer.tsx'
 import ActionHeader from './action-header.tsx'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
+import { DateRange } from '@mtes-mct/monitor-ui/types/definitions'
+import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
 
 interface ActionVigimerFormProps {
   action: Action
@@ -43,14 +45,14 @@ const ActionVigimerForm: React.FC<ActionVigimerFormProps> = ({ action }) => {
     }
 
     const handleObservationsBlur = async () => {
-      await onChange('observations', observationsValue)
+      await onChange(observationsValue)('observations')
     }
 
-    const onChange = async (field: string, value: any) => {
+    const onChange = (value: any) => async (field: string) => {
       let updatedField: {}
       if (field === 'dates') {
-        const startDateTimeUtc = value[0].toISOString()
-        const endDateTimeUtc = value[1].toISOString()
+        const startDateTimeUtc = value[0]
+        const endDateTimeUtc = value[1]
         updatedField = {
           startDateTimeUtc,
           endDateTimeUtc
@@ -104,17 +106,14 @@ const ActionVigimerForm: React.FC<ActionVigimerFormProps> = ({ action }) => {
                 <DateRangePicker
                   name="dates"
                   isRequired={true}
-                  defaultValue={
-                    navAction.startDateTimeUtc && navAction.endDateTimeUtc
-                      ? [navAction.startDateTimeUtc, navAction.endDateTimeUtc]
-                      : undefined
-                  }
+                  defaultValue={[actionData.startDateTimeUtc, actionData.endDateTimeUtc]}
+                  isStringDate={false}
                   label="Date et heure de début et de fin"
                   withTime={true}
                   isCompact={true}
                   isLight={true}
-                  onChange={async (nextValue?: [Date, Date] | [string, string]) => {
-                    await onChange('dates', nextValue)
+                  onChange={async (nextValue?: DateRange) => {
+                    await onChange(nextValue)('dates')
                   }}
                 />
               </Stack.Item>

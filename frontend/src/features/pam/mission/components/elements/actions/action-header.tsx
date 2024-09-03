@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { Accent, Button, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import Text from '../../../../../common/components/ui/text.tsx'
-import { formatDateTimeForFrenchHumans } from '@common/utils/dates.ts'
+import { formatDateTimeForFrenchHumans } from '@common/utils/dates-for-humans.ts'
 import ActionCompletenessForStatsMessage, {
   ActionCompletenessForStatsMessageProps
 } from './action-completeness-for-stats-message.tsx'

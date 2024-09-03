@@ -1,16 +1,7 @@
 import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.tsx'
 import { Action, ActionRescue } from '@common/types/action-types.ts'
-import {
-  Checkbox,
-  Coordinates,
-  DateRangePicker,
-  Icon,
-  MultiRadio,
-  NumberInput,
-  Textarea,
-  TextInput,
-  THEME
-} from '@mtes-mct/monitor-ui'
+import { Checkbox, Coordinates, Icon, MultiRadio, NumberInput, Textarea, TextInput, THEME } from '@mtes-mct/monitor-ui'
+import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
 import { isEqual } from 'lodash'
 import omit from 'lodash/omit'
 import React, { useEffect, useState } from 'react'
@@ -23,6 +14,7 @@ import useActionById from '../../../hooks/use-action-by-id.tsx'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
 import { RESCUE_TYPE_OPTIONS } from '../../../utils/control-utils.ts'
 import ActionHeader from './action-header.tsx'
+import { DateRange } from '@mtes-mct/monitor-ui/types/definitions'
 
 interface ActionRescueFormProps {
   action: Action
@@ -66,18 +58,18 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
     }
 
     const handleLocationDescriptionBlur = async () => {
-      await onChange('locationDescription', locationObservationValue)
+      await onChange(locationObservationValue)('locationDescription')
     }
 
     const handleObservationsBlur = async () => {
-      await onChange('observations', observationsValue)
+      await onChange(observationsValue)('observations')
     }
 
-    const onChange = async (field: string, value: any) => {
+    const onChange = (value: any) => async (field: string) => {
       let updatedField: {}
       if (field === 'dates') {
-        const startDateTimeUtc = value[0].toISOString()
-        const endDateTimeUtc = value[1].toISOString()
+        const startDateTimeUtc = value[0]
+        const endDateTimeUtc = value[1]
         updatedField = {
           startDateTimeUtc,
           endDateTimeUtc
@@ -124,11 +116,11 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
       if (isChecked) {
         setShowVesselStack(true)
         setShowPersonStack(false)
-        await onChange('isVesselRescue', true)
+        await onChange(true)('isVesselRescue')
       } else {
         setShowVesselStack(false)
         setShowPersonStack(true)
-        await onChange('isPersonRescue', true)
+        await onChange(true)('isPersonRescue')
       }
     }
 
@@ -166,17 +158,13 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                   error={!navAction.startDateTimeUtc && !navAction.endDateTimeUtc ? 'error' : undefined}
                   isErrorMessageHidden={true}
                   isRequired={true}
-                  defaultValue={
-                    navAction.startDateTimeUtc && navAction.endDateTimeUtc
-                      ? [navAction.startDateTimeUtc, navAction.endDateTimeUtc]
-                      : undefined
-                  }
+                  defaultValue={[actionData.startDateTimeUtc, actionData.endDateTimeUtc]}
                   label="Date et heure de début et de fin"
                   withTime={true}
                   isCompact={true}
                   isLight={true}
-                  onChange={async (nextValue?: [Date, Date] | [string, string]) => {
-                    await onChange('dates', nextValue)
+                  onChange={async (nextValue?: DateRange) => {
+                    await onChange(nextValue)('dates')
                   }}
                 />
               </Stack.Item>
@@ -195,7 +183,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
               disabled={false}
               onChange={async (nextCoordinates?: Coordinates, prevCoordinates?: Coordinates) => {
                 if (!isEqual(nextCoordinates, prevCoordinates)) {
-                  await onChange('geoCoords', nextCoordinates)
+                  await onChange(nextCoordinates)('geoCoords')
                 }
               }}
             />
@@ -231,7 +219,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                   <Toggle
                     checked={actionData?.operationFollowsDEFREP}
                     size="sm"
-                    onChange={(checked: boolean) => onChange('operationFollowsDEFREP', checked)}
+                    onChange={(checked: boolean) => onChange(checked)('operationFollowsDEFREP')}
                   />
                 </Stack.Item>
                 <Stack.Item alignSelf="flex-end">
@@ -251,7 +239,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                 checked={actionData?.isVesselNoticed}
                 style={{ marginBottom: 8 }}
                 onChange={async nextValue => {
-                  await onChange('isVesselNoticed', nextValue)
+                  await onChange(nextValue)('isVesselNoticed')
                 }}
               />
               <Checkbox
@@ -261,7 +249,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                 label="Le navire a été remorqué"
                 checked={actionData?.isVesselTowed}
                 onChange={async nextValue => {
-                  await onChange('isVesselTowed', nextValue)
+                  await onChange(nextValue)('isVesselTowed')
                 }}
               />
             </Stack.Item>
@@ -289,7 +277,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                     isLight={true}
                     value={actionData?.numberPersonsRescued}
                     onChange={async nextValue => {
-                      await onChange('numberPersonsRescued', nextValue)
+                      await onChange(nextValue)('numberPersonsRescued')
                     }}
                   />
                 </Stack.Item>
@@ -309,7 +297,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                     isLight={true}
                     value={actionData?.numberOfDeaths}
                     onChange={async nextValue => {
-                      await onChange('numberOfDeaths', nextValue)
+                      await onChange(nextValue)('numberOfDeaths')
                     }}
                   />
                 </Stack.Item>
@@ -324,7 +312,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                   checked={actionData?.isInSRRorFollowedByCROSSMRCC}
                   style={{ marginBottom: 25 }}
                   onChange={async nextValue => {
-                    await onChange('isInSRRorFollowedByCROSSMRCC', nextValue)
+                    await onChange(nextValue)('isInSRRorFollowedByCROSSMRCC')
                   }}
                 />
               </Stack.Item>
@@ -359,7 +347,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                   <Toggle
                     checked={!!actionData?.isMigrationRescue}
                     size="sm"
-                    onChange={(checked: boolean) => onChange('isMigrationRescue', checked)}
+                    onChange={(checked: boolean) => onChange(checked)('isMigrationRescue')}
                   />
                 </Stack.Item>
                 <Stack.Item alignSelf="flex-end">
@@ -385,7 +373,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                 isLight={true}
                 value={actionData?.nbOfVesselsTrackedWithoutIntervention}
                 onChange={async nextValue => {
-                  await onChange('nbOfVesselsTrackedWithoutIntervention', nextValue)
+                  await onChange(nextValue)('nbOfVesselsTrackedWithoutIntervention')
                 }}
                 disabled={!actionData?.isMigrationRescue}
               />
@@ -404,7 +392,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                 isLight={true}
                 value={actionData?.nbAssistedVesselsReturningToShore}
                 onChange={async nextValue => {
-                  await onChange('nbAssistedVesselsReturningToShore', nextValue)
+                  await onChange(nextValue)('nbAssistedVesselsReturningToShore')
                 }}
                 disabled={!actionData?.isMigrationRescue}
               />

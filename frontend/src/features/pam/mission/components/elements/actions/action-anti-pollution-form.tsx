@@ -1,15 +1,7 @@
 import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.tsx'
 import { Action, ActionAntiPollution } from '@common/types/action-types.ts'
-import {
-  Checkbox,
-  Coordinates,
-  DateRangePicker,
-  Icon,
-  Textarea,
-  THEME,
-  Toggle,
-  ToggleProps
-} from '@mtes-mct/monitor-ui'
+import { Checkbox, Coordinates, Icon, Textarea, THEME, Toggle, ToggleProps } from '@mtes-mct/monitor-ui'
+import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
 import { isEqual } from 'lodash'
 import omit from 'lodash/omit'
 import React, { useEffect, useState } from 'react'
@@ -22,6 +14,7 @@ import useDeleteAntiPollution from '../../../hooks/anti-pollution/use-delete-ant
 import useActionById from '../../../hooks/use-action-by-id.tsx'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
 import ActionHeader from './action-header.tsx'
+import { DateRange } from '@mtes-mct/monitor-ui/types/definitions'
 
 const ToggleLabel = styled((props: Omit<TextProps, 'as'>) => <Text {...props} as="h3" />)(({ theme }) => ({
   color: theme.color.gunMetal,
@@ -67,14 +60,14 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ actio
     }
 
     const handleObservationsBlur = async () => {
-      await onChange('observations', observationsValue)
+      await onChange(observationsValue)('observations')
     }
 
-    const onChange = async (field: string, value: any) => {
+    const onChange = (value: any) => async (field: string) => {
       let updatedField: {}
       if (field === 'dates') {
-        const startDateTimeUtc = value[0].toISOString()
-        const endDateTimeUtc = value[1].toISOString()
+        const startDateTimeUtc = value[0]
+        const endDateTimeUtc = value[1]
         updatedField = {
           startDateTimeUtc,
           endDateTimeUtc
@@ -152,17 +145,13 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ actio
                 <DateRangePicker
                   name="dates"
                   isRequired={true}
-                  defaultValue={
-                    navAction.startDateTimeUtc && navAction.endDateTimeUtc
-                      ? [navAction.startDateTimeUtc, navAction.endDateTimeUtc]
-                      : undefined
-                  }
+                  defaultValue={[actionData.startDateTimeUtc, actionData.endDateTimeUtc]}
                   label="Date et heure de début et de fin"
                   withTime={true}
                   isCompact={true}
                   isLight={true}
-                  onChange={async (nextValue?: [Date, Date] | [string, string]) => {
-                    await onChange('dates', nextValue)
+                  onChange={async (nextValue?: DateRange) => {
+                    await onChange(nextValue)('dates')
                   }}
                 />
               </Stack.Item>
@@ -181,7 +170,7 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ actio
               disabled={false}
               onChange={async (nextCoordinates?: Coordinates, prevCoordinates?: Coordinates) => {
                 if (!isEqual(nextCoordinates, prevCoordinates)) {
-                  await onChange('geoCoords', nextCoordinates)
+                  await onChange(nextCoordinates)('geoCoords')
                 }
               }}
             />
@@ -194,7 +183,7 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ actio
                   name="isSimpleBrewingOperationDone"
                   checked={actionData?.isSimpleBrewingOperationDone}
                   onChange={async nextValue => {
-                    await onChange('isSimpleBrewingOperationDone', nextValue)
+                    await onChange(nextValue)('isSimpleBrewingOperationDone')
                   }}
                   data-testid="action-antipol-simple-brewing-operation"
                 />
@@ -207,7 +196,7 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ actio
                   name="isAntiPolDeviceDeployed"
                   checked={actionData?.isAntiPolDeviceDeployed}
                   onChange={async nextValue => {
-                    await onChange('isAntiPolDeviceDeployed', nextValue)
+                    await onChange(nextValue)('isAntiPolDeviceDeployed')
                   }}
                   data-testid="action-antipol-device-deployed"
                 />
@@ -221,7 +210,7 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ actio
                   label="Pollution détectée"
                   checked={actionData?.detectedPollution}
                   onChange={async nextValue => {
-                    await onChange('detectedPollution', nextValue)
+                    await onChange(nextValue)('detectedPollution')
                   }}
                 />
               </Stack.Item>
@@ -233,7 +222,7 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ actio
                   label="Pollution constatée par un agent habilité"
                   checked={actionData?.pollutionObservedByAuthorizedAgent}
                   onChange={async nextValue => {
-                    await onChange('pollutionObservedByAuthorizedAgent', nextValue)
+                    await onChange(nextValue)('pollutionObservedByAuthorizedAgent')
                   }}
                 />
               </Stack.Item>
@@ -245,7 +234,7 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ actio
                   label="Déroutement effectué"
                   checked={actionData?.diversionCarriedOut}
                   onChange={async nextValue => {
-                    await onChange('diversionCarriedOut', nextValue)
+                    await onChange(nextValue)('diversionCarriedOut')
                   }}
                 />
               </Stack.Item>

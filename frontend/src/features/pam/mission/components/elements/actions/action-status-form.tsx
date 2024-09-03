@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { DatePicker, Icon, Tag, Textarea } from '@mtes-mct/monitor-ui'
+import { Icon, Tag, Textarea } from '@mtes-mct/monitor-ui'
 import { ActionStatus, ActionStatusType } from '@common/types/action-types.ts'
 import { Stack } from 'rsuite'
 import { getColorForStatus, mapStatusToText } from '../../../utils/status-utils.ts'
@@ -12,6 +12,7 @@ import useDeleteStatus from '../../../hooks/use-delete-status.tsx'
 import { ActionDetailsProps } from './action-mapping.ts'
 import ActionHeader from './action-header.tsx'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
+import DatePicker from '@common/components/elements/date-picker.tsx'
 
 type ActionStatusFormProps = ActionDetailsProps
 
@@ -44,10 +45,10 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
     }
 
     const handleObservationsBlur = async () => {
-      await onChange('observations', observationsValue)
+      await onChange(observationsValue)('observations')
     }
 
-    const onChange = async (field: string, value: any) => {
+    const onChange = (value: any) => async (field: string) => {
       const updatedData = {
         missionId: missionId,
         ...omit(status, '__typename'),
@@ -105,8 +106,7 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
                   isLight={true}
                   name="startDateTimeUtc"
                   onChange={async (nextUtcDate: Date) => {
-                    const date = new Date(nextUtcDate)
-                    await onChange('startDateTimeUtc', date.toISOString())
+                    await onChange(nextUtcDate)('startDateTimeUtc')
                   }}
                 />
               </Stack.Item>
@@ -114,7 +114,7 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
                 <StatusReasonDropdown
                   actionType={status.status}
                   value={status.reason}
-                  onSelect={onChange}
+                  onSelect={async (key: string, value: string) => await onChange(value)(key)}
                   isRequired={true}
                   error={
                     isMissionFinished &&

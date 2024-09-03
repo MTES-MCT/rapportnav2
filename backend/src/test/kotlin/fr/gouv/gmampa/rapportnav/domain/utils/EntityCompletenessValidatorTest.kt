@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import java.time.ZoneId
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 @SpringBootTest(classes = [EntityCompletenessValidator::class])
@@ -80,7 +79,7 @@ class EntityCompletenessValidatorTest {
         val entity = ActionStatusEntity(
             id = UUID.randomUUID(),
             missionId = 10,
-            startDateTimeUtc = ZonedDateTime.of(2023, 6, 19, 10, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+            startDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             status = ActionStatusType.NAVIGATING
         )
         val result = EntityCompletenessValidator.isCompleteForStats(entity)
@@ -92,7 +91,7 @@ class EntityCompletenessValidatorTest {
         val entity = ActionStatusEntity(
             id = UUID.randomUUID(),
             missionId = 10,
-            startDateTimeUtc = ZonedDateTime.of(2023, 6, 19, 10, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+            startDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             status = ActionStatusType.DOCKED,
             reason = ActionStatusReason.WEATHER
         )
@@ -105,7 +104,7 @@ class EntityCompletenessValidatorTest {
         val entity = ActionStatusEntity(
             id = UUID.randomUUID(),
             missionId = 10,
-            startDateTimeUtc = ZonedDateTime.of(2023, 6, 19, 10, 0, 0, 0, ZoneId.of("Europe/Berlin")),
+            startDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             status = ActionStatusType.DOCKED,
         )
         val result = EntityCompletenessValidator.isCompleteForStats(entity)

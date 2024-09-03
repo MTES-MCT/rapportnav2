@@ -12,10 +12,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
 
 @SpringBootTest(classes = [GroupActionByDate::class])
 class GroupActionByDateTest {
@@ -35,18 +33,14 @@ class GroupActionByDateTest {
         val actionEnvControl1 = MissionActionEntity.EnvAction(
             ExtendedEnvActionEntity.fromEnvActionEntity(
                 EnvActionControlMock.create(
-                    actionStartDateTimeUtc = ZonedDateTime.of(
-                        LocalDateTime.of(2022, 1, 1, 12, 0), ZoneOffset.UTC
-                    )
+                    actionStartDateTimeUtc = Instant.parse("2022-01-01T12:00:01Z"),
                 )
             )
         )
         val actionEnvSurveillance1 = MissionActionEntity.EnvAction(
             ExtendedEnvActionEntity.fromEnvActionEntity(
                 EnvActionSurveillanceMock.create(
-                    actionStartDateTimeUtc = ZonedDateTime.of(
-                        LocalDateTime.of(2022, 1, 1, 12, 0), ZoneOffset.UTC
-                    )
+                    actionStartDateTimeUtc = Instant.parse("2022-01-01T12:00:01Z"),
                 )
             )
         )
@@ -54,11 +48,8 @@ class GroupActionByDateTest {
         val action2 = MissionActionEntity.FishAction(
             ExtendedFishActionEntity.fromMissionAction(
                 FishActionControlMock.create(
-                    missionId = 1, actionDatetimeUtc = ZonedDateTime.of(
-                        LocalDateTime.of(
-                            2022, 1, 1, 13, 0
-                        ), ZoneOffset.UTC
-                    )
+                    missionId = 1,
+                    actionDatetimeUtc = Instant.parse("2022-01-01T12:00:01Z"),
                 )
             )
         )

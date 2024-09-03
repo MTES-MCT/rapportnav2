@@ -6,7 +6,7 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 @Entity
@@ -23,7 +23,7 @@ class ActionFreeNoteModel(
     var isCompleteForStats: Boolean? = null,
 
     @Column(name = "start_datetime_utc", nullable = false)
-    var startDateTimeUtc: ZonedDateTime,
+    var startDateTimeUtc: Instant,
 
     @Column(name = "observations", nullable = true, columnDefinition = "LONGTEXT")
     var observations: String? = null,

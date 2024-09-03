@@ -1,5 +1,5 @@
 import { MissionStatusEnum } from '../../../common/types/mission-types.ts'
-import client from '../../../../apollo-client.ts'
+import client from '../../../../apollo-client/apollo-client.ts'
 import { GET_MISSION_TIMELINE } from './use-mission-timeline.tsx'
 
 /**

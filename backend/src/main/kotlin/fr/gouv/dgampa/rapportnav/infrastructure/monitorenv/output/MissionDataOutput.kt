@@ -40,8 +40,8 @@ data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) co
             observationsCnsp = observationsCnsp,
             facade = facade,
             geom = geom,
-            startDateTimeUtc = startDateTimeUtc,
-            endDateTimeUtc = endDateTimeUtc,
+            startDateTimeUtc = startDateTimeUtc.toInstant(),
+            endDateTimeUtc = endDateTimeUtc?.toInstant(),
             envActions = envActions,
             missionSource = missionSource,
             hasMissionOrder = hasMissionOrder,
@@ -50,31 +50,5 @@ data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) co
             isDeleted = false, // TODO this is weird,
             observationsByUnit = observationsByUnit
         )
-    }
-
-    companion object {
-        fun fromMissionEntity(mission: MissionEntity): MissionDataOutput {
-            requireNotNull(mission.id) { "a mission must have an id" }
-
-            return MissionDataOutput(
-                id = mission.id,
-                missionTypes = mission.missionTypes,
-                controlUnits = mission.controlUnits,
-                openBy = mission.openBy,
-                completedBy = mission.completedBy,
-                observationsCacem = mission.observationsCacem,
-                observationsCnsp = mission.observationsCnsp,
-                facade = mission.facade,
-                geom = mission.geom,
-                startDateTimeUtc = mission.startDateTimeUtc,
-                endDateTimeUtc = mission.endDateTimeUtc,
-                envActions = mission.envActions,
-                missionSource = mission.missionSource,
-                hasMissionOrder = mission.hasMissionOrder,
-                isUnderJdp = mission.isUnderJdp,
-                isGeometryComputedFromControls = mission.isGeometryComputedFromControls,
-                observationsByUnit = mission.observationsByUnit
-            )
-        }
     }
 }

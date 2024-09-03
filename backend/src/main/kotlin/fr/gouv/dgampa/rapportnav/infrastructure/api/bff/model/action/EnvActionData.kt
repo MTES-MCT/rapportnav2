@@ -6,13 +6,13 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlGen
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlNavigation
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlSecurity
 import org.locationtech.jts.geom.Geometry
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 data class EnvActionData(
     val id: UUID?,
-    val actionStartDateTimeUtc: ZonedDateTime,
-    val actionEndDateTimeUtc: ZonedDateTime?,
+    val actionStartDateTimeUtc: Instant?,
+    val actionEndDateTimeUtc: Instant?,
     val actionType: ActionTypeEnum,
     val department: String? = null,
     val facade: String? = null,

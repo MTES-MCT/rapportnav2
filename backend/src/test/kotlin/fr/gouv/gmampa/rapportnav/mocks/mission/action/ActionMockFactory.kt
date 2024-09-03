@@ -1,9 +1,7 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.BaseAction
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 import kotlin.reflect.full.primaryConstructor
 
@@ -22,8 +20,8 @@ object ActionMockFactory {
     inline fun <reified T : BaseAction> create(
         id: UUID = UUID.randomUUID(),
         missionId: Int = 1,
-        startDateTimeUtc: ZonedDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
-        endDateTimeUtc: ZonedDateTime? = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 14, 0), ZoneOffset.UTC),
+        startDateTimeUtc: Instant = Instant.parse("2022-01-02T12:00:00Z"),
+        endDateTimeUtc: Instant? = Instant.parse("2022-01-02T14:00:00Z"),
         observations: String? = null,
         additionalParams: Map<String, Any?> = emptyMap()
     ): T {

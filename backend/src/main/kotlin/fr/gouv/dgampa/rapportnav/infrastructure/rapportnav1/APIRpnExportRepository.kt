@@ -65,8 +65,8 @@ class APIRpnExportRepository(
         val content = ExportMissionODTInput(
             service = params.service ?: "",
             id = params.id,
-            startDateTime = params.startDateTime?.toLocalDate().toString(),
-            endDateTime = params.endDateTime?.toLocalDate().toString(),
+            startDateTime = params.startDateTime?.toString(),
+            endDateTime = params.endDateTime?.toString(),
             presenceMer = params.presenceMer,
             presenceQuai = params.presenceQuai,
             indisponibilite = params.indisponibilite,

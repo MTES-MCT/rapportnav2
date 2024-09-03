@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
-import java.time.ZonedDateTime
+import java.time.Instant
 
 
 @UseCase
@@ -22,8 +22,8 @@ class GetEnvMissions(
         missionTypes = listOf(MissionTypeEnum.SEA),
         facade = "Outre-Mer",
         observationsCacem = null,
-        startDateTimeUtc = ZonedDateTime.parse("2022-03-15T04:50:09Z"),
-//            endDateTimeUtc = ZonedDateTime.parse("2022-03-23T20:29:03Z"),
+        startDateTimeUtc = Instant.parse("2022-03-15T04:50:09Z"),
+//            endDateTimeUtc = Instant.parse("2022-03-23T20:29:03Z"),
         isDeleted = false,
         missionSource = MissionSourceEnum.RAPPORTNAV,
         hasMissionOrder = false,
@@ -35,8 +35,8 @@ class GetEnvMissions(
         missionTypes = listOf(MissionTypeEnum.SEA),
         facade = "Outre-Mer",
         observationsCacem = null,
-        startDateTimeUtc = ZonedDateTime.parse("2022-02-15T04:50:09Z"),
-        endDateTimeUtc = ZonedDateTime.parse("2022-02-23T20:29:03Z"),
+        startDateTimeUtc = Instant.parse("2022-02-15T04:50:09Z"),
+        endDateTimeUtc = Instant.parse("2022-02-23T20:29:03Z"),
         isDeleted = false,
         missionSource = MissionSourceEnum.MONITORENV,
         hasMissionOrder = false,
@@ -48,8 +48,8 @@ class GetEnvMissions(
         missionTypes = listOf(MissionTypeEnum.SEA),
         facade = "Outre-Mer",
         observationsCacem = null,
-        startDateTimeUtc = ZonedDateTime.parse("2022-01-15T04:50:09Z"),
-        endDateTimeUtc = ZonedDateTime.parse("2022-01-23T20:29:03Z"),
+        startDateTimeUtc = Instant.parse("2022-01-15T04:50:09Z"),
+        endDateTimeUtc = Instant.parse("2022-01-23T20:29:03Z"),
         isDeleted = false,
         missionSource = MissionSourceEnum.MONITORFISH,
         hasMissionOrder = false,
@@ -61,8 +61,8 @@ class GetEnvMissions(
         missionTypes = listOf(MissionTypeEnum.SEA),
         facade = "Outre-Mer",
         observationsCacem = null,
-        startDateTimeUtc = ZonedDateTime.parse("2024-03-11T07:00:00Z"),
-        endDateTimeUtc = ZonedDateTime.parse("2024-03-22T18:00:00Z"),
+        startDateTimeUtc = Instant.parse("2024-03-11T07:00:00Z"),
+        endDateTimeUtc = Instant.parse("2024-03-22T18:00:00Z"),
         isDeleted = false,
         missionSource = MissionSourceEnum.MONITORFISH,
         hasMissionOrder = false,
@@ -76,8 +76,8 @@ class GetEnvMissions(
         missionTypes = listOf(MissionTypeEnum.SEA),
         facade = "Outre-Mer",
         observationsCacem = null,
-        startDateTimeUtc = ZonedDateTime.parse("2026-04-11T07:00:00Z"),
-        endDateTimeUtc = ZonedDateTime.parse("2026-03-22T18:00:00Z"),
+        startDateTimeUtc = Instant.parse("2026-04-11T07:00:00Z"),
+        endDateTimeUtc = Instant.parse("2026-03-22T18:00:00Z"),
         isDeleted = false,
         missionSource = MissionSourceEnum.RAPPORTNAV,
         hasMissionOrder = false,
@@ -91,8 +91,8 @@ class GetEnvMissions(
         missionTypes = listOf(MissionTypeEnum.SEA),
         facade = "Outre-Mer",
         observationsCacem = null,
-        startDateTimeUtc = ZonedDateTime.parse("2024-04-17T07:00:00Z"),
-        endDateTimeUtc = ZonedDateTime.parse("2026-03-22T18:00:00Z"),
+        startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
+        endDateTimeUtc = Instant.parse("2026-03-22T18:00:00Z"),
         isDeleted = false,
         missionSource = MissionSourceEnum.MONITORENV,
         hasMissionOrder = false,
@@ -105,8 +105,8 @@ class GetEnvMissions(
 
     @Cacheable(value = ["envMissions"])
     fun execute(
-        startedAfterDateTime: ZonedDateTime? = null,
-        startedBeforeDateTime: ZonedDateTime? = null,
+        startedAfterDateTime: Instant? = null,
+        startedBeforeDateTime: Instant? = null,
         pageNumber: Int? = null,
         pageSize: Int? = null,
         controlUnits: List<Int>? = null

@@ -26,6 +26,7 @@ import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
+import java.time.Instant
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -82,8 +83,8 @@ class APIEnvMissionRepositoryTest {
                 missionId = 761,
                 PatchMissionInput(
                     observationsByUnit = "MyObservations",
-                    startDateTimeUtc = ZonedDateTime.parse("2022-03-15T04:50:09Z"),
-                    endDateTimeUtc = ZonedDateTime.parse("2022-03-27T04:50:09Z")
+                    startDateTimeUtc = Instant.parse("2022-03-15T04:50:09Z"),
+                    endDateTimeUtc = Instant.parse("2022-03-27T04:50:09Z")
                 )
             )
             verify(httpClient).send(
@@ -105,8 +106,8 @@ class APIEnvMissionRepositoryTest {
 
         private val action = PatchedEnvActionEntity(
             id = UUID.randomUUID(),
-            actionStartDateTimeUtc = ZonedDateTime.parse("2022-03-15T02:50:09Z"),
-            actionEndDateTimeUtc = ZonedDateTime.parse("2022-03-15T04:50:09Z"),
+            actionStartDateTimeUtc = Instant.parse("2022-03-15T02:50:09Z"),
+            actionEndDateTimeUtc = Instant.parse("2022-03-15T04:50:09Z"),
             observationsByUnit = "dummy"
         )
 
@@ -132,13 +133,13 @@ class APIEnvMissionRepositoryTest {
                 actionId = action.id.toString(),
                 PatchActionInput(
                     observationsByUnit = "MyObservations",
-                    actionStartDateTimeUtc = ZonedDateTime.parse("2022-03-15T04:50:09Z"),
-                    actionEndDateTimeUtc = ZonedDateTime.parse("2022-03-27T04:50:09Z")
+                    actionStartDateTimeUtc = Instant.parse("2022-03-15T04:50:09Z"),
+                    actionEndDateTimeUtc = Instant.parse("2022-03-27T04:50:09Z")
                 )
             )
             verify(httpClient).send(
                 argThat { request ->
-                    request.uri().equals(URI.create("$host/api/v1/actions/${action.id.toString()}"))
+                    request.uri().equals(URI.create("$host/api/v1/actions/${action.id}"))
                 },
                 Mockito.any<HttpResponse.BodyHandler<String>>()
             )

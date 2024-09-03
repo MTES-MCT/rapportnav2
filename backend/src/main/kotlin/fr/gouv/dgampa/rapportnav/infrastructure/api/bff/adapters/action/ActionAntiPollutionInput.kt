@@ -1,14 +1,14 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionAntiPollutionEntity
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 class ActionAntiPollutionInput(
     val id: UUID? = null,
     val missionId: Int,
-    val startDateTimeUtc: ZonedDateTime,
-    val endDateTimeUtc: ZonedDateTime,
+    val startDateTimeUtc: Instant,
+    val endDateTimeUtc: Instant,
     val latitude: Double? = null,
     val longitude: Double? = null,
     val detectedPollution: Boolean? = null,

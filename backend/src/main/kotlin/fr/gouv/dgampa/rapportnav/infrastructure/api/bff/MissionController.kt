@@ -22,8 +22,7 @@ import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
-import java.time.ZoneId
-import java.time.ZonedDateTime
+import java.time.Instant
 
 
 @Controller
@@ -59,7 +58,7 @@ class MissionController(
         try {
             // query MonitorEnv with the following filters
             val envMissions = getEnvMissions.execute(
-                startedAfterDateTime = ZonedDateTime.of(2024, 1, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
+                startedAfterDateTime = Instant.parse("2024-01-01T00:00:01Z"),
                 startedBeforeDateTime = null,
                 pageNumber = null,
                 pageSize = null,

@@ -14,7 +14,7 @@ import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.MultiPoint
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 fun createMockMultiPoint(coordinates: List<Coordinate>): MultiPoint {
@@ -45,8 +45,8 @@ class GetEnvMissionById(
     private fun getFakeSurveillance(): List<EnvActionSurveillanceEntity> {
         val envMissionActionSurveillance1 = EnvActionSurveillanceEntity(
             id = UUID.fromString("226d84bc-e6c5-4d29-8a5f-7db642f99d99"),
-            actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-17T04:50:09Z"),
-            actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-17T06:50:09Z"),
+            actionStartDateTimeUtc = Instant.parse("2022-02-17T04:50:09Z"),
+            actionEndDateTimeUtc = Instant.parse("2022-02-17T06:50:09Z"),
             completion = ActionCompletionEnum.COMPLETED,
             controlPlans = listOf(controlTheme2),
         )
@@ -57,7 +57,7 @@ class GetEnvMissionById(
     private fun getFakeControls(): List<EnvActionControlEntity> {
         val envActionControl1 = EnvActionControlEntity(
             id = UUID.fromString("226d84bc-e6c5-4d29-8a5f-7db642f99d16"),
-            actionStartDateTimeUtc = ZonedDateTime.parse("2023-12-15T10:00:00Z"),
+            actionStartDateTimeUtc = Instant.parse("2023-12-15T10:00:00Z"),
             actionEndDateTimeUtc = null,  // Set to null if not provided in your API response
             completion = ActionCompletionEnum.COMPLETED,
             geom = createMockMultiPoint(listOf(Coordinate(-8.52318191, 48.30305604))),
@@ -86,8 +86,8 @@ class GetEnvMissionById(
 
         var envMissionActionControl1 = EnvActionControlEntity(
             id = UUID.fromString("17997de8-b0df-4095-b209-e8758df71b67"),
-            actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-16T04:50:09Z"),
-            actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-16T06:50:09Z"),
+            actionStartDateTimeUtc = Instant.parse("2022-02-16T04:50:09Z"),
+            actionEndDateTimeUtc = Instant.parse("2022-02-16T06:50:09Z"),
             controlPlans = listOf(controlTheme1),
             geom = createMockMultiPoint(listOf(Coordinate(-8.52318191, 48.30305604))),
             actionNumberOfControls = 5,
@@ -116,8 +116,8 @@ class GetEnvMissionById(
 
         val envMissionActionControl2 = EnvActionControlEntity(
             id = UUID.fromString("aa997de8-b0df-3095-b209-e8758df71bbb"),
-            actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-19T04:50:09Z"),
-            actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-19T06:50:09Z"),
+            actionStartDateTimeUtc = Instant.parse("2022-02-19T04:50:09Z"),
+            actionEndDateTimeUtc = Instant.parse("2022-02-19T06:50:09Z"),
             controlPlans = listOf(controlTheme1),
             actionNumberOfControls = 10,
             geom = createMockMultiPoint(listOf(Coordinate(-8.52318191, 48.30305604))),
@@ -147,8 +147,8 @@ class GetEnvMissionById(
 
         val envMissionActionControl3 = EnvActionControlEntity(
             id = UUID.fromString("aa997de8-b0df-4095-b209-e8758df71bbb"),
-            actionStartDateTimeUtc = ZonedDateTime.parse("2022-02-21T04:50:09Z"),
-            actionEndDateTimeUtc = ZonedDateTime.parse("2022-02-21T06:50:09Z"),
+            actionStartDateTimeUtc = Instant.parse("2022-02-21T04:50:09Z"),
+            actionEndDateTimeUtc = Instant.parse("2022-02-21T06:50:09Z"),
             controlPlans = listOf(controlTheme2),
             geom = createMockMultiPoint(listOf(Coordinate(-8.52318191, 48.30305604))),
             actionNumberOfControls = 8,

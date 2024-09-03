@@ -1,14 +1,14 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionRepresentationEntity
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 class ActionRepresentationInput(
     var id: UUID? = null,
     var missionId: Int,
-    var startDateTimeUtc: ZonedDateTime,
-    var endDateTimeUtc: ZonedDateTime,
+    var startDateTimeUtc: Instant,
+    var endDateTimeUtc: Instant,
     var observations: String? = null
 ) {
 

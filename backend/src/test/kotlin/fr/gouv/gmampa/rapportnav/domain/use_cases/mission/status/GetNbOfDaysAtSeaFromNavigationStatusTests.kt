@@ -9,9 +9,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 
 
 @SpringBootTest(classes = [GetNbOfDaysAtSeaFromNavigationStatus::class, GetStatusDurations::class, ComputeDurations::class])
@@ -21,8 +20,8 @@ class GetNbOfDaysAtSeaFromNavigationStatusTests {
     @Autowired
     private lateinit var getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus
 
-    private val missionStartDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 1, 12, 0), ZoneOffset.UTC)
-    private val missionEndDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 12, 22, 0), ZoneOffset.UTC)
+    private val missionStartDateTime = Instant.parse("2022-01-01T11:00:00Z")
+    private val missionEndDateTime = Instant.parse("2022-01-12T21:00:00Z")
 
 
     @Test
@@ -57,28 +56,28 @@ class GetNbOfDaysAtSeaFromNavigationStatusTests {
             ),
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.DOCKED,
-                startDateTimeUtc = missionStartDateTime.plusHours(1)
+                startDateTimeUtc = missionStartDateTime.plus(1, ChronoUnit.HOURS)
             ),
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.ANCHORED,
-                startDateTimeUtc = missionStartDateTime.plusHours(2)
+                startDateTimeUtc = missionStartDateTime.plus(2, ChronoUnit.HOURS)
             ),
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.UNAVAILABLE,
-                startDateTimeUtc = missionStartDateTime.plusHours(3)
+                startDateTimeUtc = missionStartDateTime.plus(3, ChronoUnit.HOURS)
             ),
             // second day has 7
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.NAVIGATING,
-                startDateTimeUtc = missionStartDateTime.plusHours(25)
+                startDateTimeUtc = missionStartDateTime.plus(25, ChronoUnit.HOURS)
             ),
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.ANCHORED,
-                startDateTimeUtc = missionStartDateTime.plusHours(30)
+                startDateTimeUtc = missionStartDateTime.plus(30, ChronoUnit.HOURS)
             ),
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.UNAVAILABLE,
-                startDateTimeUtc = missionStartDateTime.plusHours(32)
+                startDateTimeUtc = missionStartDateTime.plus(32, ChronoUnit.HOURS)
             ),
             // the rest of the days doesn't count
         )
@@ -93,56 +92,56 @@ class GetNbOfDaysAtSeaFromNavigationStatusTests {
 
     @Test
     fun `execute should return the amount of days exceeding fours hours of navigation even when a status spans over several days`() {
-        val startDateTime = ZonedDateTime.of(LocalDateTime.of(2024, 3, 11, 7, 0), ZoneOffset.UTC)
-        val endDateTime = ZonedDateTime.of(LocalDateTime.of(2024, 3, 22, 18, 0), ZoneOffset.UTC)
+        val startDateTime = Instant.parse("2024-03-11T06:00:00Z")
+        val endDateTime = Instant.parse("2024-03-22T17:00:00Z")
         val statuses = listOf(
             // day 1
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.DOCKED,
-                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 11, 4, 0), ZoneOffset.UTC)
+                startDateTimeUtc = Instant.parse("2024-03-11T03:00:00Z")
             ),
             // day 2
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.NAVIGATING,
-                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 12, 6, 48), ZoneOffset.UTC)
+                startDateTimeUtc = Instant.parse("2024-03-12T05:48:00Z")
             ),
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.DOCKED,
-                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 12, 16, 54), ZoneOffset.UTC)
+                startDateTimeUtc = Instant.parse("2024-03-12T15:54:00Z")
             ),
             // day 3
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.NAVIGATING,
-                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 13, 7, 12), ZoneOffset.UTC)
+                startDateTimeUtc = Instant.parse("2024-03-13T06:12:00Z")
             ),
             // day 4
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.DOCKED,
-                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 14, 21, 48), ZoneOffset.UTC)
+                startDateTimeUtc = Instant.parse("2024-03-14T13:21:00Z")
             ),
             // day 5
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.NAVIGATING,
-                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 15, 19, 54), ZoneOffset.UTC)
+                startDateTimeUtc = Instant.parse("2024-03-15T18:54:00Z")
             ),
             // skip to day 10
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.ANCHORED,
-                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 20, 18, 0), ZoneOffset.UTC)
+                startDateTimeUtc = Instant.parse("2024-03-20T17:00:00Z")
             ),
             // day 11
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.NAVIGATING,
-                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 21, 7, 54), ZoneOffset.UTC)
+                startDateTimeUtc = Instant.parse("2024-03-21T06:54:00Z")
             ),
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.DOCKED,
-                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 21, 13, 42), ZoneOffset.UTC)
+                startDateTimeUtc = Instant.parse("2024-03-21T12:42:00Z")
             ),
             // day 12
             NavActionStatusMock.createActionStatusEntity(
                 status = ActionStatusType.DOCKED,
-                startDateTimeUtc = ZonedDateTime.of(LocalDateTime.of(2024, 3, 22, 16, 0), ZoneOffset.UTC)
+                startDateTimeUtc = Instant.parse("2024-03-22T15:00:00Z")
             ),
         )
 

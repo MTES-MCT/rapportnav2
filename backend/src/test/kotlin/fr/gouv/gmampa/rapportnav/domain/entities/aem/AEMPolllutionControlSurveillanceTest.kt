@@ -7,7 +7,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.action.ExtendedEnvActionEntityMoc
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 
@@ -47,8 +47,8 @@ class AEMPolllutionControlSurveillanceTest {
                     action = EnvActionControlEntity(
                         UUID.randomUUID(),
                         controlPlans = listOf(EnvActionControlPlanEntity(themeId = 102)),
-                        actionStartDateTimeUtc = ZonedDateTime.parse("2019-09-09T00:00:00.000+01:00"),
-                        actionEndDateTimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00"),
+                        actionStartDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
+                        actionEndDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                         infractions = listOf(
                             InfractionEntity(
                                 id = "",
@@ -71,8 +71,8 @@ class AEMPolllutionControlSurveillanceTest {
                     action = EnvActionSurveillanceEntity(
                         UUID.randomUUID(),
                         controlPlans = listOf(EnvActionControlPlanEntity(themeId = 102)),
-                        actionStartDateTimeUtc = ZonedDateTime.parse("2019-09-09T02:00:00.000+01:00"),
-                        actionEndDateTimeUtc = ZonedDateTime.parse("2019-09-09T04:00:00.000+01:00"),
+                        actionStartDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
+                        actionEndDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
                     )
                 )
             )
@@ -86,20 +86,20 @@ class AEMPolllutionControlSurveillanceTest {
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.ILLEGAL_IMMIGRATION,
-                startDateTimeUtc = ZonedDateTime.parse("2019-09-08T22:00:00.000+01:00"),
-                endDateTimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00")
+                startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
+                endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
             ),
             NavActionEntity(
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.ILLEGAL_IMMIGRATION,
-                startDateTimeUtc = ZonedDateTime.parse("2019-09-09T00:00:00.000+01:00"),
-                endDateTimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00"),
+                startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
+                endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                 antiPollutionAction = ActionAntiPollutionEntity(
                     missionId = 761,
                     id = UUID.randomUUID(),
-                    startDateTimeUtc = ZonedDateTime.parse("2019-09-08T22:00:00.000+01:00"),
-                    endDateTimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00"),
+                    startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
+                    endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                     observations = "",
                     isAntiPolDeviceDeployed = true,
                     isSimpleBrewingOperationDone = true,
@@ -110,13 +110,13 @@ class AEMPolllutionControlSurveillanceTest {
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.RESCUE,
-                startDateTimeUtc = ZonedDateTime.parse("2019-09-09T02:00:00.000+01:00"),
-                endDateTimeUtc = ZonedDateTime.parse("2019-09-09T04:00:00.000+01:00"),
+                startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
+                endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
                 antiPollutionAction = ActionAntiPollutionEntity(
                     missionId = 761,
                     id = UUID.randomUUID(),
-                    endDateTimeUtc = ZonedDateTime.parse("2019-09-09T04:00:00.000+01:00"),
-                    startDateTimeUtc = ZonedDateTime.parse("2019-09-09T02:00:00.000+01:00"),
+                    endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
+                    startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                     observations = "",
                     isSimpleBrewingOperationDone = true,
                     pollutionObservedByAuthorizedAgent = true

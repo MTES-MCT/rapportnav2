@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.NavActionAntiPollution
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 class ActionAntiPollutionEntity(
@@ -18,10 +18,10 @@ class ActionAntiPollutionEntity(
     override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
 
     @MandatoryForStats
-    override val startDateTimeUtc: ZonedDateTime,
+    override val startDateTimeUtc: Instant,
 
     @MandatoryForStats
-    override val endDateTimeUtc: ZonedDateTime,
+    override val endDateTimeUtc: Instant,
 
     override val observations: String? = null,
 
@@ -43,8 +43,8 @@ class ActionAntiPollutionEntity(
     constructor(
         id: UUID,
         missionId: Int,
-        startDateTimeUtc: ZonedDateTime,
-        endDateTimeUtc: ZonedDateTime,
+        startDateTimeUtc: Instant,
+        endDateTimeUtc: Instant,
         observations: String?,
         latitude: Double? = null,
         longitude: Double? = null,
@@ -66,7 +66,7 @@ class ActionAntiPollutionEntity(
         pollutionObservedByAuthorizedAgent = pollutionObservedByAuthorizedAgent,
         diversionCarriedOut = diversionCarriedOut,
         isSimpleBrewingOperationDone = isSimpleBrewingOperationDone,
-        isAntiPolDeviceDeployed  = isAntiPolDeviceDeployed
+        isAntiPolDeviceDeployed = isAntiPolDeviceDeployed
     ) {
         // completeness for stats being computed at class instantiation in constructor
         this.isCompleteForStats = EntityCompletenessValidator.isCompleteForStats(this)

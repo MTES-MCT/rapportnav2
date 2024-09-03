@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.NavActionFreeNote
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 data class ActionFreeNoteEntity(
@@ -18,15 +18,15 @@ data class ActionFreeNoteEntity(
     override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
 
     @MandatoryForStats
-    override val startDateTimeUtc: ZonedDateTime,
-    override val endDateTimeUtc: ZonedDateTime? = null,
+    override val startDateTimeUtc: Instant,
+    override val endDateTimeUtc: Instant? = null,
 
     override val observations: String? = null
 ) : BaseAction {
     constructor(
         id: UUID,
         missionId: Int,
-        startDateTimeUtc: ZonedDateTime,
+        startDateTimeUtc: Instant,
         observations: String?
     ) : this(
         id = id,

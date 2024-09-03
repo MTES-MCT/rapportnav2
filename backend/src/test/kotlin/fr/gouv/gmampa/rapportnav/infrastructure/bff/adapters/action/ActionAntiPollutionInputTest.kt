@@ -5,7 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
@@ -13,9 +13,9 @@ class ActionAntiPollutionInputTest {
     @Test
     fun `execute should retrieve action anti pollution entity from action Anti pol input`() {
         val id = UUID.fromString("0000-00-00-00-000000");
-        val startDateTimeUtc = ZonedDateTime.parse("2019-09-08T22:00:00.000+01:00");
-        val endDateTimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00")
-        val action =  ActionAntiPollutionInput(
+        val startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00");
+        val endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
+        val action = ActionAntiPollutionInput(
             missionId = 761,
             id = id,
             startDateTimeUtc = startDateTimeUtc,

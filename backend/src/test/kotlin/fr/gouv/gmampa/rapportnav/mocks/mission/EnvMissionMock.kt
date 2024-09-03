@@ -6,9 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import org.locationtech.jts.geom.MultiPolygon
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
+import java.time.Instant
 
 object EnvMissionMock {
     fun create(
@@ -21,8 +19,8 @@ object EnvMissionMock {
         observationsCnsp: String? = null,
         facade: String? = null,
         geom: MultiPolygon? = null,
-        startDateTimeUtc: ZonedDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
-        endDateTimeUtc: ZonedDateTime? = null,
+        startDateTimeUtc: Instant = Instant.parse("2022-01-02T12:00:01Z"),
+        endDateTimeUtc: Instant? = null,
         isDeleted: Boolean = false,
         isGeometryComputedFromControls: Boolean = false,
         missionSource: MissionSourceEnum = MissionSourceEnum.MONITORENV,

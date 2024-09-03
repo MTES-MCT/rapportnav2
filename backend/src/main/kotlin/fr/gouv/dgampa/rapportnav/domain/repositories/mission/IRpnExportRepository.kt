@@ -3,13 +3,13 @@ package fr.gouv.dgampa.rapportnav.domain.repositories.mission
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActions
-import java.time.ZonedDateTime
+import java.time.Instant
 
 data class ExportParams(
     val service: String?,
     val id: String,
-    val startDateTime: ZonedDateTime?,
-    val endDateTime: ZonedDateTime?,
+    val startDateTime: Instant?,
+    val endDateTime: Instant?,
     val presenceMer: Map<String, Int>,
     val presenceQuai: Map<String, Int>,
     val indisponibilite: Map<String, Int>,

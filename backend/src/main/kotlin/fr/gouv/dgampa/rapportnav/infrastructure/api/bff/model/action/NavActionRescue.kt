@@ -1,13 +1,13 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action
 
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 data class NavActionRescue(
     val id: UUID,
     val missionId: Int,
-    val startDateTimeUtc: ZonedDateTime,
-    val endDateTimeUtc: ZonedDateTime? = null,
+    val startDateTimeUtc: Instant,
+    val endDateTimeUtc: Instant? = null,
     val latitude: Float? = null,
     val longitude: Float? = null,
     val observations: String? = null,

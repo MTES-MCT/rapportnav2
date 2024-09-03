@@ -5,7 +5,7 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 @Table(name = "mission_action_baaem_permanence")
@@ -22,10 +22,10 @@ data class ActionBAAEMPermanenceModel(
     var isCompleteForStats: Boolean? = null,
 
     @Column(name = "start_datetime_utc", nullable = false)
-    var startDateTimeUtc: ZonedDateTime,
+    var startDateTimeUtc: Instant,
 
     @Column(name = "end_datetime_utc", nullable = false)
-    var endDateTimeUtc: ZonedDateTime,
+    var endDateTimeUtc: Instant,
 
     @Column(name = "observations", nullable = true, columnDefinition = "LONGTEXT")
     var observations: String? = null,

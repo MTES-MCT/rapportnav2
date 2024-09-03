@@ -14,9 +14,7 @@ import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
+import java.time.Instant
 
 @SpringBootTest(classes = [GetInfoAboutNavAction::class, ComputeDurations::class])
 
@@ -29,24 +27,24 @@ class GetInfoAboutActionTests {
         MissionActionEntity.NavAction(
             ActionMockFactory.create<ActionVigimerEntity>(
                 additionalParams = mapOf(
-                    "startDateTimeUtc" to ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
-                    "endDateTimeUtc" to ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 13, 0), ZoneOffset.UTC),
+                    "startDateTimeUtc" to Instant.parse("2022-01-02T12:00:00Z"),
+                    "endDateTimeUtc" to Instant.parse("2022-01-02T13:00:00Z"),
                 )
             ).toNavActionEntity()
         ),
         MissionActionEntity.NavAction(
             ActionMockFactory.create<ActionBAAEMPermanenceEntity>(
                 additionalParams = mapOf(
-                    "startDateTimeUtc" to ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 13, 0), ZoneOffset.UTC),
-                    "endDateTimeUtc" to ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 14, 0), ZoneOffset.UTC),
+                    "startDateTimeUtc" to Instant.parse("2022-01-02T13:00:00Z"),
+                    "endDateTimeUtc" to Instant.parse("2022-01-02T14:00:00Z"),
                 )
             ).toNavActionEntity()
         ),
         MissionActionEntity.NavAction(
             ActionMockFactory.create<ActionRescueEntity>(
                 additionalParams = mapOf(
-                    "startDateTimeUtc" to ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 14, 0), ZoneOffset.UTC),
-                    "endDateTimeUtc" to ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 15, 0), ZoneOffset.UTC),
+                    "startDateTimeUtc" to Instant.parse("2022-01-02T14:00:00Z"),
+                    "endDateTimeUtc" to Instant.parse("2022-01-02T15:00:00Z"),
                 )
             ).toNavActionEntity()
         )

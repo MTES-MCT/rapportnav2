@@ -1,19 +1,20 @@
 package fr.gouv.dgampa.rapportnav.domain.utils
 
 import java.text.DecimalFormat
-import java.time.ZonedDateTime
+import java.time.Duration
+import java.time.Instant
+import kotlin.math.min
 import kotlin.time.DurationUnit
 
 class ComputeDurationUtils {
     companion object {
 
-        fun durationInSeconds(startDateTimeUtc: ZonedDateTime?, endDateTimeUtc: ZonedDateTime?): Int? {
+        fun durationInSeconds(startDateTimeUtc: Instant?, endDateTimeUtc: Instant?): Int? {
             if (endDateTimeUtc == null || startDateTimeUtc == null) {
                 return null
             }
-            val endTime = endDateTimeUtc.toEpochSecond()
-            val startTime = startDateTimeUtc.toEpochSecond()
-            return (endTime - startTime).toInt()
+            val durationSeconds = Duration.between(startDateTimeUtc, endDateTimeUtc).seconds
+            return min(durationSeconds, Int.MAX_VALUE.toLong()).toInt()
         }
 
         fun convertFromSeconds(durationInSeconds: Int, durationUnit: DurationUnit): Double {
@@ -32,11 +33,11 @@ class ComputeDurationUtils {
             return formattedResult.toDouble()
         }
 
-        fun durationInHours(startDateTimeUtc: ZonedDateTime?, endDateTimeUtc: ZonedDateTime?): Double {
+        fun durationInHours(startDateTimeUtc: Instant?, endDateTimeUtc: Instant?): Double {
             if (endDateTimeUtc == null || startDateTimeUtc == null) {
                 return 0.0;
             }
-            val duration  = durationInSeconds(startDateTimeUtc, endDateTimeUtc) ?: return 0.0;
+            val duration = durationInSeconds(startDateTimeUtc, endDateTimeUtc) ?: return 0.0;
             return convertFromSeconds(duration, DurationUnit.HOURS);
         }
     }

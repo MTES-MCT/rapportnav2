@@ -1,24 +1,5 @@
 import AuthToken from './token.ts'
-
-// TODO move this  elsewhere
-// Mock localStorage for testing purposes
-const localStorageMock = (() => {
-  let store: { [key: string]: string } = {}
-  return {
-    getItem: (key: string) => store[key] || null,
-    setItem: (key: string, value: string) => {
-      store[key] = value.toString()
-    },
-    removeItem: (key: string) => {
-      delete store[key]
-    },
-    clear: () => {
-      store = {}
-    }
-  }
-})()
-
-Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+import localStorageMock from '@common/utils/localstorage-mock.ts'
 
 describe('AuthToken', () => {
   afterEach(() => {

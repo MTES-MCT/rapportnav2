@@ -17,8 +17,8 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.EncodeSpecialChars
+import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import org.slf4j.LoggerFactory
-import java.time.format.DateTimeFormatter
 import kotlin.time.DurationUnit
 
 @UseCase
@@ -34,6 +34,7 @@ class ExportMission(
     private val computeDurations: ComputeDurations,
     private val getInfoAboutNavAction: GetInfoAboutNavAction,
     private val encodeSpecialChars: EncodeSpecialChars,
+    private val formatDateTime: FormatDateTime,
 ) {
 
     private val logger = LoggerFactory.getLogger(ExportMission::class.java)
@@ -104,7 +105,7 @@ class ExportMission(
 
             val exportParams = ExportParams(
                 service = mission.openBy,
-                id = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(mission.startDateTimeUtc),
+                id = formatDateTime.formatDate(mission.startDateTimeUtc),
                 startDateTime = mission.startDateTimeUtc,
                 endDateTime = mission.endDateTimeUtc,
                 observations = mission.observationsByUnit?.let { encodeSpecialChars.escapeForXML(it) } ?: "",

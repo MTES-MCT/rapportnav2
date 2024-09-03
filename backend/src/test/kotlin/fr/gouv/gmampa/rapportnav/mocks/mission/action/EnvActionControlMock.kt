@@ -3,16 +3,14 @@ package fr.gouv.gmampa.rapportnav.mocks.mission.action
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import org.locationtech.jts.geom.Geometry
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 object EnvActionControlMock {
     fun create(
         id: UUID = UUID.randomUUID(),
-        actionStartDateTimeUtc: ZonedDateTime? = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
-        actionEndDateTimeUtc: ZonedDateTime? = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 14, 0), ZoneOffset.UTC),
+        actionStartDateTimeUtc: Instant? = Instant.parse("2022-01-02T12:00:01Z"),
+        actionEndDateTimeUtc: Instant? = Instant.parse("2022-01-02T14:00:01Z"),
         geom: Geometry? = null,
         facade: String? = null,
         department: String? = null,

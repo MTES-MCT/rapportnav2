@@ -1,5 +1,8 @@
-import { format, parseISO } from 'date-fns'
+import { parseISO } from 'date-fns'
+import { formatInTimeZone } from 'date-fns-tz'
 import frLocale from 'date-fns/locale/fr'
+
+const DEFAULT_TIMEZONE = 'Europe/Paris'
 
 const MISSION_NAME_FORMAT = 'yyyy-MM-dd'
 const FRENCH_DAY_MONTH_YEAR = 'dd/MM/yyyy'
@@ -10,58 +13,30 @@ const SHORT_TIME = 'HH:mm'
 const EMPTY_SHORT_TIME = '--:--'
 const FRENCH_DAY_MONTH_YEAR_DATETIME = `${SHORT_DAY_MONTH} à ${SHORT_TIME}`
 const EMPTY_FRENCH_DAY_MONTH_YEAR_DATETIME = `${EMPTY_SHORT_DAY_MONTH} - ${EMPTY_SHORT_TIME}`
-const SERVER_FORMAT = "yyyy-MM-dd'T'HH:mm'Z'"
 
 type DateTypes = Date | string | undefined | null
-
-function toLocalISOString(date: DateTypes = new Date()): string | undefined {
-  if (!date) {
-    return
-  }
-  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
-  const userTime = new Date(date.toLocaleString('en-US', { timeZone: userTimeZone }))
-
-  // Convert user's local time to UTC
-  const utcTime = new Date(userTime.getTime() - userTime.getTimezoneOffset() * 60000)
-
-  // Use toISOString to get the UTC string
-  const isoString = utcTime.toISOString()
-  return isoString
-}
 
 function formatDate(
   date: DateTypes,
   dateFormat: string,
   emptyDateFormat: string,
-  timeZone: string = 'Europe/Paris'
+  timeZone: string = DEFAULT_TIMEZONE
 ): string {
   if (!date) {
     return emptyDateFormat
   }
 
   try {
-    // Assuming date is a string in ISO format, parse it to Date
-    const dateObj = parseISO(date)
+    // Parse the date if it's a string, otherwise use it as is
+    const dateObj = typeof date === 'string' ? parseISO(date) : date
 
-    // Set the timezone explicitly to UTC
-    const dateInUTC = new Date(
-      dateObj.getUTCFullYear(),
-      dateObj.getUTCMonth(),
-      dateObj.getUTCDate(),
-      dateObj.getUTCHours(),
-      dateObj.getUTCMinutes(),
-      dateObj.getUTCSeconds()
-    )
-
-    // Format the date
-    const formattedDate = format(dateInUTC, dateFormat, { locale: frLocale })
-    return formattedDate
+    // Use formatInTimeZone to handle the timezone conversion
+    return formatInTimeZone(dateObj, timeZone, dateFormat, { locale: frLocale })
   } catch (e) {
+    console.error('Error formatting date:', e)
     return emptyDateFormat
   }
 }
-
-const formatDateForServers = (date: DateTypes): string => formatDate(date, SERVER_FORMAT, '')
 
 const formatDateForMissionName = (date: DateTypes): string =>
   formatDate(date, MISSION_NAME_FORMAT, EMPTY_FRENCH_DAY_MONTH_YEAR)
@@ -77,12 +52,10 @@ const formatShortDate = (date: DateTypes): string => formatDate(date, SHORT_DAY_
 const formatTime = (date: DateTypes): string => formatDate(date, SHORT_TIME, EMPTY_SHORT_TIME)
 
 export {
-  formatDateForServers,
   formatDateForMissionName,
   formatDateForFrenchHumans,
   formatDateTimeForFrenchHumans,
   formatShortDate,
-  formatTime,
-  toLocalISOString
+  formatTime
 }
 export * from 'date-fns'

@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
-import java.time.ZonedDateTime
+import java.time.Instant
 import kotlin.time.DurationUnit
 
 
@@ -18,12 +18,12 @@ class GetStatusDurations(
         val status: ActionStatusType,
         val duration: Double,
         val reason: ActionStatusReason? = null,
-        val datetime: ZonedDateTime? = null
+        val datetime: Instant? = null
     )
 
     fun computeDurationsByAction(
-        missionStartDateTime: ZonedDateTime,
-        missionEndDateTime: ZonedDateTime? = null,
+        missionStartDateTime: Instant,
+        missionEndDateTime: Instant? = null,
         actions: List<ActionStatusEntity>? = listOf(),
         durationUnit: DurationUnit = DurationUnit.SECONDS
     ): MutableList<ActionStatusWithDuration> {
@@ -106,8 +106,8 @@ class GetStatusDurations(
      * @return A list of ActionStatusWithDuration objects representing the computed durations for each action status.
      */
     fun computeActionDurationsForAllMission(
-        missionStartDateTime: ZonedDateTime,
-        missionEndDateTime: ZonedDateTime? = null,
+        missionStartDateTime: Instant,
+        missionEndDateTime: Instant? = null,
         actions: List<ActionStatusEntity>? = listOf(),
         durationUnit: DurationUnit = DurationUnit.SECONDS
     ): List<ActionStatusWithDuration> {

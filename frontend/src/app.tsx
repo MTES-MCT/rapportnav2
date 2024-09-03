@@ -3,7 +3,7 @@ import { ApolloClient, ApolloProvider, NormalizedCacheObject } from '@apollo/cli
 import { CachePersistor, LocalStorageWrapper } from 'apollo3-cache-persist'
 import { router } from './router/router'
 import UIThemeWrapper from './features/common/components/ui/ui-theme-wrapper'
-import apolloClient, { apolloCache } from './apollo-client'
+import apolloClient, { apolloCache } from './apollo-client/apollo-client.ts'
 import RouterProvider from './router/router-provider'
 import * as Sentry from '@sentry/react'
 import ErrorPage from './pages/error-page.tsx'

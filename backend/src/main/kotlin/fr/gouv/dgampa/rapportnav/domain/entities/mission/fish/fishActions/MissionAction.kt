@@ -1,8 +1,8 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
-import java.time.ZonedDateTime
 import com.neovisionaries.i18n.CountryCode
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
+import java.time.Instant
 
 typealias FishAction = MissionAction
 
@@ -18,8 +18,8 @@ data class MissionAction(
     val districtCode: String? = null,
     val faoAreas: List<String> = listOf(),
     val actionType: MissionActionType,
-    val actionDatetimeUtc: ZonedDateTime,
-    val actionEndDatetimeUtc: ZonedDateTime? = null,
+    val actionDatetimeUtc: Instant,
+    val actionEndDatetimeUtc: Instant? = null,
     val emitsVms: ControlCheck? = null,
     val emitsAis: ControlCheck? = null,
     val flightGoals: List<FlightGoal> = listOf(),
