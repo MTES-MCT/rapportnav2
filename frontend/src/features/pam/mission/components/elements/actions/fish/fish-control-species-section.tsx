@@ -1,10 +1,10 @@
-import React from 'react'
-import { Accent, Button, Checkbox, Icon, Label, MultiRadio, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FishAction, SpeciesControl } from '@common/types/fish-mission-types.ts'
-import Text from '../../../../../../common/components/ui/text.tsx'
+import { Accent, Button, Checkbox, Icon, Label, MultiRadio, Size, THEME } from '@mtes-mct/monitor-ui'
+import React from 'react'
 import { Stack } from 'rsuite'
-import { BOOLEAN_AS_OPTIONS, controlCheckMultiRadioOptions } from '../action-control-fish.tsx'
+import Text from '../../../../../../common/components/ui/text.tsx'
 import FishInfractionSummary from '../../infractions/fish-infraction-summary.tsx'
+import { BOOLEAN_AS_OPTIONS, controlCheckMultiRadioOptions } from '../action-control-fish.tsx'
 
 interface FishControlSpeciesSectionProps {
   action: FishAction
@@ -21,35 +21,35 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
         <Stack direction="column" alignItems="flex-start" spacing={'1rem'}>
           <Stack.Item>
             <MultiRadio
-              isReadOnly={true}
               isInline
-              value={action?.speciesWeightControlled ?? undefined}
-              label="Poids des espèces vérifié"
+              readOnly={true}
+              options={BOOLEAN_AS_OPTIONS}
               name="speciesWeightControlled"
+              label="Poids des espèces vérifié"
               onChange={function noRefCheck() {}}
-              options={BOOLEAN_AS_OPTIONS}
+              value={action?.speciesWeightControlled ?? undefined}
             />
           </Stack.Item>
           <Stack.Item>
             <MultiRadio
-              isReadOnly={true}
               isInline
-              value={action?.speciesSizeControlled ?? undefined}
-              label="Taille des espèces vérifiée"
+              readOnly={true}
+              options={BOOLEAN_AS_OPTIONS}
               name="speciesSizeControlled"
+              label="Taille des espèces vérifiée"
               onChange={function noRefCheck() {}}
-              options={BOOLEAN_AS_OPTIONS}
+              value={action?.speciesSizeControlled ?? undefined}
             />
           </Stack.Item>
           <Stack.Item>
             <MultiRadio
-              isReadOnly={true}
               isInline
-              value={action?.separateStowageOfPreservedSpecies ?? undefined}
-              label="Arrimage séparé des espèces soumises à plan"
-              name="separateStowageOfPreservedSpecies"
+              readOnly={true}
               onChange={function noRefCheck() {}}
               options={controlCheckMultiRadioOptions}
+              name="separateStowageOfPreservedSpecies"
+              label="Arrimage séparé des espèces soumises à plan"
+              value={action?.separateStowageOfPreservedSpecies ?? undefined}
             />
           </Stack.Item>
           {action.speciesOnboard?.map((species: SpeciesControl) => (
