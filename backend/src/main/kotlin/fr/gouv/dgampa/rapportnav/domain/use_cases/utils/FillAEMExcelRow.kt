@@ -19,14 +19,17 @@ class FillAEMExcelRow {
         tableExport.migrationRescue?.nbrOfOperation?.let { excelFile.writeToCell(sheetName, "O$row", it) }
         tableExport.migrationRescue?.nbrOfVesselsTrackedWithoutIntervention?.let { excelFile.writeToCell(sheetName, "P$row", it) }
         tableExport.migrationRescue?.nbrAssistedVesselsReturningToShore?.let { excelFile.writeToCell(sheetName, "Q$row", it) }
+        tableExport.migrationRescue?.nbrOfRescuedOperation?.let { excelFile.writeToCell(sheetName, "R$row", it) }
+        tableExport.migrationRescue?.nbrPersonsRescued?.let { excelFile.writeToCell(sheetName, "S$row", it) }
+
 
         // 2 Assistance aux navires en difficulté et sécurité maritime
         tableExport.vesselRescue?.nbrOfHourAtSea?.let { excelFile.writeToCell(sheetName, "U$row", it) }
         tableExport.vesselRescue?.nbrOfRescuedOperation?.let { excelFile.writeToCell(sheetName, "W$row", it) }
-        tableExport.vesselRescue?.nbrOfTowedVessel?.let { excelFile.writeToCell(sheetName, "X$row", it) }
-        tableExport.vesselRescue?.nbrOfNoticedVessel?.let { excelFile.writeToCell(sheetName, "Y$row", it) }
+        tableExport.vesselRescue?.nbrOfNoticedVessel?.let { excelFile.writeToCell(sheetName, "X$row", it) }
+        tableExport.vesselRescue?.nbrOfTowedVessel?.let { excelFile.writeToCell(sheetName, "AA$row", it) }
 
-        // $row.$row) Lutte contre le trafic en mer d’espèces protégées
+        // 3.3) Lutte contre le trafic en mer d’espèces protégées
         tableExport.envTraffic?.nbrOfHourAtSea?.let { excelFile.writeToCell(sheetName, "AV$row", it) }
         tableExport.envTraffic?.nbrOfRedirectShip?.let { excelFile.writeToCell(sheetName, "AX$row", it) }
         tableExport.envTraffic?.nbrOfSeizure?.let { excelFile.writeToCell(sheetName, "AY$row", it) }
@@ -46,12 +49,12 @@ class FillAEMExcelRow {
         tableExport.pollutionControlSurveillance?.nbrOfDiversionCarriedOut?.let { excelFile.writeToCell(sheetName, "BT$row", it) }
         tableExport.pollutionControlSurveillance?.nbrOfPollutionObservedByAuthorizedAgent?.let { excelFile.writeToCell(sheetName, "BU$row", it) }
 
-        // 4.$row) Lutte contre les activités de pêche illégale
+        // 4.3) Lutte contre les activités de pêche illégale
         tableExport.illegalFish?.nbrOfHourAtSea?.let { excelFile.writeToCell(sheetName, "BW$row", it) }
         tableExport.illegalFish?.nbrOfPolFishAction?.let { excelFile.writeToCell(sheetName, "BY$row", it) }
-        tableExport.illegalFish?.nbrOfTargetedVessel?.let { excelFile.writeToCell(sheetName, "BZ$row", it) }
-        tableExport.illegalFish?.nbrOfInfraction?.let { excelFile.writeToCell(sheetName, "CA$row", it) }
+        tableExport.illegalFish?.nbrOfTargetedVessel?.let { excelFile.writeToCell(sheetName, "CA$row", it) }
         tableExport.illegalFish?.nbrOfInfractionWithPV?.let { excelFile.writeToCell(sheetName, "CB$row", it) }
+        tableExport.illegalFish?.nbrOfInfraction?.let { excelFile.writeToCell(sheetName, "CC$row", it) }
         tableExport.illegalFish?.nbrOfSeizureAndDiversionVessel?.let { excelFile.writeToCell(sheetName, "CD$row", it) }
         tableExport.illegalFish?.quantityOfFish?.let { excelFile.writeToCell(sheetName, "CE$row", it) }
 

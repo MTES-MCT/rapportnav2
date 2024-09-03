@@ -1,15 +1,15 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
 
 data class AEMIllegalFish(
     val nbrOfHourAtSea: Int? = 0, //4.3.1
     val nbrOfPolFishAction: Int? = 0, // 4.3.3
-    val nbrOfTargetedVessel: Int? = 0, // 4.3.4
-    val nbrOfInfraction: Int? = 0, // 4.3.5
+    val nbrOfTargetedVessel: Int? = 0, // 4.3.5
     val nbrOfInfractionWithPV: Int? = 0, // 4.3.6
+    val nbrOfInfraction: Int? = 0, // 4.3.7
     val nbrOfSeizureAndDiversionVessel: Int? = 0, // 4.3.8
     val quantityOfFish: Int? = 0 //4.3.9
 ) {
