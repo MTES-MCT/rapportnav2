@@ -1,13 +1,19 @@
-import { Panel, Stack, Toggle } from 'rsuite'
-import { ControlNavigation, ControlType } from '../../../../../common/types/control-types.ts'
-import { Label, Textarea, THEME } from '@mtes-mct/monitor-ui'
+import { useControl } from '@features/pam/mission/hooks/control/use-control.tsx'
+import { FormikEffect, FormikTextarea, FormikToggle, Label, THEME } from '@mtes-mct/monitor-ui'
+import { Form, Formik } from 'formik'
+import _ from 'lodash'
 import omit from 'lodash/omit'
+import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { Panel, Stack } from 'rsuite'
+import { ControlNavigation, ControlType } from '../../../../../common/types/control-types.ts'
 import ControlTitleCheckbox from '../../ui/control-title-checkbox.tsx'
 import ControlInfraction from '../infractions/infraction-for-control.tsx'
-import { FC, useEffect, useState } from 'react'
-import useAddOrUpdateControl from '../../../hooks/use-add-update-control.tsx'
-import useDeleteControl from '../../../hooks/use-delete-control.tsx'
+
+export type ControlNavigationFormInput = {
+  observations?: string
+  unitHasConfirmed?: boolean
+}
 
 interface ControlNavigationFormProps {
   data?: ControlNavigation
@@ -17,62 +23,46 @@ interface ControlNavigationFormProps {
 
 const ControlNavigationForm: FC<ControlNavigationFormProps> = ({ data, shouldCompleteControl, unitShouldConfirm }) => {
   const { missionId, actionId } = useParams()
+  const [control, setControl] = useState<ControlNavigationFormInput>()
+  const { isRequired, controlChanged, toggleControl, controlIsChecked } = useControl(
+    data,
+    ControlType.NAVIGATION,
+    shouldCompleteControl
+  )
 
-  const [observationsValue, setObservationsValue] = useState<string | undefined>(data?.observations)
-
-  const handleObservationsChange = (nextValue?: string) => {
-    setObservationsValue(nextValue)
-  }
+  const getControlInput = (data?: ControlNavigationFormInput) =>
+    data ? _.omitBy(_.pick(data, 'observations', 'unitHasConfirmed'), _.isNull) : ({} as ControlNavigationFormInput)
 
   useEffect(() => {
-    setObservationsValue(data?.observations)
+    setControl(getControlInput(data))
   }, [data])
 
-  const handleObservationsBlur = async () => {
-    if (observationsValue !== data?.observations) {
-      await onChange('observations', observationsValue)
-    }
-  }
-
-  const [mutateControl, { loading: mutationLoading }] = useAddOrUpdateControl({ controlType: ControlType.NAVIGATION })
-  const [deleteControl] = useDeleteControl({ controlType: ControlType.NAVIGATION })
-
-  const toggleControl = async (isChecked: boolean) =>
-    isChecked
-      ? onChange()
-      : await deleteControl({
-          variables: {
-            actionId
-          }
-        })
-
-  const onChange = async (field?: string, value?: any) => {
-    let updatedData = {
-      ...omit(data, '__typename', 'infractions'),
-      id: data?.id,
-      missionId: missionId,
-      actionControlId: actionId,
+  const getControl = (value?: ControlNavigationFormInput) => {
+    if (!value) return
+    return {
+      ...omit(data, 'infractions'),
+      missionId,
+      unitShouldConfirm,
       amountOfControls: 1,
-      unitShouldConfirm: unitShouldConfirm
+      actionControlId: actionId,
+      ...value
     }
-
-    if (!!field && value !== undefined) {
-      updatedData = {
-        ...updatedData,
-        [field]: value
-      }
-    }
-    await mutateControl({ variables: { control: updatedData } })
   }
+
+  const handleControlChange = async (value: ControlNavigationFormInput): Promise<void> => {
+    if (value === control) return
+    controlChanged(actionId, getControl(value))
+  }
+
+  const handleToogleControl = async (isChecked: boolean) => toggleControl(isChecked, actionId, getControl(control))
   return (
     <Panel
       header={
         <ControlTitleCheckbox
+          checked={controlIsChecked}
+          shouldCompleteControl={isRequired}
           controlType={ControlType.NAVIGATION}
-          checked={!!data || shouldCompleteControl}
-          disabled={mutationLoading}
-          shouldCompleteControl={!!shouldCompleteControl && !!!data}
-          onChange={(isChecked: boolean) => toggleControl(isChecked)}
+          onChange={(isChecked: boolean) => handleToogleControl(isChecked)}
         />
       }
       // collapsible
@@ -80,36 +70,41 @@ const ControlNavigationForm: FC<ControlNavigationFormProps> = ({ data, shouldCom
       style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
     >
       <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
-        {unitShouldConfirm && (
-          <Stack.Item style={{ width: '100%' }}>
-            <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
-              <Stack.Item>
-                {/* TODO add Toggle component to monitor-ui */}
-                <Toggle
-                  checked={!!data?.unitHasConfirmed}
-                  size="sm"
-                  onChange={(checked: boolean) => onChange('unitHasConfirmed', checked)}
-                  disabled={mutationLoading}
-                />
-              </Stack.Item>
-              <Stack.Item alignSelf="flex-end">
-                <Label style={{ marginBottom: 0 }}>
-                  <b>Contrôle confirmé par l’unité</b>
-                </Label>
-              </Stack.Item>
-            </Stack>
-          </Stack.Item>
+        {control !== undefined && (
+          <Formik
+            initialValues={control}
+            onSubmit={handleControlChange}
+            validateOnChange={true}
+            enableReinitialize={true}
+          >
+            <>
+              <FormikEffect onChange={handleControlChange} />
+              <Form>
+                {unitShouldConfirm && (
+                  <Stack.Item style={{ width: '100%' }}>
+                    <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
+                      <Stack.Item>
+                        <FormikToggle label="" size="sm" name="unitHasConfirmed" />
+                      </Stack.Item>
+                      <Stack.Item alignSelf="flex-end">
+                        <Label style={{ marginBottom: 0 }}>
+                          <b>Contrôle confirmé par l’unité</b>
+                        </Label>
+                      </Stack.Item>
+                    </Stack>
+                  </Stack.Item>
+                )}
+                <Stack.Item style={{ width: '100%' }}>
+                  <FormikTextarea
+                    name="observations"
+                    label="Observations (hors infraction) sur les règles de navigation"
+                  />
+                </Stack.Item>
+              </Form>
+            </>
+          </Formik>
         )}
-        <Stack.Item style={{ width: '100%' }}>
-          <Textarea
-            name="observations"
-            label="Observations (hors infraction) sur les règles de navigation"
-            value={observationsValue}
-            onChange={handleObservationsChange}
-            onBlur={handleObservationsBlur}
-            disabled={mutationLoading}
-          />
-        </Stack.Item>
+
         <Stack.Item style={{ width: '100%' }}>
           <ControlInfraction
             controlId={data?.id}

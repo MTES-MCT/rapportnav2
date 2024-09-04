@@ -59,7 +59,6 @@ const ControlGensDeMerForm: FC<ControlGensDeMerFormProps> = ({ data, shouldCompl
 
   const getControl = (value?: ControlGensDeMerFormInput) => {
     if (!value) return
-    //TODO:  unitConfrimed by default? if (!_.isBoolean(value.unitHasConfirmed)) value.unitHasConfirmed = true
     return {
       ...omit(data, 'infractions'),
       missionId,
@@ -79,10 +78,7 @@ const ControlGensDeMerForm: FC<ControlGensDeMerFormProps> = ({ data, shouldCompl
     controlChanged(actionId, getControl(value))
   }
 
-  const handleToogleControl = async (isChecked: boolean) => {
-    if (controlIsChecked === isChecked) return
-    toggleControl(isChecked, actionId, getControl(control))
-  }
+  const handleToogleControl = async (isChecked: boolean) => toggleControl(isChecked, actionId, getControl(control))
 
   return (
     <Panel
