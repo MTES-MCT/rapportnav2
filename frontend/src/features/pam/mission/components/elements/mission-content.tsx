@@ -1,31 +1,31 @@
+import ActionDropdown from '@common/components/ui/action-dropdown.tsx'
+import { Action, ActionStatusType } from '@common/types/action-types.ts'
+import { ActionTypeEnum } from '@common/types/env-mission-types.ts'
+import { Mission, VesselTypeEnum } from '@common/types/mission-types.ts'
+import { formatDateForServers, toLocalISOString } from '@common/utils/dates.ts'
 import { Accent, Button, Dialog, THEME } from '@mtes-mct/monitor-ui'
 import find from 'lodash/find'
 import React, { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Divider, FlexboxGrid, Stack } from 'rsuite'
-import { Action, ActionStatusType } from '@common/types/action-types.ts'
-import { ActionTypeEnum } from '@common/types/env-mission-types.ts'
-import { Mission, VesselTypeEnum } from '@common/types/mission-types.ts'
 import Text from '../../../../common/components/ui/text.tsx'
-import { formatDateForServers, toLocalISOString } from '@common/utils/dates.ts'
-import { getComponentForAction } from './actions/action-mapping.ts'
-import ActionSelectionDropdown from './actions/action-selection-dropdown.tsx'
-import useAddOrUpdateControl from '../../hooks/use-add-update-action-control.tsx'
-import ControlSelection from './controls/control-selection.tsx'
-import MissionRecognizedVessel from './general-info/mission-recognized-vessel.tsx'
-import MissionObservationsUnit from './mission-observations-unit.tsx'
-import useAddOrUpdateNote from '../../hooks/use-add-update-note.tsx'
 import useAddAntiPollution from '../../hooks/anti-pollution/use-add-anti-pollution.tsx'
 import useAddOrUpdateBAAEMPermanence from '../../hooks/baaem/use-add-baaem-permanence.tsx'
 import useAddIllegalImmigration from '../../hooks/illegal-immigration/use-add-illegal-immigration.tsx'
 import useAddNauticalEvent from '../../hooks/nautical-event/use-add-nautical-event.tsx'
 import useAddOrUpdatePublicOrder from '../../hooks/public-order/use-add-public-order.tsx'
 import useAddRepresentation from '../../hooks/representation/use-add-representation.tsx'
-import useAddVigimer from '../../hooks/vigimer/use-add-vigimer.tsx'
-import MissionGeneralInfoPanel from './panel-general-info.tsx'
 import useAddOrUpdateRescue from '../../hooks/rescues/use-add-update-rescue.tsx'
-import StatusSelectionDropdown from '../ui/status-selection-dropdown.tsx'
+import useAddOrUpdateControl from '../../hooks/use-add-update-action-control.tsx'
+import useAddOrUpdateNote from '../../hooks/use-add-update-note.tsx'
 import useAddOrUpdateStatus from '../../hooks/use-add-update-status.tsx'
+import useAddVigimer from '../../hooks/vigimer/use-add-vigimer.tsx'
+import StatusSelectionDropdown from '../ui/status-selection-dropdown.tsx'
+import { getComponentForAction } from './actions/action-mapping.ts'
+import ControlSelection from './controls/control-selection.tsx'
+import MissionRecognizedVessel from './general-info/mission-recognized-vessel.tsx'
+import MissionObservationsUnit from './mission-observations-unit.tsx'
+import MissionGeneralInfoPanel from './panel-general-info.tsx'
 import MissionTimeline from './timeline/timeline.tsx'
 
 export interface MissionProps {
@@ -249,7 +249,7 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
                         </Text>
                       </Stack.Item>
                       <Stack.Item>
-                        <ActionSelectionDropdown onSelect={addNewAction} />
+                        <ActionDropdown onSelect={addNewAction} />
                       </Stack.Item>
                     </Stack>
                   </Stack.Item>
