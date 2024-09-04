@@ -63,7 +63,6 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
 
   const getControl = (value?: ControlAdministrativeFormInput) => {
     if (!value) return
-    if (!_.isBoolean(value.unitHasConfirmed)) value.unitHasConfirmed = true
     return {
       ...omit(data, 'infractions'),
       missionId,
@@ -83,10 +82,7 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
     controlChanged(actionId, getControl(value))
   }
 
-  const handleToogleControl = async (isChecked: boolean) => {
-    if (controlIsChecked === isChecked) return
-    toggleControl(isChecked, actionId, getControl(control))
-  }
+  const handleToogleControl = async (isChecked: boolean) => toggleControl(isChecked, actionId, getControl(control))
 
   return (
     <Panel
