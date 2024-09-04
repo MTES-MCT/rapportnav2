@@ -1,10 +1,10 @@
-import { expect, vi, beforeEach, afterEach, describe, it } from 'vitest'
-import { fireEvent, render, screen } from '../../../../../../test-utils.tsx'
-import ActionAntiPollutionForm from './action-anti-pollution-form'
 import { Action, ActionAntiPollution } from '@common/types/action-types'
 import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types'
-import * as useActionByIdModule from '@features/pam/mission/hooks/use-action-by-id'
 import * as useAddAntiPollutionModule from '@features/pam/mission/hooks/anti-pollution/use-add-anti-pollution'
+import * as useActionByIdModule from '@features/pam/mission/hooks/use-action-by-id'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { fireEvent, render, screen } from '../../../../../../test-utils.tsx'
+import ActionAntiPollutionForm from './action-anti-pollution-form'
 
 const mockAction: Action = { source: MissionSourceEnum.RAPPORTNAV, type: ActionTypeEnum.ANTI_POLLUTION } as Action
 

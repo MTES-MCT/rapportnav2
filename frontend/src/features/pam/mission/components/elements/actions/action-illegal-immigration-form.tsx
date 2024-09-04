@@ -140,12 +140,10 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
           </Stack.Item>
 
           <Stack.Item style={{ width: '100%' }}>
-            <CoordinatesInput
+            <CoordinateInputDMD
               label={"Lieu de l'opération"}
               name={'geoCoords'}
               defaultValue={[actionData?.latitude as any, actionData?.longitude as any]}
-              coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
-              // label="Lieu du contrôle"
               isLight={true}
               disabled={false}
               onChange={async (nextCoordinates?: Coordinates, prevCoordinates?: Coordinates) => {

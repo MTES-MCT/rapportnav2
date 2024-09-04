@@ -1,38 +1,28 @@
-import React, { useEffect, useState } from 'react'
-import {
-  Coordinates,
-  CoordinatesFormat,
-  CoordinatesInput,
-  DateRangePicker,
-  Icon,
-  Label,
-  Select,
-  Textarea,
-  TextInput,
-  THEME
-} from '@mtes-mct/monitor-ui'
-import { VesselSizeEnum, VesselTypeEnum } from '@common/types/mission-types.ts'
+import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.tsx'
 import { ActionControl } from '@common/types/action-types.ts'
+import { VesselSizeEnum, VesselTypeEnum } from '@common/types/mission-types.ts'
+import { Coordinates, DateRangePicker, Icon, Label, Select, Textarea, TextInput, THEME } from '@mtes-mct/monitor-ui'
+import { isEqual } from 'lodash'
+import omit from 'lodash/omit'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Stack } from 'rsuite'
 import Text from '../../../../../common/components/ui/text.tsx'
-import omit from 'lodash/omit'
-import { useNavigate, useParams } from 'react-router-dom'
-import ControlAdministrativeForm from '../controls/control-administrative-form.tsx'
-import ControlNavigationForm from '../controls/control-navigation-form.tsx'
-import ControlGensDeMerForm from '../controls/control-gens-de-mer-form.tsx'
-import ControlSecurityForm from '../controls/control-security-form.tsx'
+import useActionById from '../../../hooks/use-action-by-id.tsx'
+import useAddOrUpdateControl from '../../../hooks/use-add-update-action-control.tsx'
+import useDeleteActionControl from '../../../hooks/use-delete-action-control.tsx'
+import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
 import {
   controlMethodToHumanString,
   VESSEL_SIZE_OPTIONS,
   vesselTypeToHumanString
 } from '../../../utils/control-utils.ts'
-import useActionById from '../../../hooks/use-action-by-id.tsx'
-import useAddOrUpdateControl from '../../../hooks/use-add-update-action-control.tsx'
-import useDeleteActionControl from '../../../hooks/use-delete-action-control.tsx'
-import { isEqual } from 'lodash'
-import { ActionDetailsProps } from './action-mapping.ts'
+import ControlAdministrativeForm from '../controls/control-administrative-form.tsx'
+import ControlGensDeMerForm from '../controls/control-gens-de-mer-form.tsx'
+import ControlNavigationForm from '../controls/control-navigation-form.tsx'
+import ControlSecurityForm from '../controls/control-security-form.tsx'
 import ActionHeader from './action-header.tsx'
-import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
+import { ActionDetailsProps } from './action-mapping.ts'
 
 type ActionControlNavProps = ActionDetailsProps
 
@@ -210,11 +200,10 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
         </Stack.Item>
         {/* CONTROL ZONES FIELD */}
         <Stack.Item>
-          <CoordinatesInput
+          <CoordinateInputDMD
             name="geoCoords"
             isRequired={true}
             defaultValue={[control.latitude, control.longitude]}
-            coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
             label="Lieu du contrôle"
             isLight={true}
             role={'coordinates'}
