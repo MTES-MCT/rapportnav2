@@ -1,5 +1,5 @@
 import { ControlType } from '@common/types/control-types'
-import _ from 'lodash'
+import { isBoolean } from 'lodash'
 import { useEffect, useRef, useState } from 'react'
 import useAddOrUpdateControl from '../use-add-update-control'
 import useDeleteControl from '../use-delete-control'
@@ -35,7 +35,7 @@ export function useControl(data: unknown, controlType: ControlType, shouldComple
 
   const updateControl = async (actionId?: string, control?: Control) => {
     if (!control) return
-    if (!_.isBoolean(control.unitHasConfirmed)) control.unitHasConfirmed = true
+    if (!isBoolean(control.unitHasConfirmed)) control.unitHasConfirmed = true
     let variables = {
       control: { ...control, actionControlId: actionId }
     }

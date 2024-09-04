@@ -1,8 +1,7 @@
 import { useControl } from '@features/pam/mission/hooks/control/use-control.tsx'
 import { FormikEffect, FormikMultiRadio, FormikTextarea, FormikToggle, Label, THEME } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
-import _ from 'lodash'
-import omit from 'lodash/omit'
+import { isNull, omit, omitBy, pick } from 'lodash'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Panel, Stack } from 'rsuite'
@@ -44,8 +43,8 @@ const ControlGensDeMerForm: FC<ControlGensDeMerFormProps> = ({ data, shouldCompl
 
   const getControlInput = (data?: ControlGensDeMer) =>
     data
-      ? _.omitBy(
-          _.pick(
+      ? omitBy(
+          pick(
             data,
             'observations',
             'unitHasConfirmed',
@@ -53,7 +52,7 @@ const ControlGensDeMerForm: FC<ControlGensDeMerFormProps> = ({ data, shouldCompl
             'upToDateMedicalCheck',
             'knowledgeOfFrenchLawAndLanguage'
           ),
-          _.isNull
+          isNull
         )
       : ({} as ControlGensDeMerFormInput)
 

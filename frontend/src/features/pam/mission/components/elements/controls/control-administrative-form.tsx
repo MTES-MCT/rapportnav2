@@ -1,7 +1,7 @@
 import { useControl } from '@features/pam/mission/hooks/control/use-control'
 import { FormikEffect, FormikMultiRadio, FormikTextarea, FormikToggle, Label, THEME } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
-import _ from 'lodash'
+import { isNull, omitBy, pick } from 'lodash'
 import omit from 'lodash/omit'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -48,8 +48,8 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
 
   const getControlInput = (data?: ControlAdministrative) =>
     data
-      ? _.omitBy(
-          _.pick(
+      ? omitBy(
+          pick(
             data,
             'observations',
             'unitHasConfirmed',
@@ -57,7 +57,7 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
             'upToDateNavigationPermit',
             'compliantSecurityDocuments'
           ),
-          _.isNull
+          isNull
         )
       : ({} as ControlAdministrativeFormInput)
 
