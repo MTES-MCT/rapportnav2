@@ -8,7 +8,7 @@ import {
   Textarea,
   THEME
 } from '@mtes-mct/monitor-ui'
-import _, { isEqual } from 'lodash'
+import { isEqual, isNil } from 'lodash'
 import omit from 'lodash/omit'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -35,7 +35,7 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
   const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
 
   const getError = (data: ActionIllegalImmigration, key: keyof ActionIllegalImmigration) => {
-    return _.isNil(data[key]) && isMissionFinished ? 'error' : undefined
+    return isNil(data[key]) && isMissionFinished ? 'error' : undefined
   }
 
   useEffect(() => {
