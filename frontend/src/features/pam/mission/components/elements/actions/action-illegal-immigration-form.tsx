@@ -1,13 +1,6 @@
+import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.tsx'
 import { Action, ActionIllegalImmigration } from '@common/types/action-types.ts'
-import {
-  Coordinates,
-  CoordinatesFormat,
-  CoordinatesInput,
-  DateRangePicker,
-  NumberInput,
-  Textarea,
-  THEME
-} from '@mtes-mct/monitor-ui'
+import { Coordinates, DateRangePicker, NumberInput, Textarea, THEME } from '@mtes-mct/monitor-ui'
 import { isEqual, isNil } from 'lodash'
 import omit from 'lodash/omit'
 import React, { useEffect, useState } from 'react'
