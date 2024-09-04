@@ -205,7 +205,8 @@ const control = {
   ...data,
   missionId: 'missionId',
   unitShouldConfirm: false,
-  amountOfControls: 1
+  amountOfControls: 1,
+  unitHasConfirmed: undefined
 }
 
 export const wrapper = ({ children }: { children: JSX.Element }): JSX.Element => (
@@ -226,7 +227,7 @@ describe('useControl hook', () => {
   })
 
   it('it should trigger mutate control', async () => {
-    const { result } = renderHook(() => useControl(data, ControlType.ADMINISTRATIVE, false), { wrapper })
+    const { result } = renderHook(() => useControl(undefined, ControlType.ADMINISTRATIVE, false), { wrapper })
     act(() => {
       result.current.toggleControl(true, actionId, control)
     })
@@ -258,5 +259,17 @@ describe('useControl hook', () => {
       result.current.updateControl(actionId, control)
     })
     expect(addOrUpdateControlMatcher).toHaveBeenCalledTimes(1)
+  })
+
+  it('it should update control with unitHasConfirmed true if data and unitHasConfirmed input form is undefined', async () => {
+    control.unitHasConfirmed = undefined
+    const { result } = renderHook(() => useControl(data, ControlType.ADMINISTRATIVE, true), { wrapper })
+    act(() => {
+      result.current.updateControl(actionId, control)
+    })
+    expect(addOrUpdateControlMatcher).toHaveBeenCalledTimes(1)
+    expect(addOrUpdateControlMatcher).toHaveBeenCalledWith({
+      control: expect.objectContaining({ unitHasConfirmed: true })
+    })
   })
 })
