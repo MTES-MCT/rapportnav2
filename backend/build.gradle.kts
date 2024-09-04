@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
-version = "1.9.1"
+version = "1.9.2"
 description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
@@ -87,6 +87,7 @@ dependencies {
   implementation("org.apache.poi:poi-ooxml:5.3.0")
   implementation("org.apache.commons:commons-text:1.12.0")
   implementation("org.jodconverter:jodconverter-local-lo:4.4.7")
+  implementation("com.neovisionaries:nv-i18n:1.29")
   testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
   testImplementation("org.springframework:spring-webflux:6.1.6")
   testImplementation("org.springframework.graphql:spring-graphql-test:1.2.4")

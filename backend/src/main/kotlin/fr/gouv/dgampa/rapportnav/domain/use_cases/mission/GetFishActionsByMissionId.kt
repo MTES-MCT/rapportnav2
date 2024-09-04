@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsT
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
 import java.time.ZonedDateTime
+import com.neovisionaries.i18n.CountryCode
 
 
 @UseCase
@@ -92,9 +93,11 @@ class GetFishActionsByMissionId(
                 FleetSegment("MED01", "Chaluts de fond"),
                 FleetSegment("MED02", "Chaluts pélagique"),
                 FleetSegment("MED03", "Chaluts de bord")
-            )
+            ),
+            flagState = CountryCode.FR,
+            isFromPoseidon = false,
 
-        )
+            )
         val missionAction2 = MissionAction(
             id = missionId + 2,
             missionId = missionId,
@@ -139,13 +142,15 @@ class GetFishActionsByMissionId(
             otherComments = null,
             vesselTargeted = ControlCheck.NOT_APPLICABLE,
             unitWithoutOmegaGauge = false,
-            controlQualityComments = null,
+            controlQualityComments = "tout est ok",
             feedbackSheetRequired = false,
-            userTrigram = null,
+            userTrigram = "THC",
             faoAreas = listOf("38.1"),
             segments = listOf(FleetSegment("MED01", "Chaluts de fond")),
             isComplianceWithWaterRegulationsControl = true,
-            isSeafarersControl = true
+            isSeafarersControl = true,
+            flagState = CountryCode.FR,
+            isFromPoseidon = false,
         )
 
         val missionAction3 = MissionAction(
@@ -165,7 +170,10 @@ class GetFishActionsByMissionId(
             hasSomeSpeciesSeized = false,
             isComplianceWithWaterRegulationsControl = true,
             isSafetyEquipmentAndStandardsComplianceControl = true,
-            isSeafarersControl = true
+            isSeafarersControl = true,
+            flagState = CountryCode.RU,
+            isFromPoseidon = false,
+            userTrigram = "ACK"
         )
 
 //        val actions = listOf(missionAction1, missionAction2, missionAction3).filter {
