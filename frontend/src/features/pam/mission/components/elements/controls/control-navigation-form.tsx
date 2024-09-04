@@ -1,7 +1,7 @@
 import { useControl } from '@features/pam/mission/hooks/control/use-control.tsx'
 import { FormikEffect, FormikTextarea, FormikToggle, Label, THEME } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
-import _ from 'lodash'
+import { isNull, omitBy, pick } from 'lodash'
 import omit from 'lodash/omit'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -31,7 +31,7 @@ const ControlNavigationForm: FC<ControlNavigationFormProps> = ({ data, shouldCom
   )
 
   const getControlInput = (data?: ControlNavigationFormInput) =>
-    data ? _.omitBy(_.pick(data, 'observations', 'unitHasConfirmed'), _.isNull) : ({} as ControlNavigationFormInput)
+    data ? omitBy(pick(data, 'observations', 'unitHasConfirmed'), isNull) : ({} as ControlNavigationFormInput)
 
   useEffect(() => {
     setControl(getControlInput(data))
