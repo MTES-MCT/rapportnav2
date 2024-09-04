@@ -1,16 +1,18 @@
 import { ControlType } from '@common/types/control-types'
+import _ from 'lodash'
 import { useEffect, useRef, useState } from 'react'
 import useAddOrUpdateControl from '../use-add-update-control'
 import useDeleteControl from '../use-delete-control'
 
 const DEBOUNCE_TIME_TRIGGER = 5000
 
+type Control = unknown & { unitHasConfirmed?: boolean }
 type ControlHook = {
   isRequired?: boolean
   controlIsChecked?: boolean
-  updateControl: (actionId: string, value?: unknown) => Promise<void>
-  controlChanged: (actionId?: string, control?: unknown) => Promise<void>
-  toggleControl: (isChecked: boolean, actionId?: string, control?: unknown) => Promise<void>
+  updateControl: (actionId: string, value?: Control) => Promise<void>
+  controlChanged: (actionId?: string, control?: Control) => Promise<void>
+  toggleControl: (isChecked: boolean, actionId?: string, control?: Control) => Promise<void>
 }
 
 export function useControl(data: unknown, controlType: ControlType, shouldCompleteControl?: boolean): ControlHook {
@@ -26,20 +28,22 @@ export function useControl(data: unknown, controlType: ControlType, shouldComple
     setControlIsChecked(!!data || shouldCompleteControl)
   }, [data, shouldCompleteControl])
 
-  const controlChanged = async (actionId?: string, control?: unknown): Promise<void> => {
+  const controlChanged = async (actionId?: string, control?: Control): Promise<void> => {
     clearTimeout(timerRef.current)
     timerRef.current = setTimeout(() => updateControl(actionId, control), DEBOUNCE_TIME_TRIGGER)
   }
 
-  const updateControl = async (actionId?: string, control?: unknown) => {
+  const updateControl = async (actionId?: string, control?: Control) => {
     if (!control) return
+    if (!_.isBoolean(control.unitHasConfirmed)) control.unitHasConfirmed = true
     let variables = {
       control: { ...control, actionControlId: actionId }
     }
     await mutateControl({ variables })
   }
 
-  const toggleControl = async (isChecked: boolean, actionId?: string, control?: unknown) => {
+  const toggleControl = async (isChecked: boolean, actionId?: string, control?: Control) => {
+    if (isChecked === controlIsChecked) return
     setControlIsChecked(isChecked)
     if (!isChecked) {
       await deleteControl({ variables: { actionId } })
