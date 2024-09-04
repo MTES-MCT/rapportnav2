@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.monitorfish
 
-import MissionActionDataOutput
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
