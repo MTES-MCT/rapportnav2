@@ -1,8 +1,8 @@
+import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.tsx'
+import { Action, ActionRescue } from '@common/types/action-types.ts'
 import {
   Checkbox,
   Coordinates,
-  CoordinatesFormat,
-  CoordinatesInput,
   DateRangePicker,
   Icon,
   MultiRadio,
@@ -16,14 +16,13 @@ import omit from 'lodash/omit'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Divider, Stack, Toggle } from 'rsuite'
-import { Action, ActionRescue } from '@common/types/action-types.ts'
 import Text from '../../../../../common/components/ui/text.tsx'
-import { RESCUE_TYPE_OPTIONS } from '../../../utils/control-utils.ts'
 import useAddUpdateRescue from '../../../hooks/rescues/use-add-update-rescue.tsx'
 import useDeleteRescue from '../../../hooks/rescues/use-delete-rescue.tsx'
-import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
-import ActionHeader from './action-header.tsx'
 import useActionById from '../../../hooks/use-action-by-id.tsx'
+import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
+import { RESCUE_TYPE_OPTIONS } from '../../../utils/control-utils.ts'
+import ActionHeader from './action-header.tsx'
 
 interface ActionRescueFormProps {
   action: Action
@@ -185,14 +184,13 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
           </Stack.Item>
 
           <Stack.Item style={{ width: '100%' }}>
-            <CoordinatesInput
+            <CoordinateInputDMD
               label={"Lieu de l'opération"}
               isRequired={true}
               error={!actionData.latitude && !actionData.longitude ? 'error' : undefined}
               isErrorMessageHidden={true}
               name={'geoCoords'}
               defaultValue={[actionData?.latitude as any, actionData?.longitude as any]}
-              coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
               isLight={true}
               disabled={false}
               onChange={async (nextCoordinates?: Coordinates, prevCoordinates?: Coordinates) => {
