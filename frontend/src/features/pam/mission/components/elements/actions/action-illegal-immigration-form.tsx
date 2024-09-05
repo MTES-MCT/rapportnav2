@@ -1,7 +1,7 @@
 import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.tsx'
 import { Action, ActionIllegalImmigration } from '@common/types/action-types.ts'
 import { Coordinates, DateRangePicker, NumberInput, Textarea, THEME } from '@mtes-mct/monitor-ui'
-import { isEqual } from 'lodash'
+import { isEqual, isNil } from 'lodash'
 import omit from 'lodash/omit'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -26,6 +26,10 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
   const [deleteIllegalImmigration] = useDeleteIllegalImmigration()
 
   const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
+
+  const getError = (data: ActionIllegalImmigration, key: keyof ActionIllegalImmigration) => {
+    return isNil(data[key]) && isMissionFinished ? 'error' : undefined
+  }
 
   useEffect(() => {
     setObservationsValue(navAction?.data?.observations)
@@ -153,11 +157,6 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
               <Stack.Item style={{ width: '100%' }}>
                 <NumberInput
                   isRequired={true}
-                  error={
-                    actionData?.nbOfInterceptedVessels === undefined || actionData?.nbOfInterceptedVessels === null
-                      ? 'error'
-                      : undefined
-                  }
                   isErrorMessageHidden={true}
                   label="Nb de navires/embarcations interceptées"
                   name="nbOfInterceptedVessels"
@@ -165,6 +164,7 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
                   placeholder="0"
                   isLight={true}
                   value={actionData?.nbOfInterceptedVessels}
+                  error={getError(actionData, 'nbOfInterceptedVessels')}
                   onChange={(nextValue?: number) => onChange('nbOfInterceptedVessels', nextValue)}
                 />
               </Stack.Item>
@@ -173,12 +173,6 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
                   <Stack.Item style={{ flex: 1 }}>
                     <NumberInput
                       isRequired={true}
-                      error={
-                        actionData?.nbOfInterceptedMigrants === undefined ||
-                        actionData?.nbOfInterceptedMigrants === null
-                          ? 'error'
-                          : undefined
-                      }
                       isErrorMessageHidden={true}
                       label="Nb de migrants interceptés"
                       name="nbOfInterceptedMigrants"
@@ -186,17 +180,13 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
                       placeholder="0"
                       isLight={true}
                       value={actionData?.nbOfInterceptedMigrants}
+                      error={getError(actionData, 'nbOfInterceptedMigrants')}
                       onChange={(nextValue?: number) => onChange('nbOfInterceptedMigrants', nextValue)}
                     />
                   </Stack.Item>
                   <Stack.Item style={{ flex: 1 }}>
                     <NumberInput
                       isRequired={true}
-                      error={
-                        actionData?.nbOfSuspectedSmugglers === undefined || actionData?.nbOfSuspectedSmugglers === null
-                          ? 'error'
-                          : undefined
-                      }
                       isErrorMessageHidden={true}
                       label="Nb de passeurs présumés"
                       name="nbOfSuspectedSmugglers"
@@ -204,6 +194,7 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
                       placeholder="0"
                       isLight={true}
                       value={actionData?.nbOfSuspectedSmugglers}
+                      error={getError(actionData, 'nbOfSuspectedSmugglers')}
                       onChange={(nextValue?: number) => onChange('nbOfSuspectedSmugglers', nextValue)}
                     />
                   </Stack.Item>
