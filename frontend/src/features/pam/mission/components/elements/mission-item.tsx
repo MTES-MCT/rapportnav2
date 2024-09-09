@@ -106,7 +106,7 @@ const MissionItem: React.FC<MissionItemProps> = ({ mission, prefetchMission }) =
   return (
     <Stack onMouseOver={onItemMouseOver} onMouseOut={onItemMouseOut}>
       <Stack.Item key={mission.id} style={{ backgroundColor: THEME.color.cultured, width: '100%', height: '100%' }}>
-        <ListItemWithHover>
+        <ListItemWithHover data-testid="list-item-with-hover">
           <Link
             to={`/pam/missions/${mission.id}`}
             style={{
