@@ -80,4 +80,21 @@ describe('ActionStatus', () => {
     render(<ActionStatus {...props(mock, previousActionMock)} />)
     expect(screen.queryByText('Indisponibilité - Technique - fin')).toBeInTheDocument()
   })
+  test('should truncate observations longer than 35 characters and add ellipsis', () => {
+    const longObservation = 'This is a very long observation that exceeds thirty-five characters.'
+
+    const mock = { ...actionMock, data: { ...actionMock.data, observations: longObservation } }
+    render(<ActionStatus {...props(mock, previousActionMock)} />)
+
+    const expectedTruncatedText = longObservation.slice(0, 35) + '...'
+    expect(screen.getByText(new RegExp(expectedTruncatedText))).toBeInTheDocument()
+  })
+  it('should display observations as is if shorter than 35 characters', () => {
+    const shortObservation = 'This is short.'
+
+    const mock = { ...actionMock, data: { ...actionMock.data, observations: shortObservation } }
+    render(<ActionStatus {...props(mock, previousActionMock)} />)
+
+    expect(screen.getByText('- ' + shortObservation)).toBeInTheDocument()
+  })
 })
