@@ -122,7 +122,6 @@ describe('Mission Item component', () => {
 
     fireEvent.mouseOver(missionItemElement)
     const listItemWithHover = screen.getByTestId('list-item-with-hover')
-    console.log(listItemWithHover)
     expect(getComputedStyle(listItemWithHover).backgroundColor).toBe(hexToRgb(THEME.color.blueGray25))
 
   })
