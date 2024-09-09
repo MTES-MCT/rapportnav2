@@ -123,7 +123,7 @@ data class Action(
                         internalReferenceNumber = action.internalReferenceNumber,
                         externalReferenceNumber = action.externalReferenceNumber,
                         ircs = action.ircs,
-                        flagState = action.flagState,
+                        flagState = action.flagState.alpha3,
                         districtCode = action.districtCode,
                         faoAreas = action.faoAreas,
                         actionDatetimeUtc = action.actionDatetimeUtc,

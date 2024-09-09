@@ -23,8 +23,8 @@ class PatchFishAction(private val fishRepository: IFishActionRepository) {
             input.actionId,
             PatchActionInput(
                 observationsByUnit = input.observationsByUnit,
-                actionStartDateTimeUtc = input.startDateTimeUtc,
-                actionEndDateTimeUtc = input.endDateTimeUtc,
+                actionDatetimeUtc = input.startDateTimeUtc,
+                actionEndDatetimeUtc = input.endDateTimeUtc,
             )
         )
         return patchedAction

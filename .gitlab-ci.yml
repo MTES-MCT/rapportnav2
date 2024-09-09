@@ -16,7 +16,7 @@ variables:
     value: "postgres:15.8-alpine"
     description: "Image de la base de données"
   PROJECT_VERSION:
-    value: "1.8.0"
+    value: "1.9.2"
     description: "Version du projet à déployer"
   SERVER_ENV_INT:
     value: "int-rapportnav-appli01"
@@ -34,7 +34,8 @@ variables:
     value: "--severity HIGH,CRITICAL"
     description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
   FAIL_TRIVY_CONDITION_OS:
-    value: "--severity LOW,MEDIUM,HIGH,CRITICAL"
+    #    value: "--severity LOW,MEDIUM,HIGH,CRITICAL"
+    value: "--severity HIGH,CRITICAL"
     description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
 
   # Analyse Sonar

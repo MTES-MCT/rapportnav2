@@ -1,8 +1,8 @@
+import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.tsx'
+import { Action, ActionAntiPollution } from '@common/types/action-types.ts'
 import {
   Checkbox,
   Coordinates,
-  CoordinatesFormat,
-  CoordinatesInput,
   DateRangePicker,
   Icon,
   Textarea,
@@ -16,13 +16,12 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Stack } from 'rsuite'
 import styled from 'styled-components'
-import { Action, ActionAntiPollution } from '@common/types/action-types.ts'
 import Text, { TextProps } from '../../../../../common/components/ui/text.tsx'
 import useAddOrUpdateAntiPollution from '../../../hooks/anti-pollution/use-add-anti-pollution.tsx'
 import useDeleteAntiPollution from '../../../hooks/anti-pollution/use-delete-anti-pollution.tsx'
+import useActionById from '../../../hooks/use-action-by-id.tsx'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
 import ActionHeader from './action-header.tsx'
-import useActionById from '../../../hooks/use-action-by-id.tsx'
 
 const ToggleLabel = styled((props: Omit<TextProps, 'as'>) => <Text {...props} as="h3" />)(({ theme }) => ({
   color: theme.color.gunMetal,
@@ -171,14 +170,13 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ actio
           </Stack.Item>
 
           <Stack.Item style={{ width: '100%' }}>
-            <CoordinatesInput
+            <CoordinateInputDMD
               label={"Lieu de l'opération"}
               isRequired={true}
               error={!actionData.latitude && !actionData.longitude ? 'error' : undefined}
               isErrorMessageHidden={true}
               name={'geoCoords'}
               defaultValue={[actionData?.latitude as any, actionData?.longitude as any]}
-              coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
               isLight={true}
               disabled={false}
               onChange={async (nextCoordinates?: Coordinates, prevCoordinates?: Coordinates) => {

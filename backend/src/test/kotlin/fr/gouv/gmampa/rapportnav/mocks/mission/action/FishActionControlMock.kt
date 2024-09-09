@@ -5,6 +5,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.util.*
+import com.neovisionaries.i18n.CountryCode
 
 object FishActionControlMock {
     fun create(
@@ -27,7 +28,9 @@ object FishActionControlMock {
         completion: Completion = Completion.COMPLETED,
         gearInfractions: List<GearInfraction> = listOf(),
         logbookInfractions: List<LogbookInfraction> = listOf(),
-        otherInfractions: List<OtherInfraction> = listOf()
+        otherInfractions: List<OtherInfraction> = listOf(),
+        userTrigram: String = "TKT",
+        flagState: CountryCode = CountryCode.FR,
     ): MissionAction {
         return MissionAction(
             id = id,
@@ -49,7 +52,10 @@ object FishActionControlMock {
             completion = completion,
             gearInfractions = gearInfractions,
             logbookInfractions = logbookInfractions,
-            otherInfractions = otherInfractions
+            otherInfractions = otherInfractions,
+            flagState = flagState,
+            userTrigram = userTrigram,
+            isFromPoseidon = false,
         )
     }
 }
