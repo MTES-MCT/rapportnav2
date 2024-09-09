@@ -15,7 +15,7 @@ const ActionStatus: FC<MissionTimelineItemProps> = ({ action, previousActionWith
   const prevActionData = previousActionWithSameType?.data as unknown as NavActionStatus
   return (
     <TimelineItemWrapper onClick={onClick} borderWhenSelected={false}>
-      <Stack direction={'column'} spacing={'0.2rem'} style={{ padding: '0.2rem 0' }}>
+      <Stack direction={'column'} spacing={'0.2rem'} style={{ padding: '0.2rem 0'}}>
         <Stack.Item alignSelf={'flex-start'}>
           <Stack alignItems="center" spacing="0.5rem" style={{ width: '100%' }}>
             <Stack.Item>
@@ -27,16 +27,15 @@ const ActionStatus: FC<MissionTimelineItemProps> = ({ action, previousActionWith
                 weight="normal"
                 color={isSelected ? THEME.color.charcoal : THEME.color.slateGray}
                 decoration={isSelected ? 'underline' : 'normal'}
-                style={{
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis'
-                }}
               >
                 <b>{`${mapStatusToText(actionData?.status)} - début${
                   !!actionData?.reason ? ' - ' + statusReasonToHumanString(actionData?.reason) : ''
                 }`}</b>
-                {!!actionData?.observations ? ' - ' + actionData?.observations : ''}
+                {!!actionData?.observations
+                  ? ' - ' + (actionData?.observations.length > 35
+                  ? actionData?.observations.slice(0, 35) + '...'
+                  : actionData?.observations)
+                  : ''}
               </Text>
             </Stack.Item>
             <Stack.Item>
