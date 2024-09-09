@@ -92,7 +92,7 @@ const MissionItem: React.FC<MissionItemProps> = ({ mission, prefetchMission }) =
   }
 
   const onItemMouseOver = () => {
-    const isCompleteForStats = mission?.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE
+    const isCompleteForStats = true //mission?.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE
 
     if (isCompleteForStats) {
       setExportationCanBeDisplayed(true)
@@ -149,40 +149,40 @@ const MissionItem: React.FC<MissionItemProps> = ({ mission, prefetchMission }) =
               </FlexboxGrid.Item>
             </FlexboxGrid>
           </Link>
-        </ListItemWithHover>
-        {exportationCanBeDisplayed && (
-          <FlexboxGrid>
-            <FlexboxGrid.Item colspan={24}>
-              <Divider></Divider>
-            </FlexboxGrid.Item>
+          {exportationCanBeDisplayed && (
+            <FlexboxGrid justify={"space-between"}>
+              <FlexboxGrid.Item style={{ width: '100%', padding: '0.1rem 1rem' }}>
+                <Divider style={{backgroundColor: THEME.color.charcoal}}></Divider>
+              </FlexboxGrid.Item>
 
-            <FlexboxGrid.Item colspan={8} style={{ height: '100%', padding: '0.5rem 1rem' }}>
-              <Button
-                Icon={Icon.Download}
-                accent={Accent.SECONDARY}
-                size={Size.NORMAL}
-                role={'dl-mission-export'}
-                onClick={() => exportMission(mission.id)}
-                data-testid="download-report-button"
-              >
-                Exporter le rapport de la mission
-              </Button>
-            </FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={8}> </FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={8} style={{ height: '100%', padding: '0.5rem 1rem' }}>
-              <Button
-                Icon={Icon.Download}
-                accent={Accent.PRIMARY}
-                size={Size.NORMAL}
-                role={'dl-mission-export'}
-                onClick={() => exportMission(mission.id, true)}
-                data-testid="download-aem-button"
-              >
-                Télécharger les tableaux
-              </Button>
-            </FlexboxGrid.Item>
-          </FlexboxGrid>
-        )}
+              <FlexboxGrid.Item  style={{ height: '100%', padding: '0.1rem 1rem' }}>
+                <Button
+                  Icon={Icon.Download}
+                  accent={Accent.SECONDARY}
+                  size={Size.NORMAL}
+                  role={'dl-mission-export'}
+                  onClick={() => exportMission(mission.id)}
+                  data-testid="download-report-button"
+                >
+                  Exporter le rapport de la mission
+                </Button>
+              </FlexboxGrid.Item>
+              <FlexboxGrid.Item  style={{ height: '100%', padding: '0.5rem 1rem' }}>
+                <Button
+                  Icon={Icon.Download}
+                  accent={Accent.PRIMARY}
+                  size={Size.NORMAL}
+                  role={'dl-mission-export'}
+                  onClick={() => exportMission(mission.id, true)}
+                  data-testid="download-aem-button"
+                >
+                  Télécharger les tableaux
+                </Button>
+              </FlexboxGrid.Item>
+            </FlexboxGrid>
+          )}
+        </ListItemWithHover>
+
       </Stack.Item>
     </Stack>
   )
