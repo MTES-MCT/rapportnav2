@@ -8,6 +8,8 @@ import { fireEvent } from '@testing-library/react'
 import * as useIsMissionCompleteForStatsModule from '@features/pam/mission/hooks/use-is-mission-complete-for-stats'
 import * as useAEMModule from '@features/pam/mission/hooks/export/use-lazy-mission-aem-export'
 import * as useExportModule from '@features/pam/mission/hooks/export/use-lazy-mission-export'
+import { hexToRgb } from '@common/utils/colors.ts'
+import { THEME } from '@mtes-mct/monitor-ui'
 
 const mission = {
   id: 3,
@@ -109,5 +111,18 @@ describe('Mission Item component', () => {
     fireEvent.click(downloadButton)
 
     expect(exportLazyAEMMock).toHaveBeenCalled()
+  })
+
+  test('should have a background color blueGray25 on ListItemHover when mouseOver', () => {
+    vi.spyOn(useIsMissionCompleteForStatsModule, 'default').mockReturnValue({ data: true, loading: false, error: null })
+    vi.spyOn(useIsMissionCompleteForStatsModule, 'default').mockReturnValue({ data: true, loading: false, error: null })
+
+    const { container } = render(<MissionItem mission={mission} prefetchMission={vi.fn()} />)
+    const missionItemElement = container.firstChild
+
+    fireEvent.mouseOver(missionItemElement)
+    const listItemWithHover = screen.getByTestId('list-item-with-hover')
+    expect(getComputedStyle(listItemWithHover).backgroundColor).toBe(hexToRgb(THEME.color.blueGray25))
+
   })
 })
