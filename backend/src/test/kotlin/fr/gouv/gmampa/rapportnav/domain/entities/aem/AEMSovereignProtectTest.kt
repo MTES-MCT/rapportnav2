@@ -20,15 +20,16 @@ class AEMSovereignProtectTest {
 
     @Test
     fun `Should init sovereign protect with different values`() {
-        val nbrOfHourAtSea = 5;
+        val nbrOfHourAtSea = 147;
         val nbrOfRecognizedVessel = 0;
         val nbrOfControlledVessel = 4;
 
         val navActions = navActionEntities();
         val envActions = extendedEnvActionEntities();
         val fishActions = extendedFishActionEntities();
+        val missionEndDate = ZonedDateTime.parse("2019-09-15T01:00:00.000+01:00");
 
-        val sovereign = AEMSovereignProtect(navActions, envActions, fishActions);
+        val sovereign = AEMSovereignProtect(navActions, envActions, fishActions, missionEndDate);
 
         assertThat(sovereign).isNotNull();
         assertThat(sovereign.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea);
@@ -55,7 +56,7 @@ class AEMSovereignProtectTest {
             NavActionEntity(
                 id = UUID.randomUUID(),
                 missionId = 761,
-                actionType = ActionType.ILLEGAL_IMMIGRATION,
+                actionType = ActionType.STATUS,
                 startDateTimeUtc = ZonedDateTime.parse("2019-09-09T00:00:00.000+01:00"),
                 endDateTimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00"),
                 statusAction = ActionStatusEntity(
@@ -69,7 +70,7 @@ class AEMSovereignProtectTest {
             NavActionEntity(
                 id = UUID.randomUUID(),
                 missionId = 761,
-                actionType = ActionType.RESCUE,
+                actionType = ActionType.STATUS,
                 startDateTimeUtc = ZonedDateTime.parse("2019-09-09T02:00:00.000+01:00"),
                 endDateTimeUtc = ZonedDateTime.parse("2019-09-09T04:00:00.000+01:00"),
                 statusAction = ActionStatusEntity(

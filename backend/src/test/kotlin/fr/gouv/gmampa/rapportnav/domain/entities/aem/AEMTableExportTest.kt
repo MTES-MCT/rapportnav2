@@ -29,7 +29,7 @@ class AEMTableExportTest {
     @Test
     fun `Should init Table export with different values`() {
         val mission = missionEntity()
-        val export = AEMTableExport.fromMissionAction(mission.actions!!);
+        val export = AEMTableExport.fromMissionAction(mission.actions!!, mission.endDateTimeUtc);
         assertThat(export).isNotNull();
         assertThat(export.seaSafety).isNotNull();
         assertThat(export.envTraffic).isNotNull();
@@ -68,7 +68,10 @@ class AEMTableExportTest {
     }
 
     private fun missionEntity(): MissionEntity {
-        val envMission = EnvMissionMock.create(envActions = listOf());
+        val envMission = EnvMissionMock.create(
+            envActions = listOf(),
+            endDateTimeUtc = ZonedDateTime.parse("2019-09-17T01:00:00.000+01:00")
+        );
         val envActions = listOf(
             ExtendedEnvActionEntityMock.create(
                 controlAction = ExtendedEnvActionControlEntity(
@@ -118,7 +121,8 @@ class AEMTableExportTest {
         val mission = MissionEntity(
             envMission = extendEnvMission,
             navMission = navMission,
-            fishMissionActions = fishMissionActions
+            fishMissionActions = fishMissionActions,
+
         );
         return mission
     }
