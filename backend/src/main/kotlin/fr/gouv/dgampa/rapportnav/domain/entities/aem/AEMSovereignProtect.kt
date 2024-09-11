@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VehicleT
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
-import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
+import java.time.ZonedDateTime
 
 data class AEMSovereignProtect(
     val nbrOfHourAtSea: Int? = 0, // 7.1
@@ -14,9 +14,10 @@ data class AEMSovereignProtect(
     constructor(
         navActions: List<NavActionEntity>,
         envActions: List<ExtendedEnvActionEntity?>,
-        fishActions: List<ExtendedFishActionEntity?>
+        fishActions: List<ExtendedFishActionEntity?>,
+        missionEndDateTime: ZonedDateTime?
     ) : this(
-        nbrOfHourAtSea = getNbrHourAtSea(navActions),
+        nbrOfHourAtSea = getNbrHourAtSea(navActions, missionEndDateTime),
         nbrOfRecognizedVessel = getNbOfRecognizedVessel(navActions),
         nbrOfControlledVessel = getNbrOfControlledVessel(navActions, envActions, fishActions)
     ) {
@@ -24,9 +25,21 @@ data class AEMSovereignProtect(
 
     companion object {
         fun getNbrHourAtSea(
-            navActions: List<NavActionEntity>
+            navActions: List<NavActionEntity>,
+            missionEndDateTime: ZonedDateTime?
         ): Int {
-            val statusActions = anchoredActionEntities(navActions) + navigationActionEntities(navActions);
+            val sortedStatusActions =
+                navActions.filter { it.actionType == ActionType.STATUS }
+                    .filter { it.statusAction != null }
+                    .map { action -> action.statusAction }
+                    .sortedBy { it?.startDateTimeUtc }
+
+            sortedStatusActions.windowed(2)
+                .forEach { (first, second) -> first?.endDateTimeUtc = second?.startDateTimeUtc }
+
+            sortedStatusActions.last()?.endDateTimeUtc = missionEndDateTime;
+            val statusActions =
+                anchoredActionEntities(sortedStatusActions) + navigationActionEntities(sortedStatusActions);
             return AEMUtils.getDurationInHours(statusActions).toInt();
         }
 
@@ -45,14 +58,12 @@ data class AEMSovereignProtect(
                 .plus(envActions.filter { it?.controlAction?.action?.vehicleType == VehicleTypeEnum.VESSEL }.size);
         }
 
-        private fun navigationActionEntities(navActions: List<NavActionEntity>): List<ActionStatusEntity?> {
-            return navActions.filter { it.statusAction != null }.map { action -> action.statusAction }
-                .filter { it?.status == ActionStatusType.NAVIGATING }
+        private fun navigationActionEntities(navActions: List<ActionStatusEntity?>): List<ActionStatusEntity?> {
+            return navActions.filter { it?.status == ActionStatusType.NAVIGATING }
         }
 
-        private fun anchoredActionEntities(navActions: List<NavActionEntity>): List<ActionStatusEntity?> {
-            return navActions.filter { it.statusAction != null }.map { action -> action.statusAction }
-                .filter { it?.status == ActionStatusType.ANCHORED };
+        private fun anchoredActionEntities(navActions: List<ActionStatusEntity?>): List<ActionStatusEntity?> {
+            return navActions.filter { it?.status == ActionStatusType.ANCHORED };
         }
     }
 }
