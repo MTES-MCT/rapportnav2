@@ -1,89 +1,97 @@
-import { Panel, Stack, Toggle } from 'rsuite'
-import { ControlAdministrative, ControlType } from '../../../../../common/types/control-types.ts'
-import { Label, MultiRadio, OptionValue, Textarea, THEME } from '@mtes-mct/monitor-ui'
+import { useControl } from '@features/pam/mission/hooks/control/use-control'
+import { FormikEffect, FormikMultiRadio, FormikTextarea, FormikToggle, Label, THEME } from '@mtes-mct/monitor-ui'
+import { Form, Formik } from 'formik'
+import { isNull, omitBy, pick } from 'lodash'
 import omit from 'lodash/omit'
-import { controlResultOptions } from './control-result.ts'
-import { useParams } from 'react-router-dom'
-import ControlTitleCheckbox from '../../ui/control-title-checkbox.tsx'
-import ControlInfraction from '../infractions/infraction-for-control.tsx'
 import { FC, useEffect, useState } from 'react'
-import useDeleteControl from '../../../hooks/use-delete-control.tsx'
-import useAddOrUpdateControl from '../../../hooks/use-add-update-control.tsx'
+import { useParams } from 'react-router-dom'
+import { Panel, Stack } from 'rsuite'
+import styled from 'styled-components'
+import { ControlAdministrative, ControlResult, ControlType } from '../../../../../common/types/control-types'
+import ControlTitleCheckbox from '../../ui/control-title-checkbox'
+import ControlInfraction from '../infractions/infraction-for-control'
+import { controlResultOptions } from './control-result'
 
+const StackItemStyled = styled(Stack.Item)({
+  width: '100%',
+  paddingTop: 2,
+  paddingBottom: 2
+})
+
+export type ControlAdministrativeFormInput = {
+  observations?: string
+  unitHasConfirmed?: boolean
+  compliantOperatingPermit?: ControlResult
+  upToDateNavigationPermit?: ControlResult
+  compliantSecurityDocuments?: ControlResult
+}
 interface ControlAdministrativeFormProps {
+  unitShouldConfirm?: boolean
   data?: ControlAdministrative
   shouldCompleteControl?: boolean
-  unitShouldConfirm?: boolean
 }
 
 const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
   data,
-  shouldCompleteControl,
-  unitShouldConfirm
+  unitShouldConfirm,
+  shouldCompleteControl
 }) => {
   const { missionId, actionId } = useParams()
-
-  const [observationsValue, setObservationsValue] = useState<string | undefined>(data?.observations)
-
   const controlOptions = controlResultOptions()
+  const [control, setControl] = useState<ControlAdministrativeFormInput>()
 
-  const handleObservationsChange = (nextValue?: string) => {
-    setObservationsValue(nextValue)
+  const { isRequired, controlChanged, toggleControl, controlIsChecked } = useControl(
+    data,
+    ControlType.ADMINISTRATIVE,
+    shouldCompleteControl
+  )
+
+  const getControlInput = (data?: ControlAdministrative) =>
+    data
+      ? omitBy(
+          pick(
+            data,
+            'observations',
+            'unitHasConfirmed',
+            'compliantOperatingPermit',
+            'upToDateNavigationPermit',
+            'compliantSecurityDocuments'
+          ),
+          isNull
+        )
+      : ({} as ControlAdministrativeFormInput)
+
+  const getControl = (value?: ControlAdministrativeFormInput) => {
+    if (!value) return
+    return {
+      ...omit(data, 'infractions'),
+      missionId,
+      unitShouldConfirm,
+      amountOfControls: 1,
+      actionControlId: actionId,
+      ...value
+    }
   }
 
   useEffect(() => {
-    setObservationsValue(data?.observations)
+    setControl(getControlInput(data))
   }, [data])
 
-  const handleObservationsBlur = async () => {
-    if (observationsValue !== data?.observations) {
-      await onChange('observations', observationsValue)
-    }
+  const handleControlChange = async (value: ControlAdministrativeFormInput): Promise<void> => {
+    if (value === control) return
+    controlChanged(actionId, getControl(value))
   }
 
-  const [mutateControl, { loading: mutationLoading }] = useAddOrUpdateControl({
-    controlType: ControlType.ADMINISTRATIVE
-  })
-  const [deleteControl] = useDeleteControl({ controlType: ControlType.ADMINISTRATIVE })
-
-  const toggleControl = async (isChecked: boolean) =>
-    isChecked
-      ? onChange()
-      : await deleteControl({
-          variables: {
-            actionId
-          }
-        })
-
-  const onChange = async (field?: string, value?: any) => {
-    let updatedData = {
-      ...omit(data, '__typename', 'infractions'),
-      id: data?.id,
-      missionId: missionId,
-      actionControlId: actionId,
-      amountOfControls: 1,
-      unitShouldConfirm: unitShouldConfirm
-    }
-
-    if (!!field && value !== undefined) {
-      updatedData = {
-        ...updatedData,
-        [field]: value
-      }
-    }
-
-    await mutateControl({ variables: { control: updatedData } })
-  }
+  const handleToogleControl = async (isChecked: boolean) => toggleControl(isChecked, actionId, getControl(control))
 
   return (
     <Panel
       header={
         <ControlTitleCheckbox
+          checked={controlIsChecked}
+          shouldCompleteControl={isRequired}
           controlType={ControlType.ADMINISTRATIVE}
-          checked={!!data || shouldCompleteControl}
-          disabled={mutationLoading}
-          shouldCompleteControl={!!shouldCompleteControl && !!!data}
-          onChange={(isChecked: boolean) => toggleControl(isChecked)}
+          onChange={(isChecked: boolean) => handleToogleControl(isChecked)}
         />
       }
       // collapsible
@@ -91,72 +99,67 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
       style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
     >
       <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
-        {unitShouldConfirm && (
-          <Stack.Item style={{ width: '100%' }}>
-            <Stack direction="row" alignItems="baseline" spacing={'0.5rem'}>
-              <Stack.Item>
-                {/* TODO add Toggle component to monitor-ui */}
-                <Toggle
-                  checked={!!data?.unitHasConfirmed}
-                  size="sm"
-                  onChange={(checked: boolean) => onChange('unitHasConfirmed', checked)}
-                  disabled={mutationLoading}
-                />
-              </Stack.Item>
-              <Stack.Item alignSelf="flex-end">
-                <Label style={{ marginBottom: 0 }}>
-                  <b>Contrôle confirmé par l’unité</b>
-                </Label>
-              </Stack.Item>
-            </Stack>
-          </Stack.Item>
+        {control !== undefined && (
+          <Formik
+            initialValues={control}
+            onSubmit={handleControlChange}
+            validateOnChange={true}
+            enableReinitialize={true}
+          >
+            <>
+              <FormikEffect onChange={handleControlChange} />
+              <Form>
+                {unitShouldConfirm && (
+                  <Stack.Item style={{ width: '100%' }}>
+                    <Stack direction="row" alignItems="baseline" spacing={'0.5rem'}>
+                      <Stack.Item>
+                        <FormikToggle label="" size="sm" name="unitHasConfirmed" />
+                      </Stack.Item>
+                      <Stack.Item alignSelf="flex-end">
+                        <Label style={{ marginBottom: 0 }}>
+                          <b>Contrôle confirmé par l’unité</b>
+                        </Label>
+                      </Stack.Item>
+                    </Stack>
+                  </Stack.Item>
+                )}
+
+                <StackItemStyled>
+                  <FormikMultiRadio
+                    isInline
+                    options={controlOptions}
+                    name="compliantOperatingPermit"
+                    label="Permis de mise en exploitation (autorisation à pêcher) conforme"
+                    data-testid="control-administrative-form-compliant"
+                  />
+                </StackItemStyled>
+                <StackItemStyled>
+                  <FormikMultiRadio
+                    isInline
+                    options={controlOptions}
+                    name="upToDateNavigationPermit"
+                    label="Permis de navigation à jour"
+                  />
+                </StackItemStyled>
+                <StackItemStyled>
+                  <FormikMultiRadio
+                    isInline
+                    options={controlOptions}
+                    name="compliantSecurityDocuments"
+                    label="Titres de sécurité conformes"
+                  />
+                </StackItemStyled>
+                <Stack.Item style={{ width: '100%', paddingTop: 4 }}>
+                  <FormikTextarea
+                    name="observations"
+                    label="Observations (hors infraction) sur les pièces administratives"
+                  />
+                </Stack.Item>
+              </Form>
+            </>
+          </Formik>
         )}
-        <Stack.Item style={{ width: '100%' }}>
-          <MultiRadio
-            value={data?.compliantOperatingPermit ?? undefined}
-            error=""
-            isInline
-            label="Permis de mise en exploitation (autorisation à pêcher) conforme"
-            name="compliantOperatingPermit"
-            onChange={(nextValue: OptionValue) => onChange('compliantOperatingPermit', nextValue)}
-            options={controlOptions}
-            disabled={mutationLoading}
-          />
-        </Stack.Item>
-        <Stack.Item style={{ width: '100%' }}>
-          <MultiRadio
-            value={data?.upToDateNavigationPermit ?? undefined}
-            error=""
-            isInline
-            label="Permis de navigation à jour"
-            name="upToDateNavigationPermit"
-            onChange={(nextValue: OptionValue) => onChange('upToDateNavigationPermit', nextValue)}
-            options={controlOptions}
-            disabled={mutationLoading}
-          />
-        </Stack.Item>
-        <Stack.Item style={{ width: '100%' }}>
-          <MultiRadio
-            value={data?.compliantSecurityDocuments ?? undefined}
-            error=""
-            isInline
-            label="Titres de sécurité conformes"
-            name="compliantSecurityDocuments"
-            onChange={(nextValue: OptionValue) => onChange('compliantSecurityDocuments', nextValue)}
-            options={controlOptions}
-            disabled={mutationLoading}
-          />
-        </Stack.Item>
-        <Stack.Item style={{ width: '100%' }}>
-          <Textarea
-            name="observations"
-            label="Observations (hors infraction) sur les pièces administratives"
-            value={observationsValue}
-            onChange={handleObservationsChange}
-            onBlur={handleObservationsBlur}
-            disabled={mutationLoading}
-          />
-        </Stack.Item>
+
         <Stack.Item style={{ width: '100%' }}>
           <ControlInfraction
             controlId={data?.id}
