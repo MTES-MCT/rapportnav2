@@ -37,7 +37,7 @@ data class AEMSovereignProtect(
             sortedStatusActions.windowed(2)
                 .forEach { (first, second) -> first?.endDateTimeUtc = second?.startDateTimeUtc }
 
-            sortedStatusActions.last()?.endDateTimeUtc = missionEndDateTime;
+            if(sortedStatusActions.isNotEmpty()) sortedStatusActions.last()?.endDateTimeUtc = missionEndDateTime;
             val statusActions =
                 anchoredActionEntities(sortedStatusActions) + navigationActionEntities(sortedStatusActions);
             return AEMUtils.getDurationInHours(statusActions).toInt();
