@@ -25,7 +25,7 @@ data class ActionStatusEntity(
     @MandatoryForStats
     override val startDateTimeUtc: ZonedDateTime,
 
-    override val endDateTimeUtc: ZonedDateTime? = null, // Default value to null
+    override var endDateTimeUtc: ZonedDateTime? = null, // Default value to null
 
     @MandatoryForStats
     val status: ActionStatusType,

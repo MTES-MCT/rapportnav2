@@ -2,7 +2,10 @@ package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
 import org.slf4j.LoggerFactory
+import java.time.ZonedDateTime
 
 data class AEMTableExport(
     val outOfMigrationRescue: AEMOutOfMigrationRescue?, //1.1
@@ -22,7 +25,7 @@ data class AEMTableExport(
 
     companion object {
 
-        fun fromMissionAction(actions: List<MissionActionEntity?>): AEMTableExport {
+        fun fromMissionAction(actions: List<MissionActionEntity?>, endDateTimeUtc: ZonedDateTime?): AEMTableExport {
             val navActions = actions.filterIsInstance<MissionActionEntity.NavAction>().map { it.navAction };
             val envActions = actions.filterIsInstance<MissionActionEntity.EnvAction>().map { it.envAction };
             val fishActions = actions.filterIsInstance<MissionActionEntity.FishAction>().map { it.fishAction };
@@ -36,17 +39,16 @@ data class AEMTableExport(
                 culturalMaritime = AEMCulturalMaritime(envActions),
                 illegalImmigration = AEMIllegalImmigration(navActions),
                 outOfMigrationRescue = AEMOutOfMigrationRescue(navActions),
-                sovereignProtect = AEMSovereignProtect(navActions, envActions, fishActions),
+                sovereignProtect = AEMSovereignProtect(navActions, envActions, fishActions, endDateTimeUtc),
                 notPollutionControlSurveillance = AEMNotPollutionControlSurveillance(envActions),
                 pollutionControlSurveillance = AEMPollutionControlSurveillance(navActions, envActions)
             )
         }
 
         fun fromMission(mission: MissionEntity): AEMTableExport {
-            val tableExport = fromMissionAction(mission.actions ?: listOf());
+            val tableExport = fromMissionAction(mission.actions ?: listOf(), mission.endDateTimeUtc);
             tableExport.sovereignProtect?.nbrOfRecognizedVessel = mission.generalInfo?.nbrOfRecognizedVessel;
             return tableExport
         }
-
     }
 }
