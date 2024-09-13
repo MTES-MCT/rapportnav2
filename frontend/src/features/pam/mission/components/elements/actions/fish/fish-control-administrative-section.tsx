@@ -20,7 +20,7 @@ const FishControlAdministrativeSection: React.FC<FishControlAdministrativeSectio
         <Stack direction="column" alignItems="flex-start" spacing={'1rem'}>
           <Stack.Item>
             <MultiRadio
-              isReadOnly={true}
+              readOnly={true}
               isInline
               label="Bonne émission VMS"
               value={action?.emitsVms ?? undefined}
@@ -31,7 +31,7 @@ const FishControlAdministrativeSection: React.FC<FishControlAdministrativeSectio
           </Stack.Item>
           <Stack.Item>
             <MultiRadio
-              isReadOnly={true}
+              readOnly={true}
               isInline
               value={action?.emitsAis ?? undefined}
               label="Bonne émission AIS"
@@ -42,7 +42,7 @@ const FishControlAdministrativeSection: React.FC<FishControlAdministrativeSectio
           </Stack.Item>
           <Stack.Item>
             <MultiRadio
-              isReadOnly={true}
+              readOnly={true}
               isInline
               label="Déclarations journal de pêche conformes à l'activité du navire"
               value={action?.logbookMatchesActivity ?? undefined}
@@ -53,7 +53,7 @@ const FishControlAdministrativeSection: React.FC<FishControlAdministrativeSectio
           </Stack.Item>
           <Stack.Item>
             <MultiRadio
-              isReadOnly={true}
+              readOnly={true}
               isInline
               label="Autorisations de pêche conformes à l'activité du navire (zone, engins, espèces)"
               value={action?.licencesMatchActivity ?? undefined}

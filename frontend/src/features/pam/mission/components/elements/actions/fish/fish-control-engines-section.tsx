@@ -29,7 +29,7 @@ const FishControlEnginesSection: React.FC<FishControlEnginesSectionProps> = ({ a
             </Stack.Item>
             <Stack.Item>
               <MultiRadio
-                isReadOnly={true}
+                readOnly={true}
                 isInline
                 value={gearControl?.gearWasControlled ?? undefined}
                 label="Engin contrôlé"
