@@ -42,7 +42,7 @@ const ActionEnvSurveillance: React.FC<{ action: Action; onClick: any }> = ({ act
               </Stack.Item>
 
               <Stack.Item alignSelf="flex-end" style={{ width: '100%' }}>
-                <Text as="h4" color={THEME.color.slateGray} fontStyle={'italic'} style={{ textAlign: 'right' }}>
+                <Text as="h4" color={THEME.color.mediumSeaGreen} fontStyle={'italic'} style={{ textAlign: 'right' }}>
                   ajouté par CACEM
                 </Text>
               </Stack.Item>
