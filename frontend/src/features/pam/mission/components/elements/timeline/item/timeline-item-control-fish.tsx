@@ -44,7 +44,7 @@ const ActionFishControl: React.FC<{ action: Action; onClick: any }> = ({ action,
                     )}
                   </Stack.Item>
                   <Stack.Item alignSelf="flex-end">
-                    <Text as="h4" color={THEME.color.slateGray} fontStyle="italic">
+                    <Text as="h4" color={THEME.color.blueGray} fontStyle="italic">
                       ajouté par CNSP
                     </Text>
                   </Stack.Item>

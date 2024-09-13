@@ -82,7 +82,7 @@ const ActionEnvControl: React.FC<{ action: Action; onClick: any }> = ({ action, 
                     )}
                   </Stack.Item>
                   <Stack.Item alignSelf="flex-end">
-                    <Text as="h4" color={THEME.color.slateGray} fontStyle={'italic'}>
+                    <Text as="h4" color={THEME.color.mediumSeaGreen} fontStyle={'italic'}>
                       ajouté par CACEM
                     </Text>
                   </Stack.Item>
