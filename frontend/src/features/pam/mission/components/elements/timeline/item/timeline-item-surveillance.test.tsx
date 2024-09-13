@@ -15,10 +15,12 @@ const actionMock = {
     actionType: ActionTypeEnum.SURVEILLANCE,
     observations: null,
     geom: 'MULTIPOINT ((-8.52318191 48.30305604))',
-    formattedControlPlans: {
-      subThemes: ['subtheme1', 'subtheme2'],
-      themes: ['environnement - police mouillage']
-    }
+    formattedControlPlans: [
+      {
+        subThemes: ['subtheme1', 'subtheme2'],
+        theme: 'environnement - police mouillage'
+      }
+    ]
   } as any as EnvAction
 }
 
@@ -32,20 +34,27 @@ describe('ActionEnvSurveillance', () => {
     expect(screen.getByText('ajouté par CACEM')).toBeInTheDocument()
   })
   describe('the title', () => {
-    test('should render the theme', () => {
+    test('should render one theme', () => {
       render(<ActionEnvSurveillance {...props()} />)
       expect(screen.getByText('environnement - police mouillage')).toBeInTheDocument()
+    })
+    test('should render several themes', () => {
+      const mock = {
+        ...actionMock,
+        data: {
+          ...actionMock.data,
+          formattedControlPlans: [{ theme: 'police mouillage' }, { theme: 'rejets illicites' }]
+        }
+      }
+      render(<ActionEnvSurveillance {...props(mock)} />)
+      expect(screen.getByText('police mouillage, rejets illicites')).toBeInTheDocument()
     })
     test('should render empty text when no theme', () => {
       const mock = {
         ...actionMock,
         data: {
           ...actionMock.data,
-          formattedControlPlans: [
-            {
-              themes: undefined
-            }
-          ]
+          formattedControlPlans: []
         }
       }
       render(<ActionEnvSurveillance {...props(mock)} />)

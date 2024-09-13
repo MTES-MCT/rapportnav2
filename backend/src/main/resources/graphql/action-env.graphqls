@@ -28,11 +28,11 @@ type EnvActionData {
   controlGensDeMer: ControlGensDeMer
   controlNavigation: ControlNavigation
   controlSecurity: ControlSecurity
-  formattedControlPlans: FormattedEnvActionControlPlan
+  formattedControlPlans : [FormattedEnvActionControlPlan]
 }
 
 type FormattedEnvActionControlPlan {
-  themes: [String]
+  theme: String
   subThemes: [String]
   tags: [String]
 }

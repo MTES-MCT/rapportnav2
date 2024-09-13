@@ -1,7 +1,7 @@
 import React from 'react'
 import { Action } from '@common/types/action-types.ts'
 import { useParams } from 'react-router-dom'
-import { EnvActionControl } from '@common/types/env-mission-types.ts'
+import { EnvActionControl, FormattedControlPlan } from '@common/types/env-mission-types.ts'
 import { TimelineItemWrapper } from './timeline-item.tsx'
 import { FlexboxGrid, Stack } from 'rsuite'
 import { Icon, THEME } from '@mtes-mct/monitor-ui'
@@ -32,8 +32,8 @@ const ActionEnvSurveillance: React.FC<{ action: Action; onClick: any }> = ({ act
                       <b data-testid={'theme'}>
                         {actionData &&
                         'formattedControlPlans' in actionData &&
-                        actionData?.formattedControlPlans?.themes?.length
-                          ? actionData?.formattedControlPlans?.themes[0]
+                        actionData?.formattedControlPlans?.length
+                          ? actionData?.formattedControlPlans?.map((t: FormattedControlPlan) => t.theme).join(', ')
                           : 'environnement marin'}
                       </b>
                     </Text>

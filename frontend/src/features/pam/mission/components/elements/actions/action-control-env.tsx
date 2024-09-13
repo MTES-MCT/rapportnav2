@@ -6,7 +6,12 @@ import Text from '../../../../../common/components/ui/text.tsx'
 import ControlsToCompleteTag from '../../ui/controls-to-complete-tag.tsx'
 import EnvControlForm from '../controls/env-control-form.tsx'
 import { ControlType } from '@common/types/control-types.ts'
-import { actionTargetTypeLabels, EnvActionControl, vehicleTypeLabels } from '@common/types/env-mission-types.ts'
+import {
+  actionTargetTypeLabels,
+  EnvActionControl,
+  FormattedControlPlan,
+  vehicleTypeLabels
+} from '@common/types/env-mission-types.ts'
 import { useParams } from 'react-router-dom'
 import EnvInfractionAddNewTarget from '../infractions/env-infraction-add-new-target.tsx'
 import EnvInfractionExistingTargets from '../infractions/env-infraction-existing-targets.tsx'
@@ -18,6 +23,7 @@ import ActionHeader from './action-header.tsx'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
 import ActionEnvObservationsUnit from './action-env-observations-unit.tsx'
 import ActionEnvDateRange from './action-env-daterange.tsx'
+import EnvActionControlPlans from '@common/components/elements/env-action-control-plans.tsx'
 
 type ActionControlPropsEnv = ActionDetailsProps
 
@@ -55,20 +61,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <Label>Thématique de contrôle</Label>
-          <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-            {actionData?.formattedControlPlans?.themes?.length
-              ? actionData?.formattedControlPlans?.themes.join(', ')
-              : 'inconnue'}
-          </Text>
-        </Stack.Item>
-        <Stack.Item style={{ width: '100%' }}>
-          <Label>Sous-thématiques de contrôle</Label>
-          <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-            {actionData?.formattedControlPlans?.subThemes?.length
-              ? actionData?.formattedControlPlans?.subThemes?.join(', ')
-              : 'inconnues'}
-          </Text>
+          <EnvActionControlPlans controlPlans={actionData?.formattedControlPlans} />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <ActionEnvDateRange

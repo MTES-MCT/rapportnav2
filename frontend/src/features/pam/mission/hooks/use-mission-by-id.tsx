@@ -148,7 +148,7 @@ export const GET_MISSION_BY_ID = gql`
             controlsToComplete
             availableControlTypesForInfraction
             formattedControlPlans {
-              themes
+              theme
               subThemes
             }
             infractions {

@@ -10,6 +10,7 @@ import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
 import ActionHeader from './action-header.tsx'
 import ActionEnvObservationsUnit from './action-env-observations-unit.tsx'
 import ActionEnvDateRange from './action-env-daterange.tsx'
+import EnvActionControlPlans from '@common/components/elements/env-action-control-plans.tsx'
 
 interface ActionSurveillancePropsEnv {
   action: Action
@@ -57,20 +58,7 @@ const ActionSurveillanceEnv: React.FC<ActionSurveillancePropsEnv> = ({ action })
           />
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <Label>Thématique de contrôle</Label>
-          <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-            {actionData?.formattedControlPlans?.themes?.length
-              ? actionData?.formattedControlPlans?.themes[0]
-              : 'inconnue'}
-          </Text>
-        </Stack.Item>
-        <Stack.Item style={{ width: '100%' }}>
-          <Label>Sous-thématiques de contrôle</Label>
-          <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-            {actionData?.formattedControlPlans?.subThemes?.length
-              ? actionData?.formattedControlPlans?.subThemes?.join(', ')
-              : 'inconnues'}
-          </Text>
+          <EnvActionControlPlans controlPlans={actionData?.formattedControlPlans} />
         </Stack.Item>
 
         <Stack.Item>

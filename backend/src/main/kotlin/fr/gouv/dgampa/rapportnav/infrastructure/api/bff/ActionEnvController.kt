@@ -126,7 +126,7 @@ class ActionEnvController(
     }
 
     @SchemaMapping(typeName = "EnvActionData", field = "formattedControlPlans")
-    fun getFormattedControlTypes(action: EnvActionData): FormattedEnvActionControlPlan? {
+    fun getFormattedControlTypes(action: EnvActionData): List<FormattedEnvActionControlPlan>? {
         val filteredControlPlans: ControlPlansEntity? = mapEnvActionControlPlans.execute(action.controlPlans)
         return FormattedEnvActionControlPlan.fromControlPlansEntity(filteredControlPlans)
     }
