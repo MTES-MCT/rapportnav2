@@ -80,4 +80,26 @@ describe('ActionStatus', () => {
     render(<ActionStatus {...props(mock, previousActionMock)} />)
     expect(screen.queryByText('Indisponibilité - Technique - fin')).toBeInTheDocument()
   })
+  test('should apply ellipsis when observations exceed container width', () => {
+    const longObservation = 'This is a an observation';
+
+    const mock = { ...actionMock, data: { ...actionMock.data, observations: longObservation } };
+    render(<ActionStatus {...props(mock, previousActionMock)} />);
+    const textElement = screen.getByTestId('timeline-item-status-description')
+    const style = window.getComputedStyle(textElement);
+
+    expect(style.whiteSpace).toBe('nowrap');
+    expect(style.textOverflow).toBe('ellipsis');
+    expect(style.overflow).toBe('hidden');
+  });
+
+
+  it('should display observations as is a short description', () => {
+    const shortObservation = 'This is short.'
+
+    const mock = { ...actionMock, data: { ...actionMock.data, observations: shortObservation } }
+    render(<ActionStatus {...props(mock, previousActionMock)} />)
+
+    expect(screen.getByText('- ' + shortObservation)).toBeInTheDocument()
+  })
 })
