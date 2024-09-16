@@ -1,37 +1,46 @@
-import React from 'react'
+import EnvActionControlPlans from '@common/components/elements/env-action-control-plans.tsx'
+import { ControlType } from '@common/types/control-types.ts'
+import { actionTargetTypeLabels, EnvActionControl, vehicleTypeLabels } from '@common/types/env-mission-types.ts'
+import { extractLatLonFromMultiPoint } from '@common/utils/geometry.ts'
 import { CoordinatesFormat, CoordinatesInput, Icon, Label, THEME } from '@mtes-mct/monitor-ui'
-import Divider from 'rsuite/Divider'
+import { Coordinates } from '@mtes-mct/monitor-ui/types/definitions'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { Stack } from 'rsuite'
+import Divider from 'rsuite/Divider'
 import Text from '../../../../../common/components/ui/text.tsx'
+import useActionById from '../../../hooks/use-action-by-id.tsx'
+import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
 import ControlsToCompleteTag from '../../ui/controls-to-complete-tag.tsx'
 import EnvControlForm from '../controls/env-control-form.tsx'
-import { ControlType } from '@common/types/control-types.ts'
-import {
-  actionTargetTypeLabels,
-  EnvActionControl,
-  FormattedControlPlan,
-  vehicleTypeLabels
-} from '@common/types/env-mission-types.ts'
-import { useParams } from 'react-router-dom'
 import EnvInfractionAddNewTarget from '../infractions/env-infraction-add-new-target.tsx'
 import EnvInfractionExistingTargets from '../infractions/env-infraction-existing-targets.tsx'
-import useActionById from '../../../hooks/use-action-by-id.tsx'
-import { extractLatLonFromMultiPoint } from '@common/utils/geometry.ts'
-import { Coordinates } from '@mtes-mct/monitor-ui/types/definitions'
-import { ActionDetailsProps } from './action-mapping.ts'
-import ActionHeader from './action-header.tsx'
-import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
-import ActionEnvObservationsUnit from './action-env-observations-unit.tsx'
 import ActionEnvDateRange from './action-env-daterange.tsx'
-import EnvActionControlPlans from '@common/components/elements/env-action-control-plans.tsx'
+import ActionEnvObservationsUnit from './action-env-observations-unit.tsx'
+import ActionHeader from './action-header.tsx'
+import { ActionDetailsProps } from './action-mapping.ts'
 
 type ActionControlPropsEnv = ActionDetailsProps
 
 const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
   const { missionId, actionId } = useParams()
   const isMissionFinished = useIsMissionFinished(missionId)
+  const [maxNbrControl, setMaxNbrControl] = useState<number>()
 
   const { data: envAction, loading, error } = useActionById(actionId, missionId, action.source, action.type)
+
+  useEffect(() => {
+    if (!envAction?.data) return
+    const data = envAction.data as unknown as EnvActionControl
+    if (!data.actionNumberOfControls) return
+    setMaxNbrControl(
+      data.actionNumberOfControls -
+        ((data.controlSecurity?.amountOfControls || 0) +
+          (data.controlGensDeMer?.amountOfControls || 0) +
+          (data.controlNavigation?.amountOfControls || 0) +
+          (data.controlAdministrative?.amountOfControls || 0))
+    )
+  }, [envAction])
 
   if (loading) {
     return <div>Chargement...</div>
@@ -40,7 +49,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
     return <div>error</div>
   }
   if (envAction) {
-    const actionData: EnvActionControl = envAction.data
+    const actionData = envAction.data as unknown as EnvActionControl
     return (
       <Stack
         direction="column"
@@ -138,33 +147,33 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
                     </Stack.Item>
                     <Stack.Item style={{ width: '100%' }}>
                       <EnvControlForm
+                        maxAmountOfControls={maxNbrControl}
                         controlType={ControlType.ADMINISTRATIVE}
                         data={actionData?.controlAdministrative}
-                        maxAmountOfControls={actionData?.actionNumberOfControls}
                         shouldCompleteControl={!!actionData?.controlsToComplete?.includes(ControlType.ADMINISTRATIVE)}
                       />
                     </Stack.Item>
                     <Stack.Item style={{ width: '100%' }}>
                       <EnvControlForm
+                        maxAmountOfControls={maxNbrControl}
                         controlType={ControlType.NAVIGATION}
                         data={actionData?.controlNavigation}
-                        maxAmountOfControls={actionData?.actionNumberOfControls}
                         shouldCompleteControl={!!actionData?.controlsToComplete?.includes(ControlType.NAVIGATION)}
                       />
                     </Stack.Item>
                     <Stack.Item style={{ width: '100%' }}>
                       <EnvControlForm
+                        maxAmountOfControls={maxNbrControl}
                         controlType={ControlType.GENS_DE_MER}
                         data={actionData?.controlGensDeMer}
-                        maxAmountOfControls={actionData?.actionNumberOfControls}
                         shouldCompleteControl={!!actionData?.controlsToComplete?.includes(ControlType.GENS_DE_MER)}
                       />
                     </Stack.Item>
                     <Stack.Item style={{ width: '100%' }}>
                       <EnvControlForm
+                        maxAmountOfControls={maxNbrControl}
                         controlType={ControlType.SECURITY}
                         data={actionData?.controlSecurity}
-                        maxAmountOfControls={actionData?.actionNumberOfControls}
                         shouldCompleteControl={!!actionData?.controlsToComplete?.includes(ControlType.SECURITY)}
                       />
                     </Stack.Item>

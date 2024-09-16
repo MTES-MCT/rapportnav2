@@ -1,4 +1,9 @@
+import { useControl } from '@features/pam/mission/hooks/control/use-control.tsx'
+import { FormikEffect, FormikNumberInput, FormikTextInput } from '@mtes-mct/monitor-ui'
+import { Form, Formik } from 'formik'
+import { isEqual, isNull, omitBy, pick } from 'lodash'
 import { FC, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { Stack } from 'rsuite'
 import {
   ControlAdministrative,
@@ -7,119 +12,96 @@ import {
   ControlSecurity,
   ControlType
 } from '../../../../../common/types/control-types.ts'
-import { NumberInput, TextInput } from '@mtes-mct/monitor-ui'
-import omit from 'lodash/omit'
-import { useParams } from 'react-router-dom'
 import ControlTitleCheckbox from '../../ui/control-title-checkbox.tsx'
-import useAddOrUpdateControl from '../../../hooks/use-add-update-control.tsx'
-import useDeleteControl from '../../../hooks/use-delete-control.tsx'
+
+export type EnvControlFormInput = {
+  observations?: string
+  amountOfControls?: number
+}
+
+type EnvControl = ControlAdministrative | ControlSecurity | ControlNavigation | ControlGensDeMer
 
 export interface EnvControlFormProps {
   controlType: ControlType
-  data?: ControlAdministrative | ControlSecurity | ControlNavigation | ControlGensDeMer
+  data?: EnvControl
   maxAmountOfControls?: number
   shouldCompleteControl?: boolean
 }
 
 const EnvControlForm: FC<EnvControlFormProps> = ({ controlType, data, maxAmountOfControls, shouldCompleteControl }) => {
   const { missionId, actionId } = useParams()
+  const [control, setControl] = useState<EnvControlFormInput>()
+  const { isRequired, toggleControl, controlIsChecked, controlEnvChanged } = useControl(
+    data,
+    controlType,
+    shouldCompleteControl,
+    3000
+  )
 
-  const [observationsValue, setObservationsValue] = useState<string | undefined>(data?.observations)
+  const getControlInput = (data?: EnvControl) =>
+    data ? omitBy(pick(data, 'observations', 'amountOfControls'), isNull) : ({} as EnvControlFormInput)
 
-  const handleObservationsChange = (nextValue?: string) => {
-    setObservationsValue(nextValue)
+  const getControl = (value?: EnvControlFormInput) => {
+    if (!value) return
+    return {
+      missionId,
+      actionControlId: actionId,
+      unitHasConfirmed: undefined,
+      ...value
+    }
   }
 
   useEffect(() => {
-    setObservationsValue(data?.observations)
+    setControl(getControlInput(data))
   }, [data])
 
-  const handleObservationsBlur = async () => {
-    await onChange('observations', observationsValue)
+  const handleControlChange = async (value: EnvControlFormInput): Promise<void> => {
+    if (isEqual(value, control)) return
+    controlEnvChanged(actionId, getControl(value), !!value.amountOfControls)
   }
 
-  const [mutateControl] = useAddOrUpdateControl({ controlType: controlType })
-  const [deleteControl] = useDeleteControl({ controlType: controlType })
-
-  const toggleControl = async (isChecked: boolean) =>
-    isChecked
-      ? onChange()
-      : await deleteControl({
-          variables: {
-            actionId
-          }
-        })
-
-  const onChange = async (field?: string, value?: any) => {
-    let updatedData = {
-      ...omit(data, '__typename'),
-      missionId: missionId,
-      actionControlId: actionId,
-      amountOfControls: data?.amountOfControls
-    }
-
-    // do not create a control just because of a blur on observations
-    if (field === 'observations') {
-      if (observationsValue === undefined && value === undefined) {
-        return
-      }
-    }
-
-    if (!!field && !!value) {
-      updatedData = {
-        ...updatedData,
-        [field]: value
-      }
-    }
-
-    if (field === 'amountOfControls' && (value === 0 || value === undefined)) {
-      await deleteControl({
-        variables: {
-          actionId
-        }
-      })
-    } else {
-      await mutateControl({ variables: { control: updatedData } })
-    }
-  }
+  const handleToogleControl = async (isChecked: boolean) => toggleControl(isChecked, actionId, getControl(control))
 
   return (
     <Stack direction="column" alignItems="flex-start" spacing={'0.5rem'} style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
         <ControlTitleCheckbox
           controlType={controlType}
-          checked={!!data || shouldCompleteControl}
-          // disabled={mutationLoading?.loading}
-          shouldCompleteControl={!!shouldCompleteControl && !data}
-          onChange={(isChecked: boolean) => toggleControl(isChecked)}
+          checked={controlIsChecked}
+          shouldCompleteControl={isRequired}
+          onChange={(isChecked: boolean) => handleToogleControl(isChecked)}
         />
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
-        <Stack direction="row" style={{ width: '100%' }} spacing={'0.5rem'}>
-          <Stack.Item style={{ width: '33%' }}>
-            <NumberInput
-              label="Nb contrôles"
-              isRequired={shouldCompleteControl}
-              name="amountOfControls"
-              // disabled={mutationLoading?.loading}
-              value={data?.amountOfControls}
-              // max={maxAmountOfControls}
-              isLight={true}
-              onChange={(nextValue?: number) => onChange('amountOfControls', nextValue)}
-            />
-          </Stack.Item>
-          <Stack.Item style={{ width: '67%' }}>
-            <TextInput
-              label="Observations (hors infraction)"
-              name="observations"
-              isLight={true}
-              // disabled={mutationLoading?.loading}
-              value={observationsValue}
-              onChange={handleObservationsChange}
-              onBlur={handleObservationsBlur}
-            />
-          </Stack.Item>
-        </Stack>
+        {control !== undefined && (
+          <Formik
+            initialValues={control}
+            validateOnChange={true}
+            enableReinitialize={true}
+            onSubmit={handleControlChange}
+          >
+            <>
+              <FormikEffect onChange={handleControlChange} />
+              <Form>
+                <Stack direction="row" style={{ width: '100%' }} spacing={'0.5rem'}>
+                  <Stack.Item style={{ width: '33%' }}>
+                    <FormikNumberInput
+                      min={0}
+                      isLight={true}
+                      label="Nb contrôles"
+                      name="amountOfControls"
+                      isRequired={shouldCompleteControl}
+                      max={(data?.amountOfControls || 0) + (maxAmountOfControls || 0)}
+                    />
+                  </Stack.Item>
+                  <Stack.Item style={{ width: '67%' }}>
+                    <FormikTextInput isLight={true} name="observations" label="Observations (hors infraction)" />
+                  </Stack.Item>
+                </Stack>
+              </Form>
+            </>
+          </Formik>
+        )}
       </Stack.Item>
     </Stack>
   )
