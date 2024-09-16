@@ -34,7 +34,7 @@ const ActionEnvControl: React.FC<{ action: Action; onClick: any }> = ({ action, 
                         {actionData &&
                         'formattedControlPlans' in actionData &&
                         !!actionData?.formattedControlPlans?.themes?.length
-                          ? actionData?.formattedControlPlans?.themes[0]
+                          ? actionData?.formattedControlPlans?.themes.join(', ')
                           : 'environnement'}
                       </b>
                     </Text>

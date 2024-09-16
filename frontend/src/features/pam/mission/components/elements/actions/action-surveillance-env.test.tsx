@@ -17,10 +17,12 @@ const actionMock = {
   data: {
     observations: null,
     geom: 'MULTIPOINT ((-8.52318191 48.30305604))',
-    formattedControlPlans: {
-      subThemes: ['mouillage individuel', 'ZMEL'],
-      themes: ['police des mouillages']
-    }
+    formattedControlPlans: [
+      {
+        subThemes: ['mouillage individuel', 'ZMEL'],
+        theme: 'police des mouillages'
+      }
+    ]
   } as any as EnvAction
 }
 
@@ -63,10 +65,12 @@ describe('ActionSurveillanceEnv', () => {
         data: {
           observations: null,
           geom: 'MULTIPOINT ((-8.52318191 48.30305604))',
-          formattedControlPlans: {
-            subThemes: undefined,
-            themes: undefined
-          }
+          formattedControlPlans: [
+            {
+              subThemes: undefined,
+              theme: undefined
+            }
+          ]
         }
       }
       vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: mock, loading: false, error: null })
@@ -80,10 +84,12 @@ describe('ActionSurveillanceEnv', () => {
         data: {
           observations: null,
           geom: 'MULTIPOINT ((-8.52318191 48.30305604))',
-          formattedControlPlans: {
-            subThemes: [],
-            themes: []
-          }
+          formattedControlPlans: [
+            {
+              subThemes: [],
+              themes: undefined
+            }
+          ]
         }
       }
       vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: mock, loading: false, error: null })

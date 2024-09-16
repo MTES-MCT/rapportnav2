@@ -40,7 +40,7 @@ export const GET_MISSION_TIMELINE = gql`
             vehicleType
             controlsToComplete
             formattedControlPlans {
-              themes
+              theme
               subThemes
             }
           }

@@ -153,7 +153,7 @@ export const GET_ACTION_BY_ID = gql`
           availableControlTypesForInfraction
           geom
           formattedControlPlans {
-            themes
+            theme
             subThemes
           }
           infractions {
