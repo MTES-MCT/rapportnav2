@@ -272,4 +272,18 @@ describe('useControl hook', () => {
       control: expect.objectContaining({ unitHasConfirmed: true })
     })
   })
+
+  it('it should override debounce time', async () => {
+    const debounceTime = 10000
+    vi.useFakeTimers({ shouldAdvanceTime: true })
+    const { result } = renderHook(() => useControl(data, ControlType.ADMINISTRATIVE, true, debounceTime), { wrapper })
+    act(() => {
+      result.current.controlChanged(actionId, control)
+    })
+    expect(addOrUpdateControlMatcher).toHaveBeenCalledTimes(0)
+    vi.advanceTimersByTime(5000)
+    expect(addOrUpdateControlMatcher).toHaveBeenCalledTimes(0)
+    vi.advanceTimersByTime(debounceTime)
+    expect(addOrUpdateControlMatcher).toHaveBeenCalledTimes(1)
+  })
 })

@@ -63,7 +63,8 @@ describe('ControlGensDeMer', () => {
       controlIsChecked: false,
       updateControl: updateControlMock,
       toggleControl: toogleControlMock,
-      controlChanged: controlChangedMock
+      controlChanged: controlChangedMock,
+      controlEnvChanged: vi.fn()
     })
     const data = {
       id: 'scscss',
@@ -87,7 +88,8 @@ describe('ControlGensDeMer', () => {
       controlIsChecked: false,
       updateControl: updateControlMock,
       toggleControl: toogleControlMock,
-      controlChanged: controlChangedMock
+      controlChanged: controlChangedMock,
+      controlEnvChanged: vi.fn()
     })
     const wrapper = render(<ControlGensDeMerForm shouldCompleteControl={false} unitShouldConfirm={false} />)
     const radio = wrapper.container.querySelectorAll("input[type='radio']")[0] as HTMLInputElement

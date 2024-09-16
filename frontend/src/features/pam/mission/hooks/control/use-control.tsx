@@ -13,9 +13,15 @@ type ControlHook = {
   updateControl: (actionId: string, value?: Control) => Promise<void>
   controlChanged: (actionId?: string, control?: Control) => Promise<void>
   toggleControl: (isChecked: boolean, actionId?: string, control?: Control) => Promise<void>
+  controlEnvChanged: (actionId?: string, control?: Control, shouldUpdate?: boolean) => Promise<void>
 }
 
-export function useControl(data: unknown, controlType: ControlType, shouldCompleteControl?: boolean): ControlHook {
+export function useControl(
+  data: unknown,
+  controlType: ControlType,
+  shouldCompleteControl?: boolean,
+  debounceTime?: number
+): ControlHook {
   const [isRequired, setIsRequired] = useState<boolean>()
   const timerRef = useRef<ReturnType<typeof setTimeout>>()
   const [controlIsChecked, setControlIsChecked] = useState<boolean>()
@@ -30,7 +36,7 @@ export function useControl(data: unknown, controlType: ControlType, shouldComple
 
   const controlChanged = async (actionId?: string, control?: Control): Promise<void> => {
     clearTimeout(timerRef.current)
-    timerRef.current = setTimeout(() => updateControl(actionId, control), DEBOUNCE_TIME_TRIGGER)
+    timerRef.current = setTimeout(() => updateControl(actionId, control), debounceTime || DEBOUNCE_TIME_TRIGGER)
   }
 
   const updateControl = async (actionId?: string, control?: Control) => {
@@ -45,11 +51,16 @@ export function useControl(data: unknown, controlType: ControlType, shouldComple
   const toggleControl = async (isChecked: boolean, actionId?: string, control?: Control) => {
     if (isChecked === controlIsChecked) return
     setControlIsChecked(isChecked)
-    if (!isChecked) {
-      await deleteControl({ variables: { actionId } })
-    } else {
-      await updateControl(actionId, control)
-    }
+    updateOrDeleteControl(actionId, control, isChecked)
+  }
+
+  const updateOrDeleteControl = async (actionId?: string, control?: Control, shouldUpdate?: boolean) => {
+    shouldUpdate ? await updateControl(actionId, control) : await deleteControl({ variables: { actionId } })
+  }
+
+  const controlEnvChanged = async (actionId?: string, control?: Control, shouldUpdate?: boolean): Promise<void> => {
+    clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(() => updateOrDeleteControl(actionId, control, shouldUpdate), DEBOUNCE_TIME_TRIGGER)
   }
 
   return {
@@ -57,6 +68,7 @@ export function useControl(data: unknown, controlType: ControlType, shouldComple
     updateControl,
     toggleControl,
     controlChanged,
-    controlIsChecked
+    controlIsChecked,
+    controlEnvChanged
   }
 }
