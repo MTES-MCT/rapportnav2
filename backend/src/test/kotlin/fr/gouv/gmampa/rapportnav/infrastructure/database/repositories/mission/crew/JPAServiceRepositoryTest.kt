@@ -41,8 +41,19 @@ class JPAServiceRepositoryTest {
     @Test
     fun `execute should retrieve serviceModel with control units list`() {
         Mockito.`when`(dbServiceRepository.findAll()).thenReturn(serviceModels);
-        var jpaServiceRepo = JPAServiceRepository(dbServiceRepository)
+        val jpaServiceRepo = JPAServiceRepository(dbServiceRepository)
         val response = jpaServiceRepo.findByControlUnitId(listOf(3))
+        assertThat(response).isNotNull();
+
+        assertThat(response.size).isEqualTo(2);
+        assertThat(response.map { service -> service.id }).containsAll(listOf(3, 4));
+    }
+
+    @Test
+    fun `execute should retrieve serviceModel with control units list when receiving several controlUnits in input`() {
+        Mockito.`when`(dbServiceRepository.findAll()).thenReturn(serviceModels);
+        val jpaServiceRepo = JPAServiceRepository(dbServiceRepository)
+        val response = jpaServiceRepo.findByControlUnitId(listOf(3, 348))
         assertThat(response).isNotNull();
 
         assertThat(response.size).isEqualTo(2);
