@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
-version = "2.0.0"
+version = "1.9.2"
 description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
@@ -48,9 +48,7 @@ dependencyManagement {
     mavenBom("org.testcontainers:testcontainers-bom:$testcontainersVersion")
   }
   dependencies {
-//    21/08/2024: remove the 2 following exclusions when moving to spring 3.3.3 or above
-    dependency("org.springframework:spring-web:6.1.12")
-    dependency("org.springframework.security:spring-security-core:6.3.2")
+    dependency("org.springframework:spring-webmvc:6.1.13")
   }
 }
 
