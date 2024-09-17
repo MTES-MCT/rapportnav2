@@ -1,6 +1,13 @@
-import { render, screen } from '../../../../../../test-utils.tsx'
 import { ControlAdministrative, ControlType } from '@common/types/control-types.ts'
+import { vi } from 'vitest'
+import { fireEvent, render, screen } from '../../../../../../test-utils.tsx'
 import EnvControlForm, { EnvControlFormProps } from './env-control-form.tsx'
+
+import * as useControlHook from '../../../hooks/control/use-control'
+
+const updateControlMock = vi.fn()
+const toogleControlMock = vi.fn()
+const controlChangedMock = vi.fn()
 
 const dummy_control = {
   id: '123',
@@ -8,6 +15,10 @@ const dummy_control = {
 } as ControlAdministrative
 
 describe('EnvControlForm', () => {
+  afterEach(() => {
+    vi.clearAllMocks()
+    vi.resetAllMocks()
+  })
   describe('the Checkbox in the title', () => {
     it('should be checked when Control has data', () => {
       const props: EnvControlFormProps = {
@@ -43,6 +54,7 @@ describe('EnvControlForm', () => {
       expect(checkbox).not.toBeChecked()
     })
   })
+
   describe('the red dot in the title', () => {
     it('should be shown when no data but shouldCompleteControl', () => {
       const props: EnvControlFormProps = {
@@ -78,6 +90,7 @@ describe('EnvControlForm', () => {
       expect(redDot).toBeNull()
     })
   })
+
   describe('the form inputs', () => {
     it('should be enabled when shouldCompleteControl', () => {
       const props: EnvControlFormProps = {
@@ -105,5 +118,28 @@ describe('EnvControlForm', () => {
       // const obsInput = screen.getByLabelText('Observations (hors infraction)')
       // expect(obsInput).not.toBeDisabled()
     })
+  })
+
+  it('should not trigger call if amount of control is more than maxAmountsOfControls', async () => {
+    const useControlSpy = vi.spyOn(useControlHook, 'useControl')
+    useControlSpy.mockReturnValue({
+      isRequired: false,
+      controlIsChecked: false,
+      updateControl: updateControlMock,
+      toggleControl: toogleControlMock,
+      controlChanged: vi.fn(),
+      controlEnvChanged: controlChangedMock
+    })
+
+    const props: EnvControlFormProps = {
+      shouldCompleteControl: false,
+      controlType: ControlType.ADMINISTRATIVE,
+      maxAmountOfControls: 6
+    }
+
+    const wrapper = render(<EnvControlForm {...props} />)
+    const input = wrapper.getByLabelText('Nb contrôles')
+    fireEvent.change(input, { target: { value: 7 } })
+    expect(controlChangedMock).not.toHaveBeenCalled()
   })
 })
