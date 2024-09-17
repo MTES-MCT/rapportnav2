@@ -5,13 +5,12 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionAntiPo
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
-import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
 
 data class AEMPollutionControlSurveillance(
     val nbrOfHourAtSea: Int? = 0, //4.2.1
     val nbrOfSimpleBrewingOperation: Int? = 0, // 4.2.3
     val nbrOfAntiPolDeviceDeployed: Int? = 0, // 4.2.4
-    val nbrOfInfraction: Int? = 0, // 4.2.4
+    val nbrOfInfraction: Int? = 0, // 4.2.5
     val nbrOfInfractionWithNotice: Int? = 0, // 4.2.6
     val nbrOfDiversionCarriedOut: Int? = 0, // 4.2.7
     val nbrOfPollutionObservedByAuthorizedAgent: Int? = 0 //4.2.8

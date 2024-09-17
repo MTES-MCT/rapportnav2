@@ -9,7 +9,7 @@ data class AEMMigrationRescue(
     val nbrOfOperation: Int? = 0,// 1.2.3
     val nbrOfVesselsTrackedWithoutIntervention: Int? = 0, //1.2.4
     val nbrAssistedVesselsReturningToShore: Int? = 0, //1.2.5
-    val nbrOfRescuedOperation: Int? = 0, //1.2/6
+    val nbrOfRescuedOperation: Int? = 0, //1.2.6
     val nbrPersonsRescued: Int? = 0,// 1.2.7
 ) {
     constructor(
