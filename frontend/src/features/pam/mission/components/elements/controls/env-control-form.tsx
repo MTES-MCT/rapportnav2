@@ -1,10 +1,11 @@
 import { useControl } from '@features/pam/mission/hooks/control/use-control.tsx'
 import { FormikEffect, FormikNumberInput, FormikTextInput } from '@mtes-mct/monitor-ui'
-import { Form, Formik } from 'formik'
-import { isEqual, isNull, omitBy, pick } from 'lodash'
+import { Form, Formik, FormikErrors } from 'formik'
+import { isEmpty, isEqual, isNull, omitBy, pick } from 'lodash'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Stack } from 'rsuite'
+import { number, object } from 'yup'
 import {
   ControlAdministrative,
   ControlGensDeMer,
@@ -55,7 +56,11 @@ const EnvControlForm: FC<EnvControlFormProps> = ({ controlType, data, maxAmountO
     setControl(getControlInput(data))
   }, [data])
 
-  const handleControlChange = async (value: EnvControlFormInput): Promise<void> => {
+  const handleControlChange = async (
+    value: EnvControlFormInput,
+    errors?: FormikErrors<EnvControlFormInput>
+  ): Promise<void> => {
+    if (!isEmpty(errors)) return
     if (isEqual(value, control)) return
     controlEnvChanged(actionId, getControl(value), !!value.amountOfControls)
   }
@@ -78,28 +83,38 @@ const EnvControlForm: FC<EnvControlFormProps> = ({ controlType, data, maxAmountO
             initialValues={control}
             validateOnChange={true}
             enableReinitialize={true}
-            onSubmit={handleControlChange}
+            onSubmit={value => {
+              handleControlChange(value)
+            }}
+            validationSchema={object().shape({
+              amountOfControls: number().max((data?.amountOfControls || 0) + (maxAmountOfControls || 0))
+            })}
           >
-            <>
-              <FormikEffect onChange={handleControlChange} />
-              <Form>
-                <Stack direction="row" style={{ width: '100%' }} spacing={'0.5rem'}>
-                  <Stack.Item style={{ width: '33%' }}>
-                    <FormikNumberInput
-                      min={0}
-                      isLight={true}
-                      label="Nb contrôles"
-                      name="amountOfControls"
-                      isRequired={shouldCompleteControl}
-                      max={(data?.amountOfControls || 0) + (maxAmountOfControls || 0)}
-                    />
-                  </Stack.Item>
-                  <Stack.Item style={{ width: '67%' }}>
-                    <FormikTextInput isLight={true} name="observations" label="Observations (hors infraction)" />
-                  </Stack.Item>
-                </Stack>
-              </Form>
-            </>
+            {({ validateForm }) => (
+              <>
+                <FormikEffect
+                  onChange={value => validateForm(value).then(errors => handleControlChange(value, errors))}
+                />
+                <Form>
+                  <Stack direction="row" style={{ width: '100%' }} spacing={'0.5rem'}>
+                    <Stack.Item style={{ width: '33%' }}>
+                      <FormikNumberInput
+                        isErrorMessageHidden={true}
+                        min={0}
+                        isLight={true}
+                        label="Nb contrôles"
+                        name="amountOfControls"
+                        isRequired={shouldCompleteControl}
+                        max={(data?.amountOfControls || 0) + (maxAmountOfControls || 0)}
+                      />
+                    </Stack.Item>
+                    <Stack.Item style={{ width: '67%' }}>
+                      <FormikTextInput isLight={true} name="observations" label="Observations (hors infraction)" />
+                    </Stack.Item>
+                  </Stack>
+                </Form>
+              </>
+            )}
           </Formik>
         )}
       </Stack.Item>

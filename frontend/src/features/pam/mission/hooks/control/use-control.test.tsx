@@ -286,4 +286,16 @@ describe('useControl hook', () => {
     vi.advanceTimersByTime(debounceTime)
     expect(addOrUpdateControlMatcher).toHaveBeenCalledTimes(1)
   })
+
+  it('it should not send a request if the toogle is checked but amountControls value is not defined or 0', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true })
+    control.amountOfControls = 0
+    const { result } = renderHook(() => useControl(data, ControlType.ADMINISTRATIVE, true), { wrapper })
+    act(() => {
+      result.current.toggleControl(true, actionId, control)
+    })
+    expect(addOrUpdateControlMatcher).toHaveBeenCalledTimes(0)
+    vi.advanceTimersByTime(10000)
+    expect(addOrUpdateControlMatcher).toHaveBeenCalledTimes(0)
+  })
 })

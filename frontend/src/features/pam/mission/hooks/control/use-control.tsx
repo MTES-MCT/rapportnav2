@@ -6,7 +6,7 @@ import useDeleteControl from '../use-delete-control'
 
 const DEBOUNCE_TIME_TRIGGER = 5000
 
-type Control = unknown & { unitHasConfirmed?: boolean }
+type Control = unknown & { amountOfControls?: number; unitHasConfirmed?: boolean }
 type ControlHook = {
   isRequired?: boolean
   controlIsChecked?: boolean
@@ -51,6 +51,7 @@ export function useControl(
   const toggleControl = async (isChecked: boolean, actionId?: string, control?: Control) => {
     if (isChecked === controlIsChecked) return
     setControlIsChecked(isChecked)
+    if (isChecked && !control?.amountOfControls) return
     updateOrDeleteControl(actionId, control, isChecked)
   }
 
@@ -60,7 +61,10 @@ export function useControl(
 
   const controlEnvChanged = async (actionId?: string, control?: Control, shouldUpdate?: boolean): Promise<void> => {
     clearTimeout(timerRef.current)
-    timerRef.current = setTimeout(() => updateOrDeleteControl(actionId, control, shouldUpdate), DEBOUNCE_TIME_TRIGGER)
+    timerRef.current = setTimeout(
+      () => updateOrDeleteControl(actionId, control, shouldUpdate),
+      debounceTime || DEBOUNCE_TIME_TRIGGER
+    )
   }
 
   return {
