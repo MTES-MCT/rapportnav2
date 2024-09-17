@@ -5,6 +5,7 @@ import { isEmpty, isEqual, isNull, omitBy, pick } from 'lodash'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Stack } from 'rsuite'
+import { number, object } from 'yup'
 import {
   ControlAdministrative,
   ControlGensDeMer,
@@ -13,8 +14,6 @@ import {
   ControlType
 } from '../../../../../common/types/control-types.ts'
 import ControlTitleCheckbox from '../../ui/control-title-checkbox.tsx'
-
-import * as Yup from 'yup'
 
 export type EnvControlFormInput = {
   observations?: string
@@ -87,8 +86,8 @@ const EnvControlForm: FC<EnvControlFormProps> = ({ controlType, data, maxAmountO
             onSubmit={value => {
               handleControlChange(value)
             }}
-            validationSchema={Yup.object().shape({
-              amountOfControls: Yup.number().max((data?.amountOfControls || 0) + (maxAmountOfControls || 0))
+            validationSchema={object().shape({
+              amountOfControls: number().max((data?.amountOfControls || 0) + (maxAmountOfControls || 0))
             })}
           >
             {({ validateForm }) => (
