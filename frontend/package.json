@@ -66,7 +66,7 @@
     "msw": "^2.4.7",
     "prettier": "3.2.5",
     "typescript": "^5.4.3",
-    "vite": "^5.2.6",
+    "vite": "^5.4.6",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-svgr": "github:pd4d10/vite-plugin-svgr#main",
     "vite-tsconfig-paths": "^4.2.0",
