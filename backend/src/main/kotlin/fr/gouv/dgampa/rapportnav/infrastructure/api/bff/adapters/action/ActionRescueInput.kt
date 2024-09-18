@@ -1,16 +1,14 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionRescueEntity
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
+import java.time.Instant
 import java.util.*
 
 class ActionRescueInput(
     val id: UUID? = null,
     val missionId: Int,
-    val startDateTimeUtc: String,
-    val endDateTimeUtc: String? = null,
+    val startDateTimeUtc: Instant,
+    val endDateTimeUtc: Instant? = null,
     val latitude: Float? = null,
     val longitude: Float? = null,
     val isVesselRescue: Boolean? = false,
@@ -31,12 +29,8 @@ class ActionRescueInput(
         return ActionRescueEntity(
             id = id ?: UUID.randomUUID(),
             missionId = missionId,
-            startDateTimeUtc = startDateTimeUtc.let {
-                ZonedDateTime.parse(it, DateTimeFormatter.ISO_ZONED_DATE_TIME)
-            } ?: ZonedDateTime.now(ZoneId.of("UTC")),
-            endDateTimeUtc = endDateTimeUtc?.let {
-                ZonedDateTime.parse(it, DateTimeFormatter.ISO_ZONED_DATE_TIME)
-            } ?: ZonedDateTime.now(ZoneId.of("UTC")),
+            startDateTimeUtc = startDateTimeUtc,
+            endDateTimeUtc = endDateTimeUtc,
             isVesselRescue = isVesselRescue,
             observations = observations,
             isPersonRescue = isPersonRescue,

@@ -5,14 +5,14 @@ extend type Mutation {
 type PatchedEnvAction {
   id: String!
   observationsByUnit: String
-  startDateTimeUtc: String
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant
+  endDateTimeUtc: Instant
 }
 
 type EnvActionData {
   id: String!
-  actionStartDateTimeUtc: String!
-  actionEndDateTimeUtc: String!
+  actionStartDateTimeUtc: Instant!
+  actionEndDateTimeUtc: Instant!
   geom: String
   facade: String
   department: String
@@ -41,7 +41,7 @@ input ActionEnvInput {
   missionId: ID!
   actionId: String!
   observationsByUnit: String
-  startDateTimeUtc: String
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant
+  endDateTimeUtc: Instant
 }
 

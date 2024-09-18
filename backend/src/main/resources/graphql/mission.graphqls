@@ -20,8 +20,8 @@ type MissionExport {
 type Mission {
   id: ID!
   missionSource: String!
-  startDateTimeUtc: String!
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
   actions: [Action]
   generalInfo: MissionGeneralInfo
   openBy: String
@@ -83,6 +83,6 @@ input MissionServiceInput {
 input MissionEnvInput {
   missionId: ID!
   observationsByUnit: String
-  startDateTimeUtc: String
-  endDateTimeUtc: String
+  startDateTimeUtc: Instant
+  endDateTimeUtc: Instant
 }

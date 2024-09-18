@@ -5,9 +5,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import kotlin.time.DurationUnit
 
 @SpringBootTest(classes = [ComputeDurations::class])
@@ -16,17 +15,14 @@ class ComputeDurationsTests {
     @Autowired
     private lateinit var computeDurations: ComputeDurations
 
-    private val startDateTime = ZonedDateTime.of(
-        LocalDateTime.of(2022, 1, 2, 12, 0),
-        ZoneOffset.UTC
-    )
+    private val startDateTime = Instant.parse("2022-01-02T12:00:00.000+01:00")
 
     @Test
     fun `formatTime should return NA when startDate is null`() {
         assertThat(
             computeDurations.durationInSeconds(
                 null,
-                startDateTime.plusHours(2L)
+                startDateTime.plus(2, ChronoUnit.HOURS)
             )
         ).isNull()
     }
@@ -46,7 +42,7 @@ class ComputeDurationsTests {
         assertThat(
             computeDurations.durationInSeconds(
                 startDateTime,
-                startDateTime.plusHours(2L)
+                startDateTime.plus(2, ChronoUnit.HOURS)
             )
         ).isEqualTo(7200)
     }
@@ -55,8 +51,8 @@ class ComputeDurationsTests {
     fun `durationInSeconds should return 7200s (=2h) across two days`() {
         assertThat(
             computeDurations.durationInSeconds(
-                startDateTime.plusHours(11L), // 11pm
-                startDateTime.plusHours(13L), // 1am on the next day
+                startDateTime.plus(11, ChronoUnit.HOURS), // 11pm
+                startDateTime.plus(13, ChronoUnit.HOURS), // 1am on the next day
             )
         ).isEqualTo(7200)
     }
@@ -66,7 +62,7 @@ class ComputeDurationsTests {
         assertThat(
             computeDurations.durationInSeconds(
                 startDateTime,
-                startDateTime.minusHours(2L), // 1am on the next day
+                startDateTime.minus(2, ChronoUnit.HOURS), // 1am on the next day
             )
         ).isEqualTo(-7200)
     }
@@ -76,7 +72,7 @@ class ComputeDurationsTests {
         assertThat(
             computeDurations.durationInSeconds(
                 startDateTime,
-                startDateTime.plusDays(12L), // 12 days later
+                startDateTime.plus(12, ChronoUnit.DAYS), // 12 days later
             )
         ).isEqualTo(1036800)
         assertThat(computeDurations.convertFromSeconds(1036800, DurationUnit.DAYS)).isEqualTo(12.0)

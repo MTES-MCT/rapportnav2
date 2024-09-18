@@ -15,6 +15,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSe
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.EncodeSpecialChars
+import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -25,9 +26,7 @@ import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
+import java.time.Instant
 
 @SpringBootTest(
     classes = [
@@ -38,6 +37,7 @@ import java.time.ZonedDateTime
         GetStatusDurations::class,
         GetNbOfDaysAtSeaFromNavigationStatus::class,
         EncodeSpecialChars::class,
+        FormatDateTime::class,
     ]
 )
 class ExportMissionTests {
@@ -105,7 +105,7 @@ class ExportMissionTests {
         val exportParams = ExportParams(
             service = null,
             id = "2022-01-02",
-            startDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
+            startDateTime = Instant.parse("2022-01-02T12:00:00Z"),
             endDateTime = null,
             presenceMer = mapOf(
                 "navigationEffective" to 0,

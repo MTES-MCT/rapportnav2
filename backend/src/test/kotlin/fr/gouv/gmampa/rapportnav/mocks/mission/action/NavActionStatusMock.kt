@@ -3,16 +3,14 @@ package fr.gouv.gmampa.rapportnav.mocks.mission.action
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 object NavActionStatusMock {
 
     fun createActionStatusEntity(
         status: ActionStatusType = ActionStatusType.NAVIGATING,
-        startDateTimeUtc: ZonedDateTime = ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 0), ZoneOffset.UTC),
+        startDateTimeUtc: Instant = Instant.parse("2022-01-02T12:00:01Z"),
         reason: ActionStatusReason? = null,
         observations: String? = "observations",
         isCompleteForStats: Boolean? = null,

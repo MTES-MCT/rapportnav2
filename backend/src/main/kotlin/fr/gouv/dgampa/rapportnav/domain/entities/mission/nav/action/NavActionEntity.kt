@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 data class NavActionEntity(
@@ -9,8 +9,8 @@ data class NavActionEntity(
     val missionId: Int,
     var isCompleteForStats: Boolean? = null,
     val sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
-    val startDateTimeUtc: ZonedDateTime,
-    val endDateTimeUtc: ZonedDateTime?,
+    val startDateTimeUtc: Instant,
+    val endDateTimeUtc: Instant?,
     val actionType: ActionType,
     val controlAction: ActionControlEntity? = null,
     val statusAction: ActionStatusEntity? = null,

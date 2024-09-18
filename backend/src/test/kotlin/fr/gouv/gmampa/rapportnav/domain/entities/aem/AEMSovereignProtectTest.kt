@@ -1,7 +1,9 @@
 package fr.gouv.gmampa.rapportnav.domain.entities.aem
 
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMSovereignProtect
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VehicleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
@@ -11,7 +13,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 
@@ -27,7 +29,7 @@ class AEMSovereignProtectTest {
         val navActions = navActionEntities();
         val envActions = extendedEnvActionEntities();
         val fishActions = extendedFishActionEntities();
-        val missionEndDate = ZonedDateTime.parse("2019-09-15T01:00:00.000+01:00");
+        val missionEndDate = Instant.parse("2019-09-15T01:00:00.000+01:00");
 
         val sovereign = AEMSovereignProtect(navActions, envActions, fishActions, missionEndDate);
 
@@ -43,13 +45,13 @@ class AEMSovereignProtectTest {
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.ILLEGAL_IMMIGRATION,
-                startDateTimeUtc = ZonedDateTime.parse("2019-09-08T22:00:00.000+01:00"),
-                endDateTimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00"),
+                startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
+                endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                 controlAction = ActionControlEntity(
                     missionId = 761,
                     id = UUID.randomUUID(),
-                    endDateTimeUtc = ZonedDateTime.parse("2019-09-09T04:00:00.000+01:00"),
-                    startDateTimeUtc = ZonedDateTime.parse("2019-09-09T02:00:00.000+01:00"),
+                    endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
+                    startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                     controlMethod = ControlMethod.SEA
                 )
             ),
@@ -57,13 +59,13 @@ class AEMSovereignProtectTest {
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.STATUS,
-                startDateTimeUtc = ZonedDateTime.parse("2019-09-09T00:00:00.000+01:00"),
-                endDateTimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00"),
+                startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
+                endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                 statusAction = ActionStatusEntity(
                     missionId = 761,
                     id = UUID.randomUUID(),
-                    startDateTimeUtc = ZonedDateTime.parse("2019-09-08T22:00:00.000+01:00"),
-                    endDateTimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00"),
+                    startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
+                    endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                     status = ActionStatusType.ANCHORED
                 )
             ),
@@ -71,13 +73,13 @@ class AEMSovereignProtectTest {
                 id = UUID.randomUUID(),
                 missionId = 761,
                 actionType = ActionType.STATUS,
-                startDateTimeUtc = ZonedDateTime.parse("2019-09-09T02:00:00.000+01:00"),
-                endDateTimeUtc = ZonedDateTime.parse("2019-09-09T04:00:00.000+01:00"),
+                startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
+                endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
                 statusAction = ActionStatusEntity(
                     missionId = 761,
                     id = UUID.randomUUID(),
-                    endDateTimeUtc = ZonedDateTime.parse("2019-09-09T04:00:00.000+01:00"),
-                    startDateTimeUtc = ZonedDateTime.parse("2019-09-09T02:00:00.000+01:00"),
+                    endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
+                    startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                     status = ActionStatusType.NAVIGATING
                 )
             )
@@ -92,8 +94,8 @@ class AEMSovereignProtectTest {
                     action = EnvActionControlEntity(
                         UUID.randomUUID(),
                         controlPlans = listOf(EnvActionControlPlanEntity(themeId = 102)),
-                        actionStartDateTimeUtc = ZonedDateTime.parse("2019-09-09T00:00:00.000+01:00"),
-                        actionEndDateTimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00"),
+                        actionStartDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
+                        actionEndDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                         vehicleType = VehicleTypeEnum.VEHICLE_LAND
                     )
                 )
@@ -103,8 +105,8 @@ class AEMSovereignProtectTest {
                     action = EnvActionControlEntity(
                         UUID.randomUUID(),
                         controlPlans = listOf(EnvActionControlPlanEntity(themeId = 102)),
-                        actionStartDateTimeUtc = ZonedDateTime.parse("2019-09-09T02:00:00.000+01:00"),
-                        actionEndDateTimeUtc = ZonedDateTime.parse("2019-09-09T04:00:00.000+01:00"),
+                        actionStartDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
+                        actionEndDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
                         vehicleType = VehicleTypeEnum.VESSEL
                     )
                 )
@@ -118,16 +120,16 @@ class AEMSovereignProtectTest {
             ExtendedFishActionEntityMock.create(
                 controlAction = ExtendedFishActionControlEntity(
                     action = FishActionControlMock.create(
-                        actionDatetimeUtc = ZonedDateTime.parse("2019-09-09T00:00:00.000+01:00"),
-                        actionEndDatetimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00"),
+                        actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
+                        actionEndDatetimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                     )
                 )
             ),
             ExtendedFishActionEntityMock.create(
                 controlAction = ExtendedFishActionControlEntity(
                     action = FishActionControlMock.create(
-                        actionDatetimeUtc = ZonedDateTime.parse("2019-09-09T02:00:00.000+01:00"),
-                        actionEndDatetimeUtc = ZonedDateTime.parse("2019-09-09T04:00:00.000+01:00"),
+                        actionDatetimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
+                        actionEndDatetimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
                     )
                 )
             )

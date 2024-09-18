@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.NavActionRescue
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 data class ActionRescueEntity(
@@ -19,8 +19,8 @@ data class ActionRescueEntity(
     override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
 
     @MandatoryForStats
-    override val startDateTimeUtc: ZonedDateTime,
-    override val endDateTimeUtc: ZonedDateTime? = null,
+    override val startDateTimeUtc: Instant,
+    override val endDateTimeUtc: Instant? = null,
 
     @MandatoryForStats
     val latitude: Float? = null,
@@ -87,8 +87,8 @@ data class ActionRescueEntity(
     constructor(
         id: UUID,
         missionId: Int,
-        startDateTimeUtc: ZonedDateTime,
-        endDateTimeUtc: ZonedDateTime,
+        startDateTimeUtc: Instant,
+        endDateTimeUtc: Instant,
         observations: String?,
         latitude: Float? = null,
         longitude: Float? = null,

@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlP
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.PatchedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchActionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
-import java.time.ZonedDateTime
+import java.time.Instant
 
 interface IEnvMissionRepository {
 
@@ -13,8 +13,8 @@ interface IEnvMissionRepository {
     fun findAllMissions(
         pageNumber: Int? = null,
         pageSize: Int? = null,
-        startedAfterDateTime: ZonedDateTime? = null,
-        startedBeforeDateTime: ZonedDateTime? = null,
+        startedAfterDateTime: Instant? = null,
+        startedBeforeDateTime: Instant? = null,
         missionSources: List<String>? = null,
         missionTypes: List<String>? = null,
         missionStatuses: List<String>? = null,

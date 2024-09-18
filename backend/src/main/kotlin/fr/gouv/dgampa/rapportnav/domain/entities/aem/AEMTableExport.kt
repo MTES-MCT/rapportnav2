@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
 import org.slf4j.LoggerFactory
-import java.time.ZonedDateTime
+import java.time.Instant
 
 data class AEMTableExport(
     val outOfMigrationRescue: AEMOutOfMigrationRescue?, //1.1
@@ -25,7 +25,7 @@ data class AEMTableExport(
 
     companion object {
 
-        fun fromMissionAction(actions: List<MissionActionEntity?>, endDateTimeUtc: ZonedDateTime?): AEMTableExport {
+        fun fromMissionAction(actions: List<MissionActionEntity?>, endDateTimeUtc: Instant?): AEMTableExport {
             val navActions = actions.filterIsInstance<MissionActionEntity.NavAction>().map { it.navAction };
             val envActions = actions.filterIsInstance<MissionActionEntity.EnvAction>().map { it.envAction };
             val fishActions = actions.filterIsInstance<MissionActionEntity.FishAction>().map { it.fishAction };

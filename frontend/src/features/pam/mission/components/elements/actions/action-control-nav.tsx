@@ -1,7 +1,8 @@
 import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.tsx'
 import { ActionControl } from '@common/types/action-types.ts'
 import { VesselSizeEnum, VesselTypeEnum } from '@common/types/mission-types.ts'
-import { Coordinates, DateRangePicker, Icon, Label, Select, Textarea, TextInput, THEME } from '@mtes-mct/monitor-ui'
+import { Coordinates, Icon, Label, Select, Textarea, TextInput, THEME } from '@mtes-mct/monitor-ui'
+import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
 import { isEqual } from 'lodash'
 import omit from 'lodash/omit'
 import React, { useEffect, useState } from 'react'
@@ -23,6 +24,7 @@ import ControlNavigationForm from '../controls/control-navigation-form.tsx'
 import ControlSecurityForm from '../controls/control-security-form.tsx'
 import ActionHeader from './action-header.tsx'
 import { ActionDetailsProps } from './action-mapping.ts'
+import { DateRange } from '@mtes-mct/monitor-ui/types/definitions'
 
 type ActionControlNavProps = ActionDetailsProps
 
@@ -59,23 +61,23 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
       setObservationsValue(nextValue)
     }
     const handleObservationsBlur = async () => {
-      await onChange('observations', observationsValue)
+      await onChange(observationsValue)('observations')
     }
 
     const handleIdentityControlledPersonChange = (nextValue?: string) => {
       setIdentityControlledPersonValue(nextValue)
     }
     const handleIdentityControlledPersonBlur = async () => {
-      await onChange('identityControlledPerson', identityControlledPersonValue)
+      await onChange(identityControlledPersonValue)('identityControlledPerson')
     }
     const handleVesselIdentifierChange = (nextValue?: string) => {
       setVesselIdentifierValue(nextValue)
     }
     const handleVesselIdentifierBlur = async () => {
-      await onChange('vesselIdentifier', vesselIdentifierValue)
+      await onChange(vesselIdentifierValue)('vesselIdentifier')
     }
 
-    const onChange = async (field: string, value: any) => {
+    const onChange = (value: any) => async (field: string) => {
       let updatedField: {}
       if (field === 'dates') {
         const startDateTimeUtc = value[0].toISOString()
@@ -178,12 +180,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
           <DateRangePicker
             name="dates"
             isRequired={true}
-            // defaultValue={[navAction.startDateTimeUtc ?? formatDateForServers(toLocalISOString()), navAction.endDateTimeUtc ?? formatDateForServers(new Date() as any)]}
-            defaultValue={
-              navAction.startDateTimeUtc && navAction.endDateTimeUtc
-                ? [navAction.startDateTimeUtc, navAction.endDateTimeUtc]
-                : undefined
-            }
+            defaultValue={[navAction.startDateTimeUtc, navAction.endDateTimeUtc]}
             label="Date et heure de début et de fin"
             withTime={true}
             isCompact={true}
@@ -193,8 +190,8 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
               isMissionFinished && (!navAction.startDateTimeUtc || !navAction.endDateTimeUtc) ? 'error' : undefined
             }
             isErrorMessageHidden={true}
-            onChange={async (nextValue?: [Date, Date] | [string, string]) => {
-              await onChange('dates', nextValue)
+            onChange={async (nextValue?: DateRange) => {
+              await onChange(nextValue)('dates')
             }}
           />
         </Stack.Item>
@@ -211,7 +208,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
             isErrorMessageHidden={true}
             onChange={async (nextCoordinates?: Coordinates, prevCoordinates?: Coordinates) => {
               if (!isEqual(nextCoordinates, prevCoordinates)) {
-                await onChange('geoCoords', nextCoordinates)
+                await onChange(nextCoordinates)('geoCoords')
               }
             }}
           />
@@ -230,7 +227,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
                 name="vesselSize"
                 error={isMissionFinished && !control.vesselSize ? 'error' : undefined}
                 isErrorMessageHidden={true}
-                onChange={(nextValue: VesselSizeEnum | undefined) => onChange('vesselSize', nextValue)}
+                onChange={(nextValue: VesselSizeEnum | undefined) => onChange(nextValue)('vesselSize')}
               />
             </Stack.Item>
             <Stack.Item grow={1} basis={'25%'}>

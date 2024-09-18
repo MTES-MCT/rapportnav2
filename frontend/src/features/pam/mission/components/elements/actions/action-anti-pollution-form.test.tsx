@@ -11,8 +11,8 @@ const mockAction: Action = { source: MissionSourceEnum.RAPPORTNAV, type: ActionT
 const mockResponse = {
   data: {
     id: '',
-    startDateTimeUtc: '2024-01-01T00:00:00Z',
-    endDateTimeUtc: '2024-01-12T01:00:00Z',
+    startDateTimeUtc: '2024-01-01T00:00:00.000+02:00',
+    endDateTimeUtc: '2024-01-12T01:00:00.000+02:00',
     longitude: 3,
     latitude: 5,
     observations: '',

@@ -1,12 +1,12 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters
 
-import java.time.ZonedDateTime
+import java.time.Instant
 
 data class MissionEnvInput(
     val missionId: Int,
     val observationsByUnit: String? = null,
-    val startDateTimeUtc: ZonedDateTime? = null,
-    val endDateTimeUtc: ZonedDateTime? = null,
+    val startDateTimeUtc: Instant? = null,
+    val endDateTimeUtc: Instant? = null,
 ) {
 }
 

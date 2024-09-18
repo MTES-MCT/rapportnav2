@@ -3,8 +3,6 @@ import styled from 'styled-components'
 import { Stack } from 'rsuite'
 import { Accent, Button, Icon, Size, THEME } from '@mtes-mct/monitor-ui'
 import Text from '../../../../common/components/ui/text.tsx'
-import useApolloLastSync from '../../../../common/hooks/use-apollo-last-sync.tsx'
-import { formatTime, toLocalISOString } from '../../../../common/utils/dates.ts'
 
 const StyledFooter = styled.div`
   height: 60px;

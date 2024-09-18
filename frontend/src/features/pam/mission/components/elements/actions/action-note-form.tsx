@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { DatePicker, Icon, Textarea } from '@mtes-mct/monitor-ui'
+import { Icon, Textarea } from '@mtes-mct/monitor-ui'
+import DatePicker from '@common/components/elements/date-picker.tsx'
 import { ActionFreeNote } from '@common/types/action-types.ts'
 import { Stack } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -42,10 +43,10 @@ const ActionNoteForm: React.FC<ActionNoteFormProps> = ({ action }) => {
     }
 
     const handleObservationsBlur = async () => {
-      await onChange('observations', observationsValue)
+      await onChange(observationsValue)('observations')
     }
 
-    const onChange = async (field: string, value: any) => {
+    const onChange = (value: any) => async (field: string) => {
       const updatedData = {
         missionId: missionId,
         ...omit(note, '__typename'),
@@ -92,8 +93,7 @@ const ActionNoteForm: React.FC<ActionNoteFormProps> = ({ action }) => {
                   isLight={true}
                   name="startDateTimeUtc"
                   onChange={async (nextUtcDate: Date) => {
-                    const date = new Date(nextUtcDate)
-                    await onChange('startDateTimeUtc', date.toISOString())
+                    await onChange(nextUtcDate)('startDateTimeUtc')
                   }}
                 />
               </Stack.Item>

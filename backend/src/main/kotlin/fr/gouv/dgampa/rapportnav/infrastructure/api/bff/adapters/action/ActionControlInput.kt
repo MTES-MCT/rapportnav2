@@ -8,16 +8,14 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlAdm
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlGensDeMer
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlNavigation
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlSecurity
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
+import java.time.Instant
 import java.util.*
 
 data class ActionControlInput(
     val id: UUID? = null,
     val missionId: Int,
-    val startDateTimeUtc: String? = null,
-    val endDateTimeUtc: String? = null,
+    val startDateTimeUtc: Instant? = null,
+    val endDateTimeUtc: Instant? = null,
     val latitude: Double? = null,
     val longitude: Double? = null,
     val controlMethod: ControlMethod? = null,
@@ -35,12 +33,8 @@ data class ActionControlInput(
         return ActionControlEntity(
             id = id ?: UUID.randomUUID(),
             missionId = missionId,
-            startDateTimeUtc = startDateTimeUtc?.let {
-                ZonedDateTime.parse(it, DateTimeFormatter.ISO_ZONED_DATE_TIME)
-            } ?: ZonedDateTime.now(ZoneId.of("UTC")),
-            endDateTimeUtc = endDateTimeUtc?.let {
-                ZonedDateTime.parse(it, DateTimeFormatter.ISO_ZONED_DATE_TIME)
-            } ?: ZonedDateTime.now(ZoneId.of("UTC")),
+            startDateTimeUtc = startDateTimeUtc ?: Instant.now(),
+            endDateTimeUtc = endDateTimeUtc ?: Instant.now(),
             latitude = latitude,
             longitude = longitude,
             controlMethod = controlMethod,

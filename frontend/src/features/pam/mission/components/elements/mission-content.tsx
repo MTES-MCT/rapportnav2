@@ -2,13 +2,16 @@ import ActionDropdown from '@common/components/ui/action-dropdown.tsx'
 import { Action, ActionStatusType } from '@common/types/action-types.ts'
 import { ActionTypeEnum } from '@common/types/env-mission-types.ts'
 import { Mission, VesselTypeEnum } from '@common/types/mission-types.ts'
-import { formatDateForServers, toLocalISOString } from '@common/utils/dates.ts'
 import { Accent, Button, Dialog, THEME } from '@mtes-mct/monitor-ui'
 import find from 'lodash/find'
 import React, { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Divider, FlexboxGrid, Stack } from 'rsuite'
 import Text from '../../../../common/components/ui/text.tsx'
+import { getComponentForAction } from './actions/action-mapping.ts'
+import ControlSelection from './controls/control-selection.tsx'
+import MissionRecognizedVessel from './general-info/mission-recognized-vessel.tsx'
+import MissionObservationsUnit from './mission-observations-unit.tsx'
 import useAddAntiPollution from '../../hooks/anti-pollution/use-add-anti-pollution.tsx'
 import useAddOrUpdateBAAEMPermanence from '../../hooks/baaem/use-add-baaem-permanence.tsx'
 import useAddIllegalImmigration from '../../hooks/illegal-immigration/use-add-illegal-immigration.tsx'
@@ -21,10 +24,6 @@ import useAddOrUpdateNote from '../../hooks/use-add-update-note.tsx'
 import useAddOrUpdateStatus from '../../hooks/use-add-update-status.tsx'
 import useAddVigimer from '../../hooks/vigimer/use-add-vigimer.tsx'
 import StatusSelectionDropdown from '../ui/status-selection-dropdown.tsx'
-import { getComponentForAction } from './actions/action-mapping.ts'
-import ControlSelection from './controls/control-selection.tsx'
-import MissionRecognizedVessel from './general-info/mission-recognized-vessel.tsx'
-import MissionObservationsUnit from './mission-observations-unit.tsx'
 import MissionGeneralInfoPanel from './panel-general-info.tsx'
 import MissionTimeline from './timeline/timeline.tsx'
 
@@ -88,7 +87,7 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
   const addNewStatus = async (key: ActionStatusType) => {
     const newActionData = {
       missionId: parseInt(missionId!, 10),
-      startDateTimeUtc: formatDateForServers(toLocalISOString()),
+      startDateTimeUtc: new Date(),
       status: key,
       reason: null,
       observations: null
@@ -109,8 +108,8 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
 
     const newControl = {
       missionId: parseInt(missionId!, 10),
-      startDateTimeUtc: formatDateForServers(toLocalISOString()),
-      endDateTimeUtc: formatDateForServers(toLocalISOString()),
+      startDateTimeUtc: new Date(),
+      endDateTimeUtc: new Date(),
       controlMethod,
       vesselType
     }
@@ -123,7 +122,7 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
 
     const newNote = {
       missionId: parseInt(missionId!, 10),
-      startDateTimeUtc: formatDateForServers(toLocalISOString())
+      startDateTimeUtc: new Date()
     }
 
     const response = await addFreeNote({ variables: { freeNoteAction: newNote } })
@@ -134,8 +133,8 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
     setShowControlTypesModal(false)
     const newRescue = {
       missionId: parseInt(missionId!, 10),
-      startDateTimeUtc: formatDateForServers(toLocalISOString()),
-      endDateTimeUtc: formatDateForServers(toLocalISOString()),
+      startDateTimeUtc: new Date(),
+      endDateTimeUtc: new Date(),
       isPersonRescue: true
     }
     const response = await addActionRescue({ variables: { rescueAction: newRescue } })
@@ -146,8 +145,8 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
     setShowControlTypesModal(false)
     const newNautical = {
       missionId: parseInt(missionId!, 10),
-      startDateTimeUtc: formatDateForServers(toLocalISOString()),
-      endDateTimeUtc: formatDateForServers(toLocalISOString())
+      startDateTimeUtc: new Date(),
+      endDateTimeUtc: new Date()
     }
     const response = await addActionNauticalEvent({ variables: { nauticalAction: newNautical } })
     navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionNauticalEvent.id}`)
@@ -157,8 +156,8 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
     setShowControlTypesModal(false)
     const newOther = {
       missionId: parseInt(missionId!, 10),
-      startDateTimeUtc: formatDateForServers(toLocalISOString()),
-      endDateTimeUtc: formatDateForServers(toLocalISOString())
+      startDateTimeUtc: new Date(),
+      endDateTimeUtc: new Date()
     }
 
     let response

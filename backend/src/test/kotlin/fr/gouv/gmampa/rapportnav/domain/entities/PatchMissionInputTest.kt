@@ -5,7 +5,8 @@ import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInp
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import java.time.ZonedDateTime
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 
 class PatchMissionInputTest {
 
@@ -14,8 +15,8 @@ class PatchMissionInputTest {
     @Test
     fun `should create PatchMissionInput with given parameters`() {
         val observationsByUnit = "Some observations"
-        val startDateTimeUtc = ZonedDateTime.now()
-        val endDateTimeUtc = ZonedDateTime.now().plusDays(1)
+        val startDateTimeUtc = Instant.now()
+        val endDateTimeUtc = Instant.now().plus(1, ChronoUnit.DAYS)
 
         val input = PatchMissionInput(
             observationsByUnit = observationsByUnit,
@@ -41,8 +42,8 @@ class PatchMissionInputTest {
     fun `should have correct equality and hash code`() {
         val input1 = PatchMissionInput(
             observationsByUnit = "Observations",
-            startDateTimeUtc = ZonedDateTime.now(),
-            endDateTimeUtc = ZonedDateTime.now().plusDays(1)
+            startDateTimeUtc = Instant.now(),
+            endDateTimeUtc = Instant.now().plus(1, ChronoUnit.DAYS)
         )
 
         val input2 = PatchMissionInput(
@@ -59,8 +60,8 @@ class PatchMissionInputTest {
     fun `should serialize and deserialize correctly with Gson`() {
         val input = PatchMissionInput(
             observationsByUnit = "Observations",
-            startDateTimeUtc = ZonedDateTime.now(),
-            endDateTimeUtc = ZonedDateTime.now().plusDays(1)
+            startDateTimeUtc = Instant.now(),
+            endDateTimeUtc = Instant.now().plus(1, ChronoUnit.DAYS)
         )
 
         // Serialize to JSON

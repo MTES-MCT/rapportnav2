@@ -10,7 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEnt
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import org.locationtech.jts.geom.MultiPolygon
 import org.slf4j.LoggerFactory
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.time.format.DateTimeParseException
 
 data class MissionEntity(
@@ -23,8 +23,8 @@ data class MissionEntity(
     val observationsCnsp: String? = null,
     val facade: String? = null,
     val geom: MultiPolygon? = null,
-    val startDateTimeUtc: ZonedDateTime,
-    val endDateTimeUtc: ZonedDateTime? = null,
+    val startDateTimeUtc: Instant,
+    val endDateTimeUtc: Instant? = null,
     val isDeleted: Boolean,
     val isGeometryComputedFromControls: Boolean,
     val missionSource: MissionSourceEnum,
@@ -103,22 +103,22 @@ data class MissionEntity(
     }
 
     private fun calculateMissionStatus(
-        startDateTimeUtc: ZonedDateTime,
-        endDateTimeUtc: ZonedDateTime? = null,
+        startDateTimeUtc: Instant,
+        endDateTimeUtc: Instant? = null,
     ): MissionStatusEnum {
-        val compareDate = ZonedDateTime.now()
+        val compareDate = Instant.now()
 
         if (endDateTimeUtc == null) {
             return MissionStatusEnum.UNAVAILABLE
         }
 
-        if (endDateTimeUtc != null && ZonedDateTime.parse(endDateTimeUtc.toString()).isBefore(compareDate)) {
+        if (endDateTimeUtc != null && Instant.parse(endDateTimeUtc.toString()).isBefore(compareDate)) {
             return MissionStatusEnum.ENDED
         }
 
         try {
-            val startDateTime = ZonedDateTime.parse(startDateTimeUtc.toString())
-            if (startDateTime.isAfter(compareDate) || startDateTime.isEqual(compareDate)) {
+            val startDateTime = Instant.parse(startDateTimeUtc.toString())
+            if (startDateTime.isAfter(compareDate) || startDateTime.equals(compareDate)) {
                 return MissionStatusEnum.UPCOMING
             }
         } catch (e: DateTimeParseException) {
@@ -128,10 +128,10 @@ data class MissionEntity(
 
         if (endDateTimeUtc != null) {
             try {
-                val endDateTime = ZonedDateTime.parse(endDateTimeUtc.toString())
+                val endDateTime = Instant.parse(endDateTimeUtc.toString())
                 if (endDateTime.isAfter(compareDate)) {
                     return MissionStatusEnum.IN_PROGRESS
-                } else if (endDateTime.isBefore(compareDate) || endDateTime.isEqual(compareDate)) {
+                } else if (endDateTime.isBefore(compareDate) || endDateTime.equals(compareDate)) {
                     return MissionStatusEnum.ENDED
                 }
             } catch (e: DateTimeParseException) {

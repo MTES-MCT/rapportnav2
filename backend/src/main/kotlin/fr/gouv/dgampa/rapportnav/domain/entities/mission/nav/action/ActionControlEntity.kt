@@ -11,7 +11,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlAdm
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlGensDeMer
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlNavigation
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlSecurity
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 data class ActionControlEntity(
@@ -25,10 +25,10 @@ data class ActionControlEntity(
     override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
 
     @MandatoryForStats
-    override val startDateTimeUtc: ZonedDateTime,
+    override val startDateTimeUtc: Instant,
 
     @MandatoryForStats
-    override val endDateTimeUtc: ZonedDateTime,
+    override val endDateTimeUtc: Instant,
 
     @MandatoryForStats
     val latitude: Double? = null,
@@ -62,8 +62,8 @@ data class ActionControlEntity(
     constructor(
         id: UUID,
         missionId: Int,
-        startDateTimeUtc: ZonedDateTime,
-        endDateTimeUtc: ZonedDateTime,
+        startDateTimeUtc: Instant,
+        endDateTimeUtc: Instant,
         latitude: Double?,
         longitude: Double?,
         controlMethod: ControlMethod?,

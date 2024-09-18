@@ -5,9 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
+import java.time.Instant
 
 @SpringBootTest(classes = [FormatDateTime::class])
 class FormatDateTimeTests {
@@ -19,16 +17,27 @@ class FormatDateTimeTests {
     fun `formatTime should return formatted time`() {
         assertThat(
             formatDateTime.formatTime(
-                ZonedDateTime.of(
-                    LocalDateTime.of(2022, 1, 2, 12, 0),
-                    ZoneOffset.UTC
-                )
+                Instant.parse("2022-01-02T12:00:00Z")
             )
-        ).isEqualTo("12:00")
+        ).isEqualTo("13:00")
     }
 
     @Test
     fun `formatTime should return NA when null`() {
         assertThat(formatDateTime.formatTime(null)).isEqualTo("N/A")
+    }
+
+    @Test
+    fun `formatDate should return formatted time`() {
+        assertThat(
+            formatDateTime.formatDate(
+                Instant.parse("2022-01-02T12:00:00Z")
+            )
+        ).isEqualTo("2022-01-02")
+    }
+
+    @Test
+    fun `formatDate should return NA when null`() {
+        assertThat(formatDateTime.formatDate(null)).isEqualTo("N/A")
     }
 }

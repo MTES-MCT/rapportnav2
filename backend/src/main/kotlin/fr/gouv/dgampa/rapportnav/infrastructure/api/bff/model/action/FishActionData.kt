@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlAdm
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlGensDeMer
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlNavigation
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlSecurity
-import java.time.ZonedDateTime
+import java.time.Instant
 
 data class FishActionData(
     val id: String?,
@@ -20,8 +20,8 @@ data class FishActionData(
     val flagState: String?,
     val districtCode: String?,
     val faoAreas: List<String>,
-    val actionDatetimeUtc: ZonedDateTime,
-    val actionEndDatetimeUtc: ZonedDateTime? = null,
+    val actionDatetimeUtc: Instant?,
+    val actionEndDatetimeUtc: Instant? = null,
     val observationsByUnit: String? = null,
     val emitsVms: ControlCheck?,
     val emitsAis: ControlCheck?,

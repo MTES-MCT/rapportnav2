@@ -1,9 +1,9 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output
 
+import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import java.time.ZonedDateTime
-import com.neovisionaries.i18n.CountryCode
 
 data class MissionActionDataOutput(
     val id: Int? = null,
@@ -75,8 +75,8 @@ data class MissionActionDataOutput(
             districtCode = this.districtCode,
             faoAreas = this.faoAreas,
             actionType = this.actionType,
-            actionDatetimeUtc = this.actionDatetimeUtc,
-            actionEndDatetimeUtc = this.actionEndDatetimeUtc,
+            actionDatetimeUtc = this.actionDatetimeUtc.toInstant(),
+            actionEndDatetimeUtc = this.actionEndDatetimeUtc?.toInstant(),
             emitsVms = this.emitsVms,
             emitsAis = this.emitsAis,
             flightGoals = this.flightGoals,

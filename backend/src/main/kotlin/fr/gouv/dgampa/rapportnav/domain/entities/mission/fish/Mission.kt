@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.fish
 
-import java.time.ZonedDateTime
+import java.time.Instant
 
 /**
 @see monitorenv/backend/src/main/kotlin/fr/gouv/cacem/monitorenv/domain/entities/missions/MissionEntity.kt
@@ -14,8 +14,8 @@ data class Mission(
     val observationsCnsp: String? = null,
     val facade: String? = null,
     val geom: MultiPolygon? = null,
-    val startDateTimeUtc: ZonedDateTime,
-    val endDateTimeUtc: ZonedDateTime? = null,
+    val startDateTimeUtc: Instant,
+    val endDateTimeUtc: Instant? = null,
     val missionSource: MissionSource,
     val hasMissionOrder: Boolean? = false,
     val isUnderJdp: Boolean? = false,

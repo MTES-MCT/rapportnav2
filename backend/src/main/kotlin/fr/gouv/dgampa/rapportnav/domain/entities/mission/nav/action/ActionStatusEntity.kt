@@ -9,7 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.DOCKED_STATU
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.UNAVAILABLE_STATUS_AS_STRING
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.NavActionStatus
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 data class ActionStatusEntity(
@@ -23,9 +23,9 @@ data class ActionStatusEntity(
     override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
 
     @MandatoryForStats
-    override val startDateTimeUtc: ZonedDateTime,
+    override val startDateTimeUtc: Instant,
 
-    override var endDateTimeUtc: ZonedDateTime? = null, // Default value to null
+    override var endDateTimeUtc: Instant? = null, // Default value to null
 
     @MandatoryForStats
     val status: ActionStatusType,
@@ -46,7 +46,7 @@ data class ActionStatusEntity(
     constructor(
         id: UUID,
         missionId: Int,
-        startDateTimeUtc: ZonedDateTime,
+        startDateTimeUtc: Instant,
         status: ActionStatusType,
         reason: ActionStatusReason?,
         observations: String?

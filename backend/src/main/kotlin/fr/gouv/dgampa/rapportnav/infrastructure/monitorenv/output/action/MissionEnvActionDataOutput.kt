@@ -15,8 +15,8 @@ data class MissionEnvActionDataOutput(
     fun toPatchableEnvActionEntity(): PatchedEnvActionEntity {
         return PatchedEnvActionEntity(
             id = this.id,
-            actionStartDateTimeUtc = this.actionStartDateTimeUtc,
-            actionEndDateTimeUtc = this.actionEndDateTimeUtc,
+            actionStartDateTimeUtc = this.actionStartDateTimeUtc?.toInstant(),
+            actionEndDateTimeUtc = this.actionEndDateTimeUtc?.toInstant(),
             observationsByUnit = this.observationsByUnit
         )
     }

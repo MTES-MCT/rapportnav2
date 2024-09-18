@@ -24,10 +24,8 @@ import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
 
 @SpringBootTest(classes = [FormatActionsForTimeline::class, FormatDateTime::class, FormatGeoCoords::class, EncodeSpecialChars::class])
 class FormatActionsForTimelineTests {
@@ -55,7 +53,7 @@ class FormatActionsForTimelineTests {
         MissionActionEntity.NavAction(
             ActionMockFactory.create<ActionFreeNoteEntity>(
                 additionalParams = mapOf(
-                    "startDateTimeUtc" to ZonedDateTime.of(LocalDateTime.of(2022, 1, 2, 12, 6), ZoneOffset.UTC),
+                    "startDateTimeUtc" to Instant.parse("2022-01-02T12:06:00Z"),
                     "endDateTimeUtc" to null,
                     "observations" to "Largué, appareillé"
                 )
@@ -100,14 +98,14 @@ class FormatActionsForTimelineTests {
         ).isEqualTo(
             mapOf(
                 LocalDate.of(2022, 1, 1) to listOf(
-                    "12:00 / 14:00 - Contrôle Environnement - AMP sans réglementation particulière",
-                    "12:00 - Contrôle Pêche - (DD): 52.14,14.30 - Le Pi - LR 314 - Infractions: sans PV - RAS",
-                    "12:00 / 14:00 - Surveillance Environnement - AMP sans réglementation particulière",
+                    "13:00 / 15:00 - Contrôle Environnement - AMP sans réglementation particulière",
+                    "13:00 - Contrôle Pêche - (DD): 52.14,14.30 - Le Pi - LR 314 - Infractions: sans PV - RAS",
+                    "13:00 / 15:00 - Surveillance Environnement - AMP sans réglementation particulière",
                 ),
                 LocalDate.of(2022, 1, 2) to listOf(
-                    "12:00 / 14:00 - Contrôle administratif ",
-                    "12:00 - Navigation - observations",
-                    "12:06 - Largué, appareillé"
+                    "13:00 / 15:00 - Contrôle administratif ",
+                    "13:00 - Navigation - observations",
+                    "13:06 - Largué, appareillé"
                 )
             )
         )
@@ -139,17 +137,17 @@ class FormatActionsForTimelineTests {
             TimelineActions(
                 date = "2022-01-01",
                 freeNote = listOf<TimelineActionItem>(
-                    TimelineActionItem(observations = "12:00 / 14:00 - Contrôle Environnement - AMP sans réglementation particulière"),
-                    TimelineActionItem(observations = "12:00 - Contrôle Pêche - (DD): 52.14,14.30 - Le Pi - LR 314 - Infractions: sans PV - RAS"),
-                    TimelineActionItem(observations = "12:00 / 14:00 - Surveillance Environnement - AMP sans réglementation particulière"),
+                    TimelineActionItem(observations = "13:00 / 15:00 - Contrôle Environnement - AMP sans réglementation particulière"),
+                    TimelineActionItem(observations = "13:00 - Contrôle Pêche - (DD): 52.14,14.30 - Le Pi - LR 314 - Infractions: sans PV - RAS"),
+                    TimelineActionItem(observations = "13:00 / 15:00 - Surveillance Environnement - AMP sans réglementation particulière"),
                 )
             ),
             TimelineActions(
                 date = "2022-01-02",
                 freeNote = listOf<TimelineActionItem>(
-                    TimelineActionItem(observations = "12:00 / 14:00 - Contrôle administratif "),
-                    TimelineActionItem(observations = "12:00 - Navigation - observations"),
-                    TimelineActionItem(observations = "12:06 - Largué, appareillé"),
+                    TimelineActionItem(observations = "13:00 / 15:00 - Contrôle administratif "),
+                    TimelineActionItem(observations = "13:00 - Navigation - observations"),
+                    TimelineActionItem(observations = "13:06 - Largué, appareillé"),
                 )
             ),
         )
@@ -159,32 +157,32 @@ class FormatActionsForTimelineTests {
     @Test
     fun `formatEnvControl should return basic formatted string`() {
         val action: EnvActionControlEntity = EnvActionControlMock.create()
-        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - AMP sans réglementation particulière")
+        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("13:00 / 15:00 - Contrôle Environnement - AMP sans réglementation particulière")
     }
 
     @Test
     fun `formatEnvSurveillance should return basic formatted string`() {
         val action: EnvActionSurveillanceEntity = EnvActionSurveillanceMock.create()
-        assertThat(formatActionsForTimeline.formatEnvSurveillance(action)).isEqualTo("12:00 / 14:00 - Surveillance Environnement - AMP sans réglementation particulière")
+        assertThat(formatActionsForTimeline.formatEnvSurveillance(action)).isEqualTo("13:00 / 15:00 - Surveillance Environnement - AMP sans réglementation particulière")
     }
 
     @Test
     fun `formatEnvControl should return formatted string with facade`() {
         val action: EnvActionControlEntity = EnvActionControlMock.create(facade = "Golfe de Gascogne")
-        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - Golfe de Gascogne - AMP sans réglementation particulière")
+        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("13:00 / 15:00 - Contrôle Environnement - Golfe de Gascogne - AMP sans réglementation particulière")
     }
 
     @Test
     fun `formatEnvControl should return formatted string with themes`() {
         val controlPlans = EnvActionControlPlanMock().createList()
         val action: EnvActionControlEntity = EnvActionControlMock.create(controlPlans = controlPlans)
-        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - AMP sans réglementation particulière")
+        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("13:00 / 15:00 - Contrôle Environnement - AMP sans réglementation particulière")
     }
 
     @Test
     fun `formatEnvControl should return formatted string with amount of controls`() {
         val action: EnvActionControlEntity = EnvActionControlMock.create(actionNumberOfControls = 2)
-        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - AMP sans réglementation particulière - 2 contrôle(s)")
+        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("13:00 / 15:00 - Contrôle Environnement - AMP sans réglementation particulière - 2 contrôle(s)")
     }
 
     @Test
@@ -194,7 +192,7 @@ class FormatActionsForTimelineTests {
             facade = "Golfe de Gascogne",
             controlPlans = listOf(EnvActionControlPlanMock().controlPlan1)
         )
-        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("12:00 / 14:00 - Contrôle Environnement - Golfe de Gascogne - AMP sans réglementation particulière - 2 contrôle(s)")
+        assertThat(formatActionsForTimeline.formatEnvControl(action)).isEqualTo("13:00 / 15:00 - Contrôle Environnement - Golfe de Gascogne - AMP sans réglementation particulière - 2 contrôle(s)")
     }
 
     @Test
@@ -206,7 +204,7 @@ class FormatActionsForTimelineTests {
     @Test
     fun `formatFishControl should return the formatted string`() {
         val action: MissionAction = FishActionControlMock.create()
-        assertThat(formatActionsForTimeline.formatFishControl(action)).isEqualTo("12:00 - Contrôle Pêche - (DD): 52.14,14.30 - Le Pi - LR 314 - Infractions: sans PV - RAS")
+        assertThat(formatActionsForTimeline.formatFishControl(action)).isEqualTo("13:00 - Contrôle Pêche - (DD): 52.14,14.30 - Le Pi - LR 314 - Infractions: sans PV - RAS")
     }
 
     @Test
@@ -223,7 +221,7 @@ class FormatActionsForTimelineTests {
                 }
             )
         )
-        assertThat(formatActionsForTimeline.formatFishControl(action)).isEqualTo("12:00 - Contrôle Pêche - (DD): 52.14,14.30 - Le Pi - LR 314 - Infractions: 1 PV - NATINF: 123 + 456")
+        assertThat(formatActionsForTimeline.formatFishControl(action)).isEqualTo("13:00 - Contrôle Pêche - (DD): 52.14,14.30 - Le Pi - LR 314 - Infractions: 1 PV - NATINF: 123 + 456")
     }
 
     @Test
@@ -235,7 +233,7 @@ class FormatActionsForTimelineTests {
     @Test
     fun `formatNavStatus should return formatted string`() {
         val action: ActionStatusEntity = NavActionStatusMock.createActionStatusEntity()
-        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("12:00 - Navigation - observations")
+        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("13:00 - Navigation - observations")
     }
 
     @Test
@@ -243,13 +241,13 @@ class FormatActionsForTimelineTests {
         val action: ActionStatusEntity = NavActionStatusMock.createActionStatusEntity(
             observations = "3 adultes & 2 enfants <> RAS"
         )
-        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("12:00 - Navigation - 3 adultes &amp; 2 enfants &lt;&gt; RAS")
+        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("13:00 - Navigation - 3 adultes &amp; 2 enfants &lt;&gt; RAS")
     }
 
     @Test
     fun `formatNavStatus should return formatted string without observations`() {
         val action: ActionStatusEntity = NavActionStatusMock.createActionStatusEntity(observations = null)
-        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("12:00 - Navigation ")
+        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("13:00 - Navigation ")
     }
 
     @Test
@@ -261,7 +259,7 @@ class FormatActionsForTimelineTests {
     @Test
     fun `formatNavControl should return formatted string`() {
         val action: ActionControlEntity = NavActionControlMock.createActionControlEntity()
-        assertThat(formatActionsForTimeline.formatNavControl(action)).isEqualTo("12:00 / 14:00 - Contrôle administratif ")
+        assertThat(formatActionsForTimeline.formatNavControl(action)).isEqualTo("13:00 / 15:00 - Contrôle administratif ")
     }
 
     @Test
@@ -278,7 +276,7 @@ class FormatActionsForTimelineTests {
                 endDateTimeUtc = null
             ).toNavActionEntity()
         )
-        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 - Largué, appareillé")
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("13:00 - Largué, appareillé")
     }
 
     @Test
@@ -286,7 +284,7 @@ class FormatActionsForTimelineTests {
         val action = MissionActionEntity.NavAction(
             ActionMockFactory.create<ActionIllegalImmigrationEntity>().toNavActionEntity()
         )
-        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Lutte contre l'immigration illégale")
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("13:00 / 15:00 - Lutte contre l'immigration illégale")
     }
 
     @Test
@@ -294,7 +292,7 @@ class FormatActionsForTimelineTests {
         val action = MissionActionEntity.NavAction(
             ActionMockFactory.create<ActionRepresentationEntity>().toNavActionEntity()
         )
-        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Représentation")
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("13:00 / 15:00 - Représentation")
     }
 
     @Test
@@ -302,7 +300,7 @@ class FormatActionsForTimelineTests {
         val action = MissionActionEntity.NavAction(
             ActionMockFactory.create<ActionVigimerEntity>().toNavActionEntity()
         )
-        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Permanence Vigimer")
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("13:00 / 15:00 - Permanence Vigimer")
     }
 
     @Test
@@ -310,7 +308,7 @@ class FormatActionsForTimelineTests {
         val action = MissionActionEntity.NavAction(
             ActionMockFactory.create<ActionBAAEMPermanenceEntity>().toNavActionEntity()
         )
-        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Permanence BAAEM")
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("13:00 / 15:00 - Permanence BAAEM")
     }
 
 
@@ -319,7 +317,7 @@ class FormatActionsForTimelineTests {
         val action = MissionActionEntity.NavAction(
             ActionMockFactory.create<ActionPublicOrderEntity>().toNavActionEntity()
         )
-        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Maintien de l'ordre public")
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("13:00 / 15:00 - Maintien de l'ordre public")
     }
 
     @Test
@@ -329,7 +327,7 @@ class FormatActionsForTimelineTests {
                 observations = "RAS"
             ).toNavActionEntity()
         )
-        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Sécu de manifestation nautique - RAS")
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("13:00 / 15:00 - Sécu de manifestation nautique - RAS")
     }
 
     @Test
@@ -339,7 +337,7 @@ class FormatActionsForTimelineTests {
                 observations = "RAS"
             ).toNavActionEntity()
         )
-        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Assistance et sauvetage - RAS")
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("13:00 / 15:00 - Assistance et sauvetage - RAS")
     }
 
 
@@ -350,7 +348,7 @@ class FormatActionsForTimelineTests {
                 observations = "3 adultes & 2 enfants <> RAS"
             ).toNavActionEntity()
         )
-        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("12:00 / 14:00 - Assistance et sauvetage - 3 adultes &amp; 2 enfants &lt;&gt; RAS")
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("13:00 / 15:00 - Assistance et sauvetage - 3 adultes &amp; 2 enfants &lt;&gt; RAS")
     }
 
 

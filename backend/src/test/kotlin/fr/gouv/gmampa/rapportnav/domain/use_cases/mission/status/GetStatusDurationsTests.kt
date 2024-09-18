@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import java.time.Duration
-import java.time.ZoneId
-import java.time.ZonedDateTime
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import java.util.*
 import kotlin.time.DurationUnit
 
@@ -26,8 +26,8 @@ class GetStatusDurationsTests {
 
     private lateinit var defaultReturnValues: List<GetStatusDurations.ActionStatusWithDuration>
 
-    private val missionStartDateTime = ZonedDateTime.of(2023, 6, 19, 10, 0, 0, 0, ZoneId.of("Europe/Berlin"))
-    private val missionEndDateTime = ZonedDateTime.of(2023, 6, 30, 10, 0, 0, 0, ZoneId.of("Europe/Berlin"))
+    private val missionStartDateTime = Instant.parse("2023-06-19T00:00:00.000+01:00")
+    private val missionEndDateTime = Instant.parse("2023-06-30T00:00:00.000+01:00")
 
     @BeforeEach
     fun setUp() {
@@ -100,20 +100,20 @@ class GetStatusDurationsTests {
             ActionStatusEntity(
                 UUID.randomUUID(),
                 missionId = 1,
-                startDateTimeUtc = missionStartDateTime.plusHours(2),
+                startDateTimeUtc = missionStartDateTime.plus(2, ChronoUnit.HOURS),
                 status = ActionStatusType.ANCHORED
             ),
             ActionStatusEntity(
                 UUID.randomUUID(),
                 missionId = 1,
-                startDateTimeUtc = missionStartDateTime.plusHours(5),
+                startDateTimeUtc = missionStartDateTime.plus(5, ChronoUnit.HOURS),
                 status = ActionStatusType.DOCKED,
                 reason = ActionStatusReason.WEATHER
             ),
             ActionStatusEntity(
                 UUID.randomUUID(),
                 missionId = 1,
-                startDateTimeUtc = missionStartDateTime.plusHours(7),
+                startDateTimeUtc = missionStartDateTime.plus(7, ChronoUnit.HOURS),
                 status = ActionStatusType.UNAVAILABLE,
                 reason = ActionStatusReason.TECHNICAL
             )
@@ -155,19 +155,19 @@ class GetStatusDurationsTests {
     @Test
     fun `sumDurationsByStatusAndReason should correctly sum durations by status and reason`() {
         val actions = listOf(
-            GetStatusDurations.ActionStatusWithDuration(ActionStatusType.NAVIGATING, 10.0, null, ZonedDateTime.now()),
-            GetStatusDurations.ActionStatusWithDuration(ActionStatusType.NAVIGATING, 5.0, null, ZonedDateTime.now()),
+            GetStatusDurations.ActionStatusWithDuration(ActionStatusType.NAVIGATING, 10.0, null, Instant.now()),
+            GetStatusDurations.ActionStatusWithDuration(ActionStatusType.NAVIGATING, 5.0, null, Instant.now()),
             GetStatusDurations.ActionStatusWithDuration(
                 ActionStatusType.DOCKED,
                 8.0,
                 ActionStatusReason.TECHNICAL,
-                ZonedDateTime.now()
+                Instant.now()
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 ActionStatusType.DOCKED,
                 3.0,
                 ActionStatusReason.WEATHER,
-                ZonedDateTime.now()
+                Instant.now()
             )
         )
 

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { Divider, FlexboxGrid, Stack } from 'rsuite'
 import { formatMissionName } from '../../utils/utils.ts'
 import MissionOpenByTag from './mission-open-by-tag.tsx'
-import { formatDateForFrenchHumans } from '@common/utils/dates.ts'
+import { formatDateForFrenchHumans } from '@common/utils/dates-for-humans.ts'
 import MissionStatusTag from './mission-status-tag.tsx'
 import MissionCompletenessForStatsTag from './mission-completeness-for-stats-tag.tsx'
 import styled from 'styled-components'
@@ -150,12 +150,12 @@ const MissionItem: React.FC<MissionItemProps> = ({ mission, prefetchMission }) =
             </FlexboxGrid>
           </Link>
           {exportationCanBeDisplayed && (
-            <FlexboxGrid justify={"space-between"}>
+            <FlexboxGrid justify={'space-between'}>
               <FlexboxGrid.Item style={{ width: '100%', padding: '0.1rem 1rem' }}>
-                <Divider style={{backgroundColor: THEME.color.charcoal}}></Divider>
+                <Divider style={{ backgroundColor: THEME.color.charcoal }}></Divider>
               </FlexboxGrid.Item>
 
-              <FlexboxGrid.Item  style={{ height: '100%', padding: '0.1rem 1rem' }}>
+              <FlexboxGrid.Item style={{ height: '100%', padding: '0.1rem 1rem' }}>
                 <Button
                   Icon={Icon.Download}
                   accent={Accent.SECONDARY}
@@ -167,7 +167,7 @@ const MissionItem: React.FC<MissionItemProps> = ({ mission, prefetchMission }) =
                   Exporter le rapport de la mission
                 </Button>
               </FlexboxGrid.Item>
-              <FlexboxGrid.Item  style={{ height: '100%', padding: '0.5rem 1rem' }}>
+              <FlexboxGrid.Item style={{ height: '100%', padding: '0.5rem 1rem' }}>
                 <Button
                   Icon={Icon.Download}
                   accent={Accent.PRIMARY}
@@ -182,7 +182,6 @@ const MissionItem: React.FC<MissionItemProps> = ({ mission, prefetchMission }) =
             </FlexboxGrid>
           )}
         </ListItemWithHover>
-
       </Stack.Item>
     </Stack>
   )

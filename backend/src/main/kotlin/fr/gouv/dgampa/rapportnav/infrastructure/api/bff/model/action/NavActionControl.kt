@@ -7,14 +7,14 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlAdm
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlGensDeMer
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlNavigation
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlSecurity
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 data class NavActionControl(
     val id: UUID,
     val missionId: Int,
-    val startDateTimeUtc: ZonedDateTime,
-    val endDateTimeUtc: ZonedDateTime?,
+    val startDateTimeUtc: Instant,
+    val endDateTimeUtc: Instant?,
     val latitude: Double? = null,
     val longitude: Double? = null,
     val controlMethod: ControlMethod?,

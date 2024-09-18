@@ -13,7 +13,7 @@ import useMissionExcerpt from '../features/pam/mission/hooks/use-mission-excerpt
 import MissionContent from '../features/pam/mission/components/elements/mission-content.tsx'
 import MissionPageFooter from '../features/pam/mission/components/layout/page-footer.tsx'
 import MissionPageHeader from '../features/pam/mission/components/layout/page-header.tsx'
-import { formatTime, toLocalISOString } from '@common/utils/dates.ts'
+import { formatTime } from '@common/utils/dates-for-humans.ts'
 
 const MissionPage: React.FC = () => {
   const navigate = useNavigate()
@@ -24,7 +24,7 @@ const MissionPage: React.FC = () => {
   const { loading, error, data: mission } = useMissionExcerpt(missionId)
   const [getMissionReport] = useLazyMissionExport()
   const lastSync = useApolloLastSync()
-  const lastSyncText = lastSync ? formatTime(toLocalISOString(new Date(parseInt(lastSync!!, 10)))) : undefined
+  const lastSyncText = lastSync ? formatTime(new Date(parseInt(lastSync!!, 10))) : undefined
 
   const exitMission = async () => {
     // TODO centralise the following into a class - also used in use-auth()

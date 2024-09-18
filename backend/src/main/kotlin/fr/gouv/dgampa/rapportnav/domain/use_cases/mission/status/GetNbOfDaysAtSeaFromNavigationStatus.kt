@@ -4,8 +4,10 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
+import java.time.Duration
+import java.time.Instant
 import java.time.LocalTime
-import java.time.ZonedDateTime
+import java.time.ZoneId
 import kotlin.time.DurationUnit
 
 @UseCase
@@ -30,10 +32,11 @@ class GetNbOfDaysAtSeaFromNavigationStatus(
      * @return An integer representing the amount of days with min 4h of navigation
      */
     fun execute(
-        missionStartDateTime: ZonedDateTime,
-        missionEndDateTime: ZonedDateTime? = null,
+        missionStartDateTime: Instant,
+        missionEndDateTime: Instant? = null,
         actions: List<ActionStatusEntity>? = listOf(),
-        durationUnit: DurationUnit = DurationUnit.HOURS
+        durationUnit: DurationUnit = DurationUnit.HOURS,
+        zoneId: ZoneId = ZoneId.systemDefault()
     ): Int {
         if (actions.isNullOrEmpty()) {
             return 0
@@ -51,15 +54,17 @@ class GetNbOfDaysAtSeaFromNavigationStatus(
         )
 
         var count = 0
-        var currentDay = missionStartDateTime.toLocalDate()
-        val lastDay = missionEndDateTime?.toLocalDate() ?: missionStartDateTime.toLocalDate()
+        var currentDay = missionStartDateTime.atZone(zoneId).toLocalDate()
+        val lastDay = missionEndDateTime?.atZone(zoneId)?.toLocalDate()
+            ?: missionStartDateTime.atZone(zoneId).toLocalDate()
+
         while (currentDay.isBefore(lastDay) || currentDay == lastDay) {
-            val actionsForDay = statusesWithDurations.filter { it.datetime?.toLocalDate()?.equals(currentDay) ?: false }
-            val lastActionBeforeCurrent =
-                statusesWithDurations.filter {
-                    it.datetime != null && it.datetime.toLocalDate()?.isBefore(currentDay) == true
-                }
-                    .maxByOrNull { it.datetime!! }
+            val actionsForDay = statusesWithDurations.filter {
+                it.datetime?.atZone(zoneId)?.toLocalDate()?.equals(currentDay) ?: false
+            }
+            val lastActionBeforeCurrent = statusesWithDurations.filter {
+                it.datetime != null && it.datetime.atZone(zoneId).toLocalDate().isBefore(currentDay)
+            }.maxByOrNull { it.datetime!! }
 
             // there is no action on that day
             // so we're checking if the action before is Navigating/Anchored
@@ -71,16 +76,16 @@ class GetNbOfDaysAtSeaFromNavigationStatus(
             } else {
                 var countForDay = 0.0
                 actionsForDay.forEachIndexed { index, action ->
-                    if (action.datetime != null) {
+                    action.datetime?.let { actionDateTime ->
                         if (index == 0) {
                             // count down to midnight and add if appropriate
-                            if (lastActionBeforeCurrent != null && action.datetime != null && validStatuses.contains(
-                                    lastActionBeforeCurrent.status
-                                )
-                            ) {
-                                val durationUntilFirstStatus = computeDurations.durationInSeconds(
-                                    action.datetime.with(LocalTime.MIDNIGHT), action.datetime
-                                ) ?: 0
+                            if (lastActionBeforeCurrent != null && validStatuses.contains(lastActionBeforeCurrent.status)) {
+                                val zonedDateTime = actionDateTime.atZone(zoneId)
+                                val midnightOfAction = zonedDateTime.toLocalDate().atStartOfDay(zoneId).toInstant()
+                                val durationUntilFirstStatus = Duration.between(
+                                    midnightOfAction,
+                                    actionDateTime
+                                ).seconds.toInt()
                                 val toHours =
                                     computeDurations.convertFromSeconds(durationUntilFirstStatus, DurationUnit.HOURS)
                                 countForDay += toHours
@@ -91,11 +96,12 @@ class GetNbOfDaysAtSeaFromNavigationStatus(
                             }
                         } else if (index == actions.size - 1 && validStatuses.contains(action.status)) {
                             // count from action till end of day
-                            val durationUntilEndOfDay = computeDurations.durationInSeconds(
-                                action.datetime, action.datetime.plusDays(1L).with(LocalTime.MIDNIGHT)
-                            ) ?: 0
+                            val durationUntilEndOfDay = Duration.between(
+                                actionDateTime,
+                                actionDateTime.atZone(zoneId).plusDays(1).with(LocalTime.MIDNIGHT).toInstant()
+                            ).seconds
                             val toHours =
-                                computeDurations.convertFromSeconds(durationUntilEndOfDay, DurationUnit.HOURS)
+                                computeDurations.convertFromSeconds(durationUntilEndOfDay.toInt(), DurationUnit.HOURS)
                             countForDay += toHours
                         } else {
                             if (validStatuses.contains(action.status)) {

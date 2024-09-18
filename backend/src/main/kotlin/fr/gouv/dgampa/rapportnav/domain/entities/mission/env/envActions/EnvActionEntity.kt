@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import org.locationtech.jts.geom.Geometry
 import org.n52.jackson.datatype.jts.GeometryDeserializer
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 @JsonTypeInfo(
@@ -23,8 +23,8 @@ import java.util.*
 abstract class EnvActionEntity(
     open val id: UUID,
     open val actionType: ActionTypeEnum,
-    open val actionStartDateTimeUtc: ZonedDateTime? = null,
-    open val actionEndDateTimeUtc: ZonedDateTime? = null,
+    open val actionStartDateTimeUtc: Instant? = null,
+    open val actionEndDateTimeUtc: Instant? = null,
     open val department: String? = null,
     open val facade: String? = null,
     open val completedBy: String? = null,

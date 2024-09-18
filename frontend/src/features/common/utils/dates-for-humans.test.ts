@@ -1,4 +1,4 @@
-import { formatDateForFrenchHumans } from './dates.ts' // Replace 'your-file' with the correct path to your function
+import { formatDateForFrenchHumans } from './dates-for-humans.ts'
 
 describe('formatDateForFrenchHumans', () => {
   it('should format the date correctly for a valid input', () => {

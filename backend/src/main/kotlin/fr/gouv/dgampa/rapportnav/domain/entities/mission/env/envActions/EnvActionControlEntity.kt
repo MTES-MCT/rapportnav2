@@ -2,13 +2,13 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import org.locationtech.jts.geom.Geometry
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 data class EnvActionControlEntity(
     override val id: UUID,
-    override val actionStartDateTimeUtc: ZonedDateTime? = null,
-    override val actionEndDateTimeUtc: ZonedDateTime? = null,
+    override val actionStartDateTimeUtc: Instant? = null,
+    override val actionEndDateTimeUtc: Instant? = null,
     override val completedBy: String? = null,
     override val completion: ActionCompletionEnum? = null,
     override val controlPlans: List<EnvActionControlPlanEntity>? = listOf(),

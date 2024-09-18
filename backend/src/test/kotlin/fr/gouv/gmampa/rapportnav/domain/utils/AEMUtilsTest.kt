@@ -1,7 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.utils
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionSurveillanceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionPublicOrderEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionControlEntity
@@ -11,7 +10,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.action.ExtendedEnvActionEntityMoc
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 @SpringBootTest(classes = [AEMUtils::class])
@@ -23,20 +22,20 @@ class AEMUtilsTest {
             ActionPublicOrderEntity(
                 missionId = 761,
                 id = UUID.randomUUID(),
-                endDateTimeUtc = ZonedDateTime.parse("2024-01-11T14:30:00Z"),
-                startDateTimeUtc = ZonedDateTime.parse("2024-01-09T10:00:00Z")
+                endDateTimeUtc = Instant.parse("2024-01-11T14:30:00Z"),
+                startDateTimeUtc = Instant.parse("2024-01-09T10:00:00Z")
             ),
             ActionPublicOrderEntity(
                 missionId = 763,
                 id = UUID.randomUUID(),
-                endDateTimeUtc = ZonedDateTime.parse("2024-02-11T15:30:00Z"),
-                startDateTimeUtc = ZonedDateTime.parse("2024-01-10T09:00:00Z")
+                endDateTimeUtc = Instant.parse("2024-02-11T15:30:00Z"),
+                startDateTimeUtc = Instant.parse("2024-01-10T09:00:00Z")
             ),
             ActionPublicOrderEntity(
                 missionId = 763,
                 id = UUID.randomUUID(),
-                endDateTimeUtc = ZonedDateTime.parse("2024-03-30T15:30:00Z"),
-                startDateTimeUtc = ZonedDateTime.parse("2024-02-10T09:00:00Z")
+                endDateTimeUtc = Instant.parse("2024-03-30T15:30:00Z"),
+                startDateTimeUtc = Instant.parse("2024-02-10T09:00:00Z")
             )
         )
         assertThat(AEMUtils.getDurationInHours(actions)).isEqualTo(nbrOfHour);
@@ -50,8 +49,8 @@ class AEMUtilsTest {
                 controlAction = ExtendedEnvActionControlEntity(
                     action = EnvActionControlEntity(
                         UUID.randomUUID(),
-                        actionStartDateTimeUtc = ZonedDateTime.parse("2019-09-09T00:00:00.000+01:00"),
-                        actionEndDateTimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00"),
+                        actionStartDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
+                        actionEndDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                     )
                 )
             ),
@@ -59,8 +58,8 @@ class AEMUtilsTest {
                 surveillanceAction = ExtendedEnvActionSurveillanceEntity(
                     action = EnvActionSurveillanceEntity(
                         UUID.randomUUID(),
-                        actionStartDateTimeUtc = ZonedDateTime.parse("2019-09-09T02:00:00.000+01:00"),
-                        actionEndDateTimeUtc = ZonedDateTime.parse("2019-09-09T04:00:00.000+01:00"),
+                        actionStartDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
+                        actionEndDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
                     )
                 )
             ),
@@ -68,8 +67,8 @@ class AEMUtilsTest {
                 surveillanceAction = ExtendedEnvActionSurveillanceEntity(
                     action = EnvActionSurveillanceEntity(
                         UUID.randomUUID(),
-                        actionStartDateTimeUtc = ZonedDateTime.parse("2019-09-09T12:00:00.000+01:00"),
-                        actionEndDateTimeUtc = ZonedDateTime.parse("2019-09-09T16:00:00.000+01:00"),
+                        actionStartDateTimeUtc = Instant.parse("2019-09-09T12:00:00.000+01:00"),
+                        actionEndDateTimeUtc = Instant.parse("2019-09-09T16:00:00.000+01:00"),
                     )
                 )
             )

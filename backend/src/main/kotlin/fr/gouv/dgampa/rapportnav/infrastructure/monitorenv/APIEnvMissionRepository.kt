@@ -21,7 +21,7 @@ import org.springframework.web.util.UriUtils
 import java.net.URI
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
-import java.time.ZonedDateTime
+import java.time.Instant
 
 @Repository
 class APIEnvMissionRepository(
@@ -94,8 +94,8 @@ class APIEnvMissionRepository(
     override fun findAllMissions(
         pageNumber: Int?,
         pageSize: Int?,
-        startedAfterDateTime: ZonedDateTime?,
-        startedBeforeDateTime: ZonedDateTime?,
+        startedAfterDateTime: Instant?,
+        startedBeforeDateTime: Instant?,
         missionSources: List<String>?,
         missionTypes: List<String>?,
         missionStatuses: List<String>?,

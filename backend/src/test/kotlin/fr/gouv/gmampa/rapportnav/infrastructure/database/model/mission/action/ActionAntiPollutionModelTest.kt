@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
@@ -17,13 +17,13 @@ class ActionAntiPollutionModelTest {
     @Test
     fun `execute should retrieve action anti pollution entity from model`() {
         val id = UUID.fromString("0000-00-00-00-000000");
-        val startDateTimeUtc = ZonedDateTime.parse("2019-09-08T22:00:00.000+01:00");
-        val endDateTimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00")
+        val startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00");
+        val endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
         val action = ActionAntiPollutionModel(
             missionId = 761,
             id = id,
             startDateTimeUtc = startDateTimeUtc,
-            endDateTimeUtc =endDateTimeUtc,
+            endDateTimeUtc = endDateTimeUtc,
             observations = "My beautiful observation",
             isAntiPolDeviceDeployed = true,
             isSimpleBrewingOperationDone = true,
@@ -44,13 +44,13 @@ class ActionAntiPollutionModelTest {
     @Test
     fun `execute should retrieve action anti pollution model from entity`() {
         val id = UUID.randomUUID();
-        val startDateTimeUtc = ZonedDateTime.parse("2019-09-08T22:00:00.000+01:00");
-        val endDateTimeUtc = ZonedDateTime.parse("2019-09-09T01:00:00.000+01:00")
+        val startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00");
+        val endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
         val action = ActionAntiPollutionEntity(
             missionId = 761,
-            id =id,
+            id = id,
             startDateTimeUtc = startDateTimeUtc,
-            endDateTimeUtc =endDateTimeUtc,
+            endDateTimeUtc = endDateTimeUtc,
             observations = "My beautiful observation",
             isAntiPolDeviceDeployed = true,
             isSimpleBrewingOperationDone = true,

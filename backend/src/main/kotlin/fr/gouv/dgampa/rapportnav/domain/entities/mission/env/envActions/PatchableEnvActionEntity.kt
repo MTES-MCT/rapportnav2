@@ -1,11 +1,11 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions
 
-import java.time.ZonedDateTime
+import java.time.Instant
 import java.util.*
 
 data class PatchedEnvActionEntity(
     val id: UUID,
-    val actionStartDateTimeUtc: ZonedDateTime? = null,
-    val actionEndDateTimeUtc: ZonedDateTime? = null,
+    val actionStartDateTimeUtc: Instant? = null,
+    val actionEndDateTimeUtc: Instant? = null,
     val observationsByUnit: String? = null,
 )
