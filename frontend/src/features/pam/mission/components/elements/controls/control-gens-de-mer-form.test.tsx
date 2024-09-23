@@ -32,6 +32,15 @@ describe('ControlGensDeMer', () => {
     expect(screen.getByText('Décision d’effectif conforme au nombre de personnes à bord')).toBeInTheDocument()
   })
 
+  it('it should display infraction', async () => {
+    const data = {
+      id: '',
+      amountOfControls: 0
+    } as ControlGensDeMer
+    render(<ControlGensDeMerForm data={data} />)
+    expect(screen.getByText(`Ajouter une infraction administrative`)).toBeInTheDocument()
+  })
+
   it('it should have control gens de mer title check when should complete control is true', () => {
     const data = {
       id: '',
