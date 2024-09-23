@@ -77,6 +77,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
         <Stack.Item>
           <Label>Lieu du contrôle</Label>
           <CoordinatesInput
+            readOnly={true}
             defaultValue={(extractLatLonFromMultiPoint(actionData?.geom) as Coordinates) || undefined}
             coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
             // label="Lieu du contrôle"

@@ -105,6 +105,7 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action }) => {
         <Stack.Item>
           <Label>Lieu du contrôle</Label>
           <CoordinatesInput
+            readOnly={true}
             defaultValue={[actionData?.latitude as any, actionData?.longitude as any]}
             coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
             // label="Lieu du contrôle"

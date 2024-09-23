@@ -20,6 +20,7 @@ export const GET_ACTION_BY_ID = gql`
           id
           actionType
           actionDatetimeUtc
+          actionEndDatetimeUtc
           vesselId
           vesselName
           latitude

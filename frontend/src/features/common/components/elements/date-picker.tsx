@@ -18,7 +18,6 @@ export const preprocessDateForPicker = (date?: Date): Date | undefined => {
 
 // Postprocessing after receiving from datepicker
 export const postprocessDateFromPicker = (date?: Date): Date | undefined => {
-  debugger
   if (!date || !isValid(date)) {
     return
   }
