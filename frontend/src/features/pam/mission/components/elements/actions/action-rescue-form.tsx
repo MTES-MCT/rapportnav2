@@ -1,7 +1,19 @@
-import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.tsx'
-import { Action, ActionRescue } from '@common/types/action-types.ts'
-import { Checkbox, Coordinates, Icon, MultiRadio, NumberInput, Textarea, TextInput, THEME } from '@mtes-mct/monitor-ui'
 import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
+import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.tsx'
+import { ToggleLabel } from '@common/components/ui/toogle-label.tsx'
+import { Action, ActionRescue } from '@common/types/action-types.ts'
+import { useAction } from '@features/pam/mission/hooks/action/use-action.tsx'
+import {
+  Checkbox,
+  Coordinates,
+  DateRange,
+  Icon,
+  MultiRadio,
+  NumberInput,
+  Textarea,
+  TextInput,
+  THEME
+} from '@mtes-mct/monitor-ui'
 import { isEqual } from 'lodash'
 import omit from 'lodash/omit'
 import React, { useEffect, useState } from 'react'
@@ -14,7 +26,6 @@ import useActionById from '../../../hooks/use-action-by-id.tsx'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
 import { RESCUE_TYPE_OPTIONS } from '../../../utils/control-utils.ts'
 import ActionHeader from './action-header.tsx'
-import { DateRange } from '@mtes-mct/monitor-ui/types/definitions'
 
 interface ActionRescueFormProps {
   action: Action
@@ -22,7 +33,9 @@ interface ActionRescueFormProps {
 
 const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
   const navigate = useNavigate()
+
   const { missionId, actionId } = useParams()
+  const { getError } = useAction<ActionRescue>()
   const isMissionFinished = useIsMissionFinished(missionId)
 
   const [showVesselStack, setShowVesselStack] = useState(false)
@@ -175,7 +188,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
             <CoordinateInputDMD
               label={"Lieu de l'opération"}
               isRequired={true}
-              error={!actionData.latitude && !actionData.longitude ? 'error' : undefined}
+              error={getError(actionData, isMissionFinished, 'latitude', 'longitude')}
               isErrorMessageHidden={true}
               name={'geoCoords'}
               defaultValue={[actionData?.latitude as any, actionData?.longitude as any]}
@@ -223,9 +236,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                   />
                 </Stack.Item>
                 <Stack.Item alignSelf="flex-end">
-                  <Text as={'h3'} weight={'medium'}>
-                    Opération suivie (DEFREP)
-                  </Text>
+                  <ToggleLabel>Opération suivie (DEFREP)</ToggleLabel>
                 </Stack.Item>
               </Stack>
             </Stack.Item>
@@ -264,9 +275,8 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                   <NumberInput
                     isRequired={true}
                     error={
-                      actionData.isPersonRescue &&
-                      (actionData.numberPersonsRescued === undefined || actionData.numberPersonsRescued === null)
-                        ? 'error'
+                      actionData.isPersonRescue
+                        ? getError(actionData, isMissionFinished, 'numberPersonsRescued')
                         : undefined
                     }
                     isErrorMessageHidden={true}
@@ -285,10 +295,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                   <NumberInput
                     isRequired={true}
                     error={
-                      actionData.isPersonRescue &&
-                      (actionData.numberOfDeaths === undefined || actionData.numberOfDeaths === null)
-                        ? 'error'
-                        : undefined
+                      actionData.isPersonRescue ? getError(actionData, isMissionFinished, 'numberOfDeaths') : undefined
                     }
                     isErrorMessageHidden={true}
                     label="Nb de personnes disparues / décédées"
