@@ -1,5 +1,6 @@
+import Text from '@common/components/ui/text.tsx'
 import { useControl } from '@features/pam/mission/hooks/control/use-control.tsx'
-import { FormikEffect, FormikNumberInput, FormikTextInput } from '@mtes-mct/monitor-ui'
+import { FormikEffect, FormikNumberInput, FormikTextInput, THEME } from '@mtes-mct/monitor-ui'
 import { Form, Formik, FormikErrors } from 'formik'
 import { isEmpty, isEqual, isNull, omitBy, pick } from 'lodash'
 import { FC, useEffect, useState } from 'react'
@@ -31,6 +32,7 @@ export interface EnvControlFormProps {
 
 const EnvControlForm: FC<EnvControlFormProps> = ({ controlType, data, maxAmountOfControls, shouldCompleteControl }) => {
   const { missionId, actionId } = useParams()
+  const [isError, setIsError] = useState<boolean>(false)
   const [control, setControl] = useState<EnvControlFormInput>()
   const { isRequired, toggleControl, controlIsChecked, controlEnvChanged } = useControl(
     data,
@@ -60,7 +62,9 @@ const EnvControlForm: FC<EnvControlFormProps> = ({ controlType, data, maxAmountO
     value: EnvControlFormInput,
     errors?: FormikErrors<EnvControlFormInput>
   ): Promise<void> => {
-    if (!isEmpty(errors)) return
+    const isError = !isEmpty(errors)
+    setIsError(isError)
+    if (isError) return
     if (isEqual(value, control)) return
     controlEnvChanged(actionId, getControl(value), !!value.amountOfControls)
   }
@@ -96,20 +100,43 @@ const EnvControlForm: FC<EnvControlFormProps> = ({ controlType, data, maxAmountO
                   onChange={value => validateForm(value).then(errors => handleControlChange(value, errors))}
                 />
                 <Form>
-                  <Stack direction="row" style={{ width: '100%' }} spacing={'0.5rem'}>
-                    <Stack.Item style={{ width: '33%' }}>
-                      <FormikNumberInput
-                        isErrorMessageHidden={true}
-                        min={0}
-                        isLight={true}
-                        label="Nb contrôles"
-                        name="amountOfControls"
-                        isRequired={shouldCompleteControl}
-                        max={(data?.amountOfControls || 0) + (maxAmountOfControls || 0)}
-                      />
+                  <Stack direction="column" style={{ width: '100%', justifyContent: 'start', alignItems: 'start' }}>
+                    <Stack.Item style={{ width: '100%' }}>
+                      <Stack
+                        direction="row"
+                        spacing={'0.5rem'}
+                        style={{ width: '100%', alignItems: 'end', justifyContent: 'stretch' }}
+                      >
+                        <Stack.Item style={{ width: '33%' }}>
+                          <FormikNumberInput
+                            isErrorMessageHidden={true}
+                            min={0}
+                            isLight={true}
+                            label="Nb contrôles"
+                            name="amountOfControls"
+                            isRequired={shouldCompleteControl}
+                            max={(data?.amountOfControls || 0) + (maxAmountOfControls || 0)}
+                          />
+                        </Stack.Item>
+                        <Stack.Item>
+                          <FormikTextInput
+                            isLight={true}
+                            name="observations"
+                            label="Observations (hors infraction)"
+                            style={{ width: '100%' }}
+                          />
+                        </Stack.Item>
+                      </Stack>
                     </Stack.Item>
-                    <Stack.Item style={{ width: '67%' }}>
-                      <FormikTextInput isLight={true} name="observations" label="Observations (hors infraction)" />
+                    <Stack.Item style={{ width: '100%' }}>
+                      <Stack.Item style={{ width: '100%', marginTop: '5px' }}>
+                        {isError && (
+                          <Text as={'h4'} color={THEME.color.maximumRed} fontStyle={'italic'}>
+                            Attention, le chiffre renseigné ne peut pas être supérieur au nombre total de contrôles
+                            effectués
+                          </Text>
+                        )}
+                      </Stack.Item>
                     </Stack.Item>
                   </Stack>
                 </Form>
