@@ -34,7 +34,7 @@ const MissionObservationsUnit: React.FC<MissionObservationsByUnitProps> = ({ mis
       variables: {
         mission: {
           missionId,
-          observationsByUnit: observations || ''
+          observationsByUnit: observations ?? ''
         }
       }
     })
@@ -47,6 +47,7 @@ const MissionObservationsUnit: React.FC<MissionObservationsByUnitProps> = ({ mis
           <>
             <FormikEffect onChange={handleSubmit} />
             <FormikTextarea
+              isRequired={true}
               isLight={false}
               name="observations"
               data-testid="mission-general-observation"
