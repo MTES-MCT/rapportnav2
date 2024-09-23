@@ -91,7 +91,7 @@ const EnvControlForm: FC<EnvControlFormProps> = ({ controlType, data, maxAmountO
               handleControlChange(value)
             }}
             validationSchema={object().shape({
-              amountOfControls: number().max((data?.amountOfControls || 0) + (maxAmountOfControls || 0))
+              amountOfControls: number().max(maxAmountOfControls || 0)
             })}
           >
             {({ validateForm }) => (
@@ -114,8 +114,8 @@ const EnvControlForm: FC<EnvControlFormProps> = ({ controlType, data, maxAmountO
                             isLight={true}
                             label="Nb contrôles"
                             name="amountOfControls"
+                            max={maxAmountOfControls || 0}
                             isRequired={shouldCompleteControl}
-                            max={(data?.amountOfControls || 0) + (maxAmountOfControls || 0)}
                           />
                         </Stack.Item>
                         <Stack.Item>
