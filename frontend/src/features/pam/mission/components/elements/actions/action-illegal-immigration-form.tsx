@@ -1,8 +1,9 @@
+import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
 import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.tsx'
 import { Action, ActionIllegalImmigration } from '@common/types/action-types.ts'
-import { Coordinates, NumberInput, Textarea, THEME } from '@mtes-mct/monitor-ui'
-import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
-import { isEqual, isNil } from 'lodash'
+import { useAction } from '@features/pam/mission/hooks/action/use-action.tsx'
+import { Coordinates, DateRange, NumberInput, Textarea, THEME } from '@mtes-mct/monitor-ui'
+import { isEqual } from 'lodash'
 import omit from 'lodash/omit'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -12,7 +13,6 @@ import useDeleteIllegalImmigration from '../../../hooks/illegal-immigration/use-
 import useActionById from '../../../hooks/use-action-by-id.tsx'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
 import ActionHeader from './action-header.tsx'
-import { DateRange } from '@mtes-mct/monitor-ui/types/definitions'
 
 interface ActionIllegalImmigrationFormProps {
   action: Action
@@ -22,16 +22,13 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
   const navigate = useNavigate()
   const { missionId, actionId } = useParams()
   const isMissionFinished = useIsMissionFinished(missionId)
+  const { getError } = useAction<ActionIllegalImmigration>()
 
   const { data: navAction, loading, error } = useActionById(actionId, missionId, action.source, action.type)
   const [mutateIllegalImmigration] = useAddOrUpdateIllegalImmigration()
   const [deleteIllegalImmigration] = useDeleteIllegalImmigration()
 
   const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
-
-  const getError = (data: ActionIllegalImmigration, key: keyof ActionIllegalImmigration) => {
-    return isNil(data[key]) && isMissionFinished ? 'error' : undefined
-  }
 
   useEffect(() => {
     setObservationsValue(navAction?.data?.observations)
@@ -162,8 +159,8 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
                   placeholder="0"
                   isLight={true}
                   value={actionData?.nbOfInterceptedVessels}
-                  error={getError(actionData, 'nbOfInterceptedVessels')}
-                  onChange={(nextValue?: number) => onChange(nextValue)('nbOfInterceptedVessels')}
+                  error={getError(actionData, isMissionFinished, 'nbOfInterceptedVessels')}
+                  onChange={(nextValue?: number) => onChange('nbOfInterceptedVessels', nextValue)}
                 />
               </Stack.Item>
               <Stack.Item style={{ width: '100%' }}>
@@ -178,8 +175,8 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
                       placeholder="0"
                       isLight={true}
                       value={actionData?.nbOfInterceptedMigrants}
-                      error={getError(actionData, 'nbOfInterceptedMigrants')}
-                      onChange={(nextValue?: number) => onChange(nextValue)('nbOfInterceptedMigrants')}
+                      error={getError(actionData, isMissionFinished, 'nbOfInterceptedMigrants')}
+                      onChange={(nextValue?: number) => onChange('nbOfInterceptedMigrants', nextValue)}
                     />
                   </Stack.Item>
                   <Stack.Item style={{ flex: 1 }}>
@@ -192,8 +189,8 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
                       placeholder="0"
                       isLight={true}
                       value={actionData?.nbOfSuspectedSmugglers}
-                      error={getError(actionData, 'nbOfSuspectedSmugglers')}
-                      onChange={(nextValue?: number) => onChange(nextValue)('nbOfSuspectedSmugglers')}
+                      error={getError(actionData, isMissionFinished, 'nbOfSuspectedSmugglers')}
+                      onChange={(nextValue?: number) => onChange('nbOfSuspectedSmugglers', nextValue)}
                     />
                   </Stack.Item>
                 </Stack>

@@ -1,8 +1,9 @@
 import { ControlAdministrative, ControlType } from '@common/types/control-types.ts'
 import { vi } from 'vitest'
-import { fireEvent, render, screen } from '../../../../../../test-utils.tsx'
+import { fireEvent, render, screen, waitFor } from '../../../../../../test-utils.tsx'
 import EnvControlForm, { EnvControlFormProps } from './env-control-form.tsx'
 
+import { act } from 'react'
 import * as useControlHook from '../../../hooks/control/use-control'
 
 const updateControlMock = vi.fn()
@@ -139,7 +140,16 @@ describe('EnvControlForm', () => {
 
     const wrapper = render(<EnvControlForm {...props} />)
     const input = wrapper.getByLabelText('Nb contrôles')
-    fireEvent.change(input, { target: { value: 7 } })
-    expect(controlChangedMock).not.toHaveBeenCalled()
+    act(() => {
+      fireEvent.change(input, { target: { value: 7 } })
+      expect(controlChangedMock).not.toHaveBeenCalled()
+    })
+
+    waitFor(() => {
+      const error =
+        screen.getByText(`Attention, le chiffre renseigné ne peut pas être supérieur au nombre total de contrôles
+    effectués`)
+      expect(error).toBeInTheDocument()
+    })
   })
 })

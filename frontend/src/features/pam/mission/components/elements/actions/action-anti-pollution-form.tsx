@@ -1,25 +1,21 @@
-import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.tsx'
-import { Action, ActionAntiPollution } from '@common/types/action-types.ts'
-import { Checkbox, Coordinates, Icon, Textarea, THEME, Toggle, ToggleProps } from '@mtes-mct/monitor-ui'
 import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
+import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.tsx'
+import { ToggleLabel } from '@common/components/ui/toogle-label.tsx'
+import { Action, ActionAntiPollution } from '@common/types/action-types.ts'
+import { useAction } from '@features/pam/mission/hooks/action/use-action.tsx'
+import { Checkbox, Coordinates, DateRange, Icon, Textarea, THEME, Toggle, ToggleProps } from '@mtes-mct/monitor-ui'
 import { isEqual } from 'lodash'
 import omit from 'lodash/omit'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Stack } from 'rsuite'
 import styled from 'styled-components'
-import Text, { TextProps } from '../../../../../common/components/ui/text.tsx'
+import Text from '../../../../../common/components/ui/text.tsx'
 import useAddOrUpdateAntiPollution from '../../../hooks/anti-pollution/use-add-anti-pollution.tsx'
 import useDeleteAntiPollution from '../../../hooks/anti-pollution/use-delete-anti-pollution.tsx'
 import useActionById from '../../../hooks/use-action-by-id.tsx'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
 import ActionHeader from './action-header.tsx'
-import { DateRange } from '@mtes-mct/monitor-ui/types/definitions'
-
-const ToggleLabel = styled((props: Omit<TextProps, 'as'>) => <Text {...props} as="h3" />)(({ theme }) => ({
-  color: theme.color.gunMetal,
-  fontWeight: 500
-}))
 
 const StyledToggle = styled((props: Omit<ToggleProps, 'label'>) => (
   <Toggle {...props} label="" isLight isLabelHidden readOnly={false} />
@@ -34,6 +30,8 @@ interface ActionAntiPollutionFormProps {
 const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ action }) => {
   const navigate = useNavigate()
   const { missionId, actionId } = useParams()
+
+  const { getError } = useAction<ActionAntiPollution>()
   const isMissionFinished = useIsMissionFinished(missionId)
 
   const { data: navAction, loading, error } = useActionById(actionId, missionId, action.source, action.type)
@@ -162,7 +160,7 @@ const ActionAntiPollutionForm: React.FC<ActionAntiPollutionFormProps> = ({ actio
             <CoordinateInputDMD
               label={"Lieu de l'opération"}
               isRequired={true}
-              error={!actionData.latitude && !actionData.longitude ? 'error' : undefined}
+              error={getError(actionData, isMissionFinished, 'latitude', 'longitude')}
               isErrorMessageHidden={true}
               name={'geoCoords'}
               defaultValue={[actionData?.latitude as any, actionData?.longitude as any]}

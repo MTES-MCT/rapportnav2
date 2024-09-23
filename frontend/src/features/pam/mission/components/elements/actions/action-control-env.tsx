@@ -33,13 +33,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
     if (!envAction?.data) return
     const data = envAction.data as unknown as EnvActionControl
     if (!data.actionNumberOfControls) return
-    setMaxNbrControl(
-      data.actionNumberOfControls -
-        ((data.controlSecurity?.amountOfControls || 0) +
-          (data.controlGensDeMer?.amountOfControls || 0) +
-          (data.controlNavigation?.amountOfControls || 0) +
-          (data.controlAdministrative?.amountOfControls || 0))
-    )
+    setMaxNbrControl(data.actionNumberOfControls)
   }, [envAction])
 
   if (loading) {

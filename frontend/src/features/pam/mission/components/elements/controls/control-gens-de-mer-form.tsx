@@ -8,6 +8,7 @@ import { Panel, Stack } from 'rsuite'
 import styled from 'styled-components'
 import { ControlGensDeMer, ControlResult, ControlType } from '../../../../../common/types/control-types.ts'
 import ControlTitleCheckbox from '../../ui/control-title-checkbox.tsx'
+import ControlInfraction from '../infractions/infraction-for-control.tsx'
 import { ControlResultExtraOptions, controlResultOptions } from './control-result.ts'
 
 const StackItemStyled = styled(Stack.Item)({
@@ -93,17 +94,17 @@ const ControlGensDeMerForm: FC<ControlGensDeMerFormProps> = ({ data, shouldCompl
       // defaultExpanded={controlIsEnabled(data)}
       style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
     >
-      <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
-        {control !== undefined && (
-          <Formik
-            initialValues={control}
-            onSubmit={handleControlChange}
-            validateOnChange={true}
-            enableReinitialize={true}
-          >
-            <>
-              <FormikEffect onChange={handleControlChange} />
-              <Form>
+      {control !== undefined && (
+        <Formik
+          initialValues={control}
+          onSubmit={handleControlChange}
+          validateOnChange={true}
+          enableReinitialize={true}
+        >
+          <>
+            <FormikEffect onChange={handleControlChange} />
+            <Form>
+              <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
                 {unitShouldConfirm && (
                   <Stack.Item style={{ width: '100%' }}>
                     <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
@@ -149,11 +150,18 @@ const ControlGensDeMerForm: FC<ControlGensDeMerFormProps> = ({ data, shouldCompl
                     label="Observations (hors infraction) sur les pièces administratives"
                   />
                 </Stack.Item>
-              </Form>
-            </>
-          </Formik>
-        )}
-      </Stack>
+                <Stack.Item style={{ width: '100%' }}>
+                  <ControlInfraction
+                    controlId={data?.id}
+                    infractions={data?.infractions}
+                    controlType={ControlType.GENS_DE_MER}
+                  />
+                </Stack.Item>
+              </Stack>
+            </Form>
+          </>
+        </Formik>
+      )}
     </Panel>
   )
 }

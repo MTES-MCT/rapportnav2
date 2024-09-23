@@ -32,6 +32,15 @@ describe('ControlAdministrativeForm', () => {
     expect(screen.getByText('Permis de mise en exploitation (autorisation à pêcher) conforme')).toBeInTheDocument()
   })
 
+  it('it should display infraction', async () => {
+    const data = {
+      id: '',
+      amountOfControls: 0
+    } as ControlAdministrative
+    render(<ControlAdministrativeForm data={data} />)
+    expect(screen.getByText(`Ajouter une infraction administrative`)).toBeInTheDocument()
+  })
+
   it('it should have control title check when should complete control is true', () => {
     const data = {
       id: '',
