@@ -93,7 +93,7 @@ const MissionItem: React.FC<MissionItemProps> = ({ mission, prefetchMission }) =
 
   const onItemMouseOver = () => {
     const isCompleteForStats = mission?.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE
-
+    setExportationCanBeDisplayed(true)
     if (isCompleteForStats) {
       setExportationCanBeDisplayed(true)
     }
@@ -155,9 +155,9 @@ const MissionItem: React.FC<MissionItemProps> = ({ mission, prefetchMission }) =
                 <Divider style={{ backgroundColor: THEME.color.charcoal }}></Divider>
               </FlexboxGrid.Item>
 
-              <FlexboxGrid.Item style={{ height: '100%', padding: '0.1rem 1rem' }}>
+              <FlexboxGrid.Item style={{ height: '100%', padding: '0.5rem 1rem' }}>
                 <Button
-                  Icon={Icon.Download}
+                  Icon={exportLoading ? LoadingIcon : Icon.Download}
                   accent={Accent.SECONDARY}
                   size={Size.NORMAL}
                   role={'dl-mission-export'}
@@ -169,7 +169,7 @@ const MissionItem: React.FC<MissionItemProps> = ({ mission, prefetchMission }) =
               </FlexboxGrid.Item>
               <FlexboxGrid.Item style={{ height: '100%', padding: '0.5rem 1rem' }}>
                 <Button
-                  Icon={Icon.Download}
+                  Icon={exportLoading ? LoadingIcon : Icon.Download}
                   accent={Accent.PRIMARY}
                   size={Size.NORMAL}
                   role={'dl-mission-export'}
