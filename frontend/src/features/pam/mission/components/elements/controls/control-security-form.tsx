@@ -1,12 +1,12 @@
 import { useControl } from '@features/pam/mission/hooks/control/use-control.tsx'
 import { FormikEffect, FormikTextarea, FormikToggle, Label, THEME } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
-import { isNull, omitBy, pick } from 'lodash'
+import { isEmpty, isNil, isNull, omitBy, pick } from 'lodash'
 import omit from 'lodash/omit'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Panel, Stack } from 'rsuite'
-import { ControlSecurity, ControlType } from '../../../../../common/types/control-types.ts'
+import { ControlSecurity, ControlType } from '@common/types/control-types.ts'
 import ControlTitleCheckbox from '../../ui/control-title-checkbox.tsx'
 import ControlInfraction from '../infractions/infraction-for-control.tsx'
 
@@ -50,11 +50,11 @@ const ControlSecurityForm: FC<ControlSecurityFormProps> = ({ data, shouldComplet
   }
 
   const handleControlChange = async (value: ControlSecurityFormInput): Promise<void> => {
-    if (value === control) return
-    controlChanged(actionId, getControl(value))
+    if (value === control || isNil(control) || isEmpty(control)) return
+    await controlChanged(actionId, getControl(value))
   }
 
-  const handleToogleControl = async (isChecked: boolean) => toggleControl(isChecked, actionId, getControl(control))
+  const handleToggleControl = async (isChecked: boolean) => toggleControl(isChecked, actionId, getControl(control))
 
   return (
     <Panel
@@ -63,7 +63,7 @@ const ControlSecurityForm: FC<ControlSecurityFormProps> = ({ data, shouldComplet
           checked={controlIsChecked}
           shouldCompleteControl={isRequired}
           controlType={ControlType.SECURITY}
-          onChange={(isChecked: boolean) => handleToogleControl(isChecked)}
+          onChange={(isChecked: boolean) => handleToggleControl(isChecked)}
         />
       }
       // collapsible

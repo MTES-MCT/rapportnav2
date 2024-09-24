@@ -1,12 +1,12 @@
 import { useControl } from '@features/pam/mission/hooks/control/use-control.tsx'
 import { FormikEffect, FormikMultiRadio, FormikTextarea, FormikToggle, Label, THEME } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
-import { isNull, omit, omitBy, pick } from 'lodash'
+import { isEmpty, isNil, isNull, omit, omitBy, pick } from 'lodash'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Panel, Stack } from 'rsuite'
 import styled from 'styled-components'
-import { ControlGensDeMer, ControlResult, ControlType } from '../../../../../common/types/control-types.ts'
+import { ControlGensDeMer, ControlResult, ControlType } from '@common/types/control-types.ts'
 import ControlTitleCheckbox from '../../ui/control-title-checkbox.tsx'
 import ControlInfraction from '../infractions/infraction-for-control.tsx'
 import { ControlResultExtraOptions, controlResultOptions } from './control-result.ts'
@@ -74,11 +74,11 @@ const ControlGensDeMerForm: FC<ControlGensDeMerFormProps> = ({ data, shouldCompl
   }, [data])
 
   const handleControlChange = async (value: ControlGensDeMerFormInput): Promise<void> => {
-    if (value === control) return
-    controlChanged(actionId, getControl(value))
+    if (value === control || isNil(control) || isEmpty(control)) return
+    await controlChanged(actionId, getControl(value))
   }
 
-  const handleToogleControl = async (isChecked: boolean) => toggleControl(isChecked, actionId, getControl(control))
+  const handleToggleControl = async (isChecked: boolean) => toggleControl(isChecked, actionId, getControl(control))
 
   return (
     <Panel
@@ -87,7 +87,7 @@ const ControlGensDeMerForm: FC<ControlGensDeMerFormProps> = ({ data, shouldCompl
           checked={controlIsChecked}
           shouldCompleteControl={isRequired}
           controlType={ControlType.GENS_DE_MER}
-          onChange={(isChecked: boolean) => handleToogleControl(isChecked)}
+          onChange={(isChecked: boolean) => handleToggleControl(isChecked)}
         />
       }
       // collapsible
@@ -95,12 +95,7 @@ const ControlGensDeMerForm: FC<ControlGensDeMerFormProps> = ({ data, shouldCompl
       style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
     >
       {control !== undefined && (
-        <Formik
-          initialValues={control}
-          onSubmit={handleControlChange}
-          validateOnChange={true}
-          enableReinitialize={true}
-        >
+        <Formik initialValues={control} validateOnChange={true} enableReinitialize={true}>
           <>
             <FormikEffect onChange={handleControlChange} />
             <Form>

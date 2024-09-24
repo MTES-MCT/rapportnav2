@@ -1,13 +1,13 @@
 import { useControl } from '@features/pam/mission/hooks/control/use-control'
 import { FormikEffect, FormikMultiRadio, FormikTextarea, FormikToggle, Label, THEME } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
-import { isNull, omitBy, pick } from 'lodash'
+import { isEmpty, isNil, isNull, omitBy, pick } from 'lodash'
 import omit from 'lodash/omit'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Panel, Stack } from 'rsuite'
 import styled from 'styled-components'
-import { ControlAdministrative, ControlResult, ControlType } from '../../../../../common/types/control-types'
+import { ControlAdministrative, ControlResult, ControlType } from '@common/types/control-types.ts'
 import ControlTitleCheckbox from '../../ui/control-title-checkbox'
 import ControlInfraction from '../infractions/infraction-for-control'
 import { controlResultOptions } from './control-result'
@@ -25,6 +25,7 @@ export type ControlAdministrativeFormInput = {
   upToDateNavigationPermit?: ControlResult
   compliantSecurityDocuments?: ControlResult
 }
+
 interface ControlAdministrativeFormProps {
   unitShouldConfirm?: boolean
   data?: ControlAdministrative
@@ -78,11 +79,11 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
   }, [data])
 
   const handleControlChange = async (value: ControlAdministrativeFormInput): Promise<void> => {
-    if (value === control) return
-    controlChanged(actionId, getControl(value))
+    if (value === control || isNil(control) || isEmpty(control)) return
+    await controlChanged(actionId, getControl(value))
   }
 
-  const handleToogleControl = async (isChecked: boolean) => toggleControl(isChecked, actionId, getControl(control))
+  const handleToggleControl = async (isChecked: boolean) => toggleControl(isChecked, actionId, getControl(control))
 
   return (
     <Panel
@@ -91,7 +92,7 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
           checked={controlIsChecked}
           shouldCompleteControl={isRequired}
           controlType={ControlType.ADMINISTRATIVE}
-          onChange={(isChecked: boolean) => handleToogleControl(isChecked)}
+          onChange={(isChecked: boolean) => handleToggleControl(isChecked)}
         />
       }
       // collapsible
@@ -99,12 +100,7 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
       style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
     >
       {control !== undefined && (
-        <Formik
-          initialValues={control}
-          onSubmit={handleControlChange}
-          validateOnChange={true}
-          enableReinitialize={true}
-        >
+        <Formik initialValues={control} validateOnChange={true} enableReinitialize={true}>
           <>
             <FormikEffect onChange={handleControlChange} />
             <Form>
