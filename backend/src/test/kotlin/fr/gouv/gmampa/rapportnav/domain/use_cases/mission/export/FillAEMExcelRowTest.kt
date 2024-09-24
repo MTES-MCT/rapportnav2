@@ -179,7 +179,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("U$row") ?: "U$row",
             captor.capture()
         )
-        assertEquals(10, captor.value)
+        assertEquals(10.0, captor.value)
 
         // 2.3
         verify(exportExcelFile).writeToCell(
@@ -187,7 +187,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("W$row") ?: "W$row",
             captor.capture()
         )
-        assertEquals(5, captor.value)
+        assertEquals(5.0, captor.value)
 
 
         // 2.4
@@ -196,7 +196,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("X$row") ?: "X$row",
             captor.capture()
         )
-        assertEquals(3, captor.value)
+        assertEquals(3.0, captor.value)
 
 
         // 2.7
@@ -205,7 +205,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("AA$row") ?: "AA$row",
             captor.capture()
         )
-        assertEquals(2, captor.value)
+        assertEquals(2.0, captor.value)
 
 
     }
@@ -230,7 +230,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("AV$row") ?: "AV$row",
             captor.capture()
         )
-        assertEquals(10, captor.value)
+        assertEquals(10.0, captor.value)
 
         // 2.3
         verify(exportExcelFile).writeToCell(
@@ -238,7 +238,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("AX$row") ?: "AX$row",
             captor.capture()
         )
-        assertEquals(5, captor.value)
+        assertEquals(5.0, captor.value)
 
 
         // 2.4
@@ -247,7 +247,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("AY$row") ?: "AY$row",
             captor.capture()
         )
-        assertEquals(3, captor.value)
+        assertEquals(3.0, captor.value)
 
     }
 
@@ -272,7 +272,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("BH$row") ?: "BH$row",
             captor.capture()
         )
-        assertEquals(10, captor.value)
+        assertEquals(10.0, captor.value)
 
         // 4.1.3
         verify(exportExcelFile).writeToCell(
@@ -280,7 +280,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("BJ$row") ?: "BJ$row",
             captor.capture()
         )
-        assertEquals(5, captor.value)
+        assertEquals(5.0, captor.value)
 
 
         // 4.1.4
@@ -289,7 +289,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("BK$row") ?: "BK$row",
             captor.capture()
         )
-        assertEquals(3, captor.value)
+        assertEquals(3.0, captor.value)
 
         // 4.1.5
         verify(exportExcelFile).writeToCell(
@@ -297,7 +297,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("BL$row") ?: "BL$row",
             captor.capture()
         )
-        assertEquals(2, captor.value)
+        assertEquals(2.0, captor.value)
 
 
     }
