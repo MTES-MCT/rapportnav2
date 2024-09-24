@@ -64,7 +64,7 @@ class AEMTableExportTest {
         assertThat(export.outOfMigrationRescue).isNotNull();
         assertThat(export.pollutionControlSurveillance).isNotNull();
         assertThat(export.notPollutionControlSurveillance).isNotNull();
-        assertThat(export.sovereignProtect?.nbrOfRecognizedVessel).isEqualTo(nbrOfRecognizedVessel);
+        assertThat(export.sovereignProtect?.nbrOfRecognizedVessel).isEqualTo(nbrOfRecognizedVessel.toDouble());
     }
 
     private fun missionEntity(): MissionEntity {
