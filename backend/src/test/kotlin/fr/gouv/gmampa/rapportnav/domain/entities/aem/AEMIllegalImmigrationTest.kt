@@ -15,10 +15,10 @@ class AEMIllegalImmigrationTest {
 
     @Test
     fun `Should init illegal immigration with different values`() {
-        val nbrOfHourAtSea = 3;
-        val nbrOfInterceptedVessel = 5;
-        val nbrOfInterceptedMigrant = 14;
-        val nbrOfSuspectedSmuggler = 2;
+        val nbrOfHourAtSea = 3.0;
+        val nbrOfInterceptedVessel = 5.0;
+        val nbrOfInterceptedMigrant = 14.0;
+        val nbrOfSuspectedSmuggler = 2.0;
         val actions = navActionEntities()
         val illegalImmigration = AEMIllegalImmigration(navActions = actions);
 

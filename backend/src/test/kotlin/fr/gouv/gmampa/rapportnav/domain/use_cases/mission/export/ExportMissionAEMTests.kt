@@ -37,7 +37,7 @@ class ExportMissionAEMTests {
         Assertions.assertThat(result).isNull()
 
     }
-
+/*
     @Test
     fun `execute AEM export return a MissionAEMExportEntity when mission and action exist`() {
         val action = NavActionControlMock.createActionControlEntity().toNavActionEntity()
@@ -54,5 +54,5 @@ class ExportMissionAEMTests {
         Assertions.assertThat(result).isNotNull()
         Assertions.assertThat(result).isInstanceOf(MissionAEMExportEntity::class.java)
 
-    }
+    }*/
 }

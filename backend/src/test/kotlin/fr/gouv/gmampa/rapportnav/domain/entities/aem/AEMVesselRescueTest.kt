@@ -16,19 +16,19 @@ class AEMVesselRescueTest {
 
     @Test
     fun `Should init vessel rescue with different values`() {
-        val nbrOfHourAtSea = 5;
-        val nbrOfTowedVessel = 2;
-        val nbrOfNoticedVessel = 1;
-        val nbrOfRescuedOperation = 2;
+        val nbrOfHourAtSea = 5.0;
+        val nbrOfTowedVessel = 2.0;
+        val nbrOfNoticedVessel = 1.0;
+        val nbrOfRescuedOperation = 2.0;
 
         val actions = navActionEntities()
-        val vesselREscue = AEMVesselRescue(navActions = actions);
+        val vesselRescue = AEMVesselRescue(navActions = actions);
 
-        assertThat(vesselREscue).isNotNull();
-        assertThat(vesselREscue.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea);
-        assertThat(vesselREscue.nbrOfTowedVessel).isEqualTo(nbrOfTowedVessel);
-        assertThat(vesselREscue.nbrOfNoticedVessel).isEqualTo(nbrOfNoticedVessel);
-        assertThat(vesselREscue.nbrOfRescuedOperation).isEqualTo(nbrOfRescuedOperation);
+        assertThat(vesselRescue).isNotNull();
+        assertThat(vesselRescue.nbrOfHourAtSea).isEqualTo(nbrOfHourAtSea);
+        assertThat(vesselRescue.nbrOfTowedVessel).isEqualTo(nbrOfTowedVessel);
+        assertThat(vesselRescue.nbrOfNoticedVessel).isEqualTo(nbrOfNoticedVessel);
+        assertThat(vesselRescue.nbrOfRescuedOperation).isEqualTo(nbrOfRescuedOperation);
     }
 
     private fun navActionEntities(): List<NavActionEntity> {

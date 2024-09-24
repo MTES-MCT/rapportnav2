@@ -24,9 +24,9 @@ class AEMCulturalMaritimeTest {
 
         assertThat(culturalMaritime).isNotNull();
         assertThat(culturalMaritime.nbrOfHourAtSea).isNotNull()
-        assertThat(culturalMaritime.nbrOfHourAtSea).isEqualTo(3);
-        assertThat(culturalMaritime.nbrOfBCMPoliceOperation).isEqualTo(2);
-        assertThat(culturalMaritime.nbrOfScientificOperation).isEqualTo(1);
+        assertThat(culturalMaritime.nbrOfHourAtSea).isEqualTo(4.0);
+        assertThat(culturalMaritime.nbrOfBCMPoliceOperation).isEqualTo(2.0);
+        assertThat(culturalMaritime.nbrOfScientificOperation).isEqualTo(1.0);
     }
 
     private fun extendedEnvActionEntities(): List<ExtendedEnvActionEntity> {
@@ -45,9 +45,19 @@ class AEMCulturalMaritimeTest {
                 surveillanceAction = ExtendedEnvActionSurveillanceEntity(
                     action = EnvActionSurveillanceEntity(
                         UUID.randomUUID(),
-                        controlPlans = listOf(EnvActionControlPlanEntity(themeId = 104, subThemeIds = listOf(165))),
+                        controlPlans = listOf(EnvActionControlPlanEntity(themeId = 101, subThemeIds = listOf(165))),
                         actionStartDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                         actionEndDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
+                    )
+                )
+            ),
+            ExtendedEnvActionEntityMock.create(
+                surveillanceAction = ExtendedEnvActionSurveillanceEntity(
+                    action = EnvActionSurveillanceEntity(
+                        UUID.randomUUID(),
+                        controlPlans = listOf(EnvActionControlPlanEntity(themeId = 104, subThemeIds = listOf(67))),
+                        actionStartDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
+                        actionEndDateTimeUtc = Instant.parse("2019-09-09T05:00:00.000+01:00"),
                     )
                 )
             )

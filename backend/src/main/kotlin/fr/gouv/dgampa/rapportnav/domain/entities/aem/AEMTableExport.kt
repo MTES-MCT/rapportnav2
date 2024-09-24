@@ -47,7 +47,7 @@ data class AEMTableExport(
 
         fun fromMission(mission: MissionEntity): AEMTableExport {
             val tableExport = fromMissionAction(mission.actions ?: listOf(), mission.endDateTimeUtc);
-            tableExport.sovereignProtect?.nbrOfRecognizedVessel = mission.generalInfo?.nbrOfRecognizedVessel;
+            tableExport.sovereignProtect?.nbrOfRecognizedVessel = mission.generalInfo?.nbrOfRecognizedVessel?.toDouble();
             return tableExport
         }
     }

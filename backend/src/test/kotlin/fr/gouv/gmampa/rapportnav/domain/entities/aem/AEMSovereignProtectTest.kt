@@ -22,9 +22,9 @@ class AEMSovereignProtectTest {
 
     @Test
     fun `Should init sovereign protect with different values`() {
-        val nbrOfHourAtSea = 147;
-        val nbrOfRecognizedVessel = 0;
-        val nbrOfControlledVessel = 4;
+        val nbrOfHourAtSea = 147.0;
+        val nbrOfRecognizedVessel = 0.0;
+        val nbrOfControlledVessel = 4.0;
 
         val navActions = navActionEntities();
         val envActions = extendedEnvActionEntities();

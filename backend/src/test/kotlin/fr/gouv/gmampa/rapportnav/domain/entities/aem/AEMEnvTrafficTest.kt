@@ -24,9 +24,9 @@ class AEMEnvTrafficTest {
 
         assertThat(envTraffic).isNotNull();
         assertThat(envTraffic.nbrOfHourAtSea).isNotNull()
-        assertThat(envTraffic.nbrOfHourAtSea).isEqualTo(2);
-        assertThat(envTraffic.nbrOfSeizure).isEqualTo(0);
-        assertThat(envTraffic.nbrOfRedirectShip).isEqualTo(0);
+        assertThat(envTraffic.nbrOfHourAtSea).isEqualTo(2.0);
+        assertThat(envTraffic.nbrOfSeizure).isEqualTo(0.0);
+        assertThat(envTraffic.nbrOfRedirectShip).isEqualTo(0.0);
     }
 
     private fun extendedEnvActionEntities(): List<ExtendedEnvActionEntity> {

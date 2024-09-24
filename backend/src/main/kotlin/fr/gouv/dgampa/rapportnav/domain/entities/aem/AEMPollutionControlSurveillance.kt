@@ -7,13 +7,13 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEnt
 import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 
 data class AEMPollutionControlSurveillance(
-    val nbrOfHourAtSea: Int? = 0, //4.2.1
-    val nbrOfSimpleBrewingOperation: Int? = 0, // 4.2.3
-    val nbrOfAntiPolDeviceDeployed: Int? = 0, // 4.2.4
-    val nbrOfInfraction: Int? = 0, // 4.2.5
-    val nbrOfInfractionWithNotice: Int? = 0, // 4.2.6
-    val nbrOfDiversionCarriedOut: Int? = 0, // 4.2.7
-    val nbrOfPollutionObservedByAuthorizedAgent: Int? = 0 //4.2.8
+    val nbrOfHourAtSea: Double? = 0.0, //4.2.1
+    val nbrOfSimpleBrewingOperation: Double? = 0.0, // 4.2.3
+    val nbrOfAntiPolDeviceDeployed: Double? = 0.0, // 4.2.4
+    val nbrOfInfraction: Double? = 0.0, // 4.2.5
+    val nbrOfInfractionWithNotice: Double? = 0.0, // 4.2.6
+    val nbrOfDiversionCarriedOut: Double? = 0.0, // 4.2.7
+    val nbrOfPollutionObservedByAuthorizedAgent: Double? = 0.0 //4.2.8
 ) {
     constructor(
         navActions: List<NavActionEntity>,
@@ -22,7 +22,7 @@ data class AEMPollutionControlSurveillance(
         nbrOfHourAtSea = getNbrOfHourAtSea(
             illicitRejectActionEntities(envActions),
             actionAntiPollutionEntities(navActions)
-        ).toInt(),
+        ),
         nbrOfSimpleBrewingOperation = getNbrOfSimpleBrewingOperation(actionAntiPollutionEntities(navActions)),
         nbrOfAntiPolDeviceDeployed = getNbrOfAntiPolDeviceDeployed(actionAntiPollutionEntities(navActions)),
         nbrOfInfraction = getNbrOfInfraction(illicitRejectActionEntities(envActions)),
@@ -48,24 +48,24 @@ data class AEMPollutionControlSurveillance(
             return nbrOfHourAntiPollution.plus(nbrEnvOfHourAntiPollution);
         }
 
-        fun getNbrOfSimpleBrewingOperation(antiPollutionActions: List<ActionAntiPollutionEntity?>): Int {
-            return antiPollutionActions.filter { it?.isSimpleBrewingOperationDone == true }.size;
+        fun getNbrOfSimpleBrewingOperation(antiPollutionActions: List<ActionAntiPollutionEntity?>): Double {
+            return antiPollutionActions.filter { it?.isSimpleBrewingOperationDone == true }.size.toDouble();
         }
 
-        fun getNbrOfAntiPolDeviceDeployed(antiPollutionActions: List<ActionAntiPollutionEntity?>): Int {
-            return antiPollutionActions.filter { it?.isAntiPolDeviceDeployed == true }.size;
+        fun getNbrOfAntiPolDeviceDeployed(antiPollutionActions: List<ActionAntiPollutionEntity?>): Double {
+            return antiPollutionActions.filter { it?.isAntiPolDeviceDeployed == true }.size.toDouble();
         }
 
-        fun getNbrOfInfraction(illicitRejectsActions: List<ExtendedEnvActionEntity?>): Int {
-            return illicitRejectsActions.fold(0) { acc, envAction ->
+        fun getNbrOfInfraction(illicitRejectsActions: List<ExtendedEnvActionEntity?>): Double {
+            return illicitRejectsActions.fold(0.0) { acc, envAction ->
                 acc.plus(
                     envAction?.controlAction?.action?.infractions?.size ?: 0
                 )
             }
         }
 
-        fun getNbrOfInfractionWithNotice(illicitRejectsActions: List<ExtendedEnvActionEntity?>): Int {
-            return illicitRejectsActions.fold(0) { acc, envAction ->
+        fun getNbrOfInfractionWithNotice(illicitRejectsActions: List<ExtendedEnvActionEntity?>): Double {
+            return illicitRejectsActions.fold(0.0) { acc, envAction ->
                 acc.plus(
                     envAction?.controlAction?.action?.infractions?.filter { it.formalNotice == FormalNoticeEnum.YES }?.size
                         ?: 0
@@ -76,8 +76,8 @@ data class AEMPollutionControlSurveillance(
         fun getNbrOfDiversionCarriedOut(
             illicitRejectsActions: List<ExtendedEnvActionEntity?>,
             antiPollutionActions: List<ActionAntiPollutionEntity?>
-        ): Int {
-            val envNbrOfDiversionCarriedOut = 0; //TODO: diversionCarriedOut from Env
+        ): Double {
+            val envNbrOfDiversionCarriedOut = 0.0; //TODO: diversionCarriedOut from Env
             val navNbrOfDiversionCarriedOut = antiPollutionActions.filter { it?.diversionCarriedOut == true }.size;
 
             return envNbrOfDiversionCarriedOut.plus(navNbrOfDiversionCarriedOut);
@@ -86,8 +86,8 @@ data class AEMPollutionControlSurveillance(
         fun getNbrOfPollutionObservedByAuthorizedAgent(
             illicitRejectsActions: List<ExtendedEnvActionEntity?>,
             antiPollutionActions: List<ActionAntiPollutionEntity?>
-        ): Int {
-            val envNbrOfPollutionObservedByAuthorizedAgent = 0; //TODO: pollutionObservedByAuthorizedAgent from env
+        ): Double {
+            val envNbrOfPollutionObservedByAuthorizedAgent = 0.0; //TODO: pollutionObservedByAuthorizedAgent from env
             val navNbrOfPollutionObservedByAuthorizedAgent =
                 antiPollutionActions.filter { it?.pollutionObservedByAuthorizedAgent == true }.size;
             return envNbrOfPollutionObservedByAuthorizedAgent.plus(navNbrOfPollutionObservedByAuthorizedAgent);
@@ -100,10 +100,11 @@ data class AEMPollutionControlSurveillance(
         private fun illicitRejectActionEntities(envActions: List<ExtendedEnvActionEntity?>): List<ExtendedEnvActionEntity?> {
             val illicitRejects = listOf(19, 102);
             return envActions.filter {
-                it?.controlAction?.action?.controlPlans?.map { c -> c.themeId }?.intersect(illicitRejects)?.size != 0 ||
+                it?.controlAction?.action?.controlPlans?.map { c -> c.themeId }?.intersect(illicitRejects)
+                    ?.isEmpty() == false ||
                     it?.surveillanceAction?.action?.controlPlans?.map { c -> c.themeId }
-                        ?.intersect(illicitRejects)?.size != 0
-            }
+                        ?.intersect(illicitRejects)?.isEmpty() == false
+            };
         }
     }
 }

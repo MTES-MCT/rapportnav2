@@ -16,13 +16,13 @@ class AEMPolllutionControlSurveillanceTest {
 
     @Test
     fun `Should init  pollution control surveillance with different values`() {
-        val nbrOfHourAtSea = 8;
-        val nbrOfInfraction = 2;
-        val nbrOfInfractionWithNotice = 1;
-        val nbrOfDiversionCarriedOut = 1;
-        val nbrOfSimpleBrewingOperation = 2;
-        val nbrOfAntiPolDeviceDeployed = 1;
-        val nbrOfPollutionObservedByAuthorizedAgent = 1;
+        val nbrOfHourAtSea = 8.0;
+        val nbrOfInfraction = 2.0;
+        val nbrOfInfractionWithNotice = 1.0;
+        val nbrOfDiversionCarriedOut = 1.0;
+        val nbrOfSimpleBrewingOperation = 2.0;
+        val nbrOfAntiPolDeviceDeployed = 1.0;
+        val nbrOfPollutionObservedByAuthorizedAgent = 1.0;
 
         val actions = navActionEntities();
         val extendedActions = extendedEnvActionEntities();
@@ -70,7 +70,17 @@ class AEMPolllutionControlSurveillanceTest {
                 surveillanceAction = ExtendedEnvActionSurveillanceEntity(
                     action = EnvActionSurveillanceEntity(
                         UUID.randomUUID(),
-                        controlPlans = listOf(EnvActionControlPlanEntity(themeId = 102)),
+                        controlPlans = listOf(EnvActionControlPlanEntity(themeId = 19)),
+                        actionStartDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
+                        actionEndDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
+                    )
+                )
+            ),
+            ExtendedEnvActionEntityMock.create(
+                surveillanceAction = ExtendedEnvActionSurveillanceEntity(
+                    action = EnvActionSurveillanceEntity(
+                        UUID.randomUUID(),
+                        controlPlans = listOf(EnvActionControlPlanEntity(themeId = 100)),
                         actionStartDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                         actionEndDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
                     )
