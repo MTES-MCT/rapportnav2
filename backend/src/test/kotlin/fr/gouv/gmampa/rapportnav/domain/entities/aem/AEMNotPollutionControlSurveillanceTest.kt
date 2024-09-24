@@ -17,9 +17,9 @@ class AEMNotPollutionControlSurveillanceTest {
 
     @Test
     fun `Should init not pollution control surveillance with different values`() {
-        val nbrOfHourAtSea = 7;
-        val nbrOfInfraction = 3;
-        val nbrOfInfractionWithNotice = 2;
+        val nbrOfHourAtSea = 4.5;
+        val nbrOfInfraction = 3.0;
+        val nbrOfInfractionWithNotice = 2.0;
 
         val actions = extendedEnvActionEntities()
         val notPollution = AEMNotPollutionControlSurveillance(envActions = actions);
@@ -36,9 +36,9 @@ class AEMNotPollutionControlSurveillanceTest {
                 controlAction = ExtendedEnvActionControlEntity(
                     action = EnvActionControlEntity(
                         UUID.randomUUID(),
-                        controlPlans = listOf(EnvActionControlPlanEntity(themeId = 19)),
+                        controlPlans = listOf(EnvActionControlPlanEntity(themeId = 101)),
                         actionStartDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
-                        actionEndDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
+                        actionEndDateTimeUtc = Instant.parse("2019-09-09T04:30:00.000+01:00"),
                         infractions = listOf(
                             InfractionEntity(
                                 id = "",
@@ -66,7 +66,7 @@ class AEMNotPollutionControlSurveillanceTest {
                 surveillanceAction = ExtendedEnvActionSurveillanceEntity(
                     action = EnvActionSurveillanceEntity(
                         UUID.randomUUID(),
-                        controlPlans = listOf(EnvActionControlPlanEntity(themeId = 101)),
+                        controlPlans = listOf(EnvActionControlPlanEntity(themeId = 19)),
                         actionStartDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                         actionEndDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
 
