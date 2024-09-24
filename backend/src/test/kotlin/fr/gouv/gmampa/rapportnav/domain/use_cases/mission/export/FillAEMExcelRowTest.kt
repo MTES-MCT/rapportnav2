@@ -54,12 +54,12 @@ class FillAEMExcelRowTest {
         val row = 3
 
         `when`(tableExport.outOfMigrationRescue).thenReturn(outOfMigrationRescue)
-        `when`(outOfMigrationRescue.nbrOfHourAtSea).thenReturn(10)
-        `when`(outOfMigrationRescue.nbrOfRescuedOperation).thenReturn(5)
-        `when`(outOfMigrationRescue.nbrPersonsRescued).thenReturn(3)
+        `when`(outOfMigrationRescue.nbrOfHourAtSea).thenReturn(10.0)
+        `when`(outOfMigrationRescue.nbrOfRescuedOperation).thenReturn(5.0)
+        `when`(outOfMigrationRescue.nbrPersonsRescued).thenReturn(3.0)
 
         fillAEMExcelRow.fill(tableExport, exportExcelFile, sheetName, row)
-        val captor = ArgumentCaptor.forClass(Int::class.java)
+        val captor = ArgumentCaptor.forClass(Double::class.java)
 
 
         // 1.1.1
@@ -68,7 +68,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("H$row") ?: "H$row",
             captor.capture()
         )
-        assertEquals(10, captor.value)
+        assertEquals(10.0, captor.value)
 
         // 1.1.3
         verify(exportExcelFile).writeToCell(
@@ -76,7 +76,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("J$row") ?: "J$row",
             captor.capture()
         )
-        assertEquals(5, captor.value)
+        assertEquals(5.0, captor.value)
 
 
         // 1.1.4
@@ -85,7 +85,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("K$row") ?: "K$row",
             captor.capture()
         )
-        assertEquals(3, captor.value)
+        assertEquals(3.0, captor.value)
 
     }
 
@@ -95,15 +95,15 @@ class FillAEMExcelRowTest {
         val row = 3
 
         `when`(tableExport.migrationRescue).thenReturn(migrationRescue)
-        `when`(migrationRescue.nbrOfHourAtSea).thenReturn(10)
-        `when`(migrationRescue.nbrOfOperation).thenReturn(5)
-        `when`(migrationRescue.nbrOfVesselsTrackedWithoutIntervention).thenReturn(3)
-        `when`(migrationRescue.nbrAssistedVesselsReturningToShore).thenReturn(2)
-        `when`(migrationRescue.nbrOfRescuedOperation).thenReturn(4)
-        `when`(migrationRescue.nbrPersonsRescued).thenReturn(50)
+        `when`(migrationRescue.nbrOfHourAtSea).thenReturn(10.0)
+        `when`(migrationRescue.nbrOfOperation).thenReturn(5.0)
+        `when`(migrationRescue.nbrOfVesselsTrackedWithoutIntervention).thenReturn(3.0)
+        `when`(migrationRescue.nbrAssistedVesselsReturningToShore).thenReturn(2.0)
+        `when`(migrationRescue.nbrOfRescuedOperation).thenReturn(4.0)
+        `when`(migrationRescue.nbrPersonsRescued).thenReturn(50.0)
 
         fillAEMExcelRow.fill(tableExport, exportExcelFile, sheetName, row)
-        val captor = ArgumentCaptor.forClass(Int::class.java)
+        val captor = ArgumentCaptor.forClass(Double::class.java)
 
 
         // 1.2.1
@@ -112,7 +112,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("M$row") ?: "M$row",
             captor.capture()
         )
-        assertEquals(10, captor.value)
+        assertEquals(10.0, captor.value)
 
         // 1.2.3
         verify(exportExcelFile).writeToCell(
@@ -120,7 +120,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("O$row") ?: "O$row",
             captor.capture()
         )
-        assertEquals(5, captor.value)
+        assertEquals(5.0, captor.value)
 
 
         // 1.2.4
@@ -129,7 +129,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("P$row") ?: "O$row",
             captor.capture()
         )
-        assertEquals(3, captor.value)
+        assertEquals(3.0, captor.value)
 
 
         // 1.2.5
@@ -138,7 +138,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("Q$row") ?: "O$row",
             captor.capture()
         )
-        assertEquals(2, captor.value)
+        assertEquals(2.0, captor.value)
 
 
         // 1.2.6
@@ -147,7 +147,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("R$row") ?: "O$row",
             captor.capture()
         )
-        assertEquals(4, captor.value)
+        assertEquals(4.0, captor.value)
 
         // 1.2.7
         verify(exportExcelFile).writeToCell(
@@ -155,7 +155,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("S$row") ?: "O$row",
             captor.capture()
         )
-        assertEquals(50, captor.value)
+        assertEquals(50.0, captor.value)
     }
 
     @Test
@@ -164,13 +164,13 @@ class FillAEMExcelRowTest {
         val row = 3
 
         `when`(tableExport.vesselRescue).thenReturn(vesselRescue)
-        `when`(vesselRescue.nbrOfHourAtSea).thenReturn(10)
-        `when`(vesselRescue.nbrOfRescuedOperation).thenReturn(5)
-        `when`(vesselRescue.nbrOfNoticedVessel).thenReturn(3)
-        `when`(vesselRescue.nbrOfTowedVessel).thenReturn(2)
+        `when`(vesselRescue.nbrOfHourAtSea).thenReturn(10.0)
+        `when`(vesselRescue.nbrOfRescuedOperation).thenReturn(5.0)
+        `when`(vesselRescue.nbrOfNoticedVessel).thenReturn(3.0)
+        `when`(vesselRescue.nbrOfTowedVessel).thenReturn(2.0)
 
         fillAEMExcelRow.fill(tableExport, exportExcelFile, sheetName, row)
-        val captor = ArgumentCaptor.forClass(Int::class.java)
+        val captor = ArgumentCaptor.forClass(Double::class.java)
 
 
         // 2.1
@@ -216,12 +216,12 @@ class FillAEMExcelRowTest {
         val row = 3
 
         `when`(tableExport.envTraffic).thenReturn(envTraffic)
-        `when`(envTraffic.nbrOfHourAtSea).thenReturn(10)
-        `when`(envTraffic.nbrOfRedirectShip).thenReturn(5)
-        `when`(envTraffic.nbrOfSeizure).thenReturn(3)
+        `when`(envTraffic.nbrOfHourAtSea).thenReturn(10.0)
+        `when`(envTraffic.nbrOfRedirectShip).thenReturn(5.0)
+        `when`(envTraffic.nbrOfSeizure).thenReturn(3.0)
 
         fillAEMExcelRow.fill(tableExport, exportExcelFile, sheetName, row)
-        val captor = ArgumentCaptor.forClass(Int::class.java)
+        val captor = ArgumentCaptor.forClass(Double::class.java)
 
 
         // 2.1
@@ -257,13 +257,13 @@ class FillAEMExcelRowTest {
         val row = 3
 
         `when`(tableExport.notPollutionControlSurveillance).thenReturn(notPollControlSurveillance)
-        `when`(notPollControlSurveillance.nbrOfHourAtSea).thenReturn(10)
-        `when`(notPollControlSurveillance.nbrOfAction).thenReturn(5)
-        `when`(notPollControlSurveillance.nbrOfInfraction).thenReturn(3)
-        `when`(notPollControlSurveillance.nbrOfInfractionWithNotice).thenReturn(2)
+        `when`(notPollControlSurveillance.nbrOfHourAtSea).thenReturn(10.0)
+        `when`(notPollControlSurveillance.nbrOfAction).thenReturn(5.0)
+        `when`(notPollControlSurveillance.nbrOfInfraction).thenReturn(3.0)
+        `when`(notPollControlSurveillance.nbrOfInfractionWithNotice).thenReturn(2.0)
 
         fillAEMExcelRow.fill(tableExport, exportExcelFile, sheetName, row)
-        val captor = ArgumentCaptor.forClass(Int::class.java)
+        val captor = ArgumentCaptor.forClass(Double::class.java)
 
 
         // 4.1.1
@@ -308,16 +308,16 @@ class FillAEMExcelRowTest {
         val row = 3
 
         `when`(tableExport.pollutionControlSurveillance).thenReturn(pollutionControlSurveillance)
-        `when`(pollutionControlSurveillance.nbrOfHourAtSea).thenReturn(10)
-        `when`(pollutionControlSurveillance.nbrOfSimpleBrewingOperation).thenReturn(5)
-        `when`(pollutionControlSurveillance.nbrOfAntiPolDeviceDeployed).thenReturn(3)
-        `when`(pollutionControlSurveillance.nbrOfInfraction).thenReturn(2)
-        `when`(pollutionControlSurveillance.nbrOfInfractionWithNotice).thenReturn(55)
-        `when`(pollutionControlSurveillance.nbrOfDiversionCarriedOut).thenReturn(8)
-        `when`(pollutionControlSurveillance.nbrOfPollutionObservedByAuthorizedAgent).thenReturn(47)
+        `when`(pollutionControlSurveillance.nbrOfHourAtSea).thenReturn(10.0)
+        `when`(pollutionControlSurveillance.nbrOfSimpleBrewingOperation).thenReturn(5.0)
+        `when`(pollutionControlSurveillance.nbrOfAntiPolDeviceDeployed).thenReturn(3.0)
+        `when`(pollutionControlSurveillance.nbrOfInfraction).thenReturn(2.0)
+        `when`(pollutionControlSurveillance.nbrOfInfractionWithNotice).thenReturn(55.0)
+        `when`(pollutionControlSurveillance.nbrOfDiversionCarriedOut).thenReturn(8.0)
+        `when`(pollutionControlSurveillance.nbrOfPollutionObservedByAuthorizedAgent).thenReturn(47.0)
 
         fillAEMExcelRow.fill(tableExport, exportExcelFile, sheetName, row)
-        val captor = ArgumentCaptor.forClass(Int::class.java)
+        val captor = ArgumentCaptor.forClass(Double::class.java)
 
 
         // 4.2.1
@@ -326,7 +326,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("BN$row") ?: "BN$row",
             captor.capture()
         )
-        assertEquals(10, captor.value)
+        assertEquals(10.0, captor.value)
 
         // 4.2.3
         verify(exportExcelFile).writeToCell(
@@ -334,7 +334,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("BP$row") ?: "BP$row",
             captor.capture()
         )
-        assertEquals(5, captor.value)
+        assertEquals(5.0, captor.value)
 
 
         // 4.2.4
@@ -343,7 +343,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("BQ$row") ?: "BQ$row",
             captor.capture()
         )
-        assertEquals(3, captor.value)
+        assertEquals(3.0, captor.value)
 
         // 4.2.5
         verify(exportExcelFile).writeToCell(
@@ -351,7 +351,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("BR$row") ?: "BR$row",
             captor.capture()
         )
-        assertEquals(2, captor.value)
+        assertEquals(2.0, captor.value)
 
         // 4.2.6
         verify(exportExcelFile).writeToCell(
@@ -359,7 +359,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("BS$row") ?: "BS$row",
             captor.capture()
         )
-        assertEquals(55, captor.value)
+        assertEquals(55.0, captor.value)
 
         // 4.2.7
         verify(exportExcelFile).writeToCell(
@@ -367,7 +367,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("BT$row") ?: "BT$row",
             captor.capture()
         )
-        assertEquals(8, captor.value)
+        assertEquals(8.0, captor.value)
 
         // 4.2.8
         verify(exportExcelFile).writeToCell(
@@ -375,7 +375,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("BU$row") ?: "BU$row",
             captor.capture()
         )
-        assertEquals(47, captor.value)
+        assertEquals(47.0, captor.value)
 
 
     }
@@ -386,16 +386,16 @@ class FillAEMExcelRowTest {
         val row = 3
 
         `when`(tableExport.illegalFish).thenReturn(illegalFish)
-        `when`(illegalFish.nbrOfHourAtSea).thenReturn(10)
-        `when`(illegalFish.nbrOfPolFishAction).thenReturn(5)
-        `when`(illegalFish.nbrOfTargetedVessel).thenReturn(3)
-        `when`(illegalFish.nbrOfInfractionWithPV).thenReturn(2)
-        `when`(illegalFish.nbrOfInfraction).thenReturn(55)
-        `when`(illegalFish.nbrOfSeizureAndDiversionVessel).thenReturn(8)
-        `when`(illegalFish.quantityOfFish).thenReturn(47)
+        `when`(illegalFish.nbrOfHourAtSea).thenReturn(10.0)
+        `when`(illegalFish.nbrOfPolFishAction).thenReturn(5.0)
+        `when`(illegalFish.nbrOfTargetedVessel).thenReturn(3.0)
+        `when`(illegalFish.nbrOfInfractionWithPV).thenReturn(2.0)
+        `when`(illegalFish.nbrOfInfraction).thenReturn(55.0)
+        `when`(illegalFish.nbrOfSeizureAndDiversionVessel).thenReturn(8.0)
+        `when`(illegalFish.quantityOfFish).thenReturn(47.0)
 
         fillAEMExcelRow.fill(tableExport, exportExcelFile, sheetName, row)
-        val captor = ArgumentCaptor.forClass(Int::class.java)
+        val captor = ArgumentCaptor.forClass(Double::class.java)
 
 
         // 4.3.1
@@ -404,7 +404,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("BW$row") ?: "BN$row",
             captor.capture()
         )
-        assertEquals(10, captor.value)
+        assertEquals(10.0, captor.value)
 
         // 4.3.3
         verify(exportExcelFile).writeToCell(
@@ -412,7 +412,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("BY$row") ?: "BY$row",
             captor.capture()
         )
-        assertEquals(5, captor.value)
+        assertEquals(5.0, captor.value)
 
 
         // 4.3.5
@@ -421,7 +421,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("CA$row") ?: "CA$row",
             captor.capture()
         )
-        assertEquals(3, captor.value)
+        assertEquals(3.0, captor.value)
 
         // 4.3.6
         verify(exportExcelFile).writeToCell(
@@ -429,7 +429,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("CB$row") ?: "CB$row",
             captor.capture()
         )
-        assertEquals(2, captor.value)
+        assertEquals(2.0, captor.value)
 
         // 4.3.7
         verify(exportExcelFile).writeToCell(
@@ -437,7 +437,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("CC$row") ?: "CC$row",
             captor.capture()
         )
-        assertEquals(55, captor.value)
+        assertEquals(55.0, captor.value)
 
         // 4.3.8
         verify(exportExcelFile).writeToCell(
@@ -445,7 +445,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("CD$row") ?: "CD$row",
             captor.capture()
         )
-        assertEquals(8, captor.value)
+        assertEquals(8.0, captor.value)
 
         // 4.3.9
         verify(exportExcelFile).writeToCell(
@@ -453,7 +453,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("CE$row") ?: "CE$row",
             captor.capture()
         )
-        assertEquals(47, captor.value)
+        assertEquals(47.0, captor.value)
 
 
     }
@@ -464,12 +464,12 @@ class FillAEMExcelRowTest {
         val row = 3
 
         `when`(tableExport.sovereignProtect).thenReturn(sovereignProtect)
-        `when`(sovereignProtect.nbrOfHourAtSea).thenReturn(10)
-        `when`(sovereignProtect.nbrOfRecognizedVessel).thenReturn(5)
-        `when`(sovereignProtect.nbrOfControlledVessel).thenReturn(3)
+        `when`(sovereignProtect.nbrOfHourAtSea).thenReturn(10.0)
+        `when`(sovereignProtect.nbrOfRecognizedVessel).thenReturn(5.0)
+        `when`(sovereignProtect.nbrOfControlledVessel).thenReturn(3.0)
 
         fillAEMExcelRow.fill(tableExport, exportExcelFile, sheetName, row)
-        val captor = ArgumentCaptor.forClass(Int::class.java)
+        val captor = ArgumentCaptor.forClass(Double::class.java)
 
 
         // 7.1
@@ -478,7 +478,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("DA$row") ?: "DA$row",
             captor.capture()
         )
-        assertEquals(10, captor.value)
+        assertEquals(10.0, captor.value)
 
         // 7.3
         verify(exportExcelFile).writeToCell(
@@ -486,7 +486,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("DC$row") ?: "DC$row",
             captor.capture()
         )
-        assertEquals(5, captor.value)
+        assertEquals(5.0, captor.value)
 
 
         // 7.4
@@ -495,7 +495,7 @@ class FillAEMExcelRowTest {
             ArgumentMatchers.eq("DD$row") ?: "DD$row",
             captor.capture()
         )
-        assertEquals(3, captor.value)
+        assertEquals(3.0, captor.value)
     }
 
 }

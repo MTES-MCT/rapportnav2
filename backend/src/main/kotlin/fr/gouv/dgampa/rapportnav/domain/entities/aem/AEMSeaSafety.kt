@@ -4,16 +4,16 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 
 data class AEMSeaSafety(
-    val nbrOfHourAtSea: Int? = 0, // 5.1
-    val nbrOfHourPublicOrder: Int? = 0, // 5.3
-    val nbrOfPublicOrderOperation: Int? = 0, // 5.4
+    val nbrOfHourAtSea: Double? = 0.0, // 5.1
+    val nbrOfHourPublicOrder: Double? = 0.0, // 5.3
+    val nbrOfPublicOrderOperation: Double? = 0.0, // 5.4
 ) {
     constructor(
         navActions: List<NavActionEntity>
     ) : this(
-        nbrOfHourAtSea = getNbrOfHourAtSea(navActions).toInt(),
-        nbrOfPublicOrderOperation = actionPublicOrderEntities(navActions).size,
-        nbrOfHourPublicOrder = AEMUtils.getDurationInHours(actionPublicOrderEntities(navActions)).toInt(),
+        nbrOfHourAtSea = getNbrOfHourAtSea(navActions),
+        nbrOfPublicOrderOperation = actionPublicOrderEntities(navActions).size.toDouble(),
+        nbrOfHourPublicOrder = AEMUtils.getDurationInHours(actionPublicOrderEntities(navActions)),
     ) {
     }
 

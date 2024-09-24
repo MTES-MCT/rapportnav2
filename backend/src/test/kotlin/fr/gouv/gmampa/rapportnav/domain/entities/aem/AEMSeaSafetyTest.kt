@@ -14,9 +14,9 @@ class AEMSeaSafetyTest {
 
     @Test
     fun `Should init Sea safety with different values`() {
-        val nbrOfHourAtSea = 14;
-        val nbrOfHourPublicOrder = 5;
-        val nbrOfPublicOrderOperation = 2;
+        val nbrOfHourAtSea = 14.0;
+        val nbrOfHourPublicOrder = 5.0;
+        val nbrOfPublicOrderOperation = 2.0;
 
         val actions = navActionEntities();
         val seaSafety = AEMSeaSafety(navActions = actions);

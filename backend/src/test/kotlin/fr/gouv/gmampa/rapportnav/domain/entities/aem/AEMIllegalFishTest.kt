@@ -21,11 +21,11 @@ class AEMIllegalFishTest {
         val illegalImmigration = AEMIllegalFish(fishActions = actions);
 
         assertThat(illegalImmigration).isNotNull();
-        assertThat(illegalImmigration.quantityOfFish).isEqualTo(0);
-        assertThat(illegalImmigration.nbrOfInfraction).isEqualTo(8);
-        assertThat(illegalImmigration.nbrOfHourAtSea).isEqualTo(3);
-        assertThat(illegalImmigration.nbrOfPolFishAction).isEqualTo(2);
-        assertThat(illegalImmigration.nbrOfInfractionWithPV).isEqualTo(4);
+        assertThat(illegalImmigration.quantityOfFish).isEqualTo(0.0);
+        assertThat(illegalImmigration.nbrOfInfraction).isEqualTo(8.0);
+        assertThat(illegalImmigration.nbrOfHourAtSea).isEqualTo(3.0);
+        assertThat(illegalImmigration.nbrOfPolFishAction).isEqualTo(2.0);
+        assertThat(illegalImmigration.nbrOfInfractionWithPV).isEqualTo(4.0);
     }
 
     private fun extendedFishActionEntities(): List<ExtendedFishActionEntity> {

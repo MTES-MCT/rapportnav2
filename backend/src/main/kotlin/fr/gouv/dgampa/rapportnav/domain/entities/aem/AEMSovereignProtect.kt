@@ -7,9 +7,9 @@ import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 import java.time.Instant
 
 data class AEMSovereignProtect(
-    val nbrOfHourAtSea: Int? = 0, // 7.1
-    var nbrOfRecognizedVessel: Int? = 0, // 7.3
-    val nbrOfControlledVessel: Int? = 0, // 7.4
+    val nbrOfHourAtSea: Double? = 0.0, // 7.1
+    var nbrOfRecognizedVessel: Double? = 0.0, // 7.3
+    val nbrOfControlledVessel: Double? = 0.0, // 7.4
 ) {
     constructor(
         navActions: List<NavActionEntity>,
@@ -27,7 +27,7 @@ data class AEMSovereignProtect(
         fun getNbrHourAtSea(
             navActions: List<NavActionEntity>,
             missionEndDateTime: Instant?
-        ): Int {
+        ): Double {
             val sortedStatusActions =
                 navActions.filter { it.actionType == ActionType.STATUS }
                     .filter { it.statusAction != null }
@@ -40,21 +40,19 @@ data class AEMSovereignProtect(
             if (sortedStatusActions.isNotEmpty()) sortedStatusActions.last()?.endDateTimeUtc = missionEndDateTime;
             val statusActions =
                 anchoredActionEntities(sortedStatusActions) + navigationActionEntities(sortedStatusActions);
-            return AEMUtils.getDurationInHours(statusActions).toInt();
+            return AEMUtils.getDurationInHours(statusActions);
         }
 
-        fun getNbOfRecognizedVessel(
-            navActions: List<NavActionEntity>
-        ): Int {
-            return 0;
+        fun getNbOfRecognizedVessel(navActions: List<NavActionEntity>): Double {
+            return 0.0;
         }
 
         fun getNbrOfControlledVessel(
             navActions: List<NavActionEntity>,
             envActions: List<ExtendedEnvActionEntity?>,
             fishActions: List<ExtendedFishActionEntity?>
-        ): Int {
-            return 0.plus(fishActions.size).plus(navActions.filter { it.controlAction != null }.size)
+        ): Double {
+            return 0.0.plus(fishActions.size).plus(navActions.filter { it.controlAction != null }.size)
                 .plus(envActions.filter { it?.controlAction?.action?.vehicleType == VehicleTypeEnum.VESSEL }.size);
         }
 

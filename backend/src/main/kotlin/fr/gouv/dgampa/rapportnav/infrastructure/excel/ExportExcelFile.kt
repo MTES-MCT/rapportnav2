@@ -26,7 +26,7 @@ class ExportExcelFile(private val filePath: String) {
         }
     }
 
-    fun writeToCell(sheetName: String, cellValue: String, value: Int) {
+    fun writeToCell(sheetName: String, cellValue: String, value: Double) {
         var sheet = workbook.getSheet(sheetName)
         if (sheet == null) {
             sheet = workbook.createSheet(sheetName)
@@ -44,7 +44,7 @@ class ExportExcelFile(private val filePath: String) {
             cell = cellRef["cell"]?.let { row?.createCell(it) }
         }
 
-        cell?.setCellValue(value.toDouble())
+        cell?.setCellValue(value)
     }
 
     private fun cellReference(cellRef: String): Map<String, Int>

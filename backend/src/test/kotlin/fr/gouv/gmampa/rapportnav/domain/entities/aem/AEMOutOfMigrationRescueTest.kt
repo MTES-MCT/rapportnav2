@@ -16,9 +16,9 @@ class AEMOutOfMigrationRescueTest {
 
     @Test
     fun `Should init out fo migration rescue with different values`() {
-        val nbrOfHourAtSea = 3;
-        val nbrPersonsRescued = 4;
-        val nbrOfRescuedOperation = 1;
+        val nbrOfHourAtSea = 3.0;
+        val nbrPersonsRescued = 4.0;
+        val nbrOfRescuedOperation = 1.0;
 
         val actions = navActionEntities()
         val migrationRescue = AEMOutOfMigrationRescue(navActions = actions);

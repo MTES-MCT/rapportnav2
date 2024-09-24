@@ -5,28 +5,28 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEnt
 import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 
 data class AEMVesselRescue(
-    val nbrOfHourAtSea: Int? = 0, // 2.1
-    val nbrOfRescuedOperation: Int? = 0,// 2.3
-    val nbrOfNoticedVessel: Int? = 0, // 2.4
-    val nbrOfTowedVessel: Int? = 0, //2.7
+    val nbrOfHourAtSea: Double? = 0.0, // 2.1
+    val nbrOfRescuedOperation: Double? = 0.0,// 2.3
+    val nbrOfNoticedVessel: Double? = 0.0, // 2.4
+    val nbrOfTowedVessel: Double? = 0.0, //2.7
 ) {
     constructor(
         navActions: List<NavActionEntity>
     ) : this(
-        nbrOfRescuedOperation = actionRescueEntities(navActions).size,
+        nbrOfRescuedOperation = actionRescueEntities(navActions).size.toDouble(),
         nbrOfTowedVessel = getNbrOfTowedVessel(actionRescueEntities(navActions)),
         nbrOfNoticedVessel = getNbrOfNoticedVessel(actionRescueEntities(navActions)),
-        nbrOfHourAtSea = AEMUtils.getDurationInHours(actionRescueEntities(navActions)).toInt()
+        nbrOfHourAtSea = AEMUtils.getDurationInHours(actionRescueEntities(navActions))
     ) {
     }
 
     companion object {
-        fun getNbrOfNoticedVessel(actionRescues: List<ActionRescueEntity?>): Int {
-            return actionRescues.filter { it?.isVesselNoticed == true }.size;
+        fun getNbrOfNoticedVessel(actionRescues: List<ActionRescueEntity?>): Double {
+            return actionRescues.filter { it?.isVesselNoticed == true }.size.toDouble();
         }
 
-        fun getNbrOfTowedVessel(actionRescues: List<ActionRescueEntity?>): Int {
-            return actionRescues.filter { it?.isVesselTowed == true }.size;
+        fun getNbrOfTowedVessel(actionRescues: List<ActionRescueEntity?>): Double {
+            return actionRescues.filter { it?.isVesselTowed == true }.size.toDouble();
         }
 
         private fun actionRescueEntities(navActions: List<NavActionEntity>): List<ActionRescueEntity?> {

@@ -16,11 +16,11 @@ class AEMMigrationRescueTest {
 
     @Test
     fun `Should init migration rescue with different values`() {
-        val nbrOfHourAtSea = 2;
-        val nbrOfOperation = 1;
-        val nbrPersonsRescued = 2;
-        val nbrAssistedVesselsReturningToShore = 1;
-        val nbrOfVesselsTrackedWithoutIntervention = 5;
+        val nbrOfHourAtSea = 2.0;
+        val nbrOfOperation = 1.0;
+        val nbrPersonsRescued = 2.0;
+        val nbrAssistedVesselsReturningToShore = 1.0;
+        val nbrOfVesselsTrackedWithoutIntervention = 5.0;
 
         val actions = navActionEntities()
         val migrationRescue = AEMMigrationRescue(navActions = actions);

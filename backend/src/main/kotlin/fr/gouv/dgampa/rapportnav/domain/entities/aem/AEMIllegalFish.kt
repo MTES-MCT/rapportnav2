@@ -5,20 +5,20 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFish
 import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
 
 data class AEMIllegalFish(
-    val nbrOfHourAtSea: Int? = 0, //4.3.1
-    val nbrOfPolFishAction: Int? = 0, // 4.3.3
-    val nbrOfTargetedVessel: Int? = 0, // 4.3.5
-    val nbrOfInfractionWithPV: Int? = 0, // 4.3.6
-    val nbrOfInfraction: Int? = 0, // 4.3.7
-    val nbrOfSeizureAndDiversionVessel: Int? = 0, // 4.3.8
-    val quantityOfFish: Int? = 0 //4.3.9
+    val nbrOfHourAtSea: Double? = 0.0, //4.3.1
+    val nbrOfPolFishAction: Double? = 0.0, // 4.3.3
+    val nbrOfTargetedVessel: Double? = 0.0, // 4.3.5
+    val nbrOfInfractionWithPV: Double? = 0.0, // 4.3.6
+    val nbrOfInfraction: Double? = 0.0, // 4.3.7
+    val nbrOfSeizureAndDiversionVessel: Double? = 0.0, // 4.3.8
+    val quantityOfFish: Double? = 0.0 //4.3.9
 ) {
     constructor(
         fishActions: List<ExtendedFishActionEntity?>
     ) : this(
         nbrOfHourAtSea = getNbrOfHourAtSea(fishActions),
-        nbrOfPolFishAction = fishActions.size,
-        nbrOfTargetedVessel = fishActions.size,
+        nbrOfPolFishAction = fishActions.size.toDouble(),
+        nbrOfTargetedVessel = fishActions.size.toDouble(),
         nbrOfInfraction = getNbrOfInfraction(fishActions),
         nbrOfInfractionWithPV = getNbrOfInfractionWithPV(fishActions),
         nbrOfSeizureAndDiversionVessel = getNbrOfSeizureAndDiversionVessel(fishActions),
@@ -27,7 +27,7 @@ data class AEMIllegalFish(
     }
 
     companion object {
-        fun getNbrOfHourAtSea(fishActions: List<ExtendedFishActionEntity?>): Int {
+        fun getNbrOfHourAtSea(fishActions: List<ExtendedFishActionEntity?>): Double {
             return fishActions.fold(0.0) { acc, fishAction ->
                 acc.plus(
                     ComputeDurationUtils.durationInHours(
@@ -35,11 +35,11 @@ data class AEMIllegalFish(
                         endDateTimeUtc = fishAction?.controlAction?.action?.actionEndDatetimeUtc
                     )
                 )
-            }.toInt();
+            };
         }
 
-        fun getNbrOfInfraction(fishActions: List<ExtendedFishActionEntity?>): Int {
-            return fishActions.map { it?.controlAction?.action }.fold(0) { acc, c ->
+        fun getNbrOfInfraction(fishActions: List<ExtendedFishActionEntity?>): Double {
+            return fishActions.map { it?.controlAction?.action }.fold(0.0) { acc, c ->
                 acc.plus(c!!.gearInfractions.size)
                     .plus(c.otherInfractions.size)
                     .plus(c.speciesInfractions.size)
@@ -47,8 +47,8 @@ data class AEMIllegalFish(
             };
         }
 
-        fun getNbrOfInfractionWithPV(fishActions: List<ExtendedFishActionEntity?>): Int {
-            return fishActions.map { it?.controlAction?.action }.fold(0) { acc, c ->
+        fun getNbrOfInfractionWithPV(fishActions: List<ExtendedFishActionEntity?>): Double {
+            return fishActions.map { it?.controlAction?.action }.fold(0.0) { acc, c ->
                 acc.plus(c!!.gearInfractions.filter { g -> g.infractionType == InfractionType.WITH_RECORD }.size)
                     .plus(c.otherInfractions.filter { o -> o.infractionType == InfractionType.WITH_RECORD }.size)
                     .plus(c.speciesInfractions.filter { s -> s.infractionType == InfractionType.WITH_RECORD }.size)
@@ -56,12 +56,12 @@ data class AEMIllegalFish(
             };
         }
 
-        fun getNbrOfSeizureAndDiversionVessel(fishActions: List<ExtendedFishActionEntity?>): Int {
-            return fishActions.filter { it?.controlAction?.action?.seizureAndDiversion == true }.size;
+        fun getNbrOfSeizureAndDiversionVessel(fishActions: List<ExtendedFishActionEntity?>): Double {
+            return fishActions.filter { it?.controlAction?.action?.seizureAndDiversion == true }.size.toDouble();
         }
 
-        fun getQuantityOfFish(fishActions: List<ExtendedFishActionEntity?>): Int {
-            return 0;
+        fun getQuantityOfFish(fishActions: List<ExtendedFishActionEntity?>): Double {
+            return 0.0;
         }
 
     }
