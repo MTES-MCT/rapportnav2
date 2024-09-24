@@ -160,7 +160,7 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
                   isLight={true}
                   value={actionData?.nbOfInterceptedVessels}
                   error={getError(actionData, isMissionFinished, 'nbOfInterceptedVessels')}
-                  onChange={(nextValue?: number) => onChange('nbOfInterceptedVessels', nextValue)}
+                  onChange={(nextValue?: number) => onChange(nextValue)('nbOfInterceptedVessels')}
                 />
               </Stack.Item>
               <Stack.Item style={{ width: '100%' }}>
@@ -176,7 +176,7 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
                       isLight={true}
                       value={actionData?.nbOfInterceptedMigrants}
                       error={getError(actionData, isMissionFinished, 'nbOfInterceptedMigrants')}
-                      onChange={(nextValue?: number) => onChange('nbOfInterceptedMigrants', nextValue)}
+                      onChange={(nextValue?: number) => onChange(nextValue)('nbOfInterceptedMigrants')}
                     />
                   </Stack.Item>
                   <Stack.Item style={{ flex: 1 }}>
@@ -190,7 +190,7 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
                       isLight={true}
                       value={actionData?.nbOfSuspectedSmugglers}
                       error={getError(actionData, isMissionFinished, 'nbOfSuspectedSmugglers')}
-                      onChange={(nextValue?: number) => onChange('nbOfSuspectedSmugglers', nextValue)}
+                      onChange={(nextValue?: number) => onChange(nextValue)('nbOfSuspectedSmugglers')}
                     />
                   </Stack.Item>
                 </Stack>
