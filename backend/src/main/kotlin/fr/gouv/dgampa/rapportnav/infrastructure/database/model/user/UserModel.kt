@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.user.RoleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import jakarta.persistence.*
+import org.hibernate.annotations.JdbcType
+import org.hibernate.dialect.PostgreSQLEnumJdbcType
 
 @Entity
 @Table(name = "user", schema = "public")
@@ -30,8 +32,12 @@ class UserModel(
     @Column(name = "service_id")
     var serviceId: Int? = null,
 
-    @Column(name = "roles")
-    var roles:  List<RoleTypeEnum>
+    @ElementCollection(targetClass = RoleTypeEnum::class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = [JoinColumn(name = "user_id")])
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)  // Still required for proper enum handling
+    @JdbcType(PostgreSQLEnumJdbcType::class)
+    var roles: List<RoleTypeEnum> = listOf()
 ) {
 
 
