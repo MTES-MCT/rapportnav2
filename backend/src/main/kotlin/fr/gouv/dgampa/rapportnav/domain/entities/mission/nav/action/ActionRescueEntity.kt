@@ -43,7 +43,7 @@ data class ActionRescueEntity(
             ),
         ]
     )
-    val numberPersonsRescued: Int?,
+    val numberPersonsRescued: Int? = null,
 
     @MandatoryForStats(
         enableIf = [
@@ -53,11 +53,11 @@ data class ActionRescueEntity(
             ),
         ]
     )
-    val numberOfDeaths: Int?,
+    val numberOfDeaths: Int? = null,
 
 
     val operationFollowsDEFREP: Boolean? = false,
-    override val observations: String?,
+    override val observations: String? = null,
     val locationDescription: String? = null,
 
 
@@ -88,8 +88,7 @@ data class ActionRescueEntity(
         id: UUID,
         missionId: Int,
         startDateTimeUtc: Instant,
-        endDateTimeUtc: Instant,
-        observations: String?,
+        endDateTimeUtc: Instant? = null,
         latitude: Float? = null,
         longitude: Float? = null,
         isVesselRescue: Boolean? = false,
@@ -97,9 +96,10 @@ data class ActionRescueEntity(
         isVesselNoticed: Boolean? = false,
         isVesselTowed: Boolean? = false,
         isInSRRorFollowedByCROSSMRCC: Boolean? = false,
-        numberPersonsRescued: Int?,
-        numberOfDeaths: Int?,
+        numberPersonsRescued: Int? = null,
+        numberOfDeaths: Int? = null,
         operationFollowsDEFREP: Boolean? = false,
+        observations: String? = null,
         locationDescription: String? = null,
         isMigrationRescue: Boolean? = false,
         nbAssistedVesselsReturningToShore: Int? = null,
@@ -110,7 +110,6 @@ data class ActionRescueEntity(
         isCompleteForStats = null,
         startDateTimeUtc = startDateTimeUtc,
         endDateTimeUtc = endDateTimeUtc,
-        observations = observations,
         latitude = latitude,
         longitude = longitude,
         isVesselRescue = isVesselRescue,
@@ -121,6 +120,7 @@ data class ActionRescueEntity(
         numberPersonsRescued = numberPersonsRescued,
         numberOfDeaths = numberOfDeaths,
         operationFollowsDEFREP = operationFollowsDEFREP,
+        observations = observations,
         locationDescription = locationDescription,
         isMigrationRescue = isMigrationRescue,
         nbAssistedVesselsReturningToShore = nbAssistedVesselsReturningToShore,
