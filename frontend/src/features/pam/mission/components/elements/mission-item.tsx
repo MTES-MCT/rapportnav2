@@ -12,6 +12,7 @@ import styled from 'styled-components'
 import * as Sentry from '@sentry/react'
 import useLazyMissionExport from '../../hooks/export/use-lazy-mission-export.tsx'
 import useLazyMissionAEMExport from '../../hooks/export/use-lazy-mission-aem-export.tsx'
+import GearIcon from '@rsuite/icons/Gear'
 
 interface MissionItemProps {
   mission: Mission
@@ -27,6 +28,10 @@ const ListItemWithHover = styled.div`
     background-color: ${THEME.color.blueGray25};
   }
 `
+
+const LoadingIcon = () => (
+  <GearIcon spin width={16} height={16} color={THEME.color.white} style={{ fontSize: '2em', marginRight: '0.5rem' }} />
+)
 
 const MissionItem: React.FC<MissionItemProps> = ({ mission, prefetchMission }) => {
   const [getMissionReport] = useLazyMissionExport()
