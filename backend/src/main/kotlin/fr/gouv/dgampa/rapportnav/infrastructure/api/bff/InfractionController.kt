@@ -25,6 +25,7 @@ class InfractionController(
     private val getNatinfs: GetNatinfs,
     private val addOrUpdateInfractionEnvTarget: AddOrUpdateInfractionEnvTarget,
     private val isControlledAllowedForTarget: IsControlledAllowedForTarget,
+    private val isInfractionInvalidForVehicleType: IsInfractionInvalidForVehicleType
 ) {
 
     private val logger = LoggerFactory.getLogger(InfractionController::class.java)
@@ -55,21 +56,26 @@ class InfractionController(
 
     @MutationMapping
     fun addOrUpdateInfractionForEnvTarget(@Argument infraction: InfractionWithNewTargetInput): Infraction? {
-        var target: InfractionEnvTargetEntity?
+        var target: InfractionEnvTargetEntity? = null
+        val vehicleTypeValidationError = isInfractionInvalidForVehicleType.execute(infraction);
 
+        if (vehicleTypeValidationError != null) {
+            logger.error("addOrUpdateInfractionForEnvTarget - actionTargetError=${vehicleTypeValidationError} ")
+            throw Exception(vehicleTypeValidationError)
+        }
 
         if (infraction.id == null) {
             // check if there is not already an infraction with the same controlType for this target
-            val isAllowed = isControlledAllowedForTarget.execute(
-                actionId = infraction.actionId,
-                vesselIdentifier = infraction.vesselIdentifier,
-                controlType = ControlType.valueOf(infraction.controlType)
-            )
-            if (!isAllowed) {
-                logger.error("addOrUpdateInfractionForEnvTarget - controlType=${infraction.controlType} already exists for target name=${infraction.vesselIdentifier}")
-                throw Exception("Ce type de contrôle a déjà été reporté pour cette cible. Veuillez annuler et modifier le contrôle déjà existant.")
-            } else {
-                target = null
+            if(infraction.vesselIdentifier != null){
+                val isAllowed = isControlledAllowedForTarget.execute(
+                    actionId = infraction.actionId,
+                    vesselIdentifier = infraction.vesselIdentifier,
+                    controlType = ControlType.valueOf(infraction.controlType)
+                )
+                if (!isAllowed) {
+                    logger.error("addOrUpdateInfractionForEnvTarget - controlType=${infraction.controlType} already exists for target name=${infraction.vesselIdentifier}")
+                    throw Exception("Ce type de contrôle a déjà été reporté pour cette cible. Veuillez annuler et modifier le contrôle déjà existant.")
+                }
             }
         } else {
 
@@ -86,8 +92,8 @@ class InfractionController(
                     actionId = target.actionId,
                     infractionId = target.infractionId,
                     vesselIdentifier = infraction.vesselIdentifier,
-                    vesselSize = VesselSizeEnum.valueOf(infraction.vesselSize),
-                    vesselType = VesselTypeEnum.valueOf(infraction.vesselType),
+                    vesselSize = infraction.vesselSize?.let { VesselSizeEnum.valueOf(it) },
+                    vesselType = infraction.vesselType?.let { VesselTypeEnum.valueOf(it) },
                     identityControlledPerson = infraction.identityControlledPerson
                 )
                 target = addOrUpdateInfractionEnvTarget.execute(newTarget, infraction.toInfractionEntity(newTarget))
@@ -101,8 +107,8 @@ class InfractionController(
 
     // Function to check if the target has changed
     private fun hasTargetChanged(input: InfractionWithNewTargetInput, target: InfractionEnvTargetEntity): Boolean {
-        return input.vesselType != target.vesselType.name ||
-            input.vesselSize != target.vesselSize.name ||
+        return input.vesselType != target.vesselType?.name ||
+            input.vesselSize != target.vesselSize?.name ||
             input.vesselIdentifier != target.vesselIdentifier ||
             input.identityControlledPerson != target.identityControlledPerson
     }
