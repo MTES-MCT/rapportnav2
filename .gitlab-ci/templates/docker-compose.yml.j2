@@ -6,6 +6,7 @@ services:
     container_name: rapportnav_backend
     environment:
       - ENV_DB_URL=jdbc:postgresql://db:5432/{{ rapportnav_psql_db }}?user={{ rapportnav_psql_user }}&password={{ rapportnav_psql_pwd }}
+      - MONITORFISH_API_KEY={{ rapportnav_monitorfish_api_key }}
       - SPRING_PROFILES_ACTIVE=prod
     ports:
       - 80:80

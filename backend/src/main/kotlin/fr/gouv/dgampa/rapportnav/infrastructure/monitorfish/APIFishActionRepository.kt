@@ -11,6 +11,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
 import java.net.URI
 import java.net.http.HttpRequest
@@ -25,7 +26,9 @@ class APIFishActionRepository(
 
     private val gson = GsonSerializer().create()
 
-    private val client = clientFactory.create();
+
+    @Value("\${MONITORFISH_API_KEY}")
+    private lateinit var monitorFishApiKey: String
 
     // TODO set as env var when available
     private val host = "https://monitorfish.din.developpement-durable.gouv.fr"
@@ -38,9 +41,10 @@ class APIFishActionRepository(
                     "$host/api/v1/mission_actions?missionId=$missionId"
                 )
             )
+            .header("x-api-key", monitorFishApiKey)
             .build();
 
-        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+        val response = clientFactory.create().send(request, HttpResponse.BodyHandlers.ofString())
 
         return if (response.statusCode() in 200..299) {
             mapper.registerModule(JtsModule())
@@ -61,9 +65,10 @@ class APIFishActionRepository(
                 .uri(URI.create(url))
                 .method("PATCH", HttpRequest.BodyPublishers.ofString(gson.toJson(action)))
                 .header("Content-Type", "application/json")
+                .header("x-api-key", monitorFishApiKey)
                 .build();
 
-            val response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            val response = clientFactory.create().send(request, HttpResponse.BodyHandlers.ofString());
             logger.info("Response received, actionId: ${actionId}, Status code: ${response.statusCode()}");
 
             val body = response.body()
