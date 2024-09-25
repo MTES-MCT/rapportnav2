@@ -11,6 +11,7 @@ import {
   VESSEL_TYPE_OPTIONS
 } from '../../../utils/control-utils.ts'
 import { VesselSizeEnum, VesselTypeEnum } from '@common/types/mission-types.ts'
+import { ActionTargetTypeEnum, VehicleTypeEnum } from '@common/types/env-mission-types.ts'
 
 interface EnvInfractionNewTargetFormProps {
   infraction?: Infraction
@@ -18,6 +19,7 @@ interface EnvInfractionNewTargetFormProps {
   onChange: (field: string, value: any) => void
   onChangeTarget: (field: string, value: any) => void
   onCancel: () => void
+  actionTargetType?: ActionTargetTypeEnum
 }
 
 const EnvInfractionTargetAddedByUnitForm: React.FC<EnvInfractionNewTargetFormProps> = ({
@@ -25,7 +27,8 @@ const EnvInfractionTargetAddedByUnitForm: React.FC<EnvInfractionNewTargetFormPro
   availableControlTypesForInfraction,
   onChange,
   onChangeTarget,
-  onCancel
+  onCancel,
+  actionTargetType
 }) => {
   const [identityControlledPersonValue, setIdentityControlledPersonValue] = useState<string | undefined>(undefined)
   const [vesselIdentifierValue, setVesselIdentifierValue] = useState<string | undefined>(undefined)
@@ -63,7 +66,8 @@ const EnvInfractionTargetAddedByUnitForm: React.FC<EnvInfractionNewTargetFormPro
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="column" alignItems="baseline" spacing={'0.5rem'}>
-          {infraction?.target?.vehicleType && (
+
+          {infraction?.target?.vehicleType === VehicleTypeEnum.VESSEL && (
             <Stack.Item style={{ width: '100%' }} data-testid={"stack-vessel-infraction-env"}>
               <Stack direction="row" alignItems="baseline" spacing={'0.5rem'}>
                 <Stack.Item style={{ width: '40%' }}>
@@ -86,26 +90,34 @@ const EnvInfractionTargetAddedByUnitForm: React.FC<EnvInfractionNewTargetFormPro
                     onChange={(nextValue: VesselTypeEnum | undefined) => onChangeTarget('vesselType', nextValue)}
                   />
                 </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  <TextInput
-                    label="Immatriculation"
-                    isRequired={true}
-                    value={vesselIdentifierValue}
-                    name="vesselIdentifier"
-                    role="vesselIdentifier"
-                    onChange={handleVesselIdentifierChange}
-                    onBlur={handleVesselIdentifierBlur}
-                  />
-                </Stack.Item>
               </Stack>
             </Stack.Item>
           )}
 
-          <Stack.Item style={{ width: '100%' }}>
+          {(actionTargetType === ActionTargetTypeEnum.VEHICLE) && (
+            <Stack.Item style={{ width: '100%' }}>
+              <TextInput
+                label="Immatriculation"
+                isRequired={true}
+                value={vesselIdentifierValue}
+                name="vesselIdentifier"
+                role="vesselIdentifier"
+                onChange={handleVesselIdentifierChange}
+                onBlur={handleVesselIdentifierBlur}
+                data-testid={'vessel-identifier'}
+              />
+            </Stack.Item>
+          )}
+
+          <Stack.Item style={{ width: '100%', marginTop: '10px' }}>
             <Stack direction="row" alignItems="baseline" spacing={'0.5rem'}>
               <Stack.Item style={{ width: '100%' }}>
                 <TextInput
-                  label="Identité de la personne contrôlée"
+                  label={
+                  actionTargetType === ActionTargetTypeEnum.COMPANY
+                    ? "Identité de la personne morale contrôlée"
+                    : "Identité de la personne contrôlée"
+                }
                   isRequired={true}
                   value={identityControlledPersonValue}
                   name="identityControlledPerson"
