@@ -4,7 +4,7 @@ import { Formik } from 'formik'
 import React, { useEffect, useRef, useState } from 'react'
 import useAddOrUpdateGeneralInfo from '../../../hooks/use-add-update-distance-consumption.tsx'
 
-const DEBOUNCE_TIME_TRIGGER = 5000
+const DEBOUNCE_TIME_TRIGGER = 1000
 
 type RecognizedVessel = {
   nbrOfRecognizedVessel?: number

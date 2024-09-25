@@ -5,6 +5,7 @@ import { Stack } from 'rsuite'
 import { MissionGeneralInfo } from '@common/types/mission-types.ts'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
 import useAddOrUpdateGeneralInfo from '../../../hooks/use-add-update-distance-consumption.tsx'
+import { isNil } from 'lodash'
 
 interface MissionDistanceAndConsumptionProps {
   info?: MissionGeneralInfo
@@ -58,7 +59,7 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
             isLight={true}
             value={formData?.distanceInNauticalMiles}
             isErrorMessageHidden={true}
-            error={isMissionFinished && !formData?.distanceInNauticalMiles ? 'error' : undefined}
+            error={isMissionFinished && isNil(formData?.distanceInNauticalMiles) ? 'error' : undefined}
             onChange={(nextValue?: number) => onChange('distanceInNauticalMiles', nextValue)}
             onBlur={() => onBlur()}
           />
@@ -73,7 +74,7 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
             isLight={true}
             value={formData?.consumedGOInLiters}
             isErrorMessageHidden={true}
-            error={isMissionFinished && !formData?.consumedGOInLiters ? 'error' : undefined}
+            error={isMissionFinished && isNil(formData?.consumedGOInLiters) ? 'error' : undefined}
             onChange={(nextValue?: number) => onChange('consumedGOInLiters', nextValue)}
             onBlur={() => onBlur()}
           />
@@ -88,7 +89,7 @@ const MissionDistanceAndConsumption: React.FC<MissionDistanceAndConsumptionProps
             isLight={true}
             value={formData?.consumedFuelInLiters}
             isErrorMessageHidden={true}
-            error={isMissionFinished && !formData?.consumedFuelInLiters ? 'error' : undefined}
+            error={isMissionFinished && isNil(formData?.consumedFuelInLiters) ? 'error' : undefined}
             onChange={(nextValue?: number) => onChange('consumedFuelInLiters', nextValue)}
             onBlur={() => onBlur()}
           />
