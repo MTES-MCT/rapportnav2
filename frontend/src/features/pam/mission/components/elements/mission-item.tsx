@@ -93,7 +93,7 @@ const MissionItem: React.FC<MissionItemProps> = ({ mission, prefetchMission }) =
 
   const onItemMouseOver = () => {
     const isCompleteForStats = mission?.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE
-    setExportationCanBeDisplayed(true)
+
     if (isCompleteForStats) {
       setExportationCanBeDisplayed(true)
     }
