@@ -19,13 +19,13 @@ const EnvActionControlPlans: FC<EnvActionControlPlansProps> = ({ controlPlans })
         <Stack.Item style={{ width: '100%' }} key={theme.theme} data-testid={'theme'}>
           <Stack direction={'column'} spacing={'1rem'}>
             <Stack.Item style={{ width: '100%' }}>
-              <Label>Thématique de contrôle {controlPlans?.length > 1 ? `(${i + 1})` : ''}</Label>
+              <Label>Thématique {controlPlans?.length > 1 ? `(${i + 1})` : ''}</Label>
               <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
                 {theme.theme ? theme.theme : 'inconnue'}
               </Text>
             </Stack.Item>
             <Stack.Item style={{ width: '100%' }}>
-              <Label>Sous-thématique(s) de contrôle</Label>
+              <Label>Sous-thématique(s)</Label>
               <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
                 {theme.subThemes?.length ? theme?.subThemes?.join(', ') : 'inconnues'}
               </Text>
