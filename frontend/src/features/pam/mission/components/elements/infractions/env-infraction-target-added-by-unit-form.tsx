@@ -63,44 +63,47 @@ const EnvInfractionTargetAddedByUnitForm: React.FC<EnvInfractionNewTargetFormPro
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="column" alignItems="baseline" spacing={'0.5rem'}>
+          {infraction?.target?.vehicleType && (
+            <Stack.Item style={{ width: '100%' }} data-testid={"stack-vessel-infraction-env"}>
+              <Stack direction="row" alignItems="baseline" spacing={'0.5rem'}>
+                <Stack.Item style={{ width: '40%' }}>
+                  <Select
+                    label="Taille du navire"
+                    isRequired={true}
+                    options={VESSEL_SIZE_OPTIONS}
+                    value={infraction?.target?.vesselSize}
+                    name="vesselSize"
+                    onChange={(nextValue: VesselSizeEnum | undefined) => onChangeTarget('vesselSize', nextValue)}
+                  />
+                </Stack.Item>
+                <Stack.Item style={{ width: '60%' }}>
+                  <Select
+                    label="Type de navire"
+                    isRequired={true}
+                    options={VESSEL_TYPE_OPTIONS}
+                    value={infraction?.target?.vesselType}
+                    name="vesselType"
+                    onChange={(nextValue: VesselTypeEnum | undefined) => onChangeTarget('vesselType', nextValue)}
+                  />
+                </Stack.Item>
+                <Stack.Item style={{ width: '100%' }}>
+                  <TextInput
+                    label="Immatriculation"
+                    isRequired={true}
+                    value={vesselIdentifierValue}
+                    name="vesselIdentifier"
+                    role="vesselIdentifier"
+                    onChange={handleVesselIdentifierChange}
+                    onBlur={handleVesselIdentifierBlur}
+                  />
+                </Stack.Item>
+              </Stack>
+            </Stack.Item>
+          )}
+
           <Stack.Item style={{ width: '100%' }}>
             <Stack direction="row" alignItems="baseline" spacing={'0.5rem'}>
-              <Stack.Item style={{ width: '40%' }}>
-                <Select
-                  label="Taille du navire"
-                  isRequired={true}
-                  options={VESSEL_SIZE_OPTIONS}
-                  value={infraction?.target?.vesselSize}
-                  name="vesselSize"
-                  onChange={(nextValue: VesselSizeEnum | undefined) => onChangeTarget('vesselSize', nextValue)}
-                />
-              </Stack.Item>
-              <Stack.Item style={{ width: '60%' }}>
-                <Select
-                  label="Type de navire"
-                  isRequired={true}
-                  options={VESSEL_TYPE_OPTIONS}
-                  value={infraction?.target?.vesselType}
-                  name="vesselType"
-                  onChange={(nextValue: VesselTypeEnum | undefined) => onChangeTarget('vesselType', nextValue)}
-                />
-              </Stack.Item>
-            </Stack>
-          </Stack.Item>
-          <Stack.Item style={{ width: '100%' }}>
-            <Stack direction="row" alignItems="baseline" spacing={'0.5rem'}>
-              <Stack.Item style={{ width: '40%' }}>
-                <TextInput
-                  label="Immatriculation"
-                  isRequired={true}
-                  value={vesselIdentifierValue}
-                  name="vesselIdentifier"
-                  role="vesselIdentifier"
-                  onChange={handleVesselIdentifierChange}
-                  onBlur={handleVesselIdentifierBlur}
-                />
-              </Stack.Item>
-              <Stack.Item style={{ width: '60%' }}>
+              <Stack.Item style={{ width: '100%' }}>
                 <TextInput
                   label="Identité de la personne contrôlée"
                   isRequired={true}
