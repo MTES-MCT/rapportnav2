@@ -1,6 +1,6 @@
 import React from 'react'
 import { Accent, Icon, Tag, THEME } from '@mtes-mct/monitor-ui'
-import { actionTargetTypeLabels, EnvActionControl } from '@common/types/env-mission-types.ts'
+import { actionTargetTypeLabels, EnvActionControl, FormattedControlPlan } from '@common/types/env-mission-types.ts'
 import { FlexboxGrid, Stack } from 'rsuite'
 import { Action } from '@common/types/action-types.ts'
 import ControlsToCompleteTag from '../../../ui/controls-to-complete-tag.tsx'
@@ -33,8 +33,10 @@ const ActionEnvControl: React.FC<{ action: Action; onClick: any }> = ({ action, 
                       <b data-testid={'theme'}>
                         {actionData &&
                         'formattedControlPlans' in actionData &&
-                        !!actionData?.formattedControlPlans?.themes?.length
-                          ? actionData?.formattedControlPlans?.themes.join(', ')
+                        !!actionData?.formattedControlPlans?.length
+                          ? actionData?.formattedControlPlans
+                              ?.map((theme: FormattedControlPlan) => theme.theme)
+                              .join(', ')
                           : 'environnement'}
                       </b>
                     </Text>
