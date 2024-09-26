@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.FormalNoticeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.utils.AEMUtils
 
@@ -25,13 +26,19 @@ data class AEMNotPollutionControlSurveillance(
 
         fun getNbrOfInfraction(notPollutionActions: List<ExtendedEnvActionEntity?>): Double {
             return notPollutionActions
-                .fold(0.0) { acc, c -> acc.plus(c?.controlAction?.action?.infractions?.size ?: 0) }
+                .fold(0.0) { acc, c ->
+                    acc.plus(
+                        c?.controlAction?.action?.infractions?.flatMap { it.natinf ?: listOf() }?.size ?: 0
+                    )
+                }
         }
+
 
         fun getNbrOfInfractionWithNotice(notPollutionActions: List<ExtendedEnvActionEntity?>): Double {
             return notPollutionActions.fold(0.0) { acc, c ->
                 acc.plus(
-                    c?.controlAction?.action?.infractions?.filter { it.formalNotice == FormalNoticeEnum.YES }?.size ?: 0
+                    c?.controlAction?.action?.infractions?.filter { it.infractionType == InfractionTypeEnum.WITH_REPORT }?.size
+                        ?: 0
                 )
             }
         }
