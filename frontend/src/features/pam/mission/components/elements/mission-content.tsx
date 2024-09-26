@@ -135,7 +135,8 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
       missionId: parseInt(missionId!, 10),
       startDateTimeUtc: new Date(),
       endDateTimeUtc: new Date(),
-      isPersonRescue: true
+      isPersonRescue: false,
+      isVesselRescue: true
     }
     const response = await addActionRescue({ variables: { rescueAction: newRescue } })
     navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionRescue.id}`)
