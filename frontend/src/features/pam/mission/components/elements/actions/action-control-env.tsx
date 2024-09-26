@@ -178,6 +178,7 @@ const ActionControlEnv: React.FC<ActionControlPropsEnv> = ({ action }) => {
             </Stack.Item>
             <Stack.Item style={{ width: '100%' }}>
               <EnvInfractionAddNewTarget
+                actionTargetType={actionData?.actionTargetType}
                 availableControlTypesForInfraction={actionData?.availableControlTypesForInfraction}
               />
             </Stack.Item>
