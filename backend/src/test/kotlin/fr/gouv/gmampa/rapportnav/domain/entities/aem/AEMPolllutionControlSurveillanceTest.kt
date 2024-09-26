@@ -17,7 +17,7 @@ class AEMPolllutionControlSurveillanceTest {
     @Test
     fun `Should init  pollution control surveillance with different values`() {
         val nbrOfHourAtSea = 8.0;
-        val nbrOfInfraction = 2.0;
+        val nbrOfInfraction = 5.0;
         val nbrOfInfractionWithNotice = 1.0;
         val nbrOfDiversionCarriedOut = 1.0;
         val nbrOfSimpleBrewingOperation = 2.0;
@@ -54,13 +54,15 @@ class AEMPolllutionControlSurveillanceTest {
                                 id = "",
                                 infractionType = InfractionTypeEnum.WITH_REPORT,
                                 formalNotice = FormalNoticeEnum.YES,
-                                toProcess = false
+                                toProcess = false,
+                                natinf = listOf("natinf-1", "natinf-2", "natinf-3"),
                             ),
                             InfractionEntity(
                                 id = "",
                                 infractionType = InfractionTypeEnum.WITHOUT_REPORT,
                                 formalNotice = FormalNoticeEnum.NO,
-                                toProcess = false
+                                toProcess = false,
+                                natinf = listOf("natinf-1", "natinf-2"),
                             )
                         ),
                     )
