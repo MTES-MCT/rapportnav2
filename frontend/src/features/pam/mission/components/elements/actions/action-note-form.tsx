@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Icon, Textarea } from '@mtes-mct/monitor-ui'
-import DatePicker from '@common/components/elements/date-picker.tsx'
+import DatePicker from '@common/components/elements/dates/date-picker.tsx'
 import { ActionFreeNote } from '@common/types/action-types.ts'
 import { Stack } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'

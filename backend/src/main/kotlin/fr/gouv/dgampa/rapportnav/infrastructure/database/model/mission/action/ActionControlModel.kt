@@ -30,7 +30,7 @@ class ActionControlModel(
     var startDateTimeUtc: Instant,
 
     @Column(name = "end_datetime_utc", nullable = true)
-    var endDateTimeUtc: Instant,
+    var endDateTimeUtc: Instant? = null,
 
     @Column(name = "control_method", nullable = false)
     var controlMethod: String,

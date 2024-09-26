@@ -21,7 +21,7 @@ class ActionAntiPollutionEntity(
     override val startDateTimeUtc: Instant,
 
     @MandatoryForStats
-    override val endDateTimeUtc: Instant,
+    override val endDateTimeUtc: Instant? = null,
 
     override val observations: String? = null,
 
@@ -44,8 +44,8 @@ class ActionAntiPollutionEntity(
         id: UUID,
         missionId: Int,
         startDateTimeUtc: Instant,
-        endDateTimeUtc: Instant,
-        observations: String?,
+        endDateTimeUtc: Instant? = null,
+        observations: String? = null,
         latitude: Double? = null,
         longitude: Double? = null,
         detectedPollution: Boolean? = null,

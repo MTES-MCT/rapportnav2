@@ -12,13 +12,15 @@ import useDeleteStatus from '../../../hooks/use-delete-status.tsx'
 import { ActionDetailsProps } from './action-mapping.ts'
 import ActionHeader from './action-header.tsx'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
-import DatePicker from '@common/components/elements/date-picker.tsx'
+import DatePicker from '@common/components/elements/dates/date-picker.tsx'
+import useMissionDates from '@features/pam/mission/hooks/use-mission-dates.tsx'
 
 type ActionStatusFormProps = ActionDetailsProps
 
 const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
   const navigate = useNavigate()
   const { missionId, actionId } = useParams()
+  const missionDates = useMissionDates(missionId)
   const isMissionFinished = useIsMissionFinished(missionId)
 
   const { data: navAction, loading, error } = useActionById(actionId, missionId, action.source, action.type)
@@ -108,6 +110,7 @@ const ActionStatusForm: React.FC<ActionStatusFormProps> = ({ action }) => {
                   onChange={async (nextUtcDate: Date) => {
                     await onChange(nextUtcDate)('startDateTimeUtc')
                   }}
+                  allowedRange={missionDates}
                 />
               </Stack.Item>
               <Stack.Item grow={3}>

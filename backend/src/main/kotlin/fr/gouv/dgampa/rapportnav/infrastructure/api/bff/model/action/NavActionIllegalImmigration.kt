@@ -7,7 +7,7 @@ data class NavActionIllegalImmigration(
     var id: UUID,
     var missionId: Int,
     var startDateTimeUtc: Instant,
-    var endDateTimeUtc: Instant,
+    var endDateTimeUtc: Instant? = null,
     var observations: String? = null,
     var nbOfInterceptedVessels: Int? = null,
     var nbOfInterceptedMigrants: Int? = null,

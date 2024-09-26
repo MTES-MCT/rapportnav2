@@ -34,7 +34,7 @@ data class ActionControlInput(
             id = id ?: UUID.randomUUID(),
             missionId = missionId,
             startDateTimeUtc = startDateTimeUtc ?: Instant.now(),
-            endDateTimeUtc = endDateTimeUtc ?: Instant.now(),
+            endDateTimeUtc = endDateTimeUtc,
             latitude = latitude,
             longitude = longitude,
             controlMethod = controlMethod,

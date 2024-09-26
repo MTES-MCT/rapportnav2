@@ -1,6 +1,6 @@
 import { vi } from 'vitest'
 import { render, screen } from '../../../../../test-utils.tsx'
-import { Mission, MissionStatusEnum } from '../../../../common/types/mission-types.ts'
+import { Mission, MissionStatusEnum } from '@common/types/mission-types.ts'
 import MissionDaterange from './mission-daterange.tsx'
 
 const patchMissionMock = vi.fn()
@@ -23,7 +23,8 @@ describe('Mission Datetime start/end', () => {
   it('should render the dates', () => {
     render(<MissionDaterange mission={mockMission} />)
     expect(patchMissionMock).not.toHaveBeenCalled()
-    expect(screen.getByDisplayValue('2022-02-15 ~ 2023-03-27')).toBeInTheDocument()
+    expect(screen.getByDisplayValue('2022-02-15')).toBeInTheDocument()
+    expect(screen.getByDisplayValue('2023-03-27')).toBeInTheDocument()
   })
 
   // TODO find a way to trigger change on the DateTimePicker

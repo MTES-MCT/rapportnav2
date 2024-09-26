@@ -109,7 +109,6 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
     const newControl = {
       missionId: parseInt(missionId!, 10),
       startDateTimeUtc: new Date(),
-      endDateTimeUtc: new Date(),
       controlMethod,
       vesselType
     }
@@ -134,7 +133,6 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
     const newRescue = {
       missionId: parseInt(missionId!, 10),
       startDateTimeUtc: new Date(),
-      endDateTimeUtc: new Date(),
       isPersonRescue: false,
       isVesselRescue: true
     }
@@ -146,8 +144,7 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
     setShowControlTypesModal(false)
     const newNautical = {
       missionId: parseInt(missionId!, 10),
-      startDateTimeUtc: new Date(),
-      endDateTimeUtc: new Date()
+      startDateTimeUtc: new Date()
     }
     const response = await addActionNauticalEvent({ variables: { nauticalAction: newNautical } })
     navigate(`/pam/missions/${missionId}/${response.data?.addOrUpdateActionNauticalEvent.id}`)
@@ -157,8 +154,7 @@ const MissionContent: React.FC<MissionProps> = ({ mission }) => {
     setShowControlTypesModal(false)
     const newOther = {
       missionId: parseInt(missionId!, 10),
-      startDateTimeUtc: new Date(),
-      endDateTimeUtc: new Date()
+      startDateTimeUtc: new Date()
     }
 
     let response

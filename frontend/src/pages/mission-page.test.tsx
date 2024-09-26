@@ -5,15 +5,6 @@ import { vi } from 'vitest'
 import { fireEvent, render, screen, waitFor } from '../test-utils.tsx'
 import MissionPage from './mission-page.tsx'
 
-vi.mock('@unleash/proxy-client-react', async importOriginal => {
-  const actual = await importOriginal()
-  return {
-    ...actual,
-    useFlag: vi.fn(),
-    default: vi.fn()
-  }
-})
-
 // Mock the useApolloClient hook
 const mockApolloClient = {
   clearStore: vi.fn(),

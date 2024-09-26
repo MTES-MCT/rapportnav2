@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Textarea } from '@mtes-mct/monitor-ui'
-import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
+import DateRangePicker from '@common/components/elements/dates/daterange-picker.tsx'
 import { Action, ActionNauticalEvent } from '@common/types/action-types.ts'
 import { Stack } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -106,7 +106,8 @@ const ActionNauticalEventForm: React.FC<ActionNauticalEventFormProps> = ({ actio
                 <DateRangePicker
                   name="dates"
                   isRequired={true}
-                  defaultValue={[actionData.startDateTimeUtc, actionData.endDateTimeUtc]}
+                  selectedRange={[navAction.startDateTimeUtc, navAction.endDateTimeUtc]}
+                  error={!navAction.startDateTimeUtc && !navAction.endDateTimeUtc ? 'error' : undefined}
                   isStringDate={false}
                   label="Date et heure de début et de fin"
                   withTime={true}

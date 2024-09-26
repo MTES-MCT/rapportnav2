@@ -25,7 +25,7 @@ data class ActionStatusEntity(
     @MandatoryForStats
     override val startDateTimeUtc: Instant,
 
-    override var endDateTimeUtc: Instant? = null, // Default value to null
+    override var endDateTimeUtc: Instant? = null,
 
     @MandatoryForStats
     val status: ActionStatusType,

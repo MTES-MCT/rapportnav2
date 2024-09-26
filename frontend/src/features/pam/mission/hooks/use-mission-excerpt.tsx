@@ -1,5 +1,6 @@
-import { ApolloError, gql, useQuery } from '@apollo/client'
+import { ApolloError, FetchPolicy, gql, useQuery } from '@apollo/client'
 import { Mission } from '../../../common/types/mission-types.ts'
+import { WatchQueryFetchPolicy } from '@apollo/client/core/watchQueryOptions'
 
 export const GET_MISSION_EXCERPT = gql`
   query GetMissionExcerpt($missionId: ID) {
@@ -40,10 +41,17 @@ export const GET_MISSION_EXCERPT = gql`
   }
 `
 
-const useMissionExcerpt = (missionId?: string): { data?: Mission; loading: boolean; error?: ApolloError } => {
+const useMissionExcerpt = (
+  missionId?: string,
+  fetchPolicy: WatchQueryFetchPolicy = 'cache-first'
+): {
+  data?: Mission
+  loading: boolean
+  error?: ApolloError
+} => {
   const { loading, error, data } = useQuery(GET_MISSION_EXCERPT, {
-    variables: { missionId }
-    // fetchPolicy: 'cache-only'
+    variables: { missionId },
+    fetchPolicy: fetchPolicy
   })
 
   return { loading, error, data: data?.mission }

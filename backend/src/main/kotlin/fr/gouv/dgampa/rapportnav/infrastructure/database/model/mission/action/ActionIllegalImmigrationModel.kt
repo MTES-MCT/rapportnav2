@@ -24,8 +24,8 @@ data class ActionIllegalImmigrationModel(
     @Column(name = "start_datetime_utc", nullable = false)
     var startDateTimeUtc: Instant,
 
-    @Column(name = "end_datetime_utc", nullable = false)
-    var endDateTimeUtc: Instant,
+    @Column(name = "end_datetime_utc", nullable = true)
+    var endDateTimeUtc: Instant? = null,
 
     @Column(name = "observations", nullable = true, columnDefinition = "LONGTEXT")
     var observations: String? = null,

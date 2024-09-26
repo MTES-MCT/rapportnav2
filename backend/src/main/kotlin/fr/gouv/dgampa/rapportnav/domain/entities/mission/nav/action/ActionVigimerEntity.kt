@@ -21,7 +21,7 @@ data class ActionVigimerEntity(
     override val startDateTimeUtc: Instant,
 
     @MandatoryForStats
-    override val endDateTimeUtc: Instant,
+    override val endDateTimeUtc: Instant? = null,
 
     override val observations: String? = null,
 ) : BaseAction {
@@ -30,8 +30,8 @@ data class ActionVigimerEntity(
         id: UUID,
         missionId: Int,
         startDateTimeUtc: Instant,
-        endDateTimeUtc: Instant,
-        observations: String?
+        endDateTimeUtc: Instant? = null,
+        observations: String? = null
     ) : this(
         id = id,
         missionId = missionId,

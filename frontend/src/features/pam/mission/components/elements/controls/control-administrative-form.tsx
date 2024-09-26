@@ -87,7 +87,6 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
 
   const handleControlChange = async (value: ControlAdministrativeFormInput): Promise<void> => {
     if (isEqual(value, control) || isNil(value) || isEmpty(value)) return
-    debugger
     await controlChanged(actionId, getControl(value))
   }
 
