@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
+import DateRangePicker from '@common/components/elements/dates/daterange-picker.tsx'
 import { DateRange } from '@mtes-mct/monitor-ui/types/definitions'
 
 type PatchableMonitorDateRangeProps = {

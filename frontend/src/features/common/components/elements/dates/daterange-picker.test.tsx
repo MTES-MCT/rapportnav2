@@ -1,5 +1,5 @@
-import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
-import { render, screen, fireEvent } from '../../../../test-utils.tsx'
+import DateRangePicker from '@common/components/elements/dates/daterange-picker.tsx'
+import { render, screen, fireEvent } from '../../../../../test-utils.tsx'
 
 describe('DateRangePicker tests  ', () => {
   describe('DateRangePicker', () => {

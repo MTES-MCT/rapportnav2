@@ -10,7 +10,7 @@ import useDeleteVigimer from '../../../hooks/vigimer/use-delete-vigimer.tsx'
 import ActionHeader from './action-header.tsx'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
 import { DateRange } from '@mtes-mct/monitor-ui/types/definitions'
-import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
+import DateRangePicker from '@common/components/elements/dates/daterange-picker.tsx'
 
 interface ActionVigimerFormProps {
   action: Action

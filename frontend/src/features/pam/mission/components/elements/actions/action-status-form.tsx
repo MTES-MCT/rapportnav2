@@ -12,7 +12,7 @@ import useDeleteStatus from '../../../hooks/use-delete-status.tsx'
 import { ActionDetailsProps } from './action-mapping.ts'
 import ActionHeader from './action-header.tsx'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
-import DatePicker from '@common/components/elements/date-picker.tsx'
+import DatePicker from '@common/components/elements/dates/date-picker.tsx'
 
 type ActionStatusFormProps = ActionDetailsProps
 

@@ -1,9 +1,9 @@
 import DatePicker, {
   postprocessDateFromPicker,
   preprocessDateForPicker
-} from '@common/components/elements/date-picker.tsx'
+} from '@common/components/elements/dates/date-picker.tsx'
 import { addMinutes } from 'date-fns'
-import { render, screen, fireEvent } from '../../../../test-utils.tsx'
+import { render, screen, fireEvent } from '../../../../../test-utils.tsx'
 
 describe('DatePicker tests  ', () => {
   describe('preprocessDateForPicker', () => {

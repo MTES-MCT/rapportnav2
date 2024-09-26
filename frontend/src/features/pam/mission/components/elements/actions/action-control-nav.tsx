@@ -2,7 +2,7 @@ import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.
 import { ActionControl } from '@common/types/action-types.ts'
 import { VesselSizeEnum, VesselTypeEnum } from '@common/types/mission-types.ts'
 import { Coordinates, Icon, Label, Select, Textarea, TextInput, THEME } from '@mtes-mct/monitor-ui'
-import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
+import DateRangePicker from '@common/components/elements/dates/daterange-picker.tsx'
 import { isEqual } from 'lodash'
 import omit from 'lodash/omit'
 import React, { useEffect, useState } from 'react'

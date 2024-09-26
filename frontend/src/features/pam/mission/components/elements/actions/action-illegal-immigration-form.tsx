@@ -1,4 +1,4 @@
-import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
+import DateRangePicker from '@common/components/elements/dates/daterange-picker.tsx'
 import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.tsx'
 import { Action, ActionIllegalImmigration } from '@common/types/action-types.ts'
 import { useAction } from '@features/pam/mission/hooks/action/use-action.tsx'
