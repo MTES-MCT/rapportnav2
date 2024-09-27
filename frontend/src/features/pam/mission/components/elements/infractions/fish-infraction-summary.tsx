@@ -40,7 +40,7 @@ const FishInfractionSummary: React.FC<FishInfractionSummaryProps> = ({ infractio
       ) : (
         infractions?.map((infraction: any, i: number) => (
           <Stack
-            key={infraction.id}
+            key={`${infraction.id}${i}`}
             direction="column"
             spacing={'0.5rem'}
             style={{
