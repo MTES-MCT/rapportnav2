@@ -35,6 +35,7 @@ class APIFishActionRepository(
 
     override fun findFishActions(missionId: Int): List<MissionAction> {
         logger.info("Fetching Fish Actions for Mission id=$missionId")
+        logger.info("Sending PATCH request for Fish Action $monitorFishApiKey")
         val request = HttpRequest.newBuilder()
             .uri(
                 URI.create(
@@ -58,6 +59,7 @@ class APIFishActionRepository(
     override fun patchAction(actionId: String, action: PatchActionInput): MissionAction? {
         val url = "$host/api/v1/mission_actions/$actionId";
         logger.info("Sending PATCH request for Fish Action id=$actionId. URL: $url")
+        logger.info("Sending PATCH request for Fish Action $monitorFishApiKey")
         return try {
 
             val request = HttpRequest
