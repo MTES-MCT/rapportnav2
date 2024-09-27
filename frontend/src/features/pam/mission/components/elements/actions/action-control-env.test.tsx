@@ -54,7 +54,7 @@ describe('ActionControlEnv', () => {
     test('renders data', async () => {
       vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: false, error: undefined })
       render(<ActionControlEnv action={actionMock} />)
-      expect(screen.getByText('Thématique de contrôle')).toBeInTheDocument()
+      expect(screen.getByText('Thématique')).toBeInTheDocument()
     })
     test('renders null when none above', async () => {
       vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: actionMock, loading: false, error: undefined })

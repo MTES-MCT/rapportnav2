@@ -12,13 +12,14 @@ import {
   NumberInput,
   Textarea,
   TextInput,
-  THEME
+  THEME,
+  Toggle
 } from '@mtes-mct/monitor-ui'
 import { isEqual } from 'lodash'
 import omit from 'lodash/omit'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Divider, Stack, Toggle } from 'rsuite'
+import { Divider, Stack } from 'rsuite'
 import Text from '../../../../../common/components/ui/text.tsx'
 import useAddUpdateRescue from '../../../hooks/rescues/use-add-update-rescue.tsx'
 import useDeleteRescue from '../../../hooks/rescues/use-delete-rescue.tsx'
@@ -38,8 +39,8 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
   const { getError } = useAction<ActionRescue>()
   const isMissionFinished = useIsMissionFinished(missionId)
 
-  const [showVesselStack, setShowVesselStack] = useState(false)
-  const [showPersonStack, setShowPersonStack] = useState(true)
+  const [showVesselStack, setShowVesselStack] = useState(true)
+  const [showPersonStack, setShowPersonStack] = useState(false)
 
   const { data: navAction, loading, error } = useActionById(actionId, missionId, action.source, action.type)
   const [mutateRescue] = useAddUpdateRescue()
@@ -215,7 +216,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
 
           <Stack.Item style={{ width: '100%' }}>
             <MultiRadio
-              value={actionData?.isVesselRescue}
+              value={actionData?.isPersonRescue === false}
               label=""
               name="rescue-type"
               onChange={nextOptionValue => toggleRescue(nextOptionValue)}
@@ -233,6 +234,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                     checked={actionData?.operationFollowsDEFREP}
                     size="sm"
                     onChange={(checked: boolean) => onChange(checked)('operationFollowsDEFREP')}
+                    isLight={true}
                   />
                 </Stack.Item>
                 <Stack.Item alignSelf="flex-end">

@@ -7,9 +7,9 @@ import java.util.*
 
 data class InfractionEnvTarget(
     var id: UUID,
-    var vesselType: VesselTypeEnum,
-    var vesselSize: VesselSizeEnum,
-    val vesselIdentifier: String,
+    var vesselType: VesselTypeEnum? = null,
+    var vesselSize: VesselSizeEnum? = null,
+    val vesselIdentifier: String? = null,
     val identityControlledPerson: String,
 ) {
     companion object {

@@ -78,8 +78,9 @@ input InfractionWithNewTargetInput {
   infractionType: String
   natinfs: [String]
   observations: String
-  vesselIdentifier: String!
+  vesselIdentifier: String
   identityControlledPerson: String!
-  vesselType: VesselType!
-  vesselSize: VesselSize!
+  vesselType: VesselType
+  vesselSize: VesselSize
+  vehicleType: VehicleTypeEnum
 }

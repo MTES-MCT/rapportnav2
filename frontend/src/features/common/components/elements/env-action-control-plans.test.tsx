@@ -20,9 +20,9 @@ describe('EnvActionControlPlans', () => {
 
     render(<EnvActionControlPlans controlPlans={controlPlans} />)
 
-    expect(screen.getByText('Thématique de contrôle')).toBeInTheDocument()
+    expect(screen.getByText('Thématique')).toBeInTheDocument()
     expect(screen.getByText('Test Theme')).toBeInTheDocument()
-    expect(screen.getByText('Sous-thématique(s) de contrôle')).toBeInTheDocument()
+    expect(screen.getByText('Sous-thématique(s)')).toBeInTheDocument()
     expect(screen.getByText('Sub Theme 1, Sub Theme 2')).toBeInTheDocument()
   })
 
@@ -40,11 +40,11 @@ describe('EnvActionControlPlans', () => {
 
     render(<EnvActionControlPlans controlPlans={controlPlans} />)
 
-    expect(screen.getByText('Thématique de contrôle (1)')).toBeInTheDocument()
+    expect(screen.getByText('Thématique (1)')).toBeInTheDocument()
     expect(screen.getByText('Theme 1')).toBeInTheDocument()
     expect(screen.getByText('Sub Theme 1')).toBeInTheDocument()
 
-    expect(screen.getByText('Thématique de contrôle (2)')).toBeInTheDocument()
+    expect(screen.getByText('Thématique (2)')).toBeInTheDocument()
     expect(screen.getByText('Theme 2')).toBeInTheDocument()
     expect(screen.getByText('Sub Theme 2, Sub Theme 3')).toBeInTheDocument()
   })

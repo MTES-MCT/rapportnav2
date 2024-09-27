@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.FormalNoticeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionAntiPollutionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
@@ -59,7 +59,7 @@ data class AEMPollutionControlSurveillance(
         fun getNbrOfInfraction(illicitRejectsActions: List<ExtendedEnvActionEntity?>): Double {
             return illicitRejectsActions.fold(0.0) { acc, envAction ->
                 acc.plus(
-                    envAction?.controlAction?.action?.infractions?.size ?: 0
+                    envAction?.controlAction?.action?.infractions?.flatMap { it.natinf ?: listOf() }?.size ?: 0
                 )
             }
         }
@@ -67,11 +67,12 @@ data class AEMPollutionControlSurveillance(
         fun getNbrOfInfractionWithNotice(illicitRejectsActions: List<ExtendedEnvActionEntity?>): Double {
             return illicitRejectsActions.fold(0.0) { acc, envAction ->
                 acc.plus(
-                    envAction?.controlAction?.action?.infractions?.filter { it.formalNotice == FormalNoticeEnum.YES }?.size
+                    envAction?.controlAction?.action?.infractions?.filter { it.infractionType == InfractionTypeEnum.WITH_REPORT }?.size
                         ?: 0
                 )
             }
         }
+        //it.infractionType == InfractionTypeEnum.WITH_REPORT
 
         fun getNbrOfDiversionCarriedOut(
             illicitRejectsActions: List<ExtendedEnvActionEntity?>,

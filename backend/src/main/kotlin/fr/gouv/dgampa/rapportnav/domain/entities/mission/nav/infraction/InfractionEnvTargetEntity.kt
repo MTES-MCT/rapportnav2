@@ -9,8 +9,9 @@ data class InfractionEnvTargetEntity(
     var missionId: Int,
     var actionId: String,
     var infractionId: UUID,
-    var vesselType: VesselTypeEnum,
-    var vesselSize: VesselSizeEnum,
-    val vesselIdentifier: String,
     val identityControlledPerson: String,
+    var vesselType: VesselTypeEnum? = null,
+    var vesselSize: VesselSizeEnum? = null,
+    val vesselIdentifier: String? =  null,
+
 )
