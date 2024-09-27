@@ -16,6 +16,7 @@ services:
       - VERSION=NO_VERSION
       - ENV_PROFILE=local
       - ENV_DB_URL=jdbc:postgresql://db:5432/rapportnavdb?user=postgres&password=postgres
+      - MONITORFISH_API_KEY=dummy-key
 
   frontend:
     build:
