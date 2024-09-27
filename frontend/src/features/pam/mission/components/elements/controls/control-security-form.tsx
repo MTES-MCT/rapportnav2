@@ -70,17 +70,17 @@ const ControlSecurityForm: FC<ControlSecurityFormProps> = ({ data, shouldComplet
       // defaultExpanded={controlIsEnabled(data)}
       style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
     >
-      <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
-        {control !== undefined && (
-          <Formik
-            initialValues={control}
-            onSubmit={handleControlChange}
-            validateOnChange={true}
-            enableReinitialize={true}
-          >
-            <>
-              <FormikEffect onChange={handleControlChange} />
-              <Form>
+      {control !== undefined && (
+        <Formik
+          initialValues={control}
+          onSubmit={handleControlChange}
+          validateOnChange={true}
+          enableReinitialize={true}
+        >
+          <>
+            <FormikEffect onChange={handleControlChange} />
+            <Form>
+              <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
                 {unitShouldConfirm && (
                   <Stack.Item style={{ width: '100%' }}>
                     <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
@@ -101,14 +101,19 @@ const ControlSecurityForm: FC<ControlSecurityFormProps> = ({ data, shouldComplet
                     label="Observations (hors infraction) sur la sécurité du navire (équipements…)"
                   />
                 </Stack.Item>
-              </Form>
-            </>
-          </Formik>
-        )}
-        <Stack.Item style={{ width: '100%' }}>
-          <ControlInfraction controlId={data?.id} infractions={data?.infractions} controlType={ControlType.SECURITY} />
-        </Stack.Item>
-      </Stack>
+
+                <Stack.Item style={{ width: '100%' }}>
+                  <ControlInfraction
+                    controlId={data?.id}
+                    infractions={data?.infractions}
+                    controlType={ControlType.SECURITY}
+                  />
+                </Stack.Item>
+              </Stack>
+            </Form>
+          </>
+        </Formik>
+      )}
     </Panel>
   )
 }
