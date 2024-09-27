@@ -79,7 +79,15 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
   }, [data])
 
   const handleControlChange = async (value: ControlAdministrativeFormInput): Promise<void> => {
-    if (value === control || isNil(control) || isEmpty(control)) return
+    if (
+      value === control ||
+      isNil(value) ||
+      isEmpty(value) ||
+      // TODO there has to be a better way but formik effect is triggered sending that data at mount
+      // therefore is triggers the mutation, activating controls that shouldn't
+      (isEmpty(control) && JSON.stringify(value) === JSON.stringify({ unitHasConfirmed: false }))
+    )
+      return
     await controlChanged(actionId, getControl(value))
   }
 
