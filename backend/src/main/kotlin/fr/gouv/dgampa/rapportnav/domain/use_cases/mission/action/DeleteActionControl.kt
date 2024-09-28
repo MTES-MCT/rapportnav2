@@ -14,7 +14,7 @@ class DeleteActionControl(
         if (this.controlRepository.existsById(id)) {
 
             // delete controls manually as cascading not in place in Models
-            deleteControlByActionId.deleteAll(actionId = id)
+            deleteControlByActionId.deleteAll(actionId = id.toString())
 
             controlRepository.deleteById(id)
             return true

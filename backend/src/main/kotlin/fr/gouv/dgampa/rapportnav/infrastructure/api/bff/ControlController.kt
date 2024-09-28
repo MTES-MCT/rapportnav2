@@ -13,7 +13,6 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.control.ControlSec
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.stereotype.Controller
-import java.util.*
 
 
 @Controller
@@ -52,25 +51,25 @@ class ControlController(
 
 
     @MutationMapping
-    fun deleteControlAdministrative(@Argument actionId: UUID): Boolean {
+    fun deleteControlAdministrative(@Argument actionId: String): Boolean {
         val savedData = deleteControlByActionId.deleteControlAdministrative(actionId = actionId)
         return savedData
     }
 
     @MutationMapping
-    fun deleteControlSecurity(@Argument actionId: UUID): Boolean {
+    fun deleteControlSecurity(@Argument actionId: String): Boolean {
         val savedData = deleteControlByActionId.deleteControlSecurity(actionId = actionId)
         return savedData
     }
 
     @MutationMapping
-    fun deleteControlNavigation(@Argument actionId: UUID): Boolean {
+    fun deleteControlNavigation(@Argument actionId: String): Boolean {
         val savedData = deleteControlByActionId.deleteControlNavigation(actionId = actionId)
         return savedData
     }
 
     @MutationMapping
-    fun deleteControlGensDeMer(@Argument actionId: UUID): Boolean {
+    fun deleteControlGensDeMer(@Argument actionId: String): Boolean {
         val savedData = deleteControlByActionId.deleteControlGensDeMer(actionId = actionId)
         return savedData
     }
