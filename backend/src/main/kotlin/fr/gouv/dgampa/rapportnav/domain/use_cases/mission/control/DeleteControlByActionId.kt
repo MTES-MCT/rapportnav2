@@ -16,7 +16,7 @@ class DeleteControlByActionId(
 ) {
 
 
-    fun deleteAll(actionId: UUID): Boolean {
+    fun deleteAll(actionId: String): Boolean {
         return try {
             deleteControlAdministrative(actionId)
             deleteControlSecurity(actionId)
@@ -29,9 +29,9 @@ class DeleteControlByActionId(
         }
     }
 
-    fun deleteControlAdministrative(actionId: UUID): Boolean {
+    fun deleteControlAdministrative(actionId: String): Boolean {
         return try {
-            controlAdministrativeRepo.deleteByActionControlId(actionControlId = actionId.toString())
+            controlAdministrativeRepo.deleteByActionControlId(actionControlId = actionId)
             true
         } catch (e: Exception) {
             // TODO add log
@@ -39,9 +39,9 @@ class DeleteControlByActionId(
         }
     }
 
-    fun deleteControlSecurity(actionId: UUID): Boolean {
+    fun deleteControlSecurity(actionId: String): Boolean {
         return try {
-            controlSecurityRepo.deleteByActionControlId(actionControlId = actionId.toString())
+            controlSecurityRepo.deleteByActionControlId(actionControlId = actionId)
             true
         } catch (e: Exception) {
             // TODO add log
@@ -49,9 +49,9 @@ class DeleteControlByActionId(
         }
     }
 
-    fun deleteControlNavigation(actionId: UUID): Boolean {
+    fun deleteControlNavigation(actionId: String): Boolean {
         return try {
-            controlNavigationRepo.deleteByActionControlId(actionControlId = actionId.toString())
+            controlNavigationRepo.deleteByActionControlId(actionControlId = actionId)
             true
         } catch (e: Exception) {
             // TODO add log
@@ -59,9 +59,9 @@ class DeleteControlByActionId(
         }
     }
 
-    fun deleteControlGensDeMer(actionId: UUID): Boolean {
+    fun deleteControlGensDeMer(actionId: String): Boolean {
         return try {
-            controlGensDeMerRepo.deleteByActionControlId(actionControlId = actionId.toString())
+            controlGensDeMerRepo.deleteByActionControlId(actionControlId = actionId)
             true
         } catch (e: Exception) {
             // TODO add log
