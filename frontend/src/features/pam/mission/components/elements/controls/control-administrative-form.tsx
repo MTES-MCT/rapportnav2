@@ -111,65 +111,69 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
         <Formik initialValues={control} validateOnChange={true} enableReinitialize={true}>
           <>
             <FormikEffect onChange={handleControlChange} />
-            <Form>
-              <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
-                {unitShouldConfirm && (
-                  <Stack.Item style={{ width: '100%' }}>
-                    <Stack direction="row" alignItems="baseline" spacing={'0.5rem'}>
-                      <Stack.Item>
-                        <FormikToggle label="" size="sm" name="unitHasConfirmed" />
+            <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
+              <Stack.Item style={{ width: '100%' }}>
+                <Form>
+                  <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
+                    {unitShouldConfirm && (
+                      <Stack.Item style={{ width: '100%' }}>
+                        <Stack direction="row" alignItems="baseline" spacing={'0.5rem'}>
+                          <Stack.Item>
+                            <FormikToggle label="" size="sm" name="unitHasConfirmed" />
+                          </Stack.Item>
+                          <Stack.Item alignSelf="flex-end">
+                            <Label style={{ marginBottom: 0 }}>
+                              <b>Contrôle confirmé par l’unité</b>
+                            </Label>
+                          </Stack.Item>
+                        </Stack>
                       </Stack.Item>
-                      <Stack.Item alignSelf="flex-end">
-                        <Label style={{ marginBottom: 0 }}>
-                          <b>Contrôle confirmé par l’unité</b>
-                        </Label>
-                      </Stack.Item>
-                    </Stack>
-                  </Stack.Item>
-                )}
+                    )}
 
-                <StackItemStyled>
-                  <FormikMultiRadio
-                    isInline
-                    options={controlOptions}
-                    name="compliantOperatingPermit"
-                    label="Permis de mise en exploitation (autorisation à pêcher) conforme"
-                    data-testid="control-administrative-form-compliant"
-                  />
-                </StackItemStyled>
-                <StackItemStyled>
-                  <FormikMultiRadio
-                    isInline
-                    options={controlOptions}
-                    name="upToDateNavigationPermit"
-                    label="Permis de navigation à jour"
-                  />
-                </StackItemStyled>
-                <StackItemStyled>
-                  <FormikMultiRadio
-                    isInline
-                    options={controlOptions}
-                    name="compliantSecurityDocuments"
-                    label="Titres de sécurité conformes"
-                  />
-                </StackItemStyled>
-                <Stack.Item style={{ width: '100%', paddingTop: 4 }}>
-                  <FormikTextarea
-                    style={{ width: '100%' }}
-                    name="observations"
-                    label="Observations (hors infraction) sur les pièces administratives"
-                  />
-                </Stack.Item>
+                    <StackItemStyled>
+                      <FormikMultiRadio
+                        isInline
+                        options={controlOptions}
+                        name="compliantOperatingPermit"
+                        label="Permis de mise en exploitation (autorisation à pêcher) conforme"
+                        data-testid="control-administrative-form-compliant"
+                      />
+                    </StackItemStyled>
+                    <StackItemStyled>
+                      <FormikMultiRadio
+                        isInline
+                        options={controlOptions}
+                        name="upToDateNavigationPermit"
+                        label="Permis de navigation à jour"
+                      />
+                    </StackItemStyled>
+                    <StackItemStyled>
+                      <FormikMultiRadio
+                        isInline
+                        options={controlOptions}
+                        name="compliantSecurityDocuments"
+                        label="Titres de sécurité conformes"
+                      />
+                    </StackItemStyled>
+                    <Stack.Item style={{ width: '100%', paddingTop: 4 }}>
+                      <FormikTextarea
+                        style={{ width: '100%' }}
+                        name="observations"
+                        label="Observations (hors infraction) sur les pièces administratives"
+                      />
+                    </Stack.Item>
+                  </Stack>
+                </Form>
+              </Stack.Item>
 
-                <Stack.Item style={{ width: '100%' }}>
-                  <ControlInfraction
-                    controlId={data?.id}
-                    infractions={data?.infractions}
-                    controlType={ControlType.ADMINISTRATIVE}
-                  />
-                </Stack.Item>
-              </Stack>
-            </Form>
+              <Stack.Item style={{ width: '100%' }}>
+                <ControlInfraction
+                  controlId={data?.id}
+                  infractions={data?.infractions}
+                  controlType={ControlType.ADMINISTRATIVE}
+                />
+              </Stack.Item>
+            </Stack>
           </>
         </Formik>
       )}
