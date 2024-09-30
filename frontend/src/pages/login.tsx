@@ -6,6 +6,7 @@ import { Accent, Button, FormikTextInput, Size } from '@mtes-mct/monitor-ui'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { validate } from 'email-validator'
 import { csrfToken } from '../features/auth/utils/csrf.ts'
+import { lowerCase, trim } from 'lodash'
 
 export const LOGIN_ENDPOINT = '/api/v1/auth/login'
 
@@ -40,7 +41,7 @@ const Login: React.FC = () => {
           'X-XSRF-TOKEN': csrfToken() ?? ''
         },
         body: JSON.stringify({
-          email,
+          email: lowerCase(trim(email)),
           password
         })
       })
