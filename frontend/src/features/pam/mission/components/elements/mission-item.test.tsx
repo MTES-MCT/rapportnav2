@@ -33,6 +33,16 @@ const missionNotComplete = {
   }
 } as unknown as Mission
 
+const missionCompleteAndNotEnded = {
+  id: 3,
+  startDateTimeUtc: '2022-08-07T12:00:00Z',
+  endDateTimeUtc: '2022-08-19T12:00:00Z',
+  status: MissionStatusEnum.IN_PROGRESS,
+  completenessForStats: {
+    status: CompletenessForStatsStatusEnum.COMPLETE
+  }
+} as unknown as Mission
+
 const exportLazyAEMMock = vi.fn()
 const exportLazyReportMock = vi.fn()
 
@@ -102,7 +112,7 @@ describe('Mission Item component', () => {
     expect(screen.queryByText('Exporter le rapport de la mission', { exact: true })).not.toBeInTheDocument()
   })
 
-  test('should not render the Exporter le rapport de mission button on mouse over if the mission is not finished and not complete for stats', () => {
+  test('should not render the Exporter le rapport de mission button on mouse over if the mission is finished and not complete for stats', () => {
     vi.spyOn(useIsMissionCompleteForStatsModule, 'default').mockReturnValue({
       data: false,
       loading: false,
@@ -154,5 +164,18 @@ describe('Mission Item component', () => {
     fireEvent.mouseOver(missionItemElement)
     const listItemWithHover = screen.getByTestId('list-item-with-hover')
     expect(getComputedStyle(listItemWithHover).backgroundColor).toBe(hexToRgb(THEME.color.blueGray25))
+  })
+
+  test('should not render the Exporter le rapport de mission button on mouse over if the mission is not finished and complete for stats', () => {
+    vi.spyOn(useIsMissionCompleteForStatsModule, 'default').mockReturnValue({
+      data: false,
+      loading: false,
+      error: null
+    })
+    vi.spyOn(useIsMissionFinishedModule, 'default').mockReturnValue({ data: false, loading: false, error: null })
+    const { container } = render(<MissionItem mission={missionCompleteAndNotEnded} prefetchMission={vi.fn()} />)
+    const missionItemElement = container.firstChild
+    fireEvent.mouseOver(missionItemElement)
+    expect(screen.queryByText('Exporter le rapport de la mission', { exact: true })).not.toBeInTheDocument()
   })
 })

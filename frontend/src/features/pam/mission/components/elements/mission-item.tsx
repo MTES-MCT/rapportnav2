@@ -1,5 +1,10 @@
 import React, { useState } from 'react'
-import { CompletenessForStatsStatusEnum, Mission, MissionExport } from '@common/types/mission-types.ts'
+import {
+  CompletenessForStatsStatusEnum,
+  Mission,
+  MissionExport,
+  MissionStatusEnum
+} from '@common/types/mission-types.ts'
 import { Accent, Button, Icon, logSoftError, Size, THEME } from '@mtes-mct/monitor-ui'
 import { Link } from 'react-router-dom'
 import { Divider, FlexboxGrid, Stack } from 'rsuite'
@@ -13,7 +18,6 @@ import * as Sentry from '@sentry/react'
 import useLazyMissionExport from '../../hooks/export/use-lazy-mission-export.tsx'
 import useLazyMissionAEMExport from '../../hooks/export/use-lazy-mission-aem-export.tsx'
 import GearIcon from '@rsuite/icons/Gear'
-import useIsMissionFinished from '@features/pam/mission/hooks/use-is-mission-finished.tsx'
 
 interface MissionItemProps {
   mission: Mission
@@ -37,8 +41,6 @@ const LoadingIcon = () => (
 const MissionItem: React.FC<MissionItemProps> = ({ mission, prefetchMission }) => {
   const [getMissionReport] = useLazyMissionExport()
   const [getMissionAEMReport] = useLazyMissionAEMExport()
-  const isMissionFinished = useIsMissionFinished(mission.id)
-
   const [exportLoading, setExportLoading] = useState<boolean>(false)
 
   const [exportationCanBeDisplayed, setExportationCanBeDisplayed] = useState<boolean>(false)
@@ -101,7 +103,7 @@ const MissionItem: React.FC<MissionItemProps> = ({ mission, prefetchMission }) =
 
   const onItemMouseOver = () => {
     const isCompleteForStats = mission?.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE
-
+    const isMissionFinished = mission?.status === MissionStatusEnum.ENDED
     if (isCompleteForStats && isMissionFinished) {
       setExportationCanBeDisplayed(true)
     }
