@@ -1,7 +1,7 @@
 import { useControl } from '@features/pam/mission/hooks/control/use-control.tsx'
 import { FormikEffect, FormikTextarea, FormikToggle, Label, THEME } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
-import { isEmpty, isNil, isNull, omitBy, pick } from 'lodash'
+import { isEmpty, isEqual, isNil, isNull, omitBy, pick } from 'lodash'
 import omit from 'lodash/omit'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -30,8 +30,17 @@ const ControlNavigationForm: FC<ControlNavigationFormProps> = ({ data, shouldCom
     shouldCompleteControl
   )
 
-  const getControlInput = (data?: ControlNavigationFormInput) =>
-    data ? omitBy(pick(data, 'observations', 'unitHasConfirmed'), isNull) : ({} as ControlNavigationFormInput)
+  const getControlInput = (data?: ControlNavigation) => {
+    let control = data
+      ? (omitBy(pick(data, 'observations', 'unitHasConfirmed'), isNull) as ControlNavigationFormInput)
+      : ({} as ControlNavigationFormInput)
+
+    // hack to circumvent toggle and FormikEffect behaviour
+    if ((isEmpty(control) || isNil(control.unitHasConfirmed)) && unitShouldConfirm) {
+      control.unitHasConfirmed = false
+    }
+    return control
+  }
 
   useEffect(() => {
     setControl(getControlInput(data))
@@ -50,15 +59,7 @@ const ControlNavigationForm: FC<ControlNavigationFormProps> = ({ data, shouldCom
   }
 
   const handleControlChange = async (value: ControlNavigationFormInput): Promise<void> => {
-    if (
-      value === control ||
-      isNil(value) ||
-      isEmpty(value) ||
-      // TODO there has to be a better way but formik effect is triggered sending that data at mount
-      // therefore is triggers the mutation, activating controls that shouldn't
-      (isEmpty(control) && JSON.stringify(value) === JSON.stringify({ unitHasConfirmed: false }))
-    )
-      return
+    if (isEqual(value, control) || isNil(value) || isEmpty(value)) return
     await controlChanged(actionId, getControl(value))
   }
 

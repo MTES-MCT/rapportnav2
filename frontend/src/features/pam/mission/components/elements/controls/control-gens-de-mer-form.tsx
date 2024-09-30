@@ -1,7 +1,7 @@
 import { useControl } from '@features/pam/mission/hooks/control/use-control.tsx'
 import { FormikEffect, FormikMultiRadio, FormikTextarea, FormikToggle, Label, THEME } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
-import { isEmpty, isNil, isNull, omit, omitBy, pick } from 'lodash'
+import { isEmpty, isEqual, isNil, isNull, omit, omitBy, pick } from 'lodash'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Panel, Stack } from 'rsuite'
@@ -42,8 +42,8 @@ const ControlGensDeMerForm: FC<ControlGensDeMerFormProps> = ({ data, shouldCompl
     shouldCompleteControl
   )
 
-  const getControlInput = (data?: ControlGensDeMer) =>
-    data
+  const getControlInput = (data?: ControlGensDeMer) => {
+    let control = data
       ? omitBy(
           pick(
             data,
@@ -56,6 +56,13 @@ const ControlGensDeMerForm: FC<ControlGensDeMerFormProps> = ({ data, shouldCompl
           isNull
         )
       : ({} as ControlGensDeMerFormInput)
+
+    // hack to circumvent toggle and FormikEffect behaviour
+    if ((isEmpty(control) || isNil(control.unitHasConfirmed)) && unitShouldConfirm) {
+      control.unitHasConfirmed = false
+    }
+    return control
+  }
 
   const getControl = (value?: ControlGensDeMerFormInput) => {
     if (!value) return
@@ -74,15 +81,7 @@ const ControlGensDeMerForm: FC<ControlGensDeMerFormProps> = ({ data, shouldCompl
   }, [data])
 
   const handleControlChange = async (value: ControlGensDeMerFormInput): Promise<void> => {
-    if (
-      value === control ||
-      isNil(value) ||
-      isEmpty(value) ||
-      // TODO there has to be a better way but formik effect is triggered sending that data at mount
-      // therefore is triggers the mutation, activating controls that shouldn't
-      (isEmpty(control) && JSON.stringify(value) === JSON.stringify({ unitHasConfirmed: false }))
-    )
-      return
+    if (isEqual(value, control) || isNil(value) || isEmpty(value)) return
     await controlChanged(actionId, getControl(value))
   }
 
