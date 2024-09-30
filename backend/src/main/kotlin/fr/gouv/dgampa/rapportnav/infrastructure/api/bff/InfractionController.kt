@@ -38,7 +38,7 @@ class InfractionController(
 
     @MutationMapping
     fun addOrUpdateInfraction(@Argument infraction: InfractionInput): Infraction? {
-        var input = infraction.toInfraction().toInfractionEntity()
+        val input = infraction.toInfraction().toInfractionEntity()
         val infractionEntity = addOrUpdateInfraction.execute(input)
         return Infraction.fromInfractionEntity(infractionEntity)
     }
@@ -66,7 +66,7 @@ class InfractionController(
 
         if (infraction.id == null) {
             // check if there is not already an infraction with the same controlType for this target
-            if(infraction.vesselIdentifier != null){
+            if (infraction.vesselIdentifier != null) {
                 val isAllowed = isControlledAllowedForTarget.execute(
                     actionId = infraction.actionId,
                     vesselIdentifier = infraction.vesselIdentifier,
