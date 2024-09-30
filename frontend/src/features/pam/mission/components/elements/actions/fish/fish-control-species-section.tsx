@@ -53,7 +53,7 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
             />
           </Stack.Item>
           {action.speciesOnboard?.map((species: SpeciesControl) => (
-            <Stack.Item>
+            <Stack.Item key={species.speciesCode}>
               <Stack direction="column" alignItems="flex-start" spacing={'0.25rem'}>
                 <Stack.Item>
                   <Text as="h3" weight="medium">
