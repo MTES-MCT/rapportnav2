@@ -29,21 +29,24 @@ const EnvInfractionSummary: React.FC<EnvInfractionSummaryProps> = ({
               {`${vesselTypeToHumanString(infractionByTarget?.vesselType)} - ${infractionByTarget?.vesselIdentifier}`}
             </Text>
           </Stack.Item>
-          <Stack.Item>
-            <Button
-              onClick={() =>
-                onAddInfractionForTarget({
-                  target: infractionByTarget?.infractions?.find(infraction => !!infraction.target)?.target
-                })
-              }
-              accent={Accent.SECONDARY}
-              size={Size.NORMAL}
-              Icon={Icon.Plus}
-              role={'add-infraction'}
-            >
-              infraction pour cette cible
-            </Button>
-          </Stack.Item>
+          {infractionByTarget?.vesselType !== null && (
+            <Stack.Item>
+              <Button
+                onClick={() =>
+                  onAddInfractionForTarget({
+                    target: infractionByTarget?.infractions?.find(infraction => !!infraction.target)?.target
+                  })
+                }
+                accent={Accent.SECONDARY}
+                size={Size.NORMAL}
+                Icon={Icon.Plus}
+                role={'add-infraction'}
+              >
+                infraction pour cette cible
+              </Button>
+            </Stack.Item>
+          )}
+
         </Stack>
       </Stack.Item>
       {infractionByTarget?.infractions.map((infraction: Infraction) => (

@@ -29,7 +29,22 @@ const infractionByTargetMock = (infractions: Infraction[]) => ({
   targetAddedByUnit: false
 })
 
+const infractionByTargetCompanyMock = (infractions: Infraction[]) => ({
+  vesselIdentifier: null,
+  vesselType: null,
+  infractions,
+  controlTypesWithInfraction: [ControlType.ADMINISTRATIVE],
+  targetAddedByUnit: false
+})
+
 const props = infractionByTarget => ({
+  infractionByTarget,
+  onAddInfractionForTarget: vi.fn(),
+  onEditInfractionForTarget: vi.fn(),
+  onDeleteInfraction: vi.fn()
+})
+
+const propsInfractionCompany = infractionByTarget => ({
   infractionByTarget,
   onAddInfractionForTarget: vi.fn(),
   onEditInfractionForTarget: vi.fn(),
@@ -90,6 +105,13 @@ describe('EnvInfractionSummary', () => {
       const button = screen.getByRole('delete-infraction')
       fireEvent.click(button)
       expect(onDeleteInfraction).toHaveBeenCalled()
+    })
+  })
+
+  describe('rendering button "Ajouter une infraction pour cette cible"',  () => {
+    test('should not render button "Ajouter une infraction pour cette cible" if is not a vessel', async () => {
+      render(<EnvInfractionSummary {...props(infractionByTargetCompanyMock([infractionMock]))} />)
+      expect(screen.queryByText('infraction pour cette cible')).not.toBeInTheDocument()
     })
   })
 })
