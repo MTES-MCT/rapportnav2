@@ -1,7 +1,7 @@
 import { useControl } from '@features/pam/mission/hooks/control/use-control'
 import { FormikEffect, FormikMultiRadio, FormikTextarea, FormikToggle, Label, THEME } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
-import { isEmpty, isNil, isNull, omitBy, pick } from 'lodash'
+import { isEmpty, isNil, isNull, omitBy, pick, isEqual } from 'lodash'
 import omit from 'lodash/omit'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -47,8 +47,8 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
     shouldCompleteControl
   )
 
-  const getControlInput = (data?: ControlAdministrative) =>
-    data
+  const getControlInput = (data?: ControlAdministrative) => {
+    let control = data
       ? omitBy(
           pick(
             data,
@@ -61,6 +61,13 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
           isNull
         )
       : ({} as ControlAdministrativeFormInput)
+
+    // hack to circumvent toggle and FormikEffect behaviour
+    if ((isEmpty(control) || isNil(control.unitHasConfirmed)) && unitShouldConfirm) {
+      control.unitHasConfirmed = false
+    }
+    return control
+  }
 
   const getControl = (value?: ControlAdministrativeFormInput) => {
     if (!value) return
@@ -79,15 +86,8 @@ const ControlAdministrativeForm: FC<ControlAdministrativeFormProps> = ({
   }, [data])
 
   const handleControlChange = async (value: ControlAdministrativeFormInput): Promise<void> => {
-    if (
-      value === control ||
-      isNil(value) ||
-      isEmpty(value) ||
-      // TODO there has to be a better way but formik effect is triggered sending that data at mount
-      // therefore is triggers the mutation, activating controls that shouldn't
-      (isEmpty(control) && JSON.stringify(value) === JSON.stringify({ unitHasConfirmed: false }))
-    )
-      return
+    if (isEqual(value, control) || isNil(value) || isEmpty(value)) return
+    debugger
     await controlChanged(actionId, getControl(value))
   }
 
