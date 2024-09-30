@@ -44,12 +44,6 @@ const props = infractionByTarget => ({
   onDeleteInfraction: vi.fn()
 })
 
-const propsInfractionCompany = infractionByTarget => ({
-  infractionByTarget,
-  onAddInfractionForTarget: vi.fn(),
-  onEditInfractionForTarget: vi.fn(),
-  onDeleteInfraction: vi.fn()
-})
 describe('EnvInfractionSummary', () => {
   describe('testing rendering', () => {
     test('renders the component', async () => {
