@@ -25,7 +25,7 @@ const useMissions = (): {
   client: ApolloClient<any>
 } => {
   const { loading, error, data, ...rest } = useQuery(GET_MISSIONS, {
-    // fetchPolicy: 'cache-only'
+    fetchPolicy: 'cache-and-network'
   })
 
   return { loading, error, data: data?.missions, ...rest }
