@@ -72,10 +72,7 @@ const EnvInfractionExistingTargets: React.FC<EnvInfractionExistingTargetProps> =
           <div
             key={infractionByTarget.vesselIdentifier}
             style={{
-              width: '100%',
-              backgroundColor: THEME.color.white,
-              padding: '1rem',
-              marginBottom: '0.25rem'
+              width: '100%'
             }}
           >
             {selectedVessel === infractionByTarget.vesselIdentifier ? (
