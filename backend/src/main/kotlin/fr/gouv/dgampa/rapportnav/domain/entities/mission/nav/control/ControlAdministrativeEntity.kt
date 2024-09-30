@@ -4,15 +4,25 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.Infracti
 import java.util.*
 
 data class ControlAdministrativeEntity(
-    var id: UUID,
+    override var id: UUID,
     val missionId: Int,
-    val actionControlId: String,
+    override val actionControlId: String,
     val amountOfControls: Int,
-    val unitShouldConfirm: Boolean? = null,
-    val unitHasConfirmed: Boolean? = null,
+    override val unitShouldConfirm: Boolean? = null,
+    override var unitHasConfirmed: Boolean? = null,
     val compliantOperatingPermit: ControlResult? = null,
     val upToDateNavigationPermit: ControlResult? = null,
     val compliantSecurityDocuments: ControlResult? = null,
-    val observations: String? = null,
-    val infractions: List<InfractionEntity>? = null
-)
+    override val observations: String? = null,
+    override val infractions: List<InfractionEntity>? = null
+) : BaseControlEntity() {
+    override fun shouldToggleOnUnitHasConfirmed(): Boolean =
+        unitShouldConfirm == true &&
+            unitHasConfirmed != true &&
+            (compliantOperatingPermit != null ||
+                upToDateNavigationPermit != null ||
+                compliantSecurityDocuments != null ||
+                infractions?.isNotEmpty() == true ||
+                observations != null
+                )
+}

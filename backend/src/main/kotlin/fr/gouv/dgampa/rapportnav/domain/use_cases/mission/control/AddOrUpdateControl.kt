@@ -1,10 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurityEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlAdministrativeRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlGensDeMerRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlNavigationRepository
@@ -19,56 +16,54 @@ class AddOrUpdateControl(
     private val getControlByActionId: GetControlByActionId,
 ) {
 
+    private inline fun <T : BaseControlEntity> addOrUpdateControl(
+        control: T,
+        getExistingControl: (String) -> T?,
+        saveControl: (T) -> T
+    ): T {
+        val existingControl = getExistingControl(control.actionControlId)
+        val controlToSave: BaseControlEntity = control
+        if (existingControl != null) {
+            controlToSave.id = existingControl.id
+        }
+
+        if (controlToSave.shouldToggleOnUnitHasConfirmed()) {
+            controlToSave.unitHasConfirmed = true
+        }
+
+        return saveControl(controlToSave as T)
+    }
+
 
     fun addOrUpdateControlAdministrative(control: ControlAdministrativeEntity): ControlAdministrativeEntity {
-        val existingControl = getControlByActionId.getControlAdministrative(control.actionControlId)
-        var controlToSave: ControlAdministrativeEntity?
-        if (existingControl != null) {
-            controlToSave = control
-            controlToSave.id = existingControl.id
-        } else {
-            controlToSave = control
-        }
-        val savedData = controlAdministrativeRepo.save(controlToSave).toControlAdministrativeEntity()
-        return savedData
+        return addOrUpdateControl(
+            control = control,
+            getExistingControl = { getControlByActionId.getControlAdministrative(it) },
+            saveControl = { controlAdministrativeRepo.save(it).toControlAdministrativeEntity() }
+        )
     }
 
     fun addOrUpdateControlSecurity(control: ControlSecurityEntity): ControlSecurityEntity {
-        val existingControl = getControlByActionId.getControlSecurity(control.actionControlId)
-        var controlToSave: ControlSecurityEntity?
-        if (existingControl != null) {
-            controlToSave = control
-            controlToSave.id = existingControl.id
-        } else {
-            controlToSave = control
-        }
-        val savedData = controlSecurityRepo.save(controlToSave).toControlSecurityEntity()
-        return savedData
+        return addOrUpdateControl(
+            control = control,
+            getExistingControl = { getControlByActionId.getControlSecurity(it) },
+            saveControl = { controlSecurityRepo.save(it).toControlSecurityEntity() }
+        )
     }
 
     fun addOrUpdateControlNavigation(control: ControlNavigationEntity): ControlNavigationEntity {
-        val existingControl = getControlByActionId.getControlNavigation(control.actionControlId)
-        var controlToSave: ControlNavigationEntity?
-        if (existingControl != null) {
-            controlToSave = control
-            controlToSave.id = existingControl.id
-        } else {
-            controlToSave = control
-        }
-        val savedData = controlNavigationRepo.save(controlToSave).toControlNavigationEntity()
-        return savedData
+        return addOrUpdateControl(
+            control = control,
+            getExistingControl = { getControlByActionId.getControlNavigation(it) },
+            saveControl = { controlNavigationRepo.save(it).toControlNavigationEntity() }
+        )
     }
 
     fun addOrUpdateControlGensDeMer(control: ControlGensDeMerEntity): ControlGensDeMerEntity {
-        val existingControl = getControlByActionId.getControlGensDeMer(control.actionControlId)
-        var controlToSave: ControlGensDeMerEntity?
-        if (existingControl != null) {
-            controlToSave = control
-            controlToSave.id = existingControl.id
-        } else {
-            controlToSave = control
-        }
-        val savedData = controlGensDeMerRepo.save(controlToSave).toControlGensDeMerEntity()
-        return savedData
+        return addOrUpdateControl(
+            control = control,
+            getExistingControl = { getControlByActionId.getControlGensDeMer(it) },
+            saveControl = { controlGensDeMerRepo.save(it).toControlGensDeMerEntity() }
+        )
     }
 }
