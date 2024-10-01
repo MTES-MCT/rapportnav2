@@ -38,6 +38,7 @@ export type InfractionByTarget = {
   infractions: Infraction[]
   controlTypesWithInfraction?: ControlType[]
   targetAddedByUnit?: boolean
+  identityControlledPerson?: string
 }
 
 export type InfractionEnvNewTarget = Infraction & {

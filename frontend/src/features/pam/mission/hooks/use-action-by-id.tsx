@@ -162,6 +162,7 @@ export const GET_ACTION_BY_ID = gql`
             vesselType
             targetAddedByUnit
             controlTypesWithInfraction
+            identityControlledPerson
             infractions {
               id
               natinfs
