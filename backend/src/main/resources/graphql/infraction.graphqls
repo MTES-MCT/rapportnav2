@@ -39,6 +39,7 @@ type InfractionByTarget {
   controlTypesWithInfraction: [ControlType]
   targetAddedByUnit: Boolean
   infractions: [Infraction]
+  identityControlledPerson: String
 }
 
 type Natinf {
