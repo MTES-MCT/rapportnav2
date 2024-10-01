@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionAEMExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMission
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionRapportPatrouille
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEM
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.AddOrUpdateMissionGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
@@ -35,7 +35,7 @@ class MissionController(
     private val addOrUpdateMissionGeneralInfo: AddOrUpdateMissionGeneralInfo,
     private val getControlUnitsForUser: GetControlUnitsForUser,
     private val fakeMissionData: FakeMissionData,
-    private val exportMission: ExportMission,
+    private val exportMissionRapportPatrouille: ExportMissionRapportPatrouille,
     private val updateMissionService: UpdateMissionService,
     private val patchEnvMission: PatchEnvMission,
     private val exportExcelFile: ExportMissionAEM
@@ -184,7 +184,7 @@ class MissionController(
     @QueryMapping
     fun missionExport(@Argument missionId: Int): MissionExportEntity {
         try {
-            val file = exportMission.exportOdt(missionId)
+            val file = exportMissionRapportPatrouille.exportOdt(missionId)
             if (file != null) {
                 return MissionExportEntity(
                     fileName = "rapport-de-patrouille-$missionId.odt",

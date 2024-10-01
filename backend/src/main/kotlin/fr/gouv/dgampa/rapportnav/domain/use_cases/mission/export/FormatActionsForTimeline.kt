@@ -17,8 +17,6 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionCon
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.EncodeSpecialChars
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatGeoCoords
-import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActionItem
-import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActions
 import java.time.LocalDate
 
 @UseCase
@@ -55,14 +53,6 @@ class FormatActionsForTimeline(
         }
     }
 
-    fun formatForRapportNav1(actions: Map<LocalDate, List<String>>?): List<TimelineActions> {
-        return actions?.map { (date, actionsAsString) ->
-            TimelineActions(
-                date = date.toString(),
-                freeNote = actionsAsString.map { TimelineActionItem(it) }
-            )
-        } ?: emptyList()
-    }
 
     private fun formatAction(action: MissionActionEntity): String? {
         return when (action) {
