@@ -106,62 +106,67 @@ const ControlGensDeMerForm: FC<ControlGensDeMerFormProps> = ({ data, shouldCompl
         <Formik initialValues={control} validateOnChange={true} enableReinitialize={true}>
           <>
             <FormikEffect onChange={handleControlChange} />
-            <Form>
-              <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
-                {unitShouldConfirm && (
-                  <Stack.Item style={{ width: '100%' }}>
-                    <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
-                      <Stack.Item>
-                        {/* TODO add Toggle component to monitor-ui */}
-                        <FormikToggle label="" size="sm" name="unitHasConfirmed" />
+            <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
+              <Stack.Item style={{ width: '100%' }}>
+                <Form>
+                  <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
+                    {unitShouldConfirm && (
+                      <Stack.Item style={{ width: '100%' }}>
+                        <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
+                          <Stack.Item>
+                            {/* TODO add Toggle component to monitor-ui */}
+                            <FormikToggle label="" size="sm" name="unitHasConfirmed" />
+                          </Stack.Item>
+                          <Stack.Item alignSelf="flex-end">
+                            <Label style={{ marginBottom: 0 }}>
+                              <b>Contrôle confirmé par l’unité</b>
+                            </Label>
+                          </Stack.Item>
+                        </Stack>
                       </Stack.Item>
-                      <Stack.Item alignSelf="flex-end">
-                        <Label style={{ marginBottom: 0 }}>
-                          <b>Contrôle confirmé par l’unité</b>
-                        </Label>
-                      </Stack.Item>
-                    </Stack>
-                  </Stack.Item>
-                )}
-                <StackItemStyled>
-                  <FormikMultiRadio
-                    isInline
-                    name="staffOutnumbered"
-                    options={controlOptions}
-                    label="Décision d’effectif conforme au nombre de personnes à bord"
-                  />
-                </StackItemStyled>
-                <StackItemStyled>
-                  <FormikMultiRadio
-                    isInline
-                    options={controlOptions}
-                    name="upToDateMedicalCheck"
-                    label="Aptitudes médicales ; Visites médicales à jour"
-                  />
-                </StackItemStyled>
-                <StackItemStyled>
-                  <FormikMultiRadio
-                    isInline
-                    name="knowledgeOfFrenchLawAndLanguage"
-                    options={controlResultOptions([ControlResultExtraOptions.NOT_CONCERNED])}
-                    label="Connaissance suffisante de la langue et de la loi français (navires fr/esp)"
-                  />
-                </StackItemStyled>
-                <Stack.Item style={{ width: '100%', paddingTop: 4 }}>
-                  <FormikTextarea
-                    name="observations"
-                    label="Observations (hors infraction) sur les pièces administratives"
-                  />
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
-                  <ControlInfraction
-                    controlId={data?.id}
-                    infractions={data?.infractions}
-                    controlType={ControlType.GENS_DE_MER}
-                  />
-                </Stack.Item>
-              </Stack>
-            </Form>
+                    )}
+                    <StackItemStyled>
+                      <FormikMultiRadio
+                        isInline
+                        name="staffOutnumbered"
+                        options={controlOptions}
+                        label="Décision d’effectif conforme au nombre de personnes à bord"
+                      />
+                    </StackItemStyled>
+                    <StackItemStyled>
+                      <FormikMultiRadio
+                        isInline
+                        options={controlOptions}
+                        name="upToDateMedicalCheck"
+                        label="Aptitudes médicales ; Visites médicales à jour"
+                      />
+                    </StackItemStyled>
+                    <StackItemStyled>
+                      <FormikMultiRadio
+                        isInline
+                        name="knowledgeOfFrenchLawAndLanguage"
+                        options={controlResultOptions([ControlResultExtraOptions.NOT_CONCERNED])}
+                        label="Connaissance suffisante de la langue et de la loi français (navires fr/esp)"
+                      />
+                    </StackItemStyled>
+                    <Stack.Item style={{ width: '100%', paddingTop: 4 }}>
+                      <FormikTextarea
+                        name="observations"
+                        label="Observations (hors infraction) sur les pièces administratives"
+                      />
+                    </Stack.Item>
+                  </Stack>
+                </Form>
+              </Stack.Item>
+
+              <Stack.Item style={{ width: '100%' }}>
+                <ControlInfraction
+                  controlId={data?.id}
+                  infractions={data?.infractions}
+                  controlType={ControlType.GENS_DE_MER}
+                />
+              </Stack.Item>
+            </Stack>
           </>
         </Formik>
       )}
