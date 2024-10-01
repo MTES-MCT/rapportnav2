@@ -1,5 +1,9 @@
 import { render, screen, fireEvent } from '../../../../../../test-utils.tsx'
-import { InfractionTypeEnum, VesselTypeEnum } from '../../../../../common/types/env-mission-types.ts'
+import {
+  ActionTargetTypeEnum,
+  InfractionTypeEnum,
+  VesselTypeEnum
+} from '../../../../../common/types/env-mission-types.ts'
 import EnvInfractionExistingTargets from './env-infraction-existing-targets.tsx'
 import { vi } from 'vitest'
 import { Infraction, InfractionByTarget } from '../../../../../common/types/infraction-types.ts'
@@ -35,7 +39,8 @@ const infractionByTargetMock = (infractions: Infraction[], targetAddedByUnit: bo
 })
 const props = (infractionsByTarget?: InfractionByTarget[]) => ({
   availableControlTypesForInfraction: [ControlType.ADMINISTRATIVE],
-  infractionsByTarget
+  infractionsByTarget,
+  actionTargetType: ActionTargetTypeEnum.VEHICLE
 })
 
 describe('EnvInfractionExistingTargets', () => {

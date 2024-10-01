@@ -19,7 +19,7 @@ describe('EnvInfractionAddNewTarget', () => {
   describe('testing rendering', () => {
     it('should show the add button by default', async () => {
       render(<EnvInfractionAddNewTarget {...props(undefined)} />)
-      expect(screen.getByText('Ajouter une nouvelle cible avec infraction')).toBeInTheDocument()
+      expect(screen.getByText('Ajouter une infraction')).toBeInTheDocument()
     })
     it('should show the form when clicking the button', async () => {
       render(<EnvInfractionAddNewTarget {...props(undefined)} />)
