@@ -13,8 +13,6 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsFo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.EncodeSpecialChars
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatGeoCoords
-import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActionItem
-import fr.gouv.dgampa.rapportnav.infrastructure.rapportnav1.adapters.inputs.TimelineActions
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -109,49 +107,6 @@ class FormatActionsForTimelineTests {
                 )
             )
         )
-    }
-
-    @Test
-    fun `formatForRapportNav1 should return empty list when actions are null`() {
-        assertThat(formatActionsForTimeline.formatForRapportNav1(null)).isEmpty()
-    }
-
-    @Test
-    fun `formatForRapportNav1 should return empty list when actions are empty`() {
-        assertThat(formatActionsForTimeline.formatForRapportNav1(emptyMap())).isEmpty()
-    }
-
-    @Test
-    fun `formatForRapportNav1 should return the correct list`() {
-        val data = formatActionsForTimeline.formatTimeline(
-            listOf(
-                envControl,
-                fishControl,
-                envSurveillance,
-                navControl,
-                navStatus,
-                navFreeNote
-            )
-        )
-        val expected: List<TimelineActions> = listOf(
-            TimelineActions(
-                date = "2022-01-01",
-                freeNote = listOf<TimelineActionItem>(
-                    TimelineActionItem(observations = "13:00 / 15:00 - Contrôle Environnement - AMP sans réglementation particulière"),
-                    TimelineActionItem(observations = "13:00 - Contrôle Pêche - (DD): 52.14,14.30 - Le Pi - LR 314 - Infractions: sans PV - RAS"),
-                    TimelineActionItem(observations = "13:00 / 15:00 - Surveillance Environnement - AMP sans réglementation particulière"),
-                )
-            ),
-            TimelineActions(
-                date = "2022-01-02",
-                freeNote = listOf<TimelineActionItem>(
-                    TimelineActionItem(observations = "13:00 / 15:00 - Contrôle administratif "),
-                    TimelineActionItem(observations = "13:00 - Navigation - observations"),
-                    TimelineActionItem(observations = "13:06 - Largué, appareillé"),
-                )
-            ),
-        )
-        assertThat(formatActionsForTimeline.formatForRapportNav1(data)).isEqualTo(expected)
     }
 
     @Test

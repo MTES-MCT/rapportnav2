@@ -67,6 +67,7 @@ class GetEnvMissionById(
             observations = "Observation test",
             isSeafarersControl = false,  // Adjust based on your API response
             isAdministrativeControl = false,  // Adjust based on your API response
+            controlPlans = null,
             infractions = listOf(
                 InfractionEntity(
                     id = "91200795-2823-46b3-8814-a5b3bca29a47",
@@ -91,8 +92,8 @@ class GetEnvMissionById(
             controlPlans = listOf(controlTheme1),
             geom = createMockMultiPoint(listOf(Coordinate(-8.52318191, 48.30305604))),
             actionNumberOfControls = 5,
-            actionTargetType = ActionTargetTypeEnum.VEHICLE,
-            vehicleType = VehicleTypeEnum.VESSEL,
+            actionTargetType = ActionTargetTypeEnum.INDIVIDUAL,
+            vehicleType = null,
             observations = "blablabla",
             isSeafarersControl = true,
             isAdministrativeControl = true,
@@ -121,7 +122,7 @@ class GetEnvMissionById(
             controlPlans = listOf(controlTheme1),
             actionNumberOfControls = 10,
             geom = createMockMultiPoint(listOf(Coordinate(-8.52318191, 48.30305604))),
-            actionTargetType = null,
+            actionTargetType = ActionTargetTypeEnum.COMPANY,
             vehicleType = null,
             observations = null,
             observationsByUnit = "dummy",
