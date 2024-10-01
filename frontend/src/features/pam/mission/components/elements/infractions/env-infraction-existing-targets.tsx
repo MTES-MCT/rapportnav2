@@ -10,15 +10,18 @@ import EnvInfractionTargetAddedByUnitForm from './env-infraction-target-added-by
 import Text from '../../../../../common/components/ui/text.tsx'
 import useDeleteInfraction from '../../../hooks/use-delete-infraction.tsx'
 import useAddOrUpdateInfractionEnv from '../../../hooks/use-add-update-infraction-env.tsx'
+import { ActionTargetTypeEnum } from '@common/types/env-mission-types.ts'
 
 export interface EnvInfractionExistingTargetProps {
   availableControlTypesForInfraction?: ControlType[]
   infractionsByTarget?: InfractionByTarget[]
+  actionTargetType?: ActionTargetTypeEnum
 }
 
 const EnvInfractionExistingTargets: React.FC<EnvInfractionExistingTargetProps> = ({
   availableControlTypesForInfraction,
-  infractionsByTarget
+  infractionsByTarget,
+  actionTargetType
 }) => {
   const { missionId, actionId } = useParams()
 
@@ -116,6 +119,7 @@ const EnvInfractionExistingTargets: React.FC<EnvInfractionExistingTargetProps> =
               </>
             ) : (
               <EnvInfractionSummary
+                actionTargetType={actionTargetType}
                 infractionByTarget={infractionByTarget}
                 onAddInfractionForTarget={(infraction?: Partial<Infraction>) => {
                   setFormData(infraction as Infraction)

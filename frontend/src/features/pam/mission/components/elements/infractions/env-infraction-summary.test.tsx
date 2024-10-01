@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '../../../../../../test-utils.tsx'
 import EnvInfractionSummary from './env-infraction-summary.tsx'
 import { ControlType } from '@common/types/control-types.ts'
-import { InfractionTypeEnum, VesselTypeEnum } from '@common/types/env-mission-types.ts'
+import { ActionTargetTypeEnum, InfractionTypeEnum, VesselTypeEnum } from '@common/types/env-mission-types.ts'
 import { Infraction } from '@common/types/infraction-types.ts'
 
 const infractionMock = {
@@ -41,7 +41,16 @@ const props = infractionByTarget => ({
   infractionByTarget,
   onAddInfractionForTarget: vi.fn(),
   onEditInfractionForTarget: vi.fn(),
-  onDeleteInfraction: vi.fn()
+  onDeleteInfraction: vi.fn(),
+  actionTargetType: ActionTargetTypeEnum.VEHICLE
+})
+
+const propsCompany = infractionByTarget => ({
+  infractionByTarget,
+  onAddInfractionForTarget: vi.fn(),
+  onEditInfractionForTarget: vi.fn(),
+  onDeleteInfraction: vi.fn(),
+  actionTargetType: ActionTargetTypeEnum.COMPANY
 })
 
 describe('EnvInfractionSummary', () => {
@@ -103,8 +112,8 @@ describe('EnvInfractionSummary', () => {
   })
 
   describe('rendering button "Ajouter une infraction pour cette cible"',  () => {
-    test('should not render button "Ajouter une infraction pour cette cible" if is not a vessel', async () => {
-      render(<EnvInfractionSummary {...props(infractionByTargetCompanyMock([infractionMock]))} />)
+    test('should not render button "Ajouter une infraction pour cette cible" if action target type is not VEHICLE', async () => {
+      render(<EnvInfractionSummary {...propsCompany(infractionByTargetCompanyMock([infractionMock]))} />)
       expect(screen.queryByText('infraction pour cette cible')).not.toBeInTheDocument()
     })
   })

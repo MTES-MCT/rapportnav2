@@ -86,7 +86,7 @@ const EnvInfractionAddNewTarget: React.FC<EnvInfractionNewTargetProps> = ({ avai
               Icon={Icon.Plus}
               role={'add-target'}
             >
-              Ajouter une nouvelle cible avec infraction
+              Ajouter une infraction
             </Button>
           </Stack.Item>
         </Stack>
