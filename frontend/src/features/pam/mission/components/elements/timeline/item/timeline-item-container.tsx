@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react'
-import styled from 'styled-components'
 import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types.ts'
 import { THEME } from '@mtes-mct/monitor-ui'
+import React, { ReactNode } from 'react'
+import styled from 'styled-components'
 
 interface MissionTimelineItemContainerProps {
   actionType: ActionTypeEnum
@@ -43,11 +43,6 @@ const ActionStatus = createActionStyled({
   backgroundColor: undefined,
   borderColor: undefined,
   noMinHeight: true
-})
-const ActionContact = createActionStyled({
-  backgroundColor: undefined,
-  borderColor: undefined,
-  color: '#707785'
 })
 
 const ActionRescue = createActionStyled({

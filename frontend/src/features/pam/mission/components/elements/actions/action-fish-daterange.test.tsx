@@ -1,7 +1,6 @@
 import { vi } from 'vitest'
 import { render, screen } from '../../../../../../test-utils.tsx'
 import ActionFishDateRange from './action-fish-daterange.tsx'
-import * as usePatchModule from '@features/pam/mission/hooks/use-patch-action-fish'
 
 const patchMock = vi.fn()
 

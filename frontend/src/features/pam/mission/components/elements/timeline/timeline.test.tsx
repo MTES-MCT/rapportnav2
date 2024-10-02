@@ -1,12 +1,12 @@
-import { render, screen, fireEvent } from '../../../../../../test-utils.tsx'
-import Timeline from './timeline.tsx'
 import { ActionControl, ActionStatusType } from '@common/types/action-types.ts'
-import { vi } from 'vitest'
-import * as useTimelineModule from '@features/pam/mission/hooks/use-mission-timeline'
-import { CompletenessForStatsStatusEnum, Mission, VesselTypeEnum } from '@common/types/mission-types.ts'
-import { GraphQLError } from 'graphql/error'
-import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types.ts'
 import { ControlMethod } from '@common/types/control-types.ts'
+import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types.ts'
+import { CompletenessForStatsStatusEnum, VesselTypeEnum } from '@common/types/mission-types.ts'
+import * as useTimelineModule from '@features/pam/mission/hooks/use-mission-timeline'
+import { GraphQLError } from 'graphql/error'
+import { vi } from 'vitest'
+import { fireEvent, render, screen } from '../../../../../../test-utils.tsx'
+import Timeline from './timeline.tsx'
 
 const actionMock1 = {
   id: '1',

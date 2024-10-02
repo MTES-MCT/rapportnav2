@@ -1,7 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Stack } from 'rsuite'
 import { Accent, Button, Icon, Size, THEME } from '@mtes-mct/monitor-ui'
+import { Stack } from 'rsuite'
+import styled from 'styled-components'
 import Text from '../../../../common/components/ui/text.tsx'
 
 const StyledFooter = styled.div`
