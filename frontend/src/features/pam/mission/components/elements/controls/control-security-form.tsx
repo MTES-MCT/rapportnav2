@@ -1,3 +1,4 @@
+import { ControlSecurity, ControlType } from '@common/types/control-types.ts'
 import { useControl } from '@features/pam/mission/hooks/control/use-control.tsx'
 import { FormikEffect, FormikTextarea, FormikToggle, Label, THEME } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
@@ -6,10 +7,8 @@ import omit from 'lodash/omit'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Panel, Stack } from 'rsuite'
-import { ControlSecurity, ControlType } from '@common/types/control-types.ts'
 import ControlTitleCheckbox from '../../ui/control-title-checkbox.tsx'
 import ControlInfraction from '../infractions/infraction-for-control.tsx'
-import { ControlNavigationFormInput } from '@features/pam/mission/components/elements/controls/control-navigation-form.tsx'
 
 export type ControlSecurityFormInput = {
   observations?: string

@@ -3,7 +3,7 @@ import DatePicker, {
   preprocessDateForPicker
 } from '@common/components/elements/date-picker.tsx'
 import { addMinutes } from 'date-fns'
-import { render, screen, fireEvent } from '../../../../test-utils.tsx'
+import { render, screen } from '../../../../test-utils.tsx'
 
 describe('DatePicker tests  ', () => {
   describe('preprocessDateForPicker', () => {
@@ -33,7 +33,7 @@ describe('DatePicker tests  ', () => {
       vi.clearAllMocks()
     })
     it('should render the MonitorUIDatePicker with preprocessed date', () => {
-      const { getByTestId } = render(<DatePicker defaultValue="2023-09-01T12:15:30Z" onChange={onChangeMock} />)
+      render(<DatePicker defaultValue="2023-09-01T12:15:30Z" onChange={onChangeMock} />)
       const input = screen.getByPlaceholderText('yyyy-MM-dd') as HTMLInputElement
       expect(input.value).toBe('2023-09-01')
     })
