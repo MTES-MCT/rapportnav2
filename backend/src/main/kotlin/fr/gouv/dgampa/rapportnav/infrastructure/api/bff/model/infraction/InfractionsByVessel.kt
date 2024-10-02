@@ -9,11 +9,12 @@ data class InfractionsByVessel(
     val vesselType: VesselTypeEnum? = null,
     val controlTypesWithInfraction: List<ControlType>? = null,
     val targetAddedByUnit: Boolean? = null,
+    val identityControlledPerson: String? = null,
     val infractions: List<Infraction>
 ) {
     fun groupInfractionsByVesselIdentifier(infractions: List<Infraction>): List<InfractionsByVessel> {
         return infractions
-            .groupBy { it.target?.vesselIdentifier }
+            .groupBy { it.target?.vesselIdentifier ?: it.target?.identityControlledPerson }
             .map { (vesselIdentifier, infractions) ->
                 InfractionsByVessel(
                     vesselIdentifier = vesselIdentifier,
@@ -21,6 +22,7 @@ data class InfractionsByVessel(
                     infractions = infractions,
                     controlTypesWithInfraction = controlTypesWithInfraction,
                     targetAddedByUnit = targetAddedByUnit,
+                    identityControlledPerson = infractions.firstOrNull()?.target?.identityControlledPerson
                 )
             }
     }
