@@ -1,5 +1,5 @@
 import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
-import { render, screen, fireEvent } from '../../../../test-utils.tsx'
+import { render, screen } from '../../../../test-utils.tsx'
 
 describe('DateRangePicker tests  ', () => {
   describe('DateRangePicker', () => {
@@ -9,7 +9,7 @@ describe('DateRangePicker tests  ', () => {
       vi.clearAllMocks()
     })
     it('should render the MonitorUIDateRangePicker with preprocessed date', () => {
-      const { getByTestId } = render(
+      render(
         <DateRangePicker
           defaultValue={[new Date('2023-09-01T12:15:30Z'), new Date('2023-09-02T12:15:30Z')]}
           onChange={onChangeMock}

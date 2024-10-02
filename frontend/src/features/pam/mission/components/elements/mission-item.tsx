@@ -1,23 +1,23 @@
-import React, { useState } from 'react'
 import {
   CompletenessForStatsStatusEnum,
   Mission,
   MissionExport,
   MissionStatusEnum
 } from '@common/types/mission-types.ts'
+import { formatDateForFrenchHumans } from '@common/utils/dates-for-humans.ts'
 import { Accent, Button, Icon, logSoftError, Size, THEME } from '@mtes-mct/monitor-ui'
+import GearIcon from '@rsuite/icons/Gear'
+import * as Sentry from '@sentry/react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Divider, FlexboxGrid, Stack } from 'rsuite'
-import { formatMissionName } from '../../utils/utils.ts'
-import MissionOpenByTag from './mission-open-by-tag.tsx'
-import { formatDateForFrenchHumans } from '@common/utils/dates-for-humans.ts'
-import MissionStatusTag from './mission-status-tag.tsx'
-import MissionCompletenessForStatsTag from './mission-completeness-for-stats-tag.tsx'
 import styled from 'styled-components'
-import * as Sentry from '@sentry/react'
-import useLazyMissionExport from '../../hooks/export/use-lazy-mission-export.tsx'
 import useLazyMissionAEMExport from '../../hooks/export/use-lazy-mission-aem-export.tsx'
-import GearIcon from '@rsuite/icons/Gear'
+import useLazyMissionExport from '../../hooks/export/use-lazy-mission-export.tsx'
+import { formatMissionName } from '../../utils/utils.ts'
+import MissionCompletenessForStatsTag from './mission-completeness-for-stats-tag.tsx'
+import MissionOpenByTag from './mission-open-by-tag.tsx'
+import MissionStatusTag from './mission-status-tag.tsx'
 
 interface MissionItemProps {
   mission: Mission
@@ -84,7 +84,7 @@ const MissionItem: React.FC<MissionItemProps> = ({ mission, prefetchMission }) =
 
   const exportMission = async (missionId, isAEMExport: boolean = false) => {
     setExportLoading(true)
-    let { data, error, loading, called } = isAEMExport
+    let { data, error } = isAEMExport
       ? await getMissionAEMReport({ variables: { missionId } })
       : await getMissionReport({ variables: { missionId } })
 

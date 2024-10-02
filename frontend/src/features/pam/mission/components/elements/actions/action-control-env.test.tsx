@@ -1,10 +1,10 @@
-import { render, screen } from '../../../../../../test-utils.tsx'
+import { ActionStatusType } from '@common/types/action-types.ts'
 import { ActionTargetTypeEnum, ActionTypeEnum, EnvAction, MissionSourceEnum } from '@common/types/env-mission-types.ts'
-import ActionControlEnv from './action-control-env.tsx'
-import { Action, ActionStatusType } from '@common/types/action-types.ts'
-import { vi } from 'vitest'
 import * as useActionByIdModule from '@features/pam/mission/hooks/use-action-by-id'
 import { GraphQLError } from 'graphql/error'
+import { vi } from 'vitest'
+import { render, screen } from '../../../../../../test-utils.tsx'
+import ActionControlEnv from './action-control-env.tsx'
 import ActionControlNav from './action-control-nav.tsx'
 
 const actionMock = {
