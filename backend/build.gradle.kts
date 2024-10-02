@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
-version = "2.0.9"
+version = "2.1.0"
 description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
