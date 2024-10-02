@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PageWrapper from '../features/common/components/ui/page-wrapper.tsx'
 import AuthToken from '../features/auth/utils/token.ts'
@@ -6,7 +7,7 @@ import { Accent, Button, FormikTextInput, Size } from '@mtes-mct/monitor-ui'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { validate } from 'email-validator'
 import { csrfToken } from '../features/auth/utils/csrf.ts'
-import { lowerCase, trim } from 'lodash'
+import { trim } from 'lodash'
 
 export const LOGIN_ENDPOINT = '/api/v1/auth/login'
 
@@ -26,7 +27,7 @@ const initialValues: LoginFormValues = {
 
 const authToken = new AuthToken()
 
-const Login: React.FC = () => {
+const Login: FC = () => {
   const navigate = useNavigate()
 
   const handleSubmit = async (
@@ -41,7 +42,7 @@ const Login: React.FC = () => {
           'X-XSRF-TOKEN': csrfToken() ?? ''
         },
         body: JSON.stringify({
-          email: lowerCase(trim(email)),
+          email: trim(email).toLowerCase(),
           password
         })
       })
