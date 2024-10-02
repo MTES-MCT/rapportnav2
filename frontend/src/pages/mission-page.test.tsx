@@ -1,11 +1,9 @@
+import * as useMissionExcerptModule from '@features/pam/mission/hooks/use-mission-excerpt'
 import { GraphQLError } from 'graphql/error'
 import { useNavigate } from 'react-router-dom'
 import { vi } from 'vitest'
 import { fireEvent, render, screen, waitFor } from '../test-utils.tsx'
-import { Mission } from '../features/common/types/mission-types.ts'
 import MissionPage from './mission-page.tsx'
-import * as useMissionExcerptModule from '@features/pam/mission/hooks/use-mission-excerpt'
-import * as useMissionCrewModule from '@features/pam/mission/hooks/use-mission-crew.tsx'
 
 vi.mock('@unleash/proxy-client-react', async importOriginal => {
   const actual = await importOriginal()
@@ -54,12 +52,6 @@ const mock = {
   endDateTimeUtc: '2024-01-12T01:00:00Z',
   actions: []
 }
-
-const mockedQueryResult = (mission?: Mission, loading: boolean = false, error: any = undefined) => ({
-  data: mission,
-  loading,
-  error
-})
 
 describe('MissionPage', () => {
   describe('testing rendering', () => {
