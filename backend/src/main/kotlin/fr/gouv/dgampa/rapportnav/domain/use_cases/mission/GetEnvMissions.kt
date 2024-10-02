@@ -41,7 +41,9 @@ class GetEnvMissions(
         missionSource = MissionSourceEnum.MONITORENV,
         hasMissionOrder = false,
         isUnderJdp = false,
-        isGeometryComputedFromControls = false
+        isGeometryComputedFromControls = false,
+        observationsByUnit = "lorem ipsum",
+        openBy = "Dummy service"
     )
     val mission3 = EnvMission(
         id = 12,

@@ -6,8 +6,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionAEMExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
-import fr.gouv.dgampa.rapportnav.infrastructure.excel.ExportExcelFile
-import fr.gouv.dgampa.rapportnav.infrastructure.factories.ExportExcelFactory
+import fr.gouv.dgampa.rapportnav.infrastructure.utils.Base64Converter
+import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.ExportExcelFile
+import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.OfficeConverter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -19,9 +20,9 @@ import java.nio.file.StandardCopyOption
 class ExportMissionAEM(
     private val getMissionById: GetMission,
     private val fillAEMExcelRow: FillAEMExcelRow,
-    @Value("\${aem.template.path}") private val aemTemplatePath: String,
-    @Value("\${aem.tmp_xlsx.path}") private val aemTmpXLSXPath: String,
-    @Value("\${aem.tmp_ods.path}") private val aemTmpODSPath: String,
+    @Value("\${rapportnav.aem.template.path}") private val aemTemplatePath: String,
+    @Value("\${rapportnav.aem.tmp_xlsx.path}") private val aemTmpXLSXPath: String,
+    @Value("\${rapportnav.aem.tmp_ods.path}") private val aemTmpODSPath: String,
 
     ) {
 
@@ -38,7 +39,7 @@ class ExportMissionAEM(
 
             logger.info("Template file copied to temporary path: $tmpPath")
 
-            val excelFile: ExportExcelFile = ExportExcelFactory.create(tmpPath.toString())
+            val excelFile: ExportExcelFile = ExportExcelFile(tmpPath.toString())
             val mission: MissionEntity? = getMissionById.execute(missionId)
 
             if (mission?.actions != null) {
@@ -48,8 +49,8 @@ class ExportMissionAEM(
 
                 logger.info("Excel file processed and saved")
 
-                val odsFile = excelFile.convertToOds(tmpPath.toString(), aemTmpODSPath)
-                val base64Content = excelFile.convertToBase64(odsFile)
+                val odsFile = OfficeConverter().convert(tmpPath.toString(), aemTmpODSPath)
+                val base64Content = Base64Converter().convertToBase64(odsFile)
 
                 logger.info("ODS file created and converted to Base64")
 

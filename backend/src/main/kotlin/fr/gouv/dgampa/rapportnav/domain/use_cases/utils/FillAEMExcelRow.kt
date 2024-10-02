@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.utils
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMTableExport
-import fr.gouv.dgampa.rapportnav.infrastructure.excel.ExportExcelFile
+import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.ExportExcelFile
 
 @UseCase
 class FillAEMExcelRow {
@@ -17,8 +17,20 @@ class FillAEMExcelRow {
         //1.2 Sauvegarde de la vie humaine dans le cadre d'un phénomène migratoire
         tableExport.migrationRescue?.nbrOfHourAtSea?.let { excelFile.writeToCell(sheetName, "M$row", it) }
         tableExport.migrationRescue?.nbrOfOperation?.let { excelFile.writeToCell(sheetName, "O$row", it) }
-        tableExport.migrationRescue?.nbrOfVesselsTrackedWithoutIntervention?.let { excelFile.writeToCell(sheetName, "P$row", it) }
-        tableExport.migrationRescue?.nbrAssistedVesselsReturningToShore?.let { excelFile.writeToCell(sheetName, "Q$row", it) }
+        tableExport.migrationRescue?.nbrOfVesselsTrackedWithoutIntervention?.let {
+            excelFile.writeToCell(
+                sheetName,
+                "P$row",
+                it
+            )
+        }
+        tableExport.migrationRescue?.nbrAssistedVesselsReturningToShore?.let {
+            excelFile.writeToCell(
+                sheetName,
+                "Q$row",
+                it
+            )
+        }
         tableExport.migrationRescue?.nbrOfRescuedOperation?.let { excelFile.writeToCell(sheetName, "R$row", it) }
         tableExport.migrationRescue?.nbrPersonsRescued?.let { excelFile.writeToCell(sheetName, "S$row", it) }
 
@@ -35,19 +47,73 @@ class FillAEMExcelRow {
         tableExport.envTraffic?.nbrOfSeizure?.let { excelFile.writeToCell(sheetName, "AY$row", it) }
 
         // 4.1) Surveillance et contrôles pour la protection de l'environnement (hors rejets illicites)
-        tableExport.notPollutionControlSurveillance?.nbrOfHourAtSea?.let { excelFile.writeToCell(sheetName, "BH$row", it) }
+        tableExport.notPollutionControlSurveillance?.nbrOfHourAtSea?.let {
+            excelFile.writeToCell(
+                sheetName,
+                "BH$row",
+                it
+            )
+        }
         tableExport.notPollutionControlSurveillance?.nbrOfAction?.let { excelFile.writeToCell(sheetName, "BJ$row", it) }
-        tableExport.notPollutionControlSurveillance?.nbrOfInfraction?.let { excelFile.writeToCell(sheetName, "BK$row", it) }
-        tableExport.notPollutionControlSurveillance?.nbrOfInfractionWithNotice?.let { excelFile.writeToCell(sheetName, "BL$row", it) }
+        tableExport.notPollutionControlSurveillance?.nbrOfInfraction?.let {
+            excelFile.writeToCell(
+                sheetName,
+                "BK$row",
+                it
+            )
+        }
+        tableExport.notPollutionControlSurveillance?.nbrOfInfractionWithNotice?.let {
+            excelFile.writeToCell(
+                sheetName,
+                "BL$row",
+                it
+            )
+        }
 
         // 4.2) Répression contre les rejets illicites, lutte contre les pollutions
         tableExport.pollutionControlSurveillance?.nbrOfHourAtSea?.let { excelFile.writeToCell(sheetName, "BN$row", it) }
-        tableExport.pollutionControlSurveillance?.nbrOfSimpleBrewingOperation?.let { excelFile.writeToCell(sheetName, "BP$row", it) }
-        tableExport.pollutionControlSurveillance?.nbrOfAntiPolDeviceDeployed?.let { excelFile.writeToCell(sheetName, "BQ$row", it) }
-        tableExport.pollutionControlSurveillance?.nbrOfInfraction?.let { excelFile.writeToCell(sheetName, "BR$row", it) }
-        tableExport.pollutionControlSurveillance?.nbrOfInfractionWithNotice?.let { excelFile.writeToCell(sheetName, "BS$row", it) }
-        tableExport.pollutionControlSurveillance?.nbrOfDiversionCarriedOut?.let { excelFile.writeToCell(sheetName, "BT$row", it) }
-        tableExport.pollutionControlSurveillance?.nbrOfPollutionObservedByAuthorizedAgent?.let { excelFile.writeToCell(sheetName, "BU$row", it) }
+        tableExport.pollutionControlSurveillance?.nbrOfSimpleBrewingOperation?.let {
+            excelFile.writeToCell(
+                sheetName,
+                "BP$row",
+                it
+            )
+        }
+        tableExport.pollutionControlSurveillance?.nbrOfAntiPolDeviceDeployed?.let {
+            excelFile.writeToCell(
+                sheetName,
+                "BQ$row",
+                it
+            )
+        }
+        tableExport.pollutionControlSurveillance?.nbrOfInfraction?.let {
+            excelFile.writeToCell(
+                sheetName,
+                "BR$row",
+                it
+            )
+        }
+        tableExport.pollutionControlSurveillance?.nbrOfInfractionWithNotice?.let {
+            excelFile.writeToCell(
+                sheetName,
+                "BS$row",
+                it
+            )
+        }
+        tableExport.pollutionControlSurveillance?.nbrOfDiversionCarriedOut?.let {
+            excelFile.writeToCell(
+                sheetName,
+                "BT$row",
+                it
+            )
+        }
+        tableExport.pollutionControlSurveillance?.nbrOfPollutionObservedByAuthorizedAgent?.let {
+            excelFile.writeToCell(
+                sheetName,
+                "BU$row",
+                it
+            )
+        }
 
         // 4.3) Lutte contre les activités de pêche illégale
         tableExport.illegalFish?.nbrOfHourAtSea?.let { excelFile.writeToCell(sheetName, "BW$row", it) }
