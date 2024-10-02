@@ -1,15 +1,10 @@
-import { render, screen } from '../../../../../../test-utils.tsx'
-import { ActionTypeEnum, EnvAction, MissionSourceEnum } from '@common/types/env-mission-types.ts'
 import { ActionStatusType } from '@common/types/action-types.ts'
-import { vi } from 'vitest'
+import { ActionTypeEnum, EnvAction, MissionSourceEnum } from '@common/types/env-mission-types.ts'
 import * as useActionByIdModule from '@features/pam/mission/hooks/use-action-by-id'
 import { GraphQLError } from 'graphql/error'
 import { vi } from 'vitest'
-import { render, screen } from '../../../test-utils'
-import { Action, ActionStatusType } from '../../../types/action-types.ts'
-import { ActionTypeEnum, EnvAction, MissionSourceEnum } from '../../../types/env-mission-types.ts'
+import { render, screen } from '../../../../../../test-utils.tsx'
 import ActionSurveillanceEnv from './action-surveillance-env.tsx'
-import useActionById from './use-action-by-id.tsx'
 
 const actionMock = {
   id: '1',
