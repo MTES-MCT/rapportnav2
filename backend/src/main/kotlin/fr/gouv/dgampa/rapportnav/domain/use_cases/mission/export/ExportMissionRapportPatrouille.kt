@@ -15,7 +15,6 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
-import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.EncodeSpecialChars
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.Base64Converter
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.OfficeConverter
@@ -43,10 +42,8 @@ class ExportMissionRapportPatrouille(
     private val getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus,
     private val computeDurations: ComputeDurations,
     private val getInfoAboutNavAction: GetInfoAboutNavAction,
-    private val encodeSpecialChars: EncodeSpecialChars,
     private val formatDateTime: FormatDateTime,
     private val getServiceById: GetServiceById,
-
     @Value("\${rapportnav.rapport-patrouille.template.path}") private val docTemplatePath: String,
     @Value("\${rapportnav.rapport-patrouille.tmp_docx.path}") private val docTmpDOCXPath: String,
     @Value("\${rapportnav.rapport-patrouille.tmp_odt.path}") private val docTmpODTPath: String,
@@ -136,9 +133,8 @@ class ExportMissionRapportPatrouille(
                 "\${numRapport}" to formatDateTime.formatDate(mission.startDateTimeUtc),
                 "\${startDate}" to formatDateTime.formatDate(mission.startDateTimeUtc),
                 "\${endDate}" to formatDateTime.formatDate(mission.endDateTimeUtc),
-                "\${destinataireCopies}" to "CROSS Étel CNSP/CACEM",
-                "\${observations}" to (mission.observationsByUnit?.let { encodeSpecialChars.escapeForXML(it) as String }
-                    ?: ""),
+                "\${destinataireCopies}" to "",
+
                 "\${dureeMission}" to missionDuration.toString(),
                 "\${nbJoursMer}" to nbOfDaysAtSea.toString(),
 
@@ -172,9 +168,12 @@ class ExportMissionRapportPatrouille(
                 "\${baaemAndVigimerInfoCount}" to (baaemAndVigimerInfo?.get("count") ?: ""),
                 "\${baaemAndVigimerInfoHours}" to (baaemAndVigimerInfo?.get("durationInHours") ?: ""),
                 "\${baaemAndVigimerInfoShips}" to "",
+
                 "\${distance}" to (generalInfo?.distanceInNauticalMiles?.toString() ?: ""),
                 "\${goMarine}" to (generalInfo?.consumedGOInLiters?.toString() ?: ""),
-                "\${essence}" to (generalInfo?.consumedFuelInLiters?.toString() ?: "")
+                "\${essence}" to (generalInfo?.consumedFuelInLiters?.toString() ?: ""),
+
+                "\${observations}" to (mission.observationsByUnit ?: ""),
             )
 
 
@@ -351,6 +350,7 @@ class ExportMissionRapportPatrouille(
                 row.addNewTableCell()
             }
         }
+
 
         // Remove the placeholder paragraph
         val position = document.getPosOfParagraph(paragraph)
