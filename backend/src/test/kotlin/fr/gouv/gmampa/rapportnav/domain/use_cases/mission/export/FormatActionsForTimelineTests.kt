@@ -10,7 +10,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsForTimeline
-import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.EncodeSpecialChars
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatGeoCoords
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.*
@@ -25,7 +24,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import java.time.Instant
 import java.time.LocalDate
 
-@SpringBootTest(classes = [FormatActionsForTimeline::class, FormatDateTime::class, FormatGeoCoords::class, EncodeSpecialChars::class])
+@SpringBootTest(classes = [FormatActionsForTimeline::class, FormatDateTime::class, FormatGeoCoords::class])
 class FormatActionsForTimelineTests {
 
     @Autowired
@@ -196,7 +195,7 @@ class FormatActionsForTimelineTests {
         val action: ActionStatusEntity = NavActionStatusMock.createActionStatusEntity(
             observations = "3 adultes & 2 enfants <> RAS"
         )
-        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("13:00 - Navigation - 3 adultes &amp; 2 enfants &lt;&gt; RAS")
+        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("13:00 - Navigation - 3 adultes & 2 enfants <> RAS")
     }
 
     @Test
@@ -303,7 +302,7 @@ class FormatActionsForTimelineTests {
                 observations = "3 adultes & 2 enfants <> RAS"
             ).toNavActionEntity()
         )
-        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("13:00 / 15:00 - Assistance et sauvetage - 3 adultes &amp; 2 enfants &lt;&gt; RAS")
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("13:00 / 15:00 - Assistance et sauvetage - 3 adultes & 2 enfants <> RAS")
     }
 
 

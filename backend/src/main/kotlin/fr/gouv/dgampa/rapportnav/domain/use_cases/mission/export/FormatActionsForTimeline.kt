@@ -14,7 +14,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.BaseAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.mapActionStatusTypeToHumanString
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
-import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.EncodeSpecialChars
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatGeoCoords
 import java.time.LocalDate
@@ -25,7 +24,6 @@ class FormatActionsForTimeline(
     private val formatDateTime: FormatDateTime,
     private val formatGeoCoords: FormatGeoCoords,
     private val mapEnvActionControlPlans: MapEnvActionControlPlans,
-    private val encodeSpecialChars: EncodeSpecialChars,
 ) {
 
     /**
@@ -187,7 +185,7 @@ class FormatActionsForTimeline(
         return action?.let {
             val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
             val status = mapActionStatusTypeToHumanString(action.status)
-            val observation = action.observations?.let { "- ${encodeSpecialChars.escapeForXML(it)}" } ?: ""
+            val observation = action.observations?.let { "- $it" } ?: ""
             return "$startTime - $status $observation"
         }
     }
@@ -210,7 +208,7 @@ class FormatActionsForTimeline(
             val endTime = action.endDateTimeUtc?.let { " / ${formatDateTime.formatTime(it)}" } ?: ""
             val titleStr = if (!title.isNullOrEmpty()) " - $title" else ""
             val observation =
-                if (!action.observations.isNullOrEmpty()) " - ${encodeSpecialChars.escapeForXML(action.observations)}" else ""
+                if (!action.observations.isNullOrEmpty()) " - ${action.observations}" else ""
             "$startTime$endTime$titleStr$observation"
         }
     }

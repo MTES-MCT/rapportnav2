@@ -12,7 +12,6 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSe
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
-import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.EncodeSpecialChars
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -32,7 +31,6 @@ import org.springframework.boot.test.mock.mockito.MockBean
         MapStatusDurations::class,
         GetStatusDurations::class,
         GetNbOfDaysAtSeaFromNavigationStatus::class,
-        EncodeSpecialChars::class,
         FormatDateTime::class,
     ]
 )
