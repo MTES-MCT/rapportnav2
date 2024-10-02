@@ -1,14 +1,7 @@
-import { render, screen, fireEvent } from '../../../../../../test-utils.tsx'
-import EnvInfractionTargetAddedByUnitForm from './env-infraction-target-added-by-unit-form.tsx'
 import { ControlType } from '@common/types/control-types.ts'
-import {
-  ActionTargetTypeEnum,
-  FormalNoticeEnum,
-  InfractionTypeEnum, VehicleTypeEnum,
-  VesselSizeEnum,
-  VesselTypeEnum
-} from '@common/types/env-mission-types.ts'
-import { Natinf } from '@common/types/infraction-types.ts'
+import { ActionTargetTypeEnum, InfractionTypeEnum, VehicleTypeEnum } from '@common/types/env-mission-types.ts'
+import { fireEvent, render, screen } from '../../../../../../test-utils.tsx'
+import EnvInfractionTargetAddedByUnitForm from './env-infraction-target-added-by-unit-form.tsx'
 
 const targetVesselMock = {
   id: '123',
@@ -179,7 +172,5 @@ describe('EnvInfractionTargetAddedByUnitForm', () => {
 
       expect(label).toBeInTheDocument()
     })
-
-
   })
 })
