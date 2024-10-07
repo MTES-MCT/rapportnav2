@@ -123,7 +123,7 @@ export enum ActionTargetTypeEnum {
 export const actionTargetTypeLabels = {
   COMPANY: {
     code: 'COMPANY',
-    libelle: 'Société'
+    libelle: 'Personne morale'
   },
   INDIVIDUAL: {
     code: 'INDIVIDUAL',
