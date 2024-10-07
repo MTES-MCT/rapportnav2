@@ -32,14 +32,14 @@ const EnvInfractionSummary: React.FC<EnvInfractionSummaryProps> = ({
           padding: '0.7rem',
           marginBottom: '0.5rem'
         }}>
-          <Stack direction="row" spacing={'0.5rem'} justifyContent="space-between">
+          <Stack direction="row" spacing={'0.5rem'} justifyContent="space-between" style={{marginBottom: '5px'}}>
             <Stack.Item>
               <Stack direction="row" spacing={'0.5rem'} wrap={true}>
                 <Stack.Item>
                   <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
                     {!infraction?.controlType
                       ? 'Infraction contrôle de l’environnement'
-                      : controlTitle(infraction.controlType)}
+                      : `${infraction.target?.identityControlledPerson} | ${controlTitle(infraction.controlType)}`}
                   </Text>
                 </Stack.Item>
               </Stack>
