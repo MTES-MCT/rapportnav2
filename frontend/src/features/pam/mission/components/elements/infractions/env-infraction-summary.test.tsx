@@ -3,10 +3,20 @@ import EnvInfractionSummary from './env-infraction-summary.tsx'
 import { ControlType } from '@common/types/control-types.ts'
 import { ActionTargetTypeEnum, InfractionTypeEnum, VesselTypeEnum } from '@common/types/env-mission-types.ts'
 import { Infraction } from '@common/types/infraction-types.ts'
+import { Icon } from '@mtes-mct/monitor-ui'
 
 const infractionMock = {
   id: '123',
   controlType: ControlType.ADMINISTRATIVE,
+  infractionType: InfractionTypeEnum.WITHOUT_REPORT,
+  natinfs: ['123'],
+  observations: undefined,
+  target: undefined
+}
+
+const infractionControlTypeNullMockEnv = {
+  id: '123',
+  controlType: null,
   infractionType: InfractionTypeEnum.WITHOUT_REPORT,
   natinfs: ['123'],
   observations: undefined,
@@ -69,11 +79,15 @@ describe('EnvInfractionSummary', () => {
         expect(screen.queryByRole('edit-infraction')).toBeNull()
         expect(screen.queryByRole('delete-infraction')).toBeNull()
       })
+      test('should  render the display button when controlType is null', async () => {
+        render(<EnvInfractionSummary {...props(infractionByTargetMock([infractionMockEnv]))} />)
+        expect(screen.queryByRole('display-infraction')).not.toBeNull()
+      })
     })
     describe('Nav infraction', () => {
       test('should render the correct control title', async () => {
         render(<EnvInfractionSummary {...props(infractionByTargetMock([infractionMock]))} />)
-        expect(screen.getByText('Contrôle administratif navire')).toBeInTheDocument()
+        expect(screen.getByTestId('env-infraction-control-title')).toHaveTextContent('Contrôle administratif navire')
       })
       test('should render the edit and delete buttons ', async () => {
         render(<EnvInfractionSummary {...props(infractionByTargetMock([infractionMock]))} />)

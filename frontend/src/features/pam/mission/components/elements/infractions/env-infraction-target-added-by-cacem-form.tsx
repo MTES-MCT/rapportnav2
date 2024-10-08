@@ -1,6 +1,6 @@
 import React from 'react'
 import { Stack } from 'rsuite'
-import { Checkbox, Legend, MultiRadio, Select, THEME } from '@mtes-mct/monitor-ui'
+import { Accent, Button, Checkbox, Legend, MultiRadio, Select, Size, THEME } from '@mtes-mct/monitor-ui'
 import { ControlType } from '@common/types/control-types.ts'
 import { Infraction, InfractionByTarget } from '@common/types/infraction-types.ts'
 import InfractionForm from './infraction-form.tsx'
@@ -49,7 +49,12 @@ const EnvInfractionTargetAddedByCacemForm: React.FC<EnvInfractionNewTargetFormPr
   onCancel
 }) => {
   return (
-    <Stack direction="column" spacing={'2rem'} style={{ width: '100%', padding: '1rem' }}>
+    <Stack direction="column" spacing={'2rem'} style={{
+      width: '100%',
+      padding: '1rem',
+      backgroundColor: THEME.color.white,
+      marginBottom: '10px'
+    }}>
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" spacing={'2rem'} style={{ width: '100%' }}>
           <Stack.Item style={{ width: '100%' }}>
@@ -123,26 +128,44 @@ const EnvInfractionTargetAddedByCacemForm: React.FC<EnvInfractionNewTargetFormPr
         </Text>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
-        <Legend>Ajout d’une infraction pour cette cible</Legend>
-        <Stack
-          direction="column"
-          spacing={'2rem'}
-          style={{ width: '100%', backgroundColor: THEME.color.cultured, padding: '2rem' }}
-        >
-          <Stack.Item style={{ width: '100%' }}>
-            <Select
-              label="Type de contrôle avec infraction"
-              options={CONTROL_TYPE_OPTIONS}
-              disabledItemValues={getDisabledControlTypes(availableControlTypesForInfraction)}
-              value={formData?.controlType}
-              name="controlType"
-              onChange={(nextValue: OptionValue) => onChange('controlType', nextValue)}
-            />
-          </Stack.Item>
-          <Stack.Item style={{ width: '100%' }}>
-            <InfractionForm infraction={formData} onChange={onChange} onCancel={onCancel} />
-          </Stack.Item>
-        </Stack>
+        {formData?.controlType === null ? (
+          <Stack justifyContent="flex-end" spacing={'1rem'} style={{ width: '100%' }}>
+            <Stack.Item>
+              <Button
+                accent={Accent.PRIMARY}
+                type="submit"
+                size={Size.NORMAL}
+                onClick={onCancel}
+                role="cancel-infraction"
+              >
+                Fermer
+              </Button>
+            </Stack.Item>
+          </Stack>
+        ) : (
+          <>
+            <Legend>Ajout d’une infraction pour cette cible</Legend>
+            <Stack
+              direction="column"
+              spacing={'2rem'}
+              style={{ width: '100%', backgroundColor: THEME.color.cultured, padding: '2rem' }}
+            >
+              <Stack.Item style={{ width: '100%' }}>
+                <Select
+                  label="Type de contrôle avec infraction"
+                  options={CONTROL_TYPE_OPTIONS}
+                  disabledItemValues={getDisabledControlTypes(availableControlTypesForInfraction)}
+                  value={formData?.controlType}
+                  name="controlType"
+                  onChange={(nextValue: OptionValue) => onChange('controlType', nextValue)}
+                />
+              </Stack.Item>
+              <Stack.Item style={{ width: '100%' }}>
+                <InfractionForm infraction={formData} onChange={onChange} onCancel={onCancel} />
+              </Stack.Item>
+            </Stack>
+          </>
+        )}
       </Stack.Item>
     </Stack>
   )

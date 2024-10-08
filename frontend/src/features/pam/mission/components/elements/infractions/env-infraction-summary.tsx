@@ -36,7 +36,7 @@ const EnvInfractionSummary: React.FC<EnvInfractionSummaryProps> = ({
             <Stack.Item>
               <Stack direction="row" spacing={'0.5rem'} wrap={true}>
                 <Stack.Item>
-                  <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
+                  <Text as="h3" weight="bold" color={THEME.color.gunMetal} data-testid={'env-infraction-control-title'}>
                     {!infraction?.controlType
                       ? 'Infraction contrôle de l’environnement'
                       : `${infraction.target?.identityControlledPerson} | ${controlTitle(infraction.controlType)}`}
@@ -79,30 +79,46 @@ const EnvInfractionSummary: React.FC<EnvInfractionSummaryProps> = ({
             </Stack>
           </Stack.Item>
 
-          {infraction.controlType !== null && (
-            <Stack.Item>
-              <Stack direction="row" alignItems="baseline" spacing={'0.5rem'} justifyContent={'flex-end'}>
-                <Stack.Item>
-                  <IconButton
-                    Icon={Icon.EditUnbordered}
-                    accent={Accent.SECONDARY}
-                    size={Size.NORMAL}
-                    role="edit-infraction"
-                    onClick={() => onEditInfractionForTarget(infraction)}
-                  />
-                </Stack.Item>
-                <Stack.Item>
-                  <IconButton
-                    Icon={Icon.Delete}
-                    accent={Accent.SECONDARY}
-                    size={Size.NORMAL}
-                    role="delete-infraction"
-                    onClick={() => onDeleteInfraction(infraction.id)}
-                  />
-                </Stack.Item>
-              </Stack>
-            </Stack.Item>
-          )}
+          <Stack.Item>
+
+              {infraction.controlType ? (
+                <Stack direction="row" alignItems="baseline" spacing={'0.5rem'} justifyContent={'flex-end'}>
+                  <Stack.Item>
+                    <IconButton
+                      Icon={Icon.EditUnbordered}
+                      accent={Accent.SECONDARY}
+                      size={Size.NORMAL}
+                      role="edit-infraction"
+                      onClick={() => onEditInfractionForTarget(infraction)}
+                    />
+                  </Stack.Item>
+
+                    <Stack.Item>
+                      <IconButton
+                        Icon={Icon.Delete}
+                        accent={Accent.SECONDARY}
+                        size={Size.NORMAL}
+                        role="delete-infraction"
+                        onClick={() => onDeleteInfraction(infraction.id)}
+                      />
+                    </Stack.Item>
+                </Stack>
+              ):
+                <Stack direction="row" alignItems="baseline" spacing={'0.5rem'} justifyContent={'flex-end'}>
+                  <Stack.Item>
+                    <IconButton
+                      Icon={Icon.Display}
+                      accent={Accent.SECONDARY}
+                      size={Size.NORMAL}
+                      role="display-infraction"
+                      onClick={() => onEditInfractionForTarget(infraction)}
+                    />
+                  </Stack.Item>
+                </Stack>
+              }
+
+
+          </Stack.Item>
 
         </Stack.Item>
 
