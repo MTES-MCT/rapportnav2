@@ -203,7 +203,7 @@ class MissionEntityTests {
                     crew = validCrewEntity,
                     generalInfo = validMissionGeneralInfoEntity,
                     actions = listOf(
-                        NavActionStatusMock.createActionStatusEntity(isCompleteForStats = false).toNavActionEntity()
+                        NavActionStatusMock.create(isCompleteForStats = false).toNavActionEntity()
                     )
                 )
             )

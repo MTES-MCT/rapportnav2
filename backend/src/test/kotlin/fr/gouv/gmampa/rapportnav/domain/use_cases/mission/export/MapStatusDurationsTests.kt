@@ -30,25 +30,25 @@ class MapStatusDurationsTests {
             endDateTimeUtc = Instant.parse("2022-01-02T22:00:00.000+01:00")
         )
         val inputStatuses = listOf(
-            NavActionStatusMock.createActionStatusEntity(
+            NavActionStatusMock.create(
                 status = ActionStatusType.ANCHORED,
                 startDateTimeUtc = Instant.parse("2022-01-02T12:00:00.000+01:00"),
             ),
-            NavActionStatusMock.createActionStatusEntity(
+            NavActionStatusMock.create(
                 status = ActionStatusType.DOCKED,
                 reason = ActionStatusReason.WEATHER,
                 startDateTimeUtc = Instant.parse("2022-01-02T14:00:00.000+01:00"),
             ),
-            NavActionStatusMock.createActionStatusEntity(
+            NavActionStatusMock.create(
                 status = ActionStatusType.DOCKED,
                 reason = ActionStatusReason.REPRESENTATION,
                 startDateTimeUtc = Instant.parse("2022-01-02T16:00:00.000+01:00"),
             ),
-            NavActionStatusMock.createActionStatusEntity(
+            NavActionStatusMock.create(
                 status = ActionStatusType.NAVIGATING,
                 startDateTimeUtc = Instant.parse("2022-01-02T18:00:00.000+01:00"),
             ),
-            NavActionStatusMock.createActionStatusEntity(
+            NavActionStatusMock.create(
                 status = ActionStatusType.UNAVAILABLE,
                 reason = ActionStatusReason.PERSONNEL,
                 startDateTimeUtc = Instant.parse("2022-01-02T20:00:00.000+01:00"),
