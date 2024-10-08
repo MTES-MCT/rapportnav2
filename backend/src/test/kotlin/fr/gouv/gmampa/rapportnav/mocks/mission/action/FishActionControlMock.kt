@@ -29,6 +29,7 @@ object FishActionControlMock {
         otherInfractions: List<OtherInfraction> = listOf(),
         userTrigram: String = "TKT",
         flagState: CountryCode = CountryCode.FR,
+        seizureAndDiversion: Boolean? = null,
     ): MissionAction {
         return MissionAction(
             id = id,
@@ -54,6 +55,7 @@ object FishActionControlMock {
             flagState = flagState,
             userTrigram = userTrigram,
             isFromPoseidon = false,
+            seizureAndDiversion = seizureAndDiversion,
         )
     }
 }

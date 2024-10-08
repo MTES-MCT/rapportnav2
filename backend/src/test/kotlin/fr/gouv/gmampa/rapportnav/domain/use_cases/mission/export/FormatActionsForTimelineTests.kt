@@ -10,7 +10,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsForTimeline
-import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.EncodeSpecialChars
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatGeoCoords
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.*
@@ -25,7 +24,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import java.time.Instant
 import java.time.LocalDate
 
-@SpringBootTest(classes = [FormatActionsForTimeline::class, FormatDateTime::class, FormatGeoCoords::class, EncodeSpecialChars::class])
+@SpringBootTest(classes = [FormatActionsForTimeline::class, FormatDateTime::class, FormatGeoCoords::class])
 class FormatActionsForTimelineTests {
 
     @Autowired
@@ -44,9 +43,9 @@ class FormatActionsForTimelineTests {
     private val fishControl =
         MissionActionEntity.FishAction(ExtendedFishActionEntity.fromMissionAction(FishActionControlMock.create()))
     private val navControl =
-        MissionActionEntity.NavAction(NavActionControlMock.createActionControlEntity().toNavActionEntity())
+        MissionActionEntity.NavAction(NavActionControlMock.create().toNavActionEntity())
     private val navStatus =
-        MissionActionEntity.NavAction(NavActionStatusMock.createActionStatusEntity().toNavActionEntity())
+        MissionActionEntity.NavAction(NavActionStatusMock.create().toNavActionEntity())
     private val navFreeNote =
         MissionActionEntity.NavAction(
             ActionMockFactory.create<ActionFreeNoteEntity>(
@@ -187,21 +186,21 @@ class FormatActionsForTimelineTests {
 
     @Test
     fun `formatNavStatus should return formatted string`() {
-        val action: ActionStatusEntity = NavActionStatusMock.createActionStatusEntity()
+        val action: ActionStatusEntity = NavActionStatusMock.create()
         assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("13:00 - Navigation - observations")
     }
 
     @Test
     fun `formatNavStatus should return formatted observations`() {
-        val action: ActionStatusEntity = NavActionStatusMock.createActionStatusEntity(
+        val action: ActionStatusEntity = NavActionStatusMock.create(
             observations = "3 adultes & 2 enfants <> RAS"
         )
-        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("13:00 - Navigation - 3 adultes &amp; 2 enfants &lt;&gt; RAS")
+        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("13:00 - Navigation - 3 adultes & 2 enfants <> RAS")
     }
 
     @Test
     fun `formatNavStatus should return formatted string without observations`() {
-        val action: ActionStatusEntity = NavActionStatusMock.createActionStatusEntity(observations = null)
+        val action: ActionStatusEntity = NavActionStatusMock.create(observations = null)
         assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("13:00 - Navigation ")
     }
 
@@ -213,7 +212,7 @@ class FormatActionsForTimelineTests {
 
     @Test
     fun `formatNavControl should return formatted string`() {
-        val action: ActionControlEntity = NavActionControlMock.createActionControlEntity()
+        val action: ActionControlEntity = NavActionControlMock.create()
         assertThat(formatActionsForTimeline.formatNavControl(action)).isEqualTo("13:00 / 15:00 - Contrôle administratif ")
     }
 
@@ -303,7 +302,7 @@ class FormatActionsForTimelineTests {
                 observations = "3 adultes & 2 enfants <> RAS"
             ).toNavActionEntity()
         )
-        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("13:00 / 15:00 - Assistance et sauvetage - 3 adultes &amp; 2 enfants &lt;&gt; RAS")
+        assertThat(formatActionsForTimeline.formatNavAction(action)).isEqualTo("13:00 / 15:00 - Assistance et sauvetage - 3 adultes & 2 enfants <> RAS")
     }
 
 

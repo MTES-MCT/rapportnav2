@@ -8,7 +8,7 @@ import java.util.*
 
 object NavActionStatusMock {
 
-    fun createActionStatusEntity(
+    fun create(
         status: ActionStatusType = ActionStatusType.NAVIGATING,
         startDateTimeUtc: Instant = Instant.parse("2022-01-02T12:00:01Z"),
         reason: ActionStatusReason? = null,

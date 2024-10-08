@@ -15,7 +15,6 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
-import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.EncodeSpecialChars
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.Base64Converter
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.OfficeConverter
@@ -43,10 +42,8 @@ class ExportMissionRapportPatrouille(
     private val getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus,
     private val computeDurations: ComputeDurations,
     private val getInfoAboutNavAction: GetInfoAboutNavAction,
-    private val encodeSpecialChars: EncodeSpecialChars,
     private val formatDateTime: FormatDateTime,
     private val getServiceById: GetServiceById,
-
     @Value("\${rapportnav.rapport-patrouille.template.path}") private val docTemplatePath: String,
     @Value("\${rapportnav.rapport-patrouille.tmp_docx.path}") private val docTmpDOCXPath: String,
     @Value("\${rapportnav.rapport-patrouille.tmp_odt.path}") private val docTmpODTPath: String,
@@ -54,7 +51,10 @@ class ExportMissionRapportPatrouille(
 
     private val logger = LoggerFactory.getLogger(ExportMissionRapportPatrouille::class.java)
 
+    private val getMissionOperationalSummary = GetMissionOperationalSummary()
+
     fun exportOdt(missionId: Int): MissionExportEntity? {
+
         try {
             val mission: MissionEntity? = getMission.execute(missionId = missionId)
             if (mission == null) {
@@ -131,14 +131,23 @@ class ExportMissionRapportPatrouille(
                 )
             }
 
+            // Bilan opérationnel
+            val proFishingSeaSummary = getMissionOperationalSummary.getProFishingSeaSummary(mission)
+            val proFishingLandSummary = getMissionOperationalSummary.getProFishingLandSummary(mission)
+
+            val proSailingSeaSummary = getMissionOperationalSummary.getProSailingSeaSummary(mission)
+            val proSailingLandSummary = getMissionOperationalSummary.getProSailingLandSummary(mission)
+
+            val leisureSailingSeaSummary = getMissionOperationalSummary.getLeisureSailingSeaSummary(mission)
+            val leisureSailingLandSummary = getMissionOperationalSummary.getLeisureSailingLandSummary(mission)
+
             val placeholders: Map<String, String?> = mapOf(
                 "\${service}" to (service?.name ?: ""),
                 "\${numRapport}" to formatDateTime.formatDate(mission.startDateTimeUtc),
                 "\${startDate}" to formatDateTime.formatDate(mission.startDateTimeUtc),
                 "\${endDate}" to formatDateTime.formatDate(mission.endDateTimeUtc),
-                "\${destinataireCopies}" to "CROSS Étel CNSP/CACEM",
-                "\${observations}" to (mission.observationsByUnit?.let { encodeSpecialChars.escapeForXML(it) as String }
-                    ?: ""),
+                "\${destinataireCopies}" to "",
+
                 "\${dureeMission}" to missionDuration.toString(),
                 "\${nbJoursMer}" to nbOfDaysAtSea.toString(),
 
@@ -172,10 +181,35 @@ class ExportMissionRapportPatrouille(
                 "\${baaemAndVigimerInfoCount}" to (baaemAndVigimerInfo?.get("count") ?: ""),
                 "\${baaemAndVigimerInfoHours}" to (baaemAndVigimerInfo?.get("durationInHours") ?: ""),
                 "\${baaemAndVigimerInfoShips}" to "",
+
                 "\${distance}" to (generalInfo?.distanceInNauticalMiles?.toString() ?: ""),
                 "\${goMarine}" to (generalInfo?.consumedGOInLiters?.toString() ?: ""),
-                "\${essence}" to (generalInfo?.consumedFuelInLiters?.toString() ?: "")
+                "\${essence}" to (generalInfo?.consumedFuelInLiters?.toString() ?: ""),
+
+                "\${observations}" to (mission.observationsByUnit ?: ""),
+
+//                "\${proSailingSeaSummary}" to gson.toJson(proSailingSeaSummary),
+//                "\${leisureSailingSeaSummary}" to gson.toJson(leisureSailingSeaSummary),
+//                "\${proFishingLandSummary}" to gson.toJson(proFishingLandSummary),
+//                "\${proSailingLandSummary}" to gson.toJson(proSailingLandSummary),
+//                "\${leisureSailingLandSummary}" to gson.toJson(leisureSailingLandSummary),
+
+
             )
+
+            fun castLinkedHashMapToList(map: LinkedHashMap<String, Map<String, Int?>>): List<List<String?>> {
+                return map.map { (key, value) ->
+                    // Create a list starting with the key, followed by the values from the inner map
+                    listOf(key) + value.values.map { it?.toString() ?: "" }
+                }
+            }
+
+            fun castMapToList(map: Map<String, Int>): List<List<String?>> {
+                return map.map { (key, value) ->
+                    // Create a list starting with the key, followed by the string representation of the value
+                    listOf(key, if (value > 0) value.toString() else "") // Replace 0 with an empty string
+                }
+            }
 
 
             val inputStream = javaClass.getResourceAsStream(docTemplatePath)
@@ -183,14 +217,81 @@ class ExportMissionRapportPatrouille(
             val document = XWPFDocument(inputStream)
 
 
-            val paragraphs = document.paragraphs.toList()  // Create a copy of the paragraphs list
+            var paragraphs = document.paragraphs.toList()  // Create a copy of the paragraphs list
             for (paragraph in paragraphs) {
                 replacePlaceholdersInParagraph(paragraph, placeholders)
+
                 if (paragraph.text.contains("\${table_equipage}")) {
-                    // Insert the dynamic table where the placeholder is found
                     insertStyledTableAtParagraph(paragraph, crew)
                 }
             }
+
+            paragraphs = document.paragraphs.toList()
+            for (paragraph in paragraphs) {
+                if (paragraph.text.contains("\${proFishingSeaSummary}")) {
+                    val header: List<String?> = listOf(
+                        "",
+                        "Nbre Navires contrôlés",
+                        "Nbre contrôles pêche sanitaire",
+                        "Nbre PV pêche sanitaire",
+                        "Nbre PV équipmt sécu. permis nav.",
+                        "Nbre PV titre navig. rôle/déc. eff",
+                        "Nbre PV police navig.",
+                        "Nbre navires déroutés"
+                    )
+
+                    val dataRows: List<List<String?>> = castLinkedHashMapToList(proFishingSeaSummary)
+                    val table: List<List<String?>> = listOf(header) + dataRows
+                    insertOperationalSummaryTableAtParagraph(paragraph, table)
+                }
+            }
+
+            paragraphs = document.paragraphs.toList()
+            for (paragraph in paragraphs) {
+                if (paragraph.text.contains("\${proFishingLandSummary}")) {
+                    val header: List<String?> = listOf(
+                        "",
+                        "Nbre Navires contrôlés",
+                        "Nbre contrôles pêche sanitaire",
+                        "Nbre PV pêche sanitaire",
+                        "Nbre PV équipmt sécu. permis nav.",
+                        "Nbre PV titre navig. rôle/déc. eff",
+                    )
+
+                    val dataRows: List<List<String?>> = castLinkedHashMapToList(proFishingLandSummary)
+                    val table: List<List<String?>> = listOf(header) + dataRows
+                    insertOperationalSummaryTableAtParagraph(paragraph, table)
+                }
+            }
+
+            paragraphs = document.paragraphs.toList()
+            for (paragraph in paragraphs) {
+                if (paragraph.text.contains("\${proSailingSeaSummary}")) {
+                    insertOperationalSummaryTableAtParagraph(paragraph, castMapToList(proSailingSeaSummary))
+                }
+            }
+
+            paragraphs = document.paragraphs.toList()
+            for (paragraph in paragraphs) {
+                if (paragraph.text.contains("\${proSailingLandSummary}")) {
+                    insertOperationalSummaryTableAtParagraph(paragraph, castMapToList(proSailingLandSummary))
+                }
+            }
+            paragraphs = document.paragraphs.toList()
+            for (paragraph in paragraphs) {
+                if (paragraph.text.contains("\${leisureSailingSeaSummary}")) {
+                    insertOperationalSummaryTableAtParagraph(paragraph, castMapToList(leisureSailingSeaSummary))
+                }
+            }
+
+            paragraphs = document.paragraphs.toList()
+            for (paragraph in paragraphs) {
+                if (paragraph.text.contains("\${leisureSailingLandSummary}")) {
+                    insertOperationalSummaryTableAtParagraph(paragraph, castMapToList(leisureSailingLandSummary))
+                }
+            }
+
+
 
             for (table in document.tables) {
                 replacePlaceholdersInTable(table, placeholders)
@@ -351,6 +452,55 @@ class ExportMissionRapportPatrouille(
                 row.addNewTableCell()
             }
         }
+
+
+        // Remove the placeholder paragraph
+        val position = document.getPosOfParagraph(paragraph)
+        document.removeBodyElement(position)
+    }
+
+    private fun insertOperationalSummaryTableAtParagraph(paragraph: XWPFParagraph, tableData: List<List<String?>>) {
+        val document = paragraph.document as XWPFDocument
+
+        // Create a new table directly at the placeholder position
+        val table = document.insertNewTbl(paragraph.ctp.newCursor())
+
+        setTableBorders(table)
+        table.setWidth("100%")
+
+        // Remove the initial empty row that is automatically created
+        if (table.rows.size > 0) {
+            table.removeRow(0)
+        }
+
+        // Create the header row
+        val headerRow = table.createRow()
+        for (headerText in tableData[0]) {
+            val cell = headerRow.addNewTableCell()
+            cell.setText(headerText ?: "")
+            styleCell(cell, bold = true, fontSize = 10, alignment = ParagraphAlignment.LEFT)
+        }
+        headerRow.height = 400
+//        setColumnWidths(table, listOf(25, 25, 50))
+
+        // Insert the rest of the rows (data)
+        for (rowData in tableData.drop(1)) {
+            val row = table.createRow()
+            row.height = 400
+
+            for ((i, cellData) in rowData.withIndex()) {
+                val cell = row.getCell(i) ?: row.addNewTableCell()
+                cell.setText(cellData ?: "")
+                styleCell(cell, bold = false, fontSize = 10, alignment = ParagraphAlignment.LEFT)
+            }
+
+            // Ensure each row has the same number of columns as the header
+            val headerColumnCount = tableData[0].size
+            while (row.tableCells.size < headerColumnCount) {
+                row.addNewTableCell()
+            }
+        }
+
 
         // Remove the placeholder paragraph
         val position = document.getPosOfParagraph(paragraph)
