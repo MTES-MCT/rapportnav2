@@ -55,7 +55,7 @@ class GroupActionByDateTest {
         )
 
         val action3 = MissionActionEntity.NavAction(
-            NavActionStatusMock.createActionStatusEntity().toNavActionEntity()
+            NavActionStatusMock.create().toNavActionEntity()
         )
 
         val actions = listOf(actionEnvControl1, actionEnvSurveillance1, action2, action3)
