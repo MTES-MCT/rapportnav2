@@ -39,8 +39,8 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
   const { getError } = useAction<ActionRescue>()
   const isMissionFinished = useIsMissionFinished(missionId)
 
-  const [showVesselStack, setShowVesselStack] = useState(true)
-  const [showPersonStack, setShowPersonStack] = useState(false)
+  const [showVesselStack, setShowVesselStack] = useState(!(action.data as ActionRescue)?.isPersonRescue)
+  const [showPersonStack, setShowPersonStack] = useState(!!(action.data as ActionRescue)?.isPersonRescue)
 
   const { data: navAction, loading, error } = useActionById(actionId, missionId, action.source, action.type)
   const [mutateRescue] = useAddUpdateRescue()
@@ -50,8 +50,13 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
   const [locationObservationValue, setLocationObservationValue] = useState<string | undefined>(undefined)
 
   useEffect(() => {
-    setObservationsValue(navAction?.data?.observations)
-    setLocationObservationValue(navAction?.data?.locationDescription)
+    const data = navAction?.data as ActionRescue
+    setObservationsValue(data?.observations)
+    setLocationObservationValue(data?.locationDescription)
+    if (data?.isPersonRescue) {
+      setShowPersonStack(true)
+      setShowVesselStack(false)
+    }
   }, [navAction])
 
   if (loading) {
@@ -150,7 +155,7 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
     return (
       <form style={{ width: '100%' }} data-testid={'action-rescue-form'}>
         <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
-          {/* TITLE AND BUTTONS */}
+          {/*TITLE AND BUTTONS*/}
           <Stack.Item style={{ width: '100%' }}>
             <ActionHeader
               icon={Icon.Rescue}
@@ -163,7 +168,6 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
               completenessForStats={navAction.completenessForStats}
             />
           </Stack.Item>
-
           <Stack.Item style={{ width: '100%' }}>
             <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
               <Stack.Item grow={1}>
@@ -184,7 +188,6 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
               </Stack.Item>
             </Stack>
           </Stack.Item>
-
           <Stack.Item style={{ width: '100%' }}>
             <CoordinateInputDMD
               label={"Lieu de l'opération"}
@@ -202,7 +205,6 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
               }}
             />
           </Stack.Item>
-
           <Stack.Item style={{ width: '100%' }}>
             <TextInput
               label={'Précision concernant la localisation'}
@@ -213,7 +215,6 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
               onBlur={handleLocationDescriptionBlur}
             />
           </Stack.Item>
-
           <Stack.Item style={{ width: '100%' }}>
             <MultiRadio
               value={actionData?.isPersonRescue === false}

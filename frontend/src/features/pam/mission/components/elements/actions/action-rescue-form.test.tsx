@@ -46,4 +46,12 @@ describe('ActionRescueForm', () => {
       expect(wrapper.getByText('Le navire a été mis en demeure avant intervention')).toBeInTheDocument()
     })
   })
+
+  it('renders the person rescue fields to be show if action is a person rescue action', async () => {
+    const data = { ...action, data: { ...action.data, isPersonRescue: true } }
+    const wrapper = render(<ActionRescueForm action={data} />)
+    expect(wrapper.getByText('Nb de personnes secourues')).toBeInTheDocument()
+    expect(wrapper.getByText('Nb de personnes disparues / décédées')).toBeInTheDocument()
+    expect(wrapper.getByText('Opération en zone SRR ou suivie par un CROSS / MRCC')).toBeInTheDocument()
+  })
 })
