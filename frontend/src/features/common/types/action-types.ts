@@ -103,22 +103,22 @@ export type ActionSurveillance = {
 export type ActionRescue = {
   id: string
   startDateTimeUtc: string
-  endDateTimeUtc: string
-  longitude: number
-  latitude: number
+  endDateTimeUtc?: string
+  longitude?: number
+  latitude?: number
   isVesselRescue: boolean
   isPersonRescue: boolean
-  isInSRRorFollowedByCROSSMRCC: boolean
-  isVesselNoticed: boolean
-  isVesselTowed: boolean
-  numberPersonsRescued: number
-  numberOfDeaths: number
-  operationFollowsDEFREP: boolean
+  isInSRRorFollowedByCROSSMRCC?: boolean
+  isVesselNoticed?: boolean
+  isVesselTowed?: boolean
+  numberPersonsRescued?: number
+  numberOfDeaths?: number
+  operationFollowsDEFREP?: boolean
   observations?: string
   locationDescription?: string
-  isMigrationRescue: boolean
-  nbAssistedVesselsReturningToShore: number
-  nbOfVesselsTrackedWithoutIntervention: number
+  isMigrationRescue?: boolean
+  nbAssistedVesselsReturningToShore?: number
+  nbOfVesselsTrackedWithoutIntervention?: number
 }
 
 export type ActionNauticalEvent = {
