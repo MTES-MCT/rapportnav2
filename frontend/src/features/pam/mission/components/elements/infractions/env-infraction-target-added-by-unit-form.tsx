@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
-import { Select, TextInput } from '@mtes-mct/monitor-ui'
+import { Select, TextInput, THEME } from '@mtes-mct/monitor-ui'
 import { ControlType } from '@common/types/control-types.ts'
 import { Infraction } from '@common/types/infraction-types.ts'
 import InfractionForm from './infraction-form.tsx'
@@ -52,7 +52,13 @@ const EnvInfractionTargetAddedByUnitForm: React.FC<EnvInfractionNewTargetFormPro
   }
 
   return (
-    <Stack direction="column" spacing={'2rem'} style={{ width: '100%', padding: '1rem' }}>
+    <Stack direction="column" spacing={'2rem'}
+           style={{
+             width: '100%',
+             padding: '1rem',
+             backgroundColor: THEME.color.white
+    }}
+    >
       <Stack.Item style={{ width: '100%' }}>
         <Select
           label="Type de contrôle avec infraction"
