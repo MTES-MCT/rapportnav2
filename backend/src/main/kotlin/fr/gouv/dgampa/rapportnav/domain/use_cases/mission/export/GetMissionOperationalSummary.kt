@@ -81,7 +81,7 @@ class GetMissionOperationalSummary {
             controlMethod = ControlMethod.SEA,
             vesselType = VesselTypeEnum.SAILING
         )
-        val keysToKeep = setOf("nbActions", "nbPvSecuAndAdmin", "nbPvNav", "nbPVGensDeMer")
+        val keysToKeep = setOf("nbActions", "nbPvSecuAndAdmin", "nbPVGensDeMer", "nbPvNav")
         return summary.filterKeys { it in keysToKeep }
     }
 
