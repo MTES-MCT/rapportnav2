@@ -254,8 +254,8 @@ class ExportMissionRapportPatrouille(
                         "Nbre Navires contrôlés",
                         "Nbre contrôles pêche sanitaire",
                         "Nbre PV pêche sanitaire",
-                        "Nbre PV équipmt sécu. permis nav.",
                         "Nbre PV titre navig. rôle/déc. eff",
+                        "Nbre PV équipmt sécu. permis nav.",
                     )
 
                     val dataRows: List<List<String?>> = castLinkedHashMapToList(proFishingLandSummary)
@@ -267,27 +267,66 @@ class ExportMissionRapportPatrouille(
             paragraphs = document.paragraphs.toList()
             for (paragraph in paragraphs) {
                 if (paragraph.text.contains("\${proSailingSeaSummary}")) {
-                    insertOperationalSummaryTableAtParagraph(paragraph, castMapToList(proSailingSeaSummary))
+                    val header: List<String?> = listOf(
+                        "Nbre Navires contrôlés",
+                        "Nbre PV équipmt sécu. permis nav.",
+                        "Nbre PV titre navig. rôle/déc. eff",
+                        "Nbre PV police navig.",
+                    )
+                    val secondRow: List<String?> = proSailingSeaSummary.values.map { value ->
+                        if (value > 0) value.toString() else ""
+                    }
+                    val table: List<List<String?>> = listOf(header, secondRow)
+                    insertOperationalSummaryTableAtParagraph(paragraph, table)
                 }
             }
 
             paragraphs = document.paragraphs.toList()
             for (paragraph in paragraphs) {
                 if (paragraph.text.contains("\${proSailingLandSummary}")) {
-                    insertOperationalSummaryTableAtParagraph(paragraph, castMapToList(proSailingLandSummary))
+                    val header: List<String?> = listOf(
+                        "Nbre Navires contrôlés",
+                        "Nbre PV titre navig. rôle/déc. eff",
+                        "Nbre PV équipmt sécu. permis nav.",
+                    )
+                    val secondRow: List<String?> = proSailingLandSummary.values.map { value ->
+                        if (value > 0) value.toString() else ""
+                    }
+                    val table: List<List<String?>> = listOf(header, secondRow)
+                    insertOperationalSummaryTableAtParagraph(paragraph, table)
                 }
             }
             paragraphs = document.paragraphs.toList()
             for (paragraph in paragraphs) {
                 if (paragraph.text.contains("\${leisureSailingSeaSummary}")) {
-                    insertOperationalSummaryTableAtParagraph(paragraph, castMapToList(leisureSailingSeaSummary))
+                    val header: List<String?> = listOf(
+                        "Nbre Navires contrôlés",
+                        "Nbre PV équipmt sécu.",
+                        "Nbre PV titre conduite",
+                        "Nbre PV police navig.",
+                    )
+
+                    val secondRow: List<String?> = leisureSailingSeaSummary.values.map { value ->
+                        if (value > 0) value.toString() else ""
+                    }
+                    val table: List<List<String?>> = listOf(header, secondRow)
+                    insertOperationalSummaryTableAtParagraph(paragraph, table)
                 }
             }
 
             paragraphs = document.paragraphs.toList()
             for (paragraph in paragraphs) {
                 if (paragraph.text.contains("\${leisureSailingLandSummary}")) {
-                    insertOperationalSummaryTableAtParagraph(paragraph, castMapToList(leisureSailingLandSummary))
+                    val header: List<String?> = listOf(
+                        "Nbre Navires contrôlés",
+                        "Nbre PV équipmt sécu.",
+                        "Nbre PV titre conduite",
+                    )
+                    val secondRow: List<String?> = leisureSailingLandSummary.values.map { value ->
+                        if (value > 0) value.toString() else ""
+                    }
+                    val table: List<List<String?>> = listOf(header, secondRow)
+                    insertOperationalSummaryTableAtParagraph(paragraph, table)
                 }
             }
 
