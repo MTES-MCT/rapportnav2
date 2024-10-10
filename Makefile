@@ -61,6 +61,9 @@ back-build:
 back-test:
 	cd $(BACKEND_DIR) && ./gradlew test
 
+back-test-coverage:
+	cd $(BACKEND_DIR) && ./gradlew test jacocoTestReport
+
 back-start-local:
 	cd $(BACKEND_DIR) && ./gradlew bootRun --args='--spring.profiles.active=local --spring.config.additional-location=$(BACKEND_CONFIGURATION_FOLDER)'
 
