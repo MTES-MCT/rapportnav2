@@ -123,22 +123,9 @@ class GetMissionOperationalSummary {
         val nbSurveillances = actions.count { it.envAction?.surveillanceAction != null }
         val nbControls = actions.count { it.envAction?.controlAction != null }
         val nbPv = actions.sumOf { action ->
-            // Sum infractions of type WITH_REPORT from different control categories
-            (action.envAction?.controlAction?.controlAdministrative?.infractions?.count { inf ->
+            (action.envAction?.controlAction?.action?.infractions?.count { inf ->
                 inf.infractionType == InfractionTypeEnum.WITH_REPORT
-            } ?: 0) +
-                (action.envAction?.controlAction?.controlGensDeMer?.infractions?.count { inf ->
-                    inf.infractionType == InfractionTypeEnum.WITH_REPORT
-                } ?: 0) +
-                (action.envAction?.controlAction?.controlSecurity?.infractions?.count { inf ->
-                    inf.infractionType == InfractionTypeEnum.WITH_REPORT
-                } ?: 0) +
-                (action.envAction?.controlAction?.controlNavigation?.infractions?.count { inf ->
-                    inf.infractionType == InfractionTypeEnum.WITH_REPORT
-                } ?: 0) +
-                (action.envAction?.controlAction?.action?.infractions?.count { inf ->
-                    inf.infractionType == InfractionTypeEnum.WITH_REPORT
-                } ?: 0)
+            } ?: 0)
         }
         val summary = mapOf(
             "nbSurveillances" to nbSurveillances,

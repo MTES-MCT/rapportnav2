@@ -799,7 +799,7 @@ class GetMissionOperationalSummaryTests {
             val expected = mapOf(
                 "nbSurveillances" to 2,
                 "nbControls" to 3,
-                "nbPv" to 5,
+                "nbPv" to 2,
             )
             assertEquals(summary, expected)
         }
