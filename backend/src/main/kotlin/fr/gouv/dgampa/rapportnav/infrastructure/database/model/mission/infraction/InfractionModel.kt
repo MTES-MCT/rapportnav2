@@ -36,9 +36,9 @@ class InfractionModel(
         joinColumns = [JoinColumn(name = "infraction_id")]
     )
     @Column(name = "natinf_code")
-    var natinfs: List<String>? = mutableListOf(),
+    var natinfs: List<String> = mutableListOf(),
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "control_id", referencedColumnName = "id")
     @JsonIgnore
     var control: ControlModel? = null,
@@ -50,7 +50,7 @@ class InfractionModel(
         targetEntity = InfractionEnvTargetModel::class
     )
     @JsonIgnore
-    var target: List<InfractionEnvTargetModel>? = null
+    var target: List<InfractionEnvTargetModel> = mutableListOf()
 
 
 ) {
@@ -63,7 +63,7 @@ class InfractionModel(
             controlType = ControlType.valueOf(controlType),
             infractionType = infractionType?.let { InfractionTypeEnum.valueOf(it) },
             observations = observations,
-            target = target?.map { it.toInfractionEnvTargetEntity() }?.firstOrNull(),
+            target = target.map { it.toInfractionEnvTargetEntity() }?.firstOrNull(),
             natinfs = natinfs
         )
     }
@@ -76,7 +76,7 @@ class InfractionModel(
                 actionId = infraction.actionId,
                 controlType = infraction.controlType.toString(),
                 infractionType = infraction.infractionType?.toString(),
-                natinfs = infraction.natinfs,
+                natinfs = infraction.natinfs.orEmpty(),
                 observations = infraction.observations,
                 target = infraction.target?.let {
                     listOf(InfractionEnvTargetModel.fromInfractionEnvTargetEntity(it))
