@@ -2,8 +2,6 @@ package fr.gouv.dgampa.rapportnav.domain.entities.aem
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
 import org.slf4j.LoggerFactory
 import java.time.Instant
 
@@ -49,6 +47,20 @@ data class AEMTableExport(
             val tableExport = fromMissionAction(mission.actions ?: listOf(), mission.endDateTimeUtc);
             tableExport.sovereignProtect?.nbrOfRecognizedVessel = mission.generalInfo?.nbrOfRecognizedVessel?.toDouble();
             return tableExport
+        }
+
+        fun fromMissionList(missions: List<MissionEntity>): List<AEMTableExport> {
+            val tableExports = mutableListOf<AEMTableExport>()
+
+            for (mission in missions) {
+                if (mission.actions != null) {
+                    val tableExport = fromMissionAction(mission.actions ?: listOf(), mission.endDateTimeUtc)
+                    tableExport.sovereignProtect?.nbrOfRecognizedVessel = mission.generalInfo?.nbrOfRecognizedVessel?.toDouble()
+                    tableExports.add(tableExport)
+                }
+            }
+
+            return tableExports
         }
     }
 }
