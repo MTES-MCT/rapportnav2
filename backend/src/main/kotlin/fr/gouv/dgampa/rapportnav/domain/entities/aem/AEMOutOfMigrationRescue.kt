@@ -20,7 +20,7 @@ data class AEMOutOfMigrationRescue(
 
     companion object {
         fun getNbrPersonsRescued(actionRescues: List<ActionRescueEntity?>): Double {
-            return actionRescues.fold(0.0) { acc, actionRescue -> acc.plus(actionRescue?.numberPersonsRescued!!) }
+            return actionRescues.fold(0.0) { acc, actionRescue -> acc.plus(actionRescue?.numberPersonsRescued ?: 0) }
         }
 
         private fun actionRescueEntities(navActions: List<NavActionEntity>): List<ActionRescueEntity?> {
