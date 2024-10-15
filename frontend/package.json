@@ -20,9 +20,9 @@
   },
   "dependencies": {
     "@apollo/client": "^3.11.0",
-    "@mtes-mct/monitor-ui": "^14.3.1",
+    "@mtes-mct/monitor-ui": "^24.0.0",
     "@sentry/integrations": "^7.117.0",
-    "@sentry/react": "^7.117.0",
+    "@sentry/react": "^8.34.0",
     "@unleash/proxy-client-react": "^4.3.1",
     "apollo3-cache-persist": "^0.15.0",
     "date-fns": "3.6.0",
