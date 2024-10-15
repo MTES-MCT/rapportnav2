@@ -19,7 +19,7 @@ class MissionCrewModel(
     var missionId: Int,
 
     @Column(name = "comment", nullable = true)
-    var comment: String?,
+    var comment: String? = null,
 
     @ManyToOne
     @JoinColumn(name = "agent_role_id")
