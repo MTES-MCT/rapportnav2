@@ -3,6 +3,7 @@ import { FormikEffect, FormikNumberInput } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
 import React, { useEffect, useRef, useState } from 'react'
 import useAddOrUpdateGeneralInfo from '../../../hooks/use-add-update-distance-consumption.tsx'
+import useIsMissionFinished from '@features/pam/mission/hooks/use-is-mission-finished.tsx'
 
 const DEBOUNCE_TIME_TRIGGER = 1000
 
@@ -17,6 +18,8 @@ interface MissionRecognizedVesselProps {
 
 const MissionRecognizedVessel: React.FC<MissionRecognizedVesselProps> = ({ missionId, generalInfo }) => {
   const [updateGeneralInfo] = useAddOrUpdateGeneralInfo()
+  const isMissionFinished = useIsMissionFinished(missionId?.toString())
+
   const timerRef = useRef<ReturnType<typeof setTimeout>>()
   const [initValue, setInitValue] = useState<RecognizedVessel>()
 
@@ -30,17 +33,27 @@ const MissionRecognizedVessel: React.FC<MissionRecognizedVesselProps> = ({ missi
   }
 
   const updateRecognizedVessel = async (nbrOfRecognizedVessel?: number) => {
-    if (nbrOfRecognizedVessel === undefined || nbrOfRecognizedVessel === generalInfo?.nbrOfRecognizedVessel) return
     const info = { ...generalInfo, missionId, nbrOfRecognizedVessel }
     await updateGeneralInfo({
       variables: { info }
     })
   }
 
+  const validateError = (isMissionFinished?: boolean, nbrOfRecognizedVessel?: number) =>
+    isMissionFinished && !nbrOfRecognizedVessel
+      ? { nbrOfRecognizedVessel: 'Nombre total de navires reconnus dans les approches maritimes est requis' }
+      : undefined
+
   return (
     <>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true}>
+        <Formik
+          initialValues={initValue}
+          initialErrors={validateError(isMissionFinished, initValue.nbrOfRecognizedVessel)}
+          onSubmit={handleSubmit}
+          validateOnChange={true}
+          validate={values => validateError(isMissionFinished, values.nbrOfRecognizedVessel)}
+        >
           <>
             <FormikEffect onChange={handleSubmit} />
             <FormikNumberInput
@@ -49,6 +62,7 @@ const MissionRecognizedVessel: React.FC<MissionRecognizedVesselProps> = ({ missi
               name="nbrOfRecognizedVessel"
               data-testid="mission-information-general-recognized-vessel"
               label="Nombre total de navires reconnus dans les approches maritimes (ZEE)"
+              isErrorMessageHidden={true}
             />
           </>
         </Formik>
