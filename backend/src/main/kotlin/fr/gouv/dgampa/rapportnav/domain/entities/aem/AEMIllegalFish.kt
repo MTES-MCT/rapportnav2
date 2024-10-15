@@ -49,10 +49,16 @@ data class AEMIllegalFish(
 
         fun getNbrOfInfractionWithPV(fishActions: List<ExtendedFishActionEntity?>): Double {
             return fishActions.map { it?.controlAction?.action }.fold(0.0) { acc, c ->
-                acc.plus(c!!.gearInfractions.filter { g -> g.infractionType == InfractionType.WITH_RECORD }.size)
-                    .plus(c.otherInfractions.filter { o -> o.infractionType == InfractionType.WITH_RECORD }.size)
-                    .plus(c.speciesInfractions.filter { s -> s.infractionType == InfractionType.WITH_RECORD }.size)
-                    .plus(c.logbookInfractions.filter { l -> l.infractionType == InfractionType.WITH_RECORD }.size)
+                acc.plus(c?.gearInfractions?.filter { g -> g.infractionType == InfractionType.WITH_RECORD }?.size ?: 0)
+                    .plus(
+                        c?.otherInfractions?.filter { o -> o.infractionType == InfractionType.WITH_RECORD }?.size ?: 0
+                    )
+                    .plus(
+                        c?.speciesInfractions?.filter { s -> s.infractionType == InfractionType.WITH_RECORD }?.size ?: 0
+                    )
+                    .plus(
+                        c?.logbookInfractions?.filter { l -> l.infractionType == InfractionType.WITH_RECORD }?.size ?: 0
+                    )
             };
         }
 
@@ -61,7 +67,7 @@ data class AEMIllegalFish(
         }
 
         fun getQuantityOfFish(fishActions: List<ExtendedFishActionEntity?>): Double {
-            return 0.0;
+            return 0.0; //TODO: hasSomeSpeciesSeized
         }
 
     }

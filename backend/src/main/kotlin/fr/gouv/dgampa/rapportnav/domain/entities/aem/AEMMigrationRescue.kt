@@ -32,15 +32,23 @@ data class AEMMigrationRescue(
 
     companion object {
         fun getNbrPersonsRescued(actionRescues: List<ActionRescueEntity?>): Double {
-            return actionRescues.fold(0.0) { acc, actionRescue -> acc.plus(actionRescue?.numberPersonsRescued!!) }
+            return actionRescues.fold(0.0) { acc, actionRescue -> acc.plus(actionRescue?.numberPersonsRescued ?: 0) }
         }
 
         fun getNbrOfVesselsTrackedWithoutIntervention(actionRescues: List<ActionRescueEntity?>): Double {
-            return actionRescues.fold(0.0) { acc, actionRescue -> acc.plus(actionRescue?.nbOfVesselsTrackedWithoutIntervention!!) }
+            return actionRescues.fold(0.0) { acc, actionRescue ->
+                acc.plus(
+                    actionRescue?.nbOfVesselsTrackedWithoutIntervention ?: 0
+                )
+            }
         }
 
         fun getAssistedVesselsReturningToShore(actionRescues: List<ActionRescueEntity?>): Double {
-            return actionRescues.fold(0.0) { acc, actionRescue -> acc.plus(actionRescue?.nbAssistedVesselsReturningToShore!!) }
+            return actionRescues.fold(0.0) { acc, actionRescue ->
+                acc.plus(
+                    actionRescue?.nbAssistedVesselsReturningToShore ?: 0
+                )
+            }
         }
 
         private fun actionRescueEntities(navActions: List<NavActionEntity>): List<ActionRescueEntity?> {
