@@ -28,7 +28,8 @@ const ActionStatus: FC<MissionTimelineItemProps> = ({ action, previousActionWith
               style={{
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
-                textOverflow: 'ellipsis'
+                textOverflow: 'ellipsis',
+                textDecoration: isSelected ? 'underline' : 'none'
               }}
               data-testid="timeline-item-status-description"
             >
