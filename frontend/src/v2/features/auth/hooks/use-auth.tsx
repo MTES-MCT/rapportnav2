@@ -1,11 +1,15 @@
 import { useApolloClient } from '@apollo/client'
+import AuthToken from '@features/auth/utils/token'
+import { jwtDecode } from 'jwt-decode'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import AuthToken from '../utils/token.ts'
+import { User } from '../../common/types/user'
 
 type AuthHook = {
   isAuthenticated: boolean
   logout: () => Promise<void>
+  isLoggedIn: () => User | undefined
+  navigateAndResetCache: (to: string) => Promise<void>
 }
 const authToken = new AuthToken()
 
@@ -28,13 +32,27 @@ const useAuth = (): AuthHook => {
     navigate('/login', { replace: true })
   }
 
+  const navigateAndResetCache = async (to: string) => {
+    // TODO centralise the following into a class - also used in use-auth()
+    // reset apollo store
+    await apolloClient.clearStore()
+    // flush apollo persist cache
+    apolloClient.cache.evict({})
+    navigate(to)
+  }
+
+  const isLoggedIn = (): User | undefined => {
+    const token = authToken?.get()
+    return token ? jwtDecode(token) : undefined
+  }
+
   useEffect(() => {
     if (!!authToken.get() && !isAuthenticated) {
       setIsAuthenticated(true)
     }
   }, [isAuthenticated])
 
-  return { isAuthenticated, logout }
+  return { isAuthenticated, logout, navigateAndResetCache, isLoggedIn }
 }
 
 export default useAuth
