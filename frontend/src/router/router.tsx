@@ -1,14 +1,14 @@
 import AuthGuard from '@features/auth/components/auth-guard.tsx'
-import MissionListUlamPage from '@pages/mission-list-ulam-page.tsx'
-import MissionUlamPage from '@pages/mission-ulam-page.tsx'
 import * as Sentry from '@sentry/react'
 import { createBrowserRouter } from 'react-router-dom'
 import ErrorPage from '../pages/error-page.tsx'
-import Home from '../pages/home.tsx'
 import Login from '../pages/login.tsx'
 import MissionPage from '../pages/mission-page.tsx'
 import MissionsPage from '../pages/missions-page.tsx'
 import SignUp from '../pages/signup.tsx'
+import Home2 from '../v2/pages/home.tsx'
+import MissionListUlamPage from '../v2/pages/mission-list-ulam-page.tsx'
+import MissionUlamPage from '../v2/pages/mission-ulam-page.tsx'
 
 export const getPath = (path: string) => `/${path}`
 
@@ -23,7 +23,7 @@ const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(createBrowserRo
 export const router = sentryCreateBrowserRouter([
   {
     path: ROOT_PATH,
-    element: <Home />,
+    element: <Home2 />,
     errorElement: <ErrorPage />
   },
   {
