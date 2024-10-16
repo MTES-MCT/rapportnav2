@@ -1,4 +1,4 @@
-import { useDelay } from '@common/hooks/use-delay'
+import { useDelay } from '@features/v2/common/hooks/use-delay'
 import { TextInput } from '@mtes-mct/monitor-ui'
 import React, { useState } from 'react'
 

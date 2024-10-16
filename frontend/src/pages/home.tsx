@@ -1,5 +1,5 @@
-import { ModuleType } from '@common/types/module-type.ts'
-import { RoleType } from '@common/utils/role-type.ts'
+import { ModuleType } from '@features/v2/common/types/module-type.ts'
+import { RoleType } from '@features/v2/common/types/role-type.ts'
 import { FC, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAuth from '../features/auth/hooks/use-auth.tsx'

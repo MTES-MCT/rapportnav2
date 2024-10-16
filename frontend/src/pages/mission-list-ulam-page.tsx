@@ -1,9 +1,9 @@
-import MissionListPageHeaderWrapper from '@common/components/layout/v2/mission-list-page-header-wrapper'
-import MissionListPageSidebarWrapper from '@common/components/layout/v2/mission-list-page-sidebar-wrapper'
-import MissionListPageWrapper from '@common/components/layout/v2/mission-list-page-wrapper'
 import MissionListUlam from '@features/ulam/components/element/mission-list-ulam'
 import MissionListUlamAction from '@features/ulam/components/ui/mission-list-ulam-action'
 import MissionListUlamTitle from '@features/ulam/components/ui/mission-list-ulam-title'
+import MissionListPageHeaderWrapper from '@features/v2/common/components/layout/mission-list-page-header-wrapper'
+import MissionListPageSidebarWrapper from '@features/v2/common/components/layout/mission-list-page-sidebar-wrapper'
+import MissionListPageWrapper from '@features/v2/common/components/layout/mission-list-page-wrapper'
 import { Icon } from '@mtes-mct/monitor-ui'
 import React from 'react'
 

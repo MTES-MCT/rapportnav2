@@ -1,5 +1,5 @@
-import { ActionRegistryItem, useActionRegistry } from '@common/hooks/use-action-registry'
 import { ActionTypeEnum } from '@common/types/env-mission-types'
+import { ActionRegistryItem, useActionRegistry } from '@features/v2/common/hooks/use-action-registry'
 
 type UlamActionRegistry = {
   [key in ActionTypeEnum]?: ActionRegistryItem

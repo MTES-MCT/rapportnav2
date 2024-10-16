@@ -1,5 +1,5 @@
 import { useApolloClient } from '@apollo/client'
-import { User } from '@common/utils/user.ts'
+import { User } from '@features/v2/common/types/user.ts'
 import { jwtDecode } from 'jwt-decode'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
