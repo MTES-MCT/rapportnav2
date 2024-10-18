@@ -21,6 +21,7 @@ plugins {
   id("io.spring.dependency-management") version "1.1.4"
   id("org.owasp.dependencycheck") version "8.4.0"
   id("org.flywaydb.flyway") version "10.10.0"
+  jacoco
 }
 
 springBoot {
@@ -148,4 +149,22 @@ tasks.register<Copy>("getDependencies") {
   doLast {
     File("runtime").deleteRecursively()
   }
+}
+
+jacoco {
+  toolVersion = "0.8.12"
+  reportsDirectory = layout.buildDirectory.dir("reports/jacoco")
+}
+
+tasks.jacocoTestReport {
+  reports {
+    xml.required.set(true)   // Enable XML report (for CI integration)
+    html.required.set(true)  // Enable HTML report
+    html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
+  }
+}
+
+tasks.test {
+  useJUnitPlatform()   // If you are using JUnit 5
+  finalizedBy(tasks.jacocoTestReport)  // Generate the report after tests
 }
