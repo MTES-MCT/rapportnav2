@@ -2,6 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
@@ -13,6 +14,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.control.ControlAdministrativeEnti
 import fr.gouv.gmampa.rapportnav.mocks.mission.control.ControlGensDeMerEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.control.ControlNavigationEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.control.ControlSecurityEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.EnvInfractionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
@@ -642,48 +644,6 @@ class GetMissionOperationalSummaryTests {
                 "nbPVGensDeMer" to 0,
                 "nbPvNav" to 0,
             )
-
-
-//            val expected = mapOf(
-//                CountryCode.FR to mapOf(
-//                    "nbActions" to 1,
-//                    "nbControls" to 1,
-//                    "nbPvFish" to 0,
-//                    "nbPvSecuAndAdmin" to 0,
-//                    "nbPVGensDeMer" to 0,
-//                    "nbPvNav" to 0,
-//                    "nbSeizureAndDiversion" to 0
-//                ),
-//                "autres ue" to mapOf(
-//                    "nbActions" to 1,
-//                    "nbControls" to 1,
-//                    "nbPvFish" to null,
-//                    "nbPvSecuAndAdmin" to null,
-//                    "nbPVGensDeMer" to null,
-//                    "nbPvNav" to null,
-//                    "nbSeizureAndDiversion" to null
-//                ),
-//                "non ue" to mapOf(
-//                    "nbActions" to null,
-//                    "nbControls" to null,
-//                    "nbPvFish" to null,
-//                    "nbPvSecuAndAdmin" to null,
-//                    "nbPVGensDeMer" to null,
-//                    "nbPvNav" to null,
-//                    "nbSeizureAndDiversion" to null
-//                ),
-//                "total" to mapOf(
-//                    "nbActions" to 2,
-//                    "nbControls" to 2,
-//                    "nbPvFish" to null,
-//                    "nbPvSecuAndAdmin" to null,
-//                    "nbPVGensDeMer" to null,
-//                    "nbPvNav" to null,
-//                    "nbSeizureAndDiversion" to null
-//                )
-//            )
-
-
             assertEquals(summary, expected)
         }
 
@@ -748,4 +708,114 @@ class GetMissionOperationalSummaryTests {
         }
     }
 
+    @Nested
+    inner class EnvActionsSummary {
+
+        private val actions = listOf(
+            // action control Peche de loisir with infraction
+            MissionActionEntity.EnvAction(
+                envAction = ExtendedEnvActionEntityMock.create(
+                    controlAction = ExtendedEnvActionControlEntityMock.create(
+                        action = EnvActionControlMock.create(
+                            controlPlans = listOf(EnvActionControlPlanEntity(themeId = 112)),
+                            infractions = listOf(EnvInfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT))
+                        ),
+                        controlSecurity = ControlSecurityEntityMock.create(
+                            infractions = listOf(
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                            )
+                        )
+                    )
+                ),
+            ),
+            // action control Peche de loisir without infraction
+            MissionActionEntity.EnvAction(
+                envAction = ExtendedEnvActionEntityMock.create(
+                    controlAction = ExtendedEnvActionControlEntityMock.create(
+                        action = EnvActionControlMock.create(
+                            controlPlans = listOf(EnvActionControlPlanEntity(themeId = 112)),
+                            infractions = listOf()
+                        ),
+                    )
+                ),
+            ),
+            // action control other theme with 2 infractions
+            MissionActionEntity.EnvAction(
+                envAction = ExtendedEnvActionEntityMock.create(
+                    controlAction = ExtendedEnvActionControlEntityMock.create(
+                        action = EnvActionControlMock.create(
+                            controlPlans = listOf(EnvActionControlPlanEntity(themeId = 1)),
+                            infractions = listOf(EnvInfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT))
+                        ),
+                    )
+                ),
+            ),
+            // action surveillance peche loisir
+            MissionActionEntity.EnvAction(
+                envAction = ExtendedEnvActionEntityMock.create(
+                    surveillanceAction = ExtendedEnvActionSurveillanceEntityMock.create(
+                        action = EnvActionSurveillanceMock.create(
+                            controlPlans = listOf(EnvActionControlPlanEntity(themeId = 112)),
+                        ),
+                    )
+                ),
+            ),
+            // action surveillance other theme
+            MissionActionEntity.EnvAction(
+                envAction = ExtendedEnvActionEntityMock.create(
+                    surveillanceAction = ExtendedEnvActionSurveillanceEntityMock.create(
+                        action = EnvActionSurveillanceMock.create(
+                            controlPlans = listOf(EnvActionControlPlanEntity(themeId = 1)),
+                        ),
+                    )
+                ),
+            ),
+        )
+
+        @Test
+        fun `envActionSummary should return empty map`() {
+            val mission =
+                MissionEntityMock.create(actions = listOf())
+            val summary = getMissionOperationalSummary.getEnvSummary(
+                mission = mission
+            )
+            val expected = mapOf(
+                "nbSurveillances" to 0,
+                "nbControls" to 0,
+                "nbPv" to 0,
+            )
+            assertEquals(summary, expected)
+        }
+
+        @Test
+        fun `envActionSummary should return data`() {
+            val mission =
+                MissionEntityMock.create(actions = actions)
+            val summary = getMissionOperationalSummary.getEnvSummary(
+                mission = mission
+            )
+            val expected = mapOf(
+                "nbSurveillances" to 2,
+                "nbControls" to 3,
+                "nbPv" to 2,
+            )
+            assertEquals(summary, expected)
+        }
+
+        @Test
+        fun `getLeisureFishingSummary should return data`() {
+            val mission =
+                MissionEntityMock.create(actions = actions)
+            val summary = getMissionOperationalSummary.getLeisureFishingSummary(
+                mission = mission
+            )
+            val expected = mapOf(
+                "nbControls" to 2,
+                "nbPv" to 1,
+            )
+            assertEquals(summary, expected)
+        }
+    }
 }

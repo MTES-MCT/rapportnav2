@@ -141,6 +141,9 @@ class ExportMissionRapportPatrouille(
             val leisureSailingSeaSummary = getMissionOperationalSummary.getLeisureSailingSeaSummary(mission)
             val leisureSailingLandSummary = getMissionOperationalSummary.getLeisureSailingLandSummary(mission)
 
+            val envSummary = getMissionOperationalSummary.getEnvSummary(mission)
+            val leisureFishingSummary = getMissionOperationalSummary.getLeisureFishingSummary(mission)
+
             val placeholders: Map<String, String?> = mapOf(
                 "\${service}" to (service?.name ?: ""),
                 "\${numRapport}" to formatDateTime.formatDate(mission.startDateTimeUtc),
@@ -187,14 +190,6 @@ class ExportMissionRapportPatrouille(
                 "\${essence}" to (generalInfo?.consumedFuelInLiters?.toString() ?: ""),
 
                 "\${observations}" to (mission.observationsByUnit ?: ""),
-
-//                "\${proSailingSeaSummary}" to gson.toJson(proSailingSeaSummary),
-//                "\${leisureSailingSeaSummary}" to gson.toJson(leisureSailingSeaSummary),
-//                "\${proFishingLandSummary}" to gson.toJson(proFishingLandSummary),
-//                "\${proSailingLandSummary}" to gson.toJson(proSailingLandSummary),
-//                "\${leisureSailingLandSummary}" to gson.toJson(leisureSailingLandSummary),
-
-
             )
 
             fun castLinkedHashMapToList(map: LinkedHashMap<String, Map<String, Int?>>): List<List<String?>> {
@@ -323,6 +318,40 @@ class ExportMissionRapportPatrouille(
                         "Nbre PV titre conduite",
                     )
                     val secondRow: List<String?> = leisureSailingLandSummary.values.map { value ->
+                        if (value > 0) value.toString() else ""
+                    }
+                    val table: List<List<String?>> = listOf(header, secondRow)
+                    insertOperationalSummaryTableAtParagraph(paragraph, table)
+                }
+            }
+
+
+            paragraphs = document.paragraphs.toList()
+            for (paragraph in paragraphs) {
+                if (paragraph.text.contains("\${envSummary}")) {
+                    val header: List<String?> = listOf(
+                        "Nbre surveillance Env",
+                        "Nbre ctrl Env",
+                        "Nbre de PV Env",
+                    )
+                    val secondRow: List<String?> = envSummary.values.map { value ->
+                        if (value > 0) value.toString() else ""
+                    }
+                    val table: List<List<String?>> = listOf(header, secondRow)
+                    insertOperationalSummaryTableAtParagraph(paragraph, table)
+                }
+            }
+
+
+            paragraphs = document.paragraphs.toList()
+            for (paragraph in paragraphs) {
+                if (paragraph.text.contains("\${leisureFishingSummary}")) {
+
+                    val header: List<String?> = listOf(
+                        "Nbre Navires contrôlés",
+                        "Nbre de PV pêche de loisir",
+                    )
+                    val secondRow: List<String?> = leisureFishingSummary.values.map { value ->
                         if (value > 0) value.toString() else ""
                     }
                     val table: List<List<String?>> = listOf(header, secondRow)

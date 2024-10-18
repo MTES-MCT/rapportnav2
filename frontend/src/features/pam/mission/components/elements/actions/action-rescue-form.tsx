@@ -373,8 +373,8 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                 label="Nb d'embarcations suivies sans nécessité d'intervention"
                 isRequired={!!actionData?.isMigrationRescue}
                 error={
-                  !actionData.nbOfVesselsTrackedWithoutIntervention && actionData?.isMigrationRescue
-                    ? 'error'
+                  actionData?.isMigrationRescue
+                    ? getError(actionData, isMissionFinished, 'nbOfVesselsTrackedWithoutIntervention')
                     : undefined
                 }
                 isErrorMessageHidden={true}
@@ -394,7 +394,9 @@ const ActionRescueForm: React.FC<ActionRescueFormProps> = ({ action }) => {
                 label="Nb d'embarcations assistées pour un retour à terre"
                 isRequired={!!actionData?.isMigrationRescue}
                 error={
-                  !actionData.nbAssistedVesselsReturningToShore && actionData?.isMigrationRescue ? 'error' : undefined
+                  actionData?.isMigrationRescue
+                    ? getError(actionData, isMissionFinished, 'nbAssistedVesselsReturningToShore')
+                    : undefined
                 }
                 isErrorMessageHidden={true}
                 name="nbAssistedVesselsReturningToShore"

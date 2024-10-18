@@ -116,6 +116,48 @@ class GetMissionOperationalSummary {
         return summary.filterKeys { it in keysToKeep }
     }
 
+    fun getEnvSummary(mission: MissionEntity): Map<String, Int> {
+        val actions = mission.actions
+            ?.filterIsInstance<MissionActionEntity.EnvAction>()
+            ?: emptyList()
+        val nbSurveillances = actions.count { it.envAction?.surveillanceAction != null }
+        val nbControls = actions.count { it.envAction?.controlAction != null }
+        val nbPv = actions.sumOf { action ->
+            (action.envAction?.controlAction?.action?.infractions?.count { inf ->
+                inf.infractionType == InfractionTypeEnum.WITH_REPORT
+            } ?: 0)
+        }
+        val summary = mapOf(
+            "nbSurveillances" to nbSurveillances,
+            "nbControls" to nbControls,
+            "nbPv" to nbPv
+        )
+
+
+        return summary
+    }
+
+    fun getLeisureFishingSummary(mission: MissionEntity): Map<String, Int> {
+        // specifically filter for theme Peche de loisir (autre que PAP), it has id 112
+        val themeId = 112
+        val actions = mission.actions
+            ?.filterIsInstance<MissionActionEntity.EnvAction>()
+            ?.filter { it.envAction?.controlAction != null }
+            ?.filter { it.envAction?.controlAction?.action?.controlPlans?.any { theme -> theme.themeId == themeId } == true }
+            ?: emptyList()
+        val nbPv = actions.sumOf { action ->
+            // Sum infractions of type WITH_REPORT from different control categories
+            (action.envAction?.controlAction?.action?.infractions?.count { inf ->
+                inf.infractionType == InfractionTypeEnum.WITH_REPORT
+            } ?: 0)
+        }
+        val summary = mapOf(
+            "nbControls" to actions.count(),
+            "nbPv" to nbPv
+        )
+        return summary
+    }
+
     private fun getFishActionSummary(
         mission: MissionEntity,
         controlMethod: MissionActionType

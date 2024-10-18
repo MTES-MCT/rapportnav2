@@ -29,6 +29,30 @@ class AEMOutOfMigrationRescueTest {
         assertThat(migrationRescue.nbrOfRescuedOperation).isEqualTo(nbrOfRescuedOperation);
     }
 
+    @Test
+    fun `Should not thow null pointer exception event if nbrPersonsRescued is null`() {
+        val action = NavActionEntity(
+            id = UUID.randomUUID(),
+            missionId = 761,
+            actionType = ActionType.ILLEGAL_IMMIGRATION,
+            startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
+            endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
+            rescueAction = ActionRescueEntity(
+                missionId = 761,
+                id = UUID.randomUUID(),
+                startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
+                endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
+                observations = "",
+                numberPersonsRescued = null,
+                numberOfDeaths = 0,
+                isMigrationRescue = false
+            )
+        )
+        val migrationRescue = AEMOutOfMigrationRescue(navActions = listOf(action));
+        assertThat(migrationRescue).isNotNull();
+        assertThat(migrationRescue.nbrPersonsRescued).isEqualTo(0.0);
+    }
+
     private fun navActionEntities(): List<NavActionEntity> {
         val actions = listOf(
             NavActionEntity(
