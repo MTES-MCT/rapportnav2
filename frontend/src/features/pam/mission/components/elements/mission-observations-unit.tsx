@@ -2,6 +2,7 @@ import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
 import React, { useEffect, useRef, useState } from 'react'
 import usePatchMissionEnv from '../../hooks/use-patch-mission-env.tsx'
+import useIsMissionFinished from '@features/pam/mission/hooks/use-is-mission-finished.tsx'
 
 const DEBOUNCE_TIME_TRIGGER = 5000
 
@@ -16,6 +17,8 @@ interface MissionObservationsByUnitProps {
 
 const MissionObservationsUnit: React.FC<MissionObservationsByUnitProps> = ({ missionId, observationsByUnit }) => {
   const [patchMissionObservation] = usePatchMissionEnv()
+  const isMissionFinished = useIsMissionFinished(missionId?.toString())
+
   const timerRef = useRef<ReturnType<typeof setTimeout>>()
   const [initValue, setInitValue] = useState<ObservationsByUnit>()
 
@@ -40,10 +43,21 @@ const MissionObservationsUnit: React.FC<MissionObservationsByUnitProps> = ({ mis
     })
   }
 
+  const validateError = (isMissionFinished?: boolean, observations?: string) =>
+    isMissionFinished && !observations
+      ? { observations: "L'observation générale de la mission est requise" }
+      : undefined
+
   return (
     <>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true}>
+        <Formik
+          initialValues={initValue}
+          initialErrors={validateError(isMissionFinished, initValue.observations)}
+          onSubmit={handleSubmit}
+          validateOnChange={true}
+          validate={values => validateError(isMissionFinished, values.observations)}
+        >
           <>
             <FormikEffect onChange={handleSubmit} />
             <FormikTextarea
@@ -52,6 +66,7 @@ const MissionObservationsUnit: React.FC<MissionObservationsByUnitProps> = ({ mis
               name="observations"
               data-testid="mission-general-observation"
               label="Observation générale à l'échelle de la mission (remarques, résumé)"
+              isErrorMessageHidden={true}
             />
           </>
         </Formik>

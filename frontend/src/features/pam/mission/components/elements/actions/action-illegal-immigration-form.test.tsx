@@ -7,6 +7,7 @@ import * as useActionByIdModule from '@features/pam/mission/hooks/use-action-by-
 import * as useIsMissionFinishedModule from '@features/pam/mission/hooks/use-is-mission-finished.tsx'
 import { vi } from 'vitest'
 import { render } from '../../../../../../test-utils.tsx'
+import { THEME } from '@mtes-mct/monitor-ui'
 
 vi.mock('react-router-dom', async importOriginal => {
   const actual = await importOriginal()
@@ -50,9 +51,10 @@ describe('ActionIllegalImmigrationForm', () => {
   })
 
   it('should render error when no values and mission is finished', async () => {
-    const red = '#e1000f'
     vi.spyOn(useIsMissionFinishedModule, 'default').mockReturnValue(true)
     const wrapper = render(<ActionIllegalImmigrationForm action={action} />)
-    expect(wrapper.getByRole('nbOfInterceptedVessels')).toHaveStyle(`border: 1px solid ${red};`)
+    expect(wrapper.getByRole('nbOfInterceptedVessels')).toHaveStyle(
+      `border: 1px solid ${THEME.color.maximumRed.toLowerCase()};`
+    )
   })
 })
