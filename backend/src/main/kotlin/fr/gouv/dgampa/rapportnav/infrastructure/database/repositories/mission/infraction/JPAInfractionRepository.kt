@@ -71,10 +71,12 @@ class JPAInfractionRepository(
     }
 
 
+    @Transactional
     override fun findAllByActionId(actionId: String): List<InfractionModel> {
         return dbRepo.findAllByActionId(actionId = actionId)
     }
 
+    @Transactional
     override fun findById(id: UUID): Optional<InfractionModel> {
         return dbRepo.findById(id)
     }

@@ -40,6 +40,7 @@ class JPAInfractionEnvTargetRepository(
         }
     }
 
+    @Transactional
     override fun findByActionIdAndVesselIdentifier(
         actionId: String,
         vesselIdentifier: String
