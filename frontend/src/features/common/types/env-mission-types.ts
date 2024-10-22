@@ -1,4 +1,3 @@
-import { ControlUnit } from './control-unit-types.ts'
 import {
   ControlAdministrative,
   ControlGensDeMer,
@@ -6,6 +5,7 @@ import {
   ControlSecurity,
   ControlType
 } from './control-types.ts'
+import { ControlUnit } from './control-unit-types.ts'
 import { InfractionByTarget } from './infraction-types.ts'
 
 export enum ActionTypeEnum {
@@ -380,8 +380,8 @@ export type Mission<EnvAction = EnvActionControl | EnvActionSurveillance | EnvAc
 export type EnvAction = EnvActionControl | EnvActionSurveillance | EnvActionNote
 
 export type EnvActionCommonProperties = {
-  actionEndDateTimeUtc?: string | null
-  actionStartDateTimeUtc?: string | null
+  actionEndDateTimeUtc?: string
+  actionStartDateTimeUtc?: string
   geom?: string
   id: string
   actionStatus: string
@@ -399,7 +399,7 @@ export type NewEnvActionControl = EnvActionCommonProperties & {
   actionType: ActionTypeEnum.CONTROL
   infractions: InfractionByTarget[]
   observations: string | null
-  vehicleType?: string
+  vehicleType?: VehicleTypeEnum
   formattedControlPlans: FormattedControlPlan[]
 }
 export type EnvActionControl = NewEnvActionControl & {

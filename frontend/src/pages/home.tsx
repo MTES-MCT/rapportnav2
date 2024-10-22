@@ -8,7 +8,7 @@ const Home: FC = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/pam/missions', { replace: true })
+      navigate(`/pam/missions`, { replace: true })
     } else {
       navigate('/login', { replace: true })
     }

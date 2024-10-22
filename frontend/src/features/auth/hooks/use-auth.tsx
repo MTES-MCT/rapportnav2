@@ -1,11 +1,15 @@
-import { useEffect, useState } from 'react'
-import AuthToken from '../utils/token.ts'
-import { useNavigate } from 'react-router-dom'
 import { useApolloClient } from '@apollo/client'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import AuthToken from '../utils/token.ts'
 
+type AuthHook = {
+  isAuthenticated: boolean
+  logout: () => Promise<void>
+}
 const authToken = new AuthToken()
 
-const useAuth = (): { isAuthenticated: boolean; logout: () => Promise<void> } => {
+const useAuth = (): AuthHook => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!authToken.get())
   const navigate = useNavigate()
   const apolloClient = useApolloClient()
