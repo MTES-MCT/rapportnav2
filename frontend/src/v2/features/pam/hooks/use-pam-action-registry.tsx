@@ -1,6 +1,7 @@
 import { Action } from '@common/types/action-types'
 import { ActionTypeEnum } from '@common/types/env-mission-types'
 import { ActionRegistryHook, ActionRegistryItem, useActionRegistry } from '../../common/hooks/use-action-registry'
+import MissionActionItemStatus from '../../mission-action/components/elements/mission-action-item-status'
 import MissionTimelineItemStatusCardFooter from '../../mission-timeline/components/elements/mission-timeline-item-status-card-footer'
 import MissionTimelineItemStatusCardTitle from '../../mission-timeline/components/elements/mission-timeline-item-status-card-title'
 
@@ -9,6 +10,7 @@ type PamActionRegistry = {
 }
 const PAM_ACTION_REGISTRY: PamActionRegistry = {
   [ActionTypeEnum.STATUS]: {
+    hasStatusTag: true,
     style: {
       minHeight: 0
     },
@@ -23,7 +25,7 @@ const PAM_ACTION_REGISTRY: PamActionRegistry = {
         <MissionTimelineItemStatusCardFooter prevAction={prevAction} />
       )
     },
-    hasStatusTag: true
+    actionComponent: MissionActionItemStatus
   }
 }
 

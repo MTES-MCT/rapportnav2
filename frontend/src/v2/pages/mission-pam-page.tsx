@@ -15,12 +15,11 @@ import MissionPageLoading from '../features/common/components/ui/mission-page-lo
 import { useMissionExport } from '../features/common/hooks/use-mission-export.tsx'
 import { useMissionExcerptQuery } from '../features/common/services/use-mission-excerpt.tsx'
 import MissionActionHeader from '../features/mission-action/components/elements/mission-action-header.tsx'
-import MissionActionUlam from '../features/ulam/components/element/mission-action-ulam.tsx'
-import MissionGeneralInformationUlam from '../features/ulam/components/element/mission-general-information-ulam.tsx'
-import MissionTimelineHeaderUlam from '../features/ulam/components/element/mission-timeline-header-ulam.tsx'
-import MissionTimelineUlam from '../features/ulam/components/element/mission-timeline-ulam.tsx'
+import MissionTimelineHeaderPam from '../features/pam/components/element/mission-timeline-header-pam.tsx'
+import MissionTimelinePam from '../features/pam/components/element/mission-timeline-pam.tsx'
+import MissionActionPam from '../features/pam/components/mission-action-pam.tsx'
 
-const MissionUlamPage: React.FC = () => {
+const MissionPamPage: React.FC = () => {
   const lastSync = useApolloLastSync()
   let { missionId, actionId } = useParams()
   const { navigateAndResetCache } = useAuth()
@@ -47,13 +46,13 @@ const MissionUlamPage: React.FC = () => {
       missionGeneralInformations={
         <MissionPageSectionWrapper
           sectionHeader={<MissionGeneralInformationHeader />}
-          sectionBody={<MissionGeneralInformationUlam />}
+          sectionBody={<>General infos pam</>}
         />
       }
       missionTimeLine={
         <MissionPageSectionWrapper
-          sectionHeader={<MissionTimelineHeaderUlam missionId={missionId} />}
-          sectionBody={<MissionTimelineUlam missionId={missionId} />}
+          sectionHeader={<MissionTimelineHeaderPam missionId={missionId} />}
+          sectionBody={<MissionTimelinePam missionId={missionId} />}
         />
       }
       missionAction={
@@ -62,7 +61,7 @@ const MissionUlamPage: React.FC = () => {
           sectionHeader={
             <MissionActionHeader missionId={missionId} actionId={actionId} missionStatus={mission?.status} />
           }
-          sectionBody={<MissionActionUlam missionId={missionId} actionId={actionId} />}
+          sectionBody={<MissionActionPam missionId={missionId} actionId={actionId} />}
         />
       }
       missionFooter={<MissionPageFooterWrapper lastSyncText={lastSyncText} exitMission={exitMission} />}
@@ -70,4 +69,4 @@ const MissionUlamPage: React.FC = () => {
   )
 }
 
-export default MissionUlamPage
+export default MissionPamPage

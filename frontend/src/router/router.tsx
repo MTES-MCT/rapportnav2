@@ -8,6 +8,7 @@ import MissionsPage from '../pages/missions-page.tsx'
 import SignUp from '../pages/signup.tsx'
 import Home2 from '../v2/pages/home.tsx'
 import MissionListUlamPage from '../v2/pages/mission-list-ulam-page.tsx'
+import MissionPamPage from '../v2/pages/mission-pam-page.tsx'
 import MissionUlamPage from '../v2/pages/mission-ulam-page.tsx'
 
 export const getPath = (path: string) => `/${path}`
@@ -15,8 +16,9 @@ export const getPath = (path: string) => `/${path}`
 export const ROOT_PATH = '/'
 export const LOGIN_PATH = 'login'
 export const SIGNUP_PATH = 'signup'
-export const PAM_HOME_PATH = 'pam/missions'
-export const ULAM_HOME_PATH = '/ulam/missions'
+export const PAM_HOME_PATH = '/pam/missions'
+export const PAM_V2_HOME_PATH = 'v2/pam/missions'
+export const ULAM_V2_HOME_PATH = '/v2/ulam/missions'
 
 const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(createBrowserRouter)
 
@@ -51,8 +53,9 @@ export const router = sentryCreateBrowserRouter([
       </AuthGuard>
     )
   },
+  //V2
   {
-    path: ULAM_HOME_PATH,
+    path: ULAM_V2_HOME_PATH,
     element: (
       <AuthGuard>
         <MissionListUlamPage />
@@ -61,10 +64,19 @@ export const router = sentryCreateBrowserRouter([
     errorElement: <ErrorPage />
   },
   {
-    path: `${ULAM_HOME_PATH}/:missionId/:actionId?`,
+    path: `${ULAM_V2_HOME_PATH}/:missionId/:actionId?`,
     element: (
       <AuthGuard>
         <MissionUlamPage />
+      </AuthGuard>
+    ),
+    errorElement: <ErrorPage />
+  },
+  {
+    path: `${PAM_V2_HOME_PATH}/:missionId/:actionId?`,
+    element: (
+      <AuthGuard>
+        <MissionPamPage />
       </AuthGuard>
     ),
     errorElement: <ErrorPage />

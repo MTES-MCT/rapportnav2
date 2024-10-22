@@ -31,7 +31,6 @@ const MissionTimelineItemUlam: FC<MissionTimelineItemUlamProps> = ({ action, pre
       card={
         <MissionTimelineCardWrapper
           icon={icon}
-          noPadding={timeline?.noPadding}
           title={timeline?.getCardTitle(action, isSelected)}
           tags={timeline?.getCardTag ? timeline?.getCardTag(action) : undefined}
           subTitle={timeline?.getCardSubtitle ? timeline.getCardSubtitle(action) : undefined}
