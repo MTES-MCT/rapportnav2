@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
-version = "2.2.6"
+version = "2.2.7"
 description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
@@ -48,7 +48,7 @@ dependencyManagement {
     mavenBom("org.testcontainers:testcontainers-bom:$testcontainersVersion")
   }
   dependencies {
-    dependency("org.springframework:spring-webmvc:6.1.13")
+    dependency("org.springframework:spring-webmvc:6.1.14")
   }
 }
 
