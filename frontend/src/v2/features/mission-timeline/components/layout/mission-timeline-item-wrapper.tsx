@@ -3,9 +3,9 @@ import { THEME } from '@mtes-mct/monitor-ui'
 import { DetailedHTMLProps, FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Stack } from 'rsuite'
-import { ActionStyle } from 'src/v2/features/common/hooks/use-action-registry'
-import { ModuleType } from 'src/v2/features/common/types/module-type'
 import styled from 'styled-components'
+import { ActionStyle } from '../../../common/hooks/use-action-registry'
+import { ModuleType } from '../../../common/types/module-type'
 import MissionTimelineItemStatus from '../elements/mission-timeline-item-status'
 import MissionTimelineItemDate from '../ui/mission-timeline-item-date'
 
@@ -46,7 +46,7 @@ const MissionTimelineItemWrapper: FC<MissionTimelineItemWrapperProps> = ({
 }) => {
   const navigate = useNavigate()
   const handleClick = (actionId?: string) => {
-    navigate(`/${moduleType}/missions/${missionId}/${actionId}`)
+    navigate(`/v2/${moduleType}/missions/${missionId}/${actionId}`)
   }
   return (
     <Stack direction="row" spacing={'0.5rem'} style={{ overflow: 'hidden' }}>

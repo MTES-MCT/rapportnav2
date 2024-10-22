@@ -1,48 +1,25 @@
 import { IconProps, THEME } from '@mtes-mct/monitor-ui'
-import React, { createElement, DetailedHTMLProps, FunctionComponent } from 'react'
+import React, { createElement, FunctionComponent } from 'react'
 import { FlexboxGrid, Stack } from 'rsuite'
-import styled from 'styled-components'
-
-const DivStyled = styled(
-  ({
-    isSelected,
-    ...props
-  }: { isSelected: Boolean } & DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => (
-    <div {...props} />
-  )
-)(({ style, isSelected }) => ({
-  cursor: 'pointer',
-  minHeight: `${style?.minHeight ? 0 : style?.borderColor ? '48px' : '52px'}`,
-  background: `${style?.backgroundColor ?? 'inherit'} 0% 0% no-repeat padding-box`,
-  border: `${style?.borderColor ? (isSelected ? `3px solid ${THEME.color.blueGray} !important` : `1px solid ${style.borderColor}`) : 'none'}`,
-  textAlign: 'left',
-  letterSpacing: 0
-}))
 
 type MissionTimelineCardWrapperProps = {
   tags?: JSX.Element
-  //style?: ActionStyle
   title?: JSX.Element
-  //isSelected: boolean
   statusTag?: JSX.Element
   footer?: JSX.Element
   subTitle?: JSX.Element
   noPadding?: boolean
   icon?: FunctionComponent<IconProps>
-  //onClick: () => void
 }
 
 const MissionTimelineCardWrapper: React.FC<MissionTimelineCardWrapperProps> = ({
   icon,
   tags,
   title,
-  //style,
   footer,
-  //onClick,
   subTitle,
   statusTag,
   noPadding
-  //isSelected
 }) => {
   return (
     <FlexboxGrid
