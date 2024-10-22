@@ -6,7 +6,7 @@ describe('MissionCompletenessForStatsTag component', () => {
   test('renders "À compléter" when missionStatus is undefined', () => {
     render(
       <MissionCompletenessForStatsTag
-        completenessForStats={CompletenessForStatsStatusEnum.INCOMPLETE}
+        completenessForStats={{ status: CompletenessForStatsStatusEnum.INCOMPLETE }}
         missionStatus={undefined}
       />
     )
@@ -23,7 +23,7 @@ describe('MissionCompletenessForStatsTag component', () => {
   test('renders "Données à jour" when missionStatus is IN_PROGRESS and completenessForStats is COMPLETE', () => {
     render(
       <MissionCompletenessForStatsTag
-        completenessForStats={CompletenessForStatsStatusEnum.COMPLETE}
+        completenessForStats={{ status: CompletenessForStatsStatusEnum.COMPLETE }}
         missionStatus={MissionStatusEnum.IN_PROGRESS}
       />
     )
@@ -33,7 +33,7 @@ describe('MissionCompletenessForStatsTag component', () => {
   test('renders "À compléter" when missionStatus is IN_PROGRESS and completenessForStats is COMPLETE', () => {
     render(
       <MissionCompletenessForStatsTag
-        completenessForStats={CompletenessForStatsStatusEnum.INCOMPLETE}
+        completenessForStats={{ status: CompletenessForStatsStatusEnum.INCOMPLETE }}
         missionStatus={MissionStatusEnum.IN_PROGRESS}
       />
     )
@@ -43,7 +43,7 @@ describe('MissionCompletenessForStatsTag component', () => {
   test('renders "Complété" when missionStatus is ENDED and completenessForStats is COMPLETE', () => {
     render(
       <MissionCompletenessForStatsTag
-        completenessForStats={CompletenessForStatsStatusEnum.COMPLETE}
+        completenessForStats={{ status: CompletenessForStatsStatusEnum.COMPLETE }}
         missionStatus={MissionStatusEnum.ENDED}
       />
     )
@@ -54,7 +54,7 @@ describe('MissionCompletenessForStatsTag component', () => {
     render(
       <MissionCompletenessForStatsTag
         missionStatus={MissionStatusEnum.ENDED}
-        completenessForStats={CompletenessForStatsStatusEnum.INCOMPLETE}
+        completenessForStats={{ status: CompletenessForStatsStatusEnum.INCOMPLETE }}
       />
     )
     const tagElement = screen.getByText('À compléter')

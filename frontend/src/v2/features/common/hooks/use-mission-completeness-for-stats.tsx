@@ -12,21 +12,20 @@ type Component = {
   icon: FunctionComponent<IconProps>
 }
 
-interface MissionCompletenessTagHook {
-  getCompletenessForStats: () => Component
-  getBannerLevel: (completenessForStats?: CompletenessForStats) => Level
-  getBannerMessage: (completenessForStats?: CompletenessForStats) => string
-  getCompletenessForStatsStatus: () => Component
-}
+type MissionCompletenessTagHook = {
+  bannerLevel: Level
+  bannerMessage: string
+  statusMessage: string
+} & Component
 
 export function useMissionCompletenessForStats(
-  missionStatus?: MissionStatusEnum,
-  completenessForStatsType?: CompletenessForStatsStatusEnum
+  completenessForStats?: CompletenessForStats,
+  missionStatus?: MissionStatusEnum
 ): MissionCompletenessTagHook {
   const getCompletenessForStats = (): Component => {
     const stat: Component = {} as Component
-    if (completenessForStatsType && missionStatus === MissionStatusEnum.ENDED) {
-      if (completenessForStatsType === CompletenessForStatsStatusEnum.COMPLETE) {
+    if (completenessForStats?.status && missionStatus === MissionStatusEnum.ENDED) {
+      if (completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE) {
         stat.text = 'Complété'
         stat.icon = Icon.Confirm
         stat.color = THEME.color.mediumSeaGreen
@@ -36,7 +35,7 @@ export function useMissionCompletenessForStats(
         stat.color = THEME.color.maximumRed
       }
     } else {
-      if (completenessForStatsType === CompletenessForStatsStatusEnum.COMPLETE) {
+      if (completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE) {
         stat.icon = Icon.Confirm
         stat.text = 'Données à jour'
         stat.color = THEME.color.mediumSeaGreen
@@ -49,6 +48,22 @@ export function useMissionCompletenessForStats(
     return stat
   }
 
+  const getMessageStatus = () => {
+    if (completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE) {
+      return 'Les champs indispensables aux statistiques sont remplis.'
+    }
+
+    let sourceName = ''
+    if (completenessForStats?.sources?.indexOf(MissionSourceEnum.RAPPORTNAV) !== -1) {
+      sourceName = "par l'unité"
+    } else if (completenessForStats?.sources?.indexOf(MissionSourceEnum.MONITORENV) !== -1) {
+      sourceName = 'par le CACEM'
+    } else if (completenessForStats?.sources?.indexOf(MissionSourceEnum.MONITORFISH) !== -1) {
+      sourceName = 'par le CNSP'
+    }
+    return `Des champs indispensables sont à remplir ${sourceName}.`
+  }
+
   const fromCnspAndCacem = (stats?: CompletenessForStats) =>
     stats?.sources?.indexOf(MissionSourceEnum.MONITORFISH) !== -1 &&
     stats?.sources?.indexOf(MissionSourceEnum.MONITORENV) !== -1
@@ -56,7 +71,7 @@ export function useMissionCompletenessForStats(
   const fromCnsp = (stats?: CompletenessForStats) => stats?.sources?.indexOf(MissionSourceEnum.MONITORFISH) !== -1
   const fromCacem = (stats?: CompletenessForStats) => stats?.sources?.indexOf(MissionSourceEnum.MONITORENV) !== -1
 
-  const getBannerMessage = (completenessForStats?: CompletenessForStats): string => {
+  const getBannerMessage = (): string => {
     if (completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE) {
       return MISSION_COMPLETED_MESSAGE
     }
@@ -71,7 +86,7 @@ export function useMissionCompletenessForStats(
     return `${MISSION_INCOMPLETE_MESSAGE} par ${by}.`
   }
 
-  const getBannerLevel = (completenessForStats?: CompletenessForStats): Level => {
+  const getBannerLevel = (): Level => {
     if (completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE) {
       return Level.SUCCESS
     } else if (completenessForStats?.sources?.indexOf(MissionSourceEnum.RAPPORTNAV) !== -1) {
@@ -81,7 +96,7 @@ export function useMissionCompletenessForStats(
     }
   }
 
-  const getColorReportStatus = (isMissionFinished?: boolean, isCompleteForStats?: boolean) => {
+  /* const getColorReportStatus = (isMissionFinished?: boolean, isCompleteForStats?: boolean) => {
     if (isMissionFinished) {
       return isCompleteForStats ? THEME.color.mediumSeaGreen : THEME.color.maximumRed
     }
@@ -92,12 +107,17 @@ export function useMissionCompletenessForStats(
 
   const getCompletenessForStatsStatus = (): Component => {
     const isMissionFinished = missionStatus === MissionStatusEnum.ENDED
-    const isCompleteForStats = completenessForStatsType === CompletenessForStatsStatusEnum.COMPLETE
+    const isCompleteForStats = completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE
     return {
       icon: getIconReportStatus(isMissionFinished),
       color: getColorReportStatus(isMissionFinished, isCompleteForStats)
     }
-  }
+  }*/
 
-  return { getCompletenessForStatsStatus, getBannerLevel, getBannerMessage, getCompletenessForStats }
+  return {
+    ...getCompletenessForStats(),
+    bannerLevel: getBannerLevel(),
+    bannerMessage: getBannerMessage(),
+    statusMessage: getMessageStatus()
+  }
 }

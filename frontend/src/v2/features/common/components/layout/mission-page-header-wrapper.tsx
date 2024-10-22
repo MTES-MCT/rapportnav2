@@ -58,7 +58,7 @@ const MissionPageHeaderWrapper: React.FC<MissionPageHeaderProps> = ({
                   <MissionStatusTag status={mission?.status} />
                   <MissionCompletenessForStatsTag
                     missionStatus={mission?.status}
-                    completenessForStats={mission?.completenessForStats?.status}
+                    completenessForStats={mission?.completenessForStats}
                   />
                 </TagGroup>
               </Stack.Item>

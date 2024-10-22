@@ -8,17 +8,17 @@ interface MissionPageHeaderBannerProps {
 }
 
 const MissionPageHeaderBanner: React.FC<MissionPageHeaderBannerProps> = ({ completenessForStats }) => {
-  const { getBannerLevel, getBannerMessage } = useMissionCompletenessForStats()
+  const { bannerLevel, bannerMessage } = useMissionCompletenessForStats(completenessForStats)
   return (
     <Banner
       data-testid={'mission-report-status-banner'}
       isClosable={completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE}
       isCollapsible={completenessForStats?.status !== CompletenessForStatsStatusEnum.COMPLETE}
       isHiddenByDefault={false}
-      level={getBannerLevel(completenessForStats)}
+      level={bannerLevel}
       top={'60px'}
     >
-      {getBannerMessage(completenessForStats)}
+      {bannerMessage}
     </Banner>
   )
 }

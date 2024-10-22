@@ -1,6 +1,6 @@
 import { gql, MutationTuple, useMutation } from '@apollo/client'
+import { ActionControl } from '@common/types/action-types'
 import { useParams } from 'react-router-dom'
-import { ActionControl } from '../../../common/types/action-types.ts'
 
 export const MUTATION_ADD_OR_UPDATE_ACTION_CONTROL = gql`
   mutation AddOrUpdateControl($controlAction: ActionControlInput!) {

@@ -1,28 +1,20 @@
 import Text from '@common/components/ui/text'
-import { CompletenessForStatsStatusEnum, MissionStatusEnum } from '@common/types/mission-types.ts'
+import { CompletenessForStats, MissionStatusEnum } from '@common/types/mission-types.ts'
 import { Tag, THEME } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { useMissionCompletenessForStats } from '../../hooks/use-mission-completeness-for-stats'
 
 interface MissionStatusTagProps {
   missionStatus?: MissionStatusEnum
-  completenessForStats?: CompletenessForStatsStatusEnum
+  completenessForStats?: CompletenessForStats
 }
 
 const MissionCompletenessForStatsTag: FC<MissionStatusTagProps> = ({ missionStatus, completenessForStats }) => {
-  const { getCompletenessForStats } = useMissionCompletenessForStats(missionStatus, completenessForStats)
-  const forStats = getCompletenessForStats()
-
+  const { color, icon, text } = useMissionCompletenessForStats(completenessForStats, missionStatus)
   return (
-    <Tag
-      iconColor={forStats.color}
-      backgroundColor={THEME.color.cultured}
-      color={forStats.color}
-      Icon={forStats.icon}
-      withCircleIcon={true}
-    >
-      <Text as="h3" weight="medium" color={forStats.color}>
-        {forStats.text}
+    <Tag iconColor={color} backgroundColor={THEME.color.cultured} color={color} Icon={icon} withCircleIcon={true}>
+      <Text as="h3" weight="medium" color={color}>
+        {text}
       </Text>
     </Tag>
   )

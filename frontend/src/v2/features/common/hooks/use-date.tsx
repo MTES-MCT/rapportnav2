@@ -1,7 +1,8 @@
-import { parseISO } from 'date-fns'
+import { addMinutes, isValid, parseISO } from 'date-fns'
 import { formatInTimeZone } from 'date-fns-tz'
 import frLocale from 'date-fns/locale/fr'
 
+const TIME_ZONE = 'Europe/Paris'
 const DEFAULT_TIMEZONE = 'Europe/Paris'
 const MISSION_NAME_FORMAT = 'yyyy-MM-dd'
 const FRENCH_DAY_MONTH_YEAR = 'dd/MM/yyyy'
@@ -22,7 +23,10 @@ interface DateHook {
   groupByDay: (obj: any[], dateField: string) => any
   formatDateForMissionName: (date: DateTypes) => string
   formatDateForFrenchHumans: (date: DateTypes) => string
+
   formatDateTimeForFrenchHumans: (date: DateTypes) => string
+  preprocessDateForPicker: (value?: string) => Date
+  postprocessDateFromPicker: (value?: Date) => string
 }
 
 export function useDate(): DateHook {
@@ -71,6 +75,18 @@ export function useDate(): DateHook {
 
   const formatTime = (date: DateTypes): string => formatDate(date, SHORT_TIME, EMPTY_SHORT_TIME)
 
+  const preprocessDateForPicker = (value?: string): Date => {
+    let date = value ? new Date(value) : new Date()
+    if (!isValid(date)) date = new Date()
+    return new Date(`${formatInTimeZone(date, TIME_ZONE, "yyyy-MM-dd'T'HH:mm:ss.SSS")}Z`)
+  }
+
+  const postprocessDateFromPicker = (value?: Date): string => {
+    let date = value || new Date()
+    if (!isValid(date)) date = new Date()
+    return formatInTimeZone(addMinutes(date, new Date().getTimezoneOffset()), TIME_ZONE, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")
+  }
+
   return {
     formatTime,
     groupByDay,
@@ -78,6 +94,8 @@ export function useDate(): DateHook {
     formatMissionName,
     formatDateForMissionName,
     formatDateForFrenchHumans,
+    preprocessDateForPicker,
+    postprocessDateFromPicker,
     formatDateTimeForFrenchHumans
   }
 }
