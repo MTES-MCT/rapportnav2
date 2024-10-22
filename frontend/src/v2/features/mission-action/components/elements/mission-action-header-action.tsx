@@ -1,4 +1,4 @@
-import { Accent, Button, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
+import { Accent, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
 
 interface MissionActionHeaderActionProps {}
@@ -9,9 +9,7 @@ export const MissionActionHeaderAction: React.FC<MissionActionHeaderActionProps>
   return (
     <Stack direction="row" spacing="0.5rem">
       <Stack.Item>
-        <Button accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Duplicate} disabled={true}>
-          Dupliquer
-        </Button>
+        <IconButton accent={Accent.SECONDARY} size={Size.SMALL} Icon={Icon.Duplicate} disabled={true} />
       </Stack.Item>
       <Stack.Item>
         <IconButton
