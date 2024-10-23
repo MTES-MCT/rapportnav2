@@ -21,7 +21,7 @@ class AEMIllegalFishTest {
         val illegalImmigration = AEMIllegalFish(fishActions = actions);
 
         assertThat(illegalImmigration).isNotNull();
-        assertThat(illegalImmigration.quantityOfFish).isEqualTo(0.0);
+        assertThat(illegalImmigration.quantityOfFish).isEqualTo(6.0);
         assertThat(illegalImmigration.nbrOfInfraction).isEqualTo(7.0);
         assertThat(illegalImmigration.nbrOfHourAtSea).isEqualTo(3.0);
         assertThat(illegalImmigration.nbrOfPolFishAction).isEqualTo(2.0);
@@ -39,6 +39,7 @@ class AEMIllegalFishTest {
                         logbookInfractions = listOf(LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD)),
                         actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                         actionEndDatetimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
+                        speciesQuantitySeized = 4
                     )
                 )
             ),
@@ -54,6 +55,7 @@ class AEMIllegalFishTest {
                         ),
                         actionDatetimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                         actionEndDatetimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
+                        speciesQuantitySeized = 2
                     )
                 )
             )
