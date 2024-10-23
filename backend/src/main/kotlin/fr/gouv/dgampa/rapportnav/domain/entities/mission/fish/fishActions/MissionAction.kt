@@ -68,4 +68,5 @@ data class MissionAction(
     val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
     val isSeafarersControl: Boolean? = null,
     var observationsByUnit: String? = null,
+    var speciesQuantitySeized: Int ? = null
 )
