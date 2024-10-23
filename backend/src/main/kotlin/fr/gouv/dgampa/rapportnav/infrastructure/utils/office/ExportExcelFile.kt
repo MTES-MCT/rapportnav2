@@ -5,10 +5,13 @@ import org.apache.poi.ss.util.CellReference
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
 
 class ExportExcelFile(private val filePath: String) {
 
@@ -53,6 +56,28 @@ class ExportExcelFile(private val filePath: String) {
         FileOutputStream(filePath).use { fos: FileOutputStream ->
             workbook.write(fos)
         }
+    }
+
+    fun zip(outputZipPath: String, filesPathsToZip: List<String>) {
+        val buffer = ByteArray(1024)
+
+        FileOutputStream(outputZipPath).use { fos -> {
+            ZipOutputStream(fos).use { zos -> {
+                for (path in filesPathsToZip) {
+                    val file = File(path)
+                    FileInputStream(file).use { fis -> {
+                        val zipEntry = ZipEntry(file.name)
+                        zos.putNextEntry(zipEntry)
+                        var length: Int
+                        while (fis.read(buffer).also { length = it } > 0) {
+                            zos.write(buffer, 0, length)
+                        }
+
+                        zos.closeEntry()
+                    } }
+                }
+            } }
+        } }
     }
 
 }
