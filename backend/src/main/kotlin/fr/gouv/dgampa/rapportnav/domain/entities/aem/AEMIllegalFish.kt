@@ -67,8 +67,9 @@ data class AEMIllegalFish(
         }
 
         fun getQuantityOfFish(fishActions: List<ExtendedFishActionEntity?>): Double {
-            return 0.0; //TODO: hasSomeSpeciesSeized
-        }
+            return fishActions
+                .filterNotNull()
+                .sumOf { it.controlAction?.action?.speciesQuantitySeized?.toDouble() ?: 0.0 } }
 
     }
 }
