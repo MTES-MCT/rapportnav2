@@ -50,23 +50,20 @@ class ZipExportMissionListAEM(
 
             val excelFile = ExportExcelFile(tmpPath.toString())
 
-            var row = 3
-
             val filesToZip = mutableListOf<File>();
 
             for (mission in missions) {
                 val tableExport = AEMTableExport.fromMission(mission)
-                fillAEMExcelRow.fill(tableExport, excelFile, "Synthese", row)
+                fillAEMExcelRow.fill(tableExport, excelFile, "Synthese", 3)
                 excelFile.save()
 
                 logger.info("Excel file processed and saved")
 
                 val odsFilePath = OfficeConverter().convert(tmpPath.toString(), "Mission-${mission.id}.ods" )
                 filesToZip.add(File(odsFilePath))
-                row++
             }
 
-            val zipFile = File( "test_output.zip")
+            val zipFile = File( "tmp_output.zip")
 
             val excelODSUtils = ExcelODSUtils();
 
@@ -77,6 +74,8 @@ class ZipExportMissionListAEM(
             for (file in filesToZip) {
                 file.delete() // remove file from project
             }
+
+            outputZipFile.delete() // remove zip from project
 
             return MissionAEMExportEntity(
                 fileName = "tableaux_aem.zip",
