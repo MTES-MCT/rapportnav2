@@ -5,6 +5,7 @@ import { FlexboxGrid, Stack } from 'rsuite'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useControlUnitResourceLabel } from '../../../ulam/hooks/use-ulam-home-unit-resources.tsx'
+import { formatDateForMissionName } from '@common/utils/dates-for-humans.ts'
 
 interface MissionListItemProps {
   mission?: Mission,
@@ -24,6 +25,7 @@ const ListItemWithHover = styled.div`
 const MissionListItem: React.FC<MissionListItemProps> = ({mission, isUlam}) => {
 
   const controlUnitResourcesText = useControlUnitResourceLabel(mission?.controlUnits)
+  const missionName = formatDateForMissionName(mission?.startDateTimeUtc)
 
   return (
     <Stack>
@@ -42,7 +44,7 @@ const MissionListItem: React.FC<MissionListItemProps> = ({mission, isUlam}) => {
 
               <FlexboxGrid.Item colspan={4} data-testid={'mission-list-item-mission_number'}>
                 <p style={{ color: THEME.color.charcoal, fontSize: '16px', fontWeight: 'bold' }}>
-                  Mission n°2024-05/08
+                  Mission n°{missionName}
                 </p>
               </FlexboxGrid.Item>
 

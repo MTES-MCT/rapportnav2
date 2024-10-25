@@ -38,7 +38,7 @@ describe('MissionListItem component', () => {
 
   test('should render "Voiture" when no ControlUnitResource contains CAR', () => {
     render(<MissionListItem mission={mission2} isUlam={true} />)
-    const car = screen.queryByText("mission-list-item-control_unit_resources")
+    const car = screen.queryByTestId("mission-list-item-control_unit_resources")
     expect(car).toHaveTextContent('Voiture')
   })
 
