@@ -75,5 +75,13 @@ describe('MissionListItem component', () => {
     expect(missionStatus).toBeInTheDocument()
     expect(reportStatus).toBeInTheDocument()
   })
+
+  test('should render crew list with an ellipsis', () => {
+    render(<MissionListItem isUlam={true} mission={mission1}/> )
+    const missionCrew = screen.queryByTestId("mission-list-item-crew__text")
+    expect(missionCrew).toHaveStyle('text-overflow: ellipsis')
+    expect(missionCrew).toHaveStyle(`overflow: hidden`)
+    expect(missionCrew).toHaveStyle(`white-space: nowrap`)
+  })
 })
 

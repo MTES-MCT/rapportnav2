@@ -1,11 +1,15 @@
 import { Mission } from '@common/types/mission-types.ts'
 import React from 'react'
 import { Icon, THEME } from '@mtes-mct/monitor-ui'
-import { FlexboxGrid, Stack } from 'rsuite'
+import { Divider, FlexboxGrid, Stack } from 'rsuite'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useControlUnitResourceLabel } from '../../../ulam/hooks/use-ulam-home-unit-resources.tsx'
-import { formatDateForMissionName } from '@common/utils/dates-for-humans.ts'
+import { formatDateForFrenchHumans, formatDateForMissionName } from '@common/utils/dates-for-humans.ts'
+import MissionCompletenessForStatsTag from './mission-completeness-for-stats-tag.tsx'
+import MissionStatusTag from './mission-status-tag.tsx'
+import MissionOpenByTag from '@features/pam/mission/components/elements/mission-open-by-tag.tsx'
+import { useCrewForMissionList } from '../../../ulam/hooks/use-crew-for-mission-list.tsx'
 
 interface MissionListItemProps {
   mission?: Mission,
@@ -26,6 +30,8 @@ const MissionListItem: React.FC<MissionListItemProps> = ({mission, isUlam}) => {
 
   const controlUnitResourcesText = useControlUnitResourceLabel(mission?.controlUnits)
   const missionName = formatDateForMissionName(mission?.startDateTimeUtc)
+  const missionDate = formatDateForFrenchHumans(mission?.startDateTimeUtc)
+  const missionCrew = useCrewForMissionList(mission?.crew)
 
   return (
     <Stack>
@@ -50,13 +56,13 @@ const MissionListItem: React.FC<MissionListItemProps> = ({mission, isUlam}) => {
 
               <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-open_by'}>
                 <p style={{ color: THEME.color.charcoal, fontSize: '13px' }}>
-                  ouvert par l'unité
+                  <MissionOpenByTag missionSource={mission?.missionSource} />
                 </p>
               </FlexboxGrid.Item>
 
-              <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-start_date'}>
+              <FlexboxGrid.Item colspan={2} data-testid={'mission-list-item-start_date'}>
                 <p style={{ color: THEME.color.charcoal, fontSize: '13px' }}>
-                  startdateutc
+                  {missionDate}
                 </p>
               </FlexboxGrid.Item>
 
@@ -67,9 +73,9 @@ const MissionListItem: React.FC<MissionListItemProps> = ({mission, isUlam}) => {
                       {controlUnitResourcesText}
                     </p>
                   </FlexboxGrid.Item>
-                  <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-crew'}>
-                  <p style={{ color: THEME.color.charcoal, fontSize: '13px' }}>
-                    Clémence Buffeteau, Aleck Vincent, Christian Tonye, Louis Hache
+                  <FlexboxGrid.Item colspan={4} data-testid={'mission-list-item-crew'}>
+                  <p style={missionCrew.style} data-testid={'mission-list-item-crew__text'}>
+                    {missionCrew.text}
                   </p>
                   </FlexboxGrid.Item>
                 </>
@@ -77,18 +83,30 @@ const MissionListItem: React.FC<MissionListItemProps> = ({mission, isUlam}) => {
 
               <FlexboxGrid.Item colspan={2} data-testid={'mission-list-item-mission_status'}>
                 <p style={{ color: THEME.color.charcoal, fontSize: '13px' }}>
-                  Terminée
+                  <MissionStatusTag status={mission?.status} />
                 </p>
               </FlexboxGrid.Item>
 
               <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-completeness'}>
                 <p style={{ color: THEME.color.charcoal, fontSize: '13px' }}>
-                  statustag
+                  <MissionCompletenessForStatsTag
+                    completenessForStats={mission?.completenessForStats}
+                    missionStatus={mission?.status} />
                 </p>
               </FlexboxGrid.Item>
 
               <FlexboxGrid.Item colspan={1} data-testid={'mission-list-item-icon-edit'}>
                 <Icon.Edit size={20} style={{ color: THEME.color.charcoal }} />
+              </FlexboxGrid.Item>
+              <FlexboxGrid.Item colspan={24} data-testid={'mission-list-item-more'}>
+                <Divider/>
+                <FlexboxGrid justify="space-between" style={{width: '100%'}}>
+                  <FlexboxGrid.Item style={{ maxWidth: '60%', overflowWrap: 'break-word' }}>
+                    <p>
+                      {mission?.observationsByUnit}
+                    </p>
+                  </FlexboxGrid.Item>
+                </FlexboxGrid>
               </FlexboxGrid.Item>
             </FlexboxGrid>
           </Link>

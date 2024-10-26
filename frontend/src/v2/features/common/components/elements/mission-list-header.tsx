@@ -14,7 +14,7 @@ const MissionListHeader: React.FC<MissionListHeaderProps> = ({ isUlam}) => {
         <FlexboxGrid.Item colspan={1} style={{ paddingTop: '8px' }}></FlexboxGrid.Item>
         <FlexboxGrid.Item colspan={4} style={{ paddingTop: '8px' }}></FlexboxGrid.Item>
         <FlexboxGrid.Item colspan={3}></FlexboxGrid.Item>
-        <FlexboxGrid.Item colspan={3}>
+        <FlexboxGrid.Item colspan={2}>
           <p style={{ color: THEME.color.slateGray, fontSize: '12px' }}>Date d'ouverture</p>
         </FlexboxGrid.Item>
         {isUlam && (
@@ -22,7 +22,7 @@ const MissionListHeader: React.FC<MissionListHeaderProps> = ({ isUlam}) => {
             <FlexboxGrid.Item colspan={3}>
               <p style={{ color: THEME.color.slateGray, fontSize: '12px' }}>Moyen(s) utilisé(s)</p>
             </FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={3}>
+            <FlexboxGrid.Item colspan={4}>
               <p style={{ color: THEME.color.slateGray, fontSize: '12px' }}>Agent(s)</p>
             </FlexboxGrid.Item>
           </>
