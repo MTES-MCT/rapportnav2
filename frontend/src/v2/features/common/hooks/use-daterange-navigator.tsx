@@ -13,35 +13,6 @@ function useDateRangeNavigator(startDateTimeUtc) {
     "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
   ];
 
-  const styles = {
-    container: {
-      width: '100%',
-      height: '79px',
-      alignItems: 'center',
-      justifyContent: 'center',
-      position: 'relative',
-      fontSize: '16px',
-      fontWeight: 'bold',
-      backgroundColor: THEME.color.charcoal,
-      color: THEME.color.white,
-      marginBottom: '25px'
-    },
-    previousButton: {
-      backgroundColor: 'transparent',
-      paddingTop: '5px'
-    },
-    previousChevron: {
-      transform: 'rotate(90deg)'
-    },
-    nextButton: {
-      backgroundColor: 'transparent',
-      paddingTop: '5px'
-    },
-    nextChevron: {
-      transform: 'rotate(-90deg)'
-    }
-
-  };
 
   const goToPreviousMonth = () => {
     setCurrentDate((prevDate) => {
@@ -70,8 +41,7 @@ function useDateRangeNavigator(startDateTimeUtc) {
     formattedDate: `${months[currentDate.getMonth()]} ${currentDate.getFullYear()}`,
     goToPreviousMonth,
     goToNextMonth,
-    getLastDayOfMonth,
-    styles
+    getLastDayOfMonth
   };
 }
 
