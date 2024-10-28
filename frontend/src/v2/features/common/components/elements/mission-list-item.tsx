@@ -1,5 +1,5 @@
 import { Mission } from '@common/types/mission-types.ts'
-import React from 'react'
+import React, { useState } from 'react'
 import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import { Divider, FlexboxGrid, Stack } from 'rsuite'
 import { Link } from 'react-router-dom'
@@ -10,6 +10,8 @@ import MissionCompletenessForStatsTag from './mission-completeness-for-stats-tag
 import MissionStatusTag from './mission-status-tag.tsx'
 import MissionOpenByTag from '@features/pam/mission/components/elements/mission-open-by-tag.tsx'
 import { useCrewForMissionList } from '../../../ulam/hooks/use-crew-for-mission-list.tsx'
+import { useDisplayMissionItemDetails } from '../../hooks/use-display-mission-item-details.tsx'
+import MissionListDaterangeNavigator from './mission-list-daterange-navigator.tsx'
 
 interface MissionListItemProps {
   mission?: Mission,
@@ -32,9 +34,11 @@ const MissionListItem: React.FC<MissionListItemProps> = ({mission, isUlam}) => {
   const missionName = formatDateForMissionName(mission?.startDateTimeUtc)
   const missionDate = formatDateForFrenchHumans(mission?.startDateTimeUtc)
   const missionCrew = useCrewForMissionList(mission?.crew)
+  const [displayDetails] = useState<boolean>(false)
+  const setDisplayDetails = useDisplayMissionItemDetails(displayDetails)
 
   return (
-    <Stack>
+    <Stack onMouseOver={setDisplayDetails}>
       <Stack.Item  style={{ backgroundColor: THEME.color.cultured, width: '100%', height: '100%' }}>
         <ListItemWithHover data-testid="list-item-with-hover">
           <Link
@@ -98,16 +102,20 @@ const MissionListItem: React.FC<MissionListItemProps> = ({mission, isUlam}) => {
               <FlexboxGrid.Item colspan={1} data-testid={'mission-list-item-icon-edit'}>
                 <Icon.Edit size={20} style={{ color: THEME.color.charcoal }} />
               </FlexboxGrid.Item>
-              <FlexboxGrid.Item colspan={24} data-testid={'mission-list-item-more'}>
-                <Divider/>
-                <FlexboxGrid justify="space-between" style={{width: '100%'}}>
-                  <FlexboxGrid.Item style={{ maxWidth: '60%', overflowWrap: 'break-word' }}>
-                    <p>
-                      {mission?.observationsByUnit}
-                    </p>
-                  </FlexboxGrid.Item>
-                </FlexboxGrid>
-              </FlexboxGrid.Item>
+
+              {displayDetails && (
+                <FlexboxGrid.Item colspan={24} data-testid={'mission-list-item-more'}>
+                  <Divider/>
+                  <FlexboxGrid justify="space-between" style={{width: '100%'}}>
+                    <FlexboxGrid.Item style={{ maxWidth: '60%', overflowWrap: 'break-word' }}>
+                      <p>
+                        {mission?.observationsByUnit}
+                      </p>
+                    </FlexboxGrid.Item>
+                  </FlexboxGrid>
+                </FlexboxGrid.Item>
+              )}
+
             </FlexboxGrid>
           </Link>
         </ListItemWithHover>
