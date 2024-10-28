@@ -1,11 +1,12 @@
-import { render, screen } from '../../../../../../test-utils.tsx'
+import { render, screen, fireEvent } from '../../../../../../test-utils.tsx'
 import MissionListItem from '../mission-list-item.tsx'
 import { ControlUnit } from '@mtes-mct/monitor-ui'
 import ControlUnitResourceType = ControlUnit.ControlUnitResourceType
 
 const mission1 = {
   id: 1,
-  controlUnits: []
+  controlUnits: [],
+  observationsByUnit: 'Je suis une observation'
 }
 const mission2 = {
   id: 2,
@@ -83,5 +84,21 @@ describe('MissionListItem component', () => {
     expect(missionCrew).toHaveStyle(`overflow: hidden`)
     expect(missionCrew).toHaveStyle(`white-space: nowrap`)
   })
+
+  test('should displays details on mouse over and hides on mouse leave', () => {
+    render(<MissionListItem mission={mission1} isUlam={true} />);
+
+    const listItem = screen.getByTestId('mission-list-item-with-hover');
+
+    expect(screen.queryByTestId('mission-list-item-more')).toBeNull();
+
+    fireEvent.mouseOver(listItem);
+
+    expect(screen.getByTestId('mission-list-item-more')).toBeInTheDocument();
+
+    fireEvent.mouseLeave(listItem);
+
+    expect(screen.queryByTestId('mission-list-item-more')).toBeNull();
+  });
 })
 
