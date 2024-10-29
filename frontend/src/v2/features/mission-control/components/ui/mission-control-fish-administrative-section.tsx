@@ -4,6 +4,7 @@ import { controlCheckMultiRadioOptions } from '@features/pam/mission/components/
 import { Accent, Button, Icon, Label, MultiRadio, Size, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { Stack } from 'rsuite'
+import MissionInfractionSummary from '../../../mission-infraction/components/ui/mission-infraction-summary'
 
 interface MissionControlFishAdministrativeSectionProps {
   action: FishAction
@@ -70,7 +71,14 @@ const MissionControlFishAdministrativeSection: React.FC<MissionControlFishAdmini
           </Stack.Item>
         </Stack>
       </Stack.Item>
-      INFRACTION!!!
+      <Stack.Item style={{ width: '100%' }}>
+        <MissionInfractionSummary
+          isActionDisabled={true}
+          infractions={action.logbookInfractions}
+          title="Infraction obligations déclaratives et autorisations"
+        />
+      </Stack.Item>
+
       <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
         <Stack direction="column" alignItems="flex-start" spacing={'0.5rem'}>
           <Stack.Item>
@@ -88,13 +96,3 @@ const MissionControlFishAdministrativeSection: React.FC<MissionControlFishAdmini
 }
 
 export default MissionControlFishAdministrativeSection
-
-/**
- * 
- *  <Stack.Item style={{ width: '100%' }}>
-        <FishInfractionSummary
-          title="Infraction obligations déclaratives et autorisations"
-          infractions={action.logbookInfractions}
-        />
-      </Stack.Item>
- */

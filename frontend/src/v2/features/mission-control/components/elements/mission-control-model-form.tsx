@@ -1,9 +1,10 @@
 import { ControlNavigation, ControlSecurity, ControlType } from '@common/types/control-types.ts'
 import { FormikEffect, FormikTextarea, THEME } from '@mtes-mct/monitor-ui'
-import { FieldProps, Formik } from 'formik'
+import { FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Panel, Stack } from 'rsuite'
 import { MissionActionFormikToogleUnitShouldConfirm } from '../../../mission-action/components/ui/mission-action-formik-toogle-unit-has-confirm'
+import MissionInfractionList from '../../../mission-infraction/components/elements/mission-infraction-list-form'
 import { ControlModelInput, useControlModel } from '../../hooks/use-control-model'
 import { MissionControlFormikCheckBoxTitle } from '../ui/mission-control-title-checkbox'
 
@@ -24,8 +25,7 @@ const MissionControlModelForm: FC<MissionControlModelFormProps> = ({
   unitShouldConfirm,
   shouldCompleteControl
 }) => {
-  const { radios, controlTypeLabel, initValue, handleSubmit } = useControlModel(name, fieldFormik, controlType)
-
+  const { controlTypeLabel, initValue, handleSubmit } = useControlModel(name, fieldFormik, controlType)
   return (
     <Panel
       header={
@@ -47,9 +47,11 @@ const MissionControlModelForm: FC<MissionControlModelFormProps> = ({
             <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
               <Stack.Item style={{ width: '100%' }}>
                 <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
-                  <Stack.Item style={{ width: '100%' }}>
-                    <MissionActionFormikToogleUnitShouldConfirm name={`unitHasConfirmed`} />
-                  </Stack.Item>
+                  {unitShouldConfirm && (
+                    <Stack.Item style={{ width: '100%' }}>
+                      <MissionActionFormikToogleUnitShouldConfirm name={`unitHasConfirmed`} />
+                    </Stack.Item>
+                  )}
                   <Stack.Item style={{ width: '100%', paddingTop: 4 }}>
                     <FormikTextarea
                       style={{ width: '100%' }}
@@ -58,6 +60,13 @@ const MissionControlModelForm: FC<MissionControlModelFormProps> = ({
                     />
                   </Stack.Item>
                 </Stack>
+              </Stack.Item>
+              <Stack.Item style={{ width: '100%' }}>
+                <FieldArray name="infractions">
+                  {(fieldArray: FieldArrayRenderProps) => (
+                    <MissionInfractionList name="infractions" fieldArray={fieldArray} controlType={controlType} />
+                  )}
+                </FieldArray>
               </Stack.Item>
             </Stack>
           </>
@@ -68,13 +77,3 @@ const MissionControlModelForm: FC<MissionControlModelFormProps> = ({
 }
 
 export default MissionControlModelForm
-
-/**
- * <Stack.Item style={{ width: '100%' }}>
-     <ControlInfraction
-      controlId={data?.id}
-      infractions={data?.infractions}
-      controlType={ControlType.ADMINISTRATIVE}
-      />
-</Stack.Item>
- */

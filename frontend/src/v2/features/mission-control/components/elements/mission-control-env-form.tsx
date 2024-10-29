@@ -7,6 +7,7 @@ import { EnvControl, EnvControlInput, useEnvControl } from '../../hooks/use-cont
 import MissionControlEnvError from '../ui/mission-control-env-error.tsx'
 import { MissionControlFormikCheckBoxTitle } from '../ui/mission-control-title-checkbox.tsx'
 
+const MAX_CONTROL = 1
 export interface MissionControlEnvFormProps {
   name: string
   controlType: ControlType
@@ -22,10 +23,11 @@ const MissionControlEnvForm: FC<MissionControlEnvFormProps> = ({
   maxAmountOfControls,
   shouldCompleteControl
 }) => {
-  const { initValue, controlTypeLabel, isError, handleSubmit, getValidationSchema } = useEnvControl(
+  const { initValue, controlTypeLabel, isError, handleSubmit, validationSchema } = useEnvControl(
     name,
     fieldFormik,
-    controlType
+    controlType,
+    maxAmountOfControls
   )
 
   return (
@@ -38,7 +40,7 @@ const MissionControlEnvForm: FC<MissionControlEnvFormProps> = ({
           onSubmit={value => {
             handleSubmit(value)
           }}
-          validationSchema={getValidationSchema(maxAmountOfControls)}
+          validationSchema={validationSchema}
         >
           {({ validateForm }) => (
             <>

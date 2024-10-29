@@ -24,16 +24,17 @@ const CONTROL_TYPE_REGISTRY: ControlTypeRegistry = {
   [ControlType.SECURITY]: 'Equipements et respect des normes de sécurité'
 }
 
-interface VesselHook {
+interface ControlHook {
   getControlType: (type?: ControlType) => string | undefined
+  controlTypeOptions: { label: string; value: ControlType }[]
   controlResultOptions: { label: string; value: ControlResult }[]
   getControlMethod: (method?: ControlMethod) => string | undefined
-  getControlTypeOptions: () => { label: string; value: ControlType }[]
   controlResultOptionsExtra: { label: string; value: ControlResult }[]
+  getDisabledControlTypes: (enabledControlTypes?: ControlType[]) => ControlType[]
   getControlResultOptions: (withExtra?: boolean) => { label: string; value: ControlResult }[]
 }
 
-export function useControlRegistry(): VesselHook {
+export function useControlRegistry(): ControlHook {
   const getControlType = (type?: ControlType) => (type ? CONTROL_TYPE_REGISTRY[type] : '')
   const getControlMethod = (method?: ControlMethod) => (method ? CONTROL_METHOD_REGISTRY[method] : '')
   const getControlResultOptions = (withExtra?: boolean) => {
@@ -43,16 +44,26 @@ export function useControlRegistry(): VesselHook {
     }))
     return withExtra ? options : options.filter(v => v.value !== ControlResult.NOT_CONCERNED)
   }
+
   const getControlTypeOptions = () =>
-    Object.keys(ControlResult)?.map(key => ({
+    Object.keys(ControlType)?.map(key => ({
       value: ControlType[key as keyof typeof ControlType],
       label: `Infraction - ${CONTROL_TYPE_REGISTRY[key as keyof typeof ControlType]}`
     }))
+
+  const getDisabledControlTypes = (enabledControlTypes?: ControlType[]) => {
+    const enables = enabledControlTypes ?? []
+    return Object.keys(ControlType)
+      .map(key => ControlType[key as keyof typeof ControlType])
+      .filter(controlType => !enables.includes(controlType))
+  }
+
   return {
     getControlType,
     getControlMethod,
     getControlResultOptions,
-    getControlTypeOptions,
+    getDisabledControlTypes,
+    controlTypeOptions: getControlTypeOptions(),
     controlResultOptions: getControlResultOptions(),
     controlResultOptionsExtra: getControlResultOptions(true)
   }

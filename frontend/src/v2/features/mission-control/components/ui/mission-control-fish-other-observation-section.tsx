@@ -1,6 +1,7 @@
 import Text from '@common/components/ui/text'
 import { FishAction } from '@common/types/fish-mission-types'
 import { Label, THEME } from '@mtes-mct/monitor-ui'
+import { isEmpty } from 'lodash'
 import React from 'react'
 import { Stack } from 'rsuite'
 
@@ -18,7 +19,7 @@ const MissionControlFishOtherObservationsSection: React.FC<MissionControlFishOth
       </Stack.Item>
       <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
         <Text as="h3" weight="medium">
-          {action.otherComments ?? 'Aucune observation'}
+          {!isEmpty(action.otherComments) ? action.otherComments : 'Aucune observation'}
         </Text>
       </Stack.Item>
     </Stack>
