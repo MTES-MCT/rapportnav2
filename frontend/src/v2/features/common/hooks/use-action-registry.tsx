@@ -47,7 +47,7 @@ export type ActionRegistryItem = {
   icon?: FunctionComponent<IconProps>
   actionComponent?: FunctionComponent<{
     action: Action
-    onChange: (newAction: Action) => void
+    onChange: (newAction: Action, debounceTime?: number) => Promise<unknown>
     isMissionFinished?: boolean
   }>
 }
