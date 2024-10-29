@@ -1,3 +1,4 @@
+import { ControlType } from './control-types.ts'
 import {
   FormalNoticeEnum,
   InfractionTypeEnum,
@@ -5,7 +6,6 @@ import {
   VesselSizeEnum,
   VesselTypeEnum
 } from './env-mission-types.ts'
-import { ControlType } from './control-types.ts'
 
 export type Infraction = {
   id: string
