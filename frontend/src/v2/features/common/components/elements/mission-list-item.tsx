@@ -115,7 +115,7 @@ const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam }) =>
                     color: THEME.color.gunMetal,
                     fontSize: '13px',
                     paddingBottom: '15px'
-                  }}> {mission?.observationsByUnit}</p>
+                  }}> Test</p>
                 </FlexboxGrid.Item>
               </FlexboxGrid>
             </FlexboxGrid.Item>

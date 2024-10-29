@@ -31,13 +31,13 @@ const queryAllMissionItemProps = () => ({
 })
 
 describe('MissionListItem component', () => {
-  test('should render "N/A" when no ControlUnitResource provided', () => {
+  test('should render "N/A" if no ControlUnitResource provided', () => {
     render(<MissionListItem mission={mission1} isUlam={true} />)
     const noResource = screen.queryByText("N/A")
     expect(noResource).toBeInTheDocument()
   })
 
-  test('should render "Voiture" when no ControlUnitResource contains CAR', () => {
+  test('should render "Voiture" if ControlUnitResource contains CAR', () => {
     render(<MissionListItem mission={mission2} isUlam={true} />)
     const car = screen.queryByTestId("mission-list-item-control_unit_resources")
     expect(car).toHaveTextContent('Voiture')
