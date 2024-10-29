@@ -1,6 +1,6 @@
 import Text from '@common/components/ui/text'
 import { ToggleLabel } from '@common/components/ui/toogle-label'
-import { Action, ActionRescue } from '@common/types/action-types'
+import { Action } from '@common/types/action-types'
 import {
   FormikCheckbox,
   FormikEffect,
@@ -11,12 +11,11 @@ import {
   THEME
 } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
-import { isEqual, mapValues, pick } from 'lodash'
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
-import * as Yup from 'yup'
-import { useDate } from '../../../common/hooks/use-date'
 import { RescueType } from '../../../common/types/rescue-type'
+import { useMissionActionRescue } from '../../hooks/use-mission-action-rescue'
+import { ActionRescueInput } from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
 import { MissionActionFormikNumberInput } from '../ui/mission-action-formik-number-input'
@@ -32,116 +31,24 @@ const RESCUE_TYPE_OPTIONS = [
   }
 ]
 
-type ActionDataInput = {
-  dates: Date[]
-  rescueType: RescueType
-  geoCoords: (number | undefined)[]
-} & ActionRescue
-
 const MissionActionItemRescue: FC<{
   action: Action
   isMissionFinished?: boolean
-  onChange: (newAction: Action) => void
+  onChange: (newAction: Action) => Promise<unknown>
 }> = ({ action, onChange, isMissionFinished }) => {
-  const data = action?.data as unknown as ActionRescue
-  const [initValue, setInitValue] = useState<ActionDataInput>()
-  const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const { initValue, handleSubmit, validationSchema } = useMissionActionRescue(action, onChange, isMissionFinished)
 
-  useEffect(() => {
-    if (!data) return
-    const endDate = preprocessDateForPicker(data.endDateTimeUtc)
-    const startDate = preprocessDateForPicker(data.startDateTimeUtc)
-    const rescueType = data.isVesselRescue ? RescueType.VESSEL : RescueType.PERSON
-
-    const booleans = mapValues(
-      pick(
-        data,
-        'isVesselRescue',
-        'isVesselTowed',
-        'isPersonRescue',
-        'isVesselNoticed',
-        'isMigrationRescue',
-        'operationFollowsDEFREP',
-        'isInSRRorFollowedByCROSSMRCC'
-      ),
-      o => !!o
-    )
-    const value = {
-      ...data,
-      rescueType,
-      ...booleans,
-      dates: [startDate, endDate],
-      geoCoords: [data.latitude ?? 0, data.longitude ?? 0]
-    }
-    setInitValue(value)
-  }, [data])
-
-  const formSchema = Yup.object().shape({
-    isPersonRescue: Yup.boolean(),
-    isMigrationRescue: Yup.boolean(),
-    dates: Yup.array().of(Yup.date()).length(2),
-    geoCoords: Yup.array().of(Yup.number()).length(2),
-    numberOfPersonRescued: Yup.number()
-      .nullable()
-      .when('isPersonRescue', {
-        is: true && isMissionFinished,
-        then: schema => schema.nonNullable().required(),
-        otherwise: schema => schema.nullable()
-      }),
-    numberOfDeaths: Yup.number()
-      .nullable()
-      .when('isPersonRescue', {
-        is: true && isMissionFinished,
-        then: schema => schema.nonNullable().required(),
-        otherwise: schema => schema.nullable()
-      }),
-    nbOfVesselsTrackedWithoutIntervention: Yup.number()
-      .nullable()
-      .when('isMigrationRescue', {
-        is: true && isMissionFinished,
-        then: schema => schema.nonNullable().required(),
-        otherwise: schema => schema.nullable()
-      }),
-    nbAssistedVesselsReturningToShore: Yup.number()
-
-      .nullable()
-      .when('isMigrationRescue', {
-        is: true && isMissionFinished,
-        then: schema => schema.nonNullable().required(),
-        otherwise: schema => schema.nullable()
-      })
-  })
-
-  const handleSubmit = async (value: ActionDataInput): Promise<void> => {
-    if (isEqual(value, initValue)) return
-
-    const { dates, geoCoords, ...newData } = value
-    const latitude = geoCoords[0]
-    const longitude = geoCoords[1]
-
-    const endDateTimeUtc = postprocessDateFromPicker(dates[1])
-    const startDateTimeUtc = postprocessDateFromPicker(dates[0])
-    const isVesselRescue = value.rescueType === RescueType.VESSEL
-    const isPersonRescue = value.rescueType === RescueType.PERSON
-
-    const data: ActionRescue = {
-      ...newData,
-      startDateTimeUtc,
-      endDateTimeUtc,
-      longitude,
-      latitude,
-      isVesselRescue,
-      isPersonRescue
-    }
-    setInitValue(value)
-    onChange({ ...action, data: [data] })
-  }
   return (
     <form style={{ width: '100%' }} data-testid={'action-nautical-event-form'}>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true} validationSchema={formSchema}>
+        <Formik
+          validateOnChange={true}
+          onSubmit={handleSubmit}
+          initialValues={initValue}
+          validationSchema={validationSchema}
+        >
           <>
-            <FormikEffect onChange={nextValues => handleSubmit(nextValues as ActionDataInput)} />
+            <FormikEffect onChange={nextValues => handleSubmit(nextValues as ActionRescueInput)} />
             <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
               <Stack.Item style={{ width: '100%' }}>
                 <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>

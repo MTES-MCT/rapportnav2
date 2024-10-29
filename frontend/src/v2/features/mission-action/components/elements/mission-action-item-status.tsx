@@ -1,52 +1,24 @@
-import { Action, ActionStatus, ActionStatusReason, ActionStatusType } from '@common/types/action-types'
+import { Action, ActionStatusType } from '@common/types/action-types'
 import { getColorForStatus, mapStatusToText } from '@common/utils/status-utils'
 import { FormikDatePicker, FormikEffect, FormikTextarea, Icon, Tag } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
-import { isEqual } from 'lodash'
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import { Stack } from 'rsuite'
 import FormikSelectStatusReason from '../../../common/components/ui/formik-select-status-reason'
-import { useDate } from '../../../common/hooks/use-date'
+import { useMissionActionStatus } from '../../hooks/use-mission-action-status'
+import { ActionStatusInput } from '../../types/action-type'
 
-type ActionDataInput = {
-  id: string
-  date: Date
-  observations?: string
-  status: ActionStatusType
-  reason?: ActionStatusReason
-}
-
-const MissionActionItemStatus: FC<{ action: Action; onChange: (newAction: Action) => void }> = ({
+const MissionActionItemStatus: FC<{ action: Action; onChange: (newAction: Action) => Promise<void> }> = ({
   action,
   onChange
 }) => {
-  const data = action?.data as unknown as ActionStatus
-  const [initValue, setInitValue] = useState<ActionDataInput>()
-  const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
-
-  useEffect(() => {
-    if (!data) return
-    const value = {
-      ...data,
-      date: preprocessDateForPicker(data.startDateTimeUtc)
-    }
-    setInitValue(value)
-  }, [data])
-
-  const handleSubmit = async (value: ActionDataInput): Promise<void> => {
-    if (isEqual(value, initValue)) return
-    const { date, ...newData } = value
-    const startDateTimeUtc = postprocessDateFromPicker(date)
-    const data: ActionStatus = { ...newData, startDateTimeUtc }
-    setInitValue(value)
-    onChange({ ...action, data: [data] })
-  }
+  const { initValue, handleSubmit } = useMissionActionStatus(action, onChange)
   return (
     <form style={{ width: '100%' }}>
       {initValue && (
         <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true}>
           <>
-            <FormikEffect onChange={nextValues => handleSubmit(nextValues as ActionDataInput)} />
+            <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionStatusInput)} />
             <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
               <Stack.Item style={{ width: '100%' }}>
                 <Tag
