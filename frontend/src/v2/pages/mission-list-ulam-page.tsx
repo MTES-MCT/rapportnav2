@@ -26,7 +26,7 @@ const MissionListUlamPage: React.FC = () => {
     >
       <MissionListUlam
         dateRangeNavigator={<MissionListDateRangeNavigator/>}
-        missionListing={<MissionListing/>}
+        missionListing={<MissionListing isUlam={true} />}
       />
     </MissionListPageWrapper>
   )
