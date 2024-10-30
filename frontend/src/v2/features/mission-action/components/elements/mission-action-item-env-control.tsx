@@ -39,35 +39,6 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
   isMissionFinished
 }) => {
   const { initValue, handleSubmit } = useMissionActionEnvControl(action, onChange, isMissionFinished)
-  /*
-  const data = action?.data as unknown as EnvActionControl
-  const { extractLatLngFromMultiPoint } = useCoordinate()
-  const [initValue, setInitValue] = useState<ActionDataInput>()
-  const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
-
-  useEffect(() => {
-    if (!data) return
-    const endDate = preprocessDateForPicker(action.endDateTimeUtc)
-    const startDate = preprocessDateForPicker(action.startDateTimeUtc)
-    const value = {
-      ...data,
-      dates: [startDate, endDate],
-      isMissionFinished: !!isMissionFinished,
-      geoCoords: extractLatLngFromMultiPoint(data.geom)
-    }
-    setInitValue(value)
-  }, [data, isMissionFinished])
-
-  const handleSubmit = async (value: ActionDataInput): Promise<void> => {
-    if (isEqual(value, initValue)) return
-    const { dates, geoCoords, isMissionFinished, ...newData } = value
-    const endDateTimeUtc = postprocessDateFromPicker(dates[1])
-    const startDateTimeUtc = postprocessDateFromPicker(dates[0])
-    const data: EnvActionControl = { ...newData }
-    setInitValue(value)
-    onChange({ ...action, startDateTimeUtc, endDateTimeUtc, data: [data] })
-  }*/
-
   return (
     <form style={{ width: '100%' }}>
       {initValue && (
