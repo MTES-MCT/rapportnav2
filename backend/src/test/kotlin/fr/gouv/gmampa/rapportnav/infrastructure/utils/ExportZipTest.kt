@@ -45,5 +45,10 @@ class ExportZipTest {
         assertTrue(filesInZip.contains("file1.txt"))
         assertTrue(filesInZip.contains("file2.txt"))
 
+        zipFile.delete()
+        for (file in filesToZip) {
+            file.delete()
+        }
+
     }
 }

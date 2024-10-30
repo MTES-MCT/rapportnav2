@@ -1,9 +1,10 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
+package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMTableExport
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionAEMExportEntity
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.Base64Converter
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.ExportExcelFile
@@ -16,17 +17,28 @@ import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 
 @UseCase
-class ExportMissionListAEM(
+class ExportMissionsAEM(
     @Value("\${rapportnav.aem.template.path}") private val aemTemplatePath: String,
     @Value("\${rapportnav.aem.tmp_xlsx.path}") private val aemTmpXLSXPath: String,
     @Value("\${rapportnav.aem.tmp_ods.path}") private val aemTmpODSPath: String,
     private val fillAEMExcelRow: FillAEMExcelRow,
+    private val getMissionById: GetMission,
 
     ) {
-    private val logger: Logger = LoggerFactory.getLogger(ExportMissionListAEM::class.java)
+    private val logger: Logger = LoggerFactory.getLogger(ExportMissionsAEM::class.java)
 
-    fun execute(missions: List<MissionEntity>): MissionAEMExportEntity?
+    fun execute(missionIds: List<Int>): MissionAEMExportEntity?
     {
+
+        var missions = mutableListOf<MissionEntity>()
+
+        for (missionId in missionIds) {
+            val mission = getMissionById.execute(missionId)
+            if (mission != null) {
+                missions.add(mission)
+            }
+        }
+
         return try {
             val inputStream = javaClass.getResourceAsStream(aemTemplatePath)
                 ?: throw IllegalArgumentException("Template file not found: $aemTemplatePath")

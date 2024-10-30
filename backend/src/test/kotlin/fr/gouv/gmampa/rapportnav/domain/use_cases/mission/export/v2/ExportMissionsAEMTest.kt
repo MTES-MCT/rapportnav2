@@ -1,9 +1,9 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
+package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionAEMExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ZipExportMissionListAEM
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionsAEM
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.NavActionControlMock
@@ -14,31 +14,31 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 
-@SpringBootTest(classes = [ZipExportMissionListAEM::class])
-class ZipMissionsAEMTests {
+@SpringBootTest(classes = [ExportMissionsAEM::class])
+class ExportMissionsAEMTest {
 
-    @MockBean
-    private lateinit var getMissionById: GetMission
+    @Autowired
+    private lateinit var exportMissionListAEM: ExportMissionsAEM
 
     @MockBean
     private lateinit var fillAEMExcelRow: FillAEMExcelRow
 
-    @Autowired
-    private lateinit var zipExportMissionListAEM: ZipExportMissionListAEM
-
+    @MockBean
+    private lateinit var getMissionById: GetMission
 
     @Test
-    fun `should return a MissionExportAEMEntity`() {
+    fun `execute AEM mission list export return a MissionAEMExportEntity when mission list has actions`() {
         val action = NavActionControlMock.create().toNavActionEntity()
         val missionAction = MissionActionEntity.NavAction(action)
+
         val mission = MissionEntityMock.create(actions = listOf(missionAction))
-        val mission2 = MissionEntityMock.create(actions = listOf(missionAction), id = 2)
 
         Mockito.`when`(getMissionById.execute(1)).thenReturn(mission)
-        Mockito.`when`(getMissionById.execute(2)).thenReturn(mission2)
 
-        val missionAEMExport = zipExportMissionListAEM.execute(listOf(1, 2))
+        val result = exportMissionListAEM.execute(listOf(1))
 
-        Assertions.assertThat(missionAEMExport).isInstanceOf(MissionAEMExportEntity::class.java)
+        Assertions.assertThat(result).isNotNull()
+        Assertions.assertThat(result).isInstanceOf(MissionAEMExportEntity::class.java)
+
     }
 }

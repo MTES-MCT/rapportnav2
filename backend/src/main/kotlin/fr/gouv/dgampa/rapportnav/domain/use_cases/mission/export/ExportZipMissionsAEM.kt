@@ -19,14 +19,14 @@ import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 
 @UseCase
-class ZipExportMissionListAEM(
+class ExportZipMissionsAEM(
     private val getMissionById: GetMission,
     @Value("\${rapportnav.aem.template.path}") private val aemTemplatePath: String,
     @Value("\${rapportnav.aem.tmp_xlsx.path}") private val aemTmpXLSXPath: String,
     private val fillAEMExcelRow: FillAEMExcelRow
 ) {
 
-    private val logger: Logger = LoggerFactory.getLogger(ZipExportMissionListAEM::class.java)
+    private val logger: Logger = LoggerFactory.getLogger(ExportZipMissionsAEM::class.java)
 
     fun execute(missionIds: List<Int>): MissionAEMExportEntity {
         var missions = mutableListOf<MissionEntity>()
@@ -36,7 +36,6 @@ class ZipExportMissionListAEM(
             if (mission != null) {
                 missions.add(mission)
             }
-
         }
 
         if (missions.size > 0) {
