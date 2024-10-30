@@ -23,6 +23,20 @@ jobs:
       - name: Install and Build Backend
         uses: ./.github/actions/install-and-build-backend
 
+      - name: "Tests & Coverage"
+        env:
+          CI: true
+        run: make back-test-coverage
+
+      - name: Add coverage to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.7.1
+        with:
+          paths: |
+            ${{ github.workspace }}/**/backend/build/reports/jacoco/**/jacocoTestReport.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+
       #      - name: dependency-check
       #        uses: dependency-check/Dependency-Check_Action@main
       #        id: dependency-check
@@ -46,10 +60,7 @@ jobs:
       #      - name: "Analyse dependencies"
       #        run: make back-check-dependencies
 
-      #      - name: "Tests"
-      #        env:
-      #          CI: true
-      #        run: make back-test
+
 
       #      - name: "Check clean architecture"
       #        run: make check-clean-archi
