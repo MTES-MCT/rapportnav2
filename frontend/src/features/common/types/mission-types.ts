@@ -2,6 +2,7 @@ import { Action } from './action-types.ts'
 import { ControlUnit } from './control-unit-types.ts'
 import { MissionSourceEnum, MissionTypeEnum, SeaFrontEnum } from './env-mission-types.ts'
 import { Service } from './service-types.ts'
+import { MissionCrew } from '@common/types/crew-types.ts'
 
 export enum VesselTypeEnum {
   'FISHING' = 'FISHING',
@@ -38,6 +39,7 @@ export type Mission = {
   status: MissionStatusEnum
   completenessForStats?: CompletenessForStats
   services: Service[]
+  crew: MissionCrew[]
 }
 
 export type MissionGeneralInfo = {

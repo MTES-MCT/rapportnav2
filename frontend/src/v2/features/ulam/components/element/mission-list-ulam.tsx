@@ -1,21 +1,32 @@
-import { Button, Size } from '@mtes-mct/monitor-ui'
-import { ULAM_V2_HOME_PATH } from '@router/router'
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Stack } from 'rsuite'
-
-const MissionListUlam: React.FC = () => {
+import React, { JSX } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Col, Container, FlexboxGrid, Loader, Stack } from 'rsuite'
+import MissionListing from '../../../common/components/elements/mission-listing.tsx'
+import MissionListDaterangeNavigator from '../../../common/components/elements/mission-list-daterange-navigator.tsx'
+import { Icon } from '@mtes-mct/monitor-ui'
+interface MissionListUlamProps  {
+  dateRangeNavigator: JSX.Element,
+  missionListing: JSX.Element
+}
+const MissionListUlam: React.FC<MissionListUlamProps> = ({dateRangeNavigator, missionListing}) => {
   const navigate = useNavigate()
   return (
     <>
-      <Stack>
-        <Stack.Item>MISSION LIST ULAM</Stack.Item>
-        <Stack.Item>
-          <Button onClick={() => navigate(`${ULAM_V2_HOME_PATH}/761`)} size={Size.NORMAL}>
-            Mission Ulam details
-          </Button>
-        </Stack.Item>
-      </Stack>
+      <FlexboxGrid
+        justify="center"
+        style={{ padding: '4rem 2rem', display: 'flex', flex: 1 }}
+      >
+        <FlexboxGrid.Item as={Col} colspan={24} xxl={23}>
+          <Container>
+            <h3 style={{marginBottom: '45px'}}><Icon.MissionAction size={26}/> Missions</h3>
+            <h4 style={{marginBottom: '25px'}}>Mes rapports de mission</h4>
+          </Container>
+          {dateRangeNavigator}
+          <Container>
+            {missionListing}
+          </Container>
+        </FlexboxGrid.Item>
+      </FlexboxGrid>
     </>
   )
 }

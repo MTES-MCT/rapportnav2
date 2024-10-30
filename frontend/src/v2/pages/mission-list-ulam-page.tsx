@@ -6,6 +6,8 @@ import MissionListUlamTitle from '../../v2/features/ulam/components/ui/mission-l
 import MissionListPageHeaderWrapper from '../features/common/components/layout/mission-list-page-header-wrapper'
 import MissionListPageSidebarWrapper from '../features/common/components/layout/mission-list-page-sidebar-wrapper'
 import MissionListPageWrapper from '../features/common/components/layout/mission-list-page-wrapper'
+import MissionListDateRangeNavigator from '../features/common/components/elements/mission-list-daterange-navigator.tsx'
+import MissionListing from '../features/common/components/elements/mission-listing.tsx'
 
 const SIDEBAR_ITEMS = [
   {
@@ -22,7 +24,10 @@ const MissionListUlamPage: React.FC = () => {
       sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={SIDEBAR_ITEMS} />}
       footer={<></>}
     >
-      <MissionListUlam />
+      <MissionListUlam
+        dateRangeNavigator={<MissionListDateRangeNavigator/>}
+        missionListing={<MissionListing isUlam={true} />}
+      />
     </MissionListPageWrapper>
   )
 }
