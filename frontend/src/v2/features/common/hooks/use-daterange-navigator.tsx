@@ -1,44 +1,29 @@
 import { useState } from 'react';
-import { THEME } from '@mtes-mct/monitor-ui'
+import { addMonths, subMonths, format, startOfMonth, endOfMonth } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 function useDateRangeNavigator(startDateTimeUtc) {
-  let initialDate = new Date();
-  if (startDateTimeUtc) {
-    initialDate = new Date(startDateTimeUtc)
-  }
-  const [currentDate, setCurrentDate] = useState(initialDate);
-
-  const months = [
-    "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
-    "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
-  ];
-
+  const initialDate = startDateTimeUtc ? new Date(startDateTimeUtc) : new Date();
+  const [currentDate, setCurrentDate] = useState(startOfMonth(initialDate));
 
   const goToPreviousMonth = () => {
-    setCurrentDate((prevDate) => {
-      const newDate = new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1);
-      newDate.setHours(0, 0, 0, 0);
-      return newDate;
-    });
+    setCurrentDate((prevDate) => startOfMonth(subMonths(prevDate, 1)));
   };
 
   const goToNextMonth = () => {
-    setCurrentDate((prevDate) => {
-      const newDate = new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1);
-      newDate.setHours(0, 0, 0, 0);
-      return newDate;
-    });
+    setCurrentDate((prevDate) => startOfMonth(addMonths(prevDate, 1)));
   };
 
   const getLastDayOfMonth = () => {
-    const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-    endDate.setHours(0, 0, 0, 0);
-    return endDate;
+    return endOfMonth(currentDate);
   };
+
+  const formattedDate = format(currentDate, 'MMMM yyyy', { locale: fr });
+  const capitalizedFormattedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
 
   return {
     currentDate,
-    formattedDate: `${months[currentDate.getMonth()]} ${currentDate.getFullYear()}`,
+    capitalizedFormattedDate,
     goToPreviousMonth,
     goToNextMonth,
     getLastDayOfMonth

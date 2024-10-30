@@ -24,7 +24,7 @@ const DateRangeContainer = styled.div`
 
 const MissionListDateRangeNavigator: React.FC<MissionListDateRangeNavigatorProps> = ({startDateTimeUtc}) => {
   const {
-    formattedDate,
+    capitalizedFormattedDate,
     goToPreviousMonth,
     goToNextMonth,
   } = useDateRangeNavigator(startDateTimeUtc)
@@ -37,7 +37,7 @@ const MissionListDateRangeNavigator: React.FC<MissionListDateRangeNavigatorProps
       </button>
 
       <span style={{textAlign: 'center'}} data-testid={'date-display'}>
-        {formattedDate}
+        {capitalizedFormattedDate}
       </span>
 
       <button onClick={goToNextMonth} data-testid={'next-button'} style={{backgroundColor: 'transparent',

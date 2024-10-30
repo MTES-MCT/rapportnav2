@@ -10,6 +10,7 @@ import MissionCompletenessForStatsTag from './mission-completeness-for-stats-tag
 import MissionStatusTag from './mission-status-tag.tsx';
 import MissionOpenByTag from '@features/pam/mission/components/elements/mission-open-by-tag.tsx';
 import { useCrewForMissionList } from '../../../ulam/hooks/use-crew-for-mission-list.tsx';
+import { ULAM_V2_HOME_PATH } from '@router/router.tsx'
 
 interface MissionListItemProps {
   mission?: Mission;
@@ -40,7 +41,7 @@ const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam }) =>
       data-testid="mission-list-item-with-hover"
     >
       <Link
-        to={'/v2/ulam/missions'}
+        to={ULAM_V2_HOME_PATH}
         style={{
           textDecoration: 'none'
         }}
