@@ -10,7 +10,7 @@ interface MissionActionItemUlamProps {
 
 const MissionActionItemUlam: FC<MissionActionItemUlamProps> = ({ action, missionId, isMissionFinished }) => {
   const { actionComponent } = useUlamActionRegistry(action.type)
-  const onChange = (newAction: Action) => {
+  const onChange = async (newAction: Action, debounceTime?: number) => {
     console.log(newAction)
   }
 

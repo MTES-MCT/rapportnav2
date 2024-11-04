@@ -4,6 +4,7 @@ import { Accent, Button, Checkbox, Icon, Label, MultiRadio, Size, THEME } from '
 import React from 'react'
 import { Stack } from 'rsuite'
 import { usecontrolCheck } from '../../../common/hooks/use-control-check'
+import MissionInfractionSummary from '../../../mission-infraction/components/ui/mission-infraction-summary'
 
 interface MissionControlFishEnginesSectionProps {
   action: FishAction
@@ -80,7 +81,13 @@ const MissionControlFishEnginesSection: React.FC<MissionControlFishEnginesSectio
 
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
-          <Stack.Item style={{ width: '100%' }}>INFRACTION</Stack.Item>
+          <Stack.Item style={{ width: '100%' }}>
+            <MissionInfractionSummary
+              title="Infraction engins"
+              isActionDisabled={true}
+              infractions={action.gearInfractions}
+            />
+          </Stack.Item>
         </Stack>
       </Stack.Item>
     </Stack>
@@ -88,8 +95,3 @@ const MissionControlFishEnginesSection: React.FC<MissionControlFishEnginesSectio
 }
 
 export default MissionControlFishEnginesSection
-
-/**
- *
- * <FishInfractionSummary title="Infraction engins" infractions={action.gearInfractions} />
- */

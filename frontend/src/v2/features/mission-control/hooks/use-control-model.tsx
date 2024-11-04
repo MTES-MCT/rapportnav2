@@ -1,6 +1,6 @@
 import { ControlNavigation, ControlSecurity, ControlType } from '@common/types/control-types'
 import { FieldProps } from 'formik'
-import { ControlHook } from '../types/control-hook'
+import { AbstractControlFormikHook } from '../types/control-hook'
 import { useAbstractControl } from './use-abstract-control'
 import { useControlRegistry } from './use-control-registry'
 
@@ -12,19 +12,18 @@ export function useControlModel(
   name: string,
   fieldFormik: FieldProps<ControlModel>,
   controlType: ControlType
-): ControlHook<ControlModelInput> {
+): AbstractControlFormikHook<ControlModelInput> {
   const { getControlType } = useControlRegistry()
   const { initValue, handleSubmit } = useAbstractControl<ControlModel, ControlModelInput>(
     name,
     fieldFormik,
     (input: ControlModel) => input as ControlModelInput,
-    (value?: ControlModelInput) => ({}) as ControlModel
+    (value?: ControlModelInput) => value as ControlModel
   )
 
   return {
     initValue,
     handleSubmit,
-    getValidationSchema: () => {},
     controlTypeLabel: getControlType(controlType)
   }
 }

@@ -2,7 +2,7 @@ import { Action } from '@common/types/action-types'
 import { FC } from 'react'
 import MissionActionItemGenericDateObservation from './mission-action-item-generic-date-observation'
 
-const MissionActionItemVigimer: FC<{ action: Action; onChange: (newAction: Action) => void }> = ({
+const MissionActionItemVigimer: FC<{ action: Action; onChange: (newAction: Action) => Promise<unknown> }> = ({
   action,
   onChange
 }) => {

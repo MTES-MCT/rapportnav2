@@ -1,10 +1,6 @@
-import { FormikErrors } from 'formik'
+import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 
-export interface ControlHook<M> {
-  initValue?: M
-  isError?: boolean
+export interface AbstractControlFormikHook<M> extends AbstractFormikSubFormHook<M> {
   controlTypeLabel: string | undefined
   radios?: { name: string; label: string; extra?: boolean }[]
-  getValidationSchema: (params: any) => any
-  handleSubmit: (value?: M, errors?: FormikErrors<M>) => void
 }

@@ -1,9 +1,10 @@
 import { ControlGensDeMer, ControlType } from '@common/types/control-types.ts'
 import { FormikEffect, FormikTextarea, THEME } from '@mtes-mct/monitor-ui'
-import { FieldProps, Formik } from 'formik'
+import { FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Panel, Stack } from 'rsuite'
 import { MissionActionFormikToogleUnitShouldConfirm } from '../../../mission-action/components/ui/mission-action-formik-toogle-unit-has-confirm'
+import MissionInfractionList from '../../../mission-infraction/components/elements/mission-infraction-list-form'
 import { ControlGensDeMerInput, useControlGensDeMer } from '../../hooks/use-control-gens-de-mer'
 import MissionActionControlFormikMultiRadio from '../ui/mission-control-fomik-multi-radio'
 import { MissionControlFormikCheckBoxTitle } from '../ui/mission-control-title-checkbox'
@@ -44,9 +45,11 @@ const MissionControlGensDeMerForm: FC<MissionControlGensDeMerFormProps> = ({
             <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
               <Stack.Item style={{ width: '100%' }}>
                 <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
-                  <Stack.Item style={{ width: '100%' }}>
-                    <MissionActionFormikToogleUnitShouldConfirm name={`unitHasConfirmed`} />
-                  </Stack.Item>
+                  {unitShouldConfirm && (
+                    <Stack.Item style={{ width: '100%' }}>
+                      <MissionActionFormikToogleUnitShouldConfirm name={`unitHasConfirmed`} />
+                    </Stack.Item>
+                  )}
                   <Stack.Item style={{ width: '100%' }}>
                     <MissionActionControlFormikMultiRadio radios={radios ?? []} control={ControlType.GENS_DE_MER} />
                   </Stack.Item>
@@ -59,6 +62,18 @@ const MissionControlGensDeMerForm: FC<MissionControlGensDeMerFormProps> = ({
                   </Stack.Item>
                 </Stack>
               </Stack.Item>
+
+              <Stack.Item style={{ width: '100%' }}>
+                <FieldArray name="infractions">
+                  {(fieldArray: FieldArrayRenderProps) => (
+                    <MissionInfractionList
+                      name="infractions"
+                      fieldArray={fieldArray}
+                      controlType={ControlType.GENS_DE_MER}
+                    />
+                  )}
+                </FieldArray>
+              </Stack.Item>
             </Stack>
           </>
         </Formik>
@@ -68,13 +83,3 @@ const MissionControlGensDeMerForm: FC<MissionControlGensDeMerFormProps> = ({
 }
 
 export default MissionControlGensDeMerForm
-
-/**
- * <Stack.Item style={{ width: '100%' }}>
-     <ControlInfraction
-      controlId={data?.id}
-      infractions={data?.infractions}
-      controlType={ControlType.ADMINISTRATIVE}
-      />
-</Stack.Item>
- */

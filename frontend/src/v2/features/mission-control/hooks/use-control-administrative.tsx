@@ -1,6 +1,6 @@
 import { ControlAdministrative, ControlType } from '@common/types/control-types'
 import { FieldProps } from 'formik'
-import { ControlHook } from '../types/control-hook'
+import { AbstractControlFormikHook } from '../types/control-hook'
 import { useAbstractControl } from './use-abstract-control'
 import { useControlRegistry } from './use-control-registry'
 
@@ -15,7 +15,7 @@ export type ControlAdministrativeInput = {} & ControlAdministrative
 export function useControlAdministrative(
   name: string,
   fieldFormik: FieldProps<ControlAdministrative>
-): ControlHook<ControlAdministrativeInput> {
+): AbstractControlFormikHook<ControlAdministrativeInput> {
   const { getControlType } = useControlRegistry()
   const { initValue, handleSubmit } = useAbstractControl<ControlAdministrative, ControlAdministrativeInput>(
     name,
@@ -28,7 +28,6 @@ export function useControlAdministrative(
     radios,
     initValue,
     handleSubmit,
-    getValidationSchema: () => {},
     controlTypeLabel: getControlType(ControlType.ADMINISTRATIVE)
   }
 }

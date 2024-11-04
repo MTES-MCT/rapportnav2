@@ -10,7 +10,7 @@ interface MissionActionItemPamProps {
 
 const MissionActionItemPam: FC<MissionActionItemPamProps> = ({ action, missionId, isMissionFinished }) => {
   const { actionComponent } = usePamActionRegistry(action.type)
-  const onChange = (newAction: Action) => {
+  const onChange = async (newAction: Action, debounceTime?: number): Promise<void> => {
     console.log(newAction)
   }
 

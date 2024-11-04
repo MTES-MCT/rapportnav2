@@ -16,10 +16,16 @@ import MissionControlModelForm from './mission-control-model-form'
 type MissionControlNavFormProps = {
   label: string
   hideGensDeMer?: boolean
+  unitShouldConfirm?: boolean
   controlsToComplete?: ControlType[]
 }
 
-const MissionControlNavForm: FC<MissionControlNavFormProps> = ({ label, hideGensDeMer, controlsToComplete }) => {
+const MissionControlNavForm: FC<MissionControlNavFormProps> = ({
+  label,
+  hideGensDeMer,
+  unitShouldConfirm,
+  controlsToComplete
+}) => {
   return (
     <Stack direction="column" spacing="0.5rem" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
@@ -31,6 +37,7 @@ const MissionControlNavForm: FC<MissionControlNavFormProps> = ({ label, hideGens
             <MissionControlAdministrativeForm
               fieldFormik={field}
               name="controlAdministrative"
+              unitShouldConfirm={unitShouldConfirm}
               shouldCompleteControl={controlsToComplete?.includes(ControlType.ADMINISTRATIVE)}
             />
           )}
@@ -43,6 +50,7 @@ const MissionControlNavForm: FC<MissionControlNavFormProps> = ({ label, hideGens
               fieldFormik={field}
               name="controlNavigation"
               controlType={ControlType.NAVIGATION}
+              unitShouldConfirm={unitShouldConfirm}
               shouldCompleteControl={controlsToComplete?.includes(ControlType.NAVIGATION)}
             />
           )}
@@ -55,6 +63,7 @@ const MissionControlNavForm: FC<MissionControlNavFormProps> = ({ label, hideGens
               <MissionControlGensDeMerForm
                 fieldFormik={field}
                 name="controlGensDeMer"
+                unitShouldConfirm={unitShouldConfirm}
                 shouldCompleteControl={controlsToComplete?.includes(ControlType.GENS_DE_MER)}
               />
             )}
@@ -68,6 +77,7 @@ const MissionControlNavForm: FC<MissionControlNavFormProps> = ({ label, hideGens
               name="controlSecurity"
               fieldFormik={field}
               controlType={ControlType.SECURITY}
+              unitShouldConfirm={unitShouldConfirm}
               shouldCompleteControl={controlsToComplete?.includes(ControlType.SECURITY)}
             />
           )}

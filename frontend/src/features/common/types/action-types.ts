@@ -55,6 +55,8 @@ export type ActionControl = {
   vesselType?: VesselTypeEnum
   vesselSize?: VesselSizeEnum
   observations?: string
+  startDateTimeUtc?: string
+  endDateTimeUtc?: string
   identityControlledPerson?: string
   controlAdministrative?: ControlAdministrative
   controlGensDeMer?: ControlGensDeMer

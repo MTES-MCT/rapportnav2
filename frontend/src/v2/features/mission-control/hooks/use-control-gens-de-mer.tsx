@@ -1,6 +1,6 @@
 import { ControlGensDeMer, ControlType } from '@common/types/control-types'
 import { FieldProps } from 'formik'
-import { ControlHook } from '../types/control-hook'
+import { AbstractControlFormikHook } from '../types/control-hook'
 import { useAbstractControl } from './use-abstract-control'
 import { useControlRegistry } from './use-control-registry'
 
@@ -19,7 +19,7 @@ export type ControlGensDeMerInput = {} & ControlGensDeMer
 export function useControlGensDeMer(
   name: string,
   fieldFormik: FieldProps<ControlGensDeMer>
-): ControlHook<ControlGensDeMerInput> {
+): AbstractControlFormikHook<ControlGensDeMerInput> {
   const { getControlType } = useControlRegistry()
   const { initValue, handleSubmit } = useAbstractControl<ControlGensDeMer, ControlGensDeMerInput>(
     name,
@@ -32,7 +32,6 @@ export function useControlGensDeMer(
     radios,
     initValue,
     handleSubmit,
-    getValidationSchema: () => {},
     controlTypeLabel: getControlType(ControlType.GENS_DE_MER)
   }
 }

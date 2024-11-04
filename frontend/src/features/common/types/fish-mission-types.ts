@@ -1,3 +1,4 @@
+import { Undefine } from '@mtes-mct/monitor-ui'
 import { Except } from 'type-fest'
 import {
   ControlAdministrative,
@@ -6,7 +7,6 @@ import {
   ControlSecurity,
   ControlType
 } from './mission-types.ts'
-import { Undefine } from '@mtes-mct/monitor-ui'
 
 export namespace LegacyControlUnit {
   export interface LegacyControlUnit {
@@ -182,9 +182,12 @@ export type GearControl = {
 }
 
 export type GearInfraction = {
+  id?: string
   comments: string
   infractionType: InfractionType
   natinf: number
+  natinfs?: string[]
+  observations?: string
 }
 
 export type Infraction = {
@@ -200,10 +203,13 @@ export type LastControls = {
 }
 
 export type LogbookInfraction = {
+  id?: string
   comments: string
   infractionType: InfractionType
   // TODO This should be a plural.
   natinf: number
+  natinfs?: string[]
+  observations?: string
 }
 
 export type MissionActionData = Omit<MissionAction, 'id' | 'portName'> & {
@@ -219,9 +225,12 @@ export type MissionControlsSummary = {
 }
 
 export type OtherInfraction = {
+  id?: string
   comments: string
   infractionType: InfractionType
   natinf: number
+  natinfs?: string[]
+  observations?: string
 }
 
 export type SpeciesControl = {
@@ -233,7 +242,10 @@ export type SpeciesControl = {
 }
 
 export type SpeciesInfraction = {
+  id?: string
   comments: string
   infractionType: InfractionType
   natinf: number
+  natinfs?: string[]
+  observations?: string
 }

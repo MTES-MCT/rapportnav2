@@ -404,6 +404,8 @@ export type NewEnvActionControl = EnvActionCommonProperties & {
 }
 export type EnvActionControl = NewEnvActionControl & {
   actionTargetType: string
+  actionEndDateTimeUtc?: string
+  actionStartDateTimeUtc?: string
   availableControlTypesForInfraction?: ControlType[]
   controlsToComplete?: ControlType[]
   controlAdministrative?: ControlAdministrative
@@ -443,3 +445,5 @@ export type Infraction = NewInfraction & {
   formalNotice: FormalNoticeEnum
   infractionType: InfractionTypeEnum
 }
+
+export type EnvInfraction = Infraction

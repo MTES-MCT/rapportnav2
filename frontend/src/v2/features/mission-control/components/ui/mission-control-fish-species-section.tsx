@@ -4,6 +4,7 @@ import { Accent, Button, Checkbox, Icon, Label, MultiRadio, Size, THEME } from '
 import React from 'react'
 import { Stack } from 'rsuite'
 import { usecontrolCheck } from '../../../common/hooks/use-control-check'
+import MissionInfractionSummary from '../../../mission-infraction/components/ui/mission-infraction-summary'
 
 interface MissionControlFishSpeciesSectionProps {
   action: FishAction
@@ -91,7 +92,14 @@ const MissionControlFishSpeciesSection: React.FC<MissionControlFishSpeciesSectio
         </Stack>
       </Stack.Item>
 
-      <Stack.Item style={{ width: '100%' }}>INFRACTION</Stack.Item>
+      <Stack.Item style={{ width: '100%' }}>
+        <MissionInfractionSummary
+          showIndex={true}
+          isActionDisabled={true}
+          title="Infraction espèces"
+          infractions={action.speciesInfractions}
+        />
+      </Stack.Item>
 
       <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
         <Label>Observations (hors infraction) sur les espèces</Label>
@@ -104,5 +112,3 @@ const MissionControlFishSpeciesSection: React.FC<MissionControlFishSpeciesSectio
 }
 
 export default MissionControlFishSpeciesSection
-
-// <FishInfractionSummary title="Infraction espèces" infractions={action.speciesInfractions} />

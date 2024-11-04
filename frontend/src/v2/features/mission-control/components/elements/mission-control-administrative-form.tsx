@@ -1,9 +1,10 @@
 import { ControlAdministrative, ControlType } from '@common/types/control-types.ts'
 import { FormikEffect, FormikTextarea, THEME } from '@mtes-mct/monitor-ui'
-import { FieldProps, Formik } from 'formik'
+import { FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Panel, Stack } from 'rsuite'
 import { MissionActionFormikToogleUnitShouldConfirm } from '../../../mission-action/components/ui/mission-action-formik-toogle-unit-has-confirm'
+import MissionInfractionList from '../../../mission-infraction/components/elements/mission-infraction-list-form'
 import { ControlAdministrativeInput, useControlAdministrative } from '../../hooks/use-control-administrative'
 import MissionActionControlFormikMultiRadio from '../ui/mission-control-fomik-multi-radio'
 import { MissionControlFormikCheckBoxTitle } from '../ui/mission-control-title-checkbox'
@@ -44,9 +45,11 @@ const MissionControlAdministrativeForm: FC<MissionControlAdministrativeFormProps
             <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
               <Stack.Item style={{ width: '100%' }}>
                 <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
-                  <Stack.Item style={{ width: '100%' }}>
-                    <MissionActionFormikToogleUnitShouldConfirm name={`unitHasConfirmed`} />
-                  </Stack.Item>
+                  {unitShouldConfirm && (
+                    <Stack.Item style={{ width: '100%' }}>
+                      <MissionActionFormikToogleUnitShouldConfirm name={`unitHasConfirmed`} />
+                    </Stack.Item>
+                  )}
                   <Stack.Item style={{ width: '100%' }}>
                     <MissionActionControlFormikMultiRadio control={ControlType.ADMINISTRATIVE} radios={radios ?? []} />
                   </Stack.Item>
@@ -56,6 +59,18 @@ const MissionControlAdministrativeForm: FC<MissionControlAdministrativeFormProps
                       name={`observations`}
                       label="Observations (hors infraction) sur les pièces administratives"
                     />
+                  </Stack.Item>
+
+                  <Stack.Item style={{ width: '100%' }}>
+                    <FieldArray name="infractions">
+                      {(fieldArray: FieldArrayRenderProps) => (
+                        <MissionInfractionList
+                          name="infractions"
+                          fieldArray={fieldArray}
+                          controlType={ControlType.ADMINISTRATIVE}
+                        />
+                      )}
+                    </FieldArray>
                   </Stack.Item>
                 </Stack>
               </Stack.Item>
@@ -68,13 +83,3 @@ const MissionControlAdministrativeForm: FC<MissionControlAdministrativeFormProps
 }
 
 export default MissionControlAdministrativeForm
-
-/**
- * <Stack.Item style={{ width: '100%' }}>
-     <ControlInfraction
-      controlId={data?.id}
-      infractions={data?.infractions}
-      controlType={ControlType.ADMINISTRATIVE}
-      />
-</Stack.Item>
- */

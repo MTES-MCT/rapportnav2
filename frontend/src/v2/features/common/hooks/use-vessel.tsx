@@ -22,6 +22,7 @@ interface VesselHook {
   getVesselName: (name?: string) => string | undefined
   getVesselSize: (size?: VesselSizeEnum) => string | undefined
   getVesselType: (size?: VesselTypeEnum) => string | undefined
+  vesselTypeOptions: { label: string; value: VesselTypeEnum }[]
   vesselSizeOptions: { label: string; value: VesselSizeEnum }[]
 }
 
@@ -33,8 +34,19 @@ export function useVessel(): VesselHook {
       value: VesselSizeEnum[key as keyof typeof VesselSizeEnum],
       label: VESSEL_SIZE_REGISTRY[key as keyof typeof VesselSizeEnum]
     }))
+  const getVesselTypeOptions = () =>
+    Object.keys(VesselTypeEnum)?.map(key => ({
+      value: VesselTypeEnum[key as keyof typeof VesselTypeEnum],
+      label: VESSEL_TYPE_REGISTRY[key as keyof typeof VesselTypeEnum]
+    }))
 
   const getVesselName = (name?: string): string | undefined =>
     !name ? '' : name === 'UNKNOWN' ? 'Navire inconnu' : name
-  return { getVesselName, getVesselType, getVesselSize, vesselSizeOptions: getVesselSizeOptions() }
+  return {
+    getVesselName,
+    getVesselType,
+    getVesselSize,
+    vesselSizeOptions: getVesselSizeOptions(),
+    vesselTypeOptions: getVesselTypeOptions()
+  }
 }
