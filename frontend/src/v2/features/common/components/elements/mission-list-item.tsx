@@ -27,6 +27,15 @@ const ListItemWithHover = styled.div`
   }
 `;
 
+const MissionCrewItem = styled.div`
+  color: ${THEME.color.charcoal};
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 8px;
+`
+
 const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam }) => {
   const controlUnitResourcesText = useControlUnitResourceLabel(mission?.controlUnits);
   const missionName = formatDateForMissionName(mission?.startDateTimeUtc);
@@ -75,9 +84,9 @@ const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam }) =>
                 </p>
               </FlexboxGrid.Item>
               <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-crew'}>
-                <p style={missionCrew.style} data-testid={'mission-list-item-crew__text'}>
+                <MissionCrewItem data-testid={'mission-list-item-crew__text'}>
                   {missionCrew.text}
-                </p>
+                </MissionCrewItem>
               </FlexboxGrid.Item>
             </>
           )}
