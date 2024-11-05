@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { Icon, THEME } from '@mtes-mct/monitor-ui'
-import useDateRangeNavigator, { handleNextMonth } from '../../hooks/use-daterange-navigator.tsx'
-import { FlexboxGrid } from 'rsuite'
+import useDateRangeNavigator from '../../hooks/use-daterange-navigator.tsx'
 import styled from 'styled-components'
 
 interface MissionListDateRangeNavigatorProps {
   startDateTimeUtc?: string
+  onUpdateCurrentDate?: (date: Date) => void
 }
 
 const DateRangeContainer = styled.div`
@@ -22,12 +22,19 @@ const DateRangeContainer = styled.div`
   display: flex;
 `
 
-const MissionListDateRangeNavigator: React.FC<MissionListDateRangeNavigatorProps> = ({startDateTimeUtc}) => {
+const MissionListDateRangeNavigator: React.FC<MissionListDateRangeNavigatorProps> = ({startDateTimeUtc, onUpdateCurrentDate}) => {
   const {
     capitalizedFormattedDate,
     goToPreviousMonth,
     goToNextMonth,
+    currentDate
   } = useDateRangeNavigator(startDateTimeUtc)
+
+  useEffect(() => {
+    onUpdateCurrentDate?.(currentDate); // Suppression de onUpdateCurrentDate des dépendances
+  }, [currentDate]);
+
+
 
   return (
     <DateRangeContainer>

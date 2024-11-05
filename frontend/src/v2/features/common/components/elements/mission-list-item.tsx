@@ -36,8 +36,8 @@ const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam }) =>
 
   return (
     <ListItemWithHover
-      onMouseOver={() => setDisplayDetails(true)} // Change to true on hover
-      onMouseLeave={() => setDisplayDetails(false)} // Change back to false on mouse leave
+      onMouseOver={() => setDisplayDetails(true)}
+      onMouseLeave={() => setDisplayDetails(false)}
       data-testid="mission-list-item-with-hover"
     >
       <Link
@@ -46,7 +46,7 @@ const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam }) =>
           textDecoration: 'none'
         }}
       >
-        <FlexboxGrid align="middle" style={{ height: '100%', padding: '0.5rem 1rem' }}>
+        <FlexboxGrid align="middle" style={{ height: '100%', padding: '0.5rem 1rem', marginBottom: '15px' }}>
           <FlexboxGrid.Item colspan={1} style={{ paddingTop: '8px' }} data-testid={'mission-list-item-icon'}>
             <Icon.MissionAction size={28} color={THEME.color.charcoal} />
           </FlexboxGrid.Item>
@@ -59,7 +59,7 @@ const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam }) =>
 
           <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-open_by'}>
             <p style={{ color: THEME.color.charcoal, fontSize: '13px' }}>
-              <MissionOpenByTag missionSource={mission?.missionSource} />
+              <MissionOpenByTag missionSource={mission?.missionSource} isFake={mission?.openBy === 'fake'} />
             </p>
           </FlexboxGrid.Item>
 
@@ -74,7 +74,7 @@ const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam }) =>
                   {controlUnitResourcesText}
                 </p>
               </FlexboxGrid.Item>
-              <FlexboxGrid.Item colspan={4} data-testid={'mission-list-item-crew'}>
+              <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-crew'}>
                 <p style={missionCrew.style} data-testid={'mission-list-item-crew__text'}>
                   {missionCrew.text}
                 </p>
@@ -105,7 +105,7 @@ const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam }) =>
             <Icon.Edit size={20} style={{ color: THEME.color.charcoal }} />
           </FlexboxGrid.Item>
 
-          {displayDetails && (
+          {(displayDetails && mission?.observationsByUnit) && (
             <FlexboxGrid.Item colspan={24} data-testid={'mission-list-item-more'}>
               <Divider style={{
                 backgroundColor: THEME.color.charcoal

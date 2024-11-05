@@ -17,7 +17,10 @@ const MissionListing: FC<MissionListingProps> = ({missions, isUlam}) => {
         <MissionListHeader isUlam={isUlam} />
       </Stack.Item>
       <Stack.Item style={{ width: '100%', height: '100%' }} >
-        <MissionListItem isUlam={isUlam} />
+        {missions?.map((mission) => (
+            <MissionListItem isUlam={isUlam} mission={mission} />
+          ))
+        }
       </Stack.Item>
     </Stack>
   )

@@ -22,7 +22,7 @@ const MissionListHeader: React.FC<MissionListHeaderProps> = ({ isUlam}) => {
             <FlexboxGrid.Item colspan={3}>
               <p style={{ color: THEME.color.slateGray, fontSize: '12px' }}>Moyen(s) utilisé(s)</p>
             </FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={4}>
+            <FlexboxGrid.Item colspan={3}>
               <p style={{ color: THEME.color.slateGray, fontSize: '12px' }}>Agent(s)</p>
             </FlexboxGrid.Item>
           </>
