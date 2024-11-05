@@ -1,10 +1,11 @@
 import { Action } from '@common/types/action-types'
-import { FormikDatePicker, FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
+import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { useMissionActionFreeNote } from '../../hooks/use-mission-action-note'
 import { ActionFreeNoteInput } from '../../types/action-type'
+import { MissionActionFormikDatePicker } from '../ui/mission-action-formik-date-picker.tsx'
 
 const MissionActionItemNote: FC<{ action: Action; onChange: (newAction: Action) => Promise<unknown> }> = ({
   action,
@@ -21,13 +22,12 @@ const MissionActionItemNote: FC<{ action: Action; onChange: (newAction: Action) 
               <Stack.Item style={{ width: '100%' }}>
                 <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
                   <Stack.Item grow={1}>
-                    <FormikDatePicker
+                    <MissionActionFormikDatePicker
                       name="date"
                       isLight={true}
                       withTime={true}
                       isRequired={true}
                       isCompact={false}
-                      label="Date et heure"
                     />
                   </Stack.Item>
                 </Stack>

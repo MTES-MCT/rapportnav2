@@ -149,3 +149,11 @@ tasks.register<Copy>("getDependencies") {
     File("runtime").deleteRecursively()
   }
 }
+
+// when you need to locally roll back, update the target and run ./backend/gradlew flywayMigrate
+//flyway {
+//  target = "1.2024.10.02.15.54"
+//  url = "jdbc:postgresql://localhost:5432/rapportnavdb"
+//  user = "postgres"
+//  password = "postgres"
+//}
