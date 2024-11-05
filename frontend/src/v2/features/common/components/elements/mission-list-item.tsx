@@ -84,7 +84,7 @@ const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam }) =>
                 </p>
               </FlexboxGrid.Item>
               <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-crew'}>
-                <MissionCrewItem data-testid={'mission-list-item-crew__text'}>
+                <MissionCrewItem data-testid={'mission-list-item-crew__text'} title={missionCrew.text}>
                   {missionCrew.text}
                 </MissionCrewItem>
               </FlexboxGrid.Item>

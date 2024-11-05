@@ -11,6 +11,7 @@ import MissionListPageWrapper from '../features/common/components/layout/mission
 import MissionListDateRangeNavigator from '../features/common/components/elements/mission-list-daterange-navigator.tsx'
 import MissionListing from '../features/common/components/elements/mission-listing.tsx'
 import useMissionsQuery from '../features/common/services/use-missions.tsx'
+import ExportAEMButton from '../features/common/components/ui/export-aem-button.tsx'
 
 const SIDEBAR_ITEMS = [
   {
@@ -27,7 +28,7 @@ const MissionListUlamPage: React.FC = () => {
     endDateTimeUtc: endOfMonth(today).toISOString(),
   })
 
-  let { loading, data } = useMissionsQuery(queryParams)
+  const { loading, data } = useMissionsQuery(queryParams)
 
   const handleUpdateDateTime = (currentDate: Date) => {
 
@@ -52,6 +53,7 @@ const MissionListUlamPage: React.FC = () => {
             <MissionListDateRangeNavigator
               startDateTimeUtc={queryParams.startDateTimeUtc}
               onUpdateCurrentDate={handleUpdateDateTime}
+              exportButton={<ExportAEMButton missions={data} label={"Exporter le tableau AEM du mois"}/>}
             />
           }
           missionListing={<MissionListing isUlam missions={data} />}
