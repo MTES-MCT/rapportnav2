@@ -4,10 +4,12 @@ import {
   browserTracingIntegration,
   init,
   reactRouterV6BrowserTracingIntegration,
-  replayIntegration
+  replayIntegration,
+  captureConsoleIntegration,
+  debugIntegration,
+  httpClientIntegration
 } from '@sentry/react'
 import { createRoutesFromChildren, matchRoutes, useLocation, useNavigationType } from 'react-router-dom'
-import { captureConsoleIntegration, debugIntegration, httpClientIntegration } from '@sentry/integrations'
 import packageJson from '../package.json'
 
 const version = packageJson.version
