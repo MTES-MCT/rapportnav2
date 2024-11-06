@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.utils
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
-import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.ExcelODSUtils
+import fr.gouv.dgampa.rapportnav.infrastructure.utils.FileUtils
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -12,11 +12,11 @@ import java.io.File
 import java.io.FileInputStream
 import java.util.zip.ZipInputStream
 
-@SpringBootTest(classes = [ExcelODSUtils::class])
+@SpringBootTest(classes = [FileUtils::class])
 class ExportZipTest {
 
     @Autowired
-    private lateinit var excelODSUtils: ExcelODSUtils
+    private lateinit var fileUtils: FileUtils
 
     @MockBean
     private lateinit var fillAEMExcelRow: FillAEMExcelRow
@@ -24,11 +24,12 @@ class ExportZipTest {
     @Test
     fun `should zip a list of files`() {
 
-        val filesToZip = listOf(File("file1.txt").apply { writeText("Hello, World!") }, File("file2.txt").apply { writeText("Kotlin ZIP Test") })
+        val filesToZip = listOf(File("file1.txt").apply { writeText("Hello, World!") },
+            File("file2.txt").apply { writeText("Kotlin ZIP Test") })
 
-        val zipFile = File( "test_output.zip")
+        val zipFile = File("test_output.zip")
 
-        val outputFile = excelODSUtils.zip(zipFile, filesToZip)
+        val outputFile = fileUtils.zip(zipFile, filesToZip)
 
         val filesInZip = mutableListOf<String>()
         ZipInputStream(FileInputStream(zipFile)).use { zis ->

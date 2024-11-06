@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.utils.office
+package fr.gouv.dgampa.rapportnav.infrastructure.utils
 
 import java.io.File
 import java.io.FileInputStream
@@ -6,7 +6,7 @@ import java.io.FileOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
-class ExcelODSUtils(
+class FileUtils(
 ) {
 
     fun zip(outputZipFile: File, files: List<File>): File {

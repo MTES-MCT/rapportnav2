@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionAEMEx
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.Base64Converter
-import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.ExcelODSUtils
+import fr.gouv.dgampa.rapportnav.infrastructure.utils.FileUtils
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.ExportExcelFile
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.OfficeConverter
 import org.slf4j.Logger
@@ -58,15 +58,15 @@ class ExportZipMissionsAEM(
 
                 logger.info("Excel file processed and saved")
 
-                val odsFilePath = OfficeConverter().convert(tmpPath.toString(), "Mission-${mission.id}.ods" )
+                val odsFilePath = OfficeConverter().convert(tmpPath.toString(), "Mission-${mission.id}.ods")
                 filesToZip.add(File(odsFilePath))
             }
 
-            val zipFile = File( "tmp_output.zip")
+            val zipFile = File("tmp_output.zip")
 
-            val excelODSUtils = ExcelODSUtils();
+            val fileUtils = FileUtils();
 
-            val outputZipFile = excelODSUtils.zip(zipFile, filesToZip)
+            val outputZipFile = fileUtils.zip(zipFile, filesToZip)
 
             val base64Content = Base64Converter().convertToBase64(outputZipFile.absolutePath)
 
