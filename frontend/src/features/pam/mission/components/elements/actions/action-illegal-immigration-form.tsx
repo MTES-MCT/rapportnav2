@@ -1,4 +1,4 @@
-import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
+import DateRangePicker from '@common/components/elements/dates/daterange-picker.tsx'
 import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.tsx'
 import { Action, ActionIllegalImmigration } from '@common/types/action-types.ts'
 import { useAction } from '@features/pam/mission/hooks/action/use-action.tsx'
@@ -114,7 +114,8 @@ const ActionIllegalImmigrationForm: React.FC<ActionIllegalImmigrationFormProps> 
                 <DateRangePicker
                   name="dates"
                   isRequired={true}
-                  defaultValue={[actionData.startDateTimeUtc, actionData.endDateTimeUtc]}
+                  selectedRange={[navAction.startDateTimeUtc, navAction.endDateTimeUtc]}
+                  error={!navAction.startDateTimeUtc && !navAction.endDateTimeUtc ? 'error' : undefined}
                   label="Date et heure de début et de fin"
                   withTime={true}
                   isCompact={true}

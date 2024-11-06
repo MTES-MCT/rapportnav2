@@ -24,7 +24,7 @@ class ActionRescueModel(
     @Column(name = "start_datetime_utc", nullable = false)
     val startDateTimeUtc: Instant,
 
-    @Column(name = "end_datetime_utc", nullable = false)
+    @Column(name = "end_datetime_utc", nullable = true)
     val endDateTimeUtc: Instant? = null,
 
     @Column(name = "latitude", nullable = true)

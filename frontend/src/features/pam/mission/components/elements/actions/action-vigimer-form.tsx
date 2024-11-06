@@ -10,7 +10,7 @@ import useDeleteVigimer from '../../../hooks/vigimer/use-delete-vigimer.tsx'
 import ActionHeader from './action-header.tsx'
 import useIsMissionFinished from '../../../hooks/use-is-mission-finished.tsx'
 import { DateRange } from '@mtes-mct/monitor-ui/types/definitions'
-import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
+import DateRangePicker from '@common/components/elements/dates/daterange-picker.tsx'
 
 interface ActionVigimerFormProps {
   action: Action
@@ -106,7 +106,8 @@ const ActionVigimerForm: React.FC<ActionVigimerFormProps> = ({ action }) => {
                 <DateRangePicker
                   name="dates"
                   isRequired={true}
-                  defaultValue={[actionData.startDateTimeUtc, actionData.endDateTimeUtc]}
+                  error={!navAction.startDateTimeUtc && !navAction.endDateTimeUtc ? 'error' : undefined}
+                  selectedRange={[navAction.startDateTimeUtc, navAction.endDateTimeUtc]}
                   isStringDate={false}
                   label="Date et heure de début et de fin"
                   withTime={true}

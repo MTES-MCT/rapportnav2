@@ -8,7 +8,7 @@ class ActionBAAEMPermanenceInput(
     var id: UUID? = null,
     var missionId: Int,
     var startDateTimeUtc: Instant,
-    var endDateTimeUtc: Instant,
+    var endDateTimeUtc: Instant? = null,
     var observations: String? = null
 ) {
 

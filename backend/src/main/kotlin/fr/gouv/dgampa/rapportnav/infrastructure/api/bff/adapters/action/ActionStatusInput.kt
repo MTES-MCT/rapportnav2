@@ -9,7 +9,7 @@ import java.util.*
 data class ActionStatusInput(
     val id: UUID?,
     val missionId: Int,
-    val startDateTimeUtc: Instant?,
+    val startDateTimeUtc: Instant? = null,
     val status: ActionStatusType,
     val reason: ActionStatusReason?,
     val observations: String?

@@ -21,7 +21,7 @@ class ActionIllegalImmigrationEntity(
     override val startDateTimeUtc: Instant,
 
     @MandatoryForStats
-    override val endDateTimeUtc: Instant,
+    override val endDateTimeUtc: Instant? = null,
 
     override val observations: String? = null,
     val latitude: Float? = null,
@@ -41,7 +41,7 @@ class ActionIllegalImmigrationEntity(
         id: UUID,
         missionId: Int,
         startDateTimeUtc: Instant,
-        endDateTimeUtc: Instant,
+        endDateTimeUtc: Instant? = null,
         observations: String? = null,
         latitude: Float? = null,
         longitude: Float? = null,

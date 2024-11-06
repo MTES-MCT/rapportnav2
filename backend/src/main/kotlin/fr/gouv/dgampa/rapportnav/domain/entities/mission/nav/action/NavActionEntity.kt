@@ -10,7 +10,7 @@ data class NavActionEntity(
     var isCompleteForStats: Boolean? = null,
     val sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
     val startDateTimeUtc: Instant,
-    val endDateTimeUtc: Instant?,
+    val endDateTimeUtc: Instant? = null,
     val actionType: ActionType,
     val controlAction: ActionControlEntity? = null,
     val statusAction: ActionStatusEntity? = null,

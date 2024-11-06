@@ -14,7 +14,7 @@ data class NavActionControl(
     val id: UUID,
     val missionId: Int,
     val startDateTimeUtc: Instant,
-    val endDateTimeUtc: Instant?,
+    val endDateTimeUtc: Instant? = null,
     val latitude: Double? = null,
     val longitude: Double? = null,
     val controlMethod: ControlMethod?,

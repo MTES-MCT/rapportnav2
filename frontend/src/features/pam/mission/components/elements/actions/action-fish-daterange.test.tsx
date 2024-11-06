@@ -22,7 +22,8 @@ describe('Action Fish Datetime start/end', () => {
   it('should render the dates', () => {
     render(<ActionFishDateRange {...props()} />)
     expect(patchMock).not.toHaveBeenCalled()
-    expect(screen.getByDisplayValue('2022-02-15 ~ 2023-03-27')).toBeInTheDocument()
+    expect(screen.getByDisplayValue('2022-02-15')).toBeInTheDocument()
+    expect(screen.getByDisplayValue('2023-03-27')).toBeInTheDocument()
   })
 
   // TODO find a way to trigger change on the DateTimePicker

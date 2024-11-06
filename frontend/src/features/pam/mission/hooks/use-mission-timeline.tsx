@@ -1,4 +1,4 @@
-import { ApolloError, gql, useQuery } from '@apollo/client'
+import { ApolloError, FetchPolicy, gql, useQuery } from '@apollo/client'
 import { Mission } from '../../../common/types/mission-types.ts'
 
 export const GET_MISSION_TIMELINE = gql`
@@ -107,7 +107,8 @@ export const GET_MISSION_TIMELINE = gql`
 `
 
 const useGetMissionTimeline = (
-  missionId?: string
+  missionId?: string,
+  fetchPolicy: FetchPolicy = 'cache-first'
 ): {
   data?: Mission
   loading: boolean
@@ -115,6 +116,7 @@ const useGetMissionTimeline = (
 } => {
   const { loading, error, data } = useQuery(GET_MISSION_TIMELINE, {
     variables: { missionId },
+    fetchPolicy: fetchPolicy,
     pollInterval: 500000 // 5 min
   })
 

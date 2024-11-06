@@ -2,7 +2,7 @@ import { CoordinateInputDMD } from '@common/components/ui/coordonates-input-dmd.
 import { ActionControl } from '@common/types/action-types.ts'
 import { VesselSizeEnum, VesselTypeEnum } from '@common/types/mission-types.ts'
 import { Coordinates, Icon, Label, Select, Textarea, TextInput, THEME } from '@mtes-mct/monitor-ui'
-import DateRangePicker from '@common/components/elements/daterange-picker.tsx'
+import DateRangePicker from '@common/components/elements/dates/daterange-picker.tsx'
 import { isEqual } from 'lodash'
 import omit from 'lodash/omit'
 import React, { useEffect, useState } from 'react'
@@ -25,6 +25,7 @@ import ControlSecurityForm from '../controls/control-security-form.tsx'
 import ActionHeader from './action-header.tsx'
 import { ActionDetailsProps } from './action-mapping.ts'
 import { DateRange } from '@mtes-mct/monitor-ui/types/definitions'
+import useMissionDates from '@features/pam/mission/hooks/use-mission-dates.tsx'
 
 type ActionControlNavProps = ActionDetailsProps
 
@@ -32,6 +33,7 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
   const navigate = useNavigate()
   const { missionId, actionId } = useParams()
   const isMissionFinished = useIsMissionFinished(missionId)
+  const missionDates = useMissionDates(missionId)
   const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
   const [identityControlledPersonValue, setIdentityControlledPersonValue] = useState<string | undefined>(undefined)
   const [vesselIdentifierValue, setVesselIdentifierValue] = useState<string | undefined>(undefined)
@@ -180,16 +182,13 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
           <DateRangePicker
             name="dates"
             isRequired={true}
-            defaultValue={[navAction.startDateTimeUtc, navAction.endDateTimeUtc]}
+            selectedRange={[navAction.startDateTimeUtc, navAction.endDateTimeUtc]}
+            error={!navAction.startDateTimeUtc && !navAction.endDateTimeUtc ? 'error' : undefined}
             label="Date et heure de début et de fin"
             withTime={true}
             isCompact={true}
             isLight={true}
             role={'ok'}
-            error={
-              isMissionFinished && (!navAction.startDateTimeUtc || !navAction.endDateTimeUtc) ? 'error' : undefined
-            }
-            isErrorMessageHidden={true}
             onChange={async (nextValue?: DateRange) => {
               await onChange(nextValue)('dates')
             }}

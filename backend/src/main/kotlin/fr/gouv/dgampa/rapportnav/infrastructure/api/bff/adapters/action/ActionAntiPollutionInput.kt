@@ -8,7 +8,7 @@ class ActionAntiPollutionInput(
     val id: UUID? = null,
     val missionId: Int,
     val startDateTimeUtc: Instant,
-    val endDateTimeUtc: Instant,
+    val endDateTimeUtc: Instant? = null,
     val latitude: Double? = null,
     val longitude: Double? = null,
     val detectedPollution: Boolean? = null,

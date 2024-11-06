@@ -28,7 +28,7 @@ data class ActionControlEntity(
     override val startDateTimeUtc: Instant,
 
     @MandatoryForStats
-    override val endDateTimeUtc: Instant,
+    override val endDateTimeUtc: Instant? = null,
 
     @MandatoryForStats
     val latitude: Double? = null,
@@ -63,15 +63,15 @@ data class ActionControlEntity(
         id: UUID,
         missionId: Int,
         startDateTimeUtc: Instant,
-        endDateTimeUtc: Instant,
-        latitude: Double?,
-        longitude: Double?,
-        controlMethod: ControlMethod?,
-        vesselIdentifier: String?,
-        vesselType: VesselTypeEnum?,
-        vesselSize: VesselSizeEnum?,
-        identityControlledPerson: String?,
-        observations: String?,
+        endDateTimeUtc: Instant? = null,
+        latitude: Double? = null,
+        longitude: Double? = null,
+        controlMethod: ControlMethod? = null,
+        vesselIdentifier: String? = null,
+        vesselType: VesselTypeEnum? = null,
+        vesselSize: VesselSizeEnum? = null,
+        identityControlledPerson: String? = null,
+        observations: String? = null,
         controlAdministrative: ControlAdministrativeEntity? = null,
         controlGensDeMer: ControlGensDeMerEntity? = null,
         controlNavigation: ControlNavigationEntity? = null,
