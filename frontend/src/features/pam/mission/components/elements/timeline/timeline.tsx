@@ -149,7 +149,7 @@ const MissionTimeline: React.FC<MissionTimelineProps> = ({ missionId, onSelectAc
                                     title={
                                       'Cet évènement contient des données manquantes indispensables pour les statistiques.'
                                     }
-                                    style={{ cursor: 'auto', width: '20px' }}
+                                    style={{ cursor: 'auto', width: '20px', marginLeft: '-5px' }}
                                   />
                                 </Stack.Item>
                               ) : undefined}
