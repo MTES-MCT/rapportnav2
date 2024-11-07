@@ -1,7 +1,6 @@
-import { formatInTimeZone } from 'date-fns-tz'
 import { addMinutes, isValid } from 'date-fns'
-import { TIME_ZONE } from '@common/utils/dates-for-machines.ts'
 import { isNaN } from 'lodash'
+import { subMinutes } from 'date-fns/subMinutes'
 
 export type DatePickerValidation = {
   ok: boolean
@@ -93,10 +92,10 @@ export const preprocessDateForPicker = (date?: Date): Date | undefined => {
   if (!date || !isValid(date)) {
     return
   }
-  // Convert the local date to a UTC date that, when converted back to ISO string,
-  // will represent the correct local time
-  const localISOString = formatInTimeZone(date, TIME_ZONE, "yyyy-MM-dd'T'HH:mm:ss.SSS")
-  return new Date(localISOString + 'Z') // Append 'Z' to treat it as UTC
+  // Get the local timezone offset in minutes
+  const localOffset = new Date(date).getTimezoneOffset()
+  // Add the offset to correct the date
+  return subMinutes(date, localOffset)
 }
 
 // Postprocessing after receiving from datepicker
@@ -105,7 +104,7 @@ export const postprocessDateFromPicker = (date?: Date): Date | undefined => {
     return
   }
   // Get the local timezone offset in minutes
-  const localOffset = new Date().getTimezoneOffset()
+  const localOffset = new Date(date).getTimezoneOffset()
 
   // Add the offset to correct the date
   return addMinutes(date, localOffset)

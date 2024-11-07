@@ -15,13 +15,17 @@ describe('DatePicker tests  ', () => {
   })
 
   describe('postprocessDateFromPicker', () => {
-    it('should correct the date received from picker by adding local timezone offset', () => {
+    it('should correct the date received from picker by adding local timezone offset (summer time)', () => {
       const dateFromPicker = new Date('2023-09-01T10:15:30Z')
-      const localOffset = new Date().getTimezoneOffset()
       const processedDate = postprocessDateFromPicker(dateFromPicker)
 
-      const expectedDate = addMinutes(dateFromPicker, localOffset)
-      expect(processedDate).toEqual(expectedDate)
+      expect(processedDate?.toISOString()).toEqual('2023-09-01T08:15:30.000Z')
+    })
+    it('should correct the date received from picker by adding local timezone offset (winter time)', () => {
+      const dateFromPicker = new Date('2023-12-01T10:15:30Z')
+      const processedDate = postprocessDateFromPicker(dateFromPicker)
+
+      expect(processedDate?.toISOString()).toEqual('2023-12-01T09:15:30.000Z')
     })
   })
   describe('DatePicker', () => {

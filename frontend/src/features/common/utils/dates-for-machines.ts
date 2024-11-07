@@ -28,7 +28,7 @@ export const convertSingleUTCToLocalISO = (utcString: string): string => {
 
 // Convert a single local Date to UTC ISO string
 export const convertSingleLocalToUTCISO = (localDate: Date): string => {
-  return formatInTimeZone(localDate, 'UTC', "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+  return localDate.toISOString()
 }
 
 // Recursive function to convert UTC ISO strings to local ISO strings
