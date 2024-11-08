@@ -19,7 +19,7 @@ class MissionFishActionEntity(
     override val flagState: CountryCode,
     override val districtCode: String?,
     override val faoAreas: List<String>,
-    override val actionType: MissionActionType,
+    override val fishActionType: MissionActionType,
     override val actionDatetimeUtc: Instant,
     override val actionEndDatetimeUtc: Instant?,
     override val emitsVms: ControlCheck?,
@@ -68,15 +68,12 @@ class MissionFishActionEntity(
     override var speciesQuantitySeized: Int?,
 ) : MissionActionEntity(
     missionId = missionId,
-    type = ActionType.CONTROL,
+    actionType = ActionType.CONTROL,
     isCompleteForStats = false,
     endDateTimeUtc = actionEndDatetimeUtc,
     startDateTimeUtc = actionDatetimeUtc,
     source = MissionSourceEnum.MONITORFISH
 ), BaseMissionFishAction {
-    override fun isControl(): Boolean {
-        return type == ActionType.CONTROL
-    }
 
     override fun getActionId(): String {
         return id.toString()
@@ -98,26 +95,11 @@ class MissionFishActionEntity(
         this.computeCompletenessForStats()
     }
 
-    override fun toMissionActionTimelineOutput(): MissionActionTimeLineOutput {
-        return MissionActionTimeLineOutput(
-            id = id.toString(),
-            source = source,
-            type = type,
-            missionId = missionId,
-            completenessForStats = completenessForStats,
-            startDateTimeUtc = startDateTimeUtc,
-            endDateTimeUtc = endDateTimeUtc,
-            vesselId = vesselId?.toString(),
-            vesselName = vesselName,
-            observations = observationsByUnit,
-        )
-    }
-
     companion object {
         fun fromFishAction(action: FishAction) = MissionFishActionEntity(
             id = action.id,
             missionId = action.missionId,
-            actionType = action.actionType,
+            fishActionType = action.actionType,
             actionDatetimeUtc = action.actionDatetimeUtc,
             actionEndDatetimeUtc = action.actionEndDatetimeUtc,
             vesselId = action.vesselId,

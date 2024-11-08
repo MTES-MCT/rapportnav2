@@ -80,22 +80,8 @@ class MissionFishActionEntityTest {
 
     }
 
-
     @Test
-    fun `execute should retrieve retrieve timeline out put from entity`() {
-        val fishAction = getFishAction()
-        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
-        val timelineOutput = entity.toMissionActionTimelineOutput()
-        assertThat(timelineOutput).isNotNull()
-        assertThat(timelineOutput.id).isEqualTo(entity.id.toString())
-        assertThat(timelineOutput.startDateTimeUtc).isEqualTo(entity.actionDatetimeUtc)
-        assertThat(timelineOutput.endDateTimeUtc).isEqualTo(entity.actionEndDatetimeUtc)
-        assertThat(timelineOutput.vesselId).isEqualTo(entity.vesselId)
-        assertThat(timelineOutput.vesselName).isEqualTo(entity.vesselName)
-    }
-
-    @Test
-    fun `execute should be complete for stats env `() {
+    fun `execute should be complete for stats fish `() {
         val fishAction = getFishAction()
         val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
         entity.computeCompleteness()

@@ -11,7 +11,7 @@ import java.time.Instant
 
 interface BaseMissionActionEntity {
     val missionId: Int
-    val type: ActionType
+    val actionType: ActionType
     val isCompleteForStats: Boolean?
     val source: MissionSourceEnum
     var startDateTimeUtc: Instant?

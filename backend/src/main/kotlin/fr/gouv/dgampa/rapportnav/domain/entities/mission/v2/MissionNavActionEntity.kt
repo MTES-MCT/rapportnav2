@@ -121,17 +121,13 @@ class MissionNavActionEntity(
     )
     override var reason: ActionStatusReason? = null,
 ) : MissionActionEntity(
-    type = actionType,
+    actionType = actionType,
     missionId = missionId,
     isCompleteForStats = false,
     endDateTimeUtc = endDateTimeUtc,
     startDateTimeUtc = startDateTimeUtc,
     source = MissionSourceEnum.RAPPORTNAV
 ), BaseMissionNavAction {
-
-    override fun isControl(): Boolean {
-        return type == ActionType.CONTROL
-    }
 
     override fun getActionId(): String {
         return id.toString()
@@ -141,26 +137,6 @@ class MissionNavActionEntity(
         this.isCompleteForStats = EntityCompletenessValidator.isCompleteForStats(this)
         this.sourcesOfMissingDataForStats = listOf(MissionSourceEnum.RAPPORTNAV)
         this.computeCompletenessForStats()
-    }
-
-    override fun toMissionActionTimelineOutput(): MissionActionTimeLineOutput {
-        return MissionActionTimeLineOutput(
-            id = id.toString(),
-            source = source,
-            missionId = missionId,
-            type = actionType,
-            completenessForStats = completenessForStats,
-            startDateTimeUtc = startDateTimeUtc,
-            endDateTimeUtc = endDateTimeUtc,
-            observations = observations,
-            controlMethod = controlMethod,
-            vesselIdentifier = vesselIdentifier,
-            vesselType = vesselType,
-            vesselSize = vesselSize,
-            isVesselRescue = isVesselRescue,
-            isPersonRescue = isPersonRescue,
-            reason = reason
-        )
     }
 
     companion object {

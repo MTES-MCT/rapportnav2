@@ -9,7 +9,7 @@ import java.util.*
 interface BaseMissionEnvAction {
     val id: UUID
     val missionId: Int
-    val actionType: ActionTypeEnum
+    val envActionType: ActionTypeEnum
     val actionStartDateTimeUtc: Instant?
     val actionEndDateTimeUtc: Instant?
     val completedBy: String?
