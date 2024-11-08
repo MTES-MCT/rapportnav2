@@ -16,7 +16,7 @@ interface BaseMissionFishAction {
     val flagState: CountryCode
     val districtCode: String?
     val faoAreas: List<String>
-    val actionType: MissionActionType
+    val fishActionType: MissionActionType
     val actionDatetimeUtc: Instant
     val actionEndDatetimeUtc: Instant?
     val emitsVms: ControlCheck?

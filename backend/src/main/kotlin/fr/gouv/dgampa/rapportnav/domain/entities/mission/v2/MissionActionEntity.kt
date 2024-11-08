@@ -14,7 +14,7 @@ import java.time.Instant
 
 abstract class MissionActionEntity(
     override val missionId: Int,
-    override val type: ActionType,
+    override val actionType: ActionType,
     override var isCompleteForStats: Boolean? = null,
     override val source: MissionSourceEnum,
     override var startDateTimeUtc: Instant? = null,
@@ -89,9 +89,11 @@ abstract class MissionActionEntity(
         )
     }
 
-    abstract fun isControl(): Boolean
+    fun isControl(): Boolean {
+        return actionType == ActionType.CONTROL
+    }
+
     abstract fun getActionId(): String
     abstract fun computeCompleteness()
-    abstract fun toMissionActionTimelineOutput(): MissionActionTimeLineOutput
 }
 

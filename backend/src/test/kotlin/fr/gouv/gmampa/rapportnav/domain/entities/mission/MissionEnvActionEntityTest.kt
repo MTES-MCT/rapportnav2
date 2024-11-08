@@ -14,7 +14,7 @@ import java.util.*
 
 @ExtendWith(SpringExtension::class)
 class MissionEnvActionEntityTest {
-    
+
     @Test
     fun `execute should retrieve entity from Env action`() {
         val envAction = getEnvAction()
@@ -44,28 +44,10 @@ class MissionEnvActionEntityTest {
 
 
     @Test
-    fun `execute should retrieve retrieve timeline out put from entity`() {
-        val envAction = getEnvAction()
-        val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
-        val timelineOutput = entity.toMissionActionTimelineOutput()
-
-        assertThat(timelineOutput).isNotNull()
-        assertThat(timelineOutput.id).isEqualTo(entity.id.toString())
-        assertThat(timelineOutput.missionId).isEqualTo(entity.missionId)
-        assertThat(timelineOutput.startDateTimeUtc).isEqualTo(entity.startDateTimeUtc)
-        assertThat(timelineOutput.endDateTimeUtc).isEqualTo(entity.endDateTimeUtc)
-        assertThat(timelineOutput.observations).isEqualTo(entity.observations)
-        assertThat(timelineOutput.vehicleType).isEqualTo(envAction.vehicleType)
-        assertThat(timelineOutput.actionNumberOfControls).isEqualTo(envAction.actionNumberOfControls)
-        assertThat(timelineOutput.actionTargetType).isEqualTo(envAction.actionTargetType)
-    }
-
-    @Test
     fun `execute should be complete for stats env `() {
         val envAction = getEnvAction()
         val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
         entity.computeCompleteness()
-
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.MONITORENV))
         assertThat(entity.completenessForStats?.sources).isEqualTo(listOf(MissionSourceEnum.MONITORENV))

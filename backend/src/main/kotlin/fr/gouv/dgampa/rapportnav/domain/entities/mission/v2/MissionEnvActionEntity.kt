@@ -12,7 +12,7 @@ import java.util.*
 data class MissionEnvActionEntity(
     override val id: UUID,
     override val missionId: Int,
-    override val actionType: ActionTypeEnum,
+    override val envActionType: ActionTypeEnum,
     override val actionStartDateTimeUtc: Instant? = null,
     override val actionEndDateTimeUtc: Instant? = null,
     override val completedBy: String? = null,
@@ -40,12 +40,9 @@ data class MissionEnvActionEntity(
     source = MissionSourceEnum.MONITORENV,
     startDateTimeUtc = actionStartDateTimeUtc,
     endDateTimeUtc = actionEndDateTimeUtc,
-    type = ActionType.valueOf(actionType.toString()),
+    actionType = ActionType.valueOf(envActionType.toString()),
 ),
     BaseMissionEnvAction {
-    override fun isControl(): Boolean {
-        return type == ActionType.CONTROL
-    }
 
     override fun getActionId(): String {
         return id.toString()
@@ -66,27 +63,11 @@ data class MissionEnvActionEntity(
         this.computeCompletenessForStats()
     }
 
-    override fun toMissionActionTimelineOutput(): MissionActionTimeLineOutput {
-        return MissionActionTimeLineOutput(
-            id = id.toString(),
-            source = source,
-            type = type,
-            missionId = missionId,
-            completenessForStats = completenessForStats,
-            startDateTimeUtc = startDateTimeUtc,
-            endDateTimeUtc = endDateTimeUtc,
-            observations = observations,
-            actionNumberOfControls = actionNumberOfControls,
-            actionTargetType = actionTargetType,
-            vehicleType = vehicleType,
-        )
-    }
-
     companion object {
         fun fromEnvAction(missionId: Int, action: EnvActionEntity) = MissionEnvActionEntity(
             id = action.id,
             missionId = missionId,
-            actionType = action.actionType,
+            envActionType = action.actionType,
             actionStartDateTimeUtc = action.actionStartDateTimeUtc,
             actionEndDateTimeUtc = action.actionEndDateTimeUtc,
             completedBy = action.completedBy,
@@ -106,7 +87,7 @@ data class MissionEnvActionEntity(
             actionTargetType = action.actionTargetType,
             vehicleType = action.vehicleType,
             infractions = action.infractions,
-            coverMissionZone = action.coverMissionZone,
+            coverMissionZone = action.coverMissionZone
         )
     }
 }
