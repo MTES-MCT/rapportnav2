@@ -1,0 +1,190 @@
+type MissionActionTimeLineOutput {
+  id: String,
+  type: ActionType
+  missionId: Int
+  source: MissionSourceEnum,
+  isCompleteForStats: Boolean
+  summaryTags: [String]
+  completenessForStats: CompletenessForStats
+  startDateTimeUtc: Instant
+  endDateTimeUtc: Instant
+  vesselId: String
+  vesselName: String
+  actionNumberOfControls: Int
+  actionTargetType: ActionTargetTypeEnum
+  vehicleType: VehicleTypeEnum
+  controlsToComplete: [ControlType]
+  formattedControlPlans: FormattedEnvActionControlPlan
+  observations: String
+  isPersonRescue: Boolean
+  isVesselRescue: Boolean
+  reason: ActionStatusReason
+  controlMethod: ControlMethod
+  vesselIdentifier: String
+  vesselType: VesselType
+  vesselSize: VesselSize
+}
+
+
+type MissionEnvActionDataOutput {
+  startDateTimeUtc: Instant
+  endDateTimeUtc: Instant
+  controlSecurity: ControlSecurity
+  controlGensDeMer: ControlGensDeMer
+  controlNavigation: ControlNavigation
+  controlAdministrative: ControlAdministrative
+  completedBy: String
+  formattedControlPlans : [FormattedEnvActionControlPlan]
+  geom: String
+  facade: String
+  department: String
+  isAdministrativeControl: Boolean
+  isComplianceWithWaterRegulationsControl: Boolean
+  isSafetyEquipmentAndStandardsComplianceControl: Boolean
+  isSeafarersControl: Boolean
+  openBy: String
+  observations: String
+  observationsByUnit: String
+  actionNumberOfControls: Int
+  actionTargetType: ActionTargetTypeEnum
+  vehicleType: VehicleTypeEnum
+  infractions: [Infraction]
+  coverMissionZone: Boolean
+
+}
+
+type MissionFishActionDataOutput {
+  startDateTimeUtc: Instant
+  endDateTimeUtc: Instant
+  controlSecurity: ControlSecurity
+  controlGensDeMer: ControlGensDeMer
+  controlNavigation: ControlNavigation
+  controlAdministrative: ControlAdministrative
+  vesselId: Int
+  vesselName: String
+  internalReferenceNumber: String
+  externalReferenceNumber: String
+  districtCode: String
+  faoAreas: [String]
+  actionType: FishActionType
+  emitsVms: ControlCheck
+  emitsAis: ControlCheck
+  logbookMatchesActivity: ControlCheck
+  licencesMatchActivity: ControlCheck
+  speciesWeightControlled: Boolean
+  speciesSizeControlled: Boolean
+  separateStowageOfPreservedSpecies: ControlCheck
+  logbookInfractions: [LogbookInfraction]
+  licencesAndLogbookObservations: String
+  gearInfractions: [GearInfraction]
+  speciesInfractions: [SpeciesInfraction]
+  speciesObservations: String
+  seizureAndDiversion: Boolean
+  otherInfractions: [OtherInfraction]
+  numberOfVesselsFlownOver: Int
+  unitWithoutOmegaGauge: Boolean
+  controlQualityComments: String
+  feedbackSheetRequired: Boolean
+  userTrigram: String
+  segments: [FleetSegment]
+  facade: String
+  longitude: Float
+  latitude: Float
+  portLocode: String
+  portName: String
+  vesselTargeted: ControlCheck
+  seizureAndDiversionComments: String
+  otherComments: String
+  gearOnboard:  [GearControl]
+  speciesOnboard: [SpeciesControl]
+  isFromPoseidon: Boolean
+  isDeleted: Boolean
+  hasSomeGearsSeized: Boolean
+  hasSomeSpeciesSeized: Boolean
+  completedBy: String
+  isAdministrativeControl: Boolean
+  isComplianceWithWaterRegulationsControl: Boolean
+  isSafetyEquipmentAndStandardsComplianceControl: Boolean
+  isSeafarersControl: Boolean
+  observationsByUnit: String
+  speciesQuantitySeized: Int
+}
+
+type MissionNavActionDataOutput {
+  startDateTimeUtc: Instant
+  endDateTimeUtc: Instant
+  controlSecurity: ControlSecurity
+  controlGensDeMer: ControlGensDeMer
+  controlNavigation: ControlNavigation
+  controlAdministrative: ControlAdministrative
+  observations: String
+  latitude: Float
+  longitude: Float
+  detectedPollution: Boolean
+  pollutionObservedByAuthorizedAgent: Boolean
+  diversionCarriedOut: Boolean
+  isSimpleBrewingOperationDone: Boolean
+  isAntiPolDeviceDeployed: Boolean
+  controlMethod: ControlMethod
+  vesselIdentifier: String
+  vesselType: VesselType
+  vesselSize: VesselSize
+  identityControlledPerson: String
+  nbOfInterceptedVessels: Int
+  nbOfInterceptedMigrants: Int
+  nbOfSuspectedSmugglers: Int
+  isVesselRescue: Boolean
+  isPersonRescue: Boolean
+  isVesselNoticed: Boolean
+  isVesselTowed: Boolean
+  isInSRRorFollowedByCROSSMRCC: Boolean
+  numberPersonsRescued: Int
+  numberOfDeaths: Int
+  operationFollowsDEFREP: Boolean
+  locationDescription: String
+  isMigrationRescue: Boolean
+  nbOfVesselsTrackedWithoutIntervention: Int
+  nbAssistedVesselsReturningToShore: Int
+  reason: ActionStatusReason
+
+}
+
+type MissionNavActionOutput {
+  id: String
+  missionId: Int,
+  actionType: ActionType
+  isCompleteForStats: Boolean
+  completenessForStats: CompletenessForStats
+  sourcesOfMissingDataForStats: [MissionSourceEnum]
+  data: MissionNavActionDataOutput
+}
+
+type MissionEnvActionOutput {
+  id: String
+  missionId: Int,
+  actionType: ActionType
+  isCompleteForStats: Boolean
+  completenessForStats: CompletenessForStats
+  sourcesOfMissingDataForStats: [MissionSourceEnum]
+  data: MissionEnvActionDataOutput
+}
+
+type MissionFishActionOutput {
+  id: String
+  missionId: Int,
+  actionType: ActionType
+  isCompleteForStats: Boolean
+  completenessForStats: CompletenessForStats
+  sourcesOfMissingDataForStats: [MissionSourceEnum]
+  data: MissionFishActionDataOutput
+}
+
+union MissionActionOutput  = MissionEnvActionOutput | MissionFishActionOutput | MissionNavActionOutput
+
+extend type Query {
+  timeline(missionId: ID!): [MissionActionTimeLineOutput]
+}
+
+extend type Query {
+  missionAction(actionId: ID!, missionId: ID!): MissionActionOutput
+}
