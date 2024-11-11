@@ -2,6 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.entities.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Completion
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
@@ -86,7 +87,7 @@ class MissionFishActionEntityTest {
         val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
         entity.computeCompleteness()
 
-        assertThat(entity.isCompleteForStats).isEqualTo(true)
+        assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.MONITORFISH))
         assertThat(entity.completenessForStats?.sources).isEqualTo(listOf(MissionSourceEnum.MONITORFISH))
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
@@ -94,6 +95,6 @@ class MissionFishActionEntityTest {
 
 
     private fun getFishAction(): MissionAction {
-        return FishActionControlMock.create()
+        return FishActionControlMock.create(completion = Completion.TO_COMPLETE)
     }
 }
