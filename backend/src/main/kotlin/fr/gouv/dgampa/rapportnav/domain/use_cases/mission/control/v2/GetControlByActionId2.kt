@@ -7,7 +7,6 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlAdm
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlGensDeMerRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlNavigationRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlSecurityRepository
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.v2.IControlRepository
 
 @UseCase
 class GetControlByActionId2(

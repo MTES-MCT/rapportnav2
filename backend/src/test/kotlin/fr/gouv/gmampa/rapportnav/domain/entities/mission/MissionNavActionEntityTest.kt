@@ -28,7 +28,7 @@ class MissionNavActionEntityTest {
         assertThat(entity.isAntiPolDeviceDeployed).isEqualTo(model.isAntiPolDeviceDeployed)
         assertThat(entity.isSimpleBrewingOperationDone).isEqualTo(model.isSimpleBrewingOperationDone)
         assertThat(entity.diversionCarriedOut).isEqualTo(model.diversionCarriedOut)
-        assertThat(entity.actionType).isEqualTo(model.actionType.toString())
+        assertThat(entity.actionType.toString()).isEqualTo(model.actionType)
         assertThat(entity.latitude).isEqualTo(model.latitude)
         assertThat(entity.longitude).isEqualTo(model.longitude)
         assertThat(entity.detectedPollution).isEqualTo(model.detectedPollution)

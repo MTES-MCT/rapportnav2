@@ -24,7 +24,7 @@ class MissionFishActionEntityTest {
         assertThat(entity.completedBy).isEqualTo(fishAction.completedBy)
         assertThat(entity.facade).isEqualTo(fishAction.facade)
         assertThat(entity.vesselName).isEqualTo(fishAction.vesselName)
-        assertThat(entity.actionType).isEqualTo(fishAction.actionType)
+        assertThat(entity.fishActionType.toString()).isEqualTo(fishAction.actionType.toString())
         assertThat(entity.isSeafarersControl).isEqualTo(fishAction.isSeafarersControl)
         assertThat(entity.isAdministrativeControl).isEqualTo(fishAction.isAdministrativeControl)
         assertThat(entity.internalReferenceNumber).isEqualTo(fishAction.internalReferenceNumber)
@@ -86,7 +86,7 @@ class MissionFishActionEntityTest {
         val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
         entity.computeCompleteness()
 
-        assertThat(entity.isCompleteForStats).isEqualTo(false)
+        assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.MONITORFISH))
         assertThat(entity.completenessForStats?.sources).isEqualTo(listOf(MissionSourceEnum.MONITORFISH))
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)

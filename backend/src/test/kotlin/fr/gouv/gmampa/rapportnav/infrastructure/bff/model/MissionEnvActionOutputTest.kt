@@ -20,7 +20,7 @@ class MissionEnvActionOutputTest {
         val entity =  MissionEnvActionEntity.fromEnvAction(761, envAction)
         val output = MissionEnvActionOutput.fromMissionActionEntity(entity)
         assertThat(output).isNotNull()
-        assertThat(output.id).isEqualTo(entity.id)
+        assertThat(output.id).isEqualTo(entity.id.toString())
         assertThat(output.data.startDateTimeUtc).isEqualTo(entity.actionStartDateTimeUtc)
         assertThat(output.data.endDateTimeUtc).isEqualTo(entity.actionEndDateTimeUtc)
         assertThat(output.data.observations).isEqualTo(entity.observations)

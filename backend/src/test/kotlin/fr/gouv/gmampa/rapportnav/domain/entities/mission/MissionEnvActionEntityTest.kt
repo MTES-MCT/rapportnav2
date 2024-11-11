@@ -27,7 +27,7 @@ class MissionEnvActionEntityTest {
         assertThat(entity.completedBy).isEqualTo(envAction.completedBy)
         assertThat(entity.facade).isEqualTo(envAction.facade)
         assertThat(entity.department).isEqualTo(envAction.department)
-        assertThat(entity.actionType).isEqualTo(envAction.actionType)
+        assertThat(entity.actionType.toString()).isEqualTo(envAction.actionType.toString())
         assertThat(entity.isSeafarersControl).isEqualTo(envAction.isSeafarersControl)
         assertThat(entity.isAdministrativeControl).isEqualTo(envAction.isAdministrativeControl)
         assertThat(entity.openBy).isEqualTo(envAction.openBy)
