@@ -12,6 +12,7 @@ import MissionListDateRangeNavigator from '../features/common/components/element
 import MissionListing from '../features/common/components/elements/mission-listing.tsx'
 import useMissionsQuery from '../features/common/services/use-missions.tsx'
 import ExportAEMButton from '../features/common/components/ui/export-aem-button.tsx'
+import Text from '@common/components/ui/text.tsx'
 
 const SIDEBAR_ITEMS = [
   {
@@ -39,15 +40,24 @@ const MissionListUlamPage: React.FC = () => {
     setQueryParams(newDateRange)
   }
 
-  return (
-    <MissionListPageWrapper
-      header={<MissionListPageHeaderWrapper title={<MissionListUlamTitle />} actions={<MissionListUlamAction />} />}
-      sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={SIDEBAR_ITEMS} />}
-      footer={<></>}
-    >
-      {loading ? (
-        <Loader content="Chargement des missions..." vertical={false} />
-      ) : (
+  if (loading) {
+    return (
+      <Loader
+        center={true}
+        size={'md'}
+        vertical={true}
+        content={<Text as={'h3'}>Missions en cours de chargement</Text>}
+      />
+    )
+  }
+
+  if (data) {
+    return (
+      <MissionListPageWrapper
+        header={<MissionListPageHeaderWrapper title={<MissionListUlamTitle />} actions={<MissionListUlamAction />} />}
+        sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={SIDEBAR_ITEMS} />}
+        footer={<></>}
+      >
         <MissionListUlam
           dateRangeNavigator={
             <MissionListDateRangeNavigator
@@ -58,9 +68,11 @@ const MissionListUlamPage: React.FC = () => {
           }
           missionListing={<MissionListing isUlam missions={data} />}
         />
-      )}
-    </MissionListPageWrapper>
-  )
+      </MissionListPageWrapper>
+    )
+  }
+
+
 }
 
 export default MissionListUlamPage
