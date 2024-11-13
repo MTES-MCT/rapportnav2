@@ -11,7 +11,7 @@ import MissionListPageWrapper from '../features/common/components/layout/mission
 import MissionListDateRangeNavigator from '../features/common/components/elements/mission-list-daterange-navigator.tsx'
 import MissionListing from '../features/common/components/elements/mission-listing.tsx'
 import useMissionsQuery from '../features/common/services/use-missions.tsx'
-import ExportAEMButton from '../features/common/components/ui/export-aem-button.tsx'
+import ExportAEMButton from '../features/common/components/elements/export-aem-button.tsx'
 import Text from '@common/components/ui/text.tsx'
 
 const SIDEBAR_ITEMS = [

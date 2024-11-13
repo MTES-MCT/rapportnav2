@@ -2,15 +2,15 @@ import { MissionExport } from '@common/types/mission-types'
 import { logSoftError } from '@mtes-mct/monitor-ui'
 import * as Sentry from '@sentry/react'
 import { useState } from 'react'
-import useLazyMissionAEMExport from '@features/pam/mission/hooks/export/use-lazy-mission-aem-export.tsx'
+import { useLazyMissionAEMExportMutation } from '../services/use-lazy-mission-aem-export.tsx'
 
 interface ExportMissionAEMHook {
   exportIsLoading: boolean
   exportMission: () => Promise<void>
 }
 
-export function useMissionAEMExport(missionAEMExportInput?: object): ExportMissionAEMHook {
-  const [getMissionAEM] = useLazyMissionAEMExport()
+export function useMissionAEMExport(missionAEMExportInput?): ExportMissionAEMHook {
+  const [getMissionAEM] = useLazyMissionAEMExportMutation()
   const [exportIsLoading, setExportIsLoading] = useState<boolean>(false)
 
   const handleDownload = (missionAEMExport?: MissionExport) => {
