@@ -15,7 +15,7 @@ import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.stereotype.Controller
 
 
-@Controller
+@Controller("missionControllerV2")
 class MissionController(
     private val getUserFromToken: GetUserFromToken,
     private val getEnvMissions: GetEnvMissions,
