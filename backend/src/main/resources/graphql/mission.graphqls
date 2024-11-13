@@ -4,9 +4,9 @@ type Query {
   mission(missionId: ID): Mission
   missionGeneralInfo(missionId: ID): MissionGeneralInfo
   missionAEMExport(missionId: ID): MissionExport
+  missionsV2(envInput: MissionsFetchEnvInput): [Mission]
   missionAEMExportZip(exportZip: MissionAEMExportInput): MissionExport
   missionAEMExportV2(missionIds: MissionAEMExportInput): MissionExport
-  missionsV2(envInput: MissionsFetchEnvInput): [Mission]
 }
 
 type Mutation {
