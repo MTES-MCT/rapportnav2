@@ -4,6 +4,8 @@ type Query {
   mission(missionId: ID): Mission
   missionGeneralInfo(missionId: ID): MissionGeneralInfo
   missionAEMExport(missionId: ID): MissionExport
+  missionAEMExportZip(exportZip: MissionAEMExportInput): MissionExport
+  missionAEMExportV2(missionIds: MissionAEMExportInput): MissionExport
 }
 
 type Mutation {
@@ -85,4 +87,8 @@ input MissionEnvInput {
   observationsByUnit: String
   startDateTimeUtc: Instant
   endDateTimeUtc: Instant
+}
+
+input MissionAEMExportInput {
+  ids: [Int]
 }

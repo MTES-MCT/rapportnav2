@@ -7,11 +7,13 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExpor
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionRapportPatrouille
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEM
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportZipMissionsAEM
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.AddOrUpdateMissionGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.export.MissionAEMExportInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.generalInfo.MissionGeneralInfoInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.generalInfo.MissionServiceInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.Mission
@@ -38,7 +40,8 @@ class MissionController(
     private val exportMissionRapportPatrouille: ExportMissionRapportPatrouille,
     private val updateMissionService: UpdateMissionService,
     private val patchEnvMission: PatchEnvMission,
-    private val exportExcelFile: ExportMissionAEM
+    private val exportMissionAEM: ExportMissionAEM,
+    private val exportZipMissionsAEM: ExportZipMissionsAEM
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionController::class.java)
@@ -216,6 +219,10 @@ class MissionController(
 
     @QueryMapping
     fun missionAEMExport(@Argument missionId: Int): MissionAEMExportEntity? {
-        return exportExcelFile.execute(missionId)
+        return exportMissionAEM.execute(missionId)
+    }
+    @QueryMapping
+    fun missionAEMExportZip(@Argument exportZip: MissionAEMExportInput): MissionAEMExportEntity? {
+        return exportZipMissionsAEM.execute(exportZip.ids)
     }
 }
