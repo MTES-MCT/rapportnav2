@@ -71,10 +71,16 @@ class ExportZipMissionsAEM(
             val base64Content = Base64Converter().convertToBase64(outputZipFile.absolutePath)
 
             for (file in filesToZip) {
-                file.delete() // remove file from project
+                val isFileDeleted = file.delete() // remove file from project
+                logger.info("${file.name} deletion : $isFileDeleted")
+
             }
 
-            outputZipFile.delete() // remove zip from project
+            val isZipFileDeleted = outputZipFile.delete() // remove zip from project
+
+            if (!isZipFileDeleted) {
+                logger.info("output zip file not deleted")
+            }
 
             return MissionAEMExportEntity(
                 fileName = "tableaux_aem.zip",
