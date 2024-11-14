@@ -1,13 +1,15 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentRoleEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import org.locationtech.jts.geom.Coordinate
 import java.time.Instant
@@ -107,6 +109,25 @@ class FakeMissionData(
             MissionActionEntity.FishAction(it)
         }
 
+        val commandant = AgentRoleEntity(1, "Commandant")
+        val agentPont = AgentRoleEntity(2, "Agent pont")
+
+        val gustave = AgentEntity(1, "Gustave", "Flaubert")
+        val bob = AgentEntity(2, "Bob", "Mascouche")
+        val crew1 = MissionCrewEntity(
+            id = 1,
+            agent = gustave,
+            role = commandant,
+            missionId = missionId
+        )
+
+        val crew2 = MissionCrewEntity(
+            id = 2,
+            agent = bob,
+            role = agentPont,
+            missionId = missionId
+        )
+
         return MissionEntity(
             id = missionId,
             missionTypes = listOf(MissionTypeEnum.SEA),
@@ -118,7 +139,12 @@ class FakeMissionData(
             hasMissionOrder = false,
             isUnderJdp = false,
             openBy = "fake",
-            actions = fishActions + envActions
+            actions = fishActions + envActions,
+            crew = listOf(crew1, crew2),
+            completenessForStats = CompletenessForStatsEntity(CompletenessForStatsStatusEnum.COMPLETE, listOf(MissionSourceEnum.RAPPORTNAV)),
+            status = MissionStatusEnum.ENDED,
+            observationsByUnit = "Lors de la patrouille matinale, une concentration inhabituelle de déchets plastiques a été observée le long de la laisse de mer sur environ 300 mètres de rivage. Des fragments de filets de pêche, des bouteilles plastiques, et divers emballages ont été identifiés, laissant penser à un rejet en mer récent.",
+
         )
     }
 

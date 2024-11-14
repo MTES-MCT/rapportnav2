@@ -1,5 +1,5 @@
 import { Mission } from '@common/types/mission-types.ts';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react'
 import { Icon, THEME } from '@mtes-mct/monitor-ui';
 import { Divider, FlexboxGrid } from 'rsuite';
 import { Link } from 'react-router-dom';
@@ -15,6 +15,9 @@ import { ULAM_V2_HOME_PATH } from '@router/router.tsx'
 interface MissionListItemProps {
   mission?: Mission;
   isUlam: boolean;
+  index: number;
+  openIndex: number | null;
+  setOpenIndex: (index: number | null) => void;
 }
 
 const ListItemWithHover = styled.div`
@@ -27,17 +30,46 @@ const ListItemWithHover = styled.div`
   }
 `;
 
-const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam }) => {
+const MissionCrewItem = styled.div`
+  color: ${THEME.color.charcoal};
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 8px;
+`
+
+const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam, index, openIndex, setOpenIndex }) => {
   const controlUnitResourcesText = useControlUnitResourceLabel(mission?.controlUnits);
   const missionName = formatDateForMissionName(mission?.startDateTimeUtc);
   const missionDate = formatDateForFrenchHumans(mission?.startDateTimeUtc);
   const missionCrew = useCrewForMissionList(mission?.crew);
-  const [displayDetails, setDisplayDetails] = useState<boolean>(false);
+
+  const listItemRef = useRef<HTMLDivElement>(null);
+  const isOpen = openIndex === index;
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (listItemRef.current && !listItemRef.current.contains(event.target as Node)) {
+        setOpenIndex(null);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen, setOpenIndex]);
 
   return (
     <ListItemWithHover
-      onMouseOver={() => setDisplayDetails(true)} // Change to true on hover
-      onMouseLeave={() => setDisplayDetails(false)} // Change back to false on mouse leave
+      ref={listItemRef}
+      onClick={() => setOpenIndex(isOpen ? null : index)}
       data-testid="mission-list-item-with-hover"
     >
       <Link
@@ -46,12 +78,12 @@ const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam }) =>
           textDecoration: 'none'
         }}
       >
-        <FlexboxGrid align="middle" style={{ height: '100%', padding: '0.5rem 1rem' }}>
+        <FlexboxGrid align="middle" style={{ height: '100%', padding: '0.5rem 1rem', marginBottom: '15px' }}>
           <FlexboxGrid.Item colspan={1} style={{ paddingTop: '8px' }} data-testid={'mission-list-item-icon'}>
             <Icon.MissionAction size={28} color={THEME.color.charcoal} />
           </FlexboxGrid.Item>
 
-          <FlexboxGrid.Item colspan={4} data-testid={'mission-list-item-mission_number'}>
+          <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-mission_number'}>
             <p style={{ color: THEME.color.charcoal, fontSize: '16px', fontWeight: 'bold' }}>
               Mission n°{missionName}
             </p>
@@ -59,7 +91,7 @@ const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam }) =>
 
           <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-open_by'}>
             <p style={{ color: THEME.color.charcoal, fontSize: '13px' }}>
-              <MissionOpenByTag missionSource={mission?.missionSource} />
+              <MissionOpenByTag missionSource={mission?.missionSource} isFake={mission?.openBy === 'fake'} />
             </p>
           </FlexboxGrid.Item>
 
@@ -69,15 +101,15 @@ const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam }) =>
 
           {isUlam && (
             <>
-              <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-control_unit_resources'}>
+              <FlexboxGrid.Item colspan={4} data-testid={'mission-list-item-control_unit_resources'}>
                 <p style={{ color: THEME.color.charcoal, fontSize: '13px', fontWeight: 'bold' }}>
                   {controlUnitResourcesText}
                 </p>
               </FlexboxGrid.Item>
               <FlexboxGrid.Item colspan={4} data-testid={'mission-list-item-crew'}>
-                <p style={missionCrew.style} data-testid={'mission-list-item-crew__text'}>
+                <MissionCrewItem data-testid={'mission-list-item-crew__text'} title={missionCrew.text}>
                   {missionCrew.text}
-                </p>
+                </MissionCrewItem>
               </FlexboxGrid.Item>
             </>
           )}
@@ -105,7 +137,7 @@ const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam }) =>
             <Icon.Edit size={20} style={{ color: THEME.color.charcoal }} />
           </FlexboxGrid.Item>
 
-          {displayDetails && (
+          {(isOpen && mission?.observationsByUnit) && (
             <FlexboxGrid.Item colspan={24} data-testid={'mission-list-item-more'}>
               <Divider style={{
                 backgroundColor: THEME.color.charcoal
