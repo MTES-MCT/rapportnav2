@@ -215,7 +215,7 @@ export const wrapper = ({ children }: { children: JSX.Element }): JSX.Element =>
   </MockedProvider>
 )
 
-describe.skip('useControl hook', () => {
+describe('useControl hook', () => {
   beforeEach(() => {
     deleteControlMatcher.mockReturnValue(true)
     addOrUpdateControlMatcher.mockReturnValue(true)
