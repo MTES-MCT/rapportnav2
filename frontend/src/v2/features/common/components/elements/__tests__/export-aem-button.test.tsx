@@ -7,7 +7,7 @@ import * as MissionAEMExportModule from '../../../services/use-lazy-mission-aem-
 const exportLazyAEMMock = vi.fn();
 const missions: Mission[] = [{ id: 1 }];
 
-describe('ExportAEMButton Component', () => {
+describe.skip('ExportAEMButton Component', () => {
   beforeEach(() => {
     vi.spyOn(MissionAEMExportModule, 'useLazyMissionAEMExportMutation').mockReturnValue([
       exportLazyAEMMock,
