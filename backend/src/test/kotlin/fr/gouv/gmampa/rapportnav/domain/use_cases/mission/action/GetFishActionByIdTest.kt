@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.AttachControlToAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetFishActionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
@@ -27,10 +27,10 @@ class GetFishActionByIdTest {
     private lateinit var fishActionRepo: IFishActionRepository
 
     @MockBean
-    private lateinit var attachControlToAction: AttachControlToAction
+    private lateinit var getControlByActionId: GetControlByActionId2
 
     @MockBean
-    private lateinit var getControlByActionId: GetControlByActionId2
+    private lateinit var getStatusForAction: GetStatusForAction
 
     @Test
     fun `test execute get Fish action by id`() {
@@ -46,9 +46,11 @@ class GetFishActionByIdTest {
         `when`(getControlByActionId.getAllControl(anyOrNull())).thenReturn(mockControl)
         `when`(fishActionRepo.findFishActions(missionId)).thenReturn(listOf(action))
 
-        attachControlToAction = AttachControlToAction(getControlByActionId)
-
-        getFishActionById = GetFishActionById(fishActionRepo, attachControlToAction)
+        getFishActionById = GetFishActionById(
+            fishActionRepo = fishActionRepo,
+            getStatusForAction = getStatusForAction,
+            getControlByActionId = getControlByActionId
+        )
         val missionEnvAction = getFishActionById.execute(missionId = missionId, actionId = actionId.toString())
 
         assertThat(missionEnvAction).isNotNull

@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.AttachControlToAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetNavActionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
@@ -29,10 +29,10 @@ class GetNavActionByIdTest {
     private lateinit var missionActionRepository: INavMissionActionRepository
 
     @MockBean
-    private lateinit var attachControlToAction: AttachControlToAction
+    private lateinit var getControlByActionId: GetControlByActionId2
 
     @MockBean
-    private lateinit var getControlByActionId: GetControlByActionId2
+    private lateinit var getStatusForAction: GetStatusForAction
 
     @Test
     fun `test execute get nav action by id`() {
@@ -55,9 +55,10 @@ class GetNavActionByIdTest {
         `when`(getControlByActionId.getAllControl(anyOrNull())).thenReturn(mockControl)
         `when`(missionActionRepository.findById(actionId)).thenReturn(Optional.of(action))
 
-        attachControlToAction = AttachControlToAction(getControlByActionId)
-
-        getNavActionById = GetNavActionById(attachControlToAction, missionActionRepository)
+        getNavActionById = GetNavActionById(
+            missionActionRepository = missionActionRepository, getStatusForAction = getStatusForAction,
+            getControlByActionId = getControlByActionId
+        )
         val missionEnvAction = getNavActionById.execute(actionId = actionId)
 
         assertThat(missionEnvAction).isNotNull

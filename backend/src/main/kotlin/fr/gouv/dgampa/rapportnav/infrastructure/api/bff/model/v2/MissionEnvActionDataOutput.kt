@@ -1,14 +1,12 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTargetTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VehicleTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurityEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import org.locationtech.jts.geom.Geometry
 import java.time.Instant
+
+
 
 class MissionEnvActionDataOutput(
     override val startDateTimeUtc: Instant? = null,
@@ -27,20 +25,22 @@ class MissionEnvActionDataOutput(
     override val actionNumberOfControls: Int? = null,
     override val actionTargetType: ActionTargetTypeEnum? = null,
     override val vehicleType: VehicleTypeEnum? = null,
-    override val infractions: List<InfractionEntity>? = listOf(),
+    override val infractions: List<InfractionEnvDataByOutput>? = listOf(),
     override val coverMissionZone: Boolean? = null,
     override val controlSecurity: ControlSecurityEntity? = null,
     override val controlGensDeMer: ControlGensDeMerEntity? = null,
     override val controlNavigation: ControlNavigationEntity? = null,
     override val controlAdministrative: ControlAdministrativeEntity? = null,
-    override val formattedControlPlans: Any? = null
+    override val formattedControlPlans: Any? = null,
+    override val controlsToComplete: List<ControlType>? = null,
+    override val availableControlTypesForInfraction: List<ControlType>? = null
 ) : MissionActionDataOutput(
     startDateTimeUtc = startDateTimeUtc, endDateTimeUtc = endDateTimeUtc, controlSecurity = controlSecurity,
     controlGensDeMer = controlGensDeMer,
     controlNavigation = controlNavigation,
     controlAdministrative = controlAdministrative
 ),
-    BaseMissionEnvActionDataOutput
+    BaseMissionEnvActionDataOutput {}
 
 
 

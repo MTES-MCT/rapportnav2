@@ -5,11 +5,15 @@ import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurityEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import java.time.Instant
 
 abstract class MissionActionEntity(
@@ -21,6 +25,8 @@ abstract class MissionActionEntity(
     override var endDateTimeUtc: Instant? = null,
     override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
     override var completenessForStats: CompletenessForStatsEntity? = null,
+    override var summaryTags: List<String>? = listOf(),
+    override var status: ActionStatusType? = null,
 
     @MandatoryForStats(
         enableIf = [
@@ -93,7 +99,40 @@ abstract class MissionActionEntity(
         return actionType == ActionType.CONTROL
     }
 
+    fun getControlInfractions(): List<InfractionEntity> {
+        val genDeMerInfractions = controlGensDeMer?.infractions ?: listOf()
+        val securityInfractions = controlSecurity?.infractions ?: listOf()
+        val navigationInfractions = controlNavigation?.infractions ?: listOf()
+        val administrativeInfractions = controlAdministrative?.infractions ?: listOf()
+        return genDeMerInfractions + securityInfractions + navigationInfractions + administrativeInfractions
+    }
+
+    fun getInfractionTag(withReport: Int): String {
+        return if(withReport == 0) "Sans PV" else "$withReport PV"
+    }
+
+    fun getNatinfTag(withNatInf: Int) :String{
+        return if(withNatInf == 0) "Sans infraction" else "$withNatInf NATINF"
+    }
+
+    open fun computeSummaryTags() {
+        val infractions = this.getControlInfractions()
+        val withReport = infractions.count { it.infractionType == InfractionTypeEnum.WITH_REPORT }
+        val infractionTag = getInfractionTag(withReport)
+        val natinfs = infractions.flatMap { it.natinfs ?: emptyList() }
+        val natinfTag = getNatinfTag(natinfs.size)
+        this.summaryTags = listOf(infractionTag, natinfTag)
+    }
+
+    fun computeControls(controls: ActionControlEntity?){
+        this.controlSecurity = controls?.controlSecurity
+        this.controlGensDeMer = controls?.controlGensDeMer
+        this.controlNavigation = controls?.controlNavigation
+        this.controlAdministrative = controls?.controlAdministrative
+    }
+
     abstract fun getActionId(): String
     abstract fun computeCompleteness()
+
 }
 

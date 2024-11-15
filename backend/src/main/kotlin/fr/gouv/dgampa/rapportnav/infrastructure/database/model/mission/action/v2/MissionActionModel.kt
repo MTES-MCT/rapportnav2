@@ -113,6 +113,9 @@ data class MissionActionModel(
     @Column(name = "nb_assisted_vessels_returning_to_shore", nullable = true)
     val nbAssistedVesselsReturningToShore: Int? = null,
 
+    @Column(name = "status", nullable = true)
+    val status: String? = null,
+
     @Column(name = "reason", nullable = true)
     var reason: String? = null
 ) {
@@ -153,6 +156,7 @@ data class MissionActionModel(
             isMigrationRescue = action.isMigrationRescue,
             nbOfVesselsTrackedWithoutIntervention = action.nbOfVesselsTrackedWithoutIntervention,
             nbAssistedVesselsReturningToShore = action.nbAssistedVesselsReturningToShore,
+            status = action.status?.toString(),
             reason = action.reason?.toString()
         )
     }

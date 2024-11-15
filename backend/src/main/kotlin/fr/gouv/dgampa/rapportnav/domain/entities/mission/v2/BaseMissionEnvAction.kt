@@ -2,6 +2,8 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.FormattedEnvActionControlPlan
 import org.locationtech.jts.geom.Geometry
 import java.time.Instant
 import java.util.*
@@ -28,6 +30,10 @@ interface BaseMissionEnvAction {
     val actionNumberOfControls: Int?
     val actionTargetType: ActionTargetTypeEnum?
     val vehicleType: VehicleTypeEnum?
-    val infractions: List<InfractionEntity>?
+    val envInfractions: List<InfractionEntity>?
+    val navInfractions: List<fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity>?
     val coverMissionZone: Boolean?
+    val formattedControlPlans: List<FormattedEnvActionControlPlan>?
+    val controlsToComplete: List<ControlType>?
+    val availableControlTypesForInfraction: List<ControlType>?
 }

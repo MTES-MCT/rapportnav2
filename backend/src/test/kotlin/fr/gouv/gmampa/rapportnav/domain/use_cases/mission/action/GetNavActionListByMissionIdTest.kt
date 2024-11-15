@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.AttachControlToAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetNavActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
@@ -26,13 +26,13 @@ class GetNavActionListByMissionIdTest {
     private lateinit var getNavActionList: GetNavActionListByMissionId
 
     @MockBean
-    private lateinit var missionActionRepository: INavMissionActionRepository
-
-    @MockBean
-    private lateinit var attachControlToAction: AttachControlToAction
+    private lateinit var navMissionActionRepository: INavMissionActionRepository
 
     @MockBean
     private lateinit var getControlByActionId: GetControlByActionId2
+
+    @MockBean
+    private lateinit var getStatusForAction: GetStatusForAction
 
 
     @Test
@@ -54,11 +54,13 @@ class GetNavActionListByMissionIdTest {
         val mockControl = ControlMock.createAllControl()
 
         `when`(getControlByActionId.getAllControl(anyOrNull())).thenReturn(mockControl)
-        `when`(missionActionRepository.findByMissionId(missionId)).thenReturn(listOf(action))
+        `when`(navMissionActionRepository.findByMissionId(missionId)).thenReturn(listOf(action))
 
-        attachControlToAction = AttachControlToAction(getControlByActionId)
-
-        getNavActionList = GetNavActionListByMissionId(missionActionRepository, attachControlToAction)
+        getNavActionList = GetNavActionListByMissionId(
+            navMissionActionRepository = navMissionActionRepository,
+            getControlByActionId = getControlByActionId,
+            getStatusForAction = getStatusForAction
+        )
         val navActions = getNavActionList.execute(missionId = missionId)
 
         assertThat(navActions).isNotNull

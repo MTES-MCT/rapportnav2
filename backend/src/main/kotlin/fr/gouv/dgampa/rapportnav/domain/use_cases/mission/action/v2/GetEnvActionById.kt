@@ -4,13 +4,16 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
 import org.slf4j.LoggerFactory
 
 @UseCase
 class GetEnvActionById(
     private val monitorEnvApiRepo: IEnvMissionRepository,
-    private val attachControlToAction: AttachControlToAction
-) {
+    getStatusForAction: GetStatusForAction,
+    getControlByActionId: GetControlByActionId2,
+): GetMissionAction(getStatusForAction, getControlByActionId)  {
     private val logger = LoggerFactory.getLogger(GetFishActionListByMissionId::class.java)
 
     fun execute(missionId: Int?, actionId: String): MissionEnvActionEntity? {
@@ -20,10 +23,10 @@ class GetEnvActionById(
         }
         return try {
             val envAction = getEnvAction(missionId = missionId, actionId = actionId) ?: return null
-            var actionEntity = MissionEnvActionEntity.fromEnvAction(missionId, envAction)
-            actionEntity = attachControlToAction.execute(actionEntity) as MissionEnvActionEntity
-            actionEntity.computeCompleteness()
-            actionEntity
+            val entity = MissionEnvActionEntity.fromEnvAction(missionId, envAction)
+            entity.computeControls(controls = this.getControls(entity))
+            entity.computeCompleteness()
+            entity
         } catch (e: Exception) {
             logger.error("GetEnvActionById failed loading Action", e)
             return null

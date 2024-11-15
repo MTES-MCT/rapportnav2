@@ -2,11 +2,14 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
 import java.time.Instant
+
+data class FishInfraction(val natinf: Int?, val infractionType: InfractionType?)
 
 class MissionFishActionEntity(
     override val id: Int?,
@@ -79,6 +82,27 @@ class MissionFishActionEntity(
         return id.toString()
     }
 
+    override fun computeSummaryTags() {
+        val navInfractions = this.getControlInfractions()
+        val fishInfractions: List<FishInfraction> = listOf(
+            this.gearInfractions.map { FishInfraction(it.natinf, it.infractionType) },
+            this.logbookInfractions.map { FishInfraction(it.natinf, it.infractionType) },
+            this.speciesInfractions.map { FishInfraction(it.natinf, it.infractionType) },
+            this.otherInfractions.map { FishInfraction(it.natinf, it.infractionType) }
+        ).flatten()
+
+        val fishWithReport = fishInfractions.count { it.infractionType == InfractionType.WITH_RECORD }
+        val navWithReport = navInfractions.count { it.infractionType == InfractionTypeEnum.WITH_REPORT }
+
+        val infractionTag = getInfractionTag(fishWithReport + navWithReport)
+        val navNatinfs = navInfractions.flatMap { it.natinfs ?: emptyList() }
+        val fishNatinfs = fishInfractions.map { it.natinf.toString() }
+        val withReportNatinf = (navNatinfs + fishNatinfs).count { true }
+        val natinfTag = getNatinfTag(withReportNatinf)
+
+        this.summaryTags = listOf(infractionTag, natinfTag)
+    }
+
     override fun computeCompleteness() {
         val sourcesOfMissingDataForStats = mutableListOf<MissionSourceEnum>()
         val rapportNavComplete = EntityCompletenessValidator.isCompleteForStats(this)
@@ -92,6 +116,7 @@ class MissionFishActionEntity(
         }
         this.isCompleteForStats = rapportNavComplete && monitorFishComplete
         this.sourcesOfMissingDataForStats = sourcesOfMissingDataForStats
+        this.computeSummaryTags()
         this.computeCompletenessForStats()
     }
 

@@ -1,9 +1,8 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
+package fr.gouv.dgampa.rapportnav.infrastructure.api.bff
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionActionOutput
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionActionTimeLineOutput
 import org.slf4j.LoggerFactory
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.QueryMapping
@@ -23,17 +22,17 @@ class MissionActionController(
     private val logger = LoggerFactory.getLogger(MissionActionController::class.java)
 
     @QueryMapping
-    fun timeline(@Argument missionId: Int): List<MissionActionTimeLineOutput?> {
+    fun actionList(@Argument missionId: Int): List<MissionActionOutput?> {
         val envActions = getEnvActionByMissionId.execute(missionId = missionId)
         val navActions = getNavActionByMissionId.execute(missionId = missionId)
         val fishActions = getFIshListActionByMissionId.execute(missionId = missionId)
         return (envActions + navActions + fishActions)
             .sortedByDescending { action -> action.startDateTimeUtc }
-            .map { action -> MissionActionTimeLineOutput.fromMissionActionEntity(action) }
+            .map { action -> MissionActionOutput.fromMissionActionEntity(action) }
     }
 
     @QueryMapping
-    fun missionAction(
+    fun action(
         @Argument actionId: String,
         @Argument missionId: Int,
     ): MissionActionOutput? {

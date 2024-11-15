@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.AttachControlToAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvActionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
@@ -30,11 +30,11 @@ class GetEnvActionByIdTest {
     @MockBean
     private lateinit var monitorEnvApiRepo: IEnvMissionRepository
 
-   @MockBean
-    private lateinit var attachControlToAction: AttachControlToAction
-
     @MockBean
     private lateinit var getControlByActionId: GetControlByActionId2
+
+    @MockBean
+    private lateinit var getStatusForAction: GetStatusForAction
 
     @Test
     fun `test execute get Env action by id`() {
@@ -60,9 +60,11 @@ class GetEnvActionByIdTest {
         `when`(getControlByActionId.getAllControl(anyOrNull())).thenReturn(mockControl)
         `when`(monitorEnvApiRepo.findMissionById(missionId)).thenReturn(missionEntity)
 
-        attachControlToAction = AttachControlToAction(getControlByActionId)
-
-        getEnvActionById = GetEnvActionById(monitorEnvApiRepo, attachControlToAction)
+        getEnvActionById = GetEnvActionById(
+            monitorEnvApiRepo = monitorEnvApiRepo,
+            getStatusForAction = getStatusForAction,
+            getControlByActionId = getControlByActionId
+        )
         val missionEnvAction = getEnvActionById.execute(missionId = missionId, actionId = actionId.toString())
 
         assertThat(missionEnvAction).isNotNull

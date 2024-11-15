@@ -21,6 +21,8 @@ class MissionEnvActionOutputTest {
         val output = MissionEnvActionOutput.fromMissionActionEntity(entity)
         assertThat(output).isNotNull()
         assertThat(output.id).isEqualTo(entity.id.toString())
+        assertThat(output.status).isEqualTo(entity.status)
+        assertThat(output.summaryTags).isEqualTo(entity.summaryTags)
         assertThat(output.data.startDateTimeUtc).isEqualTo(entity.actionStartDateTimeUtc)
         assertThat(output.data.endDateTimeUtc).isEqualTo(entity.actionEndDateTimeUtc)
         assertThat(output.data.observations).isEqualTo(entity.observations)
@@ -38,7 +40,7 @@ class MissionEnvActionOutputTest {
         assertThat(output.data.isComplianceWithWaterRegulationsControl).isEqualTo(entity.isComplianceWithWaterRegulationsControl)
         assertThat(output.data.isSafetyEquipmentAndStandardsComplianceControl).isEqualTo(entity.isSafetyEquipmentAndStandardsComplianceControl)
         assertThat(output.data.infractions).isEqualTo(entity.infractions)
-        assertThat(output.data.formattedControlPlans).isEqualTo(null)
+        assertThat(output.data.formattedControlPlans).isEqualTo(entity.formattedControlPlans)
 
     }
 

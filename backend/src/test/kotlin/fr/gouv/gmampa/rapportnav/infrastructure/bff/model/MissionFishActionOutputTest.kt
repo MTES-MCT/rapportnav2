@@ -19,6 +19,8 @@ class MissionFishActionOutputTest {
 
         assertThat(output).isNotNull()
         assertThat(output.id).isEqualTo(entity.id.toString())
+        assertThat(output.status).isEqualTo(entity.status)
+        assertThat(output.summaryTags).isEqualTo(entity.summaryTags)
         assertThat(output.data.startDateTimeUtc).isEqualTo(entity.actionDatetimeUtc)
         assertThat(output.data.endDateTimeUtc).isEqualTo(entity.actionEndDatetimeUtc)
         assertThat(output.data.vesselId).isEqualTo(entity.vesselId)

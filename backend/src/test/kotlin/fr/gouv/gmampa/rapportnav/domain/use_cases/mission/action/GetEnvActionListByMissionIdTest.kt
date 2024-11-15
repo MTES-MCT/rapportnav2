@@ -5,9 +5,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeActionData
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.AttachControlToAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsByActionId
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
 import org.assertj.core.api.Assertions.assertThat
@@ -32,10 +34,16 @@ class GetEnvActionListByMissionIdTest {
     private lateinit var monitorEnvApiRepo: IEnvMissionRepository
 
     @MockBean
-    private lateinit var attachControlToAction: AttachControlToAction
+    private lateinit var getControlByActionId: GetControlByActionId2
 
     @MockBean
-    private lateinit var getControlByActionId: GetControlByActionId2
+    private lateinit var getStatusForAction: GetStatusForAction
+
+    @MockBean
+    private lateinit var mapControlPlans: MapEnvActionControlPlans
+
+    @MockBean
+    private lateinit var getInfractionsByActionId: GetInfractionsByActionId
 
     @MockBean
     private  lateinit var  getFakeActionData: FakeActionData
@@ -64,9 +72,14 @@ class GetEnvActionListByMissionIdTest {
         `when`(getControlByActionId.getAllControl(anyOrNull())).thenReturn(mockControl)
         `when`(monitorEnvApiRepo.findMissionById(missionId)).thenReturn(missionEntity)
 
-        attachControlToAction = AttachControlToAction(getControlByActionId)
-
-        getEnvActionListById = GetEnvActionListByMissionId(monitorEnvApiRepo, attachControlToAction, getFakeActionData)
+        getEnvActionListById = GetEnvActionListByMissionId(
+            monitorEnvApiRepo = monitorEnvApiRepo,
+            getStatusForAction = getStatusForAction,
+            mapControlPlans = mapControlPlans,
+            getControlByActionId = getControlByActionId,
+            getInfractionsByActionId = getInfractionsByActionId,
+            getFakeActionData = getFakeActionData
+        )
         val envActions = getEnvActionListById.execute(missionId = missionId)
 
         assertThat(envActions).isNotNull

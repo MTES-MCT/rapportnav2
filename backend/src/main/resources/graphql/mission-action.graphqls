@@ -1,30 +1,30 @@
-type MissionActionTimeLineOutput {
-  id: String,
-  type: ActionType
-  missionId: Int
-  source: MissionSourceEnum,
-  isCompleteForStats: Boolean
-  summaryTags: [String]
-  completenessForStats: CompletenessForStats
-  startDateTimeUtc: Instant
-  endDateTimeUtc: Instant
-  vesselId: String
-  vesselName: String
-  actionNumberOfControls: Int
-  actionTargetType: ActionTargetTypeEnum
-  vehicleType: VehicleTypeEnum
-  controlsToComplete: [ControlType]
-  formattedControlPlans: FormattedEnvActionControlPlan
-  observations: String
-  isPersonRescue: Boolean
-  isVesselRescue: Boolean
-  reason: ActionStatusReason
-  controlMethod: ControlMethod
+type InfractionEnvTargetOutput{
   vesselIdentifier: String
+  companyName: String
+  relevantCourt: String
+  formalNotice: String
+  toProcess: Boolean
   vesselType: VesselType
   vesselSize: VesselSize
+  identityControlledPerson: String
 }
 
+type InfractionEnvDataOutput {
+  id: String,
+  missionId: Int
+  actionId: String
+  controlId: String
+  controlType: ControlType
+  infractionType: InfractionType
+  observations: String
+  natinfs: [String]
+  target: InfractionEnvTargetOutput
+}
+
+type InfractionEnvDataByOutput{
+  key: String
+  data: [InfractionEnvDataOutput]
+}
 
 type MissionEnvActionDataOutput {
   startDateTimeUtc: Instant
@@ -48,9 +48,10 @@ type MissionEnvActionDataOutput {
   actionNumberOfControls: Int
   actionTargetType: ActionTargetTypeEnum
   vehicleType: VehicleTypeEnum
-  infractions: [Infraction]
   coverMissionZone: Boolean
-
+  controlsToComplete: [ControlType]
+  infractions:[InfractionEnvDataByOutput]
+  availableControlTypesForInfraction: [ControlType]
 }
 
 type MissionFishActionDataOutput {
@@ -146,45 +147,26 @@ type MissionNavActionDataOutput {
   nbOfVesselsTrackedWithoutIntervention: Int
   nbAssistedVesselsReturningToShore: Int
   reason: ActionStatusReason
-
 }
 
-type MissionNavActionOutput {
+union MissionActionDataOutput  = MissionEnvActionDataOutput | MissionFishActionDataOutput | MissionNavActionDataOutput
+
+type MissionActionOutput {
   id: String
-  missionId: Int,
+  missionId: Int
+  summaryTags: [String]
   actionType: ActionType
+  status: ActionStatusType
   isCompleteForStats: Boolean
   completenessForStats: CompletenessForStats
   sourcesOfMissingDataForStats: [MissionSourceEnum]
-  data: MissionNavActionDataOutput
-}
-
-type MissionEnvActionOutput {
-  id: String
-  missionId: Int,
-  actionType: ActionType
-  isCompleteForStats: Boolean
-  completenessForStats: CompletenessForStats
-  sourcesOfMissingDataForStats: [MissionSourceEnum]
-  data: MissionEnvActionDataOutput
-}
-
-type MissionFishActionOutput {
-  id: String
-  missionId: Int,
-  actionType: ActionType
-  isCompleteForStats: Boolean
-  completenessForStats: CompletenessForStats
-  sourcesOfMissingDataForStats: [MissionSourceEnum]
-  data: MissionFishActionDataOutput
-}
-
-union MissionActionOutput  = MissionEnvActionOutput | MissionFishActionOutput | MissionNavActionOutput
-
-extend type Query {
-  timeline(missionId: ID!): [MissionActionTimeLineOutput]
+  data: MissionActionDataOutput
 }
 
 extend type Query {
-  missionAction(actionId: ID!, missionId: ID!): MissionActionOutput
+  actionList(missionId: ID!): [MissionActionOutput]
+}
+
+extend type Query {
+  action(actionId: ID!, missionId: ID!): MissionActionOutput
 }

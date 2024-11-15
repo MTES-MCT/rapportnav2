@@ -3,8 +3,12 @@ package fr.gouv.gmampa.rapportnav.domain.entities.mission
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Completion
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -86,15 +90,29 @@ class MissionFishActionEntityTest {
         val fishAction = getFishAction()
         val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
         entity.computeCompleteness()
-
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.MONITORFISH))
         assertThat(entity.completenessForStats?.sources).isEqualTo(listOf(MissionSourceEnum.MONITORFISH))
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
     }
 
+    @Test
+    fun `execute should compute summary tags`() {
+        val model = getFishAction()
+        val mockControl = ControlMock.createAllControl()
+        val entity = MissionFishActionEntity.fromFishAction(model)
+        entity.processStatusAndControls(status = ActionStatusType.UNKNOWN, controls = mockControl)
+        entity.computeSummaryTags()
+        assertThat(entity.summaryTags).isNotNull()
+        assertThat(entity.summaryTags?.get(0)).isEqualTo("2 PV")
+        assertThat(entity.summaryTags?.get(1)).isEqualTo("1 NATINF")
+    }
 
     private fun getFishAction(): MissionAction {
-        return FishActionControlMock.create(completion = Completion.TO_COMPLETE)
+        val logbookInfraction = LogbookInfraction(infractionType = InfractionType.WITH_RECORD)
+        return FishActionControlMock.create(
+            completion = Completion.TO_COMPLETE,
+            logbookInfractions = listOf(logbookInfraction)
+        )
     }
 }

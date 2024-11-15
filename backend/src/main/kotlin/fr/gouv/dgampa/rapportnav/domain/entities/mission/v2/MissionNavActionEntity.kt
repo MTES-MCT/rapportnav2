@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.DOCKED_STATUS_AS_STRING
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.UNAVAILABLE_STATUS_AS_STRING
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
@@ -110,6 +111,14 @@ class MissionNavActionEntity(
         ]
     )
     override var nbAssistedVesselsReturningToShore: Int? = null,
+
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["STATUS"])
+        ]
+    )
+    override var status: ActionStatusType? = null,
+
     @MandatoryForStats(
         enableIf = [
             DependentFieldValue(field = "actionType", value = ["STATUS"]),
@@ -136,6 +145,7 @@ class MissionNavActionEntity(
     override fun computeCompleteness() {
         this.isCompleteForStats = EntityCompletenessValidator.isCompleteForStats(this)
         this.sourcesOfMissingDataForStats = listOf(MissionSourceEnum.RAPPORTNAV)
+        this.computeSummaryTags()
         this.computeCompletenessForStats()
     }
 
@@ -175,6 +185,7 @@ class MissionNavActionEntity(
                 isMigrationRescue = model.isMigrationRescue,
                 nbOfVesselsTrackedWithoutIntervention = model.nbOfVesselsTrackedWithoutIntervention,
                 nbAssistedVesselsReturningToShore = model.nbAssistedVesselsReturningToShore,
+                status = model.status?.let { ActionStatusType.valueOf(it) },
                 reason = model.reason?.let { ActionStatusReason.valueOf(it) }
             )
         }

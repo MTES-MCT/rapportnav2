@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdmi
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurityEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import java.time.Instant
 
 interface BaseMissionActionEntity {
@@ -22,5 +23,7 @@ interface BaseMissionActionEntity {
     var controlGensDeMer: ControlGensDeMerEntity?
     var controlNavigation: ControlNavigationEntity?
     var controlAdministrative: ControlAdministrativeEntity?
+    var summaryTags: List<String>?
+    var status: ActionStatusType?
 
 }

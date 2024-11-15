@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 
@@ -12,10 +13,19 @@ class MissionFishActionOutput(
     override val missionId: Int,
     override val actionType: ActionType,
     override val isCompleteForStats: Boolean?,
+    override val status: ActionStatusType? = null,
+    override val summaryTags: List<String>? = null,
     override val completenessForStats: CompletenessForStatsEntity? = null,
     override val sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
     override val data: MissionFishActionDataOutput
-) : MissionActionOutput(id = id, missionId = missionId, actionType = actionType, data = data) {
+) : MissionActionOutput(
+    id = id,
+    missionId = missionId,
+    status = status,
+    actionType = actionType,
+    summaryTags = summaryTags,
+    data = data
+) {
     companion object {
         fun fromMissionActionEntity(action: MissionActionEntity): MissionFishActionOutput {
             val fishAction = action as MissionFishActionEntity
@@ -23,6 +33,7 @@ class MissionFishActionOutput(
                 id = fishAction.id.toString(),
                 missionId = fishAction.missionId,
                 actionType = fishAction.actionType,
+                summaryTags = fishAction.summaryTags,
                 isCompleteForStats = fishAction.isCompleteForStats,
                 sourcesOfMissingDataForStats = fishAction.sourcesOfMissingDataForStats,
                 data = MissionFishActionDataOutput(

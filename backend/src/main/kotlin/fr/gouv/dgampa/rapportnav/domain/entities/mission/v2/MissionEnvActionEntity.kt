@@ -4,7 +4,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnu
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.FormattedEnvActionControlPlan
 import org.locationtech.jts.geom.Geometry
 import java.time.Instant
 import java.util.*
@@ -31,8 +33,12 @@ data class MissionEnvActionEntity(
     override val actionNumberOfControls: Int? = null,
     override val actionTargetType: ActionTargetTypeEnum? = null,
     override val vehicleType: VehicleTypeEnum? = null,
-    override val infractions: List<InfractionEntity>? = listOf(),
+    override val envInfractions: List<InfractionEntity>? = listOf(),
+    override var navInfractions: List<fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity>? = listOf(),
     override val coverMissionZone: Boolean? = null,
+    override var formattedControlPlans: List<FormattedEnvActionControlPlan>? = listOf(),
+    override var controlsToComplete: List<ControlType>? = listOf(),
+    override var availableControlTypesForInfraction: List<ControlType>? = listOf()
 
     ) : MissionActionEntity(
     missionId = missionId,
@@ -60,7 +66,48 @@ data class MissionEnvActionEntity(
         }
         this.isCompleteForStats = rapportNavComplete && monitorFishComplete
         this.sourcesOfMissingDataForStats = sourcesOfMissingDataForStats
+        this.computeSummaryTags()
+        this.computeControlToComplete()
+        this.computeAvailableControlTypesForInfraction()
         this.computeCompletenessForStats()
+    }
+
+    private fun computeControlToComplete() {
+        this.controlsToComplete = listOf(
+            ControlType.ADMINISTRATIVE.takeIf {
+                this.isAdministrativeControl == true &&
+                    this.controlAdministrative == null
+            },
+            ControlType.NAVIGATION.takeIf {
+                this.isComplianceWithWaterRegulationsControl == true &&
+                    this.controlNavigation == null
+            },
+            ControlType.SECURITY.takeIf {
+                this.isSafetyEquipmentAndStandardsComplianceControl == true &&
+                    this.controlSecurity == null
+            },
+            ControlType.GENS_DE_MER.takeIf {
+                this.isSeafarersControl == true &&
+                    this.controlGensDeMer == null
+            }
+        ).mapNotNull { it }
+    }
+
+    private fun computeAvailableControlTypesForInfraction() {
+        this.availableControlTypesForInfraction = listOf(
+            ControlType.ADMINISTRATIVE.takeIf {
+                this.controlAdministrative != null || this.isAdministrativeControl == true
+            },
+            ControlType.NAVIGATION.takeIf {
+                this.controlNavigation != null || this.isComplianceWithWaterRegulationsControl == true
+            },
+            ControlType.SECURITY.takeIf {
+                this.controlSecurity != null || this.isSafetyEquipmentAndStandardsComplianceControl == true
+            },
+            ControlType.GENS_DE_MER.takeIf {
+                this.controlGensDeMer != null || this.isSeafarersControl == true
+            }
+        ).mapNotNull { it }
     }
 
     companion object {
@@ -86,7 +133,7 @@ data class MissionEnvActionEntity(
             actionNumberOfControls = action.actionNumberOfControls,
             actionTargetType = action.actionTargetType,
             vehicleType = action.vehicleType,
-            infractions = action.infractions,
+            envInfractions = action.infractions,
             coverMissionZone = action.coverMissionZone
         )
     }

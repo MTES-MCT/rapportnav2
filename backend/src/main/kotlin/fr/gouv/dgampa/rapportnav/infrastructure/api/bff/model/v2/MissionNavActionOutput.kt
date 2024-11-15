@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 
@@ -10,18 +11,29 @@ class MissionNavActionOutput(
     override val id: String,
     override val missionId: Int,
     override val actionType: ActionType,
+    override val summaryTags: List<String>? = null,
+    override val status: ActionStatusType? = null,
     override val isCompleteForStats: Boolean? = null,
     override val completenessForStats: CompletenessForStatsEntity? = null,
     override val sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
     override val data: MissionNavActionDataOutput
-) : MissionActionOutput(id = id.toString(), missionId = missionId, actionType = actionType, data = data) {
+) : MissionActionOutput(
+    id = id.toString(),
+    missionId = missionId,
+    status = status,
+    actionType = actionType,
+    summaryTags = summaryTags,
+    data = data
+) {
     companion object {
         fun fromMissionActionEntity(action: MissionActionEntity): MissionNavActionOutput {
             val navAction = action as MissionNavActionEntity
             return MissionNavActionOutput(
                 id = navAction.id.toString(),
+                status = navAction.status,
                 missionId = navAction.missionId,
                 actionType = navAction.actionType,
+                summaryTags = navAction.summaryTags,
                 completenessForStats = navAction.completenessForStats,
                 isCompleteForStats = navAction.isCompleteForStats,
                 data = MissionNavActionDataOutput(

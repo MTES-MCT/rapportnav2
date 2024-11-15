@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -55,7 +56,8 @@ class MissionActionModelTest {
             isMigrationRescue = false,
             nbOfVesselsTrackedWithoutIntervention = 4,
             nbAssistedVesselsReturningToShore = 50,
-            reason = ActionStatusReason.ADMINISTRATION
+            reason = ActionStatusReason.ADMINISTRATION,
+            status = ActionStatusType.ANCHORED
         )
         val model = MissionActionModel.fromMissionActionEntity(entity)
 
@@ -93,6 +95,7 @@ class MissionActionModelTest {
         assertThat(model.isMigrationRescue).isEqualTo(entity.isMigrationRescue)
         assertThat(model.nbOfVesselsTrackedWithoutIntervention).isEqualTo(entity.nbOfVesselsTrackedWithoutIntervention)
         assertThat(model.nbAssistedVesselsReturningToShore).isEqualTo(entity.nbAssistedVesselsReturningToShore)
+        assertThat(model.status).isEqualTo(entity.status.toString())
         assertThat(model.reason).isEqualTo(entity.reason.toString())
     }
 }

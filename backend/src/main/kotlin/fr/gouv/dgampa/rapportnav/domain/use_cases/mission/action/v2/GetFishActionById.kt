@@ -4,14 +4,17 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
 
 @UseCase
 class GetFishActionById(
     private val fishActionRepo: IFishActionRepository,
-    private val attachControlToAction: AttachControlToAction,
-) {
+    getStatusForAction: GetStatusForAction,
+    getControlByActionId: GetControlByActionId2,
+): GetMissionAction(getStatusForAction, getControlByActionId)  {
     private val logger = LoggerFactory.getLogger(GetFishActionListByMissionId::class.java)
 
     @Cacheable(value = ["fishActionList"], key = "#missionId")
@@ -22,10 +25,10 @@ class GetFishActionById(
         }
         return try {
             val fishAction = getFishAction(missionId = missionId, actionId = actionId) ?: return null
-            var actionEntity = MissionFishActionEntity.fromFishAction(fishAction)
-            actionEntity = attachControlToAction.execute(actionEntity) as MissionFishActionEntity
-            actionEntity.computeCompleteness()
-            actionEntity
+            val entity = MissionFishActionEntity.fromFishAction(fishAction)
+            entity.computeControls(controls = this.getControls(entity))
+            entity.computeCompleteness()
+            entity
         } catch (e: Exception) {
             logger.error("GetFishActionsByMissionId failed loading Actions", e)
             return null

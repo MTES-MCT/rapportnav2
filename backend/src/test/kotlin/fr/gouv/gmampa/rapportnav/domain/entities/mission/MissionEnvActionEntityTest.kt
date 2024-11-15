@@ -4,7 +4,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsSta
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -40,6 +42,8 @@ class MissionEnvActionEntityTest {
         assertThat(entity.isSafetyEquipmentAndStandardsComplianceControl).isEqualTo(envAction.isSafetyEquipmentAndStandardsComplianceControl)
         assertThat(entity.infractions).isEqualTo(envAction.infractions)
         assertThat(entity.controlPlans).isEqualTo(envAction.controlPlans)
+        assertThat(entity.controlsToComplete).isNotNull
+        assertThat(entity.availableControlTypesForInfraction).isNotNull
     }
 
 
@@ -52,6 +56,25 @@ class MissionEnvActionEntityTest {
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.MONITORENV))
         assertThat(entity.completenessForStats?.sources).isEqualTo(listOf(MissionSourceEnum.MONITORENV))
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
+    }
+
+    @Test
+    fun `execute should be complete controls to complete and available controlTypes for infractions `() {
+        val envAction = getEnvAction()
+        val mockControls = ControlMock.createAllControl()
+        mockControls.controlSecurity = null
+        mockControls.controlAdministrative = null
+        val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
+        entity.processStatusAndControls(null, mockControls)
+        entity.computeCompleteness()
+        assertThat(entity.controlsToComplete).isEqualTo(listOf(ControlType.SECURITY))
+        assertThat(entity.availableControlTypesForInfraction).isEqualTo(
+            listOf(
+                ControlType.NAVIGATION,
+                ControlType.SECURITY,
+                ControlType.GENS_DE_MER
+            )
+        )
     }
 
 

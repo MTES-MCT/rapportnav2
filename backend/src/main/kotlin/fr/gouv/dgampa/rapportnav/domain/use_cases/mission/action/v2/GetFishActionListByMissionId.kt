@@ -6,15 +6,18 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Missio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeActionData
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
 
 @UseCase
 class GetFishActionListByMissionId(
     private val fishActionRepo: IFishActionRepository,
-    private val attachControlToAction: AttachControlToAction,
+    getStatusForAction: GetStatusForAction,
+    getControlByActionId: GetControlByActionId2,
     private val getFakeActionData: FakeActionData
-) {
+): GetMissionAction(getStatusForAction, getControlByActionId)  {
     private val logger = LoggerFactory.getLogger(GetFishActionListByMissionId::class.java)
 
     @Cacheable(value = ["fishActionList"], key = "#missionId")
@@ -24,13 +27,8 @@ class GetFishActionListByMissionId(
             throw IllegalArgumentException("GetFishListActionByMissionId should not receive null missionId")
         }
         return try {
-            getFishActionList(missionId = missionId)
-                .map {
-                    var action = MissionFishActionEntity.fromFishAction(it)
-                    action = attachControlToAction.execute(action) as MissionFishActionEntity
-                    action.computeCompleteness()
-                    action
-                }
+            val actions = getFishActionList(missionId = missionId)
+            processActions(actions = actions)
         } catch (e: Exception) {
             logger.error("GetFishActionsByMissionId failed loading Actions", e)
             return listOf()
@@ -49,8 +47,9 @@ class GetFishActionListByMissionId(
 
     private fun processActions(actions: List<MissionAction>): List<MissionFishActionEntity> {
         return actions.map {
-            var action = MissionFishActionEntity.fromFishAction(it)
-            action = attachControlToAction.execute(action) as MissionFishActionEntity
+            val action = MissionFishActionEntity.fromFishAction(it)
+            action.status = this.getStatus(action)
+            action.computeControls(this.getControls(action))
             action.computeCompleteness()
             action
         }

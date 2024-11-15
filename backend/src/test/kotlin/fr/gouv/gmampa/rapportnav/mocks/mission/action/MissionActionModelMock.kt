@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import java.time.Instant
 import java.util.*
@@ -45,7 +46,8 @@ object MissionActionModelMock {
             isMigrationRescue = false,
             nbOfVesselsTrackedWithoutIntervention = 4,
             nbAssistedVesselsReturningToShore = 50,
-            reason = ActionStatusReason.ADMINISTRATION.toString()
+            reason = ActionStatusReason.ADMINISTRATION.toString(),
+            status = ActionStatusType.ANCHORED.toString()
         )
     }
 }
