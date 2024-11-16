@@ -4,6 +4,9 @@ type Query {
   mission(missionId: ID): Mission
   missionGeneralInfo(missionId: ID): MissionGeneralInfo
   missionAEMExport(missionId: ID): MissionExport
+  missionsV2(envInput: MissionsFetchEnvInput): [Mission]
+  missionAEMExportZip(exportZip: MissionAEMExportInput): MissionExport
+  missionAEMExportV2(missionIds: MissionAEMExportInput): MissionExport
 }
 
 type Mutation {
@@ -29,6 +32,7 @@ type Mission {
   completenessForStats: CompletenessForStats
   services: [Service]
   observationsByUnit: String
+  crew: [MissionCrew]
 }
 
 enum MissionSourceEnum {
@@ -85,4 +89,13 @@ input MissionEnvInput {
   observationsByUnit: String
   startDateTimeUtc: Instant
   endDateTimeUtc: Instant
+}
+
+input MissionsFetchEnvInput {
+  startDateTimeUtc: Instant!
+  endDateTimeUtc: Instant
+}
+
+input MissionAEMExportInput {
+  ids: [Int]
 }

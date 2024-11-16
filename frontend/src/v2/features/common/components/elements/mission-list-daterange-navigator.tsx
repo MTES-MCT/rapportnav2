@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import { Icon, THEME } from '@mtes-mct/monitor-ui'
-import useDateRangeNavigator, { handleNextMonth } from '../../hooks/use-daterange-navigator.tsx'
-import { FlexboxGrid } from 'rsuite'
+import React, { JSX, useEffect } from 'react'
+import { Accent, Button, Icon, THEME } from '@mtes-mct/monitor-ui'
+import useDateRangeNavigator from '../../hooks/use-daterange-navigator.tsx'
 import styled from 'styled-components'
 
 interface MissionListDateRangeNavigatorProps {
   startDateTimeUtc?: string
+  onUpdateCurrentDate?: (date: Date) => void
+  exportButton?: JSX.Element
 }
 
 const DateRangeContainer = styled.div`
@@ -22,12 +23,21 @@ const DateRangeContainer = styled.div`
   display: flex;
 `
 
-const MissionListDateRangeNavigator: React.FC<MissionListDateRangeNavigatorProps> = ({startDateTimeUtc}) => {
+const MissionListDateRangeNavigator: React.FC<MissionListDateRangeNavigatorProps> = ({startDateTimeUtc,
+                                                                                       onUpdateCurrentDate,
+                                                                                       exportButton}) => {
   const {
     capitalizedFormattedDate,
     goToPreviousMonth,
     goToNextMonth,
+    currentDate
   } = useDateRangeNavigator(startDateTimeUtc)
+
+  useEffect(() => {
+    onUpdateCurrentDate?.(currentDate); // Suppression de onUpdateCurrentDate des dépendances
+  }, [currentDate]);
+
+
 
   return (
     <DateRangeContainer>
@@ -44,6 +54,9 @@ const MissionListDateRangeNavigator: React.FC<MissionListDateRangeNavigatorProps
         paddingTop: '5px'}}>
         <Icon.Chevron style={{transform: 'rotate(-90deg)'}}/>
       </button>
+
+      <>{exportButton}</>
+
     </DateRangeContainer>
   )
 }
