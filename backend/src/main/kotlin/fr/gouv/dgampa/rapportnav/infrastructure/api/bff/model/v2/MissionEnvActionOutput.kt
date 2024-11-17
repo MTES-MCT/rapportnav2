@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
@@ -11,9 +12,11 @@ class MissionEnvActionOutput(
     override val id: String,
     override val missionId: Int,
     override val actionType: ActionType,
+    override val source: MissionSourceEnum,
     override val isCompleteForStats: Boolean?,
     override val status: ActionStatusType? = null,
     override val summaryTags: List<String>? = null,
+    override val controlsToComplete: List<ControlType>? = null,
     override val completenessForStats: CompletenessForStatsEntity? = null,
     override val sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
     override val data: MissionEnvActionDataOutput
@@ -23,6 +26,8 @@ class MissionEnvActionOutput(
     status = status,
     actionType = actionType,
     summaryTags = summaryTags,
+    source = source,
+    controlsToComplete = controlsToComplete,
     data = data
 ) {
 
@@ -33,12 +38,14 @@ class MissionEnvActionOutput(
                 id = envAction.id.toString(),
                 missionId = envAction.missionId,
                 status = envAction.status,
+                source = envAction.source,
                 summaryTags = envAction.summaryTags,
+                controlsToComplete = envAction.controlsToComplete,
                 actionType = envAction.actionType.toString().let { ActionType.valueOf(it) },
                 isCompleteForStats = envAction.isCompleteForStats,
                 data = MissionEnvActionDataOutput(
-                    startDateTimeUtc = envAction.actionStartDateTimeUtc,
-                    endDateTimeUtc = envAction.actionEndDateTimeUtc,
+                    startDateTimeUtc = envAction.startDateTimeUtc,
+                    endDateTimeUtc = envAction.endDateTimeUtc,
                     completedBy = envAction.completedBy,
                     formattedControlPlans = envAction.formattedControlPlans,
                     geom = envAction.geom,
@@ -55,7 +62,6 @@ class MissionEnvActionOutput(
                     actionTargetType = envAction.actionTargetType,
                     vehicleType = envAction.vehicleType,
                     infractions = getInfractionGroupBy(envAction),
-                    controlsToComplete = envAction.controlsToComplete,
                     availableControlTypesForInfraction = envAction.availableControlTypesForInfraction,
                     coverMissionZone = envAction.coverMissionZone,
                     controlSecurity = envAction.controlSecurity,

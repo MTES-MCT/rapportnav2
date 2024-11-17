@@ -32,7 +32,6 @@ class MissionEnvActionDataOutput(
     override val controlNavigation: ControlNavigationEntity? = null,
     override val controlAdministrative: ControlAdministrativeEntity? = null,
     override val formattedControlPlans: Any? = null,
-    override val controlsToComplete: List<ControlType>? = null,
     override val availableControlTypesForInfraction: List<ControlType>? = null
 ) : MissionActionDataOutput(
     startDateTimeUtc = startDateTimeUtc, endDateTimeUtc = endDateTimeUtc, controlSecurity = controlSecurity,

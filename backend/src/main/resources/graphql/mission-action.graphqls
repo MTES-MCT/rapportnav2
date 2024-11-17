@@ -67,7 +67,7 @@ type MissionFishActionDataOutput {
   externalReferenceNumber: String
   districtCode: String
   faoAreas: [String]
-  actionType: FishActionType
+  fishActionType: FishActionType
   emitsVms: ControlCheck
   emitsAis: ControlCheck
   logbookMatchesActivity: ControlCheck
@@ -154,10 +154,12 @@ union MissionActionDataOutput  = MissionEnvActionDataOutput | MissionFishActionD
 type MissionActionOutput {
   id: String
   missionId: Int
+  source: MissionSourceEnum
   summaryTags: [String]
   actionType: ActionType
   status: ActionStatusType
   isCompleteForStats: Boolean
+  controlsToComplete: [ControlType]
   completenessForStats: CompletenessForStats
   sourcesOfMissingDataForStats: [MissionSourceEnum]
   data: MissionActionDataOutput

@@ -62,10 +62,6 @@ interface BaseMissionFishAction {
     val hasSomeSpeciesSeized: Boolean
     val completedBy: String?
     val completion: Completion
-    val isAdministrativeControl: Boolean?
-    val isComplianceWithWaterRegulationsControl: Boolean?
-    val isSafetyEquipmentAndStandardsComplianceControl: Boolean?
-    val isSeafarersControl: Boolean?
     var observationsByUnit: String?
     var speciesQuantitySeized: Int ?
 }

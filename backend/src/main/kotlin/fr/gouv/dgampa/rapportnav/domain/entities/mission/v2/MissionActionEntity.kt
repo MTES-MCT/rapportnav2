@@ -7,10 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsSta
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurityEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
@@ -27,6 +24,11 @@ abstract class MissionActionEntity(
     override var completenessForStats: CompletenessForStatsEntity? = null,
     override var summaryTags: List<String>? = listOf(),
     override var status: ActionStatusType? = null,
+    override var controlsToComplete: List<ControlType>? = null,
+    override val isAdministrativeControl: Boolean? = null,
+    override val isComplianceWithWaterRegulationsControl: Boolean? = null,
+    override val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
+    override val isSeafarersControl: Boolean? = null,
 
     @MandatoryForStats(
         enableIf = [
@@ -131,6 +133,26 @@ abstract class MissionActionEntity(
         this.controlAdministrative = controls?.controlAdministrative
     }
 
+    fun computeControlsToComplete() {
+        this.controlsToComplete = listOf(
+            ControlType.ADMINISTRATIVE.takeIf {
+                this.isAdministrativeControl == true &&
+                    this.controlAdministrative == null
+            },
+            ControlType.NAVIGATION.takeIf {
+                this.isComplianceWithWaterRegulationsControl == true &&
+                    this.controlNavigation == null
+            },
+            ControlType.SECURITY.takeIf {
+                this.isSafetyEquipmentAndStandardsComplianceControl == true &&
+                    this.controlSecurity == null
+            },
+            ControlType.GENS_DE_MER.takeIf {
+                this.isSeafarersControl == true &&
+                    this.controlGensDeMer == null
+            }
+        ).mapNotNull { it }
+    }
     abstract fun getActionId(): String
     abstract fun computeCompleteness()
 

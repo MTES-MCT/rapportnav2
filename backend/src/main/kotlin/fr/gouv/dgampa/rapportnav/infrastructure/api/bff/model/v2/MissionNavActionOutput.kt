@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
@@ -11,9 +12,11 @@ class MissionNavActionOutput(
     override val id: String,
     override val missionId: Int,
     override val actionType: ActionType,
+    override val source: MissionSourceEnum,
     override val summaryTags: List<String>? = null,
     override val status: ActionStatusType? = null,
     override val isCompleteForStats: Boolean? = null,
+    override val controlsToComplete: List<ControlType>? = null,
     override val completenessForStats: CompletenessForStatsEntity? = null,
     override val sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
     override val data: MissionNavActionDataOutput
@@ -23,6 +26,8 @@ class MissionNavActionOutput(
     status = status,
     actionType = actionType,
     summaryTags = summaryTags,
+    source = source,
+    controlsToComplete = controlsToComplete,
     data = data
 ) {
     companion object {
@@ -31,11 +36,13 @@ class MissionNavActionOutput(
             return MissionNavActionOutput(
                 id = navAction.id.toString(),
                 status = navAction.status,
+                source = navAction.source,
                 missionId = navAction.missionId,
                 actionType = navAction.actionType,
                 summaryTags = navAction.summaryTags,
                 completenessForStats = navAction.completenessForStats,
                 isCompleteForStats = navAction.isCompleteForStats,
+                controlsToComplete = navAction.controlsToComplete,
                 data = MissionNavActionDataOutput(
                     startDateTimeUtc = navAction.startDateTimeUtc,
                     endDateTimeUtc = navAction.endDateTimeUtc,

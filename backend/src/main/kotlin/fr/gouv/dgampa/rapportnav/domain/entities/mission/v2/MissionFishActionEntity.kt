@@ -75,7 +75,11 @@ class MissionFishActionEntity(
     isCompleteForStats = false,
     endDateTimeUtc = actionEndDatetimeUtc,
     startDateTimeUtc = actionDatetimeUtc,
-    source = MissionSourceEnum.MONITORFISH
+    source = MissionSourceEnum.MONITORFISH,
+    isSeafarersControl = isSeafarersControl,
+    isAdministrativeControl = isAdministrativeControl,
+    isComplianceWithWaterRegulationsControl = isComplianceWithWaterRegulationsControl,
+    isSafetyEquipmentAndStandardsComplianceControl = isSafetyEquipmentAndStandardsComplianceControl,
 ), BaseMissionFishAction {
 
     override fun getActionId(): String {
@@ -99,7 +103,6 @@ class MissionFishActionEntity(
         val fishNatinfs = fishInfractions.map { it.natinf.toString() }
         val withReportNatinf = (navNatinfs + fishNatinfs).count { true }
         val natinfTag = getNatinfTag(withReportNatinf)
-
         this.summaryTags = listOf(infractionTag, natinfTag)
     }
 
@@ -117,6 +120,7 @@ class MissionFishActionEntity(
         this.isCompleteForStats = rapportNavComplete && monitorFishComplete
         this.sourcesOfMissingDataForStats = sourcesOfMissingDataForStats
         this.computeSummaryTags()
+        this.computeControlsToComplete()
         this.computeCompletenessForStats()
     }
 

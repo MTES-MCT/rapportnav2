@@ -3,10 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurityEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import java.time.Instant
 
@@ -25,5 +22,10 @@ interface BaseMissionActionEntity {
     var controlAdministrative: ControlAdministrativeEntity?
     var summaryTags: List<String>?
     var status: ActionStatusType?
+    var controlsToComplete: List<ControlType>?
+    val isAdministrativeControl: Boolean?
+    val isComplianceWithWaterRegulationsControl: Boolean?
+    val isSafetyEquipmentAndStandardsComplianceControl: Boolean?
+    val isSeafarersControl: Boolean?
 
 }

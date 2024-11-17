@@ -101,7 +101,7 @@ class MissionFishActionEntityTest {
         val model = getFishAction()
         val mockControl = ControlMock.createAllControl()
         val entity = MissionFishActionEntity.fromFishAction(model)
-        entity.processStatusAndControls(status = ActionStatusType.UNKNOWN, controls = mockControl)
+        entity.computeControls(controls = mockControl)
         entity.computeSummaryTags()
         assertThat(entity.summaryTags).isNotNull()
         assertThat(entity.summaryTags?.get(0)).isEqualTo("2 PV")

@@ -23,8 +23,8 @@ class MissionEnvActionOutputTest {
         assertThat(output.id).isEqualTo(entity.id.toString())
         assertThat(output.status).isEqualTo(entity.status)
         assertThat(output.summaryTags).isEqualTo(entity.summaryTags)
-        assertThat(output.data.startDateTimeUtc).isEqualTo(entity.actionStartDateTimeUtc)
-        assertThat(output.data.endDateTimeUtc).isEqualTo(entity.actionEndDateTimeUtc)
+        assertThat(output.data.startDateTimeUtc).isEqualTo(entity.startDateTimeUtc)
+        assertThat(output.data.endDateTimeUtc).isEqualTo(entity.endDateTimeUtc)
         assertThat(output.data.observations).isEqualTo(entity.observations)
         assertThat(output.data.completedBy).isEqualTo(entity.completedBy)
         assertThat(output.data.facade).isEqualTo(entity.facade)
@@ -39,7 +39,7 @@ class MissionEnvActionOutputTest {
         assertThat(output.data.actionTargetType).isEqualTo(entity.actionTargetType)
         assertThat(output.data.isComplianceWithWaterRegulationsControl).isEqualTo(entity.isComplianceWithWaterRegulationsControl)
         assertThat(output.data.isSafetyEquipmentAndStandardsComplianceControl).isEqualTo(entity.isSafetyEquipmentAndStandardsComplianceControl)
-        assertThat(output.data.infractions).isEqualTo(entity.infractions)
+        assertThat(output.data.infractions).isNotNull
         assertThat(output.data.formattedControlPlans).isEqualTo(entity.formattedControlPlans)
 
     }

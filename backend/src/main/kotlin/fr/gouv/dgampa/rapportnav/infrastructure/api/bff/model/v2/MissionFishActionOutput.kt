@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
@@ -12,9 +13,11 @@ class MissionFishActionOutput(
     override val id: String,
     override val missionId: Int,
     override val actionType: ActionType,
+    override val source: MissionSourceEnum,
     override val isCompleteForStats: Boolean?,
     override val status: ActionStatusType? = null,
     override val summaryTags: List<String>? = null,
+    override val controlsToComplete: List<ControlType>? = null,
     override val completenessForStats: CompletenessForStatsEntity? = null,
     override val sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
     override val data: MissionFishActionDataOutput
@@ -24,6 +27,8 @@ class MissionFishActionOutput(
     status = status,
     actionType = actionType,
     summaryTags = summaryTags,
+    source = source,
+    controlsToComplete = controlsToComplete,
     data = data
 ) {
     companion object {
@@ -31,10 +36,12 @@ class MissionFishActionOutput(
             val fishAction = action as MissionFishActionEntity
             return MissionFishActionOutput(
                 id = fishAction.id.toString(),
+                source = fishAction.source,
                 missionId = fishAction.missionId,
                 actionType = fishAction.actionType,
                 summaryTags = fishAction.summaryTags,
                 isCompleteForStats = fishAction.isCompleteForStats,
+                controlsToComplete = fishAction.controlsToComplete,
                 sourcesOfMissingDataForStats = fishAction.sourcesOfMissingDataForStats,
                 data = MissionFishActionDataOutput(
                     fishActionType = fishAction.fishActionType,

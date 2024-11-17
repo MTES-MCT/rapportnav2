@@ -15,18 +15,14 @@ data class MissionEnvActionEntity(
     override val id: UUID,
     override val missionId: Int,
     override val envActionType: ActionTypeEnum,
-    override val actionStartDateTimeUtc: Instant? = null,
-    override val actionEndDateTimeUtc: Instant? = null,
     override val completedBy: String? = null,
     override val completion: ActionCompletionEnum? = null,
     override val controlPlans: List<EnvActionControlPlanEntity>? = listOf(),
     override val geom: Geometry? = null,
     override val facade: String? = null,
     override val department: String? = null,
-    override val isAdministrativeControl: Boolean? = null,
-    override val isComplianceWithWaterRegulationsControl: Boolean? = null,
-    override val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
-    override val isSeafarersControl: Boolean? = null,
+    override var startDateTimeUtc: Instant? = null,
+    override var endDateTimeUtc: Instant? = null,
     override val openBy: String? = null,
     override val observations: String? = null,
     override val observationsByUnit: String? = null,
@@ -38,15 +34,23 @@ data class MissionEnvActionEntity(
     override val coverMissionZone: Boolean? = null,
     override var formattedControlPlans: List<FormattedEnvActionControlPlan>? = listOf(),
     override var controlsToComplete: List<ControlType>? = listOf(),
-    override var availableControlTypesForInfraction: List<ControlType>? = listOf()
+    override var availableControlTypesForInfraction: List<ControlType>? = listOf(),
+    override val isAdministrativeControl: Boolean? = null,
+    override val isComplianceWithWaterRegulationsControl: Boolean? = null,
+    override val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
+    override val isSeafarersControl: Boolean? = null,
 
     ) : MissionActionEntity(
     missionId = missionId,
     isCompleteForStats = false,
     source = MissionSourceEnum.MONITORENV,
-    startDateTimeUtc = actionStartDateTimeUtc,
-    endDateTimeUtc = actionEndDateTimeUtc,
+    startDateTimeUtc = startDateTimeUtc,
+    endDateTimeUtc = endDateTimeUtc,
     actionType = ActionType.valueOf(envActionType.toString()),
+    isSeafarersControl = isSeafarersControl,
+    isAdministrativeControl = isAdministrativeControl,
+    isComplianceWithWaterRegulationsControl = isComplianceWithWaterRegulationsControl,
+    isSafetyEquipmentAndStandardsComplianceControl = isSafetyEquipmentAndStandardsComplianceControl
 ),
     BaseMissionEnvAction {
 
@@ -67,30 +71,9 @@ data class MissionEnvActionEntity(
         this.isCompleteForStats = rapportNavComplete && monitorFishComplete
         this.sourcesOfMissingDataForStats = sourcesOfMissingDataForStats
         this.computeSummaryTags()
-        this.computeControlToComplete()
+        this.computeControlsToComplete()
         this.computeAvailableControlTypesForInfraction()
         this.computeCompletenessForStats()
-    }
-
-    private fun computeControlToComplete() {
-        this.controlsToComplete = listOf(
-            ControlType.ADMINISTRATIVE.takeIf {
-                this.isAdministrativeControl == true &&
-                    this.controlAdministrative == null
-            },
-            ControlType.NAVIGATION.takeIf {
-                this.isComplianceWithWaterRegulationsControl == true &&
-                    this.controlNavigation == null
-            },
-            ControlType.SECURITY.takeIf {
-                this.isSafetyEquipmentAndStandardsComplianceControl == true &&
-                    this.controlSecurity == null
-            },
-            ControlType.GENS_DE_MER.takeIf {
-                this.isSeafarersControl == true &&
-                    this.controlGensDeMer == null
-            }
-        ).mapNotNull { it }
     }
 
     private fun computeAvailableControlTypesForInfraction() {
@@ -115,8 +98,8 @@ data class MissionEnvActionEntity(
             id = action.id,
             missionId = missionId,
             envActionType = action.actionType,
-            actionStartDateTimeUtc = action.actionStartDateTimeUtc,
-            actionEndDateTimeUtc = action.actionEndDateTimeUtc,
+            startDateTimeUtc = action.actionStartDateTimeUtc,
+            endDateTimeUtc = action.actionEndDateTimeUtc,
             completedBy = action.completedBy,
             completion = action.completion,
             controlPlans = action.controlPlans,

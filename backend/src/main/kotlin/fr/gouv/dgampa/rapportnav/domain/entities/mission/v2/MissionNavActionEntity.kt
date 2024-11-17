@@ -130,6 +130,7 @@ class MissionNavActionEntity(
     )
     override var reason: ActionStatusReason? = null,
 ) : MissionActionEntity(
+    status = status,
     actionType = actionType,
     missionId = missionId,
     isCompleteForStats = false,

@@ -23,6 +23,5 @@ interface BaseMissionEnvActionDataOutput {
     val infractions: List<InfractionEnvDataByOutput>?
     val coverMissionZone: Boolean?
     val formattedControlPlans: Any?
-    val controlsToComplete: List<ControlType>?
     val availableControlTypesForInfraction: List<ControlType>?
 }

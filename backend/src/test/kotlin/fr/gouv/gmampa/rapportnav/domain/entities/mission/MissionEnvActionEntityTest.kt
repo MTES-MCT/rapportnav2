@@ -40,7 +40,7 @@ class MissionEnvActionEntityTest {
         assertThat(entity.actionTargetType).isEqualTo(envAction.actionTargetType)
         assertThat(entity.isComplianceWithWaterRegulationsControl).isEqualTo(envAction.isComplianceWithWaterRegulationsControl)
         assertThat(entity.isSafetyEquipmentAndStandardsComplianceControl).isEqualTo(envAction.isSafetyEquipmentAndStandardsComplianceControl)
-        assertThat(entity.infractions).isEqualTo(envAction.infractions)
+        assertThat(entity.envInfractions).isEqualTo(envAction.infractions)
         assertThat(entity.controlPlans).isEqualTo(envAction.controlPlans)
         assertThat(entity.controlsToComplete).isNotNull
         assertThat(entity.availableControlTypesForInfraction).isNotNull
@@ -65,7 +65,7 @@ class MissionEnvActionEntityTest {
         mockControls.controlSecurity = null
         mockControls.controlAdministrative = null
         val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
-        entity.processStatusAndControls(null, mockControls)
+        entity.computeControls( mockControls)
         entity.computeCompleteness()
         assertThat(entity.controlsToComplete).isEqualTo(listOf(ControlType.SECURITY))
         assertThat(entity.availableControlTypesForInfraction).isEqualTo(

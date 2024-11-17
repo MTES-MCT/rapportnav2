@@ -5,6 +5,7 @@ $$
 CREATE
   TYPE "ActionType"
   AS ENUM ('SURVEILLANCE',
+          'CONTROL',
           'CONTACT',
           'NOTE',
           'STATUS',
@@ -34,7 +35,7 @@ CREATE TABLE
                           diversion_carried_out boolean NULL,
                           simple_brewing_operation boolean NULL,
                           anti_pol_device_deployed boolean NULL,
-                          control_method character varying(16) NOT NULL,
+                          control_method character varying(16) NULL,
                           vessel_identifier character varying(64) NULL,
                           vessel_type character varying(32) NULL,
                           vessel_size character varying(32) NULL,
