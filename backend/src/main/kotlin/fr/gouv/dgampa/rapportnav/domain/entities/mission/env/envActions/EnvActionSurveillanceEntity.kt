@@ -16,9 +16,9 @@ data class EnvActionSurveillanceEntity(
     override val completion: ActionCompletionEnum? = null,
     override val controlPlans: List<EnvActionControlPlanEntity>? = listOf(),
     override val openBy: String? = null,
-    val observations: String? = null,
-    val observationsByUnit: String? = null,
-    val coverMissionZone: Boolean? = null,
+    override val observations: String? = null,
+    override val observationsByUnit: String? = null,
+    override val coverMissionZone: Boolean? = null,
 ) : EnvActionEntity(
     actionType = ActionTypeEnum.SURVEILLANCE,
     id = id,

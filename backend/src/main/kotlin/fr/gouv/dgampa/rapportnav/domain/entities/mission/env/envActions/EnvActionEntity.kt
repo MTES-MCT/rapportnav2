@@ -36,4 +36,11 @@ abstract class EnvActionEntity(
     open val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
     open val isSeafarersControl: Boolean? = null,
     open val openBy: String? = null,
+    open val observations: String? = null,
+    open val observationsByUnit: String? = null,
+    open val actionNumberOfControls: Int? = null,
+    open val actionTargetType: ActionTargetTypeEnum? = null,
+    open val vehicleType: VehicleTypeEnum? = null,
+    open val infractions: List<InfractionEntity>? = listOf(),
+    open val coverMissionZone: Boolean? = null
 )

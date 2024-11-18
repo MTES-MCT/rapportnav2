@@ -22,6 +22,8 @@ class CaffeineConfiguration {
     val envMissions = "envMissions"
     val envMission = "envMission"
     val fishActions = "fishActions"
+    val envActionList = "envActionList"
+    val fishActionList = "fishActionList"
 
     @Bean
     fun cacheManager(ticker: Ticker): CacheManager? {
@@ -36,6 +38,11 @@ class CaffeineConfiguration {
         val fishActionsCache = builCache(fishActions, ticker, TimeUnit.MINUTES, 5)
 
 
+        // short term caches for Missions and Actions
+        val envActionListCache = builCache(envActionList, ticker, TimeUnit.MINUTES, 5)
+        val fishActionListCache = builCache(fishActionList, ticker, TimeUnit.MINUTES, 5)
+
+
         val manager = SimpleCacheManager()
         manager.setCaches(
             listOf(
@@ -47,6 +54,8 @@ class CaffeineConfiguration {
                 envMissionsCache,
                 envMissionCache,
                 fishActionsCache,
+                envActionListCache,
+                fishActionListCache
             ),
         )
 

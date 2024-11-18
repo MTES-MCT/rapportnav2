@@ -1,7 +1,8 @@
 import DatePicker from '@common/components/elements/dates/date-picker.tsx'
-import { render, screen } from '../../../../../test-utils.tsx'
 import { postprocessDateFromPicker, preprocessDateForPicker } from '@common/components/elements/dates/utils.ts'
+import { render, screen } from '../../../../../test-utils.tsx'
 
+//TODO: remove skipping this test
 describe.skip('DatePicker tests  ', () => {
   describe('preprocessDateForPicker', () => {
     it('should convert a local date to a UTC date for the picker', () => {

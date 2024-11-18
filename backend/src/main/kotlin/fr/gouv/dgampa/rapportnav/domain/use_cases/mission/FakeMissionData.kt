@@ -6,7 +6,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnu
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentRoleEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
@@ -17,7 +19,7 @@ import java.util.*
 
 @UseCase
 class FakeMissionData(
-    private val getFishActionsByMissionId: GetFishActionsByMissionId,
+    private val getFakeActionData: FakeActionData
 ) {
 
     fun getEmptyMissionIds(): List<Int> {
@@ -105,9 +107,7 @@ class FakeMissionData(
         val envActions = envControls(missionId).map {
             MissionActionEntity.EnvAction(it)
         }
-        val fishActions = getFishActionsByMissionId.getFakeActions(missionId).map {
-            MissionActionEntity.FishAction(it)
-        }
+        val fishActions = getFishActions(missionId)
 
         val commandant = AgentRoleEntity(1, "Commandant")
         val agentPont = AgentRoleEntity(2, "Agent pont")
@@ -146,6 +146,19 @@ class FakeMissionData(
             observationsByUnit = "Lors de la patrouille matinale, une concentration inhabituelle de déchets plastiques a été observée le long de la laisse de mer sur environ 300 mètres de rivage. Des fragments de filets de pêche, des bouteilles plastiques, et divers emballages ont été identifiés, laissant penser à un rejet en mer récent.",
 
         )
+    }
+
+    fun getFishActions(missionId: Int) = getFakeActionData.getFakeFishActions(missionId).filter {
+        listOf(
+            MissionActionType.SEA_CONTROL,
+            MissionActionType.LAND_CONTROL
+        ).contains(it.actionType)
+    }.map {
+        var action = ExtendedFishActionEntity.fromMissionAction(it)
+        action.controlAction?.computeCompleteness()
+        action
+    }.map {
+        MissionActionEntity.FishAction(it)
     }
 
     fun emptyMission(missionId: Int): MissionEntity {

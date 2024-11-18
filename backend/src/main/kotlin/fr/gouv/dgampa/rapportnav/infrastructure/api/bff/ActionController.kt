@@ -76,10 +76,10 @@ class ActionController(
             )
         } else if (id in fakeMissionData.getFishActionIds()) {
             val fakeAction =
-                getFishActionsByMissionId.getFakeActions(missionId)
-                    .first { it.controlAction?.action?.id.toString() == id }
+                fakeMissionData.getFishActions(missionId)
+                    .first { it.fishAction.controlAction?.action?.id.toString() == id }
             return Action.fromFishAction(
-                fishAction = fakeAction,
+                fishAction = fakeAction.fishAction,
                 missionId = missionId
             )
         }

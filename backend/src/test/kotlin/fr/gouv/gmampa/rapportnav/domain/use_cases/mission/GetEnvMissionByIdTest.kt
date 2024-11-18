@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeActionData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
@@ -55,6 +56,9 @@ class GetEnvMissionByIdTest {
 
     @MockBean
     private lateinit var attachControlsToActionControl: AttachControlsToActionControl
+
+    @MockBean
+    private lateinit var getFakeActionData: FakeActionData
 
     private val envControlActionId: UUID = UUID.randomUUID()
     private val envControlAction: EnvActionControlEntity = EnvActionControlMock.create(id = envControlActionId)
