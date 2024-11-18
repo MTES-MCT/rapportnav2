@@ -6,9 +6,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavi
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurityEntity
 
 data class ActionControlEntity(
-    val controlAdministrative: ControlAdministrativeEntity? = null,
-    val controlGensDeMer: ControlGensDeMerEntity? =  null,
-    val controlSecurity: ControlSecurityEntity? = null,
-    val controlNavigation: ControlNavigationEntity? = null
+    var controlAdministrative: ControlAdministrativeEntity? = null,
+    var controlGensDeMer: ControlGensDeMerEntity? =  null,
+    var controlSecurity: ControlSecurityEntity? = null,
+    var controlNavigation: ControlNavigationEntity? = null
 ) {
 }
