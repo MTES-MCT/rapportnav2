@@ -78,7 +78,7 @@ const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam, inde
           textDecoration: 'none'
         }}
       >
-        <FlexboxGrid align="middle" style={{ height: '100%', padding: '0.5rem 1rem', marginBottom: '15px' }}>
+        <FlexboxGrid align="middle" style={{ height: '100%', padding: '0.5rem 1rem', marginBottom: '4px' }}>
           <FlexboxGrid.Item colspan={1} style={{ paddingTop: '8px' }} data-testid={'mission-list-item-icon'}>
             <Icon.MissionAction size={28} color={THEME.color.charcoal} />
           </FlexboxGrid.Item>
