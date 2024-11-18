@@ -1,5 +1,4 @@
 import DatePicker from '@common/components/elements/dates/date-picker.tsx'
-import { addMinutes } from 'date-fns'
 import { render, screen } from '../../../../../test-utils.tsx'
 import { postprocessDateFromPicker, preprocessDateForPicker } from '@common/components/elements/dates/utils.ts'
 
@@ -15,19 +14,34 @@ describe.skip('DatePicker tests  ', () => {
   })
 
   describe('postprocessDateFromPicker', () => {
+    const originalGetTimezoneOffset = Date.prototype.getTimezoneOffset
+
+    afterEach(() => {
+      // Restore original implementation after each test
+      Date.prototype.getTimezoneOffset = originalGetTimezoneOffset
+    })
+
     it('should correct the date received from picker by adding local timezone offset (summer time)', () => {
+      // Mock timezone offset for UTC+2 (summer time in France)
+      Date.prototype.getTimezoneOffset = vi.fn(() => -120)
+
       const dateFromPicker = new Date('2023-09-01T10:15:30Z')
       const processedDate = postprocessDateFromPicker(dateFromPicker)
 
       expect(processedDate?.toISOString()).toEqual('2023-09-01T08:15:30.000Z')
     })
+
     it('should correct the date received from picker by adding local timezone offset (winter time)', () => {
+      // Mock timezone offset for UTC+1 (winter time in France)
+      Date.prototype.getTimezoneOffset = vi.fn(() => -60)
+
       const dateFromPicker = new Date('2023-12-01T10:15:30Z')
       const processedDate = postprocessDateFromPicker(dateFromPicker)
 
       expect(processedDate?.toISOString()).toEqual('2023-12-01T09:15:30.000Z')
     })
   })
+
   describe('DatePicker', () => {
     const onChangeMock = vi.fn()
 
