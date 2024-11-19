@@ -1,9 +1,9 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
+package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEM
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionAEMSingle
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.NavActionControlMock
@@ -14,12 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 
-
-@SpringBootTest(classes = [ExportMissionAEM::class])
-class ExportMissionAEMTests {
+@SpringBootTest(classes = [ExportMissionAEMSingle::class])
+class ExportMissionAEMSingleTest {
 
     @Autowired
-    private lateinit var exportMissionAEM: ExportMissionAEM
+    private lateinit var exportMissionListAEM: ExportMissionAEMSingle
 
     @MockBean
     private lateinit var fillAEMExcelRow: FillAEMExcelRow
@@ -30,24 +29,26 @@ class ExportMissionAEMTests {
     @Test
     fun `execute AEM export return null when mission not exist`() {
         val missionId = 123
+        val mission = MissionEntityMock.create(id = missionId)
         Mockito.`when`(getMissionById.execute(missionId)).thenReturn(null)
 
-        val result = exportMissionAEM.execute(missionId)
+        val result = exportMissionListAEM.createFile(mission)
 
         Assertions.assertThat(result).isNull()
 
     }
 
     @Test
-    fun `execute AEM export return a MissionAEMExportEntity when mission and action exist`() {
+    fun `execute AEM mission list export return a MissionExportEntity when mission list has actions`() {
+        val missionId = 1
         val action = NavActionControlMock.create().toNavActionEntity()
         val missionAction = MissionActionEntity.NavAction(action)
 
-        val missionId = 1
-        val mission = MissionEntityMock.create(actions = listOf(missionAction))
+        val mission = MissionEntityMock.create(id = missionId, actions = listOf(missionAction))
+
         Mockito.`when`(getMissionById.execute(missionId)).thenReturn(mission)
 
-        val result = exportMissionAEM.execute(missionId)
+        val result = exportMissionListAEM.createFile(mission)
 
         Assertions.assertThat(result).isNotNull()
         Assertions.assertThat(result).isInstanceOf(MissionExportEntity::class.java)
