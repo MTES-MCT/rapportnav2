@@ -22,9 +22,8 @@ export enum ControlType {
 
 type ControlModel = {
   id: string
+  hasBeenDone?: boolean
   amountOfControls: number
-  unitShouldConfirm?: boolean
-  unitHasConfirmed?: boolean
   observations?: string
   infractions?: Infraction[]
 }

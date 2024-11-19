@@ -1,13 +1,14 @@
 import Text from '@common/components/ui/text'
-import { FishAction, SpeciesControl } from '@common/types/fish-mission-types.ts'
+import { SpeciesControl } from '@common/types/fish-mission-types.ts'
 import { Accent, Button, Checkbox, Icon, Label, MultiRadio, Size, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { Stack } from 'rsuite'
 import { usecontrolCheck } from '../../../common/hooks/use-control-check'
+import { MissionFishActionDataOutput } from '../../../common/types/mission-fish-action-output'
 import MissionInfractionSummary from '../../../mission-infraction/components/ui/mission-infraction-summary'
 
 interface MissionControlFishSpeciesSectionProps {
-  action: FishAction
+  action: MissionFishActionDataOutput
 }
 
 const MissionControlFishSpeciesSection: React.FC<MissionControlFishSpeciesSectionProps> = ({ action }) => {
@@ -97,7 +98,7 @@ const MissionControlFishSpeciesSection: React.FC<MissionControlFishSpeciesSectio
           showIndex={true}
           isActionDisabled={true}
           title="Infraction espèces"
-          infractions={action.speciesInfractions}
+          infractions={action.speciesInfractions ?? []}
         />
       </Stack.Item>
 

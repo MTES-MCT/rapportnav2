@@ -5,14 +5,15 @@ import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { EnvControl, EnvControlInput, useEnvControl } from '../../hooks/use-control-env.tsx'
 import MissionControlEnvError from '../ui/mission-control-env-error.tsx'
-import { MissionControlFormikCheckBoxTitle } from '../ui/mission-control-title-checkbox.tsx'
+import { MissionControlTitle } from '../ui/mission-control-title.tsx'
 
 const MAX_CONTROL = 1
 export interface MissionControlEnvFormProps {
   name: string
+  isToComplete?: boolean
   controlType: ControlType
   maxAmountOfControls?: number
-  shouldCompleteControl?: boolean
+
   fieldFormik: FieldProps<EnvControl>
 }
 
@@ -20,8 +21,8 @@ const MissionControlEnvForm: FC<MissionControlEnvFormProps> = ({
   name,
   controlType,
   fieldFormik,
-  maxAmountOfControls,
-  shouldCompleteControl
+  isToComplete,
+  maxAmountOfControls
 }) => {
   const { initValue, controlTypeLabel, isError, handleSubmit, validationSchema } = useEnvControl(
     name,
@@ -49,11 +50,7 @@ const MissionControlEnvForm: FC<MissionControlEnvFormProps> = ({
               />
               <Stack direction="column" alignItems="flex-start" spacing={'0.5rem'} style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>
-                  <MissionControlFormikCheckBoxTitle
-                    shouldComplete={true}
-                    text={controlTypeLabel}
-                    name={`unitHasConfirmed`}
-                  />
+                  <MissionControlTitle isToComplete={isToComplete} text={controlTypeLabel} />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="column" style={{ width: '100%', justifyContent: 'start', alignItems: 'start' }}>
@@ -71,7 +68,7 @@ const MissionControlEnvForm: FC<MissionControlEnvFormProps> = ({
                             name="amountOfControls"
                             isErrorMessageHidden={true}
                             max={maxAmountOfControls || 0}
-                            isRequired={shouldCompleteControl}
+                            isRequired={isToComplete}
                           />
                         </Stack.Item>
                         <Stack.Item>

@@ -1,10 +1,10 @@
-import { Action } from '@common/types/action-types'
 import { FormikEffect, FormikTextarea, Label, THEME } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
 import VesselName from '../../../common/components/ui/vessel-name'
+import { MissionActionOutput } from '../../../common/types/mission-action-output'
 import MissionControlNavForm from '../../../mission-control/components/elements/mission-control-nav-form'
 import MissionControlFishAdministrativeSection from '../../../mission-control/components/ui/mission-control-fish-administrative-section'
 import FishControlEnginesSection from '../../../mission-control/components/ui/mission-control-fish-engines-section'
@@ -19,13 +19,13 @@ import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-form
 import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
 
 const MissionActionItemFishControl: FC<{
-  action: Action
-  onChange: (newAction: Action, debounceTime?: number) => Promise<unknown>
+  action: MissionActionOutput
+  onChange: (newAction: MissionActionOutput, debounceTime?: number) => Promise<unknown>
   isMissionFinished?: boolean
 }> = ({ action, onChange, isMissionFinished }) => {
   const { initValue, handleSubmit } = useMissionActionFishControl(action, onChange, isMissionFinished)
   return (
-    <form style={{ width: '100%' }}>
+    <div style={{ width: '100%' }}>
       {initValue && (
         <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true}>
           {({ values }) => (
@@ -87,20 +87,22 @@ const MissionActionItemFishControl: FC<{
                   <Divider style={{ backgroundColor: THEME.color.charcoal }} />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  {(values?.controlsToComplete?.length ?? 0) > 0 && (
+                  {(action?.controlsToComplete?.length ?? 0) > 0 && (
                     <Stack.Item alignSelf="flex-end">
                       <MissionIncompleteControlTag
                         isLight={true}
-                        nbrIncompleteControl={values?.controlsToComplete?.length}
+                        nbrIncompleteControl={action?.controlsToComplete?.length}
                       />
                     </Stack.Item>
                   )}
                 </Stack.Item>
-                <MissionControlNavForm
-                  unitShouldConfirm={true}
-                  controlsToComplete={values.controlsToComplete}
-                  label={`Autre(s) contrôle(s) effectué(s) par l’unité sur le navire`}
-                />
+                <Stack.Item style={{ width: '100%' }}>
+                  <MissionControlNavForm
+                    controlsToComplete={action.controlsToComplete}
+                    label={`Autre(s) contrôle(s) effectué(s) par l’unité sur le navire`}
+                  />
+                </Stack.Item>
+
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikTextarea
                     isLight={true}
@@ -114,7 +116,7 @@ const MissionActionItemFishControl: FC<{
           )}
         </Formik>
       )}
-    </form>
+    </div>
   )
 }
 

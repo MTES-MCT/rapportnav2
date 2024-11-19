@@ -1,16 +1,16 @@
-import { Action } from '@common/types/action-types'
 import { createElement, FC } from 'react'
+import { MissionActionOutput } from '../../../common/types/mission-action-output'
 import { useUlamActionRegistry } from '../../hooks/use-ulam-action-registry'
 
 interface MissionActionItemUlamProps {
-  action: Action
   missionId?: number
   isMissionFinished?: boolean
+  action: MissionActionOutput
 }
 
 const MissionActionItemUlam: FC<MissionActionItemUlamProps> = ({ action, missionId, isMissionFinished }) => {
-  const { actionComponent } = useUlamActionRegistry(action.type)
-  const onChange = async (newAction: Action, debounceTime?: number) => {
+  const { actionComponent } = useUlamActionRegistry(action.actionType)
+  const onChange = async (newAction: MissionActionOutput, debounceTime?: number) => {
     console.log(newAction)
   }
 

@@ -52,17 +52,17 @@ const MissionUlamPage: React.FC = () => {
       }
       missionTimeLine={
         <MissionPageSectionWrapper
-          sectionHeader={<MissionTimelineHeaderUlam missionId={missionId} />}
-          sectionBody={<MissionTimelineUlam missionId={missionId} />}
+          sectionHeader={<MissionTimelineHeaderUlam missionId={Number(missionId)} />}
+          sectionBody={<MissionTimelineUlam missionId={Number(missionId)} />}
         />
       }
       missionAction={
         <MissionPageSectionWrapper
           hide={!actionId}
           sectionHeader={
-            <MissionActionHeader missionId={missionId} actionId={actionId} missionStatus={mission?.status} />
+            <MissionActionHeader missionId={Number(missionId)} actionId={actionId} missionStatus={mission?.status} />
           }
-          sectionBody={<MissionActionUlam missionId={missionId} actionId={actionId} />}
+          sectionBody={<MissionActionUlam missionId={Number(missionId)} actionId={actionId} />}
         />
       }
       missionFooter={<MissionPageFooterWrapper lastSyncText={lastSyncText} exitMission={exitMission} />}

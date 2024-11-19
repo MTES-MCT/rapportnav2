@@ -1,22 +1,24 @@
 import { FC } from 'react'
+import { useMissionActionListQuery } from '../../../common/services/use-mission-action-list'
 import MissionTimelineWrapper from '../../../mission-timeline/components/layout/mission-timeline-wrapper'
-import { useGetMissionTimelineQuery } from '../../../mission-timeline/services/use-mission-timeline'
+import { useTimeline } from '../../../mission-timeline/hooks/use-timeline'
 import MissionTimelineItemPam from './mission-timeline-item-pam'
 
 interface MissionTimelineProps {
-  missionId?: string
+  missionId?: number
 }
 
 const MissionTimelinePam: FC<MissionTimelineProps> = ({ missionId }) => {
-  const { data: mission, loading, error } = useGetMissionTimelineQuery(missionId)
+  const { getTimeLineAction } = useTimeline()
+  const { data: actions, loading, error } = useMissionActionListQuery(missionId)
   return (
     <MissionTimelineWrapper
       isError={error}
       isLoading={loading}
-      missionId={mission?.id}
+      missionId={missionId}
       groupBy="startDateTimeUtc"
       item={MissionTimelineItemPam}
-      actions={mission?.actions || []}
+      actions={getTimeLineAction(actions)}
     />
   )
 }

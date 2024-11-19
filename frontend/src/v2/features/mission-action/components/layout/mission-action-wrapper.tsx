@@ -1,15 +1,15 @@
-import { Action } from '@common/types/action-types.ts'
 import React, { createElement, FunctionComponent } from 'react'
+import { MissionActionOutput } from '../../../common/types/mission-action-output.ts'
 import MissionActionEmpty from '../ui/mission-action-empty.tsx'
 import MissionActionError from '../ui/mission-action-error.tsx'
 import MissionActionLoader from '../ui/mission-action-loader.tsx'
 
 type MissionActionWrapperProps = {
-  action?: Action
   isError?: any
   missionId?: number
   isLoading?: boolean
-  item: FunctionComponent<{ action: Action; missionId?: number }>
+  action?: MissionActionOutput
+  item: FunctionComponent<{ action: MissionActionOutput; missionId?: number }>
 }
 
 const MissionActionWrapper: React.FC<MissionActionWrapperProps> = ({ item, action, missionId, isError, isLoading }) => {

@@ -1,11 +1,13 @@
 import Text from '@common/components/ui/text'
-import { Action, ActionStatus } from '@common/types/action-types'
 import { mapStatusToText, statusReasonToHumanString } from '@common/utils/status-utils'
 import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
+import { MissionTimelineAction } from '../../types/mission-timeline-output'
 
-const MissionTimelineItemStatusCardTitle: FC<{ action?: Action; isSelected?: boolean }> = ({ action, isSelected }) => {
-  const data = action?.data as unknown as ActionStatus
+const MissionTimelineItemStatusCardTitle: FC<{ action?: MissionTimelineAction; isSelected?: boolean }> = ({
+  action,
+  isSelected
+}) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <Text
@@ -15,10 +17,10 @@ const MissionTimelineItemStatusCardTitle: FC<{ action?: Action; isSelected?: boo
         color={isSelected ? THEME.color.charcoal : THEME.color.slateGray}
         data-testid="timeline-item-status-description"
       >
-        <b>{`${mapStatusToText(data?.status)} - début${
-          !!data?.reason ? ' - ' + statusReasonToHumanString(data?.reason) : ''
+        <b>{`${mapStatusToText(action?.status)} - début${
+          !!action?.reason ? ' - ' + statusReasonToHumanString(action?.reason) : ''
         }`}</b>
-        {!!data?.observations ? ' - ' + data?.observations : ''}
+        {!!action?.observations ? ' - ' + action?.observations : ''}
       </Text>
       <Icon.EditUnbordered size={20} color={THEME.color.slateGray} style={{ marginLeft: '0.5rem' }} />
     </div>

@@ -1,20 +1,21 @@
-import { Action, ActionIllegalImmigration } from '@common/types/action-types'
 import { FormikErrors } from 'formik'
 import { boolean, number, object } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
+import { MissionActionOutput } from '../../common/types/mission-action-output'
+import { MissionNavActionDataOutput } from '../../common/types/mission-nav-action-output'
 import { ActionIllegalImmigrationInput } from '../types/action-type'
 
 export function useMissionActionIllegalImmigration(
-  action: Action,
-  onChange: (newAction: Action) => Promise<unknown>,
+  action: MissionActionOutput,
+  onChange: (newAction: MissionActionOutput) => Promise<unknown>,
   isMissionFinished?: boolean
 ): AbstractFormikSubFormHook<ActionIllegalImmigrationInput> {
-  const value = action?.data as unknown as ActionIllegalImmigration
+  const value = action?.data as MissionNavActionDataOutput
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
 
-  const fromFieldValueToInput = (data: ActionIllegalImmigration): ActionIllegalImmigrationInput => {
+  const fromFieldValueToInput = (data: MissionNavActionDataOutput): ActionIllegalImmigrationInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
     const startDate = preprocessDateForPicker(data.startDateTimeUtc)
     return {
@@ -25,7 +26,7 @@ export function useMissionActionIllegalImmigration(
     }
   }
 
-  const fromInputToFieldValue = (value: ActionIllegalImmigrationInput): ActionIllegalImmigration => {
+  const fromInputToFieldValue = (value: ActionIllegalImmigrationInput): MissionNavActionDataOutput => {
     const { dates, geoCoords, isMissionFinished, ...newData } = value
     const latitude = geoCoords[0]
     const longitude = geoCoords[1]
@@ -35,13 +36,13 @@ export function useMissionActionIllegalImmigration(
   }
 
   const { initValue, handleSubmit, isError } = useAbstractFormik<
-    ActionIllegalImmigration,
+    MissionNavActionDataOutput,
     ActionIllegalImmigrationInput
   >(value, fromFieldValueToInput, fromInputToFieldValue)
 
-  const onSubmit = async (valueToSubmit?: ActionIllegalImmigration) => {
+  const onSubmit = async (valueToSubmit?: MissionNavActionDataOutput) => {
     if (!valueToSubmit) return
-    await onChange({ ...action, data: [valueToSubmit] })
+    await onChange({ ...action, data: valueToSubmit })
   }
 
   const handleSubmitOverride = async (

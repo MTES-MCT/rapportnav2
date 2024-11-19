@@ -1,6 +1,5 @@
 import Text from '@common/components/ui/text'
 import { ToggleLabel } from '@common/components/ui/toogle-label'
-import { Action } from '@common/types/action-types'
 import {
   FormikCheckbox,
   FormikEffect,
@@ -13,6 +12,7 @@ import {
 import { Formik } from 'formik'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
+import { MissionActionOutput } from '../../../common/types/mission-action-output'
 import { RescueType } from '../../../common/types/rescue-type'
 import { useMissionActionRescue } from '../../hooks/use-mission-action-rescue'
 import { ActionRescueInput } from '../../types/action-type'
@@ -32,9 +32,9 @@ const RESCUE_TYPE_OPTIONS = [
 ]
 
 const MissionActionItemRescue: FC<{
-  action: Action
+  action: MissionActionOutput
   isMissionFinished?: boolean
-  onChange: (newAction: Action) => Promise<unknown>
+  onChange: (newAction: MissionActionOutput) => Promise<unknown>
 }> = ({ action, onChange, isMissionFinished }) => {
   const { initValue, handleSubmit, validationSchema } = useMissionActionRescue(action, onChange, isMissionFinished)
 

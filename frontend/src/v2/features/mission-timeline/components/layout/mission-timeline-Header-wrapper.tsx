@@ -5,7 +5,7 @@ import MissionTimelineAddAction from '../elements/mission-timeline-add-action'
 import MissionTimelineAddStatus from '../elements/mission-timeline-add-status'
 
 type MissionTimelineHeaderWrapperProps = {
-  missionId?: string
+  missionId?: number
   hideAction?: boolean
   hideStatus?: boolean
   moduleType: ModuleType

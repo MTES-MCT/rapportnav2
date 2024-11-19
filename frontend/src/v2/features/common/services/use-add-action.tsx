@@ -1,10 +1,15 @@
 import { gql, MutationTuple, useMutation } from '@apollo/client'
-import { ActionTypeEnum } from '@common/types/env-mission-types.ts'
 
-interface ActionDataInput {
-  data: unknown
-  missionId: number
-  type: ActionTypeEnum
+interface ActionData {
+  id: string
+  startDateTimeUtc: string
+  endDateTimeUtc: string
+  observations: string
+  latitude: number
+  longitude: number
+  nbOfInterceptedVessels: number
+  nbOfInterceptedMigrants: number
+  nbOfSuspectedSmugglers: number
 }
 
 export const MUTATION_ADD_UPDATE_ULAM_ACTION = gql`
@@ -23,7 +28,7 @@ export const MUTATION_ADD_UPDATE_ULAM_ACTION = gql`
   }
 `
 
-export const useAddOrUpdateActionMutation = (): MutationTuple<ActionDataInput, Record<string, any>> => {
+export const useAddOrUpdateActionMutation = (): MutationTuple<ActionData, Record<string, any>> => {
   const mutation = useMutation(MUTATION_ADD_UPDATE_ULAM_ACTION, {
     //refetchQueries: [{ query: GET_MISSION_TIMELINE, variables: { missionId } }, GET_ACTION_BY_ID]
   })

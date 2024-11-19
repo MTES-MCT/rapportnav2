@@ -1,4 +1,3 @@
-import { Action } from '@common/types/action-types'
 import { THEME } from '@mtes-mct/monitor-ui'
 import { DetailedHTMLProps, FC } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -6,8 +5,9 @@ import { Stack } from 'rsuite'
 import styled from 'styled-components'
 import { ActionStyle } from '../../../common/hooks/use-action-registry'
 import { ModuleType } from '../../../common/types/module-type'
-import MissionTimelineItemStatus from '../elements/mission-timeline-item-status'
+import { MissionTimelineAction } from '../../types/mission-timeline-output'
 import MissionTimelineItemDate from '../ui/mission-timeline-item-date'
+import MissionTimelineItemStatus from '../ui/mission-timeline-item-status'
 
 const DivStyled = styled(
   ({
@@ -26,13 +26,13 @@ const DivStyled = styled(
 }))
 
 interface MissionTimelineItemWrapperProps {
-  action: Action
   card: JSX.Element
   style?: ActionStyle
   missionId?: number
   isSelected: boolean
   isIncomplete: boolean
   moduleType: ModuleType
+  action: MissionTimelineAction
 }
 
 const MissionTimelineItemWrapper: FC<MissionTimelineItemWrapperProps> = ({

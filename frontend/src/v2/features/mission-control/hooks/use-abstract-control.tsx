@@ -12,8 +12,7 @@ export function useAbstractControl<T, M>(
     name,
     fieldFormik,
     fromFieldValueToInput,
-    fromInputToFieldValue,
-    ['unitHasConfirmed', 'unitShouldConfirm']
+    fromInputToFieldValue
   )
 
   return {

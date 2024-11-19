@@ -1,9 +1,9 @@
-import { Action } from '@common/types/action-types'
 import { VesselTypeEnum } from '@common/types/mission-types'
 import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
+import { MissionActionOutput } from 'src/v2/features/common/types/mission-action-output'
 import { FormikSelectVesselSize } from '../../../common/components/ui/formik-select-vessel-size'
 import MissionControlNavForm from '../../../mission-control/components/elements/mission-control-nav-form'
 import MissionControlNavSummary from '../../../mission-control/components/ui/mission-control-nav-summary'
@@ -15,11 +15,12 @@ import { MissionActionFormikTextInput } from '../ui/mission-action-formik-text-i
 import MissionActionNavControlWarning from '../ui/mission-action-nav-control-warning'
 
 const MissionActionItemNavControl: FC<{
-  action: Action
-  onChange: (newAction: Action) => Promise<unknown>
+  action: MissionActionOutput
+  onChange: (newAction: MissionActionOutput) => Promise<unknown>
   isMissionFinished?: boolean
 }> = ({ action, onChange, isMissionFinished }) => {
   const { initValue, handleSubmit, validationSchema } = useMissionActionNavControl(action, onChange, isMissionFinished)
+
   return (
     <div style={{ width: '100%' }}>
       {initValue && (
@@ -74,11 +75,11 @@ const MissionActionItemNavControl: FC<{
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <MissionControlNavForm
+                    controlsToComplete={action.controlsToComplete}
                     label={`Contrôle(s) effectué(s) par l’unité sur le navire`}
                     hideGensDeMer={values.vesselType === VesselTypeEnum.SAILING_LEISURE}
                   />
                 </Stack.Item>
-
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikTextarea
                     isLight={true}

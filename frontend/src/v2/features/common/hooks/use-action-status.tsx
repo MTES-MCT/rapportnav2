@@ -36,6 +36,6 @@ interface ActionStatusHook {
   color: string
 }
 
-export function useActionStatus(actionStatusType: ActionStatusType): ActionStatusHook {
-  return ACTION_STATUS_REGISTRY[actionStatusType]
+export function useActionStatus(actionStatusType?: ActionStatusType): ActionStatusHook {
+  return actionStatusType ? ACTION_STATUS_REGISTRY[actionStatusType] : ACTION_STATUS_REGISTRY[ActionStatusType.UNKNOWN]
 }

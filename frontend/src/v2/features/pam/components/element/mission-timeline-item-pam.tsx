@@ -1,22 +1,20 @@
-import { Action } from '@common/types/action-types'
-import { FC, useEffect, useState } from 'react'
+import { createElement, FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ModuleType } from '../../../common/types/module-type'
-import MissionTimelineCardWrapper from '../../../mission-timeline/components/layout/mission-timeline-item-card-wrapper'
 import MissionTimelineItemWrapper from '../../../mission-timeline/components/layout/mission-timeline-item-wrapper'
-import { MissionTimelineStatusTag } from '../../../mission-timeline/components/ui/mission-timeline-status-tag'
+import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'
 import { usePamActionRegistry } from '../../hooks/use-pam-action-registry'
 
 interface MissionTimelineItemPamProps {
-  action: Action
   missionId?: number
-  prevAction?: Action
+  action: MissionTimelineAction
+  prevAction?: MissionTimelineAction
 }
 
 const MissionTimelineItemPam: FC<MissionTimelineItemPamProps> = ({ action, prevAction, missionId }) => {
   const { actionId } = useParams()
   const [isSelected, setIsSelected] = useState<boolean>(false)
-  const { style, icon, timeline, hasStatusTag, isIncomplete } = usePamActionRegistry(action.type)
+  const { style, icon, title, timeline, hasStatusTag, isIncomplete } = usePamActionRegistry(action.type)
 
   useEffect(() => {
     setIsSelected(action.id === actionId)
@@ -28,17 +26,7 @@ const MissionTimelineItemPam: FC<MissionTimelineItemPamProps> = ({ action, prevA
       missionId={missionId}
       isSelected={isSelected}
       moduleType={ModuleType.PAM}
-      card={
-        <MissionTimelineCardWrapper
-          icon={icon}
-          noPadding={timeline?.noPadding}
-          title={timeline?.getCardTitle(action, isSelected)}
-          tags={timeline?.getCardTag ? timeline?.getCardTag(action) : undefined}
-          subTitle={timeline?.getCardSubtitle ? timeline.getCardSubtitle(action) : undefined}
-          footer={timeline?.getCardFooter ? timeline?.getCardFooter(action, prevAction) : undefined}
-          statusTag={hasStatusTag ? <MissionTimelineStatusTag status={action.status} /> : undefined}
-        />
-      }
+      card={createElement(timeline.component, { icon, title, action, prevAction, isSelected })}
       isIncomplete={isIncomplete(action)}
     />
   )
