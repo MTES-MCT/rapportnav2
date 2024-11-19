@@ -25,7 +25,6 @@ import ControlSecurityForm from '../controls/control-security-form.tsx'
 import ActionHeader from './action-header.tsx'
 import { ActionDetailsProps } from './action-mapping.ts'
 import { DateRange } from '@mtes-mct/monitor-ui/types/definitions'
-import useMissionDates from '@features/pam/mission/hooks/use-mission-dates.tsx'
 
 type ActionControlNavProps = ActionDetailsProps
 
@@ -33,7 +32,6 @@ const ActionControlNav: React.FC<ActionControlNavProps> = ({ action }) => {
   const navigate = useNavigate()
   const { missionId, actionId } = useParams()
   const isMissionFinished = useIsMissionFinished(missionId)
-  const missionDates = useMissionDates(missionId)
   const [observationsValue, setObservationsValue] = useState<string | undefined>(undefined)
   const [identityControlledPersonValue, setIdentityControlledPersonValue] = useState<string | undefined>(undefined)
   const [vesselIdentifierValue, setVesselIdentifierValue] = useState<string | undefined>(undefined)
