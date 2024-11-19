@@ -1,6 +1,7 @@
 import { parseISO } from 'date-fns'
 import { formatInTimeZone } from 'date-fns-tz'
 import frLocale from 'date-fns/locale/fr'
+import { capitalize } from 'lodash'
 
 const DEFAULT_TIMEZONE = 'Europe/Paris'
 
@@ -13,6 +14,8 @@ const SHORT_TIME = 'HH:mm'
 const EMPTY_SHORT_TIME = '--:--'
 const FRENCH_DAY_MONTH_YEAR_DATETIME = `${SHORT_DAY_MONTH} à ${SHORT_TIME}`
 const EMPTY_FRENCH_DAY_MONTH_YEAR_DATETIME = `${EMPTY_SHORT_DAY_MONTH} - ${EMPTY_SHORT_TIME}`
+const MONTH_YEAR = 'MMMM yyyy'
+const YEAR = 'yyyy'
 
 type DateTypes = Date | string | undefined | null
 
@@ -31,7 +34,7 @@ function formatDate(
     const dateObj = typeof date === 'string' ? parseISO(date) : date
 
     // Use formatInTimeZone to handle the timezone conversion
-    return formatInTimeZone(dateObj, timeZone, dateFormat, { locale: frLocale })
+    return capitalize(formatInTimeZone(dateObj, timeZone, dateFormat, { locale: frLocale }))
   } catch (e) {
     console.error('Error formatting date:', e)
     return emptyDateFormat
@@ -51,11 +54,17 @@ const formatShortDate = (date: DateTypes): string => formatDate(date, SHORT_DAY_
 
 const formatTime = (date: DateTypes): string => formatDate(date, SHORT_TIME, EMPTY_SHORT_TIME)
 
+const formatMonthYear = (date: DateTypes): string => formatDate(date, MONTH_YEAR)
+
+const formatYear = (date: DateTypes): string => formatDate(date, YEAR, '----')
+
 export {
   formatDateForMissionName,
   formatDateForFrenchHumans,
   formatDateTimeForFrenchHumans,
   formatShortDate,
-  formatTime
+  formatTime,
+  formatMonthYear,
+  formatYear
 }
 export * from 'date-fns'

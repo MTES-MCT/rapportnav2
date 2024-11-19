@@ -1,19 +1,21 @@
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import { Icon } from '@mtes-mct/monitor-ui'
-import { Loader } from 'rsuite'
+import { Loader, Stack } from 'rsuite'
 import { endOfMonth } from 'date-fns'
 import MissionListUlam from '../../v2/features/ulam/components/element/mission-list-ulam'
+
 import MissionListUlamTitle from '../../v2/features/ulam/components/ui/mission-list-ulam-title'
 import MissionListPageHeaderWrapper from '../features/common/components/layout/mission-list-page-header-wrapper'
 import MissionListPageSidebarWrapper from '../features/common/components/layout/mission-list-page-sidebar-wrapper'
 import MissionListPageWrapper from '../features/common/components/layout/mission-list-page-wrapper'
 import MissionListDateRangeNavigator from '../features/common/components/elements/mission-list-daterange-navigator.tsx'
+import MissionListing from '../features/common/components/elements/mission-listing.tsx'
 import useMissionsQuery from '../features/common/services/use-missions.tsx'
 import ExportFileButton from '../features/common/components/elements/export-file-button.tsx'
 import Text from '@common/components/ui/text.tsx'
-import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
-import { Mission } from '@common/types/mission-types.ts'
-import { ExportMode, ExportReportType } from '../features/common/types/export-types.ts'
+import MissionListPam from '../features/pam/components/element/mission-list-pam.tsx'
+import { endOfYear } from 'date-fns/endOfYear'
+import { startOfYear } from 'date-fns/startOfYear'
 
 const SIDEBAR_ITEMS = [
   {
@@ -23,30 +25,21 @@ const SIDEBAR_ITEMS = [
   }
 ]
 
-const MissionListUlamPage: React.FC = () => {
+const MissionListPamPage: FC = () => {
   const today = new Date()
   const [queryParams, setQueryParams] = useState({
-    startDateTimeUtc: today.toISOString(),
-    endDateTimeUtc: endOfMonth(today).toISOString()
+    startDateTimeUtc: startOfYear(today.toISOString()),
+    endDateTimeUtc: endOfYear(today).toISOString()
   })
 
   const { loading, data } = useMissionsQuery(queryParams)
-  const { exportMissionReport, loading: exportIsLoading } = useMissionReportExport()
 
   const handleUpdateDateTime = (currentDate: Date) => {
     const newDateRange = {
       startDateTimeUtc: currentDate.toISOString(),
-      endDateTimeUtc: endOfMonth(currentDate).toISOString()
+      endDateTimeUtc: endOfYear(currentDate).toISOString()
     }
     setQueryParams(newDateRange)
-  }
-
-  const onClickExport = async () => {
-    await exportMissionReport({
-      missionIds: (data ?? []).map((m: Mission) => m.id),
-      exportMode: ExportMode.MULTIPLE_MISSIONS_ZIPPED,
-      reportType: ExportReportType.AEM
-    })
   }
 
   if (loading) {
@@ -67,26 +60,40 @@ const MissionListUlamPage: React.FC = () => {
         sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={SIDEBAR_ITEMS} />}
         footer={<></>}
       >
-        <MissionListUlam
-          dateRangeNavigator={
-            <MissionListDateRangeNavigator
-              startDateTimeUtc={queryParams.startDateTimeUtc}
-              onUpdateCurrentDate={handleUpdateDateTime}
-              exportButton={
-                <ExportFileButton
-                  onClick={onClickExport}
-                  isLoading={exportIsLoading}
-                  label={'Exporter le tableau AEM du mois'}
+        <Stack direction={'column'} style={{ width: '100%' }}>
+          <Stack.Item style={{ width: '100%' }}>
+            <Stack
+              direction={'row'}
+              spacing={'0.5rem'}
+              alignItems={'center'}
+              style={{ padding: '0 15rem', marginTop: '5rem' }}
+            >
+              <Stack.Item alignSelf={'baseline'}>
+                <Icon.MissionAction size={32} style={{ marginTop: '8px' }} />
+              </Stack.Item>
+              <Stack.Item>
+                <Text as={'h1'} style={{ fontSize: '32px' }}>
+                  Mes rapports
+                </Text>
+              </Stack.Item>
+            </Stack>
+          </Stack.Item>
+          <Stack.Item style={{ width: '100%' }}>
+            <MissionListPam
+              missions={data}
+              dateRangeNavigator={
+                <MissionListDateRangeNavigator
+                  startDateTimeUtc={queryParams.startDateTimeUtc}
+                  onUpdateCurrentDate={handleUpdateDateTime}
+                  timeframe={'year'}
                 />
               }
-              timeframe={'month'}
             />
-          }
-          missions={data}
-        />
+          </Stack.Item>
+        </Stack>
       </MissionListPageWrapper>
     )
   }
 }
 
-export default MissionListUlamPage
+export default MissionListPamPage
