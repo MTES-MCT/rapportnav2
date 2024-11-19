@@ -80,12 +80,9 @@ data class MissionEntity(
     }
 
     companion object {
-        private fun sortActions(
-            envActions: List<MissionActionEntity.EnvAction>,
-            fishActions: List<MissionActionEntity.FishAction>,
-            navActions: List<MissionActionEntity.NavAction>
-        ): List<MissionActionEntity> {
-            return (envActions + fishActions + navActions).sortedByDescending { action ->
+
+        fun sortActionsAsc(actions: List<MissionActionEntity>): List<MissionActionEntity> {
+            return (actions).sortedByDescending { action ->
                 when (action) {
                     is MissionActionEntity.EnvAction -> {
                         if (action.envAction?.controlAction !== null) {
@@ -100,7 +97,22 @@ data class MissionEntity(
                 }
             }
         }
+
+        fun sortActions(
+            envActions: List<MissionActionEntity.EnvAction>,
+            fishActions: List<MissionActionEntity.FishAction>,
+            navActions: List<MissionActionEntity.NavAction>
+        ): List<MissionActionEntity> {
+            return sortActionsAsc((envActions + fishActions + navActions))
+        }
+
+        fun sortActions(
+            actions: List<MissionActionEntity>,
+        ): List<MissionActionEntity> {
+            return sortActionsAsc(actions)
+        }
     }
+
 
     private fun calculateMissionStatus(
         startDateTimeUtc: Instant,
