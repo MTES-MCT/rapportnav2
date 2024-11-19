@@ -20,6 +20,7 @@ data class ActionRescueEntity(
 
     @MandatoryForStats
     override val startDateTimeUtc: Instant,
+    @MandatoryForStats
     override val endDateTimeUtc: Instant? = null,
 
     @MandatoryForStats

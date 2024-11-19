@@ -1,7 +1,6 @@
 import { FC } from 'react'
 import DateRangePicker from '@common/components/elements/dates/daterange-picker.tsx'
 import { DateRange } from '@mtes-mct/monitor-ui/types/definitions'
-import useMissionDates from '@features/pam/mission/hooks/use-mission-dates.tsx'
 import { useParams } from 'react-router-dom'
 
 type PatchableMonitorDateRangeProps = {
@@ -17,11 +16,9 @@ const PatchableMonitorDateRange: FC<PatchableMonitorDateRangeProps> = ({
   startDateTimeUtc,
   endDateTimeUtc,
   label,
-  isLight,
-  dateValidation
+  isLight
 }) => {
   const { missionId } = useParams()
-  const missionDates = useMissionDates(missionId)
 
   const onChangeDates = (value?: DateRange) => {
     if (value) {
@@ -34,7 +31,6 @@ const PatchableMonitorDateRange: FC<PatchableMonitorDateRangeProps> = ({
   return (
     <DateRangePicker
       selectedRange={[startDateTimeUtc, endDateTimeUtc]}
-      allowedRange={dateValidation ? missionDates : undefined}
       label={label}
       withTime={true}
       isCompact={true}
