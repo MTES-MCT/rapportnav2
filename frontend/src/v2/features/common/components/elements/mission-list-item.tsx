@@ -5,7 +5,10 @@ import { Divider, FlexboxGrid } from 'rsuite';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useControlUnitResourceLabel } from '../../../ulam/hooks/use-ulam-home-unit-resources.tsx';
-import { formatDateForFrenchHumans, formatDateForMissionName } from '@common/utils/dates-for-humans.ts';
+import {
+  formatDateForFrenchHumans,
+  formatDateFormMissionUlamName
+} from '@common/utils/dates-for-humans.ts'
 import MissionCompletenessForStatsTag from './mission-completeness-for-stats-tag.tsx';
 import MissionStatusTag from './mission-status-tag.tsx';
 import MissionOpenByTag from '@features/pam/mission/components/elements/mission-open-by-tag.tsx';
@@ -41,7 +44,7 @@ const MissionCrewItem = styled.div`
 
 const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam, index, openIndex, setOpenIndex }) => {
   const controlUnitResourcesText = useControlUnitResourceLabel(mission?.controlUnits);
-  const missionName = formatDateForMissionName(mission?.startDateTimeUtc);
+  const missionName = formatDateFormMissionUlamName(mission?.startDateTimeUtc);
   const missionDate = formatDateForFrenchHumans(mission?.startDateTimeUtc);
   const missionCrew = useCrewForMissionList(mission?.crew);
 
@@ -78,7 +81,7 @@ const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam, inde
           textDecoration: 'none'
         }}
       >
-        <FlexboxGrid align="middle" style={{ height: '100%', padding: '0.5rem 1rem', marginBottom: '4px' }}>
+        <FlexboxGrid align="middle" style={{ height: '100%', padding: '0.5rem 0.5rem 0.5rem 1rem', marginBottom: '4px' }}>
           <FlexboxGrid.Item colspan={1} style={{ paddingTop: '8px' }} data-testid={'mission-list-item-icon'}>
             <Icon.MissionAction size={28} color={THEME.color.charcoal} />
           </FlexboxGrid.Item>
@@ -129,11 +132,11 @@ const MissionListItem: React.FC<MissionListItemProps> = ({ mission, isUlam, inde
             </p>
           </FlexboxGrid.Item>
 
-          <FlexboxGrid.Item colspan={1} data-testid={'mission-list-item-icon-edit'}>
+          <FlexboxGrid.Item colspan={1} data-testid={'mission-list-item-icon-edit'} style={{paddingLeft: '30px'}}>
             <Icon.Chevron size={20} style={{ color: THEME.color.charcoal }} />
           </FlexboxGrid.Item>
 
-          <FlexboxGrid.Item colspan={1} data-testid={'mission-list-item-icon-edit'}>
+          <FlexboxGrid.Item colspan={1} data-testid={'mission-list-item-icon-edit'} style={{paddingLeft: '10px'}}>
             <Icon.Edit size={20} style={{ color: THEME.color.charcoal }} />
           </FlexboxGrid.Item>
 
