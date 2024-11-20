@@ -38,7 +38,7 @@ const MissionInfractionList: React.FC<MissionInfractionListProps> = ({ max, name
 
   useEffect(() => {
     if (!fieldArray) return
-    if (showForms.length !== 0) return
+    if (showForms?.length !== 0) return
     setShowForms(fieldArray.form.values.infractions?.map(() => false))
   }, [fieldArray])
 
@@ -73,7 +73,7 @@ const MissionInfractionList: React.FC<MissionInfractionListProps> = ({ max, name
       <MissionInfractionFormNew
         onSubmit={handleAdd}
         controlType={controlType}
-        isDisabled={fieldArray.form.values.infractions.length >= (max ?? DEFAULT_MAX)}
+        isDisabled={fieldArray.form.values?.infractions?.length >= (max ?? DEFAULT_MAX)}
       />
     </div>
   )

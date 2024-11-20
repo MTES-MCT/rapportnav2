@@ -155,20 +155,26 @@ export const GET_ACTION = gql`
             subThemes
           }
           infractions {
-            key
-            data {
+            vesselIdentifier
+            vesselType
+            targetAddedByUnit
+            controlTypesWithInfraction
+            identityControlledPerson
+            infractions {
               id
-              controlType
-              infractionType
               natinfs
+              controlType
               observations
+              infractionType
               target {
+                formalNotice
+                companyName
+                relevantCourt
+                infractionType
+                toProcess
                 vesselType
                 vesselSize
                 vesselIdentifier
-                relevantCourt
-                formalNotice
-                toProcess
                 identityControlledPerson
               }
             }

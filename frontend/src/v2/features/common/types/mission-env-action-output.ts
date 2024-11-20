@@ -1,6 +1,6 @@
 import { ControlType } from '@common/types/control-types'
 import { ActionTargetTypeEnum, VehicleTypeEnum } from '@common/types/env-mission-types'
-import { InfractionEnvDataOutput } from './infraction-env-data-output'
+import { InfractionByTarget } from '@common/types/infraction-types'
 import { MissionActionDataOutput, MissionActionOutput } from './mission-action-output'
 
 export interface MissionEnvActionDataOutput extends MissionActionDataOutput {
@@ -18,7 +18,7 @@ export interface MissionEnvActionDataOutput extends MissionActionDataOutput {
   actionNumberOfControls: number
   actionTargetType: ActionTargetTypeEnum
   vehicleType: VehicleTypeEnum
-  infractions: InfractionEnvDataOutput[]
+  infractions: InfractionByTarget[][]
   coverMissionZone: Boolean
   formattedControlPlans: any
   controlsToComplete: ControlType[]

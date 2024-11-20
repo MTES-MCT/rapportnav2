@@ -34,7 +34,7 @@ const MissionInfractionEnvFormNew: FC<MissionInfractionEnvFormNewProps> = ({
     onSubmit(value.newInfraction)
   }
   return (
-    <>
+    <div>
       {showForm && (
         <div
           style={{
@@ -63,7 +63,7 @@ const MissionInfractionEnvFormNew: FC<MissionInfractionEnvFormNewProps> = ({
         </div>
       )}
       {!showForm && <MissionInfractionAddButton onClick={() => setShowForm(true)} disabled={isDisabled} />}
-    </>
+    </div>
   )
 }
 

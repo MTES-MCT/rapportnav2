@@ -1,5 +1,4 @@
 import Text from '@common/components/ui/text'
-import { Action } from '@common/types/action-types.ts'
 import {
   ControlAdministrative,
   ControlGensDeMer,
@@ -7,30 +6,25 @@ import {
   ControlSecurity,
   ControlType
 } from '@common/types/control-types'
-import { EnvActionControl } from '@common/types/env-mission-types'
 import { FormikEffect, FormikTextarea, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import React from 'react'
 import { Divider, Stack } from 'rsuite'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
+import { MissionActionOutput } from '../../../common/types/mission-action-output'
 import MissionControlEnvForm from '../../../mission-control/components/elements/mission-control-env-form'
 import MissionInfractionEnvList from '../../../mission-infraction/components/elements/mission-infraction-env-list-form'
 import { useMissionActionEnvControl } from '../../hooks/use-mission-action-env-control'
+import { ActionEnvControlInput } from '../../types/action-type'
 import MissionActionEnvControlPlan from '../ui/mission-action-env-control-plan'
 import MissionActionEnvControlSummary from '../ui/mission-action-env-control-summary'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
 
-type ActionDataInput = {
-  dates: Date[]
-  isMissionFinished: boolean
-  geoCoords: [number?, number?]
-} & EnvActionControl
-
 type MissionActionItemEnvControlProps = {
-  action: Action
+  action: MissionActionOutput
   isMissionFinished?: boolean
-  onChange: (newAction: Action, debounceTime?: number) => Promise<unknown>
+  onChange: (newAction: MissionActionOutput, debounceTime?: number) => Promise<unknown>
 }
 
 const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = ({
@@ -45,7 +39,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
         <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true}>
           {({ values }) => (
             <>
-              <FormikEffect onChange={nextValues => handleSubmit(nextValues as ActionDataInput)} />
+              <FormikEffect onChange={nextValues => handleSubmit(nextValues as ActionEnvControlInput)} />
               <Stack
                 direction="column"
                 spacing="2rem"
@@ -94,9 +88,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                                 fieldFormik={field}
                                 controlType={ControlType.ADMINISTRATIVE}
                                 maxAmountOfControls={values.actionNumberOfControls}
-                                shouldCompleteControl={
-                                  !!values?.controlsToComplete?.includes(ControlType.ADMINISTRATIVE)
-                                }
+                                isToComplete={action?.controlsToComplete?.includes(ControlType.ADMINISTRATIVE)}
                               />
                             )}
                           </Field>
@@ -109,7 +101,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                                 fieldFormik={field}
                                 controlType={ControlType.NAVIGATION}
                                 maxAmountOfControls={values.actionNumberOfControls}
-                                shouldCompleteControl={!!values?.controlsToComplete?.includes(ControlType.NAVIGATION)}
+                                isToComplete={action?.controlsToComplete?.includes(ControlType.NAVIGATION)}
                               />
                             )}
                           </Field>
@@ -122,7 +114,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                                 fieldFormik={field}
                                 controlType={ControlType.GENS_DE_MER}
                                 maxAmountOfControls={values.actionNumberOfControls}
-                                shouldCompleteControl={!!values?.controlsToComplete?.includes(ControlType.GENS_DE_MER)}
+                                isToComplete={action?.controlsToComplete?.includes(ControlType.GENS_DE_MER)}
                               />
                             )}
                           </Field>
@@ -135,7 +127,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                                 fieldFormik={field}
                                 controlType={ControlType.SECURITY}
                                 maxAmountOfControls={values.actionNumberOfControls}
-                                shouldCompleteControl={!!values?.controlsToComplete?.includes(ControlType.SECURITY)}
+                                isToComplete={action?.controlsToComplete?.includes(ControlType.SECURITY)}
                               />
                             )}
                           </Field>
@@ -150,6 +142,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                       <MissionInfractionEnvList
                         name="infractions"
                         fieldArray={fieldArray}
+                        vehicleType={values.vehicleType}
                         actionTargetType={values.actionTargetType}
                         availableControlTypes={values.availableControlTypesForInfraction}
                       />
