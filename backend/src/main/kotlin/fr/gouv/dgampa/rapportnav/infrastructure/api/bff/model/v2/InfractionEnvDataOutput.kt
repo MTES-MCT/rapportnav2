@@ -2,11 +2,16 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.infraction.Infraction
 import java.util.*
 
 class InfractionEnvDataByOutput(
-    key: String,
-    data: List<InfractionEnvDataOutput>
+    val vesselIdentifier: String? = null,
+    val vesselType: VesselTypeEnum? = null,
+    val controlTypesWithInfraction: List<ControlType>? = null,
+    val targetAddedByUnit: Boolean? = null,
+    val identityControlledPerson: String? = null,
+    val infractions: List<Infraction>
 )
 
 class InfractionEnvTargetOutput(
