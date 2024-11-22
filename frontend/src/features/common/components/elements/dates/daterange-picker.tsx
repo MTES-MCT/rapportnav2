@@ -51,15 +51,10 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
   }, [selectedRange, allowedRange])
 
   const handleChange = (date?: Date, field: 'startDate' | 'endDate') => {
-    if (date) {
-      field === 'startDate' ? setStartDate(date) : setEndDate(date)
-      const correctedRange = [
-        field === 'startDate' ? date : startDate,
-        field === 'endDate' ? date : endDate
-      ] as DateRange
+    field === 'startDate' ? setStartDate(date) : setEndDate(date)
+    const correctedRange = [field === 'startDate' ? date : startDate, field === 'endDate' ? date : endDate] as DateRange
 
-      onChange(correctedRange)
-    }
+    onChange(correctedRange)
   }
 
   return (
