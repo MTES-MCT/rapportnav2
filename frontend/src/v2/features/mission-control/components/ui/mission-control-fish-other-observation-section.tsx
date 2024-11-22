@@ -1,12 +1,12 @@
 import Text from '@common/components/ui/text'
-import { FishAction } from '@common/types/fish-mission-types'
 import { Label, THEME } from '@mtes-mct/monitor-ui'
 import { isEmpty } from 'lodash'
 import React from 'react'
 import { Stack } from 'rsuite'
+import { MissionFishActionDataOutput } from '../../../common/types/mission-fish-action-output'
 
 interface MissionControlFishOtherObservationsSectionProps {
-  action: FishAction
+  action: MissionFishActionDataOutput
 }
 
 const MissionControlFishOtherObservationsSection: React.FC<MissionControlFishOtherObservationsSectionProps> = ({

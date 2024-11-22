@@ -1,24 +1,24 @@
-import { Action } from '@common/types/action-types'
-import { EnvActionControl } from '@common/types/env-mission-types'
 import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
+import { MissionActionOutput } from '../../common/types/mission-action-output'
+import { MissionEnvActionDataOutput } from '../../common/types/mission-env-action-output'
 import { ActionEnvControlInput } from '../types/action-type'
 
 export function useMissionActionEnvControl(
-  action: Action,
-  onChange: (newAction: Action) => Promise<unknown>,
+  action: MissionActionOutput,
+  onChange: (newAction: MissionActionOutput) => Promise<unknown>,
   isMissionFinished?: boolean
 ): AbstractFormikSubFormHook<ActionEnvControlInput> {
-  const value = action?.data as unknown as EnvActionControl
+  const value = action?.data as MissionEnvActionDataOutput
   const { extractLatLngFromMultiPoint } = useCoordinate()
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
 
-  const fromFieldValueToInput = (data: EnvActionControl): ActionEnvControlInput => {
-    const endDate = preprocessDateForPicker(action.endDateTimeUtc)
-    const startDate = preprocessDateForPicker(action.startDateTimeUtc)
+  const fromFieldValueToInput = (data: MissionEnvActionDataOutput): ActionEnvControlInput => {
+    const endDate = preprocessDateForPicker(data.endDateTimeUtc)
+    const startDate = preprocessDateForPicker(data.startDateTimeUtc)
     return {
       ...data,
       dates: [startDate, endDate],
@@ -27,22 +27,22 @@ export function useMissionActionEnvControl(
     }
   }
 
-  const fromInputToFieldValue = (value: ActionEnvControlInput): EnvActionControl => {
+  const fromInputToFieldValue = (value: ActionEnvControlInput): MissionEnvActionDataOutput => {
     const { dates, geoCoords, isMissionFinished, ...newData } = value
-    const actionEndDateTimeUtc = postprocessDateFromPicker(dates[1])
-    const actionStartDateTimeUtc = postprocessDateFromPicker(dates[0])
-    return { ...newData, actionEndDateTimeUtc, actionStartDateTimeUtc } //TODO: Check EnvActionControl to put start/endDate into data
+    const endDateTimeUtc = postprocessDateFromPicker(dates[1])
+    const startDateTimeUtc = postprocessDateFromPicker(dates[0])
+    return { ...newData, endDateTimeUtc, startDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<EnvActionControl, ActionEnvControlInput>(
+  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionEnvActionDataOutput, ActionEnvControlInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
   )
 
-  const onSubmit = async (valueToSubmit?: EnvActionControl) => {
+  const onSubmit = async (valueToSubmit?: MissionEnvActionDataOutput) => {
     if (!valueToSubmit) return
-    await onChange({ ...action, data: [valueToSubmit] }) //TODO: Update Action to use data instead of array data Action = {... data: {}}
+    await onChange({ ...action, data: valueToSubmit })
   }
 
   const handleSubmitOverride = async (value?: ActionEnvControlInput, errors?: FormikErrors<ActionEnvControlInput>) => {

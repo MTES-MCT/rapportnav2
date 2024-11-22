@@ -1,20 +1,15 @@
-import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types'
 import { FC } from 'react'
+import { useMissionActionQuery } from '../../common/services/use-mission-action'
 import MissionActionWrapper from '../../mission-action/components/layout/mission-action-wrapper'
-import useActionByIdQuery from '../../mission-action/services/use-action-by-id'
 import MissionActionItemPam from './mission-action-item-pam'
 
 interface MissionActionProps {
   actionId?: string
-  missionId?: string
+  missionId?: number
 }
 
 const MissionActionPam: FC<MissionActionProps> = ({ missionId, actionId }) => {
-  const {
-    data: action,
-    loading,
-    error
-  } = useActionByIdQuery(actionId, missionId, MissionSourceEnum.RAPPORTNAV, ActionTypeEnum.CONTROL)
+  const { data: action, loading, error } = useMissionActionQuery(actionId, missionId)
   return (
     <MissionActionWrapper
       action={action}

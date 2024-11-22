@@ -1,16 +1,16 @@
-import { Action } from '@common/types/action-types'
 import { createElement, FC } from 'react'
+import { MissionActionOutput } from '../../common/types/mission-action-output'
 import { usePamActionRegistry } from '../hooks/use-pam-action-registry'
 
 interface MissionActionItemPamProps {
-  action: Action
   missionId?: number
   isMissionFinished?: boolean
+  action: MissionActionOutput
 }
 
 const MissionActionItemPam: FC<MissionActionItemPamProps> = ({ action, missionId, isMissionFinished }) => {
-  const { actionComponent } = usePamActionRegistry(action.type)
-  const onChange = async (newAction: Action, debounceTime?: number): Promise<void> => {
+  const { actionComponent } = usePamActionRegistry(action.actionType)
+  const onChange = async (newAction: MissionActionOutput, debounceTime?: number): Promise<void> => {
     console.log(newAction)
   }
 

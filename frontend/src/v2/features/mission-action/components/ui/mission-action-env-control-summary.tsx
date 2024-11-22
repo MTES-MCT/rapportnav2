@@ -1,12 +1,12 @@
 import Text from '@common/components/ui/text'
-import { EnvActionControl } from '@common/types/env-mission-types'
 import { Label, THEME } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
 import { useActionTarget } from '../../../common/hooks/use-action-target'
 import { useVehicule } from '../../../common/hooks/use-vehicule'
+import { MissionEnvActionDataOutput } from '../../../common/types/mission-env-action-output'
 
 type MissionActionErrorProps = {
-  data: EnvActionControl
+  data: MissionEnvActionDataOutput
 }
 const MissionActionEnvControlSummary: React.FC<MissionActionErrorProps> = ({ data }) => {
   const { getVehiculeType } = useVehicule()

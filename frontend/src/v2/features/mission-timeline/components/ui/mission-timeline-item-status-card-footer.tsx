@@ -1,16 +1,15 @@
 import Text from '@common/components/ui/text'
-import { Action, ActionStatus } from '@common/types/action-types'
 import { mapStatusToText, statusReasonToHumanString } from '@common/utils/status-utils'
 import { THEME } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
+import { MissionTimelineAction } from '../../types/mission-timeline-output'
 
-const MissionTimelineItemStatusCardFooter: FC<{ prevAction?: Action }> = ({ prevAction }) => {
-  const data = prevAction?.data as unknown as ActionStatus
+const MissionTimelineItemStatusCardFooter: FC<{ prevAction?: MissionTimelineAction }> = ({ prevAction }) => {
   return (
     <>
-      {!!data && (
+      {!!prevAction && (
         <Text as={'h3'} color={THEME.color.slateGray} fontStyle={'italic'}>
-          {`${mapStatusToText(data?.status)} ${data?.reason ? `- ${statusReasonToHumanString(data?.reason)} ` : ''}- fin`}
+          {`${mapStatusToText(prevAction?.status)} ${prevAction?.reason ? `- ${statusReasonToHumanString(prevAction?.reason)} ` : ''}- fin`}
         </Text>
       )}
     </>

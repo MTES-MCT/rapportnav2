@@ -12,7 +12,7 @@ import useAddOrUpdateControlMutation from '../../../common/services/use-add-upda
 import { ModuleType } from '../../../common/types/module-type'
 
 type MissionTimelineAddActionProps = {
-  missionId?: string
+  missionId?: number
   moduleType: ModuleType
   onSumbit?: (id?: string) => void
 }
@@ -21,7 +21,7 @@ function MissionTimelineAddAction({ missionId, onSumbit, moduleType }: MissionTi
   const [addControl] = useAddOrUpdateControlMutation()
   const [addOrUpdateAction] = useAddOrUpdateActionMutation()
   const [showModal, setShowModal] = useState<boolean>(false)
-  const { getBaseInput, getActionDataInput } = useMissionTimeline(missionId)
+  const { getBaseInput, getActionDataInput } = useMissionTimeline(missionId?.toString())
 
   const handleAddAction = async (actionType: ActionTypeEnum) => {
     const data = getActionDataInput(actionType)

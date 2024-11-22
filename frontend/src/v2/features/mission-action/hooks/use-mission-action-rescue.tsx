@@ -1,21 +1,22 @@
-import { Action, ActionRescue } from '@common/types/action-types'
 import { FormikErrors } from 'formik'
 import { array, boolean, date, number, object } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
+import { MissionActionOutput } from '../../common/types/mission-action-output'
+import { MissionNavActionDataOutput } from '../../common/types/mission-nav-action-output'
 import { RescueType } from '../../common/types/rescue-type'
 import { ActionRescueInput } from '../types/action-type'
 
 export function useMissionActionRescue(
-  action: Action,
-  onChange: (newAction: Action) => Promise<unknown>,
+  action: MissionActionOutput,
+  onChange: (newAction: MissionActionOutput) => Promise<unknown>,
   isMissionFinished?: boolean
 ): AbstractFormikSubFormHook<ActionRescueInput> {
-  const value = action?.data as unknown as ActionRescue
+  const value = action?.data as MissionNavActionDataOutput
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
 
-  const fromFieldValueToInput = (data: ActionRescue): ActionRescueInput => {
+  const fromFieldValueToInput = (data: MissionNavActionDataOutput): ActionRescueInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
     const startDate = preprocessDateForPicker(data.startDateTimeUtc)
     const rescueType = data.isVesselRescue ? RescueType.VESSEL : RescueType.PERSON
@@ -28,7 +29,7 @@ export function useMissionActionRescue(
     }
   }
 
-  const fromInputToFieldValue = (value: ActionRescueInput): ActionRescue => {
+  const fromInputToFieldValue = (value: ActionRescueInput): MissionNavActionDataOutput => {
     const { dates, geoCoords, isMissionFinished, ...newData } = value
     const latitude = geoCoords[0]
     const longitude = geoCoords[1]
@@ -49,7 +50,7 @@ export function useMissionActionRescue(
     }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<ActionRescue, ActionRescueInput>(
+  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionNavActionDataOutput, ActionRescueInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue,
@@ -64,9 +65,9 @@ export function useMissionActionRescue(
     ]
   )
 
-  const onSubmit = async (valueToSubmit?: ActionRescue) => {
+  const onSubmit = async (valueToSubmit?: MissionNavActionDataOutput) => {
     if (!valueToSubmit) return
-    await onChange({ ...action, data: [valueToSubmit] })
+    await onChange({ ...action, data: valueToSubmit })
   }
 
   const handleSubmitOverride = async (value?: ActionRescueInput, errors?: FormikErrors<ActionRescueInput>) => {

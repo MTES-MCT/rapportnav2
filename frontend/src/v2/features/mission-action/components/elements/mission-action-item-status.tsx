@@ -1,17 +1,19 @@
-import { Action, ActionStatusType } from '@common/types/action-types'
+import { ActionStatusType } from '@common/types/action-types'
 import { getColorForStatus, mapStatusToText } from '@common/utils/status-utils'
 import { FormikDatePicker, FormikEffect, FormikTextarea, Icon, Tag } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import FormikSelectStatusReason from '../../../common/components/ui/formik-select-status-reason'
+import { MissionActionOutput } from '../../../common/types/mission-action-output'
 import { useMissionActionStatus } from '../../hooks/use-mission-action-status'
 import { ActionStatusInput } from '../../types/action-type'
 
-const MissionActionItemStatus: FC<{ action: Action; onChange: (newAction: Action) => Promise<void> }> = ({
-  action,
-  onChange
-}) => {
+const MissionActionItemStatus: FC<{
+  action: MissionActionOutput
+  onChange: (newAction: MissionActionOutput, debounceTime?: number) => Promise<unknown>
+  isMissionFinished?: boolean
+}> = ({ action, onChange }) => {
   const { initValue, handleSubmit } = useMissionActionStatus(action, onChange)
   return (
     <form style={{ width: '100%' }}>

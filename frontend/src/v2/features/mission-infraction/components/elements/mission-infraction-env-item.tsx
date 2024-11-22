@@ -44,9 +44,9 @@ const MissionInfractionEnvItem: React.FC<MissionInfractionEnvItemProps> = ({
   }
 
   return (
-    <>
-      {byTarget.infractions.map(infraction => (
-        <Stack key={infraction.id} direction="column" spacing={'0.5rem'} style={{ width: '100%' }}>
+    <div key={`infraction-item-${index}`}>
+      {byTarget.infractions.map((infraction, i) => (
+        <Stack key={`${infraction.controlType}-${i}`} direction="column" spacing={'0.5rem'} style={{ width: '100%' }}>
           <Stack.Item
             style={{
               width: '100%',
@@ -159,7 +159,7 @@ const MissionInfractionEnvItem: React.FC<MissionInfractionEnvItemProps> = ({
           </Stack.Item>
         </Stack>
       ))}
-    </>
+    </div>
   )
 }
 

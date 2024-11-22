@@ -1,43 +1,43 @@
-import { Action } from '@common/types/action-types'
-import { EnvActionSurveillance } from '@common/types/env-mission-types'
 import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
+import { MissionActionOutput } from '../../common/types/mission-action-output'
+import { MissionEnvActionDataOutput } from '../../common/types/mission-env-action-output'
 import { ActionSurveillanceInput } from '../types/action-type'
 
 export function useMissionActionSurveillance(
-  action: Action,
-  onChange: (newAction: Action) => Promise<unknown>
+  action: MissionActionOutput,
+  onChange: (newAction: MissionActionOutput) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionSurveillanceInput> {
-  const value = action?.data as unknown as EnvActionSurveillance
+  const value = action?.data as unknown as MissionEnvActionDataOutput
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
 
-  const fromFieldValueToInput = (data: EnvActionSurveillance): ActionSurveillanceInput => {
-    const endDate = preprocessDateForPicker(data?.actionEndDateTimeUtc)
-    const startDate = preprocessDateForPicker(data.actionStartDateTimeUtc)
+  const fromFieldValueToInput = (data: MissionEnvActionDataOutput): ActionSurveillanceInput => {
+    const endDate = preprocessDateForPicker(data?.endDateTimeUtc)
+    const startDate = preprocessDateForPicker(data.startDateTimeUtc)
     return {
       ...data,
       dates: [startDate, endDate]
     }
   }
 
-  const fromInputToFieldValue = (value: ActionSurveillanceInput): EnvActionSurveillance => {
+  const fromInputToFieldValue = (value: ActionSurveillanceInput): MissionEnvActionDataOutput => {
     const { dates, ...newData } = value
-    const actionEndDateTimeUtc = postprocessDateFromPicker(dates[1])
-    const actionStartDateTimeUtc = postprocessDateFromPicker(dates[0])
-    return { ...newData, actionStartDateTimeUtc, actionEndDateTimeUtc }
+    const endDateTimeUtc = postprocessDateFromPicker(dates[1])
+    const startDateTimeUtc = postprocessDateFromPicker(dates[0])
+    return { ...newData, startDateTimeUtc, endDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<EnvActionSurveillance, ActionSurveillanceInput>(
+  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionEnvActionDataOutput, ActionSurveillanceInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
   )
 
-  const onSubmit = async (valueToSubmit?: EnvActionSurveillance) => {
+  const onSubmit = async (valueToSubmit?: MissionEnvActionDataOutput) => {
     if (!valueToSubmit) return
-    await onChange({ ...action, data: [valueToSubmit] })
+    await onChange({ ...action, data: valueToSubmit })
   }
 
   const handleSubmitOverride = async (

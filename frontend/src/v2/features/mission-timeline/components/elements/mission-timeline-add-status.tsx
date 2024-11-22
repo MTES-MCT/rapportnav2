@@ -14,7 +14,7 @@ const ACTION_STATUS: ActionStatusType[] = [
 ]
 
 interface MissionTimelineAddStatusProps {
-  missionId?: string
+  missionId?: number
   onSumbit?: (id?: string) => void
 }
 
@@ -30,8 +30,8 @@ export const MissionStatusColorTag: FC<{ status: ActionStatusType }> = ({ status
 )
 
 const MissionTimelineAddStatus: FC<MissionTimelineAddStatusProps> = ({ missionId, onSumbit }) => {
-  const { getBaseInput } = useMissionTimeline(missionId)
   const [addStatus, { loading }] = useAddOrUpdateStatus()
+  const { getBaseInput } = useMissionTimeline(missionId?.toString())
 
   const handleAddStatus = async (status: ActionStatusType) => {
     const statusAction = {

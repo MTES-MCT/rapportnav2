@@ -1,4 +1,3 @@
-import { Action } from '@common/types/action-types'
 import { ActionTypeEnum } from '@common/types/env-mission-types'
 import { CompletenessForStatsStatusEnum } from '@common/types/mission-types'
 import { Icon, IconProps, THEME } from '@mtes-mct/monitor-ui'
@@ -14,22 +13,23 @@ import MissionActionItemRepresentation from '../../mission-action/components/ele
 import MissionActionItemRescue from '../../mission-action/components/elements/mission-action-item-rescue'
 import MissionActionItemSurveillance from '../../mission-action/components/elements/mission-action-item-surveillance'
 import MissionActionItemVigimer from '../../mission-action/components/elements/mission-action-item-vigimer'
-import MissionTimelineItemControlCardFooter from '../../mission-timeline/components/elements/mission-timeline-item-control-card-footer'
-import MissionTimelineItemControlCardSubtitle from '../../mission-timeline/components/elements/mission-timeline-item-control-card-Subtitle'
-import MissionTimelineItemControlCardTag from '../../mission-timeline/components/elements/mission-timeline-item-control-card-tag'
-import MissionTimelineItemControlCardTitle from '../../mission-timeline/components/elements/mission-timeline-item-control-card-title'
-import MissionTimelineItemRescueCardTitle from '../../mission-timeline/components/elements/mission-timeline-item-rescue-card-title'
-import MissionTimelineItemSruveillanceCardTitle from '../../mission-timeline/components/elements/mission-timeline-item-surveillance-card-title'
-import MissionTimelineItemCardTitle from '../../mission-timeline/components/ui/mission-timeline-item-card-title'
-import TextByCacem from '../components/ui/text-by-cacem'
+import MissionTimelineItemControlCard from '../../mission-timeline/components/elements/mission-timeline-item-control-card'
+import MissionTimelineItemGenericCard from '../../mission-timeline/components/elements/mission-timeline-item-generic-card'
+import MissionTimelineItemRescueCard from '../../mission-timeline/components/elements/mission-timeline-item-rescue-card'
+import MissionTimelineItemSurveillanceCard from '../../mission-timeline/components/elements/mission-timeline-item-surveillance-card'
+import { MissionTimelineAction } from '../../mission-timeline/types/mission-timeline-output'
+import { MissionActionOutput } from '../types/mission-action-output'
 
 export type ActionTimeline = {
   dropdownText?: string
   noPadding?: boolean
-  getCardTag?: (action: Action) => JSX.Element | undefined
-  getCardSubtitle?: (action: Action) => JSX.Element | undefined
-  getCardFooter?: (action?: Action, prevAction?: Action) => JSX.Element | undefined
-  getCardTitle: (action?: Action, isSelected?: boolean) => JSX.Element | undefined
+  component: FunctionComponent<{
+    title?: string
+    isSelected?: boolean
+    action?: MissionTimelineAction
+    icon?: FunctionComponent<IconProps>
+    prevAction?: MissionTimelineAction
+  }>
 }
 
 export type ActionStyle = {
@@ -42,12 +42,12 @@ export type ActionStyle = {
 export type ActionRegistryItem = {
   title?: string
   style?: ActionStyle
-  timeline?: ActionTimeline
+  timeline: ActionTimeline
   hasStatusTag?: boolean
   icon?: FunctionComponent<IconProps>
   actionComponent?: FunctionComponent<{
-    action: Action
-    onChange: (newAction: Action, debounceTime?: number) => Promise<unknown>
+    action: MissionActionOutput
+    onChange: (newAction: MissionActionOutput, debounceTime?: number) => Promise<unknown>
     isMissionFinished?: boolean
   }>
 }
@@ -63,10 +63,7 @@ const ACTION_REGISTRY: ActionRegistry = {
     icon: Icon.ControlUnit,
     timeline: {
       dropdownText: 'Ajouter des contrôles',
-      getCardTitle: (action?: Action) => <MissionTimelineItemControlCardTitle action={action} />,
-      getCardTag: (action: Action) => <MissionTimelineItemControlCardTag action={action} />,
-      getCardFooter: (action?: Action) => <MissionTimelineItemControlCardFooter action={action} />,
-      getCardSubtitle: (action: Action) => <MissionTimelineItemControlCardSubtitle action={action} />
+      component: MissionTimelineItemControlCard
     },
     actionComponent: MissionActionItemControl
   },
@@ -76,8 +73,7 @@ const ACTION_REGISTRY: ActionRegistry = {
     title: 'Surveillance Environnement',
     timeline: {
       dropdownText: `Surveillance`,
-      getCardTitle: (action?: Action) => <MissionTimelineItemSruveillanceCardTitle action={action} />,
-      getCardFooter: () => <TextByCacem />
+      component: MissionTimelineItemSurveillanceCard
     },
     actionComponent: MissionActionItemSurveillance
   },
@@ -87,7 +83,7 @@ const ACTION_REGISTRY: ActionRegistry = {
     icon: Icon.Note,
     timeline: {
       dropdownText: 'Ajouter une note libre',
-      getCardTitle: () => <MissionTimelineItemCardTitle text="Note libre" />
+      component: MissionTimelineItemGenericCard
     },
     actionComponent: MissionActionItemNote
   },
@@ -100,7 +96,7 @@ const ACTION_REGISTRY: ActionRegistry = {
     title: 'Permanence Vigimer',
     timeline: {
       dropdownText: 'Permanence Vigimer',
-      getCardTitle: () => <MissionTimelineItemCardTitle text="Permanence Vigimer" />
+      component: MissionTimelineItemGenericCard
     },
     actionComponent: MissionActionItemVigimer
   },
@@ -113,7 +109,7 @@ const ACTION_REGISTRY: ActionRegistry = {
     title: 'Manifestation nautique',
     timeline: {
       dropdownText: 'Sécu de manifestation nautique',
-      getCardTitle: () => <MissionTimelineItemCardTitle text="Manifestation nautique" />
+      component: MissionTimelineItemGenericCard
     },
     actionComponent: MissionActionItemNauticalEvent
   },
@@ -126,7 +122,7 @@ const ACTION_REGISTRY: ActionRegistry = {
     icon: Icon.Rescue,
     timeline: {
       dropdownText: 'Ajouter une assistance / sauvetage',
-      getCardTitle: (action?: Action) => <MissionTimelineItemRescueCardTitle action={action} />
+      component: MissionTimelineItemRescueCard
     },
     actionComponent: MissionActionItemRescue
   },
@@ -139,7 +135,7 @@ const ACTION_REGISTRY: ActionRegistry = {
     title: 'Représentation',
     timeline: {
       dropdownText: 'Représentation',
-      getCardTitle: () => <MissionTimelineItemCardTitle text="Représentation" />
+      component: MissionTimelineItemGenericCard
     },
     actionComponent: MissionActionItemRepresentation
   },
@@ -152,7 +148,7 @@ const ACTION_REGISTRY: ActionRegistry = {
     title: `Maintien de l'ordre public`,
     timeline: {
       dropdownText: `Maintien de l'ordre public`,
-      getCardTitle: () => <MissionTimelineItemCardTitle text="Maintien de l'ordre public" />
+      component: MissionTimelineItemGenericCard
     },
     actionComponent: MissionActionItemPublicOrder
   },
@@ -165,7 +161,7 @@ const ACTION_REGISTRY: ActionRegistry = {
     title: 'Opération de lutte anti-pollution',
     timeline: {
       dropdownText: 'Opération de lutte anti-pollution',
-      getCardTitle: () => <MissionTimelineItemCardTitle text="Opération de lutte anti-pollution" />
+      component: MissionTimelineItemGenericCard
     },
     actionComponent: MissionActionItemAntiPollution
   },
@@ -178,7 +174,7 @@ const ACTION_REGISTRY: ActionRegistry = {
     title: 'Permanence BAAEM',
     timeline: {
       dropdownText: 'Permanence BAAEM',
-      getCardTitle: () => <MissionTimelineItemCardTitle text="Permanence BAAEM" />
+      component: MissionTimelineItemGenericCard
     },
     actionComponent: MissionActionItemBAAEMPermanence
   },
@@ -191,7 +187,7 @@ const ACTION_REGISTRY: ActionRegistry = {
     title: `Lutte contre l'immigration illégale`,
     timeline: {
       dropdownText: `Lutte contre l'immigration illégale`,
-      getCardTitle: () => <MissionTimelineItemCardTitle text="Lutte contre l'immigration illégale" />
+      component: MissionTimelineItemGenericCard
     },
     actionComponent: MissionActionItemIllegalImmigration
   },
@@ -200,26 +196,26 @@ const ACTION_REGISTRY: ActionRegistry = {
     icon: Icon.More,
     timeline: {
       dropdownText: 'Ajouter une autre activité de mission',
-      getCardTitle: () => <MissionTimelineItemCardTitle text="Ajouter une autre activité de mission" />
+      component: MissionTimelineItemGenericCard
     }
   },
   [ActionTypeEnum.CONTACT]: {
     style: {},
     timeline: {
-      getCardTitle: () => <></>,
-      dropdownText: `Contact`
+      dropdownText: `Contact`,
+      component: MissionTimelineItemGenericCard
     }
   }
 }
 
 export type ActionRegistryHook = {
-  isIncomplete: (action: Action) => boolean
+  isIncomplete: (action?: MissionTimelineAction) => boolean
 } & ActionRegistryItem
 
 export function useActionRegistry(actionType: ActionTypeEnum): ActionRegistryHook {
-  const getAction = () => ACTION_REGISTRY[actionType]
+  const getAction = () => ACTION_REGISTRY[actionType] ?? ({} as ActionRegistryItem)
   const action = getAction()
-  const isIncomplete = (action?: Action) =>
-    action?.completenessForStats.status === CompletenessForStatsStatusEnum.INCOMPLETE
+  const isIncomplete = (action?: MissionTimelineAction) =>
+    action?.completenessForStats?.status === CompletenessForStatsStatusEnum.INCOMPLETE
   return { ...action, isIncomplete }
 }

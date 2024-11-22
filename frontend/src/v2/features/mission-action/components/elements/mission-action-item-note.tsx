@@ -1,15 +1,15 @@
-import { Action } from '@common/types/action-types'
 import { FormikDatePicker, FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
+import { MissionActionOutput } from '../../../common/types/mission-action-output'
 import { useMissionActionFreeNote } from '../../hooks/use-mission-action-note'
 import { ActionFreeNoteInput } from '../../types/action-type'
 
-const MissionActionItemNote: FC<{ action: Action; onChange: (newAction: Action) => Promise<unknown> }> = ({
-  action,
-  onChange
-}) => {
+const MissionActionItemNote: FC<{
+  action: MissionActionOutput
+  onChange: (newAction: MissionActionOutput) => Promise<unknown>
+}> = ({ action, onChange }) => {
   const { initValue, handleSubmit } = useMissionActionFreeNote(action, onChange)
   return (
     <form style={{ width: '100%' }}>

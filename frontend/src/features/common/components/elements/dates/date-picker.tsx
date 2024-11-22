@@ -34,12 +34,13 @@ const DatePicker: FC<DatePickerProps> = ({ allowedRange, ...props }: DatePickerP
   const handleChange = (date?: Date) => {
     const correctedDate = date ? postprocessDateFromPicker(date) : undefined
     const validation = validate(allowedRange, date)
-
-    if (validation?.ok && props.onChange) {
-      props.onChange(correctedDate)
+    if (validation?.ok) {
       setError(undefined)
     } else {
       setError(validation?.message)
+    }
+    if (props.onChange) {
+      props.onChange(correctedDate)
     }
   }
 

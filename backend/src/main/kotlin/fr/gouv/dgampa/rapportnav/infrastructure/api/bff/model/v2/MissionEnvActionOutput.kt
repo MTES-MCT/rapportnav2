@@ -7,6 +7,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.infraction.Infraction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.infraction.InfractionsByVessel
 
 class MissionEnvActionOutput(
     override val id: String,
@@ -72,13 +74,21 @@ class MissionEnvActionOutput(
             )
         }
 
-        private fun getInfractionGroupBy(action: MissionEnvActionEntity): List<InfractionEnvDataByOutput> {
-            val infractions = action.envInfractions?.map { InfractionEnvDataOutput.fromInfractionEnvEntity(it) }?: listOf()
-            val infractions1 = action.navInfractions?.map{ InfractionEnvDataOutput.fromInfractionNavEntity(it)}?: listOf()
+        private fun getInfractionGroupBy(action: MissionEnvActionEntity): List<InfractionsByVessel> {
+            val envInfractions = action.envInfractions?.map { Infraction.fromEnvInfractionEntity(it) }?: listOf()
+            val navInfractions = action.navInfractions?.map{ Infraction.fromInfractionEntity(it)}?: listOf()
 
-            return (infractions+ infractions1)
+            return (envInfractions+ navInfractions)
+                .filter { it.target?.vesselIdentifier == null  &&  it.target?.identityControlledPerson == null}
                 .groupBy { it.target?.vesselIdentifier ?: it.target?.identityControlledPerson }
-                .map { (key, values) ->  InfractionEnvDataByOutput(key = key?:"", data = values)}
+                .map { (vesselIdentifier, infractions) ->
+                    InfractionsByVessel(
+                        vesselIdentifier = vesselIdentifier,
+                        vesselType = infractions.firstOrNull()?.target?.vesselType,
+                        infractions = infractions,
+                        identityControlledPerson = infractions.firstOrNull()?.target?.identityControlledPerson
+                    )
+                }
         }
     }
 }

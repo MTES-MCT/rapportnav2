@@ -1,20 +1,20 @@
-import { Action } from '@common/types/action-types'
 import { THEME } from '@mtes-mct/monitor-ui'
 import { find } from 'lodash'
 import { createElement, FC, Fragment, FunctionComponent } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { useDate } from '../../../common/hooks/use-date'
+import { MissionTimelineAction } from '../../types/mission-timeline-output'
 import MissionTimelineEmpty from '../ui/mission-timeline-empty'
 import MissionTimelineError from '../ui/mission-timeline-error'
 import MissionTimelineLoader from '../ui/mission-timeline-loader'
 
 interface MissionTimelineProps {
   isError?: any
-  actions: Action[]
   missionId?: number
   isLoading?: boolean
+  actions: MissionTimelineAction[]
   groupBy: 'startDateTimeUtc' | 'endDateTimeUtc'
-  item: FunctionComponent<{ action: Action; missionId?: number; prevAction?: Action }>
+  item: FunctionComponent<{ action: MissionTimelineAction; missionId?: number; prevAction?: MissionTimelineAction }>
 }
 
 const MissionTimelineWrapper: FC<MissionTimelineProps> = ({
@@ -42,7 +42,7 @@ const MissionTimelineWrapper: FC<MissionTimelineProps> = ({
           )}
           <Stack.Item style={{ marginRight: '1rem' }}>
             <Stack direction="column" spacing={'0.75rem'} style={{ width: '100%' }} alignItems="stretch">
-              {(items as Action[]).map(action =>
+              {(items as MissionTimelineAction[]).map(action =>
                 createElement(item, {
                   key: action.id,
                   action,

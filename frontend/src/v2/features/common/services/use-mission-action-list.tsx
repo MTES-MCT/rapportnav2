@@ -1,26 +1,26 @@
 import { ApolloError, gql, useQuery } from '@apollo/client'
-import { Action } from '@common/types/action-types'
-import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types'
+import { MissionActionOutput } from '../../common/types/mission-action-output'
 
-export const GET_ACTION_BY_ID = gql`
-  query GetActionById($id: ID!, $missionId: ID!, $source: MissionSource!, $type: ActionType!) {
-    actionById(id: $id, missionId: $missionId, source: $source, type: $type) {
+export const GET_ACTION_LIST = gql`
+  query GetActionList($missionId: ID!) {
+    actionList(missionId: $missionId) {
       id
-      type
+      missionId
       source
+      summaryTags
+      actionType
       status
-      startDateTimeUtc
-      endDateTimeUtc
+      controlsToComplete
+      isCompleteForStats
       completenessForStats {
         status
         sources
       }
+      sourcesOfMissingDataForStats
       data {
-        ... on FishActionData {
-          id
-          actionType
-          actionDatetimeUtc
-          actionEndDatetimeUtc
+        ... on MissionFishActionDataOutput {
+          startDateTimeUtc
+          endDateTimeUtc
           vesselId
           vesselName
           latitude
@@ -28,6 +28,7 @@ export const GET_ACTION_BY_ID = gql`
           facade
           emitsVms
           emitsAis
+          fishActionType
           licencesMatchActivity
           logbookMatchesActivity
           logbookInfractions {
@@ -83,7 +84,6 @@ export const GET_ACTION_BY_ID = gql`
           controlQualityComments
           feedbackSheetRequired
           userTrigram
-          controlsToComplete
           controlAdministrative {
             id
             amountOfControls
@@ -143,8 +143,9 @@ export const GET_ACTION_BY_ID = gql`
             }
           }
         }
-        ... on EnvActionData {
-          id
+        ... on MissionEnvActionDataOutput {
+          startDateTimeUtc
+          endDateTimeUtc
           observations
           observationsByUnit
           actionNumberOfControls
@@ -203,51 +204,7 @@ export const GET_ACTION_BY_ID = gql`
             observations
           }
         }
-        ... on NavActionStatus {
-          id
-          startDateTimeUtc
-          status
-          reason
-          observations
-        }
-        ... on NavActionFreeNote {
-          id
-          startDateTimeUtc
-          observations
-        }
-        ... on NavActionRescue {
-          id
-          startDateTimeUtc
-          observations
-          isVesselRescue
-          isPersonRescue
-          locationDescription
-          latitude
-          longitude
-          numberOfDeaths
-          numberPersonsRescued
-          isVesselTowed
-          isVesselNoticed
-          isInSRRorFollowedByCROSSMRCC
-          operationFollowsDEFREP
-          isMigrationRescue
-          nbAssistedVesselsReturningToShore
-          nbOfVesselsTrackedWithoutIntervention
-        }
-        ... on NavActionNauticalEvent {
-          id
-          startDateTimeUtc
-          endDateTimeUtc
-          observations
-        }
-        ... on NavActionVigimer {
-          id
-          startDateTimeUtc
-          endDateTimeUtc
-          observations
-        }
-        ... on NavActionAntiPollution {
-          id
+        ... on MissionNavActionDataOutput {
           startDateTimeUtc
           endDateTimeUtc
           observations
@@ -258,78 +215,50 @@ export const GET_ACTION_BY_ID = gql`
           diversionCarriedOut
           isSimpleBrewingOperationDone
           isAntiPolDeviceDeployed
-        }
-        ... on NavActionBAAEMPermanence {
-          id
-          startDateTimeUtc
-          endDateTimeUtc
-          observations
-        }
-
-        ... on NavActionPublicOrder {
-          id
-          startDateTimeUtc
-          endDateTimeUtc
-          observations
-        }
-
-        ... on NavActionRepresentation {
-          id
-          startDateTimeUtc
-          endDateTimeUtc
-          observations
-        }
-        ... on NavActionIllegalImmigration {
-          id
-          startDateTimeUtc
-          endDateTimeUtc
-          observations
-          latitude
-          longitude
-          nbOfInterceptedVessels
-          nbOfInterceptedMigrants
-          nbOfSuspectedSmugglers
-        }
-        ... on NavActionControl {
-          id
-          latitude
-          longitude
           controlMethod
           vesselIdentifier
           vesselType
           vesselSize
-          observations
           identityControlledPerson
-          controlAdministrative {
+          nbOfInterceptedVessels
+          nbOfInterceptedMigrants
+          nbOfSuspectedSmugglers
+          isVesselRescue
+          isPersonRescue
+          isVesselNoticed
+          isVesselTowed
+          isInSRRorFollowedByCROSSMRCC
+          numberPersonsRescued
+          numberOfDeaths
+          operationFollowsDEFREP
+          locationDescription
+          isMigrationRescue
+          nbOfVesselsTrackedWithoutIntervention
+          nbAssistedVesselsReturningToShore
+          reason
+          controlSecurity {
             id
             amountOfControls
             unitShouldConfirm
             unitHasConfirmed
-            compliantOperatingPermit
-            upToDateNavigationPermit
-            compliantSecurityDocuments
             observations
             infractions {
               id
-              natinfs
+              controlType
               infractionType
-              observations
-            }
-          }
-          controlGensDeMer {
-            id
-            amountOfControls
-            unitShouldConfirm
-            unitHasConfirmed
-            staffOutnumbered
-            upToDateMedicalCheck
-            knowledgeOfFrenchLawAndLanguage
-            observations
-            infractions {
-              id
               natinfs
-              infractionType
               observations
+              target {
+                vesselIdentifier
+                identityControlledPerson
+                vesselType
+                vesselSize
+                companyName
+                relevantCourt
+                infractionType
+                formalNotice
+                toProcess
+              }
             }
           }
           controlNavigation {
@@ -340,12 +269,24 @@ export const GET_ACTION_BY_ID = gql`
             observations
             infractions {
               id
-              natinfs
+              controlType
               infractionType
+              natinfs
               observations
+              target {
+                vesselIdentifier
+                identityControlledPerson
+                vesselType
+                vesselSize
+                companyName
+                relevantCourt
+                infractionType
+                formalNotice
+                toProcess
+              }
             }
           }
-          controlSecurity {
+          controlAdministrative {
             id
             amountOfControls
             unitShouldConfirm
@@ -353,9 +294,48 @@ export const GET_ACTION_BY_ID = gql`
             observations
             infractions {
               id
-              natinfs
+              controlType
               infractionType
+              natinfs
               observations
+              target {
+                vesselIdentifier
+                identityControlledPerson
+                vesselType
+                vesselSize
+                companyName
+                relevantCourt
+                infractionType
+                formalNotice
+                toProcess
+              }
+            }
+          }
+          controlGensDeMer {
+            id
+            amountOfControls
+            unitShouldConfirm
+            unitHasConfirmed
+            observations
+            upToDateMedicalCheck
+            knowledgeOfFrenchLawAndLanguage
+            infractions {
+              id
+              controlType
+              infractionType
+              natinfs
+              observations
+              target {
+                vesselIdentifier
+                identityControlledPerson
+                vesselType
+                vesselSize
+                companyName
+                relevantCourt
+                infractionType
+                formalNotice
+                toProcess
+              }
             }
           }
         }
@@ -364,26 +344,19 @@ export const GET_ACTION_BY_ID = gql`
   }
 `
 
-const useActionByIdQuery = (
-  id: string | undefined = undefined,
-  missionId: string | undefined = undefined,
-  source: MissionSourceEnum,
-  type: ActionTypeEnum
+export const useMissionActionListQuery = (
+  missionId?: number
 ): {
-  data?: Action
+  data?: MissionActionOutput[]
   loading: boolean
   error?: ApolloError
 } => {
-  const { loading, error, data, ...rest } = useQuery(GET_ACTION_BY_ID, {
-    variables: { id, missionId, source, type }
-    // fetchPolicy: 'cache-only'
+  const { loading, error, data } = useQuery<{ actionList: MissionActionOutput[] }>(GET_ACTION_LIST, {
+    variables: { missionId },
+    pollInterval: 500000 // 5 min
   })
 
-  if (!id || !missionId) {
-    return { loading: false, error: undefined, data: undefined }
-  }
+  if (!missionId) return { loading: false, error: undefined, data: undefined }
 
-  return { loading, error, data: data?.actionById, ...rest }
+  return { loading, error, data: data?.actionList }
 }
-
-export default useActionByIdQuery

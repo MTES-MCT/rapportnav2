@@ -1,19 +1,19 @@
-import { Action } from '@common/types/action-types'
 import { FormikCheckbox, FormikEffect, FormikTextarea, Icon, THEME } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { StyledFormikToggle } from '../../../common/components/ui/formik-styled-toogle'
+import { MissionActionOutput } from '../../../common/types/mission-action-output'
 import { useMissionActionAntiPollution } from '../../hooks/use-mission-action-anti-pollution'
 import { ActionAntiPollutionInput } from '../../types/action-type'
 import MissionActionAntiPollutionWarning from '../ui/mission-action-anti-pollution-warning'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
 
-const MissionActionItemAntiPollution: FC<{ action: Action; onChange: (newAction: Action) => Promise<unknown> }> = ({
-  action,
-  onChange
-}) => {
+const MissionActionItemAntiPollution: FC<{
+  action: MissionActionOutput
+  onChange: (newAction: MissionActionOutput) => Promise<unknown>
+}> = ({ action, onChange }) => {
   const { initValue, handleSubmit } = useMissionActionAntiPollution(action, onChange)
   return (
     <form style={{ width: '100%' }} data-testid={'action-nautical-event-form'}>

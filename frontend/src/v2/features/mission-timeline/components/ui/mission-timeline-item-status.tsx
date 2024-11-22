@@ -3,12 +3,12 @@ import { ActionTypeEnum } from '@common/types/env-mission-types'
 import { CompletenessForStats, CompletenessForStatsStatusEnum } from '@common/types/mission-types'
 import { Accent, Icon, IconButton, THEME } from '@mtes-mct/monitor-ui'
 import { useActionStatus } from '../../../common/hooks/use-action-status'
-import { MissionTimelineStatusTag } from '../ui/mission-timeline-status-tag'
+import { MissionTimelineStatusTag } from './mission-timeline-status-tag'
 
 type MissionTimelineItemStatusProps = {
   type: ActionTypeEnum
-  status: ActionStatusType
-  completenessForStats: CompletenessForStats
+  status?: ActionStatusType
+  completenessForStats?: CompletenessForStats
 }
 
 const MissionTimelineItemStatus: React.FC<MissionTimelineItemStatusProps> = ({
@@ -17,7 +17,7 @@ const MissionTimelineItemStatus: React.FC<MissionTimelineItemStatusProps> = ({
   completenessForStats
 }: MissionTimelineItemStatusProps) => {
   const { color } = useActionStatus(status)
-  if (type !== ActionTypeEnum.STATUS && completenessForStats.status === CompletenessForStatsStatusEnum.COMPLETE)
+  if (type !== ActionTypeEnum.STATUS && completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE)
     return (
       <div style={{ width: '15px', height: '100%', padding: '5px 0 5px 5px' }}>
         <MissionTimelineStatusTag
@@ -31,15 +31,15 @@ const MissionTimelineItemStatus: React.FC<MissionTimelineItemStatusProps> = ({
         />
       </div>
     )
-  if (completenessForStats.status === CompletenessForStatsStatusEnum.INCOMPLETE)
+  if (completenessForStats?.status === CompletenessForStatsStatusEnum.INCOMPLETE)
     return (
-      <div data-testid={'timeline-item-incomplete-report'} style={{ alignSelf: 'center' }}>
+      <div data-testid={'timeline-item-incomplete-report'}>
         <IconButton
           accent={Accent.TERTIARY}
           Icon={Icon.AttentionFilled}
           color={color === 'transparent' ? THEME.color.charcoal : color}
           title={'Cet évènement contient des données manquantes indispensables pour les statistiques.'}
-          style={{ cursor: 'auto', width: '20px' }}
+          style={{ cursor: 'auto', width: '20px', marginLeft: '-5px' }}
         />
       </div>
     )

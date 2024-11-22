@@ -52,16 +52,16 @@ const MissionPamPage: React.FC = () => {
       missionTimeLine={
         <MissionPageSectionWrapper
           sectionHeader={<MissionTimelineHeaderPam missionId={missionId} />}
-          sectionBody={<MissionTimelinePam missionId={missionId} />}
+          sectionBody={<MissionTimelinePam missionId={Number(missionId)} />}
         />
       }
       missionAction={
         <MissionPageSectionWrapper
           hide={!actionId}
           sectionHeader={
-            <MissionActionHeader missionId={missionId} actionId={actionId} missionStatus={mission?.status} />
+            <MissionActionHeader missionId={Number(missionId)} actionId={actionId} missionStatus={mission?.status} />
           }
-          sectionBody={<MissionActionPam missionId={missionId} actionId={actionId} />}
+          sectionBody={<MissionActionPam missionId={Number(missionId)} actionId={actionId} />}
         />
       }
       missionFooter={<MissionPageFooterWrapper lastSyncText={lastSyncText} exitMission={exitMission} />}

@@ -1,11 +1,11 @@
-import { FishAction } from '@common/types/fish-mission-types.ts'
 import { Label } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { Stack } from 'rsuite'
+import { MissionFishActionDataOutput } from '../../../common/types/mission-fish-action-output'
 import MissionInfractionSummary from '../../../mission-infraction/components/ui/mission-infraction-summary'
 
 interface MissionControlFishOtherSectionProps {
-  action: FishAction
+  action: MissionFishActionDataOutput
 }
 
 const MissionControlFishOtherInfractionsSection: React.FC<MissionControlFishOtherSectionProps> = ({ action }) => {
@@ -18,7 +18,7 @@ const MissionControlFishOtherInfractionsSection: React.FC<MissionControlFishOthe
         <MissionInfractionSummary
           title="Autres infractions"
           isActionDisabled={true}
-          infractions={action.otherInfractions}
+          infractions={action.otherInfractions ?? []}
         />
       </Stack.Item>
     </Stack>

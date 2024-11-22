@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTargetTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VehicleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.infraction.InfractionsByVessel
 import org.locationtech.jts.geom.Geometry
 import java.time.Instant
 
@@ -25,7 +26,7 @@ class MissionEnvActionDataOutput(
     override val actionNumberOfControls: Int? = null,
     override val actionTargetType: ActionTargetTypeEnum? = null,
     override val vehicleType: VehicleTypeEnum? = null,
-    override val infractions: List<InfractionEnvDataByOutput>? = listOf(),
+    override val infractions: List<InfractionsByVessel>? = listOf(),
     override val coverMissionZone: Boolean? = null,
     override val controlSecurity: ControlSecurityEntity? = null,
     override val controlGensDeMer: ControlGensDeMerEntity? = null,

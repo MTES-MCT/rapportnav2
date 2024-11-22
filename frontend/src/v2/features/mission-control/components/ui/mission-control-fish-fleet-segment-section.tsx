@@ -1,11 +1,12 @@
 import Text from '@common/components/ui/text'
-import { FishAction, FleetSegment } from '@common/types/fish-mission-types.ts'
+import { FleetSegment } from '@common/types/fish-mission-types.ts'
 import { Label, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { Stack } from 'rsuite'
+import { MissionFishActionDataOutput } from '../../../common/types/mission-fish-action-output'
 
 interface MissionControlFishFleetSegmentSectionProps {
-  action: FishAction
+  action: MissionFishActionDataOutput
 }
 
 const MissionControlFishFleetSegmentSection: React.FC<MissionControlFishFleetSegmentSectionProps> = ({ action }) => {

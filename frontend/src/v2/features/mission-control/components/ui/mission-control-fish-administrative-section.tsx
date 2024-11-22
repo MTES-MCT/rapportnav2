@@ -1,13 +1,13 @@
 import Text from '@common/components/ui/text.tsx'
-import { FishAction } from '@common/types/fish-mission-types.ts'
 import { controlCheckMultiRadioOptions } from '@features/pam/mission/components/elements/actions/action-control-fish'
 import { Accent, Button, Icon, Label, MultiRadio, Size, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { Stack } from 'rsuite'
+import { MissionFishActionDataOutput } from '../../../common/types/mission-fish-action-output'
 import MissionInfractionSummary from '../../../mission-infraction/components/ui/mission-infraction-summary'
 
 interface MissionControlFishAdministrativeSectionProps {
-  action: FishAction
+  action: MissionFishActionDataOutput
 }
 
 const MissionControlFishAdministrativeSection: React.FC<MissionControlFishAdministrativeSectionProps> = ({
@@ -74,7 +74,7 @@ const MissionControlFishAdministrativeSection: React.FC<MissionControlFishAdmini
       <Stack.Item style={{ width: '100%' }}>
         <MissionInfractionSummary
           isActionDisabled={true}
-          infractions={action.logbookInfractions}
+          infractions={action.logbookInfractions ?? []}
           title="Infraction obligations déclaratives et autorisations"
         />
       </Stack.Item>
