@@ -30,6 +30,7 @@ class ControlGensDeMerModel(
         upToDateMedicalCheck = stringToControlResult(upToDateMedicalCheck),
         knowledgeOfFrenchLawAndLanguage = stringToControlResult(knowledgeOfFrenchLawAndLanguage),
         observations = observations,
+        hasBeenDone = hasBeenDone,
         infractions = infractions?.map { it.toInfractionEntity() }
     )
 
@@ -42,6 +43,7 @@ class ControlGensDeMerModel(
             this.unitHasConfirmed = control.unitHasConfirmed
             this.unitShouldConfirm = control.unitShouldConfirm
             this.observations = control.observations
+            this.hasBeenDone = control.hasBeenDone
         }
 
         fun fromControlGensDeMerEntity(control: ControlGensDeMerEntity): ControlGensDeMerModel {

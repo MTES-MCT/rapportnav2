@@ -29,6 +29,9 @@ abstract class ControlModel {
     @Column(name = "observations", nullable = true)
     open var observations: String? = null
 
+    @Column(name = "has_been_done", nullable = true)
+    open var hasBeenDone: Boolean? = false
+
     @OneToMany(
         cascade = [CascadeType.ALL],
         fetch = FetchType.LAZY,

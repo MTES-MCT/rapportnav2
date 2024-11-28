@@ -23,6 +23,7 @@ class ControlSecurityModel(
         unitHasConfirmed = unitHasConfirmed,
         unitShouldConfirm = unitShouldConfirm,
         observations = observations,
+        hasBeenDone = hasBeenDone,
         infractions = infractions?.map { it.toInfractionEntity() }
     )
 
@@ -35,6 +36,7 @@ class ControlSecurityModel(
             this.unitHasConfirmed = control.unitHasConfirmed
             this.unitShouldConfirm = control.unitShouldConfirm
             this.observations = control.observations
+            this.hasBeenDone = control.hasBeenDone
         }
 
         fun fromControlSecurityEntity(control: ControlSecurityEntity): ControlSecurityModel {
