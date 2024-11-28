@@ -39,11 +39,11 @@ data class AEMIllegalFish(
         }
 
         fun getNbrOfInfraction(fishActions: List<ExtendedFishActionEntity?>): Double {
-            return fishActions.map { it?.controlAction?.action }.fold(0.0) { acc, c ->
-                acc.plus(c?.gearInfractions?.fold(0) { a, n -> a.plus(n.natinf ?: 0) } ?: 0)
-                    .plus(c?.otherInfractions?.fold(0) { a, n -> a.plus(n.natinf ?: 0) } ?: 0)
-                    .plus(c?.speciesInfractions?.fold(0) { a, n -> a.plus(n.natinf ?: 0) } ?: 0)
-                    .plus(c?.logbookInfractions?.fold(0) { a, n -> a.plus(n.natinf ?: 0) } ?: 0)
+            return fishActions.filterNotNull().map { it.controlAction?.action }.fold(0.0) { acc, c ->
+                acc.plus(c?.gearInfractions?.count { it.natinf != null } ?: 0)
+                    .plus(c?.otherInfractions?.count { it.natinf != null } ?: 0)
+                    .plus(c?.speciesInfractions?.count { it.natinf != null } ?: 0)
+                    .plus(c?.logbookInfractions?.count { it.natinf != null } ?: 0)
             };
         }
 
