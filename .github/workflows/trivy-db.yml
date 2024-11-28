@@ -34,7 +34,7 @@ jobs:
       - name: Run Trivy on Postgres image
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: "postgres:15.8-alpine"
+          image-ref: "postgres:15.10-alpine"
           format: "sarif"
           output: "postgres-trivy-results.sarif"
           severity: "LOW,MEDIUM,HIGH,CRITICAL"

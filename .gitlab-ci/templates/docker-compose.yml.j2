@@ -21,7 +21,7 @@ services:
         max-size: "1024m"
 
   db:
-    image: "{{ nexus_proxy }}/postgres:15.8-alpine"
+    image: "{{ nexus_proxy }}/postgres:15.10-alpine"
     volumes:
       - db:/var/lib/postgresql/data
     restart: always

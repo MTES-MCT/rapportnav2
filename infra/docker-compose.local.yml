@@ -28,7 +28,7 @@ services:
       - ../frontend:/tmp/frontend
 
   db:
-    image: postgres:15.8-alpine
+    image: postgres:15.10-alpine
     ports:
       - "5432:5432"
     environment:
