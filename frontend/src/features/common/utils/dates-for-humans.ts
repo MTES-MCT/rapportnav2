@@ -13,6 +13,7 @@ const SHORT_TIME = 'HH:mm'
 const EMPTY_SHORT_TIME = '--:--'
 const FRENCH_DAY_MONTH_YEAR_DATETIME = `${SHORT_DAY_MONTH} à ${SHORT_TIME}`
 const EMPTY_FRENCH_DAY_MONTH_YEAR_DATETIME = `${EMPTY_SHORT_DAY_MONTH} - ${EMPTY_SHORT_TIME}`
+const MISSION_ULAM_NAME_FORMAT = 'yyyy-MM/'
 
 type DateTypes = Date | string | undefined | null
 
@@ -51,11 +52,15 @@ const formatShortDate = (date: DateTypes): string => formatDate(date, SHORT_DAY_
 
 const formatTime = (date: DateTypes): string => formatDate(date, SHORT_TIME, EMPTY_SHORT_TIME)
 
+const formatDateFormMissionUlamName = (date: DateTypes): string =>
+  formatDate(date, MISSION_ULAM_NAME_FORMAT, EMPTY_FRENCH_DAY_MONTH_YEAR)
+
 export {
   formatDateForMissionName,
   formatDateForFrenchHumans,
   formatDateTimeForFrenchHumans,
   formatShortDate,
-  formatTime
+  formatTime,
+  formatDateFormMissionUlamName
 }
 export * from 'date-fns'

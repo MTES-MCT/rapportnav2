@@ -42,7 +42,6 @@ export const MissionListPageHeaderWrapper: React.FC<MissionListHeaderWrapperProp
               <Button
                 accent={Accent.SECONDARY}
                 onClick={handleLogout}
-                Icon={Icon.Logout}
                 style={{ marginLeft: 8, marginRight: 4 }}
               >
                 Logout
