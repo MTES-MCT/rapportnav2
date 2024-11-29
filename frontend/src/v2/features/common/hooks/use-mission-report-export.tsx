@@ -5,7 +5,7 @@ import {
   useLazyExportMissionReports
 } from '../services/use-lazy-export-mission-reports.tsx'
 import { BLOBTYPE, useDownloadFile } from './use-download-file.tsx'
-import { ExportMode } from '../types/export-types.ts'
+import { ExportMode } from '../types/mission-export-types.ts'
 
 interface ExportMissionHook {
   loading: boolean

@@ -1,13 +1,11 @@
 import { Mission } from '@common/types/mission-types.ts'
 import React from 'react'
-import { Accent, Button, Icon, THEME } from '@mtes-mct/monitor-ui'
+import { Accent, Button, ButtonProps, Icon, THEME } from '@mtes-mct/monitor-ui'
 import GearIcon from '@rsuite/icons/Gear'
 import { useMissionAEMExport } from '../../hooks/use-mission-aem-export.tsx'
 
-interface ExportAEMButtonProps {
-  label?: string
+type ExportFileButtonProps = ButtonProps & {
   isLoading: boolean
-  onClick: () => void
 }
 
 const LoadingIcon = () => (
@@ -21,18 +19,19 @@ const LoadingIcon = () => (
   />
 )
 
-const ExportFileButton: React.FC<ExportAEMButtonProps> = ({ onClick, isLoading, label }) => {
+const ExportFileButton: React.FC<ExportFileButtonProps> = ({ onClick, isLoading, label, ...props }) => {
   const triggerExport = () => {
     onClick()
   }
 
   return (
     <Button
+      {...props}
       accent={Accent.PRIMARY}
       Icon={isLoading ? LoadingIcon : Icon.Download}
       style={{ position: 'absolute', right: '20px' }}
       onClick={() => triggerExport()}
-      data-testid={'aem-export-btn'}
+      data-testid={'export-btn'}
     >
       {label ? label : 'Exporter'}
     </Button>

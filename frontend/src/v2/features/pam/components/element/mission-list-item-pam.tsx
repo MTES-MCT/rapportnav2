@@ -14,7 +14,7 @@ import { formatMissionName } from '@features/pam/mission/utils/utils.ts'
 interface MissionListItemProps {
   mission?: Mission
   isSelected: boolean
-  onToggle: (index: number, isChecked?: boolean) => void
+  onToggle: (index?: number, isChecked?: boolean) => void
 }
 
 const ListItem = styled.div`
@@ -23,7 +23,7 @@ const ListItem = styled.div`
 `
 
 const MissionListItemPam: React.FC<MissionListItemProps> = ({ mission, isSelected, onToggle }) => {
-  const bordee = !mission?.generalInfo?.serviceId ? '--' : mission?.generalInfo.serviceId % 2 === 0 ? 'B' : 'A'
+  const crewNumber = !mission?.generalInfo?.serviceId ? '--' : mission?.generalInfo.serviceId % 2 === 0 ? 'B' : 'A'
 
   return (
     <ListItem data-testid="mission-list-item-with-hover">
@@ -55,7 +55,7 @@ const MissionListItemPam: React.FC<MissionListItemProps> = ({ mission, isSelecte
           <Text as={'h3'}>{formatDateForFrenchHumans(mission?.endDateTimeUtc)}</Text>
         </FlexboxGrid.Item>
 
-        <FlexboxGrid.Item colspan={2} data-testid={'mission-list-item-end_date'}>
+        <FlexboxGrid.Item colspan={2} data-testid={'mission-list-item-crew'}>
           <Text
             as={'h3'}
             weight={'bold'}
@@ -66,11 +66,11 @@ const MissionListItemPam: React.FC<MissionListItemProps> = ({ mission, isSelecte
               borderBottom: 0
             }}
           >
-            {bordee}
+            {crewNumber}
           </Text>
         </FlexboxGrid.Item>
 
-        <FlexboxGrid.Item colspan={1} data-testid={'mission-list-item-end_date'}>
+        <FlexboxGrid.Item colspan={1}>
           <Text as={'h3'} style={{ textAlign: 'center' }}></Text>
         </FlexboxGrid.Item>
 
@@ -78,14 +78,14 @@ const MissionListItemPam: React.FC<MissionListItemProps> = ({ mission, isSelecte
           <MissionStatusTag status={mission?.status} />
         </FlexboxGrid.Item>
 
-        <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-completeness'}>
+        <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-mission_completeness'}>
           <MissionCompletenessForStatsTag
             completenessForStats={mission?.completenessForStats}
             missionStatus={mission?.status}
           />
         </FlexboxGrid.Item>
 
-        <FlexboxGrid.Item colspan={1} data-testid={'mission-list-item-end_date'}>
+        <FlexboxGrid.Item colspan={1}>
           <Text as={'h3'} style={{ textAlign: 'center' }}></Text>
         </FlexboxGrid.Item>
 

@@ -8,7 +8,8 @@ import MissionListExportDialog, { LoadingIcon } from './mission-list-export.tsx'
 import { useMissionAEMExport } from '../../../common/hooks/use-mission-aem-export.tsx'
 import Text from '@common/components/ui/text.tsx'
 import { useMissionReportExport } from '../../../common/hooks/use-mission-report-export.tsx'
-import { ExportMode, ExportReportType } from '../../../common/types/export-types.ts'
+import { ExportMode, ExportReportType } from '../../../common/types/mission-export-types.ts'
+import { getMonthName } from '@common/utils/dates-for-humans.ts'
 
 interface MissionListPamProps {
   missions?: Mission[]
@@ -28,14 +29,6 @@ const groupMissionsByMonth = (missions: Mission[]) => {
   })
 
   return Object.entries(grouped).sort(([a], [b]) => a.localeCompare(b)) // Sort by monthKey
-}
-
-// Helper to format month name
-const getMonthName = (monthKey: string) => {
-  const [year, month] = monthKey.split('-').map(Number)
-  const date = new Date(year, month, 1)
-  const monthName = new Intl.DateTimeFormat('fr-FR', { month: 'long' }).format(date)
-  return monthName.charAt(0).toUpperCase() + monthName.slice(1) // Capitalize first letter
 }
 
 const MissionListPam: React.FC<MissionListPamProps> = ({ missions, dateRangeNavigator }) => {

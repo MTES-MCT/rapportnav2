@@ -7,11 +7,8 @@ import { getOpenByText } from '../../../common/hooks/use-mission-tag.tsx'
 import GearIcon from '@rsuite/icons/Gear'
 import some from 'lodash/some'
 import Text from '@common/components/ui/text.tsx'
-import { ExportReportType } from '../../../common/types/export-types.ts'
-
-export const LoadingIcon = () => (
-  <GearIcon spin width={16} height={16} color={THEME.color.white} style={{ marginRight: '0.1rem 0.5rem 0.1rem 0' }} />
-)
+import { ExportReportType } from '../../../common/types/mission-export-types.ts'
+import ExportFileButton from '../../../common/components/elements/export-file-button.tsx'
 
 type MissionListExportDialogProps = {
   availableMissions: Mission[]
@@ -132,15 +129,13 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
         >
           Annuler
         </Button>
-        <Button
-          size={Size.NORMAL}
-          Icon={exportInProgress ? LoadingIcon : Icon.Download}
-          accent={Accent.PRIMARY}
+        <ExportFileButton
           onClick={() => onExport()}
           disabled={(!exportAsZip && !mainMissionId) || exportInProgress}
-        >
-          Exporter
-        </Button>
+          isLoading={exportInProgress}
+          label={'Exporter'}
+          accent={Accent.PRIMARY}
+        />
       </Dialog.Action>
     </Dialog>
   )

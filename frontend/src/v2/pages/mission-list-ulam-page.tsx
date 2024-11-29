@@ -13,7 +13,7 @@ import ExportFileButton from '../features/common/components/elements/export-file
 import Text from '@common/components/ui/text.tsx'
 import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
 import { Mission } from '@common/types/mission-types.ts'
-import { ExportMode, ExportReportType } from '../features/common/types/export-types.ts'
+import { ExportMode, ExportReportType } from '../features/common/types/mission-export-types.ts'
 
 const SIDEBAR_ITEMS = [
   {

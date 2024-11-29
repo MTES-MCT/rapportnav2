@@ -9,7 +9,7 @@ import {
 } from '@apollo/client'
 import { MissionExport } from '@common/types/mission-types'
 import * as Sentry from '@sentry/react'
-import { ExportMode, ExportReportType } from '../types/export-types.ts'
+import { ExportMode, ExportReportType } from '../types/mission-export-types.ts'
 
 export type MissionPatrolExportMutationArgs = {
   missionIds?: number[]

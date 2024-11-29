@@ -2,42 +2,18 @@ import { expect, vi } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '../../../../../../test-utils.tsx'
 import ExportFileButton from '../export-file-button.tsx'
 import { Mission } from '@common/types/mission-types.ts'
-import * as MissionAEMExportModule from '../../../services/use-lazy-mission-aem-export.tsx'
 
-const exportLazyAEMMock = vi.fn()
 const missions: Mission[] = [{ id: 1 }]
 
 describe('ExportAEMButton Component', () => {
-  beforeEach(() => {
-    vi.spyOn(MissionAEMExportModule, 'useLazyMissionAEMExportMutation').mockReturnValue([
-      exportLazyAEMMock,
-      { error: undefined }
-    ])
-
-    exportLazyAEMMock.mockResolvedValue({
-      data: {
-        missionAEMExportV2: {
-          fileName: 'test.ods',
-          fileContent: 'base64EncodedContent'
-        }
-      },
-      loading: false,
-      error: null
-    })
-  })
-
-  afterEach(() => {
-    vi.clearAllMocks()
-    vi.resetAllMocks()
-  })
-
   test('triggers export lazy mutation on button click', async () => {
-    render(<ExportFileButton missions={missions} />)
+    const mock = vi.fn()
+    render(<ExportFileButton missions={missions} onClick={mock} />)
 
-    const exportButton = screen.getByTestId('aem-export-btn')
+    const exportButton = screen.getByTestId('export-btn')
     fireEvent.click(exportButton)
 
-    await waitFor(() => expect(exportLazyAEMMock).toHaveBeenCalled())
+    await waitFor(() => expect(mock).toHaveBeenCalled())
   })
 
   test('displays correct label when provided', () => {
@@ -46,17 +22,12 @@ describe('ExportAEMButton Component', () => {
   })
 
   test('handles error scenario gracefully', async () => {
-    exportLazyAEMMock.mockResolvedValueOnce({
-      data: null,
-      loading: false,
-      error: { message: 'An error occurred' }
-    })
-
-    render(<ExportFileButton missions={missions} />)
-    const exportButton = screen.getByTestId('aem-export-btn')
+    const mock = vi.fn()
+    render(<ExportFileButton missions={missions} onClick={mock} />)
+    const exportButton = screen.getByTestId('export-btn')
     fireEvent.click(exportButton)
 
-    await waitFor(() => expect(exportLazyAEMMock).toHaveBeenCalled())
+    await waitFor(() => expect(mock).toHaveBeenCalled())
     expect(screen.queryByTestId('loading-icon')).not.toBeInTheDocument()
   })
 })
