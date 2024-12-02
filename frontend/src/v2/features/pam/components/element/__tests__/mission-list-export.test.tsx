@@ -112,7 +112,7 @@ describe('MissionListExportDialog', () => {
 
       expect(
         screen.getByText(
-          'Attention, les missions suivantes ne seront pas exportées car le statut de la donnée est "à compléter":'
+          'Attention, les missions suivantes ne seront pas exportées car le statut de la donnée est "à compléter" :'
         )
       ).toBeInTheDocument()
       expect(
@@ -128,7 +128,7 @@ describe('MissionListExportDialog', () => {
 
       expect(
         screen.queryByText(
-          'Attention, les missions suivantes ne seront pas exportées car le statut de la donnée est "à compléter":'
+          'Attention, les missions suivantes ne seront pas exportées car le statut de la donnée est "à compléter" :'
         )
       ).not.toBeInTheDocument()
     })

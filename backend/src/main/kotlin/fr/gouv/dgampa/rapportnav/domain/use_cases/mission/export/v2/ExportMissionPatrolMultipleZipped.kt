@@ -43,13 +43,7 @@ class ExportMissionPatrolMultipleZipped(
 
                 // only keep complete missions
                 if (mission != null && mission.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE) {
-//                val output = exportMissionPatrolSingle.createFile(mission = mission)
-                    val output = MissionExportEntity(
-                        fileName = "rapport-de-patrouille${mission.id}.odt",
-                        fileContent = "UEsDBBQABgAIAAAAIQCzgd16AAAAAAAAAAAAAAAACwAJAG1pbWV0eXBlYXBwbGljYXRpb24vdm5kLm9hc2lzLm9wZW5kb2N1bWVu", // odt
-                    )
-//                filesToZip.add(File(output?.fileContent.orEmpty()))
-//                val decodedContent = Base64.getDecoder().decode(output?.fileContent)
+                    val output = exportMissionPatrolSingle.createFile(mission = mission)
                     output?.let { filesToZip.add(it) }
                 } else {
                     logger.info("ExportMissionPatrolMultipleZipped - ignoring mission id=${mission?.id} because incomplete for stats")

@@ -88,7 +88,7 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
                 <div style={{ marginTop: '1rem' }}>
                   <Text as={'h3'} color={THEME.color.maximumRed} fontStyle={'italic'} weight={'medium'}>
                     Attention, les missions suivantes ne seront pas exportées car le statut de la donnée est "à
-                    compléter":
+                    compléter" :
                   </Text>
                   {availableMissions
                     .filter((m: Mission) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.COMPLETE)
