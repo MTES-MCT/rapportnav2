@@ -5,7 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsSta
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import org.slf4j.LoggerFactory
-import java.io.File
 
 @UseCase
 class ExportMissionAEMMultipleZipped(
@@ -26,7 +25,7 @@ class ExportMissionAEMMultipleZipped(
      */
     fun execute(missionIds: List<Int>): MissionExportEntity? {
         try {
-            val filesToZip = mutableListOf<File>();
+            val filesToZip = mutableListOf<MissionExportEntity>();
 
             // retrieve missions
             for (missionId in missionIds) {
@@ -35,7 +34,8 @@ class ExportMissionAEMMultipleZipped(
                 // only keep complete missions
                 if (mission != null && mission.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE) {
                     val output = exportMissionAEMSingle.createFile(mission = mission)
-                    filesToZip.add(File(output?.fileContent.orEmpty()))
+                    output?.let { filesToZip.add(it) }
+
                 } else {
                     logger.info("ExportMissionAEMMultipleZipped - ignoring mission id=${mission?.id} because incomplete for stats")
                 }

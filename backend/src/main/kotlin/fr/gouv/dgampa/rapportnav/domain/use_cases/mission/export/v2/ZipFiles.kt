@@ -1,11 +1,14 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.infrastructure.utils.Base64Converter
-import fr.gouv.dgampa.rapportnav.infrastructure.utils.FileUtils
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import org.slf4j.LoggerFactory
-import java.io.File
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.util.*
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
 
 @UseCase
 class ZipFiles {
@@ -19,7 +22,7 @@ class ZipFiles {
      * @return The base64 encoded representation of a zip
      * @throws IOException if zipping or base64 conversion fails
      */
-    fun execute(files: List<File>): String {
+    fun execute(files: List<MissionExportEntity>): String {
         logger.info("ZipFiles - start")
 
         if (files.isEmpty()) {
@@ -27,42 +30,30 @@ class ZipFiles {
             throw IllegalArgumentException("File list cannot be empty")
         }
 
-        val zipFile = File("tmp_output.zip")
         try {
-            logger.info("Creating zip file from ${files.size} files")
-            val fileUtils = FileUtils()
-            val outputZipFile = fileUtils.zip(zipFile, files)
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            ZipOutputStream(byteArrayOutputStream).use { zipOut ->
+                files.forEach { fileEntity ->
+                    val decodedBytes = Base64.getDecoder().decode(fileEntity.fileContent)
+                    val zipEntry = ZipEntry(fileEntity.fileName) // Use the fileName from the MissionExportEntity
+                    zipOut.putNextEntry(zipEntry)
 
-            logger.info("Converting zip file to base64")
-            val base64Content = Base64Converter().convertToBase64(outputZipFile.absolutePath)
-
-            logger.info("Deleting input files")
-            for (file in files) {
-                val isFileDeleted = file.delete()
-                if (!isFileDeleted) {
-                    logger.warn("Failed to delete file: ${file.name}")
+                    ByteArrayInputStream(decodedBytes).use { byteArrayInputStream ->
+                        byteArrayInputStream.copyTo(zipOut)
+                    }
+                    zipOut.closeEntry()
                 }
             }
 
-            val isZipFileDeleted = outputZipFile.delete()
-            if (!isZipFileDeleted) {
-                logger.warn("Failed to delete temporary zip file: ${outputZipFile.name}")
-            }
-
-            logger.info("ZipFiles - completed successfully")
+            // Return the base64-encoded zip file content
+            val base64Content = Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray())
             return base64Content
-
         } catch (e: IOException) {
             logger.error("Error occurred during zipping or base64 conversion", e)
             throw IOException("Failed to zip files or convert to base64", e)
         } catch (e: Exception) {
             logger.error("Unexpected error during file processing", e)
             throw RuntimeException("Unexpected error in ZipFiles", e)
-        } finally {
-            // Ensure the temporary zip file is deleted even in case of errors
-            if (zipFile.exists() && !zipFile.delete()) {
-                logger.warn("Failed to clean up temporary zip file: ${zipFile.name}")
-            }
         }
     }
 }

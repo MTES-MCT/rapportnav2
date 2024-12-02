@@ -61,7 +61,7 @@ const formatYear = (date: DateTypes): string => formatDate(date, YEAR, '----')
 // Helper to format month name
 const getMonthName = (monthKey: string) => {
   const [year, month] = monthKey.split('-').map(Number)
-  const date = new Date(year, month, 1)
+  const date = new Date(year, month - 1, 1) // Subtract 1 from month to correct for 0-indexed month
   const monthName = new Intl.DateTimeFormat('fr-FR', { month: 'long' }).format(date)
   return monthName.charAt(0).toUpperCase() + monthName.slice(1) // Capitalize first letter
 }

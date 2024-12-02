@@ -19,7 +19,7 @@ export function useMissionReportExport(): ExportMissionHook {
 
   const exportMissionReport = async (args: MissionPatrolExportMutationArgs) => {
     setLoading(true)
-    const { data, error } = await getMissionReport({ variables: args })
+    const { data, error } = await getMissionReport({ variables: args, fetchPolicy: 'network-only' })
 
     if (error) {
       setLoading(false)
