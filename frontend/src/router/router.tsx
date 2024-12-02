@@ -8,6 +8,7 @@ import MissionsPage from '../pages/missions-page.tsx'
 import SignUp from '../pages/signup.tsx'
 import Home2 from '../v2/pages/home.tsx'
 import MissionListUlamPage from '../v2/pages/mission-list-ulam-page.tsx'
+import MissionListPamPage from '../v2/pages/mission-list-pam-page.tsx'
 import MissionPamPage from '../v2/pages/mission-pam-page.tsx'
 import MissionUlamPage from '../v2/pages/mission-ulam-page.tsx'
 
@@ -68,6 +69,15 @@ export const router = sentryCreateBrowserRouter([
     element: (
       <AuthGuard>
         <MissionUlamPage />
+      </AuthGuard>
+    ),
+    errorElement: <ErrorPage />
+  },
+  {
+    path: PAM_V2_HOME_PATH,
+    element: (
+      <AuthGuard>
+        <MissionListPamPage />
       </AuthGuard>
     ),
     errorElement: <ErrorPage />

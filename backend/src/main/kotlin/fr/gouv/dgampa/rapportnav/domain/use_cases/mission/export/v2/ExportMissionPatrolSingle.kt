@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
+package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
@@ -11,6 +11,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.Mission
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionStatusRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsForTimeline
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.GetInfoAboutNavAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.GetMissionOperationalSummary
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.MapStatusDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
@@ -32,7 +36,7 @@ import kotlin.io.path.Path
 import kotlin.time.DurationUnit
 
 @UseCase
-class ExportMissionRapportPatrouille(
+class ExportMissionPatrolSingle(
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val agentsCrewByMissionId: GetAgentsCrewByMissionId,
     private val getMission: GetMission,
@@ -49,27 +53,37 @@ class ExportMissionRapportPatrouille(
     @Value("\${rapportnav.rapport-patrouille.tmp_odt.path}") private val docTmpODTPath: String,
 ) {
 
-    private val logger = LoggerFactory.getLogger(ExportMissionRapportPatrouille::class.java)
+    private val logger = LoggerFactory.getLogger(ExportMissionPatrolSingle::class.java)
 
     private val getMissionOperationalSummary = GetMissionOperationalSummary()
 
-    fun exportOdt(missionId: Int): MissionExportEntity? {
+    /**
+     * Returns a Rapport de Patrouille for one single mission
+     * There will be one file for this mission
+     *
+     * @param missionId a Mission Ids
+     * @return a MissionExportEntity with file name and content
+     */
+    fun execute(missionId: Int): MissionExportEntity? {
+        val mission: MissionEntity? = getMission.execute(missionId = missionId)
+        if (mission == null) {
+            logger.error("[RapportDePatrouille] - Mission not found for missionId: $missionId")
+            return null
+        }
+        return createFile(mission)
+    }
 
+    fun createFile(mission: MissionEntity?): MissionExportEntity? {
+        if (mission == null) return null
         try {
-            val mission: MissionEntity? = getMission.execute(missionId = missionId)
-            if (mission == null) {
-                logger.error("[RapportDePatrouille] - Mission not found for missionId: $missionId")
-                return null
-            }
 
-            // to combine
-            val generalInfo: MissionGeneralInfoEntity? = getMissionGeneralInfoByMissionId.execute(missionId)
+            val generalInfo: MissionGeneralInfoEntity? = getMissionGeneralInfoByMissionId.execute(mission.id)
             val service = getServiceById.execute(generalInfo?.serviceId)
 
 
             val agentsCrew: List<MissionCrewEntity> =
-                agentsCrewByMissionId.execute(missionId = missionId, commentDefaultsToString = true)
-            val statuses = navActionStatus.findAllByMissionId(missionId = missionId).sortedBy { it.startDateTimeUtc }
+                agentsCrewByMissionId.execute(missionId = mission.id, commentDefaultsToString = true)
+            val statuses = navActionStatus.findAllByMissionId(missionId = mission.id).sortedBy { it.startDateTimeUtc }
                 .map { it.toActionStatusEntity() }
 
             val durations = mapStatusDurations.execute(mission, statuses, DurationUnit.HOURS)
@@ -89,7 +103,6 @@ class ExportMissionRapportPatrouille(
                 durationUnit = DurationUnit.HOURS
             )
 
-            // to combine
             val timeline = formatActionsForTimeline.formatTimeline(mission.actions)
 
             val rescueInfo = getInfoAboutNavAction.execute(
@@ -133,7 +146,6 @@ class ExportMissionRapportPatrouille(
                 )
             }
 
-            // to combine
             // Bilan opérationnel
             val proFishingSeaSummary = getMissionOperationalSummary.getProFishingSeaSummary(mission)
             val proFishingLandSummary = getMissionOperationalSummary.getProFishingLandSummary(mission)
@@ -372,7 +384,6 @@ class ExportMissionRapportPatrouille(
                 if (paragraph.text.contains("\${timeline}")) {
                     // Insert the dynamic table where the placeholder is found
                     insertTimelineAtParagraph(paragraph, timeline)
-                    val a = 0
                     break
                 }
             }
@@ -395,7 +406,7 @@ class ExportMissionRapportPatrouille(
 
 
             return MissionExportEntity(
-                fileName = "Rapport de patrouille ${service?.name ?: ""} ${formatDateTime.formatDate(mission.startDateTimeUtc)}.odt",
+                fileName = "rapport-patrouille_${service?.name ?: ""}_${formatDateTime.formatDate(mission.startDateTimeUtc)}.odt",
                 fileContent = base64Content
             )
 
@@ -540,7 +551,7 @@ class ExportMissionRapportPatrouille(
         table.setWidth("100%")
 
         // Remove the initial empty row that is automatically created
-        if (table.rows.size > 0) {
+        if (table.rows.isNotEmpty()) {
             table.removeRow(0)
         }
 

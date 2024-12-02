@@ -12,7 +12,7 @@ import MissionPageWrapper from '../features/common/components/layout/mission-pag
 import MissionGeneralInformationHeader from '../features/common/components/ui/mission-general-information-header.tsx'
 import MissionPageError from '../features/common/components/ui/mission-page-error.tsx'
 import MissionPageLoading from '../features/common/components/ui/mission-page-loading.tsx'
-import { useMissionExport } from '../features/common/hooks/use-mission-export.tsx'
+import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
 import { useMissionExcerptQuery } from '../features/common/services/use-mission-excerpt.tsx'
 import MissionActionHeader from '../features/mission-action/components/elements/mission-action-header.tsx'
 import MissionTimelineHeaderPam from '../features/pam/components/element/mission-timeline-header-pam.tsx'
@@ -25,7 +25,7 @@ const MissionPamPage: React.FC = () => {
   const { navigateAndResetCache } = useAuth()
   const exitMission = async () => navigateAndResetCache(ULAM_V2_HOME_PATH)
 
-  const { exportMission, exportIsLoading } = useMissionExport(missionId)
+  const { exportMission, exportIsLoading } = useMissionReportExport(missionId)
   const { loading, error, data: mission } = useMissionExcerptQuery(missionId)
 
   const lastSyncText = lastSync ? formatTime(new Date(parseInt(lastSync!!, 10))) : undefined
