@@ -21,14 +21,15 @@ const groupMissionsByMonth = (missions: Mission[]) => {
 
   missions.forEach(mission => {
     const startDate = new Date(mission.startDateTimeUtc)
-    const monthKey = `${startDate.getFullYear()}-${startDate.getMonth()}` // Unique key for each month
+    const monthKey = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, '0')}`
     if (!grouped[monthKey]) {
       grouped[monthKey] = []
     }
     grouped[monthKey].push(mission)
   })
 
-  return Object.entries(grouped).sort(([a], [b]) => a.localeCompare(b)) // Sort by monthKey
+  // Sort by monthKey in descending order and return as array of [key, missions]
+  return Object.entries(grouped).sort(([a], [b]) => b.localeCompare(a))
 }
 
 const MissionListPam: React.FC<MissionListPamProps> = ({ missions, dateRangeNavigator }) => {

@@ -120,22 +120,34 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
           </Stack.Item>
         </Stack>
       </Dialog.Body>
-      <Dialog.Action style={{ justifyContent: 'flex-end', paddingRight: '1.5rem' }}>
-        <Button
-          accent={Accent.SECONDARY}
-          size={Size.NORMAL}
-          onClick={toggleDialog}
-          Icon={() => <svg height={20} width={0} />}
+      <Dialog.Action>
+        <Stack
+          direction={'row'}
+          style={{ width: '100%' }}
+          justifyContent={'flex-end'}
+          alignItems={'center'}
+          spacing={'1rem'}
         >
-          Annuler
-        </Button>
-        <ExportFileButton
-          onClick={() => onExport()}
-          disabled={(!exportAsZip && !mainMissionId) || exportInProgress}
-          isLoading={exportInProgress}
-          label={'Exporter'}
-          accent={Accent.PRIMARY}
-        />
+          <Stack.Item>
+            <Button
+              accent={Accent.SECONDARY}
+              size={Size.NORMAL}
+              onClick={toggleDialog}
+              Icon={() => <svg height={20} width={0} />}
+            >
+              Annuler
+            </Button>
+          </Stack.Item>
+          <Stack.Item>
+            <ExportFileButton
+              onClick={() => onExport()}
+              disabled={(!exportAsZip && !mainMissionId) || exportInProgress}
+              isLoading={exportInProgress}
+              label={'Exporter'}
+              accent={Accent.PRIMARY}
+            />
+          </Stack.Item>
+        </Stack>
       </Dialog.Action>
     </Dialog>
   )
