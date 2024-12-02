@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import org.slf4j.LoggerFactory
@@ -24,35 +25,47 @@ class ExportMissionPatrolMultipleZipped(
      * @return a MissionExportEntity with file name and content
      */
     fun execute(missionIds: List<Int>): MissionExportEntity? {
+        if (missionIds.isEmpty()) return null
+
+        var mission: MissionEntity? = null
+        val filesToZip = mutableListOf<File>();
+        var output: String? = null
+
+        // retrieve missions
+        for (missionId in missionIds) {
+            try {
+                mission = getMissionById.execute(missionId)
+            } catch (e: Exception) {
+                logger.error("[ExportMissionPatrolMultipleZipped] - error retrieving mission id=$missionId", e)
+                return null
+            }
+        }
         try {
-            if (missionIds.isEmpty()) return null
 
-            val filesToZip = mutableListOf<File>();
-
-            // retrieve missions
-            for (missionId in missionIds) {
-                val mission = getMissionById.execute(missionId)
-
-                // only keep complete missions
-                if (mission != null && mission.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE) {
-                    val output = exportMissionPatrolSingle.createFile(mission = mission)
-                    filesToZip.add(File(output?.fileContent.orEmpty()))
-
-                }
+            // only keep complete missions
+            if (mission != null && mission.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE) {
+                val output = exportMissionPatrolSingle.createFile(mission = mission)
+                filesToZip.add(File(output?.fileContent.orEmpty()))
+            } else {
+                logger.info("ExportMissionPatrolMultipleZipped - ignoring mission id=${mission?.id} because incomplete for stats")
             }
 
             // zip all files together
-            val output = zipFiles.execute(filesToZip)
+            output = zipFiles.execute(filesToZip)
 
-            return MissionExportEntity(
+        } catch (e: Exception) {
+            logger.error("[ExportMissionPatrolMultipleZipped] - error building zipped mission patrol export", e)
+            return null
+        }
+
+        return output?.let {
+            MissionExportEntity(
                 fileName = "rapports-patrouille.zip",
                 fileContent = output
             )
-
-        } catch (e: Exception) {
-            logger.error("[ExportMissionPatrolMultipleZipped] - error building zipped mission patrol export ${e.message}")
-            return null
         }
+
+
     }
 
 }

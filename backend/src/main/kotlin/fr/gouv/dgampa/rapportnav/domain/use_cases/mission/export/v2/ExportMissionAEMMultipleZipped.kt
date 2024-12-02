@@ -36,7 +36,8 @@ class ExportMissionAEMMultipleZipped(
                 if (mission != null && mission.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE) {
                     val output = exportMissionAEMSingle.createFile(mission = mission)
                     filesToZip.add(File(output?.fileContent.orEmpty()))
-
+                } else {
+                    logger.info("ExportMissionAEMMultipleZipped - ignoring mission id=${mission?.id} because incomplete for stats")
                 }
             }
 
