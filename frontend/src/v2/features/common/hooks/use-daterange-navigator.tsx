@@ -10,7 +10,7 @@ function useDateRangeNavigator(startDateTimeUtc, timeframe) {
     if (timeframe === 'month') {
       setCurrentDate(prevDate => startOfMonth(subMonths(prevDate, 1)))
     } else if (timeframe === 'year') {
-      setCurrentDate(prevDate => subDays(startOfYear(subYears(prevDate, 1)), 30))
+      setCurrentDate(prevDate => startOfYear(subYears(prevDate, 1)))
     }
   }
 
@@ -18,7 +18,7 @@ function useDateRangeNavigator(startDateTimeUtc, timeframe) {
     if (timeframe === 'month') {
       setCurrentDate(prevDate => startOfMonth(addMonths(prevDate, 1)))
     } else if (timeframe === 'year') {
-      setCurrentDate(prevDate => subDays(startOfYear(addYears(prevDate, 1)), 30))
+      setCurrentDate(prevDate => startOfYear(addYears(prevDate, 1)))
     }
   }
 

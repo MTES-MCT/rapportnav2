@@ -42,58 +42,46 @@ const MissionListPamPage: FC = () => {
     setQueryParams(newDateRange)
   }
 
-  if (loading) {
-    return (
-      <Loader
-        center={true}
-        size={'md'}
-        vertical={true}
-        content={<Text as={'h3'}>Missions en cours de chargement</Text>}
-      />
-    )
-  }
-
-  if (data) {
-    return (
-      <MissionListPageWrapper
-        header={<MissionListPageHeaderWrapper title={<MissionListUlamTitle />} />}
-        sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={SIDEBAR_ITEMS} />}
-        footer={<></>}
-      >
-        <Stack direction={'column'} style={{ width: '100%' }}>
-          <Stack.Item style={{ width: '100%' }}>
-            <Stack
-              direction={'row'}
-              spacing={'0.5rem'}
-              alignItems={'center'}
-              style={{ padding: '0 15rem', marginTop: '5rem' }}
-            >
-              <Stack.Item alignSelf={'baseline'}>
-                <Icon.MissionAction size={32} style={{ marginTop: '8px' }} />
-              </Stack.Item>
-              <Stack.Item>
-                <Text as={'h1'} style={{ fontSize: '32px' }}>
-                  Mes rapports
-                </Text>
-              </Stack.Item>
-            </Stack>
-          </Stack.Item>
-          <Stack.Item style={{ width: '100%' }}>
-            <MissionListPam
-              missions={data}
-              dateRangeNavigator={
-                <MissionListDateRangeNavigator
-                  startDateTimeUtc={queryParams.startDateTimeUtc}
-                  onUpdateCurrentDate={handleUpdateDateTime}
-                  timeframe={'year'}
-                />
-              }
-            />
-          </Stack.Item>
-        </Stack>
-      </MissionListPageWrapper>
-    )
-  }
+  return (
+    <MissionListPageWrapper
+      header={<MissionListPageHeaderWrapper title={<MissionListUlamTitle />} />}
+      sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={SIDEBAR_ITEMS} />}
+      footer={<></>}
+    >
+      <Stack direction={'column'} style={{ width: '100%' }}>
+        <Stack.Item style={{ width: '100%' }}>
+          <Stack
+            direction={'row'}
+            spacing={'0.5rem'}
+            alignItems={'center'}
+            style={{ padding: '0 15rem', marginTop: '5rem' }}
+          >
+            <Stack.Item alignSelf={'baseline'}>
+              <Icon.MissionAction size={32} style={{ marginTop: '8px' }} />
+            </Stack.Item>
+            <Stack.Item>
+              <Text as={'h1'} style={{ fontSize: '32px' }}>
+                Mes rapports
+              </Text>
+            </Stack.Item>
+          </Stack>
+        </Stack.Item>
+        <Stack.Item style={{ width: '100%' }}>
+          <MissionListPam
+            loading={loading}
+            missions={data}
+            dateRangeNavigator={
+              <MissionListDateRangeNavigator
+                startDateTimeUtc={queryParams.startDateTimeUtc}
+                onUpdateCurrentDate={handleUpdateDateTime}
+                timeframe={'year'}
+              />
+            }
+          />
+        </Stack.Item>
+      </Stack>
+    </MissionListPageWrapper>
+  )
 }
 
 export default MissionListPamPage
