@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { addMonths, subMonths, startOfMonth, startOfYear, subYears, addYears } from 'date-fns'
+import { addMonths, subMonths, startOfMonth, startOfYear, subYears, addYears, subDays } from 'date-fns'
 import { formatMonthYear, formatYear } from '@common/utils/dates-for-humans.ts'
 
 function useDateRangeNavigator(startDateTimeUtc, timeframe) {
@@ -10,7 +10,7 @@ function useDateRangeNavigator(startDateTimeUtc, timeframe) {
     if (timeframe === 'month') {
       setCurrentDate(prevDate => startOfMonth(subMonths(prevDate, 1)))
     } else if (timeframe === 'year') {
-      setCurrentDate(prevDate => subMonths(startOfYear(subYears(prevDate, 1)), 1))
+      setCurrentDate(prevDate => subDays(startOfYear(subYears(prevDate, 1)), 30))
     }
   }
 
@@ -18,7 +18,7 @@ function useDateRangeNavigator(startDateTimeUtc, timeframe) {
     if (timeframe === 'month') {
       setCurrentDate(prevDate => startOfMonth(addMonths(prevDate, 1)))
     } else if (timeframe === 'year') {
-      const date = setCurrentDate(prevDate => subMonths(startOfYear(addYears(prevDate, 1)), 1))
+      setCurrentDate(prevDate => subDays(startOfYear(addYears(prevDate, 1)), 30))
     }
   }
 
