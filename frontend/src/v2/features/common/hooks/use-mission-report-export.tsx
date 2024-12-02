@@ -31,7 +31,6 @@ export function useMissionReportExport(): ExportMissionHook {
     } else if (data) {
       setLoading(false)
       const blobType = args.exportMode === ExportMode.MULTIPLE_MISSIONS_ZIPPED ? BLOBTYPE.ZIP : BLOBTYPE.ODT
-      debugger
       const file = (data as any)?.exportMissionReports
       await handleDownload(blobType, file as any)
     }

@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
+import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.Base64Converter
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.ExportExcelFile
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.OfficeConverter
@@ -18,6 +19,7 @@ import java.nio.file.StandardCopyOption
 class ExportMissionAEMSingle(
     private val getMission: GetMission,
     private val fillAEMExcelRow: FillAEMExcelRow,
+    private val formatDateTime: FormatDateTime,
     @Value("\${rapportnav.aem.template.path}") private val aemTemplatePath: String,
     @Value("\${rapportnav.aem.tmp_xlsx.path}") private val aemTmpXLSXPath: String,
     @Value("\${rapportnav.aem.tmp_ods.path}") private val aemTmpODSPath: String,
@@ -62,7 +64,7 @@ class ExportMissionAEMSingle(
                 logger.info("ODS file created and converted to Base64")
 
                 return MissionExportEntity(
-                    fileName = "tableaux-AEM-${mission.id}.ods",
+                    fileName = "tableau-AEM_${formatDateTime.formatDate(mission.startDateTimeUtc)}.ods",
                     fileContent = base64Content
                 )
             } else {

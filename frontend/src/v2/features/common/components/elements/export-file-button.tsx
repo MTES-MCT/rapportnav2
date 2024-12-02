@@ -25,6 +25,7 @@ const ExportFileButton: React.FC<ExportFileButtonProps> = ({ onClick, isLoading,
   return (
     <Button
       {...props}
+      role={'button'}
       accent={Accent.PRIMARY}
       Icon={isLoading ? LoadingIcon : Icon.Download}
       onClick={() => triggerExport()}

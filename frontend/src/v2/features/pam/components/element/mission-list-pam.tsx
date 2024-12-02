@@ -45,12 +45,14 @@ const MissionListPam: React.FC<MissionListPamProps> = ({ missions, loading, date
   }
 
   const triggerExport = async (missions: Mission[], variant: ExportReportType, zip: boolean) => {
-    debugger
     await exportMissionReport({
       missionIds: missions.map(mission => mission.id),
       exportMode: zip ? ExportMode.MULTIPLE_MISSIONS_ZIPPED : ExportMode.COMBINED_MISSIONS_IN_ONE,
       reportType: variant
     })
+    setShowExportDialog(false)
+    setSelectedMissionIds([])
+    setDialogVariant(undefined)
   }
 
   const toggleAll = (isChecked?: boolean) => {
@@ -130,37 +132,44 @@ const MissionListPam: React.FC<MissionListPamProps> = ({ missions, loading, date
                     <Stack.Item style={{ width: '100%' }}>
                       <MissionListHeaderPam />
                     </Stack.Item>
-
-                    {groupMissionsByMonth(missions).map(([monthKey, missions]) => (
-                      <>
-                        {/* Render Month Name */}
-                        <Stack.Item style={{ width: '100%' }}>
-                          <Stack direction={'row'}>
-                            <Stack.Item>
-                              <Tag accent={Accent.PRIMARY} style={{ minWidth: '50px' }}>
-                                <Text as={'h3'} weight={'bold'}>
-                                  {getMonthName(monthKey)}
-                                </Text>
-                              </Tag>
+                    <Stack.Item style={{ width: '100%' }}>
+                      <Stack
+                        direction={'column'}
+                        spacing={'0.2rem'}
+                        style={{ width: '100%', overflowY: 'auto', height: '50vh', minHeight: '50vh' }}
+                      >
+                        {groupMissionsByMonth(missions).map(([monthKey, missions]) => (
+                          <>
+                            {/* Render Month Name */}
+                            <Stack.Item style={{ width: '100%' }} key={monthKey}>
+                              <Stack direction={'row'}>
+                                <Stack.Item>
+                                  <Tag accent={Accent.PRIMARY} style={{ minWidth: '50px' }}>
+                                    <Text as={'h3'} weight={'bold'}>
+                                      {getMonthName(monthKey)}
+                                    </Text>
+                                  </Tag>
+                                </Stack.Item>
+                                <Stack.Item style={{ width: '100%' }}>
+                                  <Divider style={{ backgroundColor: THEME.color.charcoal, marginTop: '28px' }} />
+                                </Stack.Item>
+                              </Stack>
                             </Stack.Item>
-                            <Stack.Item style={{ width: '100%' }}>
-                              <Divider style={{ backgroundColor: THEME.color.charcoal, marginTop: '28px' }} />
-                            </Stack.Item>
-                          </Stack>
-                        </Stack.Item>
 
-                        {/* Render Missions for the Month */}
-                        {missions.map(mission => (
-                          <Stack.Item key={mission.id} style={{ width: '100%' }}>
-                            <MissionListItemPam
-                              mission={mission}
-                              isSelected={selectedMissionIds.indexOf(mission.id) !== -1}
-                              onToggle={toggleOne}
-                            />
-                          </Stack.Item>
+                            {/* Render Missions for the Month */}
+                            {missions.map(mission => (
+                              <Stack.Item key={mission.id} style={{ width: '100%' }}>
+                                <MissionListItemPam
+                                  mission={mission}
+                                  isSelected={selectedMissionIds.indexOf(mission.id) !== -1}
+                                  onToggle={toggleOne}
+                                />
+                              </Stack.Item>
+                            ))}
+                          </>
                         ))}
-                      </>
-                    ))}
+                      </Stack>
+                    </Stack.Item>
                   </Stack>
                 </>
               )}

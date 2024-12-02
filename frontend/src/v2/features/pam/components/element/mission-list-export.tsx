@@ -9,6 +9,7 @@ import some from 'lodash/some'
 import Text from '@common/components/ui/text.tsx'
 import { ExportReportType } from '../../../common/types/mission-export-types.ts'
 import ExportFileButton from '../../../common/components/elements/export-file-button.tsx'
+import { every } from 'lodash'
 
 type MissionListExportDialogProps = {
   availableMissions: Mission[]
@@ -38,6 +39,11 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
 
   const [exportAsZip, setExportAsZip] = useState<boolean>(options[0].value)
   const [mainMissionId, setMainMissionId] = useState<number | undefined>(undefined)
+
+  const exportButtonDisabled =
+    (!exportAsZip && !mainMissionId) ||
+    exportInProgress ||
+    every(availableMissions, (m: Mission) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.COMPLETE)
 
   const missionOptions = availableMissions.map((mission: Mission) => ({
     label: `${formatMissionName(mission.startDateTimeUtc)} - ${getOpenByText(mission.missionSource)} - ${mission.actions?.length ?? 0} action(s)`,
@@ -70,7 +76,11 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
 
   return (
     <Dialog>
-      <Dialog.Title style={{ border: '2px solid white' }}>{title}</Dialog.Title>
+      <Dialog.Title style={{ border: '2px solid white' }}>
+        <Text as={'h2'} color={THEME.color.white} style={{ textAlign: 'center' }}>
+          {title}
+        </Text>
+      </Dialog.Title>
       <Dialog.Body style={{ border: '2px solid white' }}>
         <Stack
           direction={'column'}
@@ -93,7 +103,7 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
                   {availableMissions
                     .filter((m: Mission) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.COMPLETE)
                     .map((m: Mission) => (
-                      <Text as={'h3'} color={THEME.color.maximumRed} fontStyle={'italic'} weight={'medium'}>
+                      <Text as={'h3'} color={THEME.color.maximumRed} fontStyle={'italic'} weight={'medium'} key={m.id}>
                         - {formatMissionName(m.startDateTimeUtc)} - {getOpenByText(m.missionSource)} -{' '}
                         {m.actions?.length ?? 0} action(s)
                       </Text>
@@ -141,7 +151,7 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
           <Stack.Item>
             <ExportFileButton
               onClick={() => onExport()}
-              disabled={(!exportAsZip && !mainMissionId) || exportInProgress}
+              disabled={exportButtonDisabled}
               isLoading={exportInProgress}
               label={'Exporter'}
               accent={Accent.PRIMARY}

@@ -104,6 +104,14 @@ describe('MissionListExportDialog', () => {
   })
 
   describe('Conditional Rendering', () => {
+    it('should disable export button if all missions incomplete', () => {
+      renderDialog({ availableMissions: [{ ...mockMission2, id: 1 }, mockMission2] })
+      const { exportButton, multipleFilesRadio } = getElements()
+
+      fireEvent.click(multipleFilesRadio)
+
+      expect(exportButton).toBeDisabled()
+    })
     it('should show a warning for incomplete missions for zipped missions', () => {
       renderDialog({ availableMissions: [mockMission1, mockMission2] })
 

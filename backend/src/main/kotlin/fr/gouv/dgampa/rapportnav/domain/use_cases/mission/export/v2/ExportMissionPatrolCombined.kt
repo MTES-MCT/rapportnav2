@@ -41,7 +41,8 @@ class ExportMissionPatrolCombined(
             // bundle actions and other stuff
             val firstMission = missions.first() // Take all other fields from the first mission
             val combinedActions = missions.flatMap { it.actions.orEmpty() } // Aggregate all actions from all missions
-            val mission = firstMission.copy(actions = combinedActions) // Create a new instance with aggregated actions
+            val mission =
+                firstMission.copy(actions = MissionEntity.sortActions(combinedActions)) // Create a new instance with aggregated actions
 
             // create file
             val output = exportMissionPatrolSingle.createFile(mission = mission)
