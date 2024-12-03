@@ -18,6 +18,7 @@ class ControlAdministrativeModel(
 
     @Column(name = "compliant_security_documents", nullable = true)
     var compliantSecurityDocuments: String? = null,
+
 ) : ControlModel() {
     fun toControlAdministrativeEntity() = ControlAdministrativeEntity(
         id = id,
@@ -30,6 +31,7 @@ class ControlAdministrativeModel(
         upToDateNavigationPermit = stringToControlResult(upToDateNavigationPermit),
         compliantSecurityDocuments = stringToControlResult(compliantSecurityDocuments),
         observations = observations,
+        hasBeenDone = hasBeenDone,
         infractions = infractions?.map { it.toInfractionEntity() }
     )
 
@@ -42,6 +44,7 @@ class ControlAdministrativeModel(
             this.unitHasConfirmed = control.unitHasConfirmed
             this.unitShouldConfirm = control.unitShouldConfirm
             this.observations = control.observations
+            this.hasBeenDone = control.hasBeenDone
         }
 
         fun fromControlAdministrativeEntity(control: ControlAdministrativeEntity): ControlAdministrativeModel {

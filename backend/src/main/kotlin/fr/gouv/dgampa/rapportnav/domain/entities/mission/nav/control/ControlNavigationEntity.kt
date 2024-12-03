@@ -11,6 +11,7 @@ data class ControlNavigationEntity(
     override val unitShouldConfirm: Boolean? = null,
     override var unitHasConfirmed: Boolean? = null,
     override val observations: String? = null,
+    override val hasBeenDone: Boolean? = null,
     override val infractions: List<InfractionEntity>? = null
 ) : BaseControlEntity() {
     override fun shouldToggleOnUnitHasConfirmed(): Boolean =

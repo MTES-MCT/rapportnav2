@@ -10,6 +10,6 @@ abstract class BaseControlEntity {
     open var unitHasConfirmed: Boolean? = null
     open val infractions: List<InfractionEntity>? = null
     open val observations: String? = null
-
+    open val hasBeenDone: Boolean? = null
     abstract fun shouldToggleOnUnitHasConfirmed(): Boolean
 }
