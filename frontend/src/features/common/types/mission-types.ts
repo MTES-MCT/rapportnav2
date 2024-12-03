@@ -61,6 +61,23 @@ export type CompletenessForStats = {
   sources?: MissionSourceEnum[]
 }
 
+export type MissionULAMGeneralInfoInitial = {
+  startDateTimeUtc: string
+  endDateTimeUtc: string
+  missionType: MissionTypeEnum[]
+  missionReportType?: MissionReportTypeEnum
+  reinforcementType?: MissionReinforcementTypeEnum
+  nbHourAtSea?: number
+}
+
+export type MissionULAMGeneralInfoInitialInput = {
+  dates: Date[]
+  endDateTimeUtc: string
+  missionType: MissionTypeEnum[]
+  missionReportType?: MissionReportTypeEnum
+  reinforcementType?: MissionReinforcementTypeEnum
+}
+
 export enum MissionStatusEnum {
   UPCOMING = 'UPCOMING',
   IN_PROGRESS = 'IN_PROGRESS',
@@ -72,3 +89,39 @@ export enum CompletenessForStatsStatusEnum {
   COMPLETE = 'COMPLETE',
   INCOMPLETE = 'INCOMPLETE'
 }
+
+export enum MissionReportTypeEnum {
+  FIELD_REPORT = 'FIELD_REPORT',
+  OFFICE_REPORT = 'OFFICE_REPORT',
+  EXTERNAL_REINFORCEMENT_TIME_REPORT = 'EXTERNAL_REINFORCEMENT_TIME_REPORT'
+}
+
+export enum MissionReinforcementTypeEnum {
+  PATROL = 'PATROL',
+  JDP = 'JDP',
+  OTHER_ULAM = 'OTHER_ULAM',
+  SEA_TRAINER = 'SEA_TRAINER',
+  OTHER = 'OTHER',
+  DIRM = 'DIRM'
+}
+
+export const REPORT_TYPE_OPTIONS = [
+  { label: 'Rapport avec sortie terrain', value: MissionReportTypeEnum.FIELD_REPORT },
+  { label: 'Rapport sans sortie terrain (admin. uniquement)', value: MissionReportTypeEnum.OFFICE_REPORT },
+  { label: 'Rapport de temps agent en renfort extérieur', value: MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT },
+]
+
+export const MISSION_TYPE_OPTIONS = [
+  { label: 'Terre', value: MissionTypeEnum.LAND },
+  { label: 'Mer', value: MissionTypeEnum.SEA },
+  { label: 'Air', value: MissionTypeEnum.AIR },
+]
+
+export const REINFORCEMENT_TYPE = [
+  { label: 'Patrouille (mission PAM)', value: MissionReinforcementTypeEnum.PATROL },
+  { label: 'JDP', value: MissionReinforcementTypeEnum.JDP },
+  { label: 'DIRM', value: MissionReinforcementTypeEnum.DIRM },
+  { label: 'Autre ULAM', value: MissionReinforcementTypeEnum.OTHER_ULAM },
+  { label: 'Formateur ESP Mer', value: MissionReinforcementTypeEnum.SEA_TRAINER },
+  { label: 'Autre', value: MissionReinforcementTypeEnum.OTHER },
+]
