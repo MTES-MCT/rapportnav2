@@ -1,7 +1,8 @@
 import React, { JSX } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { Col, Container, FlexboxGrid, Loader, Stack } from 'rsuite'
+import { useNavigate } from 'react-router-dom'
+import { Col, Container, FlexboxGrid } from 'rsuite'
 import { Icon } from '@mtes-mct/monitor-ui'
+import MissionCreateDialog from './mission-create-dialog.tsx'
 interface MissionListUlamProps  {
   dateRangeNavigator: JSX.Element,
   missionListing: JSX.Element
@@ -18,6 +19,7 @@ const MissionListUlam: React.FC<MissionListUlamProps> = ({dateRangeNavigator, mi
           <Container>
             <h3 style={{marginBottom: '45px'}}><Icon.MissionAction size={26}/> Missions</h3>
             <h4 style={{marginBottom: '25px'}}>Mes rapports de mission</h4>
+            <MissionCreateDialog/>
           </Container>
           {dateRangeNavigator}
           <Container>
