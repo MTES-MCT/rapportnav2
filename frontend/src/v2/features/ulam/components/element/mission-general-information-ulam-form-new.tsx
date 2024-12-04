@@ -2,11 +2,12 @@ import React from 'react'
 import { MissionTypeEnum } from '@common/types/env-mission-types.ts'
 import {
   MissionReinforcementTypeEnum,
-  MissionReportTypeEnum,  MissionULAMGeneralInfoInitial
+  MissionReportTypeEnum,
+  MissionULAMGeneralInfoInitial
 } from '@common/types/mission-types.ts'
 import { Field, FieldProps, Formik } from 'formik'
 import MissionGeneralInformationInitialForm from './mission-general-information-initial-form.tsx'
-import {  FormikEffect } from '@mtes-mct/monitor-ui'
+import { Accent, Button, Dialog, FormikEffect, THEME } from '@mtes-mct/monitor-ui'
 
 type NewMissionUlamGeneralInfoInitial =  { missionGeneralInfo: MissionULAMGeneralInfoInitial }
 
@@ -17,9 +18,10 @@ export interface MissionGeneralInformationUlamProps {
   missionReportType?: MissionReportTypeEnum
   reinforcementType?: MissionReinforcementTypeEnum
   nbHourAtSea?: number
+  onClose?: () => void
 }
 
-const MissionGeneralInformationUlamFormNew: React.FC<MissionGeneralInformationUlamProps> = ({ startDateTimeUtc, endDateTimeUtc, missionType, missionReportType, reinforcementType, nbHourAtSea }) => {
+const MissionGeneralInformationUlamFormNew: React.FC<MissionGeneralInformationUlamProps> = ({ startDateTimeUtc, endDateTimeUtc, missionType, missionReportType, reinforcementType, nbHourAtSea, onClose }) => {
 
   const initialValues: MissionULAMGeneralInfoInitial = {
     missionGeneralInfo : {
@@ -50,6 +52,8 @@ const MissionGeneralInformationUlamFormNew: React.FC<MissionGeneralInformationUl
               <MissionGeneralInformationInitialForm
                 name="missionGeneralInfo"
                 fieldFormik={field}
+                isCreation={true}
+                onClose={onClose}
               />
             )}
           </Field>
