@@ -19,7 +19,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@apollo/client": "^3.11.9",
+    "@apollo/client": "^3.11.10",
     "@mtes-mct/monitor-ui": "^24.6.0",
     "@sentry/react": "^8.37.1",
     "@unleash/proxy-client-react": "^4.3.1",
