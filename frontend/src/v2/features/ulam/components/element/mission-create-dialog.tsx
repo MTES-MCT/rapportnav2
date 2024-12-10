@@ -31,9 +31,6 @@ const MissionCreateDialog: FC<MissionCreateDialogProps> = ({isOpen, onClose}) =>
         <Dialog.Body style={{ backgroundColor: THEME.color.gainsboro  }}>
           <Stack direction="column" spacing="1.5rem" >
             <MissionGeneralInformationUlamFormNew
-              startDateTimeUtc="2024-01-01T00:00:00Z"
-              endDateTimeUtc="2024-01-01T00:00:00Z"
-              missionTypes={[MissionTypeEnum.AIR]}
               onClose={handleClose}
             />
           </Stack>
