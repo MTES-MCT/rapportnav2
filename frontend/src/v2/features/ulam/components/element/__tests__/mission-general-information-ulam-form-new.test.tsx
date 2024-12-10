@@ -9,9 +9,6 @@ describe('MissionGeneralInformationUlamFormNew', () => {
   it('renders the form with initial values', () => {
     render(
       <MissionGeneralInformationUlamFormNew
-        startDateTimeUtc="2024-01-01T00:00:00Z"
-        endDateTimeUtc="2024-01-01T00:00:00Z"
-        missionTypes={[MissionTypeEnum.AIR]}
         onClose={vi.fn()}
       />
     )
@@ -24,9 +21,6 @@ describe('MissionGeneralInformationUlamFormNew', () => {
 
     render(
       <MissionGeneralInformationUlamFormNew
-        startDateTimeUtc="2024-01-01T00:00:00Z"
-        endDateTimeUtc="2024-01-01T00:00:00Z"
-        missionTypes={[MissionTypeEnum.AIR]}
         onClose={vi.fn()}
       />
     );

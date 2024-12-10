@@ -4,17 +4,15 @@ import { Field, FieldProps, Formik } from 'formik'
 import MissionGeneralInformationInitialForm from './mission-general-information-initial-form.tsx'
 import { FormikEffect } from '@mtes-mct/monitor-ui'
 import {
-  MissionReinforcementTypeEnum,
-  MissionReportTypeEnum,
-  MissionULAMGeneralInfoInitial
+  MissionReinforcementTypeEnum, MissionReportTypeEnum, MissionULAMGeneralInfoInitial
 } from '../../../common/types/mission-types.ts'
 
 type NewMissionUlamGeneralInfoInitial =  { missionGeneralInfo: MissionULAMGeneralInfoInitial }
 
 export interface MissionGeneralInformationUlamProps {
-  startDateTimeUtc: string
-  endDateTimeUtc: string
-  missionTypes: MissionTypeEnum[]
+  startDateTimeUtc?: string
+  endDateTimeUtc?: string
+  missionTypes?: MissionTypeEnum[]
   missionReportType?: MissionReportTypeEnum
   reinforcementType?: MissionReinforcementTypeEnum
   nbHourAtSea?: number
