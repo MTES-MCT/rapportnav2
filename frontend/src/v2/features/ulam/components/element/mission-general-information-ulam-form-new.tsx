@@ -1,33 +1,33 @@
 import React from 'react'
 import { MissionTypeEnum } from '@common/types/env-mission-types.ts'
+import { Field, FieldProps, Formik } from 'formik'
+import MissionGeneralInformationInitialForm from './mission-general-information-initial-form.tsx'
+import { FormikEffect } from '@mtes-mct/monitor-ui'
 import {
   MissionReinforcementTypeEnum,
   MissionReportTypeEnum,
   MissionULAMGeneralInfoInitial
-} from '@common/types/mission-types.ts'
-import { Field, FieldProps, Formik } from 'formik'
-import MissionGeneralInformationInitialForm from './mission-general-information-initial-form.tsx'
-import { Accent, Button, Dialog, FormikEffect, THEME } from '@mtes-mct/monitor-ui'
+} from '../../../common/types/mission-types.ts'
 
 type NewMissionUlamGeneralInfoInitial =  { missionGeneralInfo: MissionULAMGeneralInfoInitial }
 
 export interface MissionGeneralInformationUlamProps {
   startDateTimeUtc: string
   endDateTimeUtc: string
-  missionType: MissionTypeEnum[]
+  missionTypes: MissionTypeEnum[]
   missionReportType?: MissionReportTypeEnum
   reinforcementType?: MissionReinforcementTypeEnum
   nbHourAtSea?: number
   onClose?: () => void
 }
 
-const MissionGeneralInformationUlamFormNew: React.FC<MissionGeneralInformationUlamProps> = ({ startDateTimeUtc, endDateTimeUtc, missionType, missionReportType, reinforcementType, nbHourAtSea, onClose }) => {
+const MissionGeneralInformationUlamFormNew: React.FC<MissionGeneralInformationUlamProps> = ({ startDateTimeUtc, endDateTimeUtc, missionTypes, missionReportType, reinforcementType, nbHourAtSea, onClose }) => {
 
   const initialValues: MissionULAMGeneralInfoInitial = {
     missionGeneralInfo : {
       startDateTimeUtc,
       endDateTimeUtc,
-      missionType,
+      missionTypes,
       reinforcementType,
       missionReportType,
       nbHourAtSea
