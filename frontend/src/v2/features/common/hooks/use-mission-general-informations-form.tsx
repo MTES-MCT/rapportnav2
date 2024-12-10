@@ -1,10 +1,9 @@
 import { FieldProps } from 'formik'
 import { postprocessDateFromPicker, preprocessDateForPicker } from '@common/components/elements/dates/utils.ts'
-import {
-  MissionULAMGeneralInfoInitial, MissionULAMGeneralInfoInitialInput,
-} from '@common/types/mission-types.ts'
 import { useAbstractFormikSubForm } from './use-abstract-formik-sub-form.tsx'
+import { MissionULAMGeneralInfoInitial } from '../types/mission-types.ts'
 
+export type MissionULAMGeneralInfoInitialInput = MissionULAMGeneralInfoInitial
 export function useMissionGeneralInformationsForm(
   name: string,
   fieldFormik: FieldProps<MissionULAMGeneralInfoInitial>

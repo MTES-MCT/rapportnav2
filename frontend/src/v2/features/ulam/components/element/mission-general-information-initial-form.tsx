@@ -8,15 +8,10 @@ import {
   FormikNumberInput,
   FormikSelect
 } from '@mtes-mct/monitor-ui'
-import {
-  MISSION_TYPE_OPTIONS,
-  MissionReportTypeEnum,
-  MissionULAMGeneralInfoInitial,
-  REINFORCEMENT_TYPE,
-  REPORT_TYPE_OPTIONS
-} from '@common/types/mission-types.ts'
 import { useMissionGeneralInformationsForm } from '../../../common/hooks/use-mission-general-informations-form.tsx'
 import { FieldProps, Formik } from 'formik'
+import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
+import { MissionReportTypeEnum, MissionULAMGeneralInfoInitial } from '../../../common/types/mission-types.ts'
 
 export interface MissionGeneralInformationInitialFormProps {
   name: string
@@ -25,13 +20,10 @@ export interface MissionGeneralInformationInitialFormProps {
   onClose?: () => void
 }
 
-
-
 const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialFormProps> = ({ name, fieldFormik, isCreation = false, onClose }) => {
 
   const { initValue, handleSubmit } = useMissionGeneralInformationsForm(name, fieldFormik)
-
-
+  const { missionTypeOptions, reportTypeOptions, reinforcementTypeOptions} = useMissionType()
 
   return (
     <>
@@ -41,7 +33,7 @@ const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialF
             <Stack direction="column" spacing="1.5rem" style={{paddingBottom: '2rem'}}>
               <Stack.Item style={{width: '100%'}}>
                 <FormikSelect
-                  options={REPORT_TYPE_OPTIONS}
+                  options={reportTypeOptions}
                   name="missionReportType"
                   label={"Type de rapport"}
                   isLight
@@ -51,8 +43,8 @@ const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialF
               <Stack.Item style={{width: '100%', textAlign: 'left'}}>
                 <FormikMultiCheckbox
                   label={"Type de mission"}
-                  name="missionType"
-                  options={MISSION_TYPE_OPTIONS}
+                  name="missionTypes"
+                  options={missionTypeOptions}
                   isInline
                   isLight
                 />
@@ -63,7 +55,7 @@ const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialF
                   <FormikSelect
                     label="Nature du renfort"
                     name="reinforcementType"
-                    options={REINFORCEMENT_TYPE}
+                    options={reinforcementTypeOptions}
                     isLight
                   />
                 </Stack.Item>

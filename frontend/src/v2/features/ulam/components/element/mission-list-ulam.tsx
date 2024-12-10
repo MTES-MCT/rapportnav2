@@ -1,14 +1,23 @@
-import React, { JSX } from 'react'
+import React, { JSX, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Col, Container, FlexboxGrid } from 'rsuite'
-import { Icon } from '@mtes-mct/monitor-ui'
+import { Accent, Button, Icon } from '@mtes-mct/monitor-ui'
 import MissionCreateDialog from './mission-create-dialog.tsx'
-interface MissionListUlamProps  {
-  dateRangeNavigator: JSX.Element,
+
+interface MissionListUlamProps {
+  dateRangeNavigator: JSX.Element
   missionListing: JSX.Element
 }
-const MissionListUlam: React.FC<MissionListUlamProps> = ({dateRangeNavigator, missionListing}) => {
+
+const MissionListUlam: React.FC<MissionListUlamProps> = ({ dateRangeNavigator, missionListing }) => {
   const navigate = useNavigate()
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false)
+  }
+
   return (
     <>
       <FlexboxGrid
@@ -17,9 +26,19 @@ const MissionListUlam: React.FC<MissionListUlamProps> = ({dateRangeNavigator, mi
       >
         <FlexboxGrid.Item as={Col} colspan={24} xxl={20}>
           <Container>
-            <h3 style={{marginBottom: '45px'}}><Icon.MissionAction size={26}/> Missions</h3>
-            <h4 style={{marginBottom: '25px'}}>Mes rapports de mission</h4>
-            <MissionCreateDialog/>
+            <FlexboxGrid justify="space-between" align="middle" style={{ marginBottom: '45px' }} >
+              <FlexboxGrid.Item>
+                <h3>
+                  <Icon.MissionAction size={26} /> Missions
+                </h3>
+                <h4 style={{ marginBottom: '20px' }}>Mes rapports de mission</h4>
+              </FlexboxGrid.Item>
+              <FlexboxGrid.Item>
+                <Button accent={Accent.PRIMARY} onClick={() => setIsDialogOpen(true)}>Créer un rapport</Button>
+              </FlexboxGrid.Item>
+            </FlexboxGrid>
+
+            <MissionCreateDialog isOpen={isDialogOpen} onClose={handleCloseDialog} />
           </Container>
           {dateRangeNavigator}
           <Container>

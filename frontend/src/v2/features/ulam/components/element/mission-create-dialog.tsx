@@ -33,7 +33,7 @@ const MissionCreateDialog: FC<MissionCreateDialogProps> = ({isOpen, onClose}) =>
             <MissionGeneralInformationUlamFormNew
               startDateTimeUtc="2024-01-01T00:00:00Z"
               endDateTimeUtc="2024-01-01T00:00:00Z"
-              missionType={[MissionTypeEnum.AIR]}
+              missionTypes={[MissionTypeEnum.AIR]}
               onClose={handleClose}
             />
           </Stack>
