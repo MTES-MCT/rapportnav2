@@ -36,11 +36,15 @@ const MissionGeneralInformationUlamFormNew: React.FC<MissionGeneralInformationUl
 
 
   const handleSubmit = (values) => {
-    if (values.missionGeneralInfo.missionReportType !== MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT) {
-      values.missionGeneralInfo.reinforcementType = null
+    if (
+      values?.missionGeneralInfo?.missionReportType !== MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT
+    ) {
+      values.missionGeneralInfo = values.missionGeneralInfo || {}
+      values.missionGeneralInfo.reinforcementType = null;
     }
-    console.log('Form Submitted:', values)
-  }
+    console.log('Form Submitted:', values);
+  };
+
 
   return (
     <>
