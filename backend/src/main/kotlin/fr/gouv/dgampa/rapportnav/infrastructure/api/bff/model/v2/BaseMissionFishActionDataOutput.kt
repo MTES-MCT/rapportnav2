@@ -8,8 +8,8 @@ interface BaseMissionFishActionDataOutput {
     val internalReferenceNumber: String?
     val externalReferenceNumber: String?
     val districtCode: String?
-    val faoAreas: List<String>
-    val fishActionType: MissionActionType
+    val faoAreas: List<String>?
+    val fishActionType: MissionActionType?
     val emitsVms: ControlCheck?
     val emitsAis: ControlCheck?
     val logbookMatchesActivity: ControlCheck?
@@ -17,18 +17,18 @@ interface BaseMissionFishActionDataOutput {
     val speciesWeightControlled: Boolean?
     val speciesSizeControlled: Boolean?
     val separateStowageOfPreservedSpecies: ControlCheck?
-    val logbookInfractions: List<LogbookInfraction>
+    val logbookInfractions: List<LogbookInfraction>?
     val licencesAndLogbookObservations: String?
-    val gearInfractions: List<GearInfraction>
-    val speciesInfractions: List<SpeciesInfraction>
+    val gearInfractions: List<GearInfraction>?
+    val speciesInfractions: List<SpeciesInfraction>?
     val speciesObservations: String?
     val seizureAndDiversion: Boolean?
-    val otherInfractions: List<OtherInfraction>
+    val otherInfractions: List<OtherInfraction>?
     val numberOfVesselsFlownOver: Int?
     val unitWithoutOmegaGauge: Boolean?
     val controlQualityComments: String?
     val feedbackSheetRequired: Boolean?
-    val userTrigram: String
+    val userTrigram: String?
     val segments: List<FleetSegment>
     val facade: String?
     val longitude: Double?
@@ -38,14 +38,14 @@ interface BaseMissionFishActionDataOutput {
     val vesselTargeted: ControlCheck?
     val seizureAndDiversionComments: String?
     val otherComments: String?
-    val gearOnboard: List<GearControl>
-    val speciesOnboard: List<SpeciesControl>
-    val isFromPoseidon: Boolean
-    val isDeleted: Boolean
-    val hasSomeGearsSeized: Boolean
-    val hasSomeSpeciesSeized: Boolean
+    val gearOnboard: List<GearControl>?
+    val speciesOnboard: List<SpeciesControl>?
+    val isFromPoseidon: Boolean?
+    val isDeleted: Boolean?
+    val hasSomeGearsSeized: Boolean?
+    val hasSomeSpeciesSeized: Boolean?
     val completedBy: String?
-    val completion: Completion
+    val completion: Completion?
     val isAdministrativeControl: Boolean?
     val isComplianceWithWaterRegulationsControl: Boolean?
     val isSafetyEquipmentAndStandardsComplianceControl: Boolean?

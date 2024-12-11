@@ -1,41 +1,49 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurityEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEntityMock
 import java.util.*
 
 object ControlMock {
 
-    fun createAllControl(): ActionControlEntity {
+    fun createAllControl(actionId: String? = null, missionId: Int? = null): ActionControlEntity {
         return ActionControlEntity(
             controlSecurity = ControlSecurityEntity(
-                id = UUID.randomUUID(), missionId = 761,
-                actionControlId = "MyActionId",
-                amountOfControls = 2
+                id = UUID.randomUUID(),
+                missionId = missionId ?: 761,
+                actionControlId = actionId ?: "MyActionId",
+                amountOfControls = 2,
+                hasBeenDone = false
             ),
             controlGensDeMer = ControlGensDeMerEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
-                actionControlId = "MyActionId",
-                amountOfControls = 2
+                missionId = missionId ?: 761,
+                actionControlId = actionId ?: "MyActionId",
+                amountOfControls = 2,
+                hasBeenDone = true,
+                upToDateMedicalCheck = ControlResult.NO,
+                staffOutnumbered = ControlResult.NOT_CONTROLLED,
+                knowledgeOfFrenchLawAndLanguage = ControlResult.YES
             ),
             controlNavigation = ControlNavigationEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
-                actionControlId = "MyActionId",
+                missionId = missionId ?: 761,
+                actionControlId = actionId ?: "MyActionId",
                 amountOfControls = 2,
+                hasBeenDone = true,
                 infractions = listOf(InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT))
             ),
             controlAdministrative = ControlAdministrativeEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
-                actionControlId = "MyActionId",
+                missionId = missionId ?: 761,
+                actionControlId = actionId ?: "MyActionId",
                 amountOfControls = 2,
+                hasBeenDone = false,
+                compliantOperatingPermit = ControlResult.YES,
+                upToDateNavigationPermit = ControlResult.YES,
+                compliantSecurityDocuments = ControlResult.NOT_CONTROLLED,
                 infractions = listOf(InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT))
             )
         )
