@@ -36,11 +36,15 @@ class MissionActionController(
         @Argument actionId: String,
         @Argument missionId: Int,
     ): MissionActionOutput? {
+        val envActions = getEnvActionByMissionId.execute(missionId = missionId)
+        val navActions = getNavActionByMissionId.execute(missionId = missionId)
+        val fishActions = getFIshListActionByMissionId.execute(missionId = missionId)
+        /*
         val navAction = getNavActionById.execute(actionId = UUID.fromString(actionId))
         if (navAction != null) return MissionActionOutput.fromMissionActionEntity(navAction)
         val fishAction = getFishActionById.execute(missionId = missionId, actionId = actionId)
         if (fishAction != null) return MissionActionOutput.fromMissionActionEntity(fishAction)
-        val envAction = getEnvActionById.execute(missionId = missionId, actionId = actionId) ?: return null
-        return MissionActionOutput.fromMissionActionEntity(envAction)
+        val envAction = getEnvActionById.execute(missionId = missionId, actionId = actionId) ?: return null*/
+        return   MissionActionOutput.fromMissionActionEntity((envActions + navActions + fishActions).first { it.getActionId() == actionId })
     }
 }
