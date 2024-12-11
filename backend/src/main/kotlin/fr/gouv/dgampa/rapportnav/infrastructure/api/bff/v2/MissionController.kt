@@ -1,16 +1,15 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionRapportPatrouille
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEM
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.AddOrUpdateMissionGeneralInfo
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionsFetchEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.Mission
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.inputs.CreateOrUpdateMissionDataInput
 import org.slf4j.LoggerFactory
 import org.springframework.graphql.data.method.annotation.Argument
+import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.stereotype.Controller
 
@@ -22,6 +21,7 @@ class MissionController(
     private val getMission: GetMission,
     private val getControlUnitsForUser: GetControlUnitsForUser,
     private val fakeMissionData: FakeMissionData,
+    private val createMission: CreateMission
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionController::class.java)
@@ -63,6 +63,16 @@ class MissionController(
             return missions + fakeMissions
         } catch (e: Exception) {
             logger.error("MissionController (ULAM v2) - failed to load missions from MonitorEnv", e)
+            throw Exception(e)
+        }
+    }
+
+    @MutationMapping
+    fun create(@Argument input: CreateOrUpdateMissionDataInput): MissionEntity? {
+        try {
+            return createMission.execute(input)
+        } catch (e: Exception) {
+            logger.error("MissionController (ULAM v2) - failed to create mission from MonitorEnv", e)
             throw Exception(e)
         }
     }
