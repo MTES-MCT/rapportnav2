@@ -62,6 +62,7 @@ class ExportMissionRapportPatrouille(
                 return null
             }
 
+            // to combine
             val generalInfo: MissionGeneralInfoEntity? = getMissionGeneralInfoByMissionId.execute(missionId)
             val service = getServiceById.execute(generalInfo?.serviceId)
 
@@ -88,6 +89,7 @@ class ExportMissionRapportPatrouille(
                 durationUnit = DurationUnit.HOURS
             )
 
+            // to combine
             val timeline = formatActionsForTimeline.formatTimeline(mission.actions)
 
             val rescueInfo = getInfoAboutNavAction.execute(
@@ -131,6 +133,7 @@ class ExportMissionRapportPatrouille(
                 )
             }
 
+            // to combine
             // Bilan opérationnel
             val proFishingSeaSummary = getMissionOperationalSummary.getProFishingSeaSummary(mission)
             val proFishingLandSummary = getMissionOperationalSummary.getProFishingLandSummary(mission)
@@ -179,8 +182,8 @@ class ExportMissionRapportPatrouille(
                 "\${rescueInfoHours}" to (rescueInfo?.get("durationInHours") ?: ""),
                 "\${nauticalEventsInfoCount}" to (nauticalEventsInfo?.get("count") ?: ""),
                 "\${nauticalEventsInfoHours}" to (nauticalEventsInfo?.get("durationInHours") ?: ""),
-                "\${antiPollutionInfoCount}" to (nauticalEventsInfo?.get("count") ?: ""),
-                "\${antiPollutionInfoHours}" to (nauticalEventsInfo?.get("durationInHours") ?: ""),
+                "\${antiPollutionInfoCount}" to (antiPollutionInfo?.get("count") ?: ""),
+                "\${antiPollutionInfoHours}" to (antiPollutionInfo?.get("durationInHours") ?: ""),
                 "\${baaemAndVigimerInfoCount}" to (baaemAndVigimerInfo?.get("count") ?: ""),
                 "\${baaemAndVigimerInfoHours}" to (baaemAndVigimerInfo?.get("durationInHours") ?: ""),
                 "\${baaemAndVigimerInfoShips}" to "",
@@ -489,7 +492,7 @@ class ExportMissionRapportPatrouille(
         table.setWidth("100%")
 
         // Remove the initial empty row that is automatically created
-        if (table.rows.size > 0) {
+        if (table.rows.isNotEmpty()) {
             table.removeRow(0)
         }
 
