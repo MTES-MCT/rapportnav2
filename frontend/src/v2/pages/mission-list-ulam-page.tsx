@@ -1,19 +1,18 @@
 import React, { useState } from 'react'
 import { Icon } from '@mtes-mct/monitor-ui'
-import { Loader } from 'rsuite'
 import { endOfMonth } from 'date-fns'
-import MissionListUlam from '../../v2/features/ulam/components/element/mission-list-ulam'
-import MissionListUlamTitle from '../../v2/features/ulam/components/ui/mission-list-ulam-title'
+import MissionListUlam from '../features/ulam/components/element/mission-list/mission-list-ulam.tsx'
+import MissionListPageTitle from '../features/common/components/layout/mission-list-page-title.tsx'
 import MissionListPageHeaderWrapper from '../features/common/components/layout/mission-list-page-header-wrapper'
 import MissionListPageSidebarWrapper from '../features/common/components/layout/mission-list-page-sidebar-wrapper'
 import MissionListPageWrapper from '../features/common/components/layout/mission-list-page-wrapper'
 import MissionListDateRangeNavigator from '../features/common/components/elements/mission-list-daterange-navigator.tsx'
 import useMissionsQuery from '../features/common/services/use-missions.tsx'
-import ExportFileButton from '../features/common/components/elements/export-file-button.tsx'
-import Text from '@common/components/ui/text.tsx'
 import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
 import { Mission } from '@common/types/mission-types.ts'
 import { ExportMode, ExportReportType } from '../features/common/types/mission-export-types.ts'
+import MissionListPageContentWrapper from '../features/common/components/layout/mission-list-page-content-wrapper.tsx'
+import MissionListActionsUlam from '../features/ulam/components/element/mission-list/mission-list-actions-ulam.tsx'
 
 const SIDEBAR_ITEMS = [
   {
@@ -30,7 +29,7 @@ const MissionListUlamPage: React.FC = () => {
     endDateTimeUtc: endOfMonth(today).toISOString()
   })
 
-  const { loading, data } = useMissionsQuery(queryParams)
+  const { loading, data: missions } = useMissionsQuery(queryParams)
   const { exportMissionReport, loading: exportIsLoading } = useMissionReportExport()
 
   const handleUpdateDateTime = (currentDate: Date) => {
@@ -41,52 +40,56 @@ const MissionListUlamPage: React.FC = () => {
     setQueryParams(newDateRange)
   }
 
-  const onClickExport = async () => {
+  const exportAEM = async (missionsToExport: Mission[]) => {
     await exportMissionReport({
-      missionIds: (data ?? []).map((m: Mission) => m.id),
-      exportMode: ExportMode.MULTIPLE_MISSIONS_ZIPPED,
+      missionIds: (missionsToExport ?? []).map((m: Mission) => m.id),
+      exportMode: ExportMode.COMBINED_MISSIONS_IN_ONE,
       reportType: ExportReportType.AEM
     })
   }
 
-  if (loading) {
-    return (
-      <Loader
-        center={true}
-        size={'md'}
-        vertical={true}
-        content={<Text as={'h3'}>Missions en cours de chargement</Text>}
-      />
-    )
-  }
-
-  if (data) {
-    return (
-      <MissionListPageWrapper
-        header={<MissionListPageHeaderWrapper title={<MissionListUlamTitle />} />}
-        sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={SIDEBAR_ITEMS} />}
-        footer={<></>}
-      >
-        <MissionListUlam
-          dateRangeNavigator={
-            <MissionListDateRangeNavigator
-              startDateTimeUtc={queryParams.startDateTimeUtc}
-              onUpdateCurrentDate={handleUpdateDateTime}
-              exportButton={
-                <ExportFileButton
-                  onClick={onClickExport}
-                  isLoading={exportIsLoading}
-                  label={'Exporter le tableau AEM du mois'}
-                />
-              }
-              timeframe={'month'}
-            />
-          }
-          missions={data}
+  return (
+    <MissionListPageWrapper
+      header={
+        <MissionListPageHeaderWrapper //
+          title={<MissionListPageTitle />}
         />
-      </MissionListPageWrapper>
-    )
-  }
+      }
+      sidebar={
+        <MissionListPageSidebarWrapper //
+          defaultItemKey="list"
+          items={SIDEBAR_ITEMS}
+        />
+      }
+      footer={<></>}
+    >
+      <MissionListPageContentWrapper
+        loading={loading}
+        hasMissions={!!missions?.length}
+        title={'Mes rapports'}
+        subtitle={'Mes rapports de mission'}
+        filters={
+          <MissionListDateRangeNavigator
+            startDateTimeUtc={queryParams.startDateTimeUtc}
+            onUpdateCurrentDate={handleUpdateDateTime}
+            timeframe={'month'}
+          />
+        }
+        actions={
+          <MissionListActionsUlam //
+            onClickExport={() => exportAEM(missions)}
+            exportIsLoading={exportIsLoading}
+          />
+        }
+        list={
+          <MissionListUlam //
+            missions={missions}
+            onClickExport={exportAEM}
+          />
+        }
+      />
+    </MissionListPageWrapper>
+  )
 }
 
 export default MissionListUlamPage
