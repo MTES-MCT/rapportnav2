@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExpor
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionAEMSingle
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
+import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.NavActionControlMock
 import org.assertj.core.api.Assertions
@@ -14,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 
-@SpringBootTest(classes = [ExportMissionAEMSingle::class])
+@SpringBootTest(classes = [ExportMissionAEMSingle::class, FormatDateTime::class])
 class ExportMissionAEMSingleTest {
 
     @Autowired

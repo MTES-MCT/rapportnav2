@@ -1,5 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionPatrolMultipleZipped
@@ -35,7 +37,10 @@ class ExportMissionPatrolMultipleZippedTest {
     @Test
     fun `should export a file`() {
         val missionIds = listOf(1)
-        val mission = MissionEntityMock.create(id = missionIds.first())
+        val mission = MissionEntityMock.create(
+            id = missionIds.first(),
+            completenessForStats = CompletenessForStatsEntity(status = CompletenessForStatsStatusEnum.COMPLETE)
+        )
         Mockito.`when`(exportMissionPatrolSingle.createFile(Mockito.any())).thenReturn(
             MissionExportEntity(
                 fileName = "exportMissionPatrolSingle.odt",

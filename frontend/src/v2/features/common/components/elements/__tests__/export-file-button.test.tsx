@@ -17,7 +17,7 @@ describe('ExportAEMButton Component', () => {
   })
 
   test('displays correct label when provided', () => {
-    render(<ExportFileButton missions={missions} label="Export Custom Label" />)
+    render(<ExportFileButton missions={missions}>Export Custom Label</ExportFileButton>)
     expect(screen.getByText('Export Custom Label')).toBeInTheDocument()
   })
 

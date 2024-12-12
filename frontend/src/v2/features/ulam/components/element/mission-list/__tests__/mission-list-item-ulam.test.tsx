@@ -1,9 +1,9 @@
-import { render, screen, fireEvent } from '../../../../../../test-utils.tsx'
+import { render, screen, fireEvent, waitFor } from '../../../../../../../test-utils.tsx'
+import { vi } from 'vitest'
 import MissionListItemUlam from '../mission-list-item-ulam.tsx'
 import { ControlUnit } from '@mtes-mct/monitor-ui'
 import ControlUnitResourceType = ControlUnit.ControlUnitResourceType
 import { Mission } from '@common/types/mission-types.ts'
-import MissionListing from '../../../../common/components/elements/mission-listing.tsx'
 
 const mission1 = {
   id: 1,
@@ -95,30 +95,12 @@ describe('MissionListItem component', () => {
     expect(missionCrew).toHaveStyle(`white-space: nowrap`)
   })
 
-  // it('should open an item on click and close others', () => {
-  //   render(<MissionListing missions={missions} isUlam={true} />)
-  //
-  //   const missionItems = screen.getAllByTestId('mission-list-item-with-hover')
-  //
-  //   fireEvent.click(missionItems[0])
-  //   expect(screen.getByText('Observation 1')).toBeVisible()
-  //
-  //   expect(screen.queryByText('Observation 2')).toBeNull()
-  //
-  //   fireEvent.click(missionItems[1])
-  //   expect(screen.getByText('Observation 2')).toBeVisible()
-  //   expect(screen.queryByText('Observation 1')).toBeNull()
-  // })
-  //
-  // it('should close the item when clicking outside', () => {
-  //   render(<MissionListing missions={missions} isUlam={true} />)
-  //
-  //   const missionItems = screen.getAllByTestId('mission-list-item-with-hover')
-  //
-  //   fireEvent.click(missionItems[0])
-  //   expect(screen.getByText('Observation 1')).toBeVisible()
-  //
-  //   fireEvent.mouseDown(document)
-  //   expect(screen.queryByText('Observation 1')).toBeNull()
-  // })
+  it('toggles open state when clicking on the list item', async () => {
+    const setOpenIndexMock = vi.fn()
+
+    render(<MissionListItemUlam mission={missions} index={0} setOpenIndex={setOpenIndexMock} />)
+
+    fireEvent.click(screen.getByTestId('mission-list-item-with-hover'))
+    await waitFor(() => expect(setOpenIndexMock).toHaveBeenCalledWith(0))
+  })
 })

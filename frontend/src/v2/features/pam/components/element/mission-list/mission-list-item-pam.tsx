@@ -1,12 +1,12 @@
+import { FC } from 'react'
 import { Mission } from '@common/types/mission-types.ts'
-import React, { useEffect, useRef } from 'react'
 import { Checkbox, Icon, THEME } from '@mtes-mct/monitor-ui'
-import { Divider, FlexboxGrid } from 'rsuite'
+import { FlexboxGrid } from 'rsuite'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { formatDateForFrenchHumans, formatDateForMissionName } from '@common/utils/dates-for-humans.ts'
-import MissionCompletenessForStatsTag from '../../../common/components/elements/mission-completeness-for-stats-tag.tsx'
-import MissionStatusTag from '../../../common/components/elements/mission-status-tag.tsx'
+import { formatDateForFrenchHumans } from '@common/utils/dates-for-humans.ts'
+import MissionCompletenessForStatsTag from '../../../../common/components/elements/mission-completeness-for-stats-tag.tsx'
+import MissionStatusTag from '../../../../common/components/elements/mission-status-tag.tsx'
 import MissionOpenByTag from '@features/pam/mission/components/elements/mission-open-by-tag.tsx'
 import Text from '@common/components/ui/text.tsx'
 import { formatMissionName } from '@features/pam/mission/utils/utils.ts'
@@ -22,7 +22,7 @@ const ListItem = styled.div`
   background-color: ${THEME.color.cultured};
 `
 
-const MissionListItemPam: React.FC<MissionListItemProps> = ({ mission, isSelected, onToggle }) => {
+const MissionListItemPam: FC<MissionListItemProps> = ({ mission, isSelected, onToggle }) => {
   const crewNumber = !mission?.generalInfo?.serviceId ? '--' : mission?.generalInfo.serviceId % 2 === 0 ? 'B' : 'A'
 
   return (
@@ -34,6 +34,7 @@ const MissionListItemPam: React.FC<MissionListItemProps> = ({ mission, isSelecte
             checked={isSelected}
             style={{ marginBottom: '16px' }}
             onChange={(isChecked?: boolean) => onToggle(mission?.id, isChecked)}
+            title={'Sélectionner cette mission'}
           />
         </FlexboxGrid.Item>
 
