@@ -10,7 +10,7 @@ import java.util.*
 class MissionEnvActionDataInput(
     override val startDateTimeUtc: Instant,
     override val endDateTimeUtc: Instant? = null,
-    val observationsByUnit: String? = null,
+    override val observations: String? = null,
     override val controlSecurity: ControlSecurityEntity? = null,
     override val controlGensDeMer: ControlGensDeMerEntity? = null,
     override val controlNavigation: ControlNavigationEntity? = null,
@@ -32,7 +32,7 @@ class MissionEnvActionDataInput(
                 missionId = input.missionId,
                 endDateTimeUtc = data?.endDateTimeUtc,
                 startDateTimeUtc = data?.startDateTimeUtc,
-                observationsByUnit = data?.observationsByUnit,
+                observationsByUnit = data?.observations,
                 envActionType = ActionTypeEnum.valueOf(input.actionType.toString())
             )
 

@@ -172,3 +172,92 @@ extend type Query {
 extend type Query {
   action(actionId: ID!, missionId: ID!): MissionActionOutput
 }
+
+input InfractionTargetInput {
+  id: String
+  missionId: ID!
+  actionId: String!
+  controlId: String
+  controlType: String!
+  infractionType: String
+  natinfs: [String]
+  observations: String
+  vesselIdentifier: String
+  identityControlledPerson: String!
+  vesselType: VesselType
+  vesselSize: VesselSize
+  vehicleType: VehicleTypeEnum
+}
+
+input MissionEnvActionDataInput {
+  startDateTimeUtc: Instant
+  endDateTimeUtc: Instant
+  observations: String
+  infractions:[InfractionTargetInput]
+  controlSecurity: ControlSecurityInput
+  controlGensDeMer: ControlGensDeMerInput
+  controlNavigation: ControlNavigationInput
+  controlAdministrative: ControlAdministrativeInput
+}
+
+input MissionFishActionDataInput {
+  startDateTimeUtc: Instant
+  endDateTimeUtc: Instant
+  observations: String
+  controlSecurity: ControlSecurityInput
+  controlGensDeMer: ControlGensDeMerInput
+  controlNavigation: ControlNavigationInput
+  controlAdministrative: ControlAdministrativeInput
+}
+
+input MissionNavActionDataInput {
+  observations: String
+  startDateTimeUtc: Instant
+  endDateTimeUtc: Instant
+  controlSecurity: ControlSecurityInput
+  controlGensDeMer: ControlGensDeMerInput
+  controlNavigation: ControlNavigationInput
+  controlAdministrative: ControlAdministrativeInput
+  latitude: Float
+  longitude: Float
+  detectedPollution: Boolean
+  pollutionObservedByAuthorizedAgent: Boolean
+  diversionCarriedOut: Boolean
+  isSimpleBrewingOperationDone: Boolean
+  isAntiPolDeviceDeployed: Boolean
+  controlMethod: ControlMethod
+  vesselIdentifier: String
+  vesselType: VesselType
+  vesselSize: VesselSize
+  identityControlledPerson: String
+  nbOfInterceptedVessels: Int
+  nbOfInterceptedMigrants: Int
+  nbOfSuspectedSmugglers: Int
+  isVesselRescue: Boolean
+  isPersonRescue: Boolean
+  isVesselNoticed: Boolean
+  isVesselTowed: Boolean
+  isInSRRorFollowedByCROSSMRCC: Boolean
+  numberPersonsRescued: Int
+  numberOfDeaths: Int
+  operationFollowsDEFREP: Boolean
+  locationDescription: String
+  isMigrationRescue: Boolean
+  nbOfVesselsTrackedWithoutIntervention: Int
+  nbAssistedVesselsReturningToShore: Int
+  reason: ActionStatusReason
+}
+
+input MissionActionInput {
+  id: String
+  missionId: Int
+  actionType: ActionType
+  source: MissionSourceEnum
+  env: MissionEnvActionDataInput
+  nav: MissionNavActionDataInput
+  fish: MissionFishActionDataInput
+}
+
+extend type Mutation {
+  updateMissionAction(action: MissionActionInput!): MissionActionOutput
+}
