@@ -11,7 +11,7 @@ import java.time.Instant
 class MissionFishActionDataInput(
     override val startDateTimeUtc: Instant,
     override val endDateTimeUtc: Instant? = null,
-    val observationsByUnit: String? = null,
+    override val observations: String? = null,
     override val controlSecurity: ControlSecurityEntity? = null,
     override val controlGensDeMer: ControlGensDeMerEntity? = null,
     override val controlNavigation: ControlNavigationEntity? = null,
@@ -32,7 +32,7 @@ class MissionFishActionDataInput(
                 id = Integer.parseInt(input.id),
                 missionId = input.missionId,
                 fishActionType = MissionActionType.AIR_CONTROL,
-                observationsByUnit = data?.observationsByUnit,
+                observationsByUnit = data?.observations,
                 actionDatetimeUtc = data?.startDateTimeUtc,
                 actionEndDatetimeUtc = data?.endDateTimeUtc
             )

@@ -9,7 +9,7 @@ import java.time.Instant
 open class MissionActionDataInput(
     open val startDateTimeUtc: Instant,
     open val endDateTimeUtc: Instant? = null,
-    open val observation: String? = null,
+    open val observations: String? = null,
     open val controlSecurity: ControlSecurityEntity? = null,
     open val controlGensDeMer: ControlGensDeMerEntity? = null,
     open val controlNavigation: ControlNavigationEntity? = null,
