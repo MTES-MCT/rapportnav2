@@ -10,7 +10,7 @@ import java.time.ZonedDateTime
 data class CreateOrUpdateMissionDataInput(
     val id: Int? = null,
     val missionTypes: List<MissionTypeEnum>,
-    val controlUnits: List<LegacyControlUnitEntity> = listOf(),
+    var controlUnits: List<LegacyControlUnitEntity> = listOf(),
     val openBy: String? = null,
     val completedBy: String? = null,
     val observationsCacem: String? = null,
@@ -21,8 +21,8 @@ data class CreateOrUpdateMissionDataInput(
     val endDateTimeUtc: ZonedDateTime? = null,
     val missionSource: MissionSourceEnum,
     val hasMissionOrder: Boolean,
-    val isUnderJdp: Boolean,
-    val isGeometryComputedFromControls: Boolean,
+    val isUnderJdp: Boolean = false,
+    val isGeometryComputedFromControls: Boolean = false,
 ) {
     fun toMissionEntity(): MissionEntity {
         return MissionEntity(
