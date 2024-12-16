@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Le
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.controlUnit.IEnvControlUnitRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.inputs.CreateOrUpdateMissionDataInput
 import org.slf4j.LoggerFactory
 
 @UseCase
@@ -15,7 +15,8 @@ class CreateEnvMission(
 ) {
     private val logger = LoggerFactory.getLogger(CreateEnvMission::class.java)
 
-    fun execute(mission: MissionEnv, controlUnitIds: List<Int>?): MissionEntity? {
+
+    fun execute(input: CreateOrUpdateMissionDataInput, controlUnitIds: List<Int>?): MissionEntity? {
         try {
             if (controlUnitIds !== null && controlUnitIds.isNotEmpty()) {
                 val controlUnits = monitorEnvControlUnitRepo.findAll()
@@ -24,9 +25,9 @@ class CreateEnvMission(
                     ?.filter { it.id in controlUnitIds }
                     ?: emptyList()
 
-                mission.controlUnits = matchedControlUnits
+                input.controlUnits = matchedControlUnits
 
-                return monitorEnvRepo.createMission(mission)
+                return monitorEnvRepo.createMission(input)
             }
 
             throw Exception("CreateEnvMission : controlUnit is empty for this user")
