@@ -26,7 +26,7 @@ import java.util.*
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [AddOrUpdateControl::class])
-class AddOrUpdateControlTest {
+class AddOrProcessControlTest {
 
     @MockBean
     private lateinit var controlAdministrativeRepo: IControlAdministrativeRepository

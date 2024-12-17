@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.entities.mission.nav.control
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlResult
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
@@ -112,5 +113,36 @@ class ControlGensDeMerEntityTest {
 
         // Assert
         assertTrue(result)
+    }
+
+    @Test
+    fun `should check if equals or not equals `() {
+        val id = UUID.randomUUID()
+        val entity1 = ControlGensDeMerEntity(
+            id = id,
+            missionId = 1,
+            actionControlId = "action-5",
+            amountOfControls = 15,
+            unitShouldConfirm = true,
+            unitHasConfirmed = null,
+            staffOutnumbered = ControlResult.YES,
+            upToDateMedicalCheck = ControlResult.NOT_CONCERNED,
+            knowledgeOfFrenchLawAndLanguage = ControlResult.NOT_CONCERNED
+        )
+
+        val entity2 = ControlGensDeMerEntity(
+            id = id,
+            missionId = 1,
+            actionControlId = "action-5",
+            amountOfControls = 15,
+            unitShouldConfirm = true,
+            unitHasConfirmed = null,
+            staffOutnumbered = ControlResult.YES,
+            upToDateMedicalCheck = ControlResult.NOT_CONTROLLED,
+            knowledgeOfFrenchLawAndLanguage = ControlResult.NOT_CONCERNED
+        )
+
+        // Assert
+        assertFalse(entity1.equals(entity2))
     }
 }

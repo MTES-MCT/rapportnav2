@@ -12,7 +12,7 @@ data class ControlNavigationEntity(
     override var unitHasConfirmed: Boolean? = null,
     override val observations: String? = null,
     override val hasBeenDone: Boolean? = null,
-    override val infractions: List<InfractionEntity>? = null
+    override var infractions: List<InfractionEntity>? = null
 ) : BaseControlEntity() {
     override fun shouldToggleOnUnitHasConfirmed(): Boolean =
         unitShouldConfirm == true &&
@@ -21,4 +21,17 @@ data class ControlNavigationEntity(
                 infractions?.isNotEmpty() == true ||
                     observations != null
                 )
+
+    override fun hashCode(): Int {
+        var result = missionId.hashCode()
+        result = 31 * result + amountOfControls
+        return super.hashCode() + result
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (!super.equals(other)) return false
+        other as ControlNavigationEntity
+        return (missionId == other.missionId
+            && amountOfControls == other.amountOfControls)
+    }
 }

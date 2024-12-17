@@ -24,7 +24,8 @@ open class MissionActionOutput(
     open val data: MissionActionDataOutput
 ) {
     companion object {
-        fun fromMissionActionEntity(action: MissionActionEntity): MissionActionOutput? {
+        fun fromMissionActionEntity(action: MissionActionEntity?): MissionActionOutput? {
+            if(action == null) return null
             return when (action) {
                 is MissionNavActionEntity -> MissionNavActionOutput.fromMissionActionEntity(action)
                 is MissionEnvActionEntity -> MissionEnvActionOutput.fromMissionActionEntity(action)
