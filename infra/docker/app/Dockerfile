@@ -1,5 +1,5 @@
 
-FROM bellsoft/liberica-openjdk-alpine:17 AS build-all
+FROM bellsoft/liberica-openjdk-alpine:21 AS build-all
 
 WORKDIR /home/rapportnav
 
