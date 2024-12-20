@@ -35,7 +35,9 @@ import java.util.*
 @SpringBootTest(classes = [APIEnvMissionRepository::class])
 class APIEnvMissionRepositoryTest {
 
-    val host = "https://monitorenv.din.developpement-durable.gouv.fr"
+class APIEnvMissionRepositoryTest {
+
+    val host = "https://url.developpement-durable.gouv.fr"
 
     val mission = MissionDataOutput(
         id = 761,
@@ -78,7 +80,7 @@ class APIEnvMissionRepositoryTest {
                 )
             )
                 .thenReturn(httpResponse)
-            val envRepo = APIEnvMissionRepository(mapper = objectMapper, clientFactory = httpClientFactory)
+            val envRepo = APIEnvMissionRepository(mapper = objectMapper, clientFactory = httpClientFactory, host = host)
             envRepo.patchMission(
                 missionId = 761,
                 PatchMissionInput(
@@ -128,7 +130,7 @@ class APIEnvMissionRepositoryTest {
                 )
             )
                 .thenReturn(httpResponse)
-            val envRepo = APIEnvMissionRepository(mapper = objectMapper, clientFactory = httpClientFactory)
+            val envRepo = APIEnvMissionRepository(mapper = objectMapper, clientFactory = httpClientFactory, host=host)
             envRepo.patchAction(
                 actionId = action.id.toString(),
                 PatchActionInput(
