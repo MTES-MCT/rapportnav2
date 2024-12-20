@@ -33,12 +33,12 @@ export default defineConfig({
       provider: 'istanbul',
       reporter: ['text', 'lcov', 'json-summary', 'json'],
       thresholds: {
-        lines: 50,
-        branches: 50,
-        functions: 50,
-        statements: 50
-      },
-      exclude: ['src/v2/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}']
+        lines: 40,
+        branches: 40,
+        functions: 40,
+        statements: 40
+      }
+      // exclude: ['src/v2/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}']
     }
   }
 })

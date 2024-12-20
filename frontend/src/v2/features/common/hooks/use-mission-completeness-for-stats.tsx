@@ -18,6 +18,9 @@ type MissionCompletenessTagHook = {
   statusMessage: string
 } & Component
 
+export const isCompleteForStats = (completenessForStats?: CompletenessForStats) =>
+  completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE
+
 export function useMissionCompletenessForStats(
   completenessForStats?: CompletenessForStats,
   missionStatus?: MissionStatusEnum
@@ -49,7 +52,7 @@ export function useMissionCompletenessForStats(
   }
 
   const getMessageStatus = () => {
-    if (completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE) {
+    if (isCompleteForStats(completenessForStats)) {
       return 'Les champs indispensables aux statistiques sont remplis.'
     }
 
