@@ -125,23 +125,23 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({ mission, index, o
         </FlexboxGrid.Item>
 
         <>
-          <FlexboxGrid.Item colspan={5} data-testid={'mission-list-item-control_unit_resources'}>
+          <FlexboxGrid.Item colspan={4} data-testid={'mission-list-item-control_unit_resources'}>
             <Text weight={'bold'} as={'h3'}>
               {controlUnitResourcesText}
             </Text>
           </FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={5} data-testid={'mission-list-item-crew'}>
+          <FlexboxGrid.Item colspan={4} data-testid={'mission-list-item-crew'}>
             <MissionCrewItem data-testid={'mission-list-item-crew__text'} title={missionCrew.text}>
               {missionCrew.text}
             </MissionCrewItem>
           </FlexboxGrid.Item>
         </>
 
-        <FlexboxGrid.Item colspan={2} data-testid={'mission-list-item-mission_status'}>
+        <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-mission_status'}>
           <MissionStatusTag status={mission?.status} />
         </FlexboxGrid.Item>
 
-        <FlexboxGrid.Item colspan={2} data-testid={'mission-list-item-completeness'}>
+        <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-completeness'}>
           <MissionCompletenessForStatsTag
             completenessForStats={mission?.completenessForStats}
             missionStatus={mission?.status}

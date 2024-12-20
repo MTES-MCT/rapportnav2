@@ -6,8 +6,8 @@ import Text from '@common/components/ui/text.tsx'
 interface MissionListContentWrapperProps {
   hasMissions: boolean
   title: string
-  subtitle?: string
-  filter?: JSX.Element
+  subtitle?: string | JSX.Element
+  filters?: JSX.Element
   actions?: JSX.Element
   list: ReactNode
   loading: boolean
@@ -29,7 +29,7 @@ const MissionListPageContentWrapper: FC<MissionListContentWrapperProps> = ({
           direction={'row'}
           spacing={'0.5rem'}
           alignItems={'center'}
-          style={{ padding: '0 15rem', marginTop: '5rem' }}
+          style={{ padding: '0 9.5rem', marginTop: '3rem' }}
         >
           <Stack.Item alignSelf={'baseline'}>
             <Icon.MissionAction size={32} style={{ marginTop: '8px' }} />
@@ -42,7 +42,7 @@ const MissionListPageContentWrapper: FC<MissionListContentWrapperProps> = ({
         </Stack>
       </Stack.Item>
       {subtitle && (
-        <Stack.Item style={{ width: '100%', padding: '0 15rem', marginTop: '5rem' }}>
+        <Stack.Item style={{ width: '100%', padding: '0 9.5rem', marginTop: '4rem' }}>
           <Text as={'h1'}>{subtitle}</Text>
         </Stack.Item>
       )}

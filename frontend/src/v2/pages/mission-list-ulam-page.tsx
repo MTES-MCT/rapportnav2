@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Icon } from '@mtes-mct/monitor-ui'
+import {Accent, Button, Icon} from '@mtes-mct/monitor-ui'
 import { endOfMonth } from 'date-fns'
 import MissionListUlam from '../features/ulam/components/element/mission-list/mission-list-ulam.tsx'
 import MissionListPageTitle from '../features/common/components/layout/mission-list-page-title.tsx'
@@ -13,6 +13,9 @@ import { Mission } from '@common/types/mission-types.ts'
 import { ExportMode, ExportReportType } from '../features/common/types/mission-export-types.ts'
 import MissionListPageContentWrapper from '../features/common/components/layout/mission-list-page-content-wrapper.tsx'
 import MissionListActionsUlam from '../features/ulam/components/element/mission-list/mission-list-actions-ulam.tsx'
+import {FlexboxGrid, Stack} from "rsuite";
+import MissionCreateDialog from "../features/ulam/components/element/mission-create-dialog.tsx";
+import ExportFileButton from "../features/common/components/elements/export-file-button.tsx";
 
 const SIDEBAR_ITEMS = [
   {
@@ -28,6 +31,11 @@ const MissionListUlamPage: React.FC = () => {
     startDateTimeUtc: today.toISOString(),
     endDateTimeUtc: endOfMonth(today).toISOString()
   })
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false)
+  }
 
   const { loading, data: missions } = useMissionsQuery(queryParams)
   const { exportMissionReport, loading: exportIsLoading } = useMissionReportExport()
@@ -67,20 +75,37 @@ const MissionListUlamPage: React.FC = () => {
         loading={loading}
         hasMissions={!!missions?.length}
         title={'Mes rapports'}
-        subtitle={'Mes rapports de mission'}
+        // subtitle={'Mes rapports de mission'}
         filters={
-          <MissionListDateRangeNavigator
-            startDateTimeUtc={queryParams.startDateTimeUtc}
-            onUpdateCurrentDate={handleUpdateDateTime}
-            timeframe={'month'}
-          />
+        <>
+          <Stack direction="column" spacing={'2rem'} style={{width:'100%'}}>
+            <Stack.Item  style={{width:'100%'}}>
+              <Stack direction="row" justifyContent={"flex-end"} alignItems={"flex-end"}   style={{width:'100%'}}>
+                <Stack.Item>
+                  <Button Icon={Icon.Plus} accent={Accent.PRIMARY} onClick={() => setIsDialogOpen(true)}>Créer un rapport de mission</Button>
+                </Stack.Item>
+              </Stack>
+
+            </Stack.Item>
+            <Stack.Item style={{width:'100%'}}>
+              <MissionListDateRangeNavigator
+                startDateTimeUtc={queryParams.startDateTimeUtc}
+                onUpdateCurrentDate={handleUpdateDateTime}
+                timeframe={'month'}
+              />
+            </Stack.Item>
+
+          </Stack>
+
+        </>
+
         }
-        actions={
-          <MissionListActionsUlam //
-            onClickExport={() => exportAEM(missions)}
-            exportIsLoading={exportIsLoading}
-          />
-        }
+        // actions={
+        //   <MissionListActionsUlam //
+        //     onClickExport={() => exportAEM(missions)}
+        //     exportIsLoading={exportIsLoading}
+        //   />
+        // }
         list={
           <MissionListUlam //
             missions={missions}
@@ -88,6 +113,8 @@ const MissionListUlamPage: React.FC = () => {
           />
         }
       />
+      <MissionCreateDialog isOpen={isDialogOpen} onClose={handleCloseDialog} />
+
     </MissionListPageWrapper>
   )
 }

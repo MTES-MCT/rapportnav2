@@ -23,7 +23,7 @@ const MissionListUlam: FC<MissionListUlamProps> = ({ missions }) => {
           <Stack
             direction={'column'}
             spacing={'0.2rem'}
-            style={{ width: '100%', overflowY: 'auto', height: '50vh', minHeight: '50vh' }}
+            style={{ width: '100%', overflowY: 'scroll', height: '50vh', minHeight: '50vh', maxHeight: '50vh' }}
           >
             <Stack.Item style={{ width: '100%' }}>
               {!missions?.length ? (

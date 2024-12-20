@@ -14,17 +14,17 @@ const MissionListHeaderUlam: React.FC<MissionListHeaderProps> = ({}) => {
         <p style={{ color: THEME.color.slateGray, fontSize: '12px' }}>Date d'ouverture</p>
       </FlexboxGrid.Item>
       <>
-        <FlexboxGrid.Item colspan={5}>
+        <FlexboxGrid.Item colspan={4}>
           <p style={{ color: THEME.color.slateGray, fontSize: '12px' }}>Moyen(s) utilisé(s)</p>
         </FlexboxGrid.Item>
-        <FlexboxGrid.Item colspan={5}>
+        <FlexboxGrid.Item colspan={4}>
           <p style={{ color: THEME.color.slateGray, fontSize: '12px' }}>Agent(s)</p>
         </FlexboxGrid.Item>
       </>
-      <FlexboxGrid.Item colspan={2}>
+      <FlexboxGrid.Item colspan={3}>
         <p style={{ color: THEME.color.slateGray, fontSize: '12px' }}>Statut mission</p>
       </FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={2}>
+      <FlexboxGrid.Item colspan={3}>
         <p style={{ color: THEME.color.slateGray, fontSize: '12px' }}>Statut du rapport</p>
       </FlexboxGrid.Item>
       <FlexboxGrid.Item colspan={3}></FlexboxGrid.Item>
