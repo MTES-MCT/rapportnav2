@@ -20,18 +20,13 @@ import java.net.http.HttpResponse
 @Repository
 class APIFishActionRepository(
     private val mapper: ObjectMapper,
-    private val clientFactory: HttpClientFactory
+    private val clientFactory: HttpClientFactory,
+    @Value("\${monitorfish.host}") private val host: String,
+    @Value("\${MONITORFISH_API_KEY}") private var monitorFishApiKey: String,
 ) : IFishActionRepository {
     private val logger: Logger = LoggerFactory.getLogger(APIFishActionRepository::class.java)
 
     private val gson = GsonSerializer().create(serializeNulls = true)
-
-
-    @Value("\${MONITORFISH_API_KEY}")
-    private lateinit var monitorFishApiKey: String
-
-    // TODO set as env var when available
-    private val host = "https://monitorfish.din.developpement-durable.gouv.fr"
 
     override fun findFishActions(missionId: Int): List<MissionAction> {
         logger.info("Fetching Fish Actions for Mission id=$missionId")
