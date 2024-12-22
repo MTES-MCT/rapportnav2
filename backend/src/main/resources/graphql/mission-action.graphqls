@@ -29,10 +29,10 @@ type InfractionEnvDataByOutput{
 type MissionEnvActionDataOutput {
   startDateTimeUtc: Instant
   endDateTimeUtc: Instant
-  controlSecurity: ControlSecurity
-  controlGensDeMer: ControlGensDeMer
-  controlNavigation: ControlNavigation
-  controlAdministrative: ControlAdministrative
+  controlSecurity: ControlSecurity2
+  controlGensDeMer: ControlGensDeMer2
+  controlNavigation: ControlNavigation2
+  controlAdministrative: ControlAdministrative2
   completedBy: String
   formattedControlPlans : [FormattedEnvActionControlPlan]
   geom: String
@@ -50,17 +50,17 @@ type MissionEnvActionDataOutput {
   vehicleType: VehicleTypeEnum
   coverMissionZone: Boolean
   controlsToComplete: [ControlType]
-  infractions:[InfractionByTarget]
+  infractions:[InfractionByTarget2]
   availableControlTypesForInfraction: [ControlType]
 }
 
 type MissionFishActionDataOutput {
   startDateTimeUtc: Instant
   endDateTimeUtc: Instant
-  controlSecurity: ControlSecurity
-  controlGensDeMer: ControlGensDeMer
-  controlNavigation: ControlNavigation
-  controlAdministrative: ControlAdministrative
+  controlSecurity: ControlSecurity2
+  controlGensDeMer: ControlGensDeMer2
+  controlNavigation: ControlNavigation2
+  controlAdministrative: ControlAdministrative2
   vesselId: Int
   vesselName: String
   internalReferenceNumber: String
@@ -114,10 +114,10 @@ type MissionFishActionDataOutput {
 type MissionNavActionDataOutput {
   startDateTimeUtc: Instant
   endDateTimeUtc: Instant
-  controlSecurity: ControlSecurity
-  controlGensDeMer: ControlGensDeMer
-  controlNavigation: ControlNavigation
-  controlAdministrative: ControlAdministrative
+  controlSecurity: ControlSecurity2
+  controlGensDeMer: ControlGensDeMer2
+  controlNavigation: ControlNavigation2
+  controlAdministrative: ControlAdministrative2
   observations: String
   latitude: Float
   longitude: Float
@@ -173,51 +173,35 @@ extend type Query {
   action(actionId: ID!, missionId: ID!): MissionActionOutput
 }
 
-input InfractionTargetInput {
-  id: String
-  missionId: ID!
-  actionId: String!
-  controlId: String
-  controlType: String!
-  infractionType: String
-  natinfs: [String]
-  observations: String
-  vesselIdentifier: String
-  identityControlledPerson: String!
-  vesselType: VesselType
-  vesselSize: VesselSize
-  vehicleType: VehicleTypeEnum
-}
-
 input MissionEnvActionDataInput {
   startDateTimeUtc: Instant
   endDateTimeUtc: Instant
   observations: String
-  infractions:[InfractionTargetInput]
-  controlSecurity: ControlSecurityInput
-  controlGensDeMer: ControlGensDeMerInput
-  controlNavigation: ControlNavigationInput
-  controlAdministrative: ControlAdministrativeInput
+  infractions:[InfractionByTargetInput2]
+  controlSecurity: ControlSecurityInput2
+  controlGensDeMer: ControlGensDeMerInput2
+  controlNavigation: ControlNavigationInput2
+  controlAdministrative: ControlAdministrativeInput2
 }
 
 input MissionFishActionDataInput {
   startDateTimeUtc: Instant
   endDateTimeUtc: Instant
   observations: String
-  controlSecurity: ControlSecurityInput
-  controlGensDeMer: ControlGensDeMerInput
-  controlNavigation: ControlNavigationInput
-  controlAdministrative: ControlAdministrativeInput
+  controlSecurity: ControlSecurityInput2
+  controlGensDeMer: ControlGensDeMerInput2
+  controlNavigation: ControlNavigationInput2
+  controlAdministrative: ControlAdministrativeInput2
 }
 
 input MissionNavActionDataInput {
   observations: String
   startDateTimeUtc: Instant
   endDateTimeUtc: Instant
-  controlSecurity: ControlSecurityInput
-  controlGensDeMer: ControlGensDeMerInput
-  controlNavigation: ControlNavigationInput
-  controlAdministrative: ControlAdministrativeInput
+  controlSecurity: ControlSecurityInput2
+  controlGensDeMer: ControlGensDeMerInput2
+  controlNavigation: ControlNavigationInput2
+  controlAdministrative: ControlAdministrativeInput2
   latitude: Float
   longitude: Float
   detectedPollution: Boolean
