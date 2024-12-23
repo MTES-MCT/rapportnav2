@@ -19,12 +19,20 @@ class UpdateNavAction(
 
     fun execute(input: MissionActionInput): MissionNavActionEntity? {
         val action = MissionNavActionDataInput.toMissionNavActionEntity(input)
+        val controlInputs = input.nav?.getControls(actionId = input.id, missionId = input.missionId)
         return try {
             missionActionRepository.save(action)
-            val controls = processMissionActionControl.execute(action)
-            val infractions = processMissionActionInfraction.execute(action.getActionId(), controls)
-            controls.processInfractions(infractions)
-            action.computeControls(controls)
+            val controls = processMissionActionControl.execute(
+                controls = controlInputs,
+                actionId = action.getActionId()
+            )
+
+            val infractions = processMissionActionInfraction.execute(
+                actionId = action.getActionId(),
+                infractions = controls.getAllInfractions()
+            )
+            action.computeControls(controls.toActionControlEntity(infractions))
+            action.computeCompleteness()
             action
         } catch (e: Exception) {
             logger.error("UpdateNavAction failed update Action", e)

@@ -11,7 +11,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.C
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlGensDeMerModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlNavigationModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlSecurityModel
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlInputMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -43,7 +43,15 @@ class ProcessMissionActionControlTest {
     @Test
     fun `Should process all controls  when execute, `() {
         val action = getMissionAction()
-        val controls = ControlMock.createAllControl(actionId = action.id.toString())
+        val input = ControlInputMock.createAllControl()
+
+        input.controlGensDeMer?.setMissionIdAndActionId(actionId = action.id.toString(), missionId = action.missionId)
+        input.controlSecurity?.setMissionIdAndActionId(actionId = action.id.toString(), missionId = action.missionId)
+        input.controlNavigation?.setMissionIdAndActionId(actionId = action.id.toString(), missionId = action.missionId)
+        input.controlAdministrative?.setMissionIdAndActionId(actionId = action.id.toString(), missionId = action.missionId)
+
+        val controls = input.toActionControlEntity()
+
         action.controlSecurity = controls.controlSecurity
         action.controlNavigation = controls.controlNavigation
         action.controlAdministrative = controls.controlAdministrative
@@ -56,7 +64,7 @@ class ProcessMissionActionControlTest {
             ControlAdministrativeModel.fromControlAdministrativeEntity(controls.controlAdministrative!!)
 
         controlAdministrationModel.hasBeenDone = true
-        `when`(controlSecurityRepo.findByActionControlId(action.id.toString())).thenReturn(null)
+        `when`(controlSecurityRepo.findByActionControlId(action.id.toString())).thenReturn(controlSecurityModel)
         `when`(controlGensDeMerRepo.findByActionControlId(action.id.toString())).thenReturn(controlGensDeMerModel)
         `when`(controlNavigationRepo.findByActionControlId(action.id.toString())).thenReturn(controlNavigationModel)
         `when`(controlAdministrativeRepo.findByActionControlId(action.id.toString())).thenReturn(
@@ -75,13 +83,14 @@ class ProcessMissionActionControlTest {
             controlAdministrativeRepo = controlAdministrativeRepo
         )
 
-        val actionControl = processMissionActionControl.execute(action)
+        input.controlGensDeMer = null
+        val actionControl = processMissionActionControl.execute(actionId = action.id.toString(), controls = input)
 
         assertThat(actionControl).isNotNull
         assertThat(actionControl.controlGensDeMer).isNull()
-        assertThat(actionControl.controlSecurity).isEqualTo(controls.controlSecurity)
-        assertThat(actionControl.controlNavigation).isEqualTo(controls.controlNavigation)
-        assertThat(actionControl.controlAdministrative).isEqualTo(controls.controlAdministrative)
+        assertThat(actionControl.controlSecurity).isEqualTo(input.controlSecurity)
+        assertThat(actionControl.controlNavigation).isEqualTo(input.controlNavigation)
+        assertThat(actionControl.controlAdministrative).isEqualTo(input.controlAdministrative)
     }
 
 

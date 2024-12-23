@@ -12,9 +12,9 @@ data class ControlAdministrativeInput2(
     override var infractions: List<InfractionInput2>? = null,
     override val observations: String? = null,
     override val hasBeenDone: Boolean? = null,
-    val compliantOperatingPermit: ControlResult?,
-    val upToDateNavigationPermit: ControlResult?,
-    val compliantSecurityDocuments: ControlResult?,
+    val compliantOperatingPermit: ControlResult? = null,
+    val upToDateNavigationPermit: ControlResult? = null,
+    val compliantSecurityDocuments: ControlResult? = null,
 ) : BaseControlInput() {
     override fun toEntity(): ControlAdministrativeEntity {
         return ControlAdministrativeEntity(

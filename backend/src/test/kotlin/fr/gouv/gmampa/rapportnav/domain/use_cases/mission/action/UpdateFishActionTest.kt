@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.PatchFishAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateFishAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfraction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.ActionControlInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.MissionActionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.MissionFishActionDataInput
 import org.assertj.core.api.Assertions.assertThat
@@ -44,8 +45,8 @@ class UpdateFishActionTest {
         )
 
         `when`(patchFishAction.execute(anyOrNull())).thenReturn(null)
-        `when`(processMissionActionControl.execute(anyOrNull())).thenReturn(ActionControlEntity())
-        `when`(processMissionActionInfraction.execute(actionId, ActionControlEntity())).thenReturn(listOf())
+        `when`(processMissionActionControl.execute(anyOrNull(), anyOrNull())).thenReturn(ActionControlInput())
+        `when`(processMissionActionInfraction.execute(actionId, listOf())).thenReturn(listOf())
 
         val updateNavAction = UpdateFishAction(
             patchFishAction = patchFishAction,
