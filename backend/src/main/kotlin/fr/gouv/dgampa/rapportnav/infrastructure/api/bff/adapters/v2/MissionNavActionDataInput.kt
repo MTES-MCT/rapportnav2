@@ -42,10 +42,10 @@ class MissionNavActionDataInput(
     override val endDateTimeUtc: Instant? = null,
     override val observations: String? = null,
     override val status: ActionStatusType? = null,
-    override val controlSecurity: ControlSecurityEntity? = null,
-    override val controlGensDeMer: ControlGensDeMerEntity? = null,
-    override val controlNavigation: ControlNavigationEntity? = null,
-    override val controlAdministrative: ControlAdministrativeEntity? = null,
+    override val controlSecurity: ControlSecurityInput2? = null,
+    override val controlGensDeMer: ControlGensDeMerInput2? = null,
+    override val controlNavigation: ControlNavigationInput2? = null,
+    override val controlAdministrative: ControlAdministrativeInput2? = null,
 ) : MissionActionDataInput(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
@@ -57,50 +57,46 @@ class MissionNavActionDataInput(
 ), BaseMissionNavActionDataInput {
     companion object {
         fun toMissionNavActionEntity(input: MissionActionInput): MissionNavActionEntity {
-            val data = input.nav
+            val data = input.nav as MissionNavActionDataInput
+
             val action  = MissionNavActionEntity(
                 id = UUID.fromString(input.id),
                 missionId = input.missionId,
                 actionType = input.actionType,
-                startDateTimeUtc = data?.startDateTimeUtc,
-                endDateTimeUtc = data?.endDateTimeUtc,
-                observations = data?.observations,
-                latitude = data?.latitude,
-                longitude = data?.longitude,
-                detectedPollution = data?.detectedPollution,
-                pollutionObservedByAuthorizedAgent = data?.pollutionObservedByAuthorizedAgent,
-                diversionCarriedOut = data?.diversionCarriedOut,
-                isSimpleBrewingOperationDone = data?.isSimpleBrewingOperationDone,
-                isAntiPolDeviceDeployed = data?.isAntiPolDeviceDeployed,
-                controlMethod = data?.controlMethod,
-                vesselIdentifier = data?.vesselIdentifier,
-                vesselType = data?.vesselType,
-                vesselSize = data?.vesselSize,
-                identityControlledPerson = data?.identityControlledPerson,
-                nbOfInterceptedVessels = data?.nbOfInterceptedVessels,
-                nbOfInterceptedMigrants = data?.nbOfInterceptedMigrants,
-                nbOfSuspectedSmugglers = data?.nbOfSuspectedSmugglers,
-                isVesselRescue = data?.isVesselRescue,
-                isPersonRescue = data?.isPersonRescue,
-                isVesselNoticed = data?.isVesselNoticed,
-                isVesselTowed = data?.isVesselTowed,
-                isInSRRorFollowedByCROSSMRCC = data?.isInSRRorFollowedByCROSSMRCC,
-                numberPersonsRescued = data?.numberPersonsRescued,
-                numberOfDeaths = data?.numberOfDeaths,
-                operationFollowsDEFREP = data?.operationFollowsDEFREP,
-                locationDescription = data?.locationDescription,
-                isMigrationRescue = data?.isMigrationRescue,
-                nbOfVesselsTrackedWithoutIntervention = data?.nbOfVesselsTrackedWithoutIntervention,
-                nbAssistedVesselsReturningToShore = data?.nbAssistedVesselsReturningToShore,
-                status = data?.status,
-                reason = data?.reason
+                startDateTimeUtc = data.startDateTimeUtc,
+                endDateTimeUtc = data.endDateTimeUtc,
+                observations = data.observations,
+                latitude = data.latitude,
+                longitude = data.longitude,
+                detectedPollution = data.detectedPollution,
+                pollutionObservedByAuthorizedAgent = data.pollutionObservedByAuthorizedAgent,
+                diversionCarriedOut = data.diversionCarriedOut,
+                isSimpleBrewingOperationDone = data.isSimpleBrewingOperationDone,
+                isAntiPolDeviceDeployed = data.isAntiPolDeviceDeployed,
+                controlMethod = data.controlMethod,
+                vesselIdentifier = data.vesselIdentifier,
+                vesselType = data.vesselType,
+                vesselSize = data.vesselSize,
+                identityControlledPerson = data.identityControlledPerson,
+                nbOfInterceptedVessels = data.nbOfInterceptedVessels,
+                nbOfInterceptedMigrants = data.nbOfInterceptedMigrants,
+                nbOfSuspectedSmugglers = data.nbOfSuspectedSmugglers,
+                isVesselRescue = data.isVesselRescue,
+                isPersonRescue = data.isPersonRescue,
+                isVesselNoticed = data.isVesselNoticed,
+                isVesselTowed = data.isVesselTowed,
+                isInSRRorFollowedByCROSSMRCC = data.isInSRRorFollowedByCROSSMRCC,
+                numberPersonsRescued = data.numberPersonsRescued,
+                numberOfDeaths = data.numberOfDeaths,
+                operationFollowsDEFREP = data.operationFollowsDEFREP,
+                locationDescription = data.locationDescription,
+                isMigrationRescue = data.isMigrationRescue,
+                nbOfVesselsTrackedWithoutIntervention = data.nbOfVesselsTrackedWithoutIntervention,
+                nbAssistedVesselsReturningToShore = data.nbAssistedVesselsReturningToShore,
+                status = data.status,
+                reason = data.reason
             )
-            action.controlSecurity = data?.controlSecurity
-            action.controlGensDeMer = data?.controlGensDeMer
-            action.controlNavigation = data?.controlNavigation
-            action.controlAdministrative = data?.controlAdministrative
-
-            return  action
+            return action
         }
     }
 }
