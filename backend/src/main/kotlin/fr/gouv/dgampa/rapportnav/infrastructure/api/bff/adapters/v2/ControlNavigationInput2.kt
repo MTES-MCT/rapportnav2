@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
 import java.util.*
 
 data class ControlNavigationInput2(

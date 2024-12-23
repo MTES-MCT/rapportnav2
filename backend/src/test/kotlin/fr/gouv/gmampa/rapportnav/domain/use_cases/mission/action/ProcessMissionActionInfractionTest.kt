@@ -1,14 +1,15 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.infraction.IInfractionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfraction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.ActionControlInput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.InfractionInput2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlNavigationModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlSecurityModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.InfractionModel
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlInputMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -47,7 +48,12 @@ class ProcessMissionActionInfractionTest {
         //Infraction entities
         val securityInfraction = getInfractionSecurityEntity(actionId)
         val infractionToDelete = getInfractionNavigationEntity(actionId)
-        val mockSaveInfraction = InfractionEntityMock.create(controlType = ControlType.SECURITY)
+        val mockSaveInfraction =
+            InfractionEntityMock.create(
+                controlType = ControlType.SECURITY,
+                missionId = 761,
+                actionId = actionId.toString()
+            )
 
         //Control and infraction model
         val actionControl = getActionControlEntity(actionId, securityInfraction)
@@ -61,7 +67,7 @@ class ProcessMissionActionInfractionTest {
 
         //When
         processMissionActionInfraction = Mockito.spy(ProcessMissionActionInfraction(infractionRepo))
-        val infractions = processMissionActionInfraction.execute(actionId.toString(), actionControl)
+        val infractions = processMissionActionInfraction.execute(actionId.toString(), actionControl.getAllInfractions())
         verify(processMissionActionInfraction).save(saveCaptor.capture())
         verify(processMissionActionInfraction).delete(deleteCaptor.capture())
 
@@ -69,58 +75,72 @@ class ProcessMissionActionInfractionTest {
         //Then
         assertThat(infractions).isNotNull
         assertThat(5).isEqualTo(saveCaptor.value.size)
-        assertThat(1).isEqualTo(deleteCaptor.value.size)
+        assertThat(2).isEqualTo(deleteCaptor.value.size)
         assertThat(infractionToDelete.id).isEqualTo(deleteCaptor.value.get(0).id)
     }
 
     private fun getInfractionNavigationEntity(actionId: UUID): InfractionEntity {
         val infractionToDelete =
-            InfractionEntityMock.create(actionId = actionId.toString(), controlType = ControlType.NAVIGATION)
+            InfractionEntityMock.create(
+                actionId = actionId.toString(),
+                controlType = ControlType.NAVIGATION,
+                missionId = 761
+            )
         return infractionToDelete
     }
 
-    private fun getInfractionSecurityEntity(actionId: UUID): InfractionEntity {
+    private fun getInfractionSecurityEntity(actionId: UUID): InfractionInput2 {
         val securityInfraction =
-            InfractionEntityMock.create(actionId = actionId.toString(), controlType = ControlType.SECURITY)
+            InfractionInput2(
+                actionId = actionId.toString(),
+                controlType = ControlType.SECURITY.toString(),
+                missionId = 761
+            )
         return securityInfraction
     }
 
     private fun getInfractionSecurityModel(
-        securityInfraction: InfractionEntity,
-        actionControl: ActionControlEntity
+        securityInfraction: InfractionInput2,
+        actionControl: ActionControlInput
     ): InfractionModel {
-        val securityInfractionModel = InfractionModel.fromInfractionEntity(securityInfraction)
+        val securityInfractionModel = InfractionModel.fromInfractionEntity(securityInfraction.toInfractionEntity())
         securityInfractionModel.control =
-            ControlSecurityModel.fromControlSecurityEntity(actionControl.controlSecurity!!)
+            ControlSecurityModel.fromControlSecurityEntity(actionControl.controlSecurity!!.toEntity())
         return securityInfractionModel
     }
 
     private fun getInfractionNavigationModel(
         infractionToDelete: InfractionEntity,
-        actionControl: ActionControlEntity
+        actionControl: ActionControlInput
     ): InfractionModel {
         val infractionToDeleteModel = InfractionModel.fromInfractionEntity(infractionToDelete)
         infractionToDeleteModel.control =
-            ControlNavigationModel.fromControlNavigationEntity(actionControl.controlNavigation!!)
+            ControlNavigationModel.fromControlNavigationEntity(actionControl.controlNavigation!!.toEntity())
         return infractionToDeleteModel
     }
 
     private fun getActionControlEntity(
         actionId: UUID,
-        securityInfraction: InfractionEntity
-    ): ActionControlEntity {
-        val actionControl = ControlMock.createAllControl(actionId = actionId.toString())
+        securityInfraction: InfractionInput2
+    ): ActionControlInput {
+        val controlId = UUID.randomUUID()
+        val actionControl = ControlInputMock.createAllControl()
+        actionControl.controlGensDeMer?.setMissionIdAndActionId(actionId = actionId.toString(), missionId = 761)
+        actionControl.controlSecurity?.setMissionIdAndActionId(actionId = actionId.toString(), missionId = 761)
+        actionControl.controlNavigation?.setMissionIdAndActionId(actionId = actionId.toString(), missionId = 761)
+        actionControl.controlAdministrative?.setMissionIdAndActionId(actionId = actionId.toString(), missionId = 761)
         actionControl.controlGensDeMer?.infractions = listOf(
-            InfractionEntityMock.create(
+            InfractionInput2(
                 actionId = actionId.toString(),
-                controlType = ControlType.GENS_DE_MER,
-                controlId = actionControl.controlGensDeMer?.id
-
+                controlType = ControlType.GENS_DE_MER.toString(),
+                controlId = controlId.toString(),
+                missionId = 761
             ),
-            InfractionEntityMock.create(
+            InfractionInput2(
                 actionId = actionId.toString(),
-                controlType = ControlType.GENS_DE_MER,
-                controlId = actionControl.controlGensDeMer?.id
+                controlType = ControlType.GENS_DE_MER.toString(),
+                controlId = controlId.toString(),
+                missionId = 761
             )
         )
         actionControl.controlSecurity?.infractions = listOf(securityInfraction)

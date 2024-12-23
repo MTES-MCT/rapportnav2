@@ -2,11 +2,12 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.PatchEnvAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateEnvAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControl
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControlEnvTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfractionEnvTarget
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.ActionControlInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.MissionActionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.MissionEnvActionDataInput
 import org.assertj.core.api.Assertions.assertThat
@@ -29,6 +30,8 @@ class UpdateEnvActionTest {
     @MockBean
     private lateinit var processMissionActionControl: ProcessMissionActionControl
 
+    @MockBean lateinit var processMissionActionControlEnvTarget : ProcessMissionActionControlEnvTarget
+
     @MockBean
     private lateinit var processMissionActionInfractionEnvTarget: ProcessMissionActionInfractionEnvTarget
 
@@ -45,12 +48,13 @@ class UpdateEnvActionTest {
         )
 
         `when`(patchEnvAction.execute(anyOrNull())).thenReturn(null)
-        `when`(processMissionActionControl.execute(anyOrNull())).thenReturn(ActionControlEntity())
+        `when`(processMissionActionControl.execute(anyOrNull(), anyOrNull())).thenReturn(ActionControlInput())
         `when`(processMissionActionInfractionEnvTarget.execute(actionId, listOf())).thenReturn(listOf())
 
         val updateNavAction = UpdateEnvAction(
             patchEnvAction = patchEnvAction,
             processMissionActionControl = processMissionActionControl,
+            processMissionActionControlEnvTarget = processMissionActionControlEnvTarget,
             processMissionActionInfractionEnvTarget = processMissionActionInfractionEnvTarget
         )
 

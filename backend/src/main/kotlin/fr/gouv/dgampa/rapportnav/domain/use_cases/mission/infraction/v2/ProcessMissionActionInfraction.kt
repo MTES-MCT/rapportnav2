@@ -1,30 +1,28 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.infraction.IInfractionRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.InfractionInput2
 
 @UseCase
 class ProcessMissionActionInfraction(
-    private val infractionRepo: IInfractionRepository,
+    private val infractionRepo: IInfractionRepository
 ) {
 
-    fun execute(actionId: String, control: ActionControlEntity): List<InfractionEntity>? {
-        control.computeInfractionControlId()
-        val toSaveInfractions = control.getControlInfractions()
-        val infractionIds = toSaveInfractions.map { it.id }
-        val controlIds = toSaveInfractions.map { it.controlId }
+    fun execute(actionId: String, infractions: List<InfractionInput2>): List<InfractionEntity>? {
+        val infractionIds = infractions.map { it.id }
 
         val databaseInfractions = infractionRepo
             .findAllByActionId(actionId)
             .map { it.toInfractionEntity() }
-            .filter { controlIds.contains(it.controlId) }
+            .filter { it.controlId != null }
 
-        val toDeleteInfractions = databaseInfractions.filter { !infractionIds.contains(it.id) }
+        val toDeleteInfractions = databaseInfractions.filter { !infractionIds.contains(it.id.toString()) }
+        val toSaveInfractions = infractions.map { it.toInfractionEntity() }.filter { !databaseInfractions.contains(it) }
 
         delete(toDeleteInfractions)
-        return save(toSaveInfractions) //TODO: is not equals save
+        return save(toSaveInfractions)
     }
 
     fun save(infractions: List<InfractionEntity>?): List<InfractionEntity>? {

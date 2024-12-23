@@ -1,14 +1,12 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.BaseControlEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlAdministrativeRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlGensDeMerRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlNavigationRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlSecurityRepository
-import java.util.*
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.*
 
 @UseCase
 class ProcessMissionActionControl(
@@ -18,13 +16,14 @@ class ProcessMissionActionControl(
     private val controlAdministrativeRepo: IControlAdministrativeRepository
 ) {
 
-    fun execute(action: MissionActionEntity): ActionControlEntity {
-        val controlSecurity = processControlSecurity(action.getActionId(), control = action.controlSecurity)
-        val controlGensDeMer = processControlGensDeMer(action.getActionId(), control = action.controlGensDeMer)
-        val controlNavigation = processControlNavigation(action.getActionId(), control = action.controlNavigation)
+    fun execute(actionId: String, controls: ActionControlInput?): ActionControlInput {
+        val controlSecurity = processControlSecurity(actionId = actionId, control = controls?.controlSecurity)
+        val controlGensDeMer = processControlGensDeMer(actionId = actionId, control = controls?.controlGensDeMer)
+        val controlNavigation = processControlNavigation(actionId = actionId, control = controls?.controlNavigation)
         val controlAdministrative =
-            processControlAdministrative(action.getActionId(), control = action.controlAdministrative)
-        return ActionControlEntity(
+            processControlAdministrative(actionId = actionId, control = controls?.controlAdministrative)
+
+        return ActionControlInput(
             controlSecurity = controlSecurity,
             controlGensDeMer = controlGensDeMer,
             controlNavigation = controlNavigation,
@@ -32,67 +31,72 @@ class ProcessMissionActionControl(
         )
     }
 
-    private inline fun <T : BaseControlEntity> processControl(
+    private inline fun <M : BaseControlInput, T : BaseControlEntity> processControl(
         actionId: String,
-        control: T?,
-        findByActionId: (String) -> T?,
+        control: M?,
+        findControlByActionId: (String) -> T?,
         saveControl: (T) -> T
-    ): UUID? {
-        val existingControl = findByActionId(actionId)
-        if (control != null && !control.equals(existingControl)) {
-            return saveControl(control).id
+    ): T? {
+        if (control?.id != null) {
+            val existingControl = findControlByActionId(actionId)
+            if (control.toEntity().equals(existingControl)) return existingControl
         }
-        return existingControl?.id
+        if (control == null) return null
+        System.out.println("[processMissionAction] SAVE: $actionId")
+        return saveControl(control.toEntity() as T)
     }
 
 
-    private fun processControlSecurity(actionId: String, control: ControlSecurityEntity?): ControlSecurityEntity? {
-        val id = processControl(
+    private fun processControlSecurity(actionId: String, control: ControlSecurityInput2?): ControlSecurityInput2? {
+        val response = processControl(
             actionId = actionId,
             control = control,
             saveControl = { controlSecurityRepo.save(it).toControlSecurityEntity() },
-            findByActionId = { controlSecurityRepo.findByActionControlId(it)?.toControlSecurityEntity() },
+            findControlByActionId = { controlSecurityRepo.findByActionControlId(it).toControlSecurityEntity() },
         )
-        if (id != null && control != null) control.id = id
+        if (response?.id != null) control?.id = response.id
         return control
     }
 
-    private fun processControlGensDeMer(actionId: String, control: ControlGensDeMerEntity?): ControlGensDeMerEntity? {
-        val id = processControl(
+    private fun processControlGensDeMer(actionId: String, control: ControlGensDeMerInput2?): ControlGensDeMerInput2? {
+        val response = processControl(
             actionId = actionId,
             control = control,
             saveControl = { controlGensDeMerRepo.save(it).toControlGensDeMerEntity() },
-            findByActionId = { controlGensDeMerRepo.findByActionControlId(it)?.toControlGensDeMerEntity() },
+            findControlByActionId = { controlGensDeMerRepo.findByActionControlId(it).toControlGensDeMerEntity() },
         )
-        if (id != null && control != null) control.id = id
+        if (response?.id != null) control?.id = response.id
         return control
     }
 
     private fun processControlNavigation(
         actionId: String,
-        control: ControlNavigationEntity?
-    ): ControlNavigationEntity? {
-        val id = processControl(
+        control: ControlNavigationInput2?
+    ): ControlNavigationInput2? {
+        val response = processControl(
             actionId = actionId,
             control = control,
             saveControl = { controlNavigationRepo.save(it).toControlNavigationEntity() },
-            findByActionId = { controlNavigationRepo.findByActionControlId(it)?.toControlNavigationEntity() },
+            findControlByActionId = { controlNavigationRepo.findByActionControlId(it).toControlNavigationEntity() },
         )
-        if (id != null && control != null) control.id = id
+        if (response?.id != null) control?.id = response.id
         return control
     }
 
     private fun processControlAdministrative(
         actionId: String,
-        control: ControlAdministrativeEntity?
-    ): ControlAdministrativeEntity? {
-        val id = processControl(
+        control: ControlAdministrativeInput2?
+    ): ControlAdministrativeInput2? {
+        val response = processControl(
             actionId = actionId,
             control = control,
             saveControl = { controlAdministrativeRepo.save(it).toControlAdministrativeEntity() },
-            findByActionId = { controlAdministrativeRepo.findByActionControlId(it).toControlAdministrativeEntity() },
+            findControlByActionId = {
+                controlAdministrativeRepo.findByActionControlId(it).toControlAdministrativeEntity()
+            },
         )
-        if (id != null && control != null) control.id = id
+        if (response?.id != null) control?.id = response.id
         return control
     }
+
 }

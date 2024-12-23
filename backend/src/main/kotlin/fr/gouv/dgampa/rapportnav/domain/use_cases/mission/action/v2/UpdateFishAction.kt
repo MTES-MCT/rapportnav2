@@ -20,6 +20,7 @@ class UpdateFishAction(
 
     fun execute(input: MissionActionInput): MissionFishActionEntity? {
         val action = MissionFishActionDataInput.toMissionFishActionEntity(input)
+        val controlInputs = input.fish?.getControls(actionId = input.id, missionId = input.missionId)
         return try {
             patchFishAction.execute(
                 ActionFishInput(
@@ -30,10 +31,16 @@ class UpdateFishAction(
                     observationsByUnit = action.observationsByUnit
                 )
             )
-            val controls = processMissionActionControl.execute(action)
-            val infractions = processMissionActionInfraction.execute(action.getActionId(), controls)
-            controls.processInfractions(infractions)
-            action.computeControls(controls)
+            val controls = processMissionActionControl.execute(
+                controls = controlInputs,
+                actionId = action.getActionId()
+            )
+            val infractions = processMissionActionInfraction.execute(
+                actionId = action.getActionId(),
+                infractions = controls.getAllInfractions()
+            )
+            action.computeControls(controls.toActionControlEntity(infractions))
+            action.computeCompleteness()
             action
         } catch (e: Exception) {
             logger.error("UpdateFishAction failed update Action", e)

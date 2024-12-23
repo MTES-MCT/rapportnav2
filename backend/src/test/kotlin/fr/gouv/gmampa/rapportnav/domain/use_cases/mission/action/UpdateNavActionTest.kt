@@ -5,13 +5,13 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSi
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateNavAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfraction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.ActionControlInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.MissionActionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.MissionNavActionDataInput
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
@@ -51,8 +51,8 @@ class UpdateNavActionTest {
         )
         val model = MissionActionModelMock.create()
         `when`(missionActionRepository.save(anyOrNull())).thenReturn(model)
-        `when`(processMissionActionControl.execute(anyOrNull())).thenReturn(ActionControlEntity())
-        `when`(processMissionActionInfraction.execute(actionId, ActionControlEntity())).thenReturn(listOf())
+        `when`(processMissionActionControl.execute(anyOrNull(), anyOrNull())).thenReturn(ActionControlInput())
+        `when`(processMissionActionInfraction.execute(actionId, listOf())).thenReturn(listOf())
 
         val updateNavAction = UpdateNavAction(
             missionActionRepository = missionActionRepository,

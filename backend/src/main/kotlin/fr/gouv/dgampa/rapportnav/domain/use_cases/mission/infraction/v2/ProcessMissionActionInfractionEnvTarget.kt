@@ -2,12 +2,9 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEnvTargetEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.infraction.IInfractionEnvTargetRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.infraction.IInfractionRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.infraction.Infraction
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.infraction.InfractionsByVessel
-import java.util.*
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.InfractionInput2
 
 @UseCase
 class ProcessMissionActionInfractionEnvTarget(
@@ -15,9 +12,7 @@ class ProcessMissionActionInfractionEnvTarget(
     private val infractionEnvTargetRepo: IInfractionEnvTargetRepository,
 ) {
 
-    fun execute(actionId: String, infractionByVessels: List<InfractionsByVessel>?): List<InfractionEntity>? {
-        val infractions =
-            infractionByVessels?.flatMap { it.infractions }?.filter { it.controlId != null || it.controlType != null }
+    fun execute(actionId: String, infractions: List<InfractionInput2>?): List<InfractionEntity>? {
         val infractionIds = infractions?.map { it.id } ?: listOf()
 
         val databaseInfractions = infractionRepo
@@ -30,25 +25,16 @@ class ProcessMissionActionInfractionEnvTarget(
         return save(infractions) //TODO: is not equals save
     }
 
-    fun save(infractions: List<Infraction>?): List<InfractionEntity>? {
+    fun save(infractions: List<InfractionInput2>?): List<InfractionEntity>? {
         // check target / create or Update target
         // create infractionEntity  -- > save target
         //save infraction
         return infractions?.map {
             // todo check if it has changed
-            val target = it.target
-            val newTarget = InfractionEnvTargetEntity(
-                id = UUID.fromString(target?.id),
-                missionId = it.missionId,
-                actionId = it.actionId,
-                infractionId = UUID.fromString(it.id),
-                vesselIdentifier = target?.vesselIdentifier,
-                vesselSize = target?.vesselSize,
-                vesselType = target?.vesselType,
-                identityControlledPerson = target?.identityControlledPerson!!
-            )
-            infractionEnvTargetRepo.save(infractionTarget = newTarget, infraction = it.toInfractionEntity())
-            infractionRepo.save(it.toInfractionEntity()).toInfractionEntity()
+            val newTarget = it.toInfractionEnvTargetEntity()
+            val entity = it.toInfractionEntity()
+            entity.target = newTarget
+            infractionRepo.save(entity).toInfractionEntity()
         }
     }
 

@@ -45,6 +45,7 @@ class MissionActionController(
         @Argument actionId: String,
         @Argument missionId: Int,
     ): MissionActionOutput? {
+
         val navAction = getNavActionById.execute(actionId = UUID.fromString(actionId))
         if (navAction != null) return MissionActionOutput.fromMissionActionEntity(navAction)
         val fishAction = getFishActionById.execute(missionId = missionId, actionId = actionId)
@@ -58,28 +59,26 @@ class MissionActionController(
     fun updateMissionAction(
         @Argument action: MissionActionInput
     ): MissionActionOutput? {
-        val response = when (action.source) {
+       val response = when (action.source) {
             MissionSourceEnum.RAPPORTNAV -> updateNavAction(action)
             MissionSourceEnum.MONITORENV -> updateEnvAction(action)
             MissionSourceEnum.MONITORFISH -> updateFishAction(action)
             else -> throw RuntimeException("Unknown mission action source: ${action.source}")
         }
+        this.logger.info(action.id)
         return MissionActionOutput.fromMissionActionEntity(response)
     }
 
     private fun updateNavAction(action: MissionActionInput): MissionActionEntity? {
-        val response = updateNavAction.execute(action)
-        return getNavActionById.execute(actionId = response?.id)
+        return updateNavAction.execute(action)
     }
 
     private fun updateEnvAction(action: MissionActionInput): MissionActionEntity? {
-        val response = updateEnvAction.execute(action)
-        return getEnvActionById.execute(missionId = response?.missionId, actionId = response?.id.toString())
+        return updateEnvAction.execute(action)
     }
 
     private fun updateFishAction(action: MissionActionInput): MissionActionEntity? {
-        val response = updateFishAction.execute(action)
-        return getFishActionById.execute(missionId = response?.missionId, actionId = response?.id.toString())
+        return updateFishAction.execute(action)
     }
 
 

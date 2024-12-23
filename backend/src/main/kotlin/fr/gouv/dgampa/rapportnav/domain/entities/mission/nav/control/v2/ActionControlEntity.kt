@@ -13,22 +13,7 @@ data class ActionControlEntity(
     var controlNavigation: ControlNavigationEntity? = null
 ) {
 
-    fun computeInfractionControlId() {
-        controlSecurity?.infractions?.forEach { it.controlId = controlSecurity?.id }
-        controlGensDeMer?.infractions?.forEach { it.controlId = controlGensDeMer?.id }
-        controlNavigation?.infractions?.forEach { it.controlId = controlNavigation?.id }
-        controlAdministrative?.infractions?.forEach { it.controlId = controlAdministrative?.id }
-    }
-
-    fun getControlInfractions(): List<InfractionEntity> {
-        val genDeMerInfractions = controlGensDeMer?.infractions ?: listOf()
-        val securityInfractions = controlSecurity?.infractions ?: listOf()
-        val navigationInfractions = controlNavigation?.infractions ?: listOf()
-        val administrativeInfractions = controlAdministrative?.infractions ?: listOf()
-        return genDeMerInfractions + securityInfractions + navigationInfractions + administrativeInfractions
-    }
-
-    fun processInfractions(infractions: List<InfractionEntity>?) {
+    fun seInfractions(infractions: List<InfractionEntity>?) {
         controlSecurity?.infractions = infractions?.filter { it.controlId == controlSecurity?.id }
         controlGensDeMer?.infractions = infractions?.filter { it.controlId == controlGensDeMer?.id }
         controlNavigation?.infractions = infractions?.filter { it.controlId == controlNavigation?.id }
