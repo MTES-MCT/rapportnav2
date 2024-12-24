@@ -3,7 +3,6 @@ package fr.gouv.gmampa.rapportnav.domain.entities.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
@@ -30,7 +29,7 @@ class MissionNavActionEntityTest {
         assertThat(entity.isAntiPolDeviceDeployed).isEqualTo(model.isAntiPolDeviceDeployed)
         assertThat(entity.isSimpleBrewingOperationDone).isEqualTo(model.isSimpleBrewingOperationDone)
         assertThat(entity.diversionCarriedOut).isEqualTo(model.diversionCarriedOut)
-        assertThat(entity.actionType.toString()).isEqualTo(model.actionType)
+        assertThat(entity.actionType).isEqualTo(model.actionType)
         assertThat(entity.latitude).isEqualTo(model.latitude)
         assertThat(entity.longitude).isEqualTo(model.longitude)
         assertThat(entity.detectedPollution).isEqualTo(model.detectedPollution)
