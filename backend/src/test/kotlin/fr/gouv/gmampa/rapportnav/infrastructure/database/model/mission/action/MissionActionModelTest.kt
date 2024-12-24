@@ -70,7 +70,7 @@ class MissionActionModelTest {
         assertThat(model.isAntiPolDeviceDeployed).isEqualTo(entity.isAntiPolDeviceDeployed)
         assertThat(model.isSimpleBrewingOperationDone).isEqualTo(entity.isSimpleBrewingOperationDone)
         assertThat(model.diversionCarriedOut).isEqualTo(entity.diversionCarriedOut)
-        assertThat(model.actionType).isEqualTo(entity.actionType.toString())
+        assertThat(model.actionType).isEqualTo(entity.actionType)
         assertThat(model.latitude).isEqualTo(entity.latitude)
         assertThat(model.longitude).isEqualTo(entity.longitude)
         assertThat(model.detectedPollution).isEqualTo(entity.detectedPollution)
