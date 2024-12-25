@@ -1,23 +1,8 @@
 import { ActionStatusType } from '@common/types/action-types'
-import {
-  ControlAdministrative,
-  ControlGensDeMer,
-  ControlNavigation,
-  ControlSecurity,
-  ControlType
-} from '@common/types/control-types'
+import { ControlType } from '@common/types/control-types'
 import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types'
 import { CompletenessForStats } from '@common/types/mission-types'
-
-export interface MissionActionDataOutput {
-  startDateTimeUtc?: string
-  endDateTimeUtc?: string
-  observations?: string
-  controlSecurity?: ControlSecurity
-  controlGensDeMer?: ControlGensDeMer
-  controlNavigation?: ControlNavigation
-  controlAdministrative?: ControlAdministrative
-}
+import { MissionActionData } from './mission-action-data'
 
 export interface MissionActionOutput {
   id: string
@@ -30,5 +15,5 @@ export interface MissionActionOutput {
   controlsToComplete: ControlType[]
   completenessForStats: CompletenessForStats
   sourcesOfMissingDataForStats: MissionSourceEnum[]
-  data: MissionActionDataOutput
+  data: MissionActionData
 }

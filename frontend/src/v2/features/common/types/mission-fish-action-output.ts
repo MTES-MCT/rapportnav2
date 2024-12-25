@@ -9,9 +9,10 @@ import {
   SpeciesControl,
   SpeciesInfraction
 } from '@common/types/fish-mission-types'
-import { MissionActionDataOutput, MissionActionOutput } from './mission-action-output'
+import { MissionActionData } from './mission-action-data'
+import { MissionActionOutput } from './mission-action-output'
 
-export interface MissionFishActionDataOutput extends MissionActionDataOutput {
+export interface MissionFishActionDataOutput extends MissionActionData {
   vesselId?: number
   vesselName?: string
   internalReferenceNumber?: string

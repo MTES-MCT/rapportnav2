@@ -1,4 +1,4 @@
-import { MissionActionDataOutput } from '../../common/types/mission-action-output'
+import { MissionActionData } from '../../common/types/mission-action-data'
 import { MissionEnvActionDataOutput } from '../../common/types/mission-env-action-output'
 import { MissionFishActionDataOutput } from '../../common/types/mission-fish-action-output'
 import { MissionNavActionDataOutput } from '../../common/types/mission-nav-action-output'
@@ -13,7 +13,7 @@ export type ActionGenericDateObservation = {
 
 export type ActionGenericDateObservationInput = {
   dates: Date[]
-} & MissionActionDataOutput
+} & MissionActionData
 
 export type ActionAntiPollutionInput = {
   dates: Date[]

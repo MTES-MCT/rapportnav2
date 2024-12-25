@@ -1,9 +1,10 @@
 import { ActionStatusReason } from '@common/types/action-types'
 import { ControlMethod } from '@common/types/control-types'
 import { VesselSizeEnum, VesselTypeEnum } from '@common/types/env-mission-types'
-import { MissionActionDataOutput, MissionActionOutput } from './mission-action-output'
+import { MissionActionData } from './mission-action-data'
+import { MissionActionOutput } from './mission-action-output'
 
-export interface MissionNavActionDataOutput extends MissionActionDataOutput {
+export interface MissionNavActionDataOutput extends MissionActionData {
   startDateTimeUtc: string
   endDateTimeUtc: string
   observations: string
