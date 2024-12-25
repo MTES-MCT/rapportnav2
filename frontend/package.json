@@ -21,7 +21,8 @@
   "dependencies": {
     "@apollo/client": "^3.11.10",
     "@mtes-mct/monitor-ui": "^24.6.0",
-    "@sentry/react": "^8.41.0",
+    "@sentry/react": "^8.37.1",
+    "@tanstack/react-store": "^0.6.1",
     "@unleash/proxy-client-react": "^4.3.1",
     "apollo3-cache-persist": "^0.15.0",
     "date-fns": "3.6.0",
