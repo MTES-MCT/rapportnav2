@@ -29,7 +29,7 @@ const YesNoToogle: React.FC<YesNoToogleProps> = ({ initValue, onSubmit }) => {
   }
 
   useEffect(() => {
-    if (isNil(value)) return
+    if (isNil(initValue)) return
     setValue(initValue)
   }, [initValue])
 

@@ -15,6 +15,7 @@ import {
 import { FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
+import { setDebounceTime } from '../../../../store/slices/delay-query-reducer'
 import { FormikMultiSelectNatinf } from '../../../common/components/ui/formik-multi-select-natinf'
 import { useControlRegistry } from '../../../mission-control/hooks/use-control-registry'
 import { useInfractionEnvForm } from '../../hooks/use-infraction-env-form'
@@ -125,6 +126,7 @@ const MissionInfractionEnvForm: FC<MissionInfractionEnvFormProps> = ({
                       accent={Accent.PRIMARY}
                       role="validate-infraction"
                       onClick={async () => {
+                        setDebounceTime(0)
                         handleSubmit(formik.values).then(() => onClose())
                       }}
                     >
