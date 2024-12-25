@@ -1,0 +1,65 @@
+
+type Infraction2 {
+  id: String!
+  controlType: String
+  infractionType: InfractionType
+  natinfs: [String]
+  observations: String
+  target: InfractionTarget2
+}
+
+type InfractionTarget2 {
+  id: String!
+  vesselIdentifier: String
+  identityControlledPerson: String
+  vesselType: VesselType
+  vesselSize: VesselSize
+  companyName: String
+  relevantCourt: String
+  infractionType: String
+  formalNotice: String
+  toProcess: Boolean
+}
+
+# for Env controls, we group by vesselIdentifier
+type InfractionByTarget2 {
+  vesselIdentifier: String
+  vesselType: VesselType
+  controlTypesWithInfraction: [ControlType]
+  targetAddedByUnit: Boolean
+  infractions: [Infraction2]
+  identityControlledPerson: String
+}
+
+
+input InfractionInput2 {
+  id: String
+  controlId: String
+  controlType: ControlType
+  infractionType: InfractionType
+  natinfs: [String]
+  observations: String
+  target: InfractionTargetInput2
+}
+
+input InfractionTargetInput2 {
+  id: String
+  vesselIdentifier: String
+  identityControlledPerson: String
+  vesselType: VesselType
+  vesselSize: VesselSize
+  companyName: String
+  relevantCourt: String
+  infractionType: String
+  formalNotice: String
+  toProcess: Boolean
+}
+
+input InfractionByTargetInput2 {
+  vesselIdentifier: String
+  vesselType: VesselType
+  controlTypesWithInfraction: [ControlType]
+  targetAddedByUnit: Boolean
+  infractions: [InfractionInput2]
+  identityControlledPerson: String
+}

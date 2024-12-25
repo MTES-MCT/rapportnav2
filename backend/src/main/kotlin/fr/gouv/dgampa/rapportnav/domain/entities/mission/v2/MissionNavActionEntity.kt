@@ -155,7 +155,7 @@ class MissionNavActionEntity(
             return MissionNavActionEntity(
                 id = model.id,
                 missionId = model.missionId,
-                actionType = model.actionType.let { ActionType.valueOf(it) },
+                actionType = model.actionType, //model.actionType.let { ActionType.valueOf(it) },
                 startDateTimeUtc = model.startDateTimeUtc,
                 endDateTimeUtc = model.endDateTimeUtc,
                 observations = model.observations,

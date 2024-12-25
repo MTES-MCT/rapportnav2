@@ -21,7 +21,7 @@ object MissionActionModelMock {
             isAntiPolDeviceDeployed = true,
             isSimpleBrewingOperationDone = true,
             diversionCarriedOut = true,
-            actionType = ActionType.CONTROL.toString(),
+            actionType = ActionType.CONTROL,
             latitude = 3434.0,
             longitude = 4353.0,
             detectedPollution = false,

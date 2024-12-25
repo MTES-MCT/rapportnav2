@@ -1,6 +1,8 @@
 package fr.gouv.gmampa.rapportnav.domain.entities.mission.nav.control
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlResult
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -91,5 +93,30 @@ class ControlNavigationEntityTest {
 
         // Assert
         assertTrue(result)
+    }
+
+    @Test
+    fun `should check if equals or not equals `() {
+        val id = UUID.randomUUID()
+        val entity1 = ControlNavigationEntity(
+            id = id,
+            missionId = 1,
+            actionControlId = "action-5",
+            amountOfControls = 15,
+            unitShouldConfirm = true,
+            unitHasConfirmed = null
+        )
+
+        val entity2 = ControlNavigationEntity(
+            id = id,
+            missionId = 1,
+            actionControlId = "action-5",
+            amountOfControls = 12,
+            unitShouldConfirm = true,
+            unitHasConfirmed = null
+        )
+
+        // Assert
+        assertFalse(entity1.equals(entity2))
     }
 }

@@ -5,8 +5,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvActionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsByActionId
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
 import org.assertj.core.api.Assertions.assertThat
@@ -36,6 +38,12 @@ class GetEnvActionByIdTest {
     @MockBean
     private lateinit var getStatusForAction: GetStatusForAction
 
+    @MockBean
+    private lateinit var mapControlPlans: MapEnvActionControlPlans
+
+    @MockBean
+    private lateinit var getInfractionsByActionId: GetInfractionsByActionId
+
     @Test
     fun `test execute get Env action by id`() {
         val missionId = 761
@@ -63,7 +71,9 @@ class GetEnvActionByIdTest {
         getEnvActionById = GetEnvActionById(
             monitorEnvApiRepo = monitorEnvApiRepo,
             getStatusForAction = getStatusForAction,
-            getControlByActionId = getControlByActionId
+            mapControlPlans = mapControlPlans,
+            getControlByActionId = getControlByActionId,
+            getInfractionsByActionId = getInfractionsByActionId,
         )
         val missionEnvAction = getEnvActionById.execute(missionId = missionId, actionId = actionId.toString())
 

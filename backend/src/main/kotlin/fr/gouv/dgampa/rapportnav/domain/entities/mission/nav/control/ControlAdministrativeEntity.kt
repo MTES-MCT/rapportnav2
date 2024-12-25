@@ -15,7 +15,7 @@ data class ControlAdministrativeEntity(
     val compliantSecurityDocuments: ControlResult? = null,
     override val observations: String? = null,
     override val hasBeenDone: Boolean? = null,
-    override val infractions: List<InfractionEntity>? = null
+    override var infractions: List<InfractionEntity>? = null
 ) : BaseControlEntity() {
     override fun shouldToggleOnUnitHasConfirmed(): Boolean =
         unitShouldConfirm == true &&
@@ -26,4 +26,23 @@ data class ControlAdministrativeEntity(
                 infractions?.isNotEmpty() == true ||
                 observations != null
                 )
+
+    override fun hashCode(): Int {
+        var result = missionId.hashCode()
+        result = 31 * result + amountOfControls
+        result = 31 * result + (compliantOperatingPermit?.hashCode() ?: 0)
+        result = 31 * result + (upToDateNavigationPermit?.hashCode() ?: 0)
+        result = 31 * result + (compliantSecurityDocuments?.hashCode() ?: 0)
+        return super.hashCode() + result
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (!super.equals(other)) return false
+        other as ControlAdministrativeEntity
+        return (missionId == other.missionId
+            && amountOfControls == other.amountOfControls
+            && compliantOperatingPermit == other.compliantOperatingPermit
+            && upToDateNavigationPermit == other.upToDateNavigationPermit
+            && compliantSecurityDocuments == other.compliantSecurityDocuments)
+    }
 }
