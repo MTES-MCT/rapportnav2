@@ -1,5 +1,6 @@
 import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
+import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionActionOutput } from '../../common/types/mission-action-output'
@@ -10,13 +11,14 @@ export function useMissionActionAntiPollution(
   action: MissionActionOutput,
   onChange: (newAction: MissionActionOutput) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionAntiPollutionInput> {
+  const { getCoords } = useCoordinate()
   const value = action?.data as MissionNavActionDataOutput
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
 
   const fromFieldValueToInput = (data: MissionNavActionDataOutput): ActionAntiPollutionInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
     const startDate = preprocessDateForPicker(data.startDateTimeUtc)
-    return { ...data, dates: [startDate, endDate], geoCoords: [data.latitude, data.longitude] }
+    return { ...data, dates: [startDate, endDate], geoCoords: getCoords(data.latitude, data.longitude) }
   }
 
   const fromInputToFieldValue = (value: ActionAntiPollutionInput): MissionNavActionDataOutput => {

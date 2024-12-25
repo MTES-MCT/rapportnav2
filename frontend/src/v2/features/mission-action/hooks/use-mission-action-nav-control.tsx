@@ -2,6 +2,7 @@ import { VesselSizeEnum } from '@common/types/env-mission-types'
 import { FormikErrors } from 'formik'
 import { boolean, mixed, object, string } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
+import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionActionOutput } from '../../common/types/mission-action-output'
@@ -13,6 +14,7 @@ export function useMissionActionNavControl(
   onChange: (newAction: MissionActionOutput) => Promise<unknown>,
   isMissionFinished?: boolean
 ): AbstractFormikSubFormHook<ActionNavControlInput> {
+  const { getCoords } = useCoordinate()
   const value = action?.data as MissionNavActionDataOutput
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
 
@@ -23,7 +25,7 @@ export function useMissionActionNavControl(
       ...data,
       dates: [startDate, endDate],
       isMissionFinished: !!isMissionFinished,
-      geoCoords: [data.latitude, data.longitude]
+      geoCoords: getCoords(data.latitude, data.longitude)
     }
   }
 

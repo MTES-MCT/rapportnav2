@@ -1,6 +1,7 @@
 import { FormikErrors } from 'formik'
 import { boolean, number, object } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
+import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionActionOutput } from '../../common/types/mission-action-output'
@@ -12,6 +13,7 @@ export function useMissionActionIllegalImmigration(
   onChange: (newAction: MissionActionOutput) => Promise<unknown>,
   isMissionFinished?: boolean
 ): AbstractFormikSubFormHook<ActionIllegalImmigrationInput> {
+  const { getCoords } = useCoordinate()
   const value = action?.data as MissionNavActionDataOutput
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
 
@@ -22,7 +24,7 @@ export function useMissionActionIllegalImmigration(
       ...data,
       dates: [startDate, endDate],
       isMissionFinished: !!isMissionFinished,
-      geoCoords: [data.latitude, data.longitude]
+      geoCoords: getCoords(data.latitude, data.longitude)
     }
   }
 

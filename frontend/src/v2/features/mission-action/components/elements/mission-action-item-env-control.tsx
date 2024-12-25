@@ -142,7 +142,6 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                       <MissionInfractionEnvList
                         name="infractions"
                         fieldArray={fieldArray}
-                        vehicleType={values.vehicleType}
                         actionTargetType={values.actionTargetType}
                         availableControlTypes={values.availableControlTypesForInfraction}
                       />

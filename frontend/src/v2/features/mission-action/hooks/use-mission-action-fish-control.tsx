@@ -1,5 +1,6 @@
 import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
+import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionActionOutput } from '../../common/types/mission-action-output'
@@ -11,6 +12,7 @@ export function useMissionActionFishControl(
   onChange: (newAction: MissionActionOutput, debounceTime?: number) => Promise<unknown>,
   isMissionFinished?: boolean
 ): AbstractFormikSubFormHook<ActionFishControlInput> {
+  const { getCoords } = useCoordinate()
   const value = action?.data as MissionFishActionDataOutput
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
 
@@ -21,7 +23,7 @@ export function useMissionActionFishControl(
       ...data,
       dates: [startDate, endDate],
       isMissionFinished: !!isMissionFinished,
-      geoCoords: [data.latitude, data.longitude] //TODO: Check coords 2 number after the comma unless, it will trigger a diff
+      geoCoords: getCoords(data.latitude, data.longitude)
     }
   }
 
