@@ -2,13 +2,13 @@ import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
+import { MissionAction } from '../../common/types/mission-action'
 import { MissionActionData } from '../../common/types/mission-action-data'
-import { MissionActionOutput } from '../../common/types/mission-action-output'
 import { ActionGenericDateObservationInput } from '../types/action-type'
 
 export function useMissionActionGenericDateObservation(
-  action: MissionActionOutput,
-  onChange: (newAction: MissionActionOutput) => Promise<unknown>
+  action: MissionAction,
+  onChange: (newAction: MissionAction) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionGenericDateObservationInput> {
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
 

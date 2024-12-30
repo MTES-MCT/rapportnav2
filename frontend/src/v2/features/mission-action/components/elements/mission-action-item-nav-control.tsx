@@ -4,7 +4,7 @@ import { Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikSelectVesselSize } from '../../../common/components/ui/formik-select-vessel-size'
-import { MissionActionOutput } from '../../../common/types/mission-action-output'
+import { MissionAction } from '../../../common/types/mission-action'
 import MissionControlNavForm from '../../../mission-control/components/elements/mission-control-nav-form'
 import MissionControlNavSummary from '../../../mission-control/components/ui/mission-control-nav-summary'
 import { useMissionActionNavControl } from '../../hooks/use-mission-action-nav-control'
@@ -15,8 +15,8 @@ import { MissionActionFormikTextInput } from '../ui/mission-action-formik-text-i
 import MissionActionNavControlWarning from '../ui/mission-action-nav-control-warning'
 
 const MissionActionItemNavControl: FC<{
-  action: MissionActionOutput
-  onChange: (newAction: MissionActionOutput) => Promise<unknown>
+  action: MissionAction
+  onChange: (newAction: MissionAction) => Promise<unknown>
   isMissionFinished?: boolean
 }> = ({ action, onChange, isMissionFinished }) => {
   const { initValue, handleSubmit, validationSchema } = useMissionActionNavControl(action, onChange, isMissionFinished)

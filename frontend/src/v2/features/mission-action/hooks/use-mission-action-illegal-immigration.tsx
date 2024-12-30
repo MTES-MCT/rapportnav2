@@ -4,20 +4,19 @@ import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
-import { MissionActionOutput } from '../../common/types/mission-action-output'
-import { MissionNavActionDataOutput } from '../../common/types/mission-nav-action-output'
+import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionIllegalImmigrationInput } from '../types/action-type'
 
 export function useMissionActionIllegalImmigration(
-  action: MissionActionOutput,
-  onChange: (newAction: MissionActionOutput) => Promise<unknown>,
+  action: MissionAction,
+  onChange: (newAction: MissionAction) => Promise<unknown>,
   isMissionFinished?: boolean
 ): AbstractFormikSubFormHook<ActionIllegalImmigrationInput> {
   const { getCoords } = useCoordinate()
-  const value = action?.data as MissionNavActionDataOutput
+  const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
 
-  const fromFieldValueToInput = (data: MissionNavActionDataOutput): ActionIllegalImmigrationInput => {
+  const fromFieldValueToInput = (data: MissionNavActionData): ActionIllegalImmigrationInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
     const startDate = preprocessDateForPicker(data.startDateTimeUtc)
     return {
@@ -28,7 +27,7 @@ export function useMissionActionIllegalImmigration(
     }
   }
 
-  const fromInputToFieldValue = (value: ActionIllegalImmigrationInput): MissionNavActionDataOutput => {
+  const fromInputToFieldValue = (value: ActionIllegalImmigrationInput): MissionNavActionData => {
     const { dates, geoCoords, isMissionFinished, ...newData } = value
     const latitude = geoCoords[0]
     const longitude = geoCoords[1]
@@ -37,12 +36,13 @@ export function useMissionActionIllegalImmigration(
     return { ...newData, startDateTimeUtc, endDateTimeUtc, longitude, latitude }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<
-    MissionNavActionDataOutput,
-    ActionIllegalImmigrationInput
-  >(value, fromFieldValueToInput, fromInputToFieldValue)
+  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionNavActionData, ActionIllegalImmigrationInput>(
+    value,
+    fromFieldValueToInput,
+    fromInputToFieldValue
+  )
 
-  const onSubmit = async (valueToSubmit?: MissionNavActionDataOutput) => {
+  const onSubmit = async (valueToSubmit?: MissionNavActionData) => {
     if (!valueToSubmit) return
     await onChange({ ...action, data: valueToSubmit })
   }

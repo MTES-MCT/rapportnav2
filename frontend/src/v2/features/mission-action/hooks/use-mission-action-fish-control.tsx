@@ -3,20 +3,19 @@ import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
-import { MissionActionOutput } from '../../common/types/mission-action-output'
-import { MissionFishActionDataOutput } from '../../common/types/mission-fish-action-output'
+import { MissionAction, MissionFishActionData } from '../../common/types/mission-action'
 import { ActionFishControlInput } from '../types/action-type'
 
 export function useMissionActionFishControl(
-  action: MissionActionOutput,
-  onChange: (newAction: MissionActionOutput, debounceTime?: number) => Promise<unknown>,
+  action: MissionAction,
+  onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>,
   isMissionFinished?: boolean
 ): AbstractFormikSubFormHook<ActionFishControlInput> {
   const { getCoords } = useCoordinate()
-  const value = action?.data as MissionFishActionDataOutput
+  const value = action?.data as MissionFishActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
 
-  const fromFieldValueToInput = (data: MissionFishActionDataOutput): ActionFishControlInput => {
+  const fromFieldValueToInput = (data: MissionFishActionData): ActionFishControlInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
     const startDate = preprocessDateForPicker(data.startDateTimeUtc)
     return {
@@ -27,20 +26,20 @@ export function useMissionActionFishControl(
     }
   }
 
-  const fromInputToFieldValue = (value: ActionFishControlInput): MissionFishActionDataOutput => {
+  const fromInputToFieldValue = (value: ActionFishControlInput): MissionFishActionData => {
     const { dates, geoCoords, isMissionFinished, ...newData } = value
     const endDateTimeUtc = postprocessDateFromPicker(dates[1])
     const startDateTimeUtc = postprocessDateFromPicker(dates[0])
     return { ...newData, startDateTimeUtc, endDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionFishActionDataOutput, ActionFishControlInput>(
+  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionFishActionData, ActionFishControlInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
   )
 
-  const onSubmit = async (valueToSubmit?: MissionFishActionDataOutput) => {
+  const onSubmit = async (valueToSubmit?: MissionFishActionData) => {
     if (!valueToSubmit) return
     await onChange({ ...action, data: valueToSubmit })
   }

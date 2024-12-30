@@ -5,20 +5,19 @@ import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
-import { MissionActionOutput } from '../../common/types/mission-action-output'
-import { MissionNavActionDataOutput } from '../../common/types/mission-nav-action-output'
+import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionNavControlInput } from '../types/action-type'
 
 export function useMissionActionNavControl(
-  action: MissionActionOutput,
-  onChange: (newAction: MissionActionOutput) => Promise<unknown>,
+  action: MissionAction,
+  onChange: (newAction: MissionAction) => Promise<unknown>,
   isMissionFinished?: boolean
 ): AbstractFormikSubFormHook<ActionNavControlInput> {
   const { getCoords } = useCoordinate()
-  const value = action?.data as MissionNavActionDataOutput
+  const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
 
-  const fromFieldValueToInput = (data: MissionNavActionDataOutput): ActionNavControlInput => {
+  const fromFieldValueToInput = (data: MissionNavActionData): ActionNavControlInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
     const startDate = preprocessDateForPicker(data.startDateTimeUtc)
     return {
@@ -29,7 +28,7 @@ export function useMissionActionNavControl(
     }
   }
 
-  const fromInputToFieldValue = (value: ActionNavControlInput): MissionNavActionDataOutput => {
+  const fromInputToFieldValue = (value: ActionNavControlInput): MissionNavActionData => {
     const { dates, isMissionFinished, geoCoords, ...newData } = value
     const latitude = geoCoords[0] ?? 0
     const longitude = geoCoords[1] ?? 0
@@ -38,13 +37,13 @@ export function useMissionActionNavControl(
     return { ...newData, startDateTimeUtc, endDateTimeUtc, longitude, latitude }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionNavActionDataOutput, ActionNavControlInput>(
+  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionNavActionData, ActionNavControlInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
   )
 
-  const onSubmit = async (valueToSubmit?: MissionNavActionDataOutput) => {
+  const onSubmit = async (valueToSubmit?: MissionNavActionData) => {
     if (!valueToSubmit) return
     await onChange({ ...action, data: valueToSubmit })
   }
