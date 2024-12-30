@@ -11,16 +11,18 @@ import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Repository
 import java.net.URI
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
-class APIEnvMissionRepository(
+@Repository
+class APIEnvMissionRepositoryV2(
     private val mapper: ObjectMapper,
     clientFactory: HttpClientFactory
 ): IEnvMissionRepository {
 
-    private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepository::class.java);
+    private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepositoryV2::class.java);
 
     private val gson = GsonSerializer().create()
 
