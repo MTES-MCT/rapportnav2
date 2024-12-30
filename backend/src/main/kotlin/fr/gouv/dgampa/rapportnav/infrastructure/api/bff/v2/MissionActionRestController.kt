@@ -11,6 +11,7 @@ import java.util.*
 @RestController
 @RequestMapping("/api/v2/missions/{missionId}/actions")
 class MissionActionRestController(
+    private val deleteNavAction: DeleteNavAction,
     private val createNavAction: CreateNavAction,
     private val updateEnvAction: UpdateEnvAction,
     private val updateNavAction: UpdateNavAction,
@@ -70,5 +71,11 @@ class MissionActionRestController(
         }
         this.logger.info(body.id)
         return MissionAction.fromMissionActionEntity(response)
+    }
+
+    @DeleteMapping("{actionId}")
+    @Operation(summary = "Delete a mission action")
+    fun deleteAction(@PathVariable(name = "actionId") actionId: String): Unit {
+        deleteNavAction.execute(UUID.fromString(actionId))
     }
 }

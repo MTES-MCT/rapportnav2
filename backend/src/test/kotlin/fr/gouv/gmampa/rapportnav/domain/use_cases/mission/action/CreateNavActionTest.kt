@@ -30,7 +30,7 @@ class CreateNavActionTest {
     private lateinit var missionActionRepository: INavMissionActionRepository
 
     @Test
-    fun `test execute update nav action`() {
+    fun `test execute create nav action`() {
         val actionId =  UUID.randomUUID().toString()
         val input = MissionNavAction(
             id = actionId,
