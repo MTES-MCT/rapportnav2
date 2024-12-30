@@ -1,6 +1,6 @@
 * [Home](/)
-* [RapportNav](concepts/rapportnav-goal.md)
+* [Concepts et Objectifs](concepts/index)
 * [Utilisateurs](concepts/users.md)
 * [Missions](concepts/missions.md)
-* [Entités à maîtriser](concepts/main-entities.md)
 * [MonitorEnv & MonitorFish](concepts/fish-env.md)
+* [Entités à maîtriser](concepts/main-entities.md)
