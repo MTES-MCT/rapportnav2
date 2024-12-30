@@ -23,7 +23,7 @@ class DeleteNavActionTest {
     @Test
     fun `test execute delete nav action`() {
         val actionId =  UUID.randomUUID()
-        doNothing().`when`(missionActionRepository).deleteById(actionId) 
+        doNothing().`when`(missionActionRepository).deleteById(actionId)
 
         val deleteNavAction = DeleteNavAction(
             missionActionRepository = missionActionRepository
