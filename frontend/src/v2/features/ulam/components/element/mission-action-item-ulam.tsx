@@ -3,29 +3,27 @@ import { createElement, FC } from 'react'
 import { store } from '../../../../store'
 import { resetDebounceTime } from '../../../../store/slices/delay-query-reducer'
 import { useDelay } from '../../../common/hooks/use-delay'
-import { useMissionActionInput } from '../../../common/hooks/use-mission-action-input'
 import useUpdateMissionActionMutation from '../../../common/services/use-update-mission-action'
-import { MissionActionOutput } from '../../../common/types/mission-action-output'
+import { MissionAction } from '../../../common/types/mission-action'
 import { useUlamActionRegistry } from '../../hooks/use-ulam-action-registry'
 
 interface MissionActionItemUlamProps {
-  missionId?: number
+  missionId: number
   isMissionFinished?: boolean
-  action: MissionActionOutput
+  action: MissionAction
 }
 
 const MissionActionItemUlam: FC<MissionActionItemUlamProps> = ({ action, missionId, isMissionFinished }) => {
   const { handleExecuteOnDelay } = useDelay()
   const debounceTime = useStore(store, state => state.delayQuery.debounceTime)
-  const { getMissionActionInput } = useMissionActionInput()
   const { actionComponent } = useUlamActionRegistry(action.actionType)
 
-  const [updateAction] = useUpdateMissionActionMutation(action.id, missionId)
+  const mutation = useUpdateMissionActionMutation(missionId, action.id)
 
-  const onChange = async (newAction: MissionActionOutput) => {
-    const input = getMissionActionInput(newAction)
+  const onChange = async (newAction: MissionAction) => {
+    // const input = getMissionActionInput(newAction)
     handleExecuteOnDelay(async () => {
-      await updateAction({ variables: { input } })
+      await mutation.mutateAsync(newAction)
       if (debounceTime !== undefined) resetDebounceTime()
     })
   }

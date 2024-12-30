@@ -1,21 +1,21 @@
 import { FC } from 'react'
-import { useMissionActionQuery } from '../../common/services/use-mission-action'
+import useGetActionQuery from '../../common/services/use-mission-action'
 import MissionActionWrapper from '../../mission-action/components/layout/mission-action-wrapper'
 import MissionActionItemPam from './mission-action-item-pam'
 
 interface MissionActionProps {
   actionId?: string
-  missionId?: number
+  missionId: number
 }
 
 const MissionActionPam: FC<MissionActionProps> = ({ missionId, actionId }) => {
-  const { data: action, loading, error } = useMissionActionQuery(actionId, missionId)
+  const query = useGetActionQuery(missionId, actionId)
   return (
     <MissionActionWrapper
-      action={action}
-      isError={error}
-      isLoading={loading}
-      missionId={action?.missionId}
+      action={query.data}
+      missionId={missionId}
+      isError={query.error}
+      isLoading={query.isLoading}
       item={MissionActionItemPam}
     />
   )

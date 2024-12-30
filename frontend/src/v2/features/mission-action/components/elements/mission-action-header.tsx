@@ -1,18 +1,18 @@
 import { MissionStatusEnum } from '@common/types/mission-types.ts'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { useMissionActionQuery } from '../../../common/services/use-mission-action.tsx'
+import useGetActionQuery from '../../../common/services/use-mission-action.tsx'
 import MissionActionHeaderCompletenessForStats from './mission-action-header-completeness-for-stats.tsx'
 import MissionActionHeaderTitle from './mission-action-header-title.tsx'
 
 export type MissionActionHeaderProps = {
   actionId?: string
-  missionId?: number
+  missionId: number
   missionStatus?: MissionStatusEnum
 }
 
 const MissionActionHeader: FC<MissionActionHeaderProps> = ({ actionId, missionId, missionStatus }) => {
-  const { data: action } = useMissionActionQuery(actionId, missionId)
+  const { data: action } = useGetActionQuery(missionId, actionId)
 
   return (
     <Stack direction="column" spacing={'0.5rem'}>

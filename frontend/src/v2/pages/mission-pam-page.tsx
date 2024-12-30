@@ -51,7 +51,7 @@ const MissionPamPage: React.FC = () => {
       }
       missionTimeLine={
         <MissionPageSectionWrapper
-          sectionHeader={<MissionTimelineHeaderPam missionId={missionId} />}
+          sectionHeader={<MissionTimelineHeaderPam missionId={Number(missionId)} />}
           sectionBody={<MissionTimelinePam missionId={Number(missionId)} />}
         />
       }
