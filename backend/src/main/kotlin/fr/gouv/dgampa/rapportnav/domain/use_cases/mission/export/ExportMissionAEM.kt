@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMTableExport
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionAEMExportEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.Base64Converter
@@ -27,7 +27,7 @@ class ExportMissionAEM(
     ) {
 
     private val logger: Logger = LoggerFactory.getLogger(ExportMissionAEM::class.java)
-    fun execute(missionId: Int): MissionAEMExportEntity? {
+    fun execute(missionId: Int): MissionExportEntity? {
         return try {
 
             val inputStream = javaClass.getResourceAsStream(aemTemplatePath)
@@ -54,7 +54,7 @@ class ExportMissionAEM(
 
                 logger.info("ODS file created and converted to Base64")
 
-                return MissionAEMExportEntity(
+                return MissionExportEntity(
                     fileName = "Rapport_AEM.ods",
                     fileContent = base64Content
                 )

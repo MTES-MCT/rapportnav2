@@ -7,6 +7,7 @@ interface MissionListDateRangeNavigatorProps {
   startDateTimeUtc?: string
   onUpdateCurrentDate?: (date: Date) => void
   exportButton?: JSX.Element
+  timeframe: 'month' | 'year'
 }
 
 const DateRangeContainer = styled.div`
@@ -23,40 +24,47 @@ const DateRangeContainer = styled.div`
   display: flex;
 `
 
-const MissionListDateRangeNavigator: React.FC<MissionListDateRangeNavigatorProps> = ({startDateTimeUtc,
-                                                                                       onUpdateCurrentDate,
-                                                                                       exportButton}) => {
-  const {
-    capitalizedFormattedDate,
-    goToPreviousMonth,
-    goToNextMonth,
-    currentDate
-  } = useDateRangeNavigator(startDateTimeUtc)
+const MissionListDateRangeNavigator: React.FC<MissionListDateRangeNavigatorProps> = ({
+  startDateTimeUtc,
+  onUpdateCurrentDate,
+  exportButton,
+  timeframe
+}) => {
+  const { formattedDate, goToPrevious, goToNext, currentDate } = useDateRangeNavigator(startDateTimeUtc, timeframe)
 
   useEffect(() => {
-    onUpdateCurrentDate?.(currentDate); // Suppression de onUpdateCurrentDate des dépendances
-  }, [currentDate]);
-
-
+    onUpdateCurrentDate?.(currentDate) // Suppression de onUpdateCurrentDate des dépendances
+  }, [currentDate])
 
   return (
     <DateRangeContainer>
-      <button onClick={goToPreviousMonth} data-testid={'previous-button'} style={{backgroundColor: 'transparent',
-        paddingTop: '5px'}}>
-        <Icon.Chevron style={{transform: 'rotate(90deg)'}}/>
+      <button
+        onClick={goToPrevious}
+        data-testid={'previous-button'}
+        style={{
+          backgroundColor: 'transparent',
+          paddingTop: '5px'
+        }}
+      >
+        <Icon.Chevron style={{ transform: 'rotate(90deg)' }} />
       </button>
 
-      <span style={{textAlign: 'center'}} data-testid={'date-display'}>
-        {capitalizedFormattedDate}
+      <span style={{ textAlign: 'center' }} data-testid={'date-display'}>
+        {formattedDate}
       </span>
 
-      <button onClick={goToNextMonth} data-testid={'next-button'} style={{backgroundColor: 'transparent',
-        paddingTop: '5px'}}>
-        <Icon.Chevron style={{transform: 'rotate(-90deg)'}}/>
+      <button
+        onClick={goToNext}
+        data-testid={'next-button'}
+        style={{
+          backgroundColor: 'transparent',
+          paddingTop: '5px'
+        }}
+      >
+        <Icon.Chevron style={{ transform: 'rotate(-90deg)' }} />
       </button>
 
       <>{exportButton}</>
-
     </DateRangeContainer>
   )
 }

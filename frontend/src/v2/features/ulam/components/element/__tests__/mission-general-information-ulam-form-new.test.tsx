@@ -1,5 +1,5 @@
 
-import { MissionTypeEnum } from '@common/types/env-mission-types'
+import { MissionTypeEnum } from '@common/types/env-mission-types.ts'
 import MissionGeneralInformationUlamFormNew from '../mission-general-information-ulam-form-new.tsx'
 import { render, fireEvent, screen } from '../../../../../../test-utils.tsx'
 

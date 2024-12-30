@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
@@ -27,6 +28,7 @@ object MissionEntityMock {
         hasMissionOrder: Boolean = false,
         isUnderJdp: Boolean = false,
         actions: List<MissionActionEntity>? = null,
+        completenessForStats: CompletenessForStatsEntity? = null,
     ): MissionEntity {
         return MissionEntity(
             id = id,
@@ -45,7 +47,8 @@ object MissionEntityMock {
             missionSource = missionSource,
             hasMissionOrder = hasMissionOrder,
             isUnderJdp = isUnderJdp,
-            actions = actions
+            actions = actions,
+            completenessForStats = completenessForStats
         )
     }
 
