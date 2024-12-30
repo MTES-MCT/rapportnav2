@@ -8,10 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMeth
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateNavAction
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControl
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfraction
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.ActionControl
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.CreateNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActionData
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
@@ -25,19 +22,12 @@ import org.springframework.test.context.ContextConfiguration
 import java.time.Instant
 import java.util.*
 
-@SpringBootTest(classes = [UpdateNavAction::class])
-@ContextConfiguration(classes = [UpdateNavAction::class])
-class UpdateNavActionTest {
 
+@SpringBootTest(classes = [CreateNavAction::class])
+@ContextConfiguration(classes = [CreateNavAction::class])
+class CreateNavActionTest {
     @MockBean
     private lateinit var missionActionRepository: INavMissionActionRepository
-
-    @MockBean
-    private lateinit var processMissionActionControl: ProcessMissionActionControl
-
-    @MockBean
-    private lateinit var processMissionActionInfraction: ProcessMissionActionInfraction
-
 
     @Test
     fun `test execute update nav action`() {
@@ -51,18 +41,12 @@ class UpdateNavActionTest {
         )
         val model = MissionActionModelMock.create()
         `when`(missionActionRepository.save(anyOrNull())).thenReturn(model)
-        `when`(processMissionActionControl.execute(anyOrNull(), anyOrNull())).thenReturn(ActionControl())
-        `when`(processMissionActionInfraction.execute(actionId, listOf())).thenReturn(listOf())
 
-        val updateNavAction = UpdateNavAction(
-            missionActionRepository = missionActionRepository,
-            processMissionActionControl = processMissionActionControl,
-            processMissionActionInfraction = processMissionActionInfraction
+        val createNavAction = CreateNavAction(
+            missionActionRepository = missionActionRepository
         )
-
-        val response = updateNavAction.execute(actionId, input)
+        val response = createNavAction.execute(input)
         assertThat(response).isNotNull
-
     }
 
     private fun getNavActionDataInput() = MissionNavActionData(

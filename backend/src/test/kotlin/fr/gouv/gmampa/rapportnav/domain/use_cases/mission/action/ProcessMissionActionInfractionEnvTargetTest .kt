@@ -6,11 +6,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.Infracti
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.infraction.IInfractionEnvTargetRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.infraction.IInfractionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfractionEnvTarget
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.InfractionInput2
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.InfractionTargetInput2
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.infraction.Infraction
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.infraction.InfractionTarget
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.infraction.InfractionsByVessel
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Infraction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.InfractionTarget
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.InfractionModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEntityMock
 import org.assertj.core.api.Assertions.assertThat
@@ -41,7 +38,7 @@ class ProcessMissionActionInfractionEnvTargetTest {
     lateinit var deleteCaptor: ArgumentCaptor<List<InfractionEntity>>
 
     @Captor
-    lateinit var saveCaptor: ArgumentCaptor<List<InfractionInput2>>
+    lateinit var saveCaptor: ArgumentCaptor<List<Infraction>>
 
     @MockBean
     private lateinit var processMissionActionInfractionEnvTarget: ProcessMissionActionInfractionEnvTarget
@@ -67,8 +64,7 @@ class ProcessMissionActionInfractionEnvTargetTest {
         //When
         processMissionActionInfractionEnvTarget = Mockito.spy(
             ProcessMissionActionInfractionEnvTarget(
-                infractionRepo = infractionRepo,
-                infractionEnvTargetRepo = infractionEnvTargetRepo
+                infractionRepo = infractionRepo
             )
         )
         val entities = processMissionActionInfractionEnvTarget.execute(actionId.toString(), infractions)
@@ -84,78 +80,78 @@ class ProcessMissionActionInfractionEnvTargetTest {
     }
 
 
-    private fun getInfractions(actionId: String): List<InfractionInput2> {
+    private fun getInfractions(actionId: String): List<Infraction> {
         return listOf(
-            InfractionInput2(
+            Infraction(
                 id = UUID.randomUUID().toString(),
                 actionId = actionId,
                 missionId = 145,
                 controlId = UUID.randomUUID().toString(),
                 infractionType = InfractionTypeEnum.WITH_REPORT,
-                target = InfractionTargetInput2(
+                target = InfractionTarget(
                     id = UUID.randomUUID().toString(),
                     identityControlledPerson = "identityPerson1"
                 )
             ),
-            InfractionInput2(
+            Infraction(
                 id = UUID.randomUUID().toString(),
                 actionId = actionId,
                 controlId = UUID.randomUUID().toString(),
                 missionId = 145,
-                controlType = ControlType.SECURITY.toString(),
+                controlType = ControlType.SECURITY,
                 infractionType = InfractionTypeEnum.WITH_REPORT,
-                target = InfractionTargetInput2(
+                target = InfractionTarget(
                     id = UUID.randomUUID().toString(),
                     vesselIdentifier = "firstVesselIdentifier",
                     identityControlledPerson = "identityPerson2"
                 )
             ),
-            InfractionInput2(
+            Infraction(
                 id = UUID.randomUUID().toString(),
                 actionId = actionId,
                 missionId = 145,
                 controlId = UUID.randomUUID().toString(),
-                controlType = ControlType.ADMINISTRATIVE.toString(),
+                controlType = ControlType.ADMINISTRATIVE,
                 infractionType = InfractionTypeEnum.WITH_REPORT,
-                target = InfractionTargetInput2(
+                target = InfractionTarget(
                     id = UUID.randomUUID().toString(),
                     identityControlledPerson = "identityPerson3"
                 )
             ),
-            InfractionInput2(
+            Infraction(
                 id = UUID.randomUUID().toString(),
                 actionId = actionId,
                 missionId = 145,
                 controlId = UUID.randomUUID().toString(),
-                controlType = ControlType.GENS_DE_MER.toString(),
+                controlType = ControlType.GENS_DE_MER,
                 infractionType = InfractionTypeEnum.WITH_REPORT,
-                target = InfractionTargetInput2(
+                target = InfractionTarget(
                     id = UUID.randomUUID().toString(),
                     vesselIdentifier = "firstVesselIdentifier",
                     identityControlledPerson = "identityPerson4",
                 )
             ),
-            InfractionInput2(
+            Infraction(
                 id = UUID.randomUUID().toString(),
                 actionId = actionId,
                 missionId = 145,
                 controlId = UUID.randomUUID().toString(),
-                controlType = ControlType.NAVIGATION.toString(),
+                controlType = ControlType.NAVIGATION,
                 infractionType = InfractionTypeEnum.WITH_REPORT,
-                target = InfractionTargetInput2(
+                target = InfractionTarget(
                     id = UUID.randomUUID().toString(),
                     vesselIdentifier = "secondVesselIdentifier",
                     identityControlledPerson = "identityPerson5",
                 )
             ),
-            InfractionInput2(
+            Infraction(
                 id = UUID.randomUUID().toString(),
                 actionId = actionId,
                 missionId = 145,
                 controlId = UUID.randomUUID().toString(),
-                controlType = ControlType.SECURITY.toString(),
+                controlType = ControlType.SECURITY,
                 infractionType = InfractionTypeEnum.WITH_REPORT,
-                target = InfractionTargetInput2(
+                target = InfractionTarget(
                     id = UUID.randomUUID().toString(),
                     identityControlledPerson = "identityPerson1",
                 )
