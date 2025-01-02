@@ -5,6 +5,14 @@ interface CoordinateHook {
 
 export function useCoordinate(): CoordinateHook {
   const extractLatLngFromMultiPoint = (multiPointString?: string): [number?, number?] => {
+    if (typeof multiPointString === 'string') {
+      return extracString(multiPointString)
+    } else {
+      return extractObject(multiPointString)
+    }
+  }
+
+  const extracString = (multiPointString?: string): [number?, number?] => {
     let lat = undefined
     let lng = undefined
     const regex = /MULTIPOINT \(\(([-\d.]+) ([-\d.]+)\)\)/
@@ -18,6 +26,16 @@ export function useCoordinate(): CoordinateHook {
       }
     }
     return [lat, lng]
+  }
+
+  const extractObject = (multiPointString?: any): [number?, number?] => {
+    try {
+      const lat = multiPointString?.coordinates[0][0]
+      const lng = multiPointString?.coordinates[0][1]
+      return [Number(lat.toFixed(2)), Number(lng.toFixed(2))]
+    } catch (e) {
+      return [0, 0]
+    }
   }
 
   const getCoords = (lat?: number, lng?: number): [number?, number?] => {

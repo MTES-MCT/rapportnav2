@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import useGetActionQuery from '../../common/services/use-mission-action'
-import MissionActionWrapper from '../../mission-action/components/layout/mission-action-wrapper'
+import useGetActionQuery from '../../../common/services/use-mission-action'
+import MissionActionWrapper from '../../../mission-action/components/layout/mission-action-wrapper'
 import MissionActionItemPam from './mission-action-item-pam'
 
 interface MissionActionProps {
@@ -8,7 +8,7 @@ interface MissionActionProps {
   missionId: number
 }
 
-const MissionActionPam: FC<MissionActionProps> = ({ missionId, actionId }) => {
+const MissionActionPamBody: FC<MissionActionProps> = ({ missionId, actionId }) => {
   const query = useGetActionQuery(missionId, actionId)
   return (
     <MissionActionWrapper
@@ -21,4 +21,4 @@ const MissionActionPam: FC<MissionActionProps> = ({ missionId, actionId }) => {
   )
 }
 
-export default MissionActionPam
+export default MissionActionPamBody

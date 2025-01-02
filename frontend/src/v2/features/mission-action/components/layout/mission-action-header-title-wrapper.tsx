@@ -1,20 +1,28 @@
 import Text from '@common/components/ui/text'
-import { ActionTypeEnum } from '@common/types/env-mission-types'
+import { MissionSourceEnum } from '@common/types/env-mission-types'
 import { formatDateTimeForFrenchHumans } from '@common/utils/dates-for-humans'
 import { IconProps, THEME } from '@mtes-mct/monitor-ui'
-import { createElement } from 'react'
+import { createElement, FunctionComponent } from 'react'
 import { Stack } from 'rsuite'
-import { useActionRegistry } from '../../../../features/common/hooks/use-action-registry'
-import MissionActionHeaderAction from './mission-action-header-action'
+import MissionActionHeaderAction from '../elements/mission-action-header-action'
 
-interface MissionActionHeaderTitleProps {
-  actionType: ActionTypeEnum
+interface MissionActionHeaderTitleWrapperProps {
+  title?: string
+  actionId?: string
+  missionId: number
+  source: MissionSourceEnum
   startDateTimeUtc?: string
+  icon?: FunctionComponent<IconProps>
 }
 
-export const MissionActionHeaderTitle: React.FC<MissionActionHeaderTitleProps> = ({ actionType, startDateTimeUtc }) => {
-  const { title, icon } = useActionRegistry(actionType)
-
+export const MissionActionHeaderTitleWrapper: React.FC<MissionActionHeaderTitleWrapperProps> = ({
+  icon,
+  title,
+  source,
+  actionId,
+  missionId,
+  startDateTimeUtc
+}) => {
   return (
     <Stack direction="row" spacing="0.5rem" style={{ width: '100%', alignItems: 'initial' }}>
       <Stack.Item alignSelf="baseline">
@@ -33,10 +41,10 @@ export const MissionActionHeaderTitle: React.FC<MissionActionHeaderTitleProps> =
         </Stack>
       </Stack.Item>
       <Stack.Item>
-        <MissionActionHeaderAction />
+        {actionId && <MissionActionHeaderAction source={source} actionId={actionId} missionId={missionId} />}
       </Stack.Item>
     </Stack>
   )
 }
 
-export default MissionActionHeaderTitle
+export default MissionActionHeaderTitleWrapper

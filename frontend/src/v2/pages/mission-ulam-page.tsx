@@ -14,7 +14,6 @@ import MissionPageError from '../features/common/components/ui/mission-page-erro
 import MissionPageLoading from '../features/common/components/ui/mission-page-loading.tsx'
 import { useMissionExport } from '../features/common/hooks/use-mission-export.tsx'
 import { useMissionExcerptQuery } from '../features/common/services/use-mission-excerpt.tsx'
-import MissionActionHeader from '../features/mission-action/components/elements/mission-action-header.tsx'
 import MissionActionUlam from '../features/ulam/components/element/mission-action-ulam.tsx'
 import MissionGeneralInformationUlam from '../features/ulam/components/element/mission-general-information-ulam.tsx'
 import MissionTimelineHeaderUlam from '../features/ulam/components/element/mission-timeline-header-ulam.tsx'
@@ -56,15 +55,7 @@ const MissionUlamPage: React.FC = () => {
           sectionBody={<MissionTimelineUlam missionId={Number(missionId)} />}
         />
       }
-      missionAction={
-        <MissionPageSectionWrapper
-          hide={!actionId}
-          sectionHeader={
-            <MissionActionHeader missionId={Number(missionId)} actionId={actionId} missionStatus={mission?.status} />
-          }
-          sectionBody={<MissionActionUlam missionId={Number(missionId)} actionId={actionId} />}
-        />
-      }
+      missionAction={<MissionActionUlam missionId={Number(missionId)} actionId={actionId} status={mission?.status} />}
       missionFooter={<MissionPageFooterWrapper lastSyncText={lastSyncText} exitMission={exitMission} />}
     />
   )
