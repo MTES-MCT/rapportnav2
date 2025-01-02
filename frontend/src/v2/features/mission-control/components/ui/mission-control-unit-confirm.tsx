@@ -1,6 +1,7 @@
 import Text from '@common/components/ui/text'
 import { THEME } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
+import { setDebounceTime } from '../../../../store/slices/delay-query-reducer'
 import YesNoToogle from '../../../common/components/ui/yes-no-toogle'
 
 type MissionControlUnitConfirmProps = {
@@ -11,6 +12,10 @@ type MissionControlUnitConfirmProps = {
 }
 
 const MissionControlUnitConfirm: React.FC<MissionControlUnitConfirmProps> = ({ value, onSubmit }) => {
+  const handleSubmit = (response: boolean) => {
+    onSubmit(response)
+    setDebounceTime(0)
+  }
   return (
     <Stack direction={'row'} style={{ padding: 16, backgroundColor: THEME.color.blueGray25 }}>
       <Stack.Item style={{ width: '50%' }}>
@@ -29,7 +34,7 @@ const MissionControlUnitConfirm: React.FC<MissionControlUnitConfirmProps> = ({ v
       </Stack.Item>
       <Stack.Item style={{ width: '50%' }}>
         <Stack direction={'row'} style={{ justifyContent: 'end' }}>
-          <YesNoToogle initValue={value} onSubmit={onSubmit} />
+          <YesNoToogle initValue={value} onSubmit={handleSubmit} />
         </Stack>
       </Stack.Item>
     </Stack>

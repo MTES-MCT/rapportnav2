@@ -12,7 +12,7 @@ import {
 import { Formik } from 'formik'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
-import { MissionActionOutput } from '../../../common/types/mission-action-output'
+import { MissionAction } from '../../../common/types/mission-action'
 import { RescueType } from '../../../common/types/rescue-type'
 import { useMissionActionRescue } from '../../hooks/use-mission-action-rescue'
 import { ActionRescueInput } from '../../types/action-type'
@@ -32,9 +32,9 @@ const RESCUE_TYPE_OPTIONS = [
 ]
 
 const MissionActionItemRescue: FC<{
-  action: MissionActionOutput
+  action: MissionAction
   isMissionFinished?: boolean
-  onChange: (newAction: MissionActionOutput) => Promise<unknown>
+  onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange, isMissionFinished }) => {
   const { initValue, handleSubmit, validationSchema } = useMissionActionRescue(action, onChange, isMissionFinished)
 

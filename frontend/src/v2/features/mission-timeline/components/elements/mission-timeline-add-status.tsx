@@ -1,10 +1,11 @@
 import { ActionStatusType } from '@common/types/action-types.ts'
+import { ActionTypeEnum } from '@common/types/env-mission-types'
 import { getColorForStatus, mapStatusToText } from '@common/utils/status-utils'
-import useAddOrUpdateStatus from '@features/pam/mission/hooks/use-add-update-status'
 import { Dropdown, Icon } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { useMissionTimeline } from '../../../common/hooks/use-mission-timeline'
+import useCreateMissionActionMutation from '../../../common/services/use-create-mission-action'
 
 const ACTION_STATUS: ActionStatusType[] = [
   ActionStatusType.NAVIGATING,
@@ -14,7 +15,7 @@ const ACTION_STATUS: ActionStatusType[] = [
 ]
 
 interface MissionTimelineAddStatusProps {
-  missionId?: number
+  missionId: number
   onSumbit?: (id?: string) => void
 }
 
@@ -30,30 +31,25 @@ export const MissionStatusColorTag: FC<{ status: ActionStatusType }> = ({ status
 )
 
 const MissionTimelineAddStatus: FC<MissionTimelineAddStatusProps> = ({ missionId, onSumbit }) => {
-  const [addStatus, { loading }] = useAddOrUpdateStatus()
-  const { getBaseInput } = useMissionTimeline(missionId?.toString())
+  const { getActionInput } = useMissionTimeline(missionId)
+  const mutation = useCreateMissionActionMutation(missionId)
 
   const handleAddStatus = async (status: ActionStatusType) => {
-    const statusAction = {
-      status,
-      reason: null,
-      observations: null,
-      ...getBaseInput()
-    }
-    const response = await addStatus({ variables: { statusAction } })
-    if (onSumbit) onSumbit(response.data?.id)
+    const action = getActionInput(ActionTypeEnum.STATUS, { status })
+    const response = await mutation.mutateAsync(action)
+    if (onSumbit) onSumbit(response?.id)
   }
 
   return (
     <Dropdown
       Icon={Icon.FleetSegment}
       onSelect={handleAddStatus}
-      disabled={loading}
+      disabled={mutation.isPending}
       title="&#x25BC;"
       placement="bottomEnd"
     >
       {ACTION_STATUS.map(status => (
-        <Dropdown.Item key={status} eventKey={status} disabled={loading}>
+        <Dropdown.Item key={status} eventKey={status} disabled={mutation.isPending}>
           <Stack spacing="0.5rem" alignItems="center">
             <Stack.Item>
               <MissionStatusColorTag status={status} />

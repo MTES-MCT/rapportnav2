@@ -4,6 +4,7 @@ import { Accent, Button, FormikTextarea, FormikToggle, Size, THEME } from '@mtes
 import { FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
+import { setDebounceTime } from '../../../../store/slices/delay-query-reducer'
 import { FormikMultiSelectNatinf } from '../../../common/components/ui/formik-multi-select-natinf'
 import { useInfractionNavForm } from '../../hooks/use-infraction-nav-form'
 
@@ -52,6 +53,7 @@ const MissionInfractionForm: FC<MissionInfractionFormProps> = ({ name, onClose, 
                       accent={Accent.PRIMARY}
                       role="validate-infraction"
                       onClick={async () => {
+                        setDebounceTime(0)
                         handleSubmit(formik.values).then(() => onClose())
                       }}
                       //disabled={!initValue.controlType || !initValue.natinfs?.length}

@@ -2,13 +2,13 @@ import { FormikDatePicker, FormikEffect, FormikTextarea } from '@mtes-mct/monito
 import { Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { MissionActionOutput } from '../../../common/types/mission-action-output'
+import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionFreeNote } from '../../hooks/use-mission-action-note'
 import { ActionFreeNoteInput } from '../../types/action-type'
 
 const MissionActionItemNote: FC<{
-  action: MissionActionOutput
-  onChange: (newAction: MissionActionOutput) => Promise<unknown>
+  action: MissionAction
+  onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
   const { initValue, handleSubmit } = useMissionActionFreeNote(action, onChange)
   return (

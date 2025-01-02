@@ -11,9 +11,9 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionA
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateNavAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfraction
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.ActionControlInput
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.MissionActionInput
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.MissionNavActionDataInput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.ActionControl
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActionData
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -42,16 +42,16 @@ class UpdateNavActionTest {
     @Test
     fun `test execute update nav action`() {
         val actionId =  UUID.randomUUID().toString()
-        val input = MissionActionInput(
+        val input = MissionNavAction(
             id = actionId,
             missionId = 761,
             actionType = ActionType.CONTROL,
             source = MissionSourceEnum.RAPPORTNAV,
-            nav = missionNavActionDataInput(),
+            data = getNavActionDataInput(),
         )
         val model = MissionActionModelMock.create()
         `when`(missionActionRepository.save(anyOrNull())).thenReturn(model)
-        `when`(processMissionActionControl.execute(anyOrNull(), anyOrNull())).thenReturn(ActionControlInput())
+        `when`(processMissionActionControl.execute(anyOrNull(), anyOrNull())).thenReturn(ActionControl())
         `when`(processMissionActionInfraction.execute(actionId, listOf())).thenReturn(listOf())
 
         val updateNavAction = UpdateNavAction(
@@ -60,12 +60,12 @@ class UpdateNavActionTest {
             processMissionActionInfraction = processMissionActionInfraction
         )
 
-        val response = updateNavAction.execute(input)
+        val response = updateNavAction.execute(actionId, input)
         assertThat(response).isNotNull
 
     }
 
-    private fun missionNavActionDataInput() = MissionNavActionDataInput(
+    private fun getNavActionDataInput() = MissionNavActionData(
         startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
         endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
         isAntiPolDeviceDeployed = true,

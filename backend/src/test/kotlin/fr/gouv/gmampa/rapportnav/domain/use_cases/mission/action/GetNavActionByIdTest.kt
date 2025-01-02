@@ -59,7 +59,7 @@ class GetNavActionByIdTest {
             missionActionRepository = missionActionRepository, getStatusForAction = getStatusForAction,
             getControlByActionId = getControlByActionId
         )
-        val missionEnvAction = getNavActionById.execute(actionId = actionId)
+        val missionEnvAction = getNavActionById.execute(actionId = actionId.toString())
 
         assertThat(missionEnvAction).isNotNull
         assertThat(missionEnvAction?.getActionId()).isEqualTo(actionId.toString())

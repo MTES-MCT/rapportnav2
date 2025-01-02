@@ -3,10 +3,10 @@ import { Label, THEME } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
 import { useActionTarget } from '../../../common/hooks/use-action-target'
 import { useVehicule } from '../../../common/hooks/use-vehicule'
-import { MissionEnvActionDataOutput } from '../../../common/types/mission-env-action-output'
+import { MissionEnvActionData } from '../../../common/types/mission-action'
 
 type MissionActionErrorProps = {
-  data: MissionEnvActionDataOutput
+  data: MissionEnvActionData
 }
 const MissionActionEnvControlSummary: React.FC<MissionActionErrorProps> = ({ data }) => {
   const { getVehiculeType } = useVehicule()

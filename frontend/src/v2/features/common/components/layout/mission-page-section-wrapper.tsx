@@ -4,7 +4,7 @@ import { Divider, FlexboxGrid } from 'rsuite'
 type MissionPageSectionWrapperProps = {
   hide?: boolean
   sectionBody?: JSX.Element
-  sectionHeader: JSX.Element
+  sectionHeader?: JSX.Element
 }
 
 const MissionPageSectionWrapper: React.FC<MissionPageSectionWrapperProps> = ({

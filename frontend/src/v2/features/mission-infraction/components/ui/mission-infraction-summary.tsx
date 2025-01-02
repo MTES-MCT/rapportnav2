@@ -3,6 +3,7 @@ import { ControlType } from '@common/types/control-types.ts'
 import { Accent, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { Stack } from 'rsuite'
+import { setDebounceTime } from '../../../../store/slices/delay-query-reducer.ts'
 import MissionNatinfTag from '../../../common/components/ui/mission-natinfs-tag.tsx'
 import { useInfraction } from '../../hooks/use-infraction.tsx'
 import { FishNavInfraction } from '../../types/infraction-input.tsx'
@@ -30,6 +31,13 @@ const MissionInfractionSummary: React.FC<MissionInfractionSummaryProps> = ({
 }) => {
   const { getInfractionByControlTypeTitle } = useInfraction()
   const titleControlType = controlType ? getInfractionByControlTypeTitle(controlType) : ''
+
+  const handleDelete = (id?: string) => {
+    if (!onDelete) return
+    onDelete(id)
+    setDebounceTime(0)
+  }
+
   return (
     <>
       {infractions?.length === 0 ? (
@@ -75,9 +83,7 @@ const MissionInfractionSummary: React.FC<MissionInfractionSummaryProps> = ({
                         role="delete-infraction"
                         accent={Accent.SECONDARY}
                         disabled={isActionDisabled}
-                        onClick={() => {
-                          if (onDelete) onDelete(infraction.id)
-                        }}
+                        onClick={() => handleDelete(infraction.id)}
                       />
                     </Stack.Item>
                   </Stack>
