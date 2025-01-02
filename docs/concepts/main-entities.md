@@ -15,6 +15,8 @@ Au niveau d'une mission seront stockées :
 - si le rapport est complet
 - tout un tas d'autres infos
 
+Cet objet est commun à RapportNav + MonitorFish + MonitorEnv.
+
 
 ## Actions
 
@@ -27,6 +29,16 @@ Au niveau d'une action seront stockées :
 - potentiellement des contrôles
 - potentiellement des infractions
 - tout un tas d'autres infos relatives au type d'action
+
+Certaines Actions sont communes avec MonitorFish/Env mais pas toutes. Celles en commun sont :
+- MonitorFish
+  - Contrôles
+- MonitorEnv
+  - Contrôles
+  - Surveillance
+  
+Les autres actions sont seulement disponibles pour RapportNav.
+
 
 ### Types d'actions
 

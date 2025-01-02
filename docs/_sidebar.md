@@ -1,4 +1,4 @@
-<!-- docs/_sidebar.index.md -->
+<!-- docs/_sidebar.frontend.md -->
 * [Home](/)
 * [Concepts généraux](concepts/index)
 * [Fonctionnalités utilisateurs](features/index)
