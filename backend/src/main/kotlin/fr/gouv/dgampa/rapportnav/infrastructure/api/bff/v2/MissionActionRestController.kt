@@ -2,7 +2,10 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.*
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionAction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvAction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishAction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import io.swagger.v3.oas.annotations.Operation
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
@@ -41,7 +44,7 @@ class MissionActionRestController(
         @PathVariable(name = "missionId") missionId: Int,
         @PathVariable(name = "actionId") actionId: String,
     ): MissionAction? {
-        val navAction = getNavActionById.execute(actionId = UUID.fromString(actionId))
+        val navAction = getNavActionById.execute(actionId = actionId)
         if (navAction != null) return MissionAction.fromMissionActionEntity(navAction)
 
         val fishAction = getFishActionById.execute(missionId = missionId, actionId = actionId)
