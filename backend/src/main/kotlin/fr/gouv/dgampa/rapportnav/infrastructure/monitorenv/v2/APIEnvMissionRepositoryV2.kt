@@ -5,7 +5,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.inputs.CreateOrUpdateMissionDataInput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.outputs.MissionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.n52.jackson.datatype.jts.JtsModule
@@ -28,9 +28,11 @@ class APIEnvMissionRepositoryV2(
 
     private val client = clientFactory.create();
 
-    private val host = System.getenv("MONITORENV_HOST")
+   // private val host = System.getenv("MONITORENV_HOST")
 
-    override fun createMission(input: CreateOrUpdateMissionDataInput): MissionEntity? {
+    private val host = "https://monitorenv.din.developpement-durable.gouv.fr"
+
+    override fun createMission(mission: MissionEnv): MissionEntity? {
         val url = "$host/api/v1/missions";
         logger.info("Sending POST request for Env mission creation URL: $url")
         return try {
@@ -38,7 +40,7 @@ class APIEnvMissionRepositoryV2(
             val request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
-                .method("POST", HttpRequest.BodyPublishers.ofString(gson.toJson(input)))
+                .method("POST", HttpRequest.BodyPublishers.ofString(gson.toJson(mission)))
                 .header("Content-Type", "application/json")
                 .build();
 

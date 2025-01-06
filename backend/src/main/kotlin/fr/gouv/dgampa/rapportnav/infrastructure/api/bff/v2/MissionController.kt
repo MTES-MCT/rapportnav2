@@ -21,7 +21,6 @@ class MissionController(
     private val getMission: GetMission,
     private val getControlUnitsForUser: GetControlUnitsForUser,
     private val fakeMissionData: FakeMissionData,
-    private val createMission: CreateEnvMission
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionController::class.java)
@@ -63,19 +62,6 @@ class MissionController(
             return missions + fakeMissions
         } catch (e: Exception) {
             logger.error("MissionController (ULAM v2) - failed to load missions from MonitorEnv", e)
-            throw Exception(e)
-        }
-    }
-
-    @MutationMapping
-    fun create(@Argument input: CreateOrUpdateMissionDataInput): MissionEntity? {
-        try {
-            return createMission.execute(
-                input,
-                controlUnitIds = getControlUnitsForUser.execute()
-            )
-        } catch (e: Exception) {
-            logger.error("MissionController (ULAM v2) - failed to create mission from MonitorEnv", e)
             throw Exception(e)
         }
     }
