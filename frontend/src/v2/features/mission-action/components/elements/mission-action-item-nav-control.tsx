@@ -8,7 +8,7 @@ import { MissionAction } from '../../../common/types/mission-action'
 import MissionControlNavForm from '../../../mission-control/components/elements/mission-control-nav-form'
 import MissionControlNavSummary from '../../../mission-control/components/ui/mission-control-nav-summary'
 import { useMissionActionNavControl } from '../../hooks/use-mission-action-nav-control'
-import { ActionNavControlInput } from '../../types/action-type'
+import { ActionNavControlInput} from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
 import { MissionActionFormikTextInput } from '../ui/mission-action-formik-text-input'
@@ -30,9 +30,12 @@ const MissionActionItemNavControl: FC<{
           validateOnChange={true}
           validationSchema={validationSchema}
         >
-          {({ values }) => (
+          {({ values, errors, validateForm }) => (
             <>
-              <FormikEffect onChange={nextValues => handleSubmit(nextValues as ActionNavControlInput)} />
+              <FormikEffect onChange={async (nextValue) => {
+                await validateForm(values)
+                await handleSubmit(nextValue as ActionNavControlInput, errors)
+              }} />
               <Stack
                 direction="column"
                 spacing="2rem"
@@ -47,7 +50,7 @@ const MissionActionItemNavControl: FC<{
                   <MissionControlNavSummary vesselType={values?.vesselType} controlMethod={values?.controlMethod} />
                 </Stack.Item>
                 <Stack.Item grow={1}>
-                  <MissionActionFormikDateRangePicker name="dates" />
+                  <MissionActionFormikDateRangePicker name="dates"  isLight={true} errors={errors}/>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <MissionActionFormikCoordinateInputDMD name={'geoCoords'} />

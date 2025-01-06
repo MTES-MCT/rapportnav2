@@ -14,9 +14,10 @@ import FishControlOtherObservationsSection from '../../../mission-control/compon
 import FishControlSeizureSection from '../../../mission-control/components/ui/mission-control-fish-seizure-section'
 import FishControlSpeciesSection from '../../../mission-control/components/ui/mission-control-fish-species-section'
 import { useMissionActionFishControl } from '../../hooks/use-mission-action-fish-control'
-import { ActionFishControlInput } from '../../types/action-type'
+import {ActionFishControlInput} from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
+import {simpleDateRangeValidationSchema} from "../../validation-schema/date-validation.ts";
 
 const MissionActionItemFishControl: FC<{
   action: MissionAction
@@ -27,10 +28,13 @@ const MissionActionItemFishControl: FC<{
   return (
     <div style={{ width: '100%' }}>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true}>
-          {({ values }) => (
+        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true} validationSchema={simpleDateRangeValidationSchema}>
+          {({ values, errors, validateForm }) => (
             <>
-              <FormikEffect onChange={nextValues => handleSubmit(nextValues as ActionFishControlInput)} />
+              <FormikEffect onChange={async nextValues => {
+                await validateForm(values)
+                await handleSubmit(nextValues as ActionFishControlInput, errors)
+              }} />
               <Stack
                 direction="column"
                 spacing="2rem"

@@ -58,7 +58,7 @@ class MissionActionRestController(
     }
 
     @PutMapping("{actionId}")
-    @Operation(summary = "Create a new mission action")
+    @Operation(summary = "Update an existing mission action")
     fun updateAction(
         @PathVariable(name = "actionId") actionId: String,
         @RequestBody body: MissionAction
