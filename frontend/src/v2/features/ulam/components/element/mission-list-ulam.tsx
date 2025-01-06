@@ -1,8 +1,9 @@
 import React, { JSX, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Col, Container, FlexboxGrid } from 'rsuite'
 import { Accent, Button, Icon } from '@mtes-mct/monitor-ui'
 import MissionCreateDialog from './mission-create-dialog.tsx'
+import { MissionTypeEnum } from '../../../common/types/mission-types.ts'
+import { MissionSourceEnum } from '@common/types/env-mission-types.ts'
 
 interface MissionListUlamProps {
   dateRangeNavigator: JSX.Element
@@ -10,12 +11,24 @@ interface MissionListUlamProps {
 }
 
 const MissionListUlam: React.FC<MissionListUlamProps> = ({ dateRangeNavigator, missionListing }) => {
-  const navigate = useNavigate()
-
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const handleCloseDialog = () => {
     setIsDialogOpen(false)
+  }
+
+ // const [createMission] = useCreateMissionMutation()
+
+  const handleCreateMission = async () => {
+    const createMissionBody = {
+      startDateTimeUtc: new Date().toISOString(),
+      endDateTimeUtc: new Date().toISOString(),
+      openBy: 'rapportnav-dev',
+      missionTypes: [MissionTypeEnum.AIR],
+      missionSource: MissionSourceEnum.RAPPORTNAV
+    }
+
+
   }
 
   return (
@@ -34,7 +47,7 @@ const MissionListUlam: React.FC<MissionListUlamProps> = ({ dateRangeNavigator, m
                 <h4 style={{ marginBottom: '20px' }}>Mes rapports de mission</h4>
               </FlexboxGrid.Item>
               <FlexboxGrid.Item>
-                <Button accent={Accent.PRIMARY} onClick={() => setIsDialogOpen(true)}>Créer un rapport</Button>
+                <Button accent={Accent.PRIMARY} onClick={() => handleCreateMission()}>Créer un rapport</Button>
               </FlexboxGrid.Item>
             </FlexboxGrid>
 
