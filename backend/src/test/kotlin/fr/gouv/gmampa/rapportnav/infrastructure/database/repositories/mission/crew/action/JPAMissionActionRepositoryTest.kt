@@ -27,19 +27,19 @@ class JPAMissionActionRepositoryTest {
         MissionActionModel(
             id = id1,
             missionId = 761,
-            actionType = ActionType.CONTROL.toString(),
+            actionType = ActionType.CONTROL,
             startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
         ),
         MissionActionModel(
             id = UUID.randomUUID(),
             missionId = 761,
-            actionType = ActionType.ILLEGAL_IMMIGRATION.toString(),
+            actionType = ActionType.ILLEGAL_IMMIGRATION,
             startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
         ),
         MissionActionModel(
             id = id2,
             missionId = 761,
-            actionType = ActionType.SURVEILLANCE.toString(),
+            actionType = ActionType.SURVEILLANCE,
             startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
         )
     );

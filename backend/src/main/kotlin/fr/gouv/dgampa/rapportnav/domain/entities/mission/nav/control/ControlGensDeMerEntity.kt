@@ -15,7 +15,7 @@ data class ControlGensDeMerEntity(
     val knowledgeOfFrenchLawAndLanguage: ControlResult? = null,
     override val observations: String? = null,
     override val hasBeenDone: Boolean? = null,
-    override val infractions: List<InfractionEntity>? = null
+    override var infractions: List<InfractionEntity>? = null
 ) : BaseControlEntity() {
     override fun shouldToggleOnUnitHasConfirmed(): Boolean =
         unitShouldConfirm == true &&
@@ -26,4 +26,23 @@ data class ControlGensDeMerEntity(
                 infractions?.isNotEmpty() == true ||
                 observations != null
                 )
+
+    override fun hashCode(): Int {
+        var result = missionId.hashCode()
+        result = 31 * result + amountOfControls
+        result = 31 * result + (staffOutnumbered?.hashCode() ?: 0)
+        result = 31 * result + (upToDateMedicalCheck?.hashCode() ?: 0)
+        result = 31 * result + (knowledgeOfFrenchLawAndLanguage?.hashCode() ?: 0)
+        return super.hashCode() + result
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (!super.equals(other)) return false
+        other as ControlGensDeMerEntity
+        return (missionId == other.missionId
+            && amountOfControls == other.amountOfControls
+            && staffOutnumbered == other.staffOutnumbered
+            && upToDateMedicalCheck == other.upToDateMedicalCheck
+            && knowledgeOfFrenchLawAndLanguage == other.knowledgeOfFrenchLawAndLanguage)
+    }
 }

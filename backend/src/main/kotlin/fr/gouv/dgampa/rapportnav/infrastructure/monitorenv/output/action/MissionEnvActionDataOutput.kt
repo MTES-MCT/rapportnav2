@@ -6,11 +6,11 @@ import java.time.ZonedDateTime
 import java.util.*
 
 data class MissionEnvActionDataOutput(
-    open val id: UUID,
-    open val actionStartDateTimeUtc: ZonedDateTime? = null,
-    open val actionEndDateTimeUtc: ZonedDateTime? = null,
-    open val actionType: ActionTypeEnum,
-    open val observationsByUnit: String? = null,
+    val id: UUID,
+    val actionStartDateTimeUtc: ZonedDateTime? = null,
+    val actionEndDateTimeUtc: ZonedDateTime? = null,
+    val actionType: ActionTypeEnum,
+    val observationsByUnit: String? = null,
 ) {
     fun toPatchableEnvActionEntity(): PatchedEnvActionEntity {
         return PatchedEnvActionEntity(

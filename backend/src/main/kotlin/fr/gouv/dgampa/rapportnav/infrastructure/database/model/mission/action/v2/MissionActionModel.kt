@@ -1,10 +1,10 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
+import org.hibernate.annotations.JdbcType
+import org.hibernate.dialect.PostgreSQLEnumJdbcType
 import java.time.Instant
 import java.util.*
 
@@ -18,8 +18,10 @@ data class MissionActionModel(
     @Column(name = "mission_id", nullable = false)
     var missionId: Int,
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "action_type", nullable = false)
-    var actionType: String,
+    @JdbcType(PostgreSQLEnumJdbcType::class)
+    var actionType: ActionType,
 
     @Column(name = "is_complete_for_stats", nullable = true)
     var isCompleteForStats: Boolean? = null,
@@ -124,7 +126,7 @@ data class MissionActionModel(
         fun fromMissionActionEntity(action: MissionNavActionEntity) = MissionActionModel(
             id = action.id,
             missionId = action.missionId,
-            actionType = action.actionType.toString(),
+            actionType = action.actionType,
             isCompleteForStats = action.isCompleteForStats,
             startDateTimeUtc = action.startDateTimeUtc?: Instant.now(),
             endDateTimeUtc = action.endDateTimeUtc,

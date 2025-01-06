@@ -47,7 +47,7 @@ class GetNavActionByIdTest {
             isAntiPolDeviceDeployed = true,
             isSimpleBrewingOperationDone = true,
             diversionCarriedOut = true,
-            actionType = ActionType.CONTROL.toString(),
+            actionType = ActionType.CONTROL,
         )
 
         val mockControl  = ControlMock.createAllControl()
@@ -59,7 +59,7 @@ class GetNavActionByIdTest {
             missionActionRepository = missionActionRepository, getStatusForAction = getStatusForAction,
             getControlByActionId = getControlByActionId
         )
-        val missionEnvAction = getNavActionById.execute(actionId = actionId)
+        val missionEnvAction = getNavActionById.execute(actionId = actionId.toString())
 
         assertThat(missionEnvAction).isNotNull
         assertThat(missionEnvAction?.getActionId()).isEqualTo(actionId.toString())

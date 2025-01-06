@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionAEMExportEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEM
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
@@ -38,19 +38,19 @@ class ExportMissionAEMTests {
 
     }
 
-        @Test
-        fun `execute AEM export return a MissionAEMExportEntity when mission and action exist`() {
-            val action = NavActionControlMock.create().toNavActionEntity()
-            val missionAction = MissionActionEntity.NavAction(action)
+    @Test
+    fun `execute AEM export return a MissionAEMExportEntity when mission and action exist`() {
+        val action = NavActionControlMock.create().toNavActionEntity()
+        val missionAction = MissionActionEntity.NavAction(action)
 
-            val missionId = 1
-            val mission = MissionEntityMock.create(actions = listOf(missionAction))
-            Mockito.`when`(getMissionById.execute(missionId)).thenReturn(mission)
+        val missionId = 1
+        val mission = MissionEntityMock.create(actions = listOf(missionAction))
+        Mockito.`when`(getMissionById.execute(missionId)).thenReturn(mission)
 
-            val result = exportMissionAEM.execute(missionId)
+        val result = exportMissionAEM.execute(missionId)
 
-            Assertions.assertThat(result).isNotNull()
-            Assertions.assertThat(result).isInstanceOf(MissionAEMExportEntity::class.java)
+        Assertions.assertThat(result).isNotNull()
+        Assertions.assertThat(result).isInstanceOf(MissionExportEntity::class.java)
 
-        }
+    }
 }

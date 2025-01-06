@@ -1,9 +1,18 @@
 interface CoordinateHook {
+  getCoords: (lat?: number, lng?: number) => [number?, number?]
   extractLatLngFromMultiPoint: (value?: string) => [number?, number?]
 }
 
 export function useCoordinate(): CoordinateHook {
   const extractLatLngFromMultiPoint = (multiPointString?: string): [number?, number?] => {
+    if (typeof multiPointString === 'string') {
+      return extracString(multiPointString)
+    } else {
+      return extractObject(multiPointString)
+    }
+  }
+
+  const extracString = (multiPointString?: string): [number?, number?] => {
     let lat = undefined
     let lng = undefined
     const regex = /MULTIPOINT \(\(([-\d.]+) ([-\d.]+)\)\)/
@@ -12,14 +21,29 @@ export function useCoordinate(): CoordinateHook {
       const latitude = parseFloat(match[2])
       const longitude = parseFloat(match[1])
       if (!isNaN(latitude) && !isNaN(longitude)) {
-        lat = latitude
-        lng = longitude
+        lat = Number(latitude.toFixed(2))
+        lng = Number(longitude.toFixed(2))
       }
     }
     return [lat, lng]
   }
 
+  const extractObject = (multiPointString?: any): [number?, number?] => {
+    try {
+      const lat = multiPointString?.coordinates[0][0]
+      const lng = multiPointString?.coordinates[0][1]
+      return [Number(lat.toFixed(2)), Number(lng.toFixed(2))]
+    } catch (e) {
+      return [0, 0]
+    }
+  }
+
+  const getCoords = (lat?: number, lng?: number): [number?, number?] => {
+    return [lat ? Number(lat.toFixed(2)) : 0, lng ? Number(lng.toFixed(2)) : 0]
+  }
+
   return {
+    getCoords,
     extractLatLngFromMultiPoint
   }
 }

@@ -26,7 +26,7 @@ const MissionListPageWrapper: React.FC<MissionListPageWrapperProps> = ({
         <Content
           style={{
             maxHeight: 'calc(100vh - 104px - 50px)', // full viewportHeight - headerHeight - extra margin
-            overflow: 'auto',
+            overflow: 'hidden',
             display: 'flex'
           }}
         >

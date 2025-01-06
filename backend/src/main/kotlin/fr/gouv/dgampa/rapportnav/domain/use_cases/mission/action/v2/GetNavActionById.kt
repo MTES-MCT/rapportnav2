@@ -16,15 +16,20 @@ class GetNavActionById(
 ): GetMissionAction(getStatusForAction, getControlByActionId)  {
     private val logger = LoggerFactory.getLogger(GetNavActionById::class.java)
 
-    fun execute(actionId: UUID?): MissionNavActionEntity? {
+    fun execute(actionId: String?): MissionNavActionEntity? {
         if (actionId == null) {
             logger.error("GetNavActionById received a null actionId")
             throw IllegalArgumentException("GetNavActionById should not receive null missionId or actionId null")
         }
-        val model = missionActionRepository.findById(actionId).orElse(null) ?: return null
-        val entity = MissionNavActionEntity.fromMissionActionModel(model)
-        entity.computeControls(controls = this.getControls(entity))
-        entity.computeCompleteness()
-        return entity
+        return try {
+            val model = missionActionRepository.findById(UUID.fromString(actionId)).orElse(null) ?: return null
+            val entity = MissionNavActionEntity.fromMissionActionModel(model)
+            entity.computeControls(controls = this.getControls(entity))
+            entity.computeCompleteness()
+            entity
+        } catch (e: Exception) {
+            logger.error("GetNavActionById failed loading action", e)
+            return null
+        }
     }
 }

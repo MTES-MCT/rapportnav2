@@ -48,7 +48,7 @@ class GetNavActionListByMissionIdTest {
             isAntiPolDeviceDeployed = true,
             isSimpleBrewingOperationDone = true,
             diversionCarriedOut = true,
-            actionType = ActionType.CONTROL.toString(),
+            actionType = ActionType.CONTROL,
         )
 
         val mockControl = ControlMock.createAllControl()

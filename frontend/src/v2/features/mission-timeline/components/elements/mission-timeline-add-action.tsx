@@ -7,26 +7,24 @@ import { Stack } from 'rsuite'
 import MissionActionDropdownWrapper from '../../../common/components/ui/mission-action-dropdown-wrapper'
 import MissionControlSelection from '../../../common/components/ui/mission-control-selection'
 import { useMissionTimeline } from '../../../common/hooks/use-mission-timeline'
-import { useAddOrUpdateActionMutation } from '../../../common/services/use-add-action'
-import useAddOrUpdateControlMutation from '../../../common/services/use-add-update-action-control'
+import useCreateMissionActionMutation from '../../../common/services/use-create-mission-action'
 import { ModuleType } from '../../../common/types/module-type'
 
 type MissionTimelineAddActionProps = {
-  missionId?: number
+  missionId: number
   moduleType: ModuleType
   onSumbit?: (id?: string) => void
 }
 
 function MissionTimelineAddAction({ missionId, onSumbit, moduleType }: MissionTimelineAddActionProps): JSX.Element {
-  const [addControl] = useAddOrUpdateControlMutation()
-  const [addOrUpdateAction] = useAddOrUpdateActionMutation()
+  const { getActionInput } = useMissionTimeline(missionId)
+  const mutation = useCreateMissionActionMutation(missionId)
   const [showModal, setShowModal] = useState<boolean>(false)
-  const { getBaseInput, getActionDataInput } = useMissionTimeline(missionId?.toString())
 
-  const handleAddAction = async (actionType: ActionTypeEnum) => {
-    const data = getActionDataInput(actionType)
-    const response = await addOrUpdateAction({ variables: { action: { missionId, type: actionType, data } } })
-    if (onSumbit) onSumbit(response.data?.id)
+  const handleAddAction = async (actionType: ActionTypeEnum, data?: unknown) => {
+    const action = getActionInput(actionType, data)
+    const response = await mutation.mutateAsync(action)
+    if (onSumbit) onSumbit(response?.id)
   }
 
   const handleSelect = async (actionType: ActionTypeEnum) => {
@@ -38,14 +36,7 @@ function MissionTimelineAddAction({ missionId, onSumbit, moduleType }: MissionTi
   }
 
   const handleAddControl = async (controlMethod: string, vesselType: VesselTypeEnum) => {
-    const controlAction = {
-      vesselType,
-      controlMethod,
-      ...getBaseInput(),
-      endDateTimeUtc: new Date()
-    }
-    const response = await addControl({ variables: { controlAction } })
-    if (onSumbit) onSumbit(response.data?.id)
+    handleAddAction(ActionTypeEnum.CONTROL, { controlMethod, vesselType })
   }
 
   return (

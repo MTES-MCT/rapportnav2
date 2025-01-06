@@ -12,12 +12,11 @@ import MissionPageWrapper from '../features/common/components/layout/mission-pag
 import MissionGeneralInformationHeader from '../features/common/components/ui/mission-general-information-header.tsx'
 import MissionPageError from '../features/common/components/ui/mission-page-error.tsx'
 import MissionPageLoading from '../features/common/components/ui/mission-page-loading.tsx'
-import { useMissionExport } from '../features/common/hooks/use-mission-export.tsx'
+import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
 import { useMissionExcerptQuery } from '../features/common/services/use-mission-excerpt.tsx'
-import MissionActionHeader from '../features/mission-action/components/elements/mission-action-header.tsx'
+import MissionActionPam from '../features/pam/components/element/mission-action-pam.tsx'
 import MissionTimelineHeaderPam from '../features/pam/components/element/mission-timeline-header-pam.tsx'
 import MissionTimelinePam from '../features/pam/components/element/mission-timeline-pam.tsx'
-import MissionActionPam from '../features/pam/components/mission-action-pam.tsx'
 
 const MissionPamPage: React.FC = () => {
   const lastSync = useApolloLastSync()
@@ -25,7 +24,7 @@ const MissionPamPage: React.FC = () => {
   const { navigateAndResetCache } = useAuth()
   const exitMission = async () => navigateAndResetCache(ULAM_V2_HOME_PATH)
 
-  const { exportMission, exportIsLoading } = useMissionExport(missionId)
+  const { exportMission, exportIsLoading } = useMissionReportExport(missionId)
   const { loading, error, data: mission } = useMissionExcerptQuery(missionId)
 
   const lastSyncText = lastSync ? formatTime(new Date(parseInt(lastSync!!, 10))) : undefined
@@ -51,19 +50,11 @@ const MissionPamPage: React.FC = () => {
       }
       missionTimeLine={
         <MissionPageSectionWrapper
-          sectionHeader={<MissionTimelineHeaderPam missionId={missionId} />}
+          sectionHeader={<MissionTimelineHeaderPam missionId={Number(missionId)} />}
           sectionBody={<MissionTimelinePam missionId={Number(missionId)} />}
         />
       }
-      missionAction={
-        <MissionPageSectionWrapper
-          hide={!actionId}
-          sectionHeader={
-            <MissionActionHeader missionId={Number(missionId)} actionId={actionId} missionStatus={mission?.status} />
-          }
-          sectionBody={<MissionActionPam missionId={Number(missionId)} actionId={actionId} />}
-        />
-      }
+      missionAction={<MissionActionPam missionId={Number(missionId)} actionId={actionId} status={mission?.status} />}
       missionFooter={<MissionPageFooterWrapper lastSyncText={lastSyncText} exitMission={exitMission} />}
     />
   )

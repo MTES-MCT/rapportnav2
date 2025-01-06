@@ -113,4 +113,34 @@ class ControlAdministrativeEntityTest {
         // Assert
         assertTrue(result)
     }
+
+    @Test
+    fun `should check if equals or not equals `() {
+        val id = UUID.randomUUID()
+        val entity1 = ControlAdministrativeEntity(
+            id = id,
+            missionId = 1,
+            actionControlId = "action-5",
+            amountOfControls = 15,
+            unitShouldConfirm = true,
+            unitHasConfirmed = null,
+            compliantSecurityDocuments = ControlResult.YES,
+            compliantOperatingPermit = ControlResult.NOT_CONCERNED,
+            upToDateNavigationPermit = ControlResult.NOT_CONCERNED,
+        )
+
+        val entity2 = ControlAdministrativeEntity(
+            id = id,
+            missionId = 1,
+            actionControlId = "action-5",
+            amountOfControls = 15,
+            unitShouldConfirm = true,
+            unitHasConfirmed = null,
+            compliantSecurityDocuments = ControlResult.YES,
+            compliantOperatingPermit = ControlResult.NOT_CONTROLLED,
+            upToDateNavigationPermit = ControlResult.NOT_CONCERNED,
+            )
+        // Assert
+        assertFalse(entity1.equals(entity2))
+    }
 }

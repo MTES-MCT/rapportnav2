@@ -3,10 +3,10 @@ import { Label, THEME } from '@mtes-mct/monitor-ui'
 import { isEmpty } from 'lodash'
 import React from 'react'
 import { Stack } from 'rsuite'
-import { MissionFishActionDataOutput } from '../../../common/types/mission-fish-action-output'
+import { MissionFishActionData } from '../../../common/types/mission-action'
 
 interface MissionControlFishOtherObservationsSectionProps {
-  action: MissionFishActionDataOutput
+  action: MissionFishActionData
 }
 
 const MissionControlFishOtherObservationsSection: React.FC<MissionControlFishOtherObservationsSectionProps> = ({

@@ -12,7 +12,7 @@ import { MissionActionType } from '@common/types/fish-mission-types'
 import { CompletenessForStats } from '@common/types/mission-types'
 
 export type MissionTimelineAction = {
-  id: string
+  id?: string
   type: ActionTypeEnum
   missionId: number
   source?: MissionSourceEnum
