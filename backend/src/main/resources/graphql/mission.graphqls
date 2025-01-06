@@ -1,17 +1,25 @@
 type Query {
+  missionExport(missionId: ID): MissionExport
   missions: [Mission]
   mission(missionId: ID): Mission
   missionGeneralInfo(missionId: ID): MissionGeneralInfo
-  # v2
+  missionAEMExport(missionId: ID): MissionExport
   missionsV2(envInput: MissionsFetchEnvInput): [Mission]
+  missionAEMExportZip(exportZip: MissionAEMExportInput): MissionExport
+  missionAEMExportV2(missionIds: MissionAEMExportInput): MissionExport
 }
 
 type Mutation {
   patchMissionEnv(mission: MissionEnvInput!): Mission!
   updateMissionGeneralInfo(info: MissionGeneralInfoInput!): MissionGeneralInfo!
   updateMissionService(service: MissionServiceInput!): Service!
+  create(input: CreateOrUpdateMissionInput!): Mission!
 }
 
+type MissionExport {
+  fileName: String
+  fileContent: String
+}
 
 type Mission {
   id: ID!
@@ -46,6 +54,12 @@ enum MissionStatusEnum {
 enum CompletenessForStatsStatusEnum {
   COMPLETE,
   INCOMPLETE,
+}
+
+enum MissionTypeEnum {
+  AIR,
+  LAND,
+  SEA
 }
 
 type CompletenessForStats {
@@ -89,3 +103,15 @@ input MissionsFetchEnvInput {
   endDateTimeUtc: Instant
 }
 
+input MissionAEMExportInput {
+  ids: [Int]
+}
+
+input CreateOrUpdateMissionInput {
+  id: Int
+  missionTypes: [MissionTypeEnum]
+  openBy: String
+  startDateTimeUtc: Instant
+  endDateTimeUtc: Instant
+  missionSource: MissionSourceEnum
+}

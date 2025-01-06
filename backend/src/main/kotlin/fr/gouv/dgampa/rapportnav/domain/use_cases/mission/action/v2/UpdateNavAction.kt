@@ -5,8 +5,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEnti
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfraction
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActionData
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.MissionActionInput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.MissionNavActionDataInput
 import org.slf4j.LoggerFactory
 
 @UseCase
@@ -17,9 +17,9 @@ class UpdateNavAction(
 ) {
     private val logger = LoggerFactory.getLogger(UpdateNavAction::class.java)
 
-    fun execute(id: String, input: MissionNavAction): MissionNavActionEntity? {
-        val action = MissionNavActionData.toMissionNavActionEntity(input)
-        val controlInputs = input.data.getControls(actionId = id, missionId = input.missionId)
+    fun execute(input: MissionActionInput): MissionNavActionEntity? {
+        val action = MissionNavActionDataInput.toMissionNavActionEntity(input)
+        val controlInputs = input.nav?.getControls(actionId = input.id, missionId = input.missionId)
         return try {
             missionActionRepository.save(action)
             val controls = processMissionActionControl.execute(

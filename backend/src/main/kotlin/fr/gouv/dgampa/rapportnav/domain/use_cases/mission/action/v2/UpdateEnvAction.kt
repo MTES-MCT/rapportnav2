@@ -7,9 +7,8 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMiss
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControlEnvTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfractionEnvTarget
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.action.ActionEnvInput
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionAction
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvAction
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvActionData
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.MissionActionInput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.MissionEnvActionDataInput
 import org.slf4j.LoggerFactory
 
 @UseCase
@@ -21,13 +20,13 @@ class UpdateEnvAction(
 ) {
 
     private val logger = LoggerFactory.getLogger(UpdateEnvAction::class.java)
-    fun execute(id: String, input: MissionEnvAction): MissionEnvActionEntity? {
-        val action = MissionEnvActionData.toMissionEnvActionEntity(input)
-        val controlInputs = input.data.getControls(actionId = id, missionId = input.missionId)
+    fun execute(input: MissionActionInput): MissionEnvActionEntity? {
+        val action = MissionEnvActionDataInput.toMissionEnvActionEntity(input)
+        val controlInputs = input.env?.getControls(actionId = input.id, missionId = input.missionId)
         return try {
             patchEnvAction.execute(
                 ActionEnvInput(
-                    actionId = id,
+                    actionId = input.id,
                     missionId = action.missionId,
                     startDateTimeUtc = action.startDateTimeUtc,
                     endDateTimeUtc = action.endDateTimeUtc,
@@ -39,7 +38,7 @@ class UpdateEnvAction(
                 actionId = action.getActionId()
             )
 
-            val infractionInput = (input.data as MissionEnvActionData).getInfractions(
+            val infractionInput = input.env?.getInfractions(
                 missionId = input.missionId,
                 actionId = action.getActionId()
             )

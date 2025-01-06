@@ -1,10 +1,13 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlAdministrativeEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlSecurityEntity
 import java.time.Instant
 
-class MissionFishActionData(
+class MissionFishActionDataOutput(
     override val startDateTimeUtc: Instant? = null,
     override val endDateTimeUtc: Instant? = null,
     override val vesselId: Int? = null,
@@ -57,31 +60,15 @@ class MissionFishActionData(
     override val isSeafarersControl: Boolean? = null,
     override var observationsByUnit: String? = null,
     override var speciesQuantitySeized: Int? = null,
-    override val controlSecurity: ControlSecurity? = null,
-    override val controlGensDeMer: ControlGensDeMer? = null,
-    override val controlNavigation: ControlNavigation? = null,
-    override val controlAdministrative: ControlAdministrative? = null,
-) : MissionActionData(
+    override val controlSecurity: ControlSecurityEntity? = null,
+    override val controlGensDeMer: ControlGensDeMerEntity? = null,
+    override val controlNavigation: ControlNavigationEntity? = null,
+    override val controlAdministrative: ControlAdministrativeEntity? = null,
+) : MissionActionDataOutput(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
     controlSecurity = controlSecurity,
     controlGensDeMer = controlGensDeMer,
     controlNavigation = controlNavigation,
     controlAdministrative = controlAdministrative
-), BaseMissionFishActionData {
-    companion object {
-        fun toMissionFishActionEntity(input: MissionAction): MissionFishActionEntity {
-            val data = input.data as MissionFishActionData
-            val action = MissionFishActionEntity(
-                id = Integer.parseInt(input.id),
-                missionId = input.missionId,
-                fishActionType = MissionActionType.AIR_CONTROL,
-                observationsByUnit = data.observations,
-                actionDatetimeUtc = data.startDateTimeUtc,
-                actionEndDatetimeUtc = data.endDateTimeUtc
-            )
-            return action
-        }
-
-    }
-}
+), BaseMissionFishActionDataOutput

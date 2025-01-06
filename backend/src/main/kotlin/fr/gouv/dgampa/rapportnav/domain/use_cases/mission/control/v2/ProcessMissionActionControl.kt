@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlAdm
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlGensDeMerRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlNavigationRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlSecurityRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.*
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.*
 
 @UseCase
 class ProcessMissionActionControl(
@@ -16,14 +16,14 @@ class ProcessMissionActionControl(
     private val controlAdministrativeRepo: IControlAdministrativeRepository
 ) {
 
-    fun execute(actionId: String, controls: ActionControl?): ActionControl {
+    fun execute(actionId: String, controls: ActionControlInput?): ActionControlInput {
         val controlSecurity = processControlSecurity(actionId = actionId, control = controls?.controlSecurity)
         val controlGensDeMer = processControlGensDeMer(actionId = actionId, control = controls?.controlGensDeMer)
         val controlNavigation = processControlNavigation(actionId = actionId, control = controls?.controlNavigation)
         val controlAdministrative =
             processControlAdministrative(actionId = actionId, control = controls?.controlAdministrative)
 
-        return ActionControl(
+        return ActionControlInput(
             controlSecurity = controlSecurity,
             controlGensDeMer = controlGensDeMer,
             controlNavigation = controlNavigation,
@@ -31,7 +31,7 @@ class ProcessMissionActionControl(
         )
     }
 
-    private inline fun <M : BaseControl, T : BaseControlEntity> processControl(
+    private inline fun <M : BaseControlInput, T : BaseControlEntity> processControl(
         actionId: String,
         control: M?,
         findControlByActionId: (String) -> T?,
@@ -47,7 +47,7 @@ class ProcessMissionActionControl(
     }
 
 
-    private fun processControlSecurity(actionId: String, control: ControlSecurity?): ControlSecurity? {
+    private fun processControlSecurity(actionId: String, control: ControlSecurityInput2?): ControlSecurityInput2? {
         val response = processControl(
             actionId = actionId,
             control = control,
@@ -58,7 +58,7 @@ class ProcessMissionActionControl(
         return control
     }
 
-    private fun processControlGensDeMer(actionId: String, control: ControlGensDeMer?): ControlGensDeMer? {
+    private fun processControlGensDeMer(actionId: String, control: ControlGensDeMerInput2?): ControlGensDeMerInput2? {
         val response = processControl(
             actionId = actionId,
             control = control,
@@ -71,8 +71,8 @@ class ProcessMissionActionControl(
 
     private fun processControlNavigation(
         actionId: String,
-        control: ControlNavigation?
-    ): ControlNavigation? {
+        control: ControlNavigationInput2?
+    ): ControlNavigationInput2? {
         val response = processControl(
             actionId = actionId,
             control = control,
@@ -85,8 +85,8 @@ class ProcessMissionActionControl(
 
     private fun processControlAdministrative(
         actionId: String,
-        control: ControlAdministrative?
-    ): ControlAdministrative? {
+        control: ControlAdministrativeInput2?
+    ): ControlAdministrativeInput2? {
         val response = processControl(
             actionId = actionId,
             control = control,

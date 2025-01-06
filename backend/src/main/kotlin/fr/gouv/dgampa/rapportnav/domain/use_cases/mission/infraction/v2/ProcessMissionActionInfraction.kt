@@ -3,14 +3,14 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.infraction.IInfractionRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Infraction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.InfractionInput2
 
 @UseCase
 class ProcessMissionActionInfraction(
     private val infractionRepo: IInfractionRepository
 ) {
 
-    fun execute(actionId: String, infractions: List<Infraction>): List<InfractionEntity>? {
+    fun execute(actionId: String, infractions: List<InfractionInput2>): List<InfractionEntity>? {
         val infractionIds = infractions.map { it.id }
 
         val databaseInfractions = infractionRepo

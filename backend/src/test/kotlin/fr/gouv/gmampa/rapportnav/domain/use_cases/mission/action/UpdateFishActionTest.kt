@@ -1,15 +1,15 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.PatchFishAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateFishAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfraction
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.ActionControl
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishAction
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishActionData
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.ActionControlInput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.MissionActionInput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.MissionFishActionDataInput
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -36,16 +36,16 @@ class UpdateFishActionTest {
     @Test
     fun `test execute update fish action`() {
         val actionId =  54566.toString()
-        val input = MissionFishAction(
+        val input = MissionActionInput(
             id = actionId,
             missionId = 761,
             actionType = ActionType.CONTROL,
             source = MissionSourceEnum.RAPPORTNAV,
-            data = getFishActionData(),
+            fish = missionFishActionDataInput(),
         )
 
         `when`(patchFishAction.execute(anyOrNull())).thenReturn(null)
-        `when`(processMissionActionControl.execute(anyOrNull(), anyOrNull())).thenReturn(ActionControl())
+        `when`(processMissionActionControl.execute(anyOrNull(), anyOrNull())).thenReturn(ActionControlInput())
         `when`(processMissionActionInfraction.execute(actionId, listOf())).thenReturn(listOf())
 
         val updateNavAction = UpdateFishAction(
@@ -54,13 +54,13 @@ class UpdateFishActionTest {
             processMissionActionInfraction = processMissionActionInfraction
         )
 
-        val response = updateNavAction.execute(actionId, input)
+        val response = updateNavAction.execute(input)
         assertThat(response).isNotNull
+
     }
 
-    private fun getFishActionData() = MissionFishActionData(
-        observationsByUnit = "MyObservations",
-        fishActionType = MissionActionType.AIR_CONTROL,
+    private fun missionFishActionDataInput() = MissionFishActionDataInput(
+        observations = "MyObservations",
         startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
         endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
     )

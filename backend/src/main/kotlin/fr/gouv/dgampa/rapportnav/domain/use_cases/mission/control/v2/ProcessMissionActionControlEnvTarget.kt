@@ -6,8 +6,8 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlAdm
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlGensDeMerRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlNavigationRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.control.IControlSecurityRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.ActionControl
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Infraction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.ActionControlInput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.InfractionInput2
 import java.util.*
 
 @UseCase
@@ -18,8 +18,8 @@ class ProcessMissionActionControlEnvTarget(
     private val controlAdministrativeRepo: IControlAdministrativeRepository
 ) {
 
-    fun execute(infraction: Infraction, controls: ActionControl): String? {
-        val controlType = infraction.controlType
+    fun execute(infraction: InfractionInput2, controls: ActionControlInput): String? {
+        val controlType = infraction.controlType?.let { ControlType.valueOf(it) }
         val id = when (controlType) {
             ControlType.SECURITY -> controls.controlSecurity?.id
                 ?: processControlSecurity(
