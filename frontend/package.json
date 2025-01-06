@@ -16,7 +16,8 @@
     "preview": "vite preview",
     "test": "vitest run src",
     "test:watch": "vitest src",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "docs": "docsify serve docs"
   },
   "dependencies": {
     "@apollo/client": "^3.12.2",
