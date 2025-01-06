@@ -3,7 +3,7 @@ import { ModuleType } from '../../../common/types/module-type'
 import MissionTimelineHeaderWrapper from '../../../mission-timeline/components/layout/mission-timeline-Header-wrapper'
 
 interface MissionTimelineHeaderPamProps {
-  missionId?: string
+  missionId: number
 }
 
 const MissionTimelineHeaderPam: FC<MissionTimelineHeaderPamProps> = ({ missionId }) => {

@@ -7,9 +7,9 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateEnvAct
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControlEnvTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfractionEnvTarget
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.ActionControlInput
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.MissionActionInput
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.MissionEnvActionDataInput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.ActionControl
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvAction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvActionData
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -39,16 +39,16 @@ class UpdateEnvActionTest {
     @Test
     fun `test execute update env action`() {
         val actionId =  UUID.randomUUID().toString()
-        val input = MissionActionInput(
+        val input = MissionEnvAction(
             id = actionId,
             missionId = 761,
             actionType = ActionType.CONTROL,
             source = MissionSourceEnum.RAPPORTNAV,
-            env = missionEnvActionDataInput(),
+            data = getEnvActionData(),
         )
 
         `when`(patchEnvAction.execute(anyOrNull())).thenReturn(null)
-        `when`(processMissionActionControl.execute(anyOrNull(), anyOrNull())).thenReturn(ActionControlInput())
+        `when`(processMissionActionControl.execute(anyOrNull(), anyOrNull())).thenReturn(ActionControl())
         `when`(processMissionActionInfractionEnvTarget.execute(actionId, listOf())).thenReturn(listOf())
 
         val updateNavAction = UpdateEnvAction(
@@ -58,12 +58,12 @@ class UpdateEnvActionTest {
             processMissionActionInfractionEnvTarget = processMissionActionInfractionEnvTarget
         )
 
-        val response = updateNavAction.execute(input)
+        val response = updateNavAction.execute(actionId, input)
         assertThat(response).isNotNull
 
     }
 
-    private fun missionEnvActionDataInput() = MissionEnvActionDataInput(
+    private fun getEnvActionData() = MissionEnvActionData(
         observations = "MyObservations",
         startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
         endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),

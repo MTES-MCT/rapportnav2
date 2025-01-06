@@ -18,7 +18,7 @@ import MissionTimelineItemGenericCard from '../../mission-timeline/components/el
 import MissionTimelineItemRescueCard from '../../mission-timeline/components/elements/mission-timeline-item-rescue-card'
 import MissionTimelineItemSurveillanceCard from '../../mission-timeline/components/elements/mission-timeline-item-surveillance-card'
 import { MissionTimelineAction } from '../../mission-timeline/types/mission-timeline-output'
-import { MissionActionOutput } from '../types/mission-action-output'
+import { MissionAction } from '../types/mission-action'
 
 export type ActionTimeline = {
   dropdownText?: string
@@ -46,8 +46,8 @@ export type ActionRegistryItem = {
   hasStatusTag?: boolean
   icon?: FunctionComponent<IconProps>
   actionComponent?: FunctionComponent<{
-    action: MissionActionOutput
-    onChange: (newAction: MissionActionOutput, debounceTime?: number) => Promise<unknown>
+    action: MissionAction
+    onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
     isMissionFinished?: boolean
   }>
 }

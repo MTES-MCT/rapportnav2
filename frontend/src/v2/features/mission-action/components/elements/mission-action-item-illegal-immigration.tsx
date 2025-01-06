@@ -2,7 +2,7 @@ import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
 import { Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { MissionActionOutput } from '../../../common/types/mission-action-output'
+import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionIllegalImmigration } from '../../hooks/use-mission-action-illegal-immigration'
 import { ActionIllegalImmigrationInput } from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
@@ -10,9 +10,9 @@ import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-
 import { MissionActionFormikNumberInput } from '../ui/mission-action-formik-number-input'
 
 const MissionActionItemIllegalImmigration: FC<{
-  action: MissionActionOutput
+  action: MissionAction
   isMissionFinished?: boolean
-  onChange: (newAction: MissionActionOutput, debounceTime?: number) => Promise<unknown>
+  onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
 }> = ({ action, onChange }) => {
   const { initValue, validationSchema, handleSubmit } = useMissionActionIllegalImmigration(action, onChange)
 

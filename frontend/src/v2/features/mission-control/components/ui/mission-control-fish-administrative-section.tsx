@@ -3,11 +3,11 @@ import { controlCheckMultiRadioOptions } from '@features/pam/mission/components/
 import { Accent, Button, Icon, Label, MultiRadio, Size, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { Stack } from 'rsuite'
-import { MissionFishActionDataOutput } from '../../../common/types/mission-fish-action-output'
+import { MissionFishActionData } from '../../../common/types/mission-action'
 import MissionInfractionSummary from '../../../mission-infraction/components/ui/mission-infraction-summary'
 
 interface MissionControlFishAdministrativeSectionProps {
-  action: MissionFishActionDataOutput
+  action: MissionFishActionData
 }
 
 const MissionControlFishAdministrativeSection: React.FC<MissionControlFishAdministrativeSectionProps> = ({

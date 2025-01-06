@@ -4,8 +4,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.infraction.IInfractionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfraction
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.ActionControlInput
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.InfractionInput2
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.ActionControl
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Infraction
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlNavigationModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlSecurityModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.InfractionModel
@@ -89,19 +89,19 @@ class ProcessMissionActionInfractionTest {
         return infractionToDelete
     }
 
-    private fun getInfractionSecurityEntity(actionId: UUID): InfractionInput2 {
+    private fun getInfractionSecurityEntity(actionId: UUID): Infraction {
         val securityInfraction =
-            InfractionInput2(
+            Infraction(
                 actionId = actionId.toString(),
-                controlType = ControlType.SECURITY.toString(),
+                controlType = ControlType.SECURITY,
                 missionId = 761
             )
         return securityInfraction
     }
 
     private fun getInfractionSecurityModel(
-        securityInfraction: InfractionInput2,
-        actionControl: ActionControlInput
+        securityInfraction: Infraction,
+        actionControl: ActionControl
     ): InfractionModel {
         val securityInfractionModel = InfractionModel.fromInfractionEntity(securityInfraction.toInfractionEntity())
         securityInfractionModel.control =
@@ -111,7 +111,7 @@ class ProcessMissionActionInfractionTest {
 
     private fun getInfractionNavigationModel(
         infractionToDelete: InfractionEntity,
-        actionControl: ActionControlInput
+        actionControl: ActionControl
     ): InfractionModel {
         val infractionToDeleteModel = InfractionModel.fromInfractionEntity(infractionToDelete)
         infractionToDeleteModel.control =
@@ -121,8 +121,8 @@ class ProcessMissionActionInfractionTest {
 
     private fun getActionControlEntity(
         actionId: UUID,
-        securityInfraction: InfractionInput2
-    ): ActionControlInput {
+        securityInfraction: Infraction
+    ): ActionControl {
         val controlId = UUID.randomUUID()
         val actionControl = ControlInputMock.createAllControl()
         actionControl.controlGensDeMer?.setMissionIdAndActionId(actionId = actionId.toString(), missionId = 761)
@@ -130,15 +130,15 @@ class ProcessMissionActionInfractionTest {
         actionControl.controlNavigation?.setMissionIdAndActionId(actionId = actionId.toString(), missionId = 761)
         actionControl.controlAdministrative?.setMissionIdAndActionId(actionId = actionId.toString(), missionId = 761)
         actionControl.controlGensDeMer?.infractions = listOf(
-            InfractionInput2(
+            Infraction(
                 actionId = actionId.toString(),
-                controlType = ControlType.GENS_DE_MER.toString(),
+                controlType = ControlType.GENS_DE_MER,
                 controlId = controlId.toString(),
                 missionId = 761
             ),
-            InfractionInput2(
+            Infraction(
                 actionId = actionId.toString(),
-                controlType = ControlType.GENS_DE_MER.toString(),
+                controlType = ControlType.GENS_DE_MER,
                 controlId = controlId.toString(),
                 missionId = 761
             )

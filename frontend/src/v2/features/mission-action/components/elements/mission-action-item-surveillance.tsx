@@ -3,15 +3,15 @@ import { FormikEffect, FormikTextarea, Label, THEME } from '@mtes-mct/monitor-ui
 import { Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { MissionActionOutput } from '../../../common/types/mission-action-output'
+import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionSurveillance } from '../../hooks/use-mission-action-surveillance'
 import { ActionSurveillanceInput } from '../../types/action-type'
 import MissionActionEnvControlPlan from '../ui/mission-action-env-control-plan'
 import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
 
 const MissionActionItemSurveillance: FC<{
-  action: MissionActionOutput
-  onChange: (newAction: MissionActionOutput) => Promise<unknown>
+  action: MissionAction
+  onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
   const { initValue, handleSubmit } = useMissionActionSurveillance(action, onChange)
   return (

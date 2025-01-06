@@ -2,10 +2,10 @@ import Text from '@common/components/ui/text'
 import { Checkbox, Label, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { Stack } from 'rsuite'
-import { MissionFishActionDataOutput } from '../../../common/types/mission-fish-action-output'
+import { MissionFishActionData } from '../../../common/types/mission-action'
 
 interface MissionControlFishSeizureSectionProps {
-  action: MissionFishActionDataOutput
+  action: MissionFishActionData
 }
 
 const MissionControlFishSeizureSection: React.FC<MissionControlFishSeizureSectionProps> = ({ action }) => {

@@ -1,52 +1,52 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.v2.*
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.*
 
 object ControlInputMock {
-    fun createAllControl(actionId: String? = null, missionId: Int? = null): ActionControlInput {
-        return ActionControlInput(
-            controlSecurity = ControlSecurityInput2(
+    fun createAllControl(actionId: String? = null, missionId: Int? = null): ActionControl {
+        return ActionControl(
+            controlSecurity = ControlSecurity(
                 observations = "My beautiful observation",
                 amountOfControls = 2,
                 unitShouldConfirm = false,
                 unitHasConfirmed = true,
                 infractions = listOf(
-                    InfractionInput2(controlType = ControlType.SECURITY.toString()),
-                    InfractionInput2(controlType = ControlType.SECURITY.toString())
+                    Infraction(controlType = ControlType.SECURITY),
+                    Infraction(controlType = ControlType.SECURITY)
                 ),
                 hasBeenDone = true
             ),
-            controlGensDeMer = ControlGensDeMerInput2(
+            controlGensDeMer = ControlGensDeMer(
                 observations = "My beautiful observation",
                 amountOfControls = 2,
                 unitShouldConfirm = false,
                 unitHasConfirmed = true,
                 infractions = listOf(
-                    InfractionInput2(controlType = ControlType.GENS_DE_MER.toString())
+                    Infraction(controlType = ControlType.GENS_DE_MER)
                 ),
                 hasBeenDone = true,
                 knowledgeOfFrenchLawAndLanguage = ControlResult.YES,
                 staffOutnumbered = ControlResult.NO,
                 upToDateMedicalCheck = ControlResult.NOT_CONTROLLED
             ),
-            controlNavigation = ControlNavigationInput2(
+            controlNavigation = ControlNavigation(
                 observations = "My beautiful observation",
                 amountOfControls = 2,
                 unitShouldConfirm = false,
                 unitHasConfirmed = true,
                 infractions = listOf(
-                    InfractionInput2(controlType = ControlType.NAVIGATION.toString())
+                    Infraction(controlType = ControlType.NAVIGATION)
                 ),
                 hasBeenDone = true
             ),
-            controlAdministrative = ControlAdministrativeInput2(
+            controlAdministrative = ControlAdministrative(
                 observations = "My beautiful observation",
                 amountOfControls = 2,
                 unitShouldConfirm = false,
                 unitHasConfirmed = true,
                 infractions = listOf(
-                    InfractionInput2(controlType = ControlType.ADMINISTRATIVE.toString())
+                    Infraction(controlType = ControlType.ADMINISTRATIVE)
                 ),
                 hasBeenDone = true,
                 compliantOperatingPermit = ControlResult.YES,

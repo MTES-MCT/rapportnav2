@@ -1,10 +1,10 @@
 import { FC } from 'react'
-import { MissionActionOutput } from '../../../common/types/mission-action-output'
+import { MissionAction } from '../../../common/types/mission-action'
 import MissionActionItemGenericDateObservation from './mission-action-item-generic-date-observation'
 
 const MissionActionItemBAAEMPermanence: FC<{
-  action: MissionActionOutput
-  onChange: (newAction: MissionActionOutput) => Promise<unknown>
+  action: MissionAction
+  onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
   return (
     <MissionActionItemGenericDateObservation

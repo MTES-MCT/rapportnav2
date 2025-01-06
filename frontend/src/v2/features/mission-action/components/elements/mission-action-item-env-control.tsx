@@ -11,7 +11,7 @@ import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'fo
 import React from 'react'
 import { Divider, Stack } from 'rsuite'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
-import { MissionActionOutput } from '../../../common/types/mission-action-output'
+import { MissionAction } from '../../../common/types/mission-action'
 import MissionControlEnvForm from '../../../mission-control/components/elements/mission-control-env-form'
 import MissionInfractionEnvList from '../../../mission-infraction/components/elements/mission-infraction-env-list-form'
 import { useMissionActionEnvControl } from '../../hooks/use-mission-action-env-control'
@@ -22,9 +22,9 @@ import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-form
 import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
 
 type MissionActionItemEnvControlProps = {
-  action: MissionActionOutput
+  action: MissionAction
   isMissionFinished?: boolean
-  onChange: (newAction: MissionActionOutput, debounceTime?: number) => Promise<unknown>
+  onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
 }
 
 const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = ({
@@ -142,7 +142,6 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                       <MissionInfractionEnvList
                         name="infractions"
                         fieldArray={fieldArray}
-                        vehicleType={values.vehicleType}
                         actionTargetType={values.actionTargetType}
                         availableControlTypes={values.availableControlTypesForInfraction}
                       />

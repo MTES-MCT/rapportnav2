@@ -1,22 +1,27 @@
+import { MissionStatusEnum } from '@common/types/mission-types'
 import { FC } from 'react'
-import { useMissionActionQuery } from '../../../common/services/use-mission-action'
-import MissionActionWrapper from '../../../mission-action/components/layout/mission-action-wrapper'
-import MissionActionItemUlam from './mission-action-item-ulam'
+import MissionPageSectionWrapper from '../../../common/components/layout/mission-page-section-wrapper'
+import useGetActionQuery from '../../../common/services/use-mission-action'
+import MissionActionUlamBody from './mission-action-ulam-body'
+import MissionActionUlamHeader from './mission-action-ulam-header'
 
 interface MissionActionProps {
   actionId?: string
-  missionId?: number
+  missionId: number
+  status?: MissionStatusEnum
 }
 
-const MissionActionUlam: FC<MissionActionProps> = ({ missionId, actionId }) => {
-  const { data: action, loading, error } = useMissionActionQuery(actionId, missionId)
+const MissionActionUlam: FC<MissionActionProps> = ({ missionId, actionId, status }) => {
+  const query = useGetActionQuery(missionId, actionId)
   return (
-    <MissionActionWrapper
-      action={action}
-      isError={error}
-      isLoading={loading}
-      missionId={action?.missionId}
-      item={MissionActionItemUlam}
+    <MissionPageSectionWrapper
+      hide={!actionId}
+      sectionHeader={
+        query.data && (
+          <MissionActionUlamHeader missionId={Number(missionId)} action={query.data} missionStatus={status} />
+        )
+      }
+      sectionBody={<MissionActionUlamBody missionId={Number(missionId)} actionId={actionId} />}
     />
   )
 }

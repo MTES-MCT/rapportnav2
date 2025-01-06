@@ -36,7 +36,6 @@ const MissionPageHeaderWrapper: React.FC<MissionPageHeaderProps> = ({
   onClickExport,
   exportLoading
 }) => {
-  //const exportRapportEnabled = useIsMissionCompleteForStats(mission?.id)
   const { formatMissionName } = useDate()
   const exportRapportEnabled = mission?.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE
 

@@ -2,34 +2,33 @@ import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
-import { MissionActionOutput } from '../../common/types/mission-action-output'
-import { MissionNavActionDataOutput } from '../../common/types/mission-nav-action-output'
+import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionFreeNoteInput } from '../types/action-type'
 
 export function useMissionActionFreeNote(
-  action: MissionActionOutput,
-  onChange: (newAction: MissionActionOutput) => Promise<unknown>
+  action: MissionAction,
+  onChange: (newAction: MissionAction) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionFreeNoteInput> {
-  const value = action?.data as MissionNavActionDataOutput
+  const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
 
-  const fromFieldValueToInput = (data: MissionNavActionDataOutput): ActionFreeNoteInput => {
+  const fromFieldValueToInput = (data: MissionNavActionData): ActionFreeNoteInput => {
     return { ...data, date: preprocessDateForPicker(data.startDateTimeUtc) }
   }
 
-  const fromInputToFieldValue = (value: ActionFreeNoteInput): MissionNavActionDataOutput => {
+  const fromInputToFieldValue = (value: ActionFreeNoteInput): MissionNavActionData => {
     const { date, ...newData } = value
     const startDateTimeUtc = postprocessDateFromPicker(date)
     return { ...newData, startDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionNavActionDataOutput, ActionFreeNoteInput>(
+  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionNavActionData, ActionFreeNoteInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
   )
 
-  const onSubmit = async (valueToSubmit?: MissionNavActionDataOutput) => {
+  const onSubmit = async (valueToSubmit?: MissionNavActionData) => {
     if (!valueToSubmit) return
     await onChange({ ...action, data: valueToSubmit })
   }

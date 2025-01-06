@@ -4,7 +4,7 @@ import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
 import VesselName from '../../../common/components/ui/vessel-name'
-import { MissionActionOutput } from '../../../common/types/mission-action-output'
+import { MissionAction } from '../../../common/types/mission-action'
 import MissionControlNavForm from '../../../mission-control/components/elements/mission-control-nav-form'
 import MissionControlFishAdministrativeSection from '../../../mission-control/components/ui/mission-control-fish-administrative-section'
 import FishControlEnginesSection from '../../../mission-control/components/ui/mission-control-fish-engines-section'
@@ -19,8 +19,8 @@ import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-form
 import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
 
 const MissionActionItemFishControl: FC<{
-  action: MissionActionOutput
-  onChange: (newAction: MissionActionOutput, debounceTime?: number) => Promise<unknown>
+  action: MissionAction
+  onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
   isMissionFinished?: boolean
 }> = ({ action, onChange, isMissionFinished }) => {
   const { initValue, handleSubmit } = useMissionActionFishControl(action, onChange, isMissionFinished)

@@ -1,13 +1,16 @@
-import { FC, useEffect, useState } from 'react'
 import { ApolloClient, ApolloProvider, NormalizedCacheObject } from '@apollo/client'
-import { CachePersistor, LocalStorageWrapper } from 'apollo3-cache-persist'
-import { router } from './router/router'
-import UIThemeWrapper from './features/common/components/ui/ui-theme-wrapper'
-import apolloClient, { apolloCache } from './apollo-client/apollo-client.ts'
-import RouterProvider from './router/router-provider'
-import * as Sentry from '@sentry/react'
-import ErrorPage from './pages/error-page.tsx'
 import { Notifier } from '@mtes-mct/monitor-ui'
+import * as Sentry from '@sentry/react'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { CachePersistor, LocalStorageWrapper } from 'apollo3-cache-persist'
+import { FC, useEffect, useState } from 'react'
+import apolloClient, { apolloCache } from './apollo-client/apollo-client.ts'
+import UIThemeWrapper from './features/common/components/ui/ui-theme-wrapper'
+import ErrorPage from './pages/error-page.tsx'
+import { queryClient } from './query-client/index.ts'
+import { router } from './router/router'
+import RouterProvider from './router/router-provider'
+
 // import { FlagProvider } from '@unleash/proxy-client-react'
 // import { IConfig } from 'unleash-proxy-client'
 
@@ -52,10 +55,12 @@ const App: FC = () => {
     <Sentry.ErrorBoundary fallback={ErrorPage}>
       <ApolloProvider client={client}>
         <UIThemeWrapper>
-          {/*<FlagProvider config={config}>*/}
-          <Notifier />
-          <RouterProvider router={router} />
-          {/*</FlagProvider>*/}
+          <QueryClientProvider client={queryClient}>
+            {/*<FlagProvider config={config}>*/}
+            <Notifier />
+            <RouterProvider router={router} />
+            {/*</FlagProvider>*/}
+          </QueryClientProvider>
         </UIThemeWrapper>
       </ApolloProvider>
     </Sentry.ErrorBoundary>

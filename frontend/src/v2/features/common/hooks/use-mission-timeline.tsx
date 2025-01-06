@@ -1,27 +1,33 @@
-import { ActionTypeEnum } from '@common/types/env-mission-types'
+import { ActionTypeEnum, MissionSourceEnum } from '@common/types/env-mission-types'
+import { MissionNavAction } from '../types/mission-action'
 
 type ActionRegistryInput = { [key in ActionTypeEnum]?: unknown }
 type Input = { missionId: number; startDateTimeUtc: Date }
 
 const ACTION_REGISTRY_INPUT: ActionRegistryInput = {
+  [ActionTypeEnum.NOTE]: { endDateTimeUtc: new Date().toISOString() },
   [ActionTypeEnum.RESCUE]: { isPersonRescue: false, isVesselRescue: true }
 }
 
 interface TimelineHook<T> {
-  getBaseInput: () => Input
-  getActionDataInput: (actionType: ActionTypeEnum) => unknown
+  getActionInput: (actionType: ActionTypeEnum, moreData?: unknown) => MissionNavAction
 }
 
-export function useMissionTimeline<T>(missionId?: string): TimelineHook<T> {
-  const getActionDataInput = (actionType: ActionTypeEnum) => {
-    const data = ACTION_REGISTRY_INPUT[actionType] || {}
-    return {
-      ...data,
-      ...getBaseInput(),
-      endDateTimeUtc: new Date()
-    }
-  }
-  const getBaseInput = (): Input => ({ startDateTimeUtc: new Date(), missionId: parseInt(missionId!, 10) })
+export function useMissionTimeline<T>(missionId?: number): TimelineHook<T> {
+  const getActionInput = (actionType: ActionTypeEnum, moreData?: unknown): MissionNavAction => {
+    const input = {
+      missionId: Number(missionId),
+      actionType,
+      source: MissionSourceEnum.RAPPORTNAV,
+      data: {
+        ...(moreData ?? {}),
+        ...(ACTION_REGISTRY_INPUT[actionType] ?? {}),
+        startDateTimeUtc: new Date().toISOString()
+      }
+    } as MissionNavAction
 
-  return { getBaseInput, getActionDataInput }
+    return input
+  }
+
+  return { getActionInput }
 }

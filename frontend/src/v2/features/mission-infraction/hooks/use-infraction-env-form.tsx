@@ -33,7 +33,7 @@ export function useInfractionEnvForm(
     const { isVessel, withReport, isTargetVehicule, ...newValue } = value
     const infractionType = withReport ? InfractionTypeEnum.WITH_REPORT : InfractionTypeEnum.WITHOUT_REPORT
     newValue.infractions[0].infractionType = infractionType
-    return { ...newValue, infractionType }
+    return newValue
   }
 
   const { initValue, handleSubmit } = useAbstractFormikSubForm<InfractionByTarget, EnvInfractionByTargetInput>(

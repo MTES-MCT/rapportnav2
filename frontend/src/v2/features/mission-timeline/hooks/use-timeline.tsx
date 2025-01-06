@@ -1,19 +1,16 @@
 import { MissionSourceEnum } from '@common/types/env-mission-types'
-import { MissionActionOutput } from '../../common/types/mission-action-output'
-import { MissionEnvActionOutput } from '../../common/types/mission-env-action-output'
-import { MissionFishActionOutput } from '../../common/types/mission-fish-action-output'
-import { MissionNavActionOutput } from '../../common/types/mission-nav-action-output'
+import { MissionAction, MissionEnvAction, MissionFishAction, MissionNavAction } from '../../common/types/mission-action'
 import { MissionTimelineAction } from '../types/mission-timeline-output'
 
 interface TimelineHook {
-  getTimeLineAction: (actions?: MissionActionOutput[]) => MissionTimelineAction[]
-  getTimeLineFromNavAction: (output: MissionActionOutput) => MissionTimelineAction
-  getTimeLineFromEnvAction: (output: MissionActionOutput) => MissionTimelineAction
-  getTimeLineFromFishAction: (output: MissionActionOutput) => MissionTimelineAction
+  getTimeLineAction: (actions?: MissionAction[]) => MissionTimelineAction[]
+  getTimeLineFromNavAction: (output: MissionAction) => MissionTimelineAction
+  getTimeLineFromEnvAction: (output: MissionAction) => MissionTimelineAction
+  getTimeLineFromFishAction: (output: MissionAction) => MissionTimelineAction
 }
 
 export function useTimeline(): TimelineHook {
-  const getTimeLineAction = (actions?: MissionActionOutput[]): MissionTimelineAction[] => {
+  const getTimeLineAction = (actions?: MissionAction[]): MissionTimelineAction[] => {
     return (
       actions?.map(action => {
         switch (action.source) {
@@ -30,8 +27,8 @@ export function useTimeline(): TimelineHook {
     )
   }
 
-  const getTimeLineFromEnvAction = (output: MissionActionOutput): MissionTimelineAction => {
-    const action = output as MissionEnvActionOutput
+  const getTimeLineFromEnvAction = (output: MissionAction): MissionTimelineAction => {
+    const action = output as MissionEnvAction
     return {
       id: action.id,
       status: action.status,
@@ -50,10 +47,10 @@ export function useTimeline(): TimelineHook {
     }
   }
 
-  const getTimeLineFromNavAction = (output: MissionActionOutput): MissionTimelineAction => {
-    const action = output as MissionNavActionOutput
+  const getTimeLineFromNavAction = (output: MissionAction): MissionTimelineAction => {
+    const action = output as MissionNavAction
     return {
-      id: action.id.toString(),
+      id: action.id,
       source: action.source,
       status: action.status,
       missionId: action.missionId,
@@ -74,10 +71,10 @@ export function useTimeline(): TimelineHook {
     }
   }
 
-  const getTimeLineFromFishAction = (output: MissionActionOutput): MissionTimelineAction => {
-    const action = output as MissionFishActionOutput
+  const getTimeLineFromFishAction = (output: MissionAction): MissionTimelineAction => {
+    const action = output as MissionFishAction
     return {
-      id: action.id.toString(),
+      id: action.id,
       source: action.source,
       status: action.status,
       type: action.actionType,
