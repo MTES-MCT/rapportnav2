@@ -19,8 +19,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEnti
     visible = true,
 )
 @JsonSubTypes(
-    JsonSubTypes.Type(MissionFishAction::class, name = "MONITORENV"),
-    JsonSubTypes.Type(MissionEnvAction::class, name = "MONITORFISH"),
+    JsonSubTypes.Type(MissionEnvAction::class, name = "MONITORENV"),
+    JsonSubTypes.Type(MissionFishAction::class, name = "MONITORFISH"),
     JsonSubTypes.Type(MissionNavAction::class, name = "RAPPORTNAV"),
 )
 abstract class MissionAction(
