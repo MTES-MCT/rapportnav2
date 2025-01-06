@@ -107,11 +107,3 @@ input MissionAEMExportInput {
   ids: [Int]
 }
 
-input CreateOrUpdateMissionInput {
-  id: Int
-  missionTypes: [MissionTypeEnum]
-  openBy: String
-  startDateTimeUtc: Instant
-  endDateTimeUtc: Instant
-  missionSource: MissionSourceEnum
-}
