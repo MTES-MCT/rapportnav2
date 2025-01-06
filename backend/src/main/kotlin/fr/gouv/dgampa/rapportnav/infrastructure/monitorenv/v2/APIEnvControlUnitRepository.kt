@@ -27,7 +27,9 @@ class APIEnvControlUnitRepository(
 
     private val client = clientFactory.create();
 
-    private val host = System.getenv("MONITORENV_HOST")
+    // private val host = System.getenv("MONITORENV_HOST")
+
+    private val host = "https://monitorenv.din.developpement-durable.gouv.fr"
 
     override fun findAll(): List<LegacyControlUnitEntity>? {
         val url = "$host/api/v1/control_units";
