@@ -15,11 +15,12 @@ import { MissionAction } from '../../../common/types/mission-action'
 import MissionControlEnvForm from '../../../mission-control/components/elements/mission-control-env-form'
 import MissionInfractionEnvList from '../../../mission-infraction/components/elements/mission-infraction-env-list-form'
 import { useMissionActionEnvControl } from '../../hooks/use-mission-action-env-control'
-import { ActionEnvControlInput } from '../../types/action-type'
+import {ActionEnvControlInput} from '../../types/action-type'
 import MissionActionEnvControlPlan from '../ui/mission-action-env-control-plan'
 import MissionActionEnvControlSummary from '../ui/mission-action-env-control-summary'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
+import {simpleDateRangeValidationSchema} from "../../validation-schema/date-validation.ts";
 
 type MissionActionItemEnvControlProps = {
   action: MissionAction
@@ -36,10 +37,13 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
   return (
     <form style={{ width: '100%' }}>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true}>
-          {({ values }) => (
+        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true} validationSchema={simpleDateRangeValidationSchema}>
+          {({ values, errors, validateForm }) => (
             <>
-              <FormikEffect onChange={nextValues => handleSubmit(nextValues as ActionEnvControlInput)} />
+              <FormikEffect onChange={async nextValues => {
+                await validateForm(values)
+                await handleSubmit(nextValues as ActionEnvControlInput, errors)
+              }} />
               <Stack
                 direction="column"
                 spacing="2rem"
