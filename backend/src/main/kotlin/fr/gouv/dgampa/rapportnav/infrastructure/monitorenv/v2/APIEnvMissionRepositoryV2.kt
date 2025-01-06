@@ -3,10 +3,10 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
-import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.outputs.MissionDataOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.outputs.MissionEnvDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
@@ -32,7 +32,7 @@ class APIEnvMissionRepositoryV2(
 
     private val host = "https://monitorenv.din.developpement-durable.gouv.fr"
 
-    override fun createMission(mission: MissionEnv): MissionEntity? {
+    override fun createMission(mission: MissionEnv): MissionEnvEntity? {
         val url = "$host/api/v1/missions";
         logger.info("Sending POST request for Env mission creation URL: $url")
         return try {
@@ -51,8 +51,8 @@ class APIEnvMissionRepositoryV2(
             logger.debug(body)
 
             mapper.registerModule(JtsModule())
-            val output: MissionDataOutput? = mapper.readValue(body);
-            output?.toMissionEntity()
+            val output: MissionEnvDataOutput? = mapper.readValue(body);
+            output?.toMissionEnvEntity()
         } catch (e: Exception) {
             logger.error("Failed to POST request for Env action creation. URL: $url", e);
             null;

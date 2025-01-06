@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Le
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.ZonedDateTime
 
-interface MissionOutput {
+interface MissionEnvOutput {
     val id: Int
     val missionTypes: List<MissionTypeEnum>
     val controlUnits: List<LegacyControlUnitEntity>?

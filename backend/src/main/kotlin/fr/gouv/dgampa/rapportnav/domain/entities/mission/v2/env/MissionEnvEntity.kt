@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActio
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.ZonedDateTime
 
-data class MissionEntity(
+data class MissionEnvEntity(
     val id: Int? = null,
     val missionTypes: List<MissionTypeEnum>,
     val controlUnits: List<LegacyControlUnitEntity> = listOf(),
