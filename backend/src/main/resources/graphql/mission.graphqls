@@ -10,7 +10,6 @@ type Mutation {
   patchMissionEnv(mission: MissionEnvInput!): Mission!
   updateMissionGeneralInfo(info: MissionGeneralInfoInput!): MissionGeneralInfo!
   updateMissionService(service: MissionServiceInput!): Service!
-  create(input: CreateOrUpdateMissionInput!): Mission!
 }
 
 
