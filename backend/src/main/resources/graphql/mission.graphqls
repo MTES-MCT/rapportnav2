@@ -10,6 +10,7 @@ type Mutation {
   patchMissionEnv(mission: MissionEnvInput!): Mission!
   updateMissionGeneralInfo(info: MissionGeneralInfoInput!): MissionGeneralInfo!
   updateMissionService(service: MissionServiceInput!): Service!
+  create(input: CreateOrUpdateMissionInput!): Mission!
 }
 
 
@@ -46,6 +47,12 @@ enum MissionStatusEnum {
 enum CompletenessForStatsStatusEnum {
   COMPLETE,
   INCOMPLETE,
+}
+
+enum MissionTypeEnum {
+  AIR,
+  LAND,
+  SEA
 }
 
 type CompletenessForStats {
@@ -89,3 +96,7 @@ input MissionsFetchEnvInput {
   endDateTimeUtc: Instant
 }
 
+
+input MissionAEMExportInput {
+  ids: [Int]
+}
