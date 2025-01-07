@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.ZonedDateTime
 
@@ -26,7 +26,7 @@ data class MissionEnv(
 ) {
 
     companion object {
-        fun fromMissionEntity(mission: MissionEntity): MissionEnv {
+        fun fromMissionEntity(mission: MissionEnvEntity): MissionEnv {
             return MissionEnv(
                 id = mission.id,
                 missionSource = mission.missionSource,
@@ -39,8 +39,8 @@ data class MissionEnv(
             )
         }
     }
-    fun toMissionEntity(): MissionEntity {
-        return MissionEntity(
+    fun toMissionEntity(): MissionEnvEntity {
+        return MissionEnvEntity(
             id = this.id,
             missionTypes = this.missionTypes,
             controlUnits = this.controlUnits,

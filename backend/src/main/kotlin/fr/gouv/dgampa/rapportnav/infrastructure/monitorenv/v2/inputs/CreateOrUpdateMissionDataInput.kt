@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.inputs
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.ZonedDateTime
 
@@ -24,8 +24,8 @@ data class CreateOrUpdateMissionDataInput(
     val isUnderJdp: Boolean = false,
     val isGeometryComputedFromControls: Boolean = false,
 ) {
-    fun toMissionEntity(): MissionEntity {
-        return MissionEntity(
+    fun toMissionEntity(): MissionEnvEntity {
+        return MissionEnvEntity(
             id = this.id,
             missionTypes = this.missionTypes,
             controlUnits = this.controlUnits,

@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.controlUnit.IEnvControlUnitRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
@@ -15,7 +15,7 @@ class CreateEnvMission(
 ) {
     private val logger = LoggerFactory.getLogger(CreateEnvMission::class.java)
 
-    fun execute(mission: MissionEnv, controlUnitIds: List<Int>?): MissionEntity? {
+    fun execute(mission: MissionEnv, controlUnitIds: List<Int>?): MissionEnvEntity? {
         try {
             if (controlUnitIds !== null && controlUnitIds.isNotEmpty()) {
                 val controlUnits = monitorEnvControlUnitRepo.findAll()
