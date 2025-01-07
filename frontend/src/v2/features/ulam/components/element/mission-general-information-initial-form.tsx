@@ -12,6 +12,7 @@ import { useMissionGeneralInformationsForm } from '../../../common/hooks/use-mis
 import { FieldProps, Formik } from 'formik'
 import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
 import { MissionReportTypeEnum, MissionULAMGeneralInfoInitial } from '../../../common/types/mission-types.ts'
+import { useNavigate } from 'react-router-dom'
 
 export interface MissionGeneralInformationInitialFormProps {
   name: string
@@ -84,7 +85,7 @@ const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialF
               {isCreation && (
                 <Stack.Item >
                   <Button accent={Accent.PRIMARY} type="submit" onClick={async () => {
-                    handleSubmit(formik.values).then(() => onClose())
+                    handleSubmit(formik.values)
                   }}>
                     Créer le rapport
                   </Button>

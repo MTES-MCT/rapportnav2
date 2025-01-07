@@ -1,3 +1,5 @@
+import { ControlUnit } from '@common/types/control-unit-types.ts'
+
 export enum MissionTypeEnum {
   AIR = 'AIR',
   LAND = 'LAND',
@@ -26,6 +28,32 @@ export enum MissionReinforcementTypeEnum {
   SEA_TRAINER = 'SEA_TRAINER',
   OTHER = 'OTHER',
   DIRM = 'DIRM'
+}
+
+export enum MissionSourceEnum {
+  MONITORENV = 'MONITORENV',
+  MONITORFISH = 'MONITORFISH',
+  POSEIDON_CACEM = 'POSEIDON_CACEM',
+  POSEIDON_CNSP = 'POSEIDON_CNSP',
+  RAPPORTNAV = 'RAPPORTNAV',
+}
+
+export type MissionEnv = {
+  id?: number,
+  missionTypes: MissionTypeEnum[],
+  controlUnits: ControlUnit[],
+  openBy?: string,
+  completedBy?: string,
+  observationsCacem?: string,
+  observationsCnsp?: string,
+  facades?: string,
+  geom?: string,
+  startDateTimeUtc: string,
+  endDateTimeUtc?: string,
+  missionSource: MissionSourceEnum
+  hasMissionOrder: boolean,
+  isUnderJdp: boolean,
+  isGeometryComputedFromControls: boolean
 }
 
 
