@@ -1,12 +1,9 @@
 type Query {
-  missionExport(missionId: ID): MissionExport
   missions: [Mission]
   mission(missionId: ID): Mission
   missionGeneralInfo(missionId: ID): MissionGeneralInfo
-  missionAEMExport(missionId: ID): MissionExport
+  # v2
   missionsV2(envInput: MissionsFetchEnvInput): [Mission]
-  missionAEMExportZip(exportZip: MissionAEMExportInput): MissionExport
-  missionAEMExportV2(missionIds: MissionAEMExportInput): MissionExport
 }
 
 type Mutation {
@@ -16,10 +13,6 @@ type Mutation {
   create(input: CreateOrUpdateMissionInput!): Mission!
 }
 
-type MissionExport {
-  fileName: String
-  fileContent: String
-}
 
 type Mission {
   id: ID!
@@ -103,7 +96,7 @@ input MissionsFetchEnvInput {
   endDateTimeUtc: Instant
 }
 
+
 input MissionAEMExportInput {
   ids: [Int]
 }
-

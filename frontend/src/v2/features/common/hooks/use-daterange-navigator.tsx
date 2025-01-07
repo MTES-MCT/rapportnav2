@@ -1,28 +1,35 @@
-import { useState, useEffect } from 'react';
-import { addMonths, subMonths, format, startOfMonth, endOfMonth } from 'date-fns';
-import { fr } from 'date-fns/locale';
+import { useState } from 'react'
+import { addMonths, subMonths, startOfMonth, startOfYear, subYears, addYears, subDays } from 'date-fns'
+import { formatMonthYear, formatYear } from '@common/utils/dates-for-humans.ts'
 
-function useDateRangeNavigator(startDateTimeUtc, onUpdateDateRange) {
-  const initialDate = startDateTimeUtc ? new Date(startDateTimeUtc) : new Date();
-  const [currentDate, setCurrentDate] = useState(startOfMonth(initialDate));
+function useDateRangeNavigator(startDateTimeUtc, timeframe) {
+  const initialDate = startDateTimeUtc ? new Date(startDateTimeUtc) : new Date()
+  const [currentDate, setCurrentDate] = useState(startOfMonth(initialDate))
 
-  const goToPreviousMonth = () => {
-    setCurrentDate((prevDate) => startOfMonth(subMonths(prevDate, 1)));
-  };
+  const goToPrevious = () => {
+    if (timeframe === 'month') {
+      setCurrentDate(prevDate => startOfMonth(subMonths(prevDate, 1)))
+    } else if (timeframe === 'year') {
+      setCurrentDate(prevDate => startOfYear(subYears(prevDate, 1)))
+    }
+  }
 
-  const goToNextMonth = () => {
-    setCurrentDate((prevDate) => startOfMonth(addMonths(prevDate, 1)));
-  };
+  const goToNext = () => {
+    if (timeframe === 'month') {
+      setCurrentDate(prevDate => startOfMonth(addMonths(prevDate, 1)))
+    } else if (timeframe === 'year') {
+      setCurrentDate(prevDate => startOfYear(addYears(prevDate, 1)))
+    }
+  }
 
-  const formattedDate = format(currentDate, 'MMMM yyyy', { locale: fr });
-  const capitalizedFormattedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+  const formattedDate = timeframe === 'month' ? formatMonthYear(currentDate) : formatYear(currentDate)
 
   return {
     currentDate,
-    capitalizedFormattedDate,
-    goToPreviousMonth,
-    goToNextMonth,
-  };
+    formattedDate,
+    goToPrevious,
+    goToNext
+  }
 }
 
-export default useDateRangeNavigator;
+export default useDateRangeNavigator

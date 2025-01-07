@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import PageWrapper from '../features/common/components/ui/page-wrapper.tsx'
 import AuthToken from '../features/auth/utils/token.ts'
 import { FlexboxGrid, Stack } from 'rsuite'
-import { Accent, Button, FormikTextInput, Size } from '@mtes-mct/monitor-ui'
+import {Accent, Button, FormikMultiSelect, FormikTextInput, Size} from '@mtes-mct/monitor-ui'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { validate } from 'email-validator'
 import { csrfToken } from '../features/auth/utils/csrf.ts'
@@ -19,6 +19,7 @@ interface SignUpFormValues {
   email: string
   password: string
   serviceId?: string
+  roles?: string[]
 }
 
 const initialValues: SignUpFormValues = {
@@ -26,7 +27,8 @@ const initialValues: SignUpFormValues = {
   lastName: '',
   email: '',
   password: '',
-  serviceId: undefined
+  serviceId: undefined,
+  roles: undefined
 }
 
 const authToken = new AuthToken()
@@ -35,7 +37,7 @@ const SignUp: FC = () => {
   const navigate = useNavigate()
 
   const handleSubmit = async (
-    { firstName, lastName, email, password, serviceId }: SignUpFormValues,
+    { firstName, lastName, email, password, serviceId, roles }: SignUpFormValues,
     { setStatus, setSubmitting }: FormikHelpers<SignUpFormValues>
   ) => {
     try {
@@ -50,7 +52,8 @@ const SignUp: FC = () => {
           lastName,
           email,
           password,
-          serviceId
+          serviceId,
+          roles
         })
       })
 
@@ -90,6 +93,9 @@ const SignUp: FC = () => {
     }
     if (!values.lastName) {
       errors.firstName = 'Le nom est requis'
+    }
+    if (!values.roles) {
+      errors.roles = 'Le rôle est requis'
     }
 
     return errors
@@ -157,6 +163,18 @@ const SignUp: FC = () => {
                       label="ServiceId"
                       type="text"
                       placeholder=""
+                      required
+                      size={Size.LARGE}
+                    />
+                  </Stack.Item>
+                  <Stack.Item style={{ marginTop: '1rem', width: '100%' }}>
+                    <FormikMultiSelect
+                      name="roles"
+                      label="Roles"
+                      options={[
+                        {value: 'USER_PAM', label: 'PAM'},
+                        {value: 'USER_ULAM', label: 'ULAM'}
+                      ]}
                       required
                       size={Size.LARGE}
                     />

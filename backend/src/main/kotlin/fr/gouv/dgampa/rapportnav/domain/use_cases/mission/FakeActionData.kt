@@ -178,6 +178,7 @@ class FakeActionData {
             portName = "La Rochelle",
             actionType = MissionActionType.LAND_CONTROL,
             actionDatetimeUtc = Instant.parse("2024-01-09T14:00:00Z"),
+            actionEndDatetimeUtc = Instant.parse("2024-01-09T18:00:00Z"),
             flightGoals = listOf(),
             logbookInfractions = listOf(),
             gearInfractions = listOf(),
@@ -222,12 +223,13 @@ class FakeActionData {
             ),
             flagState = CountryCode.FR,
             isFromPoseidon = false,
+            observationsByUnit = "gfgfd"
 
-            )
+        )
         val missionAction2 = MissionAction(
             id = missionId + 2,
             missionId = missionId,
-            completion = Completion.TO_COMPLETE,
+            completion = Completion.COMPLETED,
             vesselId = 5232556,
             vesselName = "Le POILLET",
             latitude = 48.389999,
@@ -235,6 +237,7 @@ class FakeActionData {
             facade = "Outre-Mer",
             actionType = MissionActionType.SEA_CONTROL,
             actionDatetimeUtc = Instant.parse("2024-01-09T11:00:00Z"),
+            actionEndDatetimeUtc = Instant.parse("2024-01-09T16:00:00Z"),
             flightGoals = listOf(),
             logbookInfractions = listOf(
                 LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD, natinf = 2212),
@@ -277,6 +280,7 @@ class FakeActionData {
             isSeafarersControl = true,
             flagState = CountryCode.FR,
             isFromPoseidon = false,
+            observationsByUnit = "gfgfd"
         )
 
         val missionAction3 = MissionAction(
@@ -301,6 +305,6 @@ class FakeActionData {
             isFromPoseidon = false,
             userTrigram = "ACK"
         )
-        return listOf(missionAction1, missionAction2, missionAction3)
+        return listOf(missionAction1, missionAction3)
     }
 }

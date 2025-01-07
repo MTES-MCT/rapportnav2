@@ -15,6 +15,9 @@ export const GET_MISSIONS = gql`
         status
         sources
       }
+      generalInfo {
+        serviceId
+      }
       crew {
         id
         agent {
@@ -22,6 +25,9 @@ export const GET_MISSIONS = gql`
           firstName
           lastName
         }
+      }
+      actions {
+        id
       }
     }
   }
@@ -32,7 +38,10 @@ interface UseMissionsQueryParams {
   endDateTimeUtc: string
 }
 
-const useMissionsQuery = ({ startDateTimeUtc, endDateTimeUtc }: UseMissionsQueryParams): {
+const useMissionsQuery = ({
+  startDateTimeUtc,
+  endDateTimeUtc
+}: UseMissionsQueryParams): {
   data?: Mission[]
   loading: boolean
   error?: ApolloError
