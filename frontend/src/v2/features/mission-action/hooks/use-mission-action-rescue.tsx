@@ -7,6 +7,7 @@ import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-ho
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { RescueType } from '../../common/types/rescue-type'
 import { ActionRescueInput } from '../types/action-type'
+import {simpleDateRangeValidationSchema} from "../validation-schema/date-validation.ts";
 
 export function useMissionActionRescue(
   action: MissionAction,
@@ -75,7 +76,7 @@ export function useMissionActionRescue(
     handleSubmit(value, errors, onSubmit)
   }
 
-  const validationSchema = object().shape({
+  const validationSchema = simpleDateRangeValidationSchema.concat( object().shape({
     isMissionFinished: boolean(),
     isPersonRescue: boolean(),
     isMigrationRescue: boolean(),
@@ -109,7 +110,7 @@ export function useMissionActionRescue(
         then: schema => schema.nonNullable().required(),
         otherwise: schema => schema.nullable()
       })
-  })
+  }))
 
   return {
     isError,
