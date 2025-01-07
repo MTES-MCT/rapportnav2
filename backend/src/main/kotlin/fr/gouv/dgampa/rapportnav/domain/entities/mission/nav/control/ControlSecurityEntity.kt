@@ -29,6 +29,7 @@ data class ControlSecurityEntity(
     }
 
     override fun equals(other: Any?): Boolean {
+        if (other == null || other::class != this::class) return false
         if (!super.equals(other)) return false
         other as ControlSecurityEntity
         return (missionId == other.missionId

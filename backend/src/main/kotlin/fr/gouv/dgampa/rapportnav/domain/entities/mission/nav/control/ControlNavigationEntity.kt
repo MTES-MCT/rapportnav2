@@ -29,6 +29,7 @@ data class ControlNavigationEntity(
     }
 
     override fun equals(other: Any?): Boolean {
+        if (other == null || other::class != this::class) return false
         if (!super.equals(other)) return false
         other as ControlNavigationEntity
         return (missionId == other.missionId
