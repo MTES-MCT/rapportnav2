@@ -17,7 +17,7 @@ const Home2: FC = () => {
   useEffect(() => {
     if (isAuthenticated) {
       const user = isLoggedIn()
-      navigate(`/${ROUTES[user?.roles[0] || RoleType.USER_PAM]}/missions`, { replace: true })
+      navigate(`/v2/${ROUTES[user?.roles[0] || RoleType.USER_PAM]}/missions`, { replace: true })
     } else {
       navigate('/login', { replace: true })
     }
