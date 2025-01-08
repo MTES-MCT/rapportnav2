@@ -61,7 +61,7 @@ const MissionOpenByTag: React.FC<MissionOpenByTagProps> = ({ missionSource, isFa
   const textContent = getTagTextContent(missionSource)
 
   return (
-    <Tag backgroundColor={backgroundColor} borderColor={borderColor} color={textColor}>
+    <Tag backgroundColor={backgroundColor} borderColor={borderColor} color={textColor} style={{height: 'auto'}}>
       <Text as={'h3'} weight="medium" color={textColor}>
         {textContent}
       </Text>
