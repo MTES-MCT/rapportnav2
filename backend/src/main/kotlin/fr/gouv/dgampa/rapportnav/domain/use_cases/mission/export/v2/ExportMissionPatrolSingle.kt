@@ -406,11 +406,10 @@ class ExportMissionPatrolSingle(
 
 
             return MissionExportEntity(
-                fileName = "rapport-patrouille_${service?.name ?: ""}_${formatDateTime.formatDate(mission.startDateTimeUtc)}.odt",
+                fileName = "rapport-patrouille_${service?.name ?: ""}_${formatDateTime.formatDate(mission.startDateTimeUtc)}_${mission.id}.odt",
                 fileContent = base64Content
             )
 
-//            return exportRepository.exportOdt(exportParams)
         } catch (e: Exception) {
             logger.error("[RapportDePatrouille] - Error building data before sending it to RapportNav1 : ${e.message}")
             return null

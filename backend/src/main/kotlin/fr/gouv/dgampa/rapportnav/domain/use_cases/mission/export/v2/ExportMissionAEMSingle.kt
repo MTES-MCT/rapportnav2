@@ -64,7 +64,7 @@ class ExportMissionAEMSingle(
                 logger.info("ODS file created and converted to Base64")
 
                 return MissionExportEntity(
-                    fileName = "tableau-AEM_${formatDateTime.formatDate(mission.startDateTimeUtc)}.ods",
+                    fileName = "tableau-AEM_${formatDateTime.formatDate(mission.startDateTimeUtc)}_${mission.id}.ods",
                     fileContent = base64Content
                 )
             } else {
