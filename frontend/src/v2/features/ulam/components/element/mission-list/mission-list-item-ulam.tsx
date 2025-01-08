@@ -2,7 +2,7 @@ import { Mission } from '@common/types/mission-types.ts'
 import React, { MouseEvent, useEffect, useRef } from 'react'
 import { Accent, Icon, IconButton, THEME } from '@mtes-mct/monitor-ui'
 import { Divider, FlexboxGrid, Stack } from 'rsuite'
-import { redirect } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { useControlUnitResourceLabel } from '../../../hooks/use-ulam-home-unit-resources.tsx'
 import { formatDateForFrenchHumans } from '@common/utils/dates-for-humans.ts'
@@ -46,6 +46,8 @@ const MissionCrewItem = styled.div`
 `
 
 const MissionListItemUlam: React.FC<MissionListItemProps> = ({ mission, index, openIndex, setOpenIndex }) => {
+  const navigate = useNavigate()
+
   const controlUnitResourcesText = useControlUnitResourceLabel(mission?.controlUnits)
   const missionName = formatMissionName(mission?.startDateTimeUtc)
   const missionDate = formatDateForFrenchHumans(mission?.startDateTimeUtc)
@@ -88,6 +90,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({ mission, index, o
 
   const onClickRow = (e: MouseEvent) => {
     // Check if the event target is NOT the button or its children
+    debugger
     const isExportButton =
       (e.target as any).closest('button') &&
       (e.target as any).closest('button').getAttribute('data-testid') === 'export-btn'
@@ -97,7 +100,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({ mission, index, o
     if (isExportButton) {
       return // Ignore clicks on the export button
     } else if (isGoToMissionButton) {
-      redirect(`${ULAM_V2_HOME_PATH}/${mission?.id}`)
+      navigate(`${ULAM_V2_HOME_PATH}/${mission?.id}`)
     }
 
     setOpenIndex(isOpen ? null : index) // Toggle open state
@@ -105,7 +108,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({ mission, index, o
 
   return (
     <ListItemWithHover ref={listItemRef} onClick={onClickRow} data-testid="mission-list-item-with-hover">
-      <FlexboxGrid align="middle" style={{ height: '100%', padding: '0.5rem 2rem', marginBottom: '4px' }}>
+      <FlexboxGrid align="middle" style={{ height: '100%', padding: '0.5rem 1rem', marginBottom: '4px' }}>
         <FlexboxGrid.Item colspan={1} style={{ paddingTop: '8px' }} data-testid={'mission-list-item-icon'}>
           <MissionIconUlam missionSource={mission?.missionSource} />
         </FlexboxGrid.Item>
@@ -116,7 +119,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({ mission, index, o
           </Text>
         </FlexboxGrid.Item>
 
-        <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-open_by'}>
+        <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-open_by'} style={{padding: '0 4px'}}>
           <MissionOpenByTag missionSource={mission?.missionSource} isFake={mission?.openBy === 'fake'} />
         </FlexboxGrid.Item>
 
@@ -163,12 +166,8 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({ mission, index, o
                 Icon={Icon.Edit}
                 accent={Accent.TERTIARY}
                 data-testid={'go-to-mission-btn'}
-                onMouseDown={(e: React.MouseEvent) => {
-                  e.preventDefault() // Prevents button focus behavior
-                  e.stopPropagation() // Prevents parent `onClick` from firing
-                }}
                 onClick={e => {
-                  redirect(`${ULAM_V2_HOME_PATH}/${mission?.id}`)
+                  navigate(`${ULAM_V2_HOME_PATH}/${mission?.id}`)
                 }}
               />
             </Stack.Item>

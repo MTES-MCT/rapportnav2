@@ -109,7 +109,6 @@ const MissionListUlamPage: React.FC = () => {
         list={
           <MissionListUlam //
             missions={missions}
-            onClickExport={exportAEM}
           />
         }
       />
