@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
@@ -13,11 +13,11 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import java.time.Instant
 
-@SpringBootTest(classes = [GetEnvMissionById::class])
-class GetEnvMissionByIdTest {
+@SpringBootTest(classes = [GetEnvMissionById2::class])
+class GetEnvMissionById2Test {
 
     @Autowired
-    private lateinit var getEnvMissionById: GetEnvMissionById
+    private lateinit var getEnvMissionById2: GetEnvMissionById2
 
     @MockBean
     private lateinit var monitorEnvApiRepo: IEnvMissionRepository
@@ -40,10 +40,10 @@ class GetEnvMissionByIdTest {
         // Mock behavior of findMissionById to return a MissionEntity
         `when`(monitorEnvApiRepo.findMissionById(missionId)).thenReturn(missionEntity)
 
-        getEnvMissionById = GetEnvMissionById(monitorEnvApiRepo)
+        getEnvMissionById2 = GetEnvMissionById2(monitorEnvApiRepo)
 
         // When
-        val result = getEnvMissionById.execute(missionId)
+        val result = getEnvMissionById2.execute(missionId)
 
         // Then
         assertNotNull(result)

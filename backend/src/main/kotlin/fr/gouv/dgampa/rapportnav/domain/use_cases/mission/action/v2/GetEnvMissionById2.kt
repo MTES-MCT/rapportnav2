@@ -7,10 +7,10 @@ import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
 
 @UseCase
-class GetEnvMissionById(
+class GetEnvMissionById2(
     private val monitorEnvApiRepo: IEnvMissionRepository
 ) {
-    private val logger = LoggerFactory.getLogger(GetEnvMissionById::class.java)
+    private val logger = LoggerFactory.getLogger(GetEnvMissionById2::class.java)
 
     @Cacheable(value = ["envMission"], key = "#missionId")
     fun execute(missionId: Int?): MissionEntity? {
