@@ -1,11 +1,15 @@
 import React from 'react'
-import { MissionTypeEnum } from '@common/types/env-mission-types.ts'
 import { Field, FieldProps, Formik } from 'formik'
 import MissionGeneralInformationInitialForm from './mission-general-information-initial-form.tsx'
 import { FormikEffect } from '@mtes-mct/monitor-ui'
 import {
-  MissionReinforcementTypeEnum, MissionReportTypeEnum, MissionULAMGeneralInfoInitial
+  MissionReinforcementTypeEnum,
+  MissionReportTypeEnum,
+  MissionTypeEnum,
+  MissionULAMGeneralInfoInitial
 } from '../../../common/types/mission-types.ts'
+import useCreateMissionMutation from '../../services/use-create-mission.tsx'
+import { useNavigate } from 'react-router-dom'
 
 type NewMissionUlamGeneralInfoInitial =  { missionGeneralInfo: MissionULAMGeneralInfoInitial }
 
@@ -21,7 +25,9 @@ export interface MissionGeneralInformationUlamProps {
 
 const MissionGeneralInformationUlamFormNew: React.FC<MissionGeneralInformationUlamProps> = ({ startDateTimeUtc, endDateTimeUtc, missionTypes, missionReportType, reinforcementType, nbHourAtSea, onClose }) => {
 
-  const initialValues: MissionULAMGeneralInfoInitial = {
+  const navigate = useNavigate()
+
+  const initialValues: NewMissionUlamGeneralInfoInitial = {
     missionGeneralInfo : {
       startDateTimeUtc,
       endDateTimeUtc,
@@ -32,16 +38,26 @@ const MissionGeneralInformationUlamFormNew: React.FC<MissionGeneralInformationUl
     }
   }
 
+  const mutation = useCreateMissionMutation();
 
-  const handleSubmit = (values) => {
-    if (
-      values?.missionGeneralInfo?.missionReportType !== MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT
-    ) {
-      values.missionGeneralInfo = values.missionGeneralInfo || {}
-      values.missionGeneralInfo.reinforcementType = null;
+  const handleSubmit = async (values: NewMissionUlamGeneralInfoInitial) => {
+    const { missionGeneralInfo } = values || {};
+
+    if (missionGeneralInfo?.missionReportType !== MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT) {
+      values.missionGeneralInfo = {
+        ...missionGeneralInfo,
+        reinforcementType: undefined,
+      };
     }
-    console.log('Form Submitted:', values);
+
+    const hasMissionTypes = Array.isArray(missionGeneralInfo?.missionTypes) && missionGeneralInfo.missionTypes.length > 0;
+
+    if (hasMissionTypes) {
+      const response = await mutation.mutateAsync(missionGeneralInfo);
+      navigate(`/v2/ulam/missions/${response.id}`);
+    }
   };
+
 
 
   return (

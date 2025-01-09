@@ -21,7 +21,7 @@ class MissionRestController(
 
     @PostMapping("")
     @Operation(summary = "Create a new MonitorEnv mission")
-    fun create(
+    fun createMission(
         @RequestBody body: MissionEnv
     ): MissionEnv? {
         try {

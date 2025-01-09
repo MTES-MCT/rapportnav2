@@ -24,11 +24,11 @@ export function useMissionGeneralInformationsForm(
 
 
   const fromInputToFieldValue = (value: MissionULAMGeneralInfoInitialInput): MissionULAMGeneralInfoInitial => {
-    const { dates, missionReportType, missionType, reinforcementType, nbHourAtSea } = value
+    const { dates, missionReportType, missionTypes, reinforcementType, nbHourAtSea } = value
     return {
       startDateTimeUtc: postprocessDateFromPicker(dates[0]),
       endDateTimeUtc: postprocessDateFromPicker(dates[1]),
-      missionType,
+      missionTypes,
       missionReportType,
       reinforcementType,
       nbHourAtSea
