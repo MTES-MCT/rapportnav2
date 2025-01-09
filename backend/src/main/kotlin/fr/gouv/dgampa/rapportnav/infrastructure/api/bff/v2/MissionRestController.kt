@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.CreateEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import io.swagger.v3.oas.annotations.Operation
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.PostMapping
@@ -22,11 +23,11 @@ class MissionRestController(
     @PostMapping("")
     @Operation(summary = "Create a new MonitorEnv mission")
     fun createMission(
-        @RequestBody body: MissionEnv
+        @RequestBody body: MissionGeneralInfo2
     ): MissionEnv? {
         try {
             val mission = createEnvMission.execute(
-                mission = body,
+                missionGeneralInfo = body,
                 controlUnitIds = getControlUnitsForUser.execute()
             )
 

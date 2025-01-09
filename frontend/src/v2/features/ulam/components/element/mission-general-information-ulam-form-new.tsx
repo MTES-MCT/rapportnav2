@@ -40,7 +40,7 @@ const MissionGeneralInformationUlamFormNew: React.FC<MissionGeneralInformationUl
 
   const mutation = useCreateMissionMutation();
 
-  const handleSubmit = async (values: NewMissionUlamGeneralInfoInitial) => {
+  const handleSubmit = (values: NewMissionUlamGeneralInfoInitial) => {
     const { missionGeneralInfo } = values || {};
 
     if (missionGeneralInfo?.missionReportType !== MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT) {
@@ -53,8 +53,7 @@ const MissionGeneralInformationUlamFormNew: React.FC<MissionGeneralInformationUl
     const hasMissionTypes = Array.isArray(missionGeneralInfo?.missionTypes) && missionGeneralInfo.missionTypes.length > 0;
 
     if (hasMissionTypes) {
-      const response = await mutation.mutateAsync(missionGeneralInfo);
-      navigate(`/v2/ulam/missions/${response.id}`);
+       mutation.mutateAsync(missionGeneralInfo).then((r) => navigate(`/v2/ulam/missions/${r.id}`));
     }
   };
 
