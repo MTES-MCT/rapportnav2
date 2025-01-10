@@ -1,13 +1,24 @@
 import { FC } from 'react'
-import { ModuleType } from '../../../../features/common/types/module-type'
+import { useNavigate } from 'react-router-dom'
 import MissionTimelineHeaderWrapper from '../../../../features/mission-timeline/components/layout/mission-timeline-Header-wrapper'
+import { useUlamTimelineRegistry } from '../../hooks/use-ulam-timeline-registry'
 
 interface MissionTimelineHeaderUlamProps {
   missionId: number
 }
 
 const MissionTimelineHeaderUlam: FC<MissionTimelineHeaderUlamProps> = ({ missionId }) => {
-  return <MissionTimelineHeaderWrapper missionId={missionId} moduleType={ModuleType.ULAM} hideStatus={true} />
+  const navigate = useNavigate()
+  const { timelineDropdownItems } = useUlamTimelineRegistry()
+  const handleOnSubmit = (id?: string) => navigate(`/v2/ulam/missions/${missionId}/${id}`)
+  return (
+    <MissionTimelineHeaderWrapper
+      hideStatus={true}
+      missionId={missionId}
+      onSubmit={handleOnSubmit}
+      dropdownItems={timelineDropdownItems}
+    />
+  )
 }
 
 export default MissionTimelineHeaderUlam
