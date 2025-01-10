@@ -30,32 +30,28 @@ export enum MissionReinforcementTypeEnum {
   DIRM = 'DIRM'
 }
 
-export enum MissionSourceEnum {
+export enum MissionSource {
   MONITORENV = 'MONITORENV',
   MONITORFISH = 'MONITORFISH',
   POSEIDON_CACEM = 'POSEIDON_CACEM',
   POSEIDON_CNSP = 'POSEIDON_CNSP',
-  RAPPORTNAV = 'RAPPORTNAV',
+  RAPPORTNAV = 'RAPPORTNAV'
 }
 
 export type MissionEnv = {
-  id?: number,
-  missionTypes: MissionTypeEnum[],
-  controlUnits: ControlUnit[],
-  openBy?: string,
-  completedBy?: string,
-  observationsCacem?: string,
-  observationsCnsp?: string,
-  facades?: string,
-  geom?: string,
-  startDateTimeUtc: string,
-  endDateTimeUtc?: string,
-  missionSource: MissionSourceEnum
-  hasMissionOrder: boolean,
-  isUnderJdp: boolean,
+  id?: number
+  missionTypes: MissionTypeEnum[]
+  controlUnits: ControlUnit[]
+  openBy?: string
+  completedBy?: string
+  observationsCacem?: string
+  observationsCnsp?: string
+  facades?: string
+  geom?: string
+  startDateTimeUtc: string
+  endDateTimeUtc?: string
+  missionSource: MissionSource
+  hasMissionOrder: boolean
+  isUnderJdp: boolean
   isGeometryComputedFromControls: boolean
 }
-
-
-
-
