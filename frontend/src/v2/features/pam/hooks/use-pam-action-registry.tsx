@@ -1,30 +1,21 @@
-import { ActionTypeEnum } from '@common/types/env-mission-types'
 import { ActionRegistryHook, ActionRegistryItem, useActionRegistry } from '../../common/hooks/use-action-registry'
+import { ActionType } from '../../common/types/action-type'
 import MissionActionItemStatus from '../../mission-action/components/elements/mission-action-item-status'
-import MissionTimelineItemStatusCard from '../../mission-timeline/components/elements/mission-timeline-item-status-card'
 
 type PamActionRegistry = {
-  [key in ActionTypeEnum]?: ActionRegistryItem
+  [key in ActionType]?: ActionRegistryItem
 }
+
 const PAM_ACTION_REGISTRY: PamActionRegistry = {
-  [ActionTypeEnum.STATUS]: {
-    hasStatusTag: true,
-    style: {
-      minHeight: 0
-    },
+  [ActionType.STATUS]: {
     title: 'Statut du navire',
-    timeline: {
-      noPadding: true,
-      dropdownText: 'Ajouter des contrôles',
-      component: MissionTimelineItemStatusCard
-    },
-    actionComponent: MissionActionItemStatus
+    component: MissionActionItemStatus
   }
 }
 
 type PamActionRegistryHook = {} & PamActionRegistry & ActionRegistryHook
 
-export function usePamActionRegistry(actionType: ActionTypeEnum): PamActionRegistryHook {
+export function usePamActionRegistry(actionType: ActionType): PamActionRegistryHook {
   const common = useActionRegistry(actionType)
   const pam = PAM_ACTION_REGISTRY[actionType]
   return { ...pam, ...common }

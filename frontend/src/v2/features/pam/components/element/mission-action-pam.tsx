@@ -21,7 +21,14 @@ const MissionActionPam: FC<MissionActionProps> = ({ missionId, actionId, status 
           <MissionActionPamHeader missionId={Number(missionId)} action={query.data} missionStatus={status} />
         )
       }
-      sectionBody={<MissionActionPamBody missionId={Number(missionId)} actionId={actionId} />}
+      sectionBody={
+        <MissionActionPamBody
+          action={query.data}
+          error={query.error}
+          isLoading={query.isLoading}
+          missionId={Number(missionId)}
+        />
+      }
     />
   )
 }
