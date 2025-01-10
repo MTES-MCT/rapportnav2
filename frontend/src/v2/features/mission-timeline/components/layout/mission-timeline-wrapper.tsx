@@ -32,7 +32,7 @@ const MissionTimelineWrapper: FC<MissionTimelineProps> = ({
 
   return (
     <Stack direction="column" spacing={'1rem'} style={{ width: '100%' }} alignItems="stretch">
-      {Object.entries(groupByDay(actions, groupBy)).map(([day, items], index) => (
+      {Object.entries(groupByDay(actions, groupBy)).map(([day, values], index) => (
         <Fragment key={day}>
           {index !== 0 && (
             <Stack.Item data-testid={'timeline-day-divider'}>
@@ -42,7 +42,7 @@ const MissionTimelineWrapper: FC<MissionTimelineProps> = ({
           )}
           <Stack.Item style={{ marginRight: '1rem' }}>
             <Stack direction="column" spacing={'0.75rem'} style={{ width: '100%' }} alignItems="stretch">
-              {(items as MissionTimelineAction[]).map(action =>
+              {(values as MissionTimelineAction[]).map(action =>
                 createElement(item, {
                   key: action.id,
                   action,

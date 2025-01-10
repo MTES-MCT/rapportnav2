@@ -1,11 +1,11 @@
 import { ActionStatusType } from '@common/types/action-types.ts'
-import { ActionTypeEnum } from '@common/types/env-mission-types'
 import { getColorForStatus, mapStatusToText } from '@common/utils/status-utils'
 import { Dropdown, Icon } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { useMissionTimeline } from '../../../common/hooks/use-mission-timeline'
 import useCreateMissionActionMutation from '../../../common/services/use-create-mission-action'
+import { ActionType } from '../../../common/types/action-type'
 
 const ACTION_STATUS: ActionStatusType[] = [
   ActionStatusType.NAVIGATING,
@@ -35,7 +35,7 @@ const MissionTimelineAddStatus: FC<MissionTimelineAddStatusProps> = ({ missionId
   const mutation = useCreateMissionActionMutation(missionId)
 
   const handleAddStatus = async (status: ActionStatusType) => {
-    const action = getActionInput(ActionTypeEnum.STATUS, { status })
+    const action = getActionInput(ActionType.STATUS, { status })
     const response = await mutation.mutateAsync(action)
     if (onSumbit) onSumbit(response?.id)
   }

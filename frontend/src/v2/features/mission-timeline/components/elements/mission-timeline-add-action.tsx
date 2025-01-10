@@ -1,34 +1,34 @@
 import Text from '@common/components/ui/text'
-import { ActionTypeEnum } from '@common/types/env-mission-types'
 import { VesselTypeEnum } from '@common/types/mission-types'
 import { Accent, Button, Dialog } from '@mtes-mct/monitor-ui'
 import { useState } from 'react'
 import { Stack } from 'rsuite'
-import MissionActionDropdownWrapper from '../../../common/components/ui/mission-action-dropdown-wrapper'
 import MissionControlSelection from '../../../common/components/ui/mission-control-selection'
 import { useMissionTimeline } from '../../../common/hooks/use-mission-timeline'
 import useCreateMissionActionMutation from '../../../common/services/use-create-mission-action'
-import { ModuleType } from '../../../common/types/module-type'
+import { ActionType } from '../../../common/types/action-type'
+import { TimelineDropdownItem } from '../../hooks/use-timeline'
+import MissionTimelineDropdownWrapper from '../layout/mission-timeline-dropdown-wrapper'
 
 type MissionTimelineAddActionProps = {
   missionId: number
-  moduleType: ModuleType
   onSumbit?: (id?: string) => void
+  dropdownItems: TimelineDropdownItem[]
 }
 
-function MissionTimelineAddAction({ missionId, onSumbit, moduleType }: MissionTimelineAddActionProps): JSX.Element {
+function MissionTimelineAddAction({ missionId, onSumbit, dropdownItems }: MissionTimelineAddActionProps): JSX.Element {
   const { getActionInput } = useMissionTimeline(missionId)
   const mutation = useCreateMissionActionMutation(missionId)
   const [showModal, setShowModal] = useState<boolean>(false)
 
-  const handleAddAction = async (actionType: ActionTypeEnum, data?: unknown) => {
+  const handleAddAction = async (actionType: ActionType, data?: unknown) => {
     const action = getActionInput(actionType, data)
     const response = await mutation.mutateAsync(action)
     if (onSumbit) onSumbit(response?.id)
   }
 
-  const handleSelect = async (actionType: ActionTypeEnum) => {
-    if (actionType === ActionTypeEnum.CONTROL) {
+  const handleSelect = async (actionType: ActionType) => {
+    if (actionType === ActionType.CONTROL) {
       setShowModal(true)
     } else {
       await handleAddAction(actionType)
@@ -36,7 +36,7 @@ function MissionTimelineAddAction({ missionId, onSumbit, moduleType }: MissionTi
   }
 
   const handleAddControl = async (controlMethod: string, vesselType: VesselTypeEnum) => {
-    handleAddAction(ActionTypeEnum.CONTROL, { controlMethod, vesselType })
+    handleAddAction(ActionType.CONTROL, { controlMethod, vesselType })
   }
 
   return (
@@ -47,7 +47,7 @@ function MissionTimelineAddAction({ missionId, onSumbit, moduleType }: MissionTi
         </Text>
       </Stack.Item>
       <Stack.Item>
-        <MissionActionDropdownWrapper moduleType={moduleType} onSelect={handleSelect} />
+        <MissionTimelineDropdownWrapper dropdownItems={dropdownItems} onSelect={handleSelect} />
       </Stack.Item>
       {showModal && (
         <Dialog>
