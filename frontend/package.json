@@ -46,7 +46,7 @@
     "unleash-proxy-client": "^3.5.1",
     "uuid": "^9.0.1",
     "web-vitals": "^2.1.4",
-    "yup": "^1.4.0"
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@import-meta-env/cli": "^0.6.8",
