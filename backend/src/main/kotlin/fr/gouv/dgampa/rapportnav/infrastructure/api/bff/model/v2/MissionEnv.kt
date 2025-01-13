@@ -23,7 +23,6 @@ data class MissionEnv(
     val missionSource: MissionSourceEnum,
     val hasMissionOrder: Boolean,
     val isUnderJdp: Boolean = false,
-    val isDeleted: Boolean? = null,
     val isGeometryComputedFromControls: Boolean = false,
 ) {
 
@@ -38,7 +37,6 @@ data class MissionEnv(
                 controlUnits = mission.controlUnits,
                 hasMissionOrder = mission.hasMissionOrder,
                 missionTypes = mission.missionTypes,
-                isDeleted = mission.isDeleted
             )
         }
 
@@ -55,7 +53,6 @@ data class MissionEnv(
                 geom = mission.geom,
                 startDateTimeUtc = mission.startDateTimeUtc,
                 endDateTimeUtc = mission.endDateTimeUtc,
-                isDeleted = mission.isDeleted,
                 missionSource = mission.missionSource,
                 hasMissionOrder = mission.hasMissionOrder,
                 isUnderJdp = mission.isUnderJdp,

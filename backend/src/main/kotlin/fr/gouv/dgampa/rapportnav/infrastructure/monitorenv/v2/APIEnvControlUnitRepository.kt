@@ -42,10 +42,14 @@ class APIEnvControlUnitRepository(
                 .build();
 
             val response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            logger.debug("Response received, Status code: ${response.statusCode()}");
+            logger.info("EnvLegacyControlUnitRepository::findAll Response received, Status code: ${response.statusCode()}");
 
             val body = response.body()
-            logger.debug(body)
+            logger.info("EnvLegacyControlUnitRepository::findAll Response received, Content: $body")
+
+            if (response.statusCode() == 400 || response.statusCode() == 500) {
+                throw Exception("Error while fetching legacy control units from env, please check the logs")
+            }
 
             mapper.registerModule(JtsModule())
             val outputs: List<LegacyControlUnitDataOutput>? = mapper.readValue(body);

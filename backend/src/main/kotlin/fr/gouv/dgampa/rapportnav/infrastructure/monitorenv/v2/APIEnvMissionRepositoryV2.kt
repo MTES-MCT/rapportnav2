@@ -37,6 +37,8 @@ class APIEnvMissionRepositoryV2(
         logger.info("Sending POST request for Env mission creation URL: $url")
         return try {
 
+            logger.info("Body request for Mission env create : ${gson.toJson(mission)}")
+
             val request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
@@ -48,7 +50,11 @@ class APIEnvMissionRepositoryV2(
             logger.info("Response received, Status code: ${response.statusCode()}");
 
             val body = response.body()
-            logger.info(body)
+            logger.info("Response received, Content: $body")
+
+            if (response.statusCode() == 400 || response.statusCode() == 500) {
+                throw Exception("Error while creating mission from env, please check the logs")
+            }
 
             mapper.registerModule(JtsModule())
             val missionDataOutput: MissionDataOutput? = mapper.readValue(body);

@@ -71,7 +71,6 @@ data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) co
             hasMissionOrder = hasMissionOrder,
             isUnderJdp = isUnderJdp,
             isGeometryComputedFromControls = isGeometryComputedFromControls,
-            isDeleted = false, // TODO this is weird,
             observationsByUnit = observationsByUnit
         )
     }
