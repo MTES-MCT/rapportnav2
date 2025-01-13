@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEnti
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
+import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import org.slf4j.LoggerFactory
 import java.util.*
 
@@ -17,9 +18,9 @@ class GetNavActionById(
     private val logger = LoggerFactory.getLogger(GetNavActionById::class.java)
 
     fun execute(actionId: String?): MissionNavActionEntity? {
-        if (actionId == null) {
-            logger.error("GetNavActionById received a null actionId")
-            throw IllegalArgumentException("GetNavActionById should not receive null missionId or actionId null")
+        if (!isValidUUID(actionId)) {
+            logger.error("GetNavActionById received an actionId that is not a valid UUID: $actionId, returning null...")
+            return null
         }
         return try {
             val model = missionActionRepository.findById(UUID.fromString(actionId)).orElse(null) ?: return null
