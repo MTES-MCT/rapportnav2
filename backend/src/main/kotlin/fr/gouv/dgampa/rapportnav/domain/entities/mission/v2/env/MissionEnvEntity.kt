@@ -27,7 +27,6 @@ data class MissionEnvEntity(
     val createdAtUtc: Instant? = null,
     val updatedAtUtc: Instant? = null,
     val envActions: List<EnvActionEntity>? = listOf(),
-    val isDeleted: Boolean,
     val isGeometryComputedFromControls: Boolean,
     val missionSource: MissionSourceEnum,
     val hasMissionOrder: Boolean,
