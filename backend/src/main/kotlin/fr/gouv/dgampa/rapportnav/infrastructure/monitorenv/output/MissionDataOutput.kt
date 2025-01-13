@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.ZonedDateTime
 
@@ -31,6 +32,29 @@ data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) co
 
     fun toMissionEntity(): MissionEntity {
         return MissionEntity(
+            id = id,
+            missionTypes = missionTypes,
+            controlUnits = controlUnits.orEmpty(),
+            openBy = openBy,
+            completedBy = completedBy,
+            observationsCacem = observationsCacem,
+            observationsCnsp = observationsCnsp,
+            facade = facade,
+            geom = geom,
+            startDateTimeUtc = startDateTimeUtc.toInstant(),
+            endDateTimeUtc = endDateTimeUtc?.toInstant(),
+            envActions = envActions,
+            missionSource = missionSource,
+            hasMissionOrder = hasMissionOrder,
+            isUnderJdp = isUnderJdp,
+            isGeometryComputedFromControls = isGeometryComputedFromControls,
+            isDeleted = false, // TODO this is weird,
+            observationsByUnit = observationsByUnit
+        )
+    }
+
+    fun toMissionEnvEntity(): MissionEnvEntity {
+        return MissionEnvEntity(
             id = id,
             missionTypes = missionTypes,
             controlUnits = controlUnits.orEmpty(),

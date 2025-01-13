@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
-import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.outputs.MissionEnvDataOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
@@ -45,14 +45,14 @@ class APIEnvMissionRepositoryV2(
                 .build();
 
             val response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            logger.debug("Response received, Status code: ${response.statusCode()}");
+            logger.info("Response received, Status code: ${response.statusCode()}");
 
             val body = response.body()
-            logger.debug(body)
+            logger.info(body)
 
             mapper.registerModule(JtsModule())
-            val output: MissionEnvDataOutput? = mapper.readValue(body);
-            output?.toMissionEnvEntity()
+            val missionDataOutput: MissionDataOutput? = mapper.readValue(body);
+            missionDataOutput?.toMissionEnvEntity();
         } catch (e: Exception) {
             logger.error("Failed to POST request for Env action creation. URL: $url", e);
             null;
