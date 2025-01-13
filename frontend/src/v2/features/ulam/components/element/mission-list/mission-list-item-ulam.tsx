@@ -90,7 +90,6 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({ mission, index, o
 
   const onClickRow = (e: MouseEvent) => {
     // Check if the event target is NOT the button or its children
-    debugger
     const isExportButton =
       (e.target as any).closest('button') &&
       (e.target as any).closest('button').getAttribute('data-testid') === 'export-btn'
