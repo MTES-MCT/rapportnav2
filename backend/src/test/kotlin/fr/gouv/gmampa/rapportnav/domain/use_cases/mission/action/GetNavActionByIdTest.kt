@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,6 +34,29 @@ class GetNavActionByIdTest {
 
     @MockBean
     private lateinit var getStatusForAction: GetStatusForAction
+
+    @Test
+    fun `test execute with null actionId returns null`() {
+        getNavActionById = GetNavActionById(
+            missionActionRepository = missionActionRepository,
+            getStatusForAction = getStatusForAction,
+            getControlByActionId = getControlByActionId
+        )
+
+        assertThat(getNavActionById.execute(actionId = null)).isNull()
+    }
+
+    @Test
+    fun `test execute with invalid actionId returns null`() {
+        getNavActionById = GetNavActionById(
+            missionActionRepository = missionActionRepository,
+            getStatusForAction = getStatusForAction,
+            getControlByActionId = getControlByActionId
+        )
+
+        val invalidActionId = "invalid-uuid"
+        assertThat(getNavActionById.execute(actionId = invalidActionId)).isNull()
+    }
 
     @Test
     fun `test execute get nav action by id`() {
