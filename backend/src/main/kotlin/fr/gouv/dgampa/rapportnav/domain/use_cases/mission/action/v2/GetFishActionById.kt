@@ -6,8 +6,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEnt
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
+import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
+import java.util.*
 
 @UseCase
 class GetFishActionById(
@@ -23,6 +25,7 @@ class GetFishActionById(
             logger.error("GetFishActionById received a null missionId or actionId null")
             throw IllegalArgumentException("GetFishActionById should not receive null missionId or actionId null")
         }
+        if (!isInteger(actionId))  return null
         return try {
             val fishAction = getFishAction(missionId = missionId, actionId = actionId) ?: return null
             val entity = MissionFishActionEntity.fromFishAction(fishAction)
@@ -40,4 +43,7 @@ class GetFishActionById(
             it.id == Integer.valueOf(actionId)
         }
     }
+
+    private fun isInteger(actionId: String?): Boolean =
+        actionId?.let { runCatching { Integer.valueOf(actionId) }.isSuccess } == true
 }
