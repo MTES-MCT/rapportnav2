@@ -21,7 +21,14 @@ const MissionActionUlam: FC<MissionActionProps> = ({ missionId, actionId, status
           <MissionActionUlamHeader missionId={Number(missionId)} action={query.data} missionStatus={status} />
         )
       }
-      sectionBody={<MissionActionUlamBody missionId={Number(missionId)} actionId={actionId} />}
+      sectionBody={
+        <MissionActionUlamBody
+          action={query.data}
+          error={query.error}
+          isLoading={query.isLoading}
+          missionId={Number(missionId)}
+        />
+      }
     />
   )
 }

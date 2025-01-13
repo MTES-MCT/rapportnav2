@@ -15,8 +15,8 @@ interface MissionActionItemPamProps {
 
 const MissionActionItemPam: FC<MissionActionItemPamProps> = ({ action, missionId, isMissionFinished }) => {
   const { handleExecuteOnDelay } = useDelay()
+  const { component } = usePamActionRegistry(action.actionType)
   const debounceTime = useStore(store, state => state.delayQuery.debounceTime)
-  const { actionComponent } = usePamActionRegistry(action.actionType)
 
   const mutation = useUpdateMissionActionMutation(missionId, action?.id)
 
@@ -29,7 +29,7 @@ const MissionActionItemPam: FC<MissionActionItemPamProps> = ({ action, missionId
 
   return (
     <div style={{ width: '100%' }}>
-      {actionComponent && createElement(actionComponent, { action, onChange, isMissionFinished })}
+      {component && createElement(component, { action, onChange, isMissionFinished })}
     </div>
   )
 }

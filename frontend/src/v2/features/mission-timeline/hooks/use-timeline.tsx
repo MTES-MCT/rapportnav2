@@ -1,8 +1,46 @@
-import { MissionSourceEnum } from '@common/types/env-mission-types'
+import { CompletenessForStatsStatusEnum } from '@common/types/mission-types'
+import { IconProps } from '@mtes-mct/monitor-ui'
+import { FunctionComponent } from 'react'
+import { ActionGroupType, ActionType } from '../../common/types/action-type'
 import { MissionAction, MissionEnvAction, MissionFishAction, MissionNavAction } from '../../common/types/mission-action'
+import { MissionSource } from '../../common/types/mission-types'
 import { MissionTimelineAction } from '../types/mission-timeline-output'
 
+export type TimeLineStyle = {
+  color?: string
+  minHeight?: number
+  borderColor?: string
+  backgroundColor?: string
+}
+
+export type Timeline = {
+  title?: string
+  style: TimeLineStyle
+  noPadding?: boolean
+  component: FunctionComponent<{
+    title?: string
+    isSelected?: boolean
+    action?: MissionTimelineAction
+    icon?: FunctionComponent<IconProps>
+    prevAction?: MissionTimelineAction
+  }>
+  icon?: FunctionComponent<IconProps>
+}
+
+export type TimelineRegistry = {
+  [key in ActionType]?: Timeline
+}
+
+export type TimelineDropdownSubItem = {
+  disabled?: boolean
+  type: ActionType | ActionGroupType
+  dropdownText?: string
+  icon?: FunctionComponent<IconProps>
+}
+export type TimelineDropdownItem = TimelineDropdownSubItem & { subItems?: TimelineDropdownSubItem[] }
+
 interface TimelineHook {
+  isIncomplete: (action?: MissionTimelineAction) => boolean
   getTimeLineAction: (actions?: MissionAction[]) => MissionTimelineAction[]
   getTimeLineFromNavAction: (output: MissionAction) => MissionTimelineAction
   getTimeLineFromEnvAction: (output: MissionAction) => MissionTimelineAction
@@ -14,11 +52,11 @@ export function useTimeline(): TimelineHook {
     return (
       actions?.map(action => {
         switch (action.source) {
-          case MissionSourceEnum.RAPPORTNAV:
+          case MissionSource.RAPPORTNAV:
             return getTimeLineFromNavAction(action)
-          case MissionSourceEnum.MONITORENV:
+          case MissionSource.MONITORENV:
             return getTimeLineFromEnvAction(action)
-          case MissionSourceEnum.MONITORFISH:
+          case MissionSource.MONITORFISH:
             return getTimeLineFromFishAction(action)
           default:
             return {} as MissionTimelineAction
@@ -91,7 +129,11 @@ export function useTimeline(): TimelineHook {
     }
   }
 
+  const isIncomplete = (action?: MissionTimelineAction) =>
+    action?.completenessForStats?.status === CompletenessForStatsStatusEnum.INCOMPLETE
+
   return {
+    isIncomplete,
     getTimeLineAction,
     getTimeLineFromEnvAction,
     getTimeLineFromNavAction,

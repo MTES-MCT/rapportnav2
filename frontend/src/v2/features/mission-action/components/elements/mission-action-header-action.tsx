@@ -1,13 +1,13 @@
-import { MissionSourceEnum } from '@common/types/env-mission-types'
 import { Accent, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import { useNavigate } from 'react-router-dom'
 import { Stack } from 'rsuite'
 import useDeleteActionMutation from '../../../common/services/use-delete-mission-action'
+import { MissionSource } from '../../../common/types/mission-types'
 
 interface MissionActionHeaderActionProps {
   actionId: string
   missionId: number
-  source: MissionSourceEnum
+  source: MissionSource
 }
 
 export const MissionActionHeaderAction: React.FC<MissionActionHeaderActionProps> = ({
@@ -23,7 +23,7 @@ export const MissionActionHeaderAction: React.FC<MissionActionHeaderActionProps>
     navigate(`/v2/pam/missions/${missionId}`)
   }
 
-  const isDeleteDisabled = () => source !== MissionSourceEnum.RAPPORTNAV
+  const isDeleteDisabled = () => source !== MissionSource.RAPPORTNAV
 
   return (
     <Stack direction="row" spacing="0.5rem">

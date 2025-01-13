@@ -1,16 +1,16 @@
 import Text from '@common/components/ui/text'
-import { MissionSourceEnum } from '@common/types/env-mission-types'
 import { formatDateTimeForFrenchHumans } from '@common/utils/dates-for-humans'
 import { IconProps, THEME } from '@mtes-mct/monitor-ui'
 import { createElement, FunctionComponent } from 'react'
 import { Stack } from 'rsuite'
+import { MissionSource } from '../../../common/types/mission-types'
 import MissionActionHeaderAction from '../elements/mission-action-header-action'
 
 interface MissionActionHeaderTitleWrapperProps {
   title?: string
   actionId?: string
   missionId: number
-  source: MissionSourceEnum
+  source: MissionSource
   startDateTimeUtc?: string
   icon?: FunctionComponent<IconProps>
 }

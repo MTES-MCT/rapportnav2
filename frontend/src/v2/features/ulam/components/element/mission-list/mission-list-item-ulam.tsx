@@ -1,23 +1,23 @@
+import Text from '@common/components/ui/text.tsx'
 import { Mission } from '@common/types/mission-types.ts'
-import React, { MouseEvent, useEffect, useRef } from 'react'
-import { Accent, Icon, IconButton, THEME } from '@mtes-mct/monitor-ui'
-import { Divider, FlexboxGrid, Stack } from 'rsuite'
-import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
-import { useControlUnitResourceLabel } from '../../../hooks/use-ulam-home-unit-resources.tsx'
 import { formatDateForFrenchHumans } from '@common/utils/dates-for-humans.ts'
+import MissionOpenByTag from '@features/pam/mission/components/elements/mission-open-by-tag.tsx'
+import { formatMissionName } from '@features/pam/mission/utils/utils.ts'
+import { Accent, Icon, IconButton, THEME } from '@mtes-mct/monitor-ui'
+import { ULAM_V2_HOME_PATH } from '@router/router.tsx'
+import React, { MouseEvent, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Divider, FlexboxGrid, Stack } from 'rsuite'
+import styled from 'styled-components'
+import ExportFileButton from '../../../../common/components/elements/export-file-button.tsx'
 import MissionCompletenessForStatsTag from '../../../../common/components/elements/mission-completeness-for-stats-tag.tsx'
 import MissionStatusTag from '../../../../common/components/elements/mission-status-tag.tsx'
-import MissionOpenByTag from '@features/pam/mission/components/elements/mission-open-by-tag.tsx'
-import { useCrewForMissionList } from '../../../hooks/use-crew-for-mission-list.tsx'
-import { ULAM_V2_HOME_PATH } from '@router/router.tsx'
-import Text from '@common/components/ui/text.tsx'
-import { formatMissionName } from '@features/pam/mission/utils/utils.ts'
-import MissionIconUlam from '../../ui/mission-icon-ulam.tsx'
+import { isCompleteForStats } from '../../../../common/hooks/use-mission-completeness-for-stats.tsx'
 import { useMissionReportExport } from '../../../../common/hooks/use-mission-report-export.tsx'
 import { ExportMode, ExportReportType } from '../../../../common/types/mission-export-types.ts'
-import ExportFileButton from '../../../../common/components/elements/export-file-button.tsx'
-import { isCompleteForStats } from '../../../../common/hooks/use-mission-completeness-for-stats.tsx'
+import { useUlamCrewForMissionList } from '../../../hooks/use-ulam-crew-for-mission-list.tsx'
+import { useControlUnitResourceLabel } from '../../../hooks/use-ulam-home-unit-resources.tsx'
+import MissionIconUlam from '../../ui/mission-icon-ulam.tsx'
 
 interface MissionListItemProps {
   mission?: Mission
@@ -51,7 +51,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({ mission, index, o
   const controlUnitResourcesText = useControlUnitResourceLabel(mission?.controlUnits)
   const missionName = formatMissionName(mission?.startDateTimeUtc)
   const missionDate = formatDateForFrenchHumans(mission?.startDateTimeUtc)
-  const missionCrew = useCrewForMissionList(mission?.crew)
+  const missionCrew = useUlamCrewForMissionList(mission?.crew)
 
   const { exportMissionReport, loading: exportIsLoading } = useMissionReportExport()
   const exportAEM = async (mission?: Mission, event?: React.MouseEvent) => {
@@ -119,7 +119,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({ mission, index, o
           </Text>
         </FlexboxGrid.Item>
 
-        <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-open_by'} style={{padding: '0 4px'}}>
+        <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-open_by'} style={{ padding: '0 4px' }}>
           <MissionOpenByTag missionSource={mission?.missionSource} isFake={mission?.openBy === 'fake'} />
         </FlexboxGrid.Item>
 

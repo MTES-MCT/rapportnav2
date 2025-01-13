@@ -2,8 +2,9 @@ import { createElement, FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ModuleType } from '../../../common/types/module-type'
 import MissionTimelineItemWrapper from '../../../mission-timeline/components/layout/mission-timeline-item-wrapper'
+import { useTimeline } from '../../../mission-timeline/hooks/use-timeline'
 import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'
-import { usePamActionRegistry } from '../../hooks/use-pam-action-registry'
+import { usePamTimelineRegistry } from '../../hooks/use-pam-timeline-registry'
 
 interface MissionTimelineItemPamProps {
   missionId?: number
@@ -13,21 +14,28 @@ interface MissionTimelineItemPamProps {
 
 const MissionTimelineItemPam: FC<MissionTimelineItemPamProps> = ({ action, prevAction, missionId }) => {
   const { actionId } = useParams()
+  const { isIncomplete } = useTimeline()
+  const { getTimeline } = usePamTimelineRegistry()
   const [isSelected, setIsSelected] = useState<boolean>(false)
-  const { style, icon, title, timeline, hasStatusTag, isIncomplete } = usePamActionRegistry(action.type)
 
   useEffect(() => {
     setIsSelected(action.id === actionId)
   }, [action, actionId])
   return (
     <MissionTimelineItemWrapper
-      style={style}
       action={action}
       missionId={missionId}
       isSelected={isSelected}
       moduleType={ModuleType.PAM}
-      card={createElement(timeline.component, { icon, title, action, prevAction, isSelected })}
       isIncomplete={isIncomplete(action)}
+      style={getTimeline(action.type).style}
+      card={createElement(getTimeline(action.type).component, {
+        icon: getTimeline(action.type).icon,
+        title: getTimeline(action.type).title,
+        action,
+        prevAction,
+        isSelected
+      })}
     />
   )
 }

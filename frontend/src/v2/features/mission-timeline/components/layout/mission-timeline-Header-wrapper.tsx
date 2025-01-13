@@ -1,6 +1,5 @@
-import { useNavigate } from 'react-router-dom'
 import { Stack } from 'rsuite'
-import { ModuleType } from '../../../common/types/module-type'
+import { TimelineDropdownItem } from '../../hooks/use-timeline'
 import MissionTimelineAddAction from '../elements/mission-timeline-add-action'
 import MissionTimelineAddStatus from '../elements/mission-timeline-add-status'
 
@@ -8,29 +7,28 @@ type MissionTimelineHeaderWrapperProps = {
   missionId: number
   hideAction?: boolean
   hideStatus?: boolean
-  moduleType: ModuleType
+  onSubmit: (id?: string) => void
+  dropdownItems: TimelineDropdownItem[]
 }
 
 const MissionTimelineHeaderWrapper: React.FC<MissionTimelineHeaderWrapperProps> = ({
+  onSubmit,
   hideAction,
   hideStatus,
   missionId,
-  moduleType
+  dropdownItems
 }) => {
-  const navigate = useNavigate()
-  const handleOnSubmit = (id?: string) => navigate(`/v2/${moduleType}/missions/${missionId}/${id}`)
-
   return (
     <Stack direction={'row'} justifyContent={'space-between'} spacing={'0.5rem'} wrap={true}>
       <Stack.Item>
         {!hideAction && (
-          <MissionTimelineAddAction moduleType={moduleType} missionId={missionId} onSumbit={handleOnSubmit} />
+          <MissionTimelineAddAction dropdownItems={dropdownItems} missionId={missionId} onSumbit={onSubmit} />
         )}
       </Stack.Item>
       <Stack.Item>
         <Stack direction={'row'}>
           <Stack.Item>
-            {!hideStatus && <MissionTimelineAddStatus missionId={missionId} onSumbit={handleOnSubmit} />}
+            {!hideStatus && <MissionTimelineAddStatus missionId={missionId} onSumbit={onSubmit} />}
           </Stack.Item>
         </Stack>
       </Stack.Item>

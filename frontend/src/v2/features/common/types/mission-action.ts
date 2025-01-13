@@ -1,13 +1,6 @@
 import { ActionStatusReason, ActionStatusType } from '@common/types/action-types'
 import { ControlMethod, ControlType } from '@common/types/control-types'
-import {
-  ActionTargetTypeEnum,
-  ActionTypeEnum,
-  MissionSourceEnum,
-  VehicleTypeEnum,
-  VesselSizeEnum,
-  VesselTypeEnum
-} from '@common/types/env-mission-types'
+import { ActionTargetTypeEnum, VehicleTypeEnum, VesselSizeEnum, VesselTypeEnum } from '@common/types/env-mission-types'
 import {
   ControlCheck,
   FleetSegment,
@@ -21,19 +14,21 @@ import {
 } from '@common/types/fish-mission-types'
 import { InfractionByTarget } from '@common/types/infraction-types'
 import { CompletenessForStats } from '@common/types/mission-types'
+import { ActionType } from './action-type'
 import { MissionActionData } from './mission-action-data'
+import { MissionSource } from './mission-types'
 
 export interface MissionAction {
   id?: string
   missionId: number
-  actionType: ActionTypeEnum
-  source: MissionSourceEnum
+  actionType: ActionType
+  source: MissionSource
   status?: ActionStatusType
   summaryTags?: string[]
   isCompleteForStats?: boolean
   controlsToComplete: ControlType[]
   completenessForStats: CompletenessForStats
-  sourcesOfMissingDataForStats: MissionSourceEnum[]
+  sourcesOfMissingDataForStats: MissionSource[]
   data: MissionActionData
 }
 

@@ -16,12 +16,11 @@ interface MissionActionItemUlamProps {
 const MissionActionItemUlam: FC<MissionActionItemUlamProps> = ({ action, missionId, isMissionFinished }) => {
   const { handleExecuteOnDelay } = useDelay()
   const debounceTime = useStore(store, state => state.delayQuery.debounceTime)
-  const { actionComponent } = useUlamActionRegistry(action.actionType)
+  const { component } = useUlamActionRegistry(action.actionType)
 
   const mutation = useUpdateMissionActionMutation(missionId, action.id)
 
   const onChange = async (newAction: MissionAction) => {
-    // const input = getMissionActionInput(newAction)
     handleExecuteOnDelay(async () => {
       await mutation.mutateAsync(newAction)
       if (debounceTime !== undefined) resetDebounceTime()
@@ -30,7 +29,7 @@ const MissionActionItemUlam: FC<MissionActionItemUlamProps> = ({ action, mission
 
   return (
     <div style={{ width: '100%' }}>
-      {actionComponent && createElement(actionComponent, { action, onChange, isMissionFinished })}
+      {component && createElement(component, { action, onChange, isMissionFinished })}
     </div>
   )
 }
