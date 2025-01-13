@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
-version = "2.4.7"
+version = "2.4.8"
 description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
@@ -106,17 +106,17 @@ buildscript {
 
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_17
+  sourceCompatibility = JavaVersion.VERSION_20
 }
 
 kotlin {
-  jvmToolchain(17)
+  jvmToolchain(20)
 }
 
 tasks.withType<KotlinCompile> {
   kotlinOptions {
     freeCompilerArgs += "-Xjsr305=strict"
-    jvmTarget = "17"
+    jvmTarget = "20"
   }
 }
 
