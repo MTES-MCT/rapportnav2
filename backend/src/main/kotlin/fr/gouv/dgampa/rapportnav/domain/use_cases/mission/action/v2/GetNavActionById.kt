@@ -18,10 +18,7 @@ class GetNavActionById(
     private val logger = LoggerFactory.getLogger(GetNavActionById::class.java)
 
     fun execute(actionId: String?): MissionNavActionEntity? {
-        if (!isValidUUID(actionId)) {
-            logger.error("GetNavActionById received an actionId that is not a valid UUID: $actionId, returning null...")
-            return null
-        }
+        if (!isValidUUID(actionId)) return null
         return try {
             val model = missionActionRepository.findById(UUID.fromString(actionId)).orElse(null) ?: return null
             val entity = MissionNavActionEntity.fromMissionActionModel(model)

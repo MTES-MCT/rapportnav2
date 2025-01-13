@@ -31,9 +31,9 @@ class MissionActionRestController(
     @GetMapping("")
     @Operation(summary = "Get the list of actions on a mission Id")
     fun getActions(@PathVariable(name = "missionId") missionId: Int): List<MissionAction?> {
-        val envActions = getEnvActionByMissionId.execute(missionId = missionId)
-        val navActions = getNavActionByMissionId.execute(missionId = missionId)
-        val fishActions = getFIshListActionByMissionId.execute(missionId = missionId)
+        val envActions = getEnvActionByMissionId.execute(missionId = missionId).orEmpty()
+        val navActions = getNavActionByMissionId.execute(missionId = missionId).orEmpty()
+        val fishActions = getFIshListActionByMissionId.execute(missionId = missionId).orEmpty()
         return (envActions + navActions + fishActions)
             .sortedByDescending { action -> action.startDateTimeUtc }
             .map { action -> MissionAction.fromMissionActionEntity(action) }
@@ -78,7 +78,7 @@ class MissionActionRestController(
 
     @DeleteMapping("{actionId}")
     @Operation(summary = "Delete a mission action")
-    fun deleteAction(@PathVariable(name = "actionId") actionId: String): Unit {
+    fun deleteAction(@PathVariable(name = "actionId") actionId: String, @PathVariable missionId: String): Unit {
         deleteNavAction.execute(UUID.fromString(actionId))
     }
 }

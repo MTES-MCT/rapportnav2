@@ -10,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAct
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsByActionId
+import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.FormattedEnvActionControlPlan
 import org.slf4j.LoggerFactory
 
@@ -28,6 +29,7 @@ class GetEnvActionById(
             logger.error("GetEnvActionById received a null missionId")
             throw IllegalArgumentException("GetEnvActionById should not receive null missionId")
         }
+        if (!isValidUUID(actionId)) return null
         return try {
             val envAction = getEnvAction(missionId = missionId, actionId = actionId) ?: return null
             val entity = MissionEnvActionEntity.fromEnvAction(missionId, envAction)
