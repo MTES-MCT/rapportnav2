@@ -49,12 +49,12 @@ class APIEnvMissionRepositoryV2(
             val response = client.send(request, HttpResponse.BodyHandlers.ofString());
             logger.info("Response received, Status code: ${response.statusCode()}");
 
+            val body = response.body()
+            logger.info("Response received, Content: $body")
+
             if (response.statusCode() == 400 || response.statusCode() == 500) {
                 throw Exception("Error while creating mission from env, please check the logs")
             }
-
-            val body = response.body()
-            logger.info("Response received, Content: $body")
 
             mapper.registerModule(JtsModule())
             val missionDataOutput: MissionDataOutput? = mapper.readValue(body);
