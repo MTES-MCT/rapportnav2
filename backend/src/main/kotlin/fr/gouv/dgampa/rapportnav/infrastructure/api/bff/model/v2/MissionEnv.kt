@@ -1,11 +1,12 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import org.locationtech.jts.geom.MultiPolygon
-import java.time.ZonedDateTime
+import java.time.Instant
 
 data class MissionEnv(
     val id: Int? = null,
@@ -17,16 +18,17 @@ data class MissionEnv(
     val observationsCnsp: String? = null,
     val facade: String? = null,
     val geom: MultiPolygon? = null,
-    val startDateTimeUtc: ZonedDateTime,
-    val endDateTimeUtc: ZonedDateTime? = null,
+    val startDateTimeUtc: Instant? = null,
+    val endDateTimeUtc: Instant? = null,
     val missionSource: MissionSourceEnum,
     val hasMissionOrder: Boolean,
     val isUnderJdp: Boolean = false,
+    val isDeleted: Boolean? = null,
     val isGeometryComputedFromControls: Boolean = false,
 ) {
 
     companion object {
-        fun fromMissionEntity(mission: MissionEnvEntity): MissionEnv {
+        fun fromMissionEnvEntity(mission: MissionEnvEntity): MissionEnv {
             return MissionEnv(
                 id = mission.id,
                 missionSource = mission.missionSource,
@@ -36,27 +38,29 @@ data class MissionEnv(
                 controlUnits = mission.controlUnits,
                 hasMissionOrder = mission.hasMissionOrder,
                 missionTypes = mission.missionTypes,
+                isDeleted = mission.isDeleted
             )
         }
-    }
-    fun toMissionEntity(): MissionEnvEntity {
-        return MissionEnvEntity(
-            id = this.id,
-            missionTypes = this.missionTypes,
-            controlUnits = this.controlUnits,
-            openBy = this.openBy,
-            completedBy = this.completedBy,
-            observationsCacem = this.observationsCacem,
-            observationsCnsp = this.observationsCnsp,
-            facade = this.facade,
-            geom = this.geom,
-            startDateTimeUtc = this.startDateTimeUtc,
-            endDateTimeUtc = this.endDateTimeUtc,
-            isDeleted = false,
-            missionSource = this.missionSource,
-            hasMissionOrder = this.hasMissionOrder,
-            isUnderJdp = this.isUnderJdp,
-            isGeometryComputedFromControls = this.isGeometryComputedFromControls,
-        )
+
+        fun fromMissionEntity(mission: MissionEntity): MissionEnv {
+            return MissionEnv(
+                id = mission.id,
+                missionTypes = mission.missionTypes,
+                controlUnits = mission.controlUnits,
+                openBy = mission.openBy,
+                completedBy = mission.completedBy,
+                observationsCacem = mission.observationsCacem,
+                observationsCnsp = mission.observationsCnsp,
+                facade = mission.facade,
+                geom = mission.geom,
+                startDateTimeUtc = mission.startDateTimeUtc,
+                endDateTimeUtc = mission.endDateTimeUtc,
+                isDeleted = mission.isDeleted,
+                missionSource = mission.missionSource,
+                hasMissionOrder = mission.hasMissionOrder,
+                isUnderJdp = mission.isUnderJdp,
+                isGeometryComputedFromControls = mission.isGeometryComputedFromControls,
+            )
+        }
     }
 }

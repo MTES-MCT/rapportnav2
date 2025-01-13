@@ -23,6 +23,7 @@ import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
+import java.time.Instant
 import java.time.ZonedDateTime
 
 
@@ -75,8 +76,8 @@ class APIEnvMissionRepositoryTest {
         val mission = MissionEnv(
             missionTypes = listOf(MissionTypeEnum.SEA),
             controlUnits = listOf(),
-            startDateTimeUtc = ZonedDateTime.parse("2024-04-17T07:00:00Z"),
-            endDateTimeUtc = ZonedDateTime.parse("2024-04-17T09:00:00Z"),
+            startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
+            endDateTimeUtc = Instant.parse("2024-04-17T09:00:00Z"),
             missionSource = MissionSourceEnum.MONITORENV,
             isUnderJdp = false,
             isGeometryComputedFromControls = false,
