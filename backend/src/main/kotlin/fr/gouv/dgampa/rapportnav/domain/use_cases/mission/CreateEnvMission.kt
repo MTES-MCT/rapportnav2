@@ -27,9 +27,12 @@ class CreateEnvMission(
                  matchedControlUnits = controlUnits
                     ?.filter { it.id in controlUnitIds }
                     ?: emptyList()
-
-
             }
+
+            if (matchedControlUnits.isEmpty()) {
+                throw Exception("CreateEnvMission : controlUnits is empty for this user")
+            }
+
             val missionEnv = MissionEnv(
                 missionTypes = missionGeneralInfo.missionTypes,
                 missionSource = MissionSourceEnum.RAPPORTNAV,
@@ -42,9 +45,6 @@ class CreateEnvMission(
             )
 
             return monitorEnvRepo.createMission(missionEnv)
-
-
-            throw Exception("CreateEnvMission : controlUnit is empty for this user")
 
         } catch (e: Exception) {
             logger.error("CreateEnvMission failed creating missions", e)
