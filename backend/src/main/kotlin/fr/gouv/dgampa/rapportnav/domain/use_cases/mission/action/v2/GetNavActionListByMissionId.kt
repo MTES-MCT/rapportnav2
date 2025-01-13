@@ -31,7 +31,7 @@ class GetNavActionListByMissionId(
     }
 
     private fun getNavActionList(missionId: Int): List<MissionActionModel> {
-        return navMissionActionRepository.findByMissionId(missionId = missionId)
+        return navMissionActionRepository.findByMissionId(missionId = missionId).orEmpty()
     }
 
     private fun processActions(actions: List<MissionActionModel>): List<MissionNavActionEntity> {

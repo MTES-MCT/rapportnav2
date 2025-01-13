@@ -37,7 +37,7 @@ class GetFishActionListByMissionId(
     }
 
     private fun getFishActionList(missionId: Int): List<MissionAction> {
-        return fishActionRepo.findFishActions(missionId = missionId).filter {
+        return fishActionRepo.findFishActions(missionId = missionId).orEmpty().filter {
             listOf(
                 MissionActionType.SEA_CONTROL,
                 MissionActionType.LAND_CONTROL
