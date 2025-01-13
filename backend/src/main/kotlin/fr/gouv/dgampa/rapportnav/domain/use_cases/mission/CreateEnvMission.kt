@@ -35,7 +35,7 @@ class CreateEnvMission(
 
             val missionEnv = MissionEnv(
                 missionTypes = missionGeneralInfo.missionTypes,
-                missionSource = MissionSourceEnum.RAPPORTNAV,
+                missionSource = MissionSourceEnum.MONITORENV,
                 startDateTimeUtc = missionGeneralInfo.startDateTimeUtc,
                 endDateTimeUtc = missionGeneralInfo.endDateTimeUtc,
                 controlUnits = matchedControlUnits,
