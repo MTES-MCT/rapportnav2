@@ -10,28 +10,28 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 
 @SpringBootTest(classes = [PatchEnvMission::class])
 class PatchEnvMissionTest {
     @Autowired
     private lateinit var patchEnvMission: PatchEnvMission
 
-    @MockBean
+    @MockitoBean
     private lateinit var envRepository: IEnvMissionRepository
 
     @Test
     fun `execute update env mission with ObservationByUnit`() {
-        val missionId = 761;
-        val observationsByUnit = "MyBeautifulObservation";
-        val mission = EnvMissionMock.create(observationsByUnit = observationsByUnit);
-        val missionEnvEntity = PatchMissionInput(observationsByUnit = observationsByUnit);
+        val missionId = 761
+        val observationsByUnit = "MyBeautifulObservation"
+        val mission = EnvMissionMock.create(observationsByUnit = observationsByUnit)
+        val missionEnvEntity = PatchMissionInput(observationsByUnit = observationsByUnit)
 
-        Mockito.`when`(envRepository.patchMission(missionId, missionEnvEntity)).thenReturn(mission);
+        Mockito.`when`(envRepository.patchMission(missionId, missionEnvEntity)).thenReturn(mission)
         val response =
-            patchEnvMission.execute(MissionEnvInput(missionId = missionId, observationsByUnit = observationsByUnit));
-        assertThat(response).isNotNull();
-        assertThat(response?.observationsByUnit).isEqualTo(observationsByUnit);
+            patchEnvMission.execute(MissionEnvInput(missionId = missionId, observationsByUnit = observationsByUnit))
+        assertThat(response).isNotNull()
+        assertThat(response?.observationsByUnit).isEqualTo(observationsByUnit)
 
     }
 }

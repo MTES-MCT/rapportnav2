@@ -9,42 +9,42 @@ import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 
 @SpringBootTest(classes = [FillAEMExcelRow::class])
 class FillAEMExcelRowTest {
 
-    @MockBean
+    @MockitoBean
     private lateinit var exportExcelFile: ExportExcelFile
 
     @Autowired
     private lateinit var fillAEMExcelRow: FillAEMExcelRow
 
-    @MockBean
+    @MockitoBean
     private lateinit var tableExport: AEMTableExport
 
-    @MockBean
+    @MockitoBean
     private lateinit var migrationRescue: AEMMigrationRescue
 
-    @MockBean
+    @MockitoBean
     private lateinit var outOfMigrationRescue: AEMOutOfMigrationRescue
 
-    @MockBean
+    @MockitoBean
     private lateinit var vesselRescue: AEMVesselRescue
 
-    @MockBean
+    @MockitoBean
     private lateinit var envTraffic: AEMEnvTraffic
 
-    @MockBean
+    @MockitoBean
     private lateinit var notPollControlSurveillance: AEMNotPollutionControlSurveillance
 
-    @MockBean
+    @MockitoBean
     private lateinit var pollutionControlSurveillance: AEMPollutionControlSurveillance
 
-    @MockBean
+    @MockitoBean
     private lateinit var illegalFish: AEMIllegalFish
 
-    @MockBean
+    @MockitoBean
     private lateinit var sovereignProtect: AEMSovereignProtect
 
     @Test

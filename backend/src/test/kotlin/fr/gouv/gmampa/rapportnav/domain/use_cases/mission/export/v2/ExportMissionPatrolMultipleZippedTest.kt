@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 
 @SpringBootTest(classes = [ExportMissionPatrolMultipleZipped::class, ZipFiles::class])
 class ExportMissionPatrolMultipleZippedTest {
@@ -22,10 +22,10 @@ class ExportMissionPatrolMultipleZippedTest {
     @Autowired
     private lateinit var exportMissionPatrolMultipleZipped: ExportMissionPatrolMultipleZipped
 
-    @MockBean
+    @MockitoBean
     private lateinit var exportMissionPatrolSingle: ExportMissionPatrolSingle
 
-    @MockBean
+    @MockitoBean
     private lateinit var getMission: GetMission
 
     @Test

@@ -19,8 +19,8 @@ import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.util.*
 
 
@@ -28,10 +28,10 @@ import java.util.*
 @ContextConfiguration(classes = [ProcessMissionActionInfractionEnvTarget::class])
 class ProcessMissionActionInfractionEnvTargetTest {
 
-    @MockBean
+    @MockitoBean
     private lateinit var infractionRepo: IInfractionRepository
 
-    @MockBean
+    @MockitoBean
     private lateinit var infractionEnvTargetRepo: IInfractionEnvTargetRepository
 
     @Captor
@@ -40,7 +40,7 @@ class ProcessMissionActionInfractionEnvTargetTest {
     @Captor
     lateinit var saveCaptor: ArgumentCaptor<List<Infraction>>
 
-    @MockBean
+    @MockitoBean
     private lateinit var processMissionActionInfractionEnvTarget: ProcessMissionActionInfractionEnvTarget
 
     @Test

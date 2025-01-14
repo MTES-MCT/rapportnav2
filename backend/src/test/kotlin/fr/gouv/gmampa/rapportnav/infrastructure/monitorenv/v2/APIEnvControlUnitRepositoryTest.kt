@@ -13,7 +13,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.verify
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.net.URI
 import java.net.http.HttpClient
@@ -32,34 +32,34 @@ class APIEnvControlUnitRepositoryTest {
         resources = listOf()
     )
 
-    val host = "https://monitorenv.din.developpement-durable.gouv.fr";
+    val host = "https://monitorenv.din.developpement-durable.gouv.fr"
 
-    @MockBean
-    private lateinit var objectMapper: ObjectMapper;
+    @MockitoBean
+    private lateinit var objectMapper: ObjectMapper
 
     @Mock
     private var httpResponse = Mockito.mock<HttpResponse<String>>()
 
 
-    @MockBean
-    private lateinit var httpClientFactory: HttpClientFactory;
+    @MockitoBean
+    private lateinit var httpClientFactory: HttpClientFactory
 
     @Mock
-    private var httpClient: HttpClient = Mockito.mock(HttpClient::class.java);
+    private var httpClient: HttpClient = Mockito.mock(HttpClient::class.java)
 
 
     @Test
     fun `execute should fet controlUnits from monitorenv`() {
 
-        Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient);
-        Mockito.`when`(httpResponse.body()).thenReturn(getMissionString());
+        Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+        Mockito.`when`(httpResponse.body()).thenReturn(getMissionString())
         Mockito.`when`(
             httpClient.send(
                 Mockito.any(HttpRequest::class.java),
                 Mockito.any<HttpResponse.BodyHandler<String>>()
             )
         )
-            .thenReturn(httpResponse);
+            .thenReturn(httpResponse)
         val envRepo = APIEnvControlUnitRepository(mapper = objectMapper, clientFactory = httpClientFactory)
         envRepo.findAll()
         verify(httpClient).send(
@@ -74,6 +74,6 @@ class APIEnvControlUnitRepositoryTest {
 
     private fun getMissionString(): String {
         val gson: Gson = GsonSerializer().create()
-        return gson.toJson(listOf(legacyControlUnit));
+        return gson.toJson(listOf(legacyControlUnit))
     }
 }

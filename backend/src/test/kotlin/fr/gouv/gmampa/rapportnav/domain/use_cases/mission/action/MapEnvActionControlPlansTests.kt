@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 
 
 @SpringBootTest(classes = [MapEnvActionControlPlans::class])
@@ -20,7 +20,7 @@ class MapEnvActionControlPlansTest {
     @Autowired
     private lateinit var mapEnvActionControlPlans: MapEnvActionControlPlans
 
-    @MockBean
+    @MockitoBean
     private lateinit var getAllControlPlans: GetAllControlPlans
 
     private val controlPlanFromEnvAction1 = EnvActionControlPlanEntity(

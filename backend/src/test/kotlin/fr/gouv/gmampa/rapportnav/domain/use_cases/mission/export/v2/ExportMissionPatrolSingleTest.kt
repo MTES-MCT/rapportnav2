@@ -22,7 +22,7 @@ import org.mockito.Mockito.reset
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 
 @SpringBootTest(
     classes = [
@@ -40,22 +40,22 @@ class ExportMissionPatrolSingleTest {
     @Autowired
     private lateinit var exportMissionRapportPatrouille: ExportMissionPatrolSingle
 
-    @MockBean
+    @MockitoBean
     private lateinit var getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId
 
-    @MockBean
+    @MockitoBean
     private lateinit var agentsCrewByMissionId: GetAgentsCrewByMissionId
 
-    @MockBean
+    @MockitoBean
     private lateinit var getMission: GetMission
 
-    @MockBean
+    @MockitoBean
     private lateinit var navActionStatus: INavActionStatusRepository
 
-    @MockBean
+    @MockitoBean
     private lateinit var formatActionsForTimeline: FormatActionsForTimeline
 
-    @MockBean
+    @MockitoBean
     private lateinit var getServiceById: GetServiceById
 
     @BeforeEach

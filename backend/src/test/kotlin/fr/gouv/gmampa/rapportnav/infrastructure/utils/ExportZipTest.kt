@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.io.File
 import java.io.FileInputStream
 import java.util.zip.ZipInputStream
@@ -18,13 +18,14 @@ class ExportZipTest {
     @Autowired
     private lateinit var fileUtils: FileUtils
 
-    @MockBean
+    @MockitoBean
     private lateinit var fillAEMExcelRow: FillAEMExcelRow
 
     @Test
     fun `should zip a list of files`() {
 
-        val filesToZip = listOf(File("file1.txt").apply { writeText("Hello, World!") },
+        val filesToZip = listOf(
+            File("file1.txt").apply { writeText("Hello, World!") },
             File("file2.txt").apply { writeText("Kotlin ZIP Test") })
 
         val zipFile = File("test_output.zip")

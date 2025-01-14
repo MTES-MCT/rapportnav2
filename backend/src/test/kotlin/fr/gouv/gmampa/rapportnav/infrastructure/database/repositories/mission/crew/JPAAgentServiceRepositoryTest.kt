@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
 
@@ -18,33 +18,33 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest(classes = [JPAAgentServiceRepository::class])
 class JPAAgentServiceRepositoryTest {
 
-    @MockBean
-    private lateinit var dbServiceRepository: IDBAgentServiceRepository;
+    @MockitoBean
+    private lateinit var dbServiceRepository: IDBAgentServiceRepository
 
 
     private val agentServices: List<AgentServiceModel> = listOf(
         AgentServiceModel(
             id = 1,
-            agent = AgentModel(id=1, firstName = "", lastName=""),
+            agent = AgentModel(id = 1, firstName = "", lastName = ""),
             serviceId = 1,
-            role = AgentRoleModel(id=1, title = "")
-        ),  AgentServiceModel(
+            role = AgentRoleModel(id = 1, title = "")
+        ), AgentServiceModel(
             id = 2,
-            agent = AgentModel(id=1, firstName = "", lastName=""),
+            agent = AgentModel(id = 1, firstName = "", lastName = ""),
             serviceId = 1,
-            role = AgentRoleModel(id=1, title = "")
+            role = AgentRoleModel(id = 1, title = "")
         )
-    );
+    )
 
 
     @Test
     fun `execute should retrieve agents  service by service id`() {
-        Mockito.`when`(dbServiceRepository.findByServiceId(1)).thenReturn(agentServices);
+        Mockito.`when`(dbServiceRepository.findByServiceId(1)).thenReturn(agentServices)
         var jpaAgentServiceRepo = JPAAgentServiceRepository(dbServiceRepository)
         val responses = jpaAgentServiceRepo.findByServiceId(1)
-        assertThat(responses).isNotNull();
+        assertThat(responses).isNotNull()
 
-        assertThat(responses.size).isEqualTo(2);
-        assertThat(responses.map { agent -> agent.id }).containsAll(listOf(1, 2));
+        assertThat(responses.size).isEqualTo(2)
+        assertThat(responses.map { agent -> agent.id }).containsAll(listOf(1, 2))
     }
 }

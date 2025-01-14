@@ -17,27 +17,27 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.util.*
 
 @SpringBootTest(classes = [ProcessMissionActionControl::class])
 @ContextConfiguration(classes = [ProcessMissionActionControl::class])
 class ProcessMissionActionControlTest {
 
-    @MockBean
+    @MockitoBean
     private lateinit var processMissionActionControl: ProcessMissionActionControl
 
-    @MockBean
+    @MockitoBean
     private lateinit var controlSecurityRepo: IControlSecurityRepository
 
-    @MockBean
+    @MockitoBean
     private lateinit var controlNavigationRepo: IControlNavigationRepository
 
-    @MockBean
+    @MockitoBean
     private lateinit var controlGensDeMerRepo: IControlGensDeMerRepository
 
-    @MockBean
+    @MockitoBean
     private lateinit var controlAdministrativeRepo: IControlAdministrativeRepository
 
     @Test
@@ -48,7 +48,10 @@ class ProcessMissionActionControlTest {
         input.controlGensDeMer?.setMissionIdAndActionId(actionId = action.id.toString(), missionId = action.missionId)
         input.controlSecurity?.setMissionIdAndActionId(actionId = action.id.toString(), missionId = action.missionId)
         input.controlNavigation?.setMissionIdAndActionId(actionId = action.id.toString(), missionId = action.missionId)
-        input.controlAdministrative?.setMissionIdAndActionId(actionId = action.id.toString(), missionId = action.missionId)
+        input.controlAdministrative?.setMissionIdAndActionId(
+            actionId = action.id.toString(),
+            missionId = action.missionId
+        )
 
         val controls = input.toActionControlEntity()
 

@@ -15,8 +15,8 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 import java.util.*
 
@@ -24,21 +24,22 @@ import java.util.*
 @ContextConfiguration(classes = [UpdateEnvAction::class])
 class UpdateEnvActionTest {
 
-    @MockBean
+    @MockitoBean
     private lateinit var patchEnvAction: PatchEnvAction
 
-    @MockBean
+    @MockitoBean
     private lateinit var processMissionActionControl: ProcessMissionActionControl
 
-    @MockBean lateinit var processMissionActionControlEnvTarget : ProcessMissionActionControlEnvTarget
+    @MockitoBean
+    lateinit var processMissionActionControlEnvTarget: ProcessMissionActionControlEnvTarget
 
-    @MockBean
+    @MockitoBean
     private lateinit var processMissionActionInfractionEnvTarget: ProcessMissionActionInfractionEnvTarget
 
 
     @Test
     fun `test execute update env action`() {
-        val actionId =  UUID.randomUUID().toString()
+        val actionId = UUID.randomUUID().toString()
         val input = MissionEnvAction(
             id = actionId,
             missionId = 761,

@@ -9,7 +9,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.oauth2.jwt.JwtDecoder
@@ -19,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
 
@@ -30,26 +30,26 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 class ApiAdminControllerITest {
 
     @Autowired
-    private lateinit var api: MockMvc;
+    private lateinit var api: MockMvc
 
-    @MockBean
-    private lateinit var jwtDecoder: JwtDecoder;
+    @MockitoBean
+    private lateinit var jwtDecoder: JwtDecoder
 
-    @MockBean
-    private lateinit var jwtEncoder: JwtEncoder;
+    @MockitoBean
+    private lateinit var jwtEncoder: JwtEncoder
 
-    @MockBean
-    private lateinit var userRepository: IUserRepository;
+    @MockitoBean
+    private lateinit var userRepository: IUserRepository
 
     @Autowired
-    private lateinit var tokenService: TokenService;
+    private lateinit var tokenService: TokenService
 
     @Test
     fun `Should return 401 if the user has not JWT token`() {
         val t = api.perform(
             get("/api/v1/admin/test")
                 .header("X-Xsrf-Token", "b321f985-a7dd-47ea-a1e0-d05d8791dbd8")
-        );
+        )
         t.andExpect(status().isUnauthorized)
     }
 
@@ -59,7 +59,7 @@ class ApiAdminControllerITest {
             get("/api/v1/admin/test")
                 .header("X-Xsrf-Token", "b321f985-a7dd-47ea-a1e0-d05d8791dbd8")
                 .with(jwt().authorities(SimpleGrantedAuthority("ROLE_USER")))
-        );
+        )
         t.andExpect(status().isForbidden)
     }
 
@@ -69,7 +69,7 @@ class ApiAdminControllerITest {
             get("/api/v1/admin/test")
                 .header("X-Xsrf-Token", "b321f985-a7dd-47ea-a1e0-d05d8791dbd8")
                 .with(jwt().authorities(SimpleGrantedAuthority("ROLE_ADMIN")))
-        );
+        )
         t.andExpect(status().isOk)
     }
 }
