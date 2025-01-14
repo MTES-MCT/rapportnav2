@@ -9,7 +9,6 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlB
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
-import java.util.*
 
 @UseCase
 class GetFishActionById(
@@ -19,18 +18,20 @@ class GetFishActionById(
 ): GetMissionAction(getStatusForAction, getControlByActionId)  {
     private val logger = LoggerFactory.getLogger(GetFishActionListByMissionId::class.java)
 
-    @Cacheable(value = ["fishActionList"], key = "#missionId")
     fun execute(missionId: Int?, actionId: String?): MissionFishActionEntity? {
+        if (!isInteger(actionId) || isValidUUID(actionId))  return null
         if (missionId == null || actionId == null) {
             logger.error("GetFishActionById received a null missionId or actionId null")
             throw IllegalArgumentException("GetFishActionById should not receive null missionId or actionId null")
         }
-        if (!isInteger(actionId))  return null
+        logger.info("Valid actionId $actionId")
         return try {
             val fishAction = getFishAction(missionId = missionId, actionId = actionId) ?: return null
+            logger.info("Successfully got fish action $fishAction")
             val entity = MissionFishActionEntity.fromFishAction(fishAction)
             entity.computeControls(controls = this.getControls(entity))
             entity.computeCompleteness()
+            logger.info("Successfully got fish action $entity")
             entity
         } catch (e: Exception) {
             logger.error("GetFishActionsByMissionId failed loading Actions", e)

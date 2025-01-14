@@ -25,11 +25,11 @@ class GetEnvActionById(
     private val logger = LoggerFactory.getLogger(GetFishActionListByMissionId::class.java)
 
     fun execute(missionId: Int?, actionId: String): MissionEnvActionEntity? {
+        if (!isValidUUID(actionId)) return null
         if (missionId == null) {
             logger.error("GetEnvActionById received a null missionId")
             throw IllegalArgumentException("GetEnvActionById should not receive null missionId")
         }
-        if (!isValidUUID(actionId)) return null
         return try {
             val envAction = getEnvAction(missionId = missionId, actionId = actionId) ?: return null
             val entity = MissionEnvActionEntity.fromEnvAction(missionId, envAction)
