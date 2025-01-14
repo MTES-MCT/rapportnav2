@@ -8,6 +8,8 @@
 
 RapportNav is a mission reporting tools developed by the French administration (https://mer.gouv.fr/).
 
+The documentation can be found [here](https://mtes-mct.github.io/rapportnav2/#/).
+
 ## Stack
 
 - Infra:
