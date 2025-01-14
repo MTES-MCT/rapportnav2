@@ -36,7 +36,8 @@ function MissionTimelineAddAction({ missionId, onSumbit, dropdownItems }: Missio
   }
 
   const handleAddControl = async (controlMethod: string, vesselType: VesselTypeEnum) => {
-    handleAddAction(ActionType.CONTROL, { controlMethod, vesselType })
+    await handleAddAction(ActionType.CONTROL, { controlMethod, vesselType })
+    setShowModal(false)
   }
 
   return (
