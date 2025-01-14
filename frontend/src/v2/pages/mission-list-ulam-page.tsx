@@ -88,7 +88,7 @@ const MissionListUlamPage: React.FC = () => {
             </Stack>
           </>
         }
-        list={<MissionListUlam missions={missions?.map(m => getMissionListItem(m))} />}
+        list={<MissionListUlam missions={(missions || [])?.map(m => getMissionListItem(m))} />}
       />
       <MissionCreateDialog isOpen={isDialogOpen} onClose={handleCloseDialog} />
     </MissionListPageWrapper>

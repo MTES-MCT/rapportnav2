@@ -26,7 +26,7 @@ const MissionUlamPage: React.FC = () => {
   const exitMission = async () => navigateAndResetCache(ULAM_V2_HOME_PATH)
 
   const { exportMission, exportIsLoading } = useMissionReportExport()
-  const { data: mission, isLoading, error } = useGetMissionQuery(missionId)
+  const { data: mission, isLoading, error } = useGetMissionQuery(parseInt(missionId, 10))
 
   const lastSyncText = lastSync ? formatTime(new Date(parseInt(lastSync!!, 10))) : undefined
 

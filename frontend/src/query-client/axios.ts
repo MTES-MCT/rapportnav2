@@ -21,4 +21,17 @@ axiosInstance.interceptors.request.use(
   error => Promise.reject(error)
 )
 
+axiosInstance.interceptors.response.use(
+  response => response,
+  error => {
+    // Check for offline errors
+    if (!navigator.onLine) {
+      debugger
+      // Optionally log or handle offline-specific logic here
+      return Promise.resolve({ isOffline: true })
+    }
+    return Promise.reject(error)
+  }
+)
+
 export default axiosInstance

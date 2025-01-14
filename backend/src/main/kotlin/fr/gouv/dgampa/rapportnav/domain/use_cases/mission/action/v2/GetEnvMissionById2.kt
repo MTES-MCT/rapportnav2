@@ -3,12 +3,14 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
 
 @UseCase
 class GetEnvMissionById2(
-    private val monitorEnvApiRepo: IEnvMissionRepository
+    private val monitorEnvApiRepo: IEnvMissionRepository,
+    private val getEnvMissions: GetEnvMissions
 ) {
     private val logger = LoggerFactory.getLogger(GetEnvMissionById2::class.java)
 
@@ -22,7 +24,12 @@ class GetEnvMissionById2(
             monitorEnvApiRepo.findMissionById(missionId = missionId)
         } catch (e: Exception) {
             logger.error("GetEnvMissionById failed loading mission", e)
-            return null
+//            return null
+            var envMission = getEnvMissions.mockedMissions.find { missionId == it.id }!!
+//            envMission.envActions = getFakeActionData.getFakeEnvControls() + getFakeActionData.getFakeEnvSurveillance()
+//            var mission = getMissionWithControls(envMission)
+//            return mission
+            return envMission
         }
     }
 }

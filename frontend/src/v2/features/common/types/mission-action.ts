@@ -17,6 +17,7 @@ import { CompletenessForStats } from '@common/types/mission-types'
 import { ActionType } from './action-type'
 import { MissionActionData } from './mission-action-data'
 import { MissionSource } from './mission-types'
+import { SyncStatus } from './network-types.ts'
 
 export interface MissionAction {
   id?: string
@@ -29,6 +30,7 @@ export interface MissionAction {
   controlsToComplete: ControlType[]
   completenessForStats: CompletenessForStats
   sourcesOfMissingDataForStats: MissionSource[]
+  syncStatus?: SyncStatus
   data: MissionActionData
 }
 

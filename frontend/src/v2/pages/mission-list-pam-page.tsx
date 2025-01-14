@@ -1,22 +1,24 @@
-import { Mission } from '@common/types/mission-types.ts'
-import { Icon } from '@mtes-mct/monitor-ui'
-import { endOfYear } from 'date-fns/endOfYear'
-import { startOfYear } from 'date-fns/startOfYear'
-import { FC, useState } from 'react'
-import MissionListDateRangeNavigator from '../features/common/components/elements/mission-list-daterange-navigator.tsx'
-import MissionListPageContentWrapper from '../features/common/components/layout/mission-list-page-content-wrapper.tsx'
+import React, {FC, useState} from 'react'
+import {Icon} from '@mtes-mct/monitor-ui'
+import MissionListPageTitle from '../features/common/components/layout/mission-list-page-title.tsx'
 import MissionListPageHeaderWrapper from '../features/common/components/layout/mission-list-page-header-wrapper'
 import MissionListPageSidebarWrapper from '../features/common/components/layout/mission-list-page-sidebar-wrapper'
-import MissionListPageTitle from '../features/common/components/layout/mission-list-page-title.tsx'
 import MissionListPageWrapper from '../features/common/components/layout/mission-list-page-wrapper'
-import { useMissionList } from '../features/common/hooks/use-mission-list.tsx'
-import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
+import {useMissionList} from '../features/common/hooks/use-mission-list.tsx'
 import useMissionsQuery from '../features/common/services/use-missions.tsx'
-import { ExportMode, ExportReportType } from '../features/common/types/mission-export-types.ts'
-import { Mission2 } from '../features/common/types/mission-types.ts'
+import MissionListPam from '../features/pam/components/element/mission-list/mission-list-pam.tsx'
+import endOfYear from 'date-fns/endOfYear'
+import startOfYear from 'date-fns/startOfYear'
+import MissionListPageContentWrapper from '../features/common/components/layout/mission-list-page-content-wrapper.tsx'
+import {useMissionReportExport} from '../features/common/hooks/use-mission-report-export.tsx'
+import {Mission} from '@common/types/mission-types.ts'
+import {ExportMode, ExportReportType} from '../features/common/types/mission-export-types.ts'
+import {Mission2} from '../features/common/types/mission-types.ts'
 import MissionListActionsPam from '../features/pam/components/element/mission-list/mission-list-actions-pam.tsx'
 import MissionListExportDialog from '../features/pam/components/element/mission-list/mission-list-export.tsx'
-import MissionListPam from '../features/pam/components/element/mission-list/mission-list-pam.tsx'
+import {Stack} from "rsuite";
+import OfflineToggle from "../features/common/components/elements/offline-toggle.tsx";
+import MissionListDateRangeNavigator from "../features/common/components/elements/mission-list-daterange-navigator.tsx";
 
 const SIDEBAR_ITEMS = [
   {
@@ -29,14 +31,14 @@ const SIDEBAR_ITEMS = [
 const MissionListPamPage: FC = () => {
   const today = new Date()
   const [queryParams, setQueryParams] = useState({
-    startDateTimeUtc: startOfYear(today.toISOString()),
+    startDateTimeUtc: startOfYear(today).toISOString(),
     endDateTimeUtc: endOfYear(today).toISOString()
   })
 
-  const { getMissionListItem } = useMissionList()
-  const { isLoading, data: missions } = useMissionsQuery(queryParams)
+  const {getMissionListItem} = useMissionList()
+  const {isLoading, data: missions} = useMissionsQuery(queryParams)
 
-  const { exportMissionReport, loading: exportIsLoading } = useMissionReportExport()
+  const {exportMissionReport, loading: exportIsLoading} = useMissionReportExport()
 
   const [selectedMissionIds, setSelectedMissionIds] = useState<number[]>([])
 
@@ -86,9 +88,15 @@ const MissionListPamPage: FC = () => {
 
   return (
     <MissionListPageWrapper
-      header={<MissionListPageHeaderWrapper title={<MissionListPageTitle />} />}
-      sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={SIDEBAR_ITEMS} />}
-      footer={<></>}
+      header={<MissionListPageHeaderWrapper title={<MissionListPageTitle/>}/>}
+      sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={SIDEBAR_ITEMS}/>}
+      footer={
+        <Stack>
+          <Stack.Item>
+            <OfflineToggle/>
+          </Stack.Item>
+        </Stack>
+      }
     >
       <MissionListPageContentWrapper
         loading={isLoading}

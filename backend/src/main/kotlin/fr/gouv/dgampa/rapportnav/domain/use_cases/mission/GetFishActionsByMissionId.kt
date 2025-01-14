@@ -54,9 +54,10 @@ class GetFishActionsByMissionId(
             actions
         } catch (e: Exception) {
             logger.error("GetFishActionsByMissionId failed loading Actions", e)
-            return listOf()
-            //val actions =  getFakeActionData.getFakeFishActions(missionId)
-            //return filterAndAttachControls(actions)
+//            return listOf()
+            // TODO
+            val actions = getFakeActionData.getFakeFishActions(missionId)
+            return filterAndAttachControls(actions)
         }
     }
 }

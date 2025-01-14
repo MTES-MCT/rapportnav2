@@ -1,13 +1,13 @@
-import { MissionStatusEnum } from '@common/types/mission-types.ts'
+import {MissionStatusEnum} from '@common/types/mission-types.ts'
 
 import Text from '@common/components/ui/text.tsx'
-import { Accent, Button, Icon, IconButton, Size, TagGroup, THEME } from '@mtes-mct/monitor-ui'
+import {Accent, Button, Icon, IconButton, Size, TagGroup, THEME} from '@mtes-mct/monitor-ui'
 import GearIcon from '@rsuite/icons/Gear'
 import React from 'react'
-import { FlexboxGrid, Stack } from 'rsuite'
+import {FlexboxGrid, Stack} from 'rsuite'
 import styled from 'styled-components'
-import { useDate } from '../../hooks/use-date.tsx'
-import { CompletenessForStatsStatusEnum, Mission2 } from '../../types/mission-types.ts'
+import {useDate} from '../../hooks/use-date.tsx'
+import {CompletenessForStatsStatusEnum, Mission2} from '../../types/mission-types.ts'
 import MissionCompletenessForStatsTag from '../elements/mission-completeness-for-stats-tag.tsx'
 import MissionSourceTag from '../elements/mission-source-tag.tsx'
 import MissionStatusTag from '../elements/mission-status-tag.tsx'
@@ -28,33 +28,33 @@ interface MissionPageHeaderProps {
 }
 
 const LoadingIcon = () => (
-  <GearIcon spin width={16} height={16} color={THEME.color.white} style={{ fontSize: '2em', marginRight: '0.5rem' }} />
+  <GearIcon spin width={16} height={16} color={THEME.color.white} style={{fontSize: '2em', marginRight: '0.5rem'}}/>
 )
 
 const MissionPageHeaderWrapper: React.FC<MissionPageHeaderProps> = ({
-  mission,
-  onClickClose,
-  onClickExport,
-  exportLoading
-}) => {
-  const { formatMissionName } = useDate()
+                                                                      mission,
+                                                                      onClickClose,
+                                                                      onClickExport,
+                                                                      exportLoading
+                                                                    }) => {
+  const {formatMissionName} = useDate()
 
   return (
     <>
       <StyledHeader>
-        <FlexboxGrid justify="space-between" align="middle" style={{ height: '100%' }}>
+        <FlexboxGrid justify="space-between" align="middle" style={{height: '100%'}}>
           <FlexboxGrid.Item>
             <Stack direction="row" spacing={'1rem'}>
               <Stack.Item>
                 <Text as="h1" weight="bold" color={THEME.color.gainsboro}>
-                  {formatMissionName(mission?.envData.startDateTimeUtc)}
+                  {formatMissionName(mission?.envData?.startDateTimeUtc)}
                 </Text>
               </Stack.Item>
 
               <Stack.Item>
                 <TagGroup>
-                  <MissionSourceTag missionSource={mission?.envData.missionSource} />
-                  <MissionStatusTag status={mission?.status} />
+                  <MissionSourceTag missionSource={mission?.envData?.missionSource}/>
+                  <MissionStatusTag status={mission?.status}/>
                   <MissionCompletenessForStatsTag
                     missionStatus={mission?.status}
                     completenessForStats={mission?.completenessForStats}
@@ -64,7 +64,7 @@ const MissionPageHeaderWrapper: React.FC<MissionPageHeaderProps> = ({
             </Stack>
           </FlexboxGrid.Item>
           <FlexboxGrid.Item colspan={6}>
-            <FlexboxGrid justify="end" align="middle" style={{ height: '100%' }}>
+            <FlexboxGrid justify="end" align="middle" style={{height: '100%'}}>
               <Stack direction={'row'} alignItems={'center'} spacing={'2rem'}>
                 <Stack.Item>
                   {mission?.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE && (
@@ -96,7 +96,7 @@ const MissionPageHeaderWrapper: React.FC<MissionPageHeaderProps> = ({
         </FlexboxGrid>
       </StyledHeader>
       {mission?.status === MissionStatusEnum.ENDED && (
-        <MissionPageHeaderBanner completenessForStats={mission?.completenessForStats} />
+        <MissionPageHeaderBanner completenessForStats={mission?.completenessForStats}/>
       )}
     </>
   )

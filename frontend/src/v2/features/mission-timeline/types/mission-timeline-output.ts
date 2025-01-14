@@ -5,6 +5,7 @@ import { MissionActionType } from '@common/types/fish-mission-types'
 import { CompletenessForStats } from '@common/types/mission-types'
 import { ActionType } from '../../common/types/action-type'
 import { MissionSource } from '../../common/types/mission-types'
+import { SyncStatus } from '../../common/types/network-types.ts'
 
 export type MissionTimelineAction = {
   id?: string
@@ -33,4 +34,5 @@ export type MissionTimelineAction = {
   vesselIdentifier?: string
   vesselType?: VesselTypeEnum
   vesselSize?: VesselSizeEnum
+  syncStatus?: SyncStatus
 }

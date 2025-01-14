@@ -106,17 +106,17 @@ buildscript {
 
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_17
+  sourceCompatibility = JavaVersion.VERSION_21
 }
 
 kotlin {
-  jvmToolchain(17)
+  jvmToolchain(21)
 }
 
 tasks.withType<KotlinCompile> {
   kotlinOptions {
     freeCompilerArgs += "-Xjsr305=strict"
-    jvmTarget = "17"
+    jvmTarget = "21"
   }
 }
 
