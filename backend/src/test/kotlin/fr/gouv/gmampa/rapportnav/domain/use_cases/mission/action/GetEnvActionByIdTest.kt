@@ -17,8 +17,8 @@ import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 import java.util.*
 
@@ -29,19 +29,19 @@ class GetEnvActionByIdTest {
     @Autowired
     private lateinit var getEnvActionById: GetEnvActionById
 
-    @MockBean
+    @MockitoBean
     private lateinit var monitorEnvApiRepo: IEnvMissionRepository
 
-    @MockBean
+    @MockitoBean
     private lateinit var getControlByActionId: GetControlByActionId2
 
-    @MockBean
+    @MockitoBean
     private lateinit var getStatusForAction: GetStatusForAction
 
-    @MockBean
+    @MockitoBean
     private lateinit var mapControlPlans: MapEnvActionControlPlans
 
-    @MockBean
+    @MockitoBean
     private lateinit var getInfractionsByActionId: GetInfractionsByActionId
 
     @Test
@@ -63,7 +63,7 @@ class GetEnvActionByIdTest {
             missionSource = MissionSourceEnum.MONITORENV
         )
 
-        val mockControl  = ControlMock.createAllControl()
+        val mockControl = ControlMock.createAllControl()
 
         `when`(getControlByActionId.getAllControl(anyOrNull())).thenReturn(mockControl)
         `when`(monitorEnvApiRepo.findMissionById(missionId)).thenReturn(missionEntity)

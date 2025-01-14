@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 
 @SpringBootTest(classes = [ExportMissionAEMSingle::class, FormatDateTime::class])
 class ExportMissionAEMSingleTest {
@@ -21,10 +21,10 @@ class ExportMissionAEMSingleTest {
     @Autowired
     private lateinit var exportMissionListAEM: ExportMissionAEMSingle
 
-    @MockBean
+    @MockitoBean
     private lateinit var fillAEMExcelRow: FillAEMExcelRow
 
-    @MockBean
+    @MockitoBean
     private lateinit var getMissionById: GetMission
 
     @Test

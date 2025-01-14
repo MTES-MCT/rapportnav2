@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import java.time.Instant
@@ -36,7 +36,7 @@ class GetStatusForActionTests {
 
     private var missionId: Int = 1
 
-    @MockBean
+    @MockitoBean
     private lateinit var statusActionsRepository: INavActionStatusRepository
 
     @Autowired
@@ -44,9 +44,9 @@ class GetStatusForActionTests {
 
     @Test
     fun `execute Should return Unknown when action is empty list for a mission`() {
-        given(this.statusActionsRepository.findAllByMissionId(missionId = 1)).willReturn(listOf());
-        val statusForAction = getStatusForAction.execute(missionId = missionId, actionStartDateTimeUtc = null);
-        assertThat(statusForAction).isEqualTo(ActionStatusType.UNKNOWN);
+        given(this.statusActionsRepository.findAllByMissionId(missionId = 1)).willReturn(listOf())
+        val statusForAction = getStatusForAction.execute(missionId = missionId, actionStartDateTimeUtc = null)
+        assertThat(statusForAction).isEqualTo(ActionStatusType.UNKNOWN)
     }
 
     @Test
@@ -63,8 +63,8 @@ class GetStatusForActionTests {
             ActionStatusModel.fromActionStatusEntity(
                 it
             )
-        });
-        val statusForAction = getStatusForAction.execute(missionId = missionId, actionStartDateTimeUtc = startDatetime);
-        assertThat(statusForAction).isEqualTo(ActionStatusType.UNAVAILABLE);
+        })
+        val statusForAction = getStatusForAction.execute(missionId = missionId, actionStartDateTimeUtc = startDatetime)
+        assertThat(statusForAction).isEqualTo(ActionStatusType.UNAVAILABLE)
     }
 }

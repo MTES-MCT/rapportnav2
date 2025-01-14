@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 
 @SpringBootTest(classes = [ExportMissionPatrolCombined::class, FormatDateTime::class])
 class ExportMissionPatrolCombinedTest {
@@ -20,10 +20,10 @@ class ExportMissionPatrolCombinedTest {
     @Autowired
     private lateinit var exportMissionPatrolCombined: ExportMissionPatrolCombined
 
-    @MockBean
+    @MockitoBean
     private lateinit var exportMissionPatrolSingle: ExportMissionPatrolSingle
 
-    @MockBean
+    @MockitoBean
     private lateinit var getMission: GetMission
 
     @Test

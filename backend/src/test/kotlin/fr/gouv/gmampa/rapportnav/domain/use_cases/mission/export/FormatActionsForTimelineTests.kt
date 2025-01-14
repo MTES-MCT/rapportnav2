@@ -20,7 +20,7 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 import java.time.LocalDate
 
@@ -30,10 +30,10 @@ class FormatActionsForTimelineTests {
     @Autowired
     private lateinit var formatActionsForTimeline: FormatActionsForTimeline
 
-    @MockBean
+    @MockitoBean
     private lateinit var groupActionByDate: GroupActionByDate
 
-    @MockBean
+    @MockitoBean
     private lateinit var mapEnvActionControlPlans: MapEnvActionControlPlans
 
     private val envControl =

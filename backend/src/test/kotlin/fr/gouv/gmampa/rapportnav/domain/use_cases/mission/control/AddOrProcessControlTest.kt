@@ -19,7 +19,7 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.*
 
@@ -28,19 +28,19 @@ import java.util.*
 @SpringBootTest(classes = [AddOrUpdateControl::class])
 class AddOrProcessControlTest {
 
-    @MockBean
+    @MockitoBean
     private lateinit var controlAdministrativeRepo: IControlAdministrativeRepository
 
-    @MockBean
+    @MockitoBean
     private lateinit var controlSecurityRepo: IControlSecurityRepository
 
-    @MockBean
+    @MockitoBean
     private lateinit var controlNavigationRepo: IControlNavigationRepository
 
-    @MockBean
+    @MockitoBean
     private lateinit var controlGensDeMerRepo: IControlGensDeMerRepository
 
-    @MockBean
+    @MockitoBean
     private lateinit var getControlByActionId: GetControlByActionId
 
     @Autowired

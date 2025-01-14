@@ -12,8 +12,8 @@ import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.util.*
 
 @SpringBootTest(classes = [GetFishActionById::class])
@@ -23,13 +23,13 @@ class GetFishActionByIdTest {
     @Autowired
     private lateinit var getFishActionById: GetFishActionById
 
-    @MockBean
+    @MockitoBean
     private lateinit var fishActionRepo: IFishActionRepository
 
-    @MockBean
+    @MockitoBean
     private lateinit var getControlByActionId: GetControlByActionId2
 
-    @MockBean
+    @MockitoBean
     private lateinit var getStatusForAction: GetStatusForAction
 
     @Test
@@ -41,7 +41,7 @@ class GetFishActionByIdTest {
             id = actionId,
         )
 
-        val mockControl  = ControlMock.createAllControl()
+        val mockControl = ControlMock.createAllControl()
 
         `when`(getControlByActionId.getAllControl(anyOrNull())).thenReturn(mockControl)
         `when`(fishActionRepo.findFishActions(missionId)).thenReturn(listOf(action))

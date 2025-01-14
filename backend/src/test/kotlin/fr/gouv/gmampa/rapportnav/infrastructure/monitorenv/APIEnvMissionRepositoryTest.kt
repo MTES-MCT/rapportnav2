@@ -20,7 +20,7 @@ import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.net.URI
 import java.net.http.HttpClient
@@ -35,7 +35,7 @@ import java.util.*
 @SpringBootTest(classes = [APIEnvMissionRepository::class])
 class APIEnvMissionRepositoryTest {
 
-    val host = "https://monitorenv.din.developpement-durable.gouv.fr";
+    val host = "https://monitorenv.din.developpement-durable.gouv.fr"
 
     val mission = MissionDataOutput(
         id = 761,
@@ -50,18 +50,18 @@ class APIEnvMissionRepositoryTest {
         observationsByUnit = "my observationsByUnit"
     )
 
-    @MockBean
-    private lateinit var objectMapper: ObjectMapper;
+    @MockitoBean
+    private lateinit var objectMapper: ObjectMapper
 
     @Mock
     private var httpResponse = mock<HttpResponse<String>>()
 
 
-    @MockBean
-    private lateinit var httpClientFactory: HttpClientFactory;
+    @MockitoBean
+    private lateinit var httpClientFactory: HttpClientFactory
 
     @Mock
-    private var httpClient: HttpClient = mock(HttpClient::class.java);
+    private var httpClient: HttpClient = mock(HttpClient::class.java)
 
 
     @Nested
@@ -69,15 +69,15 @@ class APIEnvMissionRepositoryTest {
         @Test
         fun `execute should update mission env with patch and observationsByUnit`() {
 
-            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient);
-            Mockito.`when`(httpResponse.body()).thenReturn(getMissionString());
+            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+            Mockito.`when`(httpResponse.body()).thenReturn(getMissionString())
             Mockito.`when`(
                 httpClient.send(
                     Mockito.any(HttpRequest::class.java),
                     Mockito.any<HttpResponse.BodyHandler<String>>()
                 )
             )
-                .thenReturn(httpResponse);
+                .thenReturn(httpResponse)
             val envRepo = APIEnvMissionRepository(mapper = objectMapper, clientFactory = httpClientFactory)
             envRepo.patchMission(
                 missionId = 761,
@@ -97,7 +97,7 @@ class APIEnvMissionRepositoryTest {
 
         private fun getMissionString(): String {
             val gson: Gson = GsonSerializer().create()
-            return gson.toJson(mission);
+            return gson.toJson(mission)
         }
     }
 
@@ -113,21 +113,21 @@ class APIEnvMissionRepositoryTest {
 
         private fun getActionString(): String {
             val gson: Gson = GsonSerializer().create()
-            return gson.toJson(action);
+            return gson.toJson(action)
         }
 
         @Test
         fun `execute should update action env with patch and observationsByUnit`() {
 
-            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient);
-            Mockito.`when`(httpResponse.body()).thenReturn(getActionString());
+            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+            Mockito.`when`(httpResponse.body()).thenReturn(getActionString())
             Mockito.`when`(
                 httpClient.send(
                     Mockito.any(HttpRequest::class.java),
                     Mockito.any<HttpResponse.BodyHandler<String>>()
                 )
             )
-                .thenReturn(httpResponse);
+                .thenReturn(httpResponse)
             val envRepo = APIEnvMissionRepository(mapper = objectMapper, clientFactory = httpClientFactory)
             envRepo.patchAction(
                 actionId = action.id.toString(),

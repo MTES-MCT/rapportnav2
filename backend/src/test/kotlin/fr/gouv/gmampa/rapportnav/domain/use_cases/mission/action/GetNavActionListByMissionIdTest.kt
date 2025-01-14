@@ -13,8 +13,8 @@ import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 import java.util.*
 
@@ -25,13 +25,13 @@ class GetNavActionListByMissionIdTest {
     @Autowired
     private lateinit var getNavActionList: GetNavActionListByMissionId
 
-    @MockBean
+    @MockitoBean
     private lateinit var navMissionActionRepository: INavMissionActionRepository
 
-    @MockBean
+    @MockitoBean
     private lateinit var getControlByActionId: GetControlByActionId2
 
-    @MockBean
+    @MockitoBean
     private lateinit var getStatusForAction: GetStatusForAction
 
 

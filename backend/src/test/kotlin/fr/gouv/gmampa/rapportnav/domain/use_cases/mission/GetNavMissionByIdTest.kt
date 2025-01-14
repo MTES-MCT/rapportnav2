@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 
 @SpringBootTest(classes = [GetNavMissionById::class])
 class GetNavMissionByIdTest {
@@ -21,7 +21,7 @@ class GetNavMissionByIdTest {
     @Autowired
     private lateinit var getMissionNavById: GetNavMissionById
 
-    @MockBean
+    @MockitoBean
     private lateinit var getServiceByControlUnit: GetServiceByControlUnit
 
     private val controlUnits: List<LegacyControlUnitEntity> = listOf(
@@ -33,46 +33,46 @@ class GetNavMissionByIdTest {
         )
     )
 
-    @MockBean
-    private lateinit var navActionControlRepository: INavActionControlRepository;
+    @MockitoBean
+    private lateinit var navActionControlRepository: INavActionControlRepository
 
-    @MockBean
-    private lateinit var navStatusRepository: INavActionStatusRepository;
+    @MockitoBean
+    private lateinit var navStatusRepository: INavActionStatusRepository
 
-    @MockBean
-    private lateinit var navFreeNoteRepository: INavActionFreeNoteRepository;
+    @MockitoBean
+    private lateinit var navFreeNoteRepository: INavActionFreeNoteRepository
 
-    @MockBean
-    private lateinit var attachControlsToActionControl: AttachControlsToActionControl;
+    @MockitoBean
+    private lateinit var attachControlsToActionControl: AttachControlsToActionControl
 
-    @MockBean
-    private lateinit var getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId;
+    @MockitoBean
+    private lateinit var getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId
 
-    @MockBean
-    private lateinit var getAgentsCrewByMissionId: GetAgentsCrewByMissionId;
+    @MockitoBean
+    private lateinit var getAgentsCrewByMissionId: GetAgentsCrewByMissionId
 
-    @MockBean
-    private lateinit var navRescueRepository: INavActionRescueRepository;
+    @MockitoBean
+    private lateinit var navRescueRepository: INavActionRescueRepository
 
-    @MockBean
-    private lateinit var navNauticalEventRepository: INavActionNauticalEventRepository;
+    @MockitoBean
+    private lateinit var navNauticalEventRepository: INavActionNauticalEventRepository
 
-    @MockBean
-    private lateinit var navVigimerRepository: INavActionVigimerRepository;
+    @MockitoBean
+    private lateinit var navVigimerRepository: INavActionVigimerRepository
 
-    @MockBean
-    private lateinit var navAntiPollutionRepository: INavActionAntiPollutionRepository;
+    @MockitoBean
+    private lateinit var navAntiPollutionRepository: INavActionAntiPollutionRepository
 
-    @MockBean
-    private lateinit var navBAAEMRepository: INavActionBAAEMRepository;
+    @MockitoBean
+    private lateinit var navBAAEMRepository: INavActionBAAEMRepository
 
-    @MockBean
-    private lateinit var navPublicOrderRepository: INavActionPublicOrderRepository;
+    @MockitoBean
+    private lateinit var navPublicOrderRepository: INavActionPublicOrderRepository
 
-    @MockBean
-    private lateinit var navRepresentationRepository: INavActionRepresentationRepository;
+    @MockitoBean
+    private lateinit var navRepresentationRepository: INavActionRepresentationRepository
 
-    @MockBean
+    @MockitoBean
     private lateinit var navIllegalImmigrationRepository: INavActionIllegalImmigrationRepository
 
     private val serviceEntities: List<ServiceEntity> = listOf(
@@ -85,17 +85,17 @@ class GetNavMissionByIdTest {
             name = "SecondService",
             controlUnits = listOf(3, 4)
         )
-    );
+    )
 
     @Test
     fun `execute should have services in nav mission entity`() {
-        Mockito.`when`(getServiceByControlUnit.execute(controlUnits)).thenReturn(serviceEntities);
+        Mockito.`when`(getServiceByControlUnit.execute(controlUnits)).thenReturn(serviceEntities)
         val response = getMissionNavById.execute(2, controlUnits)
 
-        assertThat(response).isNotNull();
-        assertThat(response.services).isNotNull();
-        assertThat(response.services?.size).isEqualTo(2);
-        assertThat(response.services?.map { service -> service.id }).containsAll(listOf(3, 4));
+        assertThat(response).isNotNull()
+        assertThat(response.services).isNotNull()
+        assertThat(response.services?.size).isEqualTo(2)
+        assertThat(response.services?.map { service -> service.id }).containsAll(listOf(3, 4))
     }
 
 }

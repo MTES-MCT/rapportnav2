@@ -1,26 +1,23 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.crew
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IServiceRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetServiceByControlUnit
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBServiceRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.crew.JPAServiceRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [GetServiceByControlUnit::class])
 class GetServiceByControlUnitTest {
 
-    @MockBean
-    private lateinit var serviceRepository: IServiceRepository;
+    @MockitoBean
+    private lateinit var serviceRepository: IServiceRepository
 
 
     private val serviceModels: List<ServiceModel> = listOf(
@@ -33,7 +30,7 @@ class GetServiceByControlUnitTest {
             name = "SecondService",
             controlUnits = listOf(3, 4)
         )
-    );
+    )
 
     private val controlUnits: List<LegacyControlUnitEntity> = listOf(
         LegacyControlUnitEntity(
@@ -47,15 +44,15 @@ class GetServiceByControlUnitTest {
 
     @Test
     fun `execute should retrieve serviceModel with control units list`() {
-        Mockito.`when`(serviceRepository.findByControlUnitId(listOf(3))).thenReturn(serviceModels);
+        Mockito.`when`(serviceRepository.findByControlUnitId(listOf(3))).thenReturn(serviceModels)
         val getServiceByControlUnit = GetServiceByControlUnit(serviceRepository)
         val response = getServiceByControlUnit.execute(controlUnits)
 
-        assertThat(response).isNotNull();
-        assertThat(response.size).isEqualTo(2);
-        assertThat(response.map { service -> service.id }).containsAll(listOf(3, 4));
-        assertThat(response.get(0).id).isEqualTo(3);
-        assertThat(response.get(1).id).isEqualTo(4);
+        assertThat(response).isNotNull()
+        assertThat(response.size).isEqualTo(2)
+        assertThat(response.map { service -> service.id }).containsAll(listOf(3, 4))
+        assertThat(response.get(0).id).isEqualTo(3)
+        assertThat(response.get(1).id).isEqualTo(4)
 
     }
 }

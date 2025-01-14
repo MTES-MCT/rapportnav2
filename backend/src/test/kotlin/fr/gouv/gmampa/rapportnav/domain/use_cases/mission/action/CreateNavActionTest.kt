@@ -17,8 +17,8 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 import java.util.*
 
@@ -26,12 +26,12 @@ import java.util.*
 @SpringBootTest(classes = [CreateNavAction::class])
 @ContextConfiguration(classes = [CreateNavAction::class])
 class CreateNavActionTest {
-    @MockBean
+    @MockitoBean
     private lateinit var missionActionRepository: INavMissionActionRepository
 
     @Test
     fun `test execute create nav action`() {
-        val actionId =  UUID.randomUUID().toString()
+        val actionId = UUID.randomUUID().toString()
         val input = MissionNavAction(
             id = actionId,
             missionId = 761,

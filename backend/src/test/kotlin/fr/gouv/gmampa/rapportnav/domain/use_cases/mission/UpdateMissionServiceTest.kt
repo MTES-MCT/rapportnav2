@@ -1,6 +1,5 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentServiceRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IServiceRepository
@@ -18,7 +17,7 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.util.*
 
 @SpringBootTest(classes = [UpdateMissionService::class])
@@ -26,17 +25,17 @@ class UpdateMissionServiceTest {
     @Autowired
     private lateinit var updateMissionService: UpdateMissionService
 
-    @MockBean
-    private lateinit var serviceRepo: IServiceRepository;
+    @MockitoBean
+    private lateinit var serviceRepo: IServiceRepository
 
-    @MockBean
-    private lateinit var missionCrewRepo: IMissionCrewRepository;
+    @MockitoBean
+    private lateinit var missionCrewRepo: IMissionCrewRepository
 
-    @MockBean
-    private lateinit var infoRepo: IMissionGeneralInfoRepository;
+    @MockitoBean
+    private lateinit var infoRepo: IMissionGeneralInfoRepository
 
-    @MockBean
-    private lateinit var agentServiceRepo: IAgentServiceRepository;
+    @MockitoBean
+    private lateinit var agentServiceRepo: IAgentServiceRepository
 
     private val oldMissionCrews: List<MissionCrewModel> = listOf(
         MissionCrewModel(
@@ -67,30 +66,30 @@ class UpdateMissionServiceTest {
             consumedGOInLiters = 2.5f,
             distanceInNauticalMiles = 1.9f
 
-        );
+        )
         val input = MissionServiceInput(missionId = 761, serviceId = 3)
-        val serviceModel = ServiceModel(id = 3, name="Themis_A");
-        Mockito.`when`(serviceRepo.findById(3)).thenReturn(Optional.of(serviceModel));
-        Mockito.`when`(agentServiceRepo.findByServiceId(3)).thenReturn(newMissionCrews);
-        Mockito.`when`(missionCrewRepo.findByMissionId(761)).thenReturn(oldMissionCrews);
-        Mockito.`when`(infoRepo.findByMissionId(761)).thenReturn(Optional.of(missionGeneralInfo));
+        val serviceModel = ServiceModel(id = 3, name = "Themis_A")
+        Mockito.`when`(serviceRepo.findById(3)).thenReturn(Optional.of(serviceModel))
+        Mockito.`when`(agentServiceRepo.findByServiceId(3)).thenReturn(newMissionCrews)
+        Mockito.`when`(missionCrewRepo.findByMissionId(761)).thenReturn(oldMissionCrews)
+        Mockito.`when`(infoRepo.findByMissionId(761)).thenReturn(Optional.of(missionGeneralInfo))
 
-        val response = updateMissionService.execute(input);
-        assertThat(response).isNotNull();
-        assertThat(response?.id).isEqualTo(3);
+        val response = updateMissionService.execute(input)
+        assertThat(response).isNotNull()
+        assertThat(response?.id).isEqualTo(3)
     }
 
     @Test
     fun `execute update mission service event if generalInfo is null`() {
         val input = MissionServiceInput(missionId = 761, serviceId = 3)
-        val serviceModel = ServiceModel(id = 3, name="Themis_A");
-        Mockito.`when`(serviceRepo.findById(3)).thenReturn(Optional.of(serviceModel));
-        Mockito.`when`(agentServiceRepo.findByServiceId(3)).thenReturn(newMissionCrews);
-        Mockito.`when`(missionCrewRepo.findByMissionId(761)).thenReturn(oldMissionCrews);
-        Mockito.`when`(infoRepo.findByMissionId(761)).thenReturn(Optional.ofNullable(null));
+        val serviceModel = ServiceModel(id = 3, name = "Themis_A")
+        Mockito.`when`(serviceRepo.findById(3)).thenReturn(Optional.of(serviceModel))
+        Mockito.`when`(agentServiceRepo.findByServiceId(3)).thenReturn(newMissionCrews)
+        Mockito.`when`(missionCrewRepo.findByMissionId(761)).thenReturn(oldMissionCrews)
+        Mockito.`when`(infoRepo.findByMissionId(761)).thenReturn(Optional.ofNullable(null))
 
-        val response = updateMissionService.execute(input);
-        assertThat(response).isNotNull();
-        assertThat(response?.id).isEqualTo(3);
+        val response = updateMissionService.execute(input)
+        assertThat(response).isNotNull()
+        assertThat(response?.id).isEqualTo(3)
     }
 }

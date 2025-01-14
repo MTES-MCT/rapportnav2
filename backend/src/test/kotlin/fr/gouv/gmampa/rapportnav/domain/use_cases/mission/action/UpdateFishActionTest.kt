@@ -15,27 +15,27 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 
 @SpringBootTest(classes = [UpdateFishAction::class])
 @ContextConfiguration(classes = [UpdateFishAction::class])
 class UpdateFishActionTest {
 
-    @MockBean
+    @MockitoBean
     private lateinit var patchFishAction: PatchFishAction
 
-    @MockBean
+    @MockitoBean
     private lateinit var processMissionActionControl: ProcessMissionActionControl
 
-    @MockBean
+    @MockitoBean
     private lateinit var processMissionActionInfraction: ProcessMissionActionInfraction
 
 
     @Test
     fun `test execute update fish action`() {
-        val actionId =  54566.toString()
+        val actionId = 54566.toString()
         val input = MissionFishAction(
             id = actionId,
             missionId = 761,

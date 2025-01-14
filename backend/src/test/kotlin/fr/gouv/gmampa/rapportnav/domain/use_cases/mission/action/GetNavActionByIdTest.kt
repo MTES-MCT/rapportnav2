@@ -9,13 +9,12 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 import java.util.*
 
@@ -26,13 +25,13 @@ class GetNavActionByIdTest {
     @Autowired
     private lateinit var getNavActionById: GetNavActionById
 
-    @MockBean
+    @MockitoBean
     private lateinit var missionActionRepository: INavMissionActionRepository
 
-    @MockBean
+    @MockitoBean
     private lateinit var getControlByActionId: GetControlByActionId2
 
-    @MockBean
+    @MockitoBean
     private lateinit var getStatusForAction: GetStatusForAction
 
     @Test
@@ -74,7 +73,7 @@ class GetNavActionByIdTest {
             actionType = ActionType.CONTROL,
         )
 
-        val mockControl  = ControlMock.createAllControl()
+        val mockControl = ControlMock.createAllControl()
 
         `when`(getControlByActionId.getAllControl(anyOrNull())).thenReturn(mockControl)
         `when`(missionActionRepository.findById(actionId)).thenReturn(Optional.of(action))
