@@ -1,58 +1,36 @@
-import { ApolloClient, ApolloError, gql, useQuery } from '@apollo/client'
-import { Mission } from '../../../common/types/mission-types.ts'
-
-export const GET_MISSIONS = gql`
-  query GetMissions($envInput: MissionsFetchEnvInput!) {
-    missionsV2(envInput: $envInput) {
-      id
-      missionSource
-      startDateTimeUtc
-      endDateTimeUtc
-      openBy
-      status
-      observationsByUnit
-      completenessForStats {
-        status
-        sources
-      }
-      generalInfo {
-        serviceId
-      }
-      crew {
-        id
-        agent {
-          id
-          firstName
-          lastName
-        }
-      }
-      actions {
-        id
-      }
-    }
-  }
-`
+import axios from "../../../../query-client/axios.ts"
+import {useQuery, UseQueryResult} from "@tanstack/react-query"
+import {Mission} from "@common/types/mission-types.ts"
 
 interface UseMissionsQueryParams {
-  startDateTimeUtc: string
-  endDateTimeUtc: string
+    startDateTimeUtc: string
+    endDateTimeUtc?: string
 }
 
 const useMissionsQuery = ({
-  startDateTimeUtc,
-  endDateTimeUtc
-}: UseMissionsQueryParams): {
-  data?: Mission[]
-  loading: boolean
-  error?: ApolloError
-  client: ApolloClient<any>
-} => {
-  const { loading, error, data, ...rest } = useQuery(GET_MISSIONS, {
-    variables: { envInput: { startDateTimeUtc, endDateTimeUtc } },
-    fetchPolicy: 'cache-and-network'
-  })
+                              startDateTimeUtc,
+                              endDateTimeUtc,
+                          }: UseMissionsQueryParams): UseQueryResult<Mission[], Error> => {
+    const fetchMissions = async (): Promise<Mission[]> => {
+        const params = new URLSearchParams({startDateTimeUtc})
+        if (endDateTimeUtc) {
+            params.append("endDateTimeUtc", endDateTimeUtc)
 
-  return { loading, error, data: data?.missionsV2, ...rest }
+        }
+        const response = await axios.get<Mission[]>(`missions?${params.toString()}`)
+        return response.data
+
+    }
+
+    const query = useQuery<Mission[], Error>({
+        queryKey: ["missions", {startDateTimeUtc, endDateTimeUtc}],
+        queryFn: fetchMissions,
+        enabled: !!startDateTimeUtc, // Prevents query from running if startDateTimeUtc is not provided
+        staleTime: 5 * 60 * 1000, // Cache data for 5 minutes
+        retry: 2, // Retry failed requests twice before throwing an error
+    })
+
+    return query
 }
 
 export default useMissionsQuery
