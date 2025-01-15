@@ -2,12 +2,12 @@ import { Accent, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import { useNavigate } from 'react-router-dom'
 import { Stack } from 'rsuite'
 import useDeleteActionMutation from '../../../common/services/use-delete-mission-action'
-import { MissionSource } from '../../../common/types/mission-types'
+import { MissionSourceEnum } from '../../../common/types/mission-types'
 
 interface MissionActionHeaderActionProps {
   actionId: string
   missionId: number
-  source: MissionSource
+  source: MissionSourceEnum
 }
 
 export const MissionActionHeaderAction: React.FC<MissionActionHeaderActionProps> = ({
@@ -23,7 +23,7 @@ export const MissionActionHeaderAction: React.FC<MissionActionHeaderActionProps>
     navigate(`/v2/pam/missions/${missionId}`)
   }
 
-  const isDeleteDisabled = () => source !== MissionSource.RAPPORTNAV
+  const isDeleteDisabled = () => source !== MissionSourceEnum.RAPPORTNAV
 
   return (
     <Stack direction="row" spacing="0.5rem">

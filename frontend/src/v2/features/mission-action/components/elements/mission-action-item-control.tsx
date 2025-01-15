@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { MissionAction } from '../../../common/types/mission-action'
-import { MissionSource } from '../../../common/types/mission-types'
+import { MissionSourceEnum } from '../../../common/types/mission-types'
 import MissionActionItemEnvControl from './mission-action-item-env-control'
 import MissionActionItemFishControl from './mission-action-item-fish-control'
 import MissionActionItemNavControl from './mission-action-item-nav-control'
@@ -11,9 +11,9 @@ const MissionActionItemControl: FC<{
   isMissionFinished?: boolean
 }> = ({ action, onChange, isMissionFinished }) => {
   switch (action.source) {
-    case MissionSource.MONITORENV:
+    case MissionSourceEnum.MONITORENV:
       return <MissionActionItemEnvControl action={action} onChange={onChange} />
-    case MissionSource.MONITORFISH:
+    case MissionSourceEnum.MONITORFISH:
       return <MissionActionItemFishControl action={action} onChange={onChange} isMissionFinished={isMissionFinished} />
     default:
       return <MissionActionItemNavControl action={action} onChange={onChange} isMissionFinished={isMissionFinished} />

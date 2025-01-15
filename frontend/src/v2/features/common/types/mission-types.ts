@@ -1,6 +1,6 @@
 import { ControlUnit } from '@common/types/control-unit-types.ts'
 
-export enum MissionTypeEnum {
+export enum MissionType {
   AIR = 'AIR',
   LAND = 'LAND',
   SEA = 'SEA'
@@ -9,7 +9,7 @@ export enum MissionTypeEnum {
 export type MissionULAMGeneralInfoInitial = {
   startDateTimeUtc: string
   endDateTimeUtc: string
-  missionTypes: MissionTypeEnum[]
+  missionTypes: MissionType[]
   missionReportType?: MissionReportTypeEnum
   reinforcementType?: MissionReinforcementTypeEnum
   nbHourAtSea?: number
@@ -30,7 +30,7 @@ export enum MissionReinforcementTypeEnum {
   DIRM = 'DIRM'
 }
 
-export enum MissionSource {
+export enum MissionSourceEnum {
   MONITORENV = 'MONITORENV',
   MONITORFISH = 'MONITORFISH',
   POSEIDON_CACEM = 'POSEIDON_CACEM',
@@ -38,9 +38,21 @@ export enum MissionSource {
   RAPPORTNAV = 'RAPPORTNAV'
 }
 
-export type MissionEnv = {
+export enum CompletenessForStatsStatusEnum {
+  COMPLETE = 'COMPLETE',
+  INCOMPLETE = 'INCOMPLETE'
+}
+
+export enum MissionStatus {
+  UPCOMING = 'UPCOMING',
+  IN_PROGRESS = 'IN_PROGRESS',
+  ENDED = 'ENDED',
+  UNAVAILABLE = 'UNAVAILABLE'
+}
+
+export type Mission = {
   id?: number
-  missionTypes: MissionTypeEnum[]
+  missionTypes: MissionType[]
   controlUnits: ControlUnit[]
   openBy?: string
   completedBy?: string
@@ -50,8 +62,13 @@ export type MissionEnv = {
   geom?: string
   startDateTimeUtc: string
   endDateTimeUtc?: string
-  missionSource: MissionSource
+  missionSource: MissionSourceEnum
   hasMissionOrder: boolean
   isUnderJdp: boolean
   isGeometryComputedFromControls: boolean
+}
+
+export type CompletenessForStats = {
+  sources?: MissionSourceEnum[]
+  status?: CompletenessForStatsStatusEnum
 }

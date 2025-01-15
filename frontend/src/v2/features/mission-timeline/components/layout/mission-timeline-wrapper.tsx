@@ -1,8 +1,10 @@
 import { THEME } from '@mtes-mct/monitor-ui'
 import { find } from 'lodash'
-import { createElement, FC, Fragment, FunctionComponent } from 'react'
+import { createElement, FC, Fragment, FunctionComponent, useEffect } from 'react'
 import { Divider, Stack } from 'rsuite'
+import { setTimelineCompleteForStats } from '../../../../store/slices/timeline-complete-for-stats-reducer'
 import { useDate } from '../../../common/hooks/use-date'
+import { useTimelineCompleteForStats } from '../../hooks/use-timeline-complete-for-stats'
 import { MissionTimelineAction } from '../../types/mission-timeline-output'
 import MissionTimelineEmpty from '../ui/mission-timeline-empty'
 import MissionTimelineError from '../ui/mission-timeline-error'
@@ -26,6 +28,12 @@ const MissionTimelineWrapper: FC<MissionTimelineProps> = ({
   groupBy
 }) => {
   const { groupByDay } = useDate()
+  const { computeCompleteForStats } = useTimelineCompleteForStats()
+  useEffect(() => {
+    const completenessForStats = computeCompleteForStats(actions)
+    setTimelineCompleteForStats(completenessForStats)
+  }, [actions])
+
   if (isLoading) return <MissionTimelineLoader />
   if (actions?.length === 0) return <MissionTimelineEmpty />
   if (isError) return <MissionTimelineError error={isError} />

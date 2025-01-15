@@ -1,11 +1,11 @@
+import Text from '@common/components/ui/text.tsx'
+import { THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { FlexboxGrid } from 'rsuite'
-import { THEME } from '@mtes-mct/monitor-ui'
-import Text from '@common/components/ui/text.tsx'
 
 interface MissionListHeaderProps {}
 
-const MissionListHeaderPam: React.FC<MissionListHeaderProps> = ({}) => {
+const MissionListHeaderPam: React.FC<MissionListHeaderProps> = () => {
   return (
     <FlexboxGrid align="middle" style={{ height: '100%', padding: '0.5rem 2rem' }}>
       <FlexboxGrid.Item colspan={1} style={{ paddingTop: '8px' }}></FlexboxGrid.Item>

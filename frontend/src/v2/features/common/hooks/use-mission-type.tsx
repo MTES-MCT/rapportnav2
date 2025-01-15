@@ -1,19 +1,18 @@
-import { MissionReinforcementTypeEnum, MissionReportTypeEnum, MissionTypeEnum } from '../types/mission-types.ts'
-
+import { MissionReinforcementTypeEnum, MissionReportTypeEnum, MissionType } from '../types/mission-types.ts'
 
 interface MissionHook {
-  getMissionTypeLabel: (type?: MissionTypeEnum) => string | undefined
+  getMissionTypeLabel: (type?: MissionType) => string | undefined
   getReinforcementTypeLabel: (type?: MissionReinforcementTypeEnum) => string | undefined
   getReportTypeLabel: (type?: MissionReportTypeEnum) => string | undefined
-  missionTypeOptions: { label: string; value: MissionTypeEnum }[]
+  missionTypeOptions: { label: string; value: MissionType }[]
   reinforcementTypeOptions: { label: string; value: MissionReinforcementTypeEnum }[]
   reportTypeOptions: { label: string; value: MissionReportTypeEnum }[]
 }
 
-const MISSION_TYPE_REGISTRY: Record<MissionTypeEnum, string> = {
-  [MissionTypeEnum.LAND]: 'Terre',
-  [MissionTypeEnum.SEA]: 'Mer',
-  [MissionTypeEnum.AIR]: 'Air'
+const MISSION_TYPE_REGISTRY: Record<MissionType, string> = {
+  [MissionType.LAND]: 'Terre',
+  [MissionType.SEA]: 'Mer',
+  [MissionType.AIR]: 'Air'
 }
 
 const REINFORCEMENT_TYPE_REGISTRY: Record<MissionReinforcementTypeEnum, string> = {
@@ -32,8 +31,7 @@ const REPORT_TYPE_REGISTRY: Record<MissionReportTypeEnum, string> = {
 }
 
 export function useMissionType(): MissionHook {
-  const getMissionTypeLabel = (type?: MissionTypeEnum): string | undefined =>
-    type ? MISSION_TYPE_REGISTRY[type] : ''
+  const getMissionTypeLabel = (type?: MissionType): string | undefined => (type ? MISSION_TYPE_REGISTRY[type] : '')
 
   const getReinforcementTypeLabel = (type?: MissionReinforcementTypeEnum): string | undefined =>
     type ? REINFORCEMENT_TYPE_REGISTRY[type] : ''
@@ -42,9 +40,9 @@ export function useMissionType(): MissionHook {
     type ? REPORT_TYPE_REGISTRY[type] : ''
 
   const getMissionTypeOptions = () =>
-    Object.keys(MissionTypeEnum).map(key => ({
-      value: MissionTypeEnum[key as keyof typeof MissionTypeEnum],
-      label: MISSION_TYPE_REGISTRY[key as keyof typeof MissionTypeEnum]
+    Object.keys(MissionType).map(key => ({
+      value: MissionType[key as keyof typeof MissionType],
+      label: MISSION_TYPE_REGISTRY[key as keyof typeof MissionType]
     }))
 
   const getReinforcementTypeOptions = () =>

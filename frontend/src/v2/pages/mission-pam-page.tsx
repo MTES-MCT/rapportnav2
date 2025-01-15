@@ -13,7 +13,7 @@ import MissionGeneralInformationHeader from '../features/common/components/ui/mi
 import MissionPageError from '../features/common/components/ui/mission-page-error.tsx'
 import MissionPageLoading from '../features/common/components/ui/mission-page-loading.tsx'
 import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
-import { useMissionExcerptQuery } from '../features/common/services/use-mission-excerpt.tsx'
+import useGetMissionQuery from '../features/common/services/use-mission.tsx'
 import MissionActionPam from '../features/pam/components/element/mission-action-pam.tsx'
 import MissionTimelineHeaderPam from '../features/pam/components/element/mission-timeline-header-pam.tsx'
 import MissionTimelinePam from '../features/pam/components/element/mission-timeline-pam.tsx'
@@ -24,13 +24,13 @@ const MissionPamPage: React.FC = () => {
   const { navigateAndResetCache } = useAuth()
   const exitMission = async () => navigateAndResetCache(ULAM_V2_HOME_PATH)
 
+  const { data: mission, isLoading, error } = useGetMissionQuery(missionId)
   const { exportMission, exportIsLoading } = useMissionReportExport(missionId)
-  const { loading, error, data: mission } = useMissionExcerptQuery(missionId)
 
   const lastSyncText = lastSync ? formatTime(new Date(parseInt(lastSync!!, 10))) : undefined
 
   if (error) return <MissionPageError />
-  if (loading) return <MissionPageLoading />
+  if (isLoading) return <MissionPageLoading />
 
   return (
     <MissionPageWrapper
@@ -54,7 +54,7 @@ const MissionPamPage: React.FC = () => {
           sectionBody={<MissionTimelinePam missionId={Number(missionId)} />}
         />
       }
-      missionAction={<MissionActionPam missionId={Number(missionId)} actionId={actionId} status={mission?.status} />}
+      missionAction={<MissionActionPam missionId={Number(missionId)} actionId={actionId} />}
       missionFooter={<MissionPageFooterWrapper lastSyncText={lastSyncText} exitMission={exitMission} />}
     />
   )

@@ -13,7 +13,7 @@ import MissionGeneralInformationHeader from '../features/common/components/ui/mi
 import MissionPageError from '../features/common/components/ui/mission-page-error.tsx'
 import MissionPageLoading from '../features/common/components/ui/mission-page-loading.tsx'
 import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
-import { useMissionExcerptQuery } from '../features/common/services/use-mission-excerpt.tsx'
+import useGetMissionQuery from '../features/common/services/use-mission.tsx'
 import MissionActionUlam from '../features/ulam/components/element/mission-action-ulam.tsx'
 import MissionGeneralInformationUlam from '../features/ulam/components/element/mission-general-information-ulam.tsx'
 import MissionTimelineHeaderUlam from '../features/ulam/components/element/mission-timeline-header-ulam.tsx'
@@ -25,13 +25,13 @@ const MissionUlamPage: React.FC = () => {
   const { navigateAndResetCache } = useAuth()
   const exitMission = async () => navigateAndResetCache(ULAM_V2_HOME_PATH)
 
-  const { exportMission, exportIsLoading } = useMissionReportExport(missionId)
-  const { loading, error, data: mission } = useMissionExcerptQuery(missionId)
+  const { exportMission, exportIsLoading } = useMissionReportExport()
+  const { data: mission, isLoading, error } = useGetMissionQuery(missionId)
 
   const lastSyncText = lastSync ? formatTime(new Date(parseInt(lastSync!!, 10))) : undefined
 
   if (error) return <MissionPageError />
-  if (loading) return <MissionPageLoading />
+  if (isLoading) return <MissionPageLoading />
 
   return (
     <MissionPageWrapper
@@ -55,7 +55,7 @@ const MissionUlamPage: React.FC = () => {
           sectionBody={<MissionTimelineUlam missionId={Number(missionId)} />}
         />
       }
-      missionAction={<MissionActionUlam missionId={Number(missionId)} actionId={actionId} status={mission?.status} />}
+      missionAction={<MissionActionUlam missionId={Number(missionId)} actionId={actionId} />}
       missionFooter={<MissionPageFooterWrapper lastSyncText={lastSyncText} exitMission={exitMission} />}
     />
   )

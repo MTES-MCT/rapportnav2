@@ -7,7 +7,6 @@ import { EnvControl, EnvControlInput, useEnvControl } from '../../hooks/use-cont
 import MissionControlEnvError from '../ui/mission-control-env-error.tsx'
 import { MissionControlTitle } from '../ui/mission-control-title.tsx'
 
-const MAX_CONTROL = 1
 export interface MissionControlEnvFormProps {
   name: string
   isToComplete?: boolean
