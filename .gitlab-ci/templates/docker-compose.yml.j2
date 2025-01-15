@@ -7,7 +7,7 @@ services:
     environment:
       - ENV_DB_URL=jdbc:postgresql://db:5432/{{ rapportnav_psql_db }}?user={{ rapportnav_psql_user }}&password={{ rapportnav_psql_pwd }}
       - MONITORFISH_API_KEY={{ rapportnav_monitorfish_api_key }}
-      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_PROFILES_ACTIVE={{ rapportnav_spring_profiles_active }}
     ports:
       - 80:80
     # volumes:
