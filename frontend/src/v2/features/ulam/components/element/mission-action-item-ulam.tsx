@@ -9,14 +9,14 @@ import { useUlamActionRegistry } from '../../hooks/use-ulam-action-registry'
 
 interface MissionActionItemUlamProps {
   missionId: number
-  isMissionFinished?: boolean
   action: MissionAction
 }
 
-const MissionActionItemUlam: FC<MissionActionItemUlamProps> = ({ action, missionId, isMissionFinished }) => {
+const MissionActionItemUlam: FC<MissionActionItemUlamProps> = ({ action, missionId }) => {
   const { handleExecuteOnDelay } = useDelay()
-  const debounceTime = useStore(store, state => state.delayQuery.debounceTime)
   const { component } = useUlamActionRegistry(action.actionType)
+  const debounceTime = useStore(store, state => state.delayQuery.debounceTime)
+  const isMissionFinished = useStore(store, state => state.mission.isMissionFinished)
 
   const mutation = useUpdateMissionActionMutation(missionId, action.id)
 
