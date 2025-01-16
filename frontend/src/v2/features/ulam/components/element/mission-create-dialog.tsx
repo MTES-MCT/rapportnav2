@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
-import { Dialog, THEME } from '@mtes-mct/monitor-ui'
-import { Stack } from 'rsuite'
+import { Accent, Dialog, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
+import { FlexboxGrid, Stack } from 'rsuite'
 import { MissionTypeEnum } from '@common/types/env-mission-types.ts'
 import MissionGeneralInformationUlamFormNew from './mission-general-information-ulam-form-new.tsx'
 
@@ -27,13 +27,26 @@ const MissionCreateDialog: FC<MissionCreateDialogProps> = ({isOpen, onClose}) =>
   return (
     isDialogOpen && (
       <Dialog>
-        <Dialog.Title>Création d'un rapport de mission</Dialog.Title>
-        <Dialog.Body style={{ backgroundColor: THEME.color.gainsboro  }}>
-          <Stack direction="column" spacing="1.5rem" >
-            <MissionGeneralInformationUlamFormNew
-              onClose={handleClose}
-            />
-          </Stack>
+        <Dialog.Title>
+          <FlexboxGrid align="middle" justify="space-between" style={{ paddingLeft: 14, paddingRight: 24 }}>
+            <FlexboxGrid.Item style={{fontSize: '16px' }}>Création d'un rapport de mission</FlexboxGrid.Item>
+            <FlexboxGrid.Item>
+              <IconButton
+                Icon={Icon.Close}
+                size={Size.NORMAL}
+                role={'quit-create-mission'}
+                accent={Accent.TERTIARY}
+                color={THEME.color.gainsboro}
+                data-testid="close-create-mission-icon"
+                onClick={handleClose}
+              />
+            </FlexboxGrid.Item>
+          </FlexboxGrid>
+        </Dialog.Title>
+        <Dialog.Body style={{ backgroundColor: THEME.color.gainsboro, paddingLeft: 14, paddingTop: 31, width: '100%' }}>
+          <MissionGeneralInformationUlamFormNew
+            onClose={handleClose}
+          />
         </Dialog.Body>
       </Dialog>
     )

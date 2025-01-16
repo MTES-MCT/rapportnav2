@@ -4,10 +4,10 @@ import {
   FormikDateRangePicker,
   FormikMultiCheckbox,
   FormikNumberInput,
-  FormikSelect
+  FormikSelect, Icon, IconButton, Size, THEME
 } from '@mtes-mct/monitor-ui'
 import { FieldProps, Formik } from 'formik'
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { FlexboxGrid, Stack } from 'rsuite'
 import { useMissionGeneralInformationsForm } from '../../../common/hooks/use-mission-general-informations-form.tsx'
 import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
@@ -63,7 +63,11 @@ const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialF
               <Stack.Item style={{ width: '100%', textAlign: 'left' }}>
                 <FlexboxGrid>
                   <FlexboxGrid.Item>
-                    <FormikDateRangePicker label={'Date et heure de début et de fin'} isLight name="dates" />
+                    <FormikDateRangePicker
+                      label={'Dates et heures de début et de fin du rapport'}
+                      isLight name="dates"
+                      withTime={true}
+                    />
                   </FlexboxGrid.Item>
 
                   {!isCreation && (
