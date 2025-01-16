@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.user.RoleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
+import fr.gouv.gmampa.rapportnav.mocks.user.UserMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -27,16 +28,10 @@ class TokenServiceTests {
     private lateinit var userRepository: IUserRepository
 
 
-    private val user: User = User(
+    private val user: User = UserMock.create(
         id = 3,
-        firstName = "Jean",
-        lastName = "Dupont",
-        email = "jean.dupont@mer.gouv.fr",
-        password = "MyBeautifulPassword",
-        serviceId = 6,
         roles = listOf(RoleTypeEnum.USER_ULAM)
     )
-
 
     @Test
     fun `execute should have roles with claim user id and user role`() {
