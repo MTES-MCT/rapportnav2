@@ -1,4 +1,4 @@
-import { CompletenessForStatsStatusEnum, Mission, MissionStatusEnum } from '@common/types/mission-types.ts'
+import { MissionStatusEnum } from '@common/types/mission-types.ts'
 
 import Text from '@common/components/ui/text.tsx'
 import { Accent, Button, Icon, IconButton, Size, TagGroup, THEME } from '@mtes-mct/monitor-ui'
@@ -7,6 +7,8 @@ import React from 'react'
 import { FlexboxGrid, Stack } from 'rsuite'
 import styled from 'styled-components'
 import { useDate } from '../../hooks/use-date.tsx'
+import { useMission } from '../../hooks/use-mission.tsx'
+import { Mission } from '../../types/mission-types.ts'
 import MissionCompletenessForStatsTag from '../elements/mission-completeness-for-stats-tag.tsx'
 import MissionSourceTag from '../elements/mission-source-tag.tsx'
 import MissionStatusTag from '../elements/mission-status-tag.tsx'
@@ -37,7 +39,7 @@ const MissionPageHeaderWrapper: React.FC<MissionPageHeaderProps> = ({
   exportLoading
 }) => {
   const { formatMissionName } = useDate()
-  const exportRapportEnabled = mission?.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE
+  const { status, completeForStats, exportRapportEnabled } = useMission(mission)
 
   return (
     <>
@@ -54,11 +56,8 @@ const MissionPageHeaderWrapper: React.FC<MissionPageHeaderProps> = ({
               <Stack.Item>
                 <TagGroup>
                   <MissionSourceTag missionSource={mission?.missionSource} />
-                  <MissionStatusTag status={mission?.status} />
-                  <MissionCompletenessForStatsTag
-                    missionStatus={mission?.status}
-                    completenessForStats={mission?.completenessForStats}
-                  />
+                  <MissionStatusTag status={status} />
+                  <MissionCompletenessForStatsTag missionStatus={status} completenessForStats={completeForStats} />
                 </TagGroup>
               </Stack.Item>
             </Stack>
@@ -95,9 +94,7 @@ const MissionPageHeaderWrapper: React.FC<MissionPageHeaderProps> = ({
           </FlexboxGrid.Item>
         </FlexboxGrid>
       </StyledHeader>
-      {mission?.status === MissionStatusEnum.ENDED && (
-        <MissionPageHeaderBanner completenessForStats={mission.completenessForStats} />
-      )}
+      {status === MissionStatusEnum.ENDED && <MissionPageHeaderBanner completenessForStats={completeForStats} />}
     </>
   )
 }

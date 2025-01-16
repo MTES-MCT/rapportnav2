@@ -4,18 +4,18 @@ import {
   MissionPatrolExportMutationArgs,
   useLazyExportMissionReports
 } from '../services/use-lazy-export-mission-reports.tsx'
-import { BLOBTYPE, useDownloadFile } from './use-download-file.tsx'
 import { ExportMode } from '../types/mission-export-types.ts'
+import { BLOBTYPE, useDownloadFile } from './use-download-file.tsx'
 
 interface ExportMissionHook {
-  loading: boolean
+  exportIsLoading: boolean
   exportMissionReport: (args: MissionPatrolExportMutationArgs) => Promise<void>
 }
 
 export function useMissionReportExport(): ExportMissionHook {
   const { handleDownload } = useDownloadFile()
   const [getMissionReport] = useLazyExportMissionReports()
-  const [loading, setLoading] = useState<boolean>(false)
+  const [exportIsLoading, setLoading] = useState<boolean>(false)
 
   const exportMissionReport = async (args: MissionPatrolExportMutationArgs) => {
     setLoading(true)
@@ -36,5 +36,5 @@ export function useMissionReportExport(): ExportMissionHook {
     }
   }
 
-  return { exportMissionReport, loading }
+  return { exportMissionReport, exportIsLoading }
 }

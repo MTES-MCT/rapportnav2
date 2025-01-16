@@ -1,12 +1,28 @@
+import { MissionStatusEnum } from '@common/types/mission-types'
 import { Store } from '@tanstack/store'
+import { CompletenessForStats } from '../features/common/types/mission-types'
 
 export interface State {
   delayQuery: {
     debounceTime?: number
   }
-}
-export const store = new Store<State>({
-  delayQuery: {
-    debounceTime: undefined
+  timeline: {
+    isCompleteForStats?: boolean
+    completnessForStats?: CompletenessForStats
   }
+  generalInformations: {
+    isCompleteForStats?: boolean
+    completnessForStats?: CompletenessForStats
+  }
+  mission: {
+    status?: MissionStatusEnum
+    isMissionFinished?: boolean
+  }
+}
+
+export const store = new Store<State>({
+  delayQuery: {},
+  timeline: {},
+  generalInformations: {},
+  mission: {}
 })

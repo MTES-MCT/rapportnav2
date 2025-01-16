@@ -3,7 +3,7 @@ import { IconProps } from '@mtes-mct/monitor-ui'
 import { FunctionComponent } from 'react'
 import { ActionGroupType, ActionType } from '../../common/types/action-type'
 import { MissionAction, MissionEnvAction, MissionFishAction, MissionNavAction } from '../../common/types/mission-action'
-import { MissionSource } from '../../common/types/mission-types'
+import { MissionSourceEnum } from '../../common/types/mission-types'
 import { MissionTimelineAction } from '../types/mission-timeline-output'
 
 export type TimeLineStyle = {
@@ -52,11 +52,11 @@ export function useTimeline(): TimelineHook {
     return (
       actions?.map(action => {
         switch (action.source) {
-          case MissionSource.RAPPORTNAV:
+          case MissionSourceEnum.RAPPORTNAV:
             return getTimeLineFromNavAction(action)
-          case MissionSource.MONITORENV:
+          case MissionSourceEnum.MONITORENV:
             return getTimeLineFromEnvAction(action)
-          case MissionSource.MONITORFISH:
+          case MissionSourceEnum.MONITORFISH:
             return getTimeLineFromFishAction(action)
           default:
             return {} as MissionTimelineAction

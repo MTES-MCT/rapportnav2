@@ -1,5 +1,3 @@
-import React, { FC } from 'react'
-import { FlexboxGrid, Stack } from 'rsuite'
 import {
   Accent,
   Button,
@@ -8,11 +6,12 @@ import {
   FormikNumberInput,
   FormikSelect
 } from '@mtes-mct/monitor-ui'
-import { useMissionGeneralInformationsForm } from '../../../common/hooks/use-mission-general-informations-form.tsx'
 import { FieldProps, Formik } from 'formik'
+import { FC } from 'react'
+import { FlexboxGrid, Stack } from 'rsuite'
+import { useMissionGeneralInformationsForm } from '../../../common/hooks/use-mission-general-informations-form.tsx'
 import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
 import { MissionReportTypeEnum, MissionULAMGeneralInfoInitial } from '../../../common/types/mission-types.ts'
-import { useNavigate } from 'react-router-dom'
 
 export interface MissionGeneralInformationInitialFormProps {
   name: string
@@ -21,29 +20,28 @@ export interface MissionGeneralInformationInitialFormProps {
   onClose?: () => void
 }
 
-const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialFormProps> = ({ name, fieldFormik, isCreation = false, onClose }) => {
-
+const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialFormProps> = ({
+  name,
+  fieldFormik,
+  isCreation = false,
+  onClose
+}) => {
   const { initValue, handleSubmit } = useMissionGeneralInformationsForm(name, fieldFormik)
-  const { missionTypeOptions, reportTypeOptions, reinforcementTypeOptions} = useMissionType()
+  const { missionTypeOptions, reportTypeOptions, reinforcementTypeOptions } = useMissionType()
 
   return (
     <>
       {initValue && (
         <Formik initialValues={initValue} onSubmit={handleSubmit}>
           {formik => (
-            <Stack direction="column" spacing="1.5rem" style={{paddingBottom: '2rem'}}>
-              <Stack.Item style={{width: '100%'}}>
-                <FormikSelect
-                  options={reportTypeOptions}
-                  name="missionReportType"
-                  label={"Type de rapport"}
-                  isLight
-                />
-              </Stack.Item >
+            <Stack direction="column" spacing="1.5rem" style={{ paddingBottom: '2rem' }}>
+              <Stack.Item style={{ width: '100%' }}>
+                <FormikSelect options={reportTypeOptions} name="missionReportType" label={'Type de rapport'} isLight />
+              </Stack.Item>
 
-              <Stack.Item style={{width: '100%', textAlign: 'left'}}>
+              <Stack.Item style={{ width: '100%', textAlign: 'left' }}>
                 <FormikMultiCheckbox
-                  label={"Type de mission"}
+                  label={'Type de mission'}
                   name="missionTypes"
                   options={missionTypeOptions}
                   isInline
@@ -52,7 +50,7 @@ const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialF
               </Stack.Item>
 
               {formik.values['missionReportType'] === MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT && (
-                <Stack.Item style={{width: '100%'}}>
+                <Stack.Item style={{ width: '100%' }}>
                   <FormikSelect
                     label="Nature du renfort"
                     name="reinforcementType"
@@ -62,35 +60,35 @@ const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialF
                 </Stack.Item>
               )}
 
-              <Stack.Item style={{width: '100%', textAlign: 'left'}}>
+              <Stack.Item style={{ width: '100%', textAlign: 'left' }}>
                 <FlexboxGrid>
                   <FlexboxGrid.Item>
-                    <FormikDateRangePicker
-                      label={"Date et heure de début et de fin"}
-                      isLight
-                      name="dates"
-                    />
+                    <FormikDateRangePicker label={'Date et heure de début et de fin'} isLight name="dates" />
                   </FlexboxGrid.Item>
 
                   {!isCreation && (
                     <FlexboxGrid.Item>
-                      <FormikNumberInput label={"Nb d'heures en mer"} isLight name={"nbHourAtSea"}/>
+                      <FormikNumberInput label={"Nb d'heures en mer"} isLight name={'nbHourAtSea'} />
                     </FlexboxGrid.Item>
                   )}
                 </FlexboxGrid>
-
-
               </Stack.Item>
 
               {isCreation && (
-                <Stack.Item >
-                  <Button accent={Accent.PRIMARY} type="submit" onClick={async () => {
-                    handleSubmit(formik.values)
-                  }}>
+                <Stack.Item>
+                  <Button
+                    accent={Accent.PRIMARY}
+                    type="submit"
+                    onClick={async () => {
+                      handleSubmit(formik.values)
+                    }}
+                  >
                     Créer le rapport
                   </Button>
 
-                  <Button accent={Accent.SECONDARY} style={{marginLeft: '10px'}} onClick={onClose}>Annuler</Button>
+                  <Button accent={Accent.SECONDARY} style={{ marginLeft: '10px' }} onClick={onClose}>
+                    Annuler
+                  </Button>
                 </Stack.Item>
               )}
             </Stack>
@@ -98,7 +96,6 @@ const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialF
         </Formik>
       )}
     </>
-
   )
 }
 
