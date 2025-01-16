@@ -10,13 +10,13 @@ import { usePamActionRegistry } from '../../hooks/use-pam-action-registry'
 interface MissionActionItemPamProps {
   missionId: number
   action: MissionAction
-  isMissionFinished?: boolean
 }
 
-const MissionActionItemPam: FC<MissionActionItemPamProps> = ({ action, missionId, isMissionFinished }) => {
+const MissionActionItemPam: FC<MissionActionItemPamProps> = ({ action, missionId }) => {
   const { handleExecuteOnDelay } = useDelay()
   const { component } = usePamActionRegistry(action.actionType)
   const debounceTime = useStore(store, state => state.delayQuery.debounceTime)
+  const isMissionFinished = useStore(store, state => state.mission.isMissionFinished)
 
   const mutation = useUpdateMissionActionMutation(missionId, action?.id)
 
