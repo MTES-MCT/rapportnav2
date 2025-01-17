@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.12.3",
-    "@mtes-mct/monitor-ui": "^24.11.1",
+    "@mtes-mct/monitor-ui": "^24.11.3",
     "@sentry/react": "^8.44.0",
     "@tanstack/react-query": "^5.62.10",
     "@tanstack/react-store": "^0.6.1",
