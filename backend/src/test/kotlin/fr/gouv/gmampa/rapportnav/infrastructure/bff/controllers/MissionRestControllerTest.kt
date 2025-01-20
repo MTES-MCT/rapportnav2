@@ -92,7 +92,9 @@ class MissionRestControllerTest {
         // Arrange
         val missionId = 1
         val mockMission = EnvMissionMock.create(id = missionId)
+        val mockMissionEntity = MissionEntityMock2.create(id = 1)
         `when`(getEnvMissionById2.execute(missionId)).thenReturn(mockMission)
+        `when`(getMission2.execute(anyOrNull())).thenReturn(mockMissionEntity)
 
         // Act & Assert
         mockMvc.perform(get("/api/v2/missions/{missionId}", missionId))
