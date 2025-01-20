@@ -14,6 +14,7 @@ import java.util.*
 @RestController
 @RequestMapping("/api/v2/missions/{missionId}/actions")
 class MissionActionRestController(
+    private val getMissionAction: GetMissionAction,
     private val deleteNavAction: DeleteNavAction,
     private val createNavAction: CreateNavAction,
     private val updateEnvAction: UpdateEnvAction,
@@ -31,11 +32,7 @@ class MissionActionRestController(
     @GetMapping("")
     @Operation(summary = "Get the list of actions on a mission Id")
     fun getActions(@PathVariable(name = "missionId") missionId: Int): List<MissionAction?> {
-        val envActions = getEnvActionByMissionId.execute(missionId = missionId).orEmpty()
-        val navActions = getNavActionByMissionId.execute(missionId = missionId).orEmpty()
-        val fishActions = getFIshListActionByMissionId.execute(missionId = missionId).orEmpty()
-        return (envActions + navActions + fishActions)
-            .sortedByDescending { action -> action.startDateTimeUtc }
+        return getMissionAction.execute(missionId)
             .map { action -> MissionAction.fromMissionActionEntity(action) }
     }
 
