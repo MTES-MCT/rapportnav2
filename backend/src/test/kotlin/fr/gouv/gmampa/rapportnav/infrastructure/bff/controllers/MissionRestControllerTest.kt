@@ -1,19 +1,12 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.CreateEnvMission
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeMissionData
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.MissionRestController
-import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMockv2
-import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
 import fr.gouv.gmampa.rapportnav.mocks.user.UserMock
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.any
@@ -31,6 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
+import fr.gouv.gmampa.rapportnav.mocks.mission.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import java.time.Instant
 
@@ -55,13 +49,16 @@ class MissionRestControllerTest {
     private lateinit var getUserFromToken: GetUserFromToken
 
     @MockitoBean
-    private lateinit var fakeMissionData: FakeMissionData
+    private lateinit var fakeMissionData2: FakeMissionData2
 
     @MockitoBean
     private lateinit var createEnvMission: CreateEnvMission
 
     @MockitoBean
     private lateinit var getEnvMissionById2: GetEnvMissionById2
+
+    @MockitoBean
+    private lateinit var getMission2: GetMission2
 
     @Test
     fun `should return a list of missions`() {
@@ -70,16 +67,16 @@ class MissionRestControllerTest {
             EnvMissionMock.create(id = 1),
             EnvMissionMock.create(id = 2),
         )
-        val mockMissionEntity = MissionEntityMock.create(id = 1)
+        val mockMissionEntity = MissionEntityMock2.create(id = 1)
 
 
         val mockUser = UserMock.create()
 
         `when`(getControlUnitsForUser.execute()).thenReturn(listOf(1))
         `when`(getEnvMissions.execute(any(), any(), anyOrNull(), anyOrNull(), any())).thenReturn(mockEnvMissions)
-        `when`(getMission.execute(any(), any())).thenReturn(mockMissionEntity)
+        `when`(getMission2.execute(anyOrNull())).thenReturn(mockMissionEntity)
         `when`(getUserFromToken.execute()).thenReturn(mockUser)
-        `when`(fakeMissionData.getFakeMissionsforUser(mockUser)).thenReturn(emptyList())
+        `when`(fakeMissionData2.getFakeMissionsforUser(mockUser)).thenReturn(emptyList())
 
         // Act & Assert
         mockMvc.perform(
