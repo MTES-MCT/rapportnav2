@@ -1,19 +1,29 @@
-import React, { FC, useState } from 'react'
-import { Accent, Button, Dialog, Icon, Label, MultiRadio, Select, Size, THEME } from '@mtes-mct/monitor-ui'
-import { CompletenessForStatsStatusEnum, Mission } from '@common/types/mission-types.ts'
-import { Divider, Stack } from 'rsuite'
-import { formatMissionName } from '@features/pam/mission/utils/utils.ts'
-import { getOpenByText } from '../../../../common/hooks/use-mission-tag.tsx'
-import some from 'lodash/some'
 import Text from '@common/components/ui/text.tsx'
-import { ExportReportType } from '../../../../common/types/mission-export-types.ts'
-import ExportFileButton from '../../../../common/components/elements/export-file-button.tsx'
+import { CompletenessForStatsStatusEnum, Mission } from '@common/types/mission-types.ts'
+import { Accent, Button, Dialog, Icon, Label, MultiRadio, Select, Size, THEME } from '@mtes-mct/monitor-ui'
 import { every } from 'lodash'
+import some from 'lodash/some'
+import { FC, useState } from 'react'
+import { Divider, Stack } from 'rsuite'
+import ExportFileButton from '../../../../common/components/elements/export-file-button.tsx'
+import { ExportReportType } from '../../../../common/types/mission-export-types.ts'
+import { MissionListItem } from '../../../../common/types/mission-types.ts'
+
+const options = [
+  {
+    label: 'J’exporte un seul fichier (intégrant des missions inter-services)',
+    value: false
+  },
+  {
+    label: 'Exporter un fichier pour chaque mission sélectionnée',
+    value: true
+  }
+]
 
 type MissionListExportDialogProps = {
-  availableMissions: Mission[]
+  availableMissions: MissionListItem[]
   toggleDialog: () => void
-  triggerExport: (missions: Mission[], variant: ExportReportType, zip: boolean) => void
+  triggerExport: (missions: MissionListItem[], variant: ExportReportType, zip: boolean) => void
   variant: ExportReportType
   exportInProgress: boolean
 }
@@ -25,17 +35,6 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
   exportInProgress,
   variant
 }) => {
-  const options = [
-    {
-      label: 'J’exporte un seul fichier (intégrant des missions inter-services)',
-      value: false
-    },
-    {
-      label: 'Exporter un fichier pour chaque mission sélectionnée',
-      value: true
-    }
-  ]
-
   const [exportAsZip, setExportAsZip] = useState<boolean>(options[0].value)
   const [mainMissionId, setMainMissionId] = useState<number | undefined>(undefined)
 
@@ -44,9 +43,9 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
     exportInProgress ||
     every(availableMissions, (m: Mission) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.COMPLETE)
 
-  const missionOptions = availableMissions.map((mission: Mission) => ({
-    label: `${formatMissionName(mission.startDateTimeUtc)} - ${getOpenByText(mission.missionSource)} - ${mission.actions?.length ?? 0} action(s)`,
+  const missionOptions = availableMissions.map((mission: MissionListItem) => ({
     value: mission.id,
+    label: mission.exportLabel,
     isDisabled: mission.completenessForStats?.status !== CompletenessForStatsStatusEnum.COMPLETE
   }))
 
@@ -67,8 +66,8 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
   const onExport = () => {
     // set main mission first
     const missions = [
-      ...availableMissions.filter((m: Mission) => m.id === mainMissionId),
-      ...availableMissions.filter((m: Mission) => m.id !== mainMissionId)
+      ...availableMissions.filter((m: MissionListItem) => m.id === mainMissionId),
+      ...availableMissions.filter((m: MissionListItem) => m.id !== mainMissionId)
     ]
     triggerExport(missions, variant, exportAsZip)
   }
@@ -100,11 +99,12 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
                     compléter" :
                   </Text>
                   {availableMissions
-                    .filter((m: Mission) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.COMPLETE)
-                    .map((m: Mission) => (
+                    .filter(
+                      (m: MissionListItem) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.COMPLETE
+                    )
+                    .map((m: MissionListItem) => (
                       <Text as={'h3'} color={THEME.color.maximumRed} fontStyle={'italic'} weight={'medium'} key={m.id}>
-                        - {formatMissionName(m.startDateTimeUtc)} - {getOpenByText(m.missionSource)} -{' '}
-                        {m.actions?.length ?? 0} action(s)
+                        {mission.exportLabel}
                       </Text>
                     ))}
                 </div>

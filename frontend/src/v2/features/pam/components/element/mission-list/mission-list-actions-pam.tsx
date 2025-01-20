@@ -1,11 +1,11 @@
+import { Accent, Checkbox, Icon, IconButton } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { Accent, Checkbox, Icon, IconButton } from '@mtes-mct/monitor-ui'
-import { Mission } from '@common/types/mission-types.ts'
 import { ExportReportType } from '../../../../common/types/mission-export-types.ts'
+import { Mission2 } from '../../../../common/types/mission-types.ts'
 
 interface MissionListActionsPamProps {
-  missions?: Mission[]
+  missions?: Mission2[]
   selectedMissionIds: number[]
   toggleDialog: (variant?: ExportReportType) => void
   toggleAll: (isChecked?: boolean) => void

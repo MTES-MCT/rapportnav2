@@ -1,9 +1,23 @@
 import { ControlUnit } from '@common/types/control-unit-types.ts'
+import { MissionCrew } from '@common/types/crew-types'
+import { MissionTypeEnum, SeaFrontEnum } from '@common/types/env-mission-types'
+import { MissionStatusEnum } from '@common/types/mission-types'
+import { Service } from '@common/types/service-types'
+import { MissionAction } from './mission-action'
 
 export enum MissionType {
   AIR = 'AIR',
   LAND = 'LAND',
   SEA = 'SEA'
+}
+
+export type MissionGeneralInfoPam = {
+  id: number
+  distanceInNauticalMiles?: number
+  consumedGOInLiters?: number
+  consumedFuelInLiters?: number
+  serviceId?: number
+  nbrOfRecognizedVessel?: number
 }
 
 export type MissionULAMGeneralInfoInitial = {
@@ -71,4 +85,59 @@ export type Mission = {
 export type CompletenessForStats = {
   sources?: MissionSourceEnum[]
   status?: CompletenessForStatsStatusEnum
+}
+
+export type MissionEnvData = {
+  controlUnits: Omit<ControlUnit, 'id'>[]
+  endDateTimeUtc?: string
+  facade: SeaFrontEnum
+  geom?: Record<string, any>[]
+  hasMissionOrder?: boolean
+  isUnderJdp?: boolean
+  missionSource: MissionSourceEnum
+  missionTypes: MissionTypeEnum[]
+  observationsCacem?: string
+  observationsCnsp?: string
+  observationsByUnit?: string
+  openBy: string
+  startDateTimeUtc: string
+}
+
+export type MissionGeneralInfo2 = MissionGeneralInfoPam & {
+  missionReportType: MissionReportTypeEnum
+  missionTypes: MissionTypeEnum[]
+  reinforcementType: MissionReinforcementTypeEnum
+  nbHourAtSea: number
+  serviceId: number
+  crew: MissionCrew[]
+  services: Service[]
+}
+
+export type Mission2 = {
+  id: number
+  isCompleteForStats: boolean
+  status: MissionStatusEnum
+  envData: MissionEnvData
+  generalInfos: MissionGeneralInfo2
+  completenessForStats?: CompletenessForStats
+  actions: MissionAction[]
+}
+
+export type MissionListItem = {
+  id: number
+  openBy: string
+  exportLabel?: string
+  status: MissionStatusEnum
+  missionNameUlam?: string
+  startDateTimeUtc: string
+  startDateTimeUtcText: string
+  crew: MissionCrew[]
+  crewNumber: string
+  endDateTimeUtc?: string
+  endDateTimeUtcText?: string
+  missionNamePam?: string
+  observationsByUnit?: string
+  missionSource: MissionSourceEnum
+  completenessForStats?: CompletenessForStats
+  controlUnits: Omit<ControlUnit, 'id'>[]
 }
