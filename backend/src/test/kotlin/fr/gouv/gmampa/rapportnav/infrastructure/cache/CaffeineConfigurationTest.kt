@@ -27,7 +27,8 @@ class CaffeineConfigurationTest {
             caffeineConfiguration.envMission,
             caffeineConfiguration.fishActions,
             caffeineConfiguration.envActionList,
-            caffeineConfiguration.fishActionList
+            caffeineConfiguration.fishActionList,
+            caffeineConfiguration.envMission2
         )
 
         cacheNames.forEach { cacheName ->
@@ -38,7 +39,7 @@ class CaffeineConfigurationTest {
         }
 
         assertThat(cacheManager.cacheNames.toSet())
-            .hasSize(7)
+            .hasSize(8)
             .isEqualTo(cacheNames.toSet())
     }
 

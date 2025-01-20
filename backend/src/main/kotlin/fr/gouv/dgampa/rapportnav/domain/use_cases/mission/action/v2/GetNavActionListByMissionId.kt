@@ -13,7 +13,7 @@ class GetNavActionListByMissionId(
     private val navMissionActionRepository: INavMissionActionRepository,
     getStatusForAction: GetStatusForAction,
     getControlByActionId: GetControlByActionId2
-): GetMissionAction(getStatusForAction, getControlByActionId) {
+): AbstractGetMissionAction(getStatusForAction, getControlByActionId) {
     private val logger = LoggerFactory.getLogger(GetNavActionListByMissionId::class.java)
 
     fun execute(missionId: Int?): List<MissionNavActionEntity> {
