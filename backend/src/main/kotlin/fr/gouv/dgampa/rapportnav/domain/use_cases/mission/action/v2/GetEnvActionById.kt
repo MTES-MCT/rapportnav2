@@ -21,7 +21,7 @@ class GetEnvActionById(
     getControlByActionId: GetControlByActionId2,
     private val mapControlPlans: MapEnvActionControlPlans,
     private val getInfractionsByActionId: GetInfractionsByActionId,
-): GetMissionAction(getStatusForAction, getControlByActionId)  {
+): AbstractGetMissionAction(getStatusForAction, getControlByActionId)  {
     private val logger = LoggerFactory.getLogger(GetFishActionListByMissionId::class.java)
 
     fun execute(missionId: Int?, actionId: String): MissionEnvActionEntity? {

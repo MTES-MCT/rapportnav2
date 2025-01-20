@@ -23,7 +23,7 @@ class GetEnvActionListByMissionId(
     getStatusForAction: GetStatusForAction,
     getControlByActionId: GetControlByActionId2,
     private val getFakeActionData: FakeActionData
-) : GetMissionAction(getStatusForAction, getControlByActionId) {
+) : AbstractGetMissionAction(getStatusForAction, getControlByActionId) {
     private val logger = LoggerFactory.getLogger(GetFishActionListByMissionId::class.java)
 
     @Cacheable(value = ["envActionList"], key = "#missionId")

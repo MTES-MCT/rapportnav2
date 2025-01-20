@@ -22,6 +22,7 @@ class CaffeineConfiguration {
     val envMissions = "envMissions"
     val envMission = "envMission"
     val fishActions = "fishActions"
+    val envMission2 = "envMission2"
     val envActionList = "envActionList"
     val fishActionList = "fishActionList"
 
@@ -39,6 +40,7 @@ class CaffeineConfiguration {
 
 
         // short term caches for Missions and Actions
+        val envMissionCache2 = builCache(envMission2, ticker, TimeUnit.MINUTES, 5)
         val envActionListCache = builCache(envActionList, ticker, TimeUnit.MINUTES, 5)
         val fishActionListCache = builCache(fishActionList, ticker, TimeUnit.MINUTES, 5)
 
@@ -54,6 +56,7 @@ class CaffeineConfiguration {
                 envMissionsCache,
                 envMissionCache,
                 fishActionsCache,
+                envMissionCache2,
                 envActionListCache,
                 fishActionListCache
             ),
