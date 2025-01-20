@@ -1,12 +1,13 @@
-import { vi, describe, it, expect } from 'vitest'
-import { render, screen, fireEvent } from '../../../../../../../test-utils.tsx'
-import MissionListPam from '../mission-list-pam.tsx'
 import { getMonthName } from '@common/utils/dates-for-humans'
+import { describe, expect, it, vi } from 'vitest'
+import { fireEvent, render, screen } from '../../../../../../../test-utils.tsx'
+import { MissionListItem } from '../../../../../../features/common/types/mission-types.ts'
+import MissionListPam from '../mission-list-pam.tsx'
 
-const mockMissions = [
-  { id: 1, name: 'Mission 1', startDateTimeUtc: '2023-12-01T10:00:00Z' },
-  { id: 2, name: 'Mission 2', startDateTimeUtc: '2023-11-15T14:00:00Z' },
-  { id: 3, name: 'Mission 3', startDateTimeUtc: '2023-12-05T08:00:00Z' }
+const mockMissions: MissionListItem[] = [
+  { id: 1, missionNamePam: 'Mission #2023-12-01', startDateTimeUtc: '2023-12-01T10:00:00Z' },
+  { id: 2, missionNamePam: 'Mission #2023-11-15', startDateTimeUtc: '2023-11-15T14:00:00Z' },
+  { id: 3, missionNamePam: 'Mission #2023-12-05', startDateTimeUtc: '2023-12-05T08:00:00Z' }
 ]
 
 const defaultProps = {

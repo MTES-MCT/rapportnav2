@@ -104,7 +104,7 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
                     )
                     .map((m: MissionListItem) => (
                       <Text as={'h3'} color={THEME.color.maximumRed} fontStyle={'italic'} weight={'medium'} key={m.id}>
-                        {mission.exportLabel}
+                        {m.exportLabel}
                       </Text>
                     ))}
                 </div>

@@ -1,11 +1,11 @@
+import { MissionListItem } from 'src/v2/features/common/types/mission-types.ts'
+import { expect } from 'vitest'
 import { render, screen } from '../../../../../../../test-utils.tsx'
 import MissionListUlam from '../mission-list-ulam.tsx'
-import { expect } from 'vitest'
-import { Mission } from '@common/types/mission-types.ts'
 
-const mockMissions: Mission[] = [
-  { id: 1, name: 'Mission 1', startDateTimeUtc: '2023-12-01T10:00:00Z' },
-  { id: 2, name: 'Mission 2', startDateTimeUtc: '2023-12-05T10:00:00Z' }
+const mockMissions: MissionListItem[] = [
+  { id: 1, missionNameUlam: 'Mission #2023-12-01', startDateTimeUtc: '2023-12-01T10:00:00Z' },
+  { id: 2, missionNameUlam: 'Mission #2023-12-05', startDateTimeUtc: '2023-12-05T10:00:00Z' }
 ]
 describe('MissionListUlam component', () => {
   it('should render empty mission message', () => {

@@ -125,19 +125,19 @@ export type Mission2 = {
 
 export type MissionListItem = {
   id: number
-  openBy: string
+  openBy?: string
   exportLabel?: string
-  status: MissionStatusEnum
+  status?: MissionStatusEnum
   missionNameUlam?: string
   startDateTimeUtc: string
-  startDateTimeUtcText: string
-  crew: MissionCrew[]
-  crewNumber: string
+  startDateTimeUtcText?: string
+  crew?: MissionCrew[]
+  crewNumber?: string
   endDateTimeUtc?: string
   endDateTimeUtcText?: string
   missionNamePam?: string
   observationsByUnit?: string
-  missionSource: MissionSourceEnum
+  missionSource?: MissionSourceEnum
   completenessForStats?: CompletenessForStats
-  controlUnits: Omit<ControlUnit, 'id'>[]
+  controlUnits?: Omit<ControlUnit, 'id'>[]
 }
