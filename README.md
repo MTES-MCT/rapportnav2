@@ -71,7 +71,7 @@ As we are mirroring our repo onto our host's repo, who can also provide changes 
 two repos before deploying_:
 
 - add mirror if you
-  haven't: `git remote add mirror https://gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2.git`
+  haven't: `git remote add mirror https://gitlab-sml.din.developpement-durable.gouv.fr/rapportnav-v2/rapportnav_v2.git`
 - fetch changes: `git fetch mirror`
   - username: use your @i-carre.net email
   - password: use token provided by other devs or devops at DSI
@@ -79,6 +79,8 @@ two repos before deploying_:
 - push to this repo if necessary
 
 ### Instructions
+
+#### Automated job (broken)
 
 - Make sure you have the last changes from the mirror: so fetch & pull code from mirror
 - Set version number in `build.gradle.kts`
@@ -88,4 +90,17 @@ two repos before deploying_:
 - check the running `release` Action
 - check the
   pipeline [here](https://gitlab-sml.din.developpement-durable.gouv.fr/num3-exploitation/deploiement-continu/gitlab-ci/applications/rapportnav-v2/rapportnav-v2/-/pipelines)
+
+#### Manual deployment
+
+- clone the gitlab repo:
+  `git clone https://gitlab-sml.din.developpement-durable.gouv.fr/rapportnav-v2/rapportnav_v2.git`
+  - username: use your @i-carre.net email
+  - password: use token provided by other devs or devops at DSI
+- add the github repo as mirror `git remote add mirror https://github.com/MTES-MCT/rapportnav2.git`
+- fetch changes: `git fetch`
+- pull changes to your local branch to align with the remote main `git pull`
+- fetch mirror: `git fetch mirror`
+- pull the remote changes: `git pull mirror main`
+- push the changes to start the deployment: `git push`
 
