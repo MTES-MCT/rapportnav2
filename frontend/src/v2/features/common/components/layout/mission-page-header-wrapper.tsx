@@ -7,8 +7,7 @@ import React from 'react'
 import { FlexboxGrid, Stack } from 'rsuite'
 import styled from 'styled-components'
 import { useDate } from '../../hooks/use-date.tsx'
-import { useMission } from '../../hooks/use-mission.tsx'
-import { Mission } from '../../types/mission-types.ts'
+import { CompletenessForStatsStatusEnum, Mission2 } from '../../types/mission-types.ts'
 import MissionCompletenessForStatsTag from '../elements/mission-completeness-for-stats-tag.tsx'
 import MissionSourceTag from '../elements/mission-source-tag.tsx'
 import MissionStatusTag from '../elements/mission-status-tag.tsx'
@@ -22,7 +21,7 @@ const StyledHeader = styled.div`
 `
 
 interface MissionPageHeaderProps {
-  mission?: Mission
+  mission?: Mission2
   onClickClose: () => void
   onClickExport: () => void
   exportLoading?: boolean
@@ -39,7 +38,6 @@ const MissionPageHeaderWrapper: React.FC<MissionPageHeaderProps> = ({
   exportLoading
 }) => {
   const { formatMissionName } = useDate()
-  const { status, completeForStats, exportRapportEnabled } = useMission(mission)
 
   return (
     <>
@@ -49,15 +47,18 @@ const MissionPageHeaderWrapper: React.FC<MissionPageHeaderProps> = ({
             <Stack direction="row" spacing={'1rem'}>
               <Stack.Item>
                 <Text as="h1" weight="bold" color={THEME.color.gainsboro}>
-                  {formatMissionName(mission?.startDateTimeUtc)}
+                  {formatMissionName(mission?.envData.startDateTimeUtc)}
                 </Text>
               </Stack.Item>
 
               <Stack.Item>
                 <TagGroup>
-                  <MissionSourceTag missionSource={mission?.missionSource} />
-                  <MissionStatusTag status={status} />
-                  <MissionCompletenessForStatsTag missionStatus={status} completenessForStats={completeForStats} />
+                  <MissionSourceTag missionSource={mission?.envData.missionSource} />
+                  <MissionStatusTag status={mission?.status} />
+                  <MissionCompletenessForStatsTag
+                    missionStatus={mission?.status}
+                    completenessForStats={mission?.completenessForStats}
+                  />
                 </TagGroup>
               </Stack.Item>
             </Stack>
@@ -66,7 +67,7 @@ const MissionPageHeaderWrapper: React.FC<MissionPageHeaderProps> = ({
             <FlexboxGrid justify="end" align="middle" style={{ height: '100%' }}>
               <Stack direction={'row'} alignItems={'center'} spacing={'2rem'}>
                 <Stack.Item>
-                  {exportRapportEnabled && (
+                  {mission?.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE && (
                     <Button
                       Icon={exportLoading ? LoadingIcon : Icon.Download}
                       accent={Accent.PRIMARY}
@@ -94,7 +95,9 @@ const MissionPageHeaderWrapper: React.FC<MissionPageHeaderProps> = ({
           </FlexboxGrid.Item>
         </FlexboxGrid>
       </StyledHeader>
-      {status === MissionStatusEnum.ENDED && <MissionPageHeaderBanner completenessForStats={completeForStats} />}
+      {mission?.status === MissionStatusEnum.ENDED && (
+        <MissionPageHeaderBanner completenessForStats={mission?.completenessForStats} />
+      )}
     </>
   )
 }

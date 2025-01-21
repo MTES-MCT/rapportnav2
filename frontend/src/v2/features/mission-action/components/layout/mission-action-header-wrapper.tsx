@@ -3,6 +3,7 @@ import { IconProps } from '@mtes-mct/monitor-ui'
 import { FC, FunctionComponent } from 'react'
 import { Stack } from 'rsuite'
 import { MissionAction } from '../../../common/types/mission-action.ts'
+import { ModuleType } from '../../../common/types/module-type.ts'
 import MissionActionHeaderCompletenessForStats from '../elements/mission-action-header-completeness-for-stats.tsx'
 import { MissionActionHeaderTitleWrapper } from './mission-action-header-title-wrapper.tsx'
 
@@ -11,6 +12,7 @@ export type MissionActionHeaderWrapperProps = {
   actionId?: string
   missionId: number
   action: MissionAction
+  moduleType: ModuleType
   icon?: FunctionComponent<IconProps>
   missionStatus?: MissionStatusEnum
 }
@@ -20,6 +22,7 @@ const MissionActionHeaderWrapper: FC<MissionActionHeaderWrapperProps> = ({
   title,
   action,
   missionId,
+  moduleType,
   missionStatus
 }) => {
   return (
@@ -32,6 +35,7 @@ const MissionActionHeaderWrapper: FC<MissionActionHeaderWrapperProps> = ({
             actionId={action.id}
             missionId={missionId}
             source={action.source}
+            moduleType={moduleType}
             startDateTimeUtc={action?.data.startDateTimeUtc}
           />
         )}

@@ -11,7 +11,7 @@ const useDeleteActionMutation = (missionId: number): UseMutationResult<void, Err
   const mutation = useMutation({
     mutationFn: deleteAction,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['actions'] })
+      queryClient.invalidateQueries({ queryKey: ['mission'] })
     }
   })
   return mutation

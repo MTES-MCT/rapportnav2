@@ -43,6 +43,7 @@ class MissionEnvAction(
                 controlsToComplete = envAction.controlsToComplete,
                 actionType = envAction.actionType.toString().let { ActionType.valueOf(it) },
                 isCompleteForStats = envAction.isCompleteForStats,
+                completenessForStats = envAction.completenessForStats,
                 data = MissionEnvActionData(
                     startDateTimeUtc = envAction.startDateTimeUtc,
                     endDateTimeUtc = envAction.endDateTimeUtc,

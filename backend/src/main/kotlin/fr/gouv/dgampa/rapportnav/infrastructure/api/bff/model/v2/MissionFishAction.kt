@@ -42,6 +42,7 @@ class MissionFishAction(
                 summaryTags = fishAction.summaryTags,
                 isCompleteForStats = fishAction.isCompleteForStats,
                 controlsToComplete = fishAction.controlsToComplete,
+                completenessForStats = fishAction.completenessForStats,
                 sourcesOfMissingDataForStats = fishAction.sourcesOfMissingDataForStats,
                 data = MissionFishActionData(
                     fishActionType = fishAction.fishActionType,
