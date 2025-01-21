@@ -13,7 +13,6 @@ interface MissionActionProps {
 
 const MissionActionUlam: FC<MissionActionProps> = ({ missionStatus, missionId, actionId }) => {
   const query = useGetActionQuery(missionId, actionId)
-  //const status = useStore(store, state => state.mission.status)
   return (
     <MissionPageSectionWrapper
       hide={!actionId}
