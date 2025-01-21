@@ -1,18 +1,16 @@
-import { FC } from 'react'
-import { Mission } from '@common/types/mission-types.ts'
+import Text from '@common/components/ui/text.tsx'
+import MissionOpenByTag from '@features/pam/mission/components/elements/mission-open-by-tag.tsx'
 import { Checkbox, Icon, THEME } from '@mtes-mct/monitor-ui'
-import { FlexboxGrid } from 'rsuite'
+import { FC } from 'react'
 import { Link } from 'react-router-dom'
+import { FlexboxGrid } from 'rsuite'
 import styled from 'styled-components'
-import { formatDateForFrenchHumans } from '@common/utils/dates-for-humans.ts'
 import MissionCompletenessForStatsTag from '../../../../common/components/elements/mission-completeness-for-stats-tag.tsx'
 import MissionStatusTag from '../../../../common/components/elements/mission-status-tag.tsx'
-import MissionOpenByTag from '@features/pam/mission/components/elements/mission-open-by-tag.tsx'
-import Text from '@common/components/ui/text.tsx'
-import { formatMissionName } from '@features/pam/mission/utils/utils.ts'
+import { MissionListItem } from '../../../../common/types/mission-types.ts'
 
 interface MissionListItemProps {
-  mission?: Mission
+  mission: MissionListItem
   isSelected: boolean
   onToggle: (index?: number, isChecked?: boolean) => void
 }
@@ -23,8 +21,6 @@ const ListItem = styled.div`
 `
 
 const MissionListItemPam: FC<MissionListItemProps> = ({ mission, isSelected, onToggle }) => {
-  const crewNumber = !mission?.generalInfo?.serviceId ? '--' : mission?.generalInfo.serviceId % 2 === 0 ? 'B' : 'A'
-
   return (
     <ListItem data-testid="mission-list-item-with-hover">
       <FlexboxGrid align="middle" style={{ height: '64px', padding: '0.5rem 2rem', marginBottom: '4px' }}>
@@ -40,20 +36,20 @@ const MissionListItemPam: FC<MissionListItemProps> = ({ mission, isSelected, onT
 
         <FlexboxGrid.Item colspan={4} data-testid={'mission-list-item-mission_number'}>
           <Text weight={'bold'} as={'h2'}>
-            {formatMissionName(mission?.startDateTimeUtc)}
+            {mission.missionNamePam}
           </Text>
         </FlexboxGrid.Item>
 
         <FlexboxGrid.Item colspan={4} data-testid={'mission-list-item-open_by'}>
-          <MissionOpenByTag missionSource={mission?.missionSource} isFake={mission?.openBy === 'fake'} />
+          <MissionOpenByTag missionSource={mission.missionSource} isFake={mission.openBy === 'fake'} />
         </FlexboxGrid.Item>
 
         <FlexboxGrid.Item colspan={2} data-testid={'mission-list-item-start_date'}>
-          <Text as={'h3'}>{formatDateForFrenchHumans(mission?.startDateTimeUtc)}</Text>
+          <Text as={'h3'}>{mission.startDateTimeUtcText}</Text>
         </FlexboxGrid.Item>
 
         <FlexboxGrid.Item colspan={2} data-testid={'mission-list-item-end_date'}>
-          <Text as={'h3'}>{formatDateForFrenchHumans(mission?.endDateTimeUtc)}</Text>
+          <Text as={'h3'}>{mission.endDateTimeUtcText}</Text>
         </FlexboxGrid.Item>
 
         <FlexboxGrid.Item colspan={2} data-testid={'mission-list-item-crew'}>
@@ -67,7 +63,7 @@ const MissionListItemPam: FC<MissionListItemProps> = ({ mission, isSelected, onT
               borderBottom: 0
             }}
           >
-            {crewNumber}
+            {mission.crewNumber}
           </Text>
         </FlexboxGrid.Item>
 

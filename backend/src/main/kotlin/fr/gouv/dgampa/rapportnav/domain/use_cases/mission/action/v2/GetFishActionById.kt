@@ -8,14 +8,13 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAct
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import org.slf4j.LoggerFactory
-import org.springframework.cache.annotation.Cacheable
 
 @UseCase
 class GetFishActionById(
     private val fishActionRepo: IFishActionRepository,
     getStatusForAction: GetStatusForAction,
     getControlByActionId: GetControlByActionId2,
-): GetMissionAction(getStatusForAction, getControlByActionId)  {
+): AbstractGetMissionAction(getStatusForAction, getControlByActionId)  {
     private val logger = LoggerFactory.getLogger(GetFishActionListByMissionId::class.java)
 
     fun execute(missionId: Int?, actionId: String?): MissionFishActionEntity? {

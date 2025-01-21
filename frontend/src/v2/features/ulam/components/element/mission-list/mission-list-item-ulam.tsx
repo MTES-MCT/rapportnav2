@@ -1,8 +1,5 @@
 import Text from '@common/components/ui/text.tsx'
-import { Mission } from '@common/types/mission-types.ts'
-import { formatDateForFrenchHumans } from '@common/utils/dates-for-humans.ts'
 import MissionOpenByTag from '@features/pam/mission/components/elements/mission-open-by-tag.tsx'
-import { formatMissionName } from '@features/pam/mission/utils/utils.ts'
 import { Accent, Icon, IconButton, THEME } from '@mtes-mct/monitor-ui'
 import { ULAM_V2_HOME_PATH } from '@router/router.tsx'
 import React, { MouseEvent, useEffect, useRef } from 'react'
@@ -15,12 +12,13 @@ import MissionStatusTag from '../../../../common/components/elements/mission-sta
 import { isCompleteForStats } from '../../../../common/hooks/use-mission-completeness-for-stats.tsx'
 import { useMissionReportExport } from '../../../../common/hooks/use-mission-report-export.tsx'
 import { ExportMode, ExportReportType } from '../../../../common/types/mission-export-types.ts'
+import { MissionListItem } from '../../../../common/types/mission-types.ts'
 import { useUlamCrewForMissionList } from '../../../hooks/use-ulam-crew-for-mission-list.tsx'
 import { useControlUnitResourceLabel } from '../../../hooks/use-ulam-home-unit-resources.tsx'
 import MissionIconUlam from '../../ui/mission-icon-ulam.tsx'
 
 interface MissionListItemProps {
-  mission?: Mission
+  mission: MissionListItem
   index: number
   openIndex: number | null
   setOpenIndex: (index: number | null) => void
@@ -47,21 +45,18 @@ const MissionCrewItem = styled.div`
 
 const MissionListItemUlam: React.FC<MissionListItemProps> = ({ mission, index, openIndex, setOpenIndex }) => {
   const navigate = useNavigate()
-
-  const controlUnitResourcesText = useControlUnitResourceLabel(mission?.controlUnits)
-  const missionName = formatMissionName(mission?.startDateTimeUtc)
-  const missionDate = formatDateForFrenchHumans(mission?.startDateTimeUtc)
-  const missionCrew = useUlamCrewForMissionList(mission?.crew)
+  const missionCrew = useUlamCrewForMissionList(mission.crew)
+  const controlUnitResourcesText = useControlUnitResourceLabel(mission.controlUnits)
 
   const { exportMissionReport, loading: exportIsLoading } = useMissionReportExport()
-  const exportAEM = async (mission?: Mission, event?: React.MouseEvent) => {
+  const exportAEM = async (id: number, event?: React.MouseEvent) => {
     // Stop event propagation to prevent row from collapsing
     event?.preventDefault()
     event?.stopPropagation()
 
     mission &&
       (await exportMissionReport({
-        missionIds: [mission].map((m: Mission) => m.id),
+        missionIds: [id],
         exportMode: ExportMode.INDIVIDUAL_MISSION,
         reportType: ExportReportType.AEM
       }))
@@ -109,21 +104,21 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({ mission, index, o
     <ListItemWithHover ref={listItemRef} onClick={onClickRow} data-testid="mission-list-item-with-hover">
       <FlexboxGrid align="middle" style={{ height: '100%', padding: '0.5rem 1rem', marginBottom: '4px' }}>
         <FlexboxGrid.Item colspan={1} style={{ paddingTop: '8px' }} data-testid={'mission-list-item-icon'}>
-          <MissionIconUlam missionSource={mission?.missionSource} />
+          <MissionIconUlam missionSource={mission.missionSource} />
         </FlexboxGrid.Item>
 
         <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-mission_number'}>
           <Text weight={'bold'} as={'h2'}>
-            {missionName}
+            {mission.missionNameUlam}
           </Text>
         </FlexboxGrid.Item>
 
         <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-open_by'} style={{ padding: '0 4px' }}>
-          <MissionOpenByTag missionSource={mission?.missionSource} isFake={mission?.openBy === 'fake'} />
+          <MissionOpenByTag missionSource={mission.missionSource} isFake={mission.openBy === 'fake'} />
         </FlexboxGrid.Item>
 
         <FlexboxGrid.Item colspan={2} data-testid={'mission-list-item-start_date'}>
-          <Text as={'h3'}>{missionDate}</Text>
+          <Text as={'h3'}>{mission.startDateTimeUtcText}</Text>
         </FlexboxGrid.Item>
 
         <>
@@ -189,8 +184,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({ mission, index, o
                     paddingBottom: '15px'
                   }}
                 >
-                  {' '}
-                  {mission?.observationsByUnit}
+                  {mission.observationsByUnit}
                 </p>
               </FlexboxGrid.Item>
               <FlexboxGrid.Item>
@@ -208,7 +202,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({ mission, index, o
                     e.stopPropagation() // Prevents parent `onClick` from firing
                   }}
                   onClick={async (e: React.MouseEvent) => {
-                    await exportAEM(mission, e)
+                    await exportAEM(mission.id, e)
                   }}
                 >
                   Exporter les tableaux de mission

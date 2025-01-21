@@ -1,20 +1,22 @@
-import React, { FC, useState } from 'react'
+import { Mission } from '@common/types/mission-types.ts'
 import { Icon } from '@mtes-mct/monitor-ui'
-import MissionListPageTitle from '../features/common/components/layout/mission-list-page-title.tsx'
-import MissionListPageHeaderWrapper from '../features/common/components/layout/mission-list-page-header-wrapper'
-import MissionListPageSidebarWrapper from '../features/common/components/layout/mission-list-page-sidebar-wrapper'
-import MissionListPageWrapper from '../features/common/components/layout/mission-list-page-wrapper'
-import MissionListDateRangeNavigator from '../features/common/components/elements/mission-list-daterange-navigator.tsx'
-import useMissionsQuery from '../features/common/services/use-missions.tsx'
-import MissionListPam from '../features/pam/components/element/mission-list/mission-list-pam.tsx'
 import { endOfYear } from 'date-fns/endOfYear'
 import { startOfYear } from 'date-fns/startOfYear'
+import { FC, useState } from 'react'
+import MissionListDateRangeNavigator from '../features/common/components/elements/mission-list-daterange-navigator.tsx'
 import MissionListPageContentWrapper from '../features/common/components/layout/mission-list-page-content-wrapper.tsx'
+import MissionListPageHeaderWrapper from '../features/common/components/layout/mission-list-page-header-wrapper'
+import MissionListPageSidebarWrapper from '../features/common/components/layout/mission-list-page-sidebar-wrapper'
+import MissionListPageTitle from '../features/common/components/layout/mission-list-page-title.tsx'
+import MissionListPageWrapper from '../features/common/components/layout/mission-list-page-wrapper'
+import { useMissionList } from '../features/common/hooks/use-mission-list.tsx'
 import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
+import useMissionsQuery from '../features/common/services/use-missions.tsx'
 import { ExportMode, ExportReportType } from '../features/common/types/mission-export-types.ts'
-import { Mission } from '@common/types/mission-types.ts'
-import MissionListExportDialog from '../features/pam/components/element/mission-list/mission-list-export.tsx'
+import { Mission2 } from '../features/common/types/mission-types.ts'
 import MissionListActionsPam from '../features/pam/components/element/mission-list/mission-list-actions-pam.tsx'
+import MissionListExportDialog from '../features/pam/components/element/mission-list/mission-list-export.tsx'
+import MissionListPam from '../features/pam/components/element/mission-list/mission-list-pam.tsx'
 
 const SIDEBAR_ITEMS = [
   {
@@ -31,7 +33,8 @@ const MissionListPamPage: FC = () => {
     endDateTimeUtc: endOfYear(today).toISOString()
   })
 
-  const { loading, data: missions } = useMissionsQuery(queryParams)
+  const { getMissionListItem } = useMissionList()
+  const { isLoading, data: missions } = useMissionsQuery(queryParams)
 
   const { exportMissionReport, loading: exportIsLoading } = useMissionReportExport()
 
@@ -40,8 +43,8 @@ const MissionListPamPage: FC = () => {
   const [dialogVariant, setDialogVariant] = useState<ExportReportType | undefined>(undefined)
   const [showExportDialog, setShowExportDialog] = useState<boolean>(false)
 
-  function filterBySelectedIndices(missions: Mission[] = [], selectedIndices: number[] = []): Mission[] {
-    return missions.filter((m: Mission) => selectedIndices.indexOf(m.id) !== -1)
+  function filterBySelectedIndices(missions: Mission2[] = [], selectedIndices: number[] = []): Mission2[] {
+    return missions.filter((m: Mission2) => selectedIndices.indexOf(m.id) !== -1)
   }
 
   const triggerExport = async (missions: Mission[], variant: ExportReportType, zip: boolean) => {
@@ -56,7 +59,7 @@ const MissionListPamPage: FC = () => {
   }
 
   const toggleAll = (isChecked?: boolean) => {
-    setSelectedMissionIds(!isChecked ? [] : (missions ?? []).map((m: Mission) => m.id))
+    setSelectedMissionIds(!isChecked ? [] : (missions ?? []).map((m: Mission2) => m.id))
   }
 
   const toggleOne = (missionId: number, isChecked?: boolean) => {
@@ -88,7 +91,7 @@ const MissionListPamPage: FC = () => {
       footer={<></>}
     >
       <MissionListPageContentWrapper
-        loading={loading}
+        loading={isLoading}
         hasMissions={!!missions?.length}
         title={'Mes rapports'}
         // subtitle={} // unnecessary for PAM version
@@ -109,7 +112,7 @@ const MissionListPamPage: FC = () => {
         }
         list={
           <MissionListPam //
-            missions={missions}
+            missions={missions?.map(m => getMissionListItem(m))}
             selectedMissionIds={selectedMissionIds}
             toggleOne={toggleOne}
           />
@@ -117,7 +120,7 @@ const MissionListPamPage: FC = () => {
       />
       {showExportDialog && (
         <MissionListExportDialog
-          availableMissions={filterBySelectedIndices(missions, selectedMissionIds)}
+          availableMissions={filterBySelectedIndices(missions, selectedMissionIds)?.map(m => getMissionListItem(m))}
           toggleDialog={toggleDialog}
           triggerExport={triggerExport}
           exportInProgress={exportIsLoading}

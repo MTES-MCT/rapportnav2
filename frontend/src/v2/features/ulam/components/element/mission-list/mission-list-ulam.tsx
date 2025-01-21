@@ -1,12 +1,12 @@
+import Text from '@common/components/ui/text.tsx'
 import { FC, useState } from 'react'
 import { Container, Stack } from 'rsuite'
+import { MissionListItem } from '../../../../common/types/mission-types.ts'
 import MissionListHeaderUlam from './mission-list-header-ulam.tsx'
 import MissionListItemUlam from './mission-list-item-ulam.tsx'
-import { Mission } from '@common/types/mission-types.ts'
-import Text from '@common/components/ui/text.tsx'
 
 interface MissionListUlamProps {
-  missions?: Mission[]
+  missions?: MissionListItem[]
 }
 
 const MissionListUlam: FC<MissionListUlamProps> = ({ missions }) => {

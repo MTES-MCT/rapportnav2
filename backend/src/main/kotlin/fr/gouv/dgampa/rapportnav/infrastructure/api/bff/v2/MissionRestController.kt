@@ -1,13 +1,11 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.CreateEnvMission
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeMissionData
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.Mission
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Mission2
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import io.swagger.v3.oas.annotations.Operation
@@ -19,13 +17,14 @@ import kotlin.collections.plus
 @RestController
 @RequestMapping("/api/v2/missions")
 class MissionRestController(
+    private val getMission2: GetMission2,
     private val createEnvMission: CreateEnvMission,
     private val getEnvMissionById2: GetEnvMissionById2,
     private val getControlUnitsForUser: GetControlUnitsForUser,
     private val getUserFromToken: GetUserFromToken,
     private val getEnvMissions: GetEnvMissions,
     private val getMission: GetMission,
-    private val fakeMissionData: FakeMissionData,
+    private val fakeMissionData2: FakeMissionData2
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionRestController::class.java)
@@ -47,7 +46,7 @@ class MissionRestController(
     fun getMissions(
         @RequestParam startDateTimeUtc: Instant,
         @RequestParam(required = false) endDateTimeUtc: Instant? = null
-    ): List<Mission?> {
+    ): List<Mission2?>? {
         try {
             // query MonitorEnv with the following filters
             val envMissions = getEnvMissions.execute(
@@ -57,19 +56,14 @@ class MissionRestController(
                 pageSize = null,
                 controlUnits = getControlUnitsForUser.execute()
             )
+            val missions = envMissions?.map { getMission2.execute(it) }
 
-            // reconstruct the Missions with full data in order to have the right status/completeness
-            val fullMissions = envMissions?.map { getMission.execute(it.id, it) }
+            //TODO: TO REMOVE FAKE DATA ASAP
 
-            // transform the data for the API
-            val missions = fullMissions?.mapNotNull { it?.let { Mission.fromMissionEntity(it) } } ?: emptyList()
-
-
-            // temporarily add fictive missions
             val user = getUserFromToken.execute()
-            val fakeMissions = fakeMissionData.getFakeMissionsforUser(user).map { Mission.fromMissionEntity(it) }
+            val fakeMissions = fakeMissionData2.getFakeMissionsforUser(user)
 
-            return missions + fakeMissions
+            return (missions?.filterNotNull()?.plus(fakeMissions))?.map { Mission2.fromMissionEntity((it)) }
         } catch (e: Exception) {
             logger.error("MissionRestController - failed to load missions from MonitorEnv", e)
             throw Exception(e)
@@ -89,10 +83,11 @@ class MissionRestController(
     @GetMapping("{missionId}")
     fun getMissionById(
         @PathVariable(name = "missionId") missionId: Int
-    ): MissionEnv? {
+    ): Mission2? {
         try {
-            val mission = getEnvMissionById2.execute(missionId) ?: return null
-            return MissionEnv.fromMissionEntity(mission)
+            val envMission = getEnvMissionById2.execute(missionId) ?: return null
+            val mission = getMission2.execute(envMission)?: return null
+            return Mission2.fromMissionEntity(mission)
         } catch (e: Exception) {
             logger.error("Error while creating MonitorEnv mission : ", e)
             return null

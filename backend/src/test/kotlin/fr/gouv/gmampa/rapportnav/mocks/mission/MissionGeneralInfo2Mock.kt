@@ -16,12 +16,12 @@ object MissionGeneralInfo2Mock {
         nbHourAtSea: Int? = null
     ): MissionGeneralInfo2 {
         return MissionGeneralInfo2(
-            startDateTimeUtc,
-            endDateTimeUtc,
-            missionReportType,
-            missionTypes,
-            reinforcementType,
-            nbHourAtSea
+            startDateTimeUtc = startDateTimeUtc,
+            endDateTimeUtc = endDateTimeUtc,
+            missionReportType = missionReportType,
+            missionTypes = missionTypes,
+            reinforcementType = reinforcementType,
+            nbHourAtSea = nbHourAtSea
         )
     }
 }

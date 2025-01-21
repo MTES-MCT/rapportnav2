@@ -9,6 +9,7 @@ import MissionListPageHeaderWrapper from '../features/common/components/layout/m
 import MissionListPageSidebarWrapper from '../features/common/components/layout/mission-list-page-sidebar-wrapper'
 import MissionListPageTitle from '../features/common/components/layout/mission-list-page-title.tsx'
 import MissionListPageWrapper from '../features/common/components/layout/mission-list-page-wrapper'
+import { useMissionList } from '../features/common/hooks/use-mission-list.tsx'
 import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
 import useMissionsQuery from '../features/common/services/use-missions.tsx'
 import { ExportMode, ExportReportType } from '../features/common/types/mission-export-types.ts'
@@ -35,7 +36,8 @@ const MissionListUlamPage: React.FC = () => {
     setIsDialogOpen(false)
   }
 
-  const { loading, data: missions } = useMissionsQuery(queryParams)
+  const { getMissionListItem } = useMissionList()
+  const { isLoading, data: missions } = useMissionsQuery(queryParams)
   const { exportMissionReport, loading: exportIsLoading } = useMissionReportExport()
 
   const handleUpdateDateTime = (currentDate: Date) => {
@@ -61,7 +63,7 @@ const MissionListUlamPage: React.FC = () => {
       footer={<></>}
     >
       <MissionListPageContentWrapper
-        loading={loading}
+        loading={isLoading}
         hasMissions={!!missions?.length}
         title={'Mes rapports'}
         filters={
@@ -86,7 +88,7 @@ const MissionListUlamPage: React.FC = () => {
             </Stack>
           </>
         }
-        list={<MissionListUlam missions={missions} />}
+        list={<MissionListUlam missions={missions?.map(m => getMissionListItem(m))} />}
       />
       <MissionCreateDialog isOpen={isDialogOpen} onClose={handleCloseDialog} />
     </MissionListPageWrapper>

@@ -28,9 +28,7 @@ const MissionListHeaderPam: React.FC<MissionListHeaderProps> = () => {
           Bordée
         </Text>
       </FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={1}>
-        <Text as={'h4'} color={THEME.color.slateGray}></Text>
-      </FlexboxGrid.Item>
+      <FlexboxGrid.Item colspan={1}></FlexboxGrid.Item>
 
       <FlexboxGrid.Item colspan={3}>
         <Text as={'h4'} color={THEME.color.slateGray}>
@@ -39,15 +37,11 @@ const MissionListHeaderPam: React.FC<MissionListHeaderProps> = () => {
       </FlexboxGrid.Item>
 
       <FlexboxGrid.Item colspan={3}>
-        <p style={{ color: THEME.color.slateGray, fontSize: '12px' }}>
-          <Text as={'h4'} color={THEME.color.slateGray}>
-            Statut du rapport
-          </Text>
-        </p>
+        <Text as={'h4'} color={THEME.color.slateGray}>
+          Statut du rapport
+        </Text>
       </FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={1}>
-        <Text as={'h4'} color={THEME.color.slateGray}></Text>
-      </FlexboxGrid.Item>
+      <FlexboxGrid.Item colspan={1}></FlexboxGrid.Item>
       <FlexboxGrid.Item colspan={1}></FlexboxGrid.Item>
     </FlexboxGrid>
   )
