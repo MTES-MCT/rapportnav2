@@ -15,14 +15,14 @@ export function useMissionActionGenericDateObservation(
   const fromFieldValueToInput = (data: MissionActionData): ActionGenericDateObservationInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
     const startDate = preprocessDateForPicker(data.startDateTimeUtc)
-    return { ...data, dates: [startDate, endDate] }
+    return { ...data, startDateTimeUtc: startDate.toISOString(), endDateTimeUtc: endDate.toISOString() }
   }
 
   const fromInputToFieldValue = (value: ActionGenericDateObservationInput): MissionActionData => {
-    const { dates, ...newData } = value
-    const endDateTimeUtc = postprocessDateFromPicker(dates[1])
-    const startDateTimeUtc = postprocessDateFromPicker(dates[0])
-    return { ...newData, startDateTimeUtc, endDateTimeUtc }
+    const { endDateTimeUtc, startDateTimeUtc, ...newData } = value
+    const processedEndDateTimeUtc = postprocessDateFromPicker(endDateTimeUtc)
+    const processedStartDateTimeUtc = postprocessDateFromPicker(startDateTimeUtc)
+    return { ...newData, startDateTimeUtc: processedStartDateTimeUtc, endDateTimeUtc: processedEndDateTimeUtc }
   }
 
   const { initValue, handleSubmit, isError } = useAbstractFormik<MissionActionData, ActionGenericDateObservationInput>(
@@ -32,6 +32,7 @@ export function useMissionActionGenericDateObservation(
   )
 
   const onSubmit = async (valueToSubmit?: MissionActionData) => {
+    debugger
     if (!valueToSubmit) return
     await onChange({ ...action, data: valueToSubmit })
   }

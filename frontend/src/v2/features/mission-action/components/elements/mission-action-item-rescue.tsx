@@ -15,7 +15,7 @@ import { Divider, Stack } from 'rsuite'
 import { MissionAction } from '../../../common/types/mission-action'
 import { RescueType } from '../../../common/types/rescue-type'
 import { useMissionActionRescue } from '../../hooks/use-mission-action-rescue'
-import { ActionRescueInput } from '../../types/action-type'
+import { ActionRescueInput} from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
 import { MissionActionFormikNumberInput } from '../ui/mission-action-formik-number-input'
@@ -47,13 +47,17 @@ const MissionActionItemRescue: FC<{
           initialValues={initValue}
           validationSchema={validationSchema}
         >
+          {({ values, errors, validateForm }) => (
           <>
-            <FormikEffect onChange={nextValues => handleSubmit(nextValues as ActionRescueInput)} />
+            <FormikEffect onChange={async (nextValue) => {
+              await validateForm(values)
+              await handleSubmit(nextValue as ActionRescueInput, errors)
+            }} />
             <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
               <Stack.Item style={{ width: '100%' }}>
                 <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
                   <Stack.Item grow={1}>
-                    <MissionActionFormikDateRangePicker name="dates" />
+                    <MissionActionFormikDateRangePicker name="dates" isLight={true} errors={errors}/>
                   </Stack.Item>
                 </Stack>
               </Stack.Item>
@@ -178,6 +182,7 @@ const MissionActionItemRescue: FC<{
               </Stack>
             )}
           </>
+            )}
         </Formik>
       )}
     </form>

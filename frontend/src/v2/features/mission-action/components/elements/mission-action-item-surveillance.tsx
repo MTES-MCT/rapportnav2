@@ -5,9 +5,10 @@ import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionSurveillance } from '../../hooks/use-mission-action-surveillance'
-import { ActionSurveillanceInput } from '../../types/action-type'
+import { ActionSurveillanceInput} from '../../types/action-type'
 import MissionActionEnvControlPlan from '../ui/mission-action-env-control-plan'
 import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
+import {simpleDateRangeValidationSchema} from "../../validation-schema/date-validation.ts";
 
 const MissionActionItemSurveillance: FC<{
   action: MissionAction
@@ -17,15 +18,18 @@ const MissionActionItemSurveillance: FC<{
   return (
     <form style={{ width: '100%' }}>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true}>
-          {({ values }) => (
+        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true} validationSchema={simpleDateRangeValidationSchema}>
+          {({ values, errors, validateForm }) => (
             <>
-              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionSurveillanceInput)} />
+              <FormikEffect onChange={async (nextValue) => {
+                await validateForm(values)
+                await handleSubmit(nextValue as ActionSurveillanceInput, errors)
+              }} />
               <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
                     <Stack.Item grow={1}>
-                      <MissionActionFormikDateRangePicker name="dates" />
+                      <MissionActionFormikDateRangePicker name="dates"  isLight={true} errors={errors}/>
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>
