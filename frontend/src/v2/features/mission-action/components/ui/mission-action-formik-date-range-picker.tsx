@@ -6,15 +6,15 @@ import styled from 'styled-components'
 import {Stack} from "rsuite";
 import Text from "@common/components/ui/text.tsx";
 
-type MissionActionFormikDateRangePickerProps = Omit<FormikDatePickerWithDateDateProps, 'label'> & {
-  errors: any
+type MissionActionFormikDateRangePickerProps = FormikDatePickerWithDateDateProps & {
+  errors: any //formik errors
 }
 
 export const MissionActionFormikDateRangePicker = styled(
   (props: MissionActionFormikDateRangePickerProps) => (
     <Stack direction={'column'} alignItems={'flex-start'}>
       <Stack.Item>
-        <Label>Date et heure de début et de fin</Label>
+        <Label>{props.label || 'Date et heure de début et de fin'}</Label>
       </Stack.Item>
       <Stack.Item>
         <Stack direction={'row'} spacing={'0.5rem'}>
