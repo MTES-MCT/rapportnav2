@@ -19,7 +19,7 @@ describe('MissionGeneralInformationUlamFormNew', () => {
       />
     )
 
-    expect(screen.getByText('Type de mission')).toBeInTheDocument()
+    expect(screen.getByText('Type de mission *')).toBeInTheDocument()
   })
 
   /*it('check if form submitted', () => {
