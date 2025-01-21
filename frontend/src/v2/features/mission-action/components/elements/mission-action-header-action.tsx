@@ -3,24 +3,27 @@ import { useNavigate } from 'react-router-dom'
 import { Stack } from 'rsuite'
 import useDeleteActionMutation from '../../../common/services/use-delete-mission-action'
 import { MissionSourceEnum } from '../../../common/types/mission-types'
+import { ModuleType } from '../../../common/types/module-type'
 
 interface MissionActionHeaderActionProps {
   actionId: string
   missionId: number
+  moduleType: ModuleType
   source: MissionSourceEnum
 }
 
 export const MissionActionHeaderAction: React.FC<MissionActionHeaderActionProps> = ({
   source,
   missionId,
-  actionId
+  actionId,
+  moduleType
 }) => {
   const navigate = useNavigate()
   const mutation = useDeleteActionMutation(missionId)
 
   const handleDelete = async () => {
     await mutation.mutateAsync(actionId)
-    navigate(`/v2/pam/missions/${missionId}`)
+    navigate(`/v2/${moduleType}/missions/${missionId}`)
   }
 
   const isDeleteDisabled = () => source !== MissionSourceEnum.RAPPORTNAV

@@ -4,6 +4,7 @@ import { IconProps, THEME } from '@mtes-mct/monitor-ui'
 import { createElement, FunctionComponent } from 'react'
 import { Stack } from 'rsuite'
 import { MissionSource } from '../../../common/types/mission-types'
+import { ModuleType } from '../../../common/types/module-type'
 import MissionActionHeaderAction from '../elements/mission-action-header-action'
 
 interface MissionActionHeaderTitleWrapperProps {
@@ -11,6 +12,7 @@ interface MissionActionHeaderTitleWrapperProps {
   actionId?: string
   missionId: number
   source: MissionSource
+  moduleType: ModuleType
   startDateTimeUtc?: string
   icon?: FunctionComponent<IconProps>
 }
@@ -21,6 +23,7 @@ export const MissionActionHeaderTitleWrapper: React.FC<MissionActionHeaderTitleW
   source,
   actionId,
   missionId,
+  moduleType,
   startDateTimeUtc
 }) => {
   return (
@@ -41,7 +44,14 @@ export const MissionActionHeaderTitleWrapper: React.FC<MissionActionHeaderTitleW
         </Stack>
       </Stack.Item>
       <Stack.Item>
-        {actionId && <MissionActionHeaderAction source={source} actionId={actionId} missionId={missionId} />}
+        {actionId && (
+          <MissionActionHeaderAction
+            source={source}
+            actionId={actionId}
+            missionId={missionId}
+            moduleType={moduleType}
+          />
+        )}
       </Stack.Item>
     </Stack>
   )

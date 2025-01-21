@@ -23,11 +23,11 @@ const MissionInfractionForm: FC<MissionInfractionFormProps> = ({ name, onClose, 
           {formik => (
             <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
               <Stack.Item style={{ width: '100%' }}>
-                <Stack direction="row" alignItems="baseline" spacing={'0.5rem'}>
+                <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
                   <Stack.Item>
                     <FormikToggle size="sm" name="withReport" label="" />
                   </Stack.Item>
-                  <Stack.Item>
+                  <Stack.Item style={{ marginTop: 8 }}>
                     <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
                       PV émis
                     </Text>

@@ -1,6 +1,7 @@
 import { MissionStatusEnum } from '@common/types/mission-types.ts'
 import { FC } from 'react'
 import { MissionAction } from '../../../common/types/mission-action'
+import { ModuleType } from '../../../common/types/module-type'
 import MissionActionHeaderWrapper from '../../../mission-action/components/layout/mission-action-header-wrapper'
 import { usePamActionRegistry } from '../../hooks/use-pam-action-registry'
 
@@ -19,6 +20,7 @@ const MissionActionPamHeader: FC<MissionActionHeaderProps> = ({ action, missionI
       title={title}
       action={action}
       missionId={missionId}
+      moduleType={ModuleType.PAM}
       missionStatus={missionStatus}
     />
   )

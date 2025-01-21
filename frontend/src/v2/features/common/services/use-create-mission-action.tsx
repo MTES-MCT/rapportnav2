@@ -14,7 +14,7 @@ const useCreateMissionActionMutation = (
   const mutation = useMutation({
     mutationFn: createAction,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['actions'] })
+      queryClient.invalidateQueries({ queryKey: ['mission'] })
     }
   })
   return mutation

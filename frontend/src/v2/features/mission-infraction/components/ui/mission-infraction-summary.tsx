@@ -51,7 +51,7 @@ const MissionInfractionSummary: React.FC<MissionInfractionSummaryProps> = ({
             style={{
               width: '100%',
               padding: '1rem',
-              backgroundColor: THEME.color.white,
+              backgroundColor: THEME.color.cultured,
               marginBottom: index === infractions.length - 1 ? 0 : '0.1rem'
             }}
           >

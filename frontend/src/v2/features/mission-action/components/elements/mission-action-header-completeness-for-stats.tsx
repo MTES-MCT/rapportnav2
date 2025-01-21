@@ -17,7 +17,9 @@ export const MissionActionHeaderCompletenessForStats: React.FC<MissionActionHead
 
   return (
     <Stack spacing={'0.5rem'}>
-      <Stack.Item alignSelf={'center'}>{createElement(icon)}</Stack.Item>
+      <Stack.Item alignSelf={'center'} style={{ color: color }}>
+        {createElement(icon)}
+      </Stack.Item>
       <Stack.Item alignSelf={'baseline'}>
         <Text as={'h3'} color={color}>
           {statusMessage}
