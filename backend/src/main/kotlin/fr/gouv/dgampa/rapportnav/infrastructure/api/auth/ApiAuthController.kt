@@ -15,6 +15,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestErrorCo
 import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestException
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -29,6 +30,7 @@ class ApiAuthController(
     private val tokenService: TokenService,
 ) {
     @PostMapping("register")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     fun register(@RequestBody body: AuthRegisterDataInput): ResponseEntity<Any> {
         val requiredFields = listOf(body.email, body.password, body.firstName, body.lastName)
         if (requiredFields.any { it.isEmpty() }) throw BackendRequestException(

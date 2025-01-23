@@ -2,12 +2,13 @@ import { useNavigate } from 'react-router-dom'
 import PageWrapper from '../features/common/components/ui/page-wrapper.tsx'
 import AuthToken from '../features/auth/utils/token.ts'
 import { FlexboxGrid, Stack } from 'rsuite'
-import {Accent, Button, FormikMultiSelect, FormikTextInput, Size} from '@mtes-mct/monitor-ui'
+import { Accent, Button, FormikMultiSelect, FormikTextInput, Size } from '@mtes-mct/monitor-ui'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { validate } from 'email-validator'
 import { csrfToken } from '../features/auth/utils/csrf.ts'
 import * as Sentry from '@sentry/react'
 import { FC } from 'react'
+import { RoleType } from '../v2/features/common/types/role-type.ts'
 
 interface SignUpResponse {
   token: string
@@ -41,11 +42,13 @@ const SignUp: FC = () => {
     { setStatus, setSubmitting }: FormikHelpers<SignUpFormValues>
   ) => {
     try {
+      const token = new AuthToken().get()
       const response = await fetch('/api/v1/auth/register', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',
-          'X-XSRF-TOKEN': csrfToken() ?? ''
+          'X-XSRF-TOKEN': csrfToken() ?? '',
+          Authorization: token ? `Bearer ${token}` : ''
         },
         body: JSON.stringify({
           firstName,
@@ -172,8 +175,9 @@ const SignUp: FC = () => {
                       name="roles"
                       label="Roles"
                       options={[
-                        {value: 'USER_PAM', label: 'PAM'},
-                        {value: 'USER_ULAM', label: 'ULAM'}
+                        { value: RoleType.USER_PAM, label: 'PAM' },
+                        { value: RoleType.USER_ULAM, label: 'ULAM' },
+                        { value: RoleType.ADMIN, label: 'ADMIN' }
                       ]}
                       required
                       size={Size.LARGE}

@@ -5,3 +5,10 @@ enum class RoleTypeEnum {
     USER_PAM,
     USER_ULAM,
 }
+
+enum class AuthoritiesEnum {
+    ROLE_ADMIN,
+    ROLE_USER_PAM,
+    ROLE_USER_ULAM,
+}
+

@@ -1,10 +1,9 @@
-import {FC, useEffect} from 'react'
-import {useNavigate} from 'react-router-dom'
+import { FC, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import useAuth from '../features/auth/hooks/use-auth'
-import {ModuleType} from '../features/common/types/module-type'
-import {RoleType} from '../features/common/types/role-type'
-import {PAM_HOME_PATH, ULAM_V2_HOME_PATH} from "@router/router.tsx";
-
+import { ModuleType } from '../features/common/types/module-type'
+import { RoleType } from '../features/common/types/role-type'
+import { PAM_HOME_PATH, ULAM_V2_HOME_PATH } from '@router/router.tsx'
 
 const ROUTES = {
   [RoleType.ADMIN]: ModuleType.PAM,
@@ -14,7 +13,7 @@ const ROUTES = {
 
 const Home2: FC = () => {
   let navigate = useNavigate()
-  const {isLoggedIn, isAuthenticated} = useAuth()
+  const { isLoggedIn, isAuthenticated } = useAuth()
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -25,13 +24,13 @@ const Home2: FC = () => {
       if (user?.roles.includes(RoleType.USER_PAM)) {
         url = PAM_HOME_PATH
       }
-      navigate(url, {replace: true})
+      navigate(url, { replace: true })
     } else {
-      navigate('/login', {replace: true})
+      navigate('/login', { replace: true })
     }
   }, [isAuthenticated, isLoggedIn, navigate])
 
-  return <div/>
+  return <div />
 }
 
 export default Home2

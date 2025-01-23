@@ -3,7 +3,6 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.auth
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository
 import org.springframework.security.oauth2.jwt.*
-import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
 import java.time.Instant
 import java.time.temporal.ChronoUnit
@@ -36,12 +35,23 @@ class TokenService(
 
     fun parseToken(token: String): User? {
         return try {
+            // Decode the JWT token
             val jwt = jwtDecoder.decode(token)
-            val userId = jwt.claims["userId"] as Long
-            userRepository.findById(userId.toInt())
+
+            // Extract userId from the claims
+            val userId = (jwt.claims["userId"] as? Number)?.toLong()
+                ?: throw IllegalArgumentException("Invalid userId in token")
+
+            // Retrieve the user from the repository
+            val user = userRepository.findById(userId.toInt())
+                ?: throw IllegalArgumentException("User not found with ID: $userId")
+
+            user
         } catch (e: Exception) {
+            println("Token parsing failed: ${e.message}")
             null
         }
     }
+
 
 }
