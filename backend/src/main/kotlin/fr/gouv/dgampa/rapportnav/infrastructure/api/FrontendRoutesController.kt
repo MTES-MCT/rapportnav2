@@ -6,8 +6,17 @@ import org.springframework.web.bind.annotation.GetMapping
 @Controller
 class FrontendRoutesController {
 
-        @GetMapping("/{path:^(?!api|graphql|static|error).*}")
-        fun redirectToFrontend(): String {
-            return "forward:/index.html"
-        }
+    @GetMapping(
+        value = [
+            "/",
+            "/login",
+            "/signup",
+            "/pam/**",
+            "/ulam/**",
+            "/v2/**"
+        ]
+    )
+    fun redirectToFrontend(): String {
+        return "forward:/index.html"
     }
+}
