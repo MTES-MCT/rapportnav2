@@ -1,6 +1,11 @@
 import React from 'react'
-import { CoordinatesFormat, CoordinatesInput, Icon, Label, Option, THEME } from '@mtes-mct/monitor-ui'
-import { ControlCheck, FishAction, formatMissionActionTypeForHumans } from '@common/types/fish-mission-types.ts'
+import { CoordinatesFormat, CoordinatesInput, Icon, Label, Option, TextInput, THEME } from '@mtes-mct/monitor-ui'
+import {
+  ControlCheck,
+  FishAction,
+  formatMissionActionTypeForHumans,
+  MissionActionType
+} from '@common/types/fish-mission-types.ts'
 import Text from '../../../../../common/components/ui/text.tsx'
 import { Divider, Stack } from 'rsuite'
 import ControlsToCompleteTag from '../../ui/controls-to-complete-tag.tsx'
@@ -104,14 +109,26 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action }) => {
         </Stack.Item>
         <Stack.Item>
           <Label>Lieu du contrôle</Label>
-          <CoordinatesInput
-            readOnly={true}
-            defaultValue={[actionData?.latitude as any, actionData?.longitude as any]}
-            coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
-            // label="Lieu du contrôle"
-            // isLight={true}
-            disabled={true}
-          />
+          {actionData.actionType === MissionActionType.LAND_CONTROL ? (
+            <TextInput
+              label={''}
+              readOnly={true}
+              value={actionData?.portName}
+              isRequired={true}
+              isLight={true}
+              data-testid={'portName'}
+              name="portName"
+            />
+          ) : (
+            <CoordinatesInput
+              readOnly={true}
+              defaultValue={[actionData?.latitude as any, actionData?.longitude as any]}
+              coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
+              // label="Lieu du contrôle"
+              // isLight={true}
+              disabled={true}
+            />
+          )}
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <FishControlAdministrativeSection action={actionData} />
