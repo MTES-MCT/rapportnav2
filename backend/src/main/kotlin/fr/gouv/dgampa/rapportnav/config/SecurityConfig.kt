@@ -79,6 +79,21 @@ class SecurityConfig(
                 .anyRequest().authenticated()
         }
 
+        // Add security headers (CSP and frame options)
+        http.headers { headers ->
+            headers
+                .contentSecurityPolicy { csp ->
+                    // comprehensive list of directives
+                    // this is equals to default-src 'self';
+                    csp.policyDirectives(
+                        "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; frame-src 'self'; base-uri 'self'; frame-ancestors 'none';"
+                    )
+                }
+                .frameOptions { frame ->
+                    frame.deny() // Prevent clickjacking
+                }
+        }
+
         // deal with anon users
         http.anonymous().disable()
 
