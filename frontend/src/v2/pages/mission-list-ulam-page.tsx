@@ -1,6 +1,6 @@
 import { Mission } from '@common/types/mission-types.ts'
 import { Accent, Button, Icon } from '@mtes-mct/monitor-ui'
-import { endOfMonth } from 'date-fns'
+import { endOfMonth, startOfMonth } from 'date-fns'
 import React, { useState } from 'react'
 import { Stack } from 'rsuite'
 import MissionListDateRangeNavigator from '../features/common/components/elements/mission-list-daterange-navigator.tsx'
@@ -27,7 +27,7 @@ const SIDEBAR_ITEMS = [
 const MissionListUlamPage: React.FC = () => {
   const today = new Date()
   const [queryParams, setQueryParams] = useState({
-    startDateTimeUtc: today.toISOString(),
+    startDateTimeUtc: startOfMonth(today).toISOString(),
     endDateTimeUtc: endOfMonth(today).toISOString()
   })
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -38,7 +38,7 @@ const MissionListUlamPage: React.FC = () => {
 
   const { getMissionListItem } = useMissionList()
   const { isLoading, data: missions } = useMissionsQuery(queryParams)
-  const { exportMissionReport, loading: exportIsLoading } = useMissionReportExport()
+  const { exportMissionReport, exportIsLoading } = useMissionReportExport()
 
   const handleUpdateDateTime = (currentDate: Date) => {
     const newDateRange = {
