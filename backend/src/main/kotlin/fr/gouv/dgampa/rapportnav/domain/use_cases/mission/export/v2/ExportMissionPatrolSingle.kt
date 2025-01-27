@@ -87,14 +87,9 @@ class ExportMissionPatrolSingle(
                 .map { it.toActionStatusEntity() }
 
             val durations = mapStatusDurations.execute(mission, statuses, DurationUnit.HOURS)
-            val missionDuration = computeDurations.convertFromSeconds(
-                computeDurations.durationInSeconds(
-                    mission.startDateTimeUtc,
-                    mission.endDateTimeUtc,
-
-                    ) ?: 0,
-                DurationUnit.HOURS
-            )
+            val missionDuration = durations.values
+                .flatMap { it.values }
+                .sum()
 
             val nbOfDaysAtSea = getNbOfDaysAtSeaFromNavigationStatus.execute(
                 missionStartDateTime = mission.startDateTimeUtc,
