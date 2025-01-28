@@ -94,8 +94,8 @@ class SecurityConfig(
                 }
         }
 
-        // deal with anon users
-        http.anonymous().disable()
+        // allow anon users
+        http.anonymous(Customizer. withDefaults())
 
         return http.build()
     }
