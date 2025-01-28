@@ -86,11 +86,14 @@ class SecurityConfig(
                     // comprehensive list of directives
                     // this is equals to default-src 'self';
                     csp.policyDirectives(
-                        "default-src 'self'; script-src 'self' https://github.com;; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; frame-src 'self'; base-uri 'self'; frame-ancestors 'none';"
+                        "default-src 'self'; script-src 'self' https://github.com; style-src 'self' https://github.com; img-src 'self'; font-src 'self'; connect-src 'self'; frame-src 'self'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; object-src 'none'; require-trusted-types-for 'script';"
                     )
                 }
                 .frameOptions { frame ->
                     frame.deny() // Prevent clickjacking
+                }
+                .xssProtection { xss ->
+                    xss.disable() // Modern browsers use CSP instead
                 }
         }
 
