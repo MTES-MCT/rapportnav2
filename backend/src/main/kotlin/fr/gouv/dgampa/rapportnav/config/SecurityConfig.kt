@@ -83,16 +83,25 @@ class SecurityConfig(
         http.headers { headers ->
             headers
                 .contentSecurityPolicy { csp ->
-                    // comprehensive list of directives
+                    // Updated CSP to allow base64 fonts
                     csp.policyDirectives(
-                        "default-src 'self'; script-src 'self' 'unsafe-inline' https://github.com; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://sentry.incubateur.net; frame-src 'self'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; object-src 'none'; require-trusted-types-for 'script';"
+                        "default-src 'self'; " +
+                            "script-src 'self' 'unsafe-inline' https://github.com; " +
+                            "style-src 'self' 'unsafe-inline'; " +
+                            "style-src-elem 'self' 'unsafe-inline'; " +
+                            "img-src 'self'; " +
+                            "font-src 'self' data:; " + // Allow base64-encoded fonts
+                            "connect-src 'self' https://sentry.incubateur.net; " +
+                            "frame-src 'self'; " +
+                            "base-uri 'self'; " +
+                            "frame-ancestors 'none'; " +
+                            "form-action 'self'; " +
+                            "object-src 'none'; " +
+                            "require-trusted-types-for 'script';"
                     )
                 }
                 .frameOptions { frame ->
                     frame.deny() // Prevent clickjacking
-                }
-                .xssProtection { xss ->
-                    xss.disable() // Modern browsers use CSP instead
                 }
         }
 
