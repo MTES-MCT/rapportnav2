@@ -23,6 +23,8 @@ export const GET_ACTION_BY_ID = gql`
           actionEndDatetimeUtc
           vesselId
           vesselName
+          portName
+          portLocode
           latitude
           longitude
           facade

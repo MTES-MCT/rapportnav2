@@ -23,6 +23,8 @@ type FishActionData {
   actionEndDatetimeUtc: Instant
   vesselId: Int
   vesselName: String
+  portName: String
+  portLocode: String
   latitude: Float
   longitude: Float
   facade: String

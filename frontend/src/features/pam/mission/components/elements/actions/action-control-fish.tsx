@@ -108,13 +108,12 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action }) => {
           />
         </Stack.Item>
         <Stack.Item>
-          <Label>Lieu du contrôle</Label>
+          <Label>Lieu du contrôle *</Label>
           {actionData.actionType === MissionActionType.LAND_CONTROL ? (
             <TextInput
               label={''}
               readOnly={true}
               value={actionData?.portName}
-              isRequired={true}
               isLight={true}
               data-testid={'portName'}
               name="portName"
