@@ -84,9 +84,8 @@ class SecurityConfig(
             headers
                 .contentSecurityPolicy { csp ->
                     // comprehensive list of directives
-                    // this is equals to default-src 'self';
                     csp.policyDirectives(
-                        "default-src 'self'; script-src 'self' 'unsafe-inline' https://github.com; style-src 'self' 'unsafe-inline' https://github.com; img-src 'self'; font-src 'self'; connect-src 'self' https://sentry.incubateur.net; frame-src 'self'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; object-src 'none'; require-trusted-types-for 'script';"
+                        "default-src 'self'; script-src 'self' 'unsafe-inline' https://github.com; style-src 'self'; style-src-elem 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://sentry.incubateur.net; frame-src 'self'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; object-src 'none'; require-trusted-types-for 'script';"
                     )
                 }
                 .frameOptions { frame ->
