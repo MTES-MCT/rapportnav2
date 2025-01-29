@@ -1,6 +1,7 @@
+import { MissionActionType } from '@common/types/fish-mission-types.ts'
 import { FormikEffect, FormikTextarea, Label, TextInput, THEME } from '@mtes-mct/monitor-ui'
-import { Formik } from 'formik'
-import React, { FC } from 'react'
+import { Field, FieldProps, Formik } from 'formik'
+import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
 import VesselName from '../../../common/components/ui/vessel-name'
@@ -17,8 +18,6 @@ import { useMissionActionFishControl } from '../../hooks/use-mission-action-fish
 import { ActionFishControlInput } from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
-import { simpleDateRangeValidationSchema } from '../../validation-schema/date-validation.ts'
-import { MissionActionType } from '@common/types/fish-mission-types.ts'
 
 const MissionActionItemFishControl: FC<{
   action: MissionAction
@@ -29,20 +28,10 @@ const MissionActionItemFishControl: FC<{
   return (
     <div style={{ width: '100%' }}>
       {initValue && (
-        <Formik
-          initialValues={initValue}
-          onSubmit={handleSubmit}
-          validateOnChange={true}
-          validationSchema={simpleDateRangeValidationSchema}
-        >
-          {({ values, errors, validateForm }) => (
+        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true}>
+          {({ values }) => (
             <>
-              <FormikEffect
-                onChange={async nextValues => {
-                  await validateForm(values)
-                  await handleSubmit(nextValues as ActionFishControlInput, errors)
-                }}
-              />
+              <FormikEffect onChange={nextValues => handleSubmit(nextValues as ActionFishControlInput)} />
               <Stack
                 direction="column"
                 spacing="2rem"
@@ -54,7 +43,11 @@ const MissionActionItemFishControl: FC<{
                   <VesselName name={values.vesselName} />
                 </Stack.Item>
                 <Stack.Item grow={1}>
-                  <MissionActionFormikDateRangePicker name="dates" isLight={true} />
+                  <Field name="dates">
+                    {(field: FieldProps<Date[]>) => (
+                      <MissionActionFormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
+                    )}
+                  </Field>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   {initValue?.fishActionType === MissionActionType.LAND_CONTROL ? (

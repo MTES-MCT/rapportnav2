@@ -15,13 +15,13 @@ export function useMissionActionGenericDateObservation(
   const fromFieldValueToInput = (data: MissionActionData): ActionGenericDateObservationInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
     const startDate = preprocessDateForPicker(data.startDateTimeUtc)
-    return { ...data, startDateTimeUtc: startDate.toISOString(), endDateTimeUtc: endDate.toISOString() }
+    return { ...data, dates: [startDate, endDate] }
   }
 
   const fromInputToFieldValue = (value: ActionGenericDateObservationInput): MissionActionData => {
-    const { endDateTimeUtc, startDateTimeUtc, ...newData } = value
-    const processedEndDateTimeUtc = postprocessDateFromPicker(endDateTimeUtc)
-    const processedStartDateTimeUtc = postprocessDateFromPicker(startDateTimeUtc)
+    const { dates, ...newData } = value
+    const processedEndDateTimeUtc = postprocessDateFromPicker(dates[1])
+    const processedStartDateTimeUtc = postprocessDateFromPicker(dates[0])
     return { ...newData, startDateTimeUtc: processedStartDateTimeUtc, endDateTimeUtc: processedEndDateTimeUtc }
   }
 

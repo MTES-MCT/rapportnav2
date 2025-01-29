@@ -7,7 +7,6 @@ import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionNavControlInput } from '../types/action-type'
-import {simpleDateRangeValidationSchema} from "../validation-schema/date-validation.ts";
 
 export function useMissionActionNavControl(
   action: MissionAction,
@@ -53,7 +52,7 @@ export function useMissionActionNavControl(
     handleSubmit(value, errors, onSubmit)
   }
 
-  const validationSchema = simpleDateRangeValidationSchema.concat(object().shape({
+  const validationSchema = object().shape({
     isMissionFinished: boolean(),
     vesselSize: mixed<VesselSizeEnum>()
       .nullable()
@@ -72,7 +71,7 @@ export function useMissionActionNavControl(
       is: true,
       then: schema => schema.nonNullable().required()
     })
-  }))
+  })
 
   return {
     isError,
