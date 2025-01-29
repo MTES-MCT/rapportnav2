@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.server.resource.InvalidBearerTokenExc
 import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthenticationToken
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 
 /**
@@ -60,12 +59,18 @@ class SecurityConfig(
         // session
         http.sessionManagement { sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
 
-        // csrf token
-        val requestHandler = CsrfTokenRequestAttributeHandler()
-        requestHandler.setCsrfRequestAttributeName(null)
+//        val requestHandler = CsrfTokenRequestAttributeHandler()
+//        requestHandler.setCsrfRequestAttributeName(null)
+        val csrfTokenRequestHandler = SpaCsrfTokenRequestHandler()
+
+        // Configure the CSRF token repository with cookie customization
+        val csrfTokenRepository = CookieCsrfTokenRepository
+            .withHttpOnlyFalse() // keep token accessible from js
+
+        // Apply CSRF configuration
         http.csrf { csrf ->
-            csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .csrfTokenRequestHandler(requestHandler)
+            csrf.csrfTokenRepository(csrfTokenRepository)
+                .csrfTokenRequestHandler(csrfTokenRequestHandler)
         }
 
         // route authorizations
@@ -106,7 +111,7 @@ class SecurityConfig(
         }
 
         // allow anon users
-        http.anonymous(Customizer. withDefaults())
+        http.anonymous(Customizer.withDefaults())
 
         return http.build()
     }

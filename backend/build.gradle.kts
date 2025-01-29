@@ -7,7 +7,7 @@ description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
 val serializationVersion by extra("1.6.2")
-val springVersion by extra("3.4.1")
+val springVersion by extra("3.4.2")
 val testcontainersVersion by extra("1.19.3")
 val flywayVersion by extra("10.10.0")
 
@@ -17,7 +17,7 @@ plugins {
   kotlin("jvm") version "1.9.24"
   kotlin("plugin.spring") version "1.9.24"
   kotlin("plugin.jpa") version "1.9.24"
-  id("org.springframework.boot") version "3.4.1"
+  id("org.springframework.boot") version "3.4.2"
   id("io.spring.dependency-management") version "1.1.4"
   id("org.owasp.dependencycheck") version "8.4.0"
   id("org.flywaydb.flyway") version "10.10.0"
@@ -55,7 +55,7 @@ dependencyManagement {
 
 dependencies {
   developmentOnly("org.springframework.boot:spring-boot-devtools")
-  runtimeOnly("org.postgresql:postgresql:42.7.3")
+  runtimeOnly("org.postgresql:postgresql:42.7.5")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-data-rest:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
@@ -65,7 +65,7 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-security:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-cache:$springVersion")
-  implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
+  implementation("com.github.ben-manes.caffeine:caffeine:3.2.0")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib")
@@ -76,7 +76,7 @@ dependencies {
   }
   implementation("io.jsonwebtoken:jjwt-api:0.12.3")
   implementation("javax.xml.bind:jaxb-api:2.3.1")
-  implementation("org.springframework.security:spring-security-oauth2-jose:6.3.2")
+  implementation("org.springframework.security:spring-security-oauth2-jose:6.4.2")
   implementation("org.locationtech.jts:jts-core:1.19.0")
   implementation("io.swagger.core.v3:swagger-core:2.2.20")
   implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
@@ -94,7 +94,7 @@ dependencies {
   testImplementation("org.testcontainers:testcontainers")
   testImplementation("org.testcontainers:junit-jupiter")
   testImplementation("org.testcontainers:postgresql")
-  testImplementation("org.springframework.security:spring-security-test:6.3.2")
+  testImplementation("org.springframework.security:spring-security-test:6.4.2")
   testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
 }
 

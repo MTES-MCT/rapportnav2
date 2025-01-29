@@ -24,6 +24,8 @@ class ApiErrorController : ErrorController {
             ErrorAttributeOptions.Include.EXCEPTION,
             ErrorAttributeOptions.Include.ERROR,
             ErrorAttributeOptions.Include.STATUS,
+            ErrorAttributeOptions.Include.STACK_TRACE,
+            ErrorAttributeOptions.Include.PATH,
         )
 
         val errorDetails = errorAttributes.getErrorAttributes(webRequest, options)
