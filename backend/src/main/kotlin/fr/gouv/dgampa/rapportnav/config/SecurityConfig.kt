@@ -69,8 +69,17 @@ class SecurityConfig(
 
         // Apply CSRF configuration
         http.csrf { csrf ->
-            csrf.csrfTokenRepository(csrfTokenRepository)
-                .csrfTokenRequestHandler(csrfTokenRequestHandler)
+            csrf.disable()
+//            csrf.csrfTokenRepository(csrfTokenRepository)
+//                .csrfTokenRequestHandler(csrfTokenRequestHandler)
+            //            .apply {
+//                setCookieCustomizer { cookie ->
+//                    cookie.path("/")  // Makes the cookie available for all paths
+//                    cookie.secure(true) // Use secure cookies for all
+//                    cookie.maxAge(-1) // Default: Session cookie
+//                    cookie.sameSite(SameSite.LAX.name) // SameSite policy: Lax
+//                }
+//            }
         }
 
         // route authorizations
