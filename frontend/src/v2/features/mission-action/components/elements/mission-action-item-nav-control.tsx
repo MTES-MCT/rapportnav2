@@ -1,6 +1,6 @@
 import { VesselTypeEnum } from '@common/types/mission-types'
 import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
-import { Formik } from 'formik'
+import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikSelectVesselSize } from '../../../common/components/ui/formik-select-vessel-size'
@@ -8,7 +8,7 @@ import { MissionAction } from '../../../common/types/mission-action'
 import MissionControlNavForm from '../../../mission-control/components/elements/mission-control-nav-form'
 import MissionControlNavSummary from '../../../mission-control/components/ui/mission-control-nav-summary'
 import { useMissionActionNavControl } from '../../hooks/use-mission-action-nav-control'
-import { ActionNavControlInput} from '../../types/action-type'
+import { ActionNavControlInput } from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
 import { MissionActionFormikTextInput } from '../ui/mission-action-formik-text-input'
@@ -30,12 +30,9 @@ const MissionActionItemNavControl: FC<{
           validateOnChange={true}
           validationSchema={validationSchema}
         >
-          {({ values, errors, validateForm }) => (
+          {({ values }) => (
             <>
-              <FormikEffect onChange={async (nextValue) => {
-                await validateForm(values)
-                await handleSubmit(nextValue as ActionNavControlInput, errors)
-              }} />
+              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionNavControlInput)} />
               <Stack
                 direction="column"
                 spacing="2rem"
@@ -50,7 +47,11 @@ const MissionActionItemNavControl: FC<{
                   <MissionControlNavSummary vesselType={values?.vesselType} controlMethod={values?.controlMethod} />
                 </Stack.Item>
                 <Stack.Item grow={1}>
-                  <MissionActionFormikDateRangePicker name="dates"  isLight={true} errors={errors}/>
+                  <Field name="dates">
+                    {(field: FieldProps<Date[]>) => (
+                      <MissionActionFormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
+                    )}
+                  </Field>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <MissionActionFormikCoordinateInputDMD name={'geoCoords'} />

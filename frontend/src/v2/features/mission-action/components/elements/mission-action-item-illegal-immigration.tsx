@@ -1,5 +1,5 @@
 import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
-import { Formik } from 'formik'
+import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { MissionAction } from '../../../common/types/mission-action'
@@ -31,7 +31,11 @@ const MissionActionItemIllegalImmigration: FC<{
               <Stack.Item style={{ width: '100%' }}>
                 <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
                   <Stack.Item grow={1}>
-                    <MissionActionFormikDateRangePicker name="dates" />
+                    <Field name="dates">
+                      {(field: FieldProps<Date[]>) => (
+                        <MissionActionFormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
+                      )}
+                    </Field>
                   </Stack.Item>
                 </Stack>
               </Stack.Item>

@@ -1,32 +1,30 @@
-import {FieldProps} from 'formik'
-import {useAbstractFormikSubForm} from './use-abstract-formik-sub-form.tsx'
-import {MissionULAMGeneralInfoInitial} from '../types/mission-types.ts'
-import {useDate} from './use-date.tsx'
+import { FieldProps } from 'formik'
+import { MissionULAMGeneralInfoInitial } from '../types/mission-types.ts'
+import { useAbstractFormikSubForm } from './use-abstract-formik-sub-form.tsx'
+import { useDate } from './use-date.tsx'
 
-export type MissionULAMGeneralInfoInitialInput = MissionULAMGeneralInfoInitial
+export type MissionULAMGeneralInfoInitialInput = { dates: Date[] } & MissionULAMGeneralInfoInitial
 
 export function useMissionGeneralInformationsForm(
   name: string,
   fieldFormik: FieldProps<MissionULAMGeneralInfoInitial>
 ) {
-
-  const {preprocessDateForPicker, postprocessDateFromPicker} = useDate()
-
+  const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
 
   const fromFieldValueToInput = (data: MissionULAMGeneralInfoInitial) => {
+    const startDate = preprocessDateForPicker(data.startDateTimeUtc)
+    const endDate = preprocessDateForPicker(data.endDateTimeUtc)
     return {
       ...data,
-      startDateTimeUtc: data.startDateTimeUtc && preprocessDateForPicker(data.startDateTimeUtc),
-      endDateTimeUtc: data.endDateTimeUtc && preprocessDateForPicker(data.endDateTimeUtc)
+      dates: [startDate, endDate]
     }
   }
 
-
   const fromInputToFieldValue = (value: MissionULAMGeneralInfoInitialInput): MissionULAMGeneralInfoInitial => {
-    const {missionReportType, missionTypes, reinforcementType, nbHourAtSea, startDateTimeUtc, endDateTimeUtc} = value
+    const { missionReportType, missionTypes, reinforcementType, nbHourAtSea, dates } = value
     return {
-      startDateTimeUtc: postprocessDateFromPicker(startDateTimeUtc),
-      endDateTimeUtc: postprocessDateFromPicker(endDateTimeUtc),
+      startDateTimeUtc: postprocessDateFromPicker(dates[0]),
+      endDateTimeUtc: postprocessDateFromPicker(dates[1]),
       missionTypes,
       missionReportType,
       reinforcementType,
@@ -34,19 +32,13 @@ export function useMissionGeneralInformationsForm(
     }
   }
 
-  const {
-    initValue,
-    handleSubmit
-  } = useAbstractFormikSubForm<MissionULAMGeneralInfoInitial, MissionULAMGeneralInfoInitialInput>(
-    name,
-    fieldFormik,
-    fromFieldValueToInput,
-    fromInputToFieldValue
-  )
-
+  const { initValue, handleSubmit } = useAbstractFormikSubForm<
+    MissionULAMGeneralInfoInitial,
+    MissionULAMGeneralInfoInitialInput
+  >(name, fieldFormik, fromFieldValueToInput, fromInputToFieldValue)
 
   return {
     initValue,
-    handleSubmit,
+    handleSubmit
   }
 }
