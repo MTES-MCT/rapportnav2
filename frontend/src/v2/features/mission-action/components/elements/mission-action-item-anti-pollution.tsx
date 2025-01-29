@@ -18,7 +18,7 @@ const MissionActionItemAntiPollution: FC<{
   return (
     <form style={{ width: '100%' }} data-testid={'action-nautical-event-form'}>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true}>
+        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true} enableReinitialize>
           <>
             <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionAntiPollutionInput)} />
             <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>

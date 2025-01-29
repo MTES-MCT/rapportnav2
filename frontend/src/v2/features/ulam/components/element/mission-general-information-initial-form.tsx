@@ -46,6 +46,7 @@ const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialF
           validationSchema={generalInfoInitialSchema}
           validateOnMount={true}
           validateOnChange={true}
+          enableReinitialize
         >
           {formik => (
             <Stack direction="column" spacing="1.5rem" style={{ paddingBottom: '2rem' }}>

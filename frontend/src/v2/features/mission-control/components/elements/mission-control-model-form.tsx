@@ -32,7 +32,7 @@ const MissionControlModelForm: FC<MissionControlModelFormProps> = ({
       style={{ backgroundColor: THEME.color.white, borderRadius: 0 }}
     >
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit}>
+        <Formik initialValues={initValue} onSubmit={handleSubmit} enableReinitialize>
           {formik => (
             <>
               <FormikEffect onChange={nextValues => handleSubmit(nextValues as ControlModelInput)} />

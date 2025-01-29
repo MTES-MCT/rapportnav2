@@ -45,7 +45,12 @@ const MissionInfractionEnvForm: FC<MissionInfractionEnvFormProps> = ({
   return (
     <>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit} validationSchema={validationSchema}>
+        <Formik
+          initialValues={initValue}
+          onSubmit={handleSubmit}
+          validationSchema={validationSchema}
+          enableReinitialize
+        >
           {formik => (
             <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
               <Stack.Item style={{ width: '100%' }}>
