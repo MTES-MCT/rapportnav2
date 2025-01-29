@@ -46,6 +46,7 @@ const MissionActionItemRescue: FC<{
           onSubmit={handleSubmit}
           initialValues={initValue}
           validationSchema={validationSchema}
+          enableReinitialize
         >
           {() => (
             <>

@@ -24,6 +24,7 @@ const MissionActionItemIllegalImmigration: FC<{
           onSubmit={handleSubmit}
           initialValues={initValue}
           validationSchema={validationSchema}
+          enableReinitialize
         >
           <>
             <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionIllegalImmigrationInput)} />

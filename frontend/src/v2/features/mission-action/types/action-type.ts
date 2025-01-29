@@ -24,7 +24,7 @@ export type ActionIllegalImmigrationInput = {
   geoCoords: (number | undefined)[]
 } & MissionNavActionData
 
-export type ActionFreeNoteInput = MissionNavActionData
+export type ActionFreeNoteInput = { date: Date } & MissionNavActionData
 
 export type ActionRescueInput = {
   dates: Date[]
@@ -38,6 +38,7 @@ export type ActionStatusInput = MissionNavActionData
 export type ActionSurveillanceInput = { dates: Date[] } & MissionEnvActionData
 
 export type ActionNavControlInput = {
+  dates: Date[]
   isMissionFinished: boolean
   geoCoords: (number | undefined)[]
 } & MissionNavActionData

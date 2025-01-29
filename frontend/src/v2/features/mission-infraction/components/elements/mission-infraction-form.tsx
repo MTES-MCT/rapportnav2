@@ -19,7 +19,7 @@ const MissionInfractionForm: FC<MissionInfractionFormProps> = ({ name, onClose, 
   return (
     <>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit}>
+        <Formik initialValues={initValue} onSubmit={handleSubmit} enableReinitialize>
           {formik => (
             <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
               <Stack.Item style={{ width: '100%' }}>

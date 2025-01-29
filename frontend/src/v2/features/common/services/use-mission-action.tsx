@@ -1,6 +1,6 @@
-import {skipToken, useQuery, UseQueryResult} from '@tanstack/react-query'
+import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import axios from '../../../../query-client/axios'
-import {MissionAction} from '../types/mission-action'
+import { MissionAction } from '../types/mission-action'
 
 const useGetActionQuery = (missionId: number, actionId?: string): UseQueryResult<MissionAction, Error> => {
   const fetchAction = (): Promise<MissionAction> =>
@@ -8,7 +8,8 @@ const useGetActionQuery = (missionId: number, actionId?: string): UseQueryResult
 
   const query = useQuery<MissionAction>({
     queryKey: ['action', actionId],
-    queryFn: actionId ? fetchAction : skipToken
+    enabled: !!actionId,
+    queryFn: fetchAction
   })
   return query
 }

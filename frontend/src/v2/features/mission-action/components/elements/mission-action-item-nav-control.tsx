@@ -29,6 +29,7 @@ const MissionActionItemNavControl: FC<{
           onSubmit={handleSubmit}
           validateOnChange={true}
           validationSchema={validationSchema}
+          enableReinitialize
         >
           {({ values }) => (
             <>

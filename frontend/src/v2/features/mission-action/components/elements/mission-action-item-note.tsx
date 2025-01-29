@@ -14,7 +14,7 @@ const MissionActionItemNote: FC<{
   return (
     <form style={{ width: '100%' }}>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true}>
+        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true} enableReinitialize>
           <>
             <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionFreeNoteInput)} />
             <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
