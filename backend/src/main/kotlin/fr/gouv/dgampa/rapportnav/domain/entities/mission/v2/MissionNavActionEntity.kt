@@ -70,21 +70,20 @@ class MissionNavActionEntity(
     override var isInSRRorFollowedByCROSSMRCC: Boolean? = false,
     @MandatoryForStats(
         enableIf = [
-            DependentFieldValue(field = "actionType", value = ["RESCUE"]),
             DependentFieldValue(
                 field = "isPersonRescue",
                 value = arrayOf("true")
-            ),
+            )
         ]
     )
     override var numberPersonsRescued: Int? = null,
     @MandatoryForStats(
         enableIf = [
-            DependentFieldValue(field = "actionType", value = ["RESCUE"]),
             DependentFieldValue(
                 field = "isPersonRescue",
                 value = arrayOf("true")
-            )
+            ),
+            DependentFieldValue(field = "actionType", value = ["RESCUE"]),
         ]
     )
     override var numberOfDeaths: Int? = null,
@@ -93,21 +92,21 @@ class MissionNavActionEntity(
     override var isMigrationRescue: Boolean? = false,
     @MandatoryForStats(
         enableIf = [
-            DependentFieldValue(field = "actionType", value = ["RESCUE"]),
             DependentFieldValue(
                 field = "isMigrationRescue",
                 value = arrayOf("true")
             ),
+           DependentFieldValue(field = "actionType", value = ["RESCUE"])
         ]
     )
     override var nbOfVesselsTrackedWithoutIntervention: Int? = null,
     @MandatoryForStats(
         enableIf = [
-            DependentFieldValue(field = "actionType", value = ["RESCUE"]),
             DependentFieldValue(
                 field = "isMigrationRescue",
                 value = arrayOf("true")
             ),
+            DependentFieldValue(field = "actionType", value = ["RESCUE"]),
         ]
     )
     override var nbAssistedVesselsReturningToShore: Int? = null,
@@ -121,11 +120,11 @@ class MissionNavActionEntity(
 
     @MandatoryForStats(
         enableIf = [
-            DependentFieldValue(field = "actionType", value = ["STATUS"]),
             DependentFieldValue(
                 field = "status",
                 value = arrayOf(DOCKED_STATUS_AS_STRING, UNAVAILABLE_STATUS_AS_STRING)
             ),
+            DependentFieldValue(field = "actionType", value = ["STATUS"])
         ]
     )
     override var reason: ActionStatusReason? = null,

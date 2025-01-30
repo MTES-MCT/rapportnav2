@@ -13,9 +13,9 @@ const DropdownSubItemStyled = styled(Dropdown.Item)(({ theme }) => ({
   }
 }))
 
-const DropdownItem: FC<{ item: TimelineDropdownItem }> = ({ item }) => {
+const DropdownItem: FC<{ item: TimelineDropdownItem } & { style?: React.CSSProperties }> = ({ item, style }) => {
   return (
-    <Dropdown.Item key={item.type} Icon={item.icon} eventKey={item.type}>
+    <Dropdown.Item key={item.type} Icon={item.icon} eventKey={item.type} style={style}>
       {item?.dropdownText}
     </Dropdown.Item>
   )
@@ -53,7 +53,7 @@ const MissionTimelineDropdownWrapper: FC<MissionTimelineDropdownWrapperProps> = 
     <Dropdown Icon={Icon.Plus} onSelect={handleSelect} title="Ajouter" placement={'bottomEnd'} onClose={handleClose}>
       {dropdownItems.map(item => (
         <div key={item.type}>
-          <DropdownItem item={item} />
+          <DropdownItem item={item} style={{ minWidth: 300 }} />
           {item.type === currentKey &&
             item.subItems?.map(subItem => <DropdownSubItem key={subItem.type} item={subItem} />)}
         </div>

@@ -39,7 +39,7 @@ export function useCoordinate(): CoordinateHook {
   }
 
   const getCoords = (lat?: number, lng?: number): [number?, number?] => {
-    return [lat ? Number(lat.toFixed(2)) : 0, lng ? Number(lng.toFixed(2)) : 0]
+    return [lat ? Number(lat.toFixed(2)) : undefined, lng ? Number(lng.toFixed(2)) : undefined]
   }
 
   return {
