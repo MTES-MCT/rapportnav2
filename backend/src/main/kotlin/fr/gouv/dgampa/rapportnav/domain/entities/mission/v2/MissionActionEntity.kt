@@ -32,59 +32,59 @@ abstract class MissionActionEntity(
 
     @MandatoryForStats(
         enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL"]),
-            DependentFieldValue(
-                field = "sourcesOfMissingDataForStats",
-                value = ["MONITORENV", "MONITORFISH"]
-            ),
             DependentFieldValue(
                 field = "isAdministrativeControl",
                 value = arrayOf("true")
             ),
+            DependentFieldValue(
+                field = "sourcesOfMissingDataForStats",
+                value = ["MONITORENV", "MONITORFISH"]
+            ),
+            DependentFieldValue(field = "actionType", value = ["CONTROL"])
         ]
     )
     override var controlAdministrative: ControlAdministrativeEntity? = null,
 
     @MandatoryForStats(
         enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL"]),
-            DependentFieldValue(
-                field = "sourcesOfMissingDataForStats",
-                value = ["MONITORENV", "MONITORFISH"]
-            ),
             DependentFieldValue(
                 field = "isSeafarersControl",
                 value = arrayOf("true")
             ),
+            DependentFieldValue(
+                field = "sourcesOfMissingDataForStats",
+                value = ["MONITORENV", "MONITORFISH"]
+            ),
+            DependentFieldValue(field = "actionType", value = ["CONTROL"])
         ]
     )
     override var controlGensDeMer: ControlGensDeMerEntity? = null,
 
     @MandatoryForStats(
         enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL"]),
-            DependentFieldValue(
-                field = "sourcesOfMissingDataForStats",
-                value = ["MONITORENV", "MONITORFISH"]
-            ),
             DependentFieldValue(
                 field = "isComplianceWithWaterRegulationsControl",
                 value = arrayOf("true")
             ),
+            DependentFieldValue(
+                field = "sourcesOfMissingDataForStats",
+                value = ["MONITORENV", "MONITORFISH"]
+            ),
+            DependentFieldValue(field = "actionType", value = ["CONTROL"])
         ]
     )
     override var controlNavigation: ControlNavigationEntity? = null,
     @MandatoryForStats(
         enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL"]),
-            DependentFieldValue(
-                field = "sourcesOfMissingDataForStats",
-                value = ["MONITORENV", "MONITORFISH"]
-            ),
             DependentFieldValue(
                 field = "isSafetyEquipmentAndStandardsComplianceControl",
                 value = arrayOf("true")
             ),
+            DependentFieldValue(
+                field = "sourcesOfMissingDataForStats",
+                value = ["MONITORENV", "MONITORFISH"]
+            ),
+            DependentFieldValue(field = "actionType", value = ["CONTROL"])
         ]
     )
     override var controlSecurity: ControlSecurityEntity? = null,
