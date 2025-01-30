@@ -78,11 +78,11 @@ class GetEnvMissionById(
             logger.error("GetEnvMissionById failed loading EnvMission", e)
             Sentry.captureMessage("GetEnvMissionById failed loading EnvMission")
             Sentry.captureException(e)
-            return null
-//            var envMission = getEnvMissions.mockedMissions.find { missionId == it.id }!!
-//            envMission.envActions = getFakeActionData.getFakeEnvControls() + getFakeActionData.getFakeEnvSurveillance()
-//            var mission = getMissionWithControls(envMission)
-//            return mission
+//            return null
+            var envMission = getEnvMissions.mockedMissions.find { missionId == it.id }!!
+            envMission.envActions = getFakeActionData.getFakeEnvControls() + getFakeActionData.getFakeEnvSurveillance()
+            var mission = getMissionWithControls(envMission)
+            return mission
         }
 
 

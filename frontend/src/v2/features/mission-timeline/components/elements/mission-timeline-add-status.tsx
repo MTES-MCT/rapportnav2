@@ -6,6 +6,8 @@ import { Stack } from 'rsuite'
 import { useMissionTimeline } from '../../../common/hooks/use-mission-timeline'
 import useCreateMissionActionMutation from '../../../common/services/use-create-mission-action'
 import { ActionType } from '../../../common/types/action-type'
+import { v4 as uuidv4 } from 'uuid'
+import { MissionNavAction } from '../../../common/types/mission-action.ts'
 
 const ACTION_STATUS: ActionStatusType[] = [
   ActionStatusType.NAVIGATING,
@@ -35,9 +37,23 @@ const MissionTimelineAddStatus: FC<MissionTimelineAddStatusProps> = ({ missionId
   const mutation = useCreateMissionActionMutation(missionId)
 
   const handleAddStatus = async (status: ActionStatusType) => {
-    const action = getActionInput(ActionType.STATUS, { status })
-    const response = await mutation.mutateAsync(action)
-    if (onSumbit) onSumbit(response?.id)
+    const id = uuidv4()
+    const action = { ...getActionInput(ActionType.STATUS, { status }), id }
+    debugger
+    mutation.mutate(action, {
+      onSuccess: (data: MissionNavAction) => {
+        // debugger
+        // if (onSumbit && navigator.onLine) {
+        //   onSumbit(data?.id)
+        // }
+      },
+      onSettled: (_, __, ___, context) => {
+        debugger
+        if (onSumbit) {
+          onSumbit(context.action?.id)
+        }
+      }
+    })
   }
 
   return (

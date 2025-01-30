@@ -126,8 +126,9 @@ class GetEnvMissions(
             return envMissions
         } catch (e: Exception) {
             logger.error("GetEnvMissions failed loading Missions", e)
-            return null
-//            return mockedMissions
+//            return null
+            // TODO
+            return mockedMissions
         }
 
 

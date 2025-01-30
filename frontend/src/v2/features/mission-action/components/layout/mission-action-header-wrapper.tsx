@@ -37,6 +37,7 @@ const MissionActionHeaderWrapper: FC<MissionActionHeaderWrapperProps> = ({
             source={action.source}
             moduleType={moduleType}
             startDateTimeUtc={action?.data.startDateTimeUtc}
+            syncStatus={action?.syncStatus}
           />
         )}
       </Stack.Item>

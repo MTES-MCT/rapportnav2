@@ -8,6 +8,8 @@ import { ModuleType } from '../../../common/types/module-type'
 import { MissionTimelineAction } from '../../types/mission-timeline-output'
 import MissionTimelineItemDate from '../ui/mission-timeline-item-date'
 import MissionTimelineItemStatus from '../ui/mission-timeline-item-status'
+import { SyncStatus } from '../../../common/types/network-types.ts'
+import Text from '@common/components/ui/text'
 
 const DivStyled = styled(
   ({
@@ -64,6 +66,9 @@ const MissionTimelineItemWrapper: FC<MissionTimelineItemWrapperProps> = ({
           status={action.status}
           completenessForStats={action.completenessForStats}
         />
+      </Stack.Item>
+      <Stack.Item>
+        <Text as={'h1'}>{action.syncStatus === SyncStatus.UNSYNC ? 'UNSYNC' : ''}</Text>
       </Stack.Item>
     </Stack>
   )

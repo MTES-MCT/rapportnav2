@@ -19,7 +19,7 @@ export const MissionActionHeaderAction: React.FC<MissionActionHeaderActionProps>
   moduleType
 }) => {
   const navigate = useNavigate()
-  const mutation = useDeleteActionMutation(missionId)
+  const mutation = useDeleteActionMutation(missionId, actionId)
 
   const handleDelete = async () => {
     await mutation.mutateAsync(actionId)

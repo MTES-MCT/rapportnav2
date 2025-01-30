@@ -9,6 +9,10 @@ import useCreateMissionActionMutation from '../../../common/services/use-create-
 import { ActionType } from '../../../common/types/action-type'
 import { TimelineDropdownItem } from '../../hooks/use-timeline'
 import MissionTimelineDropdownWrapper from '../layout/mission-timeline-dropdown-wrapper'
+import { MissionNavAction } from '../../../common/types/mission-action.ts'
+import { useNavigate } from 'react-router-dom'
+import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
+import { v4 as uuidv4 } from 'uuid'
 
 type MissionTimelineAddActionProps = {
   missionId: number
@@ -17,14 +21,32 @@ type MissionTimelineAddActionProps = {
 }
 
 function MissionTimelineAddAction({ missionId, onSumbit, dropdownItems }: MissionTimelineAddActionProps): JSX.Element {
+  const { isOnline } = useOnlineManager()
   const { getActionInput } = useMissionTimeline(missionId)
   const mutation = useCreateMissionActionMutation(missionId)
   const [showModal, setShowModal] = useState<boolean>(false)
 
   const handleAddAction = async (actionType: ActionType, data?: unknown) => {
-    const action = getActionInput(actionType, data)
-    const response = await mutation.mutateAsync(action)
-    if (onSumbit) onSumbit(response?.id)
+    const id = uuidv4()
+    const action = {
+      ...getActionInput(actionType, data),
+      id
+    }
+    debugger
+    mutation.mutate(action, {
+      onSuccess: (data: MissionNavAction) => {
+        // debugger
+        // if (onSumbit && navigator.onLine) {
+        //   onSumbit(data?.id)
+        // }
+      },
+      onSettled: (_, __, ___, context) => {
+        debugger
+        if (onSumbit) {
+          onSumbit(context.action?.id)
+        }
+      }
+    })
   }
 
   const handleSelect = async (actionType: ActionType) => {
@@ -45,6 +67,10 @@ function MissionTimelineAddAction({ missionId, onSumbit, dropdownItems }: Missio
       <Stack.Item>
         <Text as="h2" weight="bold">
           Actions réalisées en mission
+        </Text>
+        <Text as="h2" weight="bold">
+          {mutation.isIdle && 'IDLE'}
+          {mutation.isPaused && 'PAUSED'}
         </Text>
       </Stack.Item>
       <Stack.Item>
