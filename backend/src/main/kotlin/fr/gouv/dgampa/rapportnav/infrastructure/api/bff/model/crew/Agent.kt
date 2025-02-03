@@ -16,4 +16,12 @@ data class Agent(
             )
         }
     }
+
+    fun toAgentEntity(): AgentEntity {
+        return AgentEntity(
+            id = id,
+            firstName = firstName,
+            lastName = lastName,
+        )
+    }
 }

@@ -22,8 +22,8 @@ class MissionCrewModel(
     var comment: String? = null,
 
     @ManyToOne
-    @JoinColumn(name = "agent_role_id")
-    var role: AgentRoleModel,
+    @JoinColumn(name = "agent_role_id", nullable = true)
+    var role: AgentRoleModel?,
 
 
     ) {
@@ -33,7 +33,7 @@ class MissionCrewModel(
             id = id,
             missionId = missionId,
             agent = agent.toAgentEntity(),
-            role = role.toAgentRoleEntity(),
+            role = role?.toAgentRoleEntity(),
             comment = if (comment == null && commentDefaultsToString == true) "" else comment
         )
     }
@@ -45,7 +45,7 @@ class MissionCrewModel(
                 id = crew.id,
                 missionId = crew.missionId,
                 agent = AgentModel.fromAgentEntity(crew.agent),
-                role = AgentRoleModel.fromAgentRoleEntity(crew.role),
+                role = crew.role?.let { AgentRoleModel.fromAgentRoleEntity(it) },
                 comment = crew.comment
             )
         }

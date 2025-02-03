@@ -27,6 +27,6 @@ class GetAgentsCrewByMissionId(private val agentCrewRepository: IMissionCrewRepo
 
         return agentCrewRepository.findByMissionId(missionId = missionId)
             .map { it.toMissionCrewEntity(commentDefaultsToString) }
-            .sortedBy { rolePriority.indexOf(it.role.title) }
+            .sortedBy { rolePriority.indexOf(it.role?.title) }
     }
 }

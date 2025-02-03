@@ -1,5 +1,8 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.AddOrUpdateMissionCrew
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.DeleteMissionCrew
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServices
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.crew.ServiceWithAgents
