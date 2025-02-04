@@ -5,7 +5,7 @@ import {FormikEffect} from '@mtes-mct/monitor-ui'
 import {
   MissionReinforcementTypeEnum,
   MissionReportTypeEnum,
-  MissionTypeEnum,
+  MissionType,
   MissionULAMGeneralInfoInitial
 } from '../../../common/types/mission-types.ts'
 import useCreateMissionMutation from '../../services/use-create-mission.tsx'
@@ -16,7 +16,7 @@ type NewMissionUlamGeneralInfoInitial = { missionGeneralInfo: MissionULAMGeneral
 export interface MissionGeneralInformationUlamProps {
   startDateTimeUtc?: string
   endDateTimeUtc?: string
-  missionTypes?: MissionTypeEnum[]
+  missionTypes?: MissionType[]
   missionReportType?: MissionReportTypeEnum
   reinforcementType?: MissionReinforcementTypeEnum
   nbHourAtSea?: number

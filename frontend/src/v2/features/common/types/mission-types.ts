@@ -1,7 +1,6 @@
-import { ControlUnit } from '@common/types/control-unit-types.ts'
+import { ControlResource, ControlUnit } from '@common/types/control-unit-types.ts'
 import { MissionCrew } from '@common/types/crew-types'
 import { MissionTypeEnum, SeaFrontEnum } from '@common/types/env-mission-types'
-import { MissionStatusEnum } from '@common/types/mission-types'
 import { Service } from '@common/types/service-types'
 import { MissionAction } from './mission-action'
 
@@ -27,6 +26,14 @@ export type MissionULAMGeneralInfoInitial = {
   missionReportType?: MissionReportTypeEnum
   reinforcementType?: MissionReinforcementTypeEnum
   nbHourAtSea?: number
+}
+
+export type MissionGeneralInfoFinal = {
+  resources?: ControlResource[],
+  crew?: MissionCrew,
+  isMissionArmed?: boolean,
+  isJointMission?: boolean,
+  observations?: string
 }
 
 export enum MissionReportTypeEnum {
@@ -57,7 +64,7 @@ export enum CompletenessForStatsStatusEnum {
   INCOMPLETE = 'INCOMPLETE'
 }
 
-export enum MissionStatus {
+export enum MissionStatusEnum {
   UPCOMING = 'UPCOMING',
   IN_PROGRESS = 'IN_PROGRESS',
   ENDED = 'ENDED',
