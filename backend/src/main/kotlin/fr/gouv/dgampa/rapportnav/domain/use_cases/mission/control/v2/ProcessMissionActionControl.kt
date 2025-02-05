@@ -45,7 +45,6 @@ class ProcessMissionActionControl(
 
         if (control == null) return null
         existingControl = control.toEntity() as T
-        System.out.println("[processMissionAction] SAVE: $actionId")
         return saveControl(existingControl)
     }
 
