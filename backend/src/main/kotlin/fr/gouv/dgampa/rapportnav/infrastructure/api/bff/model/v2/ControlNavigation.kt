@@ -21,7 +21,8 @@ data class ControlNavigation(
             unitShouldConfirm = unitShouldConfirm,
             unitHasConfirmed = unitHasConfirmed,
             observations = observations,
-            hasBeenDone = hasBeenDone
+            hasBeenDone = hasBeenDone,
+            infractions = infractions?.map { it.toInfractionEntity() }
         )
     }
 
