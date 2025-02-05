@@ -5,7 +5,6 @@ import MissionTimelineItemCardTitle from './mission-timeline-item-card-title'
 const MissionTimelineItemRescueCardTitle: FC<{ action?: MissionTimelineAction }> = ({ action }) => {
   return (
     <MissionTimelineItemCardTitle
-      truncate
       text="Assistance /"
       bold={`${action?.isPersonRescue ? 'Sauvegarde de la vie humaine' : 'Assistance de navire en difficulté'}`}
     />

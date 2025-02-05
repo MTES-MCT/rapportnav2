@@ -28,7 +28,8 @@ data class ControlGensDeMer(
             upToDateMedicalCheck = upToDateMedicalCheck,
             knowledgeOfFrenchLawAndLanguage = knowledgeOfFrenchLawAndLanguage,
             observations = observations,
-            hasBeenDone = hasBeenDone
+            hasBeenDone = hasBeenDone,
+            infractions = infractions?.map { it.toInfractionEntity() }
         )
     }
 

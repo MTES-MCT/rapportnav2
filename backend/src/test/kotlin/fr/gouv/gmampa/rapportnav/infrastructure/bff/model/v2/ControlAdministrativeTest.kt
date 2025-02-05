@@ -28,7 +28,7 @@ class ControlAdministrativeTest {
         assertThat(entity).isNotNull()
         assertThat(entity.id).isNotNull()
         assertThat(entity.missionId).isEqualTo(761)
-        assertThat(entity.infractions).isEqualTo(null)
+        assertThat(entity.infractions).isEmpty()
         assertThat(entity.actionControlId).isEqualTo("my action id")
         assertThat(entity.unitShouldConfirm).isEqualTo(false)
         assertThat(entity.unitHasConfirmed).isEqualTo(true)

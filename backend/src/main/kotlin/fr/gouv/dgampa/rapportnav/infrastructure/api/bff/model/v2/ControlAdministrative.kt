@@ -28,7 +28,8 @@ data class ControlAdministrative(
             upToDateNavigationPermit = upToDateNavigationPermit,
             compliantSecurityDocuments = compliantSecurityDocuments,
             observations = observations,
-            hasBeenDone = hasBeenDone
+            hasBeenDone = hasBeenDone,
+            infractions = infractions?.map { it.toInfractionEntity() }
         )
     }
     companion object {

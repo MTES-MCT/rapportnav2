@@ -35,7 +35,7 @@ const MissionInfractionForm: FC<MissionInfractionFormProps> = ({ name, onClose, 
                 </Stack>
               </Stack.Item>
               <Stack.Item style={{ width: '100%' }}>
-                <FormikMultiSelectNatinf name="natinf" />
+                <FormikMultiSelectNatinf name="natinfs" />
               </Stack.Item>
               <Stack.Item style={{ width: '100%' }}>
                 <FormikTextarea label="Observations" name="observations" role="observations" />

@@ -37,13 +37,15 @@ class ProcessMissionActionControl(
         findControlByActionId: (String) -> T?,
         saveControl: (T) -> T
     ): T? {
+        var existingControl: T? = null
         if (control?.id != null) {
-            val existingControl = findControlByActionId(actionId)
+            existingControl = findControlByActionId(actionId)
             if (control.toEntity().equals(existingControl)) return existingControl
         }
+
         if (control == null) return null
-        System.out.println("[processMissionAction] SAVE: $actionId")
-        return saveControl(control.toEntity() as T)
+        existingControl = control.toEntity() as T
+        return saveControl(existingControl)
     }
 
 
@@ -54,6 +56,7 @@ class ProcessMissionActionControl(
             saveControl = { controlSecurityRepo.save(it).toControlSecurityEntity() },
             findControlByActionId = { controlSecurityRepo.findByActionControlId(it).toControlSecurityEntity() },
         )
+
         if (response?.id != null) control?.id = response.id
         return control
     }
@@ -98,5 +101,4 @@ class ProcessMissionActionControl(
         if (response?.id != null) control?.id = response.id
         return control
     }
-
 }

@@ -10,24 +10,24 @@ export type ActionGenericDateObservation = {
 }
 
 export type ActionGenericDateObservationInput = {
-  dates: Date[]
+  dates: [Date?, Date?]
 } & MissionActionData
 
 export type ActionAntiPollutionInput = {
-  dates: Date[]
+  dates: [Date?, Date?]
   geoCoords: (number | undefined)[]
 } & MissionNavActionData
 
 export type ActionIllegalImmigrationInput = {
-  dates: Date[]
+  dates: [Date?, Date?]
   isMissionFinished?: boolean
   geoCoords: (number | undefined)[]
 } & MissionNavActionData
 
-export type ActionFreeNoteInput = { date: Date } & MissionNavActionData
+export type ActionFreeNoteInput = { date?: Date } & MissionNavActionData
 
 export type ActionRescueInput = {
-  dates: Date[]
+  dates: [Date?, Date?]
   rescueType: RescueType
   isMissionFinished?: boolean
   geoCoords: (number | undefined)[]
@@ -35,22 +35,22 @@ export type ActionRescueInput = {
 
 export type ActionStatusInput = MissionNavActionData
 
-export type ActionSurveillanceInput = { dates: Date[] } & MissionEnvActionData
+export type ActionSurveillanceInput = { dates: [Date?, Date?] } & MissionEnvActionData
 
 export type ActionNavControlInput = {
-  dates: Date[]
+  dates: [Date?, Date?]
   isMissionFinished: boolean
   geoCoords: (number | undefined)[]
 } & MissionNavActionData
 
 export type ActionFishControlInput = {
-  dates: Date[]
+  dates: [Date?, Date?]
   isMissionFinished: boolean
   geoCoords: (number | undefined)[]
 } & MissionFishActionData
 
 export type ActionEnvControlInput = {
-  dates: Date[]
+  dates: [Date?, Date?]
   isMissionFinished: boolean
   geoCoords: [number?, number?]
 } & MissionEnvActionData

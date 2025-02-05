@@ -29,6 +29,8 @@ abstract class BaseControlEntity {
         return (id == other.id
             && hasBeenDone == other.hasBeenDone
             && observations == other.observations
-            && actionControlId == other.actionControlId)
+            && actionControlId == other.actionControlId
+            && infractions?.size == other.infractions?.size
+            && infractions?.toSet() == other.infractions?.toSet())
     }
 }
