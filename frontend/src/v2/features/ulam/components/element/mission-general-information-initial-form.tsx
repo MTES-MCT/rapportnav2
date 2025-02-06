@@ -86,7 +86,7 @@ const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialF
               )}
 
               <Stack.Item style={{ width: '100%', textAlign: 'left' }}>
-                <FlexboxGrid justify={'space-between'}>
+                <FlexboxGrid justify={'space-between'} align={"middle"} style={{width: '100%'}}>
                   <FlexboxGrid.Item>
                     <FormikDateRangePicker
                       label={'Dates et heures de début et de fin du rapport'}
@@ -98,7 +98,7 @@ const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialF
                   </FlexboxGrid.Item>
 
                   {!isCreation && (
-                      <FlexboxGrid.Item>
+                      <FlexboxGrid.Item style={{paddingLeft: "30px"}}>
                         <FormikNumberInput
                           label={"Nb d'heures en mer"}
                           name={'nbHourAtSea'}

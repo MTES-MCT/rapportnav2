@@ -42,8 +42,6 @@ const MissionUlamPage: React.FC = () => {
   const missionGeneralExtended: MissionGeneralInfoExtended = {
     isMissionArmed: mission?.generalInfos?.isMissionArmed,
     isWithInterMinisterialService: mission?.generalInfos?.isWithInterMinisterialService,
-    observations: mission?.generalInfos?.observations,
-    resources: mission?.generalInfos?.resources,
     crew: mission?.generalInfos?.crew,
   }
 

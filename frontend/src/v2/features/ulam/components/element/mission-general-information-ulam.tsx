@@ -61,31 +61,42 @@ const MissionGeneralInformationUlam: React.FC<MissionGeneralInformationUlamProps
   }
 
   return (
-    <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
+    <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%'}}>
       <Stack direction="column" alignItems="flex-start" spacing={'1rem'}>
         <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize={true}>
           <>
           <FormikEffect onChange={newValues => handleSubmit(newValues as NewMissionGeneralInfo)} />
-            <Field name="initial">
-              {(field: FieldProps<MissionULAMGeneralInfoInitial>) => (
-                <MissionGeneralInformationInitialForm
-                  name="initial"
-                  fieldFormik={field}
-                  isCreation={false}
-                />
-              )}
-            </Field>
-            <Field name="extended">
-              {(field: FieldProps<MissionGeneralInfoExtended>) => (
-                <MissionGeneralInformationExtendedForm
-                  name="extended"
-                  fieldFormik={field}
-                />
-              )}
-            </Field>
+            <Stack direction="column" style={{ width: '100%' }} alignItems={'flex-start'}>
+              <Stack.Item>
+                <Field name="initial">
+                  {(field: FieldProps<MissionULAMGeneralInfoInitial>) => (
+                    <MissionGeneralInformationInitialForm
+                      name="initial"
+                      fieldFormik={field}
+                      isCreation={false}
+                    />
+                  )}
+                </Field>
+              </Stack.Item>
+
+              <Stack.Item style={{ width: '70%' }}>
+                <Field name="extended">
+                  {(field: FieldProps<MissionGeneralInfoExtended>) => (
+                    <MissionGeneralInformationExtendedForm
+                      name="extended"
+                      fieldFormik={field}
+                    />
+                  )}
+                </Field>
+              </Stack.Item>
+            </Stack>
+
           </>
         </Formik>
-        <Stack.Item>
+
+      </Stack>
+      <Stack style={{marginTop: '1.5rem'}}>
+        <Stack.Item style={{width:'100%', paddingRight: 20}}>
           <MissionObservationsUnit missionId={mission?.id}/>
         </Stack.Item>
       </Stack>

@@ -47,7 +47,7 @@ const MissionGeneralInformationExtendedForm: FC<MissionGeneralInformationExtende
       {initValue && (
         <Formik initialValues={initValue} onSubmit={handleSubmit}>
           {(formik) => (
-            <Stack direction="column" spacing="1em" style={{width: "100%"}}>
+            <Stack direction="column" spacing="1em" style={{width: "100%"}} alignItems={'flex-start'}>
               <FormikEffect onChange={newValues => handleSubmit(newValues)} />
 
               <Stack.Item style={{ width: '100%' }}>

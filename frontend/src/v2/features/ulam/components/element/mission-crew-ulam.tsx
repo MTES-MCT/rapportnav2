@@ -28,7 +28,7 @@ const UnderlineStack = styled((props: StackProps) => <Stack {...props} direction
 const AddCrewMemberButton = styled((props: ButtonProps) => (
   <Button
     Icon={Icon.Plus}
-    size={Size.NORMAL}
+    size={Size.SMALL}
     isFullWidth={true}
     accent={Accent.SECONDARY}
     role="add-crew-member-button"
@@ -40,7 +40,7 @@ const AddCrewMemberButton = styled((props: ButtonProps) => (
 }))
 
 const CrewStack = styled((props: StackProps) => (
-  <Stack {...props} direction="column" alignItems="center" spacing="0.25rem" />
+  <Stack {...props} direction="column" alignItems="flex-start" spacing="0.25rem" />
 ))({
   width: '100%'
 })
@@ -115,7 +115,7 @@ const MissionCrewUlam: React.FC<MissionCrewProps> = () => {
 
 
       <CrewStack>
-        <Stack.Item style={{ width: '70%' }}>
+        <Stack.Item style={{ width: '100%' }}>
           <MissionCrewMemberList
             crewList={crewList}
             handleEditCrew={handleOpenCrewForm}
