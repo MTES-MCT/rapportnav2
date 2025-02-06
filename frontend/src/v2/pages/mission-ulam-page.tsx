@@ -18,7 +18,6 @@ import MissionActionUlam from '../features/ulam/components/element/mission-actio
 import MissionGeneralInformationUlam from '../features/ulam/components/element/mission-general-information-ulam.tsx'
 import MissionTimelineHeaderUlam from '../features/ulam/components/element/mission-timeline-header-ulam.tsx'
 import MissionTimelineUlam from '../features/ulam/components/element/mission-timeline-ulam.tsx'
-import { MissionGeneralInfoExtended, MissionULAMGeneralInfoInitial } from '../features/common/types/mission-types.ts'
 
 const MissionUlamPage: React.FC = () => {
   const lastSync = useApolloLastSync()
@@ -30,20 +29,6 @@ const MissionUlamPage: React.FC = () => {
   const { data: mission, isLoading, error } = useGetMissionQuery(missionId)
 
   const lastSyncText = lastSync ? formatTime(new Date(parseInt(lastSync!!, 10))) : undefined
-
-  const missionGeneralInitial: MissionULAMGeneralInfoInitial = {
-    startDateTimeUtc: mission?.envData?.startDateTimeUtc,
-    endDateTimeUtc: mission?.envData?.endDateTimeUtc,
-    missionTypes: mission?.envData?.missionTypes,
-    missionReportType: mission?.generalInfos?.missionReportType,
-    reinforcementType: mission?.generalInfos?.reinforcementType
-  }
-
-  const missionGeneralExtended: MissionGeneralInfoExtended = {
-    isMissionArmed: mission?.generalInfos?.isMissionArmed,
-    isWithInterMinisterialService: mission?.generalInfos?.isWithInterMinisterialService,
-    crew: mission?.generalInfos?.crew,
-  }
 
   if (error) return <MissionPageError />
   if (isLoading) return <MissionPageLoading />
@@ -61,7 +46,7 @@ const MissionUlamPage: React.FC = () => {
       missionGeneralInformations={
         <MissionPageSectionWrapper
           sectionHeader={<MissionGeneralInformationHeader />}
-          sectionBody={<MissionGeneralInformationUlam initial={missionGeneralInitial} extended={missionGeneralExtended} />}
+          sectionBody={<MissionGeneralInformationUlam mission={mission} />}
         />
       }
       missionTimeLine={

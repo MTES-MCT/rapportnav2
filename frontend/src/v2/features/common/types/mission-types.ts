@@ -20,6 +20,7 @@ export type MissionGeneralInfoPam = {
 }
 
 export type MissionULAMGeneralInfoInitial = {
+  id?: number
   startDateTimeUtc: string
   endDateTimeUtc: string
   missionTypes: MissionTypeEnum[]
@@ -30,7 +31,7 @@ export type MissionULAMGeneralInfoInitial = {
 
 export type MissionGeneralInfoExtended = {
   resources?: ControlResource[]
-  crew?: MissionCrew
+  crew?: MissionCrew[]
   isMissionArmed?: boolean
   isWithInterMinisterialService?: boolean
   observations?: string
@@ -113,17 +114,19 @@ export type MissionEnvData = {
 
 export type MissionGeneralInfo2 = MissionGeneralInfoPam & {
   missionReportType?: MissionReportTypeEnum
-  missionTypes?: MissionTypeEnum[]
+  missionTypes: MissionTypeEnum[]
   reinforcementType?: MissionReinforcementTypeEnum
   nbHourAtSea?: number
-  crew: MissionCrew[]
-  services: Service[]
+  crew?: MissionCrew[]
+  services?: Service[]
   isMissionArmed?: boolean
   isWithInterMinisterialService?: boolean
   isAllAgentsParticipating?: boolean
   missionId?: number
   startDateTimeUtc: string
   endDateTimeUtc: string
+  observations?: string
+  resources?: ControlResource[]
 }
 
 export type Mission2 = {

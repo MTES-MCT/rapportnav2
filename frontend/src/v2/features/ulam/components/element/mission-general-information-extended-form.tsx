@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { Field, FieldProps, Formik } from 'formik'
 import {
   InterMinisterialService,
@@ -8,7 +8,7 @@ import {
   Accent,
   Button,
   FormikCheckbox,
-  FormikEffect,
+  FormikEffect, FormikTextarea,
   Icon,
   Size
 } from '@mtes-mct/monitor-ui'
@@ -18,6 +18,7 @@ import {
   useMissionGeneralInformationsExtendedForm
 } from '../../../common/hooks/use-mission-general-informations-extended-form.tsx'
 import ControlUnitResource from './controlUnitResource/control-unit-resource.tsx'
+import MissionObservationsUnit from '../../../common/components/elements/mission-observations-unit.tsx'
 
 export interface MissionGeneralInformationExtendedFormProps {
   name: string,
@@ -78,6 +79,19 @@ const MissionGeneralInformationExtendedForm: FC<MissionGeneralInformationExtende
                   </Button>
                 </Stack.Item>
               )}
+
+              <Stack style={{marginTop: '1.5rem'}}>
+                <Stack.Item style={{width:'100%', paddingRight: 20}}>
+                  <FormikTextarea
+                    isRequired={true}
+                    isLight={false}
+                    name="observations"
+                    data-testid="mission-general-observation"
+                    label="Observation générale à l'échelle de la mission (remarques, résumé)"
+                    isErrorMessageHidden={true}
+                  />
+                </Stack.Item>
+              </Stack>
             </Stack>
           )}
         </Formik>
