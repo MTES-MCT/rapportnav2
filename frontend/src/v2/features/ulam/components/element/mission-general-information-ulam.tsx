@@ -1,91 +1,83 @@
 import { FormikEffect, THEME } from '@mtes-mct/monitor-ui'
-import React, { useState } from 'react'
+import React from 'react'
 import { useDelay } from '../../../../features/common/hooks/use-delay'
 import { Field, FieldProps, Formik } from 'formik'
 import {
-  MissionGeneralInfoFinal,
-  MissionReinforcementTypeEnum,
-  MissionReportTypeEnum, MissionType,
+  Mission2, MissionGeneralInfo2,
+  MissionGeneralInfoExtended,
   MissionULAMGeneralInfoInitial
 } from '../../../common/types/mission-types.ts'
 import MissionGeneralInformationInitialForm from './mission-general-information-initial-form.tsx'
 import { Stack } from 'rsuite'
-import MissionGeneralInformationFinalForm from './mission-general-information-final-form.tsx'
+import MissionGeneralInformationExtendedForm from './mission-general-information-extended-form.tsx'
+import { useParams } from 'react-router-dom'
+import { useStore } from '@tanstack/react-store'
+import { store } from '../../../../store'
+import { resetDebounceTime } from '../../../../store/slices/delay-query-reducer.ts'
+import useCreateMissionMutation from '../../services/use-create-mission.tsx'
 
-type MissionGeneralInformationUlamProps = {}
+type MissionGeneralInformationUlamProps = {
+  initial?: MissionULAMGeneralInfoInitial,
+  extended?: MissionGeneralInfoExtended,
+  mission: Mission2
+}
 
-type NewMissionUlamGeneralInfoInitial =  { missionGeneralInfo: MissionULAMGeneralInfoInitial }
-type NewMissionUlamGeneralInfoFinal = { missionGeneralInfo: MissionGeneralInfoFinal }
+type NewMissionGeneralInfo = { initial: MissionULAMGeneralInfoInitial, extended: MissionGeneralInfoExtended }
 
-const MissionGeneralInformationUlam: React.FC<MissionGeneralInformationUlamProps> = () => {
+const MissionGeneralInformationUlam: React.FC<MissionGeneralInformationUlamProps> = ({initial, extended, mission}) => {
+  let { missionId } = useParams()
   const { handleExecuteOnDelay } = useDelay()
-  const [value, setValue] = useState<NewMissionUlamGeneralInfoInitial>()
-  const handleChange = (nextValue?: NewMissionUlamGeneralInfoInitial) => {
-    setValue(nextValue)
-    handleExecuteOnDelay(() => console.log(nextValue))
+  const debounceTime = useStore(store, state => state.delayQuery.debounceTime)
+  const mutation = useCreateMissionMutation(missionId);
+
+  const initialValues: NewMissionGeneralInfo = {
+    initial,
+    extended
   }
 
-  const initialValues: NewMissionUlamGeneralInfoInitial = {
-    missionGeneralInfo : {
-      startDateTimeUtc: "",
-      endDateTimeUtc: "",
-      missionTypes: [MissionType.AIR],
-      reinforcementType: MissionReinforcementTypeEnum.DIRM,
-      missionReportType: MissionReportTypeEnum.FIELD_REPORT,
-      nbHourAtSea: 4
+  const handleSubmit = (values: NewMissionGeneralInfo) => {
+    const generalInfos: MissionGeneralInfo2 = {
+      id: mission?.generalInfos.id,
+      nbHourAtSea: values.initial.nbHourAtSea,
+      reinforcementType: values.initial.reinforcementType,
+      missionReportType: values.initial.missionReportType,
+      isMissionArmed: values.extended.isMissionArmed,
+      isAllAgentsParticipating: values.extended.isAllAgentsParticipating,
+      isWithInterMinisterialService: values.extended.isWithInterMinisterialService,
+      missionTypes: values.initial.missionTypes,
+      missionId: Number(missionId),
+      serviceId: mission?.generalInfos.serviceId,
+      startDateTimeUtc: values.initial.startDateTimeUtc,
+      endDateTimeUtc: values.initial.endDateTimeUtc
     }
-  }
 
-  const finalValues: NewMissionUlamGeneralInfoFinal = {
-    missionGeneralInfo: {
-      crew: null,
-      isJointMission: false,
-      isMissionArmed: false,
-      resources: null,
-      observations: null,
-    }
-  }
+    handleExecuteOnDelay(async () => {
+      await mutation.mutateAsync(generalInfos)
+      if (debounceTime !== undefined) resetDebounceTime()
+    }, debounceTime)
 
-  const handleSubmit = (values: NewMissionUlamGeneralInfoInitial) => {
-    console.log('submit')
-  }
 
-  const handleSubmitFinal = (values: NewMissionUlamGeneralInfoFinal) => {
-    console.log('submitFinal')
-  }
-
-  const onClose = () => {
-    console.log('onClose')
   }
 
   return (
     <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
       <Stack direction="column" alignItems="flex-start" spacing={'1rem'}>
-        <Formik initialValues={initialValues} onSubmit={handleChange}>
+        <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize={true}>
           <>
-            <FormikEffect onChange={ newValues => handleSubmit(newValues as NewMissionUlamGeneralInfoInitial) } />
-            <Field name={"missionGeneralInfo"}>
+          <FormikEffect onChange={newValues => handleSubmit(newValues as NewMissionGeneralInfo)} />
+            <Field name="initial">
               {(field: FieldProps<MissionULAMGeneralInfoInitial>) => (
                 <MissionGeneralInformationInitialForm
-                  name="missionGeneralInfo"
+                  name="initial"
                   fieldFormik={field}
                   isCreation={false}
-                  onClose={onClose}
                 />
               )}
             </Field>
-          </>
-        </Formik>
-      </Stack>
-
-      <Stack direction="column" alignItems="flex-start" spacing={'1rem'}>
-        <Formik initialValues={finalValues} onSubmit={() => console.log('submit final')}>
-          <>
-            <FormikEffect onChange={ newValues => handleSubmitFinal(newValues as NewMissionUlamGeneralInfoFinal) } />
-            <Field name={"missionGeneralInfo"}>
-              {(field: FieldProps<MissionGeneralInfoFinal>) => (
-                <MissionGeneralInformationFinalForm
-                  name="missionGeneralInfo"
+            <Field name="extended">
+              {(field: FieldProps<MissionGeneralInfoExtended>) => (
+                <MissionGeneralInformationExtendedForm
+                  name="extended"
                   fieldFormik={field}
                 />
               )}

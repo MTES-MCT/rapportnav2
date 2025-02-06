@@ -107,7 +107,7 @@ const MissionCrewUlam: React.FC<MissionCrewProps> = () => {
             <Checkbox
               label={"Tous les agents de l'unité participent à la mission"}
               onClick={() => loadAgentsService()}
-              name={"isAllAgent"}
+              name={"isAllAgentsParticipating"}
             />
           </Stack.Item>
         </Stack>

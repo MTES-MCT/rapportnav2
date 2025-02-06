@@ -9,7 +9,7 @@ import {
   Size,
   THEME
 } from '@mtes-mct/monitor-ui'
-import { Form, Formik } from 'formik'
+import { Field, FieldProps, Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { FlexboxGrid, Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
@@ -110,21 +110,27 @@ const MissionCrewForm: React.FC<MissionCrewModalProps> = ({ crewList, handleClos
                 <Stack.Item style={{ width: '100%' }}>
                   <CrewFormStack direction="row">
                     <Stack.Item style={{ flex: 1, width: '50%' }}>
-                      <FormikMultiSelect
-                        name={"agentsIds"}
-                        label="Nom des agents"
-                        placeholder=""
-                        isRequired={true}
-                        searchable={true}
-                        virtualized={true}
-                        options={
-                          agents?.map((agent: Agent) => ({
-                            value: agent.id,
-                            label: `${agent.firstName} ${agent.lastName}`
-                          })) || []
-                        }
-                        isLight={true}
-                      />
+                      <Field name="agentsIds">
+                        {({ field, form }: FieldProps<CrewForm>) => (
+                          <FormikMultiSelect
+                            {...field} // Assure-toi que Formik prend bien en charge le champ
+                            label="Nom des agents"
+                            placeholder=""
+                            isRequired={true}
+                            searchable={true}
+                            virtualized={true}
+                            options={
+                              agents?.map((agent: Agent) => ({
+                                value: agent.id,
+                                label: `${agent.firstName} ${agent.lastName}`
+                              })) || []
+                            }
+                            isLight={true}
+                            value={field.value} // Assurer que la valeur de Formik est bien passée
+                            onChange={(value: any) => form.setFieldValue(field.name, value)} // Gestion de la sélection
+                          />
+                        )}
+                      </Field>
                     </Stack.Item>
                   </CrewFormStack>
                 </Stack.Item>

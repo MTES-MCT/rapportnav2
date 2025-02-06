@@ -11,7 +11,7 @@ export enum MissionType {
 }
 
 export type MissionGeneralInfoPam = {
-  id: number
+  id?: number
   distanceInNauticalMiles?: number
   consumedGOInLiters?: number
   consumedFuelInLiters?: number
@@ -22,18 +22,19 @@ export type MissionGeneralInfoPam = {
 export type MissionULAMGeneralInfoInitial = {
   startDateTimeUtc: string
   endDateTimeUtc: string
-  missionTypes: MissionType[]
+  missionTypes: MissionTypeEnum[]
   missionReportType?: MissionReportTypeEnum
   reinforcementType?: MissionReinforcementTypeEnum
   nbHourAtSea?: number
 }
 
-export type MissionGeneralInfoFinal = {
-  resources?: ControlResource[],
-  crew?: MissionCrew,
-  isMissionArmed?: boolean,
-  isJointMission?: boolean,
+export type MissionGeneralInfoExtended = {
+  resources?: ControlResource[]
+  crew?: MissionCrew
+  isMissionArmed?: boolean
+  isWithInterMinisterialService?: boolean
   observations?: string
+  isAllAgentsParticipating?: boolean
 }
 
 export enum MissionReportTypeEnum {
@@ -111,13 +112,18 @@ export type MissionEnvData = {
 }
 
 export type MissionGeneralInfo2 = MissionGeneralInfoPam & {
-  missionReportType: MissionReportTypeEnum
-  missionTypes: MissionTypeEnum[]
-  reinforcementType: MissionReinforcementTypeEnum
-  nbHourAtSea: number
-  serviceId: number
+  missionReportType?: MissionReportTypeEnum
+  missionTypes?: MissionTypeEnum[]
+  reinforcementType?: MissionReinforcementTypeEnum
+  nbHourAtSea?: number
   crew: MissionCrew[]
   services: Service[]
+  isMissionArmed?: boolean
+  isWithInterMinisterialService?: boolean
+  isAllAgentsParticipating?: boolean
+  missionId?: number
+  startDateTimeUtc: string
+  endDateTimeUtc: string
 }
 
 export type Mission2 = {
@@ -147,4 +153,9 @@ export type MissionListItem = {
   missionSource?: MissionSourceEnum
   completenessForStats?: CompletenessForStats
   controlUnits?: Omit<ControlUnit, 'id'>[]
+}
+
+export type InterMinisterialService = {
+  id?: number
+  name: string
 }

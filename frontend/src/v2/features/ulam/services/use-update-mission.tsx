@@ -1,14 +1,15 @@
 import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
 
 import axios from '../../../../query-client/axios'
-import { Mission, MissionGeneralInfo2 } from '../../common/types/mission-types.ts'
+import { Mission, MissionULAMGeneralInfoInitial } from '../../common/types/mission-types.ts'
 import * as Sentry from '@sentry/react'
+import { MissionGeneralInfo } from '@common/types/mission-types.ts'
 
-const useCreateMissionMutation = (): UseMutationResult<Mission, Error, MissionGeneralInfo2, unknown> => {
+const useUpdateMissionMutation = (missionId: string): UseMutationResult<Mission, Error, MissionGen, unknown> => {
   const queryClient = useQueryClient()
 
 
-  const createMission = (mission: MissionGeneralInfo2): Promise<Mission> =>
+  const createMission = (mission: MissionULAMGeneralInfoInitial): Promise<Mission> =>
     axios.post(`/missions`, mission).then(response => response.data)
 
   return useMutation({

@@ -1,4 +1,4 @@
-import { Accent, Icon, IconButton, IconButtonProps, IconProps, Size } from '@mtes-mct/monitor-ui'
+import { Accent, Icon, IconButton, IconButtonProps, Size } from '@mtes-mct/monitor-ui'
 import { FlexboxGrid, List, ListItemProps, Stack } from 'rsuite'
 import styled from 'styled-components'
 import Text, { TextProps } from '@common/components/ui/text.tsx'

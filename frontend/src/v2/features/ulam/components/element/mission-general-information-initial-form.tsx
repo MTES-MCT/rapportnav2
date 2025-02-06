@@ -1,13 +1,13 @@
 import {
   Accent,
   Button,
-  FormikDateRangePicker,
+  FormikDateRangePicker, FormikEffect,
   FormikMultiCheckbox,
   FormikNumberInput,
-  FormikSelect,
+  FormikSelect, Icon, Size
 } from '@mtes-mct/monitor-ui'
 import { FieldProps, Formik } from 'formik'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { FlexboxGrid, Stack } from 'rsuite'
 import { useMissionGeneralInformationsForm } from '../../../common/hooks/use-mission-general-informations-form.tsx'
 import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
@@ -26,11 +26,11 @@ export interface MissionGeneralInformationInitialFormProps {
 }
 
 const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialFormProps> = ({
-  name,
-  fieldFormik,
-  isCreation = false,
-  onClose
-}) => {
+                                                                                               name,
+                                                                                               fieldFormik,
+                                                                                               isCreation = false,
+                                                                                               onClose
+                                                                                             }) => {
   const { initValue, handleSubmit } = useMissionGeneralInformationsForm(name, fieldFormik)
   const { missionTypeOptions, reportTypeOptions, reinforcementTypeOptions } = useMissionType()
 
@@ -45,13 +45,13 @@ const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialF
   });
 
 
-
   return (
     <>
       {initValue && (
         <Formik initialValues={initValue} onSubmit={handleSubmit} validationSchema={generalInfoInitialSchema} validateOnMount>
-          {formik => (
+          {(formik) => (
             <Stack direction="column" spacing="1.5rem" style={{ paddingBottom: '2rem' }}>
+              <FormikEffect onChange={newValues => handleSubmit(newValues)} />
               <Stack.Item style={{ width: '100%' }}>
                 <FormikSelect
                   options={reportTypeOptions}
@@ -74,7 +74,7 @@ const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialF
                 />
               </Stack.Item>
 
-              {formik.values['missionReportType'] === MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT && (
+              {formik.values.missionReportType === MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT && (
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikSelect
                     label="Nature du renfort"
@@ -98,12 +98,12 @@ const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialF
                   </FlexboxGrid.Item>
 
                   {!isCreation && (
-                    <FlexboxGrid.Item>
-                      <FormikNumberInput
-                        label={"Nb d'heures en mer"}
-                        name={'nbHourAtSea'}
-                      />
-                    </FlexboxGrid.Item>
+                      <FlexboxGrid.Item>
+                        <FormikNumberInput
+                          label={"Nb d'heures en mer"}
+                          name={'nbHourAtSea'}
+                        />
+                      </FlexboxGrid.Item>
                   )}
                 </FlexboxGrid>
               </Stack.Item>
@@ -135,3 +135,5 @@ const MissionGeneralInformationInitialForm: FC<MissionGeneralInformationInitialF
 }
 
 export default MissionGeneralInformationInitialForm
+
+
