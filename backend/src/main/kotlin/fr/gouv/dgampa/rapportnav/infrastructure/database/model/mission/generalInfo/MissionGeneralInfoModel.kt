@@ -29,7 +29,16 @@ class MissionGeneralInfoModel(
     var serviceId: Int? = null,
 
     @Column(name = "nbr_of_recognized_vessel", nullable = true)
-    var  nbrOfRecognizedVessel: Int? = null
+    var  nbrOfRecognizedVessel: Int? = null,
+
+    @Column(name = "is_with_interministerial_service", nullable = true)
+    var isWithInterMinisterialService: Boolean? = false,
+
+    @Column(name = "is_all_agents_participating", nullable = true)
+    var isAllAgentsParticipating: Boolean? = false,
+
+    @Column(name = "is_mission_armed", nullable = true)
+    var isMissionArmed: Boolean? = false
 ) {
     fun toMissionGeneralInfoEntity(): MissionGeneralInfoEntity {
         return MissionGeneralInfoEntity(
@@ -39,7 +48,10 @@ class MissionGeneralInfoModel(
             consumedGOInLiters,
             consumedFuelInLiters,
             serviceId,
-            nbrOfRecognizedVessel
+            nbrOfRecognizedVessel,
+            isWithInterMinisterialService,
+            isAllAgentsParticipating,
+            isMissionArmed
         )
     }
 
@@ -51,7 +63,10 @@ class MissionGeneralInfoModel(
             consumedGOInLiters = info.consumedGOInLiters,
             consumedFuelInLiters = info.consumedFuelInLiters,
             serviceId = info.serviceId,
-            nbrOfRecognizedVessel = info.nbrOfRecognizedVessel
+            nbrOfRecognizedVessel = info.nbrOfRecognizedVessel,
+            isWithInterMinisterialService = info.isWithInterMinisterialService,
+            isAllAgentsParticipating = info.isAllAgentsParticipating,
+            isMissionArmed = info.isMissionArmed
         )
     }
 }

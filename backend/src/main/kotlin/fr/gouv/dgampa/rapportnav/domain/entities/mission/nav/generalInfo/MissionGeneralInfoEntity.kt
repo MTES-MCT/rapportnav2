@@ -11,4 +11,7 @@ data class MissionGeneralInfoEntity(
     var serviceId: Int? = null,
     @MandatoryForStats
     var nbrOfRecognizedVessel: Int? = null,
+    var isWithInterMinisterialService: Boolean? = false,
+    var isAllAgentsParticipating: Boolean? = false,
+    var isMissionArmed: Boolean? = false
 )

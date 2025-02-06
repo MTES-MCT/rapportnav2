@@ -6,16 +6,18 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Le
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.controlUnit.IEnvControlUnitRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateOrUpdateGeneralInfo
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import org.slf4j.LoggerFactory
 
 @UseCase
-class CreateEnvMission(
+class CreateOrUpdateEnvMission(
     private val monitorEnvRepo: IEnvMissionRepository,
-    private val monitorEnvControlUnitRepo: IEnvControlUnitRepository
+    private val monitorEnvControlUnitRepo: IEnvControlUnitRepository,
+    private val createOrUpdateGeneralInfo: CreateOrUpdateGeneralInfo
 ) {
-    private val logger = LoggerFactory.getLogger(CreateEnvMission::class.java)
+    private val logger = LoggerFactory.getLogger(CreateOrUpdateEnvMission::class.java)
 
     fun execute(missionGeneralInfo: MissionGeneralInfo2, controlUnitIds: List<Int>?): MissionEnvEntity? {
         try {
@@ -30,12 +32,13 @@ class CreateEnvMission(
             }
 
             if (matchedControlUnits.isEmpty()) {
-                throw Exception("CreateEnvMission : controlUnits is empty for this user")
+                throw Exception("CreateOrUpdateEnvMission : controlUnits is empty for this user")
             }
 
             val missionEnv = MissionEnv(
+                id = missionGeneralInfo.missionId,
                 missionTypes = missionGeneralInfo.missionTypes,
-                missionSource = MissionSourceEnum.MONITORENV,
+                missionSource = MissionSourceEnum.RAPPORTNAV,
                 startDateTimeUtc = missionGeneralInfo.startDateTimeUtc,
                 endDateTimeUtc = missionGeneralInfo.endDateTimeUtc,
                 controlUnits = matchedControlUnits,
@@ -44,10 +47,31 @@ class CreateEnvMission(
                 isGeometryComputedFromControls = false, //TODO: a checker
             )
 
-            return monitorEnvRepo.createMission(missionEnv)
+            val result = monitorEnvRepo.createMission(missionEnv)
+
+            if (result !== null) {
+               createOrUpdateGeneralInfo.execute(
+                    MissionGeneralInfo2(
+                        id = missionGeneralInfo.id,
+                        missionId = result.id!!,
+                        startDateTimeUtc = missionGeneralInfo.startDateTimeUtc,
+                        endDateTimeUtc = missionGeneralInfo.endDateTimeUtc,
+                        missionTypes = missionGeneralInfo.missionTypes,
+                        isAllAgentsParticipating = missionGeneralInfo.isAllAgentsParticipating,
+                        isWithInterMinisterialService = missionGeneralInfo.isWithInterMinisterialService,
+                        missionReportType = missionGeneralInfo.missionReportType,
+                        reinforcementType = missionGeneralInfo.reinforcementType
+                    )
+                )
+
+                logger.info("GeneralInfo save or update successfully")
+
+            }
+
+            return result
 
         } catch (e: Exception) {
-            logger.error("CreateEnvMission failed creating missions", e)
+            logger.error("CreateOrUpdateEnvMission failed creating missions", e)
             return null
         }
     }
