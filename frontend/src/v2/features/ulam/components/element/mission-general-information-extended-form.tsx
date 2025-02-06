@@ -81,16 +81,6 @@ const MissionGeneralInformationExtendedForm: FC<MissionGeneralInformationExtende
                   </Button>
                 </Stack.Item>
               )}
-
-
-
-              <Stack.Item style={{ width: '100%' }}>
-                <FormikTextarea
-                  name={"observations"}
-                  label={"Observation générale à l'échelle de la mission (remarques, résumé)"}
-                />
-
-              </Stack.Item>
             </Stack>
           )}
         </Formik>

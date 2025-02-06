@@ -15,6 +15,7 @@ import { useStore } from '@tanstack/react-store'
 import { store } from '../../../../store'
 import { resetDebounceTime } from '../../../../store/slices/delay-query-reducer.ts'
 import useCreateMissionMutation from '../../services/use-create-mission.tsx'
+import MissionObservationsUnit from '../../../common/components/elements/mission-observations-unit.tsx'
 
 type MissionGeneralInformationUlamProps = {
   initial?: MissionULAMGeneralInfoInitial,
@@ -84,6 +85,9 @@ const MissionGeneralInformationUlam: React.FC<MissionGeneralInformationUlamProps
             </Field>
           </>
         </Formik>
+        <Stack.Item>
+          <MissionObservationsUnit missionId={mission?.id}/>
+        </Stack.Item>
       </Stack>
     </Stack.Item>
   )
