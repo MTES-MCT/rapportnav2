@@ -3,7 +3,7 @@ import React from 'react'
 import { useDelay } from '../../../../features/common/hooks/use-delay'
 import { Field, FieldProps, Formik } from 'formik'
 import {
-  Mission2, MissionGeneralInfo2,
+  Mission2,
   MissionGeneralInfoExtended,
   MissionULAMGeneralInfoInitial
 } from '../../../common/types/mission-types.ts'
@@ -11,11 +11,8 @@ import MissionGeneralInformationInitialForm from './mission-general-information-
 import { Stack } from 'rsuite'
 import MissionGeneralInformationExtendedForm from './mission-general-information-extended-form.tsx'
 import { useParams } from 'react-router-dom'
-import { useStore } from '@tanstack/react-store'
-import { store } from '../../../../store'
-import { resetDebounceTime } from '../../../../store/slices/delay-query-reducer.ts'
-import useCreateMissionMutation from '../../services/use-create-mission.tsx'
 import MissionObservationsUnit from '../../../common/components/elements/mission-observations-unit.tsx'
+import useHandleSubmitMissionGeneralInfoHook, { useHandleSubmitMissionGeneralInformation } from '../../hooks/use-submit-mission-general-information.tsx'
 
 type MissionGeneralInformationUlamProps = {
   initial?: MissionULAMGeneralInfoInitial,
@@ -27,37 +24,13 @@ type NewMissionGeneralInfo = { initial: MissionULAMGeneralInfoInitial, extended:
 
 const MissionGeneralInformationUlam: React.FC<MissionGeneralInformationUlamProps> = ({initial, extended, mission}) => {
   let { missionId } = useParams()
-  const { handleExecuteOnDelay } = useDelay()
-  const debounceTime = useStore(store, state => state.delayQuery.debounceTime)
-  const mutation = useCreateMissionMutation(missionId);
+
+  const { handleSubmit } = useHandleSubmitMissionGeneralInfoHook(missionId)
+
 
   const initialValues: NewMissionGeneralInfo = {
     initial,
     extended
-  }
-
-  const handleSubmit = (values: NewMissionGeneralInfo) => {
-    const generalInfos: MissionGeneralInfo2 = {
-      id: mission?.generalInfos.id,
-      nbHourAtSea: values.initial.nbHourAtSea,
-      reinforcementType: values.initial.reinforcementType,
-      missionReportType: values.initial.missionReportType,
-      isMissionArmed: values.extended.isMissionArmed,
-      isAllAgentsParticipating: values.extended.isAllAgentsParticipating,
-      isWithInterMinisterialService: values.extended.isWithInterMinisterialService,
-      missionTypes: values.initial.missionTypes,
-      missionId: Number(missionId),
-      serviceId: mission?.generalInfos.serviceId,
-      startDateTimeUtc: values.initial.startDateTimeUtc,
-      endDateTimeUtc: values.initial.endDateTimeUtc
-    }
-
-    handleExecuteOnDelay(async () => {
-      await mutation.mutateAsync(generalInfos)
-      if (debounceTime !== undefined) resetDebounceTime()
-    }, debounceTime)
-
-
   }
 
   return (
@@ -65,7 +38,7 @@ const MissionGeneralInformationUlam: React.FC<MissionGeneralInformationUlamProps
       <Stack direction="column" alignItems="flex-start" spacing={'1rem'}>
         <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize={true}>
           <>
-          <FormikEffect onChange={newValues => handleSubmit(newValues as NewMissionGeneralInfo)} />
+          <FormikEffect onChange={newValues => handleSubmit(newValues as NewMissionGeneralInfo, mission)} />
             <Stack direction="column" style={{ width: '100%' }} alignItems={'flex-start'}>
               <Stack.Item>
                 <Field name="initial">
@@ -79,7 +52,7 @@ const MissionGeneralInformationUlam: React.FC<MissionGeneralInformationUlamProps
                 </Field>
               </Stack.Item>
 
-              <Stack.Item style={{ width: '70%' }}>
+              <Stack.Item style={{ width: '60%' }}>
                 <Field name="extended">
                   {(field: FieldProps<MissionGeneralInfoExtended>) => (
                     <MissionGeneralInformationExtendedForm

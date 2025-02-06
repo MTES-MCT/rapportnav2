@@ -3,19 +3,16 @@ import { Field, FieldProps, Formik } from 'formik'
 import {
   InterMinisterialService,
   MissionGeneralInfoExtended,
-  MissionReportTypeEnum
 } from '../../../common/types/mission-types.ts'
 import {
   Accent,
   Button,
   FormikCheckbox,
   FormikEffect,
-  FormikSelect,
-  FormikTextarea,
   Icon,
   Size
 } from '@mtes-mct/monitor-ui'
-import { FlexboxGrid, Stack } from 'rsuite'
+import {  Stack } from 'rsuite'
 import MissionCrewUlam from './mission-crew-ulam.tsx'
 import {
   useMissionGeneralInformationsExtendedForm

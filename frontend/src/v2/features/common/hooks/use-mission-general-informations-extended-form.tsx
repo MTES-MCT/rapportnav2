@@ -12,7 +12,7 @@ export function useMissionGeneralInformationsExtendedForm(
     return {
       ...data,
       envData: {
-        startDateTimeUtc: data.resources,
+        controlUnits: [{resources: data.resources}],
         observationsByUnit: data.observations
       }
     }
