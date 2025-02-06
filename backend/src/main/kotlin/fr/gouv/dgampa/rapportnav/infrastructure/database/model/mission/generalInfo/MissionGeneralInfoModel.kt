@@ -57,7 +57,10 @@ class MissionGeneralInfoModel(
             serviceId,
             nbrOfRecognizedVessel,
             isWithInterMinisterialService,
-            isMissionArmed
+            isMissionArmed,
+            nbHourAtSea = nbHourAtSea,
+            missionReportType = missionReportType,
+            reinforcementType = reinforcementType
         )
     }
 
