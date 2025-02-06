@@ -60,7 +60,8 @@ class CreateOrUpdateEnvMission(
                         isAllAgentsParticipating = missionGeneralInfo.isAllAgentsParticipating,
                         isWithInterMinisterialService = missionGeneralInfo.isWithInterMinisterialService,
                         missionReportType = missionGeneralInfo.missionReportType,
-                        reinforcementType = missionGeneralInfo.reinforcementType
+                        reinforcementType = missionGeneralInfo.reinforcementType,
+                        nbHourAtSea = missionGeneralInfo.nbHourAtSea
                     )
                 )
 

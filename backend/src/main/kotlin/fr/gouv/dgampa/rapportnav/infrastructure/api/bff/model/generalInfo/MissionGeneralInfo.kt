@@ -10,6 +10,7 @@ data class MissionGeneralInfo(
     var consumedFuelInLiters: Float? = null,
     var serviceId: Int? = null,
     var nbrOfRecognizedVessel: Int? = null,
+    var nbHourAtSea: Int? = null
 ) {
     fun toMissionGeneralInfoEntity(): MissionGeneralInfoEntity {
         return MissionGeneralInfoEntity(
@@ -32,7 +33,9 @@ data class MissionGeneralInfo(
                 consumedGOInLiters = info.consumedGOInLiters,
                 consumedFuelInLiters = info.consumedFuelInLiters,
                 serviceId = info.serviceId,
-                nbrOfRecognizedVessel = info.nbrOfRecognizedVessel
+                nbrOfRecognizedVessel = info.nbrOfRecognizedVessel,
+                nbHourAtSea = info.nbHourAtSea,
+
             )
         }
     }

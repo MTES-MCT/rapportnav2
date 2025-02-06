@@ -1,10 +1,9 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "mission_general_info")
@@ -34,11 +33,19 @@ class MissionGeneralInfoModel(
     @Column(name = "is_with_interministerial_service", nullable = true)
     var isWithInterMinisterialService: Boolean? = false,
 
-    @Column(name = "is_all_agents_participating", nullable = true)
-    var isAllAgentsParticipating: Boolean? = false,
-
     @Column(name = "is_mission_armed", nullable = true)
-    var isMissionArmed: Boolean? = false
+    var isMissionArmed: Boolean? = false,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "mission_report_type", nullable = true)
+    var missionReportType: MissionReportTypeEnum? = null,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "reinforcement_type", nullable = true)
+    var reinforcementType: MissionReinforcementTypeEnum? = null,
+
+    @Column(name = "nb_hour_at_sea")
+    var nbHourAtSea: Int? = null
 ) {
     fun toMissionGeneralInfoEntity(): MissionGeneralInfoEntity {
         return MissionGeneralInfoEntity(
@@ -50,7 +57,6 @@ class MissionGeneralInfoModel(
             serviceId,
             nbrOfRecognizedVessel,
             isWithInterMinisterialService,
-            isAllAgentsParticipating,
             isMissionArmed
         )
     }
@@ -65,8 +71,10 @@ class MissionGeneralInfoModel(
             serviceId = info.serviceId,
             nbrOfRecognizedVessel = info.nbrOfRecognizedVessel,
             isWithInterMinisterialService = info.isWithInterMinisterialService,
-            isAllAgentsParticipating = info.isAllAgentsParticipating,
-            isMissionArmed = info.isMissionArmed
+            isMissionArmed = info.isMissionArmed,
+            nbHourAtSea = info.nbHourAtSea,
+            missionReportType = info.missionReportType,
+            reinforcementType = info.reinforcementType
         )
     }
 }
