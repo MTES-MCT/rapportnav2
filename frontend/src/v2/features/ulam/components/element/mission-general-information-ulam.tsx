@@ -90,7 +90,6 @@ const MissionGeneralInformationUlam: React.FC<MissionGeneralInformationUlamProps
                 </Field>
               </Stack.Item>
             </Stack>
-
           </>
         </Formik>
 

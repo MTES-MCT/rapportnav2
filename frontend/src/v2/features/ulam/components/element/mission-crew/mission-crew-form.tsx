@@ -65,10 +65,10 @@ const MissionCrewForm: React.FC<MissionCrewModalProps> = ({ crewList, handleClos
   const [initValue, setInitValue] = useState<CrewForm>()
 
   useEffect(() => {
-    const ids = crewList?.map(crew => crew.agent?.id)|| []
-
+    const ids = crewList?.map(crew => crew.agent?.id) || []
     setInitValue({ agentsIds: ids })
-  })
+  }, [crewList])
+
 
   const handleSubmit = async (value: CrewForm) => {
     let crewsToSubmit: MissionCrewModel[] = []
@@ -86,8 +86,8 @@ const MissionCrewForm: React.FC<MissionCrewModalProps> = ({ crewList, handleClos
     })
 
     await handleSubmitForm(crewsToSubmit)
-
   }
+
 
   return (
     <Dialog>
@@ -113,7 +113,7 @@ const MissionCrewForm: React.FC<MissionCrewModalProps> = ({ crewList, handleClos
                       <Field name="agentsIds">
                         {({ field, form }: FieldProps<CrewForm>) => (
                           <FormikMultiSelect
-                            {...field} // Assure-toi que Formik prend bien en charge le champ
+                            {...field}
                             label="Nom des agents"
                             placeholder=""
                             isRequired={true}
@@ -126,8 +126,8 @@ const MissionCrewForm: React.FC<MissionCrewModalProps> = ({ crewList, handleClos
                               })) || []
                             }
                             isLight={true}
-                            value={field.value} // Assurer que la valeur de Formik est bien passée
-                            onChange={(value: any) => form.setFieldValue(field.name, value)} // Gestion de la sélection
+                            value={field.value}
+                            onChange={(value: any) => form.setFieldValue(field.name, value)}
                           />
                         )}
                       </Field>
