@@ -124,7 +124,7 @@ class MissionRestController(
         }
     }
 
-    @PutMapping("/missionId")
+    @PutMapping("{missionId}")
     fun update(
         @RequestBody body: MissionGeneralInfo2,
         @PathVariable missionId: Int

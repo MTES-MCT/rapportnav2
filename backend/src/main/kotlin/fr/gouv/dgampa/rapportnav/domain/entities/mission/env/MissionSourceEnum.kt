@@ -6,4 +6,5 @@ enum class MissionSourceEnum {
     POSEIDON_CACEM,
     POSEIDON_CNSP,
     RAPPORTNAV,
+    RAPPORT_NAV
 }
