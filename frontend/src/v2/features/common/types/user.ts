@@ -1,9 +1,8 @@
-import { RoleType } from './role-type'
-
 export type User = {
-  id: string
-  name: string
+  id: number
   email: string
-  token: string
-  roles: RoleType[]
+  firstName?: string
+  lastName?: string
+  serviceId?: number
+  serviceName?: string
 }
