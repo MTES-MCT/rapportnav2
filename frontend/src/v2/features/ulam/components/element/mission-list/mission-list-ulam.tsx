@@ -28,17 +28,16 @@ const MissionListUlam: FC<MissionListUlamProps> = ({ missions }) => {
             <Stack.Item style={{ width: '100%' }}>
               {!missions?.length ? (
                 <Stack.Item alignSelf={'center'} style={{ marginTop: '10rem' }}>
-                  <Text as={'h3'}></Text>
-                  Aucune mission pour cette période de temps
+                  <Text as={'h3'}>Aucune mission pour cette période de temps</Text>
                 </Stack.Item>
               ) : (
                 missions?.map((mission, index) => (
                   <MissionListItemUlam
                     index={index}
-                    key={mission.id}
                     mission={mission}
                     openIndex={openIndex}
                     setOpenIndex={setOpenIndex}
+                    key={`${mission.id}-${index}`}
                     missionsLength={missions.length}
                   />
                 ))

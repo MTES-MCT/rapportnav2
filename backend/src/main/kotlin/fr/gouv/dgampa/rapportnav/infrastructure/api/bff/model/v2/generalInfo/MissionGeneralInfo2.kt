@@ -28,7 +28,9 @@ data class MissionGeneralInfo2(
     val services: List<ServiceEntity>? = null,
     val isWithInterMinisterialService: Boolean? = false,
     val isAllAgentsParticipating: Boolean? = false,
-    val isMissionArmed: Boolean? = false
+    val isMissionArmed: Boolean? = false,
+    val observations: String? = null,
+    val resources: List<String>? = listOf(),
 ) {
     companion object {
         fun fromMissionGeneralInfoEntity(
@@ -52,8 +54,9 @@ data class MissionGeneralInfo2(
                 crew = generalInfo2?.crew?.map { MissionCrew.fromMissionCrewEntity(it) },
                 isAllAgentsParticipating = generalInfo2?.data?.isAllAgentsParticipating,
                 isWithInterMinisterialService = generalInfo2?.data?.isWithInterMinisterialService,
-                isMissionArmed = generalInfo2?.data?.isMissionArmed
-
+                isMissionArmed = generalInfo2?.data?.isMissionArmed,
+                observations = envData.observationsByUnit
+                //TODO: resource
             )
         }
     }

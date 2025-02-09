@@ -2,7 +2,8 @@ import {
   Accent,
   Button,
   Dialog,
-  DialogProps, FormikMultiSelect,
+  DialogProps,
+  FormikMultiSelect,
   Icon,
   IconButton,
   IconButtonProps,
@@ -13,8 +14,7 @@ import { Field, FieldProps, Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { FlexboxGrid, Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
-import { Agent, MissionCrew as MissionCrewModel } from '../../../../common/types/crew-type.ts'
-import useAgentsQuery from '../../../../common/services/use-agents.tsx'
+import { Agent, MissionCrewMember } from '../../../common/types/crew-type.ts'
 
 const CrewFormDialogBody = styled((props: DialogProps) => <Dialog.Body {...props} />)(({ theme }) => ({
   padding: 24,
@@ -50,44 +50,25 @@ const CloseIconButton = styled((props: Omit<IconButtonProps, 'Icon'>) => (
 }))
 
 type CrewForm = {
-  agentsIds: number[]
+  agentIds: number[]
 }
 
 interface MissionCrewModalProps {
-  crewList: MissionCrewModel[]
+  agents: Agent[]
+  crewMembers: MissionCrewMember[]
   handleClose: (open: boolean) => void
-  handleSubmitForm: (crews: MissionCrewModel[]) => Promise<void>
-  missionId: number
+  handleEdit: (agentsIds: number[]) => void
 }
 
-const MissionCrewForm: React.FC<MissionCrewModalProps> = ({ crewList, handleClose, handleSubmitForm, missionId }) => {
-  const { data: agents } = useAgentsQuery()
+const MissionCrewForm: React.FC<MissionCrewModalProps> = ({ agents, crewMembers, handleClose, handleEdit }) => {
   const [initValue, setInitValue] = useState<CrewForm>()
 
   useEffect(() => {
-    const ids = crewList?.map(crew => crew.agent?.id) || []
-    setInitValue({ agentsIds: ids })
-  }, [crewList])
+    const ids = crewMembers.map(crew => crew.agent?.id) ?? []
+    setInitValue({ agentIds: ids })
+  }, [crewMembers])
 
-
-  const handleSubmit = async (value: CrewForm) => {
-    let crewsToSubmit: MissionCrewModel[] = []
-
-    value.agentsIds.forEach((id: number) => {
-      const agentForm = agents?.find(agent => agent.id === id)
-      const existInList = crewList.find(crew => crew.agent?.id === id)
-
-      if (!existInList) {
-        crewsToSubmit.push({
-          missionId: missionId,
-          agent: agentForm
-        })
-      }
-    })
-
-    await handleSubmitForm(crewsToSubmit)
-  }
-
+  const handleSubmit = async ({ agentIds }: CrewForm) => handleEdit(agentIds)
 
   return (
     <Dialog>
@@ -100,17 +81,14 @@ const MissionCrewForm: React.FC<MissionCrewModalProps> = ({ crewList, handleClos
         </FlexboxGrid>
       </Dialog.Title>
       {initValue && (
-        <Formik
-          onSubmit={handleSubmit}
-          initialValues={initValue}
-        >
+        <Formik initialValues={initValue} onSubmit={handleSubmit}>
           <Form>
             <CrewFormDialogBody>
               <CrewFormStack>
                 <Stack.Item style={{ width: '100%' }}>
                   <CrewFormStack direction="row">
                     <Stack.Item style={{ flex: 1, width: '50%' }}>
-                      <Field name="agentsIds">
+                      <Field name="agentIds">
                         {({ field, form }: FieldProps<CrewForm>) => (
                           <FormikMultiSelect
                             {...field}
@@ -118,12 +96,11 @@ const MissionCrewForm: React.FC<MissionCrewModalProps> = ({ crewList, handleClos
                             placeholder=""
                             isRequired={true}
                             searchable={true}
-                            virtualized={true}
                             options={
                               agents?.map((agent: Agent) => ({
                                 value: agent.id,
                                 label: `${agent.firstName} ${agent.lastName}`
-                              })) || []
+                              })) ?? []
                             }
                             isLight={true}
                             value={field.value}

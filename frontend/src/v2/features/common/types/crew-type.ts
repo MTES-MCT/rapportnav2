@@ -12,9 +12,9 @@ export type AgentRole = {
   title: string
 }
 
-export type MissionCrew = {
+export type MissionCrewMember = {
   id?: string
-  agent?: Agent
+  agent: Agent
   comment?: string
   role?: AgentRole
   missionId?: number
