@@ -5,9 +5,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 
 @UseCase
 class GetMissionAction(
-    private val getEnvActionByMissionId: GetEnvActionListByMissionId,
-    private val getNavActionByMissionId: GetNavActionListByMissionId,
-    private val getFIshListActionByMissionId: GetFishActionListByMissionId
+    private val getEnvActionByMissionId: GetComputeEnvActionListByMissionId,
+    private val getNavActionByMissionId: GetComputeNavActionListByMissionId,
+    private val getFIshListActionByMissionId: GetComputeFishActionListByMissionId
 ) {
     fun execute(missionId: Int?): List<MissionActionEntity> {
         val envActions = getEnvActionByMissionId.execute(missionId = missionId)

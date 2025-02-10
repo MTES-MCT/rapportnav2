@@ -3,10 +3,10 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMTableExport2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvActionListByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetFishActionListByMissionId
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetNavActionListByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeFishActionListByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNavActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.Base64Converter
@@ -26,9 +26,9 @@ class ExportMissionAEM2(
     @Value("\${rapportnav.aem.tmp_ods.path}") private val aemTmpODSPath: String,
     private val fillAEMExcelRow: FillAEMExcelRow,
     private val getEnvMissionById2: GetEnvMissionById2,
-    private val getEnvActionByMissionId: GetEnvActionListByMissionId,
-    private val getNavActionByMissionId: GetNavActionListByMissionId,
-    private val getFIshListActionByMissionId: GetFishActionListByMissionId,
+    private val getEnvActionByMissionId: GetComputeEnvActionListByMissionId,
+    private val getNavActionByMissionId: GetComputeNavActionListByMissionId,
+    private val getFIshListActionByMissionId: GetComputeFishActionListByMissionId,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(ExportMissionAEM2::class.java)

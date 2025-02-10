@@ -3,7 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetNavActionListByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNavActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
@@ -18,12 +18,12 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 import java.util.*
 
-@SpringBootTest(classes = [GetNavActionListByMissionId::class])
-@ContextConfiguration(classes = [GetNavActionListByMissionId::class])
-class GetNavActionListByMissionIdTest {
+@SpringBootTest(classes = [GetComputeNavActionListByMissionId::class])
+@ContextConfiguration(classes = [GetComputeNavActionListByMissionId::class])
+class GetComputeNavActionListByMissionIdTest {
 
     @Autowired
-    private lateinit var getNavActionList: GetNavActionListByMissionId
+    private lateinit var getNavActionList: GetComputeNavActionListByMissionId
 
     @MockitoBean
     private lateinit var navMissionActionRepository: INavMissionActionRepository
@@ -56,7 +56,7 @@ class GetNavActionListByMissionIdTest {
         `when`(getControlByActionId.getAllControl(anyOrNull())).thenReturn(mockControl)
         `when`(navMissionActionRepository.findByMissionId(missionId)).thenReturn(listOf(action))
 
-        getNavActionList = GetNavActionListByMissionId(
+        getNavActionList = GetComputeNavActionListByMissionId(
             navMissionActionRepository = navMissionActionRepository,
             getControlByActionId = getControlByActionId,
             getStatusForAction = getStatusForAction

@@ -9,23 +9,23 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2
 import org.slf4j.LoggerFactory
 
 @UseCase
-class GetNavActionListByMissionId(
+class GetComputeNavActionListByMissionId(
     private val navMissionActionRepository: INavMissionActionRepository,
     getStatusForAction: GetStatusForAction,
     getControlByActionId: GetControlByActionId2
 ): AbstractGetMissionAction(getStatusForAction, getControlByActionId) {
-    private val logger = LoggerFactory.getLogger(GetNavActionListByMissionId::class.java)
+    private val logger = LoggerFactory.getLogger(GetComputeNavActionListByMissionId::class.java)
 
     fun execute(missionId: Int?): List<MissionNavActionEntity> {
         if (missionId == null) {
-            logger.error("GetNavActionListByMissionId received a null missionId")
-            throw IllegalArgumentException("GetNavActionListByMissionId should not receive null missionId")
+            logger.error("GetComputeNavActionListByMissionId received a null missionId")
+            throw IllegalArgumentException("GetComputeNavActionListByMissionId should not receive null missionId")
         }
         return try {
             val actions = getNavActionList(missionId = missionId)
             processActions( actions = actions)
         } catch (e: Exception) {
-            logger.error("GetFishActionsByMissionId failed loading Actions", e)
+            logger.error("GetComputeNavActionListByMissionId failed loading Actions", e)
             return listOf()
         }
     }
