@@ -121,7 +121,7 @@ const MissionActionItemRescue: FC<{
                       <Stack.Item>
                         <MissionActionFormikNumberInput
                           style={{ marginRight: 10 }}
-                          name="numberOfPersonRescued"
+                          name="numberPersonsRescued"
                           label="Nb de personnes secourues"
                         />
                       </Stack.Item>
