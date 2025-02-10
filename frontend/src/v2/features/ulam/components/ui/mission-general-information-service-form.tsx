@@ -27,7 +27,7 @@ const MissionGeneralInformationServiceForm: React.FC<MissionGeneralInformationSe
   return (
     <>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit}>
+        <Formik initialValues={initValue} onSubmit={handleSubmit} enableReinitialize={true}>
           <Form>
             <Stack direction="column" style={{ width: '100%' }}>
               <Stack.Item style={{ width: '100%' }}>

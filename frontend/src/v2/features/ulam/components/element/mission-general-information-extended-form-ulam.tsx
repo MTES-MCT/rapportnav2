@@ -24,7 +24,7 @@ const MissionGeneralInformationExtendedFormUlam: FC<MissionGeneralInformationExt
   return (
     <>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit}>
+        <Formik initialValues={initValue} onSubmit={handleSubmit} enableReinitialize={true}>
           {formik => (
             <Stack direction="column" spacing="1em" style={{ width: '100%' }} justifyContent="flex-start">
               <FormikEffect onChange={newValues => handleSubmit(newValues)} />
