@@ -31,7 +31,7 @@ import java.time.ZonedDateTime
 @SpringBootTest(classes = [APIEnvMissionRepositoryV2::class])
 class APIEnvMissionRepositoryTest {
 
-    val host = "https://monitorenv.din.developpement-durable.gouv.fr"
+    val host = "https://url.developpement-durable.gouv.fr"
 
     val mission = MissionDataOutput(
         id = 761,
@@ -72,7 +72,7 @@ class APIEnvMissionRepositoryTest {
             )
         )
             .thenReturn(httpResponse)
-        val envRepo = APIEnvMissionRepositoryV2(mapper = objectMapper, clientFactory = httpClientFactory)
+        val envRepo = APIEnvMissionRepositoryV2(mapper = objectMapper, clientFactory = httpClientFactory, host = host)
         val mission = MissionEnv(
             missionTypes = listOf(MissionTypeEnum.SEA),
             controlUnits = listOf(),
