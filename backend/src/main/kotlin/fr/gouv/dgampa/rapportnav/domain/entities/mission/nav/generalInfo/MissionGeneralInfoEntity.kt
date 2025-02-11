@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.generalInfo.MissionGeneralInfo
 
 data class MissionGeneralInfoEntity(
     var id: Int,
@@ -22,4 +23,16 @@ data class MissionGeneralInfoEntity(
     var missionReportType: MissionReportTypeEnum? = null,
     var reinforcementType: MissionReinforcementTypeEnum? = null,
     var interMinisterialServices: List<InterMinisterialServiceEntity>? = listOf()
-)
+) {
+    fun toMissionGeneralInfo(): MissionGeneralInfo {
+        return MissionGeneralInfo(
+            id = id,
+            missionId = missionId,
+            distanceInNauticalMiles = distanceInNauticalMiles,
+            consumedGOInLiters = consumedGOInLiters,
+            consumedFuelInLiters = consumedFuelInLiters,
+            serviceId = serviceId,
+            nbrOfRecognizedVessel = nbrOfRecognizedVessel
+        )
+    }
+}

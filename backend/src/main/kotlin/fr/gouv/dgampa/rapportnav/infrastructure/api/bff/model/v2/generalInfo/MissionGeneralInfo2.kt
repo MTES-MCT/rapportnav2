@@ -75,7 +75,8 @@ data class MissionGeneralInfo2(
             nbrOfRecognizedVessel = nbrOfRecognizedVessel,
             isWithInterMinisterialService = isWithInterMinisterialService,
             isAllAgentsParticipating = isAllAgentsParticipating,
-            isMissionArmed = isMissionArmed
+            isMissionArmed = isMissionArmed,
+            interMinisterialServices = interMinisterialServices?.map { it.toInterMinisterialServiceEntity() }
         )
     }
 }

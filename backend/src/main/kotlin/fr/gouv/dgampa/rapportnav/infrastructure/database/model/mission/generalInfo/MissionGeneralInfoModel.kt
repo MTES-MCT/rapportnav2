@@ -69,20 +69,22 @@ class MissionGeneralInfoModel(
     }
 
     companion object {
-        fun fromMissionGeneralInfoEntity(info: MissionGeneralInfoEntity) = MissionGeneralInfoModel(
-            id = info.id,
-            missionId = info.missionId,
-            distanceInNauticalMiles = info.distanceInNauticalMiles,
-            consumedGOInLiters = info.consumedGOInLiters,
-            consumedFuelInLiters = info.consumedFuelInLiters,
-            serviceId = info.serviceId,
-            nbrOfRecognizedVessel = info.nbrOfRecognizedVessel,
-            isWithInterMinisterialService = info.isWithInterMinisterialService,
-            isMissionArmed = info.isMissionArmed,
-            nbHourAtSea = info.nbHourAtSea,
-            missionReportType = info.missionReportType,
-            reinforcementType = info.reinforcementType,
-            interMinisterialServices = info.interMinisterialServices?.map { InterMinisterialServiceModel.fromInterMinisterialServiceEntity(it) }
-        )
+        fun fromMissionGeneralInfoEntity(info: MissionGeneralInfoEntity): MissionGeneralInfoModel {
+            return MissionGeneralInfoModel(
+                id = info.id,
+                missionId = info.missionId,
+                distanceInNauticalMiles = info.distanceInNauticalMiles,
+                consumedGOInLiters = info.consumedGOInLiters,
+                consumedFuelInLiters = info.consumedFuelInLiters,
+                serviceId = info.serviceId,
+                nbrOfRecognizedVessel = info.nbrOfRecognizedVessel,
+                isWithInterMinisterialService = info.isWithInterMinisterialService,
+                isMissionArmed = info.isMissionArmed,
+                nbHourAtSea = info.nbHourAtSea,
+                missionReportType = info.missionReportType,
+                reinforcementType = info.reinforcementType,
+                interMinisterialServices = info.interMinisterialServices?.map { InterMinisterialServiceModel.fromInterMinisterialServiceEntity(it) }
+            )
+        }
     }
 }

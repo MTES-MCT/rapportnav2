@@ -7,8 +7,9 @@ import jakarta.persistence.*
 @Table(name = "inter_ministerial_service")
 class InterMinisterialServiceModel(
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-    var id: Int,
+    var id: Int?,
 
     @Column(name = "administration_id", nullable = false)
     var administrationId: Int = 0,
@@ -27,6 +28,7 @@ class InterMinisterialServiceModel(
                 id = entity.id,
                 administrationId = entity.administrationId,
                 controlUnitId = entity.controlUnitId,
+                missionGeneralInfo = MissionGeneralInfoModel.fromMissionGeneralInfoEntity(entity.missionGeneralInfo!!)
             )
         }
     }
@@ -35,7 +37,7 @@ class InterMinisterialServiceModel(
         return InterMinisterialServiceEntity(
             id = id,
             administrationId = administrationId,
-            controlUnitId = controlUnitId
+            controlUnitId = controlUnitId,
         )
     }
 }

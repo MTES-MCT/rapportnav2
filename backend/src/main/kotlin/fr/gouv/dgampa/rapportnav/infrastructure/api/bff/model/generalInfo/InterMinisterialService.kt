@@ -3,9 +3,10 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.generalInfo
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.InterMinisterialServiceEntity
 
 data class InterMinisterialService(
-    val id: Int,
+    val id: Int? = null,
     val administrationId: Int,
-    val controlUnitId: Int
+    val controlUnitId: Int,
+    val missionGeneralInfo: MissionGeneralInfo?
 ) {
 
     companion object {
@@ -13,7 +14,8 @@ data class InterMinisterialService(
             return InterMinisterialService(
                 id = entity.id,
                 administrationId = entity.administrationId,
-                controlUnitId = entity.controlUnitId
+                controlUnitId = entity.controlUnitId,
+                missionGeneralInfo = entity.missionGeneralInfo?.toMissionGeneralInfo()
             )
         }
     }
@@ -21,7 +23,8 @@ data class InterMinisterialService(
         return InterMinisterialServiceEntity(
             id = id,
             administrationId = administrationId,
-            controlUnitId = controlUnitId
+            controlUnitId = controlUnitId,
+            missionGeneralInfo = missionGeneralInfo?.toMissionGeneralInfoEntity()
         )
     }
 }
