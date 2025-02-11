@@ -28,7 +28,7 @@ class AdministrationController(
         }
     }
 
-    @GetMapping("{administrationId")
+    @GetMapping("{administrationId}")
     fun get(@PathVariable administrationId: Int): FullAdministration? {
         try {
             return getAdministrationById.execute(administrationId)

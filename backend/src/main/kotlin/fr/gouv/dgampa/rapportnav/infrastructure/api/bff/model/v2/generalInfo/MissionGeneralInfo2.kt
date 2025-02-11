@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEn
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.generalInfo.InterMinisterialService
 import java.time.Instant
 
 data class MissionGeneralInfo2(
@@ -31,6 +32,7 @@ data class MissionGeneralInfo2(
     val isMissionArmed: Boolean? = false,
     val observations: String? = null,
     val resources: List<String>? = listOf(),
+    val interMinisterialServices : List<InterMinisterialService>? = listOf()
 ) {
     companion object {
         fun fromMissionGeneralInfoEntity(
@@ -55,8 +57,9 @@ data class MissionGeneralInfo2(
                 isAllAgentsParticipating = generalInfo2?.data?.isAllAgentsParticipating,
                 isWithInterMinisterialService = generalInfo2?.data?.isWithInterMinisterialService,
                 isMissionArmed = generalInfo2?.data?.isMissionArmed,
-                observations = envData.observationsByUnit
+                observations = envData.observationsByUnit,
                 //TODO: resource
+                interMinisterialServices = generalInfo2.data.interMinisterialServices?.map { InterMinisterialService.fromInterMinisterialServiceEntity(it) }
             )
         }
     }

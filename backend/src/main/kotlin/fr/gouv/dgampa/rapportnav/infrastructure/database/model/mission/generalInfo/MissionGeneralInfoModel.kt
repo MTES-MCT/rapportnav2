@@ -45,7 +45,10 @@ class MissionGeneralInfoModel(
     var reinforcementType: MissionReinforcementTypeEnum? = null,
 
     @Column(name = "nb_hour_at_sea")
-    var nbHourAtSea: Int? = null
+    var nbHourAtSea: Int? = null,
+
+    @OneToMany(mappedBy = "missionGeneralInfo", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var interMinisterialServices: List<InterMinisterialServiceModel>? = null
 ) {
     fun toMissionGeneralInfoEntity(): MissionGeneralInfoEntity {
         return MissionGeneralInfoEntity(
@@ -60,7 +63,8 @@ class MissionGeneralInfoModel(
             isMissionArmed,
             nbHourAtSea = nbHourAtSea,
             missionReportType = missionReportType,
-            reinforcementType = reinforcementType
+            reinforcementType = reinforcementType,
+            interMinisterialServices = interMinisterialServices?.map { it.toInterMinisterialServiceEntity() }
         )
     }
 
@@ -77,7 +81,8 @@ class MissionGeneralInfoModel(
             isMissionArmed = info.isMissionArmed,
             nbHourAtSea = info.nbHourAtSea,
             missionReportType = info.missionReportType,
-            reinforcementType = info.reinforcementType
+            reinforcementType = info.reinforcementType,
+            interMinisterialServices = info.interMinisterialServices?.map { InterMinisterialServiceModel.fromInterMinisterialServiceEntity(it) }
         )
     }
 }

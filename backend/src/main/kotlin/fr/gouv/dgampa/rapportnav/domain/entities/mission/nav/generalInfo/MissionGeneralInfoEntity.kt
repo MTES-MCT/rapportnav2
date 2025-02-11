@@ -20,5 +20,6 @@ data class MissionGeneralInfoEntity(
     var resources: List<ControlResourceEntity>? = null,
     var nbHourAtSea: Int? = null,
     var missionReportType: MissionReportTypeEnum? = null,
-    var reinforcementType: MissionReinforcementTypeEnum? = null
+    var reinforcementType: MissionReinforcementTypeEnum? = null,
+    var interMinisterialServices: List<InterMinisterialServiceEntity>? = listOf()
 )
