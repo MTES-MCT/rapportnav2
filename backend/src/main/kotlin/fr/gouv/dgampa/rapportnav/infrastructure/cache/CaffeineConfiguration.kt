@@ -30,19 +30,19 @@ class CaffeineConfiguration {
     fun cacheManager(ticker: Ticker): CacheManager? {
 
         // long term caches for very static data
-        val natinfsCache = builCache(natinfs, ticker, TimeUnit.DAYS, 7)
-        val controlPlansCache = builCache(controlPlans, ticker, TimeUnit.DAYS, 7)
+        val natinfsCache = buildCache(natinfs, ticker, TimeUnit.DAYS, 7)
+        val controlPlansCache = buildCache(controlPlans, ticker, TimeUnit.DAYS, 7)
 
         // short term caches for Missions and Actions
-        val envMissionsCache = builCache(envMissions, ticker, TimeUnit.MINUTES, 5)
-        val envMissionCache = builCache(envMission, ticker, TimeUnit.MINUTES, 5)
-        val fishActionsCache = builCache(fishActions, ticker, TimeUnit.MINUTES, 5)
+        val envMissionsCache = buildCache(envMissions, ticker, TimeUnit.MINUTES, 5)
+        val envMissionCache = buildCache(envMission, ticker, TimeUnit.MINUTES, 5)
+        val fishActionsCache = buildCache(fishActions, ticker, TimeUnit.MINUTES, 5)
 
 
         // short term caches for Missions and Actions
-        val envMissionCache2 = builCache(envMission2, ticker, TimeUnit.MINUTES, 5)
-        val envActionListCache = builCache(envActionList, ticker, TimeUnit.MINUTES, 5)
-        val fishActionListCache = builCache(fishActionList, ticker, TimeUnit.MINUTES, 5)
+        val envMissionCache2 = buildCache(envMission2, ticker, TimeUnit.MINUTES, 5)
+        val envActionListCache = buildCache(envActionList, ticker, TimeUnit.MINUTES, 5)
+        val fishActionListCache = buildCache(fishActionList, ticker, TimeUnit.MINUTES, 5)
 
 
         val manager = SimpleCacheManager()
@@ -65,7 +65,7 @@ class CaffeineConfiguration {
         return manager
     }
 
-    private fun builCache(name: String, ticker: Ticker, timeUnit: TimeUnit, durationInUnit: Int): CaffeineCache {
+    private fun buildCache(name: String, ticker: Ticker, timeUnit: TimeUnit, durationInUnit: Int): CaffeineCache {
         return CaffeineCache(
             name,
             Caffeine.newBuilder()
