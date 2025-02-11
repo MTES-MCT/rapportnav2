@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.v2.IEnvAdministrationReposi
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.outputs.FullAdministrationDataOutput
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
 import java.net.URI
 import java.net.http.HttpRequest
@@ -16,13 +17,10 @@ import java.net.http.HttpResponse
 class APIEnvAdministrationRepository(
     clientFactory: HttpClientFactory,
     private val mapper: ObjectMapper,
+    @Value("\${monitorenv.host}") private val host: String,
 ): IEnvAdministrationRepository {
 
     private val logger = LoggerFactory.getLogger(IEnvAdministrationRepository::class.java)
-
-    private val host = "https://monitorenv.din.developpement-durable.gouv.fr"
-
-    //private val host = "http://localhost:8089" // TODO: add env var
 
     private val client = clientFactory.create()
 

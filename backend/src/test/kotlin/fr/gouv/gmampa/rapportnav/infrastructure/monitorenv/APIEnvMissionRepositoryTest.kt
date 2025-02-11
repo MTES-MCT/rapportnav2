@@ -35,8 +35,6 @@ import java.util.*
 @SpringBootTest(classes = [APIEnvMissionRepository::class])
 class APIEnvMissionRepositoryTest {
 
-class APIEnvMissionRepositoryTest {
-
     val host = "https://url.developpement-durable.gouv.fr"
 
     val mission = MissionDataOutput(

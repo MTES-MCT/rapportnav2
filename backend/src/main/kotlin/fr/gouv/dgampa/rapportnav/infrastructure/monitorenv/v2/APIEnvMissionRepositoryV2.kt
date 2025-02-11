@@ -11,6 +11,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOut
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
 import java.net.URI
 import java.net.http.HttpRequest
@@ -18,18 +19,15 @@ import java.net.http.HttpResponse
 
 @Repository
 class APIEnvMissionRepositoryV2(
-    clientFactory: HttpClientFactory
-): IEnvMissionRepository {
+    clientFactory: HttpClientFactory,
+    @Value("\${monitorenv.host}") private val host: String,
+    ): IEnvMissionRepository {
 
     private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepositoryV2::class.java);
 
     private val mapper = ObjectMapper()
 
     private val client = clientFactory.create();
-
-   // private val host = System.getenv("MONITORENV_HOST")
-
-    private val host = "https://monitorenv.din.developpement-durable.gouv.fr"
 
     override fun createMission(mission: MissionEnv): MissionEnvEntity? {
         val url = "$host/api/v1/missions";
