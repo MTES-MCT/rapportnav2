@@ -5,8 +5,8 @@ import { AbstractFormikHook } from '../types/abstract-formik-hook'
 
 export function useAbstractFormik<T, M>(
   value: T,
-  fromFieldValueToInput: (input: T) => M,
-  fromInputToFieldValue: (value: M) => T,
+  fromFieldValueToInput: (value: T) => M,
+  fromInputToFieldValue: (input: M) => T,
   booleans?: string[]
 ): AbstractFormikHook<T, M> {
   const [initValue, setInitValue] = useState<M>()

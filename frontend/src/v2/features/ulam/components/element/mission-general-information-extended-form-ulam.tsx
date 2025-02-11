@@ -1,5 +1,5 @@
 import { FormikCheckbox, FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
-import { FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
+import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { MissionGeneralInfoExtended } from '../../../common/types/mission-types.ts'
@@ -32,11 +32,11 @@ const MissionGeneralInformationExtendedFormUlam: FC<MissionGeneralInformationExt
               <Stack.Item style={{ width: '100%' }}>
                 <Stack direction="column" spacing="1em" justifyContent="flex-start" style={{ width: '70%' }}>
                   <Stack.Item style={{ width: '100%' }}>
-                    <FieldArray name="resources">
-                      {(fieldArray: FieldArrayRenderProps) => (
-                        <MissionGeneralInformationControlUnitRessource name="resources" fieldArray={fieldArray} />
+                    <Field name="resources">
+                      {(field: FieldProps<string[]>) => (
+                        <MissionGeneralInformationControlUnitRessource name="resources" fieldFormik={field} />
                       )}
-                    </FieldArray>
+                    </Field>
                   </Stack.Item>
 
                   <Stack.Item style={{ width: '100%' }}>
@@ -60,11 +60,11 @@ const MissionGeneralInformationExtendedFormUlam: FC<MissionGeneralInformationExt
 
                   <Stack.Item style={{ width: '100%', marginBottom: '1.5rem' }}>
                     {formik.values.isWithInterMinisterialService && (
-                      <FieldArray name="services">
-                        {(fieldArray: FieldArrayRenderProps) => (
-                          <MissionGeneralInformationServiceUlam name="services" fieldArray={fieldArray} />
+                      <Field name="interMinisterialServices">
+                        {(field: FieldProps) => (
+                          <MissionGeneralInformationServiceUlam name="interMinisterialServices" fieldFormik={field} />
                         )}
-                      </FieldArray>
+                      </Field>
                     )}
                   </Stack.Item>
                 </Stack>

@@ -1,59 +1,115 @@
-import { Accent, Button, Icon, Size } from '@mtes-mct/monitor-ui'
-import { FieldArrayRenderProps } from 'formik'
-import React, { useState } from 'react'
+import { Accent, Button, FormikEffect, FormikSelect, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
+import { FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
+import { isEqual } from 'lodash'
+import React, { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
-import { InterMinisterialService } from 'src/v2/features/common/types/mission-types.ts'
-import MissionGeneralInformationServiceForm from '../ui/mission-general-information-service-form'
+
+type Service = { admin?: string; unit?: string }
+type ServiceFormInput = { services: Service[] }
 
 interface MissionGeneralInformationServiceUlamProps {
   name: string
-  fieldArray: FieldArrayRenderProps
+  fieldFormik: FieldProps<any>
 }
 
 const MissionGeneralInformationServiceUlam: React.FC<MissionGeneralInformationServiceUlamProps> = ({
   name,
-  fieldArray
+  fieldFormik
 }) => {
-  const [openForm, setOpenForm] = useState<boolean>(false)
-  const handleDelete = (index: number) => fieldArray.remove(index)
-  const handleAdd = (newValue?: any) => fieldArray.push(newValue)
+  const [initialValues, setInitialValues] = useState<ServiceFormInput>({
+    services: [{ admin: undefined, unit: undefined }]
+  })
 
-  const handleUpdate = (values: any[]) => fieldArray.form.setFieldValue(name, values)
+  const fromFieldToInput = (value: Service[]) => ({ services: value })
 
-  const [interMinisterialServices, setInterMinisterialServices] = useState<InterMinisterialService[]>([])
-  const addInterMinisterialService = () => {
-    const service: InterMinisterialService = { name: '' }
-    setInterMinisterialServices(prevServices => [...prevServices, service])
+  const fromInputToFieldValue = (input: ServiceFormInput) =>
+    input.services.filter(t => t.admin !== undefined && t.unit !== undefined)
+
+  useEffect(() => {
+    if (!fieldFormik.field?.value) return //TODO: a enlever quand on aura une array vide
+    if (fieldFormik.field?.value?.length === 0) return
+    const input = fromFieldToInput(fieldFormik.field.value)
+    setInitialValues(input)
+  }, [fieldFormik])
+
+  const handleSubmit = (input: ServiceFormInput) => {
+    const newValue = fromInputToFieldValue(input)
+    if (isEqual(newValue, fieldFormik.field.value)) return
+    console.log(newValue)
+    fieldFormik.form.setFieldValue(name, newValue)
   }
-
-  const onClickRemoveMinisterialService = (index: number) => {
-    setInterMinisterialServices(prevServices => prevServices.filter((_, i) => i !== index))
-  }
-
-  //TODO: define with Clémence e realistic scenario
 
   return (
-    <Stack direction="column" style={{ width: '100%' }}>
-      <Stack.Item style={{ width: '100%' }}>
-        {fieldArray.form.values.services?.map((service: any, index: number) => (
-          <div key={`${service}-${index}`}>{service}</div>
-        ))}
-      </Stack.Item>
-      <Stack.Item style={{ width: '100%' }}>
-        <MissionGeneralInformationServiceForm service={{} as any} handleEdit={s => console.log(s)} />
-      </Stack.Item>
-      <Stack.Item style={{ width: '100%', marginTop: 16 }}>
-        <Button
-          Icon={Icon.Plus}
-          size={Size.SMALL}
-          isFullWidth={true}
-          accent={Accent.SECONDARY}
-          onClick={addInterMinisterialService}
-        >
-          Ajouter une administration
-        </Button>
-      </Stack.Item>
-    </Stack>
+    <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize>
+      {({ values }) => (
+        <>
+          <FormikEffect onChange={newValues => handleSubmit(newValues as ServiceFormInput)} />
+          <FieldArray name="services">
+            {(arrayHelpers: FieldArrayRenderProps) => (
+              <Stack direction="column" style={{ width: '100%' }}>
+                <Stack.Item style={{ width: '100%' }}>
+                  {values.services?.map((service: any, index: number) => (
+                    <Stack
+                      direction="row"
+                      alignItems="flex-start"
+                      key={`services.${index}`}
+                      style={{ width: '100%', marginTop: 6 }}
+                    >
+                      <Stack.Item style={{ width: '90%' }}>
+                        <Stack direction="column" style={{ width: '100%' }}>
+                          <Stack.Item style={{ width: '100%' }}>
+                            <FormikSelect
+                              label={`Administration (${index + 1})`}
+                              placeholder=""
+                              isRequired={true}
+                              searchable={true}
+                              options={[]}
+                              name={`services.${index}.admin`}
+                            />
+                          </Stack.Item>
+                          <Stack.Item style={{ width: '100%', marginTop: 12 }}>
+                            <FormikSelect
+                              label={`Unité (${index + 1})`}
+                              placeholder=""
+                              isRequired={true}
+                              searchable={true}
+                              options={[]}
+                              name={`services.${index}.unit`}
+                            />
+                          </Stack.Item>
+                        </Stack>
+                      </Stack.Item>
+                      <Stack.Item style={{ paddingLeft: 5, marginTop: 22 }}>
+                        <IconButton
+                          role="delete-services"
+                          size={Size.NORMAL}
+                          Icon={Icon.Delete}
+                          accent={Accent.TERTIARY}
+                          style={{ border: `1px solid ${THEME.color.charcoal}` }}
+                          onClick={() => arrayHelpers.remove(index)}
+                        />
+                      </Stack.Item>
+                    </Stack>
+                  ))}
+                </Stack.Item>
+
+                <Stack.Item style={{ width: '100%', marginTop: 16 }}>
+                  <Button
+                    Icon={Icon.Plus}
+                    size={Size.SMALL}
+                    isFullWidth={true}
+                    accent={Accent.SECONDARY}
+                    onClick={() => arrayHelpers.push({})}
+                  >
+                    Ajouter une administration
+                  </Button>
+                </Stack.Item>
+              </Stack>
+            )}
+          </FieldArray>
+        </>
+      )}
+    </Formik>
   )
 }
 
