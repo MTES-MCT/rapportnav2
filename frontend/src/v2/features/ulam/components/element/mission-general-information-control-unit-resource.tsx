@@ -25,16 +25,13 @@ const MissionGeneralInformationControlUnitRessource: React.FC<MissionGeneralInfo
 
   useEffect(() => {
     if (fieldFormik.field.value?.length === 0) return
-    console.log(fieldFormik.field.value)
     const input = fromFieldToInput(fieldFormik.field.value)
-    console.log(input)
     setInitialValues(input)
   }, [fieldFormik])
 
   const handleSubmit = (input: ResourceFormInput) => {
     const newValue = fromInputToFieldValue(input)
     if (isEqual(newValue, fieldFormik.field.value)) return
-    console.log(newValue)
     fieldFormik.form.setFieldValue(name, newValue)
   }
 
