@@ -1,6 +1,6 @@
 import AuthGuard from '@features/auth/components/auth-guard.tsx'
 import * as Sentry from '@sentry/react'
-import {createBrowserRouter} from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 import ErrorPage from '../pages/error-page.tsx'
 import Login from '../pages/login.tsx'
 import MissionPage from '../pages/mission-page.tsx'
@@ -11,8 +11,7 @@ import MissionListUlamPage from '../v2/pages/mission-list-ulam-page.tsx'
 import MissionListPamPage from '../v2/pages/mission-list-pam-page.tsx'
 import MissionPamPage from '../v2/pages/mission-pam-page.tsx'
 import MissionUlamPage from '../v2/pages/mission-ulam-page.tsx'
-
-export const getPath = (path: string) => `/${path}`
+import AdminCrewPage from '../v2/pages/admin-crew-page.tsx'
 
 export const ROOT_PATH = '/'
 export const LOGIN_PATH = '/login'
@@ -20,37 +19,39 @@ export const SIGNUP_PATH = '/signup'
 export const PAM_HOME_PATH = '/pam/missions'
 export const PAM_V2_HOME_PATH = '/v2/pam/missions'
 export const ULAM_V2_HOME_PATH = '/v2/ulam/missions'
+// admin routes
+export const ADMIN_CREW_PATH = '/admin/crew'
 
 const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(createBrowserRouter)
 
 export const router = sentryCreateBrowserRouter([
   {
     path: ROOT_PATH,
-    element: <Home2/>,
-    errorElement: <ErrorPage/>
+    element: <Home2 />,
+    errorElement: <ErrorPage />
   },
   {
     path: LOGIN_PATH,
-    element: <Login/>
+    element: <Login />
   },
   {
     path: SIGNUP_PATH,
-    element: <SignUp/>
+    element: <SignUp />
   },
   {
     path: PAM_HOME_PATH,
     element: (
       <AuthGuard>
-        <MissionsPage/>
+        <MissionsPage />
       </AuthGuard>
     ),
-    errorElement: <ErrorPage/>
+    errorElement: <ErrorPage />
   },
   {
     path: 'pam/missions/:missionId/:actionId?',
     element: (
       <AuthGuard>
-        <MissionPage/>
+        <MissionPage />
       </AuthGuard>
     )
   },
@@ -59,36 +60,46 @@ export const router = sentryCreateBrowserRouter([
     path: ULAM_V2_HOME_PATH,
     element: (
       <AuthGuard>
-        <MissionListUlamPage/>
+        <MissionListUlamPage />
       </AuthGuard>
     ),
-    errorElement: <ErrorPage/>
+    errorElement: <ErrorPage />
   },
   {
     path: `${ULAM_V2_HOME_PATH}/:missionId/:actionId?`,
     element: (
       <AuthGuard>
-        <MissionUlamPage/>
+        <MissionUlamPage />
       </AuthGuard>
     ),
-    errorElement: <ErrorPage/>
+    errorElement: <ErrorPage />
   },
   {
     path: PAM_V2_HOME_PATH,
     element: (
       <AuthGuard>
-        <MissionListPamPage/>
+        <MissionListPamPage />
       </AuthGuard>
     ),
-    errorElement: <ErrorPage/>
+    errorElement: <ErrorPage />
   },
   {
     path: `${PAM_V2_HOME_PATH}/:missionId/:actionId?`,
     element: (
       <AuthGuard>
-        <MissionPamPage/>
+        <MissionPamPage />
       </AuthGuard>
     ),
-    errorElement: <ErrorPage/>
+    errorElement: <ErrorPage />
+  },
+  // admin pages :
+  {
+    path: ADMIN_CREW_PATH,
+    element: (
+      <AuthGuard>
+        <AdminCrewPage />
+      </AuthGuard>
+    ),
+    errorElement: <ErrorPage />
   }
 ])
