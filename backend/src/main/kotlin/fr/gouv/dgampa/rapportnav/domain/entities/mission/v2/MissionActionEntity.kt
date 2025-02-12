@@ -137,19 +137,19 @@ abstract class MissionActionEntity(
         this.controlsToComplete = listOf(
             ControlType.ADMINISTRATIVE.takeIf {
                 this.isAdministrativeControl == true &&
-                    this.controlAdministrative == null
+                    (this.controlAdministrative == null || this.controlAdministrative?.hasBeenDone == null)
             },
             ControlType.NAVIGATION.takeIf {
                 this.isComplianceWithWaterRegulationsControl == true &&
-                    this.controlNavigation == null
+                    (this.controlNavigation == null || this.controlNavigation?.hasBeenDone == null)
             },
             ControlType.SECURITY.takeIf {
                 this.isSafetyEquipmentAndStandardsComplianceControl == true &&
-                    this.controlSecurity == null
+                    (this.controlSecurity == null || this.controlSecurity?.hasBeenDone == null)
             },
             ControlType.GENS_DE_MER.takeIf {
                 this.isSeafarersControl == true &&
-                    this.controlGensDeMer == null
+                    (this.controlGensDeMer == null || this.controlGensDeMer?.hasBeenDone == null)
             }
         ).mapNotNull { it }
     }
