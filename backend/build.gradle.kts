@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
-version = "2.5.0"
+version = "2.5.1"
 description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
@@ -50,6 +50,7 @@ dependencyManagement {
   }
   dependencies {
     dependency("org.springframework:spring-webmvc:6.1.14")
+    dependency("net.minidev:json-smart:2.4.11")
   }
 }
 
