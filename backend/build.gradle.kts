@@ -170,9 +170,4 @@ tasks.test {
   finalizedBy(tasks.jacocoTestReport)  // Generate the report after tests
 }
 
-flyway {
-  url = "jdbc:postgresql://localhost:5432/rapportnavdb"
-  user = "postgres"
-  password = ""
-}
 
