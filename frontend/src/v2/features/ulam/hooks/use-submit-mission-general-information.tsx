@@ -31,7 +31,8 @@ const useHandleSubmitMissionGeneralInfoHook = (
       isMissionArmed: data.isMissionArmed,
       crew: data.crew,
       observations: data.observations,
-      resources: data.resources
+      resources: data.resources,
+      interMinisterialServices: data.interMinisterialServices
     }
     return { ...data, initial, extended }
   }
@@ -51,7 +52,8 @@ const useHandleSubmitMissionGeneralInfoHook = (
       endDateTimeUtc: initial.endDateTimeUtc,
       resources: extended.resources,
       crew: extended.crew,
-      observations: extended.observations
+      observations: extended.observations,
+      interMinisterialServices: extended.interMinisterialServices
     }
   }
 

@@ -50,7 +50,7 @@ const MissionGeneralInformationCrewUlam: React.FC<MissionGeneralInformationCrewU
         <MissionCrewTitleLabel>Agents de la mission</MissionCrewTitleLabel>
       </MissionCrewUnderlineStack>
 
-      {fieldArray.form.values.crew.length === 0 && (
+      {fieldArray.form.values.crew?.length === 0 && (
         <Stack direction={'row'} style={{ width: '100%', marginBottom: '1rem' }}>
           <Stack.Item>
             <FormikCheckbox

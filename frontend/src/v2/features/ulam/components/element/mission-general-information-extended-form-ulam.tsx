@@ -7,6 +7,7 @@ import { useUlamMissionGeneralInformationsExtendedForm } from '../../hooks/use-u
 import MissionGeneralInformationControlUnitRessource from './mission-general-information-control-unit-resource.tsx'
 import MissionGeneralInformationCrewUlam from './mission-general-information-crew-ulam.tsx'
 import MissionGeneralInformationServiceUlam from './mission-general-information-service-ulam.tsx'
+import useAdministrationsQuery from '../../services/use-administrations.tsx'
 
 export interface MissionGeneralInformationExtendedFormUlamProps {
   name: string
@@ -20,6 +21,8 @@ const MissionGeneralInformationExtendedFormUlam: FC<MissionGeneralInformationExt
   fieldFormik
 }) => {
   const { initValue, handleSubmit } = useUlamMissionGeneralInformationsExtendedForm(name, fieldFormik)
+
+  const { data: administrations } = useAdministrationsQuery()
 
   return (
     <>
@@ -62,7 +65,7 @@ const MissionGeneralInformationExtendedFormUlam: FC<MissionGeneralInformationExt
                     {formik.values.isWithInterMinisterialService && (
                       <Field name="interMinisterialServices">
                         {(field: FieldProps) => (
-                          <MissionGeneralInformationServiceUlam name="interMinisterialServices" fieldFormik={field} />
+                          <MissionGeneralInformationServiceUlam name="interMinisterialServices" fieldFormik={field} administrations={administrations!!} />
                         )}
                       </Field>
                     )}

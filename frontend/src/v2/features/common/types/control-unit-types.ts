@@ -28,6 +28,14 @@ export type ControlUnit = {
   termsNote?: string
 }
 
+export type Administration = {
+  id: number
+  name: string
+  controlUnitIds: number[]
+  isArchived: boolean
+  controlUnits: ControlUnit[]
+}
+
 enum ControlUnitResourceType {
   AIRPLANE = "AIRPLANE",
   BARGE = "BARGE",

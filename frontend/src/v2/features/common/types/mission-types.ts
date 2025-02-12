@@ -36,6 +36,7 @@ export type MissionGeneralInfoExtended = {
   isWithInterMinisterialService?: boolean
   observations?: string
   isAllAgentsParticipating?: boolean
+  interMinisterialServices?: InterMinisterialService[]
 }
 
 export enum MissionReportTypeEnum {
@@ -127,6 +128,7 @@ export type MissionGeneralInfo2 = MissionGeneralInfoPam & {
   endDateTimeUtc: string
   observations?: string
   resources?: ControlResource[]
+  interMinisterialServices?: InterMinisterialService[]
 }
 
 export type Mission2 = {
@@ -159,6 +161,6 @@ export type MissionListItem = {
 }
 
 export type InterMinisterialService = {
-  id?: number
-  name: string
+  administrationId: number
+  controlUnitId: number
 }
