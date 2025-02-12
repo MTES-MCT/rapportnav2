@@ -50,6 +50,7 @@ dependencyManagement {
   }
   dependencies {
     dependency("org.springframework:spring-webmvc:6.1.14")
+    dependency("net.minidev:json-smart:2.4.11")
   }
 }
 
