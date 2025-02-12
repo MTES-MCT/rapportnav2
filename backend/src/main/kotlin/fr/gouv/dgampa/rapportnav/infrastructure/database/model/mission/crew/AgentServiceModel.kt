@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentServiceEntity
 import jakarta.persistence.*
 
 @Entity
@@ -24,6 +25,12 @@ class AgentServiceModel
     fun toMissionCrewModel(missionId: Int): MissionCrewModel? {
         return MissionCrewModel(
             id = null, missionId = missionId, agent = agent, role = role, comment = ""
+        );
+    }
+
+    fun toAgentServiceEntity(): AgentServiceEntity? {
+        return AgentServiceEntity(
+            id = null, agent = agent.toAgentEntity(), role = role.toAgentRoleEntity()
         );
     }
 }
