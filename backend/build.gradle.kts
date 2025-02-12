@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
-version = "2.5.1"
+version = "2.5.2"
 description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
@@ -169,3 +169,10 @@ tasks.test {
   useJUnitPlatform()   // If you are using JUnit 5
   finalizedBy(tasks.jacocoTestReport)  // Generate the report after tests
 }
+
+flyway {
+  url = "jdbc:postgresql://localhost:5432/rapportnavdb"
+  user = "postgres"
+  password = ""
+}
+
