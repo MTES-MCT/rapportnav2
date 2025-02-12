@@ -53,6 +53,12 @@ The app is fully dockerized for local development. Run the command `make docker-
 If you have an Apple chipset don't forget to add the following line in your .bashrc:
 `export DOCKER_DEFAULT_PLATFORM=linux/amd64`
 
+### Configuring in Intellij
+- add a kotlin configuration and set RapportNavApplication class
+- set/modify env variables: `ENV_DB_URL=jdbc:postgresql://localhost:5432/rapportnavdb?user=postgres&password=postgres;MONITORFISH_API_KEY=fake-key;JWT_SECURITY_KEY=somerandomkey;`
+- set VM options: `-Dspring.config.additional-location="file:/Users/lwih/workspace/beta.gouv.fr/rapportnav2/infra/configurations/backend/" -Dspring.profiles.active=local -Dsentry.environment=local`
+- set working directory: `/path/to/rapportnav2/backend`
+
 ## Security and Vulnerabilities analysis
 
 The following checks are performed through Github Actions:
