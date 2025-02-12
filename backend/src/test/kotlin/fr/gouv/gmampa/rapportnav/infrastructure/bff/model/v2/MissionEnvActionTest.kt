@@ -2,6 +2,7 @@ package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEnvTargetEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvAction
 import org.assertj.core.api.Assertions.assertThat
@@ -41,7 +42,48 @@ class MissionEnvActionTest {
         assertThat(output.data.isSafetyEquipmentAndStandardsComplianceControl).isEqualTo(entity.isSafetyEquipmentAndStandardsComplianceControl)
         assertThat(output.data.infractions).isNotNull
         assertThat(output.data.formattedControlPlans).isEqualTo(entity.formattedControlPlans)
+    }
 
+    @Test
+    fun `execute should retrieve infraction when identifyPerson or vesselIdentifier is not null`() {
+        val envAction = getEnvAction()
+        val entity = MissionEnvActionEntity.fromEnvAction(761, envAction)
+        entity.navInfractions = listOf(
+            fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity(
+                id = UUID.randomUUID(),
+                missionId = 761,
+                actionId = "My action id",
+                target = InfractionEnvTargetEntity(
+                    id = UUID.randomUUID(),
+                    infractionId = UUID.randomUUID(),
+                    actionId = "My action id",
+                    missionId = 761,
+                    identityControlledPerson = "my identity controlled person"
+                )
+            ),
+            fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity(
+                id = UUID.randomUUID(),
+                missionId = 761,
+                actionId = "My action id",
+                target = InfractionEnvTargetEntity(
+                    id = UUID.randomUUID(),
+                    infractionId = UUID.randomUUID(),
+                    actionId = "My action id",
+                    missionId = 761,
+                    vesselIdentifier = "My identity identifier",
+                    identityControlledPerson = "my identity controlled person"
+                )
+            ),
+            fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity(
+                id = UUID.randomUUID(),
+                missionId = 761,
+                actionId = "My action id",
+                target = null
+            )
+        )
+        val output = MissionEnvAction.fromMissionActionEntity(entity)
+        assertThat(output.data.infractions?.size).isNotNull
+        assertThat(output.data.infractions?.size).isEqualTo(2)
     }
 
 
