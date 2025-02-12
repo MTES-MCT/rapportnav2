@@ -10,7 +10,7 @@ object FishActionControlMock {
         id: Int = UUID.randomUUID().hashCode(),
         missionId: Int = 1,
         actionDatetimeUtc: Instant = Instant.parse("2022-01-02T12:00:01Z"),
-        actionEndDatetimeUtc: Instant = Instant.parse("2022-01-02T13:00:01Z"),
+        actionEndDatetimeUtc: Instant? = Instant.parse("2022-01-02T13:00:01Z"),
         actionType: MissionActionType = MissionActionType.SEA_CONTROL,
         isDeleted: Boolean = false,
         hasSomeGearsSeized: Boolean = false,
