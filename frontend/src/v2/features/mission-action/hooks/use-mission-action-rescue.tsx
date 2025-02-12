@@ -81,7 +81,7 @@ export function useMissionActionRescue(
     isMigrationRescue: boolean(),
     dates: array().of(date()).length(2),
     geoCoords: array().of(number()).length(2),
-    numberOfPersonRescued: number()
+    numberPersonsRescued: number()
       .nullable()
       .when(['isPersonRescue', 'isMissionFinished'], {
         is: true,

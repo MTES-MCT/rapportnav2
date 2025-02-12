@@ -1,8 +1,8 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeActionData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeFishActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetFishActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
@@ -17,15 +17,15 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.util.*
 
-@SpringBootTest(classes = [GetFishActionListByMissionId::class])
-@ContextConfiguration(classes = [GetFishActionListByMissionId::class])
-class GetFishActionListByMissionIdTest {
+@SpringBootTest(classes = [GetComputeFishActionListByMissionId::class])
+@ContextConfiguration(classes = [GetComputeFishActionListByMissionId::class])
+class GetComputeFishActionListByMissionIdTest {
 
     @Autowired
-    private lateinit var getFishActionList: GetFishActionListByMissionId
+    private lateinit var getFishActionList: GetComputeFishActionListByMissionId
 
     @MockitoBean
-    private lateinit var fishActionRepo: IFishActionRepository
+    private lateinit var getFishActionListByMissionId: GetFishActionListByMissionId
 
 
     @MockitoBean
@@ -49,13 +49,13 @@ class GetFishActionListByMissionIdTest {
         val mockControl = ControlMock.createAllControl()
 
         `when`(getControlByActionId.getAllControl(anyOrNull())).thenReturn(mockControl)
-        `when`(fishActionRepo.findFishActions(missionId)).thenReturn(listOf(action))
+        `when`(getFishActionListByMissionId.execute(missionId)).thenReturn(listOf(action))
 
-        getFishActionList = GetFishActionListByMissionId(
-            fishActionRepo = fishActionRepo,
-            getControlByActionId = getControlByActionId,
+        getFishActionList = GetComputeFishActionListByMissionId(
+            getFakeActionData = getFakeActionData,
             getStatusForAction = getStatusForAction,
-            getFakeActionData = getFakeActionData
+            getControlByActionId = getControlByActionId,
+            getFishActionListByMissionId = getFishActionListByMissionId,
         )
         val fishActions = getFishActionList.execute(missionId = missionId)
 

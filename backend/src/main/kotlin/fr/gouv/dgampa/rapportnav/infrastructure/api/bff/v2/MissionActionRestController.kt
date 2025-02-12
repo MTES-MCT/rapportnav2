@@ -22,10 +22,7 @@ class MissionActionRestController(
     private val updateFishAction: UpdateFishAction,
     private val getNavActionById: GetNavActionById,
     private val getEnvActionById: GetEnvActionById,
-    private val getFishActionById: GetFishActionById,
-    private val getEnvActionByMissionId: GetEnvActionListByMissionId,
-    private val getNavActionByMissionId: GetNavActionListByMissionId,
-    private val getFIshListActionByMissionId: GetFishActionListByMissionId,
+    private val getFishActionById: GetFishActionById
 ) {
     private val logger = LoggerFactory.getLogger(MissionActionRestController::class.java)
 
