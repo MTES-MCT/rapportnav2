@@ -1,5 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.InterMinisterialServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
@@ -48,9 +50,10 @@ class MissionGeneralInfoModel(
     var nbHourAtSea: Int? = null,
 
     @OneToMany(mappedBy = "missionGeneralInfo", cascade = [CascadeType.ALL], orphanRemoval = true)
-    var interMinisterialServices: List<InterMinisterialServiceModel>? = null
+    @JsonIgnore
+    var interMinisterialServices: List<InterMinisterialServiceModel>? = mutableListOf()
 ) {
-    fun toMissionGeneralInfoEntity(): MissionGeneralInfoEntity {
+    fun toMissionGeneralInfoEntity(interServices: List<InterMinisterialServiceEntity>? = null): MissionGeneralInfoEntity {
         return MissionGeneralInfoEntity(
             id,
             missionId,
@@ -64,7 +67,7 @@ class MissionGeneralInfoModel(
             nbHourAtSea = nbHourAtSea,
             missionReportType = missionReportType,
             reinforcementType = reinforcementType,
-            interMinisterialServices = interMinisterialServices?.map { it.toInterMinisterialServiceEntity() }
+            interMinisterialServices = interServices
         )
     }
 
@@ -83,7 +86,6 @@ class MissionGeneralInfoModel(
                 nbHourAtSea = info.nbHourAtSea,
                 missionReportType = info.missionReportType,
                 reinforcementType = info.reinforcementType,
-                interMinisterialServices = info.interMinisterialServices?.map { InterMinisterialServiceModel.fromInterMinisterialServiceEntity(it) }
             )
         }
     }

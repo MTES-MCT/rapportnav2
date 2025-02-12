@@ -4,8 +4,8 @@ import { store } from '../../../../store'
 import { resetDebounceTime } from '../../../../store/slices/delay-query-reducer.ts'
 import { useDelay } from '../../../common/hooks/use-delay.tsx'
 import { Mission2, MissionGeneralInfo2 } from '../../../common/types/mission-types.ts'
-import useCreateMissionMutation from '../../services/use-create-mission.tsx'
 import MissionGeneralInformationForm from './mission-general-information-form-ulam.tsx'
+import useUpdateGeneralInfo from '../../services/use-update-generalInfo.tsx'
 
 type MissionGeneralInformationUlamProps = {
   mission?: Mission2
@@ -14,12 +14,12 @@ type MissionGeneralInformationUlamProps = {
 const MissionGeneralInformationUlam: React.FC<MissionGeneralInformationUlamProps> = ({ mission }) => {
   const { handleExecuteOnDelay } = useDelay()
   const debounceTime = useStore(store, state => state.delayQuery.debounceTime)
-  const mutation = useCreateMissionMutation()
+  const mutation = useUpdateGeneralInfo(mission?.id)
 
   const onChange = async (newGeneralInfo: MissionGeneralInfo2): Promise<void> => {
     await handleExecuteOnDelay(async () => {
-      // await mutation.mutateAsync(newGeneralInfo)
-      console.log(newGeneralInfo)
+       await mutation.mutateAsync(newGeneralInfo)
+
       if (debounceTime !== undefined) resetDebounceTime()
     }, debounceTime)
   }

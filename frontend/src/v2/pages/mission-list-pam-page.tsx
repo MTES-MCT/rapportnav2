@@ -38,7 +38,7 @@ const MissionListPamPage: FC = () => {
   const { getMissionListItem } = useMissionList()
   const { isLoading, data: missions } = useMissionsQuery(queryParams)
 
-  const { exportMissionReport, loading: exportIsLoading } = useMissionReportExport()
+  const { exportMissionReport, exportIsLoading } = useMissionReportExport()
 
   const [selectedMissionIds, setSelectedMissionIds] = useState<number[]>([])
 

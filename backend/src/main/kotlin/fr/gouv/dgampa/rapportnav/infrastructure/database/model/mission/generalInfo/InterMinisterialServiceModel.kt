@@ -1,6 +1,8 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.InterMinisterialServiceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import jakarta.persistence.*
 
 @Entity
@@ -19,16 +21,17 @@ class InterMinisterialServiceModel(
 
     @ManyToOne
     @JoinColumn(name = "mission_general_info_id")
+    @JsonIgnore
     var missionGeneralInfo: MissionGeneralInfoModel? = null
 ) {
 
     companion object {
-        fun fromInterMinisterialServiceEntity(entity: InterMinisterialServiceEntity): InterMinisterialServiceModel {
+        fun fromInterMinisterialServiceEntity(entity: InterMinisterialServiceEntity, generalInfo: MissionGeneralInfoEntity? = null): InterMinisterialServiceModel {
             return InterMinisterialServiceModel(
                 id = entity.id,
                 administrationId = entity.administrationId,
                 controlUnitId = entity.controlUnitId,
-                missionGeneralInfo = MissionGeneralInfoModel.fromMissionGeneralInfoEntity(entity.missionGeneralInfo!!)
+                missionGeneralInfo = generalInfo?.let { MissionGeneralInfoModel.fromMissionGeneralInfoEntity(it) }
             )
         }
     }

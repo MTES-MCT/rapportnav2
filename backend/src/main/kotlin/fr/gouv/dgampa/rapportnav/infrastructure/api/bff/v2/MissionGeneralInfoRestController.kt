@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/v2/missions/{missionId}/mission_general_infos")
+@RequestMapping("/api/v2/missions/{missionId}/general_infos")
 class MissionGeneralInfoRestController(
     private val createOrUpdateGeneralInfo: CreateOrUpdateGeneralInfo
 )
