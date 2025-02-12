@@ -14,6 +14,7 @@ class PatchEnvMission(private val envRepository: IEnvMissionRepository) {
     @Caching(
         evict = [
             CacheEvict(value = ["envMission"], key = "#input.missionId"),
+            CacheEvict(value = ["envMission2"], key = "#input.missionId"),
         ]
     )
     fun execute(
