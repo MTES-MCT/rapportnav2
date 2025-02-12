@@ -1,7 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
@@ -120,27 +118,6 @@ class MissionRestController(
             return MissionEnv.fromMissionEnvEntity(mission)
         } catch (e: Exception) {
             logger.error("Error while creating MonitorEnv mission : ", e)
-            return null
-        }
-    }
-
-    @PutMapping("{missionId}")
-    fun update(
-        @RequestBody body: MissionGeneralInfo2,
-        @PathVariable missionId: Int
-    ): MissionEnv? {
-        if ((body.id == null) || (missionId != body.id)) {
-            logger.error("Error on update mission : missionId doesn't match with request param")
-            throw java.lang.IllegalArgumentException("missionId doesn't match with request param")
-        }
-        try {
-            val mission = createOrUpdateEnvMission.execute(
-                missionGeneralInfo = body,
-                controlUnitIds = getControlUnitsForUser.execute(),
-            )?: return null
-            return MissionEnv.fromMissionEnvEntity(mission)
-        } catch (e: Exception) {
-            logger.error("Error while updating MonitorEnv mission : ", e)
             return null
         }
     }
