@@ -7,9 +7,13 @@ interface MissionListHook {
 }
 
 export function useMissionList(): MissionListHook {
-  const { formatDateForFrenchHumans, formatDateForMissionName } = useDate()
+  const { formatDateForFrenchHumans, formatDateForMissionName, formaDatetMissionNameUlam } = useDate()
   const formatMissionName = (startDate?: string): string => {
     return `Mission #${formatDateForMissionName(startDate)}`
+  }
+
+  const formatMissionNameUlam = (startDate?: string): string => {
+    return `Mission #${formaDatetMissionNameUlam(startDate)}`
   }
   const getCrewNumber = (mission: Mission2) =>
     !mission?.generalInfos?.serviceId ? '--' : mission?.generalInfos.serviceId % 2 === 0 ? 'B' : 'A'
@@ -23,7 +27,6 @@ export function useMissionList(): MissionListHook {
     return {
       id: mission.id,
       status: mission.status,
-
       openBy: mission.envData.openBy,
       crew: mission.generalInfos.crew,
       crewNumber: getCrewNumber(mission),
@@ -35,7 +38,7 @@ export function useMissionList(): MissionListHook {
       endDateTimeUtc: mission.envData.endDateTimeUtc,
       startDateTimeUtc: mission.envData.startDateTimeUtc,
       missionNamePam: formatMissionName(mission.envData.startDateTimeUtc),
-      missionNameUlam: formatMissionName(mission.envData.startDateTimeUtc),
+      missionNameUlam: formatMissionNameUlam(mission.envData.startDateTimeUtc),
       endDateTimeUtcText: formatDateForFrenchHumans(mission.envData.endDateTimeUtc),
       startDateTimeUtcText: formatDateForFrenchHumans(mission.envData.startDateTimeUtc)
     }

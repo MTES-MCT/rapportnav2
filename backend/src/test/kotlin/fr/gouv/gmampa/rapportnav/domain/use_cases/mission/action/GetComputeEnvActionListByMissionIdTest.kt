@@ -45,8 +45,6 @@ class GetComputeEnvActionListByMissionIdTest {
     @MockitoBean
     private lateinit var getInfractionsByActionId: GetInfractionsByActionId
 
-    @MockitoBean
-    private lateinit var getFakeActionData: FakeActionData
 
     @Test
     fun `test execute get Env action list  by mission id`() {
@@ -77,8 +75,7 @@ class GetComputeEnvActionListByMissionIdTest {
             getStatusForAction = getStatusForAction,
             mapControlPlans = mapControlPlans,
             getControlByActionId = getControlByActionId,
-            getInfractionsByActionId = getInfractionsByActionId,
-            getFakeActionData = getFakeActionData
+            getInfractionsByActionId = getInfractionsByActionId
         )
         val envActions = getEnvActionListById.execute(missionId = missionId)
 

@@ -77,9 +77,8 @@ class MissionEnvAction(
             val envInfractions = action.envInfractions?.map { Infraction.fromEnvInfractionEntity(it) } ?: listOf()
             val navInfractions = action.navInfractions?.map { Infraction.fromInfractionEntity(it) } ?: listOf()
 
-
             return (envInfractions + navInfractions)
-                .filter { it.target?.vesselIdentifier == null && it.target?.identityControlledPerson == null }
+                .filter { it.target?.vesselIdentifier != null || it.target?.identityControlledPerson != null }
                 .groupBy { it.target?.vesselIdentifier ?: it.target?.identityControlledPerson }
                 .map { (vesselIdentifier, infractions) ->
                     InfractionByTarget(

@@ -3,7 +3,6 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
@@ -11,9 +10,9 @@ import org.slf4j.LoggerFactory
 
 @UseCase
 class GetFishActionById(
-    private val fishActionRepo: IFishActionRepository,
     getStatusForAction: GetStatusForAction,
     getControlByActionId: GetControlByActionId2,
+    private val getFishActionListByMissionId: GetFishActionListByMissionId
 ): AbstractGetMissionAction(getStatusForAction, getControlByActionId)  {
     private val logger = LoggerFactory.getLogger(GetFishActionListByMissionId::class.java)
 
@@ -39,7 +38,7 @@ class GetFishActionById(
     }
 
     private fun getFishAction(missionId: Int, actionId: String?): FishAction? {
-        return fishActionRepo.findFishActions(missionId = missionId).find {
+        return getFishActionListByMissionId.execute(missionId = missionId).find {
             it.id == Integer.valueOf(actionId)
         }
     }

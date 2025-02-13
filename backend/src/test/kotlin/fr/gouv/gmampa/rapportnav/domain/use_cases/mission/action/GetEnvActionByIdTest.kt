@@ -3,10 +3,10 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvActionById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsByActionId
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
@@ -30,7 +30,7 @@ class GetEnvActionByIdTest {
     private lateinit var getEnvActionById: GetEnvActionById
 
     @MockitoBean
-    private lateinit var monitorEnvApiRepo: IEnvMissionRepository
+    private lateinit var getEnvMissionById2: GetEnvMissionById2
 
     @MockitoBean
     private lateinit var getControlByActionId: GetControlByActionId2
@@ -66,10 +66,10 @@ class GetEnvActionByIdTest {
         val mockControl = ControlMock.createAllControl()
 
         `when`(getControlByActionId.getAllControl(anyOrNull())).thenReturn(mockControl)
-        `when`(monitorEnvApiRepo.findMissionById(missionId)).thenReturn(missionEntity)
+        `when`(getEnvMissionById2.execute(missionId)).thenReturn(missionEntity)
 
         getEnvActionById = GetEnvActionById(
-            monitorEnvApiRepo = monitorEnvApiRepo,
+            getEnvMissionById2 = getEnvMissionById2,
             getStatusForAction = getStatusForAction,
             mapControlPlans = mapControlPlans,
             getControlByActionId = getControlByActionId,

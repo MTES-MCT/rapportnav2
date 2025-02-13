@@ -2,18 +2,23 @@ package fr.gouv.gmampa.rapportnav.domain.entities.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Completion
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.util.*
 
 @ExtendWith(SpringExtension::class)
 class MissionFishActionEntityTest {
@@ -106,6 +111,47 @@ class MissionFishActionEntityTest {
         assertThat(entity.summaryTags).isNotNull()
         assertThat(entity.summaryTags?.get(0)).isEqualTo("2 PV")
         assertThat(entity.summaryTags?.get(1)).isEqualTo("1 NATINF")
+    }
+
+    @Test
+    fun `execute should compute control`() {
+        val model = FishActionControlMock.create(
+            completion = Completion.TO_COMPLETE,
+            isSeafarersControl = true,
+            isAdministrativeControl = true,
+            isComplianceWithWaterRegulationsControl = true,
+            isSafetyEquipmentAndStandardsComplianceControl = true
+        )
+        val controls = ActionControlEntity(
+            controlSecurity = ControlSecurityEntity(
+                id = UUID.randomUUID(),
+                missionId = 761,
+                actionControlId = "MyActionId1",
+                amountOfControls = 2,
+            ),
+            controlGensDeMer = ControlGensDeMerEntity(
+                id = UUID.randomUUID(),
+                missionId = 761,
+                actionControlId = "MyActionId2",
+                amountOfControls = 2
+            ),
+            controlNavigation = ControlNavigationEntity(
+                id = UUID.randomUUID(),
+                missionId = 761,
+                actionControlId =  "MyActionId3",
+                amountOfControls = 2
+            ),
+            controlAdministrative = ControlAdministrativeEntity(
+                id = UUID.randomUUID(),
+                missionId = 761,
+                actionControlId = "MyActionId4",
+                amountOfControls = 2
+            )
+        )
+        val entity = MissionFishActionEntity.fromFishAction(model)
+        entity.computeControls(controls = controls)
+        entity.computeControlsToComplete()
+        assertThat(entity.controlsToComplete?.size).isEqualTo(4)
     }
 
     private fun getFishAction(): MissionAction {

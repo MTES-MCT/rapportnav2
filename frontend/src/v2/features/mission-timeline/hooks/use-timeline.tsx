@@ -81,7 +81,8 @@ export function useTimeline(): TimelineHook {
       observations: action.data?.observations,
       actionNumberOfControls: action.data?.actionNumberOfControls,
       actionTargetType: action.data?.actionTargetType,
-      vehicleType: action.data?.vehicleType
+      vehicleType: action.data?.vehicleType,
+      formattedControlPlans: action.data?.formattedControlPlans
     }
   }
 
