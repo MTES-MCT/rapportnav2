@@ -40,7 +40,7 @@ data class MissionGeneralInfo2(
             generalInfo2: MissionGeneralInfoEntity2?
         ): MissionGeneralInfo2 {
             return MissionGeneralInfo2(
-                missionId = generalInfo2?.data?.missionId!!,
+                missionId = generalInfo2?.data?.missionId ?: 0,
                 id = generalInfo2?.data?.id,
                 startDateTimeUtc = envData.startDateTimeUtc,
                 endDateTimeUtc = envData.endDateTimeUtc,
@@ -59,7 +59,7 @@ data class MissionGeneralInfo2(
                 isMissionArmed = generalInfo2?.data?.isMissionArmed,
                 observations = envData.observationsByUnit,
                 //TODO: resource
-                interMinisterialServices = generalInfo2.data.interMinisterialServices?.map { InterMinisterialService.fromInterMinisterialServiceEntity(it) }
+                interMinisterialServices = generalInfo2?.data?.interMinisterialServices?.map { InterMinisterialService.fromInterMinisterialServiceEntity(it) }
             )
         }
     }
