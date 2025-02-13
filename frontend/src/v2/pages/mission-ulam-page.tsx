@@ -46,7 +46,7 @@ const MissionUlamPage: React.FC = () => {
       missionGeneralInformations={
         <MissionPageSectionWrapper
           sectionHeader={<MissionGeneralInformationHeader />}
-          sectionBody={<MissionGeneralInformationUlam />}
+          sectionBody={<MissionGeneralInformationUlam mission={mission} />}
         />
       }
       missionTimeLine={

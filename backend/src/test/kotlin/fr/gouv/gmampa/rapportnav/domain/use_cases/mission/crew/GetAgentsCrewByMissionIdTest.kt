@@ -84,6 +84,6 @@ class GetAgentsCrewByMissionIdTest {
 
         // Assert
         val expectedRoles = listOf("Commandant", "Second capitaine", "Chef mécanicien", "Cuisinier")
-        assertEquals(expectedRoles, sortedCrew.map { it.role.title })
+        assertEquals(expectedRoles, sortedCrew.map { it.role?.title })
     }
 }

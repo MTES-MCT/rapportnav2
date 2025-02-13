@@ -1,16 +1,16 @@
 import { useApolloClient } from '@apollo/client'
 import AuthToken from '@features/auth/utils/token'
-import { jwtDecode } from 'jwt-decode'
+import { jwtDecode, JwtPayload } from 'jwt-decode'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { User } from '../../common/types/user'
 
 type AuthHook = {
   isAuthenticated: boolean
   logout: () => Promise<void>
-  isLoggedIn: () => User | undefined
+  isLoggedIn: () => Token | undefined
   navigateAndResetCache: (to: string) => Promise<void>
 }
+export type Token = JwtPayload & { userId: number }
 const authToken = new AuthToken()
 
 const useAuth = (): AuthHook => {
@@ -41,7 +41,7 @@ const useAuth = (): AuthHook => {
     navigate(to)
   }
 
-  const isLoggedIn = (): User | undefined => {
+  const isLoggedIn = (): Token | undefined => {
     const token = authToken?.get()
     return token ? jwtDecode(token) : undefined
   }

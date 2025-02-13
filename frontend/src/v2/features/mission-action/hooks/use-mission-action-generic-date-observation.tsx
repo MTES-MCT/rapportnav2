@@ -32,7 +32,6 @@ export function useMissionActionGenericDateObservation(
   )
 
   const onSubmit = async (valueToSubmit?: MissionActionData) => {
-    debugger
     if (!valueToSubmit) return
     await onChange({ ...action, data: valueToSubmit })
   }

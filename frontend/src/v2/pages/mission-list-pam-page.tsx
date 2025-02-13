@@ -3,6 +3,7 @@ import { Icon } from '@mtes-mct/monitor-ui'
 import { endOfYear } from 'date-fns/endOfYear'
 import { startOfYear } from 'date-fns/startOfYear'
 import { FC, useState } from 'react'
+import useAuth from '../features/auth/hooks/use-auth.tsx'
 import MissionListDateRangeNavigator from '../features/common/components/elements/mission-list-daterange-navigator.tsx'
 import MissionListPageContentWrapper from '../features/common/components/layout/mission-list-page-content-wrapper.tsx'
 import MissionListPageHeaderWrapper from '../features/common/components/layout/mission-list-page-header-wrapper'
@@ -28,6 +29,7 @@ const SIDEBAR_ITEMS = [
 
 const MissionListPamPage: FC = () => {
   const today = new Date()
+  const { isLoggedIn } = useAuth()
   const [queryParams, setQueryParams] = useState({
     startDateTimeUtc: startOfYear(today.toISOString()),
     endDateTimeUtc: endOfYear(today).toISOString()
@@ -36,7 +38,7 @@ const MissionListPamPage: FC = () => {
   const { getMissionListItem } = useMissionList()
   const { isLoading, data: missions } = useMissionsQuery(queryParams)
 
-  const { exportMissionReport, loading: exportIsLoading } = useMissionReportExport()
+  const { exportMissionReport, exportIsLoading } = useMissionReportExport()
 
   const [selectedMissionIds, setSelectedMissionIds] = useState<number[]>([])
 
@@ -86,7 +88,7 @@ const MissionListPamPage: FC = () => {
 
   return (
     <MissionListPageWrapper
-      header={<MissionListPageHeaderWrapper title={<MissionListPageTitle />} />}
+      header={<MissionListPageHeaderWrapper title={<MissionListPageTitle userId={isLoggedIn()?.userId} />} />}
       sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={SIDEBAR_ITEMS} />}
       footer={<></>}
     >

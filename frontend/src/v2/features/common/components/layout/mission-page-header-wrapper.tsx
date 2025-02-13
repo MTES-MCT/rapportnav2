@@ -47,13 +47,13 @@ const MissionPageHeaderWrapper: React.FC<MissionPageHeaderProps> = ({
             <Stack direction="row" spacing={'1rem'}>
               <Stack.Item>
                 <Text as="h1" weight="bold" color={THEME.color.gainsboro}>
-                  {formatMissionName(mission?.envData.startDateTimeUtc)}
+                  {formatMissionName(mission?.envData?.startDateTimeUtc)}
                 </Text>
               </Stack.Item>
 
               <Stack.Item>
                 <TagGroup>
-                  <MissionSourceTag missionSource={mission?.envData.missionSource} />
+                  <MissionSourceTag missionSource={mission?.envData?.missionSource} />
                   <MissionStatusTag status={mission?.status} />
                   <MissionCompletenessForStatsTag
                     missionStatus={mission?.status}

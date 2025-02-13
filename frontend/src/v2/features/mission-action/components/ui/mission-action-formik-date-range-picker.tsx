@@ -31,8 +31,8 @@ export const MissionActionFormikDateRangePicker = styled(
 
     const handleSubmit = async (value: DateInput, errors: FormikErrors<DateInput>) => {
       if (isEqual(value, initValue)) return
-      if (!isEmpty(errors)) {
-        if (validateOnSubmit) fieldFormik.form.setErrors(errors)
+      if (!isEmpty(errors) && validateOnSubmit) {
+        fieldFormik.form.setErrors({ ...fieldFormik.form.errors, ...errors })
         return
       }
       await fieldFormik.form.setFieldValue(name, [value.startDateTimeUtc, value.endDateTimeUtc])
