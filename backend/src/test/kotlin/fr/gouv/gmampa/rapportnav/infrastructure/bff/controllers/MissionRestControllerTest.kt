@@ -3,6 +3,7 @@ package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateOrUpdateGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
@@ -59,6 +60,9 @@ class MissionRestControllerTest {
 
     @MockitoBean
     private lateinit var getMission2: GetMission2
+
+    @MockitoBean
+    private lateinit var createOrUpdateGeneralInfo: CreateOrUpdateGeneralInfo
 
     @Test
     fun `should return a list of missions`() {
