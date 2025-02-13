@@ -4,8 +4,10 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.InterMinisterialServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.CreateOrUpdateEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.PatchEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.AddOrUpdateMissionCrew
+import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 
@@ -14,7 +16,9 @@ class CreateOrUpdateGeneralInfo(
     private val repository: IMissionGeneralInfoRepository,
     private val addOrUpdateInterMinisterialService: AddOrUpdateInterMinisterialService,
     private val addOrUpdateMissionCrew: AddOrUpdateMissionCrew,
-    private val patchEnvMission: PatchEnvMission
+    private val patchEnvMission: PatchEnvMission,
+    private val createOrUpdateEnvMission: CreateOrUpdateEnvMission,
+    private val getControlUnitsForUser: GetControlUnitsForUser
 ) {
 
     fun execute(generalInfo2: MissionGeneralInfo2): MissionGeneralInfoEntity2 {
@@ -37,6 +41,10 @@ class CreateOrUpdateGeneralInfo(
             missionId = generalInfo2.missionId,
             observationsByUnit = generalInfo2.observations
         ))
+
+        val controlUnits = getControlUnitsForUser.execute()
+
+        createOrUpdateEnvMission.execute(generalInfo2, controlUnits) // TODO: to be replaced by patchEnvMission (for missionTypes)
 
         val generalInfoEntity = generalInfoModel.toMissionGeneralInfoEntity(interMinisterialServices)
 

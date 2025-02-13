@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateOrUpdateGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
@@ -24,7 +25,8 @@ class MissionRestController(
     private val getUserFromToken: GetUserFromToken,
     private val getEnvMissions: GetEnvMissions,
     private val getMission: GetMission,
-    private val fakeMissionData2: FakeMissionData2
+    private val fakeMissionData2: FakeMissionData2,
+    private val createOrUpdateGeneralInfo: CreateOrUpdateGeneralInfo
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionRestController::class.java)
@@ -115,6 +117,17 @@ class MissionRestController(
                 missionGeneralInfo = body,
                 controlUnitIds = getControlUnitsForUser.execute()
             ) ?: return null
+            createOrUpdateGeneralInfo.execute(
+                MissionGeneralInfo2(
+                    id = body.id,
+                    missionId = mission.id!!,
+                    startDateTimeUtc = body.startDateTimeUtc,
+                    endDateTimeUtc = body.endDateTimeUtc,
+                    missionTypes = body.missionTypes,
+                    missionReportType = body.missionReportType,
+                    reinforcementType = body.reinforcementType,
+                )
+            )
             return MissionEnv.fromMissionEnvEntity(mission)
         } catch (e: Exception) {
             logger.error("Error while creating MonitorEnv mission : ", e)
