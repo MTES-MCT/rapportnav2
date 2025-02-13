@@ -4,7 +4,6 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeActionData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
 import org.slf4j.LoggerFactory
@@ -13,7 +12,6 @@ import org.slf4j.LoggerFactory
 class GetComputeFishActionListByMissionId(
     getStatusForAction: GetStatusForAction,
     getControlByActionId: GetControlByActionId2,
-    private val getFakeActionData: FakeActionData,
     private val getFishActionListByMissionId: GetFishActionListByMissionId
 ): AbstractGetMissionAction(getStatusForAction, getControlByActionId)  {
     private val logger = LoggerFactory.getLogger(GetComputeFishActionListByMissionId::class.java)
@@ -30,7 +28,6 @@ class GetComputeFishActionListByMissionId(
         } catch (e: Exception) {
             logger.error("GetFishActionsByMissionId failed loading Actions", e)
             return listOf()
-            //return fakeActions(missionId = missionId)
         }
     }
 
@@ -52,10 +49,5 @@ class GetComputeFishActionListByMissionId(
             action.computeCompleteness()
             action
         }
-    }
-
-    private fun fakeActions(missionId: Int): List<MissionFishActionEntity> {
-        val actions = getFakeActionData.getFakeFishActions(missionId)
-        return processActions(actions = actions)
     }
 }

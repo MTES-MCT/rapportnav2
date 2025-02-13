@@ -7,7 +7,7 @@ data class MissionCrew(
     val agent: Agent,
     val missionId: Int,
     val comment: String?,
-    val role: AgentRole
+    val role: AgentRole?
 ) {
 
     companion object {
@@ -16,10 +16,20 @@ data class MissionCrew(
                 id = crew.id,
                 missionId = crew.missionId,
                 agent = Agent.fromAgentEntity(crew.agent),
-                role = AgentRole.fromAgentRoleEntity(crew.role),
+                role = crew.role?.let { AgentRole.fromAgentRoleEntity(it) },
                 comment = crew.comment
             )
         }
+    }
+
+    fun toMissionCrewEntity(): MissionCrewEntity {
+        return MissionCrewEntity(
+            id = id,
+            agent = agent.toAgentEntity(),
+            missionId = missionId,
+            comment = comment,
+            role = role?.toAgentRoleEntity()
+        )
     }
 
 }

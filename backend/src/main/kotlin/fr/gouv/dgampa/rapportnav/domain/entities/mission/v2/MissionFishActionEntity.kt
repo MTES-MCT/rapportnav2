@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.Infracti
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
 import java.time.Instant
 
@@ -126,6 +127,27 @@ class MissionFishActionEntity(
         this.computeSummaryTags()
         this.computeControlsToComplete()
         this.computeCompletenessForStats()
+    }
+
+    override  fun computeControlsToComplete() {
+        this.controlsToComplete = listOf(
+            ControlType.ADMINISTRATIVE.takeIf {
+                this.isAdministrativeControl == true &&
+                    (this.controlAdministrative == null || this.controlAdministrative?.hasBeenDone == null)
+            },
+            ControlType.NAVIGATION.takeIf {
+                this.isComplianceWithWaterRegulationsControl == true &&
+                    (this.controlNavigation == null || this.controlNavigation?.hasBeenDone == null)
+            },
+            ControlType.SECURITY.takeIf {
+                this.isSafetyEquipmentAndStandardsComplianceControl == true &&
+                    (this.controlSecurity == null || this.controlSecurity?.hasBeenDone == null)
+            },
+            ControlType.GENS_DE_MER.takeIf {
+                this.isSeafarersControl == true &&
+                    (this.controlGensDeMer == null || this.controlGensDeMer?.hasBeenDone == null)
+            }
+        ).mapNotNull { it }
     }
 
     companion object {

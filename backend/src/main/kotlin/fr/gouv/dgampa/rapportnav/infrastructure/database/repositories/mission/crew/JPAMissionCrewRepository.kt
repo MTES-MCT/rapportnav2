@@ -27,12 +27,15 @@ class JPAMissionCrewRepository(
     @Transactional
     override fun save(crew: MissionCrewEntity): MissionCrewModel {
         return try {
-            val agent = dbAgentRepository.findById(crew.agent.id!!).orElseThrow()
-            val role = dbAgentRoleRepository.findById(crew.role.id!!).orElseThrow()
-
             val crewModel = MissionCrewModel.fromMissionCrewEntity(crew)
+            val agent = dbAgentRepository.findById(crew.agent.id!!).orElseThrow()
             crewModel.agent = agent
-            crewModel.role = role
+
+            if (crew.role !== null) {
+                val role = dbAgentRoleRepository.findById(crew.role.id!!).orElseThrow()
+                crewModel.role = role
+            } //TODO("A refactoriser pour ULAM (mettre au niveau d'un usecase ?)")
+
             dbMissionCrewRepository.save(crewModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw BackendUsageException(

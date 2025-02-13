@@ -133,26 +133,7 @@ abstract class MissionActionEntity(
         this.controlAdministrative = controls?.controlAdministrative
     }
 
-    fun computeControlsToComplete() {
-        this.controlsToComplete = listOf(
-            ControlType.ADMINISTRATIVE.takeIf {
-                this.isAdministrativeControl == true &&
-                    this.controlAdministrative == null
-            },
-            ControlType.NAVIGATION.takeIf {
-                this.isComplianceWithWaterRegulationsControl == true &&
-                    this.controlNavigation == null
-            },
-            ControlType.SECURITY.takeIf {
-                this.isSafetyEquipmentAndStandardsComplianceControl == true &&
-                    this.controlSecurity == null
-            },
-            ControlType.GENS_DE_MER.takeIf {
-                this.isSeafarersControl == true &&
-                    this.controlGensDeMer == null
-            }
-        ).mapNotNull { it }
-    }
+    abstract fun computeControlsToComplete()
     abstract fun getActionId(): String
     abstract fun computeCompleteness()
 

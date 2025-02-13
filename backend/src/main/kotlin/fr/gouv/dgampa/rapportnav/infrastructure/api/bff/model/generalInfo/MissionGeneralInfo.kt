@@ -10,30 +10,39 @@ data class MissionGeneralInfo(
     var consumedFuelInLiters: Float? = null,
     var serviceId: Int? = null,
     var nbrOfRecognizedVessel: Int? = null,
+    var nbHourAtSea: Int? = null,
+    var interMinisterialServices: List<InterMinisterialService>? = listOf()
 ) {
     fun toMissionGeneralInfoEntity(): MissionGeneralInfoEntity {
         return MissionGeneralInfoEntity(
-            id,
-            missionId,
-            distanceInNauticalMiles,
-            consumedGOInLiters,
-            consumedFuelInLiters,
-            serviceId,
-            nbrOfRecognizedVessel
+            id = id,
+            missionId = missionId,
+            distanceInNauticalMiles = distanceInNauticalMiles,
+            consumedGOInLiters = consumedGOInLiters,
+            consumedFuelInLiters = consumedFuelInLiters,
+            serviceId = serviceId,
+            nbrOfRecognizedVessel = nbrOfRecognizedVessel,
+            nbHourAtSea = nbHourAtSea,
+            interMinisterialServices = interMinisterialServices?.map { it.toInterMinisterialServiceEntity() }
         )
     }
 
     companion object {
-        fun fromMissionGeneralInfoEntity(info: MissionGeneralInfoEntity?) = info?.let {
+        fun fromMissionGeneralInfoEntity(info: MissionGeneralInfoEntity?) = info?.let { missionGeneralInfoEntity ->
             MissionGeneralInfo(
-                id = it.id,
-                missionId = info.missionId,
-                distanceInNauticalMiles = info.distanceInNauticalMiles,
-                consumedGOInLiters = info.consumedGOInLiters,
-                consumedFuelInLiters = info.consumedFuelInLiters,
-                serviceId = info.serviceId,
-                nbrOfRecognizedVessel = info.nbrOfRecognizedVessel
+                id = missionGeneralInfoEntity.id,
+                missionId = missionGeneralInfoEntity.missionId,
+                distanceInNauticalMiles = missionGeneralInfoEntity.distanceInNauticalMiles,
+                consumedGOInLiters = missionGeneralInfoEntity.consumedGOInLiters,
+                consumedFuelInLiters = missionGeneralInfoEntity.consumedFuelInLiters,
+                serviceId = missionGeneralInfoEntity.serviceId,
+                nbrOfRecognizedVessel = missionGeneralInfoEntity.nbrOfRecognizedVessel,
+                nbHourAtSea = missionGeneralInfoEntity.nbHourAtSea,
+                interMinisterialServices = missionGeneralInfoEntity.interMinisterialServices?.map { interMinisterialServiceEntity ->
+                    InterMinisterialService.fromInterMinisterialServiceEntity(interMinisterialServiceEntity)
+                }
             )
         }
+
     }
 }

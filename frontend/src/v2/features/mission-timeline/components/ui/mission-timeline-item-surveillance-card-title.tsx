@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { MissionTimelineAction } from '../../types/mission-timeline-output'
 import MissionTimelineItemCardTitle from './mission-timeline-item-card-title'
 
-const MissionTimelineItemSruveillanceCardTitle: FC<{ action?: MissionTimelineAction }> = ({ action }) => {
+const MissionTimelineItemSurveillanceCardTitle: FC<{ action?: MissionTimelineAction }> = ({ action }) => {
   return (
     <MissionTimelineItemCardTitle
       text="Surveillance"
@@ -16,4 +16,4 @@ const MissionTimelineItemSruveillanceCardTitle: FC<{ action?: MissionTimelineAct
   )
 }
 
-export default MissionTimelineItemSruveillanceCardTitle
+export default MissionTimelineItemSurveillanceCardTitle

@@ -21,7 +21,8 @@ object MissionGeneralInfo2Mock {
             missionReportType = missionReportType,
             missionTypes = missionTypes,
             reinforcementType = reinforcementType,
-            nbHourAtSea = nbHourAtSea
+            nbHourAtSea = nbHourAtSea,
+            missionId = 0
         )
     }
 }

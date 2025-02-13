@@ -93,6 +93,27 @@ data class MissionEnvActionEntity(
         ).mapNotNull { it }
     }
 
+    override fun computeControlsToComplete() {
+        this.controlsToComplete = listOf(
+            ControlType.ADMINISTRATIVE.takeIf {
+                this.isAdministrativeControl == true &&
+                    (this.controlAdministrative == null || this.controlAdministrative?.amountOfControls == 0)
+            },
+            ControlType.NAVIGATION.takeIf {
+                this.isComplianceWithWaterRegulationsControl == true &&
+                    (this.controlNavigation == null || this.controlNavigation?.amountOfControls == 0)
+            },
+            ControlType.SECURITY.takeIf {
+                this.isSafetyEquipmentAndStandardsComplianceControl == true &&
+                    (this.controlSecurity == null || this.controlSecurity?.amountOfControls == 0)
+            },
+            ControlType.GENS_DE_MER.takeIf {
+                this.isSeafarersControl == true &&
+                    (this.controlGensDeMer == null || this.controlGensDeMer?.amountOfControls == 0)
+            }
+        ).mapNotNull { it }
+    }
+
     companion object {
         fun fromEnvAction(missionId: Int, action: EnvActionEntity) = MissionEnvActionEntity(
             id = action.id,

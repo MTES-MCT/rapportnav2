@@ -6,7 +6,6 @@ import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.controlUnit.IEnvControlUnitRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.outputs.LegacyControlUnitDataOutput
-import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -22,8 +21,6 @@ class APIEnvControlUnitRepository(
 ): IEnvControlUnitRepository {
 
     private val logger: Logger = LoggerFactory.getLogger(APIEnvControlUnitRepository::class.java);
-
-    private val gson = GsonSerializer().create()
 
     private val client = clientFactory.create();
 

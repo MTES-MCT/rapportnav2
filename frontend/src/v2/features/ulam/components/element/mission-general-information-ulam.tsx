@@ -1,26 +1,30 @@
-import { TextInput } from '@mtes-mct/monitor-ui'
-import React, { useState } from 'react'
-import { useDelay } from '../../../../features/common/hooks/use-delay'
+import { useStore } from '@tanstack/react-store'
+import React from 'react'
+import { store } from '../../../../store'
+import { resetDebounceTime } from '../../../../store/slices/delay-query-reducer.ts'
+import { useDelay } from '../../../common/hooks/use-delay.tsx'
+import { Mission2, MissionGeneralInfo2 } from '../../../common/types/mission-types.ts'
+import MissionGeneralInformationForm from './mission-general-information-form-ulam.tsx'
+import useUpdateGeneralInfo from '../../services/use-update-generalInfo.tsx'
 
-type MissionGeneralInformationUlamProps = {}
+type MissionGeneralInformationUlamProps = {
+  mission?: Mission2
+}
 
-const MissionGeneralInformationUlam: React.FC<MissionGeneralInformationUlamProps> = () => {
+const MissionGeneralInformationUlam: React.FC<MissionGeneralInformationUlamProps> = ({ mission }) => {
   const { handleExecuteOnDelay } = useDelay()
-  const [value, setValue] = useState<string>()
-  const handleChange = (nextValue?: string) => {
-    setValue(nextValue)
-    handleExecuteOnDelay(() => console.log(nextValue))
-  }
+  const debounceTime = useStore(store, state => state.delayQuery.debounceTime)
+  const mutation = useUpdateGeneralInfo(mission?.id)
 
-  return (
-    <TextInput
-      label="Test gloabla delay"
-      name="testGlobalDealy"
-      value={value}
-      isErrorMessageHidden={true}
-      onChange={handleChange}
-    />
-  )
+  const onChange = async (newGeneralInfo: MissionGeneralInfo2): Promise<void> => {
+    await handleExecuteOnDelay(async () => {
+       await mutation.mutateAsync(newGeneralInfo)
+
+      if (debounceTime !== undefined) resetDebounceTime()
+    }, debounceTime)
+  }
+  if (!mission?.generalInfos) return
+  return <MissionGeneralInformationForm generalInfo2={mission.generalInfos} onChange={onChange} />
 }
 
 export default MissionGeneralInformationUlam

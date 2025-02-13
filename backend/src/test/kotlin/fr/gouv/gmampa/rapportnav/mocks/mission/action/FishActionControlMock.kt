@@ -30,7 +30,11 @@ object FishActionControlMock {
         userTrigram: String = "TKT",
         flagState: CountryCode = CountryCode.FR,
         seizureAndDiversion: Boolean? = null,
-        speciesQuantitySeized: Int? = null
+        speciesQuantitySeized: Int? = null,
+        isAdministrativeControl: Boolean? = null,
+        isComplianceWithWaterRegulationsControl: Boolean? = null,
+        isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
+        isSeafarersControl: Boolean? = null,
     ): MissionAction {
         return MissionAction(
             id = id,
@@ -57,7 +61,11 @@ object FishActionControlMock {
             userTrigram = userTrigram,
             isFromPoseidon = false,
             seizureAndDiversion = seizureAndDiversion,
-            speciesQuantitySeized = speciesQuantitySeized
-        )
+            speciesQuantitySeized = speciesQuantitySeized,
+            isSeafarersControl = isSeafarersControl,
+            isAdministrativeControl = isAdministrativeControl,
+            isComplianceWithWaterRegulationsControl = isComplianceWithWaterRegulationsControl,
+            isSafetyEquipmentAndStandardsComplianceControl = isSafetyEquipmentAndStandardsComplianceControl
+            )
     }
 }

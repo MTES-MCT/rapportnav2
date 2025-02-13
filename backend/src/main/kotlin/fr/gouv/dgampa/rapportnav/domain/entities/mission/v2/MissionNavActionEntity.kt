@@ -149,6 +149,10 @@ class MissionNavActionEntity(
         this.computeCompletenessForStats()
     }
 
+    override fun computeControlsToComplete() {
+        TODO("Not yet implemented")
+    }
+
     companion object {
         fun fromMissionActionModel(model: MissionActionModel): MissionNavActionEntity {
             return MissionNavActionEntity(

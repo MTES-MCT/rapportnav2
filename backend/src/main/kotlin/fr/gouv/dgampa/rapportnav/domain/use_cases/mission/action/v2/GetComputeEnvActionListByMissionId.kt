@@ -5,7 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlP
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeActionData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
@@ -19,8 +18,7 @@ class GetComputeEnvActionListByMissionId(
     private val mapControlPlans: MapEnvActionControlPlans,
     private val getInfractionsByActionId: GetInfractionsByActionId,
     getStatusForAction: GetStatusForAction,
-    getControlByActionId: GetControlByActionId2,
-    private val getFakeActionData: FakeActionData
+    getControlByActionId: GetControlByActionId2
 ) : AbstractGetMissionAction(getStatusForAction, getControlByActionId) {
     private val logger = LoggerFactory.getLogger(GetComputeFishActionListByMissionId::class.java)
 
@@ -35,7 +33,6 @@ class GetComputeEnvActionListByMissionId(
         } catch (e: Exception) {
             logger.error("GetFishActionsByMissionId failed loading Actions", e)
             return listOf()
-            //return fakeActions(missionId = missionId) //TODO remove this way of !!!
         }
     }
 
@@ -58,10 +55,5 @@ class GetComputeEnvActionListByMissionId(
     private fun getFormattedControlPlanList(controlPlans: List<EnvActionControlPlanEntity>?): List<FormattedEnvActionControlPlan>? {
         val filteredControlPlans: ControlPlansEntity? = mapControlPlans.execute(controlPlans)
         return FormattedEnvActionControlPlan.fromControlPlansEntity(filteredControlPlans)
-    }
-
-    private fun fakeActions(missionId: Int): List<MissionEnvActionEntity> {
-        val actions = getFakeActionData.getFakeEnvControls() + getFakeActionData.getFakeEnvSurveillance()
-        return  processActions(missionId = missionId, actions = actions)
     }
 }

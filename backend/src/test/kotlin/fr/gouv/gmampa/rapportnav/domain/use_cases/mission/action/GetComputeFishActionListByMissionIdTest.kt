@@ -1,6 +1,5 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeActionData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeFishActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetFishActionListByMissionId
@@ -34,9 +33,6 @@ class GetComputeFishActionListByMissionIdTest {
     @MockitoBean
     private lateinit var getControlByActionId: GetControlByActionId2
 
-    @MockitoBean
-    private lateinit var getFakeActionData: FakeActionData
-
     @Test
     fun `test execute get Fish action list  by mission id`() {
 
@@ -52,7 +48,6 @@ class GetComputeFishActionListByMissionIdTest {
         `when`(getFishActionListByMissionId.execute(missionId)).thenReturn(listOf(action))
 
         getFishActionList = GetComputeFishActionListByMissionId(
-            getFakeActionData = getFakeActionData,
             getStatusForAction = getStatusForAction,
             getControlByActionId = getControlByActionId,
             getFishActionListByMissionId = getFishActionListByMissionId,

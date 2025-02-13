@@ -32,8 +32,8 @@ class JPAMissionGeneralInfoRepository(
     @Transactional
     override fun save(info: MissionGeneralInfoEntity): MissionGeneralInfoModel {
         return try {
-            val statusActionModel = MissionGeneralInfoModel.fromMissionGeneralInfoEntity(info)
-            dbRepo.save(statusActionModel)
+            val generalInfoModel = MissionGeneralInfoModel.fromMissionGeneralInfoEntity(info)
+            dbRepo.save(generalInfoModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,

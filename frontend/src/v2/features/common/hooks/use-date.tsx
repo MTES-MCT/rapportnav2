@@ -20,6 +20,7 @@ interface DateHook {
   formatTime: (date: DateTypes) => string
   formatShortDate: (date: DateTypes) => string
   formatMissionName: (startDate?: string) => string
+  formaDatetMissionNameUlam: (date: DateTypes) => string
   groupByDay: (obj: any[], dateField: string) => any
   formatDateForMissionName: (date: DateTypes) => string
   formatDateForFrenchHumans: (date: DateTypes) => string
@@ -88,11 +89,15 @@ export function useDate(): DateHook {
     return formatInTimeZone(addMinutes(date, new Date().getTimezoneOffset()), TIME_ZONE, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")
   }
 
+  const formaDatetMissionNameUlam = (date: DateTypes): string =>
+    formatDate(date, 'yyyy-MM', EMPTY_FRENCH_DAY_MONTH_YEAR)
+
   return {
     formatTime,
     groupByDay,
     formatShortDate,
     formatMissionName,
+    formaDatetMissionNameUlam,
     formatDateForMissionName,
     formatDateForFrenchHumans,
     preprocessDateForPicker,

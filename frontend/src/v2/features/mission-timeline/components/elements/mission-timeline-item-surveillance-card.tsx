@@ -3,7 +3,7 @@ import { FC, FunctionComponent } from 'react'
 import TextByCacem from '../../../common/components/ui/text-by-cacem'
 import { MissionTimelineAction } from '../../types/mission-timeline-output'
 import MissionTimelineCardWrapper from '../layout/mission-timeline-item-card-wrapper'
-import MissionTimelineItemSruveillanceCardTitle from '../ui/mission-timeline-item-surveillance-card-title'
+import MissionTimelineItemSurveillanceCardTitle from '../ui/mission-timeline-item-surveillance-card-title'
 
 type MissionTimelineItemSurveillanceCardProps = {
   action?: MissionTimelineAction
@@ -14,7 +14,7 @@ const MissionTimelineItemSurveillanceCard: FC<MissionTimelineItemSurveillanceCar
     <MissionTimelineCardWrapper
       icon={icon}
       footer={<TextByCacem />}
-      title={<MissionTimelineItemSruveillanceCardTitle action={action} />}
+      title={<MissionTimelineItemSurveillanceCardTitle action={action} />}
     />
   )
 }

@@ -11,11 +11,11 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.Mis
 import org.slf4j.LoggerFactory
 
 @UseCase
-class CreateEnvMission(
+class CreateOrUpdateEnvMission(
     private val monitorEnvRepo: IEnvMissionRepository,
-    private val monitorEnvControlUnitRepo: IEnvControlUnitRepository
+    private val monitorEnvControlUnitRepo: IEnvControlUnitRepository,
 ) {
-    private val logger = LoggerFactory.getLogger(CreateEnvMission::class.java)
+    private val logger = LoggerFactory.getLogger(CreateOrUpdateEnvMission::class.java)
 
     fun execute(missionGeneralInfo: MissionGeneralInfo2, controlUnitIds: List<Int>?): MissionEnvEntity? {
         try {
@@ -30,12 +30,13 @@ class CreateEnvMission(
             }
 
             if (matchedControlUnits.isEmpty()) {
-                throw Exception("CreateEnvMission : controlUnits is empty for this user")
+                throw Exception("CreateOrUpdateEnvMission : controlUnits is empty for this user")
             }
 
             val missionEnv = MissionEnv(
+                id = missionGeneralInfo.missionId,
                 missionTypes = missionGeneralInfo.missionTypes,
-                missionSource = MissionSourceEnum.MONITORENV,
+                missionSource = MissionSourceEnum.RAPPORT_NAV,
                 startDateTimeUtc = missionGeneralInfo.startDateTimeUtc,
                 endDateTimeUtc = missionGeneralInfo.endDateTimeUtc,
                 controlUnits = matchedControlUnits,
@@ -47,7 +48,7 @@ class CreateEnvMission(
             return monitorEnvRepo.createMission(missionEnv)
 
         } catch (e: Exception) {
-            logger.error("CreateEnvMission failed creating missions", e)
+            logger.error("CreateOrUpdateEnvMission failed creating missions", e)
             return null
         }
     }
