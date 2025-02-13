@@ -18,6 +18,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.time.Instant
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
@@ -92,12 +93,42 @@ class MissionFishActionEntityTest {
 
     @Test
     fun `execute should be complete for stats fish `() {
-        val fishAction = getFishAction()
+        val fishAction = FishActionControlMock.create(
+            completion = Completion.COMPLETED,
+        )
+        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
+        entity.computeCompleteness()
+        assertThat(entity.isCompleteForStats).isEqualTo(true)
+        assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(emptyList<MissionSourceEnum>())
+        assertThat(entity.completenessForStats?.sources).isEqualTo(emptyList<MissionSourceEnum>())
+        assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
+    }
+
+    @Test
+    fun `execute should be incomplete for stats because endDate is null and source is RapportNav `() {
+        val fishAction = FishActionControlMock.create(
+            actionEndDatetimeUtc = null,
+            completion = Completion.COMPLETED,
+        )
         val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(false)
-        assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.MONITORFISH))
-        assertThat(entity.completenessForStats?.sources).isEqualTo(listOf(MissionSourceEnum.MONITORFISH))
+        assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.RAPPORTNAV))
+        assertThat(entity.completenessForStats?.sources).isEqualTo(listOf(MissionSourceEnum.RAPPORTNAV))
+        assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
+    }
+
+    @Test
+    fun `execute should be incomplete for stats fish and sources RapportNav and MonitorFish `() {
+        val fishAction = FishActionControlMock.create(
+            actionEndDatetimeUtc = null,
+            completion = Completion.TO_COMPLETE,
+        )
+        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
+        entity.computeCompleteness()
+        assertThat(entity.isCompleteForStats).isEqualTo(false)
+        assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.RAPPORTNAV, MissionSourceEnum.MONITORFISH))
+        assertThat(entity.completenessForStats?.sources).isEqualTo(listOf(MissionSourceEnum.RAPPORTNAV, MissionSourceEnum.MONITORFISH))
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
     }
 
