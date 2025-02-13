@@ -20,6 +20,7 @@ import MissionIconUlam from '../../ui/mission-icon-ulam.tsx'
 interface MissionListItemProps {
   mission: MissionListItem
   index: number
+  missionsLength: number
   openIndex: number | null
   setOpenIndex: (index: number | null) => void
 }
@@ -43,7 +44,13 @@ const MissionCrewItem = styled.div`
   padding-right: 8px;
 `
 
-const MissionListItemUlam: React.FC<MissionListItemProps> = ({ mission, index, openIndex, setOpenIndex }) => {
+const MissionListItemUlam: React.FC<MissionListItemProps> = ({
+  mission,
+  index,
+  openIndex,
+  setOpenIndex,
+  missionsLength
+}) => {
   const navigate = useNavigate()
   const missionCrew = useUlamCrewForMissionList(mission.crew)
   const controlUnitResourcesText = useControlUnitResourceLabel(mission.controlUnits)
@@ -109,7 +116,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({ mission, index, o
 
         <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-mission_number'}>
           <Text weight={'bold'} as={'h2'}>
-            {mission.missionNameUlam}
+            {`${mission.missionNameUlam}/${missionsLength - index}`}
           </Text>
         </FlexboxGrid.Item>
 

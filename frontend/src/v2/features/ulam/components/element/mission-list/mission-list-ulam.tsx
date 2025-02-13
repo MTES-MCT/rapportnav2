@@ -34,11 +34,12 @@ const MissionListUlam: FC<MissionListUlamProps> = ({ missions }) => {
               ) : (
                 missions?.map((mission, index) => (
                   <MissionListItemUlam
+                    index={index}
                     key={mission.id}
                     mission={mission}
-                    index={index}
                     openIndex={openIndex}
                     setOpenIndex={setOpenIndex}
+                    missionsLength={missions.length}
                   />
                 ))
               )}
