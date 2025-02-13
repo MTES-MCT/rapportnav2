@@ -14,6 +14,7 @@ class PatchFishAction(private val fishRepository: IFishActionRepository) {
     @Caching(
         evict = [
             CacheEvict(value = ["fishActions"], key = "#input.missionId"),
+            CacheEvict(value = ["fishActionList"], key = "#input.missionId"),
         ]
     )
     fun execute(

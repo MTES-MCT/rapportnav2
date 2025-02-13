@@ -21,6 +21,7 @@ export const GET_MISSION_BY_ID = gql`
         nbrOfRecognizedVessel
         serviceId
       }
+      observationsByUnit
       actions {
         id
         type

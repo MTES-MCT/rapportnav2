@@ -3,11 +3,11 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeActionData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvActionListByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvActionListByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsByActionId
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
@@ -23,15 +23,15 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 import java.util.*
 
-@SpringBootTest(classes = [GetEnvActionListByMissionId::class])
-@ContextConfiguration(classes = [GetEnvActionListByMissionId::class])
-class GetEnvActionListByMissionIdTest {
+@SpringBootTest(classes = [GetComputeEnvActionListByMissionId::class])
+@ContextConfiguration(classes = [GetComputeEnvActionListByMissionId::class])
+class GetComputeEnvActionListByMissionIdTest {
 
     @Autowired
-    private lateinit var getEnvActionListById: GetEnvActionListByMissionId
+    private lateinit var getEnvActionListById: GetComputeEnvActionListByMissionId
 
     @MockitoBean
-    private lateinit var monitorEnvApiRepo: IEnvMissionRepository
+    private lateinit var getEnvMissionById2: GetEnvMissionById2
 
     @MockitoBean
     private lateinit var getControlByActionId: GetControlByActionId2
@@ -45,8 +45,6 @@ class GetEnvActionListByMissionIdTest {
     @MockitoBean
     private lateinit var getInfractionsByActionId: GetInfractionsByActionId
 
-    @MockitoBean
-    private lateinit var getFakeActionData: FakeActionData
 
     @Test
     fun `test execute get Env action list  by mission id`() {
@@ -70,15 +68,14 @@ class GetEnvActionListByMissionIdTest {
         val mockControl = ControlMock.createAllControl()
 
         `when`(getControlByActionId.getAllControl(anyOrNull())).thenReturn(mockControl)
-        `when`(monitorEnvApiRepo.findMissionById(missionId)).thenReturn(missionEntity)
+        `when`(getEnvMissionById2.execute(missionId)).thenReturn(missionEntity)
 
-        getEnvActionListById = GetEnvActionListByMissionId(
-            monitorEnvApiRepo = monitorEnvApiRepo,
+        getEnvActionListById = GetComputeEnvActionListByMissionId(
+            getEnvMissionById2 = getEnvMissionById2,
             getStatusForAction = getStatusForAction,
             mapControlPlans = mapControlPlans,
             getControlByActionId = getControlByActionId,
-            getInfractionsByActionId = getInfractionsByActionId,
-            getFakeActionData = getFakeActionData
+            getInfractionsByActionId = getInfractionsByActionId
         )
         val envActions = getEnvActionListById.execute(missionId = missionId)
 

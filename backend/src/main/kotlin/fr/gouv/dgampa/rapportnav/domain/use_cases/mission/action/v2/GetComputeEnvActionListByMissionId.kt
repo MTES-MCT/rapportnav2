@@ -5,32 +5,27 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlP
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeActionData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsByActionId
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.FormattedEnvActionControlPlan
 import org.slf4j.LoggerFactory
-import org.springframework.cache.annotation.Cacheable
 
 @UseCase
-class GetEnvActionListByMissionId(
-    private val monitorEnvApiRepo: IEnvMissionRepository,
+class GetComputeEnvActionListByMissionId(
+    private val getEnvMissionById2: GetEnvMissionById2,
     private val mapControlPlans: MapEnvActionControlPlans,
     private val getInfractionsByActionId: GetInfractionsByActionId,
     getStatusForAction: GetStatusForAction,
-    getControlByActionId: GetControlByActionId2,
-    private val getFakeActionData: FakeActionData
+    getControlByActionId: GetControlByActionId2
 ) : AbstractGetMissionAction(getStatusForAction, getControlByActionId) {
-    private val logger = LoggerFactory.getLogger(GetFishActionListByMissionId::class.java)
+    private val logger = LoggerFactory.getLogger(GetComputeFishActionListByMissionId::class.java)
 
-    @Cacheable(value = ["envActionList"], key = "#missionId")
     fun execute(missionId: Int?): List<MissionEnvActionEntity> {
         if (missionId == null) {
-            logger.error("GetFishListActionByMissionId received a null missionId")
-            throw IllegalArgumentException("GetFishListActionByMissionId should not receive null missionId")
+            logger.error("GetComputeEnvActionListByMissionId received a null missionId")
+            throw IllegalArgumentException("GetComputeEnvActionListByMissionId should not receive null missionId")
         }
         return try {
             val actions = getEnvActionList(missionId = missionId)
@@ -38,12 +33,11 @@ class GetEnvActionListByMissionId(
         } catch (e: Exception) {
             logger.error("GetFishActionsByMissionId failed loading Actions", e)
             return listOf()
-            //return fakeActions(missionId = missionId) //TODO remove this way of !!!
         }
     }
 
     private fun getEnvActionList(missionId: Int): List<EnvActionEntity> {
-        return monitorEnvApiRepo.findMissionById(missionId = missionId)?.envActions ?: listOf()
+        return getEnvMissionById2.execute(missionId = missionId)?.envActions ?: listOf()
     }
 
     private fun processActions(missionId: Int, actions:  List<EnvActionEntity>): List<MissionEnvActionEntity> {
@@ -61,10 +55,5 @@ class GetEnvActionListByMissionId(
     private fun getFormattedControlPlanList(controlPlans: List<EnvActionControlPlanEntity>?): List<FormattedEnvActionControlPlan>? {
         val filteredControlPlans: ControlPlansEntity? = mapControlPlans.execute(controlPlans)
         return FormattedEnvActionControlPlan.fromControlPlansEntity(filteredControlPlans)
-    }
-
-    private fun fakeActions(missionId: Int): List<MissionEnvActionEntity> {
-        val actions = getFakeActionData.getFakeEnvControls() + getFakeActionData.getFakeEnvSurveillance()
-        return  processActions(missionId = missionId, actions = actions)
     }
 }

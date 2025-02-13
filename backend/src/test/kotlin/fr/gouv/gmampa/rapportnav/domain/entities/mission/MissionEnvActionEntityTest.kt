@@ -4,7 +4,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsSta
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
 import org.assertj.core.api.Assertions.assertThat
@@ -67,7 +68,7 @@ class MissionEnvActionEntityTest {
         val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
         entity.computeControls( mockControls)
         entity.computeCompleteness()
-        assertThat(entity.controlsToComplete).isEqualTo(listOf(ControlType.SECURITY))
+        assertThat(entity.controlsToComplete).isEqualTo(listOf( ControlType.SECURITY))
         assertThat(entity.availableControlTypesForInfraction).isEqualTo(
             listOf(
                 ControlType.NAVIGATION,
@@ -77,6 +78,44 @@ class MissionEnvActionEntityTest {
         )
     }
 
+    @Test
+    fun `execute should compute control`() {
+        val model = getEnvAction()
+        val controls = ActionControlEntity(
+            controlSecurity = ControlSecurityEntity(
+                id = UUID.randomUUID(),
+                missionId = 761,
+                actionControlId = "MyActionId1",
+                amountOfControls = 0,
+                hasBeenDone = true
+            ),
+            controlGensDeMer = ControlGensDeMerEntity(
+                id = UUID.randomUUID(),
+                missionId = 761,
+                actionControlId = "MyActionId2",
+                amountOfControls = 0
+            ),
+            controlNavigation = ControlNavigationEntity(
+                id = UUID.randomUUID(),
+                missionId = 761,
+                actionControlId =  "MyActionId3",
+                amountOfControls = 0,
+                hasBeenDone = false
+            ),
+            controlAdministrative = ControlAdministrativeEntity(
+                id = UUID.randomUUID(),
+                missionId = 761,
+                actionControlId = "MyActionId4",
+                amountOfControls = 5,
+                hasBeenDone = true
+            )
+        )
+        val entity = MissionEnvActionEntity.fromEnvAction(761, model)
+        entity.computeControls(controls = controls)
+        entity.computeControlsToComplete()
+        assertThat(entity.controlsToComplete?.size).isEqualTo(3)
+    }
+
 
     private fun getEnvAction(): EnvActionEntity {
         return EnvActionControlEntity(
@@ -84,7 +123,7 @@ class MissionEnvActionEntityTest {
             completedBy = "completedBy",
             facade = "facade",
             department = "department",
-            isSeafarersControl = false,
+            isSeafarersControl = true,
             isAdministrativeControl = false,
             openBy = "FEFEFE",
             vehicleType = VehicleTypeEnum.VEHICLE_AIR,

@@ -17,7 +17,7 @@ const MissionActionItemSurveillance: FC<{
   return (
     <form style={{ width: '100%' }}>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true}>
+        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true} enableReinitialize={true}>
           {({ values }) => (
             <>
               <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionSurveillanceInput)} />

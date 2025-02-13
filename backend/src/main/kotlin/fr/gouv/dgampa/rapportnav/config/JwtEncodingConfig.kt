@@ -16,6 +16,7 @@ import javax.crypto.spec.SecretKeySpec
  */
 @Configuration
 class JwtEncodingConfig(
+//    @Value("\${JWT_SECURITY_KEY}")
     @Value("\${security.key}")
     private val jwtKey: String,
 ) {

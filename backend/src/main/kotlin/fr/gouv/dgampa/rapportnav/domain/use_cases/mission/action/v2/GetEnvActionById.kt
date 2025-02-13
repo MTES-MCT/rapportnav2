@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory
 
 @UseCase
 class GetEnvActionById(
-    private val monitorEnvApiRepo: IEnvMissionRepository,
+    private val getEnvMissionById2: GetEnvMissionById2,
     getStatusForAction: GetStatusForAction,
     getControlByActionId: GetControlByActionId2,
     private val mapControlPlans: MapEnvActionControlPlans,
@@ -51,7 +51,7 @@ class GetEnvActionById(
     }
 
     private fun getEnvAction(missionId: Int, actionId: String): EnvActionEntity? {
-        return monitorEnvApiRepo.findMissionById(missionId = missionId)?.envActions?.find { it.id.toString() == actionId }
+        return getEnvMissionById2.execute(missionId = missionId)?.envActions?.find { it.id.toString() == actionId }
     }
 
 }

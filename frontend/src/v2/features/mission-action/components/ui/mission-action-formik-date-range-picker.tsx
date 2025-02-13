@@ -57,7 +57,19 @@ export const MissionActionFormikDateRangePicker = styled(
                 />
                 <Stack direction={'column'} alignItems={'flex-start'}>
                   <Stack.Item>
-                    <Label>{props.label || 'Date et heure de début et de fin'}</Label>
+                    <Stack direction="row">
+                      <Stack.Item>
+                        <Label>{props.label || 'Date et heure de début et de fin'}</Label>
+                      </Stack.Item>
+                      <Stack.Item>
+                        <Label
+                          as={'h3'}
+                          style={{ marginLeft: 2, color: THEME.color.maximumRed, fontWeight: 'initial' }}
+                        >
+                          *
+                        </Label>
+                      </Stack.Item>
+                    </Stack>
                   </Stack.Item>
                   <Stack.Item>
                     <Stack direction={'row'} spacing={'0.5rem'}>

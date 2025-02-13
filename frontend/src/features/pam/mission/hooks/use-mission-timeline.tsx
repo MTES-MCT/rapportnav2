@@ -8,6 +8,7 @@ export const GET_MISSION_TIMELINE = gql`
       startDateTimeUtc
       endDateTimeUtc
       status
+      observationsByUnit
       completenessForStats {
         status
         sources
