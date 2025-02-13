@@ -1,10 +1,8 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlUnitResourceType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.controlUnitResource.GetControlUnitResources
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.env.ControlUnit
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.env.ControlUnitResourceEnv
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.env.StationData
+import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -15,8 +13,15 @@ import org.springframework.web.bind.annotation.RestController
 class ControlUnitResourceRestController(
     private val getControlUnitResources: GetControlUnitResources
 ) {
+    private val logger = LoggerFactory.getLogger(ControlUnitResourceRestController::class.java)
     @GetMapping
     fun getAll(): List<ControlUnitResourceEnv>? {
-        return getControlUnitResources.execute()
+        try {
+            return getControlUnitResources.execute()?: listOf()
+        } catch (e: Exception) {
+            logger.error("Error while fetching Control unit : ${e.message}")
+            return listOf()
+        }
     }
+
 }

@@ -21,10 +21,10 @@ class AdministrationController(
     @GetMapping("")
     fun getAll(): List<FullAdministration>? {
         try {
-            return getAdministrations.execute()
+            return getAdministrations.execute()?: listOf()
         } catch (e: Exception) {
             logger.error("Error while fetching administrations : ${e.message}")
-            return null
+            return listOf()
         }
     }
 
