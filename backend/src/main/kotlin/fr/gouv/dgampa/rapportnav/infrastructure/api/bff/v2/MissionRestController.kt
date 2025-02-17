@@ -126,7 +126,8 @@ class MissionRestController(
                     missionTypes = body.missionTypes,
                     missionReportType = body.missionReportType,
                     reinforcementType = body.reinforcementType,
-                )
+                ),
+                missionId = mission.id
             )
             return MissionEnv.fromMissionEnvEntity(mission)
         } catch (e: Exception) {
