@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.InterMinisterialServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
@@ -49,27 +48,10 @@ class MissionGeneralInfoModel(
     @Column(name = "nb_hour_at_sea")
     var nbHourAtSea: Int? = null,
 
-    @OneToMany(mappedBy = "missionGeneralInfo", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "missionGeneralInfo", cascade = [CascadeType.ALL], orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonIgnore
     var interMinisterialServices: List<InterMinisterialServiceModel>? = mutableListOf()
 ) {
-    fun toMissionGeneralInfoEntity(interServices: List<InterMinisterialServiceEntity>? = null): MissionGeneralInfoEntity {
-        return MissionGeneralInfoEntity(
-            id,
-            missionId,
-            distanceInNauticalMiles,
-            consumedGOInLiters,
-            consumedFuelInLiters,
-            serviceId,
-            nbrOfRecognizedVessel,
-            isWithInterMinisterialService,
-            isMissionArmed,
-            nbHourAtSea = nbHourAtSea,
-            missionReportType = missionReportType,
-            reinforcementType = reinforcementType,
-            interMinisterialServices = interServices
-        )
-    }
 
     companion object {
         fun fromMissionGeneralInfoEntity(info: MissionGeneralInfoEntity): MissionGeneralInfoModel {
