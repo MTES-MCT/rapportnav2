@@ -81,7 +81,7 @@ class ExportMissionReportsTest {
 
         Mockito.`when`(exportMissionAEMSingle2.execute(Mockito.anyList())).thenReturn(
             MissionExportEntity(
-                fileName = "exportMissionAEMMultipleZipped.zip",
+                fileName = "exportMissionAEMSingle.ods",
                 fileContent = "MockContent"
             )
         )
