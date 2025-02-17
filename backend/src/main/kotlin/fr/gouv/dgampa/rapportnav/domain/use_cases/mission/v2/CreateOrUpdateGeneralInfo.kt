@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.InterMinisterialServiceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.CreateOrUpdateEnvMission
@@ -21,9 +22,9 @@ class CreateOrUpdateGeneralInfo(
     private val getControlUnitsForUser: GetControlUnitsForUser
 ) {
 
-    fun execute(generalInfo2: MissionGeneralInfo2): MissionGeneralInfoEntity2 {
+    fun execute(generalInfo2: MissionGeneralInfo2, missionId: Int): MissionGeneralInfoEntity2 {
 
-        val entity = generalInfo2.toMissionGeneralInfoEntity()
+        val entity = MissionGeneralInfoEntity.fromMissionGeneralInfo2(generalInfo2, missionId)
         val generalInfoModel = repository.save(entity)
         var interMinisterialServices = listOf<InterMinisterialServiceEntity>()
 

@@ -64,7 +64,7 @@ data class MissionGeneralInfo2(
         }
     }
 
-    fun toMissionGeneralInfoEntity(): MissionGeneralInfoEntity {
+    fun toMissionGeneralInfoEntity(missionId: Int): MissionGeneralInfoEntity {
         return MissionGeneralInfoEntity(
             id = id!!,
             missionId = missionId,
