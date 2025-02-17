@@ -21,9 +21,9 @@ class CreateOrUpdateGeneralInfo(
     private val getControlUnitsForUser: GetControlUnitsForUser
 ) {
 
-    fun execute(generalInfo2: MissionGeneralInfo2): MissionGeneralInfoEntity2 {
+    fun execute(generalInfo2: MissionGeneralInfo2, missionId: Int): MissionGeneralInfoEntity2 {
 
-        val entity = generalInfo2.toMissionGeneralInfoEntity()
+        val entity = generalInfo2.toMissionGeneralInfoEntity(missionId)
         val generalInfoModel = repository.save(entity)
         var interMinisterialServices = listOf<InterMinisterialServiceEntity>()
 
