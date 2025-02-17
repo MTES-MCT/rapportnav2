@@ -19,7 +19,7 @@ import kotlin.collections.plus
 @RequestMapping("/api/v2/missions")
 class MissionRestController(
     private val getMission2: GetMission2,
-    private val createOrUpdateEnvMission: CreateOrUpdateEnvMission,
+    private val createEnvMission: CreateEnvMission,
     private val getEnvMissionById2: GetEnvMissionById2,
     private val getControlUnitsForUser: GetControlUnitsForUser,
     private val getUserFromToken: GetUserFromToken,
@@ -113,21 +113,22 @@ class MissionRestController(
         @RequestBody body: MissionGeneralInfo2
     ): MissionEnv? {
         try {
-            val mission = createOrUpdateEnvMission.execute(
+            val mission = createEnvMission.execute(
                 missionGeneralInfo = body,
                 controlUnitIds = getControlUnitsForUser.execute()
             ) ?: return null
             createOrUpdateGeneralInfo.execute(
-                MissionGeneralInfo2(
-                    id = body.id,
-                    missionId = mission.id!!,
+                missionId = mission.id!!,
+                generalInfo = MissionGeneralInfo2(
+                    id = mission.id, //TODO: To remove as soon as seq is created on table mission_general_info
+                    missionId = mission.id,
                     startDateTimeUtc = body.startDateTimeUtc,
                     endDateTimeUtc = body.endDateTimeUtc,
                     missionTypes = body.missionTypes,
                     missionReportType = body.missionReportType,
                     reinforcementType = body.reinforcementType,
                 ),
-                missionId = mission.id
+
             )
             return MissionEnv.fromMissionEnvEntity(mission)
         } catch (e: Exception) {

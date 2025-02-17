@@ -14,10 +14,10 @@ import java.time.Instant
 
 data class MissionGeneralInfo2(
     val id: Int? = null,
-    val missionId: Int,
+    val missionId: Int? = null,
     val startDateTimeUtc: Instant,
     val endDateTimeUtc: Instant? = null,
-    val missionReportType: MissionReportTypeEnum,
+    val missionReportType: MissionReportTypeEnum? = null,
     val missionTypes: List<MissionTypeEnum>,
     val reinforcementType: MissionReinforcementTypeEnum? = null,
     val nbHourAtSea: Int? = null,
@@ -40,14 +40,15 @@ data class MissionGeneralInfo2(
             envData: MissionEntity,
             generalInfo2: MissionGeneralInfoEntity2?
         ): MissionGeneralInfo2 {
+
             return MissionGeneralInfo2(
                 missionId = generalInfo2?.data?.missionId ?: 0,
                 id = generalInfo2?.data?.id,
                 startDateTimeUtc = envData.startDateTimeUtc,
                 endDateTimeUtc = envData.endDateTimeUtc,
                 missionTypes = envData.missionTypes,
-                missionReportType = MissionReportTypeEnum.FIELD_REPORT,
-                nbHourAtSea = 0,
+                missionReportType = generalInfo2?.data?.missionReportType,
+                nbHourAtSea = generalInfo2?.data?.nbHourAtSea,
                 distanceInNauticalMiles = generalInfo2?.data?.distanceInNauticalMiles,
                 consumedGOInLiters = generalInfo2?.data?.consumedGOInLiters,
                 consumedFuelInLiters = generalInfo2?.data?.consumedFuelInLiters,
@@ -59,7 +60,11 @@ data class MissionGeneralInfo2(
                 isWithInterMinisterialService = generalInfo2?.data?.isWithInterMinisterialService,
                 isMissionArmed = generalInfo2?.data?.isMissionArmed,
                 observations = envData.observationsByUnit,
-                interMinisterialServices = generalInfo2?.data?.interMinisterialServices?.map { InterMinisterialService.fromInterMinisterialServiceEntity(it) },
+                interMinisterialServices = generalInfo2?.data?.interMinisterialServices?.map {
+                    InterMinisterialService.fromInterMinisterialServiceEntity(
+                        it
+                    )
+                } ?: listOf(),
                 resources = envData.controlUnits
                     .filter { controlUnit ->
                         generalInfo2?.services?.any { it.name == controlUnit.name } == true
@@ -81,6 +86,7 @@ data class MissionGeneralInfo2(
             isWithInterMinisterialService = isWithInterMinisterialService,
             isAllAgentsParticipating = isAllAgentsParticipating,
             isMissionArmed = isMissionArmed,
+            nbHourAtSea = nbHourAtSea,
             interMinisterialServices = interMinisterialServices?.map { it.toInterMinisterialServiceEntity() }
         )
     }

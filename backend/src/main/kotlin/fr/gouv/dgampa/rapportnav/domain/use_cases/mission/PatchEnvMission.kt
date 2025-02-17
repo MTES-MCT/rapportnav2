@@ -20,6 +20,7 @@ class PatchEnvMission(private val envRepository: IEnvMissionRepository) {
     fun execute(
         input: MissionEnvInput,
     ): MissionEntity? {
+        //TODO: Compare before update
         return envRepository.patchMission(
             input.missionId,
             PatchMissionInput(
