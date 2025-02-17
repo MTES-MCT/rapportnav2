@@ -19,11 +19,12 @@ data class InterMinisterialServiceEntity(
         }
     }
 
-    fun toInterMinisterialServiceModel(): InterMinisterialServiceModel {
+    fun toInterMinisterialServiceModel(generalInfoEntity: MissionGeneralInfoEntity): InterMinisterialServiceModel {
         return InterMinisterialServiceModel(
             id = id,
             administrationId = administrationId,
             controlUnitId = controlUnitId,
+            missionGeneralInfo = generalInfoEntity.toMissionGeneralInfoModel()
         )
     }
 

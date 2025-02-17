@@ -17,7 +17,7 @@ class JPAInterMinisterialServiceRepository(
 ): IInterMinisterialServiceRepository {
     override fun save(service: InterMinisterialServiceEntity, generalInfo: MissionGeneralInfoEntity): InterMinisterialServiceModel {
         return try {
-            val model = InterMinisterialServiceModel.fromInterMinisterialServiceEntity(service, generalInfo)
+            val model =  service.toInterMinisterialServiceModel(generalInfo)
             dbRepo.save(model)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw BackendUsageException(
