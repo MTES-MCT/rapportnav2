@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Le
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 
 data class MissionGeneralInfo(
-    var id: Int,
+    var id: Int?,
     var missionId: Int,
     var distanceInNauticalMiles: Float? = null,
     var consumedGOInLiters: Float? = null,

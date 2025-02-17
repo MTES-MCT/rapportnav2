@@ -71,7 +71,7 @@ data class MissionGeneralInfo2(
 
     fun toMissionGeneralInfoEntity(missionId: Int): MissionGeneralInfoEntity {
         return MissionGeneralInfoEntity(
-            id = id!!,
+            id = id,
             missionId = missionId,
             distanceInNauticalMiles = distanceInNauticalMiles,
             consumedGOInLiters = consumedGOInLiters,

@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Le
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -57,6 +58,31 @@ class MissionGeneralInfo2Test {
         assertThat(generalInfo.distanceInNauticalMiles).isEqualTo(generalInfoEntity.data?.distanceInNauticalMiles);
         assertThat(generalInfo.nbrOfRecognizedVessel).isEqualTo(generalInfoEntity.data?.nbrOfRecognizedVessel);
         assertThat(generalInfo.resources?.get(0)).isEqualTo(generalInfoEntity.data?.resources?.get(0))
+    }
+
+
+    @Test
+    fun `execute should retrieve mission general info entity`() {
+        val generalInfoEntity =
+            MissionGeneralInfo2(
+                missionId = 1,
+                serviceId = 3,
+                consumedGOInLiters = 2.5f,
+                consumedFuelInLiters = 2.7f,
+                distanceInNauticalMiles = 1.9f,
+                nbrOfRecognizedVessel = 9,
+                missionTypes = listOf(MissionTypeEnum.AIR),
+                startDateTimeUtc = Instant.now(),
+                missionReportType = MissionReportTypeEnum.FIELD_REPORT,
+            ).toMissionGeneralInfoEntity(missionId = 1);
+
+        assertThat(generalInfoEntity).isNotNull();
+        assertThat(generalInfoEntity.missionId).isEqualTo(1);
+        assertThat(generalInfoEntity.serviceId).isEqualTo(3);
+        assertThat(generalInfoEntity.consumedGOInLiters).isEqualTo(2.5f);
+        assertThat(generalInfoEntity.consumedFuelInLiters).isEqualTo(2.7f);
+        assertThat(generalInfoEntity.distanceInNauticalMiles).isEqualTo(1.9f);
+        assertThat(generalInfoEntity.nbrOfRecognizedVessel).isEqualTo(9);
     }
 
 
