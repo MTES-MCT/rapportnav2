@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo
 
 import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.ControlResourceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.generalInfo.MissionGeneralInfo
@@ -19,7 +19,7 @@ data class MissionGeneralInfoEntity(
     var isWithInterMinisterialService: Boolean? = false,
     var isAllAgentsParticipating: Boolean? = false,
     var isMissionArmed: Boolean? = false,
-    var resources: List<ControlResourceEntity>? = null,
+    var resources: List<LegacyControlUnitResourceEntity>? = listOf(),
     var nbHourAtSea: Int? = null,
     var missionReportType: MissionReportTypeEnum? = null,
     var reinforcementType: MissionReinforcementTypeEnum? = null,
@@ -36,7 +36,8 @@ data class MissionGeneralInfoEntity(
                 isMissionArmed = generalInfo2.isMissionArmed,
                 interMinisterialServices = generalInfo2.interMinisterialServices?.map { it.toInterMinisterialServiceEntity() },
                 nbHourAtSea = generalInfo2.nbHourAtSea,
-                isWithInterMinisterialService = generalInfo2.isWithInterMinisterialService
+                isWithInterMinisterialService = generalInfo2.isWithInterMinisterialService,
+                resources = generalInfo2.resources
             )
         }
     }
@@ -48,7 +49,8 @@ data class MissionGeneralInfoEntity(
             consumedGOInLiters = consumedGOInLiters,
             consumedFuelInLiters = consumedFuelInLiters,
             serviceId = serviceId,
-            nbrOfRecognizedVessel = nbrOfRecognizedVessel
+            nbrOfRecognizedVessel = nbrOfRecognizedVessel,
+            resources = resources
         )
     }
 }
