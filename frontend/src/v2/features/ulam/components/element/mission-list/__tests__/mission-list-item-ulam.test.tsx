@@ -1,30 +1,27 @@
-import { ControlUnit } from '@mtes-mct/monitor-ui'
 import { vi } from 'vitest'
 import { fireEvent, render, screen, waitFor } from '../../../../../../../test-utils.tsx'
-import { MissionListItem, MissionSourceEnum } from '../../../../../../features/common/types/mission-types.ts'
+import {
+  MissionListItem,
+  MissionReportTypeEnum,
+  MissionSourceEnum
+} from '../../../../../common/types/mission-types.ts'
 import MissionListItemUlam from '../mission-list-item-ulam.tsx'
-import ControlUnitResourceType = ControlUnit.ControlUnitResourceType
 
 const mission1 = {
   id: 1,
   controlUnits: [],
   crew: [],
   observationsByUnit: 'Je suis une observation',
-  missionSource: MissionSourceEnum.MONITORENV
+  missionSource: MissionSourceEnum.MONITORENV,
+  resources: [],
+  missionReportType: MissionReportTypeEnum.OFFICE_REPORT
 }
 const mission2 = {
   id: 2,
-  controlUnits: [
-    {
-      controlUnitResources: [
-        {
-          name: ControlUnitResourceType.CAR
-        }
-      ]
-    }
-  ],
+  controlUnits: [],
   crew: [],
-  missionSource: MissionSourceEnum.MONITORFISH
+  missionSource: MissionSourceEnum.MONITORFISH,
+  resources: [{name: 'Renault Megane'}]
 }
 
 const queryAllMissionItemProps = () => ({
@@ -58,7 +55,7 @@ describe('MissionListItem component', () => {
 
   const mockSetOpenIndex = vi.fn()
 
-  test('should render "N/A" if no ControlUnitResource provided', () => {
+  test('should render "N/A" if no ControlUnitResource provided and report type is OFFICE_REPORT', () => {
     render(<MissionListItemUlam mission={mission1} index={0} openIndex={true} setOpenIndex={mockSetOpenIndex} />)
     const noResource = screen.queryByText('N/A')
     expect(noResource).toBeInTheDocument()
@@ -67,7 +64,7 @@ describe('MissionListItem component', () => {
   test('should render "Voiture" if ControlUnitResource contains CAR', () => {
     render(<MissionListItemUlam mission={mission2} index={0} openIndex={true} setOpenIndex={mockSetOpenIndex} />)
     const car = screen.queryByTestId('mission-list-item-control_unit_resources')
-    expect(car).toHaveTextContent('Voiture')
+    expect(car).toHaveTextContent('Renault Megane')
   })
 
   test.skip('should render all properties for ulam', () => {

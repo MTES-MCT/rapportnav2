@@ -3,6 +3,7 @@ import { MissionCrew } from '@common/types/crew-types'
 import { MissionTypeEnum, SeaFrontEnum } from '@common/types/env-mission-types'
 import { Service } from '@common/types/service-types'
 import { MissionAction } from './mission-action'
+import { ControlUnitResource } from './control-unit-types.ts'
 
 export enum MissionType {
   AIR = 'AIR',
@@ -158,6 +159,8 @@ export type MissionListItem = {
   missionSource?: MissionSourceEnum
   completenessForStats?: CompletenessForStats
   controlUnits?: Omit<ControlUnit, 'id'>[]
+  resources?: ControlUnitResource[],
+  missionReportType?: MissionReportTypeEnum
 }
 
 export type InterMinisterialService = {
