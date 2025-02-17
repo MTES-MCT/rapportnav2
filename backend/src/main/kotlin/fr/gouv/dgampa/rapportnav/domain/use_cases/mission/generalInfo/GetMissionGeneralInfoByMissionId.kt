@@ -11,7 +11,7 @@ class GetMissionGeneralInfoByMissionId(
     fun execute(missionId: Int): MissionGeneralInfoEntity? {
         val info = infoRepo.findByMissionId(missionId = missionId).orElse(null)
         if (info != null) {
-            return info.toMissionGeneralInfoEntity()
+            return MissionGeneralInfoEntity.fromMissionGeneralInfoModel(info)
         }
         return null
     }

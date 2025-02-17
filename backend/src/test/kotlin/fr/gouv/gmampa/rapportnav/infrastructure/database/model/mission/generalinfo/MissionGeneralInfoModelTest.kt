@@ -14,7 +14,7 @@ class MissionGeneralInfoModelTest {
 
     @Test
     fun `execute should retrieve mission general info entity`() {
-        val generalInfoEntity =
+        val generalInfoEntity = MissionGeneralInfoEntity.fromMissionGeneralInfoModel(
             MissionGeneralInfoModel(
                 id = 1,
                 missionId = 1,
@@ -23,8 +23,8 @@ class MissionGeneralInfoModelTest {
                 consumedFuelInLiters = 2.7f,
                 distanceInNauticalMiles = 1.9f,
                 nbrOfRecognizedVessel = 9
-            ).toMissionGeneralInfoEntity();
-
+            )
+        )
         assertThat(generalInfoEntity).isNotNull();
         assertThat(generalInfoEntity.id).isEqualTo(1);
         assertThat(generalInfoEntity.missionId).isEqualTo(1);

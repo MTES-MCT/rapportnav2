@@ -14,7 +14,7 @@ class AddOrUpdateInterMinisterialService(
         val interMinisterialServices = mutableListOf<InterMinisterialServiceEntity>()
         generalInfoEntity.interMinisterialServices?.forEach { serviceEntity: InterMinisterialServiceEntity ->
            val result = repository.save(serviceEntity, generalInfoEntity)
-            interMinisterialServices.add(result.toInterMinisterialServiceEntity())
+            interMinisterialServices.add(InterMinisterialServiceEntity.fromInterMinisterialServiceModel(result))
         }
 
         return interMinisterialServices

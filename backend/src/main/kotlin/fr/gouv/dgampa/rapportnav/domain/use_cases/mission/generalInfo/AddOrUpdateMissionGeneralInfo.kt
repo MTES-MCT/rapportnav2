@@ -9,7 +9,7 @@ class AddOrUpdateMissionGeneralInfo(
     private val infoRepo: IMissionGeneralInfoRepository
 ) {
     fun execute(info: MissionGeneralInfoEntity): MissionGeneralInfoEntity {
-        val savedData = infoRepo.save(info).toMissionGeneralInfoEntity()
+        val savedData = MissionGeneralInfoEntity.fromMissionGeneralInfoModel(infoRepo.save(info))
         return savedData
     }
 }

@@ -40,7 +40,7 @@ class UpdateMissionService(
             )
         }
         info.serviceId = input.serviceId;
-        infoRepo.save(info.toMissionGeneralInfoEntity());
+        infoRepo.save(MissionGeneralInfoEntity.fromMissionGeneralInfoModel(info));
         return serviceRepo.findById(input.serviceId).getOrNull()?.toServiceEntity();
     }
 }
