@@ -20,7 +20,7 @@ import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 
 @UseCase
-class ExportMissionAEM2(
+class ExportMissionAEMSingle2(
     @Value("\${rapportnav.aem.template.path}") private val aemTemplatePath: String,
     @Value("\${rapportnav.aem.tmp_xlsx.path}") private val aemTmpXLSXPath: String,
     @Value("\${rapportnav.aem.tmp_ods.path}") private val aemTmpODSPath: String,
@@ -31,7 +31,7 @@ class ExportMissionAEM2(
     private val getFIshListActionByMissionId: GetComputeFishActionListByMissionId,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
 ) {
-    private val logger: Logger = LoggerFactory.getLogger(ExportMissionAEM2::class.java)
+    private val logger: Logger = LoggerFactory.getLogger(ExportMissionAEMSingle2::class.java)
 
     fun execute(missionIds: List<Int>): MissionExportEntity? {
 

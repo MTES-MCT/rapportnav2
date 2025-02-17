@@ -37,6 +37,9 @@ class ExportMissionReportsTest {
     @MockitoBean
     private lateinit var exportMissionAEMMultipleZipped: ExportMissionAEMMultipleZipped
 
+    @MockitoBean
+    private lateinit var exportMissionAEMSingle2: ExportMissionAEMSingle2
+
     @BeforeEach
     fun setUp() {
         Mockito.`when`(exportMissionPatrolSingle.execute(Mockito.anyInt())).thenReturn(
@@ -72,6 +75,13 @@ class ExportMissionReportsTest {
         Mockito.`when`(exportMissionAEMMultipleZipped.execute(Mockito.anyList())).thenReturn(
             MissionExportEntity(
                 fileName = "exportMissionAEMMultipleZipped.zip",
+                fileContent = "MockContent"
+            )
+        )
+
+        Mockito.`when`(exportMissionAEMSingle2.execute(Mockito.anyList())).thenReturn(
+            MissionExportEntity(
+                fileName = "exportMissionAEMSingle.ods",
                 fileContent = "MockContent"
             )
         )

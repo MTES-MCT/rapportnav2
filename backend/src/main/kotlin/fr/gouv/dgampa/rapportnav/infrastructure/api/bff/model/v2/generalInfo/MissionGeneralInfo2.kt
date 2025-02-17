@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
@@ -31,7 +32,7 @@ data class MissionGeneralInfo2(
     val isAllAgentsParticipating: Boolean? = false,
     val isMissionArmed: Boolean? = false,
     val observations: String? = null,
-    val resources: List<String>? = listOf(),
+    val resources: List<LegacyControlUnitResourceEntity>? = listOf(),
     val interMinisterialServices : List<InterMinisterialService>? = listOf()
 ) {
     companion object {
@@ -58,15 +59,19 @@ data class MissionGeneralInfo2(
                 isWithInterMinisterialService = generalInfo2?.data?.isWithInterMinisterialService,
                 isMissionArmed = generalInfo2?.data?.isMissionArmed,
                 observations = envData.observationsByUnit,
-                //TODO: resource
-                interMinisterialServices = generalInfo2?.data?.interMinisterialServices?.map { InterMinisterialService.fromInterMinisterialServiceEntity(it) }
+                interMinisterialServices = generalInfo2?.data?.interMinisterialServices?.map { InterMinisterialService.fromInterMinisterialServiceEntity(it) },
+                resources = envData.controlUnits
+                    .filter { controlUnit ->
+                        generalInfo2?.services?.any { it.name == controlUnit.name } == true
+                    }
+                    .flatMap { it.resources }
             )
         }
     }
 
-    fun toMissionGeneralInfoEntity(): MissionGeneralInfoEntity {
+    fun toMissionGeneralInfoEntity(missionId: Int): MissionGeneralInfoEntity {
         return MissionGeneralInfoEntity(
-            id = id!!,
+            id = id,
             missionId = missionId,
             distanceInNauticalMiles = distanceInNauticalMiles,
             consumedGOInLiters = consumedGOInLiters,

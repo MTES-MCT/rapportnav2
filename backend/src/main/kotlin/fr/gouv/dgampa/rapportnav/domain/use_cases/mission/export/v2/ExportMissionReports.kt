@@ -12,6 +12,7 @@ class ExportMissionReports(
     private val exportMissionPatrolCombined: ExportMissionPatrolCombined,
     private val exportMissionPatrolMultipleZipped: ExportMissionPatrolMultipleZipped,
     private val exportMissionAEMSingle: ExportMissionAEMSingle,
+    private val exportMissionAEMSingle2: ExportMissionAEMSingle2,
     private val exportMissionAEMCombined: ExportMissionAEMCombined,
     private val exportMissionAEMMultipleZipped: ExportMissionAEMMultipleZipped,
 ) {
@@ -31,7 +32,7 @@ class ExportMissionReports(
                     when (exportMode) {
                         ExportModeEnum.INDIVIDUAL_MISSION -> {
                             logger.info("ExportMissionAEM - running export INDIVIDUAL_MISSION")
-                            exportMissionAEMSingle.execute(missionId = missionIds.first())
+                            exportMissionAEMSingle2.execute(missionIds)
                         }
 
                         ExportModeEnum.COMBINED_MISSIONS_IN_ONE -> {
