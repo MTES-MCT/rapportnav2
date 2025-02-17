@@ -11,16 +11,15 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.Mis
 import org.slf4j.LoggerFactory
 
 @UseCase
-class CreateOrUpdateEnvMission(
+class CreateEnvMission(
     private val monitorEnvRepo: IEnvMissionRepository,
     private val monitorEnvControlUnitRepo: IEnvControlUnitRepository,
 ) {
-    private val logger = LoggerFactory.getLogger(CreateOrUpdateEnvMission::class.java)
+    private val logger = LoggerFactory.getLogger(CreateEnvMission::class.java)
 
     fun execute(missionGeneralInfo: MissionGeneralInfo2, controlUnitIds: List<Int>?): MissionEnvEntity? {
         try {
             var matchedControlUnits: List<LegacyControlUnitEntity> = listOf()
-
             if (controlUnitIds !== null && controlUnitIds.isNotEmpty()) {
                 val controlUnits = monitorEnvControlUnitRepo.findAll()
 
@@ -30,7 +29,7 @@ class CreateOrUpdateEnvMission(
             }
 
             if (matchedControlUnits.isEmpty()) {
-                throw Exception("CreateOrUpdateEnvMission : controlUnits is empty for this user")
+                throw Exception("CreateEnvMission : controlUnits is empty for this user")
             }
 
             val missionEnv = MissionEnv(
@@ -44,7 +43,6 @@ class CreateOrUpdateEnvMission(
                 isUnderJdp = false, //TODO: a checker
                 isGeometryComputedFromControls = false, //TODO: a checker
             )
-
             return monitorEnvRepo.createMission(missionEnv)
 
         } catch (e: Exception) {

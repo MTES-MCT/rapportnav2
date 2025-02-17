@@ -11,7 +11,6 @@ import jakarta.persistence.*
 @Table(name = "mission_general_info")
 class MissionGeneralInfoModel(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     var id: Int?,
 

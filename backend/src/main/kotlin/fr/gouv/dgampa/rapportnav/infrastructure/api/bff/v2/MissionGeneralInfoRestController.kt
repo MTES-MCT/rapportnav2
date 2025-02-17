@@ -14,12 +14,10 @@ class MissionGeneralInfoRestController(
 {
     private val logger = LoggerFactory.getLogger(MissionGeneralInfoRestController::class.java)
     @PutMapping
-    fun update(@RequestBody generalInfo: MissionGeneralInfo2, @PathVariable missionId: Int): MissionGeneralInfoEntity2? {
-        try {
-            return createOrUpdateGeneralInfo.execute(generalInfo, missionId)
-        } catch (e: Exception) {
-            logger.error("Error while updating general info mission id ${generalInfo.missionId} : ${e.message}")
-            return null
-        }
+    fun update(
+        @PathVariable missionId: Int,
+        @RequestBody generalInfo: MissionGeneralInfo2
+    ): MissionGeneralInfoEntity2? {
+        return createOrUpdateGeneralInfo.execute(missionId = missionId, generalInfo = generalInfo)
     }
 }

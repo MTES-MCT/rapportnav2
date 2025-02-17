@@ -53,7 +53,7 @@ class MissionRestControllerTest {
     private lateinit var fakeMissionData2: FakeMissionData2
 
     @MockitoBean
-    private lateinit var createOrUpdateEnvMission: CreateOrUpdateEnvMission
+    private lateinit var createEnvMission: CreateEnvMission
 
     @MockitoBean
     private lateinit var getEnvMissionById2: GetEnvMissionById2
@@ -117,7 +117,7 @@ class MissionRestControllerTest {
             controlUnits = listOf(LegacyControlUnitEntityMock.create(id = controlUnitsIds.first()))
         )
         `when`(getControlUnitsForUser.execute()).thenReturn(controlUnitsIds)
-        `when`(createOrUpdateEnvMission.execute(requestBody, controlUnitsIds)).thenReturn(mockMission)
+        `when`(createEnvMission.execute(requestBody, controlUnitsIds)).thenReturn(mockMission)
 
         // Act & Assert
         mockMvc.perform(
@@ -140,7 +140,7 @@ class MissionRestControllerTest {
         `when`(getControlUnitsForUser.execute()).thenReturn(controlUnitsIds)
         // Simulate mission creation returning null
         `when`(
-            createOrUpdateEnvMission.execute(
+            createEnvMission.execute(
                 requestBody,
                 controlUnitsIds
             )
