@@ -118,16 +118,17 @@ class MissionRestController(
                 controlUnitIds = getControlUnitsForUser.execute()
             ) ?: return null
             createOrUpdateGeneralInfo.execute(
-                MissionGeneralInfo2(
+                missionId = mission.id!!,
+                generalInfo = MissionGeneralInfo2(
                     id = mission.id, //TODO: To remove as soon as seq is created on table mission_general_info
-                    missionId = mission.id!!,
+                    missionId = mission.id,
                     startDateTimeUtc = body.startDateTimeUtc,
                     endDateTimeUtc = body.endDateTimeUtc,
                     missionTypes = body.missionTypes,
                     missionReportType = body.missionReportType,
                     reinforcementType = body.reinforcementType,
                 ),
-                missionId = mission.id
+
             )
             return MissionEnv.fromMissionEnvEntity(mission)
         } catch (e: Exception) {
