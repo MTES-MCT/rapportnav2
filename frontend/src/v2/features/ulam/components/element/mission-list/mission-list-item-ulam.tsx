@@ -53,7 +53,8 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
 }) => {
   const navigate = useNavigate()
   const missionCrew = useUlamCrewForMissionList(mission.crew)
-  const controlUnitResourcesText = useControlUnitResourceLabel(mission.controlUnits)
+  console.log(mission)
+  const controlUnitResourcesText = useControlUnitResourceLabel(mission.resources, mission.missionReportType)
 
   const { exportMissionReport, loading: exportIsLoading } = useMissionReportExport()
   const exportAEM = async (id: number, event?: React.MouseEvent) => {
