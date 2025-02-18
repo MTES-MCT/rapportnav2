@@ -23,7 +23,7 @@ class APIEnvControlUnitResourceRepository(
 
     private val host = "https://monitorenv.din.developpement-durable.gouv.fr" // TODO: to be replaced by env var
     override fun findAll(): List<ControlUnitResourceEnv>? {
-        val url = "$host/api/v1/control_units";
+        val url = "$host/api/v1/control_unit_resources";
         logger.info("Sending GET request for Env control unit resources fetching URL: $url")
         return try {
 

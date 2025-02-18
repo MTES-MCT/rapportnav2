@@ -5,11 +5,11 @@ import React, { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
 import useControlUnitResourcesQuery from '../../services/use-control-unit-resources.tsx'
 
-type ResourceFormInput = { resources: { data?: string }[] }
+type ResourceFormInput = { resources: { data?: {id: number, controlUnitId: number, name: string } } [] }
 
 interface MissionGeneralInformationControlUnitRessourceProps {
   name: string
-  fieldFormik: FieldProps<string[]>
+  fieldFormik: FieldProps
 }
 
 const MissionGeneralInformationControlUnitRessource: React.FC<MissionGeneralInformationControlUnitRessourceProps> = ({
@@ -57,7 +57,7 @@ const MissionGeneralInformationControlUnitRessource: React.FC<MissionGeneralInfo
                           isRequired={true}
                           searchable={true}
                           style={{ width: '100%' }}
-                          name={`resources.${index}.data`}
+                          name={`resources.${index}.data.id`}
                           label="Moyen(s) utilisé(s)"
                           options={
                             resources?.map((resource: any) => ({

@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 
 data class Agent(
-    val id: Int?,
+    val id: Int? = null,
     val firstName: String,
     val lastName: String,
 ) {
