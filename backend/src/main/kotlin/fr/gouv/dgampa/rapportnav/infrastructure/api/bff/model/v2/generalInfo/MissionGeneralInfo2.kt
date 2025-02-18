@@ -69,7 +69,8 @@ data class MissionGeneralInfo2(
                     .filter { controlUnit ->
                         generalInfo2?.services?.any { it.name == controlUnit.name } == true
                     }
-                    .flatMap { it.resources }
+                    .flatMap { it.resources },
+                reinforcementType = generalInfo2?.data?.reinforcementType
             )
         }
     }
