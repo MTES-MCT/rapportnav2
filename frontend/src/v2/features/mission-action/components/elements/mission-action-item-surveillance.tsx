@@ -3,11 +3,11 @@ import { FormikEffect, FormikTextarea, Label, THEME } from '@mtes-mct/monitor-ui
 import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
+import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionSurveillance } from '../../hooks/use-mission-action-surveillance'
 import { ActionSurveillanceInput } from '../../types/action-type'
 import MissionActionEnvControlPlan from '../ui/mission-action-env-control-plan'
-import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
 
 const MissionActionItemSurveillance: FC<{
   action: MissionAction
@@ -27,12 +27,7 @@ const MissionActionItemSurveillance: FC<{
                     <Stack.Item grow={1}>
                       <Field name="dates">
                         {(field: FieldProps<Date[]>) => (
-                          <MissionActionFormikDateRangePicker
-                            label=""
-                            name="dates"
-                            isLight={true}
-                            fieldFormik={field}
-                          />
+                          <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
                         )}
                       </Field>
                     </Stack.Item>

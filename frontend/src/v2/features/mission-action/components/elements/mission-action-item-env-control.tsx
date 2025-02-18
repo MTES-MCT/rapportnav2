@@ -10,6 +10,7 @@ import { FormikEffect, FormikTextarea, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import React from 'react'
 import { Divider, Stack } from 'rsuite'
+import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionControlEnvForm from '../../../mission-control/components/elements/mission-control-env-form'
@@ -19,7 +20,6 @@ import { ActionEnvControlInput } from '../../types/action-type'
 import MissionActionEnvControlPlan from '../ui/mission-action-env-control-plan'
 import MissionActionEnvControlSummary from '../ui/mission-action-env-control-summary'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
-import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
 
 type MissionActionItemEnvControlProps = {
   action: MissionAction
@@ -53,7 +53,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                 <Stack.Item grow={1}>
                   <Field name="dates">
                     {(field: FieldProps<Date[]>) => (
-                      <MissionActionFormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
+                      <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
                     )}
                   </Field>
                 </Stack.Item>

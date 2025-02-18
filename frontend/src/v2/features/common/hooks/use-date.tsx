@@ -26,7 +26,7 @@ interface DateHook {
   formatDateForFrenchHumans: (date: DateTypes) => string
 
   formatDateTimeForFrenchHumans: (date: DateTypes) => string
-  postprocessDateFromPicker: (value?: Date) => string
+  postprocessDateFromPicker: (value?: Date | null) => string | undefined
   preprocessDateForPicker: (value?: string | null) => Date | undefined
 }
 
@@ -83,7 +83,8 @@ export function useDate(): DateHook {
     return new Date(`${formatInTimeZone(date, TIME_ZONE, "yyyy-MM-dd'T'HH:mm:ss.SSS")}Z`)
   }
 
-  const postprocessDateFromPicker = (value?: Date): string => {
+  const postprocessDateFromPicker = (value?: Date | null): string | undefined => {
+    if (!value) return undefined
     let date = value || new Date()
     if (!isValid(date)) date = new Date()
     return formatInTimeZone(addMinutes(date, new Date().getTimezoneOffset()), TIME_ZONE, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")

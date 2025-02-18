@@ -1,0 +1,736 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`FormikDateRangePicker > should match the snapshot 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="rs-stack"
+        style="align-items: flex-start; flex-direction: column;"
+      >
+        <div
+          class="rs-stack-item"
+        >
+          <div
+            class="rs-stack"
+            style="align-items: center; flex-direction: row;"
+          >
+            <div
+              class="rs-stack-item"
+            >
+              <label
+                class="sc-loYsQo uPraC Element-Label"
+              >
+                Date et heure de début et de fin
+              </label>
+            </div>
+            <div
+              class="rs-stack-item"
+            >
+              <h3
+                class="sc-loYsQo uPraC Element-Label"
+                style="margin-left: 2px; color: rgb(225, 0, 15); font-weight: initial;"
+              >
+                *
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div
+          class="rs-stack-item"
+        >
+          <div
+            class="rs-stack"
+            style="align-items: center; flex-direction: row; gap: 0.5rem;"
+          >
+            <div
+              class="rs-stack-item"
+            >
+              <fieldset
+                class="sc-fEOKFM eNpmbc Element-Fieldset sc-jqGXpJ bJZOdn Field-DatePicker sc-egnSlO"
+              >
+                <div
+                  class="sc-bxmmIP bLqgCv Element-Fieldset__InnerBox"
+                >
+                  <div
+                    class="sc-irzYNq whDCb"
+                  >
+                    <span
+                      class="sc-jWtWlb ffiDFv"
+                    >
+                      <div
+                        class="sc-WwxRR dpPQZM"
+                      >
+                        <div>
+                          <input
+                            aria-label="Jour"
+                            class="sc-gkCgsS dLJWvA"
+                            id="startDateTimeUtcDay"
+                            maxlength="2"
+                            pattern="\\d*"
+                            placeholder="--"
+                            type="text"
+                          />
+                          /
+                          <input
+                            aria-label="Mois"
+                            class="sc-gkCgsS dLJWvA"
+                            id="startDateTimeUtcMonth"
+                            maxlength="2"
+                            pattern="\\d*"
+                            placeholder="--"
+                            type="text"
+                          />
+                          /
+                          <input
+                            aria-label="Année"
+                            class="sc-gkCgsS bbvfSy"
+                            id="startDateTimeUtcYear"
+                            maxlength="4"
+                            pattern="\\d*"
+                            placeholder="----"
+                            type="text"
+                          />
+                        </div>
+                      </div>
+                    </span>
+                    <span
+                      class="sc-jWtWlb kROZhH"
+                    >
+                      <div
+                        class="sc-bWxZAa kHHJck"
+                      >
+                        <div
+                          class="sc-hLMZRY xRa-DA"
+                        >
+                          <div>
+                            <input
+                              aria-label="Heure"
+                              class="sc-gkCgsS dLJWvA"
+                              id="startDateTimeUtcHour"
+                              maxlength="2"
+                              pattern="\\d*"
+                              placeholder="--"
+                              type="text"
+                            />
+                            :
+                            <input
+                              aria-label="Minute"
+                              class="sc-gkCgsS dLJWvA"
+                              id="startDateTimeUtcMinute"
+                              maxlength="2"
+                              pattern="\\d*"
+                              placeholder="--"
+                              type="text"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </span>
+                  </div>
+                  <div
+                    class="sc-keRagD gTwrAG Field-DatePicker__CalendarPicker"
+                  >
+                    <div
+                      class="rs-picker rs-picker-date rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
+                    >
+                      <div
+                        class="rs-input-group rs-input-group-inside"
+                      >
+                        <input
+                          aria-haspopup="dialog"
+                          autocomplete="off"
+                          autocorrect="off"
+                          class="rs-input"
+                          id="rs-:r0:"
+                          inputmode="text"
+                          placeholder="yyyy-MM-dd"
+                          spellcheck="false"
+                          type="text"
+                          value=""
+                        />
+                        <span
+                          class="rs-input-group-addon"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            aria-label="calendar"
+                            class="rs-picker-caret-icon rs-icon rs-icon"
+                            data-category=""
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="0 0 14 14"
+                            width="1em"
+                          >
+                            <path
+                              d="M1 4v8.5a.5.5 0 00.5.5H8c0-.128.049-.256.146-.354.555-.555.854-1.6.854-3.146a.5.5 0 01.621-.485l.119.03A2.623 2.623 0 0012.999 6.5V4h-12zm3-2h6V0h1v2h1.5A1.5 1.5 0 0114 3.5v3a3.623 3.623 0 01-4.015 3.603c-.064 1.245-.335 2.212-.831 2.898H12.5a.5.5 0 00.5-.5v-2a.5.5 0 011 0v2a1.5 1.5 0 01-1.5 1.5h-11a1.5 1.5 0 01-1.5-1.5v-9a1.5 1.5 0 011.5-1.5H3v-2h1v2zm5 4V5h1v1h2v1h-2v1H9V7H7v2h1v1H7v2H6v-2H4v2H3v-2H1V9h2V7H1V6h2V5h1v1h2V5h1v1h2zM6 9V7H4v2h2z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <div
+              class="rs-stack-item"
+              style="align-self: center;"
+            >
+              <p
+                class="sc-btRGtK sc-duGFKm kEtzHw fIVGGU"
+                font-size="11"
+              >
+                au
+              </p>
+            </div>
+            <div
+              class="rs-stack-item"
+            >
+              <fieldset
+                class="sc-fEOKFM eNpmbc Element-Fieldset sc-jqGXpJ bJZOdn Field-DatePicker sc-egnSlO"
+              >
+                <div
+                  class="sc-bxmmIP bLqgCv Element-Fieldset__InnerBox"
+                >
+                  <div
+                    class="sc-irzYNq whDCb"
+                  >
+                    <span
+                      class="sc-jWtWlb ffiDFv"
+                    >
+                      <div
+                        class="sc-WwxRR dpPQZM"
+                      >
+                        <div>
+                          <input
+                            aria-label="Jour"
+                            class="sc-gkCgsS dLJWvA"
+                            id="endDateTimeUtcDay"
+                            maxlength="2"
+                            pattern="\\d*"
+                            placeholder="--"
+                            type="text"
+                          />
+                          /
+                          <input
+                            aria-label="Mois"
+                            class="sc-gkCgsS dLJWvA"
+                            id="endDateTimeUtcMonth"
+                            maxlength="2"
+                            pattern="\\d*"
+                            placeholder="--"
+                            type="text"
+                          />
+                          /
+                          <input
+                            aria-label="Année"
+                            class="sc-gkCgsS bbvfSy"
+                            id="endDateTimeUtcYear"
+                            maxlength="4"
+                            pattern="\\d*"
+                            placeholder="----"
+                            type="text"
+                          />
+                        </div>
+                      </div>
+                    </span>
+                    <span
+                      class="sc-jWtWlb kROZhH"
+                    >
+                      <div
+                        class="sc-bWxZAa kHHJck"
+                      >
+                        <div
+                          class="sc-hLMZRY xRa-DA"
+                        >
+                          <div>
+                            <input
+                              aria-label="Heure"
+                              class="sc-gkCgsS dLJWvA"
+                              id="endDateTimeUtcHour"
+                              maxlength="2"
+                              pattern="\\d*"
+                              placeholder="--"
+                              type="text"
+                            />
+                            :
+                            <input
+                              aria-label="Minute"
+                              class="sc-gkCgsS dLJWvA"
+                              id="endDateTimeUtcMinute"
+                              maxlength="2"
+                              pattern="\\d*"
+                              placeholder="--"
+                              type="text"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </span>
+                  </div>
+                  <div
+                    class="sc-keRagD gTwrAG Field-DatePicker__CalendarPicker"
+                  >
+                    <div
+                      class="rs-picker rs-picker-date rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
+                    >
+                      <div
+                        class="rs-input-group rs-input-group-inside"
+                      >
+                        <input
+                          aria-haspopup="dialog"
+                          autocomplete="off"
+                          autocorrect="off"
+                          class="rs-input"
+                          id="rs-:r2:"
+                          inputmode="text"
+                          placeholder="yyyy-MM-dd"
+                          spellcheck="false"
+                          type="text"
+                          value=""
+                        />
+                        <span
+                          class="rs-input-group-addon"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            aria-label="calendar"
+                            class="rs-picker-caret-icon rs-icon rs-icon"
+                            data-category=""
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="0 0 14 14"
+                            width="1em"
+                          >
+                            <path
+                              d="M1 4v8.5a.5.5 0 00.5.5H8c0-.128.049-.256.146-.354.555-.555.854-1.6.854-3.146a.5.5 0 01.621-.485l.119.03A2.623 2.623 0 0012.999 6.5V4h-12zm3-2h6V0h1v2h1.5A1.5 1.5 0 0114 3.5v3a3.623 3.623 0 01-4.015 3.603c-.064 1.245-.335 2.212-.831 2.898H12.5a.5.5 0 00.5-.5v-2a.5.5 0 011 0v2a1.5 1.5 0 01-1.5 1.5h-11a1.5 1.5 0 01-1.5-1.5v-9a1.5 1.5 0 011.5-1.5H3v-2h1v2zm5 4V5h1v1h2v1h-2v1H9V7H7v2h1v1H7v2H6v-2H4v2H3v-2H1V9h2V7H1V6h2V5h1v1h2V5h1v1h2zM6 9V7H4v2h2z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+        <div
+          class="rs-stack-item"
+          style="margin-top: 0.2rem;"
+        >
+          <p
+            class="sc-btRGtK sc-bACthX cNKToC fswZWU"
+            color="#E1000F"
+            font-size="13"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="rs-toast-provider"
+    >
+      <div
+        class="rs-toast-container rs-toast-container-top-center"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-center"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-top-start"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-top-end"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-start"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-end"
+      />
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="rs-stack"
+      style="align-items: flex-start; flex-direction: column;"
+    >
+      <div
+        class="rs-stack-item"
+      >
+        <div
+          class="rs-stack"
+          style="align-items: center; flex-direction: row;"
+        >
+          <div
+            class="rs-stack-item"
+          >
+            <label
+              class="sc-loYsQo uPraC Element-Label"
+            >
+              Date et heure de début et de fin
+            </label>
+          </div>
+          <div
+            class="rs-stack-item"
+          >
+            <h3
+              class="sc-loYsQo uPraC Element-Label"
+              style="margin-left: 2px; color: rgb(225, 0, 15); font-weight: initial;"
+            >
+              *
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div
+        class="rs-stack-item"
+      >
+        <div
+          class="rs-stack"
+          style="align-items: center; flex-direction: row; gap: 0.5rem;"
+        >
+          <div
+            class="rs-stack-item"
+          >
+            <fieldset
+              class="sc-fEOKFM eNpmbc Element-Fieldset sc-jqGXpJ bJZOdn Field-DatePicker sc-egnSlO"
+            >
+              <div
+                class="sc-bxmmIP bLqgCv Element-Fieldset__InnerBox"
+              >
+                <div
+                  class="sc-irzYNq whDCb"
+                >
+                  <span
+                    class="sc-jWtWlb ffiDFv"
+                  >
+                    <div
+                      class="sc-WwxRR dpPQZM"
+                    >
+                      <div>
+                        <input
+                          aria-label="Jour"
+                          class="sc-gkCgsS dLJWvA"
+                          id="startDateTimeUtcDay"
+                          maxlength="2"
+                          pattern="\\d*"
+                          placeholder="--"
+                          type="text"
+                        />
+                        /
+                        <input
+                          aria-label="Mois"
+                          class="sc-gkCgsS dLJWvA"
+                          id="startDateTimeUtcMonth"
+                          maxlength="2"
+                          pattern="\\d*"
+                          placeholder="--"
+                          type="text"
+                        />
+                        /
+                        <input
+                          aria-label="Année"
+                          class="sc-gkCgsS bbvfSy"
+                          id="startDateTimeUtcYear"
+                          maxlength="4"
+                          pattern="\\d*"
+                          placeholder="----"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                  </span>
+                  <span
+                    class="sc-jWtWlb kROZhH"
+                  >
+                    <div
+                      class="sc-bWxZAa kHHJck"
+                    >
+                      <div
+                        class="sc-hLMZRY xRa-DA"
+                      >
+                        <div>
+                          <input
+                            aria-label="Heure"
+                            class="sc-gkCgsS dLJWvA"
+                            id="startDateTimeUtcHour"
+                            maxlength="2"
+                            pattern="\\d*"
+                            placeholder="--"
+                            type="text"
+                          />
+                          :
+                          <input
+                            aria-label="Minute"
+                            class="sc-gkCgsS dLJWvA"
+                            id="startDateTimeUtcMinute"
+                            maxlength="2"
+                            pattern="\\d*"
+                            placeholder="--"
+                            type="text"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </span>
+                </div>
+                <div
+                  class="sc-keRagD gTwrAG Field-DatePicker__CalendarPicker"
+                >
+                  <div
+                    class="rs-picker rs-picker-date rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
+                  >
+                    <div
+                      class="rs-input-group rs-input-group-inside"
+                    >
+                      <input
+                        aria-haspopup="dialog"
+                        autocomplete="off"
+                        autocorrect="off"
+                        class="rs-input"
+                        id="rs-:r0:"
+                        inputmode="text"
+                        placeholder="yyyy-MM-dd"
+                        spellcheck="false"
+                        type="text"
+                        value=""
+                      />
+                      <span
+                        class="rs-input-group-addon"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          aria-label="calendar"
+                          class="rs-picker-caret-icon rs-icon rs-icon"
+                          data-category=""
+                          fill="currentColor"
+                          focusable="false"
+                          height="1em"
+                          viewBox="0 0 14 14"
+                          width="1em"
+                        >
+                          <path
+                            d="M1 4v8.5a.5.5 0 00.5.5H8c0-.128.049-.256.146-.354.555-.555.854-1.6.854-3.146a.5.5 0 01.621-.485l.119.03A2.623 2.623 0 0012.999 6.5V4h-12zm3-2h6V0h1v2h1.5A1.5 1.5 0 0114 3.5v3a3.623 3.623 0 01-4.015 3.603c-.064 1.245-.335 2.212-.831 2.898H12.5a.5.5 0 00.5-.5v-2a.5.5 0 011 0v2a1.5 1.5 0 01-1.5 1.5h-11a1.5 1.5 0 01-1.5-1.5v-9a1.5 1.5 0 011.5-1.5H3v-2h1v2zm5 4V5h1v1h2v1h-2v1H9V7H7v2h1v1H7v2H6v-2H4v2H3v-2H1V9h2V7H1V6h2V5h1v1h2V5h1v1h2zM6 9V7H4v2h2z"
+                          />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div
+            class="rs-stack-item"
+            style="align-self: center;"
+          >
+            <p
+              class="sc-btRGtK sc-duGFKm kEtzHw fIVGGU"
+              font-size="11"
+            >
+              au
+            </p>
+          </div>
+          <div
+            class="rs-stack-item"
+          >
+            <fieldset
+              class="sc-fEOKFM eNpmbc Element-Fieldset sc-jqGXpJ bJZOdn Field-DatePicker sc-egnSlO"
+            >
+              <div
+                class="sc-bxmmIP bLqgCv Element-Fieldset__InnerBox"
+              >
+                <div
+                  class="sc-irzYNq whDCb"
+                >
+                  <span
+                    class="sc-jWtWlb ffiDFv"
+                  >
+                    <div
+                      class="sc-WwxRR dpPQZM"
+                    >
+                      <div>
+                        <input
+                          aria-label="Jour"
+                          class="sc-gkCgsS dLJWvA"
+                          id="endDateTimeUtcDay"
+                          maxlength="2"
+                          pattern="\\d*"
+                          placeholder="--"
+                          type="text"
+                        />
+                        /
+                        <input
+                          aria-label="Mois"
+                          class="sc-gkCgsS dLJWvA"
+                          id="endDateTimeUtcMonth"
+                          maxlength="2"
+                          pattern="\\d*"
+                          placeholder="--"
+                          type="text"
+                        />
+                        /
+                        <input
+                          aria-label="Année"
+                          class="sc-gkCgsS bbvfSy"
+                          id="endDateTimeUtcYear"
+                          maxlength="4"
+                          pattern="\\d*"
+                          placeholder="----"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                  </span>
+                  <span
+                    class="sc-jWtWlb kROZhH"
+                  >
+                    <div
+                      class="sc-bWxZAa kHHJck"
+                    >
+                      <div
+                        class="sc-hLMZRY xRa-DA"
+                      >
+                        <div>
+                          <input
+                            aria-label="Heure"
+                            class="sc-gkCgsS dLJWvA"
+                            id="endDateTimeUtcHour"
+                            maxlength="2"
+                            pattern="\\d*"
+                            placeholder="--"
+                            type="text"
+                          />
+                          :
+                          <input
+                            aria-label="Minute"
+                            class="sc-gkCgsS dLJWvA"
+                            id="endDateTimeUtcMinute"
+                            maxlength="2"
+                            pattern="\\d*"
+                            placeholder="--"
+                            type="text"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </span>
+                </div>
+                <div
+                  class="sc-keRagD gTwrAG Field-DatePicker__CalendarPicker"
+                >
+                  <div
+                    class="rs-picker rs-picker-date rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
+                  >
+                    <div
+                      class="rs-input-group rs-input-group-inside"
+                    >
+                      <input
+                        aria-haspopup="dialog"
+                        autocomplete="off"
+                        autocorrect="off"
+                        class="rs-input"
+                        id="rs-:r2:"
+                        inputmode="text"
+                        placeholder="yyyy-MM-dd"
+                        spellcheck="false"
+                        type="text"
+                        value=""
+                      />
+                      <span
+                        class="rs-input-group-addon"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          aria-label="calendar"
+                          class="rs-picker-caret-icon rs-icon rs-icon"
+                          data-category=""
+                          fill="currentColor"
+                          focusable="false"
+                          height="1em"
+                          viewBox="0 0 14 14"
+                          width="1em"
+                        >
+                          <path
+                            d="M1 4v8.5a.5.5 0 00.5.5H8c0-.128.049-.256.146-.354.555-.555.854-1.6.854-3.146a.5.5 0 01.621-.485l.119.03A2.623 2.623 0 0012.999 6.5V4h-12zm3-2h6V0h1v2h1.5A1.5 1.5 0 0114 3.5v3a3.623 3.623 0 01-4.015 3.603c-.064 1.245-.335 2.212-.831 2.898H12.5a.5.5 0 00.5-.5v-2a.5.5 0 011 0v2a1.5 1.5 0 01-1.5 1.5h-11a1.5 1.5 0 01-1.5-1.5v-9a1.5 1.5 0 011.5-1.5H3v-2h1v2zm5 4V5h1v1h2v1h-2v1H9V7H7v2h1v1H7v2H6v-2H4v2H3v-2H1V9h2V7H1V6h2V5h1v1h2V5h1v1h2zM6 9V7H4v2h2z"
+                          />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      <div
+        class="rs-stack-item"
+        style="margin-top: 0.2rem;"
+      >
+        <p
+          class="sc-btRGtK sc-bACthX cNKToC fswZWU"
+          color="#E1000F"
+          font-size="13"
+        />
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
