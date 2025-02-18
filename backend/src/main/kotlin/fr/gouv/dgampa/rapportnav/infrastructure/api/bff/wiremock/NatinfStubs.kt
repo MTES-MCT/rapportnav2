@@ -57,7 +57,7 @@ object NatinfStubs {
             "    }]"
 
         wireMockServer.stubFor(
-            WireMock.get(WireMock.urlPathEqualTo("/api/v1/natinfs"))
+            WireMock.get(WireMock.urlPathEqualTo("/bff/v1/natinfs"))
                 .willReturn(
                     WireMock.aResponse()
                         .withHeader("Content-Type", "application/json")

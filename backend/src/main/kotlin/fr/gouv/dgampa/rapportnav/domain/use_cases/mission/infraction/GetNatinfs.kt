@@ -4,24 +4,32 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.NatinfEntity
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.Cacheable
+import org.springframework.core.env.Environment
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 @UseCase
-class GetNatinfs(private val mapper: ObjectMapper) {
+class GetNatinfs(
+    private val mapper: ObjectMapper,
+    @Autowired private val environment: Environment
+) {
 
     @Cacheable(value = ["natinfs"])
     fun execute(): List<NatinfEntity> {
+
+        val host = if (environment.activeProfiles.contains("local")) "http://localhost:8089" else "https://monitorenv.din.developpement-durable.gouv.fr"
+
 
         // TODO: move this into infrastructure/APIMonitorEnv
         // TODO: and then move @Cacheable in that newly created function
         val client: HttpClient = HttpClient.newBuilder().build()
         val request = HttpRequest.newBuilder().uri(
             URI.create(
-                "https://monitorenv.din.developpement-durable.gouv.fr/bff/v1/natinfs"
+                "$host/bff/v1/natinfs"
             )
         ).build();
 
