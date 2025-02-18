@@ -47,7 +47,7 @@ data class MissionGeneralInfo2(
                 startDateTimeUtc = envData.startDateTimeUtc,
                 endDateTimeUtc = envData.endDateTimeUtc,
                 missionTypes = envData.missionTypes,
-                missionReportType = generalInfo2?.data?.missionReportType,
+                missionReportType = generalInfo2?.data?.missionReportType?: MissionReportTypeEnum.FIELD_REPORT,
                 nbHourAtSea = generalInfo2?.data?.nbHourAtSea,
                 distanceInNauticalMiles = generalInfo2?.data?.distanceInNauticalMiles,
                 consumedGOInLiters = generalInfo2?.data?.consumedGOInLiters,

@@ -62,6 +62,21 @@ class MissionGeneralInfo2Test {
 
 
     @Test
+    fun `execute should show missionReportType is FIELD_REPORT if none`() {
+        val generalInfoEntity = MissionGeneralInfoEntity2(
+            data = MissionGeneralInfoEntity(
+                id = 1,
+                missionId = 1,
+                serviceId = 3
+            )
+        )
+        val generalInfo = MissionGeneralInfo2.fromMissionGeneralInfoEntity(getEnvData(), generalInfoEntity)
+        assertThat(generalInfo).isNotNull();
+        assertThat(generalInfo.missionReportType).isEqualTo(MissionReportTypeEnum.FIELD_REPORT);
+    }
+
+
+    @Test
     fun `execute should retrieve mission general info entity`() {
         val generalInfoEntity =
             MissionGeneralInfo2(
