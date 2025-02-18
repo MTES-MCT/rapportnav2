@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
 import useControlUnitResourcesQuery from '../../services/use-control-unit-resources.tsx'
 
-type ResourceFormInput = { resources: { data?: {id: number, controlUnitId: number, name: string } } [] }
+type ResourceFormInput = { resources: { data?: number }[] }
 
 interface MissionGeneralInformationControlUnitRessourceProps {
   name: string
@@ -57,7 +57,7 @@ const MissionGeneralInformationControlUnitRessource: React.FC<MissionGeneralInfo
                           isRequired={true}
                           searchable={true}
                           style={{ width: '100%' }}
-                          name={`resources.${index}.data.id`}
+                          name={`resources.${index}.data`}
                           label="Moyen(s) utilisé(s)"
                           options={
                             resources?.map((resource: any) => ({

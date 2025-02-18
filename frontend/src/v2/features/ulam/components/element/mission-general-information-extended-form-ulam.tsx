@@ -36,7 +36,7 @@ const MissionGeneralInformationExtendedFormUlam: FC<MissionGeneralInformationExt
                 <Stack direction="column" spacing="1em" justifyContent="flex-start" style={{ width: '70%' }}>
                   <Stack.Item style={{ width: '100%' }}>
                     <Field name="resources">
-                      {(field: FieldProps) => (
+                      {(field: FieldProps<number[]>) => (
                         <MissionGeneralInformationControlUnitRessource name="resources" fieldFormik={field} />
                       )}
                     </Field>
