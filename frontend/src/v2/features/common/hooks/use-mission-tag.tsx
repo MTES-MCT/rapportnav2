@@ -3,7 +3,7 @@ import { THEME } from '@mtes-mct/monitor-ui'
 
 export const getOpenByText = (missionSource?: MissionSourceEnum): string => {
   switch (missionSource) {
-    case MissionSourceEnum.RAPPORTNAV:
+    case MissionSourceEnum.RAPPORT_NAV:
       return "Ouverte par l'unité"
     case MissionSourceEnum.MONITORENV:
     case MissionSourceEnum.POSEIDON_CACEM:
