@@ -283,7 +283,8 @@ export enum MissionSourceEnum {
   MONITORFISH = 'MONITORFISH',
   POSEIDON_CACEM = 'POSEIDON_CACEM',
   POSEIDON_CNSP = 'POSEIDON_CNSP',
-  RAPPORTNAV = 'RAPPORTNAV'
+  RAPPORTNAV = 'RAPPORTNAV',
+  RAPPORT_NAV = 'RAPPORT_NAV',
 }
 
 export const missionSourceEnum = {
