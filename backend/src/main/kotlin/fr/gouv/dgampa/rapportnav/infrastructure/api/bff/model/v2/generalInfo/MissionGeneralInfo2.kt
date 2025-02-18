@@ -2,7 +2,6 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
@@ -32,7 +31,7 @@ data class MissionGeneralInfo2(
     val isAllAgentsParticipating: Boolean? = false,
     val isMissionArmed: Boolean? = false,
     val observations: String? = null,
-    val resources: List<LegacyControlUnitResourceEntity>? = listOf(),
+    val resources: List<Int>? = listOf(),
     val interMinisterialServices : List<InterMinisterialService>? = listOf()
 ) {
     companion object {
@@ -69,7 +68,7 @@ data class MissionGeneralInfo2(
                     .filter { controlUnit ->
                         generalInfo2?.services?.any { it.name == controlUnit.name } == true
                     }
-                    .flatMap { it.resources },
+                    .flatMap { it.resources.map { resource -> resource.id } },
                 reinforcementType = generalInfo2?.data?.reinforcementType
             )
         }
@@ -91,7 +90,6 @@ data class MissionGeneralInfo2(
             interMinisterialServices = interMinisterialServices?.map { it.toInterMinisterialServiceEntity() },
             missionReportType = missionReportType,
             reinforcementType = reinforcementType,
-            resources = resources
         )
     }
 }

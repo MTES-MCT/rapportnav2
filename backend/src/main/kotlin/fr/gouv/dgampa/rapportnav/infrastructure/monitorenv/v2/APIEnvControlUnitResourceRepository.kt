@@ -7,8 +7,6 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.v2.controlUnitResource.IEnv
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.env.ControlUnitResourceEnv
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.core.env.Environment
 import org.springframework.stereotype.Repository
 import java.net.URI
 import java.net.http.HttpRequest
@@ -18,13 +16,13 @@ import java.net.http.HttpResponse
 class APIEnvControlUnitResourceRepository(
     clientFactory: HttpClientFactory,
     private val mapper: ObjectMapper,
-    @Autowired private val environment: Environment
 ): IEnvControlUnitResourceRepository {
 
     private val logger = LoggerFactory.getLogger(APIEnvControlUnitResourceRepository::class.java)
     private val client = clientFactory.create();
 
-    private val host = if (environment.activeProfiles.contains("local")) "http://localhost:8089" else "https://monitorenv.din.developpement-durable.gouv.fr"
+    private val host = "https://monitorenv.din.developpement-durable.gouv.fr"
+  //  private val host = "http://localhost:8089" // TODO: add env var
 
     override fun findAll(): List<ControlUnitResourceEnv>? {
         val url = "$host/api/v1/control_unit_resources";
