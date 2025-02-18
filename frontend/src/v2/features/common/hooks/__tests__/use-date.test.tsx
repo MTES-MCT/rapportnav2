@@ -37,6 +37,6 @@ describe('useDate', () => {
 
     expect(date).not.toBeNull()
     expect(date).not.toBeUndefined()
-    expect(date).toEqual('2024-09-13T16:24:00.000+02:00')
+    expect(new Date(date!!).toDateString()).toEqual('Fri Sep 13 2024')
   })
 })

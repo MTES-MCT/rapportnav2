@@ -134,6 +134,9 @@ const MissionInfractionEnvForm: FC<MissionInfractionEnvFormProps> = ({
                         setDebounceTime(0)
                         handleSubmit(formik.values).then(() => onClose())
                       }}
+                      disabled={
+                        !formik.values.infractions[0]?.controlType || !formik.values.infractions[0]?.natinfs?.length
+                      }
                     >
                       Valider l'infraction
                     </Button>
