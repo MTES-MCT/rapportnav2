@@ -16,6 +16,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
 import org.springframework.web.util.UriUtils
 import java.net.URI
@@ -26,16 +27,14 @@ import java.time.Instant
 @Repository
 class APIEnvMissionRepository(
     private val mapper: ObjectMapper,
-    private val clientFactory: HttpClientFactory
+    private val clientFactory: HttpClientFactory,
+    @Value("\${monitorenv.host}") private val host: String,
 ) : IEnvMissionRepository {
     private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepository::class.java);
 
     private val gson = GsonSerializer().create()
 
     private val client = clientFactory.create();
-
-    // TODO set as env var when available
-    private val host = "https://monitorenv.din.developpement-durable.gouv.fr"
 
     override fun findMissionById(missionId: Int): MissionEntity? {
         val url = URI.create("$host/api/v1/missions/$missionId")
