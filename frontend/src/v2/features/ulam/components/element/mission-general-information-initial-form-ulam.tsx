@@ -2,9 +2,9 @@ import { FormikEffect, FormikMultiCheckbox, FormikNumberInput, FormikSelect } fr
 import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
+import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker.tsx'
 import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
 import { MissionReportTypeEnum, MissionULAMGeneralInfoInitial } from '../../../common/types/mission-types.ts'
-import { MissionActionFormikDateRangePicker } from '../../../mission-action/components/ui/mission-action-formik-date-range-picker.tsx'
 import {
   MissionULAMGeneralInfoInitialInput,
   useUlamMissionGeneralInformationInitialForm
@@ -81,7 +81,7 @@ const MissionGeneralInformationInitialFormUlam: FC<MissionGeneralInformationInit
                   <Stack.Item style={{ width: '70%' }}>
                     <Field name="dates">
                       {(field: FieldProps<Date[]>) => (
-                        <MissionActionFormikDateRangePicker
+                        <FormikDateRangePicker
                           label=""
                           name="dates"
                           isLight={true}
