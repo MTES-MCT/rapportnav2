@@ -22,11 +22,13 @@ import java.net.URI
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.time.Instant
+import org.springframework.core.env.Environment
+import org.springframework.beans.factory.annotation.Autowired
 
 @Repository
 class APIEnvMissionRepository(
     private val mapper: ObjectMapper,
-    private val clientFactory: HttpClientFactory
+    private val clientFactory: HttpClientFactory,
 ) : IEnvMissionRepository {
     private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepository::class.java);
 
@@ -36,6 +38,8 @@ class APIEnvMissionRepository(
 
     // TODO set as env var when available
     private val host = "https://monitorenv.din.developpement-durable.gouv.fr"
+
+    //private val host = "http://localhost:8089" // TODO: add env var
 
     override fun findMissionById(missionId: Int): MissionEntity? {
         val url = URI.create("$host/api/v1/missions/$missionId")
