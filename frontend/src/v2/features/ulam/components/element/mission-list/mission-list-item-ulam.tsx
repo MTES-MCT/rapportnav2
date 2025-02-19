@@ -1,5 +1,4 @@
 import Text from '@common/components/ui/text.tsx'
-import MissionOpenByTag from '@features/pam/mission/components/elements/mission-open-by-tag.tsx'
 import { Accent, Icon, IconButton, THEME } from '@mtes-mct/monitor-ui'
 import { ULAM_V2_HOME_PATH } from '@router/router.tsx'
 import React, { MouseEvent, useEffect, useRef } from 'react'
@@ -16,6 +15,7 @@ import { MissionListItem } from '../../../../common/types/mission-types.ts'
 import { useUlamCrewForMissionList } from '../../../hooks/use-ulam-crew-for-mission-list.tsx'
 import { useControlUnitResourceLabel } from '../../../hooks/use-ulam-home-unit-resources.tsx'
 import MissionIconUlam from '../../ui/mission-icon-ulam.tsx'
+import MissionSourceTag from '../../../../common/components/elements/mission-source-tag.tsx'
 
 interface MissionListItemProps {
   mission: MissionListItem
@@ -121,7 +121,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
         </FlexboxGrid.Item>
 
         <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-open_by'} style={{ padding: '0 4px' }}>
-          <MissionOpenByTag missionSource={mission.missionSource} isFake={mission.openBy === 'fake'} />
+          <MissionSourceTag missionSource={mission.missionSource} isFake={mission.openBy === 'fake'} />
         </FlexboxGrid.Item>
 
         <FlexboxGrid.Item colspan={2} data-testid={'mission-list-item-start_date'}>
