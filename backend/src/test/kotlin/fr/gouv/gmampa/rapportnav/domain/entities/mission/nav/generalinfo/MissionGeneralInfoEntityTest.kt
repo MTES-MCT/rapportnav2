@@ -49,7 +49,7 @@ class MissionGeneralInfoEntityTest {
         val generalInfoModel = generalInfoEntity.toMissionGeneralInfoModel()
         assertThat(generalInfoModel).isNotNull();
         assertThat(generalInfoModel.id).isEqualTo(generalInfoEntity.id);
-//assertThat(generalInfoModel.missionId).isEqualTo(generalInfoEntity.missionId);
+        assertThat(generalInfoModel.missionId).isEqualTo(generalInfoEntity.missionId);
         assertThat(generalInfoModel.serviceId).isEqualTo(generalInfoEntity.serviceId);
         assertThat(generalInfoModel.consumedGOInLiters).isEqualTo(generalInfoEntity.consumedGOInLiters);
         assertThat(generalInfoModel.consumedFuelInLiters).isEqualTo(generalInfoEntity.consumedFuelInLiters);

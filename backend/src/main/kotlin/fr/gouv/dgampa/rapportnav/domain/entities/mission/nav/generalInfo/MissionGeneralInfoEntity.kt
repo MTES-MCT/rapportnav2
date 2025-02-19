@@ -49,6 +49,19 @@ data class MissionGeneralInfoEntity(
     fun toMissionGeneralInfoModel(): MissionGeneralInfoModel {
         return MissionGeneralInfoModel(
             id = id,
+            missionId = missionId,
+            distanceInNauticalMiles = distanceInNauticalMiles,
+            consumedGOInLiters = consumedGOInLiters,
+            consumedFuelInLiters = consumedFuelInLiters,
+            serviceId = serviceId,
+            nbrOfRecognizedVessel = nbrOfRecognizedVessel,
+            isWithInterMinisterialService = isWithInterMinisterialService,
+            isMissionArmed = isMissionArmed,
+            nbHourAtSea = nbHourAtSea,
+            missionReportType = missionReportType,
+            reinforcementType = reinforcementType,
+            interMinisterialServices = interMinisterialServices?.map { it.toInterMinisterialServiceModel() }
         )
     }
 }
+
