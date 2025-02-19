@@ -146,5 +146,54 @@ class APIEnvMissionRepositoryTest {
         }
 
     }
+
+    @Nested
+    inner class GetMissions {
+
+        private val mission = MissionDataOutput(
+            id = 1,
+            startDateTimeUtc = ZonedDateTime.now(),
+            endDateTimeUtc = ZonedDateTime.now(),
+            missionTypes = listOf(MissionTypeEnum.AIR),
+            missionSource = MissionSourceEnum.RAPPORT_NAV,
+            hasMissionOrder = false,
+            isUnderJdp = false,
+            isGeometryComputedFromControls = false
+        )
+
+        private fun getMissionString(): String {
+            val gson: Gson = GsonSerializer().create()
+            return gson.toJson(listOf(mission))
+        }
+
+
+
+        @Test
+        fun `execute call MonitorEnv API missions`() {
+
+            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+            Mockito.`when`(httpResponse.body()).thenReturn(getMissionString())
+            Mockito.`when`(
+                httpClient.send(
+                    Mockito.any(HttpRequest::class.java),
+                    Mockito.any<HttpResponse.BodyHandler<String>>()
+                )
+            )
+                .thenReturn(httpResponse)
+            val envRepo = APIEnvMissionRepository(mapper = objectMapper, clientFactory = httpClientFactory)
+            envRepo.findAllMissions(
+                startedAfterDateTime = Instant.parse("2025-01-31T23:00:00.000Z"),
+                startedBeforeDateTime = Instant.parse("2025-02-28T22:59:59.999Z"),
+                missionSources = listOf(MissionSourceEnum.MONITORENV, MissionSourceEnum.RAPPORT_NAV, MissionSourceEnum.MONITORFISH).map { it.toString() }
+            )
+            verify(httpClient).send(
+                argThat { request ->
+                    request.uri().equals(URI.create("$host/api/v1/missions?startedAfterDateTime=2025-01-31T23:00:00Z&startedBeforeDateTime=2025-02-28T22:59:59.999Z&missionSource=MONITORENV,RAPPORT_NAV,MONITORFISH"))
+                },
+                Mockito.any<HttpResponse.BodyHandler<String>>()
+            )
+        }
+
+    }
 }
 

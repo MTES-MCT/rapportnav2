@@ -121,6 +121,7 @@ class GetEnvMissions(
                     pageNumber = pageNumber,
                     pageSize = pageSize,
                     controlUnits = controlUnits,
+                    missionSources = listOf(MissionSourceEnum.MONITORENV, MissionSourceEnum.MONITORFISH, MissionSourceEnum.RAPPORT_NAV).map { it.toString() }
                 )
 
             return envMissions
