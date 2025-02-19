@@ -22,8 +22,6 @@ import java.net.URI
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.time.Instant
-import org.springframework.core.env.Environment
-import org.springframework.beans.factory.annotation.Autowired
 
 @Repository
 class APIEnvMissionRepository(
@@ -141,6 +139,12 @@ class APIEnvMissionRepository(
             for (controlUnit in it) {
                 uriBuilder.append("controlUnits=${UriUtils.encodeQueryParam(controlUnit.toString(), "UTF-8")}&")
             }
+        }
+
+        // Append missionSources if present
+        missionSources?.let {
+            val joinedSources = missionSources.joinToString(",") { UriUtils.encodeQueryParam(it, "UTF-8") }
+            uriBuilder.append("missionSource=${UriUtils.encodeQueryParam(joinedSources, "UTF-8")}&")
         }
 
         // Remove trailing "&" if present
