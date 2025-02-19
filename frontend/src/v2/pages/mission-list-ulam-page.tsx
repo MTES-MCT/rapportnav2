@@ -58,8 +58,6 @@ const MissionListUlamPage: React.FC = () => {
     })
   }
 
-  console.log(isLoggedIn())
-
   return (
     <MissionListPageWrapper
       header={<MissionListPageHeaderWrapper title={<MissionListPageTitle userId={isLoggedIn()?.userId} />} />}
