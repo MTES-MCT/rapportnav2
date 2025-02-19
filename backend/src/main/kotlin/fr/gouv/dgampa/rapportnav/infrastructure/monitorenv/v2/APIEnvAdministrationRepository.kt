@@ -15,12 +15,14 @@ import java.net.http.HttpResponse
 @Repository
 class APIEnvAdministrationRepository(
     clientFactory: HttpClientFactory,
-    private val mapper: ObjectMapper
+    private val mapper: ObjectMapper,
 ): IEnvAdministrationRepository {
 
     private val logger = LoggerFactory.getLogger(IEnvAdministrationRepository::class.java)
 
     private val host = "https://monitorenv.din.developpement-durable.gouv.fr"
+
+    //private val host = "http://localhost:8089" // TODO: add env var
 
     private val client = clientFactory.create()
 

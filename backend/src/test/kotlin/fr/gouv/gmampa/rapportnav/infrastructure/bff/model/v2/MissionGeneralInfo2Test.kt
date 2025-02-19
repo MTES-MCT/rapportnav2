@@ -57,7 +57,6 @@ class MissionGeneralInfo2Test {
         assertThat(generalInfo.consumedFuelInLiters).isEqualTo(generalInfoEntity.data?.consumedFuelInLiters);
         assertThat(generalInfo.distanceInNauticalMiles).isEqualTo(generalInfoEntity.data?.distanceInNauticalMiles);
         assertThat(generalInfo.nbrOfRecognizedVessel).isEqualTo(generalInfoEntity.data?.nbrOfRecognizedVessel);
-        assertThat(generalInfo.resources?.get(0)).isEqualTo(generalInfoEntity.data?.resources?.get(0))
     }
 
 

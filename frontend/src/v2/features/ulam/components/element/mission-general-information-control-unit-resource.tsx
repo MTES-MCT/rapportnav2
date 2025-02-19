@@ -5,11 +5,11 @@ import React, { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
 import useControlUnitResourcesQuery from '../../services/use-control-unit-resources.tsx'
 
-type ResourceFormInput = { resources: { data?: string }[] }
+type ResourceFormInput = { resources: { data?: number }[] }
 
 interface MissionGeneralInformationControlUnitRessourceProps {
   name: string
-  fieldFormik: FieldProps<string[]>
+  fieldFormik: FieldProps
 }
 
 const MissionGeneralInformationControlUnitRessource: React.FC<MissionGeneralInformationControlUnitRessourceProps> = ({

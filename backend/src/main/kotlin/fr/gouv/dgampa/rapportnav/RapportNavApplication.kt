@@ -1,5 +1,7 @@
 package fr.gouv.dgampa.rapportnav
 
+import com.github.tomakehurst.wiremock.WireMockServer
+import fr.gouv.dgampa.rapportnav.config.WireMockConfig
 import io.sentry.Sentry
 import io.sentry.SentryOptions
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -15,6 +17,20 @@ open class RapportNavApplication
 fun main(args: Array<String>) {
 
     val ctx = runApplication<RapportNavApplication>(*args)
+
+    val isLocalProfile = ctx.environment.activeProfiles.contains("local")
+
+
+    if (isLocalProfile) {
+        var wireMockServer: WireMockServer? = null
+        val wireMockConfig = WireMockConfig()
+        wireMockServer = wireMockConfig.startWireMock()
+
+        Runtime.getRuntime().addShutdownHook(Thread {
+            wireMockServer.stop()
+            println("WireMock server stopped")
+        })
+    }
 
     val isSentryEnabled: String? = ctx.environment.getProperty("sentry.enabled")
     val sentryDsn: String? = ctx.environment.getProperty("sentry.dsn")

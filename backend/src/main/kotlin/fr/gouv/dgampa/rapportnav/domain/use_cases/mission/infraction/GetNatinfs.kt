@@ -11,17 +11,23 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 @UseCase
-class GetNatinfs(private val mapper: ObjectMapper) {
+class GetNatinfs(
+    private val mapper: ObjectMapper
+) {
 
     @Cacheable(value = ["natinfs"])
     fun execute(): List<NatinfEntity> {
+
+        val host = "https://monitorenv.din.developpement-durable.gouv.fr"
+        //val host = "http://localhost:8089" // TODO: add env var
+
 
         // TODO: move this into infrastructure/APIMonitorEnv
         // TODO: and then move @Cacheable in that newly created function
         val client: HttpClient = HttpClient.newBuilder().build()
         val request = HttpRequest.newBuilder().uri(
             URI.create(
-                "https://monitorenv.din.developpement-durable.gouv.fr/bff/v1/natinfs"
+                "$host/bff/v1/natinfs"
             )
         ).build();
 
