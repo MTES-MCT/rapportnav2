@@ -4,6 +4,13 @@ import { AbstractControlFormikHook } from '../types/control-hook'
 import { useAbstractControl } from './use-abstract-control'
 import { useControlRegistry } from './use-control-registry'
 
+const emptyGensDeMer = {
+  observations: undefined,
+  staffOutnumbered: undefined,
+  upToDateMedicalCheck: undefined,
+  knowledgeOfFrenchLawAndLanguage: undefined
+}
+
 const radios = [
   { name: 'staffOutnumbered', label: 'Décision d’effectif conforme au nombre de personnes à bord' },
   { name: 'upToDateMedicalCheck', label: 'Aptitudes médicales ; Visites médicales à jour' },
@@ -25,7 +32,9 @@ export function useControlGensDeMer(
     name,
     fieldFormik,
     (input: ControlGensDeMer) => input as ControlGensDeMerInput,
-    (value?: ControlGensDeMerInput) => value as ControlGensDeMer
+    (value?: ControlGensDeMerInput) => {
+      return (!value ? value : { ...value, ...(!value?.hasBeenDone ? emptyGensDeMer : {}) }) as ControlGensDeMer
+    }
   )
 
   return {

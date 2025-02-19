@@ -40,6 +40,7 @@ const YesNoToogle: React.FC<YesNoToogleProps> = ({ initValue, onSubmit }) => {
         size={Size.NORMAL}
         accent={Accent.PRIMARY}
         onClick={() => handleResponse(true)}
+        data-testid="yes-no-toogle-yes-button"
         style={value === true ? activeStyle : inactiveStyle}
       >
         Oui
@@ -49,6 +50,7 @@ const YesNoToogle: React.FC<YesNoToogleProps> = ({ initValue, onSubmit }) => {
         size={Size.NORMAL}
         accent={Accent.PRIMARY}
         onClick={() => handleResponse(false)}
+        data-testid="yes-no-toogle-no-button"
         style={{ borderLeft: 'none', ...(value === false ? activeStyle : inactiveStyle) }}
       >
         Non

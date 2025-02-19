@@ -12,12 +12,12 @@ import {
 import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
+import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { MissionAction } from '../../../common/types/mission-action'
 import { RescueType } from '../../../common/types/rescue-type'
 import { useMissionActionRescue } from '../../hooks/use-mission-action-rescue'
 import { ActionRescueInput } from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
-import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
 import { MissionActionFormikNumberInput } from '../ui/mission-action-formik-number-input'
 
 const RESCUE_TYPE_OPTIONS = [
@@ -57,12 +57,7 @@ const MissionActionItemRescue: FC<{
                     <Stack.Item grow={1}>
                       <Field name="dates">
                         {(field: FieldProps<Date[]>) => (
-                          <MissionActionFormikDateRangePicker
-                            label=""
-                            name="dates"
-                            isLight={true}
-                            fieldFormik={field}
-                          />
+                          <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
                         )}
                       </Field>
                     </Stack.Item>

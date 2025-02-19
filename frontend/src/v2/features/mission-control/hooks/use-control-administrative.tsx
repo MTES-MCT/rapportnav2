@@ -4,6 +4,13 @@ import { AbstractControlFormikHook } from '../types/control-hook'
 import { useAbstractControl } from './use-abstract-control'
 import { useControlRegistry } from './use-control-registry'
 
+const emptyAdministrative = {
+  observations: undefined,
+  compliantOperatingPermit: undefined,
+  upToDateNavigationPermit: undefined,
+  compliantSecurityDocuments: undefined
+}
+
 const radios = [
   { name: 'compliantOperatingPermit', label: 'Permis de mise en exploitation (autorisation à pêcher) conforme' },
   { name: 'upToDateNavigationPermit', label: 'Permis de navigation à jour' },
@@ -21,7 +28,11 @@ export function useControlAdministrative(
     name,
     fieldFormik,
     (input: ControlAdministrative) => input as ControlAdministrativeInput,
-    (value?: ControlAdministrativeInput) => value as ControlAdministrative
+    (value?: ControlAdministrativeInput) => {
+      return (
+        !value ? value : { ...value, ...(!value?.hasBeenDone ? emptyAdministrative : {}) }
+      ) as ControlAdministrative
+    }
   )
 
   return {

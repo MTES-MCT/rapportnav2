@@ -5,21 +5,21 @@ import { isEmpty, isEqual } from 'lodash'
 import { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
 import styled from 'styled-components'
-import { simpleDateRangeValidationSchema } from '../../validation-schema/date-validation'
+import { simpleDateRangeValidationSchema } from '../../../mission-action/validation-schema/date-validation'
 
 type DateInput = {
   startDateTimeUtc: Date
   endDateTimeUtc: Date
 }
 
-type MissionActionFormikDateRangePickerProps = FormikDatePickerWithDateDateProps & {
+type FormikDateRangePickerProps = FormikDatePickerWithDateDateProps & {
   name: string
   validateOnSubmit?: boolean
   fieldFormik: FieldProps<Date[]>
 }
 
-export const MissionActionFormikDateRangePicker = styled(
-  ({ name, fieldFormik, validateOnSubmit, ...props }: MissionActionFormikDateRangePickerProps) => {
+export const FormikDateRangePicker = styled(
+  ({ name, fieldFormik, validateOnSubmit, ...props }: FormikDateRangePickerProps) => {
     const [initValue, setInitValue] = useState<DateInput>()
 
     useEffect(() => {

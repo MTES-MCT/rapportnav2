@@ -1,0 +1,272 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`FormikDateRangePicker > should match the snapshot 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="rs-stack"
+        style="align-items: center; flex-direction: row;"
+      >
+        <div
+          class="rs-stack-item"
+        >
+          <button
+            class="sc-dXYVqG sc-jcvEFQ bqfUDQ hWyAqT Element-Button"
+            data-testid="yes-no-toogle-yes-button"
+            style="color: rgb(59, 69, 89); border-color: #5697d2; background-color: rgb(212, 229, 244);"
+            type="button"
+          >
+            <span
+              class="sc-gNZgCX hDAtbt Element-IconBox"
+            >
+              <svg
+                height="20"
+                viewBox="0 0 20 20"
+                width="20"
+              >
+                <g
+                  transform="translate(-40)"
+                >
+                  <path
+                    d="M50,1a9,9,0,1,0,9,9A9,9,0,0,0,50,1Zm0,16a7,7,0,1,1,7-7A7,7,0,0,1,50,17Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M53.382,6.529l-4.243,4.243L47.018,8.65,45.6,10.064l2.121,2.121h0L49.139,13.6,54.8,7.943Z"
+                    fill="currentColor"
+                  />
+                  <rect
+                    fill="none"
+                    height="20"
+                    transform="translate(40)"
+                    width="20"
+                  />
+                </g>
+              </svg>
+            </span>
+            <span
+              class="sc-fCSSOr eOtGgW"
+            >
+              Oui
+            </span>
+          </button>
+        </div>
+        <div
+          class="rs-stack-item"
+        >
+          <button
+            class="sc-dXYVqG sc-jcvEFQ bqfUDQ hWyAqT Element-Button"
+            data-testid="yes-no-toogle-no-button"
+            style="color: rgb(59, 69, 89); border-color: #5697d2; background-color: rgb(212, 229, 244);"
+            type="button"
+          >
+            <span
+              class="sc-gNZgCX hDAtbt Element-IconBox"
+            >
+              <svg
+                height="20"
+                viewBox="0 0 20 20"
+                width="20"
+              >
+                <g
+                  transform="translate(-80)"
+                >
+                  <path
+                    d="M90,1a9,9,0,1,0,9,9A9,9,0,0,0,90,1Zm0,16a7,7,0,1,1,7-7A7,7,0,0,1,90,17Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M94,7.455,92.545,6,90,8.545,87.455,6,86,7.455,88.545,10,86,12.545,87.455,14,90,11.455,92.545,14,94,12.545,91.455,10Z"
+                    fill="currentColor"
+                  />
+                  <rect
+                    fill="none"
+                    height="20"
+                    transform="translate(80)"
+                    width="20"
+                  />
+                </g>
+              </svg>
+            </span>
+            <span
+              class="sc-fCSSOr eOtGgW"
+            >
+              Non
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="rs-toast-provider"
+    >
+      <div
+        class="rs-toast-container rs-toast-container-top-center"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-center"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-top-start"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-top-end"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-start"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-end"
+      />
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="rs-stack"
+      style="align-items: center; flex-direction: row;"
+    >
+      <div
+        class="rs-stack-item"
+      >
+        <button
+          class="sc-dXYVqG sc-jcvEFQ bqfUDQ hWyAqT Element-Button"
+          data-testid="yes-no-toogle-yes-button"
+          style="color: rgb(59, 69, 89); border-color: #5697d2; background-color: rgb(212, 229, 244);"
+          type="button"
+        >
+          <span
+            class="sc-gNZgCX hDAtbt Element-IconBox"
+          >
+            <svg
+              height="20"
+              viewBox="0 0 20 20"
+              width="20"
+            >
+              <g
+                transform="translate(-40)"
+              >
+                <path
+                  d="M50,1a9,9,0,1,0,9,9A9,9,0,0,0,50,1Zm0,16a7,7,0,1,1,7-7A7,7,0,0,1,50,17Z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M53.382,6.529l-4.243,4.243L47.018,8.65,45.6,10.064l2.121,2.121h0L49.139,13.6,54.8,7.943Z"
+                  fill="currentColor"
+                />
+                <rect
+                  fill="none"
+                  height="20"
+                  transform="translate(40)"
+                  width="20"
+                />
+              </g>
+            </svg>
+          </span>
+          <span
+            class="sc-fCSSOr eOtGgW"
+          >
+            Oui
+          </span>
+        </button>
+      </div>
+      <div
+        class="rs-stack-item"
+      >
+        <button
+          class="sc-dXYVqG sc-jcvEFQ bqfUDQ hWyAqT Element-Button"
+          data-testid="yes-no-toogle-no-button"
+          style="color: rgb(59, 69, 89); border-color: #5697d2; background-color: rgb(212, 229, 244);"
+          type="button"
+        >
+          <span
+            class="sc-gNZgCX hDAtbt Element-IconBox"
+          >
+            <svg
+              height="20"
+              viewBox="0 0 20 20"
+              width="20"
+            >
+              <g
+                transform="translate(-80)"
+              >
+                <path
+                  d="M90,1a9,9,0,1,0,9,9A9,9,0,0,0,90,1Zm0,16a7,7,0,1,1,7-7A7,7,0,0,1,90,17Z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M94,7.455,92.545,6,90,8.545,87.455,6,86,7.455,88.545,10,86,12.545,87.455,14,90,11.455,92.545,14,94,12.545,91.455,10Z"
+                  fill="currentColor"
+                />
+                <rect
+                  fill="none"
+                  height="20"
+                  transform="translate(80)"
+                  width="20"
+                />
+              </g>
+            </svg>
+          </span>
+          <span
+            class="sc-fCSSOr eOtGgW"
+          >
+            Non
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

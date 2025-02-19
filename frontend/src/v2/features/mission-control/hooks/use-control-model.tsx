@@ -4,6 +4,10 @@ import { AbstractControlFormikHook } from '../types/control-hook'
 import { useAbstractControl } from './use-abstract-control'
 import { useControlRegistry } from './use-control-registry'
 
+const emptyModel = {
+  observations: undefined
+}
+
 type ControlModel = ControlNavigation | ControlSecurity
 
 export type ControlModelInput = {} & ControlModel
@@ -18,7 +22,9 @@ export function useControlModel(
     name,
     fieldFormik,
     (input: ControlModel) => input as ControlModelInput,
-    (value?: ControlModelInput) => value as ControlModel
+    (value?: ControlModelInput) => {
+      return (!value ? value : { ...value, ...(!value?.hasBeenDone ? emptyModel : {}) }) as ControlModel
+    }
   )
 
   return {

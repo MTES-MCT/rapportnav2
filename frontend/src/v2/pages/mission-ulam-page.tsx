@@ -1,9 +1,6 @@
-import { formatTime } from '@common/utils/dates-for-humans.ts'
-
 import { ULAM_V2_HOME_PATH } from '@router/router.tsx'
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import useApolloLastSync from '../../features/common/hooks/use-apollo-last-sync.tsx'
 import useAuth from '../features/auth/hooks/use-auth.tsx'
 import MissionPageFooterWrapper from '../features/common/components/layout/mission-page-footer-wrapper.tsx'
 import MissionPageHeaderWrapper from '../features/common/components/layout/mission-page-header-wrapper.tsx'
@@ -20,15 +17,12 @@ import MissionTimelineHeaderUlam from '../features/ulam/components/element/missi
 import MissionTimelineUlam from '../features/ulam/components/element/mission-timeline-ulam.tsx'
 
 const MissionUlamPage: React.FC = () => {
-  const lastSync = useApolloLastSync()
   let { missionId, actionId } = useParams()
   const { navigateAndResetCache } = useAuth()
   const exitMission = async () => navigateAndResetCache(ULAM_V2_HOME_PATH)
 
   const { exportMission, exportIsLoading } = useMissionReportExport()
   const { data: mission, isLoading, error } = useGetMissionQuery(missionId)
-
-  const lastSyncText = lastSync ? formatTime(new Date(parseInt(lastSync!!, 10))) : undefined
 
   if (error) return <MissionPageError />
   if (isLoading) return <MissionPageLoading />
@@ -65,7 +59,7 @@ const MissionUlamPage: React.FC = () => {
       missionAction={
         <MissionActionUlam missionId={Number(missionId)} actionId={actionId} missionStatus={mission?.status} />
       }
-      missionFooter={<MissionPageFooterWrapper lastSyncText={lastSyncText} exitMission={exitMission} />}
+      missionFooter={<MissionPageFooterWrapper exitMission={exitMission} />}
     />
   )
 }

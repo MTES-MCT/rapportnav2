@@ -2,11 +2,11 @@ import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
+import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionIllegalImmigration } from '../../hooks/use-mission-action-illegal-immigration'
 import { ActionIllegalImmigrationInput } from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
-import { MissionActionFormikDateRangePicker } from '../ui/mission-action-formik-date-range-picker'
 import { MissionActionFormikNumberInput } from '../ui/mission-action-formik-number-input'
 
 const MissionActionItemIllegalImmigration: FC<{
@@ -34,7 +34,7 @@ const MissionActionItemIllegalImmigration: FC<{
                   <Stack.Item grow={1}>
                     <Field name="dates">
                       {(field: FieldProps<Date[]>) => (
-                        <MissionActionFormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
+                        <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
                       )}
                     </Field>
                   </Stack.Item>

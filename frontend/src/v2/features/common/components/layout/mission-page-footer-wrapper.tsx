@@ -1,5 +1,4 @@
-import Text from '@common/components/ui/text'
-import { Accent, Button, Icon, Size, THEME } from '@mtes-mct/monitor-ui'
+import { Accent, Button, Icon, Size } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
 import styled from 'styled-components'
 
@@ -13,11 +12,10 @@ const StyledFooter = styled.div`
 `
 
 interface MissionPageFooterWrapperProps {
-  lastSyncText?: string
   exitMission: () => void
 }
 
-const MissionPageFooterWrapper: React.FC<MissionPageFooterWrapperProps> = ({ lastSyncText, exitMission }) => {
+const MissionPageFooterWrapper: React.FC<MissionPageFooterWrapperProps> = ({ exitMission }) => {
   const deleteMission = () => {
     // TODO add delete
     alert('Fonctionnalité pas encore implémentée')
@@ -38,11 +36,6 @@ const MissionPageFooterWrapper: React.FC<MissionPageFooterWrapperProps> = ({ las
           >
             Supprimer la mission
           </Button>
-        </Stack.Item>
-        <Stack.Item style={{ paddingLeft: '1rem' }}>
-          <Text as={'h3'} color={THEME.color.charcoal}>
-            {lastSyncText ? `Dernière synchronisation à ${lastSyncText} ` : ''}
-          </Text>
         </Stack.Item>
         <Stack.Item style={{ paddingLeft: '1rem' }}>
           <Button accent={Accent.SECONDARY} size={Size.NORMAL} Icon={Icon.Close} onClick={exitMission}>
