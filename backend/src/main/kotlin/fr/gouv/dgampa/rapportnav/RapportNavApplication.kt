@@ -19,9 +19,10 @@ fun main(args: Array<String>) {
     val ctx = runApplication<RapportNavApplication>(*args)
 
     val isLocalProfile = ctx.environment.activeProfiles.contains("local")
-    var wireMockServer: WireMockServer? = null
+
 
     if (isLocalProfile) {
+        var wireMockServer: WireMockServer? = null
         val wireMockConfig = WireMockConfig()
         wireMockServer = wireMockConfig.startWireMock()
 
