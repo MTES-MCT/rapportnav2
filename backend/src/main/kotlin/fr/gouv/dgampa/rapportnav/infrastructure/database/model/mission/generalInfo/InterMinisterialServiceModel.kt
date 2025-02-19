@@ -18,7 +18,7 @@ class InterMinisterialServiceModel(
     var controlUnitId: Int = 0,
 
     @ManyToOne
-    @JoinColumn(name = "mission_general_info_id")
+    @JoinColumn(name = "mission_general_info_id", insertable = false, updatable = false)
     @JsonIgnore
     var missionGeneralInfo: MissionGeneralInfoModel? = null
 )

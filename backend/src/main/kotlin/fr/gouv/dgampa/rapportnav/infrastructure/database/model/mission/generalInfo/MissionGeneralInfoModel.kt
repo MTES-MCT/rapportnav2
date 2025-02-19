@@ -48,27 +48,9 @@ class MissionGeneralInfoModel(
     @Column(name = "nb_hour_at_sea")
     var nbHourAtSea: Int? = null,
 
-    @OneToMany(mappedBy = "missionGeneralInfo", cascade = [CascadeType.ALL], orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+    @JoinColumn(name="mission_general_info_id")
     @JsonIgnore
     var interMinisterialServices: List<InterMinisterialServiceModel>? = mutableListOf()
 ) {
-
-    companion object {
-        fun fromMissionGeneralInfoEntity(info: MissionGeneralInfoEntity): MissionGeneralInfoModel {
-            return MissionGeneralInfoModel(
-                id = info.id,
-                missionId = info.missionId,
-                distanceInNauticalMiles = info.distanceInNauticalMiles,
-                consumedGOInLiters = info.consumedGOInLiters,
-                consumedFuelInLiters = info.consumedFuelInLiters,
-                serviceId = info.serviceId,
-                nbrOfRecognizedVessel = info.nbrOfRecognizedVessel,
-                isWithInterMinisterialService = info.isWithInterMinisterialService,
-                isMissionArmed = info.isMissionArmed,
-                nbHourAtSea = info.nbHourAtSea,
-                missionReportType = info.missionReportType,
-                reinforcementType = info.reinforcementType,
-            )
-        }
-    }
 }
