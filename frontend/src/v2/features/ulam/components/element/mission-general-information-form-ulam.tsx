@@ -7,9 +7,10 @@ import {
   MissionGeneralInfoExtended,
   MissionULAMGeneralInfoInitial
 } from '../../../common/types/mission-types.ts'
-import useHandleSubmitMissionGeneralInfoHook, {
-  MissionGeneralInfoInput
-} from '../../hooks/use-submit-mission-general-information.tsx'
+import {
+  MissionGeneralInfoInput,
+  useUlamMissionGeneralInfoForm
+} from '../../hooks/use-ulam-mission-general-information-form.tsx'
 import MissionGeneralInformationExtendedFormUlam from './mission-general-information-extended-form-ulam.tsx'
 import MissionGeneralInformationInitialFormUlam from './mission-general-information-initial-form-ulam.tsx'
 
@@ -17,7 +18,7 @@ const MissionGeneralInformationForm: FC<{
   generalInfo2: MissionGeneralInfo2
   onChange: (newGeneralInfo: MissionGeneralInfo2) => Promise<unknown>
 }> = ({ generalInfo2, onChange }) => {
-  const { handleSubmit, initValue } = useHandleSubmitMissionGeneralInfoHook(onChange, generalInfo2)
+  const { handleSubmit, initValue } = useUlamMissionGeneralInfoForm(onChange, generalInfo2)
 
   return (
     <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%' }}>

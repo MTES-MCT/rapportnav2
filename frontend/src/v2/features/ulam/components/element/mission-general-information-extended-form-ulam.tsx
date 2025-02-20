@@ -4,10 +4,11 @@ import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { MissionGeneralInfoExtended } from '../../../common/types/mission-types.ts'
 import { useUlamMissionGeneralInformationsExtendedForm } from '../../hooks/use-ulam-mission-general-informations-extended-form.tsx'
-import MissionGeneralInformationControlUnitRessource from './mission-general-information-control-unit-resource.tsx'
-import MissionGeneralInformationCrewUlam from './mission-general-information-crew-ulam.tsx'
-import MissionGeneralInformationServiceUlam from './mission-general-information-service-ulam.tsx'
 import useAdministrationsQuery from '../../services/use-administrations.tsx'
+import useControlUnitResourcesQuery from '../../services/use-control-unit-resources.tsx'
+import MissionGeneralInformationControlUnitResource from './mission-general-information-control-unit-resource.tsx'
+import MissionGeneralInformationCrewUlam from './mission-general-information-crew-ulam.tsx'
+import MissionGeneralInformationInterServiceUlam from './mission-general-information-inter-service-ulam.tsx'
 
 export interface MissionGeneralInformationExtendedFormUlamProps {
   name: string
@@ -20,9 +21,9 @@ const MissionGeneralInformationExtendedFormUlam: FC<MissionGeneralInformationExt
   missionId,
   fieldFormik
 }) => {
-  const { initValue, handleSubmit } = useUlamMissionGeneralInformationsExtendedForm(name, fieldFormik)
-
+  const { data: resources } = useControlUnitResourcesQuery()
   const { data: administrations } = useAdministrationsQuery()
+  const { initValue, handleSubmit } = useUlamMissionGeneralInformationsExtendedForm(name, fieldFormik)
 
   return (
     <>
@@ -36,8 +37,12 @@ const MissionGeneralInformationExtendedFormUlam: FC<MissionGeneralInformationExt
                 <Stack direction="column" spacing="1em" justifyContent="flex-start" style={{ width: '70%' }}>
                   <Stack.Item style={{ width: '100%' }}>
                     <Field name="resources">
-                      {(field: FieldProps<number[]>) => (
-                        <MissionGeneralInformationControlUnitRessource name="resources" fieldFormik={field} />
+                      {(field: FieldProps) => (
+                        <MissionGeneralInformationControlUnitResource
+                          name="resources"
+                          fieldFormik={field}
+                          controlUnitResources={resources}
+                        />
                       )}
                     </Field>
                   </Stack.Item>
@@ -65,7 +70,11 @@ const MissionGeneralInformationExtendedFormUlam: FC<MissionGeneralInformationExt
                     {formik.values.isWithInterMinisterialService && (
                       <Field name="interMinisterialServices">
                         {(field: FieldProps) => (
-                          <MissionGeneralInformationServiceUlam name="interMinisterialServices" fieldFormik={field} administrations={administrations!!} />
+                          <MissionGeneralInformationInterServiceUlam
+                            name="interMinisterialServices"
+                            fieldFormik={field}
+                            administrations={administrations!!}
+                          />
                         )}
                       </Field>
                     )}

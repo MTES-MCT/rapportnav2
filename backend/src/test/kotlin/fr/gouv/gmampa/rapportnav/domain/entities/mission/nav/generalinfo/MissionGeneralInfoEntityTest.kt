@@ -1,4 +1,4 @@
-package fr.gouv.gmampa.rapportnav.infrastructure.database.model.mission.generalinfo
+package fr.gouv.gmampa.rapportnav.domain.entities.mission.nav.generalinfo
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
@@ -10,7 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [MissionGeneralInfoModel::class])
-class MissionGeneralInfoModelTest {
+class MissionGeneralInfoEntityTest {
 
     @Test
     fun `execute should retrieve mission general info entity`() {
@@ -46,7 +46,7 @@ class MissionGeneralInfoModelTest {
             distanceInNauticalMiles = 1.9f,
             nbrOfRecognizedVessel = 9
         );
-        val generalInfoModel = MissionGeneralInfoModel.fromMissionGeneralInfoEntity(generalInfoEntity);
+        val generalInfoModel = generalInfoEntity.toMissionGeneralInfoModel()
         assertThat(generalInfoModel).isNotNull();
         assertThat(generalInfoModel.id).isEqualTo(generalInfoEntity.id);
         assertThat(generalInfoModel.missionId).isEqualTo(generalInfoEntity.missionId);

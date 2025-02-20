@@ -32,7 +32,7 @@ class JPAMissionGeneralInfoRepository(
     @Transactional
     override fun save(info: MissionGeneralInfoEntity): MissionGeneralInfoModel {
         return try {
-            val generalInfoModel = MissionGeneralInfoModel.fromMissionGeneralInfoEntity(info)
+            val generalInfoModel = info.toMissionGeneralInfoModel()
             dbRepo.save(generalInfoModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw BackendUsageException(

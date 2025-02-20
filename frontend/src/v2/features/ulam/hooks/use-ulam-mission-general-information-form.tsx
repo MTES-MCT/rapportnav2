@@ -11,7 +11,7 @@ export type MissionGeneralInfoInput = {
   extended: MissionGeneralInfoExtended
 } & MissionGeneralInfo2
 
-const useHandleSubmitMissionGeneralInfoHook = (
+export const useUlamMissionGeneralInfoForm = (
   onChange: (newGeneralInfo: MissionGeneralInfo2) => Promise<unknown>,
   value: MissionGeneralInfo2
 ) => {
@@ -60,7 +60,8 @@ const useHandleSubmitMissionGeneralInfoHook = (
   const { initValue, handleSubmit } = useAbstractFormik<MissionGeneralInfo2, MissionGeneralInfoInput>(
     value,
     fromFieldValueToInput,
-    fromInputToFieldValue
+    fromInputToFieldValue,
+    ['isMissionArmed', 'isAllAgentsParticipating', 'isWithInterMinisterialService']
   )
 
   const onSubmit = async (valueToSubmit?: MissionGeneralInfo2) => {
@@ -77,5 +78,3 @@ const useHandleSubmitMissionGeneralInfoHook = (
 
   return { initValue, handleSubmit: handleSubmitOverride }
 }
-
-export default useHandleSubmitMissionGeneralInfoHook

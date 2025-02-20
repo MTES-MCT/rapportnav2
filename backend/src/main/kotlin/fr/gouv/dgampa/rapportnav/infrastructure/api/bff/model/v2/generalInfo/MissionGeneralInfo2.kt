@@ -31,7 +31,7 @@ data class MissionGeneralInfo2(
     val isAllAgentsParticipating: Boolean? = false,
     val isMissionArmed: Boolean? = false,
     val observations: String? = null,
-    val resources: List<Int>? = listOf(),
+    val resources: List<LegacyControlUnitResource>? = listOf(),
     val interMinisterialServices : List<InterMinisterialService>? = listOf()
 ) {
     companion object {
@@ -68,7 +68,7 @@ data class MissionGeneralInfo2(
                     .filter { controlUnit ->
                         generalInfo2?.services?.any { it.name == controlUnit.name } == true
                     }
-                    .flatMap { it.resources.map { resource -> resource.id } },
+                    .flatMap { it.resources.map { resource -> LegacyControlUnitResource(id = resource.id) } },
                 reinforcementType = generalInfo2?.data?.reinforcementType
             )
         }
@@ -76,7 +76,7 @@ data class MissionGeneralInfo2(
 
     fun toMissionGeneralInfoEntity(missionId: Int): MissionGeneralInfoEntity {
         return MissionGeneralInfoEntity(
-            id = id,
+            id = id ?: missionId,
             missionId = missionId,
             distanceInNauticalMiles = distanceInNauticalMiles,
             consumedGOInLiters = consumedGOInLiters,

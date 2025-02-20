@@ -57,6 +57,7 @@ class MissionGeneralInfo2Test {
         assertThat(generalInfo.consumedFuelInLiters).isEqualTo(generalInfoEntity.data?.consumedFuelInLiters);
         assertThat(generalInfo.distanceInNauticalMiles).isEqualTo(generalInfoEntity.data?.distanceInNauticalMiles);
         assertThat(generalInfo.nbrOfRecognizedVessel).isEqualTo(generalInfoEntity.data?.nbrOfRecognizedVessel);
+        assertThat(generalInfo.resources?.get(0)?.id).isEqualTo(generalInfoEntity.data?.resources?.get(0)?.id);
     }
 
 
@@ -77,9 +78,10 @@ class MissionGeneralInfo2Test {
 
     @Test
     fun `execute should retrieve mission general info entity`() {
+        val missionId = 1
         val generalInfoEntity =
             MissionGeneralInfo2(
-                missionId = 1,
+                missionId = missionId,
                 serviceId = 3,
                 consumedGOInLiters = 2.5f,
                 consumedFuelInLiters = 2.7f,
@@ -88,10 +90,11 @@ class MissionGeneralInfo2Test {
                 missionTypes = listOf(MissionTypeEnum.AIR),
                 startDateTimeUtc = Instant.now(),
                 missionReportType = MissionReportTypeEnum.FIELD_REPORT,
-            ).toMissionGeneralInfoEntity(missionId = 1);
+            ).toMissionGeneralInfoEntity(missionId = missionId);
 
         assertThat(generalInfoEntity).isNotNull();
-        assertThat(generalInfoEntity.missionId).isEqualTo(1);
+        assertThat(generalInfoEntity.id).isEqualTo(missionId);
+        assertThat(generalInfoEntity.missionId).isEqualTo(missionId);
         assertThat(generalInfoEntity.serviceId).isEqualTo(3);
         assertThat(generalInfoEntity.consumedGOInLiters).isEqualTo(2.5f);
         assertThat(generalInfoEntity.consumedFuelInLiters).isEqualTo(2.7f);
