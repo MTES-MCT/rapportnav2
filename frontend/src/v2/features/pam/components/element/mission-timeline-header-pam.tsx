@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ModuleType } from 'src/v2/features/common/types/module-type'
+import { ModuleType } from '../../../common/types/module-type'
 import MissionTimelineHeaderWrapper from '../../../mission-timeline/components/layout/mission-timeline-Header-wrapper'
 import { usePamTimelineRegistry } from '../../hooks/use-pam-timeline-registry'
 
