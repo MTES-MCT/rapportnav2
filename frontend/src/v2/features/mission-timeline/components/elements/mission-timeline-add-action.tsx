@@ -7,16 +7,23 @@ import MissionControlSelection from '../../../common/components/ui/mission-contr
 import { useMissionTimeline } from '../../../common/hooks/use-mission-timeline'
 import useCreateMissionActionMutation from '../../../common/services/use-create-mission-action'
 import { ActionType } from '../../../common/types/action-type'
+import { ModuleType } from '../../../common/types/module-type'
 import { TimelineDropdownItem } from '../../hooks/use-timeline'
 import MissionTimelineDropdownWrapper from '../layout/mission-timeline-dropdown-wrapper'
 
 type MissionTimelineAddActionProps = {
   missionId: number
+  moduleType: ModuleType
   onSumbit?: (id?: string) => void
   dropdownItems: TimelineDropdownItem[]
 }
 
-function MissionTimelineAddAction({ missionId, onSumbit, dropdownItems }: MissionTimelineAddActionProps): JSX.Element {
+function MissionTimelineAddAction({
+  missionId,
+  onSumbit,
+  moduleType,
+  dropdownItems
+}: MissionTimelineAddActionProps): JSX.Element {
   const { getActionInput } = useMissionTimeline(missionId)
   const mutation = useCreateMissionActionMutation(missionId)
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -54,7 +61,7 @@ function MissionTimelineAddAction({ missionId, onSumbit, dropdownItems }: Missio
         <Dialog>
           <Dialog.Title>Ajouter des contrôles</Dialog.Title>
           <Dialog.Body>
-            <MissionControlSelection onSelect={handleAddControl} />
+            <MissionControlSelection onSelect={handleAddControl} moduleType={moduleType} />
           </Dialog.Body>
           <Dialog.Action style={{ justifyContent: 'flex-end', paddingRight: '1.5rem' }}>
             <Button accent={Accent.SECONDARY} onClick={() => setShowModal(false)}>
