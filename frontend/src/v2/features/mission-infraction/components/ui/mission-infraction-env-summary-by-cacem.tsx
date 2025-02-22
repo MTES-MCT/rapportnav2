@@ -14,7 +14,7 @@ interface MissionInfractionEnvSummaryByCacemFormProps {
 const MissionInfractionEnvSummaryByCacemForm: React.FC<MissionInfractionEnvSummaryByCacemFormProps> = ({
   infraction
 }) => {
-  const { getVesselType, getVesselSize } = useVessel()
+  const { getVesselTypeName, getVesselSize } = useVessel()
   return (
     <Stack
       direction="column"
@@ -37,7 +37,7 @@ const MissionInfractionEnvSummaryByCacemForm: React.FC<MissionInfractionEnvSumma
           <Stack.Item style={{ width: '100%' }}>
             <Legend>Type de navire</Legend>
             <Text as="h3" weight="medium">
-              {getVesselType(infraction?.target?.vesselType)}
+              {getVesselTypeName(infraction?.target?.vesselType)}
             </Text>
           </Stack.Item>
           <Stack.Item style={{ width: '100%' }}>

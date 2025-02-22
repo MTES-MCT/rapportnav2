@@ -1,0 +1,666 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`IconVesselCommerce > should match the snapshot 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="rs-stack"
+        style="align-items: flex-start; flex-direction: column; gap: 1.5rem; padding: 1rem;"
+      >
+        <div
+          class="rs-stack-item"
+        >
+          <label
+            class="sc-loYsQo uPraC Element-Label"
+          >
+            Type de contrôle
+          </label>
+          <fieldset
+            class="sc-fEOKFM eNpmbc Element-Fieldset Field-MultiRadio"
+          >
+            <div
+              class="sc-bxmmIP bLqgCv Element-Fieldset__InnerBox"
+            >
+              <div
+                class="sc-fylWoh hDmesb rs-radio-group rs-radio-group-default"
+                role="radiogroup"
+              >
+                <div
+                  class="sc-gtlvkJ cuIUGk Element-Field Field-Radio"
+                >
+                  <div
+                    aria-checked="true"
+                    aria-disabled="false"
+                    class="sc-hEkkVl cmzJzp rs-radio rs-radio-checked"
+                  >
+                    <div
+                      class="rs-radio-checker"
+                    >
+                      <label>
+                        <span
+                          class="rs-radio-wrapper"
+                        >
+                          <input
+                            checked=""
+                            name="controlType"
+                            tabindex="0"
+                            type="radio"
+                            value="SEA"
+                          />
+                          <span
+                            aria-hidden="true"
+                            class="rs-radio-inner"
+                          />
+                        </span>
+                        Mer
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="sc-gtlvkJ cuIUGk Element-Field Field-Radio"
+                >
+                  <div
+                    aria-checked="false"
+                    aria-disabled="false"
+                    class="sc-hEkkVl kJGWDB rs-radio"
+                  >
+                    <div
+                      class="rs-radio-checker"
+                    >
+                      <label>
+                        <span
+                          class="rs-radio-wrapper"
+                        >
+                          <input
+                            name="controlType"
+                            tabindex="0"
+                            type="radio"
+                            value="LAND"
+                          />
+                          <span
+                            aria-hidden="true"
+                            class="rs-radio-inner"
+                          />
+                        </span>
+                        Terre
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div
+          class="rs-stack-item"
+          style="width: 100%;"
+        >
+          <div
+            class="rs-stack"
+            style="align-items: flex-start; flex-direction: column; gap: 1rem;"
+          >
+            <div
+              class="rs-stack-item"
+              style="width: 100%;"
+            >
+              <div
+                class="sc-egnSlO icEkBp"
+              >
+                <div
+                  class="rs-stack"
+                  style="align-items: center; flex-direction: row; gap: 1rem; width: 100%;"
+                >
+                  <div
+                    class="rs-stack-item"
+                    style="width: 15%;"
+                  >
+                    <img
+                      alt="Bateaux école"
+                      src="/src/assets/images/navire-services.svg"
+                    />
+                  </div>
+                  <div
+                    class="rs-stack-item"
+                    style="width: 80%;"
+                  >
+                    <p
+                      class="sc-btRGtK sc-bACthX kEtzHw fswZWU"
+                      font-size="13"
+                      weight="normal"
+                    >
+                      Contrôles de 
+                      <b>
+                        navire de services (travaux...)
+                      </b>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="rs-stack-item"
+              style="width: 100%;"
+            >
+              <div
+                class="sc-egnSlO icEkBp"
+              >
+                <div
+                  class="rs-stack"
+                  style="align-items: center; flex-direction: row; gap: 1rem; width: 100%;"
+                >
+                  <div
+                    class="rs-stack-item"
+                    style="width: 15%;"
+                  >
+                    <img
+                      alt="Navire de commerce"
+                      src="/src/assets/images/navire_commerce.svg"
+                    />
+                  </div>
+                  <div
+                    class="rs-stack-item"
+                    style="width: 80%;"
+                  >
+                    <p
+                      class="sc-btRGtK sc-bACthX kEtzHw fswZWU"
+                      font-size="13"
+                      weight="normal"
+                    >
+                      Contrôles de 
+                      <b>
+                        navire de commerce
+                      </b>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="rs-stack-item"
+              style="width: 100%;"
+            >
+              <div
+                class="sc-egnSlO icEkBp"
+              >
+                <div
+                  class="rs-stack"
+                  style="align-items: center; flex-direction: row; gap: 1rem; width: 100%;"
+                >
+                  <div
+                    class="rs-stack-item"
+                    style="width: 15%;"
+                  >
+                    <img
+                      alt="Navire de commerce"
+                      src="/src/assets/images/navire_peche_pro.svg"
+                    />
+                  </div>
+                  <div
+                    class="rs-stack-item"
+                    style="width: 80%;"
+                  >
+                    <p
+                      class="sc-btRGtK sc-bACthX kEtzHw fswZWU"
+                      font-size="13"
+                      weight="normal"
+                    >
+                      Contrôles de 
+                      <b>
+                        navire de pêche professionnelle
+                      </b>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="rs-stack-item"
+              style="width: 100%;"
+            >
+              <div
+                class="sc-egnSlO icEkBp"
+              >
+                <div
+                  class="rs-stack"
+                  style="align-items: center; flex-direction: row; gap: 1rem; width: 100%;"
+                >
+                  <div
+                    class="rs-stack-item"
+                    style="width: 15%;"
+                  >
+                    <img
+                      alt="Navire de commerce"
+                      src="/src/assets/images/navire_plaisance_pro.svg"
+                    />
+                  </div>
+                  <div
+                    class="rs-stack-item"
+                    style="width: 80%;"
+                  >
+                    <p
+                      class="sc-btRGtK sc-bACthX kEtzHw fswZWU"
+                      font-size="13"
+                      weight="normal"
+                    >
+                      Contrôles de 
+                      <b>
+                        navire de plaisance professionnelle
+                      </b>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="rs-stack-item"
+              style="width: 100%;"
+            >
+              <div
+                class="sc-egnSlO icEkBp"
+              >
+                <div
+                  class="rs-stack"
+                  style="align-items: center; flex-direction: row; gap: 1rem; width: 100%;"
+                >
+                  <div
+                    class="rs-stack-item"
+                    style="width: 15%;"
+                  >
+                    <img
+                      alt="Navire de commerce"
+                      src="/src/assets/images/navire_plaisance_loisir.svg"
+                    />
+                  </div>
+                  <div
+                    class="rs-stack-item"
+                    style="width: 80%;"
+                  >
+                    <p
+                      class="sc-btRGtK sc-bACthX kEtzHw fswZWU"
+                      font-size="13"
+                      weight="normal"
+                    >
+                      Contrôles de 
+                      <b>
+                        navire de plaisance de loisir
+                      </b>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="rs-toast-provider"
+    >
+      <div
+        class="rs-toast-container rs-toast-container-top-center"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-center"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-top-start"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-top-end"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-start"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-end"
+      />
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="rs-stack"
+      style="align-items: flex-start; flex-direction: column; gap: 1.5rem; padding: 1rem;"
+    >
+      <div
+        class="rs-stack-item"
+      >
+        <label
+          class="sc-loYsQo uPraC Element-Label"
+        >
+          Type de contrôle
+        </label>
+        <fieldset
+          class="sc-fEOKFM eNpmbc Element-Fieldset Field-MultiRadio"
+        >
+          <div
+            class="sc-bxmmIP bLqgCv Element-Fieldset__InnerBox"
+          >
+            <div
+              class="sc-fylWoh hDmesb rs-radio-group rs-radio-group-default"
+              role="radiogroup"
+            >
+              <div
+                class="sc-gtlvkJ cuIUGk Element-Field Field-Radio"
+              >
+                <div
+                  aria-checked="true"
+                  aria-disabled="false"
+                  class="sc-hEkkVl cmzJzp rs-radio rs-radio-checked"
+                >
+                  <div
+                    class="rs-radio-checker"
+                  >
+                    <label>
+                      <span
+                        class="rs-radio-wrapper"
+                      >
+                        <input
+                          checked=""
+                          name="controlType"
+                          tabindex="0"
+                          type="radio"
+                          value="SEA"
+                        />
+                        <span
+                          aria-hidden="true"
+                          class="rs-radio-inner"
+                        />
+                      </span>
+                      Mer
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="sc-gtlvkJ cuIUGk Element-Field Field-Radio"
+              >
+                <div
+                  aria-checked="false"
+                  aria-disabled="false"
+                  class="sc-hEkkVl kJGWDB rs-radio"
+                >
+                  <div
+                    class="rs-radio-checker"
+                  >
+                    <label>
+                      <span
+                        class="rs-radio-wrapper"
+                      >
+                        <input
+                          name="controlType"
+                          tabindex="0"
+                          type="radio"
+                          value="LAND"
+                        />
+                        <span
+                          aria-hidden="true"
+                          class="rs-radio-inner"
+                        />
+                      </span>
+                      Terre
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div
+        class="rs-stack-item"
+        style="width: 100%;"
+      >
+        <div
+          class="rs-stack"
+          style="align-items: flex-start; flex-direction: column; gap: 1rem;"
+        >
+          <div
+            class="rs-stack-item"
+            style="width: 100%;"
+          >
+            <div
+              class="sc-egnSlO icEkBp"
+            >
+              <div
+                class="rs-stack"
+                style="align-items: center; flex-direction: row; gap: 1rem; width: 100%;"
+              >
+                <div
+                  class="rs-stack-item"
+                  style="width: 15%;"
+                >
+                  <img
+                    alt="Bateaux école"
+                    src="/src/assets/images/navire-services.svg"
+                  />
+                </div>
+                <div
+                  class="rs-stack-item"
+                  style="width: 80%;"
+                >
+                  <p
+                    class="sc-btRGtK sc-bACthX kEtzHw fswZWU"
+                    font-size="13"
+                    weight="normal"
+                  >
+                    Contrôles de 
+                    <b>
+                      navire de services (travaux...)
+                    </b>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="rs-stack-item"
+            style="width: 100%;"
+          >
+            <div
+              class="sc-egnSlO icEkBp"
+            >
+              <div
+                class="rs-stack"
+                style="align-items: center; flex-direction: row; gap: 1rem; width: 100%;"
+              >
+                <div
+                  class="rs-stack-item"
+                  style="width: 15%;"
+                >
+                  <img
+                    alt="Navire de commerce"
+                    src="/src/assets/images/navire_commerce.svg"
+                  />
+                </div>
+                <div
+                  class="rs-stack-item"
+                  style="width: 80%;"
+                >
+                  <p
+                    class="sc-btRGtK sc-bACthX kEtzHw fswZWU"
+                    font-size="13"
+                    weight="normal"
+                  >
+                    Contrôles de 
+                    <b>
+                      navire de commerce
+                    </b>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="rs-stack-item"
+            style="width: 100%;"
+          >
+            <div
+              class="sc-egnSlO icEkBp"
+            >
+              <div
+                class="rs-stack"
+                style="align-items: center; flex-direction: row; gap: 1rem; width: 100%;"
+              >
+                <div
+                  class="rs-stack-item"
+                  style="width: 15%;"
+                >
+                  <img
+                    alt="Navire de commerce"
+                    src="/src/assets/images/navire_peche_pro.svg"
+                  />
+                </div>
+                <div
+                  class="rs-stack-item"
+                  style="width: 80%;"
+                >
+                  <p
+                    class="sc-btRGtK sc-bACthX kEtzHw fswZWU"
+                    font-size="13"
+                    weight="normal"
+                  >
+                    Contrôles de 
+                    <b>
+                      navire de pêche professionnelle
+                    </b>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="rs-stack-item"
+            style="width: 100%;"
+          >
+            <div
+              class="sc-egnSlO icEkBp"
+            >
+              <div
+                class="rs-stack"
+                style="align-items: center; flex-direction: row; gap: 1rem; width: 100%;"
+              >
+                <div
+                  class="rs-stack-item"
+                  style="width: 15%;"
+                >
+                  <img
+                    alt="Navire de commerce"
+                    src="/src/assets/images/navire_plaisance_pro.svg"
+                  />
+                </div>
+                <div
+                  class="rs-stack-item"
+                  style="width: 80%;"
+                >
+                  <p
+                    class="sc-btRGtK sc-bACthX kEtzHw fswZWU"
+                    font-size="13"
+                    weight="normal"
+                  >
+                    Contrôles de 
+                    <b>
+                      navire de plaisance professionnelle
+                    </b>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="rs-stack-item"
+            style="width: 100%;"
+          >
+            <div
+              class="sc-egnSlO icEkBp"
+            >
+              <div
+                class="rs-stack"
+                style="align-items: center; flex-direction: row; gap: 1rem; width: 100%;"
+              >
+                <div
+                  class="rs-stack-item"
+                  style="width: 15%;"
+                >
+                  <img
+                    alt="Navire de commerce"
+                    src="/src/assets/images/navire_plaisance_loisir.svg"
+                  />
+                </div>
+                <div
+                  class="rs-stack-item"
+                  style="width: 80%;"
+                >
+                  <p
+                    class="sc-btRGtK sc-bACthX kEtzHw fswZWU"
+                    font-size="13"
+                    weight="normal"
+                  >
+                    Contrôles de 
+                    <b>
+                      navire de plaisance de loisir
+                    </b>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

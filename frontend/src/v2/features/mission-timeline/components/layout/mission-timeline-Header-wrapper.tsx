@@ -1,4 +1,5 @@
 import { Stack } from 'rsuite'
+import { ModuleType } from '../../../common/types/module-type'
 import { TimelineDropdownItem } from '../../hooks/use-timeline'
 import MissionTimelineAddAction from '../elements/mission-timeline-add-action'
 import MissionTimelineAddStatus from '../elements/mission-timeline-add-status'
@@ -7,6 +8,7 @@ type MissionTimelineHeaderWrapperProps = {
   missionId: number
   hideAction?: boolean
   hideStatus?: boolean
+  moduleType: ModuleType
   onSubmit: (id?: string) => void
   dropdownItems: TimelineDropdownItem[]
 }
@@ -16,13 +18,19 @@ const MissionTimelineHeaderWrapper: React.FC<MissionTimelineHeaderWrapperProps> 
   hideAction,
   hideStatus,
   missionId,
+  moduleType,
   dropdownItems
 }) => {
   return (
     <Stack direction={'row'} justifyContent={'space-between'} spacing={'0.5rem'} wrap={true}>
       <Stack.Item>
         {!hideAction && (
-          <MissionTimelineAddAction dropdownItems={dropdownItems} missionId={missionId} onSumbit={onSubmit} />
+          <MissionTimelineAddAction
+            onSumbit={onSubmit}
+            missionId={missionId}
+            moduleType={moduleType}
+            dropdownItems={dropdownItems}
+          />
         )}
       </Stack.Item>
       <Stack.Item>
