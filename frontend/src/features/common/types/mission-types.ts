@@ -2,14 +2,15 @@ import { Action } from './action-types.ts'
 import { ControlUnit } from './control-unit-types.ts'
 import { MissionSourceEnum, MissionTypeEnum, SeaFrontEnum } from './env-mission-types.ts'
 import { Service } from './service-types.ts'
-import { MissionCrew } from '@common/types/crew-types.ts'
 
 export enum VesselTypeEnum {
   'FISHING' = 'FISHING',
   'SAILING' = 'SAILING',
   'MOTOR' = 'MOTOR',
   'COMMERCIAL' = 'COMMERCIAL',
-  'SAILING_LEISURE' = 'SAILING_LEISURE'
+  'SAILING_LEISURE' = 'SAILING_LEISURE',
+  'SCHOOL' = 'SCHOOL',
+  'PASSENGER' = 'PASSENGER'
 }
 
 export enum VesselSizeEnum {
@@ -39,7 +40,6 @@ export type Mission = {
   status: MissionStatusEnum
   completenessForStats?: CompletenessForStats
   services: Service[]
-  crew: MissionCrew[]
 }
 
 export type MissionGeneralInfo = {
@@ -72,7 +72,3 @@ export enum CompletenessForStatsStatusEnum {
   COMPLETE = 'COMPLETE',
   INCOMPLETE = 'INCOMPLETE'
 }
-
-
-
-
