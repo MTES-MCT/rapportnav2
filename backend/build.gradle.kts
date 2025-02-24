@@ -89,7 +89,7 @@ dependencies {
   implementation("org.apache.commons:commons-text:1.12.0")
   implementation("org.jodconverter:jodconverter-local-lo:4.4.7")
   implementation("com.neovisionaries:nv-i18n:1.29")
-  implementation("com.marcinziolo:kotlin-wiremock:2.1.1")
+  implementation("org.wiremock:wiremock-standalone:3.12.0")
   testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
   testImplementation("org.springframework:spring-webflux:6.1.14")
   testImplementation("org.springframework.graphql:spring-graphql-test:1.2.4")
@@ -108,17 +108,17 @@ buildscript {
 
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_17
+  sourceCompatibility = JavaVersion.VERSION_20
 }
 
 kotlin {
-  jvmToolchain(17)
+  jvmToolchain(20)
 }
 
 tasks.withType<KotlinCompile> {
   kotlinOptions {
     freeCompilerArgs += "-Xjsr305=strict"
-    jvmTarget = "17"
+    jvmTarget = "20"
   }
 }
 
