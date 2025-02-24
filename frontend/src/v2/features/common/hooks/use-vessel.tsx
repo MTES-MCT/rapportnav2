@@ -1,7 +1,21 @@
 import { VesselSizeEnum, VesselTypeEnum } from '@common/types/mission-types'
+import { omit } from 'lodash'
+import IconVesselCommerce from '../components/ui/icon-vessel-commerce'
+import IconVesselFishing from '../components/ui/icon-vessel-fishing'
+import IconVesselPassenger from '../components/ui/icon-vessel-passenger'
+import IconVesselSailingLeisure from '../components/ui/icon-vessel-sailing-leisure'
+import IconVesselSailingPro from '../components/ui/icon-vessel-sailing-pro'
+import IconVesselServices from '../components/ui/icon-vessel-school'
+import { ModuleType } from '../types/module-type'
 
-type VesselTypeRegistry = { [key in VesselTypeEnum]: string }
-type VesselSizeRegistry = { [key in VesselSizeEnum]: string }
+type VesselType = { label: string; icon?: JSX.Element }
+
+type VesselTypeRegistry = {
+  [key in VesselTypeEnum]: VesselType
+}
+type VesselSizeRegistry = {
+  [key in VesselSizeEnum]: string
+}
 
 const VESSEL_SIZE_REGISTRY: VesselSizeRegistry = {
   [VesselSizeEnum.LESS_THAN_12m]: 'Moins de 12m',
@@ -11,24 +25,50 @@ const VESSEL_SIZE_REGISTRY: VesselSizeRegistry = {
 }
 
 const VESSEL_TYPE_REGISTRY: VesselTypeRegistry = {
-  [VesselTypeEnum.MOTOR]: 'Navire de service',
-  [VesselTypeEnum.COMMERCIAL]: 'Navire de commerce',
-  [VesselTypeEnum.FISHING]: 'Navire de pêche professionnelle',
-  [VesselTypeEnum.SAILING]: 'Navire de plaisance professionnelle',
-  [VesselTypeEnum.SAILING_LEISURE]: 'Navire de plaisance de loisir'
+  [VesselTypeEnum.MOTOR]: {
+    icon: <IconVesselServices />,
+    label: 'Navire de services (travaux...)'
+  },
+  [VesselTypeEnum.COMMERCIAL]: {
+    icon: <IconVesselCommerce />,
+    label: 'Navire de commerce'
+  },
+  [VesselTypeEnum.FISHING]: {
+    icon: <IconVesselFishing />,
+    label: 'Navire de pêche professionnelle'
+  },
+  [VesselTypeEnum.SAILING]: {
+    icon: <IconVesselSailingPro />,
+    label: 'Navire de plaisance professionnelle'
+  },
+  [VesselTypeEnum.SAILING_LEISURE]: {
+    icon: <IconVesselSailingLeisure />,
+    label: 'Navire de plaisance de loisir'
+  },
+  [VesselTypeEnum.SCHOOL]: {
+    icon: IconVesselCommerce(),
+    label: 'bateaux école'
+  },
+  [VesselTypeEnum.PASSENGER]: {
+    icon: <IconVesselPassenger />,
+    label: 'Navires de passagers (navettes transports...)'
+  }
 }
 
 interface VesselHook {
   getVesselName: (name?: string) => string | undefined
   getVesselSize: (size?: VesselSizeEnum) => string | undefined
-  getVesselType: (size?: VesselTypeEnum) => string | undefined
+  getVesselTypeName: (size?: VesselTypeEnum) => string | undefined
   vesselTypeOptions: { label: string; value: VesselTypeEnum }[]
   vesselSizeOptions: { label: string; value: VesselSizeEnum }[]
+  getVesselType: (size?: VesselTypeEnum) => VesselType | undefined
+  getVesselTypeByModule: (moduleType: ModuleType) => ({ key: VesselTypeEnum } & VesselType)[]
 }
 
 export function useVessel(): VesselHook {
   const getVesselSize = (size?: VesselSizeEnum) => (size ? VESSEL_SIZE_REGISTRY[size] : '')
-  const getVesselType = (type?: VesselTypeEnum) => (type ? VESSEL_TYPE_REGISTRY[type] : '')
+  const getVesselTypeName = (type?: VesselTypeEnum) => (type ? VESSEL_TYPE_REGISTRY[type]?.label : '')
+  const getVesselType = (type?: VesselTypeEnum) => (type ? VESSEL_TYPE_REGISTRY[type] : ({} as VesselType))
   const getVesselSizeOptions = () =>
     Object.keys(VesselSizeEnum)?.map(key => ({
       value: VesselSizeEnum[key as keyof typeof VesselSizeEnum],
@@ -37,15 +77,29 @@ export function useVessel(): VesselHook {
   const getVesselTypeOptions = () =>
     Object.keys(VesselTypeEnum)?.map(key => ({
       value: VesselTypeEnum[key as keyof typeof VesselTypeEnum],
-      label: VESSEL_TYPE_REGISTRY[key as keyof typeof VesselTypeEnum]
+      label: VESSEL_TYPE_REGISTRY[key as keyof typeof VesselTypeEnum].label
     }))
 
   const getVesselName = (name?: string): string | undefined =>
     !name ? '' : name === 'UNKNOWN' ? 'Navire inconnu' : name
+
+  const getVesselTypeByModule = (moduleType: ModuleType) => {
+    const entry =
+      moduleType === ModuleType.ULAM
+        ? VESSEL_TYPE_REGISTRY
+        : omit(VESSEL_TYPE_REGISTRY, [VesselTypeEnum.SCHOOL, VesselTypeEnum.PASSENGER])
+    return Object.keys(entry)?.map(key => ({
+      key: VesselTypeEnum[key as keyof typeof VesselTypeEnum],
+      ...VESSEL_TYPE_REGISTRY[key as keyof typeof VesselTypeEnum]
+    }))
+  }
+
   return {
-    getVesselName,
     getVesselType,
+    getVesselName,
     getVesselSize,
+    getVesselTypeName,
+    getVesselTypeByModule,
     vesselSizeOptions: getVesselSizeOptions(),
     vesselTypeOptions: getVesselTypeOptions()
   }

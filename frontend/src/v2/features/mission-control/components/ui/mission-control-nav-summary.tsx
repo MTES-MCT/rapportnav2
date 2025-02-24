@@ -11,7 +11,7 @@ type MissionControlNavSummaryProps = {
 }
 
 const MissionControlNavSummary: React.FC<MissionControlNavSummaryProps> = ({ vesselType, controlMethod }) => {
-  const { getVesselType } = useVessel()
+  const { getVesselTypeName } = useVessel()
   const { getControlMethod } = useControlRegistry()
   return (
     <Stack direction={'column'}>
@@ -22,7 +22,7 @@ const MissionControlNavSummary: React.FC<MissionControlNavSummaryProps> = ({ ves
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Text as={'h3'}>
-          Type de cible: <b>{getVesselType(vesselType)}</b>
+          Type de cible: <b>{getVesselTypeName(vesselType)}</b>
         </Text>
       </Stack.Item>
     </Stack>
