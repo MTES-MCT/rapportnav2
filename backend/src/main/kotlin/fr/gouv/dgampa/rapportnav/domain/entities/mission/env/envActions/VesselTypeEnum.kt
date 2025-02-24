@@ -6,6 +6,8 @@ enum class VesselTypeEnum {
     MOTOR,
     COMMERCIAL,
     SAILING_LEISURE,
+    SCHOOL,
+    PASSENGER
 }
 
 fun VesselTypeEnum?.toStringOrNull(): String? {
