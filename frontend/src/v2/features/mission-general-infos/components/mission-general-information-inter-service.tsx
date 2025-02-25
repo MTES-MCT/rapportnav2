@@ -3,20 +3,20 @@ import { FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { isEqual } from 'lodash'
 import { FC, useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
-import { Administration } from '../../../common/types/control-unit-types.ts'
-import { InterMinisterialService } from '../../../common/types/mission-types.ts'
+import { Administration } from '../../common/types/control-unit-types.ts'
+import { InterMinisterialService } from '../../common/types/mission-types.ts'
 
 type InterMinisterielFormInput =
   | { interMinisterialServices: { administrationId?: number; controlUnitId?: number }[] }
   | undefined
 
-interface MissionGeneralInformationInterServiceUlamProps {
+interface MissionGeneralInformationInterServiceProps {
   name: string
   fieldFormik: FieldProps
   administrations: Administration[]
 }
 
-const MissionGeneralInformationInterServiceUlam: FC<MissionGeneralInformationInterServiceUlamProps> = ({
+const MissionGeneralInformationInterService: FC<MissionGeneralInformationInterServiceProps> = ({
   name,
   fieldFormik,
   administrations
@@ -94,6 +94,7 @@ const MissionGeneralInformationInterServiceUlam: FC<MissionGeneralInformationInt
                             </Stack.Item>
                             <Stack.Item style={{ paddingLeft: 5, marginTop: 22 }}>
                               <IconButton
+                                disabled={index === 0}
                                 role="delete-interMinisterialServices"
                                 size={Size.NORMAL}
                                 Icon={Icon.Delete}
@@ -131,4 +132,4 @@ const MissionGeneralInformationInterServiceUlam: FC<MissionGeneralInformationInt
   )
 }
 
-export default MissionGeneralInformationInterServiceUlam
+export default MissionGeneralInformationInterService

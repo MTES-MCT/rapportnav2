@@ -32,7 +32,11 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
   onChange,
   isMissionFinished
 }) => {
-  const { initValue, handleSubmit } = useMissionActionEnvControl(action, onChange, isMissionFinished)
+  const { initValue, handleSubmit, getAvailableControlTypes } = useMissionActionEnvControl(
+    action,
+    onChange,
+    isMissionFinished
+  )
   return (
     <form style={{ width: '100%' }}>
       {initValue && (
@@ -147,7 +151,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                         name="infractions"
                         fieldArray={fieldArray}
                         actionTargetType={values.actionTargetType}
-                        availableControlTypes={values.availableControlTypesForInfraction}
+                        availableControlTypes={getAvailableControlTypes(values)}
                       />
                     )}
                   </FieldArray>
@@ -155,8 +159,8 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikTextarea
                     isLight={true}
-                    name="observations"
-                    data-testid="observations"
+                    name="observationsByUnit"
+                    data-testid="observationsByUnit"
                     label="Observations de l’unité sur le contrôle de l’environnement marin"
                   />
                 </Stack.Item>

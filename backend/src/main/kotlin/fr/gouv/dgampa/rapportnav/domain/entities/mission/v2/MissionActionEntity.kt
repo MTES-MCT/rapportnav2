@@ -93,7 +93,7 @@ abstract class MissionActionEntity(
     fun computeCompletenessForStats() {
         this.completenessForStats = CompletenessForStatsEntity(
             sources = this.sourcesOfMissingDataForStats,
-            status = if (this.isCompleteForStats == true) CompletenessForStatsStatusEnum.COMPLETE else CompletenessForStatsStatusEnum.INCOMPLETE
+            status = if (this.isCompleteForStats == true && this.controlsToComplete?.isEmpty() == true) CompletenessForStatsStatusEnum.COMPLETE else CompletenessForStatsStatusEnum.INCOMPLETE
         )
     }
 

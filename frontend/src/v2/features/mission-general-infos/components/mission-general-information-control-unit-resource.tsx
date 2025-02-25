@@ -3,7 +3,7 @@ import { FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { isEqual } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
-import { ControlUnitResource } from '../../../common/types/control-unit-types.ts'
+import { ControlUnitResource } from '../../common/types/control-unit-types.ts'
 
 type ResourceFormInput = { resources: { id?: number }[] } | undefined
 

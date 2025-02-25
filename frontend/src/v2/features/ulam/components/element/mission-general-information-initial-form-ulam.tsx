@@ -84,7 +84,7 @@ const MissionGeneralInformationInitialFormUlam: FC<MissionGeneralInformationInit
                         <FormikDateRangePicker
                           label=""
                           name="dates"
-                          isLight={true}
+                          isLight={isCreation}
                           fieldFormik={field}
                           validateOnSubmit={isCreation}
                         />

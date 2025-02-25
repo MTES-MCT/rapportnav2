@@ -5,7 +5,8 @@ import { useAbstractControl } from './use-abstract-control'
 import { useControlRegistry } from './use-control-registry'
 
 const emptyModel = {
-  observations: undefined
+  observations: undefined,
+  infractions: []
 }
 
 type ControlModel = ControlNavigation | ControlSecurity

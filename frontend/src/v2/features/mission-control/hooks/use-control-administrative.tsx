@@ -8,7 +8,8 @@ const emptyAdministrative = {
   observations: undefined,
   compliantOperatingPermit: undefined,
   upToDateNavigationPermit: undefined,
-  compliantSecurityDocuments: undefined
+  compliantSecurityDocuments: undefined,
+  infractions: []
 }
 
 const radios = [

@@ -3,6 +3,7 @@ import { FunctionComponent } from 'react'
 import { ActionGroupType, ActionType } from '../../common/types/action-type'
 import MissionTimelineItemControlCard from '../../mission-timeline/components/elements/mission-timeline-item-control-card'
 import MissionTimelineItemGenericCard from '../../mission-timeline/components/elements/mission-timeline-item-generic-card'
+import MissionTimelineItemNoteCard from '../../mission-timeline/components/elements/mission-timeline-item-note-card'
 import MissionTimelineItemRescueCard from '../../mission-timeline/components/elements/mission-timeline-item-rescue-card'
 import MissionTimelineItemSurveillanceCard from '../../mission-timeline/components/elements/mission-timeline-item-surveillance-card'
 import { Timeline, TimelineDropdownItem, TimelineRegistry } from '../../mission-timeline/hooks/use-timeline'
@@ -68,7 +69,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
     style: { backgroundColor: THEME.color.blueYonder25, borderColor: THEME.color.lightGray },
     title: 'Note libre',
     icon: Icon.Note,
-    component: MissionTimelineItemGenericCard
+    component: MissionTimelineItemNoteCard
   },
   [ActionType.NAUTICAL_EVENT]: {
     style: {

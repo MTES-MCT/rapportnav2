@@ -33,7 +33,7 @@ const MissionActionEnvControlSummary: React.FC<MissionActionErrorProps> = ({ dat
       </Stack.Item>
       <Stack.Item>
         <Label>Observations</Label>
-        <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
+        <Text data-testid="observations" as="h3" weight="medium" color={THEME.color.gunMetal}>
           {data?.observations ?? 'aucunes'}
         </Text>
       </Stack.Item>
