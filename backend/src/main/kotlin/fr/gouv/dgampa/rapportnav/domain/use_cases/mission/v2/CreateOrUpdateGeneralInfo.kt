@@ -29,6 +29,7 @@ class CreateOrUpdateGeneralInfo(
                     startDateTimeUtc = generalInfo.startDateTimeUtc,
                     endDateTimeUtc = generalInfo.endDateTimeUtc,
                     missionTypes = generalInfo.missionTypes,
+                    observationsByUnit = generalInfo.observations
                 )
             )
             val generalInfoEntity = MissionGeneralInfoEntity.fromMissionGeneralInfoModel(generalInfoModel)
