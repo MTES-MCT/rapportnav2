@@ -29,7 +29,7 @@ class UpdateMissionEnv(
         val fromDbEnvMission = getEnvMissionById2.execute(mission.id) ?: return null
         val missionEntity = MissionEntity.fromMissionEnvEntity(mission)
 
-        if (missionEntity === fromDbEnvMission) return null
+        if (missionEntity == fromDbEnvMission) return null
 
         val missionRecomp = MissionEnv(
             id = fromDbEnvMission.id,

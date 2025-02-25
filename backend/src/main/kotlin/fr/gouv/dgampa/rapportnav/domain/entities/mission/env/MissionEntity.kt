@@ -60,7 +60,6 @@ data class MissionEntity(
 
         if (id != other.id) return false
         if (missionTypes != other.missionTypes) return false
-        if (controlUnits != other.controlUnits) return false
         if (startDateTimeUtc != other.startDateTimeUtc) return false
         if (endDateTimeUtc != other.endDateTimeUtc) return false
         if (observationsByUnit != other.observationsByUnit) return false
@@ -71,7 +70,6 @@ data class MissionEntity(
     override fun hashCode(): Int {
         var result = id.hashCode()
         result = 31 * result + missionTypes.hashCode()
-        result = 31 * result + controlUnits.hashCode()
         result = 31 * result + startDateTimeUtc.hashCode()
         result = 31 * result + (endDateTimeUtc?.hashCode() ?: 0)
         result = 31 * result + (observationsByUnit?.hashCode() ?: 0)
