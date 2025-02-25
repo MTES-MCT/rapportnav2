@@ -25,7 +25,7 @@ class CreateOrUpdateGeneralInfo(
             generalInfo.crew?.map { addOrUpdateMissionCrew.addOrUpdateMissionCrew(it.toMissionCrewEntity())}
             updateMissionEnv.execute(
                 mission = MissionEnvEntity(
-                    id = generalInfo.missionId,
+                    id = missionId,
                     startDateTimeUtc = generalInfo.startDateTimeUtc,
                     endDateTimeUtc = generalInfo.endDateTimeUtc,
                     missionTypes = generalInfo.missionTypes,
