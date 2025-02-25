@@ -11,7 +11,7 @@ import java.time.Instant
 data class MissionEnvEntity(
     val id: Int? = null,
     val missionTypes: List<MissionTypeEnum>,
-    val controlUnits: List<LegacyControlUnitEntity> = listOf(),
+    val controlUnits: List<LegacyControlUnitEntity>? = listOf(),
     val openBy: String? = null,
     val completedBy: String? = null,
     @Patchable
@@ -27,8 +27,10 @@ data class MissionEnvEntity(
     val createdAtUtc: Instant? = null,
     val updatedAtUtc: Instant? = null,
     val envActions: List<EnvActionEntity>? = listOf(),
-    val isGeometryComputedFromControls: Boolean,
-    val missionSource: MissionSourceEnum,
-    val hasMissionOrder: Boolean,
-    val isUnderJdp: Boolean,
-)
+    val isGeometryComputedFromControls: Boolean? = false,
+    val missionSource: MissionSourceEnum? = MissionSourceEnum.RAPPORT_NAV,
+    val hasMissionOrder: Boolean? = false,
+    val isUnderJdp: Boolean? = false,
+    val isDeleted: Boolean? = false
+) {
+}

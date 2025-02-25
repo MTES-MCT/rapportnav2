@@ -24,19 +24,21 @@ data class MissionEnv(
     val hasMissionOrder: Boolean,
     val isUnderJdp: Boolean = false,
     val isGeometryComputedFromControls: Boolean = false,
+    val observationsByUnit: String? = null
 ) {
 
     companion object {
         fun fromMissionEnvEntity(mission: MissionEnvEntity): MissionEnv {
             return MissionEnv(
                 id = mission.id,
-                missionSource = mission.missionSource,
+                missionSource = mission.missionSource ?: MissionSourceEnum.RAPPORT_NAV,
                 startDateTimeUtc = mission.startDateTimeUtc,
                 endDateTimeUtc = mission.endDateTimeUtc,
                 openBy = mission.openBy,
-                controlUnits = mission.controlUnits,
-                hasMissionOrder = mission.hasMissionOrder,
+                controlUnits = mission.controlUnits ?: listOf(),
+                hasMissionOrder = mission.hasMissionOrder ?: false,
                 missionTypes = mission.missionTypes,
+                observationsByUnit = mission.observationsByUnit
             )
         }
 
@@ -57,6 +59,7 @@ data class MissionEnv(
                 hasMissionOrder = mission.hasMissionOrder,
                 isUnderJdp = mission.isUnderJdp,
                 isGeometryComputedFromControls = mission.isGeometryComputedFromControls,
+                observationsByUnit = mission.observationsByUnit
             )
         }
     }
