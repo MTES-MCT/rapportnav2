@@ -1,7 +1,7 @@
 import { ControlType } from '@common/types/control-types'
-import { renderHook } from '@testing-library/react'
-import { MissionAction } from 'src/v2/features/common/types/mission-action'
 import { vi } from 'vitest'
+import { renderHook } from '../../../../../test-utils'
+import { MissionAction } from '../../../common/types/mission-action'
 import { ActionEnvControlInput } from '../../types/action-type'
 import { useMissionActionEnvControl } from '../use-mission-action-env-control'
 
