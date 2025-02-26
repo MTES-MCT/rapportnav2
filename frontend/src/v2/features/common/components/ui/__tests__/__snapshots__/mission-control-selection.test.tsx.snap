@@ -119,7 +119,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   >
                     <img
                       alt="Bateaux école"
-                      src="/src/assets/images/navire-services.svg"
+                      src="/src/assets/images/navire_bateau_ecole.svg"
                     />
                   </div>
                   <div
@@ -194,7 +194,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                     style="width: 15%;"
                   >
                     <img
-                      alt="Navire de commerce"
+                      alt="Navire de pêche pro"
                       src="/src/assets/images/navire_peche_pro.svg"
                     />
                   </div>
@@ -232,7 +232,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                     style="width: 15%;"
                   >
                     <img
-                      alt="Navire de commerce"
+                      alt="Navire de plaisance pro"
                       src="/src/assets/images/navire_plaisance_pro.svg"
                     />
                   </div>
@@ -270,7 +270,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                     style="width: 15%;"
                   >
                     <img
-                      alt="Navire de commerce"
+                      alt="Navire de plaisance loisir"
                       src="/src/assets/images/navire_plaisance_loisir.svg"
                     />
                   </div>
@@ -434,7 +434,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                 >
                   <img
                     alt="Bateaux école"
-                    src="/src/assets/images/navire-services.svg"
+                    src="/src/assets/images/navire_bateau_ecole.svg"
                   />
                 </div>
                 <div
@@ -509,7 +509,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   style="width: 15%;"
                 >
                   <img
-                    alt="Navire de commerce"
+                    alt="Navire de pêche pro"
                     src="/src/assets/images/navire_peche_pro.svg"
                   />
                 </div>
@@ -547,7 +547,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   style="width: 15%;"
                 >
                   <img
-                    alt="Navire de commerce"
+                    alt="Navire de plaisance pro"
                     src="/src/assets/images/navire_plaisance_pro.svg"
                   />
                 </div>
@@ -585,7 +585,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   style="width: 15%;"
                 >
                   <img
-                    alt="Navire de commerce"
+                    alt="Navire de plaisance loisir"
                     src="/src/assets/images/navire_plaisance_loisir.svg"
                   />
                 </div>

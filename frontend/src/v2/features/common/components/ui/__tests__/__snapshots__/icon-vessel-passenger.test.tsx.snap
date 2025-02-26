@@ -6,8 +6,8 @@ exports[`IconVesselPassenger > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <img
-        alt="Navire de service"
-        src="/src/assets/images/navire-services.svg"
+        alt="Navire passagers"
+        src="/src/assets/images/navire_passagers.svg"
       />
     </div>
     <div
@@ -35,8 +35,8 @@ exports[`IconVesselPassenger > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <img
-      alt="Navire de service"
-      src="/src/assets/images/navire-services.svg"
+      alt="Navire passagers"
+      src="/src/assets/images/navire_passagers.svg"
     />
   </div>,
   "debug": [Function],

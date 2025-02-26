@@ -6,7 +6,7 @@ exports[`IconVesselSailingPro > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <img
-        alt="Navire de commerce"
+        alt="Navire de plaisance pro"
         src="/src/assets/images/navire_plaisance_pro.svg"
       />
     </div>
@@ -35,7 +35,7 @@ exports[`IconVesselSailingPro > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <img
-      alt="Navire de commerce"
+      alt="Navire de plaisance pro"
       src="/src/assets/images/navire_plaisance_pro.svg"
     />
   </div>,

@@ -7,7 +7,7 @@ exports[`IconVesselSchool > should match the snapshot 1`] = `
     <div>
       <img
         alt="Bateaux école"
-        src="/src/assets/images/navire-services.svg"
+        src="/src/assets/images/navire_bateau_ecole.svg"
       />
     </div>
     <div
@@ -36,7 +36,7 @@ exports[`IconVesselSchool > should match the snapshot 1`] = `
   "container": <div>
     <img
       alt="Bateaux école"
-      src="/src/assets/images/navire-services.svg"
+      src="/src/assets/images/navire_bateau_ecole.svg"
     />
   </div>,
   "debug": [Function],
