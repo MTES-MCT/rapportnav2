@@ -39,6 +39,7 @@ class UserRestController(
                 lastName = user.lastName,
                 serviceId = service?.id,
                 serviceName = service?.name,
+                controlUnitId = service?.controlUnits?.get(0)
             )
         } catch (e: Exception) {
             logger.error("Error while getting user information : ", e)
