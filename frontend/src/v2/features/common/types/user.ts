@@ -5,4 +5,5 @@ export type User = {
   lastName?: string
   serviceId?: number
   serviceName?: string
+  controlUnitId?: number
 }
