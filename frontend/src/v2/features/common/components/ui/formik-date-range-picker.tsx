@@ -20,6 +20,7 @@ type FormikDateRangePickerProps = FormikDatePickerWithDateDateProps & {
 
 export const FormikDateRangePicker = styled(
   ({ name, fieldFormik, validateOnSubmit, ...props }: FormikDateRangePickerProps) => {
+    const [errors, setErrors] = useState<FormikErrors<DateInput>>()
     const [initValue, setInitValue] = useState<DateInput>()
 
     useEffect(() => {
@@ -30,11 +31,9 @@ export const FormikDateRangePicker = styled(
     }, [fieldFormik])
 
     const handleSubmit = async (value: DateInput, errors: FormikErrors<DateInput>) => {
+      setErrors(errors)
       if (isEqual(value, initValue)) return
-      if (!isEmpty(errors) && validateOnSubmit) {
-        fieldFormik.form.setErrors({ ...fieldFormik.form.errors, ...errors })
-        return
-      }
+      if (!isEmpty(errors) && validateOnSubmit) fieldFormik.form.setErrors({ ...fieldFormik.form.errors, ...errors })
       await fieldFormik.form.setFieldValue(name, [value.startDateTimeUtc, value.endDateTimeUtc])
     }
 
@@ -48,12 +47,12 @@ export const FormikDateRangePicker = styled(
             validateOnChange={true}
             validationSchema={simpleDateRangeValidationSchema}
           >
-            {({ errors, validateForm }) => (
+            {({ validateForm }) => (
               <>
                 <FormikEffect
-                  onChange={async nextValue => {
+                  onChange={async nextValue =>
                     validateForm(nextValue).then(errors => handleSubmit(nextValue as DateInput, errors))
-                  }}
+                  }
                 />
                 <Stack direction={'column'} alignItems={'flex-start'}>
                   <Stack.Item>
