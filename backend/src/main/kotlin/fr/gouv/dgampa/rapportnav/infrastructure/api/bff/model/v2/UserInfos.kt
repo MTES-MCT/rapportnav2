@@ -6,5 +6,6 @@ data class UserInfos(
     val firstName: String? = null,
     val lastName: String? = null,
     val serviceId: Int? = null,
-    val serviceName: String? = null
+    val serviceName: String? = null,
+    val controlUnitId: Int? = null
 )

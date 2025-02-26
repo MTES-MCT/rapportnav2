@@ -5,10 +5,7 @@ import { Administration } from '../types/control-unit-types.ts'
 
 const useAdministrationsQuery = () => {
   const fetchAdministrations = (): Promise<Administration[]> =>
-    axios
-      .get(`administrations`)
-      .then(response => response.data)
-      .then((Administrations: Administration[]) => Administrations.filter(Administration => !Administration.isArchived))
+    axios.get(`administrations`).then(response => response.data)
 
   const query = useQuery<Administration[], Error>({
     queryKey: ['administrations'],

@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 
-const DEBOUNCE_TIME_TRIGGER = 5000
+const DEBOUNCE_TIME_TRIGGER = 3000
 
 type DelayHook = {
   handleExecuteOnDelay: (callback: () => Promise<void> | void, debounceTime?: number) => Promise<void>
