@@ -3,11 +3,10 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateMissionEnv
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.APIEnvMissionRepositoryV2
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -41,6 +40,7 @@ class UpdateMissionEnvTest {
             missionTypes = listOf(MissionTypeEnum.SEA),
             startDateTimeUtc = Instant.parse("2019-09-08T21:00:00.000+01:00"),
             hasMissionOrder = false,
+            envActions = listOf(),
             isDeleted = false,
             isUnderJdp = false,
             isGeometryComputedFromControls = false,
@@ -50,22 +50,23 @@ class UpdateMissionEnvTest {
             endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
         )
 
-        val missionEnvEntity = MissionEnvEntity(
-            id = missionId,
+        val input = MissionEnvInput(
+            missionId = missionId,
             missionTypes = listOf(MissionTypeEnum.SEA),
             startDateTimeUtc = Instant.parse("2019-09-08T21:00:00.000+01:00"),
-            missionSource = MissionSourceEnum.RAPPORT_NAV,
             observationsByUnit = "observation",
             endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
         )
 
+        val value = input.toMissionEnvEntity(mockMissionEntity)
+
         // Mock behavior of getEnvMissionById2 to return a MissionEntity
         Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(mockMissionEntity)
-        Mockito.`when`(apiEnvRepo2.update(MissionEnv.fromMissionEnvEntity(missionEnvEntity))).thenReturn(missionEnvEntity)
+        Mockito.`when`(apiEnvRepo2.update(value)).thenReturn(value)
 
 
         // When
-        val result = updateMissionEnv.execute(missionEnvEntity)
+        val result = updateMissionEnv.execute(input)
 
         // Then
         Assertions.assertNull(result)
@@ -89,64 +90,25 @@ class UpdateMissionEnvTest {
             endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
         )
 
-        val missionEnvEntity = MissionEnvEntity(
-            id = missionId,
+        val input = MissionEnvInput(
+            missionId = missionId,
             missionTypes = listOf(MissionTypeEnum.SEA),
             startDateTimeUtc = Instant.parse("2019-09-08T21:00:00.000+01:00"),
-            missionSource = MissionSourceEnum.RAPPORT_NAV,
-            observationsByUnit = "observation updated" +
-                "",
+            observationsByUnit = "observation updated",
             endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
         )
 
+        val value = input.toMissionEnvEntity(mockMissionEntity)
+
         // Mock behavior of getEnvMissionById2 to return a MissionEntity
         Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(mockMissionEntity)
-        Mockito.`when`(apiEnvRepo2.update(MissionEnv.fromMissionEnvEntity(missionEnvEntity))).thenReturn(missionEnvEntity)
+        Mockito.`when`(apiEnvRepo2.update(value)).thenReturn(value)
 
 
         // When
-        val result = updateMissionEnv.execute(missionEnvEntity)
+        val result = updateMissionEnv.execute(input)
 
         // Then
         Assertions.assertNotNull(result)
-    }
-
-    @Test
-    fun `execute should return null when MissionEntity is equal because we updated a not patchable property`() {
-        val missionId = 123
-        // Given
-        val mockMissionEntity = MissionEntity(
-            missionTypes = listOf(MissionTypeEnum.SEA),
-            startDateTimeUtc = Instant.parse("2019-09-08T21:00:00.000+01:00"),
-            hasMissionOrder = false,
-            envActions = listOf(),
-            isDeleted = false,
-            isUnderJdp = false,
-            isGeometryComputedFromControls = false,
-            missionSource = MissionSourceEnum.RAPPORT_NAV,
-            id = missionId,
-            observationsByUnit = "observation",
-            endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
-        )
-
-        val missionEnvEntity = MissionEnvEntity(
-            id = missionId,
-            missionTypes = listOf(MissionTypeEnum.SEA),
-            startDateTimeUtc = Instant.parse("2019-09-08T21:00:00.000+01:00"),
-            missionSource = MissionSourceEnum.MONITORFISH,
-            observationsByUnit = "observation",
-            endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
-        )
-
-        // Mock behavior of getEnvMissionById2 to return a MissionEntity
-        Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(mockMissionEntity)
-        Mockito.`when`(apiEnvRepo2.update(MissionEnv.fromMissionEnvEntity(missionEnvEntity))).thenReturn(missionEnvEntity)
-
-
-        // When
-        val result = updateMissionEnv.execute(missionEnvEntity)
-
-        // Then
-        Assertions.assertNull(result)
     }
 }

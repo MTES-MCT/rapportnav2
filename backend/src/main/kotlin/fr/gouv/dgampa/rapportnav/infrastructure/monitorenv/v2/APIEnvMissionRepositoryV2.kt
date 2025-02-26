@@ -65,7 +65,7 @@ class APIEnvMissionRepositoryV2(
         }
     }
 
-    override fun update(mission: MissionEnv): MissionEnvEntity? {
+    override fun update(mission: MissionEnvEntity): MissionEnvEntity? {
         val url = "$host/api/v1/missions/${mission.id}";
         logger.info("Sending PUT request for Env mission update URL: $url")
         return try {
