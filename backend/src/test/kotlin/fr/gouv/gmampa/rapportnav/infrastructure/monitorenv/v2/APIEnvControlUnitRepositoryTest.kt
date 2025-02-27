@@ -29,7 +29,7 @@ class APIEnvControlUnitRepositoryTest {
         administration = "paris",
         isArchived = false,
         id = 1,
-        resources = listOf()
+        resources = mutableListOf()
     )
 
     val host = "https://monitorenv.din.developpement-durable.gouv.fr"

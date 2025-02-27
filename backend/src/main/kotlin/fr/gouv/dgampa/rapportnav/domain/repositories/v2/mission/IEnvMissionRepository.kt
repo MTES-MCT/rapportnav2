@@ -5,4 +5,6 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
 
 interface IEnvMissionRepository {
     fun createMission(mission: MissionEnv): MissionEnvEntity?
+
+    fun update(mission: MissionEnvEntity): MissionEnvEntity?
 }

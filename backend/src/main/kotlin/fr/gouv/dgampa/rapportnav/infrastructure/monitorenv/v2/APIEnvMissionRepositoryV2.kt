@@ -3,7 +3,6 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
@@ -62,6 +61,39 @@ class APIEnvMissionRepositoryV2(
             missionDataOutput?.toMissionEnvEntity();
         } catch (e: Exception) {
             logger.error("Failed to POST request for Env action creation. URL: $url", e);
+            null;
+        }
+    }
+
+    override fun update(mission: MissionEnvEntity): MissionEnvEntity? {
+        val url = "$host/api/v1/missions/${mission.id}";
+        logger.info("Sending PUT request for Env mission update URL: $url")
+        return try {
+
+            logger.info("Body request for Mission env update : ${gson.toJson(mission)}")
+
+            val request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(url))
+                .method("PUT", HttpRequest.BodyPublishers.ofString(gson.toJson(mission)))
+                .header("Content-Type", "application/json")
+                .build();
+
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            logger.info("Response received, Status code: ${response.statusCode()}");
+
+            val body = response.body()
+            logger.info("Response received, Content: $body")
+
+            if (response.statusCode() == 400 || response.statusCode() == 500) {
+                throw Exception("Error while updating mission from env, please check the logs")
+            }
+
+            mapper.registerModule(JtsModule())
+            val missionDataOutput: MissionDataOutput? = mapper.readValue(body);
+            missionDataOutput?.toMissionEnvEntity();
+        } catch (e: Exception) {
+            logger.error("Failed to PUT request for Env action update. URL: $url", e);
             null;
         }
     }

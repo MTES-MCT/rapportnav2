@@ -122,7 +122,7 @@ class MissionGeneralInfo2Test {
             name = "TEST-1",
             isArchived = false,
             administration = "Beta Gouv",
-            resources = listOf(resource1)
+            resources = mutableListOf(resource1)
         )
 
         val unit2 = LegacyControlUnitEntity(
@@ -130,7 +130,7 @@ class MissionGeneralInfo2Test {
             name = "TEST-2",
             isArchived = false,
             administration = "Beta Gouv",
-            resources = listOf(resource2)
+            resources = mutableListOf(resource2)
         )
 
         return MissionEntity(

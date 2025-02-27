@@ -37,7 +37,7 @@ class GetServiceByControlUnitTest {
             id = 3,
             administration = "Administration",
             isArchived = false, name = "Themis",
-            resources = listOf(),
+            resources = mutableListOf(),
         )
     )
 

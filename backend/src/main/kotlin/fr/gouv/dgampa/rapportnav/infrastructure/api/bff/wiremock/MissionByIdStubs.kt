@@ -35,7 +35,7 @@ object MissionByIdStubs {
             name = "FAKE-UNIT-1",
             isArchived = false,
             administration = "beta.gouv.fr",
-            resources = listOf(resource1, resource2)
+            resources = mutableListOf(resource1, resource2)
         )
 
 

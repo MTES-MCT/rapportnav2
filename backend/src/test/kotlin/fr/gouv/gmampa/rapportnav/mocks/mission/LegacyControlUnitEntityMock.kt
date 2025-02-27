@@ -9,7 +9,7 @@ object LegacyControlUnitEntityMock {
         administration: String = "DDTM",
         isArchived: Boolean = false,
         name: String = "zodiac abc",
-        resources: List<LegacyControlUnitResourceEntity> = listOf(),
+        resources: MutableList<LegacyControlUnitResourceEntity> = mutableListOf(),
         contact: String? = null,
     ): LegacyControlUnitEntity {
         return LegacyControlUnitEntity(

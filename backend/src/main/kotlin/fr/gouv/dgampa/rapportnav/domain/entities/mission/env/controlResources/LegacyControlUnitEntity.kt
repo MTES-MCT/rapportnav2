@@ -5,7 +5,7 @@ data class LegacyControlUnitEntity(
     val administration: String,
     val isArchived: Boolean,
     val name: String,
-    val resources: List<LegacyControlUnitResourceEntity>,
+    val resources: MutableList<LegacyControlUnitResourceEntity>,
     val contact: String? = null,
 ) {
     override fun equals(other: Any?): Boolean {
