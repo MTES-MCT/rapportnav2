@@ -6,5 +6,4 @@ interface IEnvControlUnitRepository {
 
     fun findAll(): List<LegacyControlUnitEntity>?
 
-    fun findById(id: Int): LegacyControlUnitEntity?
 }
