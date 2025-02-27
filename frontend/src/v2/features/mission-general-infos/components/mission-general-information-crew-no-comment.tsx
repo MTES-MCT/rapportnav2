@@ -9,24 +9,24 @@ import {
   MissionCrewStack,
   MissionCrewTitleLabel,
   MissionCrewUnderlineStack
-} from '../../../common/components/ui/mission-crew-list.tsx'
-import useAgentsQuery from '../../../common/services/use-agents.tsx'
-import { Agent, MissionCrewMember } from '../../../common/types/crew-type.ts'
-import MissionCrewForm from '../ui/mission-crew-form.tsx'
-import { default as MissionCrewListItemUlam } from '../ui/mission-crew-list-item-ulam.tsx'
+} from '../../common/components/ui/mission-crew-list.tsx'
+import { Agent, MissionCrewMember } from '../../common/types/crew-type.ts'
+import MissionCrewForm from '../../ulam/components/ui/mission-crew-form.tsx'
+import { default as MissionCrewListItemUlam } from '../../ulam/components/ui/mission-crew-list-item-ulam.tsx'
 
-interface MissionGeneralInformationCrewUlamProps {
+interface MissionGeneralInformationCrewNoCommentProps {
   name: string
   missionId?: number
+  agents: Agent[]
   fieldArray: FieldArrayRenderProps
 }
 
-const MissionGeneralInformationCrewUlam: React.FC<MissionGeneralInformationCrewUlamProps> = ({
+const MissionGeneralInformationCrewNoComment: React.FC<MissionGeneralInformationCrewNoCommentProps> = ({
   name,
+  agents,
   missionId,
   fieldArray
 }) => {
-  const { data: agents } = useAgentsQuery()
   const [openForm, setOpenForm] = useState<boolean>(false)
   const handleDelete = (index: number) => fieldArray.remove(index)
   const handleUpdate = (members: MissionCrewMember[]) => fieldArray.form.setFieldValue(name, members)
@@ -51,7 +51,7 @@ const MissionGeneralInformationCrewUlam: React.FC<MissionGeneralInformationCrewU
       </MissionCrewUnderlineStack>
 
       {fieldArray.form.values.crew?.length === 0 && (
-        <Stack direction={'row'} style={{ width: '100%', marginBottom: '1rem' }}>
+        <Stack direction={'row'} style={{ width: '100%' }}>
           <Stack.Item>
             <FormikCheckbox
               name={'isAllAgentsParticipating'}
@@ -82,7 +82,7 @@ const MissionGeneralInformationCrewUlam: React.FC<MissionGeneralInformationCrewU
             ))}
           </MissionCrewListStyled>
         </Stack.Item>
-        <Stack.Item style={{ width: '100%', marginTop: 16 }}>
+        <Stack.Item style={{ width: '100%', marginTop: '16px' }}>
           <MissionCrewAddMemberButton onClick={() => setOpenForm(true)}>
             Ajouter un/des agent(s) à la mission
           </MissionCrewAddMemberButton>
@@ -103,4 +103,4 @@ const MissionGeneralInformationCrewUlam: React.FC<MissionGeneralInformationCrewU
   )
 }
 
-export default MissionGeneralInformationCrewUlam
+export default MissionGeneralInformationCrewNoComment

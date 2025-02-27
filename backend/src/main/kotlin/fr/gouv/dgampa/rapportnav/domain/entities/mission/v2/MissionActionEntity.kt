@@ -91,9 +91,11 @@ abstract class MissionActionEntity(
 ) : BaseMissionActionEntity {
 
     fun computeCompletenessForStats() {
+        val isControlCompleted = this.controlsToComplete == null || this.controlsToComplete?.isEmpty() == true
+        val status = if(this.isCompleteForStats == true && isControlCompleted) CompletenessForStatsStatusEnum.COMPLETE else CompletenessForStatsStatusEnum.INCOMPLETE
         this.completenessForStats = CompletenessForStatsEntity(
             sources = this.sourcesOfMissingDataForStats,
-            status = if (this.isCompleteForStats == true) CompletenessForStatsStatusEnum.COMPLETE else CompletenessForStatsStatusEnum.INCOMPLETE
+            status = status
         )
     }
 

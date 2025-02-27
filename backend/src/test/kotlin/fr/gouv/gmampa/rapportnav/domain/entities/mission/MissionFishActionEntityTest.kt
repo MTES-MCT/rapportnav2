@@ -2,23 +2,19 @@ package fr.gouv.gmampa.rapportnav.domain.entities.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Completion
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import java.time.Instant
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
@@ -142,6 +138,38 @@ class MissionFishActionEntityTest {
         assertThat(entity.summaryTags).isNotNull()
         assertThat(entity.summaryTags?.get(0)).isEqualTo("2 PV")
         assertThat(entity.summaryTags?.get(1)).isEqualTo("1 NATINF")
+    }
+
+    @Test
+    fun `execute should not be complete if some controls are to complete`() {
+        val fishAction = FishActionControlMock.create(
+            completion = Completion.COMPLETED
+        )
+        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
+        entity.computeCompleteness()
+        assertThat(entity.isCompleteForStats).isEqualTo(true)
+
+        entity.controlsToComplete = listOf(ControlType.ADMINISTRATIVE)
+        entity.computeCompletenessForStats()
+        assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
+
+        entity.controlsToComplete = listOf()
+        entity.computeCompletenessForStats()
+        assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
+    }
+
+    @Test
+    fun `execute should not be complete if end date is null`() {
+        val fishAction = FishActionControlMock.create(
+            completion = Completion.COMPLETED
+        )
+        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
+        entity.computeCompleteness()
+        assertThat(entity.isCompleteForStats).isEqualTo(true)
+
+        entity.endDateTimeUtc = null
+        entity.computeCompleteness()
+        assertThat(entity.isCompleteForStats).isEqualTo(false)
     }
 
     @Test

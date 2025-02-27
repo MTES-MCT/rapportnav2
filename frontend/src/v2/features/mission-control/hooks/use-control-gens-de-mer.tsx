@@ -8,7 +8,8 @@ const emptyGensDeMer = {
   observations: undefined,
   staffOutnumbered: undefined,
   upToDateMedicalCheck: undefined,
-  knowledgeOfFrenchLawAndLanguage: undefined
+  knowledgeOfFrenchLawAndLanguage: undefined,
+  infractions: []
 }
 
 const radios = [

@@ -1,14 +1,17 @@
 import { FormikCheckbox, FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
+import { useStore } from '@tanstack/react-store'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
+import { store } from '../../../../store'
+import useAdministrationsQuery from '../../../common/services/use-administrations.tsx'
+import useAgentsQuery from '../../../common/services/use-agents.tsx'
+import useControlUnitResourcesQuery from '../../../common/services/use-control-unit-resources.tsx'
 import { MissionGeneralInfoExtended } from '../../../common/types/mission-types.ts'
+import MissionGeneralInformationControlUnitResource from '../../../mission-general-infos/components/mission-general-information-control-unit-resource.tsx'
+import MissionGeneralInformationCrewNoComment from '../../../mission-general-infos/components/mission-general-information-crew-no-comment.tsx'
+import MissionGeneralInformationInterService from '../../../mission-general-infos/components/mission-general-information-inter-service.tsx'
 import { useUlamMissionGeneralInformationsExtendedForm } from '../../hooks/use-ulam-mission-general-informations-extended-form.tsx'
-import useAdministrationsQuery from '../../services/use-administrations.tsx'
-import useControlUnitResourcesQuery from '../../services/use-control-unit-resources.tsx'
-import MissionGeneralInformationControlUnitResource from './mission-general-information-control-unit-resource.tsx'
-import MissionGeneralInformationCrewUlam from './mission-general-information-crew-ulam.tsx'
-import MissionGeneralInformationInterServiceUlam from './mission-general-information-inter-service-ulam.tsx'
 
 export interface MissionGeneralInformationExtendedFormUlamProps {
   name: string
@@ -21,8 +24,10 @@ const MissionGeneralInformationExtendedFormUlam: FC<MissionGeneralInformationExt
   missionId,
   fieldFormik
 }) => {
-  const { data: resources } = useControlUnitResourcesQuery()
+  const { data: agents } = useAgentsQuery()
+  const user = useStore(store, state => state.user)
   const { data: administrations } = useAdministrationsQuery()
+  const { data: resources } = useControlUnitResourcesQuery(user?.controlUnitId)
   const { initValue, handleSubmit } = useUlamMissionGeneralInformationsExtendedForm(name, fieldFormik)
 
   return (
@@ -41,7 +46,7 @@ const MissionGeneralInformationExtendedFormUlam: FC<MissionGeneralInformationExt
                         <MissionGeneralInformationControlUnitResource
                           name="resources"
                           fieldFormik={field}
-                          controlUnitResources={resources}
+                          controlUnitResources={resources ?? []}
                         />
                       )}
                     </Field>
@@ -50,12 +55,17 @@ const MissionGeneralInformationExtendedFormUlam: FC<MissionGeneralInformationExt
                   <Stack.Item style={{ width: '100%' }}>
                     <FieldArray name="crew">
                       {(fieldArray: FieldArrayRenderProps) => (
-                        <MissionGeneralInformationCrewUlam missionId={missionId} name="crew" fieldArray={fieldArray} />
+                        <MissionGeneralInformationCrewNoComment
+                          name="crew"
+                          agents={agents ?? []}
+                          missionId={missionId}
+                          fieldArray={fieldArray}
+                        />
                       )}
                     </FieldArray>
                   </Stack.Item>
 
-                  <Stack.Item style={{ width: '100%' }}>
+                  <Stack.Item style={{ width: '100%', marginTop: 32 }}>
                     <FormikCheckbox name={'isMissionArmed'} label={'Mission armée'} />
                   </Stack.Item>
 
@@ -70,10 +80,10 @@ const MissionGeneralInformationExtendedFormUlam: FC<MissionGeneralInformationExt
                     {formik.values.isWithInterMinisterialService && (
                       <Field name="interMinisterialServices">
                         {(field: FieldProps) => (
-                          <MissionGeneralInformationInterServiceUlam
-                            name="interMinisterialServices"
+                          <MissionGeneralInformationInterService
                             fieldFormik={field}
-                            administrations={administrations!!}
+                            name="interMinisterialServices"
+                            administrations={administrations ?? []}
                           />
                         )}
                       </Field>

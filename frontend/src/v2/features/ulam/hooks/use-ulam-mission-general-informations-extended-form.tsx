@@ -7,7 +7,12 @@ export function useUlamMissionGeneralInformationsExtendedForm(
   fieldFormik: FieldProps<MissionGeneralInfoExtended>
 ) {
   const fromFieldValueToInput = (data: MissionGeneralInfoExtended) => data
-  const fromInputToFieldValue = (value: MissionGeneralInfoExtended): MissionGeneralInfoExtended => value
+  const fromInputToFieldValue = (value: MissionGeneralInfoExtended): MissionGeneralInfoExtended => {
+    return {
+      ...value,
+      interMinisterialServices: !value.isWithInterMinisterialService ? [] : value.interMinisterialServices
+    }
+  }
   const { initValue, handleSubmit } = useAbstractFormikSubForm<MissionGeneralInfoExtended, MissionGeneralInfoExtended>(
     name,
     fieldFormik,

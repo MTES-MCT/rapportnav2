@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
 import axios from '../../../../query-client/axios.ts'
-import { Administration } from '../../common/types/control-unit-types.ts'
+import { Administration } from '../types/control-unit-types.ts'
 
 const useAdministrationsQuery = () => {
   const fetchAdministrations = (): Promise<Administration[]> =>

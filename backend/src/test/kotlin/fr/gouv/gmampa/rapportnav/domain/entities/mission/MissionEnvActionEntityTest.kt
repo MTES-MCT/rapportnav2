@@ -4,10 +4,13 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsSta
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Completion
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -78,6 +81,21 @@ class MissionEnvActionEntityTest {
         )
     }
 
+
+    @Test
+    fun `execute should not be complete if end date is null`() {
+        val envAction = getEnvAction(
+            completion = ActionCompletionEnum.COMPLETED
+        )
+        val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
+        entity.computeCompleteness()
+        assertThat(entity.isCompleteForStats).isEqualTo(true)
+
+        entity.endDateTimeUtc = null
+        entity.computeCompleteness()
+        assertThat(entity.isCompleteForStats).isEqualTo(false)
+    }
+
     @Test
     fun `execute should compute control`() {
         val model = getEnvAction()
@@ -117,7 +135,7 @@ class MissionEnvActionEntityTest {
     }
 
 
-    private fun getEnvAction(): EnvActionEntity {
+    private fun getEnvAction(completion: ActionCompletionEnum? = null): EnvActionEntity {
         return EnvActionControlEntity(
             UUID.randomUUID(),
             completedBy = "completedBy",
@@ -129,7 +147,7 @@ class MissionEnvActionEntityTest {
             vehicleType = VehicleTypeEnum.VEHICLE_AIR,
             observations = "observations",
             observationsByUnit = "observationsByUnit",
-            completion = ActionCompletionEnum.TO_COMPLETE,
+            completion = completion?: ActionCompletionEnum.TO_COMPLETE,
             actionNumberOfControls = 3,
             actionTargetType = ActionTargetTypeEnum.COMPANY,
             isComplianceWithWaterRegulationsControl = true,

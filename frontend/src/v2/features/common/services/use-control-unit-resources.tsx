@@ -1,11 +1,17 @@
 import { useQuery } from '@tanstack/react-query'
 
 import axios from '../../../../query-client/axios.ts'
-import { ControlUnitResource } from '../../common/types/control-unit-types.ts'
+import { ControlUnitResource } from '../types/control-unit-types.ts'
 
-const useControlUnitResourcesQuery = () => {
-  const fetchControlUnitResources = (): Promise<ControlUnitResource[]> =>
-    axios.get(`resources`).then(response => response.data)
+const useControlUnitResourcesQuery = (controlUnitId?: number) => {
+  const fetchControlUnitResources = (): Promise<ControlUnitResource[]> => {
+    return axios
+      .get(`resources`)
+      .then(response => response.data)
+      .then((value: ControlUnitResource[]) =>
+        controlUnitId ? value.filter(c => c.controlUnitId === controlUnitId) : value
+      )
+  }
 
   const query = useQuery<ControlUnitResource[], Error>({
     queryKey: ['controlUnitResources'],

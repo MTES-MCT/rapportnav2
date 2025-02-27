@@ -1,9 +1,9 @@
 import { Mission } from '@common/types/mission-types.ts'
 import { Accent, Button, Icon } from '@mtes-mct/monitor-ui'
+import { useStore } from '@tanstack/react-store'
 import { endOfMonth, startOfMonth } from 'date-fns'
 import React, { useState } from 'react'
 import { Stack } from 'rsuite'
-import useAuth from '../features/auth/hooks/use-auth.tsx'
 import MissionListDateRangeNavigator from '../features/common/components/elements/mission-list-daterange-navigator.tsx'
 import MissionListPageContentWrapper from '../features/common/components/layout/mission-list-page-content-wrapper.tsx'
 import MissionListPageHeaderWrapper from '../features/common/components/layout/mission-list-page-header-wrapper'
@@ -16,6 +16,7 @@ import useMissionsQuery from '../features/common/services/use-missions.tsx'
 import { ExportMode, ExportReportType } from '../features/common/types/mission-export-types.ts'
 import MissionCreateDialog from '../features/ulam/components/element/mission-create-dialog.tsx'
 import MissionListUlam from '../features/ulam/components/element/mission-list/mission-list-ulam.tsx'
+import { store } from '../store/index.ts'
 
 const SIDEBAR_ITEMS = [
   {
@@ -27,7 +28,7 @@ const SIDEBAR_ITEMS = [
 
 const MissionListUlamPage: React.FC = () => {
   const today = new Date()
-  const { isLoggedIn } = useAuth()
+  const user = useStore(store, state => state.user)
   const [queryParams, setQueryParams] = useState({
     startDateTimeUtc: startOfMonth(today).toISOString(),
     endDateTimeUtc: endOfMonth(today).toISOString()
@@ -60,7 +61,7 @@ const MissionListUlamPage: React.FC = () => {
 
   return (
     <MissionListPageWrapper
-      header={<MissionListPageHeaderWrapper title={<MissionListPageTitle userId={isLoggedIn()?.userId} />} />}
+      header={<MissionListPageHeaderWrapper title={<MissionListPageTitle user={user} />} />}
       sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={SIDEBAR_ITEMS} />}
       footer={<></>}
     >

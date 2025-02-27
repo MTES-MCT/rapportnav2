@@ -1,7 +1,7 @@
 export type ControlUnitResource = {
   id?: number
-  controlUnitId?: number
-  name: string
+  controlUnitId: number
+  name?: string
 }
 
 export type Station = {

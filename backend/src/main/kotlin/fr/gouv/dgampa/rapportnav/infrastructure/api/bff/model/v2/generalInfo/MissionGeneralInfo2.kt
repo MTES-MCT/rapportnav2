@@ -68,7 +68,15 @@ data class MissionGeneralInfo2(
                     .filter { controlUnit ->
                         generalInfo2?.services?.any { it.name == controlUnit.name } == true
                     }
-                    .flatMap { it.resources.map { resource -> LegacyControlUnitResource(id = resource.id) } },
+                    .flatMap {
+                        it.resources.map { resource ->
+                            LegacyControlUnitResource(
+                                id = resource.id,
+                                name = resource.name,
+                                controlUnitId = resource.controlUnitId
+                            )
+                        }
+                    },
                 reinforcementType = generalInfo2?.data?.reinforcementType
             )
         }

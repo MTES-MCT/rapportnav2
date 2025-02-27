@@ -3,14 +3,14 @@ import { FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { isEqual } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
-import { ControlUnitResource } from '../../../common/types/control-unit-types.ts'
+import { ControlUnitResource } from '../../common/types/control-unit-types.ts'
 
 type ResourceFormInput = { resources: { id?: number }[] } | undefined
 
 interface MissionGeneralInformationControlUnitResourceProps {
   name: string
-  fieldFormik: FieldProps<{ id?: number }[]>
-  controlUnitResources?: ControlUnitResource[]
+  fieldFormik: FieldProps<ControlUnitResource[]>
+  controlUnitResources: ControlUnitResource[]
 }
 
 const MissionGeneralInformationControlUnitResource: React.FC<MissionGeneralInformationControlUnitResourceProps> = ({
@@ -25,14 +25,32 @@ const MissionGeneralInformationControlUnitResource: React.FC<MissionGeneralInfor
       setInitialValues({ resources: [{ id: undefined }] })
       return
     }
-    setInitialValues({ resources: fieldFormik.field.value })
+    setInitialValues({ resources: fieldFormik.field.value?.map(v => ({ id: v.id })) })
   }, [fieldFormik])
 
+  const getOptions = (value: ResourceFormInput) => {
+    const ids = value?.resources?.filter(resource => resource.id !== undefined).map(resource => resource.id)
+    return (
+      controlUnitResources
+        .filter(resource => !ids?.includes(resource.id)) //TODO: replace by reduce
+        .map(resource => ({
+          value: resource.id,
+          label: resource.name
+        })) ?? []
+    )
+  }
+
+  const getNewValue = (input: ResourceFormInput) => {
+    const newIds = input?.resources?.filter(resource => resource.id !== undefined).map(resource => resource.id)
+    return controlUnitResources
+      ?.filter(resource => newIds?.includes(resource.id)) //TODO: replace by reduce
+      .map(resource => ({ id: resource.id, name: resource.name, controlUnitId: resource.controlUnitId }))
+  }
+
   const handleSubmit = (input: ResourceFormInput) => {
-    const newValue = input?.resources?.filter(t => t.id !== undefined)
-    if (!isEqual(newValue, fieldFormik.field.value)) {
-      fieldFormik.form.setFieldValue(name, newValue)
-    }
+    const newValue = getNewValue(input)
+    if (isEqual(newValue, fieldFormik.field.value)) return
+    fieldFormik.form.setFieldValue(name, newValue)
   }
 
   return (
@@ -61,12 +79,7 @@ const MissionGeneralInformationControlUnitResource: React.FC<MissionGeneralInfor
                               style={{ width: '100%' }}
                               name={`resources.${index}.id`}
                               label="Moyen(s) utilisé(s)"
-                              options={
-                                controlUnitResources?.map((resource: any) => ({
-                                  value: resource.id,
-                                  label: `${resource.name}`
-                                })) ?? []
-                              }
+                              options={getOptions(values)}
                             />
                           </Stack.Item>
                           <Stack.Item style={{ paddingLeft: 5 }}>

@@ -27,6 +27,7 @@ class MissionEnvActionTest {
         assertThat(output.data.startDateTimeUtc).isEqualTo(entity.startDateTimeUtc)
         assertThat(output.data.endDateTimeUtc).isEqualTo(entity.endDateTimeUtc)
         assertThat(output.data.observations).isEqualTo(entity.observations)
+        assertThat(output.data.observationsByUnit).isEqualTo(entity.observationsByUnit)
         assertThat(output.data.completedBy).isEqualTo(entity.completedBy)
         assertThat(output.data.facade).isEqualTo(entity.facade)
         assertThat(output.data.department).isEqualTo(entity.department)
@@ -43,6 +44,7 @@ class MissionEnvActionTest {
         assertThat(output.data.infractions).isNotNull
         assertThat(output.data.formattedControlPlans).isEqualTo(entity.formattedControlPlans)
     }
+
 
     @Test
     fun `execute should retrieve infraction when identifyPerson or vesselIdentifier is not null`() {

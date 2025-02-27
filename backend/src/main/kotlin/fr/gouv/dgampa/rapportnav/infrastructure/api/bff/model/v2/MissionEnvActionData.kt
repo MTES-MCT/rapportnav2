@@ -54,13 +54,14 @@ class MissionEnvActionData(
 
     companion object {
         fun toMissionEnvActionEntity(input: MissionAction): MissionEnvActionEntity {
-            val data = input.data
+            val data = input.data as MissionEnvActionData
             val action = MissionEnvActionEntity(
                 id = UUID.fromString(input.id),
                 missionId = input.missionId,
                 endDateTimeUtc = data?.endDateTimeUtc,
                 startDateTimeUtc = data?.startDateTimeUtc,
-                observationsByUnit = data?.observations,
+                observations = data?.observations,
+                observationsByUnit = data?.observationsByUnit,
                 envActionType = ActionTypeEnum.valueOf(input.actionType.toString())
             )
             return action
