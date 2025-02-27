@@ -18,6 +18,7 @@ const useControlUnitResourcesQuery = (controlUnitId?: number) => {
     queryFn: fetchControlUnitResources,
     refetchIntervalInBackground: false,
     refetchOnWindowFocus: false,
+    refetchOnMount: false,
     retry: 2 // Retry failed requests twice before throwing an error
   })
 

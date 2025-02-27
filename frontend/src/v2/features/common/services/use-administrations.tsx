@@ -12,6 +12,7 @@ const useAdministrationsQuery = () => {
     queryFn: fetchAdministrations,
     refetchIntervalInBackground: false,
     refetchOnWindowFocus: false,
+    refetchOnMount: false,
     retry: 2
   })
 

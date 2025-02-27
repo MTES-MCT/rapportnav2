@@ -8,7 +8,11 @@ const useGetUserQuery = (userId?: number) => {
   const query = useQuery<User>({
     queryKey: ['user', userId],
     enabled: !!userId,
-    queryFn: fetchUser
+    queryFn: fetchUser,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    retry: 2
   })
   return query
 }

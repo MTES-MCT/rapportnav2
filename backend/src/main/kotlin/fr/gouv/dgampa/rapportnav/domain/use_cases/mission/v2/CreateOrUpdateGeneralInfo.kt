@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory
 @UseCase
 class CreateOrUpdateGeneralInfo(
     private val repository: IMissionGeneralInfoRepository,
-    private val addOrUpdateMissionCrew: AddOrUpdateMissionCrew,
     private val updateMissionEnv: UpdateMissionEnv,
+    private val processMissionCrew: ProcessMissionCrew
 ) {
     private val logger = LoggerFactory.getLogger(CreateOrUpdateGeneralInfo::class.java)
 
@@ -22,7 +22,7 @@ class CreateOrUpdateGeneralInfo(
         try {
             val entity = generalInfo.toMissionGeneralInfoEntity(missionId)
             val generalInfoModel = repository.save(entity)
-            generalInfo.crew?.map { addOrUpdateMissionCrew.addOrUpdateMissionCrew(it.toMissionCrewEntity())}
+            generalInfo.crew?.let { processMissionCrew.execute(missionId = missionId, crew = it) }
 
             updateMissionEnv.execute(
                 input = MissionEnvInput(
