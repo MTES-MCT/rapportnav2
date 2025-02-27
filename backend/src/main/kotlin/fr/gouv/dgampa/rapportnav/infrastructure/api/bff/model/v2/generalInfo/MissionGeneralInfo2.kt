@@ -73,7 +73,7 @@ data class MissionGeneralInfo2(
                             LegacyControlUnitResource(
                                 id = resource.id,
                                 name = resource.name,
-                                controlUnitId = resource.id
+                                controlUnitId = resource.controlUnitId
                             )
                         }
                     },
