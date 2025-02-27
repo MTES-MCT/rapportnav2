@@ -27,7 +27,12 @@ class UpdateMissionEnv(
     fun execute(input: MissionEnvInput): MissionEnvEntity? {
         val fromDbEnvMission = getEnvMissionById2.execute(input.missionId) ?: return null
 
-        if (input.equals(MissionEnvInput.fromMissionEntity(fromDbEnvMission))) return null
+        val fromDbEnvInput = MissionEnvInput.fromMissionEntity(
+            missionEntity = fromDbEnvMission,
+            controlUnitId = input.resources?.get(0)?.controlUnitId
+        )
+
+        if (input.equals(fromDbEnvInput)) return null
 
         return try {
             apiEnvRepo2.update(input.toMissionEnvEntity(fromDbEnvMission))

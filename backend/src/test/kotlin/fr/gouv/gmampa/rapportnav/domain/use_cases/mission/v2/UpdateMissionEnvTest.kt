@@ -44,25 +44,12 @@ class UpdateMissionEnvTest {
             controlUnitId = 12
         )
 
-
         val mockControlUnitFromDb = LegacyControlUnitEntity(
             id = 12,
             administration = "fake-admin",
             isArchived = false,
             name = "fake-unit",
             resources = mutableListOf(mockResourceFromDb)
-        )
-
-        val mockResourceInput = LegacyControlUnitResourceEntity(
-            id = 1
-        )
-
-        val mockControlUnitInput = LegacyControlUnitEntity(
-            id = 12,
-            administration = "fake-admin",
-            isArchived = false,
-            name = "fake-unit",
-            resources = mutableListOf(mockResourceInput)
         )
 
         // Given
@@ -81,19 +68,26 @@ class UpdateMissionEnvTest {
             controlUnits = listOf(mockControlUnitFromDb)
         )
 
+        val mockResourceInput = LegacyControlUnitResourceEntity(
+            id = 1,
+            name = "mock-resource",
+            controlUnitId = mockControlUnitFromDb.id
+        )
+
         val input = MissionEnvInput(
             missionId = missionId,
             missionTypes = listOf(MissionTypeEnum.SEA),
             startDateTimeUtc = Instant.parse("2019-09-08T21:00:00.000+01:00"),
             observationsByUnit = "observation",
             endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
-            controlUnits = listOf(mockControlUnitInput)
+            resources = listOf(mockResourceInput)
         )
-
-        val value = input.toMissionEnvEntity(mockMissionEntity)
 
         // Mock behavior of getEnvMissionById2 to return a MissionEntity
         Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(mockMissionEntity)
+
+        val value = input.toMissionEnvEntity(mockMissionEntity, controlUnitId = input.resources?.get(0)?.controlUnitId)
+
         Mockito.`when`(apiEnvRepo2.update(value)).thenReturn(value)
 
 
@@ -106,6 +100,8 @@ class UpdateMissionEnvTest {
 
     @Test
     fun `execute should return MissionEnvEntity when MissionEntity are not equal`() {
+
+        val missionId = 123
 
         val mockResourceFromDb = LegacyControlUnitResourceEntity(
             id = 1,
@@ -123,19 +119,11 @@ class UpdateMissionEnvTest {
         )
 
         val mockResourceInput = LegacyControlUnitResourceEntity(
-            id = 1
+            id = 1,
+            name = "mock-resource",
+            controlUnitId = mockControlUnitFromDb.id
         )
 
-        val mockControlUnitInput = LegacyControlUnitEntity(
-            id = 12,
-            administration = "fake-admin",
-            isArchived = false,
-            name = "fake-unit",
-            resources = mutableListOf(mockResourceInput)
-        )
-
-
-        val missionId = 123
         // Given
         val mockMissionEntity = MissionEntity(
             missionTypes = listOf(MissionTypeEnum.SEA),
@@ -158,7 +146,7 @@ class UpdateMissionEnvTest {
             startDateTimeUtc = Instant.parse("2019-09-08T21:00:00.000+01:00"),
             observationsByUnit = "observation updated",
             endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
-            controlUnits = listOf(mockControlUnitInput)
+            resources = listOf(mockResourceInput)
         )
 
         val value = input.toMissionEnvEntity(mockMissionEntity)
@@ -173,17 +161,19 @@ class UpdateMissionEnvTest {
 
         // Then
         Assertions.assertNotNull(result)
+        Assertions.assertEquals(input.observationsByUnit, value.observationsByUnit)
     }
 
     @Test
     fun `execute should return MissionEnvEntity when MissionEntity are not equal as we updated resources`() {
+
+        val missionId = 123
 
         val mockResourceFromDb = LegacyControlUnitResourceEntity(
             id = 1,
             name = "mock-resource",
             controlUnitId = 12
         )
-
 
         val mockControlUnitFromDb = LegacyControlUnitEntity(
             id = 12,
@@ -193,24 +183,6 @@ class UpdateMissionEnvTest {
             resources = mutableListOf(mockResourceFromDb)
         )
 
-        val mockResourceInput = LegacyControlUnitResourceEntity(
-            id = 1
-        )
-
-        val mockResourceInput2 = LegacyControlUnitResourceEntity(
-            id = 2
-        )
-
-        val mockControlUnitInput = LegacyControlUnitEntity(
-            id = 12,
-            administration = "fake-admin",
-            isArchived = false,
-            name = "fake-unit",
-            resources = mutableListOf(mockResourceInput, mockResourceInput2)
-        )
-
-
-        val missionId = 123
         // Given
         val mockMissionEntity = MissionEntity(
             missionTypes = listOf(MissionTypeEnum.SEA),
@@ -227,26 +199,48 @@ class UpdateMissionEnvTest {
             controlUnits = listOf(mockControlUnitFromDb)
         )
 
+        val mockResourceInput = LegacyControlUnitResourceEntity(
+            id = 1,
+            name = "mock-resource",
+            controlUnitId = mockControlUnitFromDb.id
+        )
+
+        val mockResourceInput2 = LegacyControlUnitResourceEntity(
+            id = 2,
+            name = "mock-resource-2",
+            controlUnitId = mockControlUnitFromDb.id
+        )
+
         val input = MissionEnvInput(
             missionId = missionId,
             missionTypes = listOf(MissionTypeEnum.SEA),
             startDateTimeUtc = Instant.parse("2019-09-08T21:00:00.000+01:00"),
             observationsByUnit = "observation",
             endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
-            controlUnits = listOf(mockControlUnitInput)
+            resources = listOf(mockResourceInput, mockResourceInput2)
         )
 
-        val value = input.toMissionEnvEntity(mockMissionEntity)
 
         // Mock behavior of getEnvMissionById2 to return a MissionEntity
         Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(mockMissionEntity)
+
+        val value = input.toMissionEnvEntity(mockMissionEntity, controlUnitId = input.resources?.get(0)?.controlUnitId)
         Mockito.`when`(apiEnvRepo2.update(value)).thenReturn(value)
 
 
         // When
         val result = updateMissionEnv.execute(input)
 
+        val firstControlUnit = value.controlUnits?.firstOrNull()
+        val firstResource = firstControlUnit?.resources?.firstOrNull()
+
+        val secondResource = firstControlUnit?.resources?.get(1)
+
         // Then
         Assertions.assertNotNull(result)
+        Assertions.assertNotNull(input.resources?.firstOrNull())
+        Assertions.assertEquals(input.resources?.firstOrNull()?.id, firstResource?.id)
+        Assertions.assertEquals(input.resources?.get(1)?.id, secondResource?.id)
+        Assertions.assertEquals(1, mockMissionEntity.controlUnits[0].resources.size)
     }
 }

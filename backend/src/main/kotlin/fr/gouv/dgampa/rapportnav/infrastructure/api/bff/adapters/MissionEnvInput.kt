@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import java.time.Instant
 
@@ -12,33 +12,24 @@ data class MissionEnvInput(
     val startDateTimeUtc: Instant? = null,
     val endDateTimeUtc: Instant? = null,
     val missionTypes: List<MissionTypeEnum>? = listOf(),
-    val controlUnits: List<LegacyControlUnitEntity>? = listOf(),
+    val resources: List<LegacyControlUnitResourceEntity>? = listOf(),
 ) {
     companion object {
-        fun fromMissionEnvEntity(missionEnvEntity: MissionEnvEntity): MissionEnvInput {
-            return MissionEnvInput(
-                missionId = missionEnvEntity.id!!,
-                startDateTimeUtc = missionEnvEntity.startDateTimeUtc,
-                endDateTimeUtc = missionEnvEntity.endDateTimeUtc,
-                missionTypes = missionEnvEntity.missionTypes,
-                observationsByUnit = missionEnvEntity.observationsByUnit,
-                controlUnits = missionEnvEntity.controlUnits
-            )
-        }
 
-        fun fromMissionEntity(missionEntity: MissionEntity): MissionEnvInput {
+        fun fromMissionEntity(missionEntity: MissionEntity, controlUnitId: Int? = null): MissionEnvInput {
             return MissionEnvInput(
                 missionId = missionEntity.id!!,
                 startDateTimeUtc = missionEntity.startDateTimeUtc,
                 endDateTimeUtc = missionEntity.endDateTimeUtc,
                 missionTypes = missionEntity.missionTypes,
                 observationsByUnit = missionEntity.observationsByUnit,
-                controlUnits = missionEntity.controlUnits
+                resources = missionEntity.controlUnits.filter { it.id == controlUnitId }
+                    .flatMap { it.resources }
             )
         }
     }
 
-    fun toMissionEnvEntity(missionFromDb: MissionEntity): MissionEnvEntity {
+    fun toMissionEnvEntity(missionFromDb: MissionEntity, controlUnitId: Int? = null): MissionEnvEntity {
         return MissionEnvEntity(
             id = missionFromDb.id,
             missionSource = missionFromDb.missionSource,
@@ -57,7 +48,12 @@ data class MissionEnvInput(
             endDateTimeUtc = endDateTimeUtc ?: missionFromDb.endDateTimeUtc,
             missionTypes = missionTypes ?: missionFromDb.missionTypes,
             observationsByUnit = observationsByUnit ?: missionFromDb.observationsByUnit,
-            controlUnits = controlUnits
+            controlUnits = missionFromDb.controlUnits.map { controlUnit ->
+                controlUnit.takeIf { it.id != controlUnitId } ?: controlUnit.copy(
+                    resources = resources?.toMutableList() ?: controlUnit.resources.toMutableList()
+                )
+            }
+
         )
     }
     override fun equals(other: Any?): Boolean {
@@ -71,8 +67,8 @@ data class MissionEnvInput(
         if (startDateTimeUtc != other.startDateTimeUtc) return false
         if (endDateTimeUtc != other.endDateTimeUtc) return false
         if (observationsByUnit != other.observationsByUnit) return false
-        if (controlUnits?.map { it.resources } != other.controlUnits?.map { it.resources }) return false
-
+        if (resources?.size != other.resources?.size) return false
+        if (resources?.toSet() != other.resources?.toSet()) return false
         return true
     }
 
@@ -82,7 +78,7 @@ data class MissionEnvInput(
         result = 31 * result + startDateTimeUtc.hashCode()
         result = 31 * result + (endDateTimeUtc?.hashCode() ?: 0)
         result = 31 * result + (observationsByUnit?.hashCode() ?: 0)
-        result = 31 * result + (controlUnits?.map { it.resources }?.hashCode() ?: 0)
+        result = 31 * result + (resources?.toSet()?.hashCode() ?: 0)
         return result
     }
 }

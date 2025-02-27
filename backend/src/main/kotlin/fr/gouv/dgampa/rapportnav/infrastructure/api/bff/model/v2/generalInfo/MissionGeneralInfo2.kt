@@ -72,8 +72,8 @@ data class MissionGeneralInfo2(
                         it.resources.map { resource ->
                             LegacyControlUnitResource(
                                 id = resource.id,
-                                name = resource.name,
-                                controlUnitId = resource.controlUnitId
+                                name = resource.name!!,
+                                controlUnitId = resource.controlUnitId!!
                             )
                         }
                     },
