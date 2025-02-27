@@ -1,5 +1,5 @@
-import { ULAM_V2_HOME_PATH } from '@router/router.tsx'
 import React from 'react'
+import { ULAM_V2_HOME_PATH } from '@router/routes.tsx'
 import { useParams } from 'react-router-dom'
 import useAuth from '../features/auth/hooks/use-auth.tsx'
 import MissionPageFooterWrapper from '../features/common/components/layout/mission-page-footer-wrapper.tsx'
@@ -14,6 +14,7 @@ import useGetMissionQuery from '../features/common/services/use-mission.tsx'
 import MissionActionPam from '../features/pam/components/element/mission-action-pam.tsx'
 import MissionTimelineHeaderPam from '../features/pam/components/element/mission-timeline-header-pam.tsx'
 import MissionTimelinePam from '../features/pam/components/element/mission-timeline-pam.tsx'
+import MissionGeneralInformationUlam from '../features/ulam/components/element/mission-general-information-ulam.tsx'
 
 const MissionPamPage: React.FC = () => {
   let { missionId, actionId } = useParams()
@@ -39,7 +40,7 @@ const MissionPamPage: React.FC = () => {
       missionGeneralInformations={
         <MissionPageSectionWrapper
           sectionHeader={<MissionGeneralInformationHeader />}
-          sectionBody={<>General infos pam</>}
+          sectionBody={<MissionGeneralInformationUlam mission={mission} />}
         />
       }
       missionTimeLine={
