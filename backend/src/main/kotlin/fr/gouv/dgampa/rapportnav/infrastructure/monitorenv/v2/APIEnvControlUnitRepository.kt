@@ -56,4 +56,33 @@ class APIEnvControlUnitRepository(
             null;
         }
     }
+
+    override fun findById(id: Int): LegacyControlUnitEntity? {
+        val url = "$host/api/v1/control_units/${id}";
+        logger.info("Sending GET request for Env legacy control unit by id fetching URL: $url")
+        return try {
+
+            val request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(url))
+                .build();
+
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            logger.info("EnvLegacyControlUnitRepository::findById Response received, Status code: ${response.statusCode()}");
+
+            val body = response.body()
+            logger.info("EnvLegacyControlUnitRepository::findAll Response received, Content: $body")
+
+            if (response.statusCode() == 400 || response.statusCode() == 500) {
+                throw Exception("Error while fetching legacy control unit by id from env, please check the logs")
+            }
+
+            mapper.registerModule(JtsModule())
+            val output: LegacyControlUnitDataOutput? = mapper.readValue(body);
+            output?.toLegacyControlUnitEntity()
+        } catch (e: Exception) {
+            logger.error("Failed to GET request for Env legacy control unit by id fetching. URL: $url", e);
+            null;
+        }
+    }
 }

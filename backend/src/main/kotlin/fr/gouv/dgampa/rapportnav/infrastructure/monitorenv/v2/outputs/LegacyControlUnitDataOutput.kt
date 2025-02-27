@@ -17,7 +17,7 @@ data class LegacyControlUnitDataOutput(
             administration =  administration,
             isArchived = isArchived,
             name = name,
-            resources = resources.map { it.toLegacyControlUnitResourceEntity(controlUnitId = id) }
+            resources = resources.map { it.toLegacyControlUnitResourceEntity(controlUnitId = id) }.toMutableList()
 
         )
     }

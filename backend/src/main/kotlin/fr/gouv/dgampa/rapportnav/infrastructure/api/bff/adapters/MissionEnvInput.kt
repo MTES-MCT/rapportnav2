@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import java.time.Instant
 
@@ -10,7 +11,8 @@ data class MissionEnvInput(
     val observationsByUnit: String? = null,
     val startDateTimeUtc: Instant? = null,
     val endDateTimeUtc: Instant? = null,
-    val missionTypes: List<MissionTypeEnum>? = listOf()
+    val missionTypes: List<MissionTypeEnum>? = listOf(),
+    val controlUnits: List<LegacyControlUnitEntity>? = listOf(),
 ) {
     companion object {
         fun fromMissionEnvEntity(missionEnvEntity: MissionEnvEntity): MissionEnvInput {
@@ -20,6 +22,7 @@ data class MissionEnvInput(
                 endDateTimeUtc = missionEnvEntity.endDateTimeUtc,
                 missionTypes = missionEnvEntity.missionTypes,
                 observationsByUnit = missionEnvEntity.observationsByUnit,
+                controlUnits = missionEnvEntity.controlUnits
             )
         }
 
@@ -30,6 +33,7 @@ data class MissionEnvInput(
                 endDateTimeUtc = missionEntity.endDateTimeUtc,
                 missionTypes = missionEntity.missionTypes,
                 observationsByUnit = missionEntity.observationsByUnit,
+                controlUnits = missionEntity.controlUnits
             )
         }
     }
@@ -49,11 +53,11 @@ data class MissionEnvInput(
             isUnderJdp = missionFromDb.isUnderJdp,
             isGeometryComputedFromControls = missionFromDb.isGeometryComputedFromControls,
             hasMissionOrder = missionFromDb.hasMissionOrder,
-            controlUnits = missionFromDb.controlUnits,
             startDateTimeUtc = startDateTimeUtc ?: missionFromDb.startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc ?: missionFromDb.endDateTimeUtc,
             missionTypes = missionTypes ?: missionFromDb.missionTypes,
             observationsByUnit = observationsByUnit ?: missionFromDb.observationsByUnit,
+            controlUnits = controlUnits
         )
     }
     override fun equals(other: Any?): Boolean {
@@ -67,6 +71,7 @@ data class MissionEnvInput(
         if (startDateTimeUtc != other.startDateTimeUtc) return false
         if (endDateTimeUtc != other.endDateTimeUtc) return false
         if (observationsByUnit != other.observationsByUnit) return false
+        if (controlUnits?.map { it.resources } != other.controlUnits?.map { it.resources }) return false
 
         return true
     }
@@ -77,6 +82,7 @@ data class MissionEnvInput(
         result = 31 * result + startDateTimeUtc.hashCode()
         result = 31 * result + (endDateTimeUtc?.hashCode() ?: 0)
         result = 31 * result + (observationsByUnit?.hashCode() ?: 0)
+        result = 31 * result + (controlUnits?.map { it.resources }?.hashCode() ?: 0)
         return result
     }
 }

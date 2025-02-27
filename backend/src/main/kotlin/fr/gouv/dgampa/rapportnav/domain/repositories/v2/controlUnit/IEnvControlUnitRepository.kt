@@ -5,4 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Le
 interface IEnvControlUnitRepository {
 
     fun findAll(): List<LegacyControlUnitEntity>?
+
+    fun findById(id: Int): LegacyControlUnitEntity?
 }
