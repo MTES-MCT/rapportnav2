@@ -12,15 +12,15 @@ import MissionListPamPage from '../v2/pages/mission-list-pam-page.tsx'
 import MissionListUlamPage from '../v2/pages/mission-list-ulam-page.tsx'
 import MissionPamPage from '../v2/pages/mission-pam-page.tsx'
 import MissionUlamPage from '../v2/pages/mission-ulam-page.tsx'
-
-export const ROOT_PATH = '/'
-export const LOGIN_PATH = '/login'
-export const SIGNUP_PATH = '/signup'
-export const PAM_HOME_PATH = '/pam/missions'
-export const PAM_V2_HOME_PATH = '/v2/pam/missions'
-export const ULAM_V2_HOME_PATH = '/v2/ulam/missions'
-// admin routes
-export const ADMIN_CREW_PATH = '/admin/crew'
+import {
+  ADMIN_CREW_PATH,
+  LOGIN_PATH,
+  PAM_HOME_PATH,
+  PAM_V2_HOME_PATH,
+  ROOT_PATH,
+  SIGNUP_PATH,
+  ULAM_V2_HOME_PATH
+} from '@router/routes.tsx'
 
 const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(createBrowserRouter)
 
