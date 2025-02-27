@@ -1,4 +1,4 @@
-import {  useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
 import axios from '../../../../query-client/axios.ts'
 import { Agent } from '../types/crew-type.ts'
@@ -9,6 +9,9 @@ const useAgentsQuery = () => {
   const query = useQuery<Agent[], Error>({
     queryKey: ['agents'],
     queryFn: fetchAgents,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
     retry: 2 // Retry failed requests twice before throwing an error
   })
   return query
