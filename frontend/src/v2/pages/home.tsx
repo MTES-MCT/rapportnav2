@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import useAuth from '../features/auth/hooks/use-auth'
 import { ModuleType } from '../features/common/types/module-type'
 import { RoleType } from '../features/common/types/role-type'
-import { PAM_HOME_PATH, ULAM_V2_HOME_PATH } from '@router/router.tsx'
+import { PAM_HOME_PATH, ULAM_V2_HOME_PATH } from '@router/routes.tsx'
 
 const ROUTES = {
   [RoleType.ADMIN]: ModuleType.PAM,
