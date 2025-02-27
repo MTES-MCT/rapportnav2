@@ -67,7 +67,7 @@ class APIEnvMissionRepositoryV2(
 
     override fun update(mission: MissionEnvEntity): MissionEnvEntity? {
         val url = "$host/api/v1/missions/${mission.id}";
-        logger.info("Sending PUT request for Env mission update URL: $url")
+        logger.info("Sending POST request for Env mission update URL: $url")
         return try {
 
             logger.info("Body request for Mission env update : ${gson.toJson(mission)}")
@@ -75,7 +75,7 @@ class APIEnvMissionRepositoryV2(
             val request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
-                .method("PUT", HttpRequest.BodyPublishers.ofString(gson.toJson(mission)))
+                .method("POST", HttpRequest.BodyPublishers.ofString(gson.toJson(mission)))
                 .header("Content-Type", "application/json")
                 .build();
 
@@ -85,7 +85,7 @@ class APIEnvMissionRepositoryV2(
             val body = response.body()
             logger.info("Response received, Content: $body")
 
-            if (response.statusCode() == 400 || response.statusCode() == 500) {
+            if (response.statusCode() == 400 || response.statusCode() == 500 || response.statusCode() == 405) {
                 throw Exception("Error while updating mission from env, please check the logs")
             }
 
