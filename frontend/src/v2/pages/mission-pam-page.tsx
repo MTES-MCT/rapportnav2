@@ -14,7 +14,7 @@ import useGetMissionQuery from '../features/common/services/use-mission.tsx'
 import MissionActionPam from '../features/pam/components/element/mission-action-pam.tsx'
 import MissionTimelineHeaderPam from '../features/pam/components/element/mission-timeline-header-pam.tsx'
 import MissionTimelinePam from '../features/pam/components/element/mission-timeline-pam.tsx'
-import MissionGeneralInformationUlam from '../features/ulam/components/element/mission-general-information-ulam.tsx'
+import MissionGeneralInformationPam from '../features/pam/components/element/general-info/mission-general-information-pam.tsx'
 
 const MissionPamPage: React.FC = () => {
   let { missionId, actionId } = useParams()
@@ -40,7 +40,7 @@ const MissionPamPage: React.FC = () => {
       missionGeneralInformations={
         <MissionPageSectionWrapper
           sectionHeader={<MissionGeneralInformationHeader />}
-          sectionBody={<MissionGeneralInformationUlam mission={mission} />}
+          sectionBody={<MissionGeneralInformationPam mission={mission} />}
         />
       }
       missionTimeLine={
