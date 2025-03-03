@@ -29,13 +29,17 @@ class UpdateMissionEnv(
 
         val fromDbEnvInput = MissionEnvInput.fromMissionEntity(
             missionEntity = fromDbEnvMission,
-            controlUnitId = input.resources?.get(0)?.controlUnitId
+            controlUnitId = input.resources?.firstOrNull()?.controlUnitId
         )
+
+        logger.info("fromDbEnvInput : $fromDbEnvInput")
+
+        logger.info("input : $input")
 
         if (input.equals(fromDbEnvInput)) return null
 
         return try {
-            apiEnvRepo2.update(input.toMissionEnvEntity(fromDbEnvMission))
+            apiEnvRepo2.update(input.toMissionEnvEntity(fromDbEnvMission, controlUnitId = input.resources?.firstOrNull()?.controlUnitId))
         } catch (e: Exception) {
             logger.error("Update Mission failed", e)
             return null

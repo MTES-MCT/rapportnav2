@@ -10,7 +10,7 @@ object ControlUnitResourcesStubs {
             "    {\n" +
             "        \"id\": 1002,\n" +
             "        \"controlUnit\": {\n" +
-            "            \"id\": 10165,\n" +
+            "            \"id\": 10121,\n" +
             "            \"areaNote\": \"Atlantique\",\n" +
             "            \"administrationId\": 3,\n" +
             "            \"departmentAreaInseeCode\": null,\n" +
@@ -18,7 +18,7 @@ object ControlUnitResourcesStubs {
             "            \"name\": \"33F Lanvéoc - NH90 Caïman\",\n" +
             "            \"termsNote\": \"COM Atlantique\\nVérifier selon la zone de mission\"\n" +
             "        },\n" +
-            "        \"controlUnitId\": 10165,\n" +
+            "        \"controlUnitId\": 10121,\n" +
             "        \"isArchived\": false,\n" +
             "        \"name\": \"33F Lanvéoc\",\n" +
             "        \"note\": null,\n" +
