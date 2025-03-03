@@ -70,7 +70,7 @@ class APIEnvMissionRepositoryV2(
         logger.info("Sending POST request for Env mission update URL: $url")
         return try {
 
-            logger.info("Body request for Mission env update : ${gson.toJson(mission)}")
+            logger.info("Body request for Mission env update : $mission")
 
             val request = HttpRequest
                 .newBuilder()
