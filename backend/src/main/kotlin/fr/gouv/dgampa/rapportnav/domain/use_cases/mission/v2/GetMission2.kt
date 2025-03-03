@@ -13,7 +13,10 @@ class GetMission2(
     fun execute(mission: MissionEntity): MissionEntity2? {
         if(mission.id == null) return null
         val actions = getMissionAction.execute(missionId = mission.id)
-        val generalInfos = getGeneralInfos2.execute(missionId = mission.id, controlUnits = mission.controlUnits)
+        val generalInfos = getGeneralInfos2.execute(
+            missionId = mission.id,
+            controlUnits = mission.controlUnits
+        )
 
         return MissionEntity2(
             id = mission.id,

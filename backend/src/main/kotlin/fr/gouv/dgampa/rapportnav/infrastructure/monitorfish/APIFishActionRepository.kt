@@ -31,7 +31,9 @@ class APIFishActionRepository(
     private lateinit var monitorFishApiKey: String
 
     // TODO set as env var when available
-    private val host = "https://monitorfish.din.developpement-durable.gouv.fr"
+//    private val host = "https://monitorfish.din.developpement-durable.gouv.fr"
+
+    private val host = "http://localhost:8089" // TODO: add env var
 
     override fun findFishActions(missionId: Int): List<MissionAction> {
         logger.info("Fetching Fish Actions for Mission id=$missionId")

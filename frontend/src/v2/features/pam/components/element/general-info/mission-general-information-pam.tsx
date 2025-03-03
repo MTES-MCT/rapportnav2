@@ -1,8 +1,8 @@
 import { FC } from 'react'
-import MissionPageSectionWrapper from '../../../common/components/layout/mission-page-section-wrapper'
-import useGetMissionGeneralInformationQuery from '../../../mission-general-infos/services/use-mission-general-information'
-import MissionGeneralInformationHeader from '../../../mission-general-infos/ui/mission-general-information-header'
-import MissionGeneralInformationPamBody from './mission-general-information-pam-body'
+import MissionPageSectionWrapper from '../../../../common/components/layout/mission-page-section-wrapper.tsx'
+import MissionGeneralInformationHeader from '../../../../common/components/ui/mission-general-information-header.tsx'
+import useGetMissionGeneralInformationQuery from '../../../../mission-general-infos/services/use-mission-general-information.tsx'
+import MissionGeneralInformationPamBody from './mission-general-information-pam-body.tsx'
 
 interface MissionGeneralInformationProps {
   missionId: number
