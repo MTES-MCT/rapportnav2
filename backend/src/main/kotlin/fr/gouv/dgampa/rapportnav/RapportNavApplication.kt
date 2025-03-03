@@ -39,8 +39,8 @@ fun main(args: Array<String>) {
         Sentry.init { options ->
             options.dsn = sentryDsn
             options.proxy = SentryOptions.Proxy(
-                ctx.environment.getProperty("host.proxy.host"),
-                ctx.environment.getProperty("host.proxy.port")
+                ctx.environment.getProperty("sentry.proxy.host"),
+                ctx.environment.getProperty("sentry.proxy.port")
             )
             options.tracesSampleRate = 1.0
         }
