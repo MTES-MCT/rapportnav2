@@ -32,6 +32,10 @@ class UpdateMissionEnv(
             controlUnitId = input.resources?.firstOrNull()?.controlUnitId
         )
 
+        logger.info("fromDbEnvInput : $fromDbEnvInput")
+
+        logger.info("input : $input")
+
         if (input.equals(fromDbEnvInput)) return null
 
         return try {
