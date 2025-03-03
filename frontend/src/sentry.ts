@@ -14,15 +14,49 @@ import packageJson from '../package.json'
 
 const version = packageJson.version
 
+enum SentryMode {
+  UNKNOWN = 'unknown',
+  LOCAL = 'local',
+  INTEGRATION = 'integration',
+  PRODUCTION = 'production'
+}
+
+/**
+ * Determines the current Sentry mode based on the URL
+ * @returns The appropriate SentryMode for the current environment
+ */
+function getSentryMode(): SentryMode {
+  const currentUrl = window.location.href
+
+  // Define URL patterns for each environment
+  const urlPatterns: Record<SentryMode, RegExp> = {
+    [SentryMode.PRODUCTION]: /rapport-nav\.din\.developpement-durable\.gouv\.fr/,
+    [SentryMode.INTEGRATION]: /int-rapportnav-appli01/,
+    [SentryMode.LOCAL]: /localhost|127\.0\.0\.1/,
+    [SentryMode.UNKNOWN]: /^$/ // Empty pattern that won't match anything
+  }
+
+  // Find the first matching environment
+  for (const [mode, pattern] of Object.entries(urlPatterns) as [SentryMode, RegExp][]) {
+    if (pattern.test(currentUrl)) {
+      return mode
+    }
+  }
+
+  return SentryMode.UNKNOWN
+}
 const initSentry = () => {
   const FRONTEND_SENTRY_DSN = import.meta.env.FRONTEND_SENTRY_DSN
-  const viteMode = import.meta.env.MODE
+
+  // TODO should better leverage Vite Mode: https://vite.dev/guide/env-and-mode#modes
+  const environment = getSentryMode()
+
   const isDev = import.meta.env.DEV
   const release = version
 
   init({
     dsn: FRONTEND_SENTRY_DSN,
-    environment: viteMode,
+    environment: environment,
     enabled: !isDev,
     release: release,
     integrations: [
