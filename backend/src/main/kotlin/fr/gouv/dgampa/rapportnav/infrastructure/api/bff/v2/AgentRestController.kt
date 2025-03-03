@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgents
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsByServiceId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
@@ -34,4 +35,15 @@ class AgentRestController(
             null
         }
     }
+
+//    @GetMapping("/all")
+//    fun allAgents(): List<Agent>? {
+//        return try {
+//            val agents = getAgents.execute()
+//            agents.map{Agent.fromAgentEntity(it)}
+//        } catch (e: Exception) {
+//            logger.error("[ERROR] API on endpoint agentsByServiceId:", e)
+//            null
+//        }
+//    }
 }

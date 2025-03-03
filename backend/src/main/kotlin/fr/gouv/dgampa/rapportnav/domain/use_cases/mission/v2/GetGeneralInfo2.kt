@@ -19,7 +19,10 @@ class GetGeneralInfo2(
 ) {
     private val logger = LoggerFactory.getLogger(GetGeneralInfo2::class.java)
 
-    fun execute(missionId: Int, controlUnits: List<LegacyControlUnitEntity>?): MissionGeneralInfoEntity2 {
+    fun execute(
+        missionId: Int,
+        controlUnits: List<LegacyControlUnitEntity>? = null
+    ): MissionGeneralInfoEntity2 {
         return MissionGeneralInfoEntity2(
             crew = fetchCrew(missionId),
             services = fetchServices(controlUnits),
@@ -36,7 +39,7 @@ class GetGeneralInfo2(
         }
     }
 
-    private fun fetchCrew(missionId: Int): List<MissionCrewEntity> {
+    fun fetchCrew(missionId: Int): List<MissionCrewEntity> {
         return try {
             getAgentsCrewByMissionId.execute(missionId)
         } catch (e: Exception) {

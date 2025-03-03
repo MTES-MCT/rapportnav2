@@ -4,12 +4,17 @@ import { render, renderHook, RenderOptions } from '@testing-library/react'
 import React, { ReactElement } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import UIThemeWrapper from './features/common/components/ui/ui-theme-wrapper'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   return (
     <UIThemeWrapper>
       <MockedProvider addTypename={false}>
-        <BrowserRouter>{children}</BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>{children}</BrowserRouter>
+        </QueryClientProvider>
       </MockedProvider>
     </UIThemeWrapper>
   )
@@ -23,9 +28,3 @@ const customRenderHook = (hook: any, options?: Omit<RenderOptions, 'wrapper'>) =
 
 export * from '@testing-library/react'
 export { customRender as render, customRenderHook as renderHook }
-
-export const mockQueryResult = (data?: unknown, loading: boolean = false, error: any = undefined) => ({
-  data,
-  loading,
-  error
-})
