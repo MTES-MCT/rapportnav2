@@ -50,7 +50,8 @@ object MissionsStubs {
             startDateTimeUtc = ZonedDateTime.now(),
             endDateTimeUtc = null,
             openBy = "local-mock",
-            observationsCacem = "Je suis une fake observation wiremock"
+            observationsCacem = "Je suis une fake observation wiremock",
+            observationsByUnit = "Je suis une fake observation by units wiremock"
         )
 
         val mission2 = MissionDataOutput(

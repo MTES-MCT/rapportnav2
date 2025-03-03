@@ -45,7 +45,7 @@ const MissionGeneralInformationInitialFormUlam: FC<MissionGeneralInformationInit
               />
               <Stack.Item style={{ width: '100%', marginBottom: '1em' }}>
                 <FormikSelect
-                  isLight
+                  isLight={isCreation}
                   isRequired={true}
                   disabled={!isCreation}
                   name="missionReportType"
@@ -68,7 +68,7 @@ const MissionGeneralInformationInitialFormUlam: FC<MissionGeneralInformationInit
               {values.missionReportType === MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT && (
                 <Stack.Item style={{ width: '100%', marginBottom: '1em' }}>
                   <FormikSelect
-                    isLight
+                    isLight={isCreation}
                     label="Nature du renfort"
                     name="reinforcementType"
                     options={reinforcementTypeOptions}
