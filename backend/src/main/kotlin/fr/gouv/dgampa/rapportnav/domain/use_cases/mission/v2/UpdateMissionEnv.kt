@@ -29,7 +29,7 @@ class UpdateMissionEnv(
 
         val fromDbEnvInput = MissionEnvInput.fromMissionEntity(
             missionEntity = fromDbEnvMission,
-            controlUnitId = input.resources?.get(0)?.controlUnitId
+            controlUnitId = input.resources?.firstOrNull()?.controlUnitId
         )
 
         if (input.equals(fromDbEnvInput)) return null
