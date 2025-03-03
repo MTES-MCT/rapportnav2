@@ -243,4 +243,60 @@ class UpdateMissionEnvTest {
         Assertions.assertEquals(input.resources?.get(1)?.id, secondResource?.id)
         Assertions.assertEquals(1, mockMissionEntity.controlUnits[0].resources.size)
     }
+
+    @Test
+    fun `execute should not throw Exception when resources are empty`() {
+
+        val missionId = 123
+
+
+
+        val mockControlUnitFromDb = LegacyControlUnitEntity(
+            id = 12,
+            administration = "fake-admin",
+            isArchived = false,
+            name = "fake-unit",
+            resources = mutableListOf()
+        )
+
+        // Given
+        val mockMissionEntity = MissionEntity(
+            missionTypes = listOf(MissionTypeEnum.SEA),
+            startDateTimeUtc = Instant.parse("2019-09-08T21:00:00.000+01:00"),
+            hasMissionOrder = false,
+            envActions = listOf(),
+            isDeleted = false,
+            isUnderJdp = false,
+            isGeometryComputedFromControls = false,
+            missionSource = MissionSourceEnum.RAPPORT_NAV,
+            id = missionId,
+            observationsByUnit = "observation",
+            endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
+            controlUnits = listOf(mockControlUnitFromDb)
+        )
+
+        val input = MissionEnvInput(
+            missionId = missionId,
+            missionTypes = listOf(MissionTypeEnum.SEA),
+            startDateTimeUtc = Instant.parse("2019-09-08T21:00:00.000+01:00"),
+            observationsByUnit = "observation updated",
+            endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
+            resources = listOf()
+        )
+
+
+        // Mock behavior of getEnvMissionById2 to return a MissionEntity
+        Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(mockMissionEntity)
+
+        val value = input.toMissionEnvEntity(mockMissionEntity)
+        Mockito.`when`(apiEnvRepo2.update(value)).thenReturn(value)
+
+
+        // When
+        val result = updateMissionEnv.execute(input)
+
+        // Then
+        Assertions.assertNotNull(result)
+    }
+
 }

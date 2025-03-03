@@ -35,7 +35,7 @@ class UpdateMissionEnv(
         if (input.equals(fromDbEnvInput)) return null
 
         return try {
-            apiEnvRepo2.update(input.toMissionEnvEntity(fromDbEnvMission))
+            apiEnvRepo2.update(input.toMissionEnvEntity(fromDbEnvMission, controlUnitId = input.resources?.firstOrNull()?.controlUnitId))
         } catch (e: Exception) {
             logger.error("Update Mission failed", e)
             return null
