@@ -15,6 +15,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.time.Instant
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
@@ -170,6 +171,22 @@ class MissionFishActionEntityTest {
         entity.endDateTimeUtc = null
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(false)
+    }
+
+    @Test
+    fun `execute should not be complete if end date is not null but before startDate`() {
+        val fishAction = FishActionControlMock.create(
+            completion = Completion.COMPLETED,
+            actionDatetimeUtc = Instant.parse("2022-01-02T12:00:01Z"),
+            actionEndDatetimeUtc = Instant.parse("2021-01-02T13:00:01Z"),
+        )
+        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
+        entity.computeCompleteness()
+        assertThat(entity.isCompleteForStats).isEqualTo(false)
+
+        entity.endDateTimeUtc = Instant.parse("2023-01-02T13:00:01Z")
+        entity.computeCompleteness()
+        assertThat(entity.isCompleteForStats).isEqualTo(true)
     }
 
     @Test
