@@ -10,6 +10,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOutput
+import org.locationtech.jts.geom.Coordinate
+import org.locationtech.jts.geom.GeometryFactory
+import org.locationtech.jts.geom.MultiPolygon
+import org.n52.jackson.datatype.jts.JtsModule
 import java.time.ZonedDateTime
 
 object MissionByIdStubs {
@@ -51,10 +55,11 @@ object MissionByIdStubs {
             endDateTimeUtc = null,
             openBy = "local-mock",
             observationsCacem = "Je suis une fake observation wiremock",
-            observationsByUnit = "Je suis une fake observation by units wiremock"
+            observationsByUnit = "Je suis une fake observation by units wiremock",
+            geom = createMultiPolygon()
         )
 
-        objectMapper.registerModule(JavaTimeModule())
+        objectMapper.registerModules(mutableListOf(JavaTimeModule(), JtsModule()))
 
         val json = objectMapper.writeValueAsString(mission)
 
@@ -66,5 +71,27 @@ object MissionByIdStubs {
                         .withBody(json)
                 )
         )
+    }
+    private fun createMultiPolygon(): MultiPolygon {
+        val geometryFactory = GeometryFactory()
+
+        val coords1 = arrayOf(
+            Coordinate(30.0, 20.0),
+            Coordinate(45.0, 40.0),
+            Coordinate(10.0, 40.0),
+            Coordinate(30.0, 20.0)
+        )
+        val polygon1 = geometryFactory.createPolygon(coords1)
+
+        val coords2 = arrayOf(
+            Coordinate(15.0, 5.0),
+            Coordinate(40.0, 10.0),
+            Coordinate(10.0, 20.0),
+            Coordinate(5.0, 10.0),
+            Coordinate(15.0, 5.0)
+        )
+        val polygon2 = geometryFactory.createPolygon(coords2)
+
+        return geometryFactory.createMultiPolygon(arrayOf(polygon1, polygon2))
     }
 }

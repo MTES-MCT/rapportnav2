@@ -1,13 +1,13 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOutput
-import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -18,13 +18,12 @@ import java.net.http.HttpResponse
 
 @Repository
 class APIEnvMissionRepositoryV2(
-    private val mapper: ObjectMapper,
     clientFactory: HttpClientFactory
 ): IEnvMissionRepository {
 
     private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepositoryV2::class.java);
 
-    private val gson = GsonSerializer().create()
+    private val mapper = ObjectMapper()
 
     private val client = clientFactory.create();
 
@@ -37,12 +36,18 @@ class APIEnvMissionRepositoryV2(
         logger.info("Sending POST request for Env mission creation URL: $url")
         return try {
 
-            logger.info("Body request for Mission env create : ${gson.toJson(mission)}")
+            mapper.registerModules(JtsModule(), JavaTimeModule())
+
+            val json = mapper.writeValueAsString(mission)
+
+            logger.info("Body request for Mission env create as json : $json}")
+
+            logger.info("Body request for Mission env create as entity : $mission}")
 
             val request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
-                .method("POST", HttpRequest.BodyPublishers.ofString(gson.toJson(mission)))
+                .method("POST", HttpRequest.BodyPublishers.ofString(json))
                 .header("Content-Type", "application/json")
                 .build();
 
@@ -56,7 +61,6 @@ class APIEnvMissionRepositoryV2(
                 throw Exception("Error while creating mission from env, please check the logs")
             }
 
-            mapper.registerModule(JtsModule())
             val missionDataOutput: MissionDataOutput? = mapper.readValue(body);
             missionDataOutput?.toMissionEnvEntity();
         } catch (e: Exception) {
@@ -70,12 +74,17 @@ class APIEnvMissionRepositoryV2(
         logger.info("Sending POST request for Env mission update URL: $url")
         return try {
 
-            logger.info("Body request for Mission env update : $mission")
+            mapper.registerModules(JtsModule(), JavaTimeModule())
+
+            val json = mapper.writeValueAsString(mission)
+            logger.info("Mission created")
+            logger.info("Body request for Mission env update as json : $json")
+            logger.info("Body request for Mission env update as entity : $mission")
 
             val request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
-                .method("POST", HttpRequest.BodyPublishers.ofString(gson.toJson(mission)))
+                .method("POST", HttpRequest.BodyPublishers.ofString(json))
                 .header("Content-Type", "application/json")
                 .build();
 
@@ -89,7 +98,6 @@ class APIEnvMissionRepositoryV2(
                 throw Exception("Error while updating mission from env, please check the logs")
             }
 
-            mapper.registerModule(JtsModule())
             val missionDataOutput: MissionDataOutput? = mapper.readValue(body);
             missionDataOutput?.toMissionEnvEntity();
         } catch (e: Exception) {
