@@ -5,17 +5,17 @@ import com.google.gson.Gson
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.APIEnvMissionRepositoryV2
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
+import fr.gouv.gmampa.rapportnav.mocks.mission.MultiPolygonMock
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.ArgumentMatchers.argThat
+import org.mockito.ArgumentCaptor
 import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -63,16 +63,16 @@ class APIEnvMissionRepositoryTest {
     @Test
     fun `execute should create mission env`() {
 
-        Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
-        Mockito.`when`(httpResponse.body()).thenReturn(getMissionString())
-        Mockito.`when`(
+        `when`(httpClientFactory.create()).thenReturn(httpClient)
+        `when`(httpResponse.body()).thenReturn(getMissionString())
+        `when`(
             httpClient.send(
-                Mockito.any(HttpRequest::class.java),
-                Mockito.any<HttpResponse.BodyHandler<String>>()
+                any(HttpRequest::class.java),
+                any<HttpResponse.BodyHandler<String>>()
             )
         )
             .thenReturn(httpResponse)
-        val envRepo = APIEnvMissionRepositoryV2(mapper = objectMapper, clientFactory = httpClientFactory)
+        val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory)
         val mission = MissionEnv(
             missionTypes = listOf(MissionTypeEnum.SEA),
             controlUnits = listOf(),
@@ -83,16 +83,64 @@ class APIEnvMissionRepositoryTest {
             isGeometryComputedFromControls = false,
             hasMissionOrder = false
         )
+
         envRepo.createMission(mission)
+
+        val requestCaptor = ArgumentCaptor.forClass(HttpRequest::class.java)
+
         verify(httpClient).send(
-            argThat { request ->
-                request.uri() == URI.create("$host/api/v1/missions") &&
-                        request.method() == "POST" &&
-                        request.headers().firstValue("Content-Type").orElse("") == "application/json"
-            },
-            Mockito.any<HttpResponse.BodyHandler<String>>()
+            requestCaptor.capture(),
+            any<HttpResponse.BodyHandler<String>>()
         )
 
+        val capturedRequest = requestCaptor.value
+
+        assert(capturedRequest.uri() == URI.create("$host/api/v1/missions"))
+        assert(capturedRequest.method() == "POST")
+        assert(capturedRequest.headers().firstValue("Content-Type").orElse("") == "application/json")
+    }
+
+    @Test
+    fun `execute should update mission env with MultiPolygon`() {
+
+        `when`(httpClientFactory.create()).thenReturn(httpClient)
+        `when`(httpResponse.body()).thenReturn(getMissionString())
+        `when`(
+            httpClient.send(
+                any(HttpRequest::class.java),
+                any<HttpResponse.BodyHandler<String>>()
+            )
+        )
+            .thenReturn(httpResponse)
+        val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory)
+        val mission = MissionEnvEntity(
+            id = 1,
+            missionTypes = listOf(MissionTypeEnum.SEA),
+            controlUnits = listOf(),
+            startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
+            endDateTimeUtc = Instant.parse("2024-04-17T09:00:00Z"),
+            missionSource = MissionSourceEnum.MONITORENV,
+            isUnderJdp = false,
+            isGeometryComputedFromControls = false,
+            hasMissionOrder = false,
+            geom = MultiPolygonMock.create()
+        )
+
+        envRepo.update(mission)
+
+        val requestCaptor = ArgumentCaptor.forClass(HttpRequest::class.java)
+
+
+        verify(httpClient).send(
+            requestCaptor.capture(),
+            any<HttpResponse.BodyHandler<String>>()
+        )
+
+        val capturedRequest = requestCaptor.value
+
+        assert(capturedRequest.uri() == URI.create("$host/api/v1/missions/${mission.id}"))
+        assert(capturedRequest.method() == "POST")
+        assert(capturedRequest.headers().firstValue("Content-Type").orElse("") == "application/json")
     }
 
 
