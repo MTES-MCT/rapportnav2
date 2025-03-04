@@ -7,7 +7,9 @@ const useGetMissionQuery = (missionId?: string) => {
 
   const query = useQuery<Mission2>({
     queryKey: ['mission', missionId],
-    queryFn: missionId ? fetchMission : skipToken
+    queryFn: missionId ? fetchMission : skipToken,
+    staleTime: 5 * 60 * 1000, // Cache data for 5 minutes
+    retry: 2 // Retry failed requests twice before throwing an error
   })
   return query
 }

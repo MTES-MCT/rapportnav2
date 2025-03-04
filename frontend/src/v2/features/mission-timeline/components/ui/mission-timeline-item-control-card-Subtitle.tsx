@@ -9,7 +9,11 @@ const MissionTimelineItemControlCardSubtitle: FC<{ action?: MissionTimelineActio
   const plural = action.actionNumberOfControls && action.actionNumberOfControls > 1 ? 's' : ''
   return (
     <Text as="h3" weight="normal" color={THEME.color.slateGray}>
-      <b>{plural ? `${action.actionNumberOfControls} contrôle${plural}` : 'Nombre de contrôles inconnu'}</b>
+      <b>
+        {action.actionNumberOfControls
+          ? `${action.actionNumberOfControls} contrôle${plural}`
+          : 'Nombre de contrôles inconnu'}
+      </b>
       &nbsp;
       {`réalisé${plural} sur des cibles de type`}
       &nbsp;

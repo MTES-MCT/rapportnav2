@@ -4,13 +4,10 @@ import axios from '../../../../query-client/axios.ts'
 import { ControlUnitResource } from '../types/control-unit-types.ts'
 
 const useControlUnitResourcesQuery = (controlUnitId?: number) => {
-  const fetchControlUnitResources = (): Promise<ControlUnitResource[]> => {
-    return axios
-      .get(`resources`)
-      .then(response => response.data)
-      .then((value: ControlUnitResource[]) =>
-        controlUnitId ? value.filter(c => c.controlUnitId === controlUnitId) : value
-      )
+  const fetchControlUnitResources = async (): Promise<ControlUnitResource[]> => {
+    const response = await axios.get(`resources`)
+    const value = response.data
+    return value.filter((c: ControlUnitResource) => c.controlUnitId === controlUnitId) ?? []
   }
 
   const query = useQuery<ControlUnitResource[], Error>({

@@ -144,11 +144,11 @@ const MissionInfractionEnvItem: React.FC<MissionInfractionEnvItemProps> = ({
                   <Field name={`${name}.${index}`}>
                     {(field: FieldProps<InfractionByTarget>) => (
                       <MissionInfractionEnvForm
-                        hideTarget={true}
                         fieldFormik={field}
                         name={`${name}.${index}`}
                         onClose={handleCloseForm}
                         actionTargetType={actionTargetType}
+                        hideTarget={!infraction.controlType}
                         availableControlTypes={availableControlTypes}
                       />
                     )}

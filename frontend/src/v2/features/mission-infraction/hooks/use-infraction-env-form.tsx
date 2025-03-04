@@ -7,7 +7,7 @@ import {
 } from '@common/types/env-mission-types'
 import { InfractionByTarget } from '@common/types/infraction-types'
 import { FieldProps } from 'formik'
-import { boolean, mixed, object, string } from 'yup'
+import { array, boolean, mixed, object, string } from 'yup'
 import { useAbstractFormikSubForm } from '../../common/hooks/use-abstract-formik-sub-form'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 
@@ -46,27 +46,42 @@ export function useInfractionEnvForm(
   const validationSchema = object().shape({
     isVessel: boolean(),
     isTargetVehicule: boolean(),
-    vesselSize: mixed<VesselSizeEnum>()
-      .nullable()
-      .oneOf(Object.values(VesselSizeEnum))
-      .when('isVessel', {
-        is: true,
-        then: schema => schema.nonNullable().required()
-      }),
-    vesselType: mixed<VesselTypeEnum>()
-      .nullable()
-      .oneOf(Object.values(VesselTypeEnum))
-      .when('isVessel', {
-        is: true,
-        then: schema => schema.nonNullable().required()
-      }),
-    vesselIdentifier: string()
-      .nullable()
-      .when('isTargetVehicule', {
-        is: true,
-        then: schema => schema.nonNullable().required()
-      }),
-    identityControlledPersonValue: string().nonNullable().required()
+    infractions: array(
+      object({
+        controlType: string().required(),
+        natinfs: array().min(1).required(),
+        target: object()
+          .shape({
+            vesselSize: mixed<VesselSizeEnum>()
+              .nullable()
+              .oneOf(Object.values(VesselSizeEnum))
+              .when('isVessel', {
+                is: true,
+                then: schema => schema.nonNullable().required()
+              }),
+            vesselType: mixed<VesselTypeEnum>()
+              .nullable()
+              .oneOf(Object.values(VesselTypeEnum))
+              .test('isVessel', 'Please enter vessel type', function (val) {
+                return this.from && this.from[2].value?.isVessel ? string().required().isValidSync(val) : true
+              })
+              .when('isVessel', {
+                is: true,
+                then: schema => schema.nonNullable().required()
+              }),
+            vesselIdentifier: string()
+              .nullable()
+              .test('isTargetVehicule', 'Please enter vessel identifier', function (val) {
+                return this.from && this.from[2].value?.isTargetVehicule ? string().required().isValidSync(val) : true
+              }),
+            identityControlledPerson: string().nonNullable().required()
+          })
+          .when('isVessel', {
+            is: true,
+            then: schema => schema.nonNullable().required()
+          })
+      })
+    )
   })
 
   return {

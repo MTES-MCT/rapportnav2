@@ -1,3 +1,4 @@
+import { VesselSizeEnum } from '@common/types/env-mission-types'
 import { VesselTypeEnum } from '@common/types/mission-types'
 import { renderHook } from '@testing-library/react'
 import { ModuleType } from '../../types/module-type'
@@ -35,5 +36,29 @@ describe('useVessel', () => {
     expect(result.current.getVesselName()).toEqual('')
     expect(result.current.getVesselName('UNKNOWN')).toEqual('Navire inconnu')
     expect(result.current.getVesselName('my beautiful name')).toEqual('my beautiful name')
+  })
+
+  it('should return vessel type options', () => {
+    const { result } = renderHook(() => useVessel())
+    expect(result.current.vesselTypeOptions.length).toEqual(7)
+  })
+
+  it('should return vessel size options', () => {
+    const { result } = renderHook(() => useVessel())
+    expect(result.current.vesselSizeOptions.length).toEqual(4)
+  })
+
+  it('should return all vessel size  name', () => {
+    const { result } = renderHook(() => useVessel())
+    Object.keys(VesselSizeEnum).forEach(size => {
+      expect(result.current.getVesselSize(size as VesselSizeEnum)).toBeDefined()
+    })
+  })
+
+  it('should return all vessel type  name', () => {
+    const { result } = renderHook(() => useVessel())
+    Object.keys(VesselTypeEnum).forEach(type => {
+      expect(result.current.getVesselType(type as VesselTypeEnum)).toBeDefined()
+    })
   })
 })

@@ -4,7 +4,7 @@ import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker.tsx'
 import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
-import { MissionReportTypeEnum, MissionULAMGeneralInfoInitial } from '../../../common/types/mission-types.ts'
+import { MissionULAMGeneralInfoInitial } from '../../../common/types/mission-types.ts'
 import {
   MissionULAMGeneralInfoInitialInput,
   useUlamMissionGeneralInformationInitialForm
@@ -21,7 +21,13 @@ const MissionGeneralInformationInitialFormUlam: FC<MissionGeneralInformationInit
   isCreation,
   fieldFormik
 }) => {
-  const { missionTypeOptions, reportTypeOptions, reinforcementTypeOptions } = useMissionType()
+  const {
+    missionTypeOptions,
+    reportTypeOptions,
+    reinforcementTypeOptions,
+    isExternalReinforcementTime,
+    isMissionTypeSea
+  } = useMissionType()
   const { initValue, handleSubmit, validationSchema } = useUlamMissionGeneralInformationInitialForm(name, fieldFormik)
 
   return (
@@ -65,7 +71,7 @@ const MissionGeneralInformationInitialFormUlam: FC<MissionGeneralInformationInit
                 />
               </Stack.Item>
 
-              {values.missionReportType === MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT && (
+              {isExternalReinforcementTime(values.missionReportType) && (
                 <Stack.Item style={{ width: '100%', marginBottom: '1em' }}>
                   <FormikSelect
                     isLight={isCreation}
@@ -92,7 +98,9 @@ const MissionGeneralInformationInitialFormUlam: FC<MissionGeneralInformationInit
                     </Field>
                   </Stack.Item>
                   <Stack.Item style={{ width: '30%' }}>
-                    {!isCreation && <FormikNumberInput label={"Nb d'heures en mer"} name="nbHourAtSea" />}
+                    {isMissionTypeSea(values.missionTypes) && (
+                      <FormikNumberInput label={"Nb d'heures en mer"} name="nbHourAtSea" />
+                    )}
                   </Stack.Item>
                 </Stack>
               </Stack.Item>

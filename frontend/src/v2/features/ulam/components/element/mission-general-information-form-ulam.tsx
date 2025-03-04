@@ -19,7 +19,6 @@ const MissionGeneralInformationForm: FC<{
   onChange: (newGeneralInfo: MissionGeneralInfo2) => Promise<unknown>
 }> = ({ generalInfo2, onChange }) => {
   const { handleSubmit, initValue } = useUlamMissionGeneralInfoForm(onChange, generalInfo2)
-
   return (
     <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%' }}>
       {initValue && (

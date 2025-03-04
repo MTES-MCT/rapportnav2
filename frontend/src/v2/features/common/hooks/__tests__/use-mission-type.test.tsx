@@ -1,3 +1,4 @@
+import { MissionTypeEnum } from '@common/types/env-mission-types'
 import { renderHook } from '@testing-library/react'
 import { MissionReinforcementTypeEnum, MissionReportTypeEnum, MissionType } from '../../types/mission-types'
 import { useMissionType } from '../use-mission-type'
@@ -37,5 +38,21 @@ describe('useMissionType', () => {
     Object.keys(MissionReportTypeEnum).forEach(type => {
       expect(result.current.getReportTypeLabel(type as MissionReportTypeEnum)).toBeDefined()
     })
+  })
+
+  it('should if is reinforcement external type', () => {
+    const { result } = renderHook(() => useMissionType())
+    expect(result.current.isExternalReinforcementTime(MissionReportTypeEnum.FIELD_REPORT)).toBeFalsy()
+    expect(
+      result.current.isExternalReinforcementTime(MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT)
+    ).toBeTruthy()
+  })
+
+  it('should if mission is type sea', () => {
+    const { result } = renderHook(() => useMissionType())
+    expect(result.current.isMissionTypeSea([MissionTypeEnum.AIR, MissionTypeEnum.LAND])).toBeFalsy()
+    expect(
+      result.current.isMissionTypeSea([MissionTypeEnum.AIR, MissionTypeEnum.LAND, MissionTypeEnum.SEA])
+    ).toBeTruthy()
   })
 })

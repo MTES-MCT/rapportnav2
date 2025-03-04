@@ -1,12 +1,15 @@
+import { MissionTypeEnum } from '@common/types/env-mission-types.ts'
 import { MissionReinforcementTypeEnum, MissionReportTypeEnum, MissionType } from '../types/mission-types.ts'
 
-interface MissionHook {
+interface MissionTypeHook {
   getMissionTypeLabel: (type?: MissionType) => string | undefined
   getReinforcementTypeLabel: (type?: MissionReinforcementTypeEnum) => string | undefined
   getReportTypeLabel: (type?: MissionReportTypeEnum) => string | undefined
   missionTypeOptions: { label: string; value: MissionType }[]
   reinforcementTypeOptions: { label: string; value: MissionReinforcementTypeEnum }[]
   reportTypeOptions: { label: string; value: MissionReportTypeEnum }[]
+  isExternalReinforcementTime: (missionReportType?: MissionReportTypeEnum) => boolean
+  isMissionTypeSea: (missionTypes?: MissionTypeEnum[]) => boolean | undefined
 }
 
 const MISSION_TYPE_REGISTRY: Record<MissionType, string> = {
@@ -30,7 +33,7 @@ const REPORT_TYPE_REGISTRY: Record<MissionReportTypeEnum, string> = {
   [MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT]: 'Rapport de temps agent en renfort extérieur'
 }
 
-export function useMissionType(): MissionHook {
+export function useMissionType(): MissionTypeHook {
   const getMissionTypeLabel = (type?: MissionType): string | undefined => (type ? MISSION_TYPE_REGISTRY[type] : '')
 
   const getReinforcementTypeLabel = (type?: MissionReinforcementTypeEnum): string | undefined =>
@@ -57,12 +60,19 @@ export function useMissionType(): MissionHook {
       label: REPORT_TYPE_REGISTRY[key as keyof typeof MissionReportTypeEnum]
     }))
 
+  const isExternalReinforcementTime = (missionReportType?: MissionReportTypeEnum) =>
+    missionReportType === MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT
+
+  const isMissionTypeSea = (missionTypes?: MissionTypeEnum[]) => missionTypes?.includes(MissionTypeEnum.SEA)
+
   return {
     getMissionTypeLabel,
     getReinforcementTypeLabel,
     getReportTypeLabel,
     missionTypeOptions: getMissionTypeOptions(),
     reinforcementTypeOptions: getReinforcementTypeOptions(),
-    reportTypeOptions: getReportTypeOptions()
+    reportTypeOptions: getReportTypeOptions(),
+    isMissionTypeSea,
+    isExternalReinforcementTime
   }
 }
