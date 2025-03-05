@@ -3,6 +3,7 @@ import { ControlType } from '@common/types/control-types.ts'
 import { Accent, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { Stack } from 'rsuite'
+import MissionNatinfTagFish from 'src/v2/features/common/components/ui/mission-natinfs-tag-fish.tsx'
 import { setDebounceTime } from '../../../../store/slices/delay-query-reducer.ts'
 import MissionNatinfTag from '../../../common/components/ui/mission-natinfs-tag.tsx'
 import { useInfraction } from '../../hooks/use-infraction.tsx'
@@ -13,6 +14,7 @@ import MissionInfractionTypeTag from './mission-infraction-type-tag.tsx'
 interface MissionInfractionSummaryProps {
   title?: string
   showIndex?: boolean
+  isNavAction?: boolean
   controlType?: ControlType
   isActionDisabled?: boolean
   infractions: FishNavInfraction[]
@@ -25,6 +27,7 @@ const MissionInfractionSummary: React.FC<MissionInfractionSummaryProps> = ({
   onEdit,
   onDelete,
   showIndex,
+  isNavAction,
   controlType,
   infractions,
   isActionDisabled
@@ -96,7 +99,11 @@ const MissionInfractionSummary: React.FC<MissionInfractionSummaryProps> = ({
                   <MissionInfractionTypeTag type={infraction.infractionType} />
                 </Stack.Item>
                 <Stack.Item>
-                  <MissionNatinfTag natinfs={infraction.natinfs} />
+                  {isNavAction ? (
+                    <MissionNatinfTag natinfs={infraction.natinfs} />
+                  ) : (
+                    <MissionNatinfTagFish natinf={infraction.natinf} />
+                  )}
                 </Stack.Item>
               </Stack>
             </Stack.Item>
