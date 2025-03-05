@@ -35,6 +35,7 @@ const MissionInfractionItem: React.FC<MissionInfractionItemProps> = ({ name, ind
         </>
       ) : (
         <MissionInfractionSummary
+          isNavAction={true}
           infractions={[infraction]}
           onEdit={() => setShowForm(true)}
           onDelete={() => handleRemove(index)}
