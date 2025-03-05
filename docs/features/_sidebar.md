@@ -1,5 +1,6 @@
 * [Retour](/)
 * [Fonctionnalités utilisateurs](features/index)
+* [Règles Métier](features/regles-metier)
 * [Compléter un rapport de mission](features/mission)
 * [Exporter Rapport de Patrouille](features/rapport-patrouille)
 * [Exporter Tableaux AEM](features/aem)

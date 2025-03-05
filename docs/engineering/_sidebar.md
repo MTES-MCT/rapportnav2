@@ -2,6 +2,7 @@
 * [Tech homepage](engineering/index)
 * [Concepts principaux](engineering/concepts/index)
 ** [Gestion des utilisateurs](engineering/concepts/auth)
+** [Les rôles](engineering/concepts/roles)
 ** [L'objet Mission](engineering/concepts/missions-and-actions)
 ** [Complétude des missions](engineering/concepts/mission-completion)
 ** [Gestion des dates](engineering/concepts/dates)
