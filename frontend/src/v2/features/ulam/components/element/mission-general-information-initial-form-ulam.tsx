@@ -98,7 +98,7 @@ const MissionGeneralInformationInitialFormUlam: FC<MissionGeneralInformationInit
                     </Field>
                   </Stack.Item>
                   <Stack.Item style={{ width: '30%' }}>
-                    {isMissionTypeSea(values.missionTypes) && (
+                    {!isCreation && isMissionTypeSea(values.missionTypes) && (
                       <FormikNumberInput label={"Nb d'heures en mer"} name="nbHourAtSea" />
                     )}
                   </Stack.Item>

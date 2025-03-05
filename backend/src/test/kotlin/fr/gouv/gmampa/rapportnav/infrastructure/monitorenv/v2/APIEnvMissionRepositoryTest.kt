@@ -5,11 +5,13 @@ import com.google.gson.Gson
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.APIEnvMissionRepositoryV2
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
+import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MultiPolygonMock
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -33,10 +35,18 @@ class APIEnvMissionRepositoryTest {
 
     val host = "https://monitorenv.din.developpement-durable.gouv.fr"
 
+    val resource = LegacyControlUnitResourceEntity(
+        id = 1,
+        controlUnitId = 1,
+        name = "urus"
+    )
+
     val mission = MissionDataOutput(
         id = 761,
         missionTypes = listOf(MissionTypeEnum.SEA),
-        controlUnits = listOf(),
+        controlUnits = listOf(LegacyControlUnitEntityMock.create(
+            resources = mutableListOf(resource)
+        )),
         startDateTimeUtc = ZonedDateTime.parse("2022-03-15T04:50:09Z"),
         endDateTimeUtc = ZonedDateTime.parse("2022-03-27T04:50:09Z"),
         missionSource = MissionSourceEnum.MONITORENV,
@@ -63,6 +73,12 @@ class APIEnvMissionRepositoryTest {
     @Test
     fun `execute should create mission env`() {
 
+        val resource = LegacyControlUnitResourceEntity(
+            id = 1,
+            controlUnitId = 1,
+            name = "urus"
+        )
+
         `when`(httpClientFactory.create()).thenReturn(httpClient)
         `when`(httpResponse.body()).thenReturn(getMissionString())
         `when`(
@@ -75,7 +91,7 @@ class APIEnvMissionRepositoryTest {
         val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory)
         val mission = MissionEnv(
             missionTypes = listOf(MissionTypeEnum.SEA),
-            controlUnits = listOf(),
+            controlUnits = listOf(LegacyControlUnitEntityMock.create(resources = mutableListOf(resource))),
             startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
             endDateTimeUtc = Instant.parse("2024-04-17T09:00:00Z"),
             missionSource = MissionSourceEnum.MONITORENV,
