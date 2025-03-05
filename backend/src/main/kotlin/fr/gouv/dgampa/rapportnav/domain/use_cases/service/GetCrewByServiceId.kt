@@ -28,7 +28,9 @@ class GetCrewByServiceId(
 
     fun execute(serviceId: Int):  List<AgentServiceEntity> {
         // select from agent service by service
-        val agents =  agentServiceRepo.findByServiceId(serviceId = serviceId).mapNotNull{ it.toAgentServiceEntity() }
+        val agents =  agentServiceRepo
+            .findByServiceId(serviceId = serviceId)
+            .mapNotNull{ it.toAgentServiceEntity() }
             .sortedBy { rolePriority.indexOf(it.role.title) }
         return agents
     }

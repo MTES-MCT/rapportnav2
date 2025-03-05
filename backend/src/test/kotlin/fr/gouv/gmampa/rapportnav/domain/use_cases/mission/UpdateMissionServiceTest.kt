@@ -1,15 +1,17 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission
 
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentServiceRepository
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentRoleEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IServiceRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.UpdateMissionService
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetActiveCrewForService
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.generalInfo.MissionServiceInput
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentServiceModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.MissionCrewModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
 import org.assertj.core.api.Assertions.assertThat
@@ -35,7 +37,7 @@ class UpdateMissionServiceTest {
     private lateinit var infoRepo: IMissionGeneralInfoRepository
 
     @MockitoBean
-    private lateinit var agentServiceRepo: IAgentServiceRepository
+    private lateinit var getActiveCrewForService: GetActiveCrewForService
 
     private val oldMissionCrews: List<MissionCrewModel> = listOf(
         MissionCrewModel(
@@ -47,12 +49,11 @@ class UpdateMissionServiceTest {
         )
     )
 
-    private val newMissionCrews: List<AgentServiceModel> = listOf(
-        AgentServiceModel(
+    private val newMissionCrews: List<AgentServiceEntity> = listOf(
+        AgentServiceEntity(
             id = 3,
-            agent = AgentModel(id = 1, firstName = "", lastName = ""),
-            role = AgentRoleModel(id = 1, title = ""),
-            serviceId = 3
+            agent = AgentEntity(id = 1, firstName = "", lastName = ""),
+            role = AgentRoleEntity(id = 1, title = ""),
         )
     )
 
@@ -70,7 +71,7 @@ class UpdateMissionServiceTest {
         val input = MissionServiceInput(missionId = 761, serviceId = 3)
         val serviceModel = ServiceModel(id = 3, name = "Themis_A")
         Mockito.`when`(serviceRepo.findById(3)).thenReturn(Optional.of(serviceModel))
-        Mockito.`when`(agentServiceRepo.findByServiceId(3)).thenReturn(newMissionCrews)
+        Mockito.`when`(getActiveCrewForService.execute(3)).thenReturn(newMissionCrews)
         Mockito.`when`(missionCrewRepo.findByMissionId(761)).thenReturn(oldMissionCrews)
         Mockito.`when`(infoRepo.findByMissionId(761)).thenReturn(Optional.of(missionGeneralInfo))
 
@@ -84,7 +85,7 @@ class UpdateMissionServiceTest {
         val input = MissionServiceInput(missionId = 761, serviceId = 3)
         val serviceModel = ServiceModel(id = 3, name = "Themis_A")
         Mockito.`when`(serviceRepo.findById(3)).thenReturn(Optional.of(serviceModel))
-        Mockito.`when`(agentServiceRepo.findByServiceId(3)).thenReturn(newMissionCrews)
+        Mockito.`when`(getActiveCrewForService.execute(3)).thenReturn(newMissionCrews)
         Mockito.`when`(missionCrewRepo.findByMissionId(761)).thenReturn(oldMissionCrews)
         Mockito.`when`(infoRepo.findByMissionId(761)).thenReturn(Optional.ofNullable(null))
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/v2/missions/{missionId}/crews")
+@RequestMapping("/api/v2/crews")
 class CrewRestController(
     private val getCrewByServiceId: GetCrewByServiceId,
     private val getServices: GetServices,
