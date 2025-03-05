@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
-version = "2.5.19"
+version = "2.5.20"
 description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
@@ -19,7 +19,7 @@ plugins {
   kotlin("plugin.jpa") version "1.9.24"
   id("org.springframework.boot") version "3.4.2"
   id("io.spring.dependency-management") version "1.1.4"
-  id("org.owasp.dependencycheck") version "8.4.0"
+  id("org.owasp.dependencycheck") version "12.1.0"
   id("org.flywaydb.flyway") version "10.10.0"
   jacoco
 }
