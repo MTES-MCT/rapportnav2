@@ -90,8 +90,6 @@ class MissionRestController(
             val envMission = getEnvMissionById2.execute(missionId) ?: return null
             val mission = getMission2.execute(envMission)?: return null
             return Mission2.fromMissionEntity(mission)
-//            val lol = fakeMissionData2.fullMission(missionId)
-//            return Mission2.fromMissionEntity(lol)
         } catch (e: Exception) {
             logger.error("Error while creating MonitorEnv mission : ", e)
             return null

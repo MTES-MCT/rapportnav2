@@ -4,8 +4,8 @@ import { store } from '../../../../../store'
 import { resetDebounceTime } from '../../../../../store/slices/delay-query-reducer.ts'
 import { useDelay } from '../../../../common/hooks/use-delay.tsx'
 import { Mission2, MissionGeneralInfo2 } from '../../../../common/types/mission-types.ts'
-import useUpdateGeneralInfo from '../../../../ulam/services/use-update-generalInfo.tsx'
 import MissionGeneralInformationFormPam from './mission-general-information-form-pam.tsx'
+import useUpdateGeneralInfo from '../../../../common/services/use-update-generalInfo.tsx'
 
 type MissionGeneralInformationPamProps = {
   mission?: Mission2

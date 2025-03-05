@@ -1,6 +1,6 @@
+import { FC } from 'react'
 import { FormikEffect, FormikNumberInput, FormikTextarea, Label, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
-import React, { FC } from 'react'
 import { Stack } from 'rsuite'
 import { MissionGeneralInfo2 } from '../../../../common/types/mission-types.ts'
 import { MissionGeneralInfoInput } from '../../../../ulam/hooks/use-ulam-mission-general-information-form.tsx'
@@ -23,8 +23,8 @@ const MissionGeneralInformationFormPam: FC<{
             <FormikEffect onChange={newValues => handleSubmit(newValues as MissionGeneralInfoInput)} />
             <Stack direction="column" style={{ width: '100%' }} alignItems={'flex-start'} spacing={'2rem'}>
               <Stack.Item style={{ width: '100%' }}>
-                <Stack direction="row" alignItems={'flex-start'}>
-                  <Stack.Item style={{ width: '75%' }}>
+                <Stack direction="row" alignItems={'flex-start'} justifyContent={'flex-end'}>
+                  <Stack.Item style={{ width: '80%' }}>
                     <Field name="dates">
                       {(field: FieldProps<Date[]>) => (
                         <FormikDateRangePicker
@@ -38,14 +38,8 @@ const MissionGeneralInformationFormPam: FC<{
                       )}
                     </Field>
                   </Stack.Item>
-                  <Stack.Item style={{ width: '25%' }}>
-                    {/*<Field name="serviceId">*/}
-                    <MissionService
-                      missionId={generalInfo2.missionId}
-                      serviceId={generalInfo2.serviceId}
-                      services={[]}
-                    />
-                    {/*</Field>*/}
+                  <Stack.Item style={{ width: '20%' }}>
+                    <MissionService services={generalInfo2.services} />
                   </Stack.Item>
                 </Stack>
               </Stack.Item>

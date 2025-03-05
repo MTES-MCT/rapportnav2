@@ -1,3 +1,4 @@
+import { FC, useEffect, useState } from 'react'
 import {
   Accent,
   Button,
@@ -12,7 +13,6 @@ import {
   THEME
 } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
-import { useEffect, useState } from 'react'
 import { FlexboxGrid, Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
 import * as Yup from 'yup'
@@ -77,7 +77,7 @@ interface MissionCrewModalProps {
   handleSubmitForm: (crew: Omit<AddOrUpdateMissionCrewInput, 'missionId'>) => Promise<void>
 }
 
-const MissionCrewFormPam: React.FC<MissionCrewModalProps> = ({ crewId, crewList, handleClose, handleSubmitForm }) => {
+const MissionCrewFormPam: FC<MissionCrewModalProps> = ({ crewId, crewList, handleClose, handleSubmitForm }) => {
   const { data: agentServices } = useAgentServices()
   const { data: agentRoles } = useGetAgentRoles()
 
@@ -89,7 +89,7 @@ const MissionCrewFormPam: React.FC<MissionCrewModalProps> = ({ crewId, crewList,
       roleId: inputCrewMember?.role?.id,
       comment: inputCrewMember?.comment
     } as CrewForm)
-  debugger
+
   const [initValue, setInitValue] = useState<CrewForm | undefined>(initialValue)
 
   useEffect(() => {
@@ -123,7 +123,7 @@ const MissionCrewFormPam: React.FC<MissionCrewModalProps> = ({ crewId, crewList,
   }
 
   return (
-    <Dialog>
+    <Dialog data-testId={'crew-form'}>
       <Dialog.Title>
         <FlexboxGrid align="middle" justify="space-between" style={{ paddingLeft: 24, paddingRight: 24 }}>
           <FlexboxGrid.Item>{`${crewId ? 'Mise à jour' : 'Ajout'} d’un membre d’équipage ${crewId ? '' : 'du DCS'}`}</FlexboxGrid.Item>
@@ -148,12 +148,13 @@ const MissionCrewFormPam: React.FC<MissionCrewModalProps> = ({ crewId, crewList,
                       <FormikSelect
                         name="agentId"
                         label="Identité"
+                        aria-label="Identité"
                         isLight={true}
                         isRequired={true}
                         options={dropdownOptions()}
                         searchable
                         disabledItemValues={crewList?.map(crew => crew.agent?.id).filter(Boolean) as string[]}
-                        disabledItemValues={crewList?.map(crew => crew.agent?.id).filter(Boolean) as string[]}
+                        // disabledItemValues={crewList?.map(crew => crew.agent?.id).filter(Boolean) as string[]}
                       />
                     </Stack.Item>
                     <Stack.Item style={{ flex: 1, width: '50%' }}>
@@ -161,6 +162,7 @@ const MissionCrewFormPam: React.FC<MissionCrewModalProps> = ({ crewId, crewList,
                         name="roleId"
                         isLight={true}
                         label="Fonction"
+                        aria-label="Fonction"
                         isRequired={true}
                         options={(agentRoles ?? [])?.map(({ id, title }) => ({ value: id, label: title }))}
                       />
@@ -173,6 +175,7 @@ const MissionCrewFormPam: React.FC<MissionCrewModalProps> = ({ crewId, crewList,
                     name="comment"
                     itemType="text"
                     label="Commentaires (23 caractères max.)"
+                    aria-label="Commentaires (23 caractères max.)"
                   />
                 </Stack.Item>
               </CrewFormStack>

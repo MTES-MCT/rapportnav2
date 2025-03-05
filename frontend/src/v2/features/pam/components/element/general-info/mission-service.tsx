@@ -1,29 +1,12 @@
-import { FC, useEffect, useState } from 'react'
-import { Select, SelectProps } from '@mtes-mct/monitor-ui'
-import { Stack } from 'rsuite'
-import styled from 'styled-components'
+import { FC } from 'react'
+import { FormikSelect } from '@mtes-mct/monitor-ui'
 import { Service } from '@common/types/crew-types.ts'
-import useUpdateMissionService from '@features/pam/mission/hooks/use-update-mission-service.tsx'
 
-const StyledSelect = styled((props: SelectProps) => <Select placeholder={' '} {...props} />)({
-  width: 100
-})
-
-interface MissionServiceProps {
-  missionId: number
-  serviceId?: number
+export interface MissionServiceProps {
   services?: Service[]
 }
 
-const MissionService: FC<MissionServiceProps> = ({ services, missionId, serviceId }) => {
-  const [id, setId] = useState<string>()
-  const [updateMissionService] = useUpdateMissionService()
-
-  useEffect(() => {
-    if (!serviceId) return
-    setId(serviceId.toString())
-  }, [serviceId])
-
+const MissionService: FC<MissionServiceProps> = ({ services }) => {
   const getOptions = (values?: Service[]): { value: string; label: string }[] => {
     return (
       values?.map((service, index) => ({
@@ -32,31 +15,15 @@ const MissionService: FC<MissionServiceProps> = ({ services, missionId, serviceI
       })) || []
     )
   }
-  const onChange = async (nextValue?: string) => {
-    setId(nextValue)
-    if (!nextValue) return
-    const service = { missionId, serviceId: Number(nextValue) }
-    await updateMissionService({
-      variables: {
-        service
-      }
-    })
-  }
 
   return (
-    <Stack>
-      <Stack.Item>
-        <StyledSelect
-          name="serviceId"
-          value={id}
-          label="Bordée"
-          onChange={onChange}
-          isCleanable={false}
-          options={getOptions(services)}
-          data-testid="mission-service-select"
-        />
-      </Stack.Item>
-    </Stack>
+    <FormikSelect
+      name="serviceId"
+      label="Bordée"
+      isCleanable={false}
+      options={getOptions(services)}
+      data-testid="mission-service-select"
+    />
   )
 }
 
