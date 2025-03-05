@@ -1,7 +1,7 @@
 dependency_check:
   stage: analyze
   image:
-    name: owasp/dependency-check:8.4.2
+    name: owasp/dependency-check:12.1.0
     entrypoint: [ "" ]
   variables:
     HTTP_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
