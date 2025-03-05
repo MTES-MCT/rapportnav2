@@ -34,6 +34,7 @@ export type AgentRole = {
 export type AgentService = {
   agent: Agent
   role: AgentRole
+  disabledAt?: string
 }
 
 export type ServiceWithAgents = {
