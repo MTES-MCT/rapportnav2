@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
 import com.neovisionaries.i18n.CountryCode
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
@@ -111,8 +110,8 @@ class MissionFishActionEntity(
         val sourcesOfMissingDataForStats = mutableListOf<MissionSourceEnum>()
         // Fish endDateTime is not set in MonitorFish so MonitorFish considers the Action as complete
         // so it has to be set by the units
-        val rapportNavComplete = EntityCompletenessValidator.isCompleteForStats(this)
-        val monitorFishComplete = this.completion == Completion.COMPLETED && this.isStartDateEndDateOK()
+        val rapportNavComplete = EntityCompletenessValidator.isCompleteForStats(this) && this.isStartDateEndDateOK()
+        val monitorFishComplete = this.completion == Completion.COMPLETED
 
         if (!rapportNavComplete) {
             sourcesOfMissingDataForStats.add(MissionSourceEnum.RAPPORTNAV)
