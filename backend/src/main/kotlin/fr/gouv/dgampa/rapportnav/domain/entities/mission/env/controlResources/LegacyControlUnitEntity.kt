@@ -1,12 +1,15 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources
 
-data class LegacyControlUnitEntity(
-    val id: Int,
-    val administration: String,
-    val isArchived: Boolean,
-    val name: String,
-    val resources: MutableList<LegacyControlUnitResourceEntity>,
-    val contact: String? = null,
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
+
+data class LegacyControlUnitEntity @JsonCreator constructor(
+    @JsonProperty("id") val id: Int,
+    @JsonProperty("administration") val administration: String,
+    @JsonProperty("isArchived") val isArchived: Boolean,
+    @JsonProperty("name") val name: String,
+    @JsonProperty("resources") val resources: MutableList<LegacyControlUnitResourceEntity>,
+    @JsonProperty("contact") val contact: String? = null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
