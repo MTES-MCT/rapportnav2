@@ -31,7 +31,7 @@ class UserRestController(
     ): UserInfos? {
         try {
             val user = this.findById.execute(userId) ?: return null
-            val service = this.getSeviceById.execute(userId)
+            val service = this.getSeviceById.execute(user.serviceId)
             return UserInfos(
                 id = user.id!!,
                 email = user.email,
