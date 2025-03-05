@@ -28,20 +28,8 @@ const MissionGeneralInformationControlUnitResource: React.FC<MissionGeneralInfor
     setInitialValues({ resources: fieldFormik.field.value?.map(v => ({ id: v.id })) })
   }, [fieldFormik])
 
-  const getOptions = (value: ResourceFormInput) => {
-    const ids = value?.resources?.filter(resource => resource.id !== undefined).map(resource => resource.id)
-    return (
-      controlUnitResources
-        .filter(resource => !ids?.includes(resource.id)) //TODO: replace by reduce
-        .map(resource => ({
-          value: resource.id,
-          label: resource.name
-        })) ?? []
-    )
-  }
-
   const getNewValue = (input: ResourceFormInput) => {
-    const newIds = input?.resources?.filter(resource => resource.id !== undefined).map(resource => resource.id)
+    const newIds = input?.resources?.map(resource => resource?.id)?.filter(Boolean) ?? []
     return controlUnitResources
       ?.filter(resource => newIds?.includes(resource.id)) //TODO: replace by reduce
       .map(resource => ({ id: resource.id, name: resource.name, controlUnitId: resource.controlUnitId }))
@@ -73,13 +61,18 @@ const MissionGeneralInformationControlUnitResource: React.FC<MissionGeneralInfor
                         >
                           <Stack.Item style={{ width: '90%' }}>
                             <FormikSelect
-                              placeholder=""
-                              isRequired={true}
-                              searchable={true}
+                              isRequired
+                              searchable
                               style={{ width: '100%' }}
                               name={`resources.${index}.id`}
                               label="Moyen(s) utilisé(s)"
-                              options={getOptions(values)}
+                              options={
+                                controlUnitResources?.map((resource: ControlUnitResource) => ({
+                                  value: resource.id!!,
+                                  label: `${resource.name}`
+                                })) || []
+                              }
+                              disabledItemValues={values.resources.map(resource => resource.id).filter(Boolean)}
                             />
                           </Stack.Item>
                           <Stack.Item style={{ paddingLeft: 5 }}>

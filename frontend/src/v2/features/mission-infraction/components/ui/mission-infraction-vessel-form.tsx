@@ -13,10 +13,22 @@ const MissionInfractionVesselForm: React.FC<MissionInfractionVesselFormProps> = 
   return (
     <Stack direction="row" alignItems="baseline" spacing={'0.5rem'}>
       <Stack.Item style={{ width: '40%' }}>
-        <FormikSelect name={size} isRequired={true} label="Taille du navire" options={vesselSizeOptions} />
+        <FormikSelect
+          name={size}
+          isRequired={true}
+          label="Taille du navire"
+          isErrorMessageHidden={true}
+          options={vesselSizeOptions}
+        />
       </Stack.Item>
       <Stack.Item style={{ width: '60%' }}>
-        <FormikSelect isRequired={true} name={type} label="Type de navire" options={vesselTypeOptions} />
+        <FormikSelect
+          isRequired={true}
+          name={type}
+          label="Type de navire"
+          isErrorMessageHidden={true}
+          options={vesselTypeOptions}
+        />
       </Stack.Item>
     </Stack>
   )

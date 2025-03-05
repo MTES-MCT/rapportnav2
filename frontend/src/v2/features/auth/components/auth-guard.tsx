@@ -10,16 +10,14 @@ type AuthGuardProps = {
 
 export default function AuthGuard(props: AuthGuardProps): JSX.Element | null {
   const { isLoggedIn, isAuthenticated } = useAuth()
-
-  const Denied = () => {
+  const { data: user } = useGetUserQuery(isLoggedIn()?.userId)
+  const denied = () => {
     return <Navigate to={`/login`} replace />
   }
 
-  const Allow = () => {
-    const { data: user } = useGetUserQuery(isLoggedIn()?.userId)
+  const allow = () => {
     setUser(user)
-    if (!user) return
     return <Suspense>{props.children}</Suspense>
   }
-  return !isAuthenticated ? <Denied /> : <Allow />
+  return !isAuthenticated ? denied() : allow()
 }

@@ -13,6 +13,7 @@ import {
   THEME
 } from '@mtes-mct/monitor-ui'
 import { FieldProps, Formik } from 'formik'
+import { isEmpty } from 'lodash'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { setDebounceTime } from '../../../../store/slices/delay-query-reducer'
@@ -50,12 +51,14 @@ const MissionInfractionEnvForm: FC<MissionInfractionEnvFormProps> = ({
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
           enableReinitialize
+          validateOnChange={true}
         >
           {formik => (
             <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
               <Stack.Item style={{ width: '100%' }}>
                 <FormikSelect
                   isRequired={true}
+                  isErrorMessageHidden={true}
                   name="infractions[0].controlType"
                   options={controlTypeOptions}
                   label="Type de contrôle avec infraction"
@@ -134,9 +137,7 @@ const MissionInfractionEnvForm: FC<MissionInfractionEnvFormProps> = ({
                         setDebounceTime(0)
                         handleSubmit(formik.values).then(() => onClose())
                       }}
-                      disabled={
-                        !formik.values.infractions[0]?.controlType || !formik.values.infractions[0]?.natinfs?.length
-                      }
+                      disabled={!isEmpty(formik.errors)}
                     >
                       Valider l'infraction
                     </Button>

@@ -135,6 +135,17 @@ abstract class MissionActionEntity(
         this.controlAdministrative = controls?.controlAdministrative
     }
 
+    fun isStartDateEndDateOK(): Boolean {
+        if(this.endDateTimeUtc  == null ||  this.startDateTimeUtc == null) return false
+        try{
+            val endDateTime = Instant.parse(endDateTimeUtc.toString())
+            val startDateTime = Instant.parse(startDateTimeUtc.toString())
+            return endDateTime.isAfter(startDateTime)
+        }catch(e:Exception){
+            return false
+        }
+    }
+
     abstract fun computeControlsToComplete()
     abstract fun getActionId(): String
     abstract fun computeCompleteness()

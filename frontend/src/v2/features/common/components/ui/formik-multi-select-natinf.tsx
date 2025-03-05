@@ -12,6 +12,7 @@ export const FormikMultiSelectNatinf = styled((props: Omit<FormikMultiSelectProp
       isRequired={true}
       searchable={true}
       virtualized={true}
+      isErrorMessageHidden={true}
       options={natinfs?.map(n => ({ value: n.natinfCode, label: `${n.natinfCode} - ${n.infraction}` })) ?? []}
     />
   )
