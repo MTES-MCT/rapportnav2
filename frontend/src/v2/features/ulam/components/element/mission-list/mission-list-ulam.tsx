@@ -4,12 +4,14 @@ import { Container, Stack } from 'rsuite'
 import { MissionListItem } from '../../../../common/types/mission-types.ts'
 import MissionListHeaderUlam from './mission-list-header-ulam.tsx'
 import MissionListItemUlam from './mission-list-item-ulam.tsx'
+import { User } from '../../../../common/types/user.ts'
 
 interface MissionListUlamProps {
-  missions?: MissionListItem[]
+  missions?: MissionListItem[],
+  user?: User
 }
 
-const MissionListUlam: FC<MissionListUlamProps> = ({ missions }) => {
+const MissionListUlam: FC<MissionListUlamProps> = ({ missions, user }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (
@@ -39,6 +41,7 @@ const MissionListUlam: FC<MissionListUlamProps> = ({ missions }) => {
                     setOpenIndex={setOpenIndex}
                     key={`${mission.id}-${index}`}
                     missionsLength={missions.length}
+                    user={user}
                   />
                 ))
               )}

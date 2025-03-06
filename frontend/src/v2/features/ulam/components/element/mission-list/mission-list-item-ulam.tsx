@@ -16,13 +16,15 @@ import { useUlamCrewForMissionList } from '../../../hooks/use-ulam-crew-for-miss
 import { useControlUnitResourceLabel } from '../../../hooks/use-ulam-home-unit-resources.tsx'
 import MissionIconUlam from '../../ui/mission-icon-ulam.tsx'
 import MissionSourceTag from '../../../../common/components/elements/mission-source-tag.tsx'
+import { User } from '../../../../common/types/user.ts'
 
 interface MissionListItemProps {
   mission: MissionListItem
   index: number
   missionsLength: number
   openIndex: number | null
-  setOpenIndex: (index: number | null) => void
+  setOpenIndex: (index: number | null) => void,
+  user?: User
 }
 
 const ListItemWithHover = styled.div`
@@ -49,11 +51,12 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
   index,
   openIndex,
   setOpenIndex,
-  missionsLength
+  missionsLength,
+  user
 }) => {
   const navigate = useNavigate()
   const missionCrew = useUlamCrewForMissionList(mission.crew)
-  const controlUnitResourcesText = useControlUnitResourceLabel(mission.resources, mission.missionReportType)
+  const controlUnitResourcesText = useControlUnitResourceLabel(mission.controlUnits, mission.missionReportType, user?.controlUnitId)
 
   const { exportMissionReport, loading: exportIsLoading } = useMissionReportExport()
   const exportAEM = async (id: number, event?: React.MouseEvent) => {

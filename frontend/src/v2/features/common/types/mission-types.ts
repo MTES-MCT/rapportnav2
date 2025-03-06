@@ -158,7 +158,7 @@ export type MissionListItem = {
   observationsByUnit?: string
   missionSource?: MissionSourceEnum
   completenessForStats?: CompletenessForStats
-  controlUnits?: Omit<ControlUnit, 'id'>[]
+  controlUnits?: ControlUnit[]
   resources?: ControlUnitResource[],
   missionReportType?: MissionReportTypeEnum
 }
