@@ -46,7 +46,7 @@ const MissionGeneralInformationExtendedFormUlam: FC<MissionGeneralInformationExt
                         <MissionGeneralInformationControlUnitResource
                           name="resources"
                           fieldFormik={field}
-                          controlUnitResources={resources ?? []}
+                          controlUnitResources={resources}
                         />
                       )}
                     </Field>
