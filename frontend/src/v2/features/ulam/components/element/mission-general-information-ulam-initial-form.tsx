@@ -10,13 +10,13 @@ import {
   useUlamMissionGeneralInformationInitialForm
 } from '../../hooks/use-ulam-mission-general-informations-initial-form.tsx'
 
-export interface MissionGeneralInformationInitialFormUlamProps {
+export interface MissionGeneralInformationUlamInitialFormProps {
   name: string
   isCreation?: boolean
   fieldFormik: FieldProps<MissionULAMGeneralInfoInitial>
 }
 
-const MissionGeneralInformationInitialFormUlam: FC<MissionGeneralInformationInitialFormUlamProps> = ({
+const MissionGeneralInformationUlamInitialForm: FC<MissionGeneralInformationUlamInitialFormProps> = ({
   name,
   isCreation,
   fieldFormik
@@ -112,4 +112,4 @@ const MissionGeneralInformationInitialFormUlam: FC<MissionGeneralInformationInit
   )
 }
 
-export default MissionGeneralInformationInitialFormUlam
+export default MissionGeneralInformationUlamInitialForm

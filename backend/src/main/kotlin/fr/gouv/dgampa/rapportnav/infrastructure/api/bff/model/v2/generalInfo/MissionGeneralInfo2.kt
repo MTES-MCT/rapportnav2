@@ -14,10 +14,10 @@ import java.time.Instant
 data class MissionGeneralInfo2(
     val id: Int? = null,
     val missionId: Int? = null,
-    val startDateTimeUtc: Instant,
+    val startDateTimeUtc: Instant? = null,
     val endDateTimeUtc: Instant? = null,
     val missionReportType: MissionReportTypeEnum? = null,
-    val missionTypes: List<MissionTypeEnum>,
+    val missionTypes: List<MissionTypeEnum> = listOf(),
     val reinforcementType: MissionReinforcementTypeEnum? = null,
     val nbHourAtSea: Int? = null,
     var distanceInNauticalMiles: Float? = null,
@@ -36,16 +36,11 @@ data class MissionGeneralInfo2(
 ) {
     companion object {
         fun fromMissionGeneralInfoEntity(
-            envData: MissionEntity,
             generalInfo2: MissionGeneralInfoEntity2?
         ): MissionGeneralInfo2 {
-
             return MissionGeneralInfo2(
                 missionId = generalInfo2?.data?.missionId,
                 id = generalInfo2?.data?.id,
-                startDateTimeUtc = envData.startDateTimeUtc,
-                endDateTimeUtc = envData.endDateTimeUtc,
-                missionTypes = envData.missionTypes,
                 missionReportType = generalInfo2?.data?.missionReportType?: MissionReportTypeEnum.FIELD_REPORT,
                 nbHourAtSea = generalInfo2?.data?.nbHourAtSea,
                 distanceInNauticalMiles = generalInfo2?.data?.distanceInNauticalMiles,
@@ -58,25 +53,11 @@ data class MissionGeneralInfo2(
                 isAllAgentsParticipating = generalInfo2?.data?.isAllAgentsParticipating,
                 isWithInterMinisterialService = generalInfo2?.data?.isWithInterMinisterialService,
                 isMissionArmed = generalInfo2?.data?.isMissionArmed,
-                observations = envData.observationsByUnit,
                 interMinisterialServices = generalInfo2?.data?.interMinisterialServices?.map {
                     InterMinisterialService.fromInterMinisterialServiceEntity(
                         it
                     )
                 } ?: listOf(),
-                resources = envData.controlUnits
-                    .filter { controlUnit ->
-                        generalInfo2?.services?.any { it.name == controlUnit.name } == true
-                    }
-                    .flatMap {
-                        it.resources.map { resource ->
-                            LegacyControlUnitResource(
-                                id = resource.id,
-                                name = resource.name!!,
-                                controlUnitId = resource.controlUnitId!!
-                            )
-                        }
-                    },
                 reinforcementType = generalInfo2?.data?.reinforcementType
             )
         }

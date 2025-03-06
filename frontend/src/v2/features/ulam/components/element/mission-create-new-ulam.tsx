@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { Stack } from 'rsuite'
 import { MissionULAMGeneralInfoInitial } from '../../../common/types/mission-types.ts'
 import useCreateMissionMutation from '../../services/use-create-mission.tsx'
-import MissionGeneralInformationInitialFormUlam from './mission-general-information-initial-form-ulam.tsx'
+import MissionGeneralInformationInitialFormUlam from './mission-general-information-ulam-initial-form.tsx'
 
 type NewMissionUlam = { missionGeneralInfo: MissionULAMGeneralInfoInitial }
 

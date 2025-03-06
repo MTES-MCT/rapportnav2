@@ -29,7 +29,6 @@ data class Mission2(
                 envData = MissionEnvData.fromMissionEntity(mission.envData),
                 isCompleteForStats = completenessForStats.sources?.isEmpty(),
                 generalInfos = MissionGeneralInfo2.fromMissionGeneralInfoEntity(
-                    envData = mission.envData,
                     generalInfo2 = mission.generalInfos
                 ),
                 actions = mission.actions.map { action -> MissionAction.fromMissionActionEntity(action) }
