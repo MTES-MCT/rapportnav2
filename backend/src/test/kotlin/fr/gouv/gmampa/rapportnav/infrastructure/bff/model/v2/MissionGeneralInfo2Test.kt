@@ -48,7 +48,7 @@ class MissionGeneralInfo2Test {
             services = listOf(service1)
         )
 
-        val generalInfo = MissionGeneralInfo2.fromMissionGeneralInfoEntity(getEnvData(), generalInfoEntity)
+        val generalInfo = MissionGeneralInfo2.fromMissionGeneralInfoEntity(generalInfoEntity)
         assertThat(generalInfo).isNotNull();
         assertThat(generalInfo.id).isEqualTo(generalInfoEntity.data?.id);
         assertThat(generalInfo.missionId).isEqualTo(generalInfoEntity.data?.missionId);
@@ -57,7 +57,6 @@ class MissionGeneralInfo2Test {
         assertThat(generalInfo.consumedFuelInLiters).isEqualTo(generalInfoEntity.data?.consumedFuelInLiters);
         assertThat(generalInfo.distanceInNauticalMiles).isEqualTo(generalInfoEntity.data?.distanceInNauticalMiles);
         assertThat(generalInfo.nbrOfRecognizedVessel).isEqualTo(generalInfoEntity.data?.nbrOfRecognizedVessel);
-        assertThat(generalInfo.resources?.get(0)?.id).isEqualTo(generalInfoEntity.data?.resources?.get(0)?.id);
     }
 
 
@@ -70,7 +69,7 @@ class MissionGeneralInfo2Test {
                 serviceId = 3
             )
         )
-        val generalInfo = MissionGeneralInfo2.fromMissionGeneralInfoEntity(getEnvData(), generalInfoEntity)
+        val generalInfo = MissionGeneralInfo2.fromMissionGeneralInfoEntity(generalInfoEntity)
         assertThat(generalInfo).isNotNull();
         assertThat(generalInfo.missionReportType).isEqualTo(MissionReportTypeEnum.FIELD_REPORT);
     }
