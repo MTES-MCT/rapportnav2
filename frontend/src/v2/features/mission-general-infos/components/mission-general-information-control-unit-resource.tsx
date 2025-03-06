@@ -10,7 +10,7 @@ type ResourceFormInput = { resources: { id?: number }[] } | undefined
 interface MissionGeneralInformationControlUnitResourceProps {
   name: string
   fieldFormik: FieldProps<ControlUnitResource[]>
-  controlUnitResources: ControlUnitResource[]
+  controlUnitResources?: ControlUnitResource[]
 }
 
 const MissionGeneralInformationControlUnitResource: React.FC<MissionGeneralInformationControlUnitResourceProps> = ({
@@ -21,12 +21,13 @@ const MissionGeneralInformationControlUnitResource: React.FC<MissionGeneralInfor
   const [initialValues, setInitialValues] = useState<ResourceFormInput>()
 
   useEffect(() => {
+    if (!controlUnitResources) return
     if (!fieldFormik.field?.value || fieldFormik.field.value.length === 0) {
       setInitialValues({ resources: [{ id: undefined }] })
       return
     }
     setInitialValues({ resources: fieldFormik.field.value?.map(v => ({ id: v.id })) })
-  }, [fieldFormik])
+  }, [fieldFormik, controlUnitResources])
 
   const getNewValue = (input: ResourceFormInput) => {
     const newIds = input?.resources?.map(resource => resource?.id)?.filter(Boolean) ?? []
