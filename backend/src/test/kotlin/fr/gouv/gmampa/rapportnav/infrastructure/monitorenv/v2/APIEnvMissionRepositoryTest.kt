@@ -1,16 +1,13 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.v2
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.google.gson.Gson
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
-import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.APIEnvMissionRepositoryV2
-import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MultiPolygonMock
 import org.junit.jupiter.api.Test
@@ -25,8 +22,9 @@ import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.time.Instant
-import java.time.ZonedDateTime
 
 
 @ExtendWith(SpringExtension::class)
@@ -34,27 +32,6 @@ import java.time.ZonedDateTime
 class APIEnvMissionRepositoryTest {
 
     val host = "https://monitorenv.din.developpement-durable.gouv.fr"
-
-    val resource = LegacyControlUnitResourceEntity(
-        id = 1,
-        controlUnitId = 1,
-        name = "urus"
-    )
-
-    val mission = MissionDataOutput(
-        id = 761,
-        missionTypes = listOf(MissionTypeEnum.SEA),
-        controlUnits = listOf(LegacyControlUnitEntityMock.create(
-            resources = mutableListOf(resource)
-        )),
-        startDateTimeUtc = ZonedDateTime.parse("2022-03-15T04:50:09Z"),
-        endDateTimeUtc = ZonedDateTime.parse("2022-03-27T04:50:09Z"),
-        missionSource = MissionSourceEnum.MONITORENV,
-        hasMissionOrder = false,
-        isUnderJdp = false,
-        isGeometryComputedFromControls = false,
-        observationsByUnit = "my observationsByUnit"
-    )
 
     @MockitoBean
     private lateinit var objectMapper: ObjectMapper
@@ -161,8 +138,8 @@ class APIEnvMissionRepositoryTest {
 
 
     private fun getMissionString(): String {
-        val gson: Gson = GsonSerializer().create()
-        return gson.toJson(mission)
+        val path = Paths.get("src/test/resources/missions/mission.json")
+        return String(Files.readAllBytes(path))
     }
 }
 

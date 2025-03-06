@@ -1,0 +1,29 @@
+{
+  "id": 16979,
+  "missionTypes": ["SEA"],
+  "controlUnits": [
+    {
+      "id": 10225,
+      "administration": "DDTM",
+      "isArchived": false,
+      "name": "ULAM 33",
+      "resources": [
+        {
+          "id": 1205,
+          "controlUnitId": 10225,
+          "name": "Edulis - PM 424"
+        }
+      ],
+      "contact": null
+    }
+  ],
+  "startDateTimeUtc": "2025-03-25T23:00:00Z",
+  "endDateTimeUtc": "2025-03-29T22:59:59Z",
+  "createdAtUtc": null,
+  "updatedAtUtc": "2025-03-06T07:29:57.26847Z",
+  "envActions": [],
+  "missionSource": "RAPPORT_NAV",
+  "hasMissionOrder": false,
+  "isUnderJdp": false,
+  "isGeometryComputedFromControls": false
+}

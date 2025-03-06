@@ -21,17 +21,17 @@ object MissionsStubs {
         val resource1 = LegacyControlUnitResourceEntity(
             id = 1,
             name = "Dacia Duster",
-            controlUnitId = 1
+            controlUnitId = 10317
         )
 
         val resource2 = LegacyControlUnitResourceEntity(
             id = 2,
             name = "Toyota Hilux",
-            controlUnitId = 1
+            controlUnitId = 10317
         )
 
         val controlUnit1 = LegacyControlUnitEntity(
-            id = 1,
+            id = 10317,
             name = "FAKE-UNIT-1",
             isArchived = false,
             administration = "beta.gouv.fr",

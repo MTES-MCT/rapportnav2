@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output
 
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
@@ -11,6 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.ZonedDateTime
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) constructor(
     @JsonProperty("id") val id: Int,
     @JsonProperty("missionTypes") val missionTypes: List<MissionTypeEnum>,
