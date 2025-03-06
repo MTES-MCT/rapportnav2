@@ -6,10 +6,16 @@ import java.time.Instant
 import java.time.ZonedDateTime
 
 class GsonSerializer {
-    fun create(): Gson {
-        return GsonBuilder()
+    fun create(serializeNulls: Boolean? = false): Gson {
+        val builder = GsonBuilder()
             .registerTypeAdapter(ZonedDateTime::class.java, ZonedDateTimeAdapter())
             .registerTypeAdapter(Instant::class.java, InstantAdapter())
-            .create()
+
+        if (serializeNulls == true) {
+            builder.serializeNulls()
+        }
+
+        return builder.create()
     }
 }
+
