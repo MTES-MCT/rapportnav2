@@ -24,7 +24,7 @@ class APIFishActionRepository(
 ) : IFishActionRepository {
     private val logger: Logger = LoggerFactory.getLogger(APIFishActionRepository::class.java)
 
-    private val gson = GsonSerializer().create()
+    private val gson = GsonSerializer().create(serializeNulls = true)
 
 
     @Value("\${MONITORFISH_API_KEY}")
@@ -60,10 +60,15 @@ class APIFishActionRepository(
         logger.info("Sending PATCH request for Fish Action id=$actionId. URL: $url")
         return try {
 
+            val json = gson.toJson(action)
+
+            logger.info("Body request send as json : $json")
+            logger.info("Body request send as entity : $action")
+
             val request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
-                .method("PATCH", HttpRequest.BodyPublishers.ofString(gson.toJson(action)))
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(json))
                 .header("Content-Type", "application/json")
                 .header("x-api-key", monitorFishApiKey)
                 .build();
