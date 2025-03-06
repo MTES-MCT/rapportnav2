@@ -124,7 +124,7 @@ const MissionActionItemFishControl: FC<{
                     isLight={true}
                     name="observations"
                     data-testid="observations-by-unit"
-                    label="Observations de l’unité sur le contrôle de l’environnement marin"
+                    label="Observation de l'unité sur le contrôle"
                   />
                 </Stack.Item>
               </Stack>
