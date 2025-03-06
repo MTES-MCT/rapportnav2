@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionActionWrapper from '../../../mission-action/components/layout/mission-action-wrapper'
-import MissionActionItemPam from './mission-action-item-pam'
+import MissionActionItemPam from './mission-action-pam-item'
 
 interface MissionActionProps {
   missionId: number

@@ -1,18 +1,18 @@
 import { createElement, FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { ModuleType } from '../../../../features/common/types/module-type'
+import { ModuleType } from '../../../common/types/module-type'
 import MissionTimelineItemWrapper from '../../../mission-timeline/components/layout/mission-timeline-item-wrapper'
 import { useTimeline } from '../../../mission-timeline/hooks/use-timeline'
 import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'
 import { useUlamTimelineRegistry } from '../../hooks/use-ulam-timeline-registry'
 
-interface MissionTimelineItemUlamProps {
+interface MissionTimelineUlamItemProps {
   missionId?: number
   action: MissionTimelineAction
   prevAction?: MissionTimelineAction
 }
 
-const MissionTimelineItemUlam: FC<MissionTimelineItemUlamProps> = ({ action, prevAction, missionId }) => {
+const MissionTimelineUlamItem: FC<MissionTimelineUlamItemProps> = ({ action, prevAction, missionId }) => {
   const { actionId } = useParams()
   const { isIncomplete } = useTimeline()
   const { getTimeline } = useUlamTimelineRegistry()
@@ -40,4 +40,4 @@ const MissionTimelineItemUlam: FC<MissionTimelineItemUlamProps> = ({ action, pre
   )
 }
 
-export default MissionTimelineItemUlam
+export default MissionTimelineUlamItem

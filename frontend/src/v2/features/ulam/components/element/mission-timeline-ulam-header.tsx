@@ -4,11 +4,11 @@ import MissionTimelineHeaderWrapper from '../../../../features/mission-timeline/
 import { ModuleType } from '../../../common/types/module-type'
 import { useUlamTimelineRegistry } from '../../hooks/use-ulam-timeline-registry'
 
-interface MissionTimelineHeaderUlamProps {
+interface MissionTimelineUlamHeaderProps {
   missionId: number
 }
 
-const MissionTimelineHeaderUlam: FC<MissionTimelineHeaderUlamProps> = ({ missionId }) => {
+const MissionTimelineUlamHeader: FC<MissionTimelineUlamHeaderProps> = ({ missionId }) => {
   const navigate = useNavigate()
   const { timelineDropdownItems } = useUlamTimelineRegistry()
   const handleOnSubmit = (id?: string) => navigate(`/v2/${ModuleType.ULAM}/missions/${missionId}/${id}`)
@@ -23,4 +23,4 @@ const MissionTimelineHeaderUlam: FC<MissionTimelineHeaderUlamProps> = ({ mission
   )
 }
 
-export default MissionTimelineHeaderUlam
+export default MissionTimelineUlamHeader

@@ -11,10 +11,10 @@ import {
   MissionGeneralInfoInput,
   useUlamMissionGeneralInfoForm
 } from '../../hooks/use-ulam-mission-general-information-form.tsx'
-import MissionGeneralInformationExtendedFormUlam from './mission-general-information-extended-form-ulam.tsx'
-import MissionGeneralInformationInitialFormUlam from './mission-general-information-initial-form-ulam.tsx'
+import MissionGeneralInformationExtendedFormUlam from './mission-general-information-ulam-extended-form.tsx'
+import MissionGeneralInformationInitialFormUlam from './mission-general-information-ulam-initial-form.tsx'
 
-const MissionGeneralInformationForm: FC<{
+const MissionGeneralInformationUlamForm: FC<{
   generalInfo2: MissionGeneralInfo2
   onChange: (newGeneralInfo: MissionGeneralInfo2) => Promise<unknown>
 }> = ({ generalInfo2, onChange }) => {
@@ -53,4 +53,4 @@ const MissionGeneralInformationForm: FC<{
   )
 }
 
-export default MissionGeneralInformationForm
+export default MissionGeneralInformationUlamForm

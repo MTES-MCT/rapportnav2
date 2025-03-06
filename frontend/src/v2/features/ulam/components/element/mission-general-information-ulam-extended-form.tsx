@@ -3,7 +3,7 @@ import { useStore } from '@tanstack/react-store'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { store } from '../../../../store'
+import { store } from '../../../../store/index.ts'
 import useAdministrationsQuery from '../../../common/services/use-administrations.tsx'
 import useAgentsQuery from '../../../common/services/use-agents.tsx'
 import useControlUnitResourcesQuery from '../../../common/services/use-control-unit-resources.tsx'
@@ -13,13 +13,13 @@ import MissionGeneralInformationCrewNoComment from '../../../mission-general-inf
 import MissionGeneralInformationInterService from '../../../mission-general-infos/components/mission-general-information-inter-service.tsx'
 import { useUlamMissionGeneralInformationsExtendedForm } from '../../hooks/use-ulam-mission-general-informations-extended-form.tsx'
 
-export interface MissionGeneralInformationExtendedFormUlamProps {
+export interface MissionGeneralInformationUlamExtendedFormProps {
   name: string
   missionId?: number
   fieldFormik: FieldProps<MissionGeneralInfoExtended>
 }
 
-const MissionGeneralInformationExtendedFormUlam: FC<MissionGeneralInformationExtendedFormUlamProps> = ({
+const MissionGeneralInformationUlamExtendedForm: FC<MissionGeneralInformationUlamExtendedFormProps> = ({
   name,
   missionId,
   fieldFormik
@@ -110,4 +110,4 @@ const MissionGeneralInformationExtendedFormUlam: FC<MissionGeneralInformationExt
   )
 }
 
-export default MissionGeneralInformationExtendedFormUlam
+export default MissionGeneralInformationUlamExtendedForm

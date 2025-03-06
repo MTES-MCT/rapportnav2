@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { setUser } from '../../../store/slices/user-reducer'
 import useGetUserQuery from '../../common/services/use-user'
@@ -15,8 +15,11 @@ export default function AuthGuard(props: AuthGuardProps): JSX.Element | null {
     return <Navigate to={`/login`} replace />
   }
 
-  const allow = () => {
+  useEffect(() => {
     setUser(user)
+  }, [user])
+
+  const allow = () => {
     return <Suspense>{props.children}</Suspense>
   }
   return !isAuthenticated ? denied() : allow()

@@ -7,12 +7,12 @@ import useUpdateMissionActionMutation from '../../../common/services/use-update-
 import { MissionAction } from '../../../common/types/mission-action'
 import { usePamActionRegistry } from '../../hooks/use-pam-action-registry'
 
-interface MissionActionItemPamProps {
+interface MissionActionPamItemProps {
   missionId: number
   action: MissionAction
 }
 
-const MissionActionItemPam: FC<MissionActionItemPamProps> = ({ action, missionId }) => {
+const MissionActionPamItem: FC<MissionActionPamItemProps> = ({ action, missionId }) => {
   const { handleExecuteOnDelay } = useDelay()
   const { component } = usePamActionRegistry(action.actionType)
   const debounceTime = useStore(store, state => state.delayQuery.debounceTime)
@@ -34,4 +34,4 @@ const MissionActionItemPam: FC<MissionActionItemPamProps> = ({ action, missionId
   )
 }
 
-export default MissionActionItemPam
+export default MissionActionPamItem

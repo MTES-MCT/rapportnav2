@@ -12,22 +12,15 @@ interface MissionActionProps {
 }
 
 const MissionActionPam: FC<MissionActionProps> = ({ missionId, actionId, missionStatus }) => {
-  const query = useGetActionQuery(missionId, actionId)
+  const { data: action, isLoading, error } = useGetActionQuery(missionId, actionId)
   return (
     <MissionPageSectionWrapper
       hide={!actionId}
       sectionHeader={
-        query.data && (
-          <MissionActionPamHeader missionId={Number(missionId)} action={query.data} missionStatus={missionStatus} />
-        )
+        action && <MissionActionPamHeader missionId={Number(missionId)} action={action} missionStatus={missionStatus} />
       }
       sectionBody={
-        <MissionActionPamBody
-          action={query.data}
-          error={query.error}
-          isLoading={query.isLoading}
-          missionId={Number(missionId)}
-        />
+        <MissionActionPamBody action={action} error={error} isLoading={isLoading} missionId={Number(missionId)} />
       }
     />
   )
