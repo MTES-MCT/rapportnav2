@@ -161,7 +161,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                     isLight={true}
                     name="observationsByUnit"
                     data-testid="observationsByUnit"
-                    label="Observations de l’unité sur le contrôle de l’environnement marin"
+                    label="Observation de l'unité sur le contrôle"
                   />
                 </Stack.Item>
               </Stack>
