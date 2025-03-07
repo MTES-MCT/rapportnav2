@@ -20,7 +20,7 @@
     "docs": "docsify serve docs"
   },
   "dependencies": {
-    "@apollo/client": "^3.12.3",
+    "@apollo/client": "^3.13.0",
     "@mtes-mct/monitor-ui": "^24.11.3",
     "@sentry/react": "^8.44.0",
     "@tanstack/react-query": "^5.62.11",
