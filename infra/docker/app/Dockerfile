@@ -26,6 +26,9 @@ ENV ENV_DB_URL=""
 ENV http_proxy=${PROXY}
 ENV https_proxy=${PROXY}
 
+# Print ENV_PROFILE and VERSION for debugging
+RUN echo "ENV_PROFILE: $ENV_PROFILE" && echo "VERSION: $VERSION"
+
 # Install LibreOffice using apk with proxy settings
 RUN apk update && \
     apk add --no-cache libreoffice && \
@@ -37,9 +40,7 @@ COPY infra/configurations/backend /home/rapportnav/configurations/
 
 
 RUN mkdir /home/rapportnav/public
-# COPY --from=buildSourcemaps /tmp/frontend/build /home/rapportnav/public/
 COPY frontend/dist /home/rapportnav/public/
-# COPY --from=build-frontend /tmp/infra/docker/tmp/env.sh /home/rapportnav/
 
 # Add logs folder to be mounted as volume
 RUN mkdir /home/rapportnav/logs
@@ -48,4 +49,5 @@ RUN mkdir /home/rapportnav/logs
 # It must point to the front (React) files
 ENV STATIC_FILES_PATH=/home/rapportnav/public
 
-CMD exec java -Dspring.config.additional-location="/home/rapportnav/configurations/" -Dspring.profiles.active="$ENV_PROFILE" -jar "/home/rapportnav/rapportnav-${VERSION}.jar"
+# Print env vars and then start the application using exec form
+CMD ["/bin/sh", "-c", "echo ENV_PROFILE: $ENV_PROFILE && echo VERSION: $VERSION && exec java -Dspring.config.additional-location=/home/rapportnav/configurations/ -Dspring.profiles.active=$ENV_PROFILE -jar /home/rapportnav/rapportnav-${VERSION}.jar"]
