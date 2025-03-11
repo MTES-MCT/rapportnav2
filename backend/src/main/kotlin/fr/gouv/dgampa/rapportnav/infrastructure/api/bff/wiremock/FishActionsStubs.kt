@@ -2,16 +2,18 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.wiremock
 
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.wiremock.utils.LoadJsonData
+import java.nio.file.Files
+import java.nio.file.Paths
 
-object NatinfStubs {
+object FishActionsStubs {
 
     fun configureStubs(wireMockServer: WireMockServer) {
-
-        val json = LoadJsonData.load("env/natinfs.json")
+        val path = Paths.get("src/main/resources/wiremock/fish/actions.json")
+        val json = String(Files.readAllBytes(path))
 
         wireMockServer.stubFor(
-            WireMock.get(WireMock.urlPathEqualTo("/bff/v1/natinfs"))
+            WireMock.get(WireMock.urlMatching("/api/v1/mission_actions"))
+                .withQueryParam("missionId", WireMock.matching(".*"))
                 .willReturn(
                     WireMock.aResponse()
                         .withHeader("Content-Type", "application/json")
