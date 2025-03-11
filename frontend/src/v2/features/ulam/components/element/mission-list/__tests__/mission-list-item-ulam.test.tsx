@@ -6,11 +6,31 @@ import {
   MissionSourceEnum
 } from '../../../../../common/types/mission-types.ts'
 import MissionListItemUlam from '../mission-list-item-ulam.tsx'
+import { User } from '../../../../../common/types/user.ts'
 
-const mission1 = {
+const mission1: MissionListItem = {
   id: 1,
   controlUnits: [],
-  crew: [],
+  crew: [
+    {
+      id: "1",
+      agent: {
+        id: "1",
+        firstName: 'John',
+        lastName: 'Doe',
+        services: []
+      }
+    },
+    {
+      id: "2",
+      agent: {
+        id: "2",
+        firstName: 'Jane',
+        lastName: 'Doe',
+        services: []
+      },
+    }
+  ],
   observationsByUnit: 'Je suis une observation',
   missionSource: MissionSourceEnum.MONITORENV,
   missionReportType: MissionReportTypeEnum.OFFICE_REPORT,
@@ -50,41 +70,33 @@ const queryAllMissionItemProps = () => ({
   reportStatus: screen.queryByTestId('mission-list-item-completeness')
 })
 
-describe.skip('MissionListItem component', () => {
-  const missions: MissionListItem[] = [
-    {
-      id: 1,
-      crew: [],
-      missionSource: MissionSourceEnum.MONITORENV,
-      startDateTimeUtc: new Date().toISOString(),
-      observationsByUnit: 'Observation 1',
-    },
-    {
-      id: 2,
-      crew: [],
-      missionSource: MissionSourceEnum.MONITORFISH,
-      startDateTimeUtc: new Date().toISOString(),
-      observationsByUnit: 'Observation 2',
-    }
-  ]
+describe('MissionListItem component', () => {
+
+  const mockUser: User = {
+    id: 1,
+    firstName: 'John',
+    lastName: 'Doe',
+    controlUnitId: 1,
+    email: 'john@doe.com',
+  }
 
   const mockSetOpenIndex = vi.fn()
 
-  test('should render "N/A" if no ControlUnitResource provided and report type is OFFICE_REPORT', () => {
+  test('should render "N/A" if report type is OFFICE_REPORT', () => {
 
-    render(<MissionListItemUlam mission={mission1} index={0} openIndex={1} setOpenIndex={mockSetOpenIndex} missionsLength={2} />)
+    render(<MissionListItemUlam mission={mission1} index={0} openIndex={1} setOpenIndex={mockSetOpenIndex} missionsLength={2} user={mockUser} />)
     const noResource = screen.queryByText('N/A')
     expect(noResource).toBeInTheDocument()
   })
 
-  test('should render "Renault Mégane" if ControlUnitResource contains CAR', () => {
-    render(<MissionListItemUlam mission={mission2} index={0} openIndex={1} setOpenIndex={mockSetOpenIndex} missionsLength={2} />)
+  test('should render "Renault Mégane" if ControlUnitResource contains Renaul Mégane', () => {
+    render(<MissionListItemUlam mission={mission2} index={0} openIndex={1} setOpenIndex={mockSetOpenIndex} missionsLength={2} user={mockUser} />)
     const car = screen.queryByTestId('mission-list-item-control_unit_resources')
     expect(car).toHaveTextContent('Renault Mégane')
   })
 
-  test.skip('should render all properties for ulam', () => {
-    render(<MissionListItemUlam  index={0} openIndex={1} setOpenIndex={mockSetOpenIndex} />)
+  test('should render all properties for ulam', () => {
+    render(<MissionListItemUlam  index={0} openIndex={1} setOpenIndex={mockSetOpenIndex} missionsLength={2} mission={mission1} user={mockUser} />)
     const { missionIcon, missionNumber, openBy, openDate, ressourcesUsed, crew, missionStatus, reportStatus } =
       queryAllMissionItemProps()
 
@@ -114,10 +126,10 @@ describe.skip('MissionListItem component', () => {
     expect(missionCrew).toHaveStyle(`white-space: nowrap`)
   })
 
-  it('toggles open state when clicking on the list item', async () => {
+  test('should toggles open state when clicking on the list item', async () => {
     const setOpenIndexMock = vi.fn()
 
-    render(<MissionListItemUlam mission={mission1} index={0} setOpenIndex={setOpenIndexMock} missionsLength={2} openIndex={0} />)
+    render(<MissionListItemUlam mission={mission1} index={0} setOpenIndex={setOpenIndexMock} missionsLength={2} openIndex={null} />)
 
     fireEvent.click(screen.getByTestId('mission-list-item-with-hover'))
     await waitFor(() => expect(setOpenIndexMock).toHaveBeenCalledWith(0))
