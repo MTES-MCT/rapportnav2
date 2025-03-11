@@ -1,0 +1,101 @@
+[
+  {
+    "id": 10522,
+    "vesselId": 1245284,
+    "vesselName": "LA PAIX DU CIEL II",
+    "internalReferenceNumber": "FRA000925174",
+    "externalReferenceNumber": "AC925174",
+    "ircs": "FGG3576",
+    "flagState": "FR",
+    "districtCode": "AC",
+    "faoAreas": [
+      "27.8.b"
+    ],
+    "flightGoals": [],
+    "missionId": 21417,
+    "actionType": "LAND_CONTROL",
+    "actionDatetimeUtc": "2025-02-20T10:24:00Z",
+    "actionEndDatetimeUtc": null,
+    "emitsVms": "NOT_APPLICABLE",
+    "emitsAis": "NOT_APPLICABLE",
+    "logbookMatchesActivity": "YES",
+    "licencesMatchActivity": "YES",
+    "speciesWeightControlled": false,
+    "speciesSizeControlled": true,
+    "separateStowageOfPreservedSpecies": "YES",
+    "logbookInfractions": [],
+    "licencesAndLogbookObservations": null,
+    "gearInfractions": [],
+    "speciesInfractions": [],
+    "speciesObservations": null,
+    "seizureAndDiversion": false,
+    "otherInfractions": [],
+    "numberOfVesselsFlownOver": null,
+    "unitWithoutOmegaGauge": false,
+    "controlQualityComments": null,
+    "feedbackSheetRequired": false,
+    "segments": [
+      {
+        "segment": "SWW09",
+        "segmentName": "Fileyeurs Golfe de Gascogne 80-100mm"
+      }
+    ],
+    "facade": "SA",
+    "longitude": null,
+    "latitude": null,
+    "portLocode": "FRARC",
+    "portName": null,
+    "seizureAndDiversionComments": null,
+    "otherComments": null,
+    "gearOnboard": [
+      {
+        "gearCode": "GNC",
+        "gearName": "Filets maillants encerclants",
+        "declaredMesh": 90.0,
+        "controlledMesh": 94.6,
+        "hasUncontrolledMesh": false,
+        "gearWasControlled": true,
+        "comments": "400m\n4m50 de hauteur"
+      },
+      {
+        "gearCode": "GNC",
+        "gearName": "Filets maillants encerclants",
+        "declaredMesh": 90.0,
+        "controlledMesh": 93.0,
+        "hasUncontrolledMesh": false,
+        "gearWasControlled": true,
+        "comments": "400m\n4m50 de hauteur"
+      }
+    ],
+    "speciesOnboard": [
+      {
+        "speciesCode": "SSB",
+        "nbFish": null,
+        "declaredWeight": 5.0,
+        "controlledWeight": null,
+        "underSized": false
+      },
+      {
+        "speciesCode": "BSS",
+        "nbFish": null,
+        "declaredWeight": 0.4,
+        "controlledWeight": null,
+        "underSized": false
+      }
+    ],
+    "controlUnits": [],
+    "userTrigram": "RNT",
+    "vesselTargeted": "NO",
+    "hasSomeGearsSeized": false,
+    "hasSomeSpeciesSeized": false,
+    "speciesQuantitySeized": null,
+    "completedBy": "RNT",
+    "completion": "COMPLETED",
+    "isFromPoseidon": false,
+    "isAdministrativeControl": true,
+    "isComplianceWithWaterRegulationsControl": true,
+    "isSafetyEquipmentAndStandardsComplianceControl": true,
+    "isSeafarersControl": true,
+    "observationsByUnit": null
+  }
+]
