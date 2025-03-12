@@ -3,9 +3,10 @@ import { MissionStatusEnum } from '@common/types/mission-types.ts'
 import Text from '@common/components/ui/text.tsx'
 import { Accent, Button, Icon, IconButton, Size, TagGroup, THEME } from '@mtes-mct/monitor-ui'
 import GearIcon from '@rsuite/icons/Gear'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FlexboxGrid, Stack } from 'rsuite'
 import styled from 'styled-components'
+import { setMissionStatus } from '../../../../store/slices/mission-reducer.ts'
 import { useDate } from '../../hooks/use-date.tsx'
 import { CompletenessForStatsStatusEnum, Mission2 } from '../../types/mission-types.ts'
 import MissionCompletenessForStatsTag from '../elements/mission-completeness-for-stats-tag.tsx'
@@ -38,6 +39,9 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
   exportLoading
 }) => {
   const { formatMissionName } = useDate()
+  useEffect(() => {
+    setMissionStatus(mission?.status)
+  }, [mission])
 
   return (
     <>
