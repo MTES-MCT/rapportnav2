@@ -1,12 +1,13 @@
 import { Mission2, MissionListItem } from '../types/mission-types'
 import { useDate } from './use-date'
-import { getOpenByText } from './use-mission-tag'
+import { useMissionTag } from './use-mission-tag'
 
 interface MissionListHook {
   getMissionListItem: (mission: Mission2) => MissionListItem
 }
 
 export function useMissionList(): MissionListHook {
+  const { getOpenByText } = useMissionTag()
   const { formatDateForFrenchHumans, formatDateForMissionName, formaDatetMissionNameUlam } = useDate()
   const formatMissionName = (startDate?: string): string => {
     return `Mission #${formatDateForMissionName(startDate)}`

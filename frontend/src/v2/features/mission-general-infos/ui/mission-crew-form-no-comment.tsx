@@ -14,7 +14,7 @@ import { Field, FieldProps, Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { FlexboxGrid, Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
-import { Agent, MissionCrewMember } from '../../../common/types/crew-type.ts'
+import { Agent, MissionCrewMember } from '../../common/types/crew-type.ts'
 
 const CrewFormDialogBody = styled((props: DialogProps) => <Dialog.Body {...props} />)(({ theme }) => ({
   padding: 24,
