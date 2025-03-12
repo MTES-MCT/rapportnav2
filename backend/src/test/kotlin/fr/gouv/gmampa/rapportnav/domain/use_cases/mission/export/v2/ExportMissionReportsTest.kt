@@ -20,13 +20,13 @@ class ExportMissionReportsTest {
     private lateinit var exportMissionReports: ExportMissionReports
 
     @MockitoBean
-    private lateinit var exportMissionPatrolSingle: ExportMissionPatrolSingle
+    private lateinit var exportMissionPatrolSingle: ExportMissionPatrolSingle2
 
     @MockitoBean
-    private lateinit var exportMissionPatrolCombined: ExportMissionPatrolCombined
+    private lateinit var exportMissionPatrolCombined: ExportMissionPatrolCombined2
 
     @MockitoBean
-    private lateinit var exportMissionPatrolMultipleZipped: ExportMissionPatrolMultipleZipped
+    private lateinit var exportMissionPatrolMultipleZipped: ExportMissionPatrolMultipleZipped2
 
     @MockitoBean
     private lateinit var exportMissionAEMSingle: ExportMissionAEMSingle
