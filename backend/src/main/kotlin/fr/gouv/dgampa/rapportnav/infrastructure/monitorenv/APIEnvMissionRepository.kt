@@ -35,9 +35,9 @@ class APIEnvMissionRepository(
     private val client = clientFactory.create();
 
     // TODO set as env var when available
-    private val host = "https://monitorenv.din.developpement-durable.gouv.fr"
+//    private val host = "https://monitorenv.din.developpement-durable.gouv.fr"
 
-    //private val host = "http://localhost:8089" // TODO: add env var
+    private val host = "http://localhost:8089" // TODO: add env var
 
     override fun findMissionById(missionId: Int): MissionEntity? {
         val url = URI.create("$host/api/v1/missions/$missionId")
