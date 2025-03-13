@@ -7,23 +7,23 @@ import { Divider, FlexboxGrid, Stack } from 'rsuite'
 import styled from 'styled-components'
 import ExportFileButton from '../../../../common/components/elements/export-file-button.tsx'
 import MissionCompletenessForStatsTag from '../../../../common/components/elements/mission-completeness-for-stats-tag.tsx'
-import MissionStatusTag from '../../../../common/components/elements/mission-status-tag.tsx'
-import { isCompleteForStats } from '../../../../common/hooks/use-mission-completeness-for-stats.tsx'
+import MissionSourceTag from '../../../../common/components/ui/mission-source-tag.tsx'
+import MissionStatusTag from '../../../../common/components/ui/mission-status-tag.tsx'
+import { useMissionCompletenessForStats } from '../../../../common/hooks/use-mission-completeness-for-stats.tsx'
 import { useMissionReportExport } from '../../../../common/hooks/use-mission-report-export.tsx'
 import { ExportMode, ExportReportType } from '../../../../common/types/mission-export-types.ts'
 import { MissionListItem } from '../../../../common/types/mission-types.ts'
+import { User } from '../../../../common/types/user.ts'
 import { useUlamCrewForMissionList } from '../../../hooks/use-ulam-crew-for-mission-list.tsx'
 import { useControlUnitResourceLabel } from '../../../hooks/use-ulam-home-unit-resources.tsx'
 import MissionIconUlam from '../../ui/mission-icon-ulam.tsx'
-import MissionSourceTag from '../../../../common/components/elements/mission-source-tag.tsx'
-import { User } from '../../../../common/types/user.ts'
 
 interface MissionListItemProps {
   mission: MissionListItem
   index: number
   missionsLength: number
   openIndex: number | null
-  setOpenIndex: (index: number | null) => void,
+  setOpenIndex: (index: number | null) => void
   user?: User
 }
 
@@ -55,8 +55,13 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
   user
 }) => {
   const navigate = useNavigate()
+  const { isCompleteForStats } = useMissionCompletenessForStats()
   const missionCrew = useUlamCrewForMissionList(mission.crew)
-  const controlUnitResourcesText = useControlUnitResourceLabel(mission.controlUnits, mission.missionReportType, user?.controlUnitId)
+  const controlUnitResourcesText = useControlUnitResourceLabel(
+    mission.controlUnits,
+    mission.missionReportType,
+    user?.controlUnitId
+  )
 
   const { exportMissionReport, loading: exportIsLoading } = useMissionReportExport()
   const exportAEM = async (id: number, event?: React.MouseEvent) => {

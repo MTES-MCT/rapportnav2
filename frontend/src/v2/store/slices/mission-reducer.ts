@@ -1,7 +1,7 @@
 import { MissionStatusEnum } from '@common/types/mission-types'
 import { store } from '..'
 
-export const setMissionStatus = (status: MissionStatusEnum) => {
+export const setMissionStatus = (status?: MissionStatusEnum) => {
   store.setState(state => {
     return {
       ...state,

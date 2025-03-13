@@ -4,25 +4,21 @@ import React from 'react'
 import { Stack } from 'rsuite'
 import useNatinfListQuery from '../../services/use-natinf-service'
 
-interface MissionNatinfFullNameListProps {
+interface MissionNatinfsProps {
   natinfs?: string[]
 }
 
-const MissionNatinfFullNameList: React.FC<MissionNatinfFullNameListProps> = ({ natinfs }) => {
-  const { data: allNatinfs, loading, error } = useNatinfListQuery()
-  if (loading || error || !natinfs) {
+const MissionNatinfs: React.FC<MissionNatinfsProps> = ({ natinfs }) => {
+  const { data: allNatinfs, isLoading, error } = useNatinfListQuery()
+  if (isLoading || error || !natinfs) {
     return
   }
 
-  function filterNatinfByCode(natinfCode: string, natinfs: Natinf[] | undefined = undefined): Natinf | undefined {
-    return natinfs?.find(natinf => natinf.natinfCode.toString() === natinfCode.toString())
-  }
+  const filterNatinfByCode = (natinfCode: string, natinfs?: Natinf[]): Natinf | undefined =>
+    natinfs?.find(natinf => natinf.natinfCode.toString() === natinfCode.toString())
 
-  function createFilteredList(natinfs: string[]): Natinf[] {
-    return natinfs
-      .map(natinfCode => filterNatinfByCode(natinfCode, allNatinfs))
-      .filter((natinf): natinf is Natinf => !!natinf)
-  }
+  const createFilteredList = (natinfs: string[]): Natinf[] =>
+    natinfs.map(natinfCode => filterNatinfByCode(natinfCode, allNatinfs)).filter((natinf): natinf is Natinf => !!natinf)
 
   const natinfsWithName: Natinf[] = createFilteredList(natinfs)
 
@@ -41,4 +37,4 @@ const MissionNatinfFullNameList: React.FC<MissionNatinfFullNameListProps> = ({ n
   )
 }
 
-export default MissionNatinfFullNameList
+export default MissionNatinfs

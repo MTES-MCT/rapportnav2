@@ -45,7 +45,7 @@ export const MissionListPageHeaderWrapper: React.FC<MissionListHeaderWrapperProp
                 Icon={Icon.Logout}
                 style={{ marginLeft: 8, marginRight: 4 }}
               >
-                Logout
+                Se déconnecter
               </Button>
             </Stack>
           )}

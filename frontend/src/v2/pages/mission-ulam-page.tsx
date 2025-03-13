@@ -2,8 +2,8 @@ import { ULAM_V2_HOME_PATH } from '@router/router.tsx'
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import useAuth from '../features/auth/hooks/use-auth.tsx'
-import MissionPageFooterWrapper from '../features/common/components/layout/mission-page-footer-wrapper.tsx'
 import MissionPageWrapper from '../features/common/components/layout/mission-page-wrapper.tsx'
+import MissionPageFooter from '../features/common/components/ui/mission-page-footer.tsx'
 import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
 import MissionActionUlam from '../features/ulam/components/element/mission-action-ulam.tsx'
 import MissionGeneralInformationUlam from '../features/ulam/components/element/mission-general-information-ulam.tsx'
@@ -29,7 +29,7 @@ const MissionUlamPage: React.FC = () => {
       missionGeneralInformations={<MissionGeneralInformationUlam missionId={Number(missionId)} />}
       missionTimeLine={<MissionTimelineUlam missionId={Number(missionId)} />}
       missionAction={<MissionActionUlam missionId={Number(missionId)} actionId={actionId} />}
-      missionFooter={<MissionPageFooterWrapper exitMission={exitMission} />}
+      missionFooter={<MissionPageFooter exitMission={exitMission} />}
     />
   )
 }

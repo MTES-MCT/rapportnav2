@@ -2,12 +2,12 @@ import { IconProps, SideMenu } from '@mtes-mct/monitor-ui'
 import { FunctionComponent, useEffect, useState } from 'react'
 import { Sidebar } from 'rsuite'
 
-type MissionListPageSidebarWrapperProps = {
+type MissionListPageSidebarProps = {
   defaultItemKey?: string
   items: { key: string; icon: FunctionComponent<IconProps>; url: string }[]
 }
 
-const MissionListPageSidebarWrapper: React.FC<MissionListPageSidebarWrapperProps> = ({ items, defaultItemKey }) => {
+const MissionListPageSidebar: React.FC<MissionListPageSidebarProps> = ({ items, defaultItemKey }) => {
   const [currentKey, setCurrentKey] = useState<string>()
   useEffect(() => {
     setCurrentKey(defaultItemKey)
@@ -29,4 +29,4 @@ const MissionListPageSidebarWrapper: React.FC<MissionListPageSidebarWrapperProps
   )
 }
 
-export default MissionListPageSidebarWrapper
+export default MissionListPageSidebar

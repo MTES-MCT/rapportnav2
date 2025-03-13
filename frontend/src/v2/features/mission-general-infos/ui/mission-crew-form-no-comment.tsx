@@ -14,7 +14,7 @@ import { Field, FieldProps, Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { FlexboxGrid, Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
-import { Agent, MissionCrewMember } from '../../../common/types/crew-type.ts'
+import { Agent, MissionCrewMember } from '../../common/types/crew-type.ts'
 
 const CrewFormDialogBody = styled((props: DialogProps) => <Dialog.Body {...props} />)(({ theme }) => ({
   padding: 24,
@@ -53,14 +53,19 @@ type CrewForm = {
   agentIds: number[]
 }
 
-interface MissionCrewModalProps {
+interface MissionCrewFormNoCommentProps {
   agents: Agent[]
   crewMembers: MissionCrewMember[]
   handleClose: (open: boolean) => void
   handleEdit: (agentsIds: number[]) => void
 }
 
-const MissionCrewForm: React.FC<MissionCrewModalProps> = ({ agents, crewMembers, handleClose, handleEdit }) => {
+const MissionCrewFormNoComment: React.FC<MissionCrewFormNoCommentProps> = ({
+  agents,
+  crewMembers,
+  handleClose,
+  handleEdit
+}) => {
   const [initValue, setInitValue] = useState<CrewForm>()
 
   useEffect(() => {
@@ -128,4 +133,4 @@ const MissionCrewForm: React.FC<MissionCrewModalProps> = ({ agents, crewMembers,
   )
 }
 
-export default MissionCrewForm
+export default MissionCrewFormNoComment

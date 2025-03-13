@@ -9,9 +9,9 @@ import styled from 'styled-components'
 import { useDate } from '../../hooks/use-date.tsx'
 import { CompletenessForStatsStatusEnum, Mission2 } from '../../types/mission-types.ts'
 import MissionCompletenessForStatsTag from '../elements/mission-completeness-for-stats-tag.tsx'
-import MissionSourceTag from '../elements/mission-source-tag.tsx'
-import MissionStatusTag from '../elements/mission-status-tag.tsx'
 import MissionPageHeaderBanner from './mission-page-header-banner.tsx'
+import MissionSourceTag from './mission-source-tag.tsx'
+import MissionStatusTag from './mission-status-tag.tsx'
 
 const StyledHeader = styled.div`
   height: 60px;
@@ -31,7 +31,7 @@ const LoadingIcon = () => (
   <GearIcon spin width={16} height={16} color={THEME.color.white} style={{ fontSize: '2em', marginRight: '0.5rem' }} />
 )
 
-const MissionPageHeaderWrapper: React.FC<MissionPageHeaderProps> = ({
+const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
   mission,
   onClickClose,
   onClickExport,
@@ -102,4 +102,4 @@ const MissionPageHeaderWrapper: React.FC<MissionPageHeaderProps> = ({
   )
 }
 
-export default MissionPageHeaderWrapper
+export default MissionPageHeader

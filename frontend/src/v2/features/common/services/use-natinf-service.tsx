@@ -1,21 +1,19 @@
-import { ApolloError, gql, useQuery } from '@apollo/client'
 import { Natinf } from '@common/types/infraction-types'
+import { useQuery } from '@tanstack/react-query'
+import axios from '../../../../query-client/axios.ts'
 
-export const GET_NATINFS = gql`
-  query GetNatinfs {
-    natinfs {
-      infraction
-      natinfCode
-    }
-  }
-`
+const useNatinfListQuery = () => {
+  const fetchNatInfs = (): Promise<Natinf[]> => axios.get(`natinfs`).then(response => response.data)
 
-const useNatinfListQuery = (): { data?: Natinf[]; loading: boolean; error?: ApolloError } => {
-  const { loading, error, data } = useQuery(GET_NATINFS, {
-    // fetchPolicy: 'cache-only'
+  const query = useQuery<Natinf[]>({
+    queryKey: ['natinfs'],
+    queryFn: fetchNatInfs,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    retry: 2 // Retry failed requests twice before throwing an error
   })
-
-  return { loading, error, data: data?.natinfs }
+  return query
 }
 
 export default useNatinfListQuery

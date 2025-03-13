@@ -3,7 +3,7 @@ import { formatDateTimeForFrenchHumans } from '@common/utils/dates-for-humans'
 import { IconProps, THEME } from '@mtes-mct/monitor-ui'
 import { createElement, FunctionComponent } from 'react'
 import { Stack } from 'rsuite'
-import { MissionSource } from '../../../common/types/mission-types'
+import { MissionSourceEnum } from '../../../common/types/mission-types'
 import { ModuleType } from '../../../common/types/module-type'
 import MissionActionHeaderAction from '../elements/mission-action-header-action'
 
@@ -11,7 +11,7 @@ interface MissionActionHeaderTitleWrapperProps {
   title?: string
   actionId?: string
   missionId: number
-  source: MissionSource
+  source: MissionSourceEnum
   moduleType: ModuleType
   startDateTimeUtc?: string
   icon?: FunctionComponent<IconProps>
