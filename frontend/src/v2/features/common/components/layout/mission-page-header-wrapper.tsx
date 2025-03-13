@@ -9,8 +9,8 @@ import styled from 'styled-components'
 import { useDate } from '../../hooks/use-date.tsx'
 import { CompletenessForStatsStatusEnum, Mission2 } from '../../types/mission-types.ts'
 import MissionCompletenessForStatsTag from '../elements/mission-completeness-for-stats-tag.tsx'
-import MissionSourceTag from '../elements/mission-source-tag.tsx'
-import MissionStatusTag from '../elements/mission-status-tag.tsx'
+import MissionSourceTag from '../ui/mission-source-tag.tsx'
+import MissionStatusTag from '../ui/mission-status-tag.tsx'
 import MissionPageHeaderBanner from './mission-page-header-banner.tsx'
 
 const StyledHeader = styled.div`

@@ -4,7 +4,7 @@ import { Infraction } from '@common/types/infraction-types.ts'
 import { Checkbox, Legend, MultiRadio, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { Stack } from 'rsuite'
-import MissionNatinfFullNameList from '../../../common/components/elements/mission-natinf-fullname-list'
+import MissionNatinfs from '../../../common/components/elements/mission-natinfs'
 import { useVessel } from '../../../common/hooks/use-vessel'
 
 interface MissionInfractionEnvSummaryByCacemFormProps {
@@ -76,7 +76,7 @@ const MissionInfractionEnvSummaryByCacemForm: React.FC<MissionInfractionEnvSumma
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Legend>NATINF</Legend>
-        <MissionNatinfFullNameList natinfs={infraction?.natinfs} />
+        <MissionNatinfs natinfs={infraction?.natinfs} />
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" spacing={'2rem'}>

@@ -1,12 +1,8 @@
 import { FlexboxGrid, Stack } from 'rsuite'
-import {
-  MissionCrewDeleteIconButton,
-  MissionCrewEditIconButton,
-  MissionCrewMemberText
-} from '../../../common/components/ui/mission-crew-list.tsx'
-import { MissionCrewMember } from '../../../common/types/crew-type.ts'
+import { MissionCrewMember } from '../../common/types/crew-type.ts'
+import { MissionCrewDeleteIconButton, MissionCrewEditIconButton, MissionCrewMemberText } from './mission-crew-list.tsx'
 
-interface CrewListProps {
+interface MissionCrewListNoCommentProps {
   index: number
   name: string
   crewMember: MissionCrewMember
@@ -14,7 +10,13 @@ interface CrewListProps {
   handleDelete: (index: number) => void
 }
 
-const MissionCrewListItemUlam: React.FC<CrewListProps> = ({ index, name, crewMember, handleEdit, handleDelete }) => {
+const MissionCrewListNoComment: React.FC<MissionCrewListNoCommentProps> = ({
+  index,
+  name,
+  crewMember,
+  handleEdit,
+  handleDelete
+}) => {
   return (
     <FlexboxGrid key={`${name}-${index}`} align={'middle'}>
       <FlexboxGrid.Item colspan={18}>{<MissionCrewMemberText agent={crewMember?.agent} />}</FlexboxGrid.Item>
@@ -32,4 +34,4 @@ const MissionCrewListItemUlam: React.FC<CrewListProps> = ({ index, name, crewMem
   )
 }
 
-export default MissionCrewListItemUlam
+export default MissionCrewListNoComment
