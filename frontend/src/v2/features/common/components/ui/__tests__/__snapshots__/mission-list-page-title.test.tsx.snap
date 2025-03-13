@@ -1,0 +1,146 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MissionListPageTitle > should match the snapshot 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="rs-stack"
+        style="align-items: center; flex-direction: row; width: 100%;"
+      >
+        <div
+          class="rs-stack-item"
+        >
+          <h4>
+            Rapport Nav 
+          </h4>
+        </div>
+        <div
+          class="rs-stack-item"
+          style="margin-left: 2px; margin-right: 2px;"
+        >
+          <h4>
+             | 
+          </h4>
+        </div>
+        <div
+          class="rs-stack-item"
+        >
+          <h4
+            style="color: rgb(86, 151, 210);"
+          >
+             
+            Jeanne-Barret
+          </h4>
+        </div>
+      </div>
+    </div>
+    <div
+      class="rs-toast-provider"
+    >
+      <div
+        class="rs-toast-container rs-toast-container-top-center"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-center"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-top-start"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-top-end"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-start"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-end"
+      />
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="rs-stack"
+      style="align-items: center; flex-direction: row; width: 100%;"
+    >
+      <div
+        class="rs-stack-item"
+      >
+        <h4>
+          Rapport Nav 
+        </h4>
+      </div>
+      <div
+        class="rs-stack-item"
+        style="margin-left: 2px; margin-right: 2px;"
+      >
+        <h4>
+           | 
+        </h4>
+      </div>
+      <div
+        class="rs-stack-item"
+      >
+        <h4
+          style="color: rgb(86, 151, 210);"
+        >
+           
+          Jeanne-Barret
+        </h4>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
