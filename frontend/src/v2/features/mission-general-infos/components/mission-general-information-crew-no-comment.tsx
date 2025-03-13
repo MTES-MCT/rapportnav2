@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { Stack } from 'rsuite'
 import { Agent, MissionCrewMember } from '../../common/types/crew-type.ts'
 import MissionCrewFormNoComment from '../ui/mission-crew-form-no-comment.tsx'
-import { default as MissionCrewListNoComment } from '../ui/mission-crew-list-no-comment.tsx'
+import MissionCrewListNoComment from '../ui/mission-crew-list-no-comment.tsx'
 import {
   MissionCrewAddMemberButton,
   MissionCrewListItemStyled,
@@ -89,7 +89,7 @@ const MissionGeneralInformationCrewNoComment: React.FC<MissionGeneralInformation
         </Stack.Item>
         <>
           {openForm && (
-            <MissionCrewForm
+            <MissionCrewFormNoComment
               agents={agents ?? []}
               data-testid="crew-form"
               handleClose={setOpenForm}
