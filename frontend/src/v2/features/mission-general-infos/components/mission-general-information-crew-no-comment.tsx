@@ -11,8 +11,8 @@ import {
   MissionCrewUnderlineStack
 } from '../../common/components/ui/mission-crew-list.tsx'
 import { Agent, MissionCrewMember } from '../../common/types/crew-type.ts'
-import MissionCrewForm from '../../ulam/components/ui/mission-crew-form.tsx'
 import { default as MissionCrewListItemUlam } from '../../ulam/components/ui/mission-crew-list-item-ulam.tsx'
+import MissionCrewFormNoComment from '../ui/mission-crew-form-no-comment.tsx'
 
 interface MissionGeneralInformationCrewNoCommentProps {
   name: string
@@ -31,16 +31,8 @@ const MissionGeneralInformationCrewNoComment: React.FC<MissionGeneralInformation
   const handleDelete = (index: number) => fieldArray.remove(index)
   const handleUpdate = (members: MissionCrewMember[]) => fieldArray.form.setFieldValue(name, members)
 
-  const getCrewMembers = (agents: Agent[], crewAgentIds: number[] = []): MissionCrewMember[] => {
-    return agents.filter(agent => !crewAgentIds.includes(agent.id)).map(agent => ({ agent, missionId }))
-  }
-
-  const handleEdit = (agents: Agent[], agentIds: number[], crewMembers: MissionCrewMember[]) => {
-    const crewAgentIds = crewMembers.map(crew => crew.agent.id)
-    const filteredAgents = agents.filter(a => agentIds.includes(a.id))
-
-    const members = getCrewMembers(filteredAgents, crewAgentIds)
-    handleUpdate(members)
+  const handleEdit = (agentIds: number[], agents: Agent[]) => {
+    handleUpdate(agents.filter(agent => agentIds.includes(agent.id)).map(agent => ({ agent, missionId })))
     setOpenForm(false)
   }
 
@@ -55,7 +47,7 @@ const MissionGeneralInformationCrewNoComment: React.FC<MissionGeneralInformation
           <Stack.Item>
             <FormikCheckbox
               name={'isAllAgentsParticipating'}
-              onClick={() => handleUpdate(getCrewMembers(agents ?? []))}
+              onClick={() => handleUpdate(agents.map(agent => ({ agent, missionId })))}
               label={"Tous les agents de l'unité participent à la mission"}
             />
           </Stack.Item>
@@ -89,12 +81,12 @@ const MissionGeneralInformationCrewNoComment: React.FC<MissionGeneralInformation
         </Stack.Item>
         <>
           {openForm && (
-            <MissionCrewForm
+            <MissionCrewFormNoComment
               agents={agents ?? []}
               data-testid="crew-form"
               handleClose={setOpenForm}
               crewMembers={fieldArray.form.values.crew}
-              handleEdit={agentIds => handleEdit(agents ?? [], agentIds, fieldArray.form.values.crew)}
+              handleEdit={agentIds => handleEdit(agentIds, agents ?? [])}
             />
           )}
         </>

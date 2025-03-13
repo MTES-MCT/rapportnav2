@@ -1,26 +1,12 @@
 import { MissionSourceEnum } from '@common/types/env-mission-types.ts'
 import { THEME } from '@mtes-mct/monitor-ui'
 
-export const getOpenByText = (missionSource?: MissionSourceEnum): string => {
-  switch (missionSource) {
-    case MissionSourceEnum.RAPPORT_NAV:
-      return "Ouverte par l'unité"
-    case MissionSourceEnum.MONITORENV:
-    case MissionSourceEnum.POSEIDON_CACEM:
-      return 'Ouverte par le CACEM'
-    case MissionSourceEnum.MONITORFISH:
-    case MissionSourceEnum.POSEIDON_CNSP:
-      return 'Ouverte par le CNSP'
-    default:
-      return 'Ouverte par N/A'
-  }
-}
-
 interface MissionTagHook {
   getTagTextColor: () => string
   getTagBorderColor: () => string
   getTagTextContent: () => string
   getTagBackgroundColor: () => string
+  getOpenByText: (missionSource?: MissionSourceEnum) => string
 }
 
 export function useMissionTag(missionSource?: MissionSourceEnum): MissionTagHook {
@@ -43,7 +29,22 @@ export function useMissionTag(missionSource?: MissionSourceEnum): MissionTagHook
     return missionSource === MissionSourceEnum.RAPPORTNAV ? THEME.color.white : 'transparent'
   }
 
+  const getOpenByText = (source?: MissionSourceEnum): string => {
+    switch (source) {
+      case MissionSourceEnum.RAPPORT_NAV:
+        return "Ouverte par l'unité"
+      case MissionSourceEnum.MONITORENV:
+      case MissionSourceEnum.POSEIDON_CACEM:
+        return 'Ouverte par le CACEM'
+      case MissionSourceEnum.MONITORFISH:
+      case MissionSourceEnum.POSEIDON_CNSP:
+        return 'Ouverte par le CNSP'
+      default:
+        return 'Ouverte par N/A'
+    }
+  }
+
   const getTagTextContent = (): string => getOpenByText(missionSource)
 
-  return { getTagTextColor, getTagBorderColor, getTagTextContent, getTagBackgroundColor }
+  return { getOpenByText, getTagTextColor, getTagBorderColor, getTagTextContent, getTagBackgroundColor }
 }
