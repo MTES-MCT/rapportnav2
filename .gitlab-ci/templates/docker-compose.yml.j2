@@ -4,11 +4,14 @@ services:
   app:
     image: "{{ docker_image_path }}"
     container_name: rapportnav_backend
+    env_file: ".env"
     environment:
       - ENV_DB_URL=jdbc:postgresql://db:5432/{{ rapportnav_psql_db }}?user={{ rapportnav_psql_user }}&password={{ rapportnav_psql_pwd }}
       - MONITORFISH_API_KEY={{ rapportnav_monitorfish_api_key }}
       - SPRING_PROFILES_ACTIVE={{ rapportnav_spring_profiles_active }}
       - JWT_SECURITY_KEY={{ rapportnav_jwt_security_key }}
+      - PROXY_HOST
+      - PROXY_PORT
     ports:
       - 80:80
     # volumes:
