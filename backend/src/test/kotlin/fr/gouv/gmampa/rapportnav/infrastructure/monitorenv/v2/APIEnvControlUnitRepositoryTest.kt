@@ -32,7 +32,7 @@ class APIEnvControlUnitRepositoryTest {
         resources = mutableListOf()
     )
 
-    val host = "https://monitorenv.din.developpement-durable.gouv.fr"
+    val host = "https://url.developpement-durable.gouv.fr"
 
     @MockitoBean
     private lateinit var objectMapper: ObjectMapper
@@ -60,7 +60,7 @@ class APIEnvControlUnitRepositoryTest {
             )
         )
             .thenReturn(httpResponse)
-        val envRepo = APIEnvControlUnitRepository(mapper = objectMapper, clientFactory = httpClientFactory)
+        val envRepo = APIEnvControlUnitRepository(mapper = objectMapper, clientFactory = httpClientFactory, host = host)
         envRepo.findAll()
         verify(httpClient).send(
             argThat { request ->

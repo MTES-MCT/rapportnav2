@@ -31,7 +31,7 @@ import java.time.Instant
 @SpringBootTest(classes = [APIEnvMissionRepositoryV2::class])
 class APIEnvMissionRepositoryTest {
 
-    val host = "https://monitorenv.din.developpement-durable.gouv.fr"
+    val host = "https://url.developpement-durable.gouv.fr"
 
     @MockitoBean
     private lateinit var objectMapper: ObjectMapper
