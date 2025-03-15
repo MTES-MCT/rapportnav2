@@ -20,7 +20,6 @@ fun main(args: Array<String>) {
 
     val isLocalProfile = ctx.environment.activeProfiles.contains("local")
 
-
     if (isLocalProfile) {
         var wireMockServer: WireMockServer? = null
         val wireMockConfig = WireMockConfig()
@@ -33,14 +32,15 @@ fun main(args: Array<String>) {
     }
 
     val isSentryEnabled: String? = ctx.environment.getProperty("sentry.enabled")
-    val sentryDsn: String? = ctx.environment.getProperty("sentry.dsn")
+    val sentryDsn: String? = System.getenv("SENTRY_DSN")
 
     if (isSentryEnabled == "true") {
         Sentry.init { options ->
+            options.environment = System.getenv("ENV_PROFILE")
             options.dsn = sentryDsn
             options.proxy = SentryOptions.Proxy(
-                ctx.environment.getProperty("sentry.proxy.host"),
-                ctx.environment.getProperty("sentry.proxy.port")
+                System.getenv("PROXY_HOST"),
+                System.getenv("PROXY_PORT"),
             )
             options.tracesSampleRate = 1.0
         }

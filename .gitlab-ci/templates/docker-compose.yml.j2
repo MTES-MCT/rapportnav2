@@ -6,13 +6,17 @@ services:
     container_name: rapportnav_backend
     env_file: ".env"
     environment:
-      - ENV_DB_URL=jdbc:postgresql://db:5432/{{ rapportnav_psql_db }}?user={{ rapportnav_psql_user }}&password={{ rapportnav_psql_pwd }}
-      - MONITORFISH_API_KEY={{ rapportnav_monitorfish_api_key }}
       # profile is 'prod', 'int' or 'local'
-      - SPRING_PROFILES_ACTIVE={{ rapportnav_spring_profiles_active }}
-      - JWT_SECURITY_KEY={{ rapportnav_jwt_security_key }}
+      - SPRING_PROFILES_ACTIVE
+      - ENV_DB_URL
+      - JWT_SECURITY_KEY
       - PROXY_HOST
       - PROXY_PORT
+      - MONITORFISH_HOST
+      - MONITORFISH_API_KEY
+      - MONITORENV_HOST
+      - SENTRY_DSN
+      - SENTRY_SECU_HEADER_ENDPOINT
     ports:
       - 80:80
     # volumes:

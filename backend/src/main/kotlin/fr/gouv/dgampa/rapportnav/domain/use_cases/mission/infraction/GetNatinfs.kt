@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.NatinfEntity
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.Cacheable
 import java.net.URI
 import java.net.http.HttpClient
@@ -12,15 +13,12 @@ import java.net.http.HttpResponse
 
 @UseCase
 class GetNatinfs(
-    private val mapper: ObjectMapper
+    private val mapper: ObjectMapper,
+    @Value("\${MONITORENV_HOST}") private val host: String,
 ) {
 
     @Cacheable(value = ["natinfs"])
     fun execute(): List<NatinfEntity> {
-
-        val host = "https://monitorenv.din.developpement-durable.gouv.fr"
-        //val host = "http://localhost:8089" // TODO: add env var
-
 
         // TODO: move this into infrastructure/APIMonitorEnv
         // TODO: and then move @Cacheable in that newly created function

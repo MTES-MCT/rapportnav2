@@ -21,7 +21,7 @@ import java.net.http.HttpResponse
 class APIFishActionRepository(
     private val mapper: ObjectMapper,
     private val clientFactory: HttpClientFactory,
-    @Value("\${monitorfish.host}") private val host: String,
+    @Value("\${MONITORFISH_HOST}") private val host: String,
     @Value("\${MONITORFISH_API_KEY}") private var monitorFishApiKey: String,
 ) : IFishActionRepository {
     private val logger: Logger = LoggerFactory.getLogger(APIFishActionRepository::class.java)
