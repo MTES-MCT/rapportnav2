@@ -14,7 +14,7 @@ data class MissionGeneralInfoEntity2(
     }
 
     private fun isCrewComplete(): Boolean {
-        return this.crew.isNullOrEmpty()
+        return !this.crew.isNullOrEmpty()
     }
 
     private fun isDataComplete(): Boolean {
