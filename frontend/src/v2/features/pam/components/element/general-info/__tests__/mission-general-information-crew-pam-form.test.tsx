@@ -1,8 +1,8 @@
 import { vi } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '../../../../../../../test-utils.tsx'
-import MissionCrewFormPam from '../mission-crew-form-pam.tsx'
 import { Formik } from 'formik'
 import { MissionCrew } from '@common/types/crew-types.ts'
+import MissionGeneralInformationCrewPamForm from '../mission-general-information-crew-pam-form.tsx'
 
 const agent1 = {
   id: 1,
@@ -75,7 +75,7 @@ describe('MissionCrewFormPam', () => {
 
     return render(
       <Formik initialValues={{}} onSubmit={vi.fn()}>
-        <MissionCrewFormPam {...defaultProps} {...props} />
+        <MissionGeneralInformationCrewPamForm {...defaultProps} {...props} />
       </Formik>
     )
   }

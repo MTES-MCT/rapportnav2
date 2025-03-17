@@ -14,13 +14,10 @@ data class DeleteMissionCrew2(
     fun execute(id: Int): Boolean {
         return try {
             crewRepository.deleteById(id = id)
-        } catch (e: NoSuchElementException) {
-            logger.error("DeleteMissionCrew - NoSuchElementException: ${e.message}")
-            return false
-        }
-        catch (e: Exception) {
-            logger.error("DeleteMissionCrew: Exception: ${e.message}")
-            return false
+        } catch (e: Exception) {
+            val errorType = if (e is NoSuchElementException) "NoSuchElementException" else "Exception"
+            logger.error("DeleteMissionCrew - $errorType: ${e.message}")
+            false
         }
     }
 }

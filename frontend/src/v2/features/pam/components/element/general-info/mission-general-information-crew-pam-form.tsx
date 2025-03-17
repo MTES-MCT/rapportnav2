@@ -77,7 +77,12 @@ interface MissionCrewModalProps {
   handleSubmitForm: (crew: Omit<AddOrUpdateMissionCrewInput, 'missionId'>) => Promise<void>
 }
 
-const MissionCrewFormPam: FC<MissionCrewModalProps> = ({ crewId, crewList, handleClose, handleSubmitForm }) => {
+const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
+  crewId,
+  crewList,
+  handleClose,
+  handleSubmitForm
+}) => {
   const { data: agentServices } = useAgentServices()
   const { data: agentRoles } = useGetAgentRoles()
 
@@ -194,4 +199,4 @@ const MissionCrewFormPam: FC<MissionCrewModalProps> = ({ crewId, crewList, handl
   )
 }
 
-export default MissionCrewFormPam
+export default MissionGeneralInformationCrewPamForm

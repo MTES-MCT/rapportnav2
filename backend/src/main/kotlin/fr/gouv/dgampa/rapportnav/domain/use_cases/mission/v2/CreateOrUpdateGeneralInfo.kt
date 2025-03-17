@@ -31,29 +31,29 @@ class CreateOrUpdateGeneralInfo(
             val generalInfoModel = repository.save(entityToSave)
 
             // regenerate crew if service has changed
-            if (entityToSave.serviceId != null && entityToSave.serviceId != entityAlreadySaved.data?.serviceId) {
+            val serviceHasChanged = entityToSave.serviceId != null && entityToSave.serviceId != entityAlreadySaved.data?.serviceId
+            if (serviceHasChanged) {
                 updateMissionService2.execute(missionId=missionId, serviceId = entityToSave.serviceId!!)
             }
             else {
                 // update crew table
-                // TODO this could be improved and only update what's needed when needed, instead of running every time
                 processMissionCrew.execute(
                     missionId=missionId,
-                    crew = generalInfo.crew.orEmpty()
-                )
-
-                // patch MonitorEnv fields through API
-                updateMissionEnv.execute(
-                    input = MissionEnvInput(
-                        missionId = missionId,
-                        startDateTimeUtc = generalInfo.startDateTimeUtc,
-                        endDateTimeUtc = generalInfo.endDateTimeUtc,
-                        missionTypes = generalInfo.missionTypes,
-                        observationsByUnit = generalInfo.observations,
-                        resources = generalInfo.resources?.map { it.toLegacyControlUnitResourceEntity() },
-                    )
+                    crew = generalInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty()
                 )
             }
+
+            // patch MonitorEnv fields through API
+            updateMissionEnv.execute(
+                input = MissionEnvInput(
+                    missionId = missionId,
+                    startDateTimeUtc = generalInfo.startDateTimeUtc,
+                    endDateTimeUtc = generalInfo.endDateTimeUtc,
+                    missionTypes = generalInfo.missionTypes,
+                    observationsByUnit = generalInfo.observations,
+                    resources = generalInfo.resources?.map { it.toLegacyControlUnitResourceEntity() },
+                )
+            )
 
             val generalInfoEntity = MissionGeneralInfoEntity.fromMissionGeneralInfoModel(generalInfoModel)
             return MissionGeneralInfoEntity2(data = generalInfoEntity)
