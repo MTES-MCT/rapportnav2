@@ -7,7 +7,7 @@ exports[`IconVesselSailingLeisure > should match the snapshot 1`] = `
     <div>
       <img
         alt="Navire de plaisance loisir"
-        src="/src/assets/images/navire_plaisance_loisir.svg"
+        src="data:image/svg+xml,%3csvg%20height='36'%20viewBox='0%200%2034%2036'%20width='34'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%3e%3cclipPath%20id='a'%3e%3cpath%20d='m0%200h34v36h-34z'/%3e%3c/clipPath%3e%3cg%20clip-path='url(%23a)'%3e%3cpath%20d='m0%200h34v36h-34z'%20fill='transparent'/%3e%3cpath%20d='m3.395%2030.752h32.21a.9.9%200%200%201%20.716%201.435l-3.758%205.021a1.788%201.788%200%200%201%20-1.432.717h-23.263a1.788%201.788%200%200%201%20-1.432-.717l-3.757-5.021a.9.9%200%200%201%20.716-1.435zm7.446-7.173h10.448v-13.088zm14.027-20.758v22.551a1.791%201.791%200%200%201%20-1.789%201.793h-17.823a.9.9%200%200%201%20-.7-1.456l18.72-23.448a.894.894%200%200%201%201.593.56z'%20fill='%233b4559'%20transform='translate(-2.5%20-1.926)'/%3e%3c/g%3e%3c/svg%3e"
       />
     </div>
     <div
@@ -36,7 +36,7 @@ exports[`IconVesselSailingLeisure > should match the snapshot 1`] = `
   "container": <div>
     <img
       alt="Navire de plaisance loisir"
-      src="/src/assets/images/navire_plaisance_loisir.svg"
+      src="data:image/svg+xml,%3csvg%20height='36'%20viewBox='0%200%2034%2036'%20width='34'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%3e%3cclipPath%20id='a'%3e%3cpath%20d='m0%200h34v36h-34z'/%3e%3c/clipPath%3e%3cg%20clip-path='url(%23a)'%3e%3cpath%20d='m0%200h34v36h-34z'%20fill='transparent'/%3e%3cpath%20d='m3.395%2030.752h32.21a.9.9%200%200%201%20.716%201.435l-3.758%205.021a1.788%201.788%200%200%201%20-1.432.717h-23.263a1.788%201.788%200%200%201%20-1.432-.717l-3.757-5.021a.9.9%200%200%201%20.716-1.435zm7.446-7.173h10.448v-13.088zm14.027-20.758v22.551a1.791%201.791%200%200%201%20-1.789%201.793h-17.823a.9.9%200%200%201%20-.7-1.456l18.72-23.448a.894.894%200%200%201%201.593.56z'%20fill='%233b4559'%20transform='translate(-2.5%20-1.926)'/%3e%3c/g%3e%3c/svg%3e"
     />
   </div>,
   "debug": [Function],

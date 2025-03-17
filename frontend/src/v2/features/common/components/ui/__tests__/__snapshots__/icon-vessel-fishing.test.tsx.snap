@@ -7,7 +7,7 @@ exports[`IconVesselFishing > should match the snapshot 1`] = `
     <div>
       <img
         alt="Navire de pêche pro"
-        src="/src/assets/images/navire_peche_pro.svg"
+        src="data:image/svg+xml,%3csvg%20height='32'%20viewBox='0%200%2051%2032'%20width='51'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%3e%3cclipPath%20id='a'%3e%3cpath%20d='m0%200h51v32h-51z'/%3e%3c/clipPath%3e%3cg%20clip-path='url(%23a)'%3e%3cpath%20d='m0%200h51v32h-51z'%20fill='transparent'/%3e%3cg%20fill='%233b4559'%3e%3cpath%20d='m152.766%20120.266h28.018v4.519h-28.018zm0%200'%20transform='translate(-135.519%20-107.075)'/%3e%3cpath%20d='m51.766%2061.266h9.829v3.05h-9.829zm0%200'%20transform='translate(-45.917%20-54.551)'/%3e%3cpath%20d='m51.766%20102.266h9.829v6.553h-9.829zm0%200'%20transform='translate(-45.917%20-91.078)'/%3e%3cpath%20d='m5.066%20174.266h-5.066l1.438%209.716h43.038l6.524-9.716zm0%200'%20transform='translate(0%20-155.371)'/%3e%3cpath%20d='m81.766.266h2.934v5.31h-2.934zm0%200'%20transform='translate(-72.53%20-.266)'/%3e%3cpath%20d='m15.07%20276.074h40.235l1.237-1.808h-41.742zm0%200'%20transform='translate(-13.125%20-244.074)'/%3e%3c/g%3e%3c/g%3e%3c/svg%3e"
       />
     </div>
     <div
@@ -36,7 +36,7 @@ exports[`IconVesselFishing > should match the snapshot 1`] = `
   "container": <div>
     <img
       alt="Navire de pêche pro"
-      src="/src/assets/images/navire_peche_pro.svg"
+      src="data:image/svg+xml,%3csvg%20height='32'%20viewBox='0%200%2051%2032'%20width='51'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%3e%3cclipPath%20id='a'%3e%3cpath%20d='m0%200h51v32h-51z'/%3e%3c/clipPath%3e%3cg%20clip-path='url(%23a)'%3e%3cpath%20d='m0%200h51v32h-51z'%20fill='transparent'/%3e%3cg%20fill='%233b4559'%3e%3cpath%20d='m152.766%20120.266h28.018v4.519h-28.018zm0%200'%20transform='translate(-135.519%20-107.075)'/%3e%3cpath%20d='m51.766%2061.266h9.829v3.05h-9.829zm0%200'%20transform='translate(-45.917%20-54.551)'/%3e%3cpath%20d='m51.766%20102.266h9.829v6.553h-9.829zm0%200'%20transform='translate(-45.917%20-91.078)'/%3e%3cpath%20d='m5.066%20174.266h-5.066l1.438%209.716h43.038l6.524-9.716zm0%200'%20transform='translate(0%20-155.371)'/%3e%3cpath%20d='m81.766.266h2.934v5.31h-2.934zm0%200'%20transform='translate(-72.53%20-.266)'/%3e%3cpath%20d='m15.07%20276.074h40.235l1.237-1.808h-41.742zm0%200'%20transform='translate(-13.125%20-244.074)'/%3e%3c/g%3e%3c/g%3e%3c/svg%3e"
     />
   </div>,
   "debug": [Function],
