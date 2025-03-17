@@ -1,4 +1,3 @@
-import { Mission } from '@common/types/mission-types.ts'
 import { Accent, Button, Icon } from '@mtes-mct/monitor-ui'
 import { useStore } from '@tanstack/react-store'
 import { endOfMonth, startOfMonth } from 'date-fns'
@@ -11,9 +10,7 @@ import MissionListPageWrapper from '../features/common/components/layout/mission
 import MissionListPageSidebarWrapper from '../features/common/components/ui/mission-list-page-sidebar.tsx'
 import MissionListPageTitle from '../features/common/components/ui/mission-list-page-title.tsx'
 import { useMissionList } from '../features/common/hooks/use-mission-list.tsx'
-import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
 import useMissionsQuery from '../features/common/services/use-missions.tsx'
-import { ExportMode, ExportReportType } from '../features/common/types/mission-export-types.ts'
 import MissionCreateDialog from '../features/ulam/components/element/mission-create-dialog.tsx'
 import MissionListUlam from '../features/ulam/components/element/mission-list/mission-list-ulam.tsx'
 import { store } from '../store/index.ts'
@@ -41,7 +38,6 @@ const MissionListUlamPage: React.FC = () => {
 
   const { getMissionListItem } = useMissionList()
   const { isLoading, data: missions } = useMissionsQuery(queryParams)
-  const { exportMissionReport, exportIsLoading } = useMissionReportExport()
 
   const handleUpdateDateTime = (currentDate: Date) => {
     const newDateRange = {
@@ -49,14 +45,6 @@ const MissionListUlamPage: React.FC = () => {
       endDateTimeUtc: endOfMonth(currentDate).toISOString()
     }
     setQueryParams(newDateRange)
-  }
-
-  const exportAEM = async (missionsToExport: Mission[]) => {
-    await exportMissionReport({
-      missionIds: (missionsToExport ?? []).map((m: Mission) => m.id),
-      exportMode: ExportMode.COMBINED_MISSIONS_IN_ONE,
-      reportType: ExportReportType.AEM
-    })
   }
 
   return (
@@ -67,8 +55,8 @@ const MissionListUlamPage: React.FC = () => {
     >
       <MissionListPageContentWrapper
         loading={isLoading}
-        hasMissions={!!missions?.length}
         title={'Mes rapports'}
+        hasMissions={!!missions?.length}
         filters={
           <>
             <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
@@ -83,9 +71,9 @@ const MissionListUlamPage: React.FC = () => {
               </Stack.Item>
               <Stack.Item style={{ width: '100%' }}>
                 <MissionListDateRangeNavigator
-                  startDateTimeUtc={queryParams.startDateTimeUtc}
-                  onUpdateCurrentDate={handleUpdateDateTime}
                   timeframe={'month'}
+                  onUpdateCurrentDate={handleUpdateDateTime}
+                  startDateTimeUtc={queryParams.startDateTimeUtc}
                 />
               </Stack.Item>
             </Stack>

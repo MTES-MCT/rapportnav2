@@ -1,43 +1,33 @@
-import { useApolloClient } from '@apollo/client'
 import AuthToken from '@features/auth/utils/token'
+import { useQueryClient } from '@tanstack/react-query'
 import { jwtDecode, JwtPayload } from 'jwt-decode'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { QueryKeyType } from '../../common/types/query-key-type'
 
 type AuthHook = {
   isAuthenticated: boolean
   logout: () => Promise<void>
   isLoggedIn: () => Token | undefined
-  navigateAndResetCache: (to: string) => Promise<void>
+  navigateAndResetCache: (to: string, keys: QueryKeyType[]) => Promise<void>
 }
 export type Token = JwtPayload & { userId: number }
 const authToken = new AuthToken()
 
 const useAuth = (): AuthHook => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!authToken.get())
   const navigate = useNavigate()
-  const apolloClient = useApolloClient()
+  const queryClient = useQueryClient()
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!authToken.get())
 
   const logout = async (): Promise<void> => {
-    // Remove the token from localStorage
     authToken.remove()
-    // Update the state to reflect that the user is not authenticated
     setIsAuthenticated(false)
-    // TODO centralise the following two lines into a class - also used elsewhere
-    // reset apollo store
-    await apolloClient.clearStore()
-    // flush apollo persist cache
-    apolloClient.cache.evict({})
-    // Reset history to /login
     navigate('/login', { replace: true })
   }
 
-  const navigateAndResetCache = async (to: string) => {
-    // TODO centralise the following into a class - also used in use-auth()
-    // reset apollo store
-    await apolloClient.clearStore()
-    // flush apollo persist cache
-    apolloClient.cache.evict({})
+  const navigateAndResetCache = async (to: string, keys: QueryKeyType[] = []) => {
+    keys.forEach(key => queryClient.invalidateQueries({ queryKey: [key.toString()] }))
+
     navigate(to)
   }
 
