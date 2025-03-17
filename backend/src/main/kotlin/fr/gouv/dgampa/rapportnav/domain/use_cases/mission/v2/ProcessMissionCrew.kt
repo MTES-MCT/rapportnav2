@@ -5,7 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEnt
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.AddOrUpdateMissionCrew
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.DeleteMissionCrew
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
 
 @UseCase
 class ProcessMissionCrew(
@@ -13,12 +12,12 @@ class ProcessMissionCrew(
     private val addOrUpdateMissionCrew: AddOrUpdateMissionCrew,
     private val deleteMissionCrew: DeleteMissionCrew,
 ) {
-    fun execute(missionId: Int, crew:  List<MissionCrew>): List<MissionCrewEntity> {
+    fun execute(missionId: Int, crew:  List<MissionCrewEntity>): List<MissionCrewEntity> {
         val crewIds = crew.map { it.id }
         val databaseMissionCrews = getAgentsCrewByMissionId.execute(missionId)
 
         val toDeleteCrews = databaseMissionCrews.filter { !crewIds.contains(it.id) }
-        val toSaveCrews = crew.map { it.toMissionCrewEntity() }.filter { !databaseMissionCrews.contains(it) }
+        val toSaveCrews = crew.filter { !databaseMissionCrews.contains(it) }
 
         delete(toDeleteCrews)
         return save(toSaveCrews)

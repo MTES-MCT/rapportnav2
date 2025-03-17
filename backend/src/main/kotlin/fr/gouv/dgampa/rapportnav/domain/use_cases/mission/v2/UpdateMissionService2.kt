@@ -1,53 +1,36 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentServiceRepository
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRepository
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IServiceRepository
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetActiveCrewForService
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.generalInfo.MissionServiceInput
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
-import kotlin.collections.forEach
-import kotlin.jvm.optionals.getOrNull
+import org.slf4j.LoggerFactory
 
 @UseCase
 class UpdateMissionService2(
-    private val serviceRepo: IServiceRepository,
-    private val missionCrewRepo: IMissionCrewRepository,
-    private val infoRepo: IMissionGeneralInfoRepository,
+    private val processMissionCrew: ProcessMissionCrew,
     private val getActiveCrewForService: GetActiveCrewForService,
 ) {
+    private val logger = LoggerFactory.getLogger(UpdateMissionService2::class.java)
+
     fun execute(
         serviceId: Int,
         missionId: Int
-    ): ServiceEntity? {
+    ): Boolean? {
+        return try {
+            // get active agents for current service
+            val crewFromNewService: List<AgentServiceEntity> = getActiveCrewForService.execute(serviceId = serviceId)
+            val missionCrew: List<MissionCrewEntity> =
+                crewFromNewService.map { MissionCrewEntity(missionId = missionId, agent = it.agent, role = it.role) }
 
-        // get crew on a mission and delete all
-        val oldMissionCrews = missionCrewRepo.findByMissionId(missionId);
-        oldMissionCrews.forEach { missionCrew ->
-            missionCrewRepo.deleteById(missionCrew.id!!)
+            // update the crew with members from new service
+            processMissionCrew.execute(missionId = missionId, crew = missionCrew)
+
+            true
         }
-
-        // get active agents for current service
-        val newMissionCrews: List<AgentServiceEntity> = getActiveCrewForService.execute(serviceId = serviceId)
-        val missionCrew: List<MissionCrewEntity> = newMissionCrews.map{ MissionCrewEntity(missionId = missionId, agent = it.agent, role = it.role) }
-        missionCrew.forEach {missionCrewRepo.save(it) }
-
-        // save serviceId into generalInformation
-        var info = infoRepo.findByMissionId(missionId).getOrNull();
-        if (info == null) {
-            info = MissionGeneralInfoModel(
-                id = missionId,
-                missionId = missionId
-            )
+        catch (e: Exception) {
+            logger.error("UpdateMissionService2 - failed to update crew after service changed", e)
+            false
         }
-        info.serviceId = serviceId;
-        infoRepo.save(MissionGeneralInfoEntity.Companion.fromMissionGeneralInfoModel(info));
-        return serviceRepo.findById(serviceId).getOrNull()?.toServiceEntity();
     }
 }

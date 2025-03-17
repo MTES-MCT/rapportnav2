@@ -1,14 +1,14 @@
 import { FlexboxGrid, Stack } from 'rsuite'
+import { MissionCrewMember } from '../../../common/types/crew-type.ts'
+import React from 'react'
+import Text from '@common/components/ui/text.tsx'
 import {
   CommentIcon,
   MissionCrewDeleteIconButton,
   MissionCrewEditIconButton,
   MissionCrewMemberText,
   TruncateCommentText
-} from '../../../common/components/ui/mission-crew-list.tsx'
-import { MissionCrewMember } from '../../../common/types/crew-type.ts'
-import React from 'react'
-import Text from '@common/components/ui/text.tsx'
+} from '../../../mission-general-infos/ui/mission-crew-list.tsx'
 
 interface CrewListProps {
   index: number

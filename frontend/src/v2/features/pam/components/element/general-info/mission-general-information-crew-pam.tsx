@@ -1,6 +1,13 @@
 import { FieldArrayRenderProps } from 'formik'
 import React, { useState } from 'react'
 import { Stack } from 'rsuite'
+import { MissionCrewMember } from '../../../../common/types/crew-type.ts'
+import Text, { TextProps } from '@common/components/ui/text.tsx'
+import styled from 'styled-components'
+import MissionCrewListItemPam from '../../ui/mission-crew-list-item-pam.tsx'
+import MissionGeneralInformationCrewPamForm from './mission-general-information-crew-pam-form.tsx'
+import { AddOrUpdateMissionCrewInput } from '@features/pam/mission/hooks/use-add-update-mission-crew.tsx'
+import { MissionCrew } from '@common/types/crew-types.ts'
 import {
   MissionCrewAddMemberButton,
   MissionCrewListItemStyled,
@@ -8,16 +15,7 @@ import {
   MissionCrewStack,
   MissionCrewTitleLabel,
   MissionCrewUnderlineStack
-} from '../../../../common/components/ui/mission-crew-list.tsx'
-import useAgentsQuery from '../../../../common/services/use-agents.tsx'
-import { Agent, MissionCrewMember } from '../../../../common/types/crew-type.ts'
-import Text, { TextProps } from '@common/components/ui/text.tsx'
-import styled from 'styled-components'
-import MissionCrewListItemPam from '../../ui/mission-crew-list-item-pam.tsx'
-import MissionCrewFormPam from './mission-crew-form-pam.tsx'
-import useGetAgentServices from '../../../../common/services/use-agent-services.tsx'
-import { AddOrUpdateMissionCrewInput } from '@features/pam/mission/hooks/use-add-update-mission-crew.tsx'
-import { MissionCrew } from '@common/types/crew-types.ts'
+} from '../../../../mission-general-infos/ui/mission-crew-list.tsx'
 
 interface MissionGeneralInformationCrewPamProps {
   name: string
@@ -112,7 +110,7 @@ const MissionGeneralInformationCrewPam: React.FC<MissionGeneralInformationCrewPa
         </Stack.Item>
         <>
           {selectedCrewMemberId !== undefined && (
-            <MissionCrewFormPam
+            <MissionGeneralInformationCrewPamForm
               data-testid="crew-form"
               handleClose={() => setSelectedCrewMemberId(undefined)}
               crewId={selectedCrewMemberId}

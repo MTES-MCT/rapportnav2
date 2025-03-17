@@ -53,7 +53,7 @@ class CreateOrUpdateGeneralInfoTest {
         return entity
     }
 
-    @Test
+        @Test
     fun `execute should update mission service when service ID has changed`() {
         // Given
         val missionId = 123
@@ -85,7 +85,6 @@ class CreateOrUpdateGeneralInfoTest {
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
         verify(updateMissionService2).execute(missionId=missionId, serviceId = newServiceId)
         verifyNoInteractions(processMissionCrew)
-        verifyNoInteractions(updateMissionEnv)
 
         assertEquals(
             MissionGeneralInfoEntity2(data = missionGeneralInfoEntity),
@@ -129,10 +128,19 @@ class CreateOrUpdateGeneralInfoTest {
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
-        verifyNoInteractions(updateMissionService2)
 
         // Verify processMissionCrew was called with the exact missionId and crew
-        verify(processMissionCrew).execute(missionId, missionGeneralInfo.crew.orEmpty())
+        verify(processMissionCrew).execute(missionId, missionGeneralInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty())
+
+        val input = MissionEnvInput(
+            missionId = missionId,
+            startDateTimeUtc = missionGeneralInfo.startDateTimeUtc,
+            endDateTimeUtc = missionGeneralInfo.endDateTimeUtc,
+            missionTypes = missionGeneralInfo.missionTypes,
+            observationsByUnit = missionGeneralInfo.observations,
+            resources = missionGeneralInfoEntity.resources?.map { it },
+        )
+        verify(updateMissionEnv).execute(input)
 
         assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity), result)
     }
@@ -168,8 +176,15 @@ class CreateOrUpdateGeneralInfoTest {
         verifyNoInteractions(updateMissionService2)
         verify(processMissionCrew).execute(missionId, emptyList())
 
-        // TODO check that one
-        // verify(updateMissionEnv).execute(any())
+        val input = MissionEnvInput(
+            missionId = missionId,
+            startDateTimeUtc = missionGeneralInfo.startDateTimeUtc,
+            endDateTimeUtc = missionGeneralInfo.endDateTimeUtc,
+            missionTypes = missionGeneralInfo.missionTypes,
+            observationsByUnit = missionGeneralInfo.observations,
+            resources = missionGeneralInfoEntity.resources?.map { it },
+        )
+        verify(updateMissionEnv).execute(input)
 
         assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity), result)
     }
