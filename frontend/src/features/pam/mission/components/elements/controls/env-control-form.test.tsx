@@ -145,10 +145,10 @@ describe('EnvControlForm', () => {
       expect(controlChangedMock).not.toHaveBeenCalled()
     })
 
-    waitFor(() => {
-      const error =
-        screen.getByText(`Attention, le chiffre renseigné ne peut pas être supérieur au nombre total de contrôles
-    effectués`)
+    await waitFor(() => {
+      const error = screen.getByText(
+        `Attention, le chiffre renseigné ne peut pas être supérieur au nombre total de contrôles effectués`
+      )
       expect(error).toBeInTheDocument()
     })
   })
