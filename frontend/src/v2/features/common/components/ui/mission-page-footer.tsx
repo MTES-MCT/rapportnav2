@@ -11,11 +11,11 @@ const StyledFooter = styled.div`
   padding: 0 2rem;
 `
 
-interface MissionPageFooterWrapperProps {
+interface MissionPageFooterProps {
   exitMission: () => void
 }
 
-const MissionPageFooterWrapper: React.FC<MissionPageFooterWrapperProps> = ({ exitMission }) => {
+const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ exitMission }) => {
   const deleteMission = () => {
     // TODO add delete
     alert('Fonctionnalité pas encore implémentée')
@@ -47,4 +47,4 @@ const MissionPageFooterWrapper: React.FC<MissionPageFooterWrapperProps> = ({ exi
   )
 }
 
-export default MissionPageFooterWrapper
+export default MissionPageFooter

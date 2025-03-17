@@ -6,26 +6,19 @@ interface MissionListPageWrapperProps {
   sidebar: JSX.Element
   header: JSX.Element
   footer: JSX.Element
-  showMenu?: boolean
   children: ReactNode
 }
 
-const MissionListPageWrapper: React.FC<MissionListPageWrapperProps> = ({
-  children,
-  header,
-  footer,
-  showMenu,
-  sidebar
-}) => {
+const MissionListPageWrapper: React.FC<MissionListPageWrapperProps> = ({ children, header, footer, sidebar }) => {
   const { isAuthenticated } = useAuth()
   return (
     <Container style={{ minHeight: '100vh', maxHeight: '100vh', overflow: 'hidden' }}>
       {header}
-      <Container style={{}}>
+      <Container>
         {isAuthenticated && <>{sidebar}</>}
         <Content
           style={{
-            maxHeight: 'calc(100vh - 104px - 50px)', // full viewportHeight - headerHeight - extra margin
+            maxHeight: 'calc(100vh - 104px - 50px)',
             overflow: 'hidden',
             display: 'flex'
           }}

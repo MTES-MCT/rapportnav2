@@ -12,7 +12,7 @@ import {
 } from '@mtes-mct/monitor-ui'
 import { List, ListItemProps, Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
-import { Agent } from '../../types/crew-type'
+import { Agent } from '../../common/types/crew-type'
 
 export const MissionCrewListStyled = styled(List)({
   width: '100%',

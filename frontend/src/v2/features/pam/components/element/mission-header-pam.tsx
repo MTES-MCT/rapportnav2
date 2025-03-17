@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import MissionPageHeaderWrapper from '../../../common/components/layout/mission-page-header-wrapper'
+import MissionPageHeader from '../../../common/components/ui/mission-page-header'
 import useGetMissionQuery from '../../../common/services/use-mission'
 
 interface MissionHeaderProps {
@@ -12,7 +12,7 @@ interface MissionHeaderProps {
 const MissionHeaderPam: FC<MissionHeaderProps> = ({ missionId, onClickClose, onClickExport, exportLoading }) => {
   const { data: mission } = useGetMissionQuery(missionId)
   return (
-    <MissionPageHeaderWrapper
+    <MissionPageHeader
       mission={mission}
       onClickClose={onClickClose}
       onClickExport={onClickExport}

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { FlexboxGrid } from 'rsuite'
 import styled from 'styled-components'
 import MissionCompletenessForStatsTag from '../../../../common/components/elements/mission-completeness-for-stats-tag.tsx'
-import MissionStatusTag from '../../../../common/components/elements/mission-status-tag.tsx'
+import MissionStatusTag from '../../../../common/components/ui/mission-status-tag.tsx'
 import { MissionListItem } from '../../../../common/types/mission-types.ts'
 
 interface MissionListItemProps {

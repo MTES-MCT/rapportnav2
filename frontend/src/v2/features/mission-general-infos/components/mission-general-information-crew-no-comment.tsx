@@ -2,6 +2,9 @@ import { FormikCheckbox } from '@mtes-mct/monitor-ui'
 import { FieldArrayRenderProps } from 'formik'
 import React, { useState } from 'react'
 import { Stack } from 'rsuite'
+import { Agent, MissionCrewMember } from '../../common/types/crew-type.ts'
+import MissionCrewFormNoComment from '../ui/mission-crew-form-no-comment.tsx'
+import MissionCrewListNoComment from '../ui/mission-crew-list-no-comment.tsx'
 import {
   MissionCrewAddMemberButton,
   MissionCrewListItemStyled,
@@ -9,10 +12,7 @@ import {
   MissionCrewStack,
   MissionCrewTitleLabel,
   MissionCrewUnderlineStack
-} from '../../common/components/ui/mission-crew-list.tsx'
-import { Agent, MissionCrewMember } from '../../common/types/crew-type.ts'
-import MissionCrewForm from '../../ulam/components/ui/mission-crew-form.tsx'
-import { default as MissionCrewListItemUlam } from '../../ulam/components/ui/mission-crew-list-item-ulam.tsx'
+} from '../ui/mission-crew-list.tsx'
 
 interface MissionGeneralInformationCrewNoCommentProps {
   name: string
@@ -71,7 +71,7 @@ const MissionGeneralInformationCrewNoComment: React.FC<MissionGeneralInformation
                 key={`${crewMember.agent.id}-index`}
                 length={fieldArray.form.values.crew.length}
               >
-                <MissionCrewListItemUlam
+                <MissionCrewListNoComment
                   name={name}
                   index={index}
                   crewMember={crewMember}
@@ -89,7 +89,7 @@ const MissionGeneralInformationCrewNoComment: React.FC<MissionGeneralInformation
         </Stack.Item>
         <>
           {openForm && (
-            <MissionCrewForm
+            <MissionCrewFormNoComment
               agents={agents ?? []}
               data-testid="crew-form"
               handleClose={setOpenForm}
