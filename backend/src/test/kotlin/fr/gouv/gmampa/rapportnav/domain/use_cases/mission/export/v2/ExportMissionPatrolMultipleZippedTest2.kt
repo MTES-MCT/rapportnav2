@@ -3,12 +3,10 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionPatrolMultipleZipped2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionPatrolSingle2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ZipFiles
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
-import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionCrewEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -31,9 +29,6 @@ class ExportMissionPatrolMultipleZippedTest2 {
     @MockitoBean
     private lateinit var getMission2: GetMission2
 
-    @MockitoBean
-    private lateinit var getEnvMissionById2: GetEnvMissionById2
-
     @Test
     fun `should return null for empty mission list`() {
         val result = exportMissionPatrolMultipleZipped.execute(emptyList())
@@ -49,7 +44,6 @@ class ExportMissionPatrolMultipleZippedTest2 {
                 fileContent = "MockContent"
             )
         )
-        val envMission = EnvMissionMock.create()
         val mission2 = MissionEntityMock2.create(
             generalInfos = MissionGeneralInfoEntity2(
                 data = MissionGeneralInfoEntity(
@@ -63,10 +57,8 @@ class ExportMissionPatrolMultipleZippedTest2 {
                 crew = listOf(MissionCrewEntityMock.create()),
             )
         )
-        Mockito.`when`(getEnvMissionById2.execute(Mockito.anyInt())).thenReturn(
-            envMission
-        )
-        Mockito.`when`(getMission2.execute(envMission)).thenReturn(
+
+        Mockito.`when`(getMission2.execute(missionId = mission2.id)).thenReturn(
             mission2
         )
 
@@ -80,7 +72,7 @@ class ExportMissionPatrolMultipleZippedTest2 {
     fun `should handle exception and return null`() {
         // Arrange: Force an exception when getMission.execute is called
         val missionIds = listOf(1)
-        Mockito.`when`(getEnvMissionById2.execute( Mockito.anyInt()))
+        Mockito.`when`(getMission2.execute(missionId = 1))
             .thenThrow(RuntimeException("Mock exception"))
 
         // Act: Call the method

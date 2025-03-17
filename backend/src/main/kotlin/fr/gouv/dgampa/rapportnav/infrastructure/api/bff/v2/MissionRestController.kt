@@ -57,7 +57,7 @@ class MissionRestController(
                 pageSize = null,
                 controlUnits = getControlUnitsForUser.execute()
             )
-            val missions = envMissions?.map { getMission2.execute(it) }.orEmpty()
+            val missions = envMissions?.map { getMission2.execute(envMission = it) }.orEmpty()
 
             //TODO: TO REMOVE FAKE DATA ASAP
 
@@ -87,7 +87,7 @@ class MissionRestController(
     ): Mission2? {
         try {
             val envMission = getEnvMissionById2.execute(missionId) ?: return null
-            val mission = getMission2.execute(envMission)?: return null
+            val mission = getMission2.execute(envMission = envMission)?: return null
             return Mission2.fromMissionEntity(mission)
         } catch (e: Exception) {
             logger.error("Error while creating MonitorEnv mission : ", e)

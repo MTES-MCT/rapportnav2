@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
@@ -10,7 +9,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.toMapForExpo
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
@@ -40,7 +38,6 @@ class ExportMissionPatrolSingle2(
     private val getInfoAboutNavAction2: GetInfoAboutNavAction2,
     private val formatDateTime: FormatDateTime,
     private val getServiceById: GetServiceById,
-    private val getEnvMissionById2: GetEnvMissionById2,
     private val getMission2: GetMission2,
     private val getMissionOperationalSummary: GetMissionOperationalSummary2,
 
@@ -60,14 +57,8 @@ class ExportMissionPatrolSingle2(
      * @return a MissionExportEntity with file name and content
      */
     fun execute(missionId: Int): MissionExportEntity? {
-        val envMission: MissionEntity? = getEnvMissionById2.execute(missionId)
 
-
-        if (envMission == null) {
-            logger.error("[RapportDePatrouille] - Mission not found for missionId: $missionId")
-            return null
-        }
-        val mission = getMission2.execute(envMission)
+        val mission = getMission2.execute(missionId = missionId)
 
         return createFile(mission)
     }

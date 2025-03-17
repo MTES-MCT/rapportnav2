@@ -1,10 +1,8 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import org.slf4j.LoggerFactory
@@ -13,7 +11,6 @@ import org.slf4j.LoggerFactory
 class ExportMissionPatrolCombined2(
     private val formatDateTime: FormatDateTime,
     private val exportMissionPatrolSingle: ExportMissionPatrolSingle2,
-    private val getEnvMissionById2: GetEnvMissionById2,
     private val getMission2: GetMission2,
 ) {
 
@@ -35,13 +32,7 @@ class ExportMissionPatrolCombined2(
             var missions = mutableListOf<MissionEntity2>()
 
             for (missionId in missionIds) {
-                val envMission: MissionEntity? = getEnvMissionById2.execute(missionId)
-
-                if (envMission == null) {
-                    logger.error("[RapportDePatrouille] - Mission not found for missionId: $missionId")
-                    return null
-                }
-                val mission = getMission2.execute(envMission)
+                val mission = getMission2.execute(missionId = missionId)
                 if (mission != null) {
                     missions.add(mission)
                 }
