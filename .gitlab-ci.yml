@@ -67,6 +67,9 @@ include:
   - project: 'num3-exploitation/chaine-ci/templates-devops/deploiements'
     ref: main
     file: 'deploiement-int.yml'
+  - project: 'num3-exploitation/chaine-ci/templates-devops/deploiements'
+    ref: main
+    file: 'deploiement-prod.yml'
 
   # - project: "num3-exploitation/chaine-ci/template-analyse-deploiement"
   #   ref: main
