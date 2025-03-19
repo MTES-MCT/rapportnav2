@@ -73,12 +73,12 @@ class MissionRestControllerTest {
         )
         val mockMissionEntity = MissionEntityMock2.create(id = 1)
 
-
         val mockUser = UserMock.create()
 
         `when`(getControlUnitsForUser.execute()).thenReturn(listOf(1))
         `when`(getEnvMissions.execute(any(), any(), anyOrNull(), anyOrNull(), any())).thenReturn(mockEnvMissions)
-        `when`(getMission2.execute(anyOrNull())).thenReturn(mockMissionEntity)
+        `when`(getMission2.execute(envMission = mockEnvMissions.first() )).thenReturn(mockMissionEntity)
+        `when`(getMission2.execute(envMission = mockEnvMissions.last() )).thenReturn(mockMissionEntity)
         `when`(getUserFromToken.execute()).thenReturn(mockUser)
         `when`(fakeMissionData2.getFakeMissionsforUser(mockUser)).thenReturn(emptyList())
 
@@ -98,7 +98,7 @@ class MissionRestControllerTest {
         val mockMission = EnvMissionMock.create(id = missionId)
         val mockMissionEntity = MissionEntityMock2.create(id = 1)
         `when`(getEnvMissionById2.execute(missionId)).thenReturn(mockMission)
-        `when`(getMission2.execute(anyOrNull())).thenReturn(mockMissionEntity)
+        `when`(getMission2.execute(envMission = mockMission)).thenReturn(mockMissionEntity)
 
         // Act & Assert
         mockMvc.perform(get("/api/v2/missions/{missionId}", missionId))

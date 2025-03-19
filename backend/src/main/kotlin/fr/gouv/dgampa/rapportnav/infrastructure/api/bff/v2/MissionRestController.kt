@@ -24,7 +24,6 @@ class MissionRestController(
     private val getControlUnitsForUser: GetControlUnitsForUser,
     private val getUserFromToken: GetUserFromToken,
     private val getEnvMissions: GetEnvMissions,
-    private val getMission: GetMission,
     private val fakeMissionData2: FakeMissionData2,
     private val createOrUpdateGeneralInfo: CreateOrUpdateGeneralInfo
 ) {
@@ -58,14 +57,14 @@ class MissionRestController(
                 pageSize = null,
                 controlUnits = getControlUnitsForUser.execute()
             )
-            val missions = envMissions?.map { getMission2.execute(it) }
+            val missions = envMissions?.map { getMission2.execute(envMission = it) }.orEmpty()
 
             //TODO: TO REMOVE FAKE DATA ASAP
 
             val user = getUserFromToken.execute()
             val fakeMissions = fakeMissionData2.getFakeMissionsforUser(user)
 
-            return (missions?.filterNotNull()?.plus(fakeMissions))?.map { Mission2.fromMissionEntity((it)) }
+            return (missions.filterNotNull().plus(fakeMissions)).map { Mission2.fromMissionEntity((it)) }
         } catch (e: Exception) {
             logger.error("MissionRestController - failed to load missions from MonitorEnv", e)
             throw Exception(e)
@@ -88,7 +87,7 @@ class MissionRestController(
     ): Mission2? {
         try {
             val envMission = getEnvMissionById2.execute(missionId) ?: return null
-            val mission = getMission2.execute(envMission)?: return null
+            val mission = getMission2.execute(envMission = envMission)?: return null
             return Mission2.fromMissionEntity(mission)
         } catch (e: Exception) {
             logger.error("Error while creating MonitorEnv mission : ", e)

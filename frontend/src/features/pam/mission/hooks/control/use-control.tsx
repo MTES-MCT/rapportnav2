@@ -52,7 +52,7 @@ export function useControl(
     if (isChecked === controlIsChecked) return
     setControlIsChecked(isChecked)
     if (isChecked && !control?.amountOfControls) return
-    updateOrDeleteControl(actionId, control, isChecked)
+    await updateOrDeleteControl(actionId, control, isChecked)
   }
 
   const updateOrDeleteControl = async (actionId?: string, control?: Control, shouldUpdate?: boolean) => {
