@@ -41,6 +41,13 @@ object MissionByIdStubs {
             administration = "beta.gouv.fr",
             resources = mutableListOf(resource1, resource2)
         )
+        val controlUnit2 = LegacyControlUnitEntity(
+            id = 10141,
+            name = "FAKE-PAM-UNIT-1",
+            isArchived = false,
+            administration = "DIRMNAMO",
+            resources = mutableListOf(resource1, resource2)
+        )
 
 
         val mission = MissionDataOutput(
@@ -50,13 +57,13 @@ object MissionByIdStubs {
             isGeometryComputedFromControls = false,
             isUnderJdp = false,
             missionTypes = listOf(MissionTypeEnum.LAND),
-            controlUnits = listOf(controlUnit1),
+            controlUnits = listOf(controlUnit1, controlUnit2),
             startDateTimeUtc = ZonedDateTime.now(),
             endDateTimeUtc = null,
             openBy = "local-mock",
             observationsCacem = "Je suis une fake observation wiremock",
             observationsByUnit = "Je suis une fake observation by units wiremock",
-            geom = createMultiPolygon()
+            geom = createMultiPolygon(),
         )
 
         objectMapper.registerModules(mutableListOf(JavaTimeModule(), JtsModule()))
