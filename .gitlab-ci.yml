@@ -29,6 +29,8 @@ variables:
   TAG_VERSION: $NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION
   DEPLOYEMENT_PATH: "../.gitlab-ci/templates"
 
+  IMAGE_DOCKER_1: $NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION
+
   # Anlayse Trivy
   FAIL_TRIVY_CONDITION_LIBRARY:
     value: "--severity HIGH,CRITICAL"
@@ -49,19 +51,23 @@ variables:
     description: "Niveau de la criticité limite de l'analyse Dependency-Check"
 
 include:
-  - "/.gitlab-ci/jobs/build_projet_gradle.yml"
-  - "/.gitlab-ci/jobs/build_projet_npm.yml"
-  - "/.gitlab-ci/jobs/construction_image.yml"
-  - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
+  # - "/.gitlab-ci/jobs/build_projet_gradle.yml"
+  # - "/.gitlab-ci/jobs/build_projet_npm.yml"
+  # - "/.gitlab-ci/jobs/construction_image.yml"
+  #  - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
+  #    ref: main
+  #    file: "/jobs/analyse_trivy.yml"
+  #  - project: "num3-exploitation/chaine-ci/template-analyse-deploiement"
+  #    ref: main
+  #    file: '/jobs/analyse_sonar.yml'
+  #  - "/.gitlab-ci/jobs/analyse_dependency-check.yml"
+  # - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
+  #   ref: main
+  #   file: "/jobs/deploiement_image_int.yml"
+  - project: 'num3-exploitation/chaine-ci/templates-devops/deploiements'
     ref: main
-    file: "/jobs/analyse_trivy.yml"
-  - project: "num3-exploitation/chaine-ci/template-analyse-deploiement"
-    ref: main
-    file: '/jobs/analyse_sonar.yml'
-  - "/.gitlab-ci/jobs/analyse_dependency-check.yml"
-  - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
-    ref: main
-    file: "/jobs/deploiement_image_int.yml"
-  - project: "num3-exploitation/chaine-ci/template-analyse-deploiement"
-    ref: main
-    file: "/jobs/deploiement_image_prod.yml"
+    file: 'deploiement-int.yml'
+
+  # - project: "num3-exploitation/chaine-ci/template-analyse-deploiement"
+  #   ref: main
+  #   file: "/jobs/deploiement_image_prod.yml"
