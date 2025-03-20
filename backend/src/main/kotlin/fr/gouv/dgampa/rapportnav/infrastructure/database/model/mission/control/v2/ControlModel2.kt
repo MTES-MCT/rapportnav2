@@ -31,7 +31,7 @@ data class ControlModel2(
     var amountOfControls: Int,
 
     @Column(name = "nbr_of_hours", nullable = true)
-    var nbrOfHour: Int? = null,
+    var nbrOfHours: Int? = null,
 
     @Column(name = "unit_should_confirm", nullable = true)
     var unitShouldConfirm: Boolean? = false,

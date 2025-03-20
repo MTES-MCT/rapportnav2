@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target.v2.TargetType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetType
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.v2.ControlModel2
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcType
