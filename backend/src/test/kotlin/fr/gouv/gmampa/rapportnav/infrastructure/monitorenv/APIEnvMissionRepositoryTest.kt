@@ -180,7 +180,7 @@ class APIEnvMissionRepositoryTest {
                 )
             )
                 .thenReturn(httpResponse)
-            val envRepo = APIEnvMissionRepository(mapper = objectMapper, clientFactory = httpClientFactory)
+            val envRepo = APIEnvMissionRepository(mapper = objectMapper, clientFactory = httpClientFactory, host = host)
             envRepo.findAllMissions(
                 startedAfterDateTime = Instant.parse("2025-01-31T23:00:00.000Z"),
                 startedBeforeDateTime = Instant.parse("2025-02-28T22:59:59.999Z"),

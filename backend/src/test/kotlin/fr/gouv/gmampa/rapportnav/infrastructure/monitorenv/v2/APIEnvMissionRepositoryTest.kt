@@ -1,4 +1,4 @@
-package fr.gouv.gmampa.rapportnav.infrastructure.v2
+package fr.gouv.gmampa.rapportnav.infrastructure.monitorenv.v2
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
@@ -65,7 +65,7 @@ class APIEnvMissionRepositoryTest {
             )
         )
             .thenReturn(httpResponse)
-        val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory)
+        val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host)
         val mission = MissionEnv(
             missionTypes = listOf(MissionTypeEnum.SEA),
             controlUnits = listOf(LegacyControlUnitEntityMock.create(resources = mutableListOf(resource))),
@@ -105,7 +105,7 @@ class APIEnvMissionRepositoryTest {
             )
         )
             .thenReturn(httpResponse)
-        val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory)
+        val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host)
         val mission = MissionEnvEntity(
             id = 1,
             missionTypes = listOf(MissionTypeEnum.SEA),
