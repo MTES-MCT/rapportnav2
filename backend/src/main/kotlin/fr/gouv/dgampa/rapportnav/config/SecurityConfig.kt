@@ -87,6 +87,7 @@ class SecurityConfig(
             authorize
                 .requestMatchers(AntPathRequestMatcher("/graphql")).authenticated()
                 .requestMatchers(AntPathRequestMatcher("/api/v1/auth/login")).permitAll()
+                .requestMatchers(AntPathRequestMatcher("/api/v1/auth/register")).authenticated()
                 .requestMatchers(AntPathRequestMatcher("/api/v1/auth/register")).hasAuthority(AuthoritiesEnum.ROLE_ADMIN.toString())
                 .requestMatchers(AntPathRequestMatcher("/api/v1/admin/**")).hasAuthority(AuthoritiesEnum.ROLE_ADMIN.toString())
                 .requestMatchers(AntPathRequestMatcher("/api/v2/**")).authenticated()
