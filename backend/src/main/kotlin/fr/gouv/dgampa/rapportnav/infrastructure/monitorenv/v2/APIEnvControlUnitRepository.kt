@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.outputs.LegacyCont
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
 import java.net.URI
 import java.net.http.HttpRequest
@@ -17,16 +18,13 @@ import java.net.http.HttpResponse
 @Repository
 class APIEnvControlUnitRepository(
     clientFactory: HttpClientFactory,
-    private val mapper: ObjectMapper
+    private val mapper: ObjectMapper,
+    @Value("\${MONITORENV_HOST}") private val host: String,
 ): IEnvControlUnitRepository {
 
     private val logger: Logger = LoggerFactory.getLogger(APIEnvControlUnitRepository::class.java);
 
     private val client = clientFactory.create();
-
-    // private val host = System.getenv("MONITORENV_HOST")
-
-    private val host = "https://monitorenv.din.developpement-durable.gouv.fr"
 
     override fun findAll(): List<LegacyControlUnitEntity>? {
         val url = "$host/api/v1/control_units";
