@@ -52,12 +52,12 @@ include:
   - "/.gitlab-ci/jobs/build_projet_gradle.yml"
   - "/.gitlab-ci/jobs/build_projet_npm.yml"
   - "/.gitlab-ci/jobs/construction_image.yml"
-  - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
-    ref: main
-    file: "/jobs/analyse_trivy.yml"
-  - project: "num3-exploitation/chaine-ci/template-analyse-deploiement"
-    ref: main
-    file: '/jobs/analyse_sonar.yml'
+  #  - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
+  #    ref: main
+  #    file: "/jobs/analyse_trivy.yml"
+  #  - project: "num3-exploitation/chaine-ci/template-analyse-deploiement"
+  #    ref: main
+  #    file: '/jobs/analyse_sonar.yml'
   # - "/.gitlab-ci/jobs/analyse_dependency-check.yml"
   - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
     ref: main
