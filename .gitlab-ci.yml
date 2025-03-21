@@ -1,10 +1,7 @@
 stages:
   - build
   - analyze
-  - pre-deploy-int
   - deploy-int
-  - tag-image-prod
-  - pre-deploy-prod
   - deploy-prod
 
 variables:
