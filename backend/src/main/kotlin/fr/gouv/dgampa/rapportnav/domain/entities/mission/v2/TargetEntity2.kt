@@ -28,16 +28,17 @@ class TargetEntity2(
     fun toTargetModel(): TargetModel2 {
         return TargetModel2(
             id = id,
+            agent = agent,
             actionId = actionId,
             targetType = targetType,
             vesselName = vesselName,
+            status = status.toString(),
             vesselIdentifier = vesselIdentifier,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
-            identityContolledPerson = identityContolledPerson,
-            status = status.toString(),
             vesselType = vesselType.toString(),
             vesselSize = vesselSize.toString(),
+            identityContolledPerson = identityContolledPerson,
             controls = controls?.map { it.toControlModel() }
         )
     }
@@ -90,6 +91,7 @@ class TargetEntity2(
         fun fromTargetModel(model: TargetModel2): TargetEntity2 {
             return TargetEntity2(
                 id = model.id,
+                agent = model.agent,
                 actionId = model.actionId,
                 targetType = model.targetType,
                 vesselName = model.vesselName,

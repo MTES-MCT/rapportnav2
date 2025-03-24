@@ -110,12 +110,12 @@ class MissionFishActionEntity(
         val nav = this.getNavSummaryTags()
         val fish = this.getFishSummaryTags()
         this.summaryTags = listOf(
-            getInfractionTag(nav.first + fish.first),
-            getNatinfTag(nav.second + fish.second)
+            getInfractionTag(nav.withReport + fish.withReport),
+            getNatinfTag(nav.natInfSize + fish.natInfSize)
         )
     }
 
-    private fun getFishSummaryTags(): Pair<Int, Int> {
+    private fun getFishSummaryTags(): SummaryTag {
         val fishInfractions: List<FishInfraction> = listOf(
             this.gearInfractions?.map { FishInfraction(it.natinf, it.infractionType) },
             this.logbookInfractions?.map { FishInfraction(it.natinf, it.infractionType) },
@@ -124,7 +124,7 @@ class MissionFishActionEntity(
         ).filterNotNull().flatten()
         val withReport = fishInfractions.count { it.infractionType == InfractionType.WITH_RECORD }
         val natInfSize = fishInfractions.map { it.natinf.toString() }.count { true }
-        return Pair(withReport, natInfSize)
+        return SummaryTag(withReport = withReport, natInfSize = natInfSize)
     }
 
     override fun computeCompleteness() {
