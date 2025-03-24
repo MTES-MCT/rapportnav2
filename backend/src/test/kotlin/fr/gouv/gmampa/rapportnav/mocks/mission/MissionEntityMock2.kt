@@ -30,7 +30,7 @@ object MissionEntityMock2 {
         hasMissionOrder: Boolean = false,
         isUnderJdp: Boolean = false,
         actions: List<MissionActionEntity> = listOf(),
-        generalInfos: MissionGeneralInfoEntity2? = null,
+        generalInfos: MissionGeneralInfoEntity2? = MissionGeneralInfoEntity2(data = MissionGeneralInfoEntity(missionId = 1, id = 1)),
     ): MissionEntity2 {
         return MissionEntity2(
             id = id,
@@ -52,7 +52,7 @@ object MissionEntityMock2 {
                 isUnderJdp = isUnderJdp
             ),
             actions = actions,
-            generalInfos = MissionGeneralInfoEntity2(data = MissionGeneralInfoEntity(missionId = 1, id = 1))
+            generalInfos = generalInfos
         )
     }
 

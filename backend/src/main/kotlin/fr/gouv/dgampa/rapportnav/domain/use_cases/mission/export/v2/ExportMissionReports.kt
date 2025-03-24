@@ -8,10 +8,9 @@ import org.slf4j.LoggerFactory
 
 @UseCase
 class ExportMissionReports(
-    private val exportMissionPatrolSingle: ExportMissionPatrolSingle,
-    private val exportMissionPatrolCombined: ExportMissionPatrolCombined,
-    private val exportMissionPatrolMultipleZipped: ExportMissionPatrolMultipleZipped,
-    private val exportMissionAEMSingle: ExportMissionAEMSingle,
+    private val exportMissionPatrolSingle: ExportMissionPatrolSingle2,
+    private val exportMissionPatrolCombined: ExportMissionPatrolCombined2,
+    private val exportMissionPatrolMultipleZipped: ExportMissionPatrolMultipleZipped2,
     private val exportMissionAEMSingle2: ExportMissionAEMSingle2,
     private val exportMissionAEMCombined: ExportMissionAEMCombined,
     private val exportMissionAEMMultipleZipped: ExportMissionAEMMultipleZipped,

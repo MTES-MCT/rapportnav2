@@ -26,7 +26,7 @@ fun mapStringToActionStatusType(value: String): ActionStatusType {
     }
 }
 
-fun mapActionStatusTypeToHumanString(value: ActionStatusType): String {
+fun mapActionStatusTypeToHumanString(value: ActionStatusType? = null): String {
     return when (value) {
         ActionStatusType.NAVIGATING -> "Navigation"
         ActionStatusType.ANCHORED -> "Mouillage"
