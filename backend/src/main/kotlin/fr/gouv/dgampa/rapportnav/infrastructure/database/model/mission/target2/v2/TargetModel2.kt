@@ -17,7 +17,7 @@ data class TargetModel2(
     var id: UUID = UUID.randomUUID(),
 
     @Column(name = "action_Id", nullable = false)
-    var actionId: UUID,
+    var actionId: String,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "target_type", nullable = false)

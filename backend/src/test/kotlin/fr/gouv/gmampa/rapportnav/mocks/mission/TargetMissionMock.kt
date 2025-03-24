@@ -14,20 +14,26 @@ import java.time.Instant
 import java.util.*
 
 object TargetMissionMock {
-    fun create(): TargetEntity2 {
+    fun create(
+        id: UUID? = null,
+        agent: String? = null,
+        actionId: String? = null,
+        targetType: TargetType? = null,
+        status: TargetStatusType? = null
+    ): TargetEntity2 {
         return TargetEntity2(
             startDateTimeUtc = Instant.parse("2020-01-01T00:00:00Z"),
             endDateTimeUtc = Instant.parse("2020-02-01T00:00:00Z"),
-            id = UUID.randomUUID(),
-            status = TargetStatusType.IN_PROCESS,
-            actionId = UUID.randomUUID(),
+            id = id ?: UUID.randomUUID(),
+            status = status ?: TargetStatusType.IN_PROCESS,
+            actionId = actionId ?: UUID.randomUUID().toString(),
             vesselSize = VesselSizeEnum.FROM_12_TO_24m,
             vesselType = VesselTypeEnum.SAILING,
             vesselIdentifier = "My vesselIdentifier",
-            agent = "My agent",
+            agent = agent?: "My agent",
             vesselName = "My vesselName",
             identityContolledPerson = "My identityContolledPerson",
-            targetType = TargetType.COMPANY,
+            targetType = targetType ?: TargetType.COMPANY,
             controls = listOf(
                 ControlEntity2(
                     id = UUID.randomUUID(),

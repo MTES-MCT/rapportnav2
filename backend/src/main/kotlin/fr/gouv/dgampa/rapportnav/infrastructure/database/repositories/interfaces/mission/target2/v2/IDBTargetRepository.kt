@@ -8,7 +8,7 @@ interface IDBTargetRepository : JpaRepository<TargetModel2, UUID> {
 
     override fun findById(id: UUID): Optional<TargetModel2>
 
-    fun findByActionId(actionId: UUID): List<TargetModel2>
+    fun findByActionId(actionId: String): List<TargetModel2>
 
-    fun deleteByActionId(actionId: UUID)
+    fun deleteByActionId(actionId: String)
 }

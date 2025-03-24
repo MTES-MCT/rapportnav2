@@ -11,7 +11,7 @@ import java.util.*
 
 class TargetEntity2(
     var id: UUID,
-    var actionId: UUID,
+    var actionId: String,
     var targetType: TargetType,
     var status: TargetStatusType? = null,
     var agent: String? = null,

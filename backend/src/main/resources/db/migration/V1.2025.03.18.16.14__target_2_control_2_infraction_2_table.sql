@@ -75,7 +75,7 @@ CREATE TABLE
   target_2
 (
   id                         uuid                   NOT NULL,
-  action_id                  uuid                   NOT NULL,
+  action_id                  VARCHAR(36)            NOT NULL,
   target_type                "TargetType"           NOT NULL,
   start_datetime_utc         timestamp with time zone NULL,
   end_datetime_utc           timestamp with time zone NULL,

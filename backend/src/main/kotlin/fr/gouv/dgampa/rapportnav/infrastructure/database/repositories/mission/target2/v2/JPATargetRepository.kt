@@ -20,7 +20,7 @@ class JPATargetRepository(
         return dbTargetRepository.findById(id)
     }
 
-    override fun findByActionId(actionId: UUID): List<TargetModel2> {
+    override fun findByActionId(actionId: String): List<TargetModel2> {
         return dbTargetRepository.findByActionId(actionId)
     }
 
@@ -43,7 +43,7 @@ class JPATargetRepository(
     }
 
     @Transactional
-    override fun deleteByActionId(actionId: UUID) {
+    override fun deleteByActionId(actionId: String) {
         return dbTargetRepository.deleteByActionId(actionId)
     }
 
