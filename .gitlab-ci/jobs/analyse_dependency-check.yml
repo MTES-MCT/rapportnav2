@@ -3,17 +3,33 @@ dependency_check:
   image:
     name: owasp/dependency-check:12.1.0
     entrypoint: [ "" ]
-  variables:
-    HTTP_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
-    HTTPS_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
-    NO_PROXY: "gitlab-sml.din.developpement-durable.gouv.fr,localhost,127.0.0.1,0.0.0.0,.dsi.damgm.i2"
+
   script:
-    - /usr/share/dependency-check/bin/dependency-check.sh --scan frontend/ --project "${PROJECT_NAME} ${PROJECT_VERSION}" --failOnCVSS $FAIL_DP_CHECK_LVL --proxyserver $PROXY_HOST --proxyport $PROXY_PORT --data /usr/share/dependency-check/data --out $PROJECT_NAME-$PROJECT_VERSION-frontend-DP-check.html
-    - /usr/share/dependency-check/bin/dependency-check.sh --scan backend/build/libs/rapportnav-${PROJECT_VERSION}.jar --project "${PROJECT_NAME} ${PROJECT_VERSION}" --failOnCVSS $FAIL_DP_CHECK_LVL --proxyserver $PROXY_HOST --proxyport $PROXY_PORT --data /usr/share/dependency-check/data --out $PROJECT_NAME-$PROJECT_VERSION-backend-DP-check.html
+    - export JAVA_TOOL_OPTIONS="-Dhttps.proxyHost=${PROXY_HOST} -Dhttps.proxyPort=${PROXY_PORT}"
+    - /usr/share/dependency-check/bin/dependency-check.sh
+      --connectionString "jdbc:postgresql://prod-cdc-secu01.dsi.damgm.i2:5432/DPCHECK" --dbDriverName "org.postgresql.Driver" --dbUser dpcheck --dbPassword dpcheck
+      --nvdApiKey c4a82c3a-644b-4e95-bfe7-c7337f662895 
+      --proxyserver "${PROXY_HOST}" 
+      --proxyport ${PROXY_PORT} 
+      --scan frontend/
+      --project "${PROJECT_NAME} ${PROJECT_VERSION}" 
+      --failOnCVSS $FAIL_DP_CHECK_LVL 
+      --out $PROJECT_NAME-$PROJECT_VERSION-frontend-DP-check.html
+      --disableYarnAudit --nodePackageSkipDevDependencies --nodeAuditSkipDevDependencies
+    - /usr/share/dependency-check/bin/dependency-check.sh
+      --connectionString "jdbc:postgresql://prod-cdc-secu01.dsi.damgm.i2:5432/DPCHECK" --dbDriverName "org.postgresql.Driver" --dbUser dpcheck --dbPassword dpcheck
+      --nvdApiKey c4a82c3a-644b-4e95-bfe7-c7337f662895 
+      --proxyserver "${PROXY_HOST}" 
+      --proxyport ${PROXY_PORT} 
+      --scan backend/build/libs/rapportnav-${PROJECT_VERSION}.jar 
+      --project "${PROJECT_NAME} ${PROJECT_VERSION}" 
+      --failOnCVSS $FAIL_DP_CHECK_LVL 
+      --out $PROJECT_NAME-$PROJECT_VERSION-backend-DP-check.html
+      --disableYarnAudit --nodePackageSkipDevDependencies --nodeAuditSkipDevDependencies
   tags:
     - analyze
   artifacts:
-    when: on_success
+    when: always
     paths:
       - $PROJECT_NAME-$PROJECT_VERSION-frontend-DP-check.html
       - $PROJECT_NAME-$PROJECT_VERSION-backend-DP-check.html
