@@ -77,7 +77,7 @@ dependencies {
   }
   implementation("io.jsonwebtoken:jjwt-api:0.12.3")
   implementation("javax.xml.bind:jaxb-api:2.3.1")
-  implementation("org.springframework.security:spring-security-oauth2-jose:6.4.2")
+  implementation("org.springframework.security:spring-security-oauth2-jose:6.4.4")
   implementation("org.locationtech.jts:jts-core:1.19.0")
   implementation("io.swagger.core.v3:swagger-core:2.2.20")
   implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
