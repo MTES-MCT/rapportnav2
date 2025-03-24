@@ -88,6 +88,14 @@ abstract class MissionActionEntity(
         ]
     )
     override var controlSecurity: ControlSecurityEntity? = null,
+
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["CONTROL"])
+        ]
+    )
+    override var targets: List<TargetEntity2>? = null
+
 ) : BaseMissionActionEntity {
 
     fun computeCompletenessForStats() {
@@ -128,6 +136,27 @@ abstract class MissionActionEntity(
         this.summaryTags = listOf(infractionTag, natinfTag)
     }
 
+    open fun computeSummaryTags2() {
+        val nbr = this.getNavSummaryTags()
+        this.summaryTags = listOf(getInfractionTag(nbr.first), getNatinfTag(nbr.second))
+    }
+
+    open fun getNavSummaryTags(): Pair<Int, Int> {
+        return this.targets?.map { getSummaryTags(it) }?.fold(Pair(0, 0)) { accumulator, p ->
+            accumulator.apply {
+                accumulator.first.plus(p.first)
+                accumulator.second.plus(p.second)
+            }
+        }?: Pair(0, 0)
+    }
+
+    private fun getSummaryTags(target: TargetEntity2): Pair<Int, Int> {
+        val infractions = target.controls?.flatMap { it.infractions ?: emptyList() }
+        val natInfSize = infractions?.flatMap { it.natinfs }?.size ?: 0
+        val withReport = infractions?.count { it.infractionType == InfractionTypeEnum.WITH_REPORT } ?: 0
+        return Pair(withReport, natInfSize)
+    }
+
     fun computeControls(controls: ActionControlEntity?){
         this.controlSecurity = controls?.controlSecurity
         this.controlGensDeMer = controls?.controlGensDeMer
@@ -146,9 +175,34 @@ abstract class MissionActionEntity(
         }
     }
 
+    fun computeControlsToComplete2() {
+        this.controlsToComplete = this.targets?.flatMap { computeControlsToComplete2(it) }
+    }
+
+    private fun computeControlsToComplete2(target: TargetEntity2): List<ControlType> {
+        return listOf(
+            ControlType.ADMINISTRATIVE.takeIf {
+                val control = target.getControlByType(ControlType.ADMINISTRATIVE)
+                this.isAdministrativeControl == true && this.isControlInValid(control)
+            },
+            ControlType.GENS_DE_MER.takeIf {
+                val control = target.getControlByType(ControlType.GENS_DE_MER)
+                this.isSeafarersControl == true && this.isControlInValid(control)
+            },
+            ControlType.NAVIGATION.takeIf {
+                val control = target.getControlByType(ControlType.NAVIGATION)
+                this.isComplianceWithWaterRegulationsControl == true && this.isControlInValid(control)
+            },
+            ControlType.SECURITY.takeIf {
+                val control = target.getControlByType(ControlType.SECURITY)
+                this.isSafetyEquipmentAndStandardsComplianceControl == true && this.isControlInValid(control)
+            }
+        ).mapNotNull { it }
+    }
+
     abstract fun computeControlsToComplete()
     abstract fun getActionId(): String
     abstract fun computeCompleteness()
-
+    abstract fun isControlInValid(control: ControlEntity2?): Boolean
 }
 

@@ -13,21 +13,21 @@ import java.util.*
 
 @Repository
 class JPATargetRepository(
-    private val dbControlRepository: IDBTargetRepository
+    private val dbTargetRepository: IDBTargetRepository
 ) : ITargetRepository {
 
     override fun findById(id: UUID): Optional<TargetModel2> {
-        return dbControlRepository.findById(id)
+        return dbTargetRepository.findById(id)
     }
 
     override fun findByActionId(actionId: UUID): List<TargetModel2> {
-        return dbControlRepository.findByActionId(actionId)
+        return dbTargetRepository.findByActionId(actionId)
     }
 
     @Transactional
     override fun save(target: TargetModel2): TargetModel2 {
         return try {
-            dbControlRepository.save(target)
+            dbTargetRepository.save(target)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,
@@ -44,6 +44,11 @@ class JPATargetRepository(
 
     @Transactional
     override fun deleteByActionId(actionId: UUID) {
-        return dbControlRepository.deleteByActionId(actionId)
+        return dbTargetRepository.deleteByActionId(actionId)
+    }
+
+    @Transactional
+    override fun deleteById(id: UUID) {
+        return dbTargetRepository.deleteById(id)
     }
 }

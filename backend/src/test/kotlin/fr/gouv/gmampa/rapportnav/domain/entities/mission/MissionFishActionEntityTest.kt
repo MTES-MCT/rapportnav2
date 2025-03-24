@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Missio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import org.assertj.core.api.Assertions.assertThat
@@ -228,6 +229,21 @@ class MissionFishActionEntityTest {
         entity.computeControls(controls = controls)
         entity.computeControlsToComplete()
         assertThat(entity.controlsToComplete?.size).isEqualTo(4)
+    }
+
+    @Test
+    fun `execute should compute summary tag 2`() {
+        val fishAction = FishActionControlMock.create(
+            completion = Completion.COMPLETED,
+            actionDatetimeUtc = Instant.parse("2022-01-02T12:00:01Z"),
+            actionEndDatetimeUtc = Instant.parse("2021-01-02T13:00:01Z"),
+        )
+        val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
+        entity.targets = listOf(TargetMissionMock.create())
+        entity.computeSummaryTags2()
+        assertThat(entity.summaryTags?.size).isEqualTo(2)
+        assertThat(entity.summaryTags).contains("3 PV")
+        assertThat(entity.summaryTags).contains("8 NATINF")
     }
 
     private fun getFishAction(): MissionAction {

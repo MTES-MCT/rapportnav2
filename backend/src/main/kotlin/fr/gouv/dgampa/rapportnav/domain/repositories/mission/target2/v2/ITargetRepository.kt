@@ -10,5 +10,7 @@ interface ITargetRepository {
 
     fun findByActionId(actionId: UUID): List<TargetModel2>
 
+    fun deleteById(id: UUID)
+
     fun deleteByActionId(actionId: UUID)
 }

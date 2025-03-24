@@ -153,6 +153,10 @@ class MissionNavActionEntity(
         TODO("Not yet implemented")
     }
 
+    override fun isControlInValid(control: ControlEntity2?): Boolean {
+        TODO("Not yet implemented")
+    }
+
     companion object {
         fun fromMissionActionModel(model: MissionActionModel): MissionNavActionEntity {
             return MissionNavActionEntity(
