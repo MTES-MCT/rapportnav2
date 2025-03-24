@@ -14,7 +14,7 @@ dependency_check:
       --scan frontend/
       --project "${PROJECT_NAME} ${PROJECT_VERSION}" 
       --failOnCVSS $FAIL_DP_CHECK_LVL 
-      --out $PROJECT_NAME-$PROJECT_VERSION-ui-DP-check.html 
+      --out $PROJECT_NAME-$PROJECT_VERSION-frontend-DP-check.html
       --disableYarnAudit --nodePackageSkipDevDependencies --nodeAuditSkipDevDependencies
     - /usr/share/dependency-check/bin/dependency-check.sh
       --connectionString "jdbc:postgresql://prod-cdc-secu01.dsi.damgm.i2:5432/DPCHECK" --dbDriverName "org.postgresql.Driver" --dbUser dpcheck --dbPassword dpcheck
@@ -24,7 +24,7 @@ dependency_check:
       --scan backend/build/libs/rapportnav-${PROJECT_VERSION}.jar 
       --project "${PROJECT_NAME} ${PROJECT_VERSION}" 
       --failOnCVSS $FAIL_DP_CHECK_LVL 
-      --out $PROJECT_NAME-$PROJECT_VERSION-api-DP-check.html 
+      --out $PROJECT_NAME-$PROJECT_VERSION-backend-DP-check.html
       --disableYarnAudit --nodePackageSkipDevDependencies --nodeAuditSkipDevDependencies
   tags:
     - analyze
