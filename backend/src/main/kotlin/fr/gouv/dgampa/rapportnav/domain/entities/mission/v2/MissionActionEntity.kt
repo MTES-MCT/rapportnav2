@@ -13,6 +13,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.Infracti
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import java.time.Instant
 
+
 abstract class MissionActionEntity(
     override val missionId: Int,
     override val actionType: ActionType,
@@ -137,24 +138,23 @@ abstract class MissionActionEntity(
     }
 
     open fun computeSummaryTags2() {
-        val nbr = this.getNavSummaryTags()
-        this.summaryTags = listOf(getInfractionTag(nbr.first), getNatinfTag(nbr.second))
+        val summaryTag = this.getNavSummaryTags()
+        this.summaryTags = listOf(getInfractionTag(summaryTag.withReport), getNatinfTag(summaryTag.natInfSize))
     }
 
-    open fun getNavSummaryTags(): Pair<Int, Int> {
-        return this.targets?.map { getSummaryTags(it) }?.fold(Pair(0, 0)) { accumulator, p ->
-            accumulator.apply {
-                accumulator.first.plus(p.first)
-                accumulator.second.plus(p.second)
-            }
-        }?: Pair(0, 0)
+    open fun getNavSummaryTags(): SummaryTag {
+        return this.targets?.map { getSummaryTags(it) }?.fold(SummaryTag(0, 0)) { accumulator, p ->
+            accumulator.withReport += p.withReport
+            accumulator.natInfSize += p.natInfSize
+            return accumulator
+        } ?: SummaryTag(0, 0)
     }
 
-    private fun getSummaryTags(target: TargetEntity2): Pair<Int, Int> {
+    private fun getSummaryTags(target: TargetEntity2): SummaryTag {
         val infractions = target.controls?.flatMap { it.infractions ?: emptyList() }
         val natInfSize = infractions?.flatMap { it.natinfs }?.size ?: 0
         val withReport = infractions?.count { it.infractionType == InfractionTypeEnum.WITH_REPORT } ?: 0
-        return Pair(withReport, natInfSize)
+        return SummaryTag(withReport = withReport, natInfSize = natInfSize)
     }
 
     fun computeControls(controls: ActionControlEntity?){
@@ -205,4 +205,6 @@ abstract class MissionActionEntity(
     abstract fun computeCompleteness()
     abstract fun isControlInValid(control: ControlEntity2?): Boolean
 }
+
+class SummaryTag(var withReport: Int, var natInfSize: Int)
 

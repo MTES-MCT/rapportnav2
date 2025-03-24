@@ -5,12 +5,12 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.v2.ControlModel2
 import java.util.*
 
-class ControlEntity2(
+data class ControlEntity2(
     var id: UUID,
     val targetId: UUID? = null,
     var controlType: ControlType,
     val amountOfControls: Int,
-    val infractions: List<InfractionEntity2>? = listOf(),
+    val infractions: List<InfractionEntity2>? = null,
     val observations: String? = null,
     val compliantOperatingPermit: ControlResult? = null,
     val upToDateNavigationPermit: ControlResult? = null,
@@ -21,7 +21,6 @@ class ControlEntity2(
     val knowledgeOfFrenchLawAndLanguage: ControlResult? = null,
     val nbrOfHours: Int? = null
 ) {
-
     fun toControlModel(): ControlModel2 {
         return ControlModel2(
             id = id,
