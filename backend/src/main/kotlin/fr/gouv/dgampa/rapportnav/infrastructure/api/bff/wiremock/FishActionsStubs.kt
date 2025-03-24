@@ -4,14 +4,14 @@ import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.wiremock.utils.LoadJsonData
 
-object NatinfStubs {
+object FishActionsStubs {
 
     fun configureStubs(wireMockServer: WireMockServer) {
-
-        val json = LoadJsonData.load("env/natinfs.json")
+        val json = LoadJsonData.load("fish/actions.json")
 
         wireMockServer.stubFor(
-            WireMock.get(WireMock.urlPathEqualTo("/bff/v1/natinfs"))
+            WireMock.get(WireMock.urlMatching("/api/v1/mission_actions"))
+                .withQueryParam("missionId", WireMock.matching(".*"))
                 .willReturn(
                     WireMock.aResponse()
                         .withHeader("Content-Type", "application/json")
