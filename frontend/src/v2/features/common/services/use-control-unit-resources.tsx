@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import axios from '../../../../query-client/axios.ts'
 import { ControlUnitResource } from '../types/control-unit-types.ts'
+import { controlUnitResourcesKeys } from './query-keys.ts'
 
 const useControlUnitResourcesQuery = (controlUnitId?: number) => {
   const fetchControlUnitResources = async (): Promise<ControlUnitResource[]> => {
@@ -11,7 +12,7 @@ const useControlUnitResourcesQuery = (controlUnitId?: number) => {
   }
 
   const query = useQuery<ControlUnitResource[], Error>({
-    queryKey: ['controlUnitResources'],
+    queryKey: controlUnitResourcesKeys.all(),
     queryFn: fetchControlUnitResources,
     refetchIntervalInBackground: false,
     refetchOnWindowFocus: false,
