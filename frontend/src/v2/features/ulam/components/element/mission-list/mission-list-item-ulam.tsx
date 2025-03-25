@@ -1,6 +1,6 @@
 import Text from '@common/components/ui/text.tsx'
 import { Accent, Icon, IconButton, THEME } from '@mtes-mct/monitor-ui'
-import { ULAM_V2_HOME_PATH } from '@router/router.tsx'
+import { ULAM_V2_HOME_PATH } from '@router/routes.tsx'
 import React, { MouseEvent, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Divider, FlexboxGrid, Stack } from 'rsuite'

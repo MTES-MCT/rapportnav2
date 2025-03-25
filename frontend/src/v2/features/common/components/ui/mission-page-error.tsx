@@ -1,6 +1,6 @@
 import Text from '@common/components/ui/text'
 import { Accent, Button, Size } from '@mtes-mct/monitor-ui'
-import { ROOT_PATH } from '@router/router'
+import { ROOT_PATH } from '@router/routes'
 import { useNavigate } from 'react-router-dom'
 import { Stack } from 'rsuite'
 

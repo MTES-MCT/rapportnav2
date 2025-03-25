@@ -1,4 +1,4 @@
-import { ULAM_V2_HOME_PATH } from '@router/router.tsx'
+import { ULAM_V2_HOME_PATH } from '@router/routes.tsx'
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import useAuth from '../features/auth/hooks/use-auth.tsx'
