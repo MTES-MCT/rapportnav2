@@ -52,6 +52,7 @@
     "@import-meta-env/cli": "^0.7.3",
     "@import-meta-env/prepare": "0.2.2",
     "@import-meta-env/unplugin": "^0.6.2",
+    "@tanstack/react-query-devtools": "^5.69.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
