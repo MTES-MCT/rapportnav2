@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.entities.mission.nav.v2
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
@@ -33,16 +34,19 @@ class TargetEntity2Test {
             vesselName = "My vesselName",
             identityContolledPerson = "My identityContolledPerson",
             targetType = TargetType.COMPANY,
+            source = "RAPPORTNAV",
             controls = listOf()
         )
 
         val entity = TargetEntity2.fromTargetModel(model)
         assertThat(entity).isNotNull()
         assertThat(entity.id).isEqualTo(model.id)
+
         assertThat(entity.agent).isEqualTo(model.agent)
         assertThat(entity.actionId).isEqualTo(model.actionId)
         assertThat(entity.controls).isEqualTo(model.controls)
         assertThat(entity.targetType).isEqualTo(model.targetType)
+        assertThat(entity.source.toString()).isEqualTo(model.source)
         assertThat(entity.status.toString()).isEqualTo(model.status)
         assertThat(entity.endDateTimeUtc).isEqualTo(model.endDateTimeUtc)
         assertThat(entity.startDateTimeUtc).isEqualTo(model.startDateTimeUtc)
@@ -67,7 +71,8 @@ class TargetEntity2Test {
             vesselName = "My vesselName",
             identityContolledPerson = "My identityContolledPerson",
             targetType = TargetType.COMPANY,
-            controls = listOf()
+            controls = listOf(),
+            source = MissionSourceEnum.RAPPORTNAV
         )
 
         val model = entity.toTargetModel()
@@ -77,6 +82,7 @@ class TargetEntity2Test {
         assertThat(entity.actionId).isEqualTo(model.actionId)
         assertThat(entity.controls).isEqualTo(model.controls)
         assertThat(entity.targetType).isEqualTo(model.targetType)
+        assertThat(entity.source.toString()).isEqualTo(model.source)
         assertThat(entity.status.toString()).isEqualTo(model.status)
         assertThat(entity.endDateTimeUtc).isEqualTo(model.endDateTimeUtc)
         assertThat(entity.startDateTimeUtc).isEqualTo(model.startDateTimeUtc)

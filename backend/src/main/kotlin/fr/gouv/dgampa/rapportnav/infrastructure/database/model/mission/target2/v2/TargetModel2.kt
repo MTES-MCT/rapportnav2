@@ -51,6 +51,9 @@ data class TargetModel2(
     @Column(name = "end_datetime_utc", nullable = true)
     var endDateTimeUtc: Instant? = null,
 
+    @Column(name = "source", nullable = true)
+    var source: String? = null,
+
     @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
     @JoinColumn(name = "target_id")
     @JsonIgnore

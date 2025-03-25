@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
@@ -22,6 +23,7 @@ class TargetEntity2(
     var startDateTimeUtc: Instant? = null,
     var endDateTimeUtc: Instant? = null,
     var identityContolledPerson: String? = null,
+    var source: MissionSourceEnum? = null,
     var controls: List<ControlEntity2>? = listOf()
 ) {
 
@@ -39,6 +41,7 @@ class TargetEntity2(
             vesselType = vesselType.toString(),
             vesselSize = vesselSize.toString(),
             identityContolledPerson = identityContolledPerson,
+            source = source?.toString(),
             controls = controls?.map { it.toControlModel() }
         )
     }
@@ -57,6 +60,7 @@ class TargetEntity2(
         if (targetType != other.targetType) return false
         if (status != other.status) return false
         if (agent != other.agent) return false
+        if (source != other.source) return false
         if (vesselName != other.vesselName) return false
         if (vesselType != other.vesselType) return false
         if (vesselSize != other.vesselSize) return false
@@ -73,6 +77,7 @@ class TargetEntity2(
     override fun hashCode(): Int {
         var result = id.hashCode()
         result = 31 * result + actionId.hashCode()
+        result = 31 * result + source.hashCode()
         result = 31 * result + targetType.hashCode()
         result = 31 * result + (status?.hashCode() ?: 0)
         result = 31 * result + (agent?.hashCode() ?: 0)
@@ -99,6 +104,7 @@ class TargetEntity2(
                 startDateTimeUtc = model.startDateTimeUtc,
                 endDateTimeUtc = model.endDateTimeUtc,
                 identityContolledPerson = model.identityContolledPerson,
+                source = model.source?.let { MissionSourceEnum.valueOf(it) },
                 status = model.status.let { TargetStatusType.valueOf(it) },
                 vesselType = model.vesselType?.let { VesselTypeEnum.valueOf(it) },
                 vesselSize = model.vesselSize?.let { VesselSizeEnum.valueOf(it) },
