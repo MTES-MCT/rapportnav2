@@ -33,12 +33,6 @@ data class ControlModel2(
     @Column(name = "nbr_of_hours", nullable = true)
     var nbrOfHours: Int? = null,
 
-    @Column(name = "unit_should_confirm", nullable = true)
-    var unitShouldConfirm: Boolean? = false,
-
-    @Column(name = "unit_has_confirmed", nullable = true)
-    var unitHasConfirmed: Boolean? = false,
-
     @Column(name = "observations", nullable = true)
     var observations: String? = null,
 

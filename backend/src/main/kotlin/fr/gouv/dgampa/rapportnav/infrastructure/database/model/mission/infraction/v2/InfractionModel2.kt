@@ -1,11 +1,8 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.v2
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.v2.ControlModel2
 import jakarta.persistence.*
-import org.hibernate.annotations.JdbcType
-import org.hibernate.dialect.PostgreSQLEnumJdbcType
 import java.util.*
 
 @Entity
@@ -14,11 +11,9 @@ data class InfractionModel2(
     @Id
     @Column(name = "id", unique = true, nullable = false)
     var id: UUID,
-
-    @Enumerated(EnumType.STRING)
+    
     @Column(name = "infraction_type", nullable = false)
-    @JdbcType(PostgreSQLEnumJdbcType::class)
-    var infractionType: InfractionTypeEnum? = null,
+    var infractionType: String? = null,
 
     @Column(name = "observations", nullable = true)
     var observations: String? = null,

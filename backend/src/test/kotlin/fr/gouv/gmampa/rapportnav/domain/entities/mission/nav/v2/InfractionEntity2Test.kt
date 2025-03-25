@@ -16,7 +16,7 @@ class InfractionEntity2Test {
     fun `execute should retrieve entity from Model`() {
         val model = InfractionModel2(
             id = UUID.randomUUID(),
-            infractionType = InfractionTypeEnum.WITH_REPORT,
+            infractionType = InfractionTypeEnum.WITH_REPORT.toString(),
             natinfs = listOf("natInf2", "natInf3"),
             observations = "My observations"
         )
@@ -26,7 +26,7 @@ class InfractionEntity2Test {
         assertThat(entity.id).isEqualTo(model.id)
         assertThat(entity.natinfs).isEqualTo(model.natinfs)
         assertThat(entity.observations).isEqualTo(model.observations)
-        assertThat(entity.infractionType).isEqualTo(model.infractionType)
+        assertThat(entity.infractionType.toString()).isEqualTo(model.infractionType)
         assertThat(entity.observations).isEqualTo(model.observations)
     }
 
@@ -44,7 +44,7 @@ class InfractionEntity2Test {
         assertThat(entity.id).isEqualTo(model.id)
         assertThat(entity.natinfs).isEqualTo(model.natinfs)
         assertThat(entity.observations).isEqualTo(model.observations)
-        assertThat(entity.infractionType).isEqualTo(model.infractionType)
+        assertThat(entity.infractionType.toString()).isEqualTo(model.infractionType)
         assertThat(entity.observations).isEqualTo(model.observations)
     }
 }

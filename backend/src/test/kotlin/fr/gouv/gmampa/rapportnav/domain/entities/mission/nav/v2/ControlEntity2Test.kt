@@ -22,8 +22,6 @@ class ControlEntity2Test {
             controlType = ControlType.NAVIGATION,
             amountOfControls = 1,
             hasBeenDone = false,
-            unitHasConfirmed = true,
-            unitShouldConfirm = false,
             observations = "My observations",
             staffOutnumbered = ControlResult.YES.toString(),
             upToDateMedicalCheck = ControlResult.NO.toString(),

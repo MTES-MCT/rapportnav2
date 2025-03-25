@@ -2,20 +2,12 @@ DO
 $$
 BEGIN
 
-CREATE
-  TYPE "InfractionType"
-  AS ENUM (
-    'WAITING',
-    'WITH_REPORT',
-    'WITHOUT_REPORT');
-
-
 CREATE TABLE
   infraction_2
 (
   id              uuid             NOT NULL,
   control_id      uuid             NOT NULL,
-  infraction_type "InfractionType" NOT NULL,
+  infraction_type character varying(32) NOT NULL,
   observations    text NULL
 );
 
@@ -44,8 +36,6 @@ CREATE TABLE
   compliant_operating_permit           character varying(16) NULL,
   up_to_date_navigation_permit         character varying(16) NULL,
   compliant_security_documents         character varying(16) NULL,
-  unit_should_confirm                  boolean NULL,
-  unit_has_confirmed                   boolean NULL,
   amount_of_controls                   integer       NOT NULL DEFAULT 1,
   staff_outnumbered                    character varying(16) NULL,
   up_to_date_medical_check             character varying(16) NULL,
