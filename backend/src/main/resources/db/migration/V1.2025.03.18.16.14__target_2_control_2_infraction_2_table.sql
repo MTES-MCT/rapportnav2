@@ -66,6 +66,7 @@ ALTER TABLE control_2
 CREATE
   TYPE "TargetType"
   AS ENUM (
+    'DEFAULT',
     'VEHICLE',
     'COMPANY',
     'INDIVIDUAL');
