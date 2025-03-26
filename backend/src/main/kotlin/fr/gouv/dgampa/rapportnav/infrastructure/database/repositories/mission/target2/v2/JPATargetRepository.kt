@@ -24,6 +24,10 @@ class JPATargetRepository(
         return dbTargetRepository.findByActionId(actionId)
     }
 
+    override fun findByExternalId(externalId: String): TargetModel2? {
+        return dbTargetRepository.findByExternalId(externalId)
+    }
+
     @Transactional
     override fun save(target: TargetModel2): TargetModel2 {
         return try {

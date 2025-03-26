@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetSt
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ControlEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetExternalDataEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel2
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -32,7 +33,7 @@ class TargetEntity2Test {
             vesselIdentifier = "My vesselIdentifier",
             agent = "My agent",
             vesselName = "My vesselName",
-            identityContolledPerson = "My identityContolledPerson",
+            identityControlledPerson = "My identityContolledPerson",
             targetType = TargetType.COMPANY,
             source = "RAPPORTNAV",
             controls = listOf(),
@@ -42,20 +43,19 @@ class TargetEntity2Test {
         val entity = TargetEntity2.fromTargetModel(model)
         assertThat(entity).isNotNull()
         assertThat(entity.id).isEqualTo(model.id)
-
         assertThat(entity.agent).isEqualTo(model.agent)
         assertThat(entity.actionId).isEqualTo(model.actionId)
         assertThat(entity.controls).isEqualTo(model.controls)
-        assertThat(entity.externalId).isEqualTo(model.externalId)
         assertThat(entity.targetType).isEqualTo(model.targetType)
         assertThat(entity.source.toString()).isEqualTo(model.source)
         assertThat(entity.status.toString()).isEqualTo(model.status)
+        assertThat(entity.externalData?.id).isEqualTo(model.externalId)
         assertThat(entity.endDateTimeUtc).isEqualTo(model.endDateTimeUtc)
         assertThat(entity.startDateTimeUtc).isEqualTo(model.startDateTimeUtc)
         assertThat(entity.vesselIdentifier).isEqualTo(model.vesselIdentifier)
         assertThat(entity.vesselSize.toString()).isEqualTo(model.vesselSize)
         assertThat(entity.vesselType.toString()).isEqualTo(model.vesselType)
-        assertThat(entity.identityContolledPerson).isEqualTo(model.identityContolledPerson)
+        assertThat(entity.identityControlledPerson).isEqualTo(model.identityControlledPerson)
     }
 
     @Test
@@ -71,10 +71,10 @@ class TargetEntity2Test {
             vesselIdentifier = "My vesselIdentifier",
             agent = "My agent",
             vesselName = "My vesselName",
-            identityContolledPerson = "My identityContolledPerson",
+            identityControlledPerson = "My identityContolledPerson",
             targetType = TargetType.COMPANY,
             controls = listOf(),
-            externalId = "MyExternalId",
+            externalData = TargetExternalDataEntity(id = "MyExternalId"),
             source = MissionSourceEnum.RAPPORTNAV
         )
 
@@ -85,7 +85,7 @@ class TargetEntity2Test {
         assertThat(entity.actionId).isEqualTo(model.actionId)
         assertThat(entity.controls).isEqualTo(model.controls)
         assertThat(entity.targetType).isEqualTo(model.targetType)
-        assertThat(entity.externalId).isEqualTo(model.externalId)
+        assertThat(entity.externalData?.id).isEqualTo(model.externalId)
         assertThat(entity.source.toString()).isEqualTo(model.source)
         assertThat(entity.status.toString()).isEqualTo(model.status)
         assertThat(entity.endDateTimeUtc).isEqualTo(model.endDateTimeUtc)
@@ -93,7 +93,7 @@ class TargetEntity2Test {
         assertThat(entity.vesselIdentifier).isEqualTo(model.vesselIdentifier)
         assertThat(entity.vesselSize.toString()).isEqualTo(model.vesselSize)
         assertThat(entity.vesselType.toString()).isEqualTo(model.vesselType)
-        assertThat(entity.identityContolledPerson).isEqualTo(model.identityContolledPerson)
+        assertThat(entity.identityControlledPerson).isEqualTo(model.identityControlledPerson)
     }
 
     @Test
@@ -117,7 +117,7 @@ class TargetEntity2Test {
             vesselIdentifier = "My vesselIdentifier",
             agent = "My agent",
             vesselName = "My vesselName",
-            identityContolledPerson = "My identityContolledPerson",
+            identityControlledPerson = "My identityContolledPerson",
             targetType = TargetType.COMPANY,
             controls = listOf(control)
         )

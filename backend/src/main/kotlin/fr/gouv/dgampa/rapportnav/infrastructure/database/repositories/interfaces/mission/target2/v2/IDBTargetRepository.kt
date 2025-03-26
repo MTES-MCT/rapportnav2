@@ -10,5 +10,7 @@ interface IDBTargetRepository : JpaRepository<TargetModel2, UUID> {
 
     fun findByActionId(actionId: String): List<TargetModel2>
 
+    fun findByExternalId(externalId: String): TargetModel2?
+
     fun deleteByActionId(actionId: String)
 }

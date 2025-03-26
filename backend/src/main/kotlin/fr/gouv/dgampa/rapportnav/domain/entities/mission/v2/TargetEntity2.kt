@@ -23,10 +23,10 @@ class TargetEntity2(
     var vesselIdentifier: String? = null,
     var startDateTimeUtc: Instant? = null,
     var endDateTimeUtc: Instant? = null,
-    var identityContolledPerson: String? = null,
+    var identityControlledPerson: String? = null,
     var source: MissionSourceEnum? = null,
     var controls: List<ControlEntity2>? = listOf(),
-    var externalId: String? = null
+    var externalData: TargetExternalDataEntity? = null
 ) {
 
     fun toTargetModel(): TargetModel2 {
@@ -42,9 +42,9 @@ class TargetEntity2(
             endDateTimeUtc = endDateTimeUtc,
             vesselType = vesselType.toString(),
             vesselSize = vesselSize.toString(),
-            identityContolledPerson = identityContolledPerson,
+            identityControlledPerson = identityControlledPerson,
             source = source?.toString(),
-            externalId = externalId,
+            externalId = externalData?.id,
             controls = controls?.map { it.toControlModel() }
         )
     }
@@ -64,14 +64,14 @@ class TargetEntity2(
         if (status != other.status) return false
         if (agent != other.agent) return false
         if (source != other.source) return false
-        if (externalId != other.externalId) return false
         if (vesselName != other.vesselName) return false
         if (vesselType != other.vesselType) return false
         if (vesselSize != other.vesselSize) return false
+        if (externalData != other.externalData) return false
         if (vesselIdentifier != other.vesselIdentifier) return false
         if (startDateTimeUtc != other.startDateTimeUtc) return false
         if (endDateTimeUtc != other.endDateTimeUtc) return false
-        if (identityContolledPerson != other.identityContolledPerson) return false
+        if (identityControlledPerson != other.identityControlledPerson) return false
         if (controls?.size != other.controls?.size) return false
         if (controls?.toSet() != other.controls?.toSet()) return false
 
@@ -91,9 +91,9 @@ class TargetEntity2(
         result = 31 * result + (vesselIdentifier?.hashCode() ?: 0)
         result = 31 * result + (startDateTimeUtc?.hashCode() ?: 0)
         result = 31 * result + (endDateTimeUtc?.hashCode() ?: 0)
-        result = 31 * result + (identityContolledPerson?.hashCode() ?: 0)
+        result = 31 * result + (identityControlledPerson?.hashCode() ?: 0)
         result = 31 * result + (controls?.hashCode() ?: 0)
-        result = 31 * result + (externalId?.hashCode() ?: 0)
+        result = 31 * result + (externalData?.hashCode() ?: 0)
         return result
     }
 
@@ -105,16 +105,16 @@ class TargetEntity2(
                 actionId = model.actionId,
                 targetType = model.targetType,
                 vesselName = model.vesselName,
-                externalId = model.externalId,
                 vesselIdentifier = model.vesselIdentifier,
                 startDateTimeUtc = model.startDateTimeUtc,
                 endDateTimeUtc = model.endDateTimeUtc,
-                identityContolledPerson = model.identityContolledPerson,
+                identityControlledPerson = model.identityControlledPerson,
                 source = model.source?.let { MissionSourceEnum.valueOf(it) },
                 status = model.status.let { TargetStatusType.valueOf(it) },
                 vesselType = model.vesselType?.let { VesselTypeEnum.valueOf(it) },
                 vesselSize = model.vesselSize?.let { VesselSizeEnum.valueOf(it) },
-                controls = model.controls?.map { ControlEntity2.fromControlModel(it) }
+                controls = model.controls?.map { ControlEntity2.fromControlModel(it) },
+                externalData = if(model.externalId != null) TargetExternalDataEntity(id = model.externalId!!) else null
             )
         }
     }

@@ -37,7 +37,7 @@ data class TargetModel2(
     var vesselIdentifier: String? = null,
 
     @Column(name = "identity_controlled_person", nullable = true)
-    var identityContolledPerson: String? = null,
+    var identityControlledPerson: String? = null,
 
     @Column(name = "vessel_type", nullable = true)
     var vesselType: String? = null,
