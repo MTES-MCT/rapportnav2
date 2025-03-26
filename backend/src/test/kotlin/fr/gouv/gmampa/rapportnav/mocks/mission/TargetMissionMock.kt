@@ -32,7 +32,7 @@ object TargetMissionMock {
             vesselIdentifier = "My vesselIdentifier",
             agent = agent?: "My agent",
             vesselName = "My vesselName",
-            identityContolledPerson = "My identityContolledPerson",
+            identityControlledPerson = "My identityContolledPerson",
             targetType = targetType ?: TargetType.COMPANY,
             controls = listOf(
                 ControlEntity2(
