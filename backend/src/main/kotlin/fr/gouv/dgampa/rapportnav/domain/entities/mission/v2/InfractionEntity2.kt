@@ -18,7 +18,7 @@ class InfractionEntity2(
             id = id,
             natinfs = natinfs,
             observations = observations,
-            infractionType = infractionType
+            infractionType = infractionType?.toString()
         )
     }
 
@@ -49,7 +49,7 @@ class InfractionEntity2(
                 natinfs = model.natinfs,
                 controlId = model.control?.id,
                 observations = model.observations,
-                infractionType = model.infractionType
+                infractionType = model.infractionType?.let { InfractionTypeEnum.valueOf(it) }
             )
         }
     }

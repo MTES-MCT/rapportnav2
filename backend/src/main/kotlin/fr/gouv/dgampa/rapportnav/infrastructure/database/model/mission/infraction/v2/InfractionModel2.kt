@@ -11,7 +11,7 @@ data class InfractionModel2(
     @Id
     @Column(name = "id", unique = true, nullable = false)
     var id: UUID,
-    
+
     @Column(name = "infraction_type", nullable = false)
     var infractionType: String? = null,
 
