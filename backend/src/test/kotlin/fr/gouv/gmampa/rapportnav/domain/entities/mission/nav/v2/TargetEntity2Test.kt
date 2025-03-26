@@ -35,7 +35,8 @@ class TargetEntity2Test {
             identityContolledPerson = "My identityContolledPerson",
             targetType = TargetType.COMPANY,
             source = "RAPPORTNAV",
-            controls = listOf()
+            controls = listOf(),
+            externalId = "MyExternalId"
         )
 
         val entity = TargetEntity2.fromTargetModel(model)
@@ -45,6 +46,7 @@ class TargetEntity2Test {
         assertThat(entity.agent).isEqualTo(model.agent)
         assertThat(entity.actionId).isEqualTo(model.actionId)
         assertThat(entity.controls).isEqualTo(model.controls)
+        assertThat(entity.externalId).isEqualTo(model.externalId)
         assertThat(entity.targetType).isEqualTo(model.targetType)
         assertThat(entity.source.toString()).isEqualTo(model.source)
         assertThat(entity.status.toString()).isEqualTo(model.status)
@@ -72,6 +74,7 @@ class TargetEntity2Test {
             identityContolledPerson = "My identityContolledPerson",
             targetType = TargetType.COMPANY,
             controls = listOf(),
+            externalId = "MyExternalId",
             source = MissionSourceEnum.RAPPORTNAV
         )
 
@@ -82,6 +85,7 @@ class TargetEntity2Test {
         assertThat(entity.actionId).isEqualTo(model.actionId)
         assertThat(entity.controls).isEqualTo(model.controls)
         assertThat(entity.targetType).isEqualTo(model.targetType)
+        assertThat(entity.externalId).isEqualTo(model.externalId)
         assertThat(entity.source.toString()).isEqualTo(model.source)
         assertThat(entity.status.toString()).isEqualTo(model.status)
         assertThat(entity.endDateTimeUtc).isEqualTo(model.endDateTimeUtc)

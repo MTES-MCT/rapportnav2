@@ -10,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v
 import java.time.Instant
 import java.util.*
 
+
 class TargetEntity2(
     var id: UUID,
     var actionId: String,
@@ -24,7 +25,8 @@ class TargetEntity2(
     var endDateTimeUtc: Instant? = null,
     var identityContolledPerson: String? = null,
     var source: MissionSourceEnum? = null,
-    var controls: List<ControlEntity2>? = listOf()
+    var controls: List<ControlEntity2>? = listOf(),
+    var externalId: String? = null
 ) {
 
     fun toTargetModel(): TargetModel2 {
@@ -42,6 +44,7 @@ class TargetEntity2(
             vesselSize = vesselSize.toString(),
             identityContolledPerson = identityContolledPerson,
             source = source?.toString(),
+            externalId = externalId,
             controls = controls?.map { it.toControlModel() }
         )
     }
@@ -61,6 +64,7 @@ class TargetEntity2(
         if (status != other.status) return false
         if (agent != other.agent) return false
         if (source != other.source) return false
+        if (externalId != other.externalId) return false
         if (vesselName != other.vesselName) return false
         if (vesselType != other.vesselType) return false
         if (vesselSize != other.vesselSize) return false
@@ -89,6 +93,7 @@ class TargetEntity2(
         result = 31 * result + (endDateTimeUtc?.hashCode() ?: 0)
         result = 31 * result + (identityContolledPerson?.hashCode() ?: 0)
         result = 31 * result + (controls?.hashCode() ?: 0)
+        result = 31 * result + (externalId?.hashCode() ?: 0)
         return result
     }
 
@@ -100,6 +105,7 @@ class TargetEntity2(
                 actionId = model.actionId,
                 targetType = model.targetType,
                 vesselName = model.vesselName,
+                externalId = model.externalId,
                 vesselIdentifier = model.vesselIdentifier,
                 startDateTimeUtc = model.startDateTimeUtc,
                 endDateTimeUtc = model.endDateTimeUtc,

@@ -54,6 +54,9 @@ data class TargetModel2(
     @Column(name = "source", nullable = true)
     var source: String? = null,
 
+    @Column(name = "external_id", nullable = true)
+    var externalId: String? = null,
+
     @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
     @JoinColumn(name = "target_id")
     @JsonIgnore

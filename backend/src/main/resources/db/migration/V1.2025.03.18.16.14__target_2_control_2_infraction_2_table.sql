@@ -77,6 +77,7 @@ CREATE TABLE
   vessel_identifier          character varying(64) NULL,
   vessel_type                character varying(32) NULL,
   vessel_size                character varying(32) NULL,
+  external_id                VARCHAR(36)           NULL,
   identity_controlled_person character varying(128) NOT NULL
 );
 
