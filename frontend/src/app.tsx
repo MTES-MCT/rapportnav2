@@ -1,15 +1,15 @@
 import { ApolloClient, ApolloProvider, NormalizedCacheObject } from '@apollo/client'
 import { Notifier } from '@mtes-mct/monitor-ui'
 import * as Sentry from '@sentry/react'
-import { QueryClientProvider } from '@tanstack/react-query'
 import { CachePersistor, LocalStorageWrapper } from 'apollo3-cache-persist'
 import { FC, useEffect, useState } from 'react'
 import apolloClient, { apolloCache } from './apollo-client/apollo-client.ts'
 import UIThemeWrapper from './features/common/components/ui/ui-theme-wrapper'
 import ErrorPage from './pages/error-page.tsx'
-import { queryClient } from './query-client/index.ts'
+import { queryClient, localStoragePersister } from './query-client'
 import { router } from './router/router'
 import RouterProvider from './router/router-provider'
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 // import { FlagProvider } from '@unleash/proxy-client-react'
@@ -29,17 +29,17 @@ const App: FC = () => {
 
   useEffect(() => {
     async function init() {
+      // apollo cache
       const cache = apolloCache
+      setClient(apolloClient)
+
+      // react-query cache
       let newPersistor = new CachePersistor({
         cache,
         storage: new LocalStorageWrapper(window.localStorage),
         debug: true
-        // trigger: 'write'
       })
-
       await newPersistor.restore()
-      // setPersistor(newPersistor);
-      setClient(apolloClient)
 
       setLoading(false) // Set loading to false after cache is restored
     }
@@ -56,13 +56,22 @@ const App: FC = () => {
     <Sentry.ErrorBoundary fallback={ErrorPage}>
       <ApolloProvider client={client}>
         <UIThemeWrapper>
-          <QueryClientProvider client={queryClient}>
+          <PersistQueryClientProvider //
+            client={queryClient}
+            persistOptions={{ persister: localStoragePersister }}
+            onSuccess={() => {
+              // resume mutations after initial restore from localStorage was successful
+              // queryClient.resumePausedMutations().then(() => {
+              // queryClient.invalidateQueries()
+              // })
+            }}
+          >
             {/*<FlagProvider config={config}>*/}
             <Notifier />
             <RouterProvider router={router} />
-            <ReactQueryDevtools initialIsOpen={false} />
             {/*</FlagProvider>*/}
-          </QueryClientProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </PersistQueryClientProvider>
         </UIThemeWrapper>
       </ApolloProvider>
     </Sentry.ErrorBoundary>
