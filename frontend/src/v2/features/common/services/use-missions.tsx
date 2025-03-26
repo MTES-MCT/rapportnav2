@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import axios from '../../../../query-client/axios.ts'
 import { Mission2 } from '../types/mission-types.ts'
+import { missionsKeys } from './query-keys.ts'
 
 interface UseMissionsQueryParams {
   startDateTimeUtc: string
@@ -21,7 +22,7 @@ const useMissionsQuery = ({
   }
 
   const query = useQuery<Mission2[], Error>({
-    queryKey: ['missions', { startDateTimeUtc, endDateTimeUtc }],
+    queryKey: missionsKeys.filter(JSON.stringify({ startDateTimeUtc, endDateTimeUtc })),
     queryFn: fetchMissions,
     enabled: !!startDateTimeUtc, // Prevents query from running if startDateTimeUtc is not provided
     staleTime: 5 * 60 * 1000, // Cache data for 5 minutes
