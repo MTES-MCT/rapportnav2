@@ -6,7 +6,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-btRGtK dCBZmb"
+        class="sc-iCfQMn bpNkbp"
       >
         <div
           class="rs-stack"
@@ -71,50 +71,103 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
             class="rs-stack-item"
             style="padding-left: 1rem;"
           >
-            <button
-              class="sc-dXYVqG sc-kHpCdB bqfUDQ dItYvc Element-Button"
-              type="button"
+            <div
+              class="rs-stack"
+              style="align-items: center; justify-content: center; flex-direction: row; gap: 0.5rem;"
             >
-              <span
-                class="sc-gNZgCX hDAtbt Element-IconBox"
+              <div
+                class="rs-stack-item"
               >
-                <svg
-                  height="20"
-                  viewBox="0 0 20 20"
-                  width="20"
+                <p
+                  class="sc-btRGtK sc-bACthX gDMgcP fswZWU"
+                  color="#CCCFD6"
+                  font-size="13"
+                  weight="normal"
                 >
-                  <g
-                    transform="translate(160 -82)"
-                  >
-                    <g
-                      fill="none"
-                      stroke-miterlimit="10"
-                    >
-                      <path
-                        d="M-142,85.415-143.415,84-150,90.585-156.585,84-158,85.415-151.415,92-158,98.585l1.415,1.415L-150,93.415l6.585,6.585L-142,98.585-148.585,92Z"
-                        stroke="none"
-                      />
-                      <path
-                        d="M -156.5853271484375 84 L -150 90.5853271484375 L -143.4146728515625 84 L -142 85.4146728515625 L -148.5853271484375 92 L -142 98.5853271484375 L -143.4146728515625 100 L -150 93.4146728515625 L -156.5853271484375 100 L -158 98.5853271484375 L -151.4146728515625 92 L -158 85.4146728515625 L -156.5853271484375 84 Z"
-                        fill="currentColor"
-                        stroke="none"
-                      />
-                    </g>
-                    <rect
-                      fill="none"
-                      height="20"
-                      transform="translate(-160 82)"
-                      width="20"
-                    />
-                  </g>
-                </svg>
-              </span>
-              <span
-                class="sc-fCSSOr eOtGgW"
+                  Hors ligne
+                </p>
+              </div>
+              <div
+                class="rs-stack-item"
               >
-                Fermer la mission
-              </span>
-            </button>
+                <div
+                  class="sc-gtlvkJ cuIUGk Element-Field Field-Toggle sc-egnSlO gEEMXx"
+                >
+                  <label
+                    class="sc-loYsQo uPraC Element-Label"
+                    for="online-toggle"
+                  />
+                  <label
+                    class="sc-dWFMZf dLZkuG rs-toggle rs-toggle-checked"
+                  >
+                    <input
+                      aria-checked="true"
+                      aria-disabled="false"
+                      aria-label="Ouvrir"
+                      checked=""
+                      class="rs-toggle-input"
+                      name="online-toggle"
+                      role="switch"
+                      type="checkbox"
+                    />
+                    <span
+                      class="rs-toggle-presentation"
+                    >
+                      <span
+                        class="rs-toggle-inner"
+                      >
+                        <span
+                          class="sc-gNZgCX kYuLoj Element-IconBox"
+                        >
+                          <svg
+                            height="20"
+                            viewBox="0 0 20 20"
+                            width="20"
+                          >
+                            <g
+                              transform="translate(40 -82)"
+                            >
+                              <g
+                                fill="none"
+                                stroke-miterlimit="10"
+                              >
+                                <path
+                                  d="M-23.99,86.7l-7.778,7.778-4.243-4.243-1.414,1.414,4.243,4.243,1.414,1.414,9.192-9.192Z"
+                                  stroke="none"
+                                />
+                                <path
+                                  d="M -23.98955917358398 86.69669342041016 L -22.57537841796875 88.11093139648438 L -31.76775932312012 97.30330657958984 L -37.42462158203125 91.64644622802734 L -36.01044082641602 90.23220825195313 L -31.76775932312012 94.47487640380859 L -23.98955917358398 86.69669342041016 Z"
+                                  fill="currentColor"
+                                  stroke="none"
+                                />
+                              </g>
+                              <rect
+                                fill="none"
+                                height="20"
+                                transform="translate(-40 82)"
+                                width="20"
+                              />
+                            </g>
+                          </svg>
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <div
+                class="rs-stack-item"
+              >
+                <p
+                  class="sc-btRGtK sc-bACthX iXVitC fswZWU"
+                  color="#29B361"
+                  font-size="13"
+                  weight="bold"
+                >
+                  En ligne
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -144,7 +197,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-btRGtK dCBZmb"
+      class="sc-iCfQMn bpNkbp"
     >
       <div
         class="rs-stack"
@@ -209,50 +262,103 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
           class="rs-stack-item"
           style="padding-left: 1rem;"
         >
-          <button
-            class="sc-dXYVqG sc-kHpCdB bqfUDQ dItYvc Element-Button"
-            type="button"
+          <div
+            class="rs-stack"
+            style="align-items: center; justify-content: center; flex-direction: row; gap: 0.5rem;"
           >
-            <span
-              class="sc-gNZgCX hDAtbt Element-IconBox"
+            <div
+              class="rs-stack-item"
             >
-              <svg
-                height="20"
-                viewBox="0 0 20 20"
-                width="20"
+              <p
+                class="sc-btRGtK sc-bACthX gDMgcP fswZWU"
+                color="#CCCFD6"
+                font-size="13"
+                weight="normal"
               >
-                <g
-                  transform="translate(160 -82)"
-                >
-                  <g
-                    fill="none"
-                    stroke-miterlimit="10"
-                  >
-                    <path
-                      d="M-142,85.415-143.415,84-150,90.585-156.585,84-158,85.415-151.415,92-158,98.585l1.415,1.415L-150,93.415l6.585,6.585L-142,98.585-148.585,92Z"
-                      stroke="none"
-                    />
-                    <path
-                      d="M -156.5853271484375 84 L -150 90.5853271484375 L -143.4146728515625 84 L -142 85.4146728515625 L -148.5853271484375 92 L -142 98.5853271484375 L -143.4146728515625 100 L -150 93.4146728515625 L -156.5853271484375 100 L -158 98.5853271484375 L -151.4146728515625 92 L -158 85.4146728515625 L -156.5853271484375 84 Z"
-                      fill="currentColor"
-                      stroke="none"
-                    />
-                  </g>
-                  <rect
-                    fill="none"
-                    height="20"
-                    transform="translate(-160 82)"
-                    width="20"
-                  />
-                </g>
-              </svg>
-            </span>
-            <span
-              class="sc-fCSSOr eOtGgW"
+                Hors ligne
+              </p>
+            </div>
+            <div
+              class="rs-stack-item"
             >
-              Fermer la mission
-            </span>
-          </button>
+              <div
+                class="sc-gtlvkJ cuIUGk Element-Field Field-Toggle sc-egnSlO gEEMXx"
+              >
+                <label
+                  class="sc-loYsQo uPraC Element-Label"
+                  for="online-toggle"
+                />
+                <label
+                  class="sc-dWFMZf dLZkuG rs-toggle rs-toggle-checked"
+                >
+                  <input
+                    aria-checked="true"
+                    aria-disabled="false"
+                    aria-label="Ouvrir"
+                    checked=""
+                    class="rs-toggle-input"
+                    name="online-toggle"
+                    role="switch"
+                    type="checkbox"
+                  />
+                  <span
+                    class="rs-toggle-presentation"
+                  >
+                    <span
+                      class="rs-toggle-inner"
+                    >
+                      <span
+                        class="sc-gNZgCX kYuLoj Element-IconBox"
+                      >
+                        <svg
+                          height="20"
+                          viewBox="0 0 20 20"
+                          width="20"
+                        >
+                          <g
+                            transform="translate(40 -82)"
+                          >
+                            <g
+                              fill="none"
+                              stroke-miterlimit="10"
+                            >
+                              <path
+                                d="M-23.99,86.7l-7.778,7.778-4.243-4.243-1.414,1.414,4.243,4.243,1.414,1.414,9.192-9.192Z"
+                                stroke="none"
+                              />
+                              <path
+                                d="M -23.98955917358398 86.69669342041016 L -22.57537841796875 88.11093139648438 L -31.76775932312012 97.30330657958984 L -37.42462158203125 91.64644622802734 L -36.01044082641602 90.23220825195313 L -31.76775932312012 94.47487640380859 L -23.98955917358398 86.69669342041016 Z"
+                                fill="currentColor"
+                                stroke="none"
+                              />
+                            </g>
+                            <rect
+                              fill="none"
+                              height="20"
+                              transform="translate(-40 82)"
+                              width="20"
+                            />
+                          </g>
+                        </svg>
+                      </span>
+                    </span>
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div
+              class="rs-stack-item"
+            >
+              <p
+                class="sc-btRGtK sc-bACthX iXVitC fswZWU"
+                color="#29B361"
+                font-size="13"
+                weight="bold"
+              >
+                En ligne
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

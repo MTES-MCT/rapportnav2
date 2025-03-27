@@ -9,18 +9,39 @@ exports[`MissionListPageWrapper > should match the snapshot 1`] = `
         class="rs-container"
         style="min-height: 100vh; max-height: 100vh; overflow: hidden;"
       >
-        Header
-        <section
-          class="rs-container"
+        <div
+          class="rs-stack"
+          style="align-items: center; flex-direction: column; width: 100%; height: 100vh;"
         >
-          <main
-            class="rs-content"
-            style="max-height: calc(100vh - 104px - 50px); overflow: hidden; display: flex;"
+          <div
+            class="rs-stack-item"
+            style="width: 100%;"
           >
-            Main Page
-          </main>
-          Footer
-        </section>
+            Header
+          </div>
+          <div
+            class="rs-stack-item"
+            style="flex: 1; width: 100%;"
+          >
+            <section
+              class="rs-container"
+              style="height: 100%;"
+            >
+              <main
+                class="rs-content"
+                style="max-height: calc(100vh - 104px - 50px); overflow: hidden; display: flex;"
+              >
+                Main Page
+              </main>
+            </section>
+          </div>
+          <div
+            class="rs-stack-item"
+            style="width: 100%; min-height: 50px; border-top: 2px solid #CCCFD6;"
+          >
+            Footer
+          </div>
+        </div>
       </section>
     </div>
     <div
@@ -51,18 +72,39 @@ exports[`MissionListPageWrapper > should match the snapshot 1`] = `
       class="rs-container"
       style="min-height: 100vh; max-height: 100vh; overflow: hidden;"
     >
-      Header
-      <section
-        class="rs-container"
+      <div
+        class="rs-stack"
+        style="align-items: center; flex-direction: column; width: 100%; height: 100vh;"
       >
-        <main
-          class="rs-content"
-          style="max-height: calc(100vh - 104px - 50px); overflow: hidden; display: flex;"
+        <div
+          class="rs-stack-item"
+          style="width: 100%;"
         >
-          Main Page
-        </main>
-        Footer
-      </section>
+          Header
+        </div>
+        <div
+          class="rs-stack-item"
+          style="flex: 1; width: 100%;"
+        >
+          <section
+            class="rs-container"
+            style="height: 100%;"
+          >
+            <main
+              class="rs-content"
+              style="max-height: calc(100vh - 104px - 50px); overflow: hidden; display: flex;"
+            >
+              Main Page
+            </main>
+          </section>
+        </div>
+        <div
+          class="rs-stack-item"
+          style="width: 100%; min-height: 50px; border-top: 2px solid #CCCFD6;"
+        >
+          Footer
+        </div>
+      </div>
     </section>
   </div>,
   "debug": [Function],

@@ -1,6 +1,7 @@
 import { Accent, Button, Icon, Size } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
 import styled from 'styled-components'
+import OnlineToggle from '../elements/online-toggle.tsx'
 
 const StyledFooter = styled.div`
   height: 60px;
@@ -38,9 +39,7 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ exitMission }) =>
           </Button>
         </Stack.Item>
         <Stack.Item style={{ paddingLeft: '1rem' }}>
-          <Button accent={Accent.SECONDARY} size={Size.NORMAL} Icon={Icon.Close} onClick={exitMission}>
-            Fermer la mission
-          </Button>
+          <OnlineToggle />
         </Stack.Item>
       </Stack>
     </StyledFooter>
