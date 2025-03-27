@@ -3,13 +3,12 @@ import { useQueryClient } from '@tanstack/react-query'
 import { jwtDecode, JwtPayload } from 'jwt-decode'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { QueryKeyType } from '../../common/types/query-key-type'
 
 type AuthHook = {
   isAuthenticated: boolean
   logout: () => Promise<void>
   isLoggedIn: () => Token | undefined
-  navigateAndResetCache: (to: string, keys: QueryKeyType[]) => Promise<void>
+  navigateAndResetCache: (to: string, keys: string[]) => Promise<void>
 }
 export type Token = JwtPayload & { userId: number }
 const authToken = new AuthToken()
@@ -25,7 +24,7 @@ const useAuth = (): AuthHook => {
     navigate('/login', { replace: true })
   }
 
-  const navigateAndResetCache = async (to: string, keys: QueryKeyType[] = []) => {
+  const navigateAndResetCache = async (to: string, keys: string[] = []) => {
     keys.forEach(key => queryClient.invalidateQueries({ queryKey: [key.toString()] }))
 
     navigate(to)
