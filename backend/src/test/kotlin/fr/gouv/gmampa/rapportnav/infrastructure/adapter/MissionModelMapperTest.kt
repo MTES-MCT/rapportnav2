@@ -48,7 +48,7 @@ class MissionModelMapperTest {
     }
 
     @Test
-    fun `should map MissionModel from MissionNavEntity`() {
+    fun `should map MissionNavEntity to MissionModel`() {
         val missionNavEntity = MissionNavEntity(
             id = 1,
             startDateTimeUtc = Instant.now(),
