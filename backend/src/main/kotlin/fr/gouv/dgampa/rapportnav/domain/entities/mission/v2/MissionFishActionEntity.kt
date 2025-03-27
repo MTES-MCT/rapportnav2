@@ -106,6 +106,27 @@ class MissionFishActionEntity(
         this.summaryTags = listOf(infractionTag, natinfTag)
     }
 
+    override fun computeSummaryTags2() {
+        val nav = this.getNavSummaryTags()
+        val fish = this.getFishSummaryTags()
+        this.summaryTags = listOf(
+            getInfractionTag(nav.withReport + fish.withReport),
+            getNatinfTag(nav.natInfSize + fish.natInfSize)
+        )
+    }
+
+    private fun getFishSummaryTags(): SummaryTag {
+        val fishInfractions: List<FishInfraction> = listOf(
+            this.gearInfractions?.map { FishInfraction(it.natinf, it.infractionType) },
+            this.logbookInfractions?.map { FishInfraction(it.natinf, it.infractionType) },
+            this.speciesInfractions?.map { FishInfraction(it.natinf, it.infractionType) },
+            this.otherInfractions?.map { FishInfraction(it.natinf, it.infractionType) }
+        ).filterNotNull().flatten()
+        val withReport = fishInfractions.count { it.infractionType == InfractionType.WITH_RECORD }
+        val natInfSize = fishInfractions.map { it.natinf.toString() }.count { true }
+        return SummaryTag(withReport = withReport, natInfSize = natInfSize)
+    }
+
     override fun computeCompleteness() {
         val sourcesOfMissingDataForStats = mutableListOf<MissionSourceEnum>()
         // Fish endDateTime is not set in MonitorFish so MonitorFish considers the Action as complete
@@ -146,6 +167,11 @@ class MissionFishActionEntity(
             }
         ).mapNotNull { it }
     }
+
+    override fun isControlInValid(control: ControlEntity2?): Boolean {
+        return control?.hasBeenDone == null
+    }
+
 
     companion object {
         fun fromFishAction(action: FishAction) = MissionFishActionEntity(

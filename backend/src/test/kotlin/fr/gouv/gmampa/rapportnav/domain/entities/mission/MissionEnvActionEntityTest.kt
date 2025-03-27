@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -131,6 +132,19 @@ class MissionEnvActionEntityTest {
         assertThat(entity.controlsToComplete?.size).isEqualTo(3)
     }
 
+    @Test
+    fun `execute should compute control to complete 2`() {
+        val envAction = getEnvAction(
+            completion = ActionCompletionEnum.COMPLETED,
+
+        )
+        val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
+        entity.targets = listOf(TargetMissionMock.create())
+        entity.computeControlsToComplete2()
+        assertThat(entity.controlsToComplete?.size).isEqualTo(2)
+        assertThat(entity.controlsToComplete).contains(ControlType.GENS_DE_MER)
+        assertThat(entity.controlsToComplete).contains(ControlType.NAVIGATION)
+    }
 
     private fun getEnvAction(completion: ActionCompletionEnum? = null): EnvActionEntity {
         return EnvActionControlEntity(

@@ -13,6 +13,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.Infracti
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import java.time.Instant
 
+
 abstract class MissionActionEntity(
     override val missionId: Int,
     override val actionType: ActionType,
@@ -88,6 +89,14 @@ abstract class MissionActionEntity(
         ]
     )
     override var controlSecurity: ControlSecurityEntity? = null,
+
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["CONTROL"])
+        ]
+    )
+    override var targets: List<TargetEntity2>? = null
+
 ) : BaseMissionActionEntity {
 
     fun computeCompletenessForStats() {
@@ -128,6 +137,26 @@ abstract class MissionActionEntity(
         this.summaryTags = listOf(infractionTag, natinfTag)
     }
 
+    open fun computeSummaryTags2() {
+        val summaryTag = this.getNavSummaryTags()
+        this.summaryTags = listOf(getInfractionTag(summaryTag.withReport), getNatinfTag(summaryTag.natInfSize))
+    }
+
+    open fun getNavSummaryTags(): SummaryTag {
+        return this.targets?.map { getSummaryTags(it) }?.fold(SummaryTag(0, 0)) { accumulator, p ->
+            accumulator.withReport += p.withReport
+            accumulator.natInfSize += p.natInfSize
+            return accumulator
+        } ?: SummaryTag(0, 0)
+    }
+
+    private fun getSummaryTags(target: TargetEntity2): SummaryTag {
+        val infractions = target.controls?.flatMap { it.infractions ?: emptyList() }
+        val natInfSize = infractions?.flatMap { it.natinfs }?.size ?: 0
+        val withReport = infractions?.count { it.infractionType == InfractionTypeEnum.WITH_REPORT } ?: 0
+        return SummaryTag(withReport = withReport, natInfSize = natInfSize)
+    }
+
     fun computeControls(controls: ActionControlEntity?){
         this.controlSecurity = controls?.controlSecurity
         this.controlGensDeMer = controls?.controlGensDeMer
@@ -146,9 +175,36 @@ abstract class MissionActionEntity(
         }
     }
 
+    fun computeControlsToComplete2() {
+        this.controlsToComplete = this.targets?.flatMap { computeControlsToComplete2(it) }
+    }
+
+    private fun computeControlsToComplete2(target: TargetEntity2): List<ControlType> {
+        return listOf(
+            ControlType.ADMINISTRATIVE.takeIf {
+                val control = target.getControlByType(ControlType.ADMINISTRATIVE)
+                this.isAdministrativeControl == true && this.isControlInValid(control)
+            },
+            ControlType.GENS_DE_MER.takeIf {
+                val control = target.getControlByType(ControlType.GENS_DE_MER)
+                this.isSeafarersControl == true && this.isControlInValid(control)
+            },
+            ControlType.NAVIGATION.takeIf {
+                val control = target.getControlByType(ControlType.NAVIGATION)
+                this.isComplianceWithWaterRegulationsControl == true && this.isControlInValid(control)
+            },
+            ControlType.SECURITY.takeIf {
+                val control = target.getControlByType(ControlType.SECURITY)
+                this.isSafetyEquipmentAndStandardsComplianceControl == true && this.isControlInValid(control)
+            }
+        ).mapNotNull { it }
+    }
+
     abstract fun computeControlsToComplete()
     abstract fun getActionId(): String
     abstract fun computeCompleteness()
-
+    abstract fun isControlInValid(control: ControlEntity2?): Boolean
 }
+
+class SummaryTag(var withReport: Int, var natInfSize: Int)
 
