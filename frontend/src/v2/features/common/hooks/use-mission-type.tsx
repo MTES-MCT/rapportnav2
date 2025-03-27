@@ -10,6 +10,7 @@ interface MissionTypeHook {
   reportTypeOptions: { label: string; value: MissionReportTypeEnum }[]
   isExternalReinforcementTime: (missionReportType?: MissionReportTypeEnum) => boolean
   isMissionTypeSea: (missionTypes?: MissionTypeEnum[]) => boolean | undefined
+  isEnvMission: (missionReportType?: MissionReportTypeEnum) => boolean
 }
 
 const MISSION_TYPE_REGISTRY: Record<MissionType, string> = {
@@ -63,6 +64,9 @@ export function useMissionType(): MissionTypeHook {
   const isExternalReinforcementTime = (missionReportType?: MissionReportTypeEnum) =>
     missionReportType === MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT
 
+  const isEnvMission = (missionReportType?: MissionReportTypeEnum) =>
+    missionReportType === MissionReportTypeEnum.FIELD_REPORT
+
   const isMissionTypeSea = (missionTypes?: MissionTypeEnum[]) => missionTypes?.includes(MissionTypeEnum.SEA)
 
   return {
@@ -73,6 +77,7 @@ export function useMissionType(): MissionTypeHook {
     reinforcementTypeOptions: getReinforcementTypeOptions(),
     reportTypeOptions: getReportTypeOptions(),
     isMissionTypeSea,
-    isExternalReinforcementTime
+    isExternalReinforcementTime,
+    isEnvMission
   }
 }
