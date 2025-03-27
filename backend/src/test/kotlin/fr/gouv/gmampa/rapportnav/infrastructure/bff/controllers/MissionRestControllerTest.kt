@@ -1,13 +1,21 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeMissionData2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateOrUpdateGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.MissionRestController
+import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
+import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
 import fr.gouv.gmampa.rapportnav.mocks.user.UserMock
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.any
@@ -20,13 +28,9 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
-import fr.gouv.gmampa.rapportnav.mocks.mission.*
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import java.time.Instant
 
 @AutoConfigureMockMvc(addFilters = false)
@@ -53,9 +57,6 @@ class MissionRestControllerTest {
     private lateinit var fakeMissionData2: FakeMissionData2
 
     @MockitoBean
-    private lateinit var createEnvMission: CreateEnvMission
-
-    @MockitoBean
     private lateinit var getEnvMissionById2: GetEnvMissionById2
 
     @MockitoBean
@@ -63,6 +64,9 @@ class MissionRestControllerTest {
 
     @MockitoBean
     private lateinit var createOrUpdateGeneralInfo: CreateOrUpdateGeneralInfo
+
+    @MockitoBean
+    private lateinit var createMission: CreateMission
 
     @Test
     fun `should return a list of missions`() {
@@ -112,12 +116,12 @@ class MissionRestControllerTest {
         // Arrange
         val requestBody = MissionGeneralInfo2Mock.create()
         val controlUnitsIds = listOf(456)
-        val mockMission = EnvMissionMockv2.create(
+        val mockMission = MissionEntityMock2.create(
             id = 123,
             controlUnits = listOf(LegacyControlUnitEntityMock.create(id = controlUnitsIds.first()))
         )
         `when`(getControlUnitsForUser.execute()).thenReturn(controlUnitsIds)
-        `when`(createEnvMission.execute(requestBody, controlUnitsIds)).thenReturn(mockMission)
+        `when`(createMission.execute(requestBody, controlUnitsIds)).thenReturn(mockMission)
 
         // Act & Assert
         mockMvc.perform(
@@ -140,7 +144,7 @@ class MissionRestControllerTest {
         `when`(getControlUnitsForUser.execute()).thenReturn(controlUnitsIds)
         // Simulate mission creation returning null
         `when`(
-            createEnvMission.execute(
+            createMission.execute(
                 requestBody,
                 controlUnitsIds
             )
