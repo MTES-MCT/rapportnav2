@@ -10,6 +10,7 @@ import ErrorPage from './pages/error-page.tsx'
 import { queryClient } from './query-client/index.ts'
 import { router } from './router/router'
 import RouterProvider from './router/router-provider'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 // import { FlagProvider } from '@unleash/proxy-client-react'
 // import { IConfig } from 'unleash-proxy-client'
@@ -59,6 +60,7 @@ const App: FC = () => {
             {/*<FlagProvider config={config}>*/}
             <Notifier />
             <RouterProvider router={router} />
+            <ReactQueryDevtools initialIsOpen={false} />
             {/*</FlagProvider>*/}
           </QueryClientProvider>
         </UIThemeWrapper>

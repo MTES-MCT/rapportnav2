@@ -3,6 +3,7 @@ import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-
 import * as Sentry from '@sentry/react'
 import axios from '../../../../query-client/axios.ts'
 import { MissionGeneralInfo2 } from '../types/mission-types.ts'
+import { missionsKeys } from './query-keys.ts'
 
 const useUpdateGeneralInfoMutation = (
   missionId?: number
@@ -15,7 +16,7 @@ const useUpdateGeneralInfoMutation = (
   return useMutation({
     mutationFn: updateGeneralInfos,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['mission'] })
+      queryClient.invalidateQueries({ queryKey: missionsKeys.byId(missionId!!) })
     },
     onError: error => {
       console.error(error)
