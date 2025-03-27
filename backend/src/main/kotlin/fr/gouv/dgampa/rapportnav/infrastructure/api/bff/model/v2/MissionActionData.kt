@@ -9,7 +9,8 @@ open class MissionActionData(
     open val controlSecurity: ControlSecurity? = null,
     open val controlGensDeMer: ControlGensDeMer? = null,
     open val controlNavigation: ControlNavigation? = null,
-    open val controlAdministrative: ControlAdministrative? = null
+    open val controlAdministrative: ControlAdministrative? = null,
+    open val targets: List<Target2>? = null
 ){
 
     fun getControls(missionId: Int, actionId: String): ActionControl {
