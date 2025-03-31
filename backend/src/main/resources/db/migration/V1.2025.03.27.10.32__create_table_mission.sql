@@ -1,8 +1,5 @@
-CREATE TYPE mission_type_enum AS ENUM ('AIR', 'LAND', 'SEA');
-
 CREATE TABLE mission (
     id SERIAL PRIMARY KEY,
-    mission_types mission_type_enum[] NOT NULL,
     control_units INTEGER[] NULL,
     open_by VARCHAR(255) NULL,
     completed_by VARCHAR(255) NULL,
