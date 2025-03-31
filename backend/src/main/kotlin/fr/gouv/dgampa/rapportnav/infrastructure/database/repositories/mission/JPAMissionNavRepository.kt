@@ -5,7 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.database.mapper.mission.toMissionModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.IDBMissionRepository
 import org.springframework.dao.InvalidDataAccessApiUsageException
