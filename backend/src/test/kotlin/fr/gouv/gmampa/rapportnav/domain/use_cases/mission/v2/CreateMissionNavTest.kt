@@ -41,7 +41,6 @@ class CreateMissionNavTest {
         val navMission = MissionNavEntity(
             startDateTimeUtc = generalInfo2.startDateTimeUtc!!,
             endDateTimeUtc = generalInfo2.endDateTimeUtc,
-            missionTypes = generalInfo2.missionTypes,
             controlUnits = controlUnitIds,
             isDeleted = false,
             controlUnitIdOwner = controlUnitIds.first()
@@ -66,7 +65,6 @@ class CreateMissionNavTest {
         assertNotNull(result)
 
         assertEquals(1, result?.id)
-        assertEquals(generalInfo2.missionTypes, result?.missionTypes)
         assertEquals(1, result?.controlUnitIdOwner)
     }
 }

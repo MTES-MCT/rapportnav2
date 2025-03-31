@@ -15,7 +15,6 @@ class CreateMissionNav(
         val navMission = MissionNavEntity(
             startDateTimeUtc = generalInfo2.startDateTimeUtc!!,
             endDateTimeUtc = generalInfo2.endDateTimeUtc,
-            missionTypes = generalInfo2.missionTypes,
             controlUnits = controlUnitIds,
             isDeleted = false,
             controlUnitIdOwner = controlUnitIds.first()

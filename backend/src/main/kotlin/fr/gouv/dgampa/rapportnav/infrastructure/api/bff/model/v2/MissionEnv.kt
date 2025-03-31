@@ -45,7 +45,7 @@ data class MissionEnv(
         fun fromMissionEntity(mission: MissionEntity): MissionEnv {
             return MissionEnv(
                 id = mission.id,
-                missionTypes = mission.missionTypes,
+                missionTypes = mission.missionTypes ?: listOf(),
                 controlUnits = mission.controlUnits,
                 openBy = mission.openBy,
                 completedBy = mission.completedBy,
