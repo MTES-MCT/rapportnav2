@@ -15,7 +15,6 @@ class Infraction2(
         return InfractionEntity2(
             id = id?: UUID.randomUUID(),
             natinfs = natinfs,
-            controlId = controlId,
             observations = observations,
             infractionType = infractionType
         )
@@ -26,7 +25,6 @@ class Infraction2(
             return Infraction2(
                 id = entity.id,
                 natinfs = entity.natinfs,
-                controlId = entity.controlId,
                 observations = entity.observations,
                 infractionType = entity.infractionType
             )

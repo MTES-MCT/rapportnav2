@@ -43,7 +43,7 @@ class GetComputeTarget(
             controls = getNewControls(),
             targetType = TargetType.DEFAULT,
             status = TargetStatusType.IN_PROCESS.toString(),
-            source = MissionSourceEnum.RAPPORTNAV.toString(),
+            source = MissionSourceEnum.RAPPORTNAV.toString()
         )
     }
 
@@ -54,6 +54,12 @@ class GetComputeTarget(
             ControlType.GENS_DE_MER,
             ControlType.ADMINISTRATIVE
         )
-        return controlTypes.map { ControlModel2(controlType = it, id = UUID.randomUUID(), amountOfControls = 0) }
+        return controlTypes.map {
+            ControlModel2(
+                controlType = it,
+                id = UUID.randomUUID(),
+                amountOfControls = 0
+            )
+        }
     }
 }

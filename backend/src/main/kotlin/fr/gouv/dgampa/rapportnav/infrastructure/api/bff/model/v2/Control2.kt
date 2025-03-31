@@ -7,7 +7,6 @@ import java.util.*
 
 class Control2(
     var id: UUID? = null,
-    val targetId: UUID?,
     var controlType: ControlType,
     val amountOfControls: Int,
     val infractions: List<Infraction2>? = null,
@@ -24,7 +23,6 @@ class Control2(
     fun toControlEntity(): ControlEntity2 {
         return ControlEntity2(
             id = id?: UUID.randomUUID(),
-            targetId = targetId,
             nbrOfHours = nbrOfHours,
             controlType = controlType,
             hasBeenDone = hasBeenDone,
@@ -44,7 +42,6 @@ class Control2(
         fun fromControlEntity(entity: ControlEntity2): Control2 {
             return Control2(
                 id = entity.id,
-                targetId = entity.targetId,
                 nbrOfHours = entity.nbrOfHours,
                 controlType = entity.controlType,
                 hasBeenDone = entity.hasBeenDone,

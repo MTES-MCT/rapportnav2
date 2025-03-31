@@ -56,7 +56,7 @@ class GetComputeEnvTarget(
             controls = getNewControls(),
             targetType = TargetType.DEFAULT,
             status = TargetStatusType.IN_PROCESS.toString(),
-            source = MissionSourceEnum.MONITORENV.toString(),
+            source = MissionSourceEnum.MONITORENV.toString()
         )
     }
 
