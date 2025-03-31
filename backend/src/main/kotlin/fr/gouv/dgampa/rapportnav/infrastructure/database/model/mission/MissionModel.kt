@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import jakarta.persistence.*
 import java.time.Instant
 
@@ -12,9 +11,6 @@ data class MissionModel(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     var id: Int?,
-
-    @Column(name = "mission_types", nullable = false)
-    var missionTypes: List<MissionTypeEnum>,
 
     @Column(name = "control_units", nullable = true)
     var controlUnits: List<Int>,

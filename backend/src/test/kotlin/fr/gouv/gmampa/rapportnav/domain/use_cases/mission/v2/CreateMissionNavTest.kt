@@ -48,7 +48,6 @@ class CreateMissionNavTest {
 
         val model = MissionModel(
             id = 1,
-            missionTypes = generalInfo2.missionTypes,
             missionSource = MissionSourceEnum.RAPPORT_NAV,
             controlUnitIdOwner = 1,
             isDeleted = false,
