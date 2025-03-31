@@ -60,7 +60,7 @@ class GetMission2Test {
 
         assertNotNull(result)
         assertEquals(1, result?.id)
-        assertEquals(envMission, result?.envData)
+        assertEquals(envMission, result?.data)
         assertEquals(actions, result?.actions)
         assertEquals(generalInfos2, result?.generalInfos)
     }
@@ -81,7 +81,7 @@ class GetMission2Test {
 
         assertNotNull(result)
         assertEquals(2, result?.id)
-        assertEquals(mission, result?.envData)
+        assertEquals(mission, result?.data)
         assertEquals(actions, result?.actions)
         assertEquals(generalInfos2, result?.generalInfos)
     }

@@ -5,7 +5,6 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionMo
 
 fun MissionNavEntity.toMissionModel(): MissionModel = MissionModel(
     id = this.id,
-    missionTypes = this.missionTypes,
     controlUnits = this.controlUnits,
     openBy = this.openBy,
     completedBy = this.completedBy,
@@ -14,5 +13,6 @@ fun MissionNavEntity.toMissionModel(): MissionModel = MissionModel(
     isDeleted = this.isDeleted,
     missionSource = this.missionSource,
     observationsByUnit = this.observationsByUnit,
-    controlUnitIdOwner = this.controlUnitIdOwner
+    controlUnitIdOwner = this.controlUnitIdOwner,
+    missionTypes = listOf()
 )
