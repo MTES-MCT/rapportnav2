@@ -7,7 +7,7 @@ import java.time.Instant
 
 data class MissionEntity(
     val id: Int? = null,
-    val missionTypes: List<MissionTypeEnum>? = null,
+    val missionTypes: List<MissionTypeEnum>? = listOf(),
     val controlUnits: List<LegacyControlUnitEntity> = listOf(),
     val openBy: String? = null,
     val completedBy: String? = null,
