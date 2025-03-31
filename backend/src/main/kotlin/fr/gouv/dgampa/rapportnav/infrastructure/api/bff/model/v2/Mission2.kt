@@ -19,19 +19,19 @@ data class Mission2(
         fun fromMissionEntity(mission: MissionEntity2): Mission2 {
             val completenessForStats = mission.isCompleteForStats()
             val status = mission.calculateMissionStatus(
-                endDateTimeUtc = mission.envData.endDateTimeUtc,
-                startDateTimeUtc = mission.envData.startDateTimeUtc
+                endDateTimeUtc = mission.data?.endDateTimeUtc,
+                startDateTimeUtc = mission.data?.startDateTimeUtc!!
             )
             return Mission2(
                 id = mission.id,
                 status = status,
                 completenessForStats = completenessForStats,
-                envData = MissionEnvData.fromMissionEntity(mission.envData),
+                envData = MissionEnvData.fromMissionEntity(mission.data),
                 isCompleteForStats = completenessForStats.sources?.isEmpty(),
                 generalInfos = MissionGeneralInfo2.fromMissionGeneralInfoEntity(
                     generalInfo2 = mission.generalInfos
                 ),
-                actions = mission.actions.map { action -> MissionAction.fromMissionActionEntity(action) }
+                actions = mission.actions?.map { action -> MissionAction.fromMissionActionEntity(action) } ?: listOf()
             )
         }
     }

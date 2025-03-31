@@ -46,7 +46,7 @@ data class MissionEnvInput(
             hasMissionOrder = missionFromDb.hasMissionOrder,
             startDateTimeUtc = startDateTimeUtc ?: missionFromDb.startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc ?: missionFromDb.endDateTimeUtc,
-            missionTypes = missionTypes ?: missionFromDb.missionTypes,
+            missionTypes = missionTypes ?: missionFromDb.missionTypes ?: listOf(),
             observationsByUnit = observationsByUnit ?: missionFromDb.observationsByUnit,
             controlUnits = missionFromDb.controlUnits.map { controlUnit ->
                 controlUnit.takeIf { it.id != controlUnitId } ?: controlUnit.copy(

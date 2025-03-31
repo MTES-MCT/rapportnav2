@@ -16,31 +16,26 @@ class CreateMission(
 
     fun execute(generalInfo2: MissionGeneralInfo2, controlUnitIds: List<Int>? = null): MissionEntity2? {
 
-        if (controlUnitIds === null || controlUnitIds.isEmpty()) {
+        if (controlUnitIds.isNullOrEmpty()) {
             throw Exception("Error while saving mission nav. Control Units are empty for this user")
         }
 
-        if (generalInfo2.missionReportType === MissionReportTypeEnum.OFFICE_REPORT || generalInfo2.missionReportType === MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT) {
-
+        if (generalInfo2.missionReportType in listOf(MissionReportTypeEnum.OFFICE_REPORT, MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT)) {
             val missionNav = createNavMission.execute(
                 generalInfo2 = generalInfo2,
                 controlUnitIds = controlUnitIds
             )
-
             return MissionEntity2(
                 id = missionNav?.id!!,
-                actions = listOf(),
-                envData = MissionEntity(
+                data = MissionEntity(
                     id = missionNav.id,
-                    missionSource = MissionSourceEnum.RAPPORT_NAV,
                     startDateTimeUtc = missionNav.startDateTimeUtc,
-                    isDeleted = missionNav.isDeleted,
                     endDateTimeUtc = missionNav.endDateTimeUtc,
-                    missionTypes = missionNav.missionTypes,
-                    controlUnits = listOf(),
-                    hasMissionOrder = false,
+                    isUnderJdp = false,
+                    isDeleted = false,
                     isGeometryComputedFromControls = false,
-                    isUnderJdp = false
+                    missionSource = MissionSourceEnum.RAPPORT_NAV,
+                    hasMissionOrder = false
                 )
             )
         }
@@ -50,7 +45,7 @@ class CreateMission(
         return MissionEntity2(
             id = missionEnv.id!!,
             actions = listOf(),
-            envData = MissionEntity(
+            data = MissionEntity(
                 id = missionEnv.id,
                 missionTypes = missionEnv.missionTypes,
                 startDateTimeUtc = missionEnv.startDateTimeUtc,
