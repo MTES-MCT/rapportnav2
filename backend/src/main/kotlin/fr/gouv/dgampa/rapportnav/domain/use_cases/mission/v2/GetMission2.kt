@@ -22,7 +22,7 @@ class GetMission2(
 
         return MissionEntity2(
             id = id,
-            envData = mission,
+            data = mission,
             actions = actions,
             generalInfos = generalInfos
         )
