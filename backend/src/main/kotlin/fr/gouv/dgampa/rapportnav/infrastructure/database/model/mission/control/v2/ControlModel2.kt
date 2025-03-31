@@ -49,7 +49,7 @@ data class ControlModel2(
     var compliantSecurityDocuments: String? = null,
 
     @Column(name = "has_been_done", nullable = true)
-    var hasBeenDone: Boolean? = false,
+    var hasBeenDone: Boolean? = null,
 
     @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "control_id")
