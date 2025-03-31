@@ -14,9 +14,7 @@ import java.util.*
 class Control2Test {
     @Test
     fun `execute should convert into entity`() {
-        val targetId = UUID.randomUUID()
         val input = Control2(
-            targetId = targetId,
             controlType = ControlType.NAVIGATION,
             observations = "My beautiful observation",
             amountOfControls = 2,
@@ -48,10 +46,8 @@ class Control2Test {
 
     @Test
     fun `execute should convert from entity`() {
-        val targetId = UUID.randomUUID()
         val entity = ControlEntity2(
             id = UUID.randomUUID(),
-            targetId = targetId,
             controlType = ControlType.NAVIGATION,
             observations = "My beautiful observation",
             amountOfControls = 2,

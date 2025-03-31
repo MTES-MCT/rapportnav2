@@ -29,7 +29,6 @@ class Infraction2Test {
         assertThat(entity).isNotNull()
         assertThat(entity.id).isNotNull()
         assertThat(entity.natinfs).isEqualTo(natInfs)
-        assertThat(entity.controlId).isEqualTo(controlId)
         assertThat(entity.observations).isEqualTo("My observations")
         assertThat(entity.infractionType).isEqualTo(InfractionTypeEnum.WITH_REPORT)
     }
@@ -38,11 +37,9 @@ class Infraction2Test {
     @Test
     fun `execute should convert from target entity`() {
         val infractionId = UUID.randomUUID()
-        val controlId = UUID.randomUUID()
 
         val entity = InfractionEntity2(
             id = infractionId,
-            controlId = controlId,
             infractionType = InfractionTypeEnum.WITH_REPORT,
             natinfs = listOf(),
             observations = "My observations",
@@ -53,7 +50,6 @@ class Infraction2Test {
         assertThat(value).isNotNull()
         assertThat(value.id).isNotNull()
         assertThat(value.natinfs).isEqualTo(entity.natinfs)
-        assertThat(value.controlId).isEqualTo(entity.controlId)
         assertThat(value.observations).isEqualTo(entity.observations)
         assertThat(value.infractionType).isEqualTo(entity.infractionType)
     }
