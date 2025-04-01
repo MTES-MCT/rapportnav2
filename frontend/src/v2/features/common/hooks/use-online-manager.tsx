@@ -9,14 +9,11 @@ import { useOfflineSince } from './use-offline-since.tsx'
  * - Integrates with TanStack Query's onlineManager for query behavior.
  */
 export function useOnlineManager() {
-  const { setOfflineSince } = useOfflineSince()
-  // 1) Physical network availability
+  const { offlineSince, setOfflineSince } = useOfflineSince()
+  // Physical network availability
   const [hasNetwork, setHasNetwork] = useState(() => navigator.onLine)
 
-  // 2) User-driven offline mode ("manual offline")
-  const [manualOffline, setManualOffline] = useState(false)
-
-  // 3) Effective online state from TanStack Query
+  // Effective online state from TanStack Query
   const [isOnline, setIsOnline] = useState(() => onlineManager.isOnline())
 
   // Subscribe to TanStack Query onlineManager changes
@@ -28,17 +25,18 @@ export function useOnlineManager() {
 
   const computeStatus = (hasNetwork: boolean, manualOffline: boolean) => {
     const effective = hasNetwork && !manualOffline
-    onlineManager.setOnline(effective)
-    setIsOnline(effective)
+    if (effective !== onlineManager.isOnline()) {
+      onlineManager.setOnline(effective)
+      setIsOnline(effective)
 
-    // Track offline start timestamp
-    setOfflineSince(effective)
+      setOfflineSince(effective)
+    }
   }
 
   // Sync TanStack Query & internal state whenever network or manualOffline changes
   useEffect(() => {
-    computeStatus(hasNetwork, manualOffline)
-  }, [hasNetwork, manualOffline])
+    computeStatus(hasNetwork, !!offlineSince)
+  }, [computeStatus, hasNetwork, offlineSince, setOfflineSince])
 
   // Listen to browser connectivity changes
   useEffect(() => {
@@ -59,18 +57,16 @@ export function useOnlineManager() {
     if (shouldBeOnline) {
       // Only clear manualOffline if there's physical network
       if (hasNetwork) {
-        setManualOffline(false)
+        computeStatus(hasNetwork, false)
       }
     } else {
       // User forces offline
-      setManualOffline(true)
+      computeStatus(hasNetwork, true)
     }
-    computeStatus(hasNetwork, manualOffline)
   }
 
   return {
     hasNetwork, // true if browser reports network available
-    manualOffline, // true if user has chosen offline mode
     isOnline, // effective online state (TanStack Query)
     isOffline: !isOnline, // effective offline state
     toggleOnline // call with `true|false` to switch modes

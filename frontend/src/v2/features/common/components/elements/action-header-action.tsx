@@ -2,7 +2,7 @@ import { Accent, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import { useGlobalRoutes } from '@router/use-global-routes'
 import { useNavigate } from 'react-router-dom'
 import { Stack } from 'rsuite'
-import useDeleteActionMutation from '../../services/use-delete-mission-action'
+import useDeleteActionMutation from '../../services/use-delete-action.tsx'
 import { MissionSourceEnum } from '../../types/mission-types'
 import { OwnerType } from '../../types/owner-type'
 
@@ -16,10 +16,10 @@ interface ActionHeaderActionProps {
 export const ActionHeaderAction: React.FC<ActionHeaderActionProps> = ({ source, ownerId, actionId, ownerType }) => {
   const navigate = useNavigate()
   const { getUrl } = useGlobalRoutes()
-  const mutation = useDeleteActionMutation(ownerId, ownerType)
+  const mutation = useDeleteActionMutation()
 
   const handleDelete = async () => {
-    await mutation.mutateAsync(actionId)
+    mutation.mutate({ ownerId, ownerType, actionId })
     navigate(`${getUrl(ownerType)}/${ownerId}`)
   }
 

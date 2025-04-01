@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import MissionCompletenessForStatsTag from '../../../../common/components/elements/mission-completeness-for-stats-tag.tsx'
 import MissionStatusTag from '../../../../common/components/ui/mission-status-tag.tsx'
 import { MissionListItem } from '../../../../common/types/mission-types.ts'
+import { PAM_V2_HOME_PATH } from '@router/routes.tsx'
 
 interface MissionListItemProps {
   mission: MissionListItem
@@ -22,7 +23,7 @@ const ListItem = styled.div`
 
 const MissionListItemPam: FC<MissionListItemProps> = ({ mission, isSelected, onToggle }) => {
   return (
-    <ListItem data-testid="mission-list-item-with-hover">
+    <ListItem data-testid={'mission-list-item'}>
       <FlexboxGrid align="middle" style={{ height: '64px', padding: '0.5rem 2rem', marginBottom: '4px' }}>
         <FlexboxGrid.Item colspan={1} data-testid={'mission-list-item-icon'}>
           <Checkbox
@@ -88,7 +89,7 @@ const MissionListItemPam: FC<MissionListItemProps> = ({ mission, isSelected, onT
 
         <FlexboxGrid.Item colspan={1} data-testid={'mission-list-item-icon-edit'}>
           <Link
-            to={`/pam/missions/${mission?.id}`}
+            to={`${PAM_V2_HOME_PATH}/${mission?.id}`}
             style={{
               textDecoration: 'none',
               textAlign: 'right',

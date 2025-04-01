@@ -23,7 +23,7 @@ const MissionTimelineHeaderWrapper: React.FC<MissionTimelineHeaderWrapperProps> 
     <Stack direction={'row'} justifyContent={'space-between'} spacing={'0.5rem'} wrap={true}>
       <Stack.Item>
         <MissionTimelineAddAction
-          onSumbit={onSubmit}
+          onSubmit={onSubmit}
           missionId={missionId}
           moduleType={moduleType}
           dropdownItems={dropdownItems}
@@ -32,7 +32,7 @@ const MissionTimelineHeaderWrapper: React.FC<MissionTimelineHeaderWrapperProps> 
       <Stack.Item>
         <Stack direction={'row'}>
           <Stack.Item>
-            {!hideStatus && <MissionTimelineAddStatus missionId={missionId} onSumbit={onSubmit} />}
+            {!hideStatus && <MissionTimelineAddStatus missionId={missionId} onSubmit={onSubmit} />}
           </Stack.Item>
         </Stack>
       </Stack.Item>
