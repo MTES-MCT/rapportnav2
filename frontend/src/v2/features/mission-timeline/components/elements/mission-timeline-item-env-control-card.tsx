@@ -14,6 +14,7 @@ type MissionTimelineItemEnvControlCardProps = {
 const MissionTimelineItemEnvControlCard: FC<MissionTimelineItemEnvControlCardProps> = ({ icon, action }) => {
   return (
     <MissionTimelineCardWrapper
+      action={action}
       icon={icon}
       title={<MissionTimelineItemEnvControlCardTitle action={action} />}
       tags={<MissionTimelineItemControlCardTag action={action} />}
