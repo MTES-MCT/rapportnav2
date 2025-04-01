@@ -53,7 +53,7 @@ class CreateOrUpdateGeneralInfoTest {
         return entity
     }
 
-        @Test
+    @Test
     fun `execute should update mission service when service ID has changed`() {
         // Given
         val missionId = 123
@@ -72,7 +72,8 @@ class CreateOrUpdateGeneralInfoTest {
         val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId)
         val missionGeneralInfoModel = missionGeneralInfoEntity.toMissionGeneralInfoModel()
         val previousEntity = MissionGeneralInfoEntity2(
-            data = createMissionGeneralInfoEntityData(missionId, oldServiceId)
+            data = createMissionGeneralInfoEntityData(missionId, oldServiceId),
+            crew = listOf()
         )
 
         // When
@@ -119,7 +120,8 @@ class CreateOrUpdateGeneralInfoTest {
         val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId)
         val missionGeneralInfoModel = missionGeneralInfoEntity.toMissionGeneralInfoModel()
         val previousEntity = MissionGeneralInfoEntity2(
-            data = createMissionGeneralInfoEntityData(missionId, serviceId)
+            data = createMissionGeneralInfoEntityData(missionId, serviceId),
+            crew = listOf()
         )
         // When
         `when`(getGeneralInfo2.execute(missionId)).thenReturn(previousEntity)
@@ -164,7 +166,8 @@ class CreateOrUpdateGeneralInfoTest {
         val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId)
         val missionGeneralInfoModel = missionGeneralInfoEntity.toMissionGeneralInfoModel()
         val previousEntity = MissionGeneralInfoEntity2(
-            data = createMissionGeneralInfoEntityData(missionId, null)
+            data = createMissionGeneralInfoEntityData(missionId, null),
+            crew = listOf()
         )
 
         // When

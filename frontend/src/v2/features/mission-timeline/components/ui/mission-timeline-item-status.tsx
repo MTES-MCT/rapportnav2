@@ -1,25 +1,44 @@
+import { FC } from 'react'
 import { ActionStatusType } from '@common/types/action-types'
-import { ActionTypeEnum } from '@common/types/env-mission-types'
 import { CompletenessForStats, CompletenessForStatsStatusEnum } from '@common/types/mission-types'
 import { Accent, Icon, IconButton, THEME } from '@mtes-mct/monitor-ui'
 import { useActionStatus } from '../../../common/hooks/use-action-status'
 import { MissionTimelineStatusTag } from './mission-timeline-status-tag'
+import { ActionType } from '../../../common/types/action-type.ts'
 
 type MissionTimelineItemStatusProps = {
-  type: ActionTypeEnum
+  type: ActionType
   status?: ActionStatusType
   completenessForStats?: CompletenessForStats
+  isUnsync: boolean
 }
 
-const MissionTimelineItemStatus: React.FC<MissionTimelineItemStatusProps> = ({
+const MissionTimelineItemStatus: FC<MissionTimelineItemStatusProps> = ({
   type,
   status,
-  completenessForStats
+  completenessForStats,
+  isUnsync
 }: MissionTimelineItemStatusProps) => {
   const { color } = useActionStatus(status)
-  if (type !== ActionTypeEnum.STATUS && completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE)
+
+  if (isUnsync) {
     return (
-      <div style={{ width: '15px', height: '100%', padding: '5px 0 5px 5px' }}>
+      <div data-testid={'timeline-item-incomplete-report'}>
+        <IconButton
+          accent={Accent.TERTIARY}
+          Icon={Icon.AttentionFilled}
+          color={THEME.color.lightGray}
+          title={
+            'Cet évènement contient peut-être des données manquantes indispensables pour les statistiques. Le status sera actualisé quand vous repasserez en ligne.'
+          }
+          style={{ cursor: 'auto', width: '20px', marginLeft: '-5px' }}
+        />
+      </div>
+    )
+  }
+  if (type !== ActionType.STATUS && completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE)
+    return (
+      <div style={{ width: '15px', height: '100%', padding: '5px 0 5px 5px' }} data-testid={'timeline-item-status'}>
         <MissionTimelineStatusTag
           style={{
             height: '100%',
@@ -27,7 +46,6 @@ const MissionTimelineItemStatus: React.FC<MissionTimelineItemStatusProps> = ({
             backgroundColor: color
           }}
           status={status}
-          data-testid={'timeline-item-status'}
         />
       </div>
     )

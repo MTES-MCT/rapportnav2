@@ -31,7 +31,7 @@ const MissionGeneralInformationFormPam: FC<{
             <>
               <FormikEffect
                 onChange={newValues =>
-                  validateForm(newValues).then(errors => handleSubmit(newValues as MissionGeneralInfoInput, errors))
+                  validateForm(newValues).then(_ => handleSubmit(newValues as MissionGeneralInfoInput))
                 }
               />
               <Stack direction="column" style={{ width: '100%' }} alignItems={'flex-start'} spacing={'2rem'}>
