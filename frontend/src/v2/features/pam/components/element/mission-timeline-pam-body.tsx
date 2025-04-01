@@ -18,6 +18,7 @@ interface MissionTimelinePamBodyProps {
 
 const MissionTimelinePamBody: FC<MissionTimelinePamBodyProps> = ({ isError, actions, missionId, isLoading }) => {
   const hasActionsNotYetSyncWithServer = some(actions, matchesProperty('networkSyncStatus', NetworkSyncStatus.UNSYNC))
+
   return (
     <>
       {hasActionsNotYetSyncWithServer && (

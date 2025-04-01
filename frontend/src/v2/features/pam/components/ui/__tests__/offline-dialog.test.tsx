@@ -22,8 +22,7 @@ describe('OfflineDialog', () => {
     mockUseOnlineManager.mockReturnValue({
       isOffline: false,
       hasNetwork: true,
-      toggleOnline: vi.fn(),
-      manualOffline: false
+      toggleOnline: vi.fn()
     })
 
     mockUseOfflineSince.mockReturnValue({
@@ -91,8 +90,7 @@ describe('OfflineDialog', () => {
     mockUseOnlineManager.mockReturnValue({
       isOffline: true,
       hasNetwork: true,
-      toggleOnline: mockToggleOnline,
-      manualOffline: false
+      toggleOnline: mockToggleOnline
     })
 
     mockUseOfflineSince.mockReturnValue({
@@ -123,8 +121,7 @@ describe('OfflineDialog', () => {
     mockUseOnlineManager.mockReturnValue({
       isOffline: true,
       hasNetwork: false, // No network
-      toggleOnline: mockToggleOnline,
-      manualOffline: false
+      toggleOnline: mockToggleOnline
     })
 
     mockUseOfflineSince.mockReturnValue({

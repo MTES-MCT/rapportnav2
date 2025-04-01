@@ -1,6 +1,8 @@
 import { OmitKeyof, QueryCache, QueryClient } from '@tanstack/react-query'
-import { persistQueryClient, PersistQueryClientOptions } from '@tanstack/react-query-persist-client'
+import { PersistQueryClientOptions } from '@tanstack/react-query-persist-client'
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
+import { logSoftError } from '@mtes-mct/monitor-ui'
+import * as Sentry from '@sentry/react'
 
 // Notes about stale and cache/gc time:
 // - staleTime:
@@ -12,13 +14,24 @@ import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persist
 // - in offlineFirst apps:
 //   - make gcTime much longer than staleTime:
 //   - this ensures data remains available offline even if it's considered stale
-export const DYNAMIC_DATA_STALE_TIME = 1000 * 60 * 5 // 5 minutes
+export const DYNAMIC_DATA_STALE_TIME = 1000 * 60 * 3 // 3 minutes
 export const DYNAMIC_DATA_GC_TIME = 1000 * 60 * 60 * 24 * 5 // 5 days
 export const STATIC_DATA_STALE_TIME = 1000 * 60 * 60 * 24 * 3 // 3 days
 export const STATIC_DATA_GC_TIME = 1000 * 60 * 60 * 24 * 15 // 15 days
 
 export const queryClient = new QueryClient({
-  queryCache: new QueryCache({}),
+  queryCache: new QueryCache({
+    onError: error => {
+      // https://tkdodo.eu/blog/breaking-react-querys-api-on-purpose
+      console.error(error)
+      Sentry.captureException(error)
+      logSoftError({
+        isSideWindowError: false,
+        message: error.message,
+        userMessage: `Une erreur s'est produite lors du chargement des données. Si l'erreur persiste, veuillez contacter l'équipe RapportNav/SNC3.`
+      })
+    }
+  }),
   defaultOptions: {
     queries: {
       networkMode: 'offlineFirst',
@@ -28,6 +41,19 @@ export const queryClient = new QueryClient({
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false
+    },
+    mutations: {
+      networkMode: 'online',
+      retry: false,
+      onError: error => {
+        console.error(error)
+        Sentry.captureException(error)
+        logSoftError({
+          isSideWindowError: false,
+          message: error.message,
+          userMessage: `Une erreur s'est produite lors de l'enregistrement. Si l'erreur persiste, veuillez contacter l'équipe RapportNav/SNC3.`
+        })
+      }
     }
   }
 })
@@ -46,6 +72,9 @@ export const persistOptions: OmitKeyof<PersistQueryClientOptions, 'queryClient'>
       queries: {
         // Important: don't refetch on hydration
         gcTime: STATIC_DATA_GC_TIME
+      },
+      mutations: {
+        gcTime: DYNAMIC_DATA_GC_TIME
       }
     }
   }

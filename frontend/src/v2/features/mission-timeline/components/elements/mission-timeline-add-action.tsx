@@ -10,28 +10,48 @@ import { ActionType } from '../../../common/types/action-type'
 import { ModuleType } from '../../../common/types/module-type'
 import { TimelineDropdownItem } from '../../hooks/use-timeline'
 import MissionTimelineDropdownWrapper from '../layout/mission-timeline-dropdown-wrapper'
+import { MissionNavAction } from '../../../common/types/mission-action.ts'
+import { useNavigate } from 'react-router-dom'
+import { navigateToActionId } from '@router/routes.tsx'
+import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
+import { v4 as uuidv4 } from 'uuid'
 
 type MissionTimelineAddActionProps = {
   missionId: string
   moduleType: ModuleType
-  onSumbit?: (id?: string) => void
+  onSubmit?: (id?: string) => void
   dropdownItems: TimelineDropdownItem[]
 }
 
 function MissionTimelineAddAction({
   missionId,
-  onSumbit,
+  onSubmit,
   moduleType,
   dropdownItems
 }: MissionTimelineAddActionProps): JSX.Element {
+  const navigate = useNavigate()
+  const { isOnline } = useOnlineManager()
   const { getActionInput } = useMissionTimeline(missionId)
   const mutation = useCreateMissionActionMutation(missionId)
   const [showModal, setShowModal] = useState<boolean>(false)
 
   const handleAddAction = async (actionType: ActionType, data?: unknown) => {
-    const action = getActionInput(actionType, data)
-    const response = await mutation.mutateAsync(action)
-    if (onSumbit) onSumbit(response?.id)
+    const action = {
+      id: uuidv4(), // Generate a UUID locally
+      ...getActionInput(actionType, data)
+    }
+
+    mutation.mutate(action, {
+      onSuccess: (data: MissionNavAction) => {
+        const id = data?.data?.id
+        if (id) {
+          navigateToActionId(id, navigate)
+        }
+        if (onSubmit && isOnline) {
+          onSubmit(id)
+        }
+      }
+    })
   }
 
   const handleSelect = async (actionType: ActionType) => {

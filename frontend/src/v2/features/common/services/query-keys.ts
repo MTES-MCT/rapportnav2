@@ -3,13 +3,17 @@
 export const missionsKeys = {
   all: () => ['missions'] as const,
   filter: (filters: string) => [...missionsKeys.all(), { filters }] as const,
-  byId: (id: string) => [...missionsKeys.all(), `${id}`] as const
+  byId: (id: string) => [...missionsKeys.all(), `${id}`] as const,
+  update: () => ['update-mission'] as const
 }
 
 export const actionsKeys = {
   all: () => ['actions'] as const,
   filter: (filters: string) => [...actionsKeys.all(), { filters }] as const,
-  byId: (id: string) => [...actionsKeys.all(), `${id}`] as const
+  byId: (id: string) => [...actionsKeys.all(), `${id}`] as const,
+  create: () => ['create-action'] as const,
+  update: () => ['update-action'] as const,
+  delete: () => ['delete-action'] as const
 }
 
 export const natinfsKeys = {
