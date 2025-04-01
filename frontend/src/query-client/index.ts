@@ -1,6 +1,7 @@
 import { OmitKeyof, QueryCache, QueryClient } from '@tanstack/react-query'
-import { persistQueryClient, PersistQueryClientOptions } from '@tanstack/react-query-persist-client'
+import { PersistQueryClientOptions } from '@tanstack/react-query-persist-client'
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
+import { logSoftError } from '@mtes-mct/monitor-ui'
 
 // Notes about stale and cache/gc time:
 // - staleTime:
@@ -18,7 +19,17 @@ export const STATIC_DATA_STALE_TIME = 1000 * 60 * 60 * 24 * 3 // 3 days
 export const STATIC_DATA_GC_TIME = 1000 * 60 * 60 * 24 * 15 // 15 days
 
 export const queryClient = new QueryClient({
-  queryCache: new QueryCache({}),
+  queryCache: new QueryCache({
+    onError: error => {
+      // https://tkdodo.eu/blog/breaking-react-querys-api-on-purpose
+      debugger
+      logSoftError({
+        isSideWindowError: false,
+        message: error.message,
+        userMessage: `Une erreur s'est produite lors de l'enregistrement. Si l'erreur persiste, veuillez contacter l'équipe RapportNav/SNC3.`
+      })
+    }
+  }),
   defaultOptions: {
     queries: {
       networkMode: 'offlineFirst',
@@ -28,6 +39,10 @@ export const queryClient = new QueryClient({
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false
+    },
+    mutations: {
+      networkMode: 'offlineFirst',
+      retry: 1
     }
   }
 })
@@ -46,6 +61,9 @@ export const persistOptions: OmitKeyof<PersistQueryClientOptions, 'queryClient'>
       queries: {
         // Important: don't refetch on hydration
         gcTime: STATIC_DATA_GC_TIME
+      },
+      mutations: {
+        gcTime: DYNAMIC_DATA_GC_TIME
       }
     }
   }

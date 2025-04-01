@@ -6,6 +6,9 @@ import { Stack } from 'rsuite'
 import { useMissionTimeline } from '../../../common/hooks/use-mission-timeline'
 import useCreateMissionActionMutation from '../../../common/services/use-create-mission-action'
 import { ActionType } from '../../../common/types/action-type'
+import { MissionNavAction } from '../../../common/types/mission-action.ts'
+import { PAM_V2_HOME_PATH } from '@router/routes.tsx'
+import { useNavigate } from 'react-router-dom'
 
 const ACTION_STATUS: ActionStatusType[] = [
   ActionStatusType.NAVIGATING,
@@ -16,7 +19,7 @@ const ACTION_STATUS: ActionStatusType[] = [
 
 interface MissionTimelineAddStatusProps {
   missionId: number
-  onSumbit?: (id?: string) => void
+  onSubmit?: (id?: string) => void
 }
 
 export const MissionStatusColorTag: FC<{ status: ActionStatusType }> = ({ status }) => (
@@ -30,14 +33,25 @@ export const MissionStatusColorTag: FC<{ status: ActionStatusType }> = ({ status
   ></div>
 )
 
-const MissionTimelineAddStatus: FC<MissionTimelineAddStatusProps> = ({ missionId, onSumbit }) => {
+const MissionTimelineAddStatus: FC<MissionTimelineAddStatusProps> = ({ missionId, onSubmit }) => {
+  const navigate = useNavigate()
   const { getActionInput } = useMissionTimeline(missionId)
   const mutation = useCreateMissionActionMutation(missionId)
 
   const handleAddStatus = async (status: ActionStatusType) => {
     const action = getActionInput(ActionType.STATUS, { status })
-    const response = await mutation.mutateAsync(action)
-    if (onSumbit) onSumbit(response?.id)
+    mutation.mutate(action, {
+      onSuccess: (data: MissionNavAction) => {
+        const id = data?.data?.id
+        if (id) {
+          const url = `${PAM_V2_HOME_PATH}/${missionId}/${id}`
+          navigate(url)
+        }
+        if (onSubmit && navigator.onLine) {
+          onSubmit(id)
+        }
+      }
+    })
   }
 
   return (

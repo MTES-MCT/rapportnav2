@@ -26,7 +26,8 @@ const useMissionsQuery = ({
     queryFn: fetchMissions,
     enabled: !!startDateTimeUtc, // Prevents query from running if startDateTimeUtc is not provided
     staleTime: 5 * 60 * 1000, // Cache data for 5 minutes
-    retry: 2 // Retry failed requests twice before throwing an error
+    retry: 2, // Retry failed requests twice before throwing an error
+    refetchOnWindowFocus: true
   })
 
   return query

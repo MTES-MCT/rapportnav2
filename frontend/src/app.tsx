@@ -60,6 +60,9 @@ const App: FC = () => {
             client={queryClient}
             persistOptions={persistOptions}
             onSuccess={() => {
+              queryClient.resumePausedMutations().then(() => {
+                // queryClient.invalidateQueries()
+              })
               console.log('Persistence restored successfully')
             }}
             onError={() => {

@@ -10,7 +10,8 @@ const useGetActionQuery = (missionId: number, actionId?: string): UseQueryResult
   const query = useQuery<MissionAction>({
     queryKey: actionsKeys.byId(actionId),
     enabled: !!actionId,
-    queryFn: fetchAction
+    queryFn: fetchAction,
+    refetchOnWindowFocus: true
   })
   return query
 }

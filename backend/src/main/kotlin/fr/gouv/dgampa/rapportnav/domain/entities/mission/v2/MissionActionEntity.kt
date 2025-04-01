@@ -38,7 +38,7 @@ abstract class MissionActionEntity(
 ) : BaseMissionActionEntity {
 
     fun computeCompletenessForStats() {
-        val isControlCompleted = this.controlsToComplete == null || this.controlsToComplete?.isEmpty() == true
+        val isControlCompleted = this.controlsToComplete.isNullOrEmpty()
         val status = if(this.isCompleteForStats == true && isControlCompleted) CompletenessForStatsStatusEnum.COMPLETE else CompletenessForStatsStatusEnum.INCOMPLETE
         this.completenessForStats = CompletenessForStatsEntity(
             sources = this.sourcesOfMissingDataForStats,
@@ -78,6 +78,10 @@ abstract class MissionActionEntity(
     }
 
     fun isStartDateEndDateOK(): Boolean {
+        // list here action with no required end date
+        if (this.actionType === ActionType.NOTE) {
+            return true
+        }
         if(this.endDateTimeUtc  == null ||  this.startDateTimeUtc == null) return false
         try{
             val endDateTime = Instant.parse(endDateTimeUtc.toString())
