@@ -26,7 +26,8 @@ const MissionGeneralInformationUlamInitialForm: FC<MissionGeneralInformationUlam
     reportTypeOptions,
     reinforcementTypeOptions,
     isExternalReinforcementTime,
-    isMissionTypeSea
+    isMissionTypeSea,
+    isEnvMission
   } = useMissionType()
   const { initValue, handleSubmit, validationSchema } = useUlamMissionGeneralInformationInitialForm(name, fieldFormik)
 
@@ -60,16 +61,18 @@ const MissionGeneralInformationUlamInitialForm: FC<MissionGeneralInformationUlam
                 />
               </Stack.Item>
 
-              <Stack.Item style={{ width: '100%', marginBottom: '1em', textAlign: 'left' }}>
-                <FormikMultiCheckbox
-                  isInline
-                  isLight
-                  isRequired={true}
-                  name="missionTypes"
-                  label={'Type de mission'}
-                  options={missionTypeOptions}
-                />
-              </Stack.Item>
+              {isEnvMission(values.missionReportType) && (
+                <Stack.Item style={{ width: '100%', marginBottom: '1em', textAlign: 'left' }}>
+                  <FormikMultiCheckbox
+                    isInline
+                    isLight
+                    isRequired={true}
+                    name="missionTypes"
+                    label={'Type de mission'}
+                    options={missionTypeOptions}
+                  />
+                </Stack.Item>
+              )}
 
               {isExternalReinforcementTime(values.missionReportType) && (
                 <Stack.Item style={{ width: '100%', marginBottom: '1em' }}>
