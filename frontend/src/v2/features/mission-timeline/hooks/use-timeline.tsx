@@ -85,7 +85,8 @@ export function useTimeline(): TimelineHook {
       actionNumberOfControls: action.data?.actionNumberOfControls,
       actionTargetType: action.data?.actionTargetType,
       vehicleType: action.data?.vehicleType,
-      formattedControlPlans: action.data?.formattedControlPlans
+      formattedControlPlans: action.data?.formattedControlPlans,
+      networkSyncStatus: action.networkSyncStatus
     }
   }
 
@@ -110,7 +111,8 @@ export function useTimeline(): TimelineHook {
       isVesselRescue: action.data?.isVesselRescue,
       isPersonRescue: action.data?.isPersonRescue,
       reason: action.data?.reason,
-      nbrOfHours: action.data.nbrOfHours
+      nbrOfHours: action.data.nbrOfHours,
+      networkSyncStatus: action.networkSyncStatus
     }
   }
 
@@ -130,7 +132,8 @@ export function useTimeline(): TimelineHook {
       endDateTimeUtc: action.data?.endDateTimeUtc,
       vesselId: action.data?.vesselId,
       vesselName: action.data?.vesselName,
-      observations: action.data?.observationsByUnit
+      observations: action.data?.observationsByUnit,
+      networkSyncStatus: action.networkSyncStatus
     }
   }
 

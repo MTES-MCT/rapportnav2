@@ -6,7 +6,7 @@ const authToken = new AuthToken()
 const errorLink = onError(({ operation, forward }: ErrorResponse) => {
   const { response } = operation.getContext()
 
-  if ([401, 403, 404, 405].indexOf(response.status) !== -1) {
+  if ([401, 403, 404, 405].indexOf(response?.status) !== -1) {
     authToken.remove()
     window.location.replace('/login')
   }

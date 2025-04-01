@@ -2,25 +2,30 @@ import Text from '@common/components/ui/text.tsx'
 import { Accent, Button, Icon, Size } from '@mtes-mct/monitor-ui'
 import { useState } from 'react'
 import { useDate } from '../../hooks/use-date.tsx'
+import OnlineToggle from '../elements/online-toggle.tsx'
 import { useOnlineManager } from '../../hooks/use-online-manager.tsx'
+import { useOfflineSince } from '../../hooks/use-offline-since.tsx'
 import useDeleteMissionMutation from '../../services/use-delete-mission.tsx'
 import useMission from '../../services/use-mission.tsx'
 import { MissionSourceEnum } from '../../types/mission-types.ts'
-import OnlineToggle from '../elements/online-toggle.tsx'
 import PageFooterWrapper from '../layout/page-footer-wrapper.tsx'
 import DialogQuestion from './dialog-question.tsx'
+import { useOfflineMode } from '../../hooks/use-offline-mode.tsx'
 
 interface MissionPageFooterProps {
   missionId?: string
   exitMission: () => void
+  type: 'ULAM' | 'PAM'
 }
 
-const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, exitMission }) => {
-  const { isOnline } = useOnlineManager()
+const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, type, exitMission }) => {
+  const { isOnline, hasNetwork } = useOnlineManager()
+  const { offlineSince } = useOfflineSince()
+  const isOfflineModeEnabled = useOfflineMode()
   const { formatDateForFrenchHumans } = useDate()
   const [showDialog, setShowDialog] = useState(false)
   const mutation = useDeleteMissionMutation(missionId)
-  const { data: mission, dataUpdatedAt } = useMission(missionId)
+  const { data: mission } = useMission(missionId)
 
   const handleDeleteMission = async (response: boolean) => {
     setShowDialog(false)
@@ -51,11 +56,11 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, exitMi
         }
         message={
           <Text as="h4">
-            {`Connexion ${isOnline ? 'disponible' : 'indisponible'} `}&nbsp;
-            {dataUpdatedAt ? `- Dernière synchronisation le ${formatDateForFrenchHumans(dataUpdatedAt)}` : ``}
+            {isOnline ? '' : hasNetwork ? 'Connexion disponible' : 'Connexion indisponible'}
+            {offlineSince ? `- Dernière synchronisation le ${formatDateForFrenchHumans(offlineSince)}` : ``}
           </Text>
         }
-        online={<OnlineToggle />}
+        online={type === 'PAM' && isOfflineModeEnabled ? <OnlineToggle /> : <div />}
         exitMission={exitMission}
       />
       {showDialog && (
