@@ -61,9 +61,9 @@ const App: FC = () => {
             persistOptions={{ persister: localStoragePersister }}
             onSuccess={() => {
               // resume mutations after initial restore from localStorage was successful
-              // queryClient.resumePausedMutations().then(() => {
-              // queryClient.invalidateQueries()
-              // })
+              queryClient.resumePausedMutations().then(() => {
+                // queryClient.invalidateQueries()
+              })
             }}
           >
             {/*<FlagProvider config={config}>*/}

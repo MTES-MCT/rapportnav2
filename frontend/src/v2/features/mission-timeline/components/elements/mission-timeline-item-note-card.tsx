@@ -10,6 +10,7 @@ type MissionTimelineItemNoteCardProps = {
   icon?: FunctionComponent<IconProps>
 }
 const MissionTimelineItemNoteCard: FC<MissionTimelineItemNoteCardProps> = ({ icon, title, action }) => {
+  debugger
   return (
     <MissionTimelineCardWrapper
       icon={icon}

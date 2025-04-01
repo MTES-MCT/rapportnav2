@@ -4,7 +4,11 @@ import { Mission2 } from '../types/mission-types'
 import { missionsKeys } from './query-keys.ts'
 
 const useGetMissionQuery = (missionId?: number) => {
-  const fetchMission = (): Promise<Mission2> => axios.get(`missions/${missionId}`).then(response => response.data)
+  const fetchMission = (): Promise<Mission2> =>
+    axios.get(`missions/${missionId}`).then(response => {
+      debugger
+      return response.data
+    })
 
   const query = useQuery<Mission2>({
     queryKey: missionsKeys.byId(missionId),

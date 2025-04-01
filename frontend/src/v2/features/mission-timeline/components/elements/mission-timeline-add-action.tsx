@@ -10,6 +10,8 @@ import { ActionType } from '../../../common/types/action-type'
 import { ModuleType } from '../../../common/types/module-type'
 import { TimelineDropdownItem } from '../../hooks/use-timeline'
 import MissionTimelineDropdownWrapper from '../layout/mission-timeline-dropdown-wrapper'
+import { v4 as uuidv4 } from 'uuid'
+import { MissionNavAction } from '../../../common/types/mission-action.ts'
 
 type MissionTimelineAddActionProps = {
   missionId: number
@@ -29,9 +31,29 @@ function MissionTimelineAddAction({
   const [showModal, setShowModal] = useState<boolean>(false)
 
   const handleAddAction = async (actionType: ActionType, data?: unknown) => {
-    const action = getActionInput(actionType, data)
-    const response = await mutation.mutateAsync(action)
-    if (onSumbit) onSumbit(response?.id)
+    // const action = getActionInput(actionType, data)
+    // const response = await mutation.mutateAsync(action)
+    // if (onSumbit) onSumbit(response?.id)
+    const id = uuidv4()
+    const action = {
+      ...getActionInput(actionType, data)
+      // id
+    }
+    debugger
+    mutation.mutate(action, {
+      onSuccess: (data: MissionNavAction) => {
+        debugger
+        // if (onSumbit && navigator.onLine) {
+        //   onSumbit(data?.id)
+        // }
+      },
+      onSettled: (_, __, ___, context) => {
+        debugger
+        if (onSumbit) {
+          onSumbit(context.action?.id)
+        }
+      }
+    })
   }
 
   const handleSelect = async (actionType: ActionType) => {
