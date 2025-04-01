@@ -66,7 +66,7 @@ export const OnlineToggle: FC<OfflineToggleProps> = () => {
           name="online-toggle"
           checked={isOnline}
           checkedChildren={<Icon.Check color={THEME.color.white} size={14} />}
-          unCheckedChildren={<Icon.Close color={THEME.color.white} size={14} />}
+          unCheckedChildren={<Icon.Offline color={THEME.color.white} size={14} />}
           onChange={(isChecked: boolean) => setOnline(isChecked)}
         />
       </Stack.Item>
