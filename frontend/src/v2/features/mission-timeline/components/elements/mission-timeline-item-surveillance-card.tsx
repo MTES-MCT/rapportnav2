@@ -12,6 +12,7 @@ type MissionTimelineItemSurveillanceCardProps = {
 const MissionTimelineItemSurveillanceCard: FC<MissionTimelineItemSurveillanceCardProps> = ({ icon, action }) => {
   return (
     <MissionTimelineCardWrapper
+      action={action}
       icon={icon}
       footer={<TextByCacem />}
       title={<MissionTimelineItemSurveillanceCardTitle action={action} />}

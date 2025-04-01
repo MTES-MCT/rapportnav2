@@ -9,7 +9,13 @@ type MissionTimelineItemRescueCardProps = {
   icon?: FunctionComponent<IconProps>
 }
 const MissionTimelineItemRescueCard: FC<MissionTimelineItemRescueCardProps> = ({ icon, action }) => {
-  return <MissionTimelineCardWrapper icon={icon} title={<MissionTimelineItemRescueCardTitle action={action} />} />
+  return (
+    <MissionTimelineCardWrapper
+      action={action}
+      icon={icon}
+      title={<MissionTimelineItemRescueCardTitle action={action} />}
+    />
+  )
 }
 
 export default MissionTimelineItemRescueCard

@@ -20,6 +20,7 @@ const MissionTimelineItemStatusCard: FC<MissionTimelineItemStatusCardProps> = ({
 }) => {
   return (
     <MissionTimelineCardWrapper
+      action={action}
       icon={icon}
       noPadding={true}
       statusTag={<MissionTimelineStatusTag status={action?.status} />}
