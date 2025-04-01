@@ -6,6 +6,7 @@ import useMission from '../../services/use-mission.tsx'
 import Text from '@common/components/ui/text.tsx'
 import { useOnlineManager } from '../../hooks/use-online-manager.tsx'
 import { formatDateTimeForFrenchHumans } from '@common/utils/dates-for-humans.ts'
+import { useOfflineSince } from '../../hooks/use-offline-since.tsx'
 
 const StyledFooter = styled.div`
   height: 60px;
@@ -19,11 +20,12 @@ const StyledFooter = styled.div`
 interface MissionPageFooterProps {
   missionId: number
   exitMission: () => void
+  type: 'ULAM' | 'PAM'
 }
 
-const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, exitMission }) => {
-  const { dataUpdatedAt } = useMission(missionId)
-  const { isOnline } = useOnlineManager()
+const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ type, exitMission }) => {
+  const { isOnline, hasNetwork } = useOnlineManager()
+  const { offlineSince } = useOfflineSince()
 
   const deleteMission = () => {
     // TODO add delete
@@ -49,21 +51,19 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, exitMi
         <Stack.Item>
           <Stack direction="row">
             <Stack.Item>
-              <Text as="h4">Connexion {isOnline ? 'disponible' : 'indisponible'} </Text>
+              <Text as="h4"> {isOnline ? '' : hasNetwork ? 'Connexion disponible' : 'Connexion indisponible'} </Text>
             </Stack.Item>
             <Stack.Item>
               <Text as="h4">&nbsp;</Text>
             </Stack.Item>
             <Stack.Item>
               <Text as="h4">
-                {dataUpdatedAt ? `- Dernière synchronisation le ${formatDateTimeForFrenchHumans(dataUpdatedAt)}` : ``}
+                {offlineSince ? `- Dernière synchronisation le ${formatDateTimeForFrenchHumans(offlineSince)}` : ``}
               </Text>
             </Stack.Item>
           </Stack>
         </Stack.Item>
-        <Stack.Item style={{ paddingLeft: '1rem' }}>
-          <OnlineToggle />
-        </Stack.Item>
+        <Stack.Item style={{ paddingLeft: '1rem' }}>{type === 'PAM' && <OnlineToggle />}</Stack.Item>
       </Stack>
     </StyledFooter>
   )
