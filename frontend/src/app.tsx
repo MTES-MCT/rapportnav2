@@ -6,7 +6,7 @@ import { FC, useEffect, useState } from 'react'
 import apolloClient, { apolloCache } from './apollo-client/apollo-client.ts'
 import UIThemeWrapper from './features/common/components/ui/ui-theme-wrapper'
 import ErrorPage from './pages/error-page.tsx'
-import { queryClient, persistOptions } from './query-client'
+import queryClient, { persistOptions } from './query-client'
 import { router } from './router/router'
 import RouterProvider from './router/router-provider'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
@@ -60,7 +60,9 @@ const App: FC = () => {
             client={queryClient}
             persistOptions={persistOptions}
             onSuccess={() => {
-              console.log('Persistence restored successfully')
+              queryClient.resumePausedMutations().then(() => {
+                console.log('Persistence restored successfully')
+              })
             }}
             onError={() => {
               console.log('Persistence restored failed')

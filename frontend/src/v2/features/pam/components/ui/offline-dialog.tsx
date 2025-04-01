@@ -5,14 +5,14 @@ import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 import { Stack } from 'rsuite'
 import { useOfflineSince } from '../../../common/hooks/use-offline-since.tsx'
 
-// export const OFFLINE_CHECK_INTERVAL = 300000 // every 5 minutes
+export const OFFLINE_CHECK_INTERVAL = 300000 // every 5 minutes
 // export const OFFLINE_CHECK_INTERVAL = 60000 // every 1 minute
-export const OFFLINE_CHECK_INTERVAL = 6000 // every 1 minute
+// export const OFFLINE_CHECK_INTERVAL = 6000 // every 1 sec
 
 type OfflineDialogProps = {}
 
 const OfflineDialog: FC<OfflineDialogProps> = () => {
-  const { isOffline, hasNetwork, toggleOnline, manualOffline } = useOnlineManager()
+  const { isOffline, hasNetwork, toggleOnline } = useOnlineManager()
   const { offlineSince, isOfflineSinceTooLong } = useOfflineSince()
 
   const [showModal, setShowModal] = useState(false)
@@ -25,7 +25,7 @@ const OfflineDialog: FC<OfflineDialogProps> = () => {
     const interval = setInterval(checkOfflineDuration, OFFLINE_CHECK_INTERVAL)
 
     return () => clearInterval(interval)
-  }, [isOffline, offlineSince, manualOffline, isOfflineSinceTooLong])
+  }, [isOffline, offlineSince, isOfflineSinceTooLong])
 
   const stayOffline = () => {
     setShowModal(false)

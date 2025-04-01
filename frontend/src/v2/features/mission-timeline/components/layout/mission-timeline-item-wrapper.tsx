@@ -8,6 +8,7 @@ import { ModuleType } from '../../../common/types/module-type'
 import { MissionTimelineAction } from '../../types/mission-timeline-output'
 import MissionTimelineItemDate from '../ui/mission-timeline-item-date'
 import MissionTimelineItemStatus from '../ui/mission-timeline-item-status'
+import { NetworkSyncStatus } from '../../../common/types/network-types.ts'
 
 const DivStyled = styled(
   ({
@@ -48,6 +49,7 @@ const MissionTimelineItemWrapper: FC<MissionTimelineItemWrapperProps> = ({
   const handleClick = (actionId?: string) => {
     navigate(`/v2/${moduleType}/missions/${missionId}/${actionId}`)
   }
+  const isUnsync = action.networkSyncStatus === NetworkSyncStatus.UNSYNC
   return (
     <Stack direction="row" spacing={'0.5rem'} style={{ overflow: 'hidden' }}>
       <Stack.Item style={{ minWidth: '50px' }}>
@@ -58,11 +60,12 @@ const MissionTimelineItemWrapper: FC<MissionTimelineItemWrapperProps> = ({
           {card}
         </DivStyled>
       </Stack.Item>
-      <Stack.Item alignSelf={isIncomplete ? 'center' : 'stretch'}>
+      <Stack.Item alignSelf={isIncomplete || isUnsync ? 'center' : 'stretch'}>
         <MissionTimelineItemStatus
           type={action.type}
           status={action.status}
           completenessForStats={action.completenessForStats}
+          isUnsync={isUnsync}
         />
       </Stack.Item>
     </Stack>

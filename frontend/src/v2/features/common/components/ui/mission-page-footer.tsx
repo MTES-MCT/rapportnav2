@@ -4,12 +4,14 @@ import { useState } from 'react'
 import { Stack } from 'rsuite'
 import styled from 'styled-components'
 import { useDate } from '../../hooks/use-date.tsx'
+import OnlineToggle from '../elements/online-toggle.tsx'
 import { useOnlineManager } from '../../hooks/use-online-manager.tsx'
+import { useOfflineSince } from '../../hooks/use-offline-since.tsx'
 import useDeleteMissionMutation from '../../services/use-delete-mission.tsx'
 import useMission from '../../services/use-mission.tsx'
 import { MissionSourceEnum } from '../../types/mission-types.ts'
-import OnlineToggle from '../elements/online-toggle.tsx'
 import DialogQuestion from './dialog-question.tsx'
+import { useOfflineMode } from '../../hooks/use-offline-mode.tsx'
 
 const StyledFooter = styled.div`
   height: 60px;
@@ -23,14 +25,17 @@ const StyledFooter = styled.div`
 interface MissionPageFooterProps {
   missionId?: string
   exitMission: () => void
+  type: 'ULAM' | 'PAM'
 }
 
-const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, exitMission }) => {
-  const { isOnline } = useOnlineManager()
+const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, type, exitMission }) => {
+  const { isOnline, hasNetwork } = useOnlineManager()
+  const { offlineSince } = useOfflineSince()
+  const isOfflineModeEnabled = useOfflineMode()
   const { formatDateForFrenchHumans } = useDate()
   const [showDialog, setShowDialog] = useState(false)
   const mutation = useDeleteMissionMutation(missionId)
-  const { data: mission, dataUpdatedAt } = useMission(missionId)
+  const { data: mission } = useMission(missionId)
 
   const handleDeleteMission = async (response: boolean) => {
     setShowDialog(false)
@@ -62,20 +67,20 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, exitMi
         <Stack.Item>
           <Stack direction="row">
             <Stack.Item>
-              <Text as="h4">Connexion {isOnline ? 'disponible' : 'indisponible'} </Text>
+              <Text as="h4"> {isOnline ? '' : hasNetwork ? 'Connexion disponible' : 'Connexion indisponible'} </Text>
             </Stack.Item>
             <Stack.Item>
               <Text as="h4">&nbsp;</Text>
             </Stack.Item>
             <Stack.Item>
               <Text as="h4">
-                {dataUpdatedAt ? `- Dernière synchronisation le ${formatDateForFrenchHumans(dataUpdatedAt)}` : ``}
+                {offlineSince ? `- Dernière synchronisation le ${formatDateForFrenchHumans(offlineSince)}` : ``}
               </Text>
             </Stack.Item>
           </Stack>
         </Stack.Item>
         <Stack.Item style={{ paddingLeft: '1rem' }}>
-          <OnlineToggle />
+          {type === 'PAM' && isOfflineModeEnabled && <OnlineToggle />}
         </Stack.Item>
       </Stack>
       {showDialog && (
