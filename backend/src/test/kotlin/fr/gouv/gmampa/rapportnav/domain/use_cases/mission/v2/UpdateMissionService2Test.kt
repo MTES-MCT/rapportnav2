@@ -9,8 +9,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.crew.AgentEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.AgentRoleEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.AgentServiceEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.anyList
 import org.mockito.ArgumentMatchers.eq
@@ -57,7 +56,7 @@ class UpdateMissionService2Test {
         val result = updateMissionService.execute(serviceId = serviceId, missionId = missionId)
 
         // Then
-        assertTrue(result!!)
+        assertEquals(result, newMissionCrew)
         verify(getActiveCrewForService, times(1)).execute(serviceId)
         verify(processMissionCrew, times(1)).execute(eq(missionId), anyList())
     }
@@ -71,7 +70,7 @@ class UpdateMissionService2Test {
         val result = updateMissionService.execute(serviceId = serviceId, missionId = missionId)
 
         // Then
-        assertFalse(result!!)
+        assertEquals(result, emptyList<MissionCrewEntity>())
         verify(getActiveCrewForService, times(1)).execute(serviceId)
         verify(processMissionCrew, times(1)).execute(eq(missionId), anyList())
     }
