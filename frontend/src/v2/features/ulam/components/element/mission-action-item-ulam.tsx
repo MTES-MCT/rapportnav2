@@ -25,7 +25,7 @@ const MissionActionItemUlam: FC<MissionActionItemUlamProps> = ({ action, ownerId
   const onChange = async (newAction: MissionAction) => {
     handleExecuteOnDelay(async () => {
       if (!isEqual(action, newAction)) {
-        await mutation.mutateAsync(newAction)
+        await mutation.mutateAsync({ missionId, action: newAction })
       }
       if (debounceTime !== undefined) resetDebounceTime()
     }, debounceTime)

@@ -26,7 +26,7 @@ const MissionPamPage: React.FC = () => {
         generalInformations={<MissionGeneralInformationPam missionId={missionId} />}
         timeline={missionId ? <MissionTimelinePam missionId={missionId} /> : undefined}
         action={missionId ? <MissionActionPam missionId={missionId} actionId={actionId} /> : undefined}
-        footer={<MissionPageFooter exitMission={exitMission} missionId={missionId} />}
+        footer={<MissionPageFooter exitMission={exitMission} missionId={missionId} type={'PAM'} />}
       />
     </>
   )

@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'
 import { ActionStyle } from '../../hooks/use-timeline-action'
 import TimelineItemDate from '../ui/timeline-item-date'
-import TimelineItemStatus from '../ui/timeline-item-status'
+import { NetworkSyncStatus } from '../../../common/types/network-types.ts'
 
 const DivStyled = styled(
   ({
@@ -44,6 +44,7 @@ const TimelineItemWrapper: FC<TimelineItemWrapperProps> = ({
   const navigate = useNavigate()
   const handleClick = (actionId?: string) => navigate(`${baseUrl}/${actionId}`)
 
+  const isUnsync = action.networkSyncStatus === NetworkSyncStatus.UNSYNC
   return (
     <Stack direction="row" spacing={'0.5rem'} style={{ overflow: 'hidden' }}>
       <Stack.Item style={{ minWidth: '50px' }}>
@@ -54,11 +55,12 @@ const TimelineItemWrapper: FC<TimelineItemWrapperProps> = ({
           {card}
         </DivStyled>
       </Stack.Item>
-      <Stack.Item alignSelf={isIncomplete ? 'center' : 'stretch'}>
+      <Stack.Item alignSelf={isIncomplete || isUnsync ? 'center' : 'stretch'}>
         <TimelineItemStatus
           type={action.type}
           status={action.status}
           completenessForStats={action.completenessForStats}
+          isUnsync={isUnsync}
         />
       </Stack.Item>
     </Stack>

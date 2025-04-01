@@ -1,21 +1,40 @@
+import { FC } from 'react'
 import { ActionStatusType } from '@common/types/action-types'
-import { ActionTypeEnum } from '@common/types/env-mission-types'
 import { CompletenessForStats, CompletenessForStatsStatusEnum } from '@common/types/mission-types'
 import { Accent, Icon, IconButton, THEME } from '@mtes-mct/monitor-ui'
 import { TimelineStatusTag } from '../../../mission-timeline/components/ui/mission-timeline-status-tag'
 import { useActionStatus } from '../../hooks/use-action-status'
+import { ActionType } from '../../../common/types/action-type.ts'
+import { ActionTypeEnum } from '@common/types/env-mission-types'
 
 type TimelineItemStatusProps = {
-  type: ActionTypeEnum
+  type: ActionType
   status?: ActionStatusType
   completenessForStats?: CompletenessForStats
+  isUnsync: boolean
 }
 
-const TimelineItemStatus: React.FC<TimelineItemStatusProps> = ({ type, status, completenessForStats }) => {
+const TimelineItemStatus: FC<TimelineItemStatusProps> = ({ type, status, completenessForStats, isUnsync }) => {
   const { color } = useActionStatus(status)
-  if (type !== ActionTypeEnum.STATUS && completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE)
+
+  if (isUnsync) {
     return (
-      <div style={{ width: '15px', height: '100%', padding: '5px 0 5px 5px' }}>
+      <div data-testid={'timeline-item-incomplete-report'}>
+        <IconButton
+          accent={Accent.TERTIARY}
+          Icon={Icon.AttentionFilled}
+          color={THEME.color.lightGray}
+          title={
+            'Cet évènement contient peut-être des données manquantes indispensables pour les statistiques. Le status sera actualisé quand vous repasserez en ligne.'
+          }
+          style={{ cursor: 'auto', width: '20px', marginLeft: '-5px' }}
+        />
+      </div>
+    )
+  }
+  if (type !== ActionType.STATUS && completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE)
+    return (
+      <div style={{ width: '15px', height: '100%', padding: '5px 0 5px 5px' }} data-testid={'timeline-item-status'}>
         <TimelineStatusTag
           style={{
             height: '100%',
@@ -23,7 +42,6 @@ const TimelineItemStatus: React.FC<TimelineItemStatusProps> = ({ type, status, c
             backgroundColor: color
           }}
           status={status}
-          data-testid={'timeline-item-status'}
         />
       </div>
     )

@@ -21,6 +21,7 @@ interface MissionTimelinePamBodyProps {
 const MissionTimelinePamBody: FC<MissionTimelinePamBodyProps> = ({ isError, actions, missionId, isLoading }) => {
   const { getUrl } = useGlobalRoutes()
   const hasActionsNotYetSyncWithServer = some(actions, matchesProperty('networkSyncStatus', NetworkSyncStatus.UNSYNC))
+
   return (
     <>
       {hasActionsNotYetSyncWithServer && (

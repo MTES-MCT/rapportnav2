@@ -4,8 +4,8 @@ import { useStore } from '@tanstack/react-store'
 import { differenceInSeconds, parseISO } from 'date-fns'
 import { UTCDate } from '@date-fns/utc'
 
-// export const OFFLINE_EXPIRY_CHECK_DURATION = 86400 // 24h = 86400s
-export const OFFLINE_EXPIRY_CHECK_DURATION = 180 // 3 min
+export const OFFLINE_EXPIRY_CHECK_DURATION = 86400 // 24h = 86400s
+// export const OFFLINE_EXPIRY_CHECK_DURATION = 180 // 3 min
 
 export function useOfflineSince() {
   const offlineSince = useStore(store, (state: State) => state.connectivity.offlineSince)
