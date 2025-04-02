@@ -22,13 +22,19 @@ class GetComputeEnvTarget(
     fun execute(actionId: String, envInfractions: List<InfractionEntity>?, isControl: Boolean?): List<TargetEntity2>? {
         if (isControl != true) return null
         return try {
-            val envTargets = getEnvTargets(actionId, envInfractions)
-            val navTargets = targetRepo.findByActionId(actionId).map { TargetEntity2.fromTargetModel(it) }
-            (navTargets.plus(envTargets))
+            val navTargets = getNavTargets(actionId = actionId)
+            val envTargets = getEnvTargets(actionId = actionId, envInfractions = envInfractions)
+            navTargets + envTargets
         } catch (e: Exception) {
             logger.error("ComputeEnvTarget failed loading targets", e)
             return listOf()
         }
+    }
+
+    fun getNavTargets(actionId: String): List<TargetEntity2> {
+        return targetRepo.findByActionId(actionId)
+            .filter { it.externalId == null }
+            .map { TargetEntity2.fromTargetModel(it) }
     }
 
     fun getEnvTargets(actionId: String, envInfractions: List<InfractionEntity>?): List<TargetEntity2> {
