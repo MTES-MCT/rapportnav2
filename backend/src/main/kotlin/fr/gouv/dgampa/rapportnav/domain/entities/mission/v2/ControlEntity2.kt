@@ -7,7 +7,6 @@ import java.util.*
 
 data class ControlEntity2(
     var id: UUID,
-    val targetId: UUID? = null,
     var controlType: ControlType,
     val amountOfControls: Int,
     val infractions: List<InfractionEntity2>? = null,
@@ -42,7 +41,6 @@ data class ControlEntity2(
 
     override fun hashCode(): Int {
         var result = id.hashCode()
-        result = 31 * result + targetId.hashCode()
         result = 31 * result + (observations?.hashCode() ?: 0)
         result = 31 * result + (hasBeenDone?.hashCode() ?: 0)
         result = 31 * result + controlType.hashCode()
@@ -64,7 +62,6 @@ data class ControlEntity2(
         if (javaClass != other?.javaClass) return false
         other as ControlEntity2
         return (id == other.id
-            && targetId == other.targetId
             && nbrOfHours == other.nbrOfHours
             && controlType == other.controlType
             && hasBeenDone == other.hasBeenDone
@@ -85,7 +82,6 @@ data class ControlEntity2(
         fun fromControlModel(model: ControlModel2): ControlEntity2 {
             return ControlEntity2(
                 id = model.id,
-                targetId = model.target?.id,
                 nbrOfHours = model.nbrOfHours,
                 controlType = model.controlType,
                 hasBeenDone = model.hasBeenDone,

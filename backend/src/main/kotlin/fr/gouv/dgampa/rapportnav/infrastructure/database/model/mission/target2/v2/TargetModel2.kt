@@ -57,7 +57,7 @@ data class TargetModel2(
     @Column(name = "external_id", nullable = true)
     var externalId: String? = null,
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "target_id")
     @JsonIgnore
     var controls: List<ControlModel2>? = mutableListOf()

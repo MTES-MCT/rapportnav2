@@ -3,17 +3,14 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import org.slf4j.LoggerFactory
 
 @UseCase
 class GetFishActionById(
-    getStatusForAction: GetStatusForAction,
-    getControlByActionId: GetControlByActionId2,
+    private val processFishAction: ProcessFishAction,
     private val getFishActionListByMissionId: GetFishActionListByMissionId
-): AbstractGetMissionAction(getStatusForAction, getControlByActionId)  {
+){
     private val logger = LoggerFactory.getLogger(GetFishActionListByMissionId::class.java)
 
     fun execute(missionId: Int?, actionId: String?): MissionFishActionEntity? {
@@ -25,12 +22,7 @@ class GetFishActionById(
         logger.info("Valid actionId $actionId")
         return try {
             val fishAction = getFishAction(missionId = missionId, actionId = actionId) ?: return null
-            logger.info("Successfully got fish action $fishAction")
-            val entity = MissionFishActionEntity.fromFishAction(fishAction)
-            entity.computeControls(controls = this.getControls(entity))
-            entity.computeCompleteness()
-            logger.info("Successfully got fish action $entity")
-            entity
+            processFishAction.execute(missionId = missionId, action = fishAction)
         } catch (e: Exception) {
             logger.error("GetFishActionsByMissionId failed loading Actions", e)
             return null

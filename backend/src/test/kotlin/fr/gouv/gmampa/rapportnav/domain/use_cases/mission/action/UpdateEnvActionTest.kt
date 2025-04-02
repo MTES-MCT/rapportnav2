@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateEnvAct
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControlEnvTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfractionEnvTarget
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.ActionControl
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvActionData
@@ -36,6 +37,9 @@ class UpdateEnvActionTest {
     @MockitoBean
     private lateinit var processMissionActionInfractionEnvTarget: ProcessMissionActionInfractionEnvTarget
 
+    @MockitoBean
+    private lateinit var  processMissionActionTarget: ProcessMissionActionTarget
+
 
     @Test
     fun `test execute update env action`() {
@@ -56,7 +60,8 @@ class UpdateEnvActionTest {
             patchEnvAction = patchEnvAction,
             processMissionActionControl = processMissionActionControl,
             processMissionActionControlEnvTarget = processMissionActionControlEnvTarget,
-            processMissionActionInfractionEnvTarget = processMissionActionInfractionEnvTarget
+            processMissionActionInfractionEnvTarget = processMissionActionInfractionEnvTarget,
+            processMissionActionTarget = processMissionActionTarget
         )
 
         val response = updateNavAction.execute(actionId, input)

@@ -7,7 +7,6 @@ import java.util.*
 
 class InfractionEntity2(
     val id: UUID,
-    var controlId: UUID? = null,
     var observations: String? = null,
     var natinfs: List<String> = listOf(),
     val infractionType: InfractionTypeEnum? = null
@@ -28,7 +27,6 @@ class InfractionEntity2(
 
         other as InfractionEntity
         return id == other.id
-            && controlId == other.controlId
             && observations == other.observations
             && Objects.equals(natinfs, other.natinfs)
     }
@@ -36,7 +34,6 @@ class InfractionEntity2(
     override fun hashCode(): Int {
         var result = id.hashCode()
         result = 31 * result + natinfs.hashCode()
-        result = 31 * result + (controlId?.hashCode() ?: 0)
         result = 31 * result + (observations?.hashCode() ?: 0)
         result = 31 * result + (infractionType?.hashCode() ?: 0)
         return result
@@ -47,7 +44,6 @@ class InfractionEntity2(
             return InfractionEntity2(
                 id = model.id,
                 natinfs = model.natinfs,
-                controlId = model.control?.id,
                 observations = model.observations,
                 infractionType = model.infractionType?.let { InfractionTypeEnum.valueOf(it) }
             )

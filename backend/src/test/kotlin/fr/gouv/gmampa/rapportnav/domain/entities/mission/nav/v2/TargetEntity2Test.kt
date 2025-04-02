@@ -102,7 +102,6 @@ class TargetEntity2Test {
         val control = ControlEntity2(
             id = UUID.randomUUID(),
             controlType = ControlType.GENS_DE_MER,
-            targetId = targetId,
             amountOfControls = 1
         )
 
