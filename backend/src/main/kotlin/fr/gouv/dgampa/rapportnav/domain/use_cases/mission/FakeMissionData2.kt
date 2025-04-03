@@ -105,7 +105,7 @@ class FakeMissionData2(
 
         return MissionEntity2(
             id = missionId,
-            envData = MissionEntity(
+            data = MissionEntity(
                 missionTypes = listOf(MissionTypeEnum.SEA),
                 missionSource = MissionSourceEnum.RAPPORTNAV,
                 startDateTimeUtc = Instant.parse("2024-01-09T09:00:00Z"),
@@ -134,7 +134,7 @@ class FakeMissionData2(
     fun emptyMission(missionId: Int): MissionEntity2 {
         return MissionEntity2(
             id = missionId,
-            envData = MissionEntity(
+            data = MissionEntity(
             missionTypes = listOf(MissionTypeEnum.SEA),
             missionSource = MissionSourceEnum.RAPPORTNAV,
             startDateTimeUtc = Instant.parse("2024-01-09T09:00:00Z"),

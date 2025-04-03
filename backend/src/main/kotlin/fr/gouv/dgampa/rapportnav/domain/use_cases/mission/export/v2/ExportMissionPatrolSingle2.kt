@@ -74,11 +74,11 @@ class ExportMissionPatrolSingle2(
             val agentsCrew: List<MissionCrewEntity> =
                 agentsCrewByMissionId.execute(missionId = mission.id, commentDefaultsToString = true)
 
-            val statuses = allActions.filterIsInstance<MissionNavActionEntity>().filter {it.actionType === ActionType.STATUS }.sortedBy { it.startDateTimeUtc }
+            val statuses = allActions?.filterIsInstance<MissionNavActionEntity>()?.filter {it.actionType === ActionType.STATUS }?.sortedBy { it.startDateTimeUtc }
 
             val durations = mapStatusDurations2.execute(
-                endDateTimeUtc = mission.envData.endDateTimeUtc,
-                statuses = statuses,
+                endDateTimeUtc = mission.data?.endDateTimeUtc,
+                statuses = statuses!!,
                 durationUnit = DurationUnit.HOURS
             )
             val missionDuration = durations.values
@@ -86,8 +86,8 @@ class ExportMissionPatrolSingle2(
                 .sum()
 
             val nbOfDaysAtSea = getNbOfDaysAtSeaFromNavigationStatus.execute(
-                missionStartDateTime = mission.envData.startDateTimeUtc,
-                missionEndDateTime = mission.envData.endDateTimeUtc,
+                missionStartDateTime = mission.data?.startDateTimeUtc!!,
+                missionEndDateTime = mission.data.endDateTimeUtc,
                 actions = statuses,
                 durationUnit = DurationUnit.HOURS
             )
@@ -136,7 +136,7 @@ class ExportMissionPatrolSingle2(
             }
 
             // Bilan opérationnel
-            val proFishingSeaSummary = getMissionOperationalSummary.getProFishingSeaSummary(allActions)
+            val proFishingSeaSummary = getMissionOperationalSummary.getProFishingSeaSummary(allActions!!)
             val proFishingLandSummary = getMissionOperationalSummary.getProFishingLandSummary(allActions)
 
             val proSailingSeaSummary = getMissionOperationalSummary.getProSailingSeaSummary(allActions)
@@ -150,9 +150,9 @@ class ExportMissionPatrolSingle2(
 
             val placeholders: Map<String, String?> = mapOf(
                 "\${service}" to (service?.name ?: ""),
-                "\${numRapport}" to formatDateTime.formatDate(mission.envData.startDateTimeUtc),
-                "\${startDate}" to formatDateTime.formatDate(mission.envData.startDateTimeUtc),
-                "\${endDate}" to formatDateTime.formatDate(mission.envData.endDateTimeUtc),
+                "\${numRapport}" to formatDateTime.formatDate(mission.data.startDateTimeUtc),
+                "\${startDate}" to formatDateTime.formatDate(mission.data.startDateTimeUtc),
+                "\${endDate}" to formatDateTime.formatDate(mission.data.endDateTimeUtc),
                 "\${destinataireCopies}" to "",
 
                 "\${dureeMission}" to missionDuration.toString(),
@@ -193,7 +193,7 @@ class ExportMissionPatrolSingle2(
                 "\${goMarine}" to (generalInfo?.data?.consumedGOInLiters?.toString() ?: ""),
                 "\${essence}" to (generalInfo?.data?.consumedFuelInLiters?.toString() ?: ""),
 
-                "\${observations}" to (mission.envData.observationsByUnit ?: ""),
+                "\${observations}" to (mission.data.observationsByUnit ?: ""),
             )
 
             fun castLinkedHashMapToList(map: LinkedHashMap<String, Map<String, Int?>>): List<List<String?>> {
@@ -388,7 +388,7 @@ class ExportMissionPatrolSingle2(
 
 
             return MissionExportEntity(
-                fileName = "rapport-patrouille_${service?.name ?: ""}_${formatDateTime.formatDate(mission.envData.startDateTimeUtc)}_${mission.id}.odt",
+                fileName = "rapport-patrouille_${service?.name ?: ""}_${formatDateTime.formatDate(mission.data.startDateTimeUtc)}_${mission.id}.odt",
                 fileContent = base64Content
             )
 
