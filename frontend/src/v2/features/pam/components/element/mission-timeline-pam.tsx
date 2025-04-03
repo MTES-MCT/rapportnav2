@@ -10,6 +10,7 @@ interface MissionTimelineProps {
 
 const MissionTimelinePam: FC<MissionTimelineProps> = ({ missionId }) => {
   const { data: actions, error, isLoading } = useGetMissionTimelineQuery(missionId)
+  debugger
   return (
     <MissionPageSectionWrapper
       sectionHeader={<MissionTimelinePamHeader missionId={Number(missionId)} />}

@@ -29,15 +29,17 @@ const MissionTimelineWrapper: FC<MissionTimelineProps> = ({
 }) => {
   const { groupByDay } = useDate()
   const { computeCompleteForStats } = useTimelineCompleteForStats()
+
   useEffect(() => {
     const completenessForStats = computeCompleteForStats(actions)
     setTimelineCompleteForStats(completenessForStats)
-  }, [actions])
+  }, [actions, computeCompleteForStats])
 
   if (isLoading) return <MissionTimelineLoader />
   if (actions?.length === 0) return <MissionTimelineEmpty />
   if (isError) return <MissionTimelineError error={isError} />
 
+  debugger
   return (
     <Stack direction="column" spacing={'1rem'} style={{ width: '100%' }} alignItems="stretch">
       {Object.entries(groupByDay(actions, groupBy)).map(([day, values], index) => (
