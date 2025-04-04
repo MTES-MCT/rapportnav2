@@ -3,6 +3,7 @@
 * [Concepts principaux](engineering/concepts/index)
 ** [Gestion des utilisateurs](engineering/concepts/auth)
 ** [Les rôles](engineering/concepts/roles)
+** [Configs et variables d'environnement](engineering/concepts/env-vars)
 ** [L'objet Mission](engineering/concepts/missions-and-actions)
 ** [Complétude des missions](engineering/concepts/mission-completion)
 ** [Gestion des dates](engineering/concepts/dates)
