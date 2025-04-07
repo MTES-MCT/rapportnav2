@@ -1,19 +1,21 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetFishActionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetFishActionListByMissionId
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessFishAction
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
+import java.time.Instant
 import java.util.*
 
 @SpringBootTest(classes = [GetFishActionById::class])
@@ -27,10 +29,7 @@ class GetFishActionByIdTest {
     private lateinit var getFishActionListByMissionId: GetFishActionListByMissionId
 
     @MockitoBean
-    private lateinit var getControlByActionId: GetControlByActionId2
-
-    @MockitoBean
-    private lateinit var getStatusForAction: GetStatusForAction
+    private lateinit var processFishAction: ProcessFishAction
 
     @Test
     fun `test execute get Fish action by id`() {
@@ -41,23 +40,25 @@ class GetFishActionByIdTest {
             id = actionId,
         )
 
-        val mockControl = ControlMock.createAllControl()
+        val response = MissionFishActionEntity(
+            id = actionId,
+            missionId = 761,
+            fishActionType = MissionActionType.SEA_CONTROL,
+            actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
+            actionEndDatetimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
+            speciesQuantitySeized = 4
+        )
 
-        `when`(getControlByActionId.getAllControl(anyOrNull())).thenReturn(mockControl)
+        `when`(processFishAction.execute(anyInt(), anyOrNull())).thenReturn(response)
         `when`(getFishActionListByMissionId.execute(missionId)).thenReturn(listOf(action))
 
         getFishActionById = GetFishActionById(
-            getFishActionListByMissionId = getFishActionListByMissionId,
-            getStatusForAction = getStatusForAction,
-            getControlByActionId = getControlByActionId
+            processFishAction = processFishAction,
+            getFishActionListByMissionId = getFishActionListByMissionId
         )
         val missionEnvAction = getFishActionById.execute(missionId = missionId, actionId = actionId.toString())
 
         assertThat(missionEnvAction).isNotNull
         assertThat(missionEnvAction?.getActionId()).isEqualTo(actionId.toString())
-        assertThat(missionEnvAction?.controlSecurity).isEqualTo(mockControl.controlSecurity)
-        assertThat(missionEnvAction?.controlNavigation).isEqualTo(mockControl.controlNavigation)
-        assertThat(missionEnvAction?.controlGensDeMer).isEqualTo(mockControl.controlGensDeMer)
-        assertThat(missionEnvAction?.controlAdministrative).isEqualTo(mockControl.controlAdministrative)
     }
 }

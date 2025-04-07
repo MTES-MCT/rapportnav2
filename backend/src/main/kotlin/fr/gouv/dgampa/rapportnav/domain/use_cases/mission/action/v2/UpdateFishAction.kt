@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEnt
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.PatchFishAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfraction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.action.ActionFishInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishActionData
@@ -14,7 +15,8 @@ import org.slf4j.LoggerFactory
 class UpdateFishAction(
     private val patchFishAction: PatchFishAction,
     private val processMissionActionControl: ProcessMissionActionControl,
-    private val processMissionActionInfraction: ProcessMissionActionInfraction
+    private val processMissionActionInfraction: ProcessMissionActionInfraction,
+    private val processMissionActionTarget: ProcessMissionActionTarget
 ) {
     private val logger = LoggerFactory.getLogger(UpdateFishAction::class.java)
 
@@ -39,6 +41,12 @@ class UpdateFishAction(
                 actionId = action.getActionId(),
                 infractions = controls.getAllInfractions()
             )
+
+            val targets = processMissionActionTarget.execute(
+                actionId = action.getActionId(),
+                targets = input.data.targets?.map { it.toTargetEntity() } ?: listOf()
+            )
+            action.targets = targets
             action.computeControls(controls.toActionControlEntity(infractions))
             action.computeCompleteness()
             action

@@ -11,6 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionA
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateNavAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfraction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.ActionControl
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActionData
@@ -38,6 +39,8 @@ class UpdateNavActionTest {
     @MockitoBean
     private lateinit var processMissionActionInfraction: ProcessMissionActionInfraction
 
+    @MockitoBean
+    private lateinit var  processMissionActionTarget: ProcessMissionActionTarget
 
     @Test
     fun `test execute update nav action`() {
@@ -57,7 +60,8 @@ class UpdateNavActionTest {
         val updateNavAction = UpdateNavAction(
             missionActionRepository = missionActionRepository,
             processMissionActionControl = processMissionActionControl,
-            processMissionActionInfraction = processMissionActionInfraction
+            processMissionActionInfraction = processMissionActionInfraction,
+            processMissionActionTarget = processMissionActionTarget
         )
 
         val response = updateNavAction.execute(actionId, input)

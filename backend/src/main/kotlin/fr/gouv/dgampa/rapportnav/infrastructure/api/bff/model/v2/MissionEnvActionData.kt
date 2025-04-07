@@ -34,14 +34,16 @@ class MissionEnvActionData(
     override val controlNavigation: ControlNavigation? = null,
     override val controlAdministrative: ControlAdministrative? = null,
     override val formattedControlPlans: Any? = null,
-    override val availableControlTypesForInfraction: List<ControlType>? = null
+    override val availableControlTypesForInfraction: List<ControlType>? = null,
+    override val targets: List<Target2>? = null
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
     controlSecurity = controlSecurity,
     controlGensDeMer = controlGensDeMer,
     controlNavigation = controlNavigation,
-    controlAdministrative = controlAdministrative
+    controlAdministrative = controlAdministrative,
+    targets = targets
 ),
     BaseMissionEnvActionData {
 

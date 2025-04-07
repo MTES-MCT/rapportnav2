@@ -3,7 +3,6 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.
 import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.v2.InfractionModel2
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel2
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcType
 import org.hibernate.dialect.PostgreSQLEnumJdbcType
@@ -16,11 +15,6 @@ data class ControlModel2(
     @Id
     @Column(name = "id", unique = true, nullable = false)
     var id: UUID = UUID.randomUUID(),
-
-    @ManyToOne
-    @JoinColumn(name = "target_id", insertable = false, updatable = false)
-    @JsonIgnore
-    var target: TargetModel2? = null,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "control_type", nullable = false)
@@ -55,9 +49,9 @@ data class ControlModel2(
     var compliantSecurityDocuments: String? = null,
 
     @Column(name = "has_been_done", nullable = true)
-    var hasBeenDone: Boolean? = false,
+    var hasBeenDone: Boolean? = null,
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "control_id")
     @JsonIgnore
     var infractions: List<InfractionModel2>? = mutableListOf()

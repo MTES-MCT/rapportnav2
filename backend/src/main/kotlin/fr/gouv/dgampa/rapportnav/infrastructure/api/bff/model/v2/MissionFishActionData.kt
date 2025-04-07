@@ -61,13 +61,15 @@ class MissionFishActionData(
     override val controlGensDeMer: ControlGensDeMer? = null,
     override val controlNavigation: ControlNavigation? = null,
     override val controlAdministrative: ControlAdministrative? = null,
+    override val targets: List<Target2>? = null
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
     controlSecurity = controlSecurity,
     controlGensDeMer = controlGensDeMer,
     controlNavigation = controlNavigation,
-    controlAdministrative = controlAdministrative
+    controlAdministrative = controlAdministrative,
+    targets = targets
 ), BaseMissionFishActionData {
     companion object {
         fun toMissionFishActionEntity(input: MissionAction): MissionFishActionEntity {
