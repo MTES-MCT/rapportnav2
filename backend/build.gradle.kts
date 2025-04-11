@@ -85,7 +85,7 @@ dependencies {
   implementation("io.sentry:sentry-log4j2:7.0.0")
   // the two following apoche poi dependencies should have the same version
   implementation("org.apache.poi:poi:5.3.0")
-  implementation("org.apache.poi:poi-ooxml:5.3.0")
+  implementation("org.apache.poi:poi-ooxml:5.4.0")
   implementation("org.apache.commons:commons-text:1.12.0")
   implementation("org.jodconverter:jodconverter-local-lo:4.4.7")
   implementation("com.neovisionaries:nv-i18n:1.29")
