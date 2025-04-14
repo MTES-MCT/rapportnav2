@@ -46,6 +46,11 @@ export enum MissionReportTypeEnum {
   EXTERNAL_REINFORCEMENT_TIME_REPORT = 'EXTERNAL_REINFORCEMENT_TIME_REPORT'
 }
 
+export enum JdpTypeEnum {
+  DOCKED = 'DOCKED',
+  ONBOARD = 'ONBOARD',
+}
+
 export enum MissionReinforcementTypeEnum {
   PATROL = 'PATROL',
   JDP = 'JDP',

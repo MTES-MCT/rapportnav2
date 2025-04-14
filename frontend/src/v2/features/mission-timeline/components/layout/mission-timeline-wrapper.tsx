@@ -9,6 +9,9 @@ import { MissionTimelineAction } from '../../types/mission-timeline-output'
 import MissionTimelineEmpty from '../ui/mission-timeline-empty'
 import MissionTimelineError from '../ui/mission-timeline-error'
 import MissionTimelineLoader from '../ui/mission-timeline-loader'
+import useGetMissionGeneralInformationQuery
+  from '../../../mission-general-infos/services/use-mission-general-information.tsx'
+import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
 
 interface MissionTimelineProps {
   isError?: any
@@ -29,12 +32,15 @@ const MissionTimelineWrapper: FC<MissionTimelineProps> = ({
 }) => {
   const { groupByDay } = useDate()
   const { computeCompleteForStats } = useTimelineCompleteForStats()
+  const { data: generalInfos } = useGetMissionGeneralInformationQuery(missionId)
+  const { isExternalReinforcementTime } = useMissionType()
   useEffect(() => {
     const completenessForStats = computeCompleteForStats(actions)
     setTimelineCompleteForStats(completenessForStats)
   }, [actions])
 
   if (isLoading) return <MissionTimelineLoader />
+  if (isExternalReinforcementTime(generalInfos.missionReportType)) return <MissionTimelineEmpty isReinforcementTime />
   if (actions?.length === 0) return <MissionTimelineEmpty />
   if (isError) return <MissionTimelineError error={isError} />
 
