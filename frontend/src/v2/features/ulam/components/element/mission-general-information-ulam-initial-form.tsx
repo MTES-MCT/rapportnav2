@@ -1,4 +1,10 @@
-import { FormikEffect, FormikMultiCheckbox, FormikNumberInput, FormikSelect } from '@mtes-mct/monitor-ui'
+import {
+  FormikEffect,
+  FormikMultiCheckbox,
+  FormikMultiRadio,
+  FormikNumberInput,
+  FormikSelect
+} from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
@@ -27,7 +33,8 @@ const MissionGeneralInformationUlamInitialForm: FC<MissionGeneralInformationUlam
     reinforcementTypeOptions,
     isExternalReinforcementTime,
     isMissionTypeSea,
-    isEnvMission
+    isEnvMission,
+    jdpTypeOptions
   } = useMissionType()
   const { initValue, handleSubmit, validationSchema } = useUlamMissionGeneralInformationInitialForm(name, fieldFormik)
 
@@ -76,12 +83,21 @@ const MissionGeneralInformationUlamInitialForm: FC<MissionGeneralInformationUlam
 
               {isExternalReinforcementTime(values.missionReportType) && (
                 <Stack.Item style={{ width: '100%', marginBottom: '1em' }}>
-                  <FormikSelect
-                    isLight={isCreation}
-                    label="Nature du renfort"
-                    name="reinforcementType"
-                    options={reinforcementTypeOptions}
-                  />
+                  <Stack direction="row" spacing={10}>
+                    <Stack.Item style={{ width: '55%' }}>
+                      <FormikSelect
+                        isLight={isCreation}
+                        label="Nature du renfort"
+                        name="reinforcementType"
+                        options={reinforcementTypeOptions}
+                      />
+                    </Stack.Item>
+                    <Stack.Item style={{ width: '45%', marginTop: '-0.8rem', paddingLeft: '2rem' }}>
+                      {!isCreation && (
+                        <FormikMultiRadio label={"Type de JDP"} name={"jdpType"} options={jdpTypeOptions} isInline />
+                      )}
+                    </Stack.Item>
+                  </Stack>
                 </Stack.Item>
               )}
 
