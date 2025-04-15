@@ -20,12 +20,13 @@ const MissionTimelineItemStatusCard: FC<MissionTimelineItemStatusCardProps> = ({
 }) => {
   return (
     <MissionTimelineCardWrapper
-      action={action}
       icon={icon}
       noPadding={true}
       statusTag={<MissionTimelineStatusTag status={action?.status} />}
       title={<MissionTimelineItemStatusCardTitle action={action} isSelected={isSelected} />}
       footer={<MissionTimelineItemStatusCardFooter prevAction={prevAction} />}
+      actionType={action?.type}
+      networkSyncStatus={action?.networkSyncStatus}
     />
   )
 }

@@ -14,12 +14,13 @@ type MissionTimelineItemFishControlCardProps = {
 const MissionTimelineItemFishControlCard: FC<MissionTimelineItemFishControlCardProps> = ({ icon, action }) => {
   return (
     <MissionTimelineCardWrapper
-      action={action}
       icon={icon}
       title={<MissionTimelineItemFishControlCardTitle action={action} />}
       tags={<MissionTimelineItemControlCardTag action={action} />}
       subTitle={<MissionTimelineItemControlCardSubtitle action={action} />}
       footer={<TextByCnsp />}
+      actionType={action?.type}
+      networkSyncStatus={action?.networkSyncStatus}
     />
   )
 }

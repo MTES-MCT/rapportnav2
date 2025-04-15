@@ -12,10 +12,11 @@ type MissionTimelineItemSurveillanceCardProps = {
 const MissionTimelineItemSurveillanceCard: FC<MissionTimelineItemSurveillanceCardProps> = ({ icon, action }) => {
   return (
     <MissionTimelineCardWrapper
-      action={action}
       icon={icon}
       footer={<TextByCacem />}
       title={<MissionTimelineItemSurveillanceCardTitle action={action} />}
+      actionType={action?.type}
+      networkSyncStatus={action?.networkSyncStatus}
     />
   )
 }

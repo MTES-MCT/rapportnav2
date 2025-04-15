@@ -12,9 +12,10 @@ type MissionTimelineItemNoteCardProps = {
 const MissionTimelineItemNoteCard: FC<MissionTimelineItemNoteCardProps> = ({ icon, title, action }) => {
   return (
     <MissionTimelineCardWrapper
-      action={action}
       icon={icon}
       title={<MissionTimelineItemNoteCardTitle text={title} action={action} />}
+      actionType={action?.type}
+      networkSyncStatus={action?.networkSyncStatus}
     />
   )
 }
