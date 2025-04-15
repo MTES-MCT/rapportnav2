@@ -8,7 +8,7 @@ const OfflineTag = () => {
     <Tag
       backgroundColor={THEME.color.maximumRed15}
       color={THEME.color.charcoal}
-      Icon={Icon.Reject}
+      Icon={Icon.Offline}
       withCircleIcon={true}
     >
       Hors ligne

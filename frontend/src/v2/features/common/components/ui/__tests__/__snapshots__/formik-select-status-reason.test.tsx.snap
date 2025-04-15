@@ -6,16 +6,16 @@ exports[`FormikSelectStatusReason > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-gtlvkJ cuIUGk Element-Field Field-Select sc-btRGtK"
+        class="sc-gDVcuj geGcsH Element-Field Field-Select sc-bjhZkk"
       >
         <label
-          class="sc-loYsQo iILbqD Element-Label"
+          class="sc-kmqAS eNtuUL Element-Label"
           for="reason"
         >
           Motif
         </label>
         <div
-          class="sc-kHpflN hEMmrY"
+          class="sc-kRYMvn lcoSgb"
         >
           <div
             class="rs-picker rs-picker-select rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
@@ -107,16 +107,16 @@ exports[`FormikSelectStatusReason > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-gtlvkJ cuIUGk Element-Field Field-Select sc-btRGtK"
+      class="sc-gDVcuj geGcsH Element-Field Field-Select sc-bjhZkk"
     >
       <label
-        class="sc-loYsQo iILbqD Element-Label"
+        class="sc-kmqAS eNtuUL Element-Label"
         for="reason"
       >
         Motif
       </label>
       <div
-        class="sc-kHpflN hEMmrY"
+        class="sc-kRYMvn lcoSgb"
       >
         <div
           class="rs-picker rs-picker-select rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"

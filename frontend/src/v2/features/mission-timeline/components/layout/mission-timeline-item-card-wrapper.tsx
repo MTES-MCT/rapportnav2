@@ -1,6 +1,9 @@
 import { IconProps, THEME } from '@mtes-mct/monitor-ui'
 import React, { createElement, FunctionComponent } from 'react'
 import { FlexboxGrid, Stack } from 'rsuite'
+import { NetworkSyncStatus } from '../../../common/types/network-types.ts'
+import MissionTimelineItemSyncStatus from './mission-timeline-item-sync-status.tsx'
+import { ActionType } from '../../../common/types/action-type.ts'
 
 type MissionTimelineCardWrapperProps = {
   tags?: JSX.Element
@@ -10,6 +13,8 @@ type MissionTimelineCardWrapperProps = {
   subTitle?: JSX.Element
   noPadding?: boolean
   icon?: FunctionComponent<IconProps>
+  networkSyncStatus?: NetworkSyncStatus
+  actionType?: ActionType
 }
 
 const MissionTimelineCardWrapper: React.FC<MissionTimelineCardWrapperProps> = ({
@@ -19,19 +24,23 @@ const MissionTimelineCardWrapper: React.FC<MissionTimelineCardWrapperProps> = ({
   footer,
   subTitle,
   statusTag,
-  noPadding
+  noPadding,
+  networkSyncStatus,
+  actionType
 }) => {
   return (
     <FlexboxGrid
       style={{
         width: '100%',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        alignItems: 'stretch'
       }}
       justify="start"
+      align="middle"
     >
       <FlexboxGrid.Item
+        colspan={networkSyncStatus === NetworkSyncStatus.UNSYNC ? 22 : 24}
         style={{
-          width: '100%',
           padding: noPadding ? '0em' : '1rem'
         }}
       >
@@ -71,6 +80,11 @@ const MissionTimelineCardWrapper: React.FC<MissionTimelineCardWrapperProps> = ({
           </Stack.Item>
         </Stack>
       </FlexboxGrid.Item>
+      {networkSyncStatus === NetworkSyncStatus.UNSYNC && (
+        <FlexboxGrid.Item colspan={2} data-testid="network-sync-status">
+          <MissionTimelineItemSyncStatus actionType={actionType} />
+        </FlexboxGrid.Item>
+      )}
     </FlexboxGrid>
   )
 }
