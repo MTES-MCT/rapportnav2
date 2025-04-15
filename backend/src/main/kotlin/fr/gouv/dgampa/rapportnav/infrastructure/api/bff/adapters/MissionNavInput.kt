@@ -3,10 +3,9 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import java.time.Instant
-import java.util.*
 
 data class MissionNavInput(
-    val id: String? = null,
+    val id: Int? = null,
     val startDateTimeUtc: Instant? = null,
     val endDateTimeUtc: Instant? = null,
     val isDeleted: Boolean? = false,
@@ -26,7 +25,7 @@ data class MissionNavInput(
 
     fun toMissionNavEntity(missionFromDb: MissionEntity): MissionNavEntity {
         return MissionNavEntity(
-            id = UUID.fromString(missionFromDb.id),
+            id = missionFromDb.id,
             controlUnits = missionFromDb.controlUnits.map { it.id },
             openBy = missionFromDb.openBy,
             completedBy = missionFromDb.completedBy,

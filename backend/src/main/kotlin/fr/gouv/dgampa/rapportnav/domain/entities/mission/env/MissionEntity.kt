@@ -23,7 +23,8 @@ data class MissionEntity(
     val missionSource: MissionSourceEnum,
     val hasMissionOrder: Boolean,
     val isUnderJdp: Boolean,
-    val observationsByUnit: String? = null
+    val observationsByUnit: String? = null,
+    val controlUnitIdOwner: Int? = null
 )
 
 typealias EnvMission = MissionEntity

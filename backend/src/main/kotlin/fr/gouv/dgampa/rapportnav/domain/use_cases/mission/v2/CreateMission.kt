@@ -25,9 +25,9 @@ class CreateMission(
                 controlUnitIds = controlUnitIds
             )?: return null
             return MissionEntity2(
-                id = missionNav.id.toString(),
+                id = missionNav.id!!,
                 data = MissionEntity(
-                    id = missionNav.id.toString(),
+                    id = missionNav.id,
                     startDateTimeUtc = missionNav.startDateTimeUtc,
                     endDateTimeUtc = missionNav.endDateTimeUtc,
                     isUnderJdp = false,
@@ -42,10 +42,10 @@ class CreateMission(
         val missionEnv = createEnvMission.execute(generalInfo2, controlUnitIds) ?: return null
 
         return MissionEntity2(
-            id = missionEnv.id.toString(),
+            id = missionEnv.id!!,
             actions = listOf(),
             data = MissionEntity(
-                id = missionEnv.id.toString(),
+                id = missionEnv.id,
                 missionTypes = missionEnv.missionTypes,
                 startDateTimeUtc = missionEnv.startDateTimeUtc,
                 endDateTimeUtc = missionEnv.endDateTimeUtc,
