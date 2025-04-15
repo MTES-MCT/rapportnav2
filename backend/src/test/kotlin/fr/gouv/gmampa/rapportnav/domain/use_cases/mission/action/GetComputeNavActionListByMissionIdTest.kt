@@ -1,14 +1,14 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNavActionListByMissionId
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,10 +29,7 @@ class GetComputeNavActionListByMissionIdTest {
     private lateinit var navMissionActionRepository: INavMissionActionRepository
 
     @MockitoBean
-    private lateinit var getControlByActionId: GetControlByActionId2
-
-    @MockitoBean
-    private lateinit var getStatusForAction: GetStatusForAction
+    private lateinit var processNavAction: ProcessNavAction
 
 
     @Test
@@ -51,15 +48,20 @@ class GetComputeNavActionListByMissionIdTest {
             actionType = ActionType.CONTROL,
         )
 
-        val mockControl = ControlMock.createAllControl()
+        val response = MissionNavActionEntity(
+            id = actionId,
+            missionId = 761,
+            actionType = ActionType.ILLEGAL_IMMIGRATION,
+            startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
+            endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
+        )
 
-        `when`(getControlByActionId.getAllControl(anyOrNull())).thenReturn(mockControl)
+        `when`(processNavAction.execute(anyInt(), anyOrNull())).thenReturn(response)
         `when`(navMissionActionRepository.findByMissionId(missionId)).thenReturn(listOf(action))
 
         getNavActionList = GetComputeNavActionListByMissionId(
-            navMissionActionRepository = navMissionActionRepository,
-            getControlByActionId = getControlByActionId,
-            getStatusForAction = getStatusForAction
+            processNavAction = processNavAction,
+            navMissionActionRepository = navMissionActionRepository
         )
         val navActions = getNavActionList.execute(missionId = missionId)
 
@@ -67,9 +69,5 @@ class GetComputeNavActionListByMissionIdTest {
         assertThat(navActions.size).isEqualTo(1)
         assertThat(navActions[0].id).isEqualTo(action.id)
         assertThat(navActions[0].getActionId()).isEqualTo(actionId.toString())
-        assertThat(navActions[0].controlSecurity).isEqualTo(mockControl.controlSecurity)
-        assertThat(navActions[0].controlNavigation).isEqualTo(mockControl.controlNavigation)
-        assertThat(navActions[0].controlGensDeMer).isEqualTo(mockControl.controlGensDeMer)
-        assertThat(navActions[0].controlAdministrative).isEqualTo(mockControl.controlAdministrative)
     }
 }

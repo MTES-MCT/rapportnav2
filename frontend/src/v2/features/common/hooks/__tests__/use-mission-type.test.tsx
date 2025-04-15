@@ -55,4 +55,13 @@ describe('useMissionType', () => {
       result.current.isMissionTypeSea([MissionTypeEnum.AIR, MissionTypeEnum.LAND, MissionTypeEnum.SEA])
     ).toBeTruthy()
   })
+
+  it('should if is mission report type is field', () => {
+    const { result } = renderHook(() => useMissionType())
+    expect(result.current.isEnvMission(MissionReportTypeEnum.OFFICE_REPORT)).toBeFalsy()
+    expect(result.current.isEnvMission(MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT)).toBeFalsy()
+    expect(
+      result.current.isEnvMission(MissionReportTypeEnum.FIELD_REPORT)
+    ).toBeTruthy()
+  })
 })

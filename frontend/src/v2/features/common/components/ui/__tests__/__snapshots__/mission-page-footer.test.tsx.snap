@@ -6,7 +6,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-iCfQMn bpNkbp"
+        class="sc-irwjCN dQGPrW"
       >
         <div
           class="rs-stack"
@@ -17,13 +17,13 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
             style="padding-left: 1rem;"
           >
             <button
-              class="sc-dXYVqG sc-kHpCdB bqfUDQ dItYvc Element-Button"
+              class="sc-dNpohg sc-kRZjnb bEmAWt feMRmx Element-Button"
               disabled=""
               title="Cette fonctionnalité n'a pas encore été implémentée"
               type="button"
             >
               <span
-                class="sc-gNZgCX hDAtbt Element-IconBox"
+                class="sc-gDpztx bVQkEh Element-IconBox"
               >
                 <svg
                   height="20"
@@ -61,7 +61,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 </svg>
               </span>
               <span
-                class="sc-fCSSOr eOtGgW"
+                class="sc-fsjlER bULPIE"
               >
                 Supprimer la mission
               </span>
@@ -79,7 +79,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <p
-                  class="sc-btRGtK sc-bACthX gDMgcP fswZWU"
+                  class="sc-bjhZkk sc-bpSLYx kWcurH bfYLti"
                   color="#CCCFD6"
                   font-size="13"
                   weight="normal"
@@ -91,14 +91,14 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <div
-                  class="sc-gtlvkJ cuIUGk Element-Field Field-Toggle sc-egnSlO gEEMXx"
+                  class="sc-gDVcuj geGcsH Element-Field Field-Toggle sc-dVElco cnXHRw"
                 >
                   <label
-                    class="sc-loYsQo uPraC Element-Label"
+                    class="sc-kmqAS fyCASS Element-Label"
                     for="online-toggle"
                   />
                   <label
-                    class="sc-dWFMZf dLZkuG rs-toggle rs-toggle-checked"
+                    class="sc-dLWfPF ctkScX rs-toggle rs-toggle-checked"
                   >
                     <input
                       aria-checked="true"
@@ -117,7 +117,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                         class="rs-toggle-inner"
                       >
                         <span
-                          class="sc-gNZgCX kYuLoj Element-IconBox"
+                          class="sc-gDpztx ctrTlT Element-IconBox"
                         >
                           <svg
                             height="20"
@@ -159,7 +159,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <p
-                  class="sc-btRGtK sc-bACthX iXVitC fswZWU"
+                  class="sc-bjhZkk sc-bpSLYx ktxmNW bfYLti"
                   color="#29B361"
                   font-size="13"
                   weight="bold"
@@ -197,7 +197,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-iCfQMn bpNkbp"
+      class="sc-irwjCN dQGPrW"
     >
       <div
         class="rs-stack"
@@ -208,13 +208,13 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
           style="padding-left: 1rem;"
         >
           <button
-            class="sc-dXYVqG sc-kHpCdB bqfUDQ dItYvc Element-Button"
+            class="sc-dNpohg sc-kRZjnb bEmAWt feMRmx Element-Button"
             disabled=""
             title="Cette fonctionnalité n'a pas encore été implémentée"
             type="button"
           >
             <span
-              class="sc-gNZgCX hDAtbt Element-IconBox"
+              class="sc-gDpztx bVQkEh Element-IconBox"
             >
               <svg
                 height="20"
@@ -252,7 +252,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
               </svg>
             </span>
             <span
-              class="sc-fCSSOr eOtGgW"
+              class="sc-fsjlER bULPIE"
             >
               Supprimer la mission
             </span>
@@ -270,7 +270,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-btRGtK sc-bACthX gDMgcP fswZWU"
+                class="sc-bjhZkk sc-bpSLYx kWcurH bfYLti"
                 color="#CCCFD6"
                 font-size="13"
                 weight="normal"
@@ -282,14 +282,14 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <div
-                class="sc-gtlvkJ cuIUGk Element-Field Field-Toggle sc-egnSlO gEEMXx"
+                class="sc-gDVcuj geGcsH Element-Field Field-Toggle sc-dVElco cnXHRw"
               >
                 <label
-                  class="sc-loYsQo uPraC Element-Label"
+                  class="sc-kmqAS fyCASS Element-Label"
                   for="online-toggle"
                 />
                 <label
-                  class="sc-dWFMZf dLZkuG rs-toggle rs-toggle-checked"
+                  class="sc-dLWfPF ctkScX rs-toggle rs-toggle-checked"
                 >
                   <input
                     aria-checked="true"
@@ -308,7 +308,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                       class="rs-toggle-inner"
                     >
                       <span
-                        class="sc-gNZgCX kYuLoj Element-IconBox"
+                        class="sc-gDpztx ctrTlT Element-IconBox"
                       >
                         <svg
                           height="20"
@@ -350,7 +350,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-btRGtK sc-bACthX iXVitC fswZWU"
+                class="sc-bjhZkk sc-bpSLYx ktxmNW bfYLti"
                 color="#29B361"
                 font-size="13"
                 weight="bold"
