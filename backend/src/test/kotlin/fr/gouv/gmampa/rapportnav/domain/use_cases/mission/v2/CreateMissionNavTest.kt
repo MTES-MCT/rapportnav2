@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
+import java.util.*
 
 @SpringBootTest(classes = [CreateMissionNav::class])
 class CreateMissionNavTest {
@@ -39,15 +40,15 @@ class CreateMissionNavTest {
         val controlUnitIds = listOf(1, 2)
 
         val navMission = MissionNavEntity(
+            controlUnits = controlUnitIds,
             startDateTimeUtc = generalInfo2.startDateTimeUtc!!,
             endDateTimeUtc = generalInfo2.endDateTimeUtc,
-            controlUnits = controlUnitIds,
             isDeleted = false,
             controlUnitIdOwner = controlUnitIds.first()
         )
 
         val model = MissionModel(
-            id = 1,
+            id = UUID.randomUUID(),
             missionSource = MissionSourceEnum.RAPPORT_NAV,
             controlUnitIdOwner = 1,
             isDeleted = false,

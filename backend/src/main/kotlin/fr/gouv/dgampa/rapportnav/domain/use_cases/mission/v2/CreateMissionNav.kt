@@ -12,9 +12,9 @@ class CreateMissionNav(
     fun execute(generalInfo2: MissionGeneralInfo2, controlUnitIds: List<Int>): MissionNavEntity? {
 
         val navMission = MissionNavEntity(
+            controlUnits = controlUnitIds,
             startDateTimeUtc = generalInfo2.startDateTimeUtc!!,
             endDateTimeUtc = generalInfo2.endDateTimeUtc,
-            controlUnits = controlUnitIds,
             isDeleted = false,
             controlUnitIdOwner = controlUnitIds.first()
         )

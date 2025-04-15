@@ -1,9 +1,9 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
@@ -32,7 +32,8 @@ data class MissionGeneralInfo2(
     val isMissionArmed: Boolean? = false,
     val observations: String? = null,
     val resources: List<LegacyControlUnitResource>? = listOf(),
-    val interMinisterialServices : List<InterMinisterialService>? = listOf()
+    val interMinisterialServices : List<InterMinisterialService>? = listOf(),
+    val jdpType: JdpTypeEnum? = null
 ) {
     companion object {
         fun fromMissionGeneralInfoEntity(
@@ -58,7 +59,8 @@ data class MissionGeneralInfo2(
                         it
                     )
                 } ?: listOf(),
-                reinforcementType = generalInfo2?.data?.reinforcementType
+                reinforcementType = generalInfo2?.data?.reinforcementType,
+                jdpType = generalInfo2?.data?.jdpType
             )
         }
     }
@@ -79,6 +81,11 @@ data class MissionGeneralInfo2(
             interMinisterialServices = interMinisterialServices?.map { it.toInterMinisterialServiceEntity() },
             missionReportType = missionReportType,
             reinforcementType = reinforcementType,
+            jdpType = jdpType
         )
+    }
+
+    fun isMissionNav(): Boolean {
+       return missionReportType in listOf(MissionReportTypeEnum.OFFICE_REPORT, MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT)
     }
 }

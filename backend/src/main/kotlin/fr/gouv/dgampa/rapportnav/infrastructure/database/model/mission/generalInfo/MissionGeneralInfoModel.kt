@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 import jakarta.persistence.*
@@ -51,6 +51,10 @@ class MissionGeneralInfoModel(
     @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
     @JoinColumn(name="mission_general_info_id")
     @JsonIgnore
-    var interMinisterialServices: List<InterMinisterialServiceModel>? = mutableListOf()
+    var interMinisterialServices: List<InterMinisterialServiceModel>? = mutableListOf(),
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "jdp_type")
+    var jdpType: JdpTypeEnum? = null
 ) {
 }
