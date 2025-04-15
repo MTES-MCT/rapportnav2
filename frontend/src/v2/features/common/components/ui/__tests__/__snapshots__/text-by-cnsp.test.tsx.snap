@@ -6,7 +6,7 @@ exports[`TextByCnsp > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <p
-        class="sc-btRGtK sc-duGFKm guDPDa fIVGGU"
+        class="sc-bjhZkk sc-djWYAM kqONVu ODLgo"
         color="#5697D2"
         font-size="11"
         font-style="italic"
@@ -39,7 +39,7 @@ exports[`TextByCnsp > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <p
-      class="sc-btRGtK sc-duGFKm guDPDa fIVGGU"
+      class="sc-bjhZkk sc-djWYAM kqONVu ODLgo"
       color="#5697D2"
       font-size="11"
       font-style="italic"
