@@ -15,6 +15,8 @@ const MissionTimelineItemSurveillanceCard: FC<MissionTimelineItemSurveillanceCar
       icon={icon}
       footer={<TextByCacem />}
       title={<MissionTimelineItemSurveillanceCardTitle action={action} />}
+      actionType={action?.type}
+      networkSyncStatus={action?.networkSyncStatus}
     />
   )
 }

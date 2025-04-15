@@ -25,6 +25,8 @@ const MissionTimelineItemStatusCard: FC<MissionTimelineItemStatusCardProps> = ({
       statusTag={<MissionTimelineStatusTag status={action?.status} />}
       title={<MissionTimelineItemStatusCardTitle action={action} isSelected={isSelected} />}
       footer={<MissionTimelineItemStatusCardFooter prevAction={prevAction} />}
+      actionType={action?.type}
+      networkSyncStatus={action?.networkSyncStatus}
     />
   )
 }

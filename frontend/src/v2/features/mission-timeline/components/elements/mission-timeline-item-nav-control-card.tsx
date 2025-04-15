@@ -17,6 +17,8 @@ const MissionTimelineItemNavControlCard: FC<MissionTimelineItemNavControlCardPro
       title={<MissionTimelineItemNavControlCardTitle action={action} />}
       tags={<MissionTimelineItemControlCardTag action={action} />}
       subTitle={<MissionTimelineItemControlCardSubtitle action={action} />}
+      actionType={action?.type}
+      networkSyncStatus={action?.networkSyncStatus}
     />
   )
 }

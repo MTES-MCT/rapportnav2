@@ -19,6 +19,8 @@ const MissionTimelineItemEnvControlCard: FC<MissionTimelineItemEnvControlCardPro
       tags={<MissionTimelineItemControlCardTag action={action} />}
       subTitle={<MissionTimelineItemControlCardSubtitle action={action} />}
       footer={<TextByCacem />}
+      actionType={action?.type}
+      networkSyncStatus={action?.networkSyncStatus}
     />
   )
 }

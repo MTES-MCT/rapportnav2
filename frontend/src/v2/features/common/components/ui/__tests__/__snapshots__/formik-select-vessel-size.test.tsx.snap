@@ -15,7 +15,7 @@ exports[`FormikSelectVesselSize > should match the snapshot 1`] = `
           select vessel Size
         </label>
         <div
-          class="sc-kRYMvn dJwjHI"
+          class="sc-kRYMvn lcoSgb"
         >
           <div
             class="rs-picker rs-picker-select rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
@@ -116,7 +116,7 @@ exports[`FormikSelectVesselSize > should match the snapshot 1`] = `
         select vessel Size
       </label>
       <div
-        class="sc-kRYMvn dJwjHI"
+        class="sc-kRYMvn lcoSgb"
       >
         <div
           class="rs-picker rs-picker-select rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"

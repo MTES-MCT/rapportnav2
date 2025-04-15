@@ -19,6 +19,8 @@ const MissionTimelineItemFishControlCard: FC<MissionTimelineItemFishControlCardP
       tags={<MissionTimelineItemControlCardTag action={action} />}
       subTitle={<MissionTimelineItemControlCardSubtitle action={action} />}
       footer={<TextByCnsp />}
+      actionType={action?.type}
+      networkSyncStatus={action?.networkSyncStatus}
     />
   )
 }
