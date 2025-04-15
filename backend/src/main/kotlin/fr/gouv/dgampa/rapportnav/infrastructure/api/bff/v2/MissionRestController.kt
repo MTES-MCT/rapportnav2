@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeMissionData2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateMission
@@ -23,7 +22,6 @@ class MissionRestController(
     private val getControlUnitsForUser: GetControlUnitsForUser,
     private val getUserFromToken: GetUserFromToken,
     private val getEnvMissions: GetEnvMissions,
-    private val fakeMissionData2: FakeMissionData2,
     private val createOrUpdateGeneralInfo: CreateOrUpdateGeneralInfo,
     private val createMission: CreateMission
 ) {
@@ -59,12 +57,7 @@ class MissionRestController(
             )
             val missions = envMissions?.map { getMission2.execute(envMission = it) }.orEmpty()
 
-            //TODO: TO REMOVE FAKE DATA ASAP
-
-            val user = getUserFromToken.execute()
-            val fakeMissions = fakeMissionData2.getFakeMissionsforUser(user)
-
-            return (missions.filterNotNull().plus(fakeMissions)).map { Mission2.fromMissionEntity((it)) }
+            return (missions.filterNotNull()).map { Mission2.fromMissionEntity((it)) }
         } catch (e: Exception) {
             logger.error("MissionRestController - failed to load missions from MonitorEnv", e)
             throw Exception(e)
