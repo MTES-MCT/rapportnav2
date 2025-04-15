@@ -30,6 +30,7 @@ data class MissionModel(
     @Column(name = "is_deleted", nullable = false)
     var isDeleted: Boolean = false,
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "mission_source", nullable = true)
     var missionSource: MissionSourceEnum? = null,
 

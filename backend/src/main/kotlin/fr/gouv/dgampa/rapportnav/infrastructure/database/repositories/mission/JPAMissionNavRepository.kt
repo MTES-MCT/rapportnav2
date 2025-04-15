@@ -9,6 +9,8 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionMo
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.IDBMissionRepository
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
+import java.time.Instant
+import java.util.*
 
 @Repository
 class JPAMissionNavRepository(
@@ -30,6 +32,17 @@ class JPAMissionNavRepository(
                 originalException = e
             )
         }
+    }
+
+    override fun finById(id: UUID): Optional<MissionModel> {
+        return dbRepository.findById(id)
+    }
+
+    override fun findAll(startBeforeDateTime: Instant, endBeforeDateTime: Instant): List<MissionModel?> {
+        return dbRepository.findAll(
+         //   startBeforeDateTime = startBeforeDateTime,
+          //  endBeforeDateTime = endBeforeDateTime
+        )
     }
 
 
