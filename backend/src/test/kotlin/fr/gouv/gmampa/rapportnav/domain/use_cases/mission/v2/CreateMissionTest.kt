@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
+import java.util.*
 
 @SpringBootTest(classes = [CreateMission::class])
 class CreateMissionTest {
@@ -36,10 +37,10 @@ class CreateMissionTest {
        )
 
         val mockMissionNav = MissionNavEntity(
-            id = 1,
+            id = UUID.randomUUID(),
+            controlUnits = listOf(1),
             startDateTimeUtc = Instant.now(),
             isDeleted = false,
-            controlUnits = listOf(1),
             controlUnitIdOwner = 1
         )
 
@@ -62,10 +63,10 @@ class CreateMissionTest {
         )
 
         val mockMissionNav = MissionNavEntity(
-            id = 1,
+            id = UUID.randomUUID(),
+            controlUnits = listOf(1),
             startDateTimeUtc = Instant.now(),
             isDeleted = false,
-            controlUnits = listOf(1),
             controlUnitIdOwner = 1
         )
 
@@ -87,7 +88,7 @@ class CreateMissionTest {
         )
 
         val mockMissionEnv = MissionEnvEntity(
-            id = 1,
+            id = "1",
             startDateTimeUtc = Instant.now(),
             isDeleted = false,
             controlUnits = listOf(LegacyControlUnitEntityMock.create()),
@@ -97,12 +98,12 @@ class CreateMissionTest {
         )
 
         val mockMissionNav = MissionNavEntity(
-            id = 1,
+            id = UUID.randomUUID(),
+            controlUnits = listOf(1),
             startDateTimeUtc = Instant.now(),
             isDeleted = false,
-            controlUnits = listOf(1),
-            controlUnitIdOwner = 1,
-            missionSource = MissionSourceEnum.RAPPORT_NAV
+            missionSource = MissionSourceEnum.RAPPORT_NAV,
+            controlUnitIdOwner = 1
         )
 
         Mockito.`when`(createMissionNav.execute(generalInfo2, controlUnitIds = listOf(1))).thenReturn(mockMissionNav)

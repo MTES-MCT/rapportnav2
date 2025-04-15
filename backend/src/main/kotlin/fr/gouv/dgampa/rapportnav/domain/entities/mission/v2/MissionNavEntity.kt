@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionModel
 import java.time.Instant
@@ -44,7 +45,24 @@ data class MissionNavEntity(
             isDeleted = isDeleted,
             missionSource = missionSource,
             observationsByUnit = observationsByUnit,
-            controlUnitIdOwner = controlUnitIdOwner
+            controlUnitIdOwner = controlUnitIdOwner,
+        )
+    }
+
+    fun toMissionEntity(): MissionEntity {
+        return MissionEntity(
+            id = id,
+            missionSource = MissionSourceEnum.RAPPORT_NAV,
+            startDateTimeUtc = startDateTimeUtc,
+            endDateTimeUtc = endDateTimeUtc,
+            missionTypes = listOf(),
+            isDeleted = isDeleted,
+            observationsByUnit = observationsByUnit,
+            controlUnits = listOf(), // TODO CHECK IT BEFORE PUSH TO GIT
+            hasMissionOrder = false,
+            isUnderJdp = false,
+            isGeometryComputedFromControls = false,
+            controlUnitIdOwner = controlUnitIdOwner,
         )
     }
 }
