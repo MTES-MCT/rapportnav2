@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateOrUpdateGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
@@ -18,7 +17,6 @@ import java.time.Instant
 class MissionRestController(
     private val getMission2: GetMission2,
     private val getControlUnitsForUser: GetControlUnitsForUser,
-    private val getEnvMissions: GetEnvMissions,
     private val createOrUpdateGeneralInfo: CreateOrUpdateGeneralInfo,
     private val createMission: CreateMission,
     private val getMissions: GetMissions
