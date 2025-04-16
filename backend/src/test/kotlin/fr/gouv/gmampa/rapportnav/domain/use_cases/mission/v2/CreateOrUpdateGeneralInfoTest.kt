@@ -3,11 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateOrUpdateGeneralInfo
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetGeneralInfo2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionCrew
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateMissionEnv
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateMissionService2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentRole
@@ -16,12 +12,11 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.Mis
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.*
 
 @SpringBootTest(classes = [CreateOrUpdateGeneralInfo::class])
 class CreateOrUpdateGeneralInfoTest {
@@ -43,6 +38,9 @@ class CreateOrUpdateGeneralInfoTest {
 
     @MockitoBean
     private lateinit var processMissionCrew: ProcessMissionCrew
+
+    @MockitoBean
+    private lateinit var updateMissionNav: UpdateMissionNav
 
     private fun createMissionGeneralInfoEntityData(missionId: Int, serviceId: Int?): MissionGeneralInfoEntity {
         val entity = MissionGeneralInfoEntity(
