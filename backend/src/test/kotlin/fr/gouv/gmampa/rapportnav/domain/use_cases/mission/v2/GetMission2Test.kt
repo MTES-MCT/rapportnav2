@@ -4,13 +4,12 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissio
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetMissionAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetGeneralInfo2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById2
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntity2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
@@ -31,6 +30,9 @@ class GetMission2Test {
 
     @MockitoBean
     private lateinit var getMissionAction: GetMissionAction
+
+    @MockitoBean
+    private lateinit var getNavMissionById2: GetNavMissionById2
 
     @Test
     fun `should return null when both missionId and envMission are null`() {
