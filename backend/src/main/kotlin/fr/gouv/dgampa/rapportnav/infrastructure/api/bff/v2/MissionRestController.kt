@@ -1,10 +1,10 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateOrUpdateGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissions
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Mission2
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
@@ -21,6 +21,7 @@ class MissionRestController(
     private val getEnvMissions: GetEnvMissions,
     private val createOrUpdateGeneralInfo: CreateOrUpdateGeneralInfo,
     private val createMission: CreateMission,
+    private val getMissions: GetMissions
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionRestController::class.java)
@@ -44,15 +45,10 @@ class MissionRestController(
         @RequestParam(required = false) endDateTimeUtc: Instant? = null
     ): List<Mission2?>? {
         try {
-            // query MonitorEnv with the following filters
-            val envMissions = getEnvMissions.execute(
-                startedAfterDateTime = startDateTimeUtc,
-                startedBeforeDateTime = endDateTimeUtc,
-                pageNumber = null,
-                pageSize = null,
-                controlUnits = getControlUnitsForUser.execute()
+            val missions = getMissions.execute(
+                startDateTimeUtc = startDateTimeUtc,
+                endDateTimeUtc = endDateTimeUtc,
             )
-            val missions = envMissions?.map { getMission2.execute(envMission = it) }.orEmpty()
 
             return (missions.filterNotNull()).map { Mission2.fromMissionEntity((it)) }
         } catch (e: Exception) {
