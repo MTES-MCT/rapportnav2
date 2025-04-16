@@ -34,7 +34,8 @@ data class MissionNavInput(
             isDeleted = isDeleted ?: missionFromDb.isDeleted,
             missionSource = missionFromDb.missionSource,
             observationsByUnit = observationsByUnit,
-            controlUnitIdOwner = missionFromDb.controlUnitIdOwner!!
+            controlUnitIdOwner = missionFromDb.controlUnitIdOwner!!,
+            navId = missionFromDb.navId
         )
     }
 }

@@ -6,9 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import java.time.Instant
-import java.util.*
 
-interface IDBMissionRepository: JpaRepository<MissionModel, UUID> {
+interface IDBMissionRepository: JpaRepository<MissionModel, Int> {
 
     fun save(entity: MissionNavEntity): MissionModel
 
