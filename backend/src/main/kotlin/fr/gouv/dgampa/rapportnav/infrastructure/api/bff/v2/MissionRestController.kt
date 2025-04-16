@@ -6,7 +6,6 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateOrUpdateGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
-import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Mission2
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import io.swagger.v3.oas.annotations.Operation
@@ -18,12 +17,10 @@ import java.time.Instant
 @RequestMapping("/api/v2/missions")
 class MissionRestController(
     private val getMission2: GetMission2,
-    private val getEnvMissionById2: GetEnvMissionById2,
     private val getControlUnitsForUser: GetControlUnitsForUser,
-    private val getUserFromToken: GetUserFromToken,
     private val getEnvMissions: GetEnvMissions,
     private val createOrUpdateGeneralInfo: CreateOrUpdateGeneralInfo,
-    private val createMission: CreateMission
+    private val createMission: CreateMission,
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionRestController::class.java)
@@ -79,8 +76,7 @@ class MissionRestController(
         @PathVariable(name = "missionId") missionId: Int
     ): Mission2? {
         try {
-            val envMission = getEnvMissionById2.execute(missionId) ?: return null
-            val mission = getMission2.execute(envMission = envMission)?: return null
+            val mission = getMission2.execute(missionId = missionId)?: return null
             return Mission2.fromMissionEntity(mission)
         } catch (e: Exception) {
             logger.error("Error while creating MonitorEnv mission : ", e)

@@ -31,9 +31,9 @@ class CreateMission(
                     startDateTimeUtc = missionNav.startDateTimeUtc,
                     endDateTimeUtc = missionNav.endDateTimeUtc,
                     isUnderJdp = false,
-                    isDeleted = false,
+                    isDeleted = missionNav.isDeleted,
                     isGeometryComputedFromControls = false,
-                    missionSource = MissionSourceEnum.RAPPORT_NAV,
+                    missionSource = missionNav.missionSource ?: MissionSourceEnum.RAPPORT_NAV,
                     hasMissionOrder = false
                 )
             )

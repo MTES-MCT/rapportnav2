@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionModel
 import java.time.Instant
+import java.util.*
 
 data class MissionNavEntity(
     val id: Int? = null,
@@ -15,7 +16,8 @@ data class MissionNavEntity(
     val isDeleted: Boolean = false,
     val missionSource: MissionSourceEnum? = MissionSourceEnum.RAPPORT_NAV,
     val observationsByUnit: String? = null,
-    val controlUnitIdOwner: Int
+    val controlUnitIdOwner: Int,
+    val navId: UUID? = null
 ) {
     companion object {
         fun fromMissionModel(model: MissionModel): MissionNavEntity {
@@ -29,7 +31,8 @@ data class MissionNavEntity(
                 isDeleted = model.isDeleted,
                 missionSource = model.missionSource,
                 observationsByUnit = model.observationsByUnit,
-                controlUnitIdOwner = model.controlUnitIdOwner
+                controlUnitIdOwner = model.controlUnitIdOwner,
+                navId = model.navId
             )
         }
     }
@@ -46,6 +49,7 @@ data class MissionNavEntity(
             missionSource = missionSource,
             observationsByUnit = observationsByUnit,
             controlUnitIdOwner = controlUnitIdOwner,
+            navId = navId
         )
     }
 
@@ -63,6 +67,7 @@ data class MissionNavEntity(
             isUnderJdp = false,
             isGeometryComputedFromControls = false,
             controlUnitIdOwner = controlUnitIdOwner,
+            navId = navId
         )
     }
 }
