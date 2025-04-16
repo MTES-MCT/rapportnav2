@@ -1,14 +1,11 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateOrUpdateGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissions
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
-import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.MissionRestController
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
@@ -17,9 +14,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
 import fr.gouv.gmampa.rapportnav.mocks.user.UserMock
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.`when`
-import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -41,19 +36,7 @@ class MissionRestControllerTest {
     private lateinit var mockMvc: MockMvc
 
     @MockitoBean
-    private lateinit var getEnvMissions: GetEnvMissions
-
-    @MockitoBean
     private lateinit var getControlUnitsForUser: GetControlUnitsForUser
-
-    @MockitoBean
-    private lateinit var getMission: GetMission
-
-    @MockitoBean
-    private lateinit var getUserFromToken: GetUserFromToken
-
-    @MockitoBean
-    private lateinit var getEnvMissionById2: GetEnvMissionById2
 
     @MockitoBean
     private lateinit var getMission2: GetMission2
@@ -63,6 +46,9 @@ class MissionRestControllerTest {
 
     @MockitoBean
     private lateinit var createMission: CreateMission
+
+    @MockitoBean
+    private lateinit var getMissions: GetMissions
 
     @Test
     fun `should return a list of missions`() {
@@ -76,28 +62,23 @@ class MissionRestControllerTest {
         val mockUser = UserMock.create()
 
         `when`(getControlUnitsForUser.execute()).thenReturn(listOf(1))
-        `when`(getEnvMissions.execute(any(), any(), anyOrNull(), anyOrNull(), any())).thenReturn(mockEnvMissions)
-        `when`(getMission2.execute(envMission = mockEnvMissions.first() )).thenReturn(mockMissionEntity)
-        `when`(getMission2.execute(envMission = mockEnvMissions.last() )).thenReturn(mockMissionEntity)
-        `when`(getUserFromToken.execute()).thenReturn(mockUser)
+        `when`(getMissions.execute(Instant.parse("2025-04-16T09:02:58.082289Z"))).thenReturn(listOf(mockMissionEntity))
 
         // Act & Assert
         mockMvc.perform(
             get("/api/v2/missions")
-                .param("startDateTimeUtc", Instant.now().toString())
+                .param("startDateTimeUtc", "2025-04-16T09:02:58.082289Z")
         )
             .andExpect(status().isOk)
-            .andExpect(jsonPath("$.length()").value(mockEnvMissions.size))
+            .andExpect(jsonPath("$.length()").value(1))
     }
 
     @Test
     fun `should return a mission by id`() {
         // Arrange
         val missionId = 1
-        val mockMission = EnvMissionMock.create(id = missionId)
         val mockMissionEntity = MissionEntityMock2.create(id = 1)
-        `when`(getEnvMissionById2.execute(missionId)).thenReturn(mockMission)
-        `when`(getMission2.execute(envMission = mockMission)).thenReturn(mockMissionEntity)
+        `when`(getMission2.execute(missionId = 1)).thenReturn(mockMissionEntity)
 
         // Act & Assert
         mockMvc.perform(get("/api/v2/missions/{missionId}", missionId))
