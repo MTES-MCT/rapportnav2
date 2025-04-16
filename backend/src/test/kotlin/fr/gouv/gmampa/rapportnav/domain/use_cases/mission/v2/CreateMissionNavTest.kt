@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
-import java.util.*
 
 @SpringBootTest(classes = [CreateMissionNav::class])
 class CreateMissionNavTest {
@@ -48,7 +47,7 @@ class CreateMissionNavTest {
         )
 
         val model = MissionModel(
-            id = UUID.randomUUID(),
+            id = 1,
             missionSource = MissionSourceEnum.RAPPORT_NAV,
             controlUnitIdOwner = 1,
             isDeleted = false,

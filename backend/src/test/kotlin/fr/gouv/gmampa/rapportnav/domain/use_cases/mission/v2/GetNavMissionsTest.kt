@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
-import java.util.*
 
 
 @SpringBootTest(classes = [GetNavMissions::class])
@@ -29,7 +28,7 @@ class GetNavMissionsTest {
     fun `should execute retrieve missions as list of MissionEntity2`()
     {
         val mockMission = MissionModel(
-            id = UUID.randomUUID(),
+            id = 1,
             startDateTimeUtc = Instant.now(),
             endDateTimeUtc = Instant.now(),
             isDeleted = false,

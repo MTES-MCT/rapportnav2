@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import jakarta.persistence.*
 import java.time.Instant
+import java.util.*
 
 @Entity
 @Table(name = "mission")
@@ -38,5 +39,8 @@ data class MissionModel(
     var observationsByUnit: String? = null,
 
     @Column(name = "control_unit_id_owner", nullable = false)
-    var controlUnitIdOwner: Int
+    var controlUnitIdOwner: Int,
+
+    @Column(name = "nav_id", nullable = false)
+    var navId: UUID? = UUID.randomUUID()
 )

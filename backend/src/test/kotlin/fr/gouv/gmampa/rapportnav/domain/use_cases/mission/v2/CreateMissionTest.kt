@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
-import java.util.*
 
 @SpringBootTest(classes = [CreateMission::class])
 class CreateMissionTest {
@@ -37,7 +36,7 @@ class CreateMissionTest {
        )
 
         val mockMissionNav = MissionNavEntity(
-            id = UUID.randomUUID(),
+            id = 1,
             controlUnits = listOf(1),
             startDateTimeUtc = Instant.now(),
             isDeleted = false,
@@ -63,7 +62,7 @@ class CreateMissionTest {
         )
 
         val mockMissionNav = MissionNavEntity(
-            id = UUID.randomUUID(),
+            id = 1,
             controlUnits = listOf(1),
             startDateTimeUtc = Instant.now(),
             isDeleted = false,
@@ -88,7 +87,7 @@ class CreateMissionTest {
         )
 
         val mockMissionEnv = MissionEnvEntity(
-            id = "1",
+            id = 1,
             startDateTimeUtc = Instant.now(),
             isDeleted = false,
             controlUnits = listOf(LegacyControlUnitEntityMock.create()),
@@ -98,7 +97,7 @@ class CreateMissionTest {
         )
 
         val mockMissionNav = MissionNavEntity(
-            id = UUID.randomUUID(),
+            id = 1,
             controlUnits = listOf(1),
             startDateTimeUtc = Instant.now(),
             isDeleted = false,

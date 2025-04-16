@@ -1,7 +1,6 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeMissionData2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
@@ -54,9 +53,6 @@ class MissionRestControllerTest {
     private lateinit var getUserFromToken: GetUserFromToken
 
     @MockitoBean
-    private lateinit var fakeMissionData2: FakeMissionData2
-
-    @MockitoBean
     private lateinit var getEnvMissionById2: GetEnvMissionById2
 
     @MockitoBean
@@ -84,7 +80,6 @@ class MissionRestControllerTest {
         `when`(getMission2.execute(envMission = mockEnvMissions.first() )).thenReturn(mockMissionEntity)
         `when`(getMission2.execute(envMission = mockEnvMissions.last() )).thenReturn(mockMissionEntity)
         `when`(getUserFromToken.execute()).thenReturn(mockUser)
-        `when`(fakeMissionData2.getFakeMissionsforUser(mockUser)).thenReturn(emptyList())
 
         // Act & Assert
         mockMvc.perform(
