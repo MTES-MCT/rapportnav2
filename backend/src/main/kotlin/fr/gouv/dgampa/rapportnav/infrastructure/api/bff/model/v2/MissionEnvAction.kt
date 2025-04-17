@@ -63,7 +63,7 @@ class MissionEnvAction(
                     actionTargetType = envAction.actionTargetType,
                     vehicleType = envAction.vehicleType,
                     infractions = getInfractionGroupBy(envAction),
-                    targets = envAction.targets?.map { Target2.fromTargetEntity(it) },
+                    targets = envAction.targets?.map { Target2.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc },
                     availableControlTypesForInfraction = envAction.availableControlTypesForInfraction,
                     coverMissionZone = envAction.coverMissionZone,
                     controlSecurity = ControlSecurity.fromControlSecurityEntity(envAction.controlSecurity),

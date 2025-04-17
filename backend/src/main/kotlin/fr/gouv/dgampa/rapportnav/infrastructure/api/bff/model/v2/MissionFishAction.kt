@@ -96,7 +96,7 @@ class MissionFishAction(
                     isSeafarersControl = fishAction.isSeafarersControl,
                     observationsByUnit = fishAction.observationsByUnit,
                     speciesQuantitySeized = fishAction.speciesQuantitySeized,
-                    targets = fishAction.targets?.map { Target2.fromTargetEntity(it) },
+                    targets = fishAction.targets?.map { Target2.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc },
                     controlSecurity = ControlSecurity.fromControlSecurityEntity(fishAction.controlSecurity),
                     controlGensDeMer = ControlGensDeMer.fromControlGensDeMerEntity(fishAction.controlGensDeMer),
                     controlNavigation = ControlNavigation.fromControlNavigationEntity(fishAction.controlNavigation),

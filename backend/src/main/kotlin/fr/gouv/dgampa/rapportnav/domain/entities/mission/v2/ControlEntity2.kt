@@ -28,13 +28,13 @@ data class ControlEntity2(
             hasBeenDone = hasBeenDone,
             observations = observations,
             amountOfControls = amountOfControls,
-            staffOutnumbered = staffOutnumbered.toString(),
+            staffOutnumbered = staffOutnumbered?.toString(),
             infractions = infractions?.map { it.toInfractionModel() },
             upToDateMedicalCheck = upToDateMedicalCheck?.toString(),
-            compliantOperatingPermit = compliantOperatingPermit.toString(),
-            upToDateNavigationPermit = upToDateNavigationPermit.toString(),
-            compliantSecurityDocuments = compliantSecurityDocuments.toString(),
-            knowledgeOfFrenchLawAndLanguage = knowledgeOfFrenchLawAndLanguage.toString(),
+            compliantOperatingPermit = compliantOperatingPermit?.toString(),
+            upToDateNavigationPermit = upToDateNavigationPermit?.toString(),
+            compliantSecurityDocuments = compliantSecurityDocuments?.toString(),
+            knowledgeOfFrenchLawAndLanguage = knowledgeOfFrenchLawAndLanguage?.toString(),
         )
     }
 

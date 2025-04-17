@@ -24,8 +24,8 @@ data class TargetModel2(
     @JdbcType(PostgreSQLEnumJdbcType::class)
     var targetType: TargetType,
 
-    @Column(name = "status", nullable = false)
-    var status: String,
+    @Column(name = "status", nullable = true)
+    var status: String? = null,
 
     @Column(name = "main_agent", nullable = true)
     var agent: String? = null,
