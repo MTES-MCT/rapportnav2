@@ -33,16 +33,18 @@ const MissionTarget: FC<MissionTargetProps> = ({ label, name, fieldArray, hideGe
                           style={{ width: '100%', marginBottom: '.2em' }}
                           key={`${name}-${targetIndex}-${controlIndex}`}
                         >
-                          <Field name={`targets[${targetIndex}].controls[${controlIndex}]`}>
-                            {(field: FieldProps<Control>) => (
-                              <MissionControlForm
-                                fieldFormik={field}
-                                controlType={control.controlType}
-                                name={`targets[${targetIndex}].controls[${controlIndex}]`}
-                                isToComplete={controlsToComplete?.includes(control.controlType)}
-                              />
-                            )}
-                          </Field>
+                          {(!hideGensDeMer || control.controlType !== ControlType.GENS_DE_MER) && (
+                            <Field name={`targets[${targetIndex}].controls[${controlIndex}]`}>
+                              {(field: FieldProps<Control>) => (
+                                <MissionControlForm
+                                  fieldFormik={field}
+                                  controlType={control.controlType}
+                                  name={`targets[${targetIndex}].controls[${controlIndex}]`}
+                                  isToComplete={controlsToComplete?.includes(control.controlType)}
+                                />
+                              )}
+                            </Field>
+                          )}
                         </Stack.Item>
                       )
                     )}
