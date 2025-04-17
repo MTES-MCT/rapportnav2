@@ -166,7 +166,7 @@ class APIEnvMissionRepository(
             val missionDataOutputList: List<MissionDataOutput> = mapper.readValue(response.body())
 
             // Transform each MissionDataOutput to MissionEntity
-            val missionEntityList: List<fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity> =
+            val missionEntityList: List<MissionEntity> =
                 missionDataOutputList.map { it.toMissionEntity() }
 
             // Use the transformed data as needed
@@ -174,16 +174,8 @@ class APIEnvMissionRepository(
                 logger.info("Transformed MissionEntity: $missionEntity")
             }
 
-            val missions = missionEntityList
-//                .map {
-//                MissionEntity(
-//                    envMission = ExtendedEnvMissionEntity.fromEnvMission(
-//                        it
-//                    )
-//                )
-//            }
+            return missionEntityList
 
-            return missions
         } else {
             logger.info("Failed to fetch data. Status code: ${response.statusCode()}")
         }

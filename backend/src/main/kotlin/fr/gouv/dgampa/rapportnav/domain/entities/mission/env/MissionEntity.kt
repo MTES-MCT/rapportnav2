@@ -4,10 +4,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Le
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.Instant
+import java.util.*
 
 data class MissionEntity(
     val id: Int? = null,
-    val missionTypes: List<MissionTypeEnum>,
+    val missionTypes: List<MissionTypeEnum>? = listOf(),
     val controlUnits: List<LegacyControlUnitEntity> = listOf(),
     val openBy: String? = null,
     val completedBy: String? = null,
@@ -23,7 +24,9 @@ data class MissionEntity(
     val missionSource: MissionSourceEnum,
     val hasMissionOrder: Boolean,
     val isUnderJdp: Boolean,
-    val observationsByUnit: String? = null
+    val observationsByUnit: String? = null,
+    val controlUnitIdOwner: Int? = null,
+    val navId: UUID? = null
 )
 
 typealias EnvMission = MissionEntity

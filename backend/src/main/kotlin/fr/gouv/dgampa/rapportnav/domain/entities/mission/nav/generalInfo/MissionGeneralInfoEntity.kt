@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo
 
 import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
@@ -22,7 +23,8 @@ data class MissionGeneralInfoEntity(
     var nbHourAtSea: Int? = null,
     var missionReportType: MissionReportTypeEnum? = null,
     var reinforcementType: MissionReinforcementTypeEnum? = null,
-    var interMinisterialServices: List<InterMinisterialServiceEntity>? = listOf()
+    var interMinisterialServices: List<InterMinisterialServiceEntity>? = listOf(),
+    var jdpType: JdpTypeEnum? = null
 ) {
 
     companion object {
@@ -40,7 +42,8 @@ data class MissionGeneralInfoEntity(
                 nbHourAtSea = model.nbHourAtSea,
                 missionReportType = model.missionReportType,
                 reinforcementType = model.reinforcementType,
-                interMinisterialServices = model.interMinisterialServices?.map { InterMinisterialServiceEntity.fromInterMinisterialServiceModel(it) }?: listOf()
+                interMinisterialServices = model.interMinisterialServices?.map { InterMinisterialServiceEntity.fromInterMinisterialServiceModel(it) }?: listOf(),
+                jdpType = model.jdpType
             )
         }
     }
@@ -60,7 +63,8 @@ data class MissionGeneralInfoEntity(
             nbHourAtSea = nbHourAtSea,
             missionReportType = missionReportType,
             reinforcementType = reinforcementType,
-            interMinisterialServices = interMinisterialServices?.map { it.toInterMinisterialServiceModel() }
+            interMinisterialServices = interMinisterialServices?.map { it.toInterMinisterialServiceModel() },
+            jdpType = jdpType
         )
     }
 }
