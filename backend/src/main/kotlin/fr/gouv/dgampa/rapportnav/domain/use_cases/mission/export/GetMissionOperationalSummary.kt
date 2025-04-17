@@ -175,7 +175,7 @@ class GetMissionOperationalSummary {
         // Group actions by country code (flagState)
         val actionsByCountry: Map<CountryCode, List<ExtendedFishActionControlEntity>> = actions
             .filter { it.action?.flagState != null } // Filter out null flagState actions
-            .groupBy { it.action!!.flagState }
+            .groupBy { it.action!!.flagState as CountryCode } // cast is safe as null values have already been filtered
 
         // Create a summary for each country
         return actionsByCountry.mapValues { (_, countryActions) ->

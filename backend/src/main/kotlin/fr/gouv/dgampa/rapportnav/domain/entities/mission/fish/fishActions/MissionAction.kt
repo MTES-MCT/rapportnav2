@@ -14,7 +14,7 @@ data class MissionAction(
     val internalReferenceNumber: String? = null,
     val externalReferenceNumber: String? = null,
     val ircs: String? = null,
-    val flagState: CountryCode,
+    val flagState: CountryCode? = null,
     val districtCode: String? = null,
     val faoAreas: List<String> = listOf(),
     val actionType: MissionActionType,
