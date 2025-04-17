@@ -45,7 +45,6 @@ class CreateMissionNavTest {
             endDateTimeUtc = generalInfo2.endDateTimeUtc,
             isDeleted = false,
             controlUnitIdOwner = controlUnitIds.first(),
-          //  navId = UUID.randomUUID()
         )
 
         val model = MissionModel(

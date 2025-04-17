@@ -49,7 +49,7 @@ data class MissionNavEntity(
             missionSource = missionSource,
             observationsByUnit = observationsByUnit,
             controlUnitIdOwner = controlUnitIdOwner,
-            navId = navId
+            navId = UUID.randomUUID()
         )
     }
 
