@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionModel
 import java.time.Instant
 import java.util.*
@@ -62,7 +63,9 @@ data class MissionNavEntity(
             missionTypes = listOf(),
             isDeleted = isDeleted,
             observationsByUnit = observationsByUnit,
-            controlUnits = listOf(), // TODO CHECK IT BEFORE PUSH TO GIT
+            controlUnits = controlUnits.map { LegacyControlUnitEntity(
+                id = it
+            ) },
             hasMissionOrder = false,
             isUnderJdp = false,
             isGeometryComputedFromControls = false,
