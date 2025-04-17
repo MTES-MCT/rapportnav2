@@ -1,13 +1,13 @@
 import { VesselTypeEnum } from '@common/types/mission-types'
 import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
-import { Field, FieldProps, Formik } from 'formik'
+import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { FormikSelectVesselSize } from '../../../common/components/ui/formik-select-vessel-size'
 import { MissionAction } from '../../../common/types/mission-action'
-import MissionControlNavForm from '../../../mission-control/components/elements/mission-control-nav-form'
 import MissionControlNavSummary from '../../../mission-control/components/ui/mission-control-nav-summary'
+import MissionTarget from '../../../mission-target/components/elements/mission-target'
 import { useMissionActionNavControl } from '../../hooks/use-mission-action-nav-control'
 import { ActionNavControlInput } from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
@@ -79,11 +79,17 @@ const MissionActionItemNavControl: FC<{
                   </Stack>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <MissionControlNavForm
-                    controlsToComplete={action.controlsToComplete}
-                    label={`Contrôle(s) effectué(s) par l’unité sur le navire`}
-                    hideGensDeMer={values.vesselType === VesselTypeEnum.SAILING_LEISURE}
-                  />
+                  <FieldArray name="targets">
+                    {(fieldArray: FieldArrayRenderProps) => (
+                      <MissionTarget
+                        name="targets"
+                        fieldArray={fieldArray}
+                        controlsToComplete={action.controlsToComplete}
+                        label={`Contrôle(s) effectué(s) par l’unité sur le navire`}
+                        hideGensDeMer={values.vesselType === VesselTypeEnum.SAILING_LEISURE}
+                      />
+                    )}
+                  </FieldArray>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikTextarea

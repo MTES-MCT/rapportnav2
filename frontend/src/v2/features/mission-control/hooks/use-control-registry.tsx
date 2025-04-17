@@ -3,6 +3,24 @@ import { ControlMethod, ControlResult, ControlType } from '@common/types/control
 type ControlTypeRegistry = { [key in ControlType]: string }
 type ControlMethodRegistry = { [key in ControlMethod]: string }
 type ControlResultOptionRegistry = { [key in ControlResult]: string }
+type ControlRadioRegistry = { [key in ControlType]: { name: string; label: string; extra?: boolean }[] }
+
+const DEFAULT_EMPTY_VALUES = {
+  infractions: [],
+  observations: undefined
+}
+
+const ADMINISTRATIVE_EMPTY_VALUES = {
+  compliantOperatingPermit: undefined,
+  upToDateNavigationPermit: undefined,
+  compliantSecurityDocuments: undefined
+}
+
+const GENS_DE_MER_EMPTY_VALUES = {
+  staffOutnumbered: undefined,
+  upToDateMedicalCheck: undefined,
+  knowledgeOfFrenchLawAndLanguage: undefined
+}
 
 const CONTROL_METHOD_REGISTRY: ControlMethodRegistry = {
   [ControlMethod.SEA]: 'en Mer',
@@ -24,7 +42,28 @@ const CONTROL_TYPE_REGISTRY: ControlTypeRegistry = {
   [ControlType.SECURITY]: 'Equipements et respect des normes de sécurité'
 }
 
+const CONTROL_RADIO_REGISTRY: ControlRadioRegistry = {
+  [ControlType.NAVIGATION]: [],
+  [ControlType.ADMINISTRATIVE]: [
+    { name: 'compliantOperatingPermit', label: 'Permis de mise en exploitation (autorisation à pêcher) conforme' },
+    { name: 'upToDateNavigationPermit', label: 'Permis de navigation à jour' },
+    { name: 'compliantSecurityDocuments', label: 'Titres de sécurité conformes' }
+  ],
+
+  [ControlType.GENS_DE_MER]: [
+    { name: 'staffOutnumbered', label: 'Décision d’effectif conforme au nombre de personnes à bord' },
+    { name: 'upToDateMedicalCheck', label: 'Aptitudes médicales ; Visites médicales à jour' },
+    {
+      name: 'knowledgeOfFrenchLawAndLanguage',
+      label: 'Connaissance suffisante de la langue et de la loi français (navires fr/esp)',
+      extra: true
+    }
+  ],
+  [ControlType.SECURITY]: []
+}
+
 interface ControlHook {
+  getEmptyValues: (type?: ControlType) => any
   getControlType: (type?: ControlType) => string | undefined
   controlTypeOptions: { label: string; value: ControlType }[]
   controlResultOptions: { label: string; value: ControlResult }[]
@@ -32,6 +71,7 @@ interface ControlHook {
   controlResultOptionsExtra: { label: string; value: ControlResult }[]
   getDisabledControlTypes: (enabledControlTypes?: ControlType[]) => ControlType[]
   getControlResultOptions: (withExtra?: boolean) => { label: string; value: ControlResult }[]
+  getRadios: (controltype?: ControlType) => { name: string; label: string; extra?: boolean }[]
 }
 
 export function useControlRegistry(): ControlHook {
@@ -58,8 +98,18 @@ export function useControlRegistry(): ControlHook {
       .filter(controlType => !enables.includes(controlType))
   }
 
+  const getRadios = (controltype?: ControlType) => (controltype ? CONTROL_RADIO_REGISTRY[controltype] : [])
+
+  const getEmptyValues = (controlType?: ControlType) => ({
+    ...DEFAULT_EMPTY_VALUES,
+    ...(controlType === ControlType.GENS_DE_MER ? GENS_DE_MER_EMPTY_VALUES : {}),
+    ...(controlType === ControlType.ADMINISTRATIVE ? ADMINISTRATIVE_EMPTY_VALUES : {})
+  })
+
   return {
+    getRadios,
     getControlType,
+    getEmptyValues,
     getControlMethod,
     getControlResultOptions,
     getDisabledControlTypes,
