@@ -75,7 +75,7 @@ class GetComputeEnvTarget(
             externalId = externalId,
             source = source.toString(),
             controls = getNewControls(),
-            targetType = TargetType.DEFAULT,
+            targetType = TargetType.VEHICLE,
             startDateTimeUtc = Instant.now(),
             status = TargetStatusType.IN_PROCESS.toString()
 

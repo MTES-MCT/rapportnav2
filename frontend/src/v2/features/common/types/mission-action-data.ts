@@ -4,6 +4,7 @@ import {
   ControlNavigation,
   ControlSecurity
 } from '@common/types/control-types'
+import { Target } from './target-types'
 
 export interface MissionActionData {
   startDateTimeUtc?: string
@@ -15,4 +16,5 @@ export interface MissionActionData {
   controlGensDeMer?: ControlGensDeMer
   controlNavigation?: ControlNavigation
   controlAdministrative?: ControlAdministrative
+  targets?: Target[]
 }

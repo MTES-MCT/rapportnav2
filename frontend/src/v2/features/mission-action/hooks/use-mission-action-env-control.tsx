@@ -1,5 +1,6 @@
 import { ControlType } from '@common/types/control-types'
 import { FormikErrors } from 'formik'
+import { uniq } from 'lodash'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
@@ -13,6 +14,7 @@ export function useMissionActionEnvControl(
   isMissionFinished?: boolean
 ): AbstractFormikSubFormHook<ActionEnvControlInput> & {
   getAvailableControlTypes: (value: ActionEnvControlInput) => ControlType[]
+  getAvailableControlTypes2: (value: ActionEnvControlInput, actionNumberOfControls?: number) => ControlType[]
 } {
   const value = action?.data as MissionEnvActionData
   const { extractLatLngFromMultiPoint } = useCoordinate()
@@ -60,10 +62,23 @@ export function useMissionActionEnvControl(
     return value?.availableControlTypesForInfraction?.filter(c => controls.includes(c)) ?? []
   }
 
+  const getAvailableControlTypes2 = (value?: ActionEnvControlInput, actionNumberOfControls?: number): ControlType[] => {
+    const controlTypes = uniq(
+      value?.targets
+        ?.flatMap(target => target.controls)
+        ?.filter(control => control?.amountOfControls)
+        ?.filter(control => (control?.infractions?.length ?? 0) < (actionNumberOfControls ?? 0))
+        ?.map(control => control?.controlType)
+    )
+
+    return value?.availableControlTypesForInfraction?.filter(c => controlTypes.includes(c)) ?? []
+  }
+
   return {
     isError,
     initValue,
     getAvailableControlTypes,
+    getAvailableControlTypes2,
     handleSubmit: handleSubmitOverride
   }
 }
