@@ -10,7 +10,7 @@ object InfractionEntityMock {
 
     fun create(
         id: UUID = UUID.randomUUID(),
-        missionId: Int = 1,
+        missionId: String = "1",
         actionId: String = "1234",
         controlId: UUID? = null,
         controlType: ControlType? = null,

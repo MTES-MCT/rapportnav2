@@ -13,7 +13,7 @@ class GetFishActionListByMissionId(
     private val logger = LoggerFactory.getLogger(GetFishActionListByMissionId::class.java)
 
     @Cacheable(value = ["fishActionList"], key = "#missionId")
-    fun execute(missionId: Int?): List<MissionAction> {
+    fun execute(missionId: String?): List<MissionAction> {
         require(missionId != null)  {
             logger.error("GetFishActionListByMissionId received a null missionId")
             throw IllegalArgumentException("GetFishActionListByMissionId should not receive null missionId")

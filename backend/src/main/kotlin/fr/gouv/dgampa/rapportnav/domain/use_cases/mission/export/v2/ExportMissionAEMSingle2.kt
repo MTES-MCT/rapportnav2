@@ -33,7 +33,7 @@ class ExportMissionAEMSingle2(
 ) {
     private val logger: Logger = LoggerFactory.getLogger(ExportMissionAEMSingle2::class.java)
 
-    fun execute(missionIds: List<Int>): MissionExportEntity? {
+    fun execute(missionIds: List<String>): MissionExportEntity? {
 
         val tableExportList = getAemTableExport(missionIds)
 
@@ -76,7 +76,7 @@ class ExportMissionAEMSingle2(
         }
     }
 
-    private fun getAemTableExport(missionIds: List<Int>) = missionIds.map {
+    private fun getAemTableExport(missionIds: List<String>) = missionIds.map {
         val envMission = getEnvMissionById2.execute(it)
         val envActions = getEnvActionByMissionId.execute(it)
         val navActions = getNavActionByMissionId.execute(it)

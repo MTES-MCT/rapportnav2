@@ -16,7 +16,7 @@ import java.util.*
 class JPAActionBAAEMPermanenceRepository(
     private val dbActionBAAEMPermanenceRepository: IDBActionBAAEMPermanenceRepository,
 ) : INavActionBAAEMRepository {
-    override fun findAllByMissionId(missionId: Int): List<ActionBAAEMPermanenceModel> {
+    override fun findAllByMissionId(missionId: String): List<ActionBAAEMPermanenceModel> {
         return dbActionBAAEMPermanenceRepository.findAllByMissionId(missionId = missionId)
     }
 

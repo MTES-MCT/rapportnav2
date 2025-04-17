@@ -11,10 +11,10 @@ import jakarta.persistence.*
 class MissionGeneralInfoModel(
     @Id
     @Column(name = "id", unique = true, nullable = false)
-    var id: Int?,
+    var id: Int? = null,
 
     @Column(name = "mission_id", nullable = false)
-    var missionId: Int = 0,
+    var missionId: String = "",
 
     @Column(name = "distance_in_nautical_miles", nullable = true)
     var distanceInNauticalMiles: Float? = null,

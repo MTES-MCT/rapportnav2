@@ -67,7 +67,7 @@ class MissionRestController(
      */
     @GetMapping("{missionId}")
     fun getMissionById(
-        @PathVariable(name = "missionId") missionId: Int
+        @PathVariable(name = "missionId") missionId: String
     ): Mission2? {
         try {
             val mission = getMission2.execute(missionId = missionId)?: return null
@@ -104,7 +104,6 @@ class MissionRestController(
             createOrUpdateGeneralInfo.execute(
                 missionId = mission?.id!!,
                 generalInfo = MissionGeneralInfo2(
-                    id = mission.id, //TODO: To remove as soon as seq is created on table mission_general_info
                     missionId = mission.id,
                     startDateTimeUtc = body.startDateTimeUtc,
                     endDateTimeUtc = body.endDateTimeUtc,

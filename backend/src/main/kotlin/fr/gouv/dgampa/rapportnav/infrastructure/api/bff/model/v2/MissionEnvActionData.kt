@@ -47,7 +47,7 @@ class MissionEnvActionData(
 ),
     BaseMissionEnvActionData {
 
-    fun getInfractions(missionId: Int, actionId: String): List<Infraction>? {
+    fun getInfractions(missionId: String, actionId: String): List<Infraction>? {
         val infractions = infractions?.flatMap { it.infractions }
         //?.filter { it.controlId != null || it.controlType != null }
         infractions?.forEach { it.setMissionIdAndActionId(missionId, actionId) }

@@ -21,7 +21,7 @@ class ProcessEnvAction(
     private val getComputeEnvTarget: GetComputeEnvTarget
 ) : AbstractGetMissionAction(getStatusForAction, getControlByActionId) {
 
-    fun execute(missionId: Int, envAction: EnvActionEntity): MissionEnvActionEntity {
+    fun execute(missionId: String, envAction: EnvActionEntity): MissionEnvActionEntity {
         val action = MissionEnvActionEntity.fromEnvAction(missionId = missionId, action = envAction)
         val targets = getComputeEnvTarget.execute(
             actionId = action.getActionId(),

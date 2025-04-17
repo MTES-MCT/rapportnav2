@@ -14,7 +14,7 @@ class ProcessNavAction(
     private val getComputeTarget: GetComputeTarget
 ) : AbstractGetMissionAction(getStatusForAction, getControlByActionId) {
 
-    fun execute(missionId: Int?, action: MissionActionModel): MissionNavActionEntity {
+    fun execute(missionId: String?, action: MissionActionModel): MissionNavActionEntity {
         val entity = MissionNavActionEntity.fromMissionActionModel(action)
         val targets = getComputeTarget.execute(actionId = entity.getActionId(), isControl = entity.isControl())
         entity.targets = targets

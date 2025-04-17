@@ -19,7 +19,7 @@ class JPAActionStatusRepository(
     private val mapper: ObjectMapper,
 ) : INavActionStatusRepository {
 
-    override fun findAllByMissionId(missionId: Int): List<ActionStatusModel> {
+    override fun findAllByMissionId(missionId: String): List<ActionStatusModel> {
         return dbActionStatusRepository.findAllByMissionId(missionId)
     }
 

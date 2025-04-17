@@ -16,7 +16,7 @@ class InfractionModel(
     var id: UUID,
 
     @Column(name = "mission_id", nullable = false)
-    var missionId: Int,
+    var missionId: String,
 
     @Column(name = "action_id", nullable = false)
     var actionId: String,

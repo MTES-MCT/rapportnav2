@@ -40,7 +40,7 @@ object MissionsStubs {
 
 
         val mission1 = MissionDataOutput(
-            id = 1234,
+            id = "1234",
             missionSource = MissionSourceEnum.RAPPORT_NAV,
             hasMissionOrder = false,
             isGeometryComputedFromControls = false,
@@ -55,7 +55,7 @@ object MissionsStubs {
         )
 
         val mission2 = MissionDataOutput(
-            id = 5678,
+            id = "5678",
             missionSource = MissionSourceEnum.MONITORENV,
             hasMissionOrder = false,
             isGeometryComputedFromControls = false,

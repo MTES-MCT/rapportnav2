@@ -42,7 +42,7 @@ class CreateOrUpdateGeneralInfoTest {
     @MockitoBean
     private lateinit var updateMissionNav: UpdateMissionNav
 
-    private fun createMissionGeneralInfoEntityData(missionId: Int, serviceId: Int?): MissionGeneralInfoEntity {
+    private fun createMissionGeneralInfoEntityData(missionId: String, serviceId: Int?): MissionGeneralInfoEntity {
         val entity = MissionGeneralInfoEntity(
             id = 1,
             missionId = missionId,

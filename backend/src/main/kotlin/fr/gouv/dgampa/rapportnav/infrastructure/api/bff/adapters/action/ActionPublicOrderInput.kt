@@ -6,7 +6,7 @@ import java.util.*
 
 class ActionPublicOrderInput(
     var id: UUID? = null,
-    var missionId: Int,
+    var missionId: String,
     var startDateTimeUtc: Instant,
     var endDateTimeUtc: Instant? = null,
     var observations: String? = null

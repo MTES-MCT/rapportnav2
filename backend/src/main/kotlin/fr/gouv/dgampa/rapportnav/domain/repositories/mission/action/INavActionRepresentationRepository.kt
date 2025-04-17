@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.Ac
 import java.util.*
 
 interface INavActionRepresentationRepository {
-    fun findAllByMissionId(missionId: Int): List<ActionRepresentationModel>
+    fun findAllByMissionId(missionId: String): List<ActionRepresentationModel>
     fun findById(id: UUID): Optional<ActionRepresentationModel>
 
     fun save(representationEntity: ActionRepresentationEntity): ActionRepresentationModel

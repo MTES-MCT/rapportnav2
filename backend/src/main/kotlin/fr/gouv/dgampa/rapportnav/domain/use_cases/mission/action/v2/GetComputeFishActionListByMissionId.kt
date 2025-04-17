@@ -13,7 +13,7 @@ class GetComputeFishActionListByMissionId(
 ) {
     private val logger = LoggerFactory.getLogger(GetComputeFishActionListByMissionId::class.java)
 
-    fun execute(missionId: Int?): List<MissionFishActionEntity> {
+    fun execute(missionId: String?): List<MissionFishActionEntity> {
         if (missionId == null) {
             logger.error("GetComputeFishActionListByMissionId received a null missionId")
             throw IllegalArgumentException("GetComputeFishActionListByMissionId" +
@@ -28,7 +28,7 @@ class GetComputeFishActionListByMissionId(
         }
     }
 
-    private fun getFishActionList(missionId: Int): List<MissionAction> {
+    private fun getFishActionList(missionId: String): List<MissionAction> {
         return getFishActionListByMissionId.execute(missionId = missionId).orEmpty().filter {
             listOf(
                 MissionActionType.SEA_CONTROL,

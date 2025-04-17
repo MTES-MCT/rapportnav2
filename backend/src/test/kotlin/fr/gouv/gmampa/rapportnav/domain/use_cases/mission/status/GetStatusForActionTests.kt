@@ -34,7 +34,7 @@ class GetStatusForActionTests {
         }
     }
 
-    private var missionId: Int = 1
+    private var missionId: String = "1"
 
     @MockitoBean
     private lateinit var statusActionsRepository: INavActionStatusRepository
@@ -44,7 +44,7 @@ class GetStatusForActionTests {
 
     @Test
     fun `execute Should return Unknown when action is empty list for a mission`() {
-        given(this.statusActionsRepository.findAllByMissionId(missionId = 1)).willReturn(listOf())
+        given(this.statusActionsRepository.findAllByMissionId(missionId = "1")).willReturn(listOf())
         val statusForAction = getStatusForAction.execute(missionId = missionId, actionStartDateTimeUtc = null)
         assertThat(statusForAction).isEqualTo(ActionStatusType.UNKNOWN)
     }
@@ -59,7 +59,7 @@ class GetStatusForActionTests {
             status = ActionStatusType.UNAVAILABLE,
         )
         val actions = listOf(startingAction)
-        given(this.statusActionsRepository.findAllByMissionId(missionId = 1)).willReturn(actions.map {
+        given(this.statusActionsRepository.findAllByMissionId(missionId = "1")).willReturn(actions.map {
             ActionStatusModel.fromActionStatusEntity(
                 it
             )

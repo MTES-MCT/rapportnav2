@@ -16,7 +16,7 @@ data class ControlAdministrative(
     val observations: String?,
     val infractions: List<Infraction>? = null
 ) {
-    fun toControlAdministrativeEntity(missionId: Int, actionId: String): ControlAdministrativeEntity {
+    fun toControlAdministrativeEntity(missionId: String, actionId: String): ControlAdministrativeEntity {
         return ControlAdministrativeEntity(
             id = id,
             missionId = missionId,

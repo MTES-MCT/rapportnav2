@@ -17,7 +17,7 @@ class GetEnvActionByIdAndMissionId(
     private val getEnvMissionById: GetEnvMissionById,
     private val attachControlsToActionControl: AttachControlsToActionControl,
 ) {
-    fun execute(id: UUID, missionId: Int): ExtendedEnvActionEntity? {
+    fun execute(id: UUID, missionId: String): ExtendedEnvActionEntity? {
         // MonitorEnv doesn't have an action endpoint so fetch the mission
         val mission = getEnvMissionById.execute(missionId = missionId)
 

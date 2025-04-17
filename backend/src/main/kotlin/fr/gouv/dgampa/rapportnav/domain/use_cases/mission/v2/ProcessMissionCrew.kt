@@ -12,7 +12,7 @@ class ProcessMissionCrew(
     private val addOrUpdateMissionCrew: AddOrUpdateMissionCrew,
     private val deleteMissionCrew: DeleteMissionCrew,
 ) {
-    fun execute(missionId: Int, crew:  List<MissionCrewEntity>): List<MissionCrewEntity> {
+    fun execute(missionId: String, crew:  List<MissionCrewEntity>): List<MissionCrewEntity> {
         val crewIds = crew.map { it.id }
         val databaseMissionCrews = getAgentsCrewByMissionId.execute(missionId)
 

@@ -6,7 +6,7 @@ import java.util.*
 
 interface BaseAction {
     val id: UUID
-    val missionId: Int
+    val missionId: String
     var isCompleteForStats: Boolean?
     var sourcesOfMissingDataForStats: List<MissionSourceEnum>?
     val startDateTimeUtc: Instant

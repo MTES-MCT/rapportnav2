@@ -53,7 +53,7 @@ class ExportMissionRapportPatrouille(
 
     private val getMissionOperationalSummary = GetMissionOperationalSummary()
 
-    fun exportOdt(missionId: Int): MissionExportEntity? {
+    fun exportOdt(missionId: String): MissionExportEntity? {
 
         try {
             val mission: MissionEntity? = getMission.execute(missionId = missionId)

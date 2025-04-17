@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.*
 
 object ControlInputMock {
-    fun createAllControl(actionId: String? = null, missionId: Int? = null): ActionControl {
+    fun createAllControl(actionId: String? = null, missionId: String? = null): ActionControl {
         return ActionControl(
             controlSecurity = ControlSecurity(
                 observations = "My beautiful observation",

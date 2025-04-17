@@ -5,7 +5,7 @@ import java.util.*
 
 data class ControlSecurityEntity(
     override var id: UUID,
-    val missionId: Int,
+    val missionId: String,
     override val actionControlId: String,
     val amountOfControls: Int,
     override val unitShouldConfirm: Boolean? = null,

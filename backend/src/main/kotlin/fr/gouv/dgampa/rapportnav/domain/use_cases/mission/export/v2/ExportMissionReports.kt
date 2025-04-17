@@ -19,7 +19,7 @@ class ExportMissionReports(
     private val logger = LoggerFactory.getLogger(ExportMissionReports::class.java)
 
     fun execute(
-        missionIds: List<Int>,
+        missionIds: List<String>,
         exportMode: ExportModeEnum,
         reportType: ExportReportTypeEnum
     ): MissionExportEntity? {

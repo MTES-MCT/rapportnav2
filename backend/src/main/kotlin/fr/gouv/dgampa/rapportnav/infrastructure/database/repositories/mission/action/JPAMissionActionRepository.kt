@@ -16,7 +16,7 @@ import java.util.*
 class JPAMissionActionRepository(
     private val dbMissionActionRepository: IDBMissionActionRepository,
 ) : INavMissionActionRepository {
-    override fun findByMissionId(missionId: Int): List<MissionActionModel> {
+    override fun findByMissionId(missionId: String): List<MissionActionModel> {
         return dbMissionActionRepository.findAllByMissionId(missionId)
     }
 

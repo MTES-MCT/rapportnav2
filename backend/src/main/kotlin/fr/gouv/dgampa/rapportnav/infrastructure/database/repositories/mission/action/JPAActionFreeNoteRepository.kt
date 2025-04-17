@@ -19,7 +19,7 @@ class JPAActionFreeNoteRepository(
     private val mapper: ObjectMapper
 ) : INavActionFreeNoteRepository {
 
-    override fun findAllByMissionId(missionId: Int): List<ActionFreeNoteModel> {
+    override fun findAllByMissionId(missionId: String): List<ActionFreeNoteModel> {
         return dbActionFreeNoteRepository.findAllByMissionId(missionId)
     }
 

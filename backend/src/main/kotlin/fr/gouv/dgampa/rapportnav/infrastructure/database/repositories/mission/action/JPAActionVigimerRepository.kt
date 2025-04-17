@@ -16,7 +16,7 @@ import java.util.*
 class JPAActionVigimerRepository(
     private val dbActionVigimerRepository: IDBActionVigimerRepository,
 ) : INavActionVigimerRepository {
-    override fun findAllByMissionId(missionId: Int): List<ActionVigimerModel> {
+    override fun findAllByMissionId(missionId: String): List<ActionVigimerModel> {
         return dbActionVigimerRepository.findAllByMissionId(missionId)
     }
 

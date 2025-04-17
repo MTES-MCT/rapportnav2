@@ -34,12 +34,12 @@ class GetNavMissionById(
 ) {
     private val logger = LoggerFactory.getLogger(GetNavMissionById::class.java)
 
-    fun execute(missionId: Int?, controlUnits: List<LegacyControlUnitEntity>? = null): NavMissionEntity {
+    fun execute(missionId: String?, controlUnits: List<LegacyControlUnitEntity>? = null): NavMissionEntity {
         if (missionId == null) {
             logger.error("GetNavMissionById received a null missionId")
             throw IllegalArgumentException("GetNavMissionById should not receive null missionId")
         }
-        
+
         logger.info("Retrieving Nav data for missionId: {}", missionId)
         try {
             val controls = fetchControls(missionId)
@@ -75,7 +75,7 @@ class GetNavMissionById(
         }
     }
 
-    private fun fetchControls(missionId: Int): List<NavActionEntity> {
+    private fun fetchControls(missionId: String): List<NavActionEntity> {
         return try {
             navActionControlRepository.findAllByMissionId(missionId).map { actionControl ->
                 attachControlsToActionControl.toNavAction(
@@ -89,7 +89,7 @@ class GetNavMissionById(
         }
     }
 
-    private fun fetchStatuses(missionId: Int): List<NavActionEntity> {
+    private fun fetchStatuses(missionId: String): List<NavActionEntity> {
         return try {
             navStatusRepository.findAllByMissionId(missionId).map { it.toActionStatusEntity() }
                 .map { it.toNavActionEntity() }
@@ -99,7 +99,7 @@ class GetNavMissionById(
         }
     }
 
-    private fun fetchNotes(missionId: Int): List<NavActionEntity> {
+    private fun fetchNotes(missionId: String): List<NavActionEntity> {
         return try {
             navFreeNoteRepository.findAllByMissionId(missionId).map { it.toActionFreeNoteEntity() }
                 .map { it.toNavActionEntity() }
@@ -109,7 +109,7 @@ class GetNavMissionById(
         }
     }
 
-    private fun fetchGeneralInfo(missionId: Int): MissionGeneralInfoEntity? {
+    private fun fetchGeneralInfo(missionId: String): MissionGeneralInfoEntity? {
         return try {
             getMissionGeneralInfoByMissionId.execute(missionId)
         } catch (e: Exception) {
@@ -118,7 +118,7 @@ class GetNavMissionById(
         }
     }
 
-    private fun fetchCrew(missionId: Int): List<MissionCrewEntity> {
+    private fun fetchCrew(missionId: String): List<MissionCrewEntity> {
         return try {
             getAgentsCrewByMissionId.execute(missionId)
         } catch (e: Exception) {
@@ -127,7 +127,7 @@ class GetNavMissionById(
         }
     }
 
-    private fun fetchRescues(missionId: Int): List<NavActionEntity> {
+    private fun fetchRescues(missionId: String): List<NavActionEntity> {
         return try {
             navRescueRepository.findAllByMissionId(missionId).map { it.toActionRescueEntity() }
                 .map { it.toNavActionEntity() }
@@ -137,7 +137,7 @@ class GetNavMissionById(
         }
     }
 
-    private fun fetchNauticalEvents(missionId: Int): List<NavActionEntity> {
+    private fun fetchNauticalEvents(missionId: String): List<NavActionEntity> {
         return try {
             navNauticalEventRepository.findAllByMissionId(missionId).map { it.toActionNauticalEventEntity() }
                 .map { it.toNavActionEntity() }
@@ -147,7 +147,7 @@ class GetNavMissionById(
         }
     }
 
-    private fun fetchVigimer(missionId: Int): List<NavActionEntity> {
+    private fun fetchVigimer(missionId: String): List<NavActionEntity> {
         return try {
             navVigimerRepository.findAllByMissionId(missionId).map { it.toActionVigimerEntity() }
                 .map { it.toNavActionEntity() }
@@ -157,7 +157,7 @@ class GetNavMissionById(
         }
     }
 
-    private fun fetchAntiPollutions(missionId: Int): List<NavActionEntity> {
+    private fun fetchAntiPollutions(missionId: String): List<NavActionEntity> {
         return try {
             navAntiPollutionRepository.findAllByMissionId(missionId).map { it.toAntiPollutionEntity() }
                 .map { it.toNavActionEntity() }
@@ -167,7 +167,7 @@ class GetNavMissionById(
         }
     }
 
-    private fun fetchBaaemPermanences(missionId: Int): List<NavActionEntity> {
+    private fun fetchBaaemPermanences(missionId: String): List<NavActionEntity> {
         return try {
             navBAAEMRepository.findAllByMissionId(missionId).map { it.toActionBAAEMPermanenceEntity() }
                 .map { it.toNavActionEntity() }
@@ -177,7 +177,7 @@ class GetNavMissionById(
         }
     }
 
-    private fun fetchPublicOrders(missionId: Int): List<NavActionEntity> {
+    private fun fetchPublicOrders(missionId: String): List<NavActionEntity> {
         return try {
             navPublicOrderRepository.findAllByMissionId(missionId).map { it.toPublicOrderEntity() }
                 .map { it.toNavActionEntity() }
@@ -187,7 +187,7 @@ class GetNavMissionById(
         }
     }
 
-    private fun fetchRepresentations(missionId: Int): List<NavActionEntity> {
+    private fun fetchRepresentations(missionId: String): List<NavActionEntity> {
         return try {
             navRepresentationRepository.findAllByMissionId(missionId).map { it.toRepresentationEntity() }
                 .map { it.toNavActionEntity() }
@@ -197,7 +197,7 @@ class GetNavMissionById(
         }
     }
 
-    private fun fetchIllegalImmigrations(missionId: Int): List<NavActionEntity> {
+    private fun fetchIllegalImmigrations(missionId: String): List<NavActionEntity> {
         return try {
             navIllegalImmigrationRepository.findAllByMissionId(missionId).map { it.toActionIllegalImmigrationEntity() }
                 .map { it.toNavActionEntity() }

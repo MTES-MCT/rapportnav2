@@ -12,7 +12,7 @@ data class ActionFreeNoteEntity(
     override val id: UUID,
 
     @MandatoryForStats
-    override val missionId: Int,
+    override val missionId: String,
 
     override var isCompleteForStats: Boolean? = null,
     override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
@@ -25,7 +25,7 @@ data class ActionFreeNoteEntity(
 ) : BaseAction {
     constructor(
         id: UUID,
-        missionId: Int,
+        missionId: String,
         startDateTimeUtc: Instant,
         observations: String?
     ) : this(

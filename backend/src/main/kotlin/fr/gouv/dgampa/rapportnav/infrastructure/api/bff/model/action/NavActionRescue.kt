@@ -5,7 +5,7 @@ import java.util.*
 
 data class NavActionRescue(
     val id: UUID,
-    val missionId: Int,
+    val missionId: String,
     val startDateTimeUtc: Instant,
     val endDateTimeUtc: Instant? = null,
     val latitude: Float? = null,

@@ -10,7 +10,7 @@ import java.time.Instant
 
 data class FishActionData(
     val id: String?,
-    val missionId: Int,
+    val missionId: String,
     val actionType: MissionActionType,
     val vesselId: Int?,
     val vesselName: String?,

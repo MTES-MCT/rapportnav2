@@ -12,7 +12,7 @@ data class ControlSecurity(
     val observations: String?,
     val infractions: List<Infraction>? = null
 ) {
-    fun toControlSecurityEntity(missionId: Int, actionId: String): ControlSecurityEntity {
+    fun toControlSecurityEntity(missionId: String, actionId: String): ControlSecurityEntity {
         return ControlSecurityEntity(
             id = id,
             missionId = missionId,

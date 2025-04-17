@@ -13,7 +13,7 @@ import java.util.*
 
 data class MissionEnvActionEntity(
     override val id: UUID,
-    override val missionId: Int,
+    override val missionId: String,
     override val envActionType: ActionTypeEnum,
     override val completedBy: String? = null,
     override val completion: ActionCompletionEnum? = null,
@@ -149,7 +149,7 @@ data class MissionEnvActionEntity(
     }
 
     companion object {
-        fun fromEnvAction(missionId: Int, action: EnvActionEntity) = MissionEnvActionEntity(
+        fun fromEnvAction(missionId: String, action: EnvActionEntity) = MissionEnvActionEntity(
             id = action.id,
             missionId = missionId,
             envActionType = action.actionType,

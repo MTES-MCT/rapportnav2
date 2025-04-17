@@ -16,7 +16,7 @@ import java.util.*
 class JPAActionAntiPollutionRepository(
     private val dbActionAntipollutionRepository: IDBActionAntiPollutionRepository,
 ) : INavActionAntiPollutionRepository {
-    override fun findAllByMissionId(missionId: Int): List<ActionAntiPollutionModel> {
+    override fun findAllByMissionId(missionId: String): List<ActionAntiPollutionModel> {
         return dbActionAntipollutionRepository.findAllByMissionId(missionId)
     }
 

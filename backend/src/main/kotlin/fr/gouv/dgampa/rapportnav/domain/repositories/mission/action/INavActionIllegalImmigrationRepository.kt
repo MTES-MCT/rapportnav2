@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.Ac
 import java.util.*
 
 interface INavActionIllegalImmigrationRepository {
-    fun findAllByMissionId(missionId: Int): List<ActionIllegalImmigrationModel>
+    fun findAllByMissionId(missionId: String): List<ActionIllegalImmigrationModel>
     fun findById(id: UUID): Optional<ActionIllegalImmigrationModel>
 
     fun save(illegalImmigrationEntity: ActionIllegalImmigrationEntity): ActionIllegalImmigrationModel

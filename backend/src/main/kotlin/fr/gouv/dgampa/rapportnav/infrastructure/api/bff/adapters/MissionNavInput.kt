@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import java.time.Instant
 
 data class MissionNavInput(
-    val id: Int? = null,
+    val id: String? = null,
     val startDateTimeUtc: Instant? = null,
     val endDateTimeUtc: Instant? = null,
     val isDeleted: Boolean? = false,

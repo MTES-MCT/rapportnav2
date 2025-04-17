@@ -10,7 +10,7 @@ import java.time.Instant
 import java.time.format.DateTimeParseException
 
 data class MissionEntity2(
-    val id: Int,
+    val id: String,
     val data: MissionEntity? = null,
     val actions: List<MissionActionEntity>? = listOf(),
     val generalInfos: MissionGeneralInfoEntity2? = null

@@ -16,7 +16,7 @@ import java.util.*
 class JPAActionRepresentationRepository(
     private val dbActionRepresentationRepository: IDBActionRepresentationRepository,
 ) : INavActionRepresentationRepository {
-    override fun findAllByMissionId(missionId: Int): List<ActionRepresentationModel> {
+    override fun findAllByMissionId(missionId: String): List<ActionRepresentationModel> {
         return dbActionRepresentationRepository.findAllByMissionId(missionId)
     }
 

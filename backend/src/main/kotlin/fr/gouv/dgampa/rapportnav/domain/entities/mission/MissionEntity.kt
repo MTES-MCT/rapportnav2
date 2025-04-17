@@ -14,7 +14,7 @@ import java.time.Instant
 import java.time.format.DateTimeParseException
 
 data class MissionEntity(
-    val id: Int,
+    val id: String,
     val missionTypes: List<MissionTypeEnum>,
     val controlUnits: List<LegacyControlUnitEntity> = listOf(),
     val openBy: String? = null,

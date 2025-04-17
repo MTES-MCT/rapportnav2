@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRe
 @UseCase
 class GetAgentsCrewByMissionId(private val agentCrewRepository: IMissionCrewRepository) {
 
-    fun execute(missionId: Int, commentDefaultsToString: Boolean? = false): List<MissionCrewEntity> {
+    fun execute(missionId: String, commentDefaultsToString: Boolean? = false): List<MissionCrewEntity> {
         val rolePriority = listOf(
             "Commandant",
             "Second capitaine",

@@ -8,7 +8,7 @@ import java.util.*
 object FishActionControlMock {
     fun create(
         id: Int = UUID.randomUUID().hashCode(),
-        missionId: Int = 1,
+        missionId: String = "1",
         actionDatetimeUtc: Instant = Instant.parse("2022-01-02T12:00:01Z"),
         actionEndDatetimeUtc: Instant? = Instant.parse("2022-01-02T13:00:01Z"),
         actionType: MissionActionType = MissionActionType.SEA_CONTROL,

@@ -51,7 +51,7 @@ object MissionByIdStubs {
 
 
         val mission = MissionDataOutput(
-            id = 1234,
+            id = "1234",
             missionSource = MissionSourceEnum.RAPPORT_NAV,
             hasMissionOrder = false,
             isGeometryComputedFromControls = false,

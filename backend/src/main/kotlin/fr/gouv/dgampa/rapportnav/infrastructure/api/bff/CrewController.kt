@@ -61,7 +61,7 @@ class CrewController(
 
 
     @QueryMapping
-    fun missionCrewByMissionId(@Argument missionId: Int): List<MissionCrew> {
+    fun missionCrewByMissionId(@Argument missionId: String): List<MissionCrew> {
         return getAgentsCrewByMissionId.execute(
             missionId = missionId
         ).map { MissionCrew.fromMissionCrewEntity(it) }

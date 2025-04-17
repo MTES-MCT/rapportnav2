@@ -16,7 +16,7 @@ data class MissionActionDataOutput(
     val districtCode: String? = null,
     val faoAreas: List<String> = listOf(),
     val flightGoals: List<FlightGoal> = listOf(),
-    val missionId: Int,
+    val missionId: String,
     val actionType: MissionActionType,
     val actionDatetimeUtc: ZonedDateTime,
     val actionEndDatetimeUtc: ZonedDateTime? = null,

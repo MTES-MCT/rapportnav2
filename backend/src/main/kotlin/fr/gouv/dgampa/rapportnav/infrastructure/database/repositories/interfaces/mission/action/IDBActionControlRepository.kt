@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
 interface IDBActionControlRepository : JpaRepository<ActionControlModel, UUID> {
-    fun findAllByMissionId(missionId: Int): List<ActionControlModel>
+    fun findAllByMissionId(missionId: String): List<ActionControlModel>
 
     override fun existsById(id: UUID): Boolean
 

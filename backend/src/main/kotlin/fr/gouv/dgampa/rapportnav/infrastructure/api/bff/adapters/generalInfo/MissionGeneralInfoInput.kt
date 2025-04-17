@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.generalInfo.Missio
 
 data class MissionGeneralInfoInput(
     var id: Int?,
-    var missionId: Int,
+    var missionId: String,
     var distanceInNauticalMiles: Float? = null,
     var consumedGOInLiters: Float? = null,
     var consumedFuelInLiters: Float? = null,
@@ -13,7 +13,7 @@ data class MissionGeneralInfoInput(
 ) {
     fun toMissionGeneralInfo(): MissionGeneralInfo {
         return MissionGeneralInfo(
-            id = id ?: missionId,
+            id = id,
             missionId,
             distanceInNauticalMiles,
             consumedGOInLiters,

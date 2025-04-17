@@ -8,18 +8,18 @@ import java.util.*
 
 object ControlMock {
 
-    fun createAllControl(actionId: String? = null, missionId: Int? = null): ActionControlEntity {
+    fun createAllControl(actionId: String? = null, missionId: String? = null): ActionControlEntity {
         return ActionControlEntity(
             controlSecurity = ControlSecurityEntity(
                 id = UUID.randomUUID(),
-                missionId = missionId ?: 761,
+                missionId = missionId ?: "761",
                 actionControlId = actionId ?: "MyActionId",
                 amountOfControls = 2,
                 hasBeenDone = false
             ),
             controlGensDeMer = ControlGensDeMerEntity(
                 id = UUID.randomUUID(),
-                missionId = missionId ?: 761,
+                missionId = missionId ?: "761",
                 actionControlId = actionId ?: "MyActionId",
                 amountOfControls = 2,
                 hasBeenDone = true,
@@ -29,7 +29,7 @@ object ControlMock {
             ),
             controlNavigation = ControlNavigationEntity(
                 id = UUID.randomUUID(),
-                missionId = missionId ?: 761,
+                missionId = missionId ?: "761",
                 actionControlId = actionId ?: "MyActionId",
                 amountOfControls = 2,
                 hasBeenDone = true,
@@ -37,7 +37,7 @@ object ControlMock {
             ),
             controlAdministrative = ControlAdministrativeEntity(
                 id = UUID.randomUUID(),
-                missionId = missionId ?: 761,
+                missionId = missionId ?: "761",
                 actionControlId = actionId ?: "MyActionId",
                 amountOfControls = 2,
                 hasBeenDone = false,

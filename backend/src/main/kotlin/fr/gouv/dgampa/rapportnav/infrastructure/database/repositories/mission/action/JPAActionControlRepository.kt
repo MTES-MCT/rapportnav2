@@ -19,7 +19,7 @@ class JPAActionControlRepository(
     private val mapper: ObjectMapper,
 ) : INavActionControlRepository {
 
-    override fun findAllByMissionId(missionId: Int): List<ActionControlEntity> {
+    override fun findAllByMissionId(missionId: String): List<ActionControlEntity> {
         return dbActionModelRepository.findAllByMissionId(missionId).map { it.toActionControlEntity() }
     }
 

@@ -62,7 +62,7 @@ class ActionController(
     @QueryMapping
     fun actionById(
         @Argument id: String,
-        @Argument missionId: Int,
+        @Argument missionId: String,
         @Argument source: MissionSourceEnum,
         @Argument type: ActionType
     ): Action? {

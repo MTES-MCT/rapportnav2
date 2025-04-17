@@ -34,7 +34,7 @@ class JPAMissionNavRepository(
         }
     }
 
-    override fun finById(id: Int): Optional<MissionModel> {
+    override fun finById(id: String): Optional<MissionModel> {
         return dbRepository.findById(id)
     }
 

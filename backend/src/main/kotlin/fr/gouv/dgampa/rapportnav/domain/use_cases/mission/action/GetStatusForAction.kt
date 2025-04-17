@@ -11,7 +11,7 @@ class GetStatusForAction(
     private val statusActionsRepository: INavActionStatusRepository
 ) {
     private val logger = LoggerFactory.getLogger(GetStatusForAction::class.java)
-    fun execute(missionId: Int, actionStartDateTimeUtc: Instant? = null): ActionStatusType {
+    fun execute(missionId: String, actionStartDateTimeUtc: Instant? = null): ActionStatusType {
         val actions =
             statusActionsRepository.findAllByMissionId(missionId = missionId).map { it.toActionStatusEntity() }
 

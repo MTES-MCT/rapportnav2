@@ -7,7 +7,7 @@ import java.util.*
 
 data class NavActionStatus(
     val id: UUID,
-    val missionId: Int,
+    val missionId: String,
     val startDateTimeUtc: Instant,
     val status: ActionStatusType,
     val reason: ActionStatusReason? = null,

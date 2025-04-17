@@ -10,7 +10,7 @@ class GetNavMissionById2(
     private val repository: IMissionNavRepository
 ) {
 
-    fun execute(id: Int): MissionEntity? {
+    fun execute(id: String): MissionEntity? {
         val mission = repository.finById(id).orElse(null) ?: return null
         return MissionNavEntity.fromMissionModel(mission).toMissionEntity()
     }

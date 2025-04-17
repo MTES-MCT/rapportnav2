@@ -13,7 +13,7 @@ import java.util.*
 
 data class ActionControlInput(
     val id: UUID? = null,
-    val missionId: Int,
+    val missionId: String,
     val startDateTimeUtc: Instant? = null,
     val endDateTimeUtc: Instant? = null,
     val latitude: Double? = null,

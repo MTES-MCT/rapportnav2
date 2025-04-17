@@ -6,7 +6,7 @@ import java.util.*
 
 data class NavActionEntity(
     val id: UUID,
-    val missionId: Int,
+    val missionId: String,
     var isCompleteForStats: Boolean? = null,
     val sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
     val startDateTimeUtc: Instant,

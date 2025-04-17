@@ -12,7 +12,7 @@ import java.util.*
 
 data class NavActionControl(
     val id: UUID,
-    val missionId: Int,
+    val missionId: String,
     val startDateTimeUtc: Instant,
     val endDateTimeUtc: Instant? = null,
     val latitude: Double? = null,

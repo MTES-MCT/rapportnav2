@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissio
 class GetMissionGeneralInfoByMissionId(
     private val infoRepo: IMissionGeneralInfoRepository
 ) {
-    fun execute(missionId: Int): MissionGeneralInfoEntity? {
+    fun execute(missionId: String): MissionGeneralInfoEntity? {
         val info = infoRepo.findByMissionId(missionId = missionId).orElse(null)
         if (info != null) {
             return MissionGeneralInfoEntity.fromMissionGeneralInfoModel(info)

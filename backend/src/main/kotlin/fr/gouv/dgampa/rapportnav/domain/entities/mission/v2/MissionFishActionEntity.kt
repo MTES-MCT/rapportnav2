@@ -14,7 +14,7 @@ data class FishInfraction(val natinf: Int?, val infractionType: InfractionType?)
 
 class MissionFishActionEntity(
     override val id: Int?,
-    override val missionId: Int,
+    override val missionId: String,
     override val vesselId: Int? = null,
     override val vesselName: String? = null,
     override val internalReferenceNumber: String? = null,

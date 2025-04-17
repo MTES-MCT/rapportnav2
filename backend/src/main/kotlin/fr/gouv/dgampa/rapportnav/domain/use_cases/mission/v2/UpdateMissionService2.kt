@@ -15,7 +15,7 @@ class UpdateMissionService2(
 
     fun execute(
         serviceId: Int,
-        missionId: Int
+        missionId: String
     ): Boolean? {
         return try {
             // get active agents for current service

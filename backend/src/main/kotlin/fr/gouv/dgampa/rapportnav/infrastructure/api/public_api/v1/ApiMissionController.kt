@@ -22,7 +22,7 @@ class ApiMissionController(
     fun getMissionById(
         @PathParam("ID of a Mission")
         @PathVariable(name = "missionId")
-        missionId: Int,
+        missionId: String,
     ): ApiMissionDataOutput? {
         val navMission: NavMissionEntity = getNavMissionById.execute(missionId = missionId)
 

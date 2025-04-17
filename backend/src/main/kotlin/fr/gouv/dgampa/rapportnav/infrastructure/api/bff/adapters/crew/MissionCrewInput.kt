@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEnt
 data class MissionCrewInput(
     val id: Int?,
     val agent: AgentInput,
-    val missionId: Int,
+    val missionId: String,
     val comment: String?,
     val role: AgentRoleInput
 ) {

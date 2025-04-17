@@ -16,7 +16,7 @@ data class MissionActionModel(
     var id: UUID,
 
     @Column(name = "mission_id", nullable = false)
-    var missionId: Int,
+    var missionId: String,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "action_type", nullable = false)

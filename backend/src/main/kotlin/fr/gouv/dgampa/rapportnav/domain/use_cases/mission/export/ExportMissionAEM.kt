@@ -27,7 +27,7 @@ class ExportMissionAEM(
     ) {
 
     private val logger: Logger = LoggerFactory.getLogger(ExportMissionAEM::class.java)
-    fun execute(missionId: Int): MissionExportEntity? {
+    fun execute(missionId: String): MissionExportEntity? {
         return try {
 
             val inputStream = javaClass.getResourceAsStream(aemTemplatePath)
