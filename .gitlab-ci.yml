@@ -13,7 +13,7 @@ variables:
     value: "postgres:15.10-alpine"
     description: "Image de la base de données"
   PROJECT_VERSION:
-    value: "2.5.30"
+    value: "2.5.31"
     description: "Version du projet à déployer"
   SERVER_ENV_INT:
     value: "int-rapportnav-appli01"
