@@ -18,7 +18,7 @@ data class InfractionModel2(
 
     @ElementCollection
     @CollectionTable(
-        name = "infraction_natinf",
+        name = "infraction_natinf_2",
         joinColumns = [JoinColumn(name = "infraction_id")]
     )
     @Column(name = "natinf_code")

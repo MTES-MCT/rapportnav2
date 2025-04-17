@@ -10,7 +10,7 @@ import java.time.Instant
 import java.util.*
 
 class Target2(
-    var id: UUID,
+    var id: UUID? = null,
     var actionId: String,
     var targetType: TargetType,
     var status: TargetStatusType? = null,
@@ -28,7 +28,7 @@ class Target2(
 ) {
     fun toTargetEntity(): TargetEntity2 {
         return TargetEntity2(
-            id = id,
+            id = id?: UUID.randomUUID(),
             agent = agent,
             actionId = actionId,
             targetType = targetType,

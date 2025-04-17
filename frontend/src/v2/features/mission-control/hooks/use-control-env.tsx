@@ -7,12 +7,13 @@ import {
 } from '@common/types/control-types'
 import { FieldProps } from 'formik'
 import { number, object } from 'yup'
+import { Control } from '../../common/types/target-types'
 import { AbstractControlFormikHook } from '../types/control-hook'
 import { useAbstractControl } from './use-abstract-control'
 import { useControlRegistry } from './use-control-registry'
 
-export type EnvControl = ControlAdministrative | ControlGensDeMer | ControlNavigation | ControlSecurity
-export type EnvControlInput = {} & ControlAdministrative
+export type EnvControl = ControlAdministrative | ControlGensDeMer | ControlNavigation | ControlSecurity | Control
+export type EnvControlInput = {} & EnvControl
 
 export function useEnvControl(
   name: string,
@@ -21,7 +22,7 @@ export function useEnvControl(
   maxControl?: number
 ): AbstractControlFormikHook<EnvControlInput> {
   const { getControlType } = useControlRegistry()
-  const { isError, initValue, handleSubmit } = useAbstractControl<ControlAdministrative, EnvControlInput>(
+  const { isError, initValue, handleSubmit } = useAbstractControl<EnvControlInput, EnvControlInput>(
     name,
     fieldFormik,
     (input: EnvControl) => input as EnvControlInput,

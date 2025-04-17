@@ -12,6 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ITargetR
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.v2.ControlModel2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel2
 import org.slf4j.LoggerFactory
+import java.time.Instant
 import java.util.*
 
 @UseCase
@@ -32,16 +33,29 @@ class GetComputeEnvTarget(
     }
 
     fun getNavTargets(actionId: String): List<TargetEntity2> {
-        return targetRepo.findByActionId(actionId)
+        var targets = targetRepo.findByActionId(actionId)
             .filter { it.externalId == null }
-            .map { TargetEntity2.fromTargetModel(it) }
+
+        if (targets.isEmpty()) {
+            val target = save(
+                getNewTarget(actionId = actionId, source = MissionSourceEnum.RAPPORTNAV)
+            )
+            targets = listOf(target)
+        }
+        return targets.map { TargetEntity2.fromTargetModel(it) }
     }
 
     fun getEnvTargets(actionId: String, envInfractions: List<InfractionEntity>?): List<TargetEntity2> {
         return envInfractions?.map {
             var target = targetRepo.findByExternalId(it.id)
             if (target == null) {
-                target = save(getNewTarget(actionId = actionId, externalId = it.id))
+                target = save(
+                    getNewTarget(
+                        actionId = actionId,
+                        externalId = it.id,
+                        source = MissionSourceEnum.MONITORENV
+                    )
+                )
             }
             val entity = TargetEntity2.fromTargetModel(target)
             entity.externalData = getExternalData(it)
@@ -54,15 +68,17 @@ class GetComputeEnvTarget(
         return targetRepo.save(target)
     }
 
-    private fun getNewTarget(actionId: String, externalId: String): TargetModel2 {
+    private fun getNewTarget(actionId: String, source: MissionSourceEnum, externalId: String? = null): TargetModel2 {
         return TargetModel2(
             actionId = actionId,
             id = UUID.randomUUID(),
             externalId = externalId,
+            source = source.toString(),
             controls = getNewControls(),
-            targetType = TargetType.DEFAULT,
-            status = TargetStatusType.IN_PROCESS.toString(),
-            source = MissionSourceEnum.MONITORENV.toString()
+            targetType = TargetType.VEHICLE,
+            startDateTimeUtc = Instant.now(),
+            status = TargetStatusType.IN_PROCESS.toString()
+
         )
     }
 

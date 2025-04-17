@@ -10,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ITargetR
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.v2.ControlModel2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel2
 import org.slf4j.LoggerFactory
+import java.time.Instant
 import java.util.*
 
 @UseCase
@@ -42,6 +43,7 @@ class GetComputeTarget(
             id = UUID.randomUUID(),
             controls = getNewControls(),
             targetType = TargetType.DEFAULT,
+            startDateTimeUtc = Instant.now(),
             status = TargetStatusType.IN_PROCESS.toString(),
             source = MissionSourceEnum.RAPPORTNAV.toString()
         )
