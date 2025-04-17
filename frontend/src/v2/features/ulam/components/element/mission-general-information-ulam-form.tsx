@@ -41,6 +41,7 @@ const MissionGeneralInformationUlamForm: FC<{
                       name="extended"
                       fieldFormik={field}
                       missionId={generalInfo2?.missionId}
+                      generalInfos2={generalInfo2}
                     />
                   )}
                 </Field>
