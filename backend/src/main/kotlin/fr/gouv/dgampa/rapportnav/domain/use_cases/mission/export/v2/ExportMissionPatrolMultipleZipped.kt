@@ -23,7 +23,7 @@ class ExportMissionPatrolMultipleZipped(
      * @param missionIds a list of Mission Ids
      * @return a MissionExportEntity with file name and content
      */
-    fun execute(missionIds: List<Int>): MissionExportEntity? {
+    fun execute(missionIds: List<String>): MissionExportEntity? {
         if (missionIds.isEmpty()) return null
 
         var mission: MissionEntity? = null

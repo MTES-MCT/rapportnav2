@@ -16,7 +16,7 @@ class MissionCrewModel(
     var agent: AgentModel,
 
     @Column(name = "mission_id")
-    var missionId: Int,
+    var missionId: String,
 
     @Column(name = "comment", nullable = true)
     var comment: String? = null,

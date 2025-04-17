@@ -12,7 +12,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.generalInfo.Missio
 import java.time.Instant
 
 data class Mission(
-    val id: Int,
+    val id: String,
     val missionSource: MissionSourceEnum,
     val startDateTimeUtc: Instant,
     val endDateTimeUtc: Instant?,

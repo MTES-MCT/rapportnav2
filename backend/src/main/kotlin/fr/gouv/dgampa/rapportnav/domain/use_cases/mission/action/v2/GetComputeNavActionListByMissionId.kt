@@ -13,7 +13,7 @@ class GetComputeNavActionListByMissionId(
 ) {
     private val logger = LoggerFactory.getLogger(GetComputeNavActionListByMissionId::class.java)
 
-    fun execute(missionId: Int?): List<MissionNavActionEntity> {
+    fun execute(missionId: String?): List<MissionNavActionEntity> {
         if (missionId == null) {
             logger.error("GetComputeNavActionListByMissionId received a null missionId")
             throw IllegalArgumentException("GetComputeNavActionListByMissionId should not receive null missionId")
@@ -27,7 +27,7 @@ class GetComputeNavActionListByMissionId(
         }
     }
 
-    private fun getNavActionList(missionId: Int): List<MissionActionModel> {
+    private fun getNavActionList(missionId: String): List<MissionActionModel> {
         return navMissionActionRepository.findByMissionId(missionId = missionId).orEmpty()
     }
 }

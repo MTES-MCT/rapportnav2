@@ -8,7 +8,7 @@ import java.util.*
 
 data class InfractionWithNewTargetInput(
     val id: String? = null,
-    val missionId: Int,
+    val missionId: String,
     val actionId: String,
     val controlId: String? = null,
     val infractionType: String? = null,

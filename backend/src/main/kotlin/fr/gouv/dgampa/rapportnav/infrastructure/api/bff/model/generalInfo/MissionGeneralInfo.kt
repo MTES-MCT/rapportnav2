@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.Mission
 
 data class MissionGeneralInfo(
     var id: Int?,
-    var missionId: Int,
+    var missionId: String,
     var distanceInNauticalMiles: Float? = null,
     var consumedGOInLiters: Float? = null,
     var consumedFuelInLiters: Float? = null,

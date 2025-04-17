@@ -12,7 +12,7 @@ abstract class ControlModel {
     open var id: UUID = UUID.randomUUID()
 
     @Column(name = "mission_id", nullable = false)
-    open var missionId: Int = 0
+    open var missionId: String = ""
 
     @Column(name = "action_control_id", nullable = false, unique = true)
     open var actionControlId: String = ""

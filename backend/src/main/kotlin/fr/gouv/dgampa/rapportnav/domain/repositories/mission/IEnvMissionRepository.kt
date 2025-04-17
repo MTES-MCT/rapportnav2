@@ -9,7 +9,7 @@ import java.time.Instant
 
 interface IEnvMissionRepository {
 
-    fun findMissionById(missionId: Int): MissionEntity?
+    fun findMissionById(missionId: String): MissionEntity?
     fun findAllMissions(
         pageNumber: Int? = null,
         pageSize: Int? = null,
@@ -24,7 +24,7 @@ interface IEnvMissionRepository {
 
     fun findAllControlPlans(): ControlPlansEntity?
 
-    fun patchMission(missionId: Int, mission: PatchMissionInput): MissionEntity?
+    fun patchMission(missionId: String, mission: PatchMissionInput): MissionEntity?
 
     fun patchAction(actionId: String, action: PatchActionInput): PatchedEnvActionEntity?
 }

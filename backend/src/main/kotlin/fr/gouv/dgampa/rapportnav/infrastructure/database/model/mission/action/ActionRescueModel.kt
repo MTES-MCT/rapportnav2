@@ -16,7 +16,7 @@ class ActionRescueModel(
     val id: UUID,
 
     @Column(name = "mission_id", nullable = false)
-    val missionId: Int,
+    val missionId: String,
 
     @Column(name = "is_complete_for_stats", nullable = true)
     var isCompleteForStats: Boolean? = null,

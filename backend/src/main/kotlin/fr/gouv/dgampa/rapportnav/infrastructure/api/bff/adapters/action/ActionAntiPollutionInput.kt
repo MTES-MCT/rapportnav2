@@ -6,7 +6,7 @@ import java.util.*
 
 class ActionAntiPollutionInput(
     val id: UUID? = null,
-    val missionId: Int,
+    val missionId: String,
     val startDateTimeUtc: Instant,
     val endDateTimeUtc: Instant? = null,
     val latitude: Double? = null,

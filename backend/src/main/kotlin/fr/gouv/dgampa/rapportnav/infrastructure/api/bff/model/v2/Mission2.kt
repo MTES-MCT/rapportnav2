@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 
 data class Mission2(
-    val id: Int,
+    val id: String,
     val status: MissionStatusEnum,
     val envData: MissionEnvData? = null,
     var actions: List<MissionAction?> = listOf(),

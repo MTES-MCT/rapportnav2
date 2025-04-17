@@ -9,7 +9,7 @@ object ControlNavigationEntityMock {
 
     fun create(
         id: UUID = UUID.randomUUID(),
-        missionId: Int = 1,
+        missionId: String = "1",
         actionControlId: String = "1234",
         amountOfControls: Int = 1,
         unitShouldConfirm: Boolean? = null,

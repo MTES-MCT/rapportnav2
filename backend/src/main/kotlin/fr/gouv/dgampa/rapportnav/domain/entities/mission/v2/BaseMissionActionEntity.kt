@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import java.time.Instant
 
 interface BaseMissionActionEntity {
-    val missionId: Int
+    val missionId: String
     val actionType: ActionType
     val isCompleteForStats: Boolean?
     val source: MissionSourceEnum

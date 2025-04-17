@@ -21,7 +21,7 @@ class MissionNavActionEntity(
     override var id: UUID,
 
     @MandatoryForStats
-    override var missionId: Int,
+    override var missionId: String,
 
     @MandatoryForStats
     override var actionType: ActionType,

@@ -27,7 +27,7 @@ class ExportMissionAEMSingle(
 
     private val logger = LoggerFactory.getLogger(ExportMissionAEMSingle::class.java)
 
-    fun execute(missionId: Int): MissionExportEntity? {
+    fun execute(missionId: String): MissionExportEntity? {
         val mission: MissionEntity? = getMission.execute(missionId = missionId)
         if (mission == null) {
             logger.error("[ExportAEM] - Mission not found for missionId: $missionId")

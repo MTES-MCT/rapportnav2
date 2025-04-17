@@ -8,7 +8,7 @@ import java.time.Instant
 import java.util.*
 
 data class MissionNavEntity(
-    val id: Int? = null,
+    val id: String? = null,
     val controlUnits: List<Int> = listOf(),
     val openBy: String? = null,
     val completedBy: String? = null,
@@ -23,7 +23,7 @@ data class MissionNavEntity(
     companion object {
         fun fromMissionModel(model: MissionModel): MissionNavEntity {
             return MissionNavEntity(
-                id = model.id,
+                id = model.id.toString(),
                 controlUnits = model.controlUnits,
                 openBy = model.openBy,
                 completedBy = model.completedBy,
@@ -40,7 +40,7 @@ data class MissionNavEntity(
 
     fun toMissionModel(): MissionModel {
         return MissionModel(
-            id = id,
+            id = id?.toInt(),
             controlUnits = controlUnits,
             openBy = openBy,
             completedBy = completedBy,
@@ -56,7 +56,7 @@ data class MissionNavEntity(
 
     fun toMissionEntity(): MissionEntity {
         return MissionEntity(
-            id = id,
+            id = navId.toString(),
             missionSource = MissionSourceEnum.RAPPORT_NAV,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,

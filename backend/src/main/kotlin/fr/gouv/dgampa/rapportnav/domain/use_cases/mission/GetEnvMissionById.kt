@@ -23,8 +23,6 @@ fun createMockMultiPoint(coordinates: List<Coordinate>): MultiPoint {
 class GetEnvMissionById(
     private val monitorEnvApiRepo: IEnvMissionRepository,
     private val attachControlsToActionControl: AttachControlsToActionControl,
-    private val getEnvMissions: GetEnvMissions,
-    private val getFakeActionData: FakeActionData
 ) {
     private val logger = LoggerFactory.getLogger(GetEnvMissionById::class.java)
 
@@ -68,7 +66,7 @@ class GetEnvMissionById(
      * @return A fully constructed MissionEntity containing extra data coming from RapportNav.
      */
     @Cacheable(value = ["envMission"], key = "#missionId")
-    fun execute(missionId: Int, inputEnvMission: MissionEntity? = null): ExtendedEnvMissionEntity? {
+    fun execute(missionId: String, inputEnvMission: MissionEntity? = null): ExtendedEnvMissionEntity? {
 
         try {
             val envMission: MissionEntity? = inputEnvMission ?: monitorEnvApiRepo.findMissionById(missionId)
@@ -79,10 +77,6 @@ class GetEnvMissionById(
             Sentry.captureMessage("GetEnvMissionById failed loading EnvMission")
             Sentry.captureException(e)
             return null
-//            var envMission = getEnvMissions.mockedMissions.find { missionId == it.id }!!
-//            envMission.envActions = getFakeActionData.getFakeEnvControls() + getFakeActionData.getFakeEnvSurveillance()
-//            var mission = getMissionWithControls(envMission)
-//            return mission
         }
 
 

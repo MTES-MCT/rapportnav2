@@ -6,7 +6,7 @@ import java.util.*
 
 class ActionFreeNoteInput(
     val id: UUID? = null,
-    val missionId: Int,
+    val missionId: String,
     val startDateTimeUtc: Instant,
     val observations: String? = null
 

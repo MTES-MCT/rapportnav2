@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
 interface IDBActionFreeNoteRepository: JpaRepository<ActionFreeNoteModel, UUID> {
-    fun findAllByMissionId(missionId: Int): List<ActionFreeNoteModel>
+    fun findAllByMissionId(missionId: String): List<ActionFreeNoteModel>
     override fun findById(id: UUID): Optional<ActionFreeNoteModel>
     override fun deleteById(id: UUID)
     fun save(freeNoteAction: ActionFreeNoteEntity): ActionFreeNoteModel

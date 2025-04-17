@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionFr
 @UseCase
 class GetNavActionsFreeNotesByMissionId(private val freeNoteRepository: INavActionFreeNoteRepository) {
 
-    fun execute(missionId: Int): List<ActionFreeNoteEntity> {
+    fun execute(missionId: String): List<ActionFreeNoteEntity> {
         return freeNoteRepository.findAllByMissionId(missionId).map { it.toActionFreeNoteEntity() }
     }
 }

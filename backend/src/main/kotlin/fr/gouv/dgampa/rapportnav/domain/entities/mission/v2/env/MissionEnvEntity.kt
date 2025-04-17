@@ -9,7 +9,7 @@ import org.locationtech.jts.geom.MultiPolygon
 import java.time.Instant
 
 data class MissionEnvEntity(
-    val id: Int? = null,
+    val id: String? = null,
     val missionTypes: List<MissionTypeEnum>,
     val controlUnits: List<LegacyControlUnitEntity>? = listOf(),
     val openBy: String? = null,

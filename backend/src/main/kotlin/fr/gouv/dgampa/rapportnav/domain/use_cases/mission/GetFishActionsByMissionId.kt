@@ -14,7 +14,6 @@ import org.springframework.cache.annotation.Cacheable
 class GetFishActionsByMissionId(
     private val attachControlsToActionControl: AttachControlsToActionControl,
     private val fishActionRepo: IFishActionRepository,
-    private val getFakeActionData: FakeActionData
 ) {
 
     private val logger = LoggerFactory.getLogger(GetFishActionsByMissionId::class.java)
@@ -43,7 +42,7 @@ class GetFishActionsByMissionId(
     }
 
     @Cacheable(value = ["fishActions"], key = "#missionId")
-    fun execute(missionId: Int?): List<ExtendedFishActionEntity> {
+    fun execute(missionId: String?): List<ExtendedFishActionEntity> {
         if (missionId == null) {
             logger.error("GetFishActionsByMissionId received a null missionId")
             throw IllegalArgumentException("GetFishActionsByMissionId should not receive null missionId")
@@ -56,8 +55,6 @@ class GetFishActionsByMissionId(
         } catch (e: Exception) {
             logger.error("GetFishActionsByMissionId failed loading Actions", e)
             return listOf()
-            //val actions =  getFakeActionData.getFakeFishActions(missionId)
-            //return filterAndAttachControls(actions)
         }
     }
 }

@@ -5,7 +5,7 @@ import java.util.*
 
 data class NavActionPublicOrder(
     var id: UUID,
-    var missionId: Int,
+    var missionId: String,
     var startDateTimeUtc: Instant,
     var endDateTimeUtc: Instant? = null,
     var observations: String? = null,

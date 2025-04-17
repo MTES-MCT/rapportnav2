@@ -6,7 +6,7 @@ import java.util.*
 
 data class InfractionEntity(
     val id: UUID,
-    var missionId: Int,
+    var missionId: String,
     var actionId: String,
     var controlId: UUID? = null,
     var controlType: ControlType? = null,
@@ -32,7 +32,7 @@ data class InfractionEntity(
 
     override fun hashCode(): Int {
         var result = id.hashCode()
-        result = 31 * result + missionId
+        result = 31 * result + missionId.hashCode()
         result = 31 * result + actionId.hashCode()
         result = 31 * result + (controlId?.hashCode() ?: 0)
         result = 31 * result + (controlType?.hashCode() ?: 0)

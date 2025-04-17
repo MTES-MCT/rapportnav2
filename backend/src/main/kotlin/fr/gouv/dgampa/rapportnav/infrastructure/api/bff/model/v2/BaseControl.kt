@@ -5,7 +5,7 @@ import java.util.*
 
 abstract class BaseControl {
     open var id: UUID? = null
-    var missionId: Int? = null
+    var missionId: String? = null
     var actionId: String? = null
     open val amountOfControls: Int? = null
     open val unitShouldConfirm: Boolean? = null
@@ -16,7 +16,7 @@ abstract class BaseControl {
 
     abstract fun toEntity(): BaseControlEntity
 
-    fun setMissionIdAndActionId(missionId: Int, actionId: String) {
+    fun setMissionIdAndActionId(missionId: String, actionId: String) {
         this.actionId = actionId
         this.missionId = missionId
         infractions?.forEach {

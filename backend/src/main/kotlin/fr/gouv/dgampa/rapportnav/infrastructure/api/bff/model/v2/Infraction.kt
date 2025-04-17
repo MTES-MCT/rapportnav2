@@ -9,7 +9,7 @@ import java.util.*
 
 data class Infraction(
     var id: String? = null,
-    var missionId: Int? = null,
+    var missionId: String? = null,
     var actionId: String? = null,
     var controlId: String? = null,
     var controlType: ControlType? = null,
@@ -18,7 +18,7 @@ data class Infraction(
     var observations: String? = null,
     var target: InfractionTarget? = null
 ) {
-    fun setMissionIdAndActionId(missionId: Int, actionId: String) {
+    fun setMissionIdAndActionId(missionId: String, actionId: String) {
         this.actionId = actionId
         this.missionId = missionId
     }
@@ -68,7 +68,7 @@ data class Infraction(
         fun fromEnvInfractionEntity(infraction: fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionEntity) =
             Infraction(
                 id = infraction.id,
-                missionId = 10,
+                missionId = "10",
                 actionId = "",
                 controlType = null,
                 infractionType = infraction.infractionType,

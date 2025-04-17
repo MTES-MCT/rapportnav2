@@ -85,7 +85,7 @@ class MissionController(
      * @return The mission corresponding to the given ID, or null if no such mission exists.
      */
     @QueryMapping
-    fun mission(@Argument missionId: Int): Mission? {
+    fun mission(@Argument missionId: String): Mission? {
         val mission = getMission.execute(missionId = missionId)
         return mission?.let { Mission.fromMissionEntity(it) }
     }
@@ -100,7 +100,7 @@ class MissionController(
      * @return The general information of the mission, including distance and fuel consumption, or null if no such information exists.
      */
     @QueryMapping
-    fun missionGeneralInfo(@Argument missionId: Int): MissionGeneralInfo? {
+    fun missionGeneralInfo(@Argument missionId: String): MissionGeneralInfo? {
         val info = getMissionGeneralInfoByMissionId.execute(missionId)
             ?.let { MissionGeneralInfo.fromMissionGeneralInfoEntity(it) }
         return info
@@ -153,7 +153,7 @@ class MissionController(
      * @throws Exception if an error occurs during the export process or if the exported file is null.
      */
     @QueryMapping
-    fun missionExport(@Argument missionId: Int): MissionExportEntity {
+    fun missionExport(@Argument missionId: String): MissionExportEntity {
         try {
             val file = exportMissionRapportPatrouille.exportOdt(missionId)
             if (file != null) {
@@ -186,7 +186,7 @@ class MissionController(
     }
 
     @QueryMapping
-    fun missionAEMExport(@Argument missionId: Int): MissionExportEntity? {
+    fun missionAEMExport(@Argument missionId: String): MissionExportEntity? {
         return exportMissionAEM.execute(missionId)
     }
 

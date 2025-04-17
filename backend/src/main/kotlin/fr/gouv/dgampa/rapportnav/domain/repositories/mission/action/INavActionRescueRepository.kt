@@ -6,7 +6,7 @@ import java.util.*
 
 interface INavActionRescueRepository {
 
-    fun findAllByMissionId(missionId: Int): List<ActionRescueModel>
+    fun findAllByMissionId(missionId: String): List<ActionRescueModel>
 
     fun findById(id: UUID): Optional<ActionRescueModel>
 

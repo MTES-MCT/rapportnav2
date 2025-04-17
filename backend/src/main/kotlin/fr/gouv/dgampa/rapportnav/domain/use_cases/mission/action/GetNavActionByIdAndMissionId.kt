@@ -23,7 +23,7 @@ class GetNavActionByIdAndMissionId(
     private val illegalImmigrationRepository: INavActionIllegalImmigrationRepository,
     private val mapper: ObjectMapper
 ) {
-    fun execute(id: UUID, missionId: Int, actionType: ActionType): NavActionEntity? {
+    fun execute(id: UUID, missionId: String, actionType: ActionType): NavActionEntity? {
         return when (actionType) {
             ActionType.CONTROL -> {
                 controlActionsRepository.findById(id).orElse(null)?.run {

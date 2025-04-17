@@ -13,7 +13,7 @@ open class MissionActionData(
     open val targets: List<Target2>? = null
 ){
 
-    fun getControls(missionId: Int, actionId: String): ActionControl {
+    fun getControls(missionId: String, actionId: String): ActionControl {
         this.computeMissionIdActionId(missionId, actionId)
         return ActionControl(
             controlSecurity = controlSecurity,
@@ -23,7 +23,7 @@ open class MissionActionData(
         )
     }
 
-    private fun computeMissionIdActionId(missionId: Int, actionId: String) {
+    private fun computeMissionIdActionId(missionId: String, actionId: String) {
         this.controlSecurity?.setMissionIdAndActionId(missionId = missionId, actionId = actionId)
         this.controlGensDeMer?.setMissionIdAndActionId(missionId = missionId, actionId = actionId)
         this.controlNavigation?.setMissionIdAndActionId(missionId = missionId, actionId = actionId)

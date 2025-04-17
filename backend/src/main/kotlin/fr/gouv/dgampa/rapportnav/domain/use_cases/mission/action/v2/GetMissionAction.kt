@@ -9,7 +9,7 @@ class GetMissionAction(
     private val getNavActionByMissionId: GetComputeNavActionListByMissionId,
     private val getFIshListActionByMissionId: GetComputeFishActionListByMissionId
 ) {
-    fun execute(missionId: Int?): List<MissionActionEntity> {
+    fun execute(missionId: String?): List<MissionActionEntity> {
         val envActions = getEnvActionByMissionId.execute(missionId = missionId)
         val navActions = getNavActionByMissionId.execute(missionId = missionId)
         val fishActions = getFIshListActionByMissionId.execute(missionId = missionId)

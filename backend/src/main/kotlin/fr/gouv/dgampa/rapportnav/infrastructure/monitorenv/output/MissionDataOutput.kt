@@ -14,7 +14,7 @@ import java.time.ZonedDateTime
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) constructor(
-    @JsonProperty("id") val id: Int,
+    @JsonProperty("id") val id: String,
     @JsonProperty("missionTypes") val missionTypes: List<MissionTypeEnum>,
     @JsonProperty("controlUnits") val controlUnits: List<LegacyControlUnitEntity>? = listOf(),
     @JsonProperty("openBy") val openBy: String? = null,

@@ -12,7 +12,7 @@ class GetComputeEnvActionListByMissionId(
 ) {
     private val logger = LoggerFactory.getLogger(GetComputeFishActionListByMissionId::class.java)
 
-    fun execute(missionId: Int?): List<MissionEnvActionEntity> {
+    fun execute(missionId: String?): List<MissionEnvActionEntity> {
         if (missionId == null) {
             logger.error("GetComputeEnvActionListByMissionId received a null missionId")
             throw IllegalArgumentException("GetComputeEnvActionListByMissionId should not receive null missionId")
@@ -28,7 +28,7 @@ class GetComputeEnvActionListByMissionId(
         }
     }
 
-    private fun getEnvActionList(missionId: Int): List<EnvActionEntity> {
+    private fun getEnvActionList(missionId: String): List<EnvActionEntity> {
         return getEnvMissionById2.execute(missionId = missionId)?.envActions ?: listOf()
     }
 }

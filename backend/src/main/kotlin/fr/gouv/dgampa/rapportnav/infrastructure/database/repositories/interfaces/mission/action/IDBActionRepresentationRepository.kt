@@ -7,7 +7,7 @@ import java.util.*
 
 interface IDBActionRepresentationRepository: JpaRepository<ActionRepresentationModel, UUID> {
 
-    fun findAllByMissionId(missionId: Int): List<ActionRepresentationModel>
+    fun findAllByMissionId(missionId: String): List<ActionRepresentationModel>
 
     override fun findById(id: UUID): Optional<ActionRepresentationModel>
 

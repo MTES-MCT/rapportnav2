@@ -15,7 +15,7 @@ import java.time.Instant
 
 
 abstract class MissionActionEntity(
-    override val missionId: Int,
+    override val missionId: String,
     override val actionType: ActionType,
     override var isCompleteForStats: Boolean? = null,
     override val source: MissionSourceEnum,

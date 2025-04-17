@@ -6,7 +6,7 @@ import java.util.*
 
 data class ControlAdministrativeInput(
     val id: UUID?,
-    val missionId: Int,
+    val missionId: String,
     val actionControlId: String,
     val amountOfControls: Int,
     val unitShouldConfirm: Boolean?,

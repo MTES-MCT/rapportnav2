@@ -4,5 +4,5 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.Miss
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface IDBMissionCrewRepository : JpaRepository<MissionCrewModel, Int> {
-    fun findByMissionId(missionId: Int): List<MissionCrewModel>
+    fun findByMissionId(missionId: String): List<MissionCrewModel>
 }

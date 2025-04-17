@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import java.time.Instant
 
-interface IDBMissionRepository: JpaRepository<MissionModel, Int> {
+interface IDBMissionRepository: JpaRepository<MissionModel, String> {
 
     fun save(entity: MissionNavEntity): MissionModel
 

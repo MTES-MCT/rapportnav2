@@ -10,7 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEnti
 
 class MissionNavAction(
     override val id: String? = null,
-    override val missionId: Int,
+    override val missionId: String,
     override val actionType: ActionType,
     override val source: MissionSourceEnum,
     override val summaryTags: List<String>? = null,

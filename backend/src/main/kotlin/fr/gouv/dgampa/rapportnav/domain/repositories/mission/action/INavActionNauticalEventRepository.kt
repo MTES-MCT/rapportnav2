@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.Ac
 import java.util.*
 
 interface INavActionNauticalEventRepository {
-    fun findAllByMissionId(missionId: Int): List<ActionNauticalEventModel>
+    fun findAllByMissionId(missionId: String): List<ActionNauticalEventModel>
     fun findById(id: UUID): Optional<ActionNauticalEventModel>
 
     fun save(nauticalEvent: ActionNauticalEventEntity): ActionNauticalEventModel

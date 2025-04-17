@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.Ac
 import java.util.*
 
 interface INavActionVigimerRepository {
-    fun findAllByMissionId(missionId: Int): List<ActionVigimerModel>
+    fun findAllByMissionId(missionId: String): List<ActionVigimerModel>
     fun findById(id: UUID): Optional<ActionVigimerModel>
 
     fun save(vigimerEntity: ActionVigimerEntity): ActionVigimerModel

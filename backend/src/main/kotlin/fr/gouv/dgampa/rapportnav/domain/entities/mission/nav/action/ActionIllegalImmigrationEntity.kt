@@ -12,7 +12,7 @@ class ActionIllegalImmigrationEntity(
     override val id: UUID,
 
     @MandatoryForStats
-    override val missionId: Int,
+    override val missionId: String,
 
     override var isCompleteForStats: Boolean? = null,
     override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
@@ -39,7 +39,7 @@ class ActionIllegalImmigrationEntity(
 
     constructor(
         id: UUID,
-        missionId: Int,
+        missionId: String,
         startDateTimeUtc: Instant,
         endDateTimeUtc: Instant? = null,
         observations: String? = null,

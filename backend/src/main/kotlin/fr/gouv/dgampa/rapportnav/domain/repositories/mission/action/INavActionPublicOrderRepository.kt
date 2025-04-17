@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.Ac
 import java.util.*
 
 interface INavActionPublicOrderRepository {
-    fun findAllByMissionId(missionId: Int): List<ActionPublicOrderModel>
+    fun findAllByMissionId(missionId: String): List<ActionPublicOrderModel>
     fun findById(id: UUID): Optional<ActionPublicOrderModel>
 
     fun save(publicOrderEntity: ActionPublicOrderEntity): ActionPublicOrderModel

@@ -13,7 +13,7 @@ class GetEnvActionById(
 ) {
     private val logger = LoggerFactory.getLogger(GetFishActionListByMissionId::class.java)
 
-    fun execute(missionId: Int?, actionId: String): MissionEnvActionEntity? {
+    fun execute(missionId: String?, actionId: String): MissionEnvActionEntity? {
         if (!isValidUUID(actionId)) return null
         if (missionId == null) {
             logger.error("GetEnvActionById received a null missionId")
@@ -28,7 +28,7 @@ class GetEnvActionById(
         }
     }
 
-    private fun getEnvAction(missionId: Int, actionId: String): EnvActionEntity? {
+    private fun getEnvAction(missionId: String, actionId: String): EnvActionEntity? {
         return getEnvMissionById2.execute(missionId = missionId)?.envActions?.find { it.id.toString() == actionId }
     }
 

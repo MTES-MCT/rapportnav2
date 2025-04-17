@@ -11,7 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEnt
 
 class MissionFishAction(
     override val id: String,
-    override val missionId: Int,
+    override val missionId: String,
     override val actionType: ActionType,
     override val source: MissionSourceEnum,
     override val isCompleteForStats: Boolean? = null,

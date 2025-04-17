@@ -7,7 +7,7 @@ import java.util.*
 
 data class InfractionInput(
     val id: String? = null,
-    val missionId: Int,
+    val missionId: String,
     val actionId: String,
     val controlId: String? = null,
     val controlType: String,

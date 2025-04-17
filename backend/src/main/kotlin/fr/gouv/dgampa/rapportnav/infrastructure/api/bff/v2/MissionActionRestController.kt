@@ -28,14 +28,14 @@ class MissionActionRestController(
 
     @GetMapping("")
     @Operation(summary = "Get the list of actions on a mission Id")
-    fun getActions(@PathVariable(name = "missionId") missionId: Int): List<MissionAction?> {
+    fun getActions(@PathVariable(name = "missionId") missionId: String): List<MissionAction?> {
         return getMissionAction.execute(missionId)
             .map { action -> MissionAction.fromMissionActionEntity(action) }
     }
 
     @GetMapping("{actionId}")
     fun getActionById(
-        @PathVariable(name = "missionId") missionId: Int,
+        @PathVariable(name = "missionId") missionId: String,
         @PathVariable(name = "actionId") actionId: String,
     ): MissionAction? {
         val navAction = getNavActionById.execute(actionId = actionId)

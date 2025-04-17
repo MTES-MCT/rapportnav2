@@ -27,7 +27,7 @@ class AgentServiceModel
     var disabledAt: Instant? = null,
 ) {
 
-    fun toMissionCrewModel(missionId: Int): MissionCrewModel? {
+    fun toMissionCrewModel(missionId: String): MissionCrewModel? {
         return MissionCrewModel(
             id = null, missionId = missionId, agent = agent, role = role, comment = ""
         );

@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import java.time.Instant
 
 data class MissionEnvInput(
-    val missionId: Int,
+    val missionId: String,
     val observationsByUnit: String? = null,
     val startDateTimeUtc: Instant? = null,
     val endDateTimeUtc: Instant? = null,

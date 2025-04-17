@@ -14,7 +14,7 @@ import java.time.Instant
 
 data class Action(
     val id: Any?,
-    val missionId: Int,
+    val missionId: String,
     val source: MissionSourceEnum,
     val startDateTimeUtc: Instant?,
     val endDateTimeUtc: Instant?,
@@ -24,7 +24,7 @@ data class Action(
 ) {
 
     companion object {
-        fun fromEnvAction(envAction: ExtendedEnvActionEntity? = null, missionId: Int): Action? {
+        fun fromEnvAction(envAction: ExtendedEnvActionEntity? = null, missionId: String): Action? {
 
             return when {
                 envAction?.surveillanceAction != null -> {
@@ -100,7 +100,7 @@ data class Action(
             }
         }
 
-        fun fromFishAction(fishAction: ExtendedFishActionEntity, missionId: Int): Action? {
+        fun fromFishAction(fishAction: ExtendedFishActionEntity, missionId: String): Action? {
             return fishAction.controlAction?.action?.let {
                 val action = fishAction.controlAction.action
                 val completenessForStats = CompletenessForStatsEntity(

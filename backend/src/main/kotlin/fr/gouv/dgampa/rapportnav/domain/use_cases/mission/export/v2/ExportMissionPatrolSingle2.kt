@@ -56,7 +56,7 @@ class ExportMissionPatrolSingle2(
      * @param missionId a Mission Ids
      * @return a MissionExportEntity with file name and content
      */
-    fun execute(missionId: Int): MissionExportEntity? {
+    fun execute(missionId: String): MissionExportEntity? {
 
         val mission = getMission2.execute(missionId = missionId)
 

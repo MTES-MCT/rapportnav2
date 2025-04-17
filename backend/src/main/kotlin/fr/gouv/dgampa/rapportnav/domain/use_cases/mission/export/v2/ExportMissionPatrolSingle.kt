@@ -64,7 +64,7 @@ class ExportMissionPatrolSingle(
      * @param missionId a Mission Ids
      * @return a MissionExportEntity with file name and content
      */
-    fun execute(missionId: Int): MissionExportEntity? {
+    fun execute(missionId: String): MissionExportEntity? {
         val mission: MissionEntity? = getMission.execute(missionId = missionId)
         if (mission == null) {
             logger.error("[RapportDePatrouille] - Mission not found for missionId: $missionId")

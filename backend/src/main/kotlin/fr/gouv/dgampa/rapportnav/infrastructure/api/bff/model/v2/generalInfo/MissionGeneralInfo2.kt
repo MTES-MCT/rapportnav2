@@ -13,7 +13,7 @@ import java.time.Instant
 
 data class MissionGeneralInfo2(
     val id: Int? = null,
-    val missionId: Int? = null,
+    val missionId: String? = null,
     val startDateTimeUtc: Instant? = null,
     val endDateTimeUtc: Instant? = null,
     val missionReportType: MissionReportTypeEnum? = null,
@@ -65,9 +65,9 @@ data class MissionGeneralInfo2(
         }
     }
 
-    fun toMissionGeneralInfoEntity(missionId: Int): MissionGeneralInfoEntity {
+    fun toMissionGeneralInfoEntity(missionId: String): MissionGeneralInfoEntity {
         return MissionGeneralInfoEntity(
-            id = id ?: missionId,
+            id = id,
             missionId = missionId,
             distanceInNauticalMiles = distanceInNauticalMiles,
             consumedGOInLiters = consumedGOInLiters,

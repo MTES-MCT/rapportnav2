@@ -48,11 +48,11 @@ class ProcessMissionActionControlEnvTarget(
     }
 
     private inline fun <T : BaseControlEntity> processControl(
-        missionId: Int,
+        missionId: String,
         actionId: String,
         saveControl: (T) -> T,
         findControlByActionId: (String) -> T?,
-        createControl: (UUID, String, Int) -> T,
+        createControl: (UUID, String, String) -> T,
     ): T {
         val existingControl = findControlByActionId(actionId)
         if (existingControl?.id != null) return existingControl
@@ -61,11 +61,11 @@ class ProcessMissionActionControlEnvTarget(
     }
 
 
-    private fun processControlSecurity(actionId: String, missionId: Int): ControlSecurityEntity {
+    private fun processControlSecurity(actionId: String, missionId: String): ControlSecurityEntity {
         return processControl(
             actionId = actionId,
             missionId = missionId,
-            createControl = { id: UUID, s: String, i: Int ->
+            createControl = { id: UUID, s: String, i: String ->
                 ControlSecurityEntity(
                     id = id,
                     missionId = i,
@@ -84,11 +84,11 @@ class ProcessMissionActionControlEnvTarget(
         )
     }
 
-    private fun processControlGensDeMer(actionId: String, missionId: Int): ControlGensDeMerEntity {
+    private fun processControlGensDeMer(actionId: String, missionId: String): ControlGensDeMerEntity {
         return processControl(
             actionId = actionId,
             missionId = missionId,
-            createControl = { id: UUID, s: String, i: Int ->
+            createControl = { id: UUID, s: String, i: String ->
                 ControlGensDeMerEntity(
                     id = id,
                     missionId = i,
@@ -107,11 +107,11 @@ class ProcessMissionActionControlEnvTarget(
         )
     }
 
-    private fun processControlNavigation(actionId: String, missionId: Int): ControlNavigationEntity {
+    private fun processControlNavigation(actionId: String, missionId: String): ControlNavigationEntity {
         return processControl(
             actionId = actionId,
             missionId = missionId,
-            createControl = { id: UUID, s: String, i: Int ->
+            createControl = { id: UUID, s: String, i: String ->
                 ControlNavigationEntity(
                     id = id,
                     missionId = i,
@@ -130,11 +130,11 @@ class ProcessMissionActionControlEnvTarget(
         )
     }
 
-    private fun processControlAdministrative(actionId: String, missionId: Int): ControlAdministrativeEntity {
+    private fun processControlAdministrative(actionId: String, missionId: String): ControlAdministrativeEntity {
         return processControl(
             actionId = actionId,
             missionId = missionId,
-            createControl = { id: UUID, s: String, i: Int ->
+            createControl = { id: UUID, s: String, i: String ->
                 ControlAdministrativeEntity(
                     id = id,
                     missionId = i,

@@ -11,7 +11,7 @@ class GetFishActionByIdAndMissionId(
     private val attachControlsToActionControl: AttachControlsToActionControl,
     private val mapper: ObjectMapper
 ) {
-    fun execute(id: Int, missionId: Int): ExtendedFishActionEntity? {
+    fun execute(id: Int, missionId: String): ExtendedFishActionEntity? {
         return getFishActionsByMissionId
             .execute(missionId = missionId)
             .firstOrNull { it.controlAction?.action?.id == id }

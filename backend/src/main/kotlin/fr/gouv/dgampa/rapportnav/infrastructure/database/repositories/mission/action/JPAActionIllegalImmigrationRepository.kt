@@ -16,7 +16,7 @@ import java.util.*
 class JPAActionIllegalImmigrationRepository(
     private val dbActionIllegalImmigrationRepository: IDBActionIllegalImmigrationRepository,
 ) : INavActionIllegalImmigrationRepository {
-    override fun findAllByMissionId(missionId: Int): List<ActionIllegalImmigrationModel> {
+    override fun findAllByMissionId(missionId: String): List<ActionIllegalImmigrationModel> {
         return dbActionIllegalImmigrationRepository.findAllByMissionId(missionId)
     }
 

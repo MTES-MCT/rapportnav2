@@ -6,7 +6,7 @@ import java.util.*
 
 interface INavActionFreeNoteRepository {
 
-    fun findAllByMissionId(missionId: Int): List<ActionFreeNoteModel>
+    fun findAllByMissionId(missionId: String): List<ActionFreeNoteModel>
 
     fun deleteById(id: UUID)
 

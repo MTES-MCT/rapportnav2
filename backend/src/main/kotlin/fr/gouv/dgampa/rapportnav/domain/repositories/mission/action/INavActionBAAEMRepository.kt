@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.Ac
 import java.util.*
 
 interface INavActionBAAEMRepository {
-    fun findAllByMissionId(missionId: Int): List<ActionBAAEMPermanenceModel>
+    fun findAllByMissionId(missionId: String): List<ActionBAAEMPermanenceModel>
     fun findById(id: UUID): Optional<ActionBAAEMPermanenceModel>
 
     fun save(permanenceBAAEM: ActionBAAEMPermanenceEntity): ActionBAAEMPermanenceModel

@@ -12,7 +12,7 @@ import java.util.*
 
 object MissionNavActionEntityMock {
     fun create(
-        missionId: Int? = null,
+        missionId: String? = null,
         id: UUID? = null,
         startDateTimeUtc: Instant? = null,
         endDateTimeUtc: Instant? = null,
@@ -49,7 +49,7 @@ object MissionNavActionEntityMock {
         reason: ActionStatusReason? = null,
     ): MissionNavActionEntity {
         return MissionNavActionEntity(
-            missionId = missionId?: 761,
+            missionId = missionId?: "761",
             id = id?: UUID.randomUUID(),
             startDateTimeUtc = startDateTimeUtc?: Instant.parse("2019-09-08T22:00:00.000+01:00"),
             endDateTimeUtc = endDateTimeUtc,

@@ -16,7 +16,7 @@ import java.util.*
 class JPAActionNauticalEventRepository(
     private val dbActionNauticalEventRepository: IDBActionNauticalEventRepository,
 ) : INavActionNauticalEventRepository {
-    override fun findAllByMissionId(missionId: Int): List<ActionNauticalEventModel> {
+    override fun findAllByMissionId(missionId: String): List<ActionNauticalEventModel> {
         return dbActionNauticalEventRepository.findAllByMissionId(missionId)
     }
 

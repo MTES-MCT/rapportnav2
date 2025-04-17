@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.Ac
 import java.util.*
 
 interface INavActionAntiPollutionRepository {
-    fun findAllByMissionId(missionId: Int): List<ActionAntiPollutionModel>
+    fun findAllByMissionId(missionId: String): List<ActionAntiPollutionModel>
     fun findById(id: UUID): Optional<ActionAntiPollutionModel>
 
     fun save(antiPollutionEntity: ActionAntiPollutionEntity): ActionAntiPollutionModel

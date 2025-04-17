@@ -7,7 +7,7 @@ import java.util.*
 
 interface IDBActionNauticalEventRepository: JpaRepository<ActionNauticalEventModel, UUID> {
 
-    fun findAllByMissionId(missionId: Int): List<ActionNauticalEventModel>
+    fun findAllByMissionId(missionId: String): List<ActionNauticalEventModel>
 
     override fun findById(id: UUID): Optional<ActionNauticalEventModel>
 

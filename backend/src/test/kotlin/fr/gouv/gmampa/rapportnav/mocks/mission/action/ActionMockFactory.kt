@@ -19,7 +19,7 @@ import kotlin.reflect.full.primaryConstructor
 object ActionMockFactory {
     inline fun <reified T : BaseAction> create(
         id: UUID = UUID.randomUUID(),
-        missionId: Int = 1,
+        missionId: String = "1",
         startDateTimeUtc: Instant = Instant.parse("2022-01-02T12:00:00Z"),
         endDateTimeUtc: Instant? = Instant.parse("2022-01-02T14:00:00Z"),
         observations: String? = null,

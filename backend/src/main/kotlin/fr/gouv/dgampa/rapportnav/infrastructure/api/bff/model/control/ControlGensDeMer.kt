@@ -16,7 +16,7 @@ data class ControlGensDeMer(
     val observations: String?,
     val infractions: List<Infraction>? = null
 ) {
-    fun toControlGensDeMerEntity(missionId: Int, actionId: String): ControlGensDeMerEntity {
+    fun toControlGensDeMerEntity(missionId: String, actionId: String): ControlGensDeMerEntity {
         return ControlGensDeMerEntity(
             id = id,
             missionId = missionId,

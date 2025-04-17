@@ -7,7 +7,7 @@ import java.time.Instant
 
 interface BaseMissionFishAction {
     val id: Int?
-    val missionId: Int
+    val missionId: String
     val vesselId: Int?
     val vesselName: String?
     val internalReferenceNumber: String?

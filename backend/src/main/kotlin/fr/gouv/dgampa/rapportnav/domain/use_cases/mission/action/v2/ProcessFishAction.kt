@@ -14,7 +14,7 @@ class ProcessFishAction(
     private val getComputeTarget: GetComputeTarget
 ) : AbstractGetMissionAction(getStatusForAction, getControlByActionId) {
 
-    fun execute(missionId: Int, action: MissionAction): MissionFishActionEntity {
+    fun execute(missionId: String, action: MissionAction): MissionFishActionEntity {
         val entity = MissionFishActionEntity.fromFishAction(action)
         val targets = getComputeTarget.execute(actionId = entity.getActionId(), isControl = entity.isControl())
 

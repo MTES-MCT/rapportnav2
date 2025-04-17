@@ -28,7 +28,7 @@ class APIFishActionRepository(
 
     private val gson = GsonSerializer().create(serializeNulls = true)
 
-    override fun findFishActions(missionId: Int): List<MissionAction> {
+    override fun findFishActions(missionId: String): List<MissionAction> {
         logger.info("Fetching Fish Actions for Mission id=$missionId")
         val request = HttpRequest.newBuilder()
             .uri(

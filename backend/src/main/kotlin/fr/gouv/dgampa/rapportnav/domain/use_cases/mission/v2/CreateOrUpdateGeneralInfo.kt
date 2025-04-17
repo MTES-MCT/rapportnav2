@@ -20,7 +20,7 @@ class CreateOrUpdateGeneralInfo(
 ) {
     private val logger = LoggerFactory.getLogger(CreateOrUpdateGeneralInfo::class.java)
 
-    fun execute(missionId: Int, generalInfo: MissionGeneralInfo2): MissionGeneralInfoEntity2? {
+    fun execute(missionId: String, generalInfo: MissionGeneralInfo2): MissionGeneralInfoEntity2? {
 
         try {
             val entityToSave = generalInfo.toMissionGeneralInfoEntity(missionId)

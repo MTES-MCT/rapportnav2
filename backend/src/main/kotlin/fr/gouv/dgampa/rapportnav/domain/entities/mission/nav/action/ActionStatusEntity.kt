@@ -17,7 +17,7 @@ data class ActionStatusEntity(
     override val id: UUID,
 
     @MandatoryForStats
-    override val missionId: Int,
+    override val missionId: String,
 
     override var isCompleteForStats: Boolean? = null,
     override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
@@ -45,7 +45,7 @@ data class ActionStatusEntity(
 
     constructor(
         id: UUID,
-        missionId: Int,
+        missionId: String,
         startDateTimeUtc: Instant,
         status: ActionStatusType,
         reason: ActionStatusReason?,

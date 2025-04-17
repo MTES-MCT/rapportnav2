@@ -28,7 +28,7 @@ class MissionExportController(
 
     @QueryMapping
     fun exportMissionReports(
-        @Argument missionIds: List<Int>,
+        @Argument missionIds: List<String>,
         @Argument exportMode: ExportModeEnum,
         @Argument reportType: ExportReportTypeEnum,
     ): MissionExportEntity? {

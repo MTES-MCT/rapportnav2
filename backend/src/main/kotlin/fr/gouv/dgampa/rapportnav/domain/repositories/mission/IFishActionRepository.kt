@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Missio
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.input.PatchActionInput
 
 interface IFishActionRepository {
-    fun findFishActions(missionId: Int): List<MissionAction>
+    fun findFishActions(missionId: String): List<MissionAction>
 
     fun patchAction(actionId: String, action: PatchActionInput): MissionAction?
 }

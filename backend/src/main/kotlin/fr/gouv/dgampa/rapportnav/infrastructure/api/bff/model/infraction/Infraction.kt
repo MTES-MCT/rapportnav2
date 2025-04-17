@@ -7,7 +7,7 @@ import java.util.*
 
 data class Infraction(
     val id: String,
-    val missionId: Int,
+    val missionId: String,
     val actionId: String,
     val controlId: UUID? = null,
     val controlType: ControlType? = null,
@@ -52,7 +52,7 @@ data class Infraction(
         fun fromEnvInfractionEntity(infraction: fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionEntity) =
             Infraction(
                 id = infraction.id,
-                missionId = 10,
+                missionId = "10",
                 actionId = "",
 //            missionId = infraction.missionId,
 //            actionId = infraction.actionId,

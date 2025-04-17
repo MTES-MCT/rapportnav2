@@ -20,7 +20,7 @@ class JPAMissionCrewRepository(
     private val dbAgentRepository: IDBAgentRepository,
     private val dbAgentRoleRepository: IDBAgentRoleRepository,
 ) : IMissionCrewRepository {
-    override fun findByMissionId(missionId: Int): List<MissionCrewModel> {
+    override fun findByMissionId(missionId: String): List<MissionCrewModel> {
         return dbMissionCrewRepository.findByMissionId(missionId)
     }
 

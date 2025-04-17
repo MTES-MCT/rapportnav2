@@ -5,12 +5,8 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalIn
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
-interface IDBMissionGeneralInfoRepository : JpaRepository<MissionGeneralInfoModel, UUID> {
-    fun findByMissionId(missionId: Int): Optional<MissionGeneralInfoModel>
-
-    fun findById(id: Int): Optional<MissionGeneralInfoModel>
-
-    fun existsById(id: Int): Boolean
+interface IDBMissionGeneralInfoRepository : JpaRepository<MissionGeneralInfoModel, Int> {
+    fun findByMissionId(missionId: String): Optional<MissionGeneralInfoModel>
 
     fun save(info: MissionGeneralInfoEntity): MissionGeneralInfoModel
 

@@ -16,7 +16,7 @@ import java.util.*
 class JPAActionRescueRepository(
     private val dbActionRescueRepository: IDBActionRescueRepository,
 ) : INavActionRescueRepository {
-    override fun findAllByMissionId(missionId: Int): List<ActionRescueModel> {
+    override fun findAllByMissionId(missionId: String): List<ActionRescueModel> {
         return dbActionRescueRepository.findAllByMissionId(missionId)
     }
 

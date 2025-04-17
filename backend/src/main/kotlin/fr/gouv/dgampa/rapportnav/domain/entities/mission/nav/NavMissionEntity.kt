@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEnt
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 
 data class NavMissionEntity(
-    val id: Int,
+    val id: String,
     val actions: List<NavActionEntity> = emptyList(),
     val generalInfo: MissionGeneralInfoEntity? = null,
     val crew: List<MissionCrewEntity>? = null,

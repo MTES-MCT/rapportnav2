@@ -30,9 +30,9 @@ class GetMission(
      * @return A fully constructed MissionEntity containing the extended environmental mission,
      *         fish mission actions, and nav mission data.
      */
-    fun execute(missionId: Int?, envMission: EnvMissionEntity? = null): MissionEntity? {
+    fun execute(missionId: String?, envMission: EnvMissionEntity? = null): MissionEntity? {
         require(missionId != null) { "GetMission - missionId cannot be null" }
-        
+
         val envMissionWithExtraData: ExtendedEnvMissionEntity = requireNotNull(
             getEnvMissionById.execute(missionId = missionId, inputEnvMission = envMission)
         ) { "GetMission - ExtendedEnvMissionEntity cannot be null" }

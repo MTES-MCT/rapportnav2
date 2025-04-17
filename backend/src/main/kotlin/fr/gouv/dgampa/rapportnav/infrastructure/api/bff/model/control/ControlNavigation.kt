@@ -12,7 +12,7 @@ data class ControlNavigation(
     val observations: String?,
     val infractions: List<Infraction>? = null
 ) {
-    fun toControlNavigationEntity(missionId: Int, actionId: String): ControlNavigationEntity {
+    fun toControlNavigationEntity(missionId: String, actionId: String): ControlNavigationEntity {
         return ControlNavigationEntity(
             id = id,
             missionId = missionId,

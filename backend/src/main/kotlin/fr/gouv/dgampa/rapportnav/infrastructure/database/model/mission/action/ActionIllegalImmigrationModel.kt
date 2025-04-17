@@ -16,7 +16,7 @@ data class ActionIllegalImmigrationModel(
     var id: UUID,
 
     @Column(name = "mission_id", nullable = false)
-    var missionId: Int,
+    var missionId: String,
 
     @Column(name = "is_complete_for_stats", nullable = true)
     var isCompleteForStats: Boolean? = null,
