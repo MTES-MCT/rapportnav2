@@ -20,6 +20,10 @@ export const queryClient = new QueryClient({
       retry: true,
       staleTime: 2 * 60 * 1000,
       gcTime: 1000 * 60 * 60 * 24 // 24 hours
+    },
+    mutations: {
+      networkMode: 'offlineFirst',
+      retry: 1
     }
   }
 })

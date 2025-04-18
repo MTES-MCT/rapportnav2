@@ -30,34 +30,34 @@ class GetNatinfs(
         ).build();
 
 
-        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+//        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
-        return mapper.readValue(response.body(), object : TypeReference<List<NatinfEntity>>() {})
+//        return mapper.readValue(response.body(), object : TypeReference<List<NatinfEntity>>() {})
 
-//        val natinf1 = NatinfEntity(
-//            infraction = "non respect blabla",
-//            natinfCode = 111
-//        )
-//        val natinf2 = NatinfEntity(
-//            infraction = "mise en danger blabla",
-//            natinfCode = 222
-//        )
-//        val natinf3 = NatinfEntity(
-//            infraction = "filet peche blabla",
-//            natinfCode = 333
-//        )
-//        val natinf4 = NatinfEntity(
-//            infraction = "filet peche blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla",
-//            natinfCode = 0
-//        )
-//        val natinf5 = NatinfEntity(
-//            infraction = "filet peche blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla",
-//            natinfCode = 118
-//        )
-//        val natinf6 = NatinfEntity(
-//            infraction = "filet peche blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla",
-//            natinfCode = 666
-//        )
-//        return listOf(natinf1, natinf2, natinf3, natinf4, natinf5, natinf6)
+        val natinf1 = NatinfEntity(
+            infraction = "non respect blabla",
+            natinfCode = 111
+        )
+        val natinf2 = NatinfEntity(
+            infraction = "mise en danger blabla",
+            natinfCode = 222
+        )
+        val natinf3 = NatinfEntity(
+            infraction = "filet peche blabla",
+            natinfCode = 333
+        )
+        val natinf4 = NatinfEntity(
+            infraction = "filet peche blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla",
+            natinfCode = 0
+        )
+        val natinf5 = NatinfEntity(
+            infraction = "filet peche blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla",
+            natinfCode = 118
+        )
+        val natinf6 = NatinfEntity(
+            infraction = "filet peche blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla mise en danger blabla",
+            natinfCode = 666
+        )
+        return listOf(natinf1, natinf2, natinf3, natinf4, natinf5, natinf6)
     }
 }

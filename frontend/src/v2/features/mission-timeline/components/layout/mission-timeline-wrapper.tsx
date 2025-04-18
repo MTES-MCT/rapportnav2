@@ -39,7 +39,6 @@ const MissionTimelineWrapper: FC<MissionTimelineProps> = ({
   if (actions?.length === 0) return <MissionTimelineEmpty />
   if (isError) return <MissionTimelineError error={isError} />
 
-  debugger
   return (
     <Stack direction="column" spacing={'1rem'} style={{ width: '100%' }} alignItems="stretch">
       {Object.entries(groupByDay(actions, groupBy)).map(([day, values], index) => (

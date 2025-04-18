@@ -12,45 +12,38 @@ import { TimelineDropdownItem } from '../../hooks/use-timeline'
 import MissionTimelineDropdownWrapper from '../layout/mission-timeline-dropdown-wrapper'
 import { v4 as uuidv4 } from 'uuid'
 import { MissionNavAction } from '../../../common/types/mission-action.ts'
+import { useNavigate } from 'react-router-dom'
+import { PAM_V2_HOME_PATH } from '@router/routes.tsx'
 
 type MissionTimelineAddActionProps = {
   missionId: number
   moduleType: ModuleType
-  onSumbit?: (id?: string) => void
+  onSubmit?: (id?: string) => void
   dropdownItems: TimelineDropdownItem[]
 }
 
 function MissionTimelineAddAction({
   missionId,
-  onSumbit,
+  onSubmit,
   moduleType,
   dropdownItems
 }: MissionTimelineAddActionProps): JSX.Element {
+  const navigate = useNavigate()
   const { getActionInput } = useMissionTimeline(missionId)
   const mutation = useCreateMissionActionMutation(missionId)
   const [showModal, setShowModal] = useState<boolean>(false)
 
   const handleAddAction = async (actionType: ActionType, data?: unknown) => {
-    // const action = getActionInput(actionType, data)
-    // const response = await mutation.mutateAsync(action)
-    // if (onSumbit) onSumbit(response?.id)
-    const id = uuidv4()
-    const action = {
-      ...getActionInput(actionType, data)
-      // id
-    }
-    debugger
+    const action = getActionInput(actionType, data)
     mutation.mutate(action, {
       onSuccess: (data: MissionNavAction) => {
-        debugger
-        // if (onSumbit && navigator.onLine) {
-        //   onSumbit(data?.id)
-        // }
-      },
-      onSettled: (_, __, ___, context) => {
-        debugger
-        if (onSumbit) {
-          onSumbit(context.action?.id)
+        const id = data?.data?.id
+        if (id) {
+          const url = `${PAM_V2_HOME_PATH}/${missionId}/${id}`
+          navigate(url)
+        }
+        if (onSubmit && navigator.onLine) {
+          onSubmit(id)
         }
       }
     })

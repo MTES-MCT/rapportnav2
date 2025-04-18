@@ -15,38 +15,23 @@ const useCreateMissionActionMutation = (
 
   const { isOnline } = useOnlineManager()
 
-  // const createAction = async (action: MissionNavAction): Promise<MissionNavAction> => {
-  //   debugger
-  //   const token = new AuthToken().get()
-  //   const auth = token ? `Bearer ${token}` : ''
-  //   const response = await fetch(`/api/v2/missions/${missionId}/actions`, {
-  //     method: 'POST',
-  //     body: JSON.stringify(action),
-  //     credentials: 'omit',
-  //     headers: { Accept: 'application/json', 'Content-type': 'application/json', Authorization: auth }
-  //   })
-  //   return await response.json()
-  //   // axios.post(`missions/${missionId}/actions`, action).then(response => response.data)
-  // }
-
-  const createAction = (action: MissionNavAction): Promise<MissionNavAction> =>
-    axios.post(`missions/${missionId}/actions`, action).then(response => response.data)
+  const createAction = async (action: MissionNavAction): Promise<MissionNavAction> =>
+    axios.post(`missions/${missionId}/actions`, action)
 
   const mutation = useMutation({
     mutationFn: createAction,
-    networkMode: 'offlineFirst',
-    retry: 1,
     onMutate: async (newAction: MissionNavAction) => {
       debugger
-      // to me on monday: it seems to fail here
-      // await queryClient.cancelQueries({ queryKey: actionKeys.all(), exact: true })
-
       const id = uuidv4() // Generate a UUID locally
       const optimisticAction = { ...newAction, id, networkSyncStatus: NetworkSyncStatus.UNSYNC }
 
+      // to me on monday: it seems to fail here
+      // await queryClient.cancelQueries({ queryKey: actionsKeys.byId(optimisticAction.id) })
+      await queryClient.cancelQueries({ queryKey: missionsKeys.byId(missionId) })
+
       const mission: Mission2 | undefined = queryClient.getQueryData(missionsKeys.byId(missionId))
       const previousActions = mission?.actions
-      // queryClient.setQueryData(actionKeys.all(), [newAction, ...previousActions || []])
+
       debugger
       queryClient.setQueryData(
         missionsKeys.byId(missionId),
@@ -66,33 +51,33 @@ const useCreateMissionActionMutation = (
     onSuccess: (serverResponse, newAction, context) => {
       debugger
       if (navigator.onLine) {
-        const { id: serverId } = serverResponse
+        const serverAction = serverResponse.data
 
         // set new action with final id in cache
-        queryClient.setQueryData(actionsKeys.byId(serverId), {
-          ...serverResponse,
+        queryClient.setQueryData(actionsKeys.byId(serverAction.id), {
+          ...serverAction,
           networkSyncStatus: NetworkSyncStatus.SYNC
         })
 
         // remove the old individual action query if the ID changed
-        if (context.action.id !== serverId) {
+        if (context.action.id !== serverAction.id) {
           queryClient.removeQueries({ queryKey: actionsKeys.byId(context.action.id) })
         }
 
         // update action list
-        queryClient.setQueryData(
-          missionsKeys.byId(missionId),
-          (mission: Mission2 | undefined) =>
-            ({
-              ...mission,
-              actions: (mission?.actions ?? []).map((action: MissionAction) =>
-                action.id === newAction.id ? serverResponse : action
-              )
-            }) as Mission2
-        )
-
-        // refetch mission
-        // queryClient.invalidateQueries({ queryKey: missionKeys.detail(missionId), exact: true })
+        // queryClient.setQueryData(
+        //   missionsKeys.byId(missionId),
+        //   (mission: Mission2 | undefined) =>
+        //     ({
+        //       ...mission,
+        //       actions: (mission?.actions ?? []).map((action: MissionAction) =>
+        //         action.id === context.action.id ? serverAction : action
+        //       )
+        //     }) as Mission2
+        // )
+        // refetch mission and action
+        queryClient.invalidateQueries({ queryKey: missionsKeys.byId(missionId), exact: true })
+        queryClient.invalidateQueries({ queryKey: actionsKeys.byId(serverAction.id), exact: true })
       }
     },
     onError: (_, __, context) => {
@@ -101,7 +86,7 @@ const useCreateMissionActionMutation = (
         console.log('Offline: Action will remain unsynced until next synchronization.')
       } else {
         // Rollback for other errors
-        console.error(`Mutation failed for action with ID: ${context.id}`, _)
+        console.error(`Mutation failed for action with ID: ${context.action?.id}`, _)
 
         // reset action list
         queryClient.setQueryData(
@@ -112,14 +97,16 @@ const useCreateMissionActionMutation = (
               actions: context.previousActions
             }) as Mission2
         )
+
+        // remvove cache key
+        queryClient.removeQueries({ queryKey: actionsKeys.byId(context.action.id) })
       }
     },
     // Clean-up actions regardless of success or failure
     // onSettled: (data, error, variables, context) => {
     onSettled: (_: any) => {
-      debugger
       // queryClient.invalidateQueries({ queryKey: actionKeys.detail(), exact: true })
-      queryClient.invalidateQueries({ queryKey: missionsKeys.byId(missionId), exact: true })
+      // queryClient.invalidateQueries({ queryKey: actionsKeys.byId(missionId), exact: true })
     }
   })
   return mutation
