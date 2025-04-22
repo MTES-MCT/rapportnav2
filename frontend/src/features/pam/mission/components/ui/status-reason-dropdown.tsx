@@ -21,6 +21,10 @@ const DOCKED_REASON_OPTIONS: { label: string | undefined; value: ActionStatusRea
     value: ActionStatusReason.ADMINISTRATION
   },
   {
+    label: statusReasonToHumanString(ActionStatusReason.MCO_AND_LOGISTICS),
+    value: ActionStatusReason.MCO_AND_LOGISTICS
+  },
+  {
     label: statusReasonToHumanString(ActionStatusReason.HARBOUR_CONTROL),
     value: ActionStatusReason.HARBOUR_CONTROL
   },
