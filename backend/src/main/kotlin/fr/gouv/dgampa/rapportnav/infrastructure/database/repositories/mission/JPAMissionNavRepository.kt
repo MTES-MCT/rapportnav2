@@ -39,9 +39,9 @@ class JPAMissionNavRepository(
     }
 
     override fun findAll(startBeforeDateTime: Instant, endBeforeDateTime: Instant): List<MissionModel?> {
-        return dbRepository.findAll(
-         //   startBeforeDateTime = startBeforeDateTime,
-          //  endBeforeDateTime = endBeforeDateTime
+        return dbRepository.findAllBetweenDates(
+            startBeforeDateTime = startBeforeDateTime,
+            endBeforeDateTime = endBeforeDateTime
         )
     }
 
