@@ -23,7 +23,7 @@ class InfractionTest {
         val controlId = UUID.randomUUID().toString()
 
         val input = Infraction(
-            missionId = 761,
+            missionId = "761",
             controlId = controlId,
             controlType = ControlType.SECURITY,
             infractionType = InfractionTypeEnum.WITH_REPORT,
@@ -31,12 +31,12 @@ class InfractionTest {
             observations = "My observations",
             target = null
         )
-        input.setMissionIdAndActionId(missionId = 761, actionId = actionId)
+        input.setMissionIdAndActionId(missionId = "761", actionId = actionId)
         val entity = input.toInfractionEntity()
 
         assertThat(entity).isNotNull()
         assertThat(entity.id).isNotNull()
-        assertThat(entity.missionId).isEqualTo(761)
+        assertThat(entity.missionId).isEqualTo("761")
         assertThat(entity.infractionType).isEqualTo(InfractionTypeEnum.WITH_REPORT)
         assertThat(entity.controlType).isEqualTo(ControlType.SECURITY)
         assertThat(entity.actionId).isEqualTo(actionId)
@@ -58,7 +58,7 @@ class InfractionTest {
         )
 
         val input = Infraction(
-            missionId = 761,
+            missionId = "761",
             controlId = controlId,
             controlType = ControlType.SECURITY,
             infractionType = InfractionTypeEnum.WITH_REPORT,
@@ -66,12 +66,12 @@ class InfractionTest {
             observations = "My observations",
             target = target
         )
-        input.setMissionIdAndActionId(missionId = 761, actionId = actionId)
+        input.setMissionIdAndActionId(missionId = "761", actionId = actionId)
         val entity = input.toInfractionEnvTargetEntity()
 
         assertThat(entity).isNotNull()
         assertThat(entity.id).isNotNull()
-        assertThat(entity.missionId).isEqualTo(761)
+        assertThat(entity.missionId).isEqualTo("761")
         assertThat(entity.vesselType).isEqualTo(target.vesselType)
         assertThat(entity.vesselSize).isEqualTo(target.vesselSize)
         assertThat(entity.vesselIdentifier).isEqualTo(target.vesselIdentifier)

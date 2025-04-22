@@ -43,7 +43,7 @@ class ProcessEnvActionTest {
 
     @Test
     fun `test execute get Env action by id`() {
-        val missionId = 761
+        val missionId = "761"
         val actionId = UUID.randomUUID()
         val action = EnvActionControlMock.create(
             id = actionId,

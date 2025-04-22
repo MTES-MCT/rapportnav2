@@ -36,7 +36,7 @@ class ProcessNavActionTest {
 
     @Test
     fun `test execute get fish action by id`() {
-        val missionId = 761
+        val missionId = "761"
         val actionId = UUID.randomUUID()
         val action = MissionActionModel(
             id = actionId,

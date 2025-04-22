@@ -65,7 +65,7 @@ class ExportMissionPatrolSingleTest {
 
     @Test
     fun `execute should return null if mission is not found`() {
-        val missionId = 123
+        val missionId = "123"
         `when`(getMission.execute(missionId)).thenReturn(null)
 
         val result = exportMissionRapportPatrouille.execute(missionId)
@@ -75,7 +75,7 @@ class ExportMissionPatrolSingleTest {
 
     @Test
     fun `execute should not throw`() {
-        val missionId = 123
+        val missionId = "123"
         assertDoesNotThrow {
             exportMissionRapportPatrouille.execute(missionId)
         }
@@ -83,14 +83,14 @@ class ExportMissionPatrolSingleTest {
 
     @Test
     fun `execute should return null when mission is null`() {
-        val missionId = 123
+        val missionId = "123"
         `when`(getMission.execute(missionId)).thenReturn(null)
         assertThat(exportMissionRapportPatrouille.execute(missionId)).isNull()
     }
 
     @Test
     fun `createFile should return null when mission throws`() {
-        val missionId = 123
+        val missionId = "123"
         val mission = MissionEntityMock.create(id = missionId)
         `when`(getMission.execute(missionId)).thenThrow()
         assertThat(exportMissionRapportPatrouille.createFile(mission)).isNull()
@@ -98,7 +98,7 @@ class ExportMissionPatrolSingleTest {
 
 //    @Test
 //    fun `execute should return MissionExportEntity`() {
-//        val missionId = 123
+//        val missionId = "123"
 //        val output = MissionExportEntity(
 //            fileName = "rapport.odt",
 //            fileContent = "some content"

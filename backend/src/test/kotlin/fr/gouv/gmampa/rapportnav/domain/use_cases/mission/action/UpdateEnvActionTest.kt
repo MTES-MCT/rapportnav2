@@ -46,7 +46,7 @@ class UpdateEnvActionTest {
         val actionId = UUID.randomUUID().toString()
         val input = MissionEnvAction(
             id = actionId,
-            missionId = 761,
+            missionId = "761",
             actionType = ActionType.CONTROL,
             source = MissionSourceEnum.RAPPORTNAV,
             data = getEnvActionData(),

@@ -51,7 +51,7 @@ class ProcessMissionActionInfractionTest {
         val mockSaveInfraction =
             InfractionEntityMock.create(
                 controlType = ControlType.SECURITY,
-                missionId = 761,
+                missionId = "761",
                 actionId = actionId.toString()
             )
 
@@ -84,7 +84,7 @@ class ProcessMissionActionInfractionTest {
             InfractionEntityMock.create(
                 actionId = actionId.toString(),
                 controlType = ControlType.NAVIGATION,
-                missionId = 761
+                missionId = "761"
             )
         return infractionToDelete
     }
@@ -94,7 +94,7 @@ class ProcessMissionActionInfractionTest {
             Infraction(
                 actionId = actionId.toString(),
                 controlType = ControlType.SECURITY,
-                missionId = 761
+                missionId = "761"
             )
         return securityInfraction
     }
@@ -125,22 +125,22 @@ class ProcessMissionActionInfractionTest {
     ): ActionControl {
         val controlId = UUID.randomUUID()
         val actionControl = ControlInputMock.createAllControl()
-        actionControl.controlGensDeMer?.setMissionIdAndActionId(actionId = actionId.toString(), missionId = 761)
-        actionControl.controlSecurity?.setMissionIdAndActionId(actionId = actionId.toString(), missionId = 761)
-        actionControl.controlNavigation?.setMissionIdAndActionId(actionId = actionId.toString(), missionId = 761)
-        actionControl.controlAdministrative?.setMissionIdAndActionId(actionId = actionId.toString(), missionId = 761)
+        actionControl.controlGensDeMer?.setMissionIdAndActionId(actionId = actionId.toString(), missionId = "761")
+        actionControl.controlSecurity?.setMissionIdAndActionId(actionId = actionId.toString(), missionId = "761")
+        actionControl.controlNavigation?.setMissionIdAndActionId(actionId = actionId.toString(), missionId = "761")
+        actionControl.controlAdministrative?.setMissionIdAndActionId(actionId = actionId.toString(), missionId = "761")
         actionControl.controlGensDeMer?.infractions = listOf(
             Infraction(
                 actionId = actionId.toString(),
                 controlType = ControlType.GENS_DE_MER,
                 controlId = controlId.toString(),
-                missionId = 761
+                missionId = "761"
             ),
             Infraction(
                 actionId = actionId.toString(),
                 controlType = ControlType.GENS_DE_MER,
                 controlId = controlId.toString(),
-                missionId = 761
+                missionId = "761"
             )
         )
         actionControl.controlSecurity?.infractions = listOf(securityInfraction)

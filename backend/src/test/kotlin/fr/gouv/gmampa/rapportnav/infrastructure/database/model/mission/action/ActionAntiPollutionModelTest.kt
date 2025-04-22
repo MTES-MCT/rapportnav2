@@ -20,7 +20,7 @@ class ActionAntiPollutionModelTest {
         val startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00");
         val endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
         val action = ActionAntiPollutionModel(
-            missionId = 761,
+            missionId = "761",
             id = id,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
@@ -33,7 +33,7 @@ class ActionAntiPollutionModelTest {
 
         assertThat(actionAntiPollution).isNotNull();
         assertThat(actionAntiPollution.id).isEqualTo(id);
-        assertThat(actionAntiPollution.missionId).isEqualTo(761);
+        assertThat(actionAntiPollution.missionId).isEqualTo("761");
         assertThat(actionAntiPollution.startDateTimeUtc).isEqualTo(startDateTimeUtc);
         assertThat(actionAntiPollution.endDateTimeUtc).isEqualTo(endDateTimeUtc);
         assertThat(actionAntiPollution.isAntiPolDeviceDeployed).isEqualTo(true);
@@ -47,7 +47,7 @@ class ActionAntiPollutionModelTest {
         val startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00");
         val endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
         val action = ActionAntiPollutionEntity(
-            missionId = 761,
+            missionId = "761",
             id = id,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
@@ -59,7 +59,7 @@ class ActionAntiPollutionModelTest {
         val actionAntiPollutionEntity = ActionAntiPollutionModel.fromAntiPollutionEntity(action);
         assertThat(actionAntiPollutionEntity).isNotNull();
         assertThat(actionAntiPollutionEntity.id).isEqualTo(id);
-        assertThat(actionAntiPollutionEntity.missionId).isEqualTo(761);
+        assertThat(actionAntiPollutionEntity.missionId).isEqualTo("761");
         assertThat(actionAntiPollutionEntity.startDateTimeUtc).isEqualTo(startDateTimeUtc);
         assertThat(actionAntiPollutionEntity.endDateTimeUtc).isEqualTo(endDateTimeUtc);
         assertThat(actionAntiPollutionEntity.isAntiPolDeviceDeployed).isEqualTo(true);

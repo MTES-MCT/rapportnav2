@@ -100,7 +100,7 @@ class ProcessMissionActionControlTest {
     private fun getMissionAction(): MissionNavActionEntity {
         return MissionNavActionEntity(
             id = UUID.randomUUID(),
-            missionId = 761,
+            missionId = "761",
             actionType = ActionType.CONTROL,
         )
     }

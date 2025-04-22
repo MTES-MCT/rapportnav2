@@ -26,7 +26,7 @@ object NavActionControlMock {
     ): ActionControlEntity {
         return ActionControlEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = startDateTimeUtc.plus(2, ChronoUnit.HOURS),
             controlMethod = controlMethod,

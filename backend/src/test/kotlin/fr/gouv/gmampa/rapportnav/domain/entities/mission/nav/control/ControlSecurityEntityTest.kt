@@ -15,7 +15,7 @@ class ControlSecurityEntityTest {
         // Arrange
         val entity = ControlSecurityEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-1",
             amountOfControls = 10,
             unitShouldConfirm = false, // Should make the method return false
@@ -34,7 +34,7 @@ class ControlSecurityEntityTest {
         // Arrange
         val entity = ControlSecurityEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-2",
             amountOfControls = 5,
             unitShouldConfirm = true,
@@ -53,7 +53,7 @@ class ControlSecurityEntityTest {
         // Arrange
         val entity = ControlSecurityEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-4",
             amountOfControls = 12,
             unitShouldConfirm = true,
@@ -73,7 +73,7 @@ class ControlSecurityEntityTest {
         // Arrange
         val entity = ControlSecurityEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-5",
             amountOfControls = 15,
             unitShouldConfirm = true,
@@ -81,7 +81,7 @@ class ControlSecurityEntityTest {
             infractions = listOf(
                 InfractionEntity(
                     id = UUID.randomUUID(),
-                    missionId = 1,
+                    missionId = "1",
                     actionId = "action-5",
                 )
             )
@@ -99,7 +99,7 @@ class ControlSecurityEntityTest {
         val id = UUID.randomUUID()
         val entity1 = ControlSecurityEntity(
             id = id,
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-5",
             amountOfControls = 15,
             unitShouldConfirm = true,
@@ -108,7 +108,7 @@ class ControlSecurityEntityTest {
 
         val entity2 = ControlSecurityEntity(
             id = id,
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-5",
             amountOfControls = 12,
             unitShouldConfirm = true,

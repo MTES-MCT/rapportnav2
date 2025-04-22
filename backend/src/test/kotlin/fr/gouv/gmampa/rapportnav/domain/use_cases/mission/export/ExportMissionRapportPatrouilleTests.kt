@@ -64,7 +64,7 @@ class ExportMissionRapportPatrouilleTests {
 
     @Test
     fun `exportOdt should return null if mission is not found`() {
-        val missionId = 123
+        val missionId = "123"
         `when`(getMission.execute(missionId)).thenReturn(null)
 
         val result = exportMissionRapportPatrouille.exportOdt(missionId)
@@ -74,7 +74,7 @@ class ExportMissionRapportPatrouilleTests {
 
     @Test
     fun `exportOdt should not throw`() {
-        val missionId = 123
+        val missionId = "123"
         assertDoesNotThrow {
             exportMissionRapportPatrouille.exportOdt(missionId)
         }
@@ -82,14 +82,14 @@ class ExportMissionRapportPatrouilleTests {
 
     @Test
     fun `exportOdt should return null when throw`() {
-        val missionId = 123
+        val missionId = "123"
         `when`(getMission.execute(missionId)).thenThrow()
         assertThat(exportMissionRapportPatrouille.exportOdt(missionId)).isNull()
     }
 
 //    @Test
 //    fun `exportOdt should return MissionExportEntity`() {
-//        val missionId = 123
+//        val missionId = "123"
 //        val output = MissionExportEntity(
 //            fileName = "rapport.odt",
 //            fileContent = "some content"

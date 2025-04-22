@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.Mission
 
 object NavMissionMock {
     fun create(
-        id: Int = 1,
+        id: String = "1",
         actions: List<NavActionEntity> = emptyList(),
         generalInfo: MissionGeneralInfoEntity? = null,
         crew: List<MissionCrewEntity>? = null,

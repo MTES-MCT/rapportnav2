@@ -12,7 +12,7 @@ class ActionControlTest {
     @Test
     fun `execute should return list of all infractions`() {
         val action = getActionInput()
-        action.controlSecurity?.setMissionIdAndActionId(missionId = 761, actionId = "my action id")
+        action.controlSecurity?.setMissionIdAndActionId(missionId = "761", actionId = "my action id")
         val infractions = action.getAllInfractions()
         assertThat(infractions.size).isEqualTo(5)
     }
@@ -30,10 +30,10 @@ class ActionControlTest {
 
     private fun getActionInput(): ActionControl {
         val action =  ControlInputMock.createAllControl()
-        action.controlAdministrative?.setMissionIdAndActionId(missionId = 761, actionId = "my action id")
-        action.controlGensDeMer?.setMissionIdAndActionId(missionId = 761, actionId = "my action id")
-        action.controlNavigation?.setMissionIdAndActionId(missionId = 761, actionId = "my action id")
-        action.controlSecurity?.setMissionIdAndActionId(missionId = 761, actionId = "my action id")
+        action.controlAdministrative?.setMissionIdAndActionId(missionId = "761", actionId = "my action id")
+        action.controlGensDeMer?.setMissionIdAndActionId(missionId = "761", actionId = "my action id")
+        action.controlNavigation?.setMissionIdAndActionId(missionId = "761", actionId = "my action id")
+        action.controlSecurity?.setMissionIdAndActionId(missionId = "761", actionId = "my action id")
         return action
     }
 }

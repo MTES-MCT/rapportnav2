@@ -47,7 +47,7 @@ class UpdateNavActionTest {
         val actionId = UUID.randomUUID().toString()
         val input = MissionNavAction(
             id = actionId,
-            missionId = 761,
+            missionId = "761",
             actionType = ActionType.CONTROL,
             source = MissionSourceEnum.RAPPORTNAV,
             data = getNavActionDataInput(),

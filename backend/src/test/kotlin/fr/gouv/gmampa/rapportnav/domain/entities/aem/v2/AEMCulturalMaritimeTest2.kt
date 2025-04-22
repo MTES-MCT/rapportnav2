@@ -28,7 +28,7 @@ class AEMCulturalMaritimeTest2 {
     private fun extendedEnvActionEntities(): List<MissionEnvActionEntity> {
         val actions = listOf(
             MissionEnvActionEntity(
-                missionId = 761,
+                missionId = "761",
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 controlPlans = listOf(EnvActionControlPlanEntity(themeId = 104, subThemeIds = listOf(143))),
@@ -36,7 +36,7 @@ class AEMCulturalMaritimeTest2 {
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             ),
             MissionEnvActionEntity(
-                missionId = 761,
+                missionId = "761",
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.SURVEILLANCE,
                 controlPlans = listOf(EnvActionControlPlanEntity(themeId = 101, subThemeIds = listOf(165))),
@@ -44,7 +44,7 @@ class AEMCulturalMaritimeTest2 {
                 endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
             ),
             MissionEnvActionEntity(
-                missionId = 761,
+                missionId = "761",
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.SURVEILLANCE,
                 controlPlans = listOf(EnvActionControlPlanEntity(themeId = 104, subThemeIds = listOf(67))),

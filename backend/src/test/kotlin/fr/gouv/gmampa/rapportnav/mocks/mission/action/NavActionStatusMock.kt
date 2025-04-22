@@ -17,7 +17,7 @@ object NavActionStatusMock {
     ): ActionStatusEntity {
         return ActionStatusEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             startDateTimeUtc = startDateTimeUtc,
             status = status,
             reason = reason,

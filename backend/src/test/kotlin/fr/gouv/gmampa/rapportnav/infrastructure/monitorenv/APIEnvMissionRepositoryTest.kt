@@ -38,7 +38,7 @@ class APIEnvMissionRepositoryTest {
     val host = "https://url.developpement-durable.gouv.fr"
 
     val mission = MissionDataOutput(
-        id = 761,
+        id = "761",
         missionTypes = listOf(MissionTypeEnum.SEA),
         controlUnits = listOf(),
         startDateTimeUtc = ZonedDateTime.parse("2022-03-15T04:50:09Z"),
@@ -80,7 +80,7 @@ class APIEnvMissionRepositoryTest {
                 .thenReturn(httpResponse)
             val envRepo = APIEnvMissionRepository(mapper = objectMapper, clientFactory = httpClientFactory, host = host)
             envRepo.patchMission(
-                missionId = 761,
+                missionId = "761",
                 PatchMissionInput(
                     observationsByUnit = "MyObservations",
                     startDateTimeUtc = Instant.parse("2022-03-15T04:50:09Z"),
@@ -151,7 +151,7 @@ class APIEnvMissionRepositoryTest {
     inner class GetMissions {
 
         private val mission = MissionDataOutput(
-            id = 1,
+            id = "1",
             startDateTimeUtc = ZonedDateTime.now(),
             endDateTimeUtc = ZonedDateTime.now(),
             missionTypes = listOf(MissionTypeEnum.AIR),

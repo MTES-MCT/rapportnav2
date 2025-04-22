@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessFishA
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
@@ -34,7 +34,7 @@ class GetFishActionByIdTest {
     @Test
     fun `test execute get Fish action by id`() {
 
-        val missionId = 761
+        val missionId = "761"
         val actionId = UUID.randomUUID().hashCode()
         val action = FishActionControlMock.create(
             id = actionId,
@@ -42,14 +42,14 @@ class GetFishActionByIdTest {
 
         val response = MissionFishActionEntity(
             id = actionId,
-            missionId = 761,
+            missionId = "761",
             fishActionType = MissionActionType.SEA_CONTROL,
             actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
             actionEndDatetimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             speciesQuantitySeized = 4
         )
 
-        `when`(processFishAction.execute(anyInt(), anyOrNull())).thenReturn(response)
+        `when`(processFishAction.execute(anyString(), anyOrNull())).thenReturn(response)
         `when`(getFishActionListByMissionId.execute(missionId)).thenReturn(listOf(action))
 
         getFishActionById = GetFishActionById(

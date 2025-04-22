@@ -85,7 +85,7 @@ class ProcessMissionActionInfractionEnvTargetTest {
             Infraction(
                 id = UUID.randomUUID().toString(),
                 actionId = actionId,
-                missionId = 145,
+                missionId = "145",
                 controlId = UUID.randomUUID().toString(),
                 infractionType = InfractionTypeEnum.WITH_REPORT,
                 target = InfractionTarget(
@@ -97,7 +97,7 @@ class ProcessMissionActionInfractionEnvTargetTest {
                 id = UUID.randomUUID().toString(),
                 actionId = actionId,
                 controlId = UUID.randomUUID().toString(),
-                missionId = 145,
+                missionId = "145",
                 controlType = ControlType.SECURITY,
                 infractionType = InfractionTypeEnum.WITH_REPORT,
                 target = InfractionTarget(
@@ -109,7 +109,7 @@ class ProcessMissionActionInfractionEnvTargetTest {
             Infraction(
                 id = UUID.randomUUID().toString(),
                 actionId = actionId,
-                missionId = 145,
+                missionId = "145",
                 controlId = UUID.randomUUID().toString(),
                 controlType = ControlType.ADMINISTRATIVE,
                 infractionType = InfractionTypeEnum.WITH_REPORT,
@@ -121,7 +121,7 @@ class ProcessMissionActionInfractionEnvTargetTest {
             Infraction(
                 id = UUID.randomUUID().toString(),
                 actionId = actionId,
-                missionId = 145,
+                missionId = "145",
                 controlId = UUID.randomUUID().toString(),
                 controlType = ControlType.GENS_DE_MER,
                 infractionType = InfractionTypeEnum.WITH_REPORT,
@@ -134,7 +134,7 @@ class ProcessMissionActionInfractionEnvTargetTest {
             Infraction(
                 id = UUID.randomUUID().toString(),
                 actionId = actionId,
-                missionId = 145,
+                missionId = "145",
                 controlId = UUID.randomUUID().toString(),
                 controlType = ControlType.NAVIGATION,
                 infractionType = InfractionTypeEnum.WITH_REPORT,
@@ -147,7 +147,7 @@ class ProcessMissionActionInfractionEnvTargetTest {
             Infraction(
                 id = UUID.randomUUID().toString(),
                 actionId = actionId,
-                missionId = 145,
+                missionId = "145",
                 controlId = UUID.randomUUID().toString(),
                 controlType = ControlType.SECURITY,
                 infractionType = InfractionTypeEnum.WITH_REPORT,

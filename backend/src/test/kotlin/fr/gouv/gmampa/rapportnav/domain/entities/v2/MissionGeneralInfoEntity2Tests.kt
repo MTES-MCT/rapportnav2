@@ -109,7 +109,7 @@ class MissionGeneralInfoEntity2Tests {
         private fun createCompleteData(): MissionGeneralInfoEntity {
             return MissionGeneralInfoEntity(
                 id = 1,
-                missionId = 1,
+                missionId = "1",
                 consumedFuelInLiters = 100f,
                 consumedGOInLiters = 50f,
                 distanceInNauticalMiles = 200f

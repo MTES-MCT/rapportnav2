@@ -128,7 +128,7 @@ class MissionEntityTests {
 
         private val validMissionGeneralInfoEntity = MissionGeneralInfoEntity(
             id = 1,
-            missionId = 1,
+            missionId = "1",
             consumedFuelInLiters = 1F,
             consumedGOInLiters = 1F,
             distanceInNauticalMiles = 1F
@@ -136,7 +136,7 @@ class MissionEntityTests {
         private val validCrewEntity = listOf(
             MissionCrewEntity(
                 id = 1,
-                missionId = 1,
+                missionId = "1",
                 agent = AgentEntity(
                     firstName = "name",
                     lastName = "name",

@@ -16,7 +16,7 @@ class ControlNavigationEntityTest {
         // Arrange
         val entity = ControlNavigationEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-1",
             amountOfControls = 10,
             unitShouldConfirm = false, // Should make the method return false
@@ -35,7 +35,7 @@ class ControlNavigationEntityTest {
         // Arrange
         val entity = ControlNavigationEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-2",
             amountOfControls = 5,
             unitShouldConfirm = true,
@@ -54,7 +54,7 @@ class ControlNavigationEntityTest {
         // Arrange
         val entity = ControlNavigationEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-4",
             amountOfControls = 12,
             unitShouldConfirm = true,
@@ -74,7 +74,7 @@ class ControlNavigationEntityTest {
         // Arrange
         val entity = ControlNavigationEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-5",
             amountOfControls = 15,
             unitShouldConfirm = true,
@@ -82,7 +82,7 @@ class ControlNavigationEntityTest {
             infractions = listOf(
                 InfractionEntity(
                     id = UUID.randomUUID(),
-                    missionId = 1,
+                    missionId = "1",
                     actionId = "action-5",
                 )
             )
@@ -100,7 +100,7 @@ class ControlNavigationEntityTest {
         val id = UUID.randomUUID()
         val entity1 = ControlNavigationEntity(
             id = id,
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-5",
             amountOfControls = 15,
             unitShouldConfirm = true,
@@ -109,7 +109,7 @@ class ControlNavigationEntityTest {
 
         val entity2 = ControlNavigationEntity(
             id = id,
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-5",
             amountOfControls = 12,
             unitShouldConfirm = true,

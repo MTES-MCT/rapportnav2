@@ -26,19 +26,19 @@ class JPAMissionActionRepositoryTest {
     private val missionActions: List<MissionActionModel> = listOf(
         MissionActionModel(
             id = id1,
-            missionId = 761,
+            missionId = "761",
             actionType = ActionType.CONTROL,
             startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
         ),
         MissionActionModel(
             id = UUID.randomUUID(),
-            missionId = 761,
+            missionId = "761",
             actionType = ActionType.ILLEGAL_IMMIGRATION,
             startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
         ),
         MissionActionModel(
             id = id2,
-            missionId = 761,
+            missionId = "761",
             actionType = ActionType.SURVEILLANCE,
             startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),
         )
@@ -46,9 +46,9 @@ class JPAMissionActionRepositoryTest {
 
     @Test
     fun `execute should retrieve action by mission id`() {
-        Mockito.`when`(dbServiceRepository.findAllByMissionId(761)).thenReturn(missionActions)
+        Mockito.`when`(dbServiceRepository.findAllByMissionId("761")).thenReturn(missionActions)
         val jPAMissionActionRepository = JPAMissionActionRepository(dbServiceRepository)
-        val responses = jPAMissionActionRepository.findByMissionId(missionId = 761)
+        val responses = jPAMissionActionRepository.findByMissionId(missionId = "761")
         assertThat(responses).isNotNull()
         assertThat(responses.size).isEqualTo(3)
         assertThat(responses.map { action -> action.id }).containsAll(listOf(id1, id2))

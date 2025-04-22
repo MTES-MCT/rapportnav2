@@ -41,7 +41,7 @@ class UpdateFishActionTest {
         val actionId = 54566.toString()
         val input = MissionFishAction(
             id = actionId,
-            missionId = 761,
+            missionId = "761",
             actionType = ActionType.CONTROL,
             source = MissionSourceEnum.RAPPORTNAV,
             data = getFishActionData(),

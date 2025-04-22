@@ -88,12 +88,12 @@ class AEMTableExportTest {
         val navActions = listOf(
             NavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionType = ActionType.ILLEGAL_IMMIGRATION,
                 startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                 publicOrderAction = ActionPublicOrderEntity(
-                    missionId = 761,
+                    missionId = "761",
                     id = UUID.randomUUID(),
                     startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
                     endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
@@ -102,7 +102,7 @@ class AEMTableExportTest {
         )
         val navMission = NavMissionMock.create(
             actions = navActions,
-            generalInfo = MissionGeneralInfoEntity(id = 1, missionId = 761)
+            generalInfo = MissionGeneralInfoEntity(id = 1, missionId = "761")
         );
         val fishMissionActions = listOf(
             ExtendedFishActionEntityMock.create(

@@ -31,7 +31,7 @@ class ControlSecurityModelTest {
 
         val entity = ControlSecurityEntity(
             id = UUID.randomUUID(),
-            missionId = 761,
+            missionId = "761",
             amountOfControls = 3,
             hasBeenDone = hasBeenDone,
             actionControlId = "myActionId"

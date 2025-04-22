@@ -65,7 +65,7 @@ class CreateMissionNavTest {
 
         assertNotNull(result)
 
-        assertEquals(1, result?.id)
+        assertEquals("1", result?.id)
         assertEquals(1, result?.controlUnitIdOwner)
     }
 }

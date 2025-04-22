@@ -13,7 +13,7 @@ import java.util.*
 object MissionActionModelMock {
     fun create(): MissionActionModel {
         return MissionActionModel(
-            missionId = 761,
+            missionId = "761",
             id = UUID.fromString("0000-00-00-00-000000"),
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),

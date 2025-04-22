@@ -12,7 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessEnvAc
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,7 +37,7 @@ class GetEnvActionByIdTest {
 
     @Test
     fun `test execute get Env action by id`() {
-        val missionId = 761
+        val missionId = "761"
         val actionId = UUID.randomUUID()
         val action = EnvActionControlMock.create(
             id = actionId,
@@ -62,7 +62,7 @@ class GetEnvActionByIdTest {
             controlPlans = listOf(EnvActionControlPlanEntity(themeId = 104, subThemeIds = listOf(143)))
         )
 
-        `when`(processEnvAction.execute(anyInt(), anyOrNull())).thenReturn(response)
+        `when`(processEnvAction.execute(anyString(), anyOrNull())).thenReturn(response)
         `when`(getEnvMissionById2.execute(missionId)).thenReturn(missionEntity)
 
         getEnvActionById = GetEnvActionById(

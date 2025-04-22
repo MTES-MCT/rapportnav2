@@ -15,7 +15,7 @@ class AgentServiceModelTest {
 
     @Test
     fun `execute should retrieve mission crew model from agent service`() {
-        val missionId = 761;
+        val missionId = "761";
         val role = AgentRoleModel(id=1, title = "Commandant")
         val agent = AgentModel(id=1, firstName = "firstname", lastName="lastname");
 

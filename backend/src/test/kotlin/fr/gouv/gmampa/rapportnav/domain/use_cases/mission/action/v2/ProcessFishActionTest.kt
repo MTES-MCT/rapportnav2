@@ -35,7 +35,7 @@ class ProcessFishActionTest {
 
     @Test
     fun `test execute get fish action by id`() {
-        val missionId = 761
+        val missionId = "761"
         val actionId = UUID.randomUUID().hashCode()
         val action = FishActionControlMock.create(
             id = actionId,

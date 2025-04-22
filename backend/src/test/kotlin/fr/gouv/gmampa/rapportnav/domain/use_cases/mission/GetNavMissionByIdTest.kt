@@ -90,7 +90,7 @@ class GetNavMissionByIdTest {
     @Test
     fun `execute should have services in nav mission entity`() {
         Mockito.`when`(getServiceByControlUnit.execute(controlUnits)).thenReturn(serviceEntities)
-        val response = getMissionNavById.execute(2, controlUnits)
+        val response = getMissionNavById.execute("2", controlUnits)
 
         assertThat(response).isNotNull()
         assertThat(response.services).isNotNull()

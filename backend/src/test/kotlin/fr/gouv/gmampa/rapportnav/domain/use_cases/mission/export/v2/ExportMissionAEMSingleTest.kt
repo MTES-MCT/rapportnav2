@@ -29,7 +29,7 @@ class ExportMissionAEMSingleTest {
 
     @Test
     fun `execute AEM export return null when mission not exist`() {
-        val missionId = 123
+        val missionId = "123"
         val mission = MissionEntityMock.create(id = missionId)
         Mockito.`when`(getMissionById.execute(missionId)).thenReturn(null)
 
@@ -41,7 +41,7 @@ class ExportMissionAEMSingleTest {
 
     @Test
     fun `execute AEM mission list export return a MissionExportEntity when mission list has actions`() {
-        val missionId = 1
+        val missionId = "1"
         val action = NavActionControlMock.create().toNavActionEntity()
         val missionAction = MissionActionEntity.NavAction(action)
 

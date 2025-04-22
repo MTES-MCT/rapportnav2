@@ -22,7 +22,7 @@ class GetFishActionListByMissionIdTest {
 
     @Test
     fun `execute should return fish actions from Fish`() {
-        val missionId = 761
+        val missionId = "761"
         // Given
         val actionId = UUID.randomUUID().hashCode()
         val action = FishActionControlMock.create(

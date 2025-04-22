@@ -15,7 +15,7 @@ class ControlAdministrativeEntityTest {
         // Arrange
         val entity = ControlAdministrativeEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-1",
             amountOfControls = 10,
             unitShouldConfirm = false, // Should make the method return false
@@ -34,7 +34,7 @@ class ControlAdministrativeEntityTest {
         // Arrange
         val entity = ControlAdministrativeEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-2",
             amountOfControls = 5,
             unitShouldConfirm = true,
@@ -53,7 +53,7 @@ class ControlAdministrativeEntityTest {
         // Arrange
         val entity = ControlAdministrativeEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-3",
             amountOfControls = 8,
             unitShouldConfirm = true,
@@ -73,7 +73,7 @@ class ControlAdministrativeEntityTest {
         // Arrange
         val entity = ControlAdministrativeEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-4",
             amountOfControls = 12,
             unitShouldConfirm = true,
@@ -93,7 +93,7 @@ class ControlAdministrativeEntityTest {
         // Arrange
         val entity = ControlAdministrativeEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-5",
             amountOfControls = 15,
             unitShouldConfirm = true,
@@ -101,7 +101,7 @@ class ControlAdministrativeEntityTest {
             infractions = listOf(
                 InfractionEntity(
                     id = UUID.randomUUID(),
-                    missionId = 1,
+                    missionId = "1",
                     actionId = "action-5",
                 )
             )
@@ -119,7 +119,7 @@ class ControlAdministrativeEntityTest {
         val id = UUID.randomUUID()
         val entity1 = ControlAdministrativeEntity(
             id = id,
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-5",
             amountOfControls = 15,
             unitShouldConfirm = true,
@@ -131,7 +131,7 @@ class ControlAdministrativeEntityTest {
 
         val entity2 = ControlAdministrativeEntity(
             id = id,
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-5",
             amountOfControls = 15,
             unitShouldConfirm = true,

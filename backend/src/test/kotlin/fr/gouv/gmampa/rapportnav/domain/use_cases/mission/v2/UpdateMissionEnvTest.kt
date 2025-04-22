@@ -36,7 +36,7 @@ class UpdateMissionEnvTest {
 
     @Test
     fun `execute should return null when MissionEntity are equal`() {
-        val missionId = 123
+        val missionId = "123"
 
         val mockResourceFromDb = LegacyControlUnitResourceEntity(
             id = 1,
@@ -101,7 +101,7 @@ class UpdateMissionEnvTest {
     @Test
     fun `execute should return MissionEnvEntity when MissionEntity are not equal`() {
 
-        val missionId = 123
+        val missionId = "123"
 
         val mockResourceFromDb = LegacyControlUnitResourceEntity(
             id = 1,
@@ -167,7 +167,7 @@ class UpdateMissionEnvTest {
     @Test
     fun `execute should return MissionEnvEntity when MissionEntity are not equal as we updated resources`() {
 
-        val missionId = 123
+        val missionId = "123"
 
         val mockResourceFromDb = LegacyControlUnitResourceEntity(
             id = 1,
@@ -247,7 +247,7 @@ class UpdateMissionEnvTest {
     @Test
     fun `execute should not throw Exception when resources are empty`() {
 
-        val missionId = 123
+        val missionId = "123"
 
 
 

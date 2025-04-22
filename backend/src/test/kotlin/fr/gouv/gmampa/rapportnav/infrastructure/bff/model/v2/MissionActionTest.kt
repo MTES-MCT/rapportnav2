@@ -3,7 +3,10 @@ package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.*
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionAction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvAction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishAction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
@@ -26,7 +29,7 @@ class MissionActionTest {
     @Test
     fun `execute should retrieve output from mission action env from envEntity`() {
         val envAction = EnvActionControlMock.create();
-        val entity =  MissionEnvActionEntity.fromEnvAction(761, envAction)
+        val entity =  MissionEnvActionEntity.fromEnvAction("761", envAction)
         val output = MissionAction.fromMissionActionEntity(entity)
         assertThat(output).isInstanceOf(MissionEnvAction::class.java)
     }

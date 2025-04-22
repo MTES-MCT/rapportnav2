@@ -44,7 +44,7 @@ class AEMSovereignProtectTest2 {
         val actions = listOf(
             MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionType = ActionType.CONTROL,
                 endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
@@ -52,7 +52,7 @@ class AEMSovereignProtectTest2 {
             ),
             MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionType = ActionType.STATUS,
                 startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
@@ -60,7 +60,7 @@ class AEMSovereignProtectTest2 {
             ),
             MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionType = ActionType.STATUS,
                 endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
@@ -73,7 +73,7 @@ class AEMSovereignProtectTest2 {
     private fun getEnvActions(): List<MissionEnvActionEntity> {
         val actions = listOf(
             MissionEnvActionEntity(
-                missionId = 761,
+                missionId = "761",
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 controlPlans = listOf(EnvActionControlPlanEntity(themeId = 102)),
@@ -82,7 +82,7 @@ class AEMSovereignProtectTest2 {
                 vehicleType = VehicleTypeEnum.VEHICLE_LAND
             ),
             MissionEnvActionEntity(
-                missionId = 761,
+                missionId = "761",
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
                 controlPlans = listOf(EnvActionControlPlanEntity(themeId = 102)),
@@ -97,14 +97,14 @@ class AEMSovereignProtectTest2 {
     private fun getFishActions(): List<MissionFishActionEntity> {
         val actions = listOf(
             MissionFishActionEntity(
-                missionId = 761,
+                missionId = "761",
                 id = 234,
                 fishActionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 actionEndDatetimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
             ),
             MissionFishActionEntity(
-                missionId = 761,
+                missionId = "761",
                 id = 234,
                 fishActionType = MissionActionType.SEA_CONTROL,
                 actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),

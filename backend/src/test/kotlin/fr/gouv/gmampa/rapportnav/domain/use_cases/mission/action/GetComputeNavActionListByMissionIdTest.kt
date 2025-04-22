@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessNavAc
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
@@ -34,7 +34,7 @@ class GetComputeNavActionListByMissionIdTest {
 
     @Test
     fun `test execute get nav action list by mission id`() {
-        val missionId = 761
+        val missionId = "761"
         val actionId = UUID.randomUUID()
         val action = MissionActionModel(
             missionId = missionId,
@@ -50,13 +50,13 @@ class GetComputeNavActionListByMissionIdTest {
 
         val response = MissionNavActionEntity(
             id = actionId,
-            missionId = 761,
+            missionId = "761",
             actionType = ActionType.ILLEGAL_IMMIGRATION,
             startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
         )
 
-        `when`(processNavAction.execute(anyInt(), anyOrNull())).thenReturn(response)
+        `when`(processNavAction.execute(anyString(), anyOrNull())).thenReturn(response)
         `when`(navMissionActionRepository.findByMissionId(missionId)).thenReturn(listOf(action))
 
         getNavActionList = GetComputeNavActionListByMissionId(

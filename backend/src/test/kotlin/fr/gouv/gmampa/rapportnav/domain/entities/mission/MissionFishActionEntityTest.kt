@@ -202,25 +202,25 @@ class MissionFishActionEntityTest {
         val controls = ActionControlEntity(
             controlSecurity = ControlSecurityEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionControlId = "MyActionId1",
                 amountOfControls = 2,
             ),
             controlGensDeMer = ControlGensDeMerEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionControlId = "MyActionId2",
                 amountOfControls = 2
             ),
             controlNavigation = ControlNavigationEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionControlId =  "MyActionId3",
                 amountOfControls = 2
             ),
             controlAdministrative = ControlAdministrativeEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionControlId = "MyActionId4",
                 amountOfControls = 2
             )

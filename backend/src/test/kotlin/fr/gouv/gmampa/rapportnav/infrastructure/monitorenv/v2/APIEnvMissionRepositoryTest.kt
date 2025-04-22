@@ -107,7 +107,7 @@ class APIEnvMissionRepositoryTest {
             .thenReturn(httpResponse)
         val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host)
         val mission = MissionEnvEntity(
-            id = 1,
+            id = "1",
             missionTypes = listOf(MissionTypeEnum.SEA),
             controlUnits = listOf(),
             startDateTimeUtc = Instant.parse("2024-04-17T07:00:00Z"),

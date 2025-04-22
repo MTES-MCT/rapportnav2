@@ -54,10 +54,10 @@ class MissionRestControllerTest {
     fun `should return a list of missions`() {
         // Arrange
         val mockEnvMissions = listOf(
-            EnvMissionMock.create(id = 1),
-            EnvMissionMock.create(id = 2),
+            EnvMissionMock.create(id = "1"),
+            EnvMissionMock.create(id = "2"),
         )
-        val mockMissionEntity = MissionEntityMock2.create(id = 1)
+        val mockMissionEntity = MissionEntityMock2.create(id = "1")
 
         val mockUser = UserMock.create()
 
@@ -76,9 +76,9 @@ class MissionRestControllerTest {
     @Test
     fun `should return a mission by id`() {
         // Arrange
-        val missionId = 1
-        val mockMissionEntity = MissionEntityMock2.create(id = 1)
-        `when`(getMission2.execute(missionId = 1)).thenReturn(mockMissionEntity)
+        val missionId = "1"
+        val mockMissionEntity = MissionEntityMock2.create(id = "1")
+        `when`(getMission2.execute(missionId = "1")).thenReturn(mockMissionEntity)
 
         // Act & Assert
         mockMvc.perform(get("/api/v2/missions/{missionId}", missionId))
@@ -93,7 +93,7 @@ class MissionRestControllerTest {
         val requestBody = MissionGeneralInfo2Mock.create()
         val controlUnitsIds = listOf(456)
         val mockMission = MissionEntityMock2.create(
-            id = 123,
+            id = "123",
             controlUnits = listOf(LegacyControlUnitEntityMock.create(id = controlUnitsIds.first()))
         )
         `when`(getControlUnitsForUser.execute()).thenReturn(controlUnitsIds)

@@ -48,7 +48,7 @@ class GroupActionByDateTest {
         val action2 = MissionActionEntity.FishAction(
             ExtendedFishActionEntity.fromMissionAction(
                 FishActionControlMock.create(
-                    missionId = 1,
+                    missionId = "1",
                     actionDatetimeUtc = Instant.parse("2022-01-01T12:00:01Z"),
                 )
             )

@@ -5,10 +5,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.Infracti
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.infraction.Infraction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.infraction.InfractionTarget
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.infraction.InfractionsByVessel
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.assertj.core.api.Assertions.assertThat
 
 @ExtendWith(SpringExtension::class)
 class InfractionsByVesselTest {
@@ -18,7 +18,7 @@ class InfractionsByVesselTest {
             Infraction(
                 id = "myInfraction1",
                 actionId = "actionId",
-                missionId = 145,
+                missionId = "145",
                 infractionType = InfractionTypeEnum.WITH_REPORT,
                 target = InfractionTarget(
                     id = "myInfraction1",
@@ -28,7 +28,7 @@ class InfractionsByVesselTest {
             Infraction(
                 id = "myInfraction2",
                 actionId = "actionId",
-                missionId = 145,
+                missionId = "145",
                 infractionType = InfractionTypeEnum.WITH_REPORT,
                 target = InfractionTarget(
                     id = "myInfraction2",
@@ -39,7 +39,7 @@ class InfractionsByVesselTest {
             Infraction(
                 id = "myInfraction3",
                 actionId = "actionId",
-                missionId = 145,
+                missionId = "145",
                 infractionType = InfractionTypeEnum.WITH_REPORT,
                 target = InfractionTarget(
                     id = "myInfraction3",
@@ -49,7 +49,7 @@ class InfractionsByVesselTest {
             Infraction(
                 id = "myInfraction4",
                 actionId = "actionId",
-                missionId = 145,
+                missionId = "145",
                 infractionType = InfractionTypeEnum.WITH_REPORT,
                 target = InfractionTarget(
                     id = "myInfraction4",
@@ -60,7 +60,7 @@ class InfractionsByVesselTest {
             Infraction(
                 id = "myInfraction5",
                 actionId = "actionId",
-                missionId = 145,
+                missionId = "145",
                 infractionType = InfractionTypeEnum.WITH_REPORT,
                 target = InfractionTarget(
                     id = "myInfraction1",
@@ -71,7 +71,7 @@ class InfractionsByVesselTest {
             Infraction(
                 id = "myInfraction5",
                 actionId = "actionId",
-                missionId = 145,
+                missionId = "145",
                 infractionType = InfractionTypeEnum.WITH_REPORT,
                 target = InfractionTarget(
                     id = "myInfraction5",

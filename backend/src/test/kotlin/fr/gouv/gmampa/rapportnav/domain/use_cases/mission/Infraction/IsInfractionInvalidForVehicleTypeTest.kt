@@ -20,7 +20,7 @@ class IsInfractionInvalidForVehicleTypeTest {
     @Test
     fun `should return null for an input with vehicleType null`() {
         val input = InfractionWithNewTargetInput(
-            missionId = 761,
+            missionId = "761",
             actionId = "actionId",
             controlType = "controlType",
             identityControlledPerson = "identityControlledPerson"
@@ -32,7 +32,7 @@ class IsInfractionInvalidForVehicleTypeTest {
     @Test
     fun `should return error if vehicle is not a vessel but hasn't a vehicle identifier`() {
         val input = InfractionWithNewTargetInput(
-            missionId = 761,
+            missionId = "761",
             actionId = "actionId",
             controlType = "controlType",
             identityControlledPerson = "identityControlledPerson",
@@ -46,7 +46,7 @@ class IsInfractionInvalidForVehicleTypeTest {
     @Test
     fun `should return error even if the vehicle is vessel and has a vehicle identifier`() {
         val input = InfractionWithNewTargetInput(
-            missionId = 761,
+            missionId = "761",
             actionId = "actionId",
             controlType = "controlType",
             identityControlledPerson = "identityControlledPerson",
@@ -61,7 +61,7 @@ class IsInfractionInvalidForVehicleTypeTest {
     @Test
     fun `should not return error if the vehicle is vessel and has identifier, a type, and a size`() {
         val input = InfractionWithNewTargetInput(
-            missionId = 761,
+            missionId = "761",
             actionId = "actionId",
             controlType = "controlType",
             identityControlledPerson = "identityControlledPerson",

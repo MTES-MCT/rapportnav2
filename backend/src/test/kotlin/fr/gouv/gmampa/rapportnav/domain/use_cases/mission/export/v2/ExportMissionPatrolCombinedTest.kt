@@ -34,7 +34,7 @@ class ExportMissionPatrolCombinedTest {
 
     @Test
     fun `should export a file`() {
-        val missionIds = listOf(1)
+        val missionIds = listOf("1")
         val mission = MissionEntityMock.create(id = missionIds.first())
         Mockito.`when`(exportMissionPatrolSingle.createFile(Mockito.any())).thenReturn(
             MissionExportEntity(
@@ -42,7 +42,7 @@ class ExportMissionPatrolCombinedTest {
                 fileContent = "MockContent"
             )
         )
-        Mockito.`when`(getMission.execute(Mockito.anyInt(), Mockito.any())).thenReturn(
+        Mockito.`when`(getMission.execute(Mockito.anyString(), Mockito.any())).thenReturn(
             mission
         )
 
@@ -55,8 +55,8 @@ class ExportMissionPatrolCombinedTest {
     @Test
     fun `should handle exception and return null`() {
         // Arrange: Force an exception when getMission.execute is called
-        val missionIds = listOf(1)
-        Mockito.`when`(getMission.execute(Mockito.anyInt(), Mockito.any()))
+        val missionIds = listOf("1")
+        Mockito.`when`(getMission.execute(Mockito.anyString(), Mockito.any()))
             .thenThrow(RuntimeException("Mock exception"))
 
         // Act: Call the method

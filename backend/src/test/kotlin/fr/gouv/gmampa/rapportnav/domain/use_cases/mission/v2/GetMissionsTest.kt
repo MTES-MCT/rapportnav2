@@ -42,7 +42,7 @@ class GetMissionsTest {
         val now = Instant.now()
 
         val mockEnvMission = MissionEntity(
-            id = 1,
+            id = "1",
             startDateTimeUtc = now,
             endDateTimeUtc = now,
             isDeleted = false,
@@ -55,7 +55,7 @@ class GetMissionsTest {
         )
 
         val mockNavMission = MissionEntity(
-            id = 1,
+            id = "1",
             startDateTimeUtc = now,
             endDateTimeUtc = now,
             isDeleted = false,
@@ -68,12 +68,12 @@ class GetMissionsTest {
         )
 
         val mockNavMissionEntity2 = MissionEntity2(
-            id = 1,
+            id = "1",
             data = mockNavMission
         )
 
         val mockEnvMissionEntity2 = MissionEntity2(
-            id = 1,
+            id = "1",
             data = mockEnvMission
         )
 

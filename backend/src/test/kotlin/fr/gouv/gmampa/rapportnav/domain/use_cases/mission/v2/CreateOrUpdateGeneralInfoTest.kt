@@ -54,7 +54,7 @@ class CreateOrUpdateGeneralInfoTest {
         @Test
     fun `execute should update mission service when service ID has changed`() {
         // Given
-        val missionId = 123
+        val missionId = "123"
         val oldServiceId = 456
         val newServiceId = 789
         val missionGeneralInfo = MissionGeneralInfo2(
@@ -93,7 +93,7 @@ class CreateOrUpdateGeneralInfoTest {
     @Test
     fun `execute should update crew and mission env when service ID remains the same`() {
         // Given
-        val missionId = 123
+        val missionId = "123"
         val serviceId = 456
         val crew = listOf<MissionCrew>(MissionCrew(
             id = 3,
@@ -146,7 +146,7 @@ class CreateOrUpdateGeneralInfoTest {
     @Test
     fun `execute should handle null service ID`() {
         // Given
-        val missionId = 123
+        val missionId = "123"
         val missionGeneralInfo = MissionGeneralInfo2(
             missionId = missionId,
             serviceId = null,
@@ -190,7 +190,7 @@ class CreateOrUpdateGeneralInfoTest {
     @Test
     fun `execute should return null when an exception occurs`() {
         // Given
-        val missionId = 123
+        val missionId = "123"
         val missionGeneralInfo = MissionGeneralInfo2(
             missionId = missionId,
             serviceId = null,

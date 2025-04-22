@@ -33,7 +33,7 @@ class UpdateMissionService2Test {
     private lateinit var getActiveCrewForService: GetActiveCrewForService
 
     private val serviceId = 123
-    private val missionId = 456
+    private val missionId = "456"
 
     val role = AgentRoleEntityMock.create()
     val agent1 = AgentEntityMock.create(firstName = "John", lastName = "Doe")

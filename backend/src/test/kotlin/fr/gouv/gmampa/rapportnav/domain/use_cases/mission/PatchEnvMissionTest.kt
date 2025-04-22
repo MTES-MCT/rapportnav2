@@ -22,7 +22,7 @@ class PatchEnvMissionTest {
 
     @Test
     fun `execute update env mission with ObservationByUnit`() {
-        val missionId = 761
+        val missionId = "761"
         val observationsByUnit = "MyBeautifulObservation"
         val mission = EnvMissionMock.create(observationsByUnit = observationsByUnit)
         val missionEnvEntity = PatchMissionInput(observationsByUnit = observationsByUnit)

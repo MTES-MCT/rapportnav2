@@ -36,7 +36,7 @@ class CreateMissionTest {
        )
 
         val mockMissionNav = MissionNavEntity(
-            id = 1,
+            id = "1",
             controlUnits = listOf(1),
             startDateTimeUtc = Instant.now(),
             isDeleted = false,
@@ -62,7 +62,7 @@ class CreateMissionTest {
         )
 
         val mockMissionNav = MissionNavEntity(
-            id = 1,
+            id = "1",
             controlUnits = listOf(1),
             startDateTimeUtc = Instant.now(),
             isDeleted = false,
@@ -87,7 +87,7 @@ class CreateMissionTest {
         )
 
         val mockMissionEnv = MissionEnvEntity(
-            id = 1,
+            id = "1",
             startDateTimeUtc = Instant.now(),
             isDeleted = false,
             controlUnits = listOf(LegacyControlUnitEntityMock.create()),
@@ -97,7 +97,7 @@ class CreateMissionTest {
         )
 
         val mockMissionNav = MissionNavEntity(
-            id = 1,
+            id = "1",
             controlUnits = listOf(1),
             startDateTimeUtc = Instant.now(),
             isDeleted = false,

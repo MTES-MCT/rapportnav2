@@ -2,7 +2,6 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeActionData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetFishActionsByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
@@ -45,8 +44,6 @@ class GetFishActionsByMissionIdTest {
     @MockitoBean
     private lateinit var attachControlsToActionControl: AttachControlsToActionControl
 
-    @MockitoBean
-    private lateinit var getFakeActionData: FakeActionData
 
     private val mockFishMissionActions = listOf(
         FishActionControlMock.create(id = 1),
@@ -61,7 +58,7 @@ class GetFishActionsByMissionIdTest {
     @BeforeEach
     fun setup() {
         cacheManager.getCache("fishActions")?.clear()
-        `when`(fishActionRepo.findFishActions(anyInt())).thenReturn(mockFishMissionActions)
+        `when`(fishActionRepo.findFishActions(anyString())).thenReturn(mockFishMissionActions)
         `when`(
             attachControlsToActionControl.toFishAction(
                 "1",
@@ -82,7 +79,7 @@ class GetFishActionsByMissionIdTest {
 
     @Test
     fun `test execute caches results`() {
-        val missionId = 123
+        val missionId = "123"
 
         // First call
         val result1 = getFishActionsByMissionId.execute(missionId)
@@ -103,11 +100,11 @@ class GetFishActionsByMissionIdTest {
 
     @Test
     fun `test execute returns empty list when repository throws exception`() {
-        val missionId = 123
+        val missionId = "123"
 
         // Clear the cache and setup repository to throw an exception
         cacheManager.getCache("fishActions")?.clear()
-        `when`(fishActionRepo.findFishActions(anyInt())).thenThrow(RuntimeException("API error"))
+        `when`(fishActionRepo.findFishActions(anyString())).thenThrow(RuntimeException("API error"))
 
         // Call execute
         val result = getFishActionsByMissionId.execute(missionId)

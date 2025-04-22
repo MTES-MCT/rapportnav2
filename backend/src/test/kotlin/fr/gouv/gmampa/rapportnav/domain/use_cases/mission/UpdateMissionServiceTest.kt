@@ -42,7 +42,7 @@ class UpdateMissionServiceTest {
     private val oldMissionCrews: List<MissionCrewModel> = listOf(
         MissionCrewModel(
             id = 3,
-            missionId = 761,
+            missionId = "761",
             agent = AgentModel(id = 1, firstName = "", lastName = ""),
             role = AgentRoleModel(id = 1, title = ""),
             comment = ""
@@ -61,19 +61,19 @@ class UpdateMissionServiceTest {
     fun `execute update mission service and mission crew member`() {
         val missionGeneralInfo = MissionGeneralInfoModel(
             id = 1,
-            missionId = 761,
+            missionId = "761",
             serviceId = 2,
             consumedFuelInLiters = 2.7f,
             consumedGOInLiters = 2.5f,
             distanceInNauticalMiles = 1.9f
 
         )
-        val input = MissionServiceInput(missionId = 761, serviceId = 3)
+        val input = MissionServiceInput(missionId = "761", serviceId = 3)
         val serviceModel = ServiceModel(id = 3, name = "Themis_A")
         Mockito.`when`(serviceRepo.findById(3)).thenReturn(Optional.of(serviceModel))
         Mockito.`when`(getActiveCrewForService.execute(3)).thenReturn(newMissionCrews)
-        Mockito.`when`(missionCrewRepo.findByMissionId(761)).thenReturn(oldMissionCrews)
-        Mockito.`when`(infoRepo.findByMissionId(761)).thenReturn(Optional.of(missionGeneralInfo))
+        Mockito.`when`(missionCrewRepo.findByMissionId("761")).thenReturn(oldMissionCrews)
+        Mockito.`when`(infoRepo.findByMissionId("761")).thenReturn(Optional.of(missionGeneralInfo))
 
         val response = updateMissionService.execute(input)
         assertThat(response).isNotNull()
@@ -82,12 +82,12 @@ class UpdateMissionServiceTest {
 
     @Test
     fun `execute update mission service event if generalInfo is null`() {
-        val input = MissionServiceInput(missionId = 761, serviceId = 3)
+        val input = MissionServiceInput(missionId = "761", serviceId = 3)
         val serviceModel = ServiceModel(id = 3, name = "Themis_A")
         Mockito.`when`(serviceRepo.findById(3)).thenReturn(Optional.of(serviceModel))
         Mockito.`when`(getActiveCrewForService.execute(3)).thenReturn(newMissionCrews)
-        Mockito.`when`(missionCrewRepo.findByMissionId(761)).thenReturn(oldMissionCrews)
-        Mockito.`when`(infoRepo.findByMissionId(761)).thenReturn(Optional.ofNullable(null))
+        Mockito.`when`(missionCrewRepo.findByMissionId("761")).thenReturn(oldMissionCrews)
+        Mockito.`when`(infoRepo.findByMissionId("761")).thenReturn(Optional.ofNullable(null))
 
         val response = updateMissionService.execute(input)
         assertThat(response).isNotNull()

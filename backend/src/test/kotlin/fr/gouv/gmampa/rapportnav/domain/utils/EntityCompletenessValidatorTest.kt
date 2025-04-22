@@ -78,7 +78,7 @@ class EntityCompletenessValidatorTest {
     fun `ActionStatusEntity - should return true - status does not need reason `() {
         val entity = ActionStatusEntity(
             id = UUID.randomUUID(),
-            missionId = 10,
+            missionId = "10",
             startDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             status = ActionStatusType.NAVIGATING
         )
@@ -90,7 +90,7 @@ class EntityCompletenessValidatorTest {
     fun `ActionStatusEntity - should return true - status come with reason`() {
         val entity = ActionStatusEntity(
             id = UUID.randomUUID(),
-            missionId = 10,
+            missionId = "10",
             startDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             status = ActionStatusType.DOCKED,
             reason = ActionStatusReason.WEATHER
@@ -103,7 +103,7 @@ class EntityCompletenessValidatorTest {
     fun `ActionStatusEntity - should return false - status is missing reason`() {
         val entity = ActionStatusEntity(
             id = UUID.randomUUID(),
-            missionId = 10,
+            missionId = "10",
             startDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             status = ActionStatusType.DOCKED,
         )

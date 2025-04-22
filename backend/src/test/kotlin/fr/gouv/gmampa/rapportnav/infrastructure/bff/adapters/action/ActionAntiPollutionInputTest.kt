@@ -16,7 +16,7 @@ class ActionAntiPollutionInputTest {
         val startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00");
         val endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
         val action = ActionAntiPollutionInput(
-            missionId = 761,
+            missionId = "761",
             id = id,
             startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc,
@@ -29,7 +29,7 @@ class ActionAntiPollutionInputTest {
 
         assertThat(navActionAntiPollution).isNotNull();
         assertThat(navActionAntiPollution.id).isEqualTo(id);
-        assertThat(navActionAntiPollution.missionId).isEqualTo(761);
+        assertThat(navActionAntiPollution.missionId).isEqualTo("761");
         assertThat(navActionAntiPollution.startDateTimeUtc).isEqualTo(startDateTimeUtc);
         assertThat(navActionAntiPollution.endDateTimeUtc).isEqualTo(endDateTimeUtc);
         assertThat(navActionAntiPollution.isAntiPolDeviceDeployed).isEqualTo(true);

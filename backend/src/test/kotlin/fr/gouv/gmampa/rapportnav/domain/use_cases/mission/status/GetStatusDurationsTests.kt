@@ -64,7 +64,7 @@ class GetStatusDurationsTests {
     fun `execute should return duration for single status`() {
         val actionStatus = ActionStatusEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             startDateTimeUtc = missionStartDateTime,
             status = ActionStatusType.NAVIGATING,
         )
@@ -93,26 +93,26 @@ class GetStatusDurationsTests {
         val actions = listOf(
             ActionStatusEntity(
                 UUID.randomUUID(),
-                missionId = 1,
+                missionId = "1",
                 startDateTimeUtc = missionStartDateTime,
                 status = ActionStatusType.NAVIGATING
             ),
             ActionStatusEntity(
                 UUID.randomUUID(),
-                missionId = 1,
+                missionId = "1",
                 startDateTimeUtc = missionStartDateTime.plus(2, ChronoUnit.HOURS),
                 status = ActionStatusType.ANCHORED
             ),
             ActionStatusEntity(
                 UUID.randomUUID(),
-                missionId = 1,
+                missionId = "1",
                 startDateTimeUtc = missionStartDateTime.plus(5, ChronoUnit.HOURS),
                 status = ActionStatusType.DOCKED,
                 reason = ActionStatusReason.WEATHER
             ),
             ActionStatusEntity(
                 UUID.randomUUID(),
-                missionId = 1,
+                missionId = "1",
                 startDateTimeUtc = missionStartDateTime.plus(7, ChronoUnit.HOURS),
                 status = ActionStatusType.UNAVAILABLE,
                 reason = ActionStatusReason.TECHNICAL

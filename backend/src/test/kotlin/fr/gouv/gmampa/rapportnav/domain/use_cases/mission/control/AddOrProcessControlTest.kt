@@ -54,7 +54,7 @@ class AddOrProcessControlTest {
         // Arrange
         val controlAdministrativeEntity = ControlAdministrativeEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-123",
             amountOfControls = 5,
             unitShouldConfirm = false,
@@ -84,7 +84,7 @@ class AddOrProcessControlTest {
         // Arrange
         val existingControl = ControlAdministrativeEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-123",
             amountOfControls = 5,
             unitShouldConfirm = true,
@@ -94,7 +94,7 @@ class AddOrProcessControlTest {
 
         val controlToUpdate = ControlAdministrativeEntity(
             id = UUID.randomUUID(), // New ID, this will be ignored
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-123", // Same actionControlId as the existing one
             amountOfControls = 10,
             unitShouldConfirm = true,

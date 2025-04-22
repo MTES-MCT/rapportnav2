@@ -13,7 +13,7 @@ import java.time.Instant
 
 object MissionEntityMock2 {
     fun create(
-        id: Int = 1,
+        id: String = "1",
         missionTypes: List<MissionTypeEnum> = listOf(),
         controlUnits: List<LegacyControlUnitEntity> = listOf(),
         openBy: String? = null,
@@ -30,7 +30,7 @@ object MissionEntityMock2 {
         hasMissionOrder: Boolean = false,
         isUnderJdp: Boolean = false,
         actions: List<MissionActionEntity> = listOf(),
-        generalInfos: MissionGeneralInfoEntity2? = MissionGeneralInfoEntity2(data = MissionGeneralInfoEntity(missionId = 1, id = 1)),
+        generalInfos: MissionGeneralInfoEntity2? = MissionGeneralInfoEntity2(data = MissionGeneralInfoEntity(missionId = "1", id = 1)),
     ): MissionEntity2 {
         return MissionEntity2(
             id = id,

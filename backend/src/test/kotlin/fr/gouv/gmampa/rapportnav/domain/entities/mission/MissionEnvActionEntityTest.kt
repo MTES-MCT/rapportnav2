@@ -22,7 +22,7 @@ class MissionEnvActionEntityTest {
     @Test
     fun `execute should retrieve entity from Env action`() {
         val envAction = getEnvAction()
-        val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
+        val entity = MissionEnvActionEntity.fromEnvAction(missionId = "761", action = envAction)
         assertThat(entity).isNotNull()
         assertThat(entity.id).isEqualTo(envAction.id)
         assertThat(entity.startDateTimeUtc).isEqualTo(envAction.actionStartDateTimeUtc)
@@ -52,7 +52,7 @@ class MissionEnvActionEntityTest {
     @Test
     fun `execute should be complete for stats env `() {
         val envAction = getEnvAction()
-        val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
+        val entity = MissionEnvActionEntity.fromEnvAction(missionId = "761", action = envAction)
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.MONITORENV))
@@ -66,7 +66,7 @@ class MissionEnvActionEntityTest {
         val mockControls = ControlMock.createAllControl()
         mockControls.controlSecurity = null
         mockControls.controlAdministrative = null
-        val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
+        val entity = MissionEnvActionEntity.fromEnvAction(missionId = "761", action = envAction)
         entity.computeControls( mockControls)
         entity.computeCompleteness()
         assertThat(entity.controlsToComplete).isEqualTo(listOf( ControlType.SECURITY))
@@ -85,7 +85,7 @@ class MissionEnvActionEntityTest {
         val envAction = getEnvAction(
             completion = ActionCompletionEnum.COMPLETED
         )
-        val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
+        val entity = MissionEnvActionEntity.fromEnvAction(missionId = "761", action = envAction)
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(true)
 
@@ -100,33 +100,33 @@ class MissionEnvActionEntityTest {
         val controls = ActionControlEntity(
             controlSecurity = ControlSecurityEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionControlId = "MyActionId1",
                 amountOfControls = 0,
                 hasBeenDone = true
             ),
             controlGensDeMer = ControlGensDeMerEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionControlId = "MyActionId2",
                 amountOfControls = 0
             ),
             controlNavigation = ControlNavigationEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionControlId =  "MyActionId3",
                 amountOfControls = 0,
                 hasBeenDone = false
             ),
             controlAdministrative = ControlAdministrativeEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionControlId = "MyActionId4",
                 amountOfControls = 5,
                 hasBeenDone = true
             )
         )
-        val entity = MissionEnvActionEntity.fromEnvAction(761, model)
+        val entity = MissionEnvActionEntity.fromEnvAction("761", model)
         entity.computeControls(controls = controls)
         entity.computeControlsToComplete()
         assertThat(entity.controlsToComplete?.size).isEqualTo(3)
@@ -138,7 +138,7 @@ class MissionEnvActionEntityTest {
             completion = ActionCompletionEnum.COMPLETED,
 
         )
-        val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
+        val entity = MissionEnvActionEntity.fromEnvAction(missionId = "761", action = envAction)
         entity.targets = listOf(TargetMissionMock.create())
         entity.computeControlsToComplete2()
         assertThat(entity.controlsToComplete?.size).isEqualTo(2)

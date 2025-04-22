@@ -16,7 +16,7 @@ class ControlGensDeMerEntityTest {
         // Arrange
         val entity = ControlGensDeMerEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-1",
             amountOfControls = 10,
             unitShouldConfirm = false, // Should make the method return false
@@ -35,7 +35,7 @@ class ControlGensDeMerEntityTest {
         // Arrange
         val entity = ControlGensDeMerEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-2",
             amountOfControls = 5,
             unitShouldConfirm = true,
@@ -54,7 +54,7 @@ class ControlGensDeMerEntityTest {
         // Arrange
         val entity = ControlGensDeMerEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-3",
             amountOfControls = 8,
             unitShouldConfirm = true,
@@ -74,7 +74,7 @@ class ControlGensDeMerEntityTest {
         // Arrange
         val entity = ControlGensDeMerEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-4",
             amountOfControls = 12,
             unitShouldConfirm = true,
@@ -94,7 +94,7 @@ class ControlGensDeMerEntityTest {
         // Arrange
         val entity = ControlGensDeMerEntity(
             id = UUID.randomUUID(),
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-5",
             amountOfControls = 15,
             unitShouldConfirm = true,
@@ -102,7 +102,7 @@ class ControlGensDeMerEntityTest {
             infractions = listOf(
                 InfractionEntity(
                     id = UUID.randomUUID(),
-                    missionId = 1,
+                    missionId = "1",
                     actionId = "action-5",
                 )
             )
@@ -120,7 +120,7 @@ class ControlGensDeMerEntityTest {
         val id = UUID.randomUUID()
         val entity1 = ControlGensDeMerEntity(
             id = id,
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-5",
             amountOfControls = 15,
             unitShouldConfirm = true,
@@ -132,7 +132,7 @@ class ControlGensDeMerEntityTest {
 
         val entity2 = ControlGensDeMerEntity(
             id = id,
-            missionId = 1,
+            missionId = "1",
             actionControlId = "action-5",
             amountOfControls = 15,
             unitShouldConfirm = true,

@@ -38,14 +38,14 @@ class AEMMigrationRescueTest2 {
         val actions = listOf(
             MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionType = ActionType.ILLEGAL_IMMIGRATION,
                 startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
             ),
             MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionType = ActionType.ILLEGAL_IMMIGRATION,
                 startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
@@ -56,7 +56,7 @@ class AEMMigrationRescueTest2 {
             ),
             MissionNavActionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionType = ActionType.RESCUE,
                 endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),

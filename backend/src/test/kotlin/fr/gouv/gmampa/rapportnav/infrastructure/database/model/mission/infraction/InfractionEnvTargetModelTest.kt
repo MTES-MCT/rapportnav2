@@ -24,7 +24,7 @@ class InfractionEnvTargetModelTest {
         val infractionTargetEntity =
             InfractionEnvTargetModel(
                 id = id,
-                missionId = 3,
+                missionId = "3",
                 actionId = "MyActionID",
                 vesselIdentifier = "myVesselIdentifier",
                 vesselType = VesselTypeEnum.FISHING.toString(),
@@ -32,7 +32,7 @@ class InfractionEnvTargetModelTest {
                 identityControlledPerson = "myIdentityControlledPerson",
                 infraction = InfractionModel(
                     id = infractionId,
-                    missionId = 3,
+                    missionId = "3",
                     actionId = "actionID",
                     controlType = "controlType",
                     infractionType = InfractionTypeEnum.WITH_REPORT.toString(),
@@ -41,7 +41,7 @@ class InfractionEnvTargetModelTest {
 
         assertThat(infractionTargetEntity).isNotNull();
         assertThat(infractionTargetEntity.id).isEqualTo(id);
-        assertThat(infractionTargetEntity.missionId).isEqualTo(3);
+        assertThat(infractionTargetEntity.missionId).isEqualTo("3");
         assertThat(infractionTargetEntity.actionId).isEqualTo("MyActionID");
         assertThat(infractionTargetEntity.vesselType).isEqualTo(VesselTypeEnum.FISHING);
         assertThat(infractionTargetEntity.vesselSize).isEqualTo(VesselSizeEnum.LESS_THAN_12m);
@@ -56,12 +56,12 @@ class InfractionEnvTargetModelTest {
         val infractionTargetEntity =
             InfractionEnvTargetModel(
                 id = id,
-                missionId = 3,
+                missionId = "3",
                 actionId = "MyActionID",
                 identityControlledPerson = "myIdentityControlledPerson",
                 infraction = InfractionModel(
                     id = infractionId,
-                    missionId = 3,
+                    missionId = "3",
                     actionId = "actionID",
                     controlType = "controlType",
                     infractionType = InfractionTypeEnum.WITH_REPORT.toString(),
@@ -80,7 +80,7 @@ class InfractionEnvTargetModelTest {
         val infractionId = UUID.fromString("0000-00-00-00-000000");
         val infraction = InfractionEnvTargetEntity(
             id = id,
-            missionId = 761,
+            missionId = "761",
             actionId = "actionId",
             identityControlledPerson = "identityControlledPerson",
             vesselIdentifier = "myVesselIdentifier",
@@ -92,7 +92,7 @@ class InfractionEnvTargetModelTest {
 
         assertThat(model).isNotNull();
         assertThat(model.id).isEqualTo(id);
-        assertThat(model.missionId).isEqualTo(761);
+        assertThat(model.missionId).isEqualTo("761");
         assertThat(model.actionId).isEqualTo("actionId");
         assertThat(model.vesselType).isEqualTo(VesselTypeEnum.FISHING.toString());
         assertThat(model.vesselSize).isEqualTo(VesselSizeEnum.FROM_24_TO_46m.toString());
@@ -106,7 +106,7 @@ class InfractionEnvTargetModelTest {
         val infractionId = UUID.fromString("0000-00-00-00-000000");
         val infraction = InfractionEnvTargetEntity(
             id = id,
-            missionId = 761,
+            missionId = "761",
             actionId = "actionId",
             identityControlledPerson = "identityControlledPerson",
             infractionId = infractionId

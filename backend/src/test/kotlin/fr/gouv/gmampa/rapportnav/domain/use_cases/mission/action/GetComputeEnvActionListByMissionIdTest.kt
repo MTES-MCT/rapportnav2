@@ -6,20 +6,13 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeActionData
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessEnvAction
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsByActionId
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.Mockito.any
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
@@ -44,7 +37,7 @@ class GetComputeEnvActionListByMissionIdTest {
 
     @Test
     fun `test execute get Env action list  by mission id`() {
-        val missionId = 761
+        val missionId = "761"
         val actionId = UUID.randomUUID()
 
         val missionEntity = MissionEntity(
@@ -69,7 +62,7 @@ class GetComputeEnvActionListByMissionIdTest {
             controlPlans = listOf(EnvActionControlPlanEntity(themeId = 104, subThemeIds = listOf(143)))
         )
 
-        `when`(processEnvAction.execute(anyInt(), anyOrNull())).thenReturn(response)
+        `when`(processEnvAction.execute(anyString(), anyOrNull())).thenReturn(response)
         `when`(getEnvMissionById2.execute(missionId)).thenReturn(missionEntity)
 
         getEnvActionListById = GetComputeEnvActionListByMissionId(

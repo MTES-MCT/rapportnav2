@@ -25,7 +25,7 @@ class GetAgentsCrewByMissionIdTest {
     @Test
     fun `execute should return sorted list of crew members by role priority`() {
 
-        val missionId = 1
+        val missionId = "1"
 
         val johnDoe = AgentModel(
             firstName = "John",

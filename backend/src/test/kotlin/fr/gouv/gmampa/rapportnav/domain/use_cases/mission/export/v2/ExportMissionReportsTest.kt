@@ -42,7 +42,7 @@ class ExportMissionReportsTest {
 
     @BeforeEach
     fun setUp() {
-        Mockito.`when`(exportMissionPatrolSingle.execute(Mockito.anyInt())).thenReturn(
+        Mockito.`when`(exportMissionPatrolSingle.execute(Mockito.anyString())).thenReturn(
             MissionExportEntity(
                 fileName = "exportMissionPatrolSingle.odt",
                 fileContent = "MockContent"
@@ -60,7 +60,7 @@ class ExportMissionReportsTest {
                 fileContent = "MockContent"
             )
         )
-        Mockito.`when`(exportMissionAEMSingle.execute(Mockito.anyInt())).thenReturn(
+        Mockito.`when`(exportMissionAEMSingle.execute(Mockito.anyString())).thenReturn(
             MissionExportEntity(
                 fileName = "exportMissionAEMSingle.ods",
                 fileContent = "MockContent"
@@ -99,7 +99,7 @@ class ExportMissionReportsTest {
 
     @Test
     fun `should export Patrol single mission`() {
-        val missionIds = listOf(1)
+        val missionIds = listOf("1")
         val result = exportMissionReports.execute(
             missionIds,
             ExportModeEnum.INDIVIDUAL_MISSION,
@@ -112,7 +112,7 @@ class ExportMissionReportsTest {
 
     @Test
     fun `should export AEM single mission`() {
-        val missionIds = listOf(1)
+        val missionIds = listOf("1")
         val result = exportMissionReports.execute(
             missionIds,
             ExportModeEnum.INDIVIDUAL_MISSION,
@@ -125,7 +125,7 @@ class ExportMissionReportsTest {
 
     @Test
     fun `should export Patrol combined missions`() {
-        val missionIds = listOf(1, 2, 3)
+        val missionIds = listOf("1", "2", "3")
         val result = exportMissionReports.execute(
             missionIds,
             ExportModeEnum.COMBINED_MISSIONS_IN_ONE,
@@ -138,7 +138,7 @@ class ExportMissionReportsTest {
 
     @Test
     fun `should export AEM combined missions`() {
-        val missionIds = listOf(1, 2, 3)
+        val missionIds = listOf("1", "2", "3")
         val result = exportMissionReports.execute(
             missionIds,
             ExportModeEnum.COMBINED_MISSIONS_IN_ONE,
@@ -151,7 +151,7 @@ class ExportMissionReportsTest {
 
     @Test
     fun `should export Patrol multiple missions zipped`() {
-        val missionIds = listOf(1, 2, 3)
+        val missionIds = listOf("1", "2", "3")
         val result = exportMissionReports.execute(
             missionIds,
             ExportModeEnum.MULTIPLE_MISSIONS_ZIPPED,
@@ -164,7 +164,7 @@ class ExportMissionReportsTest {
 
     @Test
     fun `should export AEM multiple missions zipped`() {
-        val missionIds = listOf(1, 2, 3)
+        val missionIds = listOf("1", "2", "3")
         val result = exportMissionReports.execute(
             missionIds,
             ExportModeEnum.MULTIPLE_MISSIONS_ZIPPED,

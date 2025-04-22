@@ -17,7 +17,7 @@ class MissionGeneralInfoEntityTest {
         val generalInfoEntity = MissionGeneralInfoEntity.fromMissionGeneralInfoModel(
             MissionGeneralInfoModel(
                 id = 1,
-                missionId = 1,
+                missionId = "1",
                 serviceId = 3,
                 consumedGOInLiters = 2.5f,
                 consumedFuelInLiters = 2.7f,
@@ -27,7 +27,7 @@ class MissionGeneralInfoEntityTest {
         )
         assertThat(generalInfoEntity).isNotNull();
         assertThat(generalInfoEntity.id).isEqualTo(1);
-        assertThat(generalInfoEntity.missionId).isEqualTo(1);
+        assertThat(generalInfoEntity.missionId).isEqualTo("1");
         assertThat(generalInfoEntity.serviceId).isEqualTo(3);
         assertThat(generalInfoEntity.consumedGOInLiters).isEqualTo(2.5f);
         assertThat(generalInfoEntity.consumedFuelInLiters).isEqualTo(2.7f);
@@ -39,7 +39,7 @@ class MissionGeneralInfoEntityTest {
     fun `execute should retrieve mission general modal from entity`() {
         val generalInfoEntity = MissionGeneralInfoEntity(
             id = 1,
-            missionId = 1,
+            missionId = "1",
             serviceId = 3,
             consumedGOInLiters = 2.5f,
             consumedFuelInLiters = 2.7f,

@@ -22,12 +22,12 @@ class ControlAdministrativeTest {
             upToDateNavigationPermit = ControlResult.NO,
             compliantSecurityDocuments = ControlResult.NOT_CONTROLLED,
         )
-        input.setMissionIdAndActionId(missionId = 761, actionId = "my action id")
+        input.setMissionIdAndActionId(missionId = "761", actionId = "my action id")
         val entity = input.toEntity()
 
         assertThat(entity).isNotNull()
         assertThat(entity.id).isNotNull()
-        assertThat(entity.missionId).isEqualTo(761)
+        assertThat(entity.missionId).isEqualTo("761")
         assertThat(entity.infractions).isEmpty()
         assertThat(entity.actionControlId).isEqualTo("my action id")
         assertThat(entity.unitShouldConfirm).isEqualTo(false)

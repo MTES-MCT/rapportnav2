@@ -51,7 +51,7 @@ class GetMissionTest {
 
     @Test
     fun `execute should throw exception when getEnvMissionById returns null`() {
-        val missionId = 1
+        val missionId = "1"
         val envMission = EnvMissionMock.create()
         `when`(getEnvMissionById.execute(missionId, envMission)).thenReturn(null)
 
@@ -64,7 +64,7 @@ class GetMissionTest {
 
     @Test
     fun `execute should return MissionEntity with extended data`() {
-        val missionId = 1
+        val missionId = "1"
         val envMission = EnvMissionMock.create()
         val extendedEnvMission = ExtendedEnvMissionEntity.fromEnvMission(envMission)
         val fishActions: List<ExtendedFishActionEntity> =

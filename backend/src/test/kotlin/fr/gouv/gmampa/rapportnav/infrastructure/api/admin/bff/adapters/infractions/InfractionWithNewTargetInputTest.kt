@@ -20,7 +20,7 @@ class InfractionWithNewTargetInputTest {
         val controlType = ControlType.SECURITY.toString()
         val identityControlledPerson = "identityControlledPerson";
         val action = InfractionWithNewTargetInput(
-            missionId = 761,
+            missionId = "761",
             actionId = actionId,
             controlType = controlType,
             identityControlledPerson = identityControlledPerson,
@@ -31,7 +31,7 @@ class InfractionWithNewTargetInputTest {
         val infractionEntity = action.toInfractionEntity();
 
         assertThat(infractionEntity).isNotNull();
-        assertThat(infractionEntity.missionId).isEqualTo(761);
+        assertThat(infractionEntity.missionId).isEqualTo("761");
         assertThat(infractionEntity.controlType).isEqualTo(ControlType.SECURITY);
         assertThat(infractionEntity.target?.vesselSize).isEqualTo(VesselSizeEnum.FROM_24_TO_46m);
         assertThat(infractionEntity.target?.vesselType).isEqualTo(VesselTypeEnum.FISHING);
@@ -47,7 +47,7 @@ class InfractionWithNewTargetInputTest {
         val controlType = ControlType.SECURITY.toString()
         val identityControlledPerson = "identityControlledPerson";
         val action = InfractionWithNewTargetInput(
-            missionId = 761,
+            missionId = "761",
             actionId = actionId,
             controlType = controlType,
             identityControlledPerson = identityControlledPerson,

@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Le
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
@@ -37,7 +38,7 @@ class MissionGeneralInfo2Test {
         val generalInfoEntity = MissionGeneralInfoEntity2(
             data = MissionGeneralInfoEntity(
                 id = 1,
-                missionId = 1,
+                missionId = "1",
                 serviceId = 3,
                 consumedGOInLiters = 2.5f,
                 consumedFuelInLiters = 2.7f,
@@ -65,7 +66,7 @@ class MissionGeneralInfo2Test {
         val generalInfoEntity = MissionGeneralInfoEntity2(
             data = MissionGeneralInfoEntity(
                 id = 1,
-                missionId = 1,
+                missionId = "1",
                 serviceId = 3
             )
         )
@@ -77,9 +78,10 @@ class MissionGeneralInfo2Test {
 
     @Test
     fun `execute should retrieve mission general info entity`() {
-        val missionId = 1
+        val missionId = "1"
         val generalInfoEntity =
             MissionGeneralInfo2(
+                id = 1,
                 missionId = missionId,
                 serviceId = 3,
                 consumedGOInLiters = 2.5f,
@@ -89,16 +91,18 @@ class MissionGeneralInfo2Test {
                 missionTypes = listOf(MissionTypeEnum.AIR),
                 startDateTimeUtc = Instant.now(),
                 missionReportType = MissionReportTypeEnum.FIELD_REPORT,
+                jdpType = JdpTypeEnum.ON_BOARD
             ).toMissionGeneralInfoEntity(missionId = missionId);
 
         assertThat(generalInfoEntity).isNotNull();
-        assertThat(generalInfoEntity.id).isEqualTo(missionId);
+        assertThat(generalInfoEntity.id).isEqualTo(1);
         assertThat(generalInfoEntity.missionId).isEqualTo(missionId);
         assertThat(generalInfoEntity.serviceId).isEqualTo(3);
         assertThat(generalInfoEntity.consumedGOInLiters).isEqualTo(2.5f);
         assertThat(generalInfoEntity.consumedFuelInLiters).isEqualTo(2.7f);
         assertThat(generalInfoEntity.distanceInNauticalMiles).isEqualTo(1.9f);
-        assertThat(generalInfoEntity.nbrOfRecognizedVessel).isEqualTo(9);
+        assertThat(generalInfoEntity.nbrOfRecognizedVessel).isEqualTo(9)
+        assertThat(generalInfoEntity.jdpType).isEqualTo(JdpTypeEnum.ON_BOARD);
     }
 
 
@@ -133,7 +137,7 @@ class MissionGeneralInfo2Test {
         )
 
         return MissionEntity(
-            id = 1,
+            id = "1",
             missionSource = MissionSourceEnum.RAPPORT_NAV,
             missionTypes = listOf(MissionTypeEnum.AIR),
             startDateTimeUtc = Instant.now(),

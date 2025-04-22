@@ -40,9 +40,9 @@ class GetEnvMissionsTest {
     private lateinit var envMissionRepository: IEnvMissionRepository
 
     private val mockEnvMissions = listOf(
-        EnvMissionMock.create(id = 1),
-        EnvMissionMock.create(id = 2),
-        EnvMissionMock.create(id = 3)
+        EnvMissionMock.create(id = "1"),
+        EnvMissionMock.create(id = "2"),
+        EnvMissionMock.create(id = "3")
     )
 
     @BeforeEach

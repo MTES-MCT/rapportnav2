@@ -18,7 +18,7 @@ class MissionEnvActionTest {
     @Test
     fun `execute should retrieve output from mission action env Entity`() {
        val envAction = getEnvAction();
-        val entity =  MissionEnvActionEntity.fromEnvAction(761, envAction)
+        val entity =  MissionEnvActionEntity.fromEnvAction("761", envAction)
         val output = MissionEnvAction.fromMissionActionEntity(entity)
         assertThat(output).isNotNull()
         assertThat(output.id).isEqualTo(entity.id.toString())
@@ -49,36 +49,36 @@ class MissionEnvActionTest {
     @Test
     fun `execute should retrieve infraction when identifyPerson or vesselIdentifier is not null`() {
         val envAction = getEnvAction()
-        val entity = MissionEnvActionEntity.fromEnvAction(761, envAction)
+        val entity = MissionEnvActionEntity.fromEnvAction("761", envAction)
         entity.navInfractions = listOf(
             fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionId = "My action id",
                 target = InfractionEnvTargetEntity(
                     id = UUID.randomUUID(),
                     infractionId = UUID.randomUUID(),
                     actionId = "My action id",
-                    missionId = 761,
+                    missionId = "761",
                     identityControlledPerson = "my identity controlled person"
                 )
             ),
             fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionId = "My action id",
                 target = InfractionEnvTargetEntity(
                     id = UUID.randomUUID(),
                     infractionId = UUID.randomUUID(),
                     actionId = "My action id",
-                    missionId = 761,
+                    missionId = "761",
                     vesselIdentifier = "My identity identifier",
                     identityControlledPerson = "my identity controlled person"
                 )
             ),
             fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity(
                 id = UUID.randomUUID(),
-                missionId = 761,
+                missionId = "761",
                 actionId = "My action id",
                 target = null
             )

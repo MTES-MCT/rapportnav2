@@ -35,10 +35,10 @@ class ProcessMissionCrewTest {
 
     @Test
     fun `test execute process crew`() {
-        val crew1 = MissionCrewEntityMock.create(id = 1, missionId = 761)
-        val crew2 = MissionCrewEntityMock.create(id = 2, missionId = 761)
-        val crew3 = MissionCrewEntityMock.create(id = 3, missionId = 761)
-        val crew4 = MissionCrewEntityMock.create(id = 4, missionId = 761)
+        val crew1 = MissionCrewEntityMock.create(id = 1, missionId = "761")
+        val crew2 = MissionCrewEntityMock.create(id = 2, missionId = "761")
+        val crew3 = MissionCrewEntityMock.create(id = 3, missionId = "761")
+        val crew4 = MissionCrewEntityMock.create(id = 4, missionId = "761")
 
         val missionCrews = listOf<MissionCrew>(
             MissionCrew.fromMissionCrewEntity(crew1),
@@ -48,7 +48,7 @@ class ProcessMissionCrewTest {
 
 
         //Mock
-        `when`(getAgentsCrewByMissionId.execute(761)).thenReturn(dbMissionCrews)
+        `when`(getAgentsCrewByMissionId.execute("761")).thenReturn(dbMissionCrews)
         `when`(addOrUpdateMissionCrew.addOrUpdateMissionCrew(anyOrNull())).thenReturn(crew1)
 
         //When
@@ -60,7 +60,7 @@ class ProcessMissionCrewTest {
             )
         )
 
-        val crews = processMissionCrew.execute(761, missionCrews.map { it.toMissionCrewEntity() })
+        val crews = processMissionCrew.execute("761", missionCrews.map { it.toMissionCrewEntity() })
 
         //Then
         assertThat(crews).isNotNull

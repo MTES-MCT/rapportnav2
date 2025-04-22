@@ -36,7 +36,7 @@ class ExportMissionPatrolCombinedTest2 {
 
     @Test
     fun `should export a file`() {
-        val missionIds = listOf(1)
+        val missionIds = listOf("1")
         val mission2 = MissionEntityMock2.create(
             generalInfos = MissionGeneralInfoEntity2(
                 data = MissionGeneralInfoEntity(
@@ -64,8 +64,8 @@ class ExportMissionPatrolCombinedTest2 {
     @Test
     fun `should handle exception and return null`() {
         // Arrange: Force an exception when getMission.execute is called
-        val missionIds = listOf(1)
-        Mockito.`when`(getMission2.execute(missionId = 1))
+        val missionIds = listOf("1")
+        Mockito.`when`(getMission2.execute(missionId = "1"))
             .thenThrow(RuntimeException("Mock exception"))
 
         // Act: Call the method

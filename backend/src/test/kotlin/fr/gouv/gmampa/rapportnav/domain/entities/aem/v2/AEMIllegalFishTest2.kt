@@ -36,7 +36,7 @@ class AEMIllegalFishTest2 {
     private fun extendedFishActionEntities(): List<MissionFishActionEntity> {
         val actions = listOf(
             MissionFishActionEntity(
-                missionId = 761,
+                missionId = "761",
                 id = 234,
                 fishActionType = MissionActionType.SEA_CONTROL,
                 speciesInfractions = listOf(),
@@ -48,7 +48,7 @@ class AEMIllegalFishTest2 {
                 speciesQuantitySeized = 4
             ),
             MissionFishActionEntity(
-                missionId = 761,
+                missionId = "761",
                 id = 234,
                 fishActionType = MissionActionType.SEA_CONTROL,
                 logbookInfractions = listOf(LogbookInfraction()),

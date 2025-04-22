@@ -10,7 +10,7 @@ import java.time.Instant
 
 object EnvMissionMock {
     fun create(
-        id: Int? = 1,
+        id: String? = "1",
         missionTypes: List<MissionTypeEnum> = listOf(),
         controlUnits: List<LegacyControlUnitEntity> = listOf(),
         openBy: String? = null,

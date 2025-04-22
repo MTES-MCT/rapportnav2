@@ -6,7 +6,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeActionData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
@@ -57,15 +56,13 @@ class GetEnvMissionByIdTest {
     @MockitoBean
     private lateinit var attachControlsToActionControl: AttachControlsToActionControl
 
-    @MockitoBean
-    private lateinit var getFakeActionData: FakeActionData
 
     private val envControlActionId: UUID = UUID.randomUUID()
     private val envControlAction: EnvActionControlEntity = EnvActionControlMock.create(id = envControlActionId)
     private val extendedEnvActionEntity: ExtendedEnvActionEntity = ExtendedEnvActionEntity(
         controlAction = ExtendedEnvActionControlEntity.fromEnvActionControlEntity(envControlAction)
     )
-    private val mockMissionEntity: MissionEntity = EnvMissionMock.create(id = 1, envActions = listOf(envControlAction))
+    private val mockMissionEntity: MissionEntity = EnvMissionMock.create(id = "1", envActions = listOf(envControlAction))
     private val extendedEnvMissionEntity: ExtendedEnvMissionEntity =
         ExtendedEnvMissionEntity.fromEnvMission(mockMissionEntity)
 
@@ -74,7 +71,7 @@ class GetEnvMissionByIdTest {
         cacheManager.getCache("envMission")?.clear()
 
         // Mock the repository and service methods
-        `when`(monitorEnvApiRepo.findMissionById(1)).thenReturn(mockMissionEntity)
+        `when`(monitorEnvApiRepo.findMissionById("1")).thenReturn(mockMissionEntity)
         `when`(
             attachControlsToActionControl.toEnvAction(envControlActionId.toString(), extendedEnvActionEntity)
         ).thenReturn(
@@ -85,7 +82,7 @@ class GetEnvMissionByIdTest {
     @Test
     fun `execute should return extended mission from inputEnvMission`() {
         // Given
-        val missionId = 1
+        val missionId = "1"
         val inputEnvMission = EnvMissionMock.create()
         val extendedEnvMission = ExtendedEnvMissionEntity.fromEnvMission(inputEnvMission)
 
@@ -104,7 +101,7 @@ class GetEnvMissionByIdTest {
     @Test
     fun `execute should return extended mission from repository`() {
         // Given
-        val missionId = 1
+        val missionId = "1"
         val envMissionFromRepository = EnvMissionMock.create()
         val extendedEnvMission = ExtendedEnvMissionEntity.fromEnvMission(envMissionFromRepository)
 
@@ -121,7 +118,7 @@ class GetEnvMissionByIdTest {
 
     @Test
     fun `test execute returns ExtendedEnvMissionEntity`() {
-        val missionId = 1
+        val missionId = "1"
 
         // First call
         val result = getEnvMissionById.execute(missionId)
@@ -133,7 +130,7 @@ class GetEnvMissionByIdTest {
 
     @Test
     fun `test execute uses cache`() {
-        val missionId = 1
+        val missionId = "1"
 
         // First call to cache the result
         getEnvMissionById.execute(missionId)
@@ -150,10 +147,10 @@ class GetEnvMissionByIdTest {
     fun `test execute returns null when repository throws exception`() {
         // Clear the cache and setup repository to throw an exception
         cacheManager.getCache("envMission")?.clear()
-        `when`(monitorEnvApiRepo.findMissionById(anyInt())).thenThrow(RuntimeException("API error"))
+        `when`(monitorEnvApiRepo.findMissionById(anyString())).thenThrow(RuntimeException("API error"))
 
         // Call execute
-        val missionId = 1
+        val missionId = "1"
         val result = getEnvMissionById.execute(missionId)
 
         // Verify result is null

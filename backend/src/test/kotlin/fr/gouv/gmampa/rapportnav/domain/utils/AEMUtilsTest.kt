@@ -20,19 +20,19 @@ class AEMUtilsTest {
         val nbrOfHour = 2009.5;
         val actions = listOf(
             ActionPublicOrderEntity(
-                missionId = 761,
+                missionId = "761",
                 id = UUID.randomUUID(),
                 endDateTimeUtc = Instant.parse("2024-01-11T14:30:00Z"),
                 startDateTimeUtc = Instant.parse("2024-01-09T10:00:00Z")
             ),
             ActionPublicOrderEntity(
-                missionId = 763,
+                missionId = "763",
                 id = UUID.randomUUID(),
                 endDateTimeUtc = Instant.parse("2024-02-11T15:30:00Z"),
                 startDateTimeUtc = Instant.parse("2024-01-10T09:00:00Z")
             ),
             ActionPublicOrderEntity(
-                missionId = 763,
+                missionId = "763",
                 id = UUID.randomUUID(),
                 endDateTimeUtc = Instant.parse("2024-03-30T15:30:00Z"),
                 startDateTimeUtc = Instant.parse("2024-02-10T09:00:00Z")
