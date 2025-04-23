@@ -16,11 +16,6 @@ export const natinfsKeys = {
   all: () => ['natinfs'] as const
 }
 
-export const missionCrewKeys = {
-  all: () => ['missionCrew'] as const,
-  byMissionId: (missionId: int) => [...missionCrewKeys.all(), `${missionId}`] as const
-}
-
 export const administrationKeys = {
   all: () => ['administrations'] as const
 }

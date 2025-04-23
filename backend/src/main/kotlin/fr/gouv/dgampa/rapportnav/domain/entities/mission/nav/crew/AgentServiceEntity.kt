@@ -5,6 +5,6 @@ import java.time.Instant
 data class AgentServiceEntity(
     val id: Int? = null,
     val agent: AgentEntity,
-    val role: AgentRoleEntity,
+    val role: AgentRoleEntity? = null,
     val disabledAt: Instant? = null
 )
