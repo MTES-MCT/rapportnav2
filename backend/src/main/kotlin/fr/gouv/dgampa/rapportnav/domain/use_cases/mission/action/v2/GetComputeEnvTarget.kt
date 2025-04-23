@@ -38,7 +38,11 @@ class GetComputeEnvTarget(
 
         if (targets.isEmpty()) {
             val target = save(
-                getNewTarget(actionId = actionId, source = MissionSourceEnum.RAPPORTNAV)
+                getNewTarget(
+                    actionId = actionId,
+                    targetType = TargetType.DEFAULT,
+                    source = MissionSourceEnum.RAPPORTNAV
+                )
             )
             targets = listOf(target)
         }
@@ -53,6 +57,7 @@ class GetComputeEnvTarget(
                     getNewTarget(
                         actionId = actionId,
                         externalId = it.id,
+                        targetType = getTargetType(it),
                         source = MissionSourceEnum.MONITORENV
                     )
                 )
@@ -68,14 +73,19 @@ class GetComputeEnvTarget(
         return targetRepo.save(target)
     }
 
-    private fun getNewTarget(actionId: String, source: MissionSourceEnum, externalId: String? = null): TargetModel2 {
+    private fun getNewTarget(
+        actionId: String,
+        source: MissionSourceEnum,
+        targetType: TargetType,
+        externalId: String? = null
+    ): TargetModel2 {
         return TargetModel2(
             actionId = actionId,
             id = UUID.randomUUID(),
+            targetType = targetType,
             externalId = externalId,
             source = source.toString(),
             controls = getNewControls(),
-            targetType = TargetType.VEHICLE,
             startDateTimeUtc = Instant.now(),
             status = TargetStatusType.IN_PROCESS.toString()
 
@@ -92,8 +102,8 @@ class GetComputeEnvTarget(
         return controlTypes.map {
             ControlModel2(
                 controlType = it,
-                id = UUID.randomUUID(),
-                amountOfControls = 0
+                amountOfControls = 0,
+                id = UUID.randomUUID()
             )
         }
     }
@@ -113,5 +123,12 @@ class GetComputeEnvTarget(
             registrationNumber = envInfraction.registrationNumber,
             controlledPersonIdentity = envInfraction.controlledPersonIdentity
         )
+    }
+
+    private fun getTargetType(envInfraction: InfractionEntity): TargetType {
+        if(envInfraction.companyName != null) return TargetType.COMPANY
+        if(envInfraction.registrationNumber != null) return TargetType.VEHICLE
+        if(envInfraction.controlledPersonIdentity != null) return TargetType.INDIVIDUAL
+        return TargetType.DEFAULT
     }
 }

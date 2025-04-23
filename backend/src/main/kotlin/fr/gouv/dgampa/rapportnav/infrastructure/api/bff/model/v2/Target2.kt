@@ -62,7 +62,7 @@ class Target2(
                 startDateTimeUtc = entity.startDateTimeUtc,
                 endDateTimeUtc = entity.endDateTimeUtc,
                 identityControlledPerson = entity.identityControlledPerson,
-                controls = entity.controls?.map { Control2.fromControlEntity(it) },
+                controls = entity.controls?.map { Control2.fromControlEntity(it) }?.sortedBy { it.controlType },
                 externalData = entity.externalData?.let { TargetExternalData.fromTargetExternalDataEntity(it) }
             )
         }

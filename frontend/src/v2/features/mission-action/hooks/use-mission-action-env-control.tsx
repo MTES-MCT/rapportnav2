@@ -67,7 +67,6 @@ export function useMissionActionEnvControl(
       value?.targets
         ?.flatMap(target => target.controls)
         ?.filter(control => control?.amountOfControls)
-        ?.filter(control => (control?.infractions?.length ?? 0) < (actionNumberOfControls ?? 0))
         ?.map(control => control?.controlType)
     )
 
