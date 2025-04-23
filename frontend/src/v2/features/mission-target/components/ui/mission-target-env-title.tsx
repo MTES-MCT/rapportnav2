@@ -25,7 +25,7 @@ const MissionTargetEnvTitle: React.FC<MissionTargetEnvTitleProps> = ({ target, v
   }, [target, vehicleType])
   return (
     <Text as="h3" weight="bold" color={THEME.color.gunMetal} data-testid={'target-env-title'}>
-      {`${vehicle}${vesselType && vehicle ? ` - ` : ''}${vesselType ?? ''}${id ? ` - ${id}` : ''}`}
+      {`${vehicle ?? ''}${vesselType && vehicle ? ` - ` : ''}${vesselType ?? ''}${vesselType && id ? ` - ` : ''}${id ?? ''}`}
     </Text>
   )
 }
