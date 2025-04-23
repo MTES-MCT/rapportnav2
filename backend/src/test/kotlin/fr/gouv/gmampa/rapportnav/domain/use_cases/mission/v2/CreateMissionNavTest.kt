@@ -55,7 +55,7 @@ class CreateMissionNavTest {
             startDateTimeUtc = generalInfo2.startDateTimeUtc!!,
             endDateTimeUtc = generalInfo2.endDateTimeUtc,
             controlUnits = listOf(1, 2),
-            navId = UUID.randomUUID()
+            missionIdString = UUID.randomUUID()
         )
 
         Mockito.`when`(repository.save(navMission)).thenReturn(model)

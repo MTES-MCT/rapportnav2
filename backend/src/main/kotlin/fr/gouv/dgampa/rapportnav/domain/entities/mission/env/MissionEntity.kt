@@ -4,7 +4,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Le
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.Instant
-import java.util.*
 
 data class MissionEntity(
     val id: Int? = null,
@@ -26,7 +25,7 @@ data class MissionEntity(
     val isUnderJdp: Boolean,
     val observationsByUnit: String? = null,
     val controlUnitIdOwner: Int? = null,
-    val navId: UUID? = null
+    val missionIdString: String? = null
 )
 
 typealias EnvMission = MissionEntity
