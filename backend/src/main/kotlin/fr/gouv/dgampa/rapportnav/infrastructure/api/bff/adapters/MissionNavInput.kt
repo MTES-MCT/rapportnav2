@@ -35,7 +35,7 @@ data class MissionNavInput(
             missionSource = missionFromDb.missionSource,
             observationsByUnit = observationsByUnit,
             controlUnitIdOwner = missionFromDb.controlUnitIdOwner!!,
-            navId = missionFromDb.navId
+            missionIdString = missionFromDb.missionIdString
         )
     }
 }
