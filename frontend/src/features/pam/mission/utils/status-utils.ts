@@ -1,4 +1,4 @@
-import { ActionStatusReason, ActionStatusType } from '../../../common/types/action-types.ts'
+import { ActionStatusReason, ActionStatusType } from '@common/types/action-types.ts'
 import { THEME } from '@mtes-mct/monitor-ui'
 
 export const getColorForStatus = (status: ActionStatusType) => {
@@ -43,6 +43,8 @@ export const statusReasonToHumanString = (reason?: ActionStatusReason): string |
       return 'Représentation'
     case ActionStatusReason.ADMINISTRATION:
       return 'Administration'
+    case ActionStatusReason.MCO_AND_LOGISTICS:
+      return 'MCO/Logistique'
     case ActionStatusReason.HARBOUR_CONTROL:
       return 'Contrôle portuaire'
     case ActionStatusReason.TECHNICAL:

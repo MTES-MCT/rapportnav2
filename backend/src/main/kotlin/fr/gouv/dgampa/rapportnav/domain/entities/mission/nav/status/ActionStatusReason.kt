@@ -7,6 +7,7 @@ enum class ActionStatusReason {
     WEATHER,
     REPRESENTATION,
     ADMINISTRATION,
+    MCO_AND_LOGISTICS,
     HARBOUR_CONTROL,
     TECHNICAL,
     PERSONNEL,
@@ -24,6 +25,7 @@ fun mapStringToActionStatusReason(value: String?): ActionStatusReason? {
             "WEATHER" -> ActionStatusReason.WEATHER
             "REPRESENTATION" -> ActionStatusReason.REPRESENTATION
             "ADMINISTRATION" -> ActionStatusReason.ADMINISTRATION
+            "MCO_AND_LOGISTICS" -> ActionStatusReason.MCO_AND_LOGISTICS
             "HARBOUR_CONTROL" -> ActionStatusReason.HARBOUR_CONTROL
             "TECHNICAL" -> ActionStatusReason.TECHNICAL
             "PERSONNEL" -> ActionStatusReason.PERSONNEL

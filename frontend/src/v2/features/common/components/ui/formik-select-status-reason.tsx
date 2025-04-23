@@ -7,6 +7,7 @@ const REASONS = {
   [ActionStatusReason.WEATHER]: 'Météo',
   [ActionStatusReason.REPRESENTATION]: 'Représentation',
   [ActionStatusReason.ADMINISTRATION]: 'Administration',
+  [ActionStatusReason.MCO_AND_LOGISTICS]: 'MCO/Logistique',
   [ActionStatusReason.HARBOUR_CONTROL]: 'Contrôle portuaire',
   [ActionStatusReason.TECHNICAL]: 'Technique',
   [ActionStatusReason.PERSONNEL]: 'Personnel',

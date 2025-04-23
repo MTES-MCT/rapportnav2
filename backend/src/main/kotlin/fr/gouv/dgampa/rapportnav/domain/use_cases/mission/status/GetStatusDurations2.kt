@@ -142,6 +142,7 @@ class GetStatusDurations2(
                 ActionStatusReason.WEATHER,
                 ActionStatusReason.REPRESENTATION,
                 ActionStatusReason.ADMINISTRATION,
+                ActionStatusReason.MCO_AND_LOGISTICS,
                 ActionStatusReason.HARBOUR_CONTROL,
                 ActionStatusReason.OTHER
             )
