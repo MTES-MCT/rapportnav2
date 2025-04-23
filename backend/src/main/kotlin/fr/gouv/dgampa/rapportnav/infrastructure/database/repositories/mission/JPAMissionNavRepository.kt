@@ -34,8 +34,8 @@ class JPAMissionNavRepository(
         }
     }
 
-    override fun finById(id: Int): Optional<MissionModel> {
-        return dbRepository.findById(id)
+    override fun finById(id: String): Optional<MissionModel> {
+        return dbRepository.findByMissionIdString(UUID.fromString(id))
     }
 
     override fun findAll(startBeforeDateTime: Instant, endBeforeDateTime: Instant): List<MissionModel?> {

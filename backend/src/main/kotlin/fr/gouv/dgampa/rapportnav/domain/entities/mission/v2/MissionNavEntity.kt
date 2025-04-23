@@ -18,7 +18,7 @@ data class MissionNavEntity(
     val missionSource: MissionSourceEnum? = MissionSourceEnum.RAPPORT_NAV,
     val observationsByUnit: String? = null,
     val controlUnitIdOwner: Int,
-    val navId: UUID? = null
+    val missionIdString: String? = null
 ) {
     companion object {
         fun fromMissionModel(model: MissionModel): MissionNavEntity {
@@ -33,7 +33,7 @@ data class MissionNavEntity(
                 missionSource = model.missionSource,
                 observationsByUnit = model.observationsByUnit,
                 controlUnitIdOwner = model.controlUnitIdOwner,
-                navId = model.navId
+                missionIdString = model.missionIdString.toString()
             )
         }
     }
@@ -50,7 +50,7 @@ data class MissionNavEntity(
             missionSource = missionSource,
             observationsByUnit = observationsByUnit,
             controlUnitIdOwner = controlUnitIdOwner,
-            navId = UUID.randomUUID()
+            missionIdString = UUID.randomUUID()
         )
     }
 
@@ -70,7 +70,7 @@ data class MissionNavEntity(
             isUnderJdp = false,
             isGeometryComputedFromControls = false,
             controlUnitIdOwner = controlUnitIdOwner,
-            navId = navId
+            missionIdString = missionIdString.toString()
         )
     }
 }
