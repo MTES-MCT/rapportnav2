@@ -20,7 +20,7 @@ class UpdateMissionNav(
 
         if (input.id === null) throw BackendRequestException(message = "ID for input is missing", code = BackendRequestErrorCode.BODY_MISSING_DATA)
 
-        val missionFromDb = getNavMissionById2.execute(input.id) ?: return null
+        val missionFromDb = getNavMissionById2.execute(input.id.toString()) ?: return null
         val missionFromDbInput = MissionNavInput.fromMissionEntity(missionFromDb)
 
         if (input.equals(missionFromDbInput)) return null
