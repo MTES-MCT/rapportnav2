@@ -1,7 +1,6 @@
 import Text from '@common/components/ui/text'
 import { ControlType } from '@common/types/control-types'
-import { ActionTargetTypeEnum } from '@common/types/env-mission-types'
-import { InfractionByTarget } from '@common/types/infraction-types'
+import { VehicleTypeEnum } from '@common/types/env-mission-types'
 import {
   Accent,
   Button,
@@ -12,37 +11,44 @@ import {
   Size,
   THEME
 } from '@mtes-mct/monitor-ui'
-import { FieldProps, Formik } from 'formik'
+import { Formik } from 'formik'
 import { isEmpty } from 'lodash'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { setDebounceTime } from '../../../../store/slices/delay-query-reducer'
 import { FormikMultiSelectNatinf } from '../../../common/components/ui/formik-multi-select-natinf'
+import { TargetType } from '../../../common/types/target-types'
 import { useControlRegistry } from '../../../mission-control/hooks/use-control-registry'
-import { useInfractionEnvForm } from '../../hooks/use-infraction-env-form'
+import { TargetInfraction, useInfractionEnvForm2 } from '../../hooks/use-infraction-env-form2'
 import { MissionInfractionFormikControlledPersonInput } from '../ui/mission-infraction-formik-controlled-person-input'
 import MissionInfractionVesselForm from '../ui/mission-infraction-vessel-form'
 
 export interface MissionInfractionEnvFormProps {
-  name: string
   onClose: () => void
-  hideTarget?: boolean
+  withTarget?: boolean
+  value: TargetInfraction
+  vehicleType?: VehicleTypeEnum
   availableControlTypes?: ControlType[]
-  actionTargetType?: ActionTargetTypeEnum
-  fieldFormik: FieldProps<InfractionByTarget>
+  targetType?: TargetType
+  onSubmit: (value?: TargetInfraction) => Promise<unknown>
 }
 
 const MissionInfractionEnvForm: FC<MissionInfractionEnvFormProps> = ({
-  name,
+  value,
   onClose,
-  hideTarget,
-  fieldFormik,
-  actionTargetType,
+  onSubmit,
+  withTarget,
+  targetType,
+  vehicleType,
   availableControlTypes
 }) => {
   const { controlTypeOptions, getDisabledControlTypes } = useControlRegistry()
-  const { initValue, handleSubmit, validationSchema } = useInfractionEnvForm(name, fieldFormik, actionTargetType)
-
+  const { initValue, handleSubmit, validationSchema } = useInfractionEnvForm2(
+    value,
+    targetType,
+    vehicleType,
+    withTarget
+  )
   return (
     <>
       {initValue && (
@@ -57,34 +63,31 @@ const MissionInfractionEnvForm: FC<MissionInfractionEnvFormProps> = ({
             <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
               <Stack.Item style={{ width: '100%' }}>
                 <FormikSelect
+                  name="infraction.controlType"
                   isRequired={true}
                   isErrorMessageHidden={true}
-                  name="infractions[0].controlType"
                   options={controlTypeOptions}
                   label="Type de contrôle avec infraction"
                   disabledItemValues={getDisabledControlTypes(availableControlTypes)}
                 />
               </Stack.Item>
-              {!hideTarget && (
+              {withTarget && (
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
-                    {formik.values.isVessel && (
+                    {formik.values.target.isVessel && (
                       <Stack.Item style={{ width: '100%' }} data-testid={'stack-vessel-infraction-env'}>
-                        <MissionInfractionVesselForm
-                          size={'infractions[0].target.vesselSize'}
-                          type={'infractions[0].target.vesselType'}
-                        />
+                        <MissionInfractionVesselForm size={'target.vesselSize'} type={'target.vesselType'} />
                       </Stack.Item>
                     )}
-                    {formik.values.isTargetVehicule && (
+                    {formik.values.target.isTargetVehicule && (
                       <Stack.Item style={{ width: '100%' }}>
                         <FormikTextInput
                           isRequired={true}
                           label="Immatriculation"
                           role="vesselIdentifier"
                           isErrorMessageHidden={true}
+                          name="target.vesselIdentifier"
                           data-testid={'vessel-identifier'}
-                          name="infractions[0].target.vesselIdentifier"
                         />
                       </Stack.Item>
                     )}
@@ -92,9 +95,9 @@ const MissionInfractionEnvForm: FC<MissionInfractionEnvFormProps> = ({
                       <Stack direction="row" alignItems="baseline" spacing={'0.5rem'}>
                         <Stack.Item style={{ width: '100%' }}>
                           <MissionInfractionFormikControlledPersonInput
-                            actionTarget={actionTargetType}
+                            actionTarget={targetType}
                             role="identityControlledPerson"
-                            name="infractions[0].target.identityControlledPerson"
+                            name="target.identityControlledPerson"
                           />
                         </Stack.Item>
                       </Stack>
@@ -116,10 +119,10 @@ const MissionInfractionEnvForm: FC<MissionInfractionEnvFormProps> = ({
                 </Stack>
               </Stack.Item>
               <Stack.Item style={{ width: '100%' }}>
-                <FormikMultiSelectNatinf name="infractions[0].natinfs" />
+                <FormikMultiSelectNatinf name="infraction.natinfs" />
               </Stack.Item>
               <Stack.Item style={{ width: '100%' }}>
-                <FormikTextarea label="Observations" name="infractions[0].observations" role="observations" />
+                <FormikTextarea label="Observations" name="infraction.observations" role="observations" />
               </Stack.Item>
               <Stack.Item style={{ width: '100%' }}>
                 <Stack justifyContent="flex-end" spacing={'1rem'} style={{ width: '100%' }}>
@@ -135,7 +138,7 @@ const MissionInfractionEnvForm: FC<MissionInfractionEnvFormProps> = ({
                       role="validate-infraction"
                       onClick={async () => {
                         setDebounceTime(0)
-                        handleSubmit(formik.values).then(() => onClose())
+                        handleSubmit(formik.values, formik.errors, onSubmit)
                       }}
                       disabled={!isEmpty(formik.errors)}
                     >

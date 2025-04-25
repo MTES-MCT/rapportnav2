@@ -3,7 +3,7 @@ import { Accent, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FC, useState } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { TargetType } from '../../../common/types/target-types'
-import MissionInfractionEnvForm2 from '../../../mission-infraction/components/elements/mission-infraction-env-form2'
+import MissionInfractionEnvForm from '../../../mission-infraction/components/elements/mission-infraction-env-form'
 import MissionInfractionEnvSummary from '../../../mission-infraction/components/ui/mission-infraction-env-summary'
 import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form2'
 
@@ -84,7 +84,7 @@ const MissionTargetEnvInfractionForm: FC<MissionTargetEnvInfractionFormProps> = 
             backgroundColor: THEME.color.cultured
           }}
         >
-          <MissionInfractionEnvForm2
+          <MissionInfractionEnvForm
             value={value}
             onSubmit={handleSubmit}
             targetType={targetType}

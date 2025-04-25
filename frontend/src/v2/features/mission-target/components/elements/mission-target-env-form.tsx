@@ -4,7 +4,7 @@ import { THEME } from '@mtes-mct/monitor-ui'
 import { FieldProps } from 'formik'
 import { FC } from 'react'
 import { Target, TargetType } from '../../../common/types/target-types'
-import MissionInfractionEnvForm2 from '../../../mission-infraction/components/elements/mission-infraction-env-form2'
+import MissionInfractionEnvForm from '../../../mission-infraction/components/elements/mission-infraction-env-form'
 import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form2'
 import { useTarget } from '../../hooks/use-target'
 
@@ -47,7 +47,7 @@ const MissionTargetEnvForm: FC<MissionTargetEnvFormProps> = ({
         backgroundColor: THEME.color.white
       }}
     >
-      <MissionInfractionEnvForm2
+      <MissionInfractionEnvForm
         value={{}}
         withTarget={false}
         onClose={handleClose}

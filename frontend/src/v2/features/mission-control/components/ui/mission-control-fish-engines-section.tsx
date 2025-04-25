@@ -5,7 +5,7 @@ import React from 'react'
 import { Stack } from 'rsuite'
 import { usecontrolCheck } from '../../../common/hooks/use-control-check'
 import { MissionFishActionData } from '../../../common/types/mission-action'
-import MissionInfractionSummary from '../../../mission-infraction/components/ui/mission-infraction-summary'
+import MissionInfractionFishSummary from '../../../mission-infraction/components/elements/mission-infraction-fish-summary'
 
 interface MissionControlFishEnginesSectionProps {
   action: MissionFishActionData
@@ -83,7 +83,7 @@ const MissionControlFishEnginesSection: React.FC<MissionControlFishEnginesSectio
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
           <Stack.Item style={{ width: '100%' }}>
-            <MissionInfractionSummary
+            <MissionInfractionFishSummary
               title="Infraction engins"
               isActionDisabled={true}
               infractions={action.gearInfractions ?? []}
