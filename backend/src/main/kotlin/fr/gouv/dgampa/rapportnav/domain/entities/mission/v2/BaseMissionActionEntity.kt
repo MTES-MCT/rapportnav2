@@ -16,10 +16,6 @@ interface BaseMissionActionEntity {
     var endDateTimeUtc: Instant?
     val completenessForStats: CompletenessForStatsEntity?
     val sourcesOfMissingDataForStats: List<MissionSourceEnum>?
-    var controlSecurity: ControlSecurityEntity?
-    var controlGensDeMer: ControlGensDeMerEntity?
-    var controlNavigation: ControlNavigationEntity?
-    var controlAdministrative: ControlAdministrativeEntity?
     var summaryTags: List<String>?
     var status: ActionStatusType?
     var controlsToComplete: List<ControlType>?

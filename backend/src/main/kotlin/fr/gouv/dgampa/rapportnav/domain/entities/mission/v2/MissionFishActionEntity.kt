@@ -2,11 +2,9 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
 import java.time.Instant
 
@@ -70,6 +68,7 @@ class MissionFishActionEntity(
     override val isSeafarersControl: Boolean? = null,
     override var observationsByUnit: String? = null,
     override var speciesQuantitySeized: Int? = null,
+    override var targets: List<TargetEntity2>? = null
 ) : MissionActionEntity(
     missionId = missionId,
     actionType = ActionType.CONTROL,
@@ -81,32 +80,13 @@ class MissionFishActionEntity(
     isAdministrativeControl = isAdministrativeControl,
     isComplianceWithWaterRegulationsControl = isComplianceWithWaterRegulationsControl,
     isSafetyEquipmentAndStandardsComplianceControl = isSafetyEquipmentAndStandardsComplianceControl,
+    targets = targets
 ), BaseMissionFishAction {
     override fun getActionId(): String {
         return id.toString()
     }
 
     override fun computeSummaryTags() {
-        val navInfractions = this.getControlInfractions()
-        val fishInfractions: List<FishInfraction> = listOf(
-            this.gearInfractions?.map { FishInfraction(it.natinf, it.infractionType) },
-            this.logbookInfractions?.map { FishInfraction(it.natinf, it.infractionType) },
-            this.speciesInfractions?.map { FishInfraction(it.natinf, it.infractionType) },
-            this.otherInfractions?.map { FishInfraction(it.natinf, it.infractionType) }
-        ).filterNotNull().flatten()
-
-        val fishWithReport = fishInfractions.count { it.infractionType == InfractionType.WITH_RECORD }
-        val navWithReport = navInfractions.count { it.infractionType == InfractionTypeEnum.WITH_REPORT }
-
-        val infractionTag = getInfractionTag(fishWithReport + navWithReport)
-        val navNatinfs = navInfractions.flatMap { it.natinfs ?: emptyList() }
-        val fishNatinfs = fishInfractions.map { it.natinf.toString() }
-        val withReportNatinf = (navNatinfs + fishNatinfs).count { true }
-        val natinfTag = getNatinfTag(withReportNatinf)
-        this.summaryTags = listOf(infractionTag, natinfTag)
-    }
-
-    override fun computeSummaryTags2() {
         val nav = this.getNavSummaryTags()
         val fish = this.getFishSummaryTags()
         this.summaryTags = listOf(
@@ -147,26 +127,6 @@ class MissionFishActionEntity(
         this.computeCompletenessForStats()
     }
 
-    override  fun computeControlsToComplete() {
-        this.controlsToComplete = listOf(
-            ControlType.ADMINISTRATIVE.takeIf {
-                this.isAdministrativeControl == true &&
-                    (this.controlAdministrative == null || this.controlAdministrative?.hasBeenDone == null)
-            },
-            ControlType.NAVIGATION.takeIf {
-                this.isComplianceWithWaterRegulationsControl == true &&
-                    (this.controlNavigation == null || this.controlNavigation?.hasBeenDone == null)
-            },
-            ControlType.SECURITY.takeIf {
-                this.isSafetyEquipmentAndStandardsComplianceControl == true &&
-                    (this.controlSecurity == null || this.controlSecurity?.hasBeenDone == null)
-            },
-            ControlType.GENS_DE_MER.takeIf {
-                this.isSeafarersControl == true &&
-                    (this.controlGensDeMer == null || this.controlGensDeMer?.hasBeenDone == null)
-            }
-        ).mapNotNull { it }
-    }
 
     override fun isControlInValid(control: ControlEntity2?): Boolean {
         return control?.hasBeenDone == null

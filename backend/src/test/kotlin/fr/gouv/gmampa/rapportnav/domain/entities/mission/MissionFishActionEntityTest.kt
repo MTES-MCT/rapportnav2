@@ -7,7 +7,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Infrac
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.time.Instant
-import java.util.*
 
 @ExtendWith(SpringExtension::class)
 class MissionFishActionEntityTest {
@@ -133,13 +131,13 @@ class MissionFishActionEntityTest {
     @Test
     fun `execute should compute summary tags`() {
         val model = getFishAction()
-        val mockControl = ControlMock.createAllControl()
+        val targetsMock = TargetMissionMock.create()
         val entity = MissionFishActionEntity.fromFishAction(model)
-        entity.computeControls(controls = mockControl)
+        entity.targets = listOf(targetsMock)
         entity.computeSummaryTags()
         assertThat(entity.summaryTags).isNotNull()
-        assertThat(entity.summaryTags?.get(0)).isEqualTo("2 PV")
-        assertThat(entity.summaryTags?.get(1)).isEqualTo("1 NATINF")
+        assertThat(entity.summaryTags?.get(0)).isEqualTo("4 PV")
+        assertThat(entity.summaryTags?.get(1)).isEqualTo("9 NATINF")
     }
 
     @Test
@@ -199,34 +197,14 @@ class MissionFishActionEntityTest {
             isComplianceWithWaterRegulationsControl = true,
             isSafetyEquipmentAndStandardsComplianceControl = true
         )
-        val controls = ActionControlEntity(
-            controlSecurity = ControlSecurityEntity(
-                id = UUID.randomUUID(),
-                missionId = 761,
-                actionControlId = "MyActionId1",
-                amountOfControls = 2,
-            ),
-            controlGensDeMer = ControlGensDeMerEntity(
-                id = UUID.randomUUID(),
-                missionId = 761,
-                actionControlId = "MyActionId2",
-                amountOfControls = 2
-            ),
-            controlNavigation = ControlNavigationEntity(
-                id = UUID.randomUUID(),
-                missionId = 761,
-                actionControlId =  "MyActionId3",
-                amountOfControls = 2
-            ),
-            controlAdministrative = ControlAdministrativeEntity(
-                id = UUID.randomUUID(),
-                missionId = 761,
-                actionControlId = "MyActionId4",
-                amountOfControls = 2
-            )
+        val controls = listOf(
+            ControlMock.create(controlType = ControlType.SECURITY, amountOfControls = 2),
+            ControlMock.create(controlType = ControlType.GENS_DE_MER, amountOfControls = 2),
+            ControlMock.create(controlType = ControlType.NAVIGATION, amountOfControls = 2),
+            ControlMock.create(controlType = ControlType.ADMINISTRATIVE, amountOfControls = 2)
         )
         val entity = MissionFishActionEntity.fromFishAction(model)
-        entity.computeControls(controls = controls)
+        entity.targets = listOf(TargetMissionMock.create(controls = controls))
         entity.computeControlsToComplete()
         assertThat(entity.controlsToComplete?.size).isEqualTo(4)
     }
@@ -240,7 +218,7 @@ class MissionFishActionEntityTest {
         )
         val entity = MissionFishActionEntity.fromFishAction(action = fishAction)
         entity.targets = listOf(TargetMissionMock.create())
-        entity.computeSummaryTags2()
+        entity.computeSummaryTags()
         assertThat(entity.summaryTags?.size).isEqualTo(2)
         assertThat(entity.summaryTags).contains("3 PV")
         assertThat(entity.summaryTags).contains("8 NATINF")
