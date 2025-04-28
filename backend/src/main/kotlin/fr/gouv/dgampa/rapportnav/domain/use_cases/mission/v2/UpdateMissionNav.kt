@@ -26,7 +26,8 @@ class UpdateMissionNav(
         if (input.equals(missionFromDbInput)) return null
 
         try {
-            val updatedMission = repository.save(input.toMissionNavEntity(missionFromDb = missionFromDb))
+            val entity = input.toMissionNavEntity(missionFromDb)
+            val updatedMission = repository.save(entity.toMissionModel())
             return MissionNavEntity.fromMissionModel(updatedMission)
         }
         catch (e: Exception) {

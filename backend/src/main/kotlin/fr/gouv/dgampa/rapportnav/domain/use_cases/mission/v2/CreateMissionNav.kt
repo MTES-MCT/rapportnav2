@@ -19,7 +19,9 @@ class CreateMissionNav(
             controlUnitIdOwner = controlUnitIds.first(),
         )
 
-        val model = repository.save(navMission)
+        val navModel = navMission.toMissionModel()
+
+        val model = repository.save(navModel)
 
         return MissionNavEntity.fromMissionModel(model)
     }
