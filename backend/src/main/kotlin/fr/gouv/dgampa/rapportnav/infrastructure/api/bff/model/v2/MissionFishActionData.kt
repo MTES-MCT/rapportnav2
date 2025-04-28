@@ -57,18 +57,10 @@ class MissionFishActionData(
     override val isSeafarersControl: Boolean? = null,
     override var observationsByUnit: String? = null,
     override var speciesQuantitySeized: Int? = null,
-    override val controlSecurity: ControlSecurity? = null,
-    override val controlGensDeMer: ControlGensDeMer? = null,
-    override val controlNavigation: ControlNavigation? = null,
-    override val controlAdministrative: ControlAdministrative? = null,
     override val targets: List<Target2>? = null
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
-    controlSecurity = controlSecurity,
-    controlGensDeMer = controlGensDeMer,
-    controlNavigation = controlNavigation,
-    controlAdministrative = controlAdministrative,
     targets = targets
 ), BaseMissionFishActionData {
     companion object {

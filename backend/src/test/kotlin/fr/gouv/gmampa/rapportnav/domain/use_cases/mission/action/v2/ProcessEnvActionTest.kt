@@ -4,9 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAct
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessEnvAction
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.GetControlByActionId2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsByActionId
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -27,16 +25,10 @@ class ProcessEnvActionTest {
     private lateinit var processEnvAction: ProcessEnvAction
 
     @MockitoBean
-    private lateinit var getControlByActionId: GetControlByActionId2
-
-    @MockitoBean
     private lateinit var getStatusForAction: GetStatusForAction
 
     @MockitoBean
     private lateinit var mapControlPlans: MapEnvActionControlPlans
-
-    @MockitoBean
-    private lateinit var getInfractionsByActionId: GetInfractionsByActionId
 
     @MockitoBean
     private lateinit var getComputeEnvTarget: GetComputeEnvTarget
@@ -49,21 +41,18 @@ class ProcessEnvActionTest {
             id = actionId,
         )
 
-        val mockControl = ControlMock.createAllControl()
-        `when`(getControlByActionId.getAllControl(anyOrNull())).thenReturn(mockControl)
+        val mockTarget = TargetMissionMock.create()
+        `when`(getComputeEnvTarget.execute(anyOrNull(), anyOrNull(), anyOrNull())).thenReturn(listOf(mockTarget))
         processEnvAction = ProcessEnvAction(
             mapControlPlans = mapControlPlans,
             getStatusForAction = getStatusForAction,
-            getControlByActionId = getControlByActionId,
-            getInfractionsByActionId = getInfractionsByActionId,
             getComputeEnvTarget = getComputeEnvTarget
         )
         val entity = processEnvAction.execute(missionId = missionId, envAction = action)
+        val infractionIds = entity.getInfractions().map { it.id }.toSet()
+        val mockInfractionIds = mockTarget.controls?.flatMap { it.infractions!! }?.map { it.id }?.toSet()
         assertThat(entity).isNotNull
         assertThat(entity.id).isEqualTo(actionId)
-        assertThat(entity.controlSecurity).isEqualTo(mockControl.controlSecurity)
-        assertThat(entity.controlGensDeMer).isEqualTo(mockControl.controlGensDeMer)
-        assertThat(entity.controlNavigation).isEqualTo(mockControl.controlNavigation)
-        assertThat(entity.controlAdministrative).isEqualTo(mockControl.controlAdministrative)
+        assertThat(infractionIds).isEqualTo(mockInfractionIds)
     }
 }

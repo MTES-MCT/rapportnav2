@@ -24,7 +24,6 @@ interface BaseMissionEnvAction {
     val actionTargetType: ActionTargetTypeEnum?
     val vehicleType: VehicleTypeEnum?
     val envInfractions: List<InfractionEntity>?
-    val navInfractions: List<fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity>?
     val coverMissionZone: Boolean?
     val formattedControlPlans: List<FormattedEnvActionControlPlan>?
     val availableControlTypesForInfraction: List<ControlType>?

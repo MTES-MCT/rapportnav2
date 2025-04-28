@@ -1,11 +1,4 @@
 import Text from '@common/components/ui/text'
-import {
-  ControlAdministrative,
-  ControlGensDeMer,
-  ControlNavigation,
-  ControlSecurity,
-  ControlType
-} from '@common/types/control-types'
 import { FormikEffect, FormikTextarea, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import React from 'react'
@@ -13,8 +6,9 @@ import { Divider, Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
 import { MissionAction } from '../../../common/types/mission-action'
-import MissionControlEnvForm from '../../../mission-control/components/elements/mission-control-env-form'
-import MissionInfractionEnvList from '../../../mission-infraction/components/elements/mission-infraction-env-list-form'
+import MissionTargetEnv from '../../../mission-target/components/elements/mission-target-env'
+import MissionTargetDefault from '../../../mission-target/components/elements/mission-target-env-default'
+import MissionTargetNew from '../../../mission-target/components/elements/mission-target-env-new'
 import { useMissionActionEnvControl } from '../../hooks/use-mission-action-env-control'
 import { ActionEnvControlInput } from '../../types/action-type'
 import MissionActionEnvControlPlan from '../ui/mission-action-env-control-plan'
@@ -32,11 +26,12 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
   onChange,
   isMissionFinished
 }) => {
-  const { initValue, handleSubmit, getAvailableControlTypes } = useMissionActionEnvControl(
+  const { initValue, handleSubmit, getAvailableControlTypes2 } = useMissionActionEnvControl(
     action,
     onChange,
     isMissionFinished
   )
+
   return (
     <form style={{ width: '100%' }}>
       {initValue && (
@@ -89,73 +84,52 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                           </Text>
                         </Stack.Item>
                         <Stack.Item style={{ width: '100%' }}>
-                          <Field name="controlAdministrative">
-                            {(field: FieldProps<ControlAdministrative>) => (
-                              <MissionControlEnvForm
-                                name="controlAdministrative"
-                                fieldFormik={field}
-                                controlType={ControlType.ADMINISTRATIVE}
-                                maxAmountOfControls={values.actionNumberOfControls}
-                                isToComplete={action?.controlsToComplete?.includes(ControlType.ADMINISTRATIVE)}
+                          <FieldArray name="targets">
+                            {(fieldArray: FieldArrayRenderProps) => (
+                              <MissionTargetDefault
+                                name="targets"
+                                fieldArray={fieldArray}
+                                controlsToComplete={values.controlsToComplete}
+                                actionNumberOfControls={values.actionNumberOfControls}
                               />
                             )}
-                          </Field>
-                        </Stack.Item>
-                        <Stack.Item style={{ width: '100%' }}>
-                          <Field name="controlNavigation">
-                            {(field: FieldProps<ControlNavigation>) => (
-                              <MissionControlEnvForm
-                                name="controlNavigation"
-                                fieldFormik={field}
-                                controlType={ControlType.NAVIGATION}
-                                maxAmountOfControls={values.actionNumberOfControls}
-                                isToComplete={action?.controlsToComplete?.includes(ControlType.NAVIGATION)}
-                              />
-                            )}
-                          </Field>
-                        </Stack.Item>
-                        <Stack.Item style={{ width: '100%' }}>
-                          <Field name="controlGensDeMer">
-                            {(field: FieldProps<ControlGensDeMer>) => (
-                              <MissionControlEnvForm
-                                name="controlGensDeMer"
-                                fieldFormik={field}
-                                controlType={ControlType.GENS_DE_MER}
-                                maxAmountOfControls={values.actionNumberOfControls}
-                                isToComplete={action?.controlsToComplete?.includes(ControlType.GENS_DE_MER)}
-                              />
-                            )}
-                          </Field>
-                        </Stack.Item>
-                        <Stack.Item style={{ width: '100%' }}>
-                          <Field name="controlSecurity">
-                            {(field: FieldProps<ControlSecurity>) => (
-                              <MissionControlEnvForm
-                                name="controlSecurity"
-                                fieldFormik={field}
-                                controlType={ControlType.SECURITY}
-                                maxAmountOfControls={values.actionNumberOfControls}
-                                isToComplete={action?.controlsToComplete?.includes(ControlType.SECURITY)}
-                              />
-                            )}
-                          </Field>
+                          </FieldArray>
                         </Stack.Item>
                       </Stack>
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <FieldArray name="infractions">
+                  <FieldArray name="targets">
                     {(fieldArray: FieldArrayRenderProps) => (
-                      <MissionInfractionEnvList
-                        name="infractions"
+                      <MissionTargetNew
+                        isDisabled={false} //TODO: how many target max we can have?
+                        actionId={action.id}
                         fieldArray={fieldArray}
+                        vehicleType={values.vehicleType}
                         actionTargetType={values.actionTargetType}
-                        availableControlTypes={getAvailableControlTypes(values)}
+                        controlsToComplete={values.controlsToComplete}
+                        availableControlTypes={getAvailableControlTypes2(values, values.actionNumberOfControls)}
                       />
                     )}
                   </FieldArray>
                 </Stack.Item>
+                <Stack.Item style={{ width: '100%' }}>
+                  <FieldArray name="targets">
+                    {(fieldArray: FieldArrayRenderProps) => (
+                      <MissionTargetEnv
+                        name="targets"
+                        fieldArray={fieldArray}
+                        vehicleType={values.vehicleType}
+                        actionTargetType={values.actionTargetType}
+                        controlsToComplete={values.controlsToComplete}
+                        actionNumberOfControls={values.actionNumberOfControls}
+                        availableControlTypes={getAvailableControlTypes2(values, values.actionNumberOfControls)}
+                      />
+                    )}
+                  </FieldArray>
+                </Stack.Item>
+
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikTextarea
                     isLight={true}

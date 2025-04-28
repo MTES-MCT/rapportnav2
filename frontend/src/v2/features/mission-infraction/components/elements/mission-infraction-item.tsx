@@ -1,11 +1,11 @@
 import { ControlType } from '@common/types/control-types.ts'
 
-import { Infraction } from '@common/types/infraction-types'
 import { THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps } from 'formik'
 import React, { useState } from 'react'
-import MissionInfractionSummary from '../ui/mission-infraction-summary.tsx'
-import MissionInfractionForm from './mission-infraction-form.tsx'
+import { Infraction } from '../../../common/types/target-types.ts'
+import MissionInfractionForm2 from './mission-infraction-form.tsx'
+import MissionInfractionNavSummary from './mission-infraction-nav-summary.tsx'
 
 interface MissionInfractionItemProps {
   index: number
@@ -24,7 +24,7 @@ const MissionInfractionItem: React.FC<MissionInfractionItemProps> = ({ name, ind
           <div style={{ width: '100%', backgroundColor: THEME.color.cultured, padding: '1rem' }}>
             <Field name={`${name}.${index}`}>
               {(field: FieldProps<Infraction>) => (
-                <MissionInfractionForm
+                <MissionInfractionForm2
                   fieldFormik={field}
                   name={`${name}.${index}`}
                   onClose={() => setShowForm(false)}
@@ -34,9 +34,8 @@ const MissionInfractionItem: React.FC<MissionInfractionItemProps> = ({ name, ind
           </div>
         </>
       ) : (
-        <MissionInfractionSummary
-          isNavAction={true}
-          infractions={[infraction]}
+        <MissionInfractionNavSummary
+          infraction={infraction}
           onEdit={() => setShowForm(true)}
           onDelete={() => handleRemove(index)}
           controlType={ControlType.NAVIGATION}

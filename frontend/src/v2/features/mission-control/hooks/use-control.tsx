@@ -5,19 +5,19 @@ import { AbstractControlFormikHook } from '../types/control-hook'
 import { useAbstractControl } from './use-abstract-control'
 import { useControlRegistry } from './use-control-registry'
 
-export type ControlModelInput = {} & Control
+export type ControlInput = {} & Control
 
 export function useControl(
   name: string,
   fieldFormik: FieldProps<Control>,
   controlType: ControlType
-): AbstractControlFormikHook<ControlModelInput> & { withRadios: boolean } {
+): AbstractControlFormikHook<ControlInput> & { withRadios: boolean } {
   const { getRadios, getEmptyValues, getControlType } = useControlRegistry()
-  const { initValue, handleSubmit } = useAbstractControl<Control, ControlModelInput>(
+  const { initValue, handleSubmit } = useAbstractControl<Control, ControlInput>(
     name,
     fieldFormik,
-    (input: Control) => input as ControlModelInput,
-    (value?: ControlModelInput) => {
+    (input: Control) => input as ControlInput,
+    (value?: ControlInput) => {
       return (!value ? value : { ...value, ...(!value?.hasBeenDone ? getEmptyValues(controlType) : {}) }) as Control
     }
   )

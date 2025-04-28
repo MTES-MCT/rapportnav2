@@ -75,11 +75,7 @@ class MissionNavAction(
                     nbOfVesselsTrackedWithoutIntervention = navAction.nbOfVesselsTrackedWithoutIntervention,
                     nbAssistedVesselsReturningToShore = navAction.nbAssistedVesselsReturningToShore,
                     reason = navAction.reason,
-                    targets = navAction.targets?.map { Target2.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc },
-                    controlSecurity = ControlSecurity.fromControlSecurityEntity(navAction.controlSecurity),
-                    controlGensDeMer = ControlGensDeMer.fromControlGensDeMerEntity(navAction.controlGensDeMer),
-                    controlNavigation = ControlNavigation.fromControlNavigationEntity(navAction.controlNavigation),
-                    controlAdministrative = ControlAdministrative.fromControlAdministrativeEntity(navAction.controlAdministrative)
+                    targets = navAction.targets?.map { Target2.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc }
                 )
             )
         }

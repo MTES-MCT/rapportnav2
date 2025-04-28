@@ -3,8 +3,10 @@ package fr.gouv.gmampa.rapportnav.domain.entities.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
 import org.assertj.core.api.Assertions.assertThat
@@ -86,27 +88,15 @@ class MissionNavActionDataEntityTest {
     }
 
     @Test
-    fun `execute set status and controls`() {
-        val model = getActionModel()
-        val mockControl  = ControlMock.createAllControl()
-        val entity = MissionNavActionEntity.fromMissionActionModel(model)
-        entity.computeControls(controls = mockControl)
-        assertThat(entity.controlGensDeMer).isEqualTo(mockControl.controlGensDeMer)
-        assertThat(entity.controlSecurity).isEqualTo(mockControl.controlSecurity)
-        assertThat(entity.controlNavigation).isEqualTo(mockControl.controlNavigation)
-        assertThat(entity.controlAdministrative).isEqualTo(mockControl.controlAdministrative)
-    }
-
-    @Test
     fun `execute should compute summary tags`() {
         val model = getActionModel()
-        val mockControl  = ControlMock.createAllControl()
+        val controls  = listOf(ControlMock.create(controlType = ControlType.SECURITY))
         val entity = MissionNavActionEntity.fromMissionActionModel(model)
-        entity.computeControls(controls = mockControl)
+        entity.targets = listOf(TargetMissionMock.create(controls = controls))
         entity.computeSummaryTags()
         assertThat(entity.summaryTags).isNotNull()
         assertThat(entity.summaryTags?.get(0)).isEqualTo("1 PV")
-        assertThat(entity.summaryTags?.get(1)).isEqualTo("Sans infraction")
+        assertThat(entity.summaryTags?.get(1)).isEqualTo("2 NATINF")
     }
 
     private fun getActionModel(): MissionActionModel{

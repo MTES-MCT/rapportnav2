@@ -7,9 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsSta
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import java.time.Instant
 
@@ -30,66 +28,6 @@ abstract class MissionActionEntity(
     override val isComplianceWithWaterRegulationsControl: Boolean? = null,
     override val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
     override val isSeafarersControl: Boolean? = null,
-
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(
-                field = "isAdministrativeControl",
-                value = arrayOf("true")
-            ),
-            DependentFieldValue(
-                field = "sourcesOfMissingDataForStats",
-                value = ["MONITORENV", "MONITORFISH"]
-            ),
-            DependentFieldValue(field = "actionType", value = ["CONTROL"])
-        ]
-    )
-    override var controlAdministrative: ControlAdministrativeEntity? = null,
-
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(
-                field = "isSeafarersControl",
-                value = arrayOf("true")
-            ),
-            DependentFieldValue(
-                field = "sourcesOfMissingDataForStats",
-                value = ["MONITORENV", "MONITORFISH"]
-            ),
-            DependentFieldValue(field = "actionType", value = ["CONTROL"])
-        ]
-    )
-    override var controlGensDeMer: ControlGensDeMerEntity? = null,
-
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(
-                field = "isComplianceWithWaterRegulationsControl",
-                value = arrayOf("true")
-            ),
-            DependentFieldValue(
-                field = "sourcesOfMissingDataForStats",
-                value = ["MONITORENV", "MONITORFISH"]
-            ),
-            DependentFieldValue(field = "actionType", value = ["CONTROL"])
-        ]
-    )
-    override var controlNavigation: ControlNavigationEntity? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(
-                field = "isSafetyEquipmentAndStandardsComplianceControl",
-                value = arrayOf("true")
-            ),
-            DependentFieldValue(
-                field = "sourcesOfMissingDataForStats",
-                value = ["MONITORENV", "MONITORFISH"]
-            ),
-            DependentFieldValue(field = "actionType", value = ["CONTROL"])
-        ]
-    )
-    override var controlSecurity: ControlSecurityEntity? = null,
-
     @MandatoryForStats(
         enableIf = [
             DependentFieldValue(field = "actionType", value = ["CONTROL"])
@@ -112,13 +50,6 @@ abstract class MissionActionEntity(
         return actionType == ActionType.CONTROL
     }
 
-    fun getControlInfractions(): List<InfractionEntity> {
-        val genDeMerInfractions = controlGensDeMer?.infractions ?: listOf()
-        val securityInfractions = controlSecurity?.infractions ?: listOf()
-        val navigationInfractions = controlNavigation?.infractions ?: listOf()
-        val administrativeInfractions = controlAdministrative?.infractions ?: listOf()
-        return genDeMerInfractions + securityInfractions + navigationInfractions + administrativeInfractions
-    }
 
     fun getInfractionTag(withReport: Int): String {
         return if(withReport == 0) "Sans PV" else "$withReport PV"
@@ -129,15 +60,6 @@ abstract class MissionActionEntity(
     }
 
     open fun computeSummaryTags() {
-        val infractions = this.getControlInfractions()
-        val withReport = infractions.count { it.infractionType == InfractionTypeEnum.WITH_REPORT }
-        val infractionTag = getInfractionTag(withReport)
-        val natinfs = infractions.flatMap { it.natinfs ?: emptyList() }
-        val natinfTag = getNatinfTag(natinfs.size)
-        this.summaryTags = listOf(infractionTag, natinfTag)
-    }
-
-    open fun computeSummaryTags2() {
         val summaryTag = this.getNavSummaryTags()
         this.summaryTags = listOf(getInfractionTag(summaryTag.withReport), getNatinfTag(summaryTag.natInfSize))
     }
@@ -157,13 +79,6 @@ abstract class MissionActionEntity(
         return SummaryTag(withReport = withReport, natInfSize = natInfSize)
     }
 
-    fun computeControls(controls: ActionControlEntity?){
-        this.controlSecurity = controls?.controlSecurity
-        this.controlGensDeMer = controls?.controlGensDeMer
-        this.controlNavigation = controls?.controlNavigation
-        this.controlAdministrative = controls?.controlAdministrative
-    }
-
     fun isStartDateEndDateOK(): Boolean {
         if(this.endDateTimeUtc  == null ||  this.startDateTimeUtc == null) return false
         try{
@@ -175,8 +90,19 @@ abstract class MissionActionEntity(
         }
     }
 
-    fun computeControlsToComplete2() {
+    fun computeControlsToComplete() {
         this.controlsToComplete = this.targets?.flatMap { computeControlsToComplete2(it) }
+    }
+
+    fun getInfractionByControlType(controlType: ControlType): List<InfractionEntity2> {
+        return this.targets?.flatMap { it.controls?: listOf() }
+            ?.filter { it.controlType == controlType }
+            ?.flatMap { it.infractions?: listOf() }?: listOf()
+    }
+
+    fun getInfractions(): List<InfractionEntity2> {
+        return this.targets?.flatMap { it.controls?: listOf() }
+            ?.flatMap { it.infractions?: listOf() }?: listOf()
     }
 
     private fun computeControlsToComplete2(target: TargetEntity2): List<ControlType> {
@@ -200,7 +126,6 @@ abstract class MissionActionEntity(
         ).mapNotNull { it }
     }
 
-    abstract fun computeControlsToComplete()
     abstract fun getActionId(): String
     abstract fun computeCompleteness()
     abstract fun isControlInValid(control: ControlEntity2?): Boolean

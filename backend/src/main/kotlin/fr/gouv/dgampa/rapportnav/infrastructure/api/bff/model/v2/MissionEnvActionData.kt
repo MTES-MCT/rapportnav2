@@ -27,33 +27,16 @@ class MissionEnvActionData(
     override val actionNumberOfControls: Int? = null,
     override val actionTargetType: ActionTargetTypeEnum? = null,
     override val vehicleType: VehicleTypeEnum? = null,
-    override val infractions: List<InfractionByTarget>? = listOf(),
     override val coverMissionZone: Boolean? = null,
-    override val controlSecurity: ControlSecurity? = null,
-    override val controlGensDeMer: ControlGensDeMer? = null,
-    override val controlNavigation: ControlNavigation? = null,
-    override val controlAdministrative: ControlAdministrative? = null,
     override val formattedControlPlans: Any? = null,
     override val availableControlTypesForInfraction: List<ControlType>? = null,
     override val targets: List<Target2>? = null
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
-    controlSecurity = controlSecurity,
-    controlGensDeMer = controlGensDeMer,
-    controlNavigation = controlNavigation,
-    controlAdministrative = controlAdministrative,
     targets = targets
 ),
     BaseMissionEnvActionData {
-
-    fun getInfractions(missionId: Int, actionId: String): List<Infraction>? {
-        val infractions = infractions?.flatMap { it.infractions }
-        //?.filter { it.controlId != null || it.controlType != null }
-        infractions?.forEach { it.setMissionIdAndActionId(missionId, actionId) }
-        return infractions
-    }
-
     companion object {
         fun toMissionEnvActionEntity(input: MissionAction): MissionEnvActionEntity {
             val data = input.data as MissionEnvActionData
