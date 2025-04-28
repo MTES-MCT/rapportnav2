@@ -40,7 +40,6 @@ class CreateMissionNavTest {
 
 
         val navMission = MissionNavEntity(
-            id = 1,
             controlUnits = controlUnitIds,
             startDateTimeUtc = generalInfo2.startDateTimeUtc!!,
             endDateTimeUtc = generalInfo2.endDateTimeUtc,
@@ -58,7 +57,9 @@ class CreateMissionNavTest {
             controlUnits = listOf(1, 2),
         )
 
-        Mockito.`when`(repository.save(navMission.toMissionModel())).thenReturn(model)
+        val missionModel = navMission.toMissionModel()
+
+        Mockito.`when`(repository.save(missionModel)).thenReturn(model)
 
         val result = createMissionNav.execute(generalInfo2 = generalInfo2, controlUnitIds = controlUnitIds)
 
