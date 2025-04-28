@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
-import java.util.*
 
 @SpringBootTest(classes = [CreateMissionNav::class])
 class CreateMissionNavTest {
@@ -33,13 +32,15 @@ class CreateMissionNavTest {
             missionTypes = listOf(MissionTypeEnum.AIR),
             missionReportType = MissionReportTypeEnum.OFFICE_REPORT,
             isMissionArmed = false,
-            startDateTimeUtc = Instant.now(),
-            endDateTimeUtc = Instant.now()
+            startDateTimeUtc = Instant.parse("2025-04-24T14:13:17.022715Z"),
+            endDateTimeUtc = Instant.parse("2025-04-24T14:13:17.022715Z")
         )
 
         val controlUnitIds = listOf(1, 2)
 
+
         val navMission = MissionNavEntity(
+            id = 1,
             controlUnits = controlUnitIds,
             startDateTimeUtc = generalInfo2.startDateTimeUtc!!,
             endDateTimeUtc = generalInfo2.endDateTimeUtc,
@@ -55,10 +56,9 @@ class CreateMissionNavTest {
             startDateTimeUtc = generalInfo2.startDateTimeUtc!!,
             endDateTimeUtc = generalInfo2.endDateTimeUtc,
             controlUnits = listOf(1, 2),
-            missionIdString = UUID.randomUUID()
         )
 
-        Mockito.`when`(repository.save(navMission)).thenReturn(model)
+        Mockito.`when`(repository.save(navMission.toMissionModel())).thenReturn(model)
 
         val result = createMissionNav.execute(generalInfo2 = generalInfo2, controlUnitIds = controlUnitIds)
 
