@@ -5,8 +5,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSi
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -249,5 +251,27 @@ class MissionNavActionTest {
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
+    }
+
+    @Test
+    fun `execute return all infractions on action`() {
+        val target = TargetMissionMock.create()
+        val entity = MissionNavActionEntityMock.create(actionType = ActionType.CONTROL, targets = listOf(target))
+        val infractionIds = entity.getInfractions().map { it.id }.toSet()
+        val mockInfractionIds = target.controls?.flatMap { it.infractions!! }?.map { it.id }?.toSet()
+        assertThat(entity).isNotNull
+        assertThat(infractionIds).isEqualTo(mockInfractionIds)
+    }
+
+    @Test
+    fun `execute return  infractions by control type`() {
+        val target = TargetMissionMock.create()
+        val entity = MissionNavActionEntityMock.create(actionType = ActionType.CONTROL, targets = listOf(target))
+        val infractionIds = entity.getInfractionByControlType(ControlType.GENS_DE_MER).map { it.id }.toSet()
+        val mockInfractionIds =
+            target.controls?.filter { it.controlType == ControlType.GENS_DE_MER }?.flatMap { it.infractions!! }
+                ?.map { it.id }?.toSet()
+        assertThat(entity).isNotNull
+        assertThat(infractionIds).isEqualTo(mockInfractionIds)
     }
 }

@@ -3,7 +3,8 @@ import { FormikEffect, FormikNumberInput, FormikTextInput } from '@mtes-mct/moni
 import { FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { EnvControl, EnvControlInput, useEnvControl } from '../../hooks/use-control-env.tsx'
+import { Control } from '../../../common/types/target-types.ts'
+import { ControlEnvInput, useEnvControl } from '../../hooks/use-control-env.tsx'
 import MissionControlEnvError from '../ui/mission-control-env-error.tsx'
 import { MissionControlTitle } from '../ui/mission-control-title.tsx'
 
@@ -12,8 +13,7 @@ export interface MissionControlEnvFormProps {
   isToComplete?: boolean
   controlType: ControlType
   maxAmountOfControls?: number
-
-  fieldFormik: FieldProps<EnvControl>
+  fieldFormik: FieldProps<Control>
 }
 
 const MissionControlEnvForm: FC<MissionControlEnvFormProps> = ({
@@ -45,7 +45,7 @@ const MissionControlEnvForm: FC<MissionControlEnvFormProps> = ({
           {({ validateForm }) => (
             <>
               <FormikEffect
-                onChange={value => validateForm(value).then(errors => handleSubmit(value as EnvControlInput, errors))}
+                onChange={value => validateForm(value).then(errors => handleSubmit(value as ControlEnvInput, errors))}
               />
               <Stack direction="column" alignItems="flex-start" spacing={'0.5rem'} style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>

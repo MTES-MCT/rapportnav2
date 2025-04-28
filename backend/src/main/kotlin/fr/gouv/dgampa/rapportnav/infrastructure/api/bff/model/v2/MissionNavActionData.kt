@@ -42,19 +42,11 @@ class MissionNavActionData(
     override val endDateTimeUtc: Instant? = null,
     override val observations: String? = null,
     override val status: ActionStatusType? = null,
-    override val controlSecurity: ControlSecurity? = null,
-    override val controlGensDeMer: ControlGensDeMer? = null,
-    override val controlNavigation: ControlNavigation? = null,
-    override val controlAdministrative: ControlAdministrative? = null,
     override val targets: List<Target2>? = null
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
     observations = observations,
-    controlSecurity = controlSecurity,
-    controlGensDeMer = controlGensDeMer,
-    controlNavigation = controlNavigation,
-    controlAdministrative = controlAdministrative,
     targets = targets
 ), BaseMissionNavActionData {
     companion object {
@@ -93,7 +85,6 @@ class MissionNavActionData(
                 operationFollowsDEFREP = data.operationFollowsDEFREP,
                 locationDescription = data.locationDescription,
                 isMigrationRescue = data.isMigrationRescue,
-
                 nbOfVesselsTrackedWithoutIntervention = data.nbOfVesselsTrackedWithoutIntervention,
                 nbAssistedVesselsReturningToShore = data.nbAssistedVesselsReturningToShore,
                 status = data.status,

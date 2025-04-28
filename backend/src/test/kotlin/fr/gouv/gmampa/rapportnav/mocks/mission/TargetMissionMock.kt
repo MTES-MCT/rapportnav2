@@ -10,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ControlEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
 import java.time.Instant
 import java.util.*
 
@@ -19,7 +20,8 @@ object TargetMissionMock {
         agent: String? = null,
         actionId: String? = null,
         targetType: TargetType? = null,
-        status: TargetStatusType? = null
+        status: TargetStatusType? = null,
+        controls: List<ControlEntity2>? = null
     ): TargetEntity2 {
         return TargetEntity2(
             startDateTimeUtc = Instant.parse("2020-01-01T00:00:00Z"),
@@ -34,8 +36,8 @@ object TargetMissionMock {
             vesselName = "My vesselName",
             identityControlledPerson = "My identityContolledPerson",
             targetType = targetType ?: TargetType.COMPANY,
-            controls = listOf(
-                ControlEntity2(
+            controls = controls?: listOf(
+                ControlMock.create(
                     id = UUID.randomUUID(),
                     nbrOfHours = 4,
                     controlType = ControlType.NAVIGATION,
@@ -57,7 +59,7 @@ object TargetMissionMock {
                         )
                     )
                 ),
-                ControlEntity2(
+                ControlMock.create(
                     id = UUID.randomUUID(),
                     nbrOfHours = 4,
                     controlType = ControlType.SECURITY,
@@ -79,7 +81,7 @@ object TargetMissionMock {
                         )
                     )
                 ),
-                ControlEntity2(
+                ControlMock.create(
                     id = UUID.randomUUID(),
                     nbrOfHours = 4,
                     controlType = ControlType.GENS_DE_MER,
@@ -101,7 +103,7 @@ object TargetMissionMock {
                         )
                     )
                 ),
-                ControlEntity2(
+                ControlMock.create(
                     id = UUID.randomUUID(),
                     nbrOfHours = 4,
                     controlType = ControlType.GENS_DE_MER,

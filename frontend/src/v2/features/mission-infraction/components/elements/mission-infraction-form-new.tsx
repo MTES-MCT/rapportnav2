@@ -1,11 +1,11 @@
 import { ControlType } from '@common/types/control-types'
-import { Infraction } from '@common/types/infraction-types'
 import { Accent, Button, FormikEffect, Icon, Label, Size, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Formik } from 'formik'
 import { isEqual } from 'lodash'
 import { FC, useState } from 'react'
+import { Infraction } from '../../../common/types/target-types'
 import { useInfraction } from '../../hooks/use-infraction'
-import MissionInfractionForm from './mission-infraction-form'
+import MissionInfractionForm2 from './mission-infraction-form'
 
 type NewInfraction = { newInfraction: Infraction }
 
@@ -35,7 +35,7 @@ const MissionInfractionFormNew: FC<MissionInfractionFormNewProps> = ({ isDisable
                 <FormikEffect onChange={newValues => handleSubmit(newValues as NewInfraction)} />
                 <Field name={`newInfraction`}>
                   {(field: FieldProps<Infraction>) => (
-                    <MissionInfractionForm
+                    <MissionInfractionForm2
                       fieldFormik={field}
                       name={`newInfraction`}
                       onClose={() => setShowNewForm(false)}

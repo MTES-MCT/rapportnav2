@@ -1,34 +1,33 @@
 import Text from '@common/components/ui/text.tsx'
 import { ControlType } from '@common/types/control-types.ts'
 import { Accent, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
-import React from 'react'
+import React, { createElement, FunctionComponent } from 'react'
 import { Stack } from 'rsuite'
 import { setDebounceTime } from '../../../../store/slices/delay-query-reducer.ts'
-import MissionNatinfTagFish from '../../../common/components/ui/mission-natinfs-tag-fish.tsx'
-import MissionNatinfTag from '../../../common/components/ui/mission-natinfs-tag.tsx'
 import { Infraction } from '../../../common/types/target-types.ts'
 import { useInfraction } from '../../hooks/use-infraction.tsx'
-import { FishNavInfraction } from '../../types/infraction-input.tsx'
-import MissionInfractionEmpty from './mission-infraction-empty.tsx'
-import MissionInfractionTypeTag from './mission-infraction-type-tag.tsx'
+import { FishInfraction } from '../../types/infraction-input.tsx'
+import MissionInfractionEmpty from '../ui/mission-infraction-empty.tsx'
+import MissionInfractionTypeTag from '../ui/mission-infraction-type-tag.tsx'
 
-interface MissionInfractionSummary2Props {
+interface MissionInfractionSummaryProps {
   title?: string
   showIndex?: boolean
   isNavAction?: boolean
   controlType?: ControlType
   isActionDisabled?: boolean
-  infractions: FishNavInfraction[] | Infraction[]
+  infractions: FishInfraction[] | Infraction[]
   onEdit?: (id?: string) => void
   onDelete?: (id?: string) => void
+  summary: FunctionComponent<{ infraction: FishInfraction | Infraction }>
 }
 
-const MissionInfractionSummary2: React.FC<MissionInfractionSummary2Props> = ({
+const MissionInfractionSummary: React.FC<MissionInfractionSummaryProps> = ({
   title,
   onEdit,
+  summary,
   onDelete,
   showIndex,
-  isNavAction,
   controlType,
   infractions,
   isActionDisabled
@@ -99,13 +98,7 @@ const MissionInfractionSummary2: React.FC<MissionInfractionSummary2Props> = ({
                 <Stack.Item>
                   <MissionInfractionTypeTag type={infraction.infractionType} />
                 </Stack.Item>
-                <Stack.Item>
-                  {isNavAction ? (
-                    <MissionNatinfTag natinfs={infraction.natinfs} />
-                  ) : (
-                    <MissionNatinfTagFish natinf={infraction.natinf} />
-                  )}
-                </Stack.Item>
+                <Stack.Item>{createElement(summary, { infraction })}</Stack.Item>
               </Stack>
             </Stack.Item>
             <Stack.Item style={{ width: '100%' }}>
@@ -118,4 +111,4 @@ const MissionInfractionSummary2: React.FC<MissionInfractionSummary2Props> = ({
   )
 }
 
-export default MissionInfractionSummary2
+export default MissionInfractionSummary

@@ -4,13 +4,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.PatchEnvAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateEnvAction
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControl
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControlEnvTarget
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfractionEnvTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.ActionControl
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvActionData
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -29,15 +26,6 @@ class UpdateEnvActionTest {
     private lateinit var patchEnvAction: PatchEnvAction
 
     @MockitoBean
-    private lateinit var processMissionActionControl: ProcessMissionActionControl
-
-    @MockitoBean
-    lateinit var processMissionActionControlEnvTarget: ProcessMissionActionControlEnvTarget
-
-    @MockitoBean
-    private lateinit var processMissionActionInfractionEnvTarget: ProcessMissionActionInfractionEnvTarget
-
-    @MockitoBean
     private lateinit var  processMissionActionTarget: ProcessMissionActionTarget
 
 
@@ -53,14 +41,15 @@ class UpdateEnvActionTest {
         )
 
         `when`(patchEnvAction.execute(anyOrNull())).thenReturn(null)
-        `when`(processMissionActionControl.execute(anyOrNull(), anyOrNull())).thenReturn(ActionControl())
-        `when`(processMissionActionInfractionEnvTarget.execute(actionId, listOf())).thenReturn(listOf())
+        `when`(
+            processMissionActionTarget.execute(
+                anyOrNull(),
+                anyOrNull()
+            )
+        ).thenReturn(listOf(TargetMissionMock.create()))
 
         val updateNavAction = UpdateEnvAction(
             patchEnvAction = patchEnvAction,
-            processMissionActionControl = processMissionActionControl,
-            processMissionActionControlEnvTarget = processMissionActionControlEnvTarget,
-            processMissionActionInfractionEnvTarget = processMissionActionInfractionEnvTarget,
             processMissionActionTarget = processMissionActionTarget
         )
 
@@ -72,7 +61,6 @@ class UpdateEnvActionTest {
     private fun getEnvActionData() = MissionEnvActionData(
         observations = "MyObservations",
         startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
-        endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
-        infractions = listOf()
+        endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
     )
 }

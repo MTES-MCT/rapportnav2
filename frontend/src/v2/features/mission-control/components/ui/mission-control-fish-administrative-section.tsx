@@ -4,7 +4,7 @@ import { Accent, Button, Icon, Label, MultiRadio, Size, THEME } from '@mtes-mct/
 import React from 'react'
 import { Stack } from 'rsuite'
 import { MissionFishActionData } from '../../../common/types/mission-action'
-import MissionInfractionSummary from '../../../mission-infraction/components/ui/mission-infraction-summary'
+import MissionInfractionFishSummary from '../../../mission-infraction/components/elements/mission-infraction-fish-summary'
 
 interface MissionControlFishAdministrativeSectionProps {
   action: MissionFishActionData
@@ -72,7 +72,7 @@ const MissionControlFishAdministrativeSection: React.FC<MissionControlFishAdmini
         </Stack>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
-        <MissionInfractionSummary
+        <MissionInfractionFishSummary
           isActionDisabled={true}
           infractions={action.logbookInfractions ?? []}
           title="Infraction obligations déclaratives et autorisations"
