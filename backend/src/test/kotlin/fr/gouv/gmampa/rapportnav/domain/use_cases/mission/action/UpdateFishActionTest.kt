@@ -45,6 +45,7 @@ class UpdateFishActionTest {
             actionType = ActionType.CONTROL,
             source = MissionSourceEnum.RAPPORTNAV,
             data = getFishActionData(),
+            missionIdString = null,
         )
 
         `when`(patchFishAction.execute(anyOrNull())).thenReturn(null)

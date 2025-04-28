@@ -20,7 +20,8 @@ class MissionFishAction(
     override val controlsToComplete: List<ControlType>? = null,
     override val completenessForStats: CompletenessForStatsEntity? = null,
     override val sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
-    override val data: MissionFishActionData
+    override val data: MissionFishActionData,
+    override val missionIdString: String?
 ) : MissionAction(
     id = id,
     missionId = missionId,
@@ -101,7 +102,8 @@ class MissionFishAction(
                     controlGensDeMer = ControlGensDeMer.fromControlGensDeMerEntity(fishAction.controlGensDeMer),
                     controlNavigation = ControlNavigation.fromControlNavigationEntity(fishAction.controlNavigation),
                     controlAdministrative = ControlAdministrative.fromControlAdministrativeEntity(fishAction.controlAdministrative)
-                )
+                ),
+                missionIdString = fishAction.missionIdString
             )
         }
     }

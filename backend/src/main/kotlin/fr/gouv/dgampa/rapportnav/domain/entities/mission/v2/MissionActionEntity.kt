@@ -30,6 +30,7 @@ abstract class MissionActionEntity(
     override val isComplianceWithWaterRegulationsControl: Boolean? = null,
     override val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
     override val isSeafarersControl: Boolean? = null,
+    override val missionIdString: String? = null,
 
     @MandatoryForStats(
         enableIf = [

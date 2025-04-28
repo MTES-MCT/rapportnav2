@@ -104,13 +104,13 @@ class MissionRestController(
             createOrUpdateGeneralInfo.execute(
                 missionId = mission?.id!!,
                 generalInfo = MissionGeneralInfo2(
-                    id = mission.id, //TODO: To remove as soon as seq is created on table mission_general_info
                     missionId = mission.id,
                     startDateTimeUtc = body.startDateTimeUtc,
                     endDateTimeUtc = body.endDateTimeUtc,
                     missionTypes = body.missionTypes,
                     missionReportType = body.missionReportType,
                     reinforcementType = body.reinforcementType,
+                    missionIdString = body.missionIdString
                 ),
 
             )

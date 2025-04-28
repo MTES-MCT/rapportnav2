@@ -23,6 +23,8 @@ class MissionNavActionEntity(
     @MandatoryForStats
     override var missionId: Int,
 
+    override var missionIdString: String? = null,
+
     @MandatoryForStats
     override var actionType: ActionType,
     override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
@@ -135,7 +137,8 @@ class MissionNavActionEntity(
     isCompleteForStats = false,
     endDateTimeUtc = endDateTimeUtc,
     startDateTimeUtc = startDateTimeUtc,
-    source = MissionSourceEnum.RAPPORTNAV
+    source = MissionSourceEnum.RAPPORTNAV,
+    missionIdString = missionIdString
 ), BaseMissionNavAction {
 
     override fun getActionId(): String {

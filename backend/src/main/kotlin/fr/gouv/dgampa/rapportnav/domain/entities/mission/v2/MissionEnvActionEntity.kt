@@ -39,6 +39,7 @@ data class MissionEnvActionEntity(
     override val isComplianceWithWaterRegulationsControl: Boolean? = null,
     override val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
     override val isSeafarersControl: Boolean? = null,
+    override val missionIdString: String? = null
 
     ) : MissionActionEntity(
     missionId = missionId,
@@ -50,7 +51,8 @@ data class MissionEnvActionEntity(
     isSeafarersControl = isSeafarersControl,
     isAdministrativeControl = isAdministrativeControl,
     isComplianceWithWaterRegulationsControl = isComplianceWithWaterRegulationsControl,
-    isSafetyEquipmentAndStandardsComplianceControl = isSafetyEquipmentAndStandardsComplianceControl
+    isSafetyEquipmentAndStandardsComplianceControl = isSafetyEquipmentAndStandardsComplianceControl,
+    missionIdString = missionIdString
 ),
     BaseMissionEnvAction {
 
@@ -172,7 +174,8 @@ data class MissionEnvActionEntity(
             actionTargetType = action.actionTargetType,
             vehicleType = action.vehicleType,
             envInfractions = action.infractions,
-            coverMissionZone = action.coverMissionZone
+            coverMissionZone = action.coverMissionZone,
+            missionIdString = action.missionIdString
         )
     }
 }

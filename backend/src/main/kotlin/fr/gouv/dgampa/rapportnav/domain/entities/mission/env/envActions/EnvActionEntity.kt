@@ -42,5 +42,6 @@ abstract class EnvActionEntity(
     open val actionTargetType: ActionTargetTypeEnum? = null,
     open val vehicleType: VehicleTypeEnum? = null,
     open val infractions: List<InfractionEntity>? = listOf(),
-    open val coverMissionZone: Boolean? = null
+    open val coverMissionZone: Boolean? = null,
+    open val missionIdString: String? = null
 )

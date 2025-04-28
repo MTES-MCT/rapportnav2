@@ -10,11 +10,12 @@ import jakarta.persistence.*
 @Table(name = "mission_general_info")
 class MissionGeneralInfoModel(
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     var id: Int?,
 
-    @Column(name = "mission_id", nullable = false)
-    var missionId: Int = 0,
+    @Column(name = "mission_id", nullable = true)
+    var missionId: Int? = null,
 
     @Column(name = "distance_in_nautical_miles", nullable = true)
     var distanceInNauticalMiles: Float? = null,
@@ -55,6 +56,9 @@ class MissionGeneralInfoModel(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "jdp_type")
-    var jdpType: JdpTypeEnum? = null
+    var jdpType: JdpTypeEnum? = null,
+
+    @Column(name = "mission_id_string")
+    var missionIdString: String? = null,
 ) {
 }
