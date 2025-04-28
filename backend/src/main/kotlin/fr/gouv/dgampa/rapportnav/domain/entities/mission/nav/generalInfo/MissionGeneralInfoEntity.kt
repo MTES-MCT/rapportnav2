@@ -9,7 +9,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalIn
 
 data class MissionGeneralInfoEntity(
     var id: Int?,
-    var missionId: Int,
+    var missionId: Int? = null,
     var distanceInNauticalMiles: Float? = null,
     var consumedGOInLiters: Float? = null,
     var consumedFuelInLiters: Float? = null,
@@ -24,7 +24,8 @@ data class MissionGeneralInfoEntity(
     var missionReportType: MissionReportTypeEnum? = null,
     var reinforcementType: MissionReinforcementTypeEnum? = null,
     var interMinisterialServices: List<InterMinisterialServiceEntity>? = listOf(),
-    var jdpType: JdpTypeEnum? = null
+    var jdpType: JdpTypeEnum? = null,
+    var missionIdString: String? = null
 ) {
 
     companion object {
@@ -43,7 +44,8 @@ data class MissionGeneralInfoEntity(
                 missionReportType = model.missionReportType,
                 reinforcementType = model.reinforcementType,
                 interMinisterialServices = model.interMinisterialServices?.map { InterMinisterialServiceEntity.fromInterMinisterialServiceModel(it) }?: listOf(),
-                jdpType = model.jdpType
+                jdpType = model.jdpType,
+                missionIdString = model.missionIdString
             )
         }
     }
@@ -64,7 +66,8 @@ data class MissionGeneralInfoEntity(
             missionReportType = missionReportType,
             reinforcementType = reinforcementType,
             interMinisterialServices = interMinisterialServices?.map { it.toInterMinisterialServiceModel() },
-            jdpType = jdpType
+            jdpType = jdpType,
+            missionIdString = missionIdString
         )
     }
 }
