@@ -45,7 +45,7 @@ const MissionActionItemStatus: FC<{
                     />
                   </Stack.Item>
                   <Stack.Item grow={3}>
-                    <FormikSelectStatusReason label="Motif" name="reason" />
+                    <FormikSelectStatusReason label="Motif" name="reason" status={action.status} />
                   </Stack.Item>
                 </Stack>
               </Stack.Item>
