@@ -15,6 +15,7 @@ data class FishInfraction(val natinf: Int?, val infractionType: InfractionType?)
 class MissionFishActionEntity(
     override val id: Int?,
     override val missionId: Int,
+    override val missionIdString: String? = null,
     override val vesselId: Int? = null,
     override val vesselName: String? = null,
     override val internalReferenceNumber: String? = null,
@@ -232,7 +233,8 @@ class MissionFishActionEntity(
             isSafetyEquipmentAndStandardsComplianceControl = action.isSafetyEquipmentAndStandardsComplianceControl,
             isSeafarersControl = action.isSeafarersControl,
             observationsByUnit = action.observationsByUnit,
-            speciesQuantitySeized = action.speciesQuantitySeized
+            speciesQuantitySeized = action.speciesQuantitySeized,
+            missionIdString = action.missionIdString
         )
     }
 }

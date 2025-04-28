@@ -19,7 +19,8 @@ class MissionEnvAction(
     override val controlsToComplete: List<ControlType>? = null,
     override val completenessForStats: CompletenessForStatsEntity? = null,
     override val sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
-    override val data: MissionEnvActionData
+    override val data: MissionEnvActionData,
+    override val missionIdString: String? = null
 ) : MissionAction(
     id = id,
     missionId = missionId,
@@ -28,7 +29,8 @@ class MissionEnvAction(
     summaryTags = summaryTags,
     source = source,
     controlsToComplete = controlsToComplete,
-    data = data
+    data = data,
+    missionIdString = missionIdString
 ) {
 
     companion object {
@@ -44,6 +46,7 @@ class MissionEnvAction(
                 actionType = envAction.actionType.toString().let { ActionType.valueOf(it) },
                 isCompleteForStats = envAction.isCompleteForStats,
                 completenessForStats = envAction.completenessForStats,
+                missionIdString = envAction.missionIdString,
                 data = MissionEnvActionData(
                     startDateTimeUtc = envAction.startDateTimeUtc,
                     endDateTimeUtc = envAction.endDateTimeUtc,

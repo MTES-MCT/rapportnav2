@@ -28,4 +28,5 @@ interface BaseMissionEnvAction {
     val coverMissionZone: Boolean?
     val formattedControlPlans: List<FormattedEnvActionControlPlan>?
     val availableControlTypesForInfraction: List<ControlType>?
+    val missionIdString: String?
 }

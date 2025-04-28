@@ -9,6 +9,7 @@ typealias FishAction = MissionAction
 data class MissionAction(
     val id: Int? = null,
     val missionId: Int,
+    val missionIdString: String? = null,
     val vesselId: Int? = null,
     val vesselName: String? = null,
     val internalReferenceNumber: String? = null,
