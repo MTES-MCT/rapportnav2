@@ -42,5 +42,5 @@ data class MissionModel(
     var controlUnitIdOwner: Int,
 
     @Column(name = "mission_id_string", nullable = false)
-    var missionIdString: UUID? = UUID.randomUUID()
+    var missionIdString: UUID? = null
 )
