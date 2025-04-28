@@ -1,5 +1,5 @@
 import React from 'react'
-import { ULAM_V2_HOME_PATH } from '@router/routes.tsx'
+import { PAM_V2_HOME_PATH, ULAM_V2_HOME_PATH } from '@router/routes.tsx'
 import { useParams } from 'react-router-dom'
 import useAuth from '../features/auth/hooks/use-auth.tsx'
 import MissionPageWrapper from '../features/common/components/layout/mission-page-wrapper.tsx'
@@ -15,7 +15,7 @@ const MissionPamPage: React.FC = () => {
   let { missionId, actionId } = useParams()
   const { navigateAndResetCache } = useAuth()
   const { exportMission, exportIsLoading } = useMissionReportExport(missionId)
-  const exitMission = async () => navigateAndResetCache(ULAM_V2_HOME_PATH, missionsKeys.all())
+  const exitMission = async () => navigateAndResetCache(PAM_V2_HOME_PATH, missionsKeys.all())
 
   return (
     <MissionPageWrapper
