@@ -24,7 +24,7 @@ data class MissionEnvInput(
                 missionTypes = missionEntity.missionTypes,
                 observationsByUnit = missionEntity.observationsByUnit,
                 resources = missionEntity.controlUnits.filter { it.id == controlUnitId }
-                    .flatMap { it.resources }
+                    .flatMap { it.resources!! }
             )
         }
     }
@@ -46,11 +46,11 @@ data class MissionEnvInput(
             hasMissionOrder = missionFromDb.hasMissionOrder,
             startDateTimeUtc = startDateTimeUtc ?: missionFromDb.startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc ?: missionFromDb.endDateTimeUtc,
-            missionTypes = missionTypes ?: missionFromDb.missionTypes,
+            missionTypes = missionTypes ?: missionFromDb.missionTypes ?: listOf(),
             observationsByUnit = observationsByUnit ?: missionFromDb.observationsByUnit,
             controlUnits = missionFromDb.controlUnits.map { controlUnit ->
                 controlUnit.takeIf { it.id != controlUnitId } ?: controlUnit.copy(
-                    resources = resources?.toMutableList() ?: controlUnit.resources.toMutableList()
+                    resources = resources?.toMutableList() ?: controlUnit.resources?.toMutableList()
                 )
             }
 
