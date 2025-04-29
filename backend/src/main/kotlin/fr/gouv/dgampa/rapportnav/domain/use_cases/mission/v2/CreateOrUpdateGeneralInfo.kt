@@ -5,7 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.Mission
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionNavInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import org.slf4j.LoggerFactory
 
@@ -44,12 +43,11 @@ class CreateOrUpdateGeneralInfo(
 
             if (generalInfo.isMissionNav()) {
                 updateMissionNav.execute(
-                    input = MissionNavInput(
-                        id = missionId,
-                        startDateTimeUtc = generalInfo.startDateTimeUtc,
-                        endDateTimeUtc = generalInfo.endDateTimeUtc,
-                        observationsByUnit = generalInfo.observations
-                    )
+                    missionId = missionId.toString(),
+                    startDateTimeUtc = generalInfo.startDateTimeUtc,
+                    endDateTimeUtc = generalInfo.endDateTimeUtc,
+                    observationsByUnit = generalInfo.observations,
+                    isDelete = false
                 )
 
             } else {

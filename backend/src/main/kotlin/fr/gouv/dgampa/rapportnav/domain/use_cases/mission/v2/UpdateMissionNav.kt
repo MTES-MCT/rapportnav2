@@ -3,10 +3,8 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionNavInput
-import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestErrorCode
-import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestException
 import org.slf4j.LoggerFactory
+import java.time.Instant
 
 @UseCase
 class UpdateMissionNav(
@@ -16,22 +14,30 @@ class UpdateMissionNav(
 
     private val logger = LoggerFactory.getLogger(UpdateMissionNav::class.java)
 
-    fun execute(input: MissionNavInput) : MissionNavEntity? {
+    fun execute(missionId: String, startDateTimeUtc: Instant?, endDateTimeUtc: Instant?, isDelete: Boolean?, observationsByUnit: String?) : MissionNavEntity? {
 
-        if (input.id === null) throw BackendRequestException(message = "ID for input is missing", code = BackendRequestErrorCode.BODY_MISSING_DATA)
+        val missionFromDb = getNavMissionById2.execute(missionId) ?: return null
 
-        val missionFromDb = getNavMissionById2.execute(input.id.toString()) ?: return null
-        val missionFromDbInput = MissionNavInput.fromMissionEntity(missionFromDb)
+        val navEntity = missionFromDb.toMissionNavEntity(
+            startDateTimeUtc = startDateTimeUtc,
+            endDateTimeUtc = endDateTimeUtc,
+            isDeleted = isDelete,
+            observationsByUnit = observationsByUnit
+        )
 
-        if (input.equals(missionFromDbInput)) return null
+        if (missionFromDb.equalsInput(
+            startDateTimeUtc = startDateTimeUtc,
+            endDateTimeUtc = endDateTimeUtc,
+            isDeleted = isDelete,
+            observationsByUnit = observationsByUnit
+        )) return navEntity
 
         try {
-            val entity = input.toMissionNavEntity(missionFromDb)
-            val updatedMission = repository.save(entity.toMissionModel())
+            val updatedMission = repository.save(navEntity.toMissionModel())
             return MissionNavEntity.fromMissionModel(updatedMission)
         }
         catch (e: Exception) {
-            logger.error("Error while updating mission nav with id : ${input.id}", e)
+            logger.error("Error while updating mission nav with id : ${missionId}", e)
             return null
         }
     }
