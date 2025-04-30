@@ -19,8 +19,7 @@ class CreateOrUpdateGeneralInfo(
 ) {
     private val logger = LoggerFactory.getLogger(CreateOrUpdateGeneralInfo::class.java)
 
-    fun execute(missionId: Int, generalInfo: MissionGeneralInfo2): MissionGeneralInfoEntity2? {
-
+    fun execute(missionId: String, generalInfo: MissionGeneralInfo2): MissionGeneralInfoEntity2? {
         try {
             val entityToSave = generalInfo.toMissionGeneralInfoEntity(missionId)
             val entityAlreadySaved = getGeneralInfo2.execute(missionId)
@@ -37,13 +36,14 @@ class CreateOrUpdateGeneralInfo(
                 // update crew table
                 processMissionCrew.execute(
                     missionId=missionId,
-                    crew = generalInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty()
+                    crew = generalInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty(),
+                    missionIdString = missionId
                 )
             }
 
             if (generalInfo.isMissionNav()) {
                 updateMissionNav.execute(
-                    missionId = missionId.toString(),
+                    missionId = missionId,
                     startDateTimeUtc = generalInfo.startDateTimeUtc,
                     endDateTimeUtc = generalInfo.endDateTimeUtc,
                     observationsByUnit = generalInfo.observations,
@@ -54,7 +54,7 @@ class CreateOrUpdateGeneralInfo(
                 // patch MonitorEnv fields through API
                 updateMissionEnv.execute(
                     input = MissionEnvInput(
-                        missionId = missionId,
+                        missionId = missionId.toInt(),
                         startDateTimeUtc = generalInfo.startDateTimeUtc,
                         endDateTimeUtc = generalInfo.endDateTimeUtc,
                         missionTypes = generalInfo.missionTypes,

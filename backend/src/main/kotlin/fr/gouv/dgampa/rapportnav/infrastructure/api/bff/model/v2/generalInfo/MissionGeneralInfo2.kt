@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.generalInfo.InterMinisterialService
 import java.time.Instant
@@ -67,10 +68,12 @@ data class MissionGeneralInfo2(
         }
     }
 
-    fun toMissionGeneralInfoEntity(missionId: Int): MissionGeneralInfoEntity {
+    fun toMissionGeneralInfoEntity(missionId: String): MissionGeneralInfoEntity {
+
+        val idAsInt = if (!isValidUUID(missionId)) missionId.toInt() else null
         return MissionGeneralInfoEntity(
             id = id,
-            missionId = missionId,
+            missionId = idAsInt,
             distanceInNauticalMiles = distanceInNauticalMiles,
             consumedGOInLiters = consumedGOInLiters,
             consumedFuelInLiters = consumedFuelInLiters,

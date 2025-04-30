@@ -71,7 +71,7 @@ class GetEnvMissionById(
     fun execute(missionId: Int, inputEnvMission: MissionEntity? = null): ExtendedEnvMissionEntity? {
 
         try {
-            val envMission: MissionEntity? = inputEnvMission ?: monitorEnvApiRepo.findMissionById(missionId)
+            val envMission: MissionEntity? = inputEnvMission ?: monitorEnvApiRepo.findMissionById(missionId.toString())
             var mission = getMissionWithControls(envMission)
             return mission
         } catch (e: Exception) {

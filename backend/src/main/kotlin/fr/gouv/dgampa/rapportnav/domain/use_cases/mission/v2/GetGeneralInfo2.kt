@@ -9,6 +9,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEn
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetServiceByControlUnit
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.crew.GetAgentsCrewByMissionIdString
+import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import org.slf4j.LoggerFactory
 
 @UseCase
@@ -16,11 +18,13 @@ class GetGeneralInfo2(
     private val getServiceByControlUnit: GetServiceByControlUnit,
     private val getAgentsCrewByMissionId: GetAgentsCrewByMissionId,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
+    private val getAgentsCrewByMissionIdString: GetAgentsCrewByMissionIdString,
+    private val getMissionGeneralInfoByMissionIdString: GetMissionGeneralInfoByMissionIdString
 ) {
     private val logger = LoggerFactory.getLogger(GetGeneralInfo2::class.java)
 
     fun execute(
-        missionId: Int,
+        missionId: String,
         controlUnits: List<LegacyControlUnitEntity>? = null
     ): MissionGeneralInfoEntity2 {
         return MissionGeneralInfoEntity2(
@@ -30,18 +34,28 @@ class GetGeneralInfo2(
         )
     }
 
-    private fun fetchGeneralInfo(missionId: Int): MissionGeneralInfoEntity? {
+    private fun fetchGeneralInfo(missionId: String): MissionGeneralInfoEntity? {
         return try {
-            getMissionGeneralInfoByMissionId.execute(missionId)
+            if (isValidUUID(missionId)) {
+                getMissionGeneralInfoByMissionIdString.execute(missionId)
+            } else {
+                getMissionGeneralInfoByMissionId.execute(missionId.toInt())
+            }
+
         } catch (e: Exception) {
             logger.error("Error fetching Nav general info for missionId: {}", missionId, e)
             throw e
         }
     }
 
-    fun fetchCrew(missionId: Int): List<MissionCrewEntity> {
+    fun fetchCrew(missionId: String): List<MissionCrewEntity> {
         return try {
-            getAgentsCrewByMissionId.execute(missionId)
+            if (isValidUUID(missionId)) {
+                getAgentsCrewByMissionIdString.execute(missionId)
+            } else {
+                getAgentsCrewByMissionId.execute(missionId.toInt())
+            }
+
         } catch (e: Exception) {
             logger.error("Error fetching Nav crew for missionId: {}", missionId, e)
             emptyList()

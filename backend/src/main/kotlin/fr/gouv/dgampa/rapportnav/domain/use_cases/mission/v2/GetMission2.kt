@@ -13,15 +13,16 @@ class GetMission2(
     private val getEnvMissionById2: GetEnvMissionById2,
     private val getNavMissionById2: GetNavMissionById2
 ) {
-    fun execute(missionId: Int? = null, envMission: MissionEntity? = null): MissionEntity2? {
-        val mission = envMission ?: missionId?.let { getEnvMissionById2.execute(it) ?: getNavMissionById2.execute(it.toString()) } ?: return null
-        val id = mission.id ?: return null
+    fun execute(missionId: String? = null, envMission: MissionEntity? = null): MissionEntity2? {
+        val mission = envMission ?: missionId?.let { getEnvMissionById2.execute(it) ?: getNavMissionById2.execute(it) } ?: return null
 
-        val actions = getMissionAction.execute(missionId = id)
+        val id = if (mission.missionIdString !== null) mission.missionIdString else mission.id.toString()
+
+        val actions = getMissionAction.execute(missionId = id.toInt())
         val generalInfos = getGeneralInfos2.execute(missionId = id, controlUnits = mission.controlUnits)
 
         return MissionEntity2(
-            id = id,
+            id = id.toIntOrNull() ?: 0, // TODO : TO REMOVE AS SOON AS POSSIBLE (STEP3 POSSIBLE)
             data = mission,
             actions = actions,
             generalInfos = generalInfos

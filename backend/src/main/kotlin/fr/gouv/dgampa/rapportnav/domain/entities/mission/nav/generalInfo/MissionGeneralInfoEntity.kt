@@ -9,7 +9,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalIn
 
 data class MissionGeneralInfoEntity(
     var id: Int?,
-    var missionId: Int,
+    var missionId: Int? = null,
     var distanceInNauticalMiles: Float? = null,
     var consumedGOInLiters: Float? = null,
     var consumedFuelInLiters: Float? = null,
