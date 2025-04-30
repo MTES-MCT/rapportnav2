@@ -55,6 +55,9 @@ class MissionGeneralInfoModel(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "jdp_type")
-    var jdpType: JdpTypeEnum? = null
+    var jdpType: JdpTypeEnum? = null,
+
+    @Column(name = "mission_id_string", nullable = true)
+    var missionIdString: String? = null,
 ) {
 }
