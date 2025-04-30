@@ -34,7 +34,8 @@ abstract class MissionAction(
     open val controlsToComplete: List<ControlType>? = null,
     open val completenessForStats: CompletenessForStatsEntity? = null,
     open val sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
-    open val data: MissionActionData? = null
+    open val data: MissionActionData? = null,
+    open val missionIdString: String? = null
 ){
     companion object {
         fun fromMissionActionEntity(action: MissionActionEntity?): MissionAction? {

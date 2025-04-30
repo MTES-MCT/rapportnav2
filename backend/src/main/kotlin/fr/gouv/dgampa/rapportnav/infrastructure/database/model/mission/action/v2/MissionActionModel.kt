@@ -119,7 +119,10 @@ data class MissionActionModel(
     val status: String? = null,
 
     @Column(name = "reason", nullable = true)
-    var reason: String? = null
+    var reason: String? = null,
+
+    @Column(name = "mission_id_string", nullable = true)
+    var missionIdString: String? = null,
 ) {
 
     companion object {
@@ -159,7 +162,8 @@ data class MissionActionModel(
             nbOfVesselsTrackedWithoutIntervention = action.nbOfVesselsTrackedWithoutIntervention,
             nbAssistedVesselsReturningToShore = action.nbAssistedVesselsReturningToShore,
             status = action.status?.toString(),
-            reason = action.reason?.toString()
+            reason = action.reason?.toString(),
+            missionIdString = action.missionIdString
         )
     }
     override fun hashCode(): Int {
