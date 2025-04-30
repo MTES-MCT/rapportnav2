@@ -21,9 +21,10 @@ class ProcessMissionCrew(
         var databaseMissionCrews: List<MissionCrewEntity>
 
         if (isValidUUID(missionId)) {
-             databaseMissionCrews = getAgentsCrewByMissionId.execute(missionId.toInt())
+            databaseMissionCrews = getAgentsCrewByMissionIdString.execute(missionId)
+
         } else {
-             databaseMissionCrews = getAgentsCrewByMissionIdString.execute(missionId)
+            databaseMissionCrews = getAgentsCrewByMissionId.execute(missionId.toInt())
         }
 
         val toDeleteCrews = databaseMissionCrews.filter { !crewIds.contains(it.id) }
