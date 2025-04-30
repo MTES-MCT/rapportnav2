@@ -10,10 +10,9 @@ import { ActionType } from '../../../common/types/action-type'
 import { ModuleType } from '../../../common/types/module-type'
 import { TimelineDropdownItem } from '../../hooks/use-timeline'
 import MissionTimelineDropdownWrapper from '../layout/mission-timeline-dropdown-wrapper'
-import { v4 as uuidv4 } from 'uuid'
 import { MissionNavAction } from '../../../common/types/mission-action.ts'
 import { useNavigate } from 'react-router-dom'
-import { PAM_V2_HOME_PATH } from '@router/routes.tsx'
+import { navigateToActionId } from '@router/routes.tsx'
 
 type MissionTimelineAddActionProps = {
   missionId: number
@@ -39,8 +38,7 @@ function MissionTimelineAddAction({
       onSuccess: (data: MissionNavAction) => {
         const id = data?.data?.id
         if (id) {
-          const url = `${PAM_V2_HOME_PATH}/${missionId}/${id}`
-          navigate(url)
+          navigateToActionId(id, navigate)
         }
         if (onSubmit && navigator.onLine) {
           onSubmit(id)

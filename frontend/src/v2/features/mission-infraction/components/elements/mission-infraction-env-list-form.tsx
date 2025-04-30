@@ -35,7 +35,7 @@ const MissionInfractionEnvList: React.FC<MissionInfractionEnvListProps> = ({
         onSubmit={handleAdd}
         actionTargetType={actionTargetType}
         availableControlTypes={availableControlTypes}
-        isDisabled={fieldArray.form.values.infractions.length >= (max ?? DEFAULT_MAX)}
+        isDisabled={fieldArray.form.values.infractions?.length >= (max ?? DEFAULT_MAX)}
       />
       {fieldArray.form.values.infractions?.map((byTarget: InfractionByTarget, index: number) => (
         <div key={`${name}-${index}`} style={{ marginBottom: '.2em' }}>

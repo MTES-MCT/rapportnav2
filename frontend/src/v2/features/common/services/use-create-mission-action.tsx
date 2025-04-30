@@ -1,17 +1,20 @@
 import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
 
 import axios from '../../../../query-client/axios'
-import { MissionAction, MissionNavAction } from '../types/mission-action'
+import { MissionNavAction } from '../types/mission-action'
 import { actionsKeys, missionsKeys } from './query-keys.ts'
 import { useOnlineManager } from '../hooks/use-online-manager.tsx'
 import { Mission2 } from '../types/mission-types.ts'
 import { NetworkSyncStatus } from '../types/network-types.ts'
 import { v4 as uuidv4 } from 'uuid'
+import { navigateToActionId } from '@router/routes.tsx'
+import { useNavigate } from 'react-router-dom'
 
 const useCreateMissionActionMutation = (
   missionId: number
 ): UseMutationResult<MissionNavAction, Error, MissionNavAction, unknown> => {
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   const { isOnline } = useOnlineManager()
 
@@ -43,6 +46,9 @@ const useCreateMissionActionMutation = (
       )
       // Set individual action query for the optimistic object
       queryClient.setQueryData(actionsKeys.byId(optimisticAction.id), optimisticAction)
+
+      // redirect to the newly created action
+      navigateToActionId(optimisticAction.id, navigate)
 
       // return context
       return { previousActions, action: optimisticAction }

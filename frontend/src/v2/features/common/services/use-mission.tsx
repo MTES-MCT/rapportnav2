@@ -6,7 +6,6 @@ import { missionsKeys } from './query-keys.ts'
 const useGetMissionQuery = (missionId?: number) => {
   const fetchMission = (): Promise<Mission2> =>
     axios.get(`missions/${missionId}`).then(response => {
-      debugger
       return response.data
     })
 
