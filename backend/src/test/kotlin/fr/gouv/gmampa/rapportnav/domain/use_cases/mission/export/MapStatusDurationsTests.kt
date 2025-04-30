@@ -41,6 +41,11 @@ class MapStatusDurationsTests {
             ),
             NavActionStatusMock.create(
                 status = ActionStatusType.DOCKED,
+                reason = ActionStatusReason.MCO_AND_LOGISTICS,
+                startDateTimeUtc = Instant.parse("2022-01-02T15:00:00.000+01:00"),
+            ),
+            NavActionStatusMock.create(
+                status = ActionStatusType.DOCKED,
                 reason = ActionStatusReason.REPRESENTATION,
                 startDateTimeUtc = Instant.parse("2022-01-02T16:00:00.000+01:00"),
             ),
@@ -67,8 +72,13 @@ class MapStatusDurationsTests {
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
-                duration = 120.0,
+                duration = 60.0,
                 reason = ActionStatusReason.WEATHER
+            ),
+            GetStatusDurations.ActionStatusWithDuration(
+                status = ActionStatusType.DOCKED,
+                duration = 60.0,
+                reason = ActionStatusReason.MCO_AND_LOGISTICS
             ),
             GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
@@ -128,8 +138,9 @@ class MapStatusDurationsTests {
                     "autre" to 0,
                     "contrPol" to 0,
                     "maintenance" to 0,
-                    "meteo" to 120,
+                    "meteo" to 60,
                     "representation" to 120,
+                    "mco" to 60,
                     "total" to 240
                 ),
                 "unavailabilityDurations" to mapOf(

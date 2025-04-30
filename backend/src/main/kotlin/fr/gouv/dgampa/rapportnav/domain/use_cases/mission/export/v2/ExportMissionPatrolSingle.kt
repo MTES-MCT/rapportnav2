@@ -176,6 +176,7 @@ class ExportMissionPatrolSingle(
                 "\${admin}" to (durations["dockingDurations"]?.get("adminFormation")?.toString() ?: ""),
                 "\${autre}" to (durations["dockingDurations"]?.get("autre")?.toString() ?: ""),
                 "\${contrPort}" to (durations["dockingDurations"]?.get("contrPol")?.toString() ?: ""),
+                "\${mco}" to (durations["dockingDurations"]?.get("mco")?.toString() ?: ""),
 
                 "\${totalIndisponibilite}" to (durations["unavailabilityDurations"]?.get("total")?.toString() ?: ""),
                 "\${technique}" to (durations["unavailabilityDurations"]?.get("technique")?.toString() ?: ""),
