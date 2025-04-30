@@ -58,7 +58,7 @@ class ExportMissionPatrolMultipleZippedTest2 {
             )
         )
 
-        Mockito.`when`(getMission2.execute(missionId = mission2.id)).thenReturn(
+        Mockito.`when`(getMission2.execute(missionId = mission2.id.toString())).thenReturn(
             mission2
         )
 
@@ -72,7 +72,7 @@ class ExportMissionPatrolMultipleZippedTest2 {
     fun `should handle exception and return null`() {
         // Arrange: Force an exception when getMission.execute is called
         val missionIds = listOf(1)
-        Mockito.`when`(getMission2.execute(missionId = 1))
+        Mockito.`when`(getMission2.execute(missionId = "1"))
             .thenThrow(RuntimeException("Mock exception"))
 
         // Act: Call the method

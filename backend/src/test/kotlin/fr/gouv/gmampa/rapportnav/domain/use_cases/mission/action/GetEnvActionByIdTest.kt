@@ -37,7 +37,7 @@ class GetEnvActionByIdTest {
 
     @Test
     fun `test execute get Env action by id`() {
-        val missionId = 761
+        val missionId = "761"
         val actionId = UUID.randomUUID()
         val action = EnvActionControlMock.create(
             id = actionId,
@@ -55,7 +55,7 @@ class GetEnvActionByIdTest {
         )
         val response = MissionEnvActionEntity(
             id = actionId,
-            missionId = missionId,
+            missionId = missionId.toInt(),
             envActionType = ActionTypeEnum.CONTROL,
             startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
@@ -69,7 +69,7 @@ class GetEnvActionByIdTest {
             processEnvAction = processEnvAction,
             getEnvMissionById2 = getEnvMissionById2
         )
-        val missionEnvAction = getEnvActionById.execute(missionId = missionId, actionId = actionId.toString())
+        val missionEnvAction = getEnvActionById.execute(missionId = missionId.toInt(), actionId = actionId.toString())
 
         assertThat(missionEnvAction).isNotNull
         assertThat(missionEnvAction?.getActionId()).isEqualTo(actionId.toString())
