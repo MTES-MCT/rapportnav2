@@ -46,7 +46,8 @@ class CreateOrUpdateGeneralInfoTest {
         val entity = MissionGeneralInfoEntity(
             id = 1,
             missionId = missionId,
-            serviceId = serviceId
+            serviceId = serviceId,
+            missionIdString = missionId.toString()
         )
         return entity
     }
@@ -67,21 +68,21 @@ class CreateOrUpdateGeneralInfoTest {
             resources = emptyList(),
 
             )
-        val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId)
+        val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId.toString())
         val missionGeneralInfoModel = missionGeneralInfoEntity.toMissionGeneralInfoModel()
         val previousEntity = MissionGeneralInfoEntity2(
             data = createMissionGeneralInfoEntityData(missionId, oldServiceId)
         )
 
         // When
-        `when`(getGeneralInfo2.execute(missionId)).thenReturn(previousEntity)
+        `when`(getGeneralInfo2.execute(missionId.toString())).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
 
-        val result = createOrUpdateGeneralInfo.execute(missionId, missionGeneralInfo)
+        val result = createOrUpdateGeneralInfo.execute(missionId.toString(), missionGeneralInfo)
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
-        verify(updateMissionService2).execute(missionId=missionId, serviceId = newServiceId)
+        verify(updateMissionService2).execute(missionId=missionId.toString(), serviceId = newServiceId)
         verifyNoInteractions(processMissionCrew)
 
         assertEquals(
@@ -113,22 +114,25 @@ class CreateOrUpdateGeneralInfoTest {
             resources = emptyList(),
             crew = crew
             )
-        val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId)
+        val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId.toString())
         val missionGeneralInfoModel = missionGeneralInfoEntity.toMissionGeneralInfoModel()
         val previousEntity = MissionGeneralInfoEntity2(
             data = createMissionGeneralInfoEntityData(missionId, serviceId)
         )
         // When
-        `when`(getGeneralInfo2.execute(missionId)).thenReturn(previousEntity)
+        `when`(getGeneralInfo2.execute(missionId.toString())).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
 
-        val result = createOrUpdateGeneralInfo.execute(missionId, missionGeneralInfo)
+        val result = createOrUpdateGeneralInfo.execute(missionId.toString(), missionGeneralInfo)
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
 
         // Verify processMissionCrew was called with the exact missionId and crew
-        verify(processMissionCrew).execute(missionId, missionGeneralInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty())
+        verify(processMissionCrew).execute(
+            missionId.toString(),
+            missionGeneralInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty()
+        )
 
         val input = MissionEnvInput(
             missionId = missionId,
@@ -157,22 +161,22 @@ class CreateOrUpdateGeneralInfoTest {
             resources = emptyList(),
             crew = emptyList(),
         )
-        val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId)
+        val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId.toString())
         val missionGeneralInfoModel = missionGeneralInfoEntity.toMissionGeneralInfoModel()
         val previousEntity = MissionGeneralInfoEntity2(
             data = createMissionGeneralInfoEntityData(missionId, null)
         )
 
         // When
-        `when`(getGeneralInfo2.execute(missionId)).thenReturn(previousEntity)
+        `when`(getGeneralInfo2.execute(missionId.toString())).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
 
-        val result = createOrUpdateGeneralInfo.execute(missionId, missionGeneralInfo)
+        val result = createOrUpdateGeneralInfo.execute(missionId.toString(), missionGeneralInfo)
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
         verifyNoInteractions(updateMissionService2)
-        verify(processMissionCrew).execute(missionId, emptyList())
+        verify(processMissionCrew).execute(missionId.toString(), emptyList())
 
         val input = MissionEnvInput(
             missionId = missionId,
@@ -203,9 +207,9 @@ class CreateOrUpdateGeneralInfoTest {
         )
 
         // When
-        `when`(getGeneralInfo2.execute(missionId)).thenThrow(RuntimeException("Test exception"))
+        `when`(getGeneralInfo2.execute(missionId.toString())).thenThrow(RuntimeException("Test exception"))
 
-        val result = createOrUpdateGeneralInfo.execute(missionId, missionGeneralInfo)
+        val result = createOrUpdateGeneralInfo.execute(missionId.toString(), missionGeneralInfo)
 
         // Then
         assertNull(result)

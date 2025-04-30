@@ -15,7 +15,7 @@ class ProcessMissionCrew(
     private val deleteMissionCrew: DeleteMissionCrew,
     private val getAgentsCrewByMissionIdString: GetAgentsCrewByMissionIdString
 ) {
-    fun execute(missionId: String, crew:  List<MissionCrewEntity>, missionIdString: String? = null): List<MissionCrewEntity> {
+    fun execute(missionId: String, crew:  List<MissionCrewEntity>): List<MissionCrewEntity> {
         val crewIds = crew.map { it.id }
 
         var databaseMissionCrews: List<MissionCrewEntity>

@@ -36,7 +36,7 @@ class UpdateMissionEnvTest {
 
     @Test
     fun `execute should return null when MissionEntity are equal`() {
-        val missionId = 123
+        val missionId = "123"
 
         val mockResourceFromDb = LegacyControlUnitResourceEntity(
             id = 1,
@@ -62,7 +62,7 @@ class UpdateMissionEnvTest {
             isUnderJdp = false,
             isGeometryComputedFromControls = false,
             missionSource = MissionSourceEnum.RAPPORT_NAV,
-            id = missionId,
+            id = missionId.toInt(),
             observationsByUnit = "observation",
             endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             controlUnits = listOf(mockControlUnitFromDb)
@@ -75,7 +75,7 @@ class UpdateMissionEnvTest {
         )
 
         val input = MissionEnvInput(
-            missionId = missionId,
+            missionId = missionId.toInt(),
             missionTypes = listOf(MissionTypeEnum.SEA),
             startDateTimeUtc = Instant.parse("2019-09-08T21:00:00.000+01:00"),
             observationsByUnit = "observation",
@@ -101,7 +101,7 @@ class UpdateMissionEnvTest {
     @Test
     fun `execute should return MissionEnvEntity when MissionEntity are not equal`() {
 
-        val missionId = 123
+        val missionId = "123"
 
         val mockResourceFromDb = LegacyControlUnitResourceEntity(
             id = 1,
@@ -134,14 +134,14 @@ class UpdateMissionEnvTest {
             isUnderJdp = false,
             isGeometryComputedFromControls = false,
             missionSource = MissionSourceEnum.RAPPORT_NAV,
-            id = missionId,
+            id = missionId.toInt(),
             observationsByUnit = "observation",
             endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             controlUnits = listOf(mockControlUnitFromDb)
         )
 
         val input = MissionEnvInput(
-            missionId = missionId,
+            missionId = missionId.toInt(),
             missionTypes = listOf(MissionTypeEnum.SEA),
             startDateTimeUtc = Instant.parse("2019-09-08T21:00:00.000+01:00"),
             observationsByUnit = "observation updated",
@@ -167,7 +167,7 @@ class UpdateMissionEnvTest {
     @Test
     fun `execute should return MissionEnvEntity when MissionEntity are not equal as we updated resources`() {
 
-        val missionId = 123
+        val missionId = "123"
 
         val mockResourceFromDb = LegacyControlUnitResourceEntity(
             id = 1,
@@ -193,7 +193,7 @@ class UpdateMissionEnvTest {
             isUnderJdp = false,
             isGeometryComputedFromControls = false,
             missionSource = MissionSourceEnum.RAPPORT_NAV,
-            id = missionId,
+            id = missionId.toInt(),
             observationsByUnit = "observation",
             endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             controlUnits = listOf(mockControlUnitFromDb)
@@ -212,7 +212,7 @@ class UpdateMissionEnvTest {
         )
 
         val input = MissionEnvInput(
-            missionId = missionId,
+            missionId = missionId.toInt(),
             missionTypes = listOf(MissionTypeEnum.SEA),
             startDateTimeUtc = Instant.parse("2019-09-08T21:00:00.000+01:00"),
             observationsByUnit = "observation",
@@ -247,7 +247,7 @@ class UpdateMissionEnvTest {
     @Test
     fun `execute should not throw Exception when resources are empty`() {
 
-        val missionId = 123
+        val missionId = "123"
 
 
 
@@ -269,14 +269,14 @@ class UpdateMissionEnvTest {
             isUnderJdp = false,
             isGeometryComputedFromControls = false,
             missionSource = MissionSourceEnum.RAPPORT_NAV,
-            id = missionId,
+            id = missionId.toInt(),
             observationsByUnit = "observation",
             endDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             controlUnits = listOf(mockControlUnitFromDb)
         )
 
         val input = MissionEnvInput(
-            missionId = missionId,
+            missionId = missionId.toInt(),
             missionTypes = listOf(MissionTypeEnum.SEA),
             startDateTimeUtc = Instant.parse("2019-09-08T21:00:00.000+01:00"),
             observationsByUnit = "observation updated",
