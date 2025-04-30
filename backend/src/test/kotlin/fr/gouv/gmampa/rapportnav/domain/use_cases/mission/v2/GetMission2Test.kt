@@ -52,11 +52,11 @@ class GetMission2Test {
         val envMission = EnvMissionMock.create(id = 1)
 
         val actions = listOf(MissionNavActionEntityMock.create())
-        val generalInfos = MissionGeneralInfo2Mock.create().toMissionGeneralInfoEntity(missionId = 1)
+        val generalInfos = MissionGeneralInfo2Mock.create().toMissionGeneralInfoEntity(missionId = "1")
         val generalInfos2 = MissionGeneralInfoEntity2Mock.create(data = generalInfos)
 
         `when`(getMissionAction.execute(missionId = 1)).thenReturn(actions)
-        `when`(getGeneralInfos2.execute(missionId = 1, controlUnits = listOf())).thenReturn(generalInfos2)
+        `when`(getGeneralInfos2.execute(missionId = "1", controlUnits = listOf())).thenReturn(generalInfos2)
 
         val result = getMission2.execute(envMission = envMission)
 
@@ -72,14 +72,14 @@ class GetMission2Test {
         val mission = EnvMissionMock.create(id = 2)
 
         val actions = listOf(MissionNavActionEntityMock.create())
-        val generalInfos = MissionGeneralInfo2Mock.create().toMissionGeneralInfoEntity(missionId = 2)
+        val generalInfos = MissionGeneralInfo2Mock.create().toMissionGeneralInfoEntity(missionId = "2")
         val generalInfos2 = MissionGeneralInfoEntity2Mock.create(data = generalInfos)
 
-        `when`(getEnvMissionById2.execute(2)).thenReturn(mission)
+        `when`(getEnvMissionById2.execute("2")).thenReturn(mission)
         `when`(getMissionAction.execute(missionId = 2)).thenReturn(actions)
-        `when`(getGeneralInfos2.execute(missionId = 2, controlUnits = listOf())).thenReturn(generalInfos2)
+        `when`(getGeneralInfos2.execute(missionId = "2", controlUnits = listOf())).thenReturn(generalInfos2)
 
-        val result = getMission2.execute(missionId = 2)
+        val result = getMission2.execute(missionId = "2")
 
         assertNotNull(result)
         assertEquals(2, result?.id)
@@ -92,9 +92,9 @@ class GetMission2Test {
     fun `should return null when mission retrieved by ID has null id`() {
         val mission = EnvMissionMock.create(id = null)
 
-        `when`(getEnvMissionById2.execute(3)).thenReturn(mission)
+        `when`(getEnvMissionById2.execute("3")).thenReturn(mission)
 
-        val result = getMission2.execute(missionId = 3)
+        val result = getMission2.execute(missionId = "3")
 
         assertNull(result)
     }

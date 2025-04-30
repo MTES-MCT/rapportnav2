@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionReposito
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.*
+import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -24,7 +24,7 @@ class GetEnvMissionById2Test {
 
     @Test
     fun `execute should return extended mission from inputEnvMission`() {
-        val missionId = 761
+        val missionId = "761"
         // Given
         val missionEntity = MissionEntity(
             missionTypes = listOf(MissionTypeEnum.SEA),

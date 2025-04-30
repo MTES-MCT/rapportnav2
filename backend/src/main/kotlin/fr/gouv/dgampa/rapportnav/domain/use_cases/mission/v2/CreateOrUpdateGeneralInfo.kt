@@ -36,8 +36,7 @@ class CreateOrUpdateGeneralInfo(
                 // update crew table
                 processMissionCrew.execute(
                     missionId=missionId,
-                    crew = generalInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty(),
-                    missionIdString = missionId
+                    crew = generalInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty()
                 )
             }
 
