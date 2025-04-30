@@ -23,6 +23,8 @@ class MissionNavActionEntity(
     @MandatoryForStats
     override var missionId: Int,
 
+    override var missionIdString: String? = null,
+
     @MandatoryForStats
     override var actionType: ActionType,
     override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
@@ -193,7 +195,8 @@ class MissionNavActionEntity(
                 nbOfVesselsTrackedWithoutIntervention = model.nbOfVesselsTrackedWithoutIntervention,
                 nbAssistedVesselsReturningToShore = model.nbAssistedVesselsReturningToShore,
                 status = model.status?.let { ActionStatusType.valueOf(it) },
-                reason = model.reason?.let { ActionStatusReason.valueOf(it) }
+                reason = model.reason?.let { ActionStatusReason.valueOf(it) },
+                missionIdString = model.missionIdString
             )
         }
     }
