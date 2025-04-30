@@ -33,7 +33,8 @@ data class MissionGeneralInfo2(
     val observations: String? = null,
     val resources: List<LegacyControlUnitResource>? = listOf(),
     val interMinisterialServices : List<InterMinisterialService>? = listOf(),
-    val jdpType: JdpTypeEnum? = null
+    val jdpType: JdpTypeEnum? = null,
+    val missionIdString: String? = null
 ) {
     companion object {
         fun fromMissionGeneralInfoEntity(
@@ -60,14 +61,15 @@ data class MissionGeneralInfo2(
                     )
                 } ?: listOf(),
                 reinforcementType = generalInfo2?.data?.reinforcementType,
-                jdpType = generalInfo2?.data?.jdpType
+                jdpType = generalInfo2?.data?.jdpType,
+                missionIdString = generalInfo2?.data?.missionIdString
             )
         }
     }
 
     fun toMissionGeneralInfoEntity(missionId: Int): MissionGeneralInfoEntity {
         return MissionGeneralInfoEntity(
-            id = id ?: missionId,
+            id = id,
             missionId = missionId,
             distanceInNauticalMiles = distanceInNauticalMiles,
             consumedGOInLiters = consumedGOInLiters,
@@ -81,7 +83,8 @@ data class MissionGeneralInfo2(
             interMinisterialServices = interMinisterialServices?.map { it.toInterMinisterialServiceEntity() },
             missionReportType = missionReportType,
             reinforcementType = reinforcementType,
-            jdpType = jdpType
+            jdpType = jdpType,
+            missionIdString = missionIdString
         )
     }
 
