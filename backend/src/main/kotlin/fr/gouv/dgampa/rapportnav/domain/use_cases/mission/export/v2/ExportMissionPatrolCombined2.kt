@@ -32,7 +32,7 @@ class ExportMissionPatrolCombined2(
             var missions = mutableListOf<MissionEntity2>()
 
             for (missionId in missionIds) {
-                val mission = getMission2.execute(missionId = missionId)
+                val mission = getMission2.execute(missionId = missionId.toString())
                 if (mission != null) {
                     missions.add(mission)
                 }

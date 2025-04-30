@@ -67,7 +67,7 @@ class MissionRestController(
      */
     @GetMapping("{missionId}")
     fun getMissionById(
-        @PathVariable(name = "missionId") missionId: Int
+        @PathVariable(name = "missionId") missionId: String
     ): Mission2? {
         try {
             val mission = getMission2.execute(missionId = missionId)?: return null
@@ -101,19 +101,22 @@ class MissionRestController(
                 controlUnitIds = getControlUnitsForUser.execute()
             )
 
+            val missionId = if(body.isMissionNav()) mission?.data?.missionIdString else mission?.id.toString()
+
             createOrUpdateGeneralInfo.execute(
-                missionId = mission?.id!!,
+                missionId = missionId!!,
                 generalInfo = MissionGeneralInfo2(
-                    missionId = mission.id,
+                    missionId = mission?.id,
                     startDateTimeUtc = body.startDateTimeUtc,
                     endDateTimeUtc = body.endDateTimeUtc,
                     missionTypes = body.missionTypes,
                     missionReportType = body.missionReportType,
                     reinforcementType = body.reinforcementType,
+                    missionIdString = mission?.data?.missionIdString
                 ),
 
             )
-            return Mission2.fromMissionEntity(mission)
+            return mission?.let { Mission2.fromMissionEntity(it) }
         } catch (e: Exception) {
             logger.error("Error while creating MonitorEnv mission : ", e)
             return null

@@ -29,7 +29,7 @@ class GetEnvActionById(
     }
 
     private fun getEnvAction(missionId: Int, actionId: String): EnvActionEntity? {
-        return getEnvMissionById2.execute(missionId = missionId)?.envActions?.find { it.id.toString() == actionId }
+        return getEnvMissionById2.execute(missionId = missionId.toString())?.envActions?.find { it.id.toString() == actionId }
     }
 
 }

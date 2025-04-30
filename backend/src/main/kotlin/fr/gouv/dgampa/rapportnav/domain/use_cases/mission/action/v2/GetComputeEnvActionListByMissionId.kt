@@ -29,6 +29,6 @@ class GetComputeEnvActionListByMissionId(
     }
 
     private fun getEnvActionList(missionId: Int): List<EnvActionEntity> {
-        return getEnvMissionById2.execute(missionId = missionId)?.envActions ?: listOf()
+        return getEnvMissionById2.execute(missionId = missionId.toString())?.envActions ?: listOf()
     }
 }

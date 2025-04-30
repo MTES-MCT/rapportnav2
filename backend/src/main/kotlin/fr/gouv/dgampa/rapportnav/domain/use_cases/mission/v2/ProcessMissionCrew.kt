@@ -5,16 +5,26 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEnt
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.AddOrUpdateMissionCrew
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.DeleteMissionCrew
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.crew.GetAgentsCrewByMissionIdString
+import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 
 @UseCase
 class ProcessMissionCrew(
     private val getAgentsCrewByMissionId: GetAgentsCrewByMissionId,
     private val addOrUpdateMissionCrew: AddOrUpdateMissionCrew,
     private val deleteMissionCrew: DeleteMissionCrew,
+    private val getAgentsCrewByMissionIdString: GetAgentsCrewByMissionIdString
 ) {
-    fun execute(missionId: Int, crew:  List<MissionCrewEntity>): List<MissionCrewEntity> {
+    fun execute(missionId: String, crew:  List<MissionCrewEntity>, missionIdString: String? = null): List<MissionCrewEntity> {
         val crewIds = crew.map { it.id }
-        val databaseMissionCrews = getAgentsCrewByMissionId.execute(missionId)
+
+        var databaseMissionCrews: List<MissionCrewEntity>
+
+        if (isValidUUID(missionId)) {
+             databaseMissionCrews = getAgentsCrewByMissionId.execute(missionId.toInt())
+        } else {
+             databaseMissionCrews = getAgentsCrewByMissionIdString.execute(missionId)
+        }
 
         val toDeleteCrews = databaseMissionCrews.filter { !crewIds.contains(it.id) }
         val toSaveCrews = crew.filter { !databaseMissionCrews.contains(it) }
