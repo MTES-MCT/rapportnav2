@@ -80,6 +80,7 @@ class MissionGeneralInfo2Test {
         val missionId = 1
         val generalInfoEntity =
             MissionGeneralInfo2(
+                id = 1,
                 missionId = missionId,
                 serviceId = 3,
                 consumedGOInLiters = 2.5f,
@@ -92,7 +93,7 @@ class MissionGeneralInfo2Test {
             ).toMissionGeneralInfoEntity(missionId = missionId);
 
         assertThat(generalInfoEntity).isNotNull();
-        assertThat(generalInfoEntity.id).isEqualTo(missionId);
+        assertThat(generalInfoEntity.id).isEqualTo(1);
         assertThat(generalInfoEntity.missionId).isEqualTo(missionId);
         assertThat(generalInfoEntity.serviceId).isEqualTo(3);
         assertThat(generalInfoEntity.consumedGOInLiters).isEqualTo(2.5f);
