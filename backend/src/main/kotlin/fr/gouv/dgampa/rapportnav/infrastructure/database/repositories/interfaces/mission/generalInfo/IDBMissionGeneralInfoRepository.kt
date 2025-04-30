@@ -8,6 +8,8 @@ import java.util.*
 interface IDBMissionGeneralInfoRepository : JpaRepository<MissionGeneralInfoModel, UUID> {
     fun findByMissionId(missionId: Int): Optional<MissionGeneralInfoModel>
 
+    fun findByMissionIdString(missionIdString: String): Optional<MissionGeneralInfoModel>
+
     fun findById(id: Int): Optional<MissionGeneralInfoModel>
 
     fun existsById(id: Int): Boolean

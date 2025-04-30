@@ -5,9 +5,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEnt
 data class MissionCrew(
     val id: Int? = null,
     val agent: Agent,
-    val missionId: Int,
+    val missionId: Int? = null,
     val comment: String? = null,
-    val role: AgentRole? = null
+    val role: AgentRole? = null,
+    val missionIdString: String? = null
 ) {
 
     companion object {
@@ -17,7 +18,8 @@ data class MissionCrew(
                 missionId = crew.missionId,
                 agent = Agent.fromAgentEntity(crew.agent),
                 role = crew.role?.let { AgentRole.fromAgentRoleEntity(it) },
-                comment = crew.comment
+                comment = crew.comment,
+                missionIdString = crew.missionIdString
             )
         }
     }
@@ -28,7 +30,8 @@ data class MissionCrew(
             agent = agent.toAgentEntity(),
             missionId = missionId,
             comment = comment,
-            role = role?.toAgentRoleEntity()
+            role = role?.toAgentRoleEntity(),
+            missionIdString = missionIdString
         )
     }
 

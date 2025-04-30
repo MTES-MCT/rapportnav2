@@ -36,7 +36,7 @@ class APIEnvMissionRepository(
 
     private val client = clientFactory.create();
 
-    override fun findMissionById(missionId: Int): MissionEntity? {
+    override fun findMissionById(missionId: String): MissionEntity? {
         val url = URI.create("$host/api/v1/missions/$missionId")
 
         logger.info("Sending GET request for Env mission id=$missionId. URL: $url")
