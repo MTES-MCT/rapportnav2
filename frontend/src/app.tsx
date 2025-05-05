@@ -6,7 +6,7 @@ import { FC, useEffect, useState } from 'react'
 import apolloClient, { apolloCache } from './apollo-client/apollo-client.ts'
 import UIThemeWrapper from './features/common/components/ui/ui-theme-wrapper'
 import ErrorPage from './pages/error-page.tsx'
-import { queryClient, localStoragePersister } from './query-client'
+import { queryClient, persistOptions } from './query-client'
 import { router } from './router/router'
 import RouterProvider from './router/router-provider'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
@@ -33,7 +33,7 @@ const App: FC = () => {
       const cache = apolloCache
       setClient(apolloClient)
 
-      // react-query cache
+      // apollo cache persist
       let newPersistor = new CachePersistor({
         cache,
         storage: new LocalStorageWrapper(window.localStorage),
@@ -58,12 +58,12 @@ const App: FC = () => {
         <UIThemeWrapper>
           <PersistQueryClientProvider //
             client={queryClient}
-            persistOptions={{ persister: localStoragePersister }}
+            persistOptions={persistOptions}
             onSuccess={() => {
-              // resume mutations after initial restore from localStorage was successful
-              // queryClient.resumePausedMutations().then(() => {
-              // queryClient.invalidateQueries()
-              // })
+              console.log('Persistence restored successfully')
+            }}
+            onError={() => {
+              console.log('Persistence restored failed')
             }}
           >
             {/*<FlagProvider config={config}>*/}

@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/react'
+import { wrapCreateBrowserRouterV6 } from '@sentry/react'
 import { createBrowserRouter } from 'react-router-dom'
 import ErrorPage from '../pages/error-page.tsx'
 import Login from '../pages/login.tsx'
@@ -22,7 +22,7 @@ import {
   ULAM_V2_HOME_PATH
 } from '@router/routes.tsx'
 
-const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(createBrowserRouter)
+const sentryCreateBrowserRouter = wrapCreateBrowserRouterV6(createBrowserRouter)
 
 export const router = sentryCreateBrowserRouter([
   {
