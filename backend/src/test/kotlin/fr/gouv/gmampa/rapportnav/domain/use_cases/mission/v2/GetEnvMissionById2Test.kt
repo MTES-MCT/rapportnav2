@@ -24,7 +24,7 @@ class GetEnvMissionById2Test {
 
     @Test
     fun `execute should return extended mission from inputEnvMission`() {
-        val missionId = "761"
+        val missionId = 761
         // Given
         val missionEntity = MissionEntity(
             missionTypes = listOf(MissionTypeEnum.SEA),

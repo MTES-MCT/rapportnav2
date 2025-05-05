@@ -9,7 +9,7 @@ import java.time.Instant
 
 interface IEnvMissionRepository {
 
-    fun findMissionById(missionId: String): MissionEntity?
+    fun findMissionById(missionId: Int): MissionEntity?
     fun findAllMissions(
         pageNumber: Int? = null,
         pageSize: Int? = null,
