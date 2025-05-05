@@ -34,7 +34,8 @@ class CreateMission(
                     isDeleted = missionNav.isDeleted,
                     isGeometryComputedFromControls = false,
                     missionSource = missionNav.missionSource ?: MissionSourceEnum.RAPPORT_NAV,
-                    hasMissionOrder = false
+                    hasMissionOrder = false,
+                    missionIdString = missionNav.missionIdString
                 )
             )
         }
@@ -55,6 +56,7 @@ class CreateMission(
                 missionSource = missionEnv.missionSource!!,
                 controlUnits = missionEnv.controlUnits!!,
                 isDeleted = missionEnv.isDeleted!!,
+                missionIdString = missionEnv.id.toString()
             )
         )
     }
