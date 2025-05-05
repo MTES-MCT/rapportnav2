@@ -6,7 +6,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-dVElco ghtHRR"
+        class="sc-irwjCN kxMCTN"
       >
         <div
           class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
@@ -23,7 +23,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <p
-                  class="sc-bjhZkk sc-dBCvnn hChicE bCyINT"
+                  class="sc-dBCvnn sc-fvGHPC duolFt iaeLeg"
                   color="#E5E5EB"
                   font-size="22"
                   weight="bold"
@@ -41,7 +41,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                     class="sc-huvZk bfHcAT Element-Tag"
                   >
                     <p
-                      class="sc-bjhZkk sc-bpSLYx gGfxVh bfYLti"
+                      class="sc-dBCvnn sc-djWYAM ivjEcc DUcra"
                       color="#FFFFFF"
                       font-size="13"
                       weight="medium"
@@ -103,7 +103,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                       </svg>
                     </span>
                     <p
-                      class="sc-bjhZkk sc-bpSLYx dTJwWF bfYLti"
+                      class="sc-dBCvnn sc-djWYAM gOnyhk DUcra"
                       color="#3B4559"
                       font-size="13"
                       weight="medium"
@@ -150,7 +150,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                       </svg>
                     </span>
                     <p
-                      class="sc-bjhZkk sc-bpSLYx dTJwWF bfYLti"
+                      class="sc-dBCvnn sc-djWYAM gOnyhk DUcra"
                       color="#3B4559"
                       font-size="13"
                       weight="medium"
@@ -251,7 +251,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-dVElco ghtHRR"
+      class="sc-irwjCN kxMCTN"
     >
       <div
         class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
@@ -268,7 +268,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-bjhZkk sc-dBCvnn hChicE bCyINT"
+                class="sc-dBCvnn sc-fvGHPC duolFt iaeLeg"
                 color="#E5E5EB"
                 font-size="22"
                 weight="bold"
@@ -286,7 +286,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                   class="sc-huvZk bfHcAT Element-Tag"
                 >
                   <p
-                    class="sc-bjhZkk sc-bpSLYx gGfxVh bfYLti"
+                    class="sc-dBCvnn sc-djWYAM ivjEcc DUcra"
                     color="#FFFFFF"
                     font-size="13"
                     weight="medium"
@@ -348,7 +348,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                     </svg>
                   </span>
                   <p
-                    class="sc-bjhZkk sc-bpSLYx dTJwWF bfYLti"
+                    class="sc-dBCvnn sc-djWYAM gOnyhk DUcra"
                     color="#3B4559"
                     font-size="13"
                     weight="medium"
@@ -395,7 +395,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                     </svg>
                   </span>
                   <p
-                    class="sc-bjhZkk sc-bpSLYx dTJwWF bfYLti"
+                    class="sc-dBCvnn sc-djWYAM gOnyhk DUcra"
                     color="#3B4559"
                     font-size="13"
                     weight="medium"
