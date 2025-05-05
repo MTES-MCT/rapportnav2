@@ -75,7 +75,7 @@ class GetMission2Test {
         val generalInfos = MissionGeneralInfo2Mock.create().toMissionGeneralInfoEntity(missionId = "2")
         val generalInfos2 = MissionGeneralInfoEntity2Mock.create(data = generalInfos)
 
-        `when`(getEnvMissionById2.execute("2")).thenReturn(mission)
+        `when`(getEnvMissionById2.execute(2)).thenReturn(mission)
         `when`(getMissionAction.execute(missionId = 2)).thenReturn(actions)
         `when`(getGeneralInfos2.execute(missionId = "2", controlUnits = listOf())).thenReturn(generalInfos2)
 
@@ -92,7 +92,7 @@ class GetMission2Test {
     fun `should return null when mission retrieved by ID has null id`() {
         val mission = EnvMissionMock.create(id = null)
 
-        `when`(getEnvMissionById2.execute("3")).thenReturn(mission)
+        `when`(getEnvMissionById2.execute(3)).thenReturn(mission)
 
         val result = getMission2.execute(missionId = "3")
 

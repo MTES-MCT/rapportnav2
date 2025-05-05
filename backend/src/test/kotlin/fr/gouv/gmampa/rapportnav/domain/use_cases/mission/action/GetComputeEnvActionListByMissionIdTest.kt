@@ -37,7 +37,7 @@ class GetComputeEnvActionListByMissionIdTest {
 
     @Test
     fun `test execute get Env action list  by mission id`() {
-        val missionId = "761"
+        val missionId = 761
         val actionId = UUID.randomUUID()
 
         val missionEntity = MissionEntity(
@@ -55,7 +55,7 @@ class GetComputeEnvActionListByMissionIdTest {
 
         val response = MissionEnvActionEntity(
             id = actionId,
-            missionId = missionId.toInt(),
+            missionId = missionId,
             envActionType = ActionTypeEnum.CONTROL,
             startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
@@ -69,7 +69,7 @@ class GetComputeEnvActionListByMissionIdTest {
             getEnvMissionById2 = getEnvMissionById2,
             processEnvAction = processEnvAction
         )
-        val envActions = getEnvActionListById.execute(missionId = missionId.toInt())
+        val envActions = getEnvActionListById.execute(missionId = missionId)
         assertThat(envActions).isNotNull
         assertThat(envActions.size).isEqualTo(1)
         assertThat(envActions.get(0).id).isEqualTo(actionId)

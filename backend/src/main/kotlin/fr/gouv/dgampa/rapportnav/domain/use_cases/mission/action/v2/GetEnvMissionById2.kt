@@ -13,7 +13,7 @@ class GetEnvMissionById2(
     private val logger = LoggerFactory.getLogger(GetEnvMissionById2::class.java)
 
     @Cacheable(value = ["envMission2"], key = "#missionId")
-    fun execute(missionId: String?): MissionEntity? {
+    fun execute(missionId: Int?): MissionEntity? {
         require(missionId != null)  {
             logger.error("GetEnvMissionById received a null missionId")
             throw IllegalArgumentException("GetEnvMissionById should not receive null missionId")

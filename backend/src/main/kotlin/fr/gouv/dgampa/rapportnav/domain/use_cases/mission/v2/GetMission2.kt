@@ -14,7 +14,7 @@ class GetMission2(
     private val getNavMissionById2: GetNavMissionById2
 ) {
     fun execute(missionId: String? = null, envMission: MissionEntity? = null): MissionEntity2? {
-        val mission = envMission ?: missionId?.let { getEnvMissionById2.execute(it) ?: getNavMissionById2.execute(it) } ?: return null
+        val mission = envMission ?: missionId?.let { getEnvMissionById2.execute(it.toInt()) ?: getNavMissionById2.execute(it) } ?: return null
 
         val id = if (mission.missionIdString !== null) mission.missionIdString else if (mission.id !== null) mission.id.toString() else return null
 
