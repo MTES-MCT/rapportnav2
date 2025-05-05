@@ -74,7 +74,7 @@ class GetEnvMissionByIdTest {
         cacheManager.getCache("envMission")?.clear()
 
         // Mock the repository and service methods
-        `when`(monitorEnvApiRepo.findMissionById("1")).thenReturn(mockMissionEntity)
+        `when`(monitorEnvApiRepo.findMissionById(1)).thenReturn(mockMissionEntity)
         `when`(
             attachControlsToActionControl.toEnvAction(envControlActionId.toString(), extendedEnvActionEntity)
         ).thenReturn(
@@ -85,7 +85,7 @@ class GetEnvMissionByIdTest {
     @Test
     fun `execute should return extended mission from inputEnvMission`() {
         // Given
-        val missionId = "1"
+        val missionId = 1
         val inputEnvMission = EnvMissionMock.create()
         val extendedEnvMission = ExtendedEnvMissionEntity.fromEnvMission(inputEnvMission)
 
@@ -93,7 +93,7 @@ class GetEnvMissionByIdTest {
         `when`(monitorEnvApiRepo.findMissionById(missionId)).thenReturn(inputEnvMission)
 
         // When
-        val result = getEnvMissionById.execute(missionId.toInt(), inputEnvMission)
+        val result = getEnvMissionById.execute(missionId, inputEnvMission)
 
         // Then
         assertNotNull(result)
@@ -104,7 +104,7 @@ class GetEnvMissionByIdTest {
     @Test
     fun `execute should return extended mission from repository`() {
         // Given
-        val missionId = "1"
+        val missionId = 1
         val envMissionFromRepository = EnvMissionMock.create()
         val extendedEnvMission = ExtendedEnvMissionEntity.fromEnvMission(envMissionFromRepository)
 
@@ -112,7 +112,7 @@ class GetEnvMissionByIdTest {
         `when`(monitorEnvApiRepo.findMissionById(missionId)).thenReturn(envMissionFromRepository)
 
         // When
-        val result = getEnvMissionById.execute(missionId.toInt())
+        val result = getEnvMissionById.execute(missionId)
 
         // Then
         assertNotNull(result)
@@ -121,10 +121,10 @@ class GetEnvMissionByIdTest {
 
     @Test
     fun `test execute returns ExtendedEnvMissionEntity`() {
-        val missionId = "1"
+        val missionId = 1
 
         // First call
-        val result = getEnvMissionById.execute(missionId.toInt())
+        val result = getEnvMissionById.execute(missionId)
         assertThat(result).isEqualTo(extendedEnvMissionEntity)
 
         // Verify repository method was called
@@ -133,13 +133,13 @@ class GetEnvMissionByIdTest {
 
     @Test
     fun `test execute uses cache`() {
-        val missionId = "1"
+        val missionId = 1
 
         // First call to cache the result
-        getEnvMissionById.execute(missionId.toInt())
+        getEnvMissionById.execute(missionId)
 
         // Second call
-        val result = getEnvMissionById.execute(missionId.toInt())
+        val result = getEnvMissionById.execute(missionId)
         assertThat(result).isEqualTo(extendedEnvMissionEntity)
 
         // Verify repository method was only called once
@@ -150,11 +150,11 @@ class GetEnvMissionByIdTest {
     fun `test execute returns null when repository throws exception`() {
         // Clear the cache and setup repository to throw an exception
         cacheManager.getCache("envMission")?.clear()
-        `when`(monitorEnvApiRepo.findMissionById(anyString())).thenThrow(RuntimeException("API error"))
+        `when`(monitorEnvApiRepo.findMissionById(anyInt())).thenThrow(RuntimeException("API error"))
 
         // Call execute
-        val missionId = "1"
-        val result = getEnvMissionById.execute(missionId.toInt())
+        val missionId = 1
+        val result = getEnvMissionById.execute(missionId)
 
         // Verify result is null
         assertThat(result).isNull()
