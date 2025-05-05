@@ -35,7 +35,7 @@ class AgentServiceModel
 
     fun toAgentServiceEntity(): AgentServiceEntity? {
         return AgentServiceEntity(
-            id = null, agent = agent.toAgentEntity(), role = role.toAgentRoleEntity(), disabledAt = disabledAt
+            id = null, agent = agent.toAgentEntity(), role = role?.toAgentRoleEntity(), disabledAt = disabledAt
         );
     }
 }
