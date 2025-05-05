@@ -6,7 +6,7 @@ exports[`FormikCoordinateInputDMD > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <fieldset
-        class="sc-fPyrPm PUgsq Element-Fieldset sc-cSdmCa AJubV Field-CoordinatesInput sc-bjhZkk"
+        class="sc-fPyrPm PUgsq Element-Fieldset sc-jUhsXd fqPlAO Field-CoordinatesInput sc-dBCvnn"
       >
         <legend
           class="sc-bpuAaX cOyAvi Element-Legend"
@@ -17,7 +17,7 @@ exports[`FormikCoordinateInputDMD > should match the snapshot 1`] = `
           class="sc-bmCFzp eAUUGK Element-Fieldset__InnerBox"
         >
           <div
-            class="sc-ejXKMB jxFaMF"
+            class="sc-pIQYQ kZhPza"
           >
             <input
               data-cy="dmd-coordinates-input"
@@ -26,12 +26,12 @@ exports[`FormikCoordinateInputDMD > should match the snapshot 1`] = `
               value=""
             />
             <span
-              class="sc-hTEpIc kMiyUa"
+              class="sc-jyynfN gUaRux"
             >
               (DMD)
             </span>
             <span
-              class="sc-jyynfN lma-DTr"
+              class="sc-ejXKMB gFtikY"
             />
           </div>
         </div>
@@ -62,7 +62,7 @@ exports[`FormikCoordinateInputDMD > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <fieldset
-      class="sc-fPyrPm PUgsq Element-Fieldset sc-cSdmCa AJubV Field-CoordinatesInput sc-bjhZkk"
+      class="sc-fPyrPm PUgsq Element-Fieldset sc-jUhsXd fqPlAO Field-CoordinatesInput sc-dBCvnn"
     >
       <legend
         class="sc-bpuAaX cOyAvi Element-Legend"
@@ -73,7 +73,7 @@ exports[`FormikCoordinateInputDMD > should match the snapshot 1`] = `
         class="sc-bmCFzp eAUUGK Element-Fieldset__InnerBox"
       >
         <div
-          class="sc-ejXKMB jxFaMF"
+          class="sc-pIQYQ kZhPza"
         >
           <input
             data-cy="dmd-coordinates-input"
@@ -82,12 +82,12 @@ exports[`FormikCoordinateInputDMD > should match the snapshot 1`] = `
             value=""
           />
           <span
-            class="sc-hTEpIc kMiyUa"
+            class="sc-jyynfN gUaRux"
           >
             (DMD)
           </span>
           <span
-            class="sc-jyynfN lma-DTr"
+            class="sc-ejXKMB gFtikY"
           />
         </div>
       </div>

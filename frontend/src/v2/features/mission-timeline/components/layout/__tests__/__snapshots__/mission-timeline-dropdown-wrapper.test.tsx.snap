@@ -44,17 +44,18 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
           Ajouter
           <svg
             aria-hidden="true"
-            aria-label="angle down"
+            aria-label="arrow down line"
             class="rs-dropdown-toggle-caret rs-icon"
-            data-category=""
+            data-category="direction"
             fill="currentColor"
             focusable="false"
             height="1em"
-            viewBox="0 0 21 32"
+            viewBox="0 0 16 16"
             width="1em"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M19.196 13.143a.612.612 0 01-.179.411l-8.321 8.321c-.107.107-.268.179-.411.179s-.304-.071-.411-.179l-8.321-8.321c-.107-.107-.179-.268-.179-.411s.071-.304.179-.411l.893-.893a.582.582 0 01.411-.179c.143 0 .304.071.411.179l7.018 7.018 7.018-7.018c.107-.107.268-.179.411-.179s.304.071.411.179l.893.893a.617.617 0 01.179.411z"
+              d="M3.166 5.128a.5.5 0 0 1 .706.037L8 9.752l4.128-4.587a.5.5 0 1 1 .743.669l-4.5 5a.5.5 0 0 1-.744 0l-4.5-5a.5.5 0 0 1 .037-.706z"
             />
           </svg>
           <span
@@ -131,7 +132,11 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
                   />
                 </svg>
               </span>
-              Ajouter des contrôles
+              <span
+                class="rs-dropdown-item-content rs-text"
+              >
+                Ajouter des contrôles
+              </span>
             </li>
           </div>
         </ul>
@@ -200,17 +205,18 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
         Ajouter
         <svg
           aria-hidden="true"
-          aria-label="angle down"
+          aria-label="arrow down line"
           class="rs-dropdown-toggle-caret rs-icon"
-          data-category=""
+          data-category="direction"
           fill="currentColor"
           focusable="false"
           height="1em"
-          viewBox="0 0 21 32"
+          viewBox="0 0 16 16"
           width="1em"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M19.196 13.143a.612.612 0 01-.179.411l-8.321 8.321c-.107.107-.268.179-.411.179s-.304-.071-.411-.179l-8.321-8.321c-.107-.107-.179-.268-.179-.411s.071-.304.179-.411l.893-.893a.582.582 0 01.411-.179c.143 0 .304.071.411.179l7.018 7.018 7.018-7.018c.107-.107.268-.179.411-.179s.304.071.411.179l.893.893a.617.617 0 01.179.411z"
+            d="M3.166 5.128a.5.5 0 0 1 .706.037L8 9.752l4.128-4.587a.5.5 0 1 1 .743.669l-4.5 5a.5.5 0 0 1-.744 0l-4.5-5a.5.5 0 0 1 .037-.706z"
           />
         </svg>
         <span
@@ -287,7 +293,11 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
                 />
               </svg>
             </span>
-            Ajouter des contrôles
+            <span
+              class="rs-dropdown-item-content rs-text"
+            >
+              Ajouter des contrôles
+            </span>
           </li>
         </div>
       </ul>
