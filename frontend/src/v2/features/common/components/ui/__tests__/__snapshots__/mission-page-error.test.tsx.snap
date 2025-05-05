@@ -17,13 +17,13 @@ exports[`MissionPageError > should match the snapshot 1`] = `
             style="max-width: 33%;"
           >
             <p
-              class="sc-bjhZkk sc-fvGHPC bkZdrA gTHRjo"
+              class="sc-dBCvnn sc-bpSLYx clsaVR jxMWrE"
               font-size="16"
             >
               Une erreur est survenue
             </p>
             <p
-              class="sc-bjhZkk sc-bpSLYx bkZdrA bfYLti"
+              class="sc-dBCvnn sc-djWYAM clsaVR DUcra"
               font-size="13"
             >
               this is and error
@@ -82,13 +82,13 @@ exports[`MissionPageError > should match the snapshot 1`] = `
           style="max-width: 33%;"
         >
           <p
-            class="sc-bjhZkk sc-fvGHPC bkZdrA gTHRjo"
+            class="sc-dBCvnn sc-bpSLYx clsaVR jxMWrE"
             font-size="16"
           >
             Une erreur est survenue
           </p>
           <p
-            class="sc-bjhZkk sc-bpSLYx bkZdrA bfYLti"
+            class="sc-dBCvnn sc-djWYAM clsaVR DUcra"
             font-size="13"
           >
             this is and error

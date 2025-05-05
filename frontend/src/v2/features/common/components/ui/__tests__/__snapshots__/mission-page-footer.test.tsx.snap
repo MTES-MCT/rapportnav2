@@ -6,7 +6,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-irwjCN dQGPrW"
+        class="sc-ldfREC llwVz"
       >
         <div
           class="rs-stack"
@@ -79,7 +79,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <p
-                  class="sc-bjhZkk sc-bpSLYx kWcurH bfYLti"
+                  class="sc-dBCvnn sc-djWYAM bmqguS DUcra"
                   color="#CCCFD6"
                   font-size="13"
                   weight="normal"
@@ -91,19 +91,19 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <div
-                  class="sc-gDVcuj geGcsH Element-Field Field-Toggle sc-dVElco cnXHRw"
+                  class="sc-gDVcuj geGcsH Element-Field Field-Toggle sc-irwjCN kaHqrQ"
                 >
                   <label
                     class="sc-kmqAS fyCASS Element-Label"
                     for="online-toggle"
                   />
                   <label
-                    class="sc-dLWfPF ctkScX rs-toggle rs-toggle-checked"
+                    class="sc-fsONnU kaFjBT rs-toggle rs-toggle-checked"
                   >
                     <input
                       aria-checked="true"
                       aria-disabled="false"
-                      aria-label="Ouvrir"
+                      aria-labelledby="rs-label:r0:-inner"
                       checked=""
                       class="rs-toggle-input"
                       name="online-toggle"
@@ -115,6 +115,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                     >
                       <span
                         class="rs-toggle-inner"
+                        id="rs-label:r0:-inner"
                       >
                         <span
                           class="sc-gDpztx ctrTlT Element-IconBox"
@@ -159,7 +160,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <p
-                  class="sc-bjhZkk sc-bpSLYx ktxmNW bfYLti"
+                  class="sc-dBCvnn sc-djWYAM GeuGv DUcra"
                   color="#29B361"
                   font-size="13"
                   weight="bold"
@@ -197,7 +198,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-irwjCN dQGPrW"
+      class="sc-ldfREC llwVz"
     >
       <div
         class="rs-stack"
@@ -270,7 +271,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-bjhZkk sc-bpSLYx kWcurH bfYLti"
+                class="sc-dBCvnn sc-djWYAM bmqguS DUcra"
                 color="#CCCFD6"
                 font-size="13"
                 weight="normal"
@@ -282,19 +283,19 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <div
-                class="sc-gDVcuj geGcsH Element-Field Field-Toggle sc-dVElco cnXHRw"
+                class="sc-gDVcuj geGcsH Element-Field Field-Toggle sc-irwjCN kaHqrQ"
               >
                 <label
                   class="sc-kmqAS fyCASS Element-Label"
                   for="online-toggle"
                 />
                 <label
-                  class="sc-dLWfPF ctkScX rs-toggle rs-toggle-checked"
+                  class="sc-fsONnU kaFjBT rs-toggle rs-toggle-checked"
                 >
                   <input
                     aria-checked="true"
                     aria-disabled="false"
-                    aria-label="Ouvrir"
+                    aria-labelledby="rs-label:r0:-inner"
                     checked=""
                     class="rs-toggle-input"
                     name="online-toggle"
@@ -306,6 +307,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                   >
                     <span
                       class="rs-toggle-inner"
+                      id="rs-label:r0:-inner"
                     >
                       <span
                         class="sc-gDpztx ctrTlT Element-IconBox"
@@ -350,7 +352,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-bjhZkk sc-bpSLYx ktxmNW bfYLti"
+                class="sc-dBCvnn sc-djWYAM GeuGv DUcra"
                 color="#29B361"
                 font-size="13"
                 weight="bold"

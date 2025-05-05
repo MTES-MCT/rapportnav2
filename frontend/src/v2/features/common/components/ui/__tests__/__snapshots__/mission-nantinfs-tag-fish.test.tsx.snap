@@ -9,7 +9,7 @@ exports[`MissionNatinfTag > should match the snapshot 1`] = `
         class="sc-huvZk sc-cLAbsH cGIefz jXVuQI Element-Tag"
       >
         <p
-          class="sc-bjhZkk sc-bpSLYx dTJwWF bfYLti"
+          class="sc-dBCvnn sc-djWYAM gOnyhk DUcra"
           font-size="13"
           weight="medium"
         >
@@ -45,7 +45,7 @@ exports[`MissionNatinfTag > should match the snapshot 1`] = `
       class="sc-huvZk sc-cLAbsH cGIefz jXVuQI Element-Tag"
     >
       <p
-        class="sc-bjhZkk sc-bpSLYx dTJwWF bfYLti"
+        class="sc-dBCvnn sc-djWYAM gOnyhk DUcra"
         font-size="13"
         weight="medium"
       >
