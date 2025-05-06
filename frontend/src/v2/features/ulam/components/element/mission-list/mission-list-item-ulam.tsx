@@ -80,6 +80,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
 
   const listItemRef = useRef<HTMLDivElement>(null)
   const isOpen = openIndex === index
+  const { isEnvMission } = useMissionType()
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -120,8 +121,6 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
 
     setOpenIndex(isOpen ? null : index) // Toggle open state
   }
-
-  const { isEnvMission } = useMissionType()
 
   return (
     <ListItemWithHover ref={listItemRef} onClick={onClickRow} data-testid="mission-list-item-with-hover">
