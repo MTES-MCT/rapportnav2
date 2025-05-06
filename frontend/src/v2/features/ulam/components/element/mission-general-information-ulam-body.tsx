@@ -8,7 +8,7 @@ import { MissionGeneralInfo2 } from '../../../common/types/mission-types.ts'
 import MissionGeneralInformationForm from './mission-general-information-ulam-form.tsx'
 
 type MissionGeneralInformationUlamBodyProps = {
-  missionId?: number
+  missionId?: string
   generalInfos?: MissionGeneralInfo2
 }
 
@@ -17,7 +17,7 @@ const MissionGeneralInformationUlamBody: React.FC<MissionGeneralInformationUlamB
   generalInfos
 }) => {
   const { handleExecuteOnDelay } = useDelay()
-  const mutation = useUpdateGeneralInfo(Number(missionId))
+  const mutation = useUpdateGeneralInfo(missionId)
   const debounceTime = useStore(store, state => state.delayQuery.debounceTime)
 
   const onChange = async (newGeneralInfo: MissionGeneralInfo2): Promise<void> => {

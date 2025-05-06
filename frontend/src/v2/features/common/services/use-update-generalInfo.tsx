@@ -6,7 +6,7 @@ import { MissionGeneralInfo2 } from '../types/mission-types.ts'
 import { missionsKeys } from './query-keys.ts'
 
 const useUpdateGeneralInfoMutation = (
-  missionId?: number
+  missionId?: string
 ): UseMutationResult<MissionGeneralInfo2, Error, MissionGeneralInfo2, unknown> => {
   const queryClient = useQueryClient()
 

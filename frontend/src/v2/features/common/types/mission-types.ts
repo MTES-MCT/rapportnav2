@@ -135,6 +135,7 @@ export type MissionGeneralInfo2 = MissionGeneralInfoPam & {
   observations?: string
   resources?: ControlResource[]
   interMinisterialServices?: InterMinisterialService[]
+  missionIdString?: string
 }
 
 export type Mission2 = {
@@ -145,6 +146,7 @@ export type Mission2 = {
   generalInfos: MissionGeneralInfo2
   completenessForStats?: CompletenessForStats
   actions: MissionAction[]
+  missionIdString?: string
 }
 
 export type MissionListItem = {
@@ -166,6 +168,7 @@ export type MissionListItem = {
   controlUnits?: ControlUnit[]
   resources?: ControlUnitResource[],
   missionReportType?: MissionReportTypeEnum
+  missionIdString?: string
 }
 
 export type InterMinisterialService = {
