@@ -3,7 +3,9 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.CreateEnvMission
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 
@@ -36,6 +38,13 @@ class CreateMission(
                     missionSource = missionNav.missionSource ?: MissionSourceEnum.RAPPORT_NAV,
                     hasMissionOrder = false,
                     missionIdString = missionNav.missionIdString
+                ),
+                generalInfos = MissionGeneralInfoEntity2(
+                   data = MissionGeneralInfoEntity(
+                       id = null,
+                       missionIdString = missionNav.missionIdString,
+                       missionReportType = generalInfo2.missionReportType
+                   )
                 )
             )
         }

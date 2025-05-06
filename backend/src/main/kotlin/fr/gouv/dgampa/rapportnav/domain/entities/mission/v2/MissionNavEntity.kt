@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionModel
 import java.time.Instant
+import java.util.*
 
 data class MissionNavEntity(
     val id: Int? = null,
@@ -49,6 +50,7 @@ data class MissionNavEntity(
             missionSource = missionSource,
             observationsByUnit = observationsByUnit,
             controlUnitIdOwner = controlUnitIdOwner,
+            missionIdString = if (missionIdString !== null) UUID.fromString(missionIdString) else null
         )
     }
 

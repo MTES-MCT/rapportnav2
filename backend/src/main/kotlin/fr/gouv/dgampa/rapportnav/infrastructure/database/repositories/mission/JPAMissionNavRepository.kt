@@ -17,7 +17,9 @@ class JPAMissionNavRepository(
 ): IMissionNavRepository {
     override fun save(model: MissionModel): MissionModel {
         return try {
-            model.missionIdString = UUID.randomUUID()
+            if (model.missionIdString === null) {
+                model.missionIdString = UUID.randomUUID()
+            }
             dbRepository.save(model)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw BackendUsageException(

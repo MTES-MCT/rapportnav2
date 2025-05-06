@@ -27,7 +27,7 @@ const MissionUlamPage: React.FC = () => {
           missionId={Number(missionId)}
         />
       }
-      missionGeneralInformations={<MissionGeneralInformationUlam missionId={Number(missionId)} />}
+      missionGeneralInformations={<MissionGeneralInformationUlam missionId={missionId} />}
       missionTimeLine={<MissionTimelineUlam missionId={Number(missionId)} />}
       missionAction={<MissionActionUlam missionId={Number(missionId)} actionId={actionId} />}
       missionFooter={<MissionPageFooter exitMission={exitMission} />}

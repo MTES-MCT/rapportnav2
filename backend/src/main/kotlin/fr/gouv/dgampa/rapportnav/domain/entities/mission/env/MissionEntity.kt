@@ -68,7 +68,8 @@ data class MissionEntity(
             completedBy = completedBy,
             openBy = openBy,
             controlUnitIdOwner = controlUnitIdOwner ?: controlUnits.first().id,
-            controlUnits = controlUnits.map { it.id }
+            controlUnits = controlUnits.map { it.id },
+            missionIdString = missionIdString
         )
     }
 
