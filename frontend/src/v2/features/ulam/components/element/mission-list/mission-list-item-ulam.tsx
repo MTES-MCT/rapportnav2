@@ -17,6 +17,7 @@ import { User } from '../../../../common/types/user.ts'
 import { useUlamCrewForMissionList } from '../../../hooks/use-ulam-crew-for-mission-list.tsx'
 import { useControlUnitResourceLabel } from '../../../hooks/use-ulam-home-unit-resources.tsx'
 import MissionIconUlam from '../../ui/mission-icon-ulam.tsx'
+import { useMissionType } from '../../../../common/hooks/use-mission-type.tsx'
 
 interface MissionListItemProps {
   mission: MissionListItem
@@ -79,6 +80,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
 
   const listItemRef = useRef<HTMLDivElement>(null)
   const isOpen = openIndex === index
+  const { isEnvMission } = useMissionType()
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -109,7 +111,12 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
     if (isExportButton) {
       return // Ignore clicks on the export button
     } else if (isGoToMissionButton) {
-      navigate(`${ULAM_V2_HOME_PATH}/${mission?.id}`)
+      if (isEnvMission(mission.missionReportType)) {
+        navigate(`${ULAM_V2_HOME_PATH}/${mission?.id}`)
+      } else {
+        navigate(`${ULAM_V2_HOME_PATH}/${mission?.missionIdString}`)
+      }
+
     }
 
     setOpenIndex(isOpen ? null : index) // Toggle open state
