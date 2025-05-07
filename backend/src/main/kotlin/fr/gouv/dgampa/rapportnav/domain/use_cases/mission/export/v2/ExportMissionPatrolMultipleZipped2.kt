@@ -32,7 +32,7 @@ class ExportMissionPatrolMultipleZipped2(
         // retrieve missions
         for (missionId in missionIds) {
             try {
-                mission = getMission2.execute(missionId = missionId)
+                mission = getMission2.execute(missionId = missionId.toString())
             } catch (e: Exception) {
                 logger.error("[ExportMissionPatrolMultipleZipped] - error retrieving mission id=$missionId", e)
                 return null

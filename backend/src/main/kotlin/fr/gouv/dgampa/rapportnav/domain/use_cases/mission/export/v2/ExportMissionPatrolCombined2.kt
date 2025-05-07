@@ -32,7 +32,7 @@ class ExportMissionPatrolCombined2(
             var missions = mutableListOf<MissionEntity2>()
 
             for (missionId in missionIds) {
-                val mission = getMission2.execute(missionId = missionId)
+                val mission = getMission2.execute(missionId = missionId.toString())
                 if (mission != null) {
                     missions.add(mission)
                 }
@@ -40,7 +40,7 @@ class ExportMissionPatrolCombined2(
 
             // bundle actions and other stuff
             val firstMission = missions.first() // Take all other fields from the first mission
-            val combinedActions = missions.flatMap { it.actions } // Aggregate all actions from all missions
+            val combinedActions = missions.flatMap { it.actions!! } // Aggregate all actions from all missions
             val mission =
                 firstMission.copy(actions = combinedActions.sortedByDescending { action -> action.startDateTimeUtc }) // Create a new instance with aggregated actions
 
@@ -48,7 +48,7 @@ class ExportMissionPatrolCombined2(
             val output = exportMissionPatrolSingle.createFile(mission = mission)
 
             return MissionExportEntity(
-                fileName = "rapports-patrouille-combinés_${formatDateTime.formatDate(mission.envData.startDateTimeUtc)}.odt",
+                fileName = "rapports-patrouille-combinés_${formatDateTime.formatDate(mission.data?.startDateTimeUtc)}.odt",
                 fileContent = output?.fileContent.orEmpty()
             )
 

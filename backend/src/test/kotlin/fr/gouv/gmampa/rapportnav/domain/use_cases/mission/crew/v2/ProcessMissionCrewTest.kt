@@ -1,10 +1,10 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.crew.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.AddOrUpdateMissionCrew
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.DeleteMissionCrew
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionCrew
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.crew.GetAgentsCrewByMissionIdString
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
 import org.assertj.core.api.Assertions.assertThat
@@ -33,6 +33,9 @@ class ProcessMissionCrewTest {
     @MockitoBean
     lateinit var processMissionCrew: ProcessMissionCrew
 
+    @MockitoBean
+    lateinit var getAgentsCrewByMissionIdString: GetAgentsCrewByMissionIdString
+
     @Test
     fun `test execute process crew`() {
         val crew1 = MissionCrewEntityMock.create(id = 1, missionId = 761)
@@ -40,11 +43,11 @@ class ProcessMissionCrewTest {
         val crew3 = MissionCrewEntityMock.create(id = 3, missionId = 761)
         val crew4 = MissionCrewEntityMock.create(id = 4, missionId = 761)
 
-        val missionCrews = listOf<MissionCrew>(
+        val missionCrews = listOf(
             MissionCrew.fromMissionCrewEntity(crew1),
             MissionCrew.fromMissionCrewEntity(crew2),
         )
-        val dbMissionCrews = listOf<MissionCrewEntity>(crew1, crew3, crew4)
+        val dbMissionCrews = listOf(crew1, crew3, crew4)
 
 
         //Mock
@@ -56,11 +59,12 @@ class ProcessMissionCrewTest {
             ProcessMissionCrew(
                 deleteMissionCrew = deleteMissionCrew,
                 addOrUpdateMissionCrew = addOrUpdateMissionCrew,
-                getAgentsCrewByMissionId = getAgentsCrewByMissionId
+                getAgentsCrewByMissionId = getAgentsCrewByMissionId,
+                getAgentsCrewByMissionIdString = getAgentsCrewByMissionIdString
             )
         )
 
-        val crews = processMissionCrew.execute(761, missionCrews.map { it.toMissionCrewEntity() })
+        val crews = processMissionCrew.execute("761", missionCrews.map { it.toMissionCrewEntity() })
 
         //Then
         assertThat(crews).isNotNull
