@@ -1,4 +1,5 @@
 import {
+  FormikCheckbox,
   FormikEffect,
   FormikMultiCheckbox,
   FormikMultiRadio,
@@ -10,7 +11,7 @@ import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker.tsx'
 import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
-import { MissionULAMGeneralInfoInitial } from '../../../common/types/mission-types.ts'
+import { MissionReportTypeEnum, MissionULAMGeneralInfoInitial } from '../../../common/types/mission-types.ts'
 import {
   MissionULAMGeneralInfoInitialInput,
   useUlamMissionGeneralInformationInitialForm
@@ -92,11 +93,6 @@ const MissionGeneralInformationUlamInitialForm: FC<MissionGeneralInformationUlam
                         options={reinforcementTypeOptions}
                       />
                     </Stack.Item>
-                    <Stack.Item style={{ width: '45%', marginTop: '-0.8rem', paddingLeft: '2rem' }}>
-                      {!isCreation && (
-                        <FormikMultiRadio label={"Type de JDP"} name={"jdpType"} options={jdpTypeOptions} isInline />
-                      )}
-                    </Stack.Item>
                   </Stack>
                 </Stack.Item>
               )}
@@ -119,6 +115,23 @@ const MissionGeneralInformationUlamInitialForm: FC<MissionGeneralInformationUlam
                   <Stack.Item style={{ width: '30%' }}>
                     {!isCreation && isMissionTypeSea(values.missionTypes) && (
                       <FormikNumberInput label={"Nb d'heures en mer"} name="nbHourAtSea" />
+                    )}
+                  </Stack.Item>
+                </Stack>
+              </Stack.Item>
+              <Stack.Item style={{ width: '100%', marginBottom: '1em', textAlign: 'left', marginTop: '1rem' }}>
+                <Stack direction="row">
+                  <Stack.Item style={{ width: '45%' }}>
+                    {!isCreation && !isEnvMission(values.missionReportType) && (
+                      <FormikCheckbox
+                        name="isUnderJdp"
+                        label={"Mission sous JDP"}
+                      />
+                    )}
+                  </Stack.Item>
+                  <Stack.Item style={{ width: '55%', marginTop: '-0.8rem', paddingLeft: '2rem' }}>
+                    {!isCreation && values.isUnderJdp && (
+                      <FormikMultiRadio label={"Type de JDP"} name={"jdpType"} options={jdpTypeOptions} isInline />
                     )}
                   </Stack.Item>
                 </Stack>
