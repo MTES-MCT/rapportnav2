@@ -28,6 +28,8 @@ export type MissionULAMGeneralInfoInitial = {
   missionReportType?: MissionReportTypeEnum
   reinforcementType?: MissionReinforcementTypeEnum
   nbHourAtSea?: number
+  isUnderJdp?: boolean
+  jdpType?: JdpTypeEnum
 }
 
 export type MissionGeneralInfoExtended = {
@@ -53,7 +55,6 @@ export enum JdpTypeEnum {
 
 export enum MissionReinforcementTypeEnum {
   PATROL = 'PATROL',
-  JDP = 'JDP',
   OTHER_ULAM = 'OTHER_ULAM',
   SEA_TRAINER = 'SEA_TRAINER',
   OTHER = 'OTHER',
@@ -136,6 +137,8 @@ export type MissionGeneralInfo2 = MissionGeneralInfoPam & {
   resources?: ControlResource[]
   interMinisterialServices?: InterMinisterialService[]
   missionIdString?: string
+  isUnderJdp?: boolean
+  jdpType?: JdpTypeEnum
 }
 
 export type Mission2 = {

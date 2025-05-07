@@ -28,6 +28,7 @@ export function useUlamMissionGeneralInformationInitialForm(
 
   const fromInputToFieldValue = (value: MissionULAMGeneralInfoInitialInput): MissionULAMGeneralInfoInitial => {
     const { dates, ...newValues } = value
+    console.log(value)
     return {
       ...newValues,
       startDateTimeUtc: postprocessDateFromPicker(dates[0]),
