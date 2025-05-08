@@ -16,6 +16,9 @@ const useCreateMissionActionMutation = (
     mutationFn: createAction,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: missionsKeys.byId(missionId) })
+    },
+    scope: {
+      id: 'create-action'
     }
   })
   return mutation

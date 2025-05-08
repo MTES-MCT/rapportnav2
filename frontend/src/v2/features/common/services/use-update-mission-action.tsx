@@ -17,6 +17,9 @@ const useUpdateMissionActionMutation = (
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: actionsKeys.byId(actionId) })
       queryClient.invalidateQueries({ queryKey: missionsKeys.byId(missionId) })
+    },
+    scope: {
+      id: `update-action-${actionId}`
     }
   })
   return mutation

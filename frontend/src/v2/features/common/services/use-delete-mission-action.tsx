@@ -13,6 +13,9 @@ const useDeleteActionMutation = (missionId: number): UseMutationResult<void, Err
     mutationFn: deleteAction,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: missionsKeys.byId(missionId) })
+    },
+    scope: {
+      id: 'delete-action'
     }
   })
   return mutation

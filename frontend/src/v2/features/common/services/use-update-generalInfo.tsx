@@ -21,6 +21,9 @@ const useUpdateGeneralInfoMutation = (
     onError: error => {
       console.error(error)
       Sentry.captureException(error)
+    },
+    scope: {
+      id: `update-general-info-${missionId}`
     }
   })
 }
