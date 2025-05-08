@@ -44,17 +44,27 @@ const StyledToggle = styled(Toggle)`
       margin-top: 4px;
     }
   }
+
+  // disabled state 🔒
+  .rs-toggle-disabled {
+    .rs-toggle-presentation {
+      background-color: ${THEME.color.slateGray}!important;
+    }
+    .rs-toggle-input {
+      cursor: not-allowed !important;
+    }
+  }
 `
 
 export const OnlineToggle: FC<OfflineToggleProps> = () => {
-  const { isOnline, setOnline } = useOnlineManager()
+  const { isOnline, hasNetwork, toggleOnline } = useOnlineManager()
 
   return (
     <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} spacing={'0.5rem'}>
       <Stack.Item>
         <Text
           as={'h3'}
-          color={isOnline ? THEME.color.lightGray : THEME.color.maximumRed}
+          color={isOnline ? THEME.color.lightGray : hasNetwork ? THEME.color.maximumRed : THEME.color.slateGray}
           weight={isOnline ? 'normal' : 'bold'}
         >
           Hors ligne
@@ -65,9 +75,17 @@ export const OnlineToggle: FC<OfflineToggleProps> = () => {
           label={''}
           name="online-toggle"
           checked={isOnline}
+          disabled={!hasNetwork}
+          title={
+            !hasNetwork
+              ? 'Nous ne pouvez pas passer en ligne, connection non détectée.'
+              : !isOnline && hasNetwork
+                ? 'Vous êtes hors-ligne mais une connection est détectée, vous pouvez tenter de revenir en ligne.'
+                : ''
+          }
           checkedChildren={<Icon.Check color={THEME.color.white} size={14} />}
           unCheckedChildren={<Icon.Offline color={THEME.color.white} size={14} />}
-          onChange={(isChecked: boolean) => setOnline(isChecked)}
+          onChange={(isChecked: boolean) => toggleOnline(isChecked)}
         />
       </Stack.Item>
       <Stack.Item>
