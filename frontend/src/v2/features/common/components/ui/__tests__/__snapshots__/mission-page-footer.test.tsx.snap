@@ -91,7 +91,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <div
-                  class="sc-gDVcuj geGcsH Element-Field Field-Toggle sc-irwjCN kaHqrQ"
+                  class="sc-gDVcuj geGcsH Element-Field Field-Toggle sc-irwjCN lkzbPC"
                 >
                   <label
                     class="sc-kmqAS fyCASS Element-Label"
@@ -99,6 +99,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                   />
                   <label
                     class="sc-fsONnU kaFjBT rs-toggle rs-toggle-checked"
+                    title=""
                   >
                     <input
                       aria-checked="true"
@@ -282,7 +283,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <div
-                class="sc-gDVcuj geGcsH Element-Field Field-Toggle sc-irwjCN kaHqrQ"
+                class="sc-gDVcuj geGcsH Element-Field Field-Toggle sc-irwjCN lkzbPC"
               >
                 <label
                   class="sc-kmqAS fyCASS Element-Label"
@@ -290,6 +291,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 />
                 <label
                   class="sc-fsONnU kaFjBT rs-toggle rs-toggle-checked"
+                  title=""
                 >
                   <input
                     aria-checked="true"
