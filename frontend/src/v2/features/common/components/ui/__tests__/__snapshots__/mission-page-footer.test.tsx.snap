@@ -103,7 +103,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                     <input
                       aria-checked="true"
                       aria-disabled="false"
-                      aria-labelledby="rs-label:r0:-inner"
+                      aria-label="Ouvrir"
                       checked=""
                       class="rs-toggle-input"
                       name="online-toggle"
@@ -115,7 +115,6 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                     >
                       <span
                         class="rs-toggle-inner"
-                        id="rs-label:r0:-inner"
                       >
                         <span
                           class="sc-gDpztx ctrTlT Element-IconBox"
@@ -295,7 +294,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                   <input
                     aria-checked="true"
                     aria-disabled="false"
-                    aria-labelledby="rs-label:r0:-inner"
+                    aria-label="Ouvrir"
                     checked=""
                     class="rs-toggle-input"
                     name="online-toggle"
@@ -307,7 +306,6 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                   >
                     <span
                       class="rs-toggle-inner"
-                      id="rs-label:r0:-inner"
                     >
                       <span
                         class="sc-gDpztx ctrTlT Element-IconBox"
