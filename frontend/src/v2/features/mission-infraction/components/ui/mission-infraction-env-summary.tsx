@@ -23,7 +23,7 @@ const MissionInfractionEnvSummary: React.FC<MissionInfractionEnvSummaryProps> = 
         <MissionInfractionEnvTitle controlType={controlType} />
       </Stack.Item>
       <Stack.Item>
-        <Stack direction="row" spacing={'0.5rem'} style={{ width: '100%' }}>
+        <Stack direction="row" spacing={'0.5rem'} style={{ width: '100%', flexWrap: 'wrap' }}>
           <Stack.Item>
             <MissionInfractionTypeTag type={infractionType} />
           </Stack.Item>

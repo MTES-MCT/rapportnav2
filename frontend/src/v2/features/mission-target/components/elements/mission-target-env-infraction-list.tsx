@@ -4,7 +4,7 @@ import { FieldProps } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { Control, Infraction, Target, TargetType } from '../../../common/types/target-types'
-import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form2'
+import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form'
 import { useTarget } from '../../hooks/use-target'
 import MissionTargetEnvInfractionForm from './mission-target-env-infraction-form'
 
@@ -29,8 +29,8 @@ const MissionTargetEnvInfractionList: FC<MissionTargetEnvInfractionListProps> = 
     await fieldFormik.form.setFieldValue(name, valueToSubmit)
   }
 
-  const handleDelete = async (controlIndex: number, infractionIndex: number) => {
-    const valueToSubmit = deleteInfraction(controlIndex, infractionIndex)
+  const handleDelete = async (controlType: ControlType, infractionIndex: number) => {
+    const valueToSubmit = deleteInfraction(controlType, infractionIndex, fieldFormik.field.value)
     await fieldFormik.form.setFieldValue(name, valueToSubmit)
   }
 
@@ -57,7 +57,7 @@ const MissionTargetEnvInfractionList: FC<MissionTargetEnvInfractionListProps> = 
                   targetType={targetType}
                   onSubmit={value => handleSubmit(value)}
                   availableControlTypes={availableControlTypes}
-                  onDelete={() => handleDelete(controlIndex, infractionIndex)}
+                  onDelete={() => handleDelete(control.controlType, infractionIndex)}
                   value={{ target: fieldFormik.field.value, control, infraction }}
                   key={`${name}.controls[${controlIndex}].infractions[${infractionIndex}]`}
                 />

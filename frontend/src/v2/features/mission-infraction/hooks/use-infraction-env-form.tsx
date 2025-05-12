@@ -23,11 +23,12 @@ type TargetInfractionInput = {
   } & Infraction
 }
 
-export function useInfractionEnvForm2(
+export function useInfractionEnvForm(
   targetInfraction: TargetInfraction,
   targetType?: TargetType,
   vehichleType?: VehicleTypeEnum,
-  withTarget?: boolean
+  editTarget?: boolean,
+  editInfraction?: boolean
 ): AbstractFormikHook<TargetInfraction, TargetInfractionInput> & { validationSchema?: ObjectSchema<any> } {
   const fromFieldValueToInput = (targetInfraction: TargetInfraction) => {
     return {
@@ -52,8 +53,14 @@ export function useInfractionEnvForm2(
 
     const infractionType = withReport ? InfractionTypeEnum.WITH_REPORT : InfractionTypeEnum.WITHOUT_REPORT
     control.controlType = controlType
-    infraction.infractionType = infractionType
-    return { infraction, target, control }
+    return {
+      infraction: {
+        ...infraction,
+        infractionType
+      },
+      target,
+      control
+    }
   }
 
   const { initValue, beforeInitValue, beforeSubmit, handleSubmit } = useAbstractFormik<
@@ -61,7 +68,7 @@ export function useInfractionEnvForm2(
     TargetInfractionInput
   >(targetInfraction, fromFieldValueToInput, fromInputToFieldValue)
 
-  const getValidationSchema = (withTarget?: boolean) => {
+  const getValidationSchema = () => {
     const infractionSchema = {
       infraction: object().shape({
         controlType: string().required(),
@@ -97,7 +104,7 @@ export function useInfractionEnvForm2(
       })
     }
 
-    return object().shape({ ...infractionSchema, ...(!withTarget ? {} : targetSchema) })
+    return object().shape({ ...(!editInfraction ? {} : infractionSchema), ...(!editTarget ? {} : targetSchema) })
   }
 
   return {
@@ -105,6 +112,6 @@ export function useInfractionEnvForm2(
     handleSubmit,
     beforeSubmit,
     beforeInitValue,
-    validationSchema: getValidationSchema(withTarget)
+    validationSchema: getValidationSchema()
   }
 }

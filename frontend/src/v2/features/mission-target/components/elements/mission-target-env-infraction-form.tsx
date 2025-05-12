@@ -5,7 +5,7 @@ import { Divider, Stack } from 'rsuite'
 import { TargetType } from '../../../common/types/target-types'
 import MissionInfractionEnvForm from '../../../mission-infraction/components/elements/mission-infraction-env-form'
 import MissionInfractionEnvSummary from '../../../mission-infraction/components/ui/mission-infraction-env-summary'
-import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form2'
+import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form'
 
 export interface MissionTargetEnvInfractionFormProps {
   index: number
@@ -86,6 +86,8 @@ const MissionTargetEnvInfractionForm: FC<MissionTargetEnvInfractionFormProps> = 
         >
           <MissionInfractionEnvForm
             value={value}
+            editTarget={false}
+            editInfraction={true}
             onSubmit={handleSubmit}
             targetType={targetType}
             onClose={() => setShowForm(false)}

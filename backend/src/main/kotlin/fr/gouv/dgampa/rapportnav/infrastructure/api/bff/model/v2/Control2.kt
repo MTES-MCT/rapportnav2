@@ -53,7 +53,7 @@ class Control2(
                 upToDateNavigationPermit = entity.upToDateNavigationPermit,
                 compliantSecurityDocuments = entity.compliantSecurityDocuments,
                 knowledgeOfFrenchLawAndLanguage = entity.knowledgeOfFrenchLawAndLanguage,
-                infractions = entity.infractions?.map { Infraction2.fromInfractionEntity(it) },
+                infractions = entity.infractions?.map { Infraction2.fromInfractionEntity(it) }?.sortedBy { it.id },
             )
         }
     }
