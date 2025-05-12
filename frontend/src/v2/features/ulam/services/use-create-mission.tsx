@@ -19,6 +19,9 @@ const useCreateMissionMutation = (): UseMutationResult<Mission, Error, MissionGe
     onError: error => {
       console.error(error)
       Sentry.captureException(error)
+    },
+    scope: {
+      id: 'create-mission'
     }
   })
 }
