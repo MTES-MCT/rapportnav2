@@ -17,6 +17,7 @@
     "test": "vitest run src",
     "test:watch": "vitest src",
     "test:coverage": "vitest run --coverage",
+    "snapshots": "vitest -u",
     "docs": "docsify serve docs"
   },
   "dependencies": {
