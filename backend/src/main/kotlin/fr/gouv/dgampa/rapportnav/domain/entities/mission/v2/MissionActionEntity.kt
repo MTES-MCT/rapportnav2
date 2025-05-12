@@ -66,9 +66,7 @@ abstract class MissionActionEntity(
 
     open fun getNavSummaryTags(): SummaryTag {
         return this.targets?.map { getSummaryTags(it) }?.fold(SummaryTag(0, 0)) { accumulator, p ->
-            accumulator.withReport += p.withReport
-            accumulator.natInfSize += p.natInfSize
-            return accumulator
+            accumulator.add(withReport = p.withReport, natInfSize = p.natInfSize)
         } ?: SummaryTag(0, 0)
     }
 
@@ -131,5 +129,11 @@ abstract class MissionActionEntity(
     abstract fun isControlInValid(control: ControlEntity2?): Boolean
 }
 
-class SummaryTag(var withReport: Int, var natInfSize: Int)
+class SummaryTag(var withReport: Int, var natInfSize: Int) {
+    fun add(withReport: Int, natInfSize: Int): SummaryTag {
+        this.natInfSize += natInfSize
+        this.withReport += withReport
+        return this
+    }
+}
 
