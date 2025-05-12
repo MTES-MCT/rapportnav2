@@ -1,8 +1,8 @@
 import { ControlType } from '@common/types/control-types'
 import { ActionTargetTypeEnum } from '@common/types/env-mission-types'
 import { MissionSourceEnum } from '../../common/types/mission-types'
-import { Control, Target, TargetType } from '../../common/types/target-types'
-import { TargetInfraction } from '../../mission-infraction/hooks/use-infraction-env-form2'
+import { Control, Infraction, Target, TargetType } from '../../common/types/target-types'
+import { TargetInfraction } from '../../mission-infraction/hooks/use-infraction-env-form'
 
 type MapControl = {
   [key in ControlType]?: Control
@@ -15,19 +15,7 @@ export function useTarget() {
   const getTargetType = (actionTargetType?: ActionTargetTypeEnum) =>
     actionTargetType ? TargetType[actionTargetType as keyof typeof TargetType] : TargetType.INDIVIDUAL
 
-  const fromInputToFieldValue = (input: TargetInfraction, target?: Target): Target | undefined => {
-    const infraction = input.infraction
-    const controlType = input.control?.controlType
-
-    if (!controlType || !infraction) return target
-    let newTarget = { ...(target ?? ({} as Target)), ...(input.target ?? ({} as Target)) }
-
-    const controls = toMapControl(newTarget?.controls)
-    controls[controlType] = { ...(controls[controlType] ?? {}), controlType, infractions: [infraction] }
-    return { ...newTarget, controls: Object.values(controls) }
-  }
-
-  const toMapControl = (controls?: Control[]) => {
+  const controlToMap = (controls?: Control[]) => {
     return (
       controls?.reduce(function (map, obj) {
         map[obj.controlType] = obj
@@ -36,9 +24,45 @@ export function useTarget() {
     )
   }
 
-  const deleteInfraction = (controlIndex: number, infractionIndex: number, target?: Target): Target | undefined => {
-    target?.controls?.at(controlIndex)?.infractions?.splice(infractionIndex, 1)
-    return target
+  const getNewTarget = (input: TargetInfraction, target?: Target) => {
+    return { ...(target ?? ({} as Target)), ...(input.target ?? ({} as Target)) }
+  }
+
+  const getNewInfractions = (infractionInput: Infraction, infractions: Infraction[]) => {
+    if (infractionInput.id) {
+      const infractionIndex = infractions.findIndex(infraction => infraction.id === infractionInput.id)
+      infractions[infractionIndex] = infractionInput
+    } else {
+      infractions = [...infractions, infractionInput]
+    }
+    return infractions
+  }
+
+  const getNewControls = (input: TargetInfraction, controls?: Control[]): Control[] | undefined => {
+    const infractionInput = input.infraction
+    const controlType = input.control?.controlType
+    if (!controlType || !infractionInput) return controls
+
+    const controlsMap = controlToMap(controls)
+    const infractions = getNewInfractions(infractionInput, controlsMap[controlType]?.infractions ?? [])
+
+    controlsMap[controlType] = { ...(controlsMap[controlType] ?? {}), controlType, infractions }
+    return Object.values(controlsMap)
+  }
+
+  const fromInputToFieldValue = (input: TargetInfraction, target?: Target): Target | undefined => {
+    const newTarget = getNewTarget(input, target)
+    const newControls = getNewControls(input, newTarget?.controls)
+    return { ...newTarget, controls: newControls }
+  }
+
+  const deleteInfraction = (controlType: ControlType, infractionIndex: number, target?: Target): Target | undefined => {
+    if (!target) return
+    const controls = controlToMap(target?.controls)
+    let infractions = controls[controlType]?.infractions ?? []
+    infractions = infractions.toSpliced(infractionIndex, 1)
+    controls[controlType] = { ...(controls[controlType] ?? {}), controlType, infractions }
+    return { ...target, controls: Object.values(controls) }
   }
 
   const filterAvailableControlType = (

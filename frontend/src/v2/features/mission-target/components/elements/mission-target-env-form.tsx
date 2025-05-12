@@ -5,12 +5,15 @@ import { FieldProps } from 'formik'
 import { FC } from 'react'
 import { Target, TargetType } from '../../../common/types/target-types'
 import MissionInfractionEnvForm from '../../../mission-infraction/components/elements/mission-infraction-env-form'
-import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form2'
+import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form'
 import { useTarget } from '../../hooks/use-target'
 
 export interface MissionTargetEnvFormProps {
   name: string
+  value: TargetInfraction
   onClose?: () => void
+  editTarget?: boolean
+  editInfraction?: boolean
   vehicleType?: VehicleTypeEnum
   fieldFormik: FieldProps<Target>
   availableControlTypes?: ControlType[]
@@ -19,10 +22,13 @@ export interface MissionTargetEnvFormProps {
 
 const MissionTargetEnvForm: FC<MissionTargetEnvFormProps> = ({
   name,
+  value,
   onClose,
   vehicleType,
   fieldFormik,
   targetType,
+  editTarget,
+  editInfraction,
   availableControlTypes
 }) => {
   const { fromInputToFieldValue } = useTarget()
@@ -48,12 +54,13 @@ const MissionTargetEnvForm: FC<MissionTargetEnvFormProps> = ({
       }}
     >
       <MissionInfractionEnvForm
-        value={{}}
-        withTarget={false}
+        value={value}
         onClose={handleClose}
         onSubmit={handleSubmit}
         targetType={targetType}
+        editTarget={editTarget}
         vehicleType={vehicleType}
+        editInfraction={editInfraction}
         availableControlTypes={availableControlTypes}
       />
     </div>

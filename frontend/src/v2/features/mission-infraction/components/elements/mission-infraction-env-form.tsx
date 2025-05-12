@@ -19,13 +19,14 @@ import { setDebounceTime } from '../../../../store/slices/delay-query-reducer'
 import { FormikMultiSelectNatinf } from '../../../common/components/ui/formik-multi-select-natinf'
 import { TargetType } from '../../../common/types/target-types'
 import { useControlRegistry } from '../../../mission-control/hooks/use-control-registry'
-import { TargetInfraction, useInfractionEnvForm2 } from '../../hooks/use-infraction-env-form2'
+import { TargetInfraction, useInfractionEnvForm } from '../../hooks/use-infraction-env-form'
 import { MissionInfractionFormikControlledPersonInput } from '../ui/mission-infraction-formik-controlled-person-input'
 import MissionInfractionVesselForm from '../ui/mission-infraction-vessel-form'
 
 export interface MissionInfractionEnvFormProps {
   onClose: () => void
-  withTarget?: boolean
+  editTarget?: boolean
+  editInfraction?: boolean
   value: TargetInfraction
   vehicleType?: VehicleTypeEnum
   availableControlTypes?: ControlType[]
@@ -37,17 +38,19 @@ const MissionInfractionEnvForm: FC<MissionInfractionEnvFormProps> = ({
   value,
   onClose,
   onSubmit,
-  withTarget,
+  editTarget,
   targetType,
   vehicleType,
+  editInfraction,
   availableControlTypes
 }) => {
   const { controlTypeOptions, getDisabledControlTypes } = useControlRegistry()
-  const { initValue, handleSubmit, validationSchema } = useInfractionEnvForm2(
+  const { initValue, handleSubmit, validationSchema } = useInfractionEnvForm(
     value,
     targetType,
     vehicleType,
-    withTarget
+    editTarget,
+    editInfraction
   )
   return (
     <>
@@ -61,17 +64,19 @@ const MissionInfractionEnvForm: FC<MissionInfractionEnvFormProps> = ({
         >
           {formik => (
             <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
-              <Stack.Item style={{ width: '100%' }}>
-                <FormikSelect
-                  name="infraction.controlType"
-                  isRequired={true}
-                  isErrorMessageHidden={true}
-                  options={controlTypeOptions}
-                  label="Type de contrôle avec infraction"
-                  disabledItemValues={getDisabledControlTypes(availableControlTypes)}
-                />
-              </Stack.Item>
-              {withTarget && (
+              {editInfraction && (
+                <Stack.Item style={{ width: '100%' }}>
+                  <FormikSelect
+                    name="infraction.controlType"
+                    isRequired={true}
+                    isErrorMessageHidden={true}
+                    options={controlTypeOptions}
+                    label="Type de contrôle avec infraction"
+                    disabledItemValues={getDisabledControlTypes(availableControlTypes)}
+                  />
+                </Stack.Item>
+              )}
+              {editTarget && (
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
                     {formik.values.target.isVessel && (
@@ -106,47 +111,56 @@ const MissionInfractionEnvForm: FC<MissionInfractionEnvFormProps> = ({
                 </Stack.Item>
               )}
 
-              <Stack.Item style={{ width: '100%' }}>
-                <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
-                  <Stack.Item>
-                    <FormikToggle size="sm" name="withReport" label="" />
-                  </Stack.Item>
-                  <Stack.Item style={{ marginTop: 8 }}>
-                    <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
-                      PV émis
-                    </Text>
-                  </Stack.Item>
-                </Stack>
-              </Stack.Item>
-              <Stack.Item style={{ width: '100%' }}>
-                <FormikMultiSelectNatinf name="infraction.natinfs" />
-              </Stack.Item>
-              <Stack.Item style={{ width: '100%' }}>
-                <FormikTextarea label="Observations" name="infraction.observations" role="observations" />
-              </Stack.Item>
-              <Stack.Item style={{ width: '100%' }}>
-                <Stack justifyContent="flex-end" spacing={'1rem'} style={{ width: '100%' }}>
-                  <Stack.Item>
-                    <Button size={Size.NORMAL} onClick={onClose} role="cancel-infraction" accent={Accent.TERTIARY}>
-                      Annuler
-                    </Button>
-                  </Stack.Item>
-                  <Stack.Item>
-                    <Button
-                      size={Size.NORMAL}
-                      accent={Accent.PRIMARY}
-                      role="validate-infraction"
-                      onClick={async () => {
-                        setDebounceTime(0)
-                        handleSubmit(formik.values, formik.errors, onSubmit)
-                      }}
-                      disabled={!isEmpty(formik.errors)}
-                    >
-                      Valider l'infraction
-                    </Button>
-                  </Stack.Item>
-                </Stack>
-              </Stack.Item>
+              {editInfraction && (
+                <Stack.Item style={{ width: '100%' }}>
+                  <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
+                    <Stack.Item style={{ width: '100%' }}>
+                      <Stack direction="row" alignItems="center" spacing={'0.5rem'}>
+                        <Stack.Item>
+                          <FormikToggle size="sm" name="infraction.withReport" label="" />
+                        </Stack.Item>
+                        <Stack.Item style={{ marginTop: 8 }}>
+                          <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
+                            PV émis
+                          </Text>
+                        </Stack.Item>
+                      </Stack>
+                    </Stack.Item>
+                    <Stack.Item style={{ width: '100%' }}>
+                      <FormikMultiSelectNatinf name="infraction.natinfs" />
+                    </Stack.Item>
+                    <Stack.Item style={{ width: '100%' }}>
+                      <FormikTextarea label="Observations" name="infraction.observations" role="observations" />
+                    </Stack.Item>
+                  </Stack>
+                </Stack.Item>
+              )}
+
+              {(editTarget || editInfraction) && (
+                <Stack.Item style={{ width: '100%' }}>
+                  <Stack justifyContent="flex-end" spacing={'1rem'} style={{ width: '100%' }}>
+                    <Stack.Item>
+                      <Button size={Size.NORMAL} onClick={onClose} role="cancel-infraction" accent={Accent.TERTIARY}>
+                        Annuler
+                      </Button>
+                    </Stack.Item>
+                    <Stack.Item>
+                      <Button
+                        size={Size.NORMAL}
+                        accent={Accent.PRIMARY}
+                        role="validate-infraction"
+                        onClick={async () => {
+                          setDebounceTime(0)
+                          handleSubmit(formik.values, formik.errors, onSubmit)
+                        }}
+                        disabled={!isEmpty(formik.errors)}
+                      >
+                        Valider l'infraction
+                      </Button>
+                    </Stack.Item>
+                  </Stack>
+                </Stack.Item>
+              )}
             </Stack>
           )}
         </Formik>

@@ -4,6 +4,7 @@ import { THEME } from '@mtes-mct/monitor-ui'
 import { FieldProps } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
+import { MissionSourceEnum } from '../../../common/types/mission-types.ts'
 import { Target, TargetType } from '../../../common/types/target-types.ts'
 import MissionTargetEnvAction from '../ui/mission-target-env-action.tsx'
 import MissionTargetEnvExternalData from '../ui/mission-target-env-external-data.tsx'
@@ -31,24 +32,32 @@ const MissionTargetEnvItem: React.FC<MissionTargetEnvItemProps> = ({
 }) => {
   const [target, setTarget] = useState<Target>()
   const [showDetail, setShowDetail] = useState(false)
-  const [enableForm, setEnableFrom] = useState(false)
-  const [controlType, setControlType] = useState<ControlType>()
+  const [editTarget, setEditTarget] = useState<boolean>(false)
+  const [editInfraction, setEditInfraction] = useState<boolean>(false)
+  const [disabledAddInfraction, setDisableAddInfraction] = useState(false)
 
-  const handleDelete = (id?: string) => {
+  const handleDeleteTarget = (id?: string) => {
     if (onDelete && id) onDelete(id)
   }
+
+  const handleClose = () => {
+    setShowDetail(false)
+    setEditTarget(false)
+    setEditInfraction(false)
+  }
+
+  const handleEditTarget = () => setEditTarget(true)
+  const handleShowDetail = () => setShowDetail(!showDetail)
+  const handleAddInfraction = () => setEditInfraction(true)
 
   useEffect(() => {
     if (!fieldFormik.field.value) return
     setTarget(fieldFormik.field.value)
-    const controlWithInfraction = fieldFormik.field.value.controls?.find(c => c.infractions?.some(Boolean))
-    const newControlType = controlWithInfraction?.controlType
-    if (newControlType !== controlType) setControlType(newControlType)
-  }, [fieldFormik, controlType])
+  }, [fieldFormik])
 
   useEffect(() => {
-    setEnableFrom(targetType === TargetType.VEHICLE)
-  }, [targetType])
+    setDisableAddInfraction(targetType !== TargetType.VEHICLE && target?.source === MissionSourceEnum.MONITORENV)
+  }, [targetType, target])
 
   return (
     <Stack
@@ -70,9 +79,11 @@ const MissionTargetEnvItem: React.FC<MissionTargetEnvItemProps> = ({
             <MissionTargetEnvAction
               source={target?.source}
               showDetail={showDetail}
-              enableForm={enableForm}
-              setShowDetail={setShowDetail}
-              onDelete={() => handleDelete(target?.id)}
+              onEdit={handleEditTarget}
+              onShowDetail={handleShowDetail}
+              onAddInfraction={handleAddInfraction}
+              disabledAdd={disabledAddInfraction}
+              onDelete={() => handleDeleteTarget(target?.id)}
             />
           </Stack.Item>
         </Stack>
@@ -82,14 +93,17 @@ const MissionTargetEnvItem: React.FC<MissionTargetEnvItemProps> = ({
           <MissionTargetEnvExternalData showDetail={showDetail} externalData={target.externalData} />
         </Stack.Item>
       )}
-      {showDetail && enableForm && (
+      {(editTarget || editInfraction) && (
         <Stack.Item style={{ width: '100%' }}>
           <MissionTargetEnvForm
             name={name}
+            onClose={handleClose}
+            editTarget={editTarget}
             targetType={targetType}
             fieldFormik={fieldFormik}
             vehicleType={vehicleType}
-            onClose={() => setShowDetail(false)}
+            editInfraction={editInfraction}
+            value={editTarget ? { target } : {}}
             availableControlTypes={availableControlTypes}
           />
         </Stack.Item>

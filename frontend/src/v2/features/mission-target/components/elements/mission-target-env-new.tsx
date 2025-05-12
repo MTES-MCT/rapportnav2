@@ -5,7 +5,7 @@ import { FieldArrayRenderProps } from 'formik'
 import { useState } from 'react'
 import WithIconButton from '../../../common/components/ui/with-icon-button'
 import MissionInfractionEnvForm from '../../../mission-infraction/components/elements/mission-infraction-env-form'
-import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form2'
+import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form'
 import { useTarget } from '../../hooks/use-target'
 
 export interface MissionTargetEnvNewProps {
@@ -57,7 +57,8 @@ const MissionTargetEnvNew: React.FC<MissionTargetEnvNewProps> = ({
           }}
         >
           <MissionInfractionEnvForm
-            withTarget={true}
+            editTarget={true}
+            editInfraction={true}
             onClose={handleClose}
             onSubmit={handleSubmit}
             vehicleType={vehicleType}
