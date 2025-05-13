@@ -1,0 +1,693 @@
+[
+  {
+    "id": 21916,
+    "missionTypes": [
+      "SEA",
+      "AIR"
+    ],
+    "controlUnits": [
+      {
+        "id": 10225,
+        "administration": "DDTM",
+        "isArchived": false,
+        "name": "ULAM 33",
+        "resources": [
+          {
+            "id": 279,
+            "controlUnitId": 10225,
+            "name": "Malprat – PM 457"
+          },
+          {
+            "id": 240,
+            "controlUnitId": 10225,
+            "name": "Voiture"
+          }
+        ],
+        "contact": null
+      }
+    ],
+    "openBy": null,
+    "completedBy": null,
+    "observationsByUnit": null,
+    "observationsCacem": null,
+    "observationsCnsp": null,
+    "facade": null,
+    "geom": null,
+    "startDateTimeUtc": "2025-03-25T09:22:00Z",
+    "endDateTimeUtc": "2025-03-25T10:22:00Z",
+    "createdAtUtc": "2025-03-06T10:23:14.65528Z",
+    "updatedAtUtc": "2025-03-10T10:29:29.402593Z",
+    "envActions": [],
+    "missionSource": "RAPPORT_NAV",
+    "hasMissionOrder": false,
+    "isUnderJdp": false,
+    "isGeometryComputedFromControls": false
+  },
+  {
+    "id": 21317,
+    "missionTypes": [
+      "LAND",
+      "AIR"
+    ],
+    "controlUnits": [
+      {
+        "id": 10225,
+        "administration": "DDTM",
+        "isArchived": false,
+        "name": "ULAM 33",
+        "resources": [
+          {
+            "id": 1205,
+            "controlUnitId": 10225,
+            "name": "Edulis - PM 424"
+          },
+          {
+            "id": 385,
+            "controlUnitId": 10225,
+            "name": "Ostrea PM 437"
+          },
+          {
+            "id": 279,
+            "controlUnitId": 10225,
+            "name": "Malprat – PM 457"
+          },
+          {
+            "id": 69,
+            "controlUnitId": 10225,
+            "name": "Atys PM 432"
+          },
+          {
+            "id": 106,
+            "controlUnitId": 10225,
+            "name": "Brizo – PM 480"
+          },
+          {
+            "id": 240,
+            "controlUnitId": 10225,
+            "name": "Voiture"
+          }
+        ],
+        "contact": null
+      }
+    ],
+    "openBy": null,
+    "completedBy": null,
+    "observationsByUnit": null,
+    "observationsCacem": null,
+    "observationsCnsp": null,
+    "facade": null,
+    "geom": null,
+    "startDateTimeUtc": "2025-03-17T18:27:00Z",
+    "endDateTimeUtc": "2025-03-17T19:27:00Z",
+    "createdAtUtc": "2025-02-17T18:28:14.764419Z",
+    "updatedAtUtc": "2025-03-05T10:49:30.875157Z",
+    "envActions": [],
+    "missionSource": "RAPPORT_NAV",
+    "hasMissionOrder": false,
+    "isUnderJdp": false,
+    "isGeometryComputedFromControls": false
+  },
+  {
+    "id": 21312,
+    "missionTypes": [
+      "AIR",
+      "LAND",
+      "SEA"
+    ],
+    "controlUnits": [
+      {
+        "id": 10225,
+        "administration": "DDTM",
+        "isArchived": false,
+        "name": "ULAM 33",
+        "resources": [
+          {
+            "id": 1205,
+            "controlUnitId": 10225,
+            "name": "Edulis - PM 424"
+          },
+          {
+            "id": 385,
+            "controlUnitId": 10225,
+            "name": "Ostrea PM 437"
+          },
+          {
+            "id": 279,
+            "controlUnitId": 10225,
+            "name": "Malprat – PM 457"
+          },
+          {
+            "id": 69,
+            "controlUnitId": 10225,
+            "name": "Atys PM 432"
+          },
+          {
+            "id": 106,
+            "controlUnitId": 10225,
+            "name": "Brizo – PM 480"
+          },
+          {
+            "id": 240,
+            "controlUnitId": 10225,
+            "name": "Voiture"
+          }
+        ],
+        "contact": null
+      }
+    ],
+    "openBy": null,
+    "completedBy": null,
+    "observationsByUnit": null,
+    "observationsCacem": null,
+    "observationsCnsp": null,
+    "facade": null,
+    "geom": null,
+    "startDateTimeUtc": "2025-03-17T17:18:00Z",
+    "endDateTimeUtc": "2025-03-17T22:30:00Z",
+    "createdAtUtc": "2025-02-17T17:18:19.50715Z",
+    "updatedAtUtc": "2025-03-05T13:14:56.358567Z",
+    "envActions": [],
+    "missionSource": "RAPPORT_NAV",
+    "hasMissionOrder": false,
+    "isUnderJdp": false,
+    "isGeometryComputedFromControls": false
+  },
+  {
+    "id": 21768,
+    "missionTypes": [
+      "LAND",
+      "AIR"
+    ],
+    "controlUnits": [
+      {
+        "id": 10225,
+        "administration": "DDTM",
+        "isArchived": false,
+        "name": "ULAM 33",
+        "resources": [
+          {
+            "id": 1205,
+            "controlUnitId": 10225,
+            "name": "Edulis - PM 424"
+          },
+          {
+            "id": 385,
+            "controlUnitId": 10225,
+            "name": "Ostrea PM 437"
+          },
+          {
+            "id": 279,
+            "controlUnitId": 10225,
+            "name": "Malprat – PM 457"
+          },
+          {
+            "id": 69,
+            "controlUnitId": 10225,
+            "name": "Atys PM 432"
+          },
+          {
+            "id": 106,
+            "controlUnitId": 10225,
+            "name": "Brizo – PM 480"
+          },
+          {
+            "id": 240,
+            "controlUnitId": 10225,
+            "name": "Voiture"
+          }
+        ],
+        "contact": null
+      }
+    ],
+    "openBy": null,
+    "completedBy": null,
+    "observationsByUnit": null,
+    "observationsCacem": null,
+    "observationsCnsp": null,
+    "facade": null,
+    "geom": null,
+    "startDateTimeUtc": "2025-03-03T08:29:40Z",
+    "endDateTimeUtc": "2025-03-03T09:29:00Z",
+    "createdAtUtc": "2025-03-03T08:29:54.347115Z",
+    "updatedAtUtc": "2025-03-03T09:44:34.52609Z",
+    "envActions": [],
+    "missionSource": "RAPPORT_NAV",
+    "hasMissionOrder": false,
+    "isUnderJdp": false,
+    "isGeometryComputedFromControls": false
+  },
+  {
+    "id": 21538,
+    "missionTypes": [
+      "LAND",
+      "SEA",
+      "AIR"
+    ],
+    "controlUnits": [
+      {
+        "id": 10225,
+        "administration": "DDTM",
+        "isArchived": false,
+        "name": "ULAM 33",
+        "resources": [
+          {
+            "id": 1205,
+            "controlUnitId": 10225,
+            "name": "Edulis - PM 424"
+          },
+          {
+            "id": 385,
+            "controlUnitId": 10225,
+            "name": "Ostrea PM 437"
+          },
+          {
+            "id": 279,
+            "controlUnitId": 10225,
+            "name": "Malprat – PM 457"
+          },
+          {
+            "id": 69,
+            "controlUnitId": 10225,
+            "name": "Atys PM 432"
+          },
+          {
+            "id": 106,
+            "controlUnitId": 10225,
+            "name": "Brizo – PM 480"
+          },
+          {
+            "id": 240,
+            "controlUnitId": 10225,
+            "name": "Voiture"
+          }
+        ],
+        "contact": null
+      }
+    ],
+    "openBy": null,
+    "completedBy": null,
+    "observationsByUnit": null,
+    "observationsCacem": null,
+    "observationsCnsp": null,
+    "facade": null,
+    "geom": null,
+    "startDateTimeUtc": "2025-02-25T13:10:56Z",
+    "endDateTimeUtc": "2025-02-25T14:10:00Z",
+    "createdAtUtc": "2025-02-25T13:12:01.521098Z",
+    "updatedAtUtc": "2025-03-03T11:10:53.412765Z",
+    "envActions": [],
+    "missionSource": "RAPPORT_NAV",
+    "hasMissionOrder": false,
+    "isUnderJdp": false,
+    "isGeometryComputedFromControls": false
+  },
+  {
+    "id": 21493,
+    "missionTypes": [
+      "LAND"
+    ],
+    "controlUnits": [
+      {
+        "id": 10225,
+        "administration": "DDTM",
+        "isArchived": false,
+        "name": "ULAM 33",
+        "resources": [
+          {
+            "id": 1205,
+            "controlUnitId": 10225,
+            "name": "Edulis - PM 424"
+          },
+          {
+            "id": 385,
+            "controlUnitId": 10225,
+            "name": "Ostrea PM 437"
+          },
+          {
+            "id": 279,
+            "controlUnitId": 10225,
+            "name": "Malprat – PM 457"
+          },
+          {
+            "id": 69,
+            "controlUnitId": 10225,
+            "name": "Atys PM 432"
+          },
+          {
+            "id": 106,
+            "controlUnitId": 10225,
+            "name": "Brizo – PM 480"
+          },
+          {
+            "id": 240,
+            "controlUnitId": 10225,
+            "name": "Voiture"
+          }
+        ],
+        "contact": null
+      }
+    ],
+    "openBy": null,
+    "completedBy": null,
+    "observationsByUnit": null,
+    "observationsCacem": null,
+    "observationsCnsp": null,
+    "facade": null,
+    "geom": null,
+    "startDateTimeUtc": "2025-02-24T10:48:32Z",
+    "endDateTimeUtc": "2025-02-24T10:55:00Z",
+    "createdAtUtc": "2025-02-24T10:48:45.16559Z",
+    "updatedAtUtc": "2025-02-24T15:19:36.909618Z",
+    "envActions": [],
+    "missionSource": "RAPPORT_NAV",
+    "hasMissionOrder": false,
+    "isUnderJdp": false,
+    "isGeometryComputedFromControls": false
+  },
+  {
+    "id": 21490,
+    "missionTypes": [
+      "SEA"
+    ],
+    "controlUnits": [
+      {
+        "id": 10225,
+        "administration": "DDTM",
+        "isArchived": false,
+        "name": "ULAM 33",
+        "resources": [
+          {
+            "id": 1205,
+            "controlUnitId": 10225,
+            "name": "Edulis - PM 424"
+          },
+          {
+            "id": 385,
+            "controlUnitId": 10225,
+            "name": "Ostrea PM 437"
+          },
+          {
+            "id": 279,
+            "controlUnitId": 10225,
+            "name": "Malprat – PM 457"
+          },
+          {
+            "id": 69,
+            "controlUnitId": 10225,
+            "name": "Atys PM 432"
+          },
+          {
+            "id": 106,
+            "controlUnitId": 10225,
+            "name": "Brizo – PM 480"
+          },
+          {
+            "id": 240,
+            "controlUnitId": 10225,
+            "name": "Voiture"
+          }
+        ],
+        "contact": null
+      }
+    ],
+    "openBy": null,
+    "completedBy": null,
+    "observationsByUnit": null,
+    "observationsCacem": null,
+    "observationsCnsp": null,
+    "facade": null,
+    "geom": null,
+    "startDateTimeUtc": "2025-02-24T10:39:13Z",
+    "endDateTimeUtc": "2025-02-24T10:45:00Z",
+    "createdAtUtc": "2025-02-24T10:39:30.907626Z",
+    "updatedAtUtc": "2025-02-24T10:39:30.907664Z",
+    "envActions": [],
+    "missionSource": "RAPPORT_NAV",
+    "hasMissionOrder": false,
+    "isUnderJdp": false,
+    "isGeometryComputedFromControls": false
+  },
+  {
+    "id": 21336,
+    "missionTypes": [
+      "LAND",
+      "AIR"
+    ],
+    "controlUnits": [
+      {
+        "id": 10225,
+        "administration": "DDTM",
+        "isArchived": false,
+        "name": "ULAM 33",
+        "resources": [
+          {
+            "id": 1205,
+            "controlUnitId": 10225,
+            "name": "Edulis - PM 424"
+          },
+          {
+            "id": 385,
+            "controlUnitId": 10225,
+            "name": "Ostrea PM 437"
+          },
+          {
+            "id": 279,
+            "controlUnitId": 10225,
+            "name": "Malprat – PM 457"
+          },
+          {
+            "id": 69,
+            "controlUnitId": 10225,
+            "name": "Atys PM 432"
+          },
+          {
+            "id": 106,
+            "controlUnitId": 10225,
+            "name": "Brizo – PM 480"
+          },
+          {
+            "id": 240,
+            "controlUnitId": 10225,
+            "name": "Voiture"
+          }
+        ],
+        "contact": null
+      }
+    ],
+    "openBy": null,
+    "completedBy": null,
+    "observationsByUnit": null,
+    "observationsCacem": null,
+    "observationsCnsp": null,
+    "facade": null,
+    "geom": null,
+    "startDateTimeUtc": "2025-02-18T09:45:00Z",
+    "endDateTimeUtc": "2025-02-18T13:51:00Z",
+    "createdAtUtc": "2025-02-18T09:52:16.417923Z",
+    "updatedAtUtc": "2025-02-18T09:52:16.417958Z",
+    "envActions": [],
+    "missionSource": "RAPPORT_NAV",
+    "hasMissionOrder": false,
+    "isUnderJdp": false,
+    "isGeometryComputedFromControls": false
+  },
+  {
+    "id": 21310,
+    "missionTypes": [
+      "LAND",
+      "AIR"
+    ],
+    "controlUnits": [
+      {
+        "id": 10225,
+        "administration": "DDTM",
+        "isArchived": false,
+        "name": "ULAM 33",
+        "resources": [
+          {
+            "id": 1205,
+            "controlUnitId": 10225,
+            "name": "Edulis - PM 424"
+          },
+          {
+            "id": 385,
+            "controlUnitId": 10225,
+            "name": "Ostrea PM 437"
+          },
+          {
+            "id": 279,
+            "controlUnitId": 10225,
+            "name": "Malprat – PM 457"
+          },
+          {
+            "id": 69,
+            "controlUnitId": 10225,
+            "name": "Atys PM 432"
+          },
+          {
+            "id": 106,
+            "controlUnitId": 10225,
+            "name": "Brizo – PM 480"
+          },
+          {
+            "id": 240,
+            "controlUnitId": 10225,
+            "name": "Voiture"
+          }
+        ],
+        "contact": null
+      }
+    ],
+    "openBy": null,
+    "completedBy": null,
+    "observationsByUnit": null,
+    "observationsCacem": null,
+    "observationsCnsp": null,
+    "facade": null,
+    "geom": null,
+    "startDateTimeUtc": "2025-02-17T15:00:00Z",
+    "endDateTimeUtc": "2025-02-17T16:35:35Z",
+    "createdAtUtc": "2025-02-17T16:36:01.715403Z",
+    "updatedAtUtc": "2025-02-17T16:45:40.591634Z",
+    "envActions": [],
+    "missionSource": "RAPPORT_NAV",
+    "hasMissionOrder": false,
+    "isUnderJdp": false,
+    "isGeometryComputedFromControls": false
+  },
+  {
+    "id": 21023,
+    "missionTypes": [
+      "LAND"
+    ],
+    "controlUnits": [
+      {
+        "id": 10225,
+        "administration": "DDTM",
+        "isArchived": false,
+        "name": "ULAM 33",
+        "resources": [
+          {
+            "id": 1205,
+            "controlUnitId": 10225,
+            "name": "Edulis - PM 424"
+          },
+          {
+            "id": 385,
+            "controlUnitId": 10225,
+            "name": "Ostrea PM 437"
+          },
+          {
+            "id": 279,
+            "controlUnitId": 10225,
+            "name": "Malprat – PM 457"
+          },
+          {
+            "id": 69,
+            "controlUnitId": 10225,
+            "name": "Atys PM 432"
+          },
+          {
+            "id": 106,
+            "controlUnitId": 10225,
+            "name": "Brizo – PM 480"
+          },
+          {
+            "id": 240,
+            "controlUnitId": 10225,
+            "name": "Voiture"
+          }
+        ],
+        "contact": null
+      }
+    ],
+    "openBy": null,
+    "completedBy": null,
+    "observationsByUnit": null,
+    "observationsCacem": null,
+    "observationsCnsp": null,
+    "facade": null,
+    "geom": null,
+    "startDateTimeUtc": "2025-02-07T08:00:00Z",
+    "endDateTimeUtc": "2025-02-07T14:30:00Z",
+    "createdAtUtc": "2025-02-07T13:45:00.251048Z",
+    "updatedAtUtc": "2025-02-13T16:32:28.312466Z",
+    "envActions": [
+      {
+        "id": "90f14715-31f2-4929-9acf-8bb833174310",
+        "actionEndDateTimeUtc": "2025-02-07T14:30:00Z",
+        "actionStartDateTimeUtc": "2025-02-07T08:00:00Z",
+        "actionType": "SURVEILLANCE",
+        "completedBy": null,
+        "completion": "COMPLETED",
+        "controlPlans": [
+          {
+            "themeId": 112,
+            "subThemeIds": [
+              202
+            ],
+            "tagIds": []
+          },
+          {
+            "themeId": 18,
+            "subThemeIds": [
+              181,
+              180
+            ],
+            "tagIds": []
+          }
+        ],
+        "department": "33",
+        "facade": "SA",
+        "geom": {
+          "type": "MultiPolygon",
+          "coordinates": [
+            [
+              [
+                [
+                  -0.7849747,
+                  45.31115224
+                ],
+                [
+                  -0.7688335,
+                  45.28950477
+                ],
+                [
+                  -0.76711177,
+                  45.27845078
+                ],
+                [
+                  -0.76151615,
+                  45.26815197
+                ],
+                [
+                  -0.74580539,
+                  45.27118123
+                ],
+                [
+                  -0.75828791,
+                  45.30449236
+                ],
+                [
+                  -0.77120087,
+                  45.31508726
+                ],
+                [
+                  -0.7849747,
+                  45.31115224
+                ]
+              ]
+            ]
+          ]
+        },
+        "observationsByUnit": null,
+        "observations": "",
+        "openBy": "CLN"
+      }
+    ],
+    "missionSource": "RAPPORT_NAV",
+    "hasMissionOrder": false,
+    "isUnderJdp": false,
+    "isGeometryComputedFromControls": false
+  }
+]

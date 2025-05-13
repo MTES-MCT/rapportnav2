@@ -21,7 +21,91 @@
   "endDateTimeUtc": "2025-03-29T22:59:59Z",
   "createdAtUtc": null,
   "updatedAtUtc": "2025-03-06T07:29:57.26847Z",
-  "envActions": [],
+  "envActions": [
+    {
+      "id": "d0d5f50a-c43e-4a29-938c-be67e20e9045",
+      "actionEndDateTimeUtc": "2025-03-06T15:00:00Z",
+      "actionStartDateTimeUtc": "2025-03-06T08:30:00Z",
+      "actionType": "SURVEILLANCE",
+      "completedBy": null,
+      "completion": "COMPLETED",
+      "controlPlans": [
+        {
+          "themeId": 107,
+          "subThemeIds": [
+            216
+          ],
+          "tagIds": []
+        }
+      ],
+      "department": "35",
+      "facade": "NAMO",
+      "geom": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -1.86099228,
+                48.70026126
+              ],
+              [
+                -1.83705545,
+                48.72709442
+              ],
+              [
+                -1.81358973,
+                48.72038637
+              ],
+              [
+                -1.81280754,
+                48.66152365
+              ],
+              [
+                -1.71816249,
+                48.65584027
+              ],
+              [
+                -1.61569554,
+                48.67805346
+              ],
+              [
+                -1.56798192,
+                48.6237947
+              ],
+              [
+                -1.58206135,
+                48.60517826
+              ],
+              [
+                -1.7666583,
+                48.58758976
+              ],
+              [
+                -1.85817459,
+                48.60362658
+              ],
+              [
+                -1.88476907,
+                48.64343795
+              ],
+              [
+                -1.86050406,
+                48.7001807
+              ],
+              [
+                -1.86099228,
+                48.70026126
+              ]
+            ]
+          ]
+        ]
+      },
+      "observationsByUnit": null,
+      "observations": "Reconnaissance cadastrale sur bouées de concession (futur arrêté en cours de création sur concessions huitres plates)",
+      "openBy": "BLC"
+    }
+  ],
   "missionSource": "RAPPORT_NAV",
   "hasMissionOrder": false,
   "isUnderJdp": false,

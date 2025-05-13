@@ -1,0 +1,44 @@
+{
+  "id": 21916,
+  "missionTypes": [
+    "SEA",
+    "AIR"
+  ],
+  "controlUnits": [
+    {
+      "id": 10225,
+      "administration": "DDTM",
+      "isArchived": false,
+      "name": "ULAM 33",
+      "resources": [
+        {
+          "id": 279,
+          "controlUnitId": 10225,
+          "name": "Malprat – PM 457"
+        },
+        {
+          "id": 240,
+          "controlUnitId": 10225,
+          "name": "Voiture"
+        }
+      ],
+      "contact": null
+    }
+  ],
+  "openBy": null,
+  "completedBy": null,
+  "observationsByUnit": null,
+  "observationsCacem": null,
+  "observationsCnsp": null,
+  "facade": null,
+  "geom": null,
+  "startDateTimeUtc": "2025-03-25T09:22:00Z",
+  "endDateTimeUtc": "2025-03-25T10:22:00Z",
+  "createdAtUtc": "2025-03-06T10:23:14.65528Z",
+  "updatedAtUtc": "2025-03-10T10:29:29.402593Z",
+  "envActions": [],
+  "missionSource": "RAPPORT_NAV",
+  "hasMissionOrder": false,
+  "isUnderJdp": false,
+  "isGeometryComputedFromControls": false
+}
