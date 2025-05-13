@@ -24,7 +24,7 @@ const MissionUlamPage: React.FC = () => {
           onClickClose={exitMission}
           onClickExport={exportMission}
           exportLoading={exportIsLoading}
-          missionId={Number(missionId)}
+          missionId={missionId}
         />
       }
       missionGeneralInformations={<MissionGeneralInformationUlam missionId={missionId} />}

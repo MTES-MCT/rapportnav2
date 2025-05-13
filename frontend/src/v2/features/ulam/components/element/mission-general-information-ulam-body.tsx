@@ -22,6 +22,7 @@ const MissionGeneralInformationUlamBody: React.FC<MissionGeneralInformationUlamB
 
   const onChange = async (newGeneralInfo: MissionGeneralInfo2): Promise<void> => {
     await handleExecuteOnDelay(async () => {
+      console.log(newGeneralInfo)
       await mutation.mutateAsync(newGeneralInfo)
       if (debounceTime !== undefined) resetDebounceTime()
     }, debounceTime)

@@ -28,8 +28,6 @@ export type MissionULAMGeneralInfoInitial = {
   missionReportType?: MissionReportTypeEnum
   reinforcementType?: MissionReinforcementTypeEnum
   nbHourAtSea?: number
-  isUnderJdp?: boolean
-  jdpType?: JdpTypeEnum
 }
 
 export type MissionGeneralInfoExtended = {
@@ -40,6 +38,8 @@ export type MissionGeneralInfoExtended = {
   observations?: string
   isAllAgentsParticipating?: boolean
   interMinisterialServices?: InterMinisterialService[]
+  isUnderJdp?: boolean
+  jdpType?: JdpTypeEnum
 }
 
 export enum MissionReportTypeEnum {
