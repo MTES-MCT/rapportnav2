@@ -30,7 +30,6 @@ data class MissionEnvActionEntity(
     override val actionTargetType: ActionTargetTypeEnum? = null,
     override val vehicleType: VehicleTypeEnum? = null,
     override val envInfractions: List<InfractionEntity>? = listOf(),
-    override var navInfractions: List<fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity>? = listOf(),
     override val coverMissionZone: Boolean? = null,
     override var formattedControlPlans: List<FormattedEnvActionControlPlan>? = listOf(),
     override var controlsToComplete: List<ControlType>? = listOf(),
@@ -39,7 +38,7 @@ data class MissionEnvActionEntity(
     override val isComplianceWithWaterRegulationsControl: Boolean? = null,
     override val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
     override val isSeafarersControl: Boolean? = null,
-
+    override var targets: List<TargetEntity2>? = null
     ) : MissionActionEntity(
     missionId = missionId,
     isCompleteForStats = false,
@@ -50,7 +49,8 @@ data class MissionEnvActionEntity(
     isSeafarersControl = isSeafarersControl,
     isAdministrativeControl = isAdministrativeControl,
     isComplianceWithWaterRegulationsControl = isComplianceWithWaterRegulationsControl,
-    isSafetyEquipmentAndStandardsComplianceControl = isSafetyEquipmentAndStandardsComplianceControl
+    isSafetyEquipmentAndStandardsComplianceControl = isSafetyEquipmentAndStandardsComplianceControl,
+    targets = targets
 ),
     BaseMissionEnvAction {
 
@@ -76,42 +76,39 @@ data class MissionEnvActionEntity(
         this.computeCompletenessForStats()
     }
 
+
+    override fun isControlInValid(control: ControlEntity2?): Boolean {
+        return control == null || control.amountOfControls == 0
+    }
+
     private fun computeAvailableControlTypesForInfraction() {
-        this.availableControlTypesForInfraction = listOf(
-            ControlType.ADMINISTRATIVE.takeIf {
-                this.controlAdministrative != null || this.isAdministrativeControl == true
-            },
-            ControlType.NAVIGATION.takeIf {
-                this.controlNavigation != null || this.isComplianceWithWaterRegulationsControl == true
-            },
-            ControlType.SECURITY.takeIf {
-                this.controlSecurity != null || this.isSafetyEquipmentAndStandardsComplianceControl == true
-            },
-            ControlType.GENS_DE_MER.takeIf {
-                this.controlGensDeMer != null || this.isSeafarersControl == true
-            }
+        this.availableControlTypesForInfraction =
+            this.targets?.flatMap { computeAvailableControlTypesForInfraction(it) }
+    }
+
+    private fun computeAvailableControlTypesForInfraction(target: TargetEntity2): List<ControlType> {
+        return listOf(
+            ControlType.ADMINISTRATIVE.takeIf { isAdministrativeControlOK(target) },
+            ControlType.NAVIGATION.takeIf { isNavigationControlOK(target) },
+            ControlType.SECURITY.takeIf { isSecurityControlOK(target) },
+            ControlType.GENS_DE_MER.takeIf { isGensDeMerControlOK(target) }
         ).mapNotNull { it }
     }
 
-    override fun computeControlsToComplete() {
-        this.controlsToComplete = listOf(
-            ControlType.ADMINISTRATIVE.takeIf {
-                this.isAdministrativeControl == true &&
-                    (this.controlAdministrative == null || this.controlAdministrative?.amountOfControls == 0)
-            },
-            ControlType.NAVIGATION.takeIf {
-                this.isComplianceWithWaterRegulationsControl == true &&
-                    (this.controlNavigation == null || this.controlNavigation?.amountOfControls == 0)
-            },
-            ControlType.SECURITY.takeIf {
-                this.isSafetyEquipmentAndStandardsComplianceControl == true &&
-                    (this.controlSecurity == null || this.controlSecurity?.amountOfControls == 0)
-            },
-            ControlType.GENS_DE_MER.takeIf {
-                this.isSeafarersControl == true &&
-                    (this.controlGensDeMer == null || this.controlGensDeMer?.amountOfControls == 0)
-            }
-        ).mapNotNull { it }
+    private fun isAdministrativeControlOK(target: TargetEntity2): Boolean {
+        return this.isAdministrativeControl == true || target.getControlByType(ControlType.ADMINISTRATIVE) != null
+    }
+
+    private fun isNavigationControlOK(target: TargetEntity2): Boolean {
+        return this.isComplianceWithWaterRegulationsControl == true || target.getControlByType(ControlType.NAVIGATION) != null
+    }
+
+    private fun isSecurityControlOK(target: TargetEntity2): Boolean {
+        return this.isSafetyEquipmentAndStandardsComplianceControl == true || target.getControlByType(ControlType.SECURITY) != null
+    }
+
+    private fun isGensDeMerControlOK(target: TargetEntity2): Boolean {
+        return this.isSeafarersControl == true || target.getControlByType(ControlType.GENS_DE_MER) != null
     }
 
     companion object {
@@ -137,8 +134,8 @@ data class MissionEnvActionEntity(
             actionNumberOfControls = action.actionNumberOfControls,
             actionTargetType = action.actionTargetType,
             vehicleType = action.vehicleType,
-            envInfractions = action.infractions,
-            coverMissionZone = action.coverMissionZone
+            coverMissionZone = action.coverMissionZone,
+            envInfractions = action.infractions
         )
     }
 }

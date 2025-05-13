@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/react'
+import { wrapCreateBrowserRouterV6 } from '@sentry/react'
 import { createBrowserRouter } from 'react-router-dom'
 import ErrorPage from '../pages/error-page.tsx'
 import Login from '../pages/login.tsx'
@@ -12,17 +12,17 @@ import MissionListPamPage from '../v2/pages/mission-list-pam-page.tsx'
 import MissionListUlamPage from '../v2/pages/mission-list-ulam-page.tsx'
 import MissionPamPage from '../v2/pages/mission-pam-page.tsx'
 import MissionUlamPage from '../v2/pages/mission-ulam-page.tsx'
+import {
+  ADMIN_CREW_PATH,
+  LOGIN_PATH,
+  PAM_HOME_PATH,
+  PAM_V2_HOME_PATH,
+  ROOT_PATH,
+  SIGNUP_PATH,
+  ULAM_V2_HOME_PATH
+} from '@router/routes.tsx'
 
-export const ROOT_PATH = '/'
-export const LOGIN_PATH = '/login'
-export const SIGNUP_PATH = '/signup'
-export const PAM_HOME_PATH = '/pam/missions'
-export const PAM_V2_HOME_PATH = '/v2/pam/missions'
-export const ULAM_V2_HOME_PATH = '/v2/ulam/missions'
-// admin routes
-export const ADMIN_CREW_PATH = '/admin/crew'
-
-const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(createBrowserRouter)
+const sentryCreateBrowserRouter = wrapCreateBrowserRouterV6(createBrowserRouter)
 
 export const router = sentryCreateBrowserRouter([
   {

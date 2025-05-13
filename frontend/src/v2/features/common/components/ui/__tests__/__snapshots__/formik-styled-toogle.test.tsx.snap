@@ -9,14 +9,14 @@ exports[`StyledFormikToggle > should match the snapshot 1`] = `
         style="width: 100%; display: flex; flex-direction: row; align-items: end;"
       >
         <div
-          class="sc-gtlvkJ cuIUGk Element-Field Field-Toggle sc-iCfQMn krXgXd"
+          class="sc-gDVcuj geGcsH Element-Field Field-Toggle sc-ldfREC ciFRnD"
         >
           <label
-            class="sc-loYsQo bJVBFt Element-Label"
+            class="sc-kmqAS RWikx Element-Label"
             for="toogle"
           />
           <label
-            class="sc-dWFMZf ieacJg rs-toggle"
+            class="sc-fsONnU kpEnaB rs-toggle"
           >
             <input
               aria-checked="false"
@@ -37,7 +37,7 @@ exports[`StyledFormikToggle > should match the snapshot 1`] = `
           </label>
         </div>
         <p
-          class="sc-btRGtK sc-bACthX kEtzHw fswZWU sc-egnSlO TVYqQ"
+          class="sc-dBCvnn sc-djWYAM clsaVR DUcra sc-irwjCN gobmJJ"
           font-size="13"
         >
           this is a style formik
@@ -72,14 +72,14 @@ exports[`StyledFormikToggle > should match the snapshot 1`] = `
       style="width: 100%; display: flex; flex-direction: row; align-items: end;"
     >
       <div
-        class="sc-gtlvkJ cuIUGk Element-Field Field-Toggle sc-iCfQMn krXgXd"
+        class="sc-gDVcuj geGcsH Element-Field Field-Toggle sc-ldfREC ciFRnD"
       >
         <label
-          class="sc-loYsQo bJVBFt Element-Label"
+          class="sc-kmqAS RWikx Element-Label"
           for="toogle"
         />
         <label
-          class="sc-dWFMZf ieacJg rs-toggle"
+          class="sc-fsONnU kpEnaB rs-toggle"
         >
           <input
             aria-checked="false"
@@ -100,7 +100,7 @@ exports[`StyledFormikToggle > should match the snapshot 1`] = `
         </label>
       </div>
       <p
-        class="sc-btRGtK sc-bACthX kEtzHw fswZWU sc-egnSlO TVYqQ"
+        class="sc-dBCvnn sc-djWYAM clsaVR DUcra sc-irwjCN gobmJJ"
         font-size="13"
       >
         this is a style formik

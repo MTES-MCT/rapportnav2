@@ -62,32 +62,11 @@ class MissionEnvAction(
                     actionNumberOfControls = envAction.actionNumberOfControls,
                     actionTargetType = envAction.actionTargetType,
                     vehicleType = envAction.vehicleType,
-                    infractions = getInfractionGroupBy(envAction),
+                    targets = envAction.targets?.map { Target2.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc },
                     availableControlTypesForInfraction = envAction.availableControlTypesForInfraction,
-                    coverMissionZone = envAction.coverMissionZone,
-                    controlSecurity = ControlSecurity.fromControlSecurityEntity(envAction.controlSecurity),
-                    controlGensDeMer = ControlGensDeMer.fromControlGensDeMerEntity(envAction.controlGensDeMer),
-                    controlNavigation = ControlNavigation.fromControlNavigationEntity(envAction.controlNavigation),
-                    controlAdministrative = ControlAdministrative.fromControlAdministrativeEntity(envAction.controlAdministrative)
+                    coverMissionZone = envAction.coverMissionZone
                 )
             )
-        }
-
-        private fun getInfractionGroupBy(action: MissionEnvActionEntity): List<InfractionByTarget> {
-            val envInfractions = action.envInfractions?.map { Infraction.fromEnvInfractionEntity(it) } ?: listOf()
-            val navInfractions = action.navInfractions?.map { Infraction.fromInfractionEntity(it) } ?: listOf()
-
-            return (envInfractions + navInfractions)
-                .filter { it.target?.vesselIdentifier != null || it.target?.identityControlledPerson != null }
-                .groupBy { it.target?.vesselIdentifier ?: it.target?.identityControlledPerson }
-                .map { (vesselIdentifier, infractions) ->
-                    InfractionByTarget(
-                        vesselIdentifier = vesselIdentifier,
-                        vesselType = infractions.firstOrNull()?.target?.vesselType,
-                        infractions = infractions,
-                        identityControlledPerson = infractions.firstOrNull()?.target?.identityControlledPerson
-                    )
-                }
         }
     }
 }

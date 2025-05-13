@@ -9,11 +9,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateNavAction
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControl
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfraction
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.ActionControl
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActionData
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -33,11 +32,7 @@ class UpdateNavActionTest {
     private lateinit var missionActionRepository: INavMissionActionRepository
 
     @MockitoBean
-    private lateinit var processMissionActionControl: ProcessMissionActionControl
-
-    @MockitoBean
-    private lateinit var processMissionActionInfraction: ProcessMissionActionInfraction
-
+    private lateinit var  processMissionActionTarget: ProcessMissionActionTarget
 
     @Test
     fun `test execute update nav action`() {
@@ -51,13 +46,16 @@ class UpdateNavActionTest {
         )
         val model = MissionActionModelMock.create()
         `when`(missionActionRepository.save(anyOrNull())).thenReturn(model)
-        `when`(processMissionActionControl.execute(anyOrNull(), anyOrNull())).thenReturn(ActionControl())
-        `when`(processMissionActionInfraction.execute(actionId, listOf())).thenReturn(listOf())
+        `when`(
+            processMissionActionTarget.execute(
+                anyOrNull(),
+                anyOrNull()
+            )
+        ).thenReturn(listOf(TargetMissionMock.create()))
 
         val updateNavAction = UpdateNavAction(
             missionActionRepository = missionActionRepository,
-            processMissionActionControl = processMissionActionControl,
-            processMissionActionInfraction = processMissionActionInfraction
+            processMissionActionTarget = processMissionActionTarget
         )
 
         val response = updateNavAction.execute(actionId, input)

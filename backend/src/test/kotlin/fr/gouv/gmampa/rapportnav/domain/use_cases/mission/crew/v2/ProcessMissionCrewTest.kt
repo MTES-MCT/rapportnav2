@@ -6,13 +6,10 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.DeleteMissionCrew
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionCrew
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionCrewEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentCaptor
-import org.mockito.Captor
 import org.mockito.Mockito
-import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.boot.test.context.SpringBootTest
@@ -32,12 +29,6 @@ class ProcessMissionCrewTest {
 
     @MockitoBean
     lateinit var deleteMissionCrew: DeleteMissionCrew
-
-    @Captor
-    lateinit var deleteCaptor: ArgumentCaptor<List<MissionCrewEntity>>
-
-    @Captor
-    lateinit var saveCaptor: ArgumentCaptor<List<MissionCrewEntity>>
 
     @MockitoBean
     lateinit var processMissionCrew: ProcessMissionCrew
@@ -69,7 +60,7 @@ class ProcessMissionCrewTest {
             )
         )
 
-        val crews = processMissionCrew.execute(761, missionCrews)
+        val crews = processMissionCrew.execute(761, missionCrews.map { it.toMissionCrewEntity() })
 
         //Then
         assertThat(crews).isNotNull

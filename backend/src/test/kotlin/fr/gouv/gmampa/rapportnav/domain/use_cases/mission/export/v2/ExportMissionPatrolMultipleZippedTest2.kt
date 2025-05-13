@@ -7,8 +7,8 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissio
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionPatrolSingle2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ZipFiles
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionCrewEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test

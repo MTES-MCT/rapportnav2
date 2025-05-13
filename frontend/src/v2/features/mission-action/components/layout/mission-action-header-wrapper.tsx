@@ -6,6 +6,8 @@ import { MissionAction } from '../../../common/types/mission-action.ts'
 import { ModuleType } from '../../../common/types/module-type.ts'
 import MissionActionHeaderCompletenessForStats from '../elements/mission-action-header-completeness-for-stats.tsx'
 import { MissionActionHeaderTitleWrapper } from './mission-action-header-title-wrapper.tsx'
+import { NetworkSyncStatus } from '../../../common/types/network-types.ts'
+import MissionActionHeaderSyncStatusBanner from './mission-action-header-sync-status-banner.tsx'
 
 export type MissionActionHeaderWrapperProps = {
   title?: string
@@ -26,27 +28,31 @@ const MissionActionHeaderWrapper: FC<MissionActionHeaderWrapperProps> = ({
   missionStatus
 }) => {
   return (
-    <Stack direction="column" spacing={'0.5rem'}>
-      <Stack.Item style={{ width: '100%' }}>
-        {action?.actionType && (
-          <MissionActionHeaderTitleWrapper
-            icon={icon}
-            title={title}
-            actionId={action.id}
-            missionId={missionId}
-            source={action.source}
-            moduleType={moduleType}
-            startDateTimeUtc={action?.data.startDateTimeUtc}
+    <>
+      {action?.networkSyncStatus === NetworkSyncStatus.UNSYNC && <MissionActionHeaderSyncStatusBanner />}
+
+      <Stack direction="column" spacing={'0.5rem'}>
+        <Stack.Item style={{ width: '100%' }}>
+          {action?.actionType && (
+            <MissionActionHeaderTitleWrapper
+              icon={icon}
+              title={title}
+              actionId={action.id}
+              missionId={missionId}
+              source={action.source}
+              moduleType={moduleType}
+              startDateTimeUtc={action?.data.startDateTimeUtc}
+            />
+          )}
+        </Stack.Item>
+        <Stack.Item style={{ width: '100%' }}>
+          <MissionActionHeaderCompletenessForStats
+            missionStatus={missionStatus}
+            completenessForStats={action?.completenessForStats}
           />
-        )}
-      </Stack.Item>
-      <Stack.Item style={{ width: '100%' }}>
-        <MissionActionHeaderCompletenessForStats
-          missionStatus={missionStatus}
-          completenessForStats={action?.completenessForStats}
-        />
-      </Stack.Item>
-    </Stack>
+        </Stack.Item>
+      </Stack>
+    </>
   )
 }
 

@@ -3,13 +3,14 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
@@ -125,13 +126,7 @@ class GetMissionOperationalSummary2 {
         val nbSurveillances = filteredActions.count { it.envActionType == ActionTypeEnum.SURVEILLANCE }
         val nbControls = filteredActions.count { it.envActionType == ActionTypeEnum.CONTROL }
         val nbPv = filteredActions.filter { it.envActionType == ActionTypeEnum.CONTROL }.sumOf {
-            val envInfractions = it.envInfractions?.count { inf ->
-                inf.infractionType == InfractionTypeEnum.WITH_REPORT
-            } ?: 0
-            val navInfractions = it.navInfractions?.count { inf ->
-                inf.infractionType == InfractionTypeEnum.WITH_REPORT
-            } ?: 0
-            (envInfractions + navInfractions)
+            it.getInfractions().count { inf -> inf.infractionType == InfractionTypeEnum.WITH_REPORT }
         }
         val summary = mapOf(
             "nbSurveillances" to nbSurveillances,
@@ -152,13 +147,7 @@ class GetMissionOperationalSummary2 {
             .filter { it.controlPlans?.any { theme -> theme.themeId == themeId } == true }
         val nbPv = filteredActions.sumOf {
             // Sum infractions of type WITH_REPORT from different control categories
-            val envInfractions = it.envInfractions?.count { inf ->
-                inf.infractionType == InfractionTypeEnum.WITH_REPORT
-            } ?: 0
-            val navInfractions = it.navInfractions?.count { inf ->
-                inf.infractionType == InfractionTypeEnum.WITH_REPORT
-            } ?: 0
-            (envInfractions + navInfractions)
+            it.getInfractions().count { inf -> inf.infractionType == InfractionTypeEnum.WITH_REPORT }
         }
         val summary = mapOf(
             "nbControls" to actions.count(),
@@ -195,36 +184,37 @@ class GetMissionOperationalSummary2 {
                 "nbPvFish" to countWithRecordInfractions(countryActions.map { it }).values.sum(),
                 // Nbre PV équipmt sécu. permis nav.
                 "nbPvSecuAndAdmin" to countryActions.sumOf { action ->
-                    (action.controlSecurity?.infractions?.count { infraction ->
+                    action.getInfractionByControlType(controlType = ControlType.SECURITY).count { infraction ->
                         infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                    } ?: 0) +
-                        (action.controlAdministrative?.infractions?.count { infraction ->
+                    } +
+                        action.getInfractionByControlType(controlType = ControlType.ADMINISTRATIVE)
+                            .count { infraction ->
                             infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                        } ?: 0)
+                            }
                 },
                 // Nb PV dans "Security"
                 "nbPvSecu" to countryActions.sumOf { action ->
-                    action.controlSecurity?.infractions?.count { infraction ->
+                    action.getInfractionByControlType(controlType = ControlType.SECURITY).count { infraction ->
                         infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                    } ?: 0
+                    }
                 },
                 // Nb PV dans "Administrative"
                 "nbPVAdmin" to countryActions.sumOf { action ->
-                    action.controlAdministrative?.infractions?.count { infraction ->
+                    action.getInfractionByControlType(controlType = ControlType.ADMINISTRATIVE).count { infraction ->
                         infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                    } ?: 0
+                    }
                 },
                 // Nb PV dans "Gens de mer"
                 "nbPVGensDeMer" to countryActions.sumOf { action ->
-                    action.controlGensDeMer?.infractions?.count { infraction ->
+                    action.getInfractionByControlType(controlType = ControlType.GENS_DE_MER).count { infraction ->
                         infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                    } ?: 0
+                    }
                 },
                 // Nb PV dans "Police de la navigation"
                 "nbPvNav" to countryActions.sumOf { action ->
-                    action.controlNavigation?.infractions?.count { infraction ->
+                    action.getInfractionByControlType(controlType = ControlType.NAVIGATION).count { infraction ->
                         infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                    } ?: 0
+                    }
                 },
                 // Nbre navires déroutés
                 "nbSeizureAndDiversion" to countryActions.count { it.seizureAndDiversion == true }
@@ -370,38 +360,38 @@ class GetMissionOperationalSummary2 {
             // Nbre PV équipmt sécu. permis nav.
             // Nb PV dans "équipement sécu" + "doc administratif navire" ajouté par unité dans Rap Nav
             "nbPvSecuAndAdmin" to actions.sumOf { action ->
-                (action.controlSecurity?.infractions?.count { infraction ->
+                action.getInfractionByControlType(controlType = ControlType.SECURITY).count { infraction ->
                     infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                } ?: 0) +
-                    (action.controlAdministrative?.infractions?.count { infraction ->
+                } +
+                    action.getInfractionByControlType(controlType = ControlType.ADMINISTRATIVE).count { infraction ->
                         infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                    } ?: 0)
+                    }
             },
             // Nb PV dans "Administrative" ajouté par unité dans Rap Nav
             "nbPVAdmin" to actions.sumOf { action ->
-                action.controlAdministrative?.infractions?.count { infraction ->
+                action.getInfractionByControlType(controlType = ControlType.ADMINISTRATIVE).count { infraction ->
                     infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                } ?: 0
+                }
             },
             // Nb PV dans "Security" ajouté par unité dans Rap Nav
             "nbPvSecu" to actions.sumOf { action ->
-                action.controlSecurity?.infractions?.count { infraction ->
+                action.getInfractionByControlType(controlType = ControlType.SECURITY).count { infraction ->
                     infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                } ?: 0
+                }
             },
             // Nbre PV titre navig. rôle/déc. eff
             // Nb PV dans "Gens de mer" ajouté par unité dans Rap Nav
             "nbPVGensDeMer" to actions.sumOf { action ->
-                action.controlGensDeMer?.infractions?.count { infraction ->
+                action.getInfractionByControlType(controlType = ControlType.GENS_DE_MER).count { infraction ->
                     infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                } ?: 0
+                }
             },
             // Nbre PV police navig.
             // Nb PV dans "Police de la navigation" ajouté par unité dans Rap Nav
             "nbPvNav" to actions.sumOf { action ->
-                action.controlNavigation?.infractions?.count { infraction ->
+                action.getInfractionByControlType(controlType = ControlType.NAVIGATION).count { infraction ->
                     infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                } ?: 0
+                }
             },
         )
     }

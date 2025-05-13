@@ -7,8 +7,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.wiremock.utils.LoadJsonD
 object MissionByIdStubs {
 
     fun configureStubs(wireMockServer: WireMockServer) {
-
-        val json = LoadJsonData.load("env/mission.json")
+val json = LoadJsonData.load("env/mission.json")
 
         wireMockServer.stubFor(
             WireMock.get(WireMock.urlMatching("/api/v1/missions/\\d+"))

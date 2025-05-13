@@ -6,19 +6,13 @@ import { useInfraction } from '../../hooks/use-infraction'
 
 interface MissionInfractionEnvTitleProps {
   controlType?: ControlType
-  identityControlledPerson?: string
 }
 
-const MissionInfractionEnvTitle: React.FC<MissionInfractionEnvTitleProps> = ({
-  controlType,
-  identityControlledPerson
-}) => {
+const MissionInfractionEnvTitle: React.FC<MissionInfractionEnvTitleProps> = ({ controlType }) => {
   const { getInfractionByControlTypeTitle } = useInfraction()
   return (
     <Text as="h3" weight="bold" color={THEME.color.gunMetal} data-testid={'env-infraction-control-title'}>
-      {!controlType
-        ? 'Infraction contrôle de l’environnement'
-        : `${identityControlledPerson} | ${getInfractionByControlTypeTitle(controlType)}`}
+      {!controlType ? 'Infraction contrôle de l’environnement' : `${getInfractionByControlTypeTitle(controlType)}`}
     </Text>
   )
 }

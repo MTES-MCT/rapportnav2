@@ -1,12 +1,12 @@
 import Text from '@common/components/ui/text'
-import { Infraction } from '@common/types/infraction-types'
 import { Accent, Button, FormikTextarea, FormikToggle, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { setDebounceTime } from '../../../../store/slices/delay-query-reducer'
 import { FormikMultiSelectNatinf } from '../../../common/components/ui/formik-multi-select-natinf'
-import { useInfractionNavForm } from '../../hooks/use-infraction-nav-form'
+import { Infraction } from '../../../common/types/target-types'
+import { useInfractionForm } from '../../hooks/use-infraction-form'
 
 export interface MissionInfractionFormProps {
   name: string
@@ -15,7 +15,7 @@ export interface MissionInfractionFormProps {
 }
 
 const MissionInfractionForm: FC<MissionInfractionFormProps> = ({ name, onClose, fieldFormik }) => {
-  const { initValue, handleSubmit } = useInfractionNavForm(name, fieldFormik)
+  const { initValue, handleSubmit } = useInfractionForm(name, fieldFormik)
   return (
     <>
       {initValue && (

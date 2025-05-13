@@ -1,31 +1,25 @@
-import {
-  ControlAdministrative,
-  ControlGensDeMer,
-  ControlNavigation,
-  ControlSecurity,
-  ControlType
-} from '@common/types/control-types'
+import { ControlType } from '@common/types/control-types'
 import { FieldProps } from 'formik'
 import { number, object } from 'yup'
+import { Control } from '../../common/types/target-types'
 import { AbstractControlFormikHook } from '../types/control-hook'
 import { useAbstractControl } from './use-abstract-control'
 import { useControlRegistry } from './use-control-registry'
 
-export type EnvControl = ControlAdministrative | ControlGensDeMer | ControlNavigation | ControlSecurity
-export type EnvControlInput = {} & ControlAdministrative
+export type ControlEnvInput = {} & Control
 
 export function useEnvControl(
   name: string,
-  fieldFormik: FieldProps<EnvControl>,
+  fieldFormik: FieldProps<Control>,
   controlType: ControlType,
   maxControl?: number
-): AbstractControlFormikHook<EnvControlInput> {
+): AbstractControlFormikHook<ControlEnvInput> {
   const { getControlType } = useControlRegistry()
-  const { isError, initValue, handleSubmit } = useAbstractControl<ControlAdministrative, EnvControlInput>(
+  const { isError, initValue, handleSubmit } = useAbstractControl<Control, ControlEnvInput>(
     name,
     fieldFormik,
-    (input: EnvControl) => input as EnvControlInput,
-    (value?: EnvControlInput) => value as EnvControl
+    (input: Control) => input as ControlEnvInput,
+    (value?: ControlEnvInput) => value as Control
   )
 
   const getValidationSchema = (maxAmountOfControls?: number) =>

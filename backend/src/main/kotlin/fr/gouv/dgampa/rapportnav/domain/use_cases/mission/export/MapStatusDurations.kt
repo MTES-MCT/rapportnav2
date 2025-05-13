@@ -44,6 +44,7 @@ class MapStatusDurations(
             "adminFormation" to durations.findDuration { it.reason == ActionStatusReason.ADMINISTRATION },
             "autre" to durations.findDuration { it.reason == ActionStatusReason.OTHER },
             "contrPol" to durations.findDuration { it.reason == ActionStatusReason.HARBOUR_CONTROL },
+            "mco" to durations.findDuration { it.reason == ActionStatusReason.MCO_AND_LOGISTICS },
             "total" to 0
         ).toMutableMap()
         dockingDurations["total"] = dockingDurations.values.sum()

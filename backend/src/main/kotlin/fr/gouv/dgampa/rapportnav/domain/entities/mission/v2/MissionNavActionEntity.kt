@@ -128,6 +128,7 @@ class MissionNavActionEntity(
         ]
     )
     override var reason: ActionStatusReason? = null,
+    override var targets: List<TargetEntity2>? = null
 ) : MissionActionEntity(
     status = status,
     actionType = actionType,
@@ -135,7 +136,8 @@ class MissionNavActionEntity(
     isCompleteForStats = false,
     endDateTimeUtc = endDateTimeUtc,
     startDateTimeUtc = startDateTimeUtc,
-    source = MissionSourceEnum.RAPPORTNAV
+    source = MissionSourceEnum.RAPPORTNAV,
+    targets = targets
 ), BaseMissionNavAction {
 
     override fun getActionId(): String {
@@ -149,7 +151,8 @@ class MissionNavActionEntity(
         this.computeCompletenessForStats()
     }
 
-    override fun computeControlsToComplete() {
+
+    override fun isControlInValid(control: ControlEntity2?): Boolean {
         TODO("Not yet implemented")
     }
 

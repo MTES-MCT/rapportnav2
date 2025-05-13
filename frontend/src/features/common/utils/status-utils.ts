@@ -43,6 +43,8 @@ export const statusReasonToHumanString = (reason?: ActionStatusReason): string |
       return 'Représentation'
     case ActionStatusReason.ADMINISTRATION:
       return 'Administration'
+    case ActionStatusReason.MCO_AND_LOGISTICS:
+      return 'MCO/Logistique'
     case ActionStatusReason.HARBOUR_CONTROL:
       return 'Contrôle portuaire'
     case ActionStatusReason.TECHNICAL:

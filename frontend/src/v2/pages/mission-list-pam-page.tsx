@@ -18,6 +18,9 @@ import { Mission2 } from '../features/common/types/mission-types.ts'
 import MissionListActionsPam from '../features/pam/components/element/mission-list/mission-list-actions-pam.tsx'
 import MissionListExportDialog from '../features/pam/components/element/mission-list/mission-list-export.tsx'
 import MissionListPam from '../features/pam/components/element/mission-list/mission-list-pam.tsx'
+import OnlineToggle from '../features/common/components/elements/online-toggle.tsx'
+import OfflineTag from '../features/common/components/elements/offline-tag.tsx'
+import { Stack } from 'rsuite'
 
 const SIDEBAR_ITEMS = [
   {
@@ -90,7 +93,13 @@ const MissionListPamPage: FC = () => {
     <MissionListPageWrapper
       header={<MissionListPageHeaderWrapper title={<MissionListPageTitle userId={isLoggedIn()?.userId} />} />}
       sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={SIDEBAR_ITEMS} />}
-      footer={<></>}
+      footer={
+        <Stack style={{ width: '100%', height: '100%' }} justifyContent={'flex-end'} alignItems={'center'}>
+          <Stack.Item style={{ marginRight: '4rem' }}>
+            <OnlineToggle />
+          </Stack.Item>
+        </Stack>
+      }
     >
       <MissionListPageContentWrapper
         loading={isLoading}

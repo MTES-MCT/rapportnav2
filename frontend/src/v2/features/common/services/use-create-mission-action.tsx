@@ -2,6 +2,7 @@ import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-
 
 import axios from '../../../../query-client/axios'
 import { MissionNavAction } from '../types/mission-action'
+import { missionsKeys } from './query-keys.ts'
 
 const useCreateMissionActionMutation = (
   missionId: number
@@ -14,7 +15,10 @@ const useCreateMissionActionMutation = (
   const mutation = useMutation({
     mutationFn: createAction,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['mission'] })
+      queryClient.invalidateQueries({ queryKey: missionsKeys.byId(missionId) })
+    },
+    scope: {
+      id: 'create-action'
     }
   })
   return mutation

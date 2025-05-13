@@ -10,17 +10,103 @@ exports[`MissionListPageSidebar > should match the snapshot 1`] = `
         style="flex: 0 0px; width: 64px;"
       >
         <div
-          class="sc-fuExOL HWKez"
+          class="sc-dBCvnn cLdCKY"
+        >
+          <div
+            class="sc-fjUQFl biTVGu"
+            role="menu"
+          >
+            <button
+              class="sc-jScdur sc-cZSric Fssgy ceiSjC Element-IconButton sc-dFaThA fLOEJC"
+              role="menuitem"
+              title="mission"
+              type="button"
+            >
+              <span
+                class="sc-gDpztx UuWsx Element-IconBox"
+              >
+                <svg
+                  height="20"
+                  viewBox="0 0 20 20"
+                  width="20"
+                >
+                  <path
+                    d="M214,2V0h-2V2h-4V0h-2V2h-3V18h14V2Zm1,14H205V4h10Z"
+                    fill="currentColor"
+                    transform="translate(-200)"
+                  />
+                  <rect
+                    fill="currentColor"
+                    height="1.5"
+                    transform="translate(7 6.5)"
+                    width="6"
+                  />
+                  <rect
+                    fill="currentColor"
+                    height="1.5"
+                    transform="translate(7 9.5)"
+                    width="6"
+                  />
+                  <path
+                    d="M200,0h20V20H200Z"
+                    fill="none"
+                    transform="translate(-200)"
+                  />
+                  <path
+                    d="M200,0h20V20H200Z"
+                    fill="none"
+                    transform="translate(-200)"
+                  />
+                </svg>
+              </span>
+            </button>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <div
+      class="rs-toast-provider"
+    >
+      <div
+        class="rs-toast-container rs-toast-container-top-center"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-center"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-top-start"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-top-end"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-start"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-end"
+      />
+    </div>
+  </body>,
+  "container": <div>
+    <aside
+      class="rs-sidebar"
+      style="flex: 0 0px; width: 64px;"
+    >
+      <div
+        class="sc-dBCvnn cLdCKY"
+      >
+        <div
+          class="sc-fjUQFl biTVGu"
           role="menu"
         >
           <button
-            class="sc-jHswkR sc-dkBYrC kgcUdy bkHEKv Element-IconButton sc-dPKAra iSKkaj"
+            class="sc-jScdur sc-cZSric Fssgy ceiSjC Element-IconButton sc-dFaThA fLOEJC"
             role="menuitem"
             title="mission"
             type="button"
           >
             <span
-              class="sc-gNZgCX hPsrRR Element-IconBox"
+              class="sc-gDpztx UuWsx Element-IconBox"
             >
               <svg
                 height="20"
@@ -58,84 +144,6 @@ exports[`MissionListPageSidebar > should match the snapshot 1`] = `
             </span>
           </button>
         </div>
-      </aside>
-    </div>
-    <div
-      class="rs-toast-provider"
-    >
-      <div
-        class="rs-toast-container rs-toast-container-top-center"
-      />
-      <div
-        class="rs-toast-container rs-toast-container-bottom-center"
-      />
-      <div
-        class="rs-toast-container rs-toast-container-top-start"
-      />
-      <div
-        class="rs-toast-container rs-toast-container-top-end"
-      />
-      <div
-        class="rs-toast-container rs-toast-container-bottom-start"
-      />
-      <div
-        class="rs-toast-container rs-toast-container-bottom-end"
-      />
-    </div>
-  </body>,
-  "container": <div>
-    <aside
-      class="rs-sidebar"
-      style="flex: 0 0px; width: 64px;"
-    >
-      <div
-        class="sc-fuExOL HWKez"
-        role="menu"
-      >
-        <button
-          class="sc-jHswkR sc-dkBYrC kgcUdy bkHEKv Element-IconButton sc-dPKAra iSKkaj"
-          role="menuitem"
-          title="mission"
-          type="button"
-        >
-          <span
-            class="sc-gNZgCX hPsrRR Element-IconBox"
-          >
-            <svg
-              height="20"
-              viewBox="0 0 20 20"
-              width="20"
-            >
-              <path
-                d="M214,2V0h-2V2h-4V0h-2V2h-3V18h14V2Zm1,14H205V4h10Z"
-                fill="currentColor"
-                transform="translate(-200)"
-              />
-              <rect
-                fill="currentColor"
-                height="1.5"
-                transform="translate(7 6.5)"
-                width="6"
-              />
-              <rect
-                fill="currentColor"
-                height="1.5"
-                transform="translate(7 9.5)"
-                width="6"
-              />
-              <path
-                d="M200,0h20V20H200Z"
-                fill="none"
-                transform="translate(-200)"
-              />
-              <path
-                d="M200,0h20V20H200Z"
-                fill="none"
-                transform="translate(-200)"
-              />
-            </svg>
-          </span>
-        </button>
       </div>
     </aside>
   </div>,

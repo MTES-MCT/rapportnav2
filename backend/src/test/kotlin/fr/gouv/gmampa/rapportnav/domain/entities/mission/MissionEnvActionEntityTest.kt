@@ -4,9 +4,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsSta
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.v2.ActionControlEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ControlEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -62,11 +63,11 @@ class MissionEnvActionEntityTest {
     @Test
     fun `execute should be complete controls to complete and available controlTypes for infractions `() {
         val envAction = getEnvAction()
-        val mockControls = ControlMock.createAllControl()
-        mockControls.controlSecurity = null
-        mockControls.controlAdministrative = null
+        val controls = ControlMock.createList()
+            .filter { !listOf(ControlType.SECURITY, ControlType.ADMINISTRATIVE).contains(it.controlType) }
+        val targetMock = TargetMissionMock.create(controls = controls)
         val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
-        entity.computeControls( mockControls)
+        entity.targets = listOf(targetMock)
         entity.computeCompleteness()
         assertThat(entity.controlsToComplete).isEqualTo(listOf( ControlType.SECURITY))
         assertThat(entity.availableControlTypesForInfraction).isEqualTo(
@@ -96,41 +97,54 @@ class MissionEnvActionEntityTest {
     @Test
     fun `execute should compute control`() {
         val model = getEnvAction()
-        val controls = ActionControlEntity(
-            controlSecurity = ControlSecurityEntity(
+        val controls = listOf(
+            ControlEntity2(
                 id = UUID.randomUUID(),
-                missionId = 761,
-                actionControlId = "MyActionId1",
+                nbrOfHours = 4,
+                controlType = ControlType.NAVIGATION,
+                amountOfControls = 0,
+                hasBeenDone = false,
+            ),
+            ControlEntity2(
+                id = UUID.randomUUID(),
+                nbrOfHours = 4,
+                controlType = ControlType.SECURITY,
                 amountOfControls = 0,
                 hasBeenDone = true
             ),
-            controlGensDeMer = ControlGensDeMerEntity(
+            ControlEntity2(
                 id = UUID.randomUUID(),
-                missionId = 761,
-                actionControlId = "MyActionId2",
+                nbrOfHours = 4,
+                controlType = ControlType.GENS_DE_MER,
                 amountOfControls = 0
             ),
-            controlNavigation = ControlNavigationEntity(
+            ControlEntity2(
                 id = UUID.randomUUID(),
-                missionId = 761,
-                actionControlId =  "MyActionId3",
-                amountOfControls = 0,
-                hasBeenDone = false
-            ),
-            controlAdministrative = ControlAdministrativeEntity(
-                id = UUID.randomUUID(),
-                missionId = 761,
-                actionControlId = "MyActionId4",
+                nbrOfHours = 4,
+                controlType = ControlType.ADMINISTRATIVE,
                 amountOfControls = 5,
                 hasBeenDone = true
             )
         )
         val entity = MissionEnvActionEntity.fromEnvAction(761, model)
-        entity.computeControls(controls = controls)
+        entity.targets = listOf(TargetMissionMock.create(controls = controls))
         entity.computeControlsToComplete()
         assertThat(entity.controlsToComplete?.size).isEqualTo(3)
     }
 
+    @Test
+    fun `execute should compute control to complete 2`() {
+        val envAction = getEnvAction(
+            completion = ActionCompletionEnum.COMPLETED,
+
+        )
+        val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
+        entity.targets = listOf(TargetMissionMock.create())
+        entity.computeControlsToComplete()
+        assertThat(entity.controlsToComplete?.size).isEqualTo(2)
+        assertThat(entity.controlsToComplete).contains(ControlType.GENS_DE_MER)
+        assertThat(entity.controlsToComplete).contains(ControlType.NAVIGATION)
+    }
 
     private fun getEnvAction(completion: ActionCompletionEnum? = null): EnvActionEntity {
         return EnvActionControlEntity(

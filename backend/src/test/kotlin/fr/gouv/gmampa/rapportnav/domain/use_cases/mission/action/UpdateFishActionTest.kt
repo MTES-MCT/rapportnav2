@@ -5,11 +5,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Missio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.PatchFishAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateFishAction
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.control.v2.ProcessMissionActionControl
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.v2.ProcessMissionActionInfraction
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.ActionControl
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishActionData
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -27,11 +26,7 @@ class UpdateFishActionTest {
     private lateinit var patchFishAction: PatchFishAction
 
     @MockitoBean
-    private lateinit var processMissionActionControl: ProcessMissionActionControl
-
-    @MockitoBean
-    private lateinit var processMissionActionInfraction: ProcessMissionActionInfraction
-
+    private lateinit var  processMissionActionTarget: ProcessMissionActionTarget
 
     @Test
     fun `test execute update fish action`() {
@@ -45,13 +40,16 @@ class UpdateFishActionTest {
         )
 
         `when`(patchFishAction.execute(anyOrNull())).thenReturn(null)
-        `when`(processMissionActionControl.execute(anyOrNull(), anyOrNull())).thenReturn(ActionControl())
-        `when`(processMissionActionInfraction.execute(actionId, listOf())).thenReturn(listOf())
+        `when`(
+            processMissionActionTarget.execute(
+                anyOrNull(),
+                anyOrNull()
+            )
+        ).thenReturn(listOf(TargetMissionMock.create()))
 
         val updateNavAction = UpdateFishAction(
             patchFishAction = patchFishAction,
-            processMissionActionControl = processMissionActionControl,
-            processMissionActionInfraction = processMissionActionInfraction
+            processMissionActionTarget = processMissionActionTarget
         )
 
         val response = updateNavAction.execute(actionId, input)

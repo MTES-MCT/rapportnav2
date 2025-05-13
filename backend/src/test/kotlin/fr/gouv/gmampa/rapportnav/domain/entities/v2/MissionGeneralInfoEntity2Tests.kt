@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.entities.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionCrewEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested

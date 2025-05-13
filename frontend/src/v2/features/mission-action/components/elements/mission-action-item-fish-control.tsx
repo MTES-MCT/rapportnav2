@@ -1,13 +1,12 @@
 import { MissionActionType } from '@common/types/fish-mission-types.ts'
 import { FormikEffect, FormikTextarea, Label, TextInput, THEME } from '@mtes-mct/monitor-ui'
-import { Field, FieldProps, Formik } from 'formik'
+import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
 import VesselName from '../../../common/components/ui/vessel-name'
 import { MissionAction } from '../../../common/types/mission-action'
-import MissionControlNavForm from '../../../mission-control/components/elements/mission-control-nav-form'
 import MissionControlFishAdministrativeSection from '../../../mission-control/components/ui/mission-control-fish-administrative-section'
 import FishControlEnginesSection from '../../../mission-control/components/ui/mission-control-fish-engines-section'
 import FishControlFleetSegmentSection from '../../../mission-control/components/ui/mission-control-fish-fleet-segment-section'
@@ -15,6 +14,7 @@ import FishControlOtherInfractionsSection from '../../../mission-control/compone
 import FishControlOtherObservationsSection from '../../../mission-control/components/ui/mission-control-fish-other-observation-section'
 import FishControlSeizureSection from '../../../mission-control/components/ui/mission-control-fish-seizure-section'
 import FishControlSpeciesSection from '../../../mission-control/components/ui/mission-control-fish-species-section'
+import MissionTarget from '../../../mission-target/components/elements/mission-target'
 import { useMissionActionFishControl } from '../../hooks/use-mission-action-fish-control'
 import { ActionFishControlInput } from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
@@ -113,10 +113,16 @@ const MissionActionItemFishControl: FC<{
                   )}
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <MissionControlNavForm
-                    controlsToComplete={action.controlsToComplete}
-                    label={`Autre(s) contrôle(s) effectué(s) par l’unité sur le navire`}
-                  />
+                  <FieldArray name="targets">
+                    {(fieldArray: FieldArrayRenderProps) => (
+                      <MissionTarget
+                        name="targets"
+                        fieldArray={fieldArray}
+                        controlsToComplete={action.controlsToComplete}
+                        label={`Autre(s) contrôle(s) effectué(s) par l’unité sur le navire`}
+                      />
+                    )}
+                  </FieldArray>
                 </Stack.Item>
 
                 <Stack.Item style={{ width: '100%' }}>

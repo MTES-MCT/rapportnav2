@@ -2,12 +2,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
-version = "2.5.30"
+version = "2.7.2"
 description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
 val serializationVersion by extra("1.6.2")
-val springVersion by extra("3.4.3")
+val springVersion by extra("3.4.5")
 val testcontainersVersion by extra("1.19.3")
 val flywayVersion by extra("10.10.0")
 
@@ -17,7 +17,7 @@ plugins {
   kotlin("jvm") version "1.9.24"
   kotlin("plugin.spring") version "1.9.24"
   kotlin("plugin.jpa") version "1.9.24"
-  id("org.springframework.boot") version "3.4.3"
+  id("org.springframework.boot") version "3.4.5"
   id("io.spring.dependency-management") version "1.1.4"
   id("org.owasp.dependencycheck") version "12.1.0"
   id("org.flywaydb.flyway") version "10.10.0"
@@ -84,8 +84,8 @@ dependencies {
   implementation("io.sentry:sentry-spring-boot-starter-jakarta:7.1.0")
   implementation("io.sentry:sentry-log4j2:7.0.0")
   // the two following apoche poi dependencies should have the same version
-  implementation("org.apache.poi:poi:5.3.0")
-  implementation("org.apache.poi:poi-ooxml:5.3.0")
+  implementation("org.apache.poi:poi:5.4.1")
+  implementation("org.apache.poi:poi-ooxml:5.4.1")
   implementation("org.apache.commons:commons-text:1.12.0")
   implementation("org.jodconverter:jodconverter-local-lo:4.4.7")
   implementation("com.neovisionaries:nv-i18n:1.29")

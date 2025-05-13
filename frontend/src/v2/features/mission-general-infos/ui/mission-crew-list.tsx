@@ -6,6 +6,7 @@ import {
   Icon,
   IconButton,
   IconButtonProps,
+  IconProps,
   Label,
   LabelProps,
   Size
@@ -101,3 +102,17 @@ export const MissionCrewStack = styled((props: StackProps) => (
 ))({
   width: '100%'
 })
+
+export const CommentIcon = styled((props: IconProps & { comment?: string }) => (
+  <Icon.Comment data-testid="crew-member-comment-icon" {...props} size={14} />
+))(({ theme, comment }) => ({
+  marginRight: 13,
+  color: `${!comment || comment === '' ? theme.color.lightGray : theme.color.charcoal}`
+}))
+
+export const TruncateCommentText = styled((props: Omit<TextProps, 'as'>) => <Text {...props} as="h3" truncate />)(
+  ({ theme }) => ({
+    fontStyle: 'italic',
+    color: theme.color.charcoal
+  })
+)
