@@ -1,6 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessFishAction
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
@@ -23,7 +23,7 @@ class ProcessFishActionTest {
     private lateinit var processFishAction: ProcessFishAction
 
     @MockitoBean
-    private lateinit var getStatusForAction: GetStatusForAction
+    private lateinit var getStatusForAction: GetStatusForAction2
 
     @MockitoBean
     private lateinit var getComputeTarget: GetComputeTarget
