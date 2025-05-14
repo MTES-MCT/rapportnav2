@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
@@ -24,7 +24,7 @@ class ProcessNavActionTest {
     private lateinit var processNavAction: ProcessNavAction
 
     @MockitoBean
-    private lateinit var getStatusForAction: GetStatusForAction
+    private lateinit var getStatusForAction: GetStatusForAction2
 
     @MockitoBean
     private lateinit var getComputeTarget: GetComputeTarget

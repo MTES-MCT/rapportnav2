@@ -2,13 +2,13 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 
 
 @UseCase
 class ProcessNavAction(
-    getStatusForAction: GetStatusForAction,
+    getStatusForAction: GetStatusForAction2,
     private val getComputeTarget: GetComputeTarget
 ) : AbstractGetMissionAction(getStatusForAction) {
 
