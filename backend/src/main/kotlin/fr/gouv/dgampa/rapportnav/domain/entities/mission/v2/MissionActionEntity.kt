@@ -78,10 +78,6 @@ abstract class MissionActionEntity(
     }
 
     fun isStartDateEndDateOK(): Boolean {
-        // list here action with no required end date
-        if (this.actionType === ActionType.NOTE) {
-            return true
-        }
         if(this.endDateTimeUtc  == null ||  this.startDateTimeUtc == null) return false
         try{
             val endDateTime = Instant.parse(endDateTimeUtc.toString())
