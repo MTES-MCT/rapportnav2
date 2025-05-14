@@ -21,7 +21,7 @@ const MissionTarget: FC<MissionTargetProps> = ({ label, name, fieldArray, hideGe
         <Label>{label}</Label>
       </Stack.Item>
       <Stack.Item style={{ width: '100%' }}>
-        {fieldArray.form.values.targets.map((target: Target, targetIndex: number) => (
+        {(fieldArray.form.values.targets || []).map((target: Target, targetIndex: number) => (
           <Stack direction="column" alignItems="flex-start" style={{ width: '100%' }} key={`${name}-${targetIndex}`}>
             <Stack.Item style={{ width: '100%' }}>
               <FieldArray name={`${name}.controls`}>

@@ -1,23 +1,34 @@
-import { render, screen } from '../../../../../../../test-utils.tsx'
-import MissionGeneralInformationFormPam from '../mission-general-information-form-pam.tsx'
-import { useOnlineManager } from '../../../../../common/hooks/use-online-manager.tsx'
+import MissionActionItemFishControl from '../mission-action-item-fish-control.tsx'
+import { useOnlineManager } from '../../../../common/hooks/use-online-manager.tsx'
 import { vi } from 'vitest'
+import { render, screen } from '../../../../../../test-utils.tsx'
+import { MissionAction } from '../../../../common/types/mission-action.ts'
 
 // Mock the useOnlineManager hook
-vi.mock('../../../../../common/hooks/use-online-manager.tsx', () => ({
+vi.mock('../../../../common/hooks/use-online-manager.tsx', () => ({
   useOnlineManager: vi.fn()
 }))
 
-describe('MissionGeneralInformationFormPam Component', () => {
+const mockAction = {
+  id: '1234'
+} as MissionAction
+
+const props = (action = mockAction, onChange = vi.fn(), isMissionFinished = false) => ({
+  action,
+  isMissionFinished,
+  onChange
+})
+
+describe('MissionActionItemEnvControl Component', () => {
   it('renders', () => {
     vi.mocked(useOnlineManager).mockReturnValue({ isOnline: false } as any)
-    render(<MissionGeneralInformationFormPam generalInfo2={{}} onChange={vi.fn()} />)
+    render(<MissionActionItemFishControl {...props()} />)
   })
 
   describe('The datepicker', () => {
     it('should be disabled when offline', () => {
       vi.mocked(useOnlineManager).mockReturnValue({ isOnline: false } as any)
-      render(<MissionGeneralInformationFormPam generalInfo2={{}} onChange={vi.fn()} />)
+      render(<MissionActionItemFishControl {...props()} />)
       expect(
         screen.queryAllByTitle(
           "Non disponible hors ligne, il est nécessaire d'être synchronisé avec les centres pour saisir/modifier cette donnée."
@@ -26,7 +37,7 @@ describe('MissionGeneralInformationFormPam Component', () => {
     })
     it('should be enabled when online', () => {
       vi.mocked(useOnlineManager).mockReturnValue({ isOnline: true } as any)
-      render(<MissionGeneralInformationFormPam generalInfo2={{}} onChange={vi.fn()} />)
+      render(<MissionActionItemFishControl {...props()} />)
       expect(screen.queryByText('Non disponible hors ligne,', { exact: false })).toBeNull()
     })
   })

@@ -22,7 +22,7 @@ const MissionTargetDefault: React.FC<MissionTargetDefaultProps> = ({
 
   return (
     <Stack direction="column" alignItems="flex-start" spacing={'1.5rem'} style={{ width: '100%' }}>
-      {fieldArray.form.values.targets.map((target: Target, targetIndex: number) => (
+      {(fieldArray.form.values.targets || []).map((target: Target, targetIndex: number) => (
         <Stack.Item style={{ width: '100%' }} key={`${name}-${targetIndex}`}>
           {isDefaultTarget(target) && (
             <Stack direction="column" alignItems="flex-start" spacing={'1.5rem'} style={{ width: '100%' }}>

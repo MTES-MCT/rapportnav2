@@ -3,6 +3,7 @@ import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { ExportReportType } from '../../../../common/types/mission-export-types.ts'
 import { Mission2 } from '../../../../common/types/mission-types.ts'
+import { useOnlineManager } from '../../../../common/hooks/use-online-manager.tsx'
 
 interface MissionListActionsPamProps {
   missions?: Mission2[]
@@ -17,6 +18,7 @@ const MissionListActionsPam: FC<MissionListActionsPamProps> = ({
   toggleDialog,
   toggleAll
 }) => {
+  const { isOffline } = useOnlineManager()
   return (
     <Stack direction={'row'} spacing={'0.2rem'} style={{ padding: '0 1rem' }}>
       <Stack.Item>
@@ -33,8 +35,8 @@ const MissionListActionsPam: FC<MissionListActionsPamProps> = ({
           Icon={Icon.ListLines}
           accent={Accent.SECONDARY}
           onClick={() => toggleDialog(ExportReportType.AEM)}
-          title={'Export tableau AEM'}
-          disabled={!selectedMissionIds.length}
+          disabled={!selectedMissionIds.length || isOffline}
+          title={isOffline ? "Cette action n'est pas disponible hors ligne" : 'Export tableau AEM'}
         />
       </Stack.Item>
       <Stack.Item>
@@ -42,8 +44,8 @@ const MissionListActionsPam: FC<MissionListActionsPamProps> = ({
           Icon={Icon.MissionAction}
           accent={Accent.SECONDARY}
           onClick={() => toggleDialog(ExportReportType.PATROL)}
-          title={'Export rapport de patrouille'}
-          disabled={!selectedMissionIds.length}
+          disabled={!selectedMissionIds.length || isOffline}
+          title={isOffline ? "Cette action n'est pas disponible hors ligne" : 'Export rapport de patrouille'}
         />
       </Stack.Item>
     </Stack>

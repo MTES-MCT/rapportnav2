@@ -18,12 +18,14 @@ import MissionTarget from '../../../mission-target/components/elements/mission-t
 import { useMissionActionFishControl } from '../../hooks/use-mission-action-fish-control'
 import { ActionFishControlInput } from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
+import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 
 const MissionActionItemFishControl: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
   isMissionFinished?: boolean
 }> = ({ action, onChange, isMissionFinished }) => {
+  const { isOnline } = useOnlineManager()
   const { initValue, handleSubmit } = useMissionActionFishControl(action, onChange, isMissionFinished)
   return (
     <div style={{ width: '100%' }}>
@@ -45,7 +47,18 @@ const MissionActionItemFishControl: FC<{
                 <Stack.Item grow={1}>
                   <Field name="dates">
                     {(field: FieldProps<Date[]>) => (
-                      <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
+                      <FormikDateRangePicker
+                        label=""
+                        name="dates"
+                        isLight={true}
+                        fieldFormik={field}
+                        disabled={!isOnline}
+                        title={
+                          isOnline
+                            ? ''
+                            : "Non disponible hors ligne, il est nécessaire d'être synchronisé avec les centres pour saisir/modifier cette donnée."
+                        }
+                      />
                     )}
                   </Field>
                 </Stack.Item>

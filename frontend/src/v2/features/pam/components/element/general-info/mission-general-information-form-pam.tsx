@@ -8,11 +8,13 @@ import { FormikDateRangePicker } from '../../../../common/components/ui/formik-d
 import { usePamMissionGeneralInfoForm } from '../../../hooks/use-pam-mission-general-information-form.tsx'
 import MissionGeneralInformationCrewPam from './mission-general-information-crew-pam.tsx'
 import MissionService from './mission-service.tsx'
+import { useOnlineManager } from '../../../../common/hooks/use-online-manager.tsx'
 
 const MissionGeneralInformationFormPam: FC<{
   generalInfo2: MissionGeneralInfo2
   onChange: (newGeneralInfo: MissionGeneralInfo2) => Promise<unknown>
 }> = ({ generalInfo2, onChange }) => {
+  const { isOnline } = useOnlineManager()
   const { handleSubmit, initValue } = usePamMissionGeneralInfoForm(onChange, generalInfo2)
 
   return (
@@ -34,6 +36,12 @@ const MissionGeneralInformationFormPam: FC<{
                           fieldFormik={field}
                           validateOnSubmit={false}
                           isCompact={true}
+                          disabled={!isOnline}
+                          title={
+                            isOnline
+                              ? ''
+                              : "Non disponible hors ligne, il est nécessaire d'être synchronisé avec les centres pour saisir/modifier cette donnée."
+                          }
                         />
                       )}
                     </Field>
