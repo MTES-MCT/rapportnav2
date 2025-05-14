@@ -16,8 +16,10 @@ class ProcessNavAction(
         val entity = MissionNavActionEntity.fromMissionActionModel(action)
         val targets = getComputeTarget.execute(actionId = entity.getActionId(), isControl = entity.isControl())
         entity.targets = targets
-        entity.status = this.getStatus(entity)
+        // first complete the completeness
         entity.computeCompleteness()
+        // then compute the derived status
+        entity.status = this.getStatus(entity)
         return entity
     }
 }
