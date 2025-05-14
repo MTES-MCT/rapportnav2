@@ -1,5 +1,10 @@
 import { MissionTypeEnum } from '@common/types/env-mission-types.ts'
-import { MissionReinforcementTypeEnum, MissionReportTypeEnum, MissionType } from '../types/mission-types.ts'
+import {
+  JdpTypeEnum,
+  MissionReinforcementTypeEnum,
+  MissionReportTypeEnum,
+  MissionType
+} from '../types/mission-types.ts'
 
 interface MissionTypeHook {
   getMissionTypeLabel: (type?: MissionType) => string | undefined
@@ -8,9 +13,10 @@ interface MissionTypeHook {
   missionTypeOptions: { label: string; value: MissionType }[]
   reinforcementTypeOptions: { label: string; value: MissionReinforcementTypeEnum }[]
   reportTypeOptions: { label: string; value: MissionReportTypeEnum }[]
+  jdpTypeOptions: { label: string; value: JdpTypeEnum }[]
   isExternalReinforcementTime: (missionReportType?: MissionReportTypeEnum) => boolean
   isMissionTypeSea: (missionTypes?: MissionTypeEnum[]) => boolean | undefined
-  isEnvMission: (missionReportType?: MissionReportTypeEnum) => boolean
+  isEnvMission: (missionReportType?: MissionReportTypeEnum) => boolean,
 }
 
 const MISSION_TYPE_REGISTRY: Record<MissionType, string> = {
@@ -32,6 +38,11 @@ const REPORT_TYPE_REGISTRY: Record<MissionReportTypeEnum, string> = {
   [MissionReportTypeEnum.FIELD_REPORT]: 'Rapport avec sortie terrain',
   [MissionReportTypeEnum.OFFICE_REPORT]: 'Rapport sans sortie terrain (admin. uniquement)',
   [MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT]: 'Rapport de temps agent en renfort extérieur'
+}
+
+const JDP_TYPE_REGISTRY: Record<JdpTypeEnum, string> = {
+  [JdpTypeEnum.DOCKED]: 'À quai',
+  [JdpTypeEnum.ONBOARD]: 'Embarqué',
 }
 
 export function useMissionType(): MissionTypeHook {
@@ -61,6 +72,12 @@ export function useMissionType(): MissionTypeHook {
       label: REPORT_TYPE_REGISTRY[key as keyof typeof MissionReportTypeEnum]
     }))
 
+  const getJdpTypeOptions = () =>
+    Object.keys(JdpTypeEnum).map(key => ({
+      value: JdpTypeEnum[key as keyof typeof JdpTypeEnum],
+      label: JDP_TYPE_REGISTRY[key as keyof typeof JdpTypeEnum]
+    }))
+
   const isExternalReinforcementTime = (missionReportType?: MissionReportTypeEnum) =>
     missionReportType === MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT
 
@@ -76,6 +93,7 @@ export function useMissionType(): MissionTypeHook {
     missionTypeOptions: getMissionTypeOptions(),
     reinforcementTypeOptions: getReinforcementTypeOptions(),
     reportTypeOptions: getReportTypeOptions(),
+    jdpTypeOptions: getJdpTypeOptions(),
     isMissionTypeSea,
     isExternalReinforcementTime,
     isEnvMission

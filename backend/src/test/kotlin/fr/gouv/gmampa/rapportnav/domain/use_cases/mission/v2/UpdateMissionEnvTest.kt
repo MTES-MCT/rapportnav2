@@ -241,7 +241,7 @@ class UpdateMissionEnvTest {
         Assertions.assertNotNull(input.resources?.firstOrNull())
         Assertions.assertEquals(input.resources?.firstOrNull()?.id, firstResource?.id)
         Assertions.assertEquals(input.resources?.get(1)?.id, secondResource?.id)
-        Assertions.assertEquals(1, mockMissionEntity.controlUnits[0].resources.size)
+        Assertions.assertEquals(1, mockMissionEntity.controlUnits[0].resources?.size)
     }
 
     @Test

@@ -8,7 +8,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Infrac
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeMissionData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetFishActionsByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction.GetInfractionsByActionId
@@ -36,7 +35,6 @@ class ActionController(
     private val getEnvActionByIdAndMissionId: GetEnvActionByIdAndMissionId,
     private val getNavActionByIdAndMissionId: GetNavActionByIdAndMissionId,
     private val getInfractionsByActionId: GetInfractionsByActionId,
-    private val fakeMissionData: FakeMissionData,
     private val addOrUpdateActionFreeNote: AddOrUpdateActionFreeNote,
     private val deleteActionFreeNote: DeleteActionFreeNote,
     private val addOrUpdateActionRescue: AddOrUpdateActionRescue,
@@ -68,22 +66,6 @@ class ActionController(
         @Argument source: MissionSourceEnum,
         @Argument type: ActionType
     ): Action? {
-        if (id in fakeMissionData.getEnvActionIds()) {
-            val fakeAction = fakeMissionData.envControls(missionId).first()
-            return Action.fromEnvAction(
-                envAction = fakeAction,
-                missionId = missionId
-            )
-        } else if (id in fakeMissionData.getFishActionIds()) {
-            val fakeAction =
-                fakeMissionData.getFishActions(missionId)
-                    .first { it.fishAction.controlAction?.action?.id.toString() == id }
-            return Action.fromFishAction(
-                fishAction = fakeAction.fishAction,
-                missionId = missionId
-            )
-        }
-
         try {
             return when (source) {
                 MissionSourceEnum.MONITORFISH -> {

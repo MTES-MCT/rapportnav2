@@ -19,7 +19,8 @@ class MissionNavAction(
     override val controlsToComplete: List<ControlType>? = null,
     override val completenessForStats: CompletenessForStatsEntity? = null,
     override val sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
-    override val data: MissionNavActionData
+    override val data: MissionNavActionData,
+    override val missionIdString: String? = null
 ) : MissionAction(
     id = id.toString(),
     missionId = missionId,
@@ -28,7 +29,8 @@ class MissionNavAction(
     summaryTags = summaryTags,
     source = source,
     controlsToComplete = controlsToComplete,
-    data = data
+    data = data,
+    missionIdString = missionIdString
 ) {
     companion object {
         fun fromMissionActionEntity(action: MissionActionEntity): MissionNavAction {
@@ -43,6 +45,7 @@ class MissionNavAction(
                 completenessForStats = navAction.completenessForStats,
                 isCompleteForStats = navAction.isCompleteForStats,
                 controlsToComplete = navAction.controlsToComplete,
+                missionIdString = navAction.missionIdString,
                 data = MissionNavActionData(
                     startDateTimeUtc = navAction.startDateTimeUtc,
                     endDateTimeUtc = navAction.endDateTimeUtc,

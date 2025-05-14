@@ -34,7 +34,7 @@ object MissionEntityMock2 {
     ): MissionEntity2 {
         return MissionEntity2(
             id = id,
-            envData = MissionEntity(
+            data = MissionEntity(
                 missionTypes = missionTypes,
                 controlUnits = controlUnits,
                 openBy = openBy,
