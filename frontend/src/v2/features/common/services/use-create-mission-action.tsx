@@ -29,7 +29,7 @@ const useCreateMissionActionMutation = (
       const optimisticAction = { ...newAction, id, networkSyncStatus: NetworkSyncStatus.UNSYNC }
 
       // to me on monday: it seems to fail here
-      // await queryClient.cancelQueries({ queryKey: actionsKeys.byId(optimisticAction.id) })
+      await queryClient.cancelQueries({ queryKey: actionsKeys.byId(optimisticAction.id) })
       await queryClient.cancelQueries({ queryKey: missionsKeys.byId(missionId) })
 
       const mission: Mission2 | undefined = queryClient.getQueryData(missionsKeys.byId(missionId))
@@ -56,41 +56,29 @@ const useCreateMissionActionMutation = (
     // Invalidate queries to fetch the latest data after mutation success
     onSuccess: (serverResponse, newAction, context) => {
       debugger
-      if (isOnline) {
-        const serverAction = serverResponse.data
+      const serverAction = serverResponse.data
 
-        // set new action with final id in cache
-        queryClient.setQueryData(actionsKeys.byId(serverAction.id), {
-          ...serverAction,
-          networkSyncStatus: NetworkSyncStatus.SYNC
-        })
+      // set new action with final id in cache
+      queryClient.setQueryData(actionsKeys.byId(serverAction.id), {
+        ...serverAction,
+        networkSyncStatus: NetworkSyncStatus.SYNC
+      })
 
-        // remove the old individual action query if the ID changed
-        if (context.action.id !== serverAction.id) {
-          queryClient.removeQueries({ queryKey: actionsKeys.byId(context.action.id) })
-        }
-
-        // update action list
-        // queryClient.setQueryData(
-        //   missionsKeys.byId(missionId),
-        //   (mission: Mission2 | undefined) =>
-        //     ({
-        //       ...mission,
-        //       actions: (mission?.actions ?? []).map((action: MissionAction) =>
-        //         action.id === context.action.id ? serverAction : action
-        //       )
-        //     }) as Mission2
-        // )
-        // refetch mission and action
-        queryClient.invalidateQueries({ queryKey: missionsKeys.byId(missionId), exact: true })
-        queryClient.invalidateQueries({ queryKey: actionsKeys.byId(serverAction.id), exact: true })
-
-        navigateToActionId(serverAction.id, navigate)
+      // remove the old individual action query if the ID changed
+      if (context.action.id !== serverAction.id) {
+        queryClient.removeQueries({ queryKey: actionsKeys.byId(context.action.id) })
       }
+
+      // refetch mission and action
+      queryClient.invalidateQueries({ queryKey: missionsKeys.byId(missionId), exact: true })
+      queryClient.invalidateQueries({ queryKey: actionsKeys.byId(serverAction.id), exact: true })
+
+      // navigate to correct page
+      navigateToActionId(serverAction.id, navigate)
     },
     onError: (_, __, context) => {
       debugger
-      if (!navigator.onLine) {
+      if (!isOnline) {
         console.log('Offline: Action will remain unsynced until next synchronization.')
       } else {
         // Rollback for other errors
