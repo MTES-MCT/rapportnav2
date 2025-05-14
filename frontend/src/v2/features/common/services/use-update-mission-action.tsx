@@ -6,12 +6,14 @@ import { v4 as uuidv4 } from 'uuid'
 import { NetworkSyncStatus } from '../types/network-types.ts'
 import { Mission2 } from '../types/mission-types.ts'
 import { groupBy, orderBy } from 'lodash'
+import { useOnlineManager } from '../hooks/use-online-manager.tsx'
 
 const useUpdateMissionActionMutation = (
   missionId: number,
   actionId?: string
 ): UseMutationResult<MissionAction, Error, MissionAction, unknown> => {
   const queryClient = useQueryClient()
+  const { isOnline } = useOnlineManager()
 
   const updateAction = (action: MissionAction): Promise<MissionAction> =>
     axios.put(`missions/${missionId}/actions/${actionId}`, action).then(response => response.data)
@@ -20,16 +22,19 @@ const useUpdateMissionActionMutation = (
     mutationFn: updateAction,
     onMutate: async (updatedAction: MissionNavAction) => {
       debugger
+      let optimisticAction: MissionNavAction = {
+        ...updatedAction,
+        networkSyncStatus: isOnline ? NetworkSyncStatus.SYNC : NetworkSyncStatus.UNSYNC
+      }
 
-      // await queryClient.cancelQueries({ queryKey: actionsKeys.byId(optimisticAction.id) })
       await queryClient.cancelQueries({ queryKey: missionsKeys.byId(missionId) })
 
       const mission: Mission2 | undefined = queryClient.getQueryData(missionsKeys.byId(missionId))
       const previousActions = mission?.actions
-      // queryClient.setQueryData(actionKeys.all(), [updatedAction, ...previousActions || []])
+
       debugger
       const actions = (mission?.actions ?? []).map((action: MissionAction) =>
-        action.id === updatedAction.id ? updatedAction : action
+        action.id === optimisticAction.id ? optimisticAction : action
       )
       const sortedActions = orderBy(actions, ['data.startDateTimeUtc'], ['desc'])
 
@@ -42,27 +47,13 @@ const useUpdateMissionActionMutation = (
           }) as Mission2
       )
       // Set individual action query for the optimistic object
-      queryClient.setQueryData(actionsKeys.byId(updatedAction.id), updatedAction)
+      queryClient.setQueryData(actionsKeys.byId(optimisticAction.id), optimisticAction)
 
       // return context
-      return { previousActions, action: updatedAction }
+      return { previousActions, action: optimisticAction }
     },
-    // onSuccess: (serverResponse, newAction, context) => {
-    //   debugger
-    //   const serverAction = serverResponse.data
-    //
-    //   queryClient.invalidateQueries({ queryKey: missionsKeys.byId(missionId), exact: true })
-    //   queryClient.invalidateQueries({ queryKey: actionsKeys.byId(serverAction.id), exact: true })
-    // },
-    // onError: (_, __, context) => {
-    //   debugger
-    //   // Rollback for other errors
-    //   console.error(`Mutation failed for action with ID: ${context.action?.id}`, _)
-    // },
-    //  onSettled: (data, error, variables, context)
     onSettled: (data, error, variables, context) => {
       queryClient.invalidateQueries({ queryKey: missionsKeys.byId(missionId), exact: true })
-      debugger
       queryClient.invalidateQueries({ queryKey: actionsKeys.byId(context.action.id), exact: true })
     },
     scope: {

@@ -26,7 +26,11 @@ const useCreateMissionActionMutation = (
     onMutate: async (newAction: MissionNavAction) => {
       debugger
       const id = uuidv4() // Generate a UUID locally
-      const optimisticAction = { ...newAction, id, networkSyncStatus: NetworkSyncStatus.UNSYNC }
+      const optimisticAction = {
+        ...newAction,
+        id,
+        networkSyncStatus: isOnline ? NetworkSyncStatus.SYNC : NetworkSyncStatus.UNSYNC
+      }
 
       // to me on monday: it seems to fail here
       await queryClient.cancelQueries({ queryKey: actionsKeys.byId(optimisticAction.id) })
