@@ -44,7 +44,9 @@ export function useMissionList(): MissionListHook {
       startDateTimeUtcText: formatDateForFrenchHumans(mission.envData.startDateTimeUtc),
       resources: mission.generalInfos.resources,
       missionReportType: mission.generalInfos.missionReportType,
-      missionIdString: mission.generalInfos.missionIdString
+      missionIdString: mission.generalInfos.missionIdString,
+      isUnderJdp: mission.envData.isUnderJdp,
+      jdpType: mission.generalInfos.jdpType
     }
   }
 

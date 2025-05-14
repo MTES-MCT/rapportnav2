@@ -126,7 +126,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
     <ListItemWithHover ref={listItemRef} onClick={onClickRow} data-testid="mission-list-item-with-hover">
       <FlexboxGrid align="middle" style={{ height: '100%', padding: '0.5rem 1rem', marginBottom: '4px' }}>
         <FlexboxGrid.Item colspan={1} style={{ paddingTop: '8px' }} data-testid={'mission-list-item-icon'}>
-          <MissionIconUlam missionSource={mission.missionSource} />
+          <MissionIconUlam missionReportType={mission.missionReportType} />
         </FlexboxGrid.Item>
 
         <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-mission_number'}>

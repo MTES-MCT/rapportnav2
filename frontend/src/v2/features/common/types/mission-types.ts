@@ -172,6 +172,8 @@ export type MissionListItem = {
   resources?: ControlUnitResource[],
   missionReportType?: MissionReportTypeEnum
   missionIdString?: string
+  isUnderJdp?: boolean
+  jdpType?: JdpTypeEnum
 }
 
 export type InterMinisterialService = {
