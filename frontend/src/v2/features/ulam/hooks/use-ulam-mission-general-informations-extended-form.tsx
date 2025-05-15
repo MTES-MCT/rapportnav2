@@ -10,6 +10,8 @@ export function useUlamMissionGeneralInformationsExtendedForm(
   const fromInputToFieldValue = (value: MissionGeneralInfoExtended): MissionGeneralInfoExtended => {
     return {
       ...value,
+      isUnderJdp: value.isUnderJdp,
+      jdpType: value.jdpType,
       interMinisterialServices: !value.isWithInterMinisterialService ? [] : value.interMinisterialServices
     }
   }
