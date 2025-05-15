@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
@@ -53,10 +54,13 @@ class MissionNavActionData(
         fun toMissionNavActionEntity(input: MissionAction): MissionNavActionEntity {
             val data = input.data as MissionNavActionData
 
+//            val status = input.status ?: data.status
+
             val action  = MissionNavActionEntity(
                 id = if(input.id == null) UUID.randomUUID() else UUID.fromString(input.id),
                 missionId = input.missionId,
                 actionType = input.actionType,
+//                status = status,
                 startDateTimeUtc = data.startDateTimeUtc,
                 endDateTimeUtc = data.endDateTimeUtc,
                 observations = data.observations,
