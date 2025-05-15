@@ -12,7 +12,7 @@ const MissionTimelineUlam: FC<MissionTimelineProps> = ({ missionId }) => {
   const { data: actions, isError, isLoading } = useGetMissionTimelineQuery(missionId)
   return (
     <MissionPageSectionWrapper
-      sectionHeader={<MissionTimelineUlamHeader missionId={Number(missionId)} />}
+      sectionHeader={<MissionTimelineUlamHeader missionId={missionId} />}
       sectionBody={
         <MissionTimelineUlamBody
           actions={actions}

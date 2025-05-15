@@ -18,10 +18,9 @@ const MissionTimelineUlamHeader: FC<MissionTimelineUlamHeaderProps> = ({ mission
   const { data: generalInfos } = useGetMissionGeneralInformationQuery(missionId)
   const { isExternalReinforcementTime } = useMissionType()
 
-
-  if (isExternalReinforcementTime(generalInfos.missionReportType)) return null
   return (
     <MissionTimelineHeaderWrapper
+      hideAction={isExternalReinforcementTime(generalInfos.missionReportType)}
       hideStatus={true}
       missionId={missionId}
       onSubmit={handleOnSubmit}
