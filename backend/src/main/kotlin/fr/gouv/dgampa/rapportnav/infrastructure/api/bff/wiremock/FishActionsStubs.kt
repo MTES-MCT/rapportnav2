@@ -10,7 +10,7 @@ object FishActionsStubs {
         val json = LoadJsonData.load("fish/actions.json")
 
         wireMockServer.stubFor(
-            WireMock.get(WireMock.urlMatching("/api/v1/mission_actions"))
+            WireMock.get(WireMock.urlPathMatching("/api/v1/mission_actions"))
                 .withQueryParam("missionId", WireMock.matching(".*"))
                 .willReturn(
                     WireMock.aResponse()

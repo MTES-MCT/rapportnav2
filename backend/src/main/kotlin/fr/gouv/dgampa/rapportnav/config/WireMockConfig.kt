@@ -16,9 +16,10 @@ class WireMockConfig {
         AdministrationStubs.configureStubs(wireMockServer)
         NatinfStubs.configureStubs(wireMockServer)
         ControlUnitResourcesStubs.configureStubs(wireMockServer)
-        MissionByIdStubs.configureStubs(wireMockServer)
         FishActionsStubs.configureStubs(wireMockServer)
+        MissionByIdStubs.configureStubs(wireMockServer)
         ControlPlansStubs.configureStubs(wireMockServer)
+        FishVesselsStubs.configureStubs(wireMockServer)
 
         return wireMockServer
     }
