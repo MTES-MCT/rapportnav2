@@ -3,7 +3,7 @@ import MissionPageHeader from '../../../common/components/ui/mission-page-header
 import useGetMissionQuery from '../../../common/services/use-mission'
 
 interface MissionHeaderProps {
-  missionId?: number
+  missionId?: string
   onClickClose: () => void
   onClickExport: () => void
   exportLoading?: boolean

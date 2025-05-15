@@ -1,4 +1,4 @@
-import { FormikCheckbox, FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
+import { FormikCheckbox, FormikEffect, FormikMultiRadio, FormikTextarea } from '@mtes-mct/monitor-ui'
 import { useStore } from '@tanstack/react-store'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
@@ -32,7 +32,7 @@ const MissionGeneralInformationUlamExtendedForm: FC<MissionGeneralInformationUla
   const { data: administrations } = useAdministrationsQuery()
   const { data: resources } = useControlUnitResourcesQuery(user?.controlUnitId)
   const { initValue, handleSubmit } = useUlamMissionGeneralInformationsExtendedForm(name, fieldFormik)
-  const { isEnvMission } = useMissionType()
+  const { isEnvMission, jdpTypeOptions } = useMissionType()
 
 
   return (
@@ -44,7 +44,7 @@ const MissionGeneralInformationUlamExtendedForm: FC<MissionGeneralInformationUla
               <FormikEffect onChange={newValues => handleSubmit(newValues)} />
 
               <Stack.Item style={{ width: '100%' }}>
-                <Stack direction="column" spacing="1em" justifyContent="flex-start" style={{ width: '70%' }}>
+                <Stack direction="column" spacing="1em" justifyContent="flex-start" style={{ width: '80%' }}>
                   {isEnvMission(generalInfos2.missionReportType) && (
                     <Stack.Item style={{ width: '100%' }}>
                       <Field name="resources">
@@ -74,6 +74,26 @@ const MissionGeneralInformationUlamExtendedForm: FC<MissionGeneralInformationUla
 
                   {isEnvMission(generalInfos2.missionReportType) && (
                     <>
+                      <Stack.Item style={{ width: '100%', textAlign: 'left', marginTop: '1rem' }}>
+                        <Stack direction="row">
+                          <Stack.Item style={{ width: '40%' }}>
+                            <FormikCheckbox
+                              name={'isUnderJdp'}
+                              label={"Mission sous JDP"}
+                            />
+                          </Stack.Item>
+                          <Stack.Item style={{ width: '60%', marginTop: '-0.8rem', paddingLeft: '2rem' }}>
+                            {formik.values.isUnderJdp && (
+                              <FormikMultiRadio
+                                label={"Type de JDP"}
+                                name={'jdpType'}
+                                options={jdpTypeOptions}
+                                isInline
+                              />
+                            )}
+                          </Stack.Item>
+                        </Stack>
+                      </Stack.Item>
                       <Stack.Item style={{ width: '100%', marginTop: 32 }}>
                         <FormikCheckbox name={'isMissionArmed'} label={'Mission armée'} />
                       </Stack.Item>

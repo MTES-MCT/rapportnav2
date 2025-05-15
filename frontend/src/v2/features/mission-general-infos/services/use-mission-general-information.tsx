@@ -17,7 +17,7 @@ type UseMissionGeneralInfoQueryResult<T, M> = {
 }
 
 const useGetMissionGeneralInformationQuery = (
-  missionId?: number
+  missionId?: string
 ): UseMissionGeneralInfoQueryResult<MissionGeneralInfo2, Error> => {
   const userId = useStore(store, state => state.user?.id)
   const { data: user } = useGetUserQuery(userId)

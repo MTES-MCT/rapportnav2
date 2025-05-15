@@ -3,7 +3,7 @@ import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-
 import axios from '../../../../query-client/axios'
 import { missionsKeys } from './query-keys.ts'
 
-const useDeleteActionMutation = (missionId: number): UseMutationResult<void, Error, string, unknown> => {
+const useDeleteActionMutation = (missionId: string): UseMutationResult<void, Error, string, unknown> => {
   const queryClient = useQueryClient()
 
   const deleteAction = (actionId: string): Promise<void> =>

@@ -6,7 +6,7 @@ import MissionActionHeaderWrapper from '../../../mission-action/components/layou
 import { useUlamActionRegistry } from '../../hooks/use-ulam-action-registry'
 
 export type MissionActionHeaderProps = {
-  missionId: number
+  missionId: string
   action: MissionAction
   missionStatus?: MissionStatusEnum
 }

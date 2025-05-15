@@ -24,12 +24,12 @@ const MissionUlamPage: React.FC = () => {
           onClickClose={exitMission}
           onClickExport={exportMission}
           exportLoading={exportIsLoading}
-          missionId={Number(missionId)}
+          missionId={missionId}
         />
       }
-      missionGeneralInformations={<MissionGeneralInformationUlam missionId={Number(missionId)} />}
-      missionTimeLine={<MissionTimelineUlam missionId={Number(missionId)} />}
-      missionAction={<MissionActionUlam missionId={Number(missionId)} actionId={actionId} />}
+      missionGeneralInformations={<MissionGeneralInformationUlam missionId={missionId} />}
+      missionTimeLine={<MissionTimelineUlam missionId={missionId} />}
+      missionAction={<MissionActionUlam missionId={missionId} actionId={actionId} />}
       missionFooter={<MissionPageFooter exitMission={exitMission} />}
     />
   )

@@ -15,7 +15,7 @@ import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
 
 interface MissionTimelineProps {
   isError?: any
-  missionId?: number
+  missionId?: string
   isLoading?: boolean
   actions: MissionTimelineAction[]
   groupBy: 'startDateTimeUtc' | 'endDateTimeUtc'

@@ -27,7 +27,6 @@ const MISSION_TYPE_REGISTRY: Record<MissionType, string> = {
 
 const REINFORCEMENT_TYPE_REGISTRY: Record<MissionReinforcementTypeEnum, string> = {
   [MissionReinforcementTypeEnum.PATROL]: 'Patrouille (mission PAM)',
-  [MissionReinforcementTypeEnum.JDP]: 'JDP',
   [MissionReinforcementTypeEnum.DIRM]: 'DIRM',
   [MissionReinforcementTypeEnum.OTHER_ULAM]: 'Autre ULAM',
   [MissionReinforcementTypeEnum.SEA_TRAINER]: 'Formateur ESP Mer',

@@ -3,7 +3,7 @@ import axios from '../../../../query-client/axios'
 import { Mission2 } from '../types/mission-types'
 import { missionsKeys } from './query-keys.ts'
 
-const useGetMissionQuery = (missionId?: number) => {
+const useGetMissionQuery = (missionId?: string) => {
   const fetchMission = (): Promise<Mission2> => axios.get(`missions/${missionId}`).then(response => response.data)
 
   const query = useQuery<Mission2>({

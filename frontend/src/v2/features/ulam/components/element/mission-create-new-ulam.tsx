@@ -7,6 +7,7 @@ import { Stack } from 'rsuite'
 import { MissionULAMGeneralInfoInitial } from '../../../common/types/mission-types.ts'
 import useCreateMissionMutation from '../../services/use-create-mission.tsx'
 import MissionGeneralInformationInitialFormUlam from './mission-general-information-ulam-initial-form.tsx'
+import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
 
 type NewMissionUlam = { missionGeneralInfo: MissionULAMGeneralInfoInitial }
 
@@ -25,8 +26,16 @@ const MissionCreateNewUlam: React.FC<MissionCreateNewUlamProps> = ({ onClose }) 
     } as MissionULAMGeneralInfoInitial
   }
 
+  const { isEnvMission } = useMissionType()
+
   const handleSubmit = ({ missionGeneralInfo }: NewMissionUlam, errors: any) => {
-    mutation.mutateAsync(missionGeneralInfo).then(r => navigate(`/v2/ulam/missions/${r.id}`))
+     mutation.mutateAsync(missionGeneralInfo).then((r) => {
+      if (isEnvMission(r.generalInfos.missionReportType)) {
+        navigate(`/v2/ulam/missions/${r.id}`)
+      } else {
+        navigate(`/v2/ulam/missions/${r.generalInfos.missionIdString}`)
+      }
+    })
     if (onClose) onClose()
   }
 
