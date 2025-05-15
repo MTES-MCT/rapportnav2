@@ -7,8 +7,15 @@ interface MissionIconUlamProps {
 }
 
 const MissionIconUlam: FC<MissionIconUlamProps> = ({ missionReportType }) => {
-  const MissionIcon = missionReportType === MissionReportTypeEnum.OFFICE_REPORT ? Icon.MissionAction : Icon.ShowErsMessages
-  return <MissionIcon size={28} color={THEME.color.charcoal} />
+
+  const iconMap = {
+    [MissionReportTypeEnum.OFFICE_REPORT]: Icon.MissionAction,
+    [MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT]: Icon.Logout,
+    [MissionReportTypeEnum.FIELD_REPORT]: Icon.ShowErsMessages,
+  };
+
+  const MissionIcon = iconMap[missionReportType!!] || Icon.ShowErsMessages;
+  return <MissionIcon size={28} color={THEME.color.charcoal} />;
 }
 
 export default MissionIconUlam

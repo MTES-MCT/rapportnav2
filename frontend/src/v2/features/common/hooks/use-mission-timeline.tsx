@@ -13,7 +13,7 @@ interface TimelineHook<T> {
   getActionInput: (actionType: ActionType, moreData?: unknown) => MissionNavAction
 }
 
-export function useMissionTimeline<T>(missionId?: number): TimelineHook<T> {
+export function useMissionTimeline<T>(missionId?: string): TimelineHook<T> {
   const getActionInput = (actionType: ActionType, moreData?: unknown): MissionNavAction => {
     const input = {
       missionId: Number(missionId),

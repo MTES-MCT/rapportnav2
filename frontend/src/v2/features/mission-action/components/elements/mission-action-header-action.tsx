@@ -7,7 +7,7 @@ import { ModuleType } from '../../../common/types/module-type'
 
 interface MissionActionHeaderActionProps {
   actionId: string
-  missionId: number
+  missionId: string
   moduleType: ModuleType
   source: MissionSourceEnum
 }

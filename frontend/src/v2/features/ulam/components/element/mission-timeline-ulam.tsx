@@ -5,7 +5,7 @@ import MissionTimelineUlamBody from './mission-timeline-ulam-body'
 import MissionTimelineUlamHeader from './mission-timeline-ulam-header'
 
 interface MissionTimelineProps {
-  missionId: number
+  missionId: string
 }
 
 const MissionTimelineUlam: FC<MissionTimelineProps> = ({ missionId }) => {
@@ -18,7 +18,7 @@ const MissionTimelineUlam: FC<MissionTimelineProps> = ({ missionId }) => {
           actions={actions}
           isError={isError}
           isLoading={isLoading}
-          missionId={Number(missionId)}
+          missionId={missionId}
         />
       }
     />
