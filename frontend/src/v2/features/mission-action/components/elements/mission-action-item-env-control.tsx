@@ -14,8 +14,9 @@ import { ActionEnvControlInput } from '../../types/action-type'
 import MissionActionEnvControlPlan from '../ui/mission-action-env-control-plan'
 import MissionActionEnvControlSummary from '../ui/mission-action-env-control-summary'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
+import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 
-type MissionActionItemEnvControlProps = {
+export type MissionActionItemEnvControlProps = {
   action: MissionAction
   isMissionFinished?: boolean
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
@@ -26,6 +27,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
   onChange,
   isMissionFinished
 }) => {
+  const { isOnline } = useOnlineManager()
   const { initValue, handleSubmit, getAvailableControlTypes2 } = useMissionActionEnvControl(
     action,
     onChange,
@@ -52,7 +54,18 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                 <Stack.Item grow={1}>
                   <Field name="dates">
                     {(field: FieldProps<Date[]>) => (
-                      <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
+                      <FormikDateRangePicker
+                        label=""
+                        name="dates"
+                        isLight={true}
+                        fieldFormik={field}
+                        disabled={!isOnline}
+                        title={
+                          isOnline
+                            ? ''
+                            : "Non disponible hors ligne, il est nécessaire d'être synchronisé avec les centres pour saisir/modifier cette donnée."
+                        }
+                      />
                     )}
                   </Field>
                 </Stack.Item>

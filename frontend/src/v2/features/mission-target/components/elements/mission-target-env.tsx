@@ -31,7 +31,7 @@ const MissionTargetEnv: React.FC<MissionTargetEnvProps> = ({
 
   return (
     <Stack direction="column" alignItems="flex-start" style={{ width: '100%' }}>
-      {fieldArray.form.values.targets.map((target: Target, targetIndex: number) => (
+      {(fieldArray.form.values.targets || []).map((target: Target, targetIndex: number) => (
         <Stack.Item style={{ width: '100%' }} key={`${name}-default-${targetIndex}`}>
           {!isDefaultTarget(target) && (
             <Field name={`targets[${targetIndex}]`}>
