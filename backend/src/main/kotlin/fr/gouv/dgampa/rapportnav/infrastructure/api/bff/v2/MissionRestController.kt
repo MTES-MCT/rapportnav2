@@ -1,11 +1,11 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.CreateEnvMission
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetEnvMissions
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateOrUpdateGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
-import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Mission2
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.Operation
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 import java.time.Instant
-import kotlin.collections.plus
 
 @RestController
 @RequestMapping("/api/v2/missions")
@@ -22,14 +21,11 @@ class MissionRestController(
     private val createEnvMission: CreateEnvMission,
     private val getEnvMissionById2: GetEnvMissionById2,
     private val getControlUnitsForUser: GetControlUnitsForUser,
-    private val getUserFromToken: GetUserFromToken,
     private val getEnvMissions: GetEnvMissions,
-    private val fakeMissionData2: FakeMissionData2,
     private val createOrUpdateGeneralInfo: CreateOrUpdateGeneralInfo
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionRestController::class.java)
-
 
     /**
      * Retrieves a list of missions from the environment and combines them with fictive missions specific to the user.
@@ -59,12 +55,7 @@ class MissionRestController(
             )
             val missions = envMissions?.map { getMission2.execute(envMission = it) }.orEmpty()
 
-            //TODO: TO REMOVE FAKE DATA ASAP
-
-            val user = getUserFromToken.execute()
-            val fakeMissions = fakeMissionData2.getFakeMissionsforUser(user)
-
-            return (missions.filterNotNull().plus(fakeMissions)).map { Mission2.fromMissionEntity((it)) }
+            return (missions.filterNotNull()).map { Mission2.fromMissionEntity((it)) }
         } catch (e: Exception) {
             logger.error("MissionRestController - failed to load missions from MonitorEnv", e)
             throw Exception(e)
