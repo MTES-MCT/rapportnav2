@@ -18,6 +18,7 @@ describe('useMissionsQuery', () => {
   let setQueryDataSpy: vi.SpyInstance
 
   beforeEach(() => {
+    // fresh QueryClient per test
     queryClient = new QueryClient({
       defaultOptions: {
         queries: {
@@ -31,6 +32,7 @@ describe('useMissionsQuery', () => {
 
     wrapper = ({ children }) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 
+    // Reset mocks
     vi.clearAllMocks()
   })
 
@@ -47,8 +49,10 @@ describe('useMissionsQuery', () => {
 
     ;(axios.get as vi.Mock).mockResolvedValue({ data: mockMissions })
 
+    // Act: render with a valid startDateTimeUtc
     const { result } = renderHook(() => useMissionsQuery({ startDateTimeUtc: '2025-01-01T00:00:00Z' }), { wrapper })
 
+    // Wait until the query is successful
     await waitFor(() => {
       expect(result.current.isSuccess).toBe(true)
     })
@@ -63,6 +67,7 @@ describe('useMissionsQuery', () => {
   it('does not run query when startDateTimeUtc is empty', async () => {
     ;(axios.get as vi.Mock).mockResolvedValue({ data: [] })
 
+    // Act: render with an empty startDateTimeUtc
     renderHook(() => useMissionsQuery({ startDateTimeUtc: '' }), { wrapper })
 
     expect(axios.get).not.toHaveBeenCalled()
