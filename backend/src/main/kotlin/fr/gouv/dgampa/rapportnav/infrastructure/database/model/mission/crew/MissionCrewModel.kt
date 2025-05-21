@@ -37,7 +37,8 @@ class MissionCrewModel(
             missionId = missionId,
             agent = agent.toAgentEntity(),
             role = role?.toAgentRoleEntity(),
-            comment = if (comment == null && commentDefaultsToString == true) "" else comment
+            comment = if (comment == null && commentDefaultsToString == true) "" else comment,
+            missionIdString = missionIdString
         )
     }
 
@@ -49,7 +50,8 @@ class MissionCrewModel(
                 missionId = crew.missionId,
                 agent = AgentModel.fromAgentEntity(crew.agent),
                 role = crew.role?.let { AgentRoleModel.fromAgentRoleEntity(it) },
-                comment = crew.comment
+                comment = crew.comment,
+                missionIdString = crew.missionIdString
             )
         }
     }

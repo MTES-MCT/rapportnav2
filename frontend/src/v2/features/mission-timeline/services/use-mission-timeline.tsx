@@ -14,7 +14,7 @@ type UseMissionTimelineQueryResult<T, M> = {
 }
 
 const useGetMissionTimelineQuery = (
-  missionId?: number
+  missionId?: string
 ): UseMissionTimelineQueryResult<MissionTimelineAction[], Error> => {
   const { getTimeLineAction } = useTimeline()
   const {

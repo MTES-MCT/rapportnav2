@@ -38,6 +38,8 @@ export type MissionGeneralInfoExtended = {
   observations?: string
   isAllAgentsParticipating?: boolean
   interMinisterialServices?: InterMinisterialService[]
+  isUnderJdp?: boolean
+  jdpType?: JdpTypeEnum
 }
 
 export enum MissionReportTypeEnum {
@@ -53,7 +55,6 @@ export enum JdpTypeEnum {
 
 export enum MissionReinforcementTypeEnum {
   PATROL = 'PATROL',
-  JDP = 'JDP',
   OTHER_ULAM = 'OTHER_ULAM',
   SEA_TRAINER = 'SEA_TRAINER',
   OTHER = 'OTHER',
@@ -135,6 +136,9 @@ export type MissionGeneralInfo2 = MissionGeneralInfoPam & {
   observations?: string
   resources?: ControlResource[]
   interMinisterialServices?: InterMinisterialService[]
+  missionIdString?: string
+  isUnderJdp?: boolean
+  jdpType?: JdpTypeEnum
 }
 
 export type Mission2 = {
@@ -145,6 +149,7 @@ export type Mission2 = {
   generalInfos: MissionGeneralInfo2
   completenessForStats?: CompletenessForStats
   actions: MissionAction[]
+  missionIdString?: string
 }
 
 export type MissionListItem = {
@@ -166,6 +171,9 @@ export type MissionListItem = {
   controlUnits?: ControlUnit[]
   resources?: ControlUnitResource[],
   missionReportType?: MissionReportTypeEnum
+  missionIdString?: string
+  isUnderJdp?: boolean
+  jdpType?: JdpTypeEnum
 }
 
 export type InterMinisterialService = {

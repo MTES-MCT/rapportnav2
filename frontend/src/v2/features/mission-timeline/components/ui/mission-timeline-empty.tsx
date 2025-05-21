@@ -9,7 +9,7 @@ const MissionTimelineEmpty: React.FC<MissionTimelineEmptyProps> = ({isReinforcem
   return (
     <Stack justifyContent={'center'} alignItems={'center'} style={{ height: '100%' }}>
       <Stack.Item alignSelf={'center'}>
-        <Text as={'h3'}>{isReinforcementTime ? 'Aucune détail de mission ne vous est demandé lors de renfort extérieur' : "Aucune action n'est ajoutée pour le moment"}</Text>
+        <Text as={'h3'}>{isReinforcementTime ? 'Aucun détail de mission ne vous est demandé lors de renfort extérieur' : "Aucune action n'est ajoutée pour le moment"}</Text>
       </Stack.Item>
     </Stack>
   )

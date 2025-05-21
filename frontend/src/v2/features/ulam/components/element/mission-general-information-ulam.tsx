@@ -5,7 +5,7 @@ import MissionGeneralInformationHeader from '../../../mission-general-infos/ui/m
 import MissionGeneralInformationUlamBody from './mission-general-information-ulam-body'
 
 interface MissionGeneralInformationProps {
-  missionId: number
+  missionId?: string
 }
 
 const MissionGeneralInformationUlam: FC<MissionGeneralInformationProps> = ({ missionId }) => {

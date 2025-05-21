@@ -5,20 +5,20 @@ import MissionTimelineUlamBody from './mission-timeline-ulam-body'
 import MissionTimelineUlamHeader from './mission-timeline-ulam-header'
 
 interface MissionTimelineProps {
-  missionId: number
+  missionId: string
 }
 
 const MissionTimelineUlam: FC<MissionTimelineProps> = ({ missionId }) => {
   const { data: actions, isError, isLoading } = useGetMissionTimelineQuery(missionId)
   return (
     <MissionPageSectionWrapper
-      sectionHeader={<MissionTimelineUlamHeader missionId={Number(missionId)} />}
+      sectionHeader={<MissionTimelineUlamHeader missionId={missionId} />}
       sectionBody={
         <MissionTimelineUlamBody
           actions={actions}
           isError={isError}
           isLoading={isLoading}
-          missionId={Number(missionId)}
+          missionId={missionId}
         />
       }
     />

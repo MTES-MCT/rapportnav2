@@ -12,7 +12,7 @@ import MissionActionHeaderSyncStatusBanner from './mission-action-header-sync-st
 export type MissionActionHeaderWrapperProps = {
   title?: string
   actionId?: string
-  missionId: number
+  missionId: string
   action: MissionAction
   moduleType: ModuleType
   icon?: FunctionComponent<IconProps>

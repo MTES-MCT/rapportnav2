@@ -10,7 +10,7 @@ import MissionActionHeaderAction from '../elements/mission-action-header-action'
 interface MissionActionHeaderTitleWrapperProps {
   title?: string
   actionId?: string
-  missionId: number
+  missionId: string
   source: MissionSourceEnum
   moduleType: ModuleType
   startDateTimeUtc?: string

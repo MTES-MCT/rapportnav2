@@ -8,7 +8,7 @@ import useGetMissionGeneralInformationQuery
 import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
 
 interface MissionTimelineUlamHeaderProps {
-  missionId: number
+  missionId: string
 }
 
 const MissionTimelineUlamHeader: FC<MissionTimelineUlamHeaderProps> = ({ missionId }) => {
@@ -18,9 +18,9 @@ const MissionTimelineUlamHeader: FC<MissionTimelineUlamHeaderProps> = ({ mission
   const { data: generalInfos } = useGetMissionGeneralInformationQuery(missionId)
   const { isExternalReinforcementTime } = useMissionType()
 
-  if (isExternalReinforcementTime(generalInfos.missionReportType)) return null
   return (
     <MissionTimelineHeaderWrapper
+      hideAction={isExternalReinforcementTime(generalInfos.missionReportType)}
       hideStatus={true}
       missionId={missionId}
       onSubmit={handleOnSubmit}

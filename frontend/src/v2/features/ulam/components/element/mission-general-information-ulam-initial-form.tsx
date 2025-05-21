@@ -1,7 +1,6 @@
 import {
   FormikEffect,
   FormikMultiCheckbox,
-  FormikMultiRadio,
   FormikNumberInput,
   FormikSelect
 } from '@mtes-mct/monitor-ui'
@@ -10,7 +9,7 @@ import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker.tsx'
 import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
-import { MissionULAMGeneralInfoInitial } from '../../../common/types/mission-types.ts'
+import {  MissionULAMGeneralInfoInitial } from '../../../common/types/mission-types.ts'
 import {
   MissionULAMGeneralInfoInitialInput,
   useUlamMissionGeneralInformationInitialForm
@@ -33,8 +32,7 @@ const MissionGeneralInformationUlamInitialForm: FC<MissionGeneralInformationUlam
     reinforcementTypeOptions,
     isExternalReinforcementTime,
     isMissionTypeSea,
-    isEnvMission,
-    jdpTypeOptions
+    isEnvMission
   } = useMissionType()
   const { initValue, handleSubmit, validationSchema } = useUlamMissionGeneralInformationInitialForm(name, fieldFormik)
 
@@ -91,11 +89,6 @@ const MissionGeneralInformationUlamInitialForm: FC<MissionGeneralInformationUlam
                         name="reinforcementType"
                         options={reinforcementTypeOptions}
                       />
-                    </Stack.Item>
-                    <Stack.Item style={{ width: '45%', marginTop: '-0.8rem', paddingLeft: '2rem' }}>
-                      {!isCreation && (
-                        <FormikMultiRadio label={"Type de JDP"} name={"jdpType"} options={jdpTypeOptions} isInline />
-                      )}
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>
