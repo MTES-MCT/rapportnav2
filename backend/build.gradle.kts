@@ -49,8 +49,6 @@ dependencyManagement {
     mavenBom("org.testcontainers:testcontainers-bom:$testcontainersVersion")
   }
   dependencies {
-    dependency("org.springframework:spring-webmvc:6.1.14")
-    dependency("net.minidev:json-smart:2.4.11")
   }
 }
 
@@ -77,7 +75,7 @@ dependencies {
   }
   implementation("io.jsonwebtoken:jjwt-api:0.12.3")
   implementation("javax.xml.bind:jaxb-api:2.3.1")
-  implementation("org.springframework.security:spring-security-oauth2-jose:6.4.4")
+  implementation("org.springframework.security:spring-security-oauth2-jose:6.4.5")
   implementation("org.locationtech.jts:jts-core:1.19.0")
   implementation("io.swagger.core.v3:swagger-core:2.2.20")
   implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
@@ -96,7 +94,7 @@ dependencies {
   testImplementation("org.testcontainers:testcontainers")
   testImplementation("org.testcontainers:junit-jupiter")
   testImplementation("org.testcontainers:postgresql")
-  testImplementation("org.springframework.security:spring-security-test:6.4.2")
+  testImplementation("org.springframework.security:spring-security-test:6.4.5")
   testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
 }
 
