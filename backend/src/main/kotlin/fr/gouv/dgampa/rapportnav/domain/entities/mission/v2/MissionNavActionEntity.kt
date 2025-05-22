@@ -128,7 +128,12 @@ class MissionNavActionEntity(
         ]
     )
     override var reason: ActionStatusReason? = null,
-    override var targets: List<TargetEntity2>? = null
+    override var targets: List<TargetEntity2>? = null,
+    override var crossedControlId: String? = null,
+    override var isSignedByInspector: Boolean? = null,
+    override var crossedControlNbrOfHours: Int? = null,
+    override var crossedControlStatus: CrossedControlStatusType? = null,
+    override var crossedControlConclusion: CrossedControlConclusionType? = null,
 ) : MissionActionEntity(
     status = status,
     actionType = actionType,
@@ -150,6 +155,51 @@ class MissionNavActionEntity(
         this.computeSummaryTags()
         this.computeCompletenessForStats()
     }
+
+    fun toMissionActionModel() = MissionActionModel(
+        id = id,
+        missionId = missionId,
+        actionType = actionType,
+        isCompleteForStats = isCompleteForStats,
+        startDateTimeUtc = startDateTimeUtc ?: Instant.now(),
+        endDateTimeUtc = endDateTimeUtc,
+        observations = observations,
+        latitude = latitude,
+        longitude = longitude,
+        detectedPollution = detectedPollution,
+        pollutionObservedByAuthorizedAgent = pollutionObservedByAuthorizedAgent,
+        diversionCarriedOut = diversionCarriedOut,
+        isSimpleBrewingOperationDone = isSimpleBrewingOperationDone,
+        isAntiPolDeviceDeployed = isAntiPolDeviceDeployed,
+        controlMethod = controlMethod?.toString(),
+        vesselIdentifier = vesselIdentifier,
+        vesselType = vesselType?.toString(),
+        vesselSize = vesselSize?.toString(),
+        identityControlledPerson = identityControlledPerson,
+        nbOfInterceptedVessels = nbOfInterceptedVessels,
+        nbOfInterceptedMigrants = nbOfInterceptedMigrants,
+        nbOfSuspectedSmugglers = nbOfSuspectedSmugglers,
+        isVesselRescue = isVesselRescue,
+        isPersonRescue = isPersonRescue,
+        isVesselNoticed = isVesselNoticed,
+        isVesselTowed = isVesselTowed,
+        isInSRRorFollowedByCROSSMRCC = isInSRRorFollowedByCROSSMRCC,
+        numberPersonsRescued = numberPersonsRescued,
+        numberOfDeaths = numberOfDeaths,
+        operationFollowsDEFREP = operationFollowsDEFREP,
+        locationDescription = locationDescription,
+        isMigrationRescue = isMigrationRescue,
+        nbOfVesselsTrackedWithoutIntervention = nbOfVesselsTrackedWithoutIntervention,
+        nbAssistedVesselsReturningToShore = nbAssistedVesselsReturningToShore,
+        status = status?.toString(),
+        reason = reason?.toString(),
+        crossedControlId = crossedControlId,
+        isSignedByInspector = isSignedByInspector,
+        crossedControlNbrOfHours = crossedControlNbrOfHours,
+        crossedControlStatus = crossedControlStatus?.toString(),
+        crossedControlConclusion = crossedControlConclusion?.toString()
+
+    )
 
 
     override fun isControlInValid(control: ControlEntity2?): Boolean {
@@ -193,7 +243,12 @@ class MissionNavActionEntity(
                 nbOfVesselsTrackedWithoutIntervention = model.nbOfVesselsTrackedWithoutIntervention,
                 nbAssistedVesselsReturningToShore = model.nbAssistedVesselsReturningToShore,
                 status = model.status?.let { ActionStatusType.valueOf(it) },
-                reason = model.reason?.let { ActionStatusReason.valueOf(it) }
+                reason = model.reason?.let { ActionStatusReason.valueOf(it) },
+                crossedControlId = model.crossedControlId,
+                isSignedByInspector = model.isSignedByInspector,
+                crossedControlNbrOfHours = model.crossedControlNbrOfHours,
+                crossedControlStatus = model.crossedControlStatus?.let { CrossedControlStatusType.valueOf(it) },
+                crossedControlConclusion = model.crossedControlConclusion?.let { CrossedControlConclusionType.valueOf(it) }
             )
         }
     }

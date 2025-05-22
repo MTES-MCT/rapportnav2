@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcType
 import org.hibernate.dialect.PostgreSQLEnumJdbcType
@@ -119,54 +118,29 @@ data class MissionActionModel(
     val status: String? = null,
 
     @Column(name = "reason", nullable = true)
-    var reason: String? = null
+    var reason: String? = null,
+
+    @Column(name = "crossed_control_id", nullable = true)
+    var crossedControlId: String? = null,
+
+    @Column(name = "crossed_control_status", nullable = true)
+    var crossedControlStatus: String? = null,
+
+    @Column(name = "is_signed_by_inspector", nullable = true)
+    var isSignedByInspector: Boolean? = null,
+
+    @Column(name = "crossed_control_conclusion", nullable = true)
+    var crossedControlConclusion: String? = null,
+
+    @Column(name = "crossed_control_nbr_hours", nullable = true)
+    var crossedControlNbrOfHours: Int? = null,
 ) {
 
-    companion object {
-        fun fromMissionActionEntity(action: MissionNavActionEntity) = MissionActionModel(
-            id = action.id,
-            missionId = action.missionId,
-            actionType = action.actionType,
-            isCompleteForStats = action.isCompleteForStats,
-            startDateTimeUtc = action.startDateTimeUtc?: Instant.now(),
-            endDateTimeUtc = action.endDateTimeUtc,
-            observations = action.observations,
-            latitude = action.latitude,
-            longitude = action.longitude,
-            detectedPollution = action.detectedPollution,
-            pollutionObservedByAuthorizedAgent = action.pollutionObservedByAuthorizedAgent,
-            diversionCarriedOut = action.diversionCarriedOut,
-            isSimpleBrewingOperationDone = action.isSimpleBrewingOperationDone,
-            isAntiPolDeviceDeployed = action.isAntiPolDeviceDeployed,
-            controlMethod = action.controlMethod?.toString(),
-            vesselIdentifier = action.vesselIdentifier,
-            vesselType = action.vesselType?.toString(),
-            vesselSize = action.vesselSize?.toString(),
-            identityControlledPerson = action.identityControlledPerson,
-            nbOfInterceptedVessels = action.nbOfInterceptedVessels,
-            nbOfInterceptedMigrants = action.nbOfInterceptedMigrants,
-            nbOfSuspectedSmugglers = action.nbOfSuspectedSmugglers,
-            isVesselRescue = action.isVesselRescue,
-            isPersonRescue = action.isPersonRescue,
-            isVesselNoticed = action.isVesselNoticed,
-            isVesselTowed = action.isVesselTowed,
-            isInSRRorFollowedByCROSSMRCC = action.isInSRRorFollowedByCROSSMRCC,
-            numberPersonsRescued = action.numberPersonsRescued,
-            numberOfDeaths = action.numberOfDeaths,
-            operationFollowsDEFREP = action.operationFollowsDEFREP,
-            locationDescription = action.locationDescription,
-            isMigrationRescue = action.isMigrationRescue,
-            nbOfVesselsTrackedWithoutIntervention = action.nbOfVesselsTrackedWithoutIntervention,
-            nbAssistedVesselsReturningToShore = action.nbAssistedVesselsReturningToShore,
-            status = action.status?.toString(),
-            reason = action.reason?.toString()
-        )
-    }
-    override fun hashCode(): Int {
+   override fun hashCode(): Int {
         return Objects.hash(id)
     }
 
-    override fun equals(other: Any?): Boolean {
+   override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
         other as MissionActionModel

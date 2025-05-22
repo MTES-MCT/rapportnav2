@@ -46,4 +46,9 @@ interface BaseMissionNavAction {
     var nbOfVesselsTrackedWithoutIntervention: Int?
     var nbAssistedVesselsReturningToShore: Int?
     var reason: ActionStatusReason?
+    var crossedControlId: String?
+    var isSignedByInspector: Boolean?
+    var crossedControlNbrOfHours: Int?
+    var crossedControlStatus: CrossedControlStatusType?
+    var crossedControlConclusion: CrossedControlConclusionType?
 }

@@ -2,9 +2,11 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossedControlConclusionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossedControlStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import java.time.Instant
 import java.util.*
@@ -42,7 +44,12 @@ class MissionNavActionData(
     override val endDateTimeUtc: Instant? = null,
     override val observations: String? = null,
     override val status: ActionStatusType? = null,
-    override val targets: List<Target2>? = null
+    override val targets: List<Target2>? = null,
+    override val crossedControlId: String? = null,
+    override val isSignedByInspector: Boolean? = null,
+    override val crossedControlNbrOfHours: Int? = null,
+    override val crossedControlStatus: CrossedControlStatusType? = null,
+    override val crossedControlConclusion: CrossedControlConclusionType? = null,
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
@@ -52,7 +59,6 @@ class MissionNavActionData(
     companion object {
         fun toMissionNavActionEntity(input: MissionAction): MissionNavActionEntity {
             val data = input.data as MissionNavActionData
-
             val action  = MissionNavActionEntity(
                 id = if(input.id == null) UUID.randomUUID() else UUID.fromString(input.id),
                 missionId = input.missionId,
@@ -88,7 +94,12 @@ class MissionNavActionData(
                 nbOfVesselsTrackedWithoutIntervention = data.nbOfVesselsTrackedWithoutIntervention,
                 nbAssistedVesselsReturningToShore = data.nbAssistedVesselsReturningToShore,
                 status = data.status,
-                reason = data.reason
+                reason = data.reason,
+                crossedControlId = data.crossedControlId,
+                isSignedByInspector = data.isSignedByInspector,
+                crossedControlNbrOfHours = data.crossedControlNbrOfHours,
+                crossedControlStatus = data.crossedControlStatus,
+                crossedControlConclusion = data.crossedControlConclusion
             )
             return action
         }
