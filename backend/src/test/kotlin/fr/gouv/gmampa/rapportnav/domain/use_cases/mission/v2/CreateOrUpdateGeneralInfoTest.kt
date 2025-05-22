@@ -87,7 +87,7 @@ class CreateOrUpdateGeneralInfoTest {
         verifyNoInteractions(processMissionCrew)
 
         assertEquals(
-            MissionGeneralInfoEntity2(data = missionGeneralInfoEntity),
+            MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = emptyList()),
             result
         )
     }
@@ -104,6 +104,7 @@ class CreateOrUpdateGeneralInfoTest {
             role = AgentRole(id = 1, title = ""),
             comment = ""
         ))
+        val crewEntity = crew.map { it.toMissionCrewEntity() }
 
         val missionGeneralInfo  = MissionGeneralInfo2(
             missionId = missionId,
@@ -123,6 +124,7 @@ class CreateOrUpdateGeneralInfoTest {
         // When
         `when`(getGeneralInfo2.execute(missionId)).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
+        `when`(processMissionCrew.execute(missionId, missionGeneralInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty())).thenReturn(crewEntity)
 
         val result = createOrUpdateGeneralInfo.execute(missionId, missionGeneralInfo)
 
@@ -142,7 +144,7 @@ class CreateOrUpdateGeneralInfoTest {
         )
         verify(updateMissionEnv).execute(input)
 
-        assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity), result)
+        assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = crewEntity), result)
     }
 
     @Test
@@ -186,7 +188,7 @@ class CreateOrUpdateGeneralInfoTest {
         )
         verify(updateMissionEnv).execute(input)
 
-        assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity), result)
+        assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = emptyList()), result)
     }
 
     @Test
