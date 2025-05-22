@@ -13,7 +13,10 @@ import java.time.Instant
 import java.util.*
 
 object MissionActionModelMock {
-    fun create(): MissionActionModel {
+    fun create(
+        actionType: ActionType = ActionType.CONTROL,
+        status: ActionStatusType? = ActionStatusType.ANCHORED
+    ): MissionActionModel {
         return MissionActionModel(
             missionId = 761,
             id = UUID.fromString("0000-00-00-00-000000"),
@@ -23,7 +26,7 @@ object MissionActionModelMock {
             isAntiPolDeviceDeployed = true,
             isSimpleBrewingOperationDone = true,
             diversionCarriedOut = true,
-            actionType = ActionType.CONTROL,
+            actionType = actionType,
             latitude = 3434.0,
             longitude = 4353.0,
             detectedPollution = false,
@@ -49,7 +52,7 @@ object MissionActionModelMock {
             nbOfVesselsTrackedWithoutIntervention = 4,
             nbAssistedVesselsReturningToShore = 50,
             reason = ActionStatusReason.ADMINISTRATION.toString(),
-            status = ActionStatusType.ANCHORED.toString(),
+            status = status.toString(),
             crossControlId = UUID.randomUUID(),
             isSignedByInspector = true,
             crossControlNbrOfHours = 12,
