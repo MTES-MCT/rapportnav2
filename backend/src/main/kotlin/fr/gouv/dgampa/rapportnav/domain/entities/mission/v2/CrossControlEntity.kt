@@ -6,10 +6,10 @@ import java.time.Instant
 import java.util.*
 
 class CrossControlEntity(
-    val id: UUID? = null,
+    val id: UUID,
     val agentId: String? = null,
     val vesselId: Int? = null,
-    val serviceId: String? = null,
+    val serviceId: Int? = null,
     var endDateTimeUtc: Instant? = null,
     val startDateTimeUtc: Instant? = null,
     val type: String? = null,
@@ -22,7 +22,7 @@ class CrossControlEntity(
 
     fun toCrossControlModel(): CrossControlModel {
         return CrossControlModel(
-            id = id!!,
+            id = id,
             type = type,
             agentId = agentId,
             serviceId = serviceId,
@@ -48,6 +48,21 @@ class CrossControlEntity(
                 origin = model.origin?.let { CrossControlOriginType.valueOf(it) },
                 status = model.status?.let { CrossControlStatusType.valueOf(it) },
                 conclusion = model.conclusion?.let { CrossControlConclusionType.valueOf(it) },
+            )
+        }
+
+        fun fromMissionNavActionEntity(entity: MissionNavActionEntity): CrossControlEntity {
+            return CrossControlEntity(
+                id = entity.crossControl?.id?: UUID.randomUUID(),
+                type = entity.crossControl?.type,
+                agentId = entity.crossControl?.agentId,
+                vesselId = entity.crossControl?.vesselId,
+                serviceId = entity.crossControl?.serviceId,
+                endDateTimeUtc = entity.endDateTimeUtc,
+                startDateTimeUtc = entity.startDateTimeUtc,
+                origin = entity.crossControl?.origin,
+                status = entity.crossControl?.status,
+                conclusion = entity.crossControl?.conclusion,
             )
         }
     }

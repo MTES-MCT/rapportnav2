@@ -8,7 +8,7 @@ class CrossControl(
     val id: UUID? = null,
     val agentId: String? = null,
     val vesselId: Int? = null,
-    val serviceId: String? = null,
+    val serviceId: Int? = null,
     var endDateTimeUtc: Instant? = null,
     val startDateTimeUtc: Instant? = null,
     val type: String? = null,
@@ -35,6 +35,7 @@ class CrossControl(
             startDateTimeUtc = startDateTimeUtc?: Instant.now()
         )
     }
+
     companion object {
         fun fromCrossControlEntity(entity: CrossControlEntity?): CrossControl {
             return CrossControl(
@@ -52,5 +53,6 @@ class CrossControl(
                 isSignedByInspector = entity?.isSignedByInspector
             )
         }
+
     }
 }

@@ -189,7 +189,7 @@ class MissionNavActionEntity(
         nbAssistedVesselsReturningToShore = nbAssistedVesselsReturningToShore,
         status = status?.toString(),
         reason = reason?.toString(),
-        crossControlId = crossControl?.id,
+        crossControlId = crossControl?.id!!,
         isSignedByInspector = crossControl?.isSignedByInspector,
         crossControlNbrOfHours = crossControl?.nbrOfHours,
         crossControlStatus = crossControl?.status?.toString(),
@@ -207,7 +207,7 @@ class MissionNavActionEntity(
             return MissionNavActionEntity(
                 id = model.id,
                 missionId = model.missionId,
-                actionType = model.actionType, //model.actionType.let { ActionType.valueOf(it) },
+                actionType = model.actionType,
                 startDateTimeUtc = model.startDateTimeUtc,
                 endDateTimeUtc = model.endDateTimeUtc,
                 observations = model.observations,
@@ -241,9 +241,9 @@ class MissionNavActionEntity(
                 status = model.status?.let { ActionStatusType.valueOf(it) },
                 reason = model.reason?.let { ActionStatusReason.valueOf(it) },
                 crossControl = CrossControlEntity(
+                    id = model.crossControlId?: UUID.randomUUID(),
                     nbrOfHours = model.crossControlNbrOfHours,
                     isSignedByInspector = model.isSignedByInspector,
-                    id = model.crossControlId,
                     status = model.crossControlStatus?.let { CrossControlStatusType.valueOf(it) },
                     conclusion = model.crossControlConclusion?.let { CrossControlConclusionType.valueOf(it) }
                 ),

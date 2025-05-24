@@ -13,7 +13,7 @@ CREATE TABLE
   end_datetime_utc   timestamp with time zone NULL,
   vessel_id          integer NULL,
   agent_id           VARCHAR(36) NULL,
-  service_id         VARCHAR(36) NULL,
+  service_id         integer NULL,
   conclusion         character varying(32) NULL
 );
 
