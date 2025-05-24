@@ -76,11 +76,8 @@ class MissionNavAction(
                     nbAssistedVesselsReturningToShore = navAction.nbAssistedVesselsReturningToShore,
                     reason = navAction.reason,
                     targets = navAction.targets?.map { Target2.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc },
-                    crossedControlId = navAction.crossedControlId,
-                    isSignedByInspector = navAction.isSignedByInspector,
-                    crossedControlNbrOfHours = navAction.crossedControlNbrOfHours,
-                    crossedControlStatus = navAction.crossedControlStatus,
-                    crossedControlConclusion = navAction.crossedControlConclusion
+                    crossControl = CrossControl.fromCrossControlEntity(navAction.crossControl),
+
                 )
             )
         }

@@ -129,11 +129,7 @@ class MissionNavActionEntity(
     )
     override var reason: ActionStatusReason? = null,
     override var targets: List<TargetEntity2>? = null,
-    override var crossedControlId: String? = null,
-    override var isSignedByInspector: Boolean? = null,
-    override var crossedControlNbrOfHours: Int? = null,
-    override var crossedControlStatus: CrossedControlStatusType? = null,
-    override var crossedControlConclusion: CrossedControlConclusionType? = null,
+    override var crossControl: CrossControlEntity? = null,
 ) : MissionActionEntity(
     status = status,
     actionType = actionType,
@@ -193,11 +189,11 @@ class MissionNavActionEntity(
         nbAssistedVesselsReturningToShore = nbAssistedVesselsReturningToShore,
         status = status?.toString(),
         reason = reason?.toString(),
-        crossedControlId = crossedControlId,
-        isSignedByInspector = isSignedByInspector,
-        crossedControlNbrOfHours = crossedControlNbrOfHours,
-        crossedControlStatus = crossedControlStatus?.toString(),
-        crossedControlConclusion = crossedControlConclusion?.toString()
+        crossControlId = crossControl?.id,
+        isSignedByInspector = crossControl?.isSignedByInspector,
+        crossControlNbrOfHours = crossControl?.nbrOfHours,
+        crossControlStatus = crossControl?.status?.toString(),
+        crossControlConclusion = crossControl?.conclusion?.toString()
 
     )
 
@@ -244,11 +240,13 @@ class MissionNavActionEntity(
                 nbAssistedVesselsReturningToShore = model.nbAssistedVesselsReturningToShore,
                 status = model.status?.let { ActionStatusType.valueOf(it) },
                 reason = model.reason?.let { ActionStatusReason.valueOf(it) },
-                crossedControlId = model.crossedControlId,
-                isSignedByInspector = model.isSignedByInspector,
-                crossedControlNbrOfHours = model.crossedControlNbrOfHours,
-                crossedControlStatus = model.crossedControlStatus?.let { CrossedControlStatusType.valueOf(it) },
-                crossedControlConclusion = model.crossedControlConclusion?.let { CrossedControlConclusionType.valueOf(it) }
+                crossControl = CrossControlEntity(
+                    nbrOfHours = model.crossControlNbrOfHours,
+                    isSignedByInspector = model.isSignedByInspector,
+                    id = model.crossControlId,
+                    status = model.crossControlStatus?.let { CrossControlStatusType.valueOf(it) },
+                    conclusion = model.crossControlConclusion?.let { CrossControlConclusionType.valueOf(it) }
+                ),
             )
         }
     }

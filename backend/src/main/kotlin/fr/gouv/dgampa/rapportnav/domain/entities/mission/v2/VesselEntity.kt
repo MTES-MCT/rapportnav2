@@ -7,7 +7,7 @@ class VesselEntity(
     val beaconNumber: String? = null,
     val districtCode: String? = null,
     val externalReferenceNumber: String? = null,
-    val flagState: CountryCode,
+    val flagState: CountryCode? = null,
     val imo: String? = null,
     val internalReferenceNumber: String? = null,
     val ircs: String? = null,

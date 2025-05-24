@@ -17,7 +17,7 @@ class VesselRestController(
     @GetMapping
     fun getVessels(): List<Vessel>? {
         return try {
-            getVessels.execute().map { Vessel.fromVesselEntity(it) }
+            getVessels.execute().sortedBy { it.vesselName }.map { Vessel.fromVesselEntity(it) }
         } catch (e: Exception) {
             logger.error("[ERROR] API on endpoint getVessels:", e)
             null

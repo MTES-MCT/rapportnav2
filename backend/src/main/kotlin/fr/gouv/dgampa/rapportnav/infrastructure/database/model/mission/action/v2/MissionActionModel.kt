@@ -120,20 +120,20 @@ data class MissionActionModel(
     @Column(name = "reason", nullable = true)
     var reason: String? = null,
 
-    @Column(name = "crossed_control_id", nullable = true)
-    var crossedControlId: String? = null,
+    @Column(name = "cross_control_id", nullable = true)
+    var crossControlId: UUID? = null,
 
-    @Column(name = "crossed_control_status", nullable = true)
-    var crossedControlStatus: String? = null,
+    @Column(name = "cross_control_status", nullable = true)
+    var crossControlStatus: String? = null,
 
     @Column(name = "is_signed_by_inspector", nullable = true)
     var isSignedByInspector: Boolean? = null,
 
-    @Column(name = "crossed_control_conclusion", nullable = true)
-    var crossedControlConclusion: String? = null,
+    @Column(name = "cross_control_conclusion", nullable = true)
+    var crossControlConclusion: String? = null,
 
-    @Column(name = "crossed_control_nbr_hours", nullable = true)
-    var crossedControlNbrOfHours: Int? = null,
+    @Column(name = "cross_control_nbr_hours", nullable = true)
+    var crossControlNbrOfHours: Int? = null,
 ) {
 
    override fun hashCode(): Int {

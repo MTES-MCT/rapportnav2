@@ -10,8 +10,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMeth
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossedControlConclusionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossedControlStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlConclusionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
@@ -68,11 +69,11 @@ class MissionNavActionEntityTest {
         assertThat(entity.nbAssistedVesselsReturningToShore).isEqualTo(model.nbAssistedVesselsReturningToShore)
         assertThat(entity.status.toString()).isEqualTo(model.status)
         assertThat(entity.reason.toString()).isEqualTo(model.reason)
-        assertThat(entity.crossedControlId).isEqualTo(model.crossedControlId)
-        assertThat(entity.isSignedByInspector).isEqualTo(model.isSignedByInspector)
-        assertThat(entity.crossedControlNbrOfHours).isEqualTo(model.crossedControlNbrOfHours)
-        assertThat(entity.crossedControlStatus.toString()).isEqualTo(model.crossedControlStatus)
-        assertThat(entity.crossedControlConclusion.toString()).isEqualTo(model.crossedControlConclusion)
+        assertThat(entity.crossControl?.id).isEqualTo(model.crossControlId)
+        assertThat(entity.crossControl?.isSignedByInspector).isEqualTo(model.isSignedByInspector)
+        assertThat(entity.crossControl?.nbrOfHours).isEqualTo(model.crossControlNbrOfHours)
+        assertThat(entity.crossControl?.status.toString()).isEqualTo(model.crossControlStatus)
+        assertThat(entity.crossControl?.conclusion.toString()).isEqualTo(model.crossControlConclusion)
     }
 
     @Test
@@ -113,11 +114,13 @@ class MissionNavActionEntityTest {
             nbAssistedVesselsReturningToShore = 50,
             reason = ActionStatusReason.ADMINISTRATION,
             status = ActionStatusType.ANCHORED,
-            crossedControlId = "crossedControlId",
-            isSignedByInspector = true,
-            crossedControlNbrOfHours = 12,
-            crossedControlStatus = CrossedControlStatusType.NEW,
-            crossedControlConclusion = CrossedControlConclusionType.NO_FOLLOW_UP
+            crossControl = CrossControlEntity(
+                id = UUID.randomUUID(),
+                isSignedByInspector = true,
+                nbrOfHours = 12,
+                status = CrossControlStatusType.NEW,
+                conclusion = CrossControlConclusionType.NO_FOLLOW_UP
+            )
         )
         val model = entity.toMissionActionModel()
 
@@ -157,11 +160,11 @@ class MissionNavActionEntityTest {
         assertThat(model.nbAssistedVesselsReturningToShore).isEqualTo(entity.nbAssistedVesselsReturningToShore)
         assertThat(model.status).isEqualTo(entity.status.toString())
         assertThat(model.reason).isEqualTo(entity.reason.toString())
-        assertThat(model.crossedControlId).isEqualTo(entity.crossedControlId)
-        assertThat(model.isSignedByInspector).isEqualTo(entity.isSignedByInspector)
-        assertThat(model.crossedControlNbrOfHours).isEqualTo(entity.crossedControlNbrOfHours)
-        assertThat(model.crossedControlStatus).isEqualTo(entity.crossedControlStatus.toString())
-        assertThat(model.crossedControlConclusion).isEqualTo(entity.crossedControlConclusion.toString())
+        assertThat(model.crossControlId).isEqualTo(entity.crossControl?.id)
+        assertThat(model.isSignedByInspector).isEqualTo(entity.crossControl?.isSignedByInspector)
+        assertThat(model.crossControlNbrOfHours).isEqualTo(entity.crossControl?.nbrOfHours)
+        assertThat(model.crossControlStatus).isEqualTo(entity.crossControl?.status.toString())
+        assertThat(model.crossControlConclusion).isEqualTo(entity.crossControl?.conclusion.toString())
     }
 
     @Test

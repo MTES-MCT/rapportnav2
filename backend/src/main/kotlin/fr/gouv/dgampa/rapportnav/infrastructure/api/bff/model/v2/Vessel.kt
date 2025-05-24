@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.VesselEntity
 
 class Vessel(
     val externalReferenceNumber: String? = null,
-    val flagState: CountryCode,
+    val flagState: CountryCode? = null,
     val internalReferenceNumber: String? = null,
     val vesselId: Int,
     val vesselName: String? = null

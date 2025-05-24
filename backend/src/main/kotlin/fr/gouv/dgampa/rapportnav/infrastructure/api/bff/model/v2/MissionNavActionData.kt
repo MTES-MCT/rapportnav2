@@ -5,8 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossedControlConclusionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossedControlStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import java.time.Instant
 import java.util.*
@@ -45,11 +43,7 @@ class MissionNavActionData(
     override val observations: String? = null,
     override val status: ActionStatusType? = null,
     override val targets: List<Target2>? = null,
-    override val crossedControlId: String? = null,
-    override val isSignedByInspector: Boolean? = null,
-    override val crossedControlNbrOfHours: Int? = null,
-    override val crossedControlStatus: CrossedControlStatusType? = null,
-    override val crossedControlConclusion: CrossedControlConclusionType? = null,
+    override val crossControl: CrossControl? = null
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
@@ -95,11 +89,7 @@ class MissionNavActionData(
                 nbAssistedVesselsReturningToShore = data.nbAssistedVesselsReturningToShore,
                 status = data.status,
                 reason = data.reason,
-                crossedControlId = data.crossedControlId,
-                isSignedByInspector = data.isSignedByInspector,
-                crossedControlNbrOfHours = data.crossedControlNbrOfHours,
-                crossedControlStatus = data.crossedControlStatus,
-                crossedControlConclusion = data.crossedControlConclusion
+                crossControl = data.crossControl?.toCrossControlEntity()
             )
             return action
         }

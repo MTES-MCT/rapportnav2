@@ -6,8 +6,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossedControlConclusionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossedControlStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlConclusionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlStatusType
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import java.time.Instant
 import java.util.*
@@ -50,11 +50,11 @@ object MissionActionModelMock {
             nbAssistedVesselsReturningToShore = 50,
             reason = ActionStatusReason.ADMINISTRATION.toString(),
             status = ActionStatusType.ANCHORED.toString(),
-            crossedControlId = "crossedControlId",
+            crossControlId = UUID.randomUUID(),
             isSignedByInspector = true,
-            crossedControlNbrOfHours = 12,
-            crossedControlStatus = CrossedControlStatusType.NEW.toString(),
-            crossedControlConclusion = CrossedControlConclusionType.NO_FOLLOW_UP.toString()
+            crossControlNbrOfHours = 12,
+            crossControlStatus = CrossControlStatusType.NEW.toString(),
+            crossControlConclusion = CrossControlConclusionType.NO_FOLLOW_UP.toString()
         )
     }
 }

@@ -54,11 +54,11 @@ class MissionNavActionDataTest {
         assertThat(output.data.nbOfVesselsTrackedWithoutIntervention).isEqualTo(entity.nbOfVesselsTrackedWithoutIntervention)
         assertThat(output.data.nbAssistedVesselsReturningToShore).isEqualTo(entity.nbAssistedVesselsReturningToShore)
         assertThat(output.data.reason).isEqualTo(entity.reason)
-        assertThat(output.data.crossedControlId).isEqualTo(entity.crossedControlId)
-        assertThat(output.data.isSignedByInspector).isEqualTo(entity.isSignedByInspector)
-        assertThat(output.data.crossedControlNbrOfHours).isEqualTo(entity.crossedControlNbrOfHours)
-        assertThat(output.data.crossedControlStatus).isEqualTo(entity.crossedControlStatus)
-        assertThat(output.data.crossedControlConclusion).isEqualTo(entity.crossedControlConclusion)
+        assertThat(output.data.crossControl?.id).isEqualTo(entity.crossControl?.id)
+        assertThat(output.data.crossControl?.status).isEqualTo(entity.crossControl?.status)
+        assertThat(output.data.crossControl?.nbrOfHours).isEqualTo(entity.crossControl?.nbrOfHours)
+        assertThat(output.data.crossControl?.conclusion).isEqualTo(entity.crossControl?.conclusion)
+        assertThat(output.data.crossControl?.isSignedByInspector).isEqualTo(entity.crossControl?.isSignedByInspector)
     }
 
 }
