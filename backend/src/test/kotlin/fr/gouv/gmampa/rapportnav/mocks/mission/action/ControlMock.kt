@@ -26,7 +26,6 @@ object ControlMock {
     ): ControlEntity2 {
         return ControlEntity2(
             id = id ?: UUID.randomUUID(),
-            nbrOfHours = nbrOfHours ?: 4,
             controlType = controlType ?: ControlType.GENS_DE_MER,
             amountOfControls = amountOfControls ?: 0,
             hasBeenDone = hasBeenDone,
@@ -52,27 +51,23 @@ object ControlMock {
         return listOf(
             ControlEntity2(
                 id = UUID.randomUUID(),
-                nbrOfHours = 4,
                 controlType = ControlType.NAVIGATION,
                 amountOfControls = 2,
                 hasBeenDone = false,
             ),
             ControlEntity2(
                 id = UUID.randomUUID(),
-                nbrOfHours = 4,
                 controlType = ControlType.SECURITY,
                 amountOfControls = 0,
                 hasBeenDone = true
             ),
             ControlEntity2(
                 id = UUID.randomUUID(),
-                nbrOfHours = 4,
                 controlType = ControlType.GENS_DE_MER,
                 amountOfControls = 1
             ),
             ControlEntity2(
                 id = UUID.randomUUID(),
-                nbrOfHours = 4,
                 controlType = ControlType.ADMINISTRATIVE,
                 amountOfControls = 5,
                 hasBeenDone = true

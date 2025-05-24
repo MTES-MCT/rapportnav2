@@ -25,11 +25,13 @@ class CaffeineConfiguration {
     val envMission2 = "envMission2"
     val envActionList = "envActionList"
     val fishActionList = "fishActionList"
+    val vessels = "vessels"
 
     @Bean
     fun cacheManager(ticker: Ticker): CacheManager? {
 
         // long term caches for very static data
+        val vesselsCache = buildCache(vessels, ticker, TimeUnit.DAYS, 7)
         val natinfsCache = buildCache(natinfs, ticker, TimeUnit.DAYS, 7)
         val controlPlansCache = buildCache(controlPlans, ticker, TimeUnit.DAYS, 7)
 
@@ -49,6 +51,7 @@ class CaffeineConfiguration {
         manager.setCaches(
             listOf(
                 // long term caches
+                vesselsCache,
                 natinfsCache,
                 controlPlansCache,
 

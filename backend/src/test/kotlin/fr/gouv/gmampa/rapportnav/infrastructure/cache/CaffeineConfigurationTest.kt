@@ -21,6 +21,7 @@ class CaffeineConfigurationTest {
     @Test
     fun `test cache manager configuration`() {
         val cacheNames = listOf(
+            caffeineConfiguration.vessels,
             caffeineConfiguration.natinfs,
             caffeineConfiguration.controlPlans,
             caffeineConfiguration.envMissions,
@@ -39,7 +40,7 @@ class CaffeineConfigurationTest {
         }
 
         assertThat(cacheManager.cacheNames.toSet())
-            .hasSize(8)
+            .hasSize(9)
             .isEqualTo(cacheNames.toSet())
     }
 

@@ -100,27 +100,23 @@ class MissionEnvActionEntityTest {
         val controls = listOf(
             ControlEntity2(
                 id = UUID.randomUUID(),
-                nbrOfHours = 4,
                 controlType = ControlType.NAVIGATION,
                 amountOfControls = 0,
                 hasBeenDone = false,
             ),
             ControlEntity2(
                 id = UUID.randomUUID(),
-                nbrOfHours = 4,
                 controlType = ControlType.SECURITY,
                 amountOfControls = 0,
                 hasBeenDone = true
             ),
             ControlEntity2(
                 id = UUID.randomUUID(),
-                nbrOfHours = 4,
                 controlType = ControlType.GENS_DE_MER,
                 amountOfControls = 0
             ),
             ControlEntity2(
                 id = UUID.randomUUID(),
-                nbrOfHours = 4,
                 controlType = ControlType.ADMINISTRATIVE,
                 amountOfControls = 5,
                 hasBeenDone = true

@@ -17,13 +17,11 @@ data class ControlEntity2(
     val staffOutnumbered: ControlResult? = null,
     val upToDateMedicalCheck: ControlResult? = null,
     val hasBeenDone: Boolean? = null,
-    val knowledgeOfFrenchLawAndLanguage: ControlResult? = null,
-    val nbrOfHours: Int? = null
+    val knowledgeOfFrenchLawAndLanguage: ControlResult? = null
 ) {
     fun toControlModel(): ControlModel2 {
         return ControlModel2(
             id = id,
-            nbrOfHours = nbrOfHours,
             controlType = controlType,
             hasBeenDone = hasBeenDone,
             observations = observations,
@@ -53,7 +51,6 @@ data class ControlEntity2(
         result = 31 * result + (upToDateMedicalCheck?.hashCode() ?: 0)
         result = 31 * result + (hasBeenDone?.hashCode() ?: 0)
         result = 31 * result + (knowledgeOfFrenchLawAndLanguage?.hashCode() ?: 0)
-        result = 31 * result + (nbrOfHours?.hashCode() ?: 0)
         return result
     }
 
@@ -62,7 +59,6 @@ data class ControlEntity2(
         if (javaClass != other?.javaClass) return false
         other as ControlEntity2
         return (id == other.id
-            && nbrOfHours == other.nbrOfHours
             && controlType == other.controlType
             && hasBeenDone == other.hasBeenDone
             && observations == other.observations
@@ -82,7 +78,6 @@ data class ControlEntity2(
         fun fromControlModel(model: ControlModel2): ControlEntity2 {
             return ControlEntity2(
                 id = model.id,
-                nbrOfHours = model.nbrOfHours,
                 controlType = model.controlType,
                 hasBeenDone = model.hasBeenDone,
                 observations = model.observations,

@@ -25,10 +25,9 @@ class JPAMissionActionRepository(
     }
 
     @Transactional
-    override fun save(action: MissionNavActionEntity): MissionActionModel {
+    override fun save(action: MissionActionModel): MissionActionModel {
         return try {
-            val missionActionModel = MissionActionModel.fromMissionActionEntity(action)
-            dbMissionActionRepository.save(missionActionModel)
+            dbMissionActionRepository.save(action)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,

@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.CrossControl
 import java.time.Instant
 import java.util.*
 
@@ -46,4 +47,5 @@ interface BaseMissionNavAction {
     var nbOfVesselsTrackedWithoutIntervention: Int?
     var nbAssistedVesselsReturningToShore: Int?
     var reason: ActionStatusReason?
+    var crossControl: CrossControlEntity?
 }

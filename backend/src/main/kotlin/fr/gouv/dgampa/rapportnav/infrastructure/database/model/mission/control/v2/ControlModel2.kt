@@ -24,9 +24,6 @@ data class ControlModel2(
     @Column(name = "amount_of_controls", nullable = false)
     var amountOfControls: Int,
 
-    @Column(name = "nbr_of_hours", nullable = true)
-    var nbrOfHours: Int? = null,
-
     @Column(name = "observations", nullable = true)
     var observations: String? = null,
 
