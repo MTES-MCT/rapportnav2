@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "2.9.2",
+  "version": "2.9.4",
   "private": true,
   "type": "module",
   "engines": {
@@ -76,7 +76,7 @@
     "typescript": "^5.4.3",
     "vite": "^6.3.5",
     "vite-plugin-eslint": "^1.8.1",
-    "vite-plugin-svgr": "github:pd4d10/vite-plugin-svgr#main",
+    "vite-plugin-svgr": "4.3.0",
     "vite-tsconfig-paths": "^4.2.0",
     "vitest": "^3.1.3"
   },

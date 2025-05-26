@@ -11,7 +11,7 @@ Portainer permet de visualiser les logs et autres stats pour différents contain
 
 Pour l'instant, il faut demander à chaque fois l'accès à la DSI car les droits sont overwritten à chaque déploiement.
 
-Portainer n'est accessible que via le RIE à l'url suivante: http://portainer.csam.e2.rie.gouv.fr
+Portainer n'est accessible que via le RIE à l'url suivante: http://int-rapportnav-appli01.dsi.damgm.i2
 
 Les logs du backend et de la database sont visibles dans les logs du container
 
