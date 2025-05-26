@@ -39,7 +39,7 @@ La DAM-SI dispose d'un gitlab self-hosted et nous met à disposition un reposito
 
 Trois environnements nous sont mis à disposition
 - ~~dev - machine disponible mais non setup~~
-- [integration](https://csam-test.din.developpement-durable.gouv.fr)
+- [integration](http://int-rapportnav-appli01.dsi.damgm.i2)
 - [production](https://rapport-nav.din.developpement-durable.gouv.fr/)
 
 Bien entendu, ces environnements ne sont accessible que via le RIE.
