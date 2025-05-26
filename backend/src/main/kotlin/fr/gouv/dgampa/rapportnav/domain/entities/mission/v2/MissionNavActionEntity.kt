@@ -129,7 +129,7 @@ class MissionNavActionEntity(
     )
     override var reason: ActionStatusReason? = null,
     override var targets: List<TargetEntity2>? = null,
-    override var crossControl: CrossControlEntity? = null,
+    override var crossControl: MissionActionCrossControlEntity? = null,
 ) : MissionActionEntity(
     status = status,
     actionType = actionType,
@@ -189,7 +189,7 @@ class MissionNavActionEntity(
         nbAssistedVesselsReturningToShore = nbAssistedVesselsReturningToShore,
         status = status?.toString(),
         reason = reason?.toString(),
-        crossControlId = crossControl?.id!!,
+        crossControlId = crossControl?.id,
         isSignedByInspector = crossControl?.isSignedByInspector,
         crossControlNbrOfHours = crossControl?.nbrOfHours,
         crossControlStatus = crossControl?.status?.toString(),
@@ -240,13 +240,13 @@ class MissionNavActionEntity(
                 nbAssistedVesselsReturningToShore = model.nbAssistedVesselsReturningToShore,
                 status = model.status?.let { ActionStatusType.valueOf(it) },
                 reason = model.reason?.let { ActionStatusReason.valueOf(it) },
-                crossControl = CrossControlEntity(
+                crossControl = MissionActionCrossControlEntity(
                     id = model.crossControlId?: UUID.randomUUID(),
                     nbrOfHours = model.crossControlNbrOfHours,
                     isSignedByInspector = model.isSignedByInspector,
                     status = model.crossControlStatus?.let { CrossControlStatusType.valueOf(it) },
                     conclusion = model.crossControlConclusion?.let { CrossControlConclusionType.valueOf(it) }
-                ),
+                )
             )
         }
     }

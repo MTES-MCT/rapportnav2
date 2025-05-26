@@ -5,8 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlConclusionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlStatusType
 import java.time.Instant
 
 interface BaseMissionNavActionData {
@@ -42,5 +40,5 @@ interface BaseMissionNavActionData {
     val nbAssistedVesselsReturningToShore: Int?
     val status: ActionStatusType?
     val reason: ActionStatusReason?
-    val crossControl: CrossControl?
+    val crossControl: MissionActionCrossControl?
 }

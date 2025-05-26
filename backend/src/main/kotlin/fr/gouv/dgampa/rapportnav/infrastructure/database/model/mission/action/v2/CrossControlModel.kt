@@ -30,7 +30,7 @@ class CrossControlModel(
     val vesselId: Int? = null,
 
     @Column(name = "service_id", nullable = true)
-    val serviceId: String? = null,
+    val serviceId: Int? = null,
 
     @Column(name = "start_datetime_utc", nullable = false)
     var startDateTimeUtc: Instant,
