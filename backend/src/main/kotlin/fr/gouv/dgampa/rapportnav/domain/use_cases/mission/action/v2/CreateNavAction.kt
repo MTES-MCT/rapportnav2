@@ -16,7 +16,7 @@ class CreateNavAction(
     fun execute(input: MissionAction): MissionNavActionEntity? {
         val action = MissionNavActionData.toMissionNavActionEntity(input)
         return try {
-            MissionNavActionEntity.fromMissionActionModel(missionActionRepository.save(action))
+            MissionNavActionEntity.fromMissionActionModel(missionActionRepository.save(action.toMissionActionModel()))
         } catch (e: Exception) {
             logger.error("CreateNavAction failed update Action", e)
             return null

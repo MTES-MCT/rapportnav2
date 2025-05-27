@@ -18,7 +18,6 @@ class ControlEntity2Test {
     @Test
     fun `execute should retrieve entity from Model`() {
         val model = ControlModel2(
-            nbrOfHours = 4,
             controlType = ControlType.NAVIGATION,
             amountOfControls = 1,
             hasBeenDone = false,
@@ -53,7 +52,6 @@ class ControlEntity2Test {
     fun `execute should convert entity from Model`() {
         val entity = ControlEntity2(
             id = UUID.randomUUID(),
-            nbrOfHours = 4,
             controlType = ControlType.NAVIGATION,
             amountOfControls = 1,
             hasBeenDone = false,

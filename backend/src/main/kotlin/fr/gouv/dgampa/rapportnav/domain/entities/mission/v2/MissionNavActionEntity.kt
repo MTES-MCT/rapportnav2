@@ -128,7 +128,8 @@ class MissionNavActionEntity(
         ]
     )
     override var reason: ActionStatusReason? = null,
-    override var targets: List<TargetEntity2>? = null
+    override var targets: List<TargetEntity2>? = null,
+    override var crossControl: MissionActionCrossControlEntity? = null,
 ) : MissionActionEntity(
     status = status,
     actionType = actionType,
@@ -151,6 +152,51 @@ class MissionNavActionEntity(
         this.computeCompletenessForStats()
     }
 
+    fun toMissionActionModel() = MissionActionModel(
+        id = id,
+        missionId = missionId,
+        actionType = actionType,
+        isCompleteForStats = isCompleteForStats,
+        startDateTimeUtc = startDateTimeUtc ?: Instant.now(),
+        endDateTimeUtc = endDateTimeUtc,
+        observations = observations,
+        latitude = latitude,
+        longitude = longitude,
+        detectedPollution = detectedPollution,
+        pollutionObservedByAuthorizedAgent = pollutionObservedByAuthorizedAgent,
+        diversionCarriedOut = diversionCarriedOut,
+        isSimpleBrewingOperationDone = isSimpleBrewingOperationDone,
+        isAntiPolDeviceDeployed = isAntiPolDeviceDeployed,
+        controlMethod = controlMethod?.toString(),
+        vesselIdentifier = vesselIdentifier,
+        vesselType = vesselType?.toString(),
+        vesselSize = vesselSize?.toString(),
+        identityControlledPerson = identityControlledPerson,
+        nbOfInterceptedVessels = nbOfInterceptedVessels,
+        nbOfInterceptedMigrants = nbOfInterceptedMigrants,
+        nbOfSuspectedSmugglers = nbOfSuspectedSmugglers,
+        isVesselRescue = isVesselRescue,
+        isPersonRescue = isPersonRescue,
+        isVesselNoticed = isVesselNoticed,
+        isVesselTowed = isVesselTowed,
+        isInSRRorFollowedByCROSSMRCC = isInSRRorFollowedByCROSSMRCC,
+        numberPersonsRescued = numberPersonsRescued,
+        numberOfDeaths = numberOfDeaths,
+        operationFollowsDEFREP = operationFollowsDEFREP,
+        locationDescription = locationDescription,
+        isMigrationRescue = isMigrationRescue,
+        nbOfVesselsTrackedWithoutIntervention = nbOfVesselsTrackedWithoutIntervention,
+        nbAssistedVesselsReturningToShore = nbAssistedVesselsReturningToShore,
+        status = status?.toString(),
+        reason = reason?.toString(),
+        crossControlId = crossControl?.id,
+        isSignedByInspector = crossControl?.isSignedByInspector,
+        crossControlNbrOfHours = crossControl?.nbrOfHours,
+        crossControlStatus = crossControl?.status?.toString(),
+        crossControlConclusion = crossControl?.conclusion?.toString()
+
+    )
+
 
     override fun isControlInValid(control: ControlEntity2?): Boolean {
         TODO("Not yet implemented")
@@ -161,7 +207,7 @@ class MissionNavActionEntity(
             return MissionNavActionEntity(
                 id = model.id,
                 missionId = model.missionId,
-                actionType = model.actionType, //model.actionType.let { ActionType.valueOf(it) },
+                actionType = model.actionType,
                 startDateTimeUtc = model.startDateTimeUtc,
                 endDateTimeUtc = model.endDateTimeUtc,
                 observations = model.observations,
@@ -193,7 +239,14 @@ class MissionNavActionEntity(
                 nbOfVesselsTrackedWithoutIntervention = model.nbOfVesselsTrackedWithoutIntervention,
                 nbAssistedVesselsReturningToShore = model.nbAssistedVesselsReturningToShore,
                 status = model.status?.let { ActionStatusType.valueOf(it) },
-                reason = model.reason?.let { ActionStatusReason.valueOf(it) }
+                reason = model.reason?.let { ActionStatusReason.valueOf(it) },
+                crossControl = MissionActionCrossControlEntity(
+                    id = model.crossControlId?: UUID.randomUUID(),
+                    nbrOfHours = model.crossControlNbrOfHours,
+                    isSignedByInspector = model.isSignedByInspector,
+                    status = model.crossControlStatus?.let { CrossControlStatusType.valueOf(it) },
+                    conclusion = model.crossControlConclusion?.let { CrossControlConclusionType.valueOf(it) }
+                )
             )
         }
     }

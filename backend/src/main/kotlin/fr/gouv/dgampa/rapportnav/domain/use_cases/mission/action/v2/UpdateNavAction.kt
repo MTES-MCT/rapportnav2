@@ -18,7 +18,7 @@ class UpdateNavAction(
     fun execute(id: String, input: MissionNavAction): MissionNavActionEntity? {
         val action = MissionNavActionData.toMissionNavActionEntity(input)
         return try {
-            missionActionRepository.save(action)
+            missionActionRepository.save(action.toMissionActionModel())
             val targets = processMissionActionTarget.execute(
                 actionId = action.getActionId(),
                 targets = input.data.targets?.map { it.toTargetEntity() } ?: listOf()
