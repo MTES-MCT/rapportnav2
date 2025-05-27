@@ -241,8 +241,9 @@ class MissionNavActionEntity(
                 status = model.status?.let { ActionStatusType.valueOf(it) },
                 reason = model.reason?.let { ActionStatusReason.valueOf(it) },
                 crossControl = MissionActionCrossControlEntity(
-                    id = model.crossControlId?: UUID.randomUUID(),
+                    id = model.crossControlId,
                     nbrOfHours = model.crossControlNbrOfHours,
+                    startDateTimeUtc = model.startDateTimeUtc,
                     isSignedByInspector = model.isSignedByInspector,
                     status = model.crossControlStatus?.let { CrossControlStatusType.valueOf(it) },
                     conclusion = model.crossControlConclusion?.let { CrossControlConclusionType.valueOf(it) }

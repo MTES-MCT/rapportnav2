@@ -1,6 +1,7 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
+import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateOrUpdateGeneralInfo
@@ -63,6 +64,10 @@ class MissionRestControllerTest {
 
     @MockitoBean
     private lateinit var createOrUpdateGeneralInfo: CreateOrUpdateGeneralInfo
+
+    // Mock the TokenService that your SecurityConfig depends on
+    @MockitoBean
+    private lateinit var tokenService: TokenService
 
     @Test
     fun `should return a list of missions`() {
