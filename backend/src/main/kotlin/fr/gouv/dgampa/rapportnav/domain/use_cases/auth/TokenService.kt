@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.auth
 
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
+import fr.gouv.dgampa.rapportnav.domain.entities.user.toAuthority
 import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository
 import org.springframework.security.oauth2.jwt.*
 import org.springframework.stereotype.Service
@@ -29,6 +30,7 @@ class TokenService(
             .expiresAt(Instant.now().plus(30L, ChronoUnit.DAYS))
             .subject(user.email)
             .claim("userId", user.id)
+            .claim("authorities", user.roles.map { it.toAuthority() })
             .claim("roles", user.roles)
             .build()
     }

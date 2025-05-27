@@ -1,8 +1,8 @@
 package fr.gouv.dgampa.rapportnav.config
 
-
 import fr.gouv.dgampa.rapportnav.domain.entities.user.AuthoritiesEnum
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -16,16 +16,18 @@ import org.springframework.security.oauth2.server.resource.InvalidBearerTokenExc
 import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthenticationToken
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 
 /**
  * This class sets all security related configuration.
  */
 @Configuration
-@EnableWebSecurity(debug=true)
+@EnableWebSecurity(debug = true)
 class SecurityConfig(
-    private val tokenService: TokenService,
 ) {
+
+    @Autowired
+    private lateinit var tokenService: TokenService
+
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
 
@@ -42,8 +44,8 @@ class SecurityConfig(
             println("Authentication Manager - User: $user")
             println("Authentication Manager - Roles: ${user.roles}")
 
-            val grantedAuthorities = user.roles.map {
-                    role -> SimpleGrantedAuthority("ROLE_$role")
+            val grantedAuthorities = user.roles.map { role ->
+                SimpleGrantedAuthority("ROLE_$role")
             }
 
             val authentication = UsernamePasswordAuthenticationToken(user, "", grantedAuthorities)
@@ -57,7 +59,9 @@ class SecurityConfig(
         http.cors(Customizer.withDefaults())
 
         // session
-        http.sessionManagement { sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+        http.sessionManagement { sessionManagement ->
+            sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        }
 
 //        val requestHandler = CsrfTokenRequestAttributeHandler()
 //        requestHandler.setCsrfRequestAttributeName(null)
@@ -82,16 +86,15 @@ class SecurityConfig(
 //            }
         }
 
-        // route authorizations
+        // route authorizations - Updated for Spring Boot 3.5.0
         http.authorizeHttpRequests { authorize ->
             authorize
-                .requestMatchers(AntPathRequestMatcher("/graphql")).authenticated()
-                .requestMatchers(AntPathRequestMatcher("/api/v1/auth/login")).permitAll()
-                .requestMatchers(AntPathRequestMatcher("/api/v1/auth/register")).authenticated()
-                .requestMatchers(AntPathRequestMatcher("/api/v1/auth/register")).hasAuthority(AuthoritiesEnum.ROLE_ADMIN.toString())
-                .requestMatchers(AntPathRequestMatcher("/api/v1/admin/**")).hasAuthority(AuthoritiesEnum.ROLE_ADMIN.toString())
-                .requestMatchers(AntPathRequestMatcher("/api/v2/**")).authenticated()
-                .requestMatchers(AntPathRequestMatcher("/**")).permitAll()
+                .requestMatchers("/graphql").authenticated()
+                .requestMatchers("/api/v1/auth/login").permitAll()
+                .requestMatchers("/api/v1/auth/register").hasAuthority(AuthoritiesEnum.ROLE_ADMIN.toString())
+                .requestMatchers("/api/v1/admin/**").hasAuthority(AuthoritiesEnum.ROLE_ADMIN.toString())
+                .requestMatchers("/api/v2/**").authenticated()
+                .requestMatchers("/**").permitAll()
                 .anyRequest().authenticated()
         }
 
@@ -126,5 +129,4 @@ class SecurityConfig(
 
         return http.build()
     }
-
 }
