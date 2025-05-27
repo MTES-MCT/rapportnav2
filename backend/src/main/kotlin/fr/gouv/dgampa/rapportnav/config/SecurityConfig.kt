@@ -1,20 +1,14 @@
 package fr.gouv.dgampa.rapportnav.config
 
 import fr.gouv.dgampa.rapportnav.domain.entities.user.AuthoritiesEnum
-import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.core.authority.SimpleGrantedAuthority
-import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException
-import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthenticationToken
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 
 /**
@@ -23,37 +17,15 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 @Configuration
 @EnableWebSecurity(debug = true)
 class SecurityConfig(
+    private val customAuthenticationFilter: CustomAuthenticationFilter
 ) {
-
-    @Autowired
-    private lateinit var tokenService: TokenService
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
 
-        // configure JWT token
-        http.oauth2ResourceServer { oauth2 ->
-            oauth2.jwt(Customizer.withDefaults())
-        }
+        // Add custom authentication filter
+        http.addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
 
-        // update authenticationManager and security context with authorities from roles
-        http.authenticationManager { auth ->
-            val jwt = auth as BearerTokenAuthenticationToken
-            val user = tokenService.parseToken(jwt.token) ?: throw InvalidBearerTokenException("Invalid token")
-
-            println("Authentication Manager - User: $user")
-            println("Authentication Manager - Roles: ${user.roles}")
-
-            val grantedAuthorities = user.roles.map { role ->
-                SimpleGrantedAuthority("ROLE_$role")
-            }
-
-            val authentication = UsernamePasswordAuthenticationToken(user, "", grantedAuthorities)
-            println("AuthenticationManager - SecurityContext: ${SecurityContextHolder.getContext().authentication}")
-            println("Authentication Manager - Granted Authorities: $grantedAuthorities")
-
-            authentication
-        }
 
         // cors
         http.cors(Customizer.withDefaults())
