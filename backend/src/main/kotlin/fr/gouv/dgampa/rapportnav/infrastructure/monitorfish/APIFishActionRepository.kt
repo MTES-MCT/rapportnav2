@@ -2,8 +2,10 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorfish
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
+import fr.gouv.cnsp.monitorfish.infrastructure.api.outputs.VesselIdentityDataOutput
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.NatinfEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.input.PatchActionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output.MissionActionDataOutput
@@ -14,6 +16,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
 import java.net.URI
+import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
@@ -85,6 +88,29 @@ class APIFishActionRepository(
         } catch (e: Exception) {
             logger.error("Failed to PATCH request for Fish Action id=$actionId. URL: $url", e);
             null;
+        }
+    }
+
+    override fun getVessels(): List<VesselIdentityDataOutput> {
+
+        logger.info("Fetching vessel Referential")
+        val request = HttpRequest.newBuilder()
+            .uri(
+                URI.create(
+                    "$host/api/v1/vessels"
+                )
+            )
+            .header("x-api-key", monitorFishApiKey)
+            .build();
+
+        val response = clientFactory.create().send(request, HttpResponse.BodyHandlers.ofString())
+
+        return if (response.statusCode() in 200..299) {
+            mapper.registerModule(JtsModule())
+            mapper.readValue(response.body(), object : TypeReference<List<VesselIdentityDataOutput>>() {})
+        } else {
+            logger.info("Failed to fetch vessel referential. Status code: ${response.statusCode()}")
+            emptyList()
         }
     }
 }

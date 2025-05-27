@@ -33,7 +33,6 @@ class Control2Test {
         assertThat(entity).isNotNull()
         assertThat(entity.id).isNotNull()
         assertThat(entity.infractions).isEmpty()
-        assertThat(entity.nbrOfHours).isEqualTo(input.nbrOfHours)
         assertThat(entity.hasBeenDone).isEqualTo(input.hasBeenDone)
         assertThat(entity.compliantOperatingPermit).isEqualTo(input.compliantOperatingPermit)
         assertThat(entity.upToDateNavigationPermit).isEqualTo(input.upToDateNavigationPermit)
@@ -53,7 +52,6 @@ class Control2Test {
             amountOfControls = 2,
             infractions = listOf(),
             hasBeenDone = true,
-            nbrOfHours = 76,
             compliantOperatingPermit = ControlResult.YES,
             upToDateNavigationPermit = ControlResult.NO,
             compliantSecurityDocuments = ControlResult.NOT_CONTROLLED,
@@ -66,7 +64,6 @@ class Control2Test {
         assertThat(value).isNotNull()
         assertThat(value.id).isNotNull()
         assertThat(value.infractions).isEmpty()
-        assertThat(value.nbrOfHours).isEqualTo(entity.nbrOfHours)
         assertThat(value.hasBeenDone).isEqualTo(entity.hasBeenDone)
         assertThat(value.compliantOperatingPermit).isEqualTo(entity.compliantOperatingPermit)
         assertThat(value.upToDateNavigationPermit).isEqualTo(entity.upToDateNavigationPermit)
