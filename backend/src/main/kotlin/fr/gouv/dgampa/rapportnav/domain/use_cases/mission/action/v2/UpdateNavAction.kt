@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessActionCrossControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActionData
@@ -11,7 +12,8 @@ import org.slf4j.LoggerFactory
 @UseCase
 class UpdateNavAction(
     private val missionActionRepository: INavMissionActionRepository,
-    private val processMissionActionTarget: ProcessMissionActionTarget
+    private val processMissionActionTarget: ProcessMissionActionTarget,
+    private val processActionCrossControl: ProcessActionCrossControl
 ) {
     private val logger = LoggerFactory.getLogger(UpdateNavAction::class.java)
 
@@ -19,11 +21,11 @@ class UpdateNavAction(
         val action = MissionNavActionData.toMissionNavActionEntity(input)
         return try {
             missionActionRepository.save(action.toMissionActionModel())
-            val targets = processMissionActionTarget.execute(
+            action.targets = processMissionActionTarget.execute(
                 actionId = action.getActionId(),
                 targets = input.data.targets?.map { it.toTargetEntity() } ?: listOf()
             )
-            action.targets = targets
+            action.crossControl = processActionCrossControl.execute(action)
             action.computeCompleteness()
             action
         } catch (e: Exception) {
