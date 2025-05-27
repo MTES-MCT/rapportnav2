@@ -2,6 +2,7 @@ package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
+import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.FindById
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.UserRestController
@@ -28,18 +29,22 @@ class UserRestControllerTest {
     private lateinit var mockMvc: MockMvc
 
     @MockitoBean
-    private lateinit var  findById: FindById
+    private lateinit var findById: FindById
 
     @MockitoBean
-    private lateinit var  getSeviceById: GetServiceById
+    private lateinit var getServiceById: GetServiceById
+
+    // Mock the TokenService that your SecurityConfig depends on
+    @MockitoBean
+    private lateinit var tokenService: TokenService
 
     @Test
-    fun `should return a user infor`() {
+    fun `should return a user info`() {
         val user = UserMock.create()
-        val service = ServiceEntity( id = 1, name = "PAM Jeanne Barret A")
+        val service = ServiceEntity(id = 1, name = "PAM Jeanne Barret A")
 
         `when`(findById.execute(id = 1)).thenReturn(user)
-        `when`(getSeviceById.execute(any())).thenReturn(service)
+        `when`(getServiceById.execute(any())).thenReturn(service)
 
         // Act & Assert
         mockMvc.perform(
@@ -49,5 +54,4 @@ class UserRestControllerTest {
             .andExpect(jsonPath("$.id").value(user.id))
             .andExpect(jsonPath("$.serviceName").value(service.name))
     }
-
 }
