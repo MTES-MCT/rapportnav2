@@ -20,6 +20,9 @@ export interface State {
     isMissionFinished?: boolean
   }
   user?: User
+  connectivity: {
+    offlineSince?: string
+  }
 }
 
 export const store = new Store<State>({
@@ -27,5 +30,6 @@ export const store = new Store<State>({
   timeline: {},
   generalInformations: {},
   mission: {},
-  user: {} as User
+  user: {} as User,
+  connectivity: {}
 })
