@@ -30,7 +30,7 @@ const MissionPamPage: React.FC = () => {
       missionGeneralInformations={<MissionGeneralInformationPam missionId={Number(missionId)} />}
       missionTimeLine={<MissionTimelinePam missionId={Number(missionId)} />}
       missionAction={<MissionActionPam missionId={Number(missionId)} actionId={actionId} />}
-      missionFooter={<MissionPageFooter exitMission={exitMission} />}
+      missionFooter={<MissionPageFooter exitMission={exitMission} missionId={Number(missionId)} />}
     />
   )
 }

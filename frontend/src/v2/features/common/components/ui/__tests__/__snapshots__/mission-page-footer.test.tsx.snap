@@ -69,6 +69,45 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
           </div>
           <div
             class="rs-stack-item"
+          >
+            <div
+              class="rs-stack"
+              style="align-items: center; flex-direction: row;"
+            >
+              <div
+                class="rs-stack-item"
+              >
+                <p
+                  class="sc-dBCvnn sc-dVElco clsaVR gQdNKT"
+                  font-size="11"
+                >
+                  Connexion 
+                  disponible
+                   
+                </p>
+              </div>
+              <div
+                class="rs-stack-item"
+              >
+                <p
+                  class="sc-dBCvnn sc-dVElco clsaVR gQdNKT"
+                  font-size="11"
+                >
+                   
+                </p>
+              </div>
+              <div
+                class="rs-stack-item"
+              >
+                <p
+                  class="sc-dBCvnn sc-dVElco clsaVR gQdNKT"
+                  font-size="11"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="rs-stack-item"
             style="padding-left: 1rem;"
           >
             <div
@@ -94,19 +133,20 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                   class="sc-gDVcuj geGcsH Element-Field Field-Toggle sc-irwjCN lkzbPC"
                 >
                   <label
-                    class="sc-kmqAS fyCASS Element-Label"
+                    class="sc-kmqAS hgWVeH Element-Label"
                     for="online-toggle"
                   />
                   <label
-                    class="sc-fsONnU kaFjBT rs-toggle rs-toggle-checked"
-                    title=""
+                    class="sc-fsONnU iXsKZR rs-toggle rs-toggle-checked rs-toggle-disabled"
+                    title="Nous ne pouvez pas passer en ligne, connection non détectée."
                   >
                     <input
                       aria-checked="true"
-                      aria-disabled="false"
+                      aria-disabled="true"
                       aria-label="Ouvrir"
                       checked=""
                       class="rs-toggle-input"
+                      disabled=""
                       name="online-toggle"
                       role="switch"
                       type="checkbox"
@@ -261,6 +301,45 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
         </div>
         <div
           class="rs-stack-item"
+        >
+          <div
+            class="rs-stack"
+            style="align-items: center; flex-direction: row;"
+          >
+            <div
+              class="rs-stack-item"
+            >
+              <p
+                class="sc-dBCvnn sc-dVElco clsaVR gQdNKT"
+                font-size="11"
+              >
+                Connexion 
+                disponible
+                 
+              </p>
+            </div>
+            <div
+              class="rs-stack-item"
+            >
+              <p
+                class="sc-dBCvnn sc-dVElco clsaVR gQdNKT"
+                font-size="11"
+              >
+                 
+              </p>
+            </div>
+            <div
+              class="rs-stack-item"
+            >
+              <p
+                class="sc-dBCvnn sc-dVElco clsaVR gQdNKT"
+                font-size="11"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="rs-stack-item"
           style="padding-left: 1rem;"
         >
           <div
@@ -286,19 +365,20 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 class="sc-gDVcuj geGcsH Element-Field Field-Toggle sc-irwjCN lkzbPC"
               >
                 <label
-                  class="sc-kmqAS fyCASS Element-Label"
+                  class="sc-kmqAS hgWVeH Element-Label"
                   for="online-toggle"
                 />
                 <label
-                  class="sc-fsONnU kaFjBT rs-toggle rs-toggle-checked"
-                  title=""
+                  class="sc-fsONnU iXsKZR rs-toggle rs-toggle-checked rs-toggle-disabled"
+                  title="Nous ne pouvez pas passer en ligne, connection non détectée."
                 >
                   <input
                     aria-checked="true"
-                    aria-disabled="false"
+                    aria-disabled="true"
                     aria-label="Ouvrir"
                     checked=""
                     class="rs-toggle-input"
+                    disabled=""
                     name="online-toggle"
                     role="switch"
                     type="checkbox"
