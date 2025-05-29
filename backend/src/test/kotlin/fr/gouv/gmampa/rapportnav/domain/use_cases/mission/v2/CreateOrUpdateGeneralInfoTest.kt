@@ -144,7 +144,7 @@ class CreateOrUpdateGeneralInfoTest {
         )
         verify(updateMissionEnv).execute(input)
 
-        assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity), result)
+        assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = listOf()), result)
     }
 
     @Test
@@ -189,7 +189,7 @@ class CreateOrUpdateGeneralInfoTest {
         )
         verify(updateMissionEnv).execute(input)
 
-        assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity), result)
+        assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = listOf()), result)
     }
 
     @Test
