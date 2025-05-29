@@ -1,29 +1,25 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlConclusionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlOriginType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionCrossControlEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.*
 import java.time.Instant
 import java.util.*
 
 class MissionActionCrossControl(
     val id: UUID? = null,
-    val agentId: String? = null,
+    val agentId: Int? = null,
     val vesselId: Int? = null,
     val serviceId: Int? = null,
-    var endDateTimeUtc: Instant? = null,
-    val startDateTimeUtc: Instant? = null,
     val type: String? = null,
     val nbrOfHours: Int? = null,
+    val isRefentialClosed: Boolean?  = null,
     val origin: CrossControlOriginType? = null,
     val status: CrossControlStatusType? = null,
     val conclusion: CrossControlConclusionType? = null,
     val isSignedByInspector: Boolean? = null
 ) {
 
-    fun toCrossControlEntity(): MissionActionCrossControlEntity {
-        return MissionActionCrossControlEntity(
+    fun toCrossControlEntity(startDateTimeUtc: Instant?, endDateTimeUtc: Instant?,): CrossControlEntity {
+        return CrossControlEntity(
             id = id,
             type = type,
             status = status,
@@ -31,11 +27,19 @@ class MissionActionCrossControl(
             agentId = agentId,
             vesselId = vesselId,
             serviceId = serviceId,
-            nbrOfHours = nbrOfHours,
             conclusion = conclusion,
             endDateTimeUtc = endDateTimeUtc,
-            isSignedByInspector = isSignedByInspector,
-            startDateTimeUtc = startDateTimeUtc?: Instant.now()
+            startDateTimeUtc = startDateTimeUtc
+        )
+    }
+
+    fun toMissionActionCrossControlEntity(): MissionActionCrossControlEntity {
+        return MissionActionCrossControlEntity(
+            id = id,
+            status = status,
+            nbrOfHours = nbrOfHours,
+            conclusion = conclusion,
+            isSignedByInspector = isSignedByInspector
         )
     }
 
@@ -43,17 +47,16 @@ class MissionActionCrossControl(
         fun fromCrossControlEntity(entity: MissionActionCrossControlEntity?): MissionActionCrossControl {
             return MissionActionCrossControl(
                 id = entity?.id,
-                type = entity?.type,
                 status = entity?.status,
-                origin = entity?.origin,
-                agentId = entity?.agentId,
-                vesselId = entity?.vesselId,
-                serviceId = entity?.serviceId,
                 conclusion = entity?.conclusion,
                 nbrOfHours = entity?.nbrOfHours,
-                endDateTimeUtc = entity?.endDateTimeUtc,
-                startDateTimeUtc = entity?.startDateTimeUtc,
-                isSignedByInspector = entity?.isSignedByInspector
+                type = entity?.crossControlData?.type,
+                origin = entity?.crossControlData?.origin,
+                agentId = entity?.crossControlData?.agentId,
+                vesselId = entity?.crossControlData?.vesselId,
+                serviceId = entity?.crossControlData?.serviceId,
+                isSignedByInspector = entity?.isSignedByInspector,
+                isRefentialClosed = entity?.crossControlData?.isRefentialClosed
             )
         }
     }

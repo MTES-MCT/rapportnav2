@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import java.time.Instant
 import java.util.*
@@ -50,6 +51,7 @@ class MissionNavActionData(
     observations = observations,
     targets = targets
 ), BaseMissionNavActionData {
+
     companion object {
         fun toMissionNavActionEntity(input: MissionAction): MissionNavActionEntity {
             val data = input.data as MissionNavActionData
@@ -89,9 +91,17 @@ class MissionNavActionData(
                 nbAssistedVesselsReturningToShore = data.nbAssistedVesselsReturningToShore,
                 status = data.status,
                 reason = data.reason,
-                crossControl = data.crossControl?.toCrossControlEntity()
+                crossControl = data.crossControl?.toMissionActionCrossControlEntity()
             )
             return action
+        }
+
+        fun getCrossControlEntity(input: MissionAction): CrossControlEntity? {
+            val data = input.data as MissionNavActionData
+            return data.crossControl?.toCrossControlEntity(
+                endDateTimeUtc = data.endDateTimeUtc,
+                startDateTimeUtc = data.startDateTimeUtc
+            )
         }
     }
 }

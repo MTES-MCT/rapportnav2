@@ -1,15 +1,14 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ICrossControlRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessActionCrossControl
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.CrossControlModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.*
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -30,141 +29,104 @@ class ProcessActionCrossControlTest {
     private lateinit var processActionCrossControl: ProcessActionCrossControl
 
     @Test
-    fun `should return null for null cross control id`() {
-        val missionId = 761
-        val actionId = UUID.randomUUID()
-        val crossControlId = UUID.randomUUID()
-        val action = getMissionNavActionEntity(
-            actionId =actionId,
-            missionId = missionId,
-            actionType = ActionType.CROSS_CONTROL
-        )
-        action.crossControl = null
-        val controlControl = CrossControlEntity(
-            id = crossControlId,
-            startDateTimeUtc = Instant.now(),
-            status = CrossControlStatusType.NEW
-        ).toCrossControlModel()
-
-        //Mock
-        `when`(crossControlRepo.findById(crossControlId)).thenReturn(Optional.of(controlControl))
-
+    fun `should return null for if cross control is null`() {
         //When
         processActionCrossControl = ProcessActionCrossControl(crossControlRepo = crossControlRepo)
-        val crossControl = processActionCrossControl.execute(action)
-
+        val crossControl = processActionCrossControl.execute(null)
         //Then
         assertThat(crossControl).isNull()
     }
 
     @Test
-    fun `should return null for Type not CROSS CONTROL`() {
-        val missionId = 761
-        val actionId = UUID.randomUUID()
-        val crossControlId = UUID.randomUUID()
-        var action = getMissionNavActionEntity(
-            actionId =actionId,
-            missionId = missionId,
-            actionType = ActionType.CONTROL,
-            crossControlId = crossControlId
+    fun `should save in db if no crossControl exists already`() {
+        val controlControl = CrossControlEntity(
+            id = null,
+            endDateTimeUtc = Instant.parse("2015-07-30T00:00:00.00Z"),
+            startDateTimeUtc = Instant.parse("2015-06-30T00:00:00.00Z")
         )
 
-        val controlControl = CrossControlEntity(
-            id = crossControlId,
-            startDateTimeUtc = Instant.now(),
-            status = CrossControlStatusType.NEW
-        ).toCrossControlModel()
+        val model = controlControl.toCrossControlModel()
 
         //Mock
-        `when`(crossControlRepo.findById(crossControlId)).thenReturn(Optional.of(controlControl))
+        `when`(crossControlRepo.save(anyOrNull())).thenReturn(model)
 
         //When
         processActionCrossControl = ProcessActionCrossControl(crossControlRepo = crossControlRepo)
-        val crossControl = processActionCrossControl.execute(action)
-
-        //Then
-        assertThat(crossControl).isNull()
-    }
-
-    @Test
-    fun `should no update for blank update ( id null and status follow up)`() {
-        val missionId = 761
-        val actionId = UUID.randomUUID()
-        val crossControlId = UUID.randomUUID()
-        val action = getMissionNavActionEntity(
-            actionId = actionId,
-            missionId = missionId,
-            actionType = ActionType.CROSS_CONTROL,
-            crossControlId = null,
-           crossControlStatusType = CrossControlStatusType.FOLLOW_UP.toString()
-        )
-
-        val controlControl = CrossControlEntity(
-            id = crossControlId,
-            startDateTimeUtc = Instant.now(),
-            status = CrossControlStatusType.NEW
-        ).toCrossControlModel()
-
-        //Mock
-        `when`(crossControlRepo.findById(crossControlId)).thenReturn(Optional.of(controlControl))
-
-        //When
-        processActionCrossControl = ProcessActionCrossControl(crossControlRepo = crossControlRepo)
-        val crossControl = processActionCrossControl.execute(action)
-
-        //Then
-        assertThat(crossControl).isNotNull
-        assertThat(crossControl).isEqualTo(action.crossControl)
-    }
-
-    @Test
-    fun `should return a response with update with status CLOSED `() {
-        val missionId = 761
-        val actionId = UUID.randomUUID()
-        val crossControlId = UUID.randomUUID()
-        val controlControl = CrossControlEntity(
-            id = crossControlId,
-            startDateTimeUtc = Instant.now(),
-            status = CrossControlStatusType.FOLLOW_UP
-        ).toCrossControlModel()
-        val action = getMissionNavActionEntity(
-            actionId =actionId,
-            missionId = missionId,
-            actionType = ActionType.CROSS_CONTROL,
-            crossControlId = crossControlId,
-            crossControlStatusType = CrossControlStatusType.CLOSED.toString()
-        )
-        //Mock
-        `when`(crossControlRepo.findById(crossControlId)).thenReturn(Optional.of(controlControl))
-        `when`(crossControlRepo.save(anyOrNull())).thenReturn(controlControl)
-
-        //When
-        processActionCrossControl = ProcessActionCrossControl(crossControlRepo = crossControlRepo)
-        val crossControl = processActionCrossControl.execute(action)
+        val crossControl = processActionCrossControl.execute(controlControl)
 
         //Then
         assertThat(crossControl).isNotNull()
+        verify(crossControlRepo, times(1)).save(anyOrNull())
     }
 
-    private fun getMissionNavActionEntity(
-        actionId : UUID,
-        missionId : Int,
-        actionType: ActionType,
-        crossControlId : UUID? = null,
-        crossControlStatusType: String? = null
-    ): MissionNavActionEntity{
-        return MissionNavActionEntity.fromMissionActionModel(MissionActionModel(
-            id = actionId,
-            missionId = missionId,
-            startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
-            endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
-            observations = "My beautiful observation",
-            isAntiPolDeviceDeployed = true,
-            isSimpleBrewingOperationDone = true,
-            diversionCarriedOut = true,
-            actionType = actionType,
-            crossControlId = crossControlId,
-            crossControlStatus = crossControlStatusType
-        ))
+    @Test
+    fun `should save in db only data no conclusion`() {
+        val crossControlId = UUID.randomUUID()
+        val controlControl = CrossControlEntity(
+            id = crossControlId,
+            type = "",
+            agentId = 67,
+            vesselId = 4556,
+            sumNbrOfHours = 45,
+            endDateTimeUtc = Instant.parse("2015-07-30T00:00:00.00Z"),
+            startDateTimeUtc = Instant.parse("2015-06-30T00:00:00.00Z"),
+            origin = CrossControlOriginType.FOLLOW_UP_CONTROL,
+            status = CrossControlStatusType.NEW,
+            conclusion = CrossControlConclusionType.NO_FOLLOW_UP,
+        )
+        val response = CrossControlModel(
+            id = crossControlId,
+            type = "My type",
+            startDateTimeUtc = Instant.parse("2015-06-30T00:00:00.00Z")
+        )
+
+        //Mock
+        `when`(crossControlRepo.save(anyOrNull())).thenReturn(response)
+        `when`(crossControlRepo.findById(crossControlId)).thenReturn(Optional.of(response))
+
+        //When
+        processActionCrossControl = ProcessActionCrossControl(crossControlRepo = crossControlRepo)
+        val crossControl = processActionCrossControl.execute(controlControl)
+
+        //Then
+        assertThat(crossControl).isNotNull
+        verify(crossControlRepo, times(1)).save(
+            CrossControlEntity.fromCrossControlModel(response).toModelSetData(controlControl))
     }
+
+    @Test
+    fun `should save in db only conclusion no data`() {
+        val crossControlId = UUID.randomUUID()
+        val controlControl = CrossControlEntity(
+            id = crossControlId,
+            type = "",
+            agentId = 67,
+            vesselId = 4556,
+            sumNbrOfHours = 45,
+            endDateTimeUtc = Instant.parse("2015-07-30T00:00:00.00Z"),
+            startDateTimeUtc = Instant.parse("2015-06-30T00:00:00.00Z"),
+            origin = CrossControlOriginType.FOLLOW_UP_CONTROL,
+            status = CrossControlStatusType.FOLLOW_UP,
+            conclusion = CrossControlConclusionType.NO_FOLLOW_UP,
+        )
+        val response = CrossControlModel(
+            id = crossControlId,
+            type = "My type",
+            startDateTimeUtc = Instant.parse("2015-06-30T00:00:00.00Z")
+        )
+
+        //Mock
+        `when`(crossControlRepo.save(anyOrNull())).thenReturn(response)
+        `when`(crossControlRepo.findById(crossControlId)).thenReturn(Optional.of(response))
+
+        //When
+        processActionCrossControl = ProcessActionCrossControl(crossControlRepo = crossControlRepo)
+        val crossControl = processActionCrossControl.execute(controlControl)
+
+        //Then
+        assertThat(crossControl).isNotNull
+        verify(crossControlRepo, times(1)).save(
+            CrossControlEntity.fromCrossControlModel(response).toModelSetConclusion(controlControl))
+    }
+
 }
