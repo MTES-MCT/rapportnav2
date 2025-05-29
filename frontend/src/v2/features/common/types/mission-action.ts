@@ -15,6 +15,7 @@ import {
 import { InfractionByTarget } from '@common/types/infraction-types'
 import { CompletenessForStats } from '@common/types/mission-types'
 import { ActionType } from './action-type'
+import { CrossControl } from './crossed-control-type.ts'
 import { MissionActionData } from './mission-action-data'
 import { MissionSource } from './mission-types'
 import { NetworkSyncStatus } from './network-types.ts'
@@ -61,6 +62,7 @@ export interface MissionNavActionData extends MissionActionData {
   nbOfVesselsTrackedWithoutnumberervention?: number
   nbAssistedVesselsReturningToShore?: number
   reason?: ActionStatusReason
+  crossControl?: CrossControl
 }
 
 export interface MissionNavAction extends MissionAction {

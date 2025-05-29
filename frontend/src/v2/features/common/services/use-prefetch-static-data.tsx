@@ -1,15 +1,16 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
+import { localStoragePersister, STATIC_DATA_GC_TIME, STATIC_DATA_STALE_TIME } from '../../../../query-client'
+import axios from '../../../../query-client/axios.ts'
 import {
   administrationKeys,
   agentRolesKeys,
   agentServicesKeys,
   agentsKeys,
   controlUnitResourcesKeys,
-  natinfsKeys
+  natinfsKeys,
+  vesselsKeys
 } from './query-keys.ts'
-import axios from '../../../../query-client/axios.ts'
-import { localStoragePersister, STATIC_DATA_GC_TIME, STATIC_DATA_STALE_TIME } from '../../../../query-client'
 
 export function usePrefetchStaticData() {
   const queryClient = useQueryClient()
@@ -22,7 +23,8 @@ export function usePrefetchStaticData() {
         { key: agentServicesKeys.all(), url: 'crews' },
         { key: administrationKeys.all(), url: 'administrations' },
         { key: controlUnitResourcesKeys.all(), url: 'resources' },
-        { key: natinfsKeys.all(), url: 'natinfs' }
+        { key: natinfsKeys.all(), url: 'natinfs' },
+        { key: vesselsKeys.all(), url: 'vessels' }
       ]
 
       for (const { key, url } of referenceEndpoints) {

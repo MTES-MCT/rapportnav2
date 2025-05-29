@@ -7,6 +7,6 @@ class CrossControlDataEntity (
     val serviceId: Int? = null,
     var sumNbrOfHours: Int? = null,
     var vesselName: String? = null,
-    val isRefentialClosed: Boolean? = null,
+    val isReferentialClosed: Boolean? = null,
     val origin: CrossControlOriginType? = null,
 )

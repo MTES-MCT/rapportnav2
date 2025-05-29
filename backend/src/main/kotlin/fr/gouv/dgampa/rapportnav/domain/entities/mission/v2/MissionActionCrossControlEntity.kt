@@ -28,7 +28,7 @@ class MissionActionCrossControlEntity(
                 agentId = crossControl?.agentId,
                 vesselId = crossControl?.vesselId,
                 serviceId = crossControl?.serviceId,
-                isRefentialClosed = crossControl?.status == CrossControlStatusType.CLOSED
+                isReferentialClosed = crossControl?.status == CrossControlStatusType.CLOSED
             )
         )
     }

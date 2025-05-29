@@ -8,7 +8,7 @@ import MissionIncompleteControlTag from '../../../common/components/ui/mission-i
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionTargetEnv from '../../../mission-target/components/elements/mission-target-env'
 import MissionTargetDefault from '../../../mission-target/components/elements/mission-target-env-default'
-import MissionTargetNew from '../../../mission-target/components/elements/mission-target-env-new'
+import MissionTargetEnvNew from '../../../mission-target/components/elements/mission-target-env-new'
 import { useMissionActionEnvControl } from '../../hooks/use-mission-action-env-control'
 import { ActionEnvControlInput } from '../../types/action-type'
 import MissionActionEnvControlPlan from '../ui/mission-action-env-control-plan'
@@ -115,13 +115,12 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                 <Stack.Item style={{ width: '100%' }}>
                   <FieldArray name="targets">
                     {(fieldArray: FieldArrayRenderProps) => (
-                      <MissionTargetNew
+                      <MissionTargetEnvNew
                         isDisabled={false} //TODO: how many target max we can have?
                         actionId={action.id}
                         fieldArray={fieldArray}
                         vehicleType={values.vehicleType}
                         actionTargetType={values.actionTargetType}
-                        controlsToComplete={values.controlsToComplete}
                         availableControlTypes={getAvailableControlTypes2(values, values.actionNumberOfControls)}
                       />
                     )}

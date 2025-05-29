@@ -59,7 +59,7 @@ class MissionActionCrossControlTest {
                 vesselId = 4556,
                 serviceId = 7,
                 vesselName = "my vessel",
-                isRefentialClosed = false,
+                isReferentialClosed = false,
                 origin = CrossControlOriginType.FOLLOW_UP_CONTROL
             ),
             nbrOfHours = 5,
@@ -80,7 +80,7 @@ class MissionActionCrossControlTest {
         assertThat(response.vesselId).isEqualTo(entity.crossControlData?.vesselId)
         assertThat(response.serviceId).isEqualTo(entity.crossControlData?.serviceId)
         assertThat(response.isSignedByInspector).isEqualTo(entity.isSignedByInspector)
-        assertThat(response.isRefentialClosed).isEqualTo(entity.crossControlData?.isRefentialClosed)
+        assertThat(response.isReferentialClosed).isEqualTo(entity.crossControlData?.isReferentialClosed)
     }
 
 
