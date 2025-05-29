@@ -16,6 +16,7 @@ import {
   MissionCrewTitleLabel,
   MissionCrewUnderlineStack
 } from '../../../../mission-general-infos/ui/mission-crew-list.tsx'
+import { useMissionFinished } from '../../../../common/hooks/use-mission-finished.tsx'
 
 interface MissionGeneralInformationCrewPamProps {
   name: string
@@ -38,6 +39,8 @@ const MissionGeneralInformationCrewPam: React.FC<MissionGeneralInformationCrewPa
   missionId,
   fieldArray
 }) => {
+  const isMissionFinished = useMissionFinished(missionId)
+
   const [selectedCrewMemberId, setSelectedCrewMemberId] = useState<number | undefined>(undefined)
 
   const handleUpdate = (agent: Omit<AddOrUpdateMissionCrewInput, 'missionId'>) => {
@@ -72,11 +75,10 @@ const MissionGeneralInformationCrewPam: React.FC<MissionGeneralInformationCrewPa
         <MissionCrewTitleLabel>Équipage</MissionCrewTitleLabel>
       </MissionCrewUnderlineStack>
 
-      {fieldArray.form.values.crew?.length === 0 && (
+      {!fieldArray.form.values.crew?.length && (
         <Stack direction={'row'} style={{ width: '100%', marginBottom: '1rem' }}>
           <Stack.Item>
-            {/*TODO */}
-            <EmptyCrewListText isMissionFinished={false}>
+            <EmptyCrewListText isMissionFinished={isMissionFinished}>
               Sélectionner votre bordée, pour importer votre liste d'équipage
             </EmptyCrewListText>
           </Stack.Item>

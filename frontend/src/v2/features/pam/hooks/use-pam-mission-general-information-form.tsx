@@ -1,14 +1,8 @@
 import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form.tsx'
-import {
-  MissionGeneralInfo2,
-  MissionGeneralInfoExtended,
-  MissionGeneralInfoPam,
-  MissionULAMGeneralInfoInitial
-} from '../../common/types/mission-types.ts'
-import { preprocessDateForPicker } from '@common/components/elements/dates/utils.ts'
+import { MissionGeneralInfo2 } from '../../common/types/mission-types.ts'
 import { useDate } from '../../common/hooks/use-date.tsx'
-import { MissionULAMGeneralInfoInitialInput } from '../../ulam/hooks/use-ulam-mission-general-informations-initial-form.tsx'
+import { number, object, string } from 'yup'
 
 export type MissionPAMGeneralInfoInitialInput = { dates: (Date | undefined)[] } & MissionGeneralInfo2
 
@@ -36,12 +30,10 @@ export const usePamMissionGeneralInfoForm = (
     }
   }
 
-  const { initValue, handleSubmit } = useAbstractFormik<MissionGeneralInfo2, MissionPAMGeneralInfoInitialInput>(
-    value,
-    fromFieldValueToInput,
-    fromInputToFieldValue,
-    []
-  )
+  const { initValue, handleSubmit, isError } = useAbstractFormik<
+    MissionGeneralInfo2,
+    MissionPAMGeneralInfoInitialInput
+  >(value, fromFieldValueToInput, fromInputToFieldValue, [])
 
   const onSubmit = async (valueToSubmit?: MissionGeneralInfo2) => {
     if (!valueToSubmit) return
@@ -52,5 +44,13 @@ export const usePamMissionGeneralInfoForm = (
     handleSubmit(value, errors, onSubmit)
   }
 
-  return { initValue, handleSubmit: handleSubmitOverride }
+  const validationSchema = object().shape({
+    distanceInNauticalMiles: number().required(),
+    consumedGOInLiters: number().required(),
+    consumedFuelInLiters: number().required(),
+    nbrOfRecognizedVessel: number().required(),
+    observations: string().required()
+  })
+
+  return { initValue, handleSubmit: handleSubmitOverride, isError, validationSchema }
 }
