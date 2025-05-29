@@ -36,6 +36,14 @@ export const controlUnitResourcesKeys = {
   all: () => ['controlUnitResources'] as const
 }
 
+export const vesselsKeys = {
+  all: () => ['vessels'] as const
+}
+
+export const crossControlsKeys = {
+  all: () => ['cross_controls'] as const
+}
+
 export const usersKeys = {
   all: () => ['users'] as const,
   byId: (id: number) => [...usersKeys.all(), `${id}`] as const
