@@ -17,8 +17,10 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.times
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -65,6 +67,30 @@ class UpdateNavActionTest {
 
         val response = updateNavAction.execute(actionId, input)
         assertThat(response).isNotNull
+
+    }
+
+    @Test
+    fun `should process cross control`() {
+        val actionId = UUID.randomUUID().toString()
+        val input = MissionNavAction(
+            id = actionId,
+            missionId = 761,
+            actionType = ActionType.CONTROL,
+            source = MissionSourceEnum.RAPPORTNAV,
+            data = getNavActionDataInput(),
+        )
+        val entity = MissionNavActionData.getCrossControlEntity(input)
+        val updateNavAction = UpdateNavAction(
+            missionActionRepository = missionActionRepository,
+            processActionCrossControl = processActionCrossControl,
+            processMissionActionTarget = processMissionActionTarget
+        )
+        val response = updateNavAction.processMissionActionCrossControl(actionType = ActionType.CONTROL, input)
+        assertThat(response).isNull()
+
+        updateNavAction.processMissionActionCrossControl(actionType = ActionType.CROSS_CONTROL, input)
+        verify(processActionCrossControl, times(1)).execute(entity)
 
     }
 
