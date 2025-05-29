@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
-version = "2.10.0"
+version = "2.10.1"
 description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
@@ -168,3 +168,5 @@ tasks.test {
   useJUnitPlatform()   // If you are using JUnit 5
   finalizedBy(tasks.jacocoTestReport)  // Generate the report after tests
 }
+
+
