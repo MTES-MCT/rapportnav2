@@ -24,10 +24,8 @@ const useCreateMissionActionMutation = (
   const mutation = useMutation({
     mutationFn: createAction,
     onMutate: async (newAction: MissionNavAction) => {
-      const id = uuidv4() // Generate a UUID locally
       const optimisticAction = {
         ...newAction,
-        id,
         networkSyncStatus: isOnline ? NetworkSyncStatus.SYNC : NetworkSyncStatus.UNSYNC
       }
 
@@ -60,25 +58,8 @@ const useCreateMissionActionMutation = (
     },
     // Invalidate queries to fetch the latest data after mutation success
     onSuccess: (serverResponse, newAction, context) => {
-      const serverAction = serverResponse.data
-
-      // set new action with final id in cache
-      queryClient.setQueryData(actionsKeys.byId(serverAction.id), {
-        ...serverAction,
-        networkSyncStatus: NetworkSyncStatus.SYNC
-      })
-
-      // remove the old individual action query if the ID changed
-      if (context.action.id !== serverAction.id) {
-        queryClient.removeQueries({ queryKey: actionsKeys.byId(context.action.id) })
-      }
-
-      // refetch mission and action
-      queryClient.invalidateQueries({ queryKey: missionsKeys.byId(missionId), exact: true })
-      queryClient.invalidateQueries({ queryKey: actionsKeys.byId(serverAction.id), exact: true })
-
-      // navigate to correct page
-      navigateToActionId(serverAction.id, navigate)
+      // refetch action
+      queryClient.invalidateQueries({ queryKey: actionsKeys.byId(context.action.id), exact: true })
     },
     onError: (_, __, context) => {
       // reset action list in mission cache key
@@ -93,6 +74,9 @@ const useCreateMissionActionMutation = (
 
       // remove cache key for optimistic action
       queryClient.removeQueries({ queryKey: actionsKeys.byId(context.action.id) })
+    },
+    onSettled: (data, error, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: missionsKeys.byId(missionId), exact: true })
     },
     scope: {
       id: 'create-action' // scope to run mutations in serial and not in parallel

@@ -10,6 +10,7 @@ import { MissionNavAction } from '../../../common/types/mission-action.ts'
 import { PAM_V2_HOME_PATH } from '@router/routes.tsx'
 import { useNavigate } from 'react-router-dom'
 import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
+import { v4 as uuidv4 } from 'uuid'
 
 const ACTION_STATUS: ActionStatusType[] = [
   ActionStatusType.NAVIGATING,
@@ -41,7 +42,11 @@ const MissionTimelineAddStatus: FC<MissionTimelineAddStatusProps> = ({ missionId
   const { isOnline } = useOnlineManager()
 
   const handleAddStatus = async (status: ActionStatusType) => {
-    const action = getActionInput(ActionType.STATUS, { status })
+    const action = {
+      id: uuidv4(), // Generate a UUID locally
+      ...getActionInput(ActionType.STATUS, { status })
+    }
+
     mutation.mutate(action, {
       onSuccess: (data: MissionNavAction) => {
         const id = data?.data?.id

@@ -14,6 +14,7 @@ import { MissionNavAction } from '../../../common/types/mission-action.ts'
 import { useNavigate } from 'react-router-dom'
 import { navigateToActionId } from '@router/routes.tsx'
 import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
+import { v4 as uuidv4 } from 'uuid'
 
 type MissionTimelineAddActionProps = {
   missionId: number
@@ -35,7 +36,11 @@ function MissionTimelineAddAction({
   const [showModal, setShowModal] = useState<boolean>(false)
 
   const handleAddAction = async (actionType: ActionType, data?: unknown) => {
-    const action = getActionInput(actionType, data)
+    const action = {
+      id: uuidv4(), // Generate a UUID locally
+      ...getActionInput(actionType, data)
+    }
+
     mutation.mutate(action, {
       onSuccess: (data: MissionNavAction) => {
         const id = data?.data?.id
