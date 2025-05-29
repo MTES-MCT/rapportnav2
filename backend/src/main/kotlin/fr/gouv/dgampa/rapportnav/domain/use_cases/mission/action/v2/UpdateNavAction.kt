@@ -1,6 +1,8 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessActionCrossControl
@@ -20,17 +22,26 @@ class UpdateNavAction(
     fun execute(id: String, input: MissionNavAction): MissionNavActionEntity? {
         val action = MissionNavActionData.toMissionNavActionEntity(input)
         return try {
+            val crossControl = processMissionActionCrossControl(
+                input = input,
+                actionType = action.actionType,
+            )
+            action.crossControl?.withId(crossControl?.id)
             missionActionRepository.save(action.toMissionActionModel())
             action.targets = processMissionActionTarget.execute(
                 actionId = action.getActionId(),
                 targets = input.data.targets?.map { it.toTargetEntity() } ?: listOf()
             )
-            action.crossControl = processActionCrossControl.execute(action)
             action.computeCompleteness()
             action
         } catch (e: Exception) {
             logger.error("UpdateNavAction failed update Action", e)
             return null
         }
+    }
+
+    fun processMissionActionCrossControl(actionType: ActionType, input: MissionNavAction): CrossControlEntity?{
+        if(actionType !== ActionType.CROSS_CONTROL) return null
+        return  processActionCrossControl.execute(entity = MissionNavActionData.getCrossControlEntity(input))
     }
 }

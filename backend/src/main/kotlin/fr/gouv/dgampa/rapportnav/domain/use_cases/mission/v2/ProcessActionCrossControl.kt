@@ -1,40 +1,35 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionCrossControlEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ICrossControlRepository
-import java.time.Instant
-import kotlin.jvm.optionals.getOrNull
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.CrossControlModel
+import java.util.*
 
 @UseCase
 class ProcessActionCrossControl(
     private val crossControlRepo: ICrossControlRepository
 ) {
+    fun execute(entity: CrossControlEntity?): CrossControlEntity? {
+        if (entity == null) return null
+        val model = process(entity) ?: return entity
+        return CrossControlEntity.fromCrossControlModel(model)
+    }
 
-    fun execute(action: MissionNavActionEntity): MissionActionCrossControlEntity? {
+    fun process(fromAction: CrossControlEntity): CrossControlModel? {
+        val fromDb = getFromDb(fromAction.id)
+            ?: return crossControlRepo.save(fromAction.toCrossControlModel())
 
-        val crossControl = action.crossControl
-        if (action.actionType != ActionType.CROSS_CONTROL || crossControl == null)  return null
+        val model = if (fromAction.status == CrossControlStatusType.NEW)
+            fromDb.toModelSetData(fromAction)
+        else fromDb.toModelSetConclusion(fromAction)
+        return crossControlRepo.save(model)
+    }
 
-        val crossControlId = crossControl.id
-        val crossControlStatus = crossControl.status
 
-        if (crossControlId == null && crossControlStatus == CrossControlStatusType.FOLLOW_UP) {
-            return action.crossControl
-        }
-
-        val entity = crossControl.toCrossControlEntity()
-        var model = crossControlRepo.findById(crossControlId!!).getOrNull()
-
-        if (model?.status != entity.status?.toString()) {
-            entity.endDateTimeUtc = if (entity.status === CrossControlStatusType.CLOSED) Instant.now() else null
-        }
-        model = crossControlRepo.save(entity.toCrossControlModel())
-        return MissionActionCrossControlEntity
-            .fromNavActionEntityAndCrossControlEntity(action, CrossControlEntity.fromCrossControlModel(model))
+    fun getFromDb(id: UUID?): CrossControlEntity? {
+        if (id == null) return null
+        return CrossControlEntity.fromCrossControlModel(crossControlRepo.findById(id).get())
     }
 }

@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlStatusTy
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ICrossControlRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeCrossControl
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessCrossControl
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -23,8 +24,12 @@ class GetComputeCrossControlTest {
     @MockitoBean
     private lateinit var crossControlRepo: ICrossControlRepository
 
+    @MockitoBean
+    private lateinit var processCrossControl: ProcessCrossControl
+
     @Autowired
     private lateinit var getComputeCrossControl: GetComputeCrossControl
+
 
     @MockitoBean
     private lateinit var missionActionRepository: INavMissionActionRepository
@@ -45,7 +50,7 @@ class GetComputeCrossControlTest {
         //When
         getComputeCrossControl = GetComputeCrossControl(
             crossControlRepo = crossControlRepo,
-            missionActionRepository = missionActionRepository
+            processCrossControl = processCrossControl
         )
         val crossControl = getComputeCrossControl.execute(crossControlId = null)
 
@@ -69,7 +74,7 @@ class GetComputeCrossControlTest {
         //When
         getComputeCrossControl = GetComputeCrossControl(
             crossControlRepo = crossControlRepo,
-            missionActionRepository = missionActionRepository
+            processCrossControl = processCrossControl
         )
         val crossControl = getComputeCrossControl.execute(crossControlId = crossControlId)
 
