@@ -8,7 +8,9 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeCr
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessCrossControl
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
+import org.mockito.kotlin.times
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
@@ -59,7 +61,7 @@ class GetComputeCrossControlTest {
     }
 
     @Test
-    fun `should return a response for a non null cross control id`() {
+    fun `should process cross control when id is not null`() {
         val crossControlId = UUID.randomUUID()
         val controlControl = CrossControlEntity(
             id = crossControlId,
@@ -76,9 +78,7 @@ class GetComputeCrossControlTest {
             crossControlRepo = crossControlRepo,
             processCrossControl = processCrossControl
         )
-        val crossControl = getComputeCrossControl.execute(crossControlId = crossControlId)
-
-        //Then
-        assertThat(crossControl).isNotNull
+        getComputeCrossControl.execute(crossControlId = crossControlId)
+        verify(processCrossControl, times(1)).execute(controlControl)
     }
 }
