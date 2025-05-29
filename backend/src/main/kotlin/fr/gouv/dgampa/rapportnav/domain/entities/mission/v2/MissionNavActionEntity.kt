@@ -129,6 +129,7 @@ class MissionNavActionEntity(
     )
     override var reason: ActionStatusReason? = null,
     override var targets: List<TargetEntity2>? = null,
+    //TODO: Mandatory for Stats nbrOfHours
     override var crossControl: MissionActionCrossControlEntity? = null,
 ) : MissionActionEntity(
     status = status,

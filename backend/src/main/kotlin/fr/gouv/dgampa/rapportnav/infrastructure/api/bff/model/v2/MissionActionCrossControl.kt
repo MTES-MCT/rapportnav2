@@ -11,7 +11,7 @@ class MissionActionCrossControl(
     val serviceId: Int? = null,
     val type: String? = null,
     val nbrOfHours: Int? = null,
-    val isRefentialClosed: Boolean?  = null,
+    val isReferentialClosed: Boolean?  = null,
     val origin: CrossControlOriginType? = null,
     val status: CrossControlStatusType? = null,
     val conclusion: CrossControlConclusionType? = null,
@@ -56,7 +56,7 @@ class MissionActionCrossControl(
                 vesselId = entity?.crossControlData?.vesselId,
                 serviceId = entity?.crossControlData?.serviceId,
                 isSignedByInspector = entity?.isSignedByInspector,
-                isRefentialClosed = entity?.crossControlData?.isRefentialClosed
+                isReferentialClosed = entity?.crossControlData?.isReferentialClosed
             )
         }
     }

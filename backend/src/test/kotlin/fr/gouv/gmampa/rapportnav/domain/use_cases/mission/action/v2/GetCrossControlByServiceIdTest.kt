@@ -69,6 +69,6 @@ class GetCrossControlByServiceIdTest {
 
         //Then
         assertThat(response).isNotNull()
-        assertThat(response.size).isEqualTo(2)
+        assertThat(response.size).isEqualTo(3)
     }
 }
