@@ -1,9 +1,9 @@
 import { ControlType } from '@common/types/control-types'
 import { ActionTargetTypeEnum, MissionSourceEnum, VehicleTypeEnum } from '@common/types/env-mission-types'
-import { Icon, THEME } from '@mtes-mct/monitor-ui'
+import { Accent, Button, Icon, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FieldArrayRenderProps } from 'formik'
 import { useState } from 'react'
-import WithIconButton from '../../../common/components/ui/with-icon-button'
+import { Stack } from 'rsuite'
 import MissionInfractionEnvForm from '../../../mission-infraction/components/elements/mission-infraction-env-form'
 import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form'
 import { useTarget } from '../../hooks/use-target'
@@ -13,7 +13,6 @@ export interface MissionTargetEnvNewProps {
   isDisabled?: boolean
   vehicleType?: VehicleTypeEnum
   fieldArray: FieldArrayRenderProps
-  controlsToComplete: ControlType[]
   actionTargetType?: ActionTargetTypeEnum
   availableControlTypes?: ControlType[]
 }
@@ -69,7 +68,20 @@ const MissionTargetEnvNew: React.FC<MissionTargetEnvNewProps> = ({
         </div>
       )}
       {!showForm && (
-        <WithIconButton label={'Ajouter une infraction'} onClick={handleShow} disabled={isDisabled} icon={Icon.Plus} />
+        <Stack style={{ marginBottom: '.7em' }} justifyContent="flex-end">
+          <Stack.Item>
+            <Button
+              size={Size.NORMAL}
+              Icon={Icon.Plus}
+              onClick={handleShow}
+              disabled={isDisabled}
+              accent={Accent.SECONDARY}
+              role={'target-env-new-button'}
+            >
+              {'Ajouter une infraction'}
+            </Button>
+          </Stack.Item>
+        </Stack>
       )}
     </div>
   )

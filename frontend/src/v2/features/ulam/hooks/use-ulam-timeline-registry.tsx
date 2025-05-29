@@ -31,7 +31,7 @@ export type ActionTimeline = {
   icon?: FunctionComponent<IconProps>
 }
 
-const TIME_LINE_DROPDOWN_PAM_ITEMS: TimelineDropdownItem[] = [
+const TIME_LINE_DROPDOWN_ULAM_ITEMS: TimelineDropdownItem[] = [
   {
     type: ActionGroupType.CONTROL_GROUP,
     icon: Icon.ControlUnit,
@@ -54,6 +54,12 @@ const TIME_LINE_DROPDOWN_PAM_ITEMS: TimelineDropdownItem[] = [
       { type: ActionType.ILLEGAL_IMMIGRATION, dropdownText: `Opé. de lutte contre l'immigration illégale` },
       { type: ActionType.REPRESENTATION, dropdownText: 'Représentation' }
     ]
+  },
+  {
+    type: ActionGroupType.ADMINISTRATIVE_GROUP,
+    icon: Icon.MissionAction,
+    dropdownText: 'Ajouter une autre activité administrative',
+    subItems: [{ type: ActionType.CROSS_CONTROL, dropdownText: 'Contrôle croisé' }]
   },
   { type: ActionType.NOTE, icon: Icon.Note, dropdownText: 'Ajouter une note libre' }
 ]
@@ -159,6 +165,15 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
     icon: Icon.Observation,
     title: 'Contact',
     component: MissionTimelineItemGenericCard
+  },
+  [ActionType.CROSS_CONTROL]: {
+    style: {
+      backgroundColor: THEME.color.blueGray25,
+      borderColor: THEME.color.lightGray
+    },
+    icon: Icon.MissionAction,
+    title: 'Contrôle croisé',
+    component: MissionTimelineItemGenericCard
   }
 }
 
@@ -169,5 +184,5 @@ interface UlamTimelineRegistrHook {
 
 export function useUlamTimelineRegistry(): UlamTimelineRegistrHook {
   const getTimeline = (actionType: ActionType) => TIMELINE_ULAM_REGISTRY[actionType] ?? ({} as Timeline)
-  return { timelineDropdownItems: TIME_LINE_DROPDOWN_PAM_ITEMS, getTimeline }
+  return { timelineDropdownItems: TIME_LINE_DROPDOWN_ULAM_ITEMS, getTimeline }
 }
