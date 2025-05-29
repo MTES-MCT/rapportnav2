@@ -20,7 +20,10 @@ class ProcessMissionCrew(
         val toSaveCrews = crew.filter { !databaseMissionCrews.contains(it) }
 
         delete(toDeleteCrews)
-        return save(toSaveCrews)
+        save(toSaveCrews)
+
+        // returned fresh version of crew
+        return getAgentsCrewByMissionId.execute(missionId)
     }
 
     fun delete(toDelete: List<MissionCrewEntity>) {
