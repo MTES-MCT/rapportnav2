@@ -6,6 +6,7 @@ import MissionTimelineItemRescueCard from '../../mission-timeline/components/ele
 import MissionTimelineItemStatusCard from '../../mission-timeline/components/elements/mission-timeline-item-status-card'
 import MissionTimelineItemSurveillanceCard from '../../mission-timeline/components/elements/mission-timeline-item-surveillance-card'
 import { Timeline, TimelineDropdownItem, TimelineRegistry } from '../../mission-timeline/hooks/use-timeline'
+import MissionTimelineItemNoteCard from '../../mission-timeline/components/elements/mission-timeline-item-note-card.tsx'
 
 const TIME_LINE_DROPDOWN_PAM_ITEMS: TimelineDropdownItem[] = [
   { type: ActionType.CONTROL, icon: Icon.ControlUnit, dropdownText: 'Ajouter des contrôles' },
@@ -50,7 +51,7 @@ const TIMELINE_PAM_REGISTRY: TimelineRegistry = {
     style: { backgroundColor: THEME.color.blueYonder25, borderColor: THEME.color.lightGray },
     title: 'Note libre',
     icon: Icon.Note,
-    component: MissionTimelineItemGenericCard
+    component: MissionTimelineItemNoteCard
   },
   [ActionType.VIGIMER]: {
     style: {
