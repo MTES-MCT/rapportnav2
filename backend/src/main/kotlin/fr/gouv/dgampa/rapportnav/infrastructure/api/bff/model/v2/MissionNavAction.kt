@@ -76,8 +76,7 @@ class MissionNavAction(
                     nbAssistedVesselsReturningToShore = navAction.nbAssistedVesselsReturningToShore,
                     reason = navAction.reason,
                     targets = navAction.targets?.map { Target2.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc },
-                    crossControl = MissionActionCrossControl.fromCrossControlEntity(navAction.crossControl),
-
+                    crossControl = MissionActionCrossControl.fromCrossControlEntity(entity = navAction.crossControl)
                 )
             )
         }

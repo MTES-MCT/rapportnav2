@@ -6,7 +6,7 @@ import java.util.*
 
 class CrossControl(
     val id: UUID? = null,
-    val agentId: String? = null,
+    val agentId: Int? = null,
     val vesselId: Int? = null,
     val serviceId: Int? = null,
     var endDateTimeUtc: Instant? = null,
@@ -15,25 +15,10 @@ class CrossControl(
     val sumNbrOfHours: Int? = null,
     val origin: CrossControlOriginType? = null,
     val status: CrossControlStatusType? = null,
-    val conclusion: CrossControlConclusionType? = null
+    val conclusion: CrossControlConclusionType? = null,
+    val vesselName: String? = null,
+    val vesselExternalReferenceNumber: String? = null
 ) {
-
-    fun toCrossControlEntity(): CrossControlEntity {
-        return CrossControlEntity(
-            id = id,
-            type = type,
-            status = status,
-            origin = origin,
-            agentId = agentId,
-            vesselId = vesselId,
-            serviceId = serviceId,
-            conclusion = conclusion,
-            sumNbrOfHours = sumNbrOfHours,
-            endDateTimeUtc = endDateTimeUtc,
-            startDateTimeUtc = startDateTimeUtc?: Instant.now()
-        )
-    }
-
     companion object {
         fun fromCrossControlEntity(entity: CrossControlEntity?): CrossControl {
             return CrossControl(
@@ -45,9 +30,11 @@ class CrossControl(
                 vesselId = entity?.vesselId,
                 serviceId = entity?.serviceId,
                 conclusion = entity?.conclusion,
+                vesselName = entity?.vesselName,
                 sumNbrOfHours =  entity?.sumNbrOfHours,
                 endDateTimeUtc = entity?.endDateTimeUtc,
-                startDateTimeUtc = entity?.startDateTimeUtc
+                startDateTimeUtc = entity?.startDateTimeUtc,
+                vesselExternalReferenceNumber = entity?.vesselExternalReferenceNumber
             )
         }
     }

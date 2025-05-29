@@ -25,8 +25,8 @@ class ProcessNavAction(
         return entity
     }
 
-    fun processMissionActionCrossControl(action: MissionNavActionEntity): MissionActionCrossControlEntity {
+    fun processMissionActionCrossControl(action: MissionNavActionEntity): MissionActionCrossControlEntity? {
         val crossControl = getComputeCrossControl.execute(crossControlId = action.crossControl?.id)
-        return MissionActionCrossControlEntity.fromNavActionEntityAndCrossControlEntity(action, crossControl)
+        return action.crossControl?.fromCrossControlEntity(crossControl = crossControl)
     }
 }

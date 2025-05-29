@@ -47,7 +47,7 @@ abstract class MissionActionEntity(
     }
 
     fun isControl(): Boolean {
-        return actionType == ActionType.CONTROL
+        return listOf(ActionType.CONTROL, ActionType.CROSS_CONTROL).contains(actionType)
     }
 
 

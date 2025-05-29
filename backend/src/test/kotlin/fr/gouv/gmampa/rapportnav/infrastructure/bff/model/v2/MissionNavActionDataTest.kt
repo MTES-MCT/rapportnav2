@@ -2,6 +2,7 @@ package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActionData
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -59,6 +60,27 @@ class MissionNavActionDataTest {
         assertThat(output.data.crossControl?.nbrOfHours).isEqualTo(entity.crossControl?.nbrOfHours)
         assertThat(output.data.crossControl?.conclusion).isEqualTo(entity.crossControl?.conclusion)
         assertThat(output.data.crossControl?.isSignedByInspector).isEqualTo(entity.crossControl?.isSignedByInspector)
+    }
+
+    @Test
+    fun `execute should get cross control entity`() {
+        val model = MissionActionModelMock.create()
+        val entity = MissionNavActionEntity.fromMissionActionModel(model)
+        val output = MissionNavAction.fromMissionActionEntity(entity)
+
+        val response = MissionNavActionData.getCrossControlEntity(output)
+
+        assertThat(response).isNotNull()
+        assertThat(response?.id).isEqualTo(output.data.crossControl?.id)
+        assertThat(response?.type).isEqualTo(output.data.crossControl?.type)
+        assertThat(response?.origin).isEqualTo(output.data.crossControl?.origin)
+        assertThat(response?.status).isEqualTo(output.data.crossControl?.status)
+        assertThat(response?.endDateTimeUtc).isEqualTo(output.data.endDateTimeUtc)
+        assertThat(response?.startDateTimeUtc).isEqualTo(output.data.startDateTimeUtc)
+        assertThat(response?.agentId).isEqualTo(output.data.crossControl?.agentId)
+        assertThat(response?.vesselId).isEqualTo(output.data.crossControl?.vesselId)
+        assertThat(response?.serviceId).isEqualTo(output.data.crossControl?.serviceId)
+        assertThat(response?.conclusion).isEqualTo(output.data.crossControl?.conclusion)
     }
 
 }

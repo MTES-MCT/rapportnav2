@@ -15,22 +15,22 @@ class CrossControlModel(
     val id: UUID,
 
     @Column(name = "type", nullable = true)
-    val type: String? = null,
+    var type: String? = null,
 
     @Column(name = "status", nullable = true)
-    val status: String? = null,
+    var status: String? = null,
 
     @Column(name = "origin", nullable = true)
-    val origin: String? = null,
+    var origin: String? = null,
 
     @Column(name = "agent_id", nullable = true)
-    val agentId: String? = null,
+    var agentId: String? = null,
 
     @Column(name = "vessel_id", nullable = true)
-    val vesselId: Int? = null,
+    var vesselId: Int? = null,
 
     @Column(name = "service_id", nullable = true)
-    val serviceId: Int? = null,
+    var serviceId: Int? = null,
 
     @Column(name = "start_datetime_utc", nullable = false)
     var startDateTimeUtc: Instant,
@@ -39,7 +39,7 @@ class CrossControlModel(
     var endDateTimeUtc: Instant? = null,
 
     @Column(name = "conclusion", nullable = true)
-    val conclusion: String? = null
+    var conclusion: String? = null
 ) {
     override fun hashCode(): Int {
         return Objects.hash(id)
