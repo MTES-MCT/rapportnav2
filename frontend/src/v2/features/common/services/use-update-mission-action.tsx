@@ -1,10 +1,11 @@
 import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
 import axios from '../../../../query-client/axios'
-import { MissionAction } from '../types/mission-action'
+import { MissionAction, MissionNavAction } from '../types/mission-action'
 import { actionsKeys, crossControlsKeys, missionsKeys } from './query-keys.ts'
 import { NetworkSyncStatus } from '../types/network-types.ts'
 import { Mission2 } from '../types/mission-types.ts'
 import { orderBy } from 'lodash'
+import { useOnlineManager } from '../hooks/use-online-manager.tsx'
 
 const useUpdateMissionActionMutation = (
   missionId: number,
