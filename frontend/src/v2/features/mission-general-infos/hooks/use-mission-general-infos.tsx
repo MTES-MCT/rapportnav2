@@ -9,7 +9,7 @@ export function useMissionGeneralInfos(): MissionGeneralInfosHook {
     return {
       ...(mission?.generalInfos ?? {}),
       missionTypes: mission?.envData?.missionTypes ?? [],
-      observations: mission?.envData.observationsByUnit,
+      observations: mission?.envData?.observationsByUnit,
       startDateTimeUtc: mission?.envData?.startDateTimeUtc,
       endDateTimeUtc: mission?.envData?.endDateTimeUtc,
       resources: mission?.envData?.controlUnits.find(unit => unit.id === controlUnitId)?.resources
