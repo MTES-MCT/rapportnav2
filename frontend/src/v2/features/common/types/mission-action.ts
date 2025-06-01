@@ -46,8 +46,8 @@ export interface MissionNavActionData extends MissionActionData {
   vesselType?: VesselTypeEnum
   vesselSize?: VesselSizeEnum
   identityControlledPerson?: string
-  nbOfnumbererceptedVessels?: number
-  nbOfnumbererceptedMigrants?: number
+  nbOfInterceptedVessels?: number
+  nbOfInterceptedMigrants?: number
   nbOfSuspectedSmugglers?: number
   isVesselRescue?: boolean
   isPersonRescue?: boolean
@@ -59,7 +59,7 @@ export interface MissionNavActionData extends MissionActionData {
   operationFollowsDEFREP?: boolean
   locationDescription?: string
   isMigrationRescue?: boolean
-  nbOfVesselsTrackedWithoutnumberervention?: number
+  nbOfVesselsTrackedWithoutIntervention?: number
   nbAssistedVesselsReturningToShore?: number
   reason?: ActionStatusReason
   crossControl?: CrossControl
