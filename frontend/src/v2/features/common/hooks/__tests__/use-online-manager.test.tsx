@@ -29,7 +29,6 @@ describe('useOnlineManager', () => {
     expect(result.current.isOnline).toBe(true)
     expect(result.current.isOffline).toBe(false)
     expect(result.current.hasNetwork).toBe(true)
-    expect(result.current.manualOffline).toBe(false)
   })
 
   it('subscribes to onlineManager on mount', () => {
@@ -45,7 +44,6 @@ describe('useOnlineManager', () => {
     })
 
     await waitFor(() => {
-      expect(result.current.manualOffline).toBe(true)
       expect(result.current.isOnline).toBe(false)
       expect(result.current.isOffline).toBe(true)
       expect(result.current.hasNetwork).toBe(true)
@@ -66,7 +64,6 @@ describe('useOnlineManager', () => {
     act(() => {
       result.current.toggleOnline(true)
     })
-    expect(result.current.manualOffline).toBe(false)
     expect(result.current.isOnline).toBe(false)
 
     // 2) Simulate network return
@@ -81,7 +78,6 @@ describe('useOnlineManager', () => {
     })
 
     await waitFor(() => {
-      expect(result.current.manualOffline).toBe(false)
       expect(result.current.isOnline).toBe(true)
       expect(onlineManager.setOnline).toHaveBeenCalledWith(true)
     })

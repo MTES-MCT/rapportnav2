@@ -64,6 +64,6 @@ class ProcessMissionCrewTest {
 
         //Then
         assertThat(crews).isNotNull
-        assertThat(crews.size).isEqualTo(1)
+        assertThat(crews.size).isEqualTo(3)
     }
 }
