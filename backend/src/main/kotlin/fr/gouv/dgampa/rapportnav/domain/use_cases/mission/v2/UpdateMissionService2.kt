@@ -16,7 +16,7 @@ class UpdateMissionService2(
     fun execute(
         serviceId: Int,
         missionId: Int
-    ): Boolean? {
+    ): List<MissionCrewEntity> {
         return try {
             // get active agents for current service
             val crewFromNewService: List<AgentServiceEntity> = getActiveCrewForService.execute(serviceId = serviceId)
@@ -24,13 +24,12 @@ class UpdateMissionService2(
                 crewFromNewService.map { MissionCrewEntity(missionId = missionId, agent = it.agent, role = it.role) }
 
             // update the crew with members from new service
-            processMissionCrew.execute(missionId = missionId, crew = missionCrew)
-
-            true
+            val updatedCrew: List<MissionCrewEntity> = processMissionCrew.execute(missionId = missionId, crew = missionCrew)
+            updatedCrew
         }
         catch (e: Exception) {
             logger.error("UpdateMissionService2 - failed to update crew after service changed", e)
-            false
+            emptyList()
         }
     }
 }
