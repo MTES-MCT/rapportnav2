@@ -1,18 +1,18 @@
 import { MissionStatusEnum } from '@common/types/mission-types.ts'
 
 import Text from '@common/components/ui/text.tsx'
-import { Accent, Button, Icon, IconButton, Size, TagGroup, THEME } from '@mtes-mct/monitor-ui'
-import GearIcon from '@rsuite/icons/Gear'
+import { Accent, Icon, IconButton, Size, TagGroup, THEME } from '@mtes-mct/monitor-ui'
 import React, { useEffect } from 'react'
 import { FlexboxGrid, Stack } from 'rsuite'
 import styled from 'styled-components'
 import { setMissionStatus } from '../../../../store/slices/mission-reducer.ts'
 import { useDate } from '../../hooks/use-date.tsx'
-import { CompletenessForStatsStatusEnum, Mission2 } from '../../types/mission-types.ts'
+import { Mission2 } from '../../types/mission-types.ts'
 import MissionCompletenessForStatsTag from '../elements/mission-completeness-for-stats-tag.tsx'
 import MissionPageHeaderBanner from './mission-page-header-banner.tsx'
 import MissionSourceTag from './mission-source-tag.tsx'
 import MissionStatusTag from './mission-status-tag.tsx'
+import MissionPageHeaderTimeConversion from './mission-page-header-time-conversion.tsx'
 
 const StyledHeader = styled.div`
   height: 60px;
@@ -24,20 +24,9 @@ const StyledHeader = styled.div`
 interface MissionPageHeaderProps {
   mission?: Mission2
   onClickClose: () => void
-  onClickExport: () => void
-  exportLoading?: boolean
 }
 
-const LoadingIcon = () => (
-  <GearIcon spin width={16} height={16} color={THEME.color.white} style={{ fontSize: '2em', marginRight: '0.5rem' }} />
-)
-
-const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
-  mission,
-  onClickClose,
-  onClickExport,
-  exportLoading
-}) => {
+const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({ mission, onClickClose }) => {
   const { formatMissionName } = useDate()
   useEffect(() => {
     setMissionStatus(mission?.status)
@@ -71,17 +60,7 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
             <FlexboxGrid justify="end" align="middle" style={{ height: '100%' }}>
               <Stack direction={'row'} alignItems={'center'} spacing={'2rem'}>
                 <Stack.Item>
-                  {mission?.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE && (
-                    <Button
-                      Icon={exportLoading ? LoadingIcon : Icon.Download}
-                      accent={Accent.PRIMARY}
-                      size={Size.NORMAL}
-                      onClick={onClickExport}
-                      role={'dl-mission-export'}
-                    >
-                      Exporter le rapport de la mission
-                    </Button>
-                  )}
+                  <MissionPageHeaderTimeConversion />
                 </Stack.Item>
 
                 <Stack.Item>
@@ -92,6 +71,7 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({
                     color={THEME.color.gainsboro}
                     onClick={onClickClose}
                     role={'quit-mission-cross'}
+                    style={{ marginTop: '4px' }}
                   />
                 </Stack.Item>
               </Stack>
