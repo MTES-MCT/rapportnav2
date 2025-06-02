@@ -14,6 +14,7 @@ import useMissionsQuery from '../features/common/services/use-missions.tsx'
 import MissionCreateDialog from '../features/ulam/components/element/mission-create-dialog.tsx'
 import MissionListUlam from '../features/ulam/components/element/mission-list/mission-list-ulam.tsx'
 import { store } from '../store/index.ts'
+import { UTCDate } from '@date-fns/utc'
 
 const SIDEBAR_ITEMS = [
   {
@@ -24,7 +25,7 @@ const SIDEBAR_ITEMS = [
 ]
 
 const MissionListUlamPage: React.FC = () => {
-  const today = new Date()
+  const today = new UTCDate()
   const user = useStore(store, state => state.user)
   const [queryParams, setQueryParams] = useState({
     startDateTimeUtc: startOfMonth(today).toISOString(),

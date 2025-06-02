@@ -19,7 +19,7 @@ describe('useDate', () => {
 
   it('should return mission ulam date type', () => {
     const { result } = renderHook(() => useDate())
-    const date = result.current.formaDatetMissionNameUlam('2024-09-13T15:24:00Z')
+    const date = result.current.formaDateMissionNameUlam('2024-09-13T15:24:00Z')
     expect(date).not.toBeNull()
     expect(date).not.toBeUndefined()
     expect(date).toEqual('2024-09')
