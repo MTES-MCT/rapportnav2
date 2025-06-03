@@ -5,18 +5,14 @@ import useGetMissionQuery from '../../../common/services/use-mission'
 interface MissionHeaderProps {
   missionId?: number
   onClickClose: () => void
-  onClickExport: () => void
-  exportLoading?: boolean
 }
 
-const MissionHeaderPam: FC<MissionHeaderProps> = ({ missionId, onClickClose, onClickExport, exportLoading }) => {
+const MissionHeaderPam: FC<MissionHeaderProps> = ({ missionId, onClickClose }) => {
   const { data: mission } = useGetMissionQuery(missionId)
   return (
-    <MissionPageHeader
+    <MissionPageHeader //
       mission={mission}
       onClickClose={onClickClose}
-      onClickExport={onClickExport}
-      exportLoading={exportLoading}
     />
   )
 }

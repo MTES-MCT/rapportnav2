@@ -8,13 +8,13 @@ interface MissionListHook {
 
 export function useMissionList(): MissionListHook {
   const { getOpenByText } = useMissionTag()
-  const { formatDateForFrenchHumans, formatDateForMissionName, formaDatetMissionNameUlam } = useDate()
+  const { formatDateForFrenchHumans, formatDateForMissionName, formaDateMissionNameUlam } = useDate()
   const formatMissionName = (startDate?: string): string => {
     return `Mission #${formatDateForMissionName(startDate)}`
   }
 
   const formatMissionNameUlam = (startDate?: string): string => {
-    return `Mission #${formaDatetMissionNameUlam(startDate)}`
+    return `Mission #${formaDateMissionNameUlam(startDate)}`
   }
   const getCrewNumber = (mission: Mission2) =>
     !mission?.generalInfos?.serviceId ? '--' : mission?.generalInfos.serviceId % 2 === 0 ? 'B' : 'A'

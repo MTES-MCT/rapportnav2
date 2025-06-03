@@ -1,11 +1,12 @@
 import { ActionType } from '../types/action-type'
 import { MissionNavAction } from '../types/mission-action'
 import { MissionSourceEnum } from '../types/mission-types'
+import { UTCDate } from '@date-fns/utc'
 
 type ActionRegistryInput = { [key in ActionType]?: unknown }
 
 const ACTION_REGISTRY_INPUT: ActionRegistryInput = {
-  [ActionType.NOTE]: { endDateTimeUtc: new Date().toISOString() },
+  [ActionType.NOTE]: { endDateTimeUtc: new UTCDate().toISOString() },
   [ActionType.RESCUE]: { isPersonRescue: false, isVesselRescue: true }
 }
 
@@ -22,7 +23,7 @@ export function useMissionTimeline<T>(missionId?: number): TimelineHook<T> {
       data: {
         ...(moreData ?? {}),
         ...(ACTION_REGISTRY_INPUT[actionType] ?? {}),
-        startDateTimeUtc: new Date().toISOString()
+        startDateTimeUtc: new UTCDate().toISOString()
       }
     } as MissionNavAction
 
