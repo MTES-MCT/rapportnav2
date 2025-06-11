@@ -54,7 +54,7 @@ dependencyManagement {
 
 dependencies {
   developmentOnly("org.springframework.boot:spring-boot-devtools")
-  runtimeOnly("org.postgresql:postgresql:42.7.5")
+  runtimeOnly("org.postgresql:postgresql:42.7.7")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-data-rest:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
