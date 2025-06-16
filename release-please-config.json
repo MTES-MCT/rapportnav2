@@ -1,0 +1,34 @@
+{
+  "plugins": [
+    {
+      "type": "linked-versions",
+      "groupName": "group-some-associated-services",
+      "components": [],
+      "merge": true
+    }
+  ],
+  "separate-pull-requests": false,
+  "commit-search-depth": 50,
+  "release-search-depth": 50,
+  "always-link-local": true,
+  "include-v-in-tag": true,
+  "tag-separator": "@",
+  "bump-minor-pre-major": true,
+  "bump-patch-for-minor-pre-major": true,
+  "draft": false,
+  "prerelease": false,
+  "pull-request-header": "🤖 Release created:",
+  "pull-request-footer": "_release-please generated PR_",
+  "packages": {
+    "backend": {
+      "component": "backend",
+      "release-type": "simple",
+      "extra-files": ["build.gradle.kts"]
+    },
+    "frontend": {
+      "component": "frontend",
+      "release-type": "node"
+    }
+  },
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"
+}
