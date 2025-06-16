@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import java.time.Instant
 
 data class MissionEnvInput(
@@ -44,6 +45,23 @@ data class MissionEnvInput(
             isUnderJdp = missionFromDb.isUnderJdp,
             isGeometryComputedFromControls = missionFromDb.isGeometryComputedFromControls,
             hasMissionOrder = missionFromDb.hasMissionOrder,
+            startDateTimeUtc = startDateTimeUtc ?: missionFromDb.startDateTimeUtc,
+            endDateTimeUtc = endDateTimeUtc ?: missionFromDb.endDateTimeUtc,
+            missionTypes = missionTypes ?: missionFromDb.missionTypes,
+            observationsByUnit = observationsByUnit ?: missionFromDb.observationsByUnit,
+            controlUnits = missionFromDb.controlUnits.map { controlUnit ->
+                controlUnit.takeIf { it.id != controlUnitId } ?: controlUnit.copy(
+                    resources = resources?.toMutableList() ?: controlUnit.resources.toMutableList()
+                )
+            }
+
+        )
+    }
+
+
+    fun toPatchMission(missionFromDb: MissionEntity, controlUnitId: Int? = null): PatchMissionInput {
+        return PatchMissionInput(
+            isUnderJdp = missionFromDb.isUnderJdp,
             startDateTimeUtc = startDateTimeUtc ?: missionFromDb.startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc ?: missionFromDb.endDateTimeUtc,
             missionTypes = missionTypes ?: missionFromDb.missionTypes,

@@ -10,13 +10,12 @@ import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Caching
 
 @UseCase
-class UpdateMissionEnv(
+class PatchMissionEnv(
     private val getEnvMissionById2: GetEnvMissionById2,
     private val apiEnvRepo2: APIEnvMissionRepositoryV2
-
 ) {
 
-    private val logger = LoggerFactory.getLogger(UpdateMissionEnv::class.java)
+    private val logger = LoggerFactory.getLogger(PatchMissionEnv::class.java)
 
     @Caching(
         evict = [
@@ -39,7 +38,13 @@ class UpdateMissionEnv(
         if (input.equals(fromDbEnvInput)) return null
 
         return try {
-            apiEnvRepo2.update(input.toMissionEnvEntity(fromDbEnvMission, controlUnitId = input.resources?.firstOrNull()?.controlUnitId))
+            apiEnvRepo2.patchMission(
+                missionId = input.missionId,
+                mission = input.toPatchMission(
+                    fromDbEnvMission,
+                    controlUnitId = input.resources?.firstOrNull()?.controlUnitId
+                )
+            )
         } catch (e: Exception) {
             logger.error("Update Mission failed", e)
             return null

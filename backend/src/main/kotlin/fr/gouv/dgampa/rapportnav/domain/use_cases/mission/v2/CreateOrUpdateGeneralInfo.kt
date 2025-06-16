@@ -14,7 +14,7 @@ class CreateOrUpdateGeneralInfo(
     private val repository: IMissionGeneralInfoRepository,
     private val updateMissionService2: UpdateMissionService2,
     private val getGeneralInfo2: GetGeneralInfo2,
-    private val updateMissionEnv: UpdateMissionEnv,
+    private val patchMissionEnv: PatchMissionEnv,
     private val processMissionCrew: ProcessMissionCrew
 ) {
     private val logger = LoggerFactory.getLogger(CreateOrUpdateGeneralInfo::class.java)
@@ -42,7 +42,7 @@ class CreateOrUpdateGeneralInfo(
             }
 
             // patch MonitorEnv fields through API
-            updateMissionEnv.execute(
+            patchMissionEnv.execute(
                 input = MissionEnvInput(
                     missionId = missionId,
                     startDateTimeUtc = generalInfo.startDateTimeUtc,
