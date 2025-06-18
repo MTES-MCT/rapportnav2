@@ -6,7 +6,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-irwjCN kxMCTN"
+        class="sc-enPhjR edPkOf"
       >
         <div
           class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
@@ -23,7 +23,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <p
-                  class="sc-dBCvnn sc-fvGHPC duolFt iaeLeg"
+                  class="sc-Pgsbw sc-fkYqBV egoKGJ jWbODX"
                   color="#E5E5EB"
                   font-size="22"
                   weight="bold"
@@ -35,13 +35,13 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <div
-                  class="sc-icsLOd dUKyeb Element-TagGroup"
+                  class="sc-iIvHqT eNYCNU Element-TagGroup"
                 >
                   <span
-                    class="sc-huvZk bfHcAT Element-Tag"
+                    class="sc-bEjUoa ktDxop Element-Tag"
                   >
                     <p
-                      class="sc-dBCvnn sc-djWYAM ivjEcc DUcra"
+                      class="sc-Pgsbw sc-iRcyzz fNiPxQ lgFzvd"
                       color="#FFFFFF"
                       font-size="13"
                       weight="medium"
@@ -50,10 +50,10 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                     </p>
                   </span>
                   <span
-                    class="sc-huvZk kbPGDN Element-Tag"
+                    class="sc-bEjUoa hSZqZT Element-Tag"
                   >
                     <span
-                      class="sc-gDpztx dmYfTo Element-IconBox"
+                      class="sc-hjsuWn jbkALq Element-IconBox"
                     >
                       <svg
                         height="20"
@@ -103,7 +103,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                       </svg>
                     </span>
                     <p
-                      class="sc-dBCvnn sc-djWYAM gOnyhk DUcra"
+                      class="sc-Pgsbw sc-iRcyzz cuhqVo lgFzvd"
                       color="#3B4559"
                       font-size="13"
                       weight="medium"
@@ -112,10 +112,10 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                     </p>
                   </span>
                   <span
-                    class="sc-huvZk kbPGDN Element-Tag"
+                    class="sc-bEjUoa hSZqZT Element-Tag"
                   >
                     <span
-                      class="sc-gDpztx iGenoD Element-IconBox"
+                      class="sc-hjsuWn CTYBx Element-IconBox"
                     >
                       <svg
                         height="20"
@@ -150,7 +150,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                       </svg>
                     </span>
                     <p
-                      class="sc-dBCvnn sc-djWYAM gOnyhk DUcra"
+                      class="sc-Pgsbw sc-iRcyzz cuhqVo lgFzvd"
                       color="#3B4559"
                       font-size="13"
                       weight="medium"
@@ -180,12 +180,12 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                   class="rs-stack-item"
                 >
                   <button
-                    class="sc-etfXYe cWmwmi Element-IconButton"
+                    class="sc-dNdcvo bDxZrn Element-IconButton"
                     role="quit-mission-cross"
                     type="button"
                   >
                     <span
-                      class="sc-gDpztx fLCjRs Element-IconBox"
+                      class="sc-hjsuWn hZNHWy Element-IconBox"
                     >
                       <svg
                         height="20"
@@ -251,7 +251,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-irwjCN kxMCTN"
+      class="sc-enPhjR edPkOf"
     >
       <div
         class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
@@ -268,7 +268,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-dBCvnn sc-fvGHPC duolFt iaeLeg"
+                class="sc-Pgsbw sc-fkYqBV egoKGJ jWbODX"
                 color="#E5E5EB"
                 font-size="22"
                 weight="bold"
@@ -280,13 +280,13 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <div
-                class="sc-icsLOd dUKyeb Element-TagGroup"
+                class="sc-iIvHqT eNYCNU Element-TagGroup"
               >
                 <span
-                  class="sc-huvZk bfHcAT Element-Tag"
+                  class="sc-bEjUoa ktDxop Element-Tag"
                 >
                   <p
-                    class="sc-dBCvnn sc-djWYAM ivjEcc DUcra"
+                    class="sc-Pgsbw sc-iRcyzz fNiPxQ lgFzvd"
                     color="#FFFFFF"
                     font-size="13"
                     weight="medium"
@@ -295,10 +295,10 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                   </p>
                 </span>
                 <span
-                  class="sc-huvZk kbPGDN Element-Tag"
+                  class="sc-bEjUoa hSZqZT Element-Tag"
                 >
                   <span
-                    class="sc-gDpztx dmYfTo Element-IconBox"
+                    class="sc-hjsuWn jbkALq Element-IconBox"
                   >
                     <svg
                       height="20"
@@ -348,7 +348,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                     </svg>
                   </span>
                   <p
-                    class="sc-dBCvnn sc-djWYAM gOnyhk DUcra"
+                    class="sc-Pgsbw sc-iRcyzz cuhqVo lgFzvd"
                     color="#3B4559"
                     font-size="13"
                     weight="medium"
@@ -357,10 +357,10 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                   </p>
                 </span>
                 <span
-                  class="sc-huvZk kbPGDN Element-Tag"
+                  class="sc-bEjUoa hSZqZT Element-Tag"
                 >
                   <span
-                    class="sc-gDpztx iGenoD Element-IconBox"
+                    class="sc-hjsuWn CTYBx Element-IconBox"
                   >
                     <svg
                       height="20"
@@ -395,7 +395,7 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                     </svg>
                   </span>
                   <p
-                    class="sc-dBCvnn sc-djWYAM gOnyhk DUcra"
+                    class="sc-Pgsbw sc-iRcyzz cuhqVo lgFzvd"
                     color="#3B4559"
                     font-size="13"
                     weight="medium"
@@ -425,12 +425,12 @@ exports[`MissionPageHeader > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <button
-                  class="sc-etfXYe cWmwmi Element-IconButton"
+                  class="sc-dNdcvo bDxZrn Element-IconButton"
                   role="quit-mission-cross"
                   type="button"
                 >
                   <span
-                    class="sc-gDpztx fLCjRs Element-IconBox"
+                    class="sc-hjsuWn hZNHWy Element-IconBox"
                   >
                     <svg
                       height="20"
