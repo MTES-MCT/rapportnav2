@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { addMonths, subMonths, startOfMonth, startOfYear, subYears, addYears, subDays } from 'date-fns'
 import { formatMonthYear, formatYear } from '@common/utils/dates-for-humans.ts'
+import { UTCDate } from '@date-fns/utc'
 
 function useDateRangeNavigator(startDateTimeUtc, timeframe) {
-  const initialDate = startDateTimeUtc ? new Date(startDateTimeUtc) : new Date()
+  const initialDate = startDateTimeUtc ? new Date(startDateTimeUtc) : new UTCDate()
   const [currentDate, setCurrentDate] = useState(startOfMonth(initialDate))
 
   const goToPrevious = () => {
