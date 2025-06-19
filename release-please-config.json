@@ -29,7 +29,8 @@
           "path": ".gitlab-ci.yml",
           "jsonpath": "$.variables.PROJECT_VERSION.value"
         }
-      ]
+      ],
+       "exclude-paths": ["frontend/*", "backend/*"]
     },
     "backend": {
       "component": "backend",
