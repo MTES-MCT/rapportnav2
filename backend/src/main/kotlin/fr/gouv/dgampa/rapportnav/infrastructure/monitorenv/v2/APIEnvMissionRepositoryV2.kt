@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOutput
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
@@ -75,7 +77,6 @@ class APIEnvMissionRepositoryV2(
             mapper.registerModules(JtsModule(), JavaTimeModule())
 
             val json = mapper.writeValueAsString(mission)
-            logger.info("Mission created")
             logger.info("Body request for Mission env update as json : $json")
             logger.info("Body request for Mission env update as entity : $mission")
 
@@ -103,4 +104,38 @@ class APIEnvMissionRepositoryV2(
             null;
         }
     }
+
+    override fun patchMission(missionId: Int, mission: PatchMissionInput): MissionEnvEntity? {
+        val url = "$host/api/v2/missions/$missionId";
+
+        mapper.registerModules(JtsModule(), JavaTimeModule())
+        val json = mapper.writeValueAsString(mission)
+        logger.info("Sending PATCH request for Env mission id=$missionId. URL: $url")
+        logger.info("Body request for Mission env patch as json : $json")
+        logger.info("Body request for Mission env patch as entity : $mission")
+        return try {
+            val request = HttpRequest
+                .newBuilder()
+                .uri(URI.create(url))
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(json))
+                .header("Content-Type", "application/json")
+                .build();
+
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            logger.debug("Response received, missionId: ${missionId}, Status code: ${response.statusCode()}");
+
+            val body = response.body()
+            logger.info("Response received, Content: $body")
+
+            if (response.statusCode() == 400 || response.statusCode() == 500 || response.statusCode() == 405) {
+                throw Exception("Error while updating mission from env, please check the logs")
+            }
+            val missionDataOutput: MissionDataOutput? = mapper.readValue(body);
+            missionDataOutput?.toMissionEnvEntity();
+        } catch (e: Exception) {
+            logger.error("Failed to PATCH request for Env mission id=$missionId. URL: $url", e);
+            null;
+        }
+    }
+
 }
