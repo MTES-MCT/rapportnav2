@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActio
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.Instant
 
+//TODO: this have been rename to MissionEnvEntity for V2. Delete this after V2 migration
 data class MissionEntity(
     val id: Int? = null,
     val missionTypes: List<MissionTypeEnum>,
