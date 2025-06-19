@@ -37,7 +37,7 @@
       "extra-files": [
         {
           "type": "generic",
-          "path": "build.gradle.kts",
+          "path": "backend/build.gradle.kts",
           "search": "version = \"[0-9]+\\.[0-9]+\\.[0-9]+\"",
           "replace": "version = \"{{version}}\"",
           "regex": true
