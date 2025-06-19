@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissio
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateOrUpdateGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetGeneralInfo2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionCrew
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateMissionEnv
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.PatchMissionEnv
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.UpdateMissionService2
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent
@@ -39,7 +39,7 @@ class CreateOrUpdateGeneralInfoTest {
     private lateinit var getGeneralInfo2: GetGeneralInfo2
 
     @MockitoBean
-    private lateinit var updateMissionEnv: UpdateMissionEnv
+    private lateinit var patchMissionEnv: PatchMissionEnv
 
     @MockitoBean
     private lateinit var processMissionCrew: ProcessMissionCrew
@@ -142,7 +142,7 @@ class CreateOrUpdateGeneralInfoTest {
             observationsByUnit = missionGeneralInfo.observations,
             resources = missionGeneralInfoEntity.resources?.map { it },
         )
-        verify(updateMissionEnv).execute(input)
+        verify(patchMissionEnv).execute(input)
 
         assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = crewEntity), result)
     }
@@ -186,7 +186,7 @@ class CreateOrUpdateGeneralInfoTest {
             observationsByUnit = missionGeneralInfo.observations,
             resources = missionGeneralInfoEntity.resources?.map { it },
         )
-        verify(updateMissionEnv).execute(input)
+        verify(patchMissionEnv).execute(input)
 
         assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = emptyList()), result)
     }
@@ -215,7 +215,7 @@ class CreateOrUpdateGeneralInfoTest {
         assertNull(result)
         verifyNoInteractions(updateMissionService2)
         verifyNoInteractions(processMissionCrew)
-        verifyNoInteractions(updateMissionEnv)
+        verifyNoInteractions(patchMissionEnv)
     }
 
 }

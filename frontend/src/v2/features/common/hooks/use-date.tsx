@@ -1,9 +1,6 @@
-import { addMinutes, isValid, parseISO } from 'date-fns'
-import { formatInTimeZone } from 'date-fns-tz'
-import frLocale from 'date-fns/locale/fr'
+import { format, isValid } from 'date-fns'
+import { UTCDate } from '@date-fns/utc'
 
-const TIME_ZONE = 'Europe/Paris'
-const DEFAULT_TIMEZONE = 'Europe/Paris'
 const MISSION_NAME_FORMAT = 'yyyy-MM-dd'
 const FRENCH_DAY_MONTH_YEAR = 'dd/MM/yyyy'
 const EMPTY_FRENCH_DAY_MONTH_YEAR = '--/--/----'
@@ -20,7 +17,7 @@ interface DateHook {
   formatTime: (date: DateTypes) => string
   formatShortDate: (date: DateTypes) => string
   formatMissionName: (startDate?: string) => string
-  formaDatetMissionNameUlam: (date: DateTypes) => string
+  formaDateMissionNameUlam: (date: DateTypes) => string
   groupByDay: (obj: any[], dateField: string) => any
   formatDateForMissionName: (date: DateTypes) => string
   formatDateForFrenchHumans: (date: DateTypes) => string
@@ -31,20 +28,14 @@ interface DateHook {
 }
 
 export function useDate(): DateHook {
-  const formatDate = (
-    date: DateTypes,
-    dateFormat: string,
-    emptyDateFormat: string,
-    timeZone: string = DEFAULT_TIMEZONE
-  ): string => {
+  const formatDate = (date: DateTypes, dateFormat: string, emptyDateFormat: string): string => {
     if (!date) return emptyDateFormat
 
     try {
       // Parse the date if it's a string, otherwise use it as is
-      const dateObj = typeof date === 'string' ? parseISO(date) : date
+      const dateObj = typeof date === 'string' ? new UTCDate(date) : date
 
-      // Use formatInTimeZone to handle the timezone conversion
-      return formatInTimeZone(dateObj, timeZone, dateFormat, { locale: frLocale })
+      return format(dateObj, dateFormat)
     } catch (e) {
       console.error('Error formatting date:', e)
       return emptyDateFormat
@@ -53,7 +44,7 @@ export function useDate(): DateHook {
 
   const groupByDay = (obj: any[], dateField: string) => {
     return obj.reduce((groupedObj, subObj) => {
-      const day = new Date(subObj[dateField]).toLocaleDateString()
+      const day = new UTCDate(subObj[dateField]).toLocaleDateString()
       groupedObj[day] = groupedObj[day] || []
       groupedObj[day].push(subObj)
 
@@ -78,27 +69,26 @@ export function useDate(): DateHook {
 
   const preprocessDateForPicker = (value?: string | null): Date | undefined => {
     if (!value) return undefined
-    let date = new Date(value)
-    if (!isValid(date)) date = new Date()
-    return new Date(`${formatInTimeZone(date, TIME_ZONE, "yyyy-MM-dd'T'HH:mm:ss.SSS")}Z`)
+    let date = new UTCDate(value)
+    if (!isValid(date)) date = new UTCDate()
+    return date
   }
 
   const postprocessDateFromPicker = (value?: Date | null): string | undefined => {
     if (!value) return undefined
-    let date = value || new Date()
-    if (!isValid(date)) date = new Date()
-    return formatInTimeZone(addMinutes(date, new Date().getTimezoneOffset()), TIME_ZONE, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")
+    let date = value || new UTCDate()
+    if (!isValid(date)) date = new UTCDate()
+    return date.toISOString()
   }
 
-  const formaDatetMissionNameUlam = (date: DateTypes): string =>
-    formatDate(date, 'yyyy-MM', EMPTY_FRENCH_DAY_MONTH_YEAR)
+  const formaDateMissionNameUlam = (date: DateTypes): string => formatDate(date, 'yyyy-MM', EMPTY_FRENCH_DAY_MONTH_YEAR)
 
   return {
     formatTime,
     groupByDay,
     formatShortDate,
     formatMissionName,
-    formaDatetMissionNameUlam,
+    formaDateMissionNameUlam: formaDateMissionNameUlam,
     formatDateForMissionName,
     formatDateForFrenchHumans,
     preprocessDateForPicker,

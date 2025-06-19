@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.13.8",
+    "@date-fns/utc": "^2.1.0",
     "@mtes-mct/monitor-ui": "^24.19.1",
     "@sentry/react": "^8.44.0",
     "@tanstack/query-sync-storage-persister": "^5.75.7",
@@ -31,7 +32,7 @@
     "@unleash/proxy-client-react": "^4.3.1",
     "apollo3-cache-persist": "^0.15.0",
     "axios": "^1.9.0",
-    "date-fns": "3.6.0",
+    "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
     "dotenv": "^16.5.0",
     "email-validator": "^2.0.4",

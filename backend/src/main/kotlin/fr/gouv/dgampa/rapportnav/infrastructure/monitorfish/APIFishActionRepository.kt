@@ -71,11 +71,9 @@ class APIFishActionRepository(
                 .header("x-api-key", monitorFishApiKey)
                 .build();
 
-            logger.info("Request headers: ${request.headers()}");
 
             val response = clientFactory.create().send(request, HttpResponse.BodyHandlers.ofString());
             logger.info("Response received, actionId: ${actionId}, Status code: ${response.statusCode()}");
-            logger.info("Response headers: ${response.headers()}");
 
             val body = response.body()
             logger.info(body)

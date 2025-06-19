@@ -19,8 +19,8 @@ import MissionListActionsPam from '../features/pam/components/element/mission-li
 import MissionListExportDialog from '../features/pam/components/element/mission-list/mission-list-export.tsx'
 import MissionListPam from '../features/pam/components/element/mission-list/mission-list-pam.tsx'
 import OnlineToggle from '../features/common/components/elements/online-toggle.tsx'
-import OfflineTag from '../features/common/components/elements/offline-tag.tsx'
 import { Stack } from 'rsuite'
+import { UTCDate } from '@date-fns/utc'
 
 const SIDEBAR_ITEMS = [
   {
@@ -31,10 +31,10 @@ const SIDEBAR_ITEMS = [
 ]
 
 const MissionListPamPage: FC = () => {
-  const today = new Date()
+  const today = new UTCDate()
   const { isLoggedIn } = useAuth()
   const [queryParams, setQueryParams] = useState({
-    startDateTimeUtc: startOfYear(today.toISOString()),
+    startDateTimeUtc: startOfYear(today).toISOString(),
     endDateTimeUtc: endOfYear(today).toISOString()
   })
 
