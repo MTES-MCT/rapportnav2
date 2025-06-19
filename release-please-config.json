@@ -20,10 +20,19 @@
   "pull-request-header": "🤖 Release created:",
   "pull-request-footer": "_release-please generated PR_",
   "packages": {
+    ".": {
+      "component": "docker-container",
+      "release-type": "simple",
+      "extra-files": [
+        ".gitlab-ci.yml"
+      ]
+    },
     "backend": {
       "component": "backend",
       "release-type": "simple",
-      "extra-files": ["build.gradle.kts"]
+      "extra-files": [
+        "build.gradle.kts"
+      ]
     },
     "frontend": {
       "component": "frontend",
