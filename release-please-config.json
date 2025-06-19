@@ -37,8 +37,7 @@
       "extra-files": [
         {
           "type": "generic",
-          "path": "build.gradle.kts",
-          "glob": true
+          "path": "build.gradle.kts"
         }
       ]
     },
