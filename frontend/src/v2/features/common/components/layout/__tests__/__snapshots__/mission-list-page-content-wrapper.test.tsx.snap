@@ -22,7 +22,7 @@ exports[`MissionListPageContentWrapper > should match the snapshot 1`] = `
               style="align-self: baseline;"
             >
               <span
-                class="sc-gDpztx kQKkdd Element-IconBox"
+                class="sc-hjsuWn mMbcr Element-IconBox"
               >
                 <svg
                   height="20"
@@ -64,7 +64,7 @@ exports[`MissionListPageContentWrapper > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-dBCvnn sc-fvGHPC clsaVR iaeLeg"
+                class="sc-Pgsbw sc-fkYqBV fcipFF jWbODX"
                 font-size="22"
                 style="font-size: 32px;"
               >
@@ -103,7 +103,7 @@ exports[`MissionListPageContentWrapper > should match the snapshot 1`] = `
                     style="margin-top: 10rem;"
                   >
                     <p
-                      class="sc-dBCvnn sc-djWYAM clsaVR DUcra"
+                      class="sc-Pgsbw sc-iRcyzz fcipFF lgFzvd"
                       font-size="13"
                       style="text-align: center;"
                     >
@@ -158,7 +158,7 @@ exports[`MissionListPageContentWrapper > should match the snapshot 1`] = `
             style="align-self: baseline;"
           >
             <span
-              class="sc-gDpztx kQKkdd Element-IconBox"
+              class="sc-hjsuWn mMbcr Element-IconBox"
             >
               <svg
                 height="20"
@@ -200,7 +200,7 @@ exports[`MissionListPageContentWrapper > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <p
-              class="sc-dBCvnn sc-fvGHPC clsaVR iaeLeg"
+              class="sc-Pgsbw sc-fkYqBV fcipFF jWbODX"
               font-size="22"
               style="font-size: 32px;"
             >
@@ -239,7 +239,7 @@ exports[`MissionListPageContentWrapper > should match the snapshot 1`] = `
                   style="margin-top: 10rem;"
                 >
                   <p
-                    class="sc-dBCvnn sc-djWYAM clsaVR DUcra"
+                    class="sc-Pgsbw sc-iRcyzz fcipFF lgFzvd"
                     font-size="13"
                     style="text-align: center;"
                   >

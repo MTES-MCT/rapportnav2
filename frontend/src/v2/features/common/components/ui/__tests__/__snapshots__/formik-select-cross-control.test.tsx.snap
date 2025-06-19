@@ -6,16 +6,16 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-gDVcuj geGcsH Element-Field Field-Select sc-dBCvnn"
+        class="sc-fhfEft ijxoir Element-Field Field-Select sc-Pgsbw"
       >
         <label
-          class="sc-kmqAS eNtuUL Element-Label"
+          class="sc-blIAwI ibbShc Element-Label"
           for="crossControl.id"
         >
           Rechercher la cible d’un contrôle en cours*
         </label>
         <div
-          class="sc-kRYMvn bboheh"
+          class="sc-lcItFd dsosWh"
         >
           <div
             class="rs-picker rs-picker-select rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
@@ -107,16 +107,16 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-gDVcuj geGcsH Element-Field Field-Select sc-dBCvnn"
+      class="sc-fhfEft ijxoir Element-Field Field-Select sc-Pgsbw"
     >
       <label
-        class="sc-kmqAS eNtuUL Element-Label"
+        class="sc-blIAwI ibbShc Element-Label"
         for="crossControl.id"
       >
         Rechercher la cible d’un contrôle en cours*
       </label>
       <div
-        class="sc-kRYMvn bboheh"
+        class="sc-lcItFd dsosWh"
       >
         <div
           class="rs-picker rs-picker-select rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"

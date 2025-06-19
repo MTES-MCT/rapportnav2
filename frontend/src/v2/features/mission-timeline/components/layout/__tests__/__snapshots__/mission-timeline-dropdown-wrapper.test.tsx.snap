@@ -6,7 +6,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-jMsorb bqjWtF Component-Dropdow rs-dropdown rs-dropdown-placement-bottom-end"
+        class="sc-kNOymR kJjANg Component-Dropdow rs-dropdown rs-dropdown-placement-bottom-end"
       >
         <button
           aria-controls="menu-:r1:"
@@ -17,7 +17,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
           type="button"
         >
           <span
-            class="sc-gDpztx bVQkEh Element-IconBox"
+            class="sc-hjsuWn eVTFbL Element-IconBox"
           >
             <svg
               class="rs-dropdown-toggle-icon"
@@ -67,7 +67,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
         </button>
         <ul
           aria-labelledby="menubutton-:r0:"
-          class="sc-jMsorb bqjWtF Component-Dropdow rs-dropdown-menu"
+          class="sc-kNOymR kJjANg Component-Dropdow rs-dropdown-menu"
           hidden=""
           id="menu-:r1:"
           role="menu"
@@ -76,7 +76,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
           <div>
             <li
               aria-disabled="false"
-              class="sc-icnseD iChHAy rs-dropdown-item rs-dropdown-item-with-icon"
+              class="sc-hwkwBN gzxlcp rs-dropdown-item rs-dropdown-item-with-icon"
               data-event-key="CONTROL_GROUP"
               id="menuitem-:r2:"
               role="menuitem"
@@ -84,7 +84,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
               tabindex="-1"
             >
               <span
-                class="sc-gDpztx bVQkEh Element-IconBox"
+                class="sc-hjsuWn eVTFbL Element-IconBox"
               >
                 <svg
                   class="rs-dropdown-item-menu-icon"
@@ -162,7 +162,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-jMsorb bqjWtF Component-Dropdow rs-dropdown rs-dropdown-placement-bottom-end"
+      class="sc-kNOymR kJjANg Component-Dropdow rs-dropdown rs-dropdown-placement-bottom-end"
     >
       <button
         aria-controls="menu-:r1:"
@@ -173,7 +173,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
         type="button"
       >
         <span
-          class="sc-gDpztx bVQkEh Element-IconBox"
+          class="sc-hjsuWn eVTFbL Element-IconBox"
         >
           <svg
             class="rs-dropdown-toggle-icon"
@@ -223,7 +223,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
       </button>
       <ul
         aria-labelledby="menubutton-:r0:"
-        class="sc-jMsorb bqjWtF Component-Dropdow rs-dropdown-menu"
+        class="sc-kNOymR kJjANg Component-Dropdow rs-dropdown-menu"
         hidden=""
         id="menu-:r1:"
         role="menu"
@@ -232,7 +232,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
         <div>
           <li
             aria-disabled="false"
-            class="sc-icnseD iChHAy rs-dropdown-item rs-dropdown-item-with-icon"
+            class="sc-hwkwBN gzxlcp rs-dropdown-item rs-dropdown-item-with-icon"
             data-event-key="CONTROL_GROUP"
             id="menuitem-:r2:"
             role="menuitem"
@@ -240,7 +240,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
             tabindex="-1"
           >
             <span
-              class="sc-gDpztx bVQkEh Element-IconBox"
+              class="sc-hjsuWn eVTFbL Element-IconBox"
             >
               <svg
                 class="rs-dropdown-item-menu-icon"

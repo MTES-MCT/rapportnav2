@@ -17,13 +17,13 @@ exports[`MissionPageError > should match the snapshot 1`] = `
             style="max-width: 33%;"
           >
             <p
-              class="sc-dBCvnn sc-bpSLYx clsaVR jxMWrE"
+              class="sc-Pgsbw sc-evkzZa fcipFF fsVFmj"
               font-size="16"
             >
               Une erreur est survenue
             </p>
             <p
-              class="sc-dBCvnn sc-djWYAM clsaVR DUcra"
+              class="sc-Pgsbw sc-iRcyzz fcipFF lgFzvd"
               font-size="13"
             >
               this is and error
@@ -33,11 +33,11 @@ exports[`MissionPageError > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <button
-              class="sc-dNpohg sc-jnflPq bkRTST hpTCsL Element-Button"
+              class="sc-etsjJW sc-koBvLg cTQhTy EvnjZ Element-Button"
               type="button"
             >
               <span
-                class="sc-fsjlER bULPIE"
+                class="sc-fYmhhH fpTffY"
               >
                 Retourner à l'accueil
               </span>
@@ -82,13 +82,13 @@ exports[`MissionPageError > should match the snapshot 1`] = `
           style="max-width: 33%;"
         >
           <p
-            class="sc-dBCvnn sc-bpSLYx clsaVR jxMWrE"
+            class="sc-Pgsbw sc-evkzZa fcipFF fsVFmj"
             font-size="16"
           >
             Une erreur est survenue
           </p>
           <p
-            class="sc-dBCvnn sc-djWYAM clsaVR DUcra"
+            class="sc-Pgsbw sc-iRcyzz fcipFF lgFzvd"
             font-size="13"
           >
             this is and error
@@ -98,11 +98,11 @@ exports[`MissionPageError > should match the snapshot 1`] = `
           class="rs-stack-item"
         >
           <button
-            class="sc-dNpohg sc-jnflPq bkRTST hpTCsL Element-Button"
+            class="sc-etsjJW sc-koBvLg cTQhTy EvnjZ Element-Button"
             type="button"
           >
             <span
-              class="sc-fsjlER bULPIE"
+              class="sc-fYmhhH fpTffY"
             >
               Retourner à l'accueil
             </span>

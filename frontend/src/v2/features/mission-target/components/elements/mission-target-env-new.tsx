@@ -7,6 +7,7 @@ import { Stack } from 'rsuite'
 import MissionInfractionEnvForm from '../../../mission-infraction/components/elements/mission-infraction-env-form'
 import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form'
 import { useTarget } from '../../hooks/use-target'
+import { UTCDate } from '@date-fns/utc'
 
 export interface MissionTargetEnvNewProps {
   actionId?: string
@@ -36,7 +37,7 @@ const MissionTargetEnvNew: React.FC<MissionTargetEnvNewProps> = ({
     const valueToSubmit = {
       ...fromInputToFieldValue(value),
       actionId,
-      startDateTimeUtc: new Date(),
+      startDateTimeUtc: new UTCDate(),
       source: MissionSourceEnum.RAPPORTNAV,
       targetType: getTargetType(actionTargetType)
     }
