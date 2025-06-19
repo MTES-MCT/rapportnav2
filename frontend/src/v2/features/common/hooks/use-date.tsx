@@ -44,7 +44,7 @@ export function useDate(): DateHook {
 
   const groupByDay = (obj: any[], dateField: string) => {
     return obj.reduce((groupedObj, subObj) => {
-      const day = new Date(subObj[dateField]).toLocaleDateString()
+      const day = new UTCDate(subObj[dateField]).toLocaleDateString()
       groupedObj[day] = groupedObj[day] || []
       groupedObj[day].push(subObj)
 
