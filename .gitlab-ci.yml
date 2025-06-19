@@ -3,64 +3,62 @@ stages:
   - analyze
   - deploy-int
   - deploy-prod
-
 variables:
-  #  Configuration spécifique projet
   PROJECT_NAME:
-    value: "rapportnav-v2"
-    description: "Nom du projet à déployer"
+    value: rapportnav-v2
+    description: Nom du projet à déployer
   BDD_IMAGE:
-    value: "postgres:15.10-alpine"
-    description: "Image de la base de données"
+    value: postgres:15.10-alpine
+    description: Image de la base de données
   PROJECT_VERSION:
-    value: "2.10.1"
-    description: "Version du projet à déployer"
+    value: 2.11.0
+    description: Version du projet à déployer
   SERVER_ENV_INT:
-    value: "int-rapportnav-appli01"
-    description: "Serveur cible d'intégration"
+    value: int-rapportnav-appli01
+    description: Serveur cible d'intégration
   SERVER_ENV_PROD:
-    value: "prod-rapportnav-appli01"
-    description: "Serveur cible de production"
-  PROXY_HOST: "172.27.229.197"
-  PROXY_PORT: "8090"
+    value: prod-rapportnav-appli01
+    description: Serveur cible de production
+  PROXY_HOST: 172.27.229.197
+  PROXY_PORT: '8090'
   TAG_VERSION: $NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION
-  DEPLOYEMENT_PATH: "../.gitlab-ci/templates"
-
+  DEPLOYEMENT_PATH: ../.gitlab-ci/templates
   IMAGE_DOCKER_1: $NEXUS_DOCKER_REPO/$PROJECT_NAME:$PROJECT_VERSION
-
-  # Anlayse Trivy
   FAIL_TRIVY_CONDITION_LIBRARY:
-    value: "--severity HIGH,CRITICAL"
-    description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
+    value: '--severity HIGH,CRITICAL'
+    description: >-
+      Détermine la commande à passer à Trivy pour bloquer ou non le job.
+      --severity CRITICAL fait échouer le job si Trivy remonte des anomalies
+      critiques.
   FAIL_TRIVY_CONDITION_OS:
-    value: "--severity LOW,MEDIUM,HIGH,CRITICAL"
-    description: "Détermine la commande à passer à Trivy pour bloquer ou non le job. --severity CRITICAL fait échouer le job si Trivy remonte des anomalies critiques."
-
-  # Analyse Sonar
+    value: '--severity LOW,MEDIUM,HIGH,CRITICAL'
+    description: >-
+      Détermine la commande à passer à Trivy pour bloquer ou non le job.
+      --severity CRITICAL fait échouer le job si Trivy remonte des anomalies
+      critiques.
   FAIL_SONAR_CONDITION:
-    value: "-Dsonar.qualitygate.wait=true"
-    description: "Détermine la commande à passer au scanner Sonar pour bloquer ou non le job. -Dsonar.qualitygate.wait=true fait échouer le job si le quality gate Sonar n'est pas conforme."
-
-  # Analyse Dependency-check
+    value: '-Dsonar.qualitygate.wait=true'
+    description: >-
+      Détermine la commande à passer au scanner Sonar pour bloquer ou non le
+      job. -Dsonar.qualitygate.wait=true fait échouer le job si le quality gate
+      Sonar n'est pas conforme.
   FAIL_DP_CHECK_LVL:
-    value: "8"
-    description: "Niveau de la criticité limite de l'analyse Dependency-Check"
-
+    value: '8'
+    description: Niveau de la criticité limite de l'analyse Dependency-Check
 include:
-  - "/.gitlab-ci/jobs/build_projet_gradle.yml"
-  - "/.gitlab-ci/jobs/build_projet_npm.yml"
-  - "/.gitlab-ci/jobs/construction_image.yml"
-  - project: 'num3-exploitation/chaine-ci/template-analyse-deploiement'
+  - /.gitlab-ci/jobs/build_projet_gradle.yml
+  - /.gitlab-ci/jobs/build_projet_npm.yml
+  - /.gitlab-ci/jobs/construction_image.yml
+  - project: num3-exploitation/chaine-ci/template-analyse-deploiement
     ref: main
-    file: "/jobs/analyse_trivy.yml"
-  - project: "num3-exploitation/chaine-ci/template-analyse-deploiement"
+    file: /jobs/analyse_trivy.yml
+  - project: num3-exploitation/chaine-ci/template-analyse-deploiement
     ref: main
-    file: '/jobs/analyse_sonar.yml'
-  - "/.gitlab-ci/jobs/analyse_dependency-check.yml"
-  - project: 'num3-exploitation/chaine-ci/templates-devops/deploiements'
+    file: /jobs/analyse_sonar.yml
+  - /.gitlab-ci/jobs/analyse_dependency-check.yml
+  - project: num3-exploitation/chaine-ci/templates-devops/deploiements
     ref: main
-    file: 'deploiement-int.yml'
-  - project: 'num3-exploitation/chaine-ci/templates-devops/deploiements'
+    file: deploiement-int.yml
+  - project: num3-exploitation/chaine-ci/templates-devops/deploiements
     ref: main
-    file: 'deploiement-prod.yml'
-
+    file: deploiement-prod.yml
