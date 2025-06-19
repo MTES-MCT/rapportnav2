@@ -24,6 +24,7 @@ export type PatchActionFishInput = {
 
 const usePatchActionFish = (): MutationTuple<void, Record<string, any>> => {
   const { missionId } = useParams()
+
   const mutation = useMutation(MUTATION_PATCH_ACTION_FISH, {
     refetchQueries: [{ query: GET_MISSION_TIMELINE, variables: { missionId } }, GET_ACTION_BY_ID]
   })

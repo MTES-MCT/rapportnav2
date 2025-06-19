@@ -6,6 +6,8 @@ import usePatchActionFish from '../../../hooks/use-patch-action-fish.tsx'
 export interface ActionFishObservationsUnitProps {
   missionId?: string
   actionId?: string
+  startDateTimeUtc?: string
+  endDateTimeUtc?: string
   observationsByUnit?: string
   label: string
 }
@@ -13,6 +15,8 @@ export interface ActionFishObservationsUnitProps {
 const ActionFishObservationsUnit: FC<ActionFishObservationsUnitProps> = ({
   missionId,
   actionId,
+  startDateTimeUtc,
+  endDateTimeUtc,
   observationsByUnit,
   label
 }) => {
@@ -24,6 +28,8 @@ const ActionFishObservationsUnit: FC<ActionFishObservationsUnitProps> = ({
         action: {
           missionId,
           actionId,
+          startDateTimeUtc,
+          endDateTimeUtc,
           observationsByUnit
         }
       }

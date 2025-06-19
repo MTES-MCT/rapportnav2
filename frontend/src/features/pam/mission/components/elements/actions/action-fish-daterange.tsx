@@ -8,12 +8,14 @@ type ActionFishDateRangeProps = {
   actionId?: string
   startDateTimeUtc?: string
   endDateTimeUtc?: string
+  observationsByUnit?: string
 }
 const ActionFishDateRange: FC<ActionFishDateRangeProps> = ({
   missionId,
   actionId,
   startDateTimeUtc,
-  endDateTimeUtc
+  endDateTimeUtc,
+  observationsByUnit
 }) => {
   const [mutateFishAction] = usePatchActionFish()
 
@@ -22,7 +24,8 @@ const ActionFishDateRange: FC<ActionFishDateRangeProps> = ({
       missionId: missionId,
       actionId: actionId,
       startDateTimeUtc: newStartDateTimeUtc,
-      endDateTimeUtc: newEndDateTimeUtc
+      endDateTimeUtc: newEndDateTimeUtc,
+      observationsByUnit
     }
     await mutateFishAction({
       variables: {
