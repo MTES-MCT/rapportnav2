@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.11.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.11.0...docker-container@v2.11.1) (2025-06-19)
+
+
+### Bug Fixes
+
+* force bump tomcat-embed-core for secu reasons ([b7bcc03](https://github.com/MTES-MCT/rapportnav2/commit/b7bcc03f411827484b6aef67196ee7eeb0c4d6f0))
+
 ## [2.11.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.10.1...docker-container@v2.11.0) (2025-06-19)
 
 
