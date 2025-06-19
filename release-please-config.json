@@ -3,7 +3,7 @@
     {
       "type": "linked-versions",
       "groupName": "group-some-associated-services",
-      "components": [],
+      "components": ["docker-container", "backend", "frontend"],
       "merge": true
     }
   ],
