@@ -38,8 +38,9 @@
         {
           "type": "generic",
           "path": "build.gradle.kts",
-          "search": "version = \"{{version}}\"",
-          "replace": "version = \"{{version}}\""
+          "search": "version = \".*\"",
+          "replace": "version = \"{{version}}\"",
+          "regex": true
         }
       ]
     },
