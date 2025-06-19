@@ -51,6 +51,7 @@ dependencyManagement {
     mavenBom("org.testcontainers:testcontainers-bom:$testcontainersVersion")
   }
   dependencies {
+    dependency("org.apache.tomcat.embed:tomcat-embed-core:11.0.8")
   }
 }
 
