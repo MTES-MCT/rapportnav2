@@ -105,6 +105,7 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action }) => {
             actionId={actionId}
             startDateTimeUtc={fishAction.startDateTimeUtc}
             endDateTimeUtc={fishAction.endDateTimeUtc}
+            observationsByUnit={actionData?.observationsByUnit}
           />
         </Stack.Item>
         <Stack.Item>
@@ -213,8 +214,10 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action }) => {
           <ActionFishObservationsUnit
             missionId={missionId}
             actionId={actionId}
+            startDateTimeUtc={fishAction?.startDateTimeUtc}
+            endDateTimeUtc={fishAction?.endDateTimeUtc}
             observationsByUnit={actionData?.observationsByUnit}
-            label={'Observations de l’unité sur le contrôle de l’environnement marin'}
+            label={'Observations de l’unité sur le contrôle'}
           />
         </Stack.Item>
       </Stack>
