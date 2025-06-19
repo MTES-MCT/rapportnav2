@@ -6,21 +6,21 @@ exports[`MissionPageHeaderBanner > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-cNFqVt dVimiq Component-Banner"
+        class="sc-cCVJLD dWfQcQ Component-Banner"
       >
         <div
-          class="sc-kiMgGE cjmKZv"
+          class="sc-jYczwO jzvItR"
         >
           <p>
             La mission est terminée mais le rapport n'est pas complet : des données sont manquantes dans des champs à remplir par le CACEM.
           </p>
         </div>
         <div
-          class="sc-dCVDEO hSgoCa banner-button"
+          class="sc-dNFkOE hPUqPy banner-button"
           title="masquer"
         >
           <button
-            class="sc-fpgwy eLMMzD Element-LinkButton sc-fhPBcz jCPhVr"
+            class="sc-pYNGo jGjIIh Element-LinkButton sc-fszimp EoDvj"
           >
             Masquer
           </button>
@@ -52,21 +52,21 @@ exports[`MissionPageHeaderBanner > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-cNFqVt dVimiq Component-Banner"
+      class="sc-cCVJLD dWfQcQ Component-Banner"
     >
       <div
-        class="sc-kiMgGE cjmKZv"
+        class="sc-jYczwO jzvItR"
       >
         <p>
           La mission est terminée mais le rapport n'est pas complet : des données sont manquantes dans des champs à remplir par le CACEM.
         </p>
       </div>
       <div
-        class="sc-dCVDEO hSgoCa banner-button"
+        class="sc-dNFkOE hPUqPy banner-button"
         title="masquer"
       >
         <button
-          class="sc-fpgwy eLMMzD Element-LinkButton sc-fhPBcz jCPhVr"
+          class="sc-pYNGo jGjIIh Element-LinkButton sc-fszimp EoDvj"
         >
           Masquer
         </button>

@@ -6,16 +6,16 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-gDVcuj geGcsH Element-Field Field-Search sc-dBCvnn"
+        class="sc-fhfEft ijxoir Element-Field Field-Search sc-Pgsbw"
       >
         <label
-          class="sc-kmqAS eNtuUL Element-Label"
+          class="sc-blIAwI ibbShc Element-Label"
           for="crossControl.vesselId"
         >
           Nom du navire contrôlée
         </label>
         <div
-          class="sc-kNNXoD gEMTGR"
+          class="sc-erZbsv HHvxl"
         >
           <div
             class="rs-auto-complete"
@@ -35,7 +35,7 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
             />
           </div>
           <span
-            class="sc-gDpztx cA-DTLF Element-IconBox"
+            class="sc-hjsuWn eFneID Element-IconBox"
           >
             <svg
               height="20"
@@ -70,7 +70,7 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
           </span>
         </div>
         <div
-          class="sc-kRYMvn bboheh"
+          class="sc-lcItFd dsosWh"
         />
       </div>
     </div>
@@ -99,16 +99,16 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-gDVcuj geGcsH Element-Field Field-Search sc-dBCvnn"
+      class="sc-fhfEft ijxoir Element-Field Field-Search sc-Pgsbw"
     >
       <label
-        class="sc-kmqAS eNtuUL Element-Label"
+        class="sc-blIAwI ibbShc Element-Label"
         for="crossControl.vesselId"
       >
         Nom du navire contrôlée
       </label>
       <div
-        class="sc-kNNXoD gEMTGR"
+        class="sc-erZbsv HHvxl"
       >
         <div
           class="rs-auto-complete"
@@ -128,7 +128,7 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
           />
         </div>
         <span
-          class="sc-gDpztx cA-DTLF Element-IconBox"
+          class="sc-hjsuWn eFneID Element-IconBox"
         >
           <svg
             height="20"
@@ -163,7 +163,7 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
         </span>
       </div>
       <div
-        class="sc-kRYMvn bboheh"
+        class="sc-lcItFd dsosWh"
       />
     </div>
   </div>,
