@@ -24,14 +24,22 @@
       "component": "docker-container",
       "release-type": "simple",
       "extra-files": [
-        ".gitlab-ci.yml"
+        {
+          "type": "yaml",
+          "path": ".gitlab-ci.yml",
+          "jsonpath": "$.variables.PROJECT_VERSION.value"
+        }
       ]
     },
     "backend": {
       "component": "backend",
       "release-type": "simple",
       "extra-files": [
-        "build.gradle.kts"
+        {
+          "type": "generic",
+          "path": "build.gradle.kts",
+          "glob": true
+        }
       ]
     },
     "frontend": {
