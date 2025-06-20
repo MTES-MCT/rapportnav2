@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.11.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.11.1...docker-container@v2.11.2) (2025-06-20)
+
+
+### Bug Fixes
+
+* bump spring-boot ([95f7fac](https://github.com/MTES-MCT/rapportnav2/commit/95f7fac6f1d40c61e983bc2f60e647da831a054c))
+
 ## [2.11.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.11.0...docker-container@v2.11.1) (2025-06-19)
 
 
