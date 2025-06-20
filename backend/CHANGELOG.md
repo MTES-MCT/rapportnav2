@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.11.4](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.11.3...backend@v2.11.4) (2025-06-20)
+
+
+### Bug Fixes
+
+* lower tomcat-embed-core version ([d387e90](https://github.com/MTES-MCT/rapportnav2/commit/d387e90c45410261b480af01e69bb9908c7b15f7))
+
 ## [2.11.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.11.2...backend@v2.11.3) (2025-06-20)
 
 
