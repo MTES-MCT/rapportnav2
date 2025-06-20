@@ -9,7 +9,7 @@ description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
 val serializationVersion by extra("1.6.2")
-val springVersion by extra("3.5.0")
+val springVersion by extra("3.5.2")
 val testcontainersVersion by extra("1.19.3")
 val flywayVersion by extra("10.10.0")
 
@@ -51,7 +51,8 @@ dependencyManagement {
     mavenBom("org.testcontainers:testcontainers-bom:$testcontainersVersion")
   }
   dependencies {
-    dependency("org.apache.tomcat.embed:tomcat-embed-core:11.0.8")
+    // force any dependency like following :
+    // dependency("org.apache.tomcat.embed:tomcat-embed-core:11.0.8")
   }
 }
 
