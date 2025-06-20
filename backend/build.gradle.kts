@@ -52,7 +52,7 @@ dependencyManagement {
   }
   dependencies {
     // force any dependency like following :
-    // dependency("org.apache.tomcat.embed:tomcat-embed-core:11.0.8")
+    dependency("org.apache.tomcat.embed:tomcat-embed-core:11.0.8")
   }
 }
 
