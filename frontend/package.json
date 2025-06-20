@@ -26,7 +26,7 @@
     "@mtes-mct/monitor-ui": "^24.19.1",
     "@sentry/react": "^8.44.0",
     "@tanstack/query-sync-storage-persister": "^5.75.7",
-    "@tanstack/react-query": "^5.75.7",
+    "@tanstack/react-query": "^5.79.0",
     "@tanstack/react-query-persist-client": "^5.75.7",
     "@tanstack/react-store": "^0.7.0",
     "@unleash/proxy-client-react": "^4.3.1",
