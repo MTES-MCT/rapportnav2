@@ -6,9 +6,25 @@ import { actionsKeys, missionsKeys } from './query-keys.ts'
 import { useOnlineManager } from '../hooks/use-online-manager.tsx'
 import { Mission2 } from '../types/mission-types.ts'
 import { NetworkSyncStatus } from '../types/network-types.ts'
-import { v4 as uuidv4 } from 'uuid'
 import { navigateToActionId } from '@router/routes.tsx'
 import { useNavigate } from 'react-router-dom'
+import queryClient from '../../../../query-client'
+
+const createAction = async (action: MissionNavAction): Promise<MissionNavAction> =>
+  axios.post(`missions/${action.missionId}/actions`, action)
+
+queryClient.setMutationDefaults(actionsKeys.create(), {
+  mutationFn: async data => {
+    debugger
+    return createAction(data)
+  },
+  onSettled: (data, error, variables, context) => {
+    debugger
+    queryClient.removeQueries({ queryKey: actionsKeys.create() })
+    queryClient.invalidateQueries({ queryKey: actionsKeys.byId(data.data.id), exact: true })
+    queryClient.invalidateQueries({ queryKey: missionsKeys.byId(data.data.missionId), exact: true })
+  }
+})
 
 const useCreateMissionActionMutation = (
   missionId: number
@@ -18,10 +34,8 @@ const useCreateMissionActionMutation = (
 
   const { isOnline } = useOnlineManager()
 
-  const createAction = async (action: MissionNavAction): Promise<MissionNavAction> =>
-    axios.post(`missions/${missionId}/actions`, action)
-
   const mutation = useMutation({
+    mutationKey: actionsKeys.create(),
     mutationFn: createAction,
     onMutate: async (newAction: MissionNavAction) => {
       const optimisticAction = {
@@ -52,16 +66,18 @@ const useCreateMissionActionMutation = (
 
       // redirect to the newly created action
       navigateToActionId(optimisticAction.id, navigate)
-
+      debugger
       // return context
       return { previousActions, action: optimisticAction }
     },
     // Invalidate queries to fetch the latest data after mutation success
     onSuccess: (serverResponse, newAction, context) => {
+      debugger
       // refetch action
       queryClient.invalidateQueries({ queryKey: actionsKeys.byId(context.action.id), exact: true })
     },
     onError: (_, __, context) => {
+      debugger
       // reset action list in mission cache key
       queryClient.setQueryData(
         missionsKeys.byId(missionId),
@@ -76,7 +92,9 @@ const useCreateMissionActionMutation = (
       queryClient.removeQueries({ queryKey: actionsKeys.byId(context.action.id) })
     },
     onSettled: (data, error, variables, context) => {
+      debugger
       queryClient.invalidateQueries({ queryKey: missionsKeys.byId(missionId), exact: true })
+      queryClient.removeQueries({ queryKey: actionsKeys.create() })
     },
     scope: {
       id: 'create-action' // scope to run mutations in serial and not in parallel

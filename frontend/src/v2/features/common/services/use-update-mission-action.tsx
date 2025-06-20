@@ -6,6 +6,29 @@ import { NetworkSyncStatus } from '../types/network-types.ts'
 import { Mission2 } from '../types/mission-types.ts'
 import { orderBy } from 'lodash'
 import { useOnlineManager } from '../hooks/use-online-manager.tsx'
+import queryClient from '../../../../query-client'
+
+const updateAction = (action: MissionAction): Promise<MissionAction> =>
+  axios.put(`missions/${action.missionId}/actions/${action.id}`, action).then(response => response.data)
+
+queryClient.setMutationDefaults(actionsKeys.update(), {
+  mutationFn: async data => {
+    debugger
+    return updateAction(data)
+  },
+  onSuccess: async (data, variables, context) => {
+    debugger
+    await queryClient.invalidateQueries({ queryKey: actionsKeys.byId(data.id) })
+    await queryClient.invalidateQueries({ queryKey: missionsKeys.byId(data.missionId) })
+    // queryClient.removeQueries({ queryKey: actionsKeys.updateAction() })
+  },
+  onSettled: async (data, error, variables, context) => {
+    debugger
+    await queryClient.invalidateQueries({ queryKey: actionsKeys.byId(data.id) })
+    await queryClient.invalidateQueries({ queryKey: missionsKeys.byId(data.missionId) })
+    // queryClient.removeQueries({ queryKey: actionsKeys.updateAction() })
+  }
+})
 
 const useUpdateMissionActionMutation = (
   missionId: number,
@@ -14,10 +37,8 @@ const useUpdateMissionActionMutation = (
   const queryClient = useQueryClient()
   const { isOnline } = useOnlineManager()
 
-  const updateAction = (action: MissionAction): Promise<MissionAction> =>
-    axios.put(`missions/${missionId}/actions/${actionId}`, action).then(response => response.data)
-
   const mutation = useMutation({
+    mutationKey: actionsKeys.update(),
     mutationFn: updateAction,
     onMutate: async (updatedAction: MissionNavAction) => {
       // create optimistic action
