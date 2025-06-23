@@ -26,7 +26,7 @@ const PatchableMonitorObservations: React.FC<PatchableMonitorObservationsProps> 
   }, [observationsByUnit])
 
   const handleSubmit = async ({ observations }: ObservationsByUnit) => {
-    if (!observations || observations.length < 4 || observations === observationsByUnit) return
+    if (!observations || observations.length < 2 || observations === observationsByUnit) return
 
     await onSubmit(observations)
   }
