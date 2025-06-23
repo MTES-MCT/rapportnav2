@@ -85,6 +85,7 @@ class MissionController(
     @QueryMapping
     fun mission(@Argument missionId: Int): Mission? {
         val mission = getMission.execute(missionId = missionId)
+        logger.info("MissionController - Get mission with missionId={} : {}", missionId, mission)
         return mission?.let { Mission.fromMissionEntity(it) }
     }
 

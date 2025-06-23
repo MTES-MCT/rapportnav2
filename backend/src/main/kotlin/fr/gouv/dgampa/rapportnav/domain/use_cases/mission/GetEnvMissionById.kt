@@ -73,6 +73,7 @@ class GetEnvMissionById(
         try {
             val envMission: MissionEntity? = inputEnvMission ?: monitorEnvApiRepo.findMissionById(missionId)
             var mission = getMissionWithControls(envMission)
+            logger.info("GetEnvMissionById - retrieve data for missionId={}: {}", missionId, mission)
             return mission
         } catch (e: Exception) {
             logger.error("GetEnvMissionById failed loading EnvMission", e)

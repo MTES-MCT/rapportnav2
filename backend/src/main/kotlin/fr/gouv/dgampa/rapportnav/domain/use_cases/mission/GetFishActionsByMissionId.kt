@@ -51,7 +51,9 @@ class GetFishActionsByMissionId(
         return try {
             val fishActions = fishActionRepo.findFishActions(missionId = missionId)
             // Filtering actions based on action type
+            logger.info("GetFishActionsByMissionId - retrieve data for missionId={}: {}", missionId, fishActions)
             val actions = filterAndAttachControls(fishActions)
+            logger.info("GetFishActionsByMissionId - attaching controls for missionId={}: {}", missionId, actions)
             actions
         } catch (e: Exception) {
             logger.error("GetFishActionsByMissionId failed loading Actions", e)
