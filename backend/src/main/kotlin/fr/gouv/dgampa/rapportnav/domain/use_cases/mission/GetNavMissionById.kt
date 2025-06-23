@@ -39,7 +39,7 @@ class GetNavMissionById(
             logger.error("GetNavMissionById received a null missionId")
             throw IllegalArgumentException("GetNavMissionById should not receive null missionId")
         }
-        
+
         logger.info("Retrieving Nav data for missionId: {}", missionId)
         try {
             val controls = fetchControls(missionId)
@@ -60,17 +60,19 @@ class GetNavMissionById(
             val actions =
                 controls + statuses + notes + rescues + nauticalEvents + vigimer + antiPollutions + baaemPermanences + publicOrders + representations + illegalImmigrations
 
+            logger.info("GetNavMissionById - Retrieved Nav Actions for missionId={}: {}", missionId, actions)
+
             val mission = NavMissionEntity(
                 id = missionId,
-                actions = actions,
+                actions = actions.filterNotNull(),
                 generalInfo = generalInfo,
                 crew = crew,
                 services = services
             )
-            logger.info("Successfully retrieved all Nav data for missionId: {}", missionId)
+            logger.info("GetNavMissionById - Successfully retrieved all Nav data for missionId: {}", missionId)
             return mission
         } catch (e: Exception) {
-            logger.error("Error retrieving Nav data for missionId: {}", missionId, e)
+            logger.error("GetNavMissionById - Error retrieving Nav data for missionId: {}", missionId, e)
             throw e
         }
     }
