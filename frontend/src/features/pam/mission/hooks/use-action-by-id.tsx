@@ -21,6 +21,7 @@ export const GET_ACTION_BY_ID = gql`
           actionType
           actionDatetimeUtc
           actionEndDatetimeUtc
+          observationsByUnit
           vesselId
           vesselName
           portName
