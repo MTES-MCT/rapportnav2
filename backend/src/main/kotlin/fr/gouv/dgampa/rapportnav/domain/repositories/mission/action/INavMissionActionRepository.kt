@@ -6,6 +6,8 @@ import java.util.*
 interface INavMissionActionRepository {
     fun findByMissionId(missionId: Int): List<MissionActionModel>
 
+    fun findByMissionIdUUID(missionIdUUID: UUID): List<MissionActionModel>
+
     fun findById(id: UUID): Optional<MissionActionModel>
 
     fun save(action: MissionActionModel): MissionActionModel
