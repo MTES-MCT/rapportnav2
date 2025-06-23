@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.11.6](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.11.5...docker-container@v2.11.6) (2025-06-23)
+
+
+### Bug Fixes
+
+* add more logging PAM v1 ([250bdbe](https://github.com/MTES-MCT/rapportnav2/commit/250bdbe33ac637d42d60c5db8831362304a2ab71))
+
 ## [2.11.5](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.11.4...docker-container@v2.11.5) (2025-06-23)
 
 
