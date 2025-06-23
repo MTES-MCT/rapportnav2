@@ -58,6 +58,7 @@ type FishActionData {
   userTrigram: String
   faoAreas: [String]
   segments: [FleetSegment]
+  observationsByUnit: String
 }
 
 type LogbookInfraction {
