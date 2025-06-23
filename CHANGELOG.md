@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.11.5](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.11.4...docker-container@v2.11.5) (2025-06-23)
+
+
+### Bug Fixes
+
+* add more logging for NullPointer caused by data not fully retrieved ([#735](https://github.com/MTES-MCT/rapportnav2/issues/735)) ([8319177](https://github.com/MTES-MCT/rapportnav2/commit/83191774ba4989a2cf74ea1ada0230dd0ad01a1d))
+* bump spring boot ([886b282](https://github.com/MTES-MCT/rapportnav2/commit/886b282671bd1c2083dfb5b7c198cca8c8c66c4f))
+
 ## [2.11.4](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.11.3...docker-container@v2.11.4) (2025-06-20)
 
 
