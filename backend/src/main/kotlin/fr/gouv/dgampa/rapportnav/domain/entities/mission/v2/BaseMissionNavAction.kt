@@ -12,6 +12,7 @@ import java.util.*
 interface BaseMissionNavAction {
     var id: UUID
     var missionId: Int
+    var missionIdUUID: UUID?
     var actionType: ActionType
     var isCompleteForStats: Boolean?
     val sourcesOfMissingDataForStats: List<MissionSourceEnum>?
