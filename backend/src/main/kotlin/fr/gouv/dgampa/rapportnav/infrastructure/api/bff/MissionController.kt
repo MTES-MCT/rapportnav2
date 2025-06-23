@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.*
@@ -9,7 +8,6 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionRa
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.AddOrUpdateMissionGeneralInfo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
-import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.generalInfo.MissionGeneralInfoInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.generalInfo.MissionServiceInput
@@ -26,14 +24,11 @@ import java.time.Instant
 
 @Controller
 class MissionController(
-    private val getUserFromToken: GetUserFromToken,
     private val getEnvMissions: GetEnvMissions,
     private val getMission: GetMission,
-    private val getNavMissionById: GetNavMissionById,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val addOrUpdateMissionGeneralInfo: AddOrUpdateMissionGeneralInfo,
     private val getControlUnitsForUser: GetControlUnitsForUser,
-    private val fakeMissionData: FakeMissionData,
     private val exportMissionRapportPatrouille: ExportMissionRapportPatrouille,
     private val updateMissionService: UpdateMissionService,
     private val patchEnvMission: PatchEnvMission,
@@ -70,12 +65,7 @@ class MissionController(
             // transform the data for the API
             val missions = fullMissions?.mapNotNull { it?.let { Mission.fromMissionEntity(it) } } ?: emptyList()
 
-
-            // temporarily add fictive missions
-            val user = getUserFromToken.execute()
-            val fakeMissions = fakeMissionData.getFakeMissionsforUser(user).map { Mission.fromMissionEntity(it) }
-
-            return missions + fakeMissions
+            return missions
         } catch (e: Exception) {
             logger.error("MissionController - failed to load missions from MonitorEnv", e)
             throw Exception(e)
@@ -94,28 +84,8 @@ class MissionController(
      */
     @QueryMapping
     fun mission(@Argument missionId: Int): Mission? {
-        return when (missionId) {
-            in fakeMissionData.getEmptyMissionIds() -> {
-                val fakeMission = fakeMissionData.emptyMission(missionId)
-                val navMission = getNavMissionById.execute(missionId = missionId)
-                fakeMission.actions =
-                    fakeMission.actions?.plus(navMission.actions.map { MissionActionEntity.NavAction(it) })
-                Mission.fromMissionEntity(fakeMission)
-            }
-
-            in fakeMissionData.getFullMissionIds() -> {
-                val fakeMission = fakeMissionData.fullMission(missionId)
-                val navMission = getNavMissionById.execute(missionId = missionId)
-                fakeMission.actions =
-                    fakeMission.actions?.plus(navMission.actions.map { MissionActionEntity.NavAction(it) })
-                Mission.fromMissionEntity(fakeMission)
-            }
-
-            else -> {
-                val mission = getMission.execute(missionId = missionId)
-                mission?.let { Mission.fromMissionEntity(it) }
-            }
-        }
+        val mission = getMission.execute(missionId = missionId)
+        return mission?.let { Mission.fromMissionEntity(it) }
     }
 
     /**
