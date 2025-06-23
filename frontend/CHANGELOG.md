@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.11.8](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.11.7...frontend@v2.11.8) (2025-06-23)
+
+
+### Bug Fixes
+
+* **v1:** observationsByUnit on FishAction ([853e07b](https://github.com/MTES-MCT/rapportnav2/commit/853e07b2c657898d4f349d04ec9500220bfe0310))
+
 ## [2.11.7](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.11.6...frontend@v2.11.7) (2025-06-23)
 
 
