@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.11.7](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.11.6...docker-container@v2.11.7) (2025-06-23)
+
+
+### Bug Fixes
+
+* **v1:** observationsByUnit on FishAction ([586b863](https://github.com/MTES-MCT/rapportnav2/commit/586b8631dbcc4827937c1dacdb269661ce7deb4e))
+
 ## [2.11.6](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.11.5...docker-container@v2.11.6) (2025-06-23)
 
 
