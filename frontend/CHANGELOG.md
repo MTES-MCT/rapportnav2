@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.11.10](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.11.9...frontend@v2.11.10) (2025-06-24)
+
+
+### Bug Fixes
+
+* fix validation on generalInfo PAM v2 ([55db70f](https://github.com/MTES-MCT/rapportnav2/commit/55db70f9c5f80992cc6ab2611f31675bbeb62ffd))
+
+## [2.11.9](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.11.8...frontend@v2.11.9) (2025-06-24)
+
+
+### Bug Fixes
+
+* **v1:** reduce observationsByUnit length on form ([db38c54](https://github.com/MTES-MCT/rapportnav2/commit/db38c544ec4b0f6adbc8cfa1d9e25aae19ccf449))
+* **v2:** make generalInfo display correctly in PAM ([312bfb3](https://github.com/MTES-MCT/rapportnav2/commit/312bfb39735e4e6fac16e4c4ef6d71dc442f7fbc))
+
 ## [2.11.8](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.11.7...frontend@v2.11.8) (2025-06-23)
 
 

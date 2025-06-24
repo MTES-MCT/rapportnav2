@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.11.10](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.11.9...docker-container@v2.11.10) (2025-06-24)
+
+
+### Bug Fixes
+
+* fix validation on generalInfo PAM v2 ([55db70f](https://github.com/MTES-MCT/rapportnav2/commit/55db70f9c5f80992cc6ab2611f31675bbeb62ffd))
+
+## [2.11.9](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.11.8...docker-container@v2.11.9) (2025-06-24)
+
+
+### Bug Fixes
+
+* **v1:** make startDateTime optional in graphql for Env Actions ([4f4a6f0](https://github.com/MTES-MCT/rapportnav2/commit/4f4a6f048ebca6e1b765d01afebf476b362888c7))
+* **v1:** reduce observationsByUnit length on form ([db38c54](https://github.com/MTES-MCT/rapportnav2/commit/db38c544ec4b0f6adbc8cfa1d9e25aae19ccf449))
+* **v2:** make generalInfo display correctly in PAM ([312bfb3](https://github.com/MTES-MCT/rapportnav2/commit/312bfb39735e4e6fac16e4c4ef6d71dc442f7fbc))
+
 ## [2.11.8](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.11.7...docker-container@v2.11.8) (2025-06-23)
 
 

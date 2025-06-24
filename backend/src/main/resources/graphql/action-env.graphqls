@@ -11,8 +11,8 @@ type PatchedEnvAction {
 
 type EnvActionData {
   id: String!
-  actionStartDateTimeUtc: Instant!
-  actionEndDateTimeUtc: Instant!
+  actionStartDateTimeUtc: Instant
+  actionEndDateTimeUtc: Instant
   geom: String
   facade: String
   department: String

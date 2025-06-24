@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.11.10](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.11.9...backend@v2.11.10) (2025-06-24)
+
+
+### Miscellaneous Chores
+
+* **backend:** Synchronize group-some-associated-services versions
+
+## [2.11.9](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.11.8...backend@v2.11.9) (2025-06-24)
+
+
+### Bug Fixes
+
+* **v1:** make startDateTime optional in graphql for Env Actions ([4f4a6f0](https://github.com/MTES-MCT/rapportnav2/commit/4f4a6f048ebca6e1b765d01afebf476b362888c7))
+
 ## [2.11.8](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.11.7...backend@v2.11.8) (2025-06-23)
 
 

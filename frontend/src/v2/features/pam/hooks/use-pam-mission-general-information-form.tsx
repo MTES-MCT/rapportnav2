@@ -2,7 +2,7 @@ import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form.tsx'
 import { MissionGeneralInfo2 } from '../../common/types/mission-types.ts'
 import { useDate } from '../../common/hooks/use-date.tsx'
-import { number, object, string } from 'yup'
+import { array, number, object, string } from 'yup'
 
 export type MissionPAMGeneralInfoInitialInput = { dates: (Date | undefined)[] } & MissionGeneralInfo2
 
@@ -49,7 +49,8 @@ export const usePamMissionGeneralInfoForm = (
     consumedGOInLiters: number().required(),
     consumedFuelInLiters: number().required(),
     nbrOfRecognizedVessel: number().required(),
-    observations: string().required()
+    observations: string().required(),
+    crew: array().min(1, 'Crew cannot be empty').required()
   })
 
   return { initValue, handleSubmit: handleSubmitOverride, isError, validationSchema }

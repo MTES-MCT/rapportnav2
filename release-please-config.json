@@ -23,6 +23,7 @@
     ".": {
       "component": "docker-container",
       "release-type": "simple",
+      "commit-message": "chore: release v${version}",
       "extra-files": [
         {
           "type": "yaml",
@@ -35,6 +36,7 @@
     "backend": {
       "component": "backend",
       "release-type": "simple",
+      "commit-message": "chore: release v${version}",
       "extra-files": [
         {
           "type": "generic",
@@ -44,7 +46,8 @@
     },
     "frontend": {
       "component": "frontend",
-      "release-type": "node"
+      "release-type": "node",
+      "commit-message": "chore: release v${version}"
     }
   },
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"
