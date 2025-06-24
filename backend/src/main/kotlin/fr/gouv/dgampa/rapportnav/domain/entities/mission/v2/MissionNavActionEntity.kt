@@ -209,7 +209,7 @@ class MissionNavActionEntity(
         fun fromMissionActionModel(model: MissionActionModel): MissionNavActionEntity {
             return MissionNavActionEntity(
                 id = model.id,
-                missionId = model.missionId,
+                missionId = model.missionId?:0,
                 actionType = model.actionType,
                 startDateTimeUtc = model.startDateTimeUtc,
                 endDateTimeUtc = model.endDateTimeUtc,

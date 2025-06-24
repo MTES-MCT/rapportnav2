@@ -3,25 +3,24 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetMissionAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetGeneralInfo2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById2
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntity2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 
-@SpringBootTest(classes = [GetMission2::class])
-class GetMission2Test {
+@SpringBootTest(classes = [GetComputeEnvMission::class])
+class GetComputeEnvMissionTest {
 
     @Autowired
-    private lateinit var getMission2: GetMission2
+    private lateinit var getComputeEnvMission: GetComputeEnvMission
 
     @MockitoBean
     private lateinit var getGeneralInfos2: GetGeneralInfo2
@@ -32,16 +31,19 @@ class GetMission2Test {
     @MockitoBean
     private lateinit var getMissionAction: GetMissionAction
 
+    @MockitoBean
+    private lateinit var getNavMissionById2: GetNavMissionById2
+
     @Test
     fun `should return null when both missionId and envMission are null`() {
-        val result = getMission2.execute(null, null)
+        val result = getComputeEnvMission.execute(null, null)
         assertNull(result)
     }
 
     @Test
     fun `should return null when missionId is null and envMission has null id`() {
         val envMission = EnvMissionMock.create(id = null)
-        val result = getMission2.execute(null, envMission)
+        val result = getComputeEnvMission.execute(null, envMission)
         assertNull(result)
     }
 
@@ -56,11 +58,11 @@ class GetMission2Test {
         `when`(getMissionAction.execute(missionId = 1)).thenReturn(actions)
         `when`(getGeneralInfos2.execute(missionId = 1, controlUnits = listOf())).thenReturn(generalInfos2)
 
-        val result = getMission2.execute(envMission = envMission)
+        val result = getComputeEnvMission.execute(envMission = envMission)
 
         assertNotNull(result)
         assertEquals(1, result?.id)
-        assertEquals(envMission, result?.envData)
+        assertEquals(envMission, result?.data)
         assertEquals(actions, result?.actions)
         assertEquals(generalInfos2, result?.generalInfos)
     }
@@ -77,11 +79,11 @@ class GetMission2Test {
         `when`(getMissionAction.execute(missionId = 2)).thenReturn(actions)
         `when`(getGeneralInfos2.execute(missionId = 2, controlUnits = listOf())).thenReturn(generalInfos2)
 
-        val result = getMission2.execute(missionId = 2)
+        val result = getComputeEnvMission.execute(missionId = 2)
 
         assertNotNull(result)
         assertEquals(2, result?.id)
-        assertEquals(mission, result?.envData)
+        assertEquals(mission, result?.data)
         assertEquals(actions, result?.actions)
         assertEquals(generalInfos2, result?.generalInfos)
     }
@@ -92,7 +94,7 @@ class GetMission2Test {
 
         `when`(getEnvMissionById2.execute(3)).thenReturn(mission)
 
-        val result = getMission2.execute(missionId = 3)
+        val result = getComputeEnvMission.execute(missionId = 3)
 
         assertNull(result)
     }

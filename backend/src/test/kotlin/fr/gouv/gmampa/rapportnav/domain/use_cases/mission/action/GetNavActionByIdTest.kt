@@ -74,7 +74,7 @@ class GetNavActionByIdTest {
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
         )
 
-        `when`(processNavAction.execute(anyOrNull(), anyOrNull())).thenReturn(response)
+        `when`(processNavAction.execute(anyOrNull())).thenReturn(response)
         `when`(missionActionRepository.findById(actionId)).thenReturn(Optional.of(action))
 
         getNavActionById = GetNavActionById(

@@ -10,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMi
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetServiceByControlUnit
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import org.slf4j.LoggerFactory
+import java.util.*
 
 @UseCase
 class GetGeneralInfo2(
@@ -30,6 +31,17 @@ class GetGeneralInfo2(
         )
     }
 
+    fun execute(
+        missionIdUUID: UUID,
+        controlUnits: List<LegacyControlUnitEntity>? = null
+    ): MissionGeneralInfoEntity2 {
+        return MissionGeneralInfoEntity2(
+            services = fetchServices(controlUnits),
+            crew = fetchCrewUUID(missionIdUUID = missionIdUUID),
+            data = fetchGeneralInfoUUID(missionIdUUID = missionIdUUID)
+        )
+    }
+
     private fun fetchGeneralInfo(missionId: Int): MissionGeneralInfoEntity? {
         return try {
             getMissionGeneralInfoByMissionId.execute(missionId)
@@ -39,11 +51,29 @@ class GetGeneralInfo2(
         }
     }
 
+    private fun fetchGeneralInfoUUID(missionIdUUID: UUID): MissionGeneralInfoEntity? {
+        return try {
+            getMissionGeneralInfoByMissionId.execute(missionIdUUID = missionIdUUID)
+        } catch (e: Exception) {
+            logger.error("Error fetching Nav general info for missionId: {}", missionIdUUID, e)
+            throw e
+        }
+    }
+
     fun fetchCrew(missionId: Int): List<MissionCrewEntity> {
         return try {
             getAgentsCrewByMissionId.execute(missionId)
         } catch (e: Exception) {
             logger.error("Error fetching Nav crew for missionId: {}", missionId, e)
+            emptyList()
+        }
+    }
+
+    fun fetchCrewUUID(missionIdUUID: UUID): List<MissionCrewEntity> {
+        return try {
+            getAgentsCrewByMissionId.execute(missionIdUUID = missionIdUUID)
+        } catch (e: Exception) {
+            logger.error("Error fetching Nav crew for missionId: {}", missionIdUUID, e)
             emptyList()
         }
     }

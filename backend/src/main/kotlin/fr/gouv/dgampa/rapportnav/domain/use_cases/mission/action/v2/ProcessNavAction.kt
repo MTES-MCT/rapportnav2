@@ -14,7 +14,7 @@ class ProcessNavAction(
     private val getComputeCrossControl: GetComputeCrossControl
 ) : AbstractGetMissionAction(getStatusForAction) {
 
-    fun execute(missionId: Int?, action: MissionActionModel): MissionNavActionEntity {
+    fun execute(action: MissionActionModel): MissionNavActionEntity {
         val entity = MissionNavActionEntity.fromMissionActionModel(action)
         entity.targets = getComputeTarget.execute(actionId = entity.getActionId(), isControl = entity.isControl())
         entity.crossControl = processMissionActionCrossControl(entity)

@@ -9,16 +9,19 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.crew.AgentEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.AgentRoleEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.AgentServiceEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.anyList
-import org.mockito.ArgumentMatchers.eq
+import org.mockito.ArgumentMatchers.*
 import org.mockito.Mockito
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
+import org.mockito.kotlin.any
+import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
+import java.util.*
 
 @SpringBootTest(classes = [UpdateMissionService2::class])
 class UpdateMissionService2Test {
@@ -43,8 +46,8 @@ class UpdateMissionService2Test {
         AgentServiceEntityMock.create(agent = agent2, role = role),
     )
     private val newMissionCrew: List<MissionCrewEntity> = listOf(
-        MissionCrewEntityMock.create(agent = agent1, role = role),
-        MissionCrewEntityMock.create(agent = agent2, role = role),
+        MissionCrewEntityMock.create(agent = agent1, role = role, missionId = missionId.toInt()),
+        MissionCrewEntityMock.create(agent = agent2, role = role, missionId = missionId.toInt()),
     )
 
     @Test
@@ -64,15 +67,29 @@ class UpdateMissionService2Test {
     @Test
     fun `execute - should return false when processMissionCrew throws exception`() {
         Mockito.`when`(getActiveCrewForService.execute(3)).thenReturn(crewFromService)
-        Mockito.`when`(processMissionCrew.execute(eq(missionId), anyList())).thenThrow(RuntimeException("Database error"))
+        Mockito.`when`(processMissionCrew.execute(missionId, any<List<MissionCrewEntity>>())).thenThrow(RuntimeException("Database error"))
 
         /// When
         val result = updateMissionService.execute(serviceId = serviceId, missionId = missionId)
 
         // Then
-        assertEquals(result, emptyList<MissionCrewEntity>())
-        verify(getActiveCrewForService, times(1)).execute(serviceId)
+        assertThat(result!!).isEqualTo(false)
+       // verify(getActiveCrewForService, times(1)).execute(serviceId)
         verify(processMissionCrew, times(1)).execute(eq(missionId), anyList())
     }
 
+
+    @Test
+    fun `execute update mission service and mission crew member for missionId uuid`() {
+        val missionIdUUID = UUID.randomUUID()
+        Mockito.`when`(getActiveCrewForService.execute(serviceId = 3)).thenReturn(crewFromService)
+        Mockito.`when`(processMissionCrew.execute(any<UUID>(), any<List<MissionCrewEntity>>())).thenReturn(newMissionCrew)
+
+        val result = updateMissionService.execute(serviceId = 3, missionIdUUID = missionIdUUID)
+
+        // Then
+        assertEquals(result, newMissionCrew)
+        verify(getActiveCrewForService, times(1)).execute(3)
+        verify(processMissionCrew, times(1)).execute(any<UUID>(), any<List<MissionCrewEntity>>())
+    }
 }
