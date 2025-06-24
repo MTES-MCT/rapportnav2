@@ -10,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMissio
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeNavMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissions
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissions
+import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -37,11 +38,16 @@ class GetMissionsTest {
     @MockitoBean
     private lateinit var getComputeNavMission: GetComputeNavMission
 
+    @MockitoBean
+    private lateinit var getControlUnitsForUser: GetControlUnitsForUser
+
 
     @Test
     fun `should execute return a list of MissionEntity2`()
     {
+
         val now = Instant.now()
+        val controlUnits = listOf<Int>()
 
         val entity = MissionEntity(
             id = 1,
@@ -84,6 +90,7 @@ class GetMissionsTest {
             endDateTimeUtc = now
         )).thenReturn(listOf(navEntity))
 
+        Mockito.`when`(getControlUnitsForUser.execute()).thenReturn(controlUnits)
         Mockito.`when`(getComputeEnvMission.execute(envMission = entity)).thenReturn(response)
         Mockito.`when`(getComputeNavMission.execute(navMission = navEntity)).thenReturn(response)
 
@@ -92,7 +99,7 @@ class GetMissionsTest {
             endDateTimeUtc = now
         )
 
-        Mockito.verify(getEnvMissions).execute(startedAfterDateTime = now, startedBeforeDateTime = now, null, null, listOf())
+        Mockito.verify(getEnvMissions).execute(startedAfterDateTime = now, startedBeforeDateTime = now, null, null, controlUnits)
         Mockito.verify(getNavMissions).execute(startDateTimeUtc = now, endDateTimeUtc = now)
 
         Assertions.assertEquals(2, missions.size)

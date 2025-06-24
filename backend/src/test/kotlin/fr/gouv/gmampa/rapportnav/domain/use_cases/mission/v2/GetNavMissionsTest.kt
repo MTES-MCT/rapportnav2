@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissions
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionModel
@@ -48,8 +48,8 @@ class GetNavMissionsTest {
         )
 
         Assertions.assertNotNull(missions)
-        Assertions.assertEquals(1, missions?.size)
         Assertions.assertNotNull(missions?.get(0))
-        assertThat(missions?.get(0)).isInstanceOf(MissionEntity::class.java)
+        Assertions.assertEquals(1, missions?.size)
+        assertThat(missions?.get(0)).isInstanceOf(MissionNavEntity::class.java)
     }
 }

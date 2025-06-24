@@ -17,7 +17,6 @@ import org.mockito.Mockito
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.kotlin.any
-import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -67,14 +66,14 @@ class UpdateMissionService2Test {
     @Test
     fun `execute - should return false when processMissionCrew throws exception`() {
         Mockito.`when`(getActiveCrewForService.execute(3)).thenReturn(crewFromService)
-        Mockito.`when`(processMissionCrew.execute(missionId, any<List<MissionCrewEntity>>())).thenThrow(RuntimeException("Database error"))
+        Mockito.`when`(processMissionCrew.execute(anyInt(), any<List<MissionCrewEntity>>())).thenThrow(RuntimeException("Database error"))
 
         /// When
         val result = updateMissionService.execute(serviceId = serviceId, missionId = missionId)
 
         // Then
-        assertThat(result!!).isEqualTo(false)
-       // verify(getActiveCrewForService, times(1)).execute(serviceId)
+        assertThat(result.size).isEqualTo(0)
+        verify(getActiveCrewForService, times(1)).execute(serviceId)
         verify(processMissionCrew, times(1)).execute(eq(missionId), anyList())
     }
 

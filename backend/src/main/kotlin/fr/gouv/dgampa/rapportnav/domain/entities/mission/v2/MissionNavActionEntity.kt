@@ -196,8 +196,8 @@ class MissionNavActionEntity(
         isSignedByInspector = crossControl?.isSignedByInspector,
         crossControlNbrOfHours = crossControl?.nbrOfHours,
         crossControlStatus = crossControl?.status?.toString(),
-        crossControlConclusion = crossControl?.conclusion?.toString()
-
+        crossControlConclusion = crossControl?.conclusion?.toString(),
+        missionIdUUID = missionIdUUID
     )
 
 
@@ -246,6 +246,7 @@ class MissionNavActionEntity(
                 missionIdUUID = model.missionIdUUID,
                 crossControl = MissionActionCrossControlEntity(
                     id = model.crossControlId,
+                    nbrOfHours = model.crossControlNbrOfHours,
                     isSignedByInspector = model.isSignedByInspector,
                     status = model.crossControlStatus?.let { CrossControlStatusType.valueOf(it) },
                     conclusion = model.crossControlConclusion?.let { CrossControlConclusionType.valueOf(it) }

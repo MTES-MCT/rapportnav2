@@ -2,18 +2,14 @@ package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateMission
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateOrUpdateGeneralInfo
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissions
-import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
+import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.MissionRestController
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
-import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
-import fr.gouv.gmampa.rapportnav.mocks.user.UserMock
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,13 +33,13 @@ class MissionRestControllerTest {
     private lateinit var mockMvc: MockMvc
 
     @MockitoBean
-    private lateinit var getControlUnitsForUser: GetControlUnitsForUser
+    private lateinit var getServiceForUser: GetServiceForUser
 
     @MockitoBean
     private lateinit var getComputeEnvMission: GetComputeEnvMission
 
     @MockitoBean
-    private lateinit var createOrUpdateGeneralInfo: CreateOrUpdateGeneralInfo
+    private lateinit var getComputeNavMission: GetComputeNavMission
 
     @MockitoBean
     private lateinit var createMission: CreateMission
@@ -51,18 +47,23 @@ class MissionRestControllerTest {
     @MockitoBean
     private lateinit var getMissions: GetMissions
 
+    @MockitoBean
+    private lateinit var tokenService: TokenService
+
+    /**
+     *
+     *  private val getComputeEnvMission: GetComputeEnvMission,
+     *     private val getServiceForUser: GetServiceForUser,
+     *     private val createMission: CreateMission,
+     *     private val getMissions: GetMissions,
+     *     private val getComputeNavMission: GetComputeNavMission
+     */
+
+
     @Test
     fun `should return a list of missions`() {
         // Arrange
-        val mockEnvMissions = listOf(
-            EnvMissionMock.create(id = 1),
-            EnvMissionMock.create(id = 2),
-        )
         val mockMissionEntity = MissionEntityMock2.create(id = 1)
-
-        val mockUser = UserMock.create()
-
-        `when`(getControlUnitsForUser.execute()).thenReturn(listOf(1))
         `when`(getMissions.execute(Instant.parse("2025-04-16T09:02:58.082289Z"))).thenReturn(listOf(mockMissionEntity))
 
         // Act & Assert
@@ -98,7 +99,7 @@ class MissionRestControllerTest {
             id = 123,
             controlUnits = listOf(LegacyControlUnitEntityMock.create(id = controlUnitsIds.first()))
         )
-        `when`(getControlUnitsForUser.execute()).thenReturn(controlUnitsIds)
+        `when`(getServiceForUser.execute()).thenReturn(service)
         `when`(createMission.execute(requestBody, service)).thenReturn(mockMission)
 
         // Act & Assert
@@ -120,7 +121,7 @@ class MissionRestControllerTest {
         // Arrange
         val requestBody = MissionGeneralInfo2Mock.create()
         val service = ServiceEntity(2, name = "test", controlUnits = listOf(123))
-        `when`(getControlUnitsForUser.execute()).thenReturn(controlUnitsIds)
+        `when`(getServiceForUser.execute()).thenReturn(service)
         // Simulate mission creation returning null
         `when`(
             createMission.execute(
