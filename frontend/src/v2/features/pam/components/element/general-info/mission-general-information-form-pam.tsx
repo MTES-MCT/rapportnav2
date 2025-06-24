@@ -25,131 +25,125 @@ const MissionGeneralInformationFormPam: FC<{
           enableReinitialize={true}
           validationSchema={validationSchema}
           validateOnChange={true}
+          validateOnMount={true}
         >
-          {({ validateForm }) => (
-            <>
-              {/*<FormikEffect*/}
-              {/*  onChange={newValues =>*/}
-              {/*    validateForm(newValues).then(errors => handleSubmit(newValues as MissionGeneralInfoInput, errors))*/}
-              {/*  }*/}
-              {/*/>*/}
-              <FormikEffect onChange={newValues => handleSubmit(newValues)} />
+          <>
+            <FormikEffect onChange={newValues => handleSubmit(newValues)} />
 
-              <Stack
-                direction="column"
-                style={{ width: '100%', padding: '0 2px' }}
-                alignItems={'flex-start'}
-                spacing={'2rem'}
-              >
-                <Stack.Item style={{ width: '100%' }}>
-                  <Stack direction="row" alignItems={'flex-start'} justifyContent={'flex-end'}>
-                    <Stack.Item style={{ width: '80%' }}>
-                      <Field name="dates">
-                        {(field: FieldProps<Date[]>) => (
-                          <FormikDateRangePicker
-                            label=""
-                            name="dates"
-                            isLight={false}
-                            fieldFormik={field}
-                            validateOnSubmit={false}
-                            isCompact={true}
-                            disabled={!isOnline}
-                            title={
-                              isOnline
-                                ? ''
-                                : "Non disponible hors ligne, il est nécessaire d'être synchronisé avec les centres pour saisir/modifier cette donnée."
-                            }
-                          />
-                        )}
-                      </Field>
-                    </Stack.Item>
-                    <Stack.Item style={{ width: '20%' }}>
-                      <MissionService services={generalInfo2.services} />
-                    </Stack.Item>
-                  </Stack>
-                </Stack.Item>
+            <Stack
+              direction="column"
+              style={{ width: '100%', padding: '0 2px' }}
+              alignItems={'flex-start'}
+              spacing={'2rem'}
+            >
+              <Stack.Item style={{ width: '100%' }}>
+                <Stack direction="row" alignItems={'flex-start'} justifyContent={'flex-end'}>
+                  <Stack.Item style={{ width: '80%' }}>
+                    <Field name="dates">
+                      {(field: FieldProps<Date[]>) => (
+                        <FormikDateRangePicker
+                          label=""
+                          name="dates"
+                          isLight={false}
+                          fieldFormik={field}
+                          validateOnSubmit={false}
+                          isCompact={true}
+                          disabled={!isOnline}
+                          title={
+                            isOnline
+                              ? ''
+                              : "Non disponible hors ligne, il est nécessaire d'être synchronisé avec les centres pour saisir/modifier cette donnée."
+                          }
+                        />
+                      )}
+                    </Field>
+                  </Stack.Item>
+                  <Stack.Item style={{ width: '20%' }}>
+                    <MissionService services={generalInfo2.services} />
+                  </Stack.Item>
+                </Stack>
+              </Stack.Item>
 
-                <Stack.Item style={{ width: '100%' }}>
-                  <FieldArray name="crew">
-                    {(fieldArray: FieldArrayRenderProps) => (
-                      <MissionGeneralInformationCrewPam
-                        name="crew"
-                        missionId={generalInfo2.missionId}
-                        currentCrewList={generalInfo2.crew ?? []}
-                        fieldArray={fieldArray}
-                      />
-                    )}
-                  </FieldArray>
-                </Stack.Item>
+              <Stack.Item style={{ width: '100%' }}>
+                <FieldArray name="crew">
+                  {(fieldArray: FieldArrayRenderProps) => (
+                    <MissionGeneralInformationCrewPam
+                      name="crew"
+                      missionId={generalInfo2.missionId}
+                      currentCrewList={generalInfo2.crew ?? []}
+                      fieldArray={fieldArray}
+                    />
+                  )}
+                </FieldArray>
+              </Stack.Item>
 
-                <Stack.Item style={{ width: '100%' }}>
-                  <Label>Distance et consommation</Label>
-                  <Stack
-                    direction="row"
-                    alignItems="flex-start"
-                    spacing="1rem"
-                    style={{ width: '100%', backgroundColor: THEME.color.gainsboro, padding: '0.5rem' }}
-                  >
-                    <Stack.Item style={{ flex: 1 }}>
-                      <FormikNumberInput
-                        label="Distance parcourue en milles"
-                        name="distanceInNauticalMiles"
-                        role="distanceInNauticalMiles"
-                        isRequired={true}
-                        placeholder="0"
-                        isLight={true}
-                        isErrorMessageHidden={true}
-                      />
-                    </Stack.Item>
-                    <Stack.Item style={{ flex: 1 }}>
-                      <FormikNumberInput
-                        label="GO marine consommé en litres"
-                        name="consumedGOInLiters"
-                        role="consumedGOInLiters"
-                        isRequired={true}
-                        placeholder="0"
-                        isLight={true}
-                        isErrorMessageHidden={true}
-                      />
-                    </Stack.Item>
-                    <Stack.Item style={{ flex: 1 }}>
-                      <FormikNumberInput
-                        label="Essence consommée en litres"
-                        name="consumedFuelInLiters"
-                        role="consumedFuelInLiters"
-                        isRequired={true}
-                        placeholder="0"
-                        isLight={true}
-                        isErrorMessageHidden={true}
-                      />
-                    </Stack.Item>
-                  </Stack>
-                </Stack.Item>
+              <Stack.Item style={{ width: '100%' }}>
+                <Label>Distance et consommation</Label>
+                <Stack
+                  direction="row"
+                  alignItems="flex-start"
+                  spacing="1rem"
+                  style={{ width: '100%', backgroundColor: THEME.color.gainsboro, padding: '0.5rem' }}
+                >
+                  <Stack.Item style={{ flex: 1 }}>
+                    <FormikNumberInput
+                      label="Distance parcourue en milles"
+                      name="distanceInNauticalMiles"
+                      role="distanceInNauticalMiles"
+                      isRequired={true}
+                      placeholder="0"
+                      isLight={true}
+                      isErrorMessageHidden={true}
+                    />
+                  </Stack.Item>
+                  <Stack.Item style={{ flex: 1 }}>
+                    <FormikNumberInput
+                      label="GO marine consommé en litres"
+                      name="consumedGOInLiters"
+                      role="consumedGOInLiters"
+                      isRequired={true}
+                      placeholder="0"
+                      isLight={true}
+                      isErrorMessageHidden={true}
+                    />
+                  </Stack.Item>
+                  <Stack.Item style={{ flex: 1 }}>
+                    <FormikNumberInput
+                      label="Essence consommée en litres"
+                      name="consumedFuelInLiters"
+                      role="consumedFuelInLiters"
+                      isRequired={true}
+                      placeholder="0"
+                      isLight={true}
+                      isErrorMessageHidden={true}
+                    />
+                  </Stack.Item>
+                </Stack>
+              </Stack.Item>
 
-                <Stack.Item style={{ width: '100%' }}>
-                  <FormikNumberInput
-                    isLight={false}
-                    isRequired={true}
-                    name="nbrOfRecognizedVessel"
-                    data-testid="mission-information-general-recognized-vessel"
-                    label="Nombre total de navires reconnus dans les approches maritimes ZEE"
-                    isErrorMessageHidden={true}
-                  />
-                </Stack.Item>
+              <Stack.Item style={{ width: '100%' }}>
+                <FormikNumberInput
+                  isLight={false}
+                  isRequired={true}
+                  name="nbrOfRecognizedVessel"
+                  data-testid="mission-information-general-recognized-vessel"
+                  label="Nombre total de navires reconnus dans les approches maritimes ZEE"
+                  isErrorMessageHidden={true}
+                />
+              </Stack.Item>
 
-                <Stack.Item style={{ width: '100%' }}>
-                  <FormikTextarea
-                    isRequired={true}
-                    isLight={false}
-                    name="observations"
-                    data-testid="mission-general-observation"
-                    label="Observation générale à l'échelle de la mission (remarques, résumé)"
-                    isErrorMessageHidden={true}
-                  />
-                </Stack.Item>
-              </Stack>
-            </>
-          )}
+              <Stack.Item style={{ width: '100%' }}>
+                <FormikTextarea
+                  isRequired={true}
+                  isLight={false}
+                  name="observations"
+                  data-testid="mission-general-observation"
+                  label="Observation générale à l'échelle de la mission (remarques, résumé)"
+                  isErrorMessageHidden={true}
+                />
+              </Stack.Item>
+            </Stack>
+          </>
         </Formik>
       )}
     </Stack.Item>
