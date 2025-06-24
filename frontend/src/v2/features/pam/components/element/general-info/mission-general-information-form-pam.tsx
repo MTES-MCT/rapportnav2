@@ -3,7 +3,6 @@ import { FormikEffect, FormikNumberInput, FormikTextarea, Label, THEME } from '@
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { Stack } from 'rsuite'
 import { MissionGeneralInfo2 } from '../../../../common/types/mission-types.ts'
-import { MissionGeneralInfoInput } from '../../../../ulam/hooks/use-ulam-mission-general-information-form.tsx'
 import { FormikDateRangePicker } from '../../../../common/components/ui/formik-date-range-picker.tsx'
 import { usePamMissionGeneralInfoForm } from '../../../hooks/use-pam-mission-general-information-form.tsx'
 import MissionGeneralInformationCrewPam from './mission-general-information-crew-pam.tsx'
@@ -29,12 +28,19 @@ const MissionGeneralInformationFormPam: FC<{
         >
           {({ validateForm }) => (
             <>
-              <FormikEffect
-                onChange={newValues =>
-                  validateForm(newValues).then(errors => handleSubmit(newValues as MissionGeneralInfoInput, errors))
-                }
-              />
-              <Stack direction="column" style={{ width: '100%' }} alignItems={'flex-start'} spacing={'2rem'}>
+              {/*<FormikEffect*/}
+              {/*  onChange={newValues =>*/}
+              {/*    validateForm(newValues).then(errors => handleSubmit(newValues as MissionGeneralInfoInput, errors))*/}
+              {/*  }*/}
+              {/*/>*/}
+              <FormikEffect onChange={newValues => handleSubmit(newValues)} />
+
+              <Stack
+                direction="column"
+                style={{ width: '100%', padding: '0 2px' }}
+                alignItems={'flex-start'}
+                spacing={'2rem'}
+              >
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" alignItems={'flex-start'} justifyContent={'flex-end'}>
                     <Stack.Item style={{ width: '80%' }}>
