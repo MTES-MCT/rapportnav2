@@ -41,4 +41,5 @@ interface BaseMissionNavActionData {
     val status: ActionStatusType?
     val reason: ActionStatusReason?
     val crossControl: MissionActionCrossControl?
+    val missionIdUUID: String?
 }

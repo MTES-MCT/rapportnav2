@@ -34,7 +34,7 @@ data class MissionGeneralInfo(
         fun fromMissionGeneralInfoEntity(info: MissionGeneralInfoEntity?) = info?.let { missionGeneralInfoEntity ->
             MissionGeneralInfo(
                 id = missionGeneralInfoEntity.id,
-                missionId = missionGeneralInfoEntity.missionId,
+                missionId = missionGeneralInfoEntity.missionId ?: 0, // TODO TO CHECK AS SOON AS POSSIBLE (STEP3 REFACTO)
                 distanceInNauticalMiles = missionGeneralInfoEntity.distanceInNauticalMiles,
                 consumedGOInLiters = missionGeneralInfoEntity.consumedGOInLiters,
                 consumedFuelInLiters = missionGeneralInfoEntity.consumedFuelInLiters,
