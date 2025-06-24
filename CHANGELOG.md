@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.11.10](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.11.9...docker-container@v2.11.10) (2025-06-24)
+
+
+### Bug Fixes
+
+* fix validation on generalInfo PAM v2 ([55db70f](https://github.com/MTES-MCT/rapportnav2/commit/55db70f9c5f80992cc6ab2611f31675bbeb62ffd))
+
 ## [2.11.9](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.11.8...docker-container@v2.11.9) (2025-06-24)
 
 
