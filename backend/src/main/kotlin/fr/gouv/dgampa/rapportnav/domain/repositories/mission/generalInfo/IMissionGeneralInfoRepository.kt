@@ -7,6 +7,8 @@ import java.util.*
 interface IMissionGeneralInfoRepository {
     fun findByMissionId(missionId: Int): Optional<MissionGeneralInfoModel>
 
+    fun findByMissionIdUUID(missionIdUUID: UUID): Optional<MissionGeneralInfoModel>
+
     fun findById(id: Int): Optional<MissionGeneralInfoModel>
 
     fun existsById(id: Int): Boolean

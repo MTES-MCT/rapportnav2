@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEn
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionPatrolMultipleZipped2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionPatrolSingle2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ZipFiles
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -27,7 +27,7 @@ class ExportMissionPatrolMultipleZippedTest2 {
     private lateinit var exportMissionPatrolSingle: ExportMissionPatrolSingle2
 
     @MockitoBean
-    private lateinit var getMission2: GetMission2
+    private lateinit var getComputeEnvMission: GetComputeEnvMission
 
     @Test
     fun `should return null for empty mission list`() {
@@ -58,7 +58,7 @@ class ExportMissionPatrolMultipleZippedTest2 {
             )
         )
 
-        Mockito.`when`(getMission2.execute(missionId = mission2.id)).thenReturn(
+        Mockito.`when`(getComputeEnvMission.execute(missionId = mission2.id)).thenReturn(
             mission2
         )
 
@@ -72,7 +72,7 @@ class ExportMissionPatrolMultipleZippedTest2 {
     fun `should handle exception and return null`() {
         // Arrange: Force an exception when getMission.execute is called
         val missionIds = listOf(1)
-        Mockito.`when`(getMission2.execute(missionId = 1))
+        Mockito.`when`(getComputeEnvMission.execute(missionId = 1))
             .thenThrow(RuntimeException("Mock exception"))
 
         // Act: Call the method

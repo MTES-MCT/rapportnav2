@@ -66,7 +66,7 @@ class ProcessNavActionTest {
             getComputeCrossControl = getComputeCrossControl
         )
 
-        val entity = processNavAction.execute(missionId = missionId, action = action)
+        val entity = processNavAction.execute(action = action)
         val infractionIds = entity.getInfractions().map { it.id }.toSet()
         val mockInfractionIds = mockTarget.controls?.flatMap { it.infractions!! }?.map { it.id }?.toSet()
         assertThat(entity).isNotNull

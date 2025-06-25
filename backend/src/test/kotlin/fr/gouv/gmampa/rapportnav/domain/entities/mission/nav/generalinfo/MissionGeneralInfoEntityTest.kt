@@ -1,12 +1,14 @@
 package fr.gouv.gmampa.rapportnav.domain.entities.mission.nav.generalinfo
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.util.*
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [MissionGeneralInfoModel::class])
@@ -14,6 +16,7 @@ class MissionGeneralInfoEntityTest {
 
     @Test
     fun `execute should retrieve mission general info entity`() {
+        val missionIdUUID = UUID.randomUUID()
         val generalInfoEntity = MissionGeneralInfoEntity.fromMissionGeneralInfoModel(
             MissionGeneralInfoModel(
                 id = 1,
@@ -22,9 +25,12 @@ class MissionGeneralInfoEntityTest {
                 consumedGOInLiters = 2.5f,
                 consumedFuelInLiters = 2.7f,
                 distanceInNauticalMiles = 1.9f,
-                nbrOfRecognizedVessel = 9
+                nbrOfRecognizedVessel = 9,
+                jdpType = JdpTypeEnum.LAND,
+                missionIdUUID = missionIdUUID
             )
         )
+
         assertThat(generalInfoEntity).isNotNull();
         assertThat(generalInfoEntity.id).isEqualTo(1);
         assertThat(generalInfoEntity.missionId).isEqualTo(1);
@@ -33,10 +39,13 @@ class MissionGeneralInfoEntityTest {
         assertThat(generalInfoEntity.consumedFuelInLiters).isEqualTo(2.7f);
         assertThat(generalInfoEntity.distanceInNauticalMiles).isEqualTo(1.9f);
         assertThat(generalInfoEntity.nbrOfRecognizedVessel).isEqualTo(9);
+        assertThat(generalInfoEntity.jdpType).isEqualTo(JdpTypeEnum.LAND);
+        assertThat(generalInfoEntity.missionIdUUID).isEqualTo(missionIdUUID);
     }
 
     @Test
     fun `execute should retrieve mission general modal from entity`() {
+        val missionIdUUID = UUID.randomUUID()
         val generalInfoEntity = MissionGeneralInfoEntity(
             id = 1,
             missionId = 1,
@@ -44,7 +53,9 @@ class MissionGeneralInfoEntityTest {
             consumedGOInLiters = 2.5f,
             consumedFuelInLiters = 2.7f,
             distanceInNauticalMiles = 1.9f,
-            nbrOfRecognizedVessel = 9
+            nbrOfRecognizedVessel = 9,
+            jdpType = JdpTypeEnum.LAND,
+            missionIdUUID = missionIdUUID
         );
         val generalInfoModel = generalInfoEntity.toMissionGeneralInfoModel()
         assertThat(generalInfoModel).isNotNull();
@@ -55,5 +66,7 @@ class MissionGeneralInfoEntityTest {
         assertThat(generalInfoModel.consumedFuelInLiters).isEqualTo(generalInfoEntity.consumedFuelInLiters);
         assertThat(generalInfoModel.distanceInNauticalMiles).isEqualTo(generalInfoEntity.distanceInNauticalMiles);
         assertThat(generalInfoModel.nbrOfRecognizedVessel).isEqualTo(generalInfoEntity.nbrOfRecognizedVessel);
+        assertThat(generalInfoEntity.jdpType).isEqualTo(JdpTypeEnum.LAND);
+        assertThat(generalInfoEntity.missionIdUUID).isEqualTo(missionIdUUID);
     }
 }

@@ -4,7 +4,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.Instant
 
@@ -30,7 +29,7 @@ data class MissionEnvData(
     companion object {
         fun fromMissionEntity(mission: MissionEntity): MissionEnvData {
             return MissionEnvData(
-                missionTypes = mission.missionTypes,
+                missionTypes = mission.missionTypes ?: listOf(),
                 controlUnits = mission.controlUnits,
                 openBy = mission.openBy,
                 completedBy = mission.completedBy,

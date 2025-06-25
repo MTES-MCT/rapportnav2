@@ -21,6 +21,10 @@ class JPAMissionGeneralInfoRepository(
         return dbRepo.findByMissionId(missionId)
     }
 
+    override fun findByMissionIdUUID(missionIdUUID: UUID): Optional<MissionGeneralInfoModel> {
+        return dbRepo.findByMissionIdUUID(missionIdUUID)
+    }
+
     override fun findById(id: Int): Optional<MissionGeneralInfoModel> {
         return dbRepo.findById(id)
     }

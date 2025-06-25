@@ -47,7 +47,7 @@ data class MissionEntity(
         fishMissionActions: List<ExtendedFishActionEntity>? = null,
     ) : this(
         id = (envMission.mission.id)!!,
-        missionTypes = envMission.mission.missionTypes,
+        missionTypes = envMission.mission.missionTypes ?: listOf(),
         controlUnits = envMission.mission.controlUnits,
         openBy = envMission.mission.openBy,
         completedBy = envMission.mission.completedBy,

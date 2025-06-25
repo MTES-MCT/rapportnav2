@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.PatchMissionEnv
@@ -28,7 +29,7 @@ class PatchMissionEnvTest {
     private lateinit var patchMissionEnv: PatchMissionEnv
 
     @MockitoBean
-    private lateinit var envMissionRepo: IEnvMissionRepository
+    private lateinit var repository: IMissionNavRepository
 
     @MockitoBean
     private lateinit var getEnvMissionById2: GetEnvMissionById2

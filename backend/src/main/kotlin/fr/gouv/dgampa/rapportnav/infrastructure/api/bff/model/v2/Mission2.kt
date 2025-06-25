@@ -6,7 +6,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 
 data class Mission2(
-    val id: Int,
+    val id: Int? = null,
+    val idUUID: String? = null,
     val status: MissionStatusEnum,
     val envData: MissionEnvData? = null,
     var actions: List<MissionAction?> = listOf(),
@@ -19,19 +20,20 @@ data class Mission2(
         fun fromMissionEntity(mission: MissionEntity2): Mission2 {
             val completenessForStats = mission.isCompleteForStats()
             val status = mission.calculateMissionStatus(
-                endDateTimeUtc = mission.envData.endDateTimeUtc,
-                startDateTimeUtc = mission.envData.startDateTimeUtc
+                endDateTimeUtc = mission.data?.endDateTimeUtc,
+                startDateTimeUtc = mission.data?.startDateTimeUtc!!
             )
             return Mission2(
                 id = mission.id,
                 status = status,
+                idUUID = mission.idUUID?.toString(),
                 completenessForStats = completenessForStats,
-                envData = MissionEnvData.fromMissionEntity(mission.envData),
+                envData = MissionEnvData.fromMissionEntity(mission.data),
                 isCompleteForStats = completenessForStats.sources?.isEmpty(),
                 generalInfos = MissionGeneralInfo2.fromMissionGeneralInfoEntity(
                     generalInfo2 = mission.generalInfos
                 ),
-                actions = mission.actions.map { action -> MissionAction.fromMissionActionEntity(action) }
+                actions = mission.actions?.map { action -> MissionAction.fromMissionActionEntity(action) } ?: listOf()
             )
         }
     }

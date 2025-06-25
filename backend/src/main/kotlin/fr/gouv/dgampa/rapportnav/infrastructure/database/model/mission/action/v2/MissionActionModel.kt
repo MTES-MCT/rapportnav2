@@ -14,8 +14,8 @@ data class MissionActionModel(
     @Column(name = "id")
     var id: UUID,
 
-    @Column(name = "mission_id", nullable = false)
-    var missionId: Int,
+    @Column(name = "mission_id", nullable = true)
+    var missionId: Int? = null,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "action_type", nullable = false)
@@ -119,8 +119,7 @@ data class MissionActionModel(
 
     @Column(name = "reason", nullable = true)
     var reason: String? = null,
-
-    @Column(name = "cross_control_id", nullable = true)
+   @Column(name = "cross_control_id", nullable = true)
     var crossControlId: UUID? = null,
 
     @Column(name = "cross_control_status", nullable = true)
@@ -134,9 +133,11 @@ data class MissionActionModel(
 
     @Column(name = "cross_control_nbr_hours", nullable = true)
     var crossControlNbrOfHours: Int? = null,
-) {
 
-   override fun hashCode(): Int {
+    @Column(name = "mission_id_uuid", nullable = true)
+    var missionIdUUID: UUID? = null,
+) {
+    override fun hashCode(): Int {
         return Objects.hash(id)
     }
 

@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissio
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetMissionAction
 
 @UseCase
-class GetMission2(
+class GetComputeEnvMission(
     private val getGeneralInfos2: GetGeneralInfo2,
     private val getMissionAction: GetMissionAction,
     private val getEnvMissionById2: GetEnvMissionById2,
@@ -16,15 +16,15 @@ class GetMission2(
         val mission = envMission ?: missionId?.let { getEnvMissionById2.execute(it) } ?: return null
 
         val id = mission.id ?: return null
-
         val actions = getMissionAction.execute(missionId = id)
         val generalInfos = getGeneralInfos2.execute(missionId = id, controlUnits = mission.controlUnits)
 
         return MissionEntity2(
             id = id,
-            envData = mission,
+            data = mission,
             actions = actions,
             generalInfos = generalInfos
         )
     }
 }
+

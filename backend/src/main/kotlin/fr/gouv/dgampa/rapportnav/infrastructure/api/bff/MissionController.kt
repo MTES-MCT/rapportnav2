@@ -63,9 +63,8 @@ class MissionController(
             val fullMissions = envMissions?.map { getMission.execute(it.id, it) }
 
             // transform the data for the API
-            val missions = fullMissions?.mapNotNull { it?.let { Mission.fromMissionEntity(it) } } ?: emptyList()
+            return fullMissions?.mapNotNull { it?.let { Mission.fromMissionEntity(it) } } ?: emptyList()
 
-            return missions
         } catch (e: Exception) {
             logger.error("MissionController - failed to load missions from MonitorEnv", e)
             throw Exception(e)
@@ -85,7 +84,6 @@ class MissionController(
     @QueryMapping
     fun mission(@Argument missionId: Int): Mission? {
         val mission = getMission.execute(missionId = missionId)
-        logger.info("MissionController - Get mission with missionId={} : {}", missionId, mission)
         return mission?.let { Mission.fromMissionEntity(it) }
     }
 

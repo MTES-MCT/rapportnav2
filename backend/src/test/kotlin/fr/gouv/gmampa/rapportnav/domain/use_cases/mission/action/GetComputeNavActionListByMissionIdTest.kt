@@ -56,7 +56,7 @@ class GetComputeNavActionListByMissionIdTest {
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
         )
 
-        `when`(processNavAction.execute(anyInt(), anyOrNull())).thenReturn(response)
+        `when`(processNavAction.execute(anyOrNull())).thenReturn(response)
         `when`(navMissionActionRepository.findByMissionId(missionId)).thenReturn(listOf(action))
 
         getNavActionList = GetComputeNavActionListByMissionId(
@@ -64,6 +64,46 @@ class GetComputeNavActionListByMissionIdTest {
             navMissionActionRepository = navMissionActionRepository
         )
         val navActions = getNavActionList.execute(missionId = missionId)
+
+        assertThat(navActions).isNotNull
+        assertThat(navActions.size).isEqualTo(1)
+        assertThat(navActions[0].id).isEqualTo(action.id)
+        assertThat(navActions[0].getActionId()).isEqualTo(actionId.toString())
+    }
+
+
+    @Test
+    fun `test execute get nav action list by mission id UUID`() {
+        val actionId = UUID.randomUUID()
+        val missionIdUUID = UUID.randomUUID()
+        val action = MissionActionModel(
+            id = actionId,
+            missionIdUUID = missionIdUUID,
+            startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
+            endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
+            observations = "My beautiful observation",
+            isAntiPolDeviceDeployed = true,
+            isSimpleBrewingOperationDone = true,
+            diversionCarriedOut = true,
+            actionType = ActionType.CONTROL
+        )
+
+        val response = MissionNavActionEntity(
+            id = actionId,
+            missionId = 761,
+            actionType = ActionType.ILLEGAL_IMMIGRATION,
+            startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
+            endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00")
+        )
+
+        `when`(processNavAction.execute(anyOrNull())).thenReturn(response)
+        `when`(navMissionActionRepository.findByMissionIdUUID(missionIdUUID)).thenReturn(listOf(action))
+
+        getNavActionList = GetComputeNavActionListByMissionId(
+            processNavAction = processNavAction,
+            navMissionActionRepository = navMissionActionRepository
+        )
+        val navActions = getNavActionList.execute(missionIdUUID = missionIdUUID)
 
         assertThat(navActions).isNotNull
         assertThat(navActions.size).isEqualTo(1)

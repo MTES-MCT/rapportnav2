@@ -8,14 +8,15 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import org.slf4j.LoggerFactory
 import java.time.Instant
 import java.time.format.DateTimeParseException
+import java.util.*
 
 data class MissionEntity2(
-    val id: Int,
-    val envData: MissionEntity,
-    val actions: List<MissionActionEntity>,
+    val id: Int? = null,
+    val idUUID: UUID? = null,
+    val data: MissionEntity? = null,
+    val actions: List<MissionActionEntity>? = listOf(),
     val generalInfos: MissionGeneralInfoEntity2? = null
 ) {
-
     private val logger = LoggerFactory.getLogger(MissionEntity2::class.java)
 
     fun isCompleteForStats(): CompletenessForStatsEntity {
@@ -49,7 +50,7 @@ data class MissionEntity2(
 
     private fun actionsIsCompleteForStats(): CompletenessForStatsEntity {
         val sources = listOf<MissionSourceEnum>()
-        this.actions.forEach {
+        this.actions?.forEach {
             if (it.isCompleteForStats != true) {
                 sources.plus(it.source)
             }

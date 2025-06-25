@@ -24,6 +24,10 @@ class JPAMissionCrewRepository(
         return dbMissionCrewRepository.findByMissionId(missionId)
     }
 
+    override fun findByMissionIdUUID(missionIdUUID: UUID): List<MissionCrewModel> {
+        return dbMissionCrewRepository.findByMissionIdUUID(missionIdUUID)
+    }
+
     @Transactional
     override fun save(crew: MissionCrewEntity): MissionCrewModel {
         return try {

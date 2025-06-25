@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import jakarta.persistence.*
+import java.util.*
 
 @Entity
 @Table(name = "mission_crew")
@@ -15,8 +16,8 @@ class MissionCrewModel(
     @JoinColumn(name = "agent_id")
     var agent: AgentModel,
 
-    @Column(name = "mission_id")
-    var missionId: Int,
+    @Column(name = "mission_id", nullable = true)
+    var missionId: Int? = null,
 
     @Column(name = "comment", nullable = true)
     var comment: String? = null,
@@ -24,6 +25,9 @@ class MissionCrewModel(
     @ManyToOne
     @JoinColumn(name = "agent_role_id", nullable = true)
     var role: AgentRoleModel?,
+
+    @Column(name = "mission_id_uuid", nullable = true)
+    var missionIdUUID: UUID? = null,
 
 
     ) {
@@ -34,7 +38,8 @@ class MissionCrewModel(
             missionId = missionId,
             agent = agent.toAgentEntity(),
             role = role?.toAgentRoleEntity(),
-            comment = if (comment == null && commentDefaultsToString == true) "" else comment
+            comment = if (comment == null && commentDefaultsToString == true) "" else comment,
+            missionIdUUID = missionIdUUID
         )
     }
 
@@ -46,7 +51,8 @@ class MissionCrewModel(
                 missionId = crew.missionId,
                 agent = AgentModel.fromAgentEntity(crew.agent),
                 role = crew.role?.let { AgentRoleModel.fromAgentRoleEntity(it) },
-                comment = crew.comment
+                comment = crew.comment,
+                missionIdUUID = crew.missionIdUUID
             )
         }
     }

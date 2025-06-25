@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
@@ -18,6 +17,10 @@ class JPAMissionActionRepository(
 ) : INavMissionActionRepository {
     override fun findByMissionId(missionId: Int): List<MissionActionModel> {
         return dbMissionActionRepository.findAllByMissionId(missionId)
+    }
+
+    override fun findByMissionIdUUID(missionIdUUID: UUID): List<MissionActionModel> {
+        return dbMissionActionRepository.findAllByMissionIdUUID(missionIdUUID)
     }
 
     override fun findById(id: UUID): Optional<MissionActionModel> {

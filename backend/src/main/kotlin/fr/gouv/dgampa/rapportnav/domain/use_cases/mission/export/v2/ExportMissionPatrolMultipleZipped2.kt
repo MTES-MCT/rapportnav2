@@ -4,13 +4,13 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import org.slf4j.LoggerFactory
 
 @UseCase
 class ExportMissionPatrolMultipleZipped2(
     private val exportMissionPatrolSingle: ExportMissionPatrolSingle2,
-    private val getMission2: GetMission2,
+    private val getComputeEnvMission: GetComputeEnvMission,
     private val zipFiles: ZipFiles,
 ) {
 
@@ -32,7 +32,7 @@ class ExportMissionPatrolMultipleZipped2(
         // retrieve missions
         for (missionId in missionIds) {
             try {
-                mission = getMission2.execute(missionId = missionId)
+                mission = getComputeEnvMission.execute(missionId = missionId)
             } catch (e: Exception) {
                 logger.error("[ExportMissionPatrolMultipleZipped] - error retrieving mission id=$missionId", e)
                 return null

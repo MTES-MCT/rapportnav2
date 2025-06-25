@@ -1,9 +1,6 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
@@ -80,6 +77,7 @@ class MissionGeneralInfo2Test {
         val missionId = 1
         val generalInfoEntity =
             MissionGeneralInfo2(
+                id = 1,
                 missionId = missionId,
                 serviceId = 3,
                 consumedGOInLiters = 2.5f,
@@ -92,56 +90,12 @@ class MissionGeneralInfo2Test {
             ).toMissionGeneralInfoEntity(missionId = missionId);
 
         assertThat(generalInfoEntity).isNotNull();
-        assertThat(generalInfoEntity.id).isEqualTo(missionId);
+        assertThat(generalInfoEntity.id).isEqualTo(1);
         assertThat(generalInfoEntity.missionId).isEqualTo(missionId);
         assertThat(generalInfoEntity.serviceId).isEqualTo(3);
         assertThat(generalInfoEntity.consumedGOInLiters).isEqualTo(2.5f);
         assertThat(generalInfoEntity.consumedFuelInLiters).isEqualTo(2.7f);
         assertThat(generalInfoEntity.distanceInNauticalMiles).isEqualTo(1.9f);
         assertThat(generalInfoEntity.nbrOfRecognizedVessel).isEqualTo(9);
-    }
-
-
-    private fun getEnvData(): MissionEntity {
-
-        val resource1 = LegacyControlUnitResourceEntity(
-            id = 1,
-            name = "Ford F150",
-            controlUnitId = 1
-        )
-
-        val resource2 = LegacyControlUnitResourceEntity(
-            id = 2,
-            name = "Dacia Duster",
-            controlUnitId = 2
-        )
-
-        val unit1 = LegacyControlUnitEntity(
-            id = 1,
-            name = "TEST-1",
-            isArchived = false,
-            administration = "Beta Gouv",
-            resources = mutableListOf(resource1)
-        )
-
-        val unit2 = LegacyControlUnitEntity(
-            id = 2,
-            name = "TEST-2",
-            isArchived = false,
-            administration = "Beta Gouv",
-            resources = mutableListOf(resource2)
-        )
-
-        return MissionEntity(
-            id = 1,
-            missionSource = MissionSourceEnum.RAPPORT_NAV,
-            missionTypes = listOf(MissionTypeEnum.AIR),
-            startDateTimeUtc = Instant.now(),
-            hasMissionOrder = false,
-            isUnderJdp = false,
-            isDeleted = false,
-            controlUnits = listOf(unit1, unit2),
-            isGeometryComputedFromControls = false,
-        )
     }
 }

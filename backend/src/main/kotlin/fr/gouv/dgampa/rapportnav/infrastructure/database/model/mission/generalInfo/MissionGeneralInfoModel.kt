@@ -1,20 +1,22 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 import jakarta.persistence.*
+import java.util.*
 
 @Entity
 @Table(name = "mission_general_info")
 class MissionGeneralInfoModel(
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-    var id: Int?,
+    var id: Int? = null,
 
-    @Column(name = "mission_id", nullable = false)
-    var missionId: Int = 0,
+    @Column(name = "mission_id", nullable = true)
+    var missionId: Int? = 0,
 
     @Column(name = "distance_in_nautical_miles", nullable = true)
     var distanceInNauticalMiles: Float? = null,
@@ -51,6 +53,13 @@ class MissionGeneralInfoModel(
     @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
     @JoinColumn(name="mission_general_info_id")
     @JsonIgnore
-    var interMinisterialServices: List<InterMinisterialServiceModel>? = mutableListOf()
+    var interMinisterialServices: List<InterMinisterialServiceModel>? = mutableListOf(),
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "jdp_type")
+    var jdpType: JdpTypeEnum? = null,
+
+    @Column(name = "mission_id_uuid", nullable = true)
+    var missionIdUUID: UUID? = null,
 ) {
 }

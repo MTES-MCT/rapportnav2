@@ -23,6 +23,8 @@ class MissionNavActionEntity(
     @MandatoryForStats
     override var missionId: Int,
 
+    override var missionIdUUID: UUID? = null,
+
     @MandatoryForStats
     override var actionType: ActionType,
     override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
@@ -194,8 +196,8 @@ class MissionNavActionEntity(
         isSignedByInspector = crossControl?.isSignedByInspector,
         crossControlNbrOfHours = crossControl?.nbrOfHours,
         crossControlStatus = crossControl?.status?.toString(),
-        crossControlConclusion = crossControl?.conclusion?.toString()
-
+        crossControlConclusion = crossControl?.conclusion?.toString(),
+        missionIdUUID = missionIdUUID
     )
 
 
@@ -207,7 +209,7 @@ class MissionNavActionEntity(
         fun fromMissionActionModel(model: MissionActionModel): MissionNavActionEntity {
             return MissionNavActionEntity(
                 id = model.id,
-                missionId = model.missionId,
+                missionId = model.missionId?:0,
                 actionType = model.actionType,
                 startDateTimeUtc = model.startDateTimeUtc,
                 endDateTimeUtc = model.endDateTimeUtc,
@@ -241,6 +243,7 @@ class MissionNavActionEntity(
                 nbAssistedVesselsReturningToShore = model.nbAssistedVesselsReturningToShore,
                 status = model.status?.let { ActionStatusType.valueOf(it) },
                 reason = model.reason?.let { ActionStatusReason.valueOf(it) },
+                missionIdUUID = model.missionIdUUID,
                 crossControl = MissionActionCrossControlEntity(
                     id = model.crossControlId,
                     nbrOfHours = model.crossControlNbrOfHours,

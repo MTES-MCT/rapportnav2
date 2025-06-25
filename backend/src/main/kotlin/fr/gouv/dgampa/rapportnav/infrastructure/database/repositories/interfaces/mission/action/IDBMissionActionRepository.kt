@@ -10,6 +10,8 @@ interface IDBMissionActionRepository: JpaRepository<MissionActionModel, UUID> {
 
     fun findAllByMissionId(missionId: Int): List<MissionActionModel>
 
+    fun findAllByMissionIdUUID(missionIdUUID: UUID): List<MissionActionModel>
+
     override fun findById(id: UUID): Optional<MissionActionModel>
 
     fun save(missionActionEntity: MissionNavActionEntity): MissionActionModel
