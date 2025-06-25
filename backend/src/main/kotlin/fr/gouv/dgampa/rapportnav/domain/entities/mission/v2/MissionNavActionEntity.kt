@@ -39,9 +39,17 @@ class MissionNavActionEntity(
     )
     override var endDateTimeUtc: Instant? = null,
     override var observations: String? = null,
-    @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["CONTROL", "RESCUE"])])
+    @MandatoryForStats(enableIf = [
+        DependentFieldValue(
+            field = "actionType",
+            value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION"])
+    ])
     override var latitude: Double? = null,
-    @MandatoryForStats(enableIf = [DependentFieldValue(field = "actionType", value = ["CONTROL", "RESCUE"])])
+    @MandatoryForStats(enableIf = [
+        DependentFieldValue(
+            field = "actionType",
+            value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION"])
+    ])
     override var longitude: Double? = null,
     override var detectedPollution: Boolean? = null,
     override var pollutionObservedByAuthorizedAgent: Boolean? = null,
