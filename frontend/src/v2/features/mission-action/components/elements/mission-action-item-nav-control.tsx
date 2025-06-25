@@ -17,9 +17,8 @@ import MissionActionNavControlWarning from '../ui/mission-action-nav-control-war
 const MissionActionItemNavControl: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
-  isMissionFinished?: boolean
-}> = ({ action, onChange, isMissionFinished }) => {
-  const { initValue, handleSubmit, validationSchema } = useMissionActionNavControl(action, onChange, isMissionFinished)
+}> = ({ action, onChange }) => {
+  const { initValue, handleSubmit, validationSchema } = useMissionActionNavControl(action, onChange)
 
   return (
     <div style={{ width: '100%' }}>
@@ -31,9 +30,16 @@ const MissionActionItemNavControl: FC<{
           validationSchema={validationSchema}
           enableReinitialize
         >
-          {({ values }) => (
+          {({ validateForm, setErrors, values }) => (
             <>
-              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionNavControlInput)} />
+              <FormikEffect
+                onChange={async nextValue =>
+                  validateForm().then(async errors => {
+                    await handleSubmit(nextValue as ActionNavControlInput)
+                    setErrors(errors)
+                  })
+                }
+              />
               <Stack
                 direction="column"
                 spacing="2rem"

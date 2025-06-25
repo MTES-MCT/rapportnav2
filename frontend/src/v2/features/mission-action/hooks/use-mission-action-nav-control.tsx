@@ -1,21 +1,22 @@
 import { VesselSizeEnum } from '@common/types/env-mission-types'
 import { FormikErrors } from 'formik'
-import { boolean, mixed, object, string } from 'yup'
+import { array, boolean, mixed, number, object, string } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionNavControlInput } from '../types/action-type'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 
 export function useMissionActionNavControl(
   action: MissionAction,
-  onChange: (newAction: MissionAction) => Promise<unknown>,
-  isMissionFinished?: boolean
+  onChange: (newAction: MissionAction) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionNavControlInput> {
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const isMissionFinished = useMissionFinished(action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionNavControlInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
@@ -23,7 +24,7 @@ export function useMissionActionNavControl(
     return {
       ...data,
       dates: [startDate, endDate],
-      isMissionFinished: !!isMissionFinished,
+      isMissionFinished: isMissionFinished,
       geoCoords: getCoords(data.latitude, data.longitude)
     }
   }
@@ -54,23 +55,32 @@ export function useMissionActionNavControl(
 
   const validationSchema = object().shape({
     isMissionFinished: boolean(),
+    geoCoords: array()
+      .of(number().required('Latitude/Longitude must be a number'))
+      .length(2, 'geoCoords must have exactly two elements: [lat, lon]')
+      .required('geoCoords is required'),
     vesselSize: mixed<VesselSizeEnum>()
       .nullable()
       .oneOf(Object.values(VesselSizeEnum))
+      .default(undefined) // <- force field to exist
       .when('isMissionFinished', {
         is: true,
         then: schema => schema.nonNullable().required()
       }),
     vesselIdentifier: string()
       .nullable()
+      .default(undefined) // <- force field to exist
       .when('isMissionFinished', {
         is: true,
         then: schema => schema.nonNullable().required()
       }),
-    identityControlledPersonValue: string().when('isMissionFinished', {
-      is: true,
-      then: schema => schema.nonNullable().required()
-    })
+    identityControlledPerson: string()
+      .nullable()
+      .default(undefined) // <- force field to exist
+      .when('isMissionFinished', {
+        is: true,
+        then: schema => schema.nonNullable().required()
+      })
   })
 
   return {
