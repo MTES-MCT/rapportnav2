@@ -5,6 +5,8 @@ import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionAntiPollutionInput } from '../types/action-type'
+import { array, boolean, number, object } from 'yup'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 
 export function useMissionActionAntiPollution(
   action: MissionAction,
@@ -13,11 +15,17 @@ export function useMissionActionAntiPollution(
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const isMissionFinished = useMissionFinished(action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionAntiPollutionInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
     const startDate = preprocessDateForPicker(data.startDateTimeUtc)
-    return { ...data, dates: [startDate, endDate], geoCoords: getCoords(data.latitude, data.longitude) }
+    return {
+      ...data,
+      dates: [startDate, endDate],
+      isMissionFinished,
+      geoCoords: getCoords(data.latitude, data.longitude)
+    }
   }
 
   const fromInputToFieldValue = (value: ActionAntiPollutionInput): MissionNavActionData => {
@@ -54,9 +62,18 @@ export function useMissionActionAntiPollution(
     handleSubmit(value, errors, onSubmit)
   }
 
+  const validationSchema = object().shape({
+    isMissionFinished: boolean(),
+    geoCoords: array()
+      .of(number().required('Latitude/Longitude must be a number'))
+      .length(2, 'geoCoords must have exactly two elements: [lat, lon]')
+      .required('geoCoords is required')
+  })
+
   return {
     isError,
     initValue,
+    validationSchema,
     handleSubmit: handleSubmitOverride
   }
 }

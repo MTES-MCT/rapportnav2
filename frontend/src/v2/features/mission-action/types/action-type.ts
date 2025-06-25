@@ -16,6 +16,7 @@ export type ActionGenericDateObservationInput = {
 
 export type ActionAntiPollutionInput = {
   dates: [Date?, Date?]
+  isMissionFinished?: boolean
   geoCoords: (number | undefined)[]
 } & MissionNavActionData
 
