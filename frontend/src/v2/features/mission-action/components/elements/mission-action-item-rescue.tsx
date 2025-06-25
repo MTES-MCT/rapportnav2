@@ -48,9 +48,16 @@ const MissionActionItemRescue: FC<{
           validationSchema={validationSchema}
           enableReinitialize
         >
-          {() => (
+          {({ validateForm, setErrors }) => (
             <>
-              <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionRescueInput)} />
+              <FormikEffect
+                onChange={async nextValue =>
+                  validateForm().then(async errors => {
+                    await handleSubmit(nextValue as ActionRescueInput)
+                    setErrors(errors)
+                  })
+                }
+              />
               <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>

@@ -80,7 +80,10 @@ export function useMissionActionRescue(
     isPersonRescue: boolean(),
     isMigrationRescue: boolean(),
     dates: array().of(date()).length(2),
-    geoCoords: array().of(number()).length(2),
+    geoCoords: array()
+      .of(number().required('Latitude/Longitude must be a number'))
+      .length(2, 'geoCoords must have exactly two elements: [lat, lon]')
+      .required('geoCoords is required'),
     numberPersonsRescued: number()
       .nullable()
       .when(['isPersonRescue', 'isMissionFinished'], {
