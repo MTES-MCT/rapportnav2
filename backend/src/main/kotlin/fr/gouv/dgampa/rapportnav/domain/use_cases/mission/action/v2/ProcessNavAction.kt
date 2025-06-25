@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionCrossControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction2
@@ -21,7 +22,9 @@ class ProcessNavAction(
         // first complete the completeness
         entity.computeCompleteness()
         // then compute the derived status
-        entity.status = this.getStatus(entity)
+        if (entity.actionType == ActionType.STATUS) {
+            entity.status = this.getStatus(entity)
+        }
         return entity
     }
 
