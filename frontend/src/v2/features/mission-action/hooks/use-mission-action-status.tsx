@@ -4,6 +4,8 @@ import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionStatusInput } from '../types/action-type'
+import { ActionStatusReason, ActionStatusType } from '@common/types/action-types.ts'
+import { mixed, object } from 'yup'
 
 export function useMissionActionStatus(
   action: MissionAction,
@@ -37,9 +39,23 @@ export function useMissionActionStatus(
     handleSubmit(value, errors, onSubmit)
   }
 
+  const validationSchema = object().shape({
+    status: mixed<ActionStatusType>().oneOf(Object.values(ActionStatusType) as ActionStatusType[]),
+
+    reason: mixed<ActionStatusReason>().when('status', {
+      is: (val: ActionStatusType) => val === ActionStatusType.DOCKED || val === ActionStatusType.UNAVAILABLE,
+      then: schema =>
+        schema
+          .oneOf(Object.values(ActionStatusReason) as ActionStatusReason[])
+          .required('Reason is required when status is DOCKED or UNAVAILABLE'),
+      otherwise: schema => schema.notRequired()
+    })
+  })
+
   return {
     isError,
     initValue,
+    validationSchema,
     handleSubmit: handleSubmitOverride
   }
 }

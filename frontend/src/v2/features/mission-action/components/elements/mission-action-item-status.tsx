@@ -14,46 +14,61 @@ const MissionActionItemStatus: FC<{
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
   isMissionFinished?: boolean
 }> = ({ action, onChange }) => {
-  const { initValue, handleSubmit } = useMissionActionStatus(action, onChange)
+  const { initValue, handleSubmit, validationSchema } = useMissionActionStatus(action, onChange)
   return (
     <form style={{ width: '100%' }}>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true} enableReinitialize>
-          <>
-            <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionStatusInput)} />
-            <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
-              <Stack.Item style={{ width: '100%' }}>
-                <Tag
-                  Icon={Icon.CircleFilled}
-                  iconColor={action.status ? getColorForStatus(ActionStatusType[action.status]) : undefined}
-                  isLight
-                  withCircleIcon={true}
-                >
-                  {action.status ? mapStatusToText(ActionStatusType[action.status]) : undefined}
-                </Tag>
-              </Stack.Item>
-              <Stack.Item style={{ width: '100%' }}>
-                <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
-                  <Stack.Item grow={1}>
-                    <FormikDatePicker
-                      name="date"
-                      isLight={true}
-                      withTime={true}
-                      isRequired={true}
-                      isCompact={false}
-                      label="Date et heure"
-                    />
-                  </Stack.Item>
-                  <Stack.Item grow={3}>
-                    <FormikSelectStatusReason label="Motif" name="reason" status={action.status} />
-                  </Stack.Item>
-                </Stack>
-              </Stack.Item>
-              <Stack.Item style={{ width: '100%' }}>
-                <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
-              </Stack.Item>
-            </Stack>
-          </>
+        <Formik
+          initialValues={initValue}
+          onSubmit={handleSubmit}
+          validateOnChange={false}
+          enableReinitialize
+          validationSchema={validationSchema}
+        >
+          {({ validateForm, setErrors }) => (
+            <>
+              <FormikEffect
+                onChange={async nextValue =>
+                  validateForm().then(async errors => {
+                    await handleSubmit(nextValue as ActionStatusInput)
+                    setErrors(errors)
+                  })
+                }
+              />
+              <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
+                <Stack.Item style={{ width: '100%' }}>
+                  <Tag
+                    Icon={Icon.CircleFilled}
+                    iconColor={action.status ? getColorForStatus(ActionStatusType[action.status]) : undefined}
+                    isLight
+                    withCircleIcon={true}
+                  >
+                    {action.status ? mapStatusToText(ActionStatusType[action.status]) : undefined}
+                  </Tag>
+                </Stack.Item>
+                <Stack.Item style={{ width: '100%' }}>
+                  <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
+                    <Stack.Item grow={1}>
+                      <FormikDatePicker
+                        name="date"
+                        isLight={true}
+                        withTime={true}
+                        isRequired={true}
+                        isCompact={false}
+                        label="Date et heure"
+                      />
+                    </Stack.Item>
+                    <Stack.Item grow={3}>
+                      <FormikSelectStatusReason label="Motif" name="reason" status={action.status} />
+                    </Stack.Item>
+                  </Stack>
+                </Stack.Item>
+                <Stack.Item style={{ width: '100%' }}>
+                  <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
+                </Stack.Item>
+              </Stack>
+            </>
+          )}
         </Formik>
       )}
     </form>
