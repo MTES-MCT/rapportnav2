@@ -1,4 +1,3 @@
-import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form.tsx'
 import { MissionGeneralInfo2 } from '../../common/types/mission-types.ts'
 import { useDate } from '../../common/hooks/use-date.tsx'
@@ -45,13 +44,19 @@ export const usePamMissionGeneralInfoForm = (
   }
 
   const validationSchema = object().shape({
-    distanceInNauticalMiles: number().required(),
-    consumedGOInLiters: number().required(),
-    consumedFuelInLiters: number().required(),
-    nbrOfRecognizedVessel: number().required(),
-    observations: string().required(),
-    crew: array().min(1, 'Crew cannot be empty').required()
+    dates: array().min(2, 'Start and end dates are required').required(),
+    distanceInNauticalMiles: number().required('Distance is required'),
+    consumedGOInLiters: number().required('GO consumption is required'),
+    consumedFuelInLiters: number().required('Fuel consumption is required'),
+    nbrOfRecognizedVessel: number().required('Number of recognized vessels is required'),
+    observations: string().required('Observations are required'),
+    crew: array().min(1, 'At least one crew member is required').required()
   })
 
-  return { initValue, handleSubmit: handleSubmitOverride, isError, validationSchema }
+  return {
+    initValue,
+    handleSubmit: handleSubmitOverride,
+    isError,
+    validationSchema
+  }
 }
