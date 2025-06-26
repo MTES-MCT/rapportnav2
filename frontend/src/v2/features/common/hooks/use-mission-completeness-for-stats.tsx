@@ -53,24 +53,22 @@ type MissionCompletenessTagHook = {
 
 export function useMissionCompletenessForStats(
   completenessForStats?: CompletenessForStats,
-  missionStatus?: MissionStatusEnum
+  isMissionFinished?: boolean
 ): MissionCompletenessTagHook {
   const isCompleteForStats = (completenessForStats?: CompletenessForStats) =>
     completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE
 
-  const isMissionEnded = (status?: MissionStatusEnum) => status === MissionStatusEnum.ENDED
-
   const getMissionStateType = () => {
-    if (isMissionEnded(missionStatus) && isCompleteForStats(completenessForStats)) {
+    if (isMissionFinished && isCompleteForStats(completenessForStats)) {
       return MissionStateType.MISSION_ENDED_AND_COMPLETE
     }
-    if (isMissionEnded(missionStatus) && !isCompleteForStats(completenessForStats)) {
+    if (isMissionFinished && !isCompleteForStats(completenessForStats)) {
       return MissionStateType.MISSION_ENDED_AND_NOT_COMPLETE
     }
-    if (!isMissionEnded(missionStatus) && isCompleteForStats(completenessForStats)) {
+    if (!isMissionFinished && isCompleteForStats(completenessForStats)) {
       return MissionStateType.MISSION_NOT_ENDED_AND_COMPLETE
     }
-    if (!isMissionEnded(missionStatus) && !isCompleteForStats(completenessForStats)) {
+    if (!isMissionFinished && !isCompleteForStats(completenessForStats)) {
       return MissionStateType.MISSION_NOT_ENDED_AND_NOT_COMPLETE
     }
   }
