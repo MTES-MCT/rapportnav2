@@ -1,7 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionCrossControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction2
@@ -19,12 +18,10 @@ class ProcessNavAction(
         val entity = MissionNavActionEntity.fromMissionActionModel(action)
         entity.targets = getComputeTarget.execute(actionId = entity.getActionId(), isControl = entity.isControl())
         entity.crossControl = processMissionActionCrossControl(entity)
-        // first complete the completeness
+
+        // compute completeness
         entity.computeCompleteness()
-        // then compute the derived status
-        if (entity.actionType == ActionType.STATUS) {
-            entity.status = this.getStatus(entity)
-        }
+
         return entity
     }
 
