@@ -1,5 +1,5 @@
 import { FormikErrors } from 'formik'
-import { isEqual, isNull, mapValues, omitBy, pick } from 'lodash'
+import { isEmpty, isEqual, isNull, mapValues, omitBy, pick } from 'lodash'
 import { useEffect, useState } from 'react'
 import { AbstractFormikHook } from '../types/abstract-formik-hook'
 
@@ -29,9 +29,18 @@ export function useAbstractFormik<T, M>(
     setInitValue(valueToInit)
   }, [value])
 
-  const beforeSubmit = (value?: M): T | undefined => {
+  const beforeSubmit = (value?: M, errors?: FormikErrors<M>): T | undefined => {
     if (!value) return
+
+    // Don't submit if there are validation errors
+    if (!isEmpty(errors)) {
+      console.log('Submission blocked due to validation errors:', errors)
+      return
+    }
+
+    // Don't submit if values haven't changed
     if (isEqual(value, initValue)) return
+
     return fromInputToFieldValue(value)
   }
 
@@ -40,7 +49,7 @@ export function useAbstractFormik<T, M>(
     errors?: FormikErrors<M>,
     onSubmit?: (valueToSubmit: T) => Promise<unknown>
   ) => {
-    const valueToSubmit = beforeSubmit(value)
+    const valueToSubmit = beforeSubmit(value, errors)
 
     if (onSubmit && valueToSubmit) {
       try {

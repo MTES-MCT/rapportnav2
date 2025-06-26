@@ -25,15 +25,15 @@ const MissionActionItemStatus: FC<{
           enableReinitialize
           validationSchema={validationSchema}
         >
-          {({ validateForm, setErrors }) => (
+          {({ validateForm }) => (
             <>
               <FormikEffect
-                onChange={async nextValue =>
-                  validateForm().then(async errors => {
-                    await handleSubmit(nextValue as ActionStatusInput)
-                    setErrors(errors)
-                  })
-                }
+                onChange={async nextValue => {
+                  // Only handle submission, let Formik handle validation display
+                  await handleSubmit(nextValue as ActionStatusInput)
+                  // Optionally trigger validation to ensure UI updates
+                  await validateForm()
+                }}
               />
               <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>

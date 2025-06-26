@@ -52,7 +52,7 @@ export function useMissionActionIllegalImmigration(
     value?: ActionIllegalImmigrationInput,
     errors?: FormikErrors<ActionIllegalImmigrationInput>
   ) => {
-    handleSubmit(value, errors, onSubmit)
+    await handleSubmit(value, errors, onSubmit)
   }
 
   const validationSchema = object().shape({

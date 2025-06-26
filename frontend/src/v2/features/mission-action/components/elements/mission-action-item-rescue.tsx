@@ -33,10 +33,9 @@ const RESCUE_TYPE_OPTIONS = [
 
 const MissionActionItemRescue: FC<{
   action: MissionAction
-  isMissionFinished?: boolean
   onChange: (newAction: MissionAction) => Promise<unknown>
-}> = ({ action, onChange, isMissionFinished }) => {
-  const { initValue, handleSubmit, validationSchema } = useMissionActionRescue(action, onChange, isMissionFinished)
+}> = ({ action, onChange }) => {
+  const { initValue, handleSubmit, validationSchema, errors } = useMissionActionRescue(action, onChange)
 
   return (
     <form style={{ width: '100%' }} data-testid={'action-nautical-event-form'}>
@@ -45,18 +44,19 @@ const MissionActionItemRescue: FC<{
           validateOnChange={true}
           onSubmit={handleSubmit}
           initialValues={initValue}
+          initialErrors={errors}
           validationSchema={validationSchema}
           enableReinitialize
         >
-          {({ validateForm, setErrors }) => (
+          {({ validateForm }) => (
             <>
               <FormikEffect
-                onChange={async nextValue =>
-                  validateForm().then(async errors => {
-                    await handleSubmit(nextValue as ActionRescueInput)
-                    setErrors(errors)
-                  })
-                }
+                onChange={async nextValue => {
+                  // Only handle submission, let Formik handle validation display
+                  await handleSubmit(nextValue as ActionRescueInput)
+                  // Optionally trigger validation to ensure UI updates
+                  await validateForm()
+                }}
               />
               <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>

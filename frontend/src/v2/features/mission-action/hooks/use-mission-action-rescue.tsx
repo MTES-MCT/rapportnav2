@@ -7,15 +7,16 @@ import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-ho
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { RescueType } from '../../common/types/rescue-type'
 import { ActionRescueInput } from '../types/action-type'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 
 export function useMissionActionRescue(
   action: MissionAction,
-  onChange: (newAction: MissionAction) => Promise<unknown>,
-  isMissionFinished?: boolean
+  onChange: (newAction: MissionAction) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionRescueInput> {
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const isMissionFinished = useMissionFinished(action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionRescueInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
@@ -25,7 +26,7 @@ export function useMissionActionRescue(
       ...data,
       rescueType,
       dates: [startDate, endDate],
-      isMissionFinished: !!isMissionFinished,
+      isMissionFinished: isMissionFinished,
       geoCoords: getCoords(data.latitude, data.longitude)
     }
   }
