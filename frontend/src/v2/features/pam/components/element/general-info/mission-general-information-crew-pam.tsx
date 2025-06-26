@@ -25,9 +25,10 @@ interface MissionGeneralInformationCrewPamProps {
   fieldArray: FieldArrayRenderProps
 }
 
-const EmptyCrewListText = styled((props: Omit<TextProps, 'as'> & { isMissionFinished: boolean }) => (
-  <Text {...props} as="h3" />
-))(({ theme, isMissionFinished }) => ({
+const EmptyCrewListText = styled((props: Omit<TextProps, 'as'> & { isMissionFinished: boolean }) => {
+  const { isMissionFinished, ...otherProps } = props
+  return <Text {...otherProps} as="h3" />
+})(({ theme, isMissionFinished }) => ({
   paddingLeft: 8,
   fontStyle: 'italic',
   color: isMissionFinished ? theme.color.maximumRed : theme.color.charcoal
@@ -91,7 +92,7 @@ const MissionGeneralInformationCrewPam: React.FC<MissionGeneralInformationCrewPa
             {fieldArray.form.values.crew?.map((crewMember: MissionCrewMember, index: number) => (
               <MissionCrewListItemStyled
                 index={index}
-                key={`${crewMember.agent.id}-index`}
+                key={`${crewMember.agent.id}-${index}`}
                 length={fieldArray.form.values.crew.length}
               >
                 <MissionCrewListItemPam

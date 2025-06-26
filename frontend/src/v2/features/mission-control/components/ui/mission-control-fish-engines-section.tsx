@@ -18,10 +18,10 @@ const MissionControlFishEnginesSection: React.FC<MissionControlFishEnginesSectio
       <Stack.Item>
         <Label>Engins à bord</Label>
       </Stack.Item>
-      {action.gearOnboard?.map((gearControl: GearControl) => (
+      {action.gearOnboard?.map((gearControl: GearControl, i: number) => (
         <Stack.Item
           style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}
-          key={gearControl.gearCode}
+          key={`${gearControl.gearCode}${i}`}
         >
           <Stack direction="column" alignItems="flex-start" spacing={'1rem'}>
             <Stack.Item>
