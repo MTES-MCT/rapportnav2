@@ -1,5 +1,5 @@
 import { FormikErrors } from 'formik'
-import { isEqual, isNull, mapValues, omitBy, pick } from 'lodash'
+import { isEmpty, isEqual, isNull, mapValues, omitBy, pick } from 'lodash'
 import { useEffect, useState } from 'react'
 import { AbstractFormikHook } from '../types/abstract-formik-hook'
 

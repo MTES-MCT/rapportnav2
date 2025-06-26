@@ -53,28 +53,32 @@ type MissionCompletenessTagHook = {
 
 export function useMissionCompletenessForStats(
   completenessForStats?: CompletenessForStats,
-  isMissionFinished?: boolean
+  isMissionFinished?: boolean,
+  missionStatus?: MissionStatusEnum
 ): MissionCompletenessTagHook {
   const isCompleteForStats = (completenessForStats?: CompletenessForStats) =>
     completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE
 
+  const isMissionEnded = isMissionFinished || missionStatus === MissionStatusEnum.ENDED
+
   const getMissionStateType = () => {
-    if (isMissionFinished && isCompleteForStats(completenessForStats)) {
+    if (isMissionEnded && isCompleteForStats(completenessForStats)) {
       return MissionStateType.MISSION_ENDED_AND_COMPLETE
     }
-    if (isMissionFinished && !isCompleteForStats(completenessForStats)) {
+    if (isMissionEnded && !isCompleteForStats(completenessForStats)) {
       return MissionStateType.MISSION_ENDED_AND_NOT_COMPLETE
     }
-    if (!isMissionFinished && isCompleteForStats(completenessForStats)) {
+    if (!isMissionEnded && isCompleteForStats(completenessForStats)) {
       return MissionStateType.MISSION_NOT_ENDED_AND_COMPLETE
     }
-    if (!isMissionFinished && !isCompleteForStats(completenessForStats)) {
+    if (!isMissionEnded && !isCompleteForStats(completenessForStats)) {
       return MissionStateType.MISSION_NOT_ENDED_AND_NOT_COMPLETE
     }
   }
 
   const getCompletenessForStats = (): Component => {
     const missionStateType = getMissionStateType()
+    debugger
     return missionStateType ? MISSION_STATE_REGISTRY[missionStateType] : ({} as Component)
   }
   const getSourceName = (sources?: MissionSourceEnum[]) => {

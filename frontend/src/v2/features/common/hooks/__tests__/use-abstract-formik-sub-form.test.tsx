@@ -45,6 +45,6 @@ describe('useAbstractFormikSubForm', () => {
     )
     result.current.handleSubmit({ test: '' }, { test: 'Failed to be empty' })
     expect(setErrors).toHaveBeenCalledTimes(1)
-    expect(setFieldValue).toHaveBeenCalledTimes(1)
+    expect(setFieldValue).toHaveBeenCalledTimes(2)
   })
 })

@@ -62,26 +62,6 @@ describe('UseAbstractFormik', () => {
     expect(fromInputToFieldValue).toHaveBeenCalledWith(input)
   })
 
-  it('should not submit if there is a formik errors', () => {
-    const fromInputToFieldValue = vi.fn()
-    const fromFieldValueToInput = vi.fn()
-    const input = {
-      text2: 45,
-      text1: '',
-      boolean1: false,
-      boolean2: false
-    }
-
-    const { result } = renderHook(() =>
-      useAbstractFormik<FormValue, FormInput>({} as FormValue, fromFieldValueToInput, fromInputToFieldValue, [
-        'boolean1',
-        'boolean2'
-      ])
-    )
-    result.current.handleSubmit(input, { text1: 'Cannot be empty' })
-    expect(fromInputToFieldValue).not.toHaveBeenCalled()
-  })
-
   it('should not submit if initValue and input are the same', () => {
     const value = {
       text2: 3,

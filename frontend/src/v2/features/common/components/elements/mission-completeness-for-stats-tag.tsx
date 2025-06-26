@@ -10,7 +10,7 @@ interface MissionStatusTagProps {
 }
 
 const MissionCompletenessForStatsTag: FC<MissionStatusTagProps> = ({ missionStatus, completenessForStats }) => {
-  const { color, icon, text } = useMissionCompletenessForStats(completenessForStats, missionStatus)
+  const { color, icon, text } = useMissionCompletenessForStats(completenessForStats, undefined, missionStatus)
   return (
     <Tag iconColor={color} backgroundColor={THEME.color.cultured} color={color} Icon={icon} withCircleIcon={true}>
       <Text as="h3" weight="medium" color={color}>
