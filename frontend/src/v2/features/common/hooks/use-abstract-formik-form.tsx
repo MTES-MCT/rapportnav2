@@ -1,5 +1,5 @@
 import { FormikErrors } from 'formik'
-import { isEmpty, isEqual, isNull, mapValues, omitBy, pick } from 'lodash'
+import { isEqual, isNull, mapValues, omitBy, pick } from 'lodash'
 import { useEffect, useState } from 'react'
 import { AbstractFormikHook } from '../types/abstract-formik-hook'
 
@@ -10,7 +10,6 @@ export function useAbstractFormik<T, M>(
   booleans?: string[]
 ): AbstractFormikHook<T, M> {
   const [initValue, setInitValue] = useState<M>()
-  const [isError, setIsError] = useState<boolean>(false)
   const [errors, setErrors] = useState<FormikErrors<M> | undefined>(undefined)
 
   const beforeInitValue = (value?: T): M | undefined => {
@@ -48,29 +47,19 @@ export function useAbstractFormik<T, M>(
         await onSubmit(valueToSubmit)
         // Update initValue only after successful submission
         setInitValue(value)
-        setIsError(false)
         setErrors(undefined)
       } catch (error) {
-        setIsError(true)
         setErrors(errors)
         throw error // Re-throw to let Formik handle it
       }
     }
   }
 
-  // Helper function to check if form has meaningful changes
-  const hasChanges = (currentValue?: M): boolean => {
-    if (!currentValue || !initValue) return false
-    return !isEqual(currentValue, initValue)
-  }
-
   return {
-    isError,
     errors,
     initValue,
     handleSubmit,
     beforeSubmit,
-    beforeInitValue,
-    hasChanges
+    beforeInitValue
   }
 }

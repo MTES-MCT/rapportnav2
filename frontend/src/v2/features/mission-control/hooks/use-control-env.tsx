@@ -15,7 +15,7 @@ export function useEnvControl(
   maxControl?: number
 ): AbstractControlFormikHook<ControlEnvInput> {
   const { getControlType } = useControlRegistry()
-  const { isError, initValue, handleSubmit } = useAbstractControl<Control, ControlEnvInput>(
+  const { errors, initValue, handleSubmit } = useAbstractControl<Control, ControlEnvInput>(
     name,
     fieldFormik,
     (input: Control) => input as ControlEnvInput,
@@ -28,7 +28,7 @@ export function useEnvControl(
     })
 
   return {
-    isError,
+    errors,
     initValue,
     handleSubmit,
     validationSchema: getValidationSchema(maxControl),

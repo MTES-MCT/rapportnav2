@@ -24,7 +24,7 @@ export function useMissionActionStatus(
     return { ...newData, startDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionNavActionData, ActionStatusInput>(
+  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionStatusInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -53,7 +53,7 @@ export function useMissionActionStatus(
   })
 
   return {
-    isError,
+    errors,
     initValue,
     validationSchema,
     handleSubmit: handleSubmitOverride

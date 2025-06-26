@@ -51,7 +51,7 @@ export function useMissionActionRescue(
     }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionNavActionData, ActionRescueInput>(
+  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionRescueInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue,
@@ -115,7 +115,7 @@ export function useMissionActionRescue(
   })
 
   return {
-    isError,
+    errors,
     initValue,
     validationSchema,
     handleSubmit: handleSubmitOverride

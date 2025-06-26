@@ -78,7 +78,6 @@ export function useMissionCompletenessForStats(
 
   const getCompletenessForStats = (): Component => {
     const missionStateType = getMissionStateType()
-    debugger
     return missionStateType ? MISSION_STATE_REGISTRY[missionStateType] : ({} as Component)
   }
   const getSourceName = (sources?: MissionSourceEnum[]) => {

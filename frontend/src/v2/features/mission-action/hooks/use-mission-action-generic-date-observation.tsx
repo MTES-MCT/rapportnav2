@@ -25,7 +25,7 @@ export function useMissionActionGenericDateObservation(
     return { ...newData, startDateTimeUtc: processedStartDateTimeUtc, endDateTimeUtc: processedEndDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionActionData, ActionGenericDateObservationInput>(
+  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionActionData, ActionGenericDateObservationInput>(
     action.data,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -44,7 +44,7 @@ export function useMissionActionGenericDateObservation(
   }
 
   return {
-    isError,
+    errors,
     initValue,
     handleSubmit: handleSubmitOverride
   }

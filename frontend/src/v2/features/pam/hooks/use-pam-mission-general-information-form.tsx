@@ -29,10 +29,12 @@ export const usePamMissionGeneralInfoForm = (
     }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<
-    MissionGeneralInfo2,
-    MissionPAMGeneralInfoInitialInput
-  >(value, fromFieldValueToInput, fromInputToFieldValue, [])
+  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionGeneralInfo2, MissionPAMGeneralInfoInitialInput>(
+    value,
+    fromFieldValueToInput,
+    fromInputToFieldValue,
+    []
+  )
 
   const onSubmit = async (valueToSubmit?: MissionGeneralInfo2) => {
     if (!valueToSubmit) return
@@ -56,7 +58,7 @@ export const usePamMissionGeneralInfoForm = (
   return {
     initValue,
     handleSubmit: handleSubmitOverride,
-    isError,
+    errors,
     validationSchema
   }
 }

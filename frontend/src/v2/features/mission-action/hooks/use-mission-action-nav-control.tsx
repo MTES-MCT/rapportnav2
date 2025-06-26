@@ -38,7 +38,7 @@ export function useMissionActionNavControl(
     return { ...newData, startDateTimeUtc, endDateTimeUtc, longitude, latitude }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionNavActionData, ActionNavControlInput>(
+  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionNavControlInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -84,7 +84,7 @@ export function useMissionActionNavControl(
   })
 
   return {
-    isError,
+    errors,
     initValue,
     validationSchema,
     handleSubmit: handleSubmitOverride

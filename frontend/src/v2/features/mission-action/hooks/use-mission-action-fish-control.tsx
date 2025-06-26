@@ -33,7 +33,7 @@ export function useMissionActionFishControl(
     return { ...newData, startDateTimeUtc, endDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionFishActionData, ActionFishControlInput>(
+  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionFishActionData, ActionFishControlInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -52,7 +52,7 @@ export function useMissionActionFishControl(
   }
 
   return {
-    isError,
+    errors,
     initValue,
     handleSubmit: handleSubmitOverride
   }
