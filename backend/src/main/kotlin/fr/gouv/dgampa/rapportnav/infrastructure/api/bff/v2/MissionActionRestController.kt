@@ -47,8 +47,8 @@ class MissionActionRestController(
         val fishAction = getFishActionById.execute(missionId = missionId, actionId = actionId)
         if (fishAction != null) action =  MissionAction.fromMissionActionEntity(fishAction)
 
-        val envAction = getEnvActionById.execute(missionId = missionId, actionId = actionId) ?: return null
-        action =  MissionAction.fromMissionActionEntity(envAction)
+        val envAction = getEnvActionById.execute(missionId = missionId, actionId = actionId)
+        if (envAction != null) action =  MissionAction.fromMissionActionEntity(envAction)
 
         if (action != null) {
             action.status = getStatusForAction2.execute(missionId=missionId, actionStartDateTimeUtc = action.data?.startDateTimeUtc)
