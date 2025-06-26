@@ -12,7 +12,7 @@ import { TimelineDropdownItem } from '../../hooks/use-timeline'
 import MissionTimelineDropdownWrapper from '../layout/mission-timeline-dropdown-wrapper'
 
 type MissionTimelineAddActionProps = {
-  missionId: number
+  missionId: string
   moduleType: ModuleType
   onSumbit?: (id?: string) => void
   dropdownItems: TimelineDropdownItem[]

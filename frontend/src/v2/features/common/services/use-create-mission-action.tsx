@@ -5,7 +5,7 @@ import { MissionNavAction } from '../types/mission-action'
 import { missionsKeys } from './query-keys.ts'
 
 const useCreateMissionActionMutation = (
-  missionId: number
+  missionId: string
 ): UseMutationResult<MissionNavAction, Error, MissionNavAction, unknown> => {
   const queryClient = useQueryClient()
 

@@ -6,7 +6,7 @@ import { MissionGeneralInfo2 } from '../types/mission-types.ts'
 import { missionsKeys } from './query-keys.ts'
 
 const useUpdateGeneralInfoMutation = (
-  missionId?: number
+  missionId?: string
 ): UseMutationResult<MissionGeneralInfo2, Error, MissionGeneralInfo2, unknown> => {
   const queryClient = useQueryClient()
 
@@ -19,7 +19,6 @@ const useUpdateGeneralInfoMutation = (
       queryClient.invalidateQueries({ queryKey: missionsKeys.byId(missionId!!) })
     },
     onError: error => {
-      console.error(error)
       Sentry.captureException(error)
     },
     scope: {

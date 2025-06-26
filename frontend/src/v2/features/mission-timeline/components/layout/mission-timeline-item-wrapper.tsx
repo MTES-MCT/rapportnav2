@@ -28,7 +28,7 @@ const DivStyled = styled(
 interface MissionTimelineItemWrapperProps {
   card: JSX.Element
   style?: ActionStyle
-  missionId?: number
+  missionId?: string
   isSelected: boolean
   isIncomplete: boolean
   moduleType: ModuleType

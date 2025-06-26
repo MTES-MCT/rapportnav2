@@ -4,11 +4,11 @@ import { useParams } from 'react-router-dom'
 import useAuth from '../features/auth/hooks/use-auth.tsx'
 import MissionPageWrapper from '../features/common/components/layout/mission-page-wrapper.tsx'
 import MissionPageFooter from '../features/common/components/ui/mission-page-footer.tsx'
+import { missionsKeys } from '../features/common/services/query-keys.ts'
 import MissionActionUlam from '../features/ulam/components/element/mission-action-ulam.tsx'
 import MissionGeneralInformationUlam from '../features/ulam/components/element/mission-general-information-ulam.tsx'
 import MissionHeaderUlam from '../features/ulam/components/element/mission-header-ulam.tsx'
 import MissionTimelineUlam from '../features/ulam/components/element/mission-timeline-ulam.tsx'
-import { missionsKeys } from '../features/common/services/query-keys.ts'
 
 const MissionUlamPage: React.FC = () => {
   let { missionId, actionId } = useParams()
@@ -17,10 +17,10 @@ const MissionUlamPage: React.FC = () => {
 
   return (
     <MissionPageWrapper
-      missionHeader={<MissionHeaderUlam onClickClose={exitMission} missionId={Number(missionId)} />}
-      missionGeneralInformations={<MissionGeneralInformationUlam missionId={Number(missionId)} />}
-      missionTimeLine={<MissionTimelineUlam missionId={Number(missionId)} />}
-      missionAction={<MissionActionUlam missionId={Number(missionId)} actionId={actionId} />}
+      missionHeader={<MissionHeaderUlam onClickClose={exitMission} missionId={missionId} />}
+      missionGeneralInformations={<MissionGeneralInformationUlam missionId={missionId} />}
+      missionTimeLine={missionId ? <MissionTimelineUlam missionId={missionId} /> : undefined}
+      missionAction={<MissionActionUlam missionId={missionId} actionId={actionId} />}
       missionFooter={<MissionPageFooter exitMission={exitMission} missionId={Number(missionId)} />}
     />
   )

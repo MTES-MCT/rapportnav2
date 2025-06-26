@@ -4,7 +4,7 @@ import { MissionTimelineAction } from '../../../mission-timeline/types/mission-t
 import MissionTimelineItemUlam from './mission-timeline-ulam-item'
 
 interface MissionTimelineBodyProps {
-  missionId: number
+  missionId?: string
   isError?: boolean
   isLoading?: boolean
   actions: MissionTimelineAction[]

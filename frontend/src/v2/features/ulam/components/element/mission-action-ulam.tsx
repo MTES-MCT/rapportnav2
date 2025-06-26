@@ -7,7 +7,7 @@ import MissionActionUlamHeader from './mission-action-ulam-header'
 
 interface MissionActionProps {
   actionId?: string
-  missionId: number
+  missionId?: string
 }
 
 const MissionActionUlam: FC<MissionActionProps> = ({ missionId, actionId }) => {
@@ -17,11 +17,15 @@ const MissionActionUlam: FC<MissionActionProps> = ({ missionId, actionId }) => {
     <MissionPageSectionWrapper
       hide={!actionId}
       sectionHeader={
-        action && (
-          <MissionActionUlamHeader missionId={Number(missionId)} action={action} missionStatus={mission?.status} />
-        )
+        action && missionId ? (
+          <MissionActionUlamHeader missionId={missionId} action={action} missionStatus={mission?.status} />
+        ) : undefined
       }
-      sectionBody={<MissionActionUlamBody action={action} error={error} isLoading={isLoading} missionId={missionId} />}
+      sectionBody={
+        missionId ? (
+          <MissionActionUlamBody action={action} error={error} isLoading={isLoading} missionId={missionId} />
+        ) : undefined
+      }
     />
   )
 }

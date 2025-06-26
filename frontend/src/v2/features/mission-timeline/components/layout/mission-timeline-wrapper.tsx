@@ -12,11 +12,11 @@ import MissionTimelineLoader from '../ui/mission-timeline-loader'
 
 interface MissionTimelineProps {
   isError?: any
-  missionId?: number
+  missionId?: string
   isLoading?: boolean
   actions: MissionTimelineAction[]
   groupBy: 'startDateTimeUtc' | 'endDateTimeUtc'
-  item: FunctionComponent<{ action: MissionTimelineAction; missionId?: number; prevAction?: MissionTimelineAction }>
+  item: FunctionComponent<{ action: MissionTimelineAction; missionId?: string; prevAction?: MissionTimelineAction }>
 }
 
 const MissionTimelineWrapper: FC<MissionTimelineProps> = ({
