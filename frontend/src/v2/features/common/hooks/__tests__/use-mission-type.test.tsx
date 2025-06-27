@@ -11,7 +11,7 @@ describe('useMissionType', () => {
 
   it('should return reinforcement type options', () => {
     const { result } = renderHook(() => useMissionType())
-    expect(result.current.reinforcementTypeOptions.length).toEqual(6)
+    expect(result.current.reinforcementTypeOptions.length).toEqual(5)
   })
 
   it('should return report type options', () => {
@@ -60,8 +60,6 @@ describe('useMissionType', () => {
     const { result } = renderHook(() => useMissionType())
     expect(result.current.isEnvMission(MissionReportTypeEnum.OFFICE_REPORT)).toBeFalsy()
     expect(result.current.isEnvMission(MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT)).toBeFalsy()
-    expect(
-      result.current.isEnvMission(MissionReportTypeEnum.FIELD_REPORT)
-    ).toBeTruthy()
+    expect(result.current.isEnvMission(MissionReportTypeEnum.FIELD_REPORT)).toBeTruthy()
   })
 })

@@ -12,11 +12,12 @@ import MissionTimelineLoader from '../ui/mission-timeline-loader'
 
 interface MissionTimelineProps {
   isError?: any
-  missionId?: number
+  missionId?: string
   isLoading?: boolean
+  noTimelineMessage?: string
   actions: MissionTimelineAction[]
   groupBy: 'startDateTimeUtc' | 'endDateTimeUtc'
-  item: FunctionComponent<{ action: MissionTimelineAction; missionId?: number; prevAction?: MissionTimelineAction }>
+  item: FunctionComponent<{ action: MissionTimelineAction; missionId?: string; prevAction?: MissionTimelineAction }>
 }
 
 const MissionTimelineWrapper: FC<MissionTimelineProps> = ({
@@ -25,7 +26,8 @@ const MissionTimelineWrapper: FC<MissionTimelineProps> = ({
   missionId,
   actions,
   isLoading,
-  groupBy
+  groupBy,
+  noTimelineMessage
 }) => {
   const { groupByDay } = useDate()
   const { computeCompleteForStats } = useTimelineCompleteForStats()
@@ -34,6 +36,7 @@ const MissionTimelineWrapper: FC<MissionTimelineProps> = ({
     setTimelineCompleteForStats(completenessForStats)
   }, [actions])
 
+  if (noTimelineMessage) return <MissionTimelineEmpty message={noTimelineMessage} />
   if (isLoading) return <MissionTimelineLoader />
   if (actions?.length === 0) return <MissionTimelineEmpty />
   if (isError) return <MissionTimelineError error={isError} />

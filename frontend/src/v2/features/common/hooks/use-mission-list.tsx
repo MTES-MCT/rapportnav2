@@ -21,29 +21,32 @@ export function useMissionList(): MissionListHook {
 
   const getExportLabel = (
     mission: Mission2
-  ) => `- ${formatMissionName(mission.envData.startDateTimeUtc)} - ${getOpenByText(mission.envData.missionSource)} -{' '}
+  ) => `- ${formatMissionName(mission.data.startDateTimeUtc)} - ${getOpenByText(mission.data.missionSource)} -{' '}
   ${mission.actions?.length ?? 0} action(s)`
 
   const getMissionListItem = (mission: Mission2): MissionListItem => {
     return {
       id: mission.id,
       status: mission.status,
-      openBy: mission.envData.openBy,
+      idUUID: mission.idUUID,
+      openBy: mission.data.openBy,
       crew: mission.generalInfos.crew,
       crewNumber: getCrewNumber(mission),
       exportLabel: getExportLabel(mission),
-      controlUnits: mission.envData.controlUnits,
-      missionSource: mission.envData.missionSource,
+      controlUnits: mission.data.controlUnits,
+      missionSource: mission.data.missionSource,
       completenessForStats: mission.completenessForStats,
-      observationsByUnit: mission.envData.observationsByUnit,
-      endDateTimeUtc: mission.envData.endDateTimeUtc,
-      startDateTimeUtc: mission.envData.startDateTimeUtc,
-      missionNamePam: formatMissionName(mission.envData.startDateTimeUtc),
-      missionNameUlam: formatMissionNameUlam(mission.envData.startDateTimeUtc),
-      endDateTimeUtcText: formatDateForFrenchHumans(mission.envData.endDateTimeUtc),
-      startDateTimeUtcText: formatDateForFrenchHumans(mission.envData.startDateTimeUtc),
+      observationsByUnit: mission.data.observationsByUnit,
+      endDateTimeUtc: mission.data.endDateTimeUtc,
+      startDateTimeUtc: mission.data.startDateTimeUtc,
+      missionNamePam: formatMissionName(mission.data.startDateTimeUtc),
+      missionNameUlam: formatMissionNameUlam(mission.data.startDateTimeUtc),
+      endDateTimeUtcText: formatDateForFrenchHumans(mission.data.endDateTimeUtc),
+      startDateTimeUtcText: formatDateForFrenchHumans(mission.data.startDateTimeUtc),
       resources: mission.generalInfos.resources,
-      missionReportType: mission.generalInfos.missionReportType
+      missionReportType: mission.generalInfos.missionReportType,
+      isUnderJdp: mission.data.isUnderJdp,
+      jdpType: mission.generalInfos.jdpType
     }
   }
 

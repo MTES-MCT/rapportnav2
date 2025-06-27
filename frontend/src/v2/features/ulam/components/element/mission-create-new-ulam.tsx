@@ -1,3 +1,4 @@
+import { UTCDate } from '@date-fns/utc'
 import { Accent, Button } from '@mtes-mct/monitor-ui'
 import { formatISO } from 'date-fns'
 import { Field, FieldProps, Formik } from 'formik'
@@ -7,7 +8,6 @@ import { Stack } from 'rsuite'
 import { MissionULAMGeneralInfoInitial } from '../../../common/types/mission-types.ts'
 import useCreateMissionMutation from '../../services/use-create-mission.tsx'
 import MissionGeneralInformationInitialFormUlam from './mission-general-information-ulam-initial-form.tsx'
-import { UTCDate } from '@date-fns/utc'
 
 type NewMissionUlam = { missionGeneralInfo: MissionULAMGeneralInfoInitial }
 
@@ -27,7 +27,11 @@ const MissionCreateNewUlam: React.FC<MissionCreateNewUlamProps> = ({ onClose }) 
   }
 
   const handleSubmit = ({ missionGeneralInfo }: NewMissionUlam, errors: any) => {
-    mutation.mutateAsync(missionGeneralInfo).then(r => navigate(`/v2/ulam/missions/${r.id}`))
+    mutation.mutateAsync(missionGeneralInfo).then(response => {
+      const id = response.id ?? response.idUUID
+      if (id) navigate(`/v2/ulam/missions/${id}`)
+    })
+
     if (onClose) onClose()
   }
 

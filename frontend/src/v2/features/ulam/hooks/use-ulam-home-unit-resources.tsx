@@ -1,14 +1,15 @@
-import { MissionReportTypeEnum } from '../../common/types/mission-types.ts'
-import { ControlUnit } from '@common/types/control-unit-types.ts'
-
+import { ControlUnit, MissionReportTypeEnum } from '../../common/types/mission-types.ts'
 
 export function useControlUnitResourceLabel(
   controlUnits?: ControlUnit[],
   missionReportType?: MissionReportTypeEnum,
   currentControlUnitId?: number
 ): string {
-
-  if(missionReportType === MissionReportTypeEnum.OFFICE_REPORT) return 'N/A'
+  if (
+    missionReportType === MissionReportTypeEnum.OFFICE_REPORT ||
+    missionReportType === MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT
+  )
+    return 'N/A'
 
   if (!controlUnits || controlUnits.length === 0) return '--'
 
@@ -17,8 +18,8 @@ export function useControlUnitResourceLabel(
   const resources = currentControlUnit?.resources
 
   if (!resources || resources.length === 0) {
-    return '--';
+    return '--'
   }
 
-  return (resources ?? []).map(resource => resource.name).join(', ');
+  return (resources ?? []).map(resource => resource.name).join(', ')
 }

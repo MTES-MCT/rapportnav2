@@ -7,7 +7,7 @@ import { MissionTimelineAction } from '../../../mission-timeline/types/mission-t
 import { useUlamTimelineRegistry } from '../../hooks/use-ulam-timeline-registry'
 
 interface MissionTimelineUlamItemProps {
-  missionId?: number
+  missionId?: string
   action: MissionTimelineAction
   prevAction?: MissionTimelineAction
 }

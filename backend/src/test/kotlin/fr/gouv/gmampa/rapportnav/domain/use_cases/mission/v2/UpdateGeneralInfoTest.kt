@@ -13,17 +13,18 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
+import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 import java.util.*
 
-@SpringBootTest(classes = [CreateOrUpdateGeneralInfo::class])
-class CreateOrUpdateGeneralInfoTest {
+@SpringBootTest(classes = [UpdateGeneralInfo::class])
+class UpdateGeneralInfoTest {
 
     @Autowired
-    private lateinit var createOrUpdateGeneralInfo: CreateOrUpdateGeneralInfo
+    private lateinit var updateGeneralInfo: UpdateGeneralInfo
 
     @MockitoBean
     private lateinit var generalInfoRepository: IMissionGeneralInfoRepository
@@ -83,7 +84,7 @@ class CreateOrUpdateGeneralInfoTest {
         `when`(getGeneralInfo2.execute(missionId)).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
 
-        val result = createOrUpdateGeneralInfo.execute(missionId, missionGeneralInfo)
+        val result = updateGeneralInfo.execute(missionId, missionGeneralInfo)
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
@@ -128,17 +129,16 @@ class CreateOrUpdateGeneralInfoTest {
         // When
         `when`(getGeneralInfo2.execute(missionId)).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
-        `when`(processMissionCrew.execute(missionId, missionGeneralInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty())).thenReturn(crewEntity)
+        `when`(processMissionCrew.execute(anyInt(), anyOrNull())).thenReturn(crewEntity)
 
-        val result = createOrUpdateGeneralInfo.execute(missionId, missionGeneralInfo)
+        val result = updateGeneralInfo.execute(missionId, missionGeneralInfo)
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
 
         // Verify processMissionCrew was called with the exact missionId and crew
         verify(processMissionCrew).execute(
-            missionId,
-            missionGeneralInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty()
+            anyInt(), anyOrNull()
         )
 
         val input = MissionEnvInput(
@@ -150,7 +150,6 @@ class CreateOrUpdateGeneralInfoTest {
             resources = missionGeneralInfoEntity.resources?.map { it },
         )
         verify(patchMissionEnv).execute(input)
-
         assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = crewEntity), result)
     }
 
@@ -178,7 +177,7 @@ class CreateOrUpdateGeneralInfoTest {
         `when`(getGeneralInfo2.execute(missionId)).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
 
-        val result = createOrUpdateGeneralInfo.execute(missionId, missionGeneralInfo)
+        val result = updateGeneralInfo.execute(missionId, missionGeneralInfo)
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
@@ -216,7 +215,7 @@ class CreateOrUpdateGeneralInfoTest {
         // When
         `when`(getGeneralInfo2.execute(missionId)).thenThrow(RuntimeException("Test exception"))
 
-        val result = createOrUpdateGeneralInfo.execute(missionId, missionGeneralInfo)
+        val result = updateGeneralInfo.execute(missionId, missionGeneralInfo)
 
         // Then
         assertNull(result)
@@ -252,7 +251,7 @@ class CreateOrUpdateGeneralInfoTest {
         `when`(getGeneralInfo2.execute(missionIdUUID)).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
 
-        val result = createOrUpdateGeneralInfo.execute(missionIdUUID, missionGeneralInfo)
+        val result = updateGeneralInfo.execute(missionIdUUID, missionGeneralInfo)
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)

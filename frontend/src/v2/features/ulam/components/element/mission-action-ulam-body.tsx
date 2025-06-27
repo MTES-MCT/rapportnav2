@@ -4,7 +4,7 @@ import MissionActionWrapper from '../../../mission-action/components/layout/miss
 import MissionActionItemUlam from './mission-action-item-ulam'
 
 interface MissionActionProps {
-  missionId: number
+  missionId: string
   isLoading?: boolean
   error?: Error | null
   action?: MissionAction

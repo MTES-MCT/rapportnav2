@@ -33,9 +33,10 @@ describe('useControlUnitResourceLabel', () => {
   })
 
   // Teste lorsque le type de rapport est OFFICE_REPORT
-  test('returns "N/A" if missionReportType is OFFICE_REPORT', () => {
+  test('returns "N/A" if missionReportType is OFFICE_REPORT or EXTERNAL_REINFORCEMENT_TIME', () => {
     expect(useControlUnitResourceLabel([controlUnit1], MissionReportTypeEnum.OFFICE_REPORT)).toBe('N/A')
     expect(useControlUnitResourceLabel([], MissionReportTypeEnum.OFFICE_REPORT)).toBe('N/A')
+    expect(useControlUnitResourceLabel([], MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT)).toBe('N/A')
   })
 
   // Teste lorsque seule une ressource existe
@@ -49,10 +50,9 @@ describe('useControlUnitResourceLabel', () => {
   })
 
   // Teste lorsque les ressources sont vides et missionReportType n'est pas FIELD_REPORT ou OFFICE_REPORT
-  test('returns "--" if resources are empty or undefined and missionReportType is not FIELD_REPORT or OFFICE_REPORT', () => {
+  test('returns "--" if resources are empty or undefined', () => {
     expect(useControlUnitResourceLabel([])).toBe('--')
     expect(useControlUnitResourceLabel(undefined)).toBe('--')
-    expect(useControlUnitResourceLabel([], MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT)).toBe('--')
   })
 
 })

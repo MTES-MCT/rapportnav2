@@ -25,7 +25,7 @@ data class MissionCrew(
         }
     }
 
-    fun toMissionCrewEntity(): MissionCrewEntity {
+    fun toMissionCrewEntity(missionIdUUID: UUID?= null, missionId: Int? = null): MissionCrewEntity {
         return MissionCrewEntity(
             id = if (id == 0 || id == null) null else id,
             agent = agent.toAgentEntity(),

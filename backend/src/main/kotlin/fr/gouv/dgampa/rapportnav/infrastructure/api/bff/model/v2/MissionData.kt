@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Le
 import org.locationtech.jts.geom.MultiPolygon
 import java.time.Instant
 
-data class MissionEnvData(
+data class MissionData(
     val missionTypes: List<MissionTypeEnum>,
     var controlUnits: List<LegacyControlUnitEntity> = listOf(),
     val openBy: String? = null,
@@ -27,8 +27,8 @@ data class MissionEnvData(
     ) {
 
     companion object {
-        fun fromMissionEntity(mission: MissionEntity): MissionEnvData {
-            return MissionEnvData(
+        fun fromMissionEntity(mission: MissionEntity): MissionData {
+            return MissionData(
                 missionTypes = mission.missionTypes ?: listOf(),
                 controlUnits = mission.controlUnits,
                 openBy = mission.openBy,

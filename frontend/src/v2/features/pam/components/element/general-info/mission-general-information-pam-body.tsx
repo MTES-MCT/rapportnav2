@@ -3,12 +3,12 @@ import React from 'react'
 import { store } from '../../../../../store'
 import { resetDebounceTime } from '../../../../../store/slices/delay-query-reducer.ts'
 import { useDelay } from '../../../../common/hooks/use-delay.tsx'
+import useUpdateGeneralInfo from '../../../../common/services/use-update-generalInfo.tsx'
 import { MissionGeneralInfo2 } from '../../../../common/types/mission-types.ts'
 import MissionGeneralInformationFormPam from './mission-general-information-form-pam.tsx'
-import useUpdateGeneralInfo from '../../../../common/services/use-update-generalInfo.tsx'
 
 type MissionGeneralInformationPamProps = {
-  missionId: number
+  missionId?: string
   generalInfos?: MissionGeneralInfo2
 }
 

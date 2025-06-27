@@ -15,7 +15,7 @@ const ACTION_STATUS: ActionStatusType[] = [
 ]
 
 interface MissionTimelineAddStatusProps {
-  missionId: number
+  missionId: string
   onSumbit?: (id?: string) => void
 }
 

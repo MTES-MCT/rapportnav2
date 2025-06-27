@@ -3,7 +3,7 @@
 export const missionsKeys = {
   all: () => ['missions'] as const,
   filter: (filters: string) => [...missionsKeys.all(), { filters }] as const,
-  byId: (id: number) => [...missionsKeys.all(), `${id}`] as const
+  byId: (id: string) => [...missionsKeys.all(), `${id}`] as const
 }
 
 export const actionsKeys = {
