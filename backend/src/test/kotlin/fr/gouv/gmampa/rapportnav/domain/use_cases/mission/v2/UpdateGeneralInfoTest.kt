@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
+import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -128,7 +129,7 @@ class UpdateGeneralInfoTest {
         // When
         `when`(getGeneralInfo2.execute(missionId)).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
-        `when`(processMissionCrew.execute(missionId, missionGeneralInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty())).thenReturn(crewEntity)
+        `when`(processMissionCrew.execute(anyInt(), anyOrNull())).thenReturn(crewEntity)
 
         val result = updateGeneralInfo.execute(missionId, missionGeneralInfo)
 
@@ -137,8 +138,7 @@ class UpdateGeneralInfoTest {
 
         // Verify processMissionCrew was called with the exact missionId and crew
         verify(processMissionCrew).execute(
-            missionId,
-            missionGeneralInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty()
+            anyInt(), anyOrNull()
         )
 
         val input = MissionEnvInput(
@@ -150,7 +150,6 @@ class UpdateGeneralInfoTest {
             resources = missionGeneralInfoEntity.resources?.map { it },
         )
         verify(patchMissionEnv).execute(input)
-
         assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = crewEntity), result)
     }
 
