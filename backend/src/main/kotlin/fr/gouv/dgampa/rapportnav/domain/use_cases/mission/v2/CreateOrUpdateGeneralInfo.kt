@@ -39,7 +39,7 @@ class CreateOrUpdateGeneralInfo(
                 // update crew table
                 processMissionCrew.execute(
                     missionId = missionId,
-                    crew = generalInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty()
+                    crew = generalInfo.crew?.map { it.toMissionCrewEntity(missionId = missionId) }.orEmpty()
                 )
             }
 
@@ -71,7 +71,7 @@ class CreateOrUpdateGeneralInfo(
             // update crew table
             processMissionCrew.execute(
                 missionIdUUID = missionIdUUID,
-                crew = generalInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty()
+                crew = generalInfo.crew?.map { it.toMissionCrewEntity(missionIdUUID = missionIdUUID) }.orEmpty()
             )
         }
         patchNavMission.execute(
