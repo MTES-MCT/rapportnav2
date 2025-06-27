@@ -28,6 +28,7 @@ export function useMissionList(): MissionListHook {
     return {
       id: mission.id,
       status: mission.status,
+      idUUID: mission.idUUID,
       openBy: mission.data.openBy,
       crew: mission.generalInfos.crew,
       crewNumber: getCrewNumber(mission),
@@ -44,7 +45,6 @@ export function useMissionList(): MissionListHook {
       startDateTimeUtcText: formatDateForFrenchHumans(mission.data.startDateTimeUtc),
       resources: mission.generalInfos.resources,
       missionReportType: mission.generalInfos.missionReportType,
-      missionIdUUID: mission.generalInfos.missionIdUUID,
       isUnderJdp: mission.data.isUnderJdp,
       jdpType: mission.generalInfos.jdpType
     }

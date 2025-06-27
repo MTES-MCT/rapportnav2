@@ -157,7 +157,7 @@ export type Mission2 = {
   generalInfos: MissionGeneralInfo2
   completenessForStats?: CompletenessForStats
   actions: MissionAction[]
-  missionIdUUID?: string
+  idUUID?: string
 }
 
 export type MissionListItem = {
@@ -179,7 +179,7 @@ export type MissionListItem = {
   controlUnits?: ControlUnit[]
   resources?: ControlUnitResource[]
   missionReportType?: MissionReportTypeEnum
-  missionIdUUID?: string
+  idUUID?: string
   isUnderJdp?: boolean
   jdpType?: JdpTypeEnum
 }

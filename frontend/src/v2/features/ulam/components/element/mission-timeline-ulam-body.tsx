@@ -7,10 +7,17 @@ interface MissionTimelineBodyProps {
   missionId?: string
   isError?: boolean
   isLoading?: boolean
+  noTimelineMessage?: string
   actions: MissionTimelineAction[]
 }
 
-const MissionTimelineUlamBody: FC<MissionTimelineBodyProps> = ({ missionId, actions, isError, isLoading }) => {
+const MissionTimelineUlamBody: FC<MissionTimelineBodyProps> = ({
+  missionId,
+  actions,
+  isError,
+  isLoading,
+  noTimelineMessage
+}) => {
   return (
     <MissionTimelineWrapper
       isError={isError}
@@ -19,6 +26,7 @@ const MissionTimelineUlamBody: FC<MissionTimelineBodyProps> = ({ missionId, acti
       isLoading={isLoading}
       groupBy="startDateTimeUtc"
       item={MissionTimelineItemUlam}
+      noTimelineMessage={noTimelineMessage}
     />
   )
 }

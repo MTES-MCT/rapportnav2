@@ -109,17 +109,22 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
     if (isExportButton) {
       return // Ignore clicks on the export button
     } else if (isGoToMissionButton) {
-      navigate(`${ULAM_V2_HOME_PATH}/${mission?.id}`)
+      goToMission(mission)
     }
 
     setOpenIndex(isOpen ? null : index) // Toggle open state
+  }
+
+  const goToMission = (mission: MissionListItem) => {
+    const id = mission?.id ?? mission.idUUID
+    if (id) navigate(`${ULAM_V2_HOME_PATH}/${mission?.id ?? mission.idUUID}`)
   }
 
   return (
     <ListItemWithHover ref={listItemRef} onClick={onClickRow} data-testid="mission-list-item-with-hover">
       <FlexboxGrid align="middle" style={{ height: '100%', padding: '0.5rem 1rem', marginBottom: '4px' }}>
         <FlexboxGrid.Item colspan={1} style={{ paddingTop: '8px' }} data-testid={'mission-list-item-icon'}>
-          <MissionIconUlam missionSource={mission.missionSource} />
+          <MissionIconUlam missionReportType={mission.missionReportType} />
         </FlexboxGrid.Item>
 
         <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-mission_number'}>
@@ -175,9 +180,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
                 Icon={Icon.Edit}
                 accent={Accent.TERTIARY}
                 data-testid={'go-to-mission-btn'}
-                onClick={e => {
-                  navigate(`${ULAM_V2_HOME_PATH}/${mission?.id}`)
-                }}
+                onClick={e => goToMission(mission)}
               />
             </Stack.Item>
           </Stack>
