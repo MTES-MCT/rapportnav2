@@ -17,23 +17,29 @@ const MissionGeneralInformationFormPam: FC<{
   onChange: (newGeneralInfo: MissionGeneralInfo2) => Promise<unknown>
 }> = ({ generalInfo2, onChange }) => {
   const { isOnline } = useOnlineManager()
-  const { handleSubmit, initValue, validationSchema } = usePamMissionGeneralInfoForm(onChange, generalInfo2)
+  const { handleSubmit, initValue, validationSchema, errors } = usePamMissionGeneralInfoForm(onChange, generalInfo2)
 
   return (
     <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%' }}>
       {initValue && (
         <Formik
           initialValues={initValue}
-          onSubmit={() => {}} // Not used - we auto-save
+          onSubmit={handleSubmit}
           enableReinitialize={true}
-          validationSchema={validationSchema}
           validateOnChange={true}
+          validationSchema={validationSchema}
+          initialErrors={errors}
         >
-          {() => (
+          {({ validateForm }) => (
             <>
-              {/* Simple auto-save on any change */}
-              <FormikEffect onChange={nextValue => handleSubmit(nextValue as MissionPAMGeneralInfoInitialInput)} />
-
+              <FormikEffect
+                onChange={async nextValue => {
+                  // Only handle submission, let Formik handle validation display
+                  await handleSubmit(nextValue as MissionPAMGeneralInfoInitialInput)
+                  // Optionally trigger validation to ensure UI updates
+                  await validateForm()
+                }}
+              />
               <Stack
                 direction="column"
                 style={{ width: '100%', padding: '0 2px' }}

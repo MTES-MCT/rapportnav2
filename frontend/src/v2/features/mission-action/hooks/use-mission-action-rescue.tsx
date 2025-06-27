@@ -1,5 +1,5 @@
 import { FormikErrors } from 'formik'
-import { array, boolean, date, number, object } from 'yup'
+import { boolean, number, object } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
@@ -8,6 +8,10 @@ import { MissionAction, MissionNavActionData } from '../../common/types/mission-
 import { RescueType } from '../../common/types/rescue-type'
 import { ActionRescueInput } from '../types/action-type'
 import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
+import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
+import { useMemo } from 'react'
+import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
 
 export function useMissionActionRescue(
   action: MissionAction,
@@ -76,44 +80,44 @@ export function useMissionActionRescue(
     handleSubmit(value, errors, onSubmit)
   }
 
-  const validationSchema = object().shape({
-    isMissionFinished: boolean(),
-    isPersonRescue: boolean(),
-    isMigrationRescue: boolean(),
-    dates: array().of(date()).length(2),
-    geoCoords: array()
-      .of(number().required('Latitude/Longitude must be a number'))
-      .length(2, 'geoCoords must have exactly two elements: [lat, lon]')
-      .required('geoCoords is required'),
-    numberPersonsRescued: number()
-      .nullable()
-      .when(['isPersonRescue', 'isMissionFinished'], {
-        is: true,
-        then: schema => schema.nonNullable().required(),
-        otherwise: schema => schema.nullable()
-      }),
-    numberOfDeaths: number()
-      .nullable()
-      .when(['isPersonRescue', 'isMissionFinished'], {
-        is: true,
-        then: schema => schema.nonNullable().required(),
-        otherwise: schema => schema.nullable()
-      }),
-    nbOfVesselsTrackedWithoutIntervention: number()
-      .nullable()
-      .when(['isMigrationRescue', 'isMissionFinished'], {
-        is: true,
-        then: schema => schema.nonNullable().required(),
-        otherwise: schema => schema.nullable()
-      }),
-    nbAssistedVesselsReturningToShore: number()
-      .nullable()
-      .when(['isMigrationRescue', 'isMissionFinished'], {
-        is: true,
-        then: schema => schema.nonNullable().required(),
-        otherwise: schema => schema.nullable()
-      })
-  })
+  const createValidationSchema = (isMissionFinished: boolean) => {
+    return object().shape({
+      ...getDateRangeSchema(isMissionFinished),
+      ...getGeoCoordsSchema(isMissionFinished),
+      isPersonRescue: boolean(),
+      isMigrationRescue: boolean(),
+
+      // Fields related to isPersonRescue
+      numberPersonsRescued: conditionallyRequired(
+        () => number().nullable(),
+        ['isPersonRescue'],
+        true,
+        'numberPersonsRescued is required'
+      )(isMissionFinished),
+      numberOfDeaths: conditionallyRequired(
+        () => number().nullable(),
+        ['isPersonRescue'],
+        true,
+        'numberOfDeaths is required'
+      )(isMissionFinished),
+
+      // Fields related to isMigrationRescue
+      nbOfVesselsTrackedWithoutIntervention: conditionallyRequired(
+        () => number().nullable(),
+        ['isMigrationRescue'],
+        true,
+        'nbOfVesselsTrackedWithoutIntervention is required'
+      )(isMissionFinished),
+      nbAssistedVesselsReturningToShore: conditionallyRequired(
+        () => number().nullable(),
+        ['isMigrationRescue'],
+        true,
+        'nbAssistedVesselsReturningToShore is required'
+      )(isMissionFinished)
+    })
+  }
+
+  const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
 
   return {
     errors,

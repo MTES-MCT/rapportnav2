@@ -1,5 +1,5 @@
 import { FormikErrors } from 'formik'
-import { array, boolean, number, object } from 'yup'
+import { number, object } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
@@ -7,6 +7,10 @@ import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-ho
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionIllegalImmigrationInput } from '../types/action-type'
 import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import { useMemo } from 'react'
+import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
+import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
+import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
 
 export function useMissionActionIllegalImmigration(
   action: MissionAction,
@@ -55,31 +59,40 @@ export function useMissionActionIllegalImmigration(
     await handleSubmit(value, errors, onSubmit)
   }
 
-  const validationSchema = object().shape({
-    isMissionFinished: boolean(),
-    geoCoords: array()
-      .of(number().required('Latitude/Longitude must be a number'))
-      .length(2, 'geoCoords must have exactly two elements: [lat, lon]')
-      .required('geoCoords is required'),
-    nbOfInterceptedVessels: number()
-      .nullable()
-      .when('isMissionFinished', {
-        is: true,
-        then: schema => schema.nonNullable().required()
-      }),
-    nbOfInterceptedMigrants: number()
-      .nullable()
-      .when('isMissionFinished', {
-        is: true,
-        then: schema => schema.nonNullable().required()
-      }),
-    nbOfSuspectedSmugglers: number()
-      .nullable()
-      .when('isMissionFinished', {
-        is: true,
-        then: schema => schema.nonNullable().required()
-      })
-  })
+  const createValidationSchema = (isMissionFinished: boolean) => {
+    return object().shape({
+      ...getDateRangeSchema(isMissionFinished),
+      ...getGeoCoordsSchema(isMissionFinished),
+
+      nbOfInterceptedVessels: conditionallyRequired(
+        () => number().nullable(),
+        [], // No dependencies — the condition is global
+        true, // only apply if `isMissionFinished === true`
+        'Ce champ est requis quand la mission est terminée',
+        schema =>
+          schema // Add `.nonNullable()` to enrich the schema
+            .nonNullable()
+      )(isMissionFinished),
+
+      nbOfInterceptedMigrants: conditionallyRequired(
+        () => number().nullable(),
+        [],
+        true,
+        'Ce champ est requis quand la mission est terminée',
+        schema => schema.nonNullable()
+      )(isMissionFinished),
+
+      nbOfSuspectedSmugglers: conditionallyRequired(
+        () => number().nullable(),
+        [],
+        true,
+        'Ce champ est requis quand la mission est terminée',
+        schema => schema.nonNullable()
+      )(isMissionFinished)
+    })
+  }
+
+  const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
 
   return {
     errors,

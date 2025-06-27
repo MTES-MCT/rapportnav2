@@ -5,8 +5,10 @@ import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionAntiPollutionInput } from '../types/action-type'
-import { array, boolean, number, object } from 'yup'
+import { object } from 'yup'
 import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
+import { useMemo } from 'react'
 
 export function useMissionActionAntiPollution(
   action: MissionAction,
@@ -62,13 +64,13 @@ export function useMissionActionAntiPollution(
     handleSubmit(value, errors, onSubmit)
   }
 
-  const validationSchema = object().shape({
-    isMissionFinished: boolean(),
-    geoCoords: array()
-      .of(number().required('Latitude/Longitude must be a number'))
-      .length(2, 'geoCoords must have exactly two elements: [lat, lon]')
-      .required('geoCoords is required')
-  })
+  const createValidationSchema = (isMissionFinished: boolean) => {
+    return object().shape({
+      ...getGeoCoordsSchema(isMissionFinished)
+    })
+  }
+
+  const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
 
   return {
     errors,

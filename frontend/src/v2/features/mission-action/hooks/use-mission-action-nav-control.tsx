@@ -1,6 +1,6 @@
 import { VesselSizeEnum } from '@common/types/env-mission-types'
 import { FormikErrors } from 'formik'
-import { array, boolean, mixed, number, object, string } from 'yup'
+import { mixed, object, string } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
@@ -8,6 +8,10 @@ import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-ho
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionNavControlInput } from '../types/action-type'
 import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
+import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
+import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
+import { useMemo } from 'react'
 
 export function useMissionActionNavControl(
   action: MissionAction,
@@ -53,35 +57,38 @@ export function useMissionActionNavControl(
     handleSubmit(value, errors, onSubmit)
   }
 
-  const validationSchema = object().shape({
-    isMissionFinished: boolean(),
-    geoCoords: array()
-      .of(number().required('Latitude/Longitude must be a number'))
-      .length(2, 'geoCoords must have exactly two elements: [lat, lon]')
-      .required('geoCoords is required'),
-    vesselSize: mixed<VesselSizeEnum>()
-      .nullable()
-      .oneOf(Object.values(VesselSizeEnum))
-      .default(undefined) // <- force field to exist
-      .when('isMissionFinished', {
-        is: true,
-        then: schema => schema.nonNullable().required()
-      }),
-    vesselIdentifier: string()
-      .nullable()
-      .default(undefined) // <- force field to exist
-      .when('isMissionFinished', {
-        is: true,
-        then: schema => schema.nonNullable().required()
-      }),
-    identityControlledPerson: string()
-      .nullable()
-      .default(undefined) // <- force field to exist
-      .when('isMissionFinished', {
-        is: true,
-        then: schema => schema.nonNullable().required()
-      })
-  })
+  const createValidationSchema = (isMissionFinished: boolean) => {
+    return object().shape({
+      ...getDateRangeSchema(isMissionFinished),
+      ...getGeoCoordsSchema(isMissionFinished),
+
+      vesselSize: conditionallyRequired(
+        () => mixed<VesselSizeEnum>().nullable().oneOf(Object.values(VesselSizeEnum)).default(undefined),
+        'isMissionFinished',
+        true,
+        'Vessel size is required when the mission is finished',
+        schema => schema.nonNullable()
+      )(isMissionFinished),
+
+      vesselIdentifier: conditionallyRequired(
+        () => string().nullable().default(undefined),
+        'isMissionFinished',
+        true,
+        'Vessel identifier is required when the mission is finished',
+        schema => schema.nonNullable()
+      )(isMissionFinished),
+
+      identityControlledPerson: conditionallyRequired(
+        () => string().nullable().default(undefined),
+        'isMissionFinished',
+        true,
+        'Identity controlled person is required when the mission is finished',
+        schema => schema.nonNullable()
+      )(isMissionFinished)
+    })
+  }
+
+  const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
 
   return {
     errors,
