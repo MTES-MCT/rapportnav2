@@ -11,7 +11,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import java.util.*
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
@@ -27,16 +26,16 @@ import java.util.*
 abstract class MissionAction(
     open val id: String? = null,
     open val missionId: Int,
+    open val missionIdUUID: String? = null,
     open val actionType: ActionType,
     open val source: MissionSourceEnum,
-    open val status: ActionStatusType? = null,
+    open var status: ActionStatusType? = null,
     open val summaryTags: List<String>? = null,
     open val isCompleteForStats: Boolean? = null,
     open val controlsToComplete: List<ControlType>? = null,
     open val completenessForStats: CompletenessForStatsEntity? = null,
     open val sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
     open val data: MissionActionData? = null,
-    open val missionIdUUID: String? = null
 ){
     companion object {
         fun fromMissionActionEntity(action: MissionActionEntity?): MissionAction? {

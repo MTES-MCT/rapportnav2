@@ -16,7 +16,7 @@ const MissionActionItemControl: FC<{
     case MissionSourceEnum.MONITORFISH:
       return <MissionActionItemFishControl action={action} onChange={onChange} isMissionFinished={isMissionFinished} />
     default:
-      return <MissionActionItemNavControl action={action} onChange={onChange} isMissionFinished={isMissionFinished} />
+      return <MissionActionItemNavControl action={action} onChange={onChange} />
   }
 }
 

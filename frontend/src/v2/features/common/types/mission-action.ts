@@ -61,6 +61,7 @@ export interface MissionNavActionData extends MissionActionData {
   isMigrationRescue?: boolean
   nbOfVesselsTrackedWithoutIntervention?: number
   nbAssistedVesselsReturningToShore?: number
+  status?: ActionStatusType
   reason?: ActionStatusReason
   crossControl?: CrossControl
 }

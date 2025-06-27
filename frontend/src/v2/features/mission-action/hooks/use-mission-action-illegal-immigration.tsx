@@ -1,20 +1,25 @@
 import { FormikErrors } from 'formik'
-import { boolean, number, object } from 'yup'
+import { number, object } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionIllegalImmigrationInput } from '../types/action-type'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import { useMemo } from 'react'
+import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
+import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
+import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
 
 export function useMissionActionIllegalImmigration(
   action: MissionAction,
-  onChange: (newAction: MissionAction) => Promise<unknown>,
-  isMissionFinished?: boolean
+  onChange: (newAction: MissionAction) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionIllegalImmigrationInput> {
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const isMissionFinished = useMissionFinished(action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionIllegalImmigrationInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
@@ -22,7 +27,7 @@ export function useMissionActionIllegalImmigration(
     return {
       ...data,
       dates: [startDate, endDate],
-      isMissionFinished: !!isMissionFinished,
+      isMissionFinished: isMissionFinished,
       geoCoords: getCoords(data.latitude, data.longitude)
     }
   }
@@ -36,7 +41,7 @@ export function useMissionActionIllegalImmigration(
     return { ...newData, startDateTimeUtc, endDateTimeUtc, longitude, latitude }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionNavActionData, ActionIllegalImmigrationInput>(
+  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionIllegalImmigrationInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -51,33 +56,46 @@ export function useMissionActionIllegalImmigration(
     value?: ActionIllegalImmigrationInput,
     errors?: FormikErrors<ActionIllegalImmigrationInput>
   ) => {
-    handleSubmit(value, errors, onSubmit)
+    await handleSubmit(value, errors, onSubmit)
   }
 
-  const validationSchema = object().shape({
-    isMissionFinished: boolean(),
-    nbOfInterceptedVessels: number()
-      .nullable()
-      .when('isMissionFinished', {
-        is: true,
-        then: schema => schema.nonNullable().required()
-      }),
-    nbOfInterceptedMigrants: number()
-      .nullable()
-      .when('isMissionFinished', {
-        is: true,
-        then: schema => schema.nonNullable().required()
-      }),
-    nbOfSuspectedSmugglers: number()
-      .nullable()
-      .when('isMissionFinished', {
-        is: true,
-        then: schema => schema.nonNullable().required()
-      })
-  })
+  const createValidationSchema = (isMissionFinished: boolean) => {
+    return object().shape({
+      ...getDateRangeSchema(isMissionFinished),
+      ...getGeoCoordsSchema(isMissionFinished),
+
+      nbOfInterceptedVessels: conditionallyRequired(
+        () => number().nullable(),
+        [], // No dependencies — the condition is global
+        true, // only apply if `isMissionFinished === true`
+        'Ce champ est requis quand la mission est terminée',
+        schema =>
+          schema // Add `.nonNullable()` to enrich the schema
+            .nonNullable()
+      )(isMissionFinished),
+
+      nbOfInterceptedMigrants: conditionallyRequired(
+        () => number().nullable(),
+        [],
+        true,
+        'Ce champ est requis quand la mission est terminée',
+        schema => schema.nonNullable()
+      )(isMissionFinished),
+
+      nbOfSuspectedSmugglers: conditionallyRequired(
+        () => number().nullable(),
+        [],
+        true,
+        'Ce champ est requis quand la mission est terminée',
+        schema => schema.nonNullable()
+      )(isMissionFinished)
+    })
+  }
+
+  const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
 
   return {
-    isError,
+    errors,
     initValue,
     validationSchema,
     handleSubmit: handleSubmitOverride

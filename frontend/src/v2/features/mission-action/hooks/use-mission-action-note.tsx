@@ -22,7 +22,7 @@ export function useMissionActionFreeNote(
     return { ...newData, startDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionNavActionData, ActionFreeNoteInput>(
+  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionFreeNoteInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -38,7 +38,7 @@ export function useMissionActionFreeNote(
   }
 
   return {
-    isError,
+    errors,
     initValue,
     handleSubmit: handleSubmitOverride
   }

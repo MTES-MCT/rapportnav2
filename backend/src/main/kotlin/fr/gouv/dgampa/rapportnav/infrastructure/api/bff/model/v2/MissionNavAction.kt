@@ -14,7 +14,7 @@ class MissionNavAction(
     override val actionType: ActionType,
     override val source: MissionSourceEnum,
     override val summaryTags: List<String>? = null,
-    override val status: ActionStatusType? = null,
+    override var status: ActionStatusType? = null,
     override val isCompleteForStats: Boolean? = null,
     override val controlsToComplete: List<ControlType>? = null,
     override val completenessForStats: CompletenessForStatsEntity? = null,

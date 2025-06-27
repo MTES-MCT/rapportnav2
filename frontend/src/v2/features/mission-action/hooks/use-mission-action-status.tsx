@@ -4,6 +4,11 @@ import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionStatusInput } from '../types/action-type'
+import { ActionStatusReason, ActionStatusType } from '@common/types/action-types.ts'
+import { mixed, object } from 'yup'
+import { useMemo } from 'react'
+import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 
 export function useMissionActionStatus(
   action: MissionAction,
@@ -11,6 +16,7 @@ export function useMissionActionStatus(
 ): AbstractFormikSubFormHook<ActionStatusInput> {
   const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const isMissionFinished = useMissionFinished(action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionStatusInput => {
     return { ...data, date: preprocessDateForPicker(data.startDateTimeUtc) }
@@ -22,7 +28,7 @@ export function useMissionActionStatus(
     return { ...newData, startDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionNavActionData, ActionStatusInput>(
+  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionStatusInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -37,9 +43,25 @@ export function useMissionActionStatus(
     handleSubmit(value, errors, onSubmit)
   }
 
+  const createValidationSchema = (isMissionFinished: boolean) => {
+    return object().shape({
+      status: mixed<ActionStatusType>().oneOf(Object.values(ActionStatusType) as ActionStatusType[]),
+      reason: conditionallyRequired(
+        () => mixed<ActionStatusReason>(),
+        'status',
+        (val: ActionStatusType) => val === ActionStatusType.DOCKED || val === ActionStatusType.UNAVAILABLE,
+        'Reason is required when status is DOCKED or UNAVAILABLE',
+        schema => schema.oneOf(Object.values(ActionStatusReason) as ActionStatusReason[])
+      )(isMissionFinished)
+    })
+  }
+
+  const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
+
   return {
-    isError,
+    errors,
     initValue,
+    validationSchema,
     handleSubmit: handleSubmitOverride
   }
 }

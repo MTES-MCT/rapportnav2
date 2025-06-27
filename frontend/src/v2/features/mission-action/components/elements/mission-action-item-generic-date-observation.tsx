@@ -11,12 +11,19 @@ const MissionActionItemGenericDateObservation: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
 }> = ({ action, onChange }) => {
-  const { initValue, handleSubmit } = useMissionActionGenericDateObservation(action, onChange)
+  const { initValue, handleSubmit, validationSchema, errors } = useMissionActionGenericDateObservation(action, onChange)
 
   return (
     <form style={{ width: '100%' }}>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit} validateOnChange={true} enableReinitialize>
+        <Formik
+          initialValues={initValue}
+          onSubmit={handleSubmit}
+          validateOnChange={true}
+          enableReinitialize
+          validationSchema={validationSchema}
+          initialErrors={errors}
+        >
           {() => (
             <>
               <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionGenericDateObservationInput)} />

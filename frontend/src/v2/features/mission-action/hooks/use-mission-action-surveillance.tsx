@@ -28,7 +28,7 @@ export function useMissionActionSurveillance(
     return { ...newData, startDateTimeUtc, endDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionEnvActionData, ActionSurveillanceInput>(
+  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionEnvActionData, ActionSurveillanceInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -47,7 +47,7 @@ export function useMissionActionSurveillance(
   }
 
   return {
-    isError,
+    errors,
     initValue,
     handleSubmit: handleSubmitOverride
   }

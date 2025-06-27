@@ -5,6 +5,10 @@ import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionAntiPollutionInput } from '../types/action-type'
+import { object } from 'yup'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
+import { useMemo } from 'react'
 
 export function useMissionActionAntiPollution(
   action: MissionAction,
@@ -13,11 +17,17 @@ export function useMissionActionAntiPollution(
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const isMissionFinished = useMissionFinished(action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionAntiPollutionInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
     const startDate = preprocessDateForPicker(data.startDateTimeUtc)
-    return { ...data, dates: [startDate, endDate], geoCoords: getCoords(data.latitude, data.longitude) }
+    return {
+      ...data,
+      dates: [startDate, endDate],
+      isMissionFinished,
+      geoCoords: getCoords(data.latitude, data.longitude)
+    }
   }
 
   const fromInputToFieldValue = (value: ActionAntiPollutionInput): MissionNavActionData => {
@@ -29,7 +39,7 @@ export function useMissionActionAntiPollution(
     return { ...newData, startDateTimeUtc, endDateTimeUtc, longitude, latitude }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionNavActionData, ActionAntiPollutionInput>(
+  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionAntiPollutionInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue,
@@ -54,9 +64,18 @@ export function useMissionActionAntiPollution(
     handleSubmit(value, errors, onSubmit)
   }
 
+  const createValidationSchema = (isMissionFinished: boolean) => {
+    return object().shape({
+      ...getGeoCoordsSchema(isMissionFinished)
+    })
+  }
+
+  const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
+
   return {
-    isError,
+    errors,
     initValue,
+    validationSchema,
     handleSubmit: handleSubmitOverride
   }
 }

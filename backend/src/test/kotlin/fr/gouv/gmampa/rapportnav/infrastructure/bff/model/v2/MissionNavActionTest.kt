@@ -36,6 +36,12 @@ class MissionNavActionTest {
 
         entity.endDateTimeUtc = Instant.parse("2019-09-08T24:00:00.000+01:00")
         entity.computeCompleteness()
+        assertThat(entity.isCompleteForStats).isEqualTo(false)
+        assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
+
+        entity.latitude = 2.0
+        entity.longitude = 2.0
+        entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
     }
@@ -131,6 +137,12 @@ class MissionNavActionTest {
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.nbOfSuspectedSmugglers = 3
+        entity.computeCompleteness()
+        assertThat(entity.isCompleteForStats).isEqualTo(false)
+        assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
+
+        entity.latitude = 2.0
+        entity.longitude = 2.0
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)

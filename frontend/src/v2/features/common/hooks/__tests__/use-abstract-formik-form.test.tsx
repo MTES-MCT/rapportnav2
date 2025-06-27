@@ -16,7 +16,7 @@ describe('UseAbstractFormik', () => {
     vi.clearAllMocks()
   })
 
-  it('should call fromFieldValueToInput while intantiation, and convert boolean null to false', () => {
+  it('should call fromFieldValueToInput while instantiation, and convert boolean null to false', () => {
     const value = {
       text2: 3,
       text1: 'Text1',
@@ -61,7 +61,6 @@ describe('UseAbstractFormik', () => {
     expect(fromInputToFieldValue).toHaveBeenCalledTimes(1)
     expect(fromInputToFieldValue).toHaveBeenCalledWith(input)
   })
-
   it('should not submit if there is a formik errors', () => {
     const fromInputToFieldValue = vi.fn()
     const fromFieldValueToInput = vi.fn()
@@ -81,7 +80,6 @@ describe('UseAbstractFormik', () => {
     result.current.handleSubmit(input, { text1: 'Cannot be empty' })
     expect(fromInputToFieldValue).not.toHaveBeenCalled()
   })
-
   it('should not submit if initValue and input are the same', () => {
     const value = {
       text2: 3,
