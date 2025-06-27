@@ -19,11 +19,11 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 import java.util.*
 
-@SpringBootTest(classes = [CreateOrUpdateGeneralInfo::class])
-class CreateOrUpdateGeneralInfoTest {
+@SpringBootTest(classes = [UpdateGeneralInfo::class])
+class UpdateGeneralInfoTest {
 
     @Autowired
-    private lateinit var createOrUpdateGeneralInfo: CreateOrUpdateGeneralInfo
+    private lateinit var updateGeneralInfo: UpdateGeneralInfo
 
     @MockitoBean
     private lateinit var generalInfoRepository: IMissionGeneralInfoRepository
@@ -83,7 +83,7 @@ class CreateOrUpdateGeneralInfoTest {
         `when`(getGeneralInfo2.execute(missionId)).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
 
-        val result = createOrUpdateGeneralInfo.execute(missionId, missionGeneralInfo)
+        val result = updateGeneralInfo.execute(missionId, missionGeneralInfo)
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
@@ -130,7 +130,7 @@ class CreateOrUpdateGeneralInfoTest {
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
         `when`(processMissionCrew.execute(missionId, missionGeneralInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty())).thenReturn(crewEntity)
 
-        val result = createOrUpdateGeneralInfo.execute(missionId, missionGeneralInfo)
+        val result = updateGeneralInfo.execute(missionId, missionGeneralInfo)
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
@@ -178,7 +178,7 @@ class CreateOrUpdateGeneralInfoTest {
         `when`(getGeneralInfo2.execute(missionId)).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
 
-        val result = createOrUpdateGeneralInfo.execute(missionId, missionGeneralInfo)
+        val result = updateGeneralInfo.execute(missionId, missionGeneralInfo)
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
@@ -216,7 +216,7 @@ class CreateOrUpdateGeneralInfoTest {
         // When
         `when`(getGeneralInfo2.execute(missionId)).thenThrow(RuntimeException("Test exception"))
 
-        val result = createOrUpdateGeneralInfo.execute(missionId, missionGeneralInfo)
+        val result = updateGeneralInfo.execute(missionId, missionGeneralInfo)
 
         // Then
         assertNull(result)
@@ -252,7 +252,7 @@ class CreateOrUpdateGeneralInfoTest {
         `when`(getGeneralInfo2.execute(missionIdUUID)).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
 
-        val result = createOrUpdateGeneralInfo.execute(missionIdUUID, missionGeneralInfo)
+        val result = updateGeneralInfo.execute(missionIdUUID, missionGeneralInfo)
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)

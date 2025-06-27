@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory
 import java.util.*
 
 @UseCase
-class CreateOrUpdateGeneralInfo(
+class UpdateGeneralInfo(
     private val repository: IMissionGeneralInfoRepository,
     private val updateMissionService2: UpdateMissionService2,
     private val getGeneralInfo2: GetGeneralInfo2,
@@ -21,7 +21,7 @@ class CreateOrUpdateGeneralInfo(
     private val processMissionCrew: ProcessMissionCrew,
     private val patchNavMission: PatchNavMission
 ) {
-    private val logger = LoggerFactory.getLogger(CreateOrUpdateGeneralInfo::class.java)
+    private val logger = LoggerFactory.getLogger(UpdateGeneralInfo::class.java)
 
     fun execute(missionId: Int, generalInfo: MissionGeneralInfo2): MissionGeneralInfoEntity2? {
 

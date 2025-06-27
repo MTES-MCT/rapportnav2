@@ -4,19 +4,15 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.CreateEnvMission
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
-import java.util.*
 
 @UseCase
 class CreateMission(
     private val createEnvMission: CreateEnvMission,
     private val createNavMission: CreateMissionNav,
-    private val generalInfosRepository: IMissionGeneralInfoRepository
+    private val createGeneralInfos: CreateGeneralInfos
 
 ) {
     fun execute(generalInfo2: MissionGeneralInfo2, service: ServiceEntity? = null): MissionEntity2? {
@@ -42,7 +38,7 @@ class CreateMission(
             generalInfo2 = generalInfo2,
             serviceId = serviceId
         ) ?: return null
-        val generalInfosEntity = saveGeneralInfos(missionIdUUID = missionNav.id, generalInfo2 = generalInfo2)
+        val generalInfosEntity = createGeneralInfos.execute(missionIdUUID = missionNav.id, generalInfo2 = generalInfo2)
 
         return MissionEntity2(
             idUUID = missionNav.id,
@@ -62,10 +58,12 @@ class CreateMission(
 
     private fun executeEnvMission(generalInfo2: MissionGeneralInfo2, controlUnitIds: List<Int>?): MissionEntity2? {
         val missionEnv = createEnvMission.execute(generalInfo2, controlUnitIds) ?: return null
+        val generalInfosEntity = createGeneralInfos.execute(missionId = missionEnv.id, generalInfo2 = generalInfo2)
 
         return MissionEntity2(
             id = missionEnv.id!!,
             actions = listOf(),
+            generalInfos = generalInfosEntity,
             data = MissionEntity(
                 id = missionEnv.id,
                 missionTypes = missionEnv.missionTypes,
@@ -77,27 +75,6 @@ class CreateMission(
                 missionSource = missionEnv.missionSource!!,
                 controlUnits = missionEnv.controlUnits!!,
                 isDeleted = missionEnv.isDeleted!!
-            )
-        )
-    }
-
-    private fun saveGeneralInfos(
-        missionId: Int? = null,
-        missionIdUUID: UUID? = null,
-        generalInfo2: MissionGeneralInfo2
-    ): MissionGeneralInfoEntity2 {
-        val genealInfoModel = generalInfosRepository.save(
-            generalInfo2.toMissionGeneralInfoEntity(
-                missionId = missionId,
-                missionIdUUID = missionIdUUID
-            )
-        )
-        return MissionGeneralInfoEntity2(
-            data = MissionGeneralInfoEntity(
-                id = genealInfoModel.id,
-                missionId = genealInfoModel.id,
-                missionIdUUID = genealInfoModel.missionIdUUID,
-                missionReportType = generalInfo2.missionReportType
             )
         )
     }
