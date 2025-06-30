@@ -1,21 +1,26 @@
 import { VesselSizeEnum } from '@common/types/env-mission-types'
 import { FormikErrors } from 'formik'
-import { boolean, mixed, object, string } from 'yup'
+import { mixed, object, string } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction, MissionNavActionData } from '../../common/types/mission-action'
 import { ActionNavControlInput } from '../types/action-type'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
+import getGeoCoordsSchema from '../../common/schemas/geocoords-schema.ts'
+import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
+import { useMemo } from 'react'
 
 export function useMissionActionNavControl(
   action: MissionAction,
-  onChange: (newAction: MissionAction) => Promise<unknown>,
-  isMissionFinished?: boolean
+  onChange: (newAction: MissionAction) => Promise<unknown>
 ): AbstractFormikSubFormHook<ActionNavControlInput> {
   const { getCoords } = useCoordinate()
   const value = action?.data as MissionNavActionData
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const isMissionFinished = useMissionFinished(action.missionId)
 
   const fromFieldValueToInput = (data: MissionNavActionData): ActionNavControlInput => {
     const endDate = preprocessDateForPicker(data.endDateTimeUtc)
@@ -23,7 +28,7 @@ export function useMissionActionNavControl(
     return {
       ...data,
       dates: [startDate, endDate],
-      isMissionFinished: !!isMissionFinished,
+      isMissionFinished: isMissionFinished,
       geoCoords: getCoords(data.latitude, data.longitude)
     }
   }
@@ -37,7 +42,7 @@ export function useMissionActionNavControl(
     return { ...newData, startDateTimeUtc, endDateTimeUtc, longitude, latitude }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionNavActionData, ActionNavControlInput>(
+  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionNavActionData, ActionNavControlInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -52,29 +57,41 @@ export function useMissionActionNavControl(
     handleSubmit(value, errors, onSubmit)
   }
 
-  const validationSchema = object().shape({
-    isMissionFinished: boolean(),
-    vesselSize: mixed<VesselSizeEnum>()
-      .nullable()
-      .oneOf(Object.values(VesselSizeEnum))
-      .when('isMissionFinished', {
-        is: true,
-        then: schema => schema.nonNullable().required()
-      }),
-    vesselIdentifier: string()
-      .nullable()
-      .when('isMissionFinished', {
-        is: true,
-        then: schema => schema.nonNullable().required()
-      }),
-    identityControlledPersonValue: string().when('isMissionFinished', {
-      is: true,
-      then: schema => schema.nonNullable().required()
+  const createValidationSchema = (isMissionFinished: boolean) => {
+    return object().shape({
+      ...getDateRangeSchema(isMissionFinished),
+      ...getGeoCoordsSchema(isMissionFinished),
+
+      vesselSize: conditionallyRequired(
+        () => mixed<VesselSizeEnum>().nullable().oneOf(Object.values(VesselSizeEnum)).default(undefined),
+        'isMissionFinished',
+        true,
+        'Vessel size is required when the mission is finished',
+        schema => schema.nonNullable()
+      )(isMissionFinished),
+
+      vesselIdentifier: conditionallyRequired(
+        () => string().nullable().default(undefined),
+        'isMissionFinished',
+        true,
+        'Vessel identifier is required when the mission is finished',
+        schema => schema.nonNullable()
+      )(isMissionFinished),
+
+      identityControlledPerson: conditionallyRequired(
+        () => string().nullable().default(undefined),
+        'isMissionFinished',
+        true,
+        'Identity controlled person is required when the mission is finished',
+        schema => schema.nonNullable()
+      )(isMissionFinished)
     })
-  })
+  }
+
+  const validationSchema = useMemo(() => createValidationSchema(isMissionFinished), [isMissionFinished])
 
   return {
-    isError,
+    errors,
     initValue,
     validationSchema,
     handleSubmit: handleSubmitOverride

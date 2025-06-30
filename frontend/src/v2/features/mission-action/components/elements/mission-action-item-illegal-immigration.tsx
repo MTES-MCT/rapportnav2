@@ -26,57 +26,66 @@ const MissionActionItemIllegalImmigration: FC<{
           validationSchema={validationSchema}
           enableReinitialize
         >
-          <>
-            <FormikEffect onChange={nextValue => handleSubmit(nextValue as ActionIllegalImmigrationInput)} />
-            <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
-              <Stack.Item style={{ width: '100%' }}>
-                <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
-                  <Stack.Item grow={1}>
-                    <Field name="dates">
-                      {(field: FieldProps<Date[]>) => (
-                        <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
-                      )}
-                    </Field>
-                  </Stack.Item>
-                </Stack>
-              </Stack.Item>
-              <Stack.Item style={{ width: '100%' }}>
-                <MissionActionFormikCoordinateInputDMD name={'geoCoords'} />
-              </Stack.Item>
-              <Stack.Item style={{ width: '100%' }}>
-                <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
-                  <Stack.Item style={{ width: '100%' }}>
-                    <MissionActionFormikNumberInput
-                      name="nbOfInterceptedVessels"
-                      role="nbOfInterceptedVessels"
-                      label="Nb de navires/embarcations interceptées"
-                    />
-                  </Stack.Item>
-                  <Stack.Item style={{ width: '100%' }}>
-                    <Stack direction={'row'} spacing={'1rem'}>
-                      <Stack.Item style={{ flex: 1 }}>
-                        <MissionActionFormikNumberInput
-                          name="nbOfInterceptedMigrants"
-                          role="nbOfInterceptedMigrants"
-                          label="Nb de migrants interceptés"
-                        />
-                      </Stack.Item>
-                      <Stack.Item style={{ flex: 1 }}>
-                        <MissionActionFormikNumberInput
-                          name="nbOfSuspectedSmugglers"
-                          role="nbOfSuspectedSmugglers"
-                          label="Nb de passeurs présumés"
-                        />
-                      </Stack.Item>
-                    </Stack>
-                  </Stack.Item>
-                </Stack>
-              </Stack.Item>
-              <Stack.Item style={{ width: '100%' }}>
-                <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
-              </Stack.Item>
-            </Stack>
-          </>
+          {({ validateForm }) => (
+            <>
+              <FormikEffect
+                onChange={async nextValue => {
+                  // Only handle submission, let Formik handle validation display
+                  await handleSubmit(nextValue as ActionIllegalImmigrationInput)
+                  // Optionally trigger validation to ensure UI updates
+                  await validateForm()
+                }}
+              />
+              <Stack direction="column" spacing="2rem" alignItems="flex-start" style={{ width: '100%' }}>
+                <Stack.Item style={{ width: '100%' }}>
+                  <Stack direction="row" spacing="0.5rem" style={{ width: '100%' }}>
+                    <Stack.Item grow={1}>
+                      <Field name="dates">
+                        {(field: FieldProps<Date[]>) => (
+                          <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
+                        )}
+                      </Field>
+                    </Stack.Item>
+                  </Stack>
+                </Stack.Item>
+                <Stack.Item style={{ width: '100%' }}>
+                  <MissionActionFormikCoordinateInputDMD name={'geoCoords'} />
+                </Stack.Item>
+                <Stack.Item style={{ width: '100%' }}>
+                  <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%' }}>
+                    <Stack.Item style={{ width: '100%' }}>
+                      <MissionActionFormikNumberInput
+                        name="nbOfInterceptedVessels"
+                        role="nbOfInterceptedVessels"
+                        label="Nb de navires/embarcations interceptées"
+                      />
+                    </Stack.Item>
+                    <Stack.Item style={{ width: '100%' }}>
+                      <Stack direction={'row'} spacing={'1rem'}>
+                        <Stack.Item style={{ flex: 1 }}>
+                          <MissionActionFormikNumberInput
+                            name="nbOfInterceptedMigrants"
+                            role="nbOfInterceptedMigrants"
+                            label="Nb de migrants interceptés"
+                          />
+                        </Stack.Item>
+                        <Stack.Item style={{ flex: 1 }}>
+                          <MissionActionFormikNumberInput
+                            name="nbOfSuspectedSmugglers"
+                            role="nbOfSuspectedSmugglers"
+                            label="Nb de passeurs présumés"
+                          />
+                        </Stack.Item>
+                      </Stack>
+                    </Stack.Item>
+                  </Stack>
+                </Stack.Item>
+                <Stack.Item style={{ width: '100%' }}>
+                  <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
+                </Stack.Item>
+              </Stack>
+            </>
+          )}
         </Formik>
       )}
     </form>

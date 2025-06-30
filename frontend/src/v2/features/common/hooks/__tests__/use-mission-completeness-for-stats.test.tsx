@@ -5,12 +5,13 @@ import { useMissionCompletenessForStats } from '../use-mission-completeness-for-
 
 describe('useMissionCompletenessForStats', () => {
   it('should return stats for mission ended and complete', () => {
-    const missionStatus = MissionStatusEnum.ENDED
+    const isMissionFinished = true
     const completeForStats = {
       sources: [],
       status: CompletenessForStatsStatusEnum.COMPLETE
     }
-    const { result } = renderHook(() => useMissionCompletenessForStats(completeForStats, missionStatus))
+
+    const { result } = renderHook(() => useMissionCompletenessForStats(completeForStats, isMissionFinished))
 
     expect(result.current.icon).toEqual(Icon.Confirm)
     expect(result.current.text).toEqual('Complété')
@@ -22,58 +23,58 @@ describe('useMissionCompletenessForStats', () => {
   })
 
   it('should return stats for mission ended and not complete', () => {
-    const missionStatus = MissionStatusEnum.ENDED
+    const isMissionFinished = true
     const completeForStats = {
       sources: [],
       status: CompletenessForStatsStatusEnum.INCOMPLETE
     }
-    const { result } = renderHook(() => useMissionCompletenessForStats(completeForStats, missionStatus))
+    const { result } = renderHook(() => useMissionCompletenessForStats(completeForStats, isMissionFinished))
     expect(result.current.icon).toEqual(Icon.AttentionFilled)
     expect(result.current.text).toEqual('À compléter')
     expect(result.current.color).toEqual(THEME.color.maximumRed)
   })
 
   it('should return stats for mission not ended and complete', () => {
-    const missionStatus = MissionStatusEnum.IN_PROGRESS
+    const isMissionFinished = false
     const completeForStats = {
       sources: [],
       status: CompletenessForStatsStatusEnum.COMPLETE
     }
-    const { result } = renderHook(() => useMissionCompletenessForStats(completeForStats, missionStatus))
+    const { result } = renderHook(() => useMissionCompletenessForStats(completeForStats, isMissionFinished))
     expect(result.current.icon).toEqual(Icon.Confirm)
     expect(result.current.text).toEqual('Données à jour')
     expect(result.current.color).toEqual(THEME.color.mediumSeaGreen)
   })
 
   it('should return stats for mission not ended and not complete', () => {
-    const missionStatus = MissionStatusEnum.IN_PROGRESS
+    const isMissionFinished = false
     const completeForStats = {
       sources: [],
       status: CompletenessForStatsStatusEnum.INCOMPLETE
     }
-    const { result } = renderHook(() => useMissionCompletenessForStats(completeForStats, missionStatus))
+    const { result } = renderHook(() => useMissionCompletenessForStats(completeForStats, isMissionFinished))
     expect(result.current.icon).toEqual(Icon.AttentionFilled)
     expect(result.current.text).toEqual('À compléter')
     expect(result.current.color).toEqual(THEME.color.charcoal)
   })
 
   it('should banner message regarding sources CNSP and CACEM', () => {
-    const missionStatus = MissionStatusEnum.IN_PROGRESS
+    const isMissionFinished = false
     const completeForStats = {
       sources: [MissionSourceEnum.MONITORENV, MissionSourceEnum.MONITORFISH],
       status: CompletenessForStatsStatusEnum.INCOMPLETE
     }
-    const { result } = renderHook(() => useMissionCompletenessForStats(completeForStats, missionStatus))
+    const { result } = renderHook(() => useMissionCompletenessForStats(completeForStats, isMissionFinished))
     expect(result.current.bannerMessage).toContain(`le CNSP et le CACEM`)
   })
 
   it('should banner message regarding sources unité', () => {
-    const missionStatus = MissionStatusEnum.IN_PROGRESS
+    const isMissionFinished = false
     const completeForStats = {
       sources: [MissionSourceEnum.RAPPORTNAV],
       status: CompletenessForStatsStatusEnum.INCOMPLETE
     }
-    const { result } = renderHook(() => useMissionCompletenessForStats(completeForStats, missionStatus))
+    const { result } = renderHook(() => useMissionCompletenessForStats(completeForStats, isMissionFinished))
     expect(result.current.bannerMessage).toContain(`votre unité`)
   })
 })

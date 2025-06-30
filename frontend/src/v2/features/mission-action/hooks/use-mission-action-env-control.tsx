@@ -38,7 +38,7 @@ export function useMissionActionEnvControl(
     return { ...newData, endDateTimeUtc, startDateTimeUtc }
   }
 
-  const { initValue, handleSubmit, isError } = useAbstractFormik<MissionEnvActionData, ActionEnvControlInput>(
+  const { initValue, handleSubmit, errors } = useAbstractFormik<MissionEnvActionData, ActionEnvControlInput>(
     value,
     fromFieldValueToInput,
     fromInputToFieldValue
@@ -74,7 +74,7 @@ export function useMissionActionEnvControl(
   }
 
   return {
-    isError,
+    errors,
     initValue,
     getAvailableControlTypes,
     getAvailableControlTypes2,

@@ -7,6 +7,7 @@ import { Control } from '../../../common/types/target-types.ts'
 import { ControlEnvInput, useEnvControl } from '../../hooks/use-control-env.tsx'
 import MissionControlEnvError from '../ui/mission-control-env-error.tsx'
 import { MissionControlTitle } from '../ui/mission-control-title.tsx'
+import { isEmpty } from 'lodash'
 
 export interface MissionControlEnvFormProps {
   name: string
@@ -23,7 +24,7 @@ const MissionControlEnvForm: FC<MissionControlEnvFormProps> = ({
   isToComplete,
   maxAmountOfControls
 }) => {
-  const { initValue, controlTypeLabel, isError, handleSubmit, validationSchema } = useEnvControl(
+  const { initValue, controlTypeLabel, errors, handleSubmit, validationSchema } = useEnvControl(
     name,
     fieldFormik,
     controlType,
@@ -80,7 +81,7 @@ const MissionControlEnvForm: FC<MissionControlEnvFormProps> = ({
                         </Stack.Item>
                       </Stack>
                     </Stack.Item>
-                    <Stack.Item style={{ width: '100%' }}>{isError && <MissionControlEnvError />}</Stack.Item>
+                    <Stack.Item style={{ width: '100%' }}>{!isEmpty(errors) && <MissionControlEnvError />}</Stack.Item>
                   </Stack>
                 </Stack.Item>
               </Stack>
