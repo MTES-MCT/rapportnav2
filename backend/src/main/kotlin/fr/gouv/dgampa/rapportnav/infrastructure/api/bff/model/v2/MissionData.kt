@@ -43,7 +43,7 @@ data class MissionData(
                 hasMissionOrder = mission.hasMissionOrder,
                 isUnderJdp = mission.isUnderJdp,
                 observationsByUnit = mission.observationsByUnit,
-                isGeometryComputedFromControls = mission.isGeometryComputedFromControls,
+                isGeometryComputedFromControls = mission.isGeometryComputedFromControls
             )
         }
     }

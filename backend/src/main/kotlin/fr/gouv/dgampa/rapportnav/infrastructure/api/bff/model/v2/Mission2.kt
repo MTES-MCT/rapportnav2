@@ -31,7 +31,8 @@ data class Mission2(
                 data = MissionData.fromMissionEntity(mission.data),
                 isCompleteForStats = completenessForStats.sources?.isEmpty(),
                 generalInfos = MissionGeneralInfo2.fromMissionGeneralInfoEntity(
-                    generalInfo2 = mission.generalInfos
+                    generalInfo2 = mission.generalInfos,
+                    isUnderJdp = mission.data.isUnderJdp
                 ),
                 actions = mission.actions?.map { action -> MissionAction.fromMissionActionEntity(action) } ?: listOf()
             )

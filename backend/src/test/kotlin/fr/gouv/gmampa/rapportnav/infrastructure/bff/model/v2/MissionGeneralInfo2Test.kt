@@ -45,8 +45,9 @@ class MissionGeneralInfo2Test {
             services = listOf(service1)
         )
 
-        val generalInfo = MissionGeneralInfo2.fromMissionGeneralInfoEntity(generalInfoEntity)
+        val generalInfo = MissionGeneralInfo2.fromMissionGeneralInfoEntity(generalInfoEntity, isUnderJdp = true)
         assertThat(generalInfo).isNotNull();
+        assertThat(generalInfo.isUnderJdp).isEqualTo(true);
         assertThat(generalInfo.id).isEqualTo(generalInfoEntity.data?.id);
         assertThat(generalInfo.missionId).isEqualTo(generalInfoEntity.data?.missionId);
         assertThat(generalInfo.serviceId).isEqualTo(generalInfoEntity.data?.serviceId);

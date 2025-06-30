@@ -47,6 +47,7 @@ class UpdateGeneralInfo(
             patchMissionEnv.execute(
                 input = MissionEnvInput(
                     missionId = missionId,
+                    isUnderJdp = generalInfo.isUnderJdp,
                     startDateTimeUtc = generalInfo.startDateTimeUtc,
                     endDateTimeUtc = generalInfo.endDateTimeUtc,
                     missionTypes = generalInfo.missionTypes,
@@ -76,7 +77,7 @@ class UpdateGeneralInfo(
         }
         patchNavMission.execute(
             id = missionIdUUID,
-           input =  MissionNavInputEntity(
+            input = MissionNavInputEntity(
                 isDeleted = generalInfo.isDeleted?:false,
                 observationsByUnit = generalInfo.observations,
                 endDateTimeUtc = generalInfo.endDateTimeUtc,

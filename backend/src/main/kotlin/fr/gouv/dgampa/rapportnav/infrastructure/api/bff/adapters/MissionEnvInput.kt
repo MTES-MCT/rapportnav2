@@ -14,6 +14,7 @@ data class MissionEnvInput(
     val endDateTimeUtc: Instant? = null,
     val missionTypes: List<MissionTypeEnum>? = listOf(),
     val resources: List<LegacyControlUnitResourceEntity>? = listOf(),
+    val isUnderJdp: Boolean? = null,
 ) {
     companion object {
 
@@ -61,7 +62,7 @@ data class MissionEnvInput(
 
     fun toPatchMission(missionFromDb: MissionEntity, controlUnitId: Int? = null): PatchMissionInput {
         return PatchMissionInput(
-            isUnderJdp = missionFromDb.isUnderJdp,
+            isUnderJdp = isUnderJdp?: missionFromDb.isUnderJdp,
             startDateTimeUtc = startDateTimeUtc ?: missionFromDb.startDateTimeUtc,
             endDateTimeUtc = endDateTimeUtc ?: missionFromDb.endDateTimeUtc,
             missionTypes = missionTypes ?: missionFromDb.missionTypes,
