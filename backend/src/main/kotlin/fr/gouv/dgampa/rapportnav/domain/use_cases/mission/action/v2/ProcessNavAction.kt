@@ -18,10 +18,10 @@ class ProcessNavAction(
         val entity = MissionNavActionEntity.fromMissionActionModel(action)
         entity.targets = getComputeTarget.execute(actionId = entity.getActionId(), isControl = entity.isControl())
         entity.crossControl = processMissionActionCrossControl(entity)
-        // first complete the completeness
+
+        // compute completeness
         entity.computeCompleteness()
-        // then compute the derived status
-        entity.status = this.getStatus(entity)
+
         return entity
     }
 

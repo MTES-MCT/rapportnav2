@@ -7,10 +7,10 @@ export function useAbstractFormikSubForm<T, M>(
   name: string,
   fieldFormik: FieldProps<T>,
   fromFieldValueToInput: (input: T) => M,
-  fromInputToFieldValue: (vaue: M) => T,
+  fromInputToFieldValue: (value: M) => T,
   booleans?: string[]
 ): AbstractFormikSubFormHook<M> {
-  const { isError, initValue, handleSubmit } = useAbstractFormik<T, M>(
+  const { errors, initValue, handleSubmit } = useAbstractFormik<T, M>(
     fieldFormik.field.value,
     fromFieldValueToInput,
     fromInputToFieldValue,
@@ -25,7 +25,7 @@ export function useAbstractFormikSubForm<T, M>(
   }
 
   return {
-    isError,
+    errors,
     initValue,
     handleSubmit: handleSubmitOverride
   }

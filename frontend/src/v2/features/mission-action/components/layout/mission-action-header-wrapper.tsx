@@ -47,8 +47,9 @@ const MissionActionHeaderWrapper: FC<MissionActionHeaderWrapperProps> = ({
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
           <MissionActionHeaderCompletenessForStats
-            missionStatus={missionStatus}
+            missionId={missionId}
             completenessForStats={action?.completenessForStats}
+            networkSyncStatus={action?.networkSyncStatus}
           />
         </Stack.Item>
       </Stack>
