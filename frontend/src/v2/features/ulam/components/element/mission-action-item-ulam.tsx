@@ -6,6 +6,7 @@ import { useDelay } from '../../../common/hooks/use-delay'
 import useUpdateMissionActionMutation from '../../../common/services/use-update-mission-action'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useUlamActionRegistry } from '../../hooks/use-ulam-action-registry'
+import { isEqual } from 'lodash'
 
 interface MissionActionItemUlamProps {
   missionId: number
@@ -22,7 +23,9 @@ const MissionActionItemUlam: FC<MissionActionItemUlamProps> = ({ action, mission
 
   const onChange = async (newAction: MissionAction) => {
     handleExecuteOnDelay(async () => {
-      await mutation.mutateAsync(newAction)
+      if (!isEqual(action, newAction)) {
+        await mutation.mutateAsync(newAction)
+      }
       if (debounceTime !== undefined) resetDebounceTime()
     }, debounceTime)
   }
