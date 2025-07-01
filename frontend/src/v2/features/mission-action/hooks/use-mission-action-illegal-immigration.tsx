@@ -65,7 +65,7 @@ export function useMissionActionIllegalImmigration(
       ...getGeoCoordsSchema(isMissionFinished),
 
       nbOfInterceptedVessels: conditionallyRequired(
-        () => number().nullable(),
+        () => number().min(0).nullable(),
         [], // No dependencies — the condition is global
         true, // only apply if `isMissionFinished === true`
         'Ce champ est requis quand la mission est terminée',
@@ -75,7 +75,7 @@ export function useMissionActionIllegalImmigration(
       )(isMissionFinished),
 
       nbOfInterceptedMigrants: conditionallyRequired(
-        () => number().nullable(),
+        () => number().min(0).nullable(),
         [],
         true,
         'Ce champ est requis quand la mission est terminée',
@@ -83,7 +83,7 @@ export function useMissionActionIllegalImmigration(
       )(isMissionFinished),
 
       nbOfSuspectedSmugglers: conditionallyRequired(
-        () => number().nullable(),
+        () => number().min(0).nullable(),
         [],
         true,
         'Ce champ est requis quand la mission est terminée',
