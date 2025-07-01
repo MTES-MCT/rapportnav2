@@ -89,13 +89,13 @@ export function useMissionActionRescue(
 
       // Fields related to isPersonRescue
       numberPersonsRescued: conditionallyRequired(
-        () => number().nullable(),
+        () => number().min(0).nullable(),
         ['isPersonRescue'],
         true,
         'numberPersonsRescued is required'
       )(isMissionFinished),
       numberOfDeaths: conditionallyRequired(
-        () => number().nullable(),
+        () => number().min(0).nullable(),
         ['isPersonRescue'],
         true,
         'numberOfDeaths is required'
@@ -103,13 +103,13 @@ export function useMissionActionRescue(
 
       // Fields related to isMigrationRescue
       nbOfVesselsTrackedWithoutIntervention: conditionallyRequired(
-        () => number().nullable(),
+        () => number().min(0).nullable(),
         ['isMigrationRescue'],
         true,
         'nbOfVesselsTrackedWithoutIntervention is required'
       )(isMissionFinished),
       nbAssistedVesselsReturningToShore: conditionallyRequired(
-        () => number().nullable(),
+        () => number().min(0).nullable(),
         ['isMigrationRescue'],
         true,
         'nbAssistedVesselsReturningToShore is required'
