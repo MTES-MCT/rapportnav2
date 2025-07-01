@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory
 import java.util.*
 
 @UseCase
-class CreateOrUpdateGeneralInfo(
+class UpdateGeneralInfo(
     private val repository: IMissionGeneralInfoRepository,
     private val updateMissionService2: UpdateMissionService2,
     private val getGeneralInfo2: GetGeneralInfo2,
@@ -21,7 +21,7 @@ class CreateOrUpdateGeneralInfo(
     private val processMissionCrew: ProcessMissionCrew,
     private val patchNavMission: PatchNavMission
 ) {
-    private val logger = LoggerFactory.getLogger(CreateOrUpdateGeneralInfo::class.java)
+    private val logger = LoggerFactory.getLogger(UpdateGeneralInfo::class.java)
 
     fun execute(missionId: Int, generalInfo: MissionGeneralInfo2): MissionGeneralInfoEntity2? {
 
@@ -39,7 +39,7 @@ class CreateOrUpdateGeneralInfo(
                 // update crew table
                 processMissionCrew.execute(
                     missionId = missionId,
-                    crew = generalInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty()
+                    crew = generalInfo.crew?.map { it.toMissionCrewEntity(missionId = missionId) }.orEmpty()
                 )
             }
 
@@ -47,6 +47,7 @@ class CreateOrUpdateGeneralInfo(
             patchMissionEnv.execute(
                 input = MissionEnvInput(
                     missionId = missionId,
+                    isUnderJdp = generalInfo.isUnderJdp,
                     startDateTimeUtc = generalInfo.startDateTimeUtc,
                     endDateTimeUtc = generalInfo.endDateTimeUtc,
                     missionTypes = generalInfo.missionTypes,
@@ -71,12 +72,12 @@ class CreateOrUpdateGeneralInfo(
             // update crew table
             processMissionCrew.execute(
                 missionIdUUID = missionIdUUID,
-                crew = generalInfo.crew?.map { it.toMissionCrewEntity() }.orEmpty()
+                crew = generalInfo.crew?.map { it.toMissionCrewEntity(missionIdUUID = missionIdUUID) }.orEmpty()
             )
         }
         patchNavMission.execute(
             id = missionIdUUID,
-           input =  MissionNavInputEntity(
+            input = MissionNavInputEntity(
                 isDeleted = generalInfo.isDeleted?:false,
                 observationsByUnit = generalInfo.observations,
                 endDateTimeUtc = generalInfo.endDateTimeUtc,

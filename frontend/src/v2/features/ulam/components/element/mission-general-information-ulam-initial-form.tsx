@@ -1,10 +1,15 @@
-import { FormikEffect, FormikMultiCheckbox, FormikNumberInput, FormikSelect } from '@mtes-mct/monitor-ui'
+import {
+  FormikEffect,
+  FormikMultiCheckbox,
+  FormikNumberInput,
+  FormikSelect
+} from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker.tsx'
 import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
-import { MissionULAMGeneralInfoInitial } from '../../../common/types/mission-types.ts'
+import {  MissionULAMGeneralInfoInitial } from '../../../common/types/mission-types.ts'
 import {
   MissionULAMGeneralInfoInitialInput,
   useUlamMissionGeneralInformationInitialForm
@@ -76,12 +81,16 @@ const MissionGeneralInformationUlamInitialForm: FC<MissionGeneralInformationUlam
 
               {isExternalReinforcementTime(values.missionReportType) && (
                 <Stack.Item style={{ width: '100%', marginBottom: '1em' }}>
-                  <FormikSelect
-                    isLight={isCreation}
-                    label="Nature du renfort"
-                    name="reinforcementType"
-                    options={reinforcementTypeOptions}
-                  />
+                  <Stack direction="row" spacing={10}>
+                    <Stack.Item style={{ width: '55%' }}>
+                      <FormikSelect
+                        isLight={isCreation}
+                        label="Nature du renfort"
+                        name="reinforcementType"
+                        options={reinforcementTypeOptions}
+                      />
+                    </Stack.Item>
+                  </Stack>
                 </Stack.Item>
               )}
 

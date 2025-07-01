@@ -55,7 +55,7 @@ class GetMissionGeneralInfoByMissionIdTest {
             consumedFuelInLiters = 2.7f,
             distanceInNauticalMiles = 1.9f,
             nbrOfRecognizedVessel = 9,
-            jdpType = JdpTypeEnum.LAND,
+            jdpType = JdpTypeEnum.DOCKED,
             missionIdUUID = missionIdUUID
         )
         return model

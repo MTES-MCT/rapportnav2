@@ -36,11 +36,13 @@ data class MissionGeneralInfo2(
     val interMinisterialServices: List<InterMinisterialService>? = listOf(),
     val jdpType: JdpTypeEnum? = null,
     val missionIdUUID: UUID? = null,
-    val isDeleted: Boolean? = null
+    val isDeleted: Boolean? = null,
+    val isUnderJdp: Boolean? = null,
 ) {
     companion object {
         fun fromMissionGeneralInfoEntity(
-            generalInfo2: MissionGeneralInfoEntity2?
+            generalInfo2: MissionGeneralInfoEntity2?,
+            isUnderJdp: Boolean? = false,
         ): MissionGeneralInfo2 {
             return MissionGeneralInfo2(
                 missionId = generalInfo2?.data?.missionId,
@@ -64,6 +66,7 @@ data class MissionGeneralInfo2(
                 } ?: listOf(),
                 reinforcementType = generalInfo2?.data?.reinforcementType,
                 jdpType = generalInfo2?.data?.jdpType,
+                isUnderJdp = isUnderJdp,
                 missionIdUUID = generalInfo2?.data?.missionIdUUID
             )
         }

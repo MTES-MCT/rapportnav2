@@ -10,9 +10,9 @@ import { useDate } from '../../hooks/use-date.tsx'
 import { Mission2 } from '../../types/mission-types.ts'
 import MissionCompletenessForStatsTag from '../elements/mission-completeness-for-stats-tag.tsx'
 import MissionPageHeaderBanner from './mission-page-header-banner.tsx'
+import MissionPageHeaderTimeConversion from './mission-page-header-time-conversion.tsx'
 import MissionSourceTag from './mission-source-tag.tsx'
 import MissionStatusTag from './mission-status-tag.tsx'
-import MissionPageHeaderTimeConversion from './mission-page-header-time-conversion.tsx'
 
 const StyledHeader = styled.div`
   height: 60px;
@@ -40,13 +40,13 @@ const MissionPageHeader: React.FC<MissionPageHeaderProps> = ({ mission, onClickC
             <Stack direction="row" spacing={'1rem'}>
               <Stack.Item>
                 <Text as="h1" weight="bold" color={THEME.color.gainsboro}>
-                  {formatMissionName(mission?.envData?.startDateTimeUtc)}
+                  {formatMissionName(mission?.data?.startDateTimeUtc)}
                 </Text>
               </Stack.Item>
 
               <Stack.Item>
                 <TagGroup>
-                  <MissionSourceTag missionSource={mission?.envData?.missionSource} />
+                  <MissionSourceTag missionSource={mission?.data?.missionSource} />
                   <MissionStatusTag status={mission?.status} />
                   <MissionCompletenessForStatsTag
                     missionStatus={mission?.status}

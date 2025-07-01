@@ -6,10 +6,10 @@ import MissionActionLoader from '../ui/mission-action-loader.tsx'
 
 type MissionActionWrapperProps = {
   isError?: any
-  missionId: number
+  missionId: string
   isLoading?: boolean
   action?: MissionAction
-  item: FunctionComponent<{ action: MissionAction; missionId: number }>
+  item: FunctionComponent<{ action: MissionAction; missionId: string }>
 }
 
 const MissionActionWrapper: React.FC<MissionActionWrapperProps> = ({ item, action, missionId, isError, isLoading }) => {

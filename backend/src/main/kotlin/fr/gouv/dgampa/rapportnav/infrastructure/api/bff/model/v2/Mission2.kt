@@ -9,7 +9,7 @@ data class Mission2(
     val id: Int? = null,
     val idUUID: String? = null,
     val status: MissionStatusEnum,
-    val envData: MissionEnvData? = null,
+    val data: MissionData? = null,
     var actions: List<MissionAction?> = listOf(),
     val generalInfos: MissionGeneralInfo2? = null,
     val isCompleteForStats: Boolean? = null,
@@ -28,10 +28,11 @@ data class Mission2(
                 status = status,
                 idUUID = mission.idUUID?.toString(),
                 completenessForStats = completenessForStats,
-                envData = MissionEnvData.fromMissionEntity(mission.data),
+                data = MissionData.fromMissionEntity(mission.data),
                 isCompleteForStats = completenessForStats.sources?.isEmpty(),
                 generalInfos = MissionGeneralInfo2.fromMissionGeneralInfoEntity(
-                    generalInfo2 = mission.generalInfos
+                    generalInfo2 = mission.generalInfos,
+                    isUnderJdp = mission.data.isUnderJdp
                 ),
                 actions = mission.actions?.map { action -> MissionAction.fromMissionActionEntity(action) } ?: listOf()
             )

@@ -1,9 +1,17 @@
-import { ControlResource, ControlUnit } from '@common/types/control-unit-types.ts'
 import { MissionCrew } from '@common/types/crew-types'
 import { MissionTypeEnum, SeaFrontEnum } from '@common/types/env-mission-types'
 import { Service } from '@common/types/service-types'
-import { MissionAction } from './mission-action'
 import { ControlUnitResource } from './control-unit-types.ts'
+import { MissionAction } from './mission-action'
+
+export type ControlUnit = {
+  administration: string
+  contact?: string
+  id: number
+  isArchived: boolean
+  name: string
+  resources: ControlUnitResource[]
+}
 
 export enum MissionType {
   AIR = 'AIR',
@@ -31,13 +39,15 @@ export type MissionULAMGeneralInfoInitial = {
 }
 
 export type MissionGeneralInfoExtended = {
-  resources?: ControlResource[]
+  resources?: ControlUnitResource[]
   crew?: MissionCrew[]
   isMissionArmed?: boolean
   isWithInterMinisterialService?: boolean
   observations?: string
   isAllAgentsParticipating?: boolean
   interMinisterialServices?: InterMinisterialService[]
+  isUnderJdp?: boolean
+  jdpType?: JdpTypeEnum
 }
 
 export enum MissionReportTypeEnum {
@@ -46,9 +56,13 @@ export enum MissionReportTypeEnum {
   EXTERNAL_REINFORCEMENT_TIME_REPORT = 'EXTERNAL_REINFORCEMENT_TIME_REPORT'
 }
 
+export enum JdpTypeEnum {
+  DOCKED = 'DOCKED',
+  ONBOARD = 'ONBOARD'
+}
+
 export enum MissionReinforcementTypeEnum {
   PATROL = 'PATROL',
-  JDP = 'JDP',
   OTHER_ULAM = 'OTHER_ULAM',
   SEA_TRAINER = 'SEA_TRAINER',
   OTHER = 'OTHER',
@@ -98,8 +112,8 @@ export type CompletenessForStats = {
   status?: CompletenessForStatsStatusEnum
 }
 
-export type MissionEnvData = {
-  controlUnits: Omit<ControlUnit, 'id'>[]
+export type MissionData = {
+  controlUnits: ControlUnit[]
   endDateTimeUtc?: string
   facade: SeaFrontEnum
   geom?: Record<string, any>[]
@@ -125,21 +139,25 @@ export type MissionGeneralInfo2 = MissionGeneralInfoPam & {
   isWithInterMinisterialService?: boolean
   isAllAgentsParticipating?: boolean
   missionId?: number
-  startDateTimeUtc: string
-  endDateTimeUtc: string
+  startDateTimeUtc?: string
+  endDateTimeUtc?: string
   observations?: string
-  resources?: ControlResource[]
+  resources?: ControlUnitResource[]
   interMinisterialServices?: InterMinisterialService[]
+  missionIdUUID?: string
+  isUnderJdp?: boolean
+  jdpType?: JdpTypeEnum
 }
 
 export type Mission2 = {
   id: number
+  data: MissionData
   isCompleteForStats: boolean
   status: MissionStatusEnum
-  envData: MissionEnvData
   generalInfos: MissionGeneralInfo2
   completenessForStats?: CompletenessForStats
   actions: MissionAction[]
+  idUUID?: string
 }
 
 export type MissionListItem = {
@@ -159,8 +177,11 @@ export type MissionListItem = {
   missionSource?: MissionSourceEnum
   completenessForStats?: CompletenessForStats
   controlUnits?: ControlUnit[]
-  resources?: ControlUnitResource[],
+  resources?: ControlUnitResource[]
   missionReportType?: MissionReportTypeEnum
+  idUUID?: string
+  isUnderJdp?: boolean
+  jdpType?: JdpTypeEnum
 }
 
 export type InterMinisterialService = {

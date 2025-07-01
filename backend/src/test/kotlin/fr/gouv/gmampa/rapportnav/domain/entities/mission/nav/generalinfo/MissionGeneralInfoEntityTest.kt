@@ -26,7 +26,7 @@ class MissionGeneralInfoEntityTest {
                 consumedFuelInLiters = 2.7f,
                 distanceInNauticalMiles = 1.9f,
                 nbrOfRecognizedVessel = 9,
-                jdpType = JdpTypeEnum.LAND,
+                jdpType = JdpTypeEnum.DOCKED,
                 missionIdUUID = missionIdUUID
             )
         )
@@ -39,7 +39,7 @@ class MissionGeneralInfoEntityTest {
         assertThat(generalInfoEntity.consumedFuelInLiters).isEqualTo(2.7f);
         assertThat(generalInfoEntity.distanceInNauticalMiles).isEqualTo(1.9f);
         assertThat(generalInfoEntity.nbrOfRecognizedVessel).isEqualTo(9);
-        assertThat(generalInfoEntity.jdpType).isEqualTo(JdpTypeEnum.LAND);
+        assertThat(generalInfoEntity.jdpType).isEqualTo(JdpTypeEnum.DOCKED);
         assertThat(generalInfoEntity.missionIdUUID).isEqualTo(missionIdUUID);
     }
 
@@ -54,7 +54,7 @@ class MissionGeneralInfoEntityTest {
             consumedFuelInLiters = 2.7f,
             distanceInNauticalMiles = 1.9f,
             nbrOfRecognizedVessel = 9,
-            jdpType = JdpTypeEnum.LAND,
+            jdpType = JdpTypeEnum.DOCKED,
             missionIdUUID = missionIdUUID
         );
         val generalInfoModel = generalInfoEntity.toMissionGeneralInfoModel()
@@ -66,7 +66,7 @@ class MissionGeneralInfoEntityTest {
         assertThat(generalInfoModel.consumedFuelInLiters).isEqualTo(generalInfoEntity.consumedFuelInLiters);
         assertThat(generalInfoModel.distanceInNauticalMiles).isEqualTo(generalInfoEntity.distanceInNauticalMiles);
         assertThat(generalInfoModel.nbrOfRecognizedVessel).isEqualTo(generalInfoEntity.nbrOfRecognizedVessel);
-        assertThat(generalInfoEntity.jdpType).isEqualTo(JdpTypeEnum.LAND);
+        assertThat(generalInfoEntity.jdpType).isEqualTo(JdpTypeEnum.DOCKED);
         assertThat(generalInfoEntity.missionIdUUID).isEqualTo(missionIdUUID);
     }
 }
