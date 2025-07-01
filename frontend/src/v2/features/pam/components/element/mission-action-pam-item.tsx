@@ -6,6 +6,7 @@ import { useDelay } from '../../../common/hooks/use-delay'
 import useUpdateMissionActionMutation from '../../../common/services/use-update-mission-action'
 import { MissionAction } from '../../../common/types/mission-action'
 import { usePamActionRegistry } from '../../hooks/use-pam-action-registry'
+import { isEqual } from 'lodash'
 
 interface MissionActionPamItemProps {
   missionId: number
@@ -22,7 +23,9 @@ const MissionActionPamItem: FC<MissionActionPamItemProps> = ({ action, missionId
 
   const onChange = async (newAction: MissionAction): Promise<void> => {
     handleExecuteOnDelay(async () => {
-      await mutation.mutateAsync(newAction)
+      if (!isEqual(action, newAction)) {
+        await mutation.mutateAsync(newAction)
+      }
       if (debounceTime !== undefined) resetDebounceTime()
     }, debounceTime)
   }
