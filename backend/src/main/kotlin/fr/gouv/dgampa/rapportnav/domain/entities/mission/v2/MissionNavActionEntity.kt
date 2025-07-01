@@ -33,7 +33,7 @@ class MissionNavActionEntity(
     @MandatoryForStats(
         enableIf = [DependentFieldValue(
             field = "actionType",
-            value = ["ANTI_POLLUTION", "BAAEM_PERMANENCE", "CONTROL",
+            value = ["ANTI_POLLUTION", "BAAEM_PERMANENCE", "CONTROL", "RESCUE",
                 "VIGIMER", "REPRESENTATION", "PUBLIC_ORDER", "ILLEGAL_IMMIGRATION", "NAUTICAL_EVENT"]
         )]
     )
