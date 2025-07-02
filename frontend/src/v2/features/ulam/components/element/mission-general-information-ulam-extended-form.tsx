@@ -32,12 +32,12 @@ const MissionGeneralInformationUlamExtendedForm: FC<MissionGeneralInformationUla
   const { isEnvMission, jdpTypeOptions } = useMissionType()
   const { data: administrations } = useAdministrationsQuery()
   const { data: resources } = useControlUnitResourcesQuery(user?.controlUnitId)
-  const { initValue, handleSubmit } = useUlamMissionGeneralInformationsExtendedForm(name, fieldFormik)
+  const { initValue, handleSubmit, errors } = useUlamMissionGeneralInformationsExtendedForm(name, fieldFormik)
 
   return (
     <>
       {initValue && (
-        <Formik initialValues={initValue} onSubmit={handleSubmit} enableReinitialize={true}>
+        <Formik initialValues={initValue} onSubmit={handleSubmit} enableReinitialize={true} initialErrors={errors}>
           {formik => (
             <Stack direction="column" spacing="1em" style={{ width: '100%' }} justifyContent="flex-start">
               <FormikEffect onChange={newValues => handleSubmit(newValues)} />
