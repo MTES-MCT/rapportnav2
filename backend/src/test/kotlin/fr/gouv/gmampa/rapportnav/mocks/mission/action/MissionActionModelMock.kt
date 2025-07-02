@@ -58,7 +58,7 @@ object MissionActionModelMock {
             crossControlNbrOfHours = 12,
             crossControlStatus = CrossControlStatusType.NEW.toString(),
             crossControlConclusion = CrossControlConclusionType.NO_FOLLOW_UP.toString(),
-            missionIdUUID = UUID.randomUUID()
+            ownerId = UUID.randomUUID()
         )
     }
 }

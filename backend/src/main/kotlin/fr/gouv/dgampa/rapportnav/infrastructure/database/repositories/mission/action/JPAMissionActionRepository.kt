@@ -19,8 +19,8 @@ class JPAMissionActionRepository(
         return dbMissionActionRepository.findAllByMissionId(missionId)
     }
 
-    override fun findByMissionIdUUID(missionIdUUID: UUID): List<MissionActionModel> {
-        return dbMissionActionRepository.findAllByMissionIdUUID(missionIdUUID)
+    override fun findByOwnerId(ownerId: UUID): List<MissionActionModel> {
+        return dbMissionActionRepository.findAllByOwnerId(ownerId)
     }
 
     override fun findById(id: UUID): Optional<MissionActionModel> {

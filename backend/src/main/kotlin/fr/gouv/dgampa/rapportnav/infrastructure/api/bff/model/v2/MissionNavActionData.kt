@@ -92,7 +92,7 @@ class MissionNavActionData(
                 nbAssistedVesselsReturningToShore = data.nbAssistedVesselsReturningToShore,
                 status = data.status,
                 reason = data.reason,
-                missionIdUUID = data.missionIdUUID?.let { UUID.fromString(it) },
+                ownerId = data.missionIdUUID?.let { UUID.fromString(it) },
             )
             return action
         }

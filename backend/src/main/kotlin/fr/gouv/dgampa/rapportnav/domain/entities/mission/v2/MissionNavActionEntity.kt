@@ -23,7 +23,7 @@ class MissionNavActionEntity(
     @MandatoryForStats
     override var missionId: Int,
 
-    override var missionIdUUID: UUID? = null,
+    override var ownerId: UUID? = null,
 
     @MandatoryForStats
     override var actionType: ActionType,
@@ -205,7 +205,7 @@ class MissionNavActionEntity(
         crossControlNbrOfHours = crossControl?.nbrOfHours,
         crossControlStatus = crossControl?.status?.toString(),
         crossControlConclusion = crossControl?.conclusion?.toString(),
-        missionIdUUID = missionIdUUID
+        ownerId = ownerId
     )
 
 
@@ -251,7 +251,7 @@ class MissionNavActionEntity(
                 nbAssistedVesselsReturningToShore = model.nbAssistedVesselsReturningToShore,
                 status = model.status?.let { ActionStatusType.valueOf(it) },
                 reason = model.reason?.let { ActionStatusReason.valueOf(it) },
-                missionIdUUID = model.missionIdUUID,
+                ownerId = model.ownerId,
                 crossControl = MissionActionCrossControlEntity(
                     id = model.crossControlId,
                     nbrOfHours = model.crossControlNbrOfHours,

@@ -118,7 +118,7 @@ class MissionNavActionEntityTest {
                 status = CrossControlStatusType.NEW,
                 conclusion = CrossControlConclusionType.NO_FOLLOW_UP
             ),
-            missionIdUUID = UUID.randomUUID(),
+            ownerId = UUID.randomUUID(),
         )
         val model = entity.toMissionActionModel()
 
@@ -163,7 +163,7 @@ class MissionNavActionEntityTest {
         assertThat(model.crossControlNbrOfHours).isEqualTo(entity.crossControl?.nbrOfHours)
         assertThat(model.crossControlStatus).isEqualTo(entity.crossControl?.status.toString())
         assertThat(model.crossControlConclusion).isEqualTo(entity.crossControl?.conclusion.toString())
-        assertThat(model.missionIdUUID).isEqualTo(entity.missionIdUUID)
+        assertThat(model.ownerId).isEqualTo(entity.ownerId)
     }
 
     @Test

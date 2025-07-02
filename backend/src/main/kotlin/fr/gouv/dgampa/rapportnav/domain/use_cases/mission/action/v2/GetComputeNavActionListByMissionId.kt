@@ -49,6 +49,6 @@ class GetComputeNavActionListByMissionId(
     }
 
     private fun getNavActionList(missionIdUUID: UUID): List<MissionActionModel> {
-        return navMissionActionRepository.findByMissionIdUUID(missionIdUUID = missionIdUUID).orEmpty()
+        return navMissionActionRepository.findByOwnerId(ownerId = missionIdUUID).orEmpty()
     }
 }
