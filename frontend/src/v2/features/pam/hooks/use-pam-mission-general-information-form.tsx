@@ -56,7 +56,7 @@ export const usePamMissionGeneralInfoForm = (
       ...getDateRangeSchema(isMissionFinished),
 
       distanceInNauticalMiles: conditionallyRequired(
-        () => number().nullable(),
+        () => number().min(0).nullable(),
         [],
         true,
         'Distance is required when mission is finished',
@@ -64,7 +64,7 @@ export const usePamMissionGeneralInfoForm = (
       )(isMissionFinished),
 
       consumedGOInLiters: conditionallyRequired(
-        () => number().nullable(),
+        () => number().min(0).nullable(),
         [],
         true,
         'GO consumption is required when mission is finished',
@@ -72,7 +72,7 @@ export const usePamMissionGeneralInfoForm = (
       )(isMissionFinished),
 
       consumedFuelInLiters: conditionallyRequired(
-        () => number().nullable(),
+        () => number().min(0).nullable(),
         [],
         true,
         'Fuel consumption is required when mission is finished',
@@ -80,7 +80,7 @@ export const usePamMissionGeneralInfoForm = (
       )(isMissionFinished),
 
       nbrOfRecognizedVessel: conditionallyRequired(
-        () => number().nullable(),
+        () => number().min(0).nullable(),
         [],
         true,
         'Number of recognized vessels is required when mission is finished',

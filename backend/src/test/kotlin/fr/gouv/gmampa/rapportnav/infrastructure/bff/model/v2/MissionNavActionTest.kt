@@ -177,8 +177,8 @@ class MissionNavActionTest {
 
         entity.numberOfDeaths = 4
         entity.computeCompleteness()
-        assertThat(entity.isCompleteForStats).isEqualTo(true)
-        assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
+        assertThat(entity.isCompleteForStats).isEqualTo(false)
+        assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.isMigrationRescue = true
         entity.isPersonRescue = false
@@ -186,13 +186,17 @@ class MissionNavActionTest {
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
-
         entity.nbOfVesselsTrackedWithoutIntervention = 9
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(false)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
 
         entity.nbAssistedVesselsReturningToShore = 2
+        entity.computeCompleteness()
+        assertThat(entity.isCompleteForStats).isEqualTo(false)
+        assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.INCOMPLETE)
+
+        entity.endDateTimeUtc = Instant.now()
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(true)
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
