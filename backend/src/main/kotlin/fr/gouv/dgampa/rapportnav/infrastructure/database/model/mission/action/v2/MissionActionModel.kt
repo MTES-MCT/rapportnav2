@@ -134,8 +134,8 @@ data class MissionActionModel(
     @Column(name = "cross_control_nbr_hours", nullable = true)
     var crossControlNbrOfHours: Int? = null,
 
-    @Column(name = "mission_id_uuid", nullable = true)
-    var missionIdUUID: UUID? = null,
+    @Column(name = "owner_id", nullable = true)
+    var ownerId: UUID? = null,
 ) {
     override fun hashCode(): Int {
         return Objects.hash(id)

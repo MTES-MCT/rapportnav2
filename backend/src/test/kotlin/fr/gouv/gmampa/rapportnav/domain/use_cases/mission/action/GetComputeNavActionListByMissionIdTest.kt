@@ -78,7 +78,7 @@ class GetComputeNavActionListByMissionIdTest {
         val missionIdUUID = UUID.randomUUID()
         val action = MissionActionModel(
             id = actionId,
-            missionIdUUID = missionIdUUID,
+            ownerId = missionIdUUID,
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
             observations = "My beautiful observation",
@@ -97,7 +97,7 @@ class GetComputeNavActionListByMissionIdTest {
         )
 
         `when`(processNavAction.execute(anyOrNull())).thenReturn(response)
-        `when`(navMissionActionRepository.findByMissionIdUUID(missionIdUUID)).thenReturn(listOf(action))
+        `when`(navMissionActionRepository.findByOwnerId(ownerId = missionIdUUID)).thenReturn(listOf(action))
 
         getNavActionList = GetComputeNavActionListByMissionId(
             processNavAction = processNavAction,

@@ -26,7 +26,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEnti
 abstract class MissionAction(
     open val id: String? = null,
     open val missionId: Int,
-    open val missionIdUUID: String? = null,
+    open val ownerId: String? = null,
     open val actionType: ActionType,
     open val source: MissionSourceEnum,
     open var status: ActionStatusType? = null,

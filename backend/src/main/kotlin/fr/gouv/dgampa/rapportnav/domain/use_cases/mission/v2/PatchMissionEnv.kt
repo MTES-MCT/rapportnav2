@@ -38,7 +38,7 @@ class PatchMissionEnv(
         if (input.equals(fromDbEnvInput)) return null
 
         return try {
-            apiEnvRepo2.patchMission(
+            apiEnvRepo2.patchMission( //TODO: remove double check missionEnvInput and PatchInput
                 missionId = input.missionId,
                 mission = input.toPatchMission(
                     fromDbEnvMission,
