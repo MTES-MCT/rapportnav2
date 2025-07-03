@@ -44,6 +44,7 @@ class MissionNavActionData(
     override val observations: String? = null,
     override val status: ActionStatusType? = null,
     override val targets: List<Target2>? = null,
+    override val missionIdUUID: String? = null,
     override val crossControl: MissionActionCrossControl? = null
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
