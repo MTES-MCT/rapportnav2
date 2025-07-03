@@ -5,7 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import java.time.Instant
 import java.util.*
@@ -43,9 +42,7 @@ class MissionNavActionData(
     override val endDateTimeUtc: Instant? = null,
     override val observations: String? = null,
     override val status: ActionStatusType? = null,
-    override val targets: List<Target2>? = null,
-    override val missionIdUUID: String? = null,
-    override val crossControl: MissionActionCrossControl? = null
+    override val targets: List<Target2>? = null
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
@@ -95,14 +92,6 @@ class MissionNavActionData(
                 reason = data.reason
             )
             return action
-        }
-
-        fun getCrossControlEntity(input: MissionAction): CrossControlEntity? {
-            val data = input.data as MissionNavActionData
-            return data.crossControl?.toCrossControlEntity(
-                endDateTimeUtc = data.endDateTimeUtc,
-                startDateTimeUtc = data.startDateTimeUtc
-            )
         }
     }
 }

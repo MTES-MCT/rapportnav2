@@ -26,7 +26,7 @@ class GetMissionAction(
     }
 
     fun execute(missionIdUUID: UUID?): List<MissionActionEntity> {
-        return getComputeNavActionListByMissionId.execute(missionIdUUID = missionIdUUID)
+        return getComputeNavActionListByMissionId.execute(ownerId = missionIdUUID)
             .sortedByDescending { action -> action.startDateTimeUtc }
     }
 }

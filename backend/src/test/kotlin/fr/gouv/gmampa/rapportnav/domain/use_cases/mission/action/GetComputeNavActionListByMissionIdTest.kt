@@ -8,7 +8,6 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessNavAc
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
@@ -103,7 +102,7 @@ class GetComputeNavActionListByMissionIdTest {
             processNavAction = processNavAction,
             navMissionActionRepository = navMissionActionRepository
         )
-        val navActions = getNavActionList.execute(missionIdUUID = missionIdUUID)
+        val navActions = getNavActionList.execute(ownerId = missionIdUUID)
 
         assertThat(navActions).isNotNull
         assertThat(navActions.size).isEqualTo(1)

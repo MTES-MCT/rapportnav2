@@ -17,7 +17,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 import java.util.*
 
-
 @SpringBootTest(classes = [DeleteNavAction::class])
 @ContextConfiguration(classes = [DeleteNavAction::class])
 class DeleteNavActionTest {
@@ -25,14 +24,8 @@ class DeleteNavActionTest {
     @Captor
     lateinit var deleteTargetCaptor: ArgumentCaptor<UUID>
 
-    @Captor
-    lateinit var deleteCrossControlCaptor: ArgumentCaptor<UUID>
-
     @Autowired
     private lateinit var deleteNavAction: DeleteNavAction
-
-    @MockitoBean
-    private lateinit var deleteCrossControl: DeleteCrossControl
 
     @MockitoBean
     private lateinit var deleteTarget: DeleteTarget
@@ -43,7 +36,6 @@ class DeleteNavActionTest {
     @Test
     fun `test execute get nav action by id`() {
         val actionId = UUID.randomUUID()
-        val crossControlId = UUID.randomUUID()
         val action = MissionActionModel(
             id = actionId,
             missionId = 761,
@@ -53,25 +45,19 @@ class DeleteNavActionTest {
             isAntiPolDeviceDeployed = true,
             isSimpleBrewingOperationDone = true,
             diversionCarriedOut = true,
-            actionType = ActionType.CONTROL,
-            crossControlId = crossControlId
+            actionType = ActionType.CONTROL
         )
 
         `when`(missionActionRepository.findById(actionId)).thenReturn(Optional.of(action))
         deleteNavAction = DeleteNavAction(
             deleteTarget = deleteTarget,
-            deleteCrossControl = deleteCrossControl,
             missionActionRepository = missionActionRepository
         )
-
         deleteNavAction.execute(id = actionId)
 
-
         verify(deleteTarget).execute(deleteTargetCaptor.capture(), eq(ActionType.CONTROL))
-        verify(deleteCrossControl).execute(deleteCrossControlCaptor.capture(), eq(ActionType.CONTROL))
 
         assertThat(actionId).isEqualTo(deleteTargetCaptor.value)
-        assertThat(crossControlId).isEqualTo(deleteCrossControlCaptor.value)
         verify(missionActionRepository, times(1)).deleteById(actionId)
     }
 }

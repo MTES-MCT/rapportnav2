@@ -8,5 +8,5 @@ class CrossControlDataEntity (
     var sumNbrOfHours: Int? = null,
     var vesselName: String? = null,
     val isReferentialClosed: Boolean? = null,
-    val origin: CrossControlOriginType? = null,
+    val origin: InquiryOriginType? = null,
 )

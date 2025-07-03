@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.DeleteCrossControl
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.DeleteInquiry
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.DeleteNavAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.DeleteTarget
 import org.assertj.core.api.Assertions.assertThatNoException
@@ -23,7 +23,7 @@ class DeleteNavActionTest {
     private lateinit var deleteTarget: DeleteTarget
 
     @MockitoBean
-    private lateinit var  deleteCrossControl: DeleteCrossControl
+    private lateinit var  deleteInquiry: DeleteInquiry
 
     @Test
     fun `test execute delete nav action`() {
@@ -32,7 +32,6 @@ class DeleteNavActionTest {
 
         val deleteNavAction = DeleteNavAction(
             deleteTarget = deleteTarget,
-            deleteCrossControl = deleteCrossControl,
             missionActionRepository = missionActionRepository
         )
         deleteNavAction.execute(actionId)

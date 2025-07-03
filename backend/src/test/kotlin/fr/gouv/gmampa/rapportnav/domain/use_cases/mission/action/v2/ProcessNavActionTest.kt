@@ -1,11 +1,8 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionCrossControlEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionActionCrossControl
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
 import org.assertj.core.api.Assertions.assertThat
@@ -32,14 +29,10 @@ class ProcessNavActionTest {
     @MockitoBean
     private lateinit var getComputeTarget: GetComputeTarget
 
-    @MockitoBean
-    private lateinit var getComputeCrossControl: GetComputeCrossControl
-
     @Test
     fun `test execute get nav action by id`() {
         val missionId = 761
         val actionId = UUID.randomUUID()
-        val crossControlId = UUID.randomUUID()
         val action = MissionActionModel(
             id = actionId,
             missionId = missionId,
@@ -50,20 +43,13 @@ class ProcessNavActionTest {
             isSimpleBrewingOperationDone = true,
             diversionCarriedOut = true,
             actionType = ActionType.CONTROL,
-            crossControlId = crossControlId
-        )
-
-        val controlControl = CrossControlEntity(
-            id = crossControlId
         )
 
         val mockTarget = TargetMissionMock.create()
         `when`(getComputeTarget.execute(actionId.toString(), true)).thenReturn(listOf(mockTarget))
-        `when`(getComputeCrossControl.execute(crossControlId)).thenReturn(controlControl)
         processNavAction = ProcessNavAction(
             getComputeTarget = getComputeTarget,
-            getStatusForAction = getStatusForAction,
-            getComputeCrossControl = getComputeCrossControl
+            getStatusForAction = getStatusForAction
         )
 
         val entity = processNavAction.execute(action = action)
@@ -72,6 +58,5 @@ class ProcessNavActionTest {
         assertThat(entity).isNotNull
         assertThat(entity.id).isEqualTo(actionId)
         assertThat(infractionIds).isEqualTo(mockInfractionIds)
-        assertThat(entity.crossControl?.id).isEqualTo(crossControlId)
     }
 }

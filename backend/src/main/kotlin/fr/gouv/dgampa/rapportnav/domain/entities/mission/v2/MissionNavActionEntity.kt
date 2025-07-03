@@ -138,9 +138,7 @@ class MissionNavActionEntity(
         ]
     )
     override var reason: ActionStatusReason? = null,
-    override var targets: List<TargetEntity2>? = null,
-    //TODO: Mandatory for Stats nbrOfHours
-    override var crossControl: MissionActionCrossControlEntity? = null,
+    override var targets: List<TargetEntity2>? = null
 ) : MissionActionEntity(
     status = status,
     actionType = actionType,
@@ -200,11 +198,6 @@ class MissionNavActionEntity(
         nbAssistedVesselsReturningToShore = nbAssistedVesselsReturningToShore,
         status = status?.toString(),
         reason = reason?.toString(),
-        crossControlId = crossControl?.id,
-        isSignedByInspector = crossControl?.isSignedByInspector,
-        crossControlNbrOfHours = crossControl?.nbrOfHours,
-        crossControlStatus = crossControl?.status?.toString(),
-        crossControlConclusion = crossControl?.conclusion?.toString(),
         ownerId = ownerId
     )
 
@@ -251,14 +244,7 @@ class MissionNavActionEntity(
                 nbAssistedVesselsReturningToShore = model.nbAssistedVesselsReturningToShore,
                 status = model.status?.let { ActionStatusType.valueOf(it) },
                 reason = model.reason?.let { ActionStatusReason.valueOf(it) },
-                ownerId = model.ownerId,
-                crossControl = MissionActionCrossControlEntity(
-                    id = model.crossControlId,
-                    nbrOfHours = model.crossControlNbrOfHours,
-                    isSignedByInspector = model.isSignedByInspector,
-                    status = model.crossControlStatus?.let { CrossControlStatusType.valueOf(it) },
-                    conclusion = model.crossControlConclusion?.let { CrossControlConclusionType.valueOf(it) }
-                )
+                ownerId = model.ownerId
             )
         }
     }

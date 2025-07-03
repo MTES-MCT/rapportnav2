@@ -29,14 +29,14 @@ class GetComputeNavActionListByMissionId(
         }
     }
 
-    fun execute(missionIdUUID: UUID?): List<MissionNavActionEntity> {
-        if (missionIdUUID == null) {
+    fun execute(ownerId: UUID?): List<MissionNavActionEntity> {
+        if (ownerId == null) {
             logger.error("GetComputeNavActionListByMissionIdString received a null missionId")
             throw IllegalArgumentException("GetComputeNavActionListByMissionIdString should not receive null missionId")
         }
 
         return try {
-            val actions = getNavActionList(missionIdUUID = missionIdUUID)
+            val actions = getNavActionList(ownerId = ownerId)
             actions.map { processNavAction.execute(action = it) }
         } catch (e: Exception) {
             logger.error("GetComputeNavActionListByMissionIdString failed loading Actions", e)
@@ -48,7 +48,7 @@ class GetComputeNavActionListByMissionId(
         return navMissionActionRepository.findByMissionId(missionId = missionId).orEmpty()
     }
 
-    private fun getNavActionList(missionIdUUID: UUID): List<MissionActionModel> {
-        return navMissionActionRepository.findByOwnerId(ownerId = missionIdUUID).orEmpty()
+    private fun getNavActionList(ownerId: UUID): List<MissionActionModel> {
+        return navMissionActionRepository.findByOwnerId(ownerId = ownerId).orEmpty()
     }
 }

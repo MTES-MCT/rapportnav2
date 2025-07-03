@@ -66,11 +66,6 @@ class MissionNavActionEntityTest {
         assertThat(entity.nbAssistedVesselsReturningToShore).isEqualTo(model.nbAssistedVesselsReturningToShore)
         assertThat(entity.status.toString()).isEqualTo(model.status)
         assertThat(entity.reason.toString()).isEqualTo(model.reason)
-        assertThat(entity.crossControl?.id).isEqualTo(model.crossControlId)
-        assertThat(entity.crossControl?.isSignedByInspector).isEqualTo(model.isSignedByInspector)
-        assertThat(entity.crossControl?.nbrOfHours).isEqualTo(model.crossControlNbrOfHours)
-        assertThat(entity.crossControl?.status.toString()).isEqualTo(model.crossControlStatus)
-        assertThat(entity.crossControl?.conclusion.toString()).isEqualTo(model.crossControlConclusion)
     }
 
     @Test
@@ -111,13 +106,6 @@ class MissionNavActionEntityTest {
             nbAssistedVesselsReturningToShore = 50,
             reason = ActionStatusReason.ADMINISTRATION,
             status = ActionStatusType.ANCHORED,
-            crossControl = MissionActionCrossControlEntity(
-                id = UUID.randomUUID(),
-                isSignedByInspector = true,
-                nbrOfHours = 12,
-                status = CrossControlStatusType.NEW,
-                conclusion = CrossControlConclusionType.NO_FOLLOW_UP
-            ),
             ownerId = UUID.randomUUID(),
         )
         val model = entity.toMissionActionModel()
@@ -158,11 +146,6 @@ class MissionNavActionEntityTest {
         assertThat(model.nbAssistedVesselsReturningToShore).isEqualTo(entity.nbAssistedVesselsReturningToShore)
         assertThat(model.status).isEqualTo(entity.status.toString())
         assertThat(model.reason).isEqualTo(entity.reason.toString())
-        assertThat(model.crossControlId).isEqualTo(entity.crossControl?.id)
-        assertThat(model.isSignedByInspector).isEqualTo(entity.crossControl?.isSignedByInspector)
-        assertThat(model.crossControlNbrOfHours).isEqualTo(entity.crossControl?.nbrOfHours)
-        assertThat(model.crossControlStatus).isEqualTo(entity.crossControl?.status.toString())
-        assertThat(model.crossControlConclusion).isEqualTo(entity.crossControl?.conclusion.toString())
         assertThat(model.ownerId).isEqualTo(entity.ownerId)
     }
 
