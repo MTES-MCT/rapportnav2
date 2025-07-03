@@ -1,10 +1,10 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlConclusionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlOriginType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.CrossControlStatusType
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.CrossControl
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InquiryConclusionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InquiryEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InquiryOriginType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InquiryStatusType
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Inquiry
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -13,25 +13,24 @@ import java.time.Instant
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
-class CrossControlTest {
+class InquiryTest {
 
     @Test
     fun `execute should convert into entity`() {
-        val entity = CrossControlEntity(
+        val entity = InquiryEntity(
             id = UUID.randomUUID(),
             type = "",
             agentId = 5,
             vesselId = 4556,
-            sumNbrOfHours = 45,
             serviceId = 6,
-            status = CrossControlStatusType.NEW,
-            origin = CrossControlOriginType.FOLLOW_UP_CONTROL,
-            conclusion = CrossControlConclusionType.NO_FOLLOW_UP,
+            status = InquiryStatusType.NEW,
+            origin = InquiryOriginType.FOLLOW_UP_CONTROL,
+            conclusion = InquiryConclusionType.NO_FOLLOW_UP,
             endDateTimeUtc = Instant.parse("2015-07-30T00:00:00.00Z"),
             startDateTimeUtc = Instant.parse("2015-06-30T00:00:00.00Z"),
         )
 
-        val response = CrossControl.fromCrossControlEntity(entity)
+        val response = Inquiry.fromInquiryEntity(entity)
 
         assertThat(response).isNotNull()
         assertThat(response.id).isEqualTo(entity.id)

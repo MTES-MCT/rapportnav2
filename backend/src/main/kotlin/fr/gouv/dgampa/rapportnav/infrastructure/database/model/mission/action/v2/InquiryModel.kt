@@ -7,9 +7,9 @@ import jakarta.persistence.Table
 import java.time.Instant
 import java.util.*
 
-@Table(name = "cross_control")
+@Table(name = "inquiry")
 @Entity
-class CrossControlModel(
+class InquiryModel(
     @Id
     @Column(name = "id", unique = true, nullable = false)
     val id: UUID,
@@ -39,7 +39,14 @@ class CrossControlModel(
     var endDateTimeUtc: Instant? = null,
 
     @Column(name = "conclusion", nullable = true)
-    var conclusion: String? = null
+    var conclusion: String? = null,
+
+    @Column(name = "mission_id", nullable = true)
+    var missionId: Int? = null,
+
+    @Column(name = "mission_id_uuid", nullable = true)
+    var missionIdUUID: UUID? = null
+
 ) {
     override fun hashCode(): Int {
         return Objects.hash(id)
@@ -48,7 +55,7 @@ class CrossControlModel(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
-        other as CrossControlModel
+        other as InquiryModel
         return id == other.id
     }
 }
