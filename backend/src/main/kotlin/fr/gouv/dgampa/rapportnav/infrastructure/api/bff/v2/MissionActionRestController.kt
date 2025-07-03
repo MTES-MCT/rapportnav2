@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
+import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishAction
@@ -30,28 +31,37 @@ class MissionActionRestController(
 
     @GetMapping("")
     @Operation(summary = "Get the list of actions on a mission Id")
-    fun getActions(@PathVariable(name = "missionId") missionId: Int): List<MissionAction?> {
-        return getMissionAction.execute(missionId)
-            .map { action -> MissionAction.fromMissionActionEntity(action) }
+    fun getActions(@PathVariable(name = "missionId") missionId: String): List<MissionAction?> {
+        val actions = if (isValidUUID(missionId)) getMissionAction.execute(
+            missionIdUUID = UUID.fromString(missionId)
+        ) else getMissionAction.execute(
+            missionId = Integer.valueOf(missionId)
+        )
+        return actions.map { action -> MissionAction.fromMissionActionEntity(action) }
     }
 
     @GetMapping("{actionId}")
     fun getActionById(
-        @PathVariable(name = "missionId") missionId: Int,
+        @PathVariable(name = "missionId") missionId: String,
         @PathVariable(name = "actionId") actionId: String,
     ): MissionAction? {
         var action: MissionAction? = null
         val navAction = getNavActionById.execute(actionId = actionId)
         if (navAction != null) action = MissionAction.fromMissionActionEntity(navAction)
 
-        val fishAction = getFishActionById.execute(missionId = missionId, actionId = actionId)
+        if (isValidUUID(missionId)) return action
+
+        val fishAction = getFishActionById.execute(missionId = Integer.valueOf(missionId), actionId = actionId)
         if (fishAction != null) action =  MissionAction.fromMissionActionEntity(fishAction)
 
-        val envAction = getEnvActionById.execute(missionId = missionId, actionId = actionId)
+        val envAction = getEnvActionById.execute(missionId = Integer.valueOf(missionId), actionId = actionId)
         if (envAction != null) action =  MissionAction.fromMissionActionEntity(envAction)
 
         if (action != null) {
-            action.status = getStatusForAction2.execute(missionId=missionId, actionStartDateTimeUtc = action.data?.startDateTimeUtc)
+            action.status = getStatusForAction2.execute(
+                missionId = Integer.valueOf(missionId),
+                actionStartDateTimeUtc = action.data?.startDateTimeUtc
+            )
         }
         return action
     }
