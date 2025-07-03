@@ -58,6 +58,7 @@ class MissionNavActionData(
             val data = input.data as MissionNavActionData
             val action  = MissionNavActionEntity(
                 id = if(input.id == null) UUID.randomUUID() else UUID.fromString(input.id),
+                ownerId = input.ownerId?.let { UUID.fromString(it) },
                 missionId = input.missionId,
                 actionType = input.actionType,
                 startDateTimeUtc = data.startDateTimeUtc,
@@ -91,8 +92,7 @@ class MissionNavActionData(
                 nbOfVesselsTrackedWithoutIntervention = data.nbOfVesselsTrackedWithoutIntervention,
                 nbAssistedVesselsReturningToShore = data.nbAssistedVesselsReturningToShore,
                 status = data.status,
-                reason = data.reason,
-                ownerId = data.missionIdUUID?.let { UUID.fromString(it) },
+                reason = data.reason
             )
             return action
         }
