@@ -44,7 +44,6 @@ class MissionNavActionData(
     override val observations: String? = null,
     override val status: ActionStatusType? = null,
     override val targets: List<Target2>? = null,
-    override val missionIdUUID: String? = null,
     override val crossControl: MissionActionCrossControl? = null
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
@@ -58,6 +57,7 @@ class MissionNavActionData(
             val data = input.data as MissionNavActionData
             val action  = MissionNavActionEntity(
                 id = if(input.id == null) UUID.randomUUID() else UUID.fromString(input.id),
+                ownerId = input.ownerId?.let { UUID.fromString(it) },
                 missionId = input.missionId,
                 actionType = input.actionType,
                 startDateTimeUtc = data.startDateTimeUtc,
@@ -91,8 +91,7 @@ class MissionNavActionData(
                 nbOfVesselsTrackedWithoutIntervention = data.nbOfVesselsTrackedWithoutIntervention,
                 nbAssistedVesselsReturningToShore = data.nbAssistedVesselsReturningToShore,
                 status = data.status,
-                reason = data.reason,
-                ownerId = data.missionIdUUID?.let { UUID.fromString(it) },
+                reason = data.reason
             )
             return action
         }
