@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.12.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.12.1...backend@v2.12.2) (2025-07-07)
+
+
+### Bug Fixes
+
+* **v1:** fix allow data for null env actions ([03223c0](https://github.com/MTES-MCT/rapportnav2/commit/03223c059f9c2daa6a3a8820a57b451a3875deb7))
+
 ## [2.12.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.12.0...backend@v2.12.1) (2025-07-07)
 
 
