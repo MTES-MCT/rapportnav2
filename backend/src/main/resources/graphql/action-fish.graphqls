@@ -19,7 +19,7 @@ input ActionFishInput {
 
 type FishActionData {
   id: String!
-  actionDatetimeUtc: Instant!
+  actionDatetimeUtc: Instant
   actionEndDatetimeUtc: Instant
   vesselId: Int
   vesselName: String
