@@ -40,19 +40,17 @@ data class Action(
                         source = MissionSourceEnum.MONITORENV,
                         startDateTimeUtc = action.actionStartDateTimeUtc,
                         endDateTimeUtc = action.actionEndDateTimeUtc,
-                        data = action.actionStartDateTimeUtc?.let {
-                            EnvActionData(
-                                id = action.id,
-                                actionStartDateTimeUtc = it,
-                                actionEndDateTimeUtc = action.actionEndDateTimeUtc,
-                                actionType = action.actionType,
-                                geom = action.geom,
-                                observations = action.observations,
-                                observationsByUnit = action.observationsByUnit,
-                                coverMissionZone = action.coverMissionZone,
-                                controlPlans = action.controlPlans,
-                            )
-                        }
+                        data = EnvActionData(
+                            id = action.id,
+                            actionStartDateTimeUtc = action.actionStartDateTimeUtc,
+                            actionEndDateTimeUtc = action.actionEndDateTimeUtc,
+                            actionType = action.actionType,
+                            geom = action.geom,
+                            observations = action.observations,
+                            observationsByUnit = action.observationsByUnit,
+                            coverMissionZone = action.coverMissionZone,
+                            controlPlans = action.controlPlans,
+                        )
                     )
                 }
 
@@ -69,30 +67,28 @@ data class Action(
                         source = MissionSourceEnum.MONITORENV,
                         startDateTimeUtc = action.actionStartDateTimeUtc,
                         endDateTimeUtc = action.actionEndDateTimeUtc,
-                        data = action.actionStartDateTimeUtc?.let {
-                            EnvActionData(
-                                id = action.id,
-                                actionStartDateTimeUtc = it,
-                                actionEndDateTimeUtc = action.actionEndDateTimeUtc,
-                                actionType = action.actionType,
-                                geom = action.geom,
-                                observations = action.observations,
-                                observationsByUnit = action.observationsByUnit,
-                                actionNumberOfControls = action.actionNumberOfControls,
-                                actionTargetType = action.actionTargetType,
-                                vehicleType = action.vehicleType,
-                                infractions = action.infractions,
-                                controlPlans = action.controlPlans,
-                                isAdministrativeControl = action.isAdministrativeControl,
-                                isComplianceWithWaterRegulationsControl = action.isComplianceWithWaterRegulationsControl,
-                                isSafetyEquipmentAndStandardsComplianceControl = action.isSafetyEquipmentAndStandardsComplianceControl,
-                                isSeafarersControl = action.isSeafarersControl,
-                                controlAdministrative = ControlAdministrative.fromControlAdministrativeEntity(envAction.controlAction.controlAdministrative),
-                                controlNavigation = ControlNavigation.fromControlNavigationEntity(envAction.controlAction.controlNavigation),
-                                controlSecurity = ControlSecurity.fromControlSecurityEntity(envAction.controlAction.controlSecurity),
-                                controlGensDeMer = ControlGensDeMer.fromControlGensDeMerEntity(envAction.controlAction.controlGensDeMer)
-                            )
-                        }
+                        data = EnvActionData(
+                            id = action.id,
+                            actionStartDateTimeUtc = action.actionStartDateTimeUtc,
+                            actionEndDateTimeUtc = action.actionEndDateTimeUtc,
+                            actionType = action.actionType,
+                            geom = action.geom,
+                            observations = action.observations,
+                            observationsByUnit = action.observationsByUnit,
+                            actionNumberOfControls = action.actionNumberOfControls,
+                            actionTargetType = action.actionTargetType,
+                            vehicleType = action.vehicleType,
+                            infractions = action.infractions,
+                            controlPlans = action.controlPlans,
+                            isAdministrativeControl = action.isAdministrativeControl,
+                            isComplianceWithWaterRegulationsControl = action.isComplianceWithWaterRegulationsControl,
+                            isSafetyEquipmentAndStandardsComplianceControl = action.isSafetyEquipmentAndStandardsComplianceControl,
+                            isSeafarersControl = action.isSeafarersControl,
+                            controlAdministrative = ControlAdministrative.fromControlAdministrativeEntity(envAction.controlAction.controlAdministrative),
+                            controlNavigation = ControlNavigation.fromControlNavigationEntity(envAction.controlAction.controlNavigation),
+                            controlSecurity = ControlSecurity.fromControlSecurityEntity(envAction.controlAction.controlSecurity),
+                            controlGensDeMer = ControlGensDeMer.fromControlGensDeMerEntity(envAction.controlAction.controlGensDeMer)
+                        )
                     )
                 }
 
