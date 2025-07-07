@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.12.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.11.10...frontend@v2.12.0) (2025-07-07)
+
+
+### Features
+
+* **backend:** missionAction rename mission_id_uuid to owner_id ([7bb3090](https://github.com/MTES-MCT/rapportnav2/commit/7bb309001369c9d82ff12a148d601a85b572202f))
+* **backend:** missionAction rename mission_id_uuid to owner_id ([76727be](https://github.com/MTES-MCT/rapportnav2/commit/76727be99b035166c3f82e662ec44094ccba3780))
+* **frontend:** creation mission office report and external reinforcement ([68bf286](https://github.com/MTES-MCT/rapportnav2/commit/68bf286a4cc274bbe367619e8dfed54a7b9c3b36))
+* **frontend:** from number to string missionId ([4c74428](https://github.com/MTES-MCT/rapportnav2/commit/4c74428bd13d0cde5dddd8887642d85a1b860b4b))
+* **frontend:** general infos isJdp ([9224761](https://github.com/MTES-MCT/rapportnav2/commit/9224761ab65b9ce1b3f0fd7411c58debefd9a8a8))
+* **frontend:** matching signature of data object ([c14b730](https://github.com/MTES-MCT/rapportnav2/commit/c14b7307fb2aabc6b3be606731dcaa03022f920a))
+
+
+### Bug Fixes
+
+* align title on mission list page ([11e7627](https://github.com/MTES-MCT/rapportnav2/commit/11e76270c7d55520441ab5461bad3a52ca8566bc))
+* don't trigger update action if action has not changed ([1dca62f](https://github.com/MTES-MCT/rapportnav2/commit/1dca62f0b587f265a56d2a1b37912da110889068))
+* **frontend:** set owner id in mission action ([7df38e9](https://github.com/MTES-MCT/rapportnav2/commit/7df38e96df95fb82f7fa7b84add61ea62b26789c))
+* **frontend:** test ([fe60921](https://github.com/MTES-MCT/rapportnav2/commit/fe60921dc549d805d6f62caf626f7e55f83ca441))
+* set validation for non negative numbers ([84a32d0](https://github.com/MTES-MCT/rapportnav2/commit/84a32d032f6856eaa98757f2b3c2bba918697c2e))
+
 ## [2.11.10](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.11.9...frontend@v2.11.10) (2025-06-24)
 
 

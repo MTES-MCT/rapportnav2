@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.12.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.11.10...backend@v2.12.0) (2025-07-07)
+
+
+### Features
+
+* **backend:** missionAction rename mission_id_uuid to owner_id ([7bb3090](https://github.com/MTES-MCT/rapportnav2/commit/7bb309001369c9d82ff12a148d601a85b572202f))
+* **backend:** missionAction rename mission_id_uuid to owner_id ([76727be](https://github.com/MTES-MCT/rapportnav2/commit/76727be99b035166c3f82e662ec44094ccba3780))
+* **backend:** save general infos in mission creation ([ef78fa0](https://github.com/MTES-MCT/rapportnav2/commit/ef78fa0ed8f5f016f0de92e96466c07f4e1e148c))
+* **backend:** separate create and update generalInfos ([257a213](https://github.com/MTES-MCT/rapportnav2/commit/257a2136795e899f009e7437cbd3cb61d7eca620))
+* **backend:** update controller signature to match data definition ([b076a53](https://github.com/MTES-MCT/rapportnav2/commit/b076a532191f250cee18565328b191042e8792b0))
+* **backend:** update jdp backend ([87fd3aa](https://github.com/MTES-MCT/rapportnav2/commit/87fd3aa9789d1e030dba21b0bd146db892a12cf9))
+* **backend:** update missionCrew saving process ([d8e48a3](https://github.com/MTES-MCT/rapportnav2/commit/d8e48a38fd8c5097c5d767442eeae5fcc9a82c73))
+
+
+### Bug Fixes
+
+* **backend:** build ([cecda8e](https://github.com/MTES-MCT/rapportnav2/commit/cecda8e28eb4d1d9a135039a3a422eadfefa5475))
+* **backend:** fix test un updategeneralInfo ([fa6b86b](https://github.com/MTES-MCT/rapportnav2/commit/fa6b86b09bcb8dab0fd92c8a1b60bc0d2bb5e884))
+* **backend:** get Owner Id in mission action entity ([61788b9](https://github.com/MTES-MCT/rapportnav2/commit/61788b97c4046c75a1130512f9eb468e6586a613))
+* **backend:** mission action controller ([04e1735](https://github.com/MTES-MCT/rapportnav2/commit/04e17350254646290760ba22a2cbd872f156025a))
+* **backend:** tests ([aaeb7ba](https://github.com/MTES-MCT/rapportnav2/commit/aaeb7bad76cb8a00dcbc4992bbe4a7aa63a7b374))
+* set endDateTimeUtc mandatory for Rescue Action ([3442260](https://github.com/MTES-MCT/rapportnav2/commit/34422607a3d94570a6d9f02483de150fff05ad00))
+
 ## [2.11.10](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.11.9...backend@v2.11.10) (2025-06-24)
 
 
