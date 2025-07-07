@@ -30,7 +30,7 @@ extend type Mutation {
 
 type Action {
   id: String
-  startDateTimeUtc: Instant!
+  startDateTimeUtc: Instant
   endDateTimeUtc: Instant
   source: MissionSource!
   status: ActionStatusType!
@@ -186,7 +186,7 @@ union ActionData =
 
 type NavActionStatus {
   id: String!
-  startDateTimeUtc: Instant!
+  startDateTimeUtc: Instant
   status: ActionStatusType!
   reason: ActionStatusReason
   observations: String
@@ -194,14 +194,14 @@ type NavActionStatus {
 
 type NavActionFreeNote {
   id: String!
-  startDateTimeUtc: Instant!
+  startDateTimeUtc: Instant
   observations: String
 }
 
 type NavActionRescue {
   id: String!
   missionId: ID
-  startDateTimeUtc: Instant!
+  startDateTimeUtc: Instant
   endDateTimeUtc: Instant
   longitude: Float
   latitude: Float
@@ -224,7 +224,7 @@ type NavActionRescue {
 type NavActionNauticalEvent {
   id: String!
   missionId: ID!
-  startDateTimeUtc: Instant!
+  startDateTimeUtc: Instant
   endDateTimeUtc: Instant
   observations: String
 }
@@ -232,7 +232,7 @@ type NavActionNauticalEvent {
 type NavActionVigimer {
   id: String!
   missionId: ID!
-  startDateTimeUtc: Instant!
+  startDateTimeUtc: Instant
   endDateTimeUtc: Instant
   observations: String
 }
@@ -240,7 +240,7 @@ type NavActionVigimer {
 type NavActionAntiPollution {
   id: String!
   missionId: ID!
-  startDateTimeUtc: Instant!
+  startDateTimeUtc: Instant
   endDateTimeUtc: Instant
   observations: String
   latitude: Float
@@ -255,7 +255,7 @@ type NavActionAntiPollution {
 type NavActionBAAEMPermanence {
   id: String!
   missionId: ID!
-  startDateTimeUtc: Instant!
+  startDateTimeUtc: Instant
   endDateTimeUtc: Instant
   observations: String
 }
@@ -263,7 +263,7 @@ type NavActionBAAEMPermanence {
 type NavActionPublicOrder {
   id: String!
   missionId: ID!
-  startDateTimeUtc: Instant!
+  startDateTimeUtc: Instant
   endDateTimeUtc: Instant
   observations: String
 }
@@ -271,7 +271,7 @@ type NavActionPublicOrder {
 type NavActionRepresentation {
   id: String!
   missionId: ID!
-  startDateTimeUtc: Instant!
+  startDateTimeUtc: Instant
   endDateTimeUtc: Instant
   observations: String
 }
@@ -279,7 +279,7 @@ type NavActionRepresentation {
 type NavActionIllegalImmigration {
   id: String!
   missionId: ID!
-  startDateTimeUtc: Instant!
+  startDateTimeUtc: Instant
   endDateTimeUtc: Instant
   observations: String
   nbOfInterceptedVessels: Int
@@ -310,7 +310,7 @@ enum ActionStatusReason {
 
 type NavActionControl {
   id: String!
-  startDateTimeUtc: String!
+  startDateTimeUtc: String
   endDateTimeUtc: String
   controlMethod: ControlMethod
   latitude: Float
