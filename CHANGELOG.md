@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.12.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.12.0...docker-container@v2.12.1) (2025-07-07)
+
+
+### Bug Fixes
+
+* **backend:** nullable start date ([0d768be](https://github.com/MTES-MCT/rapportnav2/commit/0d768be2bacd66f1f3ed0c450b70482ffdde6814))
+* **backend:** nullable start date ([7e4d7a5](https://github.com/MTES-MCT/rapportnav2/commit/7e4d7a5c117fb7dcf5c50b86dfb345c8db64dfde))
+
 ## [2.12.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.11.10...docker-container@v2.12.0) (2025-07-07)
 
 
