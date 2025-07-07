@@ -1,5 +1,37 @@
 # Changelog
 
+## [2.12.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.11.10...docker-container@v2.12.0) (2025-07-07)
+
+
+### Features
+
+* **backend:** missionAction rename mission_id_uuid to owner_id ([7bb3090](https://github.com/MTES-MCT/rapportnav2/commit/7bb309001369c9d82ff12a148d601a85b572202f))
+* **backend:** missionAction rename mission_id_uuid to owner_id ([76727be](https://github.com/MTES-MCT/rapportnav2/commit/76727be99b035166c3f82e662ec44094ccba3780))
+* **backend:** save general infos in mission creation ([ef78fa0](https://github.com/MTES-MCT/rapportnav2/commit/ef78fa0ed8f5f016f0de92e96466c07f4e1e148c))
+* **backend:** separate create and update generalInfos ([257a213](https://github.com/MTES-MCT/rapportnav2/commit/257a2136795e899f009e7437cbd3cb61d7eca620))
+* **backend:** update controller signature to match data definition ([b076a53](https://github.com/MTES-MCT/rapportnav2/commit/b076a532191f250cee18565328b191042e8792b0))
+* **backend:** update jdp backend ([87fd3aa](https://github.com/MTES-MCT/rapportnav2/commit/87fd3aa9789d1e030dba21b0bd146db892a12cf9))
+* **backend:** update missionCrew saving process ([d8e48a3](https://github.com/MTES-MCT/rapportnav2/commit/d8e48a38fd8c5097c5d767442eeae5fcc9a82c73))
+* **frontend:** creation mission office report and external reinforcement ([68bf286](https://github.com/MTES-MCT/rapportnav2/commit/68bf286a4cc274bbe367619e8dfed54a7b9c3b36))
+* **frontend:** from number to string missionId ([4c74428](https://github.com/MTES-MCT/rapportnav2/commit/4c74428bd13d0cde5dddd8887642d85a1b860b4b))
+* **frontend:** general infos isJdp ([9224761](https://github.com/MTES-MCT/rapportnav2/commit/9224761ab65b9ce1b3f0fd7411c58debefd9a8a8))
+* **frontend:** matching signature of data object ([c14b730](https://github.com/MTES-MCT/rapportnav2/commit/c14b7307fb2aabc6b3be606731dcaa03022f920a))
+
+
+### Bug Fixes
+
+* align title on mission list page ([11e7627](https://github.com/MTES-MCT/rapportnav2/commit/11e76270c7d55520441ab5461bad3a52ca8566bc))
+* **backend:** build ([cecda8e](https://github.com/MTES-MCT/rapportnav2/commit/cecda8e28eb4d1d9a135039a3a422eadfefa5475))
+* **backend:** fix test un updategeneralInfo ([fa6b86b](https://github.com/MTES-MCT/rapportnav2/commit/fa6b86b09bcb8dab0fd92c8a1b60bc0d2bb5e884))
+* **backend:** get Owner Id in mission action entity ([61788b9](https://github.com/MTES-MCT/rapportnav2/commit/61788b97c4046c75a1130512f9eb468e6586a613))
+* **backend:** mission action controller ([04e1735](https://github.com/MTES-MCT/rapportnav2/commit/04e17350254646290760ba22a2cbd872f156025a))
+* **backend:** tests ([aaeb7ba](https://github.com/MTES-MCT/rapportnav2/commit/aaeb7bad76cb8a00dcbc4992bbe4a7aa63a7b374))
+* don't trigger update action if action has not changed ([1dca62f](https://github.com/MTES-MCT/rapportnav2/commit/1dca62f0b587f265a56d2a1b37912da110889068))
+* **frontend:** set owner id in mission action ([7df38e9](https://github.com/MTES-MCT/rapportnav2/commit/7df38e96df95fb82f7fa7b84add61ea62b26789c))
+* **frontend:** test ([fe60921](https://github.com/MTES-MCT/rapportnav2/commit/fe60921dc549d805d6f62caf626f7e55f83ca441))
+* set endDateTimeUtc mandatory for Rescue Action ([3442260](https://github.com/MTES-MCT/rapportnav2/commit/34422607a3d94570a6d9f02483de150fff05ad00))
+* set validation for non negative numbers ([84a32d0](https://github.com/MTES-MCT/rapportnav2/commit/84a32d032f6856eaa98757f2b3c2bba918697c2e))
+
 ## [2.11.10](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.11.9...docker-container@v2.11.10) (2025-06-24)
 
 
