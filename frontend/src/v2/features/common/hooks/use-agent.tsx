@@ -1,11 +1,11 @@
 import useAgentsQuery from '../services/use-agents'
 
-interface VehiculeHook {
+interface AgentHook {
   getAgentById: (id?: number) => string
   agents: { label: string; value: number }[]
 }
 
-export function useAgent(): VehiculeHook {
+export function useAgent(): AgentHook {
   const { data: agents } = useAgentsQuery()
 
   const getAgentById = (id?: number) => {

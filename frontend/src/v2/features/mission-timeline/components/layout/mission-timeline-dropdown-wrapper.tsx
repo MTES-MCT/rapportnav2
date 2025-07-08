@@ -15,7 +15,7 @@ const DropdownSubItemStyled = styled(Dropdown.Item)(({ theme }) => ({
 
 const DropdownItem: FC<{ item: TimelineDropdownItem } & { style?: React.CSSProperties }> = ({ item, style }) => {
   return (
-    <Dropdown.Item key={item.type} Icon={item.icon} eventKey={item.type} style={style}>
+    <Dropdown.Item key={item.type} Icon={item.icon} eventKey={item.type} style={style} disabled={item.disabled}>
       {item?.dropdownText}
     </Dropdown.Item>
   )
@@ -23,7 +23,7 @@ const DropdownItem: FC<{ item: TimelineDropdownItem } & { style?: React.CSSPrope
 
 const DropdownSubItem: FC<{ item: TimelineDropdownSubItem }> = ({ item }) => {
   return (
-    <DropdownSubItemStyled key={item.type} eventKey={item.type}>
+    <DropdownSubItemStyled key={item.type} eventKey={item.type} disabled={item.disabled}>
       {item.dropdownText}
     </DropdownSubItemStyled>
   )
@@ -50,7 +50,14 @@ const MissionTimelineDropdownWrapper: FC<MissionTimelineDropdownWrapperProps> = 
   const handleClose = () => setCurrentKey(undefined)
 
   return (
-    <Dropdown Icon={Icon.Plus} onSelect={handleSelect} title="Ajouter" placement={'bottomEnd'} onClose={handleClose}>
+    <Dropdown
+      Icon={Icon.Plus}
+      onSelect={handleSelect}
+      title="Ajouter"
+      placement={'bottomEnd'}
+      onClose={handleClose}
+      disabled={!dropdownItems?.length}
+    >
       {dropdownItems.map(item => (
         <div key={item.type}>
           <DropdownItem item={item} style={{ minWidth: 300 }} />

@@ -60,7 +60,7 @@ const MissionGeneralInformationControlUnitResource: React.FC<MissionGeneralInfor
                           key={`resources.${index}.id`}
                           style={{ width: '100%', marginTop: 6 }}
                         >
-                          <Stack.Item style={{ width: '90%' }}>
+                          <Stack.Item style={{ width: '100%' }}>
                             <FormikSelect
                               isRequired
                               searchable
