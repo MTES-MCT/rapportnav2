@@ -26,7 +26,7 @@ class DeleteTargetTest {
     fun `should not call repository when type is not CONTROL or id is null`() {
         val actionId = UUID.randomUUID()
         deleteTarget = DeleteTarget(targetRepo = targetRepo)
-        deleteTarget.execute(actionId  = null, actionType = ActionType.CROSS_CONTROL)
+        deleteTarget.execute(actionId  = null, actionType = ActionType.INQUIRY)
         verify(targetRepo, times(0)).deleteById(actionId)
 
         deleteTarget.execute(actionId  = actionId, actionType = ActionType.CONTROL)
