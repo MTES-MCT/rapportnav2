@@ -11,23 +11,23 @@ exports[`MissionPageWrapper > should match the snapshot 1`] = `
         Header
         <div
           class="rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-space-between"
-          style="display: flex; flex: 1;"
+          style="display: flex; flex: 1 1 0%;"
         >
           <div
             class="rs-flex-box-grid-item rs-flex-box-grid-item-8"
-            style="flex: 1; padding: 2rem; height: 2000px; overflow-y: hidden; min-height: calc(100vh - 2 * 60px); max-height: calc(100vh - 2 * 60px);"
+            style="flex: 1 1 0%; padding: 2rem; height: 2000px; overflow-y: hidden; min-height: calc(100vh - 2 * 60px); max-height: calc(100vh - 2 * 60px);"
           >
             Général informations
           </div>
           <div
             class="rs-flex-box-grid-item rs-flex-box-grid-item-8"
-            style="flex: 1; padding: 2rem; height: 2000px; overflow-y: hidden; min-height: calc(100vh - 2 * 60px); max-height: calc(100vh - 2 * 60px); background-color: rgb(247, 247, 250);"
+            style="flex: 1 1 0%; padding: 2rem; height: 2000px; overflow-y: hidden; min-height: calc(100vh - 2 * 60px); max-height: calc(100vh - 2 * 60px); background-color: rgb(247, 247, 250);"
           >
             Timeline
           </div>
           <div
             class="rs-flex-box-grid-item rs-flex-box-grid-item-8"
-            style="flex: 1; padding: 2rem; height: 2000px; overflow-y: hidden; min-height: calc(100vh - 2 * 60px); max-height: calc(100vh - 2 * 60px); background-color: rgb(229, 229, 235);"
+            style="flex: 1 1 0%; padding: 2rem; height: 2000px; overflow-y: hidden; min-height: calc(100vh - 2 * 60px); max-height: calc(100vh - 2 * 60px); background-color: rgb(229, 229, 235);"
           >
             Action
           </div>
@@ -65,23 +65,23 @@ exports[`MissionPageWrapper > should match the snapshot 1`] = `
       Header
       <div
         class="rs-flex-box-grid rs-flex-box-grid-top rs-flex-box-grid-space-between"
-        style="display: flex; flex: 1;"
+        style="display: flex; flex: 1 1 0%;"
       >
         <div
           class="rs-flex-box-grid-item rs-flex-box-grid-item-8"
-          style="flex: 1; padding: 2rem; height: 2000px; overflow-y: hidden; min-height: calc(100vh - 2 * 60px); max-height: calc(100vh - 2 * 60px);"
+          style="flex: 1 1 0%; padding: 2rem; height: 2000px; overflow-y: hidden; min-height: calc(100vh - 2 * 60px); max-height: calc(100vh - 2 * 60px);"
         >
           Général informations
         </div>
         <div
           class="rs-flex-box-grid-item rs-flex-box-grid-item-8"
-          style="flex: 1; padding: 2rem; height: 2000px; overflow-y: hidden; min-height: calc(100vh - 2 * 60px); max-height: calc(100vh - 2 * 60px); background-color: rgb(247, 247, 250);"
+          style="flex: 1 1 0%; padding: 2rem; height: 2000px; overflow-y: hidden; min-height: calc(100vh - 2 * 60px); max-height: calc(100vh - 2 * 60px); background-color: rgb(247, 247, 250);"
         >
           Timeline
         </div>
         <div
           class="rs-flex-box-grid-item rs-flex-box-grid-item-8"
-          style="flex: 1; padding: 2rem; height: 2000px; overflow-y: hidden; min-height: calc(100vh - 2 * 60px); max-height: calc(100vh - 2 * 60px); background-color: rgb(229, 229, 235);"
+          style="flex: 1 1 0%; padding: 2rem; height: 2000px; overflow-y: hidden; min-height: calc(100vh - 2 * 60px); max-height: calc(100vh - 2 * 60px); background-color: rgb(229, 229, 235);"
         >
           Action
         </div>

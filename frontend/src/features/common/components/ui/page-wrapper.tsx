@@ -11,8 +11,9 @@ interface PageWrapperProps {
   children: ReactNode
 }
 
-const PageWrapper: React.FC<PageWrapperProps> = ({ children, header, footer, showMenu }) => {
+const PageWrapper: React.FC<PageWrapperProps> = ({ children, header = <CustomHeader />, footer, showMenu = true }) => {
   const { isAuthenticated } = useAuth()
+
   return (
     <Container style={{ minHeight: '100vh', maxHeight: '100vh', overflow: 'hidden' }}>
       <Header>{!!header && <>{header}</>}</Header>
@@ -46,11 +47,6 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ children, header, footer, sho
       </Container>
     </Container>
   )
-}
-
-PageWrapper.defaultProps = {
-  header: <CustomHeader />,
-  showMenu: true
 }
 
 export default PageWrapper

@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 import { render, renderHook, RenderOptions } from '@testing-library/react'
 import React, { ReactElement } from 'react'
 import { BrowserRouter } from 'react-router-dom'

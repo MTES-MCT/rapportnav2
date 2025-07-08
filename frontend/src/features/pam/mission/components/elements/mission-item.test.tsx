@@ -163,7 +163,7 @@ describe('Mission Item component', () => {
 
     fireEvent.mouseOver(missionItemElement)
     const listItemWithHover = screen.getByTestId('list-item-with-hover')
-    expect(getComputedStyle(listItemWithHover).backgroundColor).toBe(hexToRgb(THEME.color.blueGray25))
+    expect(getComputedStyle(listItemWithHover).backgroundColor).toBe('rgb(247, 247, 250)')
   })
 
   test('should not render the Exporter le rapport de mission button on mouse over if the mission is not finished and complete for stats', () => {

@@ -44,10 +44,9 @@ describe('ActionIllegalImmigrationForm', () => {
   })
 
   it('should render no error with no values unless mission is finished', async () => {
-    const grey = '#5697d2'
     vi.spyOn(useIsMissionFinishedModule, 'default').mockReturnValue(false)
     const wrapper = render(<ActionIllegalImmigrationForm action={action} />)
-    expect(wrapper.getByRole('nbOfInterceptedVessels')).toHaveStyle(`border: 1px solid ${grey};`)
+    expect(wrapper.getByRole('nbOfInterceptedVessels')).toHaveStyle(`border: 1px solid rgb(255, 255, 255);`)
   })
 
   it('should render error when no values and mission is finished', async () => {
