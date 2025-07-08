@@ -40,6 +40,4 @@ interface BaseMissionNavActionData {
     val nbAssistedVesselsReturningToShore: Int?
     val status: ActionStatusType?
     val reason: ActionStatusReason?
-    val crossControl: MissionActionCrossControl?
-    val missionIdUUID: String?
 }

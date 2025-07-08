@@ -47,5 +47,4 @@ interface BaseMissionNavAction {
     var nbOfVesselsTrackedWithoutIntervention: Int?
     var nbAssistedVesselsReturningToShore: Int?
     var reason: ActionStatusReason?
-    var crossControl: MissionActionCrossControlEntity?
 }

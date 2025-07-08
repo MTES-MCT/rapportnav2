@@ -59,32 +59,6 @@ class MissionNavActionDataTest {
         assertThat(output.data.nbOfVesselsTrackedWithoutIntervention).isEqualTo(entity.nbOfVesselsTrackedWithoutIntervention)
         assertThat(output.data.nbAssistedVesselsReturningToShore).isEqualTo(entity.nbAssistedVesselsReturningToShore)
         assertThat(output.data.reason).isEqualTo(entity.reason)
-        assertThat(output.data.crossControl?.id).isEqualTo(entity.crossControl?.id)
-        assertThat(output.data.crossControl?.status).isEqualTo(entity.crossControl?.status)
-        assertThat(output.data.crossControl?.nbrOfHours).isEqualTo(entity.crossControl?.nbrOfHours)
-        assertThat(output.data.crossControl?.conclusion).isEqualTo(entity.crossControl?.conclusion)
-        assertThat(output.data.crossControl?.isSignedByInspector).isEqualTo(entity.crossControl?.isSignedByInspector)
-    }
-
-    @Test
-    fun `execute should get cross control entity`() {
-        val model = MissionActionModelMock.create()
-        val entity = MissionNavActionEntity.fromMissionActionModel(model)
-        val output = MissionNavAction.fromMissionActionEntity(entity)
-
-        val response = MissionNavActionData.getCrossControlEntity(output)
-
-        assertThat(response).isNotNull()
-        assertThat(response?.id).isEqualTo(output.data.crossControl?.id)
-        assertThat(response?.type).isEqualTo(output.data.crossControl?.type)
-        assertThat(response?.origin).isEqualTo(output.data.crossControl?.origin)
-        assertThat(response?.status).isEqualTo(output.data.crossControl?.status)
-        assertThat(response?.endDateTimeUtc).isEqualTo(output.data.endDateTimeUtc)
-        assertThat(response?.startDateTimeUtc).isEqualTo(output.data.startDateTimeUtc)
-        assertThat(response?.agentId).isEqualTo(output.data.crossControl?.agentId)
-        assertThat(response?.vesselId).isEqualTo(output.data.crossControl?.vesselId)
-        assertThat(response?.serviceId).isEqualTo(output.data.crossControl?.serviceId)
-        assertThat(response?.conclusion).isEqualTo(output.data.crossControl?.conclusion)
     }
 
     @Nested

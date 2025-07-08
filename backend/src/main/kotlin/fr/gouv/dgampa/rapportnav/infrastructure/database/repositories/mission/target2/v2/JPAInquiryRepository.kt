@@ -3,27 +3,27 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.t
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ICrossControlRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.CrossControlModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.target2.v2.IDBCrossControlRepository
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.IInquiryRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.InquiryModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.target2.v2.IDBInquiryRepository
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Repository
-class JPACrossControlRepository(
-    private val dbCrossControlRepository: IDBCrossControlRepository
-) : ICrossControlRepository {
+class JPAInquiryRepository(
+    private val dbInquiryRepository: IDBInquiryRepository
+) : IInquiryRepository {
 
-    override fun findById(id: UUID): Optional<CrossControlModel> {
-        return dbCrossControlRepository.findById(id)
+    override fun findById(id: UUID): Optional<InquiryModel> {
+        return dbInquiryRepository.findById(id)
     }
 
     @Transactional
-    override fun save(model:CrossControlModel):  CrossControlModel {
+    override fun save(model:InquiryModel):  InquiryModel {
         return try {
-            dbCrossControlRepository.save(model)
+            dbInquiryRepository.save(model)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,
@@ -38,12 +38,12 @@ class JPACrossControlRepository(
         }
     }
 
-    override fun findByServiceId(serviceId: Int): List<CrossControlModel> {
-        return dbCrossControlRepository.findByServiceId(serviceId)
+    override fun findByServiceId(serviceId: Int): List<InquiryModel> {
+        return dbInquiryRepository.findByServiceId(serviceId)
     }
 
     @Transactional
     override fun deleteById(id: UUID) {
-        return dbCrossControlRepository.deleteById(id)
+        return dbInquiryRepository.deleteById(id)
     }
 }

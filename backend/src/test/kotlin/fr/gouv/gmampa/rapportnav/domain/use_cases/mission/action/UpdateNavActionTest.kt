@@ -9,7 +9,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateNavAction
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessActionCrossControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActionData
@@ -17,10 +16,8 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
-import org.mockito.kotlin.times
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -36,9 +33,6 @@ class UpdateNavActionTest {
 
     @MockitoBean
     private lateinit var  processMissionActionTarget: ProcessMissionActionTarget
-
-    @MockitoBean
-    private lateinit var processActionCrossControl: ProcessActionCrossControl
 
     @Test
     fun `test execute update nav action`() {
@@ -61,36 +55,11 @@ class UpdateNavActionTest {
 
         val updateNavAction = UpdateNavAction(
             missionActionRepository = missionActionRepository,
-            processActionCrossControl = processActionCrossControl,
             processMissionActionTarget = processMissionActionTarget
         )
 
         val response = updateNavAction.execute(actionId, input)
         assertThat(response).isNotNull
-
-    }
-
-    @Test
-    fun `should process cross control`() {
-        val actionId = UUID.randomUUID().toString()
-        val input = MissionNavAction(
-            id = actionId,
-            missionId = 761,
-            actionType = ActionType.CONTROL,
-            source = MissionSourceEnum.RAPPORTNAV,
-            data = getNavActionDataInput(),
-        )
-        val entity = MissionNavActionData.getCrossControlEntity(input)
-        val updateNavAction = UpdateNavAction(
-            missionActionRepository = missionActionRepository,
-            processActionCrossControl = processActionCrossControl,
-            processMissionActionTarget = processMissionActionTarget
-        )
-        val response = updateNavAction.processMissionActionCrossControl(actionType = ActionType.CONTROL, input)
-        assertThat(response).isNull()
-
-        updateNavAction.processMissionActionCrossControl(actionType = ActionType.CROSS_CONTROL, input)
-        verify(processActionCrossControl, times(1)).execute(entity)
 
     }
 

@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
-enum class CrossControlOriginType {
+enum class InquiryOriginType {
     OPPORTUNITY_CONTROL,
     FOLLOW_UP_CONTROL,
     CNSP_REPORTING,
