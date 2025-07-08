@@ -12,7 +12,7 @@ class DeleteInquiry(
     private val inquiryRepo: IInquiryRepository
 ) {
     fun execute(id: UUID?, actionType: ActionType?) {
-        if (id == null || actionType !== ActionType.CROSS_CONTROL) return
+        if (id == null || actionType !== ActionType.INQUIRY) return
         val crossControl = inquiryRepo.findById(id).getOrNull()
         if (crossControl?.status != InquiryStatusType.NEW.toString()) return
         return inquiryRepo.deleteById(crossControl.id)

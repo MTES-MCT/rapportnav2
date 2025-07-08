@@ -29,7 +29,7 @@ class DeleteInquiryTest {
     fun `should not call repository when type is not CROSS CONTROL or id is null`() {
         val id = UUID.randomUUID()
         deleteInquiry = DeleteInquiry(inquiryRepo = inquiryRepo)
-        deleteInquiry.execute(id  = null, actionType = ActionType.CROSS_CONTROL)
+        deleteInquiry.execute(id  = null, actionType = ActionType.INQUIRY)
         verify(inquiryRepo, times(0)).deleteById(id)
 
         deleteInquiry.execute(id  = id, actionType = ActionType.CONTROL)
@@ -40,7 +40,7 @@ class DeleteInquiryTest {
     @Test
     fun `should not call repository delete if status is Follow up`() {
         val id = UUID.randomUUID()
-        val actionType = ActionType.CROSS_CONTROL
+        val actionType = ActionType.INQUIRY
 
         val inquiryControl = InquiryEntity(
             id = id,
@@ -57,7 +57,7 @@ class DeleteInquiryTest {
     @Test
     fun `should call delete of repository `() {
         val id = UUID.randomUUID()
-        val actionType = ActionType.CROSS_CONTROL
+        val actionType = ActionType.INQUIRY
         val controlControl = InquiryEntity(
             id = id,
             startDateTimeUtc = Instant.now(),

@@ -17,5 +17,5 @@ enum class ActionType {
     PUBLIC_ORDER,
     REPRESENTATION,
     ILLEGAL_IMMIGRATION,
-    CROSS_CONTROL
+    INQUIRY
 }
