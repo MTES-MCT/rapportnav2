@@ -29,7 +29,7 @@ describe('MissionObservation', () => {
       vi.spyOn(useIsMissionFinishedModule, 'default').mockReturnValue(true)
       render(<MissionObservationByUnit missionId={1} observationsByUnit={undefined} />)
       const element = screen.getByLabelText("Observation générale à l'échelle de la mission (remarques, résumé)")
-      expect(getComputedStyle(element).borderColor).toBe(THEME.color.maximumRed.toLowerCase())
+      expect(getComputedStyle(element).borderColor).toBe('rgb(225, 0, 15)')
     })
     it('should not show error validation when mission is finished but observations ', () => {
       vi.spyOn(useIsMissionFinishedModule, 'default').mockReturnValue(true)

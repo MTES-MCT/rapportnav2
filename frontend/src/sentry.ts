@@ -6,7 +6,6 @@ import {
   reactRouterV6BrowserTracingIntegration,
   replayIntegration,
   captureConsoleIntegration,
-  debugIntegration,
   httpClientIntegration
 } from '@sentry/react'
 import { createRoutesFromChildren, matchRoutes, useLocation, useNavigationType } from 'react-router-dom'
@@ -69,7 +68,6 @@ const initSentry = () => {
       }),
       replayIntegration(),
       httpClientIntegration(),
-      debugIntegration(),
       captureConsoleIntegration(),
       browserTracingIntegration(),
       browserProfilingIntegration()

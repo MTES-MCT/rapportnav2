@@ -42,7 +42,7 @@ describe('MissionRecognizedVessel', () => {
       vi.spyOn(useIsMissionFinishedModule, 'default').mockReturnValue(true)
       render(<MissionRecognizedVessel missionId={1} generalInfo={undefined} />)
       const element = screen.getByLabelText('Nombre total de navires reconnus dans les approches maritimes (ZEE)')
-      expect(getComputedStyle(element).borderColor).toBe(THEME.color.maximumRed.toLowerCase())
+      expect(getComputedStyle(element).borderColor).toBe('rgb(225, 0, 15)')
     })
     it('should not show error validation when mission is finished but info ', () => {
       vi.spyOn(useIsMissionFinishedModule, 'default').mockReturnValue(true)

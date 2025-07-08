@@ -21,7 +21,7 @@ exports[`MissionListPageWrapper > should match the snapshot 1`] = `
           </div>
           <div
             class="rs-stack-item"
-            style="flex: 1; width: 100%;"
+            style="flex: 1 1 0%; width: 100%;"
           >
             <section
               class="rs-container"
@@ -37,7 +37,7 @@ exports[`MissionListPageWrapper > should match the snapshot 1`] = `
           </div>
           <div
             class="rs-stack-item"
-            style="width: 100%; min-height: 50px; border-top: 2px solid #CCCFD6;"
+            style="width: 100%; min-height: 50px; border-top: 2px solid rgb(204, 207, 214);"
           >
             Footer
           </div>
@@ -84,7 +84,7 @@ exports[`MissionListPageWrapper > should match the snapshot 1`] = `
         </div>
         <div
           class="rs-stack-item"
-          style="flex: 1; width: 100%;"
+          style="flex: 1 1 0%; width: 100%;"
         >
           <section
             class="rs-container"
@@ -100,7 +100,7 @@ exports[`MissionListPageWrapper > should match the snapshot 1`] = `
         </div>
         <div
           class="rs-stack-item"
-          style="width: 100%; min-height: 50px; border-top: 2px solid #CCCFD6;"
+          style="width: 100%; min-height: 50px; border-top: 2px solid rgb(204, 207, 214);"
         >
           Footer
         </div>

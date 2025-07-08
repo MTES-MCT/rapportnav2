@@ -64,7 +64,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
                   <button
                     class="sc-eknHtZ sc-cCVJLD eIVVCb eUzjDK Element-Button"
                     data-testid="yes-no-toogle-yes-button"
-                    style="color: rgb(59, 69, 89); border-color: #5697d2; background-color: rgb(212, 229, 244);"
+                    style="color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
                     type="button"
                   >
                     <span
@@ -108,7 +108,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
                   <button
                     class="sc-eknHtZ sc-cCVJLD eIVVCb eUzjDK Element-Button"
                     data-testid="yes-no-toogle-no-button"
-                    style="color: rgb(59, 69, 89); border-color: #5697d2; background-color: rgb(212, 229, 244);"
+                    style="color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
                     type="button"
                   >
                     <span
@@ -235,7 +235,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
                 <button
                   class="sc-eknHtZ sc-cCVJLD eIVVCb eUzjDK Element-Button"
                   data-testid="yes-no-toogle-yes-button"
-                  style="color: rgb(59, 69, 89); border-color: #5697d2; background-color: rgb(212, 229, 244);"
+                  style="color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
                   type="button"
                 >
                   <span
@@ -279,7 +279,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
                 <button
                   class="sc-eknHtZ sc-cCVJLD eIVVCb eUzjDK Element-Button"
                   data-testid="yes-no-toogle-no-button"
-                  style="color: rgb(59, 69, 89); border-color: #5697d2; background-color: rgb(212, 229, 244);"
+                  style="color: rgb(59, 69, 89); border-color: rgb(86, 151, 210); background-color: rgb(212, 229, 244);"
                   type="button"
                 >
                   <span
