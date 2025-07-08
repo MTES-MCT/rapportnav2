@@ -93,7 +93,7 @@ class CreateMissionTest {
         )
 
         val mockMissionNav = MissionNavEntity(
-            id = UUID.randomUUID(),
+            id = missionIdUUID,
             serviceId = 2,
             startDateTimeUtc = Instant.now(),
             isDeleted = false
@@ -142,13 +142,6 @@ class CreateMissionTest {
             )
         )
 
-        val mockMissionNav = MissionNavEntity(
-            id = UUID.randomUUID(),
-            serviceId = 2,
-            startDateTimeUtc = Instant.now(),
-            isDeleted = false
-        )
-
         Mockito.`when`(createGeneralInfos.execute(missionIdUUID = anyOrNull(), missionId = anyOrNull(),  generalInfo2 = anyOrNull()))
             .thenReturn(generalInfoEntity)
         Mockito.`when`(createEnvMission.execute(generalInfo2, controlUnitIds = listOf(1,2))).thenReturn(mockMissionEnv)
@@ -166,6 +159,12 @@ class CreateMissionTest {
             .execute(missionIdUUID = anyOrNull(), missionId = anyOrNull(), generalInfo2 = anyOrNull())
         Mockito.verify(createMissionNav, Mockito.never()).execute(generalInfo2, serviceId = serviceId)
         Mockito.verify(createEnvMission, Mockito.times(1)).execute(generalInfo2, controlUnitIds = listOf(1, 2))
+    }
+
+
+    @Test
+    fun`should execute throw exception when controlUnits is not `(){
+
     }
 
 }
