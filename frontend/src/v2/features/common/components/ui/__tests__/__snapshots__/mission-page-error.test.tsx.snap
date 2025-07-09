@@ -17,13 +17,13 @@ exports[`MissionPageError > should match the snapshot 1`] = `
             style="max-width: 33%;"
           >
             <p
-              class="sc-Pgsbw sc-evkzZa fcipFF fsVFmj"
+              class="sc-evkzZa sc-lhsSio fjwyIl bqglCY"
               font-size="16"
             >
               Une erreur est survenue
             </p>
             <p
-              class="sc-Pgsbw sc-iRcyzz fcipFF lgFzvd"
+              class="sc-evkzZa sc-enPhjR fjwyIl esqQrj"
               font-size="13"
             >
               this is and error
@@ -33,11 +33,11 @@ exports[`MissionPageError > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <button
-              class="sc-etsjJW sc-koBvLg cTQhTy EvnjZ Element-Button"
+              class="sc-eknHtZ sc-cCVJLD liIABJ eUzjDK Element-Button"
               type="button"
             >
               <span
-                class="sc-fYmhhH fpTffY"
+                class="sc-pYNGo enBrtN"
               >
                 Retourner à l'accueil
               </span>
@@ -82,13 +82,13 @@ exports[`MissionPageError > should match the snapshot 1`] = `
           style="max-width: 33%;"
         >
           <p
-            class="sc-Pgsbw sc-evkzZa fcipFF fsVFmj"
+            class="sc-evkzZa sc-lhsSio fjwyIl bqglCY"
             font-size="16"
           >
             Une erreur est survenue
           </p>
           <p
-            class="sc-Pgsbw sc-iRcyzz fcipFF lgFzvd"
+            class="sc-evkzZa sc-enPhjR fjwyIl esqQrj"
             font-size="13"
           >
             this is and error
@@ -98,11 +98,11 @@ exports[`MissionPageError > should match the snapshot 1`] = `
           class="rs-stack-item"
         >
           <button
-            class="sc-etsjJW sc-koBvLg cTQhTy EvnjZ Element-Button"
+            class="sc-eknHtZ sc-cCVJLD liIABJ eUzjDK Element-Button"
             type="button"
           >
             <span
-              class="sc-fYmhhH fpTffY"
+              class="sc-pYNGo enBrtN"
             >
               Retourner à l'accueil
             </span>

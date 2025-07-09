@@ -94,7 +94,7 @@ const ACTION_REGISTRY: ActionRegistry = {
     title: 'Contact',
     component: MissionActionItemContact
   },
-  [ActionType.CROSS_CONTROL]: {
+  [ActionType.INQUIRY]: {
     icon: Icon.MissionAction,
     title: 'Contrôle croisé',
     component: MissionActionItemCrossControl

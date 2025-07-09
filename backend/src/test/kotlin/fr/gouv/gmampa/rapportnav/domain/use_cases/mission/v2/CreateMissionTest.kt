@@ -93,7 +93,7 @@ class CreateMissionTest {
         )
 
         val mockMissionNav = MissionNavEntity(
-            id = UUID.randomUUID(),
+            id = missionIdUUID,
             serviceId = 2,
             startDateTimeUtc = Instant.now(),
             isDeleted = false
@@ -140,13 +140,6 @@ class CreateMissionTest {
                 id = generalInfo2.id,
                 missionId = generalInfo2.missionId
             )
-        )
-
-        val mockMissionNav = MissionNavEntity(
-            id = UUID.randomUUID(),
-            serviceId = 2,
-            startDateTimeUtc = Instant.now(),
-            isDeleted = false
         )
 
         Mockito.`when`(createGeneralInfos.execute(missionIdUUID = anyOrNull(), missionId = anyOrNull(),  generalInfo2 = anyOrNull()))

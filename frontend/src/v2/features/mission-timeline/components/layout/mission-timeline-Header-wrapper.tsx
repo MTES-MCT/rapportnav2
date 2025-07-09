@@ -6,7 +6,6 @@ import MissionTimelineAddStatus from '../elements/mission-timeline-add-status'
 
 type MissionTimelineHeaderWrapperProps = {
   missionId: string
-  hideAction?: boolean
   hideStatus?: boolean
   moduleType: ModuleType
   onSubmit: (id?: string) => void
@@ -15,7 +14,6 @@ type MissionTimelineHeaderWrapperProps = {
 
 const MissionTimelineHeaderWrapper: React.FC<MissionTimelineHeaderWrapperProps> = ({
   onSubmit,
-  hideAction,
   hideStatus,
   missionId,
   moduleType,
@@ -24,14 +22,12 @@ const MissionTimelineHeaderWrapper: React.FC<MissionTimelineHeaderWrapperProps> 
   return (
     <Stack direction={'row'} justifyContent={'space-between'} spacing={'0.5rem'} wrap={true}>
       <Stack.Item>
-        {!hideAction && (
-          <MissionTimelineAddAction
-            onSumbit={onSubmit}
-            missionId={missionId}
-            moduleType={moduleType}
-            dropdownItems={dropdownItems}
-          />
-        )}
+        <MissionTimelineAddAction
+          onSumbit={onSubmit}
+          missionId={missionId}
+          moduleType={moduleType}
+          dropdownItems={dropdownItems}
+        />
       </Stack.Item>
       <Stack.Item>
         <Stack direction={'row'}>

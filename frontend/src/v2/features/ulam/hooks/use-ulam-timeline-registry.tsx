@@ -1,6 +1,7 @@
 import { Icon, IconProps, THEME } from '@mtes-mct/monitor-ui'
 import { FunctionComponent } from 'react'
 import { ActionGroupType, ActionType } from '../../common/types/action-type'
+import { MissionReportTypeEnum } from '../../common/types/mission-types'
 import MissionTimelineItemControlCard from '../../mission-timeline/components/elements/mission-timeline-item-control-card'
 import MissionTimelineItemGenericCard from '../../mission-timeline/components/elements/mission-timeline-item-generic-card'
 import MissionTimelineItemNoteCard from '../../mission-timeline/components/elements/mission-timeline-item-note-card'
@@ -31,7 +32,33 @@ export type ActionTimeline = {
   icon?: FunctionComponent<IconProps>
 }
 
-const TIME_LINE_DROPDOWN_ULAM_ITEMS: TimelineDropdownItem[] = [
+const TIME_LINE_DROPDOWN_ULAM_ITEMS_OFFICE: TimelineDropdownItem[] = [
+  {
+    type: ActionGroupType.ADMINISTRATIVE_GROUP,
+    icon: Icon.MissionAction,
+    dropdownText: 'Préparation / suivi des contrôles',
+    subItems: [
+      { type: ActionType.INQUIRY, dropdownText: 'Preparation de ctl / rédaction de PV' },
+      { type: ActionType.INQUIRY_HEARING, dropdownText: `Preparation et conduite d'audition`, disabled: true }
+    ]
+  },
+  {
+    type: ActionType.COMMUNICATION,
+    icon: Icon.Contact,
+    dropdownText: `Acceuil public / communication`,
+    disabled: true
+  },
+  { type: ActionType.TRAINING, icon: Icon.License, dropdownText: `Ajouter une formation`, disabled: true },
+  { type: ActionType.NOTE, icon: Icon.Note, dropdownText: 'Ajouter une note libre' },
+  {
+    type: ActionType.UNIT_MANAGEMENT,
+    icon: Icon.GroupPerson,
+    dropdownText: `Vie et gestion de l'unité`,
+    disabled: true
+  }
+]
+
+const TIME_LINE_DROPDOWN_ULAM_ITEMS_FIELD: TimelineDropdownItem[] = [
   {
     type: ActionGroupType.CONTROL_GROUP,
     icon: Icon.ControlUnit,
@@ -54,14 +81,7 @@ const TIME_LINE_DROPDOWN_ULAM_ITEMS: TimelineDropdownItem[] = [
       { type: ActionType.ILLEGAL_IMMIGRATION, dropdownText: `Opé. de lutte contre l'immigration illégale` },
       { type: ActionType.REPRESENTATION, dropdownText: 'Représentation' }
     ]
-  },
-  {
-    type: ActionGroupType.ADMINISTRATIVE_GROUP,
-    icon: Icon.MissionAction,
-    dropdownText: 'Ajouter une autre activité administrative',
-    subItems: [{ type: ActionType.CROSS_CONTROL, dropdownText: 'Contrôle croisé' }]
-  },
-  { type: ActionType.NOTE, icon: Icon.Note, dropdownText: 'Ajouter une note libre' }
+  }
 ]
 
 const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
@@ -166,7 +186,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
     title: 'Contact',
     component: MissionTimelineItemGenericCard
   },
-  [ActionType.CROSS_CONTROL]: {
+  [ActionType.INQUIRY]: {
     style: {
       backgroundColor: THEME.color.blueGray25,
       borderColor: THEME.color.lightGray
@@ -178,11 +198,17 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
 }
 
 interface UlamTimelineRegistrHook {
-  timelineDropdownItems: TimelineDropdownItem[]
   getTimeline: (actionType: ActionType) => Timeline
+  getTimelineDropdownItems: (missionReportType?: MissionReportTypeEnum) => TimelineDropdownItem[]
 }
 
 export function useUlamTimelineRegistry(): UlamTimelineRegistrHook {
   const getTimeline = (actionType: ActionType) => TIMELINE_ULAM_REGISTRY[actionType] ?? ({} as Timeline)
-  return { timelineDropdownItems: TIME_LINE_DROPDOWN_ULAM_ITEMS, getTimeline }
+
+  const getTimelineDropdownItems = (missionReportType?: MissionReportTypeEnum): TimelineDropdownItem[] => {
+    if (missionReportType === MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT) return []
+    if (missionReportType === MissionReportTypeEnum.OFFICE_REPORT) return TIME_LINE_DROPDOWN_ULAM_ITEMS_OFFICE
+    return TIME_LINE_DROPDOWN_ULAM_ITEMS_FIELD.concat(TIME_LINE_DROPDOWN_ULAM_ITEMS_OFFICE)
+  }
+  return { getTimelineDropdownItems, getTimeline }
 }

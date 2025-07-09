@@ -10,6 +10,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
       >
         <button
           aria-controls="menu-:r1:"
+          aria-disabled="false"
           aria-haspopup="menu"
           class="rs-dropdown-toggle rs-btn rs-btn-default"
           id="menubutton-:r0:"
@@ -166,6 +167,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
     >
       <button
         aria-controls="menu-:r1:"
+        aria-disabled="false"
         aria-haspopup="menu"
         class="rs-dropdown-toggle rs-btn rs-btn-default"
         id="menubutton-:r0:"

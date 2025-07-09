@@ -1,4 +1,6 @@
 import { FC } from 'react'
+import { MissionReportTypeEnum } from 'src/v2/features/common/types/mission-types'
+import { useMissionType } from '../../../common/hooks/use-mission-type'
 import MissionTimelineWrapper from '../../../mission-timeline/components/layout/mission-timeline-wrapper'
 import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'
 import MissionTimelineItemUlam from './mission-timeline-ulam-item'
@@ -7,8 +9,8 @@ interface MissionTimelineBodyProps {
   missionId?: string
   isError?: boolean
   isLoading?: boolean
-  noTimelineMessage?: string
   actions: MissionTimelineAction[]
+  missionReportType?: MissionReportTypeEnum
 }
 
 const MissionTimelineUlamBody: FC<MissionTimelineBodyProps> = ({
@@ -16,8 +18,9 @@ const MissionTimelineUlamBody: FC<MissionTimelineBodyProps> = ({
   actions,
   isError,
   isLoading,
-  noTimelineMessage
+  missionReportType
 }) => {
+  const { getNoTimelineMessage } = useMissionType()
   return (
     <MissionTimelineWrapper
       isError={isError}
@@ -26,7 +29,7 @@ const MissionTimelineUlamBody: FC<MissionTimelineBodyProps> = ({
       isLoading={isLoading}
       groupBy="startDateTimeUtc"
       item={MissionTimelineItemUlam}
-      noTimelineMessage={noTimelineMessage}
+      noTimelineMessage={getNoTimelineMessage(missionReportType)}
     />
   )
 }

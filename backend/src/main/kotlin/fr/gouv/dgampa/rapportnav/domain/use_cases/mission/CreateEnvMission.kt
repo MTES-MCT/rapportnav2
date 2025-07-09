@@ -13,24 +13,13 @@ import org.slf4j.LoggerFactory
 @UseCase
 class CreateEnvMission(
     private val monitorEnvRepo: IEnvMissionRepository,
-    private val monitorEnvControlUnitRepo: IEnvControlUnitRepository,
+    private val monitorEnvControlUnitRepo: IEnvControlUnitRepository
 ) {
     private val logger = LoggerFactory.getLogger(CreateEnvMission::class.java)
 
     fun execute(missionGeneralInfo: MissionGeneralInfo2, controlUnitIds: List<Int>?): MissionEnvEntity? {
         try {
-            var matchedControlUnits: List<LegacyControlUnitEntity> = listOf()
-            if (controlUnitIds !== null && controlUnitIds.isNotEmpty()) {
-                val controlUnits = monitorEnvControlUnitRepo.findAll()
-
-                 matchedControlUnits = controlUnits
-                    ?.filter { it.id in controlUnitIds }
-                    ?: emptyList()
-            }
-
-            if (matchedControlUnits.isEmpty()) {
-                throw Exception("CreateEnvMission : controlUnits is empty for this user")
-            }
+            val controlUnits = getControlUnits(controlUnitIds = controlUnitIds?: emptyList())
 
             val missionEnv = MissionEnv(
                 id = missionGeneralInfo.missionId,
@@ -38,7 +27,7 @@ class CreateEnvMission(
                 missionSource = MissionSourceEnum.RAPPORT_NAV,
                 startDateTimeUtc = missionGeneralInfo.startDateTimeUtc,
                 endDateTimeUtc = missionGeneralInfo.endDateTimeUtc,
-                controlUnits = matchedControlUnits,
+                controlUnits = controlUnits,
                 hasMissionOrder = false, //TODO : a checker
                 isUnderJdp = false, //TODO: a checker
                 isGeometryComputedFromControls = false, //TODO: a checker
@@ -49,5 +38,22 @@ class CreateEnvMission(
             logger.error("CreateOrUpdateEnvMission failed creating missions", e)
             return null
         }
+    }
+
+    fun getControlUnits(controlUnitIds: List<Int>): List<LegacyControlUnitEntity> {
+        val controlUnits = monitorEnvControlUnitRepo
+            .findAll()
+            ?.filter { it.id in controlUnitIds }
+            ?.map {
+                LegacyControlUnitEntity(
+                    id = it.id,
+                    name = it.name,
+                    contact = it.contact,
+                    isArchived = it.isArchived,
+                    administration = it.administration
+                )
+            } ?: emptyList()
+        if (controlUnits.isEmpty()) throw Exception("CreateEnvMission : controlUnits is empty for this user")
+        return controlUnits
     }
 }
