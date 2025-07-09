@@ -42,10 +42,20 @@ const TIME_LINE_DROPDOWN_ULAM_ITEMS_OFFICE: TimelineDropdownItem[] = [
       { type: ActionType.INQUIRY_HEARING, dropdownText: `Preparation et conduite d'audition`, disabled: true }
     ]
   },
-  { type: ActionType.COMMUNICATION, icon: Icon.Note, dropdownText: `Acceuil public / communication`, disabled: true },
-  { type: ActionType.TRAINING, icon: Icon.Note, dropdownText: `Ajouter une formation`, disabled: true },
+  {
+    type: ActionType.COMMUNICATION,
+    icon: Icon.Contact,
+    dropdownText: `Acceuil public / communication`,
+    disabled: true
+  },
+  { type: ActionType.TRAINING, icon: Icon.License, dropdownText: `Ajouter une formation`, disabled: true },
   { type: ActionType.NOTE, icon: Icon.Note, dropdownText: 'Ajouter une note libre' },
-  { type: ActionType.UNIT_MANAGEMENT, icon: Icon.Note, dropdownText: `Vie et gestion de l'unité`, disabled: true }
+  {
+    type: ActionType.UNIT_MANAGEMENT,
+    icon: Icon.GroupPerson,
+    dropdownText: `Vie et gestion de l'unité`,
+    disabled: true
+  }
 ]
 
 const TIME_LINE_DROPDOWN_ULAM_ITEMS_FIELD: TimelineDropdownItem[] = [
