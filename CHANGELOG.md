@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.13.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.12.2...docker-container@v2.13.0) (2025-07-09)
+
+
+### Features
+
+* **backend:** rename action type CROSS_CONTROL ([47eb84f](https://github.com/MTES-MCT/rapportnav2/commit/47eb84f64cd6f7f73e2a182f7718866941a9397a))
+* **frontend:** new  icons ([03f432a](https://github.com/MTES-MCT/rapportnav2/commit/03f432ac9b35dce739feaba58e3c4c1d638942a1))
+
+
+### Bug Fixes
+
+* **backend:** create env mission without resource on control unit ([1956c97](https://github.com/MTES-MCT/rapportnav2/commit/1956c9731ffa42315d277ed4bba7917d7397c9c0))
+* **backend:** remove unused test ([3625752](https://github.com/MTES-MCT/rapportnav2/commit/362575276b54a6517873063c6b9b6aead0b7b967))
+* **backend:** test ([6af9d17](https://github.com/MTES-MCT/rapportnav2/commit/6af9d17eadb2d2e3a7f2091accb7e1d942ef74dc))
+* **frontend:** dropdown ulam ([83864cf](https://github.com/MTES-MCT/rapportnav2/commit/83864cf5beee6f0f2ff70b976111c070c8c0d2f7))
+* **frontend:** update snapshot because of monitor-ui changes ([92a4ccd](https://github.com/MTES-MCT/rapportnav2/commit/92a4ccdcd3ccc6ade5a2ab65fe3e78930b65255a))
+
 ## [2.12.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.12.1...docker-container@v2.12.2) (2025-07-07)
 
 
