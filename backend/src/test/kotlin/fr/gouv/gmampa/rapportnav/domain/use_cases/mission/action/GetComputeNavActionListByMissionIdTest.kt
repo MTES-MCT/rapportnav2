@@ -2,10 +2,9 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNavActionListByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetNavActionListByOwnerId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessNavAction
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -25,7 +24,7 @@ class GetComputeNavActionListByMissionIdTest {
     private lateinit var getNavActionList: GetComputeNavActionListByMissionId
 
     @MockitoBean
-    private lateinit var navMissionActionRepository: INavMissionActionRepository
+    private lateinit var getNavActionListByOwnerId: GetNavActionListByOwnerId
 
     @MockitoBean
     private lateinit var processNavAction: ProcessNavAction
@@ -35,7 +34,7 @@ class GetComputeNavActionListByMissionIdTest {
     fun `test execute get nav action list by mission id`() {
         val missionId = 761
         val actionId = UUID.randomUUID()
-        val action = MissionActionModel(
+        val action = MissionNavActionEntity(
             missionId = missionId,
             id = actionId,
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
@@ -44,7 +43,7 @@ class GetComputeNavActionListByMissionIdTest {
             isAntiPolDeviceDeployed = true,
             isSimpleBrewingOperationDone = true,
             diversionCarriedOut = true,
-            actionType = ActionType.CONTROL,
+            actionType = ActionType.CONTROL
         )
 
         val response = MissionNavActionEntity(
@@ -56,12 +55,8 @@ class GetComputeNavActionListByMissionIdTest {
         )
 
         `when`(processNavAction.execute(anyOrNull())).thenReturn(response)
-        `when`(navMissionActionRepository.findByMissionId(missionId)).thenReturn(listOf(action))
+        `when`(getNavActionListByOwnerId.execute(missionId = missionId)).thenReturn(listOf(action))
 
-        getNavActionList = GetComputeNavActionListByMissionId(
-            processNavAction = processNavAction,
-            navMissionActionRepository = navMissionActionRepository
-        )
         val navActions = getNavActionList.execute(missionId = missionId)
 
         assertThat(navActions).isNotNull
@@ -75,8 +70,9 @@ class GetComputeNavActionListByMissionIdTest {
     fun `test execute get nav action list by mission id UUID`() {
         val actionId = UUID.randomUUID()
         val missionIdUUID = UUID.randomUUID()
-        val action = MissionActionModel(
+        val action = MissionNavActionEntity(
             id = actionId,
+            missionId = 0,
             ownerId = missionIdUUID,
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
@@ -96,12 +92,8 @@ class GetComputeNavActionListByMissionIdTest {
         )
 
         `when`(processNavAction.execute(anyOrNull())).thenReturn(response)
-        `when`(navMissionActionRepository.findByOwnerId(ownerId = missionIdUUID)).thenReturn(listOf(action))
+        `when`(getNavActionListByOwnerId.execute(ownerId = missionIdUUID)).thenReturn(listOf(action))
 
-        getNavActionList = GetComputeNavActionListByMissionId(
-            processNavAction = processNavAction,
-            navMissionActionRepository = navMissionActionRepository
-        )
         val navActions = getNavActionList.execute(ownerId = missionIdUUID)
 
         assertThat(navActions).isNotNull

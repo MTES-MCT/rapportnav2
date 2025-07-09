@@ -18,7 +18,7 @@ class GetNavActionById(
         if (!isValidUUID(actionId)) return null
         return try {
             val model = missionActionRepository.findById(UUID.fromString(actionId)).orElse(null) ?: return null
-            processNavAction.execute(action = model)
+            processNavAction.execute(action = MissionNavActionEntity.fromMissionActionModel(model))
         } catch (e: Exception) {
             logger.error("GetNavActionById failed loading action", e)
             return null

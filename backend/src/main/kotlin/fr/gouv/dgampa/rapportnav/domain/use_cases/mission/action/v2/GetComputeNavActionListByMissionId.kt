@@ -2,15 +2,13 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import org.slf4j.LoggerFactory
 import java.util.*
 
 @UseCase
 class GetComputeNavActionListByMissionId(
     private val processNavAction: ProcessNavAction,
-    private val navMissionActionRepository: INavMissionActionRepository,
+    private val getNavActionListByOwnerId: GetNavActionListByOwnerId
 ) {
     private val logger = LoggerFactory.getLogger(GetComputeNavActionListByMissionId::class.java)
 
@@ -21,7 +19,7 @@ class GetComputeNavActionListByMissionId(
         }
 
         return try {
-            val actions = getNavActionList(missionId = missionId)
+            val actions = getNavActionListByOwnerId.execute(missionId = missionId)
             actions.map { processNavAction.execute(action = it) }
         } catch (e: Exception) {
             logger.error("GetComputeNavActionListByMissionId failed loading Actions", e)
@@ -36,19 +34,11 @@ class GetComputeNavActionListByMissionId(
         }
 
         return try {
-            val actions = getNavActionList(ownerId = ownerId)
+            val actions = getNavActionListByOwnerId.execute(ownerId = ownerId)
             actions.map { processNavAction.execute(action = it) }
         } catch (e: Exception) {
             logger.error("GetComputeNavActionListByMissionIdString failed loading Actions", e)
             return listOf()
         }
-    }
-
-    private fun getNavActionList(missionId: Int): List<MissionActionModel> {
-        return navMissionActionRepository.findByMissionId(missionId = missionId).orEmpty()
-    }
-
-    private fun getNavActionList(ownerId: UUID): List<MissionActionModel> {
-        return navMissionActionRepository.findByOwnerId(ownerId = ownerId).orEmpty()
     }
 }
