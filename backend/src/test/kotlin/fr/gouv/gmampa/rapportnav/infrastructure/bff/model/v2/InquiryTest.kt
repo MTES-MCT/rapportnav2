@@ -5,6 +5,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InquiryEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InquiryOriginType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InquiryStatusType
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Inquiry
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -16,7 +18,7 @@ import java.util.*
 class InquiryTest {
 
     @Test
-    fun `execute should convert into entity`() {
+    fun `execute should convert from entity`() {
         val entity = InquiryEntity(
             id = UUID.randomUUID(),
             type = "",
@@ -43,5 +45,37 @@ class InquiryTest {
         assertThat(response.endDateTimeUtc).isEqualTo(entity.endDateTimeUtc)
         assertThat(response.conclusion).isEqualTo(entity.conclusion)
         assertThat(response.startDateTimeUtc).isEqualTo(entity.startDateTimeUtc)
+    }
+
+    @Test
+    fun `execute should convert into entity`() {
+        val action = MissionNavAction.fromMissionActionEntity(MissionNavActionEntityMock.create())
+        val inquiry = Inquiry(
+            id = UUID.randomUUID(),
+            type = "",
+            agentId = 5,
+            vesselId = 4556,
+            serviceId = 6,
+            status = InquiryStatusType.NEW,
+            origin = InquiryOriginType.FOLLOW_UP_CONTROL,
+            conclusion = InquiryConclusionType.NO_FOLLOW_UP,
+            endDateTimeUtc = Instant.parse("2015-07-30T00:00:00.00Z"),
+            startDateTimeUtc = Instant.parse("2015-06-30T00:00:00.00Z"),
+            actions = listOf(action)
+        )
+
+        val response = inquiry.toInquiryEntity()
+        assertThat(response).isNotNull()
+        assertThat(response.actions).isEmpty()
+        assertThat(response.id).isEqualTo(inquiry.id)
+        assertThat(response.type).isEqualTo(inquiry.type)
+        assertThat(response.origin).isEqualTo(inquiry.origin)
+        assertThat(response.agentId).isEqualTo(inquiry.agentId)
+        assertThat(response.vesselId).isEqualTo(inquiry.vesselId)
+        assertThat(response.serviceId).isEqualTo(inquiry.serviceId)
+        assertThat(response.status).isEqualTo(inquiry.status)
+        assertThat(response.endDateTimeUtc).isEqualTo(inquiry.endDateTimeUtc)
+        assertThat(response.conclusion).isEqualTo(inquiry.conclusion)
+        assertThat(response.startDateTimeUtc).isEqualTo(inquiry.startDateTimeUtc)
     }
 }

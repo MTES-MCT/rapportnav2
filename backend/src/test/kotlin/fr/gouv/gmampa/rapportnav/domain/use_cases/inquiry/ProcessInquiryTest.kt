@@ -1,8 +1,8 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
+package fr.gouv.gmampa.rapportnav.domain.use_cases.inquiry
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNavActionListByMissionId
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessInquiry
+import fr.gouv.dgampa.rapportnav.domain.use_cases.inquiry.ProcessInquiry
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetVessels
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

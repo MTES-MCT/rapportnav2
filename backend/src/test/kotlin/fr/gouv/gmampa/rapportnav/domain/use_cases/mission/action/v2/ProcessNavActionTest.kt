@@ -1,6 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
@@ -33,7 +34,7 @@ class ProcessNavActionTest {
     fun `test execute get nav action by id`() {
         val missionId = 761
         val actionId = UUID.randomUUID()
-        val action = MissionActionModel(
+        val action = MissionNavActionEntity(
             id = actionId,
             missionId = missionId,
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),

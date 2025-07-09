@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
+package fr.gouv.dgampa.rapportnav.domain.use_cases.inquiry
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InquiryEntity

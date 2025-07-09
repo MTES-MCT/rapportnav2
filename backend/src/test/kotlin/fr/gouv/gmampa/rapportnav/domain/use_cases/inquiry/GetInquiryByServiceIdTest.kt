@@ -1,8 +1,8 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
+package fr.gouv.gmampa.rapportnav.domain.use_cases.inquiry
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InquiryStatusType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.IInquiryRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetInquiryByServiceId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.inquiry.GetInquiryByServiceId
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.InquiryModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

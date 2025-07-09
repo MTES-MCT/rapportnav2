@@ -5,7 +5,7 @@ import java.time.Instant
 import java.util.*
 
 class Inquiry(
-    val id: UUID? = null,
+    var id: UUID? = null,
     val agentId: Int? = null,
     val vesselId: Int? = null,
     val serviceId: Int? = null,
@@ -19,8 +19,29 @@ class Inquiry(
     val vesselExternalReferenceNumber: String? = null,
     val missionId: Int? = null,
     val missionIdUUID: UUID? = null,
-    var actions: List<MissionAction?> = listOf(),
+    var actions: List<MissionNavAction?> = listOf(),
 ) {
+
+    fun toInquiryEntity(): InquiryEntity {
+        return InquiryEntity(
+            id = id,
+            type = type,
+            status = status,
+            origin = origin,
+            agentId = agentId,
+            vesselId = vesselId,
+            serviceId = serviceId,
+            conclusion = conclusion,
+            vesselName = vesselName,
+            endDateTimeUtc = endDateTimeUtc,
+            startDateTimeUtc = startDateTimeUtc,
+            missionId = missionId,
+            missionIdUUID = missionIdUUID,
+            vesselExternalReferenceNumber = vesselExternalReferenceNumber,
+            actions = listOf()
+        )
+    }
+
     companion object {
         fun fromInquiryEntity(entity: InquiryEntity?): Inquiry {
             return Inquiry(
@@ -38,7 +59,7 @@ class Inquiry(
                 missionId = entity?.missionId,
                 missionIdUUID = entity?.missionIdUUID,
                 vesselExternalReferenceNumber = entity?.vesselExternalReferenceNumber,
-                actions = entity?.actions?.map { action -> MissionAction.fromMissionActionEntity(action) } ?: listOf()
+                actions = entity?.actions?.map { action -> MissionNavAction.fromMissionActionEntity(action) } ?: listOf()
             )
         }
     }
