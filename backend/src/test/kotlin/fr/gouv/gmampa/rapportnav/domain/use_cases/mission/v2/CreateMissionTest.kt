@@ -161,10 +161,4 @@ class CreateMissionTest {
         Mockito.verify(createEnvMission, Mockito.times(1)).execute(generalInfo2, controlUnitIds = listOf(1, 2))
     }
 
-
-    @Test
-    fun`should execute throw exception when controlUnits is not `(){
-
-    }
-
 }
