@@ -6,16 +6,16 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-fhfEft ijxoir Element-Field Field-Search sc-Pgsbw"
+        class="sc-fYmhhH jaaEau Element-Field Field-Search sc-evkzZa"
       >
         <label
-          class="sc-blIAwI ibbShc Element-Label"
+          class="sc-gahYZc jiUYje Element-Label"
           for="crossControl.vesselId"
         >
           Nom du navire contrôlée
         </label>
         <div
-          class="sc-erZbsv HHvxl"
+          class="sc-MHKXp dLBpQt"
         >
           <div
             class="rs-auto-complete"
@@ -70,7 +70,7 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
           </span>
         </div>
         <div
-          class="sc-lcItFd dsosWh"
+          class="sc-dTWiOz cEA-DLy"
         />
       </div>
     </div>
@@ -99,16 +99,16 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-fhfEft ijxoir Element-Field Field-Search sc-Pgsbw"
+      class="sc-fYmhhH jaaEau Element-Field Field-Search sc-evkzZa"
     >
       <label
-        class="sc-blIAwI ibbShc Element-Label"
+        class="sc-gahYZc jiUYje Element-Label"
         for="crossControl.vesselId"
       >
         Nom du navire contrôlée
       </label>
       <div
-        class="sc-erZbsv HHvxl"
+        class="sc-MHKXp dLBpQt"
       >
         <div
           class="rs-auto-complete"
@@ -163,7 +163,7 @@ exports[`FormikSearchVessel > should match the snapshot 1`] = `
         </span>
       </div>
       <div
-        class="sc-lcItFd dsosWh"
+        class="sc-dTWiOz cEA-DLy"
       />
     </div>
   </div>,
