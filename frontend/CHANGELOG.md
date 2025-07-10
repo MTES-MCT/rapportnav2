@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.14.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.13.0...frontend@v2.14.0) (2025-07-10)
+
+
+### Features
+
+* **libs:** bump to React 19 ([c34e325](https://github.com/MTES-MCT/rapportnav2/commit/c34e325e220fb800f930c80d2c4bb4a6792018e5))
+
 ## [2.13.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.12.2...frontend@v2.13.0) (2025-07-09)
 
 

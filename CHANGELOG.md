@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.14.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.13.0...docker-container@v2.14.0) (2025-07-10)
+
+
+### Features
+
+* **backend:** inquiry CRUD controller ([a6b8c5d](https://github.com/MTES-MCT/rapportnav2/commit/a6b8c5d1271dde4dd45b2e876e0827131cb7c8ac))
+* **backend:** inquiry CRUD controller ([79a3f19](https://github.com/MTES-MCT/rapportnav2/commit/79a3f195e0a1b872b4dbd3a01bafe1ec31ebf340))
+* **libs:** bump to React 19 ([c34e325](https://github.com/MTES-MCT/rapportnav2/commit/c34e325e220fb800f930c80d2c4bb4a6792018e5))
+
+
+### Bug Fixes
+
+* fix ownerId set to "null" instead of null ([3fed98c](https://github.com/MTES-MCT/rapportnav2/commit/3fed98c0b3b5781cfc51abcf5c953f0074e21473))
+
 ## [2.13.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.12.2...docker-container@v2.13.0) (2025-07-09)
 
 
