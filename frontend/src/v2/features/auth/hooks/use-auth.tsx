@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { jwtDecode, JwtPayload } from 'jwt-decode'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { RoleType } from '../../common/types/role-type'
 
 type AuthHook = {
   isAuthenticated: boolean
@@ -10,7 +11,8 @@ type AuthHook = {
   isLoggedIn: () => Token | undefined
   navigateAndResetCache: (to: string, keys: string[]) => Promise<void>
 }
-export type Token = JwtPayload & { userId: number }
+
+export type Token = JwtPayload & { userId: number; roles: RoleType[] }
 const authToken = new AuthToken()
 
 const useAuth = (): AuthHook => {

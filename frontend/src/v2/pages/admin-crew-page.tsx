@@ -1,10 +1,10 @@
+import Text from '@common/components/ui/text.tsx'
+import { formatDateForFrenchHumans } from '@common/utils/dates-for-humans.ts'
+import { DataTable } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Container, Panel, Stack } from 'rsuite'
 import useGetAgentServices from '../features/common/services/use-agent-services.tsx'
-import Text from '@common/components/ui/text.tsx'
-import { DataTable } from '@mtes-mct/monitor-ui'
 import { AgentService, ServiceWithAgents } from '../features/common/types/service-agents-types.ts'
-import { formatDateForFrenchHumans, formatDateTimeForFrenchHumans } from '@common/utils/dates-for-humans.ts'
 
 const AdminCrewPage: FC = () => {
   const { data: agentServices } = useGetAgentServices()
@@ -27,8 +27,8 @@ const AdminCrewPage: FC = () => {
                   ]}
                   data={serviceData.agents.map((agent: AgentService) => ({
                     id: agent.agent.id,
-                    name: `${agent.agent.firstName} ${agent.agent.lastName}`,
-                    role: `${agent.role.id} - ${agent.role.title}`,
+                    name: `${agent.agent?.firstName} ${agent.agent?.lastName}`,
+                    role: `${agent.role?.id} - ${agent.role?.title}`,
                     disabledAt: formatDateForFrenchHumans(agent.disabledAt)
                   }))}
                   initialSorting={[{ id: 'id', desc: false }]}

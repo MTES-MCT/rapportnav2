@@ -36,6 +36,7 @@ const TIME_LINE_DROPDOWN_ULAM_ITEMS_OFFICE: TimelineDropdownItem[] = [
   {
     type: ActionGroupType.ADMINISTRATIVE_GROUP,
     icon: Icon.MissionAction,
+    disabled: true,
     dropdownText: 'Préparation / suivi des contrôles',
     subItems: [
       { type: ActionType.INQUIRY, dropdownText: 'Preparation de ctl / rédaction de PV' },
