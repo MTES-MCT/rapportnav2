@@ -34,7 +34,8 @@ describe('MissionDistanceAndConsumption', () => {
   })
 
   describe('the validation when the mission is finished', () => {
-    const validationColor = THEME.color.maximumRed.toLowerCase()
+    // const validationColor = THEME.color.maximumRed.toLowerCase()
+    const validationColor = 'rgb(225, 0, 15)'
     beforeEach(() => {
       vi.spyOn(useIsMissionFinished, 'default').mockReturnValue({
         data: true,

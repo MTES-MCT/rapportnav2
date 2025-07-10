@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import eslint from 'vite-plugin-eslint'
 import importMetaEnv from '@import-meta-env/unplugin'
+import eslint from 'vite-plugin-eslint2'
 import path from 'path'
 
 // https://vitejs.dev/config/

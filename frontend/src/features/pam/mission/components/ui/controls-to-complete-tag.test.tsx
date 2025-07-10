@@ -1,5 +1,4 @@
 import { render, screen } from '../../../../../test-utils.tsx'
-import '@testing-library/jest-dom'
 import ControlsToCompleteTag from './controls-to-complete-tag.tsx'
 
 describe('ControlsToCompleteTag', () => {

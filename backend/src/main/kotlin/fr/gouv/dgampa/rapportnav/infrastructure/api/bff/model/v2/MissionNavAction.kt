@@ -45,7 +45,7 @@ class MissionNavAction(
                 completenessForStats = navAction.completenessForStats,
                 isCompleteForStats = navAction.isCompleteForStats,
                 controlsToComplete = navAction.controlsToComplete,
-                ownerId = navAction.ownerId.toString(),
+                ownerId = navAction.ownerId?.let { it.toString() },
                 data = MissionNavActionData(
                     startDateTimeUtc = navAction.startDateTimeUtc,
                     endDateTimeUtc = navAction.endDateTimeUtc,
