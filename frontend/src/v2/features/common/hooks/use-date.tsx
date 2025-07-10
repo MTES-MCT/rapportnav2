@@ -1,5 +1,5 @@
-import { format, isValid } from 'date-fns'
 import { UTCDate } from '@date-fns/utc'
+import { endOfMonth, endOfYear, format, isValid, startOfMonth, startOfYear } from 'date-fns'
 
 const MISSION_NAME_FORMAT = 'yyyy-MM-dd'
 const FRENCH_DAY_MONTH_YEAR = 'dd/MM/yyyy'
@@ -12,6 +12,10 @@ const FRENCH_DAY_MONTH_YEAR_DATETIME = `${SHORT_DAY_MONTH} à ${SHORT_TIME}`
 const EMPTY_FRENCH_DAY_MONTH_YEAR_DATETIME = `${EMPTY_SHORT_DAY_MONTH} - ${EMPTY_SHORT_TIME}`
 
 type DateTypes = Date | string | undefined | null
+type DateRange = {
+  startDateTimeUtc: string
+  endDateTimeUtc: string
+}
 
 interface DateHook {
   formatTime: (date: DateTypes) => string
@@ -25,6 +29,9 @@ interface DateHook {
   formatDateTimeForFrenchHumans: (date: DateTypes) => string
   postprocessDateFromPicker: (value?: Date | null) => string | undefined
   preprocessDateForPicker: (value?: string | null) => Date | undefined
+
+  getTodayYearRange: (value?: Date) => DateRange
+  getTodayMonthRange: (value?: Date) => DateRange
 }
 
 export function useDate(): DateHook {
@@ -83,6 +90,22 @@ export function useDate(): DateHook {
 
   const formaDateMissionNameUlam = (date: DateTypes): string => formatDate(date, 'yyyy-MM', EMPTY_FRENCH_DAY_MONTH_YEAR)
 
+  const getTodayMonthRange = (date?: Date): DateRange => {
+    const today = date ?? new UTCDate()
+    return {
+      endDateTimeUtc: endOfMonth(today).toISOString(),
+      startDateTimeUtc: startOfMonth(today).toISOString()
+    }
+  }
+
+  const getTodayYearRange = (date?: Date): DateRange => {
+    const today = date ?? new UTCDate()
+    return {
+      endDateTimeUtc: endOfYear(today).toISOString(),
+      startDateTimeUtc: startOfYear(today).toISOString()
+    }
+  }
+
   return {
     formatTime,
     groupByDay,
@@ -93,6 +116,8 @@ export function useDate(): DateHook {
     formatDateForFrenchHumans,
     preprocessDateForPicker,
     postprocessDateFromPicker,
-    formatDateTimeForFrenchHumans
+    formatDateTimeForFrenchHumans,
+    getTodayYearRange,
+    getTodayMonthRange
   }
 }

@@ -1,9 +1,9 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import useMissionsQuery from '../use-missions'
-import axios from '../../../../../query-client/axios'
-import { waitFor, renderHook } from '../../../../../test-utils.tsx'
-import { vi, describe, it, beforeEach, afterEach, expect } from 'vitest'
 import React from 'react'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import axios from '../../../../../query-client/axios'
+import { renderHook, waitFor } from '../../../../../test-utils.tsx'
+import useMissionsQuery from '../use-missions'
 
 // --- MOCK axios.get to return mission list ---
 vi.mock('../../../../../query-client/axios', () => ({
@@ -46,8 +46,10 @@ describe('useMissionsQuery', () => {
     ]
 
     ;(axios.get as vi.Mock).mockResolvedValue({ data: mockMissions })
-
-    const { result } = renderHook(() => useMissionsQuery({ startDateTimeUtc: '2025-01-01T00:00:00Z' }), { wrapper })
+    const endDateTimeUtc = '2025-02-01T00:00:00Z'
+    const startDateTimeUtc = '2025-01-01T00:00:00Z'
+    const params = new URLSearchParams({ endDateTimeUtc, startDateTimeUtc })
+    const { result } = renderHook(() => useMissionsQuery(params), { wrapper })
 
     await waitFor(() => {
       expect(result.current.isSuccess).toBe(true)
@@ -62,8 +64,9 @@ describe('useMissionsQuery', () => {
 
   it('does not run query when startDateTimeUtc is empty', async () => {
     ;(axios.get as vi.Mock).mockResolvedValue({ data: [] })
+    const params = new URLSearchParams()
 
-    renderHook(() => useMissionsQuery({ startDateTimeUtc: '' }), { wrapper })
+    renderHook(() => useMissionsQuery(params), { wrapper })
 
     expect(axios.get).not.toHaveBeenCalled()
     expect(setQueryDataSpy).not.toHaveBeenCalled()
