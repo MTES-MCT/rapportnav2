@@ -123,7 +123,7 @@ const MissionListPamPage: FC = () => {
         }
         list={
           <MissionListPam //
-            missions={missions?.map(m => getMissionListItem(m))}
+            missions={(missions || [])?.map(m => getMissionListItem(m))}
             selectedMissionIds={selectedMissionIds}
             toggleOne={toggleOne}
           />

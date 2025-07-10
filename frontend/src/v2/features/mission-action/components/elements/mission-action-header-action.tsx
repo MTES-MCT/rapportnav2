@@ -22,7 +22,7 @@ export const MissionActionHeaderAction: React.FC<MissionActionHeaderActionProps>
   const mutation = useDeleteActionMutation(missionId)
 
   const handleDelete = async () => {
-    await mutation.mutateAsync(actionId)
+    mutation.mutate({ missionId, actionId })
     navigate(`/v2/${moduleType}/missions/${missionId}`)
   }
 

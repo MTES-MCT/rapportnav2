@@ -31,10 +31,11 @@ const MissionTimelineWrapper: FC<MissionTimelineProps> = ({
 }) => {
   const { groupByDay } = useDate()
   const { computeCompleteForStats } = useTimelineCompleteForStats()
+
   useEffect(() => {
     const completenessForStats = computeCompleteForStats(actions)
     setTimelineCompleteForStats(completenessForStats)
-  }, [actions])
+  }, [actions, computeCompleteForStats])
 
   if (noTimelineMessage) return <MissionTimelineEmpty message={noTimelineMessage} />
   if (isLoading) return <MissionTimelineLoader />

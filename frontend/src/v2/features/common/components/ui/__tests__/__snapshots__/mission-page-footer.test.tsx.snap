@@ -81,8 +81,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                   class="sc-evkzZa sc-fFmWCW fjwyIl hLoVng"
                   font-size="11"
                 >
-                  Connexion 
-                  disponible
+                   
                    
                 </p>
               </div>
@@ -313,8 +312,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 class="sc-evkzZa sc-fFmWCW fjwyIl hLoVng"
                 font-size="11"
               >
-                Connexion 
-                disponible
+                 
                  
               </p>
             </div>
