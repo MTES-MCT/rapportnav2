@@ -30,13 +30,13 @@ RUN gradle assemble
 ########################################
 # Stage 1: Download npm dependencies
 # this stage will not run if dependencies have not changed
-FROM node:20 AS npm-dependencies
+FROM node:24 AS npm-dependencies
 WORKDIR /tmp/frontend
 COPY frontend/package.json frontend/package-lock.json ./
 RUN npm ci
 
 # Stage 2: Build the application
-FROM node:20 AS build-frontend
+FROM node:24 AS build-frontend
 WORKDIR /tmp/frontend
 COPY --from=npm-dependencies /tmp/frontend/node_modules ./node_modules
 COPY frontend .
