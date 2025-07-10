@@ -4,7 +4,7 @@
 
 You will need:
 
-- [nodejs](https://nodejs.org/en) > 20 (install with [nvm](https://github.com/nvm-sh/nvm) is recommended)
+- [nodejs](https://nodejs.org/en) > 24 (install with [nvm](https://github.com/nvm-sh/nvm) is recommended)
 
 The main dependencies are:
 
