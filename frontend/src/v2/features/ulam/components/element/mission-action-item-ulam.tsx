@@ -9,7 +9,7 @@ import { useUlamActionRegistry } from '../../hooks/use-ulam-action-registry'
 import { isEqual } from 'lodash'
 
 interface MissionActionItemUlamProps {
-  missionId: number
+  missionId: string
   action: MissionAction
 }
 
@@ -24,7 +24,7 @@ const MissionActionItemUlam: FC<MissionActionItemUlamProps> = ({ action, mission
   const onChange = async (newAction: MissionAction) => {
     handleExecuteOnDelay(async () => {
       if (!isEqual(action, newAction)) {
-        await mutation.mutateAsync(newAction)
+        await mutation.mutateAsync({ missionId, action: newAction })
       }
       if (debounceTime !== undefined) resetDebounceTime()
     }, debounceTime)
