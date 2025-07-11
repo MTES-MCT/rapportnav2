@@ -44,7 +44,7 @@
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.3",
     "react-toastify": "^11.0.5",
-    "rsuite": "5.53.2",
+    "rsuite": "5.83.0",
     "styled-components": "^6.1.19",
     "type-fest": "^4.41.0",
     "unleash-proxy-client": "^3.7.6",
