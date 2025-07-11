@@ -32,7 +32,7 @@ function MissionTimelineAddAction({
   const navigate = useNavigate()
   const { isOnline } = useOnlineManager()
   const { getActionInput } = useMissionTimeline(missionId)
-  const mutation = useCreateMissionActionMutation(missionId)
+  const mutation = useCreateMissionActionMutation()
   const [showModal, setShowModal] = useState<boolean>(false)
 
   const handleAddAction = async (actionType: ActionType, data?: unknown) => {
@@ -41,17 +41,22 @@ function MissionTimelineAddAction({
       ...getActionInput(actionType, data)
     }
 
-    mutation.mutate(action, {
-      onSuccess: (data: MissionNavAction) => {
-        const id = data?.data?.id
-        if (id) {
-          navigateToActionId(id, navigate)
-        }
-        if (onSubmit && isOnline) {
-          onSubmit(id)
+    mutation.mutate(
+      { missionId, action },
+      {
+        onSuccess: (data: MissionNavAction) => {
+          const id = data?.data?.id
+          if (id) {
+            navigateToActionId(id, navigate)
+          }
+          if (onSubmit && isOnline) {
+            onSubmit(id)
+          }
         }
       }
-    })
+    )
+
+    navigateToActionId(action.id, navigate)
   }
 
   const handleSelect = async (actionType: ActionType) => {

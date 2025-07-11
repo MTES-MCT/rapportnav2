@@ -3,6 +3,24 @@ import { PersistQueryClientOptions } from '@tanstack/react-query-persist-client'
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
 import { logSoftError } from '@mtes-mct/monitor-ui'
 import * as Sentry from '@sentry/react'
+import { getOfflineMode } from '../v2/features/common/hooks/use-offline-mode.tsx'
+import { actionsKeys, missionsKeys } from '../v2/features/common/services/query-keys.ts'
+import {
+  offlineDeleteActionMutationDefaults,
+  onlineDeleteActionMutationDefaults
+} from '../v2/features/common/services/use-delete-mission-action.tsx'
+import {
+  offlineUpdateMissionActionDefaults,
+  onlineUpdateMissionActionDefaults
+} from '../v2/features/common/services/use-update-mission-action.tsx'
+import {
+  offlineUpdateGeneralInfoMutationDefault,
+  onlineUpdateGeneralInfoMutationDefault
+} from '../v2/features/common/services/use-update-general-info.tsx'
+import {
+  offlineCreateMissionActionDefaults,
+  onlineCreateMissionActionDefaults
+} from '../v2/features/common/services/use-create-mission-action.tsx'
 
 // Notes about stale and cache/gc time:
 // - staleTime:
@@ -19,7 +37,7 @@ export const DYNAMIC_DATA_GC_TIME = 1000 * 60 * 60 * 24 * 5 // 5 days
 export const STATIC_DATA_STALE_TIME = 1000 * 60 * 60 * 24 * 3 // 3 days
 export const STATIC_DATA_GC_TIME = 1000 * 60 * 60 * 24 * 15 // 15 days
 
-export const queryClient = new QueryClient({
+const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: error => {
       // https://tkdodo.eu/blog/breaking-react-querys-api-on-purpose
@@ -57,6 +75,25 @@ export const queryClient = new QueryClient({
     }
   }
 })
+
+// register mutation defaults
+// this is absolutely necessary to fire offline mutations after a page reload, otherwise they're lost
+queryClient.setMutationDefaults(
+  missionsKeys.update(),
+  getOfflineMode() ? offlineUpdateGeneralInfoMutationDefault : onlineUpdateGeneralInfoMutationDefault
+)
+queryClient.setMutationDefaults(
+  actionsKeys.create(),
+  getOfflineMode() ? offlineCreateMissionActionDefaults : onlineCreateMissionActionDefaults
+)
+queryClient.setMutationDefaults(
+  actionsKeys.update(),
+  getOfflineMode() ? offlineUpdateMissionActionDefaults : onlineUpdateMissionActionDefaults
+)
+queryClient.setMutationDefaults(
+  actionsKeys.delete(),
+  getOfflineMode() ? offlineDeleteActionMutationDefaults : onlineDeleteActionMutationDefaults
+)
 
 export const localStoragePersister = createSyncStoragePersister({
   storage: window.localStorage
