@@ -50,6 +50,9 @@ class MissionRestControllerTest {
     @MockitoBean
     private lateinit var tokenService: TokenService
 
+    @MockitoBean
+    private lateinit var deleteMissionNav: DeleteMissionNav
+
     /**
      *
      *  private val getComputeEnvMission: GetComputeEnvMission,
