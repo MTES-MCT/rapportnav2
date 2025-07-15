@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import { MissionReportTypeEnum } from 'src/v2/features/common/types/mission-types'
 import { useMissionType } from '../../../common/hooks/use-mission-type'
+import { MissionReportTypeEnum } from '../../../common/types/mission-types'
 import MissionTimelineWrapper from '../../../mission-timeline/components/layout/mission-timeline-wrapper'
 import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'
 import MissionTimelineItemUlam from './mission-timeline-ulam-item'
