@@ -7,7 +7,7 @@ import { useMissionTimeline } from '../../../common/hooks/use-mission-timeline'
 import useCreateMissionActionMutation from '../../../common/services/use-create-mission-action'
 import { ActionType } from '../../../common/types/action-type'
 import { MissionNavAction } from '../../../common/types/mission-action.ts'
-import { PAM_V2_HOME_PATH } from '@router/routes.tsx'
+import { navigateToActionId, PAM_V2_HOME_PATH } from '@router/routes.tsx'
 import { useNavigate } from 'react-router-dom'
 import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 import { v4 as uuidv4 } from 'uuid'
@@ -38,7 +38,7 @@ export const MissionStatusColorTag: FC<{ status: ActionStatusType }> = ({ status
 const MissionTimelineAddStatus: FC<MissionTimelineAddStatusProps> = ({ missionId, onSubmit }) => {
   const navigate = useNavigate()
   const { getActionInput } = useMissionTimeline(missionId)
-  const mutation = useCreateMissionActionMutation(missionId)
+  const mutation = useCreateMissionActionMutation()
   const { isOnline } = useOnlineManager()
 
   const handleAddStatus = async (status: ActionStatusType) => {
@@ -47,18 +47,22 @@ const MissionTimelineAddStatus: FC<MissionTimelineAddStatusProps> = ({ missionId
       ...getActionInput(ActionType.STATUS, { status })
     }
 
-    mutation.mutate(action, {
-      onSuccess: (data: MissionNavAction) => {
-        const id = data?.data?.id
-        if (id) {
-          const url = `${PAM_V2_HOME_PATH}/${missionId}/${id}`
-          navigate(url)
-        }
-        if (onSubmit && isOnline) {
-          onSubmit(id)
+    mutation.mutate(
+      { missionId, action },
+      {
+        onSuccess: (data: MissionNavAction) => {
+          const id = data?.data?.id
+          if (id) {
+            const url = `${PAM_V2_HOME_PATH}/${missionId}/${id}`
+            navigate(url)
+          }
+          if (onSubmit && isOnline) {
+            onSubmit(id)
+          }
         }
       }
-    })
+    )
+    navigateToActionId(action.id, navigate)
   }
 
   return (

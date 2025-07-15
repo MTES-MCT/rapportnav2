@@ -14,7 +14,6 @@ const useGetActionQuery = (missionId: number, actionId?: string): UseQueryResult
       if (typeof actionId !== 'string') {
         throw new Error('actionId missing in queryKey')
       }
-      // You need to pass the `missionId` here somehow — maybe it's encoded in the actionId?
       return fetchAction({ missionId, actionId })
     }
   })

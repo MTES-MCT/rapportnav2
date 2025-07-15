@@ -2,11 +2,11 @@ import { Accent, Button, Icon, Size } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
 import styled from 'styled-components'
 import OnlineToggle from '../elements/online-toggle.tsx'
-import useMission from '../../services/use-mission.tsx'
 import Text from '@common/components/ui/text.tsx'
 import { useOnlineManager } from '../../hooks/use-online-manager.tsx'
 import { formatDateTimeForFrenchHumans } from '@common/utils/dates-for-humans.ts'
 import { useOfflineSince } from '../../hooks/use-offline-since.tsx'
+import { useOfflineMode } from '../../hooks/use-offline-mode.tsx'
 
 const StyledFooter = styled.div`
   height: 60px;
@@ -26,6 +26,7 @@ interface MissionPageFooterProps {
 const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ type, exitMission }) => {
   const { isOnline, hasNetwork } = useOnlineManager()
   const { offlineSince } = useOfflineSince()
+  const isOfflineModeEnabled = useOfflineMode()
 
   const deleteMission = () => {
     // TODO add delete
@@ -63,7 +64,9 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ type, exitMission
             </Stack.Item>
           </Stack>
         </Stack.Item>
-        <Stack.Item style={{ paddingLeft: '1rem' }}>{type === 'PAM' && <OnlineToggle />}</Stack.Item>
+        <Stack.Item style={{ paddingLeft: '1rem' }}>
+          {type === 'PAM' && isOfflineModeEnabled && <OnlineToggle />}
+        </Stack.Item>
       </Stack>
     </StyledFooter>
   )
