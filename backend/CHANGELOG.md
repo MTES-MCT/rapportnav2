@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.14.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.13.0...backend@v2.14.0) (2025-07-15)
+
+
+### Features
+
+* **backend:** inquiry CRUD controller ([a6b8c5d](https://github.com/MTES-MCT/rapportnav2/commit/a6b8c5d1271dde4dd45b2e876e0827131cb7c8ac))
+* **backend:** inquiry CRUD controller ([79a3f19](https://github.com/MTES-MCT/rapportnav2/commit/79a3f195e0a1b872b4dbd3a01bafe1ec31ebf340))
+
+
+### Bug Fixes
+
+* allow non admin for register endpoint ([9c80d08](https://github.com/MTES-MCT/rapportnav2/commit/9c80d08ad56270fc2ccfa480216bfd1323045a3d))
+* fix ownerId set to "null" instead of null ([3fed98c](https://github.com/MTES-MCT/rapportnav2/commit/3fed98c0b3b5781cfc51abcf5c953f0074e21473))
+
 ## [2.13.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.12.2...backend@v2.13.0) (2025-07-09)
 
 
