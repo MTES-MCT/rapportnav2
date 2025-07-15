@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.14.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.13.0...docker-container@v2.14.0) (2025-07-15)
+
+
+### Features
+
+* **backend:** inquiry CRUD controller ([a6b8c5d](https://github.com/MTES-MCT/rapportnav2/commit/a6b8c5d1271dde4dd45b2e876e0827131cb7c8ac))
+* **backend:** inquiry CRUD controller ([79a3f19](https://github.com/MTES-MCT/rapportnav2/commit/79a3f195e0a1b872b4dbd3a01bafe1ec31ebf340))
+* **frontend:** handle routing with v2 on/off ([167dd0a](https://github.com/MTES-MCT/rapportnav2/commit/167dd0ae6a5ede925245cafd7a68600d61acbcb6))
+* **frontend:** handle routing with v2 on/off ([f64aad2](https://github.com/MTES-MCT/rapportnav2/commit/f64aad28ef867e42cec6ef3cded716d446a0b459))
+* **frontend:** handle searchParams to mission list ([0a70645](https://github.com/MTES-MCT/rapportnav2/commit/0a70645d3d6af18ae82268abd1b4860459992c82))
+* **frontend:** handle searchParams to mission list ([50a3884](https://github.com/MTES-MCT/rapportnav2/commit/50a388481387eab92edb6d2f3028911eab412c7e))
+* **libs:** bump to React 19 ([c34e325](https://github.com/MTES-MCT/rapportnav2/commit/c34e325e220fb800f930c80d2c4bb4a6792018e5))
+
+
+### Bug Fixes
+
+* allow non admin for register endpoint ([9c80d08](https://github.com/MTES-MCT/rapportnav2/commit/9c80d08ad56270fc2ccfa480216bfd1323045a3d))
+* fix ownerId set to "null" instead of null ([3fed98c](https://github.com/MTES-MCT/rapportnav2/commit/3fed98c0b3b5781cfc51abcf5c953f0074e21473))
+* **frontend:** test ([9904869](https://github.com/MTES-MCT/rapportnav2/commit/990486970e46df32655e1f074b28ea5045e38468))
+
 ## [2.13.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.12.2...docker-container@v2.13.0) (2025-07-09)
 
 

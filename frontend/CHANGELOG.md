@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.14.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.13.0...frontend@v2.14.0) (2025-07-15)
+
+
+### Features
+
+* **frontend:** handle routing with v2 on/off ([167dd0a](https://github.com/MTES-MCT/rapportnav2/commit/167dd0ae6a5ede925245cafd7a68600d61acbcb6))
+* **frontend:** handle routing with v2 on/off ([f64aad2](https://github.com/MTES-MCT/rapportnav2/commit/f64aad28ef867e42cec6ef3cded716d446a0b459))
+* **frontend:** handle searchParams to mission list ([0a70645](https://github.com/MTES-MCT/rapportnav2/commit/0a70645d3d6af18ae82268abd1b4860459992c82))
+* **frontend:** handle searchParams to mission list ([50a3884](https://github.com/MTES-MCT/rapportnav2/commit/50a388481387eab92edb6d2f3028911eab412c7e))
+* **libs:** bump to React 19 ([c34e325](https://github.com/MTES-MCT/rapportnav2/commit/c34e325e220fb800f930c80d2c4bb4a6792018e5))
+
+
+### Bug Fixes
+
+* **frontend:** test ([9904869](https://github.com/MTES-MCT/rapportnav2/commit/990486970e46df32655e1f074b28ea5045e38468))
+
 ## [2.13.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.12.2...frontend@v2.13.0) (2025-07-09)
 
 
