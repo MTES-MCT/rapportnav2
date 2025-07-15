@@ -1,10 +1,10 @@
+import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import React, { JSX, useEffect } from 'react'
-import { Accent, Button, Icon, THEME } from '@mtes-mct/monitor-ui'
-import useDateRangeNavigator from '../../hooks/use-daterange-navigator.tsx'
 import styled from 'styled-components'
+import useDateRangeNavigator from '../../hooks/use-daterange-navigator.tsx'
 
 interface MissionListDateRangeNavigatorProps {
-  startDateTimeUtc?: string
+  startDateTimeUtc?: string | null
   onUpdateCurrentDate?: (date: Date) => void
   exportButton?: JSX.Element
   timeframe: 'month' | 'year'

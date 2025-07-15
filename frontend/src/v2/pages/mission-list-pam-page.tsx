@@ -1,15 +1,17 @@
 import { Mission } from '@common/types/mission-types.ts'
 import { Icon } from '@mtes-mct/monitor-ui'
-import { endOfYear } from 'date-fns/endOfYear'
-import { startOfYear } from 'date-fns/startOfYear'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { Stack } from 'rsuite'
 import useAuth from '../features/auth/hooks/use-auth.tsx'
 import MissionListDateRangeNavigator from '../features/common/components/elements/mission-list-daterange-navigator.tsx'
+import OnlineToggle from '../features/common/components/elements/online-toggle.tsx'
 import MissionListPageContentWrapper from '../features/common/components/layout/mission-list-page-content-wrapper.tsx'
 import MissionListPageHeaderWrapper from '../features/common/components/layout/mission-list-page-header-wrapper'
 import MissionListPageWrapper from '../features/common/components/layout/mission-list-page-wrapper'
 import MissionListPageSidebarWrapper from '../features/common/components/ui/mission-list-page-sidebar.tsx'
 import MissionListPageTitle from '../features/common/components/ui/mission-list-page-title.tsx'
+import { useDate } from '../features/common/hooks/use-date.tsx'
 import { useMissionList } from '../features/common/hooks/use-mission-list.tsx'
 import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
 import useMissionsQuery from '../features/common/services/use-missions.tsx'
@@ -18,9 +20,6 @@ import { Mission2 } from '../features/common/types/mission-types.ts'
 import MissionListActionsPam from '../features/pam/components/element/mission-list/mission-list-actions-pam.tsx'
 import MissionListExportDialog from '../features/pam/components/element/mission-list/mission-list-export.tsx'
 import MissionListPam from '../features/pam/components/element/mission-list/mission-list-pam.tsx'
-import OnlineToggle from '../features/common/components/elements/online-toggle.tsx'
-import { Stack } from 'rsuite'
-import { UTCDate } from '@date-fns/utc'
 
 const SIDEBAR_ITEMS = [
   {
@@ -31,15 +30,18 @@ const SIDEBAR_ITEMS = [
 ]
 
 const MissionListPamPage: FC = () => {
-  const today = new UTCDate()
   const { isLoggedIn } = useAuth()
-  const [queryParams, setQueryParams] = useState({
-    startDateTimeUtc: startOfYear(today).toISOString(),
-    endDateTimeUtc: endOfYear(today).toISOString()
-  })
+  const { getTodayYearRange } = useDate()
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  useEffect(() => {
+    if (searchParams.get('endDateTimeUtc') && searchParams.get('startDateTimeUtc')) return
+    setSearchParams(getTodayYearRange())
+    return () => {}
+  }, [searchParams, setSearchParams, getTodayYearRange])
 
   const { getMissionListItem } = useMissionList()
-  const { isLoading, data: missions } = useMissionsQuery(queryParams)
+  const { isLoading, data: missions } = useMissionsQuery(searchParams)
 
   const { exportMissionReport, exportIsLoading } = useMissionReportExport()
 
@@ -82,11 +84,7 @@ const MissionListPamPage: FC = () => {
   }
 
   const handleUpdateDateTime = (currentDate: Date) => {
-    const newDateRange = {
-      startDateTimeUtc: currentDate.toISOString(),
-      endDateTimeUtc: endOfYear(currentDate).toISOString()
-    }
-    setQueryParams(newDateRange)
+    setSearchParams(getTodayYearRange(currentDate))
   }
 
   return (
@@ -105,10 +103,9 @@ const MissionListPamPage: FC = () => {
         loading={isLoading}
         hasMissions={!!missions?.length}
         title={'Mes rapports'}
-        // subtitle={} // unnecessary for PAM version
         filters={
           <MissionListDateRangeNavigator
-            startDateTimeUtc={queryParams.startDateTimeUtc}
+            startDateTimeUtc={searchParams.get('startDateTimeUtc')}
             onUpdateCurrentDate={handleUpdateDateTime}
             timeframe={'year'}
           />
@@ -122,7 +119,7 @@ const MissionListPamPage: FC = () => {
           />
         }
         list={
-          <MissionListPam //
+          <MissionListPam
             missions={missions?.map(m => getMissionListItem(m))}
             selectedMissionIds={selectedMissionIds}
             toggleOne={toggleOne}
