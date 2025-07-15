@@ -11,7 +11,7 @@ const EMPTY_SHORT_TIME = '--:--'
 const FRENCH_DAY_MONTH_YEAR_DATETIME = `${SHORT_DAY_MONTH} à ${SHORT_TIME}`
 const EMPTY_FRENCH_DAY_MONTH_YEAR_DATETIME = `${EMPTY_SHORT_DAY_MONTH} - ${EMPTY_SHORT_TIME}`
 
-type DateTypes = Date | string | undefined | null
+type DateTypes = Date | string | undefined | null | number
 type DateRange = {
   startDateTimeUtc: string
   endDateTimeUtc: string

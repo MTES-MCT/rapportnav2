@@ -1,11 +1,15 @@
+import Text from '@common/components/ui/text.tsx'
 import { Accent, Button, Icon, Size } from '@mtes-mct/monitor-ui'
+import { useState } from 'react'
 import { Stack } from 'rsuite'
 import styled from 'styled-components'
-import OnlineToggle from '../elements/online-toggle.tsx'
-import useMission from '../../services/use-mission.tsx'
-import Text from '@common/components/ui/text.tsx'
+import { useDate } from '../../hooks/use-date.tsx'
 import { useOnlineManager } from '../../hooks/use-online-manager.tsx'
-import { formatDateTimeForFrenchHumans } from '@common/utils/dates-for-humans.ts'
+import useDeleteMissionMutation from '../../services/use-delete-mission.tsx'
+import useMission from '../../services/use-mission.tsx'
+import { MissionSourceEnum } from '../../types/mission-types.ts'
+import OnlineToggle from '../elements/online-toggle.tsx'
+import DialogQuestion from './dialog-question.tsx'
 
 const StyledFooter = styled.div`
   height: 60px;
@@ -17,17 +21,21 @@ const StyledFooter = styled.div`
 `
 
 interface MissionPageFooterProps {
-  missionId: number
+  missionId?: string
   exitMission: () => void
 }
 
 const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, exitMission }) => {
-  const { dataUpdatedAt } = useMission(missionId)
   const { isOnline } = useOnlineManager()
+  const { formatDateForFrenchHumans } = useDate()
+  const [showDialog, setShowDialog] = useState(false)
+  const mutation = useDeleteMissionMutation(missionId)
+  const { data: mission, dataUpdatedAt } = useMission(missionId)
 
-  const deleteMission = () => {
-    // TODO add delete
-    alert('Fonctionnalité pas encore implémentée')
+  const handleDeleteMission = async (response: boolean) => {
+    setShowDialog(false)
+    if (!response) return
+    await mutation.mutateAsync()
     exitMission()
   }
 
@@ -39,9 +47,14 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, exitMi
             accent={Accent.SECONDARY}
             size={Size.NORMAL}
             Icon={Icon.Delete}
-            onClick={deleteMission}
-            disabled={true}
+            onClick={() => setShowDialog(true)}
             title={"Cette fonctionnalité n'a pas encore été implémentée"}
+            disabled={
+              !(
+                mission &&
+                [MissionSourceEnum.RAPPORTNAV, MissionSourceEnum.RAPPORT_NAV].includes(mission.data?.missionSource)
+              )
+            }
           >
             Supprimer la mission
           </Button>
@@ -56,7 +69,7 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, exitMi
             </Stack.Item>
             <Stack.Item>
               <Text as="h4">
-                {dataUpdatedAt ? `- Dernière synchronisation le ${formatDateTimeForFrenchHumans(dataUpdatedAt)}` : ``}
+                {dataUpdatedAt ? `- Dernière synchronisation le ${formatDateForFrenchHumans(dataUpdatedAt)}` : ``}
               </Text>
             </Stack.Item>
           </Stack>
@@ -65,6 +78,14 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, exitMi
           <OnlineToggle />
         </Stack.Item>
       </Stack>
+      {showDialog && (
+        <DialogQuestion
+          type="danger"
+          title="Suppression de la mission"
+          question="Voulez vous vraiment supprimer cette mission?"
+          onSubmit={handleDeleteMission}
+        />
+      )}
     </StyledFooter>
   )
 }
