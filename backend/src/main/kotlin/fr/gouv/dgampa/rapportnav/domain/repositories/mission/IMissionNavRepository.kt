@@ -10,4 +10,6 @@ interface IMissionNavRepository {
     fun finById(id: UUID): Optional<MissionModel>
 
     fun findAll(startBeforeDateTime: Instant, endBeforeDateTime: Instant): List<MissionModel?>
+
+    fun deleteById(id: UUID)
 }

@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param
 import java.time.Instant
 import java.util.*
 
-interface IDBMissionRepository: JpaRepository<MissionModel, Int> {
+interface IDBMissionRepository: JpaRepository<MissionModel, UUID> {
 
     fun save(entity: MissionModel): MissionModel
 
@@ -22,5 +22,5 @@ interface IDBMissionRepository: JpaRepository<MissionModel, Int> {
         @Param("endBeforeDateTime") endBeforeDateTime: Instant
     ): List<MissionModel?>
 
-    fun findById(id: UUID): Optional<MissionModel>
+    override fun findById(id: UUID): Optional<MissionModel>
 }
