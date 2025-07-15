@@ -63,7 +63,8 @@ class SecurityConfig(
             authorize
                 .requestMatchers("/graphql").authenticated()
                 .requestMatchers("/api/v1/auth/login").permitAll()
-                .requestMatchers("/api/v1/auth/register").hasAuthority(AuthoritiesEnum.ROLE_ADMIN.toString())
+                .requestMatchers("/api/v1/auth/register").permitAll()
+//                .requestMatchers("/api/v1/auth/register").hasAuthority(AuthoritiesEnum.ROLE_ADMIN.toString())
                 .requestMatchers("/api/v1/admin/**").hasAuthority(AuthoritiesEnum.ROLE_ADMIN.toString())
                 .requestMatchers("/api/v2/**").authenticated()
                 .requestMatchers("/**").permitAll()
