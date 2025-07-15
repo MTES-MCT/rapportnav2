@@ -21,7 +21,6 @@ import MissionListPam from '../features/pam/components/element/mission-list/miss
 import OnlineToggle from '../features/common/components/elements/online-toggle.tsx'
 import { Stack } from 'rsuite'
 import { UTCDate } from '@date-fns/utc'
-import { useOfflineMode } from '../features/common/hooks/use-offline-mode.tsx'
 
 const SIDEBAR_ITEMS = [
   {
@@ -34,8 +33,6 @@ const SIDEBAR_ITEMS = [
 const MissionListPamPage: FC = () => {
   const today = new UTCDate()
   const { isLoggedIn } = useAuth()
-  const isOfflineModeEnabled = useOfflineMode()
-
   const [queryParams, setQueryParams] = useState({
     startDateTimeUtc: startOfYear(today).toISOString(),
     endDateTimeUtc: endOfYear(today).toISOString()
@@ -98,7 +95,9 @@ const MissionListPamPage: FC = () => {
       sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={SIDEBAR_ITEMS} />}
       footer={
         <Stack style={{ width: '100%', height: '100%' }} justifyContent={'flex-end'} alignItems={'center'}>
-          <Stack.Item style={{ marginRight: '4rem' }}>{isOfflineModeEnabled && <OnlineToggle />}</Stack.Item>
+          <Stack.Item style={{ marginRight: '4rem' }}>
+            <OnlineToggle />
+          </Stack.Item>
         </Stack>
       }
     >

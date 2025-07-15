@@ -7,38 +7,41 @@ import { Mission2 } from '../types/mission-types.ts'
 import { orderBy } from 'lodash'
 import queryClient from '../../../../query-client'
 
-type UseUpdateMissionActionInput = { missionId: string; action: MissionAction }
+const updateAction = (action: MissionAction): Promise<MissionAction> =>
+  axios.put(`missions/${action.missionId}/actions/${action.id}`, action).then(response => response.data)
 
-const updateAction = ({ missionId, action }: UseUpdateMissionActionInput): Promise<MissionAction> =>
-  axios.put(`missions/${missionId}/actions/${action.id}`, action).then(response => response.data)
-
-export const offlineUpdateMissionActionDefaults = {
+queryClient.setMutationDefaults(actionsKeys.update(), {
   mutationFn: updateAction,
-  onMutate: async (input: UseUpdateMissionActionInput) => {
-    const { missionId, action } = input
-
+  onMutate: async (updatedAction: MissionNavAction) => {
     // create optimistic action
     const isOnline = onlineManager.isOnline()
     let optimisticAction: MissionNavAction = {
-      ...action,
+      ...updatedAction,
       networkSyncStatus: isOnline ? NetworkSyncStatus.SYNC : NetworkSyncStatus.UNSYNC
     }
 
-    await queryClient.cancelQueries({ queryKey: missionsKeys.byId(missionId) })
+    await queryClient.cancelQueries({ queryKey: missionsKeys.byId(updatedAction.missionId) })
 
-    queryClient.setQueryData<Mission2>(missionsKeys.byId(missionId), old => {
-      if (!old) return old
-      // insert optimistic action at the right place in mission cache
-      const actions = (old?.actions ?? []).map((action: MissionAction) =>
-        action.id === optimisticAction.id ? optimisticAction : action
-      )
-      // sort the list again in case startDateTimes have changed
-      const sortedActions = orderBy(actions, ['data.startDateTimeUtc'], ['desc'])
-      return {
-        ...old,
-        actions: sortedActions
-      }
-    })
+    // fetch mission and actions from cache
+    const mission: Mission2 | undefined = queryClient.getQueryData(missionsKeys.byId(updatedAction.missionId))
+    const previousActions = mission?.actions
+
+    // insert optimistic action at the right place in mission cache
+    const actions = (mission?.actions ?? []).map((action: MissionAction) =>
+      action.id === optimisticAction.id ? optimisticAction : action
+    )
+    // sort the list again in case startDateTimes have changed
+    const sortedActions = orderBy(actions, ['data.startDateTimeUtc'], ['desc'])
+
+    // update mission cache
+    queryClient.setQueryData(
+      missionsKeys.byId(updatedAction.missionId),
+      (mission: Mission2 | undefined) =>
+        ({
+          ...mission,
+          actions: sortedActions
+        }) as Mission2
+    )
     // set individual action query for the optimistic object
     queryClient.setQueryData(actionsKeys.byId(optimisticAction.id), optimisticAction)
 
@@ -57,13 +60,15 @@ export const offlineUpdateMissionActionDefaults = {
     }
 
     // return context
-    return { action: optimisticAction }
+    return { previousActions, action: optimisticAction }
   },
 
   onSettled: async (_data, _error, variables, _context) => {
+    const { missionId, id: actionId } = variables
+
     try {
       await queryClient.invalidateQueries({
-        queryKey: actionsKeys.byId(variables.action?.id),
+        queryKey: actionsKeys.byId(actionId),
         refetchType: 'all'
       })
     } catch (error) {
@@ -72,33 +77,19 @@ export const offlineUpdateMissionActionDefaults = {
     }
 
     await queryClient.invalidateQueries({
-      queryKey: missionsKeys.byId(variables.missionId),
+      queryKey: missionsKeys.byId(missionId),
       type: 'all'
     })
   },
   scope: {
     id: `update-action` // scope to run mutations in serial and not in parallel
   }
-}
+})
 
-export const onlineUpdateMissionActionDefaults = {
-  mutationFn: updateAction,
-  onSettled: async (_data, _error, variables, _context) => {
-    await queryClient.invalidateQueries({
-      queryKey: actionsKeys.byId(variables.action?.id),
-      type: 'all'
-    })
-    await queryClient.invalidateQueries({
-      queryKey: missionsKeys.byId(variables.missionId),
-      type: 'all'
-    })
-  },
-  scope: {
-    id: `update-action` // scope to run mutations in serial and not in parallel
-  }
-}
-
-const useUpdateMissionActionMutation = (): UseMutationResult<MissionAction, Error, MissionAction, unknown> => {
+const useUpdateMissionActionMutation = (
+  missionId: number,
+  actionId?: string
+): UseMutationResult<MissionAction, Error, MissionAction, unknown> => {
   const mutation = useMutation({
     mutationKey: actionsKeys.update(),
     mutationFn: updateAction

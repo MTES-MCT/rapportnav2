@@ -1,5 +1,5 @@
 import { QueryClientProvider } from '@tanstack/react-query'
-import queryClient from '../../../../../../query-client'
+import { queryClient } from '../../../../../../query-client'
 import { render } from '../../../../../../test-utils'
 import MissionListPageHeaderWrapper from '../mission-list-page-header-wrapper'
 

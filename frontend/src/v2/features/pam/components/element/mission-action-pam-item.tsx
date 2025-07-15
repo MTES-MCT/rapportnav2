@@ -9,7 +9,7 @@ import { usePamActionRegistry } from '../../hooks/use-pam-action-registry'
 import { isEqual } from 'lodash'
 
 interface MissionActionPamItemProps {
-  missionId: string
+  missionId: number
   action: MissionAction
 }
 
@@ -19,12 +19,12 @@ const MissionActionPamItem: FC<MissionActionPamItemProps> = ({ action, missionId
   const debounceTime = useStore(store, state => state.delayQuery.debounceTime)
   const isMissionFinished = useStore(store, state => state.mission.isMissionFinished)
 
-  const mutation = useUpdateMissionActionMutation()
+  const mutation = useUpdateMissionActionMutation(missionId, action?.id)
 
   const onChange = async (newAction: MissionAction): Promise<void> => {
     handleExecuteOnDelay(async () => {
       if (!isEqual(action, newAction)) {
-        await mutation.mutateAsync({ missionId, action: newAction })
+        await mutation.mutateAsync(newAction)
       }
       if (debounceTime !== undefined) resetDebounceTime()
     }, debounceTime)

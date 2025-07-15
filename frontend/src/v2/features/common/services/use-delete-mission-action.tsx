@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult } from '@tanstack/react-query'
+import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
 
 import axios from '../../../../query-client/axios'
 import { actionsKeys, missionsKeys } from './query-keys.ts'
@@ -9,8 +9,7 @@ import queryClient from '../../../../query-client'
 const deleteAction = ({ missionId, actionId }: { missionId: string; actionId: string }): Promise<void> =>
   axios.delete(`missions/${missionId}/actions/${actionId}`).then(response => response.data)
 
-// Offline mutation defaults
-export const offlineDeleteActionMutationDefaults = {
+queryClient.setMutationDefaults(actionsKeys.delete(), {
   mutationFn: deleteAction,
   onMutate: async ({ missionId, actionId }: { missionId: string; actionId: string }) => {
     await queryClient.cancelQueries({ queryKey: missionsKeys.byId(missionId) })
@@ -18,6 +17,7 @@ export const offlineDeleteActionMutationDefaults = {
     const mission: Mission2 | undefined = queryClient.getQueryData(missionsKeys.byId(missionId))
     const previousActions = mission?.actions
 
+    // remove action from mission action list
     const actions = (mission?.actions ?? []).filter((action: MissionAction) => action.id !== actionId)
     queryClient.setQueryData(
       missionsKeys.byId(missionId),
@@ -28,11 +28,14 @@ export const offlineDeleteActionMutationDefaults = {
         }) as Mission2
     )
 
+    // remove action from cache
     queryClient.removeQueries({ queryKey: actionsKeys.byId(actionId) })
 
+    // return context
     return { previousActions }
   },
-  onSettled: async (_data: any, _error: any, variables: { missionId: string; actionId: string }, _context: any) => {
+  onSettled: async (_data, _error, variables, _context) => {
+    // refetch mission whether success or error
     await queryClient.invalidateQueries({
       queryKey: missionsKeys.byId(variables.missionId),
       type: 'all'
@@ -41,26 +44,14 @@ export const offlineDeleteActionMutationDefaults = {
   scope: {
     id: 'delete-action'
   }
-}
-
-// Online mutation defaults
-export const onlineDeleteActionMutationDefaults = {
-  mutationFn: deleteAction,
-  onSuccess: async (_data: any, variables: { missionId: string; actionId: string }) => {
-    await queryClient.invalidateQueries({
-      queryKey: missionsKeys.byId(variables.missionId),
-      type: 'all'
-    })
-  },
-  scope: {
-    id: 'delete-action'
-  }
-}
+})
 
 const useDeleteActionMutation = (missionId: string): UseMutationResult<void, Error, string, unknown> => {
+  const queryClient = useQueryClient()
+
   const mutation = useMutation({
     mutationKey: actionsKeys.delete(),
-    mutationFn: (data: any) => deleteAction({ missionId, actionId: data.actionId })
+    mutationFn: deleteAction
   })
   return mutation
 }

@@ -23,7 +23,7 @@ const ListItem = styled.div`
 
 const MissionListItemPam: FC<MissionListItemProps> = ({ mission, isSelected, onToggle }) => {
   return (
-    <ListItem data-testid={'mission-list-item'}>
+    <ListItem data-testid="mission-list-item-with-hover">
       <FlexboxGrid align="middle" style={{ height: '64px', padding: '0.5rem 2rem', marginBottom: '4px' }}>
         <FlexboxGrid.Item colspan={1} data-testid={'mission-list-item-icon'}>
           <Checkbox

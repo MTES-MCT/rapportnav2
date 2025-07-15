@@ -37,7 +37,7 @@ const MissionListDateRangeNavigator: React.FC<MissionListDateRangeNavigatorProps
   }, [currentDate])
 
   return (
-    <DateRangeContainer data-testid="date-range-navigator">
+    <DateRangeContainer>
       <button
         onClick={goToPrevious}
         data-testid={'previous-button'}

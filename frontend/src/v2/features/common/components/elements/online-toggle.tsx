@@ -60,13 +60,7 @@ export const OnlineToggle: FC<OfflineToggleProps> = () => {
   const { isOnline, hasNetwork, toggleOnline } = useOnlineManager()
 
   return (
-    <Stack
-      direction={'row'}
-      alignItems={'center'}
-      justifyContent={'center'}
-      spacing={'0.5rem'}
-      data-testid={'online-toggle'}
-    >
+    <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} spacing={'0.5rem'}>
       <Stack.Item>
         <Text
           as={'h3'}
