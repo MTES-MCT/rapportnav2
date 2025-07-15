@@ -1,4 +1,5 @@
 export enum ModuleType {
-  'PAM' = 'pam',
-  'ULAM' = 'ulam'
+  PAM = 'pam',
+  ULAM = 'ulam',
+  ADMIN = 'admin'
 }
