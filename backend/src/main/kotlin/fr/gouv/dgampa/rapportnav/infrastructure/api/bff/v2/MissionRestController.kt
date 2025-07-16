@@ -1,9 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateMission
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeNavMission
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissions
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Mission2
@@ -21,7 +18,8 @@ class MissionRestController(
     private val getServiceForUser: GetServiceForUser,
     private val createMission: CreateMission,
     private val getMissions: GetMissions,
-    private val getComputeNavMission: GetComputeNavMission
+    private val getComputeNavMission: GetComputeNavMission,
+    private val deleteMissionNav: DeleteMissionNav
 ) {
 
     private val logger = LoggerFactory.getLogger(MissionRestController::class.java)
@@ -107,6 +105,23 @@ class MissionRestController(
         } catch (e: Exception) {
             logger.error("Error while creating MonitorEnv mission : ", e)
             return null
+        }
+    }
+
+
+    @DeleteMapping("{missionId}")
+    @Operation(summary = "Delete a mission create by the unity")
+    fun delete(
+        @PathVariable(name = "missionId") missionId: String
+    ) {
+        if (!isValidUUID(missionId)) return //TODO: not deleting env mission create by the unit yet.
+        return try {
+            deleteMissionNav.execute(
+                id = UUID.fromString(missionId),
+                serviceId = getServiceForUser.execute()?.id
+            )
+        } catch (e: Exception) {
+            logger.error("Error while creating MonitorEnv mission : ", e)
         }
     }
 }

@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionMo
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.IDBMissionRepository
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
 import java.util.*
 
@@ -41,5 +42,10 @@ class JPAMissionNavRepository(
             startBeforeDateTime = startBeforeDateTime,
             endBeforeDateTime = endBeforeDateTime
         )
+    }
+
+    @Transactional
+    override fun deleteById(id: UUID) {
+        return dbRepository.deleteById(id)
     }
 }
