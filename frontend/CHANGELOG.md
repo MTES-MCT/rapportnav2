@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.15.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.14.0...frontend@v2.15.0) (2025-07-16)
+
+
+### Features
+
+* **backend:** delete nav mission ([fc41cce](https://github.com/MTES-MCT/rapportnav2/commit/fc41cce1198753327d6dcd0d0dc4236e6f10904d))
+* **frontend:** delete mission front-end ([f8fcc09](https://github.com/MTES-MCT/rapportnav2/commit/f8fcc096a599cf0eca93729f73f7bd3cb055e739))
+
+
+### Bug Fixes
+
+* try fix boat icons and fix alt text ([b650102](https://github.com/MTES-MCT/rapportnav2/commit/b65010248ee260906a7f60cac07ff3783b694f0a))
+
 ## [2.14.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.13.0...frontend@v2.14.0) (2025-07-15)
 
 
