@@ -14,6 +14,4 @@ interface IMissionGeneralInfoRepository {
     fun existsById(id: Int): Boolean
 
     fun save(info: MissionGeneralInfoEntity): MissionGeneralInfoModel
-
-
 }

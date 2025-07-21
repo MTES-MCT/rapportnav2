@@ -20,11 +20,10 @@ class MissionGeneralInfoRestController(
         @PathVariable missionId: String,
         @RequestBody generalInfo: MissionGeneralInfo2
     ): MissionGeneralInfoEntity2? {
-        val generalInfoEntity = if (isValidUUID(missionId))
+        return if (isValidUUID(missionId))
             updateGeneralInfo.execute(missionIdUUID = UUID.fromString(missionId), generalInfo = generalInfo)
         else updateGeneralInfo.execute(
             missionId = Integer.valueOf(missionId), generalInfo = generalInfo
         )
-        return generalInfoEntity
     }
 }

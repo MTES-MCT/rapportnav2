@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.Mission
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavInputEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
@@ -15,77 +16,68 @@ import java.util.*
 @UseCase
 class UpdateGeneralInfo(
     private val repository: IMissionGeneralInfoRepository,
-    private val updateMissionService2: UpdateMissionService2,
-    private val getGeneralInfo2: GetGeneralInfo2,
     private val patchMissionEnv: PatchMissionEnv,
     private val processMissionCrew: ProcessMissionCrew,
-    private val patchNavMission: PatchNavMission
+    private val patchNavMission: PatchNavMission,
+    private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
+    private val getMissionCrew: GetMissionCrew
 ) {
     private val logger = LoggerFactory.getLogger(UpdateGeneralInfo::class.java)
 
     fun execute(missionId: Int, generalInfo: MissionGeneralInfo2): MissionGeneralInfoEntity2? {
+        val fromDb = getMissionGeneralInfoByMissionId.execute(missionId = missionId)
+        if (fromDb == null || generalInfo.missionId != missionId) throw Exception("No general infos in database or wrong mission id")
 
-        try {
-            val entityToSave = generalInfo.toMissionGeneralInfoEntity(missionId = missionId)
-            val entityAlreadySaved = getGeneralInfo2.execute(missionId = missionId)
-
-            // update general info table
-            val generalInfoModel = repository.save(entityToSave)
-
-            // regenerate crew if service has changed
-            val savedCrew: List<MissionCrewEntity> = if (isServiceHasChanged(entityToSave, entityAlreadySaved)) {
-                updateMissionService2.execute(missionId = missionId, serviceId = entityToSave.serviceId!!)
-            } else {
-                // update crew table
-                processMissionCrew.execute(
-                    missionId = missionId,
-                    crew = generalInfo.crew?.map { it.toMissionCrewEntity(missionId = missionId) }.orEmpty()
-                )
-            }
-
-            // patch MonitorEnv fields through API
-            patchMissionEnv.execute(
-                input = MissionEnvInput(
-                    missionId = missionId,
-                    isUnderJdp = generalInfo.isUnderJdp,
-                    startDateTimeUtc = generalInfo.startDateTimeUtc,
-                    endDateTimeUtc = generalInfo.endDateTimeUtc,
-                    missionTypes = generalInfo.missionTypes,
-                    observationsByUnit = generalInfo.observations,
-                    resources = generalInfo.resources?.map { it.toLegacyControlUnitResourceEntity() },
-                )
+        val model = repository.save(generalInfo.toMissionGeneralInfoEntity(missionId = missionId))
+        val crew = processMissionCrew.execute(
+            missionId = missionId,
+            crew = getMissionCrew.execute(
+                missionId = missionId,
+                generalInfo = generalInfo,
+                newServiceId = generalInfo.serviceId,
+                oldServiceId = fromDb.serviceId,
             )
-            return getGeneralInfoEntity(crew = savedCrew, generalInfoModel = generalInfoModel)
-        } catch (e: Exception) {
-            logger.error("Error while updating general info mission id ${generalInfo.missionId} : ${e.message}")
-            return null
-        }
+        )
+        // patch MonitorEnv fields through API
+        patchMissionEnv.execute(
+            input = MissionEnvInput(
+                missionId = missionId,
+                isUnderJdp = generalInfo.isUnderJdp,
+                startDateTimeUtc = generalInfo.startDateTimeUtc,
+                endDateTimeUtc = generalInfo.endDateTimeUtc,
+                missionTypes = generalInfo.missionTypes,
+                observationsByUnit = generalInfo.observations,
+                resources = generalInfo.resources?.map { it.toLegacyControlUnitResourceEntity() },
+            )
+        )
+        return getGeneralInfoEntity(crew = crew, generalInfoModel = model)
     }
 
     fun execute(missionIdUUID: UUID, generalInfo: MissionGeneralInfo2): MissionGeneralInfoEntity2? {
-        val entityToSave = generalInfo.toMissionGeneralInfoEntity(missionIdUUID = missionIdUUID)
-        val entityAlreadySaved = getGeneralInfo2.execute(missionIdUUID = missionIdUUID)
-        val generalInfoModel = repository.save(entityToSave)
-        val savedCrew: List<MissionCrewEntity> = if (isServiceHasChanged(entityToSave, entityAlreadySaved)) {
-            updateMissionService2.execute(missionIdUUID = missionIdUUID, serviceId = entityToSave.serviceId!!)
-        } else {
-            // update crew table
-            processMissionCrew.execute(
+        val fromDb = getMissionGeneralInfoByMissionId.execute(missionIdUUID = missionIdUUID)
+        if (fromDb == null || fromDb.missionIdUUID != missionIdUUID) throw Exception("No general infos in database or wrong mission UUID")
+
+        val model = repository.save(generalInfo.toMissionGeneralInfoEntity(missionIdUUID = missionIdUUID))
+        val crew = processMissionCrew.execute(
+            missionIdUUID = missionIdUUID,
+            crew = getMissionCrew.execute(
+                generalInfo = generalInfo,
                 missionIdUUID = missionIdUUID,
-                crew = generalInfo.crew?.map { it.toMissionCrewEntity(missionIdUUID = missionIdUUID) }.orEmpty()
+                newServiceId = generalInfo.serviceId,
+                oldServiceId = fromDb.serviceId,
             )
-        }
+        )
         patchNavMission.execute(
             id = missionIdUUID,
             input = MissionNavInputEntity(
-                isDeleted = generalInfo.isDeleted?:false,
+                isDeleted = generalInfo.isDeleted ?: false,
                 observationsByUnit = generalInfo.observations,
                 endDateTimeUtc = generalInfo.endDateTimeUtc,
                 startDateTimeUtc = generalInfo.startDateTimeUtc!!
             )
 
         )
-        return getGeneralInfoEntity(crew = savedCrew, generalInfoModel = generalInfoModel)
+        return getGeneralInfoEntity(crew = crew, generalInfoModel = model)
     }
 
     private fun getGeneralInfoEntity(
@@ -97,9 +89,4 @@ class UpdateGeneralInfo(
             data = MissionGeneralInfoEntity.fromMissionGeneralInfoModel(generalInfoModel)
         )
     }
-
-    private fun isServiceHasChanged(
-        entityToSave: MissionGeneralInfoEntity,
-        entityAlreadySaved: MissionGeneralInfoEntity2
-    ) = entityToSave.serviceId != null && entityToSave.serviceId != entityAlreadySaved.data?.serviceId
 }

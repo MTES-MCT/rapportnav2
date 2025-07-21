@@ -10,18 +10,12 @@ class GetMissionGeneralInfoByMissionId(
     private val infoRepo: IMissionGeneralInfoRepository
 ) {
     fun execute(missionId: Int): MissionGeneralInfoEntity? {
-        val info = infoRepo.findByMissionId(missionId = missionId).orElse(null)
-        if (info != null) {
-            return MissionGeneralInfoEntity.fromMissionGeneralInfoModel(info)
-        }
-        return null
+        val info = infoRepo.findByMissionId(missionId = missionId).orElse(null)?: return null
+        return MissionGeneralInfoEntity.fromMissionGeneralInfoModel(info)
     }
 
     fun execute(missionIdUUID: UUID): MissionGeneralInfoEntity? {
-        val info = infoRepo.findByMissionIdUUID(missionIdUUID = missionIdUUID).orElse(null)
-        if (info != null) {
-            return MissionGeneralInfoEntity.fromMissionGeneralInfoModel(info)
-        }
-        return null
+        val info = infoRepo.findByMissionIdUUID(missionIdUUID = missionIdUUID).orElse(null)?: return null
+        return MissionGeneralInfoEntity.fromMissionGeneralInfoModel(info)
     }
 }
