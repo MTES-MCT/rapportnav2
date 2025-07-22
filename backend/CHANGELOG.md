@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.15.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.14.0...backend@v2.15.0) (2025-07-16)
+
+
+### Features
+
+* **backend:** delete nav mission ([fc41cce](https://github.com/MTES-MCT/rapportnav2/commit/fc41cce1198753327d6dcd0d0dc4236e6f10904d))
+* **backend:** delete nav mission ([4236f22](https://github.com/MTES-MCT/rapportnav2/commit/4236f22415363a6d66b650f7d018c2c57d482f1b))
+
+
+### Bug Fixes
+
+* **backend:** test error ([a6330d5](https://github.com/MTES-MCT/rapportnav2/commit/a6330d5432420f0f5e5bd0cd97fc7e725f126a08))
+
 ## [2.14.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.13.0...backend@v2.14.0) (2025-07-15)
 
 
