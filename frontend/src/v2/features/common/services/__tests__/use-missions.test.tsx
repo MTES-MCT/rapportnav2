@@ -18,6 +18,7 @@ describe('useMissionsQuery', () => {
   let setQueryDataSpy: vi.SpyInstance
 
   beforeEach(() => {
+    // fresh QueryClient per test
     queryClient = new QueryClient({
       defaultOptions: {
         queries: {
@@ -31,6 +32,7 @@ describe('useMissionsQuery', () => {
 
     wrapper = ({ children }) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 
+    // Reset mocks
     vi.clearAllMocks()
   })
 
@@ -51,6 +53,7 @@ describe('useMissionsQuery', () => {
     const params = new URLSearchParams({ endDateTimeUtc, startDateTimeUtc })
     const { result } = renderHook(() => useMissionsQuery(params), { wrapper })
 
+    // Wait until the query is successful
     await waitFor(() => {
       expect(result.current.isSuccess).toBe(true)
     })

@@ -1,4 +1,4 @@
-import { useQueryClient } from '@tanstack/react-query'
+import { useIsRestoring, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { localStoragePersister, STATIC_DATA_GC_TIME, STATIC_DATA_STALE_TIME } from '../../../../query-client'
 import axios from '../../../../query-client/axios.ts'
@@ -14,8 +14,11 @@ import {
 
 export function usePrefetchStaticData() {
   const queryClient = useQueryClient()
+  const isRestoring = useIsRestoring()
 
   useEffect(() => {
+    if (isRestoring) return
+
     const prefetchAll = async () => {
       const referenceEndpoints = [
         { key: agentsKeys.all(), url: 'agents' },
@@ -23,24 +26,23 @@ export function usePrefetchStaticData() {
         { key: agentServicesKeys.all(), url: 'crews' },
         { key: administrationKeys.all(), url: 'administrations' },
         { key: controlUnitResourcesKeys.all(), url: 'resources' },
-        { key: natinfsKeys.all(), url: 'natinfs' },
-        { key: vesselsKeys.all(), url: 'vessels' }
+        { key: natinfsKeys.all(), url: 'natinfs' }
+        // { key: vesselsKeys.all(), url: 'vessels' }
       ]
 
       for (const { key, url } of referenceEndpoints) {
         // no need to await the prefetch queries
-        queryClient.fetchQuery({
+        queryClient.prefetchQuery({
           queryKey: key,
           queryFn: () => axios.get(url).then(response => response.data),
           staleTime: STATIC_DATA_STALE_TIME,
           gcTime: STATIC_DATA_GC_TIME,
-          networkMode: 'offlineFirst',
-          persister: localStoragePersister
+          networkMode: 'offlineFirst'
         })
       }
     }
 
     // prefetch all data, no need to await
     prefetchAll()
-  }, [queryClient])
+  }, [queryClient, isRestoring])
 }
