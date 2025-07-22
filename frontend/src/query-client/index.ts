@@ -1,6 +1,8 @@
+import { logSoftError } from '@mtes-mct/monitor-ui'
+import * as Sentry from '@sentry/react'
+import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
 import { OmitKeyof, QueryCache, QueryClient } from '@tanstack/react-query'
-import { persistQueryClient, PersistQueryClientOptions } from '@tanstack/react-query-persist-client'
-import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
+import { PersistQueryClientOptions } from '@tanstack/react-query-persist-client'
 
 // Notes about stale and cache/gc time:
 // - staleTime:
@@ -28,11 +30,24 @@ export const queryClient = new QueryClient({
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false
+    },
+    mutations: {
+      networkMode: 'online',
+      retry: false,
+      onError: error => {
+        console.error(error)
+        Sentry.captureException(error)
+        logSoftError({
+          isSideWindowError: false,
+          message: error.message,
+          userMessage: `Une erreur s'est produite lors de l'enregistrement. Si l'erreur persiste, veuillez contacter l'équipe RapportNav/SNC3.`
+        })
+      }
     }
   }
 })
 
-export const localStoragePersister = createSyncStoragePersister({
+export const localStoragePersister = createAsyncStoragePersister({
   storage: window.localStorage
 })
 
