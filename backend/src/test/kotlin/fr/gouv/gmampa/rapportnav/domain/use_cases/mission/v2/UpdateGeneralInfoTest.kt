@@ -3,6 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent
@@ -10,8 +11,8 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentRole
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.*
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 import java.util.*
+import org.assertj.core.api.Assertions.assertThat
 
 @SpringBootTest(classes = [UpdateGeneralInfo::class])
 class UpdateGeneralInfoTest {
@@ -30,10 +32,7 @@ class UpdateGeneralInfoTest {
     private lateinit var generalInfoRepository: IMissionGeneralInfoRepository
 
     @MockitoBean
-    private lateinit var updateMissionService2: UpdateMissionService2
-
-    @MockitoBean
-    private lateinit var getGeneralInfo2: GetGeneralInfo2
+    private lateinit var getMissionCrew: GetMissionCrew
 
     @MockitoBean
     private lateinit var patchMissionEnv: PatchMissionEnv
@@ -43,6 +42,9 @@ class UpdateGeneralInfoTest {
 
     @MockitoBean
     private lateinit var patchNavMission: PatchNavMission
+
+    @MockitoBean
+    private lateinit var getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId
 
     private fun createMissionGeneralInfoEntityData(
         missionId: Int? = null,
@@ -71,25 +73,27 @@ class UpdateGeneralInfoTest {
             endDateTimeUtc = Instant.now(),
             missionTypes = listOf(),
             observations = "Test observations",
-            resources = emptyList(),
-
+            resources = emptyList()
             )
+
         val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId)
         val missionGeneralInfoModel = missionGeneralInfoEntity.toMissionGeneralInfoModel()
-        val previousEntity = MissionGeneralInfoEntity2(
-            data = createMissionGeneralInfoEntityData(missionId, oldServiceId)
-        )
+        val previousEntity = createMissionGeneralInfoEntityData(missionId, oldServiceId)
 
         // When
-        `when`(getGeneralInfo2.execute(missionId)).thenReturn(previousEntity)
+        `when`(getMissionGeneralInfoByMissionId.execute(missionId)).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
 
         val result = updateGeneralInfo.execute(missionId, missionGeneralInfo)
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
-        verify(updateMissionService2).execute(missionId=missionId, serviceId = newServiceId)
-        verifyNoInteractions(processMissionCrew)
+        verify(getMissionCrew).execute(
+            missionId = missionId,
+            newServiceId = newServiceId,
+            oldServiceId = oldServiceId,
+            generalInfo = missionGeneralInfo
+        )
 
         assertEquals(
             MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = emptyList()),
@@ -123,11 +127,9 @@ class UpdateGeneralInfoTest {
             )
         val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId)
         val missionGeneralInfoModel = missionGeneralInfoEntity.toMissionGeneralInfoModel()
-        val previousEntity = MissionGeneralInfoEntity2(
-            data = createMissionGeneralInfoEntityData(missionId, serviceId)
-        )
+        val previousEntity = createMissionGeneralInfoEntityData(missionId, serviceId)
         // When
-        `when`(getGeneralInfo2.execute(missionId)).thenReturn(previousEntity)
+        `when`(getMissionGeneralInfoByMissionId.execute(missionId)).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
         `when`(processMissionCrew.execute(anyInt(), anyOrNull())).thenReturn(crewEntity)
 
@@ -169,19 +171,16 @@ class UpdateGeneralInfoTest {
         )
         val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId)
         val missionGeneralInfoModel = missionGeneralInfoEntity.toMissionGeneralInfoModel()
-        val previousEntity = MissionGeneralInfoEntity2(
-            data = createMissionGeneralInfoEntityData(missionId, null)
-        )
+        val previousEntity = createMissionGeneralInfoEntityData(missionId, null)
 
         // When
-        `when`(getGeneralInfo2.execute(missionId)).thenReturn(previousEntity)
+        `when`(getMissionGeneralInfoByMissionId.execute(missionId)).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
 
         val result = updateGeneralInfo.execute(missionId, missionGeneralInfo)
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
-        verifyNoInteractions(updateMissionService2)
         verify(processMissionCrew).execute(missionId, emptyList())
 
         val input = MissionEnvInput(
@@ -193,7 +192,6 @@ class UpdateGeneralInfoTest {
             resources = missionGeneralInfoEntity.resources?.map { it },
         )
         verify(patchMissionEnv).execute(input)
-
         assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = emptyList()), result)
     }
 
@@ -213,13 +211,15 @@ class UpdateGeneralInfoTest {
         )
 
         // When
-        `when`(getGeneralInfo2.execute(missionId)).thenThrow(RuntimeException("Test exception"))
+        `when`(getMissionGeneralInfoByMissionId.execute(missionId)).thenThrow(RuntimeException("Test exception"))
 
-        val result = updateGeneralInfo.execute(missionId, missionGeneralInfo)
+        val exception = assertThrows<RuntimeException> {
+            updateGeneralInfo.execute(missionId, missionGeneralInfo)
+        }
 
         // Then
-        assertNull(result)
-        verifyNoInteractions(updateMissionService2)
+        assertThat(exception.message).isEqualTo("Test exception")
+        verifyNoInteractions(getMissionCrew)
         verifyNoInteractions(processMissionCrew)
         verifyNoInteractions(patchMissionEnv)
     }
@@ -243,20 +243,22 @@ class UpdateGeneralInfoTest {
             )
         val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionIdUUID = missionIdUUID)
         val missionGeneralInfoModel = missionGeneralInfoEntity.toMissionGeneralInfoModel()
-        val previousEntity = MissionGeneralInfoEntity2(
-            data = createMissionGeneralInfoEntityData(missionIdUUID = missionIdUUID, serviceId = oldServiceId)
-        )
+        val previousEntity = createMissionGeneralInfoEntityData(missionIdUUID = missionIdUUID, serviceId = oldServiceId)
 
         // When
-        `when`(getGeneralInfo2.execute(missionIdUUID)).thenReturn(previousEntity)
+        `when`(getMissionGeneralInfoByMissionId.execute(missionIdUUID)).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
 
         val result = updateGeneralInfo.execute(missionIdUUID, missionGeneralInfo)
 
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
-        verify(updateMissionService2).execute(missionIdUUID = missionIdUUID, serviceId = newServiceId)
-        verifyNoInteractions(processMissionCrew)
+        verify(getMissionCrew).execute(
+            missionIdUUID = missionIdUUID,
+            newServiceId = newServiceId,
+            oldServiceId = oldServiceId,
+            generalInfo = missionGeneralInfo
+        )
 
         assertEquals(
             MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = emptyList()),

@@ -9,14 +9,16 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEn
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetServiceByControlUnit
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import org.slf4j.LoggerFactory
 import java.util.*
 
 @UseCase
 class GetGeneralInfo2(
+    private val createGeneralInfos: CreateGeneralInfos,
     private val getServiceByControlUnit: GetServiceByControlUnit,
     private val getAgentsCrewByMissionId: GetAgentsCrewByMissionId,
-    private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
+    private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId
 ) {
     private val logger = LoggerFactory.getLogger(GetGeneralInfo2::class.java)
 
@@ -24,10 +26,11 @@ class GetGeneralInfo2(
         missionId: Int,
         controlUnits: List<LegacyControlUnitEntity>? = null
     ): MissionGeneralInfoEntity2 {
+        val services = fetchServices(controlUnits)
         return MissionGeneralInfoEntity2(
+            services = services,
             crew = fetchCrew(missionId),
-            services = fetchServices(controlUnits),
-            data = fetchGeneralInfo(missionId)
+            data = fetchGeneralInfo(missionId = missionId, serviceId = services.first().id)
         )
     }
 
@@ -35,25 +38,30 @@ class GetGeneralInfo2(
         missionIdUUID: UUID,
         controlUnits: List<LegacyControlUnitEntity>? = null
     ): MissionGeneralInfoEntity2 {
+        val services = fetchServices(controlUnits)
         return MissionGeneralInfoEntity2(
-            services = fetchServices(controlUnits),
+            services = services,
             crew = fetchCrewUUID(missionIdUUID = missionIdUUID),
             data = fetchGeneralInfoUUID(missionIdUUID = missionIdUUID)
         )
     }
 
-    private fun fetchGeneralInfo(missionId: Int): MissionGeneralInfoEntity? {
+    private fun fetchGeneralInfo(missionId: Int, serviceId: Int? = null): MissionGeneralInfoEntity? {
         return try {
-            getMissionGeneralInfoByMissionId.execute(missionId)
+            getMissionGeneralInfoByMissionId.execute(missionId = missionId) ?: createGeneralInfos(
+                missionId = missionId,
+                serviceId = serviceId
+            )
         } catch (e: Exception) {
             logger.error("Error fetching Nav general info for missionId: {}", missionId, e)
             throw e
         }
     }
 
-    private fun fetchGeneralInfoUUID(missionIdUUID: UUID): MissionGeneralInfoEntity? {
+    private fun fetchGeneralInfoUUID(missionIdUUID: UUID, serviceId: Int? = null): MissionGeneralInfoEntity? {
         return try {
             getMissionGeneralInfoByMissionId.execute(missionIdUUID = missionIdUUID)
+                ?: createGeneralInfos(missionIdUUID = missionIdUUID, serviceId = serviceId)
         } catch (e: Exception) {
             logger.error("Error fetching Nav general info for missionId: {}", missionIdUUID, e)
             throw e
@@ -85,5 +93,17 @@ class GetGeneralInfo2(
             logger.error("Error fetching Nav services for controlUnits: {}", controlUnits, e)
             emptyList()
         }
+    }
+
+    private fun createGeneralInfos(
+        missionId: Int? = null,
+        missionIdUUID: UUID? = null,
+        serviceId: Int? = null
+    ): MissionGeneralInfoEntity? {
+        return createGeneralInfos.execute(
+            missionId = missionId,
+            missionIdUUID = missionIdUUID,
+            generalInfo2 = MissionGeneralInfo2(serviceId = serviceId)
+        ).data
     }
 }

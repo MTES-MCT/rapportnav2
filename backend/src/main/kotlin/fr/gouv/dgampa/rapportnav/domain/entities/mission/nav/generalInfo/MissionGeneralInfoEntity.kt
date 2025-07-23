@@ -9,7 +9,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalIn
 import java.util.*
 
 data class MissionGeneralInfoEntity(
-    var id: Int?,
+    var id: Int? = null,
     var missionId: Int? = null,
     var distanceInNauticalMiles: Float? = null,
     var consumedGOInLiters: Float? = null,
