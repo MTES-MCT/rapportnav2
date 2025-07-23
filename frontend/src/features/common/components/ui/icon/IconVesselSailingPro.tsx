@@ -1,7 +1,7 @@
-import Icon from '../../../../../assets/images/navire_plaisance_pro.svg?url'
+import Icon from '../../../../../assets/images/navire_plaisance_pro.svg?react'
 
 function IconVesselSailingPro() {
-  return <img src={Icon} alt="Navire de plaisance professionnelle" height={25} />
+  return <Icon alt="Navire de plaisance professionnelle" height={25} />
 }
 
 export default IconVesselSailingPro
