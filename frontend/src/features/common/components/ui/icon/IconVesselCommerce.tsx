@@ -1,7 +1,7 @@
-import Icon from '../../../../../assets/images/navire_commerce.svg?url'
+import Icon from '../../../../../assets/images/navire_commerce.svg?react'
 
 function IconVesselCommerce() {
-  return <img src={Icon} alt="Navire de commerce" height={36} />
+  return <Icon alt="Navire de commerce" height={36} />
 }
 
 export default IconVesselCommerce

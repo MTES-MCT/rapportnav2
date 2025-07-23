@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import importMetaEnv from '@import-meta-env/unplugin'
 import eslint from 'vite-plugin-eslint2'
 import path from 'path'
+import svgr from 'vite-plugin-svgr'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -36,6 +37,7 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    svgr(),
     eslint(),
     importMetaEnv.vite({
       env: './.env',
