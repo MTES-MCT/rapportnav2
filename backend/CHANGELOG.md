@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.16.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.16.1...backend@v2.16.2) (2025-07-23)
+
+
+### Bug Fixes
+
+* revert secu config on register endpoint ([21c94d4](https://github.com/MTES-MCT/rapportnav2/commit/21c94d41aa3e0a7f26022c3b36c4f6aaf0c95e72))
+
 ## [2.16.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.16.0...backend@v2.16.1) (2025-07-23)
 
 
