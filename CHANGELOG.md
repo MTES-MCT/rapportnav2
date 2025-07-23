@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.16.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.15.0...docker-container@v2.16.0) (2025-07-23)
+
+
+### Features
+
+* **backend:** update mission general infos ([59df0b1](https://github.com/MTES-MCT/rapportnav2/commit/59df0b18a7e5c5d248bdbabf1a24c2a1f01a77a5))
+* **backend:** update mission general infos ([2a1dd32](https://github.com/MTES-MCT/rapportnav2/commit/2a1dd32e157b092eb12b6e2045c5cc0173d31ebc))
+
+
+### Bug Fixes
+
+* fix svg import for boat images ([8d00156](https://github.com/MTES-MCT/rapportnav2/commit/8d0015687af7fe7c69f2da21727927ca3664301c))
+* **frontend:** deprecated  library ([0226383](https://github.com/MTES-MCT/rapportnav2/commit/02263838c286ff343750abaffe55faeace683420))
+* **frontend:** npm audit fix ([563064d](https://github.com/MTES-MCT/rapportnav2/commit/563064d44d68b6ddde7548798e173a406fecf3b2))
+
 ## [2.15.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.14.0...docker-container@v2.15.0) (2025-07-16)
 
 
