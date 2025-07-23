@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.16.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.16.0...frontend@v2.16.1) (2025-07-23)
+
+
+### Bug Fixes
+
+* fix svg import for boat images ([4a92b5d](https://github.com/MTES-MCT/rapportnav2/commit/4a92b5d655c9d27d339b64ee9214d5811353c6fc))
+
 ## [2.16.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.15.0...frontend@v2.16.0) (2025-07-23)
 
 
