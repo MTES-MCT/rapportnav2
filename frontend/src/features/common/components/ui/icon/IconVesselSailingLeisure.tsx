@@ -1,4 +1,4 @@
-import Icon from '../../../../../assets/images/navire_plaisance_loisir.svg'
+import Icon from '../../../../../assets/images/navire_plaisance_loisir.svg?url'
 function IconVesselSailingLeisure() {
   return <img src={Icon} alt="Navire de plaisance de loisir" height={36} />
 }
