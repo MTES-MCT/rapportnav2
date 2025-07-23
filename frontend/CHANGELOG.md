@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.16.2](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.16.1...frontend@v2.16.2) (2025-07-23)
+
+
+### Miscellaneous Chores
+
+* **frontend:** Synchronize group-some-associated-services versions
+
 ## [2.16.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.16.0...frontend@v2.16.1) (2025-07-23)
 
 
