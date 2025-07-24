@@ -6,7 +6,7 @@ exports[`MissionTimelineItemSurveillanceCardTitle > should match the snapshot 1`
   "baseElement": <body>
     <div>
       <p
-        class="sc-evkzZa sc-enPhjR gpoNiw esqQrj"
+        class="sc-iRcyzz sc-fFmWCW kaCwCU hAFmCO"
         color="#282F3E"
         font-size="13"
         weight="medium"
@@ -42,7 +42,7 @@ exports[`MissionTimelineItemSurveillanceCardTitle > should match the snapshot 1`
   </body>,
   "container": <div>
     <p
-      class="sc-evkzZa sc-enPhjR gpoNiw esqQrj"
+      class="sc-iRcyzz sc-fFmWCW kaCwCU hAFmCO"
       color="#282F3E"
       font-size="13"
       weight="medium"

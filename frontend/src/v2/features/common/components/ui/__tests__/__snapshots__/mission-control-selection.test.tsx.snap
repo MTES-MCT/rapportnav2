@@ -24,25 +24,26 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
               class="sc-kUouGy hIVQIi Element-Fieldset__InnerBox"
             >
               <div
-                class="sc-jxYSNo ftxJgx rs-radio-group rs-radio-group-default"
+                class="sc-zOxLx lmAHWp rs-radio-group rs-radio-group-default"
                 role="radiogroup"
               >
                 <div
                   class="sc-fYmhhH jaaEau Element-Field Field-Radio"
                 >
                   <div
-                    aria-checked="true"
-                    aria-disabled="false"
-                    class="sc-eXVaYZ dIFOur rs-radio rs-radio-checked"
+                    class="sc-jxYSNo ggogKb rs-radio rs-radio-checked"
                   >
                     <div
                       class="rs-radio-checker"
                     >
                       <label>
                         <span
-                          class="rs-radio-wrapper"
+                          class="rs-radio-control"
                         >
                           <input
+                            aria-checked="true"
+                            aria-disabled="false"
+                            aria-labelledby="label-«r0»"
                             checked=""
                             name="controlType"
                             tabindex="0"
@@ -54,7 +55,12 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                             class="rs-radio-inner"
                           />
                         </span>
-                        Mer
+                        <span
+                          class="rs-radio-label"
+                          id="label-«r0»"
+                        >
+                          Mer
+                        </span>
                       </label>
                     </div>
                   </div>
@@ -63,18 +69,19 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   class="sc-fYmhhH jaaEau Element-Field Field-Radio"
                 >
                   <div
-                    aria-checked="false"
-                    aria-disabled="false"
-                    class="sc-eXVaYZ dJOcBX rs-radio"
+                    class="sc-jxYSNo euXVUv rs-radio"
                   >
                     <div
                       class="rs-radio-checker"
                     >
                       <label>
                         <span
-                          class="rs-radio-wrapper"
+                          class="rs-radio-control"
                         >
                           <input
+                            aria-checked="false"
+                            aria-disabled="false"
+                            aria-labelledby="label-«r1»"
                             name="controlType"
                             tabindex="0"
                             type="radio"
@@ -85,7 +92,12 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                             class="rs-radio-inner"
                           />
                         </span>
-                        Terre
+                        <span
+                          class="rs-radio-label"
+                          id="label-«r1»"
+                        >
+                          Terre
+                        </span>
                       </label>
                     </div>
                   </div>
@@ -107,7 +119,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
               style="width: 100%;"
             >
               <div
-                class="sc-kbeVdv bgXIlx"
+                class="sc-lehtBJ hiSkVA"
               >
                 <div
                   class="rs-stack"
@@ -127,7 +139,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                     style="width: 80%;"
                   >
                     <p
-                      class="sc-evkzZa sc-enPhjR fjwyIl esqQrj"
+                      class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
                       font-size="13"
                       weight="normal"
                     >
@@ -145,7 +157,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
               style="width: 100%;"
             >
               <div
-                class="sc-kbeVdv bgXIlx"
+                class="sc-lehtBJ hiSkVA"
               >
                 <div
                   class="rs-stack"
@@ -165,7 +177,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                     style="width: 80%;"
                   >
                     <p
-                      class="sc-evkzZa sc-enPhjR fjwyIl esqQrj"
+                      class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
                       font-size="13"
                       weight="normal"
                     >
@@ -183,7 +195,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
               style="width: 100%;"
             >
               <div
-                class="sc-kbeVdv bgXIlx"
+                class="sc-lehtBJ hiSkVA"
               >
                 <div
                   class="rs-stack"
@@ -203,7 +215,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                     style="width: 80%;"
                   >
                     <p
-                      class="sc-evkzZa sc-enPhjR fjwyIl esqQrj"
+                      class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
                       font-size="13"
                       weight="normal"
                     >
@@ -221,7 +233,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
               style="width: 100%;"
             >
               <div
-                class="sc-kbeVdv bgXIlx"
+                class="sc-lehtBJ hiSkVA"
               >
                 <div
                   class="rs-stack"
@@ -241,7 +253,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                     style="width: 80%;"
                   >
                     <p
-                      class="sc-evkzZa sc-enPhjR fjwyIl esqQrj"
+                      class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
                       font-size="13"
                       weight="normal"
                     >
@@ -259,7 +271,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
               style="width: 100%;"
             >
               <div
-                class="sc-kbeVdv bgXIlx"
+                class="sc-lehtBJ hiSkVA"
               >
                 <div
                   class="rs-stack"
@@ -279,7 +291,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                     style="width: 80%;"
                   >
                     <p
-                      class="sc-evkzZa sc-enPhjR fjwyIl esqQrj"
+                      class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
                       font-size="13"
                       weight="normal"
                     >
@@ -339,25 +351,26 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
             class="sc-kUouGy hIVQIi Element-Fieldset__InnerBox"
           >
             <div
-              class="sc-jxYSNo ftxJgx rs-radio-group rs-radio-group-default"
+              class="sc-zOxLx lmAHWp rs-radio-group rs-radio-group-default"
               role="radiogroup"
             >
               <div
                 class="sc-fYmhhH jaaEau Element-Field Field-Radio"
               >
                 <div
-                  aria-checked="true"
-                  aria-disabled="false"
-                  class="sc-eXVaYZ dIFOur rs-radio rs-radio-checked"
+                  class="sc-jxYSNo ggogKb rs-radio rs-radio-checked"
                 >
                   <div
                     class="rs-radio-checker"
                   >
                     <label>
                       <span
-                        class="rs-radio-wrapper"
+                        class="rs-radio-control"
                       >
                         <input
+                          aria-checked="true"
+                          aria-disabled="false"
+                          aria-labelledby="label-«r0»"
                           checked=""
                           name="controlType"
                           tabindex="0"
@@ -369,7 +382,12 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                           class="rs-radio-inner"
                         />
                       </span>
-                      Mer
+                      <span
+                        class="rs-radio-label"
+                        id="label-«r0»"
+                      >
+                        Mer
+                      </span>
                     </label>
                   </div>
                 </div>
@@ -378,18 +396,19 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                 class="sc-fYmhhH jaaEau Element-Field Field-Radio"
               >
                 <div
-                  aria-checked="false"
-                  aria-disabled="false"
-                  class="sc-eXVaYZ dJOcBX rs-radio"
+                  class="sc-jxYSNo euXVUv rs-radio"
                 >
                   <div
                     class="rs-radio-checker"
                   >
                     <label>
                       <span
-                        class="rs-radio-wrapper"
+                        class="rs-radio-control"
                       >
                         <input
+                          aria-checked="false"
+                          aria-disabled="false"
+                          aria-labelledby="label-«r1»"
                           name="controlType"
                           tabindex="0"
                           type="radio"
@@ -400,7 +419,12 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                           class="rs-radio-inner"
                         />
                       </span>
-                      Terre
+                      <span
+                        class="rs-radio-label"
+                        id="label-«r1»"
+                      >
+                        Terre
+                      </span>
                     </label>
                   </div>
                 </div>
@@ -422,7 +446,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
             style="width: 100%;"
           >
             <div
-              class="sc-kbeVdv bgXIlx"
+              class="sc-lehtBJ hiSkVA"
             >
               <div
                 class="rs-stack"
@@ -442,7 +466,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   style="width: 80%;"
                 >
                   <p
-                    class="sc-evkzZa sc-enPhjR fjwyIl esqQrj"
+                    class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
                     font-size="13"
                     weight="normal"
                   >
@@ -460,7 +484,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
             style="width: 100%;"
           >
             <div
-              class="sc-kbeVdv bgXIlx"
+              class="sc-lehtBJ hiSkVA"
             >
               <div
                 class="rs-stack"
@@ -480,7 +504,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   style="width: 80%;"
                 >
                   <p
-                    class="sc-evkzZa sc-enPhjR fjwyIl esqQrj"
+                    class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
                     font-size="13"
                     weight="normal"
                   >
@@ -498,7 +522,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
             style="width: 100%;"
           >
             <div
-              class="sc-kbeVdv bgXIlx"
+              class="sc-lehtBJ hiSkVA"
             >
               <div
                 class="rs-stack"
@@ -518,7 +542,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   style="width: 80%;"
                 >
                   <p
-                    class="sc-evkzZa sc-enPhjR fjwyIl esqQrj"
+                    class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
                     font-size="13"
                     weight="normal"
                   >
@@ -536,7 +560,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
             style="width: 100%;"
           >
             <div
-              class="sc-kbeVdv bgXIlx"
+              class="sc-lehtBJ hiSkVA"
             >
               <div
                 class="rs-stack"
@@ -556,7 +580,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   style="width: 80%;"
                 >
                   <p
-                    class="sc-evkzZa sc-enPhjR fjwyIl esqQrj"
+                    class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
                     font-size="13"
                     weight="normal"
                   >
@@ -574,7 +598,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
             style="width: 100%;"
           >
             <div
-              class="sc-kbeVdv bgXIlx"
+              class="sc-lehtBJ hiSkVA"
             >
               <div
                 class="rs-stack"
@@ -594,7 +618,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   style="width: 80%;"
                 >
                   <p
-                    class="sc-evkzZa sc-enPhjR fjwyIl esqQrj"
+                    class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
                     font-size="13"
                     weight="normal"
                   >

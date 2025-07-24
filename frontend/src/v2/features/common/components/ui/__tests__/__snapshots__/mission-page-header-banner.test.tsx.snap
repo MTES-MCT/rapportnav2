@@ -6,17 +6,17 @@ exports[`MissionPageHeaderBanner > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-eVqvcJ fSbFpF Component-Banner"
+        class="sc-eVqvcJ eUwzWP Component-Banner"
       >
         <div
-          class="sc-bbbBoY giyBed"
+          class="sc-bbbBoY eBkmfJ"
         >
           <p>
             La mission est terminée mais le rapport n'est pas complet : des données sont manquantes dans des champs à remplir par le CACEM.
           </p>
         </div>
         <div
-          class="sc-cdmAjP iYBxCW banner-button"
+          class="sc-cdmAjP jelhgN banner-button"
           title="masquer"
         >
           <button
@@ -52,17 +52,17 @@ exports[`MissionPageHeaderBanner > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-eVqvcJ fSbFpF Component-Banner"
+      class="sc-eVqvcJ eUwzWP Component-Banner"
     >
       <div
-        class="sc-bbbBoY giyBed"
+        class="sc-bbbBoY eBkmfJ"
       >
         <p>
           La mission est terminée mais le rapport n'est pas complet : des données sont manquantes dans des champs à remplir par le CACEM.
         </p>
       </div>
       <div
-        class="sc-cdmAjP iYBxCW banner-button"
+        class="sc-cdmAjP jelhgN banner-button"
         title="masquer"
       >
         <button
