@@ -21,7 +21,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-evkzZa sc-enPhjR gJbsF esqQrj"
+                class="sc-iRcyzz sc-fFmWCW hVRgRZ hAFmCO"
                 color="#5697D2"
                 font-size="13"
                 weight="bold"
@@ -33,7 +33,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-evkzZa sc-enPhjR fjwyIl esqQrj"
+                class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
                 color="#3B4559"
                 font-size="13"
                 weight="normal"
@@ -192,7 +192,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <p
-              class="sc-evkzZa sc-enPhjR gJbsF esqQrj"
+              class="sc-iRcyzz sc-fFmWCW hVRgRZ hAFmCO"
               color="#5697D2"
               font-size="13"
               weight="bold"
@@ -204,7 +204,7 @@ exports[`MissionControlUnitConfirm > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <p
-              class="sc-evkzZa sc-enPhjR fjwyIl esqQrj"
+              class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
               color="#3B4559"
               font-size="13"
               weight="normal"
