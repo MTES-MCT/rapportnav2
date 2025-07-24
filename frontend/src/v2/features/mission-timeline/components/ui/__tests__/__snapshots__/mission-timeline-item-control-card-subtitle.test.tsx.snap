@@ -6,7 +6,7 @@ exports[`MissionTimelineItemControlCardSubtitle > should match the snapshot 1`] 
   "baseElement": <body>
     <div>
       <p
-        class="sc-evkzZa sc-enPhjR gwUVMD esqQrj"
+        class="sc-iRcyzz sc-fFmWCW gEUcbj hAFmCO"
         color="#707785"
         font-size="13"
         weight="normal"
@@ -47,7 +47,7 @@ exports[`MissionTimelineItemControlCardSubtitle > should match the snapshot 1`] 
   </body>,
   "container": <div>
     <p
-      class="sc-evkzZa sc-enPhjR gwUVMD esqQrj"
+      class="sc-iRcyzz sc-fFmWCW gEUcbj hAFmCO"
       color="#707785"
       font-size="13"
       weight="normal"
