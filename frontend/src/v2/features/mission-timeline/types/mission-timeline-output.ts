@@ -16,7 +16,7 @@ import { NetworkSyncStatus } from '../../common/types/network-types.ts'
 export type MissionTimelineAction = {
   id?: string
   type: ActionType
-  missionId: number
+  missionId?: string
   source?: MissionSource
   status?: ActionStatusType
   fishActionType?: MissionActionType
@@ -41,4 +41,7 @@ export type MissionTimelineAction = {
   vesselType?: VesselTypeEnum
   vesselSize?: VesselSizeEnum
   networkSyncStatus?: NetworkSyncStatus
+  nbrOfHours?: number
 }
+
+export type TimelineAction = MissionTimelineAction

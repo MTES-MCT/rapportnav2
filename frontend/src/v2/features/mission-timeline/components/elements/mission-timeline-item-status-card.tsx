@@ -4,7 +4,7 @@ import { MissionTimelineAction } from '../../types/mission-timeline-output'
 import MissionTimelineCardWrapper from '../layout/mission-timeline-item-card-wrapper'
 import MissionTimelineItemStatusCardFooter from '../ui/mission-timeline-item-status-card-footer'
 import MissionTimelineItemStatusCardTitle from '../ui/mission-timeline-item-status-card-title'
-import { MissionTimelineStatusTag } from '../ui/mission-timeline-status-tag'
+import { TimelineStatusTag } from '../ui/mission-timeline-status-tag'
 
 type MissionTimelineItemStatusCardProps = {
   isSelected?: boolean
@@ -22,7 +22,7 @@ const MissionTimelineItemStatusCard: FC<MissionTimelineItemStatusCardProps> = ({
     <MissionTimelineCardWrapper
       icon={icon}
       noPadding={true}
-      statusTag={<MissionTimelineStatusTag status={action?.status} />}
+      statusTag={<TimelineStatusTag status={action?.status} />}
       title={<MissionTimelineItemStatusCardTitle action={action} isSelected={isSelected} />}
       footer={<MissionTimelineItemStatusCardFooter prevAction={prevAction} />}
       actionType={action?.type}

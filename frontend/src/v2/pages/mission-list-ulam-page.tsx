@@ -1,9 +1,10 @@
 import { Accent, Button, Icon } from '@mtes-mct/monitor-ui'
+import { ULAM_SIDEBAR_ITEMS } from '@router/routes.tsx'
 import { useStore } from '@tanstack/react-store'
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Stack } from 'rsuite'
-import MissionListDateRangeNavigator from '../features/common/components/elements/mission-list-daterange-navigator.tsx'
+import ItemListDateRangeNavigator from '../features/common/components/elements/item-list-daterange-navigator.tsx'
 import MissionListPageContentWrapper from '../features/common/components/layout/mission-list-page-content-wrapper.tsx'
 import MissionListPageHeaderWrapper from '../features/common/components/layout/mission-list-page-header-wrapper'
 import MissionListPageWrapper from '../features/common/components/layout/mission-list-page-wrapper'
@@ -15,14 +16,6 @@ import useMissionsQuery from '../features/common/services/use-missions.tsx'
 import MissionCreateDialog from '../features/ulam/components/element/mission-create-dialog.tsx'
 import MissionListUlam from '../features/ulam/components/element/mission-list/mission-list-ulam.tsx'
 import { store } from '../store/index.ts'
-
-const SIDEBAR_ITEMS = [
-  {
-    url: '',
-    key: 'list',
-    icon: Icon.MissionAction
-  }
-]
 
 const MissionListUlamPage: React.FC = () => {
   const { getTodayMonthRange } = useDate()
@@ -50,12 +43,12 @@ const MissionListUlamPage: React.FC = () => {
   return (
     <MissionListPageWrapper
       header={<MissionListPageHeaderWrapper title={<MissionListPageTitle user={user} />} />}
-      sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={SIDEBAR_ITEMS} />}
+      sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={ULAM_SIDEBAR_ITEMS} />}
       footer={undefined}
     >
       <MissionListPageContentWrapper
         loading={isLoading}
-        title={'Mes rapports'}
+        title={'Mes rapports journaliers'}
         hasMissions={!!missions?.length}
         filters={
           <>
@@ -70,7 +63,7 @@ const MissionListUlamPage: React.FC = () => {
                 </Stack>
               </Stack.Item>
               <Stack.Item style={{ width: '100%' }}>
-                <MissionListDateRangeNavigator
+                <ItemListDateRangeNavigator
                   timeframe={'month'}
                   onUpdateCurrentDate={handleUpdateDateTime}
                   startDateTimeUtc={searchParams.get('startDateTimeUtc')}

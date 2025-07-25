@@ -1,11 +1,11 @@
 import Text from '@common/components/ui/text.tsx'
-import { Icon } from '@mtes-mct/monitor-ui'
-import { FC, ReactNode } from 'react'
+import { FC, JSX, ReactNode } from 'react'
 import { Col, FlexboxGrid, Loader, Stack } from 'rsuite'
 
 interface MissionListContentWrapperProps {
   hasMissions: boolean
   title: string
+  icon?: JSX.Element
   subtitle?: string | JSX.Element
   filters?: JSX.Element
   actions?: JSX.Element
@@ -14,6 +14,7 @@ interface MissionListContentWrapperProps {
 }
 
 const MissionListPageContentWrapper: FC<MissionListContentWrapperProps> = ({
+  icon,
   title,
   subtitle,
   filters,
@@ -31,9 +32,7 @@ const MissionListPageContentWrapper: FC<MissionListContentWrapperProps> = ({
           alignItems={'center'}
           style={{ padding: '0 9.5rem', marginTop: '3rem' }}
         >
-          <Stack.Item alignSelf={'baseline'}>
-            <Icon.MissionAction size={32} style={{ marginTop: '8px' }} />
-          </Stack.Item>
+          {icon && <Stack.Item alignSelf={'baseline'}>{icon}</Stack.Item>}
           <Stack.Item>
             <Text as={'h1'} style={{ fontSize: '32px' }}>
               {title}

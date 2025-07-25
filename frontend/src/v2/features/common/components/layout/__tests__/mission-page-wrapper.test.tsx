@@ -1,5 +1,5 @@
 import { render, screen } from '../../../../../../test-utils'
-import MissionPageWrapper from '../mission-page-wrapper'
+import MissionPageWrapper from '../page-wrapper'
 
 describe('MissionPageWrapper', () => {
   it('should match the snapshot', () => {

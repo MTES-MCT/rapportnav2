@@ -1,10 +1,10 @@
 import { render } from '../../../../../../test-utils'
-import MissionPageSectionWrapper from '../mission-page-section-wrapper'
+import PageSectionWrapper from '../page-section-wrapper'
 
-describe('MissionPageSectionWrapper', () => {
+describe('PageSectionWrapper', () => {
   it('should match the snapshot', () => {
     const wrapper = render(
-      <MissionPageSectionWrapper sectionBody={<>My Section Body</>} sectionHeader={<>My Section Header</>} />
+      <PageSectionWrapper sectionBody={<>My Section Body</>} sectionHeader={<>My Section Header</>} />
     )
     expect(wrapper).toMatchSnapshot()
   })

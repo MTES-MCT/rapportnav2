@@ -1,28 +1,28 @@
 import { THEME } from '@mtes-mct/monitor-ui'
-import React from 'react'
+import React, { JSX } from 'react'
 import { FlexboxGrid } from 'rsuite'
 import MissionPageError from '../ui/mission-page-error'
 import MissionPageLoading from '../ui/mission-page-loading'
 
-type MissionPageWrapperProps = {
+type PageWrapperProps = {
   isLoading?: boolean
-  missionHeader: JSX.Element
-  missionFooter: JSX.Element
-  missionAction?: JSX.Element
-  missionTimeLine?: JSX.Element
+  header: JSX.Element
+  footer: JSX.Element
+  action?: JSX.Element
+  timeline?: JSX.Element
   error?: { message?: string }
-  missionGeneralInformations?: JSX.Element
+  generalInformations?: JSX.Element
 }
 
-const MissionPageWrapper: React.FC<MissionPageWrapperProps> = ({
+const PageWrapper: React.FC<PageWrapperProps> = ({
   error,
-  missionHeader,
-  missionFooter,
+  header,
+  footer,
   isLoading,
-  missionAction,
-  missionTimeLine,
-  missionGeneralInformations
-}: MissionPageWrapperProps) => {
+  action,
+  timeline,
+  generalInformations
+}: PageWrapperProps) => {
   if (isLoading) return <MissionPageLoading />
   if (error) return <MissionPageError error={error} />
 
@@ -36,7 +36,7 @@ const MissionPageWrapper: React.FC<MissionPageWrapperProps> = ({
         flexDirection: 'column'
       }}
     >
-      {missionHeader}
+      {header}
       <>
         <FlexboxGrid justify="space-between" style={{ display: 'flex', flex: 1 }}>
           <FlexboxGrid.Item
@@ -50,7 +50,7 @@ const MissionPageWrapper: React.FC<MissionPageWrapperProps> = ({
               maxHeight: 'calc(100vh - 2 * 60px)'
             }}
           >
-            {missionGeneralInformations}
+            {generalInformations}
           </FlexboxGrid.Item>
           <FlexboxGrid.Item
             colspan={8}
@@ -64,7 +64,7 @@ const MissionPageWrapper: React.FC<MissionPageWrapperProps> = ({
               backgroundColor: THEME.color.cultured
             }}
           >
-            {missionTimeLine}
+            {timeline}
           </FlexboxGrid.Item>
           <FlexboxGrid.Item
             colspan={8}
@@ -78,13 +78,13 @@ const MissionPageWrapper: React.FC<MissionPageWrapperProps> = ({
               backgroundColor: THEME.color.gainsboro
             }}
           >
-            {missionAction}
+            {action}
           </FlexboxGrid.Item>
         </FlexboxGrid>
       </>
-      {missionFooter}
+      {footer}
     </div>
   )
 }
 
-export default MissionPageWrapper
+export default PageWrapper

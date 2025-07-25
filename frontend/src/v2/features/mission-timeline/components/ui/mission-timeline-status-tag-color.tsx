@@ -1,11 +1,11 @@
 import { FC } from 'react'
 
-type MissionTimelineStatusColorTagProps = {
+type TimelineStatusColorTagProps = {
   style?: any
   color: string
 }
 
-export const MissionTimelineStatusColorTag: FC<MissionTimelineStatusColorTagProps> = ({ style, color }) => {
+export const TimelineStatusColorTag: FC<TimelineStatusColorTagProps> = ({ style, color }) => {
   return (
     <div
       style={

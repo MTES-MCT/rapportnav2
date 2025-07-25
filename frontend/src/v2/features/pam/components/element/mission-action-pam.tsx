@@ -1,6 +1,6 @@
 import { MissionStatusEnum } from '@common/types/mission-types'
 import { FC } from 'react'
-import MissionPageSectionWrapper from '../../../common/components/layout/mission-page-section-wrapper'
+import PageSectionWrapper from '../../../common/components/layout/page-section-wrapper'
 import useGetActionQuery from '../../../common/services/use-mission-action'
 import MissionActionPamBody from './mission-action-pam-body'
 import MissionActionPamHeader from './mission-action-pam-header'
@@ -14,7 +14,7 @@ interface MissionActionProps {
 const MissionActionPam: FC<MissionActionProps> = ({ missionId, actionId, missionStatus }) => {
   const { data: action, isLoading, error } = useGetActionQuery(missionId, actionId)
   return (
-    <MissionPageSectionWrapper
+    <PageSectionWrapper
       hide={!actionId}
       sectionHeader={
         action && <MissionActionPamHeader missionId={Number(missionId)} action={action} missionStatus={missionStatus} />

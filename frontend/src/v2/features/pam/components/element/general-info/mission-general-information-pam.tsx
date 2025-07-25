@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import MissionPageSectionWrapper from '../../../../common/components/layout/mission-page-section-wrapper.tsx'
+import PageSectionWrapper from '../../../../common/components/layout/page-section-wrapper.tsx'
 import useGetMissionGeneralInformationQuery from '../../../../mission-general-infos/services/use-mission-general-information.tsx'
 import MissionGeneralInformationHeader from '../../../../mission-general-infos/ui/mission-general-information-header.tsx'
 import MissionGeneralInformationPamBody from './mission-general-information-pam-body.tsx'
@@ -12,7 +12,7 @@ const MissionGeneralInformationPam: FC<MissionGeneralInformationProps> = ({ miss
   const { data: generalInfos, isLoading } = useGetMissionGeneralInformationQuery(missionId)
   if (isLoading) return <div>Chargement...</div>
   return (
-    <MissionPageSectionWrapper
+    <PageSectionWrapper
       sectionHeader={<MissionGeneralInformationHeader />}
       sectionBody={<MissionGeneralInformationPamBody missionId={missionId} generalInfos={generalInfos} />}
     />
