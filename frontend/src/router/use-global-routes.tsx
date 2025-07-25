@@ -15,12 +15,18 @@ const ROUTES = {
 
 type RouteHook = {
   homeUrl?: string
+  getUrl: (page: string) => string
 }
 
 export function useGlobalRoutes(): RouteHook {
   const [homeUrl, setHomeUrl] = useState<string>()
   const { isLoggedIn, isAuthenticated } = useAuth()
-  const { isV2 } = useStore(store, (state: State) => state.module)
+  const { isV2, type } = useStore(store, (state: State) => state.module)
+
+  const getUrl = (page: string) => {
+    const baseUrl = isV2 ? '/v2' : ''
+    return `${baseUrl}/${type}/${page}`
+  }
 
   useEffect(() => {
     const getUrl = () => {
@@ -41,6 +47,7 @@ export function useGlobalRoutes(): RouteHook {
   }, [isAuthenticated, isLoggedIn, isV2])
 
   return {
+    getUrl,
     homeUrl
   }
 }

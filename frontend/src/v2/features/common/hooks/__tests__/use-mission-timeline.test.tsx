@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react'
 import { ActionType } from '../../types/action-type'
-import { useMissionTimeline } from '../use-mission-timeline'
+import { useMissionTimeline } from '../use-timeline-action'
 
 describe('useMissionTimeline', () => {
   it('should get input from mission action', () => {

@@ -1,5 +1,4 @@
-import { Icon, IconProps, THEME } from '@mtes-mct/monitor-ui'
-import { FunctionComponent } from 'react'
+import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import { ActionGroupType, ActionType } from '../../common/types/action-type'
 import { MissionReportTypeEnum } from '../../common/types/mission-types'
 import MissionTimelineItemControlCard from '../../mission-timeline/components/elements/mission-timeline-item-control-card'
@@ -8,29 +7,6 @@ import MissionTimelineItemNoteCard from '../../mission-timeline/components/eleme
 import MissionTimelineItemRescueCard from '../../mission-timeline/components/elements/mission-timeline-item-rescue-card'
 import MissionTimelineItemSurveillanceCard from '../../mission-timeline/components/elements/mission-timeline-item-surveillance-card'
 import { Timeline, TimelineDropdownItem, TimelineRegistry } from '../../mission-timeline/hooks/use-timeline'
-import { MissionTimelineAction } from '../../mission-timeline/types/mission-timeline-output'
-
-export type ActionStyle = {
-  color?: string
-  minHeight?: number
-  borderColor?: string
-  backgroundColor?: string
-}
-
-export type ActionTimeline = {
-  title?: string
-  style: ActionStyle
-  noPadding?: boolean
-  type: ActionType
-  component: FunctionComponent<{
-    title?: string
-    isSelected?: boolean
-    action?: MissionTimelineAction
-    icon?: FunctionComponent<IconProps>
-    prevAction?: MissionTimelineAction
-  }>
-  icon?: FunctionComponent<IconProps>
-}
 
 const TIME_LINE_DROPDOWN_ULAM_ITEMS_OFFICE: TimelineDropdownItem[] = [
   {

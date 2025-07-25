@@ -1,7 +1,8 @@
+import { useGlobalRoutes } from '@router/use-global-routes'
 import { FC } from 'react'
+import TimelineWrapper from '../../../common/components/layout/timeline-wrapper'
 import { useMissionType } from '../../../common/hooks/use-mission-type'
 import { MissionReportTypeEnum } from '../../../common/types/mission-types'
-import MissionTimelineWrapper from '../../../mission-timeline/components/layout/mission-timeline-wrapper'
 import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'
 import MissionTimelineItemUlam from './mission-timeline-ulam-item'
 
@@ -20,15 +21,16 @@ const MissionTimelineUlamBody: FC<MissionTimelineBodyProps> = ({
   isLoading,
   missionReportType
 }) => {
+  const { getUrl } = useGlobalRoutes()
   const { getNoTimelineMessage } = useMissionType()
   return (
-    <MissionTimelineWrapper
+    <TimelineWrapper
       isError={isError}
       actions={actions}
-      missionId={missionId}
       isLoading={isLoading}
       groupBy="startDateTimeUtc"
       item={MissionTimelineItemUlam}
+      baseUrl={`${getUrl('missions')}/${missionId}`}
       noTimelineMessage={getNoTimelineMessage(missionReportType)}
     />
   )

@@ -1,13 +1,12 @@
 import { THEME } from '@mtes-mct/monitor-ui'
-import { DetailedHTMLProps, FC } from 'react'
+import { DetailedHTMLProps, FC, JSX } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Stack } from 'rsuite'
 import styled from 'styled-components'
-import { ActionStyle } from '../../../common/hooks/use-action-registry'
-import { ModuleType } from '../../../common/types/module-type'
-import { MissionTimelineAction } from '../../types/mission-timeline-output'
-import MissionTimelineItemDate from '../ui/mission-timeline-item-date'
-import MissionTimelineItemStatus from '../ui/mission-timeline-item-status'
+import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'
+import { ActionStyle } from '../../hooks/use-timeline-action'
+import TimelineItemDate from '../ui/timeline-item-date'
+import TimelineItemStatus from '../ui/timeline-item-status'
 
 const DivStyled = styled(
   ({
@@ -25,33 +24,30 @@ const DivStyled = styled(
   letterSpacing: 0
 }))
 
-interface MissionTimelineItemWrapperProps {
+interface TimelineItemWrapperProps {
+  baseUrl: string
   card: JSX.Element
   style?: ActionStyle
-  missionId?: string
   isSelected: boolean
   isIncomplete: boolean
-  moduleType: ModuleType
   action: MissionTimelineAction
 }
 
-const MissionTimelineItemWrapper: FC<MissionTimelineItemWrapperProps> = ({
+const TimelineItemWrapper: FC<TimelineItemWrapperProps> = ({
+  baseUrl,
   action,
   card,
   style,
-  missionId,
-  moduleType,
   isSelected,
   isIncomplete
 }) => {
   const navigate = useNavigate()
-  const handleClick = (actionId?: string) => {
-    navigate(`/v2/${moduleType}/missions/${missionId}/${actionId}`)
-  }
+  const handleClick = (actionId?: string) => navigate(`${baseUrl}/${actionId}`)
+
   return (
     <Stack direction="row" spacing={'0.5rem'} style={{ overflow: 'hidden' }}>
       <Stack.Item style={{ minWidth: '50px' }}>
-        <MissionTimelineItemDate date={action.startDateTimeUtc} />
+        <TimelineItemDate date={action.startDateTimeUtc} />
       </Stack.Item>
       <Stack.Item style={{ width: '100%', maxWidth: 'calc(100% - 5.4rem', overflow: 'hidden' }}>
         <DivStyled style={style} onClick={() => handleClick(action.id)} isSelected={isSelected}>
@@ -59,7 +55,7 @@ const MissionTimelineItemWrapper: FC<MissionTimelineItemWrapperProps> = ({
         </DivStyled>
       </Stack.Item>
       <Stack.Item alignSelf={isIncomplete ? 'center' : 'stretch'}>
-        <MissionTimelineItemStatus
+        <TimelineItemStatus
           type={action.type}
           status={action.status}
           completenessForStats={action.completenessForStats}
@@ -69,4 +65,4 @@ const MissionTimelineItemWrapper: FC<MissionTimelineItemWrapperProps> = ({
   )
 }
 
-export default MissionTimelineItemWrapper
+export default TimelineItemWrapper
