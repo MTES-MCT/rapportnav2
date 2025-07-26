@@ -22,7 +22,7 @@ import { NetworkSyncStatus } from './network-types.ts'
 
 export interface MissionAction {
   id?: string
-  missionId?: number
+  missionId?: string
   ownerId?: string
   actionType: ActionType
   source: MissionSource
@@ -65,6 +65,7 @@ export interface MissionNavActionData extends MissionActionData {
   status?: ActionStatusType
   reason?: ActionStatusReason
   crossControl?: CrossControl
+  nbrOfHours?: number
 }
 
 export interface MissionNavAction extends MissionAction {

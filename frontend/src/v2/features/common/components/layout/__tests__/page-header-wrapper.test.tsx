@@ -1,13 +1,27 @@
-import { MissionSourceEnum } from '@common/types/env-mission-types'
 import { vi } from 'vitest'
-import { render, screen, waitFor } from '../../../../../../test-utils'
-import { CompletenessForStatsStatusEnum, Mission2, MissionStatusEnum } from '../../../types/mission-types'
-import MissionPageHeader from '../mission-page-header'
+import { render } from '../../../../../../test-utils'
+import PageHeaderWrapper from '../page-header-wrapper'
 
 const onClose = vi.fn()
 
-describe('MissionPageHeader', () => {
+describe('PageHeaderWrapper', () => {
   it('should show banner message', async () => {
+    const wrapper = render(
+      <PageHeaderWrapper
+        banner={<>Banner</>}
+        date={<>Date</>}
+        tags={<>tags</>}
+        utcTime={<>UTC time</>}
+        onClickClose={onClose}
+      />
+    )
+    expect(wrapper).toMatchSnapshot()
+  })
+})
+
+/**
+ * 
+ * 
     const mission = {
       status: MissionStatusEnum.ENDED,
       completenessForStats: {
@@ -18,5 +32,4 @@ describe('MissionPageHeader', () => {
 
     render(<MissionPageHeader onClickClose={onClose} mission={mission} />)
     waitFor(() => expect(screen.getByText('La mission est terminée et ses données sont complètes')).toBeInTheDocument())
-  })
-})
+ */

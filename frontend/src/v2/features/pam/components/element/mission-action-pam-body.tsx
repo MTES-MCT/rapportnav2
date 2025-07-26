@@ -1,10 +1,10 @@
 import { FC } from 'react'
+import ActionWrapper from '../../../common/components/layout/action-wrapper'
 import { MissionAction } from '../../../common/types/mission-action'
-import MissionActionWrapper from '../../../mission-action/components/layout/mission-action-wrapper'
 import MissionActionItemPam from './mission-action-pam-item'
 
 interface MissionActionProps {
-  missionId: number
+  missionId: string
   isLoading?: boolean
   error?: Error | null
   action?: MissionAction
@@ -12,10 +12,10 @@ interface MissionActionProps {
 
 const MissionActionPamBody: FC<MissionActionProps> = ({ missionId, error, action, isLoading }) => {
   return (
-    <MissionActionWrapper
+    <ActionWrapper
       action={action}
       isError={error}
-      missionId={missionId}
+      ownerId={missionId}
       isLoading={isLoading}
       item={MissionActionItemPam}
     />

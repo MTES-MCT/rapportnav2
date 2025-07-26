@@ -1,6 +1,6 @@
 import { FC } from 'react'
+import ActionWrapper from '../../../common/components/layout/action-wrapper'
 import { MissionAction } from '../../../common/types/mission-action'
-import MissionActionWrapper from '../../../mission-action/components/layout/mission-action-wrapper'
 import MissionActionItemUlam from './mission-action-item-ulam'
 
 interface MissionActionProps {
@@ -12,10 +12,10 @@ interface MissionActionProps {
 
 const MissionActionUlamBody: FC<MissionActionProps> = ({ missionId, error, action, isLoading }) => {
   return (
-    <MissionActionWrapper
+    <ActionWrapper
       action={action}
       isError={error}
-      missionId={missionId}
+      ownerId={missionId}
       isLoading={isLoading}
       item={MissionActionItemUlam}
     />

@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import PageSectionWrapper from '../../../common/components/layout/page-section-wrapper'
+import useGetActionQuery from '../../../common/services/use-action'
 import useGetMissionQuery from '../../../common/services/use-mission'
-import useGetActionQuery from '../../../common/services/use-mission-action'
 import MissionActionUlamBody from './mission-action-ulam-body'
 import MissionActionUlamHeader from './mission-action-ulam-header'
 
