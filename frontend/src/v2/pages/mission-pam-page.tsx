@@ -23,9 +23,9 @@ const MissionPamPage: React.FC = () => {
       <PageWrapper
         header={<MissionHeaderPam onClickClose={exitMission} missionId={missionId} />}
         generalInformations={<MissionGeneralInformationPam missionId={missionId} />}
-        timeline={<MissionTimelinePam missionId={Number(missionId)} />}
-        action={<MissionActionPam missionId={Number(missionId)} actionId={actionId} />}
-        footer={<MissionPageFooter exitMission={exitMission} missionId={Number(missionId)} />}
+        timeline={missionId ? <MissionTimelinePam missionId={missionId} /> : undefined}
+        action={missionId ? <MissionActionPam missionId={missionId} actionId={actionId} /> : undefined}
+        footer={<MissionPageFooter exitMission={exitMission} missionId={missionId} />}
       />
     </>
   )

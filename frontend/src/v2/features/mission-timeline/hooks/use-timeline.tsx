@@ -106,7 +106,8 @@ export function useTimeline(): TimelineHook {
       vesselSize: action.data?.vesselSize,
       isVesselRescue: action.data?.isVesselRescue,
       isPersonRescue: action.data?.isPersonRescue,
-      reason: action.data?.reason
+      reason: action.data?.reason,
+      nbrOfHours: action.data.nbrOfHours
     }
   }
 
