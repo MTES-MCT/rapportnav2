@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
-@RequestMapping("/api/v2/missions/{missionId}/actions")
-class MissionActionRestController(
+@RequestMapping("/api/v2/owners/{ownerId}/actions")
+class ActionRestController(
     private val getMissionAction: GetMissionAction,
     private val deleteNavAction: DeleteNavAction,
     private val createNavAction: CreateNavAction,
@@ -27,39 +27,39 @@ class MissionActionRestController(
     private val getFishActionById: GetFishActionById,
     private val getStatusForAction2: GetStatusForAction2
 ) {
-    private val logger = LoggerFactory.getLogger(MissionActionRestController::class.java)
+    private val logger = LoggerFactory.getLogger(ActionRestController::class.java)
 
     @GetMapping("")
     @Operation(summary = "Get the list of actions on a mission Id")
-    fun getActions(@PathVariable(name = "missionId") missionId: String): List<MissionAction?> {
-        val actions = if (isValidUUID(missionId)) getMissionAction.execute(
-            missionIdUUID = UUID.fromString(missionId)
+    fun getActions(@PathVariable(name = "ownerId") ownerId: String): List<MissionAction?> {
+        val actions = if (isValidUUID(ownerId)) getMissionAction.execute(
+            missionIdUUID = UUID.fromString(ownerId)
         ) else getMissionAction.execute(
-            missionId = Integer.valueOf(missionId)
+            missionId = Integer.valueOf(ownerId)
         )
         return actions.map { action -> MissionAction.fromMissionActionEntity(action) }
     }
 
     @GetMapping("{actionId}")
     fun getActionById(
-        @PathVariable(name = "missionId") missionId: String,
+        @PathVariable(name = "ownerId") ownerId: String,
         @PathVariable(name = "actionId") actionId: String,
     ): MissionAction? {
         var action: MissionAction? = null
         val navAction = getNavActionById.execute(actionId = actionId)
         if (navAction != null) action = MissionAction.fromMissionActionEntity(navAction)
 
-        if (isValidUUID(missionId)) return action
+        if (isValidUUID(ownerId)) return action
 
-        val fishAction = getFishActionById.execute(missionId = Integer.valueOf(missionId), actionId = actionId)
+        val fishAction = getFishActionById.execute(missionId = Integer.valueOf(ownerId), actionId = actionId)
         if (fishAction != null) action =  MissionAction.fromMissionActionEntity(fishAction)
 
-        val envAction = getEnvActionById.execute(missionId = Integer.valueOf(missionId), actionId = actionId)
+        val envAction = getEnvActionById.execute(missionId = Integer.valueOf(ownerId), actionId = actionId)
         if (envAction != null) action =  MissionAction.fromMissionActionEntity(envAction)
 
         if (action != null) {
             action.status = getStatusForAction2.execute(
-                missionId = Integer.valueOf(missionId),
+                missionId = Integer.valueOf(ownerId),
                 actionStartDateTimeUtc = action.data?.startDateTimeUtc
             )
         }

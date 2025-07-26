@@ -3,27 +3,27 @@ import { formatDateTimeForFrenchHumans } from '@common/utils/dates-for-humans'
 import { IconProps, THEME } from '@mtes-mct/monitor-ui'
 import { createElement, FunctionComponent } from 'react'
 import { Stack } from 'rsuite'
-import { MissionSourceEnum } from '../../../common/types/mission-types'
-import { ModuleType } from '../../../common/types/module-type'
-import MissionActionHeaderAction from '../elements/mission-action-header-action'
+import { MissionSourceEnum } from '../../types/mission-types'
+import { OwnerType } from '../../types/owner-type'
+import ActionHeaderAction from '../elements/action-header-action'
 
-interface MissionActionHeaderTitleWrapperProps {
+interface ActionHeaderTitleWrapperProps {
   title?: string
   actionId?: string
-  missionId: string
+  ownerId: string
+  ownerType: OwnerType
   source: MissionSourceEnum
-  moduleType: ModuleType
   startDateTimeUtc?: string
   icon?: FunctionComponent<IconProps>
 }
 
-export const MissionActionHeaderTitleWrapper: React.FC<MissionActionHeaderTitleWrapperProps> = ({
+export const ActionHeaderTitleWrapper: React.FC<ActionHeaderTitleWrapperProps> = ({
   icon,
   title,
   source,
   actionId,
-  missionId,
-  moduleType,
+  ownerId,
+  ownerType,
   startDateTimeUtc
 }) => {
   return (
@@ -44,17 +44,10 @@ export const MissionActionHeaderTitleWrapper: React.FC<MissionActionHeaderTitleW
         </Stack>
       </Stack.Item>
       <Stack.Item>
-        {actionId && (
-          <MissionActionHeaderAction
-            source={source}
-            actionId={actionId}
-            missionId={missionId}
-            moduleType={moduleType}
-          />
-        )}
+        {actionId && <ActionHeaderAction source={source} actionId={actionId} ownerId={ownerId} ownerType={ownerType} />}
       </Stack.Item>
     </Stack>
   )
 }
 
-export default MissionActionHeaderTitleWrapper
+export default ActionHeaderTitleWrapper

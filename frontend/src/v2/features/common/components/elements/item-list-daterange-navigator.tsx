@@ -3,7 +3,7 @@ import React, { JSX, useEffect } from 'react'
 import styled from 'styled-components'
 import useDateRangeNavigator from '../../hooks/use-daterange-navigator.tsx'
 
-interface MissionListDateRangeNavigatorProps {
+interface ItemListDateRangeNavigatorProps {
   startDateTimeUtc?: string | null
   onUpdateCurrentDate?: (date: Date) => void
   exportButton?: JSX.Element
@@ -24,7 +24,7 @@ const DateRangeContainer = styled.div`
   display: flex;
 `
 
-const MissionListDateRangeNavigator: React.FC<MissionListDateRangeNavigatorProps> = ({
+const ItemListDateRangeNavigator: React.FC<ItemListDateRangeNavigatorProps> = ({
   startDateTimeUtc,
   onUpdateCurrentDate,
   exportButton,
@@ -69,4 +69,4 @@ const MissionListDateRangeNavigator: React.FC<MissionListDateRangeNavigatorProps
   )
 }
 
-export default MissionListDateRangeNavigator
+export default ItemListDateRangeNavigator

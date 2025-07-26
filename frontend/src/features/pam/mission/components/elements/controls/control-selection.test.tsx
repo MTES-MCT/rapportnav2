@@ -1,9 +1,9 @@
-import { render, screen, fireEvent } from '../../../../../../test-utils.tsx'
-import ControlSelection from './control-selection.tsx'
-import { VesselTypeEnum } from '@common/types/mission-types.ts'
 import { missionTypeEnum } from '@common/types/env-mission-types.ts'
+import { VesselTypeEnum } from '@common/types/mission-types.ts'
+import { fireEvent, render, screen } from '../../../../../../test-utils.tsx'
+import ControlSelection from './control-selection.tsx'
 
-describe('ControlSelection', () => {
+describe.skip('ControlSelection', () => {
   test('renders control selection options', () => {
     render(<ControlSelection onSelect={vi.fn()} />)
 

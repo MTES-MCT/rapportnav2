@@ -1,8 +1,8 @@
 import { THEME } from '@mtes-mct/monitor-ui'
-import { DetailedHTMLProps, FC } from 'react'
+import { DetailedHTMLProps, FC, JSX } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { ActionStyle } from '../../../common/hooks/use-action-registry'
+import { ActionStyle } from '../../../common/hooks/use-timeline-action'
 
 const DivStyled = styled(
   ({

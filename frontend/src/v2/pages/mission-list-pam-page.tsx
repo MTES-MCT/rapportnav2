@@ -1,10 +1,10 @@
 import { Mission } from '@common/types/mission-types.ts'
-import { Icon } from '@mtes-mct/monitor-ui'
+import { PAM_SIDEBAR_ITEMS } from '@router/routes.tsx'
 import { FC, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Stack } from 'rsuite'
 import useAuth from '../features/auth/hooks/use-auth.tsx'
-import MissionListDateRangeNavigator from '../features/common/components/elements/mission-list-daterange-navigator.tsx'
+import ItemListDateRangeNavigator from '../features/common/components/elements/item-list-daterange-navigator.tsx'
 import OnlineToggle from '../features/common/components/elements/online-toggle.tsx'
 import MissionListPageContentWrapper from '../features/common/components/layout/mission-list-page-content-wrapper.tsx'
 import MissionListPageHeaderWrapper from '../features/common/components/layout/mission-list-page-header-wrapper'
@@ -20,14 +20,6 @@ import { Mission2 } from '../features/common/types/mission-types.ts'
 import MissionListActionsPam from '../features/pam/components/element/mission-list/mission-list-actions-pam.tsx'
 import MissionListExportDialog from '../features/pam/components/element/mission-list/mission-list-export.tsx'
 import MissionListPam from '../features/pam/components/element/mission-list/mission-list-pam.tsx'
-
-const SIDEBAR_ITEMS = [
-  {
-    url: '',
-    key: 'list',
-    icon: Icon.MissionAction
-  }
-]
 
 const MissionListPamPage: FC = () => {
   const { isLoggedIn } = useAuth()
@@ -90,7 +82,7 @@ const MissionListPamPage: FC = () => {
   return (
     <MissionListPageWrapper
       header={<MissionListPageHeaderWrapper title={<MissionListPageTitle userId={isLoggedIn()?.userId} />} />}
-      sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={SIDEBAR_ITEMS} />}
+      sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={PAM_SIDEBAR_ITEMS} />}
       footer={
         <Stack style={{ width: '100%', height: '100%' }} justifyContent={'flex-end'} alignItems={'center'}>
           <Stack.Item style={{ marginRight: '4rem' }}>
@@ -104,7 +96,7 @@ const MissionListPamPage: FC = () => {
         hasMissions={!!missions?.length}
         title={'Mes rapports'}
         filters={
-          <MissionListDateRangeNavigator
+          <ItemListDateRangeNavigator
             startDateTimeUtc={searchParams.get('startDateTimeUtc')}
             onUpdateCurrentDate={handleUpdateDateTime}
             timeframe={'year'}

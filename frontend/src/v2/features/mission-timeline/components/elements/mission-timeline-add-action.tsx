@@ -1,11 +1,11 @@
 import Text from '@common/components/ui/text'
 import { VesselTypeEnum } from '@common/types/mission-types'
 import { Accent, Button, Dialog } from '@mtes-mct/monitor-ui'
-import { useState } from 'react'
+import { JSX, useState } from 'react'
 import { Stack } from 'rsuite'
 import MissionControlSelection from '../../../common/components/ui/mission-control-selection'
-import { useMissionTimeline } from '../../../common/hooks/use-mission-timeline'
-import useCreateMissionActionMutation from '../../../common/services/use-create-mission-action'
+import { useTimelineAction } from '../../../common/hooks/use-timeline-action'
+import useCreateMissionActionMutation from '../../../common/services/use-create-action'
 import { ActionType } from '../../../common/types/action-type'
 import { ModuleType } from '../../../common/types/module-type'
 import { TimelineDropdownItem } from '../../hooks/use-timeline'
@@ -24,7 +24,7 @@ function MissionTimelineAddAction({
   moduleType,
   dropdownItems
 }: MissionTimelineAddActionProps): JSX.Element {
-  const { getActionInput } = useMissionTimeline(missionId)
+  const { getActionInput } = useTimelineAction(missionId)
   const mutation = useCreateMissionActionMutation(missionId)
   const [showModal, setShowModal] = useState<boolean>(false)
 

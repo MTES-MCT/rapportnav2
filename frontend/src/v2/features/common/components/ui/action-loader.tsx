@@ -1,6 +1,6 @@
 import { Loader, Stack } from 'rsuite'
 
-const MissionActionLoader: React.FC = () => {
+const ActionLoader: React.FC = () => {
   return (
     <Stack
       justifyContent={'center'}
@@ -15,4 +15,4 @@ const MissionActionLoader: React.FC = () => {
   )
 }
 
-export default MissionActionLoader
+export default ActionLoader

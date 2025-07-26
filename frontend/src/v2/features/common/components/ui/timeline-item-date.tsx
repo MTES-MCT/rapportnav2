@@ -1,13 +1,13 @@
 import Text from '@common/components/ui/text'
 import { THEME } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
-import { useDate } from '../../../common/hooks/use-date'
+import { useDate } from '../../hooks/use-date'
 
-type MissionTimelineItemDateProps = {
+type TimelineItemDateProps = {
   date?: string
 }
 
-const MissionTimelineItemDate: React.FC<MissionTimelineItemDateProps> = ({ date }) => {
+const TimelineItemDate: React.FC<TimelineItemDateProps> = ({ date }) => {
   const { formatTime, formatShortDate } = useDate()
   return (
     <Stack direction="column" alignItems="flex-start">
@@ -25,4 +25,4 @@ const MissionTimelineItemDate: React.FC<MissionTimelineItemDateProps> = ({ date 
   )
 }
 
-export default MissionTimelineItemDate
+export default TimelineItemDate

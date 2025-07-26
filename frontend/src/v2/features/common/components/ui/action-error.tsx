@@ -2,10 +2,10 @@ import Text from '@common/components/ui/text'
 import { THEME } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
 
-type MissionActionErrorProps = {
+type ActionErrorProps = {
   error: { message: string } & unknown
 }
-const MissionActionError: React.FC<MissionActionErrorProps> = ({ error }) => {
+const ActionError: React.FC<ActionErrorProps> = ({ error }) => {
   return (
     <Stack justifyContent={'center'} alignItems={'center'} style={{ height: '100%' }} data-testid={'timeline-error'}>
       <Stack.Item alignSelf={'center'}>
@@ -22,4 +22,4 @@ const MissionActionError: React.FC<MissionActionErrorProps> = ({ error }) => {
   )
 }
 
-export default MissionActionError
+export default ActionError
