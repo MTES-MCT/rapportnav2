@@ -13,11 +13,7 @@ class GetComputeNavActionListByMissionId(
     private val logger = LoggerFactory.getLogger(GetComputeNavActionListByMissionId::class.java)
 
     fun execute(missionId: Int?): List<MissionNavActionEntity> {
-        if (missionId == null) {
-            logger.error("GetComputeNavActionListByMissionId received a null missionId")
-            throw IllegalArgumentException("GetComputeNavActionListByMissionId should not receive null missionId")
-        }
-
+        if (missionId == null) return listOf()
         return try {
             val actions = getNavActionListByOwnerId.execute(missionId = missionId)
             actions.map { processNavAction.execute(action = it) }
@@ -28,11 +24,7 @@ class GetComputeNavActionListByMissionId(
     }
 
     fun execute(ownerId: UUID?): List<MissionNavActionEntity> {
-        if (ownerId == null) {
-            logger.error("GetComputeNavActionListByMissionIdString received a null missionId")
-            throw IllegalArgumentException("GetComputeNavActionListByMissionIdString should not receive null missionId")
-        }
-
+        if (ownerId == null) return listOf()
         return try {
             val actions = getNavActionListByOwnerId.execute(ownerId = ownerId)
             actions.map { processNavAction.execute(action = it) }
