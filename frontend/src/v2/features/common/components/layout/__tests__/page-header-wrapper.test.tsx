@@ -18,18 +18,3 @@ describe('PageHeaderWrapper', () => {
     expect(wrapper).toMatchSnapshot()
   })
 })
-
-/**
- * 
- * 
-    const mission = {
-      status: MissionStatusEnum.ENDED,
-      completenessForStats: {
-        sources: [MissionSourceEnum.MONITORENV],
-        status: CompletenessForStatsStatusEnum.COMPLETE
-      }
-    } as Mission2
-
-    render(<MissionPageHeader onClickClose={onClose} mission={mission} />)
-    waitFor(() => expect(screen.getByText('La mission est terminée et ses données sont complètes')).toBeInTheDocument())
- */
