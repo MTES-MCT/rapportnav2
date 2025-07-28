@@ -1,12 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`PageHeaderWrapper > should show banner message 1`] = `
+exports[`PageHeaderWrapper > should match snapshot 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
       <div
-        class="sc-kbeVdv jGFRFQ"
+        class="sc-lehtBJ ijNBwl"
       >
         <div
           class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
@@ -23,7 +23,7 @@ exports[`PageHeaderWrapper > should show banner message 1`] = `
                 class="rs-stack-item"
               >
                 <p
-                  class="sc-evkzZa sc-iRcyzz iHjymB dcaSpz"
+                  class="sc-iRcyzz sc-lhsSio jeNGGt gfOewU"
                   color="#E5E5EB"
                   font-size="22"
                   weight="bold"
@@ -135,7 +135,7 @@ exports[`PageHeaderWrapper > should show banner message 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-kbeVdv jGFRFQ"
+      class="sc-lehtBJ ijNBwl"
     >
       <div
         class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
@@ -152,7 +152,7 @@ exports[`PageHeaderWrapper > should show banner message 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-evkzZa sc-iRcyzz iHjymB dcaSpz"
+                class="sc-iRcyzz sc-lhsSio jeNGGt gfOewU"
                 color="#E5E5EB"
                 font-size="22"
                 weight="bold"

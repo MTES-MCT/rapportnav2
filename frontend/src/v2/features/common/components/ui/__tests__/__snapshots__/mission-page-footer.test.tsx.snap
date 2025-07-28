@@ -6,7 +6,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-lehtBJ ezcbjO"
+        class="sc-bvErBc QzANN"
       >
         <div
           class="rs-stack"
@@ -78,7 +78,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <p
-                  class="sc-evkzZa sc-fFmWCW fjwyIl hLoVng"
+                  class="sc-iRcyzz sc-kbeVdv jUHdyB boIGdG"
                   font-size="11"
                 >
                   Connexion disponible 
@@ -99,7 +99,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <p
-                  class="sc-evkzZa sc-enPhjR bIoXEW esqQrj"
+                  class="sc-iRcyzz sc-fFmWCW bUCjaW hAFmCO"
                   color="#CCCFD6"
                   font-size="13"
                   weight="normal"
@@ -111,20 +111,20 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <div
-                  class="sc-fYmhhH jaaEau Element-Field Field-Toggle sc-kbeVdv hLmyn"
+                  class="sc-fYmhhH jaaEau Element-Field Field-Toggle sc-lehtBJ eVJPPu"
                 >
                   <label
                     class="sc-gahYZc eeWxSe Element-Label"
                     for="online-toggle"
                   />
                   <label
-                    class="sc-iyBeIh jlfYnm rs-toggle rs-toggle-checked rs-toggle-disabled"
+                    class="sc-xKhEK hFHwTV rs-toggle rs-toggle-checked rs-toggle-disabled"
                     title="Nous ne pouvez pas passer en ligne, connection non détectée."
                   >
                     <input
                       aria-checked="true"
                       aria-disabled="true"
-                      aria-label="Ouvrir"
+                      aria-labelledby="rs-label«r0»-inner"
                       checked=""
                       class="rs-toggle-input"
                       disabled=""
@@ -137,6 +137,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                     >
                       <span
                         class="rs-toggle-inner"
+                        id="rs-label«r0»-inner"
                       >
                         <span
                           class="sc-hjsuWn fOmxtd Element-IconBox"
@@ -181,7 +182,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <p
-                  class="sc-evkzZa sc-enPhjR kywkhf esqQrj"
+                  class="sc-iRcyzz sc-fFmWCW bJrmZT hAFmCO"
                   color="#29B361"
                   font-size="13"
                   weight="bold"
@@ -219,7 +220,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-lehtBJ ezcbjO"
+      class="sc-bvErBc QzANN"
     >
       <div
         class="rs-stack"
@@ -291,7 +292,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-evkzZa sc-fFmWCW fjwyIl hLoVng"
+                class="sc-iRcyzz sc-kbeVdv jUHdyB boIGdG"
                 font-size="11"
               >
                 Connexion disponible 
@@ -312,7 +313,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-evkzZa sc-enPhjR bIoXEW esqQrj"
+                class="sc-iRcyzz sc-fFmWCW bUCjaW hAFmCO"
                 color="#CCCFD6"
                 font-size="13"
                 weight="normal"
@@ -324,20 +325,20 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <div
-                class="sc-fYmhhH jaaEau Element-Field Field-Toggle sc-kbeVdv hLmyn"
+                class="sc-fYmhhH jaaEau Element-Field Field-Toggle sc-lehtBJ eVJPPu"
               >
                 <label
                   class="sc-gahYZc eeWxSe Element-Label"
                   for="online-toggle"
                 />
                 <label
-                  class="sc-iyBeIh jlfYnm rs-toggle rs-toggle-checked rs-toggle-disabled"
+                  class="sc-xKhEK hFHwTV rs-toggle rs-toggle-checked rs-toggle-disabled"
                   title="Nous ne pouvez pas passer en ligne, connection non détectée."
                 >
                   <input
                     aria-checked="true"
                     aria-disabled="true"
-                    aria-label="Ouvrir"
+                    aria-labelledby="rs-label«r0»-inner"
                     checked=""
                     class="rs-toggle-input"
                     disabled=""
@@ -350,6 +351,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                   >
                     <span
                       class="rs-toggle-inner"
+                      id="rs-label«r0»-inner"
                     >
                       <span
                         class="sc-hjsuWn fOmxtd Element-IconBox"
@@ -394,7 +396,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-evkzZa sc-enPhjR kywkhf esqQrj"
+                class="sc-iRcyzz sc-fFmWCW bJrmZT hAFmCO"
                 color="#29B361"
                 font-size="13"
                 weight="bold"

@@ -5,7 +5,7 @@ import PageHeaderWrapper from '../page-header-wrapper'
 const onClose = vi.fn()
 
 describe('PageHeaderWrapper', () => {
-  it('should show banner message', async () => {
+  it('should match snapshot', async () => {
     const wrapper = render(
       <PageHeaderWrapper
         banner={<>Banner</>}
