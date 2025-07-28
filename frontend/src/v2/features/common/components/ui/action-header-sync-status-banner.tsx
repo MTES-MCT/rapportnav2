@@ -1,13 +1,13 @@
-import { Banner, Level, Icon, THEME } from '@mtes-mct/monitor-ui'
+import Text from '@common/components/ui/text.tsx'
+import { Banner, Icon, Level, THEME } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import Text from '@common/components/ui/text.tsx'
 
-export type MissionActionHeaderSyncStatusBannerProps = {}
+export type ActionHeaderSyncStatusBannerProps = {}
 
-const MissionActionHeaderSyncStatusBanner: FC<MissionActionHeaderSyncStatusBannerProps> = ({}) => {
+const ActionHeaderSyncStatusBanner: FC<ActionHeaderSyncStatusBannerProps> = () => {
   return (
-    <div data-testid={'mission-report-status-banner'}>
+    <div data-testid={'report-status-banner'}>
       <Banner isClosable={true} isCollapsible={false} isHiddenByDefault={false} level={Level.ERROR} top={'0'}>
         <Stack direction={'row'} alignItems={'center'} justifyContent={'flex-start'} spacing={'0.5rem'}>
           <Stack.Item style={{ paddingTop: '8px' }}>
@@ -24,4 +24,4 @@ const MissionActionHeaderSyncStatusBanner: FC<MissionActionHeaderSyncStatusBanne
   )
 }
 
-export default MissionActionHeaderSyncStatusBanner
+export default ActionHeaderSyncStatusBanner

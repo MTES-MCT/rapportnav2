@@ -1,18 +1,17 @@
 import { createElement, FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { ModuleType } from '../../../common/types/module-type'
-import MissionTimelineItemWrapper from '../../../mission-timeline/components/layout/mission-timeline-item-wrapper'
+import TimelineItemWrapper from '../../../common/components/layout/timeline-item-wrapper'
 import { useTimeline } from '../../../mission-timeline/hooks/use-timeline'
 import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'
 import { useUlamTimelineRegistry } from '../../hooks/use-ulam-timeline-registry'
 
 interface MissionTimelineUlamItemProps {
-  missionId?: string
+  baseUrl: string
   action: MissionTimelineAction
   prevAction?: MissionTimelineAction
 }
 
-const MissionTimelineUlamItem: FC<MissionTimelineUlamItemProps> = ({ action, prevAction, missionId }) => {
+const MissionTimelineUlamItem: FC<MissionTimelineUlamItemProps> = ({ action, prevAction, baseUrl }) => {
   const { actionId } = useParams()
   const { isIncomplete } = useTimeline()
   const { getTimeline } = useUlamTimelineRegistry()
@@ -21,14 +20,14 @@ const MissionTimelineUlamItem: FC<MissionTimelineUlamItemProps> = ({ action, pre
   useEffect(() => {
     setIsSelected(action.id === actionId)
   }, [action, actionId])
+
   return (
-    <MissionTimelineItemWrapper
-      style={getTimeline(action.type)?.style}
+    <TimelineItemWrapper
       action={action}
-      missionId={missionId}
+      baseUrl={baseUrl}
       isSelected={isSelected}
-      moduleType={ModuleType.ULAM}
       isIncomplete={isIncomplete(action)}
+      style={getTimeline(action.type)?.style}
       card={createElement(getTimeline(action.type).component, {
         icon: getTimeline(action.type).icon,
         title: getTimeline(action.type).title,

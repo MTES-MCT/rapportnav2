@@ -34,7 +34,7 @@ export const useUlamMissionGeneralInfoForm = (
       resources: data.resources,
       interMinisterialServices: data.interMinisterialServices,
       isUnderJdp: data.isUnderJdp,
-      jdpType: data.jdpType,
+      jdpType: data.jdpType
     }
     return { ...data, initial, extended }
   }
@@ -63,7 +63,14 @@ export const useUlamMissionGeneralInfoForm = (
     value,
     fromFieldValueToInput,
     fromInputToFieldValue,
-    ['isMissionArmed', 'isAllAgentsParticipating', 'isWithInterMinisterialService']
+    [
+      'isMissionArmed',
+      'isAllAgentsParticipating',
+      'isWithInterMinisterialService',
+      'isUnderJdp',
+      'isMissionNav',
+      'isDeleted'
+    ]
   )
 
   const onSubmit = async (valueToSubmit?: MissionGeneralInfo2) => {

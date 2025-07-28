@@ -1,17 +1,14 @@
 import { THEME } from '@mtes-mct/monitor-ui'
+import { JSX } from 'react'
 import { Divider, FlexboxGrid } from 'rsuite'
 
-type MissionPageSectionWrapperProps = {
+type PageSectionWrapperProps = {
   hide?: boolean
   sectionBody?: JSX.Element
   sectionHeader?: JSX.Element
 }
 
-const MissionPageSectionWrapper: React.FC<MissionPageSectionWrapperProps> = ({
-  hide,
-  sectionBody,
-  sectionHeader
-}: MissionPageSectionWrapperProps) => {
+const PageSectionWrapper: React.FC<PageSectionWrapperProps> = ({ hide, sectionBody, sectionHeader }) => {
   if (hide) return <></>
   return (
     <FlexboxGrid>
@@ -34,4 +31,4 @@ const MissionPageSectionWrapper: React.FC<MissionPageSectionWrapperProps> = ({
   )
 }
 
-export default MissionPageSectionWrapper
+export default PageSectionWrapper

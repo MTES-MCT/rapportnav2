@@ -19,49 +19,6 @@ exports[`MissionListPageContentWrapper > should match the snapshot 1`] = `
           >
             <div
               class="rs-stack-item"
-              style="align-self: baseline;"
-            >
-              <span
-                class="sc-hjsuWn mMbcr Element-IconBox"
-              >
-                <svg
-                  height="20"
-                  style="margin-top: 8px;"
-                  viewBox="0 0 20 20"
-                  width="20"
-                >
-                  <path
-                    d="M214,2V0h-2V2h-4V0h-2V2h-3V18h14V2Zm1,14H205V4h10Z"
-                    fill="currentColor"
-                    transform="translate(-200)"
-                  />
-                  <rect
-                    fill="currentColor"
-                    height="1.5"
-                    transform="translate(7 6.5)"
-                    width="6"
-                  />
-                  <rect
-                    fill="currentColor"
-                    height="1.5"
-                    transform="translate(7 9.5)"
-                    width="6"
-                  />
-                  <path
-                    d="M200,0h20V20H200Z"
-                    fill="none"
-                    transform="translate(-200)"
-                  />
-                  <path
-                    d="M200,0h20V20H200Z"
-                    fill="none"
-                    transform="translate(-200)"
-                  />
-                </svg>
-              </span>
-            </div>
-            <div
-              class="rs-stack-item"
             >
               <p
                 class="sc-iRcyzz sc-lhsSio jUHdyB gfOewU"
@@ -153,49 +110,6 @@ exports[`MissionListPageContentWrapper > should match the snapshot 1`] = `
           class="rs-stack"
           style="align-items: center; flex-direction: row; gap: 0.5rem; padding: 0px 9.5rem; margin-top: 3rem;"
         >
-          <div
-            class="rs-stack-item"
-            style="align-self: baseline;"
-          >
-            <span
-              class="sc-hjsuWn mMbcr Element-IconBox"
-            >
-              <svg
-                height="20"
-                style="margin-top: 8px;"
-                viewBox="0 0 20 20"
-                width="20"
-              >
-                <path
-                  d="M214,2V0h-2V2h-4V0h-2V2h-3V18h14V2Zm1,14H205V4h10Z"
-                  fill="currentColor"
-                  transform="translate(-200)"
-                />
-                <rect
-                  fill="currentColor"
-                  height="1.5"
-                  transform="translate(7 6.5)"
-                  width="6"
-                />
-                <rect
-                  fill="currentColor"
-                  height="1.5"
-                  transform="translate(7 9.5)"
-                  width="6"
-                />
-                <path
-                  d="M200,0h20V20H200Z"
-                  fill="none"
-                  transform="translate(-200)"
-                />
-                <path
-                  d="M200,0h20V20H200Z"
-                  fill="none"
-                  transform="translate(-200)"
-                />
-              </svg>
-            </span>
-          </div>
           <div
             class="rs-stack-item"
           >

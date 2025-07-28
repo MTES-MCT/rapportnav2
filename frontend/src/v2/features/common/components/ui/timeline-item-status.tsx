@@ -2,25 +2,21 @@ import { ActionStatusType } from '@common/types/action-types'
 import { ActionTypeEnum } from '@common/types/env-mission-types'
 import { CompletenessForStats, CompletenessForStatsStatusEnum } from '@common/types/mission-types'
 import { Accent, Icon, IconButton, THEME } from '@mtes-mct/monitor-ui'
-import { useActionStatus } from '../../../common/hooks/use-action-status'
-import { MissionTimelineStatusTag } from './mission-timeline-status-tag'
+import { TimelineStatusTag } from '../../../mission-timeline/components/ui/mission-timeline-status-tag'
+import { useActionStatus } from '../../hooks/use-action-status'
 
-type MissionTimelineItemStatusProps = {
+type TimelineItemStatusProps = {
   type: ActionTypeEnum
   status?: ActionStatusType
   completenessForStats?: CompletenessForStats
 }
 
-const MissionTimelineItemStatus: React.FC<MissionTimelineItemStatusProps> = ({
-  type,
-  status,
-  completenessForStats
-}: MissionTimelineItemStatusProps) => {
+const TimelineItemStatus: React.FC<TimelineItemStatusProps> = ({ type, status, completenessForStats }) => {
   const { color } = useActionStatus(status)
   if (type !== ActionTypeEnum.STATUS && completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE)
     return (
       <div style={{ width: '15px', height: '100%', padding: '5px 0 5px 5px' }}>
-        <MissionTimelineStatusTag
+        <TimelineStatusTag
           style={{
             height: '100%',
             borderRadius: '5px',
@@ -45,4 +41,4 @@ const MissionTimelineItemStatus: React.FC<MissionTimelineItemStatusProps> = ({
     )
 }
 
-export default MissionTimelineItemStatus
+export default TimelineItemStatus

@@ -1,11 +1,16 @@
 import { IconProps, SideMenu } from '@mtes-mct/monitor-ui'
+import { useGlobalRoutes } from '@router/use-global-routes'
 import { FunctionComponent, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Sidebar } from 'rsuite'
 import styled from 'styled-components'
+import { OwnerType } from '../../types/owner-type'
+
+type SideBarItem = { key: string; icon: FunctionComponent<IconProps>; url: OwnerType }
 
 type MissionListPageSidebarProps = {
   defaultItemKey?: string
-  items: { key: string; icon: FunctionComponent<IconProps>; url: string }[]
+  items: SideBarItem[]
 }
 
 const StyledMenu = styled.div`
@@ -18,10 +23,19 @@ const StyledMenu = styled.div`
 `
 
 const MissionListPageSidebar: React.FC<MissionListPageSidebarProps> = ({ items, defaultItemKey }) => {
+  const navigate = useNavigate()
+  const { getUrl } = useGlobalRoutes()
   const [currentKey, setCurrentKey] = useState<string>()
+
+  const handleClick = (item: SideBarItem) => {
+    setCurrentKey(item.key)
+    navigate(getUrl(item.url))
+  }
+
   useEffect(() => {
     setCurrentKey(defaultItemKey)
   }, [defaultItemKey])
+
   return (
     <Sidebar style={{ flex: 0, width: '64px' }}>
       <StyledMenu>
@@ -32,7 +46,7 @@ const MissionListPageSidebar: React.FC<MissionListPageSidebarProps> = ({ items, 
               Icon={item.icon}
               title={item.key}
               isActive={item.key === currentKey}
-              onClick={() => setCurrentKey(item.key)}
+              onClick={() => handleClick(item)}
             />
           ))}
         </SideMenu>

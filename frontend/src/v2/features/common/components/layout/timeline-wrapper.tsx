@@ -3,32 +3,38 @@ import { find } from 'lodash'
 import { createElement, FC, Fragment, FunctionComponent, useEffect } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { setTimelineCompleteForStats } from '../../../../store/slices/timeline-complete-for-stats-reducer'
-import { useDate } from '../../../common/hooks/use-date'
-import { useTimelineCompleteForStats } from '../../hooks/use-timeline-complete-for-stats'
-import { MissionTimelineAction } from '../../types/mission-timeline-output'
-import MissionTimelineEmpty from '../ui/mission-timeline-empty'
-import MissionTimelineError from '../ui/mission-timeline-error'
-import MissionTimelineLoader from '../ui/mission-timeline-loader'
+import MissionTimelineEmpty from '../../../mission-timeline/components/ui/mission-timeline-empty'
+import MissionTimelineError from '../../../mission-timeline/components/ui/mission-timeline-error'
+import MissionTimelineLoader from '../../../mission-timeline/components/ui/mission-timeline-loader'
+import { useTimelineCompleteForStats } from '../../../mission-timeline/hooks/use-timeline-complete-for-stats'
+import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'
+import { useDate } from '../../hooks/use-date'
 
-interface MissionTimelineProps {
+interface TimelineProps {
   isError?: any
-  missionId?: string
+  baseUrl: string
   isLoading?: boolean
   noTimelineMessage?: string
   actions: MissionTimelineAction[]
   groupBy: 'startDateTimeUtc' | 'endDateTimeUtc'
-  item: FunctionComponent<{ action: MissionTimelineAction; missionId?: string; prevAction?: MissionTimelineAction }>
+  item: FunctionComponent<{
+    index: number
+    baseUrl: string
+    action: MissionTimelineAction
+    prevAction?: MissionTimelineAction
+  }>
 }
 
-const MissionTimelineWrapper: FC<MissionTimelineProps> = ({
+const TimelineWrapper: FC<TimelineProps> = ({
   item,
   isError,
-  missionId,
+  baseUrl,
   actions,
   isLoading,
   groupBy,
   noTimelineMessage
 }) => {
+  console.log(baseUrl)
   const { groupByDay } = useDate()
   const { computeCompleteForStats } = useTimelineCompleteForStats()
   useEffect(() => {
@@ -43,9 +49,9 @@ const MissionTimelineWrapper: FC<MissionTimelineProps> = ({
 
   return (
     <Stack direction="column" spacing={'1rem'} style={{ width: '100%' }} alignItems="stretch">
-      {Object.entries(groupByDay(actions, groupBy)).map(([day, values], index) => (
+      {Object.entries(groupByDay(actions, groupBy)).map(([day, values], indexGroupBy) => (
         <Fragment key={day}>
-          {index !== 0 && (
+          {indexGroupBy !== 0 && (
             <Stack.Item data-testid={'timeline-day-divider'}>
               <Divider style={{ backgroundColor: THEME.color.charcoal }} />
               <div style={{ padding: '0.25rem' }} />
@@ -53,11 +59,12 @@ const MissionTimelineWrapper: FC<MissionTimelineProps> = ({
           )}
           <Stack.Item style={{ marginRight: '1rem' }}>
             <Stack direction="column" spacing={'0.75rem'} style={{ width: '100%' }} alignItems="stretch">
-              {(values as MissionTimelineAction[]).map(action =>
+              {(values as MissionTimelineAction[]).map((action, index) =>
                 createElement(item, {
-                  key: action.id,
+                  index,
                   action,
-                  missionId,
+                  baseUrl,
+                  key: action.id,
                   prevAction: find(actions, { type: action.type }, actions.findIndex(value => value === action) + 1)
                 })
               )}
@@ -69,4 +76,4 @@ const MissionTimelineWrapper: FC<MissionTimelineProps> = ({
   )
 }
 
-export default MissionTimelineWrapper
+export default TimelineWrapper

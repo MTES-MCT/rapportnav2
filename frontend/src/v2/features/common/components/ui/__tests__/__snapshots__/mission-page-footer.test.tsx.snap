@@ -81,28 +81,9 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                   class="sc-iRcyzz sc-kbeVdv jUHdyB boIGdG"
                   font-size="11"
                 >
-                  Connexion 
-                  disponible
-                   
-                </p>
-              </div>
-              <div
-                class="rs-stack-item"
-              >
-                <p
-                  class="sc-iRcyzz sc-kbeVdv jUHdyB boIGdG"
-                  font-size="11"
-                >
+                  Connexion disponible 
                    
                 </p>
-              </div>
-              <div
-                class="rs-stack-item"
-              >
-                <p
-                  class="sc-iRcyzz sc-kbeVdv jUHdyB boIGdG"
-                  font-size="11"
-                />
               </div>
             </div>
           </div>
@@ -314,28 +295,9 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 class="sc-iRcyzz sc-kbeVdv jUHdyB boIGdG"
                 font-size="11"
               >
-                Connexion 
-                disponible
-                 
-              </p>
-            </div>
-            <div
-              class="rs-stack-item"
-            >
-              <p
-                class="sc-iRcyzz sc-kbeVdv jUHdyB boIGdG"
-                font-size="11"
-              >
+                Connexion disponible 
                  
               </p>
-            </div>
-            <div
-              class="rs-stack-item"
-            >
-              <p
-                class="sc-iRcyzz sc-kbeVdv jUHdyB boIGdG"
-                font-size="11"
-              />
             </div>
           </div>
         </div>
