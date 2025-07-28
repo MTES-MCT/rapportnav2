@@ -4,8 +4,9 @@ import { FunctionComponent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Sidebar } from 'rsuite'
 import styled from 'styled-components'
+import { OwnerType } from '../../types/owner-type'
 
-type SideBarItem = { key: string; icon: FunctionComponent<IconProps>; url: string }
+type SideBarItem = { key: string; icon: FunctionComponent<IconProps>; url: OwnerType }
 
 type MissionListPageSidebarProps = {
   defaultItemKey?: string

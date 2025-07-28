@@ -1,4 +1,5 @@
 import { Icon } from '@mtes-mct/monitor-ui'
+import { OwnerType } from '../v2/features/common/types/owner-type'
 
 export const ROOT_PATH = '/'
 export const LOGIN_PATH = '/login'
@@ -11,21 +12,21 @@ export const ADMIN_CREW_PATH = '/admin/crews'
 
 export const PAM_SIDEBAR_ITEMS = [
   {
-    url: 'missions',
     key: 'list',
+    url: OwnerType.MISSION,
     icon: Icon.MissionAction
   }
 ]
 
 export const ULAM_SIDEBAR_ITEMS = [
   {
-    url: 'missions',
     key: 'list',
+    url: OwnerType.MISSION,
     icon: Icon.MissionAction
   },
   {
-    url: 'inquiries',
     key: 'inquiries',
+    url: OwnerType.INQUIRY,
     icon: Icon.Archive
   }
 ]

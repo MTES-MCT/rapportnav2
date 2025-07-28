@@ -7,6 +7,7 @@ import { FC } from 'react'
 import { Stack } from 'rsuite'
 import TimelineWrapper from '../../../common/components/layout/timeline-wrapper.tsx'
 import { NetworkSyncStatus } from '../../../common/types/network-types.ts'
+import { OwnerType } from '../../../common/types/owner-type.ts'
 import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'
 import MissionTimelineItemPam from './mission-timeline-pam-item'
 
@@ -41,7 +42,7 @@ const MissionTimelinePamBody: FC<MissionTimelinePamBodyProps> = ({ isError, acti
         isLoading={isLoading}
         groupBy="startDateTimeUtc"
         item={MissionTimelineItemPam}
-        baseUrl={`${getUrl('missions')}/${missionId}`}
+        baseUrl={`${getUrl(OwnerType.MISSION)}/${missionId}`}
       />
     </>
   )

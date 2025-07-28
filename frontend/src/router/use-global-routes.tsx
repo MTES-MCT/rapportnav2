@@ -2,6 +2,7 @@ import { useStore } from '@tanstack/react-store'
 import { useEffect, useState } from 'react'
 import useAuth from '../v2/features/auth/hooks/use-auth'
 import { ModuleType } from '../v2/features/common/types/module-type'
+import { OwnerType } from '../v2/features/common/types/owner-type'
 import { RoleType } from '../v2/features/common/types/role-type'
 import { State, store } from '../v2/store'
 import { setModuleType } from '../v2/store/slices/module-reducer'
@@ -15,7 +16,7 @@ const ROUTES = {
 
 type RouteHook = {
   homeUrl?: string
-  getUrl: (page: string) => string
+  getUrl: (page: OwnerType) => string
 }
 
 export function useGlobalRoutes(): RouteHook {
@@ -23,9 +24,9 @@ export function useGlobalRoutes(): RouteHook {
   const { isLoggedIn, isAuthenticated } = useAuth()
   const { isV2, type } = useStore(store, (state: State) => state.module)
 
-  const getUrl = (page: string) => {
+  const getUrl = (page: OwnerType) => {
     const baseUrl = isV2 ? '/v2' : ''
-    return `${baseUrl}/${type}/${page}`
+    return `${baseUrl}/${type}/${page.toString()}`
   }
 
   useEffect(() => {

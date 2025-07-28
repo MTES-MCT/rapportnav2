@@ -3,6 +3,7 @@ import { FC } from 'react'
 import TimelineWrapper from '../../../common/components/layout/timeline-wrapper'
 import { useMissionType } from '../../../common/hooks/use-mission-type'
 import { MissionReportTypeEnum } from '../../../common/types/mission-types'
+import { OwnerType } from '../../../common/types/owner-type'
 import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'
 import MissionTimelineItemUlam from './mission-timeline-ulam-item'
 
@@ -30,7 +31,7 @@ const MissionTimelineUlamBody: FC<MissionTimelineBodyProps> = ({
       isLoading={isLoading}
       groupBy="startDateTimeUtc"
       item={MissionTimelineItemUlam}
-      baseUrl={`${getUrl('missions')}/${missionId}`}
+      baseUrl={`${getUrl(OwnerType.MISSION)}/${missionId}`}
       noTimelineMessage={getNoTimelineMessage(missionReportType)}
     />
   )

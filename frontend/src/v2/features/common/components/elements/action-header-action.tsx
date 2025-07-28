@@ -20,7 +20,7 @@ export const ActionHeaderAction: React.FC<ActionHeaderActionProps> = ({ source, 
 
   const handleDelete = async () => {
     await mutation.mutateAsync(actionId)
-    navigate(`${getUrl(ownerType.toString())}/${ownerId}`)
+    navigate(`${getUrl(ownerType)}/${ownerId}`)
   }
 
   const isDeleteDisabled = () => source !== MissionSourceEnum.RAPPORTNAV
