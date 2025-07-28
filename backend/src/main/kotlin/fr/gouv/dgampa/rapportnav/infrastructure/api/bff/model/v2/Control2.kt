@@ -17,8 +17,7 @@ class Control2(
     val staffOutnumbered: ControlResult? = null,
     val upToDateMedicalCheck: ControlResult? = null,
     val hasBeenDone: Boolean? = null,
-    val knowledgeOfFrenchLawAndLanguage: ControlResult? = null,
-    val nbrOfHours: Int? = null
+    val knowledgeOfFrenchLawAndLanguage: ControlResult? = null
 ){
     fun toControlEntity(): ControlEntity2 {
         return ControlEntity2(

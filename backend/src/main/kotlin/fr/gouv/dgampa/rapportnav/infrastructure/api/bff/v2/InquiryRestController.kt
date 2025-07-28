@@ -70,7 +70,12 @@ class InquiryRestController(
         @RequestBody body: Inquiry
     ): Inquiry? {
         return try {
-            Inquiry.fromInquiryEntity(updateInquiry.execute(inquiry = body))
+            Inquiry.fromInquiryEntity(
+                updateInquiry.execute(
+                    inquiry = body,
+                    id = inquiryId.let { UUID.fromString(it) }
+                )
+            )
         } catch (e: Exception) {
             logger.error("Error while creating a new inquiry : ", e)
             return null

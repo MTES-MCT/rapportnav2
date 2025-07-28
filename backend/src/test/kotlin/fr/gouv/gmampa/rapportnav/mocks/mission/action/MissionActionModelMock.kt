@@ -51,7 +51,8 @@ object MissionActionModelMock {
             nbAssistedVesselsReturningToShore = 50,
             reason = ActionStatusReason.ADMINISTRATION.toString(),
             status = status.toString(),
-            ownerId = UUID.randomUUID()
+            ownerId = UUID.randomUUID(),
+            nbrOfHours = 65
         )
     }
 }

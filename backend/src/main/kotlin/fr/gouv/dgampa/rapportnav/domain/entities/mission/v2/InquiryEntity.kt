@@ -20,6 +20,7 @@ class InquiryEntity(
     var vesselName: String? = null,
     var vesselExternalReferenceNumber: String? = null,
     var actions: List<MissionActionEntity>? = null,
+    var isSignedByInspector: Boolean? = null,
 ) {
 
     companion object {
@@ -37,6 +38,7 @@ class InquiryEntity(
                 origin = model.origin?.let { InquiryOriginType.valueOf(it) },
                 status = model.status?.let { InquiryStatusType.valueOf(it) },
                 conclusion = model.conclusion?.let { InquiryConclusionType.valueOf(it) },
+                isSignedByInspector = model.isSignedByInspector
             )
         }
     }
@@ -54,7 +56,8 @@ class InquiryEntity(
             startDateTimeUtc = startDateTimeUtc!!,
             conclusion = conclusion?.toString(),
             missionId = missionId,
-            missionIdUUID = missionIdUUID
+            missionIdUUID = missionIdUUID,
+            isSignedByInspector = isSignedByInspector
         )
     }
 
@@ -69,37 +72,4 @@ class InquiryEntity(
         return this
     }
 
-    fun toModelSetData(entity: InquiryEntity): InquiryModel {
-        return InquiryModel(
-            id = id!!,
-            type = entity.type,
-            serviceId = entity.serviceId,
-            vesselId = entity.vesselId,
-            status = status?.toString(),
-            endDateTimeUtc = endDateTimeUtc,
-            origin = entity.origin?.toString(),
-            conclusion = conclusion?.toString(),
-            agentId = entity.agentId?.toString(),
-            startDateTimeUtc = entity.startDateTimeUtc!!,
-            missionId = missionId,
-            missionIdUUID = missionIdUUID
-        )
-    }
-
-    fun toModelSetConclusion(entity: InquiryEntity): InquiryModel {
-        return InquiryModel(
-            id = id!!,
-            type = type,
-            agentId = agentId?.toString(),
-            serviceId = serviceId,
-            vesselId = vesselId,
-            origin = origin?.toString(),
-            status = entity.status?.toString(),
-            startDateTimeUtc = startDateTimeUtc!!,
-            missionId = missionId,
-            missionIdUUID = missionIdUUID,
-            endDateTimeUtc = if(entity.status == InquiryStatusType.CLOSED) entity.endDateTimeUtc else endDateTimeUtc,
-            conclusion = if(entity.status == InquiryStatusType.CLOSED) entity.conclusion?.toString() else conclusion?.toString()
-        )
-    }
 }

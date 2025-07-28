@@ -59,6 +59,7 @@ class MissionNavActionDataTest {
         assertThat(output.data.nbOfVesselsTrackedWithoutIntervention).isEqualTo(entity.nbOfVesselsTrackedWithoutIntervention)
         assertThat(output.data.nbAssistedVesselsReturningToShore).isEqualTo(entity.nbAssistedVesselsReturningToShore)
         assertThat(output.data.reason).isEqualTo(entity.reason)
+        assertThat(output.data.nbrOfHours).isEqualTo(entity.nbrOfHours)
     }
 
     @Nested

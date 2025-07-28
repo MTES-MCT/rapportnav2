@@ -20,7 +20,6 @@ class Control2Test {
             amountOfControls = 2,
             infractions = listOf(),
             hasBeenDone = true,
-            nbrOfHours = 76,
             compliantOperatingPermit = ControlResult.YES,
             upToDateNavigationPermit = ControlResult.NO,
             compliantSecurityDocuments = ControlResult.NOT_CONTROLLED,

@@ -79,6 +79,7 @@ class MissionNavAction(
                     nbAssistedVesselsReturningToShore = navAction.nbAssistedVesselsReturningToShore,
                     status = navAction.status,
                     reason = navAction.reason,
+                    nbrOfHours = navAction.nbrOfHours,
                     targets = navAction.targets?.map { Target2.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc }
                 )
             )

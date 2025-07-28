@@ -137,8 +137,15 @@ class MissionNavActionEntity(
             DependentFieldValue(field = "actionType", value = ["STATUS"])
         ]
     )
+
     override var reason: ActionStatusReason? = null,
-    override var targets: List<TargetEntity2>? = null
+    override var targets: List<TargetEntity2>? = null,
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["INQUIRY"])
+        ]
+    )
+    override var nbrOfHours: Int? = null
 ) : MissionActionEntity(
     status = status,
     actionType = actionType,
@@ -198,7 +205,8 @@ class MissionNavActionEntity(
         nbAssistedVesselsReturningToShore = nbAssistedVesselsReturningToShore,
         status = status?.toString(),
         reason = reason?.toString(),
-        ownerId = ownerId
+        ownerId = ownerId,
+        nbrOfHours = nbrOfHours
     )
 
 
@@ -244,7 +252,8 @@ class MissionNavActionEntity(
                 nbAssistedVesselsReturningToShore = model.nbAssistedVesselsReturningToShore,
                 status = model.status?.let { ActionStatusType.valueOf(it) },
                 reason = model.reason?.let { ActionStatusReason.valueOf(it) },
-                ownerId = model.ownerId
+                ownerId = model.ownerId,
+                nbrOfHours = model.nbrOfHours
             )
         }
     }

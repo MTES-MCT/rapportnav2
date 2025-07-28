@@ -13,7 +13,6 @@ object ControlMock {
         id: UUID? = null,
         amountOfControls: Int? = null,
         hasBeenDone: Boolean? = null,
-        nbrOfHours: Int? = null,
         controlType: ControlType? = null,
         observations: String? = null,
         staffOutnumbered: ControlResult? = null,

@@ -39,7 +39,6 @@ object TargetMissionMock {
             controls = controls?: listOf(
                 ControlMock.create(
                     id = UUID.randomUUID(),
-                    nbrOfHours = 4,
                     controlType = ControlType.NAVIGATION,
                     amountOfControls = 0,
                     hasBeenDone = false,
@@ -61,7 +60,6 @@ object TargetMissionMock {
                 ),
                 ControlMock.create(
                     id = UUID.randomUUID(),
-                    nbrOfHours = 4,
                     controlType = ControlType.SECURITY,
                     amountOfControls = 1,
                     hasBeenDone = false,
@@ -83,7 +81,6 @@ object TargetMissionMock {
                 ),
                 ControlMock.create(
                     id = UUID.randomUUID(),
-                    nbrOfHours = 4,
                     controlType = ControlType.GENS_DE_MER,
                     amountOfControls = 0,
                     hasBeenDone = false,
@@ -105,7 +102,6 @@ object TargetMissionMock {
                 ),
                 ControlMock.create(
                     id = UUID.randomUUID(),
-                    nbrOfHours = 4,
                     controlType = ControlType.GENS_DE_MER,
                     amountOfControls = 1,
                     hasBeenDone = false,
