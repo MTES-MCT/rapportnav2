@@ -9,6 +9,7 @@ export interface State {
     debounceTime?: number
   }
   timeline: {
+    currentIndex: number
     isCompleteForStats?: boolean
     completnessForStats?: CompletenessForStats
   }
@@ -33,7 +34,7 @@ export interface State {
 
 export const store = new Store<State>({
   delayQuery: {},
-  timeline: {},
+  timeline: { currentIndex: 0 },
   generalInformations: {},
   mission: {},
   user: {} as User,

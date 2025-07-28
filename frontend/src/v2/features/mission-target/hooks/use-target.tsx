@@ -77,11 +77,15 @@ export function useTarget() {
     return availableControlTypes.filter(a => !fullControlTypes?.includes(a))
   }
 
+  const getNbrInfraction = (targets?: Target[]) =>
+    targets?.flatMap(t => t.controls)?.flatMap(c => c?.infractions)?.length ?? 0
+
   return {
     getTargetType,
     isDefaultTarget,
     deleteInfraction,
     fromInputToFieldValue,
-    filterAvailableControlType
+    filterAvailableControlType,
+    getNbrInfraction
   }
 }

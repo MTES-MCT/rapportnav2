@@ -2,7 +2,7 @@ import { THEME } from '@mtes-mct/monitor-ui'
 import { find } from 'lodash'
 import { createElement, FC, Fragment, FunctionComponent, useEffect } from 'react'
 import { Divider, Stack } from 'rsuite'
-import { setTimelineCompleteForStats } from '../../../../store/slices/timeline-complete-for-stats-reducer'
+import { setTimelineCompleteForStats } from '../../../../store/slices/timeline-reducer'
 import MissionTimelineEmpty from '../../../mission-timeline/components/ui/mission-timeline-empty'
 import MissionTimelineError from '../../../mission-timeline/components/ui/mission-timeline-error'
 import MissionTimelineLoader from '../../../mission-timeline/components/ui/mission-timeline-loader'
@@ -34,13 +34,12 @@ const TimelineWrapper: FC<TimelineProps> = ({
   groupBy,
   noTimelineMessage
 }) => {
-  console.log(baseUrl)
   const { groupByDay } = useDate()
   const { computeCompleteForStats } = useTimelineCompleteForStats()
   useEffect(() => {
     const completenessForStats = computeCompleteForStats(actions)
     setTimelineCompleteForStats(completenessForStats)
-  }, [actions])
+  }, [actions, computeCompleteForStats])
 
   if (noTimelineMessage) return <MissionTimelineEmpty message={noTimelineMessage} />
   if (isLoading) return <MissionTimelineLoader />
@@ -49,7 +48,12 @@ const TimelineWrapper: FC<TimelineProps> = ({
 
   return (
     <Stack direction="column" spacing={'1rem'} style={{ width: '100%' }} alignItems="stretch">
-      {Object.entries(groupByDay(actions, groupBy)).map(([day, values], indexGroupBy) => (
+      {Object.entries(
+        groupByDay(
+          actions.map((a, index) => ({ ...a, index })),
+          groupBy
+        )
+      ).map(([day, values], indexGroupBy) => (
         <Fragment key={day}>
           {indexGroupBy !== 0 && (
             <Stack.Item data-testid={'timeline-day-divider'}>
@@ -59,12 +63,12 @@ const TimelineWrapper: FC<TimelineProps> = ({
           )}
           <Stack.Item style={{ marginRight: '1rem' }}>
             <Stack direction="column" spacing={'0.75rem'} style={{ width: '100%' }} alignItems="stretch">
-              {(values as MissionTimelineAction[]).map((action, index) =>
+              {(values as (MissionTimelineAction & { index: number })[]).map(({ index, ...action }) =>
                 createElement(item, {
-                  index,
                   action,
                   baseUrl,
                   key: action.id,
+                  index: actions.length - index,
                   prevAction: find(actions, { type: action.type }, actions.findIndex(value => value === action) + 1)
                 })
               )}

@@ -1,5 +1,6 @@
 import { CompletenessForStatsStatusEnum } from '@common/types/mission-types'
 import { IconProps } from '@mtes-mct/monitor-ui'
+import { orderBy } from 'lodash'
 import { FunctionComponent } from 'react'
 import { ActionGroupType, ActionType } from '../../common/types/action-type'
 import { MissionAction, MissionEnvAction, MissionFishAction, MissionNavAction } from '../../common/types/mission-action'
@@ -49,7 +50,7 @@ interface TimelineHook {
 
 export function useTimeline(): TimelineHook {
   const getTimeLineAction = (actions?: MissionAction[]): MissionTimelineAction[] => {
-    return (
+    return orderBy(
       actions?.map(action => {
         switch (action.source) {
           case MissionSourceEnum.RAPPORTNAV:
@@ -61,7 +62,9 @@ export function useTimeline(): TimelineHook {
           default:
             return {} as MissionTimelineAction
         }
-      }) ?? []
+      }) ?? [],
+      'startDateTimeUtc',
+      'desc'
     )
   }
 

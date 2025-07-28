@@ -2,7 +2,7 @@ import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-
 import axios from '../../../../query-client/axios.ts'
 import { MissionAction } from '../types/mission-action.ts'
 import { OwnerType } from '../types/owner-type.ts'
-import { actionsKeys, crossControlsKeys, inquiriesKeys, missionsKeys } from './query-keys.ts'
+import { actionsKeys, inquiriesKeys, missionsKeys } from './query-keys.ts'
 
 const useUpdateMissionActionMutation = (
   ownerId: string,
@@ -17,7 +17,6 @@ const useUpdateMissionActionMutation = (
   const mutation = useMutation({
     mutationFn: updateAction,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: crossControlsKeys.all() })
       if (actionId) queryClient.invalidateQueries({ queryKey: actionsKeys.byId(actionId) })
       queryClient.invalidateQueries({
         queryKey: ownerType === OwnerType.INQUIRY ? inquiriesKeys.byId(ownerId) : missionsKeys.byId(ownerId)

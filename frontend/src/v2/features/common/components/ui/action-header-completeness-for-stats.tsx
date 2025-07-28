@@ -2,22 +2,20 @@ import Text from '@common/components/ui/text'
 import { CompletenessForStats } from '@common/types/mission-types.ts'
 import { createElement } from 'react'
 import { Stack } from 'rsuite'
-import { useMissionCompletenessForStats } from '../../../common/hooks/use-mission-completeness-for-stats'
-import { NetworkSyncStatus } from '../../../common/types/network-types.ts'
-import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
+import { useMissionCompletenessForStats } from '../../hooks/use-mission-completeness-for-stats.tsx'
+import { NetworkSyncStatus } from '../../types/network-types.ts'
 
-interface MissionActionHeaderCompletenessForStatsProps {
-  missionId: string
+interface ActionHeaderCompletenessForStatsProps {
+  isMissionFinished?: boolean
   completenessForStats?: CompletenessForStats
   networkSyncStatus?: NetworkSyncStatus
 }
 
-export const MissionActionHeaderCompletenessForStats: React.FC<MissionActionHeaderCompletenessForStatsProps> = ({
-  missionId,
+export const ActionHeaderCompletenessForStats: React.FC<ActionHeaderCompletenessForStatsProps> = ({
+  isMissionFinished,
   completenessForStats,
   networkSyncStatus
 }) => {
-  const isMissionFinished = useMissionFinished(missionId)
   const { icon, statusMessage, color } = useMissionCompletenessForStats(completenessForStats, isMissionFinished)
 
   return (
@@ -34,4 +32,4 @@ export const MissionActionHeaderCompletenessForStats: React.FC<MissionActionHead
   )
 }
 
-export default MissionActionHeaderCompletenessForStats
+export default ActionHeaderCompletenessForStats

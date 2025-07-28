@@ -15,7 +15,6 @@ import {
 import { InfractionByTarget } from '@common/types/infraction-types'
 import { CompletenessForStats } from '@common/types/mission-types'
 import { ActionType } from './action-type'
-import { CrossControl } from './crossed-control-type.ts'
 import { MissionActionData } from './mission-action-data'
 import { MissionSource } from './mission-types'
 import { NetworkSyncStatus } from './network-types.ts'
@@ -64,7 +63,6 @@ export interface MissionNavActionData extends MissionActionData {
   nbAssistedVesselsReturningToShore?: number
   status?: ActionStatusType
   reason?: ActionStatusReason
-  crossControl?: CrossControl
   nbrOfHours?: number
 }
 

@@ -30,7 +30,6 @@ export interface Control {
   upToDateMedicalCheck?: ControlResult
   hasBeenDone?: boolean
   knowledgeOfFrenchLawAndLanguage?: ControlResult
-  nbrOfHours?: number
 }
 
 export interface TargetExternalData {

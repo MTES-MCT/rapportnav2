@@ -21,6 +21,7 @@ interface DateHook {
   formatTime: (date: DateTypes) => string
   formatShortDate: (date: DateTypes) => string
   formatMissionName: (startDate?: string) => string
+  formatInquiryName: (startDate?: string) => string
   formaDateMissionNameUlam: (date: DateTypes) => string
   groupByDay: (obj: any[], dateField: string) => any
   formatDateForMissionName: (date: DateTypes) => string
@@ -54,12 +55,13 @@ export function useDate(): DateHook {
       const day = new UTCDate(subObj[dateField]).toLocaleDateString()
       groupedObj[day] = groupedObj[day] || []
       groupedObj[day].push(subObj)
-
       return groupedObj
     }, {})
   }
 
   const formatMissionName = (startDate?: string): string => `Mission #${formatDateForMissionName(startDate)}`
+
+  const formatInquiryName = (startDate?: string): string => `Contrôle croisé n°${formatDateForMissionName(startDate)}`
 
   const formatDateForMissionName = (date: DateTypes): string =>
     formatDate(date, MISSION_NAME_FORMAT, EMPTY_FRENCH_DAY_MONTH_YEAR)
@@ -111,7 +113,8 @@ export function useDate(): DateHook {
     groupByDay,
     formatShortDate,
     formatMissionName,
-    formaDateMissionNameUlam: formaDateMissionNameUlam,
+    formatInquiryName,
+    formaDateMissionNameUlam,
     formatDateForMissionName,
     formatDateForFrenchHumans,
     preprocessDateForPicker,
