@@ -45,15 +45,3 @@ const AdminCrewPage: FC = () => {
 }
 
 export default AdminCrewPage
-
-// grise moyens lorsue c'est deja selectionnée
-
-//Check doublong mission general infos
-
-// 26408
-
-// robuste du code
-
-// delete mission
-
-// certificat intégration pour se connecter sans machine virtuelle
