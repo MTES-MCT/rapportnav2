@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.17.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.17.0...backend@v2.17.1) (2025-07-29)
+
+
+### Bug Fixes
+
+* **backend:** add isSignedByInspector and nbrOfHours column ([2798c34](https://github.com/MTES-MCT/rapportnav2/commit/2798c34aaca4e2d0b52617b1384788c3117aa472))
+* use correct id for general infos ([6b54651](https://github.com/MTES-MCT/rapportnav2/commit/6b5465173668b9cc5296a1e091f5f6ea4200468a))
+
 ## [2.17.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.16.1...backend@v2.17.0) (2025-07-29)
 
 
