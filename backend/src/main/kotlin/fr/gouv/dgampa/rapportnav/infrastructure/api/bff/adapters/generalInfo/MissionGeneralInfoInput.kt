@@ -13,7 +13,7 @@ data class MissionGeneralInfoInput(
 ) {
     fun toMissionGeneralInfo(): MissionGeneralInfo {
         return MissionGeneralInfo(
-            id = id ?: missionId,
+            id = id,
             missionId,
             distanceInNauticalMiles,
             consumedGOInLiters,
