@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.17.3](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.17.2...docker-container@v2.17.3) (2025-07-29)
+
+
+### Bug Fixes
+
+* migration name ([8939b1b](https://github.com/MTES-MCT/rapportnav2/commit/8939b1b7ce31fe892733137a2b2a014dfe60e6d8))
+
 ## [2.17.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.17.1...docker-container@v2.17.2) (2025-07-29)
 
 
