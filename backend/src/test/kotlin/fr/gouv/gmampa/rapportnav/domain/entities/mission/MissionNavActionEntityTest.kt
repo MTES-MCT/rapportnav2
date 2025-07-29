@@ -66,6 +66,7 @@ class MissionNavActionEntityTest {
         assertThat(entity.nbAssistedVesselsReturningToShore).isEqualTo(model.nbAssistedVesselsReturningToShore)
         assertThat(entity.status.toString()).isEqualTo(model.status)
         assertThat(entity.reason.toString()).isEqualTo(model.reason)
+        assertThat(entity.nbrOfHours).isEqualTo(model.nbrOfHours)
     }
 
     @Test
@@ -107,6 +108,7 @@ class MissionNavActionEntityTest {
             reason = ActionStatusReason.ADMINISTRATION,
             status = ActionStatusType.ANCHORED,
             ownerId = UUID.randomUUID(),
+            nbrOfHours = 45
         )
         val model = entity.toMissionActionModel()
 
@@ -147,6 +149,8 @@ class MissionNavActionEntityTest {
         assertThat(model.status).isEqualTo(entity.status.toString())
         assertThat(model.reason).isEqualTo(entity.reason.toString())
         assertThat(model.ownerId).isEqualTo(entity.ownerId)
+        assertThat(model.nbrOfHours).isEqualTo(entity.nbrOfHours)
+
     }
 
     @Test

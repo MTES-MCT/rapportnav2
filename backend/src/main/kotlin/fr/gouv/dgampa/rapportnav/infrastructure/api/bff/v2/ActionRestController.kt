@@ -90,7 +90,7 @@ class ActionRestController(
 
     @DeleteMapping("{actionId}")
     @Operation(summary = "Delete a mission action")
-    fun deleteAction(@PathVariable(name = "actionId") actionId: String, @PathVariable missionId: String) {
+    fun deleteAction(@PathVariable(name = "actionId") actionId: String, @PathVariable ownerId: String) {
         deleteNavAction.execute(UUID.fromString(actionId))
     }
 }

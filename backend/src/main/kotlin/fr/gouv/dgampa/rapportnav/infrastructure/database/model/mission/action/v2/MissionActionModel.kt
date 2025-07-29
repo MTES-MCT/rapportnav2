@@ -122,6 +122,10 @@ data class MissionActionModel(
 
     @Column(name = "owner_id", nullable = true)
     var ownerId: UUID? = null,
+
+    @Column(name = "nbr_of_hours", nullable = true)
+    var nbrOfHours: Int? = null
+
 ) {
     override fun hashCode(): Int {
         return Objects.hash(id)

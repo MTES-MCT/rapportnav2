@@ -45,7 +45,10 @@ class InquiryModel(
     var missionId: Int? = null,
 
     @Column(name = "mission_id_uuid", nullable = true)
-    var missionIdUUID: UUID? = null
+    var missionIdUUID: UUID? = null,
+
+    @Column(name = "is_signed_by_inspector", nullable = true)
+    var isSignedByInspector: Boolean? = null
 
 ) {
     override fun hashCode(): Int {

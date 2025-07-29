@@ -42,7 +42,8 @@ class MissionNavActionData(
     override val endDateTimeUtc: Instant? = null,
     override val observations: String? = null,
     override val status: ActionStatusType? = null,
-    override val targets: List<Target2>? = null
+    override val targets: List<Target2>? = null,
+    override val nbrOfHours: Int? = null
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
@@ -89,7 +90,8 @@ class MissionNavActionData(
                 nbOfVesselsTrackedWithoutIntervention = data.nbOfVesselsTrackedWithoutIntervention,
                 nbAssistedVesselsReturningToShore = data.nbAssistedVesselsReturningToShore,
                 status = data.status,
-                reason = data.reason
+                reason = data.reason,
+                nbrOfHours = data.nbrOfHours
             )
             return action
         }
