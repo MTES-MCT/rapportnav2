@@ -1,3 +1,4 @@
+import { MissionTypeEnum } from '@common/types/env-mission-types.ts'
 import { FieldProps } from 'formik'
 import * as Yup from 'yup'
 import { useAbstractFormikSubForm } from '../../common/hooks/use-abstract-formik-sub-form.tsx'
@@ -7,7 +8,6 @@ import {
   MissionReportTypeEnum,
   MissionULAMGeneralInfoInitial
 } from '../../common/types/mission-types.ts'
-import { MissionTypeEnum } from '@common/types/env-mission-types.ts'
 
 export type MissionULAMGeneralInfoInitialInput = { dates: (Date | undefined)[] } & MissionULAMGeneralInfoInitial
 
@@ -53,7 +53,7 @@ export function useUlamMissionGeneralInformationInitialForm(
     missionTypes: Yup.mixed<MissionTypeEnum[]>().when('missionReportType', {
       is: MissionReportTypeEnum.FIELD_REPORT,
       then: schema => schema.required('Type de mission obligatoire')
-    }),
+    })
   })
 
   return {

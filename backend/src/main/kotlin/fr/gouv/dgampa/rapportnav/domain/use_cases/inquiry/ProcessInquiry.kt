@@ -12,7 +12,7 @@ class ProcessInquiry(
 ) {
     fun execute(entity: InquiryEntity): InquiryEntity {
         val vessel = getVessels.execute().find {vessel -> vessel.vesselId == entity.vesselId   }
-        val actions = getComputeNavActionListByMissionId.execute(ownerId = entity.missionIdUUID)
+        val actions = getComputeNavActionListByMissionId.execute(ownerId = entity.id)
 
         return entity
             .withVessel(vessel)

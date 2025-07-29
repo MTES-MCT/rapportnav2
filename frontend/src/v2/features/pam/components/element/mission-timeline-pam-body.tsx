@@ -1,13 +1,15 @@
+import Text from '@common/components/ui/text.tsx'
+import { Icon, THEME } from '@mtes-mct/monitor-ui'
+import { useGlobalRoutes } from '@router/use-global-routes.tsx'
+import matchesProperty from 'lodash/matchesProperty'
+import some from 'lodash/some'
 import { FC } from 'react'
-import MissionTimelineWrapper from '../../../mission-timeline/components/layout/mission-timeline-wrapper'
+import { Stack } from 'rsuite'
+import TimelineWrapper from '../../../common/components/layout/timeline-wrapper.tsx'
+import { NetworkSyncStatus } from '../../../common/types/network-types.ts'
+import { OwnerType } from '../../../common/types/owner-type.ts'
 import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'
 import MissionTimelineItemPam from './mission-timeline-pam-item'
-import some from 'lodash/some'
-import matchesProperty from 'lodash/matchesProperty'
-import { NetworkSyncStatus } from '../../../common/types/network-types.ts'
-import Text from '@common/components/ui/text.tsx'
-import { Stack } from 'rsuite'
-import { Icon, THEME } from '@mtes-mct/monitor-ui'
 
 interface MissionTimelinePamBodyProps {
   missionId: number
@@ -17,6 +19,7 @@ interface MissionTimelinePamBodyProps {
 }
 
 const MissionTimelinePamBody: FC<MissionTimelinePamBodyProps> = ({ isError, actions, missionId, isLoading }) => {
+  const { getUrl } = useGlobalRoutes()
   const hasActionsNotYetSyncWithServer = some(actions, matchesProperty('networkSyncStatus', NetworkSyncStatus.UNSYNC))
   return (
     <>
@@ -33,13 +36,13 @@ const MissionTimelinePamBody: FC<MissionTimelinePamBodyProps> = ({ isError, acti
           </Stack.Item>
         </Stack>
       )}
-      <MissionTimelineWrapper
+      <TimelineWrapper
         isError={isError}
-        missionId={missionId}
-        groupBy="startDateTimeUtc"
-        isLoading={isLoading}
-        item={MissionTimelineItemPam}
         actions={actions}
+        isLoading={isLoading}
+        groupBy="startDateTimeUtc"
+        item={MissionTimelineItemPam}
+        baseUrl={`${getUrl(OwnerType.MISSION)}/${missionId}`}
       />
     </>
   )

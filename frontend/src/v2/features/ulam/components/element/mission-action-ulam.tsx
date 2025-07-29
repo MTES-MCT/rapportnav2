@@ -1,7 +1,7 @@
 import { FC } from 'react'
-import MissionPageSectionWrapper from '../../../common/components/layout/mission-page-section-wrapper'
+import PageSectionWrapper from '../../../common/components/layout/page-section-wrapper'
+import useGetActionQuery from '../../../common/services/use-action'
 import useGetMissionQuery from '../../../common/services/use-mission'
-import useGetActionQuery from '../../../common/services/use-mission-action'
 import MissionActionUlamBody from './mission-action-ulam-body'
 import MissionActionUlamHeader from './mission-action-ulam-header'
 
@@ -14,7 +14,7 @@ const MissionActionUlam: FC<MissionActionProps> = ({ missionId, actionId }) => {
   const { data: mission } = useGetMissionQuery(missionId)
   const { data: action, error, isLoading } = useGetActionQuery(missionId, actionId)
   return (
-    <MissionPageSectionWrapper
+    <PageSectionWrapper
       hide={!actionId}
       sectionHeader={
         action && missionId ? (

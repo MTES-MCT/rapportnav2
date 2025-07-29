@@ -1,12 +1,13 @@
 import { MissionStatusEnum } from '@common/types/mission-types.ts'
 import { FC } from 'react'
+import ActionHeaderWrapper from '../../../common/components/layout/action-header-wrapper'
 import { MissionAction } from '../../../common/types/mission-action'
-import { ModuleType } from '../../../common/types/module-type'
-import MissionActionHeaderWrapper from '../../../mission-action/components/layout/mission-action-header-wrapper'
+import { OwnerType } from '../../../common/types/owner-type'
+import MissionActionHeaderCompletenessForStats from '../../../mission-action/components/elements/mission-action-header-completeness-for-stats'
 import { usePamActionRegistry } from '../../hooks/use-pam-action-registry'
 
 export type MissionActionHeaderProps = {
-  missionId: number
+  missionId: string
   action: MissionAction
   missionStatus?: MissionStatusEnum
 }
@@ -15,13 +16,20 @@ const MissionActionPamHeader: FC<MissionActionHeaderProps> = ({ action, missionI
   const { title, icon } = usePamActionRegistry(action.actionType)
 
   return (
-    <MissionActionHeaderWrapper
+    <ActionHeaderWrapper
       icon={icon}
       title={title}
       action={action}
-      missionId={missionId}
-      moduleType={ModuleType.PAM}
+      ownerId={missionId}
+      ownerType={OwnerType.MISSION}
       missionStatus={missionStatus}
+      completeness={
+        <MissionActionHeaderCompletenessForStats
+          missionId={missionId}
+          networkSyncStatus={action?.networkSyncStatus}
+          completenessForStats={action?.completenessForStats}
+        />
+      }
     />
   )
 }

@@ -3,8 +3,8 @@ import { getColorForStatus, mapStatusToText } from '@common/utils/status-utils'
 import { Dropdown, Icon } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { useMissionTimeline } from '../../../common/hooks/use-mission-timeline'
-import useCreateMissionActionMutation from '../../../common/services/use-create-mission-action'
+import { useTimelineAction } from '../../../common/hooks/use-timeline-action'
+import useCreateMissionActionMutation from '../../../common/services/use-create-action'
 import { ActionType } from '../../../common/types/action-type'
 
 const ACTION_STATUS: ActionStatusType[] = [
@@ -31,7 +31,7 @@ export const MissionStatusColorTag: FC<{ status: ActionStatusType }> = ({ status
 )
 
 const MissionTimelineAddStatus: FC<MissionTimelineAddStatusProps> = ({ missionId, onSumbit }) => {
-  const { getActionInput } = useMissionTimeline(missionId)
+  const { getActionInput } = useTimelineAction(missionId)
   const mutation = useCreateMissionActionMutation(missionId)
 
   const handleAddStatus = async (status: ActionStatusType) => {
