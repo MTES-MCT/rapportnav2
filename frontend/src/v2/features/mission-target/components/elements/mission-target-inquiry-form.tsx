@@ -8,14 +8,14 @@ import MissionInfractionEnvForm from '../../../mission-infraction/components/ele
 import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form'
 import { useTarget } from '../../hooks/use-target'
 
-export interface MissionTargetCrossControlFormProps {
+export interface MissionTargetInquiryFormProps {
   name: string
   isDisabled?: boolean
   fieldFormik: FieldProps<Target>
   availableControlTypes?: ControlType[]
 }
 
-const MissionTargetCrossControlForm: React.FC<MissionTargetCrossControlFormProps> = ({
+const MissionTargetInquiryForm: React.FC<MissionTargetInquiryFormProps> = ({
   name,
   isDisabled,
   fieldFormik,
@@ -64,7 +64,7 @@ const MissionTargetCrossControlForm: React.FC<MissionTargetCrossControlFormProps
             disabled={isDisabled}
             accent={Accent.SECONDARY}
             style={{ width: 'inherit' }}
-            role={'target-crossed-control-add-button'}
+            role={'target-inquiry-add-button'}
           >
             {'Ajouter une infraction'}
           </Button>
@@ -74,4 +74,4 @@ const MissionTargetCrossControlForm: React.FC<MissionTargetCrossControlFormProps
   )
 }
 
-export default MissionTargetCrossControlForm
+export default MissionTargetInquiryForm

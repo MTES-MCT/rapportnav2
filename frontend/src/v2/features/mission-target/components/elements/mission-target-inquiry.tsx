@@ -2,27 +2,27 @@ import { ControlType } from '@common/types/control-types'
 import { Field, FieldArrayRenderProps, FieldProps } from 'formik'
 import { Stack } from 'rsuite'
 import { Target } from '../../../common/types/target-types'
-import MissionTargetCrossControlForm from './mission-target-crossed-control-form'
 import MissionTargetEnvInfractionList from './mission-target-env-infraction-list'
+import MissionTargetInquiryForm from './mission-target-inquiry-form'
 
-export interface MissionTargetCrossControlProps {
+export interface MissionTargetInquiryProps {
   isDisabled?: boolean
   fieldArray: FieldArrayRenderProps
   availableControlTypes?: ControlType[]
 }
 
-const MissionTargetCrossControl: React.FC<MissionTargetCrossControlProps> = ({
+const MissionTargetInquiry: React.FC<MissionTargetInquiryProps> = ({
   fieldArray,
   isDisabled,
   availableControlTypes
 }) => {
   return (
     <Stack direction="column" alignItems="flex-start" style={{ width: '100%' }}>
-      <Stack.Item style={{ width: '100%' }}>
+      <Stack.Item style={{ width: '100%', marginBottom: 12 }}>
         {fieldArray.form.values.targets.map((target: Target, targetIndex: number) => (
           <Field name={`targets[${targetIndex}]`} key={`targets-form-[${targetIndex}]`}>
             {(fieldFormik: FieldProps<Target>) => (
-              <MissionTargetCrossControlForm
+              <MissionTargetInquiryForm
                 isDisabled={isDisabled}
                 fieldFormik={fieldFormik}
                 name={`targets[${targetIndex}]`}
@@ -38,6 +38,7 @@ const MissionTargetCrossControl: React.FC<MissionTargetCrossControlProps> = ({
           <Field name={`targets[${targetIndex}]`} key={`targets-item-[${targetIndex}]`}>
             {(fieldFormik: FieldProps<Target>) => (
               <MissionTargetEnvInfractionList
+                noDivider={true}
                 fieldFormik={fieldFormik}
                 targetType={target.targetType}
                 name={`targets[${targetIndex}]`}
@@ -51,4 +52,4 @@ const MissionTargetCrossControl: React.FC<MissionTargetCrossControlProps> = ({
   )
 }
 
-export default MissionTargetCrossControl
+export default MissionTargetInquiry
