@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.17.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.16.1...frontend@v2.17.0) (2025-07-29)
+
+
+### Features
+
+* **frontend:** refacto, renaming, moving files and tests files ([f707e90](https://github.com/MTES-MCT/rapportnav2/commit/f707e904df92e602a416ca0391a49cd07fdeb5e6))
+* **frontend:** refactor ui mission component to be more generic ([b542b76](https://github.com/MTES-MCT/rapportnav2/commit/b542b765508bffd7b3df1669f8bbf83b87663ec5))
+* **frontend:** refactor ui mission component to be more generic ([ef473a2](https://github.com/MTES-MCT/rapportnav2/commit/ef473a2570faa04ac9e3ba82292e89a044504d93))
+
+
+### Bug Fixes
+
+* **frontend:** building ([c60cffe](https://github.com/MTES-MCT/rapportnav2/commit/c60cffecbf4467f3a52638235b5fe8ca3f7591ef))
+* **frontend:** rebase  snapshot ([0aee49a](https://github.com/MTES-MCT/rapportnav2/commit/0aee49aecbccdf8124665566ee5268755f19cf75))
+* **frontend:** rebase, snapshot ([4bb8199](https://github.com/MTES-MCT/rapportnav2/commit/4bb8199244d5f6158f700f90da28a76d8264eeac))
+* **frontend:** skip failing test on svg control ([ebe5fb0](https://github.com/MTES-MCT/rapportnav2/commit/ebe5fb0c9b7c7a5a46fd24593ef4ff216e873fef))
+* **frontend:** typing getUrl method ([352f85e](https://github.com/MTES-MCT/rapportnav2/commit/352f85e20530eb80abaffdfbd1b5db3af1598a9d))
+* update monitor-ui and rsuite ([fc3a569](https://github.com/MTES-MCT/rapportnav2/commit/fc3a569213bcbde11250f151ccabe393cce9d626))
+
 ## [2.16.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.16.0...frontend@v2.16.1) (2025-07-23)
 
 
