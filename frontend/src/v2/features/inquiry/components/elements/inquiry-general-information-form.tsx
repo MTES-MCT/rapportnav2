@@ -8,7 +8,7 @@ import { usecontrolCheck } from '../../../common/hooks/use-control-check'
 import useAgentsQuery from '../../../common/services/use-agents'
 import useVesselListQuery from '../../../common/services/use-vessel-service'
 import { Agent } from '../../../common/types/crew-type'
-import { Inquiry } from '../../../common/types/inquiry'
+import { Inquiry, InquiryTargetType } from '../../../common/types/inquiry'
 import { useInquiry } from '../../hooks/use-inquiry'
 import { InquiryInput, useInquiryGeneralInformation } from '../../hooks/use-inquiry-general-information'
 
@@ -33,7 +33,7 @@ const InquiryGeneralInfoForm: FC<{
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
         >
-          {({ validateForm, setErrors }) => (
+          {({ values, validateForm, setErrors }) => (
             <Stack direction="column" alignItems="flex-start" style={{ width: '100%' }}>
               <FormikEffect
                 onChange={nextValue =>
@@ -105,6 +105,7 @@ const InquiryGeneralInfoForm: FC<{
                         name="vesselId"
                         isLight={false}
                         label="Nom du navire contrôlée"
+                        disabled={values.type === InquiryTargetType.COMPANY}
                       />
                     </Stack.Item>
                   )}

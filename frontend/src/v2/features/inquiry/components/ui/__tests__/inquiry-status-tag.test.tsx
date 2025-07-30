@@ -5,7 +5,7 @@ import { render } from './../../../../../../test-utils'
 
 describe('InquiryStatusTag', () => {
   it('renders should mathc snapshot', () => {
-    const wrapper = render(<InquiryStatusTag status={InquiryStatusType.NEW} />)
+    const wrapper = render(<InquiryStatusTag status={InquiryStatusType.IN_PROGRESS} />)
     expect(wrapper).toMatchSnapshot()
   })
 })

@@ -2,8 +2,8 @@ import { FormikErrors } from 'formik'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useDate } from '../../common/hooks/use-date'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
-import { Inquiry } from '../../common/types/inquiry'
-import { inquiryValidationSchema } from './inquiry-schema'
+import { Inquiry, InquiryTargetType } from '../../common/types/inquiry'
+import { getInquirySchema } from './inquiry-schema'
 
 export type InquiryInput = {
   dates: [Date?, Date?]
@@ -31,8 +31,9 @@ export function useInquiryGeneralInformation(
 
     return {
       ...newData,
+      endDateTimeUtc,
       startDateTimeUtc,
-      endDateTimeUtc
+      vesselId: newData.type === InquiryTargetType.COMPANY ? undefined : newData.vesselId
     }
   }
 
@@ -55,6 +56,6 @@ export function useInquiryGeneralInformation(
   return {
     initValue,
     handleSubmit: handleSubmitOverride,
-    validationSchema: inquiryValidationSchema
+    validationSchema: getInquirySchema(true)
   }
 }

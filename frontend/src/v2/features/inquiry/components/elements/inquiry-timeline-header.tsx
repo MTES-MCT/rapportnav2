@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom'
 import { useTimelineAction } from '../../../common/hooks/use-timeline-action'
 import useCreateMissionActionMutation from '../../../common/services/use-create-action'
 import { ActionType } from '../../../common/types/action-type'
+import { InquiryStatusType } from '../../../common/types/inquiry'
 import { OwnerType } from '../../../common/types/owner-type'
+import useGetInquiryQuery from '../../services/use-inquiry'
 
 interface InquiryTimelineHeaderProps {
   inquiryId: string
@@ -14,6 +16,7 @@ interface InquiryTimelineHeaderProps {
 const InquiryTimelineHeader: FC<InquiryTimelineHeaderProps> = ({ inquiryId }) => {
   const navigate = useNavigate()
   const { getUrl } = useGlobalRoutes()
+  const { data: inquiry } = useGetInquiryQuery(inquiryId)
   const { getActionInput } = useTimelineAction(inquiryId)
   const mutation = useCreateMissionActionMutation(inquiryId, OwnerType.INQUIRY)
 
@@ -24,7 +27,13 @@ const InquiryTimelineHeader: FC<InquiryTimelineHeaderProps> = ({ inquiryId }) =>
   }
 
   return (
-    <Button accent={Accent.PRIMARY} size={Size.NORMAL} Icon={Icon.Plus} onClick={handleAddActionInquiry}>
+    <Button
+      Icon={Icon.Plus}
+      size={Size.NORMAL}
+      accent={Accent.PRIMARY}
+      onClick={handleAddActionInquiry}
+      disabled={inquiry?.status === InquiryStatusType.CLOSED}
+    >
       Ajouter une session de travail
     </Button>
   )

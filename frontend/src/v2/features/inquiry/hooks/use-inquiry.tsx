@@ -1,21 +1,13 @@
 import { ControlType } from '@common/types/control-types'
-import {
-  InquiryConclusionType,
-  InquiryOriginType,
-  InquiryStatusType,
-  InquiryTargetType
-} from '../../common/types/inquiry'
+import { Icon, IconProps, THEME } from '@mtes-mct/monitor-ui'
+import { FunctionComponent } from 'react'
+import { Inquiry, InquiryConclusionType, InquiryOriginType, InquiryTargetType } from '../../common/types/inquiry'
+import { CompletenessForStatsStatusEnum } from '../../common/types/mission-types'
+import { getInquirySchema } from './inquiry-schema'
 
 type InquiryTargetTypeRegistry = { [key in InquiryTargetType]: string }
 type InquiryOriginTypeRegistry = { [key in InquiryOriginType]: string }
-type InquiryStatusTypeRegistry = { [key in InquiryStatusType]: string }
 type InquiryConclusionTypepeRegistry = { [key in InquiryConclusionType]: string }
-
-const INQUIRY_STATUS_TYPE_REGISTRY: InquiryStatusTypeRegistry = {
-  [InquiryStatusType.CLOSED]: ``,
-  [InquiryStatusType.NEW]: `Nouveau contrôle croisé`,
-  [InquiryStatusType.FOLLOW_UP]: `Suite d'un contrôle croisé`
-}
 
 const INQUIRY_TARGET_TYPE_REGISTRY: InquiryTargetTypeRegistry = {
   [InquiryTargetType.VEHICLE]: `Navire`,
@@ -35,16 +27,29 @@ const INQUIRY_CONCLUSION_TYPE_REGISTRY: InquiryConclusionTypepeRegistry = {
   [InquiryConclusionType.WITH_REPORT]: `Révélation d'infraction`
 }
 
+const REPORT_STATUS = {
+  [CompletenessForStatsStatusEnum.INCOMPLETE]: {
+    text: 'À compléter',
+    icon: Icon.AttentionFilled,
+    color: THEME.color.charcoal
+  },
+  [CompletenessForStatsStatusEnum.COMPLETE]: {
+    text: 'Données à jour',
+    icon: Icon.Confirm,
+    color: THEME.color.mediumSeaGreen
+  }
+}
+
 interface InquiryHook {
   availableControlTypes: ControlType[]
   getInquiryOriginType: (type?: InquiryOriginType) => string | undefined
   inquiryOriginOptions: { label: string; value: InquiryOriginType }[]
-  getInquiryStatusType: (type?: InquiryStatusType) => string | undefined
-  inquiryStatusOptions: { label: string; value: InquiryStatusType }[]
   getInquiryTargetType: (type?: InquiryTargetType) => string | undefined
   inquiryTargetOptions: { label: string; value: InquiryTargetType }[]
   getInquiryConclusionType: (type?: InquiryConclusionType) => string | undefined
   inquiryConclusionOptions: { label: string; value: InquiryConclusionType }[]
+  isClosable: (inquiry?: Inquiry) => boolean | undefined
+  getStatusReport: (inquiry?: Inquiry) => { text: string; color: string; icon: FunctionComponent<IconProps> }
 }
 
 export function useInquiry(): InquiryHook {
@@ -54,15 +59,6 @@ export function useInquiry(): InquiryHook {
       value: InquiryOriginType[key as keyof typeof InquiryOriginType],
       label: INQUIRY_ORIGIN_TYPE_REGISTRY[key as keyof typeof InquiryOriginType]
     }))
-
-  const getInquiryStatusType = (type?: InquiryStatusType) => (type ? INQUIRY_STATUS_TYPE_REGISTRY[type] : '')
-  const getInquiryStatusTypeOptions = () =>
-    Object.keys(InquiryStatusType)
-      ?.map(key => ({
-        value: InquiryStatusType[key as keyof typeof InquiryStatusType],
-        label: INQUIRY_STATUS_TYPE_REGISTRY[key as keyof typeof InquiryStatusType]
-      }))
-      .filter(s => s.value !== InquiryStatusType.CLOSED)
 
   const getInquiryConclusionType = (type?: InquiryConclusionType) =>
     type ? INQUIRY_CONCLUSION_TYPE_REGISTRY[type] : ''
@@ -79,7 +75,22 @@ export function useInquiry(): InquiryHook {
       label: INQUIRY_TARGET_TYPE_REGISTRY[key as keyof typeof InquiryTargetType]
     }))
 
+  const isClosable = (inquiry?: Inquiry) => {
+    return (
+      getInquirySchema().isValidSync(inquiry) &&
+      inquiry?.actions?.every(action => action.completenessForStats.status === CompletenessForStatsStatusEnum.COMPLETE)
+    )
+  }
+
+  const getStatusReport = (inquiry?: Inquiry) => {
+    return isClosable(inquiry)
+      ? REPORT_STATUS[CompletenessForStatsStatusEnum.COMPLETE]
+      : REPORT_STATUS[CompletenessForStatsStatusEnum.INCOMPLETE]
+  }
+
   return {
+    getStatusReport,
+    isClosable,
     availableControlTypes: [
       ControlType.SECURITY,
       ControlType.NAVIGATION,
@@ -87,11 +98,9 @@ export function useInquiry(): InquiryHook {
       ControlType.ADMINISTRATIVE
     ],
     getInquiryOriginType,
-    getInquiryStatusType,
     getInquiryTargetType,
     getInquiryConclusionType,
     inquiryOriginOptions: getInquiryOriginTypeOptions(),
-    inquiryStatusOptions: getInquiryStatusTypeOptions(),
     inquiryTargetOptions: getInquiryTargetTypeOptions(),
     inquiryConclusionOptions: getInquiryConclusionTypeOptions()
   }

@@ -9,7 +9,7 @@ interface InquiryStatusTagProps {
 }
 
 const InquiryStatusTag: FC<InquiryStatusTagProps> = ({ status }) => {
-  const statusComponent = useInquiryStatus(status ?? InquiryStatusType.NEW)
+  const statusComponent = useInquiryStatus(status ?? InquiryStatusType.IN_PROGRESS)
   return (
     <Tag
       withCircleIcon={true}

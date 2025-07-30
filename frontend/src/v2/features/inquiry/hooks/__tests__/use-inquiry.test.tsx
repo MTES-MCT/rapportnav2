@@ -1,11 +1,6 @@
 import { ControlType } from '@common/types/control-types'
 import { describe, expect, it } from 'vitest'
-import {
-  InquiryConclusionType,
-  InquiryOriginType,
-  InquiryStatusType,
-  InquiryTargetType
-} from '../../../common/types/inquiry'
+import { InquiryConclusionType, InquiryOriginType, InquiryTargetType } from '../../../common/types/inquiry'
 import { useInquiry } from '../use-inquiry'
 
 describe('useInquiry', () => {
@@ -27,16 +22,6 @@ describe('useInquiry', () => {
 
     it('should return empty string when no type is provided', () => {
       expect(inquiry.getInquiryOriginType()).toBe('')
-    })
-  })
-
-  describe('getInquiryStatusType', () => {
-    it('should return status type label when type is provided', () => {
-      expect(inquiry.getInquiryStatusType(InquiryStatusType.NEW)).toBe('Nouveau contrôle croisé')
-    })
-
-    it('should return empty string when no type is provided', () => {
-      expect(inquiry.getInquiryStatusType()).toBe('')
     })
   })
 
@@ -67,11 +52,6 @@ describe('useInquiry', () => {
       expect(inquiry.inquiryOriginOptions[0]).toHaveProperty('value')
     })
 
-    it('should return inquiry status options excluding CLOSED status', () => {
-      expect(inquiry.inquiryStatusOptions).toHaveLength(Object.keys(InquiryStatusType).length - 1)
-      expect(inquiry.inquiryStatusOptions.find(option => option.value === InquiryStatusType.CLOSED)).toBeUndefined()
-    })
-
     it('should return inquiry target options', () => {
       expect(inquiry.inquiryTargetOptions).toHaveLength(Object.keys(InquiryTargetType).length)
       expect(inquiry.inquiryTargetOptions[0]).toHaveProperty('label')
@@ -82,6 +62,52 @@ describe('useInquiry', () => {
       expect(inquiry.inquiryConclusionOptions).toHaveLength(Object.keys(InquiryConclusionType).length)
       expect(inquiry.inquiryConclusionOptions[0]).toHaveProperty('label')
       expect(inquiry.inquiryConclusionOptions[0]).toHaveProperty('value')
+    })
+
+    it('should return false when inquiry is undefined', () => {
+      expect(inquiry.isClosable(undefined)).toBe(false)
+    })
+
+    it('should return incomplete status when inquiry is undefined', () => {
+      expect(inquiry.getStatusReport(undefined)).toEqual({
+        text: 'À compléter',
+        icon: expect.any(Function),
+        color: expect.any(String)
+      })
+    })
+
+    it('should return incomplete status when inquiry is not valid', () => {
+      const invalidInquiry = {} as any
+      expect(inquiry.getStatusReport(invalidInquiry)).toEqual({
+        text: 'À compléter',
+        icon: expect.any(Function),
+        color: expect.any(String)
+      })
+    })
+
+    it('should return complete status when inquiry is valid and all actions are complete', () => {
+      const validInquiry = {
+        agentId: 'myAgent',
+        type: InquiryTargetType.VEHICLE,
+        isSignedByInspector: false,
+        vesselId: 'Ereceex1221',
+        origin: InquiryOriginType.CNSP_REPORTING,
+        endDateTimeUtc: '2022-08-11T12:00:00Z',
+        startDateTimeUtc: '2022-08-07T12:00:00Z',
+        actions: [
+          {
+            completenessForStats: {
+              status: 'COMPLETE'
+            }
+          }
+        ]
+      } as any
+
+      expect(inquiry.getStatusReport(validInquiry)).toEqual({
+        text: 'Données à jour',
+        icon: expect.any(Function),
+        color: expect.any(String)
+      })
     })
   })
 })

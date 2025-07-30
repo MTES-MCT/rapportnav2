@@ -36,7 +36,7 @@ const DialogQuestion: React.FC<DialogQuestionProps> = ({ type, title, question, 
               color={THEME.color.gainsboro}
               role={'dialog-question'}
               data-testid="close-dialog-question"
-              onClick={() => onSubmit(true)}
+              onClick={() => onSubmit(false)}
             />
           </FlexboxGrid.Item>
         </FlexboxGrid>

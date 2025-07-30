@@ -1,4 +1,5 @@
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
+import { orderBy } from 'lodash'
 import { useEffect } from 'react'
 import axios from '../../../../query-client/axios.ts'
 import { DYNAMIC_DATA_STALE_TIME } from '../../../../query-client/index.ts'
@@ -10,7 +11,7 @@ const useInquiriesQuery = (params: URLSearchParams): UseQueryResult<Inquiry[], E
 
   const fetchInquiries = async (): Promise<Inquiry[]> => {
     const response = await axios.get<Inquiry[]>(`inquiries?${params.toString()}`)
-    return response.data
+    return orderBy(response.data ?? [], 'startDateTimeUtc', 'desc')
   }
 
   const endDateTimeUtc = params.get('endDateTimeUtc')

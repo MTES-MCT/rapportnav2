@@ -4,17 +4,8 @@ import { InquiryStatusType } from '../../../common/types/inquiry'
 import { useInquiryStatus } from '../use-inquiry-status'
 
 describe('useInquiryStatus', () => {
-  it('should return correct values for NEW status', () => {
-    const result = useInquiryStatus(InquiryStatusType.NEW)
-    expect(result).toEqual({
-      text: 'À venir',
-      icon: Icon.ClockDashed,
-      color: THEME.color.babyBlueEyes
-    })
-  })
-
-  it('should return correct values for FOLLOW_UP status', () => {
-    const result = useInquiryStatus(InquiryStatusType.FOLLOW_UP)
+  it('should return correct values for IN PROGRESS status', () => {
+    const result = useInquiryStatus(InquiryStatusType.IN_PROGRESS)
     expect(result).toEqual({
       text: 'En cours',
       icon: Icon.Clock,

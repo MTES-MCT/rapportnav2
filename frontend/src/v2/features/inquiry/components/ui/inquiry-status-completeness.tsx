@@ -1,25 +1,22 @@
 import Text from '@common/components/ui/text'
-import { Tag, THEME } from '@mtes-mct/monitor-ui'
-import { FC } from 'react'
-import { InquiryStatusType } from '../../../common/types/inquiry'
-import { useInquiryStatus } from '../../hooks/use-inquiry-status'
+import { IconProps, Tag, THEME } from '@mtes-mct/monitor-ui'
+import { FC, FunctionComponent } from 'react'
 
 interface InquiryStatusCompletenessProps {
-  status?: InquiryStatusType
+  status: { text: string; color: string; icon: FunctionComponent<IconProps> }
 }
 
 const InquiryStatusCompleteness: FC<InquiryStatusCompletenessProps> = ({ status }) => {
-  const statusComponent = useInquiryStatus(status ?? InquiryStatusType.NEW)
   return (
     <Tag
       withCircleIcon={true}
-      Icon={statusComponent.icon}
-      color={THEME.color.charcoal}
-      iconColor={statusComponent.color}
+      Icon={status.icon}
+      color={status.color}
+      iconColor={status.color}
       backgroundColor={THEME.color.cultured}
     >
-      <Text as="h3" weight="medium" color={THEME.color.charcoal}>
-        {statusComponent.text}
+      <Text as="h3" weight="medium" color={status.color}>
+        {status.text}
       </Text>
     </Tag>
   )

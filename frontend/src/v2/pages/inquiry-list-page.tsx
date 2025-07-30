@@ -14,6 +14,7 @@ import MissionListPageSidebarWrapper from '../features/common/components/ui/miss
 import MissionListPageTitle from '../features/common/components/ui/mission-list-page-title.tsx'
 import { useDate } from '../features/common/hooks/use-date.tsx'
 import { Inquiry, InquiryStatusType } from '../features/common/types/inquiry.ts'
+import { OwnerType } from '../features/common/types/owner-type.ts'
 import InquiryList from '../features/inquiry/components/elements/inquiry-list.tsx'
 import useCreateInquiryMutation from '../features/inquiry/services/use-create-inquiry.tsx'
 import useInquiriesQuery from '../features/inquiry/services/use-inquiries.tsx'
@@ -40,11 +41,11 @@ const InquiryListPage: React.FC = () => {
 
   const handleCreateInquiry = async () => {
     const response = await mutation.mutateAsync({
-      status: InquiryStatusType.NEW,
       serviceId: user?.serviceId,
+      status: InquiryStatusType.IN_PROGRESS,
       startDateTimeUtc: new UTCDate().toISOString()
     } as Inquiry)
-    if (response.id) navigate(getUrl(`inquiries/${response.id}`))
+    if (response.id) navigate(`${getUrl(OwnerType.INQUIRY)}/${response.id}`)
   }
 
   return (
@@ -64,7 +65,7 @@ const InquiryListPage: React.FC = () => {
                 <Stack direction="row" justifyContent={'flex-end'} alignItems={'flex-end'} style={{ width: '100%' }}>
                   <Stack.Item>
                     <Button Icon={Icon.Plus} accent={Accent.PRIMARY} onClick={() => handleCreateInquiry()}>
-                      Créer un rapport d'enquête
+                      Créer un contrôle croisé
                     </Button>
                   </Stack.Item>
                 </Stack>

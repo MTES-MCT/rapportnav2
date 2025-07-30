@@ -10,6 +10,7 @@ import { useDate } from '../../../common/hooks/use-date'
 import { Inquiry } from '../../../common/types/inquiry'
 import { OwnerType } from '../../../common/types/owner-type'
 import { User } from '../../../common/types/user'
+import { useInquiry } from '../../hooks/use-inquiry'
 import InquiryStatusCompleteness from './inquiry-status-completeness'
 import InquiryStatusTag from './inquiry-status-tag'
 
@@ -44,9 +45,10 @@ const MissionCrewItem = styled.div`
 
 const InquiryListItem: React.FC<InquiryListItemProps> = ({ index, length, inquiry, openIndex, setOpenIndex }) => {
   const navigate = useNavigate()
-  const { getAgentById } = useAgent()
   const isOpen = openIndex === index
+  const { getAgentById } = useAgent()
   const { getUrl } = useGlobalRoutes()
+  const { getStatusReport } = useInquiry()
   const { formaDateMissionNameUlam, formatDateForFrenchHumans } = useDate()
 
   const listItemRef = useRef<HTMLDivElement>(null)
@@ -87,7 +89,7 @@ const InquiryListItem: React.FC<InquiryListItemProps> = ({ index, length, inquir
         </FlexboxGrid.Item>
 
         <FlexboxGrid.Item colspan={3} data-testid={'mission-list-item-completeness'}>
-          <InquiryStatusCompleteness />
+          <InquiryStatusCompleteness status={getStatusReport(inquiry)} />
         </FlexboxGrid.Item>
 
         <FlexboxGrid.Item colspan={1} data-testid={'mission-list-item-icon-edit'} style={{ textAlign: 'right' }}>

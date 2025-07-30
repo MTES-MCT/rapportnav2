@@ -9,9 +9,8 @@ export enum InquiryOriginType {
 }
 
 export enum InquiryStatusType {
-  NEW = 'NEW',
   CLOSED = 'CLOSED',
-  FOLLOW_UP = 'FOLLOW_UP'
+  IN_PROGRESS = 'IN_PROGRESS'
 }
 
 export enum InquiryConclusionType {
@@ -26,7 +25,7 @@ export enum InquiryTargetType {
 
 export interface Inquiry {
   id?: string
-  type?: string
+  type?: InquiryTargetType
   agentId?: number
   vesselId?: number
   serviceId?: number

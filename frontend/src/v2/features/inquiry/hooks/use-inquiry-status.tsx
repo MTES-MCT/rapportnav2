@@ -11,12 +11,7 @@ type Component = {
 type StatusComponent = { [key in InquiryStatusType]: Component }
 
 const INQUIRY_STATUS: StatusComponent = {
-  [InquiryStatusType.NEW]: {
-    text: 'À venir',
-    icon: Icon.ClockDashed,
-    color: THEME.color.babyBlueEyes
-  },
-  [InquiryStatusType.FOLLOW_UP]: {
+  [InquiryStatusType.IN_PROGRESS]: {
     text: 'En cours',
     icon: Icon.Clock,
     color: THEME.color.blueGray
