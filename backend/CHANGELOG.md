@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.17.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.17.2...backend@v2.17.3) (2025-07-29)
+
+
+### Bug Fixes
+
+* migration name ([8939b1b](https://github.com/MTES-MCT/rapportnav2/commit/8939b1b7ce31fe892733137a2b2a014dfe60e6d8))
+
+## [2.17.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.17.1...backend@v2.17.2) (2025-07-29)
+
+
+### Bug Fixes
+
+* delete duplicate general info rows ([8206139](https://github.com/MTES-MCT/rapportnav2/commit/820613923ca38a812e828e9f2aa040af70eaedf0))
+
+## [2.17.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.17.0...backend@v2.17.1) (2025-07-29)
+
+
+### Bug Fixes
+
+* **backend:** add isSignedByInspector and nbrOfHours column ([2798c34](https://github.com/MTES-MCT/rapportnav2/commit/2798c34aaca4e2d0b52617b1384788c3117aa472))
+* use correct id for general infos ([6b54651](https://github.com/MTES-MCT/rapportnav2/commit/6b5465173668b9cc5296a1e091f5f6ea4200468a))
+
 ## [2.17.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.16.1...backend@v2.17.0) (2025-07-29)
 
 
