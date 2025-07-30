@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.17.5](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.17.4...docker-container@v2.17.5) (2025-07-30)
+
+
+### Bug Fixes
+
+* check for general info dupes ([a453e67](https://github.com/MTES-MCT/rapportnav2/commit/a453e67cf7fdad90c44a400923ce7997980f54e4))
+
 ## [2.17.4](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.17.3...docker-container@v2.17.4) (2025-07-30)
 
 
