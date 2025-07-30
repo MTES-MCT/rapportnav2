@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.17.4](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.17.3...backend@v2.17.4) (2025-07-30)
+
+
+### Bug Fixes
+
+* allow server admin pages ([9f0ec5f](https://github.com/MTES-MCT/rapportnav2/commit/9f0ec5f1fab19fcb3a9ece09a7b1283ea8d9f1b0))
+* check for general info dupes ([85936b7](https://github.com/MTES-MCT/rapportnav2/commit/85936b70d25264b3d8676e7f79112bc1ab7fbc67))
+
 ## [2.17.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.17.2...backend@v2.17.3) (2025-07-29)
 
 
