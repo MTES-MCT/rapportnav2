@@ -21,8 +21,16 @@ class JPAMissionGeneralInfoRepository(
         return dbRepo.findByMissionId(missionId)
     }
 
+   override fun findAllByMissionId(missionId: Int): List<MissionGeneralInfoModel> {
+        return dbRepo.findAllByMissionId(missionId)
+    }
+
     override fun findByMissionIdUUID(missionIdUUID: UUID): Optional<MissionGeneralInfoModel> {
         return dbRepo.findByMissionIdUUID(missionIdUUID)
+    }
+
+    override fun findAllByMissionIdUUID(missionIdUUID: UUID): List<MissionGeneralInfoModel> {
+        return dbRepo.findAllByMissionIdUUID(missionIdUUID)
     }
 
     override fun findById(id: Int): Optional<MissionGeneralInfoModel> {
@@ -31,6 +39,10 @@ class JPAMissionGeneralInfoRepository(
 
     override fun existsById(id: Int): Boolean {
         return dbRepo.existsById(id)
+    }
+
+    override fun deleteById(id: Int) {
+        return dbRepo.deleteById(id)
     }
 
     @Transactional

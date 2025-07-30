@@ -34,9 +34,11 @@ const MissionRecognizedVessel: React.FC<MissionRecognizedVesselProps> = ({ missi
 
   const updateRecognizedVessel = async (nbrOfRecognizedVessel?: number) => {
     const info = { ...generalInfo, missionId, nbrOfRecognizedVessel }
-    await updateGeneralInfo({
-      variables: { info }
-    })
+    if (nbrOfRecognizedVessel !== generalInfo?.nbrOfRecognizedVessel) {
+      await updateGeneralInfo({
+        variables: { info }
+      })
+    }
   }
 
   const validateError = (isMissionFinished?: boolean, nbrOfRecognizedVessel?: number) =>
