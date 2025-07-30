@@ -49,7 +49,7 @@ class DeleteInquiryTest {
         val  model = InquiryEntity(
             id = ownerId,
             startDateTimeUtc = Instant.now(),
-            status = InquiryStatusType.NEW
+            status = InquiryStatusType.IN_PROGRESS
         ).toInquiryModel()
 
         `when`(inquiryRepo.findById(id = ownerId)).thenReturn(Optional.of(model))
