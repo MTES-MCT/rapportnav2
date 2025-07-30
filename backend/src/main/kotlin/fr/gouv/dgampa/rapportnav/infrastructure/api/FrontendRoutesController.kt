@@ -11,6 +11,7 @@ class FrontendRoutesController {
             "/",
             "/login",
             "/signup",
+            "/admin",
             "/pam/**",
             "/ulam/**",
             "/v2/**"
