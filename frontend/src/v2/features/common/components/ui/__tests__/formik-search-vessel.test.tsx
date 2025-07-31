@@ -16,12 +16,7 @@ describe('FormikSearchVessel', () => {
     ]
     const wrapper = render(
       <Formik initialValues={{ vesselSize: '' }} onSubmit={handleSubmit}>
-        <FormikSearchVessel
-          vessels={vessels}
-          name="crossControl.vesselId"
-          isLight={true}
-          label="Nom du navire contrôlée"
-        />
+        <FormikSearchVessel vessels={vessels} name="vesselId" isLight={true} label="Nom du navire contrôlée" />
       </Formik>
     )
     expect(wrapper).toMatchSnapshot()

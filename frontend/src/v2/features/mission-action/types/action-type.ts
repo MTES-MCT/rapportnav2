@@ -1,4 +1,3 @@
-import { CrossControlStatusType } from '../../common/types/crossed-control-type'
 import { MissionEnvActionData, MissionFishActionData, MissionNavActionData } from '../../common/types/mission-action'
 import { MissionActionData } from '../../common/types/mission-action-data'
 import { RescueType } from '../../common/types/rescue-type'
@@ -57,8 +56,4 @@ export type ActionEnvControlInput = {
   geoCoords: [number?, number?]
 } & MissionEnvActionData
 
-export type ActionCrossControlInput = {
-  endDate?: Date | null
-  startDate?: Date
-  crossControlStatus?: CrossControlStatusType
-} & MissionNavActionData
+export type ActionInquiryInput = {} & MissionNavActionData

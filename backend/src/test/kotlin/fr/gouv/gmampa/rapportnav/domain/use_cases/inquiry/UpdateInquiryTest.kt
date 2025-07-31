@@ -32,7 +32,7 @@ class UpdateInquiryTest {
         val inquiry = Inquiry(
             id = id,
             startDateTimeUtc = Instant.now(),
-            status = InquiryStatusType.NEW
+            status = InquiryStatusType.IN_PROGRESS
         )
         val model = inquiry.toInquiryEntity().toInquiryModel()
         `when`(inquiryRepo.save(model)).thenReturn(model)
@@ -47,7 +47,7 @@ class UpdateInquiryTest {
         val inquiry = Inquiry(
             id = UUID.randomUUID(),
             startDateTimeUtc = Instant.now(),
-            status = InquiryStatusType.NEW
+            status = InquiryStatusType.IN_PROGRESS
         )
         val model = inquiry.toInquiryEntity().toInquiryModel()
         `when`(inquiryRepo.save(model)).thenReturn(model)
@@ -62,7 +62,7 @@ class UpdateInquiryTest {
         val inquiry = Inquiry(
             id = id,
             startDateTimeUtc = Instant.now(),
-            status = InquiryStatusType.NEW
+            status = InquiryStatusType.IN_PROGRESS
         )
         val model = inquiry.toInquiryEntity().toInquiryModel()
         `when`(inquiryRepo.findById(id)).thenReturn(Optional.ofNullable(null))
@@ -80,7 +80,7 @@ class UpdateInquiryTest {
         val inquiry = Inquiry(
             id = id,
             startDateTimeUtc = Instant.now(),
-            status = InquiryStatusType.NEW
+            status = InquiryStatusType.IN_PROGRESS
         )
         val model = inquiry.toInquiryEntity().toInquiryModel()
         `when`(inquiryRepo.save(model)).thenReturn(model)

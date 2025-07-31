@@ -1,0 +1,210 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`InquiryStatusTag > renders should mathc snapshot 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <span
+        class="sc-fOOuSg hzVeCO Element-Tag"
+      >
+        <span
+          class="sc-hjsuWn jbkALq Element-IconBox"
+        >
+          <svg
+            height="20"
+            viewBox="0 0 20 20"
+            width="20"
+          >
+            <g
+              transform="translate(240 -41)"
+            >
+              <g>
+                <g
+                  fill="none"
+                  stroke-miterlimit="10"
+                >
+                  <path
+                    d="M-230,42a9,9,0,0,0-9,9,9,9,0,0,0,9,9,9,9,0,0,0,9-9A9,9,0,0,0-230,42Zm0,16a7,7,0,0,1-7-7,7,7,0,0,1,7-7,7,7,0,0,1,7,7A7,7,0,0,1-230,58Z"
+                    stroke="none"
+                  />
+                  <path
+                    d="M -230 42 C -225.0290069580078 42 -221 46.02899932861328 -221 51 C -221 55.97100067138672 -225.0290069580078 60 -230 60 C -234.9709930419922 60 -239 55.97100067138672 -239 51 C -239 46.02899932861328 -234.9709930419922 42 -230 42 Z M -230 58 C -226.1340026855469 58 -223 54.86600112915039 -223 51 C -223 47.13399887084961 -226.1340026855469 44 -230 44 C -233.8659973144531 44 -237 47.13399887084961 -237 51 C -237 54.86600112915039 -233.8659973144531 58 -230 58 Z"
+                    fill="currentColor"
+                    stroke="none"
+                  />
+                </g>
+                <g
+                  fill="none"
+                  stroke-miterlimit="10"
+                >
+                  <path
+                    d="M-229,50V46h-2v6h6V50Z"
+                    stroke="none"
+                  />
+                  <path
+                    d="M -225 52 L -231 52 L -231 46 L -229 46 L -229 50 L -225 50 L -225 52 Z"
+                    fill="currentColor"
+                    stroke="none"
+                  />
+                </g>
+              </g>
+              <rect
+                fill="none"
+                height="20"
+                transform="translate(-240 41)"
+                width="20"
+              />
+            </g>
+          </svg>
+        </span>
+        <p
+          class="sc-iRcyzz sc-fFmWCW hlWJTw hAFmCO"
+          color="#3B4559"
+          font-size="13"
+          weight="medium"
+        >
+          En cours
+        </p>
+      </span>
+    </div>
+    <div
+      class="rs-toast-provider"
+    >
+      <div
+        class="rs-toast-container rs-toast-container-top-center"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-center"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-top-start"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-top-end"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-start"
+      />
+      <div
+        class="rs-toast-container rs-toast-container-bottom-end"
+      />
+    </div>
+  </body>,
+  "container": <div>
+    <span
+      class="sc-fOOuSg hzVeCO Element-Tag"
+    >
+      <span
+        class="sc-hjsuWn jbkALq Element-IconBox"
+      >
+        <svg
+          height="20"
+          viewBox="0 0 20 20"
+          width="20"
+        >
+          <g
+            transform="translate(240 -41)"
+          >
+            <g>
+              <g
+                fill="none"
+                stroke-miterlimit="10"
+              >
+                <path
+                  d="M-230,42a9,9,0,0,0-9,9,9,9,0,0,0,9,9,9,9,0,0,0,9-9A9,9,0,0,0-230,42Zm0,16a7,7,0,0,1-7-7,7,7,0,0,1,7-7,7,7,0,0,1,7,7A7,7,0,0,1-230,58Z"
+                  stroke="none"
+                />
+                <path
+                  d="M -230 42 C -225.0290069580078 42 -221 46.02899932861328 -221 51 C -221 55.97100067138672 -225.0290069580078 60 -230 60 C -234.9709930419922 60 -239 55.97100067138672 -239 51 C -239 46.02899932861328 -234.9709930419922 42 -230 42 Z M -230 58 C -226.1340026855469 58 -223 54.86600112915039 -223 51 C -223 47.13399887084961 -226.1340026855469 44 -230 44 C -233.8659973144531 44 -237 47.13399887084961 -237 51 C -237 54.86600112915039 -233.8659973144531 58 -230 58 Z"
+                  fill="currentColor"
+                  stroke="none"
+                />
+              </g>
+              <g
+                fill="none"
+                stroke-miterlimit="10"
+              >
+                <path
+                  d="M-229,50V46h-2v6h6V50Z"
+                  stroke="none"
+                />
+                <path
+                  d="M -225 52 L -231 52 L -231 46 L -229 46 L -229 50 L -225 50 L -225 52 Z"
+                  fill="currentColor"
+                  stroke="none"
+                />
+              </g>
+            </g>
+            <rect
+              fill="none"
+              height="20"
+              transform="translate(-240 41)"
+              width="20"
+            />
+          </g>
+        </svg>
+      </span>
+      <p
+        class="sc-iRcyzz sc-fFmWCW hlWJTw hAFmCO"
+        color="#3B4559"
+        font-size="13"
+        weight="medium"
+      >
+        En cours
+      </p>
+    </span>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

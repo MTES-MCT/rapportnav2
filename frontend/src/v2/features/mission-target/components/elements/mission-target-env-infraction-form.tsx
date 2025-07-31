@@ -1,7 +1,7 @@
 import { ControlType } from '@common/types/control-types'
 import { Accent, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FC, useState } from 'react'
-import { Divider, Stack } from 'rsuite'
+import { Stack } from 'rsuite'
 import { TargetType } from '../../../common/types/target-types'
 import MissionInfractionEnvForm from '../../../mission-infraction/components/elements/mission-infraction-env-form'
 import MissionInfractionEnvSummary from '../../../mission-infraction/components/ui/mission-infraction-env-summary'
@@ -40,8 +40,7 @@ const MissionTargetEnvInfractionForm: FC<MissionTargetEnvInfractionFormProps> = 
     >
       {!showForm && (
         <Stack.Item style={{ width: '100%' }}>
-          <Divider />
-          <Stack direction="row" spacing={'.5em'} style={{ width: '100%' }}>
+          <Stack direction="row" spacing={'.5em'} style={{ width: '100%', padding: 12 }}>
             <Stack.Item style={{ width: '100%' }}>
               <MissionInfractionEnvSummary
                 natinfs={value?.infraction?.natinfs}

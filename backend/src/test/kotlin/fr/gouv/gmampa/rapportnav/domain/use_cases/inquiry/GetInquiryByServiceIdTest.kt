@@ -33,13 +33,13 @@ class GetInquiryByServiceIdTest {
                 id = id,
                 serviceId = 6,
                 startDateTimeUtc = Instant.now(),
-                status = InquiryStatusType.NEW.toString()
+                status = InquiryStatusType.IN_PROGRESS.toString()
             ),
             InquiryModel(
                 id = id,
                 serviceId = 6,
                 startDateTimeUtc = Instant.now(),
-                status = InquiryStatusType.FOLLOW_UP.toString()
+                status = InquiryStatusType.IN_PROGRESS.toString()
             ),
             InquiryModel(
                 id = id,

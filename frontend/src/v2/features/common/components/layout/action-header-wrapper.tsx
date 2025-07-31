@@ -25,8 +25,7 @@ const ActionHeaderWrapper: FC<ActionHeaderWrapperProps> = ({
   action,
   ownerId,
   ownerType,
-  completeness,
-  missionStatus
+  completeness
 }) => {
   return (
     <>

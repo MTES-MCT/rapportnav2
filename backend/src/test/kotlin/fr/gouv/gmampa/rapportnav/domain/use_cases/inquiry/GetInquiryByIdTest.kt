@@ -38,7 +38,7 @@ class GetInquiryByIdTest {
         val model = InquiryModel(
             id = id,
             startDateTimeUtc = Instant.now(),
-            status = InquiryStatusType.NEW.toString()
+            status = InquiryStatusType.IN_PROGRESS.toString()
         )
         `when`(inquiryRepo.findById(id = id)).thenReturn(Optional.of(model))
 

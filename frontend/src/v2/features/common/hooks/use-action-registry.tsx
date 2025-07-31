@@ -4,8 +4,8 @@ import MissionActionItemAntiPollution from '../../mission-action/components/elem
 import MissionActionItemBAAEMPermanence from '../../mission-action/components/elements/mission-action-item-baaem-performance'
 import MissionActionItemContact from '../../mission-action/components/elements/mission-action-item-contact'
 import MissionActionItemControl from '../../mission-action/components/elements/mission-action-item-control'
-import MissionActionItemCrossControl from '../../mission-action/components/elements/mission-action-item-cross-control'
 import MissionActionItemIllegalImmigration from '../../mission-action/components/elements/mission-action-item-illegal-immigration'
+import MissionActionItemInquiry from '../../mission-action/components/elements/mission-action-item-inquiry'
 import MissionActionItemNauticalEvent from '../../mission-action/components/elements/mission-action-item-nautical-event'
 import MissionActionItemNote from '../../mission-action/components/elements/mission-action-item-note'
 import MissionActionItemPublicOrder from '../../mission-action/components/elements/mission-action-item-public-order'
@@ -97,7 +97,7 @@ const ACTION_REGISTRY: ActionRegistry = {
   [ActionType.INQUIRY]: {
     icon: Icon.MissionAction,
     title: 'Contrôle croisé',
-    component: MissionActionItemCrossControl
+    component: MissionActionItemInquiry
   }
 }
 

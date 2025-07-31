@@ -81,3 +81,9 @@ it('should return current year range for getTodayYearRange with no date', () => 
     range.endDateTimeUtc
   )
 })
+
+it('formatInquiryName returns correct string', () => {
+  const { result } = renderHook(() => useDate())
+  expect(result.current.formatInquiryName('2024-09-13T15:24:00Z')).toBe('Contrôle croisé n°2024-09-13')
+  expect(result.current.formatInquiryName(undefined)).toBe('Contrôle croisé n°--/--/----')
+})

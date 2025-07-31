@@ -1,0 +1,406 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`InquiryActionHeader > renders with required props 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="rs-stack"
+        style="align-items: center; flex-direction: column; gap: 0.5rem;"
+      >
+        <div
+          class="rs-stack-item"
+          style="width: 100%;"
+        >
+          <div
+            class="rs-stack"
+            style="align-items: initial; flex-direction: row; gap: 0.5rem; width: 100%;"
+          >
+            <div
+              class="rs-stack-item"
+              style="align-self: baseline;"
+            >
+              <span
+                class="sc-hjsuWn CTYBx Element-IconBox"
+              >
+                <svg
+                  height="20"
+                  viewBox="0 0 20 20"
+                  width="20"
+                >
+                  <g
+                    transform="translate(80 205)"
+                  >
+                    <rect
+                      fill="currentColor"
+                      height="12"
+                      transform="translate(-64 -188) rotate(90)"
+                      width="2"
+                    />
+                    <path
+                      d="M-67.694-199l1.333,8h-7.277l1.336-8Zm0-2h-4.6a2,2,0,0,0-1.977,1.675L-76-189h12l-1.721-10.325A2,2,0,0,0-67.7-201Z"
+                      fill="currentColor"
+                    />
+                    <rect
+                      fill="currentColor"
+                      height="2.25"
+                      transform="translate(-70.75 -204.25)"
+                      width="1.5"
+                    />
+                    <rect
+                      fill="currentColor"
+                      height="2.25"
+                      transform="translate(-64.061 -203) rotate(45)"
+                      width="1.5"
+                    />
+                    <rect
+                      fill="currentColor"
+                      height="2.25"
+                      transform="translate(-77 -201.939) rotate(-45)"
+                      width="1.5"
+                    />
+                  </g>
+                  <rect
+                    fill="none"
+                    height="20"
+                    width="20"
+                  />
+                </svg>
+              </span>
+            </div>
+            <div
+              class="rs-stack-item"
+              style="flex-grow: 2;"
+            >
+              <div
+                class="rs-stack"
+                style="align-items: center; flex-direction: row; flex-wrap: wrap; gap: 0.5rem;"
+              >
+                <div
+                  class="rs-stack-item"
+                >
+                  <p
+                    class="sc-iRcyzz sc-enPhjR jUHdyB kakyJF"
+                    font-size="16"
+                  >
+                    Session de travail 1
+                  </p>
+                </div>
+                <div
+                  class="rs-stack-item"
+                >
+                  <p
+                    class="sc-iRcyzz sc-enPhjR jUHdyB gRgWTP"
+                    font-size="16"
+                    weight="normal"
+                  >
+                    (
+                    22 janv. à 11:00
+                    )
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="rs-stack-item"
+            >
+              <div
+                data-testid="header-wrapper"
+              >
+                Action Header ....
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="rs-stack-item"
+          style="width: 100%;"
+        >
+          <div
+            class="rs-stack"
+            style="align-items: center; gap: 0.5rem;"
+          >
+            <div
+              class="rs-stack-item"
+              style="align-self: center; color: rgb(59, 69, 89);"
+            >
+              <span
+                class="sc-hjsuWn eVTFbL Element-IconBox"
+              >
+                <svg
+                  height="20"
+                  viewBox="0 0 20 20"
+                  width="20"
+                >
+                  <g
+                    transform="translate(200 -82)"
+                  >
+                    <path
+                      d="M-190,83a9,9,0,0,0-9,9,9,9,0,0,0,9,9,9,9,0,0,0,9-9A9,9,0,0,0-190,83Z"
+                      fill="currentColor"
+                    />
+                    <rect
+                      fill="#fff"
+                      height="5"
+                      transform="translate(-189 93) rotate(180)"
+                      width="2"
+                    />
+                    <rect
+                      fill="#fff"
+                      height="2"
+                      transform="translate(-189 96) rotate(180)"
+                      width="2"
+                    />
+                  </g>
+                  <rect
+                    fill="none"
+                    height="20"
+                    width="20"
+                  />
+                </svg>
+              </span>
+            </div>
+            <div
+              class="rs-stack-item"
+              style="align-self: baseline;"
+            >
+              <p
+                class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
+                color="#3B4559"
+                font-size="13"
+              >
+                Des champs indispensables sont à remplir par .
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="rs-stack"
+      style="align-items: center; flex-direction: column; gap: 0.5rem;"
+    >
+      <div
+        class="rs-stack-item"
+        style="width: 100%;"
+      >
+        <div
+          class="rs-stack"
+          style="align-items: initial; flex-direction: row; gap: 0.5rem; width: 100%;"
+        >
+          <div
+            class="rs-stack-item"
+            style="align-self: baseline;"
+          >
+            <span
+              class="sc-hjsuWn CTYBx Element-IconBox"
+            >
+              <svg
+                height="20"
+                viewBox="0 0 20 20"
+                width="20"
+              >
+                <g
+                  transform="translate(80 205)"
+                >
+                  <rect
+                    fill="currentColor"
+                    height="12"
+                    transform="translate(-64 -188) rotate(90)"
+                    width="2"
+                  />
+                  <path
+                    d="M-67.694-199l1.333,8h-7.277l1.336-8Zm0-2h-4.6a2,2,0,0,0-1.977,1.675L-76-189h12l-1.721-10.325A2,2,0,0,0-67.7-201Z"
+                    fill="currentColor"
+                  />
+                  <rect
+                    fill="currentColor"
+                    height="2.25"
+                    transform="translate(-70.75 -204.25)"
+                    width="1.5"
+                  />
+                  <rect
+                    fill="currentColor"
+                    height="2.25"
+                    transform="translate(-64.061 -203) rotate(45)"
+                    width="1.5"
+                  />
+                  <rect
+                    fill="currentColor"
+                    height="2.25"
+                    transform="translate(-77 -201.939) rotate(-45)"
+                    width="1.5"
+                  />
+                </g>
+                <rect
+                  fill="none"
+                  height="20"
+                  width="20"
+                />
+              </svg>
+            </span>
+          </div>
+          <div
+            class="rs-stack-item"
+            style="flex-grow: 2;"
+          >
+            <div
+              class="rs-stack"
+              style="align-items: center; flex-direction: row; flex-wrap: wrap; gap: 0.5rem;"
+            >
+              <div
+                class="rs-stack-item"
+              >
+                <p
+                  class="sc-iRcyzz sc-enPhjR jUHdyB kakyJF"
+                  font-size="16"
+                >
+                  Session de travail 1
+                </p>
+              </div>
+              <div
+                class="rs-stack-item"
+              >
+                <p
+                  class="sc-iRcyzz sc-enPhjR jUHdyB gRgWTP"
+                  font-size="16"
+                  weight="normal"
+                >
+                  (
+                  22 janv. à 11:00
+                  )
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="rs-stack-item"
+          >
+            <div
+              data-testid="header-wrapper"
+            >
+              Action Header ....
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="rs-stack-item"
+        style="width: 100%;"
+      >
+        <div
+          class="rs-stack"
+          style="align-items: center; gap: 0.5rem;"
+        >
+          <div
+            class="rs-stack-item"
+            style="align-self: center; color: rgb(59, 69, 89);"
+          >
+            <span
+              class="sc-hjsuWn eVTFbL Element-IconBox"
+            >
+              <svg
+                height="20"
+                viewBox="0 0 20 20"
+                width="20"
+              >
+                <g
+                  transform="translate(200 -82)"
+                >
+                  <path
+                    d="M-190,83a9,9,0,0,0-9,9,9,9,0,0,0,9,9,9,9,0,0,0,9-9A9,9,0,0,0-190,83Z"
+                    fill="currentColor"
+                  />
+                  <rect
+                    fill="#fff"
+                    height="5"
+                    transform="translate(-189 93) rotate(180)"
+                    width="2"
+                  />
+                  <rect
+                    fill="#fff"
+                    height="2"
+                    transform="translate(-189 96) rotate(180)"
+                    width="2"
+                  />
+                </g>
+                <rect
+                  fill="none"
+                  height="20"
+                  width="20"
+                />
+              </svg>
+            </span>
+          </div>
+          <div
+            class="rs-stack-item"
+            style="align-self: baseline;"
+          >
+            <p
+              class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
+              color="#3B4559"
+              font-size="13"
+            >
+              Des champs indispensables sont à remplir par .
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

@@ -30,7 +30,7 @@ class CreateInquiryTest {
         val inquiry = Inquiry(
             id = id,
             startDateTimeUtc = Instant.now(),
-            status = InquiryStatusType.NEW
+            status = InquiryStatusType.IN_PROGRESS
         )
         val model = inquiry.toInquiryEntity().toInquiryModel()
         `when`(inquiryRepo.save(model)).thenReturn(model)

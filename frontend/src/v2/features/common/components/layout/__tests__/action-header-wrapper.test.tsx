@@ -3,10 +3,10 @@ import { MissionStatusEnum } from '@common/types/mission-types.ts'
 import { IconProps } from '@mtes-mct/monitor-ui'
 import { FunctionComponent } from 'react'
 import { render, screen } from '../../../../../../test-utils.tsx'
-import MissionActionHeaderCompletenessForStats from '../../../../mission-action/components/elements/mission-action-header-completeness-for-stats.tsx'
 import { ActionType } from '../../../types/action-type.ts'
 import { NetworkSyncStatus } from '../../../types/network-types.ts'
 import { OwnerType } from '../../../types/owner-type.ts'
+import ActionHeaderCompletenessForStats from '../../ui/action-header-completeness-for-stats.tsx'
 import ActionHeaderWrapper from '../action-header-wrapper.tsx'
 
 const MockIcon: FunctionComponent<IconProps> = () => <div data-testid="mock-icon">Icon</div>
@@ -54,8 +54,8 @@ describe('ActionHeaderWrapper', () => {
     icon: MockIcon,
     missionStatus: MissionStatusEnum.IN_PROGRESS,
     completeness: (
-      <MissionActionHeaderCompletenessForStats
-        missionId="20309"
+      <ActionHeaderCompletenessForStats
+        isMissionFinished={true}
         networkSyncStatus={networkSyncStatus}
         completenessForStats={{}}
       />

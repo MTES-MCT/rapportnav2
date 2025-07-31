@@ -53,7 +53,7 @@ class InquiryEntityTest {
             endDateTimeUtc = Instant.parse("2015-07-30T00:00:00.00Z"),
             startDateTimeUtc = Instant.parse("2015-06-30T00:00:00.00Z"),
             origin = InquiryOriginType.FOLLOW_UP_CONTROL,
-            status = InquiryStatusType.NEW,
+            status = InquiryStatusType.IN_PROGRESS,
             conclusion = InquiryConclusionType.NO_FOLLOW_UP,
             missionId = 4,
             missionIdUUID = UUID.randomUUID(),
