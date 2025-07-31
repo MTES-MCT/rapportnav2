@@ -11,8 +11,11 @@ import java.util.*
 data class MissionGeneralInfoEntity(
     var id: Int? = null,
     var missionId: Int? = null,
+    @MandatoryForStats
     var distanceInNauticalMiles: Float? = null,
+    @MandatoryForStats
     var consumedGOInLiters: Float? = null,
+    @MandatoryForStats
     var consumedFuelInLiters: Float? = null,
     var serviceId: Int? = null,
     @MandatoryForStats

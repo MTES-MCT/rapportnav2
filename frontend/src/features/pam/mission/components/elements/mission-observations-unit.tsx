@@ -50,7 +50,7 @@ const MissionObservationsUnit: React.FC<MissionObservationsByUnitProps> = ({ mis
 
   return (
     <>
-      {initValue && (
+      {isMissionFinished !== undefined && initValue && (
         <Formik
           initialValues={initValue}
           initialErrors={validateError(isMissionFinished, initValue.observations)}

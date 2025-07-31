@@ -17,6 +17,7 @@ describe('MissionObservation', () => {
   })
 
   it('should render observation', () => {
+    vi.spyOn(useIsMissionFinishedModule, 'default').mockReturnValue(true)
     render(<MissionObservationByUnit missionId={1} observationsByUnit={'My beautiful observation'} />)
     expect(patchMock).not.toHaveBeenCalled()
     const element = screen.getByLabelText("Observation générale à l'échelle de la mission (remarques, résumé)")
@@ -53,6 +54,7 @@ describe('MissionObservation', () => {
 
   describe('Updating the data', () => {
     it('should call update observation on change event', () => {
+      vi.spyOn(useIsMissionFinishedModule, 'default').mockReturnValue(true)
       const wrapper = render(<MissionObservationByUnit missionId={1} observationsByUnit={'My beautiful observation'} />)
       const element = wrapper.getByTestId('mission-general-observation')
       fireEvent.change(element, {
@@ -64,6 +66,7 @@ describe('MissionObservation', () => {
     })
 
     it('should trigger 5 secondes after typing', () => {
+      vi.spyOn(useIsMissionFinishedModule, 'default').mockReturnValue(true)
       vi.useFakeTimers({ shouldAdvanceTime: true })
       const observationsByUnit = 'my observations!!!!!'
       const wrapper = render(<MissionObservationByUnit missionId={1} observationsByUnit={'My beautiful observation'} />)
@@ -80,6 +83,7 @@ describe('MissionObservation', () => {
     })
 
     it('should call update observations event empty', async () => {
+      vi.spyOn(useIsMissionFinishedModule, 'default').mockReturnValue(true)
       vi.useFakeTimers({ shouldAdvanceTime: true })
       const wrapper = render(<MissionObservationByUnit missionId={1} observationsByUnit={'My beautiful observation'} />)
       const element = wrapper.getByTestId('mission-general-observation')
