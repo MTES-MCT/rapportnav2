@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
@@ -60,7 +61,7 @@ class SecurityConfig(
 
         // route authorizations - Updated for Spring Boot 3.5.0
         http.authorizeHttpRequests { authorize ->
-            authorize
+            enableSwagger(authorize)
                 .requestMatchers("/graphql").authenticated()
                 .requestMatchers("/api/v1/auth/login").permitAll()
                 .requestMatchers("/api/v1/auth/register").hasAuthority(AuthoritiesEnum.ROLE_ADMIN.toString())
@@ -100,5 +101,17 @@ class SecurityConfig(
         http.anonymous(Customizer.withDefaults())
 
         return http.build()
+    }
+
+    private fun enableSwagger(authorize: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry): AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry {
+        val env = System.getenv("ENV_PROFILE")
+        if (env == "prod") return authorize
+        authorize
+            .requestMatchers(
+                "/swagger-ui/**",
+                "/swagger-ui.html",
+                "/v3/api-docs/**"
+            ).permitAll()
+        return authorize
     }
 }

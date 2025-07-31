@@ -92,6 +92,7 @@ dependencies {
   implementation("org.jodconverter:jodconverter-local-lo:4.4.7")
   implementation("com.neovisionaries:nv-i18n:1.29")
   implementation("org.wiremock:wiremock-standalone:3.12.0")
+  implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8")
   testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
   testImplementation("org.springframework:spring-webflux:6.1.14")
   testImplementation("org.springframework.graphql:spring-graphql-test:1.2.4")
