@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.18.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.18.0...frontend@v2.18.1) (2025-07-31)
+
+
+### Bug Fixes
+
+* validation on v1 general infos ([2534ee7](https://github.com/MTES-MCT/rapportnav2/commit/2534ee7d040f58ffef4e31e4ecb6ef78c6ccd337))
+
 ## [2.18.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.17.6...frontend@v2.18.0) (2025-07-31)
 
 
