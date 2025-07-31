@@ -1,6 +1,6 @@
 import { MissionGeneralInfo } from '@common/types/mission-types.ts'
 import { FormikEffect, FormikNumberInput } from '@mtes-mct/monitor-ui'
-import { Formik } from 'formik'
+import { Formik, FormikErrors } from 'formik'
 import React, { useEffect, useRef, useState } from 'react'
 import useAddOrUpdateGeneralInfo from '../../../hooks/use-add-update-distance-consumption.tsx'
 import useIsMissionFinished from '@features/pam/mission/hooks/use-is-mission-finished.tsx'
@@ -41,17 +41,21 @@ const MissionRecognizedVessel: React.FC<MissionRecognizedVesselProps> = ({ missi
     }
   }
 
-  const validateError = (isMissionFinished?: boolean, nbrOfRecognizedVessel?: number) =>
-    isMissionFinished && !nbrOfRecognizedVessel
+  const validateError = (
+    isMissionFinished?: boolean,
+    nbrOfRecognizedVessel?: number
+  ): FormikErrors<any> | undefined => {
+    return isMissionFinished && !nbrOfRecognizedVessel
       ? { nbrOfRecognizedVessel: 'Nombre total de navires reconnus dans les approches maritimes est requis' }
       : undefined
+  }
 
   return (
     <>
-      {initValue && (
+      {isMissionFinished !== undefined && initValue && (
         <Formik
           initialValues={initValue}
-          initialErrors={validateError(isMissionFinished, initValue.nbrOfRecognizedVessel)}
+          initialErrors={validateError(isMissionFinished, initValue.nbrOfRecognizedVessel) || {}}
           onSubmit={handleSubmit}
           validateOnChange={true}
           validate={values => validateError(isMissionFinished, values.nbrOfRecognizedVessel)}

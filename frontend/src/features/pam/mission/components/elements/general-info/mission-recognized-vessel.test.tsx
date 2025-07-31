@@ -28,6 +28,7 @@ describe('MissionRecognizedVessel', () => {
   })
 
   it('should render recognized vessel', () => {
+    vi.spyOn(useIsMissionFinishedModule, 'default').mockReturnValue(true)
     render(
       <UIThemeWrapper>
         <MissionRecognizedVessel missionId={1} generalInfo={info} />
@@ -66,6 +67,7 @@ describe('MissionRecognizedVessel', () => {
 
   describe('Updating data', () => {
     it('should call update information general on change', () => {
+      vi.spyOn(useIsMissionFinishedModule, 'default').mockReturnValue(true)
       const nbrOfRecognizedVessel = 9
       vi.useFakeTimers({ shouldAdvanceTime: true })
       const wrapper = render(

@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission
 
+import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
@@ -36,6 +37,7 @@ data class MissionEntity(
     var status: MissionStatusEnum? = null,
     var completenessForStats: CompletenessForStatsEntity? = null,
     var services: List<ServiceEntity>? = null,
+    @MandatoryForStats
     var observationsByUnit: String? = null
 ) {
 
