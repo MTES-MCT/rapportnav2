@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.18.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.17.6...backend@v2.18.0) (2025-07-31)
+
+
+### Features
+
+* **backend:** swagger dependency installation ([9cc6e72](https://github.com/MTES-MCT/rapportnav2/commit/9cc6e72eaed3fe94d4889a7f7fafd677209fb83a))
+* **backend:** swagger dependency installation ([100bb5a](https://github.com/MTES-MCT/rapportnav2/commit/100bb5a606d63a96475d99db0c892758769c84d2))
+
 ## [2.17.6](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.17.5...backend@v2.17.6) (2025-07-30)
 
 
