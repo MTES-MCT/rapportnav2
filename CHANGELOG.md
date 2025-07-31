@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.18.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.18.0...docker-container@v2.18.1) (2025-07-31)
+
+
+### Bug Fixes
+
+* **backend:** clean inquiry tables ([ef651a6](https://github.com/MTES-MCT/rapportnav2/commit/ef651a63e96dcb12856ab44235397c45c156c1e9))
+* **backend:** clean inquiry tables ([2142579](https://github.com/MTES-MCT/rapportnav2/commit/2142579c8bc6a880e24e72b3a05ac86bb81f8345))
+* validation on v1 general infos ([2534ee7](https://github.com/MTES-MCT/rapportnav2/commit/2534ee7d040f58ffef4e31e4ecb6ef78c6ccd337))
+
 ## [2.18.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.17.6...docker-container@v2.18.0) (2025-07-31)
 
 
