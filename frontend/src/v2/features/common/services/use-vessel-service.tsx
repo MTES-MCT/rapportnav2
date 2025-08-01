@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from '../../../../query-client/axios.ts'
-import { STATIC_DATA_GC_TIME, STATIC_DATA_STALE_TIME } from '../../../../query-client/index.ts'
+import { STATIC_DATA_GC_TIME, STATIC_DATA_STALE_TIME } from '../../../../query-client'
 import { Vessel } from '../types/vessel-type.ts'
 import { vesselsKeys } from './query-keys.ts'
 

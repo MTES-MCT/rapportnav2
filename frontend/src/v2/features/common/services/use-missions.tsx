@@ -1,9 +1,10 @@
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
-import { useEffect } from 'react'
 import { DYNAMIC_DATA_STALE_TIME } from '../../../../query-client'
 import axios from '../../../../query-client/axios.ts'
 import { Mission2 } from '../types/mission-types.ts'
-import { missionsKeys } from './query-keys.ts'
+import { actionsKeys, missionsKeys } from './query-keys.ts'
+import { useEffect } from 'react'
+import { MissionAction } from '../types/mission-action.ts'
 
 const useMissionsQuery = (params: URLSearchParams): UseQueryResult<Mission2[], Error> => {
   const queryClient = useQueryClient()
@@ -30,6 +31,9 @@ const useMissionsQuery = (params: URLSearchParams): UseQueryResult<Mission2[], E
       // for offline mode, preset the mission in their individual cache keys
       ;(query.data || []).forEach((mission: Mission2) => {
         queryClient.setQueryData(missionsKeys.byId(mission.id), mission)
+        ;(mission.actions || []).forEach((action: MissionAction) => {
+          queryClient.setQueryData(actionsKeys.byId(action.id), action)
+        })
       })
     }
   }, [query.data, queryClient])

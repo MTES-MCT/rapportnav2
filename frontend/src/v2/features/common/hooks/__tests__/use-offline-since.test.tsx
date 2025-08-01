@@ -164,14 +164,14 @@ describe('useOfflineSince', () => {
       expect(mockSetOfflineSince).toHaveBeenCalledWith('2024-01-01T12:00:00.000Z')
 
       // Simulate being offline for a while
-      mockUseStore.mockReturnValue('2024-01-01T11:50:00Z')
-      const parsedDate = new Date('2024-01-01T11:50:00Z')
+      mockUseStore.mockReturnValue('2023-01-01T11:50:00Z')
+      const parsedDate = new Date('2023-01-01T11:50:00Z')
       mockParseISO.mockReturnValue(parsedDate)
-      mockDifferenceInSeconds.mockReturnValue(600) // 10 minutes
+      mockDifferenceInSeconds.mockReturnValue(86401) // 1 day + 1 sec
 
       rerender()
 
-      expect(result.current.offlineSince).toBe('2024-01-01T11:50:00Z')
+      expect(result.current.offlineSince).toBe('2023-01-01T11:50:00Z')
       expect(result.current.isOfflineSinceTooLong()).toBe(true)
 
       // Go back online

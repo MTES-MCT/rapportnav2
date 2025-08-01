@@ -20,9 +20,12 @@ import { Mission2 } from '../features/common/types/mission-types.ts'
 import MissionListActionsPam from '../features/pam/components/element/mission-list/mission-list-actions-pam.tsx'
 import MissionListExportDialog from '../features/pam/components/element/mission-list/mission-list-export.tsx'
 import MissionListPam from '../features/pam/components/element/mission-list/mission-list-pam.tsx'
+import { useOfflineMode } from '../features/common/hooks/use-offline-mode.tsx'
 
 const MissionListPamPage: FC = () => {
   const { isLoggedIn } = useAuth()
+  const isOfflineModeEnabled = useOfflineMode()
+
   const { getTodayYearRange } = useDate()
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -31,6 +34,7 @@ const MissionListPamPage: FC = () => {
     setSearchParams(getTodayYearRange())
     return () => {}
   }, [searchParams, setSearchParams, getTodayYearRange])
+
 
   const { getMissionListItem } = useMissionList()
   const { isLoading, data: missions } = useMissionsQuery(searchParams)
@@ -85,9 +89,7 @@ const MissionListPamPage: FC = () => {
       sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={PAM_SIDEBAR_ITEMS} />}
       footer={
         <Stack style={{ width: '100%', height: '100%' }} justifyContent={'flex-end'} alignItems={'center'}>
-          <Stack.Item style={{ marginRight: '4rem' }}>
-            <OnlineToggle />
-          </Stack.Item>
+          <Stack.Item style={{ marginRight: '4rem' }}>{isOfflineModeEnabled && <OnlineToggle />}</Stack.Item>
         </Stack>
       }
     >
@@ -111,8 +113,8 @@ const MissionListPamPage: FC = () => {
           />
         }
         list={
-          <MissionListPam
-            missions={missions?.map(m => getMissionListItem(m))}
+          <MissionListPam //
+            missions={(missions || [])?.map(m => getMissionListItem(m))}
             selectedMissionIds={selectedMissionIds}
             toggleOne={toggleOne}
           />
