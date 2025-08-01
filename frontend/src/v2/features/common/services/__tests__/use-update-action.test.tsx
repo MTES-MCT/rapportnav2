@@ -1,5 +1,5 @@
 import { act, renderHook, waitFor } from '../../../../../test-utils.tsx'
-import useUpdateMissionAction, { offlineUpdateMissionActionDefaults } from '../use-update-mission-action.tsx'
+import useUpdateMissionAction, { offlineUpdateActionDefaults } from '../use-update-action.tsx'
 import { onlineManager, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
 import { afterEach, beforeEach, vi } from 'vitest'
@@ -85,21 +85,21 @@ describe('Hook useUpdateMissionAction', () => {
     it('should call putAction with correct parameters', async () => {
       mockedAxios.put.mockResolvedValue({ data: undefined })
 
-      const { result } = renderHook(() => useUpdateMissionAction(missionId), { wrapper })
+      const { result } = renderHook(() => useUpdateMissionAction(), { wrapper })
 
-      result.current.mutate({ missionId, action })
+      result.current.mutate({ ownerId: missionId, action })
 
       await waitFor(() => {
-        expect(mockedAxios.put).toHaveBeenCalledWith('missions/mission-1/actions/action-1', action)
+        expect(mockedAxios.put).toHaveBeenCalledWith('owners/mission-1/actions/action-1', action)
       })
     })
 
     it('should handle successful mutation', async () => {
       mockedAxios.put.mockResolvedValue({ data: undefined })
 
-      const { result } = renderHook(() => useUpdateMissionAction(missionId), { wrapper })
+      const { result } = renderHook(() => useUpdateMissionAction(), { wrapper })
 
-      result.current.mutate({ missionId, action })
+      result.current.mutate({ ownerId: missionId, action })
 
       await waitFor(() => {
         expect(result.current.isSuccess).toBe(true)
@@ -111,9 +111,9 @@ describe('Hook useUpdateMissionAction', () => {
       const errorMessage = 'Network error'
       mockedAxios.put.mockRejectedValue(new Error(errorMessage))
 
-      const { result } = renderHook(() => useUpdateMissionAction(missionId), { wrapper })
+      const { result } = renderHook(() => useUpdateMissionAction(), { wrapper })
 
-      result.current.mutate({ missionId, action })
+      result.current.mutate({ ownerId: missionId, action })
 
       await waitFor(() => {
         expect(result.current.isError).toBe(true)
@@ -124,7 +124,7 @@ describe('Hook useUpdateMissionAction', () => {
 
   describe('offline mutation defaults', () => {
     beforeEach(async () => {
-      queryClient.setMutationDefaults(actionsKeys.update(), offlineUpdateMissionActionDefaults)
+      queryClient.setMutationDefaults(actionsKeys.update(), offlineUpdateActionDefaults)
       await setupMissionQuery(queryClient, missionId, mockMission)
       await setupMissionActionQuery(queryClient, actionId, mockAction)
     })
@@ -136,7 +136,7 @@ describe('Hook useUpdateMissionAction', () => {
         const { result } = renderHook(() => useUpdateMissionAction(missionId, actionId), { wrapper })
 
         await act(async () => {
-          result.current.mutate({ missionId, action: mockAction })
+          result.current.mutate({ ownerId: missionId, action: mockAction })
           await new Promise(resolve => setTimeout(resolve, 0))
         })
 
@@ -157,7 +157,7 @@ describe('Hook useUpdateMissionAction', () => {
         const { result } = renderHook(() => useUpdateMissionAction(missionId, actionId), { wrapper })
 
         await act(async () => {
-          result.current.mutate({ missionId, action: mockAction })
+          result.current.mutate({ ownerId: missionId, action: mockAction })
           await new Promise(resolve => setTimeout(resolve, 0))
         })
 
@@ -178,7 +178,7 @@ describe('Hook useUpdateMissionAction', () => {
 
         const { result } = renderHook(() => useUpdateMissionAction(missionId, actionId), { wrapper })
 
-        result.current.mutate({ missionId, action: mockAction })
+        result.current.mutate({ ownerId: missionId, action: mockAction })
 
         await waitFor(() => {
           const actionData = queryClient.getQueryData(actionsKeys.byId(actionId))
@@ -209,7 +209,7 @@ describe('Hook useUpdateMissionAction', () => {
         const { result } = renderHook(() => useUpdateMissionAction(missionId, actionId), { wrapper })
 
         await act(async () => {
-          result.current.mutate({ missionId, action: mockAction })
+          result.current.mutate({ ownerId: missionId, action: mockAction })
           await new Promise(resolve => setTimeout(resolve, 0))
         })
 
@@ -244,7 +244,7 @@ describe('Hook useUpdateMissionAction', () => {
         const { result } = renderHook(() => useUpdateMissionAction(missionId, actionId), { wrapper })
 
         await act(async () => {
-          result.current.mutate({ missionId, action: mockAction })
+          result.current.mutate({ ownerId: missionId, action: mockAction })
         })
 
         await waitFor(() => {
@@ -271,7 +271,7 @@ describe('Hook useUpdateMissionAction', () => {
         const { result } = renderHook(() => useUpdateMissionAction(missionId, actionId), { wrapper })
 
         await act(async () => {
-          result.current.mutate({ missionId, action: mockAction })
+          result.current.mutate({ ownerId: missionId, action: mockAction })
         })
 
         await waitFor(() => {
@@ -285,7 +285,7 @@ describe('Hook useUpdateMissionAction', () => {
         const { result } = renderHook(() => useUpdateMissionAction(missionId, actionId), { wrapper })
 
         await act(async () => {
-          result.current.mutate({ missionId, action: mockAction })
+          result.current.mutate({ ownerId: missionId, action: mockAction })
         })
 
         await waitFor(() => {

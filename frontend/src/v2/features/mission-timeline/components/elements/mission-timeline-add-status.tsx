@@ -4,13 +4,14 @@ import { Dropdown, Icon } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { useTimelineAction } from '../../../common/hooks/use-timeline-action'
-import useCreateMissionActionMutation from '../../../common/services/use-create-action'
+import useCreateActionMutation from '../../../common/services/use-create-action'
 import { ActionType } from '../../../common/types/action-type'
 import { MissionNavAction } from '../../../common/types/mission-action.ts'
 import { navigateToActionId, PAM_V2_HOME_PATH } from '@router/routes.tsx'
 import { useNavigate } from 'react-router-dom'
 import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 import { v4 as uuidv4 } from 'uuid'
+import { OwnerType } from '../../../common/types/owner-type.ts'
 
 const ACTION_STATUS: ActionStatusType[] = [
   ActionStatusType.NAVIGATING,
@@ -38,7 +39,7 @@ export const MissionStatusColorTag: FC<{ status: ActionStatusType }> = ({ status
 const MissionTimelineAddStatus: FC<MissionTimelineAddStatusProps> = ({ missionId, onSubmit }) => {
   const navigate = useNavigate()
   const { getActionInput } = useTimelineAction(missionId)
-  const mutation = useCreateMissionActionMutation()
+  const mutation = useCreateActionMutation()
   const { isOnline } = useOnlineManager()
 
   const handleAddStatus = async (status: ActionStatusType) => {
@@ -48,7 +49,7 @@ const MissionTimelineAddStatus: FC<MissionTimelineAddStatusProps> = ({ missionId
     }
 
     mutation.mutate(
-      { missionId, action },
+      { ownerId: missionId, ownerType: OwnerType.MISSION, action },
       {
         onSuccess: (data: MissionNavAction) => {
           const id = data?.data?.id

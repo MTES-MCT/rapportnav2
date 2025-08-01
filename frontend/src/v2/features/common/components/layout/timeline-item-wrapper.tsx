@@ -6,7 +6,8 @@ import styled from 'styled-components'
 import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'
 import { ActionStyle } from '../../hooks/use-timeline-action'
 import TimelineItemDate from '../ui/timeline-item-date'
-import { NetworkSyncStatus } from '../../../common/types/network-types.ts'
+import { NetworkSyncStatus } from '../../types/network-types.ts'
+import TimelineItemStatus from '../ui/timeline-item-status.tsx'
 
 const DivStyled = styled(
   ({

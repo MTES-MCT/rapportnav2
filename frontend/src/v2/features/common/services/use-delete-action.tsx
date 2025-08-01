@@ -2,27 +2,36 @@ import { useMutation, UseMutationResult } from '@tanstack/react-query'
 
 import axios from '../../../../query-client/axios'
 import { OwnerType } from '../types/owner-type.ts'
-import { inquiriesKeys, missionsKeys } from './query-keys.ts'
-import { actionsKeys, missionsKeys } from './query-keys.ts'
+import { actionsKeys, missionsKeys, inquiriesKeys } from './query-keys.ts'
 import { MissionAction } from '../types/mission-action.ts'
 import { Mission2 } from '../types/mission-types.ts'
 import queryClient from '../../../../query-client'
 
-const deleteAction = ({ ownerId, actionId }: { ownerId: string; actionId: string }): Promise<void> =>
+type UseDeleteActionInput = {
+  ownerId: string
+  ownerType: OwnerType
+  actionId: string
+}
+
+const deleteAction = ({ ownerId, actionId }: UseDeleteActionInput): Promise<void> =>
   axios.delete(`owners/${ownerId}/actions/${actionId}`).then(response => response.data)
 
 // Offline mutation defaults
 export const offlineDeleteActionMutationDefaults = {
   mutationFn: deleteAction,
-  onMutate: async ({ missionId, actionId }: { missionId: string; actionId: string }) => {
-    await queryClient.cancelQueries({ queryKey: missionsKeys.byId(missionId) })
+  onMutate: async ({ ownerId, ownerType, actionId }: UseDeleteActionInput) => {
+    await queryClient.cancelQueries({
+      queryKey: ownerType === OwnerType.INQUIRY ? inquiriesKeys.byId(ownerId) : missionsKeys.byId(ownerId)
+    })
 
-    const mission: Mission2 | undefined = queryClient.getQueryData(missionsKeys.byId(missionId))
+    const mission: Mission2 | undefined = queryClient.getQueryData(
+      ownerType === OwnerType.INQUIRY ? inquiriesKeys.byId(ownerId) : missionsKeys.byId(ownerId)
+    )
     const previousActions = mission?.actions
 
     const actions = (mission?.actions ?? []).filter((action: MissionAction) => action.id !== actionId)
     queryClient.setQueryData(
-      missionsKeys.byId(missionId),
+      ownerType === OwnerType.INQUIRY ? inquiriesKeys.byId(ownerId) : missionsKeys.byId(ownerId),
       (mission: Mission2 | undefined) =>
         ({
           ...mission,
@@ -34,9 +43,13 @@ export const offlineDeleteActionMutationDefaults = {
 
     return { previousActions }
   },
-  onSettled: async (_data: any, _error: any, variables: { missionId: string; actionId: string }, _context: any) => {
+  onSettled: async (_data: any, _error: any, variables: UseDeleteActionInput, _context: any) => {
+    debugger
     await queryClient.invalidateQueries({
-      queryKey: missionsKeys.byId(variables.missionId),
+      queryKey:
+        variables.ownerType === OwnerType.INQUIRY
+          ? inquiriesKeys.byId(variables.ownerId)
+          : missionsKeys.byId(variables.ownerId),
       type: 'all'
     })
   },
@@ -48,9 +61,13 @@ export const offlineDeleteActionMutationDefaults = {
 // Online mutation defaults
 export const onlineDeleteActionMutationDefaults = {
   mutationFn: deleteAction,
-  onSuccess: async (_data: any, variables: { missionId: string; actionId: string }) => {
+  onSuccess: async (_data: any, variables: UseDeleteActionInput) => {
+    debugger
     await queryClient.invalidateQueries({
-      queryKey: missionsKeys.byId(variables.missionId),
+      queryKey:
+        variables.ownerType === OwnerType.INQUIRY
+          ? inquiriesKeys.byId(variables.ownerId)
+          : missionsKeys.byId(variables.ownerId),
       type: 'all'
     })
   },
@@ -59,20 +76,10 @@ export const onlineDeleteActionMutationDefaults = {
   }
 }
 
-const useDeleteActionMutation = (
-  ownerId: string,
-  ownerType: OwnerType
-): UseMutationResult<void, Error, string, unknown> => {
-  const queryClient = useQueryClient()
-
+const useDeleteActionMutation = (): UseMutationResult<void, Error, string, unknown> => {
   const mutation = useMutation({
     mutationKey: actionsKeys.delete(),
-    mutationFn: (data: any) => deleteAction({ ownerId, actionId: data.actionId }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ownerType === OwnerType.INQUIRY ? inquiriesKeys.byId(ownerId) : missionsKeys.byId(ownerId)
-      })
-    }
+    mutationFn: (data: any) => deleteAction(data)
   })
   return mutation
 }

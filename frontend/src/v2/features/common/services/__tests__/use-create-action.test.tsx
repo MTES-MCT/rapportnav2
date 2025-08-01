@@ -1,5 +1,5 @@
 import { act, renderHook, waitFor } from '../../../../../test-utils.tsx'
-import useCreateMissionActionMutation, { offlineCreateMissionActionDefaults } from '../use-create-mission-action.tsx'
+import useCreateActionMutation, { offlineCreateActionDefaults } from '../use-create-action.tsx'
 import { onlineManager, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
 import { afterEach, beforeEach, vi } from 'vitest'
@@ -9,6 +9,7 @@ import { Mission2 } from '../../types/mission-types.ts'
 import { MissionAction, MissionNavAction } from '../../types/mission-action.ts'
 import queryClient from '../../../../../query-client'
 import { NetworkSyncStatus } from '../../types/network-types.ts'
+import { OwnerType } from '../../types/owner-type.ts'
 
 // Mock axios
 vi.mock('../../../../../query-client/axios.ts')
@@ -30,7 +31,7 @@ const setupMissionActionQuery = async (queryClient: QueryClient, actionId: strin
   })
 }
 
-describe('Hook useCreateMissionActionMutation', () => {
+describe('Hook useCreateActionMutation', () => {
   const missionId = 'mission-1'
   const actionId = 'action-1'
   const action = { id: actionId }
@@ -86,22 +87,22 @@ describe('Hook useCreateMissionActionMutation', () => {
     it('should call putAction with correct parameters', async () => {
       mockedAxios.post.mockResolvedValue({ data: undefined })
 
-      const { result } = renderHook(() => useCreateMissionActionMutation(missionId), { wrapper })
+      const { result } = renderHook(() => useCreateActionMutation(), { wrapper })
 
       // Fixed: Pass the correct input format
-      result.current.mutate({ missionId, action })
+      result.current.mutate({ ownerId: missionId, action })
 
       await waitFor(() => {
-        expect(mockedAxios.post).toHaveBeenCalledWith('missions/mission-1/actions', action)
+        expect(mockedAxios.post).toHaveBeenCalledWith('owners/mission-1/actions', action)
       })
     })
 
     it('should handle successful mutation', async () => {
       mockedAxios.post.mockResolvedValue({ data: undefined })
 
-      const { result } = renderHook(() => useCreateMissionActionMutation(missionId), { wrapper })
+      const { result } = renderHook(() => useCreateActionMutation(), { wrapper })
 
-      result.current.mutate({ missionId, action })
+      result.current.mutate({ ownerId: missionId, ownerType: OwnerType.MISSION, action })
 
       await waitFor(() => {
         expect(result.current.isSuccess).toBe(true)
@@ -113,9 +114,9 @@ describe('Hook useCreateMissionActionMutation', () => {
       const errorMessage = 'Network error'
       mockedAxios.post.mockRejectedValue(new Error(errorMessage))
 
-      const { result } = renderHook(() => useCreateMissionActionMutation(missionId), { wrapper })
+      const { result } = renderHook(() => useCreateActionMutation(), { wrapper })
 
-      result.current.mutate({ missionId, action })
+      result.current.mutate({ ownerId: missionId, ownerType: OwnerType.MISSION, action })
 
       await waitFor(() => {
         expect(result.current.isError).toBe(true)
@@ -127,7 +128,7 @@ describe('Hook useCreateMissionActionMutation', () => {
   describe('offline mutation defaults', () => {
     beforeEach(async () => {
       // Set mutation defaults BEFORE setting up queries
-      queryClient.setMutationDefaults(actionsKeys.create(), offlineCreateMissionActionDefaults)
+      queryClient.setMutationDefaults(actionsKeys.create(), offlineCreateActionDefaults)
 
       await setupMissionQuery(queryClient, missionId, mockMission)
       await setupMissionActionQuery(queryClient, actionId, mockAction)
@@ -137,10 +138,10 @@ describe('Hook useCreateMissionActionMutation', () => {
       it('should create optimistic action when online', async () => {
         mockedAxios.post.mockImplementation(() => new Promise(() => {})) // Never resolves
 
-        const { result } = renderHook(() => useCreateMissionActionMutation(missionId), { wrapper })
+        const { result } = renderHook(() => useCreateActionMutation(), { wrapper })
 
         await act(async () => {
-          result.current.mutate({ missionId, action: mockAction })
+          result.current.mutate({ ownerId: missionId, ownerType: OwnerType.MISSION, action: mockAction })
           // Wait for the mutation to start and onMutate to execute
           await new Promise(resolve => setTimeout(resolve, 50))
         })
@@ -160,10 +161,10 @@ describe('Hook useCreateMissionActionMutation', () => {
         const isOnlineSpy = vi.spyOn(onlineManager, 'isOnline').mockReturnValue(false)
         mockedAxios.post.mockImplementation(() => new Promise(() => {})) // Never resolves
 
-        const { result } = renderHook(() => useCreateMissionActionMutation(missionId), { wrapper })
+        const { result } = renderHook(() => useCreateActionMutation(), { wrapper })
 
         await act(async () => {
-          result.current.mutate({ missionId, action: mockAction })
+          result.current.mutate({ ownerId: missionId, ownerType: OwnerType.MISSION, action: mockAction })
           // Wait for the mutation to start and onMutate to execute
           await new Promise(resolve => setTimeout(resolve, 50))
         })
@@ -183,10 +184,10 @@ describe('Hook useCreateMissionActionMutation', () => {
       it('should set individual action query data', async () => {
         mockedAxios.post.mockImplementation(() => new Promise(() => {}))
 
-        const { result } = renderHook(() => useCreateMissionActionMutation(missionId), { wrapper })
+        const { result } = renderHook(() => useCreateActionMutation(), { wrapper })
 
         await act(async () => {
-          result.current.mutate({ missionId, action: mockAction })
+          result.current.mutate({ ownerId: missionId, ownerType: OwnerType.MISSION, action: mockAction })
           // Wait for the mutation to start and onMutate to execute
           await new Promise(resolve => setTimeout(resolve, 50))
         })
@@ -210,10 +211,10 @@ describe('Hook useCreateMissionActionMutation', () => {
         it('should invalidate action query on success', async () => {
           mockedAxios.post.mockResolvedValue({ data: mockAction })
 
-          const { result } = renderHook(() => useCreateMissionActionMutation(missionId), { wrapper })
+          const { result } = renderHook(() => useCreateActionMutation(), { wrapper })
 
           await act(async () => {
-            result.current.mutate({ missionId, action: mockAction })
+            result.current.mutate({ ownerId: missionId, ownerType: OwnerType.MISSION, action: mockAction })
           })
 
           // Wait for mutation to complete
@@ -239,15 +240,15 @@ describe('Hook useCreateMissionActionMutation', () => {
 
           const onSuccessSpy = vi.fn()
           const customDefaults = {
-            ...offlineCreateMissionActionDefaults,
+            ...offlineCreateActionDefaults,
             onSuccess: onSuccessSpy
           }
           queryClient.setMutationDefaults(actionsKeys.create(), customDefaults)
 
-          const { result } = renderHook(() => useCreateMissionActionMutation(missionId), { wrapper })
+          const { result } = renderHook(() => useCreateActionMutation(), { wrapper })
 
           await act(async () => {
-            result.current.mutate({ missionId, action: mockAction })
+            result.current.mutate({ ownerId: missionId, action: mockAction })
           })
 
           await waitFor(
@@ -255,7 +256,7 @@ describe('Hook useCreateMissionActionMutation', () => {
               expect(result.current.isSuccess).toBe(true)
               expect(onSuccessSpy).toHaveBeenCalledWith(
                 serverResponse,
-                { missionId, action: mockAction },
+                { ownerId: missionId, action: mockAction },
                 expect.objectContaining({ action: expect.any(Object) })
               )
             },
@@ -274,10 +275,10 @@ describe('Hook useCreateMissionActionMutation', () => {
           const removeQueriesSpy = vi.spyOn(queryClient, 'removeQueries')
           mockedAxios.post.mockRejectedValue(new Error('Network error'))
 
-          const { result } = renderHook(() => useCreateMissionActionMutation(missionId), { wrapper })
+          const { result } = renderHook(() => useCreateActionMutation(), { wrapper })
 
           await act(async () => {
-            result.current.mutate({ missionId, action: mockAction })
+            result.current.mutate({ ownerId: missionId, ownerType: OwnerType.MISSION, action: mockAction })
           })
 
           // Wait for mutation to fail
@@ -305,15 +306,15 @@ describe('Hook useCreateMissionActionMutation', () => {
 
           const onErrorSpy = vi.fn()
           const customDefaults = {
-            ...offlineCreateMissionActionDefaults,
+            ...offlineCreateActionDefaults,
             onError: onErrorSpy
           }
           queryClient.setMutationDefaults(actionsKeys.create(), customDefaults)
 
-          const { result } = renderHook(() => useCreateMissionActionMutation(missionId), { wrapper })
+          const { result } = renderHook(() => useCreateActionMutation(), { wrapper })
 
           await act(async () => {
-            result.current.mutate({ missionId, action: mockAction })
+            result.current.mutate({ ownerId: missionId, action: mockAction })
           })
 
           await waitFor(
@@ -321,7 +322,7 @@ describe('Hook useCreateMissionActionMutation', () => {
               expect(result.current.isError).toBe(true)
               expect(onErrorSpy).toHaveBeenCalledWith(
                 error,
-                { missionId, action: mockAction },
+                { ownerId: missionId, action: mockAction },
                 expect.objectContaining({ action: expect.any(Object) })
               )
             },
@@ -346,10 +347,10 @@ describe('Hook useCreateMissionActionMutation', () => {
         it('should invalidate action and mission queries on success', async () => {
           mockedAxios.post.mockResolvedValue({ data: mockAction })
 
-          const { result } = renderHook(() => useCreateMissionActionMutation(missionId), { wrapper })
+          const { result } = renderHook(() => useCreateActionMutation(), { wrapper })
 
           await act(async () => {
-            result.current.mutate({ missionId, action: mockAction })
+            result.current.mutate({ ownerId: missionId, ownerType: OwnerType.MISSION, action: mockAction })
           })
 
           // Wait for mutation to complete

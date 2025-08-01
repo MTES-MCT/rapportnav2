@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from '../../../../../test-utils.tsx'
-import useDeleteActionMutation, { offlineDeleteActionMutationDefaults } from '../use-delete-mission-action.tsx'
+import useDeleteActionMutation, { offlineDeleteActionMutationDefaults } from '../use-delete-action.tsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import queryClient from '../../../../../query-client'
 import React from 'react'
@@ -48,21 +48,21 @@ describe('Hook useDeleteMissionAction', () => {
     it('should call deleteAction with correct parameters', async () => {
       mockedAxios.delete.mockResolvedValue({ data: undefined })
 
-      const { result } = renderHook(() => useDeleteActionMutation(missionId), { wrapper })
+      const { result } = renderHook(() => useDeleteActionMutation(), { wrapper })
 
-      result.current.mutate({ missionId, actionId })
+      result.current.mutate({ ownerId: missionId, actionId })
 
       await waitFor(() => {
-        expect(mockedAxios.delete).toHaveBeenCalledWith('missions/mission-1/actions/action-1')
+        expect(mockedAxios.delete).toHaveBeenCalledWith('owners/mission-1/actions/action-1')
       })
     })
 
     it('should handle successful mutation', async () => {
       mockedAxios.delete.mockResolvedValue({ data: undefined })
 
-      const { result } = renderHook(() => useDeleteActionMutation(missionId), { wrapper })
+      const { result } = renderHook(() => useDeleteActionMutation(), { wrapper })
 
-      result.current.mutate({ missionId, actionId })
+      result.current.mutate({ ownerId: missionId, actionId })
 
       await waitFor(() => {
         expect(result.current.isSuccess).toBe(true)
@@ -74,9 +74,9 @@ describe('Hook useDeleteMissionAction', () => {
       const errorMessage = 'Network error'
       mockedAxios.delete.mockRejectedValue(new Error(errorMessage))
 
-      const { result } = renderHook(() => useDeleteActionMutation(missionId), { wrapper })
+      const { result } = renderHook(() => useDeleteActionMutation(), { wrapper })
 
-      result.current.mutate({ missionId, actionId })
+      result.current.mutate({ ownerId: missionId, actionId })
 
       await waitFor(() => {
         expect(result.current.isError).toBe(true)
@@ -94,9 +94,9 @@ describe('Hook useDeleteMissionAction', () => {
       await setupMissionQuery(queryClient, missionId, mockMission)
       mockedAxios.delete.mockImplementation(() => new Promise(() => {})) // Never resolves
 
-      const { result } = renderHook(() => useDeleteActionMutation(missionId), { wrapper })
+      const { result } = renderHook(() => useDeleteActionMutation(), { wrapper })
 
-      result.current.mutate({ missionId, actionId })
+      result.current.mutate({ ownerId: missionId, actionId })
 
       // Check that the action was optimistically removed
       await waitFor(() => {
@@ -117,9 +117,9 @@ describe('Hook useDeleteMissionAction', () => {
 
       mockedAxios.delete.mockResolvedValue({ data: undefined })
 
-      const { result } = renderHook(() => useDeleteActionMutation(missionId), { wrapper })
+      const { result } = renderHook(() => useDeleteActionMutation(), { wrapper })
 
-      result.current.mutate({ missionId, actionId })
+      result.current.mutate({ ownerId: missionId, actionId })
 
       await waitFor(() => {
         const actionData = queryClient.getQueryData(actionsKeys.byId(actionId))
@@ -131,9 +131,9 @@ describe('Hook useDeleteMissionAction', () => {
 
       mockedAxios.delete.mockResolvedValue({ data: undefined })
 
-      const { result } = renderHook(() => useDeleteActionMutation(missionId), { wrapper })
+      const { result } = renderHook(() => useDeleteActionMutation(), { wrapper })
 
-      result.current.mutate({ missionId, actionId })
+      result.current.mutate({ ownerId: missionId, actionId })
       await waitFor(() => {
         expect(invalidateQueriesSpy).toHaveBeenCalledWith({
           queryKey: missionsKeys.byId(missionId),
@@ -147,9 +147,9 @@ describe('Hook useDeleteMissionAction', () => {
 
       mockedAxios.delete.mockRejectedValue(new Error('Network error'))
 
-      const { result } = renderHook(() => useDeleteActionMutation(missionId), { wrapper })
+      const { result } = renderHook(() => useDeleteActionMutation(), { wrapper })
 
-      result.current.mutate({ missionId, actionId })
+      result.current.mutate({ ownerId: missionId, actionId })
 
       await waitFor(() => {
         expect(result.current.isError).toBe(true)

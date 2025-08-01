@@ -1,9 +1,6 @@
-import { logSoftError } from '@mtes-mct/monitor-ui'
-import * as Sentry from '@sentry/react'
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
 import { OmitKeyof, QueryCache, QueryClient } from '@tanstack/react-query'
 import { PersistQueryClientOptions } from '@tanstack/react-query-persist-client'
-import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
 import { logSoftError } from '@mtes-mct/monitor-ui'
 import * as Sentry from '@sentry/react'
 import { getOfflineMode } from '../v2/features/common/hooks/use-offline-mode.tsx'
@@ -11,19 +8,19 @@ import { actionsKeys, missionsKeys } from '../v2/features/common/services/query-
 import {
   offlineDeleteActionMutationDefaults,
   onlineDeleteActionMutationDefaults
-} from '../v2/features/common/services/use-delete-mission-action.tsx'
+} from '../v2/features/common/services/use-delete-action.tsx'
 import {
-  offlineUpdateMissionActionDefaults,
-  onlineUpdateMissionActionDefaults
-} from '../v2/features/common/services/use-update-mission-action.tsx'
+  offlineUpdateActionDefaults,
+  onlineUpdateActionDefaults
+} from '../v2/features/common/services/use-update-action.tsx'
 import {
   offlineUpdateGeneralInfoMutationDefault,
   onlineUpdateGeneralInfoMutationDefault
 } from '../v2/features/common/services/use-update-general-info.tsx'
 import {
-  offlineCreateMissionActionDefaults,
-  onlineCreateMissionActionDefaults
-} from '../v2/features/common/services/use-create-mission-action.tsx'
+  offlineCreateActionDefaults,
+  onlineCreateActionDefaults
+} from '../v2/features/common/services/use-create-action.tsx'
 
 // Notes about stale and cache/gc time:
 // - staleTime:
@@ -87,11 +84,11 @@ queryClient.setMutationDefaults(
 )
 queryClient.setMutationDefaults(
   actionsKeys.create(),
-  getOfflineMode() ? offlineCreateMissionActionDefaults : onlineCreateMissionActionDefaults
+  getOfflineMode() ? offlineCreateActionDefaults : onlineCreateActionDefaults
 )
 queryClient.setMutationDefaults(
   actionsKeys.update(),
-  getOfflineMode() ? offlineUpdateMissionActionDefaults : onlineUpdateMissionActionDefaults
+  getOfflineMode() ? offlineUpdateActionDefaults : onlineUpdateActionDefaults
 )
 queryClient.setMutationDefaults(
   actionsKeys.delete(),

@@ -12,7 +12,7 @@ export const fetchMission = (missionId?: string): Promise<Mission2> =>
 const useGetMissionQuery = (missionId?: string) => {
   const query = useQuery<Mission2>({
     queryKey: missionsKeys.byId(missionId),
-    queryFn: missionId ? () => fetchMission() : skipToken,
+    queryFn: missionId ? () => fetchMission(missionId) : skipToken,
     staleTime: DYNAMIC_DATA_STALE_TIME, // Cache data for 5 minutes
     retry: 2 // Retry failed requests twice before throwing an error
   })
