@@ -9,6 +9,11 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnvActio
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionFishAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.ArraySchema
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -30,7 +35,20 @@ class ActionRestController(
     private val logger = LoggerFactory.getLogger(ActionRestController::class.java)
 
     @GetMapping("")
-    @Operation(summary = "Get the list of actions on a mission Id")
+    @Operation(summary = "Get the list of actions on a owner id")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "Found actions", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        array = (ArraySchema(schema = Schema(implementation = MissionAction::class)))
+                    ))
+                ]
+            ),
+            ApiResponse(responseCode = "404", description = "Did not find any actions", content = [Content()])
+        ]
+    )
     fun getActions(@PathVariable(name = "ownerId") ownerId: String): List<MissionAction?> {
         val actions = if (isValidUUID(ownerId)) getMissionAction.execute(
             missionIdUUID = UUID.fromString(ownerId)
@@ -41,6 +59,24 @@ class ActionRestController(
     }
 
     @GetMapping("{actionId}")
+    @Operation(summary = "Get the action by given id")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "Found action", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        schema = Schema(implementation = MissionAction::class)
+                    ))
+                ]
+            ),
+            ApiResponse(
+                responseCode = "404",
+                description = "Did not find any action with that id",
+                content = [Content()]
+            )
+        ]
+    )
     fun getActionById(
         @PathVariable(name = "ownerId") ownerId: String,
         @PathVariable(name = "actionId") actionId: String,
@@ -67,14 +103,44 @@ class ActionRestController(
     }
 
     @PostMapping("")
-    @Operation(summary = "Create a new mission action")
-    fun createAction(@RequestBody body: MissionNavAction): MissionAction? {
+    @Operation(summary = "Create a new action")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "Found action", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        schema = Schema(implementation = MissionAction::class)
+                    ))
+                ]
+            ),
+            ApiResponse(responseCode = "404", description = "Did not Create an action", content = [Content()])
+        ]
+    )
+    fun createAction(
+        @PathVariable(name = "ownerId") ownerId: String,
+        @RequestBody body: MissionNavAction
+    ): MissionAction? {
         return MissionAction.fromMissionActionEntity(createNavAction.execute(body))
     }
 
     @PutMapping("{actionId}")
-    @Operation(summary = "Update an existing mission action")
+    @Operation(summary = "Update an existing action")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "Found action", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        schema = Schema(implementation = MissionAction::class)
+                    ))
+                ]
+            ),
+            ApiResponse(responseCode = "404", description = "Did not update an action", content = [Content()])
+        ]
+    )
     fun updateAction(
+        @PathVariable(name = "ownerId") ownerId: String,
         @PathVariable(name = "actionId") actionId: String,
         @RequestBody body: MissionAction
     ): MissionAction? {
@@ -89,7 +155,8 @@ class ActionRestController(
     }
 
     @DeleteMapping("{actionId}")
-    @Operation(summary = "Delete a mission action")
+    @Operation(summary = "Delete an action")
+    @ApiResponse(responseCode = "404", description = "Did not delete the action", content = [Content()])
     fun deleteAction(@PathVariable(name = "actionId") actionId: String, @PathVariable ownerId: String) {
         deleteNavAction.execute(UUID.fromString(actionId))
     }

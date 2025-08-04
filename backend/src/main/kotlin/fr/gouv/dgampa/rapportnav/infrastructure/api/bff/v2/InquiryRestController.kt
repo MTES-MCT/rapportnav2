@@ -4,6 +4,11 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.inquiry.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Inquiry
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.ArraySchema
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -23,6 +28,20 @@ class InquiryRestController(
     private val logger = LoggerFactory.getLogger(InquiryRestController::class.java)
 
     @GetMapping
+    @Operation(summary = "Get the list of inquiry for a user service")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "Found list of inquiry", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        array = (ArraySchema(schema = Schema(implementation = Inquiry::class)))
+                    ))
+                ]
+            ),
+            ApiResponse(responseCode = "404", description = "Did not find any list of inquiry", content = [Content()])
+        ]
+    )
     fun getInquiries(): List<Inquiry>? {
         return try {
             val user = getUserFromToken.execute()
@@ -32,11 +51,25 @@ class InquiryRestController(
                 .map { Inquiry.fromInquiryEntity(it) }
         } catch (e: Exception) {
             logger.error("[ERROR] API on endpoint getCrossControlByServiceId:", e)
-            null
+            listOf()
         }
     }
 
     @GetMapping("{id}")
+    @Operation(summary = "Get inquiry by id")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "Found an inquiry", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        schema = Schema(implementation = Inquiry::class)
+                    ))
+                ]
+            ),
+            ApiResponse(responseCode = "404", description = "Did not find any inquiry", content = [Content()])
+        ]
+    )
     fun getInquiry(
         @PathVariable(name = "id") id: String
     ): Inquiry? {
@@ -52,6 +85,19 @@ class InquiryRestController(
 
     @PostMapping("")
     @Operation(summary = "Create a new Inquiry")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "create an inquiry", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        schema = Schema(implementation = Inquiry::class)
+                    ))
+                ]
+            ),
+            ApiResponse(responseCode = "404", description = "Could not create an inquiry", content = [Content()])
+        ]
+    )
     fun create(
         @RequestBody body: Inquiry
     ): Inquiry? {
@@ -65,6 +111,19 @@ class InquiryRestController(
 
     @PutMapping("{inquiryId}")
     @Operation(summary = "Update an Inquiry")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "update an inquiry", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        schema = Schema(implementation = Inquiry::class)
+                    ))
+                ]
+            ),
+            ApiResponse(responseCode = "404", description = "Could not update  inquiry", content = [Content()])
+        ]
+    )
     fun update(
         @PathVariable(name = "inquiryId") inquiryId: String,
         @RequestBody body: Inquiry
@@ -84,6 +143,7 @@ class InquiryRestController(
 
     @DeleteMapping("{inquiryId}")
     @Operation(summary = "Delete an inquiry")
+    @ApiResponse(responseCode = "404", description = "Could not delete  inquiry", content = [Content()])
     fun delete(@PathVariable(name = "inquiryId") inquiryId: String) {
         return deleteInquiry.execute(id = UUID.fromString(inquiryId))
     }

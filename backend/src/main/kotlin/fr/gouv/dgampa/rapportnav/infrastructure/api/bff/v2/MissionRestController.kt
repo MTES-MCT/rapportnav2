@@ -6,6 +6,11 @@ import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Mission2
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.ArraySchema
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 import java.time.Instant
@@ -36,7 +41,20 @@ class MissionRestController(
      * @return A response containing a list of enriched missions, both retrieved and fictive, or an error status if the process fails.
      */
     @GetMapping("")
-    @Operation(summary = "Get the list of actions on a mission Id")
+    @Operation(summary = "Get the list of missions for a specific user")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "Found missions", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        array = (ArraySchema(schema = Schema(implementation = Mission2::class)))
+                    ))
+                ]
+            ),
+            ApiResponse(responseCode = "404", description = "Did not find any missions", content = [Content()])
+        ]
+    )
     fun getMissions(
         @RequestParam startDateTimeUtc: Instant,
         @RequestParam(required = false) endDateTimeUtc: Instant? = null
@@ -65,6 +83,19 @@ class MissionRestController(
      * @return The mission data as a `MissionEnv` object, or null if not found or an error occurs.
      */
     @GetMapping("{missionId}")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "Found mission by id", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        schema = Schema(implementation = Mission2::class)
+                    ))
+                ]
+            ),
+            ApiResponse(responseCode = "404", description = "Did not find any mission", content = [Content()])
+        ]
+    )
     fun getMissionById(
         @PathVariable(name = "missionId") missionId: String
     ): Mission2? {
@@ -93,7 +124,20 @@ class MissionRestController(
      * @return The created mission as a `MissionEnv` object, or null if an error occurs during creation.
      */
     @PostMapping("")
-    @Operation(summary = "Create a new MonitorEnv mission")
+    @Operation(summary = "Create Mission")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "Create mission", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        schema = Schema(implementation = Mission2::class)
+                    ))
+                ]
+            ),
+            ApiResponse(responseCode = "404", description = "Could not create no mission", content = [Content()])
+        ]
+    )
     fun create(
         @RequestBody body: MissionGeneralInfo2
     ): Mission2? {
@@ -111,6 +155,7 @@ class MissionRestController(
 
     @DeleteMapping("{missionId}")
     @Operation(summary = "Delete a mission create by the unity")
+    @ApiResponse(responseCode = "404", description = "Could not delete mission", content = [Content()])
     fun delete(
         @PathVariable(name = "missionId") missionId: String
     ) {
