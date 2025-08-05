@@ -60,7 +60,7 @@ const MissionGeneralInformationCrewNoComment: React.FC<MissionGeneralInformation
             {fieldArray.form.values.crew?.map((crewMember: MissionCrewMember, index: number) => (
               <MissionCrewListItemStyled
                 index={index}
-                key={`${crewMember.agent.id}-index`}
+                key={`${crewMember?.agent?.id}-index`}
                 length={fieldArray.form.values.crew.length}
               >
                 <MissionCrewListNoComment

@@ -16,7 +16,6 @@ describe('OnlineToggle', () => {
       isOnline: true,
       isOffline: false,
       hasNetwork: true,
-      manualOffline: false,
       toggleOnline: vi.fn()
     })
 
@@ -43,7 +42,6 @@ describe('OnlineToggle', () => {
       isOnline: false,
       isOffline: true,
       hasNetwork: true,
-      manualOffline: false,
       toggleOnline: vi.fn()
     })
 
@@ -73,7 +71,6 @@ describe('OnlineToggle', () => {
       isOnline: true,
       isOffline: false,
       hasNetwork: true,
-      manualOffline: false,
       toggleOnline: mockSetOnline
     })
 
@@ -94,7 +91,6 @@ describe('OnlineToggle', () => {
       isOnline: false,
       isOffline: true,
       hasNetwork: true,
-      manualOffline: false,
       toggleOnline: mockToggleOnline
     })
 
@@ -123,7 +119,6 @@ describe('OnlineToggle', () => {
       isOnline: false,
       isOffline: true,
       hasNetwork: false,
-      manualOffline: false,
       toggleOnline: mockToggleOnline
     })
 
