@@ -36,6 +36,7 @@ const TimelineWrapper: FC<TimelineProps> = ({
 }) => {
   const { groupByDay } = useDate()
   const { computeCompleteForStats } = useTimelineCompleteForStats()
+
   useEffect(() => {
     const completenessForStats = computeCompleteForStats(actions)
     setTimelineCompleteForStats(completenessForStats)

@@ -3,7 +3,7 @@ import { useGlobalRoutes } from '@router/use-global-routes'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTimelineAction } from '../../../common/hooks/use-timeline-action'
-import useCreateMissionActionMutation from '../../../common/services/use-create-action'
+import useCreateActionMutation from '../../../common/services/use-create-action'
 import { ActionType } from '../../../common/types/action-type'
 import { InquiryStatusType } from '../../../common/types/inquiry'
 import { OwnerType } from '../../../common/types/owner-type'
@@ -18,11 +18,11 @@ const InquiryTimelineHeader: FC<InquiryTimelineHeaderProps> = ({ inquiryId }) =>
   const { getUrl } = useGlobalRoutes()
   const { data: inquiry } = useGetInquiryQuery(inquiryId)
   const { getActionInput } = useTimelineAction(inquiryId)
-  const mutation = useCreateMissionActionMutation(inquiryId, OwnerType.INQUIRY)
+  const mutation = useCreateActionMutation()
 
   const handleAddActionInquiry = async () => {
     const action = getActionInput(ActionType.INQUIRY)
-    const response = await mutation.mutateAsync(action)
+    const response = await mutation.mutateAsync({ ownerId: inquiryId, ownerType: OwnerType.INQUIRY, action })
     if (response) navigate(`${getUrl(OwnerType.INQUIRY)}/${inquiryId}/${response.id}`)
   }
 
