@@ -77,9 +77,14 @@ export function useTarget() {
     return availableControlTypes.filter(a => !fullControlTypes?.includes(a))
   }
 
-  const getNbrInfraction = (targets?: Target[]) =>
-    targets?.flatMap(t => t.controls)?.flatMap(c => c?.infractions)?.length ?? 0
-
+  const getNbrInfraction = (targets?: Target[]): number => {
+    return (
+      targets
+        ?.flatMap(t => t.controls)
+        ?.flatMap(c => c?.infractions)
+        ?.reduce((acc, infraction) => acc + (infraction?.natinfs?.length ?? 0), 0) ?? 0
+    )
+  }
   return {
     getTargetType,
     isDefaultTarget,
