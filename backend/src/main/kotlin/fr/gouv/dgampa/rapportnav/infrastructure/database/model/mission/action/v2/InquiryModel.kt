@@ -2,13 +2,18 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EntityListeners
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
 import java.util.*
 
 @Table(name = "inquiry")
 @Entity
+@EntityListeners(AuditingEntityListener::class)
 class InquiryModel(
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -48,7 +53,15 @@ class InquiryModel(
     var missionIdUUID: UUID? = null,
 
     @Column(name = "is_signed_by_inspector", nullable = true)
-    var isSignedByInspector: Boolean? = null
+    var isSignedByInspector: Boolean? = null,
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = true, updatable = false)
+    var createdAt: Instant? = null,
+
+    @LastModifiedDate
+    @Column(name = "updated_at", nullable = true)
+    var updatedAt: Instant? = null
 
 ) {
     override fun hashCode(): Int {
