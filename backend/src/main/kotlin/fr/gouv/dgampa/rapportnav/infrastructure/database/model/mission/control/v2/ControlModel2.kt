@@ -6,11 +6,16 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infractio
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcType
 import org.hibernate.dialect.PostgreSQLEnumJdbcType
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import java.time.Instant
 import java.util.*
 
 @Entity
-@Table(name = "control_2")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@EntityListeners(AuditingEntityListener::class)
+@Table(name = "control_2")
 data class ControlModel2(
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -51,7 +56,15 @@ data class ControlModel2(
     @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "control_id")
     @JsonIgnore
-    var infractions: List<InfractionModel2>? = mutableListOf()
+    var infractions: List<InfractionModel2>? = mutableListOf(),
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = true, updatable = false)
+    var createdAt: Instant? = null,
+
+    @LastModifiedDate
+    @Column(name = "updated_at", nullable = true)
+    var updatedAt: Instant? = null
 ) {
     override fun hashCode(): Int {
         return Objects.hash(id)

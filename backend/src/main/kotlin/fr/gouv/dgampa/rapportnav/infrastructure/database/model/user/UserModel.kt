@@ -7,8 +7,13 @@ import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcType
 import org.hibernate.dialect.PostgreSQLEnumJdbcType
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import java.time.Instant
 
 @Entity
+@EntityListeners(AuditingEntityListener::class)
 @Table(name = "user", schema = "public")
 class UserModel(
     @Id
@@ -37,7 +42,15 @@ class UserModel(
     @Column(name = "role")
     @Enumerated(EnumType.STRING)  // Still required for proper enum handling
     @JdbcType(PostgreSQLEnumJdbcType::class)
-    var roles: List<RoleTypeEnum> = listOf()
+    var roles: List<RoleTypeEnum> = listOf(),
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = true, updatable = false)
+    var createdAt: Instant? = null,
+
+    @LastModifiedDate
+    @Column(name = "updated_at", nullable = true)
+    var updatedAt: Instant? = null
 ) {
 
 

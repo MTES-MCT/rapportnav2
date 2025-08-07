@@ -69,7 +69,7 @@ const MissionCrewFormNoComment: React.FC<MissionCrewFormNoCommentProps> = ({
   const [initValue, setInitValue] = useState<CrewForm>()
 
   useEffect(() => {
-    const ids = crewMembers.map(crew => crew.agent?.id) ?? []
+    const ids = crewMembers?.map(crew => crew.agent?.id) ?? []
     setInitValue({ agentIds: ids })
   }, [crewMembers])
 

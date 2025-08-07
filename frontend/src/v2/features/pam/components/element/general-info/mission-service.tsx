@@ -1,12 +1,14 @@
 import { FC } from 'react'
 import { FormikSelect } from '@mtes-mct/monitor-ui'
 import { Service } from '@common/types/crew-types.ts'
+import { useOnlineManager } from '../../../../common/hooks/use-online-manager.tsx'
 
 export interface MissionServiceProps {
   services?: Service[]
 }
 
 const MissionService: FC<MissionServiceProps> = ({ services }) => {
+  const { isOffline } = useOnlineManager()
   const getOptions = (values?: Service[]): { value: string; label: string }[] => {
     return (
       values?.map((service, index) => ({
@@ -23,6 +25,7 @@ const MissionService: FC<MissionServiceProps> = ({ services }) => {
       isCleanable={false}
       options={getOptions(services)}
       data-testid="mission-service-select"
+      disabled={isOffline}
     />
   )
 }

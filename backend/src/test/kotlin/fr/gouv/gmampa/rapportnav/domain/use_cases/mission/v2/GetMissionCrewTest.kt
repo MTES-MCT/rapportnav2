@@ -41,14 +41,14 @@ class GetMissionCrewTest {
     }
 
     @Test
-    fun `execute get service, in database when new service id and old service id are equal`() {
+    fun `execute get service, in database when new service id and old service id are different`() {
         val serviceId = 3
         val crewFromService = listOf(
             AgentServiceEntityMock.create(agent = agent1, role = role),
             AgentServiceEntityMock.create(agent = agent2, role = role),
         )
         Mockito.`when`(getActiveCrewForService.execute(serviceId)).thenReturn(crewFromService)
-        val result = getMissionCrew.execute(newServiceId = serviceId, oldServiceId = serviceId)
+        val result = getMissionCrew.execute(newServiceId = serviceId, oldServiceId = 2)
 
         // Then
         assertThat(result.map { it.agent }.toSet()).isEqualTo(crewFromService.map { it.agent }.toSet())
@@ -56,7 +56,7 @@ class GetMissionCrewTest {
     }
 
     @Test
-    fun `execute get service, in general infos when new service id and old service id are different and general infos is not null`() {
+    fun `execute get service, in general infos when new serviceId and old serviceId are the same`() {
         val serviceId = 3
         val missionId = 761
         val missionIdUUID = UUID.randomUUID()
@@ -79,7 +79,7 @@ class GetMissionCrewTest {
         )
         val result = getMissionCrew.execute(
             newServiceId = serviceId,
-            oldServiceId = 2,
+            oldServiceId = serviceId,
             generalInfo = generalInfos,
             missionId = missionId,
             missionIdUUID = missionIdUUID

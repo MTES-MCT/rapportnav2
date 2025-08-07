@@ -56,6 +56,7 @@ const MissionListPageContentWrapper: FC<MissionListContentWrapperProps> = ({
                 {loading ? (
                   <div style={{ marginTop: '25rem' }}>
                     <Loader
+                      data-testid={'mission-list-loader'}
                       center={true}
                       size={'md'}
                       vertical={true}

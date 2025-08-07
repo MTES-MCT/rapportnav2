@@ -60,7 +60,7 @@ class UpdateGeneralInfoTest {
         return entity
     }
 
-        @Test
+    @Test
     fun `execute should update mission service when service ID has changed`() {
         // Given
         val missionId = 123

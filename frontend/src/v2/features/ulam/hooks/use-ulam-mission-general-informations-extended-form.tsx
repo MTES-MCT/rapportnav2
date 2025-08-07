@@ -13,14 +13,13 @@ export function useUlamMissionGeneralInformationsExtendedForm(
       interMinisterialServices: !value.isWithInterMinisterialService ? [] : value.interMinisterialServices
     }
   }
-  const { initValue, handleSubmit } = useAbstractFormikSubForm<MissionGeneralInfoExtended, MissionGeneralInfoExtended>(
-    name,
-    fieldFormik,
-    fromFieldValueToInput,
-    fromInputToFieldValue
-  )
+  const { initValue, handleSubmit, errors } = useAbstractFormikSubForm<
+    MissionGeneralInfoExtended,
+    MissionGeneralInfoExtended
+  >(name, fieldFormik, fromFieldValueToInput, fromInputToFieldValue)
 
   return {
+    errors,
     initValue,
     handleSubmit
   }

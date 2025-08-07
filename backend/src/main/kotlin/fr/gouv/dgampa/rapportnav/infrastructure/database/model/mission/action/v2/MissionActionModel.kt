@@ -4,11 +4,15 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcType
 import org.hibernate.dialect.PostgreSQLEnumJdbcType
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
 import java.util.*
 
 @Table(name = "mission_action")
 @Entity
+@EntityListeners(AuditingEntityListener::class)
 data class MissionActionModel(
     @Id
     @Column(name = "id")
@@ -124,7 +128,15 @@ data class MissionActionModel(
     var ownerId: UUID? = null,
 
     @Column(name = "nbr_of_hours", nullable = true)
-    var nbrOfHours: Int? = null
+    var nbrOfHours: Int? = null,
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = true, updatable = false)
+    var createdAt: Instant? = null,
+
+    @LastModifiedDate
+    @Column(name = "updated_at", nullable = true)
+    var updatedAt: Instant? = null
 
 ) {
     override fun hashCode(): Int {
