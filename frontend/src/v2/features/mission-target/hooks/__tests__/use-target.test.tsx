@@ -132,14 +132,14 @@ describe('useTarget', () => {
       {
         controls: [
           { controlType: ControlType.ADMINISTRATIVE, infractions: [{}, {}] },
-          { controlType: ControlType.GENS_DE_MER, infractions: [{}] }
+          { controlType: ControlType.GENS_DE_MER, infractions: [{ natinfs: ['natinfs1'] }] }
         ]
       } as Target,
       {
-        controls: [{ controlType: ControlType.NAVIGATION, infractions: [{}] }]
+        controls: [{ controlType: ControlType.NAVIGATION, infractions: [{ natinfs: ['natinfs2'] }] }]
       } as Target
     ]
-    expect(result.current.getNbrInfraction(targets)).toBe(4)
+    expect(result.current.getNbrInfraction(targets)).toBe(2)
     expect(result.current.getNbrInfraction(undefined)).toBe(0)
   })
 })
