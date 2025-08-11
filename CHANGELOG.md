@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.19.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.19.0...docker-container@v2.19.1) (2025-08-11)
+
+
+### Bug Fixes
+
+* set correct id for generalInfo on updateService ([15256e4](https://github.com/MTES-MCT/rapportnav2/commit/15256e4057c0b14c069b2ffb5d3d57041b27fd7b))
+
 ## [2.19.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.18.1...docker-container@v2.19.0) (2025-08-11)
 
 
