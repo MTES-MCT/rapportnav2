@@ -37,7 +37,6 @@ class UpdateMissionService(
         var info = infoRepo.findByMissionId(input.missionId).getOrNull();
         if (info == null) {
             info = MissionGeneralInfoModel(
-                id = input.missionId,
                 missionId = input.missionId
             )
         }
