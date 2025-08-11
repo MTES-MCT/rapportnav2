@@ -11,6 +11,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 @EnableJpaRepositories(basePackages = ["fr.gouv.dgampa.rapportnav.infrastructure.database.repositories"])
 @EnableTransactionManagement
 @EnableAutoConfiguration
-@EnableJpaAuditing
+@EnableJpaAuditing(auditorAwareRef = "auditorAwareImpl")
 @ComponentScan("fr.gouv.dgampa.rapportnav")
 class JpaConfig
