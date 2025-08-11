@@ -8,13 +8,20 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionContro
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.mapStringToControlMethod
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EntityListeners
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import org.springframework.data.annotation.CreatedBy
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedBy
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
 import java.util.*
 
-@Entity
 @Table(name = "mission_action_control")
+@Entity
+@EntityListeners(AuditingEntityListener::class)
 class ActionControlModel(
     @Id
     @Column(name = "id")
@@ -55,6 +62,22 @@ class ActionControlModel(
 
     @Column(name = "observations", nullable = true)
     var observations: String? = null,
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = true, updatable = false)
+    var createdAt: Instant? = null,
+
+    @LastModifiedDate
+    @Column(name = "updated_at", nullable = true)
+    var updatedAt: Instant? = null,
+
+    @CreatedBy
+    @Column(name = "created_by", updatable = false)
+    var createdBy: Int? = null,
+
+    @LastModifiedBy
+    @Column(name = "updated_by")
+    var updatedBy: Int? = null
 
 
 //    @OneToOne(mappedBy = "actionControl", cascade = [CascadeType.ALL])

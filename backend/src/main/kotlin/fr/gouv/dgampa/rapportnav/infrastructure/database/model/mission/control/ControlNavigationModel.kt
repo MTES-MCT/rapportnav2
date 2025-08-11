@@ -3,12 +3,15 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlNavigationEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EntityListeners
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.util.*
 
 @Entity
 @Table(name = "control_navigation")
+@EntityListeners(AuditingEntityListener::class)
 class ControlNavigationModel(
     // Add at least one parameter to the primary constructor
     @Id

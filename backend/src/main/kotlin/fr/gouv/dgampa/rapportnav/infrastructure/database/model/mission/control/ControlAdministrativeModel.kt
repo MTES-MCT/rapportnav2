@@ -5,10 +5,13 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.stringToCon
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.toStringOrNull
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EntityListeners
 import jakarta.persistence.Table
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 
 @Entity
 @Table(name = "control_administrative")
+@EntityListeners(AuditingEntityListener::class)
 class ControlAdministrativeModel(
     @Column(name = "compliant_operating_permit", nullable = true)
     var compliantOperatingPermit: String? = null,
