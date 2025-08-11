@@ -2,10 +2,17 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control
 
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.InfractionModel
 import jakarta.persistence.*
+import org.springframework.data.annotation.CreatedBy
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedBy
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import java.time.Instant
 import java.util.*
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@EntityListeners(AuditingEntityListener::class)
 abstract class ControlModel {
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -39,4 +46,20 @@ abstract class ControlModel {
         targetEntity = InfractionModel::class
     )
     open var infractions: List<InfractionModel>? = null
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = true, updatable = false)
+    open var createdAt: Instant? = null
+
+    @LastModifiedDate
+    @Column(name = "updated_at", nullable = true)
+    open var updatedAt: Instant? = null
+
+    @CreatedBy
+    @Column(name = "created_by", updatable = false)
+    open var createdBy: Int? = null
+
+    @LastModifiedBy
+    @Column(name = "updated_by")
+    open var updatedBy: Int? = null
 }

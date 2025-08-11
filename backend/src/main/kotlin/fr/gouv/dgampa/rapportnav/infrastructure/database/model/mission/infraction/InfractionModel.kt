@@ -6,10 +6,17 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.InfractionEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.ControlModel
 import jakarta.persistence.*
+import org.springframework.data.annotation.CreatedBy
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedBy
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import java.time.Instant
 import java.util.*
 
 @Entity
 @Table(name = "infraction")
+@EntityListeners(AuditingEntityListener::class)
 class InfractionModel(
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -50,7 +57,23 @@ class InfractionModel(
         targetEntity = InfractionEnvTargetModel::class
     )
     @JsonIgnore
-    var target: List<InfractionEnvTargetModel> = mutableListOf()
+    var target: List<InfractionEnvTargetModel> = mutableListOf(),
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = true, updatable = false)
+    var createdAt: Instant? = null,
+
+    @LastModifiedDate
+    @Column(name = "updated_at", nullable = true)
+    var updatedAt: Instant? = null,
+
+    @CreatedBy
+    @Column(name = "created_by", updatable = false)
+    var createdBy: Int? = null,
+
+    @LastModifiedBy
+    @Column(name = "updated_by")
+    var updatedBy: Int? = null
 
 
 ) {
