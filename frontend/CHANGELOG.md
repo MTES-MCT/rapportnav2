@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.19.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.18.1...frontend@v2.19.0) (2025-08-11)
+
+
+### Features
+
+* **offline:** offline core engine ([17d05c5](https://github.com/MTES-MCT/rapportnav2/commit/17d05c51fb05e1ebfd04d7661a41f66a2f2c8df7))
+
+
+### Bug Fixes
+
+* **frontend:** crew and infractions count ([f11f305](https://github.com/MTES-MCT/rapportnav2/commit/f11f30533d6cee9646323b6464b139992451d230))
+
 ## [2.18.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.18.0...frontend@v2.18.1) (2025-07-31)
 
 
