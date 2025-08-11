@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.19.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.18.1...backend@v2.19.0) (2025-08-11)
+
+
+### Features
+
+* add created_at and updated_at to v2 tables ([89d0bed](https://github.com/MTES-MCT/rapportnav2/commit/89d0beda7178e4183c3301903fc44a44c220223a))
+* add created_by and updated_by to v2 tables ([#817](https://github.com/MTES-MCT/rapportnav2/issues/817)) ([4f3e183](https://github.com/MTES-MCT/rapportnav2/commit/4f3e183fc13acf6eb58a42184e9b46d566408003))
+* add updated/created at/by to v1 tables ([#818](https://github.com/MTES-MCT/rapportnav2/issues/818)) ([b3fae53](https://github.com/MTES-MCT/rapportnav2/commit/b3fae53ef466f168114fac884a4e3c9a6d0ced64))
+* **backend:** OAS decorator of controllers ([1da5899](https://github.com/MTES-MCT/rapportnav2/commit/1da58994e0fa9c98e776649c3bcc3fb1808f0a14))
+* **backend:** OAS decorator of controllers ([2fd856d](https://github.com/MTES-MCT/rapportnav2/commit/2fd856d8ec5ee0b323565c546500e72da5eba5a9))
+* **offline:** offline core engine ([17d05c5](https://github.com/MTES-MCT/rapportnav2/commit/17d05c51fb05e1ebfd04d7661a41f66a2f2c8df7))
+
+
+### Bug Fixes
+
+* **backend:** update crew algorithm ([e086b32](https://github.com/MTES-MCT/rapportnav2/commit/e086b3207aed31735b29b0ed771128ab98de1360))
+
 ## [2.18.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.18.0...backend@v2.18.1) (2025-07-31)
 
 
