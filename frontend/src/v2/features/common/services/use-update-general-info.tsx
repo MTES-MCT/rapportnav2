@@ -28,6 +28,22 @@ export const offlineUpdateGeneralInfoMutationDefault = {
         }
       }
     })
+
+    // ✅ Cancel existing mutations with same mission id
+    const cleanupMutations = (mutationKey, missionId, keepLatest = false) => {
+      const mutations = queryClient
+        .getMutationCache()
+        .findAll({ mutationKey })
+        .filter(m => {
+          return m.state.status === 'pending' && m.state.variables?.missionId === missionId
+        })
+
+      const toCleanup = keepLatest ? mutations.sort((a, b) => b.mutationId - a.mutationId).slice(1) : mutations
+      toCleanup.forEach(m => (m.destroy?.(), mutationCache.remove(m as any)))
+    }
+
+    const mutationCache = queryClient.getMutationCache()
+    cleanupMutations(missionsKeys.update(), missionId, true)
   },
   onSettled: async (_data, _error, variables, _context) => {
     const { missionId } = variables
@@ -54,7 +70,7 @@ export const onlineUpdateGeneralInfoMutationDefault = {
     })
   },
   scope: {
-    id: 'delete-action'
+    id: `update-general-info`
   }
 }
 

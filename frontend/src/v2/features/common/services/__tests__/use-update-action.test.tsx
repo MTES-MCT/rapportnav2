@@ -195,7 +195,7 @@ describe('Hook useUpdateMissionAction', () => {
         const mockMutation = {
           state: {
             status: 'pending',
-            variables: { id: actionId }
+            variables: { action: { id: actionId } }
           },
           destroy: vi.fn(),
           options: { mutationKey: actionsKeys.create() }
@@ -255,7 +255,7 @@ describe('Hook useUpdateMissionAction', () => {
         await waitFor(() => {
           expect(invalidateQueriesSpy).toHaveBeenCalledWith({
             queryKey: actionsKeys.byId(actionId),
-            refetchType: 'all'
+            refetchType: 'active'
           })
           expect(invalidateQueriesSpy).toHaveBeenCalledWith({
             queryKey: missionsKeys.byId(missionId),
@@ -295,7 +295,7 @@ describe('Hook useUpdateMissionAction', () => {
         await waitFor(() => {
           expect(invalidateQueriesSpy).toHaveBeenCalledWith({
             queryKey: actionsKeys.byId(actionId),
-            refetchType: 'all'
+            refetchType: 'active'
           })
         })
       })
