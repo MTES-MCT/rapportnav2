@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.19.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.19.1...docker-container@v2.19.2) (2025-08-12)
+
+
+### Bug Fixes
+
+* various offline fixes ([#820](https://github.com/MTES-MCT/rapportnav2/issues/820)) ([1ea34a1](https://github.com/MTES-MCT/rapportnav2/commit/1ea34a12832cbe5cf41dcf2d40e0324fd14c15cf))
+
 ## [2.19.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.19.0...docker-container@v2.19.1) (2025-08-11)
 
 
