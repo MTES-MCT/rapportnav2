@@ -44,7 +44,6 @@ export const offlineDeleteActionMutationDefaults = {
     return { previousActions }
   },
   onSettled: async (_data: any, _error: any, variables: UseDeleteActionInput, _context: any) => {
-    debugger
     await queryClient.invalidateQueries({
       queryKey:
         variables.ownerType === OwnerType.INQUIRY
@@ -62,7 +61,6 @@ export const offlineDeleteActionMutationDefaults = {
 export const onlineDeleteActionMutationDefaults = {
   mutationFn: deleteAction,
   onSuccess: async (_data: any, variables: UseDeleteActionInput) => {
-    debugger
     await queryClient.invalidateQueries({
       queryKey:
         variables.ownerType === OwnerType.INQUIRY
