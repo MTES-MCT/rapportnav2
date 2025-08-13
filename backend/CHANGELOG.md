@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.19.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.19.2...backend@v2.19.3) (2025-08-13)
+
+
+### Bug Fixes
+
+* GetNavMissions filter by serviceId ([#824](https://github.com/MTES-MCT/rapportnav2/issues/824)) ([902bc6e](https://github.com/MTES-MCT/rapportnav2/commit/902bc6edceb34e1d87f8284113f8ef876689fad0))
+
 ## [2.19.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.19.1...backend@v2.19.2) (2025-08-12)
 
 

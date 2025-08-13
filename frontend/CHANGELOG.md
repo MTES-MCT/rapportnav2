@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.19.3](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.19.2...frontend@v2.19.3) (2025-08-13)
+
+
+### Bug Fixes
+
+* fix delete infraction browser compatibility ([#822](https://github.com/MTES-MCT/rapportnav2/issues/822)) ([d07fb16](https://github.com/MTES-MCT/rapportnav2/commit/d07fb1612ac1ad658a86a29b472564b70b77d1fe))
+
 ## [2.19.2](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.19.1...frontend@v2.19.2) (2025-08-12)
 
 

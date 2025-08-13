@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.19.3](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.19.2...docker-container@v2.19.3) (2025-08-13)
+
+
+### Bug Fixes
+
+* fix delete infraction browser compatibility ([#822](https://github.com/MTES-MCT/rapportnav2/issues/822)) ([d07fb16](https://github.com/MTES-MCT/rapportnav2/commit/d07fb1612ac1ad658a86a29b472564b70b77d1fe))
+* GetNavMissions filter by serviceId ([#824](https://github.com/MTES-MCT/rapportnav2/issues/824)) ([902bc6e](https://github.com/MTES-MCT/rapportnav2/commit/902bc6edceb34e1d87f8284113f8ef876689fad0))
+
 ## [2.19.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.19.1...docker-container@v2.19.2) (2025-08-12)
 
 
