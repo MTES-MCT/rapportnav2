@@ -11,9 +11,12 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeNavMissio
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissions
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissions
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetControlUnitsForUser
+import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
+import fr.gouv.gmampa.rapportnav.mocks.user.UserMock
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
+import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -41,6 +44,9 @@ class GetMissionsTest {
     @MockitoBean
     private lateinit var getControlUnitsForUser: GetControlUnitsForUser
 
+    @MockitoBean
+    private lateinit var getUserFromToken: GetUserFromToken
+
 
     @Test
     fun `should execute return a list of MissionEntity2`()
@@ -59,7 +65,7 @@ class GetMissionsTest {
             missionSource = MissionSourceEnum.RAPPORT_NAV,
             controlUnits = listOf(),
             missionTypes = listOf(MissionTypeEnum.AIR),
-            hasMissionOrder = false
+            hasMissionOrder = false,
         )
 
         val navEntity = MissionNavEntity(
@@ -71,11 +77,12 @@ class GetMissionsTest {
             missionSource = MissionSourceEnum.RAPPORT_NAV
         )
 
-
         val response = MissionEntity2(
             id = 1,
             data = entity
         )
+
+        Mockito.`when`(getUserFromToken.execute()).thenReturn(UserMock.create(serviceId = null))
 
         Mockito.`when`(getEnvMissions.execute(
             startedAfterDateTime = now,
@@ -87,7 +94,8 @@ class GetMissionsTest {
 
         Mockito.`when`(getNavMissions.execute(
             startDateTimeUtc = now,
-            endDateTimeUtc = now
+            endDateTimeUtc = now,
+            serviceId = null
         )).thenReturn(listOf(navEntity))
 
         Mockito.`when`(getControlUnitsForUser.execute()).thenReturn(controlUnits)

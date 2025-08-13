@@ -18,7 +18,6 @@ const createAction = async ({ ownerId, action }: UseCreateActionInput): Promise<
 export const offlineCreateActionDefaults = {
   mutationFn: createAction,
   onMutate: async ({ ownerId, ownerType, action }: UseCreateActionInput) => {
-    debugger
     const isOnline = onlineManager.isOnline()
 
     const optimisticAction = {
@@ -60,7 +59,7 @@ export const offlineCreateActionDefaults = {
   onSuccess: async (serverResponse, newAction, _context) => {
     debugger
     await queryClient.invalidateQueries({
-      queryKey: actionsKeys.byId(newAction.id),
+      queryKey: actionsKeys.byId(serverResponse?.data?.id),
       type: 'all'
     })
   },
@@ -70,7 +69,6 @@ export const offlineCreateActionDefaults = {
   },
   onSettled: async (_data, _error, variables: UseCreateActionInput, _context) => {
     // refetch mission in any case
-    debugger
     await queryClient.invalidateQueries({
       queryKey:
         variables.ownerType === OwnerType.INQUIRY

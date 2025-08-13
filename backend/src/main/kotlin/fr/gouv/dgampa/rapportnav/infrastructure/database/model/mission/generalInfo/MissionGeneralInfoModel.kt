@@ -5,7 +5,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 import jakarta.persistence.*
+import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
@@ -73,6 +75,14 @@ class MissionGeneralInfoModel(
 
     @LastModifiedDate
     @Column(name = "updated_at", nullable = true)
-    var updatedAt: Instant? = null
+    var updatedAt: Instant? = null,
+
+    @CreatedBy
+    @Column(name = "created_by", updatable = false)
+    var createdBy: Int? = null,
+
+    @LastModifiedBy
+    @Column(name = "updated_by")
+    var updatedBy: Int? = null
 ) {
 }

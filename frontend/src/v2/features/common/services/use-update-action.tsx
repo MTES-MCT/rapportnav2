@@ -4,9 +4,10 @@ import { MissionAction, MissionNavAction } from '../types/mission-action.ts'
 import { OwnerType } from '../types/owner-type.ts'
 import { actionsKeys, inquiriesKeys, missionsKeys } from './query-keys.ts'
 import { NetworkSyncStatus } from '../types/network-types.ts'
-import queryClient from '../../../../query-client'
+import queryClient, { DYNAMIC_DATA_STALE_TIME } from '../../../../query-client'
 import { Mission2 } from '../types/mission-types.ts'
 import { orderBy } from 'lodash'
+import { fetchAction } from './use-action.tsx'
 
 type UseUpdateActionInput = {
   ownerId: string
@@ -20,7 +21,6 @@ const updateAction = ({ ownerId, action }: UseUpdateActionInput): Promise<Missio
 export const offlineUpdateActionDefaults = {
   mutationFn: updateAction,
   onMutate: async ({ ownerId, ownerType, action }: UseUpdateActionInput) => {
-    debugger
     // create optimistic action
     const isOnline = onlineManager.isOnline()
     let optimisticAction: MissionNavAction = {
@@ -52,29 +52,37 @@ export const offlineUpdateActionDefaults = {
     queryClient.setQueryData(actionsKeys.byId(optimisticAction.id), optimisticAction)
 
     // ✅ Cancel existing 'create' mutations with same action id
-    const mutationCache = queryClient.getMutationCache()
-    const pendingCreateMutations = mutationCache
-      .findAll({ mutationKey: actionsKeys.create() })
-      .filter(mutation => mutation.state.status === 'pending' && mutation.state.variables?.id === optimisticAction.id)
+    const cleanupMutations = (mutationKey, actionId, keepLatest = false) => {
+      const mutations = queryClient
+        .getMutationCache()
+        .findAll({ mutationKey })
+        .filter(m => m.state.status === 'pending' && m.state.variables?.action?.id === actionId)
 
-    for (const mutation of pendingCreateMutations) {
-      // ✅ 1. Cancel retries
-      mutation.destroy?.()
+      const toCleanup = keepLatest ? mutations.sort((a, b) => b.mutationId - a.mutationId).slice(1) : mutations
 
-      // ✅ 2. Remove mutation from queue
-      mutationCache.remove(mutation as any) // cast because remove expects Mutation<any, any, any, any>
+      toCleanup.forEach(m => (m.destroy?.(), mutationCache.remove(m as any)))
     }
 
+    const mutationCache = queryClient.getMutationCache()
+    cleanupMutations(actionsKeys.create(), optimisticAction.id)
+    cleanupMutations(actionsKeys.update(), optimisticAction.id, true)
+
+    // get this query with ensureQueryData, it will connect the queryFn to this cacheKey
+    // otherwise, actions created offline have no queryFn attached and cannot be refetched
+    await queryClient.ensureQueryData({
+      queryKey: actionsKeys.byId(optimisticAction.id),
+      queryFn: () => fetchAction({ ownerId, actionId: optimisticAction.id }),
+      staleTime: DYNAMIC_DATA_STALE_TIME
+    })
     // return context
     return { action: optimisticAction }
   },
 
   onSettled: async (_data, _error, variables: UseUpdateActionInput, _context) => {
     try {
-      debugger
       await queryClient.invalidateQueries({
         queryKey: actionsKeys.byId(variables.action?.id),
-        refetchType: 'all'
+        refetchType: 'active'
       })
     } catch (error) {
       // error because the action has been created online and cache key has no updater function

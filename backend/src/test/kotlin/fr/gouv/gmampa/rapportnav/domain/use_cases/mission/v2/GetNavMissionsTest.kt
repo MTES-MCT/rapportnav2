@@ -25,31 +25,58 @@ class GetNavMissionsTest {
     @Autowired
     private lateinit var getNavMissions: GetNavMissions
 
+    val mockMission = MissionModel(
+        id = UUID.randomUUID(),
+        startDateTimeUtc = Instant.now(),
+        endDateTimeUtc = Instant.now(),
+        isDeleted = false,
+        missionSource = MissionSourceEnum.RAPPORT_NAV,
+        serviceId = 2
+    )
+    val mockMissionWithDifferentService = MissionModel(
+        id = UUID.randomUUID(),
+        startDateTimeUtc = Instant.now(),
+        endDateTimeUtc = Instant.now(),
+        isDeleted = false,
+        missionSource = MissionSourceEnum.RAPPORT_NAV,
+        serviceId = 3
+    )
+
     @Test
     fun `should execute retrieve missions as list of MissionEntity2`()
     {
-        val mockMission = MissionModel(
-            id = UUID.randomUUID(),
-            startDateTimeUtc = Instant.now(),
-            endDateTimeUtc = Instant.now(),
-            isDeleted = false,
-            missionSource = MissionSourceEnum.RAPPORT_NAV,
-            serviceId = 2
-        )
-
         Mockito.`when`(repository.findAll(
             startBeforeDateTime = Instant.parse("2025-04-07T09:23:00.912559Z"),
             endBeforeDateTime = Instant.parse("2025-04-07T09:23:00.912559Z")
-        )).thenReturn(listOf(mockMission))
+        )).thenReturn(listOf(mockMission, mockMissionWithDifferentService))
 
         val missions = getNavMissions.execute(
             startDateTimeUtc = Instant.parse("2025-04-07T09:23:00.912559Z"),
-            endDateTimeUtc = Instant.parse("2025-04-07T09:23:00.912559Z")
+            endDateTimeUtc = Instant.parse("2025-04-07T09:23:00.912559Z"),
+            serviceId = 2
         )
 
         Assertions.assertNotNull(missions)
         Assertions.assertNotNull(missions?.get(0))
         Assertions.assertEquals(1, missions?.size)
         assertThat(missions?.get(0)).isInstanceOf(MissionNavEntity::class.java)
+    }
+
+    @Test
+    fun `should execute retrieve all missions if serviceId is null`()
+    {
+        Mockito.`when`(repository.findAll(
+            startBeforeDateTime = Instant.parse("2025-04-07T09:23:00.912559Z"),
+            endBeforeDateTime = Instant.parse("2025-04-07T09:23:00.912559Z")
+        )).thenReturn(listOf(mockMission, mockMissionWithDifferentService))
+
+        val missions = getNavMissions.execute(
+            startDateTimeUtc = Instant.parse("2025-04-07T09:23:00.912559Z"),
+            endDateTimeUtc = Instant.parse("2025-04-07T09:23:00.912559Z"),
+            serviceId = null
+        )
+
+        Assertions.assertNotNull(missions)
+        Assertions.assertEquals(2, missions?.size)
     }
 }

@@ -6,13 +6,20 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.mapStringToA
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.toStringOrNull
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EntityListeners
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import org.springframework.data.annotation.CreatedBy
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedBy
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
 import java.util.*
 
 @Entity
 @Table(name = "mission_action_status")
+@EntityListeners(AuditingEntityListener::class)
 class ActionStatusModel(
     @Id
     @Column(name = "id")
@@ -35,6 +42,22 @@ class ActionStatusModel(
 
     @Column(name = "observations", nullable = true)
     var observations: String?,
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = true, updatable = false)
+    var createdAt: Instant? = null,
+
+    @LastModifiedDate
+    @Column(name = "updated_at", nullable = true)
+    var updatedAt: Instant? = null,
+
+    @CreatedBy
+    @Column(name = "created_by", updatable = false)
+    var createdBy: Int? = null,
+
+    @LastModifiedBy
+    @Column(name = "updated_by")
+    var updatedBy: Int? = null
 
     ) {
     fun toActionStatusEntity(): ActionStatusEntity {

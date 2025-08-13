@@ -2,11 +2,12 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentServiceEntity
 import jakarta.persistence.*
+import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
-import java.util.Date
 
 @Entity
 @EntityListeners(AuditingEntityListener::class)
@@ -36,7 +37,15 @@ class AgentServiceModel
 
     @LastModifiedDate
     @Column(name = "updated_at", nullable = true)
-    var updatedAt: Instant? = null
+    var updatedAt: Instant? = null,
+
+    @CreatedBy
+    @Column(name = "created_by", updatable = false)
+    var createdBy: Int? = null,
+
+    @LastModifiedBy
+    @Column(name = "updated_by")
+    var updatedBy: Int? = null
 ) {
 
     fun toMissionCrewModel(missionId: Int): MissionCrewModel? {
