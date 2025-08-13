@@ -60,9 +60,20 @@ export function useTarget() {
     if (!target) return
     const controls = controlToMap(target?.controls)
     let infractions = controls[controlType]?.infractions ?? []
-    infractions = infractions.toSpliced(infractionIndex, 1)
-    controls[controlType] = { ...(controls[controlType] ?? {}), controlType, infractions }
-    return { ...target, controls: Object.values(controls) }
+
+    // Filter out the item at the specified index
+    infractions = infractions.filter((_, index) => index !== infractionIndex)
+
+    controls[controlType] = {
+      ...(controls[controlType] ?? {}),
+      controlType,
+      infractions
+    }
+
+    return {
+      ...target,
+      controls: Object.values(controls)
+    }
   }
 
   const filterAvailableControlType = (
