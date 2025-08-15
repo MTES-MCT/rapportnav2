@@ -34,7 +34,7 @@
     "axios": "^1.11.0",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
-    "dotenv": "^17.2.0",
+    "dotenv": "^17.2.1",
     "email-validator": "^2.0.4",
     "formik": "^2.4.6",
     "graphql": "^16.11.0",
