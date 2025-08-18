@@ -5,6 +5,7 @@ import React from 'react'
 import { Divider, Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
+import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionTargetEnv from '../../../mission-target/components/elements/mission-target-env'
 import MissionTargetDefault from '../../../mission-target/components/elements/mission-target-env-default'
@@ -14,7 +15,6 @@ import { ActionEnvControlInput } from '../../types/action-type'
 import MissionActionEnvControlPlan from '../ui/mission-action-env-control-plan'
 import MissionActionEnvControlSummary from '../ui/mission-action-env-control-summary'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
-import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 
 export type MissionActionItemEnvControlProps = {
   action: MissionAction
@@ -28,7 +28,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
   isMissionFinished
 }) => {
   const { isOnline } = useOnlineManager()
-  const { initValue, handleSubmit, getAvailableControlTypes2 } = useMissionActionEnvControl(
+  const { initValue, handleSubmit, getAvailableControlTypes } = useMissionActionEnvControl(
     action,
     onChange,
     isMissionFinished
@@ -121,7 +121,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                         fieldArray={fieldArray}
                         vehicleType={values.vehicleType}
                         actionTargetType={values.actionTargetType}
-                        availableControlTypes={getAvailableControlTypes2(values, values.actionNumberOfControls)}
+                        availableControlTypes={getAvailableControlTypes(values)}
                       />
                     )}
                   </FieldArray>
@@ -136,7 +136,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                         actionTargetType={values.actionTargetType}
                         controlsToComplete={values.controlsToComplete}
                         actionNumberOfControls={values.actionNumberOfControls}
-                        availableControlTypes={getAvailableControlTypes2(values, values.actionNumberOfControls)}
+                        availableControlTypes={getAvailableControlTypes(values)}
                       />
                     )}
                   </FieldArray>

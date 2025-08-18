@@ -14,7 +14,6 @@ export function useMissionActionEnvControl(
   isMissionFinished?: boolean
 ): AbstractFormikSubFormHook<ActionEnvControlInput> & {
   getAvailableControlTypes: (value: ActionEnvControlInput) => ControlType[]
-  getAvailableControlTypes2: (value: ActionEnvControlInput, actionNumberOfControls?: number) => ControlType[]
 } {
   const value = action?.data as MissionEnvActionData
   const { extractLatLngFromMultiPoint } = useCoordinate()
@@ -53,31 +52,30 @@ export function useMissionActionEnvControl(
     handleSubmit(value, errors, onSubmit)
   }
 
-  const getAvailableControlTypes = (value?: ActionEnvControlInput) => {
-    const controls: ControlType[] = []
-    if (value?.controlSecurity?.amountOfControls) controls.push(ControlType.SECURITY)
-    if (value?.controlGensDeMer?.amountOfControls) controls.push(ControlType.GENS_DE_MER)
-    if (value?.controlNavigation?.amountOfControls) controls.push(ControlType.NAVIGATION)
-    if (value?.controlAdministrative?.amountOfControls) controls.push(ControlType.ADMINISTRATIVE)
-    return value?.availableControlTypesForInfraction?.filter(c => controls.includes(c)) ?? []
-  }
-
-  const getAvailableControlTypes2 = (value?: ActionEnvControlInput, actionNumberOfControls?: number): ControlType[] => {
+  const getAvailableControlTypes = (value?: ActionEnvControlInput): ControlType[] => {
+    const toExcludes = getControlTypeOnTarget(value)
     const controlTypes = uniq(
       value?.targets
         ?.flatMap(target => target.controls)
         ?.filter(control => control?.amountOfControls)
         ?.map(control => control?.controlType)
-    )
-
+    ).filter(c => !toExcludes.includes(c))
     return value?.availableControlTypesForInfraction?.filter(c => controlTypes.includes(c)) ?? []
+  }
+
+  const getControlTypeOnTarget = (value?: ActionEnvControlInput): (ControlType | undefined)[] => {
+    return uniq(
+      value?.targets
+        ?.flatMap(target => target.controls)
+        ?.filter(control => control?.infractions?.length)
+        ?.map(control => control?.controlType)
+    )
   }
 
   return {
     errors,
     initValue,
     getAvailableControlTypes,
-    getAvailableControlTypes2,
     handleSubmit: handleSubmitOverride
   }
 }

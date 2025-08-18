@@ -1,4 +1,5 @@
 import { ControlType } from '@common/types/control-types'
+import { InfractionTypeEnum } from '@common/types/env-mission-types'
 import { vi } from 'vitest'
 import { renderHook } from '../../../../../test-utils'
 import { MissionAction } from '../../../common/types/mission-action'
@@ -12,22 +13,32 @@ describe('useMissionActionEnvControl', () => {
     vi.clearAllMocks()
   })
 
-  it('should calcul av', () => {
+  it('should calcul availables control types', () => {
     const action = {} as MissionAction
     const { result } = renderHook(() => useMissionActionEnvControl(action, onChange, false))
     const value = {
-      controlSecurity: {
-        amountOfControls: 0
-      },
-      controlGensDeMer: {
-        amountOfControls: 1
-      },
-      controlNavigation: {
-        amountOfControls: 1
-      },
-      controlAdministrative: {
-        amountOfControls: 0
-      },
+      targets: [
+        {
+          controls: [
+            {
+              amountOfControls: 0,
+              controlType: ControlType.SECURITY
+            },
+            {
+              amountOfControls: 1,
+              controlType: ControlType.GENS_DE_MER
+            },
+            {
+              amountOfControls: 1,
+              controlType: ControlType.NAVIGATION
+            },
+            {
+              amountOfControls: 1,
+              controlType: ControlType.ADMINISTRATIVE
+            }
+          ]
+        }
+      ],
       availableControlTypesForInfraction: [
         ControlType.SECURITY,
         ControlType.NAVIGATION,
@@ -36,6 +47,54 @@ describe('useMissionActionEnvControl', () => {
       ]
     } as ActionEnvControlInput
     const responses = result.current.getAvailableControlTypes(value)
+
+    expect(responses).toHaveLength(3)
+    expect(responses).toContain(ControlType.NAVIGATION)
+    expect(responses).toContain(ControlType.GENS_DE_MER)
+    expect(responses).toContain(ControlType.ADMINISTRATIVE)
+  })
+
+  it('should calcul availables control types except those already on target', () => {
+    const action = {} as MissionAction
+    const { result } = renderHook(() => useMissionActionEnvControl(action, onChange, false))
+    const value = {
+      targets: [
+        {
+          controls: [
+            {
+              amountOfControls: 0,
+              controlType: ControlType.SECURITY
+            },
+            {
+              amountOfControls: 1,
+              controlType: ControlType.GENS_DE_MER
+            },
+            {
+              amountOfControls: 1,
+              controlType: ControlType.NAVIGATION
+            },
+            {
+              amountOfControls: 1,
+              infractions: [
+                {
+                  id: 'erere',
+                  infractionType: InfractionTypeEnum.WITH_REPORT
+                }
+              ],
+              controlType: ControlType.ADMINISTRATIVE
+            }
+          ]
+        }
+      ],
+      availableControlTypesForInfraction: [
+        ControlType.SECURITY,
+        ControlType.NAVIGATION,
+        ControlType.GENS_DE_MER,
+        ControlType.ADMINISTRATIVE
+      ]
+    } as ActionEnvControlInput
+    const responses = result.current.getAvailableControlTypes(value)
+
     expect(responses).toHaveLength(2)
     expect(responses).toContain(ControlType.NAVIGATION)
     expect(responses).toContain(ControlType.GENS_DE_MER)
