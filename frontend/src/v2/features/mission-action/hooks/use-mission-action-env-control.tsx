@@ -13,7 +13,7 @@ export function useMissionActionEnvControl(
   onChange: (newAction: MissionAction) => Promise<unknown>,
   isMissionFinished?: boolean
 ): AbstractFormikSubFormHook<ActionEnvControlInput> & {
-  getAvailableControlTypes: (value: ActionEnvControlInput) => ControlType[]
+  getAvailableControlTypes: (value: ActionEnvControlInput, excludeTarget?: boolean) => ControlType[]
 } {
   const value = action?.data as MissionEnvActionData
   const { extractLatLngFromMultiPoint } = useCoordinate()
@@ -52,14 +52,18 @@ export function useMissionActionEnvControl(
     handleSubmit(value, errors, onSubmit)
   }
 
-  const getAvailableControlTypes = (value?: ActionEnvControlInput): ControlType[] => {
-    const toExcludes = getControlTypeOnTarget(value)
+  const getAvailableControlTypes = (value?: ActionEnvControlInput, excludeTarget?: boolean): ControlType[] => {
+    const excludeControlTypes = getControlTypeOnTarget(value)
     const controlTypes = uniq(
       value?.targets
         ?.flatMap(target => target.controls)
         ?.filter(control => control?.amountOfControls)
         ?.map(control => control?.controlType)
-    ).filter(c => !toExcludes.includes(c))
+    ).filter(c => {
+      if (!excludeTarget) return c
+      return !excludeControlTypes.includes(c)
+    })
+
     return value?.availableControlTypesForInfraction?.filter(c => controlTypes.includes(c)) ?? []
   }
 

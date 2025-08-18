@@ -93,7 +93,7 @@ describe('useMissionActionEnvControl', () => {
         ControlType.ADMINISTRATIVE
       ]
     } as ActionEnvControlInput
-    const responses = result.current.getAvailableControlTypes(value)
+    const responses = result.current.getAvailableControlTypes(value, true)
 
     expect(responses).toHaveLength(2)
     expect(responses).toContain(ControlType.NAVIGATION)
