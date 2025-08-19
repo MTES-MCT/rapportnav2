@@ -1,11 +1,11 @@
 import Text from '@common/components/ui/text.tsx'
-import { THEME } from '@mtes-mct/monitor-ui'
 import { UTCDate } from '@date-fns/utc'
-import { useDate } from '../../hooks/use-date.tsx'
+import { THEME } from '@mtes-mct/monitor-ui'
 import { formatInTimeZone } from 'date-fns-tz'
 import { useEffect, useState } from 'react'
+import { useDate } from '../../hooks/use-date.tsx'
 
-const MissionPageHeaderTimeConversion = () => {
+const TimeConversion = () => {
   const { formatTime } = useDate()
   const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
@@ -29,4 +29,4 @@ const MissionPageHeaderTimeConversion = () => {
   )
 }
 
-export default MissionPageHeaderTimeConversion
+export default TimeConversion

@@ -3,9 +3,9 @@ import { setMissionStatus } from '../../../../store/slices/mission-reducer'
 import MissionCompletenessForStatsTag from '../../../common/components/elements/mission-completeness-for-stats-tag'
 import PageHeaderWrapper from '../../../common/components/layout/page-header-wrapper'
 import MissionPageHeaderBanner from '../../../common/components/ui/mission-page-header-banner'
-import MissionPageHeaderTimeConversion from '../../../common/components/ui/mission-page-header-time-conversion'
 import MissionSourceTag from '../../../common/components/ui/mission-source-tag'
 import MissionStatusTag from '../../../common/components/ui/mission-status-tag'
+import TimeConversion from '../../../common/components/ui/time-conversion'
 import { useDate } from '../../../common/hooks/use-date'
 import useGetMissionQuery from '../../../common/services/use-mission'
 import { MissionStatusEnum } from '../../../common/types/mission-types'
@@ -37,7 +37,7 @@ const MissionHeaderUlam: FC<MissionHeaderProps> = ({ missionId, onClickClose }) 
           />
         </>
       }
-      utcTime={<MissionPageHeaderTimeConversion />}
+      utcTime={<TimeConversion />}
       banner={
         <>
           {mission?.status === MissionStatusEnum.ENDED && (

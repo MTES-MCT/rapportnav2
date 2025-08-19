@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import PageHeaderWrapper from '../../../common/components/layout/page-header-wrapper'
-import MissionPageHeaderTimeConversion from '../../../common/components/ui/mission-page-header-time-conversion'
+import TimeConversion from '../../../common/components/ui/time-conversion'
 import { useDate } from '../../../common/hooks/use-date'
 import useGetInquiryQuery from '../../services/use-inquiry'
 import InquiryStatusTag from './inquiry-status-tag'
@@ -17,7 +17,7 @@ const InquiryHeader: FC<InquiryHeaderProps> = ({ inquiryId, onClickClose }) => {
     <PageHeaderWrapper
       tags={<InquiryStatusTag status={inquiry?.status} />}
       date={<> {formatInquiryName(inquiry?.startDateTimeUtc)}</>}
-      utcTime={<MissionPageHeaderTimeConversion />}
+      utcTime={<TimeConversion />}
       onClickClose={onClickClose}
     />
   )
