@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.20.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.19.3...docker-container@v2.20.0) (2025-08-20)
+
+
+### Features
+
+* **frontend:** add params to exlcude control type on target in some case ([1d85330](https://github.com/MTES-MCT/rapportnav2/commit/1d853306868cfea99197cc167f2ecc99050ceaee))
+* **frontend:** check control type availability ([a95ae67](https://github.com/MTES-MCT/rapportnav2/commit/a95ae67a608aa04d162c904fc8f093c6acf66aaf))
+* **frontend:** check control type availability ([f876e01](https://github.com/MTES-MCT/rapportnav2/commit/f876e015595af6171079b5295c9d9ceb7ebabea9))
+* **frontend:** dialog creation mission ([d35b105](https://github.com/MTES-MCT/rapportnav2/commit/d35b10510594225ebfd5df680263b12b72caf5ae))
+* **frontend:** dialog creation mission ([ca4699f](https://github.com/MTES-MCT/rapportnav2/commit/ca4699f0c83701158d9282939fcf5c5c0497edf1))
+
+
+### Bug Fixes
+
+* **frontend:** update params network and fetching ([04d7937](https://github.com/MTES-MCT/rapportnav2/commit/04d793775029b81b49e1818e0d6005f7bbf9267c))
+* **frontend:** update params network and fetching ([f1d81ba](https://github.com/MTES-MCT/rapportnav2/commit/f1d81bae3d7072baef50c059067a365f584e7731))
+
 ## [2.19.3](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.19.2...docker-container@v2.19.3) (2025-08-13)
 
 
