@@ -21,8 +21,9 @@ const useMissionsQuery = (params: URLSearchParams): UseQueryResult<Mission2[], E
     queryKey: missionsKeys.filter(JSON.stringify({ startDateTimeUtc, endDateTimeUtc })),
     queryFn: fetchMissions,
     enabled: !!endDateTimeUtc && !!startDateTimeUtc, // Prevents query from running if startDateTimeUtc is not provided
-    staleTime: DYNAMIC_DATA_STALE_TIME, // Cache data for 5 minutes
-    retry: 2 // Retry failed requests twice before throwing an error,
+    staleTime: DYNAMIC_DATA_STALE_TIME, // Cache data for 3 minutes
+    retry: 2, // Retry failed requests twice before throwing an error,
+    refetchInterval: DYNAMIC_DATA_STALE_TIME
   })
 
   useEffect(() => {
