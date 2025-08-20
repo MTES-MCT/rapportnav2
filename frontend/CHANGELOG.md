@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.20.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.20.0...frontend@v2.20.1) (2025-08-20)
+
+
+### Bug Fixes
+
+* set refetchInterval to 3 min for use-missions and use-mission ([7f15883](https://github.com/MTES-MCT/rapportnav2/commit/7f15883a4650f964040406a497707db99a492736))
+
 ## [2.20.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.19.3...frontend@v2.20.0) (2025-08-20)
 
 
