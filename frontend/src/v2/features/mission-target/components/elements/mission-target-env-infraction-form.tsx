@@ -57,7 +57,6 @@ const MissionTargetEnvInfractionForm: FC<MissionTargetEnvInfractionFormProps> = 
                     role="delete-target"
                     accent={Accent.SECONDARY}
                     onClick={() => setShowForm(true)}
-                    disabled={!availableControlTypes?.length}
                   />
                 </Stack.Item>
                 <Stack.Item>

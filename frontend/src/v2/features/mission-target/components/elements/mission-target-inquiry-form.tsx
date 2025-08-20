@@ -21,8 +21,8 @@ const MissionTargetInquiryForm: React.FC<MissionTargetInquiryFormProps> = ({
   fieldFormik,
   availableControlTypes
 }) => {
-  const [showForm, setShowForm] = useState<boolean>(false)
   const { fromInputToFieldValue } = useTarget()
+  const [showForm, setShowForm] = useState<boolean>(false)
 
   const handleShow = () => setShowForm(true)
   const handleClose = () => setShowForm(false)

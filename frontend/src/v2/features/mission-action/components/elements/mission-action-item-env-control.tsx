@@ -10,6 +10,7 @@ import { MissionAction } from '../../../common/types/mission-action'
 import MissionTargetEnv from '../../../mission-target/components/elements/mission-target-env'
 import MissionTargetDefault from '../../../mission-target/components/elements/mission-target-env-default'
 import MissionTargetEnvNew from '../../../mission-target/components/elements/mission-target-env-new'
+import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
 import { useMissionActionEnvControl } from '../../hooks/use-mission-action-env-control'
 import { ActionEnvControlInput } from '../../types/action-type'
 import MissionActionEnvControlPlan from '../ui/mission-action-env-control-plan'
@@ -28,11 +29,9 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
   isMissionFinished
 }) => {
   const { isOnline } = useOnlineManager()
-  const { initValue, handleSubmit, getAvailableControlTypes } = useMissionActionEnvControl(
-    action,
-    onChange,
-    isMissionFinished
-  )
+
+  const { computeControlTypeWithAmount, computeControlTypes } = useTarget()
+  const { initValue, handleSubmit } = useMissionActionEnvControl(action, onChange, isMissionFinished)
 
   return (
     <form style={{ width: '100%' }}>
@@ -121,7 +120,10 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                         fieldArray={fieldArray}
                         vehicleType={values.vehicleType}
                         actionTargetType={values.actionTargetType}
-                        availableControlTypes={getAvailableControlTypes(values)}
+                        availableControlTypes={computeControlTypes(
+                          values.availableControlTypesForInfraction,
+                          values.targets
+                        )}
                       />
                     )}
                   </FieldArray>
@@ -136,7 +138,10 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                         actionTargetType={values.actionTargetType}
                         controlsToComplete={values.controlsToComplete}
                         actionNumberOfControls={values.actionNumberOfControls}
-                        availableControlTypes={getAvailableControlTypes(values)}
+                        availableControlTypes={computeControlTypeWithAmount(
+                          values.availableControlTypesForInfraction,
+                          values.targets
+                        )}
                       />
                     )}
                   </FieldArray>

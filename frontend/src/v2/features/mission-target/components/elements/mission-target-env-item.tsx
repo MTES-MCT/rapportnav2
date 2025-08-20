@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
 import { MissionSourceEnum } from '../../../common/types/mission-types.ts'
 import { Target, TargetType } from '../../../common/types/target-types.ts'
+import { useTarget } from '../../hooks/use-target.tsx'
 import MissionTargetEnvAction from '../ui/mission-target-env-action.tsx'
 import MissionTargetEnvExternalData from '../ui/mission-target-env-external-data.tsx'
 import MissionTargetEnvTitle from '../ui/mission-target-env-title.tsx'
@@ -31,6 +32,7 @@ const MissionTargetEnvItem: React.FC<MissionTargetEnvItemProps> = ({
   availableControlTypes
 }) => {
   const [target, setTarget] = useState<Target>()
+  const { computeControlTypeOnTarget } = useTarget()
   const [showDetail, setShowDetail] = useState(false)
   const [editTarget, setEditTarget] = useState<boolean>(false)
   const [editInfraction, setEditInfraction] = useState<boolean>(false)
@@ -104,7 +106,7 @@ const MissionTargetEnvItem: React.FC<MissionTargetEnvItemProps> = ({
             vehicleType={vehicleType}
             editInfraction={editInfraction}
             value={editTarget ? { target } : {}}
-            availableControlTypes={availableControlTypes}
+            availableControlTypes={computeControlTypeOnTarget(availableControlTypes, target ? [target] : [])}
           />
         </Stack.Item>
       )}
@@ -113,7 +115,7 @@ const MissionTargetEnvItem: React.FC<MissionTargetEnvItemProps> = ({
           name={name}
           targetType={targetType}
           fieldFormik={fieldFormik}
-          availableControlTypes={availableControlTypes}
+          availableControlTypes={computeControlTypeOnTarget(availableControlTypes, target ? [target] : [])}
         />
       </Stack.Item>
     </Stack>

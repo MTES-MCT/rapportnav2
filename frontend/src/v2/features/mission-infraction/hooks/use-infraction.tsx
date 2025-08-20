@@ -16,17 +16,17 @@ const INFRACTION_TYPE_REGISTRY: InfractionTypeRegistry = {
 type ControlTypeRegistry = { [key in ControlType]: { title: string; button: string } }
 
 const CONTROL_TYPE_REGISTRY: ControlTypeRegistry = {
-  [ControlType.ADMINISTRATIVE]: { title: 'Infraction administrative', button: 'Ajouter une infraction administrative' },
+  [ControlType.ADMINISTRATIVE]: { title: 'Infrac. admin navire', button: 'Ajouter une infraction administrative' },
   [ControlType.NAVIGATION]: {
-    title: 'Infraction règles de navigation',
+    title: 'Infrac.règles de nav',
     button: 'Ajouter une infraction règle de navigation'
   },
   [ControlType.GENS_DE_MER]: {
-    title: 'Infraction administrative gens de mer',
+    title: 'Infrac. admin GM',
     button: 'Ajouter une infraction administrative'
   },
   [ControlType.SECURITY]: {
-    title: `Infraction équipements et respect des normes de sécurité`,
+    title: `Infrac. equipmt & normes sécu`,
     button: 'Ajouter une infraction sécurité'
   }
 }

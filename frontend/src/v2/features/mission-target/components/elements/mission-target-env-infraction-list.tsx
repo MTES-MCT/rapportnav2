@@ -27,12 +27,12 @@ const MissionTargetEnvInfractionList: FC<MissionTargetEnvInfractionListProps> = 
 
   const handleSubmit = async (value?: TargetInfraction) => {
     if (!value) return
-    const valueToSubmit = fromInputToFieldValue(value, fieldFormik.field.value)
+    const valueToSubmit = fromInputToFieldValue(value)
     await fieldFormik.form.setFieldValue(name, valueToSubmit)
   }
 
-  const handleDelete = async (controlType: ControlType, infractionIndex: number) => {
-    const valueToSubmit = deleteInfraction(controlType, infractionIndex, fieldFormik.field.value)
+  const handleDelete = async (controlIndex: number, infractionIndex: number) => {
+    const valueToSubmit = deleteInfraction(fieldFormik.field.value, controlIndex, infractionIndex)
     await fieldFormik.form.setFieldValue(name, valueToSubmit)
   }
 
@@ -60,7 +60,7 @@ const MissionTargetEnvInfractionList: FC<MissionTargetEnvInfractionListProps> = 
                   targetType={targetType}
                   onSubmit={value => handleSubmit(value)}
                   availableControlTypes={availableControlTypes}
-                  onDelete={() => handleDelete(control.controlType, infractionIndex)}
+                  onDelete={() => handleDelete(controlIndex, infractionIndex)}
                   value={{ target: fieldFormik.field.value, control, infraction }}
                   key={`${name}.controls[${controlIndex}].infractions[${infractionIndex}]`}
                 />

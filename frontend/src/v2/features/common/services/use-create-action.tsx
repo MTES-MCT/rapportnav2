@@ -1,13 +1,13 @@
 import { onlineManager, useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
 
+import queryClient, { DYNAMIC_DATA_STALE_TIME } from '../../../../query-client'
 import axios from '../../../../query-client/axios.ts'
+import { ActionType } from '../types/action-type.ts'
 import { MissionAction, MissionNavAction } from '../types/mission-action.ts'
+import { Mission2 } from '../types/mission-types.ts'
+import { NetworkSyncStatus } from '../types/network-types.ts'
 import { OwnerType } from '../types/owner-type.ts'
 import { actionsKeys, inquiriesKeys, missionsKeys } from './query-keys.ts'
-import { ActionType } from '../types/action-type.ts'
-import { NetworkSyncStatus } from '../types/network-types.ts'
-import queryClient, { DYNAMIC_DATA_STALE_TIME } from '../../../../query-client'
-import { Mission2 } from '../types/mission-types.ts'
 import { fetchAction } from './use-action.tsx'
 
 type UseCreateActionInput = { ownerId: string; ownerType: OwnerType; action: MissionAction }
@@ -57,7 +57,6 @@ export const offlineCreateActionDefaults = {
     return { action: optimisticAction }
   },
   onSuccess: async (serverResponse, newAction, _context) => {
-    debugger
     await queryClient.invalidateQueries({
       queryKey: actionsKeys.byId(serverResponse?.data?.id),
       type: 'all'
@@ -85,7 +84,6 @@ export const offlineCreateActionDefaults = {
 export const onlineCreateActionDefaults = {
   mutationFn: createAction,
   onSettled: async (_data, _error, variables: UseCreateActionInput, _context) => {
-    debugger
     await queryClient.invalidateQueries({
       queryKey:
         variables.ownerType === OwnerType.INQUIRY
