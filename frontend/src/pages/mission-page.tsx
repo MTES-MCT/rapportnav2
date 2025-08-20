@@ -1,19 +1,19 @@
 import { useApolloClient } from '@apollo/client'
+import { MissionExport } from '@common/types/mission-types.ts'
+import { formatTime } from '@common/utils/dates-for-humans.ts'
 import { Accent, Button, Size, logSoftError } from '@mtes-mct/monitor-ui'
 import * as Sentry from '@sentry/react'
 import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Stack } from 'rsuite'
-import { ROOT_PATH } from '../router/routes.tsx'
-import useApolloLastSync from '../features/common/hooks/use-apollo-last-sync.tsx'
-import { MissionExport } from '@common/types/mission-types.ts'
 import Text from '../features/common/components/ui/text.tsx'
-import useLazyMissionExport from '../features/pam/mission/hooks/export/use-lazy-mission-export.tsx'
-import useMissionExcerpt from '../features/pam/mission/hooks/use-mission-excerpt.tsx'
+import useApolloLastSync from '../features/common/hooks/use-apollo-last-sync.tsx'
 import MissionContent from '../features/pam/mission/components/elements/mission-content.tsx'
 import MissionPageFooter from '../features/pam/mission/components/layout/page-footer.tsx'
 import MissionPageHeader from '../features/pam/mission/components/layout/page-header.tsx'
-import { formatTime } from '@common/utils/dates-for-humans.ts'
+import useLazyMissionExport from '../features/pam/mission/hooks/export/use-lazy-mission-export.tsx'
+import useMissionExcerpt from '../features/pam/mission/hooks/use-mission-excerpt.tsx'
+import { ROOT_PATH } from '../router/routes.tsx'
 
 const MissionPage: React.FC = () => {
   const navigate = useNavigate()
@@ -29,9 +29,9 @@ const MissionPage: React.FC = () => {
   const exitMission = async () => {
     // TODO centralise the following into a class - also used in use-auth()
     // reset apollo store
-    await apolloClient.clearStore()
+    //await apolloClient.clearStore() //TODO: Check after themis mission
     // flush apollo persist cache
-    apolloClient.cache.evict({})
+    //apolloClient.cache.evict({})
 
     navigate('..')
   }
