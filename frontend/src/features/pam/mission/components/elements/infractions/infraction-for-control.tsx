@@ -6,7 +6,7 @@ import InfractionSummary from './infraction-summary.tsx'
 import InfractionForm, { InfractionFormData } from './infraction-form.tsx'
 import { infractionButtonTitle } from '../../../utils/infraction-utils.ts'
 import { useParams } from 'react-router-dom'
-import omit from 'lodash/omit'
+import { omit } from 'lodash'
 import useDeleteInfraction from '../../../hooks/use-delete-infraction.tsx'
 import useAddOrUpdateInfraction from '../../../hooks/use-add-update-infraction.tsx'
 

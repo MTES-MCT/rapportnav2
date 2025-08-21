@@ -3,7 +3,7 @@ import { Accent, Button, Icon, Size, THEME } from '@mtes-mct/monitor-ui'
 import { ControlType } from '@common/types/control-types.ts'
 import { Infraction, InfractionEnvNewTarget } from '@common/types/infraction-types.ts'
 import { useParams } from 'react-router-dom'
-import omit from 'lodash/omit'
+import { omit } from 'lodash'
 import { Stack } from 'rsuite'
 import EnvInfractionTargetAddedByUnitForm from './env-infraction-target-added-by-unit-form.tsx'
 import useAddOrUpdateInfractionEnv from '../../../hooks/use-add-update-infraction-env.tsx'
@@ -15,7 +15,10 @@ export interface EnvInfractionNewTargetProps {
   actionTargetType?: ActionTargetTypeEnum
 }
 
-const EnvInfractionAddNewTarget: React.FC<EnvInfractionNewTargetProps> = ({ availableControlTypesForInfraction, actionTargetType }) => {
+const EnvInfractionAddNewTarget: React.FC<EnvInfractionNewTargetProps> = ({
+  availableControlTypesForInfraction,
+  actionTargetType
+}) => {
   const { missionId, actionId } = useParams()
 
   const [showInfractionForNewTarget, setShowInfractionForNewTarget] = useState<boolean>(false)

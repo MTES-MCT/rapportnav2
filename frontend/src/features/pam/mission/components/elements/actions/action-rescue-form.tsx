@@ -16,7 +16,7 @@ import {
   Toggle
 } from '@mtes-mct/monitor-ui'
 import { isEqual } from 'lodash'
-import omit from 'lodash/omit'
+import { omit } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Divider, Stack } from 'rsuite'

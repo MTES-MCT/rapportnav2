@@ -4,7 +4,7 @@ import DateRangePicker from '@common/components/elements/dates/daterange-picker.
 import { Action, ActionRepresentation } from '@common/types/action-types.ts'
 import { Stack } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'
-import omit from 'lodash/omit'
+import { omit } from 'lodash'
 import useActionById from '../../../hooks/use-action-by-id.tsx'
 import useAddOrUpdateRepresentation from '../../../hooks/representation/use-add-representation.tsx'
 import useDeleteRepresentation from '../../../hooks/representation/use-delete-representation.tsx'

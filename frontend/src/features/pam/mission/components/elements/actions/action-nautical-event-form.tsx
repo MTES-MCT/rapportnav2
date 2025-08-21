@@ -4,7 +4,7 @@ import DateRangePicker from '@common/components/elements/dates/daterange-picker.
 import { Action, ActionNauticalEvent } from '@common/types/action-types.ts'
 import { Stack } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'
-import omit from 'lodash/omit'
+import { omit } from 'lodash'
 import useActionById from '../../../hooks/use-action-by-id.tsx'
 import useAddOrUpdateNauticalEvent from '../../../hooks/nautical-event/use-add-nautical-event.tsx'
 import useDeleteNauticalEvent from '../../../hooks/nautical-event/use-delete-nautical-event.tsx'

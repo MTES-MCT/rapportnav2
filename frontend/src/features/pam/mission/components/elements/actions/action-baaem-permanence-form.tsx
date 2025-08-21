@@ -4,7 +4,7 @@ import DateRangePicker from '@common/components/elements/dates/daterange-picker.
 import { Action, ActionBAAEMPermanence } from '@common/types/action-types.ts'
 import { Stack } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'
-import omit from 'lodash/omit'
+import { omit } from 'lodash'
 import useActionById from '../../../hooks/use-action-by-id.tsx'
 import useAddOrUpdateBAAEMPermanence from '../../../hooks/baaem/use-add-baaem-permanence.tsx'
 import useDeleteBaaemPermanence from '../../../hooks/baaem/use-delete-baaem-permanence.tsx'

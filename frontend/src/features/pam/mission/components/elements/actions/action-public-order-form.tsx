@@ -4,7 +4,7 @@ import DateRangePicker from '@common/components/elements/dates/daterange-picker.
 import { Action, ActionPublicOrder } from '@common/types/action-types.ts'
 import { Stack } from 'rsuite'
 import { useNavigate, useParams } from 'react-router-dom'
-import omit from 'lodash/omit'
+import { omit } from 'lodash'
 import useActionById from '../../../hooks/use-action-by-id.tsx'
 import useAddOrUpdatePublicOrder from '../../../hooks/public-order/use-add-public-order.tsx'
 import useDeletePublicOrder from '../../../hooks/public-order/use-delete-public-order.tsx'

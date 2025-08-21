@@ -4,6 +4,8 @@ import importMetaEnv from '@import-meta-env/unplugin'
 import eslint from 'vite-plugin-eslint2'
 import path from 'path'
 import svgr from 'vite-plugin-svgr'
+import { visualizer } from 'rollup-plugin-visualizer'
+import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -39,9 +41,17 @@ export default defineConfig({
     react(),
     svgr(),
     eslint(),
+    optimizeLodashImports(),
     importMetaEnv.vite({
       env: './.env',
       example: './.env.example'
+    }),
+    visualizer({
+      filename: 'stats.html', // output file
+      template: 'treemap', // sunburst | treemap | network
+      gzipSize: true,
+      brotliSize: true,
+      open: true // auto-open after build
     })
   ],
   server: {
