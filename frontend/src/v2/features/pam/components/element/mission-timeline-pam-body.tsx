@@ -58,7 +58,7 @@ const MissionTimelinePamBody: FC<MissionTimelinePamBodyProps> = ({ isError, acti
           <Stack.Item>
             <Text as={'h3'} color={THEME.color.persianOrange} weight={'medium'} fontStyle={'italic'}>
               Synchronisation en cours avec le serveur action par action, cela peut prendre un peu de temps en fonction
-              de votre connexion.
+              de votre connexion. Il reste {inflightMutations.length} sync.
             </Text>
           </Stack.Item>
         </Stack>
