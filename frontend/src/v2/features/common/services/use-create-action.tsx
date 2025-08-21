@@ -9,6 +9,7 @@ import { NetworkSyncStatus } from '../types/network-types.ts'
 import { OwnerType } from '../types/owner-type.ts'
 import { actionsKeys, inquiriesKeys, missionsKeys } from './query-keys.ts'
 import { fetchAction } from './use-action.tsx'
+import { useOnlineManager } from '../hooks/use-online-manager.tsx'
 
 type UseCreateActionInput = { ownerId: string; ownerType: OwnerType; action: MissionAction }
 
@@ -98,13 +99,16 @@ export const onlineCreateActionDefaults = {
 }
 
 const useCreateActionMutation = (): UseMutationResult<MissionNavAction, Error, MissionNavAction, unknown> => {
-  const queryClient = useQueryClient()
+  const { isOnline } = useOnlineManager()
 
   const mutation = useMutation({
     mutationKey: actionsKeys.create(),
     mutationFn: createAction,
     scope: {
       id: 'create-action'
+    },
+    meta: {
+      offline: !isOnline // tag this mutation as offline-created
     }
   })
   return mutation

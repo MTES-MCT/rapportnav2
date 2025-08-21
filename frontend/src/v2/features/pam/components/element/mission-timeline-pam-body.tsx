@@ -10,6 +10,8 @@ import { NetworkSyncStatus } from '../../../common/types/network-types.ts'
 import { OwnerType } from '../../../common/types/owner-type.ts'
 import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'
 import MissionTimelineItemPam from './mission-timeline-pam-item'
+import { useMutationState } from '@tanstack/react-query'
+import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 
 interface MissionTimelinePamBodyProps {
   missionId: number
@@ -20,7 +22,13 @@ interface MissionTimelinePamBodyProps {
 
 const MissionTimelinePamBody: FC<MissionTimelinePamBodyProps> = ({ isError, actions, missionId, isLoading }) => {
   const { getUrl } = useGlobalRoutes()
+  const { isOnline } = useOnlineManager()
   const hasActionsNotYetSyncWithServer = some(actions, matchesProperty('networkSyncStatus', NetworkSyncStatus.UNSYNC))
+  const inflightMutations = useMutationState({
+    filters: {
+      predicate: mutation => mutation.options.meta?.offline && mutation.state.status === 'pending'
+    }
+  })
 
   return (
     <>
@@ -33,6 +41,24 @@ const MissionTimelinePamBody: FC<MissionTimelinePamBodyProps> = ({ isError, acti
             <Text as={'h3'} weight={'medium'} fontStyle={'italic'}>
               Attention, nous êtes actuellement hors connexion. Les actions ajoutées ou modifiées seront enregistrées
               dans le serveur quand vous reviendrez en ligne.
+            </Text>
+          </Stack.Item>
+        </Stack>
+      )}
+      {isOnline && inflightMutations.length > 0 && (
+        <Stack
+          direction={'row'}
+          alignItems={'center'}
+          spacing={'1rem'}
+          style={{ marginTop: '1rem', marginBottom: '2rem' }}
+        >
+          <Stack.Item>
+            <Icon.Warning color={THEME.color.charcoal} size={14} />
+          </Stack.Item>
+          <Stack.Item>
+            <Text as={'h3'} color={THEME.color.persianOrange} weight={'medium'} fontStyle={'italic'}>
+              Synchronisation en cours avec le serveur action par action, cela peut prendre un peu de temps en fonction
+              de votre connexion.
             </Text>
           </Stack.Item>
         </Stack>
