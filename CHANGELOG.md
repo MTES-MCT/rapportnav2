@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.21.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.20.1...docker-container@v2.21.0) (2025-08-21)
+
+
+### Features
+
+* serve gzipped assets ([#835](https://github.com/MTES-MCT/rapportnav2/issues/835)) ([eee1924](https://github.com/MTES-MCT/rapportnav2/commit/eee192447518bba7e830e3256df0949db10fbc3f))
+
+
+### Bug Fixes
+
+* **frontend:** infraction  on target ([5c7d004](https://github.com/MTES-MCT/rapportnav2/commit/5c7d00428bc0c09a1571a1eeb3158b2af98d38e0))
+
 ## [2.20.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.20.0...docker-container@v2.20.1) (2025-08-20)
 
 
