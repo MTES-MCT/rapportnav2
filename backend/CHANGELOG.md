@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.21.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.20.1...backend@v2.21.0) (2025-08-21)
+
+
+### Features
+
+* serve gzipped assets ([#835](https://github.com/MTES-MCT/rapportnav2/issues/835)) ([eee1924](https://github.com/MTES-MCT/rapportnav2/commit/eee192447518bba7e830e3256df0949db10fbc3f))
+
 ## [2.20.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.20.0...backend@v2.20.1) (2025-08-20)
 
 

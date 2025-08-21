@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.21.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.20.1...frontend@v2.21.0) (2025-08-21)
+
+
+### Bug Fixes
+
+* **frontend:** infraction  on target ([5c7d004](https://github.com/MTES-MCT/rapportnav2/commit/5c7d00428bc0c09a1571a1eeb3158b2af98d38e0))
+
 ## [2.20.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.20.0...frontend@v2.20.1) (2025-08-20)
 
 
