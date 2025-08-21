@@ -1,12 +1,12 @@
 import { onlineManager, useMutation, UseMutationResult } from '@tanstack/react-query'
+import { orderBy } from 'lodash'
+import queryClient, { DYNAMIC_DATA_STALE_TIME } from '../../../../query-client'
 import axios from '../../../../query-client/axios.ts'
 import { MissionAction, MissionNavAction } from '../types/mission-action.ts'
+import { Mission2 } from '../types/mission-types.ts'
+import { NetworkSyncStatus } from '../types/network-types.ts'
 import { OwnerType } from '../types/owner-type.ts'
 import { actionsKeys, inquiriesKeys, missionsKeys } from './query-keys.ts'
-import { NetworkSyncStatus } from '../types/network-types.ts'
-import queryClient, { DYNAMIC_DATA_STALE_TIME } from '../../../../query-client'
-import { Mission2 } from '../types/mission-types.ts'
-import { orderBy } from 'lodash'
 import { fetchAction } from './use-action.tsx'
 
 type UseUpdateActionInput = {
@@ -105,7 +105,6 @@ export const offlineUpdateActionDefaults = {
 export const onlineUpdateActionDefaults = {
   mutationFn: updateAction,
   onSettled: async (_data, _error, variables: UseUpdateActionInput, _context) => {
-    debugger
     await queryClient.invalidateQueries({
       queryKey: actionsKeys.byId(variables.action?.id),
       type: 'all'

@@ -2,6 +2,7 @@ import { ControlType } from '@common/types/control-types'
 import { Field, FieldArrayRenderProps, FieldProps } from 'formik'
 import { Stack } from 'rsuite'
 import { Target } from '../../../common/types/target-types'
+import { useTarget } from '../../hooks/use-target'
 import MissionTargetEnvInfractionList from './mission-target-env-infraction-list'
 import MissionTargetInquiryForm from './mission-target-inquiry-form'
 
@@ -16,6 +17,7 @@ const MissionTargetInquiry: React.FC<MissionTargetInquiryProps> = ({
   isDisabled,
   availableControlTypes
 }) => {
+  const { computeControlTypeOnTarget } = useTarget()
   return (
     <Stack direction="column" alignItems="flex-start" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%', marginBottom: 12 }}>
@@ -26,7 +28,7 @@ const MissionTargetInquiry: React.FC<MissionTargetInquiryProps> = ({
                 isDisabled={isDisabled}
                 fieldFormik={fieldFormik}
                 name={`targets[${targetIndex}]`}
-                availableControlTypes={availableControlTypes}
+                availableControlTypes={computeControlTypeOnTarget(availableControlTypes, target ? [target] : [])}
               />
             )}
           </Field>
@@ -42,7 +44,7 @@ const MissionTargetInquiry: React.FC<MissionTargetInquiryProps> = ({
                 fieldFormik={fieldFormik}
                 targetType={target.targetType}
                 name={`targets[${targetIndex}]`}
-                availableControlTypes={availableControlTypes}
+                availableControlTypes={[]}
               />
             )}
           </Field>

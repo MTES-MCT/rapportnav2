@@ -25,9 +25,7 @@ const MissionTargetEnv: React.FC<MissionTargetEnvProps> = ({
   actionNumberOfControls
 }) => {
   const { isDefaultTarget, getTargetType } = useTarget()
-  const handleRemove = (index: number) => {
-    fieldArray.remove(index)
-  }
+  const handleRemove = (index: number) => fieldArray.remove(index)
 
   return (
     <Stack direction="column" alignItems="flex-start" style={{ width: '100%' }}>
