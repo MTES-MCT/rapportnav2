@@ -238,6 +238,7 @@ export type SpeciesControl = {
   declaredWeight: number | undefined
   nbFish: number | undefined
   speciesCode: string
+  speciesName: string | undefined
   underSized: boolean | undefined
 }
 
