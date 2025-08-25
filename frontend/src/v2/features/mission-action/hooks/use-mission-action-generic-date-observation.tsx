@@ -1,18 +1,19 @@
 import { FormikErrors } from 'formik'
+import { useMemo } from 'react'
+import { object, ObjectSchema } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useDate } from '../../common/hooks/use-date'
+import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
+import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
 import { AbstractFormikSubFormHook } from '../../common/types/abstract-formik-hook'
 import { MissionAction } from '../../common/types/mission-action'
 import { MissionActionData } from '../../common/types/mission-action-data'
 import { ActionGenericDateObservationInput } from '../types/action-type'
-import { object } from 'yup'
-import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
-import { useMemo } from 'react'
-import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 
 export function useMissionActionGenericDateObservation(
   action: MissionAction,
-  onChange: (newAction: MissionAction) => Promise<unknown>
+  onChange: (newAction: MissionAction) => Promise<unknown>,
+  compositionSchema?: ObjectSchema<any>
 ): AbstractFormikSubFormHook<ActionGenericDateObservationInput> {
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
   const isMissionFinished = useMissionFinished(action.missionId)
@@ -50,7 +51,8 @@ export function useMissionActionGenericDateObservation(
 
   const createValidationSchema = (isMissionFinished: boolean) => {
     return object().shape({
-      ...getDateRangeSchema(isMissionFinished)
+      ...(getDateRangeSchema(isMissionFinished) as Record<string, any>),
+      ...(compositionSchema?.fields ?? {})
     })
   }
 

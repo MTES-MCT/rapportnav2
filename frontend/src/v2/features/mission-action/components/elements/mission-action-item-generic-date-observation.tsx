@@ -1,7 +1,8 @@
 import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Formik } from 'formik'
-import { FC } from 'react'
+import { FC, JSX } from 'react'
 import { Stack } from 'rsuite'
+import { ObjectSchema } from 'yup'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionGenericDateObservation } from '../../hooks/use-mission-action-generic-date-observation'
@@ -9,9 +10,16 @@ import { ActionGenericDateObservationInput } from '../../types/action-type'
 
 const MissionActionItemGenericDateObservation: FC<{
   action: MissionAction
+  children?: JSX.Element
+  footer?: JSX.Element
+  compositionSchema?: ObjectSchema<any>
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
-}> = ({ action, onChange }) => {
-  const { initValue, handleSubmit, validationSchema, errors } = useMissionActionGenericDateObservation(action, onChange)
+}> = ({ action, onChange, children, footer, compositionSchema }) => {
+  const { initValue, handleSubmit, validationSchema, errors } = useMissionActionGenericDateObservation(
+    action,
+    onChange,
+    compositionSchema
+  )
 
   return (
     <form style={{ width: '100%' }}>
@@ -39,8 +47,10 @@ const MissionActionItemGenericDateObservation: FC<{
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>
+                {children}
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
+                  {footer}
                 </Stack.Item>
               </Stack>
             </>
