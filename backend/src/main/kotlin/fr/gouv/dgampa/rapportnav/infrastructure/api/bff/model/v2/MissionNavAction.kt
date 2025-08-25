@@ -80,6 +80,10 @@ class MissionNavAction(
                     status = navAction.status,
                     reason = navAction.reason,
                     nbrOfHours = navAction.nbrOfHours,
+                    trainingType = navAction.trainingType,
+                    unitManagementTrainingType = navAction.unitManagementTrainingType,
+                    isWithinDepartment = navAction.isWithinDepartment,
+                    hasDivingDuringOperation = navAction.hasDivingDuringOperation,
                     targets = navAction.targets?.map { Target2.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc }
                 )
             )

@@ -47,9 +47,15 @@ abstract class MissionActionEntity(
     }
 
     fun isControl(): Boolean {
-        return listOf(ActionType.CONTROL, ActionType.INQUIRY).contains(actionType)
+        return listOf(
+            ActionType.CONTROL,
+            ActionType.INQUIRY,
+            ActionType.OTHER_CONTROL,
+            ActionType.CONTROL_SECTOR,
+            ActionType.CONTROL_NAUTICAL_LEISURE,
+            ActionType.CONTROL_SLEEPING_FISHING_GEAR
+        ).contains(actionType)
     }
-
 
     fun getInfractionTag(withReport: Int): String {
         return if(withReport == 0) "Sans PV" else "$withReport PV"

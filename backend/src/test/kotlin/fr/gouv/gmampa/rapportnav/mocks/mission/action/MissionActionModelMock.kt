@@ -52,7 +52,11 @@ object MissionActionModelMock {
             reason = ActionStatusReason.ADMINISTRATION.toString(),
             status = status.toString(),
             ownerId = UUID.randomUUID(),
-            nbrOfHours = 65
+            nbrOfHours = 65,
+            trainingType = "FORMATION_BCP",
+            unitManagementTrainingType = "DIVING",
+            hasDivingDuringOperation = false,
+            isWithinDepartment = true
         )
     }
 }

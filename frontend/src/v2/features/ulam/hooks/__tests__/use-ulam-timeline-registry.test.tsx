@@ -18,7 +18,7 @@ describe('useUlamTimelineRegistry', () => {
       'COMMUNICATION',
       'TRAINING',
       'NOTE',
-      'UNIT_MANAGEMENT'
+      'UNIT_MANAGEMENT_GROUP'
     ])
   })
 
