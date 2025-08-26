@@ -47,7 +47,7 @@ const MissionActionItemGenericDateObservation: FC<{
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>
-                {children}
+                <Stack.Item style={{ width: '100%' }}>{children}</Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
                   {showDivingCheckBox && (

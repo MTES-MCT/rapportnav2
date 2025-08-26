@@ -53,4 +53,6 @@ interface BaseMissionNavAction {
     var unitManagementTrainingType: String?
     var isWithinDepartment: Boolean?
     var hasDivingDuringOperation: Boolean?
+    var resourceType: String?
+    var resourceId: Int?
 }

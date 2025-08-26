@@ -2,6 +2,7 @@ import { Icon } from '@mtes-mct/monitor-ui'
 import { ActionRegistryHook, ActionRegistryItem, useActionRegistry } from '../../common/hooks/use-action-registry'
 import { ActionType } from '../../common/types/action-type'
 import MissionActionItemCommunication from '../../mission-action/components/elements/mission-action-item-communication'
+import MissionActionItemGenericDateObservation from '../../mission-action/components/elements/mission-action-item-generic-date-observation'
 import MissionActionItemHearingConduct from '../../mission-action/components/elements/mission-action-item-hearing-conduct'
 import MissionActionItemInquiry from '../../mission-action/components/elements/mission-action-item-inquiry'
 import MissionActionItemMeeting from '../../mission-action/components/elements/mission-action-item-meeting'
@@ -72,10 +73,20 @@ const ULAM_ACTION_REGISTRY: UlamActionRegistry = {
     title: `Surveillance générale terrestre`,
     component: MissionActionItemNavSurveillance
   },
-  [ActionType.FISHING_SURVEILLANCE]: {
+  [ActionType.MARITIME_SURVEILLANCE]: {
     icon: Icon.Observation,
-    title: `Surveillance générale pêche`,
+    title: `Surveillance générale maritime`,
     component: MissionActionItemNavSurveillance
+  },
+  [ActionType.OTHER]: {
+    icon: Icon.GroupPerson,
+    title: `Autre`,
+    component: MissionActionItemGenericDateObservation
+  },
+  [ActionType.UNIT_MANAGEMENT_OTHER]: {
+    icon: Icon.More,
+    title: `Gestion de l'unité (Autre)`,
+    component: MissionActionItemGenericDateObservation
   }
 }
 

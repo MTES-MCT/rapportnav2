@@ -84,6 +84,8 @@ class MissionNavAction(
                     unitManagementTrainingType = navAction.unitManagementTrainingType,
                     isWithinDepartment = navAction.isWithinDepartment,
                     hasDivingDuringOperation = navAction.hasDivingDuringOperation,
+                    resourceId = navAction.resourceId,
+                    resourceType = navAction.resourceType,
                     targets = navAction.targets?.map { Target2.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc }
                 )
             )

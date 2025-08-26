@@ -144,6 +144,12 @@ data class MissionActionModel(
     @Column(name = "has_diving_during_operation", nullable = true)
     var hasDivingDuringOperation: Boolean? = null,
 
+    @Column(name = "resource_type", nullable = true)
+    var resourceType: String? = null,
+
+    @Column(name = "resource_id", nullable = true)
+    var resourceId: Int? = null,
+
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
     var createdAt: Instant? = null,

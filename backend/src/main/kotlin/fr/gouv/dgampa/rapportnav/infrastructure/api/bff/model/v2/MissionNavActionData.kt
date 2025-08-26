@@ -48,6 +48,8 @@ class MissionNavActionData(
     override val  unitManagementTrainingType: String? = null,
     override val  isWithinDepartment: Boolean? = null,
     override val  hasDivingDuringOperation: Boolean? = null,
+    override val resourceType: String? = null,
+    override val resourceId: Int? = null,
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
@@ -100,6 +102,8 @@ class MissionNavActionData(
                 unitManagementTrainingType = data.unitManagementTrainingType,
                 isWithinDepartment = data.isWithinDepartment,
                 hasDivingDuringOperation = data.hasDivingDuringOperation,
+                resourceType = data.resourceType,
+                resourceId = data.resourceId,
             )
             return action
         }

@@ -56,7 +56,9 @@ object MissionActionModelMock {
             trainingType = "FORMATION_BCP",
             unitManagementTrainingType = "DIVING",
             hasDivingDuringOperation = false,
-            isWithinDepartment = true
+            isWithinDepartment = true,
+            resourceType = "NAUTICAL",
+            resourceId = 345,
         )
     }
 }
