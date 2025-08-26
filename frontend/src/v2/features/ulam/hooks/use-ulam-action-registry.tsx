@@ -8,7 +8,7 @@ import MissionActionItemMeeting from '../../mission-action/components/elements/m
 import MissionActionItemNavSurveillance from '../../mission-action/components/elements/mission-action-item-nav-surveillance'
 import MissionActionItemPvDrafting from '../../mission-action/components/elements/mission-action-item-pv-drafting'
 import MissionActionItemResourceMaintenance from '../../mission-action/components/elements/mission-action-item-resource-maintenance'
-import MissionActionItemTraining from '../../mission-action/components/elements/mission-action-item-traning'
+import MissionActionItemTraining from '../../mission-action/components/elements/mission-action-item-training'
 import MissionActionItemUnitManagementPlanning from '../../mission-action/components/elements/mission-action-item-unit-management-planning'
 import MissionActionItemUnitManagementTraining from '../../mission-action/components/elements/mission-action-item-unit-management-training'
 

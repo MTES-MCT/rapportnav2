@@ -17,7 +17,7 @@ const MissionActionItemTraining: FC<{
       <Stack.Item style={{ width: '100%' }}>
         <FormikTextInput
           isLight={true}
-          name="traningId"
+          name="trainingType"
           isRequired={true}
           isErrorMessageHidden={true}
           label="Nature de la formation"
