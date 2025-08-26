@@ -68,6 +68,8 @@ export interface MissionNavActionData extends MissionActionData {
   isWithinDepartment?: boolean
   hasDivingDuringOperation?: boolean
   unitManagementTrainingType?: string
+  resourceId?: string
+  resourceType?: string
 }
 
 export interface MissionNavAction extends MissionAction {

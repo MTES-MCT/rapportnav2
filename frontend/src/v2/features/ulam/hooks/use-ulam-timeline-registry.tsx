@@ -4,6 +4,7 @@ import { MissionReportTypeEnum } from '../../common/types/mission-types'
 import MissionTimelineItemControlCard from '../../mission-timeline/components/elements/mission-timeline-item-control-card'
 import MissionTimelineItemGenericCard from '../../mission-timeline/components/elements/mission-timeline-item-generic-card'
 import MissionTimelineItemNoteCard from '../../mission-timeline/components/elements/mission-timeline-item-note-card'
+import MissionTimelineItemOtherCard from '../../mission-timeline/components/elements/mission-timeline-item-other'
 import MissionTimelineItemRescueCard from '../../mission-timeline/components/elements/mission-timeline-item-rescue-card'
 import MissionTimelineItemSurveillanceCard from '../../mission-timeline/components/elements/mission-timeline-item-surveillance-card'
 import { Timeline, TimelineDropdownItem, TimelineRegistry } from '../../mission-timeline/hooks/use-timeline'
@@ -34,7 +35,7 @@ const TIME_LINE_DROPDOWN_ULAM_ITEMS_OFFICE: TimelineDropdownItem[] = [
       { type: ActionType.RESOURCES_MAINTENANCE, dropdownText: `Entretien des moyens` },
       { type: ActionType.MEETING, dropdownText: `Réunions` },
       { type: ActionType.UNIT_MANAGEMENT_TRAINING, dropdownText: `Entraînement (tir, plongée...)` },
-      { type: ActionType.OTHER, dropdownText: `Autre`, disabled: true }
+      { type: ActionType.UNIT_MANAGEMENT_OTHER, dropdownText: `Autre` }
     ]
   }
 ]
@@ -53,8 +54,8 @@ const TIME_LINE_DROPDOWN_ULAM_ITEMS_FIELD: TimelineDropdownItem[] = [
         dropdownText: `Contrôle d'agent de pêche dormant`,
         disabled: true
       },
-      { type: ActionType.OTHER_CONTROL, dropdownText: 'Autre contrôle', disabled: true },
-      { type: ActionType.INQUIRY, dropdownText: 'Contrôle croisés', disabled: true }
+      { type: ActionType.OTHER_CONTROL, dropdownText: 'Autre contrôle', disabled: true }
+      //{ type: ActionType.INQUIRY, dropdownText: 'Contrôle croisés', disabled: true } //TODO: remove com as soon as inquiry link on mission is made
     ]
   },
   {
@@ -64,7 +65,8 @@ const TIME_LINE_DROPDOWN_ULAM_ITEMS_FIELD: TimelineDropdownItem[] = [
     subItems: [
       { type: ActionType.NAUTICAL_EVENT, dropdownText: 'Surveillance de manifestation nautique' },
       { type: ActionType.LAND_SURVEILLANCE, dropdownText: 'Surveillance générale terrestre' },
-      { type: ActionType.FISHING_SURVEILLANCE, dropdownText: 'Surveillance générale pêche' }
+      { type: ActionType.MARITIME_SURVEILLANCE, dropdownText: 'Surveillance générale maritime' },
+      { type: ActionType.FISHING_SURVEILLANCE, dropdownText: 'Surveillance générale pêche', disabled: true }
     ]
   },
   { type: ActionType.RESCUE, icon: Icon.Rescue, dropdownText: 'Ajouter une assistance / sauvetage' },
@@ -77,7 +79,7 @@ const TIME_LINE_DROPDOWN_ULAM_ITEMS_FIELD: TimelineDropdownItem[] = [
       { type: ActionType.ANTI_POLLUTION, dropdownText: 'Opé. de lutte anti-pollution' },
       { type: ActionType.ILLEGAL_IMMIGRATION, dropdownText: `Opé. de lutte contre l'immigration illégale` },
       { type: ActionType.REPRESENTATION, dropdownText: 'Représentation' },
-      { type: ActionType.OTHER, dropdownText: 'Autre', disabled: true }
+      { type: ActionType.OTHER, dropdownText: 'Autre' }
     ]
   }
 ]
@@ -97,7 +99,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
   },
   [ActionType.NAUTICAL_EVENT]: {
     style: {
-      backgroundColor: THEME.color.blueGray25,
+      backgroundColor: THEME.color.gainsboro,
       borderColor: THEME.color.lightGray
     },
     icon: Icon.More,
@@ -174,9 +176,13 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
     component: MissionTimelineItemGenericCard
   },
   [ActionType.OTHER]: {
-    style: {},
+    style: {
+      backgroundColor: THEME.color.blueGray25,
+      borderColor: THEME.color.lightGray
+    },
     icon: Icon.More,
-    component: MissionTimelineItemGenericCard
+    title: 'Autres',
+    component: MissionTimelineItemOtherCard
   },
   [ActionType.CONTACT]: {
     style: { backgroundColor: THEME.color.blueYonder25, borderColor: THEME.color.lightGray },
@@ -195,7 +201,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
   },
   [ActionType.UNIT_MANAGEMENT_PLANNING]: {
     style: {
-      backgroundColor: THEME.color.blueGray25,
+      backgroundColor: THEME.color.blueYonder25,
       borderColor: THEME.color.lightGray
     },
     icon: Icon.GroupPerson,
@@ -204,16 +210,25 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
   },
   [ActionType.UNIT_MANAGEMENT_TRAINING]: {
     style: {
-      backgroundColor: THEME.color.blueGray25,
+      backgroundColor: THEME.color.blueYonder25,
       borderColor: THEME.color.lightGray
     },
     icon: Icon.GroupPerson,
     title: `Entraînement`,
     component: MissionTimelineItemGenericCard
   },
+  [ActionType.UNIT_MANAGEMENT_OTHER]: {
+    style: {
+      backgroundColor: THEME.color.blueYonder25,
+      borderColor: THEME.color.lightGray
+    },
+    icon: Icon.GroupPerson,
+    title: `Other`,
+    component: MissionTimelineItemGenericCard
+  },
   [ActionType.TRAINING]: {
     style: {
-      backgroundColor: THEME.color.blueGray25,
+      backgroundColor: THEME.color.blueYonder25,
       borderColor: THEME.color.lightGray
     },
     icon: Icon.License,
@@ -222,7 +237,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
   },
   [ActionType.RESOURCES_MAINTENANCE]: {
     style: {
-      backgroundColor: THEME.color.blueGray25,
+      backgroundColor: THEME.color.blueYonder25,
       borderColor: THEME.color.lightGray
     },
     icon: Icon.GroupPerson,
@@ -231,7 +246,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
   },
   [ActionType.MEETING]: {
     style: {
-      backgroundColor: THEME.color.blueGray25,
+      backgroundColor: THEME.color.blueYonder25,
       borderColor: THEME.color.lightGray
     },
     icon: Icon.GroupPerson,
@@ -240,7 +255,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
   },
   [ActionType.PV_DRAFTING]: {
     style: {
-      backgroundColor: THEME.color.blueGray25,
+      backgroundColor: THEME.color.blueYonder25,
       borderColor: THEME.color.lightGray
     },
     icon: Icon.MissionAction,
@@ -249,7 +264,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
   },
   [ActionType.HEARING_CONDUCT]: {
     style: {
-      backgroundColor: THEME.color.blueGray25,
+      backgroundColor: THEME.color.blueYonder25,
       borderColor: THEME.color.lightGray
     },
     icon: Icon.MissionAction,
@@ -258,25 +273,25 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
   },
   [ActionType.LAND_SURVEILLANCE]: {
     style: {
-      backgroundColor: THEME.color.blueGray25,
+      backgroundColor: THEME.color.gainsboro,
       borderColor: THEME.color.lightGray
     },
     icon: Icon.Observation,
     title: `Surveillance générale terrestre`,
     component: MissionTimelineItemGenericCard
   },
-  [ActionType.FISHING_SURVEILLANCE]: {
+  [ActionType.MARITIME_SURVEILLANCE]: {
     style: {
-      backgroundColor: THEME.color.blueGray25,
+      backgroundColor: THEME.color.gainsboro,
       borderColor: THEME.color.lightGray
     },
     icon: Icon.Observation,
-    title: `Surveillance générale pêche`,
+    title: `Surveillance pêche`,
     component: MissionTimelineItemGenericCard
   },
   [ActionType.COMMUNICATION]: {
     style: {
-      backgroundColor: THEME.color.blueGray25,
+      backgroundColor: THEME.color.blueYonder25,
       borderColor: THEME.color.lightGray
     },
     icon: Icon.Contact,
