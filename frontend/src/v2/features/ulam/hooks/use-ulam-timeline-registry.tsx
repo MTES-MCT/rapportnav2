@@ -4,7 +4,6 @@ import { MissionReportTypeEnum } from '../../common/types/mission-types'
 import MissionTimelineItemControlCard from '../../mission-timeline/components/elements/mission-timeline-item-control-card'
 import MissionTimelineItemGenericCard from '../../mission-timeline/components/elements/mission-timeline-item-generic-card'
 import MissionTimelineItemNoteCard from '../../mission-timeline/components/elements/mission-timeline-item-note-card'
-import MissionTimelineItemOtherCard from '../../mission-timeline/components/elements/mission-timeline-item-other'
 import MissionTimelineItemRescueCard from '../../mission-timeline/components/elements/mission-timeline-item-rescue-card'
 import MissionTimelineItemSurveillanceCard from '../../mission-timeline/components/elements/mission-timeline-item-surveillance-card'
 import { Timeline, TimelineDropdownItem, TimelineRegistry } from '../../mission-timeline/hooks/use-timeline'
@@ -182,7 +181,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
     },
     icon: Icon.More,
     title: 'Autres',
-    component: MissionTimelineItemOtherCard
+    component: MissionTimelineItemGenericCard
   },
   [ActionType.CONTACT]: {
     style: { backgroundColor: THEME.color.blueYonder25, borderColor: THEME.color.lightGray },
