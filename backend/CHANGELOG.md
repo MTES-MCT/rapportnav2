@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.22.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.21.0...backend@v2.22.0) (2025-08-26)
+
+
+### Features
+
+* **backend:** add new mission action type ([6ab1c41](https://github.com/MTES-MCT/rapportnav2/commit/6ab1c419723cea89d74572421160aefb58530a45))
+
+
+### Bug Fixes
+
+* **backend:** mission nav entity required for stats ([818f220](https://github.com/MTES-MCT/rapportnav2/commit/818f220bb93e9e4b1d83388731bb39a6bb692499))
+
 ## [2.21.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.20.1...backend@v2.21.0) (2025-08-21)
 
 

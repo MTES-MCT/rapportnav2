@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.22.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.21.0...frontend@v2.22.0) (2025-08-26)
+
+
+### Features
+
+* **frontend:** mission action new components ([b12a12d](https://github.com/MTES-MCT/rapportnav2/commit/b12a12d7551fedbda03bb17651aba31e5feaece6))
+* show species name in fish controls ([25e5fd7](https://github.com/MTES-MCT/rapportnav2/commit/25e5fd7a482ad647b2517508eefb9c1d19f11315))
+* show species name in fish controls ([2c16620](https://github.com/MTES-MCT/rapportnav2/commit/2c16620269e71d99d49dd1362d25fd34cf59b2bf))
+
+
+### Bug Fixes
+
+* **frontend:** generic date observation ([a7cf209](https://github.com/MTES-MCT/rapportnav2/commit/a7cf209a8b9925ca9656bc6434e226132c4c1fd0))
+* **frontend:** training  component ([2e46787](https://github.com/MTES-MCT/rapportnav2/commit/2e467879df65bead6605842fecef2c1bbe70263e))
+
 ## [2.21.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.20.1...frontend@v2.21.0) (2025-08-21)
 
 
