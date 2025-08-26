@@ -64,6 +64,8 @@ class MissionNavActionDataTest {
         assertThat(output.data.unitManagementTrainingType).isEqualTo(entity.unitManagementTrainingType)
         assertThat(output.data.hasDivingDuringOperation).isEqualTo(entity.hasDivingDuringOperation)
         assertThat(output.data.isWithinDepartment).isEqualTo(entity.isWithinDepartment)
+        assertThat(output.data.resourceId).isEqualTo(entity.resourceId)
+        assertThat(output.data.resourceType).isEqualTo(entity.resourceType)
     }
 
     @Nested

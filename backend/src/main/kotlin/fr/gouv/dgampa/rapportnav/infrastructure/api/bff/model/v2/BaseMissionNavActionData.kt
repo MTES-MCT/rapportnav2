@@ -45,4 +45,6 @@ interface BaseMissionNavActionData {
     val unitManagementTrainingType: String?
     val isWithinDepartment: Boolean?
     val hasDivingDuringOperation: Boolean?
+    val resourceType: String?
+    val resourceId: Int?
 }

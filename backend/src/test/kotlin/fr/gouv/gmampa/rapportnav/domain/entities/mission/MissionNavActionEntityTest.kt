@@ -71,6 +71,9 @@ class MissionNavActionEntityTest {
         assertThat(entity.unitManagementTrainingType).isEqualTo(model.unitManagementTrainingType)
         assertThat(entity.hasDivingDuringOperation).isEqualTo(model.hasDivingDuringOperation)
         assertThat(entity.isWithinDepartment).isEqualTo(model.isWithinDepartment)
+        assertThat(entity.resourceId).isEqualTo(model.resourceId)
+        assertThat(entity.resourceType).isEqualTo(model.resourceType)
+
     }
 
     @Test
@@ -159,6 +162,9 @@ class MissionNavActionEntityTest {
         assertThat(model.unitManagementTrainingType).isEqualTo(entity.unitManagementTrainingType)
         assertThat(model.hasDivingDuringOperation).isEqualTo(entity.hasDivingDuringOperation)
         assertThat(model.isWithinDepartment).isEqualTo(entity.isWithinDepartment)
+
+        assertThat(model.resourceId).isEqualTo(entity.resourceId)
+        assertThat(model.resourceType).isEqualTo(entity.resourceType)
 
     }
 

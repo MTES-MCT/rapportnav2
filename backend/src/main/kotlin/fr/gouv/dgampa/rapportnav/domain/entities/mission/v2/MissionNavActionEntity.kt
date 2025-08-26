@@ -162,7 +162,20 @@ class MissionNavActionEntity(
     )
     override var unitManagementTrainingType: String? = null,
     override var isWithinDepartment: Boolean? = null,
-    override var hasDivingDuringOperation: Boolean? = null
+    override var hasDivingDuringOperation: Boolean? = null,
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["RESOURCES_MAINTENANCE"])
+        ]
+    )
+    override var resourceType: String? = null,
+
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["RESOURCES_MAINTENANCE"])
+        ]
+    )
+    override var resourceId: Int? = null,
 ) : MissionActionEntity(
     status = status,
     actionType = actionType,
@@ -227,7 +240,9 @@ class MissionNavActionEntity(
         trainingType = trainingType,
         unitManagementTrainingType = unitManagementTrainingType,
         isWithinDepartment = isWithinDepartment,
-        hasDivingDuringOperation = hasDivingDuringOperation
+        hasDivingDuringOperation = hasDivingDuringOperation,
+        resourceType = resourceType,
+        resourceId = resourceId
     )
 
 
@@ -278,7 +293,9 @@ class MissionNavActionEntity(
                 trainingType = model.trainingType,
                 unitManagementTrainingType = model.unitManagementTrainingType,
                 isWithinDepartment = model.isWithinDepartment,
-                hasDivingDuringOperation = model.hasDivingDuringOperation
+                hasDivingDuringOperation = model.hasDivingDuringOperation,
+                resourceType = model.resourceType,
+                resourceId = model.resourceId
             )
         }
     }
