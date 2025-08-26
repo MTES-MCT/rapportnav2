@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.22.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.22.0...docker-container@v2.22.1) (2025-08-26)
+
+
+### Bug Fixes
+
+* **backend:** dependency tomcat ([8deabba](https://github.com/MTES-MCT/rapportnav2/commit/8deabba9bf1229c16bb18dc91f73fb942a5b9a4d))
+* **backend:** dependency tomcat ([6e7df07](https://github.com/MTES-MCT/rapportnav2/commit/6e7df07fb03d27550568f2b411d2cdb9c41a4fbb))
+* **backend:** mission action  resource maintenance ([97a51f6](https://github.com/MTES-MCT/rapportnav2/commit/97a51f6f3705239724a9876511247ecbe1c6e23e))
+* **frontend:** mission action resource maintenance components ([ba193b4](https://github.com/MTES-MCT/rapportnav2/commit/ba193b4f6b1611ffe7563daf2f682d41b733cf6f))
+* **frontend:** remove unused ([cdc3211](https://github.com/MTES-MCT/rapportnav2/commit/cdc3211ef2f3475f8f0a9b92e3738f0e97ce9c25))
+
 ## [2.22.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.21.0...docker-container@v2.22.0) (2025-08-26)
 
 
