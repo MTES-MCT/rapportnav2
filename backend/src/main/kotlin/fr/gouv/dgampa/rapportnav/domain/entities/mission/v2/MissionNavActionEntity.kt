@@ -34,7 +34,10 @@ class MissionNavActionEntity(
         enableIf = [DependentFieldValue(
             field = "actionType",
             value = ["ANTI_POLLUTION", "BAAEM_PERMANENCE", "CONTROL", "RESCUE",
-                "VIGIMER", "REPRESENTATION", "PUBLIC_ORDER", "ILLEGAL_IMMIGRATION", "NAUTICAL_EVENT"]
+                "VIGIMER", "REPRESENTATION", "PUBLIC_ORDER", "ILLEGAL_IMMIGRATION", "NAUTICAL_EVENT",
+                "CONDUCT_HEARING", "COMMUNICATION", "TRAINING", "UNIT_MANAGEMENT_PLANNING", "UNIT_MANAGEMENT_TRAINING",
+                "CONTROL_SECTOR", "CONTROL_NAUTICAL_LEISURE", "CONTROL_SLEEPING_FISHING_GEAR", "OTHER_CONTROL",
+                "RESOURCES_MAINTENANCE", "MEETING", "PV_DRAFTING", "HEARING_CONDUCT", "LAND_SURVEILLANCE", "FISHING_SURVEILLANCE"]
         )]
     )
     override var endDateTimeUtc: Instant? = null,
@@ -145,7 +148,21 @@ class MissionNavActionEntity(
             DependentFieldValue(field = "actionType", value = ["INQUIRY"])
         ]
     )
-    override var nbrOfHours: Int? = null
+    override var nbrOfHours: Int? = null,
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["TRAINING"])
+        ]
+    )
+    override var trainingType: String? = null,
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["UNIT_MANAGEMENT_TRAINING"])
+        ]
+    )
+    override var unitManagementTrainingType: String? = null,
+    override var isWithinDepartment: Boolean? = null,
+    override var hasDivingDuringOperation: Boolean? = null
 ) : MissionActionEntity(
     status = status,
     actionType = actionType,
@@ -206,7 +223,11 @@ class MissionNavActionEntity(
         status = status?.toString(),
         reason = reason?.toString(),
         ownerId = ownerId,
-        nbrOfHours = nbrOfHours
+        nbrOfHours = nbrOfHours,
+        trainingType = trainingType,
+        unitManagementTrainingType = unitManagementTrainingType,
+        isWithinDepartment = isWithinDepartment,
+        hasDivingDuringOperation = hasDivingDuringOperation
     )
 
 
@@ -253,7 +274,11 @@ class MissionNavActionEntity(
                 status = model.status?.let { ActionStatusType.valueOf(it) },
                 reason = model.reason?.let { ActionStatusReason.valueOf(it) },
                 ownerId = model.ownerId,
-                nbrOfHours = model.nbrOfHours
+                nbrOfHours = model.nbrOfHours,
+                trainingType = model.trainingType,
+                unitManagementTrainingType = model.unitManagementTrainingType,
+                isWithinDepartment = model.isWithinDepartment,
+                hasDivingDuringOperation = model.hasDivingDuringOperation
             )
         }
     }
