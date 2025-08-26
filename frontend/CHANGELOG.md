@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.22.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.22.0...frontend@v2.22.1) (2025-08-26)
+
+
+### Bug Fixes
+
+* **frontend:** mission action resource maintenance components ([ba193b4](https://github.com/MTES-MCT/rapportnav2/commit/ba193b4f6b1611ffe7563daf2f682d41b733cf6f))
+* **frontend:** remove unused ([cdc3211](https://github.com/MTES-MCT/rapportnav2/commit/cdc3211ef2f3475f8f0a9b92e3738f0e97ce9c25))
+
 ## [2.22.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.21.0...frontend@v2.22.0) (2025-08-26)
 
 
