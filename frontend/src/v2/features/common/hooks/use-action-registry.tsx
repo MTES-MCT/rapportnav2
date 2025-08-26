@@ -5,8 +5,6 @@ import MissionActionItemBAAEMPermanence from '../../mission-action/components/el
 import MissionActionItemContact from '../../mission-action/components/elements/mission-action-item-contact'
 import MissionActionItemControl from '../../mission-action/components/elements/mission-action-item-control'
 import MissionActionItemIllegalImmigration from '../../mission-action/components/elements/mission-action-item-illegal-immigration'
-import MissionActionItemInquiry from '../../mission-action/components/elements/mission-action-item-inquiry'
-import MissionActionItemNauticalEvent from '../../mission-action/components/elements/mission-action-item-nautical-event'
 import MissionActionItemNote from '../../mission-action/components/elements/mission-action-item-note'
 import MissionActionItemPublicOrder from '../../mission-action/components/elements/mission-action-item-public-order'
 import MissionActionItemRepresentation from '../../mission-action/components/elements/mission-action-item-representation'
@@ -51,11 +49,6 @@ const ACTION_REGISTRY: ActionRegistry = {
     title: 'Permanence Vigimer',
     component: MissionActionItemVigimer
   },
-  [ActionType.NAUTICAL_EVENT]: {
-    icon: Icon.More,
-    title: 'Manifestation nautique',
-    component: MissionActionItemNauticalEvent
-  },
   [ActionType.RESCUE]: {
     title: 'Assistance et sauvetage',
     icon: Icon.Rescue,
@@ -93,11 +86,6 @@ const ACTION_REGISTRY: ActionRegistry = {
     icon: Icon.Observation,
     title: 'Contact',
     component: MissionActionItemContact
-  },
-  [ActionType.INQUIRY]: {
-    icon: Icon.MissionAction,
-    title: 'Contrôle croisé',
-    component: MissionActionItemInquiry
   }
 }
 

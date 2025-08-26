@@ -1,7 +1,5 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
 
-import java.util.*
-
 enum class ActionType {
     CONTROL,
     SURVEILLANCE,
@@ -17,5 +15,20 @@ enum class ActionType {
     PUBLIC_ORDER,
     REPRESENTATION,
     ILLEGAL_IMMIGRATION,
-    INQUIRY
+    INQUIRY,
+    CONDUCT_HEARING,
+    COMMUNICATION,
+    TRAINING,
+    UNIT_MANAGEMENT_PLANNING,
+    UNIT_MANAGEMENT_TRAINING,
+    CONTROL_SECTOR,
+    CONTROL_NAUTICAL_LEISURE,
+    CONTROL_SLEEPING_FISHING_GEAR,
+    OTHER_CONTROL,
+    RESOURCES_MAINTENANCE ,
+    MEETING,
+    PV_DRAFTING,
+    HEARING_CONDUCT,
+    LAND_SURVEILLANCE,
+    FISHING_SURVEILLANCE
 }
