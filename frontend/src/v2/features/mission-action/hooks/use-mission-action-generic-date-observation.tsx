@@ -1,6 +1,6 @@
 import { FormikErrors } from 'formik'
 import { useMemo } from 'react'
-import { object, ObjectSchema } from 'yup'
+import { object, ObjectShape } from 'yup'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useDate } from '../../common/hooks/use-date'
 import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
@@ -13,7 +13,7 @@ import { ActionGenericDateObservationInput } from '../types/action-type'
 export function useMissionActionGenericDateObservation(
   action: MissionAction,
   onChange: (newAction: MissionAction) => Promise<unknown>,
-  compositionSchema?: ObjectSchema<any>
+  schema?: ObjectShape
 ): AbstractFormikSubFormHook<ActionGenericDateObservationInput> {
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
   const isMissionFinished = useMissionFinished(action.missionId)
@@ -52,7 +52,7 @@ export function useMissionActionGenericDateObservation(
   const createValidationSchema = (isMissionFinished: boolean) => {
     return object().shape({
       ...(getDateRangeSchema(isMissionFinished) as Record<string, any>),
-      ...(compositionSchema?.fields ?? {})
+      ...(schema ?? {})
     })
   }
 

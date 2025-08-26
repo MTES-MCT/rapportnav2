@@ -1,6 +1,7 @@
 import { FormikSelect } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
+import { string } from 'yup'
 import { MissionAction } from '../../../common/types/mission-action'
 import { UnitManagementTrainingType } from '../../../common/types/unit-management-type'
 import MissionActionItemGenericDateObservation from './mission-action-item-generic-date-observation'
@@ -15,9 +16,13 @@ const MissionActionItemUnitManagementTraining: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
+  const schema = {
+    unitManagementTrainingType: string().required()
+  }
   return (
     <MissionActionItemGenericDateObservation
       action={action}
+      schema={schema}
       onChange={onChange}
       data-testid={'action-unit-mangement-form'}
     >

@@ -1,8 +1,8 @@
-import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
+import { FormikCheckbox, FormikEffect, FormikTextarea, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Formik } from 'formik'
 import { FC, JSX } from 'react'
-import { Stack } from 'rsuite'
-import { ObjectSchema } from 'yup'
+import { Divider, Stack } from 'rsuite'
+import { ObjectShape } from 'yup'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionGenericDateObservation } from '../../hooks/use-mission-action-generic-date-observation'
@@ -11,14 +11,14 @@ import { ActionGenericDateObservationInput } from '../../types/action-type'
 const MissionActionItemGenericDateObservation: FC<{
   action: MissionAction
   children?: JSX.Element
-  footer?: JSX.Element
-  compositionSchema?: ObjectSchema<any>
+  showDivingCheckBox?: boolean
+  schema?: ObjectShape
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
-}> = ({ action, onChange, children, footer, compositionSchema }) => {
+}> = ({ action, onChange, children, schema, showDivingCheckBox }) => {
   const { initValue, handleSubmit, validationSchema, errors } = useMissionActionGenericDateObservation(
     action,
     onChange,
-    compositionSchema
+    schema
   )
 
   return (
@@ -50,7 +50,12 @@ const MissionActionItemGenericDateObservation: FC<{
                 {children}
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
-                  {footer}
+                  {showDivingCheckBox && (
+                    <Stack.Item style={{ width: '100%' }}>
+                      <Divider style={{ backgroundColor: THEME.color.charcoal, marginBottom: 4 }} />
+                      <FormikCheckbox isLight name="hasDivingDuringOperation" label="Plongée au cours de l'opération" />
+                    </Stack.Item>
+                  )}
                 </Stack.Item>
               </Stack>
             </>
