@@ -57,7 +57,7 @@ const FishControlSpeciesSection: React.FC<FishControlSpeciesSectionProps> = ({ a
               <Stack direction="column" alignItems="flex-start" spacing={'0.25rem'}>
                 <Stack.Item>
                   <Text as="h3" weight="medium">
-                    {species.speciesCode}
+                    {species.speciesCode} - {species.speciesName}
                   </Text>
                 </Stack.Item>
                 <Stack.Item>
