@@ -180,7 +180,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
       borderColor: THEME.color.lightGray
     },
     icon: Icon.More,
-    title: 'Autres',
+    title: 'Autre activité terrain - autre',
     component: MissionTimelineItemGenericCard
   },
   [ActionType.CONTACT]: {
@@ -204,7 +204,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
       borderColor: THEME.color.lightGray
     },
     icon: Icon.GroupPerson,
-    title: `Gestion de l'unité (plannig)`,
+    title: `Gestion de l'unité - plannig`,
     component: MissionTimelineItemGenericCard
   },
   [ActionType.UNIT_MANAGEMENT_TRAINING]: {
@@ -222,7 +222,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
       borderColor: THEME.color.lightGray
     },
     icon: Icon.GroupPerson,
-    title: `Other`,
+    title: `Gestion de l'unité - autre`,
     component: MissionTimelineItemGenericCard
   },
   [ActionType.TRAINING]: {
@@ -285,7 +285,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
       borderColor: THEME.color.lightGray
     },
     icon: Icon.Observation,
-    title: `Surveillance pêche`,
+    title: `Surveillance maritime`,
     component: MissionTimelineItemGenericCard
   },
   [ActionType.COMMUNICATION]: {

@@ -7,7 +7,7 @@ import { store } from '../../../../store/index.ts'
 import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
 import useAdministrationsQuery from '../../../common/services/use-administrations.tsx'
 import useAgentsQuery from '../../../common/services/use-agents.tsx'
-import useControlUnitResourcesQuery from '../../../common/services/use-control-unit-resources.tsx'
+import useResourceByControlUnitQuery from '../../../common/services/use-resources-control-unit.tsx'
 import { MissionGeneralInfo2, MissionGeneralInfoExtended } from '../../../common/types/mission-types.ts'
 import MissionGeneralInformationControlUnitResource from '../../../mission-general-infos/components/mission-general-information-control-unit-resource.tsx'
 import MissionGeneralInformationCrewNoComment from '../../../mission-general-infos/components/mission-general-information-crew-no-comment.tsx'
@@ -31,7 +31,7 @@ const MissionGeneralInformationUlamExtendedForm: FC<MissionGeneralInformationUla
   const user = useStore(store, state => state.user)
   const { isEnvMission, jdpTypeOptions } = useMissionType()
   const { data: administrations } = useAdministrationsQuery()
-  const { data: resources } = useControlUnitResourcesQuery(user?.controlUnitId)
+  const { resources } = useResourceByControlUnitQuery(user?.controlUnitId)
   const { initValue, handleSubmit, errors } = useUlamMissionGeneralInformationsExtendedForm(name, fieldFormik)
 
   return (

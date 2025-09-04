@@ -4,7 +4,7 @@ import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { string } from 'yup'
 import { store } from '../../../../store'
-import useControlUnitResourcesQuery from '../../../common/services/use-control-unit-resources'
+import useResourceByControlUnitQuery from '../../../common/services/use-resources-control-unit'
 import { ControlUnitResource } from '../../../common/types/control-unit-types'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionActionItemGenericDateObservation from './mission-action-item-generic-date-observation'
@@ -30,7 +30,7 @@ const MissionActionItemResourceMaintenance: FC<{
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
   const user = useStore(store, state => state.user)
-  const { data: resources } = useControlUnitResourcesQuery(user?.controlUnitId)
+  const { resources } = useResourceByControlUnitQuery(user?.controlUnitId)
 
   const schema = {
     resourceId: string().required(),

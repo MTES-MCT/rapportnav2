@@ -25,7 +25,7 @@ const MissionActionItemTraining: FC<{
           name="trainingType"
           isRequired={true}
           isErrorMessageHidden={true}
-          label="Nature de la formation"
+          label="Nature de la formation (Nom)"
         />
       </Stack.Item>
     </MissionActionItemGenericDateObservation>

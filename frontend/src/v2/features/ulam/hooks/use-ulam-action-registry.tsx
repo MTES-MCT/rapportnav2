@@ -19,7 +19,7 @@ type UlamActionRegistry = {
 
 const ULAM_ACTION_REGISTRY: UlamActionRegistry = {
   [ActionType.NAUTICAL_EVENT]: {
-    icon: Icon.More,
+    icon: Icon.Observation,
     title: 'Surveillance de manifestation nautique',
     component: MissionActionItemNavSurveillance
   },
@@ -79,13 +79,13 @@ const ULAM_ACTION_REGISTRY: UlamActionRegistry = {
     component: MissionActionItemNavSurveillance
   },
   [ActionType.OTHER]: {
-    icon: Icon.GroupPerson,
-    title: `Autre`,
+    icon: Icon.More,
+    title: `Autre activité terrain - autre`,
     component: MissionActionItemGenericDateObservation
   },
   [ActionType.UNIT_MANAGEMENT_OTHER]: {
-    icon: Icon.More,
-    title: `Gestion de l'unité (Autre)`,
+    icon: Icon.GroupPerson,
+    title: `Gestion de l'unité - autre`,
     component: MissionActionItemGenericDateObservation
   }
 }
