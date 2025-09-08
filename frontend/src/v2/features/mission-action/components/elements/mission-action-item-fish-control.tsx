@@ -44,36 +44,41 @@ const MissionActionItemFishControl: FC<{
                 <Stack.Item style={{ width: '100%' }}>
                   <VesselName name={values.vesselName} />
                 </Stack.Item>
-                <Stack.Item grow={1}>
-                  <Field name="dates">
-                    {(field: FieldProps<Date[]>) => (
-                      <FormikDateRangePicker
-                        label=""
-                        name="dates"
-                        isLight={true}
-                        fieldFormik={field}
-                        disabled={!isOnline}
-                        title={
-                          isOnline
-                            ? ''
-                            : "Non disponible hors ligne, il est nécessaire d'être synchronisé avec les centres pour saisir/modifier cette donnée."
-                        }
-                      />
-                    )}
-                  </Field>
-                </Stack.Item>
+                {/*<Stack.Item grow={1}>*/}
+                {/*  <Field name="dates">*/}
+                {/*    {(field: FieldProps<Date[]>) => (*/}
+                {/*      <FormikDateRangePicker*/}
+                {/*        label=""*/}
+                {/*        name="dates"*/}
+                {/*        isLight={true}*/}
+                {/*        fieldFormik={field}*/}
+                {/*        disabled={!isOnline}*/}
+                {/*        title={*/}
+                {/*          isOnline*/}
+                {/*            ? ''*/}
+                {/*            : "Non disponible hors ligne, il est nécessaire d'être synchronisé avec les centres pour saisir/modifier cette donnée."*/}
+                {/*        }*/}
+                {/*      />*/}
+                {/*    )}*/}
+                {/*  </Field>*/}
+                {/*</Stack.Item>*/}
                 <Stack.Item style={{ width: '100%' }}>
                   {initValue?.fishActionType === MissionActionType.LAND_CONTROL ? (
                     <TextInput
                       label={"Lieu de l'opération"}
                       readOnly={true}
-                      value={initValue?.portName ?? initValue.portLocode}
+                      value={`${initValue?.portName} ${initValue.portLocode ? `(${initValue.portLocode})` : ''}`}
                       isLight={true}
                       data-testid={'portName'}
                       name="portName"
                     />
                   ) : (
-                    <MissionActionFormikCoordinateInputDMD name={'geoCoords'} readOnly={true} isLight={true} />
+                    <MissionActionFormikCoordinateInputDMD
+                      name={'geoCoords'}
+                      readOnly={true}
+                      isLight={true}
+                      data-testid="mission-coordinate-dmd-input"
+                    />
                   )}
                 </Stack.Item>
 
