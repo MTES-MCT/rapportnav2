@@ -7,6 +7,7 @@ exports[`FormikCoordinateInputDMD > should match the snapshot 1`] = `
     <div>
       <fieldset
         class="sc-DZJJV RRabk Element-Fieldset sc-jBaHRL dWDlNT Field-CoordinatesInput sc-iRcyzz"
+        id="«r0»"
       >
         <legend
           class="sc-koBvLg gaMeRk Element-Legend"
@@ -21,6 +22,7 @@ exports[`FormikCoordinateInputDMD > should match the snapshot 1`] = `
           >
             <input
               data-cy="dmd-coordinates-input"
+              id="«r0»"
               name="coords"
               placeholder="__° __.___′ _ ___° __.___′"
               value=""
@@ -63,6 +65,7 @@ exports[`FormikCoordinateInputDMD > should match the snapshot 1`] = `
   "container": <div>
     <fieldset
       class="sc-DZJJV RRabk Element-Fieldset sc-jBaHRL dWDlNT Field-CoordinatesInput sc-iRcyzz"
+      id="«r0»"
     >
       <legend
         class="sc-koBvLg gaMeRk Element-Legend"
@@ -77,6 +80,7 @@ exports[`FormikCoordinateInputDMD > should match the snapshot 1`] = `
         >
           <input
             data-cy="dmd-coordinates-input"
+            id="«r0»"
             name="coords"
             placeholder="__° __.___′ _ ___° __.___′"
             value=""

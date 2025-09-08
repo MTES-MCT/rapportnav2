@@ -20,7 +20,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <label
-                class="sc-gahYZc kawVmz Element-Label"
+                class="sc-gahYZc dVDTiJ Element-Label"
               >
                 Date et heure de début et de fin
               </label>
@@ -29,7 +29,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <h3
-                class="sc-gahYZc kawVmz Element-Label"
+                class="sc-gahYZc dVDTiJ Element-Label"
                 style="margin-left: 2px; color: rgb(225, 0, 15); font-weight: initial;"
               >
                 *
@@ -130,7 +130,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                     </span>
                   </div>
                   <div
-                    class="sc-gFqXPY gOFXml Field-DatePicker__CalendarPicker"
+                    class="sc-gFqXPY dMmOYJ Field-DatePicker__CalendarPicker"
                   >
                     <div
                       class="rs-picker rs-picker-date rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
@@ -277,7 +277,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                     </span>
                   </div>
                   <div
-                    class="sc-gFqXPY gOFXml Field-DatePicker__CalendarPicker"
+                    class="sc-gFqXPY dMmOYJ Field-DatePicker__CalendarPicker"
                   >
                     <div
                       class="rs-picker rs-picker-date rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
@@ -380,7 +380,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <label
-              class="sc-gahYZc kawVmz Element-Label"
+              class="sc-gahYZc dVDTiJ Element-Label"
             >
               Date et heure de début et de fin
             </label>
@@ -389,7 +389,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <h3
-              class="sc-gahYZc kawVmz Element-Label"
+              class="sc-gahYZc dVDTiJ Element-Label"
               style="margin-left: 2px; color: rgb(225, 0, 15); font-weight: initial;"
             >
               *
@@ -490,7 +490,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                   </span>
                 </div>
                 <div
-                  class="sc-gFqXPY gOFXml Field-DatePicker__CalendarPicker"
+                  class="sc-gFqXPY dMmOYJ Field-DatePicker__CalendarPicker"
                 >
                   <div
                     class="rs-picker rs-picker-date rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
@@ -637,7 +637,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
                   </span>
                 </div>
                 <div
-                  class="sc-gFqXPY gOFXml Field-DatePicker__CalendarPicker"
+                  class="sc-gFqXPY dMmOYJ Field-DatePicker__CalendarPicker"
                 >
                   <div
                     class="rs-picker rs-picker-date rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"

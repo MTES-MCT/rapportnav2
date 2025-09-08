@@ -12,17 +12,18 @@ exports[`StyledFormikToggle > should match the snapshot 1`] = `
           class="sc-fYmhhH jaaEau Element-Field Field-Toggle sc-bvErBc ibDXrd"
         >
           <label
-            class="sc-gahYZc eKorlU Element-Label"
-            for="toogle"
+            class="sc-gahYZc bGVnHo Element-Label"
+            for="«r0»"
           />
           <label
-            class="sc-xKhEK dZfuPl rs-toggle"
+            class="sc-xKhEK lbzACL rs-toggle"
           >
             <input
               aria-checked="false"
               aria-disabled="false"
               aria-label="Fermer"
               class="rs-toggle-input"
+              id="«r0»"
               name="toogle"
               role="switch"
               type="checkbox"
@@ -75,17 +76,18 @@ exports[`StyledFormikToggle > should match the snapshot 1`] = `
         class="sc-fYmhhH jaaEau Element-Field Field-Toggle sc-bvErBc ibDXrd"
       >
         <label
-          class="sc-gahYZc eKorlU Element-Label"
-          for="toogle"
+          class="sc-gahYZc bGVnHo Element-Label"
+          for="«r0»"
         />
         <label
-          class="sc-xKhEK dZfuPl rs-toggle"
+          class="sc-xKhEK lbzACL rs-toggle"
         >
           <input
             aria-checked="false"
             aria-disabled="false"
             aria-label="Fermer"
             class="rs-toggle-input"
+            id="«r0»"
             name="toogle"
             role="switch"
             type="checkbox"
