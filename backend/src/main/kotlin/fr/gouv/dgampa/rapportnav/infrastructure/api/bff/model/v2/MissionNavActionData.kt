@@ -43,7 +43,13 @@ class MissionNavActionData(
     override val observations: String? = null,
     override val status: ActionStatusType? = null,
     override val targets: List<Target2>? = null,
-    override val nbrOfHours: Int? = null
+    override val nbrOfHours: Int? = null,
+    override val trainingType: String? = null,
+    override val  unitManagementTrainingType: String? = null,
+    override val  isWithinDepartment: Boolean? = null,
+    override val  hasDivingDuringOperation: Boolean? = null,
+    override val resourceType: String? = null,
+    override val resourceId: Int? = null,
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
@@ -91,7 +97,13 @@ class MissionNavActionData(
                 nbAssistedVesselsReturningToShore = data.nbAssistedVesselsReturningToShore,
                 status = data.status,
                 reason = data.reason,
-                nbrOfHours = data.nbrOfHours
+                nbrOfHours = data.nbrOfHours,
+                trainingType = data.trainingType,
+                unitManagementTrainingType = data.unitManagementTrainingType,
+                isWithinDepartment = data.isWithinDepartment,
+                hasDivingDuringOperation = data.hasDivingDuringOperation,
+                resourceType = data.resourceType,
+                resourceId = data.resourceId,
             )
             return action
         }

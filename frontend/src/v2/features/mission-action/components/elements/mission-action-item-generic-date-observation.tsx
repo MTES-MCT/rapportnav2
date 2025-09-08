@@ -1,7 +1,8 @@
-import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
+import { FormikCheckbox, FormikEffect, FormikTextarea, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Formik } from 'formik'
-import { FC } from 'react'
-import { Stack } from 'rsuite'
+import { FC, JSX } from 'react'
+import { Divider, Stack } from 'rsuite'
+import { ObjectShape } from 'yup'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionGenericDateObservation } from '../../hooks/use-mission-action-generic-date-observation'
@@ -9,9 +10,16 @@ import { ActionGenericDateObservationInput } from '../../types/action-type'
 
 const MissionActionItemGenericDateObservation: FC<{
   action: MissionAction
+  children?: JSX.Element
+  showDivingCheckBox?: boolean
+  schema?: ObjectShape
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
-}> = ({ action, onChange }) => {
-  const { initValue, handleSubmit, validationSchema, errors } = useMissionActionGenericDateObservation(action, onChange)
+}> = ({ action, onChange, children, schema, showDivingCheckBox }) => {
+  const { initValue, handleSubmit, validationSchema, errors } = useMissionActionGenericDateObservation(
+    action,
+    onChange,
+    schema
+  )
 
   return (
     <form style={{ width: '100%' }}>
@@ -39,8 +47,15 @@ const MissionActionItemGenericDateObservation: FC<{
                     </Stack.Item>
                   </Stack>
                 </Stack.Item>
+                <Stack.Item style={{ width: '100%' }}>{children}</Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
+                  {showDivingCheckBox && (
+                    <Stack.Item style={{ width: '100%' }}>
+                      <Divider style={{ backgroundColor: THEME.color.charcoal, marginBottom: 4 }} />
+                      <FormikCheckbox isLight name="hasDivingDuringOperation" label="Plongée au cours de l'opération" />
+                    </Stack.Item>
+                  )}
                 </Stack.Item>
               </Stack>
             </>

@@ -1,12 +1,9 @@
 import { ControlType } from '@common/types/control-types'
 import { ActionTargetTypeEnum } from '@common/types/env-mission-types'
+import { uniq } from 'lodash'
 import { MissionSourceEnum } from '../../common/types/mission-types'
 import { Control, Infraction, Target, TargetType } from '../../common/types/target-types'
 import { TargetInfraction } from '../../mission-infraction/hooks/use-infraction-env-form'
-
-type MapControl = {
-  [key in ControlType]?: Control
-}
 
 export function useTarget() {
   const isDefaultTarget = (target?: Target) =>
@@ -15,77 +12,59 @@ export function useTarget() {
   const getTargetType = (actionTargetType?: ActionTargetTypeEnum) =>
     actionTargetType ? TargetType[actionTargetType as keyof typeof TargetType] : TargetType.INDIVIDUAL
 
-  const controlToMap = (controls?: Control[]) => {
+  const fromInputToFieldValue = (input: TargetInfraction): Target | undefined => {
+    const target = { ...(input.target ?? ({} as Target)) }
+    const control = { ...(input.control ?? ({} as Control)) }
+    const infraction = { ...(input.infraction ?? ({} as Infraction)) }
+
+    if (!control.infractions) control.infractions = []
+
+    const infractionIndex = control.infractions.findIndex(i => i.id === infraction.id)
+    if (infractionIndex === -1) control.infractions.push(infraction)
+    if (infractionIndex !== -1) control.infractions[infractionIndex] = infraction
+
+    if (!target.controls) target.controls = []
+    const controlIndex = target.controls?.findIndex(c => c.id === control.id)
+    if (controlIndex === -1) target.controls.push(control)
+    if (controlIndex !== -1) target.controls[controlIndex] = control
+
+    return { ...target }
+  }
+
+  const deleteInfraction = (target: Target, controlIndex: number, infractionIndex: number): Target | undefined => {
+    if (!target || !target.controls) return
+
+    const controls = [...target.controls]
+    if (!controls[controlIndex]) return
+
+    const infractions = target.controls[controlIndex].infractions?.filter((_, index) => index !== infractionIndex)
+    controls[controlIndex] = { ...controls[controlIndex], infractions }
+
+    return { ...target, controls }
+  }
+
+  const getControlTypeWithAmount = (targets?: Target[]): ControlType[] => {
     return (
-      controls?.reduce(function (map, obj) {
-        map[obj.controlType] = obj
-        return map
-      }, {} as MapControl) ?? ({} as MapControl)
+      uniq(
+        targets
+          ?.flatMap(target => target.controls)
+          ?.filter(control => control?.amountOfControls)
+          ?.filter(controlType => !!controlType)
+          ?.map(control => control?.controlType)
+      ) ?? []
     )
   }
 
-  const getNewTarget = (input: TargetInfraction, target?: Target) => {
-    return { ...(target ?? ({} as Target)), ...(input.target ?? ({} as Target)) }
-  }
-
-  const getNewInfractions = (infractionInput: Infraction, infractions: Infraction[]) => {
-    if (infractionInput.id) {
-      const infractionIndex = infractions.findIndex(infraction => infraction.id === infractionInput.id)
-      infractions[infractionIndex] = infractionInput
-    } else {
-      infractions = [...infractions, infractionInput]
-    }
-    return infractions
-  }
-
-  const getNewControls = (input: TargetInfraction, controls?: Control[]): Control[] | undefined => {
-    const infractionInput = input.infraction
-    const controlType = input.control?.controlType
-    if (!controlType || !infractionInput) return controls
-
-    const controlsMap = controlToMap(controls)
-    const infractions = getNewInfractions(infractionInput, controlsMap[controlType]?.infractions ?? [])
-
-    controlsMap[controlType] = { ...(controlsMap[controlType] ?? {}), controlType, infractions }
-    return Object.values(controlsMap)
-  }
-
-  const fromInputToFieldValue = (input: TargetInfraction, target?: Target): Target | undefined => {
-    const newTarget = getNewTarget(input, target)
-    const newControls = getNewControls(input, newTarget?.controls)
-    return { ...newTarget, controls: newControls }
-  }
-
-  const deleteInfraction = (controlType: ControlType, infractionIndex: number, target?: Target): Target | undefined => {
-    if (!target) return
-    const controls = controlToMap(target?.controls)
-    let infractions = controls[controlType]?.infractions ?? []
-
-    // Filter out the item at the specified index
-    infractions = infractions.filter((_, index) => index !== infractionIndex)
-
-    controls[controlType] = {
-      ...(controls[controlType] ?? {}),
-      controlType,
-      infractions
-    }
-
-    return {
-      ...target,
-      controls: Object.values(controls)
-    }
-  }
-
-  const filterAvailableControlType = (
-    target: Target,
-    availableControlTypes: ControlType[],
-    actionNumberOfControls: number
-  ) => {
-    const fullControlTypes = target.controls
-      ?.filter(control => (control.infractions?.length ?? 0) >= actionNumberOfControls)
-      .map(control => control.controlType)
-
-    return availableControlTypes.filter(a => !fullControlTypes?.includes(a))
+  const getControlTypeOnTarget = (targets?: Target[]): ControlType[] => {
+    return (
+      uniq(
+        targets
+          ?.flatMap(t => t.controls)
+          ?.filter(control => control?.infractions?.length)
+          ?.filter(controlType => !!controlType)
+          ?.map(control => control?.controlType)
+      ) ?? []
+    )
   }
 
   const getNbrInfraction = (targets?: Target[]): number => {
@@ -96,12 +75,30 @@ export function useTarget() {
         ?.reduce((acc, infraction) => acc + (infraction?.natinfs?.length ?? 0), 0) ?? 0
     )
   }
+
+  const computeControlTypes = (controlTypes?: ControlType[], targets?: Target[]): ControlType[] => {
+    const includesControlTypes = computeControlTypeWithAmount(controlTypes, targets)
+    return computeControlTypeOnTarget(includesControlTypes, targets)
+  }
+
+  const computeControlTypeWithAmount = (controlTypes?: ControlType[], target?: Target[]): ControlType[] => {
+    const includeControlTypes = getControlTypeWithAmount(target)
+    return controlTypes?.filter(c => includeControlTypes?.includes(c)) ?? []
+  }
+
+  const computeControlTypeOnTarget = (controlTypes?: ControlType[], targets?: Target[]): ControlType[] => {
+    const excludeControlTypes = getControlTypeOnTarget(targets)
+    return controlTypes?.filter(c => !excludeControlTypes?.includes(c)) ?? []
+  }
+
   return {
     getTargetType,
     isDefaultTarget,
     deleteInfraction,
+    getNbrInfraction,
     fromInputToFieldValue,
-    filterAvailableControlType,
-    getNbrInfraction
+    computeControlTypes,
+    computeControlTypeOnTarget,
+    computeControlTypeWithAmount
   }
 }

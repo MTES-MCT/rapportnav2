@@ -1,15 +1,14 @@
 import { useIsRestoring, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
-import { localStoragePersister, STATIC_DATA_GC_TIME, STATIC_DATA_STALE_TIME } from '../../../../query-client'
+import { STATIC_DATA_GC_TIME, STATIC_DATA_STALE_TIME } from '../../../../query-client'
 import axios from '../../../../query-client/axios.ts'
 import {
   administrationKeys,
   agentRolesKeys,
   agentServicesKeys,
   agentsKeys,
-  controlUnitResourcesKeys,
   natinfsKeys,
-  vesselsKeys
+  resourcesKeys
 } from './query-keys.ts'
 
 export function usePrefetchStaticData() {
@@ -25,7 +24,7 @@ export function usePrefetchStaticData() {
         { key: agentRolesKeys.all(), url: 'agent_roles' },
         { key: agentServicesKeys.all(), url: 'crews' },
         { key: administrationKeys.all(), url: 'administrations' },
-        { key: controlUnitResourcesKeys.all(), url: 'resources' },
+        { key: resourcesKeys.all(), url: 'resources' },
         { key: natinfsKeys.all(), url: 'natinfs' }
         // { key: vesselsKeys.all(), url: 'vessels' }
       ]

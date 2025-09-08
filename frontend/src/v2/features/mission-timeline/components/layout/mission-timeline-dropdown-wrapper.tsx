@@ -5,17 +5,24 @@ import { ActionType } from '../../../common/types/action-type'
 import { TimelineDropdownItem, TimelineDropdownSubItem } from '../../../mission-timeline/hooks/use-timeline'
 
 const DropdownSubItemStyled = styled(Dropdown.Item)(({ theme }) => ({
-  color: theme.color.cultured,
-  backgroundColor: THEME.color.blueYonder,
-  ':hover': {
-    color: THEME.color.charcoal,
-    backgroundColor: THEME.color.blueYonder25
-  }
+  color: 'white !important',
+  backgroundColor: THEME.color.blueYonder25
 }))
 
-const DropdownItem: FC<{ item: TimelineDropdownItem } & { style?: React.CSSProperties }> = ({ item, style }) => {
+const DropdownItem: FC<{ item: TimelineDropdownItem } & { style?: React.CSSProperties; hasSubItems?: boolean }> = ({
+  item,
+  style,
+  hasSubItems
+}) => {
   return (
-    <Dropdown.Item key={item.type} Icon={item.icon} eventKey={item.type} style={style} disabled={item.disabled}>
+    <Dropdown.Item
+      style={style}
+      key={item.type}
+      Icon={item.icon}
+      eventKey={item.type}
+      disabled={item.disabled}
+      shortcut={hasSubItems && <Icon.Chevron size={12} />}
+    >
       {item?.dropdownText}
     </Dropdown.Item>
   )
@@ -60,7 +67,8 @@ const MissionTimelineDropdownWrapper: FC<MissionTimelineDropdownWrapperProps> = 
     >
       {dropdownItems.map(item => (
         <div key={item.type}>
-          <DropdownItem item={item} style={{ minWidth: 300 }} />
+          <DropdownItem item={item} style={{ minWidth: 300 }} hasSubItems={!!item.subItems?.length} />
+
           {item.type === currentKey &&
             item.subItems?.map(subItem => <DropdownSubItem key={subItem.type} item={subItem} />)}
         </div>

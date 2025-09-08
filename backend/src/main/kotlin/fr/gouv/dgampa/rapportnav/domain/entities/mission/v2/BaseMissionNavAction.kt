@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTy
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
+import jakarta.persistence.Column
 import java.time.Instant
 import java.util.*
 
@@ -48,4 +49,10 @@ interface BaseMissionNavAction {
     var nbAssistedVesselsReturningToShore: Int?
     var reason: ActionStatusReason?
     var nbrOfHours: Int?
+    var trainingType: String?
+    var unitManagementTrainingType: String?
+    var isWithinDepartment: Boolean?
+    var hasDivingDuringOperation: Boolean?
+    var resourceType: String?
+    var resourceId: Int?
 }

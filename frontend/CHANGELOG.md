@@ -1,5 +1,66 @@
 # Changelog
 
+## [2.22.2](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.22.1...frontend@v2.22.2) (2025-09-08)
+
+
+### Bug Fixes
+
+* **frontend:** mission action others naming etc ([#848](https://github.com/MTES-MCT/rapportnav2/issues/848)) ([2cc5220](https://github.com/MTES-MCT/rapportnav2/commit/2cc522004353bb90764aae47b9bb5702d68ab4c4))
+
+## [2.22.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.22.0...frontend@v2.22.1) (2025-08-26)
+
+
+### Bug Fixes
+
+* **frontend:** mission action resource maintenance components ([ba193b4](https://github.com/MTES-MCT/rapportnav2/commit/ba193b4f6b1611ffe7563daf2f682d41b733cf6f))
+* **frontend:** remove unused ([cdc3211](https://github.com/MTES-MCT/rapportnav2/commit/cdc3211ef2f3475f8f0a9b92e3738f0e97ce9c25))
+
+## [2.22.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.21.0...frontend@v2.22.0) (2025-08-26)
+
+
+### Features
+
+* **frontend:** mission action new components ([b12a12d](https://github.com/MTES-MCT/rapportnav2/commit/b12a12d7551fedbda03bb17651aba31e5feaece6))
+* show species name in fish controls ([25e5fd7](https://github.com/MTES-MCT/rapportnav2/commit/25e5fd7a482ad647b2517508eefb9c1d19f11315))
+* show species name in fish controls ([2c16620](https://github.com/MTES-MCT/rapportnav2/commit/2c16620269e71d99d49dd1362d25fd34cf59b2bf))
+
+
+### Bug Fixes
+
+* **frontend:** generic date observation ([a7cf209](https://github.com/MTES-MCT/rapportnav2/commit/a7cf209a8b9925ca9656bc6434e226132c4c1fd0))
+* **frontend:** training  component ([2e46787](https://github.com/MTES-MCT/rapportnav2/commit/2e467879df65bead6605842fecef2c1bbe70263e))
+
+## [2.21.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.20.1...frontend@v2.21.0) (2025-08-21)
+
+
+### Bug Fixes
+
+* **frontend:** infraction  on target ([5c7d004](https://github.com/MTES-MCT/rapportnav2/commit/5c7d00428bc0c09a1571a1eeb3158b2af98d38e0))
+
+## [2.20.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.20.0...frontend@v2.20.1) (2025-08-20)
+
+
+### Bug Fixes
+
+* set refetchInterval to 3 min for use-missions and use-mission ([7f15883](https://github.com/MTES-MCT/rapportnav2/commit/7f15883a4650f964040406a497707db99a492736))
+
+## [2.20.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.19.3...frontend@v2.20.0) (2025-08-20)
+
+
+### Features
+
+* **frontend:** add params to exlcude control type on target in some case ([1d85330](https://github.com/MTES-MCT/rapportnav2/commit/1d853306868cfea99197cc167f2ecc99050ceaee))
+* **frontend:** check control type availability ([a95ae67](https://github.com/MTES-MCT/rapportnav2/commit/a95ae67a608aa04d162c904fc8f093c6acf66aaf))
+* **frontend:** check control type availability ([f876e01](https://github.com/MTES-MCT/rapportnav2/commit/f876e015595af6171079b5295c9d9ceb7ebabea9))
+* **frontend:** dialog creation mission ([d35b105](https://github.com/MTES-MCT/rapportnav2/commit/d35b10510594225ebfd5df680263b12b72caf5ae))
+* **frontend:** dialog creation mission ([ca4699f](https://github.com/MTES-MCT/rapportnav2/commit/ca4699f0c83701158d9282939fcf5c5c0497edf1))
+
+
+### Bug Fixes
+
+* **frontend:** update params network and fetching ([04d7937](https://github.com/MTES-MCT/rapportnav2/commit/04d793775029b81b49e1818e0d6005f7bbf9267c))
+* **frontend:** update params network and fetching ([f1d81ba](https://github.com/MTES-MCT/rapportnav2/commit/f1d81bae3d7072baef50c059067a365f584e7731))
+
 ## [2.19.3](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.19.2...frontend@v2.19.3) (2025-08-13)
 
 

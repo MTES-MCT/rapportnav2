@@ -132,6 +132,24 @@ data class MissionActionModel(
     @Column(name = "nbr_of_hours", nullable = true)
     var nbrOfHours: Int? = null,
 
+    @Column(name = "training_type", nullable = true)
+    var trainingType: String? = null,
+
+    @Column(name = "unit_management_training_type", nullable = true)
+    var unitManagementTrainingType: String? = null,
+
+    @Column(name = "is_within_department", nullable = true)
+    var isWithinDepartment: Boolean? = null,
+
+    @Column(name = "has_diving_during_operation", nullable = true)
+    var hasDivingDuringOperation: Boolean? = null,
+
+    @Column(name = "resource_type", nullable = true)
+    var resourceType: String? = null,
+
+    @Column(name = "resource_id", nullable = true)
+    var resourceId: Int? = null,
+
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
     var createdAt: Instant? = null,

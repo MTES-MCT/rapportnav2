@@ -1,7 +1,7 @@
-import { render, screen } from '../../../../../../test-utils.tsx'
-import { describe, it, vi, beforeEach, afterEach } from 'vitest'
-import MissionPageHeaderTimeConversion from '../mission-page-header-time-conversion.tsx'
 import * as dateFnsTz from 'date-fns-tz'
+import { afterEach, beforeEach, describe, it, vi } from 'vitest'
+import { render, screen } from '../../../../../../test-utils.tsx'
+import TimeConversion from '../time-conversion.tsx'
 
 // Mock useDate hook
 vi.mock('@/hooks/useDate', () => ({
@@ -10,7 +10,7 @@ vi.mock('@/hooks/useDate', () => ({
   })
 }))
 
-describe('MissionPageHeaderTimeConversion', () => {
+describe('TimeConversion', () => {
   let originalTimeZone: string
 
   beforeEach(() => {
@@ -24,7 +24,7 @@ describe('MissionPageHeaderTimeConversion', () => {
   })
 
   it('renders correct UTC and local time', () => {
-    render(<MissionPageHeaderTimeConversion />)
+    render(<TimeConversion />)
 
     // Assert UTC time
     expect(screen.getByText(/UTC: 14:30/)).toBeInTheDocument()

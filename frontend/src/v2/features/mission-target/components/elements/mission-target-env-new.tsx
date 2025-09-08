@@ -1,5 +1,6 @@
 import { ControlType } from '@common/types/control-types'
 import { ActionTargetTypeEnum, MissionSourceEnum, VehicleTypeEnum } from '@common/types/env-mission-types'
+import { UTCDate } from '@date-fns/utc'
 import { Accent, Button, Icon, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FieldArrayRenderProps } from 'formik'
 import { useState } from 'react'
@@ -7,7 +8,6 @@ import { Stack } from 'rsuite'
 import MissionInfractionEnvForm from '../../../mission-infraction/components/elements/mission-infraction-env-form'
 import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form'
 import { useTarget } from '../../hooks/use-target'
-import { UTCDate } from '@date-fns/utc'
 
 export interface MissionTargetEnvNewProps {
   actionId?: string
@@ -75,9 +75,9 @@ const MissionTargetEnvNew: React.FC<MissionTargetEnvNewProps> = ({
               size={Size.NORMAL}
               Icon={Icon.Plus}
               onClick={handleShow}
-              disabled={isDisabled}
               accent={Accent.SECONDARY}
               role={'target-env-new-button'}
+              disabled={isDisabled || !availableControlTypes?.length}
             >
               {'Ajouter une infraction'}
             </Button>

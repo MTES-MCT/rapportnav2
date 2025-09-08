@@ -1,5 +1,54 @@
 # Changelog
 
+## [2.22.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.22.1...backend@v2.22.2) (2025-09-08)
+
+
+### Bug Fixes
+
+* **frontend:** mission action others naming etc ([#848](https://github.com/MTES-MCT/rapportnav2/issues/848)) ([2cc5220](https://github.com/MTES-MCT/rapportnav2/commit/2cc522004353bb90764aae47b9bb5702d68ab4c4))
+
+## [2.22.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.22.0...backend@v2.22.1) (2025-08-26)
+
+
+### Bug Fixes
+
+* **backend:** dependency tomcat ([8deabba](https://github.com/MTES-MCT/rapportnav2/commit/8deabba9bf1229c16bb18dc91f73fb942a5b9a4d))
+* **backend:** dependency tomcat ([6e7df07](https://github.com/MTES-MCT/rapportnav2/commit/6e7df07fb03d27550568f2b411d2cdb9c41a4fbb))
+* **backend:** mission action  resource maintenance ([97a51f6](https://github.com/MTES-MCT/rapportnav2/commit/97a51f6f3705239724a9876511247ecbe1c6e23e))
+
+## [2.22.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.21.0...backend@v2.22.0) (2025-08-26)
+
+
+### Features
+
+* **backend:** add new mission action type ([6ab1c41](https://github.com/MTES-MCT/rapportnav2/commit/6ab1c419723cea89d74572421160aefb58530a45))
+
+
+### Bug Fixes
+
+* **backend:** mission nav entity required for stats ([818f220](https://github.com/MTES-MCT/rapportnav2/commit/818f220bb93e9e4b1d83388731bb39a6bb692499))
+
+## [2.21.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.20.1...backend@v2.21.0) (2025-08-21)
+
+
+### Features
+
+* serve gzipped assets ([#835](https://github.com/MTES-MCT/rapportnav2/issues/835)) ([eee1924](https://github.com/MTES-MCT/rapportnav2/commit/eee192447518bba7e830e3256df0949db10fbc3f))
+
+## [2.20.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.20.0...backend@v2.20.1) (2025-08-20)
+
+
+### Miscellaneous Chores
+
+* **backend:** Synchronize group-some-associated-services versions
+
+## [2.20.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.19.3...backend@v2.20.0) (2025-08-20)
+
+
+### Miscellaneous Chores
+
+* **backend:** Synchronize group-some-associated-services versions
+
 ## [2.19.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.19.2...backend@v2.19.3) (2025-08-13)
 
 

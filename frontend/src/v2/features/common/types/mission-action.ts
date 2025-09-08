@@ -64,6 +64,12 @@ export interface MissionNavActionData extends MissionActionData {
   status?: ActionStatusType
   reason?: ActionStatusReason
   nbrOfHours?: number
+  trainingType?: string
+  isWithinDepartment?: boolean
+  hasDivingDuringOperation?: boolean
+  unitManagementTrainingType?: string
+  resourceId?: string
+  resourceType?: string
 }
 
 export interface MissionNavAction extends MissionAction {

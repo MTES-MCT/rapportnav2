@@ -1,6 +1,4 @@
-import { ControlType } from '@common/types/control-types'
 import { FormikErrors } from 'formik'
-import { uniq } from 'lodash'
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form'
 import { useCoordinate } from '../../common/hooks/use-coordinate'
 import { useDate } from '../../common/hooks/use-date'
@@ -12,10 +10,7 @@ export function useMissionActionEnvControl(
   action: MissionAction,
   onChange: (newAction: MissionAction) => Promise<unknown>,
   isMissionFinished?: boolean
-): AbstractFormikSubFormHook<ActionEnvControlInput> & {
-  getAvailableControlTypes: (value: ActionEnvControlInput) => ControlType[]
-  getAvailableControlTypes2: (value: ActionEnvControlInput, actionNumberOfControls?: number) => ControlType[]
-} {
+): AbstractFormikSubFormHook<ActionEnvControlInput> {
   const value = action?.data as MissionEnvActionData
   const { extractLatLngFromMultiPoint } = useCoordinate()
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
@@ -53,31 +48,9 @@ export function useMissionActionEnvControl(
     handleSubmit(value, errors, onSubmit)
   }
 
-  const getAvailableControlTypes = (value?: ActionEnvControlInput) => {
-    const controls: ControlType[] = []
-    if (value?.controlSecurity?.amountOfControls) controls.push(ControlType.SECURITY)
-    if (value?.controlGensDeMer?.amountOfControls) controls.push(ControlType.GENS_DE_MER)
-    if (value?.controlNavigation?.amountOfControls) controls.push(ControlType.NAVIGATION)
-    if (value?.controlAdministrative?.amountOfControls) controls.push(ControlType.ADMINISTRATIVE)
-    return value?.availableControlTypesForInfraction?.filter(c => controls.includes(c)) ?? []
-  }
-
-  const getAvailableControlTypes2 = (value?: ActionEnvControlInput, actionNumberOfControls?: number): ControlType[] => {
-    const controlTypes = uniq(
-      value?.targets
-        ?.flatMap(target => target.controls)
-        ?.filter(control => control?.amountOfControls)
-        ?.map(control => control?.controlType)
-    )
-
-    return value?.availableControlTypesForInfraction?.filter(c => controlTypes.includes(c)) ?? []
-  }
-
   return {
     errors,
     initValue,
-    getAvailableControlTypes,
-    getAvailableControlTypes2,
     handleSubmit: handleSubmitOverride
   }
 }

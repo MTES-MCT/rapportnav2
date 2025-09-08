@@ -3,7 +3,7 @@ import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
 // x-release-please-start-version
-version = "2.19.3"
+version = "2.22.2"
 // x-release-please-end
 description = "RapportNav"
 
@@ -52,7 +52,7 @@ dependencyManagement {
   }
   dependencies {
     // force any dependency like following :
-    dependency("org.apache.tomcat.embed:tomcat-embed-core:10.1.42")
+    dependency("org.apache.tomcat.embed:tomcat-embed-core:10.1.44")
   }
 }
 
@@ -172,5 +172,3 @@ tasks.test {
   useJUnitPlatform()   // If you are using JUnit 5
   finalizedBy(tasks.jacocoTestReport)  // Generate the report after tests
 }
-
-
