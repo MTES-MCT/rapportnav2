@@ -36,8 +36,8 @@ export const agentsKeys = {
   all: () => ['agents'] as const
 }
 
-export const controlUnitResourcesKeys = {
-  all: () => ['controlUnitResources'] as const
+export const resourcesKeys = {
+  all: () => ['resources'] as const
 }
 
 export const vesselsKeys = {
