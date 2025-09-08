@@ -1,7 +1,7 @@
 import AuthToken from '@features/auth/utils/token'
 import { useQueryClient } from '@tanstack/react-query'
 import { jwtDecode, JwtPayload } from 'jwt-decode'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { RoleType } from '../../common/types/role-type'
 
@@ -13,22 +13,36 @@ type AuthHook = {
 }
 
 export type Token = JwtPayload & { userId: number; roles: RoleType[] }
+
 const authToken = new AuthToken()
 
-const useAuth = (): AuthHook => {
+// 🔑 global logout handler setter
+let logoutHandler: (() => void) | null = null
+export const setGlobalLogout = (fn: () => void) => {
+  logoutHandler = fn
+}
+export const triggerGlobalLogout = () => {
+  logoutHandler?.()
+}
+
+export const useAuth = (authTokenInstance: AuthToken = new AuthToken()): AuthHook => {
+  const authToken = authTokenInstance
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!authToken.get())
 
-  const logout = async (): Promise<void> => {
+  const logout = useCallback(async (): Promise<void> => {
     authToken.remove()
     setIsAuthenticated(false)
+
+    // clear react-query cache
+    queryClient.clear()
+
     navigate('/login', { replace: true })
-  }
+  })
 
   const navigateAndResetCache = async (to: string, keys: string[] = []) => {
     keys.forEach(key => queryClient.invalidateQueries({ queryKey: [key.toString()] }))
-
     navigate(to)
   }
 
@@ -41,7 +55,12 @@ const useAuth = (): AuthHook => {
     if (!!authToken.get() && !isAuthenticated) {
       setIsAuthenticated(true)
     }
-  }, [isAuthenticated])
+
+    // ✅ register global logout
+    setGlobalLogout(() => {
+      void logout()
+    })
+  }, [isAuthenticated, logout])
 
   return { isAuthenticated, logout, navigateAndResetCache, isLoggedIn }
 }
