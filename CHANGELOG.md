@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.22.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.22.1...docker-container@v2.22.2) (2025-09-08)
+
+
+### Bug Fixes
+
+* **frontend:** mission action others naming etc ([#848](https://github.com/MTES-MCT/rapportnav2/issues/848)) ([2cc5220](https://github.com/MTES-MCT/rapportnav2/commit/2cc522004353bb90764aae47b9bb5702d68ab4c4))
+
 ## [2.22.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.22.0...docker-container@v2.22.1) (2025-08-26)
 
 
