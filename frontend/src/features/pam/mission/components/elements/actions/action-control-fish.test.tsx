@@ -56,13 +56,18 @@ describe('ActionControlFish', () => {
     test('Render port name when land control', () => {
       const mock = {
         ...actionMock,
-        data: { ...actionMock.data, actionType: MissionActionType.LAND_CONTROL, portName: 'dummy port' }
+        data: {
+          ...actionMock.data,
+          actionType: MissionActionType.LAND_CONTROL,
+          portName: 'dummy port',
+          portLocode: 'DMY'
+        }
       }
       vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: mock, loading: false, error: undefined })
       render(<ActionControlFish action={mock} />)
       const inputElement = screen.getByTestId('portName')
       expect(inputElement).toBeInTheDocument()
-      expect(inputElement).toHaveValue(mock.data.portName)
+      expect(inputElement).toHaveValue('dummy port (DMY)')
     })
 
     test('Render port locode when land control', () => {
@@ -72,14 +77,14 @@ describe('ActionControlFish', () => {
           ...actionMock.data,
           actionType: MissionActionType.LAND_CONTROL,
           portName: undefined,
-          portLocode: 'blabla'
+          portLocode: 'COD'
         }
       }
       vi.spyOn(useActionByIdModule, 'default').mockReturnValue({ data: mock, loading: false, error: undefined })
       render(<ActionControlFish action={mock} />)
       const inputElement = screen.getByTestId('portName')
       expect(inputElement).toBeInTheDocument()
-      expect(inputElement).toHaveValue(mock.data.portLocode)
+      expect(inputElement).toHaveValue(' (COD)')
     })
   })
   describe('Observations by unit', () => {
