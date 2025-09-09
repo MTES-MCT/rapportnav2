@@ -3,24 +3,24 @@ import { VehicleTypeEnum } from '@common/types/env-mission-types'
 import { THEME } from '@mtes-mct/monitor-ui'
 import { FieldProps } from 'formik'
 import { FC } from 'react'
-import { Target, TargetType } from '../../../common/types/target-types'
-import MissionInfractionEnvForm from '../../../mission-infraction/components/elements/mission-infraction-env-form'
-import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form'
+import { Target, TargetInfraction, TargetType } from '../../../common/types/target-types'
+import MissionInfractionForm from '../../../mission-infraction/components/elements/mission-infraction-form'
 import { useTarget } from '../../hooks/use-target'
 
-export interface MissionTargetEnvFormProps {
+export interface MissionTargetFormProps {
   name: string
   value: TargetInfraction
   onClose?: () => void
   editTarget?: boolean
   editInfraction?: boolean
+  editControl: boolean
   vehicleType?: VehicleTypeEnum
   fieldFormik: FieldProps<Target>
   availableControlTypes?: ControlType[]
   targetType: TargetType
 }
 
-const MissionTargetEnvForm: FC<MissionTargetEnvFormProps> = ({
+const MissionTargetForm: FC<MissionTargetFormProps> = ({
   name,
   value,
   onClose,
@@ -28,6 +28,7 @@ const MissionTargetEnvForm: FC<MissionTargetEnvFormProps> = ({
   fieldFormik,
   targetType,
   editTarget,
+  editControl,
   editInfraction,
   availableControlTypes
 }) => {
@@ -39,7 +40,7 @@ const MissionTargetEnvForm: FC<MissionTargetEnvFormProps> = ({
 
   const handleSubmit = async (value?: TargetInfraction) => {
     if (!value) return
-    const valueToSubmit = fromInputToFieldValue(value, fieldFormik.field.value)
+    const valueToSubmit = fromInputToFieldValue(value)
     await fieldFormik.form.setFieldValue(name, valueToSubmit)
     handleClose()
   }
@@ -53,12 +54,13 @@ const MissionTargetEnvForm: FC<MissionTargetEnvFormProps> = ({
         backgroundColor: THEME.color.white
       }}
     >
-      <MissionInfractionEnvForm
+      <MissionInfractionForm
         value={value}
         onClose={handleClose}
         onSubmit={handleSubmit}
         targetType={targetType}
         editTarget={editTarget}
+        editControl={editControl}
         vehicleType={vehicleType}
         editInfraction={editInfraction}
         availableControlTypes={availableControlTypes}
@@ -67,4 +69,4 @@ const MissionTargetEnvForm: FC<MissionTargetEnvFormProps> = ({
   )
 }
 
-export default MissionTargetEnvForm
+export default MissionTargetForm

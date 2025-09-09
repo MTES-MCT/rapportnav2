@@ -6,6 +6,7 @@ import { Divider, Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
 import VesselName from '../../../common/components/ui/vessel-name'
+import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionControlFishAdministrativeSection from '../../../mission-control/components/ui/mission-control-fish-administrative-section'
 import FishControlEnginesSection from '../../../mission-control/components/ui/mission-control-fish-engines-section'
@@ -14,11 +15,10 @@ import FishControlOtherInfractionsSection from '../../../mission-control/compone
 import FishControlOtherObservationsSection from '../../../mission-control/components/ui/mission-control-fish-other-observation-section'
 import FishControlSeizureSection from '../../../mission-control/components/ui/mission-control-fish-seizure-section'
 import FishControlSpeciesSection from '../../../mission-control/components/ui/mission-control-fish-species-section'
-import MissionTarget from '../../../mission-target/components/elements/mission-target'
+import MissionTargetControlNav from '../../../mission-target/components/elements/mission-target-control-nav.tsx'
 import { useMissionActionFishControl } from '../../hooks/use-mission-action-fish-control'
 import { ActionFishControlInput } from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
-import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 
 const MissionActionItemFishControl: FC<{
   action: MissionAction
@@ -128,7 +128,7 @@ const MissionActionItemFishControl: FC<{
                 <Stack.Item style={{ width: '100%' }}>
                   <FieldArray name="targets">
                     {(fieldArray: FieldArrayRenderProps) => (
-                      <MissionTarget
+                      <MissionTargetControlNav
                         name="targets"
                         fieldArray={fieldArray}
                         controlsToComplete={action.controlsToComplete}

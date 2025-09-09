@@ -5,14 +5,14 @@ import { Control, Target } from '../../../common/types/target-types'
 import MissionControlEnvForm from '../../../mission-control/components/elements/mission-control-env-form'
 import { useTarget } from '../../hooks/use-target'
 
-export interface MissionTargetDefaultProps {
+export interface MissionTargetControlEnvProps {
   name: string
   actionNumberOfControls: number
   fieldArray: FieldArrayRenderProps
   controlsToComplete: ControlType[]
 }
 
-const MissionTargetDefault: React.FC<MissionTargetDefaultProps> = ({
+const MissionTargetControlEnv: React.FC<MissionTargetControlEnvProps> = ({
   name,
   fieldArray,
   controlsToComplete,
@@ -60,4 +60,4 @@ const MissionTargetDefault: React.FC<MissionTargetDefaultProps> = ({
   )
 }
 
-export default MissionTargetDefault
+export default MissionTargetControlEnv

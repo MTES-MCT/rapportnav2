@@ -63,3 +63,21 @@ export interface Target {
   controls?: Control[]
   externalData?: TargetExternalData
 }
+
+export type TargetInfraction = {
+  target?: Target
+  control?: Control
+  infraction?: Infraction
+}
+
+export type TargetInfractionInput = {
+  target: {
+    isVessel?: boolean
+    isTargetVehicule?: boolean
+  } & Target
+  control: Control
+  infraction: {
+    withReport: boolean
+    controlType: ControlType
+  } & Infraction
+}

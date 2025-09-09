@@ -1,8 +1,8 @@
 import { ControlType } from '@common/types/control-types'
-import { FieldArrayRenderProps } from 'formik'
+import { Field, FieldArrayRenderProps, FieldProps } from 'formik'
 import { Infraction } from '../../../common/types/target-types'
-import MissionInfractionFormNew2 from './mission-infraction-form-new'
-import MissionInfractionItem2 from './mission-infraction-item'
+import MissionInfractionFormNew from './mission-infraction-form-new'
+import MissionInfractionItem from './mission-infraction-item'
 
 const DEFAULT_MAX = 1
 export interface MissionInfractionListProps {
@@ -24,15 +24,18 @@ const MissionInfractionList: React.FC<MissionInfractionListProps> = ({ max, name
   return (
     <div>
       {fieldArray.form.values.infractions?.map((infraction: Infraction, index: number) => (
-        <MissionInfractionItem2
-          name={name}
-          index={index}
-          key={`${name}-index`}
-          infraction={infraction}
-          handleRemove={handleRemove}
-        />
+        <Field name={`${name}.${index}`}>
+          {(field: FieldProps<Infraction>) => (
+            <MissionInfractionItem
+              index={index}
+              fieldFormik={field}
+              name={`${name}.${index}`}
+              handleRemove={handleRemove}
+            />
+          )}
+        </Field>
       ))}
-      <MissionInfractionFormNew2
+      <MissionInfractionFormNew
         onSubmit={handleAdd}
         controlType={controlType}
         isDisabled={fieldArray.form.values?.infractions?.length >= (max ?? DEFAULT_MAX)}
