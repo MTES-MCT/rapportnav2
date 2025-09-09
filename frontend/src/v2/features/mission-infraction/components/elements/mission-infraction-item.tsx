@@ -51,15 +51,3 @@ const MissionInfractionItem: React.FC<MissionInfractionItemProps> = ({ name, ind
 }
 
 export default MissionInfractionItem
-
-/**
- * 
- * /* <Field name={`${name}.${index}`}>
-              {(field: FieldProps<Infraction>) => (
-                <MissionInfractionForm
-                  fieldFormik={field}
-                  name={`${name}.${index}`}
-                  onClose={() => setShowForm(false)}
-                />
-              )}
-            </Field>*/
