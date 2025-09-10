@@ -157,12 +157,14 @@ class FakeActionData {
 
         val species1 = SpeciesControl()
         species1.underSized = true
-        species1.speciesCode = "RJN – Raie fleurie"
+        species1.speciesCode = "RJN "
+        species1.speciesName = "Raie fleurie"
         species1.controlledWeight = 329.2
         species1.declaredWeight = 244.0
         val species2 = SpeciesControl()
         species2.underSized = true
-        species2.speciesCode = "HKE – Merlu européen"
+        species2.speciesCode = "HKE"
+        species2.speciesName = "Merlu européen"
         species2.declaredWeight = 2964.0
 
         val missionAction1 = MissionAction(

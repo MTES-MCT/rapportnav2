@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions
 
 class SpeciesControl {
     var speciesCode: String? = null
+    var speciesName: String? = null
     var nbFish: Double? = null
     var declaredWeight: Double? = null
     var controlledWeight: Double? = null
