@@ -3,9 +3,8 @@ import { Accent, Button, Icon, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FieldProps } from 'formik'
 import { useState } from 'react'
 import { Stack } from 'rsuite'
-import { Target } from '../../../common/types/target-types'
-import MissionInfractionEnvForm from '../../../mission-infraction/components/elements/mission-infraction-env-form'
-import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form'
+import { Target, TargetInfraction } from '../../../common/types/target-types'
+import MissionInfractionForm from '../../../mission-infraction/components/elements/mission-infraction-form'
 import { useTarget } from '../../hooks/use-target'
 
 export interface MissionTargetInquiryFormProps {
@@ -29,7 +28,7 @@ const MissionTargetInquiryForm: React.FC<MissionTargetInquiryFormProps> = ({
 
   const handleSubmit = async (value?: TargetInfraction) => {
     if (!value) return
-    const valueToSubmit = fromInputToFieldValue(value, fieldFormik.field.value)
+    const valueToSubmit = fromInputToFieldValue(value)
     await fieldFormik.form.setFieldValue(name, valueToSubmit)
     handleClose()
   }
@@ -45,8 +44,9 @@ const MissionTargetInquiryForm: React.FC<MissionTargetInquiryFormProps> = ({
             backgroundColor: THEME.color.white
           }}
         >
-          <MissionInfractionEnvForm
+          <MissionInfractionForm
             editTarget={false}
+            editControl={true}
             editInfraction={true}
             onClose={handleClose}
             onSubmit={handleSubmit}

@@ -5,11 +5,11 @@ import { Accent, Button, Icon, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FieldArrayRenderProps } from 'formik'
 import { useState } from 'react'
 import { Stack } from 'rsuite'
-import MissionInfractionEnvForm from '../../../mission-infraction/components/elements/mission-infraction-env-form'
-import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form'
+import { TargetInfraction } from '../../../common/types/target-types'
+import MissionInfractionForm from '../../../mission-infraction/components/elements/mission-infraction-form'
 import { useTarget } from '../../hooks/use-target'
 
-export interface MissionTargetEnvNewProps {
+export interface MissionTargetNewProps {
   actionId?: string
   isDisabled?: boolean
   vehicleType?: VehicleTypeEnum
@@ -18,7 +18,7 @@ export interface MissionTargetEnvNewProps {
   availableControlTypes?: ControlType[]
 }
 
-const MissionTargetEnvNew: React.FC<MissionTargetEnvNewProps> = ({
+const MissionTargetNew: React.FC<MissionTargetNewProps> = ({
   actionId,
   fieldArray,
   isDisabled,
@@ -56,8 +56,9 @@ const MissionTargetEnvNew: React.FC<MissionTargetEnvNewProps> = ({
             backgroundColor: THEME.color.white
           }}
         >
-          <MissionInfractionEnvForm
+          <MissionInfractionForm
             editTarget={true}
+            editControl={true}
             editInfraction={true}
             onClose={handleClose}
             onSubmit={handleSubmit}
@@ -79,7 +80,7 @@ const MissionTargetEnvNew: React.FC<MissionTargetEnvNewProps> = ({
               role={'target-env-new-button'}
               disabled={isDisabled || !availableControlTypes?.length}
             >
-              {'Ajouter une infraction'}
+              Ajouter une infraction
             </Button>
           </Stack.Item>
         </Stack>
@@ -88,4 +89,4 @@ const MissionTargetEnvNew: React.FC<MissionTargetEnvNewProps> = ({
   )
 }
 
-export default MissionTargetEnvNew
+export default MissionTargetNew

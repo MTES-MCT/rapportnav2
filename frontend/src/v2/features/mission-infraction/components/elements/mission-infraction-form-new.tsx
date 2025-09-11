@@ -1,13 +1,9 @@
 import { ControlType } from '@common/types/control-types'
-import { Accent, Button, FormikEffect, Icon, Label, Size, THEME } from '@mtes-mct/monitor-ui'
-import { Field, FieldProps, Formik } from 'formik'
-import { isEqual } from 'lodash'
+import { Accent, Button, Icon, Label, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FC, useState } from 'react'
-import { Infraction } from '../../../common/types/target-types'
+import { Infraction, TargetInfraction } from '../../../common/types/target-types'
 import { useInfraction } from '../../hooks/use-infraction'
-import MissionInfractionForm2 from './mission-infraction-form'
-
-type NewInfraction = { newInfraction: Infraction }
+import MissionInfractionForm from './mission-infraction-form'
 
 export interface MissionInfractionFormNewProps {
   isDisabled: boolean
@@ -19,31 +15,26 @@ const MissionInfractionFormNew: FC<MissionInfractionFormNewProps> = ({ isDisable
   const { getInfractionByControlTypeButton } = useInfraction()
   const [shownewForm, setShowNewForm] = useState<boolean>(false)
 
-  const newInfraction = { newInfraction: { controlType } } as NewInfraction
-  const handleSubmit = (value: { newInfraction: Infraction }) => {
-    if (isEqual(newInfraction, value)) return
-    onSubmit(value.newInfraction)
+  const handleSubmit = async (value?: TargetInfraction) => {
+    if (!value?.infraction) return
+    onSubmit(value.infraction)
+    setShowNewForm(false)
   }
+
   return (
     <>
       {shownewForm && (
         <>
           <Label>Ajout d'infraction</Label>
           <div style={{ width: '100%', backgroundColor: THEME.color.cultured, padding: '1rem' }}>
-            <Formik initialValues={newInfraction} onSubmit={handleSubmit}>
-              <>
-                <FormikEffect onChange={newValues => handleSubmit(newValues as NewInfraction)} />
-                <Field name={`newInfraction`}>
-                  {(field: FieldProps<Infraction>) => (
-                    <MissionInfractionForm2
-                      fieldFormik={field}
-                      name={`newInfraction`}
-                      onClose={() => setShowNewForm(false)}
-                    />
-                  )}
-                </Field>
-              </>
-            </Formik>
+            <MissionInfractionForm
+              editTarget={false}
+              editControl={false}
+              editInfraction={true}
+              onSubmit={handleSubmit}
+              value={{} as TargetInfraction}
+              onClose={() => setShowNewForm(false)}
+            />
           </div>
         </>
       )}

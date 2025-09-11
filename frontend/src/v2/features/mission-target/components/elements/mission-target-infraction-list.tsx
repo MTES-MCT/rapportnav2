@@ -3,12 +3,11 @@ import { THEME } from '@mtes-mct/monitor-ui'
 import { FieldProps } from 'formik'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
-import { Control, Infraction, Target, TargetType } from '../../../common/types/target-types'
-import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form'
+import { Control, Infraction, Target, TargetInfraction, TargetType } from '../../../common/types/target-types'
 import { useTarget } from '../../hooks/use-target'
-import MissionTargetEnvInfractionForm from './mission-target-env-infraction-form'
+import MissionTargetInfractionForm from './mission-target-infraction-form'
 
-export interface MissionTargetEnvInfractionListProps {
+export interface MissionTargetInfractionListProps {
   name: string
   noDivider?: boolean
   targetType?: TargetType
@@ -16,7 +15,7 @@ export interface MissionTargetEnvInfractionListProps {
   availableControlTypes?: ControlType[]
 }
 
-const MissionTargetEnvInfractionList: FC<MissionTargetEnvInfractionListProps> = ({
+const MissionTargetInfractionList: FC<MissionTargetInfractionListProps> = ({
   name,
   noDivider,
   targetType,
@@ -55,7 +54,7 @@ const MissionTargetEnvInfractionList: FC<MissionTargetEnvInfractionListProps> = 
                 {!noDivider && <Divider style={{ margin: '12px 0' }} />}
               </Stack.Item>
               <Stack.Item style={{ width: '100%' }}>
-                <MissionTargetEnvInfractionForm
+                <MissionTargetInfractionForm
                   index={infractionIndex}
                   targetType={targetType}
                   onSubmit={value => handleSubmit(value)}
@@ -73,4 +72,4 @@ const MissionTargetEnvInfractionList: FC<MissionTargetEnvInfractionListProps> = 
   )
 }
 
-export default MissionTargetEnvInfractionList
+export default MissionTargetInfractionList

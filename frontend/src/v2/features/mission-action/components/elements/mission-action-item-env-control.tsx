@@ -7,9 +7,9 @@ import { FormikDateRangePicker } from '../../../common/components/ui/formik-date
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
 import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 import { MissionAction } from '../../../common/types/mission-action'
-import MissionTargetEnv from '../../../mission-target/components/elements/mission-target-env'
-import MissionTargetDefault from '../../../mission-target/components/elements/mission-target-env-default'
-import MissionTargetEnvNew from '../../../mission-target/components/elements/mission-target-env-new'
+import MissionTargetControlEnv from '../../../mission-target/components/elements/mission-target-control-env.tsx'
+import MissionTargetList from '../../../mission-target/components/elements/mission-target-list.tsx'
+import MissionTargetNew from '../../../mission-target/components/elements/mission-target-new.tsx'
 import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
 import { useMissionActionEnvControl } from '../../hooks/use-mission-action-env-control'
 import { ActionEnvControlInput } from '../../types/action-type'
@@ -98,7 +98,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                         <Stack.Item style={{ width: '100%' }}>
                           <FieldArray name="targets">
                             {(fieldArray: FieldArrayRenderProps) => (
-                              <MissionTargetDefault
+                              <MissionTargetControlEnv
                                 name="targets"
                                 fieldArray={fieldArray}
                                 controlsToComplete={values.controlsToComplete}
@@ -114,7 +114,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                 <Stack.Item style={{ width: '100%' }}>
                   <FieldArray name="targets">
                     {(fieldArray: FieldArrayRenderProps) => (
-                      <MissionTargetEnvNew
+                      <MissionTargetNew
                         isDisabled={false} //TODO: how many target max we can have?
                         actionId={action.id}
                         fieldArray={fieldArray}
@@ -131,7 +131,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                 <Stack.Item style={{ width: '100%' }}>
                   <FieldArray name="targets">
                     {(fieldArray: FieldArrayRenderProps) => (
-                      <MissionTargetEnv
+                      <MissionTargetList
                         name="targets"
                         fieldArray={fieldArray}
                         vehicleType={values.vehicleType}

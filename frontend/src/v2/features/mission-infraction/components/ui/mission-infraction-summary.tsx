@@ -6,13 +6,13 @@ import MissionNatinfTag from '../../../common/components/ui/mission-natinfs-tag'
 import MissionInfractionEnvTitle from './mission-infraction-env-title'
 import MissionInfractionTypeTag from './mission-infraction-type-tag'
 
-interface MissionInfractionEnvSummaryProps {
+interface MissionInfractionSummaryProps {
   natinfs?: string[]
   controlType?: ControlType
   infractionType?: InfractionTypeEnum
 }
 
-const MissionInfractionEnvSummary: React.FC<MissionInfractionEnvSummaryProps> = ({
+const MissionInfractionSummary: React.FC<MissionInfractionSummaryProps> = ({
   natinfs,
   controlType,
   infractionType
@@ -36,4 +36,4 @@ const MissionInfractionEnvSummary: React.FC<MissionInfractionEnvSummaryProps> = 
   )
 }
 
-export default MissionInfractionEnvSummary
+export default MissionInfractionSummary

@@ -7,13 +7,13 @@ import { Stack } from 'rsuite'
 import { MissionSourceEnum } from '../../../common/types/mission-types.ts'
 import { Target, TargetType } from '../../../common/types/target-types.ts'
 import { useTarget } from '../../hooks/use-target.tsx'
-import MissionTargetEnvAction from '../ui/mission-target-env-action.tsx'
-import MissionTargetEnvExternalData from '../ui/mission-target-env-external-data.tsx'
-import MissionTargetEnvTitle from '../ui/mission-target-env-title.tsx'
-import MissionTargetEnvForm from './mission-target-env-form.tsx'
-import MissionTargetEnvInfractionList from './mission-target-env-infraction-list.tsx'
+import MissionTargetAction from '../ui/mission-target-action.tsx'
+import MissionTargetExternalData from '../ui/mission-target-external-data.tsx'
+import MissionTargetTitle from '../ui/mission-target-title.tsx'
+import MissionTargetForm from './mission-target-form.tsx'
+import MissionTargetInfractionList from './mission-target-infraction-list.tsx'
 
-interface MissionTargetEnvItemProps {
+interface MissionTargetItemProps {
   name: string
   targetType: TargetType
   vehicleType?: VehicleTypeEnum
@@ -23,7 +23,7 @@ interface MissionTargetEnvItemProps {
   availableControlTypes?: ControlType[]
 }
 
-const MissionTargetEnvItem: React.FC<MissionTargetEnvItemProps> = ({
+const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
   name,
   onDelete,
   vehicleType,
@@ -75,10 +75,10 @@ const MissionTargetEnvItem: React.FC<MissionTargetEnvItemProps> = ({
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={'0.5rem'}>
           <Stack.Item>
-            <MissionTargetEnvTitle target={target} vehicleType={vehicleType} />
+            <MissionTargetTitle target={target} vehicleType={vehicleType} />
           </Stack.Item>
           <Stack.Item>
-            <MissionTargetEnvAction
+            <MissionTargetAction
               source={target?.source}
               showDetail={showDetail}
               onEdit={handleEditTarget}
@@ -92,18 +92,19 @@ const MissionTargetEnvItem: React.FC<MissionTargetEnvItemProps> = ({
       </Stack.Item>
       {target?.externalData && (
         <Stack.Item style={{ width: '100%' }}>
-          <MissionTargetEnvExternalData showDetail={showDetail} externalData={target.externalData} />
+          <MissionTargetExternalData showDetail={showDetail} externalData={target.externalData} />
         </Stack.Item>
       )}
       {(editTarget || editInfraction) && (
         <Stack.Item style={{ width: '100%' }}>
-          <MissionTargetEnvForm
+          <MissionTargetForm
             name={name}
             onClose={handleClose}
             editTarget={editTarget}
             targetType={targetType}
             fieldFormik={fieldFormik}
             vehicleType={vehicleType}
+            editControl={editInfraction}
             editInfraction={editInfraction}
             value={editTarget ? { target } : {}}
             availableControlTypes={computeControlTypeOnTarget(availableControlTypes, target ? [target] : [])}
@@ -111,7 +112,7 @@ const MissionTargetEnvItem: React.FC<MissionTargetEnvItemProps> = ({
         </Stack.Item>
       )}
       <Stack.Item style={{ width: '100%' }}>
-        <MissionTargetEnvInfractionList
+        <MissionTargetInfractionList
           name={name}
           targetType={targetType}
           fieldFormik={fieldFormik}
@@ -122,4 +123,4 @@ const MissionTargetEnvItem: React.FC<MissionTargetEnvItemProps> = ({
   )
 }
 
-export default MissionTargetEnvItem
+export default MissionTargetItem

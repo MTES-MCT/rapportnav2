@@ -2,12 +2,11 @@ import { ControlType } from '@common/types/control-types'
 import { Accent, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
 import { FC, useState } from 'react'
 import { Stack } from 'rsuite'
-import { TargetType } from '../../../common/types/target-types'
-import MissionInfractionEnvForm from '../../../mission-infraction/components/elements/mission-infraction-env-form'
-import MissionInfractionEnvSummary from '../../../mission-infraction/components/ui/mission-infraction-env-summary'
-import { TargetInfraction } from '../../../mission-infraction/hooks/use-infraction-env-form'
+import { TargetInfraction, TargetType } from '../../../common/types/target-types'
+import MissionInfractionForm from '../../../mission-infraction/components/elements/mission-infraction-form'
+import MissionInfractionSummary from '../../../mission-infraction/components/ui/mission-infraction-summary'
 
-export interface MissionTargetEnvInfractionFormProps {
+export interface MissionTargetInfractionFormProps {
   index: number
   value: TargetInfraction
   targetType?: TargetType
@@ -16,7 +15,7 @@ export interface MissionTargetEnvInfractionFormProps {
   onSubmit: (value?: TargetInfraction) => Promise<unknown>
 }
 
-const MissionTargetEnvInfractionForm: FC<MissionTargetEnvInfractionFormProps> = ({
+const MissionTargetInfractionForm: FC<MissionTargetInfractionFormProps> = ({
   index,
   value,
   onDelete,
@@ -42,7 +41,7 @@ const MissionTargetEnvInfractionForm: FC<MissionTargetEnvInfractionFormProps> = 
         <Stack.Item style={{ width: '100%' }}>
           <Stack direction="row" spacing={'.5em'} style={{ width: '100%', padding: 12 }}>
             <Stack.Item style={{ width: '100%' }}>
-              <MissionInfractionEnvSummary
+              <MissionInfractionSummary
                 natinfs={value?.infraction?.natinfs}
                 controlType={value?.control?.controlType}
                 infractionType={value?.infraction?.infractionType}
@@ -82,9 +81,10 @@ const MissionTargetEnvInfractionForm: FC<MissionTargetEnvInfractionFormProps> = 
             backgroundColor: THEME.color.cultured
           }}
         >
-          <MissionInfractionEnvForm
+          <MissionInfractionForm
             value={value}
             editTarget={false}
+            editControl={true}
             editInfraction={true}
             onSubmit={handleSubmit}
             targetType={targetType}
@@ -97,4 +97,4 @@ const MissionTargetEnvInfractionForm: FC<MissionTargetEnvInfractionFormProps> = 
   )
 }
 
-export default MissionTargetEnvInfractionForm
+export default MissionTargetInfractionForm

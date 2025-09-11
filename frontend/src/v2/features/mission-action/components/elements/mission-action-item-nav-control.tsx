@@ -7,7 +7,7 @@ import { FormikDateRangePicker } from '../../../common/components/ui/formik-date
 import { FormikSelectVesselSize } from '../../../common/components/ui/formik-select-vessel-size'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionControlNavSummary from '../../../mission-control/components/ui/mission-control-nav-summary'
-import MissionTarget from '../../../mission-target/components/elements/mission-target'
+import MissionTargetControl from '../../../mission-target/components/elements/mission-target-control-nav'
 import { useMissionActionNavControl } from '../../hooks/use-mission-action-nav-control'
 import { ActionNavControlInput } from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
@@ -87,7 +87,7 @@ const MissionActionItemNavControl: FC<{
                 <Stack.Item style={{ width: '100%' }}>
                   <FieldArray name="targets">
                     {(fieldArray: FieldArrayRenderProps) => (
-                      <MissionTarget
+                      <MissionTargetControl
                         name="targets"
                         fieldArray={fieldArray}
                         controlsToComplete={action.controlsToComplete}
