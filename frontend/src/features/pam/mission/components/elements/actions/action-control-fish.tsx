@@ -114,7 +114,7 @@ const ActionControlFish: React.FC<ActionControlPropsFish> = ({ action }) => {
             <TextInput
               label={''}
               readOnly={true}
-              value={actionData?.portName ?? actionData.portLocode}
+              value={`${actionData?.portName ? actionData?.portName : ''} ${actionData.portLocode ? `(${actionData.portLocode})` : ''}`}
               isLight={true}
               data-testid={'portName'}
               name="portName"

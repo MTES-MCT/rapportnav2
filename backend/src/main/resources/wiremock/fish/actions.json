@@ -69,14 +69,16 @@
     ],
     "speciesOnboard": [
       {
-        "speciesCode": "SSB",
+        "speciesCode": "RJN",
+        "speciesName": "Raie fleurie",
         "nbFish": null,
         "declaredWeight": 5.0,
         "controlledWeight": null,
         "underSized": false
       },
       {
-        "speciesCode": "BSS",
+        "speciesCode": "HKE",
+        "speciesName": "Merlu européen",
         "nbFish": null,
         "declaredWeight": 0.4,
         "controlledWeight": null,

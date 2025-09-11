@@ -13,12 +13,13 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
           class="rs-stack-item"
         >
           <label
-            class="sc-gahYZc kawVmz Element-Label"
+            class="sc-gahYZc dVDTiJ Element-Label"
           >
             Type de contrôle
           </label>
           <fieldset
             class="sc-DZJJV RRabk Element-Fieldset Field-MultiRadio"
+            id="«r0»"
           >
             <div
               class="sc-kUouGy hIVQIi Element-Fieldset__InnerBox"
@@ -31,7 +32,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   class="sc-fYmhhH jaaEau Element-Field Field-Radio"
                 >
                   <div
-                    class="sc-jxYSNo ggogKb rs-radio rs-radio-checked"
+                    class="sc-jxYSNo coqezh rs-radio rs-radio-checked"
                   >
                     <div
                       class="rs-radio-checker"
@@ -43,7 +44,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                           <input
                             aria-checked="true"
                             aria-disabled="false"
-                            aria-labelledby="label-«r0»"
+                            aria-labelledby="label-«r1»"
                             checked=""
                             name="controlType"
                             tabindex="0"
@@ -57,7 +58,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                         </span>
                         <span
                           class="rs-radio-label"
-                          id="label-«r0»"
+                          id="label-«r1»"
                         >
                           Mer
                         </span>
@@ -69,7 +70,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   class="sc-fYmhhH jaaEau Element-Field Field-Radio"
                 >
                   <div
-                    class="sc-jxYSNo euXVUv rs-radio"
+                    class="sc-jxYSNo jDgArd rs-radio"
                   >
                     <div
                       class="rs-radio-checker"
@@ -81,7 +82,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                           <input
                             aria-checked="false"
                             aria-disabled="false"
-                            aria-labelledby="label-«r1»"
+                            aria-labelledby="label-«r2»"
                             name="controlType"
                             tabindex="0"
                             type="radio"
@@ -94,7 +95,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                         </span>
                         <span
                           class="rs-radio-label"
-                          id="label-«r1»"
+                          id="label-«r2»"
                         >
                           Terre
                         </span>
@@ -340,12 +341,13 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
         class="rs-stack-item"
       >
         <label
-          class="sc-gahYZc kawVmz Element-Label"
+          class="sc-gahYZc dVDTiJ Element-Label"
         >
           Type de contrôle
         </label>
         <fieldset
           class="sc-DZJJV RRabk Element-Fieldset Field-MultiRadio"
+          id="«r0»"
         >
           <div
             class="sc-kUouGy hIVQIi Element-Fieldset__InnerBox"
@@ -358,7 +360,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                 class="sc-fYmhhH jaaEau Element-Field Field-Radio"
               >
                 <div
-                  class="sc-jxYSNo ggogKb rs-radio rs-radio-checked"
+                  class="sc-jxYSNo coqezh rs-radio rs-radio-checked"
                 >
                   <div
                     class="rs-radio-checker"
@@ -370,7 +372,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                         <input
                           aria-checked="true"
                           aria-disabled="false"
-                          aria-labelledby="label-«r0»"
+                          aria-labelledby="label-«r1»"
                           checked=""
                           name="controlType"
                           tabindex="0"
@@ -384,7 +386,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                       </span>
                       <span
                         class="rs-radio-label"
-                        id="label-«r0»"
+                        id="label-«r1»"
                       >
                         Mer
                       </span>
@@ -396,7 +398,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                 class="sc-fYmhhH jaaEau Element-Field Field-Radio"
               >
                 <div
-                  class="sc-jxYSNo euXVUv rs-radio"
+                  class="sc-jxYSNo jDgArd rs-radio"
                 >
                   <div
                     class="rs-radio-checker"
@@ -408,7 +410,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                         <input
                           aria-checked="false"
                           aria-disabled="false"
-                          aria-labelledby="label-«r1»"
+                          aria-labelledby="label-«r2»"
                           name="controlType"
                           tabindex="0"
                           type="radio"
@@ -421,7 +423,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                       </span>
                       <span
                         class="rs-radio-label"
-                        id="label-«r1»"
+                        id="label-«r2»"
                       >
                         Terre
                       </span>
