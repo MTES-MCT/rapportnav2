@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.22.2...backend@v2.23.0) (2025-09-11)
+
+
+### Bug Fixes
+
+* deserialize speciesName from Fish correctly ([#851](https://github.com/MTES-MCT/rapportnav2/issues/851)) ([540c47e](https://github.com/MTES-MCT/rapportnav2/commit/540c47eb1d7a5cf7cb32b22c26c1b80c20df6b16))
+
 ## [2.22.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.22.1...backend@v2.22.2) (2025-09-08)
 
 
