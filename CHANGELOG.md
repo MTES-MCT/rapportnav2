@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.23.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.22.2...docker-container@v2.23.0) (2025-09-11)
+
+
+### Features
+
+* bump to Sentry10 ([#853](https://github.com/MTES-MCT/rapportnav2/issues/853)) ([99d7fe9](https://github.com/MTES-MCT/rapportnav2/commit/99d7fe9d89c7080c280cdb16d937a10703692143))
+* logout and redirect users to login on 403 API ([#850](https://github.com/MTES-MCT/rapportnav2/issues/850)) ([fbc296d](https://github.com/MTES-MCT/rapportnav2/commit/fbc296d4d30b14151c006358bacffafa6cd77ee2))
+
+
+### Bug Fixes
+
+* deserialize speciesName from Fish correctly ([#851](https://github.com/MTES-MCT/rapportnav2/issues/851)) ([540c47e](https://github.com/MTES-MCT/rapportnav2/commit/540c47eb1d7a5cf7cb32b22c26c1b80c20df6b16))
+
 ## [2.22.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.22.1...docker-container@v2.22.2) (2025-09-08)
 
 
