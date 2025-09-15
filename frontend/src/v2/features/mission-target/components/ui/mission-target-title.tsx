@@ -6,12 +6,12 @@ import { useVehicule } from '../../../common/hooks/use-vehicule'
 import { useVessel } from '../../../common/hooks/use-vessel'
 import { Target } from '../../../common/types/target-types'
 
-interface MissionTargetEnvTitleProps {
+interface MissionTargetTitleProps {
   target?: Target
   vehicleType?: VehicleTypeEnum
 }
 
-const MissionTargetEnvTitle: React.FC<MissionTargetEnvTitleProps> = ({ target, vehicleType }) => {
+const MissionTargetTitle: React.FC<MissionTargetTitleProps> = ({ target, vehicleType }) => {
   const { getVesselTypeName } = useVessel()
   const { getVehiculeType } = useVehicule()
   const [id, setId] = useState<string>()
@@ -30,4 +30,4 @@ const MissionTargetEnvTitle: React.FC<MissionTargetEnvTitleProps> = ({ target, v
   )
 }
 
-export default MissionTargetEnvTitle
+export default MissionTargetTitle

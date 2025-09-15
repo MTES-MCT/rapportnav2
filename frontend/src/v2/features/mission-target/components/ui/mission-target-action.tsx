@@ -3,7 +3,7 @@ import React from 'react'
 import { Stack } from 'rsuite'
 import { MissionSourceEnum } from '../../../common/types/mission-types'
 
-interface MissionTargetEnvActionProps {
+interface MissionTargetActionProps {
   showDetail: boolean
   disabledAdd?: boolean
   onEdit: () => void
@@ -13,7 +13,7 @@ interface MissionTargetEnvActionProps {
   onShowDetail: () => void
 }
 
-const MissionTargetEnvAction: React.FC<MissionTargetEnvActionProps> = ({
+const MissionTargetAction: React.FC<MissionTargetActionProps> = ({
   source,
   onEdit,
   onDelete,
@@ -87,4 +87,4 @@ const MissionTargetEnvAction: React.FC<MissionTargetEnvActionProps> = ({
   )
 }
 
-export default MissionTargetEnvAction
+export default MissionTargetAction
