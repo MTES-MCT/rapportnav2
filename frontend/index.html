@@ -2,23 +2,60 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/ico" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO and metadata -->
     <title>RapportNav</title>
+    <meta name="description" content="Application de rapport de navigation" />
+    <meta name="robots" content="noindex, nofollow" />
+
+    <!-- Security headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+
+    <!-- Viewport and mobile optimization -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- Favicon and icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+   <!-- Theme and appearance -->
     <meta name="theme-color" content="#000000" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- PWA manifest -->
     <link rel="manifest" href="./manifest.json" />
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/index.tsx" as="script" crossorigin />
   </head>
   <body>
     <!-- React root -->
     <div id="root"></div>
 
+    <!-- Noscript fallback -->
+    <noscript>
+      <div style="padding: 2rem; text-align: center; font-family: sans-serif;">
+        <h1>JavaScript requis</h1>
+        <p>Cette application nécessite JavaScript pour fonctionner.</p>
+        <p>Veuillez activer JavaScript dans votre navigateur.</p>
+      </div>
+    </noscript>
+
+    <!-- Runtime environment variables injection -->
     <!-- This script will be used by the `import-meta-env` library to inject -->
     <!-- runtime environment variables when running in production -->
     <!-- see: https://import-meta-env.org/guide/getting-started/introduction.html -->
     <script>
+      // Ensure globalThis exists (for older browsers)
+      if (typeof globalThis === 'undefined') {
+        var globalThis = window;
+      }
       globalThis.import_meta_env = JSON.parse('"import_meta_env_placeholder"')
     </script>
 
+    <!-- Main application script -->
     <script type="module" src="/src/index.tsx"></script>
   </body>
 </html>

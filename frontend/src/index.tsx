@@ -1,19 +1,12 @@
 // Sentry initialization should be imported first!
 import { initializeSentry } from './sentry'
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 // import reportWebVitals from './report-web-vitals'
-import App from './app'
 
-import 'react-toastify/dist/ReactToastify.css'
-import 'rsuite/dist/rsuite.min.css'
+// Import only critical CSS
 import './assets/css/index.css'
 import '@mtes-mct/monitor-ui/assets/stylesheets/rsuite-override.css'
-import { setDefaultOptions } from 'date-fns'
-import { fr } from 'date-fns/locale'
-
-// setup dates in French
-setDefaultOptions({ locale: fr })
 
 initializeSentry().then(Sentry => {
   const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement, {
@@ -24,14 +17,21 @@ initializeSentry().then(Sentry => {
     onRecoverableError: Sentry.reactErrorHandler()
   })
 
+  const App = lazy(() => import('./app'))
+  const ActionLoader = lazy(() => import('./v2/features/common/components/ui/action-loader.tsx'))
+
   root.render(
     <React.StrictMode>
-      <App />
+      <Suspense fallback={<ActionLoader />}>
+        <App />
+      </Suspense>
     </React.StrictMode>
   )
 })
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals()
+// Optional: report web vitals in production only, and load it lazily.
+// if (import.meta.env.PROD) {
+//   import('./report-web-vitals').then(({ default: reportWebVitals }) => {
+//     reportWebVitals(console.log)
+//   })
+// }
