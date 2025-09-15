@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.23.0...backend@v2.23.1) (2025-09-15)
+
+
+### Bug Fixes
+
+* species name again ([#857](https://github.com/MTES-MCT/rapportnav2/issues/857)) ([de5ce20](https://github.com/MTES-MCT/rapportnav2/commit/de5ce209225681697e3d1c1c72da6f6dc8ca4629))
+
 ## [2.23.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.22.2...backend@v2.23.0) (2025-09-11)
 
 
