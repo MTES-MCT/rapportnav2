@@ -16,7 +16,7 @@ const ROUTES = {
 
 type RouteHook = {
   homeUrl?: string
-  getUrl: (page: OwnerType) => string
+  getUrl: (page: OwnerType, params?: object) => string
 }
 
 export function useGlobalRoutes(): RouteHook {
@@ -24,9 +24,34 @@ export function useGlobalRoutes(): RouteHook {
   const { isLoggedIn, isAuthenticated } = useAuth()
   const { isV2, type } = useStore(store, (state: State) => state.module)
 
-  const getUrl = (page: OwnerType) => {
+  const getPageParams = (params?: object): URLSearchParams => {
+    const searchParams = new URLSearchParams()
+    if (params && Object.keys(params).length > 0) {
+      // Add each param to the URLSearchParams
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== null && value !== undefined) {
+          // Handle different value types appropriately
+          if (value instanceof Date) {
+            searchParams.append(key, value.toISOString())
+          } else {
+            searchParams.append(key, String(value))
+          }
+        }
+      })
+    }
+    return searchParams
+  }
+
+  const getUrl = (page: OwnerType, params?: object) => {
     const baseUrl = isV2 ? '/v2' : ''
-    return `${baseUrl}/${type}/${page.toString()}`
+    let url = `${baseUrl}/${type}/${page.toString()}`
+
+    const searchParams = getPageParams(params)
+    // Append query string if there are params
+    if (searchParams.toString()) {
+      url += `?${searchParams.toString()}`
+    }
+    return url
   }
 
   useEffect(() => {
