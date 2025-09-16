@@ -41,13 +41,16 @@ const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: error => {
       // https://tkdodo.eu/blog/breaking-react-querys-api-on-purpose
+      debugger
       console.error(error)
       Sentry.captureException(error)
-      logSoftError({
-        isSideWindowError: false,
-        message: error.message,
-        userMessage: `Une erreur s'est produite lors du chargement des données. Si l'erreur persiste, veuillez contacter l'équipe RapportNav/SNC3.`
-      })
+      if (!/Error: Missing queryFn/i.test(error.toString())) {
+        logSoftError({
+          isSideWindowError: false,
+          message: error.message,
+          userMessage: `Une erreur s'est produite lors du chargement des données. Si l'erreur persiste, veuillez contacter l'équipe RapportNav/SNC3.`
+        })
+      }
     }
   }),
   defaultOptions: {
