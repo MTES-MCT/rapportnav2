@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.23.2...backend@v2.23.3) (2025-09-17)
+
+
+### Bug Fixes
+
+* **secu:** bump sprint-core ([#863](https://github.com/MTES-MCT/rapportnav2/issues/863)) ([9cedd44](https://github.com/MTES-MCT/rapportnav2/commit/9cedd44dbaf36185844745a5f44b4bb9eda018f5))
+
 ## [2.23.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.23.1...backend@v2.23.2) (2025-09-17)
 
 
