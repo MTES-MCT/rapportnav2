@@ -41,7 +41,6 @@ const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: error => {
       // https://tkdodo.eu/blog/breaking-react-querys-api-on-purpose
-      debugger
       console.error(error)
       Sentry.captureException(error)
       if (!/Error: Missing queryFn/i.test(error.toString())) {

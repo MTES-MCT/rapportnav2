@@ -1,9 +1,11 @@
-import { render } from './test-utils.tsx'
+import { render, waitFor } from './test-utils.tsx'
 import App from './app.tsx'
 
 describe('App', () => {
-  test('should render', () => {
+  test('should render', async () => {
     const { container } = render(<App />)
-    expect(container.firstElementChild).not.toBeNull()
+    await waitFor(() => {
+      expect(container.firstElementChild).not.toBeNull()
+    })
   })
 })
