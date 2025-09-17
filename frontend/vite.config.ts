@@ -29,10 +29,6 @@ export default defineConfig({
           if (id.includes('rsuite') || id.includes('@mtes-mct/monitor-ui')) {
             return 'ui-vendor'
           }
-          // Sentry (separate chunk for optional loading)
-          if (id.includes('@sentry')) {
-            return 'sentry'
-          }
           if (id.includes('node_modules')) {
             return 'vendor'
           }
