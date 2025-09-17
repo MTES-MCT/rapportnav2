@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.23.1...backend@v2.23.2) (2025-09-17)
+
+
+### Bug Fixes
+
+* **RapportPatrouille:** update template with unified fonts and headings ([#862](https://github.com/MTES-MCT/rapportnav2/issues/862)) ([d5b1d52](https://github.com/MTES-MCT/rapportnav2/commit/d5b1d523c694cd3fd16ec8bf79c5ea84ad14eb57))
+
 ## [2.23.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.23.0...backend@v2.23.1) (2025-09-15)
 
 
