@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.23.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.23.1...docker-container@v2.23.2) (2025-09-17)
+
+
+### Bug Fixes
+
+* **log:** do not show side error when missing react-query cache query key ([#859](https://github.com/MTES-MCT/rapportnav2/issues/859)) ([8b0095d](https://github.com/MTES-MCT/rapportnav2/commit/8b0095d0cb8a12d1cb88dc735c353c0d75f87328))
+* **RapportPatrouille:** update template with unified fonts and headings ([#862](https://github.com/MTES-MCT/rapportnav2/issues/862)) ([d5b1d52](https://github.com/MTES-MCT/rapportnav2/commit/d5b1d523c694cd3fd16ec8bf79c5ea84ad14eb57))
+
 ## [2.23.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.23.0...docker-container@v2.23.1) (2025-09-15)
 
 

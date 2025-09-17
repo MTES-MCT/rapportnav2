@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.2](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.23.1...frontend@v2.23.2) (2025-09-17)
+
+
+### Bug Fixes
+
+* **log:** do not show side error when missing react-query cache query key ([#859](https://github.com/MTES-MCT/rapportnav2/issues/859)) ([8b0095d](https://github.com/MTES-MCT/rapportnav2/commit/8b0095d0cb8a12d1cb88dc735c353c0d75f87328))
+
 ## [2.23.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.23.0...frontend@v2.23.1) (2025-09-15)
 
 
