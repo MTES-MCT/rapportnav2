@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.24.2](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.24.1...frontend@v2.24.2) (2025-09-17)
+
+
+### Bug Fixes
+
+* update vendor bundle ([cf81752](https://github.com/MTES-MCT/rapportnav2/commit/cf81752c1702b68e0b1d6f6387ab58fe6b82d536))
+
 ## [2.24.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.24.0...frontend@v2.24.1) (2025-09-17)
 
 
