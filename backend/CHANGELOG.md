@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.24.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.23.3...backend@v2.24.0) (2025-09-17)
+
+
+### Miscellaneous Chores
+
+* **backend:** Synchronize group-some-associated-services versions
+
 ## [2.23.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.23.2...backend@v2.23.3) (2025-09-17)
 
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.24.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.23.3...frontend@v2.24.0) (2025-09-17)
+
+
+### Features
+
+* lazyload assets to improve page load ([#861](https://github.com/MTES-MCT/rapportnav2/issues/861)) ([4ad4746](https://github.com/MTES-MCT/rapportnav2/commit/4ad47463a196b99eec8bc6ca7aea9e9aeed0e621))
+
 ## [2.23.3](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.23.2...frontend@v2.23.3) (2025-09-17)
 
 
