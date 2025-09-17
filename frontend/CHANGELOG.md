@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.24.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.24.0...frontend@v2.24.1) (2025-09-17)
+
+
+### Bug Fixes
+
+* improve loading of missions on v1 ([7196a74](https://github.com/MTES-MCT/rapportnav2/commit/7196a742a196305e6d8dec89a56c2e4806f204b4))
+
 ## [2.24.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.23.3...frontend@v2.24.0) (2025-09-17)
 
 
