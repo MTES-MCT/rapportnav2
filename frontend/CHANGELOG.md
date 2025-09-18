@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.25.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.24.3...frontend@v2.25.0) (2025-09-18)
+
+
+### Features
+
+* load missions by month to reduce bandwidth ([#858](https://github.com/MTES-MCT/rapportnav2/issues/858)) ([63e06a5](https://github.com/MTES-MCT/rapportnav2/commit/63e06a5948e6cee3493bb1fb242c7d3662588f20))
+
 ## [2.24.3](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.24.2...frontend@v2.24.3) (2025-09-18)
 
 
