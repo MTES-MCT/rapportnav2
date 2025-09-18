@@ -1,45 +1,99 @@
-import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
-import { DYNAMIC_DATA_STALE_TIME } from '../../../../query-client'
+import { useQueries, useQueryClient, UseQueryResult } from '@tanstack/react-query'
+import { DYNAMIC_DATA_STALE_TIME, STATIC_DATA_STALE_TIME } from '../../../../query-client'
 import axios from '../../../../query-client/axios.ts'
 import { Mission2 } from '../types/mission-types.ts'
 import { actionsKeys, missionsKeys } from './query-keys.ts'
-import { useEffect } from 'react'
 import { MissionAction } from '../types/mission-action.ts'
+import { startOfMonth, endOfMonth, startOfYear, eachMonthOfInterval, endOfYear } from 'date-fns'
 
-const useMissionsQuery = (params: URLSearchParams): UseQueryResult<Mission2[], Error> => {
+export type Frame = 'monthly' | 'yearly'
+
+const fetchMissions = async (start: Date, end: Date): Promise<Mission2[]> => {
+  const params = new URLSearchParams({
+    startDateTimeUtc: start.toISOString(),
+    endDateTimeUtc: end.toISOString()
+  })
+  const response = await axios.get<Mission2[]>(`missions?${params.toString()}`)
+  return response.data
+}
+
+// add cache for for each mission and action
+const normalizeMission = (queryClient: ReturnType<typeof useQueryClient>, mission: Mission2) => {
+  queryClient.setQueryData(missionsKeys.byId(mission.id), mission)
+  mission.actions?.forEach((action: MissionAction) => {
+    queryClient.setQueryData(actionsKeys.byId(action.id), action)
+  })
+}
+
+// get all months till the beginning of the year
+// for previous years, get all months
+const getMonthsForYear = (year: number): { start: Date; end: Date; isCurrent: boolean }[] => {
+  const now = new Date()
+  const currentMonth = now.getUTCMonth()
+  const currentYear = now.getUTCFullYear()
+
+  const yearStart = startOfYear(new Date(Date.UTC(year, 0, 1)))
+
+  // For current year, only go up to current month. For past years, full year.
+  const yearEnd = year === currentYear ? endOfMonth(now) : endOfMonth(new Date(Date.UTC(year, 11, 31)))
+
+  return eachMonthOfInterval({ start: yearStart, end: yearEnd })
+    .map(monthStart => ({
+      start: startOfMonth(monthStart),
+      end: endOfMonth(monthStart),
+      isCurrent: year === currentYear && monthStart.getUTCMonth() === currentMonth
+    }))
+    .reverse() // Start with most recent months first
+}
+
+const useMissionsQuery = (params: URLSearchParams, frame: Frame = 'monthly'): UseQueryResult<Mission2[], Error> => {
   const queryClient = useQueryClient()
 
-  const fetchMissions = async (): Promise<Mission2[]> => {
-    const response = await axios.get<Mission2[]>(`missions?${params.toString()}`)
-    return response.data
-  }
+  const now = new Date()
 
-  const endDateTimeUtc = params.get('endDateTimeUtc')
-  const startDateTimeUtc = params.get('startDateTimeUtc')
+  const startParam = params.get('startDateTimeUtc') ?? startOfYear(now)
+  const endParam = params.get('endDateTimeUtc') ?? endOfYear(now)
 
-  const query = useQuery<Mission2[], Error>({
-    queryKey: missionsKeys.filter(JSON.stringify({ startDateTimeUtc, endDateTimeUtc })),
-    queryFn: fetchMissions,
-    enabled: !!endDateTimeUtc && !!startDateTimeUtc, // Prevents query from running if startDateTimeUtc is not provided
-    staleTime: DYNAMIC_DATA_STALE_TIME, // Cache data for 3 minutes
-    retry: 2, // Retry failed requests twice before throwing an error,
-    refetchInterval: DYNAMIC_DATA_STALE_TIME
+  const startDate = new Date(startParam)
+  const endDate = new Date(endParam)
+
+  // For yearly frame, use the end date year as the target year (due to timezone handling)
+  const targetYear = endDate.getUTCFullYear()
+  const currentYear = now.getUTCFullYear()
+
+  // Determine queries to make
+  const queries =
+    frame === 'monthly' || targetYear > currentYear
+      ? [{ start: startDate, end: endDate, isCurrent: frame === 'monthly' }]
+      : getMonthsForYear(targetYear)
+
+  // Single useQueries for all scenarios
+  const results = useQueries({
+    queries: queries.map(({ start, end, isCurrent }) => ({
+      queryKey: missionsKeys.filter(
+        JSON.stringify({ startDateTimeUtc: start.toISOString(), endDateTimeUtc: end.toISOString() })
+      ),
+      queryFn: () => fetchMissions(start, end),
+      staleTime: isCurrent ? DYNAMIC_DATA_STALE_TIME : STATIC_DATA_STALE_TIME,
+      gcTime: isCurrent ? DYNAMIC_DATA_STALE_TIME : STATIC_DATA_STALE_TIME,
+      retry: 2,
+      refetchInterval: isCurrent ? DYNAMIC_DATA_STALE_TIME : undefined,
+      revalidateIfStale: isCurrent,
+      enabled: true,
+      select: (missions: Mission2[]) => {
+        missions.forEach(m => normalizeMission(queryClient, m))
+        return missions
+      }
+    }))
   })
 
-  useEffect(() => {
-    if (!query.data) return
-    else {
-      // for offline mode, preset the mission in their individual cache keys
-      ;(query.data || []).forEach((mission: Mission2) => {
-        queryClient.setQueryData(missionsKeys.byId(mission.id), mission)
-        ;(mission.actions || []).forEach((action: MissionAction) => {
-          queryClient.setQueryData(actionsKeys.byId(action.id), action)
-        })
-      })
-    }
-  }, [query.data, queryClient])
+  // Combine all missions
+  const allMissions = results.flatMap(query => query.data ?? [])
 
-  return query
+  return {
+    ...results[0],
+    data: allMissions
+  } as UseQueryResult<Mission2[], Error>
 }
 
 export default useMissionsQuery
