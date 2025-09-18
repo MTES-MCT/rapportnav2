@@ -52,9 +52,9 @@ const MissionTimelineCardWrapper: React.FC<MissionTimelineCardWrapperProps> = ({
               </Stack.Item>
               <Stack.Item alignSelf="flex-start" style={{ width: '100%' }}>
                 <Stack direction="column" spacing="0.5rem" alignItems="flex-start" style={{ width: '100%' }}>
-                  <Stack.Item>
+                  <Stack.Item style={{ width: '100%' }}>
                     <Stack direction="row" spacing="0.25rem">
-                      <Stack.Item>{title}</Stack.Item>
+                      <Stack.Item style={{ width: '100%' }}>{title}</Stack.Item>
                     </Stack>
                   </Stack.Item>
                   <Stack.Item style={{ width: '100%' }}>
