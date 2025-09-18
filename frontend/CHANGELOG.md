@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.24.3](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.24.2...frontend@v2.24.3) (2025-09-18)
+
+
+### Bug Fixes
+
+* rework offline enabling for new user tests ([#869](https://github.com/MTES-MCT/rapportnav2/issues/869)) ([4f945fc](https://github.com/MTES-MCT/rapportnav2/commit/4f945fc91ba48f6391a48fbc2d8d0a7cc41c5859))
+
 ## [2.24.2](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.24.1...frontend@v2.24.2) (2025-09-17)
 
 
