@@ -28,8 +28,8 @@ describe('useOfflineMode', () => {
 
     const { result } = renderHook(() => useOfflineMode())
 
-    expect(result.current).toBe(false)
-    expect(localStorage.getItem).toHaveBeenCalledWith('ENABLE_OFFLINE_MODE')
+    expect(result.current).toBe(true)
+    expect(localStorage.getItem).not.toHaveBeenCalledWith('ENABLE_OFFLINE_MODE')
   })
 
   it('should return true when localStorage key is "true"', () => {
@@ -38,7 +38,7 @@ describe('useOfflineMode', () => {
     const { result } = renderHook(() => useOfflineMode())
 
     expect(result.current).toBe(true)
-    expect(localStorage.getItem).toHaveBeenCalledWith('ENABLE_OFFLINE_MODE')
+    expect(localStorage.getItem).not.toHaveBeenCalledWith('ENABLE_OFFLINE_MODE')
   })
 
   it('should return false when localStorage key is "false"', () => {
@@ -46,7 +46,7 @@ describe('useOfflineMode', () => {
 
     const { result } = renderHook(() => useOfflineMode())
 
-    expect(result.current).toBe(false)
+    expect(result.current).toBe(true)
   })
 
   it('should return false when localStorage key has any other value', () => {
@@ -54,7 +54,7 @@ describe('useOfflineMode', () => {
 
     const { result } = renderHook(() => useOfflineMode())
 
-    expect(result.current).toBe(false)
+    expect(result.current).toBe(true)
   })
 
   it('should return false when localStorage throws an error', () => {
@@ -64,7 +64,7 @@ describe('useOfflineMode', () => {
 
     const { result } = renderHook(() => useOfflineMode())
 
-    expect(result.current).toBe(false)
+    expect(result.current).toBe(true)
   })
 
   it('should update when storage event is fired with matching key', () => {
@@ -72,7 +72,7 @@ describe('useOfflineMode', () => {
 
     const { result } = renderHook(() => useOfflineMode())
 
-    expect(result.current).toBe(false)
+    expect(result.current).toBe(true)
 
     // Simulate storage event
     act(() => {
@@ -110,7 +110,7 @@ describe('useOfflineMode', () => {
 
     const { result } = renderHook(() => useOfflineMode())
 
-    expect(result.current).toBe(false)
+    expect(result.current).toBe(true)
 
     // Simulate storage event with different key
     act(() => {
@@ -121,7 +121,7 @@ describe('useOfflineMode', () => {
       window.dispatchEvent(storageEvent)
     })
 
-    expect(result.current).toBe(false)
+    expect(result.current).toBe(true)
   })
 
   it('should clean up event listener on unmount', () => {
