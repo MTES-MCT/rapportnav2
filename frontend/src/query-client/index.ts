@@ -36,6 +36,7 @@ export const DYNAMIC_DATA_STALE_TIME = 1000 * 60 * 3 // 3 minutes
 export const DYNAMIC_DATA_GC_TIME = 1000 * 60 * 60 * 24 * 5 // 5 days
 export const STATIC_DATA_STALE_TIME = 1000 * 60 * 60 * 24 * 3 // 3 days
 export const STATIC_DATA_GC_TIME = 1000 * 60 * 60 * 24 * 15 // 15 days
+export const HOURLY_TIME = 1000 * 60 * 60
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({

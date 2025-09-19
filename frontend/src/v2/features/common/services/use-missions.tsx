@@ -1,5 +1,5 @@
 import { useQueries, useQueryClient, UseQueryResult } from '@tanstack/react-query'
-import { DYNAMIC_DATA_STALE_TIME, STATIC_DATA_STALE_TIME } from '../../../../query-client'
+import { DYNAMIC_DATA_STALE_TIME, HOURLY_TIME, STATIC_DATA_STALE_TIME } from '../../../../query-client'
 import axios from '../../../../query-client/axios.ts'
 import { Mission2 } from '../types/mission-types.ts'
 import { actionsKeys, missionsKeys } from './query-keys.ts'
@@ -7,6 +7,7 @@ import { MissionAction } from '../types/mission-action.ts'
 import { startOfMonth, endOfMonth, startOfYear, eachMonthOfInterval, endOfYear } from 'date-fns'
 import { fetchAction } from './use-action.tsx'
 import { fetchMission } from './use-mission.tsx'
+import { useOnlineManager } from '../hooks/use-online-manager.tsx'
 
 export type Frame = 'monthly' | 'yearly'
 
@@ -60,6 +61,7 @@ const getMonthsForYear = (year: number): { start: Date; end: Date; isCurrent: bo
 
 const useMissionsQuery = (params: URLSearchParams, frame: Frame = 'monthly'): UseQueryResult<Mission2[], Error> => {
   const queryClient = useQueryClient()
+  const { isOnline } = useOnlineManager()
 
   const now = new Date()
 
@@ -90,7 +92,8 @@ const useMissionsQuery = (params: URLSearchParams, frame: Frame = 'monthly'): Us
       gcTime: isCurrent ? DYNAMIC_DATA_STALE_TIME : STATIC_DATA_STALE_TIME,
       retry: 2,
       revalidateIfStale: isCurrent,
-      enabled: true,
+      refetchInterval: isCurrent ? HOURLY_TIME : false,
+      enabled: isOnline,
       select: (missions: Mission2[]) => {
         missions.forEach(m => normalizeMission(queryClient, m))
         return missions
