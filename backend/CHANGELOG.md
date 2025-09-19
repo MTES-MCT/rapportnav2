@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.25.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.25.0...backend@v2.25.1) (2025-09-19)
+
+
+### Bug Fixes
+
+* **v2:** do not show env notes ([#875](https://github.com/MTES-MCT/rapportnav2/issues/875)) ([d0d4064](https://github.com/MTES-MCT/rapportnav2/commit/d0d40649696e2e800f4262172b7da71e3e83adc0))
+
 ## [2.25.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.24.3...backend@v2.25.0) (2025-09-18)
 
 
