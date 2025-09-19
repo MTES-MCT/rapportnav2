@@ -10,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEn
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessEnvAction
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionNoteMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.anyInt
@@ -44,9 +45,12 @@ class GetComputeEnvActionListByMissionIdTest {
             missionTypes = listOf(MissionTypeEnum.SEA),
             startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
             hasMissionOrder = false,
-            envActions = listOf(EnvActionControlMock.create(
-                id = actionId,
-            )),
+            envActions = listOf(
+                EnvActionControlMock.create(
+                    id = actionId,
+                ),
+                EnvActionNoteMock.create() // this one will be filtered out because it's a note
+            ),
             isDeleted = false,
             isUnderJdp = false,
             isGeometryComputedFromControls = false,

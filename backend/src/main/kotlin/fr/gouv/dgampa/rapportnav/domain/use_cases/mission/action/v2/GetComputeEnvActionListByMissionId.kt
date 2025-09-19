@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import org.slf4j.LoggerFactory
@@ -19,7 +20,8 @@ class GetComputeEnvActionListByMissionId(
         }
         return try {
             val actions = getEnvActionList(missionId = missionId)
-            actions.map {
+            actions.filter { it.actionType !== ActionTypeEnum.NOTE }
+                .map {
                 processEnvAction.execute(missionId = missionId, envAction = it)
             }
         } catch (e: Exception) {

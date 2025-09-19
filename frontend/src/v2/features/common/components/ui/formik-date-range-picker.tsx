@@ -58,7 +58,7 @@ export const FormikDateRangePicker = styled(
                   <Stack.Item>
                     <Stack direction="row">
                       <Stack.Item>
-                        <Label>{props.label || 'Date et heure de début et de fin'}</Label>
+                        <Label>{props.label || 'Date et heure de début et de fin (utc)'}</Label>
                       </Stack.Item>
                       <Stack.Item>
                         <Label
