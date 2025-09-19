@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.25.3](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.25.2...frontend@v2.25.3) (2025-09-19)
+
+
+### Bug Fixes
+
+* upgrade rsuite from 5.83.2 to 5.83.3 ([#874](https://github.com/MTES-MCT/rapportnav2/issues/874)) ([5062b13](https://github.com/MTES-MCT/rapportnav2/commit/5062b1348422b874d35de8849114feafd0b1fcb1))
+* **v2:** fix refetch on mission and action cache keys ([#880](https://github.com/MTES-MCT/rapportnav2/issues/880)) ([2da2781](https://github.com/MTES-MCT/rapportnav2/commit/2da2781c7807ce5ebdbbbb0ac331d2e79330b0ad))
+
 ## [2.25.2](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.25.1...frontend@v2.25.2) (2025-09-19)
 
 
