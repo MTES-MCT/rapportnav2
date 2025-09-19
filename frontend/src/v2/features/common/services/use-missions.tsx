@@ -19,22 +19,20 @@ const fetchMissions = async (start: Date, end: Date): Promise<Mission2[]> => {
   return response.data
 }
 
-// add cache for for each mission and action
+// add cache for each mission and action
 const normalizeMission = (queryClient: ReturnType<typeof useQueryClient>, mission: Mission2) => {
   queryClient.setQueryData(missionsKeys.byId(mission.id), mission)
   // ensureQueryData so that cache-key can auto-refresh with refetchInterval
   queryClient.ensureQueryData({
     queryKey: missionsKeys.byId(mission.id),
-    queryFn: () => fetchMission(mission.id),
-    staleTime: DYNAMIC_DATA_STALE_TIME
+    queryFn: () => fetchMission(mission.id)
   })
   mission.actions?.forEach((action: MissionAction) => {
     queryClient.setQueryData(actionsKeys.byId(action.id), action)
     // ensureQueryData so that cache-key can auto-refresh with refetchInterval
     queryClient.ensureQueryData({
       queryKey: actionsKeys.byId(action.id),
-      queryFn: () => fetchAction({ ownerId: mission.id, actionId: action.id }),
-      staleTime: DYNAMIC_DATA_STALE_TIME
+      queryFn: () => fetchAction({ ownerId: mission.id, actionId: action.id })
     })
   })
 }
@@ -91,7 +89,6 @@ const useMissionsQuery = (params: URLSearchParams, frame: Frame = 'monthly'): Us
       staleTime: isCurrent ? DYNAMIC_DATA_STALE_TIME : STATIC_DATA_STALE_TIME,
       gcTime: isCurrent ? DYNAMIC_DATA_STALE_TIME : STATIC_DATA_STALE_TIME,
       retry: 2,
-      refetchInterval: isCurrent ? DYNAMIC_DATA_STALE_TIME : undefined,
       revalidateIfStale: isCurrent,
       enabled: true,
       select: (missions: Mission2[]) => {
