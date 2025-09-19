@@ -9,7 +9,7 @@ description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
 val serializationVersion by extra("1.6.2")
-val springVersion by extra("3.5.5")
+val springVersion by extra("3.5.6")
 val testcontainersVersion by extra("1.19.3")
 val flywayVersion by extra("10.10.0")
 
@@ -19,7 +19,7 @@ plugins {
   kotlin("jvm") version "1.9.24"
   kotlin("plugin.spring") version "1.9.24"
   kotlin("plugin.jpa") version "1.9.24"
-  id("org.springframework.boot") version "3.5.3"
+  id("org.springframework.boot") version "3.5.6"
   id("io.spring.dependency-management") version "1.1.4"
   id("org.owasp.dependencycheck") version "12.1.0"
   id("org.flywaydb.flyway") version "10.10.0"
@@ -53,9 +53,6 @@ dependencyManagement {
   dependencies {
     // force any dependency like following :
     dependency("org.apache.tomcat.embed:tomcat-embed-core:10.1.44")
-    // delete the following 2 lines when spring-boot > 3.5.5
-    dependency("org.springframework.security:spring-security-core:6.5.4")
-    dependency("org.springframework:spring-core:6.2.11")
   }
 }
 
