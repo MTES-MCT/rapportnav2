@@ -28,6 +28,11 @@ describe('MissionActionItemEnvControl Component', () => {
   })
 
   describe('The datepicker', () => {
+    it('should be displayed', () => {
+      vi.mocked(useOnlineManager).mockReturnValue({ isOnline: false } as any)
+      render(<MissionActionItemFishControl {...props()} />)
+      expect(screen.getByText('Date et heure de début et de fin (utc)')).toBeInTheDocument()
+    })
     it('should be disabled when offline', () => {
       vi.mocked(useOnlineManager).mockReturnValue({ isOnline: false } as any)
       render(<MissionActionItemFishControl {...props()} />)
