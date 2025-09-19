@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.25.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.25.2...backend@v2.25.3) (2025-09-19)
+
+
+### Bug Fixes
+
+* **v2:** fix refetch on mission and action cache keys ([#880](https://github.com/MTES-MCT/rapportnav2/issues/880)) ([2da2781](https://github.com/MTES-MCT/rapportnav2/commit/2da2781c7807ce5ebdbbbb0ac331d2e79330b0ad))
+
 ## [2.25.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.25.1...backend@v2.25.2) (2025-09-19)
 
 
