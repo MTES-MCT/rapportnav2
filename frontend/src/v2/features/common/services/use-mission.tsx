@@ -3,6 +3,7 @@ import { DYNAMIC_DATA_STALE_TIME } from '../../../../query-client'
 import axios from '../../../../query-client/axios'
 import { Mission2 } from '../types/mission-types'
 import { missionsKeys } from './query-keys.ts'
+import { useOnlineManager } from '../hooks/use-online-manager.tsx'
 
 export const fetchMission = (missionId?: string): Promise<Mission2> =>
   axios.get(`missions/${missionId}`).then(response => {
@@ -10,12 +11,15 @@ export const fetchMission = (missionId?: string): Promise<Mission2> =>
   })
 
 const useGetMissionQuery = (missionId?: string) => {
+  const { isOnline } = useOnlineManager()
+
   const query = useQuery<Mission2>({
     queryKey: missionsKeys.byId(missionId),
     queryFn: missionId ? () => fetchMission(missionId) : skipToken,
     staleTime: DYNAMIC_DATA_STALE_TIME, // Cache data for 5 minutes
     retry: 2, // Retry failed requests twice before throwing an error
-    refetchInterval: DYNAMIC_DATA_STALE_TIME
+    refetchInterval: DYNAMIC_DATA_STALE_TIME,
+    enabled: isOnline
   })
 
   return query
