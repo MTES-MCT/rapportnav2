@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.25.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.25.1...docker-container@v2.25.2) (2025-09-19)
+
+
+### Bug Fixes
+
+* **v2:** restore datepicker in fish controls ([#877](https://github.com/MTES-MCT/rapportnav2/issues/877)) ([30c02b4](https://github.com/MTES-MCT/rapportnav2/commit/30c02b4269764b07a3b4b001d2516febaa1ebb9b))
+
 ## [2.25.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.25.0...docker-container@v2.25.1) (2025-09-19)
 
 
