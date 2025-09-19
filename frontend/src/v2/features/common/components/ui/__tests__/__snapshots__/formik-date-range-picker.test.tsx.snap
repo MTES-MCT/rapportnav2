@@ -22,7 +22,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
               <label
                 class="sc-gahYZc dVDTiJ Element-Label"
               >
-                Date et heure de début et de fin
+                Date et heure de début et de fin (utc)
               </label>
             </div>
             <div
@@ -382,7 +382,7 @@ exports[`FormikDateRangePicker > should match the snapshot 1`] = `
             <label
               class="sc-gahYZc dVDTiJ Element-Label"
             >
-              Date et heure de début et de fin
+              Date et heure de début et de fin (utc)
             </label>
           </div>
           <div

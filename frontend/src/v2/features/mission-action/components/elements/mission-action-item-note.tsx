@@ -27,7 +27,7 @@ const MissionActionItemNote: FC<{
                       withTime={true}
                       isRequired={true}
                       isCompact={false}
-                      label="Date et heure"
+                      label="Date et heure (utc)"
                     />
                   </Stack.Item>
                 </Stack>
