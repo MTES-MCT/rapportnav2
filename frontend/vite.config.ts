@@ -25,15 +25,26 @@ export default defineConfig({
         format: 'es',
         manualChunks(id) {
           // Separate third-party dependencies into a common chunk
+          // UI libraries
+          if (id.includes('rsuite') || id.includes('@mtes-mct/monitor-ui')) {
+            return 'ui-vendor'
+          }
           if (id.includes('node_modules')) {
             return 'vendor'
           }
           if (id.includes('src/features/pam')) {
             return 'pam'
           }
+          if (id.includes('src/v2')) {
+            return 'v2'
+          }
         }
       }
-    }
+    },
+    // Optimize asset handling
+    assetsInlineLimit: 4096, // Inline small assets
+    cssCodeSplit: true,
+    sourcemap: false
   },
   plugins: [
     react(),

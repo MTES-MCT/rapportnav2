@@ -9,13 +9,19 @@ const MissionTimelineItemStatusCardTitle: FC<{ action?: MissionTimelineAction; i
   isSelected
 }) => {
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div style={{ display: 'flex', alignItems: 'center', maxWidth: 'calc(100% - 3rem)' }}>
       <Text
         as="h3"
         weight="medium"
         decoration={isSelected ? 'underline' : 'normal'}
         color={isSelected ? THEME.color.charcoal : THEME.color.slateGray}
         data-testid="timeline-item-status-description"
+        style={{
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          textDecoration: isSelected ? 'underline' : 'none'
+        }}
       >
         <b>{`${mapStatusToText(action?.status)} - début${
           !!action?.reason ? ' - ' + statusReasonToHumanString(action?.reason) : ''

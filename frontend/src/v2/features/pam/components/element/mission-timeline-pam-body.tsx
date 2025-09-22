@@ -31,7 +31,7 @@ const MissionTimelinePamBody: FC<MissionTimelinePamBodyProps> = ({ isError, acti
           </Stack.Item>
           <Stack.Item>
             <Text as={'h3'} weight={'medium'} fontStyle={'italic'}>
-              Attention, nous êtes actuellement hors connexion. Les actions ajoutées ou modifiées seront enregistrées
+              Attention, vous êtes actuellement hors connexion. Les actions ajoutées ou modifiées seront enregistrées
               dans le serveur quand vous reviendrez en ligne.
             </Text>
           </Stack.Item>

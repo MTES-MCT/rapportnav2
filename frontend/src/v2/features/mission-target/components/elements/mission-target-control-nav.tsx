@@ -6,7 +6,7 @@ import { Stack } from 'rsuite'
 import { Control, Target } from '../../../common/types/target-types'
 import MissionControlForm from '../../../mission-control/components/elements/mission-control-form'
 
-type MissionTargetProps = {
+type MissionTargetControlNavProps = {
   name: string
   label: string
   hideGensDeMer?: boolean
@@ -14,7 +14,13 @@ type MissionTargetProps = {
   controlsToComplete?: ControlType[]
 }
 
-const MissionTarget: FC<MissionTargetProps> = ({ label, name, fieldArray, hideGensDeMer, controlsToComplete }) => {
+const MissionTargetControlNav: FC<MissionTargetControlNavProps> = ({
+  label,
+  name,
+  fieldArray,
+  hideGensDeMer,
+  controlsToComplete
+}) => {
   return (
     <Stack direction="column" spacing="0.5rem" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%' }}>
@@ -59,4 +65,4 @@ const MissionTarget: FC<MissionTargetProps> = ({ label, name, fieldArray, hideGe
   )
 }
 
-export default MissionTarget
+export default MissionTargetControlNav

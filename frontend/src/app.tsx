@@ -2,56 +2,47 @@ import { ApolloClient, ApolloProvider, NormalizedCacheObject } from '@apollo/cli
 import { Notifier } from '@mtes-mct/monitor-ui'
 import * as Sentry from '@sentry/react'
 import { CachePersistor, LocalStorageWrapper } from 'apollo3-cache-persist'
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, Suspense, lazy } from 'react'
 import apolloClient, { apolloCache } from './apollo-client/apollo-client.ts'
-import UIThemeWrapper from './features/common/components/ui/ui-theme-wrapper'
-import ErrorPage from './pages/error-page.tsx'
 import queryClient, { persistOptions } from './query-client'
 import { router } from './router/router'
-import RouterProvider from './router/router-provider'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { setDefaultOptions } from 'date-fns'
+import fr from 'date-fns/locale/fr'
 
-// import { FlagProvider } from '@unleash/proxy-client-react'
-// import { IConfig } from 'unleash-proxy-client'
+import 'react-toastify/dist/ReactToastify.css'
+import 'rsuite/dist/rsuite.min.css'
+import ActionLoader from './v2/features/common/components/ui/action-loader.tsx'
 
-// const config: IConfig = {
-//   url: 'http://localhost:3000/proxy', // Your front-end API URL or the Unleash proxy's URL (https://<proxy-url>/proxy)
-//   clientKey: 'randomkey', // A client-side API token OR one of your proxy's designated client keys (previously known as proxy secrets)
-//   refreshInterval: 60, // How often (in seconds) the client should poll the proxy for updates
-//   appName: 'rapportnav2-flags', // The name of your application. It's only used for identifying your application
-//   environment: 'local'
-// }
+// Lazy load heavy components
+const UIThemeWrapper = lazy(() => import('./features/common/components/ui/ui-theme-wrapper'))
+const RouterProvider = lazy(() => import('./router/router-provider'))
+const ReactQueryDevtools = lazy(() =>
+  import('@tanstack/react-query-devtools').then(module => ({
+    default: module.ReactQueryDevtools
+  }))
+)
+const ErrorPage = lazy(() => import('./pages/error-page.tsx'))
+
+// Loading component
+const AppLoading = () => <ActionLoader />
 
 const App: FC = () => {
-  const [loading, setLoading] = useState(true)
   const [client, setClient] = useState<ApolloClient<NormalizedCacheObject>>(apolloClient)
 
   useEffect(() => {
-    async function init() {
-      // apollo cache
-      const cache = apolloCache
-      setClient(apolloClient)
+    setDefaultOptions({ locale: fr })
 
-      // apollo cache persist
-      let newPersistor = new CachePersistor({
-        cache,
-        storage: new LocalStorageWrapper(window.localStorage),
-        debug: true
-      })
-      await newPersistor.restore()
+    const persistor = new CachePersistor({
+      cache: apolloCache,
+      storage: new LocalStorageWrapper(window.localStorage)
+    })
 
-      setLoading(false) // Set loading to false after cache is restored
-    }
-
-    init().catch(console.error)
+    // Fire and forget - don't await
+    persistor.restore().catch(console.warn)
   }, [])
 
-  if (loading) {
-    // Render a loading indicator or anything you like
-    return <div>Chargement...</div>
-  }
-
+  // Show app immediately, don't wait for cache
   return (
     <Sentry.ErrorBoundary fallback={ErrorPage}>
       <ApolloProvider client={client}>
@@ -68,11 +59,17 @@ const App: FC = () => {
               console.log('Persistence restored failed')
             }}
           >
-            {/*<FlagProvider config={config}>*/}
             <Notifier />
-            <RouterProvider router={router} />
-            {/*</FlagProvider>*/}
-            <ReactQueryDevtools initialIsOpen={false} />
+            <Suspense fallback={<AppLoading />}>
+              <RouterProvider router={router} />
+            </Suspense>
+
+            {/* Only load devtools in development */}
+            {import.meta.env.DEV && (
+              <Suspense fallback={null}>
+                <ReactQueryDevtools initialIsOpen={false} />
+              </Suspense>
+            )}
           </PersistQueryClientProvider>
         </UIThemeWrapper>
       </ApolloProvider>

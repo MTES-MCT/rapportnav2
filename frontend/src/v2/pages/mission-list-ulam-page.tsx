@@ -34,7 +34,7 @@ const MissionListUlamPage: React.FC = () => {
   }, [searchParams, setSearchParams, getTodayMonthRange])
 
   const { getMissionListItem } = useMissionList()
-  const { isLoading, data: missions } = useMissionsQuery(searchParams)
+  const { isLoading, data: missions } = useMissionsQuery(searchParams, 'monthly')
 
   const handleUpdateDateTime = (currentDate: Date) => {
     setSearchParams(getTodayMonthRange(currentDate))

@@ -39,7 +39,7 @@ const MissionActionItemSurveillance: FC<{
                 <Stack.Item>
                   <Label>Observations</Label>
                   <Text as="h3" weight="medium" color={THEME.color.gunMetal}>
-                    {values?.observations ?? 'aucunes'}
+                    {values?.observationsCacem ?? 'aucunes'}
                   </Text>
                 </Stack.Item>
 

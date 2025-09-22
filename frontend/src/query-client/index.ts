@@ -36,6 +36,7 @@ export const DYNAMIC_DATA_STALE_TIME = 1000 * 60 * 3 // 3 minutes
 export const DYNAMIC_DATA_GC_TIME = 1000 * 60 * 60 * 24 * 5 // 5 days
 export const STATIC_DATA_STALE_TIME = 1000 * 60 * 60 * 24 * 3 // 3 days
 export const STATIC_DATA_GC_TIME = 1000 * 60 * 60 * 24 * 15 // 15 days
+export const HOURLY_TIME = 1000 * 60 * 60
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
@@ -43,11 +44,13 @@ const queryClient = new QueryClient({
       // https://tkdodo.eu/blog/breaking-react-querys-api-on-purpose
       console.error(error)
       Sentry.captureException(error)
-      logSoftError({
-        isSideWindowError: false,
-        message: error.message,
-        userMessage: `Une erreur s'est produite lors du chargement des données. Si l'erreur persiste, veuillez contacter l'équipe RapportNav/SNC3.`
-      })
+      if (!/Error: Missing queryFn/i.test(error.toString())) {
+        logSoftError({
+          isSideWindowError: false,
+          message: error.message,
+          userMessage: `Une erreur s'est produite lors du chargement des données. Si l'erreur persiste, veuillez contacter l'équipe RapportNav/SNC3.`
+        })
+      }
     }
   }),
   defaultOptions: {
@@ -116,5 +119,13 @@ export const persistOptions: OmitKeyof<PersistQueryClientOptions, 'queryClient'>
     }
   }
 }
+
+// react-query devtools extension
+// declare global {
+//   interface Window {
+//     __TANSTACK_QUERY_CLIENT__: import('@tanstack/query-core').QueryClient
+//   }
+// }
+// window.__TANSTACK_QUERY_CLIENT__ = queryClient
 
 export default queryClient

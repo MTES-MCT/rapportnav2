@@ -8,12 +8,12 @@ import { useVessel } from '../../../common/hooks/use-vessel'
 import { TargetExternalData } from '../../../common/types/target-types'
 import MissionTargetEnvSummary from './mission-target-env-summary'
 
-interface MissionTargetEnvExternalDataProps {
+interface MissionTargetExternalDataProps {
   showDetail?: boolean
   externalData: TargetExternalData
 }
 
-const MissionTargetEnvExternalData: React.FC<MissionTargetEnvExternalDataProps> = ({ showDetail, externalData }) => {
+const MissionTargetExternalData: React.FC<MissionTargetExternalDataProps> = ({ showDetail, externalData }) => {
   const { getVesselTypeName, getVesselSize } = useVessel()
 
   return (
@@ -121,4 +121,4 @@ const MissionTargetEnvExternalData: React.FC<MissionTargetEnvExternalDataProps> 
   )
 }
 
-export default MissionTargetEnvExternalData
+export default MissionTargetExternalData

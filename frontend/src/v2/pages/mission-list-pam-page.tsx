@@ -35,9 +35,8 @@ const MissionListPamPage: FC = () => {
     return () => {}
   }, [searchParams, setSearchParams, getTodayYearRange])
 
-
   const { getMissionListItem } = useMissionList()
-  const { isLoading, data: missions } = useMissionsQuery(searchParams)
+  const { isLoading, data: missions } = useMissionsQuery(searchParams, 'yearly')
 
   const { exportMissionReport, exportIsLoading } = useMissionReportExport()
 

@@ -56,6 +56,7 @@ export const GET_ACTION_BY_ID = gql`
           speciesObservations
           speciesOnboard {
             speciesCode
+            speciesName
             nbFish
             declaredWeight
             controlledWeight

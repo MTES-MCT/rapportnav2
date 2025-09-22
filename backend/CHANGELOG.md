@@ -1,5 +1,103 @@
 # Changelog
 
+## [2.25.5](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.25.4...backend@v2.25.5) (2025-09-22)
+
+
+### Miscellaneous Chores
+
+* **backend:** Synchronize group-some-associated-services versions
+
+## [2.25.4](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.25.3...backend@v2.25.4) (2025-09-22)
+
+
+### Miscellaneous Chores
+
+* **backend:** Synchronize group-some-associated-services versions
+
+## [2.25.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.25.2...backend@v2.25.3) (2025-09-19)
+
+
+### Bug Fixes
+
+* **v2:** fix refetch on mission and action cache keys ([#880](https://github.com/MTES-MCT/rapportnav2/issues/880)) ([2da2781](https://github.com/MTES-MCT/rapportnav2/commit/2da2781c7807ce5ebdbbbb0ac331d2e79330b0ad))
+
+## [2.25.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.25.1...backend@v2.25.2) (2025-09-19)
+
+
+### Miscellaneous Chores
+
+* **backend:** Synchronize group-some-associated-services versions
+
+## [2.25.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.25.0...backend@v2.25.1) (2025-09-19)
+
+
+### Bug Fixes
+
+* **v2:** do not show env notes ([#875](https://github.com/MTES-MCT/rapportnav2/issues/875)) ([d0d4064](https://github.com/MTES-MCT/rapportnav2/commit/d0d40649696e2e800f4262172b7da71e3e83adc0))
+
+## [2.25.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.24.3...backend@v2.25.0) (2025-09-18)
+
+
+### Miscellaneous Chores
+
+* **backend:** Synchronize group-some-associated-services versions
+
+## [2.24.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.24.2...backend@v2.24.3) (2025-09-18)
+
+
+### Miscellaneous Chores
+
+* **backend:** Synchronize group-some-associated-services versions
+
+## [2.24.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.24.1...backend@v2.24.2) (2025-09-17)
+
+
+### Miscellaneous Chores
+
+* **backend:** Synchronize group-some-associated-services versions
+
+## [2.24.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.24.0...backend@v2.24.1) (2025-09-17)
+
+
+### Miscellaneous Chores
+
+* **backend:** Synchronize group-some-associated-services versions
+
+## [2.24.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.23.3...backend@v2.24.0) (2025-09-17)
+
+
+### Miscellaneous Chores
+
+* **backend:** Synchronize group-some-associated-services versions
+
+## [2.23.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.23.2...backend@v2.23.3) (2025-09-17)
+
+
+### Bug Fixes
+
+* **secu:** bump sprint-core ([#863](https://github.com/MTES-MCT/rapportnav2/issues/863)) ([9cedd44](https://github.com/MTES-MCT/rapportnav2/commit/9cedd44dbaf36185844745a5f44b4bb9eda018f5))
+
+## [2.23.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.23.1...backend@v2.23.2) (2025-09-17)
+
+
+### Bug Fixes
+
+* **RapportPatrouille:** update template with unified fonts and headings ([#862](https://github.com/MTES-MCT/rapportnav2/issues/862)) ([d5b1d52](https://github.com/MTES-MCT/rapportnav2/commit/d5b1d523c694cd3fd16ec8bf79c5ea84ad14eb57))
+
+## [2.23.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.23.0...backend@v2.23.1) (2025-09-15)
+
+
+### Bug Fixes
+
+* species name again ([#857](https://github.com/MTES-MCT/rapportnav2/issues/857)) ([de5ce20](https://github.com/MTES-MCT/rapportnav2/commit/de5ce209225681697e3d1c1c72da6f6dc8ca4629))
+
+## [2.23.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.22.2...backend@v2.23.0) (2025-09-11)
+
+
+### Bug Fixes
+
+* deserialize speciesName from Fish correctly ([#851](https://github.com/MTES-MCT/rapportnav2/issues/851)) ([540c47e](https://github.com/MTES-MCT/rapportnav2/commit/540c47eb1d7a5cf7cb32b22c26c1b80c20df6b16))
+
 ## [2.22.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.22.1...backend@v2.22.2) (2025-09-08)
 
 

@@ -4,9 +4,9 @@ import { Field, FieldArrayRenderProps, FieldProps } from 'formik'
 import { Stack } from 'rsuite'
 import { Target } from '../../../common/types/target-types'
 import { useTarget } from '../../hooks/use-target'
-import MissionTargetEnvItem from './mission-target-env-item'
+import MissionTargetItem from './mission-target-item'
 
-export interface MissionTargetEnvProps {
+export interface MissionTargetListProps {
   name: string
   vehicleType?: VehicleTypeEnum
   actionNumberOfControls: number
@@ -16,7 +16,7 @@ export interface MissionTargetEnvProps {
   availableControlTypes?: ControlType[]
 }
 
-const MissionTargetEnv: React.FC<MissionTargetEnvProps> = ({
+const MissionTargetList: React.FC<MissionTargetListProps> = ({
   name,
   fieldArray,
   vehicleType,
@@ -34,7 +34,7 @@ const MissionTargetEnv: React.FC<MissionTargetEnvProps> = ({
           {!isDefaultTarget(target) && (
             <Field name={`targets[${targetIndex}]`}>
               {(fieldFormik: FieldProps<Target>) => (
-                <MissionTargetEnvItem
+                <MissionTargetItem
                   fieldFormik={fieldFormik}
                   vehicleType={vehicleType}
                   name={`targets[${targetIndex}]`}
@@ -52,4 +52,4 @@ const MissionTargetEnv: React.FC<MissionTargetEnvProps> = ({
   )
 }
 
-export default MissionTargetEnv
+export default MissionTargetList

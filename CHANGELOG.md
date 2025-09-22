@@ -1,5 +1,112 @@
 # Changelog
 
+## [2.25.5](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.25.4...docker-container@v2.25.5) (2025-09-22)
+
+
+### Bug Fixes
+
+* cache resync on missions ([f4722d1](https://github.com/MTES-MCT/rapportnav2/commit/f4722d17add9a2564fd3baa5aa35c1f7f019f9dc))
+
+## [2.25.4](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.25.3...docker-container@v2.25.4) (2025-09-22)
+
+
+### Bug Fixes
+
+* show correct observations on env surveiullance ([#882](https://github.com/MTES-MCT/rapportnav2/issues/882)) ([d46b3b6](https://github.com/MTES-MCT/rapportnav2/commit/d46b3b64cf53f7a012c1c902d74685c0f3db4e53))
+
+## [2.25.3](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.25.2...docker-container@v2.25.3) (2025-09-19)
+
+
+### Bug Fixes
+
+* upgrade rsuite from 5.83.2 to 5.83.3 ([#874](https://github.com/MTES-MCT/rapportnav2/issues/874)) ([5062b13](https://github.com/MTES-MCT/rapportnav2/commit/5062b1348422b874d35de8849114feafd0b1fcb1))
+* **v2:** fix refetch on mission and action cache keys ([#880](https://github.com/MTES-MCT/rapportnav2/issues/880)) ([2da2781](https://github.com/MTES-MCT/rapportnav2/commit/2da2781c7807ce5ebdbbbb0ac331d2e79330b0ad))
+
+## [2.25.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.25.1...docker-container@v2.25.2) (2025-09-19)
+
+
+### Bug Fixes
+
+* **v2:** restore datepicker in fish controls ([#877](https://github.com/MTES-MCT/rapportnav2/issues/877)) ([30c02b4](https://github.com/MTES-MCT/rapportnav2/commit/30c02b4269764b07a3b4b001d2516febaa1ebb9b))
+
+## [2.25.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.25.0...docker-container@v2.25.1) (2025-09-19)
+
+
+### Bug Fixes
+
+* **v2:** do not show env notes ([#875](https://github.com/MTES-MCT/rapportnav2/issues/875)) ([d0d4064](https://github.com/MTES-MCT/rapportnav2/commit/d0d40649696e2e800f4262172b7da71e3e83adc0))
+
+## [2.25.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.24.3...docker-container@v2.25.0) (2025-09-18)
+
+
+### Features
+
+* load missions by month to reduce bandwidth ([#858](https://github.com/MTES-MCT/rapportnav2/issues/858)) ([63e06a5](https://github.com/MTES-MCT/rapportnav2/commit/63e06a5948e6cee3493bb1fb242c7d3662588f20))
+
+## [2.24.3](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.24.2...docker-container@v2.24.3) (2025-09-18)
+
+
+### Bug Fixes
+
+* rework offline enabling for new user tests ([#869](https://github.com/MTES-MCT/rapportnav2/issues/869)) ([4f945fc](https://github.com/MTES-MCT/rapportnav2/commit/4f945fc91ba48f6391a48fbc2d8d0a7cc41c5859))
+
+## [2.24.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.24.1...docker-container@v2.24.2) (2025-09-17)
+
+
+### Bug Fixes
+
+* update vendor bundle ([cf81752](https://github.com/MTES-MCT/rapportnav2/commit/cf81752c1702b68e0b1d6f6387ab58fe6b82d536))
+
+## [2.24.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.24.0...docker-container@v2.24.1) (2025-09-17)
+
+
+### Bug Fixes
+
+* improve loading of missions on v1 ([7196a74](https://github.com/MTES-MCT/rapportnav2/commit/7196a742a196305e6d8dec89a56c2e4806f204b4))
+
+## [2.24.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.23.3...docker-container@v2.24.0) (2025-09-17)
+
+
+### Features
+
+* lazyload assets to improve page load ([#861](https://github.com/MTES-MCT/rapportnav2/issues/861)) ([4ad4746](https://github.com/MTES-MCT/rapportnav2/commit/4ad47463a196b99eec8bc6ca7aea9e9aeed0e621))
+
+## [2.23.3](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.23.2...docker-container@v2.23.3) (2025-09-17)
+
+
+### Bug Fixes
+
+* **secu:** bump sprint-core ([#863](https://github.com/MTES-MCT/rapportnav2/issues/863)) ([9cedd44](https://github.com/MTES-MCT/rapportnav2/commit/9cedd44dbaf36185844745a5f44b4bb9eda018f5))
+
+## [2.23.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.23.1...docker-container@v2.23.2) (2025-09-17)
+
+
+### Bug Fixes
+
+* **log:** do not show side error when missing react-query cache query key ([#859](https://github.com/MTES-MCT/rapportnav2/issues/859)) ([8b0095d](https://github.com/MTES-MCT/rapportnav2/commit/8b0095d0cb8a12d1cb88dc735c353c0d75f87328))
+* **RapportPatrouille:** update template with unified fonts and headings ([#862](https://github.com/MTES-MCT/rapportnav2/issues/862)) ([d5b1d52](https://github.com/MTES-MCT/rapportnav2/commit/d5b1d523c694cd3fd16ec8bf79c5ea84ad14eb57))
+
+## [2.23.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.23.0...docker-container@v2.23.1) (2025-09-15)
+
+
+### Bug Fixes
+
+* **frontend:** refactor, rename target, control, infraction ([e05026d](https://github.com/MTES-MCT/rapportnav2/commit/e05026d7c9487f7219dc06947a0c392508d7a0ad))
+* species name again ([#857](https://github.com/MTES-MCT/rapportnav2/issues/857)) ([de5ce20](https://github.com/MTES-MCT/rapportnav2/commit/de5ce209225681697e3d1c1c72da6f6dc8ca4629))
+
+## [2.23.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.22.2...docker-container@v2.23.0) (2025-09-11)
+
+
+### Features
+
+* bump to Sentry10 ([#853](https://github.com/MTES-MCT/rapportnav2/issues/853)) ([99d7fe9](https://github.com/MTES-MCT/rapportnav2/commit/99d7fe9d89c7080c280cdb16d937a10703692143))
+* logout and redirect users to login on 403 API ([#850](https://github.com/MTES-MCT/rapportnav2/issues/850)) ([fbc296d](https://github.com/MTES-MCT/rapportnav2/commit/fbc296d4d30b14151c006358bacffafa6cd77ee2))
+
+
+### Bug Fixes
+
+* deserialize speciesName from Fish correctly ([#851](https://github.com/MTES-MCT/rapportnav2/issues/851)) ([540c47e](https://github.com/MTES-MCT/rapportnav2/commit/540c47eb1d7a5cf7cb32b22c26c1b80c20df6b16))
+
 ## [2.22.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.22.1...docker-container@v2.22.2) (2025-09-08)
 
 

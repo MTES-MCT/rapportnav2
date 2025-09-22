@@ -99,6 +99,7 @@ type GearControl {
 
 type SpeciesControl {
   speciesCode: String
+  speciesName: String
   nbFish: Float
   declaredWeight: Float
   controlledWeight: Float

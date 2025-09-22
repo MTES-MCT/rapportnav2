@@ -87,6 +87,8 @@ export interface MissionEnvActionData extends MissionActionData {
   isSeafarersControl: Boolean
   openBy: string
   observations: string
+  observationsCacem: string
+  observationsCnsp: string
   observationsByUnit: string
   actionNumberOfControls: number
   actionTargetType: ActionTargetTypeEnum
