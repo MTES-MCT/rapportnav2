@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.25.5](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.25.4...frontend@v2.25.5) (2025-09-22)
+
+
+### Bug Fixes
+
+* cache resync on missions ([f4722d1](https://github.com/MTES-MCT/rapportnav2/commit/f4722d17add9a2564fd3baa5aa35c1f7f019f9dc))
+
 ## [2.25.4](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.25.3...frontend@v2.25.4) (2025-09-22)
 
 
