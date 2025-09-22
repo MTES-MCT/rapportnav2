@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.25.4](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.25.3...frontend@v2.25.4) (2025-09-22)
+
+
+### Bug Fixes
+
+* show correct observations on env surveiullance ([#882](https://github.com/MTES-MCT/rapportnav2/issues/882)) ([d46b3b6](https://github.com/MTES-MCT/rapportnav2/commit/d46b3b64cf53f7a012c1c902d74685c0f3db4e53))
+
 ## [2.25.3](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.25.2...frontend@v2.25.3) (2025-09-19)
 
 
