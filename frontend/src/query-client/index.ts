@@ -105,7 +105,7 @@ export const localStoragePersister = createAsyncStoragePersister({
 export const persistOptions: OmitKeyof<PersistQueryClientOptions, 'queryClient'> = {
   persister: localStoragePersister,
   maxAge: STATIC_DATA_GC_TIME,
-  buster: 'v1',
+  buster: 'v2', // bump this to force wipe user cache
   hydrateOptions: {
     // When recovering from localStorage on page load
     defaultOptions: {
@@ -120,7 +120,7 @@ export const persistOptions: OmitKeyof<PersistQueryClientOptions, 'queryClient'>
   }
 }
 
-// react-query devtools extension
+// react-query devtools extension - enable this to debug prod
 // declare global {
 //   interface Window {
 //     __TANSTACK_QUERY_CLIENT__: import('@tanstack/query-core').QueryClient
