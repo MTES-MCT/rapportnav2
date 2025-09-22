@@ -121,11 +121,11 @@ export const persistOptions: OmitKeyof<PersistQueryClientOptions, 'queryClient'>
 }
 
 // react-query devtools extension
-declare global {
-  interface Window {
-    __TANSTACK_QUERY_CLIENT__: import('@tanstack/query-core').QueryClient
-  }
-}
-window.__TANSTACK_QUERY_CLIENT__ = queryClient
+// declare global {
+//   interface Window {
+//     __TANSTACK_QUERY_CLIENT__: import('@tanstack/query-core').QueryClient
+//   }
+// }
+// window.__TANSTACK_QUERY_CLIENT__ = queryClient
 
 export default queryClient

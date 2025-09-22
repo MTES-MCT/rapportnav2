@@ -5,8 +5,6 @@ import { Mission2 } from '../types/mission-types.ts'
 import { actionsKeys, missionsKeys } from './query-keys.ts'
 import { MissionAction } from '../types/mission-action.ts'
 import { startOfMonth, endOfMonth, startOfYear, eachMonthOfInterval, endOfYear } from 'date-fns'
-import { fetchAction } from './use-action.tsx'
-import { fetchMission } from './use-mission.tsx'
 import { useOnlineManager } from '../hooks/use-online-manager.tsx'
 
 export type Frame = 'monthly' | 'yearly'
@@ -23,18 +21,8 @@ const fetchMissions = async (start: Date, end: Date): Promise<Mission2[]> => {
 // add cache for each mission and action
 const normalizeMission = (queryClient: ReturnType<typeof useQueryClient>, mission: Mission2) => {
   queryClient.setQueryData(missionsKeys.byId(mission.id), mission)
-  // ensureQueryData so that cache-key can auto-refresh with refetchInterval
-  queryClient.ensureQueryData({
-    queryKey: missionsKeys.byId(mission.id),
-    queryFn: () => fetchMission(mission.id)
-  })
   mission.actions?.forEach((action: MissionAction) => {
     queryClient.setQueryData(actionsKeys.byId(action.id), action)
-    // ensureQueryData so that cache-key can auto-refresh with refetchInterval
-    queryClient.ensureQueryData({
-      queryKey: actionsKeys.byId(action.id),
-      queryFn: () => fetchAction({ ownerId: mission.id, actionId: action.id })
-    })
   })
 }
 
@@ -83,19 +71,34 @@ const useMissionsQuery = (params: URLSearchParams, frame: Frame = 'monthly'): Us
 
   // Single useQueries for all scenarios
   const results = useQueries({
-    queries: queries.map(({ start, end, isCurrent }) => ({
+    queries: queries.map(({ start, end, isCurrent }, i) => ({
       queryKey: missionsKeys.filter(
         JSON.stringify({ startDateTimeUtc: start.toISOString(), endDateTimeUtc: end.toISOString() })
       ),
       queryFn: () => fetchMissions(start, end),
-      staleTime: isCurrent ? DYNAMIC_DATA_STALE_TIME : STATIC_DATA_STALE_TIME,
+      staleTime: i === 0 || i === 1 ? DYNAMIC_DATA_STALE_TIME : STATIC_DATA_STALE_TIME,
       gcTime: isCurrent ? DYNAMIC_DATA_STALE_TIME : STATIC_DATA_STALE_TIME,
       retry: 2,
-      revalidateIfStale: isCurrent,
-      refetchInterval: isCurrent ? HOURLY_TIME : false,
+      refetchInterval: i === 0 || i === 1 ? HOURLY_TIME : false,
       enabled: isOnline,
       select: (missions: Mission2[]) => {
-        missions.forEach(m => normalizeMission(queryClient, m))
+        // Only normalize on first load or when online and data changes
+        const currentCacheData = queryClient.getQueryData(
+          missionsKeys.filter(
+            JSON.stringify({
+              startDateTimeUtc: start.toISOString(),
+              endDateTimeUtc: end.toISOString()
+            })
+          )
+        ) as Mission2[]
+
+        // Check if this is fresh data worth normalizing
+        const shouldNormalize = !currentCacheData || JSON.stringify(currentCacheData) !== JSON.stringify(missions)
+
+        if (shouldNormalize) {
+          missions.forEach(m => normalizeMission(queryClient, m))
+        }
+
         return missions
       }
     }))

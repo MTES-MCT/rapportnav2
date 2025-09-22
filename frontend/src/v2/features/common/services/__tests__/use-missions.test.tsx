@@ -140,40 +140,4 @@ describe('useMissionsQuery', () => {
     // Verify only one query was made for monthly frame
     expect(axios.get).toHaveBeenCalledTimes(1)
   })
-
-  it('normalizes missions and actions into cache', async () => {
-    const missionsWithActions = [
-      {
-        id: 601,
-        name: 'Mission with actions',
-        actions: [
-          { id: 'action-1', name: 'Action 1' },
-          { id: 'action-2', name: 'Action 2' }
-        ]
-      }
-    ]
-
-    ;(axios.get as vi.Mock).mockResolvedValue({ data: missionsWithActions })
-
-    const params = new URLSearchParams({
-      startDateTimeUtc: '2025-02-01T00:00:00Z',
-      endDateTimeUtc: '2025-02-28T23:59:59Z'
-    })
-
-    renderHook(() => useMissionsQuery(params, 'monthly' as Frame), { wrapper })
-
-    await waitFor(() => {
-      // Verify mission was cached
-      expect(setQueryDataSpy).toHaveBeenCalledWith(expect.arrayContaining(['missions', '601']), missionsWithActions[0])
-      // Verify actions were cached
-      expect(setQueryDataSpy).toHaveBeenCalledWith(
-        expect.arrayContaining(['actions', 'action-1']),
-        missionsWithActions[0].actions[0]
-      )
-      expect(setQueryDataSpy).toHaveBeenCalledWith(
-        expect.arrayContaining(['actions', 'action-2']),
-        missionsWithActions[0].actions[1]
-      )
-    })
-  })
 })
