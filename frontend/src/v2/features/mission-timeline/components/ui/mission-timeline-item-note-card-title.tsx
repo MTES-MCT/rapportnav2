@@ -13,7 +13,14 @@ const MissionTimelineItemNoteCardTitle: React.FC<MissionTimelineItemNoteCardTitl
   ...props
 }) => {
   return (
-    <Text as="h3" weight="medium" color={THEME.color.gunMetal} {...props}>
+    <Text
+      as="h3"
+      weight="medium"
+      color={THEME.color.gunMetal}
+      truncate={true}
+      style={{ paddingRight: '1rem' }}
+      {...props}
+    >
       {`${action?.observations ?? text} `}
     </Text>
   )

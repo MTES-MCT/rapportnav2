@@ -6,9 +6,10 @@ exports[`MissionTimelineItemNoteCardTitle > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <p
-        class="sc-iRcyzz sc-fFmWCW kaCwCU hAFmCO"
+        class="sc-iRcyzz sc-fFmWCW fAgpof hAFmCO"
         color="#282F3E"
         font-size="13"
+        style="padding-right: 1rem;"
         weight="medium"
       >
         Note libre 
@@ -39,9 +40,10 @@ exports[`MissionTimelineItemNoteCardTitle > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <p
-      class="sc-iRcyzz sc-fFmWCW kaCwCU hAFmCO"
+      class="sc-iRcyzz sc-fFmWCW fAgpof hAFmCO"
       color="#282F3E"
       font-size="13"
+      style="padding-right: 1rem;"
       weight="medium"
     >
       Note libre 
