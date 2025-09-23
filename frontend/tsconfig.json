@@ -38,7 +38,10 @@
       "@router/*": [
         "src/router/*"
       ]
-    }
+    },
+    "types": [
+      "vite-plugin-pwa/react"
+    ]
   },
   "include": [
     "src"
