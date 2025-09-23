@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.25.6](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.25.5...frontend@v2.25.6) (2025-09-22)
+
+
+### Bug Fixes
+
+* truncate note when text too long ([33b1c04](https://github.com/MTES-MCT/rapportnav2/commit/33b1c04477dbe121f77da202f1631ecb4524504c))
+* wipe user cache ([b815bb8](https://github.com/MTES-MCT/rapportnav2/commit/b815bb8174ae5a549ab008f19e986c17e32e338b))
+
 ## [2.25.5](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.25.4...frontend@v2.25.5) (2025-09-22)
 
 
