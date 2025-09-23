@@ -15,7 +15,7 @@ class GetComputeEnvMission(
     fun execute(missionId: Int? = null, envMission: MissionEntity? = null): MissionEntity2? {
         val mission = envMission ?: missionId?.let { getEnvMissionById2.execute(it) } ?: return null
 
-        val id = mission.id ?: return null
+        val id = missionId ?: return null
         val actions = getMissionAction.execute(missionId = id)
         val generalInfos = getGeneralInfos2.execute(missionId = id, controlUnits = mission.controlUnits)
 

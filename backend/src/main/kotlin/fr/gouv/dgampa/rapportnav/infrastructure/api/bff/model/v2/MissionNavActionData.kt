@@ -2,6 +2,10 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.FishingGearType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.LeisureType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
@@ -50,6 +54,17 @@ class MissionNavActionData(
     override val  hasDivingDuringOperation: Boolean? = null,
     override val resourceType: String? = null,
     override val resourceId: Int? = null,
+    override var siren: String? = null,
+    override var nbrOfControl: Int? = null,
+    override var controlType: String? = null,
+    override val sectorType: SectorType? = null,
+    override var nbrOfControlAmp: Int? = null,
+    override var nbrOfControl300m: Int? = null,
+    override var leisureType: LeisureType? = null,
+    override var fishingGearType: FishingGearType? = null,
+    override var isControlDuringSecurityDay: Boolean? = null,
+    override var isSeizureSleepingFishingGear: Boolean? = null,
+    override var sectorEstablishmentType: SectorEstablishmentType? = null,
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
@@ -104,6 +119,17 @@ class MissionNavActionData(
                 hasDivingDuringOperation = data.hasDivingDuringOperation,
                 resourceType = data.resourceType,
                 resourceId = data.resourceId,
+                siren = data.siren,
+                nbrOfControl = data.nbrOfControl,
+                sectorType = data.sectorType,
+                nbrOfControlAmp = data.nbrOfControlAmp,
+                nbrOfControl300m = data.nbrOfControl300m,
+                isControlDuringSecurityDay = data.isControlDuringSecurityDay,
+                isSeizureSleepingFishingGear = data.isSeizureSleepingFishingGear,
+                sectorEstablishmentType = data.sectorEstablishmentType,
+                leisureType = data.leisureType,
+                fishingGearType = data.fishingGearType,
+                controlType = data.controlType
             )
             return action
         }

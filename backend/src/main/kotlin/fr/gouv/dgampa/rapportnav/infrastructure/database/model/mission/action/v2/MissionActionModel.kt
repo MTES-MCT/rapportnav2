@@ -1,6 +1,8 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.FishingGearType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.LeisureType
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcType
 import org.hibernate.dialect.PostgreSQLEnumJdbcType
@@ -149,6 +151,39 @@ data class MissionActionModel(
 
     @Column(name = "resource_id", nullable = true)
     var resourceId: Int? = null,
+
+    @Column(name = "siren", nullable = true)
+    var siren: String? = null,
+
+    @Column(name = "nbr_of_control", nullable = true)
+    var nbrOfControl: Int? = null,
+
+    @Column(name = "leisure_type", nullable = true)
+    var leisureType: String? = null,
+
+    @Column(name = "control_type", nullable = true)
+    var controlType: String? = null,
+
+    @Column(name = "fishing_gear_type", nullable = true)
+    var fishingGearType: String? = null,
+
+    @Column(name = "sector_type", nullable = true)
+    val sectorType: String? = null, //SectorType
+
+    @Column(name = "nbr_of_control_amp", nullable = true)
+    var nbrOfControlAmp: Int? = null,
+
+    @Column(name = "nbr_of_control_300m", nullable = true)
+    var nbrOfControl300m: Int? = null,
+
+    @Column(name = "is_control_during_security_day", nullable = true)
+    var isControlDuringSecurityDay: Boolean? =null,
+
+    @Column(name = "is_seizure_sleeping_fishing_gear", nullable = true)
+    var isSeizureSleepingFishingGear: Boolean? = null,
+
+    @Column(name = "sector_establishment_type", nullable = true)
+    var sectorEstablishmentType:String? = null,
 
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)

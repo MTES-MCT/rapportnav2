@@ -2,6 +2,10 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.FishingGearType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.LeisureType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
@@ -47,4 +51,15 @@ interface BaseMissionNavActionData {
     val hasDivingDuringOperation: Boolean?
     val resourceType: String?
     val resourceId: Int?
+    var siren: String?
+    var nbrOfControl: Int?
+    var controlType: String?
+    val sectorType: SectorType?
+    var nbrOfControlAmp: Int?
+    var nbrOfControl300m: Int?
+    var leisureType: LeisureType?
+    var fishingGearType: FishingGearType?
+    var isControlDuringSecurityDay: Boolean?
+    var isSeizureSleepingFishingGear: Boolean?
+    var sectorEstablishmentType: SectorEstablishmentType?
 }

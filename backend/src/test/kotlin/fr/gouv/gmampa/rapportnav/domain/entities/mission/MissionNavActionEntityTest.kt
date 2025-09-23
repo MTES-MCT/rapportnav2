@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsSta
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
@@ -74,6 +74,17 @@ class MissionNavActionEntityTest {
         assertThat(entity.resourceId).isEqualTo(model.resourceId)
         assertThat(entity.resourceType).isEqualTo(model.resourceType)
 
+        assertThat(entity.siren).isEqualTo(model.siren)
+        assertThat(entity.controlType).isEqualTo(model.controlType)
+        assertThat(entity.nbrOfControl).isEqualTo(model.nbrOfControl)
+        assertThat(entity.sectorType.toString()).isEqualTo(model.sectorType)
+        assertThat(entity.nbrOfControlAmp).isEqualTo(model.nbrOfControlAmp)
+        assertThat(entity.nbrOfControl300m).isEqualTo(model.nbrOfControl300m)
+        assertThat(entity.isControlDuringSecurityDay).isEqualTo(model.isControlDuringSecurityDay)
+        assertThat(entity.isSeizureSleepingFishingGear).isEqualTo(model.isSeizureSleepingFishingGear)
+        assertThat(entity.sectorEstablishmentType.toString()).isEqualTo(model.sectorEstablishmentType)
+        assertThat(entity.leisureType.toString()).isEqualTo(model.leisureType)
+        assertThat(entity.fishingGearType.toString()).isEqualTo(model.fishingGearType)
     }
 
     @Test
@@ -115,7 +126,18 @@ class MissionNavActionEntityTest {
             reason = ActionStatusReason.ADMINISTRATION,
             status = ActionStatusType.ANCHORED,
             ownerId = UUID.randomUUID(),
-            nbrOfHours = 45
+            nbrOfHours = 45,
+            siren = "mySiren",
+            nbrOfControl = 34,
+            sectorType = SectorType.FISHING,
+            nbrOfControlAmp = 4,
+            nbrOfControl300m = 3,
+            isControlDuringSecurityDay = false,
+            isSeizureSleepingFishingGear = true,
+            sectorEstablishmentType = SectorEstablishmentType.SHOUTED,
+            leisureType = LeisureType.KAYAK,
+            fishingGearType = FishingGearType.CASHIER,
+            controlType = "my control type"
         )
         val model = entity.toMissionActionModel()
 
@@ -165,6 +187,17 @@ class MissionNavActionEntityTest {
 
         assertThat(model.resourceId).isEqualTo(entity.resourceId)
         assertThat(model.resourceType).isEqualTo(entity.resourceType)
+        assertThat(model.siren).isEqualTo(entity.siren)
+        assertThat(model.controlType).isEqualTo(entity.controlType)
+        assertThat(model.nbrOfControl).isEqualTo(entity.nbrOfControl)
+        assertThat(model.sectorType).isEqualTo(entity.sectorType.toString())
+        assertThat(model.nbrOfControlAmp).isEqualTo(entity.nbrOfControlAmp)
+        assertThat(model.nbrOfControl300m).isEqualTo(entity.nbrOfControl300m)
+        assertThat(model.isControlDuringSecurityDay).isEqualTo(entity.isControlDuringSecurityDay)
+        assertThat(model.isSeizureSleepingFishingGear).isEqualTo(entity.isSeizureSleepingFishingGear)
+        assertThat(model.sectorEstablishmentType).isEqualTo(entity.sectorEstablishmentType.toString())
+        assertThat(model.leisureType).isEqualTo(entity.leisureType.toString())
+        assertThat(model.fishingGearType).isEqualTo(entity.fishingGearType.toString())
 
     }
 

@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.mocks.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
@@ -59,6 +59,17 @@ object MissionActionModelMock {
             isWithinDepartment = true,
             resourceType = "NAUTICAL",
             resourceId = 345,
+            siren = "mySiren",
+            nbrOfControl = 34,
+            sectorType = SectorType.FISHING.toString(),
+            nbrOfControlAmp = 4,
+            nbrOfControl300m = 3,
+            isControlDuringSecurityDay = false,
+            isSeizureSleepingFishingGear = true,
+            sectorEstablishmentType = SectorEstablishmentType.SHOUTED?.toString(),
+            leisureType = LeisureType.KAYAK?.toString(),
+            fishingGearType = FishingGearType.CASHIER?.toString(),
+            controlType = "my control type"
         )
     }
 }

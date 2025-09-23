@@ -2,7 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
@@ -86,6 +86,17 @@ class MissionNavAction(
                     hasDivingDuringOperation = navAction.hasDivingDuringOperation,
                     resourceId = navAction.resourceId,
                     resourceType = navAction.resourceType,
+                    siren = navAction.siren,
+                    nbrOfControl = navAction.nbrOfControl,
+                    sectorType = navAction.sectorType,
+                    nbrOfControlAmp = navAction.nbrOfControlAmp,
+                    nbrOfControl300m = navAction.nbrOfControl300m,
+                    isControlDuringSecurityDay = navAction.isControlDuringSecurityDay,
+                    isSeizureSleepingFishingGear = navAction.isSeizureSleepingFishingGear,
+                    sectorEstablishmentType = navAction.sectorEstablishmentType,
+                    leisureType = navAction.leisureType,
+                    fishingGearType = navAction.fishingGearType,
+                    controlType = navAction.controlType,
                     targets = navAction.targets?.map { Target2.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc }
                 )
             )

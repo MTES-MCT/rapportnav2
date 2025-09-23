@@ -66,6 +66,18 @@ class MissionNavActionDataTest {
         assertThat(output.data.isWithinDepartment).isEqualTo(entity.isWithinDepartment)
         assertThat(output.data.resourceId).isEqualTo(entity.resourceId)
         assertThat(output.data.resourceType).isEqualTo(entity.resourceType)
+
+        assertThat(output.data.siren).isEqualTo(entity.siren)
+        assertThat(output.data.controlType).isEqualTo(entity.controlType)
+        assertThat(output.data.nbrOfControl).isEqualTo(entity.nbrOfControl)
+        assertThat(output.data.sectorType).isEqualTo(entity.sectorType)
+        assertThat(output.data.nbrOfControlAmp).isEqualTo(entity.nbrOfControlAmp)
+        assertThat(output.data.nbrOfControl300m).isEqualTo(entity.nbrOfControl300m)
+        assertThat(output.data.isControlDuringSecurityDay).isEqualTo(entity.isControlDuringSecurityDay)
+        assertThat(output.data.isSeizureSleepingFishingGear).isEqualTo(entity.isSeizureSleepingFishingGear)
+        assertThat(output.data.sectorEstablishmentType).isEqualTo(entity.sectorEstablishmentType)
+        assertThat(output.data.leisureType).isEqualTo(entity.leisureType)
+        assertThat(output.data.fishingGearType).isEqualTo(entity.fishingGearType)
     }
 
     @Nested
@@ -73,7 +85,8 @@ class MissionNavActionDataTest {
 
         @Test
         fun `execute should use input status when is Status Action`() {
-            val model = MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.NAVIGATING)
+            val model =
+                MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.NAVIGATING)
             val input = MissionAction.fromMissionActionEntity(MissionNavActionEntity.fromMissionActionModel(model))
             val output = MissionNavActionData.toMissionNavActionEntity(input = input!!)
 
@@ -82,7 +95,8 @@ class MissionNavActionDataTest {
 
         @Test
         fun `execute should use action data status when is Status Action and input status is null`() {
-            val model = MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.NAVIGATING)
+            val model =
+                MissionActionModelMock.create(actionType = ActionType.STATUS, status = ActionStatusType.NAVIGATING)
             var input = MissionAction.fromMissionActionEntity(MissionNavActionEntity.fromMissionActionModel(model))
             val output = MissionNavActionData.toMissionNavActionEntity(input = input!!)
 
@@ -91,7 +105,8 @@ class MissionNavActionDataTest {
 
         @Test
         fun `execute should use action data status otherwise`() {
-            val model = MissionActionModelMock.create(actionType = ActionType.CONTROL, status = ActionStatusType.NAVIGATING)
+            val model =
+                MissionActionModelMock.create(actionType = ActionType.CONTROL, status = ActionStatusType.NAVIGATING)
             val input = MissionAction.fromMissionActionEntity(MissionNavActionEntity.fromMissionActionModel(model))
             val output = MissionNavActionData.toMissionNavActionEntity(input = input!!)
 
