@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.26.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.25.6...backend@v2.26.0) (2025-09-24)
+
+
+### Features
+
+* **backend:** new column for control action ([af1f43a](https://github.com/MTES-MCT/rapportnav2/commit/af1f43aba255ed404d217f62b439cfe281d11815))
+* **backend:** new column for control action ([1591fa2](https://github.com/MTES-MCT/rapportnav2/commit/1591fa27b611683ddb9025a4123d805453f0e117))
+* data migration to v2 schema ([#812](https://github.com/MTES-MCT/rapportnav2/issues/812)) ([ef40395](https://github.com/MTES-MCT/rapportnav2/commit/ef40395e9563272076dfb87ba4762c96d36aca92))
+
+
+### Bug Fixes
+
+* **backend:** rollback unwanted changes ([be6f816](https://github.com/MTES-MCT/rapportnav2/commit/be6f816e1816d3f621513f7a82737f550068ab93))
+* fix summary tags to include env+fish infractions ([#888](https://github.com/MTES-MCT/rapportnav2/issues/888)) ([de5a34f](https://github.com/MTES-MCT/rapportnav2/commit/de5a34f7c0f6ec2150216ac2688b8b6d1a22ebf8))
+
 ## [2.25.6](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.25.5...backend@v2.25.6) (2025-09-22)
 
 
