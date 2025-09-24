@@ -6,7 +6,6 @@ import { Divider, Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
 import VesselName from '../../../common/components/ui/vessel-name'
-import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionControlFishAdministrativeSection from '../../../mission-control/components/ui/mission-control-fish-administrative-section'
 import FishControlEnginesSection from '../../../mission-control/components/ui/mission-control-fish-engines-section'
@@ -25,7 +24,6 @@ const MissionActionItemFishControl: FC<{
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
   isMissionFinished?: boolean
 }> = ({ action, onChange, isMissionFinished }) => {
-  const { isOnline } = useOnlineManager()
   const { initValue, handleSubmit } = useMissionActionFishControl(action, onChange, isMissionFinished)
   return (
     <div style={{ width: '100%' }}>
@@ -47,18 +45,7 @@ const MissionActionItemFishControl: FC<{
                 <Stack.Item grow={1}>
                   <Field name="dates">
                     {(field: FieldProps<Date[]>) => (
-                      <FormikDateRangePicker
-                        label=""
-                        name="dates"
-                        isLight={true}
-                        fieldFormik={field}
-                        disabled={!isOnline}
-                        title={
-                          isOnline
-                            ? ''
-                            : "Non disponible hors ligne, il est nécessaire d'être synchronisé avec les centres pour saisir/modifier cette donnée."
-                        }
-                      />
+                      <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
                     )}
                   </Field>
                 </Stack.Item>

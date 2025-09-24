@@ -5,7 +5,6 @@ import React from 'react'
 import { Divider, Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
-import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionTargetControlEnv from '../../../mission-target/components/elements/mission-target-control-env.tsx'
 import MissionTargetList from '../../../mission-target/components/elements/mission-target-list.tsx'
@@ -28,8 +27,6 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
   onChange,
   isMissionFinished
 }) => {
-  const { isOnline } = useOnlineManager()
-
   const { computeControlTypeWithAmount, computeControlTypes } = useTarget()
   const { initValue, handleSubmit } = useMissionActionEnvControl(action, onChange, isMissionFinished)
 
@@ -53,18 +50,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                 <Stack.Item grow={1}>
                   <Field name="dates">
                     {(field: FieldProps<Date[]>) => (
-                      <FormikDateRangePicker
-                        label=""
-                        name="dates"
-                        isLight={true}
-                        fieldFormik={field}
-                        disabled={!isOnline}
-                        title={
-                          isOnline
-                            ? ''
-                            : "Non disponible hors ligne, il est nécessaire d'être synchronisé avec les centres pour saisir/modifier cette donnée."
-                        }
-                      />
+                      <FormikDateRangePicker label="" name="dates" isLight={true} fieldFormik={field} />
                     )}
                   </Field>
                 </Stack.Item>
