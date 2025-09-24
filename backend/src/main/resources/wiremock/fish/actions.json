@@ -25,8 +25,6 @@
     "separateStowageOfPreservedSpecies": "YES",
     "logbookInfractions": [],
     "licencesAndLogbookObservations": null,
-    "gearInfractions": [],
-    "speciesInfractions": [],
     "speciesObservations": null,
     "seizureAndDiversion": false,
     "otherInfractions": [],
@@ -67,6 +65,13 @@
         "comments": "400m\n4m50 de hauteur"
       }
     ],
+    "gearInfractions": [
+      {
+        "infractionType": "WITH_RECORD",
+        "natinf": 10002,
+        "comments": null
+      }
+    ],
     "speciesOnboard": [
       {
         "speciesCode": "RJN",
@@ -83,6 +88,18 @@
         "declaredWeight": 0.4,
         "controlledWeight": null,
         "underSized": false
+      }
+    ],
+    "speciesInfractions": [
+      {
+        "infractionType": "WITH_RECORD",
+        "natinf": 10000,
+        "comments": "pêche de juvéniles interdite"
+      },
+      {
+        "infractionType": "WITHOUT_RECORD",
+        "natinf": 10001,
+        "comments": null
       }
     ],
     "controlUnits": [],

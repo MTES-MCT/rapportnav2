@@ -116,6 +116,22 @@
           ]
         ]
       },
+      "infractions": [
+        {
+          "id": "1232131231",
+          "natinf": ["10000", "10001"],
+          "observations": null,
+          "registrationNumber":  null,
+          "companyName": null,
+          "relevantCourt": null,
+          "infractionType": "WITH_REPORT",
+          "formalNotice": "YES",
+          "toProcess": true,
+          "controlledPersonIdentity": null,
+          "vesselType": null,
+          "vesselSize": null
+        }
+      ],
       "observationsByUnit": null,
       "observations": "Reconnaissance cadastrale sur bouées de concession (futur arrêté en cours de création sur concessions huitres plates)",
       "openBy": "BLC"

@@ -5,8 +5,12 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnu
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ControlEntity2
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.SummaryTag
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
 import org.assertj.core.api.Assertions.assertThat
@@ -14,7 +18,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.time.Instant
-import java.util.*
+import java.util.UUID
 
 @ExtendWith(SpringExtension::class)
 class MissionEnvActionEntityTest {
@@ -141,6 +145,90 @@ class MissionEnvActionEntityTest {
         assertThat(entity.controlsToComplete).contains(ControlType.GENS_DE_MER)
         assertThat(entity.controlsToComplete).contains(ControlType.NAVIGATION)
     }
+
+
+    @Test
+    fun `getEnvSummaryTags should count infractions with report and natinf size`() {
+        val infractions = listOf(
+            InfractionEntity(
+                id = "1",
+                infractionType = InfractionTypeEnum.WITH_REPORT,
+                formalNotice = FormalNoticeEnum.NO,
+                toProcess = false,
+                natinf = listOf("123", "234")
+            ),
+            InfractionEntity(
+                id = "2",
+                infractionType = InfractionTypeEnum.WITHOUT_REPORT,
+                formalNotice = FormalNoticeEnum.NO,
+                toProcess = false,
+                natinf = listOf("222")
+            )
+        )
+
+        val entity = MissionEnvActionEntity(
+            id = UUID.randomUUID(),
+            missionId = 123,
+            envActionType = ActionTypeEnum.CONTROL,
+            envInfractions = infractions
+        )
+
+        val summaryTag = entity.run {
+            val method = this.javaClass.getDeclaredMethod("getEnvSummaryTags")
+            method.isAccessible = true
+            method.invoke(this) as SummaryTag
+        }
+
+        assertThat(summaryTag.withReport).isEqualTo(1)  // only one WITH_REPORT
+        assertThat(summaryTag.natInfSize).isEqualTo(3)  // 2 + 1
+    }
+
+    @Test
+    fun `computeSummaryTags should merge env and nav tags`() {
+        val entity = MissionEnvActionEntity(
+            id = UUID.randomUUID(),
+            missionId = 123,
+            envActionType = ActionTypeEnum.CONTROL,
+            targets = listOf<TargetEntity2>(
+                TargetEntity2(
+                    id = UUID.randomUUID(),
+                    actionId = "123",
+                    targetType = TargetType.INDIVIDUAL,
+                    controls = listOf(
+                        ControlEntity2(
+                            id = UUID.randomUUID(),
+                            controlType = ControlType.NAVIGATION,
+                            amountOfControls = 0,
+                            infractions = listOf(
+                                InfractionEntity2(
+                                    id = UUID.randomUUID(),
+                                    infractionType = InfractionTypeEnum.WITH_REPORT,
+                                    natinfs = listOf("111", "222")
+                                )
+                            ),
+                        )
+                    ),
+
+                )
+            ),
+            envInfractions = listOf(
+                InfractionEntity(
+                    id = "1",
+                    infractionType = InfractionTypeEnum.WITH_REPORT,
+                    formalNotice = FormalNoticeEnum.NO,
+                    toProcess = false,
+                    natinf = listOf("111", "222")
+                )
+            )
+        )
+        entity.computeSummaryTags()
+
+        assertThat(entity.summaryTags).isNotNull
+        assertThat(entity.summaryTags?.size).isEqualTo(2)
+        assertThat(entity.summaryTags?.get(0)).isEqualTo("2 PV")
+        assertThat(entity.summaryTags?.get(1)).isEqualTo("4 NATINF")
+    }
+
 
     private fun getEnvAction(completion: ActionCompletionEnum? = null): EnvActionEntity {
         return EnvActionControlEntity(
