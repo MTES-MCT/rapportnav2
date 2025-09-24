@@ -58,6 +58,21 @@ data class MissionEnvActionEntity(
         return id.toString()
     }
 
+    override fun computeSummaryTags() {
+        val nav = this.getNavSummaryTags()
+        val env = this.getEnvSummaryTags()
+        this.summaryTags = listOf(
+            getInfractionTag(nav.withReport + env.withReport),
+            getNatinfTag(nav.natInfSize + env.natInfSize)
+        )
+    }
+
+    private fun getEnvSummaryTags(): SummaryTag {
+        val withReport = this.envInfractions?.count { it.infractionType == InfractionTypeEnum.WITH_REPORT } ?: 0
+        val natInfSize = this.envInfractions?.sumOf { it.natinf?.size ?: 0 } ?: 0
+        return SummaryTag(withReport = withReport, natInfSize = natInfSize)
+    }
+
     override fun computeCompleteness() {
         val sourcesOfMissingDataForStats = mutableListOf<MissionSourceEnum>()
         val rapportNavComplete = EntityCompletenessValidator.isCompleteForStats(this)  && this.isStartDateEndDateOK()

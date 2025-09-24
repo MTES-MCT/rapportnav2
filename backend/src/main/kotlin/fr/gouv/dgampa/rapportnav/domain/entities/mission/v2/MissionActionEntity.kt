@@ -77,9 +77,11 @@ abstract class MissionActionEntity(
     }
 
     private fun getSummaryTags(target: TargetEntity2): SummaryTag {
-        val infractions = target.controls?.flatMap { it.infractions ?: emptyList() }
-        val natInfSize = infractions?.flatMap { it.natinfs }?.size ?: 0
-        val withReport = infractions?.count { it.infractionType == InfractionTypeEnum.WITH_REPORT } ?: 0
+        val infractions = target.controls?.flatMap { it.infractions ?: emptyList() } ?: emptyList()
+        val natInfSize = infractions.flatMap { it.natinfs }.size
+        val withReport = infractions.count { it.infractionType == InfractionTypeEnum.WITH_REPORT }
+
+
         return SummaryTag(withReport = withReport, natInfSize = natInfSize)
     }
 
