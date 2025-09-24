@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
@@ -29,7 +29,7 @@ class MissionNavActionEntity(
     override var actionType: ActionType,
     override var sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
     @MandatoryForStats
-    override var startDateTimeUtc: Instant? =  null,
+    override var startDateTimeUtc: Instant? = null,
     @MandatoryForStats(
         enableIf = [DependentFieldValue(
             field = "actionType",
@@ -42,17 +42,23 @@ class MissionNavActionEntity(
     )
     override var endDateTimeUtc: Instant? = null,
     override var observations: String? = null,
-    @MandatoryForStats(enableIf = [
-        DependentFieldValue(
-            field = "actionType",
-            value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION"])
-    ])
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(
+                field = "actionType",
+                value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION"]
+            )
+        ]
+    )
     override var latitude: Double? = null,
-    @MandatoryForStats(enableIf = [
-        DependentFieldValue(
-            field = "actionType",
-            value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION"])
-    ])
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(
+                field = "actionType",
+                value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION"]
+            )
+        ]
+    )
     override var longitude: Double? = null,
     override var detectedPollution: Boolean? = null,
     override var pollutionObservedByAuthorizedAgent: Boolean? = null,
@@ -109,7 +115,7 @@ class MissionNavActionEntity(
                 field = "isMigrationRescue",
                 value = arrayOf("true")
             ),
-           DependentFieldValue(field = "actionType", value = ["RESCUE"])
+            DependentFieldValue(field = "actionType", value = ["RESCUE"])
         ]
     )
     override var nbOfVesselsTrackedWithoutIntervention: Int? = null,
@@ -176,6 +182,63 @@ class MissionNavActionEntity(
         ]
     )
     override var resourceId: Int? = null,
+
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"])
+        ]
+    )
+    override var siren: String? = null,
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR", "CONTROL_NAUTICAL_LEISURE"])
+        ]
+    )
+    override var nbrOfControl: Int? = null,
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"])
+        ]
+    )
+    override val sectorType: SectorType? = null,
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["CONTROL_NAUTICAL_LEISURE"])
+        ]
+    )
+    override var nbrOfControlAmp: Int? = null,
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["CONTROL_NAUTICAL_LEISURE"])
+        ]
+    )
+    override var nbrOfControl300m: Int? = null,
+    override var isControlDuringSecurityDay: Boolean? = null,
+    override var isSeizureSleepingFishingGear: Boolean? = null,
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"])
+        ]
+    )
+    override var sectorEstablishmentType: SectorEstablishmentType? = null,
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["CONTROL_NAUTICAL_LEISURE"])
+        ]
+    )
+    override var leisureType: LeisureType? = null,
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["CONTROL_SLEEPING_FISHING_GEAR"])
+        ]
+    )
+    override var fishingGearType: FishingGearType? = null,
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["OTHER_CONTROL"])
+        ]
+    )
+    override var controlType: String? = null,
 ) : MissionActionEntity(
     status = status,
     actionType = actionType,
@@ -242,7 +305,18 @@ class MissionNavActionEntity(
         isWithinDepartment = isWithinDepartment,
         hasDivingDuringOperation = hasDivingDuringOperation,
         resourceType = resourceType,
-        resourceId = resourceId
+        resourceId = resourceId,
+        siren = siren,
+        nbrOfControl = nbrOfControl,
+        sectorType = sectorType?.toString(),
+        nbrOfControlAmp = nbrOfControlAmp,
+        nbrOfControl300m = nbrOfControl300m,
+        isControlDuringSecurityDay = isControlDuringSecurityDay,
+        isSeizureSleepingFishingGear = isSeizureSleepingFishingGear,
+        sectorEstablishmentType = sectorEstablishmentType?.toString(),
+        leisureType = leisureType?.toString(),
+        fishingGearType = fishingGearType?.toString(),
+        controlType = controlType
     )
 
 
@@ -254,7 +328,7 @@ class MissionNavActionEntity(
         fun fromMissionActionModel(model: MissionActionModel): MissionNavActionEntity {
             return MissionNavActionEntity(
                 id = model.id,
-                missionId = model.missionId?:0,
+                missionId = model.missionId ?: 0,
                 actionType = model.actionType,
                 startDateTimeUtc = model.startDateTimeUtc,
                 endDateTimeUtc = model.endDateTimeUtc,
@@ -295,7 +369,18 @@ class MissionNavActionEntity(
                 isWithinDepartment = model.isWithinDepartment,
                 hasDivingDuringOperation = model.hasDivingDuringOperation,
                 resourceType = model.resourceType,
-                resourceId = model.resourceId
+                resourceId = model.resourceId,
+                siren = model.siren,
+                nbrOfControl = model.nbrOfControl,
+                sectorType = model.sectorType?.let { SectorType.valueOf(it) },
+                nbrOfControlAmp = model.nbrOfControlAmp,
+                nbrOfControl300m = model.nbrOfControl300m,
+                isControlDuringSecurityDay = model.isControlDuringSecurityDay,
+                isSeizureSleepingFishingGear = model.isSeizureSleepingFishingGear,
+                sectorEstablishmentType = model.sectorEstablishmentType?.let { SectorEstablishmentType.valueOf(it) },
+                leisureType = model.leisureType?.let { LeisureType.valueOf(it) },
+                fishingGearType = model.fishingGearType?.let { FishingGearType.valueOf(it) },
+                controlType = model.controlType
             )
         }
     }

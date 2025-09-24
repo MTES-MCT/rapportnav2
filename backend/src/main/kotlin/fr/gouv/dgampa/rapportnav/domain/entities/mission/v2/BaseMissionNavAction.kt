@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import jakarta.persistence.Column
@@ -55,4 +55,15 @@ interface BaseMissionNavAction {
     var hasDivingDuringOperation: Boolean?
     var resourceType: String?
     var resourceId: Int?
+    var siren: String?
+    var nbrOfControl: Int?
+    var controlType: String?
+    val sectorType: SectorType?
+    var nbrOfControlAmp: Int?
+    var nbrOfControl300m: Int?
+    var leisureType: LeisureType?
+    var fishingGearType: FishingGearType?
+    var isControlDuringSecurityDay: Boolean?
+    var isSeizureSleepingFishingGear: Boolean?
+    var sectorEstablishmentType: SectorEstablishmentType?
 }
