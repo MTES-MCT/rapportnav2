@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.26.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.25.6...frontend@v2.26.0) (2025-09-24)
+
+
+### Bug Fixes
+
+* re-enable datepickers when offline ([#889](https://github.com/MTES-MCT/rapportnav2/issues/889)) ([f727cc9](https://github.com/MTES-MCT/rapportnav2/commit/f727cc908c11144fea02b8a8cd712958b3f7b4d7))
+
 ## [2.25.6](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.25.5...frontend@v2.25.6) (2025-09-22)
 
 
