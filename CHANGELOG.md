@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.28.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.28.0...docker-container@v2.28.1) (2025-09-25)
+
+
+### Bug Fixes
+
+* **backend:** security config allow request on public api company ([5d10d32](https://github.com/MTES-MCT/rapportnav2/commit/5d10d32e1a9340552278220869861af79fe63910))
+* **backend:** security config allow request on public api company ([1d1488a](https://github.com/MTES-MCT/rapportnav2/commit/1d1488a43f5818ff3654277b6d99b508cd61c998))
+
 ## [2.28.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.27.0...docker-container@v2.28.0) (2025-09-25)
 
 
