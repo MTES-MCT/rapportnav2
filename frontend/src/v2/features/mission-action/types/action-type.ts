@@ -57,3 +57,9 @@ export type ActionEnvControlInput = {
 } & MissionEnvActionData
 
 export type ActionInquiryInput = {} & MissionNavActionData
+
+export type ActionControlInput = {
+  dates: [Date?, Date?]
+  isMissionFinished: boolean
+  geoCoords: [number?, number?]
+} & MissionNavActionData

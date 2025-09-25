@@ -12,6 +12,7 @@ import { CompletenessForStats } from '@common/types/mission-types'
 import { ActionType } from '../../common/types/action-type'
 import { MissionSource } from '../../common/types/mission-types'
 import { NetworkSyncStatus } from '../../common/types/network-types.ts'
+import { SectorType } from '../../common/types/sector-types.ts'
 
 export type MissionTimelineAction = {
   id?: string
@@ -42,6 +43,7 @@ export type MissionTimelineAction = {
   vesselSize?: VesselSizeEnum
   networkSyncStatus?: NetworkSyncStatus
   nbrOfHours?: number
+  sectorType?: SectorType
 }
 
 export type TimelineAction = MissionTimelineAction

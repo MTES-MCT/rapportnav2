@@ -46,14 +46,13 @@ const TIME_LINE_DROPDOWN_ULAM_ITEMS_FIELD: TimelineDropdownItem[] = [
     dropdownText: 'Ajouter des contrôles',
     subItems: [
       { type: ActionType.CONTROL, dropdownText: 'Contrôle de navire' },
-      { type: ActionType.CONTROL_SECTOR, dropdownText: 'Contrôle de filière', disabled: true },
-      { type: ActionType.CONTROL_NAUTICAL_LEISURE, dropdownText: 'Contrôle de loisirs nautiques', disabled: true },
+      { type: ActionType.CONTROL_SECTOR, dropdownText: 'Contrôle de filière' },
+      { type: ActionType.CONTROL_NAUTICAL_LEISURE, dropdownText: 'Contrôle de loisirs nautiques' },
       {
         type: ActionType.CONTROL_SLEEPING_FISHING_GEAR,
-        dropdownText: `Contrôle d'agent de pêche dormant`,
-        disabled: true
+        dropdownText: `Contrôle d'agent de pêche dormant`
       },
-      { type: ActionType.OTHER_CONTROL, dropdownText: 'Autre contrôle', disabled: true }
+      { type: ActionType.OTHER_CONTROL, dropdownText: 'Autre contrôle' }
       //{ type: ActionType.INQUIRY, dropdownText: 'Contrôle croisés', disabled: true } //TODO: remove com as soon as inquiry link on mission is made
     ]
   },
@@ -296,6 +295,30 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
     icon: Icon.Contact,
     title: `Acceuil public / communication`,
     component: MissionTimelineItemGenericCard
+  },
+  [ActionType.OTHER_CONTROL]: {
+    style: { backgroundColor: THEME.color.white, borderColor: THEME.color.lightGray },
+    icon: Icon.ControlUnit,
+    title: `Contrôle - autre`,
+    component: MissionTimelineItemControlCard
+  },
+  [ActionType.CONTROL_NAUTICAL_LEISURE]: {
+    style: { backgroundColor: THEME.color.white, borderColor: THEME.color.lightGray },
+    icon: Icon.ControlUnit,
+    title: `Contrôle - Loisirs nautiques`,
+    component: MissionTimelineItemControlCard
+  },
+  [ActionType.CONTROL_SLEEPING_FISHING_GEAR]: {
+    style: { backgroundColor: THEME.color.white, borderColor: THEME.color.lightGray },
+    icon: Icon.ControlUnit,
+    title: `Contrôle - engin de pêche dormant`,
+    component: MissionTimelineItemControlCard
+  },
+  [ActionType.CONTROL_SECTOR]: {
+    style: { backgroundColor: THEME.color.white, borderColor: THEME.color.lightGray },
+    icon: Icon.ControlUnit,
+    title: `Contrôle - filière`,
+    component: MissionTimelineItemControlCard
   }
 }
 

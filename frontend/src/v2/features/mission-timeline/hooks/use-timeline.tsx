@@ -112,7 +112,8 @@ export function useTimeline(): TimelineHook {
       isPersonRescue: action.data?.isPersonRescue,
       reason: action.data?.reason,
       nbrOfHours: action.data.nbrOfHours,
-      networkSyncStatus: action.networkSyncStatus
+      networkSyncStatus: action.networkSyncStatus,
+      sectorType: action.data?.sectorType
     }
   }
 

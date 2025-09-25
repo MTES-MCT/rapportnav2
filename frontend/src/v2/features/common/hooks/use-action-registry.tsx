@@ -4,6 +4,10 @@ import MissionActionItemAntiPollution from '../../mission-action/components/elem
 import MissionActionItemBAAEMPermanence from '../../mission-action/components/elements/mission-action-item-baaem-performance'
 import MissionActionItemContact from '../../mission-action/components/elements/mission-action-item-contact'
 import MissionActionItemControl from '../../mission-action/components/elements/mission-action-item-control'
+import MissionActionItemNauticalLeisureControl from '../../mission-action/components/elements/mission-action-item-control-nautical-leisure'
+import MissionActionItemOtherControl from '../../mission-action/components/elements/mission-action-item-control-other'
+import MissionActionItemSectorControl from '../../mission-action/components/elements/mission-action-item-control-sector'
+import MissionActionItemSleepingFishingGearControl from '../../mission-action/components/elements/mission-action-item-control-sleeping-fishing-gear'
 import MissionActionItemIllegalImmigration from '../../mission-action/components/elements/mission-action-item-illegal-immigration'
 import MissionActionItemNote from '../../mission-action/components/elements/mission-action-item-note'
 import MissionActionItemPublicOrder from '../../mission-action/components/elements/mission-action-item-public-order'
@@ -86,6 +90,26 @@ const ACTION_REGISTRY: ActionRegistry = {
     icon: Icon.Observation,
     title: 'Contact',
     component: MissionActionItemContact
+  },
+  [ActionType.OTHER_CONTROL]: {
+    title: 'Contrôle - Autre',
+    icon: Icon.ControlUnit,
+    component: MissionActionItemOtherControl
+  },
+  [ActionType.CONTROL_NAUTICAL_LEISURE]: {
+    title: `Contrôle de loisirs nautiques`,
+    icon: Icon.ControlUnit,
+    component: MissionActionItemNauticalLeisureControl
+  },
+  [ActionType.CONTROL_SLEEPING_FISHING_GEAR]: {
+    title: `Contrôle d'engins de pêche dormant`,
+    icon: Icon.ControlUnit,
+    component: MissionActionItemSleepingFishingGearControl
+  },
+  [ActionType.CONTROL_SECTOR]: {
+    title: `Contrôle d'établissement filière`,
+    icon: Icon.ControlUnit,
+    component: MissionActionItemSectorControl
   }
 }
 

@@ -70,14 +70,15 @@ const MissionTargetNew: React.FC<MissionTargetNewProps> = ({
         </div>
       )}
       {!showForm && (
-        <Stack style={{ marginBottom: '.7em' }} justifyContent="flex-end">
-          <Stack.Item>
+        <Stack style={{ marginBottom: '.7em' }}>
+          <Stack.Item style={{ width: '100%' }}>
             <Button
               size={Size.NORMAL}
               Icon={Icon.Plus}
               onClick={handleShow}
               accent={Accent.SECONDARY}
-              role={'target-env-new-button'}
+              role={'target-new-button'}
+              style={{ width: 'inherit' }}
               disabled={isDisabled || !availableControlTypes?.length}
             >
               Ajouter une infraction

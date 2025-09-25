@@ -2,8 +2,14 @@ import { ControlType } from '@common/types/control-types'
 import { ActionTargetTypeEnum } from '@common/types/env-mission-types'
 import { uniq } from 'lodash'
 import { MissionSourceEnum } from '../../common/types/mission-types'
-import { Control, Infraction, Target, TargetType } from '../../common/types/target-types'
-import { TargetInfraction } from '../../mission-infraction/hooks/use-infraction-env-form'
+import { Control, Infraction, Target, TargetInfraction, TargetType } from '../../common/types/target-types'
+
+const CONTROL_TYPES = [
+  ControlType.ADMINISTRATIVE,
+  ControlType.GENS_DE_MER,
+  ControlType.NAVIGATION,
+  ControlType.SECURITY
+]
 
 export function useTarget() {
   const isDefaultTarget = (target?: Target) =>
@@ -99,6 +105,7 @@ export function useTarget() {
     fromInputToFieldValue,
     computeControlTypes,
     computeControlTypeOnTarget,
-    computeControlTypeWithAmount
+    computeControlTypeWithAmount,
+    controlTypes: CONTROL_TYPES
   }
 }
