@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.28.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.27.0...frontend@v2.28.0) (2025-09-25)
+
+
+### Features
+
+* serve app as PWA for offline asset serving ([#890](https://github.com/MTES-MCT/rapportnav2/issues/890)) ([5584434](https://github.com/MTES-MCT/rapportnav2/commit/558443445a4bc597dd9da498b3fc63007addc2c5))
+
 ## [2.27.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.26.0...frontend@v2.27.0) (2025-09-25)
 
 
