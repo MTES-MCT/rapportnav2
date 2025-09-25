@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.27.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.26.0...frontend@v2.27.0) (2025-09-25)
+
+
+### Features
+
+* **frontend:** control mission action component item ([9397aa8](https://github.com/MTES-MCT/rapportnav2/commit/9397aa8d3c4095ff455decdaf492179d476983c7))
+
 ## [2.26.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.25.6...frontend@v2.26.0) (2025-09-24)
 
 
