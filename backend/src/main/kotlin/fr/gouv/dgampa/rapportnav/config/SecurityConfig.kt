@@ -83,7 +83,7 @@ class SecurityConfig(
                             "style-src-elem 'self' 'unsafe-inline'; " +
                             "img-src 'self'; " +
                             "font-src 'self' data:; " + // Allow base64-encoded fonts
-                            "connect-src 'self' https://sentry.incubateur.net; " +
+                            "connect-src 'self' https://sentry.incubateur.net https://recherche-entreprises.api.gouv.fr; " +
                             "frame-src 'self'; " +
                             "base-uri 'self'; " +
                             "frame-ancestors 'none'; " +
