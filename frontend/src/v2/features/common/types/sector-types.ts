@@ -1,0 +1,24 @@
+export enum SectorType {
+  FISHING = 'FISHING',
+  PLEASURE = 'PLEASURE'
+}
+
+export enum SectorPleasureType {
+  PLEASURE_MARKET = 'PLEASURE_MARKET',
+  SEA_DRIVING_LESSON = 'SEA_DRIVING_LESSON',
+  OTHERS = 'OTHERS'
+}
+
+export enum SectorFishingType {
+  GMS = 'GMS',
+  RESTAURANT = 'RESTAURANT',
+  MOBILE_FISHMONGER = 'MOBILE_FISHMONGER',
+  SEDENTARY_FISHMONGER = 'SEDENTARY_FISHMONGER',
+  ROADSIDE_INSPECTION = 'ROADSIDE_INSPECTION',
+  SHOUTED = 'SHOUTED',
+  FISHMONGER = 'FISHMONGER',
+  LANDING_SITE = 'LANDING_SITE',
+  OTHERS = 'OTHERS'
+}
+
+export type SectorEtablishmentType = SectorPleasureType | SectorFishingType

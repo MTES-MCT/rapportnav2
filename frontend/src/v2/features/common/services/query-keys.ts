@@ -54,3 +54,8 @@ export const inquiriesKeys = {
   filter: (filters: string) => [...inquiriesKeys.all(), { filters }] as const,
   byId: (id: string) => [...inquiriesKeys.all(), `${id}`] as const
 }
+
+export const establishmentsKeys = {
+  all: () => ['establishments'] as const,
+  filter: (filters: string) => [...establishmentsKeys.all(), { filters }] as const
+}

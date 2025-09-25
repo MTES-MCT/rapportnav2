@@ -15,9 +15,11 @@ import {
 import { InfractionByTarget } from '@common/types/infraction-types'
 import { CompletenessForStats } from '@common/types/mission-types'
 import { ActionType } from './action-type'
+import { FishingGearType, LeisureType } from './leisure-fishing-gear-type.ts'
 import { MissionActionData } from './mission-action-data'
 import { MissionSource } from './mission-types'
 import { NetworkSyncStatus } from './network-types.ts'
+import { SectorEtablishmentType, SectorType } from './sector-types.ts'
 
 export interface MissionAction {
   id?: string
@@ -70,6 +72,16 @@ export interface MissionNavActionData extends MissionActionData {
   unitManagementTrainingType?: string
   resourceId?: string
   resourceType?: string
+  siren?: string
+  nbrOfControl?: number
+  sectorType?: SectorType
+  nbrOfControlAMP?: number
+  nbrOfControl300M?: number
+  leisureType?: LeisureType
+  fishingGearType?: FishingGearType
+  isControlDuringSecurityDay?: boolean
+  isSeizureSleepingFishingGear?: boolean
+  sectorEstablishmentType?: SectorEtablishmentType
 }
 
 export interface MissionNavAction extends MissionAction {
