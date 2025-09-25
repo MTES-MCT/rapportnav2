@@ -4,6 +4,7 @@ import importMetaEnv from '@import-meta-env/unplugin'
 import eslint from 'vite-plugin-eslint2'
 import path from 'path'
 import svgr from 'vite-plugin-svgr'
+import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -50,6 +51,30 @@ export default defineConfig({
     react(),
     svgr(),
     eslint(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      injectRegister: 'auto',
+      manifest: {
+        name: 'RapportNav',
+        short_name: 'RapportNav',
+        lang: 'fr',
+        icons: [
+          {
+            src: 'favicon.ico',
+            sizes: '64x64 32x32 24x24 16x16',
+            type: 'image/x-icon'
+          }
+        ]
+      },
+      workbox: {
+        // defining cached files formats
+        globPatterns: ['**/*.{js,css,html,ico,png,jpg,svg,webmanifest}']
+      },
+      devOptions: {
+        enabled: true
+        /* other options */
+      }
+    }),
     importMetaEnv.vite({
       env: './.env',
       example: './.env.example'

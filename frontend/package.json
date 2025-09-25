@@ -75,6 +75,7 @@
     "typescript": "^5.9.2",
     "vite": "^7.1.5",
     "vite-plugin-eslint2": "^5.0.4",
+    "vite-plugin-pwa": "^1.0.3",
     "vite-plugin-svgr": "4.5.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.4"
