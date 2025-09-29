@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.28.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.28.1...backend@v2.28.2) (2025-09-29)
+
+
+### Bug Fixes
+
+* new themes API from env + rapport de patrouille ([#896](https://github.com/MTES-MCT/rapportnav2/issues/896)) ([8fa7052](https://github.com/MTES-MCT/rapportnav2/commit/8fa70529838f96a3d71136ecac064708c7978f95))
+
 ## [2.28.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.28.0...backend@v2.28.1) (2025-09-25)
 
 
