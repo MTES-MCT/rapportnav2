@@ -86,7 +86,8 @@ export function useTimeline(): TimelineHook {
       actionTargetType: action.data?.actionTargetType,
       vehicleType: action.data?.vehicleType,
       formattedControlPlans: action.data?.formattedControlPlans,
-      networkSyncStatus: action.networkSyncStatus
+      networkSyncStatus: action.networkSyncStatus,
+      themes: action.data.themes
     }
   }
 

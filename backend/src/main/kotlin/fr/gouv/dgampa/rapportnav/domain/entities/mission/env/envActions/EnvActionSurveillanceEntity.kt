@@ -1,6 +1,8 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.tags.TagEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import org.locationtech.jts.geom.Geometry
 import java.time.Instant
 import java.util.*
@@ -19,6 +21,8 @@ data class EnvActionSurveillanceEntity(
     override val observations: String? = null,
     override val observationsByUnit: String? = null,
     override val coverMissionZone: Boolean? = null,
+    override val tags: List<TagEntity>? = listOf(),
+    override var themes: List<ThemeEntity>? = listOf(),
 ) : EnvActionEntity(
     actionType = ActionTypeEnum.SURVEILLANCE,
     id = id,

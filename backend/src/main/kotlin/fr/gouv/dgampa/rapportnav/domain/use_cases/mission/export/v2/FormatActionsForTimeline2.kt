@@ -2,8 +2,8 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.mapActionStatusTypeToHumanString
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
@@ -11,7 +11,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEnti
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatGeoCoords
 import java.time.LocalDate
@@ -21,7 +20,6 @@ class FormatActionsForTimeline2(
     private val groupActionByDate: GroupActionByDate2,
     private val formatDateTime: FormatDateTime,
     private val formatGeoCoords: FormatGeoCoords,
-    private val mapEnvActionControlPlans: MapEnvActionControlPlans,
 ) {
 
     /**
@@ -75,7 +73,7 @@ class FormatActionsForTimeline2(
         return when (action.actionType) {
             ActionType.STATUS -> formatNavStatus(action)
             ActionType.CONTROL -> formatNavControl(action)
-            ActionType.NOTE -> formatNavActionCommon(action = action, title = null)
+            ActionType.NOTE -> formatNavActionNote(action = action)
             ActionType.ANTI_POLLUTION -> formatNavActionCommon(
                 action = action,
                 title = "Opération de lutte anti-pollution"
@@ -121,8 +119,7 @@ class FormatActionsForTimeline2(
             val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
             val endTime = formatDateTime.formatTime(action.endDateTimeUtc)
             val facade = action.facade?.let { " - $it" } ?: ""
-            val filteredControlPlans: ControlPlansEntity? = mapEnvActionControlPlans.execute(action.controlPlans)
-            val themes = filteredControlPlans?.themes?.mapNotNull { it.theme }?.joinToString(", ")
+            val themes = action.themes?.mapNotNull { it.name }?.joinToString(", ")
             val amountOfControls = action.actionNumberOfControls?.let { " - $it contrôle(s)" } ?: ""
             return "$startTime / $endTime - Contrôle Environnement$facade - $themes$amountOfControls"
         }
@@ -132,8 +129,7 @@ class FormatActionsForTimeline2(
         return action?.let {
             val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
             val endTime = formatDateTime.formatTime(action.endDateTimeUtc)
-            val filteredControlPlans: ControlPlansEntity? = mapEnvActionControlPlans.execute(action.controlPlans)
-            val themes = filteredControlPlans?.themes?.mapNotNull { it.theme }?.joinToString(", ")
+            val themes = action.themes?.mapNotNull { it.name }?.joinToString(", ")
             return "$startTime / $endTime - Surveillance Environnement - $themes"
         }
     }
@@ -141,10 +137,15 @@ class FormatActionsForTimeline2(
     fun formatFishControl(action: MissionFishActionEntity?): String? {
         return action?.let {
             val startTime = formatDateTime.formatTime(action.actionDatetimeUtc)
-            val coords = formatGeoCoords.formatLatLon(action.latitude, action.longitude).let {
-                "(DD): ${it.first},${it.second}"
+            val coords = if (action.fishActionType == MissionActionType.LAND_CONTROL) {
+                "à terre - ${action.portName} (${action.portLocode})"
+            } else {
+                val (lat, lon) = formatGeoCoords.formatLatLon(action.latitude, action.longitude)
+                "en mer - (DD): $lat,$lon"
             }
-            val vesselInfo = "${action.vesselName ?: "N/A"} - ${action.portLocode ?: ""} ${action.vesselId}"
+
+            val vesselInfo = action.vesselName?.let { "$it (${action.externalReferenceNumber})" } ?: ""
+
             val seizureAndDiversion = if (action.seizureAndDiversion == true) " - retour du navire au port" else ""
             val natinfs: String = listOfNotNull(
                 action.gearInfractions?.map { it.natinf },
@@ -199,6 +200,15 @@ class FormatActionsForTimeline2(
             val observation =
                 if (!action.observations.isNullOrEmpty()) " - ${action.observations}" else ""
             "$startTime$endTime$titleStr$observation"
+        }
+    }
+
+    private fun formatNavActionNote(action: MissionNavActionEntity): String? {
+        return action.let {
+            val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
+            val observation =
+                if (!action.observations.isNullOrEmpty()) " - ${action.observations}" else " - aucune observation"
+            "$startTime$observation"
         }
     }
 

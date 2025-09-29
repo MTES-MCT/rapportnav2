@@ -14,6 +14,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSe
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
+import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.Base64Converter
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.OfficeConverter
 import org.apache.poi.xwpf.usermodel.*
@@ -81,9 +82,8 @@ class ExportMissionPatrolSingle2(
                 statuses = statuses!!,
                 durationUnit = DurationUnit.HOURS
             )
-            val missionDuration = durations.values
-                .flatMap { it.values }
-                .sum()
+
+            val missionDuration = ComputeDurationUtils.durationInHours(mission.data?.startDateTimeUtc, mission.data?.endDateTimeUtc)
 
             val nbOfDaysAtSea = getNbOfDaysAtSeaFromNavigationStatus.execute(
                 missionStartDateTime = mission.data?.startDateTimeUtc!!,

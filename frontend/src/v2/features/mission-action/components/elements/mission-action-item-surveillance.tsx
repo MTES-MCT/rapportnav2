@@ -1,13 +1,13 @@
 import Text from '@common/components/ui/text'
 import { FormikEffect, FormikTextarea, Label, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Formik } from 'formik'
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionSurveillance } from '../../hooks/use-mission-action-surveillance'
 import { ActionSurveillanceInput } from '../../types/action-type'
-import MissionActionEnvControlPlan from '../ui/mission-action-env-control-plan'
+import MissionActionEnvThemes from '../ui/mission-action-env-themes.tsx'
 
 const MissionActionItemSurveillance: FC<{
   action: MissionAction
@@ -34,7 +34,7 @@ const MissionActionItemSurveillance: FC<{
                   </Stack>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <MissionActionEnvControlPlan controlPlans={values?.formattedControlPlans} />
+                  <MissionActionEnvThemes themes={values?.themes} />
                 </Stack.Item>
                 <Stack.Item>
                   <Label>Observations</Label>

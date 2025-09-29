@@ -12,9 +12,9 @@ import MissionTargetNew from '../../../mission-target/components/elements/missio
 import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
 import { useMissionActionEnvControl } from '../../hooks/use-mission-action-env-control'
 import { ActionEnvControlInput } from '../../types/action-type'
-import MissionActionEnvControlPlan from '../ui/mission-action-env-control-plan'
 import MissionActionEnvControlSummary from '../ui/mission-action-env-control-summary'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
+import MissionActionEnvThemes from '../ui/mission-action-env-themes.tsx'
 
 export type MissionActionItemEnvControlProps = {
   action: MissionAction
@@ -45,7 +45,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                 data-testid={'action-control-nav'}
               >
                 <Stack.Item style={{ width: '100%' }}>
-                  <MissionActionEnvControlPlan controlPlans={values?.formattedControlPlans} />
+                  <MissionActionEnvThemes themes={values?.themes} />
                 </Stack.Item>
                 <Stack.Item grow={1}>
                   <Field name="dates">

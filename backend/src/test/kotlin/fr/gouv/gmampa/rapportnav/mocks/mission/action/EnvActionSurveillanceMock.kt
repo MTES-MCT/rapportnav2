@@ -3,6 +3,8 @@ package fr.gouv.gmampa.rapportnav.mocks.mission.action
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionSurveillanceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
+import fr.gouv.gmampa.rapportnav.mocks.mission.env.ThemeEntityMock
 import org.locationtech.jts.geom.Geometry
 import java.time.Instant
 import java.util.*
@@ -21,6 +23,7 @@ object EnvActionSurveillanceMock {
         completedBy: String? = null,
         openBy: String? = null,
         coverMissionZone: Boolean? = null,
+        themes: List<ThemeEntity> = listOf(ThemeEntityMock.create()),
     ): EnvActionSurveillanceEntity {
         return EnvActionSurveillanceEntity(
             id = id,
@@ -34,8 +37,8 @@ object EnvActionSurveillanceMock {
             completion = completion,
             openBy = openBy,
             completedBy = completedBy,
-            coverMissionZone = coverMissionZone
-            // Set other properties to their default values or mocks as needed
+            coverMissionZone = coverMissionZone,
+            themes = themes,
         )
     }
 }

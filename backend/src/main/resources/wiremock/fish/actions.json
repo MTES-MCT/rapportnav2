@@ -14,7 +14,7 @@
     "flightGoals": [],
     "missionId": 21417,
     "actionType": "LAND_CONTROL",
-    "actionDatetimeUtc": "2025-02-20T10:24:00Z",
+    "actionDatetimeUtc": "2025-09-25T16:00:00Z",
     "actionEndDatetimeUtc": null,
     "emitsVms": "NOT_APPLICABLE",
     "emitsAis": "NOT_APPLICABLE",
@@ -42,7 +42,7 @@
     "longitude": null,
     "latitude": null,
     "portLocode": "FRARC",
-    "portName": null,
+    "portName": "La Rochelle",
     "seizureAndDiversionComments": null,
     "otherComments": null,
     "gearOnboard": [

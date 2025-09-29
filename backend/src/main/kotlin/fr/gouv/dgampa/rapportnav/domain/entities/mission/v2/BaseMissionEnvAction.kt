@@ -2,6 +2,8 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.tags.TagEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.FormattedEnvActionControlPlan
 import org.locationtech.jts.geom.Geometry
@@ -27,4 +29,6 @@ interface BaseMissionEnvAction {
     val coverMissionZone: Boolean?
     val formattedControlPlans: List<FormattedEnvActionControlPlan>?
     val availableControlTypesForInfraction: List<ControlType>?
+    val tags: List<TagEntity>?
+    var themes: List<ThemeEntity>?
 }
