@@ -13,14 +13,17 @@ import java.util.*
 object MissionActionModelMock {
     fun create(
         actionType: ActionType = ActionType.CONTROL,
-        status: ActionStatusType? = ActionStatusType.ANCHORED
+        status: ActionStatusType? = ActionStatusType.ANCHORED,
+        startDateTimeUtc: Instant = Instant.parse("2019-09-08T22:00:00.000+01:00"),
+        observations: String? = "observations",
+
     ): MissionActionModel {
         return MissionActionModel(
             missionId = 761,
             id = UUID.fromString("0000-00-00-00-000000"),
-            startDateTimeUtc = Instant.parse("2019-09-08T22:00:00.000+01:00"),
+            startDateTimeUtc = startDateTimeUtc,
             endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
-            observations = "My beautiful observation",
+            observations = observations,
             isAntiPolDeviceDeployed = true,
             isSimpleBrewingOperationDone = true,
             diversionCarriedOut = true,
@@ -30,7 +33,7 @@ object MissionActionModelMock {
             detectedPollution = false,
             pollutionObservedByAuthorizedAgent = false,
             controlMethod = ControlMethod.SEA.toString(),
-            vesselIdentifier = "vesselIdentifier",
+            vesselIdentifier = "FR-23566",
             vesselType = VesselTypeEnum.FISHING.toString(),
             vesselSize = VesselSizeEnum.LESS_THAN_12m.toString(),
             identityControlledPerson = "identityControlledPerson",

@@ -19,6 +19,8 @@ import { FishingGearType, LeisureType } from './leisure-fishing-gear-type.ts'
 import { MissionActionData } from './mission-action-data'
 import { MissionSource } from './mission-types'
 import { NetworkSyncStatus } from './network-types.ts'
+import { EnvTag } from '@common/types/env-tags.ts'
+import { EnvTheme } from '@common/types/env-themes.ts'
 import { SectorEtablishmentType, SectorType } from './sector-types.ts'
 
 export interface MissionAction {
@@ -110,6 +112,8 @@ export interface MissionEnvActionData extends MissionActionData {
   formattedControlPlans: any
   controlsToComplete: ControlType[]
   availableControlTypesForInfraction: ControlType[]
+  tags: EnvTag[]
+  themes: EnvTheme[]
 }
 
 export interface MissionEnvAction extends MissionAction {

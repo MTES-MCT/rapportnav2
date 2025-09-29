@@ -3,6 +3,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTargetTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VehicleTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.tags.TagEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import org.locationtech.jts.geom.Geometry
@@ -30,7 +32,9 @@ class MissionEnvActionData(
     override val coverMissionZone: Boolean? = null,
     override val formattedControlPlans: Any? = null,
     override val availableControlTypesForInfraction: List<ControlType>? = null,
-    override val targets: List<Target2>? = null
+    override val targets: List<Target2>? = null,
+    override val tags: List<TagEntity>? = listOf(),
+    override var themes: List<ThemeEntity>? = listOf(),
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
@@ -47,7 +51,9 @@ class MissionEnvActionData(
                 startDateTimeUtc = data?.startDateTimeUtc,
                 observations = data?.observations,
                 observationsByUnit = data?.observationsByUnit,
-                envActionType = ActionTypeEnum.valueOf(input.actionType.toString())
+                envActionType = ActionTypeEnum.valueOf(input.actionType.toString()),
+                tags = data.tags,
+                themes = data.themes.orEmpty()
             )
             return action
         }

@@ -35,6 +35,7 @@ object FishActionControlMock {
         isComplianceWithWaterRegulationsControl: Boolean? = null,
         isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
         isSeafarersControl: Boolean? = null,
+        externalReferenceNumber: String? = "AC 1435",
     ): MissionAction {
         return MissionAction(
             id = id,
@@ -65,7 +66,8 @@ object FishActionControlMock {
             isSeafarersControl = isSeafarersControl,
             isAdministrativeControl = isAdministrativeControl,
             isComplianceWithWaterRegulationsControl = isComplianceWithWaterRegulationsControl,
-            isSafetyEquipmentAndStandardsComplianceControl = isSafetyEquipmentAndStandardsComplianceControl
+            isSafetyEquipmentAndStandardsComplianceControl = isSafetyEquipmentAndStandardsComplianceControl,
+            externalReferenceNumber = externalReferenceNumber
             )
     }
 }

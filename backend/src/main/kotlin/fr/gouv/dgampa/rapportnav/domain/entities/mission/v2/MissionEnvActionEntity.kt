@@ -3,6 +3,8 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.tags.TagEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
@@ -38,7 +40,9 @@ data class MissionEnvActionEntity(
     override val isComplianceWithWaterRegulationsControl: Boolean? = null,
     override val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
     override val isSeafarersControl: Boolean? = null,
-    override var targets: List<TargetEntity2>? = null
+    override var targets: List<TargetEntity2>? = null,
+    override val tags: List<TagEntity>? = listOf(),
+    override var themes: List<ThemeEntity>? = listOf(),
     ) : MissionActionEntity(
     missionId = missionId,
     isCompleteForStats = false,
@@ -150,7 +154,9 @@ data class MissionEnvActionEntity(
             actionTargetType = action.actionTargetType,
             vehicleType = action.vehicleType,
             coverMissionZone = action.coverMissionZone,
-            envInfractions = action.infractions
+            envInfractions = action.infractions,
+            tags = action.tags,
+            themes = action.themes,
         )
     }
 }

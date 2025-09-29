@@ -35,7 +35,7 @@ class MissionExportController(
         try {
 //            throw Exception("fdfdfd")
             val output: MissionExportEntity? =
-                exportMissionReports.execute(missionIds = missionIds, exportMode = exportMode, reportType = reportType)
+                exportMissionReports.execute(missionIds = missionIds.distinct(), exportMode = exportMode, reportType = reportType)
             return output
         } catch (e: Exception) {
             logger.error("API exportMissionReports - error while generating documents", e)

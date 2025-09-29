@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.tags.TagEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import org.locationtech.jts.geom.Geometry
 import org.n52.jackson.datatype.jts.GeometryDeserializer
 import java.time.Instant
@@ -42,5 +44,7 @@ abstract class EnvActionEntity(
     open val actionTargetType: ActionTargetTypeEnum? = null,
     open val vehicleType: VehicleTypeEnum? = null,
     open val infractions: List<InfractionEntity>? = listOf(),
-    open val coverMissionZone: Boolean? = null
+    open val coverMissionZone: Boolean? = null,
+    open val tags: List<TagEntity>? = listOf(),
+    open var themes: List<ThemeEntity>? = listOf(),
 )
