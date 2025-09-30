@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.28.3](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.28.2...frontend@v2.28.3) (2025-09-30)
+
+
+### Bug Fixes
+
+* restore loading all missions on PAM homepage ([8bc2377](https://github.com/MTES-MCT/rapportnav2/commit/8bc237747438caecd72e32a096c957e389067522))
+
 ## [2.28.2](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.28.1...frontend@v2.28.2) (2025-09-29)
 
 
