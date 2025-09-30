@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.28.3](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.28.2...docker-container@v2.28.3) (2025-09-30)
+
+
+### Bug Fixes
+
+* completeness now also uses nbRecognisedVessel and observationsByUnit ([897251e](https://github.com/MTES-MCT/rapportnav2/commit/897251eabaaa7038a9ecbd0b2865b68a75ef8d23))
+* only use actions for completeness for stats for secondary missions ([07c3f02](https://github.com/MTES-MCT/rapportnav2/commit/07c3f02fd3f19feb447dedb7bcac8019ff876696))
+* rapport de patrouille pêche loisir ([#898](https://github.com/MTES-MCT/rapportnav2/issues/898)) ([de7b377](https://github.com/MTES-MCT/rapportnav2/commit/de7b377ba791356f7249d6ab8a8900e93a8f96c5))
+* restore loading all missions on PAM homepage ([8bc2377](https://github.com/MTES-MCT/rapportnav2/commit/8bc237747438caecd72e32a096c957e389067522))
+
 ## [2.28.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.28.1...docker-container@v2.28.2) (2025-09-29)
 
 
