@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntity2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionEnvActionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
@@ -121,6 +122,35 @@ class MissionEntity2Tests {
 
         assertEquals(CompletenessForStatsStatusEnum.INCOMPLETE, result.status)
         assertTrue(result.sources!!.contains(MissionSourceEnum.RAPPORTNAV))
+    }
+
+    @Test
+    fun `isCompleteForStats should return COMPLETE when actions are complete for secondary missions`() {
+        val action = MissionEnvActionEntityMock.create(completion = ActionCompletionEnum.COMPLETED)
+        action.isCompleteForStats = true
+
+        val generalInfo = MissionGeneralInfoEntity2Mock.create(
+            data = MissionGeneralInfoEntity(
+                distanceInNauticalMiles = null, // it is null but not a problem for secondary missions
+                consumedGOInLiters = 1F,
+                consumedFuelInLiters = 1F,
+                nbrOfRecognizedVessel = 1,
+            ),
+            crew = listOf(MissionCrewEntityMock.create())
+        )
+        val mission = MissionEntity2(
+            actions = listOf(action),
+            generalInfos = generalInfo,
+            data = EnvMissionMock.create(
+                observationsByUnit = null, // it is null but not a problem for secondary missions
+                controlUnits = listOf(LegacyControlUnitEntityMock.create(), LegacyControlUnitEntityMock.create())
+            ),
+        )
+
+        val result: CompletenessForStatsEntity = mission.isCompleteForStats()
+
+        assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
+        assertTrue(result.sources!!.isEmpty())
     }
 
 }
