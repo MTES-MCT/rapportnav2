@@ -750,6 +750,7 @@ class GetMissionOperationalSummary2Tests {
         private val actions = listOf(
             // action control Peche de loisir with infraction
             MissionEnvActionEntityMock.create(
+                actionNumberOfControls = 3,
                 themes = listOf(ThemeEntityMock.create(id = 112)),
                 envInfractions = listOf(EnvInfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT)),
                 targets = listOf(
@@ -770,6 +771,7 @@ class GetMissionOperationalSummary2Tests {
 
             // action control Peche de loisir without infraction
             MissionEnvActionEntityMock.create(
+                actionNumberOfControls = 3,
                 themes = listOf(ThemeEntityMock.create(id = 112)),
                 envInfractions = listOf(),
             ),
@@ -829,7 +831,7 @@ class GetMissionOperationalSummary2Tests {
                 actions = actions
             )
             val expected = mapOf(
-                "nbControls" to 2,
+                "nbControls" to 6,
                 "nbPv" to 3,
             )
             assertEquals(summary, expected)
