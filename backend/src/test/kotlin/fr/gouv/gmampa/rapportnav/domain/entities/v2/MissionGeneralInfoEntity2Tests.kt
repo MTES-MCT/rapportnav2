@@ -79,6 +79,19 @@ class MissionGeneralInfoEntity2Tests {
             }
 
             @Test
+            fun `should return false when nbrOfRecognizedVessel is null`() {
+                // Given
+                val data = createCompleteData().copy(nbrOfRecognizedVessel = null)
+                val entity = MissionGeneralInfoEntity2(data = data, crew = emptyList())
+
+                // When
+                val result = entity.isCompleteForStats()
+
+                // Then
+                assertFalse(result)
+            }
+
+            @Test
             fun `should return false when crew is empty and data is complete`() {
                 // Given
                 val data = createCompleteData()
@@ -112,7 +125,8 @@ class MissionGeneralInfoEntity2Tests {
                 missionId = 1,
                 consumedFuelInLiters = 100f,
                 consumedGOInLiters = 50f,
-                distanceInNauticalMiles = 200f
+                distanceInNauticalMiles = 200f,
+                nbrOfRecognizedVessel = 2
             )
         }
 }
