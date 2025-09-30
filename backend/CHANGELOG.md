@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.28.4](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.28.3...backend@v2.28.4) (2025-09-30)
+
+
+### Bug Fixes
+
+* cache synchro across pages ([5bb55ec](https://github.com/MTES-MCT/rapportnav2/commit/5bb55ecf102ecafd3dd43dbfb3721b2a681c9436))
+* **RapportDePatrouille:** env fishing leisure - use amountOfControls ([0003d5e](https://github.com/MTES-MCT/rapportnav2/commit/0003d5eb512129d08d563b86421d039757c48966))
+
 ## [2.28.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.28.2...backend@v2.28.3) (2025-09-30)
 
 
