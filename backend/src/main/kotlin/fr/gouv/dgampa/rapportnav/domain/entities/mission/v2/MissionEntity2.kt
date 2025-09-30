@@ -21,7 +21,15 @@ data class MissionEntity2(
 
     fun isCompleteForStats(): CompletenessForStatsEntity {
         val completenessForStats = this.actionsIsCompleteForStats()
-        val generalInfoComplete = this.generalInfos?.isCompleteForStats()
+
+        // for secondary missions (missions conjointes ou inter-services)
+        // do not validate generalInfos, only actions matter
+        val generalInfoComplete = if ((this.data?.controlUnits?.size ?: 0) > 1) {
+            true
+        } else {
+            this.generalInfos?.isCompleteForStats()
+        }
+
         return CompletenessForStatsEntity(
             status = if (generalInfoComplete == true) completenessForStats.status  else CompletenessForStatsStatusEnum.INCOMPLETE,
             sources = if (generalInfoComplete == true) completenessForStats.sources  else completenessForStats.sources?.plus(MissionSourceEnum.RAPPORTNAV)
@@ -59,7 +67,7 @@ data class MissionEntity2(
         }
 
         // check mission observationsByUnit is not null
-        if (this.data?.observationsByUnit == null) {
+        if ((this.data?.controlUnits?.size ?: 0) < 2 && this.data?.observationsByUnit == null) {
             sources.plus(MissionSourceEnum.RAPPORTNAV)
         }
 
