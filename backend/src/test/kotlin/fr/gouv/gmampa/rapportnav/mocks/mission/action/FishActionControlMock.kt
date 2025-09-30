@@ -67,7 +67,7 @@ object FishActionControlMock {
             isAdministrativeControl = isAdministrativeControl,
             isComplianceWithWaterRegulationsControl = isComplianceWithWaterRegulationsControl,
             isSafetyEquipmentAndStandardsComplianceControl = isSafetyEquipmentAndStandardsComplianceControl,
-            externalReferenceNumber = externalReferenceNumber
+            externalReferenceNumber = externalReferenceNumber,
             )
     }
 }

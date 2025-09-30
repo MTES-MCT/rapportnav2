@@ -1,161 +1,177 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
+package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
 
 import com.neovisionaries.i18n.CountryCode
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.GetMissionOperationalSummary
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.GetMissionOperationalSummary2
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.*
-import fr.gouv.gmampa.rapportnav.mocks.mission.control.ControlAdministrativeEntityMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.control.ControlGensDeMerEntityMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.control.ControlNavigationEntityMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.control.ControlSecurityEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.env.ThemeEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.EnvInfractionEntityMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEntity2Mock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class GetMissionOperationalSummaryTests {
+class GetMissionOperationalSummary2Tests {
 
-    val getMissionOperationalSummary = GetMissionOperationalSummary()
+    val getMissionOperationalSummary = GetMissionOperationalSummary2()
 
     @Nested
     inner class FishActionsSummary {
 
-        private fun getActions(actionType: MissionActionType): List<MissionActionEntity.FishAction> {
-            return listOf(
-                MissionActionEntity.FishAction(
-                    ExtendedFishActionEntityMock.create(
-                        controlAction = ExtendedFishActionControlEntityMock.create(
-                            action = FishActionControlMock.create(
-                                flagState = CountryCode.BE,
-                                actionType = actionType,
-                                logbookInfractions = listOf(
-                                    LogbookInfraction(infractionType = InfractionType.WITH_RECORD),
-                                    LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD),
-                                    LogbookInfraction(infractionType = InfractionType.PENDING),
-                                ),
-                                speciesInfractions = listOf(
-                                    SpeciesInfraction(infractionType = InfractionType.WITH_RECORD),
-                                    SpeciesInfraction(infractionType = InfractionType.WITHOUT_RECORD),
-                                    SpeciesInfraction(infractionType = InfractionType.PENDING),
-                                ),
-                                gearInfractions = listOf(
-                                    GearInfraction(infractionType = InfractionType.WITH_RECORD),
-                                    GearInfraction(infractionType = InfractionType.WITHOUT_RECORD),
-                                    GearInfraction(infractionType = InfractionType.PENDING),
-                                ),
-                                otherInfractions = listOf(
-                                    OtherInfraction(infractionType = InfractionType.WITH_RECORD),
-                                    OtherInfraction(infractionType = InfractionType.WITHOUT_RECORD),
-                                    OtherInfraction(infractionType = InfractionType.PENDING),
-                                ),
-                                seizureAndDiversion = true,
+        private fun getActions(actionType: MissionActionType): List<MissionFishActionEntity> {
 
-                            ),
-                            controlAdministrative = ControlAdministrativeEntityMock.create(
+            val action1 = MissionFishActionEntityMock.create(
+                flagState = CountryCode.BE,
+                fishActionType = actionType,
+                logbookInfractions = listOf(
+                    LogbookInfraction(infractionType = InfractionType.WITH_RECORD),
+                    LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD),
+                    LogbookInfraction(infractionType = InfractionType.PENDING),
+                ),
+                speciesInfractions = listOf(
+                    SpeciesInfraction(infractionType = InfractionType.WITH_RECORD),
+                    SpeciesInfraction(infractionType = InfractionType.WITHOUT_RECORD),
+                    SpeciesInfraction(infractionType = InfractionType.PENDING),
+                ),
+                gearInfractions = listOf(
+                    GearInfraction(infractionType = InfractionType.WITH_RECORD),
+                    GearInfraction(infractionType = InfractionType.WITHOUT_RECORD),
+                    GearInfraction(infractionType = InfractionType.PENDING),
+                ),
+                otherInfractions = listOf(
+                    OtherInfraction(infractionType = InfractionType.WITH_RECORD),
+                    OtherInfraction(infractionType = InfractionType.WITHOUT_RECORD),
+                    OtherInfraction(infractionType = InfractionType.PENDING),
+                ),
+                seizureAndDiversion = true,
+                targets = listOf(
+                    TargetMissionMock.create(
+                        controls = listOf(
+                            ControlMock.create(
+                                controlType = ControlType.ADMINISTRATIVE,
                                 infractions = listOf(
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WAITING),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WAITING),
                                 )
                             ),
-                            controlGensDeMer = ControlGensDeMerEntityMock.create(
+                            ControlMock.create(
+                                controlType = ControlType.GENS_DE_MER,
                                 infractions = listOf(
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WAITING),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WAITING),
                                 )
                             ),
-                            controlNavigation = ControlNavigationEntityMock.create(
+                            ControlMock.create(
+                                controlType = ControlType.NAVIGATION,
                                 infractions = listOf(
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WAITING),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WAITING),
                                 )
                             ),
-                            controlSecurity = ControlSecurityEntityMock.create(
+                            ControlMock.create(
+                                controlType = ControlType.SECURITY,
                                 infractions = listOf(
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WAITING),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WAITING),
                                 )
                             )
-                        ),
+
+                        )
                     )
-                ),
-                MissionActionEntity.FishAction(
-                    ExtendedFishActionEntityMock.create(
-                        controlAction = ExtendedFishActionControlEntityMock.create(
-                            action = FishActionControlMock.create(
-                                actionType = actionType,
-                                logbookInfractions = listOf(
-                                    LogbookInfraction(infractionType = InfractionType.WITH_RECORD),
-                                    LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD),
-                                    LogbookInfraction(infractionType = InfractionType.PENDING),
-                                ),
-                            ),
-                            controlNavigation = ControlNavigationEntityMock.create(
-                                infractions = listOf(
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                )
-                            ),
-                        ),
-                    )
-                ),
-                MissionActionEntity.FishAction(
-                    ExtendedFishActionEntityMock.create(
-                        controlAction = ExtendedFishActionControlEntityMock.create(
-                            action = FishActionControlMock.create(
-                                flagState = CountryCode.AG, // Argentina, not EU
-                                actionType = actionType,
-                                logbookInfractions = listOf(
-                                    LogbookInfraction(infractionType = InfractionType.WITH_RECORD),
-                                    LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD),
-                                    LogbookInfraction(infractionType = InfractionType.PENDING),
-                                ),
-                                seizureAndDiversion = true,
-                            ),
-                            controlNavigation = ControlNavigationEntityMock.create(
-                                infractions = listOf(
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                )
-                            ),
-                        ),
-                    )
-                ),
-                MissionActionEntity.FishAction(
-                    ExtendedFishActionEntityMock.create(
-                        controlAction = ExtendedFishActionControlEntityMock.create(
-                            action = FishActionControlMock.create(
-                                flagState = CountryCode.GR, // Greece, other EU
-                                actionType = actionType,
-                                logbookInfractions = listOf(
-                                    LogbookInfraction(infractionType = InfractionType.WITH_RECORD),
-                                    LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD),
-                                    LogbookInfraction(infractionType = InfractionType.PENDING),
-                                ),
-                            ),
-                            controlNavigation = ControlNavigationEntityMock.create(
-                                infractions = listOf(
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                    InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                )
-                            ),
-                        ),
-                    )
-                ),
+                )
             )
+
+            val action2 = MissionFishActionEntityMock.create(
+                flagState = CountryCode.FR,
+                fishActionType = actionType,
+                logbookInfractions = listOf(
+                    LogbookInfraction(infractionType = InfractionType.WITH_RECORD),
+                    LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD),
+                    LogbookInfraction(infractionType = InfractionType.PENDING),
+                ),
+                targets = listOf(
+                    TargetMissionMock.create(
+                        controls = listOf(
+                            ControlMock.create(
+                                controlType = ControlType.NAVIGATION,
+                                infractions = listOf(
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                )
+                            ),
+
+                        )
+                    )
+                )
+            )
+
+            val action3 = MissionFishActionEntityMock.create(
+                flagState = CountryCode.AG, // Argentina, not EU
+                fishActionType = actionType,
+                logbookInfractions = listOf(
+                    LogbookInfraction(infractionType = InfractionType.WITH_RECORD),
+                    LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD),
+                    LogbookInfraction(infractionType = InfractionType.PENDING),
+                ),
+                seizureAndDiversion = true,
+                targets = listOf(
+                    TargetMissionMock.create(
+                        controls = listOf(
+                            ControlMock.create(
+                                controlType = ControlType.NAVIGATION,
+                                infractions = listOf(
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                )
+                            ),
+
+                            )
+                    )
+                )
+            )
+
+            val action4 = MissionFishActionEntityMock.create(
+                flagState = CountryCode.GR, // Greece, other EU
+                fishActionType = actionType,
+                logbookInfractions = listOf(
+                    LogbookInfraction(infractionType = InfractionType.WITH_RECORD),
+                    LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD),
+                    LogbookInfraction(infractionType = InfractionType.PENDING),
+                ),
+                targets = listOf(
+                    TargetMissionMock.create(
+                        controls = listOf(
+                            ControlMock.create(
+                                controlType = ControlType.NAVIGATION,
+                                infractions = listOf(
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                )
+                            ),
+
+                            )
+                    )
+                )
+            )
+
+            return listOf(action1, action2, action3, action4)
         }
 
         private val expectedEmpty = mapOf(
@@ -244,9 +260,9 @@ class GetMissionOperationalSummaryTests {
 
         @Test
         fun `should return values equal to 0 because actions`() {
-            val mission = MissionEntityMock.create(actions = null)
+            val mission = MissionEntityMock2.create(actions = listOf())
             val summary = getMissionOperationalSummary.getProFishingSeaSummary(
-                mission = mission
+                actions = mission.actions!!
             )
             assertEquals(summary, expectedEmpty)
         }
@@ -254,12 +270,12 @@ class GetMissionOperationalSummaryTests {
         @Test
         fun `should return values equal to 0 because no control action`() {
             val fishActions = listOf(
-                MissionActionEntity.FishAction(ExtendedFishActionEntityMock.create()),
-                MissionActionEntity.FishAction(ExtendedFishActionEntityMock.create()),
+                MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create(actionType = MissionActionType.LAND_CONTROL)),
+                MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create(actionType = MissionActionType.LAND_CONTROL)),
             )
-            val mission = MissionEntityMock.create(actions = fishActions)
+            val mission = MissionEntityMock2.create(actions = fishActions)
             val summary = getMissionOperationalSummary.getProFishingSeaSummary(
-                mission = mission
+                actions = mission.actions!!
             )
 
             assertEquals(summary, expectedEmpty)
@@ -268,27 +284,29 @@ class GetMissionOperationalSummaryTests {
         @Test
         fun `getProFishingSeaSummary - should return 2 actions but other values to 0`() {
             val fishActions = listOf(
-                MissionActionEntity.FishAction(
-                    ExtendedFishActionEntityMock.create(
-                        controlAction = ExtendedFishActionControlEntityMock.create(
-                            FishActionControlMock.create()
-                        )
-                    )
-                ),
-                MissionActionEntity.FishAction(
-                    ExtendedFishActionEntityMock.create(
-                        controlAction = ExtendedFishActionControlEntityMock.create(
-                            FishActionControlMock.create(
-                                flagState = CountryCode.GR
-                            )
-                        )
-                    )
-                ),
+                MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create()),
+                MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create(flagState = CountryCode.GR)),
+//                MissionActionEntity.FishAction(
+//                    ExtendedFishActionEntityMock.create(
+//                        controlAction = ExtendedFishActionControlEntityMock.create(
+//                            FishActionControlMock.create()
+//                        )
+//                    )
+//                ),
+//                MissionActionEntity.FishAction(
+//                    ExtendedFishActionEntityMock.create(
+//                        controlAction = ExtendedFishActionControlEntityMock.create(
+//                            FishActionControlMock.create(
+//                                flagState = CountryCode.GR
+//                            )
+//                        )
+//                    )
+//                ),
             )
 
-            val mission = MissionEntityMock.create(actions = fishActions)
+            val mission = MissionEntityMock2.create(actions = fishActions)
             val summary = getMissionOperationalSummary.getProFishingSeaSummary(
-                mission = mission
+                actions = mission.actions!!
             )
             val expected = linkedMapOf(
                 "FR" to mapOf(
@@ -382,9 +400,9 @@ class GetMissionOperationalSummaryTests {
 
         @Test
         fun `getProFishingSeaSummary - should return all data`() {
-            val mission = MissionEntityMock.create(actions = getActions(MissionActionType.SEA_CONTROL))
+            val mission = MissionEntityMock2.create(actions = getActions(MissionActionType.SEA_CONTROL))
             val summary = getMissionOperationalSummary.getProFishingSeaSummary(
-                mission = mission
+                actions = mission.actions!!
             )
             val expected = mapOf(
                 "FR" to mapOf(
@@ -476,9 +494,9 @@ class GetMissionOperationalSummaryTests {
 
         @Test
         fun `getProFishingLandSummary - should return all data`() {
-            val mission = MissionEntityMock.create(actions = getActions(MissionActionType.LAND_CONTROL))
+            val mission = MissionEntityMock2.create(actions = getActions(MissionActionType.LAND_CONTROL))
             val summary = getMissionOperationalSummary.getProFishingLandSummary(
-                mission = mission
+                actions = mission.actions!!
             )
             val expected = mapOf(
                 "FR" to mapOf(
@@ -553,79 +571,97 @@ class GetMissionOperationalSummaryTests {
     @Nested
     inner class NavActionsSummary {
 
-        fun getAction(controlMethod: ControlMethod, vesselType: VesselTypeEnum): List<MissionActionEntity.NavAction> {
+        fun getAction(controlMethod: ControlMethod, vesselType: VesselTypeEnum): List<MissionNavActionEntity> {
             val actions = listOf(
-                MissionActionEntity.NavAction(
-                    navAction = NavActionStatusMock.create().toNavActionEntity()
+                MissionNavActionEntityMock.create(actionType = ActionType.STATUS),
+                MissionNavActionEntityMock.create(
+                    actionType = ActionType.CONTROL,
+                    vesselType = VesselTypeEnum.COMMERCIAL,
                 ),
-                MissionActionEntity.NavAction(
-                    navAction = NavActionControlMock.create(vesselType = VesselTypeEnum.COMMERCIAL).toNavActionEntity()
-                ),
-                MissionActionEntity.NavAction(
-                    navAction = NavActionControlMock.create(
-                        vesselType = vesselType,
-                        controlMethod = controlMethod,
-                        controlAdministrative = ControlAdministrativeEntityMock.create(
-                            infractions = listOf(
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WAITING),
-                            )
-                        ),
-                        controlGensDeMer = ControlGensDeMerEntityMock.create(
-                            infractions = listOf(
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WAITING),
-                            )
-                        ),
-                        controlNavigation = ControlNavigationEntityMock.create(
-                            infractions = listOf(
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WAITING),
-                            )
-                        ),
-                        controlSecurity = ControlSecurityEntityMock.create(
-                            infractions = listOf(
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WAITING),
+                MissionNavActionEntityMock.create(
+                    actionType = ActionType.CONTROL,
+                    vesselType = vesselType,
+                    controlMethod = controlMethod,
+                    targets = listOf(
+                        TargetMissionMock.create(
+                            controls = listOf(
+                                ControlMock.create(
+                                    controlType = ControlType.ADMINISTRATIVE,
+                                    infractions = listOf(
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WAITING),
+                                    )
+                                ),
+                                ControlMock.create(
+                                    controlType = ControlType.GENS_DE_MER,
+                                    infractions = listOf(
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WAITING),
+                                    )
+                                ),
+                                ControlMock.create(
+                                    controlType = ControlType.NAVIGATION,
+                                    infractions = listOf(
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WAITING),
+                                    )
+                                ),
+                                ControlMock.create(
+                                    controlType = ControlType.SECURITY,
+                                    infractions = listOf(
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WAITING),
+                                    )
+                                )
+
                             )
                         )
-                    ).toNavActionEntity()
+                    )
                 ),
-                MissionActionEntity.NavAction(
-                    navAction = NavActionControlMock.create(
-                        vesselType = vesselType,
-                        controlMethod = controlMethod,
-                        controlNavigation = ControlNavigationEntityMock.create(
-                            infractions = listOf(
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                            )
-                        ),
-                        controlSecurity = ControlSecurityEntityMock.create(
-                            infractions = listOf(
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+
+                MissionNavActionEntityMock.create(
+                    actionType = ActionType.CONTROL,
+                    vesselType = vesselType,
+                    controlMethod = controlMethod,
+                    targets = listOf(
+                        TargetMissionMock.create(
+                            controls = listOf(
+                                ControlMock.create(
+                                    controlType = ControlType.NAVIGATION,
+                                    infractions = listOf(
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                    )
+                                ),
+                                ControlMock.create(
+                                    controlType = ControlType.SECURITY,
+                                    infractions = listOf(
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                    )
+                                )
+
                             )
                         )
-                    ).toNavActionEntity()
+                    )
                 ),
-                MissionActionEntity.NavAction(
-                    navAction = NavActionControlMock.create(
-                        vesselType = vesselType,
-                        controlMethod = controlMethod
-                    ).toNavActionEntity()
+
+                MissionNavActionEntityMock.create(
+                    actionType = ActionType.CONTROL,
+                    vesselType = vesselType,
+                    controlMethod = controlMethod
                 ),
-                MissionActionEntity.NavAction(
-                    navAction = NavActionControlMock.create(
-                        vesselType = vesselType,
-                        controlMethod = ControlMethod.AIR
-                    ).toNavActionEntity()
+
+                MissionNavActionEntityMock.create(
+                    actionType = ActionType.CONTROL,
+                    vesselType = vesselType,
+                    controlMethod = ControlMethod.AIR
                 ),
             )
             return actions
@@ -634,9 +670,9 @@ class GetMissionOperationalSummaryTests {
 
         @Test
         fun `getProSailingSeaSummary should return values equal to null because actions`() {
-            val mission = MissionEntityMock.create(actions = null)
+            val mission = MissionEntityMock2.create(actions = listOf())
             val summary = getMissionOperationalSummary.getProSailingSeaSummary(
-                mission = mission
+                actions = mission.actions!!
             )
             val expected = mapOf(
                 "nbActions" to 0,
@@ -649,9 +685,9 @@ class GetMissionOperationalSummaryTests {
 
         @Test
         fun `getProSailingSeaSummary should return all data`() {
-            val mission = MissionEntityMock.create(actions = getAction(ControlMethod.SEA, VesselTypeEnum.SAILING))
+            val mission = MissionEntityMock2.create(actions = getAction(ControlMethod.SEA, VesselTypeEnum.SAILING))
             val summary = getMissionOperationalSummary.getProSailingSeaSummary(
-                mission = mission
+                actions = mission.actions!!
             )
             val expected = mapOf(
                 "nbActions" to 3,
@@ -664,9 +700,9 @@ class GetMissionOperationalSummaryTests {
 
         @Test
         fun `getProSailingLandSummary should return all data`() {
-            val mission = MissionEntityMock.create(actions = getAction(ControlMethod.LAND, VesselTypeEnum.SAILING))
+            val mission = MissionEntityMock2.create(actions = getAction(ControlMethod.LAND, VesselTypeEnum.SAILING))
             val summary = getMissionOperationalSummary.getProSailingLandSummary(
-                mission = mission
+                actions = mission.actions!!
             )
             val expected = mapOf(
                 "nbActions" to 3,
@@ -679,9 +715,9 @@ class GetMissionOperationalSummaryTests {
         @Test
         fun `getLeisureSailingSeaSummary should return all data`() {
             val mission =
-                MissionEntityMock.create(actions = getAction(ControlMethod.SEA, VesselTypeEnum.SAILING_LEISURE))
+                MissionEntityMock2.create(actions = getAction(ControlMethod.SEA, VesselTypeEnum.SAILING_LEISURE))
             val summary = getMissionOperationalSummary.getLeisureSailingSeaSummary(
-                mission = mission
+                actions = mission.actions!!
             )
             val expected = mapOf(
                 "nbActions" to 3,
@@ -695,9 +731,9 @@ class GetMissionOperationalSummaryTests {
         @Test
         fun `getLeisureSailingLandSummary should return all data`() {
             val mission =
-                MissionEntityMock.create(actions = getAction(ControlMethod.LAND, VesselTypeEnum.SAILING_LEISURE))
+                MissionEntityMock2.create(actions = getAction(ControlMethod.LAND, VesselTypeEnum.SAILING_LEISURE))
             val summary = getMissionOperationalSummary.getLeisureSailingLandSummary(
-                mission = mission
+                actions = mission.actions!!
             )
             val expected = mapOf(
                 "nbActions" to 3,
@@ -713,73 +749,55 @@ class GetMissionOperationalSummaryTests {
 
         private val actions = listOf(
             // action control Peche de loisir with infraction
-            MissionActionEntity.EnvAction(
-                envAction = ExtendedEnvActionEntityMock.create(
-                    controlAction = ExtendedEnvActionControlEntityMock.create(
-                        action = EnvActionControlMock.create(
-                            controlPlans = listOf(EnvActionControlPlanEntity(themeId = 112)),
-                            infractions = listOf(EnvInfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT))
-                        ),
-                        controlSecurity = ControlSecurityEntityMock.create(
-                            infractions = listOf(
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                InfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+            MissionEnvActionEntityMock.create(
+                themes = listOf(ThemeEntityMock.create(id = 112)),
+                envInfractions = listOf(EnvInfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT)),
+                targets = listOf(
+                    TargetMissionMock.create(
+                        controls = listOf(
+                            ControlMock.create(
+                                controlType = ControlType.SECURITY,
+                                infractions = listOf(
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                    InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
+                                )
                             )
                         )
                     )
-                ),
+                )
             ),
+
             // action control Peche de loisir without infraction
-            MissionActionEntity.EnvAction(
-                envAction = ExtendedEnvActionEntityMock.create(
-                    controlAction = ExtendedEnvActionControlEntityMock.create(
-                        action = EnvActionControlMock.create(
-                            controlPlans = listOf(EnvActionControlPlanEntity(themeId = 112)),
-                            infractions = listOf()
-                        ),
-                    )
-                ),
+            MissionEnvActionEntityMock.create(
+                themes = listOf(ThemeEntityMock.create(id = 112)),
+                envInfractions = listOf(),
             ),
+
+
             // action control other theme with 2 infractions
-            MissionActionEntity.EnvAction(
-                envAction = ExtendedEnvActionEntityMock.create(
-                    controlAction = ExtendedEnvActionControlEntityMock.create(
-                        action = EnvActionControlMock.create(
-                            controlPlans = listOf(EnvActionControlPlanEntity(themeId = 1)),
-                            infractions = listOf(EnvInfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT))
-                        ),
-                    )
-                ),
+            MissionEnvActionEntityMock.create(
+                themes = listOf(ThemeEntityMock.create(id = 1)),
+                envInfractions = listOf(EnvInfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT))
             ),
             // action surveillance peche loisir
-            MissionActionEntity.EnvAction(
-                envAction = ExtendedEnvActionEntityMock.create(
-                    surveillanceAction = ExtendedEnvActionSurveillanceEntityMock.create(
-                        action = EnvActionSurveillanceMock.create(
-                            controlPlans = listOf(EnvActionControlPlanEntity(themeId = 112)),
-                        ),
-                    )
-                ),
+            MissionEnvActionEntityMock.create(
+                envActionType = ActionTypeEnum.SURVEILLANCE,
+                themes = listOf(ThemeEntityMock.create(id = 112)),
             ),
             // action surveillance other theme
-            MissionActionEntity.EnvAction(
-                envAction = ExtendedEnvActionEntityMock.create(
-                    surveillanceAction = ExtendedEnvActionSurveillanceEntityMock.create(
-                        action = EnvActionSurveillanceMock.create(
-                            controlPlans = listOf(EnvActionControlPlanEntity(themeId = 1)),
-                        ),
-                    )
-                ),
+            MissionEnvActionEntityMock.create(
+                envActionType = ActionTypeEnum.SURVEILLANCE,
+                themes = listOf(ThemeEntityMock.create(id = 1)),
             ),
         )
 
         @Test
         fun `envActionSummary should return empty map`() {
             val mission =
-                MissionEntityMock.create(actions = listOf())
+                MissionEntityMock2.create(actions = listOf())
             val summary = getMissionOperationalSummary.getEnvSummary(
-                mission = mission
+                actions = mission.actions!!
             )
             val expected = mapOf(
                 "nbSurveillances" to 0,
@@ -791,29 +809,28 @@ class GetMissionOperationalSummaryTests {
 
         @Test
         fun `envActionSummary should return data`() {
+
             val mission =
-                MissionEntityMock.create(actions = actions)
+                MissionEntityMock2.create(actions = actions)
             val summary = getMissionOperationalSummary.getEnvSummary(
-                mission = mission
+                actions = mission.actions!!
             )
             val expected = mapOf(
                 "nbSurveillances" to 2,
                 "nbControls" to 3,
-                "nbPv" to 2,
+                "nbPv" to 3,
             )
             assertEquals(summary, expected)
         }
 
         @Test
         fun `getLeisureFishingSummary should return data`() {
-            val mission =
-                MissionEntityMock.create(actions = actions)
             val summary = getMissionOperationalSummary.getLeisureFishingSummary(
-                mission = mission
+                actions = actions
             )
             val expected = mapOf(
                 "nbControls" to 2,
-                "nbPv" to 1,
+                "nbPv" to 3,
             )
             assertEquals(summary, expected)
         }
