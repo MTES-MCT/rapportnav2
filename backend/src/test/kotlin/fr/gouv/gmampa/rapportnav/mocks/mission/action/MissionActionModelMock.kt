@@ -16,7 +16,8 @@ object MissionActionModelMock {
         status: ActionStatusType? = ActionStatusType.ANCHORED,
         startDateTimeUtc: Instant = Instant.parse("2019-09-08T22:00:00.000+01:00"),
         observations: String? = "observations",
-
+        vesselType: String? = VesselTypeEnum.FISHING.toString(),
+        controlMethod: String? = ControlMethod.SEA.toString(),
     ): MissionActionModel {
         return MissionActionModel(
             missionId = 761,
@@ -32,9 +33,9 @@ object MissionActionModelMock {
             longitude = 4353.0,
             detectedPollution = false,
             pollutionObservedByAuthorizedAgent = false,
-            controlMethod = ControlMethod.SEA.toString(),
+            controlMethod = controlMethod,
             vesselIdentifier = "FR-23566",
-            vesselType = VesselTypeEnum.FISHING.toString(),
+            vesselType = vesselType,
             vesselSize = VesselSizeEnum.LESS_THAN_12m.toString(),
             identityControlledPerson = "identityControlledPerson",
             nbOfInterceptedVessels = 4,
@@ -72,7 +73,7 @@ object MissionActionModelMock {
             sectorEstablishmentType = SectorEstablishmentType.SHOUTED?.toString(),
             leisureType = LeisureType.KAYAK?.toString(),
             fishingGearType = FishingGearType.CASHIER?.toString(),
-            controlType = "my control type"
+            controlType = "my control type",
         )
     }
 }

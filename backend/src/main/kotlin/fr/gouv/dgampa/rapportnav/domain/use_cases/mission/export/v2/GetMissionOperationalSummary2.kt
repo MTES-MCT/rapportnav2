@@ -144,13 +144,13 @@ class GetMissionOperationalSummary2 {
         val filteredActions: List<MissionEnvActionEntity> = actions
             .filterIsInstance<MissionEnvActionEntity>()
             .filter { it.envActionType == ActionTypeEnum.CONTROL }
-            .filter { it.controlPlans?.any { theme -> theme.themeId == themeId } == true }
+            .filter { it.themes?.any { theme -> theme.id == themeId } == true }
         val nbPv = filteredActions.sumOf {
             // Sum infractions of type WITH_REPORT from different control categories
             it.getInfractions().count { inf -> inf.infractionType == InfractionTypeEnum.WITH_REPORT }
         }
         val summary = mapOf(
-            "nbControls" to actions.count(),
+            "nbControls" to filteredActions.count(),
             "nbPv" to nbPv
         )
         return summary

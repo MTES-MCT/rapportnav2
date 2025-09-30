@@ -39,7 +39,7 @@ class FormatActionsForTimeline2Tests {
     private lateinit var mapEnvActionControlPlans: MapEnvActionControlPlans
 
     private val envControl = MissionEnvActionEntity.fromEnvAction(missionId=1, action=EnvActionControlMock.create())
-    private val envSurveillance =MissionEnvActionEntity.fromEnvAction(missionId=1, action=EnvActionSurveillanceMock.create())
+    private val envSurveillance = MissionEnvActionEntity.fromEnvAction(missionId=1, action=EnvActionSurveillanceMock.create())
 
     private val fishControl = MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create())
 
