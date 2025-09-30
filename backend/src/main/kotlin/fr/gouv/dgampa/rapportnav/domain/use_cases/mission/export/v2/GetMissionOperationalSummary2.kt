@@ -150,7 +150,7 @@ class GetMissionOperationalSummary2 {
             it.getInfractions().count { inf -> inf.infractionType == InfractionTypeEnum.WITH_REPORT }
         }
         val summary = mapOf(
-            "nbControls" to filteredActions.count(),
+            "nbControls" to filteredActions.sumOf { it.actionNumberOfControls ?: 0 },
             "nbPv" to nbPv
         )
         return summary

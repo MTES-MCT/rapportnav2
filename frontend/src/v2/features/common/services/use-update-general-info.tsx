@@ -31,29 +31,31 @@ export const offlineUpdateGeneralInfoMutationDefault = {
       }
     })
 
-    // ✅ Update any list cache that contains this mission
-    queryClient.setQueriesData(
-      {
-        queryKey: missionsKeys.filter(
-          JSON.stringify({
-            startDateTimeUtc: startOfYear(mission.data.startDateTimeUtc),
-            endDateTimeUtc: endOfYear(mission.data.endDateTimeUtc)
-          })
-        )
-      }, // match all filters
-      (old: Mission2[] | undefined) =>
-        old?.map(m =>
-          m.id.toString() === missionId
-            ? {
-                ...m,
-                generalInfos: {
-                  ...(m.generalInfos ?? {}),
-                  ...generalInfo
+    try {
+      // ✅ Update any list cache that contains this mission
+      queryClient.setQueriesData(
+        {
+          queryKey: missionsKeys.filter(
+            JSON.stringify({
+              startDateTimeUtc: startOfYear(mission.data.startDateTimeUtc),
+              endDateTimeUtc: endOfYear(mission.data.endDateTimeUtc)
+            })
+          )
+        }, // match all filters
+        (old: Mission2[] | undefined) =>
+          old?.map(m =>
+            m.id.toString() === missionId
+              ? {
+                  ...m,
+                  generalInfos: {
+                    ...(m.generalInfos ?? {}),
+                    ...generalInfo
+                  }
                 }
-              }
-            : m
-        )
-    )
+              : m
+          )
+      )
+    } catch (e) {}
 
     // ✅ Cancel existing mutations with same mission id
     const cleanupMutations = (mutationKey, missionId, keepLatest = false) => {
