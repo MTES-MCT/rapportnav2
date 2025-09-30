@@ -22,5 +22,6 @@ data class MissionGeneralInfoEntity2(
             && this.data.consumedFuelInLiters != null
             && this.data.consumedGOInLiters != null
             && this.data.distanceInNauticalMiles != null
+            && this.data.nbrOfRecognizedVessel != null
     }
 }

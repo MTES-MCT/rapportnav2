@@ -38,7 +38,7 @@ data class MissionEntity2(
         val endDateTime = Instant.parse(endDateTimeUtc.toString())
         val startDateTime = Instant.parse(startDateTimeUtc.toString())
         try {
-            if (endDateTime.isAfter(compareDate)) return MissionStatusEnum.IN_PROGRESS
+            if (startDateTime.isBefore(compareDate) && endDateTime.isAfter(compareDate)) return MissionStatusEnum.IN_PROGRESS
             if (endDateTime.isBefore(compareDate) || endDateTime.equals(compareDate)) return MissionStatusEnum.ENDED
             if (startDateTime.isAfter(compareDate) || startDateTime.equals(compareDate))
                 return MissionStatusEnum.UPCOMING
@@ -50,14 +50,20 @@ data class MissionEntity2(
 
     private fun actionsIsCompleteForStats(): CompletenessForStatsEntity {
         val sources = listOf<MissionSourceEnum>()
+
+        // check that all actions are complete
         this.actions?.forEach {
             if (it.isCompleteForStats != true) {
                 sources.plus(it.source)
             }
         }
-        val status = if (sources.distinct()
-                .isEmpty()
-        ) CompletenessForStatsStatusEnum.COMPLETE else CompletenessForStatsStatusEnum.INCOMPLETE
+
+        // check mission observationsByUnit is not null
+        if (this.data?.observationsByUnit == null) {
+            sources.plus(MissionSourceEnum.RAPPORTNAV)
+        }
+
+        val status = if (sources.distinct().isEmpty()) CompletenessForStatsStatusEnum.COMPLETE else CompletenessForStatsStatusEnum.INCOMPLETE
 
         return CompletenessForStatsEntity(
             status = status,
