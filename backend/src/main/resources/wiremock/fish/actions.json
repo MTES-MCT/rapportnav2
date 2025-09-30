@@ -15,7 +15,7 @@
     "missionId": 21417,
     "actionType": "LAND_CONTROL",
     "actionDatetimeUtc": "2025-09-25T16:00:00Z",
-    "actionEndDatetimeUtc": null,
+    "actionEndDatetimeUtc": "2025-09-25T18:00:00Z",
     "emitsVms": "NOT_APPLICABLE",
     "emitsAis": "NOT_APPLICABLE",
     "logbookMatchesActivity": "YES",
