@@ -1,20 +1,25 @@
 import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { startOfYear, endOfYear } from 'date-fns'
 import { UTCDate } from '@date-fns/utc'
 import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import MissionPamPage from '../mission-pam-page.tsx'
 import { OwnerType } from '../../features/common/types/owner-type.ts'
+import useAuth from '../../features/auth/hooks/use-auth.tsx'
 
 // Mock all the dependencies
 vi.mock('react-router-dom', () => ({
-  useParams: vi.fn(),
-  useNavigate: vi.fn()
+  useParams: vi.fn()
 }))
 
 vi.mock('@router/use-global-routes.tsx', () => ({
   useGlobalRoutes: vi.fn()
+}))
+
+vi.mock('../../features/auth/hooks/use-auth.tsx', () => ({
+  __esModule: true,
+  default: vi.fn()
 }))
 
 vi.mock('../../features/common/components/layout/page-wrapper.tsx', () => ({
@@ -85,11 +90,11 @@ vi.mock('@date-fns/utc', () => ({
 }))
 
 describe('MissionPamPage', () => {
-  const mockNavigate = vi.fn()
   const mockGetUrl = vi.fn()
+  const mockNavigateAndResetCache = vi.fn()
   const mockUseParams = useParams as any
-  const mockUseNavigate = useNavigate as any
   const mockUseGlobalRoutes = useGlobalRoutes as any
+  const mockUseAuth = useAuth as unknown as vi.Mock
   const mockStartOfYear = startOfYear as any
   const mockEndOfYear = endOfYear as any
   const mockUTCDateNow = UTCDate.now as any
@@ -97,17 +102,17 @@ describe('MissionPamPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
 
-    mockUseNavigate.mockReturnValue(mockNavigate)
     mockUseGlobalRoutes.mockReturnValue({ getUrl: mockGetUrl })
+    mockUseAuth.mockReturnValue({ navigateAndResetCache: mockNavigateAndResetCache })
 
     // Mock date functions
     const mockNow = new Date('2025-06-15T12:00:00Z')
-    const startOfYear = new Date('2025-01-01T00:00:00Z')
-    const endOfYear = new Date('2025-12-31T23:59:59Z')
+    const startOfYearDate = new Date('2025-01-01T00:00:00Z')
+    const endOfYearDate = new Date('2025-12-31T23:59:59Z')
 
     mockUTCDateNow.mockReturnValue(mockNow)
-    mockStartOfYear.mockReturnValue(startOfYear)
-    mockEndOfYear.mockReturnValue(endOfYear)
+    mockStartOfYear.mockReturnValue(startOfYearDate)
+    mockEndOfYear.mockReturnValue(endOfYearDate)
     mockGetUrl.mockReturnValue('/missions?startDateTimeUtc=2025-01-01&endDateTimeUtc=2025-12-31')
   })
 
@@ -121,7 +126,19 @@ describe('MissionPamPage', () => {
       closeButton.click()
 
       expect(mockGetUrl).toHaveBeenCalledWith(OwnerType.MISSION)
-      expect(mockNavigate).toHaveBeenCalled()
+      expect(mockNavigateAndResetCache).toHaveBeenCalled()
+    })
+
+    it('calls exitMission when exit button in footer is clicked', () => {
+      mockUseParams.mockReturnValue({ missionId: '123', actionId: '456' })
+
+      render(<MissionPamPage />)
+
+      const exitButton = screen.getByTestId('exit-button')
+      exitButton.click()
+
+      expect(mockGetUrl).toHaveBeenCalledWith(OwnerType.MISSION)
+      expect(mockNavigateAndResetCache).toHaveBeenCalled()
     })
   })
 
@@ -138,10 +155,10 @@ describe('MissionPamPage', () => {
       expect(mockUseParams).toHaveBeenCalled()
     })
 
-    it('calls useNavigate hook', () => {
+    it('calls useAuth hook', () => {
       mockUseParams.mockReturnValue({ missionId: '123' })
       render(<MissionPamPage />)
-      expect(mockUseNavigate).toHaveBeenCalled()
+      expect(mockUseAuth).toHaveBeenCalled()
     })
   })
 })
