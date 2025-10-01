@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.28.5](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.28.4...backend@v2.28.5) (2025-10-01)
+
+
+### Bug Fixes
+
+* **AEM:** update 3.4.1 ([173708e](https://github.com/MTES-MCT/rapportnav2/commit/173708e4ed57b3b7454e917e20748fa77ca64790))
+* **AEM:** update 7.4 ([f131799](https://github.com/MTES-MCT/rapportnav2/commit/f13179963588e7bf4375b43e3d117ed0fd373d86))
+* **RapportDePatrouille:** use correct envInfractions ([f6c2853](https://github.com/MTES-MCT/rapportnav2/commit/f6c2853d2a8a100f6e8ef9671a4ca5457ad237ad))
+
 ## [2.28.4](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.28.3...backend@v2.28.4) (2025-09-30)
 
 
