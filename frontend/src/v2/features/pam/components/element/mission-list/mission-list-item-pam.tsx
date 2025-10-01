@@ -3,12 +3,13 @@ import MissionOpenByTag from '@features/pam/mission/components/elements/mission-
 import { Checkbox, Icon, THEME } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
-import { FlexboxGrid } from 'rsuite'
+import { FlexboxGrid, Stack } from 'rsuite'
 import styled from 'styled-components'
 import MissionCompletenessForStatsTag from '../../../../common/components/elements/mission-completeness-for-stats-tag.tsx'
 import MissionStatusTag from '../../../../common/components/ui/mission-status-tag.tsx'
 import { MissionListItem } from '../../../../common/types/mission-types.ts'
 import { PAM_V2_HOME_PATH } from '@router/routes.tsx'
+import MissionInterServicesTag from '../../ui/mission-interservices-tag.tsx'
 
 interface MissionListItemProps {
   mission: MissionListItem
@@ -42,7 +43,17 @@ const MissionListItemPam: FC<MissionListItemProps> = ({ mission, isSelected, onT
         </FlexboxGrid.Item>
 
         <FlexboxGrid.Item colspan={4} data-testid={'mission-list-item-open_by'}>
-          <MissionOpenByTag missionSource={mission.missionSource} isFake={mission.openBy === 'fake'} />
+          <Stack direction={'column'} alignItems={'flex-start'}>
+            <Stack.Item>
+              <MissionOpenByTag missionSource={mission.missionSource} isFake={mission.openBy === 'fake'} />
+            </Stack.Item>
+
+            {(mission?.controlUnits || []).length > 1 && (
+              <Stack.Item>
+                <MissionInterServicesTag />
+              </Stack.Item>
+            )}
+          </Stack>
         </FlexboxGrid.Item>
 
         <FlexboxGrid.Item colspan={2} data-testid={'mission-list-item-start_date'}>
