@@ -40,7 +40,7 @@ data class AEMTableExport2(
             val tableExport = AEMTableExport2(
                 seaSafety = AEMSeaSafety2(navActions),
                 envTraffic = AEMEnvTraffic2(envActions),
-                illegalFish = AEMIllegalFish2(fishActions),
+                illegalFish = AEMIllegalFish2(fishActions, navActions, missionEndDateTimeUtc),
                 vesselRescue = AEMVesselRescue2(navActions),
                 migrationRescue = AEMMigrationRescue2(navActions),
                 culturalMaritime = AEMCulturalMaritime2(envActions),
