@@ -5,9 +5,11 @@ import { Mission2 } from '../types/mission-types.ts'
 import { actionsKeys, missionsKeys } from './query-keys.ts'
 import { useEffect } from 'react'
 import { MissionAction } from '../types/mission-action.ts'
+import { useOnlineManager } from '../hooks/use-online-manager.tsx'
 
 const useMissionsQuery = (params: URLSearchParams): UseQueryResult<Mission2[], Error> => {
   const queryClient = useQueryClient()
+  const { isOnline } = useOnlineManager()
 
   const fetchMissions = async (): Promise<Mission2[]> => {
     const response = await axios.get<Mission2[]>(`missions?${params.toString()}`)
@@ -20,7 +22,7 @@ const useMissionsQuery = (params: URLSearchParams): UseQueryResult<Mission2[], E
   const query = useQuery<Mission2[], Error>({
     queryKey: missionsKeys.filter(JSON.stringify({ startDateTimeUtc, endDateTimeUtc })),
     queryFn: fetchMissions,
-    enabled: !!endDateTimeUtc && !!startDateTimeUtc, // Prevents query from running if startDateTimeUtc is not provided
+    enabled: !!endDateTimeUtc && !!startDateTimeUtc && isOnline, // Prevents query from running if startDateTimeUtc is not provided
     staleTime: DYNAMIC_DATA_STALE_TIME, // Cache data for 3 minutes
     retry: 2, // Retry failed requests twice before throwing an error,
     refetchInterval: DYNAMIC_DATA_STALE_TIME
