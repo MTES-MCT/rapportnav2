@@ -3,6 +3,7 @@ import { CompletenessForStatsStatusEnum, Mission } from '@common/types/mission-t
 import { MissionListItem } from 'src/v2/features/common/types/mission-types.ts'
 import { fireEvent, render, screen } from '../../../../../../../test-utils.tsx'
 import MissionListItemPam from '../mission-list-item-pam.tsx'
+import { describe } from 'vitest'
 
 describe('MissionListItemPam', () => {
   it.skip('renders empty mission info', () => {
@@ -48,6 +49,19 @@ describe('MissionListItemPam', () => {
     expect(screen.getByTestId('mission-list-item-mission_completeness')).toHaveTextContent('Données à jour')
     expect(screen.getByTestId('mission-list-item-crew')).toHaveTextContent('B')
     expect(screen.getByTestId('mission-list-item-icon-edit')).toBeInTheDocument()
+  })
+
+  describe('the inter-services tag', () => {
+    it('should not render the inter-services tag when less than two controlUnits', () => {
+      const mockMission = { controlUnits: [{}] } as MissionListItem
+      render(<MissionListItemPam mission={mockMission} isSelected={false} onToggle={vi.fn()} />)
+      expect(screen.queryByText('Inter-services')).toBeNull()
+    })
+    it('should render the inter-services tag when more than one controlUnit', () => {
+      const mockMission = { controlUnits: [{}, {}] } as MissionListItem
+      render(<MissionListItemPam mission={mockMission} isSelected={false} onToggle={vi.fn()} />)
+      expect(screen.getByText('Inter-services')).toBeInTheDocument()
+    })
   })
 
   it('have the checkbox selected when prop isSelected is true', () => {
