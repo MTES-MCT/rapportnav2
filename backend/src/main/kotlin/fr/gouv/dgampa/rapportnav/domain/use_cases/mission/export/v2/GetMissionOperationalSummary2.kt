@@ -126,7 +126,7 @@ class GetMissionOperationalSummary2 {
         val nbSurveillances = filteredActions.count { it.envActionType == ActionTypeEnum.SURVEILLANCE }
         val nbControls = filteredActions.count { it.envActionType == ActionTypeEnum.CONTROL }
         val nbPv = filteredActions.filter { it.envActionType == ActionTypeEnum.CONTROL }.sumOf {
-            it.getInfractions().count { inf -> inf.infractionType == InfractionTypeEnum.WITH_REPORT }
+            it.envInfractions?.count { inf -> inf.infractionType == InfractionTypeEnum.WITH_REPORT } ?: 0
         }
         val summary = mapOf(
             "nbSurveillances" to nbSurveillances,
@@ -147,7 +147,7 @@ class GetMissionOperationalSummary2 {
             .filter { it.themes?.any { theme -> theme.id == themeId } == true }
         val nbPv = filteredActions.sumOf {
             // Sum infractions of type WITH_REPORT from different control categories
-            it.getInfractions().count { inf -> inf.infractionType == InfractionTypeEnum.WITH_REPORT }
+            it.envInfractions?.count { inf -> inf.infractionType == InfractionTypeEnum.WITH_REPORT } ?: 0
         }
         val summary = mapOf(
             "nbControls" to filteredActions.sumOf { it.actionNumberOfControls ?: 0 },
@@ -184,13 +184,11 @@ class GetMissionOperationalSummary2 {
                 "nbPvFish" to countWithRecordInfractions(countryActions.map { it }).values.sum(),
                 // Nbre PV équipmt sécu. permis nav.
                 "nbPvSecuAndAdmin" to countryActions.sumOf { action ->
-                    action.getInfractionByControlType(controlType = ControlType.SECURITY).count { infraction ->
-                        infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                    } +
-                        action.getInfractionByControlType(controlType = ControlType.ADMINISTRATIVE)
-                            .count { infraction ->
-                            infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                            }
+                    action.getInfractionByControlType(controlType = ControlType.SECURITY)
+                        .count { infraction -> infraction.infractionType == InfractionTypeEnum.WITH_REPORT }
+                    +
+                    action.getInfractionByControlType(controlType = ControlType.ADMINISTRATIVE)
+                        .count { infraction -> infraction.infractionType == InfractionTypeEnum.WITH_REPORT }
                 },
                 // Nb PV dans "Security"
                 "nbPvSecu" to countryActions.sumOf { action ->
