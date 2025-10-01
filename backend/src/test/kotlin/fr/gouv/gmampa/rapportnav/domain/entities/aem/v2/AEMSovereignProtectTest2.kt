@@ -25,7 +25,7 @@ class AEMSovereignProtectTest2 {
     fun `Should init sovereign protect with different values`() {
         val nbrOfHourAtSea = 147.0;
         val nbrOfRecognizedVessel = 0.0;
-        val nbrOfControlledVessel = 4.0;
+        val nbrOfControlledVessel = 6.0;
 
         val navActions = getNavActions();
         val envActions = getEnvActions();
@@ -79,7 +79,8 @@ class AEMSovereignProtectTest2 {
                 controlPlans = listOf(EnvActionControlPlanEntity(themeId = 102)),
                 startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
-                vehicleType = VehicleTypeEnum.VEHICLE_LAND
+                vehicleType = VehicleTypeEnum.VEHICLE_LAND,
+                actionNumberOfControls = 1
             ),
             MissionEnvActionEntity(
                 missionId = 761,
@@ -88,7 +89,8 @@ class AEMSovereignProtectTest2 {
                 controlPlans = listOf(EnvActionControlPlanEntity(themeId = 102)),
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
-                vehicleType = VehicleTypeEnum.VESSEL
+                vehicleType = VehicleTypeEnum.VESSEL,
+                actionNumberOfControls = 3
             )
         );
         return actions
