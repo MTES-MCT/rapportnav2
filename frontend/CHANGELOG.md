@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.28.5](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.28.4...frontend@v2.28.5) (2025-10-01)
+
+
+### Bug Fixes
+
+* refetch mission only when online ([e725670](https://github.com/MTES-MCT/rapportnav2/commit/e725670dd0b7308cd28d77d41e2e89b72f30adb2))
+* target infraction fallbacks and tests ([9254e60](https://github.com/MTES-MCT/rapportnav2/commit/9254e603be847fcc7f2ccd54f603492f072b674b))
+
 ## [2.28.4](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.28.3...frontend@v2.28.4) (2025-09-30)
 
 
