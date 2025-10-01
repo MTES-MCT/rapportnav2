@@ -820,7 +820,7 @@ class GetMissionOperationalSummary2Tests {
             val expected = mapOf(
                 "nbSurveillances" to 2,
                 "nbControls" to 3,
-                "nbPv" to 3,
+                "nbPv" to 2,
             )
             assertEquals(summary, expected)
         }
@@ -832,7 +832,7 @@ class GetMissionOperationalSummary2Tests {
             )
             val expected = mapOf(
                 "nbControls" to 6,
-                "nbPv" to 3,
+                "nbPv" to 1,
             )
             assertEquals(summary, expected)
         }

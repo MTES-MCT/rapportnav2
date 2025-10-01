@@ -184,11 +184,13 @@ class GetMissionOperationalSummary2 {
                 "nbPvFish" to countWithRecordInfractions(countryActions.map { it }).values.sum(),
                 // Nbre PV équipmt sécu. permis nav.
                 "nbPvSecuAndAdmin" to countryActions.sumOf { action ->
-                    action.getInfractionByControlType(controlType = ControlType.SECURITY)
-                        .count { infraction -> infraction.infractionType == InfractionTypeEnum.WITH_REPORT }
-                    +
-                    action.getInfractionByControlType(controlType = ControlType.ADMINISTRATIVE)
-                        .count { infraction -> infraction.infractionType == InfractionTypeEnum.WITH_REPORT }
+                    action.getInfractionByControlType(controlType = ControlType.SECURITY).count { infraction ->
+                        infraction.infractionType == InfractionTypeEnum.WITH_REPORT
+                    } +
+                        action.getInfractionByControlType(controlType = ControlType.ADMINISTRATIVE)
+                            .count { infraction ->
+                                infraction.infractionType == InfractionTypeEnum.WITH_REPORT
+                            }
                 },
                 // Nb PV dans "Security"
                 "nbPvSecu" to countryActions.sumOf { action ->
