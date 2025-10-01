@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.29.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.28.5...frontend@v2.29.0) (2025-10-01)
+
+
+### Features
+
+* **PAM:** add inter-services tag on mission list page ([#907](https://github.com/MTES-MCT/rapportnav2/issues/907)) ([465d92f](https://github.com/MTES-MCT/rapportnav2/commit/465d92f614da23882a5c5c3c79cbe64e5d7ddf70))
+
+
+### Bug Fixes
+
+* add placeholder to bordée selector ([869a67c](https://github.com/MTES-MCT/rapportnav2/commit/869a67c9adb5e81991d9380ef793b12efb3720cb))
+
 ## [2.28.5](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.28.4...frontend@v2.28.5) (2025-10-01)
 
 
