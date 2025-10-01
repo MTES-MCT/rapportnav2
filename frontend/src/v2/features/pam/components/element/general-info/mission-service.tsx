@@ -26,6 +26,7 @@ const MissionService: FC<MissionServiceProps> = ({ services }) => {
       options={getOptions(services)}
       data-testid="mission-service-select"
       disabled={isOffline}
+      placeholder="Sélectionnez votre bordée"
     />
   )
 }
