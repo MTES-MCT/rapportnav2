@@ -1,0 +1,19 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MissionInterServicesTag > matches snapshot 1`] = `
+<div>
+  <span
+    class="sc-fOOuSg iMvLlc Element-Tag"
+    style="height: auto;"
+  >
+    <p
+      class="sc-iRcyzz sc-fFmWCW iyEmXO hAFmCO"
+      color="#707785"
+      font-size="13"
+      weight="medium"
+    >
+      Inter-services
+    </p>
+  </span>
+</div>
+`;
