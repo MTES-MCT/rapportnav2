@@ -52,7 +52,7 @@ data class AEMSovereignProtect2(
             fishActions: List<MissionFishActionEntity?>
         ): Double {
             return 0.0.plus(fishActions.size).plus(navActions.filter { it.actionType == ActionType.CONTROL }.size)
-                .plus(envActions.filter { it?.vehicleType == VehicleTypeEnum.VESSEL }.size)
+                .plus(envActions.filter { it?.vehicleType == VehicleTypeEnum.VESSEL }.sumOf { it?.actionNumberOfControls ?: 0 })
         }
 
         private fun getNavigationActions(navActions: List<MissionNavActionEntity?>): List<MissionNavActionEntity?> {
