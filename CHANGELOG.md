@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.29.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.29.1...docker-container@v2.29.2) (2025-10-02)
+
+
+### Bug Fixes
+
+* postgres:15.10-alpine ([67caea5](https://github.com/MTES-MCT/rapportnav2/commit/67caea515d6fa941f67c3e80de60b680f427cdee))
+
 ## [2.29.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.29.0...docker-container@v2.29.1) (2025-10-02)
 
 
