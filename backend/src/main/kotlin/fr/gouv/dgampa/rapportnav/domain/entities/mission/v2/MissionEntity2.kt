@@ -57,10 +57,13 @@ data class MissionEntity2(
     }
 
     private fun actionsIsCompleteForStats(): CompletenessForStatsEntity {
-        val sources = this.actions
+
+        val sources: List<MissionSourceEnum> = this.actions
             ?.filter { it.isCompleteForStats != true }
-            ?.map { it.source }
+            ?.flatMap { it.sourcesOfMissingDataForStats.orEmpty() }
+            ?.distinct()
             ?: emptyList()
+
 
         // check mission observationsByUnit is not null
         if ((this.data?.controlUnits?.size ?: 0) < 2 && this.data?.observationsByUnit == null) {
