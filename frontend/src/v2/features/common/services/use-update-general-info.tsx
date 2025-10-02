@@ -4,7 +4,6 @@ import axios from '../../../../query-client/axios'
 import { Mission2, MissionGeneralInfo2 } from '../types/mission-types.ts'
 import { missionsKeys } from './query-keys.ts'
 import queryClient from '../../../../query-client'
-import { endOfYear, startOfYear } from 'date-fns'
 
 type UseUpdateMissionActionInput = { missionId: string; generalInfo: MissionGeneralInfo2 }
 
@@ -15,7 +14,6 @@ export const offlineUpdateGeneralInfoMutationDefault = {
   mutationFn: updateGeneralInfos,
   onMutate: async (input: UseUpdateMissionActionInput) => {
     const { missionId, generalInfo } = input
-    const mission = queryClient.getQueryData(missionsKeys.byId(missionId))
 
     await queryClient.cancelQueries({ queryKey: missionsKeys.byId(missionId) })
 
@@ -30,32 +28,6 @@ export const offlineUpdateGeneralInfoMutationDefault = {
         }
       }
     })
-
-    try {
-      // ✅ Update any list cache that contains this mission
-      queryClient.setQueriesData(
-        {
-          queryKey: missionsKeys.filter(
-            JSON.stringify({
-              startDateTimeUtc: startOfYear(mission.data.startDateTimeUtc),
-              endDateTimeUtc: endOfYear(mission.data.endDateTimeUtc)
-            })
-          )
-        }, // match all filters
-        (old: Mission2[] | undefined) =>
-          old?.map(m =>
-            m.id.toString() === missionId
-              ? {
-                  ...m,
-                  generalInfos: {
-                    ...(m.generalInfos ?? {}),
-                    ...generalInfo
-                  }
-                }
-              : m
-          )
-      )
-    } catch (e) {}
 
     // ✅ Cancel existing mutations with same mission id
     const cleanupMutations = (mutationKey, missionId, keepLatest = false) => {
