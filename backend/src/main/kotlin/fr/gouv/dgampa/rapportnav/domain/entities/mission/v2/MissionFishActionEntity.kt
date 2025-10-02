@@ -111,7 +111,11 @@ class MissionFishActionEntity(
         val sourcesOfMissingDataForStats = mutableListOf<MissionSourceEnum>()
         // Fish endDateTime is not set in MonitorFish so MonitorFish considers the Action as complete
         // so it has to be set by the units
-        val rapportNavComplete = EntityCompletenessValidator.isCompleteForStats(this) && this.isStartDateEndDateOK()
+        val rapportNavComplete =
+            EntityCompletenessValidator.isCompleteForStats(this)
+                && this.isStartDateEndDateOK()
+                && this.controlsToComplete.isNullOrEmpty() == true
+
         val monitorFishComplete = this.completion == Completion.COMPLETED
 
         if (!rapportNavComplete) {

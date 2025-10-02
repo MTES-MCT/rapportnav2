@@ -57,7 +57,7 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, type, 
         message={
           <Text as="h4">
             {isOnline ? '' : hasNetwork ? 'Connexion disponible' : 'Connexion indisponible'}
-            {offlineSince ? `- Dernière synchronisation le ${formatDateForFrenchHumans(offlineSince)}` : ``}
+            {offlineSince ? ` - Dernière synchronisation le ${formatDateForFrenchHumans(offlineSince)}` : ``}
           </Text>
         }
         online={type === 'PAM' && isOfflineModeEnabled ? <OnlineToggle /> : <div />}

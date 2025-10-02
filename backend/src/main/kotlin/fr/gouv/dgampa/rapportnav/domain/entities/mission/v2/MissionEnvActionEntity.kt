@@ -79,15 +79,19 @@ data class MissionEnvActionEntity(
 
     override fun computeCompleteness() {
         val sourcesOfMissingDataForStats = mutableListOf<MissionSourceEnum>()
-        val rapportNavComplete = EntityCompletenessValidator.isCompleteForStats(this)  && this.isStartDateEndDateOK()
-        val monitorFishComplete = this.completion === ActionCompletionEnum.COMPLETED
+        val rapportNavComplete =
+            EntityCompletenessValidator.isCompleteForStats(this)
+            && this.isStartDateEndDateOK()
+            && this.controlsToComplete.isNullOrEmpty() == true
+
+        val monitorEnvComplete = this.completion === ActionCompletionEnum.COMPLETED
         if (!rapportNavComplete) {
             sourcesOfMissingDataForStats.add(MissionSourceEnum.RAPPORTNAV)
         }
-        if (!monitorFishComplete) {
+        if (!monitorEnvComplete) {
             sourcesOfMissingDataForStats.add(MissionSourceEnum.MONITORENV)
         }
-        this.isCompleteForStats = rapportNavComplete && monitorFishComplete
+        this.isCompleteForStats = rapportNavComplete && monitorEnvComplete
         this.sourcesOfMissingDataForStats = sourcesOfMissingDataForStats
         this.computeSummaryTags()
         this.computeControlsToComplete()
