@@ -21,6 +21,7 @@ class InquiryEntity(
     var vesselExternalReferenceNumber: String? = null,
     var actions: List<MissionActionEntity>? = null,
     var isSignedByInspector: Boolean? = null,
+    var siren: String? = null
 ) {
 
     companion object {
@@ -38,7 +39,8 @@ class InquiryEntity(
                 origin = model.origin?.let { InquiryOriginType.valueOf(it) },
                 status = model.status?.let { InquiryStatusType.valueOf(it) },
                 conclusion = model.conclusion?.let { InquiryConclusionType.valueOf(it) },
-                isSignedByInspector = model.isSignedByInspector
+                isSignedByInspector = model.isSignedByInspector,
+                siren = model.siren
             )
         }
     }
@@ -57,7 +59,8 @@ class InquiryEntity(
             conclusion = conclusion?.toString(),
             missionId = missionId,
             missionIdUUID = missionIdUUID,
-            isSignedByInspector = isSignedByInspector
+            isSignedByInspector = isSignedByInspector,
+            siren = siren
         )
     }
 

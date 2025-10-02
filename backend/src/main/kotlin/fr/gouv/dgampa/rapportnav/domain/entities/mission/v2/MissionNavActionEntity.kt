@@ -185,16 +185,16 @@ class MissionNavActionEntity(
 
     @MandatoryForStats(
         enableIf = [
+            DependentFieldValue(field = "actionType", value = ["CONTROL_NAUTICAL_LEISURE"])
+        ]
+    )
+    override var nbrOfControl: Int? = null,
+    @MandatoryForStats(
+        enableIf = [
             DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"])
         ]
     )
     override var siren: String? = null,
-    @MandatoryForStats(
-        enableIf = [
-            DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR", "CONTROL_NAUTICAL_LEISURE"])
-        ]
-    )
-    override var nbrOfControl: Int? = null,
     @MandatoryForStats(
         enableIf = [
             DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"])
