@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.29.3](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.29.2...docker-container@v2.29.3) (2025-10-02)
+
+
+### Bug Fixes
+
+* completeness and sources  on Fish actions ([#913](https://github.com/MTES-MCT/rapportnav2/issues/913)) ([76def19](https://github.com/MTES-MCT/rapportnav2/commit/76def19b41a9426f3d94678bf6b2ed9c3bf17520))
+
 ## [2.29.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.29.1...docker-container@v2.29.2) (2025-10-02)
 
 
