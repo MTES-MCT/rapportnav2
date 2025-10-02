@@ -38,6 +38,7 @@ export interface Inquiry {
   isSignedByInspector?: boolean
   vesselExternalReferenceNumber?: string
   missionId?: number
+  siren?: string
   missionIdUUID?: string
   actions?: MissionAction[]
 }

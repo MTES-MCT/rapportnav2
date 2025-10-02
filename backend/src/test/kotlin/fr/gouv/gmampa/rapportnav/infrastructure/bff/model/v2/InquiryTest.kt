@@ -30,7 +30,8 @@ class InquiryTest {
             conclusion = InquiryConclusionType.NO_FOLLOW_UP,
             endDateTimeUtc = Instant.parse("2015-07-30T00:00:00.00Z"),
             startDateTimeUtc = Instant.parse("2015-06-30T00:00:00.00Z"),
-            isSignedByInspector = true
+            isSignedByInspector = true,
+            siren = "myBeautifulSiren"
         )
 
         val response = Inquiry.fromInquiryEntity(entity)
@@ -38,6 +39,7 @@ class InquiryTest {
         assertThat(response).isNotNull()
         assertThat(response.id).isEqualTo(entity.id)
         assertThat(response.type).isEqualTo(entity.type)
+        assertThat(response.siren).isEqualTo(entity.siren)
         assertThat(response.origin).isEqualTo(entity.origin)
         assertThat(response.agentId).isEqualTo(entity.agentId)
         assertThat(response.vesselId).isEqualTo(entity.vesselId)
@@ -64,7 +66,8 @@ class InquiryTest {
             endDateTimeUtc = Instant.parse("2015-07-30T00:00:00.00Z"),
             startDateTimeUtc = Instant.parse("2015-06-30T00:00:00.00Z"),
             actions = listOf(action),
-            isSignedByInspector = false
+            isSignedByInspector = false,
+            siren = "myBeautifulSiren"
         )
 
         val response = inquiry.toInquiryEntity()
@@ -72,6 +75,7 @@ class InquiryTest {
         assertThat(response.actions).isEmpty()
         assertThat(response.id).isEqualTo(inquiry.id)
         assertThat(response.type).isEqualTo(inquiry.type)
+        assertThat(response.siren).isEqualTo(inquiry.siren)
         assertThat(response.origin).isEqualTo(inquiry.origin)
         assertThat(response.agentId).isEqualTo(inquiry.agentId)
         assertThat(response.vesselId).isEqualTo(inquiry.vesselId)

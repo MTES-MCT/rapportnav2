@@ -19,6 +19,7 @@ class InquiryEntityTest {
         assertThat(response).isNotNull()
         assertThat(response.id).isEqualTo(inquiryEntity.id)
         assertThat(response.type).isEqualTo(inquiryEntity.type)
+        assertThat(response.siren).isEqualTo(inquiryEntity.siren)
         assertThat(response.origin).isEqualTo(inquiryEntity.origin?.toString())
         assertThat(response.agentId).isEqualTo(inquiryEntity.agentId.toString())
         assertThat(response.vesselId).isEqualTo(inquiryEntity.vesselId)
@@ -57,7 +58,8 @@ class InquiryEntityTest {
             conclusion = InquiryConclusionType.NO_FOLLOW_UP,
             missionId = 4,
             missionIdUUID = UUID.randomUUID(),
-            isSignedByInspector = true
+            isSignedByInspector = true,
+            siren = "MyBeautifulSiren"
         )
     }
 }

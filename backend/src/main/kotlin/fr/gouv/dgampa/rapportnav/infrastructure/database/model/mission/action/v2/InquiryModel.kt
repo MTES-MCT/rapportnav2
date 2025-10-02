@@ -57,6 +57,9 @@ class InquiryModel(
     @Column(name = "is_signed_by_inspector", nullable = true)
     var isSignedByInspector: Boolean? = null,
 
+    @Column(name = "siren", nullable = true)
+    var siren: String? = null,
+
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
     var createdAt: Instant? = null,

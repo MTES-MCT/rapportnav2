@@ -3,6 +3,7 @@ import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
+import { FormikSearchEstablishment } from '../../../common/components/ui/formik-search-establishment'
 import { FormikSearchVessel } from '../../../common/components/ui/formik-search-vessel'
 import { usecontrolCheck } from '../../../common/hooks/use-control-check'
 import useAgentsQuery from '../../../common/services/use-agents'
@@ -98,15 +99,23 @@ const InquiryGeneralInfoForm: FC<{
                       </Stack.Item>
                     </Stack>
                   </Stack.Item>
-                  {vessels && (
+                  {vessels && values.type === InquiryTargetType.VEHICLE && (
                     <Stack.Item style={{ width: '100%' }}>
                       <FormikSearchVessel
                         vessels={vessels}
                         name="vesselId"
                         isLight={false}
                         label="Nom du navire contrôlée"
-                        disabled={values.type === InquiryTargetType.COMPANY}
                       />
+                    </Stack.Item>
+                  )}
+                  {values.type === InquiryTargetType.COMPANY && (
+                    <Stack.Item style={{ width: '100%' }}>
+                      <Field name="siren">
+                        {(field: FieldProps<string>) => (
+                          <FormikSearchEstablishment name="siren" fieldFormik={field} label="Nom de l'etablissement" />
+                        )}
+                      </Field>
                     </Stack.Item>
                   )}
                 </Stack>
