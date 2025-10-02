@@ -256,7 +256,10 @@ class MissionNavActionEntity(
 
     override fun computeCompleteness() {
         this.isCompleteForStats = EntityCompletenessValidator.isCompleteForStats(this)
-        this.sourcesOfMissingDataForStats = listOf(MissionSourceEnum.RAPPORTNAV)
+        this.sourcesOfMissingDataForStats =
+            if (this.isCompleteForStats == true) emptyList()
+            else listOf(MissionSourceEnum.RAPPORTNAV)
+
         this.computeSummaryTags()
         this.computeCompletenessForStats()
     }

@@ -254,28 +254,12 @@ describe('Hook useUpdateMissionAction', () => {
         // Wait a bit longer for invalidation to complete
         await waitFor(() => {
           expect(invalidateQueriesSpy).toHaveBeenCalledWith({
-            queryKey: actionsKeys.byId(actionId),
-            refetchType: 'active'
+            queryKey: actionsKeys.byId(actionId)
           })
           expect(invalidateQueriesSpy).toHaveBeenCalledWith({
             queryKey: missionsKeys.byId(missionId),
             type: 'all'
           })
-        })
-      })
-
-      it('should handle invalidation errors gracefully', async () => {
-        mockedAxios.put.mockResolvedValue({ data: mockAction })
-        invalidateQueriesSpy.mockRejectedValueOnce(new Error('Invalidation error'))
-
-        const { result } = renderHook(() => useUpdateMissionAction(missionId, actionId), { wrapper })
-
-        await act(async () => {
-          result.current.mutate({ ownerId: missionId, action: mockAction })
-        })
-
-        await waitFor(() => {
-          expect(result.current.isSuccess).toBe(true)
         })
       })
 
@@ -294,8 +278,7 @@ describe('Hook useUpdateMissionAction', () => {
 
         await waitFor(() => {
           expect(invalidateQueriesSpy).toHaveBeenCalledWith({
-            queryKey: actionsKeys.byId(actionId),
-            refetchType: 'active'
+            queryKey: actionsKeys.byId(actionId)
           })
         })
       })

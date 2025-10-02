@@ -88,7 +88,7 @@ export function useMissionCompletenessForStats(
   }
 
   const getMessageStatus = () => {
-    if (isCompleteForStats(completenessForStats)) {
+    if (!completenessForStats || isCompleteForStats(completenessForStats)) {
       return 'Les champs indispensables aux statistiques sont remplis.'
     }
     return `Des champs indispensables sont à remplir par ${getSourceName(completenessForStats?.sources)}.`

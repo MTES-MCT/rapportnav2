@@ -78,6 +78,9 @@ data class MissionEnvActionEntity(
     }
 
     override fun computeCompleteness() {
+        this.computeControlsToComplete()
+        this.computeAvailableControlTypesForInfraction()
+
         val sourcesOfMissingDataForStats = mutableListOf<MissionSourceEnum>()
         val rapportNavComplete =
             EntityCompletenessValidator.isCompleteForStats(this)
@@ -94,8 +97,7 @@ data class MissionEnvActionEntity(
         this.isCompleteForStats = rapportNavComplete && monitorEnvComplete
         this.sourcesOfMissingDataForStats = sourcesOfMissingDataForStats
         this.computeSummaryTags()
-        this.computeControlsToComplete()
-        this.computeAvailableControlTypesForInfraction()
+
         this.computeCompletenessForStats()
     }
 

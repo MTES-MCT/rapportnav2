@@ -72,6 +72,9 @@ export const offlineCreateActionDefaults = {
           : missionsKeys.byId(variables.ownerId),
       type: 'all'
     })
+    await queryClient.invalidateQueries({
+      queryKey: actionsKeys.byId(_data.data.id)
+    })
   },
   scope: {
     id: 'create-action' // scope to run mutations in serial and not in parallel
