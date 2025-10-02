@@ -45,21 +45,24 @@ const MissionTargetExternalData: React.FC<MissionTargetExternalDataProps> = ({ s
             <Stack.Item style={{ width: '100%' }}>
               <Stack direction="row" spacing={'2rem'} style={{ width: '100%' }}>
                 <Stack.Item style={{ width: '100%' }}>
+                  {/*TODO hide for personne physique*/}
                   <Legend>Immatriculation</Legend>
                   <Text as="h3" weight="medium">
-                    {externalData?.registrationNumber}
+                    {externalData?.registrationNumber ?? '--'}
                   </Text>
                 </Stack.Item>
+                {/*TODO hide for personne physique*/}
                 <Stack.Item style={{ width: '100%' }}>
                   <Legend>Type de navire</Legend>
                   <Text as="h3" weight="medium">
-                    {getVesselTypeName(externalData?.vesselType)}
+                    {getVesselTypeName(externalData?.vesselType) ?? '--'}
                   </Text>
                 </Stack.Item>
+                {/*TODO hide for personne physique*/}
                 <Stack.Item style={{ width: '100%' }}>
                   <Legend>Taille du navire</Legend>
                   <Text as="h3" weight="medium">
-                    {getVesselSize(externalData?.vesselSize)}
+                    {getVesselSize(externalData?.vesselSize) ?? '--'}
                   </Text>
                 </Stack.Item>
               </Stack>
@@ -67,7 +70,7 @@ const MissionTargetExternalData: React.FC<MissionTargetExternalDataProps> = ({ s
             <Stack.Item style={{ width: '100%' }}>
               <Legend>Identité de la personne contrôlée</Legend>
               <Text as="h3" weight="medium">
-                {externalData?.controlledPersonIdentity}
+                {externalData?.controlledPersonIdentity ?? '--'}
               </Text>
             </Stack.Item>
             <Stack.Item style={{ width: '100%' }}>
@@ -111,7 +114,7 @@ const MissionTargetExternalData: React.FC<MissionTargetExternalDataProps> = ({ s
             <Stack.Item style={{ width: '100%' }}>
               <Legend>Observations</Legend>
               <Text as="h3" weight="medium" data-testid={'observations'}>
-                {externalData?.observations ?? '--'}
+                {externalData?.observations && externalData?.observations !== '' ? externalData?.observations : '--'}
               </Text>
             </Stack.Item>
           </Stack>

@@ -2,7 +2,9 @@ package fr.gouv.dgampa.rapportnav.domain.entities.aem.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
+import java.time.Instant
 
 data class AEMIllegalFish2(
     val nbrOfHourAtSea: Double? = 0.0, //4.3.1
@@ -14,9 +16,11 @@ data class AEMIllegalFish2(
     val quantityOfFish: Double? = 0.0 //4.3.9
 ) {
     constructor(
-        fishActions: List<MissionFishActionEntity?>
+        fishActions: List<MissionFishActionEntity?>,
+        navActions: List<MissionNavActionEntity>,
+        missionEndDateTime: Instant?
     ) : this(
-        nbrOfHourAtSea = getNbrOfHourAtSea(fishActions),
+        nbrOfHourAtSea = getNbrOfHourAtSea(fishActions, navActions, missionEndDateTime),
         nbrOfPolFishAction = fishActions.size.toDouble(),
         nbrOfTargetedVessel = fishActions.size.toDouble(),
         nbrOfInfraction = getNbrOfInfraction(fishActions),
@@ -27,15 +31,20 @@ data class AEMIllegalFish2(
     }
 
     companion object {
-        fun getNbrOfHourAtSea(fishActions: List<MissionFishActionEntity?>): Double {
-            return fishActions.fold(0.0) { acc, fishAction ->
+        fun getNbrOfHourAtSea(fishActions: List<MissionFishActionEntity?>,
+                              navActions: List<MissionNavActionEntity>,
+                              missionEndDateTime: Instant?): Double {
+            // changes on Oct 2025 : add nav and anchored durations on top of the amount of time in fish controls
+            // equals to 3.4.1 + 7.4
+            val navAndAnchored = AEMSovereignProtect2(navActions = navActions, envActions = emptyList(), fishActions = fishActions, missionEndDateTime = missionEndDateTime).nbrOfHourAtSea
+            return navAndAnchored?.plus(fishActions.fold(0.0) { acc, fishAction ->
                 acc.plus(
                     ComputeDurationUtils.durationInHours(
                         startDateTimeUtc = fishAction?.startDateTimeUtc,
                         endDateTimeUtc = fishAction?.endDateTimeUtc
                     )
                 )
-            };
+            }) ?: 0.0;
         }
 
         fun getNbrOfInfraction(fishActions: List<MissionFishActionEntity?>): Double {

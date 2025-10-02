@@ -23,7 +23,11 @@ class AEMIllegalFishTest2 {
     @Test
     fun `Should init illegal fish with different values`() {
         val actions = extendedFishActionEntities()
-        val illegalImmigration = AEMIllegalFish2(fishActions = actions);
+        val illegalImmigration = AEMIllegalFish2(
+            fishActions = actions,
+            navActions = emptyList(),
+            missionEndDateTime = Instant.parse("2019-09-09T00:00:00.000+01:00")
+        )
 
         assertThat(illegalImmigration).isNotNull();
         assertThat(illegalImmigration.quantityOfFish).isEqualTo(6.0);

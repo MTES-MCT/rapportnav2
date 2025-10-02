@@ -1,5 +1,39 @@
 # Changelog
 
+## [2.29.2](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.29.1...frontend@v2.29.2) (2025-10-02)
+
+
+### Miscellaneous Chores
+
+* **frontend:** Synchronize group-some-associated-services versions
+
+## [2.29.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.29.0...frontend@v2.29.1) (2025-10-02)
+
+
+### Bug Fixes
+
+* cache and invaliudations PAM offline ([#910](https://github.com/MTES-MCT/rapportnav2/issues/910)) ([b0bd78d](https://github.com/MTES-MCT/rapportnav2/commit/b0bd78d2ab70b328fe92cc7bfdc2258abb35b614))
+
+## [2.29.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.28.5...frontend@v2.29.0) (2025-10-01)
+
+
+### Features
+
+* **PAM:** add inter-services tag on mission list page ([#907](https://github.com/MTES-MCT/rapportnav2/issues/907)) ([465d92f](https://github.com/MTES-MCT/rapportnav2/commit/465d92f614da23882a5c5c3c79cbe64e5d7ddf70))
+
+
+### Bug Fixes
+
+* add placeholder to bordée selector ([869a67c](https://github.com/MTES-MCT/rapportnav2/commit/869a67c9adb5e81991d9380ef793b12efb3720cb))
+
+## [2.28.5](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.28.4...frontend@v2.28.5) (2025-10-01)
+
+
+### Bug Fixes
+
+* refetch mission only when online ([e725670](https://github.com/MTES-MCT/rapportnav2/commit/e725670dd0b7308cd28d77d41e2e89b72f30adb2))
+* target infraction fallbacks and tests ([9254e60](https://github.com/MTES-MCT/rapportnav2/commit/9254e603be847fcc7f2ccd54f603492f072b674b))
+
 ## [2.28.4](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.28.3...frontend@v2.28.4) (2025-09-30)
 
 

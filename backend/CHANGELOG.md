@@ -1,5 +1,35 @@
 # Changelog
 
+## [2.29.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.29.1...backend@v2.29.2) (2025-10-02)
+
+
+### Bug Fixes
+
+* postgres:15.10-alpine ([67caea5](https://github.com/MTES-MCT/rapportnav2/commit/67caea515d6fa941f67c3e80de60b680f427cdee))
+
+## [2.29.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.29.0...backend@v2.29.1) (2025-10-02)
+
+
+### Miscellaneous Chores
+
+* **backend:** Synchronize group-some-associated-services versions
+
+## [2.29.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.28.5...backend@v2.29.0) (2025-10-01)
+
+
+### Miscellaneous Chores
+
+* **backend:** Synchronize group-some-associated-services versions
+
+## [2.28.5](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.28.4...backend@v2.28.5) (2025-10-01)
+
+
+### Bug Fixes
+
+* **AEM:** update 3.4.1 ([173708e](https://github.com/MTES-MCT/rapportnav2/commit/173708e4ed57b3b7454e917e20748fa77ca64790))
+* **AEM:** update 7.4 ([f131799](https://github.com/MTES-MCT/rapportnav2/commit/f13179963588e7bf4375b43e3d117ed0fd373d86))
+* **RapportDePatrouille:** use correct envInfractions ([f6c2853](https://github.com/MTES-MCT/rapportnav2/commit/f6c2853d2a8a100f6e8ef9671a4ca5457ad237ad))
+
 ## [2.28.4](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.28.3...backend@v2.28.4) (2025-09-30)
 
 
