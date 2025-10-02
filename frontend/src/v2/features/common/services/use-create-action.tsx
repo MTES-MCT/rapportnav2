@@ -1,4 +1,4 @@
-import { onlineManager, useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
+import { onlineManager, useMutation, UseMutationResult } from '@tanstack/react-query'
 
 import queryClient, { DYNAMIC_DATA_STALE_TIME } from '../../../../query-client'
 import axios from '../../../../query-client/axios.ts'
@@ -57,10 +57,7 @@ export const offlineCreateActionDefaults = {
     return { action: optimisticAction }
   },
   onSuccess: async (serverResponse, newAction, _context) => {
-    await queryClient.invalidateQueries({
-      queryKey: actionsKeys.byId(serverResponse?.data?.id),
-      type: 'all'
-    })
+    await queryClient.setQueryData(actionsKeys.byId(serverResponse?.data?.id), serverResponse?.data)
   },
   onError: (_, action, _context) => {
     // remove cache key for optimistic action because it couldn't be inserted
@@ -83,6 +80,12 @@ export const offlineCreateActionDefaults = {
 
 export const onlineCreateActionDefaults = {
   mutationFn: createAction,
+  onSuccess: async (serverResponse, newAction, _context) => {
+    await queryClient.invalidateQueries({
+      queryKey: actionsKeys.byId(serverResponse?.data?.id),
+      type: 'all'
+    })
+  },
   onSettled: async (_data, _error, variables: UseCreateActionInput, _context) => {
     await queryClient.invalidateQueries({
       queryKey:
@@ -98,8 +101,6 @@ export const onlineCreateActionDefaults = {
 }
 
 const useCreateActionMutation = (): UseMutationResult<MissionNavAction, Error, MissionNavAction, unknown> => {
-  const queryClient = useQueryClient()
-
   const mutation = useMutation({
     mutationKey: actionsKeys.create(),
     mutationFn: createAction,
