@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.29.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.29.0...docker-container@v2.29.1) (2025-10-02)
+
+
+### Bug Fixes
+
+* cache and invaliudations PAM offline ([#910](https://github.com/MTES-MCT/rapportnav2/issues/910)) ([b0bd78d](https://github.com/MTES-MCT/rapportnav2/commit/b0bd78d2ab70b328fe92cc7bfdc2258abb35b614))
+
 ## [2.29.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.28.5...docker-container@v2.29.0) (2025-10-01)
 
 
