@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.29.4](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.29.3...backend@v2.29.4) (2025-10-06)
+
+
+### Bug Fixes
+
+* completeness validation ([#915](https://github.com/MTES-MCT/rapportnav2/issues/915)) ([01108f9](https://github.com/MTES-MCT/rapportnav2/commit/01108f9fed026d0b6829aa7f7d87e7ee8abc28e7))
+
 ## [2.29.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.29.2...backend@v2.29.3) (2025-10-02)
 
 
