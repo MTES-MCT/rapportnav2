@@ -77,17 +77,13 @@ export const offlineUpdateActionDefaults = {
     // return context
     return { action: optimisticAction }
   },
-
+  onSuccess: async (serverResponse, newAction, _context) => {
+    await queryClient.setQueryData(actionsKeys.byId(serverResponse?.id), serverResponse)
+  },
   onSettled: async (_data, _error, variables: UseUpdateActionInput, _context) => {
-    try {
-      await queryClient.invalidateQueries({
-        queryKey: actionsKeys.byId(variables.action?.id),
-        refetchType: 'active'
-      })
-    } catch (error) {
-      // error because the action has been created online and cache key has no updater function
-      // it's ok to ignore
-    }
+    await queryClient.invalidateQueries({
+      queryKey: actionsKeys.byId(variables.action?.id)
+    })
 
     await queryClient.invalidateQueries({
       queryKey:

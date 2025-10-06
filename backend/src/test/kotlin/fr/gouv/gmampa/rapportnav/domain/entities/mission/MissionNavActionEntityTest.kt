@@ -207,8 +207,8 @@ class MissionNavActionEntityTest {
         val entity = MissionNavActionEntity.fromMissionActionModel(model)
         entity.computeCompleteness()
         assertThat(entity.isCompleteForStats).isEqualTo(true)
-        assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(listOf(MissionSourceEnum.RAPPORTNAV))
-        assertThat(entity.completenessForStats?.sources).isEqualTo(listOf(MissionSourceEnum.RAPPORTNAV))
+        assertThat(entity.sourcesOfMissingDataForStats).isEqualTo(emptyList<MissionSourceEnum>())
+        assertThat(entity.completenessForStats?.sources).isEqualTo(emptyList<MissionSourceEnum>())
         assertThat(entity.completenessForStats?.status).isEqualTo(CompletenessForStatsStatusEnum.COMPLETE)
     }
 
