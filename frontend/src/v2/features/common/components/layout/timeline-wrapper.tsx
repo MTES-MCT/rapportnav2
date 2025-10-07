@@ -1,5 +1,5 @@
 import { THEME } from '@mtes-mct/monitor-ui'
-import { find } from 'lodash'
+import { find, findIndex } from 'lodash'
 import { createElement, FC, Fragment, FunctionComponent, useEffect } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { setTimelineCompleteForStats } from '../../../../store/slices/timeline-reducer'
@@ -9,6 +9,7 @@ import MissionTimelineLoader from '../../../mission-timeline/components/ui/missi
 import { useTimelineCompleteForStats } from '../../../mission-timeline/hooks/use-timeline-complete-for-stats'
 import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'
 import { useDate } from '../../hooks/use-date'
+import { ActionType } from '../../types/action-type.ts'
 
 interface TimelineProps {
   isError?: any
@@ -70,7 +71,7 @@ const TimelineWrapper: FC<TimelineProps> = ({
                   baseUrl,
                   key: action.id,
                   index: actions.length - index,
-                  prevAction: find(actions, { type: action.type }, actions.findIndex(value => value === action) + 1)
+                  prevAction: find(actions, { type: ActionType.STATUS }, findIndex(actions, action) + 1)
                 })
               )}
             </Stack>
