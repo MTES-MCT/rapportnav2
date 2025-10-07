@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.29.5](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.29.4...frontend@v2.29.5) (2025-10-07)
+
+
+### Bug Fixes
+
+* **v2:** fix last status message ([6d25d13](https://github.com/MTES-MCT/rapportnav2/commit/6d25d13d24a825119be3311e8ee17dcce4ca420f))
+
 ## [2.29.4](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.29.3...frontend@v2.29.4) (2025-10-06)
 
 
