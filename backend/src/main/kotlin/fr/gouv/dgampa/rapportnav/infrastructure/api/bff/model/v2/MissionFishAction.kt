@@ -37,6 +37,7 @@ class MissionFishAction(
             return MissionFishAction(
                 id = fishAction.id.toString(),
                 source = fishAction.source,
+                status = fishAction.status,
                 missionId = fishAction.missionId,
                 actionType = fishAction.actionType,
                 summaryTags = fishAction.summaryTags,
