@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.NavActionInfoEntity
@@ -62,8 +63,13 @@ class GetInfoAboutNavAction2(
             }
 
             MissionSourceEnum.MONITORENV -> {
+                val mappedActionTypes = mapOf(
+                    ActionTypeEnum.CONTROL to ActionType.CONTROL,
+                    ActionTypeEnum.SURVEILLANCE to ActionType.SURVEILLANCE,
+                )
                 actions?.filterIsInstance<MissionEnvActionEntity>()?.filter {
-                    ActionType.CONTROL in actionTypes
+                    val actionType = mappedActionTypes[it.envActionType]
+                    actionType in actionTypes
                 }
             }
 
