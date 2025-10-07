@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.29.5](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.29.4...docker-container@v2.29.5) (2025-10-07)
+
+
+### Bug Fixes
+
+* **RapportPatrouille:** fix env surveillance in hours ([b463a60](https://github.com/MTES-MCT/rapportnav2/commit/b463a609d09bb201d246f1dafea463f02e3bb6b4))
+* **v2:** fix last status message ([6d25d13](https://github.com/MTES-MCT/rapportnav2/commit/6d25d13d24a825119be3311e8ee17dcce4ca420f))
+* **v2:** show pastille status for Fish actions ([ceaa85c](https://github.com/MTES-MCT/rapportnav2/commit/ceaa85c17bbbb8065e91a5dd356dde410a307a9d))
+
 ## [2.29.4](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.29.3...docker-container@v2.29.4) (2025-10-06)
 
 
