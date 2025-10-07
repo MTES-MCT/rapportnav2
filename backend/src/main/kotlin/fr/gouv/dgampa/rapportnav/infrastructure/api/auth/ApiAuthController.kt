@@ -1,8 +1,9 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.auth
 
+import fr.gouv.dgampa.rapportnav.config.PasswordValidator
 import fr.gouv.dgampa.rapportnav.domain.entities.user.RoleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
-import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode.*
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.HashService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
@@ -38,6 +39,13 @@ class ApiAuthController(
             message = "SignUp body does not contain all the required data"
         )
 
+        if (!PasswordValidator.isStrong(body.password)) {
+            throw BackendUsageException(
+                code = PASSWORD_TOO_WEAK_EXCEPTION,
+                message = "Password must be at least 10 characters long and include upper, lower, number, and special character"
+            )
+        }
+
         val user = User(
             id = body.id,
             firstName = body.firstName.lowercase().trim(),
@@ -50,7 +58,7 @@ class ApiAuthController(
 
         if (findByEmail.execute(body.email) != null) {
             throw BackendUsageException(
-                code = BackendUsageErrorCode.ALREADY_EXISTS_EXCEPTION,
+                code = ALREADY_EXISTS_EXCEPTION,
                 message = "SignUp failed "
             )
         }
@@ -67,13 +75,13 @@ class ApiAuthController(
 
         val user =
             findByEmail.execute(body.email.trim()) ?: throw BackendUsageException(
-                code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
+                code = INCORRECT_USER_IDENTIFIER_EXCEPTION,
                 message = "Login failed "
             )
 
         if (!hashService.checkBcrypt(body.password, user.password)) {
             throw BackendUsageException(
-                code = BackendUsageErrorCode.USER_INCORRECT_PASSWORD,
+                code = INCORRECT_USER_IDENTIFIER_EXCEPTION,
                 message = "Login failed "
             )
         }
