@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.30.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.30.0...docker-container@v2.30.1) (2025-10-08)
+
+
+### Bug Fixes
+
+* **CI:** add migration job ([1f50b0c](https://github.com/MTES-MCT/rapportnav2/commit/1f50b0cd1022f82c53d92c5c20b92233369c9a66))
+
 ## [2.30.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.29.5...docker-container@v2.30.0) (2025-10-08)
 
 
