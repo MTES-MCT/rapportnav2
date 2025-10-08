@@ -58,7 +58,7 @@ dependencyManagement {
 
 dependencies {
   developmentOnly("org.springframework.boot:spring-boot-devtools")
-  runtimeOnly("org.postgresql:postgresql:42.7.7")
+  implementation("org.postgresql:postgresql:42.7.7")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-data-rest:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
@@ -171,4 +171,18 @@ tasks.jacocoTestReport {
 tasks.test {
   useJUnitPlatform()   // If you are using JUnit 5
   finalizedBy(tasks.jacocoTestReport)  // Generate the report after tests
+}
+
+
+tasks.register<JavaExec>("runMigrationV2") {
+  description = "Runs the v2 SQL migrations"
+  group = "database"
+
+  mainClass.set("RunMigrationV2Kt")
+  classpath = sourceSets["main"].runtimeClasspath
+
+  args = listOf(
+    "src/main/resources/global/migration/migration_mission_action.sql",
+    "src/main/resources/global/migration/migration_target_control_infraction.sql",
+  )
 }
