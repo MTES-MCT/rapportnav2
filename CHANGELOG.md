@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.30.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.29.5...docker-container@v2.30.0) (2025-10-08)
+
+
+### Features
+
+* **v2:** gradle job to run v2 migrations ([7996b15](https://github.com/MTES-MCT/rapportnav2/commit/7996b154ef9e7402c974c2112305d80861a3deca))
+
 ## [2.29.5](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.29.4...docker-container@v2.29.5) (2025-10-07)
 
 
