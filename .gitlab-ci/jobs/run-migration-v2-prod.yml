@@ -1,0 +1,21 @@
+run-migrations-v2-prod:
+  stage: build
+  image: gradle:8.5-jdk17
+  variables:
+    HTTP_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
+    HTTPS_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
+    NO_PROXY: "gitlab-sml.din.developpement-durable.gouv.fr,localhost,127.0.0.1,0.0.0.0,.dsi.damgm.i2"
+    ENV_DB_URL: "$ENV_DB_URL"
+
+  before_script:
+    - export JAVA_OPTS="-Dhttp.proxyHost=$PROXY_HOST -Dhttp.proxyPort=$PROXY_PORT -Dhttps.proxyHost=$PROXY_HOST -Dhttps.proxyPort=$PROXY_PORT -Dhttp.nonProxyHosts=\"$NO_PROXY\""
+  script:
+    - cd backend
+    - chmod +x gradlew
+    - ./gradlew clean assemble
+    - ./gradlew runMigrationV2
+  tags:
+    - build
+  when: manual
+  allow_failure: true
+  environment: production
