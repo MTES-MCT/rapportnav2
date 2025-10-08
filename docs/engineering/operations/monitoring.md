@@ -1,9 +1,11 @@
 # Monitoring
 
-TODO
-- sentry
-- monitoring physique des servers
 
+## Sentry
+
+Sentry est mis à disposition via l'incubateur de la Fabrique Numérique.
+
+Il est notre principale source de suivi des erreurs.
 
 ## Portainer
 
