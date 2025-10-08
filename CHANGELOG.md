@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.31.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.30.1...docker-container@v2.31.0) (2025-10-08)
+
+
+### Features
+
+* **docs:** docs for MCO ([85c4eb4](https://github.com/MTES-MCT/rapportnav2/commit/85c4eb4ea49626c598618b5fb155db2a10fa6c03))
+
 ## [2.30.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.30.0...docker-container@v2.30.1) (2025-10-08)
 
 
