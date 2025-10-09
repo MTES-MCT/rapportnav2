@@ -21,7 +21,8 @@ package fr.gouv.dgampa.rapportnav.domain.exceptions
  * **Don't forget to mirror any update here in the corresponding Frontend enum.**
  */
 enum class BackendUsageErrorCode {
-    USER_INCORRECT_PASSWORD,
+    PASSWORD_TOO_WEAK_EXCEPTION,
+    INCORRECT_USER_IDENTIFIER_EXCEPTION,
 
     //------------------------
     COULD_NOT_SAVE_EXCEPTION,
