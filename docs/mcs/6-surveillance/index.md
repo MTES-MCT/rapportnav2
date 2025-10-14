@@ -1,13 +1,14 @@
 ## 6. Surveillance et détection
 
 ### 6.1 Supervision de la sécurité
-_(Indicateurs, tableaux de bord de sécurité, outils de monitoring.)_
+
+Aucun outil dédié à la supervision de la sécurité n'est mis en place, si ce n'est la détection de vulnérabilités 
+avant de déployer tout nouveau code.
 
 ### 6.2 Détection d’incidents
-_(IDS/IPS, alertes, corrélation d’événements.)_
+
+Aucun outil de détection d'incidents a priori n'a été mis en place. La détection est à l'heure actuelle toujours a posteriori.
 
 ### 6.3 Gestion des alertes
-_(Canaux, niveaux de criticité, escalade, réponse initiale.)_
 
-### 6.4 Analyse post-incident
-_(REX sécurité, correction et prévention des récurrences.)_
+Aucune gestion des alertes n'a été mis en place.

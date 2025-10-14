@@ -11,7 +11,6 @@ La documentation est :
 - déployée automatiquement sur https://mtes-mct.github.io/rapportnav2/#/
 
 ### 9.2 Journal d’exploitation
-_(Historique des opérations, incidents, mises à jour, etc.)_
 
 Statut des différents journaux :
 - changelog : généré automatiquement, disponible sur github

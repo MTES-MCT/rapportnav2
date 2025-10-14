@@ -8,4 +8,3 @@
 * [6. Surveillance et détection](mcs/6-surveillance/index)
 * [7. Gestion des incidents de sécurité](mcs/7-gestion-incidents/index)
 * [8. Sauvegardes et confidentialité des données](mcs/8-sauvegardes/index)
-* [9. Revue périodique et amélioration continue](mcs/9-review/index)
