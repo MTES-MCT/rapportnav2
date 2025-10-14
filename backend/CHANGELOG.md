@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.31.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.30.1...backend@v2.31.0) (2025-10-14)
+
+
+### Features
+
+* **auth:** password strength validator ([06d2b95](https://github.com/MTES-MCT/rapportnav2/commit/06d2b95ff3350b6dd24b9daee94d942e3fd32737))
+* **crew:** update Gyptis B ([938a100](https://github.com/MTES-MCT/rapportnav2/commit/938a1000ed53d05c18b52975be1bb383c9c228fe))
+
 ## [2.30.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.30.0...backend@v2.30.1) (2025-10-08)
 
 
