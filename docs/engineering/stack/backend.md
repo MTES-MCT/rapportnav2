@@ -10,6 +10,9 @@ Le backend utilise les outils suivants :
 
 ## Architecture
 
+Le diagramme suivant représente l'architecture de RapportNav
+![hexa-archi.png](../images/rapportnav-archi.png)
+
 ### Clean Architecture
 
 Le pattern d'architecture utilisé est commun entre RapportNav et les Monitor, il s'agit de clean architecture dans sa variante hexagonale.
