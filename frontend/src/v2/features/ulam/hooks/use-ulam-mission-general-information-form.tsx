@@ -55,7 +55,9 @@ export const useUlamMissionGeneralInfoForm = (
       resources: extended.resources,
       crew: extended.crew,
       observations: extended.observations,
-      interMinisterialServices: extended.interMinisterialServices
+      interMinisterialServices: extended.interMinisterialServices,
+      jdpType: extended.jdpType,
+      isUnderJdp: extended.isUnderJdp
     }
   }
 

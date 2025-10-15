@@ -1,7 +1,7 @@
 import Text from '@common/components/ui/text'
 import { FormikEffect, FormikTextarea, Label, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Formik } from 'formik'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import { MissionAction } from '../../../common/types/mission-action'

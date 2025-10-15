@@ -7,6 +7,7 @@ import MissionActionItemHearingConduct from '../../mission-action/components/ele
 import MissionActionItemInquiry from '../../mission-action/components/elements/mission-action-item-inquiry'
 import MissionActionItemMeeting from '../../mission-action/components/elements/mission-action-item-meeting'
 import MissionActionItemNavSurveillance from '../../mission-action/components/elements/mission-action-item-nav-surveillance'
+import MissionActionItemOtherFieldActivity from '../../mission-action/components/elements/mission-action-item-other-field-activity'
 import MissionActionItemPvDrafting from '../../mission-action/components/elements/mission-action-item-pv-drafting'
 import MissionActionItemResourceMaintenance from '../../mission-action/components/elements/mission-action-item-resource-maintenance'
 import MissionActionItemTraining from '../../mission-action/components/elements/mission-action-item-training'
@@ -81,7 +82,7 @@ const ULAM_ACTION_REGISTRY: UlamActionRegistry = {
   [ActionType.OTHER]: {
     icon: Icon.More,
     title: `Autre activité terrain - autre`,
-    component: MissionActionItemGenericDateObservation
+    component: MissionActionItemOtherFieldActivity
   },
   [ActionType.UNIT_MANAGEMENT_OTHER]: {
     icon: Icon.GroupPerson,

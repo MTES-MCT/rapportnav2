@@ -1,6 +1,6 @@
 import { ControlType } from '@common/types/control-types'
 import { ActionTargetTypeEnum } from '@common/types/env-mission-types'
-import { uniq } from 'lodash'
+import { isEmpty, uniq } from 'lodash'
 import { MissionSourceEnum } from '../../common/types/mission-types'
 import { Control, Infraction, Target, TargetInfraction, TargetType } from '../../common/types/target-types'
 
@@ -23,18 +23,21 @@ export function useTarget() {
     const control = { ...(input.control ?? ({} as Control)) }
     const infraction = { ...(input.infraction ?? ({} as Infraction)) }
 
-    if (!control.infractions) control.infractions = []
+    if (!isEmpty(infraction)) {
+      if (!control.infractions) control.infractions = []
+      const infractionIndex = control.infractions.findIndex(i => i.id === infraction.id)
+      if (infractionIndex === -1) control.infractions.push(infraction)
+      if (infractionIndex !== -1) control.infractions[infractionIndex] = infraction
+    }
 
-    const infractionIndex = control.infractions.findIndex(i => i.id === infraction.id)
-    if (infractionIndex === -1) control.infractions.push(infraction)
-    if (infractionIndex !== -1) control.infractions[infractionIndex] = infraction
+    if (!isEmpty(control)) {
+      if (!target.controls) target.controls = []
+      const controlIndex = target.controls?.findIndex(c => c.id === control.id)
+      if (controlIndex === -1) target.controls.push(control)
+      if (controlIndex !== -1) target.controls[controlIndex] = control
+    }
 
-    if (!target.controls) target.controls = []
-    const controlIndex = target.controls?.findIndex(c => c.id === control.id)
-    if (controlIndex === -1) target.controls.push(control)
-    if (controlIndex !== -1) target.controls[controlIndex] = control
-
-    return { ...target }
+    return target
   }
 
   const deleteInfraction = (target: Target, controlIndex: number, infractionIndex: number): Target | undefined => {

@@ -1,8 +1,8 @@
-import MissionActionItemFishControl from '../mission-action-item-fish-control.tsx'
+import { MissionActionType } from '@common/types/fish-mission-types.ts'
 import { vi } from 'vitest'
 import { render, screen } from '../../../../../../test-utils.tsx'
 import { MissionAction } from '../../../../common/types/mission-action.ts'
-import { MissionActionType } from '@common/types/fish-mission-types.ts'
+import MissionActionItemFishControl from '../mission-action-item-fish-control.tsx'
 
 const mockAction = {
   id: '1234',
@@ -35,7 +35,7 @@ describe('MissionActionItemEnvControl Component', () => {
         }
       }
       render(<MissionActionItemFishControl {...props(action)} />)
-      expect(screen.getByText("Lieu de l'opération (12° 12.12′ N 121° 21.21′ E)")).toBeInTheDocument()
+      expect(screen.getByText("Lieu de l'opération (01° 12.600′ S 044° 58.800′ E)")).toBeInTheDocument()
       expect(screen.queryByText("Lieu de l'opération")).toBeNull()
     })
   })

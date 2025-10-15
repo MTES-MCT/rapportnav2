@@ -20,13 +20,13 @@ exports[`FormikSelectVesselSize > should match the snapshot 1`] = `
             class="rs-picker rs-picker-select rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
           >
             <div
-              aria-controls="rs-«r0»-listbox"
-              aria-describedby="rs-«r0»-describe"
+              aria-controls="rs-_r_0_-listbox"
+              aria-describedby="rs-_r_0_-describe"
               aria-disabled="false"
               aria-expanded="false"
               aria-haspopup="listbox"
               class="rs-picker-toggle rs-btn rs-btn-default"
-              id="rs-«r0»"
+              id="rs-_r_0_"
               role="combobox"
               tabindex="0"
             >
@@ -51,7 +51,7 @@ exports[`FormikSelectVesselSize > should match the snapshot 1`] = `
                   <span
                     class="rs-picker-toggle-placeholder"
                     data-testid="picker-describe"
-                    id="rs-«r0»-describe"
+                    id="rs-_r_0_-describe"
                   >
                     Sélectionner
                   </span>
@@ -122,13 +122,13 @@ exports[`FormikSelectVesselSize > should match the snapshot 1`] = `
           class="rs-picker rs-picker-select rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable"
         >
           <div
-            aria-controls="rs-«r0»-listbox"
-            aria-describedby="rs-«r0»-describe"
+            aria-controls="rs-_r_0_-listbox"
+            aria-describedby="rs-_r_0_-describe"
             aria-disabled="false"
             aria-expanded="false"
             aria-haspopup="listbox"
             class="rs-picker-toggle rs-btn rs-btn-default"
-            id="rs-«r0»"
+            id="rs-_r_0_"
             role="combobox"
             tabindex="0"
           >
@@ -153,7 +153,7 @@ exports[`FormikSelectVesselSize > should match the snapshot 1`] = `
                 <span
                   class="rs-picker-toggle-placeholder"
                   data-testid="picker-describe"
-                  id="rs-«r0»-describe"
+                  id="rs-_r_0_-describe"
                 >
                   Sélectionner
                 </span>

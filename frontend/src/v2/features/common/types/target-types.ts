@@ -71,13 +71,12 @@ export type TargetInfraction = {
 }
 
 export type TargetInfractionInput = {
-  target: {
+  target?: {
     isVessel?: boolean
     isTargetVehicule?: boolean
   } & Target
-  control: Control
-  infraction: {
+  control?: Control
+  infraction?: {
     withReport: boolean
-    controlType: ControlType
   } & Infraction
 }

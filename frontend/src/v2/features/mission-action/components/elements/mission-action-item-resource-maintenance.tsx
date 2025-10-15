@@ -53,16 +53,23 @@ const MissionActionItemResourceMaintenance: FC<{
           spacing={'1rem'}
         >
           <Stack.Item style={{ width: '50%' }}>
-            <FormikMultiRadio isRequired name="resourceType" options={resourceOptions} label="Type du moyen" />
+            <FormikMultiRadio
+              isRequired
+              name="resourceType"
+              label="Type du moyen"
+              options={resourceOptions}
+              isErrorMessageHidden={true}
+            />
           </Stack.Item>
           <Stack.Item style={{ width: '50%' }}>
             <FormikSelect
               isRequired
               isLight
               searchable
-              style={{ width: '100%' }}
               name={`resourceId`}
               label="Nom du moyen"
+              style={{ width: '100%' }}
+              isErrorMessageHidden={true}
               options={
                 resources?.map((resource: ControlUnitResource) => ({
                   value: resource.id!!,

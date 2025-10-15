@@ -15,7 +15,7 @@ exports[`MissionListPageContentWrapper > should match the snapshot 1`] = `
         >
           <div
             class="rs-stack"
-            style="align-items: center; flex-direction: row; gap: 0.5rem; padding: 0px 9.5rem; margin-top: 3rem;"
+            style="align-items: center; flex-direction: row; gap: 0.2rem; padding: 0px 11.5rem; margin-top: 3rem;"
           >
             <div
               class="rs-stack-item"
@@ -108,7 +108,7 @@ exports[`MissionListPageContentWrapper > should match the snapshot 1`] = `
       >
         <div
           class="rs-stack"
-          style="align-items: center; flex-direction: row; gap: 0.5rem; padding: 0px 9.5rem; margin-top: 3rem;"
+          style="align-items: center; flex-direction: row; gap: 0.2rem; padding: 0px 11.5rem; margin-top: 3rem;"
         >
           <div
             class="rs-stack-item"
