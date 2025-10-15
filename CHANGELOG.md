@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.32.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.31.0...docker-container@v2.32.0) (2025-10-15)
+
+
+### Features
+
+* **migrations:** migrate actions to v2 ([69e3134](https://github.com/MTES-MCT/rapportnav2/commit/69e3134ba77d713497478173f56ede4fd94c7c79))
+* **migrations:** migrate targets/controls/infractions to v2 ([f4e1508](https://github.com/MTES-MCT/rapportnav2/commit/f4e15085dc4345116c47612cbb9a069bd8de7693))
+
+
+### Bug Fixes
+
+* **backend:** test repair ([2a54385](https://github.com/MTES-MCT/rapportnav2/commit/2a54385a2b553cd6afa292bb2f745a1a13a4594b))
+* **backend:** ulam action add attributes ([f49955b](https://github.com/MTES-MCT/rapportnav2/commit/f49955bf77e4db42991f686765fb45fce612693c))
+* **backend:** ulam action add attributes ([b0139bb](https://github.com/MTES-MCT/rapportnav2/commit/b0139bb919827eb687b5d23a5e30d308207fd482))
+
 ## [2.31.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.30.1...docker-container@v2.31.0) (2025-10-14)
 
 
