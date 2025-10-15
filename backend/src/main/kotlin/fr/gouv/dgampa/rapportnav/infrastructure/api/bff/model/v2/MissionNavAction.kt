@@ -84,6 +84,7 @@ class MissionNavAction(
                     unitManagementTrainingType = navAction.unitManagementTrainingType,
                     isWithinDepartment = navAction.isWithinDepartment,
                     hasDivingDuringOperation = navAction.hasDivingDuringOperation,
+                    incidentDuringOperation = navAction.incidentDuringOperation,
                     resourceId = navAction.resourceId,
                     resourceType = navAction.resourceType,
                     siren = navAction.siren,
@@ -97,6 +98,8 @@ class MissionNavAction(
                     leisureType = navAction.leisureType,
                     fishingGearType = navAction.fishingGearType,
                     controlType = navAction.controlType,
+                    securityVisitType = navAction.securityVisitType,
+                    nbrSecurityVisit = navAction.nbrSecurityVisit,
                     targets = navAction.targets?.map { Target2.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc }
                 )
             )

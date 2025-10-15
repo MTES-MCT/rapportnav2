@@ -1,0 +1,9 @@
+DO
+$$
+BEGIN
+ALTER TYPE "ActionType" ADD VALUE IF NOT EXISTS 'SECURITY_VISIT';
+ALTER TABLE mission_action ADD COLUMN IF NOT EXISTS nbr_security_visit INTEGER NULL;
+ALTER TABLE mission_action ADD COLUMN IF NOT EXISTS security_visit_type VARCHAR(36) NULL;
+ALTER TABLE mission_action ADD COLUMN IF NOT EXISTS incident_during_operation BOOLEAN NULL;
+END
+$$;

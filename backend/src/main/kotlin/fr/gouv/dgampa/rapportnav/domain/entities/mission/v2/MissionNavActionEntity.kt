@@ -37,7 +37,7 @@ class MissionNavActionEntity(
                 "VIGIMER", "REPRESENTATION", "PUBLIC_ORDER", "ILLEGAL_IMMIGRATION", "NAUTICAL_EVENT",
                 "CONDUCT_HEARING", "COMMUNICATION", "TRAINING", "UNIT_MANAGEMENT_PLANNING", "UNIT_MANAGEMENT_TRAINING",
                 "CONTROL_SECTOR", "CONTROL_NAUTICAL_LEISURE", "CONTROL_SLEEPING_FISHING_GEAR", "OTHER_CONTROL",
-                "RESOURCES_MAINTENANCE", "MEETING", "PV_DRAFTING", "HEARING_CONDUCT", "LAND_SURVEILLANCE", "FISHING_SURVEILLANCE", "UNIT_MANAGEMENT_OTHER", "OTHER"]
+                "RESOURCES_MAINTENANCE", "MEETING", "PV_DRAFTING", "HEARING_CONDUCT", "LAND_SURVEILLANCE", "FISHING_SURVEILLANCE", "UNIT_MANAGEMENT_OTHER", "OTHER", "MARITIME_SURVEILLANCE"]
         )]
     )
     override var endDateTimeUtc: Instant? = null,
@@ -46,7 +46,7 @@ class MissionNavActionEntity(
         enableIf = [
             DependentFieldValue(
                 field = "actionType",
-                value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION"]
+                value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION", "MARITIME_SURVEILLANCE"]
             )
         ]
     )
@@ -169,6 +169,7 @@ class MissionNavActionEntity(
     override var unitManagementTrainingType: String? = null,
     override var isWithinDepartment: Boolean? = null,
     override var hasDivingDuringOperation: Boolean? = null,
+    override var incidentDuringOperation: Boolean? = null,
     @MandatoryForStats(
         enableIf = [
             DependentFieldValue(field = "actionType", value = ["RESOURCES_MAINTENANCE"])
@@ -239,6 +240,18 @@ class MissionNavActionEntity(
         ]
     )
     override var controlType: String? = null,
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["SECURITY_VISIT"])
+        ]
+    )
+    override var securityVisitType:SecurityVisitType? = null,
+    @MandatoryForStats(
+        enableIf = [
+            DependentFieldValue(field = "actionType", value = ["SECURITY_VISIT"])
+        ]
+    )
+    override var nbrSecurityVisit:Int? = null,
 ) : MissionActionEntity(
     status = status,
     actionType = actionType,
@@ -307,6 +320,7 @@ class MissionNavActionEntity(
         unitManagementTrainingType = unitManagementTrainingType,
         isWithinDepartment = isWithinDepartment,
         hasDivingDuringOperation = hasDivingDuringOperation,
+        incidentDuringOperation = incidentDuringOperation,
         resourceType = resourceType,
         resourceId = resourceId,
         siren = siren,
@@ -319,7 +333,9 @@ class MissionNavActionEntity(
         sectorEstablishmentType = sectorEstablishmentType?.toString(),
         leisureType = leisureType?.toString(),
         fishingGearType = fishingGearType?.toString(),
-        controlType = controlType
+        controlType = controlType,
+        nbrSecurityVisit = nbrSecurityVisit,
+        securityVisitType = securityVisitType?.toString()
     )
 
 
@@ -371,6 +387,7 @@ class MissionNavActionEntity(
                 unitManagementTrainingType = model.unitManagementTrainingType,
                 isWithinDepartment = model.isWithinDepartment,
                 hasDivingDuringOperation = model.hasDivingDuringOperation,
+                incidentDuringOperation = model.incidentDuringOperation,
                 resourceType = model.resourceType,
                 resourceId = model.resourceId,
                 siren = model.siren,
@@ -383,7 +400,9 @@ class MissionNavActionEntity(
                 sectorEstablishmentType = model.sectorEstablishmentType?.let { SectorEstablishmentType.valueOf(it) },
                 leisureType = model.leisureType?.let { LeisureType.valueOf(it) },
                 fishingGearType = model.fishingGearType?.let { FishingGearType.valueOf(it) },
-                controlType = model.controlType
+                controlType = model.controlType,
+                nbrSecurityVisit = model.nbrSecurityVisit,
+                securityVisitType = model.securityVisitType?.let { SecurityVisitType.valueOf(it) },
             )
         }
     }

@@ -1,5 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
+import fr.gouv.dgampa.rapportnav.config.DependentFieldValue
+import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
@@ -53,6 +55,7 @@ interface BaseMissionNavAction {
     var unitManagementTrainingType: String?
     var isWithinDepartment: Boolean?
     var hasDivingDuringOperation: Boolean?
+    var incidentDuringOperation: Boolean?
     var resourceType: String?
     var resourceId: Int?
     var siren: String?
@@ -66,4 +69,6 @@ interface BaseMissionNavAction {
     var isControlDuringSecurityDay: Boolean?
     var isSeizureSleepingFishingGear: Boolean?
     var sectorEstablishmentType: SectorEstablishmentType?
+    var nbrSecurityVisit:Int?
+    var securityVisitType:SecurityVisitType?
 }

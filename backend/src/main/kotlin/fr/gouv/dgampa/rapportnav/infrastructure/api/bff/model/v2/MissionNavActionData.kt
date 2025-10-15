@@ -2,10 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.FishingGearType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.LeisureType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
@@ -49,9 +46,10 @@ class MissionNavActionData(
     override val targets: List<Target2>? = null,
     override val nbrOfHours: Int? = null,
     override val trainingType: String? = null,
-    override val  unitManagementTrainingType: String? = null,
-    override val  isWithinDepartment: Boolean? = null,
-    override val  hasDivingDuringOperation: Boolean? = null,
+    override val unitManagementTrainingType: String? = null,
+    override val isWithinDepartment: Boolean? = null,
+    override val hasDivingDuringOperation: Boolean? = null,
+    override val incidentDuringOperation: Boolean? = null,
     override val resourceType: String? = null,
     override val resourceId: Int? = null,
     override var siren: String? = null,
@@ -65,6 +63,8 @@ class MissionNavActionData(
     override var isControlDuringSecurityDay: Boolean? = null,
     override var isSeizureSleepingFishingGear: Boolean? = null,
     override var sectorEstablishmentType: SectorEstablishmentType? = null,
+    override var nbrSecurityVisit:Int? = null,
+    override var securityVisitType: SecurityVisitType? = null
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
@@ -117,6 +117,7 @@ class MissionNavActionData(
                 unitManagementTrainingType = data.unitManagementTrainingType,
                 isWithinDepartment = data.isWithinDepartment,
                 hasDivingDuringOperation = data.hasDivingDuringOperation,
+                incidentDuringOperation = data.incidentDuringOperation,
                 resourceType = data.resourceType,
                 resourceId = data.resourceId,
                 siren = data.siren,
@@ -129,7 +130,9 @@ class MissionNavActionData(
                 sectorEstablishmentType = data.sectorEstablishmentType,
                 leisureType = data.leisureType,
                 fishingGearType = data.fishingGearType,
-                controlType = data.controlType
+                controlType = data.controlType,
+                securityVisitType = data.securityVisitType,
+                nbrSecurityVisit = data.nbrSecurityVisit
             )
             return action
         }

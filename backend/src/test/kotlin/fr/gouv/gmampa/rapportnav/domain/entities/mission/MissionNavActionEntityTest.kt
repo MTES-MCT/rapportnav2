@@ -70,9 +70,13 @@ class MissionNavActionEntityTest {
         assertThat(entity.trainingType).isEqualTo(model.trainingType)
         assertThat(entity.unitManagementTrainingType).isEqualTo(model.unitManagementTrainingType)
         assertThat(entity.hasDivingDuringOperation).isEqualTo(model.hasDivingDuringOperation)
+        assertThat(entity.incidentDuringOperation).isEqualTo(model.incidentDuringOperation)
         assertThat(entity.isWithinDepartment).isEqualTo(model.isWithinDepartment)
         assertThat(entity.resourceId).isEqualTo(model.resourceId)
         assertThat(entity.resourceType).isEqualTo(model.resourceType)
+
+        assertThat(entity.nbrSecurityVisit).isEqualTo(model.nbrSecurityVisit)
+        assertThat(entity.securityVisitType.toString()).isEqualTo(model.securityVisitType)
 
         assertThat(entity.siren).isEqualTo(model.siren)
         assertThat(entity.controlType).isEqualTo(model.controlType)
@@ -137,7 +141,8 @@ class MissionNavActionEntityTest {
             sectorEstablishmentType = SectorEstablishmentType.SHOUTED,
             leisureType = LeisureType.KAYAK,
             fishingGearType = FishingGearType.CASHIER,
-            controlType = "my control type"
+            controlType = "my control type",
+            securityVisitType = SecurityVisitType.SCHOOL_BOAT
         )
         val model = entity.toMissionActionModel()
 
@@ -183,6 +188,7 @@ class MissionNavActionEntityTest {
         assertThat(model.trainingType).isEqualTo(entity.trainingType)
         assertThat(model.unitManagementTrainingType).isEqualTo(entity.unitManagementTrainingType)
         assertThat(model.hasDivingDuringOperation).isEqualTo(entity.hasDivingDuringOperation)
+        assertThat(model.incidentDuringOperation).isEqualTo(entity.incidentDuringOperation)
         assertThat(model.isWithinDepartment).isEqualTo(entity.isWithinDepartment)
 
         assertThat(model.resourceId).isEqualTo(entity.resourceId)
@@ -198,6 +204,9 @@ class MissionNavActionEntityTest {
         assertThat(model.sectorEstablishmentType).isEqualTo(entity.sectorEstablishmentType.toString())
         assertThat(model.leisureType).isEqualTo(entity.leisureType.toString())
         assertThat(model.fishingGearType).isEqualTo(entity.fishingGearType.toString())
+
+        assertThat(model.nbrSecurityVisit).isEqualTo(entity.nbrSecurityVisit)
+        assertThat(model.securityVisitType).isEqualTo(entity.securityVisitType.toString())
 
     }
 
