@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.32.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.32.0...frontend@v2.32.1) (2025-10-15)
+
+
+### Bug Fixes
+
+* bump cache buster ([2bd7d7e](https://github.com/MTES-MCT/rapportnav2/commit/2bd7d7e32c111edc2db72dc8592fc9adac72c396))
+
 ## [2.32.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.31.0...frontend@v2.32.0) (2025-10-15)
 
 
