@@ -172,17 +172,3 @@ tasks.test {
   useJUnitPlatform()   // If you are using JUnit 5
   finalizedBy(tasks.jacocoTestReport)  // Generate the report after tests
 }
-
-
-tasks.register<JavaExec>("runMigrationV2") {
-  description = "Runs the v2 SQL migrations"
-  group = "database"
-
-  mainClass.set("RunMigrationV2Kt")
-  classpath = sourceSets["main"].runtimeClasspath
-
-  args = listOf(
-    "src/main/resources/global/migration/migration_mission_action.sql",
-    "src/main/resources/global/migration/migration_target_control_infraction.sql",
-  )
-}
