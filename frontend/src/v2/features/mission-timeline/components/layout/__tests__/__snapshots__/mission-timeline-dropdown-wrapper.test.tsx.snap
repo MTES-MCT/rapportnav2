@@ -9,11 +9,11 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
         class="sc-kNOymR kJjANg Component-Dropdow rs-dropdown rs-dropdown-placement-bottom-end"
       >
         <button
-          aria-controls="menu-«r1»"
+          aria-controls="menu-_r_1_"
           aria-disabled="false"
           aria-haspopup="menu"
           class="rs-dropdown-toggle rs-btn rs-btn-default"
-          id="menubutton-«r0»"
+          id="menubutton-_r_0_"
           role="button"
           type="button"
         >
@@ -68,10 +68,10 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
           </span>
         </button>
         <ul
-          aria-labelledby="menubutton-«r0»"
+          aria-labelledby="menubutton-_r_0_"
           class="sc-kNOymR kJjANg Component-Dropdow rs-dropdown-menu"
           hidden=""
-          id="menu-«r1»"
+          id="menu-_r_1_"
           role="menu"
           tabindex="0"
         >
@@ -80,7 +80,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
               aria-disabled="false"
               class="sc-hwkwBN gzxlcp rs-dropdown-item rs-dropdown-item-with-icon"
               data-event-key="CONTROL_GROUP"
-              id="menuitem-«r2»"
+              id="menuitem-_r_2_"
               role="menuitem"
               style="min-width: 300px;"
               tabindex="-1"
@@ -209,11 +209,11 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
       class="sc-kNOymR kJjANg Component-Dropdow rs-dropdown rs-dropdown-placement-bottom-end"
     >
       <button
-        aria-controls="menu-«r1»"
+        aria-controls="menu-_r_1_"
         aria-disabled="false"
         aria-haspopup="menu"
         class="rs-dropdown-toggle rs-btn rs-btn-default"
-        id="menubutton-«r0»"
+        id="menubutton-_r_0_"
         role="button"
         type="button"
       >
@@ -268,10 +268,10 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
         </span>
       </button>
       <ul
-        aria-labelledby="menubutton-«r0»"
+        aria-labelledby="menubutton-_r_0_"
         class="sc-kNOymR kJjANg Component-Dropdow rs-dropdown-menu"
         hidden=""
-        id="menu-«r1»"
+        id="menu-_r_1_"
         role="menu"
         tabindex="0"
       >
@@ -280,7 +280,7 @@ exports[`MissionTimelineDropdownWrapper > should match the snapshot 1`] = `
             aria-disabled="false"
             class="sc-hwkwBN gzxlcp rs-dropdown-item rs-dropdown-item-with-icon"
             data-event-key="CONTROL_GROUP"
-            id="menuitem-«r2»"
+            id="menuitem-_r_2_"
             role="menuitem"
             style="min-width: 300px;"
             tabindex="-1"

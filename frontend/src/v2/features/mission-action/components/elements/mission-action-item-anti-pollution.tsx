@@ -8,6 +8,7 @@ import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionAntiPollution } from '../../hooks/use-mission-action-anti-pollution'
 import { ActionAntiPollutionInput } from '../../types/action-type'
 import MissionActionAntiPollutionWarning from '../ui/mission-action-anti-pollution-warning'
+import MissionActionDivingOperation from '../ui/mission-action-diving-operation'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 
 const MissionActionItemAntiPollution: FC<{
@@ -101,6 +102,9 @@ const MissionActionItemAntiPollution: FC<{
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
+                </Stack.Item>
+                <Stack.Item style={{ width: '100%' }}>
+                  <MissionActionDivingOperation />
                 </Stack.Item>
               </Stack>
             </>

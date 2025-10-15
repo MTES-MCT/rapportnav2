@@ -12,36 +12,52 @@ export function useInfractionForm(
   editControl?: boolean,
   editInfraction?: boolean
 ): AbstractFormikHook<TargetInfraction, TargetInfractionInput> & { validationSchema?: ObjectSchema<any> } {
-  const fromFieldValueToInput = (targetInfraction: TargetInfraction) => {
+  const fromFieldValueToInput = (targetInfraction: TargetInfraction): TargetInfractionInput => {
     return {
-      target: {
-        ...(targetInfraction?.target ?? {}),
-        isVessel: vehichleType === VehicleTypeEnum.VESSEL,
-        isTargetVehicule: targetType === TargetType.VEHICLE
-      },
-      control: targetInfraction?.control ?? {},
-      infraction: {
-        ...(targetInfraction.infraction ?? {}),
-        controlType: targetInfraction.control?.controlType,
-        withReport: targetInfraction.infraction?.infractionType === InfractionTypeEnum.WITH_REPORT
-      }
+      target: getTargetInput(targetInfraction),
+      control: editControl ? targetInfraction?.control : undefined,
+      infraction: editInfraction ? getinfractionInput(targetInfraction) : undefined
     }
   }
 
-  const fromInputToFieldValue = (value: TargetInfractionInput) => {
-    const { target: targetInput, infraction: infractionInput, control } = value
-    const { isVessel, isTargetVehicule, ...target } = targetInput
-    const { withReport, controlType, ...infraction } = infractionInput
-
-    const infractionType = withReport ? InfractionTypeEnum.WITH_REPORT : InfractionTypeEnum.WITHOUT_REPORT
-    control.controlType = controlType
+  const fromInputToFieldValue = (value: TargetInfractionInput): TargetInfraction => {
     return {
-      infraction: {
-        ...infraction,
-        infractionType
-      },
-      target,
-      control
+      control: value.control,
+      target: getTarget(value),
+      infraction: getinfraction(value)
+    }
+  }
+
+  const getinfraction = (value: TargetInfractionInput) => {
+    if (!value?.infraction) return
+    const { withReport, ...infraction } = value.infraction
+    const infractionType = withReport ? InfractionTypeEnum.WITH_REPORT : InfractionTypeEnum.WITHOUT_REPORT
+    return {
+      ...infraction,
+      infractionType
+    }
+  }
+
+  const getTarget = (value: TargetInfractionInput) => {
+    if (!value?.target) return
+    const { isVessel, isTargetVehicule, ...target } = value.target
+    return target
+  }
+
+  const getinfractionInput = (targetInfraction: TargetInfraction) => {
+    if (!targetInfraction?.infraction) return
+    return {
+      ...targetInfraction.infraction,
+      ...{ withReport: targetInfraction.infraction?.infractionType === InfractionTypeEnum.WITH_REPORT }
+    }
+  }
+
+  const getTargetInput = (targetInfraction: TargetInfraction) => {
+    if (!targetInfraction?.target) return
+    return {
+      ...targetInfraction.target,
+      isVessel: vehichleType === VehicleTypeEnum.VESSEL,
+      isTargetVehicule: targetType === TargetType.VEHICLE
     }
   }
 
@@ -51,10 +67,14 @@ export function useInfractionForm(
   >(targetInfraction, fromFieldValueToInput, fromInputToFieldValue)
 
   const getValidationSchema = () => {
+    const controlSchema = {
+      control: object().shape({
+        controlType: string().required()
+      })
+    }
     const infractionSchema = {
       infraction: object().shape({
-        natinfs: array().min(1).required(),
-        controlType: editControl ? string().required() : string()
+        natinfs: array().min(1).required()
       })
     }
 
@@ -86,7 +106,11 @@ export function useInfractionForm(
       })
     }
 
-    return object().shape({ ...(!editInfraction ? {} : infractionSchema), ...(!editTarget ? {} : targetSchema) })
+    return object().shape({
+      ...(!editTarget ? {} : targetSchema),
+      ...(!editControl ? {} : controlSchema),
+      ...(!editInfraction ? {} : infractionSchema)
+    })
   }
 
   return {

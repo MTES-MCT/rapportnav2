@@ -16,7 +16,7 @@ const MissionTimelineItemControlCard: FC<{
     case MissionSourceEnum.MONITORFISH:
       return <MissionTimelineItemFishControlCard icon={icon} action={action} />
     default:
-      return <MissionTimelineItemNavControlCard action={action} />
+      return <MissionTimelineItemNavControlCard icon={icon} action={action} />
   }
 }
 

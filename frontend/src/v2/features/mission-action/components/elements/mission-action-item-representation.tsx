@@ -10,6 +10,7 @@ const MissionActionItemRepresentation: FC<{
     <MissionActionItemGenericDateObservation
       action={action}
       onChange={onChange}
+      showDivingCheckBox={true}
       data-testid={'action-nautical-event-form'}
     />
   )

@@ -1,14 +1,7 @@
-import {
-  FormikCheckbox,
-  FormikEffect,
-  FormikMultiRadio,
-  FormikSelect,
-  FormikTextarea,
-  THEME
-} from '@mtes-mct/monitor-ui'
+import { FormikEffect, FormikMultiRadio, FormikSelect, FormikTextarea } from '@mtes-mct/monitor-ui'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
-import { Divider, Stack } from 'rsuite'
+import { Stack } from 'rsuite'
 import { string } from 'yup'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker.tsx'
 import { FormikSearchEstablishment } from '../../../common/components/ui/formik-search-establishment.tsx'
@@ -20,6 +13,8 @@ import MissionTargetNew from '../../../mission-target/components/elements/missio
 import { useTarget } from '../../../mission-target/hooks/use-target'
 import { useMissionActionGenericControl } from '../../hooks/use-mission-action-generic-control'
 import { ActionEnvControlInput } from '../../types/action-type'
+import MissionActionDivingOperation from '../ui/mission-action-diving-operation.tsx'
+import MissionActioIncidentDonwload from '../ui/mission-action-incident-download.tsx'
 
 const MissionActionItemSectorControl: FC<{
   action: MissionAction
@@ -71,7 +66,12 @@ const MissionActionItemSectorControl: FC<{
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="column" spacing={'1rem'} alignItems="flex-start">
                     <Stack.Item style={{ width: '100%' }}>
-                      <FormikMultiRadio label="" name="sectorType" options={sectorTypeOptions} />
+                      <FormikMultiRadio
+                        label=""
+                        name="sectorType"
+                        options={sectorTypeOptions}
+                        isErrorMessageHidden={true}
+                      />
                     </Stack.Item>
                     <Stack.Item style={{ width: '70%' }}>
                       <FormikSelect
@@ -79,6 +79,7 @@ const MissionActionItemSectorControl: FC<{
                         label="Type d'établissement"
                         isLight={true}
                         isRequired={true}
+                        isErrorMessageHidden={true}
                         options={getSectionEtablishmentTypeOptions(values.sectorType)}
                       />
                     </Stack.Item>
@@ -128,10 +129,10 @@ const MissionActionItemSectorControl: FC<{
                     data-testid="observationsByUnit"
                     label="Observation de l'unité sur le contrôle"
                   />
+                  <MissionActioIncidentDonwload />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <Divider style={{ backgroundColor: THEME.color.charcoal, marginBottom: 4 }} />
-                  <FormikCheckbox isLight name="hasDivingDuringOperation" label="Plongée au cours de l'opération" />
+                  <MissionActionDivingOperation />
                 </Stack.Item>
               </Stack>
             </>
