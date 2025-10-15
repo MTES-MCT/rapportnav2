@@ -49,8 +49,6 @@ include:
   - /.gitlab-ci/jobs/build_projet_gradle.yml
   - /.gitlab-ci/jobs/build_projet_npm.yml
   - /.gitlab-ci/jobs/construction_image.yml
-  - /.gitlab-ci/jobs/run-migration-v2-int.yml
-  - /.gitlab-ci/jobs/run-migration-v2-prod.yml
   - project: num3-exploitation/chaine-ci/template-analyse-deploiement
     ref: main
     file: /jobs/analyse_sonar.yml
