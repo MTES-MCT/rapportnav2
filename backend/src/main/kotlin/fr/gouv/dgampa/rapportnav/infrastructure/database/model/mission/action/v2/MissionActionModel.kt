@@ -146,6 +146,9 @@ data class MissionActionModel(
     @Column(name = "has_diving_during_operation", nullable = true)
     var hasDivingDuringOperation: Boolean? = null,
 
+    @Column(name = "incident_during_operation", nullable = true)
+    var incidentDuringOperation: Boolean? = null,
+
     @Column(name = "resource_type", nullable = true)
     var resourceType: String? = null,
 
@@ -184,6 +187,12 @@ data class MissionActionModel(
 
     @Column(name = "sector_establishment_type", nullable = true)
     var sectorEstablishmentType:String? = null,
+
+    @Column(name = "security_visit_type", nullable = true)
+    var securityVisitType:String? = null,
+
+    @Column(name = "nbr_security_visit", nullable = true)
+    var nbrSecurityVisit:Int? = null,
 
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)

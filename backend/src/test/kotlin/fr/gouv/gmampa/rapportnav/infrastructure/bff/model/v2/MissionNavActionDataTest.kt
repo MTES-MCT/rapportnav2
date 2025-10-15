@@ -63,6 +63,7 @@ class MissionNavActionDataTest {
         assertThat(output.data.trainingType).isEqualTo(entity.trainingType)
         assertThat(output.data.unitManagementTrainingType).isEqualTo(entity.unitManagementTrainingType)
         assertThat(output.data.hasDivingDuringOperation).isEqualTo(entity.hasDivingDuringOperation)
+        assertThat(output.data.incidentDuringOperation).isEqualTo(entity.incidentDuringOperation)
         assertThat(output.data.isWithinDepartment).isEqualTo(entity.isWithinDepartment)
         assertThat(output.data.resourceId).isEqualTo(entity.resourceId)
         assertThat(output.data.resourceType).isEqualTo(entity.resourceType)
@@ -78,6 +79,9 @@ class MissionNavActionDataTest {
         assertThat(output.data.sectorEstablishmentType).isEqualTo(entity.sectorEstablishmentType)
         assertThat(output.data.leisureType).isEqualTo(entity.leisureType)
         assertThat(output.data.fishingGearType).isEqualTo(entity.fishingGearType)
+
+        assertThat(output.data.nbrSecurityVisit).isEqualTo(entity.nbrSecurityVisit)
+        assertThat(output.data.securityVisitType).isEqualTo(entity.securityVisitType)
     }
 
     @Nested

@@ -60,6 +60,7 @@ object MissionActionModelMock {
             trainingType = "FORMATION_BCP",
             unitManagementTrainingType = "DIVING",
             hasDivingDuringOperation = false,
+            incidentDuringOperation = false,
             isWithinDepartment = true,
             resourceType = "NAUTICAL",
             resourceId = 345,
@@ -74,6 +75,8 @@ object MissionActionModelMock {
             leisureType = LeisureType.KAYAK?.toString(),
             fishingGearType = FishingGearType.CASHIER?.toString(),
             controlType = "my control type",
+            nbrSecurityVisit = 12,
+            securityVisitType = SecurityVisitType.SCHOOL_BOAT.toString()
         )
     }
 }

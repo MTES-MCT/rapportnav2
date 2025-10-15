@@ -19,12 +19,13 @@ class GetMissionCrew(
         missionIdUUID: UUID? = null,
         generalInfo: MissionGeneralInfo2? = null
     ): List<MissionCrewEntity> {
-        if (newServiceId == null) return emptyList()
+
         if ((newServiceId == oldServiceId) && generalInfo?.crew != null) {
             return generalInfo.crew.map {
                 it.toMissionCrewEntity(missionIdUUID = missionIdUUID, missionId = missionId)
             }
         }
+        if (newServiceId == null) return emptyList()
         return getActiveCrewForService.execute(serviceId = newServiceId).map {
             MissionCrewEntity(
                 role = it.role,

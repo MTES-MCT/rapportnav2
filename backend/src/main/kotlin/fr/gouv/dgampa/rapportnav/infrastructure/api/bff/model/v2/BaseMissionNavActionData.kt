@@ -2,10 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.FishingGearType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.LeisureType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorEstablishmentType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.SectorType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
@@ -49,6 +46,7 @@ interface BaseMissionNavActionData {
     val unitManagementTrainingType: String?
     val isWithinDepartment: Boolean?
     val hasDivingDuringOperation: Boolean?
+    val incidentDuringOperation: Boolean?
     val resourceType: String?
     val resourceId: Int?
     var siren: String?
@@ -62,4 +60,6 @@ interface BaseMissionNavActionData {
     var isControlDuringSecurityDay: Boolean?
     var isSeizureSleepingFishingGear: Boolean?
     var sectorEstablishmentType: SectorEstablishmentType?
+    var nbrSecurityVisit:Int?
+    var securityVisitType: SecurityVisitType?
 }
