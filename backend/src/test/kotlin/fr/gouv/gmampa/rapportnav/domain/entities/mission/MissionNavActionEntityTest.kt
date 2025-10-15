@@ -142,6 +142,7 @@ class MissionNavActionEntityTest {
             leisureType = LeisureType.KAYAK,
             fishingGearType = FishingGearType.CASHIER,
             controlType = "my control type",
+            securityVisitType = SecurityVisitType.SCHOOL_BOAT
         )
         val model = entity.toMissionActionModel()
 
