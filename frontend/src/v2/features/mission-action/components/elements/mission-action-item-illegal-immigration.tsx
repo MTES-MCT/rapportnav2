@@ -9,7 +9,7 @@ import { ActionIllegalImmigrationInput } from '../../types/action-type'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 import { MissionActionFormikNumberInput } from '../ui/mission-action-formik-number-input'
-import MissionActioIncidentDonwload from '../ui/mission-action-incident-download'
+import MissionActionIncidentDonwload from '../ui/mission-action-incident-download'
 
 const MissionActionItemIllegalImmigration: FC<{
   action: MissionAction
@@ -84,7 +84,7 @@ const MissionActionItemIllegalImmigration: FC<{
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
-                  <MissionActioIncidentDonwload />
+                  <MissionActionIncidentDonwload />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <MissionActionDivingOperation />

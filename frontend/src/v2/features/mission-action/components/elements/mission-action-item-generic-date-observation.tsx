@@ -8,7 +8,7 @@ import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionGenericDateObservation } from '../../hooks/use-mission-action-generic-date-observation'
 import { ActionGenericDateObservationInput } from '../../types/action-type'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation'
-import MissionActioIncidentDonwload from '../ui/mission-action-incident-download'
+import MissionActionIncidentDonwload from '../ui/mission-action-incident-download'
 
 const MissionActionItemGenericDateObservation: FC<{
   action: MissionAction
@@ -53,7 +53,7 @@ const MissionActionItemGenericDateObservation: FC<{
                 <Stack.Item style={{ width: '100%' }}>{children}</Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
-                  {showIncidentReport && <MissionActioIncidentDonwload />}
+                  {showIncidentReport && <MissionActionIncidentDonwload />}
                   {showDivingCheckBox && (
                     <Stack.Item style={{ width: '100%' }}>
                       <MissionActionDivingOperation />

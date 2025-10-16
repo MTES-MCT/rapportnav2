@@ -13,7 +13,7 @@ import { useMissionActionGenericControl } from '../../hooks/use-mission-action-g
 import { ActionEnvControlInput } from '../../types/action-type.ts'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation.tsx'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd.tsx'
-import MissionActioIncidentDonwload from '../ui/mission-action-incident-download.tsx'
+import MissionActionIncidentDonwload from '../ui/mission-action-incident-download.tsx'
 
 export type MissionActionItemGenericControlProps = {
   action: MissionAction
@@ -123,7 +123,7 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
                     data-testid="observationsByUnit"
                     label="Observation de l'unité sur le contrôle"
                   />
-                  <MissionActioIncidentDonwload />
+                  <MissionActionIncidentDonwload />
                 </Stack.Item>
 
                 <Stack.Item style={{ width: '100%' }}>
