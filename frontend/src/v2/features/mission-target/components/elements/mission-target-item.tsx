@@ -99,6 +99,7 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
         <Stack.Item style={{ width: '100%' }}>
           <MissionTargetForm
             name={name}
+            value={{ target }}
             onClose={handleClose}
             editTarget={editTarget}
             targetType={targetType}
@@ -106,7 +107,6 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
             vehicleType={vehicleType}
             editControl={editInfraction}
             editInfraction={editInfraction}
-            value={editTarget ? { target } : {}}
             availableControlTypes={computeControlTypeOnTarget(availableControlTypes, target ? [target] : [])}
           />
         </Stack.Item>

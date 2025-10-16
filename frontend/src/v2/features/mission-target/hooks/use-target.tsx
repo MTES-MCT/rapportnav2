@@ -24,20 +24,22 @@ export function useTarget() {
     const infraction = { ...(input.infraction ?? ({} as Infraction)) }
 
     if (!isEmpty(infraction)) {
-      if (!control.infractions) control.infractions = []
-      const infractionIndex = control.infractions.findIndex(i => i.id === infraction.id)
-      if (infractionIndex === -1) control.infractions.push(infraction)
-      if (infractionIndex !== -1) control.infractions[infractionIndex] = infraction
+      const infractions = [...(control.infractions ?? [])]
+      const infractionIndex = infractions.findIndex(i => i.id === infraction.id)
+      if (infractionIndex === -1) infractions.push(infraction)
+      if (infractionIndex !== -1) infractions[infractionIndex] = infraction
+      control.infractions = infractions
     }
 
     if (!isEmpty(control)) {
-      if (!target.controls) target.controls = []
-      const controlIndex = target.controls?.findIndex(c => c.id === control.id)
-      if (controlIndex === -1) target.controls.push(control)
-      if (controlIndex !== -1) target.controls[controlIndex] = control
+      const controls = [...(target.controls ?? [])]
+      const controlIndex = controls?.findIndex(c => c.id === control.id)
+      if (controlIndex === -1) controls.push(control)
+      if (controlIndex !== -1) controls[controlIndex] = control
+      target.controls = controls
     }
 
-    return target
+    return { ...target }
   }
 
   const deleteInfraction = (target: Target, controlIndex: number, infractionIndex: number): Target | undefined => {

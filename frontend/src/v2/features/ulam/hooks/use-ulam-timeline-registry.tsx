@@ -121,7 +121,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
     },
     icon: Icon.More,
     title: 'Représentation',
-    component: MissionTimelineItemGenericCard //MissionActionItemSecurityVisit
+    component: MissionTimelineItemGenericCard
   },
   [ActionType.PUBLIC_ORDER]: {
     style: {
