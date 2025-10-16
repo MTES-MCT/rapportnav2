@@ -14,7 +14,7 @@ import { useTarget } from '../../../mission-target/hooks/use-target'
 import { useMissionActionGenericControl } from '../../hooks/use-mission-action-generic-control'
 import { ActionEnvControlInput } from '../../types/action-type'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation.tsx'
-import MissionActioIncidentDonwload from '../ui/mission-action-incident-download.tsx'
+import MissionActionIncidentDonwload from '../ui/mission-action-incident-download.tsx'
 
 const MissionActionItemSectorControl: FC<{
   action: MissionAction
@@ -129,7 +129,7 @@ const MissionActionItemSectorControl: FC<{
                     data-testid="observationsByUnit"
                     label="Observation de l'unité sur le contrôle"
                   />
-                  <MissionActioIncidentDonwload />
+                  <MissionActionIncidentDonwload />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <MissionActionDivingOperation />

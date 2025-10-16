@@ -2,7 +2,7 @@ import Text from '@common/components/ui/text'
 import { FormikCheckbox, Icon } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
 
-const MissionActioIncidentDonwload: React.FC = () => {
+const MissionActionIncidentDonwload: React.FC = () => {
   const downloadFile = () => {
     const pdfUrl = '/src/assets/files/Annexe11_modèle_fiche_incident.odt'
     const link = document.createElement('a')
@@ -39,4 +39,4 @@ const MissionActioIncidentDonwload: React.FC = () => {
   )
 }
 
-export default MissionActioIncidentDonwload
+export default MissionActionIncidentDonwload
