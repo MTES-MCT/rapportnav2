@@ -1,15 +1,15 @@
-import { act, renderHook, waitFor } from '../../../../../test-utils.tsx'
-import useCreateActionMutation, { offlineCreateActionDefaults } from '../use-create-action.tsx'
 import { onlineManager, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
 import { afterEach, beforeEach, vi } from 'vitest'
-import axios from '../../../../../query-client/axios.ts'
-import { actionsKeys, missionsKeys } from '../query-keys.ts'
-import { Mission2 } from '../../types/mission-types.ts'
-import { MissionAction, MissionNavAction } from '../../types/mission-action.ts'
 import queryClient from '../../../../../query-client'
+import axios from '../../../../../query-client/axios.ts'
+import { act, renderHook, waitFor } from '../../../../../test-utils.tsx'
+import { MissionAction, MissionNavAction } from '../../types/mission-action.ts'
+import { Mission2 } from '../../types/mission-types.ts'
 import { NetworkSyncStatus } from '../../types/network-types.ts'
 import { OwnerType } from '../../types/owner-type.ts'
+import { actionsKeys, missionsKeys } from '../query-keys.ts'
+import useCreateActionMutation, { offlineCreateActionDefaults } from '../use-create-action.tsx'
 
 // Mock axios
 vi.mock('../../../../../query-client/axios.ts')
@@ -98,10 +98,9 @@ describe('Hook useCreateActionMutation', () => {
     })
 
     it('should handle successful mutation', async () => {
-      mockedAxios.post.mockResolvedValue({ data: undefined })
+      mockedAxios.post.mockResolvedValue({ data: {} })
 
       const { result } = renderHook(() => useCreateActionMutation(), { wrapper })
-
       result.current.mutate({ ownerId: missionId, ownerType: OwnerType.MISSION, action })
 
       await waitFor(() => {
@@ -115,7 +114,6 @@ describe('Hook useCreateActionMutation', () => {
       mockedAxios.post.mockRejectedValue(new Error(errorMessage))
 
       const { result } = renderHook(() => useCreateActionMutation(), { wrapper })
-
       result.current.mutate({ ownerId: missionId, ownerType: OwnerType.MISSION, action })
 
       await waitFor(() => {
@@ -254,10 +252,12 @@ describe('Hook useCreateActionMutation', () => {
           await waitFor(
             () => {
               expect(result.current.isSuccess).toBe(true)
+              expect(onSuccessSpy).toHaveBeenCalledTimes(1)
               expect(onSuccessSpy).toHaveBeenCalledWith(
                 serverResponse,
                 { ownerId: missionId, action: mockAction },
-                expect.objectContaining({ action: expect.any(Object) })
+                expect.objectContaining({ action: expect.anything() }),
+                expect.objectContaining({ client: expect.anything() })
               )
             },
             { timeout: 2000 }
@@ -323,7 +323,8 @@ describe('Hook useCreateActionMutation', () => {
               expect(onErrorSpy).toHaveBeenCalledWith(
                 error,
                 { ownerId: missionId, action: mockAction },
-                expect.objectContaining({ action: expect.any(Object) })
+                expect.objectContaining({ action: expect.any(Object) }),
+                expect.objectContaining({ client: expect.anything() })
               )
             },
             { timeout: 2000 }
