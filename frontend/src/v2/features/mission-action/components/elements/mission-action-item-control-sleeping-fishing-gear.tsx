@@ -1,4 +1,4 @@
-import { FormikCheckbox, FormikNumberInput, FormikSelect } from '@mtes-mct/monitor-ui'
+import { FormikCheckbox, FormikNumberInput, FormikSelect, Message } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import { FISHING_GEAR_TYPES, FishingGearType } from '../../../common/types/leisure-fishing-gear-type'
@@ -18,6 +18,12 @@ const MissionActionItemSleepingFishingGearControl: FC<{
     >
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="column" spacing={'1rem'} alignItems="flex-start">
+          <Stack.Item>
+            <Message>
+              Renseigner uniquement les engins contrôlés hors cadre d'un contrôle sur navire de pêche pro. Dans le cas
+              d'un engin rattaché à un navire de pêche pro veuillez contacter le CNSP
+            </Message>
+          </Stack.Item>
           <Stack.Item style={{ width: '70%' }}>
             <FormikSelect
               name="fishingGearType"

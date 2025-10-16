@@ -1,6 +1,7 @@
 import { FormikNumberInput, FormikSelect } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
+import { number } from 'yup'
 import { StyledFormikToggle } from '../../../common/components/ui/formik-styled-toogle'
 import { LEISURE_TYPES, LeisureType } from '../../../common/types/leisure-fishing-gear-type'
 import { MissionAction } from '../../../common/types/mission-action'
@@ -10,9 +11,31 @@ const MissionActionItemNauticalLeisureControl: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
+  const schema = {
+    nbrOfControl: number().required(),
+    nbrOfControl300m: number()
+      .required()
+      .test(
+        'control-sup-300m',
+        `Nb dans la bande des 300m doit être inférieur au Nombre total de contrôles`,
+        function (value) {
+          const { nbrOfControl } = this.parent
+          return nbrOfControl > value
+        }
+      ),
+
+    nbrOfControlAmp: number()
+      .required()
+      .test('control-sup-amp', `Le Nb en AMP doit être inférieur au Nombre total de contrôles`, function (value) {
+        const { nbrOfControl } = this.parent
+        return nbrOfControl > value
+      })
+  }
+
   return (
     <MissionActionItemGenericControl
       action={action}
+      schema={schema}
       onChange={onChange}
       withGeoCoords={true}
       data-testid={'action-control-other'}
@@ -65,7 +88,7 @@ const MissionActionItemNauticalLeisureControl: FC<{
           <Stack.Item style={{ width: '100%' }}>
             <StyledFormikToggle
               name="isControlDuringSecurityDay"
-              label="Contrôle réalisés dans le cadre d'une journée sécurité mer"
+              label="Contrôle(s) réalisé(s) dans le cadre d'une journée sécurité mer"
             />
           </Stack.Item>
         </Stack>

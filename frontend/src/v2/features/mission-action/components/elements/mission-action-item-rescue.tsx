@@ -17,6 +17,7 @@ import { MissionAction } from '../../../common/types/mission-action'
 import { RescueType } from '../../../common/types/rescue-type'
 import { useMissionActionRescue } from '../../hooks/use-mission-action-rescue'
 import { ActionRescueInput } from '../../types/action-type'
+import MissionActionDivingOperation from '../ui/mission-action-diving-operation'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 import { MissionActionFormikNumberInput } from '../ui/mission-action-formik-number-input'
 
@@ -190,6 +191,9 @@ const MissionActionItemRescue: FC<{
                   </Stack.Item>
                 </Stack>
               )}
+              <Stack.Item style={{ width: '100%' }}>
+                <MissionActionDivingOperation />
+              </Stack.Item>
             </>
           )}
         </Formik>

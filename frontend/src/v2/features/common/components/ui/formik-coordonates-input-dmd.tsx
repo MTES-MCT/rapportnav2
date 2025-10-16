@@ -4,7 +4,7 @@ import styled from 'styled-components'
 export const FormikCoordinateInputDMD = styled(
   ({ label, ...props }: Omit<FormikCoordinatesInputProps, 'coordinatesFormat'>) => (
     <FormikCoordinatesInput
-      label={`${label} (12° 12.12′ N 121° 21.21′ E)`}
+      label={`${label} (01° 12.600′ S 044° 58.800′ E)`}
       coordinatesFormat={CoordinatesFormat.DEGREES_MINUTES_DECIMALS}
       {...props}
     />

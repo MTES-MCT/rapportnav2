@@ -1,4 +1,4 @@
-import { FormikSearchProps, Icon, TextInput } from '@mtes-mct/monitor-ui'
+import { FormikSearchProps, Icon, Message, TextInput } from '@mtes-mct/monitor-ui'
 import { FieldProps } from 'formik'
 import { useEffect, useState } from 'react'
 import { Dropdown, Stack } from 'rsuite'
@@ -49,29 +49,39 @@ export const FormikSearchEstablishment = styled(
     }, [fieldFormik])
 
     return (
-      <Stack direction="column">
+      <Stack direction="column" spacing="0.5rem">
         <Stack.Item style={{ width: '100%' }}>
-          <TextInput
-            {...props}
-            name={name}
-            placeholder=""
-            value={search}
-            isRequired={true}
-            Icon={Icon.Search}
-            isErrorMessageHidden={true}
-            onChange={value => setSearch(value)}
-          />
+          <Message level="INFO">
+            Recherche d'un établissement par son nom, <br />
+            numéro de SIRET ou adresse dans le référentiel entreprises de l'état
+          </Message>
         </Stack.Item>
-        <Stack.Item style={{ width: '100%', overflow: 'hidden' }}>
-          {open && (
-            <Dropdown.Menu style={{ overflow: 'scroll', minHeight: 0 }} onSelect={onSelect}>
-              {establishments?.map(item => (
-                <Dropdown.Item eventKey={item.id} style={{ maxWidth: '100%' }}>
-                  {getName(item)}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          )}
+        <Stack.Item style={{ width: '100%' }}>
+          <Stack direction="column">
+            <Stack.Item style={{ width: '100%' }}>
+              <TextInput
+                {...props}
+                name={name}
+                placeholder=""
+                value={search}
+                isRequired={true}
+                Icon={Icon.Search}
+                isErrorMessageHidden={true}
+                onChange={value => setSearch(value)}
+              />
+            </Stack.Item>
+            <Stack.Item style={{ width: '100%', overflow: 'hidden' }}>
+              {open && (
+                <Dropdown.Menu style={{ overflow: 'scroll', minHeight: 0 }} onSelect={onSelect}>
+                  {establishments?.map(item => (
+                    <Dropdown.Item eventKey={item.id} style={{ maxWidth: '100%' }}>
+                      {getName(item)}
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              )}
+            </Stack.Item>
+          </Stack>
         </Stack.Item>
       </Stack>
     )

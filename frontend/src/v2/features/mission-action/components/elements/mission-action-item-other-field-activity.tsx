@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { MissionAction } from '../../../common/types/mission-action'
 import MissionActionItemGenericDateObservation from './mission-action-item-generic-date-observation'
 
-const MissionActionItemPublicOrder: FC<{
+const MissionActionItemOtherFieldActivity: FC<{
   action: MissionAction
   onChange: (newAction: MissionAction) => Promise<unknown>
 }> = ({ action, onChange }) => {
@@ -11,9 +11,9 @@ const MissionActionItemPublicOrder: FC<{
       action={action}
       onChange={onChange}
       showDivingCheckBox={true}
-      data-testid={'action-public-order-form'}
+      data-testid={'action-contact-form'}
     />
   )
 }
 
-export default MissionActionItemPublicOrder
+export default MissionActionItemOtherFieldActivity
