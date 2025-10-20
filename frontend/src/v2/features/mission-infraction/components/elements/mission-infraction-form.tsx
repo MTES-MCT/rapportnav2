@@ -55,7 +55,6 @@ const MissionInfractionForm: FC<MissionInfractionFormProps> = ({
     editControl,
     editInfraction
   )
-  console.log(initValue)
   return (
     <>
       {initValue && (

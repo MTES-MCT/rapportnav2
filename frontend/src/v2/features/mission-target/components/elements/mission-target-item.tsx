@@ -32,7 +32,7 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
   availableControlTypes
 }) => {
   const [target, setTarget] = useState<Target>()
-  const { computeControlTypeOnTarget } = useTarget()
+  const { getAvailableControlTypes } = useTarget()
   const [showDetail, setShowDetail] = useState(false)
   const [editTarget, setEditTarget] = useState<boolean>(false)
   const [editInfraction, setEditInfraction] = useState<boolean>(false)
@@ -107,7 +107,7 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
             vehicleType={vehicleType}
             editControl={editInfraction}
             editInfraction={editInfraction}
-            availableControlTypes={computeControlTypeOnTarget(availableControlTypes, target ? [target] : [])}
+            availableControlTypes={getAvailableControlTypes(target, availableControlTypes)}
           />
         </Stack.Item>
       )}
@@ -116,7 +116,7 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
           name={name}
           targetType={targetType}
           fieldFormik={fieldFormik}
-          availableControlTypes={computeControlTypeOnTarget(availableControlTypes, target ? [target] : [])}
+          availableControlTypes={getAvailableControlTypes(target, availableControlTypes)}
         />
       </Stack.Item>
     </Stack>

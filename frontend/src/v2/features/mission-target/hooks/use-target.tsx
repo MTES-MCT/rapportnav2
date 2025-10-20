@@ -1,8 +1,10 @@
 import { ControlType } from '@common/types/control-types'
 import { ActionTargetTypeEnum } from '@common/types/env-mission-types'
-import { isEmpty, uniq } from 'lodash'
+import { isEmpty } from 'lodash'
 import { MissionSourceEnum } from '../../common/types/mission-types'
 import { Control, Infraction, Target, TargetInfraction, TargetType } from '../../common/types/target-types'
+
+type AmountControlType = Map<ControlType, number>
 
 const CONTROL_TYPES = [
   ControlType.ADMINISTRATIVE,
@@ -54,28 +56,39 @@ export function useTarget() {
     return { ...target, controls }
   }
 
-  const getControlTypeWithAmount = (targets?: Target[]): ControlType[] => {
+  const getControlAmountByControlTypes = (
+    target: Target,
+    amount: Map<ControlType, number>
+  ): AmountControlType | undefined => {
+    return target.controls?.reduce((acc, control) => {
+      if (target.targetType === TargetType.DEFAULT) {
+        acc.set(control.controlType, (acc.get(control.controlType) ?? 0) + (control.amountOfControls ?? 0))
+      } else {
+        acc.set(control.controlType, (acc.get(control.controlType) ?? 0) - (control.infractions?.length ?? 0))
+      }
+      return acc
+    }, amount)
+  }
+
+  const getAvailableEnvControlTypes = (targets?: Target[], controlTypes?: ControlType[]): ControlType[] => {
     return (
-      uniq(
-        targets
-          ?.flatMap(target => target.controls)
-          ?.filter(control => control?.amountOfControls)
-          ?.filter(controlType => !!controlType)
-          ?.map(control => control?.controlType)
-      ) ?? []
+      targets
+        ?.reduce((acc, target) => {
+          return getControlAmountByControlTypes(target ?? [], acc) ?? acc
+        }, new Map())
+        .entries()
+        .reduce((acc, [key, value]) => {
+          if (value > 0 && controlTypes?.includes(key)) acc.push(key)
+          return acc
+        }, [] as ControlType[]) ?? []
     )
   }
 
-  const getControlTypeOnTarget = (targets?: Target[]): ControlType[] => {
-    return (
-      uniq(
-        targets
-          ?.flatMap(t => t.controls)
-          ?.filter(control => control?.infractions?.length)
-          ?.filter(controlType => !!controlType)
-          ?.map(control => control?.controlType)
-      ) ?? []
-    )
+  const getAvailableControlTypes = (target?: Target, controlTypes?: ControlType[]): ControlType[] => {
+    const excludeControlTypes = target?.controls
+      ?.filter(control => control?.infractions?.length && !!control.controlType)
+      ?.map(control => control?.controlType)
+    return controlTypes?.filter(c => !excludeControlTypes?.includes(c)) ?? []
   }
 
   const getNbrInfraction = (targets?: Target[]): number => {
@@ -87,30 +100,14 @@ export function useTarget() {
     )
   }
 
-  const computeControlTypes = (controlTypes?: ControlType[], targets?: Target[]): ControlType[] => {
-    const includesControlTypes = computeControlTypeWithAmount(controlTypes, targets)
-    return computeControlTypeOnTarget(includesControlTypes, targets)
-  }
-
-  const computeControlTypeWithAmount = (controlTypes?: ControlType[], target?: Target[]): ControlType[] => {
-    const includeControlTypes = getControlTypeWithAmount(target)
-    return controlTypes?.filter(c => includeControlTypes?.includes(c)) ?? []
-  }
-
-  const computeControlTypeOnTarget = (controlTypes?: ControlType[], targets?: Target[]): ControlType[] => {
-    const excludeControlTypes = getControlTypeOnTarget(targets)
-    return controlTypes?.filter(c => !excludeControlTypes?.includes(c)) ?? []
-  }
-
   return {
     getTargetType,
     isDefaultTarget,
     deleteInfraction,
     getNbrInfraction,
     fromInputToFieldValue,
-    computeControlTypes,
-    computeControlTypeOnTarget,
-    computeControlTypeWithAmount,
+    getAvailableControlTypes,
+    getAvailableEnvControlTypes,
     controlTypes: CONTROL_TYPES
   }
 }

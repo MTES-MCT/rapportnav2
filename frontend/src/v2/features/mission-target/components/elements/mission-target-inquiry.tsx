@@ -17,7 +17,7 @@ const MissionTargetInquiry: React.FC<MissionTargetInquiryProps> = ({
   isDisabled,
   availableControlTypes
 }) => {
-  const { computeControlTypeOnTarget } = useTarget()
+  const { getAvailableControlTypes } = useTarget()
   return (
     <Stack direction="column" alignItems="flex-start" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%', marginBottom: 12 }}>
@@ -28,7 +28,7 @@ const MissionTargetInquiry: React.FC<MissionTargetInquiryProps> = ({
                 isDisabled={isDisabled}
                 fieldFormik={fieldFormik}
                 name={`targets[${targetIndex}]`}
-                availableControlTypes={computeControlTypeOnTarget(availableControlTypes, target ? [target] : [])}
+                availableControlTypes={getAvailableControlTypes(target, availableControlTypes)}
               />
             )}
           </Field>

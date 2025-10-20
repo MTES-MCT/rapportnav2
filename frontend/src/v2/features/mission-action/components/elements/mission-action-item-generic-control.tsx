@@ -32,8 +32,8 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
   withGeoCoords,
   isMissionFinished
 }) => {
+  const { controlTypes } = useTarget()
   const { isOnline } = useOnlineManager()
-  const { controlTypes, computeControlTypeOnTarget } = useTarget()
   const { errors, initValue, handleSubmit, validationSchema } = useMissionActionGenericControl(
     action,
     onChange,
@@ -98,7 +98,7 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
                         isDisabled={false} //TODO: how many target max we can have?
                         actionId={action.id}
                         fieldArray={fieldArray}
-                        availableControlTypes={computeControlTypeOnTarget(controlTypes, values.targets)}
+                        availableControlTypes={controlTypes}
                       />
                     )}
                   </FieldArray>
@@ -111,7 +111,7 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
                         fieldArray={fieldArray}
                         actionNumberOfControls={0}
                         controlsToComplete={[]}
-                        availableControlTypes={computeControlTypeOnTarget(controlTypes, values.targets)}
+                        availableControlTypes={controlTypes}
                       />
                     )}
                   </FieldArray>

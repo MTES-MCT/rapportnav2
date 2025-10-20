@@ -25,8 +25,8 @@ const MissionActionItemSectorControl: FC<{
     resourceType: string().required()
   }
 
+  const { controlTypes } = useTarget()
   const { isOnline } = useOnlineManager()
-  const { controlTypes, computeControlTypeOnTarget } = useTarget()
   const { sectorTypeOptions, getSectionEtablishmentTypeOptions } = useSector()
   const { initValue, handleSubmit } = useMissionActionGenericControl(action, onChange, schema)
 
@@ -104,7 +104,7 @@ const MissionActionItemSectorControl: FC<{
                         isDisabled={false} //TODO: how many target max we can have?
                         actionId={action.id}
                         fieldArray={fieldArray}
-                        availableControlTypes={computeControlTypeOnTarget(controlTypes, values.targets)}
+                        availableControlTypes={controlTypes}
                       />
                     )}
                   </FieldArray>
@@ -117,7 +117,7 @@ const MissionActionItemSectorControl: FC<{
                         fieldArray={fieldArray}
                         actionNumberOfControls={0}
                         controlsToComplete={[]}
-                        availableControlTypes={computeControlTypeOnTarget(controlTypes, values.targets)}
+                        availableControlTypes={controlTypes}
                       />
                     )}
                   </FieldArray>
