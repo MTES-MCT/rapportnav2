@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.32.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.32.1...backend@v2.32.2) (2025-10-20)
+
+
+### Bug Fixes
+
+* delete generalInfo dupes ([c413d21](https://github.com/MTES-MCT/rapportnav2/commit/c413d216cb98118634839064460ad33a33d28813))
+
 ## [2.32.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.32.0...backend@v2.32.1) (2025-10-15)
 
 
