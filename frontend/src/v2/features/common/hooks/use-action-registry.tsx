@@ -13,7 +13,6 @@ import MissionActionItemNote from '../../mission-action/components/elements/miss
 import MissionActionItemPublicOrder from '../../mission-action/components/elements/mission-action-item-public-order'
 import MissionActionItemRepresentation from '../../mission-action/components/elements/mission-action-item-representation'
 import MissionActionItemRescue from '../../mission-action/components/elements/mission-action-item-rescue'
-import MissionActionItemSecurityVisit from '../../mission-action/components/elements/mission-action-item-security-visit'
 import MissionActionItemSurveillance from '../../mission-action/components/elements/mission-action-item-surveillance'
 import MissionActionItemVigimer from '../../mission-action/components/elements/mission-action-item-vigimer'
 import { ActionType } from '../types/action-type'
@@ -111,11 +110,6 @@ const ACTION_REGISTRY: ActionRegistry = {
     title: `Contrôle d'établissement filière`,
     icon: Icon.ControlUnit,
     component: MissionActionItemSectorControl
-  },
-  [ActionType.SECURITY_VISIT]: {
-    icon: Icon.More,
-    title: 'Visite sécurité',
-    component: MissionActionItemSecurityVisit
   }
 }
 
