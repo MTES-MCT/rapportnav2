@@ -23,7 +23,7 @@ import { store } from '../store/index.ts'
 const InquiryListPage: React.FC = () => {
   const navigate = useNavigate()
   const { getUrl } = useGlobalRoutes()
-  const { getTodayMonthRange } = useDate()
+  const { getTodayYearRange } = useDate()
   const mutation = useCreateInquiryMutation()
   const user = useStore(store, state => state.user)
   const [searchParams, setSearchParams] = useSearchParams()
@@ -31,12 +31,12 @@ const InquiryListPage: React.FC = () => {
 
   useEffect(() => {
     if (searchParams.get('endDateTimeUtc') && searchParams.get('startDateTimeUtc')) return
-    setSearchParams(getTodayMonthRange())
+    setSearchParams(getTodayYearRange())
     return () => {}
-  }, [searchParams, setSearchParams, getTodayMonthRange])
+  }, [searchParams, setSearchParams, getTodayYearRange])
 
   const handleUpdateDateTime = (currentDate: Date) => {
-    setSearchParams(getTodayMonthRange(currentDate))
+    setSearchParams(getTodayYearRange(currentDate))
   }
 
   const handleCreateInquiry = async () => {
@@ -72,7 +72,7 @@ const InquiryListPage: React.FC = () => {
               </Stack.Item>
               <Stack.Item style={{ width: '100%' }}>
                 <ItemListDateRangeNavigator
-                  timeframe={'month'}
+                  timeframe={'year'}
                   onUpdateCurrentDate={handleUpdateDateTime}
                   startDateTimeUtc={searchParams.get('startDateTimeUtc')}
                 />

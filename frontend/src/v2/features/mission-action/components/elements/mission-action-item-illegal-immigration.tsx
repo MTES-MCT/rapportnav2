@@ -6,8 +6,10 @@ import { FormikDateRangePicker } from '../../../common/components/ui/formik-date
 import { MissionAction } from '../../../common/types/mission-action'
 import { useMissionActionIllegalImmigration } from '../../hooks/use-mission-action-illegal-immigration'
 import { ActionIllegalImmigrationInput } from '../../types/action-type'
+import MissionActionDivingOperation from '../ui/mission-action-diving-operation'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 import { MissionActionFormikNumberInput } from '../ui/mission-action-formik-number-input'
+import MissionActionIncidentDonwload from '../ui/mission-action-incident-download'
 
 const MissionActionItemIllegalImmigration: FC<{
   action: MissionAction
@@ -82,6 +84,10 @@ const MissionActionItemIllegalImmigration: FC<{
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikTextarea label="Observations" isLight={true} name="observations" data-testid="observations" />
+                  <MissionActionIncidentDonwload />
+                </Stack.Item>
+                <Stack.Item style={{ width: '100%' }}>
+                  <MissionActionDivingOperation />
                 </Stack.Item>
               </Stack>
             </>

@@ -28,7 +28,7 @@ const MissionTargetInquiryForm: React.FC<MissionTargetInquiryFormProps> = ({
 
   const handleSubmit = async (value?: TargetInfraction) => {
     if (!value) return
-    const valueToSubmit = fromInputToFieldValue(value)
+    const valueToSubmit = fromInputToFieldValue(value, true)
     await fieldFormik.form.setFieldValue(name, valueToSubmit)
     handleClose()
   }

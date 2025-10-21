@@ -13,8 +13,8 @@ import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
 import { useMissionActionEnvControl } from '../../hooks/use-mission-action-env-control'
 import { ActionEnvControlInput } from '../../types/action-type'
 import MissionActionEnvControlSummary from '../ui/mission-action-env-control-summary'
-import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 import MissionActionEnvThemes from '../ui/mission-action-env-themes.tsx'
+import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
 
 export type MissionActionItemEnvControlProps = {
   action: MissionAction
@@ -27,7 +27,7 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
   onChange,
   isMissionFinished
 }) => {
-  const { computeControlTypeWithAmount, computeControlTypes } = useTarget()
+  const { getAvailableEnvControlTypes } = useTarget()
   const { initValue, handleSubmit } = useMissionActionEnvControl(action, onChange, isMissionFinished)
 
   return (
@@ -106,9 +106,9 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                         fieldArray={fieldArray}
                         vehicleType={values.vehicleType}
                         actionTargetType={values.actionTargetType}
-                        availableControlTypes={computeControlTypes(
-                          values.availableControlTypesForInfraction,
-                          values.targets
+                        availableControlTypes={getAvailableEnvControlTypes(
+                          values.targets,
+                          values.availableControlTypesForInfraction
                         )}
                       />
                     )}
@@ -124,9 +124,9 @@ const MissionActionItemEnvControl: React.FC<MissionActionItemEnvControlProps> = 
                         actionTargetType={values.actionTargetType}
                         controlsToComplete={values.controlsToComplete}
                         actionNumberOfControls={values.actionNumberOfControls}
-                        availableControlTypes={computeControlTypeWithAmount(
-                          values.availableControlTypesForInfraction,
-                          values.targets
+                        availableControlTypes={getAvailableEnvControlTypes(
+                          values.targets,
+                          values.availableControlTypesForInfraction
                         )}
                       />
                     )}

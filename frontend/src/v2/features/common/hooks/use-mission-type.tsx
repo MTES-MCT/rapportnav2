@@ -36,7 +36,7 @@ const REINFORCEMENT_TYPE_REGISTRY: Record<MissionReinforcementTypeEnum, string> 
 
 const REPORT_TYPE_REGISTRY: Record<MissionReportTypeEnum, string> = {
   [MissionReportTypeEnum.FIELD_REPORT]: 'Rapport avec sortie terrain',
-  [MissionReportTypeEnum.OFFICE_REPORT]: 'Rapport sans sortie terrain (admin. uniquement)',
+  [MissionReportTypeEnum.OFFICE_REPORT]: 'Rapport sans sortie terrain',
   [MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT]: 'Rapport de temps agent en renfort extérieur'
 }
 

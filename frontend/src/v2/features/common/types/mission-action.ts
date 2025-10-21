@@ -1,6 +1,8 @@
 import { ActionStatusReason, ActionStatusType } from '@common/types/action-types'
 import { ControlMethod, ControlType } from '@common/types/control-types'
 import { ActionTargetTypeEnum, VehicleTypeEnum, VesselSizeEnum, VesselTypeEnum } from '@common/types/env-mission-types'
+import { EnvTag } from '@common/types/env-tags.ts'
+import { EnvTheme } from '@common/types/env-themes.ts'
 import {
   ControlCheck,
   FleetSegment,
@@ -19,8 +21,6 @@ import { FishingGearType, LeisureType } from './leisure-fishing-gear-type.ts'
 import { MissionActionData } from './mission-action-data'
 import { MissionSource } from './mission-types'
 import { NetworkSyncStatus } from './network-types.ts'
-import { EnvTag } from '@common/types/env-tags.ts'
-import { EnvTheme } from '@common/types/env-themes.ts'
 import { SectorEtablishmentType, SectorType } from './sector-types.ts'
 
 export interface MissionAction {
@@ -77,13 +77,14 @@ export interface MissionNavActionData extends MissionActionData {
   siren?: string
   nbrOfControl?: number
   sectorType?: SectorType
-  nbrOfControlAMP?: number
-  nbrOfControl300M?: number
+  nbrOfControlAmp?: number
+  nbrOfControl300m?: number
   leisureType?: LeisureType
   fishingGearType?: FishingGearType
   isControlDuringSecurityDay?: boolean
   isSeizureSleepingFishingGear?: boolean
   sectorEstablishmentType?: SectorEtablishmentType
+  incidentDuringOperation?: boolean
 }
 
 export interface MissionNavAction extends MissionAction {

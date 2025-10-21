@@ -67,7 +67,6 @@ const MissionControlSelection: FC<ControlSelectionProps> = ({ onSelect, moduleTy
               <Stack.Item style={{ width: '100%' }} key={control.key}>
                 <StyledItem onClick={() => onSelect(selectedControlType, control.key)}>
                   <Stack direction="row" spacing="1rem" alignItems="center" style={{ width: '100%' }}>
-                    <Stack.Item style={{ width: '15%' }}>{control.icon}</Stack.Item>
                     <Stack.Item style={{ width: '80%' }}>
                       <Text as="h3" weight="normal">
                         Contrôles de <b>{control.label.toLowerCase()}</b>
@@ -85,3 +84,5 @@ const MissionControlSelection: FC<ControlSelectionProps> = ({ onSelect, moduleTy
 }
 
 export default MissionControlSelection
+
+// TODO: remove until we fix image issue  <Stack.Item style={{ width: '15%' }}>{control.icon}</Stack.Item>

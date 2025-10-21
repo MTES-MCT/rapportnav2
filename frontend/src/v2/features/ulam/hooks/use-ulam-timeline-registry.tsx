@@ -50,7 +50,7 @@ const TIME_LINE_DROPDOWN_ULAM_ITEMS_FIELD: TimelineDropdownItem[] = [
       { type: ActionType.CONTROL_NAUTICAL_LEISURE, dropdownText: 'Contrôle de loisirs nautiques' },
       {
         type: ActionType.CONTROL_SLEEPING_FISHING_GEAR,
-        dropdownText: `Contrôle d'agent de pêche dormant`
+        dropdownText: `Contrôle d'engin de pêche dormant`
       },
       { type: ActionType.OTHER_CONTROL, dropdownText: 'Autre contrôle' }
       //{ type: ActionType.INQUIRY, dropdownText: 'Contrôle croisés', disabled: true } //TODO: remove com as soon as inquiry link on mission is made
@@ -77,6 +77,7 @@ const TIME_LINE_DROPDOWN_ULAM_ITEMS_FIELD: TimelineDropdownItem[] = [
       { type: ActionType.ANTI_POLLUTION, dropdownText: 'Opé. de lutte anti-pollution' },
       { type: ActionType.ILLEGAL_IMMIGRATION, dropdownText: `Opé. de lutte contre l'immigration illégale` },
       { type: ActionType.REPRESENTATION, dropdownText: 'Représentation' },
+      { type: ActionType.SECURITY_VISIT, dropdownText: 'Visite sécurité' },
       { type: ActionType.OTHER, dropdownText: 'Autre' }
     ]
   }
@@ -100,7 +101,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
       backgroundColor: THEME.color.gainsboro,
       borderColor: THEME.color.lightGray
     },
-    icon: Icon.More,
+    icon: Icon.Observation,
     title: 'Surveillance de manifestation nautique',
     component: MissionTimelineItemGenericCard
   },
@@ -128,7 +129,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
       borderColor: THEME.color.lightGray
     },
     icon: Icon.More,
-    title: `Maintien de l'ordre public`,
+    title: `Opé. sûreté maritime`,
     component: MissionTimelineItemGenericCard
   },
   [ActionType.ANTI_POLLUTION]: {
@@ -203,7 +204,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
       borderColor: THEME.color.lightGray
     },
     icon: Icon.GroupPerson,
-    title: `Gestion de l'unité - plannig`,
+    title: `Gestion de l'unité (planning)`,
     component: MissionTimelineItemGenericCard
   },
   [ActionType.UNIT_MANAGEMENT_TRAINING]: {
@@ -284,7 +285,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
       borderColor: THEME.color.lightGray
     },
     icon: Icon.Observation,
-    title: `Surveillance maritime`,
+    title: `Surveillance générale maritime`,
     component: MissionTimelineItemGenericCard
   },
   [ActionType.COMMUNICATION]: {
@@ -319,6 +320,15 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
     icon: Icon.ControlUnit,
     title: `Contrôle - filière`,
     component: MissionTimelineItemControlCard
+  },
+  [ActionType.SECURITY_VISIT]: {
+    style: {
+      backgroundColor: THEME.color.blueGray25,
+      borderColor: THEME.color.lightGray
+    },
+    icon: Icon.More,
+    title: 'Visite sécurité',
+    component: MissionTimelineItemGenericCard
   }
 }
 

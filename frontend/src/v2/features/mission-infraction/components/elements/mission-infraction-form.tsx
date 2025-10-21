@@ -70,7 +70,7 @@ const MissionInfractionForm: FC<MissionInfractionFormProps> = ({
               {editControl && (
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikSelect
-                    name="infraction.controlType"
+                    name="control.controlType"
                     isRequired={true}
                     isErrorMessageHidden={true}
                     options={controlTypeOptions}
@@ -82,12 +82,12 @@ const MissionInfractionForm: FC<MissionInfractionFormProps> = ({
               {editTarget && (
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
-                    {formik.values.target.isVessel && (
+                    {formik.values.target?.isVessel && (
                       <Stack.Item style={{ width: '100%' }} data-testid={'stack-vessel-infraction-env'}>
                         <MissionInfractionVesselForm size={'target.vesselSize'} type={'target.vesselType'} />
                       </Stack.Item>
                     )}
-                    {formik.values.target.isTargetVehicule && (
+                    {formik.values.target?.isTargetVehicule && (
                       <Stack.Item style={{ width: '100%' }}>
                         <FormikTextInput
                           isRequired={true}

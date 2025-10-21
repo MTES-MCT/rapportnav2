@@ -1,9 +1,8 @@
 import { ControlType } from '@common/types/control-types'
 import { ActionTargetTypeEnum, InfractionTypeEnum } from '@common/types/env-mission-types'
 import { renderHook } from '@testing-library/react'
-import { TargetInfraction } from 'src/v2/features/mission-infraction/hooks/use-infraction-env-form'
 import { MissionSourceEnum } from '../../../common/types/mission-types'
-import { Control, Target, TargetType } from '../../../common/types/target-types'
+import { Control, Target, TargetInfraction, TargetType } from '../../../common/types/target-types'
 import { useTarget } from '../use-target'
 
 describe('useTarget', () => {
@@ -16,7 +15,7 @@ describe('useTarget', () => {
     expect(result.current.isDefaultTarget(target)).toBeFalsy()
   })
 
-  it('should push infraction into the target at the rightt control without ersing previous infraction', () => {
+  it('should push infraction into the target at the right control without erasing previous infraction', () => {
     const infractionId1 = 'infraction1'
 
     const input = {
@@ -79,6 +78,45 @@ describe('useTarget', () => {
     expect(infraction?.infractionType).toEqual(input.infraction?.infractionType)
   })
 
+  it('should push infraction into the target at the right control when isInquiry', () => {
+    const input = {
+      target: {
+        actionId: 'mycontrolId',
+        identityControlledPerson: 'My identify controlled person',
+        controls: [
+          {
+            amountOfControls: 1,
+            controlType: ControlType.ADMINISTRATIVE
+          },
+          {
+            amountOfControls: 1,
+            controlType: ControlType.GENS_DE_MER
+          }
+        ]
+      } as Target,
+      control: {
+        controlType: ControlType.GENS_DE_MER
+      } as Control,
+      infraction: {
+        observations: 'infraction 2',
+        natinfs: ['10034', '43534624'],
+        infractionType: InfractionTypeEnum.WITH_REPORT
+      }
+    } as TargetInfraction
+    const { result } = renderHook(() => useTarget())
+    const response = result.current.fromInputToFieldValue(input, true)
+    expect(response).toBeTruthy()
+    expect(response?.controls?.length).toEqual(2)
+    expect(response?.actionId).toEqual(input.target?.actionId)
+    expect(response?.identityControlledPerson).toEqual(input.target?.identityControlledPerson)
+
+    const control = response?.controls?.find(c => c.controlType === ControlType.GENS_DE_MER)
+    expect(control?.infractions?.length).toEqual(1)
+
+    const infraction = control?.infractions?.find(i => !i.id)
+    expect(infraction?.observations).toEqual(input.infraction?.observations)
+  })
+
   it('should get target type from actionTargetType', () => {
     const { result } = renderHook(() => useTarget())
     expect(result.current.getTargetType(ActionTargetTypeEnum.INDIVIDUAL)).toBe(TargetType.INDIVIDUAL)
@@ -133,9 +171,10 @@ describe('useTarget', () => {
 
     const targets = [
       {
+        targetType: TargetType.DEFAULT,
         controls: [
           {
-            amountOfControls: 0,
+            amountOfControls: 1,
             controlType: ControlType.SECURITY
           },
           {
@@ -143,7 +182,7 @@ describe('useTarget', () => {
             controlType: ControlType.GENS_DE_MER
           },
           {
-            amountOfControls: 1,
+            amountOfControls: 0,
             controlType: ControlType.NAVIGATION
           },
           {
@@ -151,14 +190,29 @@ describe('useTarget', () => {
             controlType: ControlType.ADMINISTRATIVE
           }
         ]
+      },
+      {
+        targetType: TargetType.INDIVIDUAL,
+        controls: [
+          {
+            controlType: ControlType.GENS_DE_MER,
+            infractions: [
+              {
+                id: '1212&',
+                observations: 'infraction 1',
+                natinfs: ['10034'],
+                infractionType: InfractionTypeEnum.WITHOUT_REPORT
+              }
+            ]
+          }
+        ]
       }
     ] as Target[]
 
-    const responses = result.current.computeControlTypes(controlTypes, targets)
+    const responses = result.current.getAvailableEnvControlTypes(targets, controlTypes)
 
-    expect(responses).toHaveLength(3)
-    expect(responses).toContain(ControlType.NAVIGATION)
-    expect(responses).toContain(ControlType.GENS_DE_MER)
+    expect(responses).toHaveLength(2)
+    expect(responses).toContain(ControlType.SECURITY)
     expect(responses).toContain(ControlType.ADMINISTRATIVE)
   })
 
@@ -170,36 +224,34 @@ describe('useTarget', () => {
       ControlType.GENS_DE_MER,
       ControlType.ADMINISTRATIVE
     ]
-    const targets = [
-      {
-        controls: [
-          {
-            amountOfControls: 0,
-            controlType: ControlType.SECURITY
-          },
-          {
-            amountOfControls: 1,
-            controlType: ControlType.GENS_DE_MER
-          },
-          {
-            amountOfControls: 1,
-            controlType: ControlType.NAVIGATION
-          },
-          {
-            amountOfControls: 1,
-            infractions: [
-              {
-                id: 'erere',
-                infractionType: InfractionTypeEnum.WITH_REPORT
-              }
-            ],
-            controlType: ControlType.ADMINISTRATIVE
-          }
-        ]
-      }
-    ] as Target[]
+    const target = {
+      controls: [
+        {
+          amountOfControls: 0,
+          controlType: ControlType.SECURITY
+        },
+        {
+          amountOfControls: 1,
+          controlType: ControlType.GENS_DE_MER
+        },
+        {
+          amountOfControls: 1,
+          controlType: ControlType.NAVIGATION
+        },
+        {
+          amountOfControls: 1,
+          infractions: [
+            {
+              id: 'erere',
+              infractionType: InfractionTypeEnum.WITH_REPORT
+            }
+          ],
+          controlType: ControlType.ADMINISTRATIVE
+        }
+      ]
+    } as Target
 
-    const responses = result.current.computeControlTypeOnTarget(controlTypes, targets)
+    const responses = result.current.getAvailableControlTypes(target, controlTypes)
 
     expect(responses).toHaveLength(3)
     expect(responses).not.toContain(ControlType.ADMINISTRATIVE)

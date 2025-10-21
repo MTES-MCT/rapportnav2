@@ -28,9 +28,9 @@ const MissionListPageContentWrapper: FC<MissionListContentWrapperProps> = ({
       <Stack.Item style={{ width: '100%' }}>
         <Stack
           direction={'row'}
-          spacing={'0.5rem'}
+          spacing={'0.2rem'}
           alignItems={'center'}
-          style={{ padding: '0 9.5rem', marginTop: '3rem' }}
+          style={{ padding: '0 11.5rem', marginTop: '3rem' }}
         >
           {icon && <Stack.Item alignSelf={'baseline'}>{icon}</Stack.Item>}
           <Stack.Item>

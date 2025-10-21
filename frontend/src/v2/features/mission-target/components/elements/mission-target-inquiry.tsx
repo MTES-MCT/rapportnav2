@@ -17,18 +17,18 @@ const MissionTargetInquiry: React.FC<MissionTargetInquiryProps> = ({
   isDisabled,
   availableControlTypes
 }) => {
-  const { computeControlTypeOnTarget } = useTarget()
+  const { getAvailableControlTypes } = useTarget()
   return (
     <Stack direction="column" alignItems="flex-start" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%', marginBottom: 12 }}>
-        {fieldArray.form.values.targets.map((target: Target, targetIndex: number) => (
+        {fieldArray.form.values.targets?.map((target: Target, targetIndex: number) => (
           <Field name={`targets[${targetIndex}]`} key={`targets-form-[${targetIndex}]`}>
             {(fieldFormik: FieldProps<Target>) => (
               <MissionTargetInquiryForm
                 isDisabled={isDisabled}
                 fieldFormik={fieldFormik}
                 name={`targets[${targetIndex}]`}
-                availableControlTypes={computeControlTypeOnTarget(availableControlTypes, target ? [target] : [])}
+                availableControlTypes={getAvailableControlTypes(target, availableControlTypes)}
               />
             )}
           </Field>
@@ -36,7 +36,7 @@ const MissionTargetInquiry: React.FC<MissionTargetInquiryProps> = ({
       </Stack.Item>
 
       <Stack.Item style={{ width: '100%' }}>
-        {fieldArray.form.values.targets.map((target: Target, targetIndex: number) => (
+        {fieldArray.form.values.targets?.map((target: Target, targetIndex: number) => (
           <Field name={`targets[${targetIndex}]`} key={`targets-item-[${targetIndex}]`}>
             {(fieldFormik: FieldProps<Target>) => (
               <MissionTargetInfractionList
