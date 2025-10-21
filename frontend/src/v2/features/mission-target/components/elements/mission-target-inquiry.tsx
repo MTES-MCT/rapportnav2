@@ -21,7 +21,7 @@ const MissionTargetInquiry: React.FC<MissionTargetInquiryProps> = ({
   return (
     <Stack direction="column" alignItems="flex-start" style={{ width: '100%' }}>
       <Stack.Item style={{ width: '100%', marginBottom: 12 }}>
-        {fieldArray.form.values.targets.map((target: Target, targetIndex: number) => (
+        {fieldArray.form.values.targets?.map((target: Target, targetIndex: number) => (
           <Field name={`targets[${targetIndex}]`} key={`targets-form-[${targetIndex}]`}>
             {(fieldFormik: FieldProps<Target>) => (
               <MissionTargetInquiryForm
@@ -36,7 +36,7 @@ const MissionTargetInquiry: React.FC<MissionTargetInquiryProps> = ({
       </Stack.Item>
 
       <Stack.Item style={{ width: '100%' }}>
-        {fieldArray.form.values.targets.map((target: Target, targetIndex: number) => (
+        {fieldArray.form.values.targets?.map((target: Target, targetIndex: number) => (
           <Field name={`targets[${targetIndex}]`} key={`targets-item-[${targetIndex}]`}>
             {(fieldFormik: FieldProps<Target>) => (
               <MissionTargetInfractionList

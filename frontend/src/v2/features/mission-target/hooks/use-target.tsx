@@ -20,7 +20,7 @@ export function useTarget() {
   const getTargetType = (actionTargetType?: ActionTargetTypeEnum) =>
     actionTargetType ? TargetType[actionTargetType as keyof typeof TargetType] : TargetType.INDIVIDUAL
 
-  const fromInputToFieldValue = (input: TargetInfraction): Target | undefined => {
+  const fromInputToFieldValue = (input: TargetInfraction, isInquiry?: boolean): Target | undefined => {
     const target = { ...(input.target ?? ({} as Target)) }
     const control = { ...(input.control ?? ({} as Control)) }
     const infraction = { ...(input.infraction ?? ({} as Infraction)) }
@@ -35,7 +35,9 @@ export function useTarget() {
 
     if (!isEmpty(control)) {
       const controls = [...(target.controls ?? [])]
-      const controlIndex = controls?.findIndex(c => c.id === control.id)
+      const controlIndex = controls?.findIndex(c =>
+        isInquiry ? c.controlType === control.controlType : c.id === control.id
+      )
       if (controlIndex === -1) controls.push(control)
       if (controlIndex !== -1) controls[controlIndex] = control
       target.controls = controls

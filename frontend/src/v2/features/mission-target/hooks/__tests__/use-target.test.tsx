@@ -15,7 +15,7 @@ describe('useTarget', () => {
     expect(result.current.isDefaultTarget(target)).toBeFalsy()
   })
 
-  it('should push infraction into the target at the rightt control without ersing previous infraction', () => {
+  it('should push infraction into the target at the right control without erasing previous infraction', () => {
     const infractionId1 = 'infraction1'
 
     const input = {
@@ -76,6 +76,45 @@ describe('useTarget', () => {
     expect(infraction?.natinfs).toEqual(input.infraction?.natinfs)
     expect(infraction?.observations).toEqual(input.infraction?.observations)
     expect(infraction?.infractionType).toEqual(input.infraction?.infractionType)
+  })
+
+  it('should push infraction into the target at the right control when isInquiry', () => {
+    const input = {
+      target: {
+        actionId: 'mycontrolId',
+        identityControlledPerson: 'My identify controlled person',
+        controls: [
+          {
+            amountOfControls: 1,
+            controlType: ControlType.ADMINISTRATIVE
+          },
+          {
+            amountOfControls: 1,
+            controlType: ControlType.GENS_DE_MER
+          }
+        ]
+      } as Target,
+      control: {
+        controlType: ControlType.GENS_DE_MER
+      } as Control,
+      infraction: {
+        observations: 'infraction 2',
+        natinfs: ['10034', '43534624'],
+        infractionType: InfractionTypeEnum.WITH_REPORT
+      }
+    } as TargetInfraction
+    const { result } = renderHook(() => useTarget())
+    const response = result.current.fromInputToFieldValue(input, true)
+    expect(response).toBeTruthy()
+    expect(response?.controls?.length).toEqual(2)
+    expect(response?.actionId).toEqual(input.target?.actionId)
+    expect(response?.identityControlledPerson).toEqual(input.target?.identityControlledPerson)
+
+    const control = response?.controls?.find(c => c.controlType === ControlType.GENS_DE_MER)
+    expect(control?.infractions?.length).toEqual(1)
+
+    const infraction = control?.infractions?.find(i => !i.id)
+    expect(infraction?.observations).toEqual(input.infraction?.observations)
   })
 
   it('should get target type from actionTargetType', () => {

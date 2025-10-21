@@ -78,7 +78,7 @@ export function useInquiry(): InquiryHook {
   const isClosable = (inquiry?: Inquiry) => {
     return (
       getInquirySchema().isValidSync(inquiry) &&
-      inquiry?.actions?.every(action => action.completenessForStats.status === CompletenessForStatsStatusEnum.COMPLETE)
+      inquiry?.actions?.every(action => action.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE)
     )
   }
 
