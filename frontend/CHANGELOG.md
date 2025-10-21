@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.32.3](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.32.2...frontend@v2.32.3) (2025-10-21)
+
+
+### Bug Fixes
+
+* **frontend:** all issues ([165377b](https://github.com/MTES-MCT/rapportnav2/commit/165377b99804362c1db3c1e099d722324cbbef52))
+* **frontend:** all issues ([02494b4](https://github.com/MTES-MCT/rapportnav2/commit/02494b429520ecc8ca250dbc24d5a477c51892d2))
+* **frontend:** available control type on control ([4484553](https://github.com/MTES-MCT/rapportnav2/commit/4484553e9fad99cdfe659f6d46fedc841e86af0c))
+* **frontend:** dependencies and snapshot fix ([e087ece](https://github.com/MTES-MCT/rapportnav2/commit/e087ece39977a037682bcf48a22a74d4c518cd08))
+* **frontend:** exchange action registry ([53c0ed8](https://github.com/MTES-MCT/rapportnav2/commit/53c0ed8e1829d94be13bd5bb66c146fae3274619))
+* **frontend:** inquiry last fix over control ([6314f54](https://github.com/MTES-MCT/rapportnav2/commit/6314f544230cfb95a5d0ba52afc921de8c3bfe57))
+* **frontend:** refactor name MissionActioIncidentDonwload ([12548c1](https://github.com/MTES-MCT/rapportnav2/commit/12548c1ca2a36b5e1cc06d29b2416960738f8747))
+* **frontend:** target issues ([c4cb717](https://github.com/MTES-MCT/rapportnav2/commit/c4cb71761f58891fbcdecd9bb979bcf592beeceb))
+* **frontend:** test on use-create-action ([3ba8979](https://github.com/MTES-MCT/rapportnav2/commit/3ba89799268c677cacc59c87c58e23e182829771))
+
 ## [2.32.2](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.32.1...frontend@v2.32.2) (2025-10-20)
 
 
