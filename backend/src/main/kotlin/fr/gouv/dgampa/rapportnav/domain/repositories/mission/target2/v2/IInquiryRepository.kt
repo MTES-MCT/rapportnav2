@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2
 
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.InquiryModel
+import java.time.Instant
 import java.util.*
 
 interface IInquiryRepository {
@@ -9,6 +10,8 @@ interface IInquiryRepository {
     fun findById(id: UUID): Optional<InquiryModel>
 
     fun findByServiceId(serviceId: Int): List<InquiryModel>
+
+    fun findAll(startBeforeDateTime: Instant, endBeforeDateTime: Instant): List<InquiryModel?>
 
     fun deleteById(id: UUID)
 }
