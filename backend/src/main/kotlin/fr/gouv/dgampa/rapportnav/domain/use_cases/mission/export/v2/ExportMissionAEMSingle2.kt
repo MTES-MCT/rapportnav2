@@ -76,7 +76,7 @@ class ExportMissionAEMSingle2(
         }
     }
 
-    private fun getAemTableExport(missionIds: List<Int>) = missionIds.map {
+    fun getAemTableExport(missionIds: List<Int>): List<AEMTableExport2> = missionIds.map {
         val envMission = getEnvMissionById2.execute(it)
         val envActions = getEnvActionByMissionId.execute(it)
         val navActions = getNavActionByMissionId.execute(it)

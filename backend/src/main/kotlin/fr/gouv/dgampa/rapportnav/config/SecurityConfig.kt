@@ -28,7 +28,7 @@ class SecurityConfig(
     // api-key filter
     fun apiKeySecurityFilter(http: HttpSecurity): SecurityFilterChain {
         http
-            .securityMatcher("/api/v2/analytics")
+            .securityMatcher("/api/analytics/**")
             .addFilterBefore(apiKeyAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
             .authorizeHttpRequests { it.anyRequest().hasAuthority(AuthoritiesEnum.ROLE_API_USER.toString()) }
             .csrf { it.disable() }

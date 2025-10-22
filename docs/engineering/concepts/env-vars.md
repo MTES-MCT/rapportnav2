@@ -28,8 +28,8 @@ avec des données confidentielles, telles que l'URL de Sentry.
 Les variables d'environnement suivantes sont nécessaires pour la configuration de votre backend en local
 
 - ENV_DB_URL=jdbc:postgresql://localhost:5432/rapportnavdb?user=postgres&password=postgres
-- JWT_SECURITY_KEY=somerandomkeywhichislongenoughtoalignwiththejwtspecification
-- MASTER_API_KEY=somerandomkeywhichislongenoughtoalignwiththejwtspecification
+- JWT_SECURITY_KEY=fG2hI6jK0lM4nO8pQ2rS6tU0vW4xY8zA2bC6dE0fG4hI8jK2lM6nO0pQ4rS8tU2
+- MASTER_API_KEY=uV3wX7yZ1aB5cD9eF3gH7iJ1kL5mN9oP3qR7sT1uV5wX9yZ3aB7cD1eF5gH9iJ3
 - MONITORFISH_API_KEY=fake-key
 - MONITORFISH_HOST=http://localhost:8089
 - MONITORENV_HOST=http://localhost:8089

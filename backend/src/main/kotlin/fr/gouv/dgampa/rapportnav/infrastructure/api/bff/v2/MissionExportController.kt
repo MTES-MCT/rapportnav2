@@ -80,7 +80,6 @@ class MissionExportController(
         @Valid @RequestBody request: ExportBodyRequest
     ): MissionExportEntity? {
         try {
-//            throw Exception("fdfdfd")
             val output: MissionExportEntity? =
                 exportMissionReports.execute(
                     missionIds = request.missionIds.distinct(),
