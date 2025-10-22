@@ -14,6 +14,7 @@ class FrontendRoutesController {
             "/admin",
             "/pam/**",
             "/ulam/**",
+            "/inquiry/**",
             "/v2/**"
         ]
     )
