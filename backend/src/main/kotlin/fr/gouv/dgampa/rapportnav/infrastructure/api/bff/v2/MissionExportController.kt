@@ -33,7 +33,6 @@ class MissionExportController(
         @Argument reportType: ExportReportTypeEnum,
     ): MissionExportEntity? {
         try {
-//            throw Exception("fdfdfd")
             val output: MissionExportEntity? =
                 exportMissionReports.execute(missionIds = missionIds.distinct(), exportMode = exportMode, reportType = reportType)
             return output
