@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.32.4](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.32.3...docker-container@v2.32.4) (2025-10-22)
+
+
+### Bug Fixes
+
+* **db:** remove duplicates target2 + control2 ([977886d](https://github.com/MTES-MCT/rapportnav2/commit/977886d713c9881235cd5461bd5c2b1510512f50))
+
 ## [2.32.3](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.32.2...docker-container@v2.32.3) (2025-10-21)
 
 
