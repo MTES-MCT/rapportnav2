@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.32.5](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.32.4...docker-container@v2.32.5) (2025-10-23)
+
+
+### Bug Fixes
+
+* **backend:** is undef Jdp ([3c5c697](https://github.com/MTES-MCT/rapportnav2/commit/3c5c69715eb6c21893322fe4eff9fe09eb182f61))
+* **backend:** isUnderJdp ([9e6d4f9](https://github.com/MTES-MCT/rapportnav2/commit/9e6d4f93b2a7cba59865026f2029d621e01b4777))
+* **frontend:** fix vitest build ([ce8a6f4](https://github.com/MTES-MCT/rapportnav2/commit/ce8a6f4099b2d46a119c793f0d9a25f3a3922ac2))
+* **frontend:** mission action control and download ([ed0d0fa](https://github.com/MTES-MCT/rapportnav2/commit/ed0d0fa12112a8f6664ab4a69c0787df371422f8))
+
 ## [2.32.4](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.32.3...docker-container@v2.32.4) (2025-10-22)
 
 
