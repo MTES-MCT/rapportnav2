@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.32.5](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.32.4...backend@v2.32.5) (2025-10-23)
+
+
+### Bug Fixes
+
+* **backend:** is undef Jdp ([3c5c697](https://github.com/MTES-MCT/rapportnav2/commit/3c5c69715eb6c21893322fe4eff9fe09eb182f61))
+* **backend:** isUnderJdp ([9e6d4f9](https://github.com/MTES-MCT/rapportnav2/commit/9e6d4f93b2a7cba59865026f2029d621e01b4777))
+
 ## [2.32.4](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.32.3...backend@v2.32.4) (2025-10-22)
 
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.32.5](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.32.4...frontend@v2.32.5) (2025-10-23)
+
+
+### Bug Fixes
+
+* **frontend:** fix vitest build ([ce8a6f4](https://github.com/MTES-MCT/rapportnav2/commit/ce8a6f4099b2d46a119c793f0d9a25f3a3922ac2))
+* **frontend:** mission action control and download ([ed0d0fa](https://github.com/MTES-MCT/rapportnav2/commit/ed0d0fa12112a8f6664ab4a69c0787df371422f8))
+
 ## [2.32.4](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.32.3...frontend@v2.32.4) (2025-10-22)
 
 
