@@ -1,12 +1,12 @@
 import Text from '@common/components/ui/text'
 import { FormikCheckbox, Icon } from '@mtes-mct/monitor-ui'
 import { Stack } from 'rsuite'
+import fileUrl from '../../../../../assets/files/Annexe11_modèle_fiche_incident.odt'
 
 const MissionActionIncidentDonwload: React.FC = () => {
   const downloadFile = () => {
-    const pdfUrl = '/src/assets/files/Annexe11_modèle_fiche_incident.odt'
     const link = document.createElement('a')
-    link.href = pdfUrl
+    link.href = fileUrl
     link.download = 'Annexe 11 modèle fiche incident.odt'
     document.body.appendChild(link)
     link.click()

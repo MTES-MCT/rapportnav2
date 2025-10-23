@@ -1,6 +1,6 @@
 import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
-import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
-import React, { JSX } from 'react'
+import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik, FormikProps } from 'formik'
+import React, { createElement, FunctionComponent } from 'react'
 import { Stack } from 'rsuite'
 import { ObjectShape } from 'yup'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker.tsx'
@@ -10,17 +10,17 @@ import MissionTargetList from '../../../mission-target/components/elements/missi
 import MissionTargetNew from '../../../mission-target/components/elements/mission-target-new.tsx'
 import { useTarget } from '../../../mission-target/hooks/use-target.tsx'
 import { useMissionActionGenericControl } from '../../hooks/use-mission-action-generic-control.tsx'
-import { ActionEnvControlInput } from '../../types/action-type.ts'
+import { ActionControlInput, ActionEnvControlInput } from '../../types/action-type.ts'
 import MissionActionDivingOperation from '../ui/mission-action-diving-operation.tsx'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd.tsx'
 import MissionActionIncidentDonwload from '../ui/mission-action-incident-download.tsx'
 
 export type MissionActionItemGenericControlProps = {
   action: MissionAction
-  children?: JSX.Element
   schema?: ObjectShape
   withGeoCoords?: boolean
   isMissionFinished?: boolean
+  component?: FunctionComponent<{ formik: FormikProps<ActionControlInput> }>
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
 }
 
@@ -28,7 +28,7 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
   action,
   schema,
   onChange,
-  children,
+  component,
   withGeoCoords,
   isMissionFinished
 }) => {
@@ -53,18 +53,12 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
           enableReinitialize={true}
           initialErrors={errors}
         >
-          {({ values, validateForm }) => (
+          {formik => (
             <>
-              <FormikEffect
-                onChange={nextValues => {
-                  validateForm().then(async errors => {
-                    await handleSubmit(nextValues as ActionEnvControlInput, errors)
-                  })
-                }}
-              />
+              <FormikEffect onChange={nextValues => handleSubmit(nextValues as ActionEnvControlInput)} />
               <Stack
                 direction="column"
-                spacing="2rem"
+                spacing="1rem"
                 alignItems="flex-start"
                 style={{ width: '100%' }}
                 data-testid={'action-generic-control'}
@@ -90,7 +84,7 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
                 <Stack.Item style={{ width: '100%' }}>
                   {withGeoCoords && <MissionActionFormikCoordinateInputDMD name={'geoCoords'} isLight={true} />}
                 </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>{children}</Stack.Item>
+                <Stack.Item style={{ width: '100%' }}>{component && createElement(component, { formik })}</Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <FieldArray name="targets">
                     {(fieldArray: FieldArrayRenderProps) => (
@@ -125,7 +119,6 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
                   />
                   <MissionActionIncidentDonwload />
                 </Stack.Item>
-
                 <Stack.Item style={{ width: '100%' }}>
                   <MissionActionDivingOperation />
                 </Stack.Item>

@@ -63,8 +63,7 @@ const TIME_LINE_DROPDOWN_ULAM_ITEMS_FIELD: TimelineDropdownItem[] = [
     subItems: [
       { type: ActionType.NAUTICAL_EVENT, dropdownText: 'Surveillance de manifestation nautique' },
       { type: ActionType.LAND_SURVEILLANCE, dropdownText: 'Surveillance générale terrestre' },
-      { type: ActionType.MARITIME_SURVEILLANCE, dropdownText: 'Surveillance générale maritime' },
-      { type: ActionType.FISHING_SURVEILLANCE, dropdownText: 'Surveillance générale pêche', disabled: true }
+      { type: ActionType.MARITIME_SURVEILLANCE, dropdownText: 'Surveillance générale maritime' }
     ]
   },
   { type: ActionType.RESCUE, icon: Icon.Rescue, dropdownText: 'Ajouter une assistance / sauvetage' },
@@ -204,7 +203,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
       borderColor: THEME.color.lightGray
     },
     icon: Icon.GroupPerson,
-    title: `Gestion de l'unité (planning)`,
+    title: `Gestion de l'unité (planning...)`,
     component: MissionTimelineItemGenericCard
   },
   [ActionType.UNIT_MANAGEMENT_TRAINING]: {

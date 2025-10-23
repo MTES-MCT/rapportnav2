@@ -24,6 +24,7 @@ data class MissionEnvInput(
                 startDateTimeUtc = missionEntity.startDateTimeUtc,
                 endDateTimeUtc = missionEntity.endDateTimeUtc,
                 missionTypes = missionEntity.missionTypes,
+                isUnderJdp = missionEntity.isUnderJdp,
                 observationsByUnit = missionEntity.observationsByUnit,
                 resources = missionEntity.controlUnits.filter { it.id == controlUnitId }
                     .flatMap { it.resources!! }
@@ -82,6 +83,7 @@ data class MissionEnvInput(
         other as MissionEnvInput
 
         if (missionId != other.missionId) return false
+        if(isUnderJdp != other.isUnderJdp) return false
         if (missionTypes != other.missionTypes) return false
         if (startDateTimeUtc != other.startDateTimeUtc) return false
         if (endDateTimeUtc != other.endDateTimeUtc) return false

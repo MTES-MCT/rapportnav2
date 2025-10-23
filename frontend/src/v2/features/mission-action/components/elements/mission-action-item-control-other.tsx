@@ -14,17 +14,18 @@ const MissionActionItemOtherControl: FC<{
       onChange={onChange}
       withGeoCoords={true}
       data-testid={'action-control-other'}
-    >
-      <Stack.Item style={{ width: '100%' }}>
-        <FormikTextInput
-          isLight={true}
-          isRequired={true}
-          name="controlType"
-          isErrorMessageHidden={true}
-          label="Nature du contrôle / Type de contrôle"
-        />
-      </Stack.Item>
-    </MissionActionItemGenericControl>
+      component={() => (
+        <Stack.Item style={{ width: '100%' }}>
+          <FormikTextInput
+            isLight={true}
+            isRequired={true}
+            name="controlType"
+            isErrorMessageHidden={true}
+            label="Nature du contrôle / Type de contrôle"
+          />
+        </Stack.Item>
+      )}
+    />
   )
 }
 export default MissionActionItemOtherControl

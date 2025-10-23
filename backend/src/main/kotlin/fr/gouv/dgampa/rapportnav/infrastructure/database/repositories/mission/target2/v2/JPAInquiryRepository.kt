@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import java.time.Instant
 import java.util.*
 
 @Repository
@@ -40,6 +41,13 @@ class JPAInquiryRepository(
 
     override fun findByServiceId(serviceId: Int): List<InquiryModel> {
         return dbInquiryRepository.findByServiceId(serviceId)
+    }
+
+    override fun findAll(startBeforeDateTime: Instant, endBeforeDateTime: Instant): List<InquiryModel?> {
+        return dbInquiryRepository.findAllBetweenDates(
+            startBeforeDateTime = startBeforeDateTime,
+            endBeforeDateTime = endBeforeDateTime
+        )
     }
 
     @Transactional

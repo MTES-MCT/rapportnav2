@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
+import java.time.Instant
 import java.util.*
 
 @RestController
@@ -22,7 +23,7 @@ class InquiryRestController(
     private val deleteInquiry: DeleteInquiry,
     private val createInquiry: CreateInquiry,
     private val updateInquiry: UpdateInquiry,
-    private val getInquiryByServiceId: GetInquiryByServiceId,
+    private val getInquiryByServiceIdBetweenDates: GetInquiryByServiceIdBetweenDates,
 ) {
 
     private val logger = LoggerFactory.getLogger(InquiryRestController::class.java)
@@ -42,10 +43,16 @@ class InquiryRestController(
             ApiResponse(responseCode = "404", description = "Did not find any list of inquiry", content = [Content()])
         ]
     )
-    fun getInquiries(): List<Inquiry>? {
+    fun getInquiries(
+        @RequestParam startDateTimeUtc: Instant,
+        @RequestParam(required = false) endDateTimeUtc: Instant
+    ): List<Inquiry>? {
         return try {
+
             val user = getUserFromToken.execute()
-            getInquiryByServiceId.execute(serviceId = user?.serviceId)
+            getInquiryByServiceIdBetweenDates.execute(serviceId = user?.serviceId,
+                startDateTimeUtc = startDateTimeUtc,
+                endDateTimeUtc = endDateTimeUtc)
                 .sortedBy { it.startDateTimeUtc }
                 .map { processInquiry.execute(it) }
                 .map { Inquiry.fromInquiryEntity(it) }

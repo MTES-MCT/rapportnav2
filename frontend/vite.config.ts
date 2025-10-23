@@ -1,10 +1,10 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
 import importMetaEnv from '@import-meta-env/unplugin'
-import eslint from 'vite-plugin-eslint2'
+import react from '@vitejs/plugin-react'
 import path from 'path'
-import svgr from 'vite-plugin-svgr'
+import { defineConfig } from 'vite'
+import eslint from 'vite-plugin-eslint2'
 import { VitePWA } from 'vite-plugin-pwa'
+import svgr from 'vite-plugin-svgr'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -86,5 +86,6 @@ export default defineConfig({
       '/api': 'http://localhost:80',
       '/graphql': 'http://localhost:80'
     }
-  }
+  },
+  assetsInclude: ['**/*.odt']
 })

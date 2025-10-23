@@ -1,7 +1,7 @@
 import react from '@vitejs/plugin-react'
 import * as path from 'path'
-import { defineConfig } from 'vitest/config'
 import svgr from 'vite-plugin-svgr'
+import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   plugins: [react(), svgr()],
@@ -41,5 +41,6 @@ export default defineConfig({
       }
       // exclude: ['src/v2/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}']
     }
-  }
+  },
+  assetsInclude: ['**/*.odt']
 })

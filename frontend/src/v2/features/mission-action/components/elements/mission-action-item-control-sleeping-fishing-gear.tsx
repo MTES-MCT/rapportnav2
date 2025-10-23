@@ -15,42 +15,43 @@ const MissionActionItemSleepingFishingGearControl: FC<{
       onChange={onChange}
       withGeoCoords={true}
       data-testid={'action-control-other'}
-    >
-      <Stack.Item style={{ width: '100%' }}>
-        <Stack direction="column" spacing={'1rem'} alignItems="flex-start">
-          <Stack.Item>
-            <Message>
-              Renseigner uniquement les engins contrôlés hors cadre d'un contrôle sur navire de pêche pro. Dans le cas
-              d'un engin rattaché à un navire de pêche pro veuillez contacter le CNSP
-            </Message>
-          </Stack.Item>
-          <Stack.Item style={{ width: '70%' }}>
-            <FormikSelect
-              name="fishingGearType"
-              label="Type d'engin de pêche dormant"
-              isLight={true}
-              isRequired={true}
-              options={Object.keys(FishingGearType)?.map(key => ({
-                value: key,
-                label: FISHING_GEAR_TYPES[key as keyof typeof FishingGearType]
-              }))}
-            />
-          </Stack.Item>
-          <Stack.Item style={{ width: '50%' }}>
-            <FormikNumberInput
-              isLight={true}
-              isRequired={true}
-              name="nbrOfControl"
-              label="Nombre total de contrôles"
-              isErrorMessageHidden={true}
-            />
-          </Stack.Item>
-          <Stack.Item style={{ width: '100%' }}>
-            <FormikCheckbox name="isSeizureSleepingFishingGear" label="Appréhension des engins de pêche dormant" />
-          </Stack.Item>
-        </Stack>
-      </Stack.Item>
-    </MissionActionItemGenericControl>
+      component={() => (
+        <Stack.Item style={{ width: '100%' }}>
+          <Stack direction="column" spacing={'1rem'} alignItems="flex-start">
+            <Stack.Item>
+              <Message>
+                Renseigner uniquement les engins contrôlés hors cadre d'un contrôle sur navire de pêche pro. Dans le cas
+                d'un engin rattaché à un navire de pêche pro veuillez contacter le CNSP
+              </Message>
+            </Stack.Item>
+            <Stack.Item style={{ width: '70%' }}>
+              <FormikSelect
+                name="fishingGearType"
+                label="Type d'engin de pêche dormant"
+                isLight={true}
+                isRequired={true}
+                options={Object.keys(FishingGearType)?.map(key => ({
+                  value: key,
+                  label: FISHING_GEAR_TYPES[key as keyof typeof FishingGearType]
+                }))}
+              />
+            </Stack.Item>
+            <Stack.Item style={{ width: '50%' }}>
+              <FormikNumberInput
+                isLight={true}
+                isRequired={true}
+                name="nbrOfControl"
+                label="Nombre total de contrôles"
+                isErrorMessageHidden={true}
+              />
+            </Stack.Item>
+            <Stack.Item style={{ width: '100%' }}>
+              <FormikCheckbox name="isSeizureSleepingFishingGear" label="Appréhension des engins de pêche dormant" />
+            </Stack.Item>
+          </Stack>
+        </Stack.Item>
+      )}
+    />
   )
 }
 export default MissionActionItemSleepingFishingGearControl
