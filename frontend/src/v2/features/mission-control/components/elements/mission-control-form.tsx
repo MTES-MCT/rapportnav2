@@ -17,6 +17,21 @@ type MissionControlModelFormProps = {
   fieldFormik: FieldProps<Control>
 }
 
+const getControlLabelPerType = (controlType: ControlTyper): string => {
+  switch (controlType) {
+    case ControlType.ADMINISTRATIVE:
+      return 'Observations (hors infraction) sur les pièces administratives'
+    case ControlType.GENS_DE_MER:
+      return 'Observations (hors infraction) sur les pièces administratives'
+    case ControlType.NAVIGATION:
+      return 'Observations (hors infraction) sur les règles de navigation'
+    case ControlType.SECURITY:
+      return 'Observations (hors infraction) sur la sécurité du navire (équipements…)'
+    default:
+      return 'Observations (hors infraction)'
+  }
+}
+
 const MissionControlForm: FC<MissionControlModelFormProps> = ({ name, controlType, fieldFormik, isToComplete }) => {
   const { controlTypeLabel, radios, initValue, withRadios, handleSubmit } = useControl(name, fieldFormik, controlType)
   return (
@@ -55,7 +70,7 @@ const MissionControlForm: FC<MissionControlModelFormProps> = ({ name, controlTyp
                       <FormikTextarea
                         style={{ width: '100%' }}
                         name={`observations`}
-                        label="Observations (hors infraction) sur les pièces administratives"
+                        label={getControlLabelPerType(controlType)}
                       />
                     </Stack.Item>
                     <Stack.Item style={{ width: '100%' }}>

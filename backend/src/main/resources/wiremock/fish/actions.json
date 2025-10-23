@@ -115,6 +115,6 @@
     "isComplianceWithWaterRegulationsControl": true,
     "isSafetyEquipmentAndStandardsComplianceControl": true,
     "isSeafarersControl": true,
-    "observationsByUnit": null
+    "observationsByUnit": "this is an observation"
   }
 ]
