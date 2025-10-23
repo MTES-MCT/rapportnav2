@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.32.6](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.32.5...docker-container@v2.32.6) (2025-10-23)
+
+
+### Bug Fixes
+
+* **db:** fix amount of controls ([686e727](https://github.com/MTES-MCT/rapportnav2/commit/686e727f81fa252d3bac0143a93746492e527943))
+
 ## [2.32.5](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.32.4...docker-container@v2.32.5) (2025-10-23)
 
 
