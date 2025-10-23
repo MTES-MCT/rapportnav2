@@ -133,7 +133,7 @@ const MissionActionItemFishControl: FC<{
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikTextarea
                     isLight={true}
-                    name="observations"
+                    name="observationsByUnit"
                     data-testid="observations-by-unit"
                     label="Observation de l'unité sur le contrôle"
                   />

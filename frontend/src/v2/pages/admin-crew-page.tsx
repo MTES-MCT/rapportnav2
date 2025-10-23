@@ -31,7 +31,7 @@ const AdminCrewPage: FC = () => {
                     role: `${agent.role?.id} - ${agent.role?.title}`,
                     disabledAt: formatDateForFrenchHumans(agent.disabledAt)
                   }))}
-                  initialSorting={[{ id: 'id', desc: false }]}
+                  initialSorting={[{ id: 'role', desc: false }]}
                 />
               </Panel>
             </Stack.Item>
