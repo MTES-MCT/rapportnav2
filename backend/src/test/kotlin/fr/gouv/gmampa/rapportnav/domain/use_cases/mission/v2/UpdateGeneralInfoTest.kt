@@ -5,11 +5,12 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEn
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentRole
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -20,7 +21,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 import java.util.*
-import org.assertj.core.api.Assertions.assertThat
 
 @SpringBootTest(classes = [UpdateGeneralInfo::class])
 class UpdateGeneralInfoTest {
@@ -116,6 +116,7 @@ class UpdateGeneralInfoTest {
         val crewEntity = crew.map { it.toMissionCrewEntity() }
 
         val missionGeneralInfo  = MissionGeneralInfo2(
+            isUnderJdp = true,
             missionId = missionId,
             serviceId = serviceId,
             startDateTimeUtc = Instant.now(),
@@ -143,15 +144,17 @@ class UpdateGeneralInfoTest {
             anyInt(), anyOrNull()
         )
 
-        val input = MissionEnvInput(
-            missionId = missionId,
+        val input = PatchMissionInput(
+            isUnderJdp = true,
             startDateTimeUtc = missionGeneralInfo.startDateTimeUtc,
             endDateTimeUtc = missionGeneralInfo.endDateTimeUtc,
             missionTypes = missionGeneralInfo.missionTypes,
-            observationsByUnit = missionGeneralInfo.observations,
-            resources = missionGeneralInfoEntity.resources?.map { it },
+            observationsByUnit = missionGeneralInfo.observations
         )
-        verify(patchMissionEnv).execute(input)
+        verify(patchMissionEnv).execute(
+            missionId = missionId,
+            input = input,
+            resources = missionGeneralInfoEntity.resources?.map { it })
         assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = crewEntity), result)
     }
 
@@ -183,15 +186,16 @@ class UpdateGeneralInfoTest {
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
         verify(processMissionCrew).execute(missionId, emptyList())
 
-        val input = MissionEnvInput(
-            missionId = missionId,
+        val input = PatchMissionInput(
             startDateTimeUtc = missionGeneralInfo.startDateTimeUtc,
             endDateTimeUtc = missionGeneralInfo.endDateTimeUtc,
             missionTypes = missionGeneralInfo.missionTypes,
-            observationsByUnit = missionGeneralInfo.observations,
-            resources = missionGeneralInfoEntity.resources?.map { it },
+            observationsByUnit = missionGeneralInfo.observations
         )
-        verify(patchMissionEnv).execute(input)
+        verify(patchMissionEnv).execute(
+            missionId = missionId,
+            input = input,
+            resources = missionGeneralInfoEntity.resources?.map { it })
         assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = emptyList()), result)
     }
 

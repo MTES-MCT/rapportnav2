@@ -7,9 +7,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEn
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavInputEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import org.slf4j.LoggerFactory
 import java.util.*
 
@@ -35,20 +35,20 @@ class UpdateGeneralInfo(
                 missionId = missionId,
                 generalInfo = generalInfo,
                 newServiceId = generalInfo.serviceId,
-                oldServiceId = fromDb.serviceId,
+                oldServiceId = fromDb.serviceId
             )
         )
         // patch MonitorEnv fields through API
         patchMissionEnv.execute(
-            input = MissionEnvInput(
-                missionId = missionId,
+            missionId = missionId,
+            input = PatchMissionInput(
                 isUnderJdp = generalInfo.isUnderJdp,
                 startDateTimeUtc = generalInfo.startDateTimeUtc,
                 endDateTimeUtc = generalInfo.endDateTimeUtc,
                 missionTypes = generalInfo.missionTypes,
-                observationsByUnit = generalInfo.observations,
-                resources = generalInfo.resources?.map { it.toLegacyControlUnitResourceEntity() },
-            )
+                observationsByUnit = generalInfo.observations
+            ),
+            resources = generalInfo.resources?.map { it.toLegacyControlUnitResourceEntity() }
         )
         return getGeneralInfoEntity(crew = crew, generalInfoModel = model)
     }
