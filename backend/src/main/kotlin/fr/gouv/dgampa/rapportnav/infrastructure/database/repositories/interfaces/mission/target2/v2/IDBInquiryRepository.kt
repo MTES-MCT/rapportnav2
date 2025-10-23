@@ -15,8 +15,7 @@ interface IDBInquiryRepository : JpaRepository<InquiryModel, UUID> {
 
     @Query("""
     SELECT i FROM InquiryModel i
-    WHERE i.startDateTimeUtc >= :startBeforeDateTime
-    AND i.endDateTimeUtc <= :endBeforeDateTime
+    WHERE (i.startDateTimeUtc >= :startBeforeDateTime AND i.startDateTimeUtc <= :endBeforeDateTime)
     ORDER BY i.startDateTimeUtc DESC
     """)
     fun findAllBetweenDates(
