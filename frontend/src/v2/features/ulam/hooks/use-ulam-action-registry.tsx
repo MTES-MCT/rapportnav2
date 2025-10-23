@@ -8,6 +8,7 @@ import MissionActionItemInquiry from '../../mission-action/components/elements/m
 import MissionActionItemMeeting from '../../mission-action/components/elements/mission-action-item-meeting'
 import MissionActionItemNavSurveillance from '../../mission-action/components/elements/mission-action-item-nav-surveillance'
 import MissionActionItemOtherFieldActivity from '../../mission-action/components/elements/mission-action-item-other-field-activity'
+import MissionActionItemPublicOrder from '../../mission-action/components/elements/mission-action-item-public-order'
 import MissionActionItemPvDrafting from '../../mission-action/components/elements/mission-action-item-pv-drafting'
 import MissionActionItemResourceMaintenance from '../../mission-action/components/elements/mission-action-item-resource-maintenance'
 import MissionActionItemSecurityVisit from '../../mission-action/components/elements/mission-action-item-security-visit'
@@ -94,6 +95,11 @@ const ULAM_ACTION_REGISTRY: UlamActionRegistry = {
     icon: Icon.More,
     title: 'Visite sécurité',
     component: MissionActionItemSecurityVisit
+  },
+  [ActionType.PUBLIC_ORDER]: {
+    icon: Icon.More,
+    title: 'Opé. sûreté maritime',
+    component: MissionActionItemPublicOrder
   }
 }
 

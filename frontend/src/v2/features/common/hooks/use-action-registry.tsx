@@ -10,7 +10,6 @@ import MissionActionItemSectorControl from '../../mission-action/components/elem
 import MissionActionItemSleepingFishingGearControl from '../../mission-action/components/elements/mission-action-item-control-sleeping-fishing-gear'
 import MissionActionItemIllegalImmigration from '../../mission-action/components/elements/mission-action-item-illegal-immigration'
 import MissionActionItemNote from '../../mission-action/components/elements/mission-action-item-note'
-import MissionActionItemPublicOrder from '../../mission-action/components/elements/mission-action-item-public-order'
 import MissionActionItemRepresentation from '../../mission-action/components/elements/mission-action-item-representation'
 import MissionActionItemRescue from '../../mission-action/components/elements/mission-action-item-rescue'
 import MissionActionItemSurveillance from '../../mission-action/components/elements/mission-action-item-surveillance'
@@ -62,11 +61,6 @@ const ACTION_REGISTRY: ActionRegistry = {
     icon: Icon.More,
     title: 'Représentation',
     component: MissionActionItemRepresentation
-  },
-  [ActionType.PUBLIC_ORDER]: {
-    icon: Icon.More,
-    title: `Maintien de l'ordre public`,
-    component: MissionActionItemPublicOrder
   },
   [ActionType.ANTI_POLLUTION]: {
     icon: Icon.More,

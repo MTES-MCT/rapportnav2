@@ -2,6 +2,7 @@ import { Icon } from '@mtes-mct/monitor-ui'
 import { ActionRegistryHook, ActionRegistryItem, useActionRegistry } from '../../common/hooks/use-action-registry'
 import { ActionType } from '../../common/types/action-type'
 import MissionActionItemNauticalEvent from '../../mission-action/components/elements/mission-action-item-nautical-event'
+import MissionActionItemPublicOrder from '../../mission-action/components/elements/mission-action-item-public-order'
 import MissionActionItemStatus from '../../mission-action/components/elements/mission-action-item-status'
 
 type PamActionRegistry = {
@@ -17,6 +18,11 @@ const PAM_ACTION_REGISTRY: PamActionRegistry = {
     icon: Icon.More,
     title: 'Manifestation nautique',
     component: MissionActionItemNauticalEvent
+  },
+  [ActionType.PUBLIC_ORDER]: {
+    icon: Icon.More,
+    title: `Maintien de l'ordre public`,
+    component: MissionActionItemPublicOrder
   }
 }
 
