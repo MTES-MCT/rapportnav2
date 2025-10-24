@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.32.9](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.32.8...backend@v2.32.9) (2025-10-24)
+
+
+### Bug Fixes
+
+* **backend:** cache evict error ([c634269](https://github.com/MTES-MCT/rapportnav2/commit/c634269c2d06e09867f778526f0c681ec250a38a))
+
 ## [2.32.8](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.32.7...backend@v2.32.8) (2025-10-24)
 
 
