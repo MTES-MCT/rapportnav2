@@ -3,7 +3,7 @@ import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
 // x-release-please-start-version
-version = "2.32.6"
+version = "2.32.7"
 // x-release-please-end
 description = "RapportNav"
 

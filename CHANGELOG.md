@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.32.7](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.32.6...docker-container@v2.32.7) (2025-10-23)
+
+
+### Bug Fixes
+
+* obsByUnit Fish + control label ([e65784b](https://github.com/MTES-MCT/rapportnav2/commit/e65784b49fcfe5d61fe1028fc99010c835774cc5))
+* update Iris B ([ff344ee](https://github.com/MTES-MCT/rapportnav2/commit/ff344eea12beac66d02e09c886e63ed4b1331baf))
+
 ## [2.32.6](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.32.5...docker-container@v2.32.6) (2025-10-23)
 
 
