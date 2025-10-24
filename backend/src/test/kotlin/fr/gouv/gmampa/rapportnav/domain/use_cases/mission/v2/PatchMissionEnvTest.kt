@@ -7,10 +7,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Le
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
-import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.PatchMissionEnv
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.APIEnvMissionRepositoryV2
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -43,13 +42,19 @@ class PatchMissionEnvTest {
         val missionId = 123
         val missionEntity = getMockMissionEntity(missionId = missionId, controlUnitId = 12)
         val missionEnvEntity = getMissionEnvEntity(missionId = missionId, controlUnitId = 12)
-        val input = MissionEnvInput.fromMissionEntity(missionEntity, 12)
+        val input = PatchMissionInput(
+            isUnderJdp = false,
+            missionTypes = listOf(MissionTypeEnum.SEA),
+            endDateTimeUtc = missionEntity.endDateTimeUtc,
+            startDateTimeUtc = missionEntity.startDateTimeUtc,
+            observationsByUnit = missionEntity.observationsByUnit,
+        )
 
         Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(missionEntity)
         Mockito.`when`(apiEnvRepo2.patchMission(anyInt(), anyOrNull())).thenReturn(missionEnvEntity)
 
         // When
-        val result = patchMissionEnv.execute(input)
+        val result = patchMissionEnv.execute(missionId = missionId, input = input, resources = listOf())
 
         // Then
         Assertions.assertNull(result)
@@ -62,18 +67,19 @@ class PatchMissionEnvTest {
         // Given
         val missionEntity = getMockMissionEntity(missionId = missionId, controlUnitId = 12)
         val missionEnvEntity = getMissionEnvEntity(missionId = missionId, controlUnitId = 12)
-        val input = MissionEnvInput(
-            missionId = missionId,
+        val input = PatchMissionInput(
             missionTypes = listOf(MissionTypeEnum.SEA),
-            resources = listOf(LegacyControlUnitResourceEntity(id = 1233, controlUnitId = 14))
         )
         // Mock behavior of getEnvMissionById2 to return a MissionEntity
         Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(missionEntity)
         Mockito.`when`(apiEnvRepo2.patchMission(anyInt(), anyOrNull())).thenReturn(missionEnvEntity)
 
         // When
-        val result = patchMissionEnv.execute(input)
-
+        val result = patchMissionEnv.execute(
+            missionId = missionId,
+            input = input,
+            resources = listOf(LegacyControlUnitResourceEntity(id = 1233, controlUnitId = 14))
+        )
         // Then
         Assertions.assertNotNull(result)
     }
@@ -83,18 +89,14 @@ class PatchMissionEnvTest {
         val missionId = 123
         val missionEnvEntity = getMissionEnvEntity(missionId = missionId, controlUnitId = 12)
         val missionEntity = getMockMissionEntity(missionId = missionId, controlUnitId = 12, withoutResource = true)
-        val input = MissionEnvInput(
-            missionId = missionId,
-            missionTypes = listOf(MissionTypeEnum.SEA),
-            resources = listOf()
-        )
+        val input = PatchMissionInput(missionTypes = listOf(MissionTypeEnum.SEA))
 
         // Mock behavior of getEnvMissionById2 to return a MissionEntity
         Mockito.`when`(getEnvMissionById2.execute(missionId)).thenReturn(missionEntity)
         Mockito.`when`(apiEnvRepo2.patchMission(anyInt(), anyOrNull())).thenReturn(missionEnvEntity)
 
         // When
-        val result = patchMissionEnv.execute(input)
+        val result = patchMissionEnv.execute(missionId = missionId, input = input, resources = listOf())
         // Then
         Assertions.assertNotNull(result)
     }

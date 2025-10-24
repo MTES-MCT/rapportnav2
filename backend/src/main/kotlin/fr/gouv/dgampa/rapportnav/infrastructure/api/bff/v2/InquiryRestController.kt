@@ -45,7 +45,7 @@ class InquiryRestController(
     )
     fun getInquiries(
         @RequestParam startDateTimeUtc: Instant,
-        @RequestParam(required = false) endDateTimeUtc: Instant
+        @RequestParam(required = false) endDateTimeUtc: Instant? = null
     ): List<Inquiry>? {
         return try {
 

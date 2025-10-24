@@ -46,8 +46,9 @@ class MissionNavActionEntity(
         enableIf = [
             DependentFieldValue(
                 field = "actionType",
-                value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION", "MARITIME_SURVEILLANCE"]
-            )
+                value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION",
+                    "CONTROL_NAUTICAL_LEISURE", "CONTROL_SLEEPING_FISHING_GEAR", "OTHER_CONTROL"
+                ])
         ]
     )
     override var latitude: Double? = null,
@@ -55,8 +56,9 @@ class MissionNavActionEntity(
         enableIf = [
             DependentFieldValue(
                 field = "actionType",
-                value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION"]
-            )
+                value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION",
+                    "CONTROL_NAUTICAL_LEISURE", "CONTROL_SLEEPING_FISHING_GEAR", "OTHER_CONTROL"
+                ])
         ]
     )
     override var longitude: Double? = null,
