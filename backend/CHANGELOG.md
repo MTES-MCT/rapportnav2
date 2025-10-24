@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.32.8](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.32.7...backend@v2.32.8) (2025-10-24)
+
+
+### Bug Fixes
+
+* **backend:** mission nav entity ([d193cb4](https://github.com/MTES-MCT/rapportnav2/commit/d193cb49038c7c44de2399168b8fde02c4e930c3))
+
 ## [2.32.7](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.32.6...backend@v2.32.7) (2025-10-23)
 
 
