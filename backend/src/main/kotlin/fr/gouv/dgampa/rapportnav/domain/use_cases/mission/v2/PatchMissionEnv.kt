@@ -19,8 +19,8 @@ class PatchMissionEnv(
 
     @Caching(
         evict = [
-            CacheEvict(value = ["envMission"], key = "#input.missionId"),
-            CacheEvict(value = ["envMission2"], key = "#input.missionId"),
+            CacheEvict(value = ["envMission"], key = "#missionId"),
+            CacheEvict(value = ["envMission2"], key = "#missionId"),
         ]
     )
     fun execute(missionId: Int, input: PatchMissionInput, resources: List<LegacyControlUnitResourceEntity>?): MissionEnvEntity? {
