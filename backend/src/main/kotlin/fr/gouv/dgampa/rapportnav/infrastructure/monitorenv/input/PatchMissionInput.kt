@@ -1,18 +1,22 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import java.time.Instant
 
-data class PatchMissionInput(
-    val isUnderJdp: Boolean? = null,
-    val observationsByUnit: String? = null,
-    val startDateTimeUtc: Instant? = null,
-    val endDateTimeUtc: Instant? = null,
-    val missionTypes: List<MissionTypeEnum>? =  null,
-    var controlUnits: List<LegacyControlUnitEntity>? = null
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class PatchMissionInput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) constructor(
+    @JsonProperty("missionTypes") val missionTypes: List<MissionTypeEnum>? = null,
+    @JsonProperty("controlUnits") var controlUnits: List<LegacyControlUnitEntity>? = listOf(),
+    @JsonProperty("startDateTimeUtc") val startDateTimeUtc: Instant? = null,
+    @JsonProperty("endDateTimeUtc") val endDateTimeUtc: Instant? = null,
+    @JsonProperty("isUnderJdp") val isUnderJdp: Boolean? = null,
+    @JsonProperty("observationsByUnit") val observationsByUnit: String? = null
 ) {
 
     fun withControlUnits(

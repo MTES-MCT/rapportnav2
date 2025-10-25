@@ -4,12 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionEnv
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOutput
+import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -28,6 +28,8 @@ class APIEnvMissionRepositoryV2(
     private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepositoryV2::class.java);
 
     private val mapper = ObjectMapper()
+
+    private val gson = GsonSerializer().create()
 
     private val client = clientFactory.create();
 
@@ -107,9 +109,7 @@ class APIEnvMissionRepositoryV2(
 
     override fun patchMission(missionId: Int, mission: PatchMissionInput): MissionEnvEntity? {
         val url = "$host/api/v2/missions/$missionId";
-
-        mapper.registerModules(JtsModule(), JavaTimeModule())
-        val json = mapper.writeValueAsString(mission)
+        val json = gson.toJson(mission)
         logger.info("Sending PATCH request for Env mission id=$missionId. URL: $url")
         logger.info("Body request for Mission env patch as json : $json")
         logger.info("Body request for Mission env patch as entity : $mission")
