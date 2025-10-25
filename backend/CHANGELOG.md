@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.32.10](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.32.9...backend@v2.32.10) (2025-10-25)
+
+
+### Bug Fixes
+
+* **backend:** serialization of input ([5c4c4ac](https://github.com/MTES-MCT/rapportnav2/commit/5c4c4aca2f7c166b2f269a39b937c1cd21183fdf))
+
 ## [2.32.9](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.32.8...backend@v2.32.9) (2025-10-24)
 
 
