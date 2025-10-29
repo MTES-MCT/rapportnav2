@@ -9,7 +9,7 @@ description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
 val serializationVersion by extra("1.6.2")
-val springVersion by extra("3.5.6")
+  val springVersion by extra("3.5.7")
 val testcontainersVersion by extra("1.19.3")
 val flywayVersion by extra("10.10.0")
 
@@ -19,7 +19,7 @@ plugins {
   kotlin("jvm") version "1.9.24"
   kotlin("plugin.spring") version "1.9.24"
   kotlin("plugin.jpa") version "1.9.24"
-  id("org.springframework.boot") version "3.5.6"
+  id("org.springframework.boot") version "3.5.7"
   id("io.spring.dependency-management") version "1.1.4"
   id("org.owasp.dependencycheck") version "12.1.0"
   id("org.flywaydb.flyway") version "10.10.0"
@@ -52,7 +52,7 @@ dependencyManagement {
   }
   dependencies {
     // force any dependency like following :
-    dependency("org.apache.tomcat.embed:tomcat-embed-core:10.1.44")
+    // dependency("org.apache.tomcat.embed:tomcat-embed-core:10.1.44")
   }
 }
 
@@ -90,11 +90,11 @@ dependencies {
   implementation("org.apache.commons:commons-text:1.12.0")
   implementation("org.jodconverter:jodconverter-local-lo:4.4.7")
   implementation("com.neovisionaries:nv-i18n:1.29")
-  implementation("org.wiremock:wiremock-standalone:3.12.0")
+  implementation("org.wiremock:wiremock-standalone:3.13.1")
   implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
   testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
   testImplementation("org.springframework:spring-webflux:6.1.14")
-  testImplementation("org.springframework.graphql:spring-graphql-test:1.2.4")
+  testImplementation("org.springframework.graphql:spring-graphql-test:1.4.3")
   testImplementation("org.testcontainers:testcontainers")
   testImplementation("org.testcontainers:junit-jupiter")
   testImplementation("org.testcontainers:postgresql")
