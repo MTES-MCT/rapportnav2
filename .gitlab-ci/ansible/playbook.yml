@@ -9,13 +9,13 @@
     - rapportnav_psql_user: "{{ lookup('env', 'RAPPORTNAV_PSQL_USER') }}"
     - rapportnav_psql_db: "{{ lookup('env', 'RAPPORTNAV_PSQL_DB') }}"
     - rapportnav_psql_pwd: "{{ lookup('env', 'RAPPORTNAV_PSQL_PWD') }}"
-    - rapportnav_monitorfish_api_key : "{{ lookup('env', 'RAPPORTNAV_MONIT_API_KEY') }}"
-    - rapportnav_spring_profiles_active : "{{ lookup('env', 'SPRING_PROFILES_ACTIVE') }}"
-    - rapportnav_jwt_security_key : "{{ lookup('env', 'RAPPORTNAV_JWT_SECURITY_KEY') }}"
+    - rapportnav_monitorfish_api_key: "{{ lookup('env', 'RAPPORTNAV_MONIT_API_KEY') }}"
+    - rapportnav_spring_profiles_active: "{{ lookup('env', 'SPRING_PROFILES_ACTIVE') }}"
+    - rapportnav_jwt_security_key: "{{ lookup('env', 'RAPPORTNAV_JWT_SECURITY_KEY') }}"
+    - rapportnav_master_api_key: "{{ lookup('env', 'RAPPORTNAV_MASTER_API_KEY') }}"
     - rapportnav_monitorfish_host: "{{ lookup('env', 'RAPPORTNAV_MONITORFISH_HOST') }}"
     - rapportnav_monitorenv_host: "{{ lookup('env', 'RAPPORTNAV_MONITORENV_HOST') }}"
     - rapportnav_sentry_dsn: "{{ lookup('env', 'RAPPORTNAV_SENTRY_DSN') }}"
     - rapportnav_sentry_secu_header_endpoint: "{{ lookup('env', 'RAPPORTNAV_SENTRY_SECU_HEADER_ENDPOINT') }}"
   roles:
     - role: sml-deploiement-docker
-    

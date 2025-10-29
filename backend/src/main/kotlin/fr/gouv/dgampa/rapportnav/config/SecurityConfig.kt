@@ -3,6 +3,7 @@ package fr.gouv.dgampa.rapportnav.config
 import fr.gouv.dgampa.rapportnav.domain.entities.user.AuthoritiesEnum
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.annotation.Order
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -18,15 +19,30 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 @Configuration
 @EnableWebSecurity(debug = true)
 class SecurityConfig(
-    private val customAuthenticationFilter: CustomAuthenticationFilter
+    private val customAuthenticationFilter: CustomAuthenticationFilter,
+    private val apiKeyAuthFilter: ApiKeyAuthenticationFilter
 ) {
 
     @Bean
+    @Order(1)
+    // api-key filter
+    fun apiKeySecurityFilter(http: HttpSecurity): SecurityFilterChain {
+        http
+            .securityMatcher("/api/v2/analytics")
+            .addFilterBefore(apiKeyAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .authorizeHttpRequests { it.anyRequest().hasAuthority(AuthoritiesEnum.ROLE_API_USER.toString()) }
+            .csrf { it.disable() }
+            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+
+        return http.build()
+    }
+
+    @Bean
+    @Order(2)
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
 
         // Add custom authentication filter
         http.addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
-
 
         // cors
         http.cors(Customizer.withDefaults())
