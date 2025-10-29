@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.apikey
 
 import fr.gouv.dgampa.rapportnav.domain.repositories.apikey.IApiKeyRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.api.admin.ApiKeysAdminController.CreateKeyResponse
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
@@ -14,5 +15,13 @@ class ApiKeyService(
         val publicId = rawKey.substringBefore(".")
         val stored = repo.findByPublicId(publicId) ?: return false
         return encoder.matches("$masterPassword:$rawKey", stored.hashedKey)
+    }
+
+
+
+}
+
+    fun rotateApiKey( keyId: Long): String? {
+        return null
     }
 }

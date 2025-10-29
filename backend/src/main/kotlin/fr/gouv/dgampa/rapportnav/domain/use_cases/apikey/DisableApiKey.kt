@@ -1,0 +1,14 @@
+package fr.gouv.dgampa.rapportnav.domain.use_cases.apikey
+
+import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.entities.apikey.ApiKeyEntity
+import fr.gouv.dgampa.rapportnav.domain.repositories.apikey.IApiKeyRepository
+
+@UseCase
+class DisableApiKey(
+    private val repo: IApiKeyRepository
+) {
+    fun execute(keyValue: String): Boolean {
+        return false
+    }
+}
