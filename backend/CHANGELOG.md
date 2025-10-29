@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.32.12](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.32.11...backend@v2.32.12) (2025-10-29)
+
+
+### Bug Fixes
+
+* **CI:** bump backend dependencies ([92802c8](https://github.com/MTES-MCT/rapportnav2/commit/92802c857567dc1b9a570ed79332af4edd97b1b0))
+
 ## [2.32.11](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.32.10...backend@v2.32.11) (2025-10-29)
 
 
