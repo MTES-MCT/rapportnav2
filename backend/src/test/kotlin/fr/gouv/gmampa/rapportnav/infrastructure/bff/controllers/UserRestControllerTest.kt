@@ -1,6 +1,7 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
+import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
@@ -16,9 +17,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 
 @AutoConfigureMockMvc(addFilters = false)
 @ContextConfiguration(classes = [RapportNavApplication::class])
@@ -37,6 +38,9 @@ class UserRestControllerTest {
     // Mock the TokenService that your SecurityConfig depends on
     @MockitoBean
     private lateinit var tokenService: TokenService
+
+    @MockitoBean
+    private lateinit var apiKeyAuthenticationFilter: ApiKeyAuthenticationFilter
 
     @Test
     fun `should return a user info`() {

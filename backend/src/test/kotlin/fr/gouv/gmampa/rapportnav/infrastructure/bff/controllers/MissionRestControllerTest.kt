@@ -1,6 +1,7 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
+import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
@@ -52,6 +53,9 @@ class MissionRestControllerTest {
 
     @MockitoBean
     private lateinit var deleteMissionNav: DeleteMissionNav
+
+    @MockitoBean
+    private lateinit var apiKeyAuthenticationFilter: ApiKeyAuthenticationFilter
 
     /**
      *

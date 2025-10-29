@@ -4,8 +4,15 @@ import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.util.*
 
 class UUIDUtilsTest {
+
+    @Test
+    fun `test valid UUID obj returns true`() {
+        val validUUID = UUID.randomUUID()
+        assertTrue(isValidUUID(validUUID))
+    }
 
     @Test
     fun `test valid UUID returns true`() {

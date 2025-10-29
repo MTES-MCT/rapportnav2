@@ -21,7 +21,7 @@ class JPAMissionGeneralInfoRepository(
         return dbRepo.findByMissionId(missionId)
     }
 
-   override fun findAllByMissionId(missionId: Int): List<MissionGeneralInfoModel> {
+    override fun findAllByMissionId(missionId: Int): List<MissionGeneralInfoModel> {
         return dbRepo.findAllByMissionId(missionId)
     }
 
