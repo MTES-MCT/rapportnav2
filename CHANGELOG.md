@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.32.13](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.32.12...docker-container@v2.32.13) (2025-10-29)
+
+
+### Bug Fixes
+
+* **CI:** bump backend dependencies ([3a4d29d](https://github.com/MTES-MCT/rapportnav2/commit/3a4d29dfd199e591a7abc685dc2775f510138f6c))
+
 ## [2.32.12](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.32.11...docker-container@v2.32.12) (2025-10-29)
 
 
