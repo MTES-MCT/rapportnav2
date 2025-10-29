@@ -52,7 +52,7 @@ dependencyManagement {
   }
   dependencies {
     // force any dependency like following :
-    // dependency("org.apache.tomcat.embed:tomcat-embed-core:10.1.44")
+     dependency("org.apache.commons:commons-lang3:3.19.0")
   }
 }
 
@@ -79,26 +79,26 @@ dependencies {
   }
   implementation("io.jsonwebtoken:jjwt-api:0.12.3")
   implementation("javax.xml.bind:jaxb-api:2.3.1")
-  implementation("org.springframework.security:spring-security-oauth2-jose:6.4.5")
-  implementation("org.locationtech.jts:jts-core:1.19.0")
+  implementation("org.springframework.security:spring-security-oauth2-jose:6.5.6")
+  implementation("org.locationtech.jts:jts-core:1.20.0")
   implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
   implementation("io.sentry:sentry-spring-boot-starter-jakarta:7.1.0")
   implementation("io.sentry:sentry-log4j2:7.0.0")
   // the two following apoche poi dependencies should have the same version
   implementation("org.apache.poi:poi:5.4.1")
   implementation("org.apache.poi:poi-ooxml:5.4.1")
-  implementation("org.apache.commons:commons-text:1.12.0")
+  implementation("org.apache.commons:commons-text:1.14.0")
   implementation("org.jodconverter:jodconverter-local-lo:4.4.7")
   implementation("com.neovisionaries:nv-i18n:1.29")
   implementation("org.wiremock:wiremock-standalone:3.13.1")
   implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
   testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
-  testImplementation("org.springframework:spring-webflux:6.1.14")
+  testImplementation("org.springframework:spring-webflux:6.2.12")
   testImplementation("org.springframework.graphql:spring-graphql-test:1.4.3")
   testImplementation("org.testcontainers:testcontainers")
   testImplementation("org.testcontainers:junit-jupiter")
   testImplementation("org.testcontainers:postgresql")
-  testImplementation("org.springframework.security:spring-security-test:6.4.5")
+  testImplementation("org.springframework.security:spring-security-test:6.5.6")
   testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
 }
 
