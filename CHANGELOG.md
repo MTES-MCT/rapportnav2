@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.32.11](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.32.10...docker-container@v2.32.11) (2025-10-29)
+
+
+### Bug Fixes
+
+* **CI:** restore checks ([05e0ed5](https://github.com/MTES-MCT/rapportnav2/commit/05e0ed551ee5dff33a5ef454e4ebe2dea343d202))
+
 ## [2.32.10](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.32.9...docker-container@v2.32.10) (2025-10-25)
 
 
