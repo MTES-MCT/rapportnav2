@@ -31,7 +31,7 @@ dependency_check:
       --failOnCVSS $FAIL_DP_CHECK_LVL
       --out $PROJECT_NAME-$PROJECT_VERSION-backend-DP-check.html
       --disableYarnAudit --nodePackageSkipDevDependencies --nodeAuditSkipDevDependencies
-      --suppression suppressions.xml
+      --suppression ./suppressions.xml
   tags:
     - analyze
   artifacts:
