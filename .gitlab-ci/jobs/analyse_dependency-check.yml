@@ -6,8 +6,8 @@ dependency_check:
 
   script:
     # Create suppression file
-    - echo '<?xml version="1.0"?><suppressions><suppress><cve>CVE-2016-9878</cve></suppress><suppress><cve>CVE-2018-1258</cve></suppress></suppressions>' > suppressions.xml
-
+    #- echo '<?xml version="1.0"?><suppressions><suppress><cve>CVE-2016-9878</cve></suppress><suppress><cve>CVE-2018-1258</cve></suppress></suppressions>' > suppressions.xml
+    - echo ${DEPENDENCY_CHECK_OSS_User}
     - export JAVA_TOOL_OPTIONS="-Dhttps.proxyHost=${PROXY_HOST} -Dhttps.proxyPort=${PROXY_PORT}"
 
     - /usr/share/dependency-check/bin/dependency-check.sh
@@ -32,8 +32,9 @@ dependency_check:
       --failOnCVSS $FAIL_DP_CHECK_LVL
       --out $PROJECT_NAME-$PROJECT_VERSION-backend-DP-check.html
       --disableYarnAudit --nodePackageSkipDevDependencies --nodeAuditSkipDevDependencies
-      --suppression suppressions.xml
       --ossIndexUsername ${DEPENDENCY_CHECK_OSS_User} --ossIndexPassword ${DEPENDENCY_CHECK_OSS_Password}
+      # --suppression suppressions.xml
+      
   tags:
     - analyze
   artifacts:
