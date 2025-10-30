@@ -11,13 +11,15 @@ data class ServiceEntity(
     val serviceLinked: ServiceEntity? = null,
     val controlUnits: List<Int>? = null,
     val createdAt: Instant? = null,
-    val updatedAt: Instant? = null
+    val updatedAt: Instant? = null,
+    var deletedAt: Instant? = null
 ){
     fun toServiceModel(): ServiceModel {
         return ServiceModel(
             id = id,
             name = name,
             controlUnits = controlUnits,
+            deletedAt = deletedAt
         )
     }
 
@@ -28,7 +30,8 @@ data class ServiceEntity(
                 name = model.name,
                 controlUnits = model.controlUnits,
                 updatedAt = model.updatedAt,
-                createdAt = model.createdAt
+                createdAt = model.createdAt,
+                deletedAt = model.deletedAt
             )
         }
     }

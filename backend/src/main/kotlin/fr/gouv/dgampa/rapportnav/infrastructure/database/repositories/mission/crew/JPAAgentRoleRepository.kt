@@ -4,6 +4,8 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentRoleRepo
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRoleRepository
 import org.springframework.stereotype.Repository
+import java.time.Instant
+import kotlin.jvm.optionals.getOrNull
 
 @Repository
 class JPAAgentRoleRepository(
@@ -18,6 +20,8 @@ class JPAAgentRoleRepository(
     }
 
     override fun deleteById(id: Int) {
-        dbAgentRoleRepository.deleteById(id)
+        val agentRole = dbAgentRoleRepository.findById(id).getOrNull() ?: return
+        agentRole.deletedAt = Instant.now()
+        dbAgentRoleRepository.save(agentRole)
     }
 }

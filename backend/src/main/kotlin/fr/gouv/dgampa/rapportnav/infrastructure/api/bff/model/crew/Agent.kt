@@ -10,6 +10,7 @@ data class Agent(
     val lastName: String,
     val createdAt: Instant? = null,
     val updatedAt: Instant? = null,
+    val deletedAt: Instant? = null,
 ) {
     companion object {
         fun fromAgentEntity(entity: AgentEntity): Agent {
@@ -18,7 +19,8 @@ data class Agent(
                 firstName = entity.firstName,
                 lastName = entity.lastName,
                 updatedAt = entity.updatedAt,
-                createdAt = entity.createdAt
+                createdAt = entity.createdAt,
+                deletedAt = entity.deletedAt
             )
         }
 
@@ -28,7 +30,8 @@ data class Agent(
                 firstName = entity.agent.firstName,
                 lastName = entity.agent.lastName,
                 updatedAt = entity.updatedAt,
-                createdAt = entity.createdAt
+                createdAt = entity.createdAt,
+                deletedAt = entity.disabledAt
             )
         }
     }
@@ -37,7 +40,8 @@ data class Agent(
         return AgentEntity(
             id = id,
             firstName = firstName,
-            lastName = lastName
+            lastName = lastName,
+            deletedAt = deletedAt
         )
     }
 }

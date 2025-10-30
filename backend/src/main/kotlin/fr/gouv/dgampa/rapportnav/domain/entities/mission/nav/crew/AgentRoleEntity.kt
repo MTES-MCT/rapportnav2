@@ -10,13 +10,15 @@ data class AgentRoleEntity(
     val createdAt: Instant? = null,
     val updatedAt: Instant? = null,
     val createdBy: Int? = null,
+    var deletedAt: Instant? = null
 ) {
     fun toAgentRoleModel(): AgentRoleModel {
         return AgentRoleModel(
             id = id,
             title = title,
             priority = priority,
-            createdBy = createdBy
+            createdBy = createdBy,
+            deletedAt = deletedAt
         )
     }
 
@@ -28,7 +30,8 @@ data class AgentRoleEntity(
                 priority = model.priority,
                 createdAt = model.createdAt,
                 updatedAt = model.updatedAt,
-                createdBy = model.createdBy
+                createdBy = model.createdBy,
+                deletedAt = model.deletedAt
             )
         }
     }

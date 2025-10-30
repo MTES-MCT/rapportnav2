@@ -2,7 +2,6 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew
 
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import java.time.Instant
-import java.util.*
 
 data class AgentEntity(
     val id: Int? = null,

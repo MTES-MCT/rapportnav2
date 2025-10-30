@@ -9,12 +9,14 @@ data class Service(
     val controlUnits: List<Int>? = null,
     val createdAt: Instant? = null,
     val updatedAt: Instant? = null,
+    val deletedAt: Instant? = null,
 ) {
     fun toServiceEntity(): ServiceEntity {
         return ServiceEntity(
             id = id,
             name = name,
-            controlUnits = controlUnits
+            controlUnits = controlUnits,
+            deletedAt = deletedAt
         )
     }
     companion object {
@@ -24,7 +26,8 @@ data class Service(
                 name = service.name,
                 controlUnits = service.controlUnits,
                 updatedAt = service.updatedAt,
-                createdAt = service.createdAt
+                createdAt = service.createdAt,
+                deletedAt = service.deletedAt
             )
         }
     }

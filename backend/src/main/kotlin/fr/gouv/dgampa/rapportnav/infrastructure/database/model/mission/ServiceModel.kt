@@ -43,6 +43,9 @@ class ServiceModel(
         joinColumns = [JoinColumn(name = "service_id")]
     )
     @Column(name = "control_unit_id")
-    var controlUnits: List<Int>? = mutableListOf()
+    var controlUnits: List<Int>? = mutableListOf(),
+
+    @Column(name = "deleted_at", nullable = true)
+    var deletedAt: Instant? = null,
 
 )

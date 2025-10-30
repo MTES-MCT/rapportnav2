@@ -6,7 +6,9 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceMo
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBServiceRepository
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import java.time.Instant
 import java.util.*
+import kotlin.jvm.optionals.getOrNull
 
 @Repository
 class JPAServiceRepository(
@@ -45,6 +47,8 @@ class JPAServiceRepository(
 
     @Transactional
     override fun deleteById(id: Int) {
-        return repo.deleteById(id)
+        val service = repo.findById(id).getOrNull() ?: return
+        service.deletedAt = Instant.now()
+        repo.save(service)
     }
 }

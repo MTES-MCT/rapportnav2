@@ -38,5 +38,8 @@ class AgentRoleModel(
 
     @LastModifiedBy
     @Column(name = "updated_by")
-    var updatedBy: Int? = null
+    var updatedBy: Int? = null,
+
+    @Column(name = "deleted_at", nullable = true)
+    var deletedAt: Instant? = null,
 )
