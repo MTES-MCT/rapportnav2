@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
+package fr.gouv.dgampa.rapportnav.infrastructure.api.admin
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgents
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/v2/agents")
-class AgentRestController(
+@RequestMapping("/api/v2/admin/agents")
+class AgentServiceAdminRestController(
     private val getUserFromToken: GetUserFromToken,
     private val getAgents: GetAgents,
 ) {
-    private val logger = LoggerFactory.getLogger(AgentRestController::class.java)
+    private val logger = LoggerFactory.getLogger(AgentServiceAdminRestController::class.java)
 
     @GetMapping
     @Operation(summary = "Get the list of all agents")
@@ -42,6 +42,21 @@ class AgentRestController(
             getAgents.execute().map { Agent.fromAgentEntity(it) }
         } catch (e: Exception) {
             logger.error("[ERROR] API on endpoint agents:", e)
+            listOf()
+        }
+    }
+
+    fun agents2(): List<Agent>? {
+        return try {
+            val user = getUserFromToken.execute()
+
+            user?.serviceId?.let { serviceId ->
+                val agents = getAgents.execute()
+                    .map { Agent.fromAgentEntity(it) }
+                agents
+            }
+        } catch (e: Exception) {
+            logger.error("[ERROR] API on endpoint agentsByServiceId:", e)
             listOf()
         }
     }

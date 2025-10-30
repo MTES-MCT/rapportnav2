@@ -1,0 +1,6 @@
+DO
+$$
+BEGIN
+ALTER TABLE agent_role ADD COLUMN IF NOT EXISTS priority INTEGER NULL;
+END
+$$;
