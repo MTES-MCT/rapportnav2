@@ -27,7 +27,7 @@
   ],
   "openBy": null,
   "completedBy": null,
-  "observationsByUnit": null,
+  "observationsByUnit": "bla",
   "observationsCacem": null,
   "observationsCnsp": null,
   "facade": null,
