@@ -1,5 +1,5 @@
 import { Accent, Button, Icon } from '@mtes-mct/monitor-ui'
-import { ULAM_SIDEBAR_ITEMS } from '@router/routes.tsx'
+import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import { useStore } from '@tanstack/react-store'
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -19,6 +19,7 @@ import { store } from '../store/index.ts'
 
 const MissionListUlamPage: React.FC = () => {
   const { getTodayMonthRange } = useDate()
+  const { getSidebarItems } = useGlobalRoutes()
   const user = useStore(store, state => state.user)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams()
@@ -34,7 +35,7 @@ const MissionListUlamPage: React.FC = () => {
   }, [searchParams, setSearchParams, getTodayMonthRange])
 
   const { getMissionListItem } = useMissionList()
-  const { isLoading, data: missions } = useMissionsQuery(searchParams, 'monthly')
+  const { isLoading, data: missions } = useMissionsQuery(searchParams)
 
   const handleUpdateDateTime = (currentDate: Date) => {
     setSearchParams(getTodayMonthRange(currentDate))
@@ -43,7 +44,7 @@ const MissionListUlamPage: React.FC = () => {
   return (
     <MissionListPageWrapper
       header={<MissionListPageHeaderWrapper title={<MissionListPageTitle user={user} />} />}
-      sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={ULAM_SIDEBAR_ITEMS} />}
+      sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={getSidebarItems()} />}
       footer={undefined}
     >
       <MissionListPageContentWrapper
