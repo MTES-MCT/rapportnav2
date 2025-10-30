@@ -1,6 +1,5 @@
 import { UTCDate } from '@date-fns/utc'
 import { Accent, Button, Icon } from '@mtes-mct/monitor-ui'
-import { ULAM_SIDEBAR_ITEMS } from '@router/routes.tsx'
 import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import { useStore } from '@tanstack/react-store'
 import React, { useEffect } from 'react'
@@ -22,10 +21,10 @@ import { store } from '../store/index.ts'
 
 const InquiryListPage: React.FC = () => {
   const navigate = useNavigate()
-  const { getUrl } = useGlobalRoutes()
   const { getTodayYearRange } = useDate()
   const mutation = useCreateInquiryMutation()
   const user = useStore(store, state => state.user)
+  const { getUrl, getSidebarItems } = useGlobalRoutes()
   const [searchParams, setSearchParams] = useSearchParams()
   const { isLoading, data: inquiries } = useInquiriesQuery(searchParams)
 
@@ -51,7 +50,7 @@ const InquiryListPage: React.FC = () => {
   return (
     <MissionListPageWrapper
       header={<MissionListPageHeaderWrapper title={<MissionListPageTitle user={user} />} />}
-      sidebar={<MissionListPageSidebarWrapper defaultItemKey="inquiries" items={ULAM_SIDEBAR_ITEMS} />}
+      sidebar={<MissionListPageSidebarWrapper defaultItemKey="inquiries" items={getSidebarItems()} />}
       footer={undefined}
     >
       <MissionListPageContentWrapper
