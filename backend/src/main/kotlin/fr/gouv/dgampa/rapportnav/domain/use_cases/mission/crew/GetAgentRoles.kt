@@ -8,6 +8,6 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentRoleRepo
 class GetAgentRoles(private val agentRoleRepository: IAgentRoleRepository) {
 
     fun execute(): List<AgentRoleEntity> {
-        return agentRoleRepository.findAll().map { it.toAgentRoleEntity() }
+        return agentRoleRepository.findAll().map { AgentRoleEntity.fromAgentRoleModel(it) }
     }
 }

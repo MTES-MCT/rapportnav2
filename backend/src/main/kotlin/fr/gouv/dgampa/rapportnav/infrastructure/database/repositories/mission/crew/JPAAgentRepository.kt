@@ -5,6 +5,8 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentReposito
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRepository
 import org.springframework.stereotype.Repository
+import java.time.Instant
+import kotlin.jvm.optionals.getOrNull
 
 @Repository
 class JPAAgentRepository(
@@ -16,7 +18,13 @@ class JPAAgentRepository(
         return dbAgentRepository.findAll()
     }
 
-    override fun findByServiceId(serviceId: Int): List<AgentModel> {
-        return dbAgentRepository.findByServicesId(serviceId)
+    override fun save(agent: AgentModel): AgentModel {
+        return dbAgentRepository.save(agent)
+    }
+
+    override fun deleteById(id: Int) {
+        val agent = dbAgentRepository.findById(id).getOrNull() ?: return
+        agent.deletedAt = Instant.now()
+        dbAgentRepository.delete(agent)
     }
 }

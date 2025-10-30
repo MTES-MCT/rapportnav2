@@ -5,10 +5,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IServiceRepository
 
 @UseCase
-class GetServices(
-    private val repo: IServiceRepository,
+class CreateOrUpdateService(
+    private val repo: IServiceRepository
 ) {
-    fun execute(): List<ServiceEntity> {
-        return repo.findAll().map { ServiceEntity.fromServiceModel(it) }
+    fun execute(entity: ServiceEntity): ServiceEntity {
+        return repo.save(entity.toServiceModel()).let { ServiceEntity.fromServiceModel(it) }
     }
 }

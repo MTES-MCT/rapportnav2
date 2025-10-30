@@ -11,7 +11,7 @@ class GetServiceByControlUnit(private val serviceRepository: IServiceRepository)
     fun execute(controlUnits: List<LegacyControlUnitEntity>? = null): List<ServiceEntity> {
         if (controlUnits == null) return listOf<ServiceEntity>();
         return this.serviceRepository.findByControlUnitId(controlUnits.map { controlUnit -> controlUnit.id })
-            .map { it.toServiceEntity() }
+            .map { ServiceEntity.fromServiceModel(it) }
             .sortedBy { it.id };
     }
 }

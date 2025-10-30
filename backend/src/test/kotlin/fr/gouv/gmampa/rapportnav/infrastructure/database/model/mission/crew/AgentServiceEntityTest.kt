@@ -1,17 +1,18 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.database.model.mission.crew
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentServiceEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentServiceModel
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.junit.jupiter.api.Test
+import org.assertj.core.api.Assertions.assertThat
 
 @ExtendWith(SpringExtension::class)
-@SpringBootTest(classes = [AgentServiceModel::class])
-class AgentServiceModelTest {
+@SpringBootTest(classes = [AgentServiceEntity::class])
+class AgentServiceEntityTest {
 
     @Test
     fun `execute should retrieve mission crew model from agent service`() {
@@ -26,11 +27,10 @@ class AgentServiceModelTest {
             role = role
         );
 
-        val response = agentServiceModel.toMissionCrewModel(missionId);
+        val response = AgentServiceEntity.fromAgentServiceModel(agentServiceModel);
         assertThat(response).isNotNull();
-        assertThat(response?.missionId).isEqualTo(missionId);
-        assertThat(response?.agent).isEqualTo(agent);
-        assertThat(response?.role).isEqualTo(role);
-        assertThat(response?.comment).isEqualTo("");
+        assertThat(response.id).isEqualTo(missionId);
+        assertThat(response.agent).isEqualTo(agent);
+        assertThat(response.role).isEqualTo(role);
     }
 }

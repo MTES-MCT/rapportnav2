@@ -8,4 +8,6 @@ interface IServiceRepository {
     fun findById(id: Int): Optional<ServiceModel>
     fun findAll(): List<ServiceModel>
     fun findByControlUnitId(controlUnitIds: List<Int>): List<ServiceModel>
+    fun deleteById(id: Int)
+    fun save(service: ServiceModel): ServiceModel
 }

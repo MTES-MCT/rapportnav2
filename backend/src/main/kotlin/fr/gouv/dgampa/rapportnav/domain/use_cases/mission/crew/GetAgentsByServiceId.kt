@@ -1,14 +1,14 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentRepository
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentServiceEntity
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentServiceRepository
 
 @UseCase
-class GetAgentsByServiceId(private val agentRepository: IAgentRepository) {
+class GetAgentsByServiceId(private val agentServiceRepository: IAgentServiceRepository) {
 
-    fun execute(serviceId: Int): List<AgentEntity> {
-        return agentRepository.findByServiceId(serviceId = serviceId).map { it.toAgentEntity() }
+    fun execute(serviceId: Int): List<AgentServiceEntity> {
+        return agentServiceRepository.findByServiceId(serviceId = serviceId)
+            .map { AgentServiceEntity.fromAgentServiceModel(it) }
     }
-
 }
