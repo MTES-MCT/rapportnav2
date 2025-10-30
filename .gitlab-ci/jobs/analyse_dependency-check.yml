@@ -20,6 +20,7 @@ dependency_check:
       --failOnCVSS $FAIL_DP_CHECK_LVL
       --out $PROJECT_NAME-$PROJECT_VERSION-frontend-DP-check.html
       --disableYarnAudit --nodePackageSkipDevDependencies --nodeAuditSkipDevDependencies
+      --ossIndexUsername ${DEPENDENCY_CHECK_OSS_User} --ossIndexPassword ${DEPENDENCY_CHECK_OSS_Password}
 
     - /usr/share/dependency-check/bin/dependency-check.sh
       --connectionString "jdbc:postgresql://prod-cdc-secu01.dsi.damgm.i2:5432/DPCHECK" --dbDriverName "org.postgresql.Driver" --dbUser dpcheck --dbPassword dpcheck
@@ -32,6 +33,7 @@ dependency_check:
       --out $PROJECT_NAME-$PROJECT_VERSION-backend-DP-check.html
       --disableYarnAudit --nodePackageSkipDevDependencies --nodeAuditSkipDevDependencies
       --suppression suppressions.xml
+      --ossIndexUsername ${DEPENDENCY_CHECK_OSS_User} --ossIndexPassword ${DEPENDENCY_CHECK_OSS_Password}
   tags:
     - analyze
   artifacts:
