@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.33.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.32.14...frontend@v2.33.0) (2025-10-30)
+
+
+### Features
+
+* **frontend:** admin page with agent, service and role ([0580f46](https://github.com/MTES-MCT/rapportnav2/commit/0580f46094cb30e3396fc69e74c5df62062802e8))
+
+
+### Bug Fixes
+
+* **frontend:** small bugs ([deaa0a9](https://github.com/MTES-MCT/rapportnav2/commit/deaa0a949eb3daffb0d44fb948565c4592fa2e4a))
+
 ## [2.32.14](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.32.13...frontend@v2.32.14) (2025-10-30)
 
 
