@@ -3,11 +3,9 @@
 
     <suppress>
         <cve>CVE-2018-1258</cve>
-        <comment>Faux positif : le composant vulnérable n'est pas utilisé à l'exécution</comment>
     </suppress>
     <suppress>
         <cve>CVE-2016-9878</cve>
-        <comment>Faux positif : le composant vulnérable n'est pas utilisé à l'exécution</comment>
     </suppress>
 
 </suppressions>
