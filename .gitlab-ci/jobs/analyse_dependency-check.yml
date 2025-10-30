@@ -7,8 +7,8 @@ dependency_check:
   script:
     # Create suppression file
     #- echo '<?xml version="1.0"?><suppressions><suppress><cve>CVE-2016-9878</cve></suppress><suppress><cve>CVE-2018-1258</cve></suppress></suppressions>' > suppressions.xml
-    - echo ${DEPENDENCY_CHECK_OSS_User}
-    - export JAVA_TOOL_OPTIONS="-Dhttps.proxyHost=${PROXY_HOST} -Dhttps.proxyPort=${PROXY_PORT}"
+
+    #- export JAVA_TOOL_OPTIONS="-Dhttps.proxyHost=${PROXY_HOST} -Dhttps.proxyPort=${PROXY_PORT}"
 
     - /usr/share/dependency-check/bin/dependency-check.sh
       --connectionString "jdbc:postgresql://prod-cdc-secu01.dsi.damgm.i2:5432/DPCHECK" --dbDriverName "org.postgresql.Driver" --dbUser dpcheck --dbPassword dpcheck
