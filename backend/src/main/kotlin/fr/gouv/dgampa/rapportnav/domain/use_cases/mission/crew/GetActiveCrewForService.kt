@@ -11,7 +11,7 @@ class GetActiveCrewForService(
     fun execute(serviceId: Int): List<AgentServiceEntity> {
         val newMissionCrews = agentServiceRepo.findByServiceId(serviceId)
             .filter { it.disabledAt == null } // only keep active crew, i.e. not disabled
-            .mapNotNull { it.toAgentServiceEntity() }
+            .mapNotNull { AgentServiceEntity.fromAgentServiceModel(it)}
         return newMissionCrews
     }
 }

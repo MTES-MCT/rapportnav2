@@ -42,6 +42,7 @@ class UpdateMissionService(
         }
         info.serviceId = input.serviceId;
         infoRepo.save(MissionGeneralInfoEntity.fromMissionGeneralInfoModel(info));
-        return serviceRepo.findById(input.serviceId).getOrNull()?.toServiceEntity();
+        return serviceRepo.findById(input.serviceId).getOrNull()?.let { ServiceEntity.fromServiceModel(it) }
+        ;
     }
 }

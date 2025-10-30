@@ -30,7 +30,7 @@ class ApiAdminControllerSimpleTest {
             return http
                 .authorizeHttpRequests { authorize ->
                     authorize
-                        .requestMatchers("/api/v1/admin/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/v2/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 }
                 .csrf { it.disable() }
@@ -41,21 +41,21 @@ class ApiAdminControllerSimpleTest {
 
     @Test
     fun `Should return 401 when no authentication`() {
-        mockMvc.perform(get("/api/v1/admin/test"))
+        mockMvc.perform(get("/api/v2/admin/test"))
             .andExpect(status().isUnauthorized)
     }
 
     @Test
     @WithMockUser(authorities = ["ROLE_USER"])
     fun `Should return 403 when user has no admin role`() {
-        mockMvc.perform(get("/api/v1/admin/test"))
+        mockMvc.perform(get("/api/v2/admin/test"))
             .andExpect(status().isForbidden)
     }
 
     @Test
     @WithMockUser(authorities = ["ROLE_ADMIN"])
     fun `Should return 200 when user has admin role`() {
-        mockMvc.perform(get("/api/v1/admin/test"))
+        mockMvc.perform(get("/api/v2/admin/test"))
             .andExpect(status().isOk)
     }
 }

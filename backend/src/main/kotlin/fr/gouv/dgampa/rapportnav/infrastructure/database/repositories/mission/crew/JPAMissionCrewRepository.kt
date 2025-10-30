@@ -31,7 +31,7 @@ class JPAMissionCrewRepository(
     @Transactional
     override fun save(crew: MissionCrewEntity): MissionCrewModel {
         return try {
-            val crewModel = MissionCrewModel.fromMissionCrewEntity(crew)
+            val crewModel = crew.toMissionCrewModel()
             val agent = dbAgentRepository.findById(crew.agent.id!!).orElseThrow()
             crewModel.agent = agent
 

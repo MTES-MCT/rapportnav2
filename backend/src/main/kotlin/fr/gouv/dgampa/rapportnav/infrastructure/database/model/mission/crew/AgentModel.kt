@@ -1,7 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
@@ -35,7 +33,7 @@ class AgentModel(
     var updatedAt: Instant? = null,
 
     @Column(name = "deleted_at", nullable = true)
-    var deletedAt: Date? = null,
+    var deletedAt: Instant? = null,
 
     @CreatedBy
     @Column(name = "created_by", updatable = false)
@@ -43,37 +41,5 @@ class AgentModel(
 
     @LastModifiedBy
     @Column(name = "updated_by")
-    var updatedBy: Int? = null,
-
-    @ManyToMany
-    @JoinTable(
-        name = "agent_service",
-        joinColumns = [JoinColumn(name = "agent_id")],
-        inverseJoinColumns = [JoinColumn(name = "service_id")]
-    )
-    var services: MutableSet<ServiceModel?> = HashSet(),
-) {
-
-    fun toAgentEntity(): AgentEntity {
-        return AgentEntity(
-            id = id,
-            firstName = firstName,
-            lastName = lastName,
-            deletedAt = deletedAt,
-            services = services.map { it?.toServiceEntity() }.toMutableSet()
-        )
-    }
-
-    companion object {
-        fun fromAgentEntity(agent: AgentEntity): AgentModel {
-            return AgentModel(
-                id = agent.id,
-                firstName = agent.firstName,
-                lastName = agent.lastName,
-                deletedAt = agent.deletedAt,
-                services = agent.services.map { ServiceModel.fromServiceEntity(it!!) }.toMutableSet()
-
-            )
-        }
-    }
-}
+    var updatedBy: Int? = null
+)

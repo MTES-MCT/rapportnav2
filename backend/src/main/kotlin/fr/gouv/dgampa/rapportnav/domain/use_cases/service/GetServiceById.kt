@@ -11,7 +11,7 @@ class GetServiceById(
     fun execute(id: Int?): ServiceEntity? {
         return id?.let {
             val service = repo.findById(id)
-            return service.orElse(null)?.toServiceEntity()
+            return service.orElse(null)?.let { ServiceEntity.fromServiceModel(it) }
         }
     }
 }

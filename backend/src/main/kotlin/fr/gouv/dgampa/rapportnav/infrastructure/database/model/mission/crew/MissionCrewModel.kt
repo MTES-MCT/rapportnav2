@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
@@ -51,32 +50,4 @@ class MissionCrewModel(
     @LastModifiedBy
     @Column(name = "updated_by")
     var updatedBy: Int? = null
-
-
-    ) {
-
-    fun toMissionCrewEntity(commentDefaultsToString: Boolean? = false): MissionCrewEntity {
-        return MissionCrewEntity(
-            id = id,
-            missionId = missionId,
-            agent = agent.toAgentEntity(),
-            role = role?.toAgentRoleEntity(),
-            comment = if (comment == null && commentDefaultsToString == true) "" else comment,
-            missionIdUUID = missionIdUUID
-        )
-    }
-
-
-    companion object {
-        fun fromMissionCrewEntity(crew: MissionCrewEntity): MissionCrewModel {
-            return MissionCrewModel(
-                id = crew.id,
-                missionId = crew.missionId,
-                agent = AgentModel.fromAgentEntity(crew.agent),
-                role = crew.role?.let { AgentRoleModel.fromAgentRoleEntity(it) },
-                comment = crew.comment,
-                missionIdUUID = crew.missionIdUUID
-            )
-        }
-    }
-}
+)
