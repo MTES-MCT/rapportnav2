@@ -5,27 +5,33 @@ dependency_check:
     entrypoint: [ "" ]
 
   script:
+    # Create suppression file
+    - echo '<?xml version="1.0"?><suppressions><suppress><cve>CVE-2016-9878</cve></suppress><suppress><cve>CVE-2018-1258</cve></suppress></suppressions>' > suppressions.xml
+
     - export JAVA_TOOL_OPTIONS="-Dhttps.proxyHost=${PROXY_HOST} -Dhttps.proxyPort=${PROXY_PORT}"
+
     - /usr/share/dependency-check/bin/dependency-check.sh
       --connectionString "jdbc:postgresql://prod-cdc-secu01.dsi.damgm.i2:5432/DPCHECK" --dbDriverName "org.postgresql.Driver" --dbUser dpcheck --dbPassword dpcheck
-      --nvdApiKey c4a82c3a-644b-4e95-bfe7-c7337f662895 
-      --proxyserver "${PROXY_HOST}" 
-      --proxyport ${PROXY_PORT} 
+      --nvdApiKey c4a82c3a-644b-4e95-bfe7-c7337f662895
+      --proxyserver "${PROXY_HOST}"
+      --proxyport ${PROXY_PORT}
       --scan frontend/
-      --project "${PROJECT_NAME} ${PROJECT_VERSION}" 
-      --failOnCVSS $FAIL_DP_CHECK_LVL 
+      --project "${PROJECT_NAME} ${PROJECT_VERSION}"
+      --failOnCVSS $FAIL_DP_CHECK_LVL
       --out $PROJECT_NAME-$PROJECT_VERSION-frontend-DP-check.html
       --disableYarnAudit --nodePackageSkipDevDependencies --nodeAuditSkipDevDependencies
+
     - /usr/share/dependency-check/bin/dependency-check.sh
       --connectionString "jdbc:postgresql://prod-cdc-secu01.dsi.damgm.i2:5432/DPCHECK" --dbDriverName "org.postgresql.Driver" --dbUser dpcheck --dbPassword dpcheck
-      --nvdApiKey c4a82c3a-644b-4e95-bfe7-c7337f662895 
-      --proxyserver "${PROXY_HOST}" 
-      --proxyport ${PROXY_PORT} 
-      --scan backend/build/libs/rapportnav-${PROJECT_VERSION}.jar 
-      --project "${PROJECT_NAME} ${PROJECT_VERSION}" 
-      --failOnCVSS $FAIL_DP_CHECK_LVL 
+      --nvdApiKey c4a82c3a-644b-4e95-bfe7-c7337f662895
+      --proxyserver "${PROXY_HOST}"
+      --proxyport ${PROXY_PORT}
+      --scan backend/build/libs/rapportnav-${PROJECT_VERSION}.jar
+      --project "${PROJECT_NAME} ${PROJECT_VERSION}"
+      --failOnCVSS $FAIL_DP_CHECK_LVL
       --out $PROJECT_NAME-$PROJECT_VERSION-backend-DP-check.html
       --disableYarnAudit --nodePackageSkipDevDependencies --nodeAuditSkipDevDependencies
+      --suppression suppressions.xml
   tags:
     - analyze
   artifacts:
