@@ -803,6 +803,7 @@ class GetMissionOperationalSummary2Tests {
             )
             val expected = mapOf(
                 "nbSurveillances" to 0,
+                "totalSurveillanceDurationInHours" to 0,
                 "nbControls" to 0,
                 "nbPv" to 0,
             )
@@ -819,6 +820,7 @@ class GetMissionOperationalSummary2Tests {
             )
             val expected = mapOf(
                 "nbSurveillances" to 2,
+                "totalSurveillanceDurationInHours" to 2,
                 "nbControls" to 3,
                 "nbPv" to 2,
             )

@@ -77,10 +77,9 @@ class ExportMissionPatrolSingle2(
 
             val statuses = allActions?.filterIsInstance<MissionNavActionEntity>()?.filter {it.actionType === ActionType.STATUS }?.sortedBy { it.startDateTimeUtc }
 
-            val durations = mapStatusDurations2.execute(
+            val activity = mapStatusDurations2.execute(
                 endDateTimeUtc = mission.data?.endDateTimeUtc,
                 statuses = statuses!!,
-                durationUnit = DurationUnit.HOURS
             )
 
             val missionDuration = ComputeDurationUtils.durationInHours(mission.data?.startDateTimeUtc, mission.data?.endDateTimeUtc)
@@ -158,23 +157,23 @@ class ExportMissionPatrolSingle2(
                 "\${dureeMission}" to missionDuration.toString(),
                 "\${nbJoursMer}" to nbOfDaysAtSea.toString(),
 
-                "\${totalPresenceMer}" to (durations["atSeaDurations"]?.get("total")?.toString() ?: ""),
-                "\${navEff}" to (durations["atSeaDurations"]?.get("navigationEffective")?.toString()
+                "\${totalPresenceMer}" to (activity["atSea"]?.get("totalDurationInHours")?.toString() ?: ""),
+                "\${navEff}" to (activity["atSea"]?.get("navigationDurationInHours")?.toString()
                     ?: ""),
-                "\${mouillage}" to (durations["atSeaDurations"]?.get("mouillage")?.toString() ?: ""),
+                "\${mouillage}" to (activity["atSea"]?.get("anchoredDurationInHours")?.toString() ?: ""),
 
-                "\${totalPresenceQuai}" to (durations["dockingDurations"]?.get("total")?.toString() ?: ""),
-                "\${maintenance}" to (durations["dockingDurations"]?.get("maintenance")?.toString() ?: ""),
-                "\${meteo}" to (durations["dockingDurations"]?.get("meteo")?.toString() ?: ""),
-                "\${representation}" to (durations["dockingDurations"]?.get("representation")?.toString() ?: ""),
-                "\${admin}" to (durations["dockingDurations"]?.get("adminFormation")?.toString() ?: ""),
-                "\${autre}" to (durations["dockingDurations"]?.get("autre")?.toString() ?: ""),
-                "\${contrPort}" to (durations["dockingDurations"]?.get("contrPol")?.toString() ?: ""),
-                "\${mco}" to (durations["dockingDurations"]?.get("mco")?.toString() ?: ""),
+                "\${totalPresenceQuai}" to (activity["docked"]?.get("totalDurationInHours")?.toString() ?: ""),
+                "\${maintenance}" to (activity["docked"]?.get("maintenanceDurationInHours")?.toString() ?: ""),
+                "\${meteo}" to (activity["docked"]?.get("meteoDurationInHours")?.toString() ?: ""),
+                "\${representation}" to (activity["docked"]?.get("representationDurationInHours")?.toString() ?: ""),
+                "\${admin}" to (activity["docked"]?.get("adminFormationDurationInHours")?.toString() ?: ""),
+                "\${autre}" to (activity["docked"]?.get("otherDurationInHours")?.toString() ?: ""),
+                "\${contrPort}" to (activity["docked"]?.get("contrPolDurationInHours")?.toString() ?: ""),
+                "\${mco}" to (activity["docked"]?.get("mcoDurationInHours")?.toString() ?: ""),
 
-                "\${totalIndisponibilite}" to (durations["unavailabilityDurations"]?.get("total")?.toString() ?: ""),
-                "\${technique}" to (durations["unavailabilityDurations"]?.get("technique")?.toString() ?: ""),
-                "\${personnel}" to (durations["unavailabilityDurations"]?.get("personnel")?.toString() ?: ""),
+                "\${totalIndisponibilite}" to (activity["unavailable"]?.get("totalDurationInHours")?.toString() ?: ""),
+                "\${technique}" to (activity["unavailable"]?.get("technicalDurationInHours")?.toString() ?: ""),
+                "\${personnel}" to (activity["unavailable"]?.get("personnelDurationInHours")?.toString() ?: ""),
 
                 "\${patrouilleSurveillanceEnvInHours}" to (envSurveillanceInfo?.get("durationInHours")?.toFloatOrNull()
                     ?.toString() ?: ""),
