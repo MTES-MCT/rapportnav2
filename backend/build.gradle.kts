@@ -3,7 +3,7 @@ import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
 // x-release-please-start-version
-version = "2.32.13"
+version = "2.32.14"
 // x-release-please-end
 description = "RapportNav"
 
@@ -90,7 +90,7 @@ dependencies {
   implementation("org.apache.commons:commons-text:1.14.0")
   implementation("org.jodconverter:jodconverter-local-lo:4.4.7")
   implementation("com.neovisionaries:nv-i18n:1.29")
-  implementation("org.wiremock:wiremock-standalone:3.13.1")
+  implementation("org.wiremock:wiremock-standalone:4.0.0-beta.15")
   implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
   testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
   testImplementation("org.springframework:spring-webflux:6.2.12")
