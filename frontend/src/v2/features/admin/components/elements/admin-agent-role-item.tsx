@@ -12,7 +12,7 @@ const CELLS = [
   { key: 'priority', label: 'Priorité', width: 60 },
   { key: 'createdAt', label: 'Date de Creation', width: 200 },
   { key: 'updatedAt', label: 'Dernière mise à jour', width: 200 },
-  { key: 'deletedAt', label: 'Date de Creation', width: 200 }
+  { key: 'deletedAt', label: 'Date de suppression', width: 200 }
 ]
 
 type AdminAgentProps = {}

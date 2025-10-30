@@ -58,16 +58,7 @@ const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ form, data, cells,
           </Stack>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <Table
-            //fillHeight={true}
-            //autoHeight={true}
-            // height={parseInt(height)}
-            // minHeight={parseInt(minHeight)}
-            // maxHeight={parseInt(maxHeight)}
-            height={550}
-            data={data}
-            onRowClick={rowData => console.log(rowData)}
-          >
+          <Table height={550} data={data} onRowClick={rowData => console.log(rowData)}>
             {cells.map(cell => (
               <Column width={cell.width} align="start" fixed>
                 <HeaderCell>{cell.label}</HeaderCell>
