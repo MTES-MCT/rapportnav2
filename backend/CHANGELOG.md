@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.32.14](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.32.13...backend@v2.32.14) (2025-10-30)
+
+
+### Bug Fixes
+
+* **CI:** exclude CVE ([de49236](https://github.com/MTES-MCT/rapportnav2/commit/de4923696b87e9b1d1f9c480c459af49c3f80cee))
+
 ## [2.32.13](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.32.12...backend@v2.32.13) (2025-10-29)
 
 
