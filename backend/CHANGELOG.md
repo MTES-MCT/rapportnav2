@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.33.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.32.14...backend@v2.33.0) (2025-10-30)
+
+
+### Bug Fixes
+
+* **bakcend:** review add delete at and soft delete ([c8dd618](https://github.com/MTES-MCT/rapportnav2/commit/c8dd61818021722ea8d32e001b720059a7d7e79f))
+* **CI:** bump backend dependencies ([18f74b7](https://github.com/MTES-MCT/rapportnav2/commit/18f74b73d373f4ac946bf5699a69376c6117c070))
+
 ## [2.32.14](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.32.13...backend@v2.32.14) (2025-10-30)
 
 
