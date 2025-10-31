@@ -3,9 +3,9 @@ import { render, screen, fireEvent, waitFor } from '../../../test-utils.tsx'
 import MissionListPamPage from '../mission-list-pam-page.tsx'
 import useAuth from '../../features/auth/hooks/use-auth.tsx'
 import { useMissionList } from '../../features/common/hooks/use-mission-list.tsx'
-import { useMissionReportExport } from '../../features/common/hooks/use-mission-report-export.tsx'
 import useMissionsQuery from '../../features/common/services/use-missions.tsx'
 import { useOfflineMode } from '../../features/common/hooks/use-offline-mode.tsx'
+import useExportMission from '../../features/common/services/use-mission-export.tsx'
 
 // Mock all dependencies
 vi.mock('../../features/auth/hooks/use-auth.tsx', () => ({
@@ -16,8 +16,8 @@ vi.mock('../../features/common/hooks/use-mission-list.tsx', () => ({
   useMissionList: vi.fn()
 }))
 
-vi.mock('../../features/common/hooks/use-mission-report-export.tsx', () => ({
-  useMissionReportExport: vi.fn()
+vi.mock('../../features/common/services/use-mission-export.tsx', () => ({
+  default: vi.fn()
 }))
 
 vi.mock('../../features/common/services/use-missions.tsx', () => ({
@@ -46,9 +46,9 @@ describe('MissionListPamPage', () => {
       data: []
     })
 
-    vi.mocked(useMissionReportExport).mockReturnValue({
-      exportMissionReport: vi.fn(),
-      exportIsLoading: false
+    vi.mocked(useExportMission).mockReturnValue({
+      mutate: vi.fn(),
+      isPending: false
     })
 
     vi.mocked(useOfflineMode).mockReturnValue(false)
@@ -182,7 +182,7 @@ describe('MissionListPamPage', () => {
       expect(useOfflineMode).toHaveBeenCalled()
       expect(useMissionList).toHaveBeenCalled()
       expect(useMissionsQuery).toHaveBeenCalled()
-      expect(useMissionReportExport).toHaveBeenCalled()
+      expect(useExportMission).toHaveBeenCalled()
     })
   })
 })

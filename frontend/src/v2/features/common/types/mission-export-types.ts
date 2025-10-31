@@ -1,3 +1,8 @@
+export type MissionExport = {
+  fileName: string
+  fileContent: string
+}
+
 // if you update this enum, update it too in the core backend and API
 export enum ExportMode {
   INDIVIDUAL_MISSION = 'INDIVIDUAL_MISSION', // Export one single mission into one document
