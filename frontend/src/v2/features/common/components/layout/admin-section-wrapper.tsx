@@ -17,20 +17,7 @@ const AdminSectionWrapper: React.FC<AdminSectionWrapperProps> = ({
   if (isLoading) return <MissionPageLoading />
   if (error) return <MissionPageError error={error} />
 
-  return (
-    <div
-      style={{
-        margin: 0,
-        display: 'flex',
-        minHeight: '100vh',
-        maxHeight: '100vh',
-        flexDirection: 'column',
-        overflowY: 'scroll'
-      }}
-    >
-      {children}
-    </div>
-  )
+  return <div>{children}</div>
 }
 
 export default AdminSectionWrapper

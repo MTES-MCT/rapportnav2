@@ -2,15 +2,18 @@ import { Accent, Button, Dialog, Icon, IconButton, Size, THEME } from '@mtes-mct
 import { Formik, FormikProps } from 'formik'
 import { createElement, FunctionComponent } from 'react'
 import { FlexboxGrid, Stack } from 'rsuite'
+import { AdminAction } from '../../types/admin-services-type'
 
 type DialogFormProps = {
   title: string
   initValue: any
+  action?: AdminAction
+  componentProps: any
   onSubmit: (response: boolean, value?: any) => void
-  component?: FunctionComponent<{ formik: FormikProps<unknown> }>
+  component?: FunctionComponent<{ action?: AdminAction; formik: FormikProps<unknown> }>
 }
 
-const DialogForm: React.FC<DialogFormProps> = ({ initValue, component, title, onSubmit }) => {
+const DialogForm: React.FC<DialogFormProps> = ({ action, initValue, component, title, onSubmit, componentProps }) => {
   return (
     <Formik
       validateOnChange={true}
@@ -37,7 +40,9 @@ const DialogForm: React.FC<DialogFormProps> = ({ initValue, component, title, on
             </FlexboxGrid>
           </Dialog.Title>
           <Dialog.Body>
-            <Stack.Item style={{ width: '100%' }}>{component && createElement(component, { formik })}</Stack.Item>
+            <Stack.Item style={{ width: '100%' }}>
+              {component && createElement(component, { formik, action, ...(componentProps ?? {}) })}
+            </Stack.Item>
           </Dialog.Body>
           <Dialog.Action>
             <Button data-testId="dialog-form-cancel-button" accent={Accent.SECONDARY} onClick={() => onSubmit(false)}>

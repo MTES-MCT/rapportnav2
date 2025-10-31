@@ -15,11 +15,21 @@ type AdminServiceProps = {
   data?: any[]
   module: string
   cells: AdminCell[]
+  mainButtonLabel: string
   onSubmit: (action: AdminAction, value: any) => Promise<void>
-  form: FunctionComponent<{ formik: FormikProps<unknown> }>
+  formProps?: any
+  form: FunctionComponent<{ formik: FormikProps<unknown> } & any>
 }
 
-const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ form, data, cells, module, onSubmit }) => {
+const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({
+  form,
+  data,
+  cells,
+  module,
+  onSubmit,
+  formProps,
+  mainButtonLabel
+}) => {
   const { formatDateTimeForFrenchHumans } = useDate()
   const [action, setAction] = useState<AdminAction>()
   const [currentData, setCurrentData] = useState<any>()
@@ -48,23 +58,23 @@ const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ form, data, cells,
         <Stack.Item style={{ width: '100%' }}>
           <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
             <Stack.Item>
-              <Text as="h1">{`All ${module} (${data?.length})`}</Text>
+              <Text as="h1">{`${module} (${data?.length})`}</Text>
             </Stack.Item>
             <Stack.Item>
               <Button accent={Accent.PRIMARY} onClick={() => handleAction('CREATE', {})}>
-                {` Créer un ${module}`}
+                {mainButtonLabel}
               </Button>
             </Stack.Item>
           </Stack>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <Table height={550} data={data} onRowClick={rowData => console.log(rowData)}>
+          <Table height={800} data={data} onRowClick={rowData => console.log(rowData)}>
             {cells.map(cell => (
               <Column width={cell.width} align="start" fixed>
                 <HeaderCell>{cell.label}</HeaderCell>
                 <Cell>
                   {rowData =>
-                    !['updatedAt', 'createdAt', 'deletedAt'].includes(cell.key)
+                    !['updatedAt', 'createdAt', 'deletedAt', 'disabledAt'].includes(cell.key)
                       ? rowData[cell.key]
                       : formatDateTimeForFrenchHumans(rowData[cell.key])
                   }
@@ -106,6 +116,8 @@ const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ form, data, cells,
         {showDialogForm && (
           <DialogForm
             component={form}
+            action={action}
+            componentProps={formProps}
             initValue={currentData ?? {}}
             onSubmit={(response, value) => handleSubmit(response, value)}
             title={`${currentData?.id ? 'Mise à jour' : 'Nouveau'} ${module}`}

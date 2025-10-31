@@ -32,6 +32,7 @@ const AdminAgentRoleItem: React.FC<AdminAgentProps> = () => {
       data={agentRoles}
       onSubmit={handleSubmit}
       form={AdminAgentRoleForm}
+      mainButtonLabel={`Créer un rôle`}
     />
   )
 }

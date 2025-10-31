@@ -26,7 +26,14 @@ const AdminAgentItem: React.FC<AdminAgentProps> = () => {
   }
 
   return (
-    <AdminBasicItemGeneric cells={CELLS} module="Agents" data={agents} onSubmit={handleSubmit} form={AdminAgentForm} />
+    <AdminBasicItemGeneric
+      cells={CELLS}
+      module="Agents"
+      data={agents}
+      onSubmit={handleSubmit}
+      form={AdminAgentForm}
+      mainButtonLabel={`Ajouter un agent`}
+    />
   )
 }
 
