@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
+import fr.gouv.dgampa.rapportnav.config.RequireApiKey
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
@@ -82,6 +83,7 @@ class MissionRestController(
      * @param missionId The unique identifier of the mission to retrieve.
      * @return The mission data as a `MissionEnv` object, or null if not found or an error occurs.
      */
+    @RequireApiKey
     @GetMapping("{missionId}")
     @ApiResponses(
         value = [

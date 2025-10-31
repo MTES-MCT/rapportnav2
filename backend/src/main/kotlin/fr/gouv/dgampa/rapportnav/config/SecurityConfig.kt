@@ -18,7 +18,8 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 @Configuration
 @EnableWebSecurity(debug = true)
 class SecurityConfig(
-    private val customAuthenticationFilter: CustomAuthenticationFilter
+    private val customAuthenticationFilter: CustomAuthenticationFilter,
+    private val apiKeyAuthFilter: ApiKeyAuthenticationFilter
 ) {
 
     @Bean
@@ -27,6 +28,8 @@ class SecurityConfig(
         // Add custom authentication filter
         http.addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
 
+        // api-key filter
+        http.addFilterBefore(apiKeyAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
 
         // cors
         http.cors(Customizer.withDefaults())
@@ -66,7 +69,7 @@ class SecurityConfig(
                 .requestMatchers("/api/v1/auth/login").permitAll()
                 .requestMatchers("/api/v1/auth/register").hasAuthority(AuthoritiesEnum.ROLE_ADMIN.toString())
                 .requestMatchers("/api/v1/admin/**").hasAuthority(AuthoritiesEnum.ROLE_ADMIN.toString())
-                .requestMatchers("/api/v2/**").authenticated()
+                .requestMatchers("/api/v2/**").permitAll()
                 .requestMatchers("/**").permitAll()
                 .anyRequest().authenticated()
         }
