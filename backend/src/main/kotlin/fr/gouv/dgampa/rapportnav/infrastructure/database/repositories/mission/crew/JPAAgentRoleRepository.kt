@@ -11,6 +11,11 @@ import kotlin.jvm.optionals.getOrNull
 class JPAAgentRoleRepository(
     private val dbAgentRoleRepository: IDBAgentRoleRepository
 ) : IAgentRoleRepository {
+
+    override fun findById(id: Int): AgentRoleModel? {
+        return dbAgentRoleRepository.findById(id).getOrNull()
+    }
+
     override fun findAll(): List<AgentRoleModel> {
         return dbAgentRoleRepository.findAll()
     }

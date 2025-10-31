@@ -31,6 +31,7 @@ const AdminServiceItem: React.FC<AdminServiceProps> = () => {
       data={services}
       onSubmit={handleSubmit}
       form={AdminServiceForm}
+      mainButtonLabel={`Créer un service`}
     />
   )
 }

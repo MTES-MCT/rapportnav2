@@ -14,6 +14,10 @@ class JPAAgentRepository(
     private val mapper: ObjectMapper
 ) : IAgentRepository {
 
+    override fun findById(id: Int): AgentModel? {
+        return dbAgentRepository.findById(id).getOrNull()
+    }
+
     override fun findAll(): List<AgentModel> {
         return dbAgentRepository.findAll()
     }
@@ -25,6 +29,6 @@ class JPAAgentRepository(
     override fun deleteById(id: Int) {
         val agent = dbAgentRepository.findById(id).getOrNull() ?: return
         agent.deletedAt = Instant.now()
-        dbAgentRepository.delete(agent)
+        dbAgentRepository.save(agent)
     }
 }

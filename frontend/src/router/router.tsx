@@ -1,5 +1,4 @@
 import {
-  ADMIN_CREW_PATH,
   LOGIN_PATH,
   PAM_HOME_PATH,
   PAM_V2_HOME_PATH,
@@ -16,7 +15,6 @@ import MissionsPage from '../pages/missions-page.tsx'
 import SignUp from '../pages/signup.tsx'
 import AdminGuard from '../v2/features/auth/components/admin-guard.tsx'
 import AuthGuard from '../v2/features/auth/components/auth-guard.tsx'
-import AdminCrewPage from '../v2/pages/admin-crew-page.tsx'
 import AdminPage from '../v2/pages/admin-page.tsx'
 import Home2 from '../v2/pages/home.tsx'
 import InquiryListPage from '../v2/pages/inquiry-list-page.tsx'
@@ -116,15 +114,6 @@ export const router = sentryCreateBrowserRouter([
     errorElement: <ErrorPage />
   },
   // admin pages :
-  {
-    path: ADMIN_CREW_PATH,
-    element: (
-      <AuthGuard>
-        <AdminCrewPage />
-      </AuthGuard>
-    ),
-    errorElement: <ErrorPage />
-  },
   {
     path: '/v2/admin',
     element: (

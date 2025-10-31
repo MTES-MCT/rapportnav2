@@ -1,7 +1,7 @@
 import useAuth from '@features/auth/hooks/use-auth'
+import { THEME } from '@mtes-mct/monitor-ui'
 import { ReactNode } from 'react'
 import { Container, Content, Stack } from 'rsuite'
-import { THEME } from '@mtes-mct/monitor-ui'
 
 interface MissionListPageWrapperProps {
   sidebar: JSX.Element
@@ -23,7 +23,7 @@ const MissionListPageWrapper: React.FC<MissionListPageWrapperProps> = ({ childre
             <Content
               style={{
                 maxHeight: 'calc(100vh - 104px - 50px)', // full viewportHeight - headerHeight - extra margin
-                overflow: 'hidden',
+                overflow: 'scroll',
                 display: 'flex'
               }}
             >
