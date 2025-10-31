@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.time.Instant
 
 @RestController
-@RequestMapping("/api/v1/admin")
+@RequestMapping("/api/v1/admin/apikey")
 class ApiKeysAdminController(
     private val getAllApiKeys: GetAllApiKeys,
     private val createApiKey: CreateApiKey,
@@ -30,31 +30,13 @@ class ApiKeysAdminController(
 ) {
 
     data class CreateKeyRequest(
-        val name: String,
-        val expiresAt: Instant? = null,
-        val maxRequestsPerMinute: Int = 60,
-        val maxRequestsPerHour: Int = 1000,
-        val allowedIps: String? = null, // Comma-separated IPs or CIDR: "1.2.3.4,10.0.0.0/24"
-        val rotatesAt: Instant? = null,
+        val owner: String
     )
 
     data class ApiKeyResponse(
-        val id: Long?,
+        val id: String?,
         val keyValue: String, // Only show prefix
-        val name: String,
-        val enabled: Boolean,
-        val isMaster: Boolean,
-        val createdAt: Instant,
-        val lastUsedAt: Instant?,
-        val expiresAt: Instant?,
-        val requestCount: Long,
-        val maxRequestsPerMinute: Int,
-        val maxRequestsPerHour: Int,
-        val allowedIps: String?,
-        val rotatesAt: Instant?,
-        val scopes: String,
-        val failedAttempts: Int,
-        val lockedUntil: Instant?
+
     )
 
     data class CreateKeyResponse(
@@ -71,11 +53,11 @@ class ApiKeysAdminController(
 
     @PostMapping
     fun createApiKeyEndpoint(@RequestBody request: CreateKeyRequest): ResponseEntity<CreateKeyResponse> {
-        val (apiKey, rawKey) = createApiKey.execute("")
-
+        val (apiKey, rawKey) = createApiKey.execute(owner = "")
+//
         return ResponseEntity.ok(
             CreateKeyResponse(
-                apiKey = apiKey.toResponse(),
+                apiKey = ApiKeyResponse(id=apiKey.publicId,keyValue=apiKey.hashedKey),
                 rawKey = rawKey
             )
         )
@@ -83,12 +65,12 @@ class ApiKeysAdminController(
 
     @PostMapping("/{keyId}/rotate")
         fun rotateApiKey(@PathVariable keyId: Long): ResponseEntity<CreateKeyResponse> {
-        val (newKey, rawKey) = rotateApiKey.execute(keyId)
+//        val (newKey, rawKey) = rotateApiKey.execute(keyId)
 
         return ResponseEntity.ok(
             CreateKeyResponse(
-                apiKey = newKey.toResponse(),
-                rawKey = rawKey
+                apiKey = ApiKeyResponse(id=null,keyValue=""),
+                rawKey = "fdfd"
             )
         )
     }

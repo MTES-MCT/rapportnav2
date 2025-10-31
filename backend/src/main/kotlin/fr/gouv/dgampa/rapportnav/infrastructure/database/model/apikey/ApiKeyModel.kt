@@ -26,13 +26,16 @@ class ApiKeyModel(
     val id: UUID = UUID.randomUUID(),
 
     @Column(name = "public_id", nullable = false, length = 100, unique = true)
-    val publicId: String,
+    val publicId: String,  // First 12 chars of the key for lookup
 
     @Column(name = "hashed_key", nullable = false, length = 255)
-    val hashedKey: String,
+    val hashedKey: String, // BCrypt hash of the full key
 
     @Column(name = "owner", length = 100)
     val owner: String? = null,
+
+    @Column(name = "last_used_at")
+    val lastUsedAt: Instant? = null,
 
     @Column(name = "disabled_at")
     val disabledAt: Instant? = null,
@@ -58,6 +61,7 @@ class ApiKeyModel(
         owner = owner,
         publicId = publicId,
         hashedKey = hashedKey,
+        lastUsedAt = lastUsedAt,
         disabledAt = disabledAt,
     )
 
@@ -67,6 +71,7 @@ class ApiKeyModel(
             owner = user.owner,
             publicId = user.publicId,
             hashedKey = user.hashedKey,
+            lastUsedAt = user.lastUsedAt,
             disabledAt = user.disabledAt,
         )
     }

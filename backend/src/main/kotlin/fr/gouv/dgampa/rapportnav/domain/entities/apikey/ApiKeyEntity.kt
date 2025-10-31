@@ -8,5 +8,6 @@ data class ApiKeyEntity(
     val publicId: String,
     val hashedKey: String,
     val owner: String? = null,
+    val lastUsedAt: Instant? = null,
     val disabledAt: Instant? = null,
 )

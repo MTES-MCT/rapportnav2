@@ -9,6 +9,6 @@ class GetAllApiKeys(
     private val repo: IApiKeyRepository
 ) {
     fun execute(): List<ApiKeyEntity> {
-        return listOf()
+        return repo.findAll().map { it.toApiKeyEntity() }
     }
 }
