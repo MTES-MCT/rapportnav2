@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
 
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
@@ -19,7 +20,7 @@ class AgentServiceModel
         nullable = false
     ) var id: Int?,
 
-    @Column(name = "service_id", nullable = false) var serviceId: Int?,
+    @OneToOne @JoinColumn(name = "service_id", referencedColumnName = "id") var service: ServiceModel,
 
     @OneToOne @JoinColumn(name = "agent_id", referencedColumnName = "id") var agent: AgentModel,
 
