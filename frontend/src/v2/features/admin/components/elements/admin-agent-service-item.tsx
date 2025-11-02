@@ -5,7 +5,7 @@ import { Stack } from 'rsuite'
 import useGetAgentRoles from '../../../common/services/use-agent-roles'
 import useAgentsQuery from '../../../common/services/use-agents'
 import useAdminCreateOrUpdateAgentServiceMutation from '../../services/use-admin-create-or-update-crew-service'
-import useGetAgentServices from '../../services/use-agent-services'
+import useGetAdminAgentServices from '../../services/use-agent-services'
 import { AdminAgentServiceInput, AdminServiceWithAgent } from '../../types/admin-agent-types'
 import { AdminAction } from '../../types/admin-services-type'
 import AdminAgentServiceForm from '../ui/admin-agent-service-form'
@@ -25,7 +25,7 @@ type AdminAgentOnServiceProps = {}
 const AdminAgentServiceItem: React.FC<AdminAgentOnServiceProps> = () => {
   const { data: agents } = useAgentsQuery()
   const { data: roles } = useGetAgentRoles()
-  const { data: agentServices } = useGetAgentServices()
+  const { data: agentServices } = useGetAdminAgentServices()
   const createOrUpdateMutation = useAdminCreateOrUpdateAgentServiceMutation()
 
   const [currentCrew, setCurrentCrew] = useState<AdminServiceWithAgent>()

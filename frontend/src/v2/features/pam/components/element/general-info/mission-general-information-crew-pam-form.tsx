@@ -19,8 +19,8 @@ import { FC, useEffect, useState } from 'react'
 import { FlexboxGrid, Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
 import * as Yup from 'yup'
-import useAgentServices from '../../../../admin/services/use-agent-services.tsx'
 import useGetAgentRoles from '../../../../common/services/use-agent-roles.tsx'
+import useGetAgentServices from '../../../../common/services/use-agent-services.tsx'
 import { AgentService, ServiceWithAgents } from '../../../../common/types/service-agents-types.ts'
 
 const CrewFormDialogBody = styled((props: DialogProps) => <Dialog.Body {...props} />)(({ theme }) => ({
@@ -83,8 +83,8 @@ const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
   handleClose,
   handleSubmitForm
 }) => {
-  const { data: agentServices } = useAgentServices()
   const { data: agentRoles } = useGetAgentRoles()
+  const { data: agentServices } = useGetAgentServices()
 
   const inputCrewMember: MissionCrew | undefined = !!crewId && crewList.find((mc: MissionCrew) => mc.id === crewId)
   const initialValue: CrewForm | undefined =

@@ -1,14 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from '../../../../query-client/axios.ts'
 import { STATIC_DATA_GC_TIME, STATIC_DATA_STALE_TIME } from '../../../../query-client/index.ts'
-import { agentServicesKeys } from '../../common/services/query-keys.ts'
-import { AdminServiceWithAgent } from '../types/admin-agent-types.ts'
+import { ServiceWithAgents } from '../types/service-agents-types.ts'
+import { agentServicesKeys } from './query-keys.ts'
 
-const useGetAdminAgentServices = () => {
-  const fetchAgentServices = (): Promise<AdminServiceWithAgent[]> =>
-    axios.get(`/admin/agent_services`).then(response => response.data)
+const useGetAgentServices = () => {
+  const fetchAgentServices = (): Promise<ServiceWithAgents[]> => axios.get(`crews`).then(response => response.data)
 
-  const query = useQuery<AdminServiceWithAgent[]>({
+  const query = useQuery<ServiceWithAgents[]>({
     queryKey: agentServicesKeys.all(),
     queryFn: fetchAgentServices,
     refetchIntervalInBackground: false,
@@ -21,4 +20,4 @@ const useGetAdminAgentServices = () => {
   return query
 }
 
-export default useGetAdminAgentServices
+export default useGetAgentServices
