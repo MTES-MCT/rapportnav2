@@ -7,7 +7,7 @@ import Column from 'rsuite/esm/Table/TableColumn'
 import AdminSectionWrapper from '../../../common/components/layout/admin-section-wrapper'
 import { useDate } from '../../../common/hooks/use-date'
 import { AdminAction, AdminActionType } from '../../types/admin-action'
-import { AdminCell, AdminService } from '../../types/admin-services-type'
+import { AdminCell } from '../../types/admin-services-type'
 import DialogForm from '../ui/dialog-form'
 
 const DATE_LABELS = ['updatedAt', 'createdAt', 'deletedAt', 'disabledAt']
@@ -32,11 +32,11 @@ const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ data, cells, title
     setShowDialogForm(true)
   }
 
-  const handleSubmit = async (response: boolean, value: AdminService) => {
+  const handleSubmit = async (response: boolean, value: any) => {
     setShowDialogForm(false)
     setCurrentData(undefined)
     if (!response) return
-    if (actionIndex) onSubmit(actions[actionIndex].key, value)
+    if (actionIndex !== undefined) onSubmit(actions[actionIndex].key, value)
     setActionIndex(undefined)
   }
 
@@ -78,7 +78,7 @@ const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ data, cells, title
             <Column width={150} fixed="right">
               <HeaderCell>Actions</HeaderCell>
 
-              <Cell style={{ padding: '6px' }}>
+              <Cell style={{ padding: 2 }}>
                 {rowData => (
                   <Stack direction="row" spacing={'.5rem'}>
                     {actions.map((rowAction, index) => (
@@ -102,7 +102,7 @@ const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ data, cells, title
             </Column>
           </Table>
         </Stack.Item>
-        {showDialogForm && actionIndex && (
+        {showDialogForm && actionIndex !== undefined && (
           <DialogForm
             action={actions[actionIndex]}
             initValue={currentData ?? {}}

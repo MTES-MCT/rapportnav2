@@ -1,7 +1,7 @@
 import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import useGetAgentRoles from '../../../common/services/use-agent-roles'
-import useAdminCreateOrUpdateAgentRoleMutation from '../../services/use-admin-create-or-update-agents-role-service'
+import useAdminCreateOrUpdateAgentRoleMutation from '../../services/use-admin-create-update-agents-role-service'
 import { AdminAction, AdminActionType } from '../../types/admin-action'
 import { AgentRole } from '../../types/admin-agent-types'
 import AdminAgentRoleForm from '../ui/admin-agent-role'

@@ -1,7 +1,7 @@
 import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import useAgentsQuery from '../../../common/services/use-agents'
-import useAdminCreateOrUpdateAgentMutation from '../../services/use-admin-create-or-update-agents-service'
+import useAdminCreateOrUpdateAgentMutation from '../../services/use-admin-create-update-agents-service'
 import { AdminAction, AdminActionType } from '../../types/admin-action'
 import { Agent } from '../../types/admin-agent-types'
 import AdminAgentForm from '../ui/admin-agent-form'
