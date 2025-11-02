@@ -1,18 +1,18 @@
 import { FormikSelect } from '@mtes-mct/monitor-ui'
 import { FormikProps } from 'formik'
 import { Stack } from 'rsuite'
+import { AdminActionType } from '../../types/admin-action.ts'
 import { Agent, AgentRole } from '../../types/admin-agent-types.ts'
-import { AdminAction } from '../../types/admin-services-type.ts'
 
 interface AdminAgentServiceProps {
   agents: Agent[]
   roles: AgentRole[]
   disabledAgents: number[]
   formik: FormikProps<any>
-  action: AdminAction
+  type: AdminActionType
 }
 
-const AdminAgentServiceForm: React.FC<AdminAgentServiceProps> = ({ action, formik, roles, agents, disabledAgents }) => {
+const AdminAgentServiceForm: React.FC<AdminAgentServiceProps> = ({ type, formik, roles, agents, disabledAgents }) => {
   return (
     <Stack.Item style={{ width: '100%' }}>
       {roles && agents && disabledAgents && (
@@ -29,8 +29,8 @@ const AdminAgentServiceForm: React.FC<AdminAgentServiceProps> = ({ action, formi
                 })) ?? []
               }
               searchable
-              disabled={action === 'UPDATE'}
               disabledItemValues={disabledAgents}
+              disabled={type === AdminActionType.UPDATE}
             />
           </Stack.Item>
           <Stack.Item style={{ flex: 1, width: '50%' }}>

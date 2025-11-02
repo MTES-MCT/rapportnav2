@@ -1,13 +1,13 @@
 import Text from '@common/components/ui/text'
-import { Select } from '@mtes-mct/monitor-ui'
+import { Icon, Select, THEME } from '@mtes-mct/monitor-ui'
 import React, { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
 import useGetAgentRoles from '../../../common/services/use-agent-roles'
 import useAgentsQuery from '../../../common/services/use-agents'
 import useAdminCreateOrUpdateAgentServiceMutation from '../../services/use-admin-create-or-update-crew-service'
 import useGetAdminAgentServices from '../../services/use-agent-services'
+import { AdminAction, AdminActionType } from '../../types/admin-action'
 import { AdminAgentServiceInput, AdminServiceWithAgent } from '../../types/admin-agent-types'
-import { AdminAction } from '../../types/admin-services-type'
 import AdminAgentServiceForm from '../ui/admin-agent-service-form'
 import AdminBasicItemGeneric from './admin-basic-item-generic'
 
@@ -20,6 +20,29 @@ const CELLS = [
   { key: 'disabledAt', label: 'Date de désactivation', width: 200 }
 ]
 
+const ACTIONS: AdminAction[] = [
+  {
+    isMain: true,
+    label: `Ajouter un Agent à l'équipage`,
+    key: AdminActionType.CREATE,
+    form: AdminAgentServiceForm
+  },
+  {
+    label: `Mise à jour d'un agent sur le service`,
+    key: AdminActionType.UPDATE,
+    form: AdminAgentServiceForm,
+    icon: Icon.EditUnbordered
+  },
+  {
+    disabled: true,
+    label: `Supprimer cet agent sur ce service?`,
+    color: THEME.color.maximumRed,
+    key: AdminActionType.DELETE,
+    form: () => <>Voulez-vous vraiment desactiver cet agent sur ce Service?</>,
+    icon: Icon.Delete
+  }
+]
+
 type AdminAgentOnServiceProps = {}
 
 const AdminAgentServiceItem: React.FC<AdminAgentOnServiceProps> = () => {
@@ -29,9 +52,9 @@ const AdminAgentServiceItem: React.FC<AdminAgentOnServiceProps> = () => {
   const createOrUpdateMutation = useAdminCreateOrUpdateAgentServiceMutation()
 
   const [currentCrew, setCurrentCrew] = useState<AdminServiceWithAgent>()
-  const handleSubmit = async (action: AdminAction, value: AdminAgentServiceInput) => {
+  const handleSubmit = async (action: AdminActionType, value: AdminAgentServiceInput) => {
     if (!value.serviceId) value = { ...value, serviceId: currentCrew?.service.id!! }
-    if (action !== 'DELETE') createOrUpdateMutation.mutateAsync(value)
+    if (action !== AdminActionType.DELETE) createOrUpdateMutation.mutateAsync(value)
   }
 
   useEffect(() => {
@@ -57,9 +80,8 @@ const AdminAgentServiceItem: React.FC<AdminAgentOnServiceProps> = () => {
         {currentCrew && (
           <AdminBasicItemGeneric
             cells={CELLS}
-            form={AdminAgentServiceForm}
             onSubmit={handleSubmit}
-            module={currentCrew?.service?.name ?? ''}
+            title={currentCrew?.service?.name ?? ''}
             data={currentCrew?.agentServices?.map(agentService => ({
               id: agentService.id,
               agentId: agentService.agent.id,
@@ -71,12 +93,14 @@ const AdminAgentServiceItem: React.FC<AdminAgentOnServiceProps> = () => {
               updatedAt: agentService.updatedAt,
               disabledAt: agentService.disabledAt
             }))}
-            mainButtonLabel={`Ajouter un Agent à l'équipage`}
-            formProps={{
-              agents,
-              roles,
-              disabledAgents: currentCrew?.agentServices.map(a => a.agent.id?.toString()) ?? []
-            }}
+            actions={ACTIONS.map(action => ({
+              ...action,
+              formProps: {
+                agents,
+                roles,
+                disabledAgents: currentCrew?.agentServices.map(a => a.agent.id?.toString()) ?? []
+              }
+            }))}
           />
         )}
       </Stack.Item>
