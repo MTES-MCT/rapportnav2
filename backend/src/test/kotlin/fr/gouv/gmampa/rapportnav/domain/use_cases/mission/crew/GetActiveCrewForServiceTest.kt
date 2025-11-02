@@ -2,6 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.crew
 
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentServiceRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetActiveCrewForService
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentServiceModel
@@ -27,13 +28,13 @@ class GetActiveCrewForServiceTest {
     private val newMissionCrew: List<AgentServiceModel> = listOf(
         AgentServiceModel(
             id = 3,
-            serviceId = serviceId,
+            service = ServiceModel(id = serviceId, name = "Service1"),
             agent = AgentModel(id = 1, firstName = "", lastName = ""),
             role = AgentRoleModel(id = 1, title = ""),
         ),
         AgentServiceModel(
             id = 4,
-            serviceId = serviceId,
+            service = ServiceModel(id = serviceId, name = "Service1"),
             agent = AgentModel(id = 1, firstName = "", lastName = ""),
             role = AgentRoleModel(id = 1, title = ""),
             disabledAt = Instant.now()

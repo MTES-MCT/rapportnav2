@@ -1,5 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission
 
+import com.github.dockerjava.api.model.ServiceMode
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentRoleEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentServiceEntity
@@ -54,6 +56,7 @@ class UpdateMissionServiceTest {
             id = 3,
             agent = AgentEntity(id = 1, firstName = "", lastName = ""),
             role = AgentRoleEntity(id = 1, title = ""),
+            service = ServiceEntity(id = 1, name = "")
         )
     )
 
