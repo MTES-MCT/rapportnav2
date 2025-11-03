@@ -1,16 +1,16 @@
 import { Accent, Button, Dialog, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
-import { Formik, FormikProps } from 'formik'
-import { createElement, FunctionComponent } from 'react'
+import { Formik } from 'formik'
+import { createElement } from 'react'
 import { FlexboxGrid, Stack } from 'rsuite'
+import { AdminAction } from '../../types/admin-action'
 
 type DialogFormProps = {
-  title: string
   initValue: any
+  action?: AdminAction
   onSubmit: (response: boolean, value?: any) => void
-  component?: FunctionComponent<{ formik: FormikProps<unknown> }>
 }
 
-const DialogForm: React.FC<DialogFormProps> = ({ initValue, component, title, onSubmit }) => {
+const DialogForm: React.FC<DialogFormProps> = ({ action, initValue, onSubmit }) => {
   return (
     <Formik
       validateOnChange={true}
@@ -22,7 +22,7 @@ const DialogForm: React.FC<DialogFormProps> = ({ initValue, component, title, on
         <Dialog>
           <Dialog.Title>
             <FlexboxGrid align="middle" justify="space-between" style={{ paddingLeft: 14, paddingRight: 24 }}>
-              <FlexboxGrid.Item style={{ fontSize: '16px' }}>{title}</FlexboxGrid.Item>
+              <FlexboxGrid.Item style={{ fontSize: '16px' }}>{action?.label}</FlexboxGrid.Item>
               <FlexboxGrid.Item>
                 <IconButton
                   Icon={Icon.Close}
@@ -37,7 +37,9 @@ const DialogForm: React.FC<DialogFormProps> = ({ initValue, component, title, on
             </FlexboxGrid>
           </Dialog.Title>
           <Dialog.Body>
-            <Stack.Item style={{ width: '100%' }}>{component && createElement(component, { formik })}</Stack.Item>
+            <Stack.Item style={{ width: '100%' }}>
+              {action && createElement(action.form, { formik, type: action.key, ...(action.formProps ?? {}) })}
+            </Stack.Item>
           </Dialog.Body>
           <Dialog.Action>
             <Button data-testId="dialog-form-cancel-button" accent={Accent.SECONDARY} onClick={() => onSubmit(false)}>

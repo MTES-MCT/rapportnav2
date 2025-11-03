@@ -71,7 +71,9 @@ class UserModel(
         firstName = firstName,
         lastName = lastName,
         password = password,
-        roles = roles
+        roles = roles,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
     )
 
     companion object {

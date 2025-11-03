@@ -1,45 +1,43 @@
 import Text from '@common/components/ui/text'
-import { Accent, Button, Icon, IconButton, Size, THEME } from '@mtes-mct/monitor-ui'
-import { FormikProps } from 'formik'
-import React, { FunctionComponent, useState } from 'react'
+import { Accent, Button, IconButton, Size } from '@mtes-mct/monitor-ui'
+import React, { useState } from 'react'
 import { Stack, Table } from 'rsuite'
 import { Cell, HeaderCell, RowDataType } from 'rsuite-table'
 import Column from 'rsuite/esm/Table/TableColumn'
 import AdminSectionWrapper from '../../../common/components/layout/admin-section-wrapper'
-import DialogQuestion from '../../../common/components/ui/dialog-question'
 import { useDate } from '../../../common/hooks/use-date'
-import { AdminAction, AdminCell, AdminService } from '../../types/admin-services-type'
+import { AdminAction, AdminActionType } from '../../types/admin-action'
+import { AdminCell } from '../../types/admin-services-type'
 import DialogForm from '../ui/dialog-form'
+
+const DATE_LABELS = ['updatedAt', 'createdAt', 'deletedAt', 'disabledAt']
 
 type AdminServiceProps = {
   data?: any[]
-  module: string
+  title: string
   cells: AdminCell[]
-  onSubmit: (action: AdminAction, value: any) => Promise<void>
-  form: FunctionComponent<{ formik: FormikProps<unknown> }>
+  onSubmit: (action: AdminActionType, value: any) => Promise<void>
+  actions: AdminAction[]
 }
 
-const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ form, data, cells, module, onSubmit }) => {
+const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ data, cells, title, onSubmit, actions }) => {
   const { formatDateTimeForFrenchHumans } = useDate()
-  const [action, setAction] = useState<AdminAction>()
   const [currentData, setCurrentData] = useState<any>()
+  const [actionIndex, setActionIndex] = useState<number>()
   const [showDialogForm, setShowDialogForm] = useState(false)
-  const [showDialogQuestion, setShowDialogQuestion] = useState(false)
 
-  const handleAction = (action: AdminAction, rowData: RowDataType<any>) => {
-    setAction(action)
+  const handleAction = (index: number, rowData: RowDataType<any>) => {
     setCurrentData(rowData)
-    setShowDialogForm(action !== 'DELETE')
-    setShowDialogQuestion(action === 'DELETE')
+    setActionIndex(index)
+    setShowDialogForm(true)
   }
 
-  const handleSubmit = async (response: boolean, value: AdminService) => {
+  const handleSubmit = async (response: boolean, value: any) => {
     setShowDialogForm(false)
-    setShowDialogQuestion(false)
     setCurrentData(undefined)
     if (!response) return
-    if (action) onSubmit(action, value)
-    setAction(undefined)
+    if (actionIndex !== undefined) onSubmit(actions[actionIndex].key, value)
+    setActionIndex(undefined)
   }
 
   return (
@@ -48,23 +46,29 @@ const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ form, data, cells,
         <Stack.Item style={{ width: '100%' }}>
           <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
             <Stack.Item>
-              <Text as="h1">{`All ${module} (${data?.length})`}</Text>
+              <Text as="h1">{`${title} (${data?.length})`}</Text>
             </Stack.Item>
             <Stack.Item>
-              <Button accent={Accent.PRIMARY} onClick={() => handleAction('CREATE', {})}>
-                {` Créer un ${module}`}
-              </Button>
+              {(() => {
+                const index = actions.findIndex(action => action.isMain)
+                if (index === -1) return <></>
+                return (
+                  <Button accent={Accent.PRIMARY} onClick={() => handleAction(index, {})}>
+                    {actions[index].label}
+                  </Button>
+                )
+              })()}
             </Stack.Item>
           </Stack>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <Table height={550} data={data} onRowClick={rowData => console.log(rowData)}>
+          <Table height={800} data={data} onRowClick={rowData => console.log(rowData)} fillHeight={false}>
             {cells.map(cell => (
               <Column width={cell.width} align="start" fixed>
                 <HeaderCell>{cell.label}</HeaderCell>
                 <Cell>
                   {rowData =>
-                    !['updatedAt', 'createdAt', 'deletedAt'].includes(cell.key)
+                    !DATE_LABELS.includes(cell.key)
                       ? rowData[cell.key]
                       : formatDateTimeForFrenchHumans(rowData[cell.key])
                   }
@@ -74,49 +78,35 @@ const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ form, data, cells,
             <Column width={150} fixed="right">
               <HeaderCell>Actions</HeaderCell>
 
-              <Cell style={{ padding: '6px' }}>
+              <Cell style={{ padding: 2 }}>
                 {rowData => (
                   <Stack direction="row" spacing={'.5rem'}>
-                    <Stack.Item>
-                      <IconButton
-                        role="edit-cell"
-                        Icon={Icon.Edit}
-                        size={Size.NORMAL}
-                        accent={Accent.TERTIARY}
-                        onClick={() => handleAction('UPDATE', rowData)}
-                      />
-                    </Stack.Item>
-                    <Stack.Item>
-                      <IconButton
-                        disabled={true}
-                        role="edit-delete"
-                        Icon={Icon.Delete}
-                        size={Size.NORMAL}
-                        accent={Accent.TERTIARY}
-                        color={THEME.color.maximumRed}
-                        onClick={() => handleAction('DELETE', rowData)}
-                      />
-                    </Stack.Item>
+                    {actions.map((rowAction, index) => (
+                      <Stack.Item>
+                        {rowAction.icon && (
+                          <IconButton
+                            size={Size.NORMAL}
+                            Icon={rowAction.icon}
+                            color={rowAction.color}
+                            accent={Accent.TERTIARY}
+                            role={`action-cell-${index}`}
+                            disabled={rowAction.disabled}
+                            onClick={() => handleAction(index, rowData)}
+                          />
+                        )}
+                      </Stack.Item>
+                    ))}
                   </Stack>
                 )}
               </Cell>
             </Column>
           </Table>
         </Stack.Item>
-        {showDialogForm && (
+        {showDialogForm && actionIndex !== undefined && (
           <DialogForm
-            component={form}
+            action={actions[actionIndex]}
             initValue={currentData ?? {}}
             onSubmit={(response, value) => handleSubmit(response, value)}
-            title={`${currentData?.id ? 'Mise à jour' : 'Nouveau'} ${module}`}
-          />
-        )}
-        {showDialogQuestion && (
-          <DialogQuestion
-            type="danger"
-            title={`Suppression de ${module}`}
-            question={`Voulez vous vraiment supprimer ce (cette) ${module}?`}
-            onSubmit={response => handleSubmit(response, currentData)}
           />
         )}
       </Stack>

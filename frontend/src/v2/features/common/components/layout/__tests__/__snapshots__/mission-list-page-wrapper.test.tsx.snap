@@ -29,7 +29,7 @@ exports[`MissionListPageWrapper > should match the snapshot 1`] = `
             >
               <main
                 class="rs-content"
-                style="max-height: calc(100vh - 104px - 50px); overflow: hidden; display: flex;"
+                style="max-height: calc(100vh - 104px - 50px); overflow: scroll; display: flex;"
               >
                 Main Page
               </main>
@@ -92,7 +92,7 @@ exports[`MissionListPageWrapper > should match the snapshot 1`] = `
           >
             <main
               class="rs-content"
-              style="max-height: calc(100vh - 104px - 50px); overflow: hidden; display: flex;"
+              style="max-height: calc(100vh - 104px - 50px); overflow: scroll; display: flex;"
             >
               Main Page
             </main>
