@@ -22,7 +22,7 @@ export const LEISURE_TYPES = {
   [LeisureType.TOWED_BUOYS]: 'Bouées tractées',
   [LeisureType.KITE_SURF]: 'Kite surf',
   [LeisureType.KAYAK]: 'Kayak',
-  [LeisureType.BOAT_RENTING]: 'Location bateux',
+  [LeisureType.BOAT_RENTING]: 'Location bateaux',
   [LeisureType.PARASAILING]: 'Parachute ascensionnel',
   [LeisureType.VNM_HIKES]: 'Randonnées VNM',
   [LeisureType.NAUTICAL_SKI]: 'Ski nautique',

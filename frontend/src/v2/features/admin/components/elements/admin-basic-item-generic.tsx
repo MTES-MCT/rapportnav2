@@ -46,7 +46,7 @@ const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ data, cells, title
         <Stack.Item style={{ width: '100%' }}>
           <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
             <Stack.Item>
-              <Text as="h1">{`${title} (${data?.length})`}</Text>
+              <Text as="h1">{`${title} (${data?.length ?? 0})`}</Text>
             </Stack.Item>
             <Stack.Item>
               {(() => {
@@ -62,7 +62,7 @@ const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ data, cells, title
           </Stack>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <Table height={800} data={data} onRowClick={rowData => console.log(rowData)} fillHeight={false}>
+          <Table height={650} data={data}>
             {cells.map(cell => (
               <Column width={cell.width} align="start" fixed>
                 <HeaderCell>{cell.label}</HeaderCell>

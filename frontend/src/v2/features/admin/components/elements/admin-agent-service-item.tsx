@@ -1,5 +1,6 @@
 import Text from '@common/components/ui/text'
 import { Icon, Select, THEME } from '@mtes-mct/monitor-ui'
+import { sortBy } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
 import useGetAgentRoles from '../../../common/services/use-agent-roles'
@@ -82,23 +83,26 @@ const AdminAgentServiceItem: React.FC<AdminAgentOnServiceProps> = () => {
             cells={CELLS}
             onSubmit={handleSubmit}
             title={currentCrew?.service?.name ?? ''}
-            data={currentCrew?.agentServices?.map(agentService => ({
-              id: agentService.id,
-              agentId: agentService.agent.id,
-              roleId: agentService.role?.id,
-              serviceId: currentCrew.service.id,
-              name: `${agentService.agent?.firstName} ${agentService.agent?.lastName}`,
-              role: `${agentService.role?.id} - ${agentService.role?.title}`,
-              createdAt: agentService.createdAt,
-              updatedAt: agentService.updatedAt,
-              disabledAt: agentService.disabledAt
-            }))}
+            data={sortBy(
+              currentCrew?.agentServices?.map(agentService => ({
+                id: agentService.id,
+                agentId: agentService.agent.id,
+                roleId: agentService.role?.id,
+                serviceId: currentCrew.service.id,
+                name: `${agentService.agent?.firstName} ${agentService.agent?.lastName}`,
+                role: `${agentService.role?.id} - ${agentService.role?.title}`,
+                createdAt: agentService.createdAt,
+                updatedAt: agentService.updatedAt,
+                disabledAt: agentService.disabledAt
+              })),
+              ['updatedAt']
+            )}
             actions={ACTIONS.map(action => ({
               ...action,
               formProps: {
                 agents,
                 roles,
-                disabledAgents: currentCrew?.agentServices.map(a => a.agent.id?.toString()) ?? []
+                disabledAgents: currentCrew?.agentServices?.map(a => a.agent.id?.toString()) ?? []
               }
             }))}
           />
