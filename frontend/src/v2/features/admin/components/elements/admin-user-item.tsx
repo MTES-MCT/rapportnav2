@@ -15,6 +15,7 @@ const CELLS = [
   { key: 'firstName', label: 'prénom', width: 150 },
   { key: 'lastName', label: 'nom', width: 150 },
   { key: 'roles', label: 'Rôles', width: 350 },
+  { key: 'serviceId', label: 'Service', width: 60 },
   { key: 'createdAt', label: 'Date de Creation', width: 200 },
   { key: 'updatedAt', label: 'Dernière mise à jour', width: 240 }
 ]
