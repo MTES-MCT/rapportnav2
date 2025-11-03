@@ -3,14 +3,16 @@ dependency_check:
   image:
     name: owasp/dependency-check:12.1.0
     entrypoint: [ "" ]
-
+  variables:
+    GIT_STRATEGY: fetch
   script:
     # Create suppression file
-    - echo '<?xml version="1.0"?><suppressions><suppress><cve>CVE-2016-9878</cve></suppress><suppress><cve>CVE-2018-1258</cve></suppress></suppressions>' > suppressions.xml
+    #- echo '<?xml version="1.0"?><suppressions><suppress><cve>CVE-2016-9878</cve></suppress><suppress><cve>CVE-2018-1258</cve></suppress></suppressions>' > suppressions.xml
 
-    - export JAVA_TOOL_OPTIONS="-Dhttps.proxyHost=${PROXY_HOST} -Dhttps.proxyPort=${PROXY_PORT}"
+    #- export JAVA_TOOL_OPTIONS="-Dhttps.proxyHost=${PROXY_HOST} -Dhttps.proxyPort=${PROXY_PORT}"
 
     - /usr/share/dependency-check/bin/dependency-check.sh
+      --noupdate
       --connectionString "jdbc:postgresql://prod-cdc-secu01.dsi.damgm.i2:5432/DPCHECK" --dbDriverName "org.postgresql.Driver" --dbUser dpcheck --dbPassword dpcheck
       --nvdApiKey c4a82c3a-644b-4e95-bfe7-c7337f662895
       --proxyserver "${PROXY_HOST}"
@@ -20,8 +22,10 @@ dependency_check:
       --failOnCVSS $FAIL_DP_CHECK_LVL
       --out $PROJECT_NAME-$PROJECT_VERSION-frontend-DP-check.html
       --disableYarnAudit --nodePackageSkipDevDependencies --nodeAuditSkipDevDependencies
+      --ossIndexUsername ${DEPENDENCY_CHECK_OSS_User} --ossIndexPassword ${DEPENDENCY_CHECK_OSS_Password}
 
     - /usr/share/dependency-check/bin/dependency-check.sh
+      --noupdate
       --connectionString "jdbc:postgresql://prod-cdc-secu01.dsi.damgm.i2:5432/DPCHECK" --dbDriverName "org.postgresql.Driver" --dbUser dpcheck --dbPassword dpcheck
       --nvdApiKey c4a82c3a-644b-4e95-bfe7-c7337f662895
       --proxyserver "${PROXY_HOST}"
@@ -31,7 +35,9 @@ dependency_check:
       --failOnCVSS $FAIL_DP_CHECK_LVL
       --out $PROJECT_NAME-$PROJECT_VERSION-backend-DP-check.html
       --disableYarnAudit --nodePackageSkipDevDependencies --nodeAuditSkipDevDependencies
-      --suppression ./suppressions.xml
+      --ossIndexUsername ${DEPENDENCY_CHECK_OSS_User} --ossIndexPassword ${DEPENDENCY_CHECK_OSS_Password}
+      --suppression dpc_ignore-cve.xml
+
   tags:
     - analyze
   artifacts:
