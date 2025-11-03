@@ -1,5 +1,31 @@
 # Changelog
 
+## [2.33.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.32.14...docker-container@v2.33.0) (2025-11-03)
+
+
+### Features
+
+* **backend:** CRUD agent service, roles ([a6bbf59](https://github.com/MTES-MCT/rapportnav2/commit/a6bbf59b01e5ef95f6e43a9b55bab07993334297))
+* **backend:** ignore validation password ([e90c046](https://github.com/MTES-MCT/rapportnav2/commit/e90c046437007b8b6cacb956f6bcaa9fab6249e8))
+* **backend:** make sure that user not already exist ([b96f843](https://github.com/MTES-MCT/rapportnav2/commit/b96f84372fdb921ab2ecd87b7e6a8496b418173a))
+* **frontend/backend:** module admin user ([3bcfd65](https://github.com/MTES-MCT/rapportnav2/commit/3bcfd65d1201f4d45dd8892047e729bab0712303))
+* **frontend:** admin module agent service ([b626009](https://github.com/MTES-MCT/rapportnav2/commit/b626009d782904306e82ca39c389b45982733228))
+* **frontend:** admin page with agent, service and role ([0580f46](https://github.com/MTES-MCT/rapportnav2/commit/0580f46094cb30e3396fc69e74c5df62062802e8))
+
+
+### Bug Fixes
+
+* **backend:** build ([c4a4010](https://github.com/MTES-MCT/rapportnav2/commit/c4a401096332898ac0fade630fa10839d9ebfdc7))
+* **backend:** fix test and build ([e3142c2](https://github.com/MTES-MCT/rapportnav2/commit/e3142c2a59516cf24ff604497fb4f6b8e03dd6c9))
+* **backend:** test ([9b42f25](https://github.com/MTES-MCT/rapportnav2/commit/9b42f2580c7a6905658a199f3b995f0ee0c3137f))
+* **bakcend:** review add delete at and soft delete ([c8dd618](https://github.com/MTES-MCT/rapportnav2/commit/c8dd61818021722ea8d32e001b720059a7d7e79f))
+* **CI:** bump backend dependencies ([18f74b7](https://github.com/MTES-MCT/rapportnav2/commit/18f74b73d373f4ac946bf5699a69376c6117c070))
+* **CI:** exclude CVEs ([50779dc](https://github.com/MTES-MCT/rapportnav2/commit/50779dce3d55cdfa58b14b0726e2c0ff6b6ec28f))
+* **frontend:** fix build and test ([fedca49](https://github.com/MTES-MCT/rapportnav2/commit/fedca491bcf8f669e80bd6583c9ed32f78a8b9d5))
+* **frontend:** rename files ([a84aa61](https://github.com/MTES-MCT/rapportnav2/commit/a84aa6194f3f5ef70d36b1ae85db3d275aca529e))
+* **frontend:** small bugs ([deaa0a9](https://github.com/MTES-MCT/rapportnav2/commit/deaa0a949eb3daffb0d44fb948565c4592fa2e4a))
+* **frontend:** update the handle of action for admin table ([f7ad7b7](https://github.com/MTES-MCT/rapportnav2/commit/f7ad7b76021c44d516120cef8985f9e658dc4d59))
+
 ## [2.32.14](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.32.13...docker-container@v2.32.14) (2025-10-30)
 
 
