@@ -1,3 +1,4 @@
+import { RoleType } from '../../common/types/role-type'
 import { AdminService } from './admin-services-type'
 
 export type Agent = {
@@ -34,4 +35,16 @@ export type AdminAgentServiceInput = {
   agentId: number
   serviceId: number
   roleId?: number
+}
+
+export interface AdminUser {
+  id: number
+  email: string
+  firstName?: string
+  lastName?: string
+  role: RoleType[]
+  password?: string
+  serviceId: number
+  createdAt?: Date
+  updatedAt?: Date
 }

@@ -7,6 +7,7 @@ import AdminAgentItem from '../features/admin/components/elements/admin-agent-it
 import AdminAgentRoleItem from '../features/admin/components/elements/admin-agent-role-item.tsx'
 import AdminAgentServiceItem from '../features/admin/components/elements/admin-agent-service-item.tsx'
 import AdminServiceItem from '../features/admin/components/elements/admin-service-item.tsx'
+import AdminUserItem from '../features/admin/components/elements/admin-user-item.tsx'
 import MissionListPageHeaderWrapper from '../features/common/components/layout/mission-list-page-header-wrapper.tsx'
 import MissionListPageWrapper from '../features/common/components/layout/mission-list-page-wrapper.tsx'
 import MissionListPageSidebarWrapper from '../features/common/components/ui/mission-list-page-sidebar.tsx'
@@ -76,6 +77,9 @@ const AdminPage: React.FC = () => {
                     </Tabs.Tab>
                     <Tabs.Tab eventKey="4" title="Crews">
                       <AdminAgentServiceItem />
+                    </Tabs.Tab>
+                    <Tabs.Tab eventKey="5" title="Users">
+                      <AdminUserItem />
                     </Tabs.Tab>
                   </Tabs>
                 </Stack.Item>

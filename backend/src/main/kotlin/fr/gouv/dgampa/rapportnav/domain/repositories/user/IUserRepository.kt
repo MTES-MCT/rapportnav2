@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.repositories.user
 
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.user.UserModel
 
 interface IUserRepository {
 
@@ -10,4 +11,5 @@ interface IUserRepository {
 
     fun save(user: User): User?
 
+    fun findAll(): List<UserModel>
 }

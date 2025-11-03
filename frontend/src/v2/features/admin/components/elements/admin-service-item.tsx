@@ -1,6 +1,6 @@
 import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
-import useAdminCreateOrUpdateServiceMutation from '../../services/use-admin-create-or-update-services-service'
+import useAdminCreateOrUpdateServiceMutation from '../../services/use-admin-create-update-services-service'
 import useAdminServiceListQuery from '../../services/use-admin-services-service'
 import { AdminAction, AdminActionType } from '../../types/admin-action'
 import { AdminService } from '../../types/admin-services-type'

@@ -34,4 +34,8 @@ class JPAUserRepository(
         }
     }
 
+    override fun findAll(): List<UserModel> {
+       return  dbUserRepository.findAll()
+    }
+
 }

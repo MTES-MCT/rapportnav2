@@ -16,5 +16,6 @@ export interface AdminAction {
 export enum AdminActionType {
   DELETE = 'DELETE',
   UPDATE = 'UPDATE',
-  CREATE = 'CREATE'
+  CREATE = 'CREATE',
+  UPDATE_PASSWORD = 'UPDATE_PASSWORD'
 }
