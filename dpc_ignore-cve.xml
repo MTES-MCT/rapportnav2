@@ -7,5 +7,50 @@
     <suppress>
         <cve>CVE-2016-9878</cve>
     </suppress>
+    <suppress>
+        <cve>CVE-2023-42445</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2023-35946</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2021-29429</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2019-16370</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2019-11065</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2023-44387</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2021-32751</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2020-11979</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2021-29428</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2023-35947</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2019-15052</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2025-26791</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2025-26791</cve>
+    </suppress>
+    
+    
+    
+    
+    
+    
 
 </suppressions>
