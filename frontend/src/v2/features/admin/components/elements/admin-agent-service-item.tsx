@@ -5,8 +5,8 @@ import React, { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
 import useGetAgentRoles from '../../../common/services/use-agent-roles'
 import useAgentsQuery from '../../../common/services/use-agents'
-import useAdminCreateOrUpdateAgentServiceMutation from '../../services/use-admin-create-update-crew-service'
-import useGetAdminAgentServices from '../../services/use-agent-services'
+import useGetAdminCrewServices from '../../services/use-admin-agent-crew-service'
+import useAdminCreateOrUpdateCrewMutation from '../../services/use-admin-create-update-agent-crew-service'
 import { AdminAction, AdminActionType } from '../../types/admin-action'
 import { AdminAgentServiceInput, AdminServiceWithAgent } from '../../types/admin-agent-types'
 import AdminAgentServiceForm from '../ui/admin-agent-service-form'
@@ -49,8 +49,8 @@ type AdminAgentOnServiceProps = {}
 const AdminAgentServiceItem: React.FC<AdminAgentOnServiceProps> = () => {
   const { data: agents } = useAgentsQuery()
   const { data: roles } = useGetAgentRoles()
-  const { data: agentServices } = useGetAdminAgentServices()
-  const createOrUpdateMutation = useAdminCreateOrUpdateAgentServiceMutation()
+  const { data: agentServices } = useGetAdminCrewServices()
+  const createOrUpdateMutation = useAdminCreateOrUpdateCrewMutation()
 
   const [currentCrew, setCurrentCrew] = useState<AdminServiceWithAgent>()
   const handleSubmit = async (action: AdminActionType, value: AdminAgentServiceInput) => {

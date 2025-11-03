@@ -3,11 +3,11 @@ import { renderHook } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import useAuth, { Token } from '../../v2/features/auth/hooks/use-auth'
 import { ModuleType } from '../../v2/features/common/types/module-type'
+import { OwnerType } from '../../v2/features/common/types/owner-type.ts'
 import { RoleType } from '../../v2/features/common/types/role-type'
 import { setModuleType } from '../../v2/store/slices/module-reducer.ts'
 import { LOGIN_PATH } from '../routes'
 import { useGlobalRoutes } from '../use-global-routes'
-import { OwnerType } from '../../v2/features/common/types/owner-type.ts'
 
 vi.mock('@tanstack/react-store', () => ({
   useStore: vi.fn()
@@ -52,7 +52,7 @@ describe('useGlobalRoutes', () => {
     mockUseStore.mockReturnValue({ isV2: true })
 
     const { result } = renderHook(() => useGlobalRoutes())
-    expect(result.current.homeUrl).toBe('/v2/admin/crews')
+    expect(result.current.homeUrl).toBe('/v2/admin')
     expect(mockSetModuleType).toHaveBeenCalledWith(ModuleType.ADMIN)
   })
 
