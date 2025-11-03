@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.PasswordValidator
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.user.RoleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode.ALREADY_EXISTS_EXCEPTION
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode.PASSWORD_TOO_WEAK_EXCEPTION
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository
@@ -42,6 +43,12 @@ class CreateUser (
             roles = input.roles ?: listOf(RoleTypeEnum.USER_PAM)
         )
 
+        if (userRepository.findByEmail(input.email) != null) {
+            throw BackendUsageException(
+                code = ALREADY_EXISTS_EXCEPTION,
+                message = "User already exists"
+            )
+        }
         return this.userRepository.save(user)
     }
 }
