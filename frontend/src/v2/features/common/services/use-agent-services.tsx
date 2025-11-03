@@ -1,8 +1,8 @@
-import axios from '../../../../query-client/axios.ts'
 import { useQuery } from '@tanstack/react-query'
+import axios from '../../../../query-client/axios.ts'
+import { STATIC_DATA_GC_TIME, STATIC_DATA_STALE_TIME } from '../../../../query-client/index.ts'
 import { ServiceWithAgents } from '../types/service-agents-types.ts'
 import { agentServicesKeys } from './query-keys.ts'
-import { STATIC_DATA_GC_TIME, STATIC_DATA_STALE_TIME } from '../../../../query-client'
 
 const useGetAgentServices = () => {
   const fetchAgentServices = (): Promise<ServiceWithAgents[]> => axios.get(`crews`).then(response => response.data)

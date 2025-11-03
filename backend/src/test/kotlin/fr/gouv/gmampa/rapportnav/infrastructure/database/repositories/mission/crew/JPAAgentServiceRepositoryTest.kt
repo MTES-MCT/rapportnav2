@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.database.repositories.mission.crew
 
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentServiceModel
@@ -26,12 +27,12 @@ class JPAAgentServiceRepositoryTest {
         AgentServiceModel(
             id = 1,
             agent = AgentModel(id = 1, firstName = "", lastName = ""),
-            serviceId = 1,
+            service = ServiceModel(id = 1, name = "service 1"),
             role = AgentRoleModel(id = 1, title = "")
         ), AgentServiceModel(
             id = 2,
             agent = AgentModel(id = 1, firstName = "", lastName = ""),
-            serviceId = 1,
+            service = ServiceModel(id = 1, name = "service 1"),
             role = AgentRoleModel(id = 1, title = "")
         )
     )

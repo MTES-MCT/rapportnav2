@@ -1,5 +1,5 @@
 import { Mission } from '@common/types/mission-types.ts'
-import { PAM_SIDEBAR_ITEMS } from '@router/routes.tsx'
+import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import { FC, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Stack } from 'rsuite'
@@ -27,6 +27,7 @@ const MissionListPamPage: FC = () => {
   const isOfflineModeEnabled = useOfflineMode()
 
   const { getTodayYearRange } = useDate()
+  const { getSidebarItems } = useGlobalRoutes()
   const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
@@ -85,7 +86,7 @@ const MissionListPamPage: FC = () => {
   return (
     <MissionListPageWrapper
       header={<MissionListPageHeaderWrapper title={<MissionListPageTitle userId={isLoggedIn()?.userId} />} />}
-      sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={PAM_SIDEBAR_ITEMS} />}
+      sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={getSidebarItems()} />}
       footer={
         <Stack style={{ width: '100%', height: '100%' }} justifyContent={'flex-end'} alignItems={'center'}>
           <Stack.Item style={{ marginRight: '4rem' }}>{isOfflineModeEnabled && <OnlineToggle />}</Stack.Item>

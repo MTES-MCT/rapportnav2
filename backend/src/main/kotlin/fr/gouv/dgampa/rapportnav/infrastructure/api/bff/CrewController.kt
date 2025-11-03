@@ -36,7 +36,7 @@ class CrewController(
         return try {
             getAgentsByServiceId.execute(
                 serviceId = serviceId
-            ).map { Agent.fromAgentEntity(it) }
+            ).map { Agent.fromAgentServiceEntity(it) }
         } catch (e: Exception) {
             logger.error("[ERROR] API on endpoint agentsByServiceId :", e)
             null
@@ -50,7 +50,7 @@ class CrewController(
 
             user?.serviceId?.let { serviceId ->
                 val agents = getAgentsByServiceId.execute(serviceId)
-                    .map { Agent.fromAgentEntity(it) }
+                    .map { Agent.fromAgentServiceEntity(it) }
                 agents
             }
         } catch (e: Exception) {
@@ -58,7 +58,6 @@ class CrewController(
             null
         }
     }
-
 
     @QueryMapping
     fun missionCrewByMissionId(@Argument missionId: Int): List<MissionCrew> {

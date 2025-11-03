@@ -30,7 +30,7 @@ class GetCrewByServiceId(
         // select from agent service by service
         val agents =  agentServiceRepo
             .findByServiceId(serviceId = serviceId)
-            .mapNotNull{ it.toAgentServiceEntity() }
+            .map { AgentServiceEntity.fromAgentServiceModel(it) }
             .sortedBy { rolePriority.indexOf(it.role?.title) }
         return agents
     }

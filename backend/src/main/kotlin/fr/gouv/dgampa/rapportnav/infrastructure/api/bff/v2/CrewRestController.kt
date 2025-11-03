@@ -39,11 +39,15 @@ class CrewRestController(
     )
     fun getAllCrews(): List<ServiceWithAgents> {
         val services = getServices.execute()
-        return services.map { service ->
-            ServiceWithAgents(
-                service = service,
-                agents = service.id?.let { getCrewByServiceId.execute(serviceId = it) } ?: emptyList()
-            )
+        return try {
+            services.map { service ->
+                ServiceWithAgents(
+                    service = service,
+                    agents = service.id?.let { getCrewByServiceId.execute(serviceId = it) } ?: emptyList()
+                )}
+        } catch (e: Exception) {
+            logger.error("[ERROR] API on endpoint getCrossControlByServiceId:", e)
+            return emptyList()
         }
     }
 }

@@ -9,7 +9,6 @@ class GetServices(
     private val repo: IServiceRepository,
 ) {
     fun execute(): List<ServiceEntity> {
-        val services = repo.findAll().map{ it.toServiceEntity() }
-        return services
+        return repo.findAll().map { ServiceEntity.fromServiceModel(it) }
     }
 }

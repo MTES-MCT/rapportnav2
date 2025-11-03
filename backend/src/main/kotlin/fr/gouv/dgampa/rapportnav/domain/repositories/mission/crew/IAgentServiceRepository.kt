@@ -5,4 +5,6 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.Agen
 interface IAgentServiceRepository {
     fun findAll(): List<AgentServiceModel>
     fun findByServiceId(serviceId: Int): List<AgentServiceModel>
+    fun save(model: AgentServiceModel): AgentServiceModel
+    fun deleteById(id: Int)
 }

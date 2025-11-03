@@ -3,13 +3,13 @@ import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
 // x-release-please-start-version
-version = "2.32.14"
+version = "2.33.0"
 // x-release-please-end
 description = "RapportNav"
 
 val kotlinVersion by extra("1.9.24")
 val serializationVersion by extra("1.6.2")
-  val springVersion by extra("3.5.7")
+val springVersion by extra("3.5.7")
 val testcontainersVersion by extra("1.19.3")
 val flywayVersion by extra("10.10.0")
 
@@ -68,7 +68,7 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-security:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-cache:$springVersion")
-  implementation("com.github.ben-manes.caffeine:caffeine:3.2.0")
+  implementation("com.github.ben-manes.caffeine:caffeine:3.2.3")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib")
@@ -77,7 +77,7 @@ dependencies {
   implementation("org.n52.jackson:jackson-datatype-jts:1.2.10") {
     exclude(group = "org.locationtech.jts", module = "jts-core")
   }
-  implementation("io.jsonwebtoken:jjwt-api:0.12.3")
+  implementation("io.jsonwebtoken:jjwt-api:0.12.7")
   implementation("javax.xml.bind:jaxb-api:2.3.1")
   implementation("org.springframework.security:spring-security-oauth2-jose:6.5.6")
   implementation("org.locationtech.jts:jts-core:1.20.0")
@@ -88,7 +88,7 @@ dependencies {
   implementation("org.apache.poi:poi:5.4.1")
   implementation("org.apache.poi:poi-ooxml:5.4.1")
   implementation("org.apache.commons:commons-text:1.14.0")
-  implementation("org.jodconverter:jodconverter-local-lo:4.4.7")
+  implementation("org.jodconverter:jodconverter-local-lo:4.4.11")
   implementation("com.neovisionaries:nv-i18n:1.29")
   implementation("org.wiremock:wiremock-standalone:4.0.0-beta.15")
   implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")

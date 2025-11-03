@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentRoleEntity
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
@@ -22,6 +21,9 @@ class AgentRoleModel(
     @Column(name = "title", unique = true, nullable = false)
     var title: String,
 
+    @Column(name = "priority", unique = false, nullable = true)
+    var priority: Int? = null,
+
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
     var createdAt: Instant? = null,
@@ -36,22 +38,8 @@ class AgentRoleModel(
 
     @LastModifiedBy
     @Column(name = "updated_by")
-    var updatedBy: Int? = null
-) {
+    var updatedBy: Int? = null,
 
-    fun toAgentRoleEntity(): AgentRoleEntity {
-        return AgentRoleEntity(
-            id = id,
-            title = title,
-        )
-    }
-
-    companion object {
-        fun fromAgentRoleEntity(role: AgentRoleEntity): AgentRoleModel {
-            return AgentRoleModel(
-                id = role.id,
-                title = role.title,
-            )
-        }
-    }
-}
+    @Column(name = "deleted_at", nullable = true)
+    var deletedAt: Instant? = null,
+)

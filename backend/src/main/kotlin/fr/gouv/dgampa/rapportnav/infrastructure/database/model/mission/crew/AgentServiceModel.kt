@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentServiceEntity
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
@@ -20,13 +20,13 @@ class AgentServiceModel
         nullable = false
     ) var id: Int?,
 
-    @Column(name = "service_id", nullable = false) var serviceId: Int?,
+    @OneToOne @JoinColumn(name = "service_id", referencedColumnName = "id") var service: ServiceModel,
 
     @OneToOne @JoinColumn(name = "agent_id", referencedColumnName = "id") var agent: AgentModel,
 
     @OneToOne @JoinColumn(
         name = "agent_role_id", referencedColumnName = "id"
-    ) var role: AgentRoleModel,
+    ) var role: AgentRoleModel? = null,
 
     @Column(name = "disabled_at", nullable = true)
     var disabledAt: Instant? = null,
@@ -46,17 +46,4 @@ class AgentServiceModel
     @LastModifiedBy
     @Column(name = "updated_by")
     var updatedBy: Int? = null
-) {
-
-    fun toMissionCrewModel(missionId: Int): MissionCrewModel? {
-        return MissionCrewModel(
-            id = null, missionId = missionId, agent = agent, role = role, comment = ""
-        );
-    }
-
-    fun toAgentServiceEntity(): AgentServiceEntity? {
-        return AgentServiceEntity(
-            id = null, agent = agent.toAgentEntity(), role = role?.toAgentRoleEntity(), disabledAt = disabledAt
-        );
-    }
-}
+)
