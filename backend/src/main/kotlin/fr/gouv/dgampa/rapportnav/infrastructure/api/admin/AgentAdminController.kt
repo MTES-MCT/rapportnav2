@@ -1,9 +1,11 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.admin
 
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgents
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.CreateOrUpdateAgent
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.DeleteAgent
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -14,10 +16,36 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/v2/admin/agents")
 class AgentAdminController(
+    private val getAgent: GetAgents,
     private val deleteAgent: DeleteAgent,
     private val createOrUpdateAgent: CreateOrUpdateAgent
 ) {
     private val logger = LoggerFactory.getLogger(AgentAdminController::class.java)
+
+    @GetMapping
+    @Operation(summary = "Get the list of all agents")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "Found list of agents", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        array = (ArraySchema(schema = Schema(implementation = Agent::class)))
+                    ))
+                ]
+            ),
+            ApiResponse(responseCode = "404", description = "Did not find any agents list", content = [Content()])
+        ]
+    )
+    fun agents(): List<Agent>? {
+        return try {
+            getAgent.execute()
+                .map { Agent.fromAgentEntity(it) }
+        } catch (e: Exception) {
+            logger.error("[ERROR] API on endpoint agents:", e)
+            listOf()
+        }
+    }
 
     @PostMapping("")
     @Operation(summary = "Create Agent")

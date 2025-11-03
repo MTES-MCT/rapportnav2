@@ -2,7 +2,6 @@ import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-
 
 import * as Sentry from '@sentry/react'
 import axios from '../../../../query-client/axios.ts'
-import { agentsKeys } from '../../common/services/query-keys.ts'
 import { Agent } from '../types/admin-agent-types.ts'
 
 const useAdminCreateOrUpdateAgentMutation = (): UseMutationResult<Agent, Error, Agent, unknown> => {
@@ -18,10 +17,10 @@ const useAdminCreateOrUpdateAgentMutation = (): UseMutationResult<Agent, Error, 
 
   return useMutation({
     mutationFn: createOrUpdateAgent,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: agentsKeys.all() }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['admin-agents'] }),
     onError: error => {
       Sentry.captureException(error)
-      queryClient.invalidateQueries({ queryKey: agentsKeys.all() })
+      queryClient.invalidateQueries({ queryKey: ['admin-agents'] })
     },
     scope: {
       id: `create-admin-agent`

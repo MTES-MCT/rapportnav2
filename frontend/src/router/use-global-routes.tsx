@@ -83,8 +83,8 @@ export function useGlobalRoutes(): RouteHook {
       const user = isLoggedIn()
       const baseUrl = isV2 ? '/v2' : ''
       const moduleType = ROUTES[user?.roles[0] ?? RoleType.USER_PAM]
-      const page = moduleType === ModuleType.ADMIN ? 'crews' : 'missions'
-      const homeUrl = `${baseUrl}/${moduleType}/${page}`
+      const page = moduleType === ModuleType.ADMIN ? '' : '/missions'
+      const homeUrl = `${baseUrl}/${moduleType}${page}`
 
       setHomeUrl(homeUrl)
       setModuleType(moduleType)

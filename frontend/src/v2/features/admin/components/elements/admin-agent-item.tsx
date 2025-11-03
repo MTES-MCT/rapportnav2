@@ -1,7 +1,7 @@
 import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import { sortBy } from 'lodash'
 import React from 'react'
-import useAgentsQuery from '../../../common/services/use-agents'
+import useGetAdminAgentServices from '../../services/use-admin-agents-service'
 import useAdminCreateOrUpdateAgentMutation from '../../services/use-admin-create-update-agents-service'
 import { AdminAction, AdminActionType } from '../../types/admin-action'
 import { Agent } from '../../types/admin-agent-types'
@@ -44,7 +44,7 @@ const ACTIONS: AdminAction[] = [
 type AdminAgentProps = {}
 
 const AdminAgentItem: React.FC<AdminAgentProps> = () => {
-  const { data: agents } = useAgentsQuery()
+  const { data: agents } = useGetAdminAgentServices()
   const createOrUpdateMutation = useAdminCreateOrUpdateAgentMutation()
   const handleSubmit = async (action: AdminActionType, value: Agent) => {
     if (action !== 'DELETE') await createOrUpdateMutation.mutateAsync(value)
