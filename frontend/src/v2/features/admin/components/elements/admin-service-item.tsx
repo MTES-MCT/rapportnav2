@@ -1,4 +1,5 @@
 import { Icon, THEME } from '@mtes-mct/monitor-ui'
+import { sortBy } from 'lodash'
 import React from 'react'
 import useAdminCreateOrUpdateServiceMutation from '../../services/use-admin-create-update-services-service'
 import useAdminServiceListQuery from '../../services/use-admin-services-service'
@@ -50,7 +51,13 @@ const AdminServiceItem: React.FC<AdminServiceProps> = () => {
   }
 
   return (
-    <AdminBasicItemGeneric cells={CELLS} title="Services" data={services} actions={ACTIONS} onSubmit={handleSubmit} />
+    <AdminBasicItemGeneric
+      cells={CELLS}
+      title="Services"
+      actions={ACTIONS}
+      onSubmit={handleSubmit}
+      data={sortBy(services, ['updatedAt'])}
+    />
   )
 }
 

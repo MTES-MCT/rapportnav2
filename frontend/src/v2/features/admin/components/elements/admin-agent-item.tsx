@@ -1,4 +1,5 @@
 import { Icon, THEME } from '@mtes-mct/monitor-ui'
+import { sortBy } from 'lodash'
 import React from 'react'
 import useAgentsQuery from '../../../common/services/use-agents'
 import useAdminCreateOrUpdateAgentMutation from '../../services/use-admin-create-update-agents-service'
@@ -49,7 +50,15 @@ const AdminAgentItem: React.FC<AdminAgentProps> = () => {
     if (action !== 'DELETE') await createOrUpdateMutation.mutateAsync(value)
   }
 
-  return <AdminBasicItemGeneric cells={CELLS} title="Agents" data={agents} actions={ACTIONS} onSubmit={handleSubmit} />
+  return (
+    <AdminBasicItemGeneric
+      cells={CELLS}
+      title="Agents"
+      actions={ACTIONS}
+      onSubmit={handleSubmit}
+      data={sortBy(agents, ['updatedAt'])}
+    />
+  )
 }
 
 export default AdminAgentItem

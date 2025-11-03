@@ -9,6 +9,7 @@ class GetAgentsByServiceId(private val agentServiceRepository: IAgentServiceRepo
 
     fun execute(serviceId: Int): List<AgentServiceEntity> {
         return agentServiceRepository.findByServiceId(serviceId = serviceId)
+            .filter { it.disabledAt == null }
             .map { AgentServiceEntity.fromAgentServiceModel(it) }
     }
 }
