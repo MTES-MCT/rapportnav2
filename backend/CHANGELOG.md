@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.34.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.34.1...backend@v2.34.2) (2025-11-03)
+
+
+### Bug Fixes
+
+* **backend:** sequence  services ([83e6b6d](https://github.com/MTES-MCT/rapportnav2/commit/83e6b6d46b3201f425986361c98e066e81dd2d8a))
+* **frontend/backend:** agents list ([1a9909d](https://github.com/MTES-MCT/rapportnav2/commit/1a9909de7070c3007d7e6a1431fbc2bbb16ada16))
+
 ## [2.34.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.34.0...backend@v2.34.1) (2025-11-03)
 
 
