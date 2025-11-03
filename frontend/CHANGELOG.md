@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.34.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.34.0...frontend@v2.34.1) (2025-11-03)
+
+
+### Bug Fixes
+
+* **frontend/backend:** database seq service ([8bd6bb6](https://github.com/MTES-MCT/rapportnav2/commit/8bd6bb6ae655ffd872e315f4ca8de87e4e4cca76))
+* **frontend/backend:** database seq service ([8ff2cbc](https://github.com/MTES-MCT/rapportnav2/commit/8ff2cbc5862ee3829046027b4c86bab91f7d5fa2))
+
 ## [2.34.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.33.0...frontend@v2.34.0) (2025-11-03)
 
 
