@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.33.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.32.14...frontend@v2.33.0) (2025-11-03)
+
+
+### Features
+
+* **frontend/backend:** module admin user ([3bcfd65](https://github.com/MTES-MCT/rapportnav2/commit/3bcfd65d1201f4d45dd8892047e729bab0712303))
+* **frontend:** admin module agent service ([b626009](https://github.com/MTES-MCT/rapportnav2/commit/b626009d782904306e82ca39c389b45982733228))
+* **frontend:** admin page with agent, service and role ([0580f46](https://github.com/MTES-MCT/rapportnav2/commit/0580f46094cb30e3396fc69e74c5df62062802e8))
+
+
+### Bug Fixes
+
+* **frontend:** fix build and test ([fedca49](https://github.com/MTES-MCT/rapportnav2/commit/fedca491bcf8f669e80bd6583c9ed32f78a8b9d5))
+* **frontend:** rename files ([a84aa61](https://github.com/MTES-MCT/rapportnav2/commit/a84aa6194f3f5ef70d36b1ae85db3d275aca529e))
+* **frontend:** small bugs ([deaa0a9](https://github.com/MTES-MCT/rapportnav2/commit/deaa0a949eb3daffb0d44fb948565c4592fa2e4a))
+* **frontend:** update the handle of action for admin table ([f7ad7b7](https://github.com/MTES-MCT/rapportnav2/commit/f7ad7b76021c44d516120cef8985f9e658dc4d59))
+
 ## [2.32.14](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.32.13...frontend@v2.32.14) (2025-10-30)
 
 
