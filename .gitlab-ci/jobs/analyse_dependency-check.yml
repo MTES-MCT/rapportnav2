@@ -37,7 +37,7 @@ dependency_check:
       --disableYarnAudit --nodePackageSkipDevDependencies --nodeAuditSkipDevDependencies
       --ossIndexUsername ${DEPENDENCY_CHECK_OSS_User} --ossIndexPassword ${DEPENDENCY_CHECK_OSS_Password}
       --suppression dpc_ignore-cve.xml
-
+      
   tags:
     - analyze
   artifacts:
