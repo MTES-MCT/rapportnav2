@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.34.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.33.0...frontend@v2.34.0) (2025-11-03)
+
+
+### Features
+
+* **frontend:** add service ad in user admin  form ([b2a3d09](https://github.com/MTES-MCT/rapportnav2/commit/b2a3d09df70cf2a35ff554169e220ee6657f6f18))
+* **frontend:** add service ad in user admin  form ([d6c9e0d](https://github.com/MTES-MCT/rapportnav2/commit/d6c9e0dad7c55d213e9e8c60b654bd2f6665c5be))
+
 ## [2.33.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.32.14...frontend@v2.33.0) (2025-11-03)
 
 
