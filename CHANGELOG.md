@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.34.3](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.34.2...docker-container@v2.34.3) (2025-11-04)
+
+
+### Bug Fixes
+
+* **backend/frontend:** admin create crew ([51fa845](https://github.com/MTES-MCT/rapportnav2/commit/51fa8455ead3697f2fe70201bffb5d41c7573b7d))
+* **backend/frontend:** admin create crew ([7ab4aab](https://github.com/MTES-MCT/rapportnav2/commit/7ab4aab13f68e3f3475df756f100bf0cbeed2291))
+
 ## [2.34.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.34.1...docker-container@v2.34.2) (2025-11-03)
 
 
