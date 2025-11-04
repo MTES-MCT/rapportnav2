@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.35.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.34.3...frontend@v2.35.0) (2025-11-04)
+
+
+### Features
+
+* **ApiKeys:** introduce API key management and admin panel ([eadf017](https://github.com/MTES-MCT/rapportnav2/commit/eadf0175207aaabbe322f125372dff6efaeec98a))
+* move API v2 MissionExport to REST instead of GraphQL ([4c2bf92](https://github.com/MTES-MCT/rapportnav2/commit/4c2bf92b13b024078a3938d03bc0348fb469e3e9))
+
 ## [2.34.3](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.34.2...frontend@v2.34.3) (2025-11-04)
 
 
