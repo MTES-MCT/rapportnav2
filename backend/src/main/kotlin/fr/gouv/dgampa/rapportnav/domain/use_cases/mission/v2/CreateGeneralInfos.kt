@@ -25,7 +25,7 @@ class CreateGeneralInfos(
         return MissionGeneralInfoEntity2(
             data = MissionGeneralInfoEntity(
                 id = generalInfoModel.id,
-                missionId = generalInfoModel.id,
+                missionId = generalInfoModel.missionId,
                 missionIdUUID = generalInfoModel.missionIdUUID,
                 missionReportType = generalInfo2.missionReportType
             )

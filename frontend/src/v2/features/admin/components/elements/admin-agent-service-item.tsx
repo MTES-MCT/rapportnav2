@@ -4,11 +4,13 @@ import { sortBy } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
 import useGetAgentRoles from '../../../common/services/use-agent-roles'
-import useAgentsQuery from '../../../common/services/use-agents'
 import useGetAdminCrewServices from '../../services/use-admin-agent-crew-service'
+import useGetAdminAgentServices from '../../services/use-admin-agents-service'
 import useAdminCreateOrUpdateCrewMutation from '../../services/use-admin-create-update-agent-crew-service'
+import useAdminServiceListQuery from '../../services/use-admin-services-service'
 import { AdminAction, AdminActionType } from '../../types/admin-action'
 import { AdminAgentServiceInput, AdminServiceWithAgent } from '../../types/admin-agent-types'
+import { AdminService } from '../../types/admin-services-type'
 import AdminAgentServiceForm from '../ui/admin-agent-service-form'
 import AdminBasicItemGeneric from './admin-basic-item-generic'
 
@@ -47,20 +49,22 @@ const ACTIONS: AdminAction[] = [
 type AdminAgentOnServiceProps = {}
 
 const AdminAgentServiceItem: React.FC<AdminAgentOnServiceProps> = () => {
-  const { data: agents } = useAgentsQuery()
   const { data: roles } = useGetAgentRoles()
-  const { data: agentServices } = useGetAdminCrewServices()
+  const { data: agents } = useGetAdminAgentServices()
+  const { data: services } = useAdminServiceListQuery()
+  const { data: agentCrews } = useGetAdminCrewServices()
   const createOrUpdateMutation = useAdminCreateOrUpdateCrewMutation()
 
+  const [currentService, setCurrentService] = useState<AdminService>()
   const [currentCrew, setCurrentCrew] = useState<AdminServiceWithAgent>()
   const handleSubmit = async (action: AdminActionType, value: AdminAgentServiceInput) => {
-    if (!value.serviceId) value = { ...value, serviceId: currentCrew?.service.id!! }
+    if (!value.serviceId) value = { ...value, serviceId: currentService?.id!! }
     if (action !== AdminActionType.DELETE) createOrUpdateMutation.mutateAsync(value)
   }
 
   useEffect(() => {
-    setCurrentCrew(agentServices?.find(c => c.service.id === currentCrew?.service.id))
-  }, [agentServices])
+    setCurrentCrew(agentCrews?.find(c => c.service.id === currentService?.id))
+  }, [currentService, agentCrews])
 
   return (
     <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%', height: '100%' }}>
@@ -70,25 +74,25 @@ const AdminAgentServiceItem: React.FC<AdminAgentOnServiceProps> = () => {
       <Stack.Item style={{ width: '30%' }}>
         <Select
           name="crew"
+          value={currentService?.id}
           label="Selectionner votre équipe"
-          options={agentServices?.map(e => ({ value: e.service.id, label: e.service.name })) ?? []}
-          value={currentCrew?.service.id}
-          onChange={nextValue => setCurrentCrew(agentServices?.find(c => c.service.id === nextValue))}
+          options={services?.map(e => ({ value: e.id, label: e.name })) ?? []}
+          onChange={nextValue => setCurrentService(services?.find(c => c.id === nextValue))}
         />
       </Stack.Item>
 
       <Stack.Item style={{ width: '100%', overflowY: 'scroll' }}>
-        {currentCrew && (
+        {currentService && (
           <AdminBasicItemGeneric
             cells={CELLS}
             onSubmit={handleSubmit}
-            title={currentCrew?.service?.name ?? ''}
+            title={currentService?.name ?? ''}
             data={sortBy(
               currentCrew?.agentServices?.map(agentService => ({
                 id: agentService.id,
                 agentId: agentService.agent.id,
                 roleId: agentService.role?.id,
-                serviceId: currentCrew.service.id,
+                serviceId: currentService.id,
                 name: `${agentService.agent?.firstName} ${agentService.agent?.lastName}`,
                 role: `${agentService.role?.id} - ${agentService.role?.title}`,
                 createdAt: agentService.createdAt,
