@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 
 
 class PasswordValidatorTest {
-/* TODO change when the pattern on validate password is ok
+
     @Test
     fun `returns true for a valid strong password`() {
         val password = "=Q%&z&,J0?F[szuK"
@@ -61,6 +61,6 @@ class PasswordValidatorTest {
     fun `returns false for whitespace-only password`() {
         val password = "           "
         assertFalse(PasswordValidator.isStrong(password))
-    }*/
+    }
 
 }
