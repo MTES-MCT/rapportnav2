@@ -61,9 +61,6 @@ data class AEMIllegalFish2(
                 .fold(0.0) { acc, c ->
                 acc.plus(c.gearInfractions?.filter { g -> g.infractionType == InfractionType.WITH_RECORD }?.size ?: 0)
                     .plus(
-                        c.otherInfractions?.filter { o -> o.infractionType == InfractionType.WITH_RECORD }?.size ?: 0
-                    )
-                    .plus(
                         c.speciesInfractions?.filter { s -> s.infractionType == InfractionType.WITH_RECORD }?.size ?: 0
                     )
                     .plus(

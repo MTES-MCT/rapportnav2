@@ -34,7 +34,7 @@ class AEMIllegalFishTest2 {
         assertThat(illegalImmigration.nbrOfHourAtSea).isEqualTo(3.0);
         assertThat(illegalImmigration.nbrOfInfraction).isEqualTo(4.0);
         assertThat(illegalImmigration.nbrOfPolFishAction).isEqualTo(2.0);
-        assertThat(illegalImmigration.nbrOfInfractionWithPV).isEqualTo(4.0);
+        assertThat(illegalImmigration.nbrOfInfractionWithPV).isEqualTo(3.0);
     }
 
     private fun extendedFishActionEntities(): List<MissionFishActionEntity> {
