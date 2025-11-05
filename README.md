@@ -57,7 +57,7 @@ If you have an Apple chipset don't forget to add the following line in your .bas
 
 - add a kotlin configuration and set RapportNavApplication class
 - set/modify env
-  variables: `ENV_DB_URL=jdbc:postgresql://localhost:5432/rapportnavdb?user=postgres&password=postgres;MONITORFISH_API_KEY=fake-key;JWT_SECURITY_KEY=fG2hI6jK0lM4nO8pQ2rS6tU0vW4xY8zA2bC6dE0fG4hI8jK2lM6nO0pQ4rS8tU2;MASTER_API_KEY=uV3wX7yZ1aB5cD9eF3gH7iJ1kL5mN9oP3qR7sT1uV5wX9yZ3aB7cD1eF5gH9iJ3;`
+  variables: `ENV_DB_URL=jdbc:postgresql://localhost:5432/rapportnavdb?user=postgres&password=postgres;MONITORFISH_API_KEY=fake-key;JWT_SECURITY_KEY=somelongrandomkeywhichisenoughtoalignwiththejwtspecification;MASTER_API_KEY=somelongrandomkeywhichisenoughtoalignwiththejwtspecification;`
 - set VM
   options: `-Dspring.config.additional-location="file:/Users/lwih/workspace/beta.gouv.fr/rapportnav2/infra/configurations/backend/" -Dspring.profiles.active=local -Dsentry.environment=local`
 - set working directory: `/path/to/rapportnav2/backend`
