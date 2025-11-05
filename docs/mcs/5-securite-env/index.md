@@ -23,7 +23,9 @@ Les mécanismes suivants ont été mis en place :
 - Master password 64 chars stocké en sécurité dans un vault chez l'hébergeur
 - Clés de 64 chars stockées hashées dans la base de données, via master password, visibles en clair qu'une seule fois
 - Clé publique de 12 chars qui peut être partagée
-- Rate limiting afin de rendre trop coûteuse l'attaque en brute force
+- Rate limiting:
+  - sur clé API, par minute et heure
+  - sur IP entrante (60/minute)
 
 ### 5.4 Journalisation et audit
 

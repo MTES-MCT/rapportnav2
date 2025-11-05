@@ -2,12 +2,12 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.apikey
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.apikey.ApiKeyEntity
+import fr.gouv.dgampa.rapportnav.domain.repositories.apikey.IApiKeyAuditRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.apikey.IApiKeyRepository
 import jakarta.transaction.Transactional
 import org.slf4j.LoggerFactory
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import java.security.SecureRandom
-import java.util.Base64
+import java.time.Instant
 import java.util.UUID
 
 class RateLimitException(message: String) : RuntimeException(message)
@@ -15,6 +15,7 @@ class RateLimitException(message: String) : RuntimeException(message)
 @UseCase
 class ValidateApiKey(
     private val apiKeyRepository: IApiKeyRepository,
+    private val auditRepository: IApiKeyAuditRepository,
     private val logApiKeyAudit: LogApiKeyAudit,
     private val updateLastUsedAsync: UpdateApiKeyLastUsedAt,
     private val passwordEncoder: BCryptPasswordEncoder = BCryptPasswordEncoder(12)
@@ -79,6 +80,9 @@ class ValidateApiKey(
         // Rate limits (stub)
         checkRateLimits(storedKey.id)
 
+        // Check IP-based rate limits (prevent abuse from single IP)
+        checkIpRateLimits(ipAddress)
+
         // Successful access
         logApiKeyAudit.logSuccessfulAccess(storedKey.id, ipAddress, requestPath)
         updateLastUsedAsync.execute(storedKey.toApiKeyEntity())
@@ -88,29 +92,43 @@ class ValidateApiKey(
 
 
     private fun checkRateLimits(apiKeyId: UUID) {
-//        val now: Instant = Instant.now()
-//
-//        // Check requests in last minute
-//        val requestsLastMinute = auditRepository.countSuccessfulRequestsSince(
-//            apiKeyId,
-//            now.minusSeconds(60)
-//        )
-//
-//        if (requestsLastMinute >= MAX_REQUESTS_PER_MINUTE) {
-//            logger.warn("Rate limit exceeded for key $apiKeyId: $requestsLastMinute requests in last minute")
-//            throw RateLimitException("Rate limit exceeded: $MAX_REQUESTS_PER_MINUTE requests per minute")
-//        }
-//
-//        // Check requests in last hour
-//        val requestsLastHour = auditRepository.countSuccessfulRequestsSince(
-//            apiKeyId,
-//            now.minusSeconds(3600)
-//        )
-//
-//        if (requestsLastHour >= MAX_REQUESTS_PER_HOUR) {
-//            logger.warn("Rate limit exceeded for key $apiKeyId: $requestsLastHour requests in last hour")
-//            throw RateLimitException("Rate limit exceeded: $MAX_REQUESTS_PER_HOUR requests per hour")
-//        }
+        val now: Instant = Instant.now()
+
+        // Check requests in last minute
+        val requestsLastMinute = auditRepository.countByApiKeyIdAndSuccessIsTrueAndTimestampAfter(
+            apiKeyId,
+            now.minusSeconds(60)
+        )
+
+        if (requestsLastMinute >= MAX_REQUESTS_PER_MINUTE) {
+            logger.warn("Rate limit exceeded for key $apiKeyId: $requestsLastMinute requests in last minute")
+            throw RateLimitException("Rate limit exceeded: $MAX_REQUESTS_PER_MINUTE requests per minute")
+        }
+
+        // Check requests in last hour
+        val requestsLastHour = auditRepository.countByApiKeyIdAndSuccessIsTrueAndTimestampAfter(
+            apiKeyId,
+            now.minusSeconds(3600)
+        )
+
+        if (requestsLastHour >= MAX_REQUESTS_PER_HOUR) {
+            logger.warn("Rate limit exceeded for key $apiKeyId: $requestsLastHour requests in last hour")
+            throw RateLimitException("Rate limit exceeded: $MAX_REQUESTS_PER_HOUR requests per hour")
+        }
+    }
+
+    private  fun checkIpRateLimits(ipAddress: String) {
+        val now = Instant.now()
+        val requestsFromIp = auditRepository.findByIpAddressAndTimestampAfter(
+            ipAddress,
+            now.minusSeconds(60)
+        ).size
+
+        // Global IP rate limit (prevent DDoS)
+        if (requestsFromIp > MAX_REQUESTS_PER_MINUTE) {
+            logger.warn("IP $ipAddress exceeded global rate limit")
+            throw RateLimitException("Too many requests from your IP address")
+        }
     }
 
 }
