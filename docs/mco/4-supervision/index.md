@@ -29,6 +29,10 @@ Il est possible de voir le projet en suivant l'url: http://sonarqube.dsi.damgm.i
 
 En fonction du résultat de la Quality Gate, un déploiement peut être bloqué.
 
+#### Admin Panel
+
+Nous possédons aussi notre propre admin panel dans lequel il est possible d'effectuer certaines supervisions, comme pour les clés API par exemple.
+
 
 ### 4.2 Indicateurs surveillés
 

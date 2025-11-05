@@ -28,3 +28,11 @@ Pour chaque ligne de la base de données, sont stockés :
 
 Ces données permettent de savoir qui/quand a été créé la donnée et qui/quand l'a modifié en dernier.
 Un log des opérations intermédiaires n'est pas disponible à l'heure actuelle.
+
+### 9.4 Traçabilité des clés API
+
+Une table d'audit est implémentée dans la base de données, elle permet de suivre :
+- le statut de la connexion
+- la raison de l'échec
+- l'IP entrante
+
