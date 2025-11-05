@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.36.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.35.0...docker-container@v2.36.0) (2025-11-04)
+
+
+### Features
+
+* **API:** introduce analytics API (AEM-activite du navire) ([77a0808](https://github.com/MTES-MCT/rapportnav2/commit/77a0808585ecbf07750979abf3fce06a04a8248f))
+
 ## [2.35.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.34.3...docker-container@v2.35.0) (2025-11-04)
 
 

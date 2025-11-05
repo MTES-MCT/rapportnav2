@@ -14,6 +14,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
 import fr.gouv.dgampa.rapportnav.domain.utils.FlagsUtils
 
 @UseCase
@@ -123,13 +124,24 @@ class GetMissionOperationalSummary2 {
         val filteredActions = actions
             .filterIsInstance<MissionEnvActionEntity>()
 
-        val nbSurveillances = filteredActions.count { it.envActionType == ActionTypeEnum.SURVEILLANCE }
-        val nbControls = filteredActions.count { it.envActionType == ActionTypeEnum.CONTROL }
-        val nbPv = filteredActions.filter { it.envActionType == ActionTypeEnum.CONTROL }.sumOf {
+        val controls = filteredActions.filter { it.envActionType == ActionTypeEnum.CONTROL }
+        val surveillances = filteredActions.filter { it.envActionType == ActionTypeEnum.SURVEILLANCE }
+
+        val nbSurveillances = surveillances.size
+        val totalSurveillanceDurationInHours = surveillances.sumOf<MissionEnvActionEntity> { surveillance ->
+            ComputeDurationUtils.durationInHours(
+                startDateTimeUtc = surveillance.startDateTimeUtc,
+                endDateTimeUtc = surveillance.endDateTimeUtc
+            ).toInt() 
+        }
+
+        val nbControls = controls.size
+        val nbPv = controls.sumOf {
             it.envInfractions?.count { inf -> inf.infractionType == InfractionTypeEnum.WITH_REPORT } ?: 0
         }
         val summary = mapOf(
             "nbSurveillances" to nbSurveillances,
+            "totalSurveillanceDurationInHours" to totalSurveillanceDurationInHours,
             "nbControls" to nbControls,
             "nbPv" to nbPv
         )
