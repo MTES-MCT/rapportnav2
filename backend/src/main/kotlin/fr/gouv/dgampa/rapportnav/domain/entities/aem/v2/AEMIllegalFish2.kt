@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
@@ -37,7 +38,7 @@ data class AEMIllegalFish2(
             // changes on Oct 2025 : add nav and anchored durations on top of the amount of time in fish controls
             // equals to 3.4.1 + 7.4
             val navAndAnchored = AEMSovereignProtect2(navActions = navActions, envActions = emptyList(), fishActions = fishActions, missionEndDateTime = missionEndDateTime).nbrOfHourAtSea
-            return navAndAnchored?.plus(fishActions.fold(0.0) { acc, fishAction ->
+            return navAndAnchored?.plus(fishActions.filter { it?.fishActionType === MissionActionType.LAND_CONTROL || it?.fishActionType === MissionActionType.SEA_CONTROL }.fold(0.0) { acc, fishAction ->
                 acc.plus(
                     ComputeDurationUtils.durationInHours(
                         startDateTimeUtc = fishAction?.startDateTimeUtc,
