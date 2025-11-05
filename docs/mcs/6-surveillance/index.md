@@ -2,8 +2,16 @@
 
 ### 6.1 Supervision de la sécurité
 
+#### 6.1.1 Supervision de l'app
+
 Aucun outil dédié à la supervision de la sécurité n'est mis en place, si ce n'est la détection de vulnérabilités 
 avant de déployer tout nouveau code.
+
+#### 6.1.2 Supervision des clés API
+
+Via les logs d'accès sur les clés API, un suivi peut être effectué. 
+Via les mécanismes de protection des clés (Rate limiting par ex), certaines clés au comportement jugé frauduleux sont immédiatement désactivées.
+La supervision s'effectué via l'admin panel ou des clés peuvent être désactivées/rotationnées par les membres admin RapportNav
 
 ### 6.2 Détection d’incidents
 
