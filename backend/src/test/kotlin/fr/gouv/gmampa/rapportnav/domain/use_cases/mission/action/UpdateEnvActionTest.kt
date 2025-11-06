@@ -48,12 +48,12 @@ class UpdateEnvActionTest {
             )
         ).thenReturn(listOf(TargetMissionMock.create()))
 
-        val updateNavAction = UpdateEnvAction(
+        val updateEnvAction = UpdateEnvAction(
             patchEnvAction = patchEnvAction,
             processMissionActionTarget = processMissionActionTarget
         )
 
-        val response = updateNavAction.execute(actionId, input)
+        val response = updateEnvAction.execute(actionId, input)
         assertThat(response).isNotNull
 
     }
