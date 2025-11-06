@@ -7,6 +7,7 @@ import conditionallyRequired from '../../common/schemas/conditionally-required-h
 import { useMemo } from 'react'
 import { useMissionFinished } from '../../common/hooks/use-mission-finished.tsx'
 import { FormikErrors } from 'formik'
+import { useMissionInterServices } from '../../common/hooks/use-mission-interservices.tsx'
 
 export type MissionPAMGeneralInfoInitialInput = { dates: (Date | undefined)[] } & MissionGeneralInfo2
 
@@ -16,6 +17,7 @@ export const usePamMissionGeneralInfoForm = (
 ) => {
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
   const isMissionFinished = useMissionFinished(value.missionId)
+  const isMissionInterServices = useMissionInterServices(value.missionId)
 
   const fromFieldValueToInput = (data: MissionGeneralInfo2) => {
     const startDate = preprocessDateForPicker(data.startDateTimeUtc)
@@ -61,7 +63,7 @@ export const usePamMissionGeneralInfoForm = (
         true,
         'Distance is required when mission is finished',
         schema => schema.nonNullable().required()
-      )(isMissionFinished),
+      )(isMissionFinished && !isMissionInterServices),
 
       consumedGOInLiters: conditionallyRequired(
         () => number().min(0).nullable(),
@@ -69,7 +71,7 @@ export const usePamMissionGeneralInfoForm = (
         true,
         'GO consumption is required when mission is finished',
         schema => schema.nonNullable().required()
-      )(isMissionFinished),
+      )(isMissionFinished && !isMissionInterServices),
 
       consumedFuelInLiters: conditionallyRequired(
         () => number().min(0).nullable(),
@@ -77,7 +79,7 @@ export const usePamMissionGeneralInfoForm = (
         true,
         'Fuel consumption is required when mission is finished',
         schema => schema.nonNullable().required()
-      )(isMissionFinished),
+      )(isMissionFinished && !isMissionInterServices),
 
       nbrOfRecognizedVessel: conditionallyRequired(
         () => number().min(0).nullable(),
@@ -85,7 +87,7 @@ export const usePamMissionGeneralInfoForm = (
         true,
         'Number of recognized vessels is required when mission is finished',
         schema => schema.nonNullable().required()
-      )(isMissionFinished),
+      )(isMissionFinished && !isMissionInterServices),
 
       observations: conditionallyRequired(
         () => string().nullable(),
@@ -93,7 +95,7 @@ export const usePamMissionGeneralInfoForm = (
         true,
         'Observations are required',
         schema => schema.nonNullable().required()
-      )(isMissionFinished),
+      )(isMissionFinished && !isMissionInterServices),
 
       crew: conditionallyRequired(
         () => array().min(1, 'At least one crew member is required when mission is finished').nullable(),
@@ -101,7 +103,7 @@ export const usePamMissionGeneralInfoForm = (
         true,
         'At least one crew member is required',
         schema => schema.nonNullable().required()
-      )(isMissionFinished)
+      )(isMissionFinished && !isMissionInterServices)
     })
   }
 

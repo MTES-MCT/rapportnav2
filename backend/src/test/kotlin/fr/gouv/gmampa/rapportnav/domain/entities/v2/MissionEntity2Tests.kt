@@ -143,7 +143,12 @@ class MissionEntity2Tests {
             generalInfos = generalInfo,
             data = EnvMissionMock.create(
                 observationsByUnit = null, // it is null but not a problem for secondary missions
-                controlUnits = listOf(LegacyControlUnitEntityMock.create(), LegacyControlUnitEntityMock.create())
+                controlUnits = listOf(
+                    LegacyControlUnitEntityMock.create(administration = "ABC"),
+                    LegacyControlUnitEntityMock.create(administration = "XYZ"),
+                    LegacyControlUnitEntityMock.create(administration = "XYZ"),
+                    LegacyControlUnitEntityMock.create()
+                )
             ),
         )
 
