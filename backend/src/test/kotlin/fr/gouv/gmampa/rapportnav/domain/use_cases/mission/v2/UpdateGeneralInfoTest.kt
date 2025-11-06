@@ -5,11 +5,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEn
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentRole
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
-import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -144,17 +144,16 @@ class UpdateGeneralInfoTest {
             anyInt(), anyOrNull()
         )
 
-        val input = PatchMissionInput(
+        val input = MissionEnvInput(
             isUnderJdp = true,
+            missionId = missionId,
             startDateTimeUtc = missionGeneralInfo.startDateTimeUtc,
             endDateTimeUtc = missionGeneralInfo.endDateTimeUtc,
             missionTypes = missionGeneralInfo.missionTypes,
-            observationsByUnit = missionGeneralInfo.observations
+            observationsByUnit = missionGeneralInfo.observations,
+            resources = missionGeneralInfoEntity.resources?.map { it }
         )
-        verify(patchMissionEnv).execute(
-            missionId = missionId,
-            input = input,
-            resources = missionGeneralInfoEntity.resources?.map { it })
+        verify(patchMissionEnv).execute(input)
         assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = crewEntity), result)
     }
 
@@ -186,16 +185,15 @@ class UpdateGeneralInfoTest {
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
         verify(processMissionCrew).execute(missionId, emptyList())
 
-        val input = PatchMissionInput(
+        val input = MissionEnvInput(
+            missionId = missionId,
             startDateTimeUtc = missionGeneralInfo.startDateTimeUtc,
             endDateTimeUtc = missionGeneralInfo.endDateTimeUtc,
             missionTypes = missionGeneralInfo.missionTypes,
-            observationsByUnit = missionGeneralInfo.observations
+            observationsByUnit = missionGeneralInfo.observations,
+            resources = missionGeneralInfoEntity.resources?.map { it }
         )
-        verify(patchMissionEnv).execute(
-            missionId = missionId,
-            input = input,
-            resources = missionGeneralInfoEntity.resources?.map { it })
+        verify(patchMissionEnv).execute(input)
         assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = emptyList()), result)
     }
 
