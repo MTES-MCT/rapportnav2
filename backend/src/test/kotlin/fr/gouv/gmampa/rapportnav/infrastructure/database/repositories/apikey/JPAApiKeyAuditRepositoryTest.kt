@@ -51,10 +51,21 @@ class JPAApiKeyAuditRepositoryTest {
     }
 
     @Test
+    fun `countByApiKeyIdAndSuccessIsTrueAndTimestampAfter should delegate and return results`() {
+        whenever(dbRepo.countByApiKeyIdAndSuccessIsTrueAndTimestampAfter(any(), any())).thenReturn(2)
+
+        val result = jpaRepo.countByApiKeyIdAndSuccessIsTrueAndTimestampAfter(apiKeyId, now)
+        assertNotNull(result)
+        assertEquals(result, 2)
+        verify(dbRepo).countByApiKeyIdAndSuccessIsTrueAndTimestampAfter(any(), any())
+    }
+
+    @Test
     fun `findByApiKeyIdAndTimestampAfter should delegate and return results`() {
         whenever(dbRepo.findByApiKeyIdAndTimestampAfter(apiKeyId, now)).thenReturn(audits)
         val result = jpaRepo.findByApiKeyIdAndTimestampAfter(apiKeyId, now)
         assertEquals(audits, result)
+        verify(dbRepo).findByApiKeyIdAndTimestampAfter(any(), any())
     }
 
     @Test
@@ -62,5 +73,22 @@ class JPAApiKeyAuditRepositoryTest {
         whenever(dbRepo.findByApiKeyIdAndTimestampAfter(apiKeyId, now)).thenReturn(emptyList())
         val result = jpaRepo.findByApiKeyIdAndTimestampAfter(apiKeyId, now)
         assertEquals(emptyList<ApiKeyAuditModel>(), result)
+        verify(dbRepo).findByApiKeyIdAndTimestampAfter(any(), any())
+    }
+
+    @Test
+    fun `findByIpAddressAndTimestampAfter should delegate and return results`() {
+        whenever(dbRepo.findByIpAddressAndTimestampAfter("1.2.3.4", now)).thenReturn(audits)
+        val result = jpaRepo.findByIpAddressAndTimestampAfter("1.2.3.4", now)
+        assertEquals(audits, result)
+        verify(dbRepo).findByIpAddressAndTimestampAfter(any(), any())
+    }
+
+    @Test
+    fun `findByIpAddressAndTimestampAfter should return empty list when none found`() {
+        whenever(dbRepo.findByIpAddressAndTimestampAfter("1.2.3.4", now)).thenReturn(emptyList())
+        val result = jpaRepo.findByIpAddressAndTimestampAfter("1.2.3.4", now)
+        assertEquals(emptyList<ApiKeyAuditModel>(), result)
+        verify(dbRepo).findByIpAddressAndTimestampAfter(any(), any())
     }
 }

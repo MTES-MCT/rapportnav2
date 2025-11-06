@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.aem.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
@@ -37,7 +38,7 @@ data class AEMIllegalFish2(
             // changes on Oct 2025 : add nav and anchored durations on top of the amount of time in fish controls
             // equals to 3.4.1 + 7.4
             val navAndAnchored = AEMSovereignProtect2(navActions = navActions, envActions = emptyList(), fishActions = fishActions, missionEndDateTime = missionEndDateTime).nbrOfHourAtSea
-            return navAndAnchored?.plus(fishActions.fold(0.0) { acc, fishAction ->
+            return navAndAnchored?.plus(fishActions.filter { it?.fishActionType === MissionActionType.LAND_CONTROL || it?.fishActionType === MissionActionType.SEA_CONTROL }.fold(0.0) { acc, fishAction ->
                 acc.plus(
                     ComputeDurationUtils.durationInHours(
                         startDateTimeUtc = fishAction?.startDateTimeUtc,
@@ -60,9 +61,6 @@ data class AEMIllegalFish2(
             return fishActions.filterNotNull()
                 .fold(0.0) { acc, c ->
                 acc.plus(c.gearInfractions?.filter { g -> g.infractionType == InfractionType.WITH_RECORD }?.size ?: 0)
-                    .plus(
-                        c.otherInfractions?.filter { o -> o.infractionType == InfractionType.WITH_RECORD }?.size ?: 0
-                    )
                     .plus(
                         c.speciesInfractions?.filter { s -> s.infractionType == InfractionType.WITH_RECORD }?.size ?: 0
                     )

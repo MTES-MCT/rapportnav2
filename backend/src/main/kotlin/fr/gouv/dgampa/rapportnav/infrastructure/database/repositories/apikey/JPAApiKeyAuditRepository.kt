@@ -20,7 +20,11 @@ class JPAApiKeyAuditRepository(
         return repository.findByApiKeyIdAndTimestampAfter(apiKeyId, after)
     }
 
-//    override fun countSuccessfulRequestsSince(apiKeyId: UUID, after: Instant): Long {
-//        return 1L
-//    }
+    override fun countByApiKeyIdAndSuccessIsTrueAndTimestampAfter(apiKeyId: UUID, after: Instant): Long {
+        return repository.countByApiKeyIdAndSuccessIsTrueAndTimestampAfter(apiKeyId, after)
+    }
+
+    override fun findByIpAddressAndTimestampAfter(ip: String, after: Instant): List<ApiKeyAuditModel> {
+        return repository.findByIpAddressAndTimestampAfter(ip, after)
+    }
 }

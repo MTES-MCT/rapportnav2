@@ -6,6 +6,7 @@ import java.util.UUID
 
 interface IApiKeyAuditRepository {
     fun findByApiKeyIdAndTimestampAfter(apiKeyId: UUID, after: Instant): List<ApiKeyAuditModel>
-//    fun countSuccessfulRequestsSince(apiKeyId: UUID, after: Instant): Long
+    fun findByIpAddressAndTimestampAfter(ip: String, after: Instant): List<ApiKeyAuditModel>
+    fun countByApiKeyIdAndSuccessIsTrueAndTimestampAfter(apiKeyId: UUID, after: Instant): Long
     fun save(audit: ApiKeyAuditModel): ApiKeyAuditModel
 }
