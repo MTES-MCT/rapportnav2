@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.37.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.36.0...docker-container@v2.37.0) (2025-11-06)
+
+
+### Features
+
+* **ApiKey:** add rate limiting ([00eccfb](https://github.com/MTES-MCT/rapportnav2/commit/00eccfb6ebdc5bb9a7e3ad4d9280dd2cb2b68a2b))
+* **backend:** resources in patch mission env ([4719a81](https://github.com/MTES-MCT/rapportnav2/commit/4719a81b813e01438f97dc683cd4e453c378b3c8))
+* **backend:** resources in patch mission env ([c1179fc](https://github.com/MTES-MCT/rapportnav2/commit/c1179fc6255905c08013d49fceab7573dcaa8bdd))
+
+
+### Bug Fixes
+
+* **AEM:** update definitions 4.3.1 ([696a484](https://github.com/MTES-MCT/rapportnav2/commit/696a48436823153509ec1df18a77f9e88c8a40e0))
+* **AEM:** update definitions 4.3.6 and 7.4 ([f94ba43](https://github.com/MTES-MCT/rapportnav2/commit/f94ba43ad9f56110f578fa665cd682f78d39d072))
+* **backend:** git guardian on key ([337eaa6](https://github.com/MTES-MCT/rapportnav2/commit/337eaa651011645a282a8d6c66d7a8c0cc64f607))
+* **backend:** update action with action id undefined ([63cbb2a](https://github.com/MTES-MCT/rapportnav2/commit/63cbb2a7239e2e0dc748c7a0debce093693db524))
+* **frontend:** create action return ([6750b56](https://github.com/MTES-MCT/rapportnav2/commit/6750b562d9d540f88f1c36b879f1e9a326423ddc))
+* **frontend:** test on useCreateAction ([da815f3](https://github.com/MTES-MCT/rapportnav2/commit/da815f3db4ccb93ec1640f547d10f006770e682b))
+* **PAM:** validation for mission interservices ([730bc97](https://github.com/MTES-MCT/rapportnav2/commit/730bc97db84b94f47d02167124f49390b460bf26))
+
 ## [2.36.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.35.0...docker-container@v2.36.0) (2025-11-04)
 
 

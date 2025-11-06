@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.37.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.36.0...frontend@v2.37.0) (2025-11-06)
+
+
+### Bug Fixes
+
+* **frontend:** create action return ([6750b56](https://github.com/MTES-MCT/rapportnav2/commit/6750b562d9d540f88f1c36b879f1e9a326423ddc))
+* **frontend:** test on useCreateAction ([da815f3](https://github.com/MTES-MCT/rapportnav2/commit/da815f3db4ccb93ec1640f547d10f006770e682b))
+* **PAM:** validation for mission interservices ([730bc97](https://github.com/MTES-MCT/rapportnav2/commit/730bc97db84b94f47d02167124f49390b460bf26))
+
 ## [2.36.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.35.0...frontend@v2.36.0) (2025-11-04)
 
 
