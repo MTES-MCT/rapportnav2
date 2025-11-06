@@ -61,7 +61,7 @@ class CreateApiKey(
 
             val saved = repo.save(ApiKeyModel.fromApiKeyEntity(apiKey))
 
-            logger.info("✅ Created new API key for owner='{}', publicId='{}'", owner, publicId)
+            logger.info("Created new API key for owner='{}', publicId='{}'", owner, publicId)
 
             return saved?.toApiKeyEntity() to rawKey
         } catch (ex: Exception) {
