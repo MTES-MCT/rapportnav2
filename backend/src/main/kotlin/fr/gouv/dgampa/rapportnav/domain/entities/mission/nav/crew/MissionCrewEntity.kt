@@ -40,5 +40,15 @@ data class MissionCrewEntity(
                 updatedAt = crew.updatedAt
             )
         }
+
+        fun fromAgentServiceEntity(agentService: AgentServiceEntity, missionId: Int? = null, missionIdUUID: UUID? = null): MissionCrewEntity {
+            return MissionCrewEntity(
+                missionId = missionId,
+                missionIdUUID = missionIdUUID,
+                comment = null,
+                agent = agentService.agent,
+                role = agentService.role,
+            )
+        }
     }
 }
