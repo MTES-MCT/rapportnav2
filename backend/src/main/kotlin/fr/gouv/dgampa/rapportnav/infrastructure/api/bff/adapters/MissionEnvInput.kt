@@ -2,7 +2,9 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
+import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import java.time.Instant
 
 data class MissionEnvInput(
@@ -14,17 +16,34 @@ data class MissionEnvInput(
     val resources: List<LegacyControlUnitResourceEntity>? = listOf(),
     val isUnderJdp: Boolean? = null,
 ) {
+
+    fun toPatchMissionInput(controlUnits: List<LegacyControlUnitEntity>): PatchMissionInput {
+        val controlUnitId = resources?.firstOrNull()?.controlUnitId
+        return PatchMissionInput(
+            isUnderJdp = isUnderJdp,
+            missionTypes = missionTypes,
+            endDateTimeUtc = endDateTimeUtc,
+            startDateTimeUtc = startDateTimeUtc,
+            observationsByUnit = observationsByUnit,
+            controlUnits = controlUnits.map { controlUnit ->
+                controlUnit.takeIf { it.id != controlUnitId } ?: controlUnit.copy(
+                    resources = resources?.toMutableList() ?: controlUnit.resources?.toMutableList()
+                )
+            }
+        )
+    }
+
     companion object {
 
-        fun fromMissionEntity(missionEntity: MissionEntity, controlUnitId: Int? = null): MissionEnvInput {
+        fun fromMissionEntity(entity: MissionEntity, controlUnitId: Int? = null): MissionEnvInput {
             return MissionEnvInput(
-                missionId = missionEntity.id!!,
-                startDateTimeUtc = missionEntity.startDateTimeUtc,
-                endDateTimeUtc = missionEntity.endDateTimeUtc,
-                missionTypes = missionEntity.missionTypes,
-                isUnderJdp = missionEntity.isUnderJdp,
-                observationsByUnit = missionEntity.observationsByUnit,
-                resources = missionEntity.controlUnits.filter { it.id == controlUnitId }
+                missionId = entity.id!!,
+                isUnderJdp = entity.isUnderJdp,
+                missionTypes = entity.missionTypes,
+                endDateTimeUtc = entity.endDateTimeUtc,
+                startDateTimeUtc = entity.startDateTimeUtc,
+                observationsByUnit = entity.observationsByUnit,
+                resources = entity.controlUnits.filter { it.id == controlUnitId }
                     .flatMap { it.resources!! }
             )
         }
@@ -36,7 +55,6 @@ data class MissionEnvInput(
         if (javaClass != other?.javaClass) return false
 
         other as MissionEnvInput
-
         if (missionId != other.missionId) return false
         if(isUnderJdp != other.isUnderJdp) return false
         if (missionTypes != other.missionTypes) return false
