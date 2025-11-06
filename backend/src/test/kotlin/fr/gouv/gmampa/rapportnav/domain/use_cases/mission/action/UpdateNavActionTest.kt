@@ -16,6 +16,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.boot.test.context.SpringBootTest
@@ -60,6 +61,30 @@ class UpdateNavActionTest {
 
         val response = updateNavAction.execute(actionId, input)
         assertThat(response).isNotNull
+
+    }
+
+
+    @Test
+    fun `test throws exception when id different of action id`() {
+        val actionId = UUID.randomUUID().toString()
+        val input = MissionNavAction(
+            id = UUID.randomUUID().toString(),
+            missionId = 761,
+            actionType = ActionType.CONTROL,
+            source = MissionSourceEnum.RAPPORTNAV,
+            data = getNavActionDataInput(),
+        )
+
+        val updateNavAction = UpdateNavAction(
+            missionActionRepository = missionActionRepository,
+            processMissionActionTarget = processMissionActionTarget
+        )
+
+        val exception = assertThrows<RuntimeException> {
+            updateNavAction.execute(actionId, input)
+        }
+        assertThat(exception.message).isEqualTo("Invalid action")
 
     }
 

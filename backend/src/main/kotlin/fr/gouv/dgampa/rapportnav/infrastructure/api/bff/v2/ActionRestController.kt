@@ -144,6 +144,7 @@ class ActionRestController(
         @PathVariable(name = "actionId") actionId: String,
         @RequestBody body: MissionAction
     ): MissionAction? {
+        if(!isValidUUID(actionId)) throw RuntimeException("Invalid action id")
         val response = when (body.source) {
             MissionSourceEnum.RAPPORTNAV -> updateNavAction.execute(actionId,  body as MissionNavAction)
             MissionSourceEnum.MONITORENV -> updateEnvAction.execute(actionId, body as MissionEnvAction)
