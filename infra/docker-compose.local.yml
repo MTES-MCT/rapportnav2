@@ -17,8 +17,8 @@ services:
       - ENV_PROFILE=local
       - ENV_DB_URL=jdbc:postgresql://db:5432/rapportnavdb?user=postgres&password=postgres
       - MONITORFISH_API_KEY=dummy-key
-      - JWT_SECURITY_KEY=fG2hI6jK0lM4nO8pQ2rS6tU0vW4xY8zA2bC6dE0fG4hI8jK2lM6nO0pQ4rS8tU2
-      - MASTER_API_KEY=uV3wX7yZ1aB5cD9eF3gH7iJ1kL5mN9oP3qR7sT1uV5wX9yZ3aB7cD1eF5gH9iJ3
+      - JWT_SECURITY_KEY=somelongrandomkeywhichisenoughtoalignwiththejwtspecification
+      - MASTER_API_KEY=somelongrandomkeywhichisenoughtoalignwiththejwtspecification
 
   frontend:
     build:
