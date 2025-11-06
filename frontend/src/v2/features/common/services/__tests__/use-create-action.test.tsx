@@ -98,7 +98,7 @@ describe('Hook useCreateActionMutation', () => {
     })
 
     it('should handle successful mutation', async () => {
-      mockedAxios.post.mockResolvedValue({ data: {} })
+      mockedAxios.post.mockResolvedValue({ data: mockAction })
 
       const { result } = renderHook(() => useCreateActionMutation(), { wrapper })
       result.current.mutate({ ownerId: missionId, ownerType: OwnerType.MISSION, action })
@@ -254,7 +254,7 @@ describe('Hook useCreateActionMutation', () => {
               expect(result.current.isSuccess).toBe(true)
               expect(onSuccessSpy).toHaveBeenCalledTimes(1)
               expect(onSuccessSpy).toHaveBeenCalledWith(
-                serverResponse,
+                mockAction,
                 { ownerId: missionId, action: mockAction },
                 expect.objectContaining({ action: expect.anything() }),
                 expect.objectContaining({ client: expect.anything() })
