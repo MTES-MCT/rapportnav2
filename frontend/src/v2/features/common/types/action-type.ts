@@ -1,3 +1,8 @@
+import { MissionAction } from './mission-action'
+import { OwnerType } from './owner-type'
+
+export type ActionInput = { ownerId: string; ownerType: OwnerType; action: MissionAction }
+
 export enum ActionType {
   CONTROL = 'CONTROL',
   NOTE = 'NOTE',

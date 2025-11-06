@@ -16,14 +16,14 @@ interface InquiryTimelineHeaderProps {
 const InquiryTimelineHeader: FC<InquiryTimelineHeaderProps> = ({ inquiryId }) => {
   const navigate = useNavigate()
   const { getUrl } = useGlobalRoutes()
+  const mutation = useCreateActionMutation()
   const { data: inquiry } = useGetInquiryQuery(inquiryId)
   const { getActionInput } = useTimelineAction(inquiryId)
-  const mutation = useCreateActionMutation()
 
   const handleAddActionInquiry = async () => {
     const action = getActionInput(ActionType.INQUIRY)
     const response = await mutation.mutateAsync({ ownerId: inquiryId, ownerType: OwnerType.INQUIRY, action })
-    if (response) navigate(`${getUrl(OwnerType.INQUIRY)}/${inquiryId}/${response.id}`)
+    if (response && response.id) navigate(`${getUrl(OwnerType.INQUIRY)}/${inquiryId}/${response.id}`)
   }
 
   return (

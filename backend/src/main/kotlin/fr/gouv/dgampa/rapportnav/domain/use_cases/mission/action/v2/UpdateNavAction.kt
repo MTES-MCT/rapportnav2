@@ -17,6 +17,8 @@ class UpdateNavAction(
 
     fun execute(id: String, input: MissionNavAction): MissionNavActionEntity? {
         val action = MissionNavActionData.toMissionNavActionEntity(input)
+        if(id != input.id) throw RuntimeException("Invalid action")
+
         return try {
             missionActionRepository.save(action.toMissionActionModel())
             action.targets = processMissionActionTarget.execute(

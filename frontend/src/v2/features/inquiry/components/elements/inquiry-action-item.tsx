@@ -15,13 +15,13 @@ interface InquiryActionItemProps {
 }
 
 const InquiryActionItem: FC<InquiryActionItemProps> = ({ action, ownerId }) => {
+  const mutation = useUpdateActionMutation()
   const { handleExecuteOnDelay } = useDelay()
   const debounceTime = useStore(store, state => state.delayQuery.debounceTime)
-  const mutation = useUpdateActionMutation()
 
   const onChange = async (newAction: MissionAction) => {
     handleExecuteOnDelay(async () => {
-      if (!isEqual(action, newAction)) {
+      if (!isEqual(action, newAction) && action.id) {
         await mutation.mutateAsync({ ownerId, ownerType: OwnerType.INQUIRY, action: newAction })
       }
       if (debounceTime !== undefined) resetDebounceTime()

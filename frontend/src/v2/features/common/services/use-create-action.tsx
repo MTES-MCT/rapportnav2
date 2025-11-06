@@ -2,22 +2,20 @@ import { onlineManager, useMutation, UseMutationResult } from '@tanstack/react-q
 
 import queryClient, { DYNAMIC_DATA_STALE_TIME } from '../../../../query-client'
 import axios from '../../../../query-client/axios.ts'
-import { ActionType } from '../types/action-type.ts'
-import { MissionAction, MissionNavAction } from '../types/mission-action.ts'
+import { ActionInput, ActionType } from '../types/action-type.ts'
+import { MissionNavAction } from '../types/mission-action.ts'
 import { Mission2 } from '../types/mission-types.ts'
 import { NetworkSyncStatus } from '../types/network-types.ts'
 import { OwnerType } from '../types/owner-type.ts'
 import { actionsKeys, inquiriesKeys, missionsKeys } from './query-keys.ts'
 import { fetchAction } from './use-action.tsx'
 
-type UseCreateActionInput = { ownerId: string; ownerType: OwnerType; action: MissionAction }
-
-const createAction = async ({ ownerId, action }: UseCreateActionInput): Promise<MissionNavAction> =>
-  axios.post(`owners/${ownerId}/actions`, action)
+const createAction = async ({ ownerId, action }: ActionInput): Promise<MissionNavAction> =>
+  axios.post(`owners/${ownerId}/actions`, action).then(response => response.data)
 
 export const offlineCreateActionDefaults = {
   mutationFn: createAction,
-  onMutate: async ({ ownerId, ownerType, action }: UseCreateActionInput) => {
+  onMutate: async ({ ownerId, ownerType, action }: ActionInput) => {
     const isOnline = onlineManager.isOnline()
 
     const optimisticAction = {
@@ -89,7 +87,7 @@ export const onlineCreateActionDefaults = {
       type: 'all'
     })
   },
-  onSettled: async (_data, _error, variables: UseCreateActionInput, _context) => {
+  onSettled: async (_data, _error, variables: ActionInput, _context) => {
     await queryClient.invalidateQueries({
       queryKey:
         variables.ownerType === OwnerType.INQUIRY
@@ -103,7 +101,7 @@ export const onlineCreateActionDefaults = {
   }
 }
 
-const useCreateActionMutation = (): UseMutationResult<MissionNavAction, Error, MissionNavAction, unknown> => {
+const useCreateActionMutation = (): UseMutationResult<MissionNavAction, Error, ActionInput, unknown> => {
   const mutation = useMutation({
     mutationKey: actionsKeys.create(),
     mutationFn: createAction,

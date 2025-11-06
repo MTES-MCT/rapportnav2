@@ -2,6 +2,7 @@ import { onlineManager, useMutation, UseMutationResult } from '@tanstack/react-q
 import { orderBy } from 'lodash'
 import queryClient, { DYNAMIC_DATA_STALE_TIME } from '../../../../query-client'
 import axios from '../../../../query-client/axios.ts'
+import { ActionInput } from '../types/action-type.ts'
 import { MissionAction, MissionNavAction } from '../types/mission-action.ts'
 import { Mission2 } from '../types/mission-types.ts'
 import { NetworkSyncStatus } from '../types/network-types.ts'
@@ -9,18 +10,12 @@ import { OwnerType } from '../types/owner-type.ts'
 import { actionsKeys, inquiriesKeys, missionsKeys } from './query-keys.ts'
 import { fetchAction } from './use-action.tsx'
 
-type UseUpdateActionInput = {
-  ownerId: string
-  ownerType: OwnerType
-  action: MissionAction
-}
-
-const updateAction = ({ ownerId, action }: UseUpdateActionInput): Promise<MissionAction> =>
+const updateAction = ({ ownerId, action }: ActionInput): Promise<MissionAction> =>
   axios.put(`owners/${ownerId}/actions/${action.id}`, action).then(response => response.data)
 
 export const offlineUpdateActionDefaults = {
   mutationFn: updateAction,
-  onMutate: async ({ ownerId, ownerType, action }: UseUpdateActionInput) => {
+  onMutate: async ({ ownerId, ownerType, action }: ActionInput) => {
     // create optimistic action
     const isOnline = onlineManager.isOnline()
     let optimisticAction: MissionNavAction = {
@@ -80,7 +75,7 @@ export const offlineUpdateActionDefaults = {
   onSuccess: async (serverResponse, newAction, _context) => {
     await queryClient.setQueryData(actionsKeys.byId(serverResponse?.id), serverResponse)
   },
-  onSettled: async (_data, _error, variables: UseUpdateActionInput, _context) => {
+  onSettled: async (_data, _error, variables: ActionInput, _context) => {
     await queryClient.invalidateQueries({
       queryKey: actionsKeys.byId(variables.action?.id)
     })
@@ -100,7 +95,7 @@ export const offlineUpdateActionDefaults = {
 
 export const onlineUpdateActionDefaults = {
   mutationFn: updateAction,
-  onSettled: async (_data, _error, variables: UseUpdateActionInput, _context) => {
+  onSettled: async (_data, _error, variables: ActionInput, _context) => {
     await queryClient.invalidateQueries({
       queryKey: actionsKeys.byId(variables.action?.id),
       type: 'all'
@@ -118,7 +113,7 @@ export const onlineUpdateActionDefaults = {
   }
 }
 
-const useUpdateActionMutation = (): UseMutationResult<MissionAction, Error, MissionAction, unknown> => {
+const useUpdateActionMutation = (): UseMutationResult<MissionAction, Error, ActionInput, unknown> => {
   const mutation = useMutation({
     mutationKey: actionsKeys.update(),
     mutationFn: updateAction,
