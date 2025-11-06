@@ -24,15 +24,15 @@ data class MissionEntity2(
 
         // for secondary missions (missions conjointes ou inter-services)
         // do not validate generalInfos, only actions matter
-        val generalInfoComplete = if ((this.data?.controlUnits?.size ?: 0) > 1) {
+        val isGeneralInfoComplete = if (this.isInterServices()) {
             true
         } else {
             this.generalInfos?.isCompleteForStats()
         }
 
         return CompletenessForStatsEntity(
-            status = if (generalInfoComplete == true) completenessForStats.status  else CompletenessForStatsStatusEnum.INCOMPLETE,
-            sources = if (generalInfoComplete == true) completenessForStats.sources  else completenessForStats.sources?.plus(MissionSourceEnum.RAPPORTNAV)
+            status = if (isGeneralInfoComplete == true) completenessForStats.status  else CompletenessForStatsStatusEnum.INCOMPLETE,
+            sources = if (isGeneralInfoComplete == true) completenessForStats.sources  else completenessForStats.sources?.plus(MissionSourceEnum.RAPPORTNAV)
                 ?.distinct(),
         )
     }
@@ -76,6 +76,16 @@ data class MissionEntity2(
             status = status,
             sources = sources.distinct()
         )
+    }
+
+    // interservices means with other controlUnits from other administrations
+    private fun isInterServices(): Boolean {
+        val administrations = this.data?.controlUnits
+            ?.mapNotNull { it.administration?.trim() }
+            ?.distinct()
+            ?: return false
+
+        return administrations.size > 1
     }
 
 
