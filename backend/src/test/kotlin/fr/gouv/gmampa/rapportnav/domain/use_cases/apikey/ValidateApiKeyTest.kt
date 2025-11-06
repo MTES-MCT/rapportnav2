@@ -1,8 +1,10 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.apikey
 
 import fr.gouv.dgampa.rapportnav.domain.entities.apikey.ApiKeyEntity
+import fr.gouv.dgampa.rapportnav.domain.repositories.apikey.IApiKeyAuditRepository
 import fr.gouv.dgampa.rapportnav.domain.repositories.apikey.IApiKeyRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.LogApiKeyAudit
+import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.RateLimitException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.UpdateApiKeyLastUsedAt
 import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.ValidateApiKey
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.apikey.ApiKeyModel
@@ -30,6 +32,9 @@ class ValidateApiKeyTest {
     private lateinit var repo: IApiKeyRepository
 
     @MockitoBean
+    private lateinit var auditRepo: IApiKeyAuditRepository
+
+    @MockitoBean
     private lateinit var updateLastUsed: UpdateApiKeyLastUsedAt
 
     @MockitoBean
@@ -37,18 +42,20 @@ class ValidateApiKeyTest {
 
     private lateinit var passwordEncoder: BCryptPasswordEncoder
 
-    private val generatedKey = "abcd1234efgh5678ijkl9012"
 
-    private val ip = "127.0.0.1"
-    private val path = "/api/test"
+    private val ip = "192.168.0.10"
+    private val path = "/api/check"
+    private val apiKey = "123456789012abcdef"
+    private val entity = ApiKeyEntity(UUID.randomUUID(), "123456789012", "hashed", null, null)
 
     @BeforeEach
     fun setup() {
         repo = mock()
+        auditRepo = mock()
         logAudit = mock()
         updateLastUsed = mock()
         passwordEncoder = mock()
-        validateApiKey = ValidateApiKey(repo, logAudit, updateLastUsed, passwordEncoder)
+        validateApiKey = ValidateApiKey(repo, auditRepo, logAudit, updateLastUsed, passwordEncoder)
     }
 
     @Test
@@ -117,4 +124,82 @@ class ValidateApiKeyTest {
             validateApiKey.execute("123456789012abcdef", ip, path)
         }
     }
+
+    @Test
+    fun `should throw RateLimitException when API key exceeds per-minute limit`() {
+        whenever(repo.findByPublicId(any())).thenReturn(ApiKeyModel.fromApiKeyEntity(entity))
+        whenever(passwordEncoder.matches(any(), any())).thenReturn(true)
+        whenever(
+            auditRepo.countByApiKeyIdAndSuccessIsTrueAndTimestampAfter(
+                any(), any()
+            )
+        ).thenReturn(1000000)
+
+        assertThrows<RateLimitException> {
+            validateApiKey.execute(apiKey, ip, path)
+        }
+
+        verify(auditRepo, times(1)).countByApiKeyIdAndSuccessIsTrueAndTimestampAfter(any(), any())
+        verify(logAudit, never()).logSuccessfulAccess(any(), any(), any())
+    }
+
+    @Test
+    fun `should throw RateLimitException when API key exceeds per-hour limit`() {
+        whenever(repo.findByPublicId(any())).thenReturn(ApiKeyModel.fromApiKeyEntity(entity))
+        whenever(passwordEncoder.matches(any(), any())).thenReturn(true)
+        // first call returns under minute limit, second call returns over hour limit
+        whenever(
+            auditRepo.countByApiKeyIdAndSuccessIsTrueAndTimestampAfter(
+                eq(entity.id), any()
+            )
+        ).thenReturn(1)
+            .thenReturn(100000000)
+
+        assertThrows<RateLimitException> {
+            validateApiKey.execute(apiKey, ip, path)
+        }
+
+        verify(auditRepo, atLeast(2)).countByApiKeyIdAndSuccessIsTrueAndTimestampAfter(eq(entity.id), any())
+        verify(logAudit, never()).logSuccessfulAccess(any(), any(), any())
+    }
+
+    @Test
+    fun `should throw RateLimitException when IP exceeds global per-minute limit`() {
+        whenever(repo.findByPublicId(any())).thenReturn(ApiKeyModel.fromApiKeyEntity(entity))
+        whenever(passwordEncoder.matches(any(), any())).thenReturn(true)
+        whenever(
+            auditRepo.countByApiKeyIdAndSuccessIsTrueAndTimestampAfter(
+                eq(entity.id), any()
+            )
+        ).thenReturn(0)
+
+        whenever(
+            auditRepo.findByIpAddressAndTimestampAfter(eq(ip), any())
+        ).thenReturn(List(validateApiKey.MAX_REQUESTS_PER_MINUTE + 1) { mock() })
+
+        assertThrows<RateLimitException> {
+            validateApiKey.execute(apiKey, ip, path)
+        }
+
+        verify(auditRepo).findByIpAddressAndTimestampAfter(eq(ip), any())
+        verify(logAudit, never()).logSuccessfulAccess(any(), any(), any())
+    }
+
+    @Test
+    fun `should pass when rate limits are not exceeded`() {
+        whenever(repo.findByPublicId(any())).thenReturn(ApiKeyModel.fromApiKeyEntity(entity))
+        whenever(passwordEncoder.matches(any(), any())).thenReturn(true)
+        whenever(
+            auditRepo.countByApiKeyIdAndSuccessIsTrueAndTimestampAfter(any(), any())
+        ).thenReturn(0)
+        whenever(
+            auditRepo.findByIpAddressAndTimestampAfter(eq(ip), any())
+        ).thenReturn(emptyList())
+
+        val result = validateApiKey.execute(apiKey, ip, path)
+
+        assertNotNull(result)
+        verify(logAudit).logSuccessfulAccess(entity.id, ip, path)
+    }
 }
+

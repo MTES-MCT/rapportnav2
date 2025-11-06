@@ -1,10 +1,9 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
-import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.APIEnvMissionRepositoryV2
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.CacheEvict
@@ -19,20 +18,31 @@ class PatchMissionEnv(
 
     @Caching(
         evict = [
-            CacheEvict(value = ["envMission"], key = "#missionId"),
-            CacheEvict(value = ["envMission2"], key = "#missionId"),
+            CacheEvict(value = ["envMission"], key = "#input.missionId"),
+            CacheEvict(value = ["envMission2"], key = "#input.missionId"),
         ]
     )
-    fun execute(missionId: Int, input: PatchMissionInput, resources: List<LegacyControlUnitResourceEntity>?): MissionEnvEntity? {
-        val fromEnvMission = getEnvMissionById2.execute(missionId) ?: return null
-        val mission = input.withControlUnits(resources = resources, controlUnits = fromEnvMission.controlUnits)
+    fun execute(input: MissionEnvInput): MissionEnvEntity? {
+        val controlUnitId = input.resources?.firstOrNull()?.controlUnitId
+        val fromEnvMission = getEnvMissionById2.execute(missionId = input.missionId) ?: return null
 
-        logger.info("patchInputMission : $mission")
+        if (input.equals(
+                MissionEnvInput.fromMissionEntity(
+                    entity = fromEnvMission,
+                    controlUnitId = controlUnitId
+                )
+            )
+        ) return null
+
+        logger.info("patchInputMission : $input")
         logger.info("fromEnvMission : $fromEnvMission")
-        if(mission.hasNotChanged(fromEnvMission)) return null
+
 
         return try {
-            apiEnvRepo2.patchMission(missionId = missionId, mission = mission)
+            apiEnvRepo2.patchMission(
+                missionId = input.missionId,
+                mission = input.toPatchMissionInput(controlUnits = fromEnvMission.controlUnits)
+            )
         } catch (e: Exception) {
             logger.error("Update Mission failed", e)
             return null
