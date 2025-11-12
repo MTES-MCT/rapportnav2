@@ -9,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.toMapForExpo
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.operationalSummary.ComputeAllOperationalSummary
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
@@ -40,7 +41,7 @@ class ExportMissionPatrolSingle2(
     private val formatDateTime: FormatDateTime,
     private val getServiceById: GetServiceById,
     private val getComputeEnvMission: GetComputeEnvMission,
-    private val getMissionOperationalSummary: GetMissionOperationalSummary2,
+    private val computeAllOperationalSummary: ComputeAllOperationalSummary,
 
     @Value("\${rapportnav.rapport-patrouille.template.path}") private val docTemplatePath: String,
     @Value("\${rapportnav.rapport-patrouille.tmp_docx.path}") private val docTmpDOCXPath: String,
@@ -135,17 +136,15 @@ class ExportMissionPatrolSingle2(
             }
 
             // Bilan opérationnel
-            val proFishingSeaSummary = getMissionOperationalSummary.getProFishingSeaSummary(allActions!!)
-            val proFishingLandSummary = getMissionOperationalSummary.getProFishingLandSummary(allActions)
-
-            val proSailingSeaSummary = getMissionOperationalSummary.getProSailingSeaSummary(allActions)
-            val proSailingLandSummary = getMissionOperationalSummary.getProSailingLandSummary(allActions)
-
-            val leisureSailingSeaSummary = getMissionOperationalSummary.getLeisureSailingSeaSummary(allActions)
-            val leisureSailingLandSummary = getMissionOperationalSummary.getLeisureSailingLandSummary(allActions)
-
-            val envSummary = getMissionOperationalSummary.getEnvSummary(allActions)
-            val leisureFishingSummary = getMissionOperationalSummary.getLeisureFishingSummary(allActions)
+            val operationalSummary = computeAllOperationalSummary.execute(mission = mission)
+            val proFishingSeaSummary = operationalSummary.proFishingSeaSummary
+            val proFishingLandSummary = operationalSummary.proFishingLandSummary
+            val proSailingSeaSummary = operationalSummary.proSailingSeaSummary
+            val proSailingLandSummary = operationalSummary.proSailingLandSummary
+            val leisureSailingSeaSummary = operationalSummary.leisureSailingSeaSummary
+            val leisureSailingLandSummary = operationalSummary.leisureSailingLandSummary
+            val leisureFishingSummary = operationalSummary.leisureFishingSummary
+            val envSummary = operationalSummary.envSummary
 
             val placeholders: Map<String, String?> = mapOf(
                 "\${service}" to (service?.name ?: ""),
@@ -226,6 +225,7 @@ class ExportMissionPatrolSingle2(
                         "Nbre Navires contrôlés",
                         "Nbre contrôles pêche sanitaire",
                         "Nbre PV pêche sanitaire",
+                        "Nbre d'infractions sans PV",
                         "Nbre PV équipmt sécu. permis nav.",
                         "Nbre PV titre navig. rôle/déc. eff",
                         "Nbre PV police navig.",
@@ -246,6 +246,7 @@ class ExportMissionPatrolSingle2(
                         "Nbre Navires contrôlés",
                         "Nbre contrôles pêche sanitaire",
                         "Nbre PV pêche sanitaire",
+                        "Nbre d'infractions sans PV",
                         "Nbre PV titre navig. rôle/déc. eff",
                         "Nbre PV équipmt sécu. permis nav.",
                     )
@@ -326,15 +327,24 @@ class ExportMissionPatrolSingle2(
             paragraphs = document.paragraphs.toList()
             for (paragraph in paragraphs) {
                 if (paragraph.text.contains("\${envSummary}")) {
-                    val header: List<String?> = listOf(
+                    val header = listOf(
                         "Nbre surveillance Env",
                         "Nbre ctrl Env",
                         "Nbre de PV Env",
                     )
-                    val secondRow: List<String?> = envSummary.values.map { value ->
-                        if (value > 0) value.toString() else ""
+
+                    // Pick only the three needed values from your new summary map
+                    val selectedKeys = listOf("nbSurveillances", "nbControls", "nbInfractionsWithRecord")
+
+                    val secondRow = selectedKeys.map { key ->
+                        val value = envSummary[key]
+                        when (value) {
+                            is Number -> if (value.toInt() > 0) value.toString() else ""
+                            else -> ""
+                        }
                     }
-                    val table: List<List<String?>> = listOf(header, secondRow)
+
+                    val table = listOf(header, secondRow)
                     insertOperationalSummaryTableAtParagraph(paragraph, table)
                 }
             }

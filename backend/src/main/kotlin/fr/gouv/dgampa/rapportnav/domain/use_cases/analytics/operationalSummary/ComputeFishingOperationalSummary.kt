@@ -1,24 +1,22 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.operationalSummary
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
 import fr.gouv.dgampa.rapportnav.domain.utils.FlagsUtils
+import kotlin.collections.get
 
 @UseCase
-class GetMissionOperationalSummary2 {
+class ComputeFishingOperationalSummary(
+) {
 
     private val fishingCountryCodes = listOf(
         CountryCode.FR, // France
@@ -35,6 +33,7 @@ class GetMissionOperationalSummary2 {
             "nbActions",
             "nbControls",
             "nbPvFish",
+            "nbInfractionsWithoutPv",
             "nbPvSecuAndAdmin",
             "nbPVGensDeMer",
             "nbPvNav",
@@ -61,6 +60,7 @@ class GetMissionOperationalSummary2 {
             "nbActions",
             "nbControls",
             "nbPvFish",
+            "nbInfractionsWithoutPv",
             "nbPvSecuAndAdmin",
             "nbPVGensDeMer"
         )
@@ -79,76 +79,8 @@ class GetMissionOperationalSummary2 {
     }
 
 
-    fun getProSailingSeaSummary(actions: List<MissionActionEntity>): Map<String, Int> {
-        val summary = getNavActionSummary(
-            actions = actions,
-            controlMethod = ControlMethod.SEA,
-            vesselType = VesselTypeEnum.SAILING
-        )
-        val keysToKeep = setOf("nbActions", "nbPvSecuAndAdmin", "nbPVGensDeMer", "nbPvNav")
-        return summary.filterKeys { it in keysToKeep }
-    }
-
-    fun getProSailingLandSummary(actions: List<MissionActionEntity>): Map<String, Int> {
-        val summary = getNavActionSummary(
-            actions = actions,
-            controlMethod = ControlMethod.LAND,
-            vesselType = VesselTypeEnum.SAILING
-        )
-        val keysToKeep = setOf("nbActions", "nbPvSecuAndAdmin", "nbPVGensDeMer")
-        val filteredMap = summary.filterKeys { it in keysToKeep }
-        return filteredMap
-    }
-
-    fun getLeisureSailingSeaSummary(actions: List<MissionActionEntity>): Map<String, Int> {
-        val summary = getNavActionSummary(
-            actions = actions,
-            controlMethod = ControlMethod.SEA,
-            vesselType = VesselTypeEnum.SAILING_LEISURE
-        )
-        val keysToKeep = setOf("nbActions", "nbPvSecu", "nbPVAdmin", "nbPvNav")
-        return summary.filterKeys { it in keysToKeep }
-    }
-
-    fun getLeisureSailingLandSummary(actions: List<MissionActionEntity>): Map<String, Int> {
-        val summary = getNavActionSummary(
-            actions = actions,
-            controlMethod = ControlMethod.LAND,
-            vesselType = VesselTypeEnum.SAILING_LEISURE
-        )
-        val keysToKeep = setOf("nbActions", "nbPvSecu", "nbPVAdmin")
-        return summary.filterKeys { it in keysToKeep }
-    }
-
-    fun getEnvSummary(actions: List<MissionActionEntity>): Map<String, Int> {
-        val filteredActions = actions
-            .filterIsInstance<MissionEnvActionEntity>()
-
-        val controls = filteredActions.filter { it.envActionType == ActionTypeEnum.CONTROL }
-        val surveillances = filteredActions.filter { it.envActionType == ActionTypeEnum.SURVEILLANCE }
-
-        val nbSurveillances = surveillances.size
-        val totalSurveillanceDurationInHours = surveillances.sumOf<MissionEnvActionEntity> { surveillance ->
-            ComputeDurationUtils.durationInHours(
-                startDateTimeUtc = surveillance.startDateTimeUtc,
-                endDateTimeUtc = surveillance.endDateTimeUtc
-            ).toInt() 
-        }
-
-        val nbControls = controls.size
-        val nbPv = controls.sumOf {
-            it.envInfractions?.count { inf -> inf.infractionType == InfractionTypeEnum.WITH_REPORT } ?: 0
-        }
-        val summary = mapOf(
-            "nbSurveillances" to nbSurveillances,
-            "totalSurveillanceDurationInHours" to totalSurveillanceDurationInHours,
-            "nbControls" to nbControls,
-            "nbPv" to nbPv
-        )
 
 
-        return summary
-    }
 
     fun getLeisureFishingSummary(actions: List<MissionActionEntity>): Map<String, Int> {
         // specifically filter for theme Peche de loisir (autre que PAP), it has id 112
@@ -194,6 +126,8 @@ class GetMissionOperationalSummary2 {
                 "nbControls" to countryActions.size,
                 // Nbre Pv pêche sanitaire
                 "nbPvFish" to countWithRecordInfractions(countryActions.map { it }).values.sum(),
+                // Nbre d'infractions sans PV
+                "nbInfractionsWithoutPv" to countInfractionsWithoutRecord(countryActions.map { it }).values.sum(),
                 // Nbre PV équipmt sécu. permis nav.
                 "nbPvSecuAndAdmin" to countryActions.sumOf { action ->
                     action.getInfractionByControlType(controlType = ControlType.SECURITY).count { infraction ->
@@ -248,6 +182,24 @@ class GetMissionOperationalSummary2 {
             },
             "nbOtherInfractions" to actions.sumOf { action ->
                 action.otherInfractions?.count { it.infractionType == InfractionType.WITH_RECORD }?.or(0) ?: 0
+            }
+        )
+    }
+
+
+    private fun countInfractionsWithoutRecord(actions: List<MissionFishActionEntity>): Map<String, Int> {
+        return mapOf(
+            "nbLogbookInfractions" to actions.sumOf { action ->
+                action.logbookInfractions?.count { it.infractionType == InfractionType.WITHOUT_RECORD }?.or(0) ?: 0
+            },
+            "nbGearInfractions" to actions.sumOf { action ->
+                action.gearInfractions?.count { it.infractionType == InfractionType.WITHOUT_RECORD }?.or(0) ?: 0
+            },
+            "nbSpeciesInfractions" to actions.sumOf { action ->
+                action.speciesInfractions?.count { it.infractionType == InfractionType.WITHOUT_RECORD }?.or(0) ?: 0
+            },
+            "nbOtherInfractions" to actions.sumOf { action ->
+                action.otherInfractions?.count { it.infractionType == InfractionType.WITHOUT_RECORD }?.or(0) ?: 0
             }
         )
     }
@@ -352,59 +304,5 @@ class GetMissionOperationalSummary2 {
     }
 
 
-    private fun getNavActionSummary(
-        actions: List<MissionActionEntity>,
-        vesselType: VesselTypeEnum,
-        controlMethod: ControlMethod
-    ): Map<String, Int> {
-        val filteredActions = actions
-            .filterIsInstance<MissionNavActionEntity>()
-            .filter { it.actionType == ActionType.CONTROL }
-            .filter { it.vesselType == vesselType && it.controlMethod == controlMethod }
 
-        return getNavSummary(filteredActions)
-    }
-
-    private fun getNavSummary(actions: List<MissionNavActionEntity>): Map<String, Int> {
-        return mapOf(
-            // Nbre Navires contrôlés
-            "nbActions" to actions.size,
-            // Nbre PV équipmt sécu. permis nav.
-            // Nb PV dans "équipement sécu" + "doc administratif navire" ajouté par unité dans Rap Nav
-            "nbPvSecuAndAdmin" to actions.sumOf { action ->
-                action.getInfractionByControlType(controlType = ControlType.SECURITY).count { infraction ->
-                    infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                } +
-                    action.getInfractionByControlType(controlType = ControlType.ADMINISTRATIVE).count { infraction ->
-                        infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                    }
-            },
-            // Nb PV dans "Administrative" ajouté par unité dans Rap Nav
-            "nbPVAdmin" to actions.sumOf { action ->
-                action.getInfractionByControlType(controlType = ControlType.ADMINISTRATIVE).count { infraction ->
-                    infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                }
-            },
-            // Nb PV dans "Security" ajouté par unité dans Rap Nav
-            "nbPvSecu" to actions.sumOf { action ->
-                action.getInfractionByControlType(controlType = ControlType.SECURITY).count { infraction ->
-                    infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                }
-            },
-            // Nbre PV titre navig. rôle/déc. eff
-            // Nb PV dans "Gens de mer" ajouté par unité dans Rap Nav
-            "nbPVGensDeMer" to actions.sumOf { action ->
-                action.getInfractionByControlType(controlType = ControlType.GENS_DE_MER).count { infraction ->
-                    infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                }
-            },
-            // Nbre PV police navig.
-            // Nb PV dans "Police de la navigation" ajouté par unité dans Rap Nav
-            "nbPvNav" to actions.sumOf { action ->
-                action.getInfractionByControlType(controlType = ControlType.NAVIGATION).count { infraction ->
-                    infraction.infractionType == InfractionTypeEnum.WITH_REPORT
-                }
-            },
-        )
-    }
 }

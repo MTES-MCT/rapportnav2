@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.analytics
+package fr.gouv.dgampa.rapportnav.domain.use_cases.analytics
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMTableExport2
