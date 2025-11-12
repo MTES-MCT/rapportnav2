@@ -9,8 +9,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.analytics.ComputePatrolData
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.GetMissionOperationalSummary2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputePatrolData
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.operationalSummary.ComputeAllOperationalSummary
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.MapStatusDurations2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionActionControls
@@ -20,7 +20,6 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyList
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
@@ -31,7 +30,7 @@ import java.time.Instant
 @SpringBootTest(classes = [
     ComputePatrolData::class,
     MapStatusDurations2::class,
-    GetMissionOperationalSummary2::class,
+    ComputeAllOperationalSummary::class,
     GetMissionActionControls::class,
 ])
 class ComputePatrolDataTest {
@@ -42,7 +41,7 @@ class ComputePatrolDataTest {
     @MockitoBean
     private lateinit var getComputeEnvMission: GetComputeEnvMission
     @MockitoBean
-    private lateinit var getMissionOperationalSummary2: GetMissionOperationalSummary2
+    private lateinit var computeAllOperationalSummary: ComputeAllOperationalSummary
     @MockitoBean
     private lateinit var mapStatusDurations2: MapStatusDurations2
 

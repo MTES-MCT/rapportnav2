@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.analytics.v1
 
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.analytics.ComputeAEMData
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.analytics.ComputePatrolData
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputeAEMData
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputePatrolData
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.analytics.v1.adapters.output.ApiAnalyticsAEMDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.analytics.v1.adapters.output.ApiAnalyticsPatrolDataOutput
 import io.swagger.v3.oas.annotations.Operation

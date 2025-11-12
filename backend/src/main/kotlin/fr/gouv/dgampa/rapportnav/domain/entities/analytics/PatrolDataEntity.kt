@@ -14,7 +14,7 @@ data class OperationalSummaryEntity(
     val leisureSailingSeaSummary: Map<String, Int>,
     val leisureSailingLandSummary: Map<String, Int>,
     val leisureFishingSummary: Map<String, Int>,
-    val envSummary: Map<String, Int>, // police environnement marin
+    val envSummary: Map<String, Any>, // police environnement marin
 )
 
 data class PatrolDataEntity(
@@ -30,4 +30,11 @@ data class PatrolDataEntity(
     val missionSource: MissionSourceEnum? = null,
     val activity: Map<String, Map<String, Double>>? = null,
     val operationalSummary: OperationalSummaryEntity? = null
+)
+
+data class ThemeStats(
+    val id: Int,
+    val theme: String,
+    val nbActions: Int,
+    val durationInHours: Double
 )

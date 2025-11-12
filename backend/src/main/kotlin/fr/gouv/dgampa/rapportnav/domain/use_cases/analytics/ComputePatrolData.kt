@@ -1,12 +1,11 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.analytics
+package fr.gouv.dgampa.rapportnav.domain.use_cases.analytics
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.analytics.OperationalSummaryEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.analytics.PatrolDataEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.GetMissionOperationalSummary2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.operationalSummary.ComputeAllOperationalSummary
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.MapStatusDurations2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionActionControls
@@ -15,7 +14,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionActionCon
 class ComputePatrolData(
     private val getComputeEnvMission: GetComputeEnvMission,
     private val mapStatusDurations2: MapStatusDurations2,
-    private val getMissionOperationalSummary: GetMissionOperationalSummary2,
+    private val computeAllOperationalSummary: ComputeAllOperationalSummary,
     private val getMissionActionControls: GetMissionActionControls,
 ) {
     fun execute(missionId: Int): PatrolDataEntity? {
@@ -29,7 +28,7 @@ class ComputePatrolData(
         val activity = computeActivity(mission = mission)
 
         // section "Bilan opérationnel"
-        val operationalSummary = computeOperationalSummary(mission = mission)
+        val operationalSummary = computeAllOperationalSummary.execute(mission = mission)
 
         return PatrolDataEntity(
             id = missionId,
@@ -43,7 +42,7 @@ class ComputePatrolData(
             isDeleted = mission.data?.isDeleted,
             missionSource = mission.data?.missionSource,
             activity = activity,
-//            operationalSummary = operationalSummary
+            operationalSummary = operationalSummary
         )
     }
 
@@ -64,33 +63,5 @@ class ComputePatrolData(
         return activity
     }
 
-    fun computeOperationalSummary(mission: MissionEntity2?): OperationalSummaryEntity {
-
-        val proFishingSeaSummary: LinkedHashMap<String, Map<String, Int?>>
-            = getMissionOperationalSummary.getProFishingSeaSummary(mission?.actions.orEmpty())
-        val proFishingLandSummary: LinkedHashMap<String, Map<String, Int?>>
-            = getMissionOperationalSummary.getProFishingLandSummary(mission?.actions.orEmpty())
-
-        val proSailingSeaSummary: Map<String, Int> = getMissionOperationalSummary.getProSailingSeaSummary(mission?.actions.orEmpty())
-        val proSailingLandSummary: Map<String, Int> = getMissionOperationalSummary.getProSailingLandSummary(mission?.actions.orEmpty())
-
-        val leisureSailingSeaSummary: Map<String, Int> = getMissionOperationalSummary.getLeisureSailingSeaSummary(mission?.actions.orEmpty())
-        val leisureSailingLandSummary: Map<String, Int> = getMissionOperationalSummary.getLeisureSailingLandSummary(mission?.actions.orEmpty())
-
-        val leisureFishingSummary: Map<String, Int> = getMissionOperationalSummary.getLeisureFishingSummary(mission?.actions.orEmpty())
-
-        val envSummary: Map<String, Int> = getMissionOperationalSummary.getEnvSummary(mission?.actions.orEmpty())
-
-        return OperationalSummaryEntity(
-            proFishingSeaSummary = proFishingSeaSummary,
-            proFishingLandSummary = proFishingLandSummary,
-            proSailingSeaSummary = proSailingSeaSummary,
-            proSailingLandSummary = proSailingLandSummary,
-            leisureSailingSeaSummary = leisureSailingSeaSummary,
-            leisureSailingLandSummary = leisureSailingLandSummary,
-            leisureFishingSummary = leisureFishingSummary,
-            envSummary = envSummary,
-        )
-    }
 
 }

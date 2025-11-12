@@ -1,16 +1,12 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.analytics.operationalSummary
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.GetMissionOperationalSummary2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.operationalSummary.ComputeFishingOperationalSummary
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.*
@@ -21,9 +17,9 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class GetMissionOperationalSummary2Tests {
+class ComputeFishOperationalSummaryTests {
 
-    val getMissionOperationalSummary = GetMissionOperationalSummary2()
+    val computeFishingOperationalSummary = ComputeFishingOperationalSummary()
 
     @Nested
     inner class FishActionsSummary {
@@ -179,6 +175,7 @@ class GetMissionOperationalSummary2Tests {
                 "nbActions" to null,
                 "nbControls" to null,
                 "nbPvFish" to null,
+                "nbInfractionsWithoutPv" to null,
                 "nbPvSecuAndAdmin" to null,
                 "nbPVGensDeMer" to null,
                 "nbPvNav" to null,
@@ -188,6 +185,7 @@ class GetMissionOperationalSummary2Tests {
                 "nbActions" to null,
                 "nbControls" to null,
                 "nbPvFish" to null,
+                "nbInfractionsWithoutPv" to null,
                 "nbPvSecuAndAdmin" to null,
                 "nbPVGensDeMer" to null,
                 "nbPvNav" to null,
@@ -197,6 +195,7 @@ class GetMissionOperationalSummary2Tests {
                 "nbActions" to null,
                 "nbControls" to null,
                 "nbPvFish" to null,
+                "nbInfractionsWithoutPv" to null,
                 "nbPvSecuAndAdmin" to null,
                 "nbPVGensDeMer" to null,
                 "nbPvNav" to null,
@@ -206,6 +205,7 @@ class GetMissionOperationalSummary2Tests {
                 "nbActions" to null,
                 "nbControls" to null,
                 "nbPvFish" to null,
+                "nbInfractionsWithoutPv" to null,
                 "nbPvSecuAndAdmin" to null,
                 "nbPVGensDeMer" to null,
                 "nbPvNav" to null,
@@ -215,6 +215,7 @@ class GetMissionOperationalSummary2Tests {
                 "nbActions" to null,
                 "nbControls" to null,
                 "nbPvFish" to null,
+                "nbInfractionsWithoutPv" to null,
                 "nbPvSecuAndAdmin" to null,
                 "nbPVGensDeMer" to null,
                 "nbPvNav" to null,
@@ -224,6 +225,7 @@ class GetMissionOperationalSummary2Tests {
                 "nbActions" to null,
                 "nbControls" to null,
                 "nbPvFish" to null,
+                "nbInfractionsWithoutPv" to null,
                 "nbPvSecuAndAdmin" to null,
                 "nbPVGensDeMer" to null,
                 "nbPvNav" to null,
@@ -233,6 +235,7 @@ class GetMissionOperationalSummary2Tests {
                 "nbActions" to null,
                 "nbControls" to null,
                 "nbPvFish" to null,
+                "nbInfractionsWithoutPv" to null,
                 "nbPvSecuAndAdmin" to null,
                 "nbPVGensDeMer" to null,
                 "nbPvNav" to null,
@@ -242,6 +245,7 @@ class GetMissionOperationalSummary2Tests {
                 "nbActions" to null,
                 "nbControls" to null,
                 "nbPvFish" to null,
+                "nbInfractionsWithoutPv" to null,
                 "nbPvSecuAndAdmin" to null,
                 "nbPVGensDeMer" to null,
                 "nbPvNav" to null,
@@ -251,6 +255,7 @@ class GetMissionOperationalSummary2Tests {
                 "nbActions" to null,
                 "nbControls" to null,
                 "nbPvFish" to null,
+                "nbInfractionsWithoutPv" to null,
                 "nbPvSecuAndAdmin" to null,
                 "nbPVGensDeMer" to null,
                 "nbPvNav" to null,
@@ -261,7 +266,7 @@ class GetMissionOperationalSummary2Tests {
         @Test
         fun `should return values equal to 0 because actions`() {
             val mission = MissionEntityMock2.create(actions = listOf())
-            val summary = getMissionOperationalSummary.getProFishingSeaSummary(
+            val summary = computeFishingOperationalSummary.getProFishingSeaSummary(
                 actions = mission.actions!!
             )
             assertEquals(summary, expectedEmpty)
@@ -274,7 +279,7 @@ class GetMissionOperationalSummary2Tests {
                 MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create(actionType = MissionActionType.LAND_CONTROL)),
             )
             val mission = MissionEntityMock2.create(actions = fishActions)
-            val summary = getMissionOperationalSummary.getProFishingSeaSummary(
+            val summary = computeFishingOperationalSummary.getProFishingSeaSummary(
                 actions = mission.actions!!
             )
 
@@ -305,7 +310,7 @@ class GetMissionOperationalSummary2Tests {
             )
 
             val mission = MissionEntityMock2.create(actions = fishActions)
-            val summary = getMissionOperationalSummary.getProFishingSeaSummary(
+            val summary = computeFishingOperationalSummary.getProFishingSeaSummary(
                 actions = mission.actions!!
             )
             val expected = linkedMapOf(
@@ -313,6 +318,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to 1,
                     "nbControls" to 1,
                     "nbPvFish" to null,
+                    "nbInfractionsWithoutPv" to null,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null,
                     "nbPvNav" to null,
@@ -322,6 +328,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to null,
                     "nbControls" to null,
                     "nbPvFish" to null,
+                    "nbInfractionsWithoutPv" to null,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null,
                     "nbPvNav" to null,
@@ -331,6 +338,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to null,
                     "nbControls" to null,
                     "nbPvFish" to null,
+                    "nbInfractionsWithoutPv" to null,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null,
                     "nbPvNav" to null,
@@ -340,6 +348,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to null,
                     "nbControls" to null,
                     "nbPvFish" to null,
+                    "nbInfractionsWithoutPv" to null,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null,
                     "nbPvNav" to null,
@@ -349,6 +358,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to null,
                     "nbControls" to null,
                     "nbPvFish" to null,
+                    "nbInfractionsWithoutPv" to null,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null,
                     "nbPvNav" to null,
@@ -358,6 +368,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to null,
                     "nbControls" to null,
                     "nbPvFish" to null,
+                    "nbInfractionsWithoutPv" to null,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null,
                     "nbPvNav" to null,
@@ -367,6 +378,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to 1,
                     "nbControls" to 1,
                     "nbPvFish" to null,
+                    "nbInfractionsWithoutPv" to null,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null,
                     "nbPvNav" to null,
@@ -376,6 +388,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to null,
                     "nbControls" to null,
                     "nbPvFish" to null,
+                    "nbInfractionsWithoutPv" to null,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null,
                     "nbPvNav" to null,
@@ -385,6 +398,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to 2,
                     "nbControls" to 2,
                     "nbPvFish" to null,
+                    "nbInfractionsWithoutPv" to null,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null,
                     "nbPvNav" to null,
@@ -401,7 +415,7 @@ class GetMissionOperationalSummary2Tests {
         @Test
         fun `getProFishingSeaSummary - should return all data`() {
             val mission = MissionEntityMock2.create(actions = getActions(MissionActionType.SEA_CONTROL))
-            val summary = getMissionOperationalSummary.getProFishingSeaSummary(
+            val summary = computeFishingOperationalSummary.getProFishingSeaSummary(
                 actions = mission.actions!!
             )
             val expected = mapOf(
@@ -409,6 +423,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to 1,
                     "nbControls" to 1,
                     "nbPvFish" to 1,
+                    "nbInfractionsWithoutPv" to 1,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null,
                     "nbPvNav" to 3,
@@ -418,6 +433,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to null,
                     "nbControls" to null,
                     "nbPvFish" to null,
+                    "nbInfractionsWithoutPv" to null,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null,
                     "nbPvNav" to null,
@@ -427,6 +443,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to 1,
                     "nbControls" to 1,
                     "nbPvFish" to 4,
+                    "nbInfractionsWithoutPv" to 4,
                     "nbPvSecuAndAdmin" to 2,
                     "nbPVGensDeMer" to 1,
                     "nbPvNav" to 1,
@@ -436,6 +453,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to null,
                     "nbControls" to null,
                     "nbPvFish" to null,
+                    "nbInfractionsWithoutPv" to null,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null,
                     "nbPvNav" to null,
@@ -445,6 +463,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to null,
                     "nbControls" to null,
                     "nbPvFish" to null,
+                    "nbInfractionsWithoutPv" to null,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null,
                     "nbPvNav" to null,
@@ -454,6 +473,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to null,
                     "nbControls" to null,
                     "nbPvFish" to null,
+                    "nbInfractionsWithoutPv" to null,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null,
                     "nbPvNav" to null,
@@ -463,6 +483,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to 1,
                     "nbControls" to 1,
                     "nbPvFish" to 1,
+                    "nbInfractionsWithoutPv" to 1,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null,
                     "nbPvNav" to 3,
@@ -472,6 +493,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to 1,
                     "nbControls" to 1,
                     "nbPvFish" to 1,
+                    "nbInfractionsWithoutPv" to 1,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null,
                     "nbPvNav" to 3,
@@ -481,6 +503,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to 4,
                     "nbControls" to 4,
                     "nbPvFish" to 7,
+                    "nbInfractionsWithoutPv" to 7,
                     "nbPvSecuAndAdmin" to 2,
                     "nbPVGensDeMer" to 1,
                     "nbPvNav" to 10,
@@ -495,7 +518,7 @@ class GetMissionOperationalSummary2Tests {
         @Test
         fun `getProFishingLandSummary - should return all data`() {
             val mission = MissionEntityMock2.create(actions = getActions(MissionActionType.LAND_CONTROL))
-            val summary = getMissionOperationalSummary.getProFishingLandSummary(
+            val summary = computeFishingOperationalSummary.getProFishingLandSummary(
                 actions = mission.actions!!
             )
             val expected = mapOf(
@@ -503,6 +526,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to 1,
                     "nbControls" to 1,
                     "nbPvFish" to 1,
+                    "nbInfractionsWithoutPv" to 1,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null
                 ),
@@ -510,6 +534,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to null,
                     "nbControls" to null,
                     "nbPvFish" to null,
+                    "nbInfractionsWithoutPv" to null,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null
                 ),
@@ -517,6 +542,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to 1,
                     "nbControls" to 1,
                     "nbPvFish" to 4,
+                    "nbInfractionsWithoutPv" to 4,
                     "nbPvSecuAndAdmin" to 2,
                     "nbPVGensDeMer" to 1
                 ),
@@ -524,6 +550,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to null,
                     "nbControls" to null,
                     "nbPvFish" to null,
+                    "nbInfractionsWithoutPv" to null,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null
                 ),
@@ -531,6 +558,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to null,
                     "nbControls" to null,
                     "nbPvFish" to null,
+                    "nbInfractionsWithoutPv" to null,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null
                 ),
@@ -538,6 +566,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to null,
                     "nbControls" to null,
                     "nbPvFish" to null,
+                    "nbInfractionsWithoutPv" to null,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null
                 ),
@@ -545,6 +574,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to 1,
                     "nbControls" to 1,
                     "nbPvFish" to 1,
+                    "nbInfractionsWithoutPv" to 1,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null
                 ),
@@ -552,6 +582,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to 1,
                     "nbControls" to 1,
                     "nbPvFish" to 1,
+                    "nbInfractionsWithoutPv" to 1,
                     "nbPvSecuAndAdmin" to null,
                     "nbPVGensDeMer" to null
                 ),
@@ -559,6 +590,7 @@ class GetMissionOperationalSummary2Tests {
                     "nbActions" to 4,
                     "nbControls" to 4,
                     "nbPvFish" to 7,
+                    "nbInfractionsWithoutPv" to 7,
                     "nbPvSecuAndAdmin" to 2,
                     "nbPVGensDeMer" to 1
                 )
@@ -568,181 +600,7 @@ class GetMissionOperationalSummary2Tests {
         }
     }
 
-    @Nested
-    inner class NavActionsSummary {
 
-        fun getAction(controlMethod: ControlMethod, vesselType: VesselTypeEnum): List<MissionNavActionEntity> {
-            val actions = listOf(
-                MissionNavActionEntityMock.create(actionType = ActionType.STATUS),
-                MissionNavActionEntityMock.create(
-                    actionType = ActionType.CONTROL,
-                    vesselType = VesselTypeEnum.COMMERCIAL,
-                ),
-                MissionNavActionEntityMock.create(
-                    actionType = ActionType.CONTROL,
-                    vesselType = vesselType,
-                    controlMethod = controlMethod,
-                    targets = listOf(
-                        TargetMissionMock.create(
-                            controls = listOf(
-                                ControlMock.create(
-                                    controlType = ControlType.ADMINISTRATIVE,
-                                    infractions = listOf(
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WAITING),
-                                    )
-                                ),
-                                ControlMock.create(
-                                    controlType = ControlType.GENS_DE_MER,
-                                    infractions = listOf(
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WAITING),
-                                    )
-                                ),
-                                ControlMock.create(
-                                    controlType = ControlType.NAVIGATION,
-                                    infractions = listOf(
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WAITING),
-                                    )
-                                ),
-                                ControlMock.create(
-                                    controlType = ControlType.SECURITY,
-                                    infractions = listOf(
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITHOUT_REPORT),
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WAITING),
-                                    )
-                                )
-
-                            )
-                        )
-                    )
-                ),
-
-                MissionNavActionEntityMock.create(
-                    actionType = ActionType.CONTROL,
-                    vesselType = vesselType,
-                    controlMethod = controlMethod,
-                    targets = listOf(
-                        TargetMissionMock.create(
-                            controls = listOf(
-                                ControlMock.create(
-                                    controlType = ControlType.NAVIGATION,
-                                    infractions = listOf(
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                    )
-                                ),
-                                ControlMock.create(
-                                    controlType = ControlType.SECURITY,
-                                    infractions = listOf(
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                        InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),
-                                    )
-                                )
-
-                            )
-                        )
-                    )
-                ),
-
-                MissionNavActionEntityMock.create(
-                    actionType = ActionType.CONTROL,
-                    vesselType = vesselType,
-                    controlMethod = controlMethod
-                ),
-
-                MissionNavActionEntityMock.create(
-                    actionType = ActionType.CONTROL,
-                    vesselType = vesselType,
-                    controlMethod = ControlMethod.AIR
-                ),
-            )
-            return actions
-        }
-
-
-        @Test
-        fun `getProSailingSeaSummary should return values equal to null because actions`() {
-            val mission = MissionEntityMock2.create(actions = listOf())
-            val summary = getMissionOperationalSummary.getProSailingSeaSummary(
-                actions = mission.actions!!
-            )
-            val expected = mapOf(
-                "nbActions" to 0,
-                "nbPvSecuAndAdmin" to 0,
-                "nbPVGensDeMer" to 0,
-                "nbPvNav" to 0,
-            )
-            assertEquals(summary, expected)
-        }
-
-        @Test
-        fun `getProSailingSeaSummary should return all data`() {
-            val mission = MissionEntityMock2.create(actions = getAction(ControlMethod.SEA, VesselTypeEnum.SAILING))
-            val summary = getMissionOperationalSummary.getProSailingSeaSummary(
-                actions = mission.actions!!
-            )
-            val expected = mapOf(
-                "nbActions" to 3,
-                "nbPvSecuAndAdmin" to 5,
-                "nbPVGensDeMer" to 1,
-                "nbPvNav" to 4,
-            )
-            assertEquals(summary, expected)
-        }
-
-        @Test
-        fun `getProSailingLandSummary should return all data`() {
-            val mission = MissionEntityMock2.create(actions = getAction(ControlMethod.LAND, VesselTypeEnum.SAILING))
-            val summary = getMissionOperationalSummary.getProSailingLandSummary(
-                actions = mission.actions!!
-            )
-            val expected = mapOf(
-                "nbActions" to 3,
-                "nbPvSecuAndAdmin" to 5,
-                "nbPVGensDeMer" to 1,
-            )
-            assertEquals(summary, expected)
-        }
-
-        @Test
-        fun `getLeisureSailingSeaSummary should return all data`() {
-            val mission =
-                MissionEntityMock2.create(actions = getAction(ControlMethod.SEA, VesselTypeEnum.SAILING_LEISURE))
-            val summary = getMissionOperationalSummary.getLeisureSailingSeaSummary(
-                actions = mission.actions!!
-            )
-            val expected = mapOf(
-                "nbActions" to 3,
-                "nbPvSecu" to 4,
-                "nbPVAdmin" to 1,
-                "nbPvNav" to 4,
-            )
-            assertEquals(summary, expected)
-        }
-
-        @Test
-        fun `getLeisureSailingLandSummary should return all data`() {
-            val mission =
-                MissionEntityMock2.create(actions = getAction(ControlMethod.LAND, VesselTypeEnum.SAILING_LEISURE))
-            val summary = getMissionOperationalSummary.getLeisureSailingLandSummary(
-                actions = mission.actions!!
-            )
-            val expected = mapOf(
-                "nbActions" to 3,
-                "nbPVAdmin" to 1,
-                "nbPvSecu" to 4,
-            )
-            assertEquals(summary, expected)
-        }
-    }
 
     @Nested
     inner class EnvActionsSummary {
@@ -794,42 +652,10 @@ class GetMissionOperationalSummary2Tests {
             ),
         )
 
-        @Test
-        fun `envActionSummary should return empty map`() {
-            val mission =
-                MissionEntityMock2.create(actions = listOf())
-            val summary = getMissionOperationalSummary.getEnvSummary(
-                actions = mission.actions!!
-            )
-            val expected = mapOf(
-                "nbSurveillances" to 0,
-                "totalSurveillanceDurationInHours" to 0,
-                "nbControls" to 0,
-                "nbPv" to 0,
-            )
-            assertEquals(summary, expected)
-        }
-
-        @Test
-        fun `envActionSummary should return data`() {
-
-            val mission =
-                MissionEntityMock2.create(actions = actions)
-            val summary = getMissionOperationalSummary.getEnvSummary(
-                actions = mission.actions!!
-            )
-            val expected = mapOf(
-                "nbSurveillances" to 2,
-                "totalSurveillanceDurationInHours" to 2,
-                "nbControls" to 3,
-                "nbPv" to 2,
-            )
-            assertEquals(summary, expected)
-        }
 
         @Test
         fun `getLeisureFishingSummary should return data`() {
-            val summary = getMissionOperationalSummary.getLeisureFishingSummary(
+            val summary = computeFishingOperationalSummary.getLeisureFishingSummary(
                 actions = actions
             )
             val expected = mapOf(
