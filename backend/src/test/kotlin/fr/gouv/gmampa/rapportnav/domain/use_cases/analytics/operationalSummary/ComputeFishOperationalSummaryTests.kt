@@ -1,4 +1,4 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.analytics.operationalSummary
+package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.operationalSummary
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
@@ -442,8 +442,8 @@ class ComputeFishOperationalSummaryTests {
                 "BE" to mapOf(
                     "nbActions" to 1,
                     "nbControls" to 1,
-                    "nbPvFish" to 4,
-                    "nbInfractionsWithoutPv" to 4,
+                    "nbPvFish" to 3,
+                    "nbInfractionsWithoutPv" to 3,
                     "nbPvSecuAndAdmin" to 2,
                     "nbPVGensDeMer" to 1,
                     "nbPvNav" to 1,
@@ -502,8 +502,8 @@ class ComputeFishOperationalSummaryTests {
                 "total" to mapOf(
                     "nbActions" to 4,
                     "nbControls" to 4,
-                    "nbPvFish" to 7,
-                    "nbInfractionsWithoutPv" to 7,
+                    "nbPvFish" to 6,
+                    "nbInfractionsWithoutPv" to 6,
                     "nbPvSecuAndAdmin" to 2,
                     "nbPVGensDeMer" to 1,
                     "nbPvNav" to 10,
@@ -541,8 +541,8 @@ class ComputeFishOperationalSummaryTests {
                 "BE" to mapOf(
                     "nbActions" to 1,
                     "nbControls" to 1,
-                    "nbPvFish" to 4,
-                    "nbInfractionsWithoutPv" to 4,
+                    "nbPvFish" to 3,
+                    "nbInfractionsWithoutPv" to 3,
                     "nbPvSecuAndAdmin" to 2,
                     "nbPVGensDeMer" to 1
                 ),
@@ -589,8 +589,8 @@ class ComputeFishOperationalSummaryTests {
                 "total" to mapOf(
                     "nbActions" to 4,
                     "nbControls" to 4,
-                    "nbPvFish" to 7,
-                    "nbInfractionsWithoutPv" to 7,
+                    "nbPvFish" to 6,
+                    "nbInfractionsWithoutPv" to 6,
                     "nbPvSecuAndAdmin" to 2,
                     "nbPVGensDeMer" to 1
                 )

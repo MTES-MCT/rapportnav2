@@ -37,10 +37,10 @@ class MapStatusDurations2(
             "navigationDurationInHours" to durations.findDuration { it.status == ActionStatusType.NAVIGATING },
             "anchoredDurationInHours" to durations.findDuration { it.status == ActionStatusType.ANCHORED },
             "totalDurationInHours" to 0.0,
-            "amountOfControls" to 0.0,
+            "nbControls" to 0.0,
         ).toMutableMap()
         atSeaDurations["totalDurationInHours"] = atSeaDurations.values.sum()
-        atSeaDurations["amountOfControls"] = atSeaControls.size.toDouble()
+        atSeaDurations["nbControls"] = atSeaControls.size.toDouble()
 
         val dockingControls = controls.orEmpty().filter { it.status === ActionStatusType.DOCKED }
         val dockingDurations = mapOf(
@@ -52,20 +52,20 @@ class MapStatusDurations2(
             "otherDurationInHours" to durations.findDuration { it.reason == ActionStatusReason.OTHER },
             "contrPolDurationInHours" to durations.findDuration { it.reason == ActionStatusReason.HARBOUR_CONTROL },
             "totalDurationInHours" to 0.0,
-            "amountOfControls" to 0.0,
+            "nbControls" to 0.0,
         ).toMutableMap()
         dockingDurations["totalDurationInHours"] = dockingDurations.values.sum()
-        dockingDurations["amountOfControls"] = dockingControls.size.toDouble()
+        dockingDurations["nbControls"] = dockingControls.size.toDouble()
 
         val unavailabilityControls = controls.orEmpty().filter { it.status === ActionStatusType.UNAVAILABLE }
         val unavailabilityDurations = mapOf(
             "technicalDurationInHours" to durations.findDuration { it.reason == ActionStatusReason.TECHNICAL },
             "personnelDurationInHours" to durations.findDuration { it.reason == ActionStatusReason.PERSONNEL },
             "totalDurationInHours" to 0.0,
-            "amountOfControls" to 0.0,
+            "nbControls" to 0.0,
         ).toMutableMap()
         unavailabilityDurations["totalDurationInHours"] = unavailabilityDurations.values.sum()
-        unavailabilityDurations["amountOfControls"] = unavailabilityControls.size.toDouble()
+        unavailabilityDurations["nbControls"] = unavailabilityControls.size.toDouble()
 
         return mapOf(
             "atSea" to atSeaDurations.toMap(),

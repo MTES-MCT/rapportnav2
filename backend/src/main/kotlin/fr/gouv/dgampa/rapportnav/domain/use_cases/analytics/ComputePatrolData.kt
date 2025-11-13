@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.analytics.PatrolDataEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.controlPolicies.ComputeControlPolicies
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.operationalSummary.ComputeAllOperationalSummary
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.MapStatusDurations2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
@@ -16,6 +17,7 @@ class ComputePatrolData(
     private val mapStatusDurations2: MapStatusDurations2,
     private val computeAllOperationalSummary: ComputeAllOperationalSummary,
     private val getMissionActionControls: GetMissionActionControls,
+    private val computeControlPolicies: ComputeControlPolicies,
 ) {
     fun execute(missionId: Int): PatrolDataEntity? {
         val mission: MissionEntity2? = getComputeEnvMission.execute(missionId = missionId)
@@ -30,6 +32,9 @@ class ComputePatrolData(
         // section "Bilan opérationnel"
         val operationalSummary = computeAllOperationalSummary.execute(mission = mission)
 
+        //  section "Politiques publiques de contrôles"
+        val controlPolicies = computeControlPolicies.execute(mission = mission)
+
         return PatrolDataEntity(
             id = missionId,
             idUUID = mission.generalInfos?.data?.missionIdUUID,
@@ -42,7 +47,8 @@ class ComputePatrolData(
             isDeleted = mission.data?.isDeleted,
             missionSource = mission.data?.missionSource,
             activity = activity,
-            operationalSummary = operationalSummary
+            operationalSummary = operationalSummary,
+            controlPolicies = controlPolicies
         )
     }
 

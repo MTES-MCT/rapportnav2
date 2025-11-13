@@ -34,6 +34,7 @@ class ComputeEnvOperationalSummary(
         }
 
         val nbControls = controls.size
+
         val nbInfractionsWithRecord = controls.sumOf {
             it.envInfractions?.count { inf -> inf.infractionType == InfractionTypeEnum.WITH_REPORT } ?: 0
         }

@@ -1,4 +1,4 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.analytics.operationalSummary
+package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.operationalSummary
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.analytics.OperationalSummaryEntity

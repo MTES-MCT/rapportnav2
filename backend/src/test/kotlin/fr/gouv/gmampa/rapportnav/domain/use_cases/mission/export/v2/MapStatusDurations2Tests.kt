@@ -150,7 +150,7 @@ class MapStatusDurations2Tests {
                     "anchoredDurationInHours" to 2.0,
                     "navigationDurationInHours" to 2.0,
                     "totalDurationInHours" to 4.0,
-                    "amountOfControls" to 0.0,
+                    "nbControls" to 0.0,
                 ),
                 "docked" to mapOf(
                     "adminFormationDurationInHours" to 0.0,
@@ -161,13 +161,13 @@ class MapStatusDurations2Tests {
                     "representationDurationInHours" to 2.0,
                     "mcoDurationInHours" to 1.0,
                     "totalDurationInHours" to 4.0,
-                    "amountOfControls" to 0.0,
+                    "nbControls" to 0.0,
                 ),
                 "unavailable" to mapOf(
                     "personnelDurationInHours" to 2.0,
                     "technicalDurationInHours" to 0.0,
                     "totalDurationInHours" to 2.0,
-                    "amountOfControls" to 0.0,
+                    "nbControls" to 0.0,
                 )
             )
         )
