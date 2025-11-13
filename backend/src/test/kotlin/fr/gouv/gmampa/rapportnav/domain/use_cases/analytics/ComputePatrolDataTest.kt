@@ -1,4 +1,4 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.analytics
+package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
@@ -10,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputePatrolData
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.controlPolicies.ComputeControlPolicies
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.operationalSummary.ComputeAllOperationalSummary
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.MapStatusDurations2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
@@ -31,6 +32,7 @@ import java.time.Instant
     ComputePatrolData::class,
     MapStatusDurations2::class,
     ComputeAllOperationalSummary::class,
+    ComputeControlPolicies::class,
     GetMissionActionControls::class,
 ])
 class ComputePatrolDataTest {
@@ -42,6 +44,8 @@ class ComputePatrolDataTest {
     private lateinit var getComputeEnvMission: GetComputeEnvMission
     @MockitoBean
     private lateinit var computeAllOperationalSummary: ComputeAllOperationalSummary
+    @MockitoBean
+    private lateinit var computeControlPolicies: ComputeControlPolicies
     @MockitoBean
     private lateinit var mapStatusDurations2: MapStatusDurations2
 

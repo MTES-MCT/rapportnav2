@@ -1,4 +1,4 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.analytics
+package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics
 
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMEnvTraffic2
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMIllegalImmigration2

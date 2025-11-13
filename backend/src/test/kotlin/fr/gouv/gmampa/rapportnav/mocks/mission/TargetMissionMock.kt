@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselSizeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTypeEnum
@@ -21,7 +22,8 @@ object TargetMissionMock {
         actionId: String? = null,
         targetType: TargetType? = null,
         status: TargetStatusType? = null,
-        controls: List<ControlEntity2>? = null
+        controls: List<ControlEntity2>? = null,
+        source: MissionSourceEnum? = MissionSourceEnum.MONITORENV,
     ): TargetEntity2 {
         return TargetEntity2(
             startDateTimeUtc = Instant.parse("2020-01-01T00:00:00Z"),
@@ -29,6 +31,7 @@ object TargetMissionMock {
             id = id ?: UUID.randomUUID(),
             status = status ?: TargetStatusType.IN_PROCESS,
             actionId = actionId ?: UUID.randomUUID().toString(),
+            source = source,
             vesselSize = VesselSizeEnum.FROM_12_TO_24m,
             vesselType = VesselTypeEnum.SAILING,
             vesselIdentifier = "My vesselIdentifier",

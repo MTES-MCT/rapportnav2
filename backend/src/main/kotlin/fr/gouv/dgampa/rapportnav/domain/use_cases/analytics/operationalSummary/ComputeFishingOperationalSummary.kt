@@ -11,6 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
 import fr.gouv.dgampa.rapportnav.domain.utils.FlagsUtils
 import kotlin.collections.get
 
@@ -125,9 +126,9 @@ class ComputeFishingOperationalSummary(
                 // Nbre contrôles pêche sanitaire
                 "nbControls" to countryActions.size,
                 // Nbre Pv pêche sanitaire
-                "nbPvFish" to countWithRecordInfractions(countryActions.map { it }).values.sum(),
+                "nbPvFish" to CountInfractions().countFishInfractions(countryActions.map { it }, InfractionType.WITH_RECORD).values.sum(),
                 // Nbre d'infractions sans PV
-                "nbInfractionsWithoutPv" to countInfractionsWithoutRecord(countryActions.map { it }).values.sum(),
+                "nbInfractionsWithoutPv" to CountInfractions().countFishInfractions(countryActions.map { it }, InfractionType.WITHOUT_RECORD).values.sum(),
                 // Nbre PV équipmt sécu. permis nav.
                 "nbPvSecuAndAdmin" to countryActions.sumOf { action ->
                     action.getInfractionByControlType(controlType = ControlType.SECURITY).count { infraction ->
@@ -168,41 +169,6 @@ class ComputeFishingOperationalSummary(
         }
     }
 
-
-    private fun countWithRecordInfractions(actions: List<MissionFishActionEntity>): Map<String, Int> {
-        return mapOf(
-            "nbLogbookInfractions" to actions.sumOf { action ->
-                action.logbookInfractions?.count { it.infractionType == InfractionType.WITH_RECORD }?.or(0) ?: 0
-            },
-            "nbGearInfractions" to actions.sumOf { action ->
-                action.gearInfractions?.count { it.infractionType == InfractionType.WITH_RECORD }?.or(0) ?: 0
-            },
-            "nbSpeciesInfractions" to actions.sumOf { action ->
-                action.speciesInfractions?.count { it.infractionType == InfractionType.WITH_RECORD }?.or(0) ?: 0
-            },
-            "nbOtherInfractions" to actions.sumOf { action ->
-                action.otherInfractions?.count { it.infractionType == InfractionType.WITH_RECORD }?.or(0) ?: 0
-            }
-        )
-    }
-
-
-    private fun countInfractionsWithoutRecord(actions: List<MissionFishActionEntity>): Map<String, Int> {
-        return mapOf(
-            "nbLogbookInfractions" to actions.sumOf { action ->
-                action.logbookInfractions?.count { it.infractionType == InfractionType.WITHOUT_RECORD }?.or(0) ?: 0
-            },
-            "nbGearInfractions" to actions.sumOf { action ->
-                action.gearInfractions?.count { it.infractionType == InfractionType.WITHOUT_RECORD }?.or(0) ?: 0
-            },
-            "nbSpeciesInfractions" to actions.sumOf { action ->
-                action.speciesInfractions?.count { it.infractionType == InfractionType.WITHOUT_RECORD }?.or(0) ?: 0
-            },
-            "nbOtherInfractions" to actions.sumOf { action ->
-                action.otherInfractions?.count { it.infractionType == InfractionType.WITHOUT_RECORD }?.or(0) ?: 0
-            }
-        )
-    }
 
     fun aggregateByCountries(
         summary: Map<CountryCode, Map<String, Int>>, // Keep as Map for flexibility

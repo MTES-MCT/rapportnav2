@@ -6,17 +6,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Le
 import java.time.Instant
 import java.util.UUID
 
-data class OperationalSummaryEntity(
-    val proFishingSeaSummary: LinkedHashMap<String, Map<String, Int?>>, // pêche - contrôles en mer
-    val proFishingLandSummary: LinkedHashMap<String, Map<String, Int?>>, // pêche - contrôles à terre / débarque
-    val proSailingSeaSummary: Map<String, Int>,
-    val proSailingLandSummary: Map<String, Int>,
-    val leisureSailingSeaSummary: Map<String, Int>,
-    val leisureSailingLandSummary: Map<String, Int>,
-    val leisureFishingSummary: Map<String, Int>,
-    val envSummary: Map<String, Any>, // police environnement marin
-)
-
 data class PatrolDataEntity(
     val id: Int? = null,
     val idUUID: UUID? = null,
@@ -28,9 +17,40 @@ data class PatrolDataEntity(
     var endDateTimeUtc: Instant? = null,
     var isDeleted: Boolean? = null,
     val missionSource: MissionSourceEnum? = null,
-    val activity: Map<String, Map<String, Double>>? = null,
-    val operationalSummary: OperationalSummaryEntity? = null
+    val activity: Map<String, Map<String, Double>>? = null, // activité du navire
+    val operationalSummary: OperationalSummaryEntity? = null, // bilan opérationnel
+    val controlPolicies: ControlPoliciesEntity? = null, // contrôles par politique publique
 )
+
+data class OperationalSummaryEntity(
+    val proFishingSeaSummary: LinkedHashMap<String, Map<String, Int?>>, // pêche - contrôles en mer
+    val proFishingLandSummary: LinkedHashMap<String, Map<String, Int?>>, // pêche - contrôles à terre / débarque
+    val proSailingSeaSummary: Map<String, Int>,
+    val proSailingLandSummary: Map<String, Int>,
+    val leisureSailingSeaSummary: Map<String, Int>,
+    val leisureSailingLandSummary: Map<String, Int>,
+    val leisureFishingSummary: Map<String, Int>,
+    val envSummary: Map<String, Any>, // police environnement marin
+)
+
+data class ControlPoliciesEntity(
+    val proFishing: ControlPolicyData? = null,
+    val security: ControlPolicyData? = null,
+    val navigation: ControlPolicyData? = null,
+    val gensDeMer: ControlPolicyData? = null,
+    val administrative: ControlPolicyData? = null,
+    val envPollution: ControlPolicyData? = null,
+    val other: ControlPolicyData? = null,
+)
+
+data class ControlPolicyData(
+    val nbControls: Int = 0,
+    val nbControlsSea: Int? = 0,
+    val nbControlsLand: Int? = 0,
+    val nbInfractionsWithRecord: Int = 0,
+    val nbInfractionsWithoutRecord: Int = 0,
+)
+
 
 data class ThemeStats(
     val id: Int,
