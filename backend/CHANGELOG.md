@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.37.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.37.0...backend@v2.37.1) (2025-11-13)
+
+
+### Bug Fixes
+
+* remove uuid validation for update action ([efa0554](https://github.com/MTES-MCT/rapportnav2/commit/efa05546f736280ba23142bed853a704d8cbfbbf))
+
 ## [2.37.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.36.0...backend@v2.37.0) (2025-11-06)
 
 
