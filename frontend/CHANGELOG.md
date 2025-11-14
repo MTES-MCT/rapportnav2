@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.38.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.38.0...frontend@v2.38.1) (2025-11-14)
+
+
+### Bug Fixes
+
+* file export not downloading file ([1457317](https://github.com/MTES-MCT/rapportnav2/commit/145731700972fc393b1762cf9b8021ed947da07e))
+
 ## [2.38.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.37.1...frontend@v2.38.0) (2025-11-14)
 
 
