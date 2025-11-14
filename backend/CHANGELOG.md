@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.38.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.37.1...backend@v2.38.0) (2025-11-14)
+
+
+### Features
+
+* **Analytics:** add control policies indicators ([5b8000d](https://github.com/MTES-MCT/rapportnav2/commit/5b8000d5255219c7a34ca9783ef5ec686f8d5250))
+* **Analytics:** add operational summary data ([6520eb0](https://github.com/MTES-MCT/rapportnav2/commit/6520eb0ab11a8d4c1e22578c3e646377f6c0ef35))
+
 ## [2.37.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.37.0...backend@v2.37.1) (2025-11-13)
 
 
