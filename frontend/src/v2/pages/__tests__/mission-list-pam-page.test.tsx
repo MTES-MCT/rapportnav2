@@ -16,7 +16,7 @@ vi.mock('../../features/common/hooks/use-mission-list.tsx', () => ({
   useMissionList: vi.fn()
 }))
 
-vi.mock('../../features/common/services/use-mission-export.tsx', () => ({
+vi.mock('../../features/common/services/use-mission-export.test.tsx', () => ({
   default: vi.fn()
 }))
 

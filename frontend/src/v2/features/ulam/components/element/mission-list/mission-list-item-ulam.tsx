@@ -10,13 +10,13 @@ import MissionCompletenessForStatsTag from '../../../../common/components/elemen
 import MissionSourceTag from '../../../../common/components/ui/mission-source-tag.tsx'
 import MissionStatusTag from '../../../../common/components/ui/mission-status-tag.tsx'
 import { useMissionCompletenessForStats } from '../../../../common/hooks/use-mission-completeness-for-stats.tsx'
-import { useMissionReportExport } from '../../../../common/hooks/use-mission-report-export.tsx'
 import { ExportMode, ExportReportType } from '../../../../common/types/mission-export-types.ts'
 import { MissionListItem } from '../../../../common/types/mission-types.ts'
 import { User } from '../../../../common/types/user.ts'
 import { useUlamCrewForMissionList } from '../../../hooks/use-ulam-crew-for-mission-list.tsx'
 import { useControlUnitResourceLabel } from '../../../hooks/use-ulam-home-unit-resources.tsx'
 import MissionIconUlam from '../../ui/mission-icon-ulam.tsx'
+import { useMissionReportExport } from '../../../../common/hooks/use-mission-report-export.tsx'
 
 interface MissionListItemProps {
   mission: MissionListItem
@@ -63,7 +63,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
     user?.controlUnitId
   )
 
-  const { exportMissionReport, loading: exportIsLoading } = useMissionReportExport()
+  const { exportMissionReport, exportIsLoading } = useMissionReportExport()
   const exportAEM = async (id: number, event?: React.MouseEvent) => {
     // Stop event propagation to prevent row from collapsing
     event?.preventDefault()
