@@ -20,7 +20,7 @@ import { Mission2 } from '../features/common/types/mission-types.ts'
 import MissionListActionsPam from '../features/pam/components/element/mission-list/mission-list-actions-pam.tsx'
 import MissionListExportDialog from '../features/pam/components/element/mission-list/mission-list-export.tsx'
 import MissionListPam from '../features/pam/components/element/mission-list/mission-list-pam.tsx'
-import { useMissionReportExport2 } from '../features/common/hooks/use-mission-report-export2.tsx'
+import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
 
 const MissionListPamPage: FC = () => {
   const { isLoggedIn } = useAuth()
@@ -39,7 +39,7 @@ const MissionListPamPage: FC = () => {
   const { getMissionListItem } = useMissionList()
   const { isLoading, data: missions } = useMissionsQuery(searchParams)
 
-  const { exportMissionReport, exportIsLoading } = useMissionReportExport2()
+  const { exportMissionReport, exportIsLoading } = useMissionReportExport()
 
   const [selectedMissionIds, setSelectedMissionIds] = useState<number[]>([])
 

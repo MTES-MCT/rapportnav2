@@ -1,25 +1,31 @@
 import { logSoftError } from '@mtes-mct/monitor-ui'
 import { useState } from 'react'
-import {
-  MissionPatrolExportMutationArgs,
-  useLazyExportMissionReports
-} from '../services/use-lazy-export-mission-reports.tsx'
-import { ExportMode } from '../types/mission-export-types.ts'
+import { ExportMode, ExportReportType } from '../types/mission-export-types.ts'
 import { BLOBTYPE, useDownloadFile } from './use-download-file.tsx'
+import useExportMission from '../services/use-mission-export.tsx'
 
+interface ExportMissionHookProps {
+  missionIds: number[]
+  exportMode: ExportMode
+  reportType: ExportReportType
+}
 interface ExportMissionHook {
   exportIsLoading: boolean
-  exportMissionReport: (args: MissionPatrolExportMutationArgs) => Promise<void>
+  exportMissionReport: (args: ExportMissionHookProps) => Promise<void>
 }
 
 export function useMissionReportExport(): ExportMissionHook {
   const { handleDownload } = useDownloadFile()
-  const [getMissionReport] = useLazyExportMissionReports()
+  const { mutateAsync, error } = useExportMission()
   const [exportIsLoading, setLoading] = useState<boolean>(false)
 
-  const exportMissionReport = async (args: MissionPatrolExportMutationArgs) => {
+  const exportMissionReport = async ({ missionIds, exportMode, reportType }: ExportMissionHookProps) => {
     setLoading(true)
-    const { data, error } = await getMissionReport({ variables: args, fetchPolicy: 'network-only' })
+    const { data } = await mutateAsync({
+      missionIds: missionIds,
+      exportMode: exportMode,
+      reportType: reportType
+    })
 
     if (error) {
       setLoading(false)
@@ -30,9 +36,8 @@ export function useMissionReportExport(): ExportMissionHook {
       })
     } else if (data) {
       setLoading(false)
-      const blobType = args.exportMode === ExportMode.MULTIPLE_MISSIONS_ZIPPED ? BLOBTYPE.ZIP : BLOBTYPE.ODT
-      const file = (data as any)?.exportMissionReports
-      await handleDownload(blobType, file as any)
+      const blobType = exportMode === ExportMode.MULTIPLE_MISSIONS_ZIPPED ? BLOBTYPE.ZIP : BLOBTYPE.ODT
+      await handleDownload(blobType, data)
     }
   }
 
