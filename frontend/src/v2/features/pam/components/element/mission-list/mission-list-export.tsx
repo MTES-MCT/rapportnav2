@@ -73,7 +73,7 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
   }
 
   return (
-    <Dialog>
+    <Dialog data-testid={'export-dialog'}>
       <Dialog.Title style={{ border: '2px solid white' }}>
         <Text as={'h2'} color={THEME.color.white} style={{ textAlign: 'center' }}>
           {title}

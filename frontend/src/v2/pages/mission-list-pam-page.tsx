@@ -1,4 +1,3 @@
-import { Mission } from '@common/types/mission-types.ts'
 import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import { FC, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -50,9 +49,9 @@ const MissionListPamPage: FC = () => {
     return missions.filter((m: Mission2) => selectedIndices.indexOf(m.id) !== -1)
   }
 
-  const triggerExport = async (missions: Mission[], variant: ExportReportType, zip: boolean) => {
+  const triggerExport = async (selectedMissions: Mission2[], variant: ExportReportType, zip: boolean) => {
     await exportMissionReport({
-      missionIds: missions.map(mission => mission.id),
+      missionIds: selectedMissions.map(mission => mission.id),
       exportMode: zip ? ExportMode.MULTIPLE_MISSIONS_ZIPPED : ExportMode.COMBINED_MISSIONS_IN_ONE,
       reportType: variant
     })
@@ -74,7 +73,16 @@ const MissionListPamPage: FC = () => {
     )
   }
 
-  const toggleDialog = (variant?: ExportReportType) => {
+  const toggleDialog = async (variant?: ExportReportType) => {
+    const selected = filterBySelectedIndices(missions, selectedMissionIds)
+
+    // If only 1 mission → directly export
+    if (variant && selected.length === 1) {
+      await triggerExport(selected, variant, false) // zip = false for single export
+      return
+    }
+
+    // Otherwise → open the modal
     setDialogVariant(variant)
     setShowExportDialog(!showExportDialog)
   }

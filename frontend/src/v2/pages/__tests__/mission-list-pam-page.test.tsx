@@ -5,7 +5,8 @@ import useAuth from '../../features/auth/hooks/use-auth.tsx'
 import { useMissionList } from '../../features/common/hooks/use-mission-list.tsx'
 import useMissionsQuery from '../../features/common/services/use-missions.tsx'
 import { useOfflineMode } from '../../features/common/hooks/use-offline-mode.tsx'
-import useExportMission from '../../features/common/services/use-mission-export.tsx'
+import { useMissionReportExport } from '../../features/common/hooks/use-mission-report-export.tsx'
+import { ExportMode, ExportReportType } from '../../features/common/types/mission-export-types.ts'
 
 // Mock all dependencies
 vi.mock('../../features/auth/hooks/use-auth.tsx', () => ({
@@ -16,8 +17,8 @@ vi.mock('../../features/common/hooks/use-mission-list.tsx', () => ({
   useMissionList: vi.fn()
 }))
 
-vi.mock('../../features/common/services/use-mission-export.test.tsx', () => ({
-  default: vi.fn()
+vi.mock('../../features/common/hooks/use-mission-report-export.tsx', () => ({
+  useMissionReportExport: vi.fn()
 }))
 
 vi.mock('../../features/common/services/use-missions.tsx', () => ({
@@ -29,6 +30,7 @@ vi.mock('../../features/common/hooks/use-offline-mode.tsx', () => ({
 }))
 
 describe('MissionListPamPage', () => {
+  let mockExportMissionReport: any
   beforeEach(() => {
     vi.clearAllMocks()
 
@@ -46,9 +48,13 @@ describe('MissionListPamPage', () => {
       data: []
     })
 
-    vi.mocked(useExportMission).mockReturnValue({
+    vi.mocked(useMissionReportExport).mockReturnValue({
       mutate: vi.fn(),
       isPending: false
+    })
+    vi.mocked(useMissionReportExport).mockReturnValue({
+      exportMissionReport: mockExportMissionReport,
+      exportIsLoading: false
     })
 
     vi.mocked(useOfflineMode).mockReturnValue(false)
@@ -182,7 +188,90 @@ describe('MissionListPamPage', () => {
       expect(useOfflineMode).toHaveBeenCalled()
       expect(useMissionList).toHaveBeenCalled()
       expect(useMissionsQuery).toHaveBeenCalled()
-      expect(useExportMission).toHaveBeenCalled()
+      expect(useMissionReportExport).toHaveBeenCalled()
+    })
+  })
+
+  describe('export reports', () => {
+    beforeEach(() => {
+      mockExportMissionReport = vi.fn(() => Promise.resolve())
+
+      vi.mocked(useMissionReportExport).mockReturnValue({
+        exportMissionReport: mockExportMissionReport,
+        exportIsLoading: false
+      })
+
+      vi.mocked(useMissionsQuery).mockReturnValue({
+        isLoading: false,
+        data: [
+          {
+            id: 1,
+            startDateTimeUtc: '2024-02-09T09:00Z',
+            endDateTimeUtc: '2024-02-21T09:00Z',
+            missionNamePam: 'Mission #2024-01-09'
+          },
+          {
+            id: 2,
+            startDateTimeUtc: '2024-01-09T09:00Z',
+            endDateTimeUtc: '2024-01-21T09:00Z',
+            missionNamePam: 'Mission #2024-02-09'
+          }
+        ]
+      })
+    })
+    it('should export immediately when exactly 1 mission is selected', async () => {
+      render(<MissionListPamPage />)
+
+      // Select mission #1
+      fireEvent.click(screen.getAllByTitle('Sélectionner cette mission')[0])
+
+      // Click export button (variant comes from button)
+      fireEvent.click(screen.getByTestId('export-patrol'))
+
+      await waitFor(() => {
+        expect(screen.queryByTestId('export-dialog')).not.toBeInTheDocument()
+        expect(mockExportMissionReport).toHaveBeenCalledWith({
+          missionIds: [1],
+          exportMode: ExportMode.COMBINED_MISSIONS_IN_ONE,
+          reportType: ExportReportType.PATROL
+        })
+      })
+    })
+
+    it('should show export modal when more than 1 mission is selected', async () => {
+      render(<MissionListPamPage />)
+
+      const missionItems = screen.getAllByTitle('Sélectionner cette mission')
+      fireEvent.click(missionItems[0])
+      fireEvent.click(missionItems[1])
+
+      fireEvent.click(screen.getByTestId('export-aem'))
+
+      await waitFor(() => {
+        expect(screen.getByTestId('export-dialog')).toBeInTheDocument()
+        expect(mockExportMissionReport).not.toHaveBeenCalled()
+      })
+    })
+
+    it('should show export modal when more than 1 mission is selected', async () => {
+      render(<MissionListPamPage />)
+
+      fireEvent.click(screen.getByTitle('Tout sélectionner'))
+      fireEvent.click(screen.getByTestId('export-aem'))
+
+      await waitFor(() => {
+        expect(screen.getByTestId('export-dialog')).toBeInTheDocument()
+        expect(mockExportMissionReport).not.toHaveBeenCalled()
+      })
+    })
+
+    it('should not export when no mission is selected', async () => {
+      render(<MissionListPamPage />)
+
+      fireEvent.click(screen.getByTestId('export-patrol'))
+
+      expect(mockExportMissionReport).not.toHaveBeenCalled()
+      expect(screen.queryByTestId('export-dialog')).not.toBeInTheDocument()
     })
   })
 })

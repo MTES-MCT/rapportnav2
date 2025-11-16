@@ -37,6 +37,7 @@ const MissionListActionsPam: FC<MissionListActionsPamProps> = ({
           onClick={() => toggleDialog(ExportReportType.AEM)}
           disabled={!selectedMissionIds.length || isOffline}
           title={isOffline ? "Cette action n'est pas disponible hors ligne" : 'Export tableau AEM'}
+          data-testid={'export-aem'}
         />
       </Stack.Item>
       <Stack.Item>
@@ -46,6 +47,7 @@ const MissionListActionsPam: FC<MissionListActionsPamProps> = ({
           onClick={() => toggleDialog(ExportReportType.PATROL)}
           disabled={!selectedMissionIds.length || isOffline}
           title={isOffline ? "Cette action n'est pas disponible hors ligne" : 'Export rapport de patrouille'}
+          data-testid={'export-patrol'}
         />
       </Stack.Item>
     </Stack>
