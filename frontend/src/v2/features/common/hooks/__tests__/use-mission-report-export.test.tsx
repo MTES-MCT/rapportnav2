@@ -30,7 +30,7 @@ vi.mock('../use-download-file', () => ({
 const mockMutateAsync = vi.fn()
 let mutationError: Error | null = null
 
-vi.mock('../../services/use-mission-export.test.tsx', () => ({
+vi.mock('../../services/use-mission-export.tsx', () => ({
   __esModule: true,
   default: () => ({
     mutateAsync: mockMutateAsync,
