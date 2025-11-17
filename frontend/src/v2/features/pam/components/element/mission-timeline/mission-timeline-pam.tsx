@@ -1,8 +1,8 @@
 import { FC } from 'react'
-import PageSectionWrapper from '../../../common/components/layout/page-section-wrapper'
-import useGetMissionTimelineQuery from '../../../mission-timeline/services/use-mission-timeline'
-import MissionTimelinePamBody from './mission-timeline-pam-body'
-import MissionTimelinePamHeader from './mission-timeline-pam-header'
+import PageSectionWrapper from '../../../../common/components/layout/page-section-wrapper.tsx'
+import useGetMissionTimelineQuery from '../../../../mission-timeline/services/use-mission-timeline.tsx'
+import MissionTimelinePamBody from './mission-timeline-pam-body.tsx'
+import MissionTimelinePamHeader from './mission-timeline-pam-header.tsx'
 
 interface MissionTimelineProps {
   missionId: string

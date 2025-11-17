@@ -51,9 +51,7 @@ const App: FC = () => {
             client={queryClient}
             persistOptions={persistOptions}
             onSuccess={() => {
-              queryClient.resumePausedMutations().then(() => {
-                console.log('Persistence restored successfully')
-              })
+              console.log('Persistence restored successfully')
             }}
             onError={() => {
               console.log('Persistence restored failed')

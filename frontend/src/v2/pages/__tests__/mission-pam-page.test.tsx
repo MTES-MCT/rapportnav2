@@ -69,7 +69,7 @@ vi.mock('../../features/pam/components/element/mission-header-pam.tsx', () => ({
   )
 }))
 
-vi.mock('../../features/pam/components/element/mission-timeline-pam.tsx', () => ({
+vi.mock('../../features/pam/components/element/mission-timeline/mission-timeline-pam.tsx', () => ({
   default: ({ missionId }: any) => <div data-testid="mission-timeline-pam">Timeline: {missionId}</div>
 }))
 
