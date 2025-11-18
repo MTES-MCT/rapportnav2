@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.MapStatusDurations2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations2
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
@@ -16,7 +17,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 import kotlin.time.DurationUnit
 
-@SpringBootTest(classes = [MapStatusDurations2::class])
+@SpringBootTest(classes = [MapStatusDurations2::class, GetNbOfDaysAtSeaFromNavigationStatus2::class])
 class MapStatusDurations2Tests {
 
     @Autowired
@@ -24,6 +25,9 @@ class MapStatusDurations2Tests {
 
     @MockitoBean
     private lateinit var getStatusDurations: GetStatusDurations2
+
+    @MockitoBean
+    private lateinit var getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus2
 
      @Test
     fun `MapStatusDurations should return data`() {
@@ -139,9 +143,19 @@ class MapStatusDurations2Tests {
             )
         ).thenReturn(mockData)
 
+        Mockito.`when`(
+            getNbOfDaysAtSeaFromNavigationStatus.execute(
+                missionStartDateTime = inputMission.data?.startDateTimeUtc,
+                missionEndDateTime = inputMission.data?.endDateTimeUtc,
+                actions = inputStatuses,
+                durationUnit = DurationUnit.HOURS
+            )
+        ).thenReturn(3)
+
         assertThat(
             mapStatusDurations.execute(
                 statuses =  inputStatuses,
+                startDateTimeUtc = inputMission.data?.startDateTimeUtc,
                 endDateTimeUtc = inputMission.data?.endDateTimeUtc,
             )
         ).isEqualTo(
@@ -150,6 +164,7 @@ class MapStatusDurations2Tests {
                     "anchoredDurationInHours" to 2.0,
                     "navigationDurationInHours" to 2.0,
                     "totalDurationInHours" to 4.0,
+                    "nbOfDaysAtSea" to 3.0,
                     "nbControls" to 0.0,
                 ),
                 "docked" to mapOf(

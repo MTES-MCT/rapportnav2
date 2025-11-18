@@ -148,6 +148,7 @@ class ComputePatrolDataTest {
                 "navigationDurationInHours" to 2.0,
                 "totalDurationInHours" to 4.0,
                 "amountOfControls" to 0.0,
+                "nbDaysAtSea" to 0.0,
             ),
             "docked" to mapOf(
                 "adminFormationDurationInHours" to 0.0,
@@ -168,8 +169,10 @@ class ComputePatrolDataTest {
             )
         )
 
-        `when`(getComputeEnvMission.execute(missionId)).thenReturn(missionMock)
-        `when`(mapStatusDurations2.execute(anyList<MissionNavActionEntity>(), anyList<MissionActionEntity>(), any())).thenReturn(expected)
+        `when`(getComputeEnvMission.execute(missionId))
+            .thenReturn(missionMock)
+        `when`(mapStatusDurations2.execute(anyList<MissionNavActionEntity>(), anyList<MissionActionEntity>(), any(), any()))
+            .thenReturn(expected)
 
         val actual = computePatrolData.execute(missionId = 123)
         assertThat(actual?.activity).isEqualTo(expected)
