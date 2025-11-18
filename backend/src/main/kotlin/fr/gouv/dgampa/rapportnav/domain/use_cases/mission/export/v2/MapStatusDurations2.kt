@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations2
 import java.time.Instant
 import kotlin.math.ceil
@@ -13,6 +14,7 @@ import kotlin.time.DurationUnit
 @UseCase
 class MapStatusDurations2(
     private val getStatusDurations: GetStatusDurations2,
+    private val getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus2,
 ) {
 
     private inline fun List<GetStatusDurations2.ActionStatusWithDuration>.findDuration(predicate: (GetStatusDurations2.ActionStatusWithDuration) -> Boolean): Double {
@@ -22,9 +24,17 @@ class MapStatusDurations2(
     fun execute(
         statuses: List<MissionNavActionEntity>,
         controls: List<MissionActionEntity>? = listOf(),
+        startDateTimeUtc: Instant? = null,
         endDateTimeUtc: Instant? = null,
     ): Map<String, Map<String, Double>> {
         val durations = getStatusDurations.computeActionDurationsForAllMission(
+            missionEndDateTime = endDateTimeUtc,
+            actions = statuses,
+            durationUnit = DurationUnit.HOURS
+        )
+
+        val nbOfDaysAtSea = getNbOfDaysAtSeaFromNavigationStatus.execute(
+            missionStartDateTime = startDateTimeUtc!!,
             missionEndDateTime = endDateTimeUtc,
             actions = statuses,
             durationUnit = DurationUnit.HOURS
@@ -38,9 +48,11 @@ class MapStatusDurations2(
             "anchoredDurationInHours" to durations.findDuration { it.status == ActionStatusType.ANCHORED },
             "totalDurationInHours" to 0.0,
             "nbControls" to 0.0,
+            "nbOfDaysAtSea" to 0.0,
         ).toMutableMap()
         atSeaDurations["totalDurationInHours"] = atSeaDurations.values.sum()
         atSeaDurations["nbControls"] = atSeaControls.size.toDouble()
+        atSeaDurations["nbOfDaysAtSea"] = nbOfDaysAtSea.toDouble()
 
         val dockingControls = controls.orEmpty().filter { it.status === ActionStatusType.DOCKED }
         val dockingDurations = mapOf(

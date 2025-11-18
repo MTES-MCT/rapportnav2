@@ -62,6 +62,7 @@ class ComputePatrolData(
         val controls = getMissionActionControls.execute(mission)
 
         val activity: Map<String, Map<String, Double>> = mapStatusDurations2.execute(
+            startDateTimeUtc = mission?.data?.startDateTimeUtc,
             endDateTimeUtc = mission?.data?.endDateTimeUtc,
             statuses = statuses,
             controls = controls
