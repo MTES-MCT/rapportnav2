@@ -11,6 +11,9 @@ import { ModuleType } from '../../../common/types/module-type'
 import { OwnerType } from '../../../common/types/owner-type.ts'
 import { TimelineDropdownItem } from '../../hooks/use-timeline'
 import MissionTimelineDropdownWrapper from '../layout/mission-timeline-dropdown-wrapper'
+import { v4 as uuidv4 } from 'uuid'
+import { navigateToActionId } from '@router/routes.tsx'
+import { useNavigate } from 'react-router-dom'
 
 type MissionTimelineAddActionProps = {
   missionId: string
@@ -25,12 +28,17 @@ function MissionTimelineAddAction({
   moduleType,
   dropdownItems
 }: MissionTimelineAddActionProps): JSX.Element {
+  const navigate = useNavigate()
   const mutation = useCreateActionMutation()
   const { getActionInput } = useTimelineAction(missionId)
   const [showModal, setShowModal] = useState<boolean>(false)
 
   const handleAddAction = async (actionType: ActionType, data?: unknown) => {
-    const action = getActionInput(actionType, data)
+    const action = {
+      id: uuidv4(), // Generate a UUID locally
+      ...getActionInput(actionType, data)
+    }
+    navigateToActionId(action.id, navigate)
     const response = await mutation.mutateAsync({ ownerId: missionId, ownerType: OwnerType.MISSION, action })
     if (onSubmit && response && response.id) onSubmit(response.id)
   }
