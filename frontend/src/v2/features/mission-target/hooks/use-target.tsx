@@ -73,17 +73,15 @@ export function useTarget() {
   }
 
   const getAvailableEnvControlTypes = (targets?: Target[], controlTypes?: ControlType[]): ControlType[] => {
-    return (
-      targets
-        ?.reduce((acc, target) => {
-          return getControlAmountByControlTypes(target ?? [], acc) ?? acc
-        }, new Map())
-        .entries()
-        .reduce((acc, [key, value]) => {
-          if (value > 0 && controlTypes?.includes(key)) acc.push(key)
-          return acc
-        }, [] as ControlType[]) ?? []
-    )
+    if (!targets) return []
+
+    const controlMap = targets.reduce((acc, target) => {
+      return getControlAmountByControlTypes(target ?? [], acc) ?? acc
+    }, new Map())
+
+    return Array.from(controlMap.entries())
+      .filter(([key, value]) => value > 0 && controlTypes?.includes(key))
+      .map(([key]) => key)
   }
 
   const getAvailableControlTypes = (target?: Target, controlTypes?: ControlType[]): ControlType[] => {
