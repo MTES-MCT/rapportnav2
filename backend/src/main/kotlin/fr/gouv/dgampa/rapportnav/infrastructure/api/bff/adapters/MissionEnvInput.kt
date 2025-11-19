@@ -24,12 +24,13 @@ data class MissionEnvInput(
             missionTypes = missionTypes,
             endDateTimeUtc = endDateTimeUtc,
             startDateTimeUtc = startDateTimeUtc,
-            observationsByUnit = observationsByUnit,
-            controlUnits = controlUnits.map { controlUnit ->
+            observationsByUnit = observationsByUnit
+            //TODO HOT FIX, no patch of control units before fixing the PROD issue
+            /*controlUnits = controlUnits.map { controlUnit ->
                 controlUnit.takeIf { it.id != controlUnitId } ?: controlUnit.copy(
                     resources = resources?.toMutableList() ?: controlUnit.resources?.toMutableList()
                 )
-            }
+            }*/
         )
     }
 
