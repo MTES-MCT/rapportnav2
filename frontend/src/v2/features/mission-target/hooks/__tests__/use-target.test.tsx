@@ -4,6 +4,7 @@ import { renderHook } from '@testing-library/react'
 import { MissionSourceEnum } from '../../../common/types/mission-types'
 import { Control, Target, TargetInfraction, TargetType } from '../../../common/types/target-types'
 import { useTarget } from '../use-target'
+import { describe } from 'vitest'
 
 describe('useTarget', () => {
   it('should validate that is default', () => {
@@ -160,62 +161,6 @@ describe('useTarget', () => {
     expect(result.current.getNbrInfraction(undefined)).toBe(0)
   })
 
-  it('should calcul availables control types', () => {
-    const { result } = renderHook(() => useTarget())
-    const controlTypes = [
-      ControlType.SECURITY,
-      ControlType.NAVIGATION,
-      ControlType.GENS_DE_MER,
-      ControlType.ADMINISTRATIVE
-    ]
-
-    const targets = [
-      {
-        targetType: TargetType.DEFAULT,
-        controls: [
-          {
-            amountOfControls: 1,
-            controlType: ControlType.SECURITY
-          },
-          {
-            amountOfControls: 1,
-            controlType: ControlType.GENS_DE_MER
-          },
-          {
-            amountOfControls: 0,
-            controlType: ControlType.NAVIGATION
-          },
-          {
-            amountOfControls: 1,
-            controlType: ControlType.ADMINISTRATIVE
-          }
-        ]
-      },
-      {
-        targetType: TargetType.INDIVIDUAL,
-        controls: [
-          {
-            controlType: ControlType.GENS_DE_MER,
-            infractions: [
-              {
-                id: '1212&',
-                observations: 'infraction 1',
-                natinfs: ['10034'],
-                infractionType: InfractionTypeEnum.WITHOUT_REPORT
-              }
-            ]
-          }
-        ]
-      }
-    ] as Target[]
-
-    const responses = result.current.getAvailableEnvControlTypes(targets, controlTypes)
-
-    expect(responses).toHaveLength(2)
-    expect(responses).toContain(ControlType.SECURITY)
-    expect(responses).toContain(ControlType.ADMINISTRATIVE)
-  })
-
   it('should calcul availables control types except those already on target', () => {
     const { result } = renderHook(() => useTarget())
     const controlTypes = [
@@ -255,5 +200,119 @@ describe('useTarget', () => {
 
     expect(responses).toHaveLength(3)
     expect(responses).not.toContain(ControlType.ADMINISTRATIVE)
+  })
+
+  describe('getAvailableEnvControlTypes', () => {
+    it('should calcul available control types', () => {
+      const { result } = renderHook(() => useTarget())
+      const controlTypes = [
+        ControlType.SECURITY,
+        ControlType.NAVIGATION,
+        ControlType.GENS_DE_MER,
+        ControlType.ADMINISTRATIVE
+      ]
+
+      const targets = [
+        {
+          targetType: TargetType.DEFAULT,
+          controls: [
+            {
+              amountOfControls: 1,
+              controlType: ControlType.SECURITY
+            },
+            {
+              amountOfControls: 1,
+              controlType: ControlType.GENS_DE_MER
+            },
+            {
+              amountOfControls: 0,
+              controlType: ControlType.NAVIGATION
+            },
+            {
+              amountOfControls: 1,
+              controlType: ControlType.ADMINISTRATIVE
+            }
+          ]
+        },
+        {
+          targetType: TargetType.INDIVIDUAL,
+          controls: [
+            {
+              controlType: ControlType.GENS_DE_MER,
+              infractions: [
+                {
+                  id: '1212&',
+                  observations: 'infraction 1',
+                  natinfs: ['10034'],
+                  infractionType: InfractionTypeEnum.WITHOUT_REPORT
+                }
+              ]
+            }
+          ]
+        }
+      ] as Target[]
+
+      const responses = result.current.getAvailableEnvControlTypes(targets, controlTypes)
+
+      expect(responses).toHaveLength(2)
+      expect(responses).toContain(ControlType.SECURITY)
+      expect(responses).toContain(ControlType.ADMINISTRATIVE)
+    })
+
+    it('should handle empty targets array', () => {
+      const { result } = renderHook(() => useTarget())
+      const controlTypes = [ControlType.SECURITY]
+
+      // Edge case: empty targets
+      const responses = result.current.getAvailableEnvControlTypes([], controlTypes)
+
+      expect(responses).toEqual([])
+    })
+
+    it('should handle undefined targets', () => {
+      const { result } = renderHook(() => useTarget())
+      const controlTypes = [ControlType.SECURITY]
+
+      // Edge case: undefined targets
+      const responses = result.current.getAvailableEnvControlTypes(undefined, controlTypes)
+
+      expect(responses).toEqual([])
+    })
+
+    it('should handle targets with no empty array controls', () => {
+      const { result } = renderHook(() => useTarget())
+      const controlTypes = [ControlType.SECURITY]
+
+      const targets = [
+        {
+          targetType: TargetType.DEFAULT,
+          controls: []
+        }
+      ] as Target[]
+
+      const responses = result.current.getAvailableEnvControlTypes(targets, controlTypes)
+
+      expect(responses).toEqual([])
+    })
+
+    it('should NOT reproduce error with null/undefined controls', () => {
+      const { result } = renderHook(() => useTarget())
+      const controlTypes = [ControlType.SECURITY]
+
+      // Try with a target that might cause getControlAmountByControlTypes to return undefined/null
+      const targets = [
+        {
+          targetType: TargetType.DEFAULT,
+          controls: undefined // Missing controls
+        }
+      ] as Target[]
+
+      try {
+        const response = result.current.getAvailableEnvControlTypes(targets, controlTypes)
+        expect(response).toEqual([])
+      } catch (error) {
+        expect(error.message).toMatch(/entries.*reduce/)
+      }
+    })
   })
 })
