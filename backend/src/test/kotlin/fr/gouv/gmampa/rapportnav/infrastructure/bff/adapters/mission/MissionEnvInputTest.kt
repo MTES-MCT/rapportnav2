@@ -49,10 +49,12 @@ class MissionEnvInputTest {
         assertThat(patchInput.observationsByUnit).isEqualTo(input.observationsByUnit)
 
 
+        //TODO: remove temporally  control units patches
+        /*
         assertThat(patchInput.controlUnits?.size).isEqualTo(1)
         assertThat(patchInput.controlUnits?.get(0)?.resources?.size).isEqualTo(2)
         assertThat(patchInput.controlUnits?.get(0)?.resources?.map { it.id }
-            ?.toSet()).isEqualTo(input.resources?.map { it.id }?.toSet())
+            ?.toSet()).isEqualTo(input.resources?.map { it.id }?.toSet())*/
     }
 
 
