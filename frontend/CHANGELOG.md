@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.39.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.39.0...frontend@v2.39.1) (2025-11-19)
+
+
+### Bug Fixes
+
+* unhandled exception in env targets ([57c18d1](https://github.com/MTES-MCT/rapportnav2/commit/57c18d172f1a772b942851af8989b7997d2b5c77))
+
 ## [2.39.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.38.1...frontend@v2.39.0) (2025-11-19)
 
 
