@@ -11,8 +11,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.SummaryTag
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlEntity2Mock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -67,9 +67,9 @@ class MissionEnvActionEntityTest {
     @Test
     fun `execute should be complete controls to complete and available controlTypes for infractions `() {
         val envAction = getEnvAction()
-        val controls = ControlMock.createList()
+        val controls = ControlEntity2Mock.createList()
             .filter { !listOf(ControlType.SECURITY, ControlType.ADMINISTRATIVE).contains(it.controlType) }
-        val targetMock = TargetMissionMock.create(controls = controls)
+        val targetMock = TargetEntity2Mock.create(controls = controls)
         val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
         entity.targets = listOf(targetMock)
         entity.computeCompleteness()
@@ -127,7 +127,7 @@ class MissionEnvActionEntityTest {
             )
         )
         val entity = MissionEnvActionEntity.fromEnvAction(761, model)
-        entity.targets = listOf(TargetMissionMock.create(controls = controls))
+        entity.targets = listOf(TargetEntity2Mock.create(controls = controls))
         entity.computeControlsToComplete()
         assertThat(entity.controlsToComplete?.size).isEqualTo(3)
     }
@@ -139,7 +139,7 @@ class MissionEnvActionEntityTest {
 
         )
         val entity = MissionEnvActionEntity.fromEnvAction(missionId = 761, action = envAction)
-        entity.targets = listOf(TargetMissionMock.create())
+        entity.targets = listOf(TargetEntity2Mock.create())
         entity.computeControlsToComplete()
         assertThat(entity.controlsToComplete?.size).isEqualTo(2)
         assertThat(entity.controlsToComplete).contains(ControlType.GENS_DE_MER)
