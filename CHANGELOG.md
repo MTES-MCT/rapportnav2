@@ -1,5 +1,36 @@
 # Changelog
 
+## [2.39.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.39.1...docker-container@v2.39.2) (2025-11-20)
+
+
+### Bug Fixes
+
+* **backend:** patch env mission ([7cbe328](https://github.com/MTES-MCT/rapportnav2/commit/7cbe328b0ea647e01f1bed8db68cf752bef63bd3))
+* **backend:** patch env mission ([761d847](https://github.com/MTES-MCT/rapportnav2/commit/761d847b0db9d57523509d12e96574321da89db8))
+
+## [2.39.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.39.0...docker-container@v2.39.1) (2025-11-19)
+
+
+### Bug Fixes
+
+* unhandled exception in env targets ([57c18d1](https://github.com/MTES-MCT/rapportnav2/commit/57c18d172f1a772b942851af8989b7997d2b5c77))
+
+## [2.39.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.38.1...docker-container@v2.39.0) (2025-11-19)
+
+
+### Features
+
+* **backend:** database script and model ([97b599c](https://github.com/MTES-MCT/rapportnav2/commit/97b599c09ea235922b5498ff3eef302629a0646d))
+* **backend:** use case around agent 2 ([f2dcf31](https://github.com/MTES-MCT/rapportnav2/commit/f2dcf31419cf8b6558d4b45725d599a0ce21b2b6))
+* **export:** trigger export directly when only 1 mission selected, open dialog otherwise ([43e328b](https://github.com/MTES-MCT/rapportnav2/commit/43e328b231eb235eaffc2cbb127ccde8502e3953))
+
+
+### Bug Fixes
+
+* added tests for export ([706f892](https://github.com/MTES-MCT/rapportnav2/commit/706f8927907cdfdbdf9f765576ca896f03e70053))
+* **backend:** remove the patch of control unit ([11c3e67](https://github.com/MTES-MCT/rapportnav2/commit/11c3e67deb924510d2abc47edb675e44f1e2eead))
+* **secu:** force glob version in frontend ([b2d38d7](https://github.com/MTES-MCT/rapportnav2/commit/b2d38d7909332b9336720bbbb2b0297ac157bac1))
+
 ## [2.38.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.38.0...docker-container@v2.38.1) (2025-11-14)
 
 

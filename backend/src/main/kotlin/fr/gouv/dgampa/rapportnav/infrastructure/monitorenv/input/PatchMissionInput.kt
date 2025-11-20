@@ -10,7 +10,7 @@ import java.time.Instant
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class PatchMissionInput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) constructor(
     @JsonProperty("missionTypes") val missionTypes: List<MissionTypeEnum>? = null,
-    @JsonProperty("controlUnits") var controlUnits: List<LegacyControlUnitEntity>? = listOf(),
+    @JsonProperty("controlUnits") var controlUnits: List<LegacyControlUnitEntity>? = null,
     @JsonProperty("startDateTimeUtc") val startDateTimeUtc: Instant? = null,
     @JsonProperty("endDateTimeUtc") val endDateTimeUtc: Instant? = null,
     @JsonProperty("isUnderJdp") val isUnderJdp: Boolean? = null,

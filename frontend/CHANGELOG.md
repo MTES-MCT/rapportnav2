@@ -1,5 +1,32 @@
 # Changelog
 
+## [2.39.2](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.39.1...frontend@v2.39.2) (2025-11-20)
+
+
+### Miscellaneous Chores
+
+* **frontend:** Synchronize group-some-associated-services versions
+
+## [2.39.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.39.0...frontend@v2.39.1) (2025-11-19)
+
+
+### Bug Fixes
+
+* unhandled exception in env targets ([57c18d1](https://github.com/MTES-MCT/rapportnav2/commit/57c18d172f1a772b942851af8989b7997d2b5c77))
+
+## [2.39.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.38.1...frontend@v2.39.0) (2025-11-19)
+
+
+### Features
+
+* **export:** trigger export directly when only 1 mission selected, open dialog otherwise ([43e328b](https://github.com/MTES-MCT/rapportnav2/commit/43e328b231eb235eaffc2cbb127ccde8502e3953))
+
+
+### Bug Fixes
+
+* added tests for export ([706f892](https://github.com/MTES-MCT/rapportnav2/commit/706f8927907cdfdbdf9f765576ca896f03e70053))
+* **secu:** force glob version in frontend ([b2d38d7](https://github.com/MTES-MCT/rapportnav2/commit/b2d38d7909332b9336720bbbb2b0297ac157bac1))
+
 ## [2.38.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.38.0...frontend@v2.38.1) (2025-11-14)
 
 
