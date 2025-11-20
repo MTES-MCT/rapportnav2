@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.40.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.39.2...docker-container@v2.40.0) (2025-11-20)
+
+
+### Features
+
+* **Analytics:** add nb of days at sea metric ([3d36ed6](https://github.com/MTES-MCT/rapportnav2/commit/3d36ed67e035c23ae8b93dca6ef34d27caa75b07))
+
 ## [2.39.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.39.1...docker-container@v2.39.2) (2025-11-20)
 
 
