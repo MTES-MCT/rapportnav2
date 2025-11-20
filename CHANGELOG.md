@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.39.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.39.1...docker-container@v2.39.2) (2025-11-20)
+
+
+### Bug Fixes
+
+* **backend:** patch env mission ([7cbe328](https://github.com/MTES-MCT/rapportnav2/commit/7cbe328b0ea647e01f1bed8db68cf752bef63bd3))
+* **backend:** patch env mission ([761d847](https://github.com/MTES-MCT/rapportnav2/commit/761d847b0db9d57523509d12e96574321da89db8))
+
 ## [2.39.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.39.0...docker-container@v2.39.1) (2025-11-19)
 
 
