@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ControlEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity2
 import java.util.*
 
-object ControlMock {
+object ControlEntity2Mock {
 
     fun create(
         id: UUID? = null,
@@ -21,8 +21,16 @@ object ControlMock {
         upToDateNavigationPermit: ControlResult? = null,
         compliantSecurityDocuments: ControlResult? = null,
         knowledgeOfFrenchLawAndLanguage: ControlResult? = null,
-        infractions: List<InfractionEntity2>? = null
+        infractions: List<InfractionEntity2> = listOf<InfractionEntity2>(),
     ): ControlEntity2 {
+        val infractions = if (infractions.isEmpty()) listOf<InfractionEntity2>(
+            InfractionEntity2(
+                id = UUID.randomUUID(),
+                infractionType = InfractionTypeEnum.WITH_REPORT,
+                natinfs = listOf("natInf2", "natInf3"),
+                observations = "My observations"
+            )
+        ) else infractions
         return ControlEntity2(
             id = id ?: UUID.randomUUID(),
             controlType = controlType ?: ControlType.GENS_DE_MER,
@@ -35,14 +43,7 @@ object ControlMock {
             upToDateNavigationPermit = upToDateNavigationPermit?:ControlResult.NO,
             compliantSecurityDocuments = compliantSecurityDocuments?:ControlResult.NOT_CONCERNED,
             knowledgeOfFrenchLawAndLanguage = knowledgeOfFrenchLawAndLanguage?:ControlResult.NOT_CONTROLLED,
-            infractions = infractions?:listOf(
-                InfractionEntity2(
-                    id = UUID.randomUUID(),
-                    infractionType = InfractionTypeEnum.WITH_REPORT,
-                    natinfs = listOf("natInf2", "natInf3"),
-                    observations = "My observations"
-                )
-            )
+            infractions = infractions
         )
     }
 

@@ -9,7 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetNavMissionById
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.FishMissionMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.NavMissionMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.NavMissionEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
@@ -69,7 +69,7 @@ class GetMissionTest {
         val extendedEnvMission = ExtendedEnvMissionEntity.fromEnvMission(envMission)
         val fishActions: List<ExtendedFishActionEntity> =
             FishMissionMock.create().actions.map { ExtendedFishActionEntity.fromMissionAction(it) }
-        val navMission = NavMissionMock.create()
+        val navMission = NavMissionEntityMock.create()
 
         `when`(getEnvMissionById.execute(missionId, envMission)).thenReturn(extendedEnvMission)
         `when`(getFishActionsByMissionId.execute(missionId)).thenReturn(fishActions)

@@ -7,8 +7,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.controlPolicies.ComputeEnvControlPolicy
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlEntity2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionEnvActionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.InfractionEntity2Mock
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -57,10 +57,10 @@ class ComputeEnvControlPolicyTest {
         val controlAction = MissionEnvActionEntityMock.create(
             envActionType = ActionTypeEnum.CONTROL,
             targets = listOf(
-                TargetMissionMock.create(
+                TargetEntity2Mock.create(
                     source = MissionSourceEnum.MONITORENV,
                     controls = listOf(
-                        ControlMock.create(
+                        ControlEntity2Mock.create(
                             amountOfControls = 3,
                             hasBeenDone = true,
                             controlType = ControlType.SECURITY,
@@ -71,12 +71,12 @@ class ComputeEnvControlPolicyTest {
                                 )
                             )
                         ),
-                        ControlMock.create( // not counted
+                        ControlEntity2Mock.create( // not counted
                             amountOfControls = 3,
                             hasBeenDone = false,
                             controlType = ControlType.SECURITY,
                         ),
-                        ControlMock.create(
+                        ControlEntity2Mock.create(
                             amountOfControls = 6,
                             hasBeenDone = true,
                             controlType = ControlType.NAVIGATION,
@@ -89,10 +89,10 @@ class ComputeEnvControlPolicyTest {
                         )
                     )
                 ),
-                TargetMissionMock.create( // not counted
+                TargetEntity2Mock.create( // not counted
                     source = MissionSourceEnum.RAPPORTNAV,
                     controls = listOf(
-                        ControlMock.create(
+                        ControlEntity2Mock.create(
                             amountOfControls = 3,
                             controlType = ControlType.SECURITY,
                             infractions = listOf(

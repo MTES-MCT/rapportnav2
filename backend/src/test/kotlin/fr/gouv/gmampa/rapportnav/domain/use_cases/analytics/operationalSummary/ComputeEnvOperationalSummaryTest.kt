@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.operationalSummary.ComputeEnvOperationalSummary
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.*
 import fr.gouv.gmampa.rapportnav.mocks.mission.env.ThemeEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.infraction.EnvInfractionEntityMock
@@ -31,9 +31,9 @@ class ComputeEnvOperationalSummaryTest {
                 themes = listOf(ThemeEntityMock.create(id = 112)),
                 envInfractions = listOf(EnvInfractionEntityMock.create(infractionType = InfractionTypeEnum.WITH_REPORT)),
                 targets = listOf(
-                    TargetMissionMock.create(
+                    TargetEntity2Mock.create(
                         controls = listOf(
-                            ControlMock.create(
+                            ControlEntity2Mock.create(
                                 controlType = ControlType.SECURITY,
                                 infractions = listOf(
                                     InfractionEntity2Mock.create(infractionType = InfractionTypeEnum.WITH_REPORT),

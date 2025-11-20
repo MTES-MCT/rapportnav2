@@ -4,8 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -46,7 +45,7 @@ class ProcessNavActionTest {
             actionType = ActionType.CONTROL,
         )
 
-        val mockTarget = TargetMissionMock.create()
+        val mockTarget = TargetEntity2Mock.create()
         `when`(getComputeTarget.execute(actionId.toString(), true)).thenReturn(listOf(mockTarget))
         processNavAction = ProcessNavAction(
             getComputeTarget = getComputeTarget,

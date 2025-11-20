@@ -10,8 +10,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Specie
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlEntity2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionEnvActionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionFishActionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
@@ -64,20 +64,20 @@ class CountInfractionsTest {
 
     @Test
     fun `countNavInfractions should sum controls with correct type and infraction`() {
-        val control1 = ControlMock.create(
+        val control1 = ControlEntity2Mock.create(
             controlType = ControlType.SECURITY,
             hasBeenDone = true,
             amountOfControls = 3,
             infractions = listOf(InfractionEntity2(UUID.randomUUID(), infractionType = InfractionTypeEnum.WITH_REPORT))
         )
-        val control2 = ControlMock.create(
+        val control2 = ControlEntity2Mock.create(
             controlType = ControlType.NAVIGATION,
             hasBeenDone = true,
             amountOfControls = 1,
             infractions = listOf(InfractionEntity2(UUID.randomUUID(), infractionType = InfractionTypeEnum.WITHOUT_REPORT))
         )
 
-        val target = TargetMissionMock.create(controls = listOf(control1, control2))
+        val target = TargetEntity2Mock.create(controls = listOf(control1, control2))
         val action = MissionNavActionEntityMock.create(targets = listOf(target))
 
         val result = countInfractions.countNavInfractions(
@@ -103,19 +103,19 @@ class CountInfractionsTest {
 
     @Test
     fun `countEnvInfractions should count only MONITORENV sources and matching infraction type`() {
-        val target1 = TargetMissionMock.create(
+        val target1 = TargetEntity2Mock.create(
             source = MissionSourceEnum.MONITORENV,
             controls = listOf(
-                ControlMock.create(
+                ControlEntity2Mock.create(
                     hasBeenDone = true,
                     infractions = listOf(InfractionEntity2(UUID.randomUUID(), infractionType = InfractionTypeEnum.WITH_REPORT))
                 )
             )
         )
-        val target2 = TargetMissionMock.create(
+        val target2 = TargetEntity2Mock.create(
             source = MissionSourceEnum.RAPPORTNAV,
             controls = listOf(
-                ControlMock.create(
+                ControlEntity2Mock.create(
                     hasBeenDone = true,
                     infractions = listOf(InfractionEntity2(UUID.randomUUID(), infractionType = InfractionTypeEnum.WITH_REPORT))
                 )

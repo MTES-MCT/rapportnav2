@@ -12,7 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.OtherI
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.NavMissionMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.NavMissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ExtendedEnvActionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.ExtendedFishActionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
@@ -100,7 +100,7 @@ class AEMTableExportTest {
                 )
             )
         )
-        val navMission = NavMissionMock.create(
+        val navMission = NavMissionEntityMock.create(
             actions = navActions,
             generalInfo = MissionGeneralInfoEntity(id = 1, missionId = 761)
         );

@@ -3,7 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ITargetRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentCaptor
@@ -37,9 +37,9 @@ class ProcessMissionActionTargetTest {
     @Test
     fun `test execute process target`() {
         val actionId = UUID.randomUUID().toString()
-        val target1 = TargetMissionMock.create(actionId = actionId)
-        val target2 = TargetMissionMock.create(actionId = actionId)
-        val target3 = TargetMissionMock.create(actionId = actionId)
+        val target1 = TargetEntity2Mock.create(actionId = actionId)
+        val target2 = TargetEntity2Mock.create(actionId = actionId)
+        val target3 = TargetEntity2Mock.create(actionId = actionId)
 
         //Mock
         val response = listOf(target1.toTargetModel(), target2.toTargetModel())

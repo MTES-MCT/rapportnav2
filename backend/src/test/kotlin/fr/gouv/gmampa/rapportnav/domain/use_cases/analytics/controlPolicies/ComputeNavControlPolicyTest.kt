@@ -15,8 +15,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.controlPolicies.ComputeNavControlPolicy
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlEntity2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionEnvActionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionFishActionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
@@ -65,7 +65,7 @@ class ComputeNavControlPolicyTest {
     @Test
     fun `filters NAV actions correctly and counts`() {
         // counts because amountOfControls > 0 + right controlType + infraction
-        val control1 = ControlMock.create(
+        val control1 = ControlEntity2Mock.create(
             controlType = ControlType.NAVIGATION,
             amountOfControls = 2,
             hasBeenDone = true,
@@ -74,13 +74,13 @@ class ComputeNavControlPolicyTest {
             )
         )
         // does not count because no amountOfControls
-        val control2 = ControlMock.create(
+        val control2 = ControlEntity2Mock.create(
             controlType = ControlType.NAVIGATION,
             amountOfControls = 0,
             hasBeenDone = true
         )
         // does not count because wrong controlType
-        val control3 = ControlMock.create(
+        val control3 = ControlEntity2Mock.create(
             controlType = ControlType.SECURITY,
             amountOfControls = 2,
             hasBeenDone = true,
@@ -89,7 +89,7 @@ class ComputeNavControlPolicyTest {
             )
         )
 
-        val target = TargetMissionMock.create(
+        val target = TargetEntity2Mock.create(
             targetType = TargetType.VEHICLE,
             controls = listOf(control1, control2, control3)
         )
@@ -121,21 +121,21 @@ class ComputeNavControlPolicyTest {
 
     @Test
     fun `filters ENV actions with valid controls`() {
-        val control1 = ControlMock.create(
+        val control1 = ControlEntity2Mock.create(
             controlType = ControlType.NAVIGATION,
             amountOfControls = 1
         )
 
-        val control2 = ControlMock.create(
+        val control2 = ControlEntity2Mock.create(
             controlType = ControlType.NAVIGATION,
             amountOfControls = 0
         )
-        val control3 = ControlMock.create(
+        val control3 = ControlEntity2Mock.create(
             controlType = ControlType.SECURITY,
             amountOfControls = 1
         )
 
-        val target = TargetMissionMock.create(
+        val target = TargetEntity2Mock.create(
             targetType = TargetType.VEHICLE,
             controls = listOf(control1, control2, control3)
         )
@@ -161,22 +161,22 @@ class ComputeNavControlPolicyTest {
 
     @Test
     fun `filters FISH actions with valid controls`() {
-        val validControl = ControlMock.create(
+        val validControl = ControlEntity2Mock.create(
             controlType = ControlType.NAVIGATION,
             amountOfControls = 2
         )
 
-        val invalidControl = ControlMock.create(
+        val invalidControl = ControlEntity2Mock.create(
             controlType = ControlType.GENS_DE_MER, // wrong type
             amountOfControls = 3
         )
 
-        val validTarget = TargetMissionMock.create(
+        val validTarget = TargetEntity2Mock.create(
             targetType = TargetType.VEHICLE,
             controls = listOf(validControl)
         )
 
-        val invalidTarget = TargetMissionMock.create(
+        val invalidTarget = TargetEntity2Mock.create(
             targetType = TargetType.VEHICLE,
             controls = listOf(invalidControl)
         )
