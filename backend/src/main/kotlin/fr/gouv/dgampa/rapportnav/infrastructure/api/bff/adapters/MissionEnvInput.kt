@@ -19,19 +19,20 @@ data class MissionEnvInput(
 
     fun toPatchMissionInput(controlUnits: List<LegacyControlUnitEntity>): PatchMissionInput {
         val controlUnitId = resources?.firstOrNull()?.controlUnitId
-        return PatchMissionInput(
+        val input  = PatchMissionInput(
             isUnderJdp = isUnderJdp,
             missionTypes = missionTypes,
             endDateTimeUtc = endDateTimeUtc,
             startDateTimeUtc = startDateTimeUtc,
-            observationsByUnit = observationsByUnit
-            //TODO HOT FIX, no patch of control units before fixing the PROD issue
-            /*controlUnits = controlUnits.map { controlUnit ->
+            observationsByUnit = observationsByUnit,
+            controlUnits = controlUnits.map { controlUnit ->
                 controlUnit.takeIf { it.id != controlUnitId } ?: controlUnit.copy(
-                    resources = resources?.toMutableList() ?: controlUnit.resources?.toMutableList()
+                    resources = resources?.toMutableList() ?: controlUnit.resources
                 )
-            }*/
+            }
         )
+        if (input.controlUnits?.isEmpty() == true) input.controlUnits = null
+        return input
     }
 
     companion object {
@@ -77,4 +78,5 @@ data class MissionEnvInput(
         return result
     }
 }
+
 

@@ -8,7 +8,7 @@ data class LegacyControlUnitEntity @JsonCreator constructor(
     @JsonProperty("administration") val administration: String? = null,
     @JsonProperty("isArchived") val isArchived: Boolean? = false,
     @JsonProperty("name") val name: String? = null,
-    @JsonProperty("resources") val resources: MutableList<LegacyControlUnitResourceEntity>? = mutableListOf(),
+    @JsonProperty("resources") var resources: MutableList<LegacyControlUnitResourceEntity>? = mutableListOf(),
     @JsonProperty("contact") val contact: String? = null
 ) {
     override fun equals(other: Any?): Boolean {
