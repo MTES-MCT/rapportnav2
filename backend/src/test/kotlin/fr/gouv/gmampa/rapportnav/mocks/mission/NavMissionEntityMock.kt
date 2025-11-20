@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEnt
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 
-object NavMissionMock {
+object NavMissionEntityMock {
     fun create(
         id: Int = 1,
         actions: List<NavActionEntity> = emptyList(),

@@ -10,37 +10,38 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetSt
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.ControlEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity2
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.v2.ControlModel2
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel2
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlEntity2Mock
 import java.time.Instant
 import java.util.*
 
-object TargetMissionMock {
+object TargetModel2Mock {
     fun create(
-        id: UUID? = null,
+        id: UUID? = UUID.randomUUID(),
         agent: String? = null,
         actionId: String? = null,
         targetType: TargetType? = null,
-        status: TargetStatusType? = null,
-        controls: List<ControlEntity2>? = null,
+        status: TargetStatusType? = TargetStatusType.IN_PROCESS,
+        controls: List<ControlModel2>? = null,
         source: MissionSourceEnum? = MissionSourceEnum.MONITORENV,
-    ): TargetEntity2 {
-        return TargetEntity2(
+    ): TargetModel2 {
+        return TargetModel2(
             startDateTimeUtc = Instant.parse("2020-01-01T00:00:00Z"),
             endDateTimeUtc = Instant.parse("2020-02-01T00:00:00Z"),
             id = id ?: UUID.randomUUID(),
-            status = status ?: TargetStatusType.IN_PROCESS,
+            status = status.toString(),
             actionId = actionId ?: UUID.randomUUID().toString(),
-            source = source,
-            vesselSize = VesselSizeEnum.FROM_12_TO_24m,
-            vesselType = VesselTypeEnum.SAILING,
+            source = source.toString(),
+            vesselSize = VesselSizeEnum.FROM_12_TO_24m.toString(),
+            vesselType = VesselTypeEnum.SAILING.toString(),
             vesselIdentifier = "My vesselIdentifier",
             agent = agent?: "My agent",
             vesselName = "My vesselName",
             identityControlledPerson = "My identityContolledPerson",
             targetType = targetType ?: TargetType.COMPANY,
-            controls = controls?: listOf(
-                ControlMock.create(
+            controls = ((controls?: listOf(
+                ControlEntity2Mock.create(
                     id = UUID.randomUUID(),
                     controlType = ControlType.NAVIGATION,
                     amountOfControls = 0,
@@ -60,8 +61,8 @@ object TargetMissionMock {
                             observations = "My observations"
                         )
                     )
-                ),
-                ControlMock.create(
+                ).toControlModel(),
+                ControlEntity2Mock.create(
                     id = UUID.randomUUID(),
                     controlType = ControlType.SECURITY,
                     amountOfControls = 1,
@@ -81,8 +82,8 @@ object TargetMissionMock {
                             observations = "My observations"
                         )
                     )
-                ),
-                ControlMock.create(
+                ).toControlModel(),
+                ControlEntity2Mock.create(
                     id = UUID.randomUUID(),
                     controlType = ControlType.GENS_DE_MER,
                     amountOfControls = 0,
@@ -102,8 +103,8 @@ object TargetMissionMock {
                             observations = "My observations"
                         )
                     )
-                ),
-                ControlMock.create(
+                ).toControlModel(),
+                ControlEntity2Mock.create(
                     id = UUID.randomUUID(),
                     controlType = ControlType.GENS_DE_MER,
                     amountOfControls = 1,
@@ -123,8 +124,8 @@ object TargetMissionMock {
                             observations = "My observations"
                         )
                     )
-                )
-            )
+                ).toControlModel(),
+            )))
         )
     }
 }

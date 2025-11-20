@@ -6,19 +6,20 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.env.FullAdminis
 import org.slf4j.LoggerFactory
 
 @UseCase
-class GetAdministrationById(private val administrationRepository: IEnvAdministrationRepository) {
+class GetAdministrationById(
+    private val administrationRepository: IEnvAdministrationRepository
+) {
 
     private val logger = LoggerFactory.getLogger(GetAdministrationById::class.java)
 
     fun execute(administrationId: Int): FullAdministration? {
-        val dataOutput = administrationRepository.findById(administrationId)
+        val output = administrationRepository.findById(administrationId)
 
-        if (dataOutput !== null) {
-            return FullAdministration.fromFullAdministrationDataOutput(dataOutput)
+        return if (output != null) {
+            FullAdministration.fromFullAdministrationDataOutput(output)
+        } else {
+            logger.info("Administration by id : $administrationId return empty result")
+            null
         }
-
-        logger.info("Administration by id : $administrationId return empty result")
-
-        return null
     }
 }

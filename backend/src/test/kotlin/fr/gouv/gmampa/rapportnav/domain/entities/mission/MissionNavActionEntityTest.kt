@@ -12,8 +12,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.*
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.action.ControlEntity2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -240,9 +240,9 @@ class MissionNavActionEntityTest {
     @Test
     fun `execute should compute summary tags`() {
         val model = getActionModel()
-        val controls  = listOf(ControlMock.create(controlType = ControlType.SECURITY))
+        val controls  = listOf(ControlEntity2Mock.create(controlType = ControlType.SECURITY))
         val entity = MissionNavActionEntity.fromMissionActionModel(model)
-        entity.targets = listOf(TargetMissionMock.create(controls = controls))
+        entity.targets = listOf(TargetEntity2Mock.create(controls = controls))
         entity.computeSummaryTags()
         assertThat(entity.summaryTags).isNotNull()
         assertThat(entity.summaryTags?.get(0)).isEqualTo("1 PV")

@@ -12,7 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateNavAct
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActionData
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -52,7 +52,7 @@ class UpdateNavActionTest {
                 anyOrNull(),
                 anyOrNull()
             )
-        ).thenReturn(listOf(TargetMissionMock.create()))
+        ).thenReturn(listOf(TargetEntity2Mock.create()))
 
         val updateNavAction = UpdateNavAction(
             missionActionRepository = missionActionRepository,
