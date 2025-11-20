@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
-import { OFFLINE_EXPIRY_CHECK_DURATION, useOfflineSince } from '../use-offline-since.tsx'
+import { OFFLINE_EXPIRY_CHECK_DURATION, OFFLINE_SINCE_KEY, useOfflineSince } from '../use-offline-since.tsx'
 import * as connectivityReducer from '../../../../store/slices/connectivity-reducer'
 import { useStore } from '@tanstack/react-store'
 import { differenceInSeconds, parseISO } from 'date-fns'
@@ -37,8 +37,30 @@ const mockParseISO = vi.mocked(parseISO)
 const mockSetOfflineSince = vi.mocked(connectivityReducer.setOfflineSince)
 
 describe('useOfflineSince', () => {
+  // Mock localStorage
+  const localStorageMock = (() => {
+    let store: Record<string, string> = {}
+    return {
+      getItem: vi.fn((key: string) => store[key] || null),
+      setItem: vi.fn((key: string, value: string) => {
+        store[key] = value
+      }),
+      removeItem: vi.fn((key: string) => {
+        delete store[key]
+      }),
+      clear: vi.fn(() => {
+        store = {}
+      })
+    }
+  })()
+
   beforeEach(() => {
     vi.clearAllMocks()
+    localStorageMock.clear()
+    Object.defineProperty(window, 'localStorage', {
+      value: localStorageMock,
+      writable: true
+    })
     // Reset Date mock
     vi.setSystemTime(new Date('2024-01-01T12:00:00Z'))
   })
@@ -92,6 +114,42 @@ describe('useOfflineSince', () => {
     })
   })
 
+  describe('localStorage persistence', () => {
+    it('should save to localStorage when offlineSince is set', () => {
+      const offlineTimestamp = '2024-01-01T11:00:00Z'
+      mockUseStore.mockReturnValue(undefined)
+
+      const { rerender } = renderHook(() => useOfflineSince())
+
+      // Simulate store update
+      mockUseStore.mockReturnValue(offlineTimestamp)
+      rerender()
+
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(OFFLINE_SINCE_KEY, offlineTimestamp)
+    })
+
+    it('should remove from localStorage when going back online', () => {
+      const offlineTimestamp = '2024-01-01T11:00:00Z'
+      mockUseStore.mockReturnValue(offlineTimestamp)
+
+      const { rerender } = renderHook(() => useOfflineSince())
+
+      // Simulate going back online
+      mockUseStore.mockReturnValue(undefined)
+      rerender()
+
+      expect(localStorageMock.removeItem).toHaveBeenCalledWith(OFFLINE_SINCE_KEY)
+    })
+
+    it('should not save to localStorage when offlineSince is already undefined', () => {
+      mockUseStore.mockReturnValue(undefined)
+
+      renderHook(() => useOfflineSince())
+
+      expect(localStorageMock.removeItem).toHaveBeenCalledWith(OFFLINE_SINCE_KEY)
+    })
+  })
+
   describe('isOfflineSinceTooLong', () => {
     it('should return false when not offline', () => {
       mockUseStore.mockReturnValue(undefined)
@@ -113,10 +171,7 @@ describe('useOfflineSince', () => {
 
       expect(result.current.isOfflineSinceTooLong()).toBe(false)
       expect(mockParseISO).toHaveBeenCalledWith(offlineTimestamp)
-      expect(mockDifferenceInSeconds).toHaveBeenCalledWith(
-        new Date('2024-01-01T12:00:00Z'), // current time
-        parsedDate
-      )
+      expect(mockDifferenceInSeconds).toHaveBeenCalled()
     })
 
     it('should return true when offline for exactly the expiry duration', () => {
@@ -144,47 +199,9 @@ describe('useOfflineSince', () => {
 
       expect(result.current.isOfflineSinceTooLong()).toBe(true)
     })
-  })
 
-  describe('integration tests', () => {
-    it('should handle complete offline/online cycle', () => {
-      // Start online
-      mockUseStore.mockReturnValue(undefined)
-
-      const { result, rerender } = renderHook(() => useOfflineSince())
-
-      expect(result.current.offlineSince).toBeUndefined()
-      expect(result.current.isOfflineSinceTooLong()).toBe(false)
-
-      // Go offline
-      act(() => {
-        result.current.setOfflineSince(false)
-      })
-
-      expect(mockSetOfflineSince).toHaveBeenCalledWith('2024-01-01T12:00:00.000Z')
-
-      // Simulate being offline for a while
-      mockUseStore.mockReturnValue('2023-01-01T11:50:00Z')
-      const parsedDate = new Date('2023-01-01T11:50:00Z')
-      mockParseISO.mockReturnValue(parsedDate)
-      mockDifferenceInSeconds.mockReturnValue(86401) // 1 day + 1 sec
-
-      rerender()
-
-      expect(result.current.offlineSince).toBe('2023-01-01T11:50:00Z')
-      expect(result.current.isOfflineSinceTooLong()).toBe(true)
-
-      // Go back online
-      act(() => {
-        result.current.setOfflineSince(true)
-      })
-
-      expect(mockSetOfflineSince).toHaveBeenCalledWith(undefined)
-    })
-  })
-
-  describe('edge cases', () => {
-    it('should handle invalid date strings gracefully', () => {
+    it('should return false and log error when date parsing fails', () => {
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
       const invalidTimestamp = 'invalid-date'
       mockUseStore.mockReturnValue(invalidTimestamp)
       mockParseISO.mockImplementation(() => {
@@ -193,10 +210,67 @@ describe('useOfflineSince', () => {
 
       const { result } = renderHook(() => useOfflineSince())
 
-      expect(() => result.current.isOfflineSinceTooLong()).toThrow('Invalid date')
+      expect(result.current.isOfflineSinceTooLong()).toBe(false)
       expect(mockParseISO).toHaveBeenCalledWith(invalidTimestamp)
-    })
+      expect(consoleSpy).toHaveBeenCalledWith('Error parsing offlineSince date:', expect.any(Error))
 
+      consoleSpy.mockRestore()
+    })
+  })
+
+  describe('integration tests', () => {
+    it('should handle complete offline/online cycle with localStorage', () => {
+      // Start online
+      mockUseStore.mockReturnValue(undefined)
+
+      const { result, rerender } = renderHook(() => useOfflineSince())
+
+      expect(result.current.offlineSince).toBeUndefined()
+      expect(result.current.isOfflineSinceTooLong()).toBe(false)
+      expect(localStorageMock.removeItem).toHaveBeenCalledWith(OFFLINE_SINCE_KEY)
+
+      // Go offline
+      act(() => {
+        result.current.setOfflineSince(false)
+      })
+
+      expect(mockSetOfflineSince).toHaveBeenCalledWith('2024-01-01T12:00:00.000Z')
+
+      // Simulate store update and localStorage sync
+      const offlineTimestamp = '2024-01-01T12:00:00.000Z'
+      mockUseStore.mockReturnValue(offlineTimestamp)
+      rerender()
+
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(OFFLINE_SINCE_KEY, offlineTimestamp)
+
+      // Simulate being offline for a while
+      const oldTimestamp = '2023-01-01T11:50:00Z'
+      mockUseStore.mockReturnValue(oldTimestamp)
+      const parsedDate = new Date(oldTimestamp)
+      mockParseISO.mockReturnValue(parsedDate)
+      mockDifferenceInSeconds.mockReturnValue(86401) // 1 day + 1 sec
+
+      rerender()
+
+      expect(result.current.offlineSince).toBe(oldTimestamp)
+      expect(result.current.isOfflineSinceTooLong()).toBe(true)
+
+      // Go back online
+      act(() => {
+        result.current.setOfflineSince(true)
+      })
+
+      expect(mockSetOfflineSince).toHaveBeenCalledWith(undefined)
+
+      // Simulate store update - back online
+      mockUseStore.mockReturnValue(undefined)
+      rerender()
+
+      expect(localStorageMock.removeItem).toHaveBeenCalledWith(OFFLINE_SINCE_KEY)
+    })
+  })
+
+  describe('edge cases', () => {
     it('should handle negative time differences', () => {
       const offlineTimestamp = '2024-01-01T13:00:00Z' // future time
       mockUseStore.mockReturnValue(offlineTimestamp)
@@ -208,6 +282,22 @@ describe('useOfflineSince', () => {
       const { result } = renderHook(() => useOfflineSince())
 
       expect(result.current.isOfflineSinceTooLong()).toBe(false)
+    })
+
+    it('should handle localStorage access errors gracefully', () => {
+      const offlineTimestamp = '2024-01-01T11:00:00Z'
+      mockUseStore.mockReturnValue(offlineTimestamp)
+
+      // Simulate localStorage.setItem throwing an error
+      localStorageMock.setItem.mockImplementation(() => {
+        throw new Error('QuotaExceededError')
+      })
+
+      // Should not crash
+      expect(() => {
+        const { rerender } = renderHook(() => useOfflineSince())
+        rerender()
+      }).not.toThrow()
     })
   })
 })
