@@ -4,8 +4,6 @@ export const SIGNUP_PATH = '/signup'
 export const PAM_HOME_PATH = '/pam/missions'
 export const PAM_V2_HOME_PATH = '/v2/pam/missions'
 export const ULAM_V2_HOME_PATH = '/v2/ulam/missions'
-// admin routes
-export const ADMIN_CREW_PATH = '/admin/crews'
 
 /**
  * Redirects to a specified ID regardless of whether the current path is PAM or ULAM
