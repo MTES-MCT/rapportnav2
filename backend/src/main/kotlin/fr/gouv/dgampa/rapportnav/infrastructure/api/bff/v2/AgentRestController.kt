@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgents
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsByServiceId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/v2/agents")
 class AgentRestController(
-    private val getAgents: GetAgents,
     private val getUserFromToken: GetUserFromToken,
     private val getAgentsByServiceId: GetAgentsByServiceId,
 ) {

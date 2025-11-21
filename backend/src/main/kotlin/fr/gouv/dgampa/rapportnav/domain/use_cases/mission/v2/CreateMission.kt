@@ -38,7 +38,11 @@ class CreateMission(
             generalInfo2 = generalInfo2,
             serviceId = serviceId
         ) ?: return null
-        val generalInfosEntity = createGeneralInfos.execute(missionIdUUID = missionNav.id, generalInfo2 = generalInfo2)
+        val generalInfosEntity = createGeneralInfos.execute(
+            missionId = null,
+            missionIdUUID = missionNav.id,
+            generalInfo2 = generalInfo2,
+        )
 
         return MissionEntity2(
             idUUID = missionNav.id,
