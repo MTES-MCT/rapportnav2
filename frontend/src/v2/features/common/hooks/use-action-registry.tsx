@@ -16,6 +16,7 @@ import MissionActionItemSurveillance from '../../mission-action/components/eleme
 import MissionActionItemVigimer from '../../mission-action/components/elements/mission-action-item-vigimer'
 import { ActionType } from '../types/action-type'
 import { MissionAction } from '../types/mission-action'
+import MissionActionItemUnitManagementTraining from '../../mission-action/components/elements/mission-action-item-unit-management-training.tsx'
 
 export type ActionRegistryItem = {
   title?: string
@@ -85,25 +86,10 @@ const ACTION_REGISTRY: ActionRegistry = {
     title: 'Contact',
     component: MissionActionItemContact
   },
-  [ActionType.OTHER_CONTROL]: {
-    title: 'Contrôle - Autre',
-    icon: Icon.ControlUnit,
-    component: MissionActionItemOtherControl
-  },
-  [ActionType.CONTROL_NAUTICAL_LEISURE]: {
-    title: `Contrôle de loisirs nautiques`,
-    icon: Icon.ControlUnit,
-    component: MissionActionItemNauticalLeisureControl
-  },
-  [ActionType.CONTROL_SLEEPING_FISHING_GEAR]: {
-    title: `Contrôle d'engins de pêche dormant`,
-    icon: Icon.ControlUnit,
-    component: MissionActionItemSleepingFishingGearControl
-  },
-  [ActionType.CONTROL_SECTOR]: {
-    title: `Contrôle d'établissement filière`,
-    icon: Icon.ControlUnit,
-    component: MissionActionItemSectorControl
+  [ActionType.UNIT_MANAGEMENT_TRAINING]: {
+    icon: Icon.GroupPerson,
+    title: `Entraînement`,
+    component: MissionActionItemUnitManagementTraining
   }
 }
 
