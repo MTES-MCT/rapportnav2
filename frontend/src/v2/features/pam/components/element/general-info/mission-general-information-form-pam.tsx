@@ -136,7 +136,6 @@ const MissionGeneralInformationFormPam: FC<{
 
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikTextarea
-                    isRequired={true}
                     isLight={false}
                     name="observations"
                     data-testid="mission-general-observation"
