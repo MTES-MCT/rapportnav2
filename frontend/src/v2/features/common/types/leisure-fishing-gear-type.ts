@@ -1,4 +1,5 @@
 export enum LeisureType {
+  SAILING = 'SAILING',
   TOWED_BUOYS = 'TOWED_BUOYS',
   KITE_SURF = 'KITE_SURF',
   KAYAK = 'KAYAK',
@@ -20,6 +21,7 @@ export enum FishingGearType {
 
 export const LEISURE_TYPES = {
   [LeisureType.TOWED_BUOYS]: 'Bouées tractées',
+  [LeisureType.SAILING]: 'Navire de plaisance',
   [LeisureType.KITE_SURF]: 'Kite surf',
   [LeisureType.KAYAK]: 'Kayak',
   [LeisureType.BOAT_RENTING]: 'Location bateaux',
