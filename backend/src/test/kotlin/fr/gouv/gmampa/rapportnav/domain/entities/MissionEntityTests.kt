@@ -11,7 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentRoleEntit
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.NavMissionMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.NavMissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.NavActionStatusMock
@@ -40,7 +40,7 @@ class MissionEntityTests {
                         it
                     )
                 },
-                navMission = NavMissionMock.create()
+                navMission = NavMissionEntityMock.create()
             )
             assertThat(mission.status).isEqualTo(MissionStatusEnum.ENDED)
         }
@@ -59,7 +59,7 @@ class MissionEntityTests {
                         it
                     )
                 },
-                navMission = NavMissionMock.create()
+                navMission = NavMissionEntityMock.create()
             )
             assertThat(mission.status).isEqualTo(MissionStatusEnum.UPCOMING)
         }
@@ -77,7 +77,7 @@ class MissionEntityTests {
                         it
                     )
                 },
-                navMission = NavMissionMock.create()
+                navMission = NavMissionEntityMock.create()
             )
             assertThat(mission.status).isEqualTo(MissionStatusEnum.ENDED)
         }
@@ -96,7 +96,7 @@ class MissionEntityTests {
                         it
                     )
                 },
-                navMission = NavMissionMock.create()
+                navMission = NavMissionEntityMock.create()
             )
             assertThat(mission.status).isEqualTo(MissionStatusEnum.IN_PROGRESS)
         }
@@ -116,7 +116,7 @@ class MissionEntityTests {
                         it
                     )
                 },
-                navMission = NavMissionMock.create()
+                navMission = NavMissionEntityMock.create()
             )
             assertThat(mission.status).isEqualTo(MissionStatusEnum.UNAVAILABLE)
         }
@@ -152,7 +152,7 @@ class MissionEntityTests {
                     EnvMissionMock.create(envActions = null)
                 ),
                 fishMissionActions = listOf(),
-                navMission = NavMissionMock.create(
+                navMission = NavMissionEntityMock.create(
                     crew = null,
                     generalInfo = validMissionGeneralInfoEntity,
                     actions = listOf()
@@ -172,7 +172,7 @@ class MissionEntityTests {
                     EnvMissionMock.create(envActions = null)
                 ),
                 fishMissionActions = listOf(),
-                navMission = NavMissionMock.create(
+                navMission = NavMissionEntityMock.create(
                     crew = validCrewEntity,
                     generalInfo = null,
                     actions = listOf()
@@ -199,7 +199,7 @@ class MissionEntityTests {
                         it
                     )
                 },
-                navMission = NavMissionMock.create(
+                navMission = NavMissionEntityMock.create(
                     crew = validCrewEntity,
                     generalInfo = validMissionGeneralInfoEntity,
                     actions = listOf(
@@ -237,7 +237,7 @@ class MissionEntityTests {
                     EnvMissionMock.create()
                 ),
                 fishMissionActions = listOf(),
-                navMission = NavMissionMock.create(
+                navMission = NavMissionEntityMock.create(
                     services = expected
                 )
             )
@@ -253,7 +253,7 @@ class MissionEntityTests {
                     EnvMissionMock.create(observationsByUnit = expected)
                 ),
                 fishMissionActions = listOf(),
-                navMission = NavMissionMock.create()
+                navMission = NavMissionEntityMock.create()
             )
             assertThat(mission.observationsByUnit).isNotNull()
             assertThat(mission.observationsByUnit).isEqualTo(expected);

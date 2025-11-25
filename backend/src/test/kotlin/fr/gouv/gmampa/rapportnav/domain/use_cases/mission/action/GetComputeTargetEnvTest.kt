@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.Infracti
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ITargetRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvTarget
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -31,7 +31,7 @@ class GetComputeTargetEnvTest {
     fun `test execute process target not create new env target when model exist`() {
         val externalId = "myExternalId"
         val actionId = UUID.randomUUID().toString()
-        val target1 = TargetMissionMock.create(actionId = actionId)
+        val target1 = TargetEntity2Mock.create(actionId = actionId)
         val envInfractions = listOf(
             InfractionEntity(
                 id = externalId,
@@ -59,7 +59,7 @@ class GetComputeTargetEnvTest {
     fun `test execute process should create new env target if there is not model`() {
         val externalId = "myExternalId"
         val actionId = UUID.randomUUID().toString()
-        val target1 = TargetMissionMock.create(actionId = actionId)
+        val target1 = TargetEntity2Mock.create(actionId = actionId)
         val envInfractions = listOf(
             InfractionEntity(
                 id = externalId,

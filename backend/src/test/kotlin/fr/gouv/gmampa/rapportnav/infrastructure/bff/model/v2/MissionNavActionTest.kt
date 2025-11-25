@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMeth
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetMissionMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -271,7 +271,7 @@ class MissionNavActionTest {
 
     @Test
     fun `execute return all infractions on action`() {
-        val target = TargetMissionMock.create()
+        val target = TargetEntity2Mock.create()
         val entity = MissionNavActionEntityMock.create(actionType = ActionType.CONTROL, targets = listOf(target))
         val infractionIds = entity.getInfractions().map { it.id }.toSet()
         val mockInfractionIds = target.controls?.flatMap { it.infractions!! }?.map { it.id }?.toSet()
@@ -281,7 +281,7 @@ class MissionNavActionTest {
 
     @Test
     fun `execute return  infractions by control type`() {
-        val target = TargetMissionMock.create()
+        val target = TargetEntity2Mock.create()
         val entity = MissionNavActionEntityMock.create(actionType = ActionType.CONTROL, targets = listOf(target))
         val infractionIds = entity.getInfractionByControlType(ControlType.GENS_DE_MER).map { it.id }.toSet()
         val mockInfractionIds =

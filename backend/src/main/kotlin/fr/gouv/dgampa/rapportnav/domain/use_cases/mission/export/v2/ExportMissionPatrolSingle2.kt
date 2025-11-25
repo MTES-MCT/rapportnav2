@@ -36,7 +36,6 @@ class ExportMissionPatrolSingle2(
     private val agentsCrewByMissionId: GetAgentsCrewByMissionId,
     private val mapStatusDurations2: MapStatusDurations2,
     private val formatActionsForTimeline2: FormatActionsForTimeline2,
-    private val getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus2,
     private val getInfoAboutNavAction2: GetInfoAboutNavAction2,
     private val formatDateTime: FormatDateTime,
     private val getServiceById: GetServiceById,
@@ -79,18 +78,12 @@ class ExportMissionPatrolSingle2(
             val statuses = allActions?.filterIsInstance<MissionNavActionEntity>()?.filter {it.actionType === ActionType.STATUS }?.sortedBy { it.startDateTimeUtc }
 
             val activity = mapStatusDurations2.execute(
+                startDateTimeUtc = mission.data?.startDateTimeUtc,
                 endDateTimeUtc = mission.data?.endDateTimeUtc,
                 statuses = statuses!!,
             )
 
             val missionDuration = ComputeDurationUtils.durationInHours(mission.data?.startDateTimeUtc, mission.data?.endDateTimeUtc)
-
-            val nbOfDaysAtSea = getNbOfDaysAtSeaFromNavigationStatus.execute(
-                missionStartDateTime = mission.data?.startDateTimeUtc!!,
-                missionEndDateTime = mission.data.endDateTimeUtc,
-                actions = statuses,
-                durationUnit = DurationUnit.HOURS
-            )
 
             val timeline = formatActionsForTimeline2.formatTimeline(allActions)
 
@@ -148,13 +141,13 @@ class ExportMissionPatrolSingle2(
 
             val placeholders: Map<String, String?> = mapOf(
                 "\${service}" to (service?.name ?: ""),
-                "\${numRapport}" to formatDateTime.formatDate(mission.data.startDateTimeUtc),
-                "\${startDate}" to formatDateTime.formatDate(mission.data.startDateTimeUtc),
-                "\${endDate}" to formatDateTime.formatDate(mission.data.endDateTimeUtc),
+                "\${numRapport}" to formatDateTime.formatDate(mission.data?.startDateTimeUtc),
+                "\${startDate}" to formatDateTime.formatDate(mission.data?.startDateTimeUtc),
+                "\${endDate}" to formatDateTime.formatDate(mission.data?.endDateTimeUtc),
                 "\${destinataireCopies}" to "",
 
                 "\${dureeMission}" to missionDuration.toString(),
-                "\${nbJoursMer}" to nbOfDaysAtSea.toString(),
+                "\${nbJoursMer}" to (activity["atSea"]?.get("nbOfDaysAtSea")?.toString() ?: ""),
 
                 "\${totalPresenceMer}" to (activity["atSea"]?.get("totalDurationInHours")?.toString() ?: ""),
                 "\${navEff}" to (activity["atSea"]?.get("navigationDurationInHours")?.toString()
@@ -192,7 +185,7 @@ class ExportMissionPatrolSingle2(
                 "\${goMarine}" to (generalInfo?.data?.consumedGOInLiters?.toString() ?: ""),
                 "\${essence}" to (generalInfo?.data?.consumedFuelInLiters?.toString() ?: ""),
 
-                "\${observations}" to (mission.data.observationsByUnit ?: ""),
+                "\${observations}" to (mission.data?.observationsByUnit ?: ""),
             )
 
             fun castLinkedHashMapToList(map: LinkedHashMap<String, Map<String, Int?>>): List<List<String?>> {
@@ -398,7 +391,7 @@ class ExportMissionPatrolSingle2(
 
 
             return MissionExportEntity(
-                fileName = "rapport-patrouille_${service?.name ?: ""}_${formatDateTime.formatDate(mission.data.startDateTimeUtc)}_${mission.id}.odt",
+                fileName = "rapport-patrouille_${service?.name ?: ""}_${formatDateTime.formatDate(mission.data?.startDateTimeUtc)}_${mission.id}.odt",
                 fileContent = base64Content
             )
 

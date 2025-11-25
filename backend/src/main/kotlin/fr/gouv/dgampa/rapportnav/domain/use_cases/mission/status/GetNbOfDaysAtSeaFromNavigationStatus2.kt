@@ -32,13 +32,13 @@ class GetNbOfDaysAtSeaFromNavigationStatus2(
      * @return An integer representing the amount of days with min 4h of navigation
      */
     fun execute(
-        missionStartDateTime: Instant,
+        missionStartDateTime: Instant? = null,
         missionEndDateTime: Instant? = null,
         actions: List<MissionNavActionEntity>? = listOf(),
         durationUnit: DurationUnit = DurationUnit.HOURS,
         zoneId: ZoneId = ZoneId.systemDefault()
     ): Int {
-        if (actions.isNullOrEmpty()) {
+        if (actions.isNullOrEmpty() || missionStartDateTime == null) {
             return 0
         }
 
