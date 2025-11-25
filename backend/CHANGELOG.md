@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.40.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.40.0...backend@v2.40.1) (2025-11-25)
+
+
+### Bug Fixes
+
+* **secu:** bump postgres alpine ([ed40542](https://github.com/MTES-MCT/rapportnav2/commit/ed40542281424d9f7dcee2d184cc8e748b062015))
+
 ## [2.40.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.39.2...backend@v2.40.0) (2025-11-25)
 
 

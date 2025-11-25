@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.40.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.40.0...docker-container@v2.40.1) (2025-11-25)
+
+
+### Bug Fixes
+
+* frontend/package.json & frontend/package-lock.json to reduce vulnerabilities ([a276bfe](https://github.com/MTES-MCT/rapportnav2/commit/a276bfef268e1beb11924c6d719607dd7d5e5450))
+* **frontend:** infraction title "navigation" ([ab84477](https://github.com/MTES-MCT/rapportnav2/commit/ab8447757cd25941fcf3c2930332af28060fa8f3))
+* **secu:** bump postgres alpine ([ed40542](https://github.com/MTES-MCT/rapportnav2/commit/ed40542281424d9f7dcee2d184cc8e748b062015))
+
 ## [2.40.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.39.2...docker-container@v2.40.0) (2025-11-25)
 
 

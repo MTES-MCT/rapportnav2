@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.40.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.40.0...frontend@v2.40.1) (2025-11-25)
+
+
+### Bug Fixes
+
+* frontend/package.json & frontend/package-lock.json to reduce vulnerabilities ([a276bfe](https://github.com/MTES-MCT/rapportnav2/commit/a276bfef268e1beb11924c6d719607dd7d5e5450))
+* **frontend:** infraction title "navigation" ([ab84477](https://github.com/MTES-MCT/rapportnav2/commit/ab8447757cd25941fcf3c2930332af28060fa8f3))
+
 ## [2.40.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.39.2...frontend@v2.40.0) (2025-11-25)
 
 
