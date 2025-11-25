@@ -5,11 +5,13 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEn
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.ProcessMissionPassengers
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentRole
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
+import fr.gouv.gmampa.rapportnav.mocks.mission.passenger.MissionPassengerEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -39,6 +41,9 @@ class UpdateGeneralInfoTest {
 
     @MockitoBean
     private lateinit var processMissionCrew: ProcessMissionCrew
+
+    @MockitoBean
+    private lateinit var processMissionPassengers: ProcessMissionPassengers
 
     @MockitoBean
     private lateinit var patchNavMission: PatchNavMission
@@ -96,7 +101,7 @@ class UpdateGeneralInfoTest {
         )
 
         assertEquals(
-            MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = emptyList()),
+            MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = emptyList(), passengers = emptyList()),
             result
         )
     }
@@ -114,6 +119,7 @@ class UpdateGeneralInfoTest {
             comment = ""
         ))
         val crewEntity = crew.map { it.toMissionCrewEntity() }
+        val passengerEntity = MissionPassengerEntityMock.create()
 
         val missionGeneralInfo  = MissionGeneralInfo2(
             isUnderJdp = true,
@@ -133,6 +139,7 @@ class UpdateGeneralInfoTest {
         `when`(getMissionGeneralInfoByMissionId.execute(missionId)).thenReturn(previousEntity)
         `when`(generalInfoRepository.save(missionGeneralInfoEntity)).thenReturn(missionGeneralInfoModel)
         `when`(processMissionCrew.execute(anyInt(), anyOrNull())).thenReturn(crewEntity)
+        `when`(processMissionPassengers.execute(anyInt(), anyOrNull())).thenReturn(listOf(passengerEntity))
 
         val result = updateGeneralInfo.execute(missionId, missionGeneralInfo)
 
@@ -141,6 +148,10 @@ class UpdateGeneralInfoTest {
 
         // Verify processMissionCrew was called with the exact missionId and crew
         verify(processMissionCrew).execute(
+            anyInt(), anyOrNull()
+        )
+        // Verify processMissionCrew was called with the exact missionId and crew
+        verify(processMissionPassengers).execute(
             anyInt(), anyOrNull()
         )
 
@@ -154,7 +165,14 @@ class UpdateGeneralInfoTest {
             resources = missionGeneralInfoEntity.resources?.map { it }
         )
         verify(patchMissionEnv).execute(input)
-        assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = crewEntity), result)
+        assertEquals(
+            MissionGeneralInfoEntity2(
+                data = missionGeneralInfoEntity,
+                crew = crewEntity,
+                passengers = listOf(passengerEntity)
+            ),
+            result
+        )
     }
 
     @Test
@@ -184,6 +202,7 @@ class UpdateGeneralInfoTest {
         // Then
         verify(generalInfoRepository).save(missionGeneralInfoEntity)
         verify(processMissionCrew).execute(missionId, emptyList())
+        verify(processMissionPassengers).execute(missionId, emptyList())
 
         val input = MissionEnvInput(
             missionId = missionId,
@@ -194,7 +213,14 @@ class UpdateGeneralInfoTest {
             resources = missionGeneralInfoEntity.resources?.map { it }
         )
         verify(patchMissionEnv).execute(input)
-        assertEquals(MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = emptyList()), result)
+        assertEquals(
+            MissionGeneralInfoEntity2(
+                data = missionGeneralInfoEntity,
+                crew = emptyList(),
+                passengers = emptyList(),
+            ),
+            result
+        )
     }
 
     @Test
@@ -223,6 +249,7 @@ class UpdateGeneralInfoTest {
         assertThat(exception.message).isEqualTo("Test exception")
         verifyNoInteractions(getMissionCrew)
         verifyNoInteractions(processMissionCrew)
+        verifyNoInteractions(processMissionPassengers)
         verifyNoInteractions(patchMissionEnv)
     }
 
@@ -263,7 +290,11 @@ class UpdateGeneralInfoTest {
         )
 
         assertEquals(
-            MissionGeneralInfoEntity2(data = missionGeneralInfoEntity, crew = emptyList()),
+            MissionGeneralInfoEntity2(
+                data = missionGeneralInfoEntity,
+                crew = emptyList(),
+                passengers = emptyList(),
+            ),
             result
         )
     }

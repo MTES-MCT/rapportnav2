@@ -2,11 +2,14 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavInputEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.ProcessMissionPassengers
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.UpdateMissionPassenger
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
@@ -18,9 +21,10 @@ class UpdateGeneralInfo(
     private val repository: IMissionGeneralInfoRepository,
     private val patchMissionEnv: PatchMissionEnv,
     private val processMissionCrew: ProcessMissionCrew,
+    private val processMissionPassengers: ProcessMissionPassengers,
     private val patchNavMission: PatchNavMission,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
-    private val getMissionCrew: GetMissionCrew
+    private val getMissionCrew: GetMissionCrew,
 ) {
     private val logger = LoggerFactory.getLogger(UpdateGeneralInfo::class.java)
 
@@ -31,12 +35,18 @@ class UpdateGeneralInfo(
         val model = repository.save(generalInfo.toMissionGeneralInfoEntity(missionId = missionId))
         val crew = processMissionCrew.execute(
             missionId = missionId,
-            crew = getMissionCrew.execute(
+            items = getMissionCrew.execute(
                 missionId = missionId,
                 generalInfo = generalInfo,
                 newServiceId = generalInfo.serviceId,
                 oldServiceId = fromDb.serviceId,
             )
+        )
+        val passengers = processMissionPassengers.execute(
+            missionId = missionId,
+            items = generalInfo.passengers.orEmpty().map {
+                it.toMissionPassengerEntity(missionId = missionId)
+            }
         )
 
         patchMissionEnv.execute(
@@ -50,7 +60,11 @@ class UpdateGeneralInfo(
                 resources = generalInfo.resources?.map { it.toLegacyControlUnitResourceEntity() }
             )
         )
-        return getGeneralInfoEntity(crew = crew, generalInfoModel = model)
+        return getGeneralInfoEntity(
+            crew = crew,
+            passengers = passengers,
+            generalInfoModel = model
+        )
     }
 
     fun execute(missionIdUUID: UUID, generalInfo: MissionGeneralInfo2): MissionGeneralInfoEntity2? {
@@ -59,14 +73,21 @@ class UpdateGeneralInfo(
 
         val model = repository.save(generalInfo.toMissionGeneralInfoEntity(missionIdUUID = missionIdUUID))
         val crew = processMissionCrew.execute(
-            missionIdUUID = missionIdUUID,
-            crew = getMissionCrew.execute(
+            missionId = missionIdUUID,
+            items = getMissionCrew.execute(
                 generalInfo = generalInfo,
                 missionIdUUID = missionIdUUID,
                 newServiceId = generalInfo.serviceId,
                 oldServiceId = fromDb.serviceId,
             )
         )
+        val passengers = processMissionPassengers.execute(
+            missionId = missionIdUUID,
+            items = generalInfo.passengers.orEmpty().map {
+                it.toMissionPassengerEntity(missionIdUUID = missionIdUUID)
+            }
+        )
+
         patchNavMission.execute(
             id = missionIdUUID,
             input = MissionNavInputEntity(
@@ -75,17 +96,23 @@ class UpdateGeneralInfo(
                 endDateTimeUtc = generalInfo.endDateTimeUtc,
                 startDateTimeUtc = generalInfo.startDateTimeUtc!!
             )
-
         )
-        return getGeneralInfoEntity(crew = crew, generalInfoModel = model)
+
+        return getGeneralInfoEntity(
+            crew = crew,
+            passengers = passengers,
+            generalInfoModel = model
+        )
     }
 
     private fun getGeneralInfoEntity(
         crew: List<MissionCrewEntity>,
+        passengers: List<MissionPassengerEntity>,
         generalInfoModel: MissionGeneralInfoModel
     ): MissionGeneralInfoEntity2 {
         return MissionGeneralInfoEntity2(
             crew = crew,
+            passengers = passengers,
             data = MissionGeneralInfoEntity.fromMissionGeneralInfoModel(generalInfoModel)
         )
     }

@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEn
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionPassenger
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.generalInfo.InterMinisterialService
 import java.time.Instant
 import java.util.*
@@ -29,6 +30,7 @@ data class MissionGeneralInfo2(
     var serviceId: Int? = null,
     var nbrOfRecognizedVessel: Int? = null,
     val crew: List<MissionCrew>? = null,
+    val passengers: List<MissionPassenger>? = null,
     val services: List<ServiceEntity>? = null,
     val isWithInterMinisterialService: Boolean? = false,
     val isAllAgentsParticipating: Boolean? = false,
@@ -60,6 +62,7 @@ data class MissionGeneralInfo2(
                 nbrOfRecognizedVessel = generalInfo2?.data?.nbrOfRecognizedVessel,
                 services = generalInfo2?.services,
                 crew = generalInfo2?.crew?.map { MissionCrew.fromMissionCrewEntity(it) },
+                passengers = generalInfo2?.passengers?.map { MissionPassenger.fromMissionPassengerEntity(it) },
                 isAllAgentsParticipating = generalInfo2?.data?.isAllAgentsParticipating,
                 isWithInterMinisterialService = generalInfo2?.data?.isWithInterMinisterialService,
                 isMissionArmed = generalInfo2?.data?.isMissionArmed,

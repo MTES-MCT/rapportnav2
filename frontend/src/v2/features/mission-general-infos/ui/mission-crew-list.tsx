@@ -62,7 +62,7 @@ export const MissionCrewMemberText = styled(
     <Text
       {...props}
       as="h3"
-      truncate="true"
+      truncate={true}
       data-testid="crew-member-agent"
     >{`${agent?.firstName} ${agent?.lastName}`}</Text>
   )

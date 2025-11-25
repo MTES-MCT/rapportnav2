@@ -1,4 +1,4 @@
-package fr.gouv.gmampa.rapportnav.infrastructure.database.repositories.mission.crew.action
+package fr.gouv.gmampa.rapportnav.infrastructure.database.repositories.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
