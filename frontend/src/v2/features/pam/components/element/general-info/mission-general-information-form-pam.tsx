@@ -124,6 +124,37 @@ const MissionGeneralInformationFormPam: FC<{
                 </Stack.Item>
 
                 <Stack.Item style={{ width: '100%' }}>
+                  <Label>Dépenses réalisées au cours de la mission</Label>
+                  <Stack
+                    direction="row"
+                    alignItems="flex-start"
+                    spacing="1rem"
+                    style={{ width: '100%', backgroundColor: THEME.color.gainsboro, padding: '0.5rem' }}
+                  >
+                    <Stack.Item style={{ flex: 1 }}>
+                      <FormikNumberInput
+                        label="Fonctionnement courant (€)"
+                        name="operatingCostsInEuro"
+                        role="operatingCostsInEuro"
+                        placeholder="0"
+                        isLight={true}
+                        isErrorMessageHidden={true}
+                      />
+                    </Stack.Item>
+                    <Stack.Item style={{ flex: 1 }}>
+                      <FormikNumberInput
+                        label="Carburant GO/essence (€)"
+                        name="fuelCostsInEuro"
+                        role="fuelCostsInEuro"
+                        placeholder="0"
+                        isLight={true}
+                        isErrorMessageHidden={true}
+                      />
+                    </Stack.Item>
+                  </Stack>
+                </Stack.Item>
+
+                <Stack.Item style={{ width: '100%' }}>
                   <FormikNumberInput
                     isLight={false}
                     isRequired={true}

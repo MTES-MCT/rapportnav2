@@ -17,6 +17,8 @@ data class MissionGeneralInfoEntity(
     var consumedGOInLiters: Float? = null,
     @MandatoryForStats
     var consumedFuelInLiters: Float? = null,
+    var operatingCostsInEuro: Float? = null,
+    var fuelCostsInEuro: Float? = null,
     var serviceId: Int? = null,
     @MandatoryForStats
     var nbrOfRecognizedVessel: Int? = null,
@@ -40,6 +42,8 @@ data class MissionGeneralInfoEntity(
                 distanceInNauticalMiles = model.distanceInNauticalMiles,
                 consumedGOInLiters = model.consumedGOInLiters,
                 consumedFuelInLiters = model.consumedFuelInLiters,
+                operatingCostsInEuro = model.operatingCostsInEuro,
+                fuelCostsInEuro = model.fuelCostsInEuro,
                 serviceId = model.serviceId,
                 nbrOfRecognizedVessel = model.nbrOfRecognizedVessel,
                 isWithInterMinisterialService = model.isWithInterMinisterialService,
@@ -62,6 +66,8 @@ data class MissionGeneralInfoEntity(
             distanceInNauticalMiles = distanceInNauticalMiles,
             consumedGOInLiters = consumedGOInLiters,
             consumedFuelInLiters = consumedFuelInLiters,
+            operatingCostsInEuro = operatingCostsInEuro,
+            fuelCostsInEuro = fuelCostsInEuro,
             serviceId = serviceId,
             nbrOfRecognizedVessel = nbrOfRecognizedVessel,
             isWithInterMinisterialService = isWithInterMinisterialService,
