@@ -24,6 +24,8 @@ export type MissionGeneralInfoPam = {
   distanceInNauticalMiles?: number
   consumedGOInLiters?: number
   consumedFuelInLiters?: number
+  operatingCostsInEuro?: number
+  fuelCostsInEuro?: number
   serviceId?: number
   nbrOfRecognizedVessel?: number
 }
