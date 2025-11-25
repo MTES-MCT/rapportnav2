@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.41.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.40.1...backend@v2.41.0) (2025-11-25)
+
+
+### Features
+
+* bump to java21 and kotlin2.2 ([1c2eabb](https://github.com/MTES-MCT/rapportnav2/commit/1c2eabbf26eb7a379abea6d847149726aece9b18))
+
 ## [2.40.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.40.0...backend@v2.40.1) (2025-11-25)
 
 
