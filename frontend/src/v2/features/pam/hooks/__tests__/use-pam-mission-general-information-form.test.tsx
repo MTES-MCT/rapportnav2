@@ -79,7 +79,7 @@ describe('usePamMissionGeneralInformationForm', () => {
         consumedGOInLiters: 20,
         consumedFuelInLiters: 30,
         nbrOfRecognizedVessel: 1,
-        observations: 'OK',
+        observations: null,
         crew: [{}]
       })
       expect(valid).toBe(true)

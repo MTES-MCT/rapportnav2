@@ -89,14 +89,6 @@ export const usePamMissionGeneralInfoForm = (
         schema => schema.nonNullable().required()
       )(isMissionFinished && !isMissionInterServices),
 
-      observations: conditionallyRequired(
-        () => string().nullable(),
-        [],
-        true,
-        'Observations are required',
-        schema => schema.nonNullable().required()
-      )(isMissionFinished && !isMissionInterServices),
-
       crew: conditionallyRequired(
         () => array().min(1, 'At least one crew member is required when mission is finished').nullable(),
         [],
