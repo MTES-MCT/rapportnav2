@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { FlexboxGrid, Stack, Tabs } from 'rsuite'
 import AdminAgentItem from '../features/admin/components/elements/admin-agent-item.tsx'
 import AdminAgentRoleItem from '../features/admin/components/elements/admin-agent-role-item.tsx'
-import AdminAgentServiceItem from '../features/admin/components/elements/admin-agent-service-item.tsx'
+import AdminApikeyItem from '../features/admin/components/elements/admin-apikey-item.tsx'
 import AdminServiceItem from '../features/admin/components/elements/admin-service-item.tsx'
 import AdminUserItem from '../features/admin/components/elements/admin-user-item.tsx'
 import MissionListPageHeaderWrapper from '../features/common/components/layout/mission-list-page-header-wrapper.tsx'
@@ -13,7 +13,6 @@ import MissionListPageWrapper from '../features/common/components/layout/mission
 import MissionListPageSidebarWrapper from '../features/common/components/ui/mission-list-page-sidebar.tsx'
 import MissionListPageTitle from '../features/common/components/ui/mission-list-page-title.tsx'
 import { store } from '../store/index.ts'
-import AdminApikeyItem from '../features/admin/components/elements/admin-apikey-item.tsx'
 
 const AdminPage: React.FC = () => {
   const { getSidebarItems } = useGlobalRoutes()
@@ -36,7 +35,7 @@ const AdminPage: React.FC = () => {
           flexDirection: 'column'
         }}
       >
-        <div style={{ padding: '0 4rem', marginTop: '3rem' }}>
+        <div style={{ padding: '0 3rem', marginTop: '2rem' }}>
           <Text as={'h1'} style={{ fontSize: '32px' }}>
             Dashboard
           </Text>
@@ -47,7 +46,7 @@ const AdminPage: React.FC = () => {
               colspan={8}
               style={{
                 flex: 1,
-                padding: '2rem',
+                padding: '1rem',
                 height: '2000px',
                 overflowY: 'hidden',
                 minHeight: 'calc(100vh - 2 * 60px)',
@@ -67,23 +66,20 @@ const AdminPage: React.FC = () => {
                     appearance="subtle"
                     style={{ width: '100%', height: '100%' }}
                   >
-                    <Tabs.Tab eventKey="1" title="Services">
-                      <AdminServiceItem />
+                    <Tabs.Tab eventKey="1" title="Agents">
+                      <AdminAgentItem />
                     </Tabs.Tab>
                     <Tabs.Tab eventKey="2" title="Roles">
                       <AdminAgentRoleItem />
                     </Tabs.Tab>
-                    <Tabs.Tab eventKey="3" title="Agents">
-                      <AdminAgentItem />
+                    <Tabs.Tab eventKey="3" title="Services">
+                      <AdminServiceItem />
                     </Tabs.Tab>
-                    <Tabs.Tab eventKey="4" title="Crews">
-                      <AdminAgentServiceItem />
-                    </Tabs.Tab>
-                    <Tabs.Tab eventKey="5" title="Users">
+                    <Tabs.Tab eventKey="4" title="Users">
                       <AdminUserItem />
                     </Tabs.Tab>
                     __
-                    <Tabs.Tab eventKey="6" title="API Keys">
+                    <Tabs.Tab eventKey="5" title="API Keys">
                       <AdminApikeyItem />
                     </Tabs.Tab>
                   </Tabs>
