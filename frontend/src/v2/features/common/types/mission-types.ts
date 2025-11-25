@@ -3,6 +3,7 @@ import { MissionTypeEnum, SeaFrontEnum } from '@common/types/env-mission-types'
 import { Service } from '@common/types/service-types'
 import { ControlUnitResource } from './control-unit-types.ts'
 import { MissionAction } from './mission-action'
+import { MissionPassenger } from './passenger-type.ts'
 
 export type ControlUnit = {
   administration: string
@@ -137,6 +138,7 @@ export type MissionGeneralInfo2 = MissionGeneralInfoPam & {
   reinforcementType?: MissionReinforcementTypeEnum
   nbHourAtSea?: number
   crew?: MissionCrew[]
+  passengers?: MissionPassenger[]
   services?: Service[]
   isMissionArmed?: boolean
   isWithInterMinisterialService?: boolean

@@ -73,7 +73,7 @@ const MissionGeneralInformationCrewPam: React.FC<MissionGeneralInformationCrewPa
   return (
     <>
       <MissionCrewUnderlineStack>
-        <MissionCrewTitleLabel>Équipage</MissionCrewTitleLabel>
+        <MissionCrewTitleLabel>&#10095; Équipage</MissionCrewTitleLabel>
       </MissionCrewUnderlineStack>
 
       {!fieldArray.form.values.crew?.length && (

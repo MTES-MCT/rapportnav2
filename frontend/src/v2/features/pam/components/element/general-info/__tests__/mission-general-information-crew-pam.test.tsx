@@ -122,7 +122,7 @@ describe('MissionGeneralInformationCrewPam', () => {
     renderComponent()
 
     // Check title
-    expect(screen.getByText('Équipage')).toBeInTheDocument()
+    expect(screen.getByText('❯ Équipage')).toBeInTheDocument()
 
     // Check crew member names
     expect(screen.getByText('John Doe')).toBeInTheDocument()
