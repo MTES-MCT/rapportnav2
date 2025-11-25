@@ -40,7 +40,11 @@ const MissionActionItemFishControl: FC<{
                 data-testid={'action-control-nav'}
               >
                 <Stack.Item style={{ width: '100%' }}>
-                  <VesselName name={values.vesselName} />
+                  <VesselName
+                    name={values.vesselName}
+                    flagState={values.flagState}
+                    externalReferenceNumber={values.externalReferenceNumber}
+                  />
                 </Stack.Item>
                 <Stack.Item grow={1}>
                   <Field name="dates">

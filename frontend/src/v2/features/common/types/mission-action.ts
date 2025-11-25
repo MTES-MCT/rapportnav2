@@ -126,6 +126,7 @@ export interface MissionFishActionData extends MissionActionData {
   vesselName?: string
   internalReferenceNumber?: string
   externalReferenceNumber?: string
+  flagState?: string
   districtCode?: string
   faoAreas: string[]
   fishActionType: MissionActionType

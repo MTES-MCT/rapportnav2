@@ -134,6 +134,8 @@ export function useTimeline(): TimelineHook {
       endDateTimeUtc: action.data?.endDateTimeUtc,
       vesselId: action.data?.vesselId,
       vesselName: action.data?.vesselName,
+      externalReferenceNumber: action.data?.externalReferenceNumber,
+      flagState: action?.data?.flagState,
       observations: action.data?.observationsByUnit,
       networkSyncStatus: action.networkSyncStatus
     }
