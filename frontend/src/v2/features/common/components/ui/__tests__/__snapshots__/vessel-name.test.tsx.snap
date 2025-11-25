@@ -8,6 +8,7 @@ exports[`VesselName > should match the snapshot 1`] = `
       <p
         class="sc-iRcyzz sc-fFmWCW fjDFZW hAFmCO"
         color="#282F3E"
+        data-testid="vessel-name"
         font-size="13"
         weight="bold"
       >
@@ -41,6 +42,7 @@ exports[`VesselName > should match the snapshot 1`] = `
     <p
       class="sc-iRcyzz sc-fFmWCW fjDFZW hAFmCO"
       color="#282F3E"
+      data-testid="vessel-name"
       font-size="13"
       weight="bold"
     >

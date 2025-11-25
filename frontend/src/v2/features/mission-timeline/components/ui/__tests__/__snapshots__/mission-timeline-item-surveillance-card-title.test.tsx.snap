@@ -8,6 +8,7 @@ exports[`MissionTimelineItemSurveillanceCardTitle > should match the snapshot 1`
       <p
         class="sc-iRcyzz sc-fFmWCW kaCwCU hAFmCO"
         color="#282F3E"
+        data-testid="mission-timeline-item-card-title"
         font-size="13"
         weight="medium"
       >
@@ -44,6 +45,7 @@ exports[`MissionTimelineItemSurveillanceCardTitle > should match the snapshot 1`
     <p
       class="sc-iRcyzz sc-fFmWCW kaCwCU hAFmCO"
       color="#282F3E"
+      data-testid="mission-timeline-item-card-title"
       font-size="13"
       weight="medium"
     >

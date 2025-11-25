@@ -53,6 +53,7 @@ class MissionFishAction(
                     vesselName = fishAction.vesselName,
                     internalReferenceNumber = fishAction.internalReferenceNumber,
                     externalReferenceNumber = fishAction.externalReferenceNumber,
+                    flagState = fishAction.flagState,
                     districtCode = fishAction.districtCode,
                     faoAreas = fishAction.faoAreas?: listOf(),
                     emitsVms = fishAction.emitsVms,

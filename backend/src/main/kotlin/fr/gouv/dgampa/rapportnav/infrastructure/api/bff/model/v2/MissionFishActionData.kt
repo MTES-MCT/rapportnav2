@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
+import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import java.time.Instant
@@ -11,6 +12,7 @@ class MissionFishActionData(
     override val vesselName: String? = null,
     override val internalReferenceNumber: String? = null,
     override val externalReferenceNumber: String? = null,
+    override val flagState: CountryCode? = null,
     override val districtCode: String? = null,
     override val faoAreas: List<String> = listOf(),
     override val fishActionType: MissionActionType,

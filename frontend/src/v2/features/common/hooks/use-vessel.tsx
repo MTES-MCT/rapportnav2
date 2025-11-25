@@ -57,6 +57,7 @@ const VESSEL_TYPE_REGISTRY: VesselTypeRegistry = {
 
 interface VesselHook {
   getVesselName: (name?: string) => string | undefined
+  getFullVesselName: (name?: string, flagState?: string, externalReferenceNumber?: string) => string | undefined
   getVesselSize: (size?: VesselSizeEnum) => string | undefined
   getVesselTypeName: (size?: VesselTypeEnum) => string | undefined
   vesselTypeOptions: { label: string; value: VesselTypeEnum }[]
@@ -83,6 +84,28 @@ export function useVessel(): VesselHook {
   const getVesselName = (name?: string): string | undefined =>
     !name ? '' : name === 'UNKNOWN' ? 'Navire inconnu' : name
 
+  const getFullVesselName = (
+    name?: string,
+    flagState?: string,
+    externalReferenceNumber?: string
+  ): string | undefined => {
+    const parts: string[] = []
+
+    // Always show the formatted vessel name
+    parts.push(getVesselName(name))
+
+    // Optional fields
+    if (flagState) {
+      parts.push(flagState)
+    }
+
+    if (externalReferenceNumber) {
+      parts.push(externalReferenceNumber)
+    }
+
+    return parts.join(' - ')
+  }
+
   const getVesselTypeByModule = (moduleType: ModuleType) => {
     const entry =
       moduleType === ModuleType.ULAM
@@ -97,6 +120,7 @@ export function useVessel(): VesselHook {
   return {
     getVesselType,
     getVesselName,
+    getFullVesselName,
     getVesselSize,
     getVesselTypeName,
     getVesselTypeByModule,
