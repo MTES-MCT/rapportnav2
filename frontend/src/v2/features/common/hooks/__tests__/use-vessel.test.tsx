@@ -3,6 +3,7 @@ import { VesselTypeEnum } from '@common/types/mission-types'
 import { renderHook } from '@testing-library/react'
 import { ModuleType } from '../../types/module-type'
 import { useVessel } from '../use-vessel'
+import { describe } from 'vitest'
 
 describe('useVessel', () => {
   it('should have every vessel type for ULAM module ', () => {
@@ -59,6 +60,39 @@ describe('useVessel', () => {
     const { result } = renderHook(() => useVessel())
     Object.keys(VesselTypeEnum).forEach(type => {
       expect(result.current.getVesselType(type as VesselTypeEnum)).toBeDefined()
+    })
+  })
+
+  describe('getFullVesselName', () => {
+    it('should return full vessel name with only name', () => {
+      const { result } = renderHook(() => useVessel())
+
+      expect(result.current.getFullVesselName('Poseidon')).toEqual('Poseidon')
+    })
+
+    it('should return full vessel name with name and external reference number', () => {
+      const { result } = renderHook(() => useVessel())
+
+      expect(result.current.getFullVesselName('Poseidon', undefined, 'REF-123')).toEqual('Poseidon - REF-123')
+    })
+
+    it('should return full vessel name with name and flag state', () => {
+      const { result } = renderHook(() => useVessel())
+
+      expect(result.current.getFullVesselName('Poseidon', 'FR')).toEqual('Poseidon - FR')
+    })
+
+    it('should return full vessel name with all fields', () => {
+      const { result } = renderHook(() => useVessel())
+
+      expect(result.current.getFullVesselName('Poseidon', 'FR', 'REF-123')).toEqual('Poseidon - FR - REF-123')
+    })
+
+    it('should handle undefined name gracefully (delegated to getVesselName)', () => {
+      const { result } = renderHook(() => useVessel())
+
+      // getVesselName(undefined) returns ""
+      expect(result.current.getFullVesselName()).toEqual('')
     })
   })
 })

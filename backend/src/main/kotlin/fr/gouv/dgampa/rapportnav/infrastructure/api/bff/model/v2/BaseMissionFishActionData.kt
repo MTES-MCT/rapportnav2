@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
+import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 
 interface BaseMissionFishActionData {
@@ -7,6 +8,7 @@ interface BaseMissionFishActionData {
     val vesselName: String?
     val internalReferenceNumber: String?
     val externalReferenceNumber: String?
+    val flagState: CountryCode?
     val districtCode: String?
     val faoAreas: List<String>?
     val fishActionType: MissionActionType?

@@ -29,6 +29,8 @@ export type MissionTimelineAction = {
   endDateTimeUtc?: string
   vesselId?: number
   vesselName?: string
+  externalReferenceNumber?: string
+  flagState?: string
   actionNumberOfControls?: number
   actionTargetType?: ActionTargetTypeEnum
   vehicleType?: VehicleTypeEnum

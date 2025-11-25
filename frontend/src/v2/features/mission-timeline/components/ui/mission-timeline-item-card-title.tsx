@@ -8,7 +8,13 @@ type MissionTimelineItemCardTitleProps = {
 
 const MissionTimelineItemCardTitle: React.FC<MissionTimelineItemCardTitleProps> = ({ text, bold, ...props }) => {
   return (
-    <Text as="h3" weight="medium" color={THEME.color.gunMetal} {...props}>
+    <Text
+      as="h3"
+      weight="medium"
+      color={THEME.color.gunMetal}
+      {...props}
+      data-testid="mission-timeline-item-card-title"
+    >
       {`${text} `}
       <b>{bold}</b>
     </Text>

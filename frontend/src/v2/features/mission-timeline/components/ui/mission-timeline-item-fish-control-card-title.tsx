@@ -1,15 +1,19 @@
 import { formatMissionActionTypeForHumans } from '@common/types/fish-mission-types'
-import { vesselNameOrUnknown } from '@common/utils/action-utils'
 import { FC } from 'react'
 import { MissionTimelineAction } from '../../types/mission-timeline-output'
 import MissionTimelineItemCardTitle from './mission-timeline-item-card-title'
+import { useVessel } from '../../../common/hooks/use-vessel.tsx'
 
 const MissionTimelineItemFishControlCardTitle: FC<{ action?: MissionTimelineAction }> = ({ action }) => {
-  return (
-    <MissionTimelineItemCardTitle
-      text={`${formatMissionActionTypeForHumans(action?.fishActionType)} - ${vesselNameOrUnknown(action?.vesselName)}`}
-    />
-  )
+  const { getFullVesselName } = useVessel()
+  const parts: string[] = []
+
+  parts.push(formatMissionActionTypeForHumans(action.fishActionType))
+  parts.push(getFullVesselName(action?.vesselName, action?.flagState, action?.externalReferenceNumber))
+
+  const text = parts.join(' - ')
+
+  return <MissionTimelineItemCardTitle text={text} />
 }
 
 export default MissionTimelineItemFishControlCardTitle
