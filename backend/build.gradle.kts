@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.lang.System.getenv
 
@@ -7,7 +8,7 @@ version = "2.40.1"
 // x-release-please-end
 description = "RapportNav"
 
-val kotlinVersion by extra("1.9.24")
+val kotlinVersion by extra("2.2.21")
 val serializationVersion by extra("1.6.2")
 val springVersion by extra("3.5.7")
 val testcontainersVersion by extra("1.19.3")
@@ -16,9 +17,9 @@ val flywayVersion by extra("10.10.0")
 plugins {
   `java-library`
   `maven-publish`
-  kotlin("jvm") version "1.9.24"
-  kotlin("plugin.spring") version "1.9.24"
-  kotlin("plugin.jpa") version "1.9.24"
+  kotlin("jvm") version "2.2.21"
+  kotlin("plugin.spring") version "2.2.21"
+  kotlin("plugin.jpa") version "2.2.21"
   id("org.springframework.boot") version "3.5.7"
   id("io.spring.dependency-management") version "1.1.4"
   id("org.owasp.dependencycheck") version "12.1.0"
@@ -110,17 +111,17 @@ buildscript {
 
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_17
+  sourceCompatibility = JavaVersion.VERSION_21
 }
 
 kotlin {
-  jvmToolchain(17)
+  jvmToolchain(21)
 }
 
-tasks.withType<KotlinCompile> {
-  kotlinOptions {
-    freeCompilerArgs += "-Xjsr305=strict"
-    jvmTarget = "17"
+tasks.withType<KotlinCompile>().configureEach {
+  compilerOptions {
+    freeCompilerArgs.add("-Xjsr305=strict")
+    jvmTarget.set(JvmTarget.JVM_21)
   }
 }
 
