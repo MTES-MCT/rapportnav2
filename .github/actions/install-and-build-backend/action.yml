@@ -6,10 +6,10 @@ runs:
   steps:
     - uses: actions/checkout@v4
 
-    - uses: actions/setup-java@v4
+    - uses: actions/setup-java@v5
       with:
         distribution: temurin
-        java-version: 17
+        java-version: 21
 
     - name: Print JAVA_HOME
       shell: bash
