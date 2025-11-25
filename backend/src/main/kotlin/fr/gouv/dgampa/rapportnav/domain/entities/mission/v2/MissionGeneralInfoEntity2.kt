@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
@@ -8,6 +9,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceType
 data class MissionGeneralInfoEntity2(
     val data: MissionGeneralInfoEntity? = null,
     val crew: List<MissionCrewEntity>? = null,
+    val passengers: List<MissionPassengerEntity>? = null,
     val services: List<ServiceEntity>? = null
 ) {
     fun isCompleteForStats(): Boolean {

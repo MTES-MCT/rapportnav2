@@ -1,0 +1,17 @@
+export type MissionPassenger = {
+  id?: string
+  missionId?: number
+  missionIdUUID?: string
+  fullName: String
+  organization?: string
+  isIntern?: boolean
+  startDateTimeUtc: string
+  endDateTimeUtc: string
+}
+
+export const PASSENGER_OPTIONS = [
+  { value: 'AFF_MAR', label: 'Affaires Maritimes' },
+  { value: 'ESPMER', label: 'ESPMER' },
+  { value: 'LYCEE', label: 'Lycées Maritimes' },
+  { value: 'OTHER', label: 'Autres' }
+]

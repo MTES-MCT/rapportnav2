@@ -137,7 +137,6 @@ describe('OfflineDialog', () => {
     })
 
     expect(screen.getByTestId('offline-dialog')).toBeInTheDocument()
-    console.log(screen.debug())
     const reconnectButton = screen.getByTitle(
       "Vous ne pouvez pas repasser en ligne car vous n'avez pas de réseau. Continuez en mode hors ligne."
     )
