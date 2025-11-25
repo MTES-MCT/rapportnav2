@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.41.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.40.1...docker-container@v2.41.0) (2025-11-25)
+
+
+### Features
+
+* bump to java21 and kotlin2.2 ([1c2eabb](https://github.com/MTES-MCT/rapportnav2/commit/1c2eabbf26eb7a379abea6d847149726aece9b18))
+
+
+### Bug Fixes
+
+* java21 on gitlab ci ([29c3ddc](https://github.com/MTES-MCT/rapportnav2/commit/29c3ddc93c3784164100f34d79ff8ea5fb02a764))
+
 ## [2.40.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.40.0...docker-container@v2.40.1) (2025-11-25)
 
 
