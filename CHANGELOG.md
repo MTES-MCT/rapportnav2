@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.40.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.39.2...docker-container@v2.40.0) (2025-11-25)
+
+
+### Features
+
+* add Entrainement action to PAM ([a5d0559](https://github.com/MTES-MCT/rapportnav2/commit/a5d05590c7bd9453810c12ba215aebfd76a0009a))
+* add expenses in general info PAM ([0ad8da9](https://github.com/MTES-MCT/rapportnav2/commit/0ad8da9e8e9fe32aa6f932268cef6d30a062fa25))
+* **Analytics:** add nb of days at sea metric ([3d36ed6](https://github.com/MTES-MCT/rapportnav2/commit/3d36ed67e035c23ae8b93dca6ef34d27caa75b07))
+* **backend:** refactor agent ([a92f8b7](https://github.com/MTES-MCT/rapportnav2/commit/a92f8b7e9223bed65c49e4b148890aab2a8589a1))
+* **backend:** refactor agent ([495c1e1](https://github.com/MTES-MCT/rapportnav2/commit/495c1e1024a9364e137653f4f5bbf44bbced3572))
+* **frontend:** admin agent ([4b1c1f8](https://github.com/MTES-MCT/rapportnav2/commit/4b1c1f89be94b3bedd4a9ebbaf1c757c604fa6fa))
+* **frontend:** remove everything in admin for crew ([a9f9f04](https://github.com/MTES-MCT/rapportnav2/commit/a9f9f04d8d67fc66bc68f1a0c0269dacc0fc3eef))
+* make observationsByUnit not mandatory and blocking ([82e1038](https://github.com/MTES-MCT/rapportnav2/commit/82e10387167dc1f423f2cc12c1f8fe4a20b59e00))
+* show flagstate and externalId for vessels on Fish actions ([fe94bf6](https://github.com/MTES-MCT/rapportnav2/commit/fe94bf6a15efb0e01e75cba5e785a06dadaaa34f))
+
+
+### Bug Fixes
+
+* **build:** add forgotten files ([5c19624](https://github.com/MTES-MCT/rapportnav2/commit/5c19624f1d38fd07d2603b46884c8a00e696c6c3))
+
 ## [2.39.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.39.1...docker-container@v2.39.2) (2025-11-20)
 
 
