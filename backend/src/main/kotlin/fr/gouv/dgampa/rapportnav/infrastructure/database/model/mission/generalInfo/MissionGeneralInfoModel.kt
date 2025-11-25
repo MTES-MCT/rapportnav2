@@ -34,6 +34,12 @@ class MissionGeneralInfoModel(
     @Column(name = "consumed_fuel_in_liters", nullable = true)
     var consumedFuelInLiters: Float? = null,
 
+    @Column(name = "operating_costs_in_euro", nullable = true)
+    var operatingCostsInEuro: Float? = null,
+
+    @Column(name = "fuel_costs_in_euro", nullable = true)
+    var fuelCostsInEuro: Float? = null,
+
     @Column(name = "service_id", nullable = true)
     var serviceId: Int? = null,
 

@@ -15,6 +15,10 @@ import MissionActionItemSecurityVisit from '../../mission-action/components/elem
 import MissionActionItemTraining from '../../mission-action/components/elements/mission-action-item-training'
 import MissionActionItemUnitManagementPlanning from '../../mission-action/components/elements/mission-action-item-unit-management-planning'
 import MissionActionItemUnitManagementTraining from '../../mission-action/components/elements/mission-action-item-unit-management-training'
+import MissionActionItemOtherControl from '../../mission-action/components/elements/mission-action-item-control-other.tsx'
+import MissionActionItemNauticalLeisureControl from '../../mission-action/components/elements/mission-action-item-control-nautical-leisure.tsx'
+import MissionActionItemSleepingFishingGearControl from '../../mission-action/components/elements/mission-action-item-control-sleeping-fishing-gear.tsx'
+import MissionActionItemSectorControl from '../../mission-action/components/elements/mission-action-item-control-sector.tsx'
 
 type UlamActionRegistry = {
   [key in ActionType]?: ActionRegistryItem
@@ -35,11 +39,6 @@ const ULAM_ACTION_REGISTRY: UlamActionRegistry = {
     icon: Icon.GroupPerson,
     title: `Gestion de l'unité`,
     component: MissionActionItemUnitManagementPlanning
-  },
-  [ActionType.UNIT_MANAGEMENT_TRAINING]: {
-    icon: Icon.GroupPerson,
-    title: `Entraînement`,
-    component: MissionActionItemUnitManagementTraining
   },
   [ActionType.TRAINING]: {
     icon: Icon.License,
@@ -100,6 +99,26 @@ const ULAM_ACTION_REGISTRY: UlamActionRegistry = {
     icon: Icon.More,
     title: 'Opé. sûreté maritime',
     component: MissionActionItemPublicOrder
+  },
+  [ActionType.OTHER_CONTROL]: {
+    title: 'Contrôle - Autre',
+    icon: Icon.ControlUnit,
+    component: MissionActionItemOtherControl
+  },
+  [ActionType.CONTROL_NAUTICAL_LEISURE]: {
+    title: `Contrôle de loisirs nautiques`,
+    icon: Icon.ControlUnit,
+    component: MissionActionItemNauticalLeisureControl
+  },
+  [ActionType.CONTROL_SLEEPING_FISHING_GEAR]: {
+    title: `Contrôle d'engins de pêche dormant`,
+    icon: Icon.ControlUnit,
+    component: MissionActionItemSleepingFishingGearControl
+  },
+  [ActionType.CONTROL_SECTOR]: {
+    title: `Contrôle d'établissement filière`,
+    icon: Icon.ControlUnit,
+    component: MissionActionItemSectorControl
   }
 }
 

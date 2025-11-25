@@ -23,7 +23,8 @@ const TIME_LINE_DROPDOWN_PAM_ITEMS: TimelineDropdownItem[] = [
       { type: ActionType.ANTI_POLLUTION, dropdownText: 'Opération de lutte anti-pollution' },
       { type: ActionType.ILLEGAL_IMMIGRATION, dropdownText: `Lutte contre l'immigration illégale` },
       { type: ActionType.PUBLIC_ORDER, dropdownText: `Maintien de l'ordre public` },
-      { type: ActionType.REPRESENTATION, dropdownText: 'Représentation' }
+      { type: ActionType.REPRESENTATION, dropdownText: 'Représentation' },
+      { type: ActionType.UNIT_MANAGEMENT_TRAINING, dropdownText: 'Entraînement (tir, plongée...)' }
     ]
   }
 ]
@@ -114,6 +115,15 @@ const TIMELINE_PAM_REGISTRY: TimelineRegistry = {
     },
     icon: Icon.More,
     title: 'Permanence BAAEM',
+    component: MissionTimelineItemGenericCard
+  },
+  [ActionType.UNIT_MANAGEMENT_TRAINING]: {
+    style: {
+      backgroundColor: THEME.color.blueYonder25,
+      borderColor: THEME.color.lightGray
+    },
+    icon: Icon.GroupPerson,
+    title: `Entraînement`,
     component: MissionTimelineItemGenericCard
   },
   [ActionType.ILLEGAL_IMMIGRATION]: {
