@@ -23,8 +23,7 @@ class AgentAdminController(
     private val deleteAgent: DeleteAgent,
     private val disableAgent: DisableAgent,
     private val migrateAgent: MigrateAgent,
-    private val createOrUpdateAgent: CreateOrUpdateAgent2,
-    private val createUserFromAgent: CreateUserFromAgent
+    private val createOrUpdateAgent: CreateOrUpdateAgent2
 ) {
     private val logger = LoggerFactory.getLogger(AgentAdminController::class.java)
 
@@ -118,23 +117,7 @@ class AgentAdminController(
             return null
         }
     }
-
-    @PostMapping("{agentId}/user")
-    @Operation(summary = "Create user from Agent")
-    @ApiResponse(responseCode = "404", description = "Could not create User from agent", content = [Content()])
-    fun createUser(
-        @PathVariable(name = "agentId") agentId: Int,
-        @RequestBody body: AuthRegisterDataInput
-    ): AgentEntity2? {
-        if (agentId != body.id) throw IllegalArgumentException("Wrong agent Id: ${body.id}")
-        return try {
-            createUserFromAgent.execute(agentId = agentId, input = body)
-        } catch (e: Exception) {
-            logger.error("Error while creating user from Agent : ", e)
-            return null
-        }
-    }
-
+    
     @PostMapping("{agentId}/disable")
     @Operation(summary = "Disable Agent")
     @ApiResponse(responseCode = "404", description = "Could not disable Agent", content = [Content()])

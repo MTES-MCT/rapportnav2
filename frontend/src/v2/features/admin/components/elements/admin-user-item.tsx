@@ -24,7 +24,7 @@ const ACTIONS: AdminAction[] = [
   {
     isMain: true,
     label: `Créer un user`,
-    key: AdminActionType.CREATE,
+    key: AdminActionType.CREATE_USER,
     form: AdminUserForm
   },
   {
@@ -40,7 +40,7 @@ const ACTIONS: AdminAction[] = [
     icon: Icon.Hide
   },
   {
-    disabled: true,
+    disabled: () => true,
     label: `Supprimer un utilisateur`,
     color: THEME.color.maximumRed,
     key: AdminActionType.DELETE,

@@ -31,7 +31,7 @@ const ACTIONS: AdminAction[] = [
     icon: Icon.EditUnbordered
   },
   {
-    disabled: true,
+    disabled: () => true,
     label: `Supprimer un service`,
     color: THEME.color.maximumRed,
     key: AdminActionType.DELETE,

@@ -30,7 +30,7 @@ const ACTIONS: AdminAction[] = [
     icon: Icon.EditUnbordered
   },
   {
-    disabled: true,
+    disabled: () => true,
     label: `Supprimer un rôle`,
     color: THEME.color.maximumRed,
     key: AdminActionType.DELETE,
