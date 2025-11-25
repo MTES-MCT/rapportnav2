@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.41.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.41.0...docker-container@v2.41.1) (2025-11-25)
+
+
+### Bug Fixes
+
+* lower trivy severity ([f79cd76](https://github.com/MTES-MCT/rapportnav2/commit/f79cd762dc2f941c6779d8f474a1d627d0754267))
+
 ## [2.41.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.40.1...docker-container@v2.41.0) (2025-11-25)
 
 
