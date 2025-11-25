@@ -30,6 +30,7 @@ const MissionInfractionList: React.FC<MissionInfractionListProps> = ({ max, name
               index={index}
               fieldFormik={field}
               name={`${name}.${index}`}
+              controlType={controlType}
               handleRemove={handleRemove}
             />
           )}
