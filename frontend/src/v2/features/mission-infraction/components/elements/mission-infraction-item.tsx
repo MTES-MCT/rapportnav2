@@ -10,11 +10,18 @@ import MissionInfractionNavSummary from './mission-infraction-nav-summary.tsx'
 interface MissionInfractionItemProps {
   index: number
   name: string
+  controlType: ControlType
   fieldFormik: FieldProps<Infraction>
   handleRemove: (index: number) => void
 }
 
-const MissionInfractionItem: React.FC<MissionInfractionItemProps> = ({ name, index, fieldFormik, handleRemove }) => {
+const MissionInfractionItem: React.FC<MissionInfractionItemProps> = ({
+  name,
+  controlType,
+  index,
+  fieldFormik,
+  handleRemove
+}) => {
   const [showForm, setShowForm] = useState(false)
 
   const handleSubmit = async (value?: TargetInfraction) => {
@@ -40,10 +47,10 @@ const MissionInfractionItem: React.FC<MissionInfractionItemProps> = ({ name, ind
         </>
       ) : (
         <MissionInfractionNavSummary
+          controlType={controlType}
           onEdit={() => setShowForm(true)}
           infraction={fieldFormik.field.value}
           onDelete={() => handleRemove(index)}
-          controlType={ControlType.NAVIGATION}
         />
       )}
     </div>
