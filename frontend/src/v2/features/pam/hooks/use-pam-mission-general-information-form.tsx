@@ -95,7 +95,9 @@ export const usePamMissionGeneralInfoForm = (
         true,
         'At least one crew member is required',
         schema => schema.nonNullable().required()
-      )(isMissionFinished && !isMissionInterServices)
+      )(isMissionFinished && !isMissionInterServices),
+
+      passengers: array()
     })
   }
 
