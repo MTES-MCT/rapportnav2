@@ -41,7 +41,7 @@ const AdminUserForm: React.FC<AdminUserProps> = ({ formik, type }) => {
           <FormikNumberInput name="serviceId" label="Service" itemType="text" required />
         </Stack.Item>
       </Stack>
-      {type === AdminActionType.CREATE && <AdminUserPasswordForm formik={formik} />}
+      {type === AdminActionType.CREATE_USER && <AdminUserPasswordForm formik={formik} />}
     </Stack.Item>
   )
 }

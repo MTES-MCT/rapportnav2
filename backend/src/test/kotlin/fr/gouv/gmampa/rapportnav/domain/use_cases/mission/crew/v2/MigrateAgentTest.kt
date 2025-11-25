@@ -3,7 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.crew.v2
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgent2Repository
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IServiceRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.CreateOrUpdateAgent2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.service.MigrateAgentService
+import fr.gouv.dgampa.rapportnav.domain.use_cases.service.MigrateAgent
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentInput2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
@@ -22,9 +22,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.util.*
 
 
-@SpringBootTest(classes = [MigrateAgentService::class])
-@ContextConfiguration(classes = [MigrateAgentService::class])
-class MigrateAgentServiceTest {
+@SpringBootTest(classes = [MigrateAgent::class])
+@ContextConfiguration(classes = [MigrateAgent::class])
+class MigrateAgentTest {
 
     @MockitoBean
     private lateinit var agentRepo: IAgent2Repository
@@ -37,8 +37,8 @@ class MigrateAgentServiceTest {
 
     @Captor
     lateinit var disabledCaptor: ArgumentCaptor<Int>
-    
-    private lateinit var migrateAgentService: MigrateAgentService
+
+    private lateinit var migrateAgent: MigrateAgent
 
     val service = ServiceModel(id = 1, name = "service 1")
     val role = AgentRoleModel(id = 1, title = "", priority = 3)
@@ -66,14 +66,14 @@ class MigrateAgentServiceTest {
         Mockito.`when`(agentRepo.findById(1)).thenReturn(agent)
         Mockito.`when`(serviceRepo.findById(1)).thenReturn(Optional.ofNullable(null))
 
-        migrateAgentService = MigrateAgentService(
+        migrateAgent = MigrateAgent(
             agentRepo = agentRepo,
             serviceRepo = serviceRepo,
             createOrUpdateAgent2 = createOrUpdateAgent2
         )
 
         val exception = assertThrows<Exception> {
-            migrateAgentService.execute(input = input)
+            migrateAgent.execute(input = input)
         }
         assertThat(exception.message).isEqualTo("Update Service: Service or agent not found")
     }
@@ -85,14 +85,14 @@ class MigrateAgentServiceTest {
         Mockito.`when`(agentRepo.save(any())).thenReturn(agent)
         Mockito.`when`(serviceRepo.findById(1)).thenReturn(Optional.ofNullable(null))
 
-        migrateAgentService = MigrateAgentService(
+        migrateAgent = MigrateAgent(
             agentRepo = agentRepo,
             serviceRepo = serviceRepo,
             createOrUpdateAgent2 = createOrUpdateAgent2
         )
 
         val exception = assertThrows<Exception> {
-            migrateAgentService.execute(input = input)
+            migrateAgent.execute(input = input)
         }
         assertThat(exception.message).isEqualTo("Update Service: at least on id is null")
     }
@@ -103,13 +103,13 @@ class MigrateAgentServiceTest {
         Mockito.`when`(agentRepo.save(any())).thenReturn(agent)
         Mockito.`when`(serviceRepo.findById(1)).thenReturn(Optional.ofNullable(service))
 
-        migrateAgentService = MigrateAgentService(
+        migrateAgent = MigrateAgent(
             agentRepo = agentRepo,
             serviceRepo = serviceRepo,
             createOrUpdateAgent2 = createOrUpdateAgent2
         )
 
-        migrateAgentService.execute(input = input)
+        migrateAgent.execute(input = input)
         verify(agentRepo).disabledById(disabledCaptor.capture())
 
         assertThat(disabledCaptor.value).isEqualTo(agent.id)

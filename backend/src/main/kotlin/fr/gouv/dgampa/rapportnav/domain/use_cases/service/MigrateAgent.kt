@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentInput2
 import kotlin.jvm.optionals.getOrNull
 
 @UseCase
-class MigrateAgentService(
+class MigrateAgent(
     private val agentRepo: IAgent2Repository,
     private val serviceRepo: IServiceRepository,
     private val createOrUpdateAgent2: CreateOrUpdateAgent2

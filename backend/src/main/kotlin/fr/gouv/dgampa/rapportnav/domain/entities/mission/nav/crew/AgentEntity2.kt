@@ -31,6 +31,7 @@ data class AgentEntity2(
         fun fromAgentModel(model: AgentModel2): AgentEntity2 {
             return AgentEntity2(
                 id = model.id,
+                userId = model.userId,
                 lastName = model.lastName,
                 firstName = model.firstName,
                 disabledAt = model.disabledAt,

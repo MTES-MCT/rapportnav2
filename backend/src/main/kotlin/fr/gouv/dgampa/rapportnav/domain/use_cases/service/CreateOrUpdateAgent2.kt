@@ -17,9 +17,9 @@ class CreateOrUpdateAgent2(
 ) {
     fun execute(input: AgentInput2): AgentEntity2? {
         var agent: AgentModel2? = null
-        if (input.id == null) agent = create(input) else update(input)
-        agent?.role = if (input.roleId != null) roleRepo.findById(input.roleId) else null
-        return agent?.let { model -> agentRepo.save(model).let { AgentEntity2.fromAgentModel(it) } }
+        agent = if (input.id == null)  create(input) else update(input)
+        agent.role = if (input.roleId != null) roleRepo.findById(input.roleId) else null
+        return agent.let { model -> agentRepo.save(model).let { AgentEntity2.fromAgentModel(it) } }
     }
 
     fun create(input: AgentInput2): AgentModel2 {

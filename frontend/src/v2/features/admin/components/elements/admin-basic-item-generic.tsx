@@ -15,12 +15,13 @@ const DATE_LABELS = ['updatedAt', 'createdAt', 'deletedAt', 'disabledAt']
 type AdminServiceProps = {
   data?: any[]
   title: string
+  defaultData?: any
   cells: AdminCell[]
   onSubmit: (action: AdminActionType, value: any) => Promise<void>
   actions: AdminAction[]
 }
 
-const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ data, cells, title, onSubmit, actions }) => {
+const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ data, defaultData, cells, title, onSubmit, actions }) => {
   const { formatDateTimeForFrenchHumans } = useDate()
   const [currentData, setCurrentData] = useState<any>()
   const [actionIndex, setActionIndex] = useState<number>()
@@ -53,7 +54,7 @@ const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ data, cells, title
                 const index = actions.findIndex(action => action.isMain)
                 if (index === -1) return <></>
                 return (
-                  <Button accent={Accent.PRIMARY} onClick={() => handleAction(index, {})}>
+                  <Button accent={Accent.PRIMARY} onClick={() => handleAction(index, defaultData ?? {})}>
                     {actions[index].label}
                   </Button>
                 )
@@ -75,7 +76,7 @@ const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ data, cells, title
                 </Cell>
               </Column>
             ))}
-            <Column width={150} fixed="right">
+            <Column width={200} fixed="right">
               <HeaderCell>Actions</HeaderCell>
 
               <Cell style={{ padding: 2 }}>
@@ -85,13 +86,14 @@ const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ data, cells, title
                       <Stack.Item>
                         {rowAction.icon && (
                           <IconButton
+                            title={rowAction.title}
                             size={Size.NORMAL}
                             Icon={rowAction.icon}
                             color={rowAction.color}
                             accent={Accent.TERTIARY}
                             role={`action-cell-${index}`}
-                            disabled={rowAction.disabled}
                             onClick={() => handleAction(index, rowData)}
+                            disabled={rowAction.disabled ? rowAction.disabled(rowData) : false}
                           />
                         )}
                       </Stack.Item>

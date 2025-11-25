@@ -1,9 +1,11 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.admin
 
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgents
-import fr.gouv.dgampa.rapportnav.domain.use_cases.service.CreateOrUpdateAgent
-import fr.gouv.dgampa.rapportnav.domain.use_cases.service.DeleteAgent
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.service.*
+import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.inputs.AuthRegisterDataInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent2
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentInput2
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -16,9 +18,12 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/v2/admin/agents")
 class AgentAdminController(
-    private val getAgent: GetAgents,
+    private val getAgent: GetAllAgent,
+
     private val deleteAgent: DeleteAgent,
-    private val createOrUpdateAgent: CreateOrUpdateAgent
+    private val disableAgent: DisableAgent,
+    private val migrateAgent: MigrateAgent,
+    private val createOrUpdateAgent: CreateOrUpdateAgent2
 ) {
     private val logger = LoggerFactory.getLogger(AgentAdminController::class.java)
 
@@ -37,10 +42,10 @@ class AgentAdminController(
             ApiResponse(responseCode = "404", description = "Did not find any agents list", content = [Content()])
         ]
     )
-    fun agents(): List<Agent>? {
+    fun agents(): List<Agent2?> {
         return try {
             getAgent.execute()
-                .map { Agent.fromAgentEntity(it) }
+                .map { Agent2.fromAgentEntity(it) }
         } catch (e: Exception) {
             logger.error("[ERROR] API on endpoint agents:", e)
             listOf()
@@ -62,9 +67,9 @@ class AgentAdminController(
             ApiResponse(responseCode = "404", description = "Could not create no Agent", content = [Content()])
         ]
     )
-    fun create(@RequestBody body: Agent): Agent? {
+    fun create(@RequestBody body: AgentInput2): Agent2? {
         return try {
-            createOrUpdateAgent.execute(body.toAgentEntity()).let { Agent.fromAgentEntity(it) }
+            createOrUpdateAgent.execute(body).let { Agent2.fromAgentEntity(it) }
         } catch (e: Exception) {
             logger.error("Error while creating Agent : ", e)
             return null
@@ -87,25 +92,54 @@ class AgentAdminController(
         ]
     )
     fun update(
-        @RequestBody body: Agent
-    ): Agent? {
+        @RequestBody body: AgentInput2
+    ): Agent2? {
         return try {
-            createOrUpdateAgent.execute(entity = body.toAgentEntity()).let { Agent.fromAgentEntity(it) }
+            createOrUpdateAgent.execute(input = body).let { Agent2.fromAgentEntity(it) }
         } catch (e: Exception) {
             logger.error("Error while updating Agent : ", e)
             return null
         }
     }
 
+    @PostMapping("{agentId}/migrate")
+    @Operation(summary = "Migrate Agent from service A to service B")
+    @ApiResponse(responseCode = "404", description = "Could not migrate Agent", content = [Content()])
+    fun migrate(
+        @PathVariable(name = "agentId") agentId: Int,
+        @RequestBody body: AgentInput2
+    ): AgentEntity2? {
+        if (agentId != body.id) throw IllegalArgumentException("Wrong agent Id: ${body.id}")
+        return try {
+            migrateAgent.execute(body)
+        } catch (e: Exception) {
+            logger.error("Error while migrating Agent : ", e)
+            return null
+        }
+    }
+    
+    @PostMapping("{agentId}/disable")
+    @Operation(summary = "Disable Agent")
+    @ApiResponse(responseCode = "404", description = "Could not disable Agent", content = [Content()])
+    fun disable(
+        @PathVariable(name = "agentId") agentId: Int
+    ) {
+        return try {
+            disableAgent.execute(agentId)
+        } catch (e: Exception) {
+            logger.error("Error while disable Agent : ", e)
+        }
+    }
 
-    @DeleteMapping("{AgentId}")
+
+    @DeleteMapping("{agentId}")
     @Operation(summary = "Delete a Agent create by the unity")
     @ApiResponse(responseCode = "404", description = "Could not delete Agent", content = [Content()])
     fun delete(
-        @PathVariable(name = "AgentId") AgentId: Int
+        @PathVariable(name = "agentId") agentId: Int
     ) {
         return try {
-            deleteAgent.execute(id = AgentId)
+            deleteAgent.execute(id = agentId)
         } catch (e: Exception) {
             logger.error("Error while deleting Agent : ", e)
         }
