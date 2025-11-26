@@ -11,8 +11,8 @@ data class MissionPassenger(
     val fullName: String,
     val organization: String? = null,
     val isIntern: Boolean? = null,
-    val startDateTimeUtc: Instant? = null,
-    val endDateTimeUtc: Instant? = null,
+    val startDateTimeUtc: Instant,
+    val endDateTimeUtc: Instant,
 ) {
 
     companion object {

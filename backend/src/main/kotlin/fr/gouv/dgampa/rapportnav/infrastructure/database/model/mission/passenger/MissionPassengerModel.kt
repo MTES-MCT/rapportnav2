@@ -1,13 +1,19 @@
-package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
+package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.passenger
 
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.EntityListeners
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
-import java.util.*
+import java.util.UUID
 
 @Entity
 @EntityListeners(AuditingEntityListener::class)
@@ -33,11 +39,11 @@ class MissionPassengerModel(
     @Column(name = "is_intern", nullable = true)
     var isIntern: Boolean? = null,
 
-    @Column(name = "start_datetime_utc", nullable = true)
-    var startDateTimeUtc: Instant? = null,
+    @Column(name = "start_datetime_utc", nullable = false)
+    var startDateTimeUtc: Instant,
 
-    @Column(name = "end_datetime_utc", nullable = true)
-    var endDateTimeUtc: Instant? = null,
+    @Column(name = "end_datetime_utc", nullable = false)
+    var endDateTimeUtc: Instant,
 
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)

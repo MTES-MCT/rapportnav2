@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew
 
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.MissionPassengerModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.passenger.MissionPassengerModel
 import java.time.Instant
 import java.util.*
 
@@ -11,8 +11,8 @@ data class MissionPassengerEntity(
     val fullName: String,
     val organization: String? = null,
     val isIntern: Boolean? = null,
-    val startDateTimeUtc: Instant? = null,
-    val endDateTimeUtc: Instant? = null,
+    val startDateTimeUtc: Instant,
+    val endDateTimeUtc: Instant,
 ){
 
     fun toMissionPassengerModel(): MissionPassengerModel {

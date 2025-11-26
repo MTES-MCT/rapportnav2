@@ -10,6 +10,7 @@ import {
 } from '../../../hooks/use-pam-mission-general-information-form.tsx'
 import MissionGeneralInformationCrewPam from './mission-general-information-crew-pam.tsx'
 import MissionService from './mission-service.tsx'
+import MissionGeneralInformationPassengerPam from './mission-general-information-passenger-pam.tsx'
 
 const MissionGeneralInformationFormPam: FC<{
   generalInfo2: MissionGeneralInfo2
@@ -73,6 +74,19 @@ const MissionGeneralInformationFormPam: FC<{
                         name="crew"
                         missionId={generalInfo2.missionId}
                         currentCrewList={generalInfo2.crew ?? []}
+                        fieldArray={fieldArray}
+                      />
+                    )}
+                  </FieldArray>
+                </Stack.Item>
+
+                <Stack.Item style={{ width: '100%' }}>
+                  <FieldArray name="passengers">
+                    {(fieldArray: FieldArrayRenderProps) => (
+                      <MissionGeneralInformationPassengerPam
+                        name="passengers"
+                        missionId={generalInfo2.missionId}
+                        currentPassengerList={generalInfo2.passengers ?? []}
                         fieldArray={fieldArray}
                       />
                     )}
