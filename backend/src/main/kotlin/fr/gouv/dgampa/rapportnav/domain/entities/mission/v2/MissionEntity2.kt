@@ -78,15 +78,13 @@ data class MissionEntity2(
         )
     }
 
-    // interservices means with other controlUnits from other administrations
-    private fun isInterServices(): Boolean {
-        val administrations = this.data?.controlUnits
-            ?.mapNotNull { it.administration?.trim() }
-            ?.distinct()
-            ?: return false
-
-        return administrations.size > 1
-    }
+    // interservices means with other controlUnits
+    private fun isInterServices(): Boolean =
+        data?.controlUnits
+            .orEmpty()
+            .distinct()
+            .take(2)     // stops early if more than 1 distinct value
+            .count() == 2
 
 
 }

@@ -38,44 +38,13 @@ describe('useMissionInterServices', () => {
     expect(result.current).toBe(false)
   })
 
-  it('returns false if multiple control units belong to the same administration', () => {
-    const missionId = '789'
-    queryClient.setQueryData(missionsKeys.byId(missionId), {
-      data: {
-        controlUnits: [
-          { isArchived: false, administration: ' AdminA ' },
-          { isArchived: false, administration: 'AdminA' },
-          { isArchived: true, administration: 'AdminB' } // archived ignored
-        ]
-      }
-    })
-    const { result } = renderHook(() => useMissionInterServices(missionId), { wrapper })
-    expect(result.current).toBe(false)
-  })
-
-  it('returns true if multiple non-archived control units from different administrations', () => {
+  it('returns true if multiple non-archived control units ', () => {
     const missionId = '101'
     queryClient.setQueryData(missionsKeys.byId(missionId), {
       data: {
         controlUnits: [
-          { isArchived: false, administration: 'AdminA' },
-          { isArchived: false, administration: 'AdminB' }
-        ]
-      }
-    })
-    const { result } = renderHook(() => useMissionInterServices(missionId), { wrapper })
-    expect(result.current).toBe(true)
-  })
-
-  it('ignores null or empty administration names', () => {
-    const missionId = '202'
-    queryClient.setQueryData(missionsKeys.byId(missionId), {
-      data: {
-        controlUnits: [
-          { isArchived: false, administration: null },
-          { isArchived: false, administration: '' },
-          { isArchived: false, administration: 'AdminA' },
-          { isArchived: false, administration: 'AdminB' }
+          { id: 1, isArchived: false, administration: 'AdminA' },
+          { id: 2, isArchived: false, administration: 'AdminB' }
         ]
       }
     })
