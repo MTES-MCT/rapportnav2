@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.42.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.41.1...backend@v2.42.0) (2025-11-26)
+
+
+### Features
+
+* **backend:** set default value for is_within_department ([a922170](https://github.com/MTES-MCT/rapportnav2/commit/a922170588903fb74e22e359342f1aee55abcecd))
+
 ## [2.41.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.41.0...backend@v2.41.1) (2025-11-25)
 
 
