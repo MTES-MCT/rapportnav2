@@ -46,8 +46,7 @@ class MissionNavActionEntity(
         enableIf = [
             DependentFieldValue(
                 field = "actionType",
-                value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION",
-                    "CONTROL_NAUTICAL_LEISURE", "CONTROL_SLEEPING_FISHING_GEAR", "OTHER_CONTROL"
+                value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION", "CONTROL_SLEEPING_FISHING_GEAR", "OTHER_CONTROL"
                 ])
         ]
     )
@@ -56,8 +55,7 @@ class MissionNavActionEntity(
         enableIf = [
             DependentFieldValue(
                 field = "actionType",
-                value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION",
-                    "CONTROL_NAUTICAL_LEISURE", "CONTROL_SLEEPING_FISHING_GEAR", "OTHER_CONTROL"
+                value = ["CONTROL", "RESCUE", "ILLEGAL_IMMIGRATION", "ANTI_POLLUTION", "CONTROL_SLEEPING_FISHING_GEAR", "OTHER_CONTROL"
                 ])
         ]
     )

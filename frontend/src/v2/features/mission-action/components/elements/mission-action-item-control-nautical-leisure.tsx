@@ -13,6 +13,7 @@ const MissionActionItemNauticalLeisureControl: FC<{
       action={action}
       onChange={onChange}
       withGeoCoords={true}
+      isGeoCoordRequired={false}
       schema={CONTROL_NAUTICAL_LEISURE_SCHEMA}
       data-testid={'action-control-nautical-leisure'}
       component={MissionActionNauticalLeisureControlForm}

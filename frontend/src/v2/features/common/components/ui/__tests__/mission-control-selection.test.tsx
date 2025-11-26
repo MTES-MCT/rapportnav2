@@ -16,9 +16,9 @@ describe('IconVesselCommerce', () => {
     expect(elements.length).toEqual(5)
   })
 
-  it('should render 7 controls selection for ULMA', () => {
+  it('should render 7 controls selection for ULAM', () => {
     render(<MissionControlSelection moduleType={ModuleType.ULAM} onSelect={handleSelect} />)
     const elements = screen.getAllByText('Contrôles de')
-    expect(elements.length).toEqual(7)
+    expect(elements.length).toEqual(6)
   })
 })
