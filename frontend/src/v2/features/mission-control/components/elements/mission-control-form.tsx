@@ -17,7 +17,7 @@ type MissionControlModelFormProps = {
   fieldFormik: FieldProps<Control>
 }
 
-const getControlLabelPerType = (controlType: ControlTyper): string => {
+const getControlLabelPerType = (controlType: ControlType): string => {
   switch (controlType) {
     case ControlType.ADMINISTRATIVE:
       return 'Observations (hors infraction) sur les pièces administratives'

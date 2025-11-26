@@ -61,7 +61,7 @@ const MissionActionNauticalLeisureControlForm: FC<{ formik: FormikProps<ActionCo
             <Stack.Item style={{ width: '100%' }}>
               <Text as="h3" color={THEME.color.maximumRed}>
                 {(formik.errors?.nbrOfControl300m || formik.errors?.nbrOfControlAmp) &&
-                  `Nombre en AMP, Nombre dans la bande 300m, doivent être inférieur au Nombre total de contrôles`}
+                  `Le nombre de contrôles compris dans la bande des 300 ou en AMP ne peut pas dépasser le nombre de contrôle total de l'opération.`}
               </Text>
             </Stack.Item>
           </Stack>

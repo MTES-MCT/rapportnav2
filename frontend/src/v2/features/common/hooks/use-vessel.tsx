@@ -109,7 +109,7 @@ export function useVessel(): VesselHook {
   const getVesselTypeByModule = (moduleType: ModuleType) => {
     const entry =
       moduleType === ModuleType.ULAM
-        ? VESSEL_TYPE_REGISTRY
+        ? omit(VESSEL_TYPE_REGISTRY, [VesselTypeEnum.SAILING_LEISURE])
         : omit(VESSEL_TYPE_REGISTRY, [VesselTypeEnum.SCHOOL, VesselTypeEnum.PASSENGER])
     return Object.keys(entry)?.map(key => ({
       key: VesselTypeEnum[key as keyof typeof VesselTypeEnum],

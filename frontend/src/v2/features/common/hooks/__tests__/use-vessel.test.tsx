@@ -1,14 +1,16 @@
 import { VesselSizeEnum } from '@common/types/env-mission-types'
 import { VesselTypeEnum } from '@common/types/mission-types'
 import { renderHook } from '@testing-library/react'
+import { describe } from 'vitest'
 import { ModuleType } from '../../types/module-type'
 import { useVessel } from '../use-vessel'
-import { describe } from 'vitest'
 
 describe('useVessel', () => {
   it('should have every vessel type for ULAM module ', () => {
     const { result } = renderHook(() => useVessel())
-    expect(result.current.getVesselTypeByModule(ModuleType.ULAM).length).toEqual(Object.keys(VesselTypeEnum).length)
+    const response = result.current.getVesselTypeByModule(ModuleType.ULAM)
+    expect(response.length).toEqual(Object.keys(VesselTypeEnum).length - 1)
+    expect(response).not.toContain(VesselTypeEnum.SAILING_LEISURE)
   })
 
   it('should not have every vessel type for PAM module ', () => {

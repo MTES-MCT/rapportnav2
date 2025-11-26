@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action
 
 enum class LeisureType {
     TOWED_BUOYS,
+    SAILING,
     KITE_SURF,
     KAYAK,
     BOAT_RENTING,
