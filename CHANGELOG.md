@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.42.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.41.1...docker-container@v2.42.0) (2025-11-26)
+
+
+### Features
+
+* **backend:** set default value for is_within_department ([a922170](https://github.com/MTES-MCT/rapportnav2/commit/a922170588903fb74e22e359342f1aee55abcecd))
+
+
+### Bug Fixes
+
+* offline sends mutations after page reload ([1dafb64](https://github.com/MTES-MCT/rapportnav2/commit/1dafb646336f3d10672a9b02cb91427e0321b914))
+* **offline:** app should be offline after reload when manual offline ([23fae18](https://github.com/MTES-MCT/rapportnav2/commit/23fae18e1000e6327f60f3e7c08c0d94b6be7b7f))
+* route properly online and offline after action creation ([ec219e0](https://github.com/MTES-MCT/rapportnav2/commit/ec219e09bec083da5f6b00242b828fa70b1eacbf))
+
 ## [2.41.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.41.0...docker-container@v2.41.1) (2025-11-25)
 
 

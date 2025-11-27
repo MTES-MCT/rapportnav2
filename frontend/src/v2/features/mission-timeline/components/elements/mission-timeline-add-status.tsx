@@ -6,10 +6,8 @@ import { Stack } from 'rsuite'
 import { useTimelineAction } from '../../../common/hooks/use-timeline-action'
 import useCreateActionMutation from '../../../common/services/use-create-action'
 import { ActionType } from '../../../common/types/action-type'
-import { MissionNavAction } from '../../../common/types/mission-action.ts'
-import { navigateToActionId, PAM_V2_HOME_PATH } from '@router/routes.tsx'
+import { navigateToActionId } from '@router/routes.tsx'
 import { useNavigate } from 'react-router-dom'
-import { useOnlineManager } from '../../../common/hooks/use-online-manager.tsx'
 import { v4 as uuidv4 } from 'uuid'
 import { OwnerType } from '../../../common/types/owner-type.ts'
 
@@ -40,30 +38,15 @@ const MissionTimelineAddStatus: FC<MissionTimelineAddStatusProps> = ({ missionId
   const navigate = useNavigate()
   const { getActionInput } = useTimelineAction(missionId)
   const mutation = useCreateActionMutation()
-  const { isOnline } = useOnlineManager()
 
   const handleAddStatus = async (status: ActionStatusType) => {
     const action = {
       id: uuidv4(), // Generate a UUID locally
       ...getActionInput(ActionType.STATUS, { status })
     }
-
-    mutation.mutate(
-      { ownerId: missionId, ownerType: OwnerType.MISSION, action },
-      {
-        onSuccess: (data: MissionNavAction) => {
-          const id = data?.data?.id
-          if (id) {
-            const url = `${PAM_V2_HOME_PATH}/${missionId}/${id}`
-            navigate(url)
-          }
-          if (onSubmit && isOnline) {
-            onSubmit(id)
-          }
-        }
-      }
-    )
     navigateToActionId(action.id, navigate)
+    const response = await mutation.mutateAsync({ ownerId: missionId, ownerType: OwnerType.MISSION, action })
+    if (onSubmit && response && response.id) onSubmit(response.id)
   }
 
   return (

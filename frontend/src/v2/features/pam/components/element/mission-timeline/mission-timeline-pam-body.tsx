@@ -4,12 +4,13 @@ import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import matchesProperty from 'lodash/matchesProperty'
 import some from 'lodash/some'
 import { FC } from 'react'
-import { Stack } from 'rsuite'
-import TimelineWrapper from '../../../common/components/layout/timeline-wrapper.tsx'
-import { NetworkSyncStatus } from '../../../common/types/network-types.ts'
-import { OwnerType } from '../../../common/types/owner-type.ts'
-import { MissionTimelineAction } from '../../../mission-timeline/types/mission-timeline-output'
-import MissionTimelineItemPam from './mission-timeline-pam-item'
+import { Loader, Stack } from 'rsuite'
+import TimelineWrapper from '../../../../common/components/layout/timeline-wrapper.tsx'
+import { NetworkSyncStatus } from '../../../../common/types/network-types.ts'
+import { OwnerType } from '../../../../common/types/owner-type.ts'
+import { MissionTimelineAction } from '../../../../mission-timeline/types/mission-timeline-output.ts'
+import MissionTimelineItemPam from './mission-timeline-pam-item.tsx'
+import { useGlobalSyncStatus } from '../../../../common/hooks/use-global-sync-status.tsx'
 
 interface MissionTimelinePamBodyProps {
   missionId: number
@@ -21,10 +22,21 @@ interface MissionTimelinePamBodyProps {
 const MissionTimelinePamBody: FC<MissionTimelinePamBodyProps> = ({ isError, actions, missionId, isLoading }) => {
   const { getUrl } = useGlobalRoutes()
   const hasActionsNotYetSyncWithServer = some(actions, matchesProperty('networkSyncStatus', NetworkSyncStatus.UNSYNC))
-
+  const { active: syncActive, mutatingCount } = useGlobalSyncStatus(300)
   return (
     <>
-      {hasActionsNotYetSyncWithServer && (
+      {syncActive && mutatingCount > 1 ? (
+        <Stack direction={'row'} alignItems={'center'} spacing={'1rem'} style={{ marginBottom: '2rem' }}>
+          <Stack.Item>
+            <Loader center={false} size={'md'} vertical={false} />
+          </Stack.Item>
+          <Stack.Item>
+            <Text as={'h3'} weight={'medium'} fontStyle={'italic'}>
+              {`Synchronisation de ${mutatingCount} action(s) avec le serveur`}
+            </Text>
+          </Stack.Item>
+        </Stack>
+      ) : hasActionsNotYetSyncWithServer ? (
         <Stack direction={'row'} alignItems={'center'} spacing={'1rem'} style={{ marginBottom: '2rem' }}>
           <Stack.Item>
             <Icon.Offline color={THEME.color.charcoal} size={14} />
@@ -36,7 +48,7 @@ const MissionTimelinePamBody: FC<MissionTimelinePamBodyProps> = ({ isError, acti
             </Text>
           </Stack.Item>
         </Stack>
-      )}
+      ) : null}
       <TimelineWrapper
         isError={isError}
         actions={actions}
