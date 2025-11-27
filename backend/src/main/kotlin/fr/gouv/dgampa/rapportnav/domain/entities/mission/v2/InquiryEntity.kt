@@ -10,18 +10,16 @@ class InquiryEntity(
     val missionIdUUID: UUID? = null,
     val type: String? = null,
     val agentId: Int? = null,
-    val vesselId: Int? = null,
     val serviceId: Int? = null,
     var endDateTimeUtc: Instant? = null,
     val startDateTimeUtc: Instant? = null,
     val origin: InquiryOriginType? = null,
     val status: InquiryStatusType? = null,
     val conclusion: InquiryConclusionType? = null,
-    var vesselName: String? = null,
-    var vesselExternalReferenceNumber: String? = null,
     var actions: List<MissionActionEntity>? = null,
     var isSignedByInspector: Boolean? = null,
-    var siren: String? = null
+    var siren: String? = null,
+    var vessel: VesselEntity? = null
 ) {
 
     companion object {
@@ -31,7 +29,6 @@ class InquiryEntity(
                 type = model.type,
                 missionId = model.missionId,
                 missionIdUUID = model.missionIdUUID,
-                vesselId = model.vesselId,
                 serviceId = model.serviceId,
                 agentId = model.agentId?.toInt(),
                 endDateTimeUtc = model.endDateTimeUtc,
@@ -40,7 +37,8 @@ class InquiryEntity(
                 status = model.status?.let { InquiryStatusType.valueOf(it) },
                 conclusion = model.conclusion?.let { InquiryConclusionType.valueOf(it) },
                 isSignedByInspector = model.isSignedByInspector,
-                siren = model.siren
+                siren = model.siren,
+                vessel =  model.vesselId?.let { VesselEntity( vesselId = it) }
             )
         }
     }
@@ -51,7 +49,7 @@ class InquiryEntity(
             type = type,
             agentId = agentId?.toString(),
             serviceId = serviceId,
-            vesselId = vesselId,
+            vesselId = vessel?.vesselId,
             status = status?.toString(),
             origin = origin?.toString(),
             endDateTimeUtc = endDateTimeUtc,
@@ -65,8 +63,7 @@ class InquiryEntity(
     }
 
     fun withVessel(vessel: VesselEntity?): InquiryEntity {
-        this.vesselName = vessel?.vesselName
-        this.vesselExternalReferenceNumber = vessel?.externalReferenceNumber
+        this.vessel = vessel
         return this
     }
 

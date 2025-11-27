@@ -40,10 +40,6 @@ export const resourcesKeys = {
   all: () => ['resources'] as const
 }
 
-export const vesselsKeys = {
-  all: () => ['vessels'] as const
-}
-
 export const usersKeys = {
   all: () => ['users'] as const,
   byId: (id: number) => [...usersKeys.all(), `${id}`] as const

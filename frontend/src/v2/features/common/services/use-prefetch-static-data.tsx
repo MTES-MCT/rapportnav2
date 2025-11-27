@@ -26,7 +26,6 @@ export function usePrefetchStaticData() {
         { key: administrationKeys.all(), url: 'administrations' },
         { key: resourcesKeys.all(), url: 'resources' },
         { key: natinfsKeys.all(), url: 'natinfs' }
-        // { key: vesselsKeys.all(), url: 'vessels' }
       ]
 
       for (const { key, url } of referenceEndpoints) {

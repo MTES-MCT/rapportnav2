@@ -22,7 +22,7 @@ class InquiryEntityTest {
         assertThat(response.siren).isEqualTo(inquiryEntity.siren)
         assertThat(response.origin).isEqualTo(inquiryEntity.origin?.toString())
         assertThat(response.agentId).isEqualTo(inquiryEntity.agentId.toString())
-        assertThat(response.vesselId).isEqualTo(inquiryEntity.vesselId)
+        assertThat(response.vesselId).isEqualTo(inquiryEntity.vessel?.vesselId)
         assertThat(response.status).isEqualTo(inquiryEntity.status.toString())
         assertThat(response.serviceId).isEqualTo(inquiryEntity.serviceId)
         assertThat(response.endDateTimeUtc).isEqualTo(inquiryEntity.endDateTimeUtc)
@@ -40,8 +40,8 @@ class InquiryEntityTest {
         )
         val inquiryEntity = getInquiryEntity()
         inquiryEntity.withVessel(vessel = vessel)
-        assertThat(inquiryEntity.vesselName).isEqualTo(vessel.vesselName)
-        assertThat(inquiryEntity.vesselExternalReferenceNumber).isEqualTo(vessel.externalReferenceNumber)
+        assertThat(inquiryEntity.vessel?.vesselName).isEqualTo(vessel.vesselName)
+        assertThat(inquiryEntity.vessel?.externalReferenceNumber).isEqualTo(vessel.externalReferenceNumber)
     }
 
     private fun getInquiryEntity(): InquiryEntity {
@@ -50,7 +50,7 @@ class InquiryEntityTest {
             type = "",
             agentId = 5,
             serviceId = 6,
-            vesselId = 4556,
+            vessel = VesselEntity(vesselId = 4556),
             endDateTimeUtc = Instant.parse("2015-07-30T00:00:00.00Z"),
             startDateTimeUtc = Instant.parse("2015-06-30T00:00:00.00Z"),
             origin = InquiryOriginType.FOLLOW_UP_CONTROL,
