@@ -1,4 +1,5 @@
 import { MissionAction } from './mission-action'
+import { Vessel } from './vessel-type'
 
 export enum InquiryOriginType {
   OPPORTUNITY_CONTROL = 'OPPORTUNITY_CONTROL',
@@ -27,18 +28,16 @@ export interface Inquiry {
   id?: string
   type?: InquiryTargetType
   agentId?: number
-  vesselId?: number
   serviceId?: number
   endDateTimeUtc?: string
   startDateTimeUtc?: string
   origin?: InquiryOriginType
   status?: InquiryStatusType
   conclusion?: InquiryConclusionType
-  vesselName?: string
   isSignedByInspector?: boolean
-  vesselExternalReferenceNumber?: string
   missionId?: number
   siren?: string
   missionIdUUID?: string
   actions?: MissionAction[]
+  vessel?: Vessel
 }

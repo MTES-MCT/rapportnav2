@@ -21,7 +21,7 @@ export const FormikSearchEstablishment = styled(
     const { data: establishments } = useEstablishmentListQuery(search)
 
     const getName = (establishment: Establishment) =>
-      `${establishment.name} | n°${establishment.siret} | ${establishment.address}`
+      `${establishment.name} | n°${establishment.id} | ${establishment.address}`
 
     const onSelect = (eventKey?: string, event: React.SyntheticEvent) => {
       const value = establishments?.find(item => item.id === eventKey)
@@ -53,7 +53,7 @@ export const FormikSearchEstablishment = styled(
         <Stack.Item style={{ width: '100%' }}>
           <Message level="INFO">
             Recherche d'un établissement par son nom, <br />
-            numéro de SIRET ou adresse dans le référentiel entreprises de l'état
+            numéro de SIREN ou adresse dans le référentiel entreprises de l'état
           </Message>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
