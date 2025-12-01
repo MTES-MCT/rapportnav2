@@ -185,6 +185,9 @@ class ExportMissionPatrolSingle2(
                 "\${goMarine}" to (generalInfo?.data?.consumedGOInLiters?.toString() ?: ""),
                 "\${essence}" to (generalInfo?.data?.consumedFuelInLiters?.toString() ?: ""),
 
+                "\${operatingCosts}" to (generalInfo?.data?.operatingCostsInEuro?.toString() ?: ""),
+                "\${fuelCosts}" to (generalInfo?.data?.fuelCostsInEuro?.toString() ?: ""),
+
                 "\${observations}" to (mission.data?.observationsByUnit ?: ""),
             )
 
