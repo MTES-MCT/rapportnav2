@@ -7,7 +7,6 @@ import { FormikSearchEstablishment } from '../../../common/components/ui/formik-
 import { FormikSearchVessel } from '../../../common/components/ui/formik-search-vessel'
 import { usecontrolCheck } from '../../../common/hooks/use-control-check'
 import useAgentsQuery from '../../../common/services/use-agents'
-import useVesselListQuery from '../../../common/services/use-vessel-service'
 import { Agent } from '../../../common/types/crew-type'
 import { Inquiry, InquiryTargetType } from '../../../common/types/inquiry'
 import { useInquiry } from '../../hooks/use-inquiry'
@@ -21,7 +20,6 @@ const InquiryGeneralInfoForm: FC<{
   const { inquiryOriginOptions, inquiryTargetOptions } = useInquiry()
 
   const { data: agents } = useAgentsQuery()
-  const { data: vessels } = useVesselListQuery()
   const { initValue, handleSubmit, validationSchema } = useInquiryGeneralInformation(inquiry, onChange)
 
   return (
@@ -99,14 +97,19 @@ const InquiryGeneralInfoForm: FC<{
                       </Stack.Item>
                     </Stack>
                   </Stack.Item>
-                  {vessels && values.type === InquiryTargetType.VEHICLE && (
+                  {values.type === InquiryTargetType.VEHICLE && (
                     <Stack.Item style={{ width: '100%' }}>
-                      <FormikSearchVessel
-                        vessels={vessels}
-                        name="vesselId"
-                        isLight={false}
-                        label="Nom du navire contrôlée"
-                      />
+                      <Field name="vesselId">
+                        {(field: FieldProps<number>) => (
+                          <FormikSearchVessel
+                            isLight={true}
+                            fieldFormik={field}
+                            name="vessel.vesselId"
+                            vessel={values?.vessel}
+                            label="Nom du navire contrôlée"
+                          />
+                        )}
+                      </Field>
                     </Stack.Item>
                   )}
                   {values.type === InquiryTargetType.COMPANY && (

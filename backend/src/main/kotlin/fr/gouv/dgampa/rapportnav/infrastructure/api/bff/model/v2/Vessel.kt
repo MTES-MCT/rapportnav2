@@ -10,6 +10,15 @@ class Vessel(
     val vesselId: Int,
     val vesselName: String? = null
 ) {
+    fun toVesselEntity(): VesselEntity {
+        return VesselEntity(
+            vesselId = vesselId,
+            vesselName = vesselName,
+            flagState = flagState,
+            externalReferenceNumber = externalReferenceNumber
+        )
+    }
+
     companion object {
         fun fromVesselEntity(entity: VesselEntity): Vessel {
             return Vessel(

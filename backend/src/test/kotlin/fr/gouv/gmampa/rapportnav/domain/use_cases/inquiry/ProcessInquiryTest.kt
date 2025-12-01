@@ -36,7 +36,7 @@ class ProcessInquiryTest {
             id = UUID.randomUUID(),
             type = "",
             agentId = 5,
-            vesselId = 4556,
+            vessel = VesselEntity(vesselId = 4556),
             serviceId = 6,
             endDateTimeUtc = Instant.parse("2015-07-30T00:00:00.00Z"),
             startDateTimeUtc = Instant.parse("2015-06-30T00:00:00.00Z"),
@@ -54,6 +54,6 @@ class ProcessInquiryTest {
 
         assertThat(entity).isNotNull
         assertThat(entity.id).isEqualTo(response.id)
-        assertThat(entity.vesselId).isEqualTo(4556)
+        assertThat(entity.vessel?.vesselId).isEqualTo(4556)
     }
 }

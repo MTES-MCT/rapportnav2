@@ -1,11 +1,9 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InquiryConclusionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InquiryEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InquiryOriginType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InquiryStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.*
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Inquiry
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Vessel
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -23,7 +21,7 @@ class InquiryTest {
             id = UUID.randomUUID(),
             type = "",
             agentId = 5,
-            vesselId = 4556,
+            vessel = VesselEntity(vesselId = 4556),
             serviceId = 6,
             status = InquiryStatusType.IN_PROGRESS,
             origin = InquiryOriginType.FOLLOW_UP_CONTROL,
@@ -42,7 +40,7 @@ class InquiryTest {
         assertThat(response.siren).isEqualTo(entity.siren)
         assertThat(response.origin).isEqualTo(entity.origin)
         assertThat(response.agentId).isEqualTo(entity.agentId)
-        assertThat(response.vesselId).isEqualTo(entity.vesselId)
+        assertThat(response.vessel?.vesselId).isEqualTo(entity.vessel?.vesselId)
         assertThat(response.serviceId).isEqualTo(entity.serviceId)
         assertThat(response.status).isEqualTo(entity.status)
         assertThat(response.endDateTimeUtc).isEqualTo(entity.endDateTimeUtc)
@@ -58,7 +56,7 @@ class InquiryTest {
             id = UUID.randomUUID(),
             type = "",
             agentId = 5,
-            vesselId = 4556,
+            vessel = Vessel(vesselId = 4556),
             serviceId = 6,
             status = InquiryStatusType.IN_PROGRESS,
             origin = InquiryOriginType.FOLLOW_UP_CONTROL,
@@ -78,7 +76,7 @@ class InquiryTest {
         assertThat(response.siren).isEqualTo(inquiry.siren)
         assertThat(response.origin).isEqualTo(inquiry.origin)
         assertThat(response.agentId).isEqualTo(inquiry.agentId)
-        assertThat(response.vesselId).isEqualTo(inquiry.vesselId)
+        assertThat(response.vessel?.vesselId).isEqualTo(inquiry.vessel?.vesselId)
         assertThat(response.serviceId).isEqualTo(inquiry.serviceId)
         assertThat(response.status).isEqualTo(inquiry.status)
         assertThat(response.endDateTimeUtc).isEqualTo(inquiry.endDateTimeUtc)
