@@ -29,6 +29,7 @@ class InquiryEntityTest {
         assertThat(response.conclusion).isEqualTo(inquiryEntity.conclusion?.toString())
         assertThat(response.startDateTimeUtc).isEqualTo(inquiryEntity.startDateTimeUtc)
         assertThat(response.isSignedByInspector).isEqualTo(inquiryEntity.isSignedByInspector)
+        assertThat(response.isForeignEstablishment).isEqualTo(inquiryEntity.isForeignEstablishment)
     }
 
     @Test
@@ -59,7 +60,8 @@ class InquiryEntityTest {
             missionId = 4,
             missionIdUUID = UUID.randomUUID(),
             isSignedByInspector = true,
-            siren = "MyBeautifulSiren"
+            siren = "MyBeautifulSiren",
+            isForeignEstablishment = true
         )
     }
 }

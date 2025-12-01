@@ -60,6 +60,9 @@ class InquiryModel(
     @Column(name = "siren", nullable = true)
     var siren: String? = null,
 
+    @Column(name = "is_foreign_establishment", nullable = true)
+    var isForeignEstablishment: Boolean? = null,
+
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
     var createdAt: Instant? = null,

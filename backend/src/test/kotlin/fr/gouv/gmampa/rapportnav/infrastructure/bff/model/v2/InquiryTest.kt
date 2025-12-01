@@ -29,7 +29,8 @@ class InquiryTest {
             endDateTimeUtc = Instant.parse("2015-07-30T00:00:00.00Z"),
             startDateTimeUtc = Instant.parse("2015-06-30T00:00:00.00Z"),
             isSignedByInspector = true,
-            siren = "myBeautifulSiren"
+            siren = "myBeautifulSiren",
+            isForeignEstablishment = false
         )
 
         val response = Inquiry.fromInquiryEntity(entity)
@@ -47,6 +48,7 @@ class InquiryTest {
         assertThat(response.conclusion).isEqualTo(entity.conclusion)
         assertThat(response.startDateTimeUtc).isEqualTo(entity.startDateTimeUtc)
         assertThat(response.isSignedByInspector).isEqualTo(entity.isSignedByInspector)
+        assertThat(response.isForeignEstablishment).isEqualTo(entity.isForeignEstablishment)
     }
 
     @Test
@@ -65,7 +67,8 @@ class InquiryTest {
             startDateTimeUtc = Instant.parse("2015-06-30T00:00:00.00Z"),
             actions = listOf(action),
             isSignedByInspector = false,
-            siren = "myBeautifulSiren"
+            siren = "myBeautifulSiren",
+            isForeignEstablishment = true
         )
 
         val response = inquiry.toInquiryEntity()
@@ -83,5 +86,6 @@ class InquiryTest {
         assertThat(response.conclusion).isEqualTo(inquiry.conclusion)
         assertThat(response.startDateTimeUtc).isEqualTo(inquiry.startDateTimeUtc)
         assertThat(response.isSignedByInspector).isEqualTo(inquiry.isSignedByInspector)
+        assertThat(response.isForeignEstablishment).isEqualTo(inquiry.isForeignEstablishment)
     }
 }
