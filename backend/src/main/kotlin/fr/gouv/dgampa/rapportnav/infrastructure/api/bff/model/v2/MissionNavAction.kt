@@ -11,6 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEnti
 class MissionNavAction(
     override val id: String? = null,
     override val missionId: Int,
+    override val ownerId: String? = null,
     override val actionType: ActionType,
     override val source: MissionSourceEnum,
     override val summaryTags: List<String>? = null,
@@ -20,32 +21,31 @@ class MissionNavAction(
     override val completenessForStats: CompletenessForStatsEntity? = null,
     override val sourcesOfMissingDataForStats: List<MissionSourceEnum>? = null,
     override val data: MissionNavActionData,
-    override val ownerId: String? = null
 ) : MissionAction(
     id = id.toString(),
     missionId = missionId,
+    ownerId = ownerId,
     status = status,
     actionType = actionType,
     summaryTags = summaryTags,
     source = source,
     controlsToComplete = controlsToComplete,
     data = data,
-    ownerId = ownerId
 ) {
     companion object {
         fun fromMissionActionEntity(action: MissionActionEntity): MissionNavAction {
             val navAction = action as MissionNavActionEntity
             return MissionNavAction(
                 id = navAction.id.toString(),
+                missionId = navAction.missionId,
+                ownerId = navAction.ownerId?.toString(),
                 status = navAction.status,
                 source = navAction.source,
-                missionId = navAction.missionId,
                 actionType = navAction.actionType,
                 summaryTags = navAction.summaryTags,
                 completenessForStats = navAction.completenessForStats,
                 isCompleteForStats = navAction.isCompleteForStats,
                 controlsToComplete = navAction.controlsToComplete,
-                ownerId = navAction.ownerId?.let { it.toString() },
                 data = MissionNavActionData(
                     startDateTimeUtc = navAction.startDateTimeUtc,
                     endDateTimeUtc = navAction.endDateTimeUtc,
@@ -77,7 +77,7 @@ class MissionNavAction(
                     isMigrationRescue = navAction.isMigrationRescue,
                     nbOfVesselsTrackedWithoutIntervention = navAction.nbOfVesselsTrackedWithoutIntervention,
                     nbAssistedVesselsReturningToShore = navAction.nbAssistedVesselsReturningToShore,
-                    status = navAction.status,
+                    status = if (navAction.actionType == ActionType.STATUS) navAction.status else null, // status only set for ActionType Status
                     reason = navAction.reason,
                     nbrOfHours = navAction.nbrOfHours,
                     trainingType = navAction.trainingType,
