@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.controlPolicies
+package fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.analytics.ControlPolicyData

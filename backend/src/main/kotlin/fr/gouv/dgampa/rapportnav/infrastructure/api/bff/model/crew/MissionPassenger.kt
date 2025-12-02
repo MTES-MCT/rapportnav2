@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerOrganization
 import java.time.Instant
 import java.util.UUID
 
@@ -9,7 +10,7 @@ data class MissionPassenger(
     val missionId: Int? = null,
     val missionIdUUID: UUID? = null,
     val fullName: String,
-    val organization: String? = null,
+    val organization: MissionPassengerOrganization? = null,
     val isIntern: Boolean? = null,
     val startDateTimeUtc: Instant,
     val endDateTimeUtc: Instant,
