@@ -40,7 +40,7 @@ describe('MissionGeneralInformationPassengerPamForm', () => {
     // Check form elements
     expect(screen.getByText('Prénom, Nom')).toBeInTheDocument()
     expect(screen.getByText('Organisation')).toBeInTheDocument()
-    expect(screen.getByText('Dates de début et de fin')).toBeInTheDocument()
+    expect(screen.getByText('Dates de début et de fin', { exact: false })).toBeInTheDocument()
 
     // Check buttons
     expect(screen.getByTestId('submit-passenger-form-button')).toHaveTextContent('Ajouter passager')
@@ -112,5 +112,35 @@ describe('MissionGeneralInformationPassengerPamForm', () => {
 
     // Check that handleClose was called
     expect(mockHandleClose).toHaveBeenCalledWith(false)
+  })
+
+  it('shows validation error messages when required fields are empty', async () => {
+    renderComponent({ passenger: undefined })
+
+    const submitButton = screen.getByTestId('submit-passenger-form-button')
+    fireEvent.click(submitButton) // trigger submit
+
+    expect(await screen.findByText('Nom requis.')).toBeInTheDocument()
+    expect(await screen.findByText('Organisation requise.')).toBeInTheDocument()
+    expect(await screen.queryAllByText('Date requise')).toHaveLength(2)
+  })
+
+  it('shows validation error messages when end date before start date', async () => {
+    renderComponent({
+      passenger: {
+        ...samplePassenger,
+        ...{
+          startDateTimeUtc: '2023-12-03T10:00:00Z',
+          endDateTimeUtc: '2023-12-02T10:00:00Z'
+        }
+      }
+    })
+
+    const submitButton = screen.getByTestId('submit-passenger-form-button')
+    fireEvent.click(submitButton) // trigger submit
+
+    expect(
+      await screen.findByText('La date de fin doit être antérieure ou égale à la date de début')
+    ).toBeInTheDocument()
   })
 })

@@ -1,12 +1,12 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.controlPolicies
+package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies
 
 import fr.gouv.dgampa.rapportnav.domain.entities.analytics.ControlPolicyData
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.controlPolicies.ComputeControlPolicies
-import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.controlPolicies.ComputeEnvControlPolicy
-import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.controlPolicies.ComputeNavControlPolicy
-import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.controlPolicies.ComputeProFishingControlPolicy
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeControlPolicies
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeEnvControlPolicy
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeNavControlPolicy
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeProFishingControlPolicy
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.assertNull

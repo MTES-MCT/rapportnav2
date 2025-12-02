@@ -19,7 +19,6 @@ import { FC } from 'react'
 import { FlexboxGrid, Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
 import * as Yup from 'yup'
-import { simpleDateRangeValidationSchema } from '../../../../mission-action/validation-schema/date-validation.ts'
 import { MissionPassenger, PASSENGER_OPTIONS } from '../../../../common/types/passenger-type.ts'
 
 const CrewFormDialogBody = styled((props: DialogProps) => <Dialog.Body {...props} />)(({ theme }) => ({
@@ -55,13 +54,22 @@ const CloseIconButton = styled((props: Omit<IconButtonProps, 'Icon'>) => (
   color: theme.color.gainsboro
 }))
 
-const passengerSchema = Yup.object()
-  .shape({
-    fullName: Yup.string().required('Nom requis.'),
-    organization: Yup.string().required('Organisation requise.'),
-    isIntern: Yup.boolean()
-  })
-  .concat(simpleDateRangeValidationSchema)
+const passengerSchema = Yup.object().shape({
+  fullName: Yup.string().required('Nom requis.'),
+  organization: Yup.string().required('Organisation requise.'),
+  isIntern: Yup.boolean(),
+  startDateTimeUtc: Yup.date().required('Date requise').typeError('La date de début est mal formatée'),
+  endDateTimeUtc: Yup.date()
+    .test('is-defined', `Date requise`, function (value) {
+      return !!value
+    })
+    .typeError('La date de fin est mal formatée')
+    .test('is-after-start', `La date de fin doit être antérieure ou égale à la date de début`, function (value) {
+      const { startDateTimeUtc } = this.parent
+      if (!startDateTimeUtc) return true
+      return value && startDateTimeUtc && new Date(value) >= new Date(startDateTimeUtc)
+    })
+})
 
 interface MissionPassengerModalProps {
   passenger?: MissionPassenger
@@ -104,7 +112,7 @@ const MissionGeneralInformationPassengerPamForm: FC<MissionPassengerModalProps> 
                       name="fullName"
                       label="Prénom, Nom"
                       aria-label="Identité"
-                      placeholder={'Bob Morane'}
+                      placeholder={'Prénom Nom'}
                       isLight={true}
                       isRequired={true}
                       data-testid={'fullName'}
@@ -132,7 +140,7 @@ const MissionGeneralInformationPassengerPamForm: FC<MissionPassengerModalProps> 
                 </CrewFormStack>
               </Stack.Item>
               <Stack.Item style={{ flex: 1, width: '100%' }}>
-                <Label style={{ textAlign: 'left' }}>Dates de début et de fin</Label>
+                <Label style={{ textAlign: 'left' }}>Dates de début et de fin *</Label>
                 <CrewFormStack direction="row">
                   <Stack.Item style={{}}>
                     <FormikDatePicker name="startDateTimeUtc" isRequired={true} isLight={true} />

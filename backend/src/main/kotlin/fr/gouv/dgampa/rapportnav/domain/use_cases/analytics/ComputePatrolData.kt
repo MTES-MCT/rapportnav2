@@ -2,11 +2,15 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.analytics
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.analytics.PatrolDataEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.NavActionInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.controlPolicies.ComputeControlPolicies
-import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.operationalSummary.ComputeAllOperationalSummary
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.ComputeInternTrainingSummary
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeControlPolicies
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary.ComputeAllOperationalSummary
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.GetInfoAboutNavAction2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.MapStatusDurations2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionActionControls
@@ -18,6 +22,8 @@ class ComputePatrolData(
     private val computeAllOperationalSummary: ComputeAllOperationalSummary,
     private val getMissionActionControls: GetMissionActionControls,
     private val computeControlPolicies: ComputeControlPolicies,
+    private val getInfoAboutNavAction2: GetInfoAboutNavAction2,
+    private val computeInternTrainingSummary: ComputeInternTrainingSummary,
 ) {
     fun execute(missionId: Int): PatrolDataEntity? {
         val mission: MissionEntity2? = getComputeEnvMission.execute(missionId = missionId)
@@ -35,6 +41,12 @@ class ComputePatrolData(
         //  section "Politiques publiques de contrôles"
         val controlPolicies = computeControlPolicies.execute(mission = mission)
 
+        // section "Autres missions"
+        val otherActionsSummary = computeOtherActionsSummary(mission = mission)
+
+        // section "Soutien à la politique de formation"
+        val internTrainingSummary = computeInternTrainingSummary.execute(passengers = mission.generalInfos?.passengers)
+
         return PatrolDataEntity(
             id = missionId,
             idUUID = mission.generalInfos?.data?.missionIdUUID,
@@ -46,9 +58,12 @@ class ComputePatrolData(
             facade = mission.data?.facade,
             isDeleted = mission.data?.isDeleted,
             missionSource = mission.data?.missionSource,
+            generalInfos = mission.generalInfos,
             activity = activity,
             operationalSummary = operationalSummary,
-            controlPolicies = controlPolicies
+            controlPolicies = controlPolicies,
+            otherActionsSummary = otherActionsSummary,
+            internTrainingSummary = internTrainingSummary
         )
     }
 
@@ -68,6 +83,49 @@ class ComputePatrolData(
             controls = controls
         )
         return activity
+    }
+
+    fun computeOtherActionsSummary(mission: MissionEntity2?): Map<String, NavActionInfoEntity?> {
+
+        val rescueInfo = getInfoAboutNavAction2.execute(
+            actions = mission?.actions,
+            actionTypes = listOf(ActionType.RESCUE),
+            actionSource = MissionSourceEnum.RAPPORTNAV,
+        )
+        val nauticalEventsInfo = getInfoAboutNavAction2.execute(
+            actions = mission?.actions,
+            actionTypes = listOf(ActionType.NAUTICAL_EVENT),
+            actionSource = MissionSourceEnum.RAPPORTNAV
+        )
+        val antiPollutionInfo = getInfoAboutNavAction2.execute(
+            actions = mission?.actions,
+            actionTypes = listOf(ActionType.ANTI_POLLUTION),
+            actionSource = MissionSourceEnum.RAPPORTNAV
+        )
+        val baaemAndVigimerInfo = getInfoAboutNavAction2.execute(
+            actions = mission?.actions,
+            actionTypes = listOf(ActionType.VIGIMER, ActionType.BAAEM_PERMANENCE),
+            actionSource = MissionSourceEnum.RAPPORTNAV
+        )
+        val illegalImmigrationInfo = getInfoAboutNavAction2.execute(
+            actions = mission?.actions,
+            actionTypes = listOf(ActionType.ILLEGAL_IMMIGRATION),
+            actionSource = MissionSourceEnum.RAPPORTNAV
+        )
+        val envSurveillanceInfo = getInfoAboutNavAction2.execute(
+            actions = mission?.actions,
+            actionTypes = listOf(ActionType.SURVEILLANCE),
+            actionSource = MissionSourceEnum.MONITORENV
+        )
+
+        return mapOf(
+            "rescue" to rescueInfo,
+            "nauticalEvents" to nauticalEventsInfo,
+            "antiPollution" to antiPollutionInfo,
+            "baaemAndVigimer" to baaemAndVigimerInfo,
+            "illegalImmigration" to illegalImmigrationInfo,
+            "envSurveillance" to envSurveillanceInfo,
+        )
     }
 
 

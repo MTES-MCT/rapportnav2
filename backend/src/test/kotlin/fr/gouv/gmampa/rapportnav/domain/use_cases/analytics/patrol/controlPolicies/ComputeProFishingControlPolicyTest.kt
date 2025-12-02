@@ -1,4 +1,4 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.controlPolicies
+package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.GearInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
@@ -7,7 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Missio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.OtherInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.controlPolicies.ComputeProFishingControlPolicy
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeProFishingControlPolicy
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionFishActionEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
