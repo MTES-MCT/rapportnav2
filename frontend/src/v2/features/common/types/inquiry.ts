@@ -40,4 +40,5 @@ export interface Inquiry {
   missionIdUUID?: string
   actions?: MissionAction[]
   vessel?: Vessel
+  isForeignEstablishment?: boolean
 }
