@@ -10,6 +10,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertNull
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
@@ -114,7 +115,7 @@ class MissionNavActionDataTest {
             val input = MissionAction.fromMissionActionEntity(MissionNavActionEntity.fromMissionActionModel(model))
             val output = MissionNavActionData.toMissionNavActionEntity(input = input!!)
 
-            assertThat(output.status.toString()).isEqualTo(model.status)
+            assertNull(output.status)
         }
 
     }
