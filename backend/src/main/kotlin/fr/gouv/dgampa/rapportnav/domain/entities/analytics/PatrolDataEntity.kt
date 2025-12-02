@@ -3,6 +3,10 @@ package fr.gouv.dgampa.rapportnav.domain.entities.analytics
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.NavActionInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import java.time.Instant
 import java.util.UUID
 
@@ -17,9 +21,12 @@ data class PatrolDataEntity(
     var endDateTimeUtc: Instant? = null,
     var isDeleted: Boolean? = null,
     val missionSource: MissionSourceEnum? = null,
+    val generalInfos: MissionGeneralInfoEntity2? = null,
     val activity: Map<String, Map<String, Double>>? = null, // activité du navire
     val operationalSummary: OperationalSummaryEntity? = null, // bilan opérationnel
     val controlPolicies: ControlPoliciesEntity? = null, // contrôles par politique publique
+    val otherActionsSummary: Map<String, NavActionInfoEntity?>? = null, // Autres missions
+    val internTrainingSummary: Map<String, Int>? = null, // Soutien à la politique de formation
 )
 
 data class OperationalSummaryEntity(
@@ -58,3 +65,4 @@ data class ThemeStats(
     val nbActions: Int,
     val durationInHours: Double
 )
+

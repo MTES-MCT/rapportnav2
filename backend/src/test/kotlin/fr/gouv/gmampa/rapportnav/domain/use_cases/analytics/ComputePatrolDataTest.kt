@@ -10,8 +10,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputePatrolData
-import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.controlPolicies.ComputeControlPolicies
-import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.operationalSummary.ComputeAllOperationalSummary
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.ComputeInternTrainingSummary
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeControlPolicies
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary.ComputeAllOperationalSummary
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.GetInfoAboutNavAction2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.MapStatusDurations2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionActionControls
@@ -34,6 +36,8 @@ import java.time.Instant
     ComputeAllOperationalSummary::class,
     ComputeControlPolicies::class,
     GetMissionActionControls::class,
+    ComputeInternTrainingSummary::class,
+    GetInfoAboutNavAction2::class,
 ])
 class ComputePatrolDataTest {
 
@@ -46,6 +50,10 @@ class ComputePatrolDataTest {
     private lateinit var computeAllOperationalSummary: ComputeAllOperationalSummary
     @MockitoBean
     private lateinit var computeControlPolicies: ComputeControlPolicies
+    @MockitoBean
+    private lateinit var computeInternTrainingSummary: ComputeInternTrainingSummary
+    @MockitoBean
+    private lateinit var getInfoAboutNavAction2: GetInfoAboutNavAction2
     @MockitoBean
     private lateinit var mapStatusDurations2: MapStatusDurations2
 

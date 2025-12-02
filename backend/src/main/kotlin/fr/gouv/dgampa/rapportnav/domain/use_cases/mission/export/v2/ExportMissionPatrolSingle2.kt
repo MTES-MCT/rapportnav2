@@ -1,17 +1,12 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.toMapForExport
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.operationalSummary.ComputeAllOperationalSummary
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputePatrolData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
@@ -29,18 +24,14 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.io.path.Path
-import kotlin.time.DurationUnit
 
 @UseCase
 class ExportMissionPatrolSingle2(
-    private val agentsCrewByMissionId: GetAgentsCrewByMissionId,
-    private val mapStatusDurations2: MapStatusDurations2,
     private val formatActionsForTimeline2: FormatActionsForTimeline2,
-    private val getInfoAboutNavAction2: GetInfoAboutNavAction2,
     private val formatDateTime: FormatDateTime,
     private val getServiceById: GetServiceById,
     private val getComputeEnvMission: GetComputeEnvMission,
-    private val computeAllOperationalSummary: ComputeAllOperationalSummary,
+    private val computePatrolData: ComputePatrolData,
 
     @param:Value("\${rapportnav.rapport-patrouille.template.path}") private val docTemplatePath: String,
     @param:Value("\${rapportnav.rapport-patrouille.tmp_docx.path}") private val docTmpDOCXPath: String,
@@ -68,59 +59,29 @@ class ExportMissionPatrolSingle2(
         if (mission == null) return null
         try {
 
+            val patrolData = computePatrolData.execute(missionId = mission.id!!)
             val allActions = mission.actions
 
-            val generalInfo: MissionGeneralInfoEntity2? = mission.generalInfos
+            val generalInfo: MissionGeneralInfoEntity2? = patrolData?.generalInfos
             val service = getServiceById.execute(generalInfo?.services?.first()?.id)
-            val agentsCrew: List<MissionCrewEntity> =
-                agentsCrewByMissionId.execute(missionId = mission.id!!, commentDefaultsToString = true)
+            val missionCrew: List<MissionCrewEntity>? = patrolData?.generalInfos?.crew
 
-            val statuses = allActions?.filterIsInstance<MissionNavActionEntity>()?.filter {it.actionType === ActionType.STATUS }?.sortedBy { it.startDateTimeUtc }
+            val activity = patrolData?.activity
 
-            val activity = mapStatusDurations2.execute(
-                startDateTimeUtc = mission.data?.startDateTimeUtc,
-                endDateTimeUtc = mission.data?.endDateTimeUtc,
-                statuses = statuses!!,
-            )
-
-            val missionDuration = ComputeDurationUtils.durationInHours(mission.data?.startDateTimeUtc, mission.data?.endDateTimeUtc)
+            val missionDuration = ComputeDurationUtils.durationInHours(patrolData?.startDateTimeUtc, patrolData?.endDateTimeUtc)
 
             val timeline = formatActionsForTimeline2.formatTimeline(allActions)
 
-            val rescueInfo = getInfoAboutNavAction2.execute(
-                actions = allActions,
-                actionTypes = listOf(ActionType.RESCUE),
-                actionSource = MissionSourceEnum.RAPPORTNAV,
-            )?.toMapForExport()
-            val nauticalEventsInfo = getInfoAboutNavAction2.execute(
-                actions = allActions,
-                actionTypes = listOf(ActionType.NAUTICAL_EVENT),
-                actionSource = MissionSourceEnum.RAPPORTNAV
-            )?.toMapForExport()
-            val antiPollutionInfo = getInfoAboutNavAction2.execute(
-                actions = allActions,
-                actionTypes = listOf(ActionType.ANTI_POLLUTION),
-                actionSource = MissionSourceEnum.RAPPORTNAV
-            )?.toMapForExport()
-            val baaemAndVigimerInfo = getInfoAboutNavAction2.execute(
-                actions = allActions,
-                actionTypes = listOf(ActionType.VIGIMER, ActionType.BAAEM_PERMANENCE),
-                actionSource = MissionSourceEnum.RAPPORTNAV
-            )?.toMapForExport()
-            val illegalImmigrationInfo = getInfoAboutNavAction2.execute(
-                actions = allActions,
-                actionTypes = listOf(ActionType.ILLEGAL_IMMIGRATION),
-                actionSource = MissionSourceEnum.RAPPORTNAV
-            )?.toMapForExport()
-            val envSurveillanceInfo = getInfoAboutNavAction2.execute(
-                actions = allActions,
-                actionTypes = listOf(ActionType.SURVEILLANCE),
-                actionSource = MissionSourceEnum.MONITORENV
-            )?.toMapForExport()
+            val rescueInfo = patrolData?.otherActionsSummary?.get("rescue")?.toMapForExport()
+            val nauticalEventsInfo = patrolData?.otherActionsSummary?.get("nauticalEvents")?.toMapForExport()
+            val antiPollutionInfo = patrolData?.otherActionsSummary?.get("antiPollution")?.toMapForExport()
+            val baaemAndVigimerInfo = patrolData?.otherActionsSummary?.get("baaemAndVigimer")?.toMapForExport()
+            val illegalImmigrationInfo = patrolData?.otherActionsSummary?.get("illegalImmigration")?.toMapForExport()
+            val envSurveillanceInfo = patrolData?.otherActionsSummary?.get("envSurveillance")?.toMapForExport()
 
             val crew: List<List<String?>> = listOf(
                 listOf("Fonction", "Nom", "Observation (formation, repos, mission, stage...)")
-            ) + agentsCrew.map {
+            ) + missionCrew.orEmpty().map {
                 listOf(
                     it.role?.title,
                     "${it.agent.firstName} ${it.agent.lastName}",
@@ -128,16 +89,17 @@ class ExportMissionPatrolSingle2(
                 )
             }
 
+
             // Bilan opérationnel
-            val operationalSummary = computeAllOperationalSummary.execute(mission = mission)
-            val proFishingSeaSummary = operationalSummary.proFishingSeaSummary
-            val proFishingLandSummary = operationalSummary.proFishingLandSummary
-            val proSailingSeaSummary = operationalSummary.proSailingSeaSummary
-            val proSailingLandSummary = operationalSummary.proSailingLandSummary
-            val leisureSailingSeaSummary = operationalSummary.leisureSailingSeaSummary
-            val leisureSailingLandSummary = operationalSummary.leisureSailingLandSummary
-            val leisureFishingSummary = operationalSummary.leisureFishingSummary
-            val envSummary = operationalSummary.envSummary
+            val operationalSummary = patrolData?.operationalSummary
+            val proFishingSeaSummary = operationalSummary?.proFishingSeaSummary
+            val proFishingLandSummary = operationalSummary?.proFishingLandSummary
+            val proSailingSeaSummary = operationalSummary?.proSailingSeaSummary
+            val proSailingLandSummary = operationalSummary?.proSailingLandSummary
+            val leisureSailingSeaSummary = operationalSummary?.leisureSailingSeaSummary
+            val leisureSailingLandSummary = operationalSummary?.leisureSailingLandSummary
+            val leisureFishingSummary = operationalSummary?.leisureFishingSummary
+            val envSummary = operationalSummary?.envSummary
 
             val placeholders: Map<String, String?> = mapOf(
                 "\${service}" to (service?.name ?: ""),
@@ -147,25 +109,25 @@ class ExportMissionPatrolSingle2(
                 "\${destinataireCopies}" to "",
 
                 "\${dureeMission}" to missionDuration.toString(),
-                "\${nbJoursMer}" to (activity["atSea"]?.get("nbOfDaysAtSea")?.toString() ?: ""),
+                "\${nbJoursMer}" to (activity?.get("atSea")?.get("nbOfDaysAtSea")?.toString() ?: ""),
 
-                "\${totalPresenceMer}" to (activity["atSea"]?.get("totalDurationInHours")?.toString() ?: ""),
-                "\${navEff}" to (activity["atSea"]?.get("navigationDurationInHours")?.toString()
+                "\${totalPresenceMer}" to (activity?.get("atSea")?.get("totalDurationInHours")?.toString() ?: ""),
+                "\${navEff}" to (activity?.get("atSea")?.get("navigationDurationInHours")?.toString()
                     ?: ""),
-                "\${mouillage}" to (activity["atSea"]?.get("anchoredDurationInHours")?.toString() ?: ""),
+                "\${mouillage}" to (activity?.get("atSea")?.get("anchoredDurationInHours")?.toString() ?: ""),
 
-                "\${totalPresenceQuai}" to (activity["docked"]?.get("totalDurationInHours")?.toString() ?: ""),
-                "\${maintenance}" to (activity["docked"]?.get("maintenanceDurationInHours")?.toString() ?: ""),
-                "\${meteo}" to (activity["docked"]?.get("meteoDurationInHours")?.toString() ?: ""),
-                "\${representation}" to (activity["docked"]?.get("representationDurationInHours")?.toString() ?: ""),
-                "\${admin}" to (activity["docked"]?.get("adminFormationDurationInHours")?.toString() ?: ""),
-                "\${autre}" to (activity["docked"]?.get("otherDurationInHours")?.toString() ?: ""),
-                "\${contrPort}" to (activity["docked"]?.get("contrPolDurationInHours")?.toString() ?: ""),
-                "\${mco}" to (activity["docked"]?.get("mcoDurationInHours")?.toString() ?: ""),
+                "\${totalPresenceQuai}" to (activity?.get("docked")?.get("totalDurationInHours")?.toString() ?: ""),
+                "\${maintenance}" to (activity?.get("docked")?.get("maintenanceDurationInHours")?.toString() ?: ""),
+                "\${meteo}" to (activity?.get("docked")?.get("meteoDurationInHours")?.toString() ?: ""),
+                "\${representation}" to (activity?.get("docked")?.get("representationDurationInHours")?.toString() ?: ""),
+                "\${admin}" to (activity?.get("docked")?.get("adminFormationDurationInHours")?.toString() ?: ""),
+                "\${autre}" to (activity?.get("docked")?.get("otherDurationInHours")?.toString() ?: ""),
+                "\${contrPort}" to (activity?.get("docked")?.get("contrPolDurationInHours")?.toString() ?: ""),
+                "\${mco}" to (activity?.get("docked")?.get("mcoDurationInHours")?.toString() ?: ""),
 
-                "\${totalIndisponibilite}" to (activity["unavailable"]?.get("totalDurationInHours")?.toString() ?: ""),
-                "\${technique}" to (activity["unavailable"]?.get("technicalDurationInHours")?.toString() ?: ""),
-                "\${personnel}" to (activity["unavailable"]?.get("personnelDurationInHours")?.toString() ?: ""),
+                "\${totalIndisponibilite}" to (activity?.get("unavailable")?.get("totalDurationInHours")?.toString() ?: ""),
+                "\${technique}" to (activity?.get("unavailable")?.get("technicalDurationInHours")?.toString() ?: ""),
+                "\${personnel}" to (activity?.get("unavailable")?.get("personnelDurationInHours")?.toString() ?: ""),
 
                 "\${patrouilleSurveillanceEnvInHours}" to (envSurveillanceInfo?.get("durationInHours")?.toFloatOrNull()
                     ?.toString() ?: ""),
@@ -189,10 +151,18 @@ class ExportMissionPatrolSingle2(
                 "\${fuelCosts}" to (generalInfo?.data?.fuelCostsInEuro?.toString() ?: ""),
 
                 "\${observations}" to (mission.data?.observationsByUnit ?: ""),
+
+                "\${nbInterns}" to (patrolData?.internTrainingSummary?.get("nbInterns").toString()),
+                "\${nbAffMarInterns}" to (patrolData?.internTrainingSummary?.get("nbAffMarInterns").toString()),
+                "\${nbPostgraduateInterns}" to (patrolData?.internTrainingSummary?.get("nbPostgraduateInterns").toString()),
+                "\${nbHighSchoolInterns}" to (patrolData?.internTrainingSummary?.get("nbHighSchoolInterns").toString()),
+                "\${nbOtherInterns}" to (patrolData?.internTrainingSummary?.get("nbOtherInterns").toString()),
+                "\${totalInternDurationInDays}" to ((patrolData?.internTrainingSummary?.get("totalInternDurationInHours")
+                    ?.div(24))?.or(0).toString()),
             )
 
-            fun castLinkedHashMapToList(map: LinkedHashMap<String, Map<String, Int?>>): List<List<String?>> {
-                return map.map { (key, value) ->
+            fun castLinkedHashMapToList(map: LinkedHashMap<String, Map<String, Int?>>?): List<List<String?>> {
+                return map.orEmpty().map { (key, value) ->
                     // Create a list starting with the key, followed by the values from the inner map
                     listOf(key) + value.values.map { it?.toString() ?: "" }
                 }
@@ -210,6 +180,17 @@ class ExportMissionPatrolSingle2(
 
                 if (paragraph.text.contains("\${table_equipage}")) {
                     insertStyledTableAtParagraph(paragraph, crew)
+                    break
+                }
+            }
+
+            paragraphs = document.paragraphs.toList()
+             for (paragraph in paragraphs) {
+                replacePlaceholdersInParagraph(paragraph, placeholders)
+
+                if (paragraph.text.contains("\${internPassengersTable")) {
+                    insertStyledTableAtParagraph(paragraph, crew)
+                    break
                 }
             }
 
@@ -231,6 +212,7 @@ class ExportMissionPatrolSingle2(
                     val dataRows: List<List<String?>> = castLinkedHashMapToList(proFishingSeaSummary)
                     val table: List<List<String?>> = listOf(header) + dataRows
                     insertOperationalSummaryTableAtParagraph(paragraph, table)
+                    break
                 }
             }
 
@@ -250,6 +232,7 @@ class ExportMissionPatrolSingle2(
                     val dataRows: List<List<String?>> = castLinkedHashMapToList(proFishingLandSummary)
                     val table: List<List<String?>> = listOf(header) + dataRows
                     insertOperationalSummaryTableAtParagraph(paragraph, table)
+                    break
                 }
             }
 
@@ -262,11 +245,12 @@ class ExportMissionPatrolSingle2(
                         "Nbre PV titre navig. rôle/déc. eff",
                         "Nbre PV police navig.",
                     )
-                    val secondRow: List<String?> = proSailingSeaSummary.values.map { value ->
+                    val secondRow: List<String?> = proSailingSeaSummary?.values.orEmpty().map { value ->
                         if (value > 0) value.toString() else ""
                     }
                     val table: List<List<String?>> = listOf(header, secondRow)
                     insertOperationalSummaryTableAtParagraph(paragraph, table)
+                    break
                 }
             }
 
@@ -278,11 +262,12 @@ class ExportMissionPatrolSingle2(
                         "Nbre PV titre navig. rôle/déc. eff",
                         "Nbre PV équipmt sécu. permis nav.",
                     )
-                    val secondRow: List<String?> = proSailingLandSummary.values.map { value ->
+                    val secondRow: List<String?> = proSailingLandSummary?.values.orEmpty().map { value ->
                         if (value > 0) value.toString() else ""
                     }
                     val table: List<List<String?>> = listOf(header, secondRow)
                     insertOperationalSummaryTableAtParagraph(paragraph, table)
+                    break
                 }
             }
             paragraphs = document.paragraphs.toList()
@@ -295,11 +280,12 @@ class ExportMissionPatrolSingle2(
                         "Nbre PV police navig.",
                     )
 
-                    val secondRow: List<String?> = leisureSailingSeaSummary.values.map { value ->
+                    val secondRow: List<String?> = leisureSailingSeaSummary?.values.orEmpty().map { value ->
                         if (value > 0) value.toString() else ""
                     }
                     val table: List<List<String?>> = listOf(header, secondRow)
                     insertOperationalSummaryTableAtParagraph(paragraph, table)
+                    break
                 }
             }
 
@@ -311,11 +297,12 @@ class ExportMissionPatrolSingle2(
                         "Nbre PV équipmt sécu.",
                         "Nbre PV titre conduite",
                     )
-                    val secondRow: List<String?> = leisureSailingLandSummary.values.map { value ->
+                    val secondRow: List<String?> = leisureSailingLandSummary?.values.orEmpty().map { value ->
                         if (value > 0) value.toString() else ""
                     }
                     val table: List<List<String?>> = listOf(header, secondRow)
                     insertOperationalSummaryTableAtParagraph(paragraph, table)
+                    break
                 }
             }
 
@@ -333,7 +320,7 @@ class ExportMissionPatrolSingle2(
                     val selectedKeys = listOf("nbSurveillances", "nbControls", "nbInfractionsWithRecord")
 
                     val secondRow = selectedKeys.map { key ->
-                        val value = envSummary[key]
+                        val value = envSummary?.get(key)
                         when (value) {
                             is Number -> if (value.toInt() > 0) value.toString() else ""
                             else -> ""
@@ -342,6 +329,7 @@ class ExportMissionPatrolSingle2(
 
                     val table = listOf(header, secondRow)
                     insertOperationalSummaryTableAtParagraph(paragraph, table)
+                    break
                 }
             }
 
@@ -354,11 +342,12 @@ class ExportMissionPatrolSingle2(
                         "Nbre Navires contrôlés",
                         "Nbre de PV pêche de loisir",
                     )
-                    val secondRow: List<String?> = leisureFishingSummary.values.map { value ->
+                    val secondRow: List<String?> = leisureFishingSummary?.values.orEmpty().map { value ->
                         if (value > 0) value.toString() else ""
                     }
                     val table: List<List<String?>> = listOf(header, secondRow)
                     insertOperationalSummaryTableAtParagraph(paragraph, table)
+                    break
                 }
             }
 
