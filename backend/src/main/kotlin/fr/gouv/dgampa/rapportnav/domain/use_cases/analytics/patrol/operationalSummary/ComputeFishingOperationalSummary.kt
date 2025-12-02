@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.operationalSummary
+package fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.config.UseCase

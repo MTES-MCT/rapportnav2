@@ -111,10 +111,10 @@
     "completedBy": "RNT",
     "completion": "COMPLETED",
     "isFromPoseidon": false,
-    "isAdministrativeControl": true,
-    "isComplianceWithWaterRegulationsControl": true,
-    "isSafetyEquipmentAndStandardsComplianceControl": true,
-    "isSeafarersControl": true,
+    "isAdministrativeControl": false,
+    "isComplianceWithWaterRegulationsControl": false,
+    "isSafetyEquipmentAndStandardsComplianceControl": false,
+    "isSeafarersControl": false,
     "observationsByUnit": "this is an observation"
   }
 ]

@@ -1,4 +1,4 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.controlPolicies
+package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
@@ -12,7 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.controlPolicies.ComputeNavControlPolicy
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeNavControlPolicy
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
