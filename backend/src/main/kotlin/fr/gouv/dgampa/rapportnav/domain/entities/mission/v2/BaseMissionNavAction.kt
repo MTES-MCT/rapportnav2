@@ -58,7 +58,7 @@ interface BaseMissionNavAction {
     var incidentDuringOperation: Boolean?
     var resourceType: String?
     var resourceId: Int?
-    var siren: String?
+    var establishment: EstablishmentEntity?
     var nbrOfControl: Int?
     var controlType: String?
     val sectorType: SectorType?

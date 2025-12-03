@@ -12,6 +12,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatus
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.DOCKED_STATUS_AS_STRING
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.UNAVAILABLE_STATUS_AS_STRING
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.EstablishmentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import java.time.Instant
 import java.util.*
@@ -195,7 +196,7 @@ class MissionNavActionEntity(
             DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"])
         ]
     )
-    override var siren: String? = null,
+    override var establishment: EstablishmentEntity? = null,
     @MandatoryForStats(
         enableIf = [
             DependentFieldValue(field = "actionType", value = ["CONTROL_SECTOR"])
@@ -323,7 +324,6 @@ class MissionNavActionEntity(
         incidentDuringOperation = incidentDuringOperation,
         resourceType = resourceType,
         resourceId = resourceId,
-        siren = siren,
         nbrOfControl = nbrOfControl,
         sectorType = sectorType?.toString(),
         nbrOfControlAmp = nbrOfControlAmp,
@@ -335,7 +335,8 @@ class MissionNavActionEntity(
         fishingGearType = fishingGearType?.toString(),
         controlType = controlType,
         nbrSecurityVisit = nbrSecurityVisit,
-        securityVisitType = securityVisitType?.toString()
+        securityVisitType = securityVisitType?.toString(),
+        establishment = establishment?.toEstablishmentModel()
     )
 
 
@@ -390,7 +391,6 @@ class MissionNavActionEntity(
                 incidentDuringOperation = model.incidentDuringOperation,
                 resourceType = model.resourceType,
                 resourceId = model.resourceId,
-                siren = model.siren,
                 nbrOfControl = model.nbrOfControl,
                 sectorType = model.sectorType?.let { SectorType.valueOf(it) },
                 nbrOfControlAmp = model.nbrOfControlAmp,
@@ -403,6 +403,7 @@ class MissionNavActionEntity(
                 controlType = model.controlType,
                 nbrSecurityVisit = model.nbrSecurityVisit,
                 securityVisitType = model.securityVisitType?.let { SecurityVisitType.valueOf(it) },
+                establishment = model.establishment?.let { EstablishmentEntity.fromEstablishmentModel(it) }
             )
         }
     }

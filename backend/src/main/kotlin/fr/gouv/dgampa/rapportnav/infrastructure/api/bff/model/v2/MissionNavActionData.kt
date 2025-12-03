@@ -52,7 +52,6 @@ class MissionNavActionData(
     override val incidentDuringOperation: Boolean? = null,
     override val resourceType: String? = null,
     override val resourceId: Int? = null,
-    override var siren: String? = null,
     override var nbrOfControl: Int? = null,
     override var controlType: String? = null,
     override val sectorType: SectorType? = null,
@@ -64,7 +63,8 @@ class MissionNavActionData(
     override var isSeizureSleepingFishingGear: Boolean? = null,
     override var sectorEstablishmentType: SectorEstablishmentType? = null,
     override var nbrSecurityVisit:Int? = null,
-    override var securityVisitType: SecurityVisitType? = null
+    override var securityVisitType: SecurityVisitType? = null,
+    override var establishment: Establishment? = null
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,
@@ -120,7 +120,6 @@ class MissionNavActionData(
                 incidentDuringOperation = data.incidentDuringOperation,
                 resourceType = data.resourceType,
                 resourceId = data.resourceId,
-                siren = data.siren,
                 nbrOfControl = data.nbrOfControl,
                 sectorType = data.sectorType,
                 nbrOfControlAmp = data.nbrOfControlAmp,
@@ -132,7 +131,8 @@ class MissionNavActionData(
                 fishingGearType = data.fishingGearType,
                 controlType = data.controlType,
                 securityVisitType = data.securityVisitType,
-                nbrSecurityVisit = data.nbrSecurityVisit
+                nbrSecurityVisit = data.nbrSecurityVisit,
+                establishment = data.establishment?.toEstablishmentEntity()
             )
             return action
         }

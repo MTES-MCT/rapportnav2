@@ -19,7 +19,6 @@ class InquiryEntityTest {
         assertThat(response).isNotNull()
         assertThat(response.id).isEqualTo(inquiryEntity.id)
         assertThat(response.type).isEqualTo(inquiryEntity.type)
-        assertThat(response.siren).isEqualTo(inquiryEntity.siren)
         assertThat(response.origin).isEqualTo(inquiryEntity.origin?.toString())
         assertThat(response.agentId).isEqualTo(inquiryEntity.agentId.toString())
         assertThat(response.vesselId).isEqualTo(inquiryEntity.vessel?.vesselId)
@@ -29,7 +28,7 @@ class InquiryEntityTest {
         assertThat(response.conclusion).isEqualTo(inquiryEntity.conclusion?.toString())
         assertThat(response.startDateTimeUtc).isEqualTo(inquiryEntity.startDateTimeUtc)
         assertThat(response.isSignedByInspector).isEqualTo(inquiryEntity.isSignedByInspector)
-        assertThat(response.isForeignEstablishment).isEqualTo(inquiryEntity.isForeignEstablishment)
+        assertThat(response.establishment?.id).isEqualTo(inquiryEntity.establishment?.id)
     }
 
     @Test
@@ -60,8 +59,15 @@ class InquiryEntityTest {
             missionId = 4,
             missionIdUUID = UUID.randomUUID(),
             isSignedByInspector = true,
-            siren = "MyBeautifulSiren",
-            isForeignEstablishment = true
+            establishment = EstablishmentEntity(
+                id = 2,
+                name = "myEstablishment",
+                address = "myAddress",
+                isForeign = false,
+                city = "Paris",
+                siren = "mySiren",
+                zipcode = "18733"
+            ),
         )
     }
 }

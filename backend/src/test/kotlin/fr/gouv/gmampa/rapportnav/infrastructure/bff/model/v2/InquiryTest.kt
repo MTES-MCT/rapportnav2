@@ -1,6 +1,7 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.*
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Establishment
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Inquiry
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Vessel
@@ -29,8 +30,7 @@ class InquiryTest {
             endDateTimeUtc = Instant.parse("2015-07-30T00:00:00.00Z"),
             startDateTimeUtc = Instant.parse("2015-06-30T00:00:00.00Z"),
             isSignedByInspector = true,
-            siren = "myBeautifulSiren",
-            isForeignEstablishment = false
+            establishment = EstablishmentEntity(id = 2, name = "myName", siren = "mySiren", isForeign = true)
         )
 
         val response = Inquiry.fromInquiryEntity(entity)
@@ -38,7 +38,6 @@ class InquiryTest {
         assertThat(response).isNotNull()
         assertThat(response.id).isEqualTo(entity.id)
         assertThat(response.type).isEqualTo(entity.type)
-        assertThat(response.siren).isEqualTo(entity.siren)
         assertThat(response.origin).isEqualTo(entity.origin)
         assertThat(response.agentId).isEqualTo(entity.agentId)
         assertThat(response.vessel?.vesselId).isEqualTo(entity.vessel?.vesselId)
@@ -48,7 +47,8 @@ class InquiryTest {
         assertThat(response.conclusion).isEqualTo(entity.conclusion)
         assertThat(response.startDateTimeUtc).isEqualTo(entity.startDateTimeUtc)
         assertThat(response.isSignedByInspector).isEqualTo(entity.isSignedByInspector)
-        assertThat(response.isForeignEstablishment).isEqualTo(entity.isForeignEstablishment)
+        assertThat(response.establishment?.siren).isEqualTo(entity.establishment?.siren)
+        assertThat(response.establishment?.isForeign).isEqualTo(entity.establishment?.isForeign)
     }
 
     @Test
@@ -67,8 +67,7 @@ class InquiryTest {
             startDateTimeUtc = Instant.parse("2015-06-30T00:00:00.00Z"),
             actions = listOf(action),
             isSignedByInspector = false,
-            siren = "myBeautifulSiren",
-            isForeignEstablishment = true
+            establishment = Establishment(id = 2, name = "myName", siren = "mySiren", isForeign = true)
         )
 
         val response = inquiry.toInquiryEntity()
@@ -76,7 +75,6 @@ class InquiryTest {
         assertThat(response.actions).isEmpty()
         assertThat(response.id).isEqualTo(inquiry.id)
         assertThat(response.type).isEqualTo(inquiry.type)
-        assertThat(response.siren).isEqualTo(inquiry.siren)
         assertThat(response.origin).isEqualTo(inquiry.origin)
         assertThat(response.agentId).isEqualTo(inquiry.agentId)
         assertThat(response.vessel?.vesselId).isEqualTo(inquiry.vessel?.vesselId)
@@ -86,6 +84,7 @@ class InquiryTest {
         assertThat(response.conclusion).isEqualTo(inquiry.conclusion)
         assertThat(response.startDateTimeUtc).isEqualTo(inquiry.startDateTimeUtc)
         assertThat(response.isSignedByInspector).isEqualTo(inquiry.isSignedByInspector)
-        assertThat(response.isForeignEstablishment).isEqualTo(inquiry.isForeignEstablishment)
+        assertThat(response.establishment?.siren).isEqualTo(inquiry.establishment?.siren)
+        assertThat(response.establishment?.isForeign).isEqualTo(inquiry.establishment?.isForeign)
     }
 }

@@ -18,9 +18,8 @@ class InquiryEntity(
     val conclusion: InquiryConclusionType? = null,
     var actions: List<MissionActionEntity>? = null,
     var isSignedByInspector: Boolean? = null,
-    var siren: String? = null,
     var vessel: VesselEntity? = null,
-    var isForeignEstablishment: Boolean? = null
+    var establishment: EstablishmentEntity? = null,
 ) {
 
     companion object {
@@ -38,9 +37,8 @@ class InquiryEntity(
                 status = model.status?.let { InquiryStatusType.valueOf(it) },
                 conclusion = model.conclusion?.let { InquiryConclusionType.valueOf(it) },
                 isSignedByInspector = model.isSignedByInspector,
-                siren = model.siren,
                 vessel =  model.vesselId?.let { VesselEntity( vesselId = it) },
-                isForeignEstablishment = model.isForeignEstablishment
+                establishment = model.establishment?.let { EstablishmentEntity.fromEstablishmentModel(it) }
             )
         }
     }
@@ -60,8 +58,7 @@ class InquiryEntity(
             missionId = missionId,
             missionIdUUID = missionIdUUID,
             isSignedByInspector = isSignedByInspector,
-            siren = siren,
-            isForeignEstablishment = isForeignEstablishment
+            establishment = establishment?.toEstablishmentModel()
         )
     }
 

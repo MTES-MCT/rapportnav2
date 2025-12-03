@@ -1,8 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.FishingGearType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.LeisureType
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcType
 import org.hibernate.dialect.PostgreSQLEnumJdbcType
@@ -141,7 +140,7 @@ data class MissionActionModel(
     var unitManagementTrainingType: String? = null,
 
     @Column(name = "is_within_department", nullable = true)
-    var isWithinDepartment: Boolean? = null,
+    var isWithinDepartment: Boolean? = true,
 
     @Column(name = "has_diving_during_operation", nullable = true)
     var hasDivingDuringOperation: Boolean? = null,
@@ -155,8 +154,10 @@ data class MissionActionModel(
     @Column(name = "resource_id", nullable = true)
     var resourceId: Int? = null,
 
-    @Column(name = "siren", nullable = true)
-    var siren: String? = null,
+    @OneToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
+    @JoinColumn(name = "establishment_id")
+    @JsonIgnore
+    var establishment: EstablishmentModel? = null,
 
     @Column(name = "nbr_of_control", nullable = true)
     var nbrOfControl: Int? = null,

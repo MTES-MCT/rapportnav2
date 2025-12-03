@@ -1,10 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EntityListeners
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import com.fasterxml.jackson.annotation.JsonIgnore
+import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
@@ -57,11 +54,10 @@ class InquiryModel(
     @Column(name = "is_signed_by_inspector", nullable = true)
     var isSignedByInspector: Boolean? = null,
 
-    @Column(name = "siren", nullable = true)
-    var siren: String? = null,
-
-    @Column(name = "is_foreign_establishment", nullable = true)
-    var isForeignEstablishment: Boolean? = null,
+    @OneToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
+    @JoinColumn(name = "establishment_id")
+    @JsonIgnore
+    var establishment: EstablishmentModel? = null,
 
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
