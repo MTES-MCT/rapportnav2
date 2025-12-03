@@ -1,13 +1,13 @@
 
 # Install npm dependencies
-FROM node:24 AS frontend-dependencies
+FROM node:24.11.1-trixie-slim AS frontend-dependencies
 WORKDIR /tmp/frontend
 COPY package.json package-lock.json ./
 RUN npm install
 
 
 # Run the frontend
-FROM node:24 AS frontend-run
+FROM node:24.11.1-trixie-slim AS frontend-run
 WORKDIR /tmp/frontend
 COPY . .
 COPY --from=frontend-dependencies /tmp/frontend/node_modules ./node_modules
