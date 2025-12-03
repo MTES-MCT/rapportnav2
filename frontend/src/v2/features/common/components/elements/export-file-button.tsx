@@ -1,8 +1,6 @@
 import React from 'react'
 import { Accent, Button, ButtonProps, Icon, THEME } from '@mtes-mct/monitor-ui'
 import GearIcon from '@rsuite/icons/Gear'
-import { toast } from 'react-toastify'
-import loading = toast.loading
 
 type ExportFileButtonProps = ButtonProps & {
   isLoading: boolean

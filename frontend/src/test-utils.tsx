@@ -1,4 +1,3 @@
-import { MockedProvider } from '@apollo/client/testing'
 import '@testing-library/jest-dom'
 import { render, renderHook, RenderOptions } from '@testing-library/react'
 import React, { ReactElement } from 'react'
@@ -11,11 +10,9 @@ const queryClient = new QueryClient()
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   return (
     <UIThemeWrapper>
-      <MockedProvider addTypename={false}>
-        <QueryClientProvider client={queryClient}>
-          <BrowserRouter>{children}</BrowserRouter>
-        </QueryClientProvider>
-      </MockedProvider>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>{children}</BrowserRouter>
+      </QueryClientProvider>
     </UIThemeWrapper>
   )
 }

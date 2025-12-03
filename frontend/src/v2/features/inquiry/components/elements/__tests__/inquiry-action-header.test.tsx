@@ -1,12 +1,12 @@
 import { ActionStatusType } from '@common/types/action-types'
 import { MissionSourceEnum } from '@common/types/env-mission-types'
-import { CompletenessForStatsStatusEnum } from '@common/types/mission-types'
 import { useStore } from '@tanstack/react-store'
 import { render } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import { ActionType } from '../../../../common/types/action-type'
 import { MissionAction } from '../../../../common/types/mission-action'
 import InquiryActionHeader from '../inquiry-action-header'
+import { CompletenessForStatsStatusEnum } from '../../../../common/types/mission-types.ts'
 
 const action: MissionAction = {
   source: MissionSourceEnum.RAPPORTNAV,

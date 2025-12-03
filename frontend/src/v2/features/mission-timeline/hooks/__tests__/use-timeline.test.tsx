@@ -1,9 +1,8 @@
 import { ActionStatusType } from '@common/types/action-types'
-import { CompletenessForStatsStatusEnum } from '@common/types/mission-types'
 import { renderHook } from '@testing-library/react'
-import { ActionType } from '../../../../features/common/types/action-type'
-import { MissionAction } from '../../../../features/common/types/mission-action'
-import { MissionSourceEnum } from '../../../../features/common/types/mission-types'
+import { ActionType } from '../../../common/types/action-type.ts'
+import { MissionAction } from '../../../common/types/mission-action.ts'
+import { MissionSourceEnum, CompletenessForStatsStatusEnum } from '../../../common/types/mission-types.ts'
 import { useTimeline } from '../use-timeline'
 
 const envAction: MissionAction = {

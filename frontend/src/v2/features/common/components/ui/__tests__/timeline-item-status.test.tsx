@@ -1,7 +1,7 @@
 import { render, screen } from '../../../../../../test-utils.tsx'
 import { ActionType } from '../../../types/action-type.ts'
-import { CompletenessForStatsStatusEnum } from '@common/types/mission-types.ts'
 import TimelineItemStatus from '../timeline-item-status.tsx'
+import { CompletenessForStatsStatusEnum } from '../../../types/mission-types.ts'
 
 describe('TimelineItemStatus', () => {
   it('should display a message when unsync', () => {

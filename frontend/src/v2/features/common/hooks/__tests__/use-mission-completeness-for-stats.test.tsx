@@ -1,6 +1,6 @@
 import { Icon, Level, THEME } from '@mtes-mct/monitor-ui'
 import { renderHook } from '@testing-library/react'
-import { CompletenessForStatsStatusEnum, MissionSourceEnum, MissionStatusEnum } from '../../types/mission-types'
+import { CompletenessForStatsStatusEnum, MissionSourceEnum } from '../../types/mission-types'
 import { useMissionCompletenessForStats } from '../use-mission-completeness-for-stats'
 
 describe('useMissionCompletenessForStats', () => {

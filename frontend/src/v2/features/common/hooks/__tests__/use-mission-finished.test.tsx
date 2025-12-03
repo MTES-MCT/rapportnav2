@@ -3,8 +3,7 @@ import { renderHook } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { missionsKeys } from '../../services/query-keys.ts'
 import { useMissionFinished } from '../use-mission-finished.tsx'
-import { MissionStatusEnum } from '@common/types/mission-types.ts'
-import { Mission2 } from '../../types/mission-types.ts'
+import { Mission2, MissionStatusEnum } from '../../types/mission-types.ts'
 
 const mockMission: Mission2 = {
   id: 1,

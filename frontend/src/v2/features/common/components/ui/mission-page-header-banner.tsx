@@ -1,7 +1,7 @@
-import { CompletenessForStats, CompletenessForStatsStatusEnum } from '@common/types/mission-types'
 import { Banner } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import { useMissionCompletenessForStats } from '../../hooks/use-mission-completeness-for-stats'
+import { CompletenessForStats, CompletenessForStatsStatusEnum } from '../../types/mission-types'
 
 interface MissionPageHeaderBannerProps {
   completenessForStats?: CompletenessForStats

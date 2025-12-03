@@ -1,11 +1,10 @@
 import { FC } from 'react'
 import { ActionStatusType } from '@common/types/action-types'
-import { CompletenessForStats, CompletenessForStatsStatusEnum } from '@common/types/mission-types'
 import { Accent, Icon, IconButton, THEME } from '@mtes-mct/monitor-ui'
 import { TimelineStatusTag } from '../../../mission-timeline/components/ui/mission-timeline-status-tag'
 import { useActionStatus } from '../../hooks/use-action-status'
-import { ActionType } from '../../../common/types/action-type.ts'
-import { ActionTypeEnum } from '@common/types/env-mission-types'
+import { ActionType } from '../../types/action-type.ts'
+import { CompletenessForStats, CompletenessForStatsStatusEnum } from '../../types/mission-types.ts'
 
 type TimelineItemStatusProps = {
   type: ActionType

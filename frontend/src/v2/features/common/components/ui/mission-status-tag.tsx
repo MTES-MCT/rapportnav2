@@ -1,8 +1,8 @@
 import Text from '@common/components/ui/text'
-import { MissionStatusEnum } from '@common/types/mission-types.ts'
 import { Tag, THEME } from '@mtes-mct/monitor-ui'
 import { FC } from 'react'
 import { useMissionStatus } from '../../hooks/use-mission-status'
+import { MissionStatusEnum } from '../../types/mission-types.ts'
 
 interface MissionStatusTagProps {
   status?: MissionStatusEnum

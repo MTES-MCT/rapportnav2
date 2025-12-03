@@ -2,7 +2,6 @@ import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-
 
 import * as Sentry from '@sentry/react'
 import axios from '../../../../query-client/axios.ts'
-import { AdminUser } from '../types/admin-agent-types.ts'
 import { ApiKey } from '../types/admin-apikey-types.ts'
 
 const useAdminRotateApiKeyMutation = (): UseMutationResult<ApiKey, Error, ApiKey, unknown> => {

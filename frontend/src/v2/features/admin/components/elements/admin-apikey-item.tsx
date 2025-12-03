@@ -54,12 +54,13 @@ const AdminApiKeyItem: React.FC<AdminUserProps> = () => {
     switch (action) {
       case AdminActionType.CREATE:
         await createOrUpdateApiKeyMutation.mutateAsync(value)
+        break
       case AdminActionType.ROTATE_KEY:
-        debugger
         await rotateApiKeyMutation.mutateAsync(value)
+        break
       case AdminActionType.DELETE:
-        debugger
         await disableApiKeyMutation.mutateAsync(value)
+        break
       default:
         break
     }

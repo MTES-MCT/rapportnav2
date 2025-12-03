@@ -1,5 +1,5 @@
-import { MissionStatusEnum } from '@common/types/mission-types.ts'
 import { render, screen } from '../../../../../../test-utils.tsx'
+import { MissionStatusEnum } from '../../../types/mission-types.ts'
 import MissionStatusTag from '../mission-status-tag.tsx'
 
 describe('MissionStatusTag component', () => {

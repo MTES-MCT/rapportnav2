@@ -14,8 +14,6 @@ type AuthHook = {
 
 export type Token = JwtPayload & { userId: number; roles: RoleType[] }
 
-const authToken = new AuthToken()
-
 // 🔑 global logout handler setter
 let logoutHandler: (() => void) | null = null
 export const setGlobalLogout = (fn: () => void) => {
