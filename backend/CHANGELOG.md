@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.43.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.42.0...backend@v2.43.0) (2025-12-03)
+
+
+### Features
+
+* **backend:** add is foreing etablishment attribute ([b5638d8](https://github.com/MTES-MCT/rapportnav2/commit/b5638d8c9eff91472015e16587d65bfd6ffcf590))
+* **backend:** Vessel search on request ([91c7950](https://github.com/MTES-MCT/rapportnav2/commit/91c7950227f3824def55c9a81d1d862b193356e6))
+* **RapportDePatrouille:** add fuel and operating costs ([aac0519](https://github.com/MTES-MCT/rapportnav2/commit/aac05199f92533a8cde320724e738a5fd1fc0eff))
+
+
+### Bug Fixes
+
+* validation fails because of status field wrongly set ([343ba17](https://github.com/MTES-MCT/rapportnav2/commit/343ba1758c875447e7ff1eed5189f7f89a41a129))
+
 ## [2.42.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.41.1...backend@v2.42.0) (2025-11-26)
 
 
