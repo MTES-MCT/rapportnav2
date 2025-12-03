@@ -69,7 +69,7 @@ class MissionNavActionDataTest {
         assertThat(output.data.resourceId).isEqualTo(entity.resourceId)
         assertThat(output.data.resourceType).isEqualTo(entity.resourceType)
 
-        assertThat(output.data.siren).isEqualTo(entity.siren)
+
         assertThat(output.data.controlType).isEqualTo(entity.controlType)
         assertThat(output.data.nbrOfControl).isEqualTo(entity.nbrOfControl)
         assertThat(output.data.sectorType).isEqualTo(entity.sectorType)
@@ -83,6 +83,9 @@ class MissionNavActionDataTest {
 
         assertThat(output.data.nbrSecurityVisit).isEqualTo(entity.nbrSecurityVisit)
         assertThat(output.data.securityVisitType).isEqualTo(entity.securityVisitType)
+
+        assertThat(output.data.establishment?.siren).isEqualTo(entity.establishment?.siren)
+        assertThat(output.data.establishment?.isForeign).isEqualTo(entity.establishment?.isForeign)
     }
 
     @Nested
