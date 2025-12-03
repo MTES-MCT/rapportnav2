@@ -1,7 +1,6 @@
 import { MissionSourceEnum } from '@common/types/env-mission-types.ts'
-import { CompletenessForStatsStatusEnum } from '@common/types/mission-types.ts'
 import { fireEvent, render, screen } from '../../../../../../../test-utils.tsx'
-import { MissionListItem } from '../../../../../../features/common/types/mission-types.ts'
+import { MissionListItem, CompletenessForStatsStatusEnum } from '../../../../../common/types/mission-types.ts'
 import { ExportReportType } from '../../../../../common/types/mission-export-types.ts'
 import MissionListExportDialog from '../mission-list-export.tsx'
 

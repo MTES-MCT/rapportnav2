@@ -9,7 +9,6 @@ import svgr from 'vite-plugin-svgr'
 // https://vitejs.dev/config/
 export default defineConfig({
   define: {
-    // https://www.apollographql.com/docs/react/development-testing/reducing-bundle-size
     'globalThis.__DEV__': JSON.stringify(false)
   },
   resolve: {

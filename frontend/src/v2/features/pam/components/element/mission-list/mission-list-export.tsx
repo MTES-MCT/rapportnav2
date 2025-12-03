@@ -1,5 +1,4 @@
 import Text from '@common/components/ui/text.tsx'
-import { CompletenessForStatsStatusEnum, Mission } from '@common/types/mission-types.ts'
 import { Accent, Button, Dialog, Icon, Label, MultiRadio, Select, Size, THEME } from '@mtes-mct/monitor-ui'
 import { every } from 'lodash'
 import some from 'lodash/some'
@@ -7,7 +6,7 @@ import { FC, useState } from 'react'
 import { Divider, Stack } from 'rsuite'
 import ExportFileButton from '../../../../common/components/elements/export-file-button.tsx'
 import { ExportReportType } from '../../../../common/types/mission-export-types.ts'
-import { MissionListItem } from '../../../../common/types/mission-types.ts'
+import { Mission2, MissionListItem, CompletenessForStatsStatusEnum } from '../../../../common/types/mission-types.ts'
 
 const options = [
   {
@@ -41,7 +40,10 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
   const exportButtonDisabled =
     (!exportAsZip && !mainMissionId) ||
     exportInProgress ||
-    every(availableMissions, (m: Mission) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.COMPLETE)
+    every(
+      availableMissions,
+      (m: Mission2) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.COMPLETE
+    )
 
   const missionOptions = availableMissions.map((mission: MissionListItem) => ({
     value: mission.id,
@@ -91,7 +93,7 @@ const MissionListExportDialog: FC<MissionListExportDialogProps> = ({
             {exportAsZip &&
               some(
                 availableMissions,
-                (m: Mission) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.COMPLETE
+                (m: Mission2) => m.completenessForStats?.status !== CompletenessForStatsStatusEnum.COMPLETE
               ) && (
                 <div style={{ marginTop: '1rem' }}>
                   <Text as={'h3'} color={THEME.color.maximumRed} fontStyle={'italic'} weight={'medium'}>

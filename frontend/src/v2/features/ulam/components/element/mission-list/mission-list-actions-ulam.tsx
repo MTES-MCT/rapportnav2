@@ -1,10 +1,10 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { Mission } from '@common/types/mission-types.ts'
 import ExportFileButton from '../../../../common/components/elements/export-file-button.tsx'
+import { Mission2 } from '../../../../common/types/mission-types.ts'
 
 interface MissionListActionsUlamProps {
-  onClickExport: (missions: Mission[]) => void
+  onClickExport: (missions: Mission2[]) => void
   exportIsLoading: boolean
 }
 

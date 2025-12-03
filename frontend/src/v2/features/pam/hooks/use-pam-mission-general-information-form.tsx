@@ -1,7 +1,7 @@
 import { useAbstractFormik } from '../../common/hooks/use-abstract-formik-form.tsx'
 import { MissionGeneralInfo2 } from '../../common/types/mission-types.ts'
 import { useDate } from '../../common/hooks/use-date.tsx'
-import { array, number, object, string } from 'yup'
+import { array, number, object } from 'yup'
 import getDateRangeSchema from '../../common/schemas/dates-schema.ts'
 import conditionallyRequired from '../../common/schemas/conditionally-required-helper.ts'
 import { useMemo } from 'react'

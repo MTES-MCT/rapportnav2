@@ -1,6 +1,6 @@
-import { MissionStatusEnum } from '@common/types/mission-types'
 import { Icon, IconProps, THEME } from '@mtes-mct/monitor-ui'
 import { FunctionComponent } from 'react'
+import { MissionStatusEnum } from '../types/mission-types'
 
 type Component = {
   text: string

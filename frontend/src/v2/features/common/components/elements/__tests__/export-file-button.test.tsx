@@ -1,9 +1,9 @@
 import { expect, vi } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '../../../../../../test-utils.tsx'
 import ExportFileButton from '../export-file-button.tsx'
-import { Mission } from '@common/types/mission-types.ts'
+import { Mission2 } from '../../../types/mission-types.ts'
 
-const missions: Mission[] = [{ id: 1 }]
+const missions: Mission2[] = [{ id: 1 }]
 
 describe('ExportAEMButton Component', () => {
   test('triggers export lazy mutation on button click', async () => {

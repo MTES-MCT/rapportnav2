@@ -1,5 +1,4 @@
 import { ActionStatusType } from '@common/types/action-types.ts'
-import { MissionStatusEnum } from '@common/types/mission-types.ts'
 import { IconProps } from '@mtes-mct/monitor-ui'
 import { FunctionComponent } from 'react'
 import { render, screen } from '../../../../../../test-utils.tsx'
@@ -8,6 +7,7 @@ import { NetworkSyncStatus } from '../../../types/network-types.ts'
 import { OwnerType } from '../../../types/owner-type.ts'
 import ActionHeaderCompletenessForStats from '../../ui/action-header-completeness-for-stats.tsx'
 import ActionHeaderWrapper from '../action-header-wrapper.tsx'
+import { MissionStatusEnum } from '../../../types/mission-types.ts'
 
 const MockIcon: FunctionComponent<IconProps> = () => <div data-testid="mock-icon">Icon</div>
 

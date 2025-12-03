@@ -1,6 +1,6 @@
-import { CompletenessForStatsStatusEnum, MissionStatusEnum } from '@common/types/mission-types.ts'
 import { render, screen } from '../../../../../../test-utils'
 import MissionCompletenessForStatsTag from '../mission-completeness-for-stats-tag'
+import { CompletenessForStatsStatusEnum, MissionStatusEnum } from '../../../types/mission-types.ts'
 
 describe('MissionCompletenessForStatsTag component', () => {
   test('renders "À compléter" when missionStatus is undefined', () => {

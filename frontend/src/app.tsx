@@ -1,9 +1,6 @@
-import { ApolloClient, ApolloProvider, NormalizedCacheObject } from '@apollo/client'
 import { Notifier } from '@mtes-mct/monitor-ui'
 import * as Sentry from '@sentry/react'
-import { CachePersistor, LocalStorageWrapper } from 'apollo3-cache-persist'
-import { FC, useEffect, useState, Suspense, lazy } from 'react'
-import apolloClient, { apolloCache } from './apollo-client/apollo-client.ts'
+import { FC, useEffect, Suspense, lazy } from 'react'
 import queryClient, { persistOptions } from './query-client'
 import { router } from './router/router'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
@@ -28,49 +25,37 @@ const ErrorPage = lazy(() => import('./pages/error-page.tsx'))
 const AppLoading = () => <ActionLoader />
 
 const App: FC = () => {
-  const [client, setClient] = useState<ApolloClient<NormalizedCacheObject>>(apolloClient)
-
   useEffect(() => {
     setDefaultOptions({ locale: fr })
-
-    const persistor = new CachePersistor({
-      cache: apolloCache,
-      storage: new LocalStorageWrapper(window.localStorage)
-    })
-
-    // Fire and forget - don't await
-    persistor.restore().catch(console.warn)
   }, [])
 
   // Show app immediately, don't wait for cache
   return (
     <Sentry.ErrorBoundary fallback={ErrorPage}>
-      <ApolloProvider client={client}>
-        <UIThemeWrapper>
-          <PersistQueryClientProvider //
-            client={queryClient}
-            persistOptions={persistOptions}
-            onSuccess={() => {
-              console.log('Persistence restored successfully')
-            }}
-            onError={() => {
-              console.log('Persistence restored failed')
-            }}
-          >
-            <Notifier />
-            <Suspense fallback={<AppLoading />}>
-              <RouterProvider router={router} />
-            </Suspense>
+      <UIThemeWrapper>
+        <PersistQueryClientProvider //
+          client={queryClient}
+          persistOptions={persistOptions}
+          onSuccess={() => {
+            console.log('Persistence restored successfully')
+          }}
+          onError={() => {
+            console.log('Persistence restored failed')
+          }}
+        >
+          <Notifier />
+          <Suspense fallback={<AppLoading />}>
+            <RouterProvider router={router} />
+          </Suspense>
 
-            {/* Only load devtools in development */}
-            {import.meta.env.DEV && (
-              <Suspense fallback={null}>
-                <ReactQueryDevtools initialIsOpen={false} />
-              </Suspense>
-            )}
-          </PersistQueryClientProvider>
-        </UIThemeWrapper>
-      </ApolloProvider>
+          {/* Only load devtools in development */}
+          {import.meta.env.DEV && (
+            <Suspense fallback={null}>
+              <ReactQueryDevtools initialIsOpen={false} />
+            </Suspense>
+          )}
+        </PersistQueryClientProvider>
+      </UIThemeWrapper>
     </Sentry.ErrorBoundary>
   )
 }

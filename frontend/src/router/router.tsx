@@ -1,17 +1,8 @@
-import {
-  LOGIN_PATH,
-  PAM_HOME_PATH,
-  PAM_V2_HOME_PATH,
-  ROOT_PATH,
-  SIGNUP_PATH,
-  ULAM_V2_HOME_PATH
-} from '@router/routes.tsx'
+import { LOGIN_PATH, PAM_V2_HOME_PATH, ROOT_PATH, SIGNUP_PATH, ULAM_V2_HOME_PATH } from '@router/routes.tsx'
 import { wrapCreateBrowserRouterV6 } from '@sentry/react'
 import { createBrowserRouter } from 'react-router-dom'
 import ErrorPage from '../pages/error-page.tsx'
 import Login from '../pages/login.tsx'
-import MissionPage from '../pages/mission-page.tsx'
-import MissionsPage from '../pages/missions-page.tsx'
 import SignUp from '../pages/signup.tsx'
 import AdminGuard from '../v2/features/auth/components/admin-guard.tsx'
 import AuthGuard from '../v2/features/auth/components/auth-guard.tsx'
@@ -39,23 +30,6 @@ export const router = sentryCreateBrowserRouter([
   {
     path: SIGNUP_PATH,
     element: <SignUp />
-  },
-  {
-    path: PAM_HOME_PATH,
-    element: (
-      <AuthGuard>
-        <MissionsPage />
-      </AuthGuard>
-    ),
-    errorElement: <ErrorPage />
-  },
-  {
-    path: 'pam/missions/:missionId/:actionId?',
-    element: (
-      <AuthGuard>
-        <MissionPage />
-      </AuthGuard>
-    )
   },
   //V2
   {

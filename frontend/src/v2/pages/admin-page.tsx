@@ -12,7 +12,7 @@ import MissionListPageHeaderWrapper from '../features/common/components/layout/m
 import MissionListPageWrapper from '../features/common/components/layout/mission-list-page-wrapper.tsx'
 import MissionListPageSidebarWrapper from '../features/common/components/ui/mission-list-page-sidebar.tsx'
 import MissionListPageTitle from '../features/common/components/ui/mission-list-page-title.tsx'
-import { store } from '../store/index.ts'
+import { store } from '../store'
 
 const AdminPage: React.FC = () => {
   const { getSidebarItems } = useGlobalRoutes()

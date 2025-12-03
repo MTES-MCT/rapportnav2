@@ -1,7 +1,7 @@
 import { MissionSourceEnum } from '@common/types/env-mission-types'
-import { CompletenessForStats, CompletenessForStatsStatusEnum, MissionStatusEnum } from '@common/types/mission-types'
 import { Icon, IconProps, Level, THEME } from '@mtes-mct/monitor-ui'
 import { FunctionComponent } from 'react'
+import { CompletenessForStats, CompletenessForStatsStatusEnum, MissionStatusEnum } from '../types/mission-types.ts'
 
 enum MissionStateType {
   MISSION_ENDED_AND_COMPLETE = 'MISSION_ENDED_AND_COMPLETE',

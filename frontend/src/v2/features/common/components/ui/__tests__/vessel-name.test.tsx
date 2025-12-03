@@ -1,4 +1,3 @@
-import { vi } from 'vitest'
 import { render, screen } from '../../../../../../test-utils'
 import VesselName from '../vessel-name'
 

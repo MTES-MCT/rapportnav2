@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from '../../../../../../../test-utils.tsx'
 import { describe, it, vi, expect } from 'vitest'
-import { Mission } from '@common/types/mission-types.ts'
 import MissionListActionsUlam from '../mission-list-actions-ulam.tsx'
 
 const mockOnClickExport = vi.fn()

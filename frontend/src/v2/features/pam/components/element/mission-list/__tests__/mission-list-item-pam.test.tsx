@@ -1,13 +1,12 @@
 import { MissionSourceEnum } from '@common/types/env-mission-types.ts'
-import { CompletenessForStatsStatusEnum, Mission } from '@common/types/mission-types.ts'
-import { MissionListItem } from 'src/v2/features/common/types/mission-types.ts'
 import { fireEvent, render, screen } from '../../../../../../../test-utils.tsx'
 import MissionListItemPam from '../mission-list-item-pam.tsx'
 import { describe } from 'vitest'
+import { CompletenessForStatsStatusEnum, MissionListItem } from '../../../../../common/types/mission-types.ts'
 
 describe('MissionListItemPam', () => {
   it.skip('renders empty mission info', () => {
-    const mockMission: Mission = {}
+    const mockMission: MissionListItem = {}
     const mockOnToggle = vi.fn()
     render(<MissionListItemPam mission={mockMission} isSelected={false} onToggle={mockOnToggle} />)
 
