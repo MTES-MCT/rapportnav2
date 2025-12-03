@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.43.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.42.0...frontend@v2.43.0) (2025-12-03)
+
+
+### Features
+
+* **frontend:** foreign estblishment text input ([7b7da5c](https://github.com/MTES-MCT/rapportnav2/commit/7b7da5c16cfd7d043c70123c932d5cb735830bab))
+* **frontend:** vessel search component ([ef84baf](https://github.com/MTES-MCT/rapportnav2/commit/ef84bafc1f5d2c062d9d4ff02b5b79a71ca10a15))
+
+
+### Bug Fixes
+
+* validation fails because of status field wrongly set ([343ba17](https://github.com/MTES-MCT/rapportnav2/commit/343ba1758c875447e7ff1eed5189f7f89a41a129))
+
 ## [2.42.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.41.1...frontend@v2.42.0) (2025-11-26)
 
 
