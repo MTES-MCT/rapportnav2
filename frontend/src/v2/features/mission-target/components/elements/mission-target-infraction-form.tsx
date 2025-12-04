@@ -36,6 +36,7 @@ const MissionTargetInfractionForm: FC<MissionTargetInfractionFormProps> = ({
       spacing={'0.5rem'}
       style={{ width: '100%', marginBottom: '.2em' }}
       key={`infraction-${index}`}
+      data-testid="mission-target-infraction-form"
     >
       {!showForm && (
         <Stack.Item style={{ width: '100%' }}>
@@ -53,7 +54,7 @@ const MissionTargetInfractionForm: FC<MissionTargetInfractionFormProps> = ({
                   <IconButton
                     Icon={Icon.EditUnbordered}
                     size={Size.NORMAL}
-                    role="delete-target"
+                    role="edit-target"
                     accent={Accent.SECONDARY}
                     onClick={() => setShowForm(true)}
                   />

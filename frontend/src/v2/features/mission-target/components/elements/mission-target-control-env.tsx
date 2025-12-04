@@ -1,3 +1,4 @@
+import { FC, Fragment } from 'react'
 import { ControlType } from '@common/types/control-types'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps } from 'formik'
 import { Stack } from 'rsuite'
@@ -12,7 +13,7 @@ export interface MissionTargetControlEnvProps {
   controlsToComplete: ControlType[]
 }
 
-const MissionTargetControlEnv: React.FC<MissionTargetControlEnvProps> = ({
+const MissionTargetControlEnv: FC<MissionTargetControlEnvProps> = ({
   name,
   fieldArray,
   controlsToComplete,
@@ -37,13 +38,15 @@ const MissionTargetControlEnv: React.FC<MissionTargetControlEnvProps> = ({
                         >
                           <Field name={`targets[${targetIndex}].controls[${controlIndex}]`}>
                             {(field: FieldProps<Control>) => (
-                              <MissionControlEnvForm
-                                fieldFormik={field}
-                                controlType={control.controlType}
-                                maxAmountOfControls={actionNumberOfControls}
-                                name={`targets[${targetIndex}].controls[${controlIndex}]`}
-                                isToComplete={controlsToComplete?.includes(control.controlType)}
-                              />
+                              <div data-testid={'control-form-env'}>
+                                <MissionControlEnvForm
+                                  fieldFormik={field}
+                                  controlType={control.controlType}
+                                  maxAmountOfControls={actionNumberOfControls}
+                                  name={`targets[${targetIndex}].controls[${controlIndex}]`}
+                                  isToComplete={controlsToComplete?.includes(control.controlType)}
+                                />
+                              </div>
                             )}
                           </Field>
                         </Stack.Item>

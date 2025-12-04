@@ -71,6 +71,7 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
         marginBottom: '0.5rem',
         backgroundColor: THEME.color.white
       }}
+      data-testid="mission-target-item"
     >
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={'0.5rem'}>
@@ -96,7 +97,7 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
         </Stack.Item>
       )}
       {(editTarget || editInfraction) && (
-        <Stack.Item style={{ width: '100%' }}>
+        <Stack.Item style={{ width: '100%' }} data-testid={'mission-target-form'}>
           <MissionTargetForm
             name={name}
             value={{ target }}
@@ -111,7 +112,7 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
           />
         </Stack.Item>
       )}
-      <Stack.Item style={{ width: '100%' }}>
+      <Stack.Item style={{ width: '100%' }} data-testid={'mission-target-infraction-list'}>
         <MissionTargetInfractionList
           name={name}
           targetType={targetType}

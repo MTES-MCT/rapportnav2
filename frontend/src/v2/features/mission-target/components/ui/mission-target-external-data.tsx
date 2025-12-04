@@ -26,6 +26,7 @@ const MissionTargetExternalData: React.FC<MissionTargetExternalDataProps> = ({ s
         backgroundColor: THEME.color.white
       }}
       alignItems="flex-start"
+      data-testid="mission-target-external-data"
     >
       <Stack.Item style={{ width: '100%' }}>
         {!showDetail && (

@@ -1,7 +1,6 @@
 import { vi } from 'vitest'
-import { render, screen, fireEvent, waitFor } from '../../../../../../../test-utils.tsx'
+import { render, screen, fireEvent } from '../../../../../../../test-utils.tsx'
 import MissionGeneralInformationCrewPam from '../mission-general-information-crew-pam.tsx'
-import userEvent from '@testing-library/user-event'
 
 const agent1 = {
   id: 1,

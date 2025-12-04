@@ -35,11 +35,18 @@ const MissionTargetAction: React.FC<MissionTargetActionProps> = ({
   }
 
   return (
-    <Stack direction="row" alignItems="baseline" spacing={'0.5rem'} justifyContent={'flex-end'}>
+    <Stack
+      direction="row"
+      alignItems="baseline"
+      spacing={'0.5rem'}
+      justifyContent={'flex-end'}
+      data-testid="mission-target-action"
+    >
       <Stack.Item style={{ width: '100%' }}>
         <IconButton
           Icon={Icon.Plus}
           role="show-target"
+          data-testid="show-target"
           disabled={disabledAdd}
           accent={Accent.SECONDARY}
           onClick={handleAddInfraction}
@@ -52,6 +59,7 @@ const MissionTargetAction: React.FC<MissionTargetActionProps> = ({
             disabled={false}
             size={Size.NORMAL}
             role="display-target"
+            data-testid="display-target"
             onClick={onShowDetail}
             accent={Accent.SECONDARY}
             title={'Afficher cette cible'}
@@ -64,6 +72,7 @@ const MissionTargetAction: React.FC<MissionTargetActionProps> = ({
           <IconButton
             size={Size.NORMAL}
             role="edit-target"
+            data-testid="edit-target"
             onClick={handleEdit}
             Icon={Icon.EditUnbordered}
             accent={Accent.SECONDARY}
@@ -77,6 +86,7 @@ const MissionTargetAction: React.FC<MissionTargetActionProps> = ({
             Icon={Icon.Delete}
             size={Size.NORMAL}
             role="delete-target"
+            data-testid="delete-target"
             onClick={handleDelete}
             accent={Accent.SECONDARY}
             title={'Supprimer cette cible'}

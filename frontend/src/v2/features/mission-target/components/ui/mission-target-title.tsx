@@ -24,7 +24,7 @@ const MissionTargetTitle: React.FC<MissionTargetTitleProps> = ({ target, vehicle
     setVesselType(getVesselTypeName(target?.externalData?.vesselType ?? target?.vesselType))
   }, [target, vehicleType])
   return (
-    <Text as="h3" weight="bold" color={THEME.color.gunMetal} data-testid={'target-env-title'}>
+    <Text as="h3" weight="bold" color={THEME.color.gunMetal} data-testid={'target-title'}>
       {`${vehicle ?? ''}${vesselType && vehicle ? ` - ` : ''}${vesselType ?? ''}${vesselType && id ? ` - ` : ''}${id ?? ''}`}
     </Text>
   )

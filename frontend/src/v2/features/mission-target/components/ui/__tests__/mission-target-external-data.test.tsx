@@ -1,62 +1,109 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { render, screen } from '../../../../../../test-utils.tsx'
-import MissionTargetExternalData from '../mission-target-external-data'
-import { TargetExternalData } from 'src/v2/features/common/types/target-types.ts'
-import { FormalNoticeEnum, InfractionTypeEnum, VesselSizeEnum } from '@common/types/env-mission-types.ts'
-import { VesselTypeEnum } from '@common/types/mission-types.ts'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { render, screen } from '../../../../../../test-utils'
+import MissionTargetTitle from '../mission-target-title'
+import { VehicleTypeEnum } from '@common/types/env-mission-types'
 
-// Mocks
+// ---- Mock hooks ----
+const mockGetVesselTypeName = vi.fn()
+const mockGetVehiculeType = vi.fn()
+
 vi.mock('../../../../common/hooks/use-vessel', () => ({
   useVessel: () => ({
-    getVesselTypeName: vi.fn().mockReturnValue(VesselTypeEnum.COMMERCIAL),
-    getVesselSize: vi.fn().mockReturnValue(VesselSizeEnum.FROM_12_TO_24m)
+    getVesselTypeName: mockGetVesselTypeName
   })
 }))
 
-describe('MissionTargetExternalData', () => {
-  let baseData: TargetExternalData
+vi.mock('../../../../common/hooks/use-vehicule', () => ({
+  useVehicule: () => ({
+    getVehiculeType: mockGetVehiculeType
+  })
+}))
 
+describe('MissionTargetTitle', () => {
   beforeEach(() => {
-    baseData = {
-      id: '1',
-      registrationNumber: 'AB-123',
-      vesselType: VesselTypeEnum.COMMERCIAL,
-      vesselSize: VesselSizeEnum.FROM_12_TO_24m,
-      controlledPersonIdentity: 'Jean Dupont',
-      infractionType: InfractionTypeEnum.WITH_REPORT,
-      formalNotice: FormalNoticeEnum.YES,
-      natinfs: ['1234', '5678'],
-      relevantCourt: 'Tribunal de Paris',
-      toProcess: true,
-      observations: 'Some notes'
-    }
+    vi.clearAllMocks()
   })
 
-  it('renders summary when showDetail=false', () => {
-    render(<MissionTargetExternalData externalData={baseData} showDetail={false} />)
-    expect(screen.getByText('Infraction contrôle de l’environnement')).toBeInTheDocument()
-    expect(screen.getByText('Avec PV')).toBeInTheDocument()
-    expect(screen.getByText('2 NATINF : 1234, 5678')).toBeInTheDocument()
+  it('renders vehicle only when only vehicleType is provided', () => {
+    mockGetVehiculeType.mockReturnValue('Car')
+    mockGetVesselTypeName.mockReturnValue('')
+
+    render(<MissionTargetTitle vehicleType={VehicleTypeEnum.LAND} />)
+
+    expect(screen.getByTestId('target-title').textContent).toBe('Car')
   })
 
-  it('renders details when showDetail=true', () => {
-    render(<MissionTargetExternalData externalData={baseData} showDetail={true} />)
+  it('renders vesselType only when only vessel data exists', () => {
+    mockGetVehiculeType.mockReturnValue('')
+    mockGetVesselTypeName.mockReturnValue('Fishing Vessel')
 
-    expect(screen.getByText('Immatriculation')).toBeInTheDocument()
-    expect(screen.getByText('AB-123')).toBeInTheDocument()
-    expect(screen.getByText('COMMERCIAL')).toBeInTheDocument()
-    expect(screen.getByText('FROM_12_TO_24m')).toBeInTheDocument()
-    expect(screen.getByText('Jean Dupont')).toBeInTheDocument()
-    expect(screen.getByText('Tribunal de Paris')).toBeInTheDocument()
-    expect(screen.getByLabelText('À traiter')).toBeChecked()
-    expect(screen.getByText('Some notes')).toBeInTheDocument()
+    render(
+      <MissionTargetTitle
+        target={{
+          externalData: { vesselType: 'FISHING' }
+        }}
+      />
+    )
+
+    expect(screen.getByTestId('target-title').textContent).toBe('Fishing Vessel')
   })
 
-  it('renders "--" when fields are missing', () => {
-    const minimalData: TargetExternalData = { id: '2' }
-    render(<MissionTargetExternalData externalData={minimalData} showDetail={true} />)
+  it('renders id only when only id data exists', () => {
+    mockGetVehiculeType.mockReturnValue('')
+    mockGetVesselTypeName.mockReturnValue('')
 
-    expect(screen.getByTestId('observations')).toHaveTextContent('--')
-    expect(screen.getByLabelText('À traiter')).not.toBeChecked()
+    render(
+      <MissionTargetTitle
+        target={{
+          identityControlledPerson: 'John Doe'
+        }}
+      />
+    )
+
+    expect(screen.getByTestId('target-title').textContent).toBe('John Doe')
+  })
+
+  it('renders vehicle - vesselType - id when all are present', () => {
+    mockGetVehiculeType.mockReturnValue('Car')
+    mockGetVesselTypeName.mockReturnValue('Fishing Vessel')
+
+    render(
+      <MissionTargetTitle
+        vehicleType={VehicleTypeEnum.LAND}
+        target={{
+          externalData: {
+            registrationNumber: 'AB-123',
+            vesselType: 'FISHING'
+          }
+        }}
+      />
+    )
+
+    // Expected format: "Car - Fishing Vessel - AB-123"
+    expect(screen.getByTestId('target-title').textContent).toBe('Car - Fishing Vessel - AB-123')
+  })
+
+  it('renders correctly when vesselType exists but vehicle is empty', () => {
+    mockGetVehiculeType.mockReturnValue('')
+    mockGetVesselTypeName.mockReturnValue('Sailboat')
+
+    render(
+      <MissionTargetTitle
+        target={{
+          vesselType: 'SAIL'
+        }}
+      />
+    )
+
+    expect(screen.getByTestId('target-title').textContent).toBe('Sailboat')
+  })
+
+  it('renders empty string when no data is provided', () => {
+    mockGetVehiculeType.mockReturnValue('')
+    mockGetVesselTypeName.mockReturnValue('')
+
+    render(<MissionTargetTitle />)
+
+    expect(screen.getByTestId('target-title').textContent).toBe('')
   })
 })
