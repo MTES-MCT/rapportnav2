@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.44.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.43.0...backend@v2.44.0) (2025-12-04)
+
+
+### Bug Fixes
+
+* remove backend warnings ([f8a3a65](https://github.com/MTES-MCT/rapportnav2/commit/f8a3a659ca4fda4766ac2ee8bd44eb12d5540f00))
+
 ## [2.43.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.42.0...backend@v2.43.0) (2025-12-03)
 
 
