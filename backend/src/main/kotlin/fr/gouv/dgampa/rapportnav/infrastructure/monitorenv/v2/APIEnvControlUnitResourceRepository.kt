@@ -17,7 +17,7 @@ import java.net.http.HttpResponse
 class APIEnvControlUnitResourceRepository(
     clientFactory: HttpClientFactory,
     private val mapper: ObjectMapper,
-    @Value("\${MONITORENV_HOST}") private val host: String,
+    @param:Value("\${MONITORENV_HOST}") private val host: String,
 ): IEnvControlUnitResourceRepository {
 
     private val logger = LoggerFactory.getLogger(APIEnvControlUnitResourceRepository::class.java)

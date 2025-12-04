@@ -21,9 +21,9 @@ import java.nio.file.StandardCopyOption
 
 @UseCase
 class ExportMissionAEMSingle2(
-    @Value("\${rapportnav.aem.template.path}") private val aemTemplatePath: String,
-    @Value("\${rapportnav.aem.tmp_xlsx.path}") private val aemTmpXLSXPath: String,
-    @Value("\${rapportnav.aem.tmp_ods.path}") private val aemTmpODSPath: String,
+    @param:Value("\${rapportnav.aem.template.path}") private val aemTemplatePath: String,
+    @param:Value("\${rapportnav.aem.tmp_xlsx.path}") private val aemTmpXLSXPath: String,
+    @param:Value("\${rapportnav.aem.tmp_ods.path}") private val aemTmpODSPath: String,
     private val fillAEMExcelRow: FillAEMExcelRow,
     private val getEnvMissionById2: GetEnvMissionById2,
     private val getEnvActionByMissionId: GetComputeEnvActionListByMissionId,

@@ -28,7 +28,7 @@ import java.time.Instant
 class APIEnvMissionRepository(
     private val mapper: ObjectMapper,
     private val clientFactory: HttpClientFactory,
-    @Value("\${MONITORENV_HOST}") private val host: String,
+    @param:Value("\${MONITORENV_HOST}") private val host: String,
 ) : IEnvMissionRepository {
     private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepository::class.java);
 

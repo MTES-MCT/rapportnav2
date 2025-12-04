@@ -32,7 +32,7 @@ abstract class EnvActionEntity(
     open val completedBy: String? = null,
     open val completion: ActionCompletionEnum? = null,
     open val controlPlans: List<EnvActionControlPlanEntity>? = listOf(),
-    @JsonDeserialize(using = GeometryDeserializer::class) open val geom: Geometry? = null,
+    @field:JsonDeserialize(using = GeometryDeserializer::class) open val geom: Geometry? = null,
     open val isAdministrativeControl: Boolean? = null,
     open val isComplianceWithWaterRegulationsControl: Boolean? = null,
     open val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
