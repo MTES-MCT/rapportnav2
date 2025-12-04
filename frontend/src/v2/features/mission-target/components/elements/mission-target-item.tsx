@@ -14,16 +14,18 @@ import MissionTargetForm from './mission-target-form.tsx'
 import MissionTargetInfractionList from './mission-target-infraction-list.tsx'
 
 interface MissionTargetItemProps {
+  index?: number
   name: string
   targetType: TargetType
   vehicleType?: VehicleTypeEnum
   fieldFormik: FieldProps<Target>
   actionNumberOfControls: number
-  onDelete?: (id?: string) => void
+  onDelete?: (index?: number) => void
   availableControlTypes?: ControlType[]
 }
 
 const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
+  index,
   name,
   onDelete,
   vehicleType,
@@ -38,8 +40,8 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
   const [editInfraction, setEditInfraction] = useState<boolean>(false)
   const [disabledAddInfraction, setDisableAddInfraction] = useState(false)
 
-  const handleDeleteTarget = (id?: string) => {
-    if (onDelete && id) onDelete(id)
+  const handleDeleteTarget = (index?: number) => {
+    if (onDelete && (index ?? -1) >= 0) onDelete(index)
   }
 
   const handleClose = () => {
@@ -55,7 +57,7 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
   useEffect(() => {
     if (!fieldFormik.field.value) return
     setTarget(fieldFormik.field.value)
-  }, [fieldFormik])
+  }, [fieldFormik.field.value])
 
   useEffect(() => {
     setDisableAddInfraction(targetType !== TargetType.VEHICLE && target?.source === MissionSourceEnum.MONITORENV)
@@ -71,6 +73,7 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
         marginBottom: '0.5rem',
         backgroundColor: THEME.color.white
       }}
+      data-testid="mission-target-item"
     >
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={'0.5rem'}>
@@ -79,13 +82,14 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
           </Stack.Item>
           <Stack.Item>
             <MissionTargetAction
+              index={index}
               source={target?.source}
               showDetail={showDetail}
               onEdit={handleEditTarget}
               onShowDetail={handleShowDetail}
               onAddInfraction={handleAddInfraction}
               disabledAdd={disabledAddInfraction}
-              onDelete={() => handleDeleteTarget(target?.id)}
+              onDelete={() => handleDeleteTarget(index)}
             />
           </Stack.Item>
         </Stack>
@@ -96,7 +100,7 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
         </Stack.Item>
       )}
       {(editTarget || editInfraction) && (
-        <Stack.Item style={{ width: '100%' }}>
+        <Stack.Item style={{ width: '100%' }} data-testid={'mission-target-form'}>
           <MissionTargetForm
             name={name}
             value={{ target }}
@@ -111,7 +115,7 @@ const MissionTargetItem: React.FC<MissionTargetItemProps> = ({
           />
         </Stack.Item>
       )}
-      <Stack.Item style={{ width: '100%' }}>
+      <Stack.Item style={{ width: '100%' }} data-testid={'mission-target-infraction-list'}>
         <MissionTargetInfractionList
           name={name}
           targetType={targetType}

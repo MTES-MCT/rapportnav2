@@ -66,7 +66,7 @@ const MissionInfractionForm: FC<MissionInfractionFormProps> = ({
           validateOnChange={true}
         >
           {formik => (
-            <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }}>
+            <Stack direction="column" spacing={'2rem'} style={{ width: '100%' }} data-testid="mission-infraction-form">
               {editControl && (
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikSelect
@@ -152,6 +152,7 @@ const MissionInfractionForm: FC<MissionInfractionFormProps> = ({
                         size={Size.NORMAL}
                         accent={Accent.PRIMARY}
                         role="validate-infraction"
+                        data-testid="validate-infraction"
                         onClick={async () => {
                           setDebounceTime(0)
                           handleSubmit(formik.values, formik.errors, onSubmit)

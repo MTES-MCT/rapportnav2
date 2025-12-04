@@ -12,7 +12,13 @@ export const MissionControlTitle = styled((props: MissionControlTitleProps) => (
     <Text as="h3" weight="bold" color={THEME.color.gunMetal}>
       {props.text}
     </Text>
-    {props.isToComplete && <Icon.AttentionFilled style={{ marginLeft: 6 }} color={THEME.color.maximumRed} />}
+    {props.isToComplete && (
+      <Icon.AttentionFilled
+        data-testid={`control-incomplete-title`}
+        style={{ marginLeft: 6 }}
+        color={THEME.color.maximumRed}
+      />
+    )}
   </div>
 ))({
   width: '100%'

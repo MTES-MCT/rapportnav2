@@ -42,12 +42,14 @@ const MissionTargetControlNav: FC<MissionTargetControlNavProps> = ({
                           {(!hideGensDeMer || control.controlType !== ControlType.GENS_DE_MER) && (
                             <Field name={`targets[${targetIndex}].controls[${controlIndex}]`}>
                               {(field: FieldProps<Control>) => (
-                                <MissionControlForm
-                                  fieldFormik={field}
-                                  controlType={control.controlType}
-                                  name={`targets[${targetIndex}].controls[${controlIndex}]`}
-                                  isToComplete={controlsToComplete?.includes(control.controlType)}
-                                />
+                                <div data-testid={'control-form-nav'}>
+                                  <MissionControlForm
+                                    fieldFormik={field}
+                                    controlType={control.controlType}
+                                    name={`targets[${targetIndex}].controls[${controlIndex}]`}
+                                    isToComplete={controlsToComplete?.includes(control.controlType)}
+                                  />
+                                </div>
                               )}
                             </Field>
                           )}
