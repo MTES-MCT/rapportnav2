@@ -12,13 +12,13 @@ describe('MissionTimelineItemControlCardTag', () => {
 
     render(<MissionTimelineItemControlCardTag action={action} />)
 
-    expect(screen.getByText('Nombre de contrôles restants indisponible')).toBeInTheDocument()
+    expect(screen.getByText('Indisponible hors-ligne')).toBeInTheDocument()
   })
 
   it('renders MissionIncompleteControlTag when controls exist and network is synced', () => {
     const action = {
       controlsToComplete: [{ id: 1 }, { id: 2 }, { id: 3 }],
-      networkSyncStatus: NetworkSyncStatus.SYNCED
+      networkSyncStatus: NetworkSyncStatus.SYNC
     } as unknown as MissionTimelineAction
 
     render(<MissionTimelineItemControlCardTag action={action} />)

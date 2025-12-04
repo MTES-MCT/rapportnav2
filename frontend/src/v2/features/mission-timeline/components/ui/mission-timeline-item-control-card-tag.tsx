@@ -6,7 +6,7 @@ import { NetworkSyncStatus } from '../../../common/types/network-types.ts'
 
 const MissionTimelineItemControlCardTag: FC<{ action?: MissionTimelineAction }> = ({ action }) => {
   if (action?.controlsToComplete?.length && action.networkSyncStatus === NetworkSyncStatus.UNSYNC) {
-    return <MissionTimelineItemCardTag tags={['Nombre de contrôles restants indisponible']} />
+    return <MissionTimelineItemCardTag tags={['Indisponible hors-ligne']} />
   }
   if (action?.controlsToComplete && action?.controlsToComplete?.length > 0) {
     return <MissionIncompleteControlTag nbrIncompleteControl={action?.controlsToComplete?.length} />
