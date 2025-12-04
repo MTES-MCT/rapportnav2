@@ -20,9 +20,9 @@ class ExportMissionAEMSingle(
     private val getMission: GetMission,
     private val fillAEMExcelRow: FillAEMExcelRow,
     private val formatDateTime: FormatDateTime,
-    @Value("\${rapportnav.aem.template.path}") private val aemTemplatePath: String,
-    @Value("\${rapportnav.aem.tmp_xlsx.path}") private val aemTmpXLSXPath: String,
-    @Value("\${rapportnav.aem.tmp_ods.path}") private val aemTmpODSPath: String,
+    @param:Value("\${rapportnav.aem.template.path}") private val aemTemplatePath: String,
+    @param:Value("\${rapportnav.aem.tmp_xlsx.path}") private val aemTmpXLSXPath: String,
+    @param:Value("\${rapportnav.aem.tmp_ods.path}") private val aemTmpODSPath: String,
 ) {
 
     private val logger = LoggerFactory.getLogger(ExportMissionAEMSingle::class.java)

@@ -126,7 +126,7 @@ data class MissionEntity(
             return MissionStatusEnum.UNAVAILABLE
         }
 
-        if (endDateTimeUtc != null && Instant.parse(endDateTimeUtc.toString()).isBefore(compareDate)) {
+        if (Instant.parse(endDateTimeUtc.toString()).isBefore(compareDate)) {
             return MissionStatusEnum.ENDED
         }
 

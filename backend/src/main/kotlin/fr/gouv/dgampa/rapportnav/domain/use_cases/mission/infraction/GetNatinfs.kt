@@ -14,7 +14,7 @@ import java.net.http.HttpResponse
 @UseCase
 class GetNatinfs(
     private val mapper: ObjectMapper,
-    @Value("\${MONITORENV_HOST}") private val host: String,
+    @param:Value("\${MONITORENV_HOST}") private val host: String,
 ) {
 
     @Cacheable(value = ["natinfs"])

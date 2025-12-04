@@ -42,9 +42,9 @@ class ExportMissionPatrolSingle2(
     private val getComputeEnvMission: GetComputeEnvMission,
     private val computeAllOperationalSummary: ComputeAllOperationalSummary,
 
-    @Value("\${rapportnav.rapport-patrouille.template.path}") private val docTemplatePath: String,
-    @Value("\${rapportnav.rapport-patrouille.tmp_docx.path}") private val docTmpDOCXPath: String,
-    @Value("\${rapportnav.rapport-patrouille.tmp_odt.path}") private val docTmpODTPath: String,
+    @param:Value("\${rapportnav.rapport-patrouille.template.path}") private val docTemplatePath: String,
+    @param:Value("\${rapportnav.rapport-patrouille.tmp_docx.path}") private val docTmpDOCXPath: String,
+    @param:Value("\${rapportnav.rapport-patrouille.tmp_odt.path}") private val docTmpODTPath: String,
 ) {
 
     private val logger = LoggerFactory.getLogger(ExportMissionPatrolSingle2::class.java)

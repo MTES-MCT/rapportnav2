@@ -14,23 +14,23 @@ import java.time.ZonedDateTime
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) constructor(
-    @JsonProperty("id") val id: Int,
-    @JsonProperty("missionTypes") val missionTypes: List<MissionTypeEnum>,
-    @JsonProperty("controlUnits") val controlUnits: List<LegacyControlUnitEntity>? = listOf(),
-    @JsonProperty("openBy") val openBy: String? = null,
-    @JsonProperty("completedBy") val completedBy: String? = null,
-    @JsonProperty("observationsCacem") val observationsCacem: String? = null,
-    @JsonProperty("observationsCnsp") val observationsCnsp: String? = null,
-    @JsonProperty("facade") val facade: String? = null,
-    @JsonProperty("geom") val geom: MultiPolygon? = null,
-    @JsonProperty("startDateTimeUtc") val startDateTimeUtc: ZonedDateTime,
-    @JsonProperty("endDateTimeUtc") val endDateTimeUtc: ZonedDateTime? = null,
-    @JsonProperty("envActions") val envActions: List<EnvActionEntity>? = null,
-    @JsonProperty("missionSource") val missionSource: MissionSourceEnum,
-    @JsonProperty("hasMissionOrder") val hasMissionOrder: Boolean,
-    @JsonProperty("isUnderJdp") val isUnderJdp: Boolean,
-    @JsonProperty("isGeometryComputedFromControls") val isGeometryComputedFromControls: Boolean,
-    @JsonProperty("observationsByUnit") val observationsByUnit: String? = null
+    @field:JsonProperty("id") val id: Int,
+    @field:JsonProperty("missionTypes") val missionTypes: List<MissionTypeEnum>,
+    @field:JsonProperty("controlUnits") val controlUnits: List<LegacyControlUnitEntity>? = listOf(),
+    @field:JsonProperty("openBy") val openBy: String? = null,
+    @field:JsonProperty("completedBy") val completedBy: String? = null,
+    @field:JsonProperty("observationsCacem") val observationsCacem: String? = null,
+    @field:JsonProperty("observationsCnsp") val observationsCnsp: String? = null,
+    @field:JsonProperty("facade") val facade: String? = null,
+    @field:JsonProperty("geom") val geom: MultiPolygon? = null,
+    @field:JsonProperty("startDateTimeUtc") val startDateTimeUtc: ZonedDateTime,
+    @field:JsonProperty("endDateTimeUtc") val endDateTimeUtc: ZonedDateTime? = null,
+    @field:JsonProperty("envActions") val envActions: List<EnvActionEntity>? = null,
+    @field:JsonProperty("missionSource") val missionSource: MissionSourceEnum,
+    @field:JsonProperty("hasMissionOrder") val hasMissionOrder: Boolean,
+    @field:JsonProperty("isUnderJdp") val isUnderJdp: Boolean,
+    @field:JsonProperty("isGeometryComputedFromControls") val isGeometryComputedFromControls: Boolean,
+    @field:JsonProperty("observationsByUnit") val observationsByUnit: String? = null
 ) {
 
     fun toMissionEntity(): MissionEntity {
