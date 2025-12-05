@@ -16,7 +16,7 @@ class EstablishmentModel(
     var id: Int? = null,
 
     @Column(name = "name", unique = false, nullable = false)
-    var name: String,
+    var name: String? = null,
 
     @Column(name = "siren", nullable = true)
     var siren: String? = null,

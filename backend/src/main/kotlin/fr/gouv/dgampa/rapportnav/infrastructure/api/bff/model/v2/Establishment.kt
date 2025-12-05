@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.EstablishmentEntity
 
 class Establishment(
     var id: Int? = null,
-    var name: String,
+    var name: String? = null,
     var siren: String? = null,
     var siret: String? = null,
     var address: String? = null,

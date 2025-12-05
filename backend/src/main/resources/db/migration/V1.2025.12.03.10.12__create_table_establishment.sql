@@ -4,13 +4,13 @@ BEGIN
 CREATE TABLE establishment
 (
   id                       serial PRIMARY KEY,
-  siret                    integer NULL,
-  siren                    integer NULL,
-  name                     character varying(255) NOT NULL,
-  city                     character varying(16) NULL,
-  country                  character varying(16) NULL,
-  zipcode                  character varying(16) NULL,
-  address                  character varying(255) NULL,
+  siret   VARCHAR(36) NULL,
+  siren   VARCHAR(36) NULL,
+  name    VARCHAR(255) NULL,
+  city    VARCHAR(16) NULL,
+  country VARCHAR(16) NULL,
+  zipcode VARCHAR(16) NULL,
+  address VARCHAR(255) NULL,
   is_foreign boolean NULL,
   created_at               TIMESTAMP DEFAULT NOW(),
   updated_at               TIMESTAMP
