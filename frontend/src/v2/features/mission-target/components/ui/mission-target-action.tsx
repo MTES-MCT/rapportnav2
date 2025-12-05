@@ -4,16 +4,18 @@ import { Stack } from 'rsuite'
 import { MissionSourceEnum } from '../../../common/types/mission-types'
 
 interface MissionTargetActionProps {
+  index?: number
   showDetail: boolean
   disabledAdd?: boolean
   onEdit: () => void
-  onDelete: () => void
+  onDelete: (index?: number) => void
   source?: MissionSourceEnum
   onAddInfraction: () => void
   onShowDetail: () => void
 }
 
 const MissionTargetAction: React.FC<MissionTargetActionProps> = ({
+  index,
   source,
   onEdit,
   onDelete,
@@ -22,17 +24,11 @@ const MissionTargetAction: React.FC<MissionTargetActionProps> = ({
   onShowDetail,
   onAddInfraction
 }) => {
-  const handleEdit = () => {
-    if (onEdit) onEdit()
-  }
+  const handleEdit = () => onEdit?.()
 
-  const handleDelete = () => {
-    if (onDelete) onDelete()
-  }
+  const handleDelete = () => onDelete?.(index)
 
-  const handleAddInfraction = () => {
-    if (onAddInfraction) onAddInfraction()
-  }
+  const handleAddInfraction = () => onAddInfraction?.()
 
   return (
     <Stack

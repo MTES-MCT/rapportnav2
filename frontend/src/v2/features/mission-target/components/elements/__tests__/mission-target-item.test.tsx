@@ -144,6 +144,7 @@ describe('MissionTargetItem', () => {
 
     render(
       <MissionTargetItem
+        index={0}
         name="targets[0]"
         targetType={TargetType.VEHICLE}
         fieldFormik={{ field: { value: target } } as any}
@@ -157,8 +158,35 @@ describe('MissionTargetItem', () => {
     fireEvent.click(deleteButton)
 
     await waitFor(() => {
-      expect(mockOnDelete).toHaveBeenCalledWith('1')
+      expect(mockOnDelete).toHaveBeenCalledWith(0)
     })
+  })
+
+  it('does not call onDelete when index is falsy', async () => {
+    const target = {
+      id: '1',
+      vesselName: 'Test Vessel',
+      source: MissionSourceEnum.MONITORFISH
+    }
+
+    const mockOnDelete = vi.fn()
+
+    render(
+      <MissionTargetItem
+        index={undefined}
+        name="targets[0]"
+        targetType={TargetType.VEHICLE}
+        fieldFormik={{ field: { value: target } } as any}
+        actionNumberOfControls={5}
+        onDelete={mockOnDelete}
+      />,
+      { formikValues: { targets: [target] } }
+    )
+
+    const deleteButton = screen.getByTestId('delete-target')
+    fireEvent.click(deleteButton)
+
+    expect(mockOnDelete).not.toHaveBeenCalled()
   })
 
   it('does not call onDelete when target has no id', () => {

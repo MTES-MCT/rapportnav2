@@ -85,6 +85,32 @@ describe('MissionTargetList', () => {
     expect(screen.getAllByTestId('mission-target-item').length).toBe(1)
   })
 
+  it('removes correct target by index', async () => {
+    mockIsDefaultTarget.mockReturnValue(false)
+
+    const targets = [
+      { id: '1', vesselName: 'Vessel 1' },
+      { id: '2', vesselName: 'Vessel 2' },
+      { id: '3', vesselName: 'Vessel 3' }
+    ]
+
+    const fieldArray = createMockFieldArray(targets)
+
+    render(
+      <MissionTargetList name="targets" fieldArray={fieldArray} actionNumberOfControls={5} controlsToComplete={[]} />,
+      { formikValues: { targets } }
+    )
+
+    const deleteButtons = screen.getAllByTestId('delete-target')
+
+    // Delete the second target
+    deleteButtons[1].click()
+
+    await waitFor(() => {
+      expect(fieldArray.remove).toHaveBeenCalledWith(1)
+    })
+  })
+
   it('calls getTargetType with actionTargetType', () => {
     mockIsDefaultTarget.mockReturnValue(false)
 

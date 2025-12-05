@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import { ControlType } from '@common/types/control-types'
 import { ActionTargetTypeEnum, VehicleTypeEnum } from '@common/types/env-mission-types'
 import { Field, FieldArrayRenderProps, FieldProps } from 'formik'
@@ -16,7 +17,7 @@ export interface MissionTargetListProps {
   availableControlTypes?: ControlType[]
 }
 
-const MissionTargetList: React.FC<MissionTargetListProps> = ({
+const MissionTargetList: FC<MissionTargetListProps> = ({
   name,
   fieldArray,
   vehicleType,
@@ -35,6 +36,7 @@ const MissionTargetList: React.FC<MissionTargetListProps> = ({
             <Field name={`targets[${targetIndex}]`}>
               {(fieldFormik: FieldProps<Target>) => (
                 <MissionTargetItem
+                  index={targetIndex}
                   fieldFormik={fieldFormik}
                   vehicleType={vehicleType}
                   name={`targets[${targetIndex}]`}

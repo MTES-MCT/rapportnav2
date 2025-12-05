@@ -48,7 +48,13 @@ const MissionControlEnvForm: FC<MissionControlEnvFormProps> = ({
               <FormikEffect
                 onChange={value => validateForm(value).then(errors => handleSubmit(value as ControlEnvInput, errors))}
               />
-              <Stack direction="column" alignItems="flex-start" spacing={'0.5rem'} style={{ width: '100%' }}>
+              <Stack
+                direction="column"
+                alignItems="flex-start"
+                spacing={'0.5rem'}
+                style={{ width: '100%' }}
+                data-testid={'control-form-env'}
+              >
                 <Stack.Item style={{ width: '100%' }}>
                   <MissionControlTitle isToComplete={isToComplete} text={controlTypeLabel} />
                 </Stack.Item>

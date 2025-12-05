@@ -38,15 +38,13 @@ const MissionTargetControlEnv: FC<MissionTargetControlEnvProps> = ({
                         >
                           <Field name={`targets[${targetIndex}].controls[${controlIndex}]`}>
                             {(field: FieldProps<Control>) => (
-                              <div data-testid={'control-form-env'}>
-                                <MissionControlEnvForm
-                                  fieldFormik={field}
-                                  controlType={control.controlType}
-                                  maxAmountOfControls={actionNumberOfControls}
-                                  name={`targets[${targetIndex}].controls[${controlIndex}]`}
-                                  isToComplete={controlsToComplete?.includes(control.controlType)}
-                                />
-                              </div>
+                              <MissionControlEnvForm
+                                fieldFormik={field}
+                                controlType={control.controlType}
+                                maxAmountOfControls={actionNumberOfControls}
+                                name={`targets[${targetIndex}].controls[${controlIndex}]`}
+                                isToComplete={controlsToComplete?.includes(control.controlType)}
+                              />
                             )}
                           </Field>
                         </Stack.Item>
