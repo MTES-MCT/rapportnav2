@@ -51,7 +51,11 @@ const MissionTargetInfractionList: FC<MissionTargetInfractionListProps> = ({
               key={`${name}-${controlIndex}-${infractionIndex}`}
             >
               <Stack.Item style={{ width: '100%' }}>
-                {!noDivider && <Divider style={{ margin: '12px 0' }} />}
+                {!noDivider && (
+                  <div data-testid={'target-infraction-list-divider'}>
+                    <Divider style={{ margin: '12px 0' }} />
+                  </div>
+                )}
               </Stack.Item>
               <Stack.Item style={{ width: '100%' }}>
                 <MissionTargetInfractionForm

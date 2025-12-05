@@ -78,6 +78,7 @@ const MissionTargetNew: React.FC<MissionTargetNewProps> = ({
               onClick={handleShow}
               accent={Accent.SECONDARY}
               role={'target-new-button'}
+              data-testid={'target-new-button'}
               style={{ width: 'inherit' }}
               disabled={isDisabled || !availableControlTypes?.length}
             >

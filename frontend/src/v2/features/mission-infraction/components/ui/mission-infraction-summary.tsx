@@ -18,7 +18,13 @@ const MissionInfractionSummary: React.FC<MissionInfractionSummaryProps> = ({
   infractionType
 }) => {
   return (
-    <Stack direction="row" spacing={'0.5rem'} style={{ width: '100%' }} justifyContent="flex-start">
+    <Stack
+      direction="row"
+      spacing={'0.5rem'}
+      style={{ width: '100%' }}
+      justifyContent="flex-start"
+      data-testid="mission-infraction-summary"
+    >
       <Stack.Item>
         <MissionInfractionEnvTitle controlType={controlType} />
       </Stack.Item>
