@@ -9,25 +9,20 @@ interface SearchEstablishment {
   nom_complet: string
   nom_raison_sociale: string
   siege: {
-    geo_adresse: string
     siret: string
-  }
-}
-
-interface SearchEstablishment {
-  siren: string
-  nom_complet: string
-  nom_raison_sociale: string
-  siege: {
     geo_adresse: string
-    siret: string
+    code_postal: string
+    libelle_commune: string
   }
 }
 
 const transform = (value: SearchEstablishment) => ({
-  id: value?.siren,
+  country: 'France',
+  siren: value?.siren,
   siret: value?.siege?.siret,
+  city: value.siege.libelle_commune,
   name: value.nom_raison_sociale,
+  zipcode: value?.siege?.code_postal,
   address: value?.siege?.geo_adresse
 })
 

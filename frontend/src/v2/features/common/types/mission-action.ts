@@ -15,11 +15,11 @@ import {
   SpeciesInfraction
 } from '@common/types/fish-mission-types'
 import { InfractionByTarget } from '@common/types/infraction-types'
-import { CompletenessForStats } from '@common/types/mission-types'
 import { ActionType } from './action-type'
+import { Establishment } from './etablishment.ts'
 import { FishingGearType, LeisureType } from './leisure-fishing-gear-type.ts'
 import { MissionActionData } from './mission-action-data'
-import { MissionSource } from './mission-types'
+import { CompletenessForStats, MissionSourceEnum } from './mission-types.ts'
 import { NetworkSyncStatus } from './network-types.ts'
 import { SectorEtablishmentType, SectorType } from './sector-types.ts'
 
@@ -28,13 +28,13 @@ export interface MissionAction {
   missionId?: string
   ownerId?: string
   actionType: ActionType
-  source: MissionSource
+  source: MissionSourceEnum
   status?: ActionStatusType
   summaryTags?: string[]
   isCompleteForStats?: boolean
   controlsToComplete: ControlType[]
   completenessForStats: CompletenessForStats
-  sourcesOfMissingDataForStats: MissionSource[]
+  sourcesOfMissingDataForStats: MissionSourceEnum[]
   networkSyncStatus?: NetworkSyncStatus
   data: MissionActionData
 }
@@ -74,7 +74,6 @@ export interface MissionNavActionData extends MissionActionData {
   unitManagementTrainingType?: string
   resourceId?: string
   resourceType?: string
-  siren?: string
   nbrOfControl?: number
   sectorType?: SectorType
   nbrOfControlAmp?: number
@@ -85,6 +84,7 @@ export interface MissionNavActionData extends MissionActionData {
   isSeizureSleepingFishingGear?: boolean
   sectorEstablishmentType?: SectorEtablishmentType
   incidentDuringOperation?: boolean
+  establishment?: Establishment
 }
 
 export interface MissionNavAction extends MissionAction {

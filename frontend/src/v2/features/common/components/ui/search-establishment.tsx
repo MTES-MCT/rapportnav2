@@ -1,23 +1,20 @@
-import { FormikSearchProps, Icon, Message, TextInput } from '@mtes-mct/monitor-ui'
-import { FieldProps } from 'formik'
+import { Icon, Message, SearchProps, TextInput } from '@mtes-mct/monitor-ui'
+import { FormikErrors } from 'formik'
 import { useEffect, useState } from 'react'
 import { Dropdown, Stack } from 'rsuite'
 import styled from 'styled-components'
-import { useEstablishmentListQuery, useLazyEstablishmentQuery } from '../../services/use-etablishments-service'
+import { useEstablishmentListQuery } from '../../services/use-etablishments-service'
 import { Establishment } from '../../types/etablishment'
 
-type FormikSearchEstablishmentProps = {
-  name: string
-  fieldFormik: FieldProps<string>
+type SearchEstablishmentProps = {
+  establishment?: Establishment
+  handleSubmit: (value?: Establishment, errors?: FormikErrors<Establishment>) => void
 }
 
-export const FormikSearchEstablishment = styled(
-  ({ name, fieldFormik, ...props }: Omit<FormikSearchProps, 'options'> & FormikSearchEstablishmentProps) => {
+export const SearchEstablishment = styled(
+  ({ establishment, handleSubmit, ...props }: Omit<SearchProps, 'options'> & SearchEstablishmentProps) => {
     const [open, setOpen] = useState<boolean>()
-    const [siren, setSiren] = useState<string>()
     const [search, setSearch] = useState<string>()
-
-    const { data: establishment } = useLazyEstablishmentQuery(siren)
     const { data: establishments } = useEstablishmentListQuery(search)
 
     const getName = (establishment: Establishment) =>
@@ -29,9 +26,8 @@ export const FormikSearchEstablishment = styled(
       if (!value) return
 
       setOpen(false)
-      setSiren(eventKey)
       setSearch(getName(value))
-      fieldFormik.form.setFieldValue(name, value.id)
+      handleSubmit(value)
     }
 
     useEffect(() => {
@@ -39,14 +35,9 @@ export const FormikSearchEstablishment = styled(
     }, [establishments])
 
     useEffect(() => {
-      if (!establishment) return
+      if (!establishment || !establishment.name) return
       setSearch(getName(establishment))
     }, [establishment])
-
-    useEffect(() => {
-      if (!fieldFormik.field.value) return
-      setSiren(fieldFormik.field.value)
-    }, [fieldFormik])
 
     return (
       <Stack direction="column" spacing="0.5rem">
@@ -61,7 +52,7 @@ export const FormikSearchEstablishment = styled(
             <Stack.Item style={{ width: '100%' }}>
               <TextInput
                 {...props}
-                name={name}
+                name={'search'}
                 placeholder=""
                 value={search}
                 isRequired={true}

@@ -1,3 +1,4 @@
+import { Establishment } from './etablishment'
 import { MissionAction } from './mission-action'
 import { Vessel } from './vessel-type'
 
@@ -36,9 +37,8 @@ export interface Inquiry {
   conclusion?: InquiryConclusionType
   isSignedByInspector?: boolean
   missionId?: number
-  siren?: string
   missionIdUUID?: string
   actions?: MissionAction[]
   vessel?: Vessel
-  isForeignEstablishment?: boolean
+  establishment?: Establishment
 }

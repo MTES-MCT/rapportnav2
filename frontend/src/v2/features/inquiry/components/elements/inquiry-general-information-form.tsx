@@ -1,14 +1,14 @@
-import { FormikCheckbox, FormikEffect, FormikMultiRadio, FormikSelect, THEME } from '@mtes-mct/monitor-ui'
+import { FormikEffect, FormikMultiRadio, FormikSelect, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
-import { FormikForeignEstablishment } from '../../../common/components/ui/formik-foreign-establishment'
-import { FormikSearchEstablishment } from '../../../common/components/ui/formik-search-establishment'
+import { FormikEstablishment } from '../../../common/components/ui/formik-establishment'
 import { FormikSearchVessel } from '../../../common/components/ui/formik-search-vessel'
 import { usecontrolCheck } from '../../../common/hooks/use-control-check'
 import useAgentsQuery from '../../../common/services/use-agents'
 import { Agent } from '../../../common/types/crew-type'
+import { Establishment } from '../../../common/types/etablishment'
 import { Inquiry, InquiryTargetType } from '../../../common/types/inquiry'
 import { useInquiry } from '../../hooks/use-inquiry'
 import { InquiryInput, useInquiryGeneralInformation } from '../../hooks/use-inquiry-general-information'
@@ -114,31 +114,11 @@ const InquiryGeneralInfoForm: FC<{
                   )}
                   {values.type === InquiryTargetType.COMPANY && (
                     <Stack.Item style={{ width: '100%' }}>
-                      <Stack direction="column" spacing="0.2rem">
-                        <Stack.Item style={{ width: '100%' }}>
-                          {values.isForeignEstablishment ? (
-                            <FormikForeignEstablishment name="siren" label="Nom de l'etablissement" />
-                          ) : (
-                            <Field name="siren">
-                              {(field: FieldProps<string>) => (
-                                <FormikSearchEstablishment
-                                  name="siren"
-                                  fieldFormik={field}
-                                  label="Nom de l'etablissement"
-                                />
-                              )}
-                            </Field>
-                          )}
-                        </Stack.Item>
-                        <Stack.Item style={{ width: '100%' }}>
-                          <FormikCheckbox
-                            readOnly={false}
-                            isLight
-                            name="isForeignEstablishment"
-                            label="Etablissement étranger"
-                          />
-                        </Stack.Item>
-                      </Stack>
+                      <Field name="establishment">
+                        {(field: FieldProps<Establishment>) => (
+                          <FormikEstablishment name="establishment" fieldFormik={field} />
+                        )}
+                      </Field>
                     </Stack.Item>
                   )}
                 </Stack>
