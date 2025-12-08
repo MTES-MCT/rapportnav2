@@ -26,13 +26,11 @@ class GetAgentsCrewByMissionId(private val agentCrewRepository: IMissionCrewRepo
 
     fun execute(missionId: Int, commentDefaultsToString: Boolean? = false): List<MissionCrewEntity> {
         return agentCrewRepository.findByMissionId(missionId = missionId)
-            .map { MissionCrewEntity.fromMissionCrewModel(it) }
             .sortedBy { rolePriority.indexOf(it.role?.title) } //TODO replace by it.role.prority
     }
 
     fun execute(missionIdUUID: UUID, commentDefaultsToString: Boolean? = false): List<MissionCrewEntity> {
         return agentCrewRepository.findByMissionIdUUID(missionIdUUID = missionIdUUID)
-            .map { MissionCrewEntity.fromMissionCrewModel(it) }
             .sortedBy { rolePriority.indexOf(it.role?.title) } //TODO replace by it.role.prority
     }
 }

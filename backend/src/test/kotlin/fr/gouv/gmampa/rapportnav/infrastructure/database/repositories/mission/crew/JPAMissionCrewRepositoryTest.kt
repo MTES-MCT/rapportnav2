@@ -5,8 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.MissionCrewModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRoleRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBMissionCrewRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.crew.JPAMissionCrewRepository
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
@@ -29,12 +27,6 @@ class JPAMissionCrewRepositoryTest {
     @MockitoBean
     private lateinit var dbMissionCrewRepository: IDBMissionCrewRepository
 
-    @MockitoBean
-    private lateinit var dbAgentRepository: IDBAgentRepository
-
-    @MockitoBean
-    private lateinit var dbAgentRoleRepository: IDBAgentRoleRepository
-
     private lateinit var jpaMissionCrewRepository: JPAMissionCrewRepository
 
     private val service = ServiceEntityMock.create(id = 1, name = "Service 1")
@@ -56,11 +48,7 @@ class JPAMissionCrewRepositoryTest {
 
     @BeforeEach
     fun setUp() {
-        jpaMissionCrewRepository = JPAMissionCrewRepository(
-            dbMissionCrewRepository,
-            dbAgentRepository,
-            dbAgentRoleRepository
-        )
+        jpaMissionCrewRepository = JPAMissionCrewRepository(dbMissionCrewRepository)
     }
 
     @Test

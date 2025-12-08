@@ -7,6 +7,6 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRe
 @UseCase
 class AddOrUpdateMissionCrew(private val crewRepository: IMissionCrewRepository) {
     fun addOrUpdateMissionCrew(crew: MissionCrewEntity): MissionCrewEntity {
-        return crewRepository.save(crew).let { MissionCrewEntity.fromMissionCrewModel(it) }
+        return crewRepository.save(crew)
     }
 }

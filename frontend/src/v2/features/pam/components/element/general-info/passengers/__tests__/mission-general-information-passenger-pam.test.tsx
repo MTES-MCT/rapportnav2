@@ -1,7 +1,7 @@
 import { vi } from 'vitest'
-import { render, screen, fireEvent, waitFor } from '../../../../../../../test-utils.tsx'
+import { render, screen, fireEvent, waitFor } from '../../../../../../../../test-utils.tsx'
 import MissionGeneralInformationCrewPam from '../mission-general-information-passenger-pam.tsx'
-import { MissionPassenger } from '../../../../../common/types/passenger-type.ts'
+import { MissionPassenger } from '../../../../../../common/types/passenger-type.ts'
 
 describe('MissionGeneralInformationCrewPam', () => {
   // Helper function to create mock field array
@@ -60,7 +60,7 @@ describe('MissionGeneralInformationCrewPam', () => {
     renderComponent()
 
     // Check title
-    expect(screen.getByText('Passagers', { exact: false })).toBeInTheDocument()
+    expect(screen.getByText('Passagers')).toBeInTheDocument()
 
     // Check crew member names
     expect(screen.getByText('John Doe')).toBeInTheDocument()
@@ -71,6 +71,60 @@ describe('MissionGeneralInformationCrewPam', () => {
 
     // Check add member button
     expect(screen.getByText('Ajouter un passager')).toBeInTheDocument()
+  })
+
+  describe('collapsible functionality', () => {
+    it('shows content by default (expanded state)', () => {
+      renderComponent()
+
+      // Content should be visible
+      expect(screen.getByText('John Doe')).toBeInTheDocument()
+      expect(screen.getByText('Ajouter un passager')).toBeInTheDocument()
+    })
+
+    it('hides content when title is clicked', () => {
+      renderComponent()
+
+      // Click on the title to collapse
+      const title = screen.getByText('Passagers')
+      fireEvent.click(title)
+
+      // Content should be hidden
+      expect(screen.queryByText('John Doe')).not.toBeInTheDocument()
+      expect(screen.queryByText('Ajouter un passager')).not.toBeInTheDocument()
+    })
+
+    it('shows content again when title is clicked twice', () => {
+      renderComponent()
+
+      const title = screen.getByText('Passagers')
+
+      // Collapse
+      fireEvent.click(title)
+      expect(screen.queryByText('John Doe')).not.toBeInTheDocument()
+
+      // Expand
+      fireEvent.click(title)
+      expect(screen.getByText('John Doe')).toBeInTheDocument()
+      expect(screen.getByText('Ajouter un passager')).toBeInTheDocument()
+    })
+
+    it('hides empty state message when collapsed', () => {
+      renderComponent({
+        currentPassengerList: [],
+        fieldArray: createMockFieldArray()
+      })
+
+      // Empty state should be visible initially
+      expect(screen.getByText('Pas de passagers')).toBeInTheDocument()
+
+      // Collapse
+      const title = screen.getByText('Passagers')
+      fireEvent.click(title)
+
+      // Empty state should be hidden
+      expect(screen.queryByText('Pas de passagers')).not.toBeInTheDocument()
+    })
   })
 
   it('opens passenger form when adding a new member', async () => {
