@@ -2,7 +2,8 @@ import { FormikMultiRadio, FormikSelect } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, FormikProps } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { FormikSearchEstablishment } from '../../../common/components/ui/formik-search-establishment.tsx'
+import { Establishment } from 'src/v2/features/common/types/etablishment.ts'
+import { FormikEstablishment } from '../../../common/components/ui/formik-establishment.tsx'
 import { useSector } from '../../../common/hooks/use-sector.tsx'
 import { ActionControlInput } from '../../types/action-type.ts'
 
@@ -30,16 +31,11 @@ const MissionActionItemSectorControlForm: FC<{ formik: FormikProps<ActionControl
           </Stack>
         </Stack.Item>
         <Stack.Item style={{ width: '100%' }}>
-          <Field name="siren">
-            {(field: FieldProps<string>) => (
-              <FormikSearchEstablishment
-                name="siren"
-                isLight={true}
-                fieldFormik={field}
-                label="Nom de l'etablissement"
-              />
-            )}
-          </Field>
+          <Stack.Item style={{ width: '100%' }}>
+            <Field name="establishment">
+              {(field: FieldProps<Establishment>) => <FormikEstablishment name="establishment" fieldFormik={field} />}
+            </Field>
+          </Stack.Item>
         </Stack.Item>
       </Stack>
     </Stack.Item>

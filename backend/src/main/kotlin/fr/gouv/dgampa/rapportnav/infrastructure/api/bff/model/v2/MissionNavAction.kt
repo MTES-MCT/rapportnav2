@@ -87,7 +87,6 @@ class MissionNavAction(
                     incidentDuringOperation = navAction.incidentDuringOperation,
                     resourceId = navAction.resourceId,
                     resourceType = navAction.resourceType,
-                    siren = navAction.siren,
                     nbrOfControl = navAction.nbrOfControl,
                     sectorType = navAction.sectorType,
                     nbrOfControlAmp = navAction.nbrOfControlAmp,
@@ -100,6 +99,7 @@ class MissionNavAction(
                     controlType = navAction.controlType,
                     securityVisitType = navAction.securityVisitType,
                     nbrSecurityVisit = navAction.nbrSecurityVisit,
+                    establishment = navAction.establishment?.let { Establishment.fromEstablishmentEntity(it) },
                     targets = navAction.targets?.map { Target2.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc }
                 )
             )

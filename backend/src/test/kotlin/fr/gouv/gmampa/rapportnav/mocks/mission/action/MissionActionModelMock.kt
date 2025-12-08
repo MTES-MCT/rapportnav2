@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.EstablishmentModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import java.time.Instant
 import java.util.*
@@ -64,7 +65,6 @@ object MissionActionModelMock {
             isWithinDepartment = true,
             resourceType = "NAUTICAL",
             resourceId = 345,
-            siren = "mySiren",
             nbrOfControl = 34,
             sectorType = SectorType.FISHING.toString(),
             nbrOfControlAmp = 4,
@@ -76,7 +76,16 @@ object MissionActionModelMock {
             fishingGearType = FishingGearType.CASHIER?.toString(),
             controlType = "my control type",
             nbrSecurityVisit = 12,
-            securityVisitType = SecurityVisitType.SCHOOL_BOAT.toString()
+            securityVisitType = SecurityVisitType.SCHOOL_BOAT.toString(),
+            establishment = EstablishmentModel(
+                id = 2,
+                name = "myEstablishment",
+                address = "myAddress",
+                isForeign = false,
+                city = "Paris",
+                siren = "mySiren",
+                zipcode = "18733"
+            )
         )
     }
 }

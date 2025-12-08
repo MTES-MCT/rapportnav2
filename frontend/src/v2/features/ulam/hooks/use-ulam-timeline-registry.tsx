@@ -21,7 +21,7 @@ const TIME_LINE_DROPDOWN_ULAM_ITEMS_OFFICE: TimelineDropdownItem[] = [
   {
     type: ActionType.COMMUNICATION,
     icon: Icon.Contact,
-    dropdownText: `Acceuil public / communication`
+    dropdownText: `Accueil public / communication`
   },
   { type: ActionType.TRAINING, icon: Icon.License, dropdownText: `Ajouter une formation` },
   { type: ActionType.NOTE, icon: Icon.Note, dropdownText: 'Ajouter une note libre' },
@@ -293,7 +293,7 @@ const TIMELINE_ULAM_REGISTRY: TimelineRegistry = {
       borderColor: THEME.color.lightGray
     },
     icon: Icon.Contact,
-    title: `Acceuil public / communication`,
+    title: `Accueil public / communication`,
     component: MissionTimelineItemGenericCard
   },
   [ActionType.OTHER_CONTROL]: {

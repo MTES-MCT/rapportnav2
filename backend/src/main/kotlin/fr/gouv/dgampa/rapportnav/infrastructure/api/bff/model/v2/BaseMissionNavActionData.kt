@@ -49,7 +49,6 @@ interface BaseMissionNavActionData {
     val incidentDuringOperation: Boolean?
     val resourceType: String?
     val resourceId: Int?
-    var siren: String?
     var nbrOfControl: Int?
     var controlType: String?
     val sectorType: SectorType?
@@ -62,4 +61,5 @@ interface BaseMissionNavActionData {
     var sectorEstablishmentType: SectorEstablishmentType?
     var nbrSecurityVisit:Int?
     var securityVisitType: SecurityVisitType?
+    var establishment: Establishment?
 }

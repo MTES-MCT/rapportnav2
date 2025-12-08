@@ -18,9 +18,8 @@ class Inquiry(
     val missionIdUUID: UUID? = null,
     var actions: List<MissionNavAction?> = listOf(),
     var isSignedByInspector: Boolean? = null,
-    var siren: String? = null,
     val vessel: Vessel?= null,
-    var isForeignEstablishment: Boolean? = null
+    var establishment: Establishment? = null
 ) {
 
     fun toInquiryEntity(): InquiryEntity {
@@ -37,10 +36,9 @@ class Inquiry(
             missionId = missionId,
             missionIdUUID = missionIdUUID,
             isSignedByInspector = isSignedByInspector,
-            siren = siren,
             actions = listOf(),
             vessel = vessel?.toVesselEntity(),
-            isForeignEstablishment = isForeignEstablishment
+            establishment = establishment?.toEstablishmentEntity()
 
         )
     }
@@ -60,9 +58,8 @@ class Inquiry(
                 missionId = entity?.missionId,
                 missionIdUUID = entity?.missionIdUUID,
                 isSignedByInspector = entity?.isSignedByInspector,
-                siren = entity?.siren,
-                isForeignEstablishment = entity?.isForeignEstablishment,
                 vessel = entity?.vessel?.let { Vessel.fromVesselEntity(it) },
+                establishment = entity?.establishment?.let { Establishment.fromEstablishmentEntity(it) },
                 actions = entity?.actions?.map { action -> MissionNavAction.fromMissionActionEntity(action) } ?: listOf()
             )
         }
