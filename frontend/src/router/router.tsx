@@ -78,6 +78,16 @@ export const router = sentryCreateBrowserRouter([
     ),
     errorElement: <ErrorPage />
   },
+  // redirect non prefixed v2 page to v2 component
+  {
+    path: `/pam/missions`,
+    element: (
+      <AuthGuard>
+        <MissionListPamPage />
+      </AuthGuard>
+    ),
+    errorElement: <ErrorPage />
+  },
   {
     path: `${PAM_V2_HOME_PATH}/:missionId/:actionId?`,
     element: (
