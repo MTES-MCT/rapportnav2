@@ -16,10 +16,21 @@ type FormikDateRangePickerProps = FormikDatePickerWithDateDateProps & {
   name: string
   validateOnSubmit?: boolean
   fieldFormik: FieldProps<Date[]>
+  withTime?: boolean
+  allowSameDate?: boolean
+  showErrors?: boolean
 }
 
 export const FormikDateRangePicker = styled(
-  ({ name, fieldFormik, validateOnSubmit, ...props }: FormikDateRangePickerProps) => {
+  ({
+    name,
+    fieldFormik,
+    validateOnSubmit,
+    withTime = true,
+    allowSameDate = false,
+    showErrors = true,
+    ...props
+  }: FormikDateRangePickerProps) => {
     const [errors, setErrors] = useState<FormikErrors<DateInput>>()
     const [initValue, setInitValue] = useState<DateInput>()
 
@@ -45,20 +56,26 @@ export const FormikDateRangePicker = styled(
             onSubmit={handleSubmit}
             enableReinitialize
             validateOnChange={true}
-            validationSchema={simpleDateRangeValidationSchema}
+            validationSchema={simpleDateRangeValidationSchema({ allowSameDate })}
           >
             {({ validateForm }) => (
               <>
                 <FormikEffect
-                  onChange={async nextValue =>
+                  onChange={async nextValue => {
                     validateForm(nextValue).then(errors => handleSubmit(nextValue as DateInput, errors))
-                  }
+                  }}
                 />
                 <Stack direction={'column'} alignItems={'flex-start'}>
                   <Stack.Item>
                     <Stack direction="row">
                       <Stack.Item>
-                        <Label>{props.label || 'Date et heure de début et de fin (utc)'}</Label>
+                        <Label>
+                          {props.label
+                            ? props.label
+                            : withTime
+                              ? 'Date et heure de début et de fin (utc)'
+                              : 'Dates de début et de fin (utc)'}
+                        </Label>
                       </Stack.Item>
                       <Stack.Item>
                         <Label
@@ -77,7 +94,7 @@ export const FormikDateRangePicker = styled(
                           {...props}
                           label={''}
                           isRequired={true}
-                          withTime={true}
+                          withTime={withTime}
                           isCompact={true}
                           name={'startDateTimeUtc'}
                           isErrorMessageHidden={true}
@@ -91,7 +108,7 @@ export const FormikDateRangePicker = styled(
                           {...props}
                           label={''}
                           isRequired={true}
-                          withTime={true}
+                          withTime={withTime}
                           isCompact={true}
                           name={'endDateTimeUtc'}
                           isErrorMessageHidden={true}
@@ -99,11 +116,13 @@ export const FormikDateRangePicker = styled(
                       </Stack.Item>
                     </Stack>
                   </Stack.Item>
-                  <Stack.Item style={{ marginTop: '0.2rem' }}>
-                    <Text as={'h3'} color={THEME.color.maximumRed}>
-                      {<>{errors?.endDateTimeUtc ?? errors?.startDateTimeUtc ?? ''}</>}
-                    </Text>
-                  </Stack.Item>
+                  {showErrors && (
+                    <Stack.Item style={{ marginTop: '0.2rem' }}>
+                      <Text as={'h3'} color={THEME.color.maximumRed}>
+                        {<>{errors?.endDateTimeUtc ?? errors?.startDateTimeUtc ?? ''}</>}
+                      </Text>
+                    </Stack.Item>
+                  )}
                 </Stack>
               </>
             )}
