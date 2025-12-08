@@ -2,7 +2,7 @@ import { FormikCheckbox, THEME } from '@mtes-mct/monitor-ui'
 import { FieldArrayRenderProps } from 'formik'
 import React, { useState } from 'react'
 import { Stack } from 'rsuite'
-import { Agent, MissionCrewMember } from '../../common/types/crew-type.ts'
+import { Agent, MissionCrew } from '../../common/types/crew-type.ts'
 import MissionCrewFormNoComment from '../ui/mission-crew-form-no-comment.tsx'
 import MissionCrewListNoComment from '../ui/mission-crew-list-no-comment.tsx'
 import {
@@ -65,7 +65,7 @@ const MissionGeneralInformationCrewNoComment: React.FC<MissionGeneralInformation
             </Text>
           ) : (
             <MissionCrewListStyled>
-              {fieldArray.form.values.crew?.map((crewMember: MissionCrewMember, index: number) => (
+              {fieldArray.form.values.crew?.map((crewMember: MissionCrew, index: number) => (
                 <MissionCrewListItemStyled
                   index={index}
                   key={`${crewMember?.agent?.id}-index`}

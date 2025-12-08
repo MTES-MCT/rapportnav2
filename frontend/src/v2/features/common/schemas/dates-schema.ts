@@ -25,14 +25,14 @@ const getDateRangeSchema = (options?: DateRangeSchemaOptions | boolean) => {
         })
         .test('is-after-start', `La date et l'heure de fin doit être antérieure à la date de début`, function (value) {
           if (!value[0] || !value[1]) return true
-          return value && value[0] && new Date(value[1]) > new Date(value[0])
+          return value && value[0] && new Date(value[1]) >= new Date(value[0])
         })
     : array().of(date()).nullable()
 
   // Add mission date boundary validation
   const schemaWithMissionValidation = baseSchema.test(
     'within-mission-dates',
-    "Les dates de l'action doivent être comprises dans les dates de la mission",
+    'Les dates doivent être comprises dans les dates de la mission',
     dates => {
       if (!dates || dates.length === 0) return true
       if (!missionStartDate) return true

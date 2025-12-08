@@ -30,14 +30,3 @@ export type AgentRole = {
   id: string
   title: string
 }
-
-export type AgentService = {
-  agent: Agent
-  role: AgentRole
-  disabledAt?: string
-}
-
-export type ServiceWithAgents = {
-  service: Service
-  agents: AgentService[]
-}

@@ -6,11 +6,11 @@ import java.util.*
 
 interface IMissionCrewRepository {
 
-    fun findByMissionId(missionId: Int): List<MissionCrewModel>
+    fun findByMissionId(missionId: Int): List<MissionCrewEntity>
 
-    fun findByMissionIdUUID(missionIdUUID: UUID): List<MissionCrewModel>
+    fun findByMissionIdUUID(missionIdUUID: UUID): List<MissionCrewEntity>
 
     fun deleteById(id: Int): Boolean
 
-    fun save(crew: MissionCrewEntity): MissionCrewModel
+    fun save(crew: MissionCrewEntity): MissionCrewEntity
 }

@@ -1,16 +1,19 @@
 import { vi } from 'vitest'
-import { render, screen, fireEvent, waitFor } from '../../../../../../../test-utils.tsx'
+import { render, screen, fireEvent, waitFor } from '../../../../../../../../test-utils.tsx'
 import { Formik } from 'formik'
-import { MissionPassenger } from '../../../../../common/types/passenger-type.ts'
+import { MissionPassenger } from '../../../../../../common/types/passenger-type.ts'
 import MissionGeneralInformationPassengerPamForm from '../mission-general-information-passenger-pam-form.tsx'
 
 // Mock the hooks
-vi.mock('../../../../../common/hooks/use-mission-finished.tsx', () => ({
+vi.mock('../../../../../../common/hooks/use-mission-finished.tsx', () => ({
   useMissionFinished: vi.fn(() => true)
 }))
 
-vi.mock('../../../../../common/hooks/use-mission-dates.tsx', () => ({
-  useMissionDates: vi.fn(() => undefined)
+vi.mock('../../../../../../common/hooks/use-mission-dates.tsx', () => ({
+  useMissionDates: vi.fn(() => ({
+    startDateTimeUtc: '2023-12-01T00:00:00Z',
+    endDateTimeUtc: '2023-12-31T23:59:59Z'
+  }))
 }))
 
 const samplePassenger: MissionPassenger = {
@@ -80,7 +83,7 @@ describe('MissionGeneralInformationPassengerPamForm', () => {
     // Check validation errors
     expect(await screen.findByText('Nom requis.')).toBeInTheDocument()
     expect(await screen.findByText('Organisation requise.')).toBeInTheDocument()
-    expect(screen.queryAllByText('La date doit être bien renseignée')).toHaveLength(2)
+    expect(await screen.findByText("La date et l'heure de fin doit être renseignée")).toBeInTheDocument()
   })
 
   it('submits the form successfully', async () => {
@@ -93,7 +96,15 @@ describe('MissionGeneralInformationPassengerPamForm', () => {
     // Wait for form submission
     await waitFor(() => {
       expect(mockHandleSubmitForm).toHaveBeenCalledOnce()
-      expect(mockHandleSubmitForm).toHaveBeenCalledWith(expect.objectContaining(samplePassenger))
+      expect(mockHandleSubmitForm).toHaveBeenCalledWith(
+        expect.objectContaining({
+          fullName: samplePassenger.fullName,
+          organization: samplePassenger.organization,
+          isIntern: samplePassenger.isIntern,
+          startDate: '2023-12-01T00:00:00.000Z',
+          endDate: '2023-12-02T00:00:00.000Z'
+        })
+      )
     })
   })
 
@@ -127,7 +138,7 @@ describe('MissionGeneralInformationPassengerPamForm', () => {
 
     expect(await screen.findByText('Nom requis.')).toBeInTheDocument()
     expect(await screen.findByText('Organisation requise.')).toBeInTheDocument()
-    expect(screen.queryAllByText('La date doit être bien renseignée')).toHaveLength(2)
+    expect(await screen.findByText("La date et l'heure de fin doit être renseignée")).toBeInTheDocument()
   })
 
 })
