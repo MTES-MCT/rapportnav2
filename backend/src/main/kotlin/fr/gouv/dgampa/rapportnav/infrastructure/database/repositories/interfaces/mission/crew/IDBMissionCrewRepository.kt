@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.MissionCrewModel
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*

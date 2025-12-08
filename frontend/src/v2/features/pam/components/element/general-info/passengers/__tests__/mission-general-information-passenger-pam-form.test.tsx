@@ -1,7 +1,7 @@
 import { vi } from 'vitest'
-import { render, screen, fireEvent, waitFor } from '../../../../../../../test-utils.tsx'
+import { render, screen, fireEvent, waitFor } from '../../../../../../../../test-utils.tsx'
 import { Formik } from 'formik'
-import { MissionPassenger } from '../../../../../common/types/passenger-type.ts'
+import { MissionPassenger } from '../../../../../../common/types/passenger-type.ts'
 import MissionGeneralInformationPassengerPamForm from '../mission-general-information-passenger-pam-form.tsx'
 
 const samplePassenger: MissionPassenger = {
