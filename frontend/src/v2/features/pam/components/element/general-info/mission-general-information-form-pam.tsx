@@ -8,9 +8,9 @@ import {
   MissionPAMGeneralInfoInitialInput,
   usePamMissionGeneralInfoForm
 } from '../../../hooks/use-pam-mission-general-information-form.tsx'
-import MissionGeneralInformationCrewPam from './mission-general-information-crew-pam.tsx'
+import MissionGeneralInformationCrewPam from './crew/mission-general-information-crew-pam.tsx'
 import MissionService from './mission-service.tsx'
-import MissionGeneralInformationPassengerPam from './mission-general-information-passenger-pam.tsx'
+import MissionGeneralInformationPassengerPam from './passengers/mission-general-information-passenger-pam.tsx'
 
 const MissionGeneralInformationFormPam: FC<{
   generalInfo2: MissionGeneralInfo2

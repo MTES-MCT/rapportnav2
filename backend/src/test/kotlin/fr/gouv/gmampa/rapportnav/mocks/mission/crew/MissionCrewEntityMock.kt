@@ -3,6 +3,7 @@ package fr.gouv.gmampa.rapportnav.mocks.mission.crew
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentRoleEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewAbsenceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
@@ -28,6 +29,7 @@ object MissionCrewEntityMock {
         ),
         missionId: Int? = null,
         missionIdUUID: UUID? = null,
+        absences: List<MissionCrewAbsenceEntity>? = listOf()
     ): MissionCrewEntity {
         return MissionCrewEntity(
             id = id,
@@ -35,7 +37,8 @@ object MissionCrewEntityMock {
             comment = comment,
             role = role,
             missionId = missionId,
-            missionIdUUID = missionIdUUID
+            missionIdUUID = missionIdUUID,
+            absences = absences
         )
     }
 }
