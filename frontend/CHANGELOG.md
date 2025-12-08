@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.45.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.44.0...frontend@v2.45.0) (2025-12-08)
+
+
+### Features
+
+* create establishment table ([ed3c65a](https://github.com/MTES-MCT/rapportnav2/commit/ed3c65a466815b7f0b3ee4b97580b9d255b6a52b))
+* **frontend:** establishment with foreign handling ([6882e6b](https://github.com/MTES-MCT/rapportnav2/commit/6882e6bf2a3c958fddfc14663e6d4b9a48e41914))
+
+
+### Bug Fixes
+
+* redirect v1 to v2 component ([0f4db83](https://github.com/MTES-MCT/rapportnav2/commit/0f4db83be4fcdc098fd8369df9f10792b1cbccba))
+
 ## [2.44.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.43.0...frontend@v2.44.0) (2025-12-04)
 
 

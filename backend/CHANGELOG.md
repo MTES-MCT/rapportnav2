@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.45.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.44.0...backend@v2.45.0) (2025-12-08)
+
+
+### Features
+
+* create establishment table ([ed3c65a](https://github.com/MTES-MCT/rapportnav2/commit/ed3c65a466815b7f0b3ee4b97580b9d255b6a52b))
+
+
+### Bug Fixes
+
+* **backend:** update model and table to make name not null ([fbf7c44](https://github.com/MTES-MCT/rapportnav2/commit/fbf7c44c52fdcc5342397a66bd75a8c1706bd7d9))
+
 ## [2.44.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.43.0...backend@v2.44.0) (2025-12-04)
 
 
