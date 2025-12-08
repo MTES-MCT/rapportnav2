@@ -22,7 +22,7 @@ import java.net.http.HttpResponse
 @Repository
 class APIEnvMissionRepositoryV2(
     clientFactory: HttpClientFactory,
-    @Value("\${MONITORENV_HOST}") private val host: String,
+    @param:Value("\${MONITORENV_HOST}") private val host: String,
     ): IEnvMissionRepository {
 
     private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepositoryV2::class.java);

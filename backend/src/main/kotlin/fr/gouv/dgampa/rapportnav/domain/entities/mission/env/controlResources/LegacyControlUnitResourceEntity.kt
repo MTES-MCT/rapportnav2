@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class LegacyControlUnitResourceEntity @JsonCreator constructor(
-    @JsonProperty("id") val id: Int,
-    @JsonProperty("controlUnitId") val controlUnitId: Int? = null,
-    @JsonProperty("name") val name: String? = null,
+    @field:JsonProperty("id") val id: Int,
+    @field:JsonProperty("controlUnitId") val controlUnitId: Int? = null,
+    @field:JsonProperty("name") val name: String? = null,
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

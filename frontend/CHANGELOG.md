@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.44.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.43.0...frontend@v2.44.0) (2025-12-04)
+
+
+### Features
+
+* **frontend:** remove most v1 code ([e277e6e](https://github.com/MTES-MCT/rapportnav2/commit/e277e6e6355f89c6b66ab20c42c68eb0e66515d7))
+
+
+### Bug Fixes
+
+* update controls to complete message when offline ([3141eb0](https://github.com/MTES-MCT/rapportnav2/commit/3141eb057d94ea6ad8a09b1a3a20ed0a12ca2a88))
+
 ## [2.43.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.42.0...frontend@v2.43.0) (2025-12-03)
 
 

@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class LegacyControlUnitEntity @JsonCreator constructor(
-    @JsonProperty("id") val id: Int,
-    @JsonProperty("administration") val administration: String? = null,
-    @JsonProperty("isArchived") val isArchived: Boolean? = false,
-    @JsonProperty("name") val name: String? = null,
-    @JsonProperty("resources") var resources: MutableList<LegacyControlUnitResourceEntity>? = mutableListOf(),
-    @JsonProperty("contact") val contact: String? = null
+    @field:JsonProperty("id") val id: Int,
+    @field:JsonProperty("administration") val administration: String? = null,
+    @field:JsonProperty("isArchived") val isArchived: Boolean? = false,
+    @field:JsonProperty("name") val name: String? = null,
+    @field:JsonProperty("resources") var resources: MutableList<LegacyControlUnitResourceEntity>? = mutableListOf(),
+    @field:JsonProperty("contact") val contact: String? = null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

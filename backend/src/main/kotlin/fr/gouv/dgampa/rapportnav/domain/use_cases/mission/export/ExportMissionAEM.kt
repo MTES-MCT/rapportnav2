@@ -20,9 +20,9 @@ import java.nio.file.StandardCopyOption
 class ExportMissionAEM(
     private val getMissionById: GetMission,
     private val fillAEMExcelRow: FillAEMExcelRow,
-    @Value("\${rapportnav.aem.template.path}") private val aemTemplatePath: String,
-    @Value("\${rapportnav.aem.tmp_xlsx.path}") private val aemTmpXLSXPath: String,
-    @Value("\${rapportnav.aem.tmp_ods.path}") private val aemTmpODSPath: String,
+    @param:Value("\${rapportnav.aem.template.path}") private val aemTemplatePath: String,
+    @param:Value("\${rapportnav.aem.tmp_xlsx.path}") private val aemTmpXLSXPath: String,
+    @param:Value("\${rapportnav.aem.tmp_ods.path}") private val aemTmpODSPath: String,
 
     ) {
 
