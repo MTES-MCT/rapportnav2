@@ -7,40 +7,35 @@ import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
-import java.util.*
 
 @Entity
 @EntityListeners(AuditingEntityListener::class)
-@Table(name = "mission_crew")
-class MissionCrewModel(
+@Table(name = "mission_crew_absence")
+class MissionCrewAbsenceModel(
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-    var id: Int?,
+    var id: Int? = null,
 
-    @ManyToOne
-    @JoinColumn(name = "agent_id")
-    var agent: AgentModel,
+    @Column(name = "start_datetime_utc", nullable = true)
+    var startDateTimeUtc: Instant? = null,
 
-    @Column(name = "mission_id", nullable = true)
-    var missionId: Int? = null,
+    @Column(name = "end_datetime_utc", nullable = true)
+    var endDateTimeUtc: Instant? = null,
 
-    @Column(name = "mission_id_uuid", nullable = true)
-    var missionIdUUID: UUID? = null,
+    @Column(name = "is_absent_full_mission", nullable = true)
+    var isAbsentFullMission: Boolean? = null,
 
-    @Column(name = "comment", nullable = true)
-    var comment: String? = null,
-
-    @ManyToOne
-    @JoinColumn(name = "agent_role_id", nullable = true)
-    var role: AgentRoleModel?,
+    @Column(name = "reason", nullable = true)
+    var reason: String? = null,
 
     @CreatedDate
-    @Column(name = "created_at", nullable = true, updatable = false)
+    @Column(name = "created_at", updatable = false)
     var createdAt: Instant? = null,
 
     @LastModifiedDate
-    @Column(name = "updated_at", nullable = true)
+    @Column(name = "updated_at")
     var updatedAt: Instant? = null,
 
     @CreatedBy
@@ -51,11 +46,7 @@ class MissionCrewModel(
     @Column(name = "updated_by")
     var updatedBy: Int? = null,
 
-    @OneToMany(
-        mappedBy = "missionCrew",
-        cascade = [CascadeType.ALL],
-        orphanRemoval = true
-    )
-    var absences: MutableList<MissionCrewAbsenceModel> = mutableListOf()
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mission_crew_id", nullable = true)
+    var missionCrew: MissionCrewModel? = null,
 )
