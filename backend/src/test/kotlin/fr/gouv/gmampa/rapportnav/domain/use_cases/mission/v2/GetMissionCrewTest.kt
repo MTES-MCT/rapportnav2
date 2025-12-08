@@ -61,7 +61,7 @@ class GetMissionCrewTest {
                 agent = agent1,
                 role = role,
                 missionId = missionId,
-                missionIdUUID = missionIdUUID
+                missionIdUUID = missionIdUUID,
             ),
             MissionCrewEntityMock.create(
                 agent = agent2,
@@ -78,7 +78,7 @@ class GetMissionCrewTest {
             oldServiceId = serviceId,
             generalInfo = generalInfos,
             missionId = missionId,
-            missionIdUUID = missionIdUUID
+            missionIdUUID = missionIdUUID,
         )
 
         // Then

@@ -13,15 +13,12 @@ import {
   THEME
 } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
-import { flatten } from 'lodash'
 import { FC, useEffect, useState } from 'react'
 import { FlexboxGrid, Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
 import * as Yup from 'yup'
-import useGetAgentRoles from '../../../../common/services/use-agent-roles.tsx'
-import useGetAgentServices from '../../../../common/services/use-agent-services.tsx'
-import { AgentService, ServiceWithAgents } from '../../../../common/types/service-agents-types.ts'
-import { Agent, MissionCrew } from '@common/types/crew-types.ts'
+import useGetAgentRoles from '../../../../../common/services/use-agent-roles.tsx'
+import { MissionCrew } from 'src/v2/features/common/types/crew-type.ts'
 
 const CrewFormDialogBody = styled((props: DialogProps) => <Dialog.Body {...props} />)(({ theme }) => ({
   padding: 24,
@@ -42,7 +39,7 @@ const CrewFormStack = styled((props: StackProps) => (
   width: '100%'
 })
 
-const CloseIconButton = styled((props: Omit<IconButtonProps, 'Icon'>) => (
+export const CloseIconButton = styled((props: Omit<IconButtonProps, 'Icon'>) => (
   <IconButton
     {...props}
     Icon={Icon.Close}
@@ -59,40 +56,39 @@ const CloseIconButton = styled((props: Omit<IconButtonProps, 'Icon'>) => (
 type CrewForm = {
   roleId?: string
   comment: string
-  agentId?: string
+  fullName?: string
 }
 
 const COMMENT_MAX_LENGTH = 23
 
 const crewSchema = Yup.object().shape({
   roleId: Yup.string().required('Fonction requise.'),
-  agentId: Yup.string().required('Identité requise.'),
+  fullName: Yup.string().required('Identité requise.'),
   comment: Yup.string().nullable().max(COMMENT_MAX_LENGTH, 'Maximum 23 caractères.')
 })
 
 interface MissionCrewModalProps {
-  crewId?: string
+  crewIndex?: number
   crewList: MissionCrew[]
   handleClose: (open: boolean) => void
   handleSubmitForm: (crew: Omit<AddOrUpdateMissionCrewInput, 'missionId'>) => Promise<void>
 }
 
 const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
-  crewId,
+  crewIndex,
   crewList,
   handleClose,
   handleSubmitForm
 }) => {
   const { data: agentRoles } = useGetAgentRoles()
 
-  // TODO: replace this, it's over complicated just to get a list of agents to fill a dropdown
-  const { data: agentServices } = useGetAgentServices()
-
-  const inputCrewMember: MissionCrew | undefined = !!crewId && crewList.find((mc: MissionCrew) => mc.id === crewId)
+  const inputCrewMember: MissionCrew | undefined = crewIndex >= 0 && crewList[crewIndex]
   const initialValue: CrewForm | undefined =
     inputCrewMember &&
     ({
-      agentId: inputCrewMember?.agent?.id,
+      fullName: !!inputCrewMember?.agent
+        ? [inputCrewMember?.agent?.firstName, inputCrewMember?.agent?.lastName].join(' ')
+        : inputCrewMember?.fullName,
       roleId: inputCrewMember?.role?.id,
       comment: inputCrewMember?.comment
     } as CrewForm)
@@ -100,41 +96,29 @@ const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
   const [initValue, setInitValue] = useState<CrewForm | undefined>(initialValue)
 
   useEffect(() => {
-    const crew = crewList?.find(crew => crew.id === crewId)
-    setInitValue({ roleId: crew?.role?.id, agentId: crew?.agent?.id, comment: crew?.comment || '' })
-  }, [crewId])
+    const crew = !!crewIndex && crewList[crewIndex]
+    setInitValue({
+      roleId: crew?.role?.id,
+      fullName: !!crew?.agent ? [crew?.agent?.firstName, crew?.agent?.lastName].join(' ') : crew?.fullName,
+      comment: crew?.comment || ''
+    })
+  }, [crewIndex, crewList])
 
   const handleSubmit = async (value: CrewForm) => {
-    const agent: AgentService | undefined = flatten(
-      (agentServices || []).map((serviceWithAgents: ServiceWithAgents) => serviceWithAgents.agents)
-    ).find(agent => agent.id === value.agentId)
     const role = agentRoles?.find(role => role.id === value.roleId)
     await handleSubmitForm({
+      id: crewIndex != undefined ? crewList[crewIndex].id : undefined,
       role,
-      agent: agent,
-      id: crewId,
+      fullName: value?.fullName,
       comment: value.comment
     })
-  }
-
-  const dropdownOptions = () => {
-    if (agentServices) {
-      const agents: Agent[] = flatten(
-        agentServices.map((serviceWithAgents: ServiceWithAgents) => serviceWithAgents.agents)
-      )
-      return agents.map((agent: Agent) => ({
-        value: agent.id,
-        label: `${agent.firstName} ${agent.lastName}`
-      }))
-    }
-    return []
   }
 
   return (
     <Dialog data-testid={'crew-form'}>
       <Dialog.Title>
         <FlexboxGrid align="middle" justify="space-between" style={{ paddingLeft: 24, paddingRight: 24 }}>
-          <FlexboxGrid.Item>{`${crewId ? 'Mise à jour' : 'Ajout'} d’un membre d’équipage ${crewId ? '' : 'du DCS'}`}</FlexboxGrid.Item>
+          <FlexboxGrid.Item>{`${crewIndex !== undefined && crewIndex >= 0 ? 'Mise à jour' : 'Ajout'} d’un membre d’équipage`}</FlexboxGrid.Item>
           <FlexboxGrid.Item>
             <CloseIconButton onClick={() => handleClose(false)} />
           </FlexboxGrid.Item>
@@ -153,15 +137,13 @@ const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
                 <Stack.Item style={{ width: '100%' }}>
                   <CrewFormStack direction="row">
                     <Stack.Item style={{ flex: 1, width: '50%' }}>
-                      <FormikSelect
-                        name="agentId"
-                        label="Identité"
+                      <FormikTextInput
+                        name="fullName"
+                        label="Prénom Nom"
                         aria-label="Identité"
                         isLight={true}
                         isRequired={true}
-                        options={dropdownOptions()}
-                        searchable
-                        disabledItemValues={crewList?.map(crew => crew.agent?.id)}
+                        itemType="text"
                       />
                     </Stack.Item>
                     <Stack.Item style={{ flex: 1, width: '50%' }}>
@@ -189,7 +171,7 @@ const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
             </CrewFormDialogBody>
             <CrewFormDialogAction>
               <Button type="submit" data-testid="submit-crew-form-button" accent={Accent.PRIMARY}>
-                {`${crewId ? 'Mettre à jour' : 'Ajouter'} un membre`}
+                {`${crewIndex >= 0 ? 'Mettre à jour' : 'Ajouter'} un membre`}
               </Button>
               <Button accent={Accent.SECONDARY} onClick={() => handleClose(false)}>
                 Annuler

@@ -1,9 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew
 
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.MissionCrewModel
-import java.time.Instant
 import java.util.*
-
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.MissionCrewModel
 
 data class MissionCrewEntity(
     val id: Int? = null,
@@ -12,19 +10,22 @@ data class MissionCrewEntity(
     val role: AgentRoleEntity? = null,
     val missionId: Int? = null,
     val missionIdUUID: UUID? = null,
-    val createdAt: Instant? = null,
-    val updatedAt: Instant? = null,
+    val fullName: String? = null,
+    val absences: List<MissionCrewAbsenceEntity>? = null
 ){
 
     fun toMissionCrewModel(commentDefaultsToString: Boolean? = false): MissionCrewModel {
-        return MissionCrewModel(
+        var model =  MissionCrewModel(
             id = id,
             missionId = missionId,
             agent = agent?.toAgentModel(),
             role = role?.toAgentRoleModel(),
             comment = if (comment == null && commentDefaultsToString == true) "" else comment,
             missionIdUUID = missionIdUUID,
+            fullName = fullName,
         )
+        model.absences = absences?.map { it.toMissionCrewAbsenceModel(model) }?.toMutableList() ?: mutableListOf()
+        return model
     }
 
     companion object {
@@ -36,9 +37,12 @@ data class MissionCrewEntity(
                 missionIdUUID = crew.missionIdUUID,
                 agent = crew.agent?.let { AgentEntity.fromAgentModel(it) },
                 role = crew.role?.let { AgentRoleEntity.fromAgentRoleModel(it) },
-                createdAt = crew.createdAt,
-                updatedAt = crew.updatedAt
+                absences = crew.absences.map { MissionCrewAbsenceEntity.fromMissionCrewAbsenceModel(it) }.sortedBy { it.id },
+                fullName = crew.fullName,
             )
         }
     }
 }
+
+
+
