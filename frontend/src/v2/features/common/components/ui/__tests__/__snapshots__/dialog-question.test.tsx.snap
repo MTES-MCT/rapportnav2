@@ -6,7 +6,7 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-jrIDTr jABooV Component-Dialog sc-kmYGLm gwGIDx"
+        class="sc-jrIDTr jABooV Component-Dialog sc-kmYGLm cCXAwe"
       >
         <div
           class="sc-kEbgWM jEKehV"
@@ -79,7 +79,7 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
             </div>
           </div>
           <div
-            class="sc-gtcBCx sc-cwyoCH eCwPFK YRWCf"
+            class="sc-gtcBCx sc-cwyoCH eCwPFK gxhAeH"
           >
             <div
               class="rs-stack"
@@ -205,7 +205,7 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-jrIDTr jABooV Component-Dialog sc-kmYGLm gwGIDx"
+      class="sc-jrIDTr jABooV Component-Dialog sc-kmYGLm cCXAwe"
     >
       <div
         class="sc-kEbgWM jEKehV"
@@ -278,7 +278,7 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-gtcBCx sc-cwyoCH eCwPFK YRWCf"
+          class="sc-gtcBCx sc-cwyoCH eCwPFK gxhAeH"
         >
           <div
             class="rs-stack"

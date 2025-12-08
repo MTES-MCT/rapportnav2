@@ -46,11 +46,12 @@ class GetCrewByServiceIdTest {
     }
 
     @Test
-    fun `should return crew sorted by role priority`() {
+    fun `should return crew sorted by role priority and id`() {
         val serviceId = 1
         val agents = listOf(
             createAgentModel(1, "John", "Doe", rolePriority = 7, roleTitle = "Mécanicien"),
             createAgentModel(2, "Jane", "Smith", rolePriority = 1, roleTitle = "Commandant"),
+            createAgentModel(4, "Jose", "Wilson", rolePriority = 4, roleTitle = "Chef mécanicien"),
             createAgentModel(3, "Bob", "Wilson", rolePriority = 4, roleTitle = "Chef mécanicien")
         )
 
@@ -58,11 +59,12 @@ class GetCrewByServiceIdTest {
 
         val result = getCrewByServiceId.execute(serviceId)
 
-        assertThat(result).hasSize(3)
+        assertThat(result).hasSize(4)
         // Sorted by role priority: 1, 4, 7
         assertThat(result[0].firstName).isEqualTo("Jane")  // priority 1 - Commandant
         assertThat(result[1].firstName).isEqualTo("Bob")   // priority 4 - Chef mécanicien
-        assertThat(result[2].firstName).isEqualTo("John")  // priority 7 - Mécanicien
+        assertThat(result[2].firstName).isEqualTo("Jose")  // priority 7 - Mécanicien
+        assertThat(result[3].firstName).isEqualTo("John")  // priority 7 - Mécanicien
     }
 
     @Test

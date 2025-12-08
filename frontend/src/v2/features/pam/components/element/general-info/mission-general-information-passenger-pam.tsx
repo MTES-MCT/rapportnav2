@@ -10,9 +10,9 @@ import {
   MissionCrewUnderlineStack
 } from '../../../../mission-general-infos/ui/mission-crew-list.tsx'
 import { MissionPassenger } from '../../../../common/types/passenger-type.ts'
-import MissionGeneralInformationPassengerPamForm from './mission-general-information-passenger-pam-form.tsx'
 import { THEME } from '@mtes-mct/monitor-ui'
 import MissionPassengerListItemPam from '../../ui/mission-passenger-list-item-pam.tsx'
+import MissionGeneralInformationPassengerPamForm from './passengers/mission-general-information-passenger-pam-form.tsx'
 
 interface MissionGeneralInformationCrewPamProps {
   name: string
@@ -96,8 +96,8 @@ const MissionGeneralInformationCrewPam: React.FC<MissionGeneralInformationCrewPa
         <>
           {selectedPassengerId !== undefined && (
             <MissionGeneralInformationPassengerPamForm
-              data-testid="passenger-form"
               missionId={missionId}
+              data-testid="passenger-form"
               handleClose={() => setSelectedPassengerId(undefined)}
               passenger={
                 selectedPassengerId === -1 ? undefined : fieldArray.form.values.passengers[selectedPassengerId]

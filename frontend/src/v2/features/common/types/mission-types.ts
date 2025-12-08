@@ -1,9 +1,9 @@
-import { MissionCrew } from '@common/types/crew-types'
 import { MissionTypeEnum, SeaFrontEnum } from '@common/types/env-mission-types'
-import { Service } from '@common/types/service-types'
+import { Service } from './service-types.ts'
 import { ControlUnitResource } from './control-unit-types.ts'
 import { MissionAction } from './mission-action'
 import { MissionPassenger } from './passenger-type.ts'
+import { MissionCrew } from './crew-type.ts'
 
 export type ControlUnit = {
   administration: string
