@@ -31,7 +31,7 @@ class ComputeAEMData(
         return ApiAnalyticsAEMDataOutput(
             id = missionId,
             idUUID = generalInfo?.missionIdUUID,
-            serviceId = generalInfo?.serviceId,
+            serviceId = generalInfo?.service?.id,
             startDateTimeUtc = envMission?.startDateTimeUtc,
             endDateTimeUtc = envMission?.endDateTimeUtc,
             missionTypes = envMission?.missionTypes,

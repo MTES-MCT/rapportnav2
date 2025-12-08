@@ -9,7 +9,11 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentRole
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Service
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -51,10 +55,10 @@ class UpdateGeneralInfoTest {
         serviceId: Int?,
         missionIdUUID: UUID? = null
     ): MissionGeneralInfoEntity {
-        val entity = MissionGeneralInfoEntity(
+        val entity = MissionGeneralInfoEntityMock.create(
             id = 1,
             missionId = missionId,
-            serviceId = serviceId,
+            service = ServiceEntityMock.create(id = serviceId),
             missionIdUUID = missionIdUUID
         )
         return entity
@@ -66,14 +70,9 @@ class UpdateGeneralInfoTest {
         val missionId = 123
         val oldServiceId = 456
         val newServiceId = 789
-        val missionGeneralInfo = MissionGeneralInfo2(
+        val missionGeneralInfo = MissionGeneralInfo2Mock.create(
             missionId = missionId,
-            serviceId = newServiceId,
-            startDateTimeUtc = Instant.now(),
-            endDateTimeUtc = Instant.now(),
-            missionTypes = listOf(),
-            observations = "Test observations",
-            resources = emptyList()
+            service = Service.fromServiceEntity(ServiceEntityMock.create(id = newServiceId)),
             )
 
         val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId)
@@ -115,16 +114,9 @@ class UpdateGeneralInfoTest {
         ))
         val crewEntity = crew.map { it.toMissionCrewEntity() }
 
-        val missionGeneralInfo  = MissionGeneralInfo2(
-            isUnderJdp = true,
+        val missionGeneralInfo  = MissionGeneralInfo2Mock.create(
             missionId = missionId,
-            serviceId = serviceId,
-            startDateTimeUtc = Instant.now(),
-            endDateTimeUtc = Instant.now(),
-            missionTypes = listOf(),
-            observations = "Test observations",
-            resources = emptyList(),
-            crew = crew
+            service = Service.fromServiceEntity(ServiceEntityMock.create(id = serviceId)),
             )
         val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId)
         val missionGeneralInfoModel = missionGeneralInfoEntity.toMissionGeneralInfoModel()
@@ -145,7 +137,7 @@ class UpdateGeneralInfoTest {
         )
 
         val input = MissionEnvInput(
-            isUnderJdp = true,
+            isUnderJdp = null,
             missionId = missionId,
             startDateTimeUtc = missionGeneralInfo.startDateTimeUtc,
             endDateTimeUtc = missionGeneralInfo.endDateTimeUtc,
@@ -161,15 +153,9 @@ class UpdateGeneralInfoTest {
     fun `execute should handle null service ID`() {
         // Given
         val missionId = 123
-        val missionGeneralInfo = MissionGeneralInfo2(
+        val missionGeneralInfo = MissionGeneralInfo2Mock.create(
             missionId = missionId,
-            serviceId = null,
-            startDateTimeUtc = Instant.now(),
-            endDateTimeUtc = Instant.now(),
-            missionTypes = listOf(),
-            observations = "Test observations",
-            resources = emptyList(),
-            crew = emptyList(),
+            service = null,
         )
         val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionId)
         val missionGeneralInfoModel = missionGeneralInfoEntity.toMissionGeneralInfoModel()
@@ -201,15 +187,9 @@ class UpdateGeneralInfoTest {
     fun `execute should return null when an exception occurs`() {
         // Given
         val missionId = 123
-        val missionGeneralInfo = MissionGeneralInfo2(
+        val missionGeneralInfo = MissionGeneralInfo2Mock.create(
             missionId = missionId,
-            serviceId = null,
-            startDateTimeUtc = Instant.now(),
-            endDateTimeUtc = Instant.now(),
-            missionTypes = listOf(),
-            observations = "Test observations",
-            resources = emptyList(),
-            crew = emptyList(),
+            service = null,
         )
 
         // When
@@ -233,14 +213,9 @@ class UpdateGeneralInfoTest {
         val missionIdUUID = UUID.randomUUID()
         val oldServiceId = 456
         val newServiceId = 789
-        val missionGeneralInfo = MissionGeneralInfo2(
+        val missionGeneralInfo = MissionGeneralInfo2Mock.create(
             missionIdUUID = missionIdUUID,
-            serviceId = newServiceId,
-            startDateTimeUtc = Instant.now(),
-            endDateTimeUtc = Instant.now(),
-            missionTypes = listOf(),
-            observations = "Test observations",
-            resources = emptyList(),
+            service = Service.fromServiceEntity(ServiceEntityMock.create(id = newServiceId)),
 
             )
         val missionGeneralInfoEntity = missionGeneralInfo.toMissionGeneralInfoEntity(missionIdUUID = missionIdUUID)

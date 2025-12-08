@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentInput2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -40,7 +41,7 @@ class MigrateAgentTest {
 
     private lateinit var migrateAgent: MigrateAgent
 
-    val service = ServiceModel(id = 1, name = "service 1")
+    val service = ServiceEntityMock.create(id = 1, name = "service 1").toServiceModel()
     val role = AgentRoleModel(id = 1, title = "", priority = 3)
 
     val input = AgentInput2(

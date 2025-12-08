@@ -2,11 +2,12 @@ package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.FindById
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.UserRestController
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.user.UserMock
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.any
@@ -45,7 +46,7 @@ class UserRestControllerTest {
     @Test
     fun `should return a user info`() {
         val user = UserMock.create()
-        val service = ServiceEntity(id = 1, name = "PAM Jeanne Barret A")
+        val service = ServiceEntityMock.create(id = 1, name = "PAM Jeanne Barret A")
 
         `when`(findById.execute(id = 1)).thenReturn(user)
         `when`(getServiceById.execute(any())).thenReturn(service)

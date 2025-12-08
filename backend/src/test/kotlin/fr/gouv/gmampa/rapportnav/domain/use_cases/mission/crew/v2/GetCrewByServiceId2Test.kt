@@ -5,6 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -29,21 +30,21 @@ class GetCrewByServiceId2Test {
                 lastName = "lastName1",
                 firstName = "firstName1",
                 role = AgentRoleModel(id = 1, title = "", priority = 3),
-                service = ServiceModel(id = 1, name = "service 1"),
+                service = ServiceEntityMock.create(id = 1, name = "service 1").toServiceModel()
             ), AgentModel2(
                 id = 2,
                 lastName = "lastName2",
                 firstName = "firstName2",
                 disabledAt = Instant.now(),
                 role = AgentRoleModel(id = 1, title = "", priority = 2),
-                service = ServiceModel(id = 1, name = "service 1")
+                service = ServiceEntityMock.create(id = 1, name = "service 1").toServiceModel()
             ),
             AgentModel2(
                 id = 3,
                 lastName = "lastName3",
                 firstName = "firstName3",
                 role = AgentRoleModel(id = 1, title = "", priority = 1),
-                service = ServiceModel(id = 1, name = "service 1")
+                service = ServiceEntityMock.create(id = 1, name = "service 1").toServiceModel()
             )
         )
         Mockito.`when`(agentRepo.findByServiceId(1)).thenReturn(agents)

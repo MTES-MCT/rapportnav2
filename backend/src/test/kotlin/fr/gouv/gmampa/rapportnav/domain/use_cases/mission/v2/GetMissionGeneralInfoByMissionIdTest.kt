@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -47,9 +48,8 @@ class GetMissionGeneralInfoByMissionIdTest {
     }
 
     private fun getMissionGeneralInfoModel(missionId: Int? = null, missionIdUUID: UUID? = null): MissionGeneralInfoModel {
-        val model = MissionGeneralInfoModel(
+        val model = MissionGeneralInfoEntityMock.create(
             id = 1,
-            serviceId = 3,
             missionId = missionId,
             consumedGOInLiters = 2.5f,
             consumedFuelInLiters = 2.7f,
@@ -57,7 +57,7 @@ class GetMissionGeneralInfoByMissionIdTest {
             nbrOfRecognizedVessel = 9,
             jdpType = JdpTypeEnum.DOCKED,
             missionIdUUID = missionIdUUID
-        )
+        ).toMissionGeneralInfoModel()
         return model
     }
 }

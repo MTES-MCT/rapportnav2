@@ -26,7 +26,7 @@ export type MissionGeneralInfoPam = {
   consumedFuelInLiters?: number
   operatingCostsInEuro?: number
   fuelCostsInEuro?: number
-  serviceId?: number
+  service?: Service
   nbrOfRecognizedVessel?: number
 }
 

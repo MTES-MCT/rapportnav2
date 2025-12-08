@@ -44,10 +44,8 @@ class ExportMissionPatrolSingle(
     private val mapStatusDurations: MapStatusDurations,
     private val formatActionsForTimeline: FormatActionsForTimeline,
     private val getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus,
-    private val computeDurations: ComputeDurations,
     private val getInfoAboutNavAction: GetInfoAboutNavAction,
     private val formatDateTime: FormatDateTime,
-    private val getServiceById: GetServiceById,
     @param:Value("\${rapportnav.rapport-patrouille.template.path}") private val docTemplatePath: String,
     @param:Value("\${rapportnav.rapport-patrouille.tmp_docx.path}") private val docTmpDOCXPath: String,
     @param:Value("\${rapportnav.rapport-patrouille.tmp_odt.path}") private val docTmpODTPath: String,
@@ -78,7 +76,7 @@ class ExportMissionPatrolSingle(
         try {
 
             val generalInfo: MissionGeneralInfoEntity? = getMissionGeneralInfoByMissionId.execute(mission.id)
-            val service = getServiceById.execute(generalInfo?.serviceId)
+            val service = generalInfo?.service
 
 
             val agentsCrew: List<MissionCrewEntity> =

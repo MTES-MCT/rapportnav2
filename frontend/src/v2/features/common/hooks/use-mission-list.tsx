@@ -17,7 +17,11 @@ export function useMissionList(): MissionListHook {
     return `Mission #${formaDateMissionNameUlam(startDate)}`
   }
   const getCrewNumber = (mission: Mission2) =>
-    !mission?.generalInfos?.serviceId ? '--' : mission?.generalInfos.serviceId % 2 === 0 ? 'B' : 'A'
+    !mission?.generalInfos?.service?.id
+      ? '--'
+      : ((mission?.generalInfos.service?.id as unknown as number) ?? 0) % 2 === 0
+        ? 'B'
+        : 'A'
 
   const getExportLabel = (mission: Mission2) =>
     `- ${formatMissionName(mission.data.startDateTimeUtc)} - ${getOpenByText(mission.data.missionSource)} - ${mission.actions?.length ?? 0} action(s)`

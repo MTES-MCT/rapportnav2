@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
@@ -40,8 +41,9 @@ class MissionGeneralInfoModel(
     @Column(name = "fuel_costs_in_euro", nullable = true)
     var fuelCostsInEuro: Float? = null,
 
-    @Column(name = "service_id", nullable = true)
-    var serviceId: Int? = null,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_id")
+    var service: ServiceModel? = null,
 
     @Column(name = "nbr_of_recognized_vessel", nullable = true)
     var  nbrOfRecognizedVessel: Int? = null,

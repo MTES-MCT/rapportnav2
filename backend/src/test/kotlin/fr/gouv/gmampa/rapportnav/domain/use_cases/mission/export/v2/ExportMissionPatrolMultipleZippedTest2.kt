@@ -8,7 +8,9 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissio
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ZipFiles
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -46,9 +48,10 @@ class ExportMissionPatrolMultipleZippedTest2 {
         )
         val mission2 = MissionEntityMock2.create(
             generalInfos = MissionGeneralInfoEntity2(
-                data = MissionGeneralInfoEntity(
+                data = MissionGeneralInfoEntityMock.create(
                     id = 1,
                     missionId = missionIds.first(),
+                    service = ServiceEntityMock.create(),
                     nbrOfRecognizedVessel = 3,
                     consumedFuelInLiters = 3f,
                     consumedGOInLiters = 3f,

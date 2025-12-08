@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
@@ -10,6 +10,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IServiceReposi
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetActiveCrewForService
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.generalInfo.MissionServiceInput
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
 import kotlin.jvm.optionals.getOrNull
 
@@ -40,7 +41,10 @@ class UpdateMissionService(
                 missionId = input.missionId
             )
         }
-        info.serviceId = input.serviceId;
+
+        val service: ServiceModel? = serviceRepo.findById(input.serviceId).getOrNull()
+        info.service = service
+
         infoRepo.save(MissionGeneralInfoEntity.fromMissionGeneralInfoModel(info));
         return serviceRepo.findById(input.serviceId).getOrNull()?.let { ServiceEntity.fromServiceModel(it) }
         ;

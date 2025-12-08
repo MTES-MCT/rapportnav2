@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
@@ -20,6 +21,10 @@ class ServiceModel(
 
     @Column(name = "name", unique = true, nullable = false)
     var name: String,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "service_type", nullable = false)
+    var serviceType: ServiceTypeEnum,
 
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)

@@ -18,7 +18,7 @@ data class MissionGeneralInfoInput(
             distanceInNauticalMiles,
             consumedGOInLiters,
             consumedFuelInLiters,
-            serviceId,
+            service = null,
             nbrOfRecognizedVessel
         )
     }

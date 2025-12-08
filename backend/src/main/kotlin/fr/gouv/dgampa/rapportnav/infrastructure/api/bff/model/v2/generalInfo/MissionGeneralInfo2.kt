@@ -1,13 +1,14 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Service
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.generalInfo.InterMinisterialService
 import java.time.Instant
 import java.util.*
@@ -26,7 +27,7 @@ data class MissionGeneralInfo2(
     var consumedFuelInLiters: Float? = null,
     var operatingCostsInEuro: Float? = null,
     var fuelCostsInEuro: Float? = null,
-    var serviceId: Int? = null,
+    var service: Service? = null,
     var nbrOfRecognizedVessel: Int? = null,
     val crew: List<MissionCrew>? = null,
     val services: List<ServiceEntity>? = null,
@@ -56,7 +57,7 @@ data class MissionGeneralInfo2(
                 consumedFuelInLiters = generalInfo2?.data?.consumedFuelInLiters,
                 operatingCostsInEuro = generalInfo2?.data?.operatingCostsInEuro,
                 fuelCostsInEuro = generalInfo2?.data?.fuelCostsInEuro,
-                serviceId = generalInfo2?.data?.serviceId,
+                service = generalInfo2?.data?.service?.let { Service.fromServiceEntity(it) },
                 nbrOfRecognizedVessel = generalInfo2?.data?.nbrOfRecognizedVessel,
                 services = generalInfo2?.services,
                 crew = generalInfo2?.crew?.map { MissionCrew.fromMissionCrewEntity(it) },
@@ -85,7 +86,7 @@ data class MissionGeneralInfo2(
             consumedFuelInLiters = consumedFuelInLiters,
             operatingCostsInEuro = operatingCostsInEuro,
             fuelCostsInEuro = fuelCostsInEuro,
-            serviceId = serviceId,
+            service = service?.toServiceEntity(),
             nbrOfRecognizedVessel = nbrOfRecognizedVessel,
             isWithInterMinisterialService = isWithInterMinisterialService,
             isAllAgentsParticipating = isAllAgentsParticipating,

@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
@@ -14,6 +14,7 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateMissionNav
 import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.anyOrNull
@@ -65,7 +66,7 @@ class CreateMissionTest {
 
         createMission.execute(
             generalInfo2 = generalInfo2,
-            service = ServiceEntity(
+            service = ServiceEntityMock.create(
                 id = serviceId,
                 name = "Iris B",
                 controlUnits = listOf(1,2)
@@ -105,7 +106,7 @@ class CreateMissionTest {
 
         createMission.execute(
             generalInfo2 = generalInfo2,
-            service = ServiceEntity(
+            service = ServiceEntityMock.create(
                 id = serviceId,
                 name = "Iris B",
                 controlUnits = listOf(1,2)
@@ -148,7 +149,7 @@ class CreateMissionTest {
 
         createMission.execute(
             generalInfo2 = generalInfo2,
-            service = ServiceEntity(
+            service = ServiceEntityMock.create(
                 id = serviceId,
                 name = "Iris B",
                 controlUnits = listOf(1,2)

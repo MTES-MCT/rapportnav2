@@ -2,10 +2,10 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.crew
 
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentServiceRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetActiveCrewForService
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentServiceModel
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.AgentEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.AgentRoleEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.AgentServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -26,19 +26,17 @@ class GetActiveCrewForServiceTest {
     private val serviceId = 3
 
     private val newMissionCrew: List<AgentServiceModel> = listOf(
-        AgentServiceModel(
+        AgentServiceEntityMock.create(
             id = 3,
-            service = ServiceModel(id = serviceId, name = "Service1"),
-            agent = AgentModel(id = 1, firstName = "", lastName = ""),
-            role = AgentRoleModel(id = 1, title = ""),
-        ),
-        AgentServiceModel(
+            agent = AgentEntityMock.create(),
+            role = AgentRoleEntityMock.create(),
+        ).toAgentServiceModel(),
+        AgentServiceEntityMock.create(
             id = 4,
-            service = ServiceModel(id = serviceId, name = "Service1"),
-            agent = AgentModel(id = 1, firstName = "", lastName = ""),
-            role = AgentRoleModel(id = 1, title = ""),
+            agent = AgentEntityMock.create(),
+            role = AgentRoleEntityMock.create(),
             disabledAt = Instant.now()
-        )
+        ).toAgentServiceModel()
     )
 
     @Test

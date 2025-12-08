@@ -3,6 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.entities.mission.nav.generalinfo
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -21,7 +22,7 @@ class MissionGeneralInfoEntityTest {
             MissionGeneralInfoModel(
                 id = 1,
                 missionId = 1,
-                serviceId = 3,
+                service = ServiceEntityMock.create(id = 3).toServiceModel(),
                 consumedGOInLiters = 2.5f,
                 consumedFuelInLiters = 2.7f,
                 distanceInNauticalMiles = 1.9f,
@@ -34,7 +35,7 @@ class MissionGeneralInfoEntityTest {
         assertThat(generalInfoEntity).isNotNull();
         assertThat(generalInfoEntity.id).isEqualTo(1);
         assertThat(generalInfoEntity.missionId).isEqualTo(1);
-        assertThat(generalInfoEntity.serviceId).isEqualTo(3);
+        assertThat(generalInfoEntity.service?.id).isEqualTo(3);
         assertThat(generalInfoEntity.consumedGOInLiters).isEqualTo(2.5f);
         assertThat(generalInfoEntity.consumedFuelInLiters).isEqualTo(2.7f);
         assertThat(generalInfoEntity.distanceInNauticalMiles).isEqualTo(1.9f);
@@ -49,7 +50,7 @@ class MissionGeneralInfoEntityTest {
         val generalInfoEntity = MissionGeneralInfoEntity(
             id = 1,
             missionId = 1,
-            serviceId = 3,
+            service = ServiceEntityMock.create(id = 3),
             consumedGOInLiters = 2.5f,
             consumedFuelInLiters = 2.7f,
             distanceInNauticalMiles = 1.9f,
@@ -61,7 +62,7 @@ class MissionGeneralInfoEntityTest {
         assertThat(generalInfoModel).isNotNull();
         assertThat(generalInfoModel.id).isEqualTo(generalInfoEntity.id);
         assertThat(generalInfoModel.missionId).isEqualTo(generalInfoEntity.missionId);
-        assertThat(generalInfoModel.serviceId).isEqualTo(generalInfoEntity.serviceId);
+        assertThat(generalInfoModel.service?.id).isEqualTo(generalInfoEntity.service?.id);
         assertThat(generalInfoModel.consumedGOInLiters).isEqualTo(generalInfoEntity.consumedGOInLiters);
         assertThat(generalInfoModel.consumedFuelInLiters).isEqualTo(generalInfoEntity.consumedFuelInLiters);
         assertThat(generalInfoModel.distanceInNauticalMiles).isEqualTo(generalInfoEntity.distanceInNauticalMiles);

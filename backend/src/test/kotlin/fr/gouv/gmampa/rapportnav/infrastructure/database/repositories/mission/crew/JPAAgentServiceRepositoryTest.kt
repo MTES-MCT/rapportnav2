@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.Agen
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentServiceModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentServiceRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.crew.JPAAgentServiceRepository
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -27,12 +28,12 @@ class JPAAgentServiceRepositoryTest {
         AgentServiceModel(
             id = 1,
             agent = AgentModel(id = 1, firstName = "", lastName = ""),
-            service = ServiceModel(id = 1, name = "service 1"),
+            service = ServiceEntityMock.create(id = 1, name = "service 1").toServiceModel(),
             role = AgentRoleModel(id = 1, title = "")
         ), AgentServiceModel(
             id = 2,
             agent = AgentModel(id = 1, firstName = "", lastName = ""),
-            service = ServiceModel(id = 1, name = "service 1"),
+            service = ServiceEntityMock.create(id = 1, name = "service 1").toServiceModel(),
             role = AgentRoleModel(id = 1, title = "")
         )
     )

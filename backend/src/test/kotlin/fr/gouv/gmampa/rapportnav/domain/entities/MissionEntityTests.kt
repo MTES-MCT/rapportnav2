@@ -4,7 +4,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Completion
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentRoleEntity
@@ -15,6 +14,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.NavMissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.NavActionStatusMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -222,16 +222,17 @@ class MissionEntityTests {
         @Test
         fun `should return have list of services`() {
             val expected = listOf(
-                ServiceEntity(
+                ServiceEntityMock.create(
                     id = 3,
                     name = "firstService",
-                    controlUnits = listOf(1, 3)
-                ), ServiceEntity(
+                    controlUnits = listOf(1, 3),
+                ),
+                ServiceEntityMock.create(
                     id = 4,
                     name = "SecondService",
                     controlUnits = listOf(3, 4)
                 )
-            );
+            )
             val mission = MissionEntity(
                 envMission = ExtendedEnvMissionEntity.fromEnvMission(
                     EnvMissionMock.create()
