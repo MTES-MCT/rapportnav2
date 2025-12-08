@@ -61,7 +61,7 @@ export function useMissionActionGenericControl(
   const createValidationSchema = (isMissionFinished?: boolean) => {
     return object().shape({
       ...(withGeoCoords ? getGeoCoordsSchema(isMissionFinished) : {}),
-      ...(getDateRangeSchema(isMissionFinished) as Record<string, any>),
+      ...(getDateRangeSchema({ required: isMissionFinished }) as Record<string, any>),
       ...(schema ?? {})
     })
   }

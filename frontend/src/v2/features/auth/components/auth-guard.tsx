@@ -29,7 +29,6 @@ export default function AuthGuard(props: AuthGuardProps): JSX.Element | null {
   // GDPR: Only pseudonymized ID is sent, no PII (email, name)
   useEffect(() => {
     if (isAuthenticated && user?.id) {
-      debugger
       Sentry.setUser({ id: user.id.toString() })
       if (user.serviceId) {
         Sentry.setTag('service_id', user.serviceId.toString())

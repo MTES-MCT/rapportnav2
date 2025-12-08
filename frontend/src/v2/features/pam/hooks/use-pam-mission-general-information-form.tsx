@@ -55,7 +55,7 @@ export const usePamMissionGeneralInfoForm = (
 
   const createValidationSchema = (isMissionFinished: boolean) => {
     return object().shape({
-      ...getDateRangeSchema(isMissionFinished),
+      ...getDateRangeSchema({ required: isMissionFinished }),
 
       distanceInNauticalMiles: conditionallyRequired(
         () => number().min(0).nullable(),
