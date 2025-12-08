@@ -10,8 +10,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntity2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionEnvActionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -63,11 +65,12 @@ class MissionEntity2Tests {
         action.isCompleteForStats = true
 
         val generalInfo = MissionGeneralInfoEntity2Mock.create(
-            data = MissionGeneralInfoEntity(
+            data = MissionGeneralInfoEntityMock.create(
                 distanceInNauticalMiles = 1F,
                 consumedGOInLiters = 1F,
                 consumedFuelInLiters = 1F,
                 nbrOfRecognizedVessel = 1,
+                service = ServiceEntityMock.create(id = 1),
             ),
             crew = listOf(MissionCrewEntityMock.create())
         )

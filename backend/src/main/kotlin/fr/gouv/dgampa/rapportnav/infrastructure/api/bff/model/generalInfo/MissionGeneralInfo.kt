@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.generalInfo
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Service
 
 data class MissionGeneralInfo(
     var id: Int?,
@@ -9,7 +10,7 @@ data class MissionGeneralInfo(
     var distanceInNauticalMiles: Float? = null,
     var consumedGOInLiters: Float? = null,
     var consumedFuelInLiters: Float? = null,
-    var serviceId: Int? = null,
+    var service: Service? = null,
     var nbrOfRecognizedVessel: Int? = null,
     var nbHourAtSea: Int? = null,
     var interMinisterialServices: List<InterMinisterialService>? = listOf(),
@@ -22,7 +23,7 @@ data class MissionGeneralInfo(
             distanceInNauticalMiles = distanceInNauticalMiles,
             consumedGOInLiters = consumedGOInLiters,
             consumedFuelInLiters = consumedFuelInLiters,
-            serviceId = serviceId,
+            service = service?.toServiceEntity(),
             nbrOfRecognizedVessel = nbrOfRecognizedVessel,
             nbHourAtSea = nbHourAtSea,
             interMinisterialServices = interMinisterialServices?.map { it.toInterMinisterialServiceEntity() },
@@ -38,7 +39,7 @@ data class MissionGeneralInfo(
                 distanceInNauticalMiles = missionGeneralInfoEntity.distanceInNauticalMiles,
                 consumedGOInLiters = missionGeneralInfoEntity.consumedGOInLiters,
                 consumedFuelInLiters = missionGeneralInfoEntity.consumedFuelInLiters,
-                serviceId = missionGeneralInfoEntity.serviceId,
+                service = missionGeneralInfoEntity.service?.let { Service.fromServiceEntity(it) },
                 nbrOfRecognizedVessel = missionGeneralInfoEntity.nbrOfRecognizedVessel,
                 nbHourAtSea = missionGeneralInfoEntity.nbHourAtSea,
                 interMinisterialServices = missionGeneralInfoEntity.interMinisterialServices?.map { interMinisterialServiceEntity ->

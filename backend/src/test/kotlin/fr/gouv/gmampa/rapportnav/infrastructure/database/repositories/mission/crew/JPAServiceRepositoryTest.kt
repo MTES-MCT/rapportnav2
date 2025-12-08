@@ -3,6 +3,7 @@ package fr.gouv.gmampa.rapportnav.infrastructure.database.repositories.mission.c
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBServiceRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.crew.JPAServiceRepository
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -21,20 +22,21 @@ class JPAServiceRepositoryTest {
 
 
     private val serviceModels: List<ServiceModel> = listOf(
-        ServiceModel(
+        ServiceEntityMock.create(
             id = 3,
             name = "firstService",
             controlUnits = listOf(1, 3)
-        ), ServiceModel(
+        ).toServiceModel(),
+        ServiceEntityMock.create(
             id = 4,
             name = "SecondService",
             controlUnits = listOf(3, 4)
-        ),
-        ServiceModel(
+        ).toServiceModel(),
+        ServiceEntityMock.create(
             id = 3,
             name = "thirdService",
             controlUnits = listOf(4, 5)
-        )
+        ).toServiceModel()
     )
 
 

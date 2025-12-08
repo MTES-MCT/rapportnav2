@@ -34,8 +34,8 @@ class UpdateGeneralInfo(
             crew = getMissionCrew.execute(
                 missionId = missionId,
                 generalInfo = generalInfo,
-                newServiceId = generalInfo.serviceId,
-                oldServiceId = fromDb.serviceId,
+                newServiceId = generalInfo.service?.id,
+                oldServiceId = fromDb.service?.id,
             )
         )
 
@@ -63,8 +63,8 @@ class UpdateGeneralInfo(
             crew = getMissionCrew.execute(
                 generalInfo = generalInfo,
                 missionIdUUID = missionIdUUID,
-                newServiceId = generalInfo.serviceId,
-                oldServiceId = fromDb.serviceId,
+                newServiceId = generalInfo.service?.id,
+                oldServiceId = fromDb.service?.id,
             )
         )
         patchNavMission.execute(

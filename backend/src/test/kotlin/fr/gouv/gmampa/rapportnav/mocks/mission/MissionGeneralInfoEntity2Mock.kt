@@ -1,6 +1,6 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2

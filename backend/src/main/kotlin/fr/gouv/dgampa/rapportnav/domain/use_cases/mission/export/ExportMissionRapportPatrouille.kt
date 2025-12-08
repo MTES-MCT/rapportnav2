@@ -43,7 +43,6 @@ class ExportMissionRapportPatrouille(
     private val computeDurations: ComputeDurations,
     private val getInfoAboutNavAction: GetInfoAboutNavAction,
     private val formatDateTime: FormatDateTime,
-    private val getServiceById: GetServiceById,
     @param:Value("\${rapportnav.rapport-patrouille.template.path}") private val docTemplatePath: String,
     @param:Value("\${rapportnav.rapport-patrouille.tmp_docx.path}") private val docTmpDOCXPath: String,
     @param:Value("\${rapportnav.rapport-patrouille.tmp_odt.path}") private val docTmpODTPath: String,
@@ -64,7 +63,7 @@ class ExportMissionRapportPatrouille(
 
             // to combine
             val generalInfo: MissionGeneralInfoEntity? = getMissionGeneralInfoByMissionId.execute(missionId)
-            val service = getServiceById.execute(generalInfo?.serviceId)
+            val service = generalInfo?.service
 
 
             val agentsCrew: List<MissionCrewEntity> =

@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
@@ -11,6 +11,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
@@ -100,7 +101,7 @@ class MissionRestControllerTest {
         val controlUnitsIds = listOf(123)
         val gson = GsonSerializer().create()
         // Arrange
-        val service = ServiceEntity(2, name = "test", controlUnits = controlUnitsIds)
+        val service = ServiceEntityMock.create(2, name = "test", controlUnits = controlUnitsIds)
         val requestBody = MissionGeneralInfo2Mock.create()
         val mockMission = MissionEntityMock2.create(
             id = 123,
@@ -127,7 +128,7 @@ class MissionRestControllerTest {
 
         // Arrange
         val requestBody = MissionGeneralInfo2Mock.create()
-        val service = ServiceEntity(2, name = "test", controlUnits = listOf(123))
+        val service = ServiceEntityMock.create(2, name = "test", controlUnits = listOf(123))
         `when`(getServiceForUser.execute()).thenReturn(service)
         // Simulate mission creation returning null
         `when`(

@@ -38,7 +38,7 @@ class ComputePatrolData(
         return PatrolDataEntity(
             id = missionId,
             idUUID = mission.generalInfos?.data?.missionIdUUID,
-            serviceId = mission.generalInfos?.data?.serviceId,
+            serviceId = mission.generalInfos?.data?.service?.id,
             startDateTimeUtc = mission.data?.startDateTimeUtc,
             endDateTimeUtc = mission.data?.endDateTimeUtc,
             missionTypes = mission.data?.missionTypes,

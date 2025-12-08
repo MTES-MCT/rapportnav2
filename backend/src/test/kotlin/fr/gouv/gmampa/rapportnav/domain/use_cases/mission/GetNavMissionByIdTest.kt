@@ -1,13 +1,14 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetNavMissionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetServiceByControlUnit
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -76,11 +77,11 @@ class GetNavMissionByIdTest {
     private lateinit var navIllegalImmigrationRepository: INavActionIllegalImmigrationRepository
 
     private val serviceEntities: List<ServiceEntity> = listOf(
-        ServiceEntity(
+        ServiceEntityMock.create(
             id = 3,
             name = "firstService",
             controlUnits = listOf(1, 3)
-        ), ServiceEntity(
+        ), ServiceEntityMock.create(
             id = 4,
             name = "SecondService",
             controlUnits = listOf(3, 4)

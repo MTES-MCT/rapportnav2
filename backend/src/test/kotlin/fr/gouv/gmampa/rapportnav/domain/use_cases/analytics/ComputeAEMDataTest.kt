@@ -15,6 +15,8 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputeAEMData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionAEMSingle2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.anyInt
@@ -133,10 +135,10 @@ class ComputeAEMDataTest {
     @Test
     fun `Should include general info fields when present`() {
         val missionId = 123
-        val generalInfo = MissionGeneralInfoEntity(
+        val generalInfo = MissionGeneralInfoEntityMock.create(
             missionId = missionId,
             missionIdUUID = UUID.fromString("135689d8-3163-426c-aa26-e20eb9eb5f2e"),
-            serviceId = 42
+            service = ServiceEntityMock.create(id = 42)
         )
 
         `when`(getEnvMissionById2.execute(anyInt())).thenReturn(

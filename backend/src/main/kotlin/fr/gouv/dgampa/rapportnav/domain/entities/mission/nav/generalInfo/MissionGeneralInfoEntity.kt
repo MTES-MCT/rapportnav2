@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo
 
 import fr.gouv.dgampa.rapportnav.config.MandatoryForStats
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.JdpTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReinforcementTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
@@ -19,7 +20,7 @@ data class MissionGeneralInfoEntity(
     var consumedFuelInLiters: Float? = null,
     var operatingCostsInEuro: Float? = null,
     var fuelCostsInEuro: Float? = null,
-    var serviceId: Int? = null,
+    var service: ServiceEntity? = null,
     @MandatoryForStats
     var nbrOfRecognizedVessel: Int? = null,
     var isWithInterMinisterialService: Boolean? = false,
@@ -44,7 +45,7 @@ data class MissionGeneralInfoEntity(
                 consumedFuelInLiters = model.consumedFuelInLiters,
                 operatingCostsInEuro = model.operatingCostsInEuro,
                 fuelCostsInEuro = model.fuelCostsInEuro,
-                serviceId = model.serviceId,
+                service = model.service?.let { ServiceEntity.fromServiceModel(it) },
                 nbrOfRecognizedVessel = model.nbrOfRecognizedVessel,
                 isWithInterMinisterialService = model.isWithInterMinisterialService,
                 isMissionArmed = model.isMissionArmed,
@@ -68,7 +69,7 @@ data class MissionGeneralInfoEntity(
             consumedFuelInLiters = consumedFuelInLiters,
             operatingCostsInEuro = operatingCostsInEuro,
             fuelCostsInEuro = fuelCostsInEuro,
-            serviceId = serviceId,
+            service = service?.toServiceModel(),
             nbrOfRecognizedVessel = nbrOfRecognizedVessel,
             isWithInterMinisterialService = isWithInterMinisterialService,
             isMissionArmed = isMissionArmed,

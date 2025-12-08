@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.ServiceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
 import java.time.Instant
 
