@@ -1,16 +1,17 @@
+import { FC } from 'react'
 import Text from '@common/components/ui/text'
 import { ControlMethod } from '@common/types/control-types'
 import { VesselTypeEnum } from '@common/types/mission-types'
 import { Stack } from 'rsuite'
 import { useVessel } from '../../../common/hooks/use-vessel'
-import { useControlRegistry } from '../../../mission-control/hooks/use-control-registry'
+import { useControlRegistry } from '../../hooks/use-control-registry.tsx'
 
 type MissionControlNavSummaryProps = {
   vesselType?: VesselTypeEnum
   controlMethod?: ControlMethod
 }
 
-const MissionControlNavSummary: React.FC<MissionControlNavSummaryProps> = ({ vesselType, controlMethod }) => {
+const MissionControlNavSummary: FC<MissionControlNavSummaryProps> = ({ vesselType, controlMethod }) => {
   const { getVesselTypeName } = useVessel()
   const { getControlMethod } = useControlRegistry()
   return (

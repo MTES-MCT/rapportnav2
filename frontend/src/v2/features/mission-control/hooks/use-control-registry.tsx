@@ -39,7 +39,7 @@ const CONTROL_TYPE_REGISTRY: ControlTypeRegistry = {
   [ControlType.NAVIGATION]: 'Respect des règles de navigation',
   [ControlType.ADMINISTRATIVE]: 'Contrôle administratif navire',
   [ControlType.GENS_DE_MER]: 'Contrôle administratif gens de mer',
-  [ControlType.SECURITY]: 'Equipements et respect des normes de sécurité'
+  [ControlType.SECURITY]: 'Équipements et respect des normes de sécurité'
 }
 
 const CONTROL_RADIO_REGISTRY: ControlRadioRegistry = {
@@ -71,7 +71,7 @@ interface ControlHook {
   controlResultOptionsExtra: { label: string; value: ControlResult }[]
   getDisabledControlTypes: (enabledControlTypes?: ControlType[]) => ControlType[]
   getControlResultOptions: (withExtra?: boolean) => { label: string; value: ControlResult }[]
-  getRadios: (controltype?: ControlType) => { name: string; label: string; extra?: boolean }[]
+  getRadios: (controlType?: ControlType) => { name: string; label: string; extra?: boolean }[]
 }
 
 export function useControlRegistry(): ControlHook {
