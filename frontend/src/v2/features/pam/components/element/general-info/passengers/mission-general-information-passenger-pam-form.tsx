@@ -4,25 +4,21 @@ import {
   Button,
   DialogProps,
   FormikCheckbox,
-  FormikDatePicker,
   FormikSelect,
   FormikTextInput,
   Icon,
   IconButton,
   IconButtonProps,
-  Label,
   Size,
   THEME
 } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
-import { FC, useMemo } from 'react'
+import { FC } from 'react'
 import { Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
-import * as Yup from 'yup'
-import { MissionPassenger, PASSENGER_OPTIONS } from '../../../../common/types/passenger-type.ts'
-import { MissionDates, useMissionDates } from '../../../../common/hooks/use-mission-dates.tsx'
-import { useMissionFinished } from '../../../../common/hooks/use-mission-finished.tsx'
-import { getSingleDateSchema } from '../../../../common/schemas/dates-schema.ts'
+import { MissionPassenger, PASSENGER_OPTIONS } from '../../../../../common/types/passenger-type.ts'
+import MissionBoundFormikDateRangePicker from '../../../../../common/components/elements/mission-bound-formik-date-range-picker.tsx'
+import { MissionPassengerInput, usePassengerForm } from '../../../../hooks/use-passenger-form.tsx'
 
 const CrewFormDialogBody = styled((props: DialogProps) => <Dialog.Body {...props} />)(({ theme }) => ({
   padding: 24,
@@ -31,9 +27,8 @@ const CrewFormDialogBody = styled((props: DialogProps) => <Dialog.Body {...props
 }))
 
 const CrewFormDialogAction = styled((props: DialogProps) => <Dialog.Action {...props} />)(({ theme }) => ({
-  paddingTop: 12,
-  paddingBottom: 12,
-  justifyContent: 'center',
+  padding: 24,
+  justifyContent: 'flex-end',
   backgroundColor: theme.color.gainsboro
 }))
 
@@ -57,23 +52,6 @@ const CloseIconButton = styled((props: Omit<IconButtonProps, 'Icon'>) => (
   color: theme.color.gainsboro
 }))
 
-const getPassengerSchema = (missionDates?: MissionDates, isMissionFinished?: boolean) =>
-  Yup.object().shape({
-    fullName: Yup.string().required('Nom requis.'),
-    organization: Yup.string().required('Organisation requise.'),
-    isIntern: Yup.boolean(),
-    startDate: getSingleDateSchema({
-      isMissionFinished,
-      missionStartDate: missionDates?.startDateTimeUtc,
-      missionEndDate: missionDates?.endDateTimeUtc
-    }),
-    endDate: getSingleDateSchema({
-      isMissionFinished,
-      missionStartDate: missionDates?.startDateTimeUtc,
-      missionEndDate: missionDates?.endDateTimeUtc
-    })
-  })
-
 interface MissionPassengerModalProps {
   missionId?: string
   passenger?: MissionPassenger
@@ -87,19 +65,14 @@ const MissionGeneralInformationPassengerPamForm: FC<MissionPassengerModalProps> 
   handleClose,
   handleSubmitForm
 }) => {
-  const missionDates = useMissionDates(missionId)
-  const isMissionFinished = useMissionFinished(missionId)
-  const handleSubmit = async (value: MissionPassenger) => {
-    await handleSubmitForm(value)
+  const { getInitValue, fromInputToPassenger, validationSchema } = usePassengerForm(missionId)
+
+  const handleSubmit = async (value: MissionPassengerInput) => {
+    await handleSubmitForm(fromInputToPassenger(value))
   }
-
-  const passengerSchema = useMemo(
-    () => getPassengerSchema(missionDates, isMissionFinished),
-    [missionDates, isMissionFinished]
-  )
-
+  debugger
   return (
-    <Dialog data-testid={'crew-form'}>
+    <Dialog data-testid={'passenger-form'}>
       <Dialog.Title>
         <Stack direction={'row'} justifyContent={'space-between'} alignItems={'flex-start'} style={{ width: '100%' }}>
           <Stack.Item>{`${passenger ? 'Mise à jour' : 'Ajout'} d'un passager`}</Stack.Item>
@@ -111,8 +84,8 @@ const MissionGeneralInformationPassengerPamForm: FC<MissionPassengerModalProps> 
       <Formik
         onSubmit={handleSubmit}
         validateOnChange={false}
-        initialValues={passenger ?? ({} as MissionPassenger)}
-        validationSchema={passengerSchema}
+        initialValues={getInitValue(passenger)}
+        validationSchema={validationSchema}
       >
         <Form>
           <CrewFormDialogBody>
@@ -152,27 +125,22 @@ const MissionGeneralInformationPassengerPamForm: FC<MissionPassengerModalProps> 
                 </CrewFormStack>
               </Stack.Item>
               <Stack.Item style={{ flex: 1, width: '100%' }}>
-                <Label style={{ textAlign: 'left' }}>Dates de début et de fin *</Label>
-                <CrewFormStack direction="row">
-                  <Stack.Item style={{}}>
-                    <FormikDatePicker name="startDate" isRequired={true} isLight={true} />
-                  </Stack.Item>
-                  <Stack.Item style={{}}>
-                    <div> au </div>
-                  </Stack.Item>
-                  <Stack.Item style={{}}>
-                    <FormikDatePicker name="endDate" isRequired={true} isLight={true} />
-                  </Stack.Item>
-                </CrewFormStack>
+                <MissionBoundFormikDateRangePicker
+                  name="dates"
+                  label="Dates de début et de fin"
+                  missionId={missionId}
+                  withTime={false}
+                  isLight={true}
+                />
               </Stack.Item>
             </CrewFormStack>
           </CrewFormDialogBody>
           <CrewFormDialogAction>
-            <Button type="submit" data-testid="submit-passenger-form-button" accent={Accent.PRIMARY}>
-              {`${passenger ? 'Mettre à jour' : 'Ajouter'} passager`}
-            </Button>
-            <Button accent={Accent.SECONDARY} onClick={() => handleClose(false)}>
+            <Button accent={Accent.SECONDARY} size={Size.NORMAL} onClick={() => handleClose(false)}>
               Annuler
+            </Button>
+            <Button type="submit" data-testid="submit-passenger-form-button" accent={Accent.PRIMARY} size={Size.NORMAL}>
+              {`${passenger ? 'Mettre à jour' : 'Ajouter'} passager`}
             </Button>
           </CrewFormDialogAction>
         </Form>

@@ -5,13 +5,14 @@ import styled from 'styled-components'
 // Dialog: function component — style overrides target inner elements via .Component-Dialog
 const CustomDialog = styled((props: DialogProps) => <MonitorUiDialog {...props} />)`
   > div:last-child {
-    min-width: unset !important;
+    min-width: 600px !important;
   }
 `
 
 // Body: plain styled-component — styled() works directly
 CustomDialog.Body = styled(MonitorUiDialog.Body)`
   overflow: visible !important;
+  max-height: calc(100vh - 96px);
 `
 
 // Action: plain styled-component — styled() works directly

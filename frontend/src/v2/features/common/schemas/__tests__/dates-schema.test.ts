@@ -161,7 +161,7 @@ describe('getDateRangeSchema', () => {
         dates: [new Date('2023-12-31T10:00:00Z'), new Date('2024-01-15T12:00:00Z')]
       }
 
-      await expect(schema.validate(invalidData)).rejects.toThrow("Les dates de l'action doivent être comprises dans les dates de la mission")
+      await expect(schema.validate(invalidData)).rejects.toThrow("Les dates doivent être comprises dans les dates de la mission")
     })
 
     it('returns invalid when action start is after mission end', async () => {
@@ -177,7 +177,7 @@ describe('getDateRangeSchema', () => {
         dates: [new Date('2024-02-15T10:00:00Z'), new Date('2024-02-15T12:00:00Z')]
       }
 
-      await expect(schema.validate(invalidData)).rejects.toThrow("Les dates de l'action doivent être comprises dans les dates de la mission")
+      await expect(schema.validate(invalidData)).rejects.toThrow("Les dates doivent être comprises dans les dates de la mission")
     })
 
     it('returns invalid when action end is after mission end', async () => {
@@ -193,7 +193,7 @@ describe('getDateRangeSchema', () => {
         dates: [new Date('2024-01-30T10:00:00Z'), new Date('2024-02-15T12:00:00Z')]
       }
 
-      await expect(schema.validate(invalidData)).rejects.toThrow("Les dates de l'action doivent être comprises dans les dates de la mission")
+      await expect(schema.validate(invalidData)).rejects.toThrow("Les dates doivent être comprises dans les dates de la mission")
     })
 
     it('accepts dates exactly at mission boundaries', async () => {

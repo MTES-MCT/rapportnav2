@@ -24,15 +24,17 @@ class GetAgentsCrewByMissionId(private val agentCrewRepository: IMissionCrewRepo
         "Cuisinier",
     )
 
+    private fun sortCrew(crew: List<MissionCrewEntity>): List<MissionCrewEntity> {
+        val (withAgent, withoutAgent) = crew.partition { it.agent != null }
+        return withAgent.sortedBy { rolePriority.indexOf(it.role?.title) } +
+            withoutAgent.sortedBy { rolePriority.indexOf(it.role?.title) }
+    }
+
     fun execute(missionId: Int, commentDefaultsToString: Boolean? = false): List<MissionCrewEntity> {
-        return agentCrewRepository.findByMissionId(missionId = missionId)
-            .map { MissionCrewEntity.fromMissionCrewModel(it) }
-            .sortedBy { rolePriority.indexOf(it.role?.title) } //TODO replace by it.role.prority
+        return sortCrew(agentCrewRepository.findByMissionId(missionId = missionId))
     }
 
     fun execute(missionIdUUID: UUID, commentDefaultsToString: Boolean? = false): List<MissionCrewEntity> {
-        return agentCrewRepository.findByMissionIdUUID(missionIdUUID = missionIdUUID)
-            .map { MissionCrewEntity.fromMissionCrewModel(it) }
-            .sortedBy { rolePriority.indexOf(it.role?.title) } //TODO replace by it.role.prority
+        return sortCrew(agentCrewRepository.findByMissionIdUUID(missionIdUUID = missionIdUUID))
     }
 }

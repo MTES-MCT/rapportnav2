@@ -1,5 +1,5 @@
 import { vi } from 'vitest'
-import { render, screen, fireEvent, waitFor } from '../../../../../../../test-utils.tsx'
+import { render, screen, fireEvent, waitFor } from '../../../../../../../../test-utils.tsx'
 import { Formik } from 'formik'
 import { MissionCrew } from '@common/types/crew-types.ts'
 import MissionGeneralInformationCrewPamForm from '../mission-general-information-crew-pam-form.tsx'
@@ -30,7 +30,7 @@ vi.mock('../../../../../common/services/use-agents.tsx', () => ({
   })
 }))
 
-vi.mock('../../../../../common/services/use-agent-roles.tsx', () => ({
+vi.mock('../../../../../../common/services/use-agent-roles.tsx', () => ({
   default: () => ({
     data: [role1, role2]
   })
@@ -50,7 +50,7 @@ describe('MissionCrewFormPam', () => {
 
   const renderComponent = (props = {}) => {
     const defaultProps = {
-      crewId: undefined,
+      crewIndex: undefined,
       crewList: initialCrewList,
       handleClose: mockHandleClose,
       handleSubmitForm: mockHandleSubmitForm
@@ -66,37 +66,30 @@ describe('MissionCrewFormPam', () => {
   it('renders the component for adding a new crew member', () => {
     renderComponent({})
 
-    // Check title
-    expect(screen.getByText('Ajout d’un membre d’équipage du DCS')).toBeInTheDocument()
-
     // Check form elements
-    expect(screen.getByText('Identité')).toBeInTheDocument()
-    expect(screen.getByText('Fonction')).toBeInTheDocument()
-    expect(screen.getByText('Commentaires (23 caractères max.)')).toBeInTheDocument()
+    expect(screen.getByText('Prénom Nom')).toBeInTheDocument()
+    expect(screen.getByText('Commentaires')).toBeInTheDocument()
 
     // Check buttons
-    expect(screen.getByTestId('submit-crew-form-button')).toHaveTextContent('Ajouter un membre')
+    expect(screen.getByTestId('submit-crew-form-button')).toHaveTextContent('Ajouter un membre en renfort')
     expect(screen.getByText('Annuler')).toBeInTheDocument()
   })
 
   it('renders the component for updating an existing crew member', () => {
-    renderComponent({ crewId: '1' })
-
-    // Check title
-    expect(screen.getByText('Mise à jour d’un membre d’équipage')).toBeInTheDocument()
+    renderComponent({ crewIndex: 0 })
 
     // Check form initial values
-    const identityInput = screen.getByLabelText('Identité')
-    expect(identityInput.textContent).toEqual(`${agent1.firstName} ${agent1.lastName}`)
+    const identityInput = screen.getByLabelText('Prénom Nom')
+    expect(identityInput.value).toEqual(`${agent1.firstName} ${agent1.lastName}`)
 
-    const functionInput = screen.getByLabelText('Fonction')
-    expect(functionInput.textContent).toEqual(role1.title)
+    const functionInput = screen.getByTestId('picker-toggle-input')
+    expect(functionInput.value).toEqual(role1.id.toString())
 
-    const commentInput = screen.getByLabelText('Commentaires (23 caractères max.)')
+    const commentInput = screen.getByLabelText('Commentaires')
     expect(commentInput).toHaveValue('Test comment')
 
     // Check buttons
-    expect(screen.getByTestId('submit-crew-form-button')).toHaveTextContent('Mettre à jour un membre')
+    expect(screen.getByTestId('submit-crew-form-button')).toHaveTextContent('Mettre à jour un membre en renfort')
   })
 
   it('validates form submission with required fields', async () => {
@@ -112,7 +105,7 @@ describe('MissionCrewFormPam', () => {
   })
 
   it('submits the form successfully', async () => {
-    renderComponent({ crewId: '1' })
+    renderComponent({ crewIndex: 0 })
 
     // Submit form
     const submitButton = screen.getByTestId('submit-crew-form-button')
@@ -123,8 +116,12 @@ describe('MissionCrewFormPam', () => {
       expect(mockHandleSubmitForm).toHaveBeenCalledOnce()
       expect(mockHandleSubmitForm).toHaveBeenCalledWith(
         expect.objectContaining({
-          agent: agent1,
-          role: expect.objectContaining({ id: role1.id }),
+          id: agent1.id.toString(),
+          fullName: 'John Doe',
+          role: {
+            id: 1,
+            title: 'Commandant'
+          },
           comment: 'Test comment'
         })
       )
@@ -132,12 +129,12 @@ describe('MissionCrewFormPam', () => {
   })
 
   it('validates comment length', async () => {
-    renderComponent({ crewId: '1' })
+    renderComponent({ crewIndex: 0 })
 
-    // Try to submit with a comment longer than 23 characters
-    const commentInput = screen.getByLabelText('Commentaires (23 caractères max.)')
+    // Try to submit with a comment longer than 255 characters
+    const commentInput = screen.getByLabelText('Commentaires')
     fireEvent.change(commentInput, {
-      target: { value: 'This is a very long comment that exceeds the maximum length allowed' }
+      target: { value: 'A'.repeat(256) }
     })
 
     // Submit form
@@ -146,7 +143,7 @@ describe('MissionCrewFormPam', () => {
 
     // Check validation error
     await waitFor(() => {
-      expect(screen.getByText('Maximum 23 caractères.')).toBeInTheDocument()
+      expect(screen.getByText('Maximum 255 caractères.')).toBeInTheDocument()
     })
   })
 
