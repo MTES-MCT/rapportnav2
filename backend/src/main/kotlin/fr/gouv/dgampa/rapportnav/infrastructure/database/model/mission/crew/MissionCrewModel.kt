@@ -22,8 +22,14 @@ class MissionCrewModel(
     @JoinColumn(name = "agent_id", nullable = true)
     var agent: AgentModel? = null,
 
+    @Column(name = "full_name", nullable = true)
+    var fullName: String? = null,
+
     @Column(name = "mission_id", nullable = true)
     var missionId: Int? = null,
+
+    @Column(name = "mission_id_uuid", nullable = true)
+    var missionIdUUID: UUID? = null,
 
     @Column(name = "comment", nullable = true)
     var comment: String? = null,
@@ -31,9 +37,6 @@ class MissionCrewModel(
     @ManyToOne
     @JoinColumn(name = "agent_role_id", nullable = true)
     var role: AgentRoleModel?,
-
-    @Column(name = "mission_id_uuid", nullable = true)
-    var missionIdUUID: UUID? = null,
 
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
@@ -49,5 +52,13 @@ class MissionCrewModel(
 
     @LastModifiedBy
     @Column(name = "updated_by")
-    var updatedBy: Int? = null
+    var updatedBy: Int? = null,
+
+    @OneToMany(
+        mappedBy = "missionCrew",
+        cascade = [CascadeType.ALL],
+        orphanRemoval = true
+    )
+    var absences: MutableList<MissionCrewAbsenceModel> = mutableListOf()
+
 )
