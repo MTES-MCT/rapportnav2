@@ -14,8 +14,18 @@ export type AgentRole = {
 
 export type MissionCrewMember = {
   id?: string
-  agent: Agent
+  agent?: Agent
+  fullName?: string
   comment?: string
   role?: AgentRole
   missionId?: number
+  absences: MissionCrewAbsence[]
+}
+
+export type MissionCrewAbsence = {
+  id?: number
+  startDate?: Date
+  endDate?: Date
+  isAbsentFullMission?: boolean
+  reason?: string
 }

@@ -38,6 +38,7 @@ export type AgentRole = {
 export type MissionCrew = {
   id: string
   agent?: Agent
+  fullName?: string
   comment?: string
   role?: AgentRole
 }

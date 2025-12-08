@@ -14,14 +14,11 @@ import {
   THEME
 } from '@mtes-mct/monitor-ui'
 import { Form, Formik } from 'formik'
-import { flatten } from 'lodash'
 import { FC, useEffect, useState } from 'react'
 import { FlexboxGrid, Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
 import * as Yup from 'yup'
 import useGetAgentRoles from '../../../../common/services/use-agent-roles.tsx'
-import useGetAgentServices from '../../../../common/services/use-agent-services.tsx'
-import { AgentService, ServiceWithAgents } from '../../../../common/types/service-agents-types.ts'
 
 const CrewFormDialogBody = styled((props: DialogProps) => <Dialog.Body {...props} />)(({ theme }) => ({
   padding: 24,
@@ -59,7 +56,7 @@ const CloseIconButton = styled((props: Omit<IconButtonProps, 'Icon'>) => (
 type CrewForm = {
   roleId?: string
   comment: string
-  agentId?: string
+  fullName?: string
 }
 
 const COMMENT_MAX_LENGTH = 23
@@ -84,13 +81,12 @@ const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
   handleSubmitForm
 }) => {
   const { data: agentRoles } = useGetAgentRoles()
-  const { data: agentServices } = useGetAgentServices()
 
   const inputCrewMember: MissionCrew | undefined = !!crewId && crewList.find((mc: MissionCrew) => mc.id === crewId)
   const initialValue: CrewForm | undefined =
     inputCrewMember &&
     ({
-      agentId: inputCrewMember?.agent?.id,
+      fullName: inputCrewMember?.fullName,
       roleId: inputCrewMember?.role?.id,
       comment: inputCrewMember?.comment
     } as CrewForm)
@@ -99,32 +95,17 @@ const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
 
   useEffect(() => {
     const crew = crewList?.find(crew => crew.id === crewId)
-    setInitValue({ roleId: crew?.role?.id, agentId: crew?.agent?.id, comment: crew?.comment || '' })
+    setInitValue({ roleId: crew?.role?.id, fullName: crew?.fullName, comment: crew?.comment || '' })
   }, [crewId])
 
   const handleSubmit = async (value: CrewForm) => {
-    const agent: AgentService | undefined = flatten(
-      (agentServices || []).map((serviceWithAgents: ServiceWithAgents) => serviceWithAgents.agents)
-    ).find(agent => agent.agent.id === value.agentId)
     const role = agentRoles?.find(role => role.id === value.roleId)
     await handleSubmitForm({
-      role,
-      agent: agent?.agent,
       id: crewId,
+      role,
+      fullName: value?.fullName,
       comment: value.comment
     })
-  }
-
-  const dropdownOptions = () => {
-    if (agentServices) {
-      return flatten(agentServices.map((serviceWithAgents: ServiceWithAgents) => serviceWithAgents.agents)).map(
-        (agent: AgentService) => ({
-          value: agent.agent.id,
-          label: `${agent.agent.firstName} ${agent.agent.lastName}`
-        })
-      )
-    }
-    return []
   }
 
   return (
@@ -150,15 +131,13 @@ const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
                 <Stack.Item style={{ width: '100%' }}>
                   <CrewFormStack direction="row">
                     <Stack.Item style={{ flex: 1, width: '50%' }}>
-                      <FormikSelect
-                        name="agentId"
-                        label="Identité"
+                      <FormikTextInput
+                        name="fullName"
+                        label="Prénom Nom"
                         aria-label="Identité"
                         isLight={true}
                         isRequired={true}
-                        options={dropdownOptions()}
-                        searchable
-                        disabledItemValues={crewList?.map(crew => crew.agent?.id)}
+                        itemType="text"
                       />
                     </Stack.Item>
                     <Stack.Item style={{ flex: 1, width: '50%' }}>
