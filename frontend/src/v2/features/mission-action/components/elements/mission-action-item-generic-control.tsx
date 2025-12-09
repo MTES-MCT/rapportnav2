@@ -121,8 +121,8 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
                 <Stack.Item style={{ width: '100%' }}>
                   <FormikTextarea
                     isLight={true}
-                    name="observationsByUnit"
-                    data-testid="observationsByUnit"
+                    name="observations"
+                    data-testid="observations"
                     label="Observation de l'unité sur le contrôle"
                   />
                   <MissionActionIncidentDonwload />
