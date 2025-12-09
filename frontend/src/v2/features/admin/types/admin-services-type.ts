@@ -3,6 +3,7 @@ export interface AdminService {
   name: string
   createdAt?: Date
   updatedAt?: Date
+  deletedAt?: Date
   controlUnitId?: number
 }
 export type AdminCell = { key: string; label: string; width: number }

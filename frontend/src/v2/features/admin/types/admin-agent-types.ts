@@ -6,15 +6,15 @@ export type AdminAgent = {
   firstName: string
   lastName: string
   userId?: number
-  role: AgentRole
+  role: AdminAgentRole
   service: AdminService
   disabledAt?: Date
   createdAt?: Date
   updatedAt?: Date
 }
 
-export type AgentRole = {
-  id: string
+export type AdminAgentRole = {
+  id: number
   title: string
 }
 

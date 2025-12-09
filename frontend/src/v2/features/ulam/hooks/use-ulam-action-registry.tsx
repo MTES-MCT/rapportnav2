@@ -2,6 +2,10 @@ import { Icon } from '@mtes-mct/monitor-ui'
 import { ActionRegistryHook, ActionRegistryItem, useActionRegistry } from '../../common/hooks/use-action-registry'
 import { ActionType } from '../../common/types/action-type'
 import MissionActionItemCommunication from '../../mission-action/components/elements/mission-action-item-communication'
+import MissionActionItemNauticalLeisureControl from '../../mission-action/components/elements/mission-action-item-control-nautical-leisure.tsx'
+import MissionActionItemOtherControl from '../../mission-action/components/elements/mission-action-item-control-other.tsx'
+import MissionActionItemSectorControl from '../../mission-action/components/elements/mission-action-item-control-sector.tsx'
+import MissionActionItemSleepingFishingGearControl from '../../mission-action/components/elements/mission-action-item-control-sleeping-fishing-gear.tsx'
 import MissionActionItemGenericDateObservation from '../../mission-action/components/elements/mission-action-item-generic-date-observation'
 import MissionActionItemHearingConduct from '../../mission-action/components/elements/mission-action-item-hearing-conduct'
 import MissionActionItemInquiry from '../../mission-action/components/elements/mission-action-item-inquiry'
@@ -14,11 +18,6 @@ import MissionActionItemResourceMaintenance from '../../mission-action/component
 import MissionActionItemSecurityVisit from '../../mission-action/components/elements/mission-action-item-security-visit'
 import MissionActionItemTraining from '../../mission-action/components/elements/mission-action-item-training'
 import MissionActionItemUnitManagementPlanning from '../../mission-action/components/elements/mission-action-item-unit-management-planning'
-import MissionActionItemUnitManagementTraining from '../../mission-action/components/elements/mission-action-item-unit-management-training'
-import MissionActionItemOtherControl from '../../mission-action/components/elements/mission-action-item-control-other.tsx'
-import MissionActionItemNauticalLeisureControl from '../../mission-action/components/elements/mission-action-item-control-nautical-leisure.tsx'
-import MissionActionItemSleepingFishingGearControl from '../../mission-action/components/elements/mission-action-item-control-sleeping-fishing-gear.tsx'
-import MissionActionItemSectorControl from '../../mission-action/components/elements/mission-action-item-control-sector.tsx'
 
 type UlamActionRegistry = {
   [key in ActionType]?: ActionRegistryItem
@@ -52,7 +51,7 @@ const ULAM_ACTION_REGISTRY: UlamActionRegistry = {
   },
   [ActionType.COMMUNICATION]: {
     icon: Icon.Contact,
-    title: `Acceuil public / communication`,
+    title: `Accueil public / communication`,
     component: MissionActionItemCommunication
   },
   [ActionType.RESOURCES_MAINTENANCE]: {
