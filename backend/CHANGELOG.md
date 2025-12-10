@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.46.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.45.0...backend@v2.46.0) (2025-12-10)
+
+
+### Features
+
+* **frontend:** update admin module (delete/ migrate agent) ([8127ea6](https://github.com/MTES-MCT/rapportnav2/commit/8127ea62eab5cf345a7e9d1539058a46932916d7))
+* **frontend:** update admin module (delete/ migrate agent) ([347ee11](https://github.com/MTES-MCT/rapportnav2/commit/347ee11ec9ccf9331eab7d6147a29a58d50efe26))
+
 ## [2.45.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.44.0...backend@v2.45.0) (2025-12-08)
 
 
