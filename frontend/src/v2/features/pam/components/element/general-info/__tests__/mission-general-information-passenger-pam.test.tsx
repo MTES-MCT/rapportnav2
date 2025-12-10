@@ -22,16 +22,16 @@ describe('MissionGeneralInformationCrewPam', () => {
       fullName: 'John Doe',
       organization: 'Affaires Maritimes',
       isIntern: false,
-      startDateTimeUtc: '2023-12-01T10:00:00Z',
-      endDateTimeUtc: '2023-12-02T10:00:00Z'
+      startDate: '2023-12-01',
+      endDate: '2023-12-02'
     },
     {
       id: '2',
       fullName: 'Jane Smith',
       organization: 'Affaires Maritimes',
       isIntern: true,
-      startDateTimeUtc: '2023-12-01T10:00:00Z',
-      endDateTimeUtc: '2023-12-02T10:00:00Z'
+      startDate: '2023-12-01',
+      endDate: '2023-12-02'
     }
   ]
 

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import java.time.Instant
+import java.time.LocalDate
 import java.util.UUID
 
 @SpringBootTest(classes = [ComputeInternTrainingSummary::class])
@@ -19,8 +19,8 @@ class ComputeInternTrainingSummaryTest {
     private fun passenger(
         isIntern: Boolean?,
         organization: MissionPassengerOrganization?,
-        start: Instant,
-        end: Instant
+        start: LocalDate,
+        end: LocalDate
     ): MissionPassengerEntity {
         return MissionPassengerEntity(
             id = null,
@@ -29,8 +29,8 @@ class ComputeInternTrainingSummaryTest {
             fullName = "Test",
             organization = organization,
             isIntern = isIntern,
-            startDateTimeUtc = start,
-            endDateTimeUtc = end,
+            startDate = start,
+            endDate = end,
         )
     }
 
@@ -57,8 +57,8 @@ class ComputeInternTrainingSummaryTest {
     // -------------------------------------------------------------------------
     @Test
     fun `execute counts interns and total passengers`() {
-        val p1 = passenger(true, MissionPassengerOrganization.AFF_MAR, Instant.now(), Instant.now())
-        val p2 = passenger(false, null, Instant.now(), Instant.now())
+        val p1 = passenger(true, MissionPassengerOrganization.AFF_MAR, LocalDate.now(), LocalDate.now())
+        val p2 = passenger(false, null, LocalDate.now(), LocalDate.now())
 
         val result = useCase.execute(listOf(p1, p2))!!
 
@@ -72,8 +72,8 @@ class ComputeInternTrainingSummaryTest {
     // -------------------------------------------------------------------------
     @Test
     fun `execute counts interns per organization`() {
-        val start = Instant.parse("2024-01-01T00:00:00Z")
-        val end = Instant.parse("2024-01-01T01:00:00Z")
+        val start = LocalDate.parse("2024-01-01")
+        val end = LocalDate.parse("2024-01-01")
 
         val interns = listOf(
             passenger(true, MissionPassengerOrganization.AFF_MAR, start, end),
@@ -98,20 +98,27 @@ class ComputeInternTrainingSummaryTest {
         val p1 = passenger(
             true,
             MissionPassengerOrganization.AFF_MAR,
-            Instant.parse("2024-01-01T00:00:00Z"),
-            Instant.parse("2024-01-01T02:00:00Z")
-        ) // 2h
+            LocalDate.parse("2024-01-01"),
+            LocalDate.parse("2024-01-01")
+        )
 
         val p2 = passenger(
             true,
             MissionPassengerOrganization.AFF_MAR,
-            Instant.parse("2024-01-01T00:00:00Z"),
-            Instant.parse("2024-01-01T01:30:00Z")
-        ) // 1.5h → durationInHours likely floors or rounds (depends on your utils)
+            LocalDate.parse("2024-01-01"),
+            LocalDate.parse("2024-01-01")
+        )
 
-        val result = useCase.execute(listOf(p1, p2))!!
 
-        // We test for sum of .toInt() durations (2 + 1 = 3)
-        assertEquals(3, result["totalInternDurationInHours"])
+        val p3 = passenger(
+            true,
+            MissionPassengerOrganization.AFF_MAR,
+            LocalDate.parse("2024-01-01"),
+            LocalDate.parse("2024-01-02")
+        )
+
+        val result = useCase.execute(listOf(p1, p2, p3))!!
+
+        assertEquals(4, result["totalInternDurationInDays"])
     }
 }

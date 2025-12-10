@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew
 
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.passenger.MissionPassengerModel
-import java.time.Instant
+import java.time.LocalDate
 import java.util.*
 
 data class MissionPassengerEntity(
@@ -11,8 +11,8 @@ data class MissionPassengerEntity(
     val fullName: String,
     val organization: MissionPassengerOrganization? = null,
     val isIntern: Boolean? = null,
-    val startDateTimeUtc: Instant,
-    val endDateTimeUtc: Instant,
+    val startDate: LocalDate,
+    val endDate: LocalDate,
 ){
 
     fun toMissionPassengerModel(): MissionPassengerModel {
@@ -23,8 +23,8 @@ data class MissionPassengerEntity(
             fullName = fullName,
             organization = organization.toString(),
             isIntern = isIntern,
-            startDateTimeUtc = startDateTimeUtc,
-            endDateTimeUtc = endDateTimeUtc,
+            startDate = startDate,
+            endDate = endDate,
         )
     }
 
@@ -37,8 +37,8 @@ data class MissionPassengerEntity(
                 fullName = passenger.fullName,
                 organization = mapStringToMissionPassengerOrganization(passenger.organization),
                 isIntern = passenger.isIntern,
-                startDateTimeUtc = passenger.startDateTimeUtc,
-                endDateTimeUtc = passenger.endDateTimeUtc,
+                startDate = passenger.startDate,
+                endDate = passenger.endDate,
             )
         }
     }

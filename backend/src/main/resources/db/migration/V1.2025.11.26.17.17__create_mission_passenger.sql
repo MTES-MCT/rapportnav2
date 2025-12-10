@@ -13,11 +13,9 @@ BEGIN
    organization TEXT,
    is_intern BOOLEAN,
 
-    -- Java Instant → TIMESTAMPTZ
-   start_datetime_utc TIMESTAMPTZ NOT NULL,
-   end_datetime_utc TIMESTAMPTZ NOT NULL,
+   start_date DATE NOT NULL,
+   end_date DATE NOT NULL,
 
-    -- Spring JPA Auditing (Instant) → TIMESTAMPTZ
    created_at TIMESTAMPTZ,
    updated_at TIMESTAMPTZ,
 

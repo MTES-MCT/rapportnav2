@@ -9,8 +9,8 @@ describe('MissionCrewListItemPam', () => {
     fullName: 'John Doe',
     organization: PASSENGER_OPTIONS[0].value,
     isIntern: false,
-    startDateTimeUtc: '2023-12-01T10:00:00Z',
-    endDateTimeUtc: '2023-12-02T10:00:00Z'
+    startDate: '2023-12-01T10:00:00Z',
+    endDate: '2023-12-02T10:00:00Z'
   }
 
   const renderComponent = (override = {}) => {

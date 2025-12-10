@@ -3,6 +3,8 @@ package fr.gouv.dgampa.rapportnav.domain.utils
 import java.text.DecimalFormat
 import java.time.Duration
 import java.time.Instant
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 import kotlin.math.min
 import kotlin.time.DurationUnit
 
@@ -39,6 +41,18 @@ class ComputeDurationUtils {
             }
             val duration = durationInSeconds(startDateTimeUtc, endDateTimeUtc) ?: return 0.0;
             return convertFromSeconds(duration, DurationUnit.HOURS);
+        }
+
+        fun durationInDays(startDate: LocalDate?, endDate: LocalDate?): Long? {
+            if (startDate == null || endDate == null) return null
+
+            val rawDiff = ChronoUnit.DAYS.between(startDate, endDate)
+
+            return when {
+                rawDiff == 0L -> 1L
+                rawDiff > 0 -> rawDiff + 1
+                else -> rawDiff - 1
+            }
         }
     }
 }
