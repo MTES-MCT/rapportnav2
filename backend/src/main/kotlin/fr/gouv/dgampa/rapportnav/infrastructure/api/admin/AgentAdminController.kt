@@ -2,7 +2,6 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.admin
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.*
-import fr.gouv.dgampa.rapportnav.infrastructure.api.auth.adapters.inputs.AuthRegisterDataInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent2
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentInput2
@@ -117,7 +116,7 @@ class AgentAdminController(
             return null
         }
     }
-    
+
     @PostMapping("{agentId}/disable")
     @Operation(summary = "Disable Agent")
     @ApiResponse(responseCode = "404", description = "Could not disable Agent", content = [Content()])

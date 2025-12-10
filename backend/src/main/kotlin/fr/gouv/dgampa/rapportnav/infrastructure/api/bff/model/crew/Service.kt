@@ -26,8 +26,8 @@ data class Service(
         fun fromServiceEntity(service: ServiceEntity): Service {
             return Service(
                 id = service.id,
-                serviceType = service.serviceType,
                 name = service.name,
+                serviceType = service.serviceType,
                 controlUnits = service.controlUnits,
                 updatedAt = service.updatedAt,
                 createdAt = service.createdAt,
