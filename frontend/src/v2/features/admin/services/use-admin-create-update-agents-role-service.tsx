@@ -3,12 +3,17 @@ import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-
 import * as Sentry from '@sentry/react'
 import axios from '../../../../query-client/axios.ts'
 import { agentRolesKeys } from '../../common/services/query-keys.ts'
-import { AgentRole } from '../types/admin-agent-types.ts'
+import { AdminAgentRole } from '../types/admin-agent-types.ts'
 
-const useAdminCreateOrUpdateAgentRoleMutation = (): UseMutationResult<AgentRole, Error, AgentRole, unknown> => {
+const useAdminCreateOrUpdateAgentRoleMutation = (): UseMutationResult<
+  AdminAgentRole,
+  Error,
+  AdminAgentRole,
+  unknown
+> => {
   const queryClient = useQueryClient()
 
-  const createOrUpdateAgentRole = (agent: AgentRole): Promise<AgentRole> => {
+  const createOrUpdateAgentRole = (agent: AdminAgentRole): Promise<AdminAgentRole> => {
     const url = `admin/agent_roles`
     if (agent.id) {
       return axios.put(url, agent).then(response => response.data)
