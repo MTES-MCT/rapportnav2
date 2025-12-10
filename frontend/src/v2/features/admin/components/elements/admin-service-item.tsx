@@ -2,6 +2,7 @@ import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import { sortBy } from 'lodash'
 import React from 'react'
 import useAdminCreateOrUpdateServiceMutation from '../../services/use-admin-create-update-services-service'
+import useAdminDeleteServiceMutation from '../../services/use-admin-delete-services-service'
 import useAdminServiceListQuery from '../../services/use-admin-services-service'
 import { AdminAction, AdminActionType } from '../../types/admin-action'
 import { AdminService } from '../../types/admin-services-type'
@@ -31,7 +32,6 @@ const ACTIONS: AdminAction[] = [
     icon: Icon.EditUnbordered
   },
   {
-    disabled: () => true,
     label: `Supprimer un service`,
     color: THEME.color.maximumRed,
     key: AdminActionType.DELETE,
@@ -44,9 +44,11 @@ type AdminServiceProps = {}
 
 const AdminServiceItem: React.FC<AdminServiceProps> = () => {
   const { data: services } = useAdminServiceListQuery()
+  const deleteService = useAdminDeleteServiceMutation()
   const createOrUpdatemutation = useAdminCreateOrUpdateServiceMutation()
 
   const handleSubmit = async (action: AdminActionType, value: AdminService) => {
+    if (action === AdminActionType.DELETE) await deleteService.mutateAsync(value.id)
     if (action !== AdminActionType.DELETE) await createOrUpdatemutation.mutateAsync(value)
   }
 

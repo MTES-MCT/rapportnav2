@@ -2,8 +2,9 @@ import { Icon, THEME } from '@mtes-mct/monitor-ui'
 import React from 'react'
 import useGetAgentRoles from '../../../common/services/use-agent-roles'
 import useAdminCreateOrUpdateAgentRoleMutation from '../../services/use-admin-create-update-agents-role-service'
+import useAdminDeleteAgentRoleMutation from '../../services/use-admin-delete-roles-service'
 import { AdminAction, AdminActionType } from '../../types/admin-action'
-import { AgentRole } from '../../types/admin-agent-types'
+import { AdminAgentRole } from '../../types/admin-agent-types'
 import AdminAgentRoleForm from '../ui/admin-agent-role'
 import AdminBasicItemGeneric from './admin-basic-item-generic'
 
@@ -30,7 +31,6 @@ const ACTIONS: AdminAction[] = [
     icon: Icon.EditUnbordered
   },
   {
-    disabled: () => true,
     label: `Supprimer un rôle`,
     color: THEME.color.maximumRed,
     key: AdminActionType.DELETE,
@@ -43,9 +43,11 @@ type AdminAgentProps = {}
 
 const AdminAgentRoleItem: React.FC<AdminAgentProps> = () => {
   const { data: agentRoles } = useGetAgentRoles()
+  const deleteRole = useAdminDeleteAgentRoleMutation()
   const createOrUpdateMutation = useAdminCreateOrUpdateAgentRoleMutation()
 
-  const handleSubmit = async (action: AdminActionType, value: AgentRole) => {
+  const handleSubmit = async (action: AdminActionType, value: AdminAgentRole) => {
+    if (action === AdminActionType.DELETE) await deleteRole.mutateAsync(value.id)
     if (action !== AdminActionType.DELETE) await createOrUpdateMutation.mutateAsync(value)
   }
 

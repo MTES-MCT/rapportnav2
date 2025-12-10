@@ -2,11 +2,11 @@ import { FormikSelect, FormikTextInput } from '@mtes-mct/monitor-ui'
 import { FormikProps } from 'formik'
 import { Stack } from 'rsuite'
 import { AdminActionType } from '../../types/admin-action.ts'
-import { AgentRole } from '../../types/admin-agent-types.ts'
+import { AdminAgentRole } from '../../types/admin-agent-types.ts'
 import { AdminService } from '../../types/admin-services-type.ts'
 
 interface AdminAgentProps {
-  roles: AgentRole[]
+  roles: AdminAgentRole[]
   type: AdminActionType
   services: AdminService[]
   formik: FormikProps<any>
@@ -50,7 +50,7 @@ const AdminAgentForm: React.FC<AdminAgentProps> = ({ type, formik, roles, servic
             isRequired={true}
             label="Service"
             disabled={type === AdminActionType.UPDATE}
-            options={services?.map(({ id, name }) => ({ value: id, label: name }))}
+            options={services?.filter(s => !s.deletedAt).map(({ id, name }) => ({ value: id, label: name }))}
           />
         </Stack.Item>
       </Stack>
