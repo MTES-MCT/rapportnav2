@@ -9,8 +9,8 @@ const samplePassenger: MissionPassenger = {
   fullName: 'John Doe',
   organization: 'Affaires Maritimes',
   isIntern: false,
-  startDateTimeUtc: '2023-12-01T10:00:00Z',
-  endDateTimeUtc: '2023-12-02T10:00:00Z'
+  startDate: '2023-12-01',
+  endDate: '2023-12-02'
 }
 
 describe('MissionGeneralInformationPassengerPamForm', () => {
@@ -130,8 +130,8 @@ describe('MissionGeneralInformationPassengerPamForm', () => {
       passenger: {
         ...samplePassenger,
         ...{
-          startDateTimeUtc: '2023-12-03T10:00:00Z',
-          endDateTimeUtc: '2023-12-02T10:00:00Z'
+          startDate: '2023-12-03',
+          endDate: '2023-12-02'
         }
       }
     })

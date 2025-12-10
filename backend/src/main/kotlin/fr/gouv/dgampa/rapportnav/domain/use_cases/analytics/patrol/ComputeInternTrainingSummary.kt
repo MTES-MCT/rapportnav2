@@ -3,7 +3,6 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerOrganization
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.mapStringToMissionPassengerOrganization
 import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
 
 @UseCase
@@ -20,9 +19,8 @@ class ComputeInternTrainingSummary {
         val nbHighSchool = interns.filter { it.organization === MissionPassengerOrganization.LYCEE }.size
         val nbOther = interns.filter { it.organization === MissionPassengerOrganization.OTHER }.size
 
-        val totalInternDurationInHours: Int = interns
-            .map { ComputeDurationUtils.durationInHours(it.startDateTimeUtc, it.endDateTimeUtc).toInt() }
-            .reduceOrNull { acc, duration -> acc + duration } ?: 0
+        val totalInternDurationInDays: Int =
+            interns.sumOf { ComputeDurationUtils.durationInDays(it.startDate, it.endDate)?.toInt() ?: 0 }
 
         return mapOf(
             "nbPassengers" to passengers.size,
@@ -31,7 +29,7 @@ class ComputeInternTrainingSummary {
             "nbPostgraduateInterns" to nbPostgraduate,
             "nbHighSchoolInterns" to nbHighSchool,
             "nbOtherInterns" to nbOther,
-            "totalInternDurationInHours" to totalInternDurationInHours,
+            "totalInternDurationInDays" to totalInternDurationInDays,
         )
     }
 }

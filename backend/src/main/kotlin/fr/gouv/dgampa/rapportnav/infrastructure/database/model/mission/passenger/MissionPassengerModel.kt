@@ -13,6 +13,7 @@ import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
+import java.time.LocalDate
 import java.util.UUID
 
 @Entity
@@ -39,11 +40,11 @@ class MissionPassengerModel(
     @Column(name = "is_intern", nullable = true)
     var isIntern: Boolean? = null,
 
-    @Column(name = "start_datetime_utc", nullable = false)
-    var startDateTimeUtc: Instant,
+    @Column(name = "start_date", nullable = false)
+    var startDate: LocalDate,
 
-    @Column(name = "end_datetime_utc", nullable = false)
-    var endDateTimeUtc: Instant,
+    @Column(name = "end_date", nullable = false)
+    var endDate: LocalDate,
 
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)

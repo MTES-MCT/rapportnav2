@@ -58,16 +58,16 @@ const passengerSchema = Yup.object().shape({
   fullName: Yup.string().required('Nom requis.'),
   organization: Yup.string().required('Organisation requise.'),
   isIntern: Yup.boolean(),
-  startDateTimeUtc: Yup.date().required('Date requise').typeError('La date de début est mal formatée'),
-  endDateTimeUtc: Yup.date()
+  startDate: Yup.date().required('Date requise').typeError('La date de début est mal formatée'),
+  endDate: Yup.date()
     .test('is-defined', `Date requise`, function (value) {
       return !!value
     })
     .typeError('La date de fin est mal formatée')
     .test('is-after-start', `La date de fin doit être antérieure ou égale à la date de début`, function (value) {
-      const { startDateTimeUtc } = this.parent
-      if (!startDateTimeUtc) return true
-      return value && startDateTimeUtc && new Date(value) >= new Date(startDateTimeUtc)
+      const { startDate } = this.parent
+      if (!startDate) return true
+      return value && startDate && new Date(value) >= new Date(startDate)
     })
 })
 
@@ -143,13 +143,13 @@ const MissionGeneralInformationPassengerPamForm: FC<MissionPassengerModalProps> 
                 <Label style={{ textAlign: 'left' }}>Dates de début et de fin *</Label>
                 <CrewFormStack direction="row">
                   <Stack.Item style={{}}>
-                    <FormikDatePicker name="startDateTimeUtc" isRequired={true} isLight={true} />
+                    <FormikDatePicker name="startDate" isRequired={true} isLight={true} />
                   </Stack.Item>
                   <Stack.Item style={{}}>
                     <div> au </div>
                   </Stack.Item>
                   <Stack.Item style={{}}>
-                    <FormikDatePicker name="endDateTimeUtc" isRequired={true} isLight={true} />
+                    <FormikDatePicker name="endDate" isRequired={true} isLight={true} />
                   </Stack.Item>
                 </CrewFormStack>
               </Stack.Item>

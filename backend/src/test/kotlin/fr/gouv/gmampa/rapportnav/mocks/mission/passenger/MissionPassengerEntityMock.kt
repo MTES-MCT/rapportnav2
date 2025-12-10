@@ -3,6 +3,7 @@ package fr.gouv.gmampa.rapportnav.mocks.mission.passenger
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerOrganization
 import java.time.Instant
+import java.time.LocalDate
 import java.util.UUID
 
 object MissionPassengerEntityMock {
@@ -13,8 +14,8 @@ object MissionPassengerEntityMock {
         fullName: String = "Bob Random",
         organization: MissionPassengerOrganization? = null,
         isIntern: Boolean? = null,
-        startDateTimeUtc: Instant = Instant.parse("2022-01-02T12:00:01Z"),
-        endDateTimeUtc: Instant = Instant.parse("2022-01-03T12:00:01Z"),
+        startDate: LocalDate = LocalDate.parse("2022-01-02"),
+        endDate: LocalDate = LocalDate.parse("2022-01-03"),
     ): MissionPassengerEntity {
         return MissionPassengerEntity(
             id = id,
@@ -23,8 +24,8 @@ object MissionPassengerEntityMock {
             fullName = fullName,
             organization = organization,
             isIntern = isIntern,
-            startDateTimeUtc = startDateTimeUtc,
-            endDateTimeUtc = endDateTimeUtc,
+            startDate = startDate,
+            endDate = endDate,
         )
     }
 }

@@ -5,8 +5,8 @@ export type MissionPassenger = {
   fullName: String
   organization?: string
   isIntern?: boolean
-  startDateTimeUtc: string
-  endDateTimeUtc: string
+  startDate: string
+  endDate: string
 }
 
 export const PASSENGER_OPTIONS = [

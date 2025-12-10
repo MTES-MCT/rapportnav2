@@ -157,8 +157,7 @@ class ExportMissionPatrolSingle2(
                 "\${nbPostgraduateInterns}" to (patrolData?.internTrainingSummary?.get("nbPostgraduateInterns").toString()),
                 "\${nbHighSchoolInterns}" to (patrolData?.internTrainingSummary?.get("nbHighSchoolInterns").toString()),
                 "\${nbOtherInterns}" to (patrolData?.internTrainingSummary?.get("nbOtherInterns").toString()),
-                "\${totalInternDurationInDays}" to ((patrolData?.internTrainingSummary?.get("totalInternDurationInHours")
-                    ?.div(24))?.or(0).toString()),
+                "\${totalInternDurationInDays}" to ((patrolData?.internTrainingSummary?.get("totalInternDurationInDays"))?.or(0).toString()),
             )
 
             fun castLinkedHashMapToList(map: LinkedHashMap<String, Map<String, Int?>>?): List<List<String?>> {
