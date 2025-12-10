@@ -1,5 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.entities.v2
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.InterMinisterialServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
@@ -136,19 +138,6 @@ class MissionGeneralInfoEntity2Tests {
     @Nested
     inner class IsCompleteForStatsUlamTests {
 
-        @Test
-        fun `should return true when crew is not empty and correct general info`() {
-            // Given
-            val crew = listOf(MissionCrewEntityMock.create())
-            val data = createCompleteDataUlam()
-            val entity = MissionGeneralInfoEntity2(data = data, crew = crew)
-
-            // When
-            val result = entity.isCompleteForStats()
-
-            // Then
-            assertTrue(result)
-        }
 
         @Test
         fun `should return false when data is null`() {
@@ -162,6 +151,108 @@ class MissionGeneralInfoEntity2Tests {
             assertFalse(result)
         }
 
+        @Test
+        fun `should return false when data is resources is empty`() {
+            // Given
+            val crew = listOf(MissionCrewEntityMock.create())
+            val data = createCompleteDataUlam()
+            data.resources = emptyList()
+            val entity = MissionGeneralInfoEntity2(
+                data = data,
+                crew = crew
+            )
+
+            // When
+            val result = entity.isCompleteForStats()
+
+            // Then
+            assertFalse(result)
+        }
+
+        @Test
+        fun `should return true when data is resources is not empty`() {
+            // Given
+            val data = createCompleteDataUlam()
+            val crew = listOf(MissionCrewEntityMock.create())
+            data.resources = listOf(LegacyControlUnitResourceEntity(controlUnitId = 1, id = 2))
+            val entity = MissionGeneralInfoEntity2(
+                data = data, crew = crew
+            )
+
+            // When
+            val result = entity.isCompleteForStats()
+
+            // Then
+            assertTrue(result)
+        }
+
+        @Test
+        fun `should return false when data is resources is not empty but interministerial is checked`() {
+            // Given
+            val data = createCompleteDataUlam()
+            val crew = listOf(MissionCrewEntityMock.create())
+            data.resources = listOf(LegacyControlUnitResourceEntity(controlUnitId = 1, id = 2))
+            data.isWithInterMinisterialService = true
+
+            val entity = MissionGeneralInfoEntity2(
+                data = data, crew = crew
+            )
+
+            // When
+            val result = entity.isCompleteForStats()
+
+            // Then
+            assertFalse(result)
+        }
+
+
+        @Test
+        fun `should return true when data is resources is not empty, interministerial is checked and has values`() {
+            // Given
+            val data = createCompleteDataUlam()
+            val crew = listOf(MissionCrewEntityMock.create())
+            data.resources = listOf(LegacyControlUnitResourceEntity(controlUnitId = 1, id = 2))
+            data.isWithInterMinisterialService = true
+            data.interMinisterialServices = listOf(
+                InterMinisterialServiceEntity(
+                    id = 1,
+                    controlUnitId = 2,
+                    administrationId = 2
+                )
+            )
+            val entity = MissionGeneralInfoEntity2(
+                data = data, crew = crew
+            )
+
+            // When
+            val result = entity.isCompleteForStats()
+
+            // Then
+            assertTrue(result)
+        }
+
+    }
+
+    @Test
+    fun `should return false when crew is empty and correct general info`() {
+        // Given
+        val data = createCompleteDataUlam()
+        data.resources = listOf(LegacyControlUnitResourceEntity(controlUnitId = 1, id = 2))
+        data.isWithInterMinisterialService = true
+        data.interMinisterialServices = listOf(
+            InterMinisterialServiceEntity(
+                id = 1,
+                controlUnitId = 2,
+                administrationId = 2
+            )
+        )
+        val entity = MissionGeneralInfoEntity2(data = data, crew = emptyList())
+
+        // When
+        val result = entity.isCompleteForStats()
+
+        // Then
+        assertTrue(result)
     }
 
     // Helper method to create a complete MissionGeneralInfoEntity

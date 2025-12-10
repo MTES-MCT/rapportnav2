@@ -1,8 +1,8 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 
 data class MissionGeneralInfoEntity2(
@@ -34,6 +34,16 @@ data class MissionGeneralInfoEntity2(
 
     private fun isDataCompleteUlam(): Boolean {
         return this.data != null
+            && !this.data.resources.isNullOrEmpty()
+            && this.isInterMinisterialOK()
+    }
+
+    private fun isInterMinisterialOK(): Boolean {
+        return if (this.data?.isWithInterMinisterialService == true) {
+            !this.data.interMinisterialServices.isNullOrEmpty()
+        } else {
+            this.data?.interMinisterialServices.isNullOrEmpty()
+        }
     }
 
     private fun isDataCompletePam(): Boolean {
