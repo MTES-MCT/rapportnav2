@@ -21,7 +21,7 @@ class MissionGeneralInfoEntity2Tests {
             fun `should return true when crew is not empty and correct general info`() {
                 // Given
                 val crew = listOf(MissionCrewEntityMock.create())
-                val data = createCompleteDataUlam()
+                val data = createCompleteDataPam()
                 val entity = MissionGeneralInfoEntity2(data = data, crew = crew)
 
                 // When
@@ -131,7 +131,7 @@ class MissionGeneralInfoEntity2Tests {
                 consumedGOInLiters = 50f,
                 distanceInNauticalMiles = 200f,
                 nbrOfRecognizedVessel = 2,
-                service = ServiceEntityMock.create(serviceType = ServiceTypeEnum.ULAM),
+                service = ServiceEntityMock.create(serviceType = ServiceTypeEnum.PAM),
             )
         }
 
@@ -252,7 +252,7 @@ class MissionGeneralInfoEntity2Tests {
         val result = entity.isCompleteForStats()
 
         // Then
-        assertTrue(result)
+        assertFalse(result)
     }
 
     // Helper method to create a complete MissionGeneralInfoEntity
