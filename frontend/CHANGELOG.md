@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.46.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.45.0...frontend@v2.46.0) (2025-12-10)
+
+
+### Features
+
+* **frontend:** delay on input instead of form ([558a8fa](https://github.com/MTES-MCT/rapportnav2/commit/558a8fa126efde4b0e040edcb20736c2215bede3))
+* **frontend:** delay on input instead of form ([e7e4606](https://github.com/MTES-MCT/rapportnav2/commit/e7e460665cf4f088f69ddc27cb5faa7c44f393f0))
+* **frontend:** update admin module (delete/ migrate agent) ([8127ea6](https://github.com/MTES-MCT/rapportnav2/commit/8127ea62eab5cf345a7e9d1539058a46932916d7))
+* **frontend:** update admin module (delete/ migrate agent) ([347ee11](https://github.com/MTES-MCT/rapportnav2/commit/347ee11ec9ccf9331eab7d6147a29a58d50efe26))
+
 ## [2.45.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.44.0...frontend@v2.45.0) (2025-12-08)
 
 
