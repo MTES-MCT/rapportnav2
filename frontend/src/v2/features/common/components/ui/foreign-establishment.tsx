@@ -1,10 +1,8 @@
 import { FormikSearchProps, Message, TextInput } from '@mtes-mct/monitor-ui'
 import { FormikErrors } from 'formik'
-import { isEmpty } from 'lodash'
-import { useEffect, useState } from 'react'
 import { Stack } from 'rsuite'
 import styled from 'styled-components'
-import { useDelay } from '../../hooks/use-delay'
+import { useDelayFormik } from '../../hooks/use-delay-formik'
 import { Establishment } from '../../types/etablishment'
 
 type ForeignEstablishmentProps = {
@@ -14,21 +12,11 @@ type ForeignEstablishmentProps = {
 
 export const ForeignEstablishment = styled(
   ({ establishment, handleSubmit, ...props }: Omit<FormikSearchProps, 'options'> & ForeignEstablishmentProps) => {
-    const { handleExecuteOnDelay } = useDelay()
-    const [value, setValue] = useState<string>()
-
-    const onChange = (v?: string) => {
-      if (!v) return
-      setValue(v)
-      handleExecuteOnDelay(async () => {
-        handleSubmit({ ...establishment, name: v })
-      }, 3000)
-    }
-
-    useEffect(() => {
-      if (!establishment || isEmpty(establishment)) return
-      setValue(establishment?.name)
-    }, [establishment])
+    const { value, onChange } = useDelayFormik(
+      establishment?.name,
+      (v?: string | number) => handleSubmit({ ...establishment, name: v as string }),
+      3000
+    )
 
     return (
       <Stack direction="column" spacing="0.5rem">
@@ -43,10 +31,10 @@ export const ForeignEstablishment = styled(
             <Stack.Item style={{ width: '100%' }}>
               <TextInput
                 {...props}
-                value={value}
                 placeholder=""
                 isRequired={true}
                 name="establishment"
+                value={value as string}
                 isErrorMessageHidden={true}
                 onChange={(v?: string) => onChange(v)}
               />

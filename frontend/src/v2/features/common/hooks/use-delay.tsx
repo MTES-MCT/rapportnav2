@@ -7,7 +7,7 @@ type DelayHook = {
 }
 
 export function useDelay(): DelayHook {
-  const timerRef = useRef<ReturnType<typeof setTimeout>>()
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   const handleExecuteOnDelay = async (callback: () => Promise<void> | void, debounceTime?: number): Promise<void> => {
     clearTimeout(timerRef.current)
