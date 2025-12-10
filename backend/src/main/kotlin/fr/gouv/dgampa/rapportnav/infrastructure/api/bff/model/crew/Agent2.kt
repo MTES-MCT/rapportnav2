@@ -1,8 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity2
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentRoleEntity
 import java.time.Instant
 
 data class Agent2(
@@ -15,7 +13,7 @@ data class Agent2(
     val createdAt: Instant? = null,
     val updatedAt: Instant? = null,
     val createdBy: Int? = null,
-    val service: ServiceEntity
+    val service: Service
 ) {
     companion object {
         fun fromAgentEntity(entity: AgentEntity2?): Agent2? {
@@ -23,14 +21,14 @@ data class Agent2(
             return Agent2(
                 id = entity.id,
                 userId = entity.userId,
-                service = entity.service,
                 firstName = entity.firstName,
                 lastName = entity.lastName,
                 updatedAt = entity.updatedAt,
                 createdAt = entity.createdAt,
                 createdBy = entity.createdBy,
                 disabledAt = entity.disabledAt,
-                role = entity.role?.let { AgentRole.fromAgentRoleEntity(it)}
+                role = entity.role?.let { AgentRole.fromAgentRoleEntity(it)},
+                service = entity.service.let { Service.fromServiceEntity(it) }
             )
         }
     }
