@@ -150,7 +150,7 @@ class ExportMissionPatrolSingle2(
                 "\${operatingCosts}" to (generalInfo?.data?.operatingCostsInEuro?.toString() ?: ""),
                 "\${fuelCosts}" to (generalInfo?.data?.fuelCostsInEuro?.toString() ?: ""),
 
-                "\${observations}" to (mission.data?.observationsByUnit ?: ""),
+                "\${observations}" to (mission.data?.observationsByUnit ?: "RAS"),
 
                 "\${nbInterns}" to (patrolData?.internTrainingSummary?.get("nbInterns")?.toString()?.toIntOrNull()?.takeUnless { it == 0 }?.toString()?: ""),
                 "\${nbAffMarInterns}" to (patrolData?.internTrainingSummary?.get("nbAffMarInterns").toString().toIntOrNull()?.takeUnless { it == 0 }?.toString()?: ""),
