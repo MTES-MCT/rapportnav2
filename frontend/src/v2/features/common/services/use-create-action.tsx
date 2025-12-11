@@ -9,6 +9,8 @@ import { NetworkSyncStatus } from '../types/network-types.ts'
 import { OwnerType } from '../types/owner-type.ts'
 import { actionsKeys, inquiriesKeys, missionsKeys } from './query-keys.ts'
 import { fetchAction } from './use-action.tsx'
+import { ControlType } from '@common/types/control-types.ts'
+import { TargetType } from '../types/target-types.ts'
 
 const createAction = async ({ ownerId, action }: ActionInput): Promise<MissionNavAction> =>
   axios.post(`owners/${ownerId}/actions`, action).then(response => response.data)
@@ -20,8 +22,23 @@ export const offlineCreateActionDefaults = {
 
     const optimisticAction = {
       ...action,
-      status: action.actionType === ActionType.STATUS ? action.data.status : undefined,
-      networkSyncStatus: isOnline ? NetworkSyncStatus.SYNC : NetworkSyncStatus.UNSYNC
+      networkSyncStatus: isOnline ? NetworkSyncStatus.SYNC : NetworkSyncStatus.UNSYNC,
+      data: {
+        targets: [
+          {
+            actionId: action.id,
+            targetType: TargetType.DEFAULT,
+            controls: [
+              { controlType: ControlType.ADMINISTRATIVE },
+              { controlType: ControlType.GENS_DE_MER },
+              { controlType: ControlType.NAVIGATION },
+              { controlType: ControlType.SECURITY }
+            ]
+          }
+        ],
+        ...action.data,
+        status: action.actionType === ActionType.STATUS ? action.data.status : undefined
+      }
     }
 
     // cancel queries that should be invalidated
