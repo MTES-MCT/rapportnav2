@@ -152,12 +152,12 @@ class ExportMissionPatrolSingle2(
 
                 "\${observations}" to (mission.data?.observationsByUnit ?: ""),
 
-                "\${nbInterns}" to (patrolData?.internTrainingSummary?.get("nbInterns").toString()),
-                "\${nbAffMarInterns}" to (patrolData?.internTrainingSummary?.get("nbAffMarInterns").toString()),
-                "\${nbPostgraduateInterns}" to (patrolData?.internTrainingSummary?.get("nbPostgraduateInterns").toString()),
-                "\${nbHighSchoolInterns}" to (patrolData?.internTrainingSummary?.get("nbHighSchoolInterns").toString()),
-                "\${nbOtherInterns}" to (patrolData?.internTrainingSummary?.get("nbOtherInterns").toString()),
-                "\${totalInternDurationInDays}" to ((patrolData?.internTrainingSummary?.get("totalInternDurationInDays"))?.or(0).toString()),
+                "\${nbInterns}" to (patrolData?.internTrainingSummary?.get("nbInterns")?.toString()?.toIntOrNull()?.takeUnless { it == 0 }?.toString()?: ""),
+                "\${nbAffMarInterns}" to (patrolData?.internTrainingSummary?.get("nbAffMarInterns").toString().toIntOrNull()?.takeUnless { it == 0 }?.toString()?: ""),
+                "\${nbPostgraduateInterns}" to (patrolData?.internTrainingSummary?.get("nbPostgraduateInterns").toString().toIntOrNull()?.takeUnless { it == 0 }?.toString()?: ""),
+                "\${nbHighSchoolInterns}" to (patrolData?.internTrainingSummary?.get("nbHighSchoolInterns").toString().toIntOrNull()?.takeUnless { it == 0 }?.toString()?: ""),
+                "\${nbOtherInterns}" to (patrolData?.internTrainingSummary?.get("nbOtherInterns").toString().toIntOrNull()?.takeUnless { it == 0 }?.toString()?: ""),
+                "\${totalInternDurationInDays}" to ((patrolData?.internTrainingSummary?.get("totalInternDurationInDays"))?.or(0).toString().toIntOrNull()?.takeUnless { it == 0 }?.toString()?: ""),
             )
 
             fun castLinkedHashMapToList(map: LinkedHashMap<String, Map<String, Int?>>?): List<List<String?>> {
