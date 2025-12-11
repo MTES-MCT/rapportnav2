@@ -121,7 +121,8 @@ class ActionRestController(
         @PathVariable(name = "ownerId") ownerId: String,
         @RequestBody body: MissionNavAction
     ): MissionAction? {
-        return MissionAction.fromMissionActionEntity(createNavAction.execute(body))
+        createNavAction.execute(body)
+        return MissionAction.fromMissionActionEntity(getNavActionById.execute(actionId = body.id))
     }
 
     @PutMapping("{actionId}")
