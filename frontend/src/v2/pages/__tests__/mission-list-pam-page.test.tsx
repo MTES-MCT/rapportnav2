@@ -4,6 +4,7 @@ import MissionListPamPage from '../mission-list-pam-page.tsx'
 import useAuth from '../../features/auth/hooks/use-auth.tsx'
 import { useMissionList } from '../../features/common/hooks/use-mission-list.tsx'
 import useMissionsQuery from '../../features/common/services/use-missions.tsx'
+import { useOnlineManager } from '../../features/common/hooks/use-online-manager.tsx'
 import { useOfflineMode } from '../../features/common/hooks/use-offline-mode.tsx'
 import { useMissionReportExport } from '../../features/common/hooks/use-mission-report-export.tsx'
 import { ExportMode, ExportReportType } from '../../features/common/types/mission-export-types.ts'
@@ -27,6 +28,10 @@ vi.mock('../../features/common/services/use-missions.tsx', () => ({
 
 vi.mock('../../features/common/hooks/use-offline-mode.tsx', () => ({
   useOfflineMode: vi.fn()
+}))
+
+vi.mock('../../features/common/hooks/use-online-manager.tsx', () => ({
+  useOnlineManager: vi.fn()
 }))
 
 describe('MissionListPamPage', () => {
@@ -58,6 +63,8 @@ describe('MissionListPamPage', () => {
     })
 
     vi.mocked(useOfflineMode).mockReturnValue(false)
+
+    vi.mocked(useOnlineManager).mockReturnValue({ isOffline: false } as any)
   })
 
   describe('rendering', () => {
@@ -167,6 +174,17 @@ describe('MissionListPamPage', () => {
       render(<MissionListPamPage />)
       expect(screen.queryByTestId('mission-list-item')).not.toBeInTheDocument()
       expect(screen.getByText('Aucune mission pour cette période de temps.')).toBeInTheDocument()
+    })
+
+    it('should handle empty mission list (offline version)', () => {
+      vi.mocked(useOnlineManager).mockReturnValue({ isOffline: true } as any)
+      vi.mocked(useMissionsQuery).mockReturnValue({
+        isLoading: false,
+        data: []
+      })
+      render(<MissionListPamPage />)
+      expect(screen.queryByTestId('mission-list-item')).not.toBeInTheDocument()
+      expect(screen.getByText('Veuillez repasser en ligne pour resynchroniser.')).toBeInTheDocument()
     })
 
     it('should handle undefined mission list', () => {

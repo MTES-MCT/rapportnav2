@@ -11,6 +11,7 @@ interface MissionListContentWrapperProps {
   actions?: JSX.Element
   list: ReactNode
   loading: boolean
+  isOffline?: boolean
 }
 
 const MissionListPageContentWrapper: FC<MissionListContentWrapperProps> = ({
@@ -21,7 +22,8 @@ const MissionListPageContentWrapper: FC<MissionListContentWrapperProps> = ({
   actions,
   list,
   loading,
-  hasMissions
+  hasMissions,
+  isOffline
 }) => {
   return (
     <Stack direction={'column'} style={{ width: '100%' }}>
@@ -63,10 +65,12 @@ const MissionListPageContentWrapper: FC<MissionListContentWrapperProps> = ({
                       content={<Text as={'h3'}>Missions en cours de chargement</Text>}
                     />
                   </div>
-                ) : !hasMissions ? (
+                ) : !hasMissions || isOffline ? (
                   <div style={{ marginTop: '10rem' }}>
                     <Text as={'h3'} style={{ textAlign: 'center' }}>
-                      Aucune mission pour cette période de temps.
+                      {isOffline
+                        ? 'Veuillez repasser en ligne pour resynchroniser.'
+                        : 'Aucune mission pour cette période de temps.'}
                     </Text>
                   </div>
                 ) : (
