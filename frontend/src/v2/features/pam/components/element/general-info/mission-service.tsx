@@ -20,7 +20,7 @@ const MissionService: FC<MissionServiceProps> = ({ services }) => {
 
   return (
     <FormikSelect
-      name="serviceId"
+      name="service.id"
       label="Bordée"
       isCleanable={false}
       options={getOptions(services)}
