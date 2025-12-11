@@ -47,10 +47,9 @@ class MissionEnvActionData(
             val action = MissionEnvActionEntity(
                 id = UUID.fromString(input.id),
                 missionId = input.missionId,
-                endDateTimeUtc = data?.endDateTimeUtc,
-                startDateTimeUtc = data?.startDateTimeUtc,
-                observations = data?.observations,
-                observationsByUnit = data?.observationsByUnit,
+                endDateTimeUtc = data.endDateTimeUtc,
+                startDateTimeUtc = data.startDateTimeUtc,
+                observationsByUnit = data.observationsByUnit,
                 envActionType = ActionTypeEnum.valueOf(input.actionType.toString()),
                 tags = data.tags,
                 themes = data.themes.orEmpty()
