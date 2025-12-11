@@ -72,7 +72,7 @@ class MissionFishActionData(
                 id = Integer.parseInt(input.id),
                 missionId = input.missionId,
                 fishActionType = MissionActionType.AIR_CONTROL,
-                observationsByUnit = data.observations,
+                observationsByUnit = data.observationsByUnit,
                 actionDatetimeUtc = data.startDateTimeUtc,
                 actionEndDatetimeUtc = data.endDateTimeUtc
             )

@@ -96,12 +96,12 @@ class MissionFishActionEntity(
     }
 
     private fun getFishSummaryTags(): SummaryTag {
-        val fishInfractions: List<FishInfraction> = listOf(
+        val fishInfractions: List<FishInfraction> = listOfNotNull(
             this.gearInfractions?.map { FishInfraction(it.natinf, it.infractionType) },
             this.logbookInfractions?.map { FishInfraction(it.natinf, it.infractionType) },
             this.speciesInfractions?.map { FishInfraction(it.natinf, it.infractionType) },
             this.otherInfractions?.map { FishInfraction(it.natinf, it.infractionType) }
-        ).filterNotNull().flatten()
+        ).flatten()
         val withReport = fishInfractions.count { it.infractionType == InfractionType.WITH_RECORD }
         val natInfSize = fishInfractions.map { it.natinf.toString() }.count { true }
         return SummaryTag(withReport = withReport, natInfSize = natInfSize)

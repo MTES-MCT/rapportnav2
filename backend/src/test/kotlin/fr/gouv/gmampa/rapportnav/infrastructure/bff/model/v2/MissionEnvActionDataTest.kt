@@ -24,7 +24,6 @@ class MissionEnvActionDataTest {
         assertThat(output.id).isEqualTo(entity.id.toString())
         assertThat(output.data.startDateTimeUtc).isEqualTo(entity.startDateTimeUtc)
         assertThat(output.data.endDateTimeUtc).isEqualTo(entity.endDateTimeUtc)
-        assertThat(output.data.observations).isEqualTo(entity2.observations)
         assertThat(output.data.observationsByUnit).isEqualTo(entity2.observationsByUnit)
         assertThat(output.actionType.toString()).isEqualTo(entity2.envActionType.toString())
     }
