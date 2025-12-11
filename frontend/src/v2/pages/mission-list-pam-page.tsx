@@ -20,10 +20,12 @@ import MissionListActionsPam from '../features/pam/components/element/mission-li
 import MissionListExportDialog from '../features/pam/components/element/mission-list/mission-list-export.tsx'
 import MissionListPam from '../features/pam/components/element/mission-list/mission-list-pam.tsx'
 import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
+import { useOnlineManager } from '../features/common/hooks/use-online-manager.tsx'
 
 const MissionListPamPage: FC = () => {
   const { isLoggedIn } = useAuth()
   const isOfflineModeEnabled = useOfflineMode()
+  const { isOffline } = useOnlineManager()
 
   const { getTodayYearRange } = useDate()
   const { getSidebarItems } = useGlobalRoutes()
@@ -104,6 +106,7 @@ const MissionListPamPage: FC = () => {
       <MissionListPageContentWrapper
         loading={isLoading}
         hasMissions={!!missions?.length}
+        isOffline={isOffline}
         title={'Mes rapports'}
         filters={
           <ItemListDateRangeNavigator
