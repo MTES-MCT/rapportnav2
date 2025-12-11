@@ -7,14 +7,19 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.CreateNavAction
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeTarget
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActionData
+import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.assertNotNull
 import org.mockito.Mockito.`when`
+import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
@@ -28,6 +33,9 @@ import java.util.*
 class CreateNavActionTest {
     @MockitoBean
     private lateinit var missionActionRepository: INavMissionActionRepository
+
+    @MockitoBean
+    private lateinit var getComputeTarget: GetComputeTarget
 
     @Test
     fun `test execute create nav action`() {
@@ -43,10 +51,47 @@ class CreateNavActionTest {
         `when`(missionActionRepository.save(anyOrNull())).thenReturn(model)
 
         val createNavAction = CreateNavAction(
-            missionActionRepository = missionActionRepository
+            missionActionRepository = missionActionRepository,
+            getComputeTarget = getComputeTarget
         )
         val response = createNavAction.execute(input)
-        assertThat(response).isNotNull
+        assertNotNull(response)
+        assertEquals(response.targets, emptyList<TargetEntity2>())
+    }
+
+    @Test
+    fun `test execute create nav action with CONTROL type should compute targets`() {
+        // ARRANGE
+        val actionId = UUID.randomUUID().toString()
+
+        val input = MissionNavAction(
+            id = actionId,
+            missionId = 761,
+            actionType = ActionType.CONTROL,
+            source = MissionSourceEnum.RAPPORTNAV,
+            data = getNavActionDataInput(),
+        )
+
+        val model = MissionActionModelMock.create()
+
+        val target1 = TargetEntity2Mock.create()
+        val target2 = TargetEntity2Mock.create()
+
+        `when`(missionActionRepository.save(any())).thenReturn(model)
+        `when`(getComputeTarget.execute(actionId = any(), isControl = any()))
+            .thenReturn(listOf(target1, target2))
+
+        val createNavAction = CreateNavAction(
+            missionActionRepository = missionActionRepository,
+            getComputeTarget = getComputeTarget
+        )
+
+        // ACT
+        val response = createNavAction.execute(input)
+
+        // ASSERT
+        assertNotNull(response)
+        assertEquals(response.targets, listOf(target1, target2))
     }
 
     private fun getNavActionDataInput() = MissionNavActionData(
