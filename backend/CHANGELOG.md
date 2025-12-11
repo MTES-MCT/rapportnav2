@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.47.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.46.0...backend@v2.47.0) (2025-12-11)
+
+
+### Features
+
+* **backend:** service instead of service entity on output agent ([fbf42fa](https://github.com/MTES-MCT/rapportnav2/commit/fbf42fa2e9ba73595791f88f112e8cfafc51cd53))
+* **backend:** validate general info ulam ([2881bcd](https://github.com/MTES-MCT/rapportnav2/commit/2881bcda9917c7b8caad2f84ef67494cc5e55a4c))
+* **GeneralInfo:** diverge on validation for PAM vs ULAM ([1dee666](https://github.com/MTES-MCT/rapportnav2/commit/1dee6668c8423d4c9beeebc559f73e18efb62ece))
+* **Passengers:** introduce mission passengers on PAM ([70783d2](https://github.com/MTES-MCT/rapportnav2/commit/70783d2c363dc32ebc8f9ad3c73b116652fc21b4))
+* **RapportDePatrouille:** refactor + passengers ([63d6620](https://github.com/MTES-MCT/rapportnav2/commit/63d6620440f0932e3848ae55980f5c4f885201fe))
+
+
+### Bug Fixes
+
+* **backend:** test general infos ([5687af7](https://github.com/MTES-MCT/rapportnav2/commit/5687af78078580333db75d7ed3e2cd577a84b2ed))
+
 ## [2.46.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.45.0...backend@v2.46.0) (2025-12-10)
 
 
