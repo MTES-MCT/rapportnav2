@@ -17,8 +17,7 @@ export const SearchEstablishment = styled(
     const [search, setSearch] = useState<string>()
     const { data: establishments } = useEstablishmentListQuery(search)
 
-    const getName = (establishment: Establishment) =>
-      `${establishment.name} | n°${establishment.id} | ${establishment.address}`
+    const getName = (value: Establishment) => `${value.name} | n°${value.siren} | ${value.address}`
 
     const onSelect = (eventKey?: string, event: React.SyntheticEvent) => {
       const value = establishments?.find(item => item.id === eventKey)

@@ -34,7 +34,8 @@ export function useMissionActionGenericDateObservation(
   const { initValue, handleSubmit, errors } = useAbstractFormik<MissionActionData, ActionGenericDateObservationInput>(
     action.data,
     fromFieldValueToInput,
-    fromInputToFieldValue
+    fromInputToFieldValue,
+    ['isWithinDepartment', 'hasDivingDuringOperation']
   )
 
   const onSubmit = async (valueToSubmit?: MissionActionData) => {
