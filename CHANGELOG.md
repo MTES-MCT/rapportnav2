@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.47.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.47.0...docker-container@v2.47.1) (2025-12-11)
+
+
+### Bug Fixes
+
+* mapping observationsByUnit ([062d56d](https://github.com/MTES-MCT/rapportnav2/commit/062d56d00a1264bbb1c2cb7a04a5f83316a6e6aa))
+* **RapportDePatrouille:** fix template styles ([615c8ff](https://github.com/MTES-MCT/rapportnav2/commit/615c8ffaaac093e7d7639eefbd6f24acd1aaf1ea))
+* **RapportDePatrouille:** show empty string instead of 'null' ([bb2d253](https://github.com/MTES-MCT/rapportnav2/commit/bb2d2539f46a33c2f83a5e45f6e2583534e7b029))
+
 ## [2.47.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.46.0...docker-container@v2.47.0) (2025-12-11)
 
 
