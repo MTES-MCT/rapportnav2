@@ -259,6 +259,14 @@ class MissionNavActionEntityTest {
         assertThat(model.isWithinDepartment).isEqualTo(true)
     }
 
+    @Test
+    fun `execute should have isWithinDepartment from entity null to true`() {
+        val model = getActionModel()
+        val entity = MissionNavActionEntity.fromMissionActionModel(model)
+        entity.isWithinDepartment = null
+        assertThat(entity.toMissionActionModel().isWithinDepartment).isEqualTo(true)
+    }
+    
     private fun getActionModel(): MissionActionModel{
         return MissionActionModelMock.create()
     }

@@ -319,7 +319,6 @@ class MissionNavActionEntity(
         nbrOfHours = nbrOfHours,
         trainingType = trainingType,
         unitManagementTrainingType = unitManagementTrainingType,
-        isWithinDepartment = isWithinDepartment,
         hasDivingDuringOperation = hasDivingDuringOperation,
         incidentDuringOperation = incidentDuringOperation,
         resourceType = resourceType,
@@ -336,7 +335,8 @@ class MissionNavActionEntity(
         controlType = controlType,
         nbrSecurityVisit = nbrSecurityVisit,
         securityVisitType = securityVisitType?.toString(),
-        establishment = establishment?.toEstablishmentModel()
+        establishment = establishment?.toEstablishmentModel(),
+        isWithinDepartment =  if(isWithinDepartment == null)  true else isWithinDepartment
     )
 
 
