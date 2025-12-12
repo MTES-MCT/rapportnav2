@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.47.2](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.47.1...docker-container@v2.47.2) (2025-12-12)
+
+
+### Bug Fixes
+
+* **crew:** fix crew generator through service dropdown ([3a580e5](https://github.com/MTES-MCT/rapportnav2/commit/3a580e5cbbffa8ce9edc8261b352ded88df7bfd9))
+* **RapportDePatrouille:** docx templating ([4b3658c](https://github.com/MTES-MCT/rapportnav2/commit/4b3658cecfe61d4e4d99dd8acdcddcdc74b3ba7a))
+
 ## [2.47.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.47.0...docker-container@v2.47.1) (2025-12-11)
 
 
