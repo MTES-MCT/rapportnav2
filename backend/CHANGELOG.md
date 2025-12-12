@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.47.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.47.2...backend@v2.47.3) (2025-12-12)
+
+
+### Bug Fixes
+
+* add logs on JPATargetRepo ([605f274](https://github.com/MTES-MCT/rapportnav2/commit/605f274de469844928ebb9b00ca7eefe3334bd6e))
+
 ## [2.47.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.47.1...backend@v2.47.2) (2025-12-12)
 
 
