@@ -5,18 +5,14 @@ import React, { MouseEvent, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Divider, FlexboxGrid, Stack } from 'rsuite'
 import styled from 'styled-components'
-import ExportFileButton from '../../../../common/components/elements/export-file-button.tsx'
 import MissionCompletenessForStatsTag from '../../../../common/components/elements/mission-completeness-for-stats-tag.tsx'
 import MissionSourceTag from '../../../../common/components/ui/mission-source-tag.tsx'
 import MissionStatusTag from '../../../../common/components/ui/mission-status-tag.tsx'
-import { useMissionCompletenessForStats } from '../../../../common/hooks/use-mission-completeness-for-stats.tsx'
-import { ExportMode, ExportReportType } from '../../../../common/types/mission-export-types.ts'
 import { MissionListItem } from '../../../../common/types/mission-types.ts'
 import { User } from '../../../../common/types/user.ts'
 import { useUlamCrewForMissionList } from '../../../hooks/use-ulam-crew-for-mission-list.tsx'
 import { useControlUnitResourceLabel } from '../../../hooks/use-ulam-home-unit-resources.tsx'
 import MissionIconUlam from '../../ui/mission-icon-ulam.tsx'
-import { useMissionReportExport } from '../../../../common/hooks/use-mission-report-export.tsx'
 
 interface MissionListItemProps {
   mission: MissionListItem
@@ -55,7 +51,6 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
   user
 }) => {
   const navigate = useNavigate()
-  const { isCompleteForStats } = useMissionCompletenessForStats()
   const missionCrew = useUlamCrewForMissionList(mission.crew)
   const controlUnitResourcesText = useControlUnitResourceLabel(
     mission.controlUnits,
@@ -63,22 +58,8 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
     user?.controlUnitId
   )
 
-  const { exportMissionReport, exportIsLoading } = useMissionReportExport()
-  const exportAEM = async (id: number, event?: React.MouseEvent) => {
-    // Stop event propagation to prevent row from collapsing
-    event?.preventDefault()
-    event?.stopPropagation()
-
-    mission &&
-      (await exportMissionReport({
-        missionIds: [id],
-        exportMode: ExportMode.INDIVIDUAL_MISSION,
-        reportType: ExportReportType.AEM
-      }))
-  }
-
-  const listItemRef = useRef<HTMLDivElement>(null)
   const isOpen = openIndex === index
+  const listItemRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -205,27 +186,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
                   {mission.observationsByUnit}
                 </p>
               </FlexboxGrid.Item>
-              <FlexboxGrid.Item>
-                <ExportFileButton
-                  isLoading={exportIsLoading}
-                  accent={Accent.SECONDARY}
-                  disabled={!isCompleteForStats(mission?.completenessForStats)}
-                  title={
-                    isCompleteForStats(mission?.completenessForStats)
-                      ? 'Exporter les tableaux de mission'
-                      : "Export indisponible tant que la mission n'est pas terminée et complétée."
-                  }
-                  onMouseDown={(e: React.MouseEvent) => {
-                    e.preventDefault() // Prevents button focus behavior
-                    e.stopPropagation() // Prevents parent `onClick` from firing
-                  }}
-                  onClick={async (e: React.MouseEvent) => {
-                    await exportAEM(mission.id, e)
-                  }}
-                >
-                  Exporter les tableaux de mission
-                </ExportFileButton>
-              </FlexboxGrid.Item>
+              <FlexboxGrid.Item></FlexboxGrid.Item>
             </FlexboxGrid>
           </FlexboxGrid.Item>
         )}
