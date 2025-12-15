@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.47.4](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.47.3...frontend@v2.47.4) (2025-12-15)
+
+
+### Bug Fixes
+
+* **frontend:** fix few issues from feedback ([760e3b2](https://github.com/MTES-MCT/rapportnav2/commit/760e3b22025d1e36fb7f81237259e491836f2094))
+* **offline:** fix setting individual cache keys causing memory leaks ([4ef16a5](https://github.com/MTES-MCT/rapportnav2/commit/4ef16a56d6155ec5cac15bd9b1602ea27a2aedc6))
+
 ## [2.47.3](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.47.2...frontend@v2.47.3) (2025-12-12)
 
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.47.4](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.47.3...backend@v2.47.4) (2025-12-15)
+
+
+### Bug Fixes
+
+* **backend:** test ([313232f](https://github.com/MTES-MCT/rapportnav2/commit/313232f094afce32e0ff86cc3b3be6aed0500e9d))
+* **frontend:** fix few issues from feedback ([760e3b2](https://github.com/MTES-MCT/rapportnav2/commit/760e3b22025d1e36fb7f81237259e491836f2094))
+
 ## [2.47.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.47.2...backend@v2.47.3) (2025-12-12)
 
 
