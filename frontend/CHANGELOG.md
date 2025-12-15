@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.47.3](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.47.2...frontend@v2.47.3) (2025-12-12)
+
+
+### Miscellaneous Chores
+
+* **frontend:** Synchronize group-some-associated-services versions
+
+## [2.47.2](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.47.1...frontend@v2.47.2) (2025-12-12)
+
+
+### Bug Fixes
+
+* **crew:** fix crew generator through service dropdown ([3a580e5](https://github.com/MTES-MCT/rapportnav2/commit/3a580e5cbbffa8ce9edc8261b352ded88df7bfd9))
+
 ## [2.47.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.47.0...frontend@v2.47.1) (2025-12-11)
 
 
