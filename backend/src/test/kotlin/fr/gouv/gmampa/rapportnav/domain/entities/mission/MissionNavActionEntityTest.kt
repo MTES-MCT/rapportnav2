@@ -191,7 +191,7 @@ class MissionNavActionEntityTest {
         assertThat(model.unitManagementTrainingType).isEqualTo(entity.unitManagementTrainingType)
         assertThat(model.hasDivingDuringOperation).isEqualTo(entity.hasDivingDuringOperation)
         assertThat(model.incidentDuringOperation).isEqualTo(entity.incidentDuringOperation)
-        assertThat(model.isWithinDepartment).isEqualTo(entity.isWithinDepartment)
+        assertThat(model.isWithinDepartment).isEqualTo(true)
 
         assertThat(model.resourceId).isEqualTo(entity.resourceId)
         assertThat(model.resourceType).isEqualTo(entity.resourceType)
@@ -266,7 +266,7 @@ class MissionNavActionEntityTest {
         entity.isWithinDepartment = null
         assertThat(entity.toMissionActionModel().isWithinDepartment).isEqualTo(true)
     }
-    
+
     private fun getActionModel(): MissionActionModel{
         return MissionActionModelMock.create()
     }
