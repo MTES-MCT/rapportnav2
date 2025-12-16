@@ -16,10 +16,11 @@ type FormikDateRangePickerProps = FormikDatePickerWithDateDateProps & {
   name: string
   validateOnSubmit?: boolean
   fieldFormik: FieldProps<Date[]>
+  withTime?: boolean
 }
 
 export const FormikDateRangePicker = styled(
-  ({ name, fieldFormik, validateOnSubmit, ...props }: FormikDateRangePickerProps) => {
+  ({ name, fieldFormik, validateOnSubmit, withTime = true, ...props }: FormikDateRangePickerProps) => {
     const [errors, setErrors] = useState<FormikErrors<DateInput>>()
     const [initValue, setInitValue] = useState<DateInput>()
 
@@ -58,7 +59,13 @@ export const FormikDateRangePicker = styled(
                   <Stack.Item>
                     <Stack direction="row">
                       <Stack.Item>
-                        <Label>{props.label || 'Date et heure de début et de fin (utc)'}</Label>
+                        <Label>
+                          {props.label
+                            ? props.label
+                            : withTime
+                              ? 'Date et heure de début et de fin (utc)'
+                              : 'Dates de début et de fin (utc)'}
+                        </Label>
                       </Stack.Item>
                       <Stack.Item>
                         <Label
@@ -77,7 +84,7 @@ export const FormikDateRangePicker = styled(
                           {...props}
                           label={''}
                           isRequired={true}
-                          withTime={true}
+                          withTime={withTime}
                           isCompact={true}
                           name={'startDateTimeUtc'}
                           isErrorMessageHidden={true}
@@ -91,7 +98,7 @@ export const FormikDateRangePicker = styled(
                           {...props}
                           label={''}
                           isRequired={true}
-                          withTime={true}
+                          withTime={withTime}
                           isCompact={true}
                           name={'endDateTimeUtc'}
                           isErrorMessageHidden={true}

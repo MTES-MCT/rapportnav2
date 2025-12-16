@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
@@ -48,6 +49,7 @@ class MissionCrewAbsenceModel(
     var updatedBy: Int? = null,
 //
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mission_crew_id", nullable = true)
+    @JoinColumn(name = "mission_crew_id", referencedColumnName = "id", nullable = true)
+    @JsonIgnore
     var missionCrew: MissionCrewModel? = null,
 )

@@ -15,16 +15,17 @@ data class MissionCrewEntity(
 ){
 
     fun toMissionCrewModel(commentDefaultsToString: Boolean? = false): MissionCrewModel {
-        return MissionCrewModel(
+        var model =  MissionCrewModel(
             id = id,
             missionId = missionId,
             agent = agent?.toAgentModel(),
             role = role?.toAgentRoleModel(),
             comment = if (comment == null && commentDefaultsToString == true) "" else comment,
             missionIdUUID = missionIdUUID,
-            absences = absences?.map { it.toMissionCrewAbsenceModel() }?.toMutableList() ?: mutableListOf(),
             fullName = fullName,
         )
+        model.absences = absences?.map { it.toMissionCrewAbsenceModel(model) }?.toMutableList() ?: mutableListOf()
+        return model
     }
 
     companion object {

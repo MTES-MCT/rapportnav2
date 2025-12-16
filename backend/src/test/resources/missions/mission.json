@@ -3,14 +3,14 @@
   "missionTypes": ["SEA"],
   "controlUnits": [
     {
-      "id": 10225,
+      "id": 10080,
       "administration": "DDTM",
       "isArchived": false,
       "name": "ULAM 33",
       "resources": [
         {
           "id": 1205,
-          "controlUnitId": 10225,
+          "controlUnitId": 10080,
           "name": "Edulis - PM 424"
         }
       ],

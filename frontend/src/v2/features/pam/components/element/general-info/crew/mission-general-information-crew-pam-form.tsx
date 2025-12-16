@@ -18,7 +18,7 @@ import { FC, useEffect, useState } from 'react'
 import { FlexboxGrid, Stack, StackProps } from 'rsuite'
 import styled from 'styled-components'
 import * as Yup from 'yup'
-import useGetAgentRoles from '../../../../common/services/use-agent-roles.tsx'
+import useGetAgentRoles from '../../../../../common/services/use-agent-roles.tsx'
 
 const CrewFormDialogBody = styled((props: DialogProps) => <Dialog.Body {...props} />)(({ theme }) => ({
   padding: 24,
@@ -39,7 +39,7 @@ const CrewFormStack = styled((props: StackProps) => (
   width: '100%'
 })
 
-const CloseIconButton = styled((props: Omit<IconButtonProps, 'Icon'>) => (
+export const CloseIconButton = styled((props: Omit<IconButtonProps, 'Icon'>) => (
   <IconButton
     {...props}
     Icon={Icon.Close}
@@ -63,7 +63,7 @@ const COMMENT_MAX_LENGTH = 23
 
 const crewSchema = Yup.object().shape({
   roleId: Yup.string().required('Fonction requise.'),
-  agentId: Yup.string().required('Identité requise.'),
+  fullName: Yup.string().required('Identité requise.'),
   comment: Yup.string().max(COMMENT_MAX_LENGTH, 'Maximum 23 caractères.')
 })
 
@@ -86,7 +86,9 @@ const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
   const initialValue: CrewForm | undefined =
     inputCrewMember &&
     ({
-      fullName: inputCrewMember?.fullName,
+      fullName: !!inputCrewMember?.agent
+        ? [inputCrewMember?.agent?.firstName, inputCrewMember?.agent?.lastName].join(' ')
+        : inputCrewMember?.fullName,
       roleId: inputCrewMember?.role?.id,
       comment: inputCrewMember?.comment
     } as CrewForm)
@@ -95,7 +97,11 @@ const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
 
   useEffect(() => {
     const crew = crewList?.find(crew => crew.id === crewId)
-    setInitValue({ roleId: crew?.role?.id, fullName: crew?.fullName, comment: crew?.comment || '' })
+    setInitValue({
+      roleId: crew?.role?.id,
+      fullName: !!crew?.agent ? [crew?.agent?.firstName, crew?.agent?.lastName].join(' ') : crew?.fullName,
+      comment: crew?.comment || ''
+    })
   }, [crewId])
 
   const handleSubmit = async (value: CrewForm) => {

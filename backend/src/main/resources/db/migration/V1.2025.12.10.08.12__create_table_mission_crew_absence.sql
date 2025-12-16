@@ -5,8 +5,8 @@ BEGIN
      id                    SERIAL PRIMARY KEY,
      mission_crew_id       INTEGER NOT NULL REFERENCES public.mission_crew(id) ON DELETE CASCADE,
 
-     start_date            DATE NOT NULL,
-     end_date              DATE NOT NULL,
+     start_date            DATE,
+     end_date              DATE,
      is_absent_full_mission BOOLEAN,
      reason                TEXT,
 

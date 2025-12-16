@@ -58,13 +58,13 @@ export const MissionCrewDeleteIconButton = styled((props: Omit<IconButtonProps, 
 }))
 
 export const MissionCrewMemberText = styled(
-  ({ agent, ...props }: Omit<TextProps, 'as' | 'children'> & { agent?: Agent }) => (
+  ({ agent, fullName, ...props }: Omit<TextProps, 'as' | 'children'> & { agent?: Agent; fullName?: string }) => (
     <Text
       {...props}
       as="h3"
       truncate={true}
       data-testid="crew-member-agent"
-    >{`${agent?.firstName} ${agent?.lastName}`}</Text>
+    >{`${agent ? [agent?.firstName, agent?.lastName].join(' ') : fullName}`}</Text>
   )
 )(({ theme }) => ({
   color: theme.color.gunMetal
