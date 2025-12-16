@@ -33,7 +33,9 @@ const MissionActionItemSectorControlForm: FC<{ formik: FormikProps<ActionControl
         <Stack.Item style={{ width: '100%' }}>
           <Stack.Item style={{ width: '100%' }}>
             <Field name="establishment">
-              {(field: FieldProps<Establishment>) => <FormikEstablishment name="establishment" fieldFormik={field} />}
+              {(field: FieldProps<Establishment>) => (
+                <FormikEstablishment name="establishment" isLight={true} fieldFormik={field} />
+              )}
             </Field>
           </Stack.Item>
         </Stack.Item>

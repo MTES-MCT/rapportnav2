@@ -13,7 +13,7 @@ type FormikEstablishmentProps = {
 }
 
 export const FormikEstablishment = styled(
-  ({ name, fieldFormik }: Omit<FormikSearchProps, 'options' | 'label'> & FormikEstablishmentProps) => {
+  ({ name, fieldFormik, ...props }: Omit<FormikSearchProps, 'options' | 'label'> & FormikEstablishmentProps) => {
     const label = "Nom de l'etablissement"
     const { initValue, handleSubmit } = useAbstractFormikSubForm(
       name,
@@ -37,7 +37,13 @@ export const FormikEstablishment = styled(
                       handleSubmit={handleSubmit}
                     />
                   ) : (
-                    <SearchEstablishment name="" label={label} establishment={values} handleSubmit={handleSubmit} />
+                    <SearchEstablishment
+                      name=""
+                      {...props}
+                      label={label}
+                      establishment={values}
+                      handleSubmit={handleSubmit}
+                    />
                   )}
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
