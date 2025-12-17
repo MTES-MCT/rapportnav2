@@ -4,17 +4,20 @@ import React from 'react'
 import Text from '@common/components/ui/text.tsx'
 import {
   CommentIcon,
+  MissionCrewDeleteIconButton,
   MissionCrewEditIconButton,
   MissionCrewMemberText,
   TruncateCommentText
 } from '../../../mission-general-infos/ui/mission-crew-list.tsx'
-import { Checkbox, Icon } from '@mtes-mct/monitor-ui'
+import { Accent, Checkbox, Icon, IconButton, Size } from '@mtes-mct/monitor-ui'
 
 interface CrewListProps {
   index: number
   name: string
   crewMember: MissionCrew
-  handleEdit: (index: number, absenceType: MissionCrewAbsenceType) => void
+  handleEditAbsence: (index: number, absenceType: MissionCrewAbsenceType) => void
+  handleEditCrew: (index: number) => void
+  handleDelete: (index: number) => void
   isAbsentFullMission?: boolean
   onToggleCheckbox?: (index: number, isChecked: boolean) => void
 }
@@ -27,7 +30,7 @@ const StandardCrewMember: React.FC<CrewListProps> = ({
   index,
   name,
   crewMember,
-  handleEdit,
+  handleEditAbsence,
   isAbsentFullMission,
   onToggleCheckbox
 }) => {
@@ -37,7 +40,6 @@ const StandardCrewMember: React.FC<CrewListProps> = ({
         <Checkbox
           checked={!isAbsentFullMission}
           onClick={() => {
-            debugger
             onToggleCheckbox?.(index, isAbsentFullMission)
           }}
         ></Checkbox>
@@ -63,9 +65,19 @@ const StandardCrewMember: React.FC<CrewListProps> = ({
       <FlexboxGrid.Item colspan={1}>
         <Stack direction="row">
           <Stack.Item>
-            <MissionCrewEditIconButton
+            <IconButton
+              role="edit-crew"
+              size={Size.NORMAL}
+              accent={Accent.TERTIARY}
+              Icon={isAbsentFullMission && MissionCrewAbsenceType.FULL_MISSION ? Icon.EditUnbordered : Icon.Calendar}
+              title={
+                isAbsentFullMission && MissionCrewAbsenceType.FULL_MISSION
+                  ? 'Modifier une non-participation'
+                  : 'Manager les absences temporaires'
+              }
+              data-testid="edit-crew-member-icon"
               onClick={() => {
-                handleEdit(
+                handleEditAbsence(
                   index,
                   isAbsentFullMission ? MissionCrewAbsenceType.FULL_MISSION : MissionCrewAbsenceType.TEMPORARY
                 )
@@ -78,7 +90,7 @@ const StandardCrewMember: React.FC<CrewListProps> = ({
   )
 }
 
-const InvitedCrewMember: React.FC<CrewListProps> = ({ index, name, crewMember, handleEdit }) => {
+const InvitedCrewMember: React.FC<CrewListProps> = ({ index, name, crewMember, handleEditCrew, handleDelete }) => {
   return (
     <FlexboxGrid key={`${name}-${index}`} align={'middle'}>
       <FlexboxGrid.Item colspan={1}>
@@ -107,12 +119,10 @@ const InvitedCrewMember: React.FC<CrewListProps> = ({ index, name, crewMember, h
       <FlexboxGrid.Item colspan={3}>
         <Stack direction="row">
           <Stack.Item>
-            <MissionCrewEditIconButton
-              onClick={() => {
-                debugger
-                handleEdit(index, MissionCrewAbsenceType.FULL_MISSION)
-              }}
-            />
+            <MissionCrewEditIconButton onClick={() => handleEditCrew(index)} />
+          </Stack.Item>
+          <Stack.Item>
+            <MissionCrewDeleteIconButton onClick={() => handleDelete(index)} />
           </Stack.Item>
         </Stack>
       </FlexboxGrid.Item>

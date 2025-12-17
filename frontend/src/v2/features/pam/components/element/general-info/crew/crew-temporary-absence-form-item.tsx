@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, FormikEffect, FormikSelect } from '@mtes-mct/monitor-ui'
+import { Accent, Button, FormikEffect, FormikSelect, Icon, IconButton, Size } from '@mtes-mct/monitor-ui'
 import { Field, Formik } from 'formik'
 import { ABSENCE_REASON_OPTIONS, MissionCrewAbsence } from '../../../../../common/types/crew-type.ts'
 import { FormikDateRangePicker } from '../../../../../common/components/ui/formik-date-range-picker.tsx'
@@ -11,11 +11,21 @@ interface Props {
   name: string
   fieldFormik: FieldProps<MissionCrewAbsence>
   onRemove: () => void
+  showCloseButton?: boolean
+  onCommit: (abs: MissionCrewAbsence) => void
 }
 
-const TemporaryAbsenceItemForm: React.FC<Props> = ({ name, fieldFormik, onRemove }) => {
+const TemporaryAbsenceItemForm: React.FC<Props> = ({ name, fieldFormik, onRemove, showCloseButton, onCommit }) => {
   const { initValue, validationSchema, handleSubmit } = useMissionCrewAbsenceForm(name, fieldFormik)
-  debugger
+
+  const onSubmit = async (nextValues: MissionCrewAbsence) => {
+    if (nextValues.reason) {
+      debugger
+      // onCommit(nextValues)
+      await handleSubmit(nextValues)
+    }
+  }
+
   return (
     <>
       {initValue && (
@@ -25,10 +35,11 @@ const TemporaryAbsenceItemForm: React.FC<Props> = ({ name, fieldFormik, onRemove
           onSubmit={handleSubmit}
           validateOnChange={false}
           isInitialValid={true}
+          enableReinitialize={true}
         >
           {formik => (
             <>
-              <FormikEffect onChange={nextValues => handleSubmit(nextValues)} />
+              <FormikEffect onChange={nextValues => onSubmit(nextValues)} />
               <Stack direction="row" spacing={'1rem'} alignItems={'flex-end'}>
                 <Stack.Item grow={2}>
                   <Field name={`dates`}>
@@ -48,11 +59,19 @@ const TemporaryAbsenceItemForm: React.FC<Props> = ({ name, fieldFormik, onRemove
                 <Stack.Item grow={3}>
                   <FormikSelect name="reason" options={ABSENCE_REASON_OPTIONS} label="Motif" isRequired isLight />
                 </Stack.Item>
-                <Stack.Item>
-                  <Button type="submit" color="red" size="xs" onClick={onRemove} style={{ marginTop: 8 }}>
-                    x
-                  </Button>
-                </Stack.Item>
+                {showCloseButton && (
+                  <Stack.Item>
+                    <IconButton
+                      role="delete-absence"
+                      size={Size.NORMAL}
+                      accent={Accent.TERTIARY}
+                      Icon={Icon.Delete}
+                      title={'Supprimer une absence'}
+                      data-testid="delete-absence"
+                      onClick={onRemove}
+                    />
+                  </Stack.Item>
+                )}
               </Stack>
             </>
           )}

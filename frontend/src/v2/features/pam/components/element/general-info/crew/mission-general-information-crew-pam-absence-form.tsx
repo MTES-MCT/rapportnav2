@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useFormikContext } from 'formik'
 import { FlexboxGrid } from 'rsuite'
 import { FullMissionAbsenceForm } from './crew-full-mission-absence-form.tsx'
-import { TemporaryMissionAbsenceForm } from './crew-remporary-absence-form.tsx'
+import { CrewAbsenceForm } from './crew-absence-form.tsx'
 import { MissionGeneralInfo2 } from '../../../../../common/types/mission-types.ts'
 import { MissionCrewAbsenceType } from '../../../../../common/types/crew-type.ts'
 import { Accent, Dialog, DialogProps, Icon, IconButton, IconButtonProps, Size, THEME } from '@mtes-mct/monitor-ui'
@@ -28,24 +28,16 @@ const CloseIconButton = styled((props: Omit<IconButtonProps, 'Icon'>) => (
   color: theme.color.gainsboro
 }))
 
-const EMPTY_ABSENCE = {
-  startDate: undefined,
-  endDate: undefined,
-  reason: undefined,
-  isAbsentFullMission: false
-}
-
 interface Props {
   crewIndex?: number
   absenceType?: MissionCrewAbsenceType
-  handleClose: (open: boolean) => void
+  handleClose: () => void
 }
 
 const MissionGeneralInformationCrewPamAbsenceForm: React.FC<Props> = ({ crewIndex, absenceType, handleClose }) => {
   const { values } = useFormikContext<MissionGeneralInfo2>()
 
   const crew = values.crew?.[crewIndex]
-
   if (!crew) return null
 
   return (
@@ -58,16 +50,12 @@ const MissionGeneralInformationCrewPamAbsenceForm: React.FC<Props> = ({ crewInde
               : 'Ajouter une absence temporaire'}
           </FlexboxGrid.Item>
           <FlexboxGrid.Item>
-            <CloseIconButton onClick={() => handleClose(false)} />
+            <CloseIconButton onClick={handleClose} />
           </FlexboxGrid.Item>
         </FlexboxGrid>
       </Dialog.Title>
       <CrewFormDialogBody>
-        {absenceType === MissionCrewAbsenceType.FULL_MISSION ? (
-          <FullMissionAbsenceForm crewIndex={crewIndex} />
-        ) : (
-          <TemporaryMissionAbsenceForm crewIndex={crewIndex} />
-        )}
+        <CrewAbsenceForm crewIndex={crewIndex} absenceType={absenceType} handleClose={handleClose} />
       </CrewFormDialogBody>
     </Dialog>
   )

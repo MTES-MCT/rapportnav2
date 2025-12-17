@@ -68,21 +68,21 @@ const crewSchema = Yup.object().shape({
 })
 
 interface MissionCrewModalProps {
-  crewId?: string
+  crewIndex?: number
   crewList: MissionCrew[]
   handleClose: (open: boolean) => void
   handleSubmitForm: (crew: Omit<AddOrUpdateMissionCrewInput, 'missionId'>) => Promise<void>
 }
 
 const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
-  crewId,
+  crewIndex,
   crewList,
   handleClose,
   handleSubmitForm
 }) => {
   const { data: agentRoles } = useGetAgentRoles()
 
-  const inputCrewMember: MissionCrew | undefined = !!crewId && crewList.find((mc: MissionCrew) => mc.id === crewId)
+  const inputCrewMember: MissionCrew | undefined = !!crewIndex && crewList[crewIndex]
   const initialValue: CrewForm | undefined =
     inputCrewMember &&
     ({
@@ -96,18 +96,18 @@ const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
   const [initValue, setInitValue] = useState<CrewForm | undefined>(initialValue)
 
   useEffect(() => {
-    const crew = crewList?.find(crew => crew.id === crewId)
+    const crew = !!crewIndex && crewList[crewIndex]
     setInitValue({
       roleId: crew?.role?.id,
       fullName: !!crew?.agent ? [crew?.agent?.firstName, crew?.agent?.lastName].join(' ') : crew?.fullName,
       comment: crew?.comment || ''
     })
-  }, [crewId])
+  }, [crewIndex, crewList])
 
   const handleSubmit = async (value: CrewForm) => {
     const role = agentRoles?.find(role => role.id === value.roleId)
     await handleSubmitForm({
-      id: crewId,
+      id: crewList[crewIndex].id,
       role,
       fullName: value?.fullName,
       comment: value.comment
@@ -118,7 +118,7 @@ const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
     <Dialog data-testId={'crew-form'}>
       <Dialog.Title>
         <FlexboxGrid align="middle" justify="space-between" style={{ paddingLeft: 24, paddingRight: 24 }}>
-          <FlexboxGrid.Item>{`${crewId ? 'Mise à jour' : 'Ajout'} d’un membre d’équipage ${crewId ? '' : 'du DCS'}`}</FlexboxGrid.Item>
+          <FlexboxGrid.Item>{`${crewIndex ? 'Mise à jour' : 'Ajout'} d’un membre d’équipage ${crewIndex ? '' : 'du DCS'}`}</FlexboxGrid.Item>
           <FlexboxGrid.Item>
             <CloseIconButton onClick={() => handleClose(false)} />
           </FlexboxGrid.Item>
@@ -171,7 +171,7 @@ const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
             </CrewFormDialogBody>
             <CrewFormDialogAction>
               <Button type="submit" data-testid="submit-crew-form-button" accent={Accent.PRIMARY}>
-                {`${crewId ? 'Mettre à jour' : 'Ajouter'} un membre`}
+                {`${crewIndex ? 'Mettre à jour' : 'Ajouter'} un membre`}
               </Button>
               <Button accent={Accent.SECONDARY} onClick={() => handleClose(false)}>
                 Annuler

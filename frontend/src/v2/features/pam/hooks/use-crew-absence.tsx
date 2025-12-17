@@ -36,7 +36,6 @@ export const useMissionCrewAbsenceForm = (name: string, fieldFormik: FieldProps<
   const fromFieldValueToInput = (data: MissionCrewAbsence) => {
     const startDate = preprocessDateForPicker(data.startDate)
     const endDate = preprocessDateForPicker(data.endDate)
-    debugger
     return {
       ...data,
       dates: [startDate, endDate]
@@ -45,7 +44,6 @@ export const useMissionCrewAbsenceForm = (name: string, fieldFormik: FieldProps<
 
   const fromInputToFieldValue = (value: MissionCrewAbsenceInitialInput): MissionCrewAbsence => {
     const { dates, ...newValues } = value
-    debugger
     return {
       ...newValues,
       startDate: postprocessDateFromPicker(dates[0]),

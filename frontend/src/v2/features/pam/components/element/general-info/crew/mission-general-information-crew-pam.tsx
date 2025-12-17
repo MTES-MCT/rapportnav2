@@ -20,6 +20,7 @@ import {
 } from '../../../../../mission-general-infos/ui/mission-crew-list.tsx'
 import { useMissionFinished } from '../../../../../common/hooks/use-mission-finished.tsx'
 import MissionGeneralInformationCrewPamAbsenceForm from './mission-general-information-crew-pam-absence-form.tsx'
+import MissionGeneralInformationCrewPamForm from './mission-general-information-crew-pam-form.tsx'
 
 interface MissionGeneralInformationCrewPamProps {
   name: string
@@ -45,10 +46,11 @@ const MissionGeneralInformationCrewPam: React.FC<MissionGeneralInformationCrewPa
 }) => {
   const isMissionFinished = useMissionFinished(missionId)
 
+  const [showAdditionalCrewDialog, setShowAdditionalCrewDialog] = useState(false)
   const [selectedCrewIndex, setSelectedCrewIndex] = useState<number | undefined>(undefined)
   const [absenceMode, setAbsenceMode] = useState<MissionCrewAbsenceType | undefined>(undefined)
 
-  const handleAbsenceUpdate = (crew: Omit<AddOrUpdateMissionCrewInput, 'missionId'>) => {
+  const handleUpdate = (crew: Omit<AddOrUpdateMissionCrewInput, 'missionId'>) => {
     debugger
     if (!crew.id) {
       // Agent has no id, so we append it to the currentCrewList.
@@ -114,19 +116,31 @@ const MissionGeneralInformationCrewPam: React.FC<MissionGeneralInformationCrewPa
                   name={name}
                   index={index}
                   crewMember={crewMember}
-                  isAbsentFullMission={crewMember.absences.some((abs: MissionCrewAbsence) => abs.isAbsentFullMission)}
-                  handleEdit={(_i: number, absenceType: MissionCrewAbsenceType) => {
+                  isAbsentFullMission={(crewMember.absences ?? []).some(
+                    (abs: MissionCrewAbsence) => abs.isAbsentFullMission
+                  )}
+                  handleEditAbsence={(_i: number, absenceType: MissionCrewAbsenceType) => {
                     setSelectedCrewIndex(index)
                     setAbsenceMode(absenceType)
                   }}
+                  handleEditCrew={() => {
+                    setSelectedCrewIndex(index)
+                    setShowAdditionalCrewDialog(true)
+                  }}
                   onToggleCheckbox={handleToggleCheckbox}
+                  handleDelete={handleDelete}
                 />
               </MissionCrewListItemStyled>
             ))}
           </MissionCrewListStyled>
         </Stack.Item>
         <Stack.Item style={{ width: '100%', marginTop: 16 }}>
-          <MissionCrewAddMemberButton onClick={() => setSelectedCrewIndex(-1)}>
+          <MissionCrewAddMemberButton
+            onClick={() => {
+              setShowAdditionalCrewDialog(true)
+              setSelectedCrewIndex(undefined)
+            }}
+          >
             Ajouter un membre d'équipage
           </MissionCrewAddMemberButton>
         </Stack.Item>
@@ -140,10 +154,21 @@ const MissionGeneralInformationCrewPam: React.FC<MissionGeneralInformationCrewPa
                 setAbsenceMode(undefined)
               }}
               absenceType={absenceMode}
-              handleSubmitForm={async (crew: Omit<AddOrUpdateMissionCrewInput, 'missionId'>) => {
+            />
+          )}
+          {showAdditionalCrewDialog && (
+            <MissionGeneralInformationCrewPamForm
+              data-testid="crew-form"
+              handleClose={() => {
+                setShowAdditionalCrewDialog(false)
                 setSelectedCrewIndex(undefined)
-                setAbsenceMode(undefined)
-                handleAbsenceUpdate(crew)
+              }}
+              crewIndex={selectedCrewIndex}
+              crewList={fieldArray.form.values.crew}
+              handleSubmitForm={async (crew: Omit<AddOrUpdateMissionCrewInput, 'missionId'>) => {
+                setShowAdditionalCrewDialog(false)
+                setSelectedCrewIndex(undefined)
+                handleUpdate(crew)
               }}
             />
           )}

@@ -1,39 +1,61 @@
 import React from 'react'
-import { useFormikContext, getIn } from 'formik'
-import { ABSENCE_REASON_OPTIONS } from '../../../../../common/types/crew-type'
-import { MissionGeneralInfo2 } from '../../../../../common/types/mission-types'
-import { Button, FormikSelect } from '@mtes-mct/monitor-ui'
+import { Formik, FieldProps } from 'formik'
+import { ABSENCE_REASON_OPTIONS, MissionCrewAbsence } from '../../../../../common/types/crew-type'
+import { Button, FormikEffect, FormikSelect } from '@mtes-mct/monitor-ui'
+import { Stack } from 'rsuite'
+import { useMissionCrewAbsenceForm } from '../../../../hooks/use-crew-absence.tsx'
 
-interface Props {
-  crewIndex: number
+interface FullMissionAbsenceFormProps {
+  name: string
+  fieldFormik: FieldProps<MissionCrewAbsence>
+  handleClose: () => void
 }
 
-export const FullMissionAbsenceForm: React.FC<Props> = ({ crewIndex }) => {
-  const { values, setFieldValue, errors } = useFormikContext<MissionGeneralInfo2>()
+export const FullMissionAbsenceForm: React.FC<Props> = ({
+  handleClose,
+  name,
+  fieldFormik
+}: FullMissionAbsenceFormProps) => {
+  const { initValue, validationSchema, handleSubmit } = useMissionCrewAbsenceForm(name, fieldFormik)
 
-  const reasonPath = `crew.${crewIndex}.absences.0.reason`
-  const absencesPath = `crew.${crewIndex}.absences`
-
-  const reason = getIn(values, reasonPath)
-  const error = getIn(errors, reasonPath)
-  debugger
-
-  const handleSubmit = () => {
-    setFieldValue(absencesPath, [
-      {
-        isAbsentFullMission: true,
-        reason
-      }
-    ])
+  const onSubmit = async (nextValues: MissionCrewAbsence) => {
+    debugger
+    await handleSubmit({ ...nextValues, isAbsentFullMission: true })
+    handleClose()
   }
 
   return (
     <>
-      <FormikSelect name={reasonPath} options={ABSENCE_REASON_OPTIONS} label="Motif" isRequired isLight />
-
-      <Button type="button" disabled={!reason || !!error} onClick={handleSubmit} style={{ marginTop: 16 }}>
-        Valider l’absence sur toute la mission
-      </Button>
+      {initValue && (
+        <Formik
+          initialValues={initValue}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+          validateOnChange={false}
+          isInitialValid={true}
+        >
+          {formik => (
+            <>
+              <FormikEffect onChange={nextValues => {}} />
+              <Stack direction="row" spacing={'1rem'} alignItems={'flex-end'}>
+                <Stack.Item grow={3}>
+                  <FormikSelect name={'reason'} options={ABSENCE_REASON_OPTIONS} label="Motif" isRequired isLight />
+                </Stack.Item>
+              </Stack>
+              <Stack>
+                <Button
+                  type="submit"
+                  disabled={!formik.values.reason}
+                  onClick={async () => onSubmit(formik.values)}
+                  isFullWidth={true}
+                >
+                  Valider l’absence sur toute la mission
+                </Button>
+              </Stack>
+            </>
+          )}
+        </Formik>
+      )}
     </>
   )
 }
