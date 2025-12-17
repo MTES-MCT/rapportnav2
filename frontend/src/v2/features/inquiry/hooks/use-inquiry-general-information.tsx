@@ -33,8 +33,9 @@ export function useInquiryGeneralInformation(
       ...newData,
       endDateTimeUtc,
       startDateTimeUtc,
-      siren: newData.type === InquiryTargetType.VEHICLE ? undefined : newData.siren,
-      vesselId: newData.type === InquiryTargetType.COMPANY ? undefined : newData.vesselId
+      vessel: newData.type === InquiryTargetType.COMPANY ? undefined : newData.vessel,
+      establishment:
+        newData.type === InquiryTargetType.VEHICLE ? { id: newData.establishment?.id } : newData.establishment
     }
   }
 
