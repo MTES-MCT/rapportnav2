@@ -81,7 +81,7 @@ describe('useInquiry', () => {
 
     it('should return complete status when inquiry type Vehicle is valid and all actions are complete', () => {
       const validInquiry = {
-        //agentId: 'myAgent',
+        agentId: 'myAgent',
         type: InquiryTargetType.VEHICLE,
         isSignedByInspector: false,
         vessel: {

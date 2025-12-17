@@ -35,7 +35,7 @@ describe('useInquiryGeneralInformation', () => {
     expect(mockOnChange).toHaveBeenCalledWith({
       ...mockInquiry,
       type: InquiryTargetType.COMPANY,
-      vesselId: undefined,
+      vessel: undefined,
       startDateTimeUtc: '2023-01-01T00:00:00.000Z',
       endDateTimeUtc: '2023-01-02T00:00:00.000Z'
     })
