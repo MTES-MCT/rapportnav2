@@ -3,7 +3,7 @@ import { ControlMethod, ControlResult, ControlType } from '@common/types/control
 type ControlTypeRegistry = { [key in ControlType]: string }
 type ControlMethodRegistry = { [key in ControlMethod]: string }
 type ControlResultOptionRegistry = { [key in ControlResult]: string }
-type ControlRadioRegistry = { [key in ControlType]: { name: string; label: string; extra?: boolean }[] }
+type ControlRadioRegistry = { [key in ControlType]?: { name: string; label: string; extra?: boolean }[] }
 
 const DEFAULT_EMPTY_VALUES = {
   infractions: [],
@@ -39,7 +39,16 @@ const CONTROL_TYPE_REGISTRY: ControlTypeRegistry = {
   [ControlType.NAVIGATION]: 'Respect des règles de navigation',
   [ControlType.ADMINISTRATIVE]: 'Contrôle administratif navire',
   [ControlType.GENS_DE_MER]: 'Contrôle administratif gens de mer',
-  [ControlType.SECURITY]: 'Équipements et respect des normes de sécurité'
+  [ControlType.SECURITY]: 'Équipements et respect des normes de sécurité',
+
+  [ControlType.SECTOR]: 'Filière (traçabilité, certificat, note de vente, vente sous-taille...)',
+  [ControlType.TRANSPORT]: 'Transport',
+  [ControlType.FISHING_REPORTING_OBLIGATION]: 'Obligations déclaratives pêche (certificats, licences, pesées...)',
+  [ControlType.LANDING_OBLIGATION]: 'Obligation de débarquement (rejets...)',
+  [ControlType.TECHNICAL_MEASURE]:
+    'Mesures techniques et de conservation (engins, espèces interdites, surquota, période, zone interdite...)',
+  [ControlType.INN_ACTIVITY]: `Activités INN (pêche non conforme à l'autorisation par navire tiers, navire sans immatriculation...)`,
+  [ControlType.OTHER]: 'Autre'
 }
 
 const CONTROL_RADIO_REGISTRY: ControlRadioRegistry = {
@@ -88,7 +97,7 @@ export function useControlRegistry(): ControlHook {
   const getControlTypeOptions = () =>
     Object.keys(ControlType)?.map(key => ({
       value: ControlType[key as keyof typeof ControlType],
-      label: `Infraction - ${CONTROL_TYPE_REGISTRY[key as keyof typeof ControlType]}`
+      label: `${CONTROL_TYPE_REGISTRY[key as keyof typeof ControlType]}`
     }))
 
   const getDisabledControlTypes = (enabledControlTypes?: ControlType[]) => {
@@ -113,6 +122,7 @@ export function useControlRegistry(): ControlHook {
     getControlMethod,
     getControlResultOptions,
     getDisabledControlTypes,
+    getControlTypeOptions,
     controlTypeOptions: getControlTypeOptions(),
     controlResultOptions: getControlResultOptions(),
     controlResultOptionsExtra: getControlResultOptions(true)

@@ -68,8 +68,7 @@ class AddOrUpdateInfraction(
                         actionControlId = infraction.actionId,
                         amountOfControls = 1
                     )
-
-                    null -> null
+                    else -> null
                 }
 
                 if (newControl != null) {
@@ -79,7 +78,7 @@ class AddOrUpdateInfraction(
                         ControlType.SECURITY -> controlSecurityRepo.save(newControl as ControlSecurityEntity)
                         ControlType.NAVIGATION -> controlNavigationRepo.save(newControl as ControlNavigationEntity)
                         ControlType.GENS_DE_MER -> controlGensDeMerRepo.save(newControl as ControlGensDeMerEntity)
-                        null -> {}
+                        else -> {}
                     }
                     infraction.controlId = newControlId
                 }

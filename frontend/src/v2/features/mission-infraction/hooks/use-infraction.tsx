@@ -28,6 +28,34 @@ const CONTROL_TYPE_REGISTRY: ControlTypeRegistry = {
   [ControlType.SECURITY]: {
     title: `Infrac. equipmt & normes sécu`,
     button: 'Ajouter une infraction sécurité'
+  },
+  [ControlType.OTHER]: {
+    title: `Infrac. autres`,
+    button: 'Ajouter une infraction sécurité'
+  },
+  [ControlType.LANDING_OBLIGATION]: {
+    title: `Infrac. obl. débarquement`,
+    button: 'Ajouter une infraction sécurité'
+  },
+  [ControlType.TECHNICAL_MEASURE]: {
+    title: `Infrac. tech. & conservat.`,
+    button: 'Ajouter une infraction sécurité'
+  },
+  [ControlType.SECTOR]: {
+    title: `Infrac. Filière`,
+    button: 'Ajouter une infraction sécurité'
+  },
+  [ControlType.TRANSPORT]: {
+    title: `Infrac. Transport`,
+    button: 'Ajouter une infraction sécurité'
+  },
+  [ControlType.FISHING_REPORTING_OBLIGATION]: {
+    title: `Infrac. obl. décl. pêche`,
+    button: 'Ajouter une infraction sécurité'
+  },
+  [ControlType.INN_ACTIVITY]: {
+    title: `Infrac. INN`,
+    button: 'Ajouter une infraction INN'
   }
 }
 

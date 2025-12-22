@@ -1,4 +1,4 @@
-import { boolean, mixed, object, string } from 'yup'
+import { boolean, mixed, number, object, string } from 'yup'
 import { DateRangeDefaultSchema } from '../../common/schemas/dates-schema'
 import { InquiryOriginType, InquiryTargetType } from '../../common/types/inquiry'
 
@@ -10,12 +10,20 @@ const inquiryDateObjectSchema = {
 const inquiryValidationSchema = {
   agentId: string().required('Un agent en charge est requis'),
   isSignedByInspector: boolean().required(),
-  vesselId: string()
-    .nullable()
-    .when('type', {
-      is: InquiryTargetType.VEHICLE,
-      then: schema => schema.nonNullable().required('Un navire est requis pour ce type de cible')
-    }),
+  establishment: object({
+    name: string().nullable()
+  }).test('iscompleteCompany', `Un etablissement est requis pour ce type de cible`, function (value) {
+    const { type } = this.parent
+    if (InquiryTargetType.COMPANY !== type) return true
+    return !!value?.name
+  }),
+  vessel: object({
+    vesselId: number().nullable()
+  }).test('iscompleteVessel', `Un navire est requis pour ce type de cible`, function (value) {
+    const { type } = this.parent
+    if (InquiryTargetType.VEHICLE !== type) return true
+    return !!value?.vesselId
+  }),
   type: mixed<InquiryTargetType>().oneOf(Object.values(InquiryTargetType)).required('Le type de cible requis'),
   origin: mixed<InquiryOriginType>().oneOf(Object.values(InquiryOriginType)).required('')
 }

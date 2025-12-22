@@ -1,3 +1,4 @@
+import { ControlType } from '@common/types/control-types.ts'
 import { FormikEffect, FormikTextarea } from '@mtes-mct/monitor-ui'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik, FormikProps } from 'formik'
 import React, { createElement, FunctionComponent } from 'react'
@@ -19,6 +20,7 @@ export type MissionActionItemGenericControlProps = {
   action: MissionAction
   schema?: ObjectShape
   withGeoCoords?: boolean
+  controlTypes?: ControlType[]
   isMissionFinished?: boolean
   isGeoCoordRequired?: boolean
   component?: FunctionComponent<{ formik: FormikProps<ActionControlInput> }>
@@ -30,12 +32,13 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
   schema,
   onChange,
   component,
+  controlTypes,
   withGeoCoords,
   isMissionFinished,
   isGeoCoordRequired = true
 }) => {
-  const { controlTypes } = useTarget()
   const { isOnline } = useOnlineManager()
+  const { defaultControlTypes } = useTarget()
   const { errors, initValue, handleSubmit, validationSchema } = useMissionActionGenericControl(
     action,
     onChange,
@@ -100,7 +103,7 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
                         isDisabled={false} //TODO: how many target max we can have?
                         actionId={action.id}
                         fieldArray={fieldArray}
-                        availableControlTypes={controlTypes}
+                        availableControlTypes={controlTypes ?? defaultControlTypes}
                       />
                     )}
                   </FieldArray>
@@ -113,7 +116,7 @@ const MissionActionItemGenericControl: React.FC<MissionActionItemGenericControlP
                         fieldArray={fieldArray}
                         actionNumberOfControls={0}
                         controlsToComplete={[]}
-                        availableControlTypes={controlTypes}
+                        availableControlTypes={controlTypes ?? defaultControlTypes}
                       />
                     )}
                   </FieldArray>

@@ -108,6 +108,7 @@ export function useTarget() {
     fromInputToFieldValue,
     getAvailableControlTypes,
     getAvailableEnvControlTypes,
-    controlTypes: CONTROL_TYPES
+    defaultControlTypes: CONTROL_TYPES,
+    allControlTypes: Object.keys(ControlType)?.map(key => ControlType[key as keyof typeof ControlType])
   }
 }

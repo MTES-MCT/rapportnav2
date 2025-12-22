@@ -35,7 +35,6 @@ const InquiryFooter: React.FC<InquiryFooterProps> = ({ inquiryId, exitMission })
   const handleUpdateStatus = async (status: InquiryStatusType) => {
     await mutationUpdate.mutateAsync({ ...inquiry, status })
   }
-
   return (
     <>
       <PageFooterWrapper

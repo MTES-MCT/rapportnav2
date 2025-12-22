@@ -26,7 +26,7 @@ export const SearchEstablishment = styled(
 
       setOpen(false)
       setSearch(getName(value))
-      handleSubmit(value)
+      handleSubmit({ id: establishment?.id, ...value })
     }
 
     useEffect(() => {

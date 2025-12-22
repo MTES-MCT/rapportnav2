@@ -88,18 +88,16 @@ export function useInquiry(): InquiryHook {
       : REPORT_STATUS[CompletenessForStatsStatusEnum.INCOMPLETE]
   }
 
+  const getAvailableControlTypes = () =>
+    Object.keys(ControlType)?.map(key => ControlType[key as keyof typeof ControlType])
+
   return {
     getStatusReport,
     isClosable,
-    availableControlTypes: [
-      ControlType.SECURITY,
-      ControlType.NAVIGATION,
-      ControlType.GENS_DE_MER,
-      ControlType.ADMINISTRATIVE
-    ],
     getInquiryOriginType,
     getInquiryTargetType,
     getInquiryConclusionType,
+    availableControlTypes: getAvailableControlTypes(),
     inquiryOriginOptions: getInquiryOriginTypeOptions(),
     inquiryTargetOptions: getInquiryTargetTypeOptions(),
     inquiryConclusionOptions: getInquiryConclusionTypeOptions()

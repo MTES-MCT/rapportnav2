@@ -1,4 +1,3 @@
-import { ControlType } from '@common/types/control-types'
 import { describe, expect, it } from 'vitest'
 import { InquiryConclusionType, InquiryOriginType, InquiryTargetType } from '../../../common/types/inquiry'
 import { useInquiry } from '../use-inquiry'
@@ -7,12 +6,7 @@ describe('useInquiry', () => {
   const inquiry = useInquiry()
 
   it('should return available control types', () => {
-    expect(inquiry.availableControlTypes).toEqual([
-      ControlType.SECURITY,
-      ControlType.NAVIGATION,
-      ControlType.GENS_DE_MER,
-      ControlType.ADMINISTRATIVE
-    ])
+    expect(inquiry.availableControlTypes.length).toEqual(11)
   })
 
   describe('getInquiryOriginType', () => {
@@ -85,12 +79,47 @@ describe('useInquiry', () => {
       })
     })
 
-    it('should return complete status when inquiry is valid and all actions are complete', () => {
+    it('should return complete status when inquiry type Vehicle is valid and all actions are complete', () => {
       const validInquiry = {
         agentId: 'myAgent',
         type: InquiryTargetType.VEHICLE,
         isSignedByInspector: false,
-        vesselId: 'Ereceex1221',
+        vessel: {
+          vesselId: 233434
+        },
+        establishment: {
+          name: null
+        },
+        origin: InquiryOriginType.CNSP_REPORTING,
+        endDateTimeUtc: '2022-08-11T12:00:00Z',
+        startDateTimeUtc: '2022-08-07T12:00:00Z',
+        actions: [
+          {
+            completenessForStats: {
+              status: 'COMPLETE'
+            }
+          }
+        ]
+      } as any
+
+      expect(inquiry.getStatusReport(validInquiry)).toEqual({
+        text: 'Données à jour',
+        icon: expect.any(Function),
+        color: expect.any(String)
+      })
+    })
+
+    it('should return complete status when inquiry type COMPANY is valid and all actions are complete', () => {
+      const validInquiry = {
+        agentId: 'myAgent',
+        type: InquiryTargetType.COMPANY,
+        isSignedByInspector: false,
+        establishment: {
+          name: '233434'
+        },
+        vessel: {
+          vesselId: null
+        },
         origin: InquiryOriginType.CNSP_REPORTING,
         endDateTimeUtc: '2022-08-11T12:00:00Z',
         startDateTimeUtc: '2022-08-07T12:00:00Z',

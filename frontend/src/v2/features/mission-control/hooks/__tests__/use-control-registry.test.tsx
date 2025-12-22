@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
 import { ControlMethod, ControlResult, ControlType } from '@common/types/control-types'
+import { describe, expect, it } from 'vitest'
 import { useControlRegistry } from '../use-control-registry.tsx'
 
 describe('useControlRegistry', () => {
@@ -69,21 +69,29 @@ describe('useControlRegistry', () => {
   describe('getDisabledControlTypes', () => {
     it('should return all control types when enabledControlTypes is undefined', () => {
       const disabled = hook.getDisabledControlTypes(undefined)
-      expect(disabled).toHaveLength(4)
+      expect(disabled).toHaveLength(11)
       expect(disabled).toContain(ControlType.NAVIGATION)
       expect(disabled).toContain(ControlType.ADMINISTRATIVE)
       expect(disabled).toContain(ControlType.GENS_DE_MER)
       expect(disabled).toContain(ControlType.SECURITY)
+
+      expect(disabled).toContain(ControlType.OTHER)
+      expect(disabled).toContain(ControlType.INN_ACTIVITY)
+      expect(disabled).toContain(ControlType.SECTOR)
+      expect(disabled).toContain(ControlType.TRANSPORT)
+      expect(disabled).toContain(ControlType.LANDING_OBLIGATION)
+      expect(disabled).toContain(ControlType.TECHNICAL_MEASURE)
+      expect(disabled).toContain(ControlType.FISHING_REPORTING_OBLIGATION)
     })
 
     it('should return all control types when called without arguments', () => {
       const disabled = hook.getDisabledControlTypes()
-      expect(disabled).toHaveLength(4)
+      expect(disabled).toHaveLength(11)
     })
 
     it('should exclude enabled control types from disabled list', () => {
       const disabled = hook.getDisabledControlTypes([ControlType.NAVIGATION, ControlType.SECURITY])
-      expect(disabled).toHaveLength(2)
+      expect(disabled).toHaveLength(9)
       expect(disabled).not.toContain(ControlType.NAVIGATION)
       expect(disabled).not.toContain(ControlType.SECURITY)
       expect(disabled).toContain(ControlType.ADMINISTRATIVE)
@@ -95,7 +103,14 @@ describe('useControlRegistry', () => {
         ControlType.NAVIGATION,
         ControlType.ADMINISTRATIVE,
         ControlType.GENS_DE_MER,
-        ControlType.SECURITY
+        ControlType.SECURITY,
+        ControlType.INN_ACTIVITY,
+        ControlType.LANDING_OBLIGATION,
+        ControlType.OTHER,
+        ControlType.SECTOR,
+        ControlType.TECHNICAL_MEASURE,
+        ControlType.TRANSPORT,
+        ControlType.FISHING_REPORTING_OBLIGATION
       ])
       expect(disabled).toHaveLength(0)
     })
@@ -214,22 +229,22 @@ describe('useControlRegistry', () => {
 
   describe('controlTypeOptions', () => {
     it('should return all control type options with correct labels', () => {
-      expect(hook.controlTypeOptions).toHaveLength(4)
+      expect(hook.controlTypeOptions).toHaveLength(11)
       expect(hook.controlTypeOptions).toContainEqual({
         value: ControlType.NAVIGATION,
-        label: 'Infraction - Respect des règles de navigation'
+        label: 'Respect des règles de navigation'
       })
       expect(hook.controlTypeOptions).toContainEqual({
         value: ControlType.ADMINISTRATIVE,
-        label: 'Infraction - Contrôle administratif navire'
+        label: 'Contrôle administratif navire'
       })
       expect(hook.controlTypeOptions).toContainEqual({
         value: ControlType.GENS_DE_MER,
-        label: 'Infraction - Contrôle administratif gens de mer'
+        label: 'Contrôle administratif gens de mer'
       })
       expect(hook.controlTypeOptions).toContainEqual({
         value: ControlType.SECURITY,
-        label: 'Infraction - Équipements et respect des normes de sécurité'
+        label: 'Équipements et respect des normes de sécurité'
       })
     })
   })
