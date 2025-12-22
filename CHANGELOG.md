@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.47.5](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.47.4...docker-container@v2.47.5) (2025-12-22)
+
+
+### Bug Fixes
+
+* **frontend:** naming ([46c28b2](https://github.com/MTES-MCT/rapportnav2/commit/46c28b208430123cb956f14d74ec00b5109b940b))
+* **frontend:** show formik search with light background ([a51465d](https://github.com/MTES-MCT/rapportnav2/commit/a51465d9ed792f6df457461460825ceee8a15f27))
+* **frontend:** show formik search with light background ([1ecb24a](https://github.com/MTES-MCT/rapportnav2/commit/1ecb24a74f359f14d7ea297ca249b9b498ead812))
+* **Secu:** bump monitor-ui ([d47c38e](https://github.com/MTES-MCT/rapportnav2/commit/d47c38e232da924d3f163728a48d02456ecebb68))
+* set special no mission message when offline ([fd51096](https://github.com/MTES-MCT/rapportnav2/commit/fd51096b4fdaaec77ca4af97de0281e21c682daf))
+
 ## [2.47.4](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.47.3...docker-container@v2.47.4) (2025-12-15)
 
 
