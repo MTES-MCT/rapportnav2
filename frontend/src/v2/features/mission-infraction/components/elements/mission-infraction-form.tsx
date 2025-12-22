@@ -74,7 +74,7 @@ const MissionInfractionForm: FC<MissionInfractionFormProps> = ({
                     isRequired={true}
                     isErrorMessageHidden={true}
                     options={controlTypeOptions}
-                    label="Type de contrôle avec infraction"
+                    label="Catégorie d'infraction"
                     disabledItemValues={getDisabledControlTypes(availableControlTypes)}
                   />
                 </Stack.Item>
