@@ -6,19 +6,19 @@
   ],
   "controlUnits": [
     {
-      "id": 10225,
+      "id": 10080,
       "administration": "DDTM",
       "isArchived": false,
       "name": "ULAM 33",
       "resources": [
         {
           "id": 279,
-          "controlUnitId": 10225,
+          "controlUnitId": 10080,
           "name": "Malprat – PM 457"
         },
         {
           "id": 240,
-          "controlUnitId": 10225,
+          "controlUnitId": 10080,
           "name": "Voiture"
         }
       ],

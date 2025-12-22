@@ -81,13 +81,17 @@ class ExportMissionPatrolSingle2(
 
             val crew: List<List<String?>> = listOf(
                 listOf("Fonction", "Nom", "Observation (formation, repos, mission, stage...)")
-            ) + missionCrew.orEmpty().map {
+            ) + missionCrew.orEmpty().map { row ->
+                val displayName = row.agent?.let { "${it.firstName} ${it.lastName}" }
+                    ?: row.fullName  // fallback when agent == null
+
                 listOf(
-                    it.role?.title,
-                    "${it.agent.firstName} ${it.agent.lastName}",
-                    it.comment.takeIf { comment -> !comment.isNullOrEmpty() } ?: "Présent"
+                    row.role?.title,
+                    displayName,
+                    row.comment.takeIf { !it.isNullOrEmpty() } ?: "Présent"
                 )
             }
+
 
 
             // Bilan opérationnel
