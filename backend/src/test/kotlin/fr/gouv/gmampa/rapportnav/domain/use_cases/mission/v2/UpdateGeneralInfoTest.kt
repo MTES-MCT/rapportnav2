@@ -1,16 +1,15 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.ProcessMissionPassengers
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentRole
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Service
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.*
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
@@ -112,7 +111,12 @@ class UpdateGeneralInfoTest {
         val crew = listOf<MissionCrew>(MissionCrew(
             id = 3,
             missionId = missionId,
-            agent = Agent(id = 1, firstName = "", lastName = ""),
+            agent = Agent2(id = 1, firstName = "", lastName = "", service = Service(
+                id = 1,
+                name = "Service1",
+                serviceType = ServiceTypeEnum.PAM
+            )
+            ),
             role = AgentRole(id = 1, title = ""),
             comment = ""
         ))

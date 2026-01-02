@@ -6,9 +6,12 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Completion
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentRoleEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.NavMissionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
@@ -137,9 +140,10 @@ class MissionEntityTests {
             MissionCrewEntity(
                 id = 1,
                 missionId = 1,
-                agent = AgentEntity(
+                agent = AgentEntity2(
                     firstName = "name",
                     lastName = "name",
+                    service = ServiceEntity(name = "name", serviceType = ServiceTypeEnum.PAM)
                 ),
                 role = AgentRoleEntity(title = "role"),
             )

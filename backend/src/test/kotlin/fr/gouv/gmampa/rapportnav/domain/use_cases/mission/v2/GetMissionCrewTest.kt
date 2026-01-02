@@ -1,7 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetActiveCrewForService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionCrew
+import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId2
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.AgentEntityMock
@@ -24,7 +24,7 @@ class GetMissionCrewTest {
     private lateinit var getMissionCrew: GetMissionCrew
 
     @MockitoBean
-    private lateinit var getActiveCrewForService: GetActiveCrewForService
+    private lateinit var getActiveCrewForService: GetCrewByServiceId2
 
     val role = AgentRoleEntityMock.create()
     val agent1 = AgentEntityMock.create(firstName = "John", lastName = "Doe")
@@ -43,15 +43,12 @@ class GetMissionCrewTest {
     @Test
     fun `execute get service, in database when new service id and old service id are different`() {
         val serviceId = 3
-        val crewFromService = listOf(
-            AgentServiceEntityMock.create(agent = agent1, role = role),
-            AgentServiceEntityMock.create(agent = agent2, role = role),
-        )
-        Mockito.`when`(getActiveCrewForService.execute(serviceId)).thenReturn(crewFromService)
+        val agents = listOf(agent1, agent2)
+        Mockito.`when`(getActiveCrewForService.execute(serviceId)).thenReturn(agents)
         val result = getMissionCrew.execute(newServiceId = serviceId, oldServiceId = 2)
 
         // Then
-        assertThat(result.map { it.agent }.toSet()).isEqualTo(crewFromService.map { it.agent }.toSet())
+        assertThat(result.map { it.agent }.toSet()).isEqualTo(agents.toSet())
         verify(getActiveCrewForService, times(1)).execute(serviceId)
     }
 

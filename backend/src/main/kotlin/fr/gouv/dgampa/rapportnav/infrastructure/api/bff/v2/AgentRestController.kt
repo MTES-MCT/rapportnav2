@@ -2,8 +2,11 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgents
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsByServiceId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent
+import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent2
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -20,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController
 class AgentRestController(
     private val getAgents: GetAgents,
     private val getUserFromToken: GetUserFromToken,
-    private val getAgentsByServiceId: GetAgentsByServiceId,
+    private val getCrewByServiceId2: GetCrewByServiceId2,
 ) {
     private val logger = LoggerFactory.getLogger(AgentRestController::class.java)
 
@@ -39,12 +42,12 @@ class AgentRestController(
             ApiResponse(responseCode = "404", description = "Did not find any agents list", content = [Content()])
         ]
     )
-    fun agents(): List<Agent>? {
+    fun agents(): List<Agent2?>? {
         return try {
             val user = getUserFromToken.execute()
             user?.serviceId?.let { serviceId ->
-                val agents = getAgentsByServiceId.execute(serviceId)
-                    .map { Agent.fromAgentServiceEntity(it) }
+                val agents = getCrewByServiceId2.execute(serviceId)
+                    .map { Agent2.fromAgentEntity(it) }
                 agents
             }
         } catch (e: Exception) {

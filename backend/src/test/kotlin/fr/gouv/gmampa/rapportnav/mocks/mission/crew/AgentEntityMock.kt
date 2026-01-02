@@ -1,6 +1,6 @@
 package fr.gouv.gmampa.rapportnav.mocks.mission.crew
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity2
 import java.time.Instant
 
 object AgentEntityMock {
@@ -8,11 +8,12 @@ object AgentEntityMock {
         id: Int? = null,
         firstName: String = "Robin",
         lastName: String = "Hood",
-        deletedAt: Instant? = null
-    ) = AgentEntity(
+        disabledAt: Instant? = null
+    ) = AgentEntity2(
         id = id,
         firstName = firstName,
         lastName = lastName,
-        deletedAt = deletedAt
+        disabledAt = disabledAt,
+        service = ServiceEntityMock.create()
     )
 }

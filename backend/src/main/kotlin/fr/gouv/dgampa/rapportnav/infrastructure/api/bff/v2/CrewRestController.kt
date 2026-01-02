@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
-import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServices
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.crew.ServiceWithAgents
 import io.swagger.v3.oas.annotations.Operation
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/v2/crews")
 class CrewRestController(
-    private val getCrewByServiceId: GetCrewByServiceId,
+    private val getCrewByServiceId: GetCrewByServiceId2,
     private val getServices: GetServices,
 ) {
     private val logger = LoggerFactory.getLogger(CrewRestController::class.java)
