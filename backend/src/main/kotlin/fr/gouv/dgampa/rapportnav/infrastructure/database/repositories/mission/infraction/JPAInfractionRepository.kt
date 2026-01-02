@@ -44,8 +44,7 @@ class JPAInfractionRepository(
                 ControlType.GENS_DE_MER -> infraction.controlId?.let {
                     dbControlGensDeMerRepo.findById(it).orElse(null)
                 }
-
-                null -> null
+                else -> null
             } ?: throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_FIND_CONTROL_FOR_INFRACTION_EXCEPTION,
                 message = "Unable to find associated Control for Infraction='${infraction.id}'",

@@ -20,12 +20,12 @@ describe('useInquiryGeneralInformation', () => {
     vi.resetAllMocks()
   })
 
-  it('should remove vesselId when type is COMPANY', async () => {
+  it('should remove vessel when type is COMPANY', async () => {
     const { result } = renderHook(() => useInquiryGeneralInformation(mockInquiry, mockOnChange))
 
     const input = {
       ...mockInquiry,
-      vesselId: 1,
+      vessel: { vesselId: 1 },
       type: InquiryTargetType.COMPANY,
       dates: [new UTCDate('2023-01-01T00:00:00Z'), new UTCDate('2023-01-02T00:00:00Z')]
     }
@@ -35,7 +35,8 @@ describe('useInquiryGeneralInformation', () => {
     expect(mockOnChange).toHaveBeenCalledWith({
       ...mockInquiry,
       type: InquiryTargetType.COMPANY,
-      vesselId: undefined,
+      vessel: undefined,
+      establishment: undefined,
       startDateTimeUtc: '2023-01-01T00:00:00.000Z',
       endDateTimeUtc: '2023-01-02T00:00:00.000Z'
     })
@@ -46,7 +47,7 @@ describe('useInquiryGeneralInformation', () => {
 
     const input = {
       ...mockInquiry,
-      siren: 'myBeautifulSiren',
+      establishment: { name: 'myBeautifulSiren', id: 3 },
       type: InquiryTargetType.VEHICLE,
       dates: [new UTCDate('2023-01-01T00:00:00Z'), new UTCDate('2023-01-02T00:00:00Z')]
     }
@@ -56,7 +57,10 @@ describe('useInquiryGeneralInformation', () => {
     expect(mockOnChange).toHaveBeenCalledTimes(1)
     expect(mockOnChange).toHaveBeenCalledWith({
       ...mockInquiry,
-      siren: undefined,
+      establishment: {
+        id: 3
+      },
+      vessel: undefined,
       type: InquiryTargetType.VEHICLE,
       startDateTimeUtc: '2023-01-01T00:00:00.000Z',
       endDateTimeUtc: '2023-01-02T00:00:00.000Z'
