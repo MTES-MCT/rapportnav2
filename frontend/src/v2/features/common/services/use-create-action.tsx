@@ -61,7 +61,7 @@ export const offlineCreateActionDefaults = {
     // remove cache key for optimistic action because it couldn't be inserted
     queryClient.removeQueries({ queryKey: actionsKeys.byId(action.id) })
   },
-  onSettled: async (_data, _error, variables: UseCreateActionInput, _context) => {
+  onSettled: async (_data: any, _error: any, variables: UseCreateActionInput, _context) => {
     // refetch mission in any case
     await queryClient.invalidateQueries({
       queryKey:
@@ -71,7 +71,7 @@ export const offlineCreateActionDefaults = {
       type: 'all'
     })
     await queryClient.invalidateQueries({
-      queryKey: actionsKeys.byId(_data.data.id)
+      queryKey: actionsKeys.byId(_data?.data.id)
     })
   },
   scope: {
