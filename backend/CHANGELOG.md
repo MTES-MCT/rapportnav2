@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.48.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.47.4...backend@v2.48.0) (2026-01-02)
+
+
+### Features
+
+* **backend:** add control type entries ([71eb8fb](https://github.com/MTES-MCT/rapportnav2/commit/71eb8fba10d647c0644c21d57a5b80b86ca1d537))
+* **backend:** switch from Agent to Agent2 Without deleting Agent yet ([ef45202](https://github.com/MTES-MCT/rapportnav2/commit/ef45202642cfea744ee09d27464b29cc46a3e388))
+
 ## [2.47.4](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.47.3...backend@v2.47.4) (2025-12-15)
 
 

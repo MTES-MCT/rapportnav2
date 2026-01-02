@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.48.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.47.4...docker-container@v2.48.0) (2026-01-02)
+
+
+### Features
+
+* **backend:** add control type entries ([71eb8fb](https://github.com/MTES-MCT/rapportnav2/commit/71eb8fba10d647c0644c21d57a5b80b86ca1d537))
+* **backend:** switch from Agent to Agent2 Without deleting Agent yet ([ef45202](https://github.com/MTES-MCT/rapportnav2/commit/ef45202642cfea744ee09d27464b29cc46a3e388))
+* **frontend:** add new control type ([4650456](https://github.com/MTES-MCT/rapportnav2/commit/46504562012137b9f7a1f3ce6ca093dfbc72da5e))
+* **frontend:** complete stat inquiry schema ([d0729f4](https://github.com/MTES-MCT/rapportnav2/commit/d0729f4cc4b20544011b8be0cb9c2b25fbfdf07d))
+
+
+### Bug Fixes
+
+* **build:** with. new install ([c486032](https://github.com/MTES-MCT/rapportnav2/commit/c486032d08e2e305c34f5e2cb20a1f24b41582bc))
+* **frontend:** build and test ([3b3a7da](https://github.com/MTES-MCT/rapportnav2/commit/3b3a7daadd8f55d4886e30fde4b5fbff8033f7ba))
+* **frontend:** build dependencies ([beafe21](https://github.com/MTES-MCT/rapportnav2/commit/beafe218503d953c967f3048219fa71a62479541))
+* **frontend:** naming ([46c28b2](https://github.com/MTES-MCT/rapportnav2/commit/46c28b208430123cb956f14d74ec00b5109b940b))
+* **frontend:** show formik search with light background ([a51465d](https://github.com/MTES-MCT/rapportnav2/commit/a51465d9ed792f6df457461460825ceee8a15f27))
+* **frontend:** show formik search with light background ([1ecb24a](https://github.com/MTES-MCT/rapportnav2/commit/1ecb24a74f359f14d7ea297ca249b9b498ead812))
+* **frontend:** tests ([eaa0047](https://github.com/MTES-MCT/rapportnav2/commit/eaa0047fdd90f03675dbc86b7335314e600e2ae0))
+* **Secu:** bump monitor-ui ([d47c38e](https://github.com/MTES-MCT/rapportnav2/commit/d47c38e232da924d3f163728a48d02456ecebb68))
+* set special no mission message when offline ([fd51096](https://github.com/MTES-MCT/rapportnav2/commit/fd51096b4fdaaec77ca4af97de0281e21c682daf))
+
 ## [2.47.4](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.47.3...docker-container@v2.47.4) (2025-12-15)
 
 
