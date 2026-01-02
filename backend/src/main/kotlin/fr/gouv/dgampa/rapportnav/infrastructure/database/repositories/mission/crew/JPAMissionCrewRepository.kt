@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.MissionCrewModel
-import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRepository
+import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgent2Repository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentRoleRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBMissionCrewRepository
 import jakarta.transaction.Transactional
@@ -17,7 +17,7 @@ import java.util.*
 @Repository
 class JPAMissionCrewRepository(
     private val dbMissionCrewRepository: IDBMissionCrewRepository,
-    private val dbAgentRepository: IDBAgentRepository,
+    private val dbAgentRepository: IDBAgent2Repository,
     private val dbAgentRoleRepository: IDBAgentRoleRepository,
 ) : IMissionCrewRepository {
     override fun findByMissionId(missionId: Int): List<MissionCrewModel> {

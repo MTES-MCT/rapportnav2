@@ -1,11 +1,12 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.crew
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IMissionCrewRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
+import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.MissionCrewModel
-import junit.framework.TestCase.assertEquals
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
@@ -30,28 +31,48 @@ class GetAgentsCrewByMissionIdTest {
         val missionId = 1
         val missionIdUUID = UUID.randomUUID()
 
-        val johnDoe = AgentModel(
+        val johnDoe = AgentModel2(
             firstName = "John",
             lastName = "Doe",
-            id = 1
+            id = 1,
+            service = ServiceModel(
+                id = 1,
+                name = "Service1",
+                serviceType = ServiceTypeEnum.PAM
+            )
         )
 
-        val janeDoe = AgentModel(
+        val janeDoe = AgentModel2(
             firstName = "Jane",
             lastName = "Doe",
-            id = 2
+            id = 2,
+            service = ServiceModel(
+                id = 1,
+                name = "Service1",
+                serviceType = ServiceTypeEnum.PAM
+            )
         )
 
-        val alfredDeMusset = AgentModel(
+        val alfredDeMusset = AgentModel2(
             firstName = "Alfred",
             lastName = "de Musset",
-            id = 3
+            id = 3,
+            service = ServiceModel(
+                id = 1,
+                name = "Service1",
+                serviceType = ServiceTypeEnum.PAM
+            )
         )
 
-        val guyDeMaupassant = AgentModel(
+        val guyDeMaupassant = AgentModel2(
             firstName = "Guy",
             lastName = "de Maupassant",
-            id = 4
+            id = 4,
+            service = ServiceModel(
+                id = 1,
+                name = "Service1",
+                serviceType = ServiceTypeEnum.PAM
+            )
         )
 
         val chefMecano = AgentRoleModel(
