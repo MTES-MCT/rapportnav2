@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.48.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.48.0...backend@v2.48.1) (2026-01-03)
+
+
+### Bug Fixes
+
+* **backend:** remove constraint for now over agent ([758f7cf](https://github.com/MTES-MCT/rapportnav2/commit/758f7cf0cadd4c1d5b14ca3f8eb16147ad461c80))
+* **backend:** remove constraint for now over agent ([d994a82](https://github.com/MTES-MCT/rapportnav2/commit/d994a8257b3bf146e6634f712e4610a2029ba221))
+
 ## [2.48.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.47.4...backend@v2.48.0) (2026-01-02)
 
 
