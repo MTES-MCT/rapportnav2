@@ -16,7 +16,7 @@ class GetComputeNavMission(
     fun execute(missionId: UUID? = null, navMission: MissionNavEntity? = null): MissionEntity2? {
         val mission = navMission ?: missionId?.let { getNavMissionById2.execute(it) } ?: return null
 
-        val generalInfos = getGeneralInfo2.execute(missionIdUUID = mission.id)
+        val generalInfos = getGeneralInfo2.execute(missionIdUUID = mission.id, serviceId = navMission?.serviceId)
         val actions = getComputeNavActionListByMissionId.execute(ownerId = mission.id)
 
         return MissionEntity2(

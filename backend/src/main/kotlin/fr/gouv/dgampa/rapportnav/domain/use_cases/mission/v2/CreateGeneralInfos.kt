@@ -2,6 +2,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
@@ -14,12 +15,14 @@ class CreateGeneralInfos(
     fun execute(
         missionId: Int? = null,
         missionIdUUID: UUID? = null,
-        generalInfo2: MissionGeneralInfo2
+        generalInfo2: MissionGeneralInfo2,
+        service: ServiceEntity? = null
     ): MissionGeneralInfoEntity2 {
         val generalInfoModel = generalInfosRepository.save(
             generalInfo2.toMissionGeneralInfoEntity(
                 missionId = missionId,
-                missionIdUUID = missionIdUUID
+                missionIdUUID = missionIdUUID,
+                inputService = service
             )
         )
         return MissionGeneralInfoEntity2(
@@ -27,7 +30,8 @@ class CreateGeneralInfos(
                 id = generalInfoModel.id,
                 missionId = generalInfoModel.missionId,
                 missionIdUUID = generalInfoModel.missionIdUUID,
-                missionReportType = generalInfo2.missionReportType
+                missionReportType = generalInfo2.missionReportType,
+                service = service
             )
         )
     }

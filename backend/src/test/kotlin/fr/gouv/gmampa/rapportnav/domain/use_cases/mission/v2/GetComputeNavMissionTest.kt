@@ -72,7 +72,7 @@ class GetComputeNavMissionTest {
         val generalInfo = mock<MissionGeneralInfoEntity2>()
         val actions = listOf(mock<MissionNavActionEntity>())
 
-        whenever(getGeneralInfo2.execute(missionIdUUID = missionId)).thenReturn(generalInfo)
+        whenever(getGeneralInfo2.execute(missionIdUUID = missionId, serviceId = missionNav.serviceId)).thenReturn(generalInfo)
         whenever(getComputeNavActionListByMissionId.execute(ownerId = missionId)).thenReturn(actions)
 
         val result = useCase.execute(navMission = missionNav)
@@ -83,7 +83,7 @@ class GetComputeNavMissionTest {
         assertEquals(generalInfo, result.generalInfos)
 
         verifyNoInteractions(getNavMissionById2)
-        verify(getGeneralInfo2).execute(missionIdUUID = missionId)
+        verify(getGeneralInfo2).execute(missionIdUUID = missionId, serviceId = missionNav.serviceId)
         verify(getComputeNavActionListByMissionId).execute(ownerId = missionId)
     }
 

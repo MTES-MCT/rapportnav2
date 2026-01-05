@@ -22,7 +22,7 @@ class CreateMission(
 
         if (generalInfo2.isMissionNav()) {
             return executeNavMission(
-                serviceId = service.id,
+                service = service,
                 generalInfo2 = generalInfo2
             )
         }
@@ -33,12 +33,12 @@ class CreateMission(
         )
     }
 
-    private fun executeNavMission(generalInfo2: MissionGeneralInfo2, serviceId: Int): MissionEntity2? {
+    private fun executeNavMission(generalInfo2: MissionGeneralInfo2, service: ServiceEntity): MissionEntity2? {
         val missionNav = createNavMission.execute(
             generalInfo2 = generalInfo2,
-            serviceId = serviceId
+            serviceId = service.id!!
         ) ?: return null
-        val generalInfosEntity = createGeneralInfos.execute(missionIdUUID = missionNav.id, generalInfo2 = generalInfo2)
+        val generalInfosEntity = createGeneralInfos.execute(missionIdUUID = missionNav.id, generalInfo2 = generalInfo2, service = service)
 
         return MissionEntity2(
             idUUID = missionNav.id,

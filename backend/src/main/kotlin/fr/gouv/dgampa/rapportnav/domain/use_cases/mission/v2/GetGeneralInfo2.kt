@@ -30,7 +30,7 @@ class GetGeneralInfo2(
 
     fun execute(
         missionId: Int,
-        controlUnits: List<LegacyControlUnitEntity>? = null
+        controlUnits: List<LegacyControlUnitEntity>? = null,
     ): MissionGeneralInfoEntity2 {
         val services = fetchServices(controlUnits)
         return MissionGeneralInfoEntity2(
@@ -43,14 +43,15 @@ class GetGeneralInfo2(
 
     fun execute(
         missionIdUUID: UUID,
-        controlUnits: List<LegacyControlUnitEntity>? = null
+        controlUnits: List<LegacyControlUnitEntity>? = null,
+        serviceId: Int? = null
     ): MissionGeneralInfoEntity2 {
         val services = fetchServices(controlUnits)
         return MissionGeneralInfoEntity2(
             services = services,
             crew = fetchCrewUUID(missionIdUUID = missionIdUUID),
             passengers = fetchPassengersUUID(missionIdUUID = missionIdUUID),
-            data = fetchGeneralInfoUUID(missionIdUUID = missionIdUUID)
+            data = fetchGeneralInfoUUID(missionIdUUID = missionIdUUID, serviceId = serviceId)
         )
     }
 
