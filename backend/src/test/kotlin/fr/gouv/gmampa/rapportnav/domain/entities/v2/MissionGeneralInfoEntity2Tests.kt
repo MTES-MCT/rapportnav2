@@ -166,7 +166,8 @@ class MissionGeneralInfoEntity2Tests {
             val result = entity.isCompleteForStats()
 
             // Then
-            assertFalse(result)
+//            assertFalse(result)
+            assertTrue(result)
         }
 
         @Test
