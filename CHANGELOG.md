@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.50.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.49.0...docker-container@v2.50.0) (2026-01-05)
+
+
+### Features
+
+* **Ulam:** show missing crew message when mission finished ([a5ffb3a](https://github.com/MTES-MCT/rapportnav2/commit/a5ffb3aa03da9081fe3068d5c4fbee2a3d7c77c6))
+
 ## [2.49.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.48.1...docker-container@v2.49.0) (2026-01-05)
 
 
