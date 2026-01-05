@@ -1,4 +1,4 @@
-import { FormikCheckbox } from '@mtes-mct/monitor-ui'
+import { FormikCheckbox, THEME } from '@mtes-mct/monitor-ui'
 import { FieldArrayRenderProps } from 'formik'
 import React, { useState } from 'react'
 import { Stack } from 'rsuite'
@@ -13,19 +13,22 @@ import {
   MissionCrewTitleLabel,
   MissionCrewUnderlineStack
 } from '../ui/mission-crew-list.tsx'
+import Text from '@common/components/ui/text.tsx'
 
 interface MissionGeneralInformationCrewNoCommentProps {
   name: string
   missionId?: number
   agents: Agent[]
   fieldArray: FieldArrayRenderProps
+  isMissionFinished: boolean
 }
 
 const MissionGeneralInformationCrewNoComment: React.FC<MissionGeneralInformationCrewNoCommentProps> = ({
   name,
   agents,
   missionId,
-  fieldArray
+  fieldArray,
+  isMissionFinished
 }) => {
   const [openForm, setOpenForm] = useState<boolean>(false)
   const handleDelete = (index: number) => fieldArray.remove(index)
@@ -56,23 +59,29 @@ const MissionGeneralInformationCrewNoComment: React.FC<MissionGeneralInformation
 
       <MissionCrewStack>
         <Stack.Item style={{ width: '100%' }}>
-          <MissionCrewListStyled>
-            {fieldArray.form.values.crew?.map((crewMember: MissionCrewMember, index: number) => (
-              <MissionCrewListItemStyled
-                index={index}
-                key={`${crewMember?.agent?.id}-index`}
-                length={fieldArray.form.values.crew.length}
-              >
-                <MissionCrewListNoComment
-                  name={name}
+          {isMissionFinished && !fieldArray.form.values.crew?.length ? (
+            <Text as={'h2'} color={THEME.color.maximumRed} style={{ margin: '1rem 0' }}>
+              Veuillez renseigner la liste d'agents participant à la mission{' '}
+            </Text>
+          ) : (
+            <MissionCrewListStyled>
+              {fieldArray.form.values.crew?.map((crewMember: MissionCrewMember, index: number) => (
+                <MissionCrewListItemStyled
                   index={index}
-                  crewMember={crewMember}
-                  handleDelete={handleDelete}
-                  handleEdit={() => setOpenForm(true)}
-                />
-              </MissionCrewListItemStyled>
-            ))}
-          </MissionCrewListStyled>
+                  key={`${crewMember?.agent?.id}-index`}
+                  length={fieldArray.form.values.crew.length}
+                >
+                  <MissionCrewListNoComment
+                    name={name}
+                    index={index}
+                    crewMember={crewMember}
+                    handleDelete={handleDelete}
+                    handleEdit={() => setOpenForm(true)}
+                  />
+                </MissionCrewListItemStyled>
+              ))}
+            </MissionCrewListStyled>
+          )}
         </Stack.Item>
         <Stack.Item style={{ width: '100%', marginTop: '16px' }}>
           <MissionCrewAddMemberButton onClick={() => setOpenForm(true)}>

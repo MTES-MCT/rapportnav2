@@ -3,7 +3,7 @@ import { useStore } from '@tanstack/react-store'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
-import { store } from '../../../../store/index.ts'
+import { store } from '../../../../store'
 import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
 import useAdministrationsQuery from '../../../common/services/use-administrations.tsx'
 import useAgentsQuery from '../../../common/services/use-agents.tsx'
@@ -13,10 +13,11 @@ import MissionGeneralInformationControlUnitResource from '../../../mission-gener
 import MissionGeneralInformationCrewNoComment from '../../../mission-general-infos/components/mission-general-information-crew-no-comment.tsx'
 import MissionGeneralInformationInterService from '../../../mission-general-infos/components/mission-general-information-inter-service.tsx'
 import { useUlamMissionGeneralInformationsExtendedForm } from '../../hooks/use-ulam-mission-general-informations-extended-form.tsx'
+import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
 
 export interface MissionGeneralInformationUlamExtendedFormProps {
   name: string
-  missionId?: number
+  missionId?: string
   fieldFormik: FieldProps<MissionGeneralInfoExtended>
   generalInfos2: MissionGeneralInfo2
 }
@@ -30,6 +31,7 @@ const MissionGeneralInformationUlamExtendedForm: FC<MissionGeneralInformationUla
   const { data: agents } = useAgentsQuery()
   const user = useStore(store, state => state.user)
   const { isEnvMission, jdpTypeOptions } = useMissionType()
+  const isMissionFinished = useMissionFinished(missionId)
   const { data: administrations } = useAdministrationsQuery()
   const { resources } = useResourceByControlUnitQuery(user?.controlUnitId)
   const { initValue, handleSubmit, errors } = useUlamMissionGeneralInformationsExtendedForm(name, fieldFormik)
@@ -66,6 +68,7 @@ const MissionGeneralInformationUlamExtendedForm: FC<MissionGeneralInformationUla
                           agents={agents ?? []}
                           missionId={missionId}
                           fieldArray={fieldArray}
+                          isMissionFinished={isMissionFinished}
                         />
                       )}
                     </FieldArray>
