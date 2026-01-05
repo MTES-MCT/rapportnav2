@@ -60,7 +60,7 @@ class CreateMissionTest {
             isDeleted = false
         )
 
-        Mockito.`when`(createGeneralInfos.execute(missionIdUUID = anyOrNull(), missionId = anyOrNull(),  generalInfo2 = anyOrNull()))
+        Mockito.`when`(createGeneralInfos.execute(missionIdUUID = anyOrNull(), missionId = anyOrNull(), generalInfo2 = anyOrNull(), service = anyOrNull()))
             .thenReturn(generalInfoEntity)
         Mockito.`when`(createMissionNav.execute(generalInfo2, serviceId = serviceId)).thenReturn(mockMissionNav)
 
@@ -74,7 +74,7 @@ class CreateMissionTest {
         )
 
         Mockito.verify(createGeneralInfos, Mockito.times(1))
-            .execute(missionIdUUID = anyOrNull(), missionId = anyOrNull(), generalInfo2 = anyOrNull())
+            .execute(missionIdUUID = anyOrNull(), missionId = anyOrNull(), generalInfo2 = anyOrNull(), service = anyOrNull())
         Mockito.verify(createMissionNav, Mockito.times(1)).execute(generalInfo2, serviceId = 2)
         Mockito.verify(createEnvMission, Mockito.never()).execute(generalInfo2, controlUnitIds = listOf(1))
     }
@@ -100,7 +100,7 @@ class CreateMissionTest {
             isDeleted = false
         )
 
-        Mockito.`when`(createGeneralInfos.execute(missionIdUUID = anyOrNull(), missionId = anyOrNull(),  generalInfo2 = anyOrNull()))
+        Mockito.`when`(createGeneralInfos.execute(missionIdUUID = anyOrNull(), missionId = anyOrNull(), generalInfo2 = anyOrNull(), service = anyOrNull()))
             .thenReturn(generalInfoEntity)
         Mockito.`when`(createMissionNav.execute(generalInfo2, serviceId = 2)).thenReturn(mockMissionNav)
 
@@ -114,7 +114,7 @@ class CreateMissionTest {
         )
 
         Mockito.verify(createGeneralInfos, Mockito.times(1))
-            .execute(missionIdUUID = anyOrNull(), missionId = anyOrNull(),  generalInfo2 = anyOrNull())
+            .execute(missionIdUUID = anyOrNull(), missionId = anyOrNull(),  generalInfo2 = anyOrNull(), service = anyOrNull())
         Mockito.verify(createMissionNav, Mockito.times(1)).execute(generalInfo2, serviceId = 2)
         Mockito.verify(createEnvMission, Mockito.never()).execute(generalInfo2, controlUnitIds = listOf(1))
     }
@@ -143,7 +143,7 @@ class CreateMissionTest {
             )
         )
 
-        Mockito.`when`(createGeneralInfos.execute(missionIdUUID = anyOrNull(), missionId = anyOrNull(),  generalInfo2 = anyOrNull()))
+        Mockito.`when`(createGeneralInfos.execute(missionIdUUID = anyOrNull(), missionId = anyOrNull(),  generalInfo2 = anyOrNull(), service = anyOrNull()))
             .thenReturn(generalInfoEntity)
         Mockito.`when`(createEnvMission.execute(generalInfo2, controlUnitIds = listOf(1,2))).thenReturn(mockMissionEnv)
 
@@ -157,7 +157,7 @@ class CreateMissionTest {
         )
 
         Mockito.verify(createGeneralInfos, Mockito.times(1))
-            .execute(missionIdUUID = anyOrNull(), missionId = anyOrNull(), generalInfo2 = anyOrNull())
+            .execute(missionIdUUID = anyOrNull(), missionId = anyOrNull(), generalInfo2 = anyOrNull(), service = anyOrNull())
         Mockito.verify(createMissionNav, Mockito.never()).execute(generalInfo2, serviceId = serviceId)
         Mockito.verify(createEnvMission, Mockito.times(1)).execute(generalInfo2, controlUnitIds = listOf(1, 2))
     }

@@ -80,7 +80,7 @@ data class MissionGeneralInfo2(
         }
     }
 
-    fun toMissionGeneralInfoEntity(missionId: Int? = null, missionIdUUID: UUID? = null): MissionGeneralInfoEntity {
+    fun toMissionGeneralInfoEntity(missionId: Int? = null, missionIdUUID: UUID? = null, inputService: ServiceEntity? = null): MissionGeneralInfoEntity {
         return MissionGeneralInfoEntity(
             id = id,
             missionId = missionId,
@@ -89,7 +89,7 @@ data class MissionGeneralInfo2(
             consumedFuelInLiters = consumedFuelInLiters,
             operatingCostsInEuro = operatingCostsInEuro,
             fuelCostsInEuro = fuelCostsInEuro,
-            service = service?.toServiceEntity(),
+            service = inputService ?: service?.toServiceEntity(),
             nbrOfRecognizedVessel = nbrOfRecognizedVessel,
             isWithInterMinisterialService = isWithInterMinisterialService,
             isAllAgentsParticipating = isAllAgentsParticipating,
@@ -99,7 +99,7 @@ data class MissionGeneralInfo2(
             missionReportType = missionReportType,
             reinforcementType = reinforcementType,
             jdpType = jdpType,
-            missionIdUUID = missionIdUUID
+            missionIdUUID = missionIdUUID,
         )
     }
 
