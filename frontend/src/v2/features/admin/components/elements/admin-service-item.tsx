@@ -13,6 +13,7 @@ const CELLS = [
   { key: 'id', label: 'Id', width: 60 },
   { key: 'name', label: 'Nom', width: 300 },
   { key: 'controlUnits', label: 'Unité de contrôle', width: 200 },
+  { key: 'serviceType', label: 'Type', width: 200 },
   { key: 'createdAt', label: 'Date de création', width: 200 },
   { key: 'updatedAt', label: 'Dernière mise à jour', width: 240 },
   { key: 'deletedAt', label: 'Date de supression', width: 200 }
