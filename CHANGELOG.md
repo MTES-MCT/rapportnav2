@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.50.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.50.0...docker-container@v2.50.1) (2026-01-05)
+
+
+### Bug Fixes
+
+* **ULAM:** backfill general info service Id for Nav Missions ([a2c4193](https://github.com/MTES-MCT/rapportnav2/commit/a2c4193083a0f9eaa34e2cb156ad2e9de658f26c))
+* **ULAM:** fix Nav Mission validation ([8c965db](https://github.com/MTES-MCT/rapportnav2/commit/8c965dbb474c66220aaa3314a82500337ffb4fa4))
+
 ## [2.50.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.49.0...docker-container@v2.50.0) (2026-01-05)
 
 
