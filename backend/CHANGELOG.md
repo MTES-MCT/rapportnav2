@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.49.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.48.1...backend@v2.49.0) (2026-01-05)
+
+
+### Bug Fixes
+
+* **ULAM:** temporarirly losen generalInfo validation ([ce9fd09](https://github.com/MTES-MCT/rapportnav2/commit/ce9fd09ea6b8f5e8355eeae95c1f1374adc382f6))
+
 ## [2.48.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.48.0...backend@v2.48.1) (2026-01-03)
 
 

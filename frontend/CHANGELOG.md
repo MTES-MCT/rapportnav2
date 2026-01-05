@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.49.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.48.1...frontend@v2.49.0) (2026-01-05)
+
+
+### Features
+
+* **admin:** add serviceType ([8315af1](https://github.com/MTES-MCT/rapportnav2/commit/8315af1dc4743dfabc64a1551c59440033883689))
+
 ## [2.48.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.48.0...frontend@v2.48.1) (2026-01-03)
 
 
