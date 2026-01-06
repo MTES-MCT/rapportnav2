@@ -1,5 +1,6 @@
 package fr.gouv.dgampa.rapportnav.config
 
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.SerializationFeature
@@ -29,6 +30,10 @@ class JacksonConfig {
 
             // Configure to serialize dates as ISO-8601 strings (not timestamps)
             disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+
+            // Don't throw on unrecognised fields
+            // Very common for us as we're not always notified by the Monitor apps about changes in their modelds
+            disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
 
             // Include null values in serialization (equivalent to gson.serializeNulls())
             setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.ALWAYS)
