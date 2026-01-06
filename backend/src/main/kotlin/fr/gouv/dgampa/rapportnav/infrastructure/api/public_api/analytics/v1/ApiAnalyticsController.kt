@@ -11,26 +11,22 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotEmpty
-import kotlinx.serialization.Serializable
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-@Serializable
 data class MissionIdsRequest(
     @field:NotEmpty(message = "missionIds cannot be empty")
     val missionIds: List<String>
 )
 
-@Serializable
 data class ErrorResponse(
     val status: Int,
     val message: String,
     val details: String? = null
 )
 
-@Serializable
 data class AnalyticsResponse<T>(
     val count: Int,
     val failedIds: List<String> = emptyList(),

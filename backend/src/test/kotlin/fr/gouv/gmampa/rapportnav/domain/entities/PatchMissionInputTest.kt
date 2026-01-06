@@ -1,16 +1,22 @@
 package fr.gouv.gmampa.rapportnav.domain.entities
 
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
+import fr.gouv.dgampa.rapportnav.config.JacksonConfig
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
-import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.json.JsonTest
+import org.springframework.test.context.ContextConfiguration
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
+@JsonTest
+@ContextConfiguration(classes = [JacksonConfig::class])
 class PatchMissionInputTest {
 
-    private val gson: Gson = GsonSerializer().create()
+    @Autowired
+    private lateinit var objectMapper: ObjectMapper
 
     @Test
     fun `should create PatchMissionInput with given parameters`() {
@@ -57,7 +63,7 @@ class PatchMissionInputTest {
     }
 
     @Test
-    fun `should serialize and deserialize correctly with Gson`() {
+    fun `should serialize and deserialize correctly with Jackson`() {
         val input = PatchMissionInput(
             observationsByUnit = "Observations",
             startDateTimeUtc = Instant.now(),
@@ -65,14 +71,13 @@ class PatchMissionInputTest {
         )
 
         // Serialize to JSON
-        val json = gson.toJson(input)
+        val json = objectMapper.writeValueAsString(input)
         println("Serialized JSON: $json")
 
         // Deserialize from JSON
-        val deserializedInput = gson.fromJson(json, PatchMissionInput::class.java)
+        val deserializedInput = objectMapper.readValue(json, PatchMissionInput::class.java)
 
         // Assert equality
         assertThat(deserializedInput).isEqualTo(input)
     }
-
 }
