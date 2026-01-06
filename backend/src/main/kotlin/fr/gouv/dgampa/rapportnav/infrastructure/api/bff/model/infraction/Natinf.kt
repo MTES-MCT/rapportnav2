@@ -5,11 +5,15 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.NatinfEn
 data class Natinf(
     val infraction: String,
     val natinfCode: Int,
+    val regulation: String? = null,
+    val infractionCategory: String? = null,
 ) {
     fun toNatinfEntity(): NatinfEntity {
         return NatinfEntity(
             infraction = infraction,
-            natinfCode = natinfCode
+            natinfCode = natinfCode,
+            regulation = regulation,
+            infractionCategory = infractionCategory,
         )
     }
 
@@ -17,6 +21,8 @@ data class Natinf(
         fun fromNatinfEntity(natinf: NatinfEntity) = Natinf(
             infraction = natinf.infraction,
             natinfCode = natinf.natinfCode,
+            regulation = natinf.regulation,
+            infractionCategory = natinf.infractionCategory,
         )
     }
 }
