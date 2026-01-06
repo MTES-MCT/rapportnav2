@@ -2,6 +2,7 @@ package fr.gouv.gmampa.rapportnav.infrastructure.monitorenv.v2
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
+import fr.gouv.dgampa.rapportnav.config.JacksonConfig
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
@@ -15,7 +16,9 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentCaptor
 import org.mockito.Mock
 import org.mockito.Mockito.*
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.net.URI
@@ -29,11 +32,12 @@ import java.time.Instant
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [APIEnvMissionRepositoryV2::class])
+@ContextConfiguration(classes = [JacksonConfig::class])
 class APIEnvMissionRepositoryTest {
 
     val host = "https://url.developpement-durable.gouv.fr"
 
-    @MockitoBean
+    @Autowired
     private lateinit var objectMapper: ObjectMapper
 
     @Mock
@@ -65,7 +69,7 @@ class APIEnvMissionRepositoryTest {
             )
         )
             .thenReturn(httpResponse)
-        val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host)
+        val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host, mapper = objectMapper)
         val mission = MissionEnv(
             missionTypes = listOf(MissionTypeEnum.SEA),
             controlUnits = listOf(LegacyControlUnitEntityMock.create(resources = mutableListOf(resource))),
@@ -105,7 +109,7 @@ class APIEnvMissionRepositoryTest {
             )
         )
             .thenReturn(httpResponse)
-        val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host)
+        val envRepo = APIEnvMissionRepositoryV2(clientFactory = httpClientFactory, host = host, mapper = objectMapper)
         val mission = MissionEnvEntity(
             id = 1,
             missionTypes = listOf(MissionTypeEnum.SEA),
