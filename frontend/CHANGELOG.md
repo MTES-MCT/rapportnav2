@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.50.2](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.50.1...frontend@v2.50.2) (2026-01-06)
+
+
+### Bug Fixes
+
+* **ULAM:** rework delete mission button disabling ([76abcbf](https://github.com/MTES-MCT/rapportnav2/commit/76abcbf56ff391f3516afbae52ea48e2d41b2982))
+
 ## [2.50.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.50.0...frontend@v2.50.1) (2026-01-05)
 
 
