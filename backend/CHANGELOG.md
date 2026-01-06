@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.50.3](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.50.2...backend@v2.50.3) (2026-01-06)
+
+
+### Bug Fixes
+
+* **jackson:** do not throw on unrecognised fields while deserialising ([3273a25](https://github.com/MTES-MCT/rapportnav2/commit/3273a25a34879599abfb169e81bf691e91feef61))
+
 ## [2.50.2](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.50.1...backend@v2.50.2) (2026-01-06)
 
 
