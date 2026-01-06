@@ -11,6 +11,13 @@ data class InfractionEntity(
     val formalNotice: FormalNoticeEnum,
     val toProcess: Boolean,
     val controlledPersonIdentity: String? = null,
+    val vesselId: Int? = null,
+    val vesselName: String? = null,
     val vesselType: VesselTypeEnum? = null,
     val vesselSize: VesselSizeEnum? = null,
+    val imo: String? = null,
+    val mmsi: String? = null,
+    val nbTarget: Int = 1,
+    val administrativeResponse: AdministrativeResponseEnum? = null,
+    val seizure: SeizureTypeEnum = SeizureTypeEnum.NO,
 )
