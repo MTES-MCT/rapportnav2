@@ -12,7 +12,6 @@ import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInp
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.action.MissionEnvActionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.controlPlans.ControlPlanDataOutput
-import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -30,11 +29,9 @@ class APIEnvMissionRepository(
     private val clientFactory: HttpClientFactory,
     @param:Value("\${MONITORENV_HOST}") private val host: String,
 ) : IEnvMissionRepository {
-    private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepository::class.java);
+    private val logger: Logger = LoggerFactory.getLogger(APIEnvMissionRepository::class.java)
 
-    private val gson = GsonSerializer().create()
-
-    private val client = clientFactory.create();
+    private val client = clientFactory.create()
 
     override fun findMissionById(missionId: Int): MissionEntity? {
         val url = URI.create("$host/api/v1/missions/$missionId")
@@ -195,7 +192,7 @@ class APIEnvMissionRepository(
             val response = client.send(request, HttpResponse.BodyHandlers.ofString())
             logger.info("Response received for Env ControlPlans. Status code: ${response.statusCode()}. URL: $url")
 
-            val output: ControlPlanDataOutput = gson.fromJson(response.body(), ControlPlanDataOutput::class.java)
+            val output: ControlPlanDataOutput = mapper.readValue(response.body(), ControlPlanDataOutput::class.java)
             output.toControlPlansEntity()
         } catch (ex: Exception) {
             logger.error("Failed to fetch ControlsPlans from MonitorEnv at $url", ex)
@@ -204,55 +201,55 @@ class APIEnvMissionRepository(
     }
 
     override fun patchMission(missionId: Int, mission: PatchMissionInput): MissionEntity? {
-        val url = "$host/api/v2/missions/$missionId";
+        val url = "$host/api/v2/missions/$missionId"
         logger.info("Sending PATCH request for Env mission id=$missionId. URL: $url")
         return try {
             val request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
-                .method("PATCH", HttpRequest.BodyPublishers.ofString(gson.toJson(mission)))
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(mission)))
                 .header("Content-Type", "application/json")
-                .build();
+                .build()
 
-            val response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            logger.debug("Response received, missionId: ${missionId}, Status code: ${response.statusCode()}");
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+            logger.debug("Response received, missionId: ${missionId}, Status code: ${response.statusCode()}")
 
             val body = response.body()
             logger.debug(body)
 
-            mapper.registerModule(JtsModule())
-            val missionDataOutput: MissionDataOutput? = mapper.readValue(body);
-            missionDataOutput?.toMissionEntity();
+            val missionDataOutput: MissionDataOutput? = mapper.readValue(body)
+            missionDataOutput?.toMissionEntity()
         } catch (e: Exception) {
-            logger.error("Failed to PATCH request for Env mission id=$missionId. URL: $url", e);
-            null;
+            logger.error("Failed to PATCH request for Env mission id=$missionId. URL: $url", e)
+            null
         }
     }
 
     override fun patchAction(actionId: String, action: PatchActionInput): PatchedEnvActionEntity? {
-        val url = "$host/api/v1/actions/$actionId";
+        val url = "$host/api/v1/actions/$actionId"
         logger.info("Sending PATCH request for Env mission id=$actionId. URL: $url")
         return try {
-
+            val json = mapper.writeValueAsString(action)
             val request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
-                .method("PATCH", HttpRequest.BodyPublishers.ofString(gson.toJson(action)))
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(json))
                 .header("Content-Type", "application/json")
-                .build();
+                .build()
 
-            val response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            logger.debug("Response received, actionId: ${actionId}, Status code: ${response.statusCode()}");
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+            logger.debug("Response received, actionId: ${actionId}, Status code: ${response.statusCode()}")
 
             val body = response.body()
             logger.debug(body)
 
-            mapper.registerModule(JtsModule())
-            val output: MissionEnvActionDataOutput? = mapper.readValue(body);
-            output?.toPatchableEnvActionEntity();
+            val output: MissionEnvActionDataOutput? = mapper.readValue(body)
+            output?.toPatchableEnvActionEntity()
         } catch (e: Exception) {
-            logger.error("Failed to PATCH request for Env action id=$actionId. URL: $url", e);
-            null;
+            logger.error("Failed to PATCH request for Env action id=$actionId. URL: $url", e)
+            null
         }
     }
+
+
 }

@@ -1,13 +1,12 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.MissionRestController
-import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
@@ -33,6 +32,9 @@ class MissionRestControllerTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
+
+    @Autowired
+    private lateinit var objectMapper: ObjectMapper
 
     @MockitoBean
     private lateinit var getServiceForUser: GetServiceForUser
@@ -99,7 +101,6 @@ class MissionRestControllerTest {
     @Test
     fun `should create a new mission`() {
         val controlUnitsIds = listOf(123)
-        val gson = GsonSerializer().create()
         // Arrange
         val service = ServiceEntityMock.create(2, name = "test", controlUnits = controlUnitsIds)
         val requestBody = MissionGeneralInfo2Mock.create()
@@ -107,6 +108,7 @@ class MissionRestControllerTest {
             id = 123,
             controlUnits = listOf(LegacyControlUnitEntityMock.create(id = controlUnitsIds.first()))
         )
+        val json = objectMapper.writeValueAsString(requestBody)
         `when`(getServiceForUser.execute()).thenReturn(service)
         `when`(createMission.execute(requestBody, service)).thenReturn(mockMission)
 
@@ -115,7 +117,7 @@ class MissionRestControllerTest {
             post("/api/v2/missions")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
-                .content(gson.toJson(requestBody))
+                .content(json)
         )
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.id").value(123))
@@ -123,11 +125,9 @@ class MissionRestControllerTest {
 
     @Test
     fun `should return null when mission creation fails`() {
-        val controlUnitsIds = listOf(123)
-        val gson = GsonSerializer().create()
-
         // Arrange
         val requestBody = MissionGeneralInfo2Mock.create()
+        val json = objectMapper.writeValueAsString(requestBody)
         val service = ServiceEntityMock.create(2, name = "test", controlUnits = listOf(123))
         `when`(getServiceForUser.execute()).thenReturn(service)
         // Simulate mission creation returning null
@@ -142,7 +142,7 @@ class MissionRestControllerTest {
             post("/api/v2/missions")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
-                .content(gson.toJson(requestBody))
+                .content(json)
         )
             .andExpect(status().isOk)  // The status should be 200 OK
             .andExpect(

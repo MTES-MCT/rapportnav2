@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
-import kotlinx.serialization.Serializable
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController
  * and export mode.
  */
 
-@Serializable
 data class ExportBodyRequest(
     @field:NotEmpty(message = "missionIds cannot be empty")
     val missionIds: List<Int>,
@@ -39,7 +37,6 @@ data class ExportBodyRequest(
     val reportType: ExportReportTypeEnum
 )
 
-@Serializable
 data class ErrorResponse(
     val status: Int,
     val message: String,

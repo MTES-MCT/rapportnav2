@@ -5,18 +5,15 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.cnsp.monitorfish.infrastructure.api.outputs.VesselIdentityDataOutput
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.NatinfEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.input.PatchActionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output.MissionActionDataOutput
-import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
 import java.net.URI
-import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
@@ -29,8 +26,6 @@ class APIFishActionRepository(
 ) : IFishActionRepository {
     private val logger: Logger = LoggerFactory.getLogger(APIFishActionRepository::class.java)
 
-    private val gson = GsonSerializer().create(serializeNulls = true)
-
     override fun findFishActions(missionId: Int): List<MissionAction> {
         logger.info("Fetching Fish Actions for Mission id=$missionId")
         val request = HttpRequest.newBuilder()
@@ -40,7 +35,7 @@ class APIFishActionRepository(
                 )
             )
             .header("x-api-key", monitorFishApiKey)
-            .build();
+            .build()
 
         val response = clientFactory.create().send(request, HttpResponse.BodyHandlers.ofString())
 
@@ -54,11 +49,11 @@ class APIFishActionRepository(
     }
 
     override fun patchAction(actionId: String, action: PatchActionInput): MissionAction? {
-        val url = "$host/api/v1/mission_actions/$actionId";
+        val url = "$host/api/v1/mission_actions/$actionId"
         logger.info("Sending PATCH request for Fish Action id=$actionId. URL: $url")
         return try {
 
-            val json = gson.toJson(action)
+            val json = mapper.writeValueAsString(action)
 
             logger.info("Body request send as json : $json")
             logger.info("Body request send as entity : $action")
@@ -69,23 +64,23 @@ class APIFishActionRepository(
                 .method("PATCH", HttpRequest.BodyPublishers.ofString(json))
                 .header("Content-Type", "application/json")
                 .header("x-api-key", monitorFishApiKey)
-                .build();
+                .build()
 
 
-            val response = clientFactory.create().send(request, HttpResponse.BodyHandlers.ofString());
-            logger.info("Response received, actionId: ${actionId}, Status code: ${response.statusCode()}");
+            val response = clientFactory.create().send(request, HttpResponse.BodyHandlers.ofString())
+            logger.info("Response received, actionId: ${actionId}, Status code: ${response.statusCode()}")
 
             val body = response.body()
             logger.info(body)
 
             mapper.registerModule(JtsModule())
             val output: MissionActionDataOutput =
-                mapper.readValue(body, object : TypeReference<MissionActionDataOutput>() {});
+                mapper.readValue(body, object : TypeReference<MissionActionDataOutput>() {})
             val missionAction: MissionAction = output.toMissionAction()
             missionAction
         } catch (e: Exception) {
-            logger.error("Failed to PATCH request for Fish Action id=$actionId. URL: $url", e);
-            null;
+            logger.error("Failed to PATCH request for Fish Action id=$actionId. URL: $url", e)
+            null
         }
     }
 
@@ -99,7 +94,7 @@ class APIFishActionRepository(
                 )
             )
             .header("x-api-key", monitorFishApiKey)
-            .build();
+            .build()
 
         val response = clientFactory.create().send(request, HttpResponse.BodyHandlers.ofString())
 

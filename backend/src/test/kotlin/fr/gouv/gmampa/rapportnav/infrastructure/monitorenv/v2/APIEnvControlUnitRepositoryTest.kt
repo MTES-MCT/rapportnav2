@@ -1,11 +1,9 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.monitorenv.v2
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.google.gson.Gson
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.APIEnvControlUnitRepository
-import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentMatchers.argThat
@@ -50,9 +48,9 @@ class APIEnvControlUnitRepositoryTest {
 
     @Test
     fun `execute should fet controlUnits from monitorenv`() {
-
+        val json = objectMapper.writeValueAsString(listOf(legacyControlUnit))
         Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
-        Mockito.`when`(httpResponse.body()).thenReturn(getMissionString())
+        Mockito.`when`(httpResponse.body()).thenReturn(json)
         Mockito.`when`(
             httpClient.send(
                 Mockito.any(HttpRequest::class.java),
@@ -69,11 +67,5 @@ class APIEnvControlUnitRepositoryTest {
             Mockito.any<HttpResponse.BodyHandler<String>>()
         )
 
-    }
-
-
-    private fun getMissionString(): String {
-        val gson: Gson = GsonSerializer().create()
-        return gson.toJson(listOf(legacyControlUnit))
     }
 }

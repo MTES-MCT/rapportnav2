@@ -1,8 +1,8 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.monitorenv
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.google.gson.Gson
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
+import fr.gouv.dgampa.rapportnav.config.JacksonConfig
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.PatchedEnvActionEntity
@@ -10,7 +10,6 @@ import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.APIEnvMissionReposito
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchActionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOutput
-import fr.gouv.dgampa.rapportnav.infrastructure.utils.GsonSerializer
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -19,7 +18,9 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.net.URI
@@ -33,6 +34,7 @@ import java.util.*
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [APIEnvMissionRepository::class])
+@ContextConfiguration(classes = [JacksonConfig::class])
 class APIEnvMissionRepositoryTest {
 
     val host = "https://url.developpement-durable.gouv.fr"
@@ -50,7 +52,7 @@ class APIEnvMissionRepositoryTest {
         observationsByUnit = "my observationsByUnit"
     )
 
-    @MockitoBean
+    @Autowired
     private lateinit var objectMapper: ObjectMapper
 
     @Mock
@@ -68,9 +70,9 @@ class APIEnvMissionRepositoryTest {
     inner class PatchMission {
         @Test
         fun `execute should update mission env with patch and observationsByUnit`() {
-
+            val json = objectMapper.writeValueAsString(mission)
             Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
-            Mockito.`when`(httpResponse.body()).thenReturn(getMissionString())
+            Mockito.`when`(httpResponse.body()).thenReturn(json)
             Mockito.`when`(
                 httpClient.send(
                     Mockito.any(HttpRequest::class.java),
@@ -92,13 +94,6 @@ class APIEnvMissionRepositoryTest {
                 Mockito.any<HttpResponse.BodyHandler<String>>()
             )
         }
-
-        //TODO: write test on verifying the response value.
-
-        private fun getMissionString(): String {
-            val gson: Gson = GsonSerializer().create()
-            return gson.toJson(mission)
-        }
     }
 
     @Nested
@@ -111,24 +106,34 @@ class APIEnvMissionRepositoryTest {
             observationsByUnit = "dummy"
         )
 
-        private fun getActionString(): String {
-            val gson: Gson = GsonSerializer().create()
-            return gson.toJson(action)
-        }
-
         @Test
         fun `execute should update action env with patch and observationsByUnit`() {
+            val json = objectMapper.writeValueAsString(action)
 
             Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
-            Mockito.`when`(httpResponse.body()).thenReturn(getActionString())
+                    // Mock the response
+            Mockito.`when`(httpResponse.statusCode()).thenReturn(200)
+            Mockito.`when`(httpResponse.body()).thenReturn(json)
+
+            // Mock the client to return the response
             Mockito.`when`(
                 httpClient.send(
                     Mockito.any(HttpRequest::class.java),
                     Mockito.any<HttpResponse.BodyHandler<String>>()
                 )
+            ).thenReturn(httpResponse)
+
+            // Mock the factory to return the mocked client
+            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+
+            // Create repository with mocked factory
+            val envRepo = APIEnvMissionRepository(
+                mapper = objectMapper,
+                clientFactory = httpClientFactory,
+                host = host
             )
-                .thenReturn(httpResponse)
-            val envRepo = APIEnvMissionRepository(mapper = objectMapper, clientFactory = httpClientFactory, host=host)
+
+            // Execute the method
             envRepo.patchAction(
                 actionId = action.id.toString(),
                 PatchActionInput(
@@ -137,14 +142,15 @@ class APIEnvMissionRepositoryTest {
                     actionEndDateTimeUtc = Instant.parse("2022-03-27T04:50:09Z")
                 )
             )
+
+            // Verify the interaction
             verify(httpClient).send(
                 argThat { request ->
-                    request.uri().equals(URI.create("$host/api/v1/actions/${action.id}"))
+                    request.uri() == URI.create("$host/api/v1/actions/${action.id}")
                 },
                 Mockito.any<HttpResponse.BodyHandler<String>>()
             )
         }
-
     }
 
     @Nested
@@ -161,18 +167,12 @@ class APIEnvMissionRepositoryTest {
             isGeometryComputedFromControls = false
         )
 
-        private fun getMissionString(): String {
-            val gson: Gson = GsonSerializer().create()
-            return gson.toJson(listOf(mission))
-        }
-
-
 
         @Test
         fun `execute call MonitorEnv API missions`() {
-
+            val json = objectMapper.writeValueAsString(listOf(mission))
             Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
-            Mockito.`when`(httpResponse.body()).thenReturn(getMissionString())
+            Mockito.`when`(httpResponse.body()).thenReturn(json)
             Mockito.`when`(
                 httpClient.send(
                     Mockito.any(HttpRequest::class.java),

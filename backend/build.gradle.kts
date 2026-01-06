@@ -8,7 +8,7 @@ version = "2.50.1"
 // x-release-please-end
 description = "RapportNav"
 
-val kotlinVersion by extra("2.2.21")
+val kotlinVersion by extra("2.3.0")
 val serializationVersion by extra("1.6.2")
 val springVersion by extra("3.5.9")
 val testcontainersVersion by extra("1.19.3")
@@ -17,9 +17,9 @@ val flywayVersion by extra("11.20.0")
 plugins {
   `java-library`
   `maven-publish`
-  kotlin("jvm") version "2.2.21"
-  kotlin("plugin.spring") version "2.2.21"
-  kotlin("plugin.jpa") version "2.2.21"
+  kotlin("jvm") version "2.3.0"
+  kotlin("plugin.spring") version "2.3.0"
+  kotlin("plugin.jpa") version "2.3.0"
   id("org.springframework.boot") version "3.5.9"
   id("io.spring.dependency-management") version "1.1.4"
   id("org.owasp.dependencycheck") version "12.1.0"
@@ -80,9 +80,8 @@ dependencies {
   }
   implementation("io.jsonwebtoken:jjwt-api:0.12.7")
   implementation("javax.xml.bind:jaxb-api:2.3.1")
-  implementation("org.springframework.security:spring-security-oauth2-jose:6.5.6")
+  implementation("org.springframework.security:spring-security-oauth2-jose:6.5.7")
   implementation("org.locationtech.jts:jts-core:1.20.0")
-  implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
   implementation("io.sentry:sentry-spring-boot-starter-jakarta:7.1.0")
   implementation("io.sentry:sentry-log4j2:7.0.0")
   // the two following apoche poi dependencies should have the same version
@@ -105,7 +104,7 @@ dependencies {
 
 buildscript {
   dependencies {
-    classpath("org.flywaydb:flyway-database-postgresql:10.10.0")
+    classpath("org.flywaydb:flyway-database-postgresql:11.20.0")
   }
 }
 
