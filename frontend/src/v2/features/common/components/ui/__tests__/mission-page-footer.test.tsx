@@ -4,6 +4,7 @@ import MissionPageFooter from '../mission-page-footer'
 import { useOnlineManager } from '../../../hooks/use-online-manager.tsx'
 import { useOfflineSince } from '../../../hooks/use-offline-since.tsx'
 import { useOfflineMode } from '../../../hooks/use-offline-mode.tsx'
+import useMission from '../../../services/use-mission.tsx'
 
 vi.mock('../../../hooks/use-online-manager.tsx', () => ({
   useOnlineManager: vi.fn()
@@ -15,6 +16,9 @@ vi.mock('../../../hooks/use-offline-mode.tsx', () => ({
   useOfflineMode: vi.fn(),
   getOfflineMode: vi.fn()
 }))
+vi.mock('../../../services/use-mission.tsx', () => ({
+  default: vi.fn()
+}))
 
 const exitMission = vi.fn()
 
@@ -24,6 +28,11 @@ describe('MissionPageFooter', () => {
     vi.clearAllTimers()
     vi.mocked(useOnlineManager).mockReturnValue({ isOnline: true } as any)
     vi.mocked(useOfflineSince).mockReturnValue({ offlineSince: undefined } as any)
+    vi.mocked(useMission).mockReturnValue({
+      data: {
+        id: '1'
+      }
+    } as any)
   })
   it('should match the snapshot', () => {
     const wrapper = render(<MissionPageFooter exitMission={exitMission} missionId={'missionId'} type="PAM" />)
@@ -87,6 +96,36 @@ describe('MissionPageFooter', () => {
       render(<MissionPageFooter exitMission={exitMission} missionId={'1'} type="ULAM" />)
 
       expect(screen.queryByTestId('online-toggle')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('Delete Mission Button', () => {
+    it('should enable the button when Nav Mission', () => {
+      vi.mocked(useMission).mockReturnValue({
+        data: {
+          idUUID: '5f03e402-3236-4e80-8221-e1925f5d1bf0'
+        }
+      } as any)
+      render(
+        <MissionPageFooter exitMission={exitMission} missionId={'5f03e402-3236-4e80-8221-e1925f5d1bf0'} type="ULAM" />
+      )
+      expect(screen.getByText('Supprimer la mission')).not.toBeDisabled()
+      const button = screen.getByRole('button', {
+        name: /supprimer la mission/i
+      })
+      expect(button).not.toBeDisabled()
+    })
+    it('should disable the button when Env Mission', () => {
+      vi.mocked(useMission).mockReturnValue({
+        data: {
+          id: '1'
+        }
+      } as any)
+      render(<MissionPageFooter exitMission={exitMission} missionId={'1'} type="ULAM" />)
+      const button = screen.getByRole('button', {
+        name: /supprimer la mission/i
+      })
+      expect(button).toBeDisabled()
     })
   })
 

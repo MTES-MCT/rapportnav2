@@ -11,6 +11,7 @@ import { MissionSourceEnum } from '../../types/mission-types.ts'
 import PageFooterWrapper from '../layout/page-footer-wrapper.tsx'
 import DialogQuestion from './dialog-question.tsx'
 import { useOfflineMode } from '../../hooks/use-offline-mode.tsx'
+import { validate as uuidValidate } from 'uuid'
 
 interface MissionPageFooterProps {
   missionId?: string
@@ -34,6 +35,10 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, type, 
     exitMission()
   }
 
+  const isDeleteButtonDisabled = !!mission && !uuidValidate(missionId)
+  // const isDeleteButtonDisabled = !(mission &&  [MissionSourceEnum.RAPPORTNAV, MissionSourceEnum.RAPPORT_NAV].includes(mission.data?.missionSource) )
+  debugger
+
   return (
     <>
       <PageFooterWrapper
@@ -44,12 +49,7 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, type, 
             Icon={Icon.Delete}
             onClick={() => setShowDialog(true)}
             title={"Cette fonctionnalité n'a pas encore été implémentée"}
-            disabled={
-              !(
-                mission &&
-                [MissionSourceEnum.RAPPORTNAV, MissionSourceEnum.RAPPORT_NAV].includes(mission.data?.missionSource)
-              )
-            }
+            disabled={isDeleteButtonDisabled}
           >
             Supprimer la mission
           </Button>
