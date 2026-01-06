@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.50.4](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.50.3...docker-container@v2.50.4) (2026-01-06)
+
+
+### Bug Fixes
+
+* set default target on Nav Controls ([eeb3a8f](https://github.com/MTES-MCT/rapportnav2/commit/eeb3a8f207e48279c02ea524d7e9b6aa08dfd418))
+
 ## [2.50.3](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.50.2...docker-container@v2.50.3) (2026-01-06)
 
 
