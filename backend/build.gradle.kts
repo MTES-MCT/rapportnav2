@@ -10,9 +10,9 @@ description = "RapportNav"
 
 val kotlinVersion by extra("2.2.21")
 val serializationVersion by extra("1.6.2")
-val springVersion by extra("3.5.8")
+val springVersion by extra("3.5.9")
 val testcontainersVersion by extra("1.19.3")
-val flywayVersion by extra("10.10.0")
+val flywayVersion by extra("11.20.0")
 
 plugins {
   `java-library`
@@ -20,10 +20,10 @@ plugins {
   kotlin("jvm") version "2.2.21"
   kotlin("plugin.spring") version "2.2.21"
   kotlin("plugin.jpa") version "2.2.21"
-  id("org.springframework.boot") version "3.5.8"
+  id("org.springframework.boot") version "3.5.9"
   id("io.spring.dependency-management") version "1.1.4"
   id("org.owasp.dependencycheck") version "12.1.0"
-  id("org.flywaydb.flyway") version "10.10.0"
+  id("org.flywaydb.flyway") version "11.20.0"
   jacoco
 }
 
@@ -59,7 +59,7 @@ dependencyManagement {
 
 dependencies {
   developmentOnly("org.springframework.boot:spring-boot-devtools")
-  implementation("org.postgresql:postgresql:42.7.7")
+  implementation("org.postgresql:postgresql:42.7.8")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-data-rest:$springVersion")
   implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
