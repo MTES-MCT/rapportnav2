@@ -35,6 +35,7 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, type, 
   }
 
   const isDeleteButtonDisabled = !!mission && !uuidValidate(missionId)
+  // const isDeleteButtonDisabled = !(mission &&  [MissionSourceEnum.RAPPORTNAV, MissionSourceEnum.RAPPORT_NAV].includes(mission.data?.missionSource) )
 
   return (
     <>

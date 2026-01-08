@@ -95,6 +95,7 @@
     "isSafetyEquipmentAndStandardsComplianceControl": false,
     "isSeafarersControl": false,
     "observationsByUnit": "this is an observation",
+    "isDeleted": false,
     "infractions": [
       {
         "infractionType": "WITHOUT_RECORD",

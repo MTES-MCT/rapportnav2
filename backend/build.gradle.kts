@@ -10,7 +10,7 @@ description = "RapportNav"
 
 val kotlinVersion by extra("2.3.0")
 val serializationVersion by extra("1.6.2")
-val springVersion by extra("3.5.9")
+val springVersion by extra("4.0.1")
 val testcontainersVersion by extra("1.19.3")
 val flywayVersion by extra("11.20.0")
 
@@ -20,10 +20,11 @@ plugins {
   kotlin("jvm") version "2.3.0"
   kotlin("plugin.spring") version "2.3.0"
   kotlin("plugin.jpa") version "2.3.0"
-  id("org.springframework.boot") version "3.5.9"
-  id("io.spring.dependency-management") version "1.1.4"
+  id("org.springframework.boot") version "4.0.1"
+  id("io.spring.dependency-management") version "1.1.7"
   id("org.owasp.dependencycheck") version "12.1.0"
   id("org.flywaydb.flyway") version "11.20.0"
+//  id("io.sentry.jvm.gradle") version "5.12.2"
   jacoco
 }
 
@@ -60,45 +61,43 @@ dependencyManagement {
 dependencies {
   developmentOnly("org.springframework.boot:spring-boot-devtools")
   implementation("org.postgresql:postgresql:42.7.8")
-  implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
-  implementation("org.springframework.boot:spring-boot-starter-data-rest:$springVersion")
-  implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
-  implementation("org.springframework.boot:spring-boot-starter-graphql:$springVersion")
-  implementation("org.springframework.boot:spring-boot-autoconfigure:$springVersion")
-  implementation("org.springframework.boot:spring-boot-starter-log4j2:$springVersion")
-  implementation("org.springframework.boot:spring-boot-starter-security:$springVersion")
-  implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:$springVersion")
-  implementation("org.springframework.boot:spring-boot-starter-cache:$springVersion")
+  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+  implementation("org.springframework.boot:spring-boot-starter-data-rest")
+  implementation("org.springframework.boot:spring-boot-starter-web")
+  implementation("org.springframework.boot:spring-boot-starter-graphql")
+  implementation("org.springframework.boot:spring-boot-starter-log4j2")
+  implementation("org.springframework.boot:spring-boot-starter-security")
+  implementation("org.springframework.boot:spring-boot-starter-security-oauth2-resource-server")
+  implementation("org.springframework.boot:spring-boot-starter-cache")
   implementation("com.github.ben-manes.caffeine:caffeine:3.2.3")
-  implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib")
   implementation("org.flywaydb:flyway-core:$flywayVersion")
   implementation("org.flywaydb:flyway-database-postgresql:$flywayVersion")
-  implementation("org.n52.jackson:jackson-datatype-jts:1.2.10") {
-    exclude(group = "org.locationtech.jts", module = "jts-core")
-  }
+  implementation("tools.jackson.module:jackson-module-kotlin")
   implementation("io.jsonwebtoken:jjwt-api:0.12.7")
-  implementation("javax.xml.bind:jaxb-api:2.3.1")
-  implementation("org.springframework.security:spring-security-oauth2-jose:6.5.7")
+  implementation("jakarta.xml.bind:jakarta.xml.bind-api")
   implementation("org.locationtech.jts:jts-core:1.20.0")
-  implementation("io.sentry:sentry-spring-boot-starter-jakarta:7.1.0")
-  implementation("io.sentry:sentry-log4j2:7.0.0")
-  // the two following apoche poi dependencies should have the same version
+  implementation("org.locationtech.jts.io:jts-io-common:1.20.0")
+  // sentry
+  implementation(platform("io.sentry:sentry-bom:8.29.0"))
+  implementation("io.sentry:sentry-spring-boot-4")
+  // apache poi for xml and docs
+  // the two following apache poi dependencies should have the same version
   implementation("org.apache.poi:poi:5.4.1")
   implementation("org.apache.poi:poi-ooxml:5.4.1")
   implementation("org.apache.commons:commons-text:1.14.0")
   implementation("org.jodconverter:jodconverter-local-lo:4.4.11")
   implementation("com.neovisionaries:nv-i18n:1.29")
-  implementation("org.wiremock:wiremock-standalone:4.0.0-beta.15")
-  implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
-  testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
-  testImplementation("org.springframework:spring-webflux:6.2.12")
-  testImplementation("org.springframework.graphql:spring-graphql-test:1.4.3")
+  implementation("org.wiremock:wiremock-standalone:4.0.0-beta.24")
+  implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1")
+  testImplementation("org.springframework.boot:spring-boot-starter-test")
+  testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
+  testImplementation("org.springframework.boot:spring-boot-starter-jackson-test")
+  testImplementation("org.springframework.security:spring-security-test")
   testImplementation("org.testcontainers:testcontainers")
   testImplementation("org.testcontainers:junit-jupiter")
   testImplementation("org.testcontainers:postgresql")
-  testImplementation("org.springframework.security:spring-security-test:6.5.6")
   testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
 }
 

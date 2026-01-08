@@ -1,14 +1,13 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.IEnvAdministrationRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.outputs.FullAdministrationDataOutput
-import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.readValue
 import java.net.URI
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
@@ -16,7 +15,7 @@ import java.net.http.HttpResponse
 @Repository
 class APIEnvAdministrationRepository(
     clientFactory: HttpClientFactory,
-    private val mapper: ObjectMapper,
+    private val mapper: JsonMapper,
     @param:Value("\${MONITORENV_HOST}") private val host: String,
 ): IEnvAdministrationRepository {
 
@@ -44,7 +43,6 @@ class APIEnvAdministrationRepository(
                 throw Exception("Error while fetching administration by id from env, please check the logs")
             }
 
-            mapper.registerModule(JtsModule())
             val output: FullAdministrationDataOutput = mapper.readValue(body)
             output
         } catch (e: Exception) {
@@ -73,7 +71,6 @@ class APIEnvAdministrationRepository(
                 throw Exception("Error while fetching administrations from env, please check the logs")
             }
 
-            mapper.registerModule(JtsModule())
             val output: List<FullAdministrationDataOutput> = mapper.readValue(body)
             output
         } catch (e: Exception) {

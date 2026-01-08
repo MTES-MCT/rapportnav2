@@ -1,6 +1,5 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.monitorenv.v2
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.APIEnvControlUnitRepository
@@ -13,6 +12,7 @@ import org.mockito.Mockito.verify
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import tools.jackson.databind.json.JsonMapper
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -33,7 +33,7 @@ class APIEnvControlUnitRepositoryTest {
     val host = "https://url.developpement-durable.gouv.fr"
 
     @MockitoBean
-    private lateinit var objectMapper: ObjectMapper
+    private lateinit var objectMapper: JsonMapper
 
     @Mock
     private var httpResponse = Mockito.mock<HttpResponse<String>>()
