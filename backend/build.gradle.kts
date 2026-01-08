@@ -4,7 +4,7 @@ import java.lang.System.getenv
 
 group = "fr.gouv.dgampa"
 // x-release-please-start-version
-version = "2.50.4-rc1"
+version = "2.50.4-rc2"
 // x-release-please-end
 description = "RapportNav"
 
@@ -82,11 +82,7 @@ dependencies {
   // sentry
   implementation(platform("io.sentry:sentry-bom:8.29.0"))
   implementation("io.sentry:sentry-spring-boot-4")
-  implementation("io.sentry:sentry-spring-boot-jakarta")
-  implementation("io.sentry:sentry-spring-boot-4-starter")
-//  implementation("io.sentry:sentry-log4j2")
-//  implementation("io.sentry:sentry-spring-boot-starter-jakarta:7.1.0")
-//  implementation("io.sentry:sentry-log4j2:7.0.0")
+  // apache poi for xml and docs
   // the two following apache poi dependencies should have the same version
   implementation("org.apache.poi:poi:5.4.1")
   implementation("org.apache.poi:poi-ooxml:5.4.1")
