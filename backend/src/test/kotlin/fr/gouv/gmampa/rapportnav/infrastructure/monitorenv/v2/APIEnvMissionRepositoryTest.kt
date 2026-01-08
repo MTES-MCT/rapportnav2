@@ -1,6 +1,5 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.monitorenv.v2
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.config.JacksonConfig
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
@@ -14,13 +13,13 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.MultiPolygonMock
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentCaptor
-import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import tools.jackson.databind.json.JsonMapper
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -37,17 +36,16 @@ class APIEnvMissionRepositoryTest {
 
     val host = "https://url.developpement-durable.gouv.fr"
 
-    @Autowired
-    private lateinit var objectMapper: ObjectMapper
+    @MockitoBean
+    private lateinit var objectMapper: JsonMapper
 
-    @Mock
+    @MockitoBean
     private var httpResponse = mock<HttpResponse<String>>()
-
 
     @MockitoBean
     private lateinit var httpClientFactory: HttpClientFactory
 
-    @Mock
+    @MockitoBean
     private var httpClient: HttpClient = mock(HttpClient::class.java)
 
 

@@ -1,6 +1,5 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.monitorenv
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.config.JacksonConfig
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
@@ -10,19 +9,26 @@ import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.APIEnvMissionReposito
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchActionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOutput
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import org.mockito.ArgumentMatchers.argThat
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration
+import org.springframework.boot.cache.autoconfigure.CacheAutoConfiguration
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.KotlinModule
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -31,7 +37,6 @@ import java.time.Instant
 import java.time.ZonedDateTime
 import java.util.*
 
-
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [APIEnvMissionRepository::class])
 @ContextConfiguration(classes = [JacksonConfig::class])
@@ -39,30 +44,17 @@ class APIEnvMissionRepositoryTest {
 
     val host = "https://url.developpement-durable.gouv.fr"
 
-    val mission = MissionDataOutput(
-        id = 761,
-        missionTypes = listOf(MissionTypeEnum.SEA),
-        controlUnits = listOf(),
-        startDateTimeUtc = ZonedDateTime.parse("2022-03-15T04:50:09Z"),
-        endDateTimeUtc = ZonedDateTime.parse("2022-03-27T04:50:09Z"),
-        missionSource = MissionSourceEnum.MONITORENV,
-        hasMissionOrder = false,
-        isUnderJdp = false,
-        isGeometryComputedFromControls = false,
-        observationsByUnit = "my observationsByUnit"
-    )
+    @MockitoBean
+    private lateinit var mapper: JsonMapper
 
-    @Autowired
-    private lateinit var objectMapper: ObjectMapper
-
-    @Mock
+    @MockitoBean
     private var httpResponse = mock<HttpResponse<String>>()
 
 
     @MockitoBean
     private lateinit var httpClientFactory: HttpClientFactory
 
-    @Mock
+    @MockitoBean
     private var httpClient: HttpClient = mock(HttpClient::class.java)
 
 
@@ -70,7 +62,19 @@ class APIEnvMissionRepositoryTest {
     inner class PatchMission {
         @Test
         fun `execute should update mission env with patch and observationsByUnit`() {
-            val json = objectMapper.writeValueAsString(mission)
+            val mission = MissionDataOutput(
+                id = 761,
+                missionTypes = listOf(MissionTypeEnum.SEA),
+                controlUnits = listOf(),
+                startDateTimeUtc = ZonedDateTime.parse("2022-03-15T04:50:09Z"),
+                endDateTimeUtc = ZonedDateTime.parse("2022-03-27T04:50:09Z"),
+                missionSource = MissionSourceEnum.MONITORENV,
+                hasMissionOrder = false,
+                isUnderJdp = false,
+                isGeometryComputedFromControls = false,
+                observationsByUnit = "my observationsByUnit"
+            )
+            val json = mapper.writeValueAsString(mission)
             Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
             Mockito.`when`(httpResponse.body()).thenReturn(json)
             Mockito.`when`(
@@ -80,7 +84,7 @@ class APIEnvMissionRepositoryTest {
                 )
             )
                 .thenReturn(httpResponse)
-            val envRepo = APIEnvMissionRepository(mapper = objectMapper, clientFactory = httpClientFactory, host = host)
+            val envRepo = APIEnvMissionRepository(mapper = mapper, clientFactory = httpClientFactory, host = host)
             envRepo.patchMission(
                 missionId = 761,
                 PatchMissionInput(
@@ -108,7 +112,7 @@ class APIEnvMissionRepositoryTest {
 
         @Test
         fun `execute should update action env with patch and observationsByUnit`() {
-            val json = objectMapper.writeValueAsString(action)
+            val json = mapper.writeValueAsString(action)
 
             Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
                     // Mock the response
@@ -128,7 +132,7 @@ class APIEnvMissionRepositoryTest {
 
             // Create repository with mocked factory
             val envRepo = APIEnvMissionRepository(
-                mapper = objectMapper,
+                mapper = mapper,
                 clientFactory = httpClientFactory,
                 host = host
             )
@@ -170,8 +174,12 @@ class APIEnvMissionRepositoryTest {
 
         @Test
         fun `execute call MonitorEnv API missions`() {
-            val json = objectMapper.writeValueAsString(listOf(mission))
+            val realMapper = JsonMapper.builder()
+                .addModule(KotlinModule.Builder().build())
+                .build()
+            val json = realMapper.writeValueAsString(listOf(mission))
             Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+            Mockito.`when`(httpResponse.statusCode()).thenReturn(200)
             Mockito.`when`(httpResponse.body()).thenReturn(json)
             Mockito.`when`(
                 httpClient.send(
@@ -180,7 +188,7 @@ class APIEnvMissionRepositoryTest {
                 )
             )
                 .thenReturn(httpResponse)
-            val envRepo = APIEnvMissionRepository(mapper = objectMapper, clientFactory = httpClientFactory, host = host)
+            val envRepo = APIEnvMissionRepository(mapper = realMapper, clientFactory = httpClientFactory, host = host)
             envRepo.findAllMissions(
                 startedAfterDateTime = Instant.parse("2025-01-31T23:00:00.000Z"),
                 startedBeforeDateTime = Instant.parse("2025-02-28T22:59:59.999Z"),
@@ -192,6 +200,110 @@ class APIEnvMissionRepositoryTest {
                 },
                 Mockito.any<HttpResponse.BodyHandler<String>>()
             )
+        }
+
+        @Test
+        fun `should throw BackendInternalException when API returns 404`() {
+            val realMapper = JsonMapper.builder()
+                .addModule(KotlinModule.Builder().build())
+                .build()
+            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+            Mockito.`when`(httpResponse.statusCode()).thenReturn(404)
+            Mockito.`when`(httpResponse.body()).thenReturn("Not Found")
+            Mockito.`when`(
+                httpClient.send(
+                    Mockito.any(HttpRequest::class.java),
+                    Mockito.any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val envRepo = APIEnvMissionRepository(mapper = realMapper, clientFactory = httpClientFactory, host = host)
+
+            val exception = assertThrows(BackendInternalException::class.java) {
+                envRepo.findAllMissions(
+                    startedAfterDateTime = Instant.parse("2025-01-31T23:00:00.000Z"),
+                    startedBeforeDateTime = Instant.parse("2025-02-28T22:59:59.999Z")
+                )
+            }
+            assertTrue(exception.message.contains("404"))
+        }
+
+        @Test
+        fun `should throw BackendInternalException when API returns 500`() {
+            val realMapper = JsonMapper.builder()
+                .addModule(KotlinModule.Builder().build())
+                .build()
+            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+            Mockito.`when`(httpResponse.statusCode()).thenReturn(500)
+            Mockito.`when`(httpResponse.body()).thenReturn("Internal Server Error")
+            Mockito.`when`(
+                httpClient.send(
+                    Mockito.any(HttpRequest::class.java),
+                    Mockito.any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val envRepo = APIEnvMissionRepository(mapper = realMapper, clientFactory = httpClientFactory, host = host)
+
+            val exception = assertThrows(BackendInternalException::class.java) {
+                envRepo.findAllMissions(
+                    startedAfterDateTime = Instant.parse("2025-01-31T23:00:00.000Z"),
+                    startedBeforeDateTime = Instant.parse("2025-02-28T22:59:59.999Z")
+                )
+            }
+            assertTrue(exception.message.contains("500"))
+        }
+
+        @Test
+        fun `should return empty list when API returns empty array`() {
+            val realMapper = JsonMapper.builder()
+                .addModule(KotlinModule.Builder().build())
+                .build()
+            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+            Mockito.`when`(httpResponse.statusCode()).thenReturn(200)
+            Mockito.`when`(httpResponse.body()).thenReturn("[]")
+            Mockito.`when`(
+                httpClient.send(
+                    Mockito.any(HttpRequest::class.java),
+                    Mockito.any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val envRepo = APIEnvMissionRepository(mapper = realMapper, clientFactory = httpClientFactory, host = host)
+
+            val result = envRepo.findAllMissions(
+                startedAfterDateTime = Instant.parse("2025-01-31T23:00:00.000Z"),
+                startedBeforeDateTime = Instant.parse("2025-02-28T22:59:59.999Z")
+            )
+
+            assertTrue(result!!.isEmpty())
+        }
+
+        @Test
+        fun `should return mission entities when API returns valid data`() {
+            val realMapper = JsonMapper.builder()
+                .addModule(KotlinModule.Builder().build())
+                .build()
+            val json = realMapper.writeValueAsString(listOf(mission))
+            Mockito.`when`(httpClientFactory.create()).thenReturn(httpClient)
+            Mockito.`when`(httpResponse.statusCode()).thenReturn(200)
+            Mockito.`when`(httpResponse.body()).thenReturn(json)
+            Mockito.`when`(
+                httpClient.send(
+                    Mockito.any(HttpRequest::class.java),
+                    Mockito.any<HttpResponse.BodyHandler<String>>()
+                )
+            ).thenReturn(httpResponse)
+
+            val envRepo = APIEnvMissionRepository(mapper = realMapper, clientFactory = httpClientFactory, host = host)
+
+            val result = envRepo.findAllMissions(
+                startedAfterDateTime = Instant.parse("2025-01-31T23:00:00.000Z"),
+                startedBeforeDateTime = Instant.parse("2025-02-28T22:59:59.999Z")
+            )
+
+            assertEquals(1, result!!.size)
+            assertEquals(1, result[0].id)
         }
 
     }

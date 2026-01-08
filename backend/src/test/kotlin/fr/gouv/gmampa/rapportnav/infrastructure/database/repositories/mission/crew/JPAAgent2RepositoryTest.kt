@@ -1,6 +1,5 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.database.repositories.mission.crew
 
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgent2Repository
@@ -9,8 +8,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.ArgumentCaptor
-import org.mockito.Captor
+import org.mockito.ArgumentMatchers.assertArg
 import org.mockito.Mockito
 import org.mockito.Mockito.verify
 import org.springframework.boot.test.context.SpringBootTest
@@ -27,9 +25,6 @@ class JPAAgent2RepositoryTest {
     private lateinit var dbServiceRepository: IDBAgent2Repository
 
     private lateinit var jpaAgentSRepo: JPAAgent2Repository
-
-    @Captor
-    lateinit var saveCaptor: ArgumentCaptor<AgentModel2>
 
     private val agents: List<AgentModel2> = listOf(
         AgentModel2(
@@ -89,10 +84,13 @@ class JPAAgent2RepositoryTest {
 
     @Test
     fun `execute should disabled agent`() {
-        Mockito.`when`(dbServiceRepository.findById(1)).thenReturn(Optional.of(agents.get(0)))
+        Mockito.`when`(dbServiceRepository.findById(1)).thenReturn(Optional.of(agents[0]))
         jpaAgentSRepo = JPAAgent2Repository(dbServiceRepository)
         jpaAgentSRepo.disabledById(id = 1)
-        verify(dbServiceRepository).save(saveCaptor.capture())
-        assertThat(saveCaptor.value.disabledAt).isNotNull()
+
+        // Verify with assertArg - cleaner and more readable
+        verify(dbServiceRepository).save(assertArg { agent ->
+            assertThat(agent.disabledAt).isNotNull()
+        })
     }
 }

@@ -50,6 +50,10 @@ class CreateApiKey(
             val publicId = rawKey.take(PUBLIC_ID_LENGTH)
             val hashedKey = passwordEncoder.encode(rawKey)
 
+            if (hashedKey == null) {
+                throw Exception("Error - encoded password is empty")
+            }
+
             val finalId = id?.takeIf { isValidUUID(it) } ?: UUID.randomUUID()
 
             val apiKey = ApiKeyEntity(
@@ -63,7 +67,7 @@ class CreateApiKey(
 
             logger.info("✅ Created new API key for owner='{}', publicId='{}'", owner, publicId)
 
-            return saved?.toApiKeyEntity() to rawKey
+            return saved.toApiKeyEntity() to rawKey
         } catch (ex: Exception) {
             logger.error("Failed to create API key for owner='{}': {}", owner, ex.message, ex)
             throw IllegalStateException("Failed to create API key", ex)
