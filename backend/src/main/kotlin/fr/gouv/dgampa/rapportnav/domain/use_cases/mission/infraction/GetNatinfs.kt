@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.NatinfEntity
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.Cacheable
-import tools.jackson.databind.ObjectMapper
+import tools.jackson.databind.json.JsonMapper
 import tools.jackson.module.kotlin.readValue
 import java.net.URI
 import java.net.http.HttpClient
@@ -13,7 +13,7 @@ import java.net.http.HttpResponse
 
 @UseCase
 class GetNatinfs(
-    private val mapper: ObjectMapper,
+    private val mapper: JsonMapper,
     @param:Value("\${MONITORENV_HOST}") private val host: String,
 ) {
 

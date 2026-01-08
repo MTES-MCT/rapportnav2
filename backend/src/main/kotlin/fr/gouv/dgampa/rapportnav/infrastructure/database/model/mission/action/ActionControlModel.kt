@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 
-import tools.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.mapStringToVesselSize
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.mapStringToVesselType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.toStringOrNull
@@ -119,7 +118,7 @@ class ActionControlModel(
     }
 
     companion object {
-        fun fromActionControl(controlAction: ActionControlEntity, mapper: ObjectMapper) = ActionControlModel(
+        fun fromActionControl(controlAction: ActionControlEntity) = ActionControlModel(
             id = controlAction.id,
             missionId = controlAction.missionId,
             isCompleteForStats = controlAction.isCompleteForStats,

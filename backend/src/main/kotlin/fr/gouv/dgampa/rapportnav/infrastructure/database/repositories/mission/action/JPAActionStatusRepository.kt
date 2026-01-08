@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action
 
-import tools.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionStatusEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
@@ -11,12 +10,13 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import tools.jackson.databind.json.JsonMapper
 import java.util.*
 
 @Repository
 class JPAActionStatusRepository(
     private val dbActionStatusRepository: IDBActionStatusRepository,
-    private val mapper: ObjectMapper,
+    private val mapper: JsonMapper,
 ) : INavActionStatusRepository {
 
     override fun findAllByMissionId(missionId: Int): List<ActionStatusModel> {

@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.env.ControlUnit
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
-import tools.jackson.databind.ObjectMapper
+import tools.jackson.databind.json.JsonMapper
 import tools.jackson.module.kotlin.readValue
 import java.net.URI
 import java.net.http.HttpRequest
@@ -15,7 +15,7 @@ import java.net.http.HttpResponse
 @Repository
 class APIEnvControlUnitResourceRepository(
     clientFactory: HttpClientFactory,
-    private val mapper: ObjectMapper,
+    private val mapper: JsonMapper,
     @param:Value("\${MONITORENV_HOST}") private val host: String,
 ): IEnvControlUnitResourceRepository {
 

@@ -1,6 +1,5 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
-import tools.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.config.JacksonConfig
@@ -26,6 +25,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import tools.jackson.databind.json.JsonMapper
 import java.time.Instant
 
 @AutoConfigureMockMvc(addFilters = false)
@@ -38,7 +38,7 @@ class MissionRestControllerTest {
     private lateinit var mockMvc: MockMvc
 
     @Autowired
-    private lateinit var objectMapper: ObjectMapper
+    private lateinit var objectMapper: JsonMapper
 
     @MockitoBean
     private lateinit var getServiceForUser: GetServiceForUser

@@ -11,14 +11,14 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
 import tools.jackson.core.type.TypeReference
-import tools.jackson.databind.ObjectMapper
+import tools.jackson.databind.json.JsonMapper
 import java.net.URI
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 @Repository
 class APIFishActionRepository(
-    private val mapper: ObjectMapper,
+    private val mapper: JsonMapper,
     private val clientFactory: HttpClientFactory,
     @param:Value("\${MONITORFISH_HOST}") private val host: String,
     @param:Value("\${MONITORFISH_API_KEY}") private var monitorFishApiKey: String,

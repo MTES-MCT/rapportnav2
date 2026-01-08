@@ -3,7 +3,6 @@ package fr.gouv.gmampa.rapportnav.infrastructure.api.analytics
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.analytics.v1.ApiAnalyticsController
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.analytics.v1.MissionIdsRequest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
-import tools.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.JacksonConfig
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputeAEMData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputePatrolData
@@ -20,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import tools.jackson.databind.json.JsonMapper
 
 @WebMvcTest(ApiAnalyticsController::class)
 @ContextConfiguration(classes = [ApiAnalyticsController::class, JacksonConfig::class])
@@ -30,7 +30,7 @@ class ApiAnalyticsControllerTest {
     private lateinit var mockMvc: MockMvc
 
     @Autowired
-    private lateinit var objectMapper: ObjectMapper
+    private lateinit var objectMapper: JsonMapper
 
     @MockitoBean
     private lateinit var computeAEMData: ComputeAEMData

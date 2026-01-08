@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 
-import tools.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionFreeNoteEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -63,7 +62,7 @@ class ActionFreeNoteModel(
     }
 
     companion object {
-        fun fromActionFreeNote(freeNoteAction: ActionFreeNoteEntity, mapper: ObjectMapper) = ActionFreeNoteModel(
+        fun fromActionFreeNote(freeNoteAction: ActionFreeNoteEntity) = ActionFreeNoteModel(
             id = freeNoteAction.id,
             missionId = freeNoteAction.missionId,
             isCompleteForStats = freeNoteAction.isCompleteForStats,

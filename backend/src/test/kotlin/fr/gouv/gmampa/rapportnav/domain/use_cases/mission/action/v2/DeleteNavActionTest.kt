@@ -6,11 +6,8 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers.eq
-import org.mockito.Captor
 import org.mockito.Mockito.*
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -20,12 +17,6 @@ import java.util.*
 @SpringBootTest(classes = [DeleteNavAction::class])
 @ContextConfiguration(classes = [DeleteNavAction::class])
 class DeleteNavActionTest {
-
-    @Captor
-    lateinit var deleteTargetCaptor: ArgumentCaptor<UUID>
-
-    @Autowired
-    private lateinit var deleteNavAction: DeleteNavAction
 
     @MockitoBean
     private lateinit var deleteTarget: DeleteTarget
@@ -49,15 +40,19 @@ class DeleteNavActionTest {
         )
 
         `when`(missionActionRepository.findById(actionId)).thenReturn(Optional.of(action))
-        deleteNavAction = DeleteNavAction(
+
+        val deleteNavAction = DeleteNavAction(
             deleteTarget = deleteTarget,
             missionActionRepository = missionActionRepository
         )
+
         deleteNavAction.execute(id = actionId)
 
-        verify(deleteTarget).execute(deleteTargetCaptor.capture(), eq(ActionType.CONTROL))
+        // Verify with assertArg - no captor needed
+        verify(deleteTarget).execute(assertArg { capturedId ->
+            assertThat(capturedId).isEqualTo(actionId)
+        }, eq(ActionType.CONTROL))
 
-        assertThat(actionId).isEqualTo(deleteTargetCaptor.value)
         verify(missionActionRepository, times(1)).deleteById(actionId)
     }
 }

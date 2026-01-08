@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
 import org.springframework.web.util.UriUtils
-import tools.jackson.databind.ObjectMapper
+import tools.jackson.databind.json.JsonMapper
 import tools.jackson.module.kotlin.readValue
 import java.net.URI
 import java.net.http.HttpRequest
@@ -24,7 +24,7 @@ import java.time.Instant
 
 @Repository
 class APIEnvMissionRepository(
-    private val mapper: ObjectMapper,
+    private val mapper: JsonMapper,
     private val clientFactory: HttpClientFactory,
     @param:Value("\${MONITORENV_HOST}") private val host: String,
 ) : IEnvMissionRepository {
@@ -202,10 +202,11 @@ class APIEnvMissionRepository(
         val url = "$host/api/v2/missions/$missionId"
         logger.info("Sending PATCH request for Env mission id=$missionId. URL: $url")
         return try {
+            val json = mapper.writeValueAsString(mission) ?: ""
             val request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
-                .method("PATCH", HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(mission)))
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(json))
                 .header("Content-Type", "application/json")
                 .build()
 
@@ -227,7 +228,7 @@ class APIEnvMissionRepository(
         val url = "$host/api/v1/actions/$actionId"
         logger.info("Sending PATCH request for Env mission id=$actionId. URL: $url")
         return try {
-            val json = mapper.writeValueAsString(action)
+            val json = mapper.writeValueAsString(action) ?: ""
             val request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))

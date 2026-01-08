@@ -13,13 +13,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
-import tools.jackson.databind.ObjectMapper
+import tools.jackson.databind.json.JsonMapper
 import java.time.Instant
 
 @Component
 class ApiKeyAuthenticationFilter(
     private val validateApiKey: ValidateApiKey,
-    private val objectMapper: ObjectMapper
+    private val objectMapper: JsonMapper
 ) : OncePerRequestFilter() {
 
     private val logger = LoggerFactory.getLogger(ApiKeyAuthenticationFilter::class.java)
