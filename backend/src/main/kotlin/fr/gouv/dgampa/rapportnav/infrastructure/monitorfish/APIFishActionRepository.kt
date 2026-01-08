@@ -1,18 +1,17 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.monitorfish
 
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.cnsp.monitorfish.infrastructure.api.outputs.VesselIdentityDataOutput
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.input.PatchActionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output.MissionActionDataOutput
-import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
+import tools.jackson.core.type.TypeReference
+import tools.jackson.databind.ObjectMapper
 import java.net.URI
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
@@ -40,8 +39,8 @@ class APIFishActionRepository(
         val response = clientFactory.create().send(request, HttpResponse.BodyHandlers.ofString())
 
         return if (response.statusCode() in 200..299) {
-            mapper.registerModule(JtsModule())
-            mapper.readValue(response.body(), object : TypeReference<List<MissionAction>>() {})
+            val output: List<MissionActionDataOutput> = mapper.readValue(response.body(), object : TypeReference<List<MissionActionDataOutput>>() {})
+            output.map{ it.toMissionAction()}
         } else {
             logger.info("Failed to fetch Fish Actions. Status code: ${response.statusCode()}")
             emptyList()
@@ -73,7 +72,6 @@ class APIFishActionRepository(
             val body = response.body()
             logger.info(body)
 
-            mapper.registerModule(JtsModule())
             val output: MissionActionDataOutput =
                 mapper.readValue(body, object : TypeReference<MissionActionDataOutput>() {})
             val missionAction: MissionAction = output.toMissionAction()
@@ -99,7 +97,6 @@ class APIFishActionRepository(
         val response = clientFactory.create().send(request, HttpResponse.BodyHandlers.ofString())
 
         return if (response.statusCode() in 200..299) {
-            mapper.registerModule(JtsModule())
             mapper.readValue(response.body(), object : TypeReference<List<VesselIdentityDataOutput>>() {})
         } else {
             logger.info("Failed to fetch vessel referential. Status code: ${response.statusCode()}")

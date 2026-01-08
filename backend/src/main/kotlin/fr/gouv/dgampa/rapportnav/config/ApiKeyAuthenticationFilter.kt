@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.config
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.RateLimitException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.ValidateApiKey
 import jakarta.servlet.FilterChain
@@ -14,6 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
+import tools.jackson.databind.ObjectMapper
 import java.time.Instant
 
 @Component

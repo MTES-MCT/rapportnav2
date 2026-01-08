@@ -1,7 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
@@ -12,12 +10,13 @@ import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInp
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.action.MissionEnvActionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.controlPlans.ControlPlanDataOutput
-import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
 import org.springframework.web.util.UriUtils
+import tools.jackson.databind.ObjectMapper
+import tools.jackson.module.kotlin.readValue
 import java.net.URI
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
@@ -60,7 +59,6 @@ class APIEnvMissionRepository(
             when (response.statusCode()) {
                 200 -> {
                     try {
-                        mapper.registerModule(JtsModule())
                         val missionDataOutput: MissionDataOutput = mapper.readValue(response.body())
                         logger.info("Successfully deserialized Env mission data for id=$missionId")
                         missionDataOutput.toMissionEntity()

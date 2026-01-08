@@ -1,8 +1,9 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import tools.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
+import fr.gouv.dgampa.rapportnav.config.JacksonConfig
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
@@ -14,8 +15,10 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration
+import org.springframework.boot.cache.autoconfigure.CacheAutoConfiguration
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -26,8 +29,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import java.time.Instant
 
 @AutoConfigureMockMvc(addFilters = false)
-@ContextConfiguration(classes = [RapportNavApplication::class])
+@ContextConfiguration(classes = [RapportNavApplication::class, JacksonConfig::class])
 @WebMvcTest(MissionRestController::class)
+@ImportAutoConfiguration(CacheAutoConfiguration::class)
 class MissionRestControllerTest {
 
     @Autowired

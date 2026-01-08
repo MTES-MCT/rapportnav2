@@ -1,6 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.entities
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import tools.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.JacksonConfig
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import org.assertj.core.api.Assertions.assertThat

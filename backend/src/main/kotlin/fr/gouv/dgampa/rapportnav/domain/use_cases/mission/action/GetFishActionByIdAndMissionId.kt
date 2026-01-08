@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import tools.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetFishActionsByMissionId

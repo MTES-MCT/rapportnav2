@@ -2,39 +2,30 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api
 
 import jakarta.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
-import org.springframework.boot.web.error.ErrorAttributeOptions
-import org.springframework.boot.web.servlet.error.DefaultErrorAttributes
-import org.springframework.boot.web.servlet.error.ErrorController
-import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.context.request.ServletWebRequest
+import org.springframework.http.HttpStatus
+import org.springframework.http.ProblemDetail
+import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.RestControllerAdvice
 
-@Controller
-class ApiErrorController : ErrorController {
+@RestControllerAdvice
+class ApiErrorHandler {
 
-    private val logger = LoggerFactory.getLogger(ApiErrorController::class.java)
+    private val logger = LoggerFactory.getLogger(ApiErrorHandler::class.java)
 
-    @RequestMapping("/error")
-    fun error(request: HttpServletRequest): ResponseEntity<Map<String, Any>> {
-        val errorAttributes = DefaultErrorAttributes()
-        val webRequest = ServletWebRequest(request)
-        val options = ErrorAttributeOptions.of(
-            ErrorAttributeOptions.Include.MESSAGE,
-            ErrorAttributeOptions.Include.EXCEPTION,
-            ErrorAttributeOptions.Include.ERROR,
-            ErrorAttributeOptions.Include.STATUS,
-            ErrorAttributeOptions.Include.STACK_TRACE,
-            ErrorAttributeOptions.Include.PATH,
-        )
+    @ExceptionHandler(Exception::class)
+    fun handleException(
+        ex: Exception,
+        request: HttpServletRequest
+    ): ProblemDetail {
 
-        val errorDetails = errorAttributes.getErrorAttributes(webRequest, options)
-        val status = errorDetails["status"] as? Int ?: 500
+        logger.error("Unhandled exception", ex)
 
-        // Log the error details for debugging
-        logger.error("Error occurred: {}", errorDetails)
+        val problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+        problem.title = "Internal Server Error"
+        problem.detail = ex.message
+        problem.setProperty("path", request.requestURI)
+        problem.setProperty("exception", ex.javaClass.name)
 
-        return ResponseEntity.status(status).body(errorDetails)
+        return problem
     }
-
 }

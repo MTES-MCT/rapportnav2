@@ -15,8 +15,8 @@ class ApiAdminController {
     @Operation(summary = "Admin test endpoint")
     fun testEndpoint(): ResponseEntity<String> {
         val auth = SecurityContextHolder.getContext().authentication
-        println("AUTHENTICATED PRINCIPAL: ${auth.principal}")
-        println("AUTHORITIES: ${auth.authorities}")
+        println("AUTHENTICATED PRINCIPAL: ${auth?.principal}")
+        println("AUTHORITIES: ${auth?.authorities}")
         return ResponseEntity.ok("Yes I'm admin secured...")
     }
 }

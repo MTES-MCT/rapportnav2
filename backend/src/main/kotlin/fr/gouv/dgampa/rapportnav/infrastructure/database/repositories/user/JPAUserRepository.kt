@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.user
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import tools.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.user.UserModel

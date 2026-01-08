@@ -1,6 +1,6 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.monitorenv.v2
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import tools.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.config.JacksonConfig
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum

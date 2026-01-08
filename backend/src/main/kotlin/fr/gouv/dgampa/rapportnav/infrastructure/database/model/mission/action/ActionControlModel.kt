@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import tools.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.mapStringToVesselSize
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.mapStringToVesselType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.toStringOrNull

@@ -7,7 +7,6 @@ import { useOnlineManager } from '../../hooks/use-online-manager.tsx'
 import { useOfflineSince } from '../../hooks/use-offline-since.tsx'
 import useDeleteMissionMutation from '../../services/use-delete-mission.tsx'
 import useMission from '../../services/use-mission.tsx'
-import { MissionSourceEnum } from '../../types/mission-types.ts'
 import PageFooterWrapper from '../layout/page-footer-wrapper.tsx'
 import DialogQuestion from './dialog-question.tsx'
 import { useOfflineMode } from '../../hooks/use-offline-mode.tsx'
@@ -37,7 +36,6 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, type, 
 
   const isDeleteButtonDisabled = !!mission && !uuidValidate(missionId)
   // const isDeleteButtonDisabled = !(mission &&  [MissionSourceEnum.RAPPORTNAV, MissionSourceEnum.RAPPORT_NAV].includes(mission.data?.missionSource) )
-  debugger
 
   return (
     <>

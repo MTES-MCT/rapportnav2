@@ -52,7 +52,7 @@ class CreateApiKeyTest {
         val savedEntity = ApiKeyModel(
             id = UUID.randomUUID(),
             publicId = generatedKey.take(12),
-            hashedKey = passwordEncoder.encode(generatedKey),
+            hashedKey = passwordEncoder.encode(generatedKey) ?: "",
             owner = "owner"
         )
 

@@ -1,5 +1,8 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2
 
+import com.fasterxml.jackson.annotation.JsonProperty
+import fr.gouv.dgampa.rapportnav.config.JtsGeometryDeserializer
+import fr.gouv.dgampa.rapportnav.config.JtsGeometrySerializer
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTargetTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VehicleTypeEnum
@@ -8,6 +11,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import org.locationtech.jts.geom.Geometry
+import tools.jackson.databind.annotation.JsonDeserialize
+import tools.jackson.databind.annotation.JsonSerialize
 import java.time.Instant
 import java.util.*
 
@@ -16,6 +21,9 @@ class MissionEnvActionData(
     override val startDateTimeUtc: Instant? = null,
     override val endDateTimeUtc: Instant? = null,
     override val completedBy: String? = null,
+    @param:JsonProperty("geom")
+    @param:JsonDeserialize(using = JtsGeometryDeserializer::class)
+    @get:JsonSerialize(using = JtsGeometrySerializer::class)
     override val geom: Geometry? = null,
     override val facade: String? = null,
     override val department: String? = null,

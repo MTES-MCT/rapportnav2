@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
@@ -21,7 +20,6 @@ class GetNavActionByIdAndMissionId(
     private val publicOrderRepository: INavActionPublicOrderRepository,
     private val representationRepository: INavActionRepresentationRepository,
     private val illegalImmigrationRepository: INavActionIllegalImmigrationRepository,
-    private val mapper: ObjectMapper
 ) {
     fun execute(id: UUID, missionId: Int, actionType: ActionType): NavActionEntity? {
         return when (actionType) {

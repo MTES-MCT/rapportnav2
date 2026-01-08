@@ -1,6 +1,6 @@
 package fr.gouv.gmampa.rapportnav.config
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import tools.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.domain.entities.apikey.ApiKeyEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.RateLimitException
@@ -56,7 +56,7 @@ class ApiKeyAuthenticationFilterTest {
 
         val auth = SecurityContextHolder.getContext().authentication
         assertNotNull(auth)
-        assertEquals("testUser", auth.name)
+        assertEquals("testUser", auth?.name)
         verify(filterChain).doFilter(request, response)
     }
 
