@@ -1,6 +1,5 @@
 package fr.gouv.gmampa.rapportnav.domain.entities
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.JacksonConfig
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import org.assertj.core.api.Assertions.assertThat
@@ -8,6 +7,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.json.JsonTest
 import org.springframework.test.context.ContextConfiguration
+import tools.jackson.databind.json.JsonMapper
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
@@ -16,7 +16,7 @@ import java.time.temporal.ChronoUnit
 class PatchMissionInputTest {
 
     @Autowired
-    private lateinit var objectMapper: ObjectMapper
+    private lateinit var objectMapper: JsonMapper
 
     @Test
     fun `should create PatchMissionInput with given parameters`() {

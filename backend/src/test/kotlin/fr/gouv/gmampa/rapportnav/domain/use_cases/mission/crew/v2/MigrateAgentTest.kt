@@ -5,7 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IServiceReposi
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.CreateOrUpdateAgent2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.MigrateAgent
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.AgentInput2
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
@@ -13,7 +12,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.ArgumentCaptor
-import org.mockito.Captor
 import org.mockito.Mockito
 import org.mockito.Mockito.verify
 import org.mockito.kotlin.any
@@ -21,7 +19,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.util.*
-
 
 @SpringBootTest(classes = [MigrateAgent::class])
 @ContextConfiguration(classes = [MigrateAgent::class])
@@ -35,9 +32,6 @@ class MigrateAgentTest {
 
     @MockitoBean
     private lateinit var serviceRepo: IServiceRepository
-
-    @Captor
-    lateinit var disabledCaptor: ArgumentCaptor<Int>
 
     private lateinit var migrateAgent: MigrateAgent
 
@@ -100,6 +94,9 @@ class MigrateAgentTest {
 
     @Test
     fun `should execute disabled of an agent`() {
+        // Create captor inline using forClass()
+        val disabledCaptor = ArgumentCaptor.forClass(Int::class.java)
+
         Mockito.`when`(agentRepo.findById(1)).thenReturn(agent)
         Mockito.`when`(agentRepo.save(any())).thenReturn(agent)
         Mockito.`when`(serviceRepo.findById(1)).thenReturn(Optional.ofNullable(service))
@@ -115,4 +112,5 @@ class MigrateAgentTest {
 
         assertThat(disabledCaptor.value).isEqualTo(agent.id)
     }
+
 }

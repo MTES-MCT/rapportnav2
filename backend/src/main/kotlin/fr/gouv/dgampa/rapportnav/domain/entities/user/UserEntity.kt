@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.user
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.user.UserModel
 import java.time.Instant
 

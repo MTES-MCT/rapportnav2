@@ -8,11 +8,11 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Le
 import java.time.Instant
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class PatchMissionInput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) constructor(
-    @field:JsonProperty("missionTypes") val missionTypes: List<MissionTypeEnum>? = null,
-    @field:JsonProperty("controlUnits") var controlUnits: List<LegacyControlUnitEntity>? = null,
-    @field:JsonProperty("startDateTimeUtc") val startDateTimeUtc: Instant? = null,
-    @field:JsonProperty("endDateTimeUtc") val endDateTimeUtc: Instant? = null,
-    @field:JsonProperty("isUnderJdp") val isUnderJdp: Boolean? = null,
-    @field:JsonProperty("observationsByUnit") val observationsByUnit: String? = null
+data class PatchMissionInput(
+    @param:JsonProperty("missionTypes") val missionTypes: List<MissionTypeEnum>? = null,
+    @param:JsonProperty("controlUnits") var controlUnits: List<LegacyControlUnitEntity>? = null,
+    @param:JsonProperty("startDateTimeUtc") val startDateTimeUtc: Instant? = null,
+    @param:JsonProperty("endDateTimeUtc") val endDateTimeUtc: Instant? = null,
+    @param:JsonProperty("isUnderJdp") val isUnderJdp: Boolean? = null,
+    @param:JsonProperty("observationsByUnit") val observationsByUnit: String? = null
 )

@@ -6,7 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
-import io.sentry.Sentry
+//import io.sentry.Sentry
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.MultiPoint
@@ -77,8 +77,8 @@ class GetEnvMissionById(
             return mission
         } catch (e: Exception) {
             logger.error("GetEnvMissionById failed loading EnvMission", e)
-            Sentry.captureMessage("GetEnvMissionById failed loading EnvMission")
-            Sentry.captureException(e)
+//            Sentry.captureMessage("GetEnvMissionById failed loading EnvMission")
+//            Sentry.captureException(e)
             return null
 //            var envMission = getEnvMissions.mockedMissions.find { missionId == it.id }!!
 //            envMission.envActions = getFakeActionData.getFakeEnvControls() + getFakeActionData.getFakeEnvSurveillance()

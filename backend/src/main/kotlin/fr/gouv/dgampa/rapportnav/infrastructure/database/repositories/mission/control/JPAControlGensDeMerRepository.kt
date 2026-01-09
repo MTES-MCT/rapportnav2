@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.control
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlGensDeMerEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
@@ -13,6 +12,7 @@ import org.hibernate.NonUniqueResultException
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import tools.jackson.databind.json.JsonMapper
 import java.util.*
 
 
@@ -20,7 +20,7 @@ import java.util.*
 class JPAControlGensDeMerRepository(
     private val dbControlGensDeMerRepository: IDBControlGensDeMerRepository,
     private val actionControlRepository: IDBActionControlRepository,
-    private val mapper: ObjectMapper,
+    private val mapper: JsonMapper,
 ) : IControlGensDeMerRepository {
 
     override fun existsById(id: UUID): Boolean {

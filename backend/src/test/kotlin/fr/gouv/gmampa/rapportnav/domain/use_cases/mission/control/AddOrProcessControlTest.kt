@@ -12,8 +12,6 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.C
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.ArgumentCaptor
-import org.mockito.Captor
 import org.mockito.kotlin.any
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
@@ -45,9 +43,6 @@ class AddOrProcessControlTest {
 
     @Autowired
     private lateinit var addOrUpdateControl: AddOrUpdateControl
-
-    @Captor
-    lateinit var controlArgumentCaptor: ArgumentCaptor<ControlAdministrativeEntity>
 
     @Test
     fun `should add new ControlAdministrativeEntity when no existing control`() {

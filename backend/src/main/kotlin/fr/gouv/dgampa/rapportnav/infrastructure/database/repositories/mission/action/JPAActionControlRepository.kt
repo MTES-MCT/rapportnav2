@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
@@ -11,12 +10,13 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import tools.jackson.databind.json.JsonMapper
 import java.util.*
 
 @Repository
 class JPAActionControlRepository(
     private val dbActionModelRepository: IDBActionControlRepository,
-    private val mapper: ObjectMapper,
+    private val mapper: JsonMapper,
 ) : INavActionControlRepository {
 
     override fun findAllByMissionId(missionId: Int): List<ActionControlEntity> {
@@ -39,7 +39,7 @@ class JPAActionControlRepository(
     @Transactional
     override fun save(controlAction: ActionControlEntity): ActionControlModel {
         return try {
-            val controlActionModel = ActionControlModel.fromActionControl(controlAction, mapper)
+            val controlActionModel = ActionControlModel.fromActionControl(controlAction)
             dbActionModelRepository.save(controlActionModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw BackendUsageException(

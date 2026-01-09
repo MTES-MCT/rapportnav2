@@ -52,7 +52,7 @@ class JPAInfractionRepository(
             )
 
             infractionModel.control = control
-            infractionModel.target?.map { it.infraction = infractionModel }
+            infractionModel.target.map { it.infraction = infractionModel }
             dbRepo.save(infractionModel)
 
         } catch (e: InvalidDataAccessApiUsageException) {

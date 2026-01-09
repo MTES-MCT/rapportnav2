@@ -1,11 +1,11 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.infraction
 
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.infraction.NatinfEntity
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.Cacheable
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.readValue
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -13,7 +13,7 @@ import java.net.http.HttpResponse
 
 @UseCase
 class GetNatinfs(
-    private val mapper: ObjectMapper,
+    private val mapper: JsonMapper,
     @param:Value("\${MONITORENV_HOST}") private val host: String,
 ) {
 
@@ -32,7 +32,9 @@ class GetNatinfs(
 
         val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
-        return mapper.readValue(response.body(), object : TypeReference<List<NatinfEntity>>() {})
+        val data: List<NatinfEntity> = mapper.readValue(response.body())
+        return data
+//        return mapper.readValue(response.body(), object : TypeReference<List<NatinfEntity>>() {})
 
 //        val natinf1 = NatinfEntity(
 //            infraction = "non respect blabla",

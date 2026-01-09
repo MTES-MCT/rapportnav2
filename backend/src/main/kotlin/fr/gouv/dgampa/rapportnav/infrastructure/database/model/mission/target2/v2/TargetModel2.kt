@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetType
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.v2.ControlModel2
 import jakarta.persistence.*
-import org.hibernate.annotations.JdbcType
-import org.hibernate.dialect.PostgreSQLEnumJdbcType
+import org.hibernate.annotations.JdbcTypeCode
+import org.hibernate.type.SqlTypes
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
@@ -27,7 +27,7 @@ data class TargetModel2(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "target_type", nullable = false)
-    @JdbcType(PostgreSQLEnumJdbcType::class)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     var targetType: TargetType,
 
     @Column(name = "status", nullable = true)

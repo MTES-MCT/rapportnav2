@@ -3,6 +3,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import fr.gouv.dgampa.rapportnav.config.JtsGeometrySerializer
+import fr.gouv.dgampa.rapportnav.config.JtsMultiPolygonDeserializer
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
@@ -10,6 +12,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.Le
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import org.locationtech.jts.geom.MultiPolygon
+import tools.jackson.databind.annotation.JsonDeserialize
+import tools.jackson.databind.annotation.JsonSerialize
 import java.time.ZonedDateTime
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -22,7 +26,10 @@ data class MissionDataOutput @JsonCreator(mode = JsonCreator.Mode.PROPERTIES) co
     @field:JsonProperty("observationsCacem") val observationsCacem: String? = null,
     @field:JsonProperty("observationsCnsp") val observationsCnsp: String? = null,
     @field:JsonProperty("facade") val facade: String? = null,
-    @field:JsonProperty("geom") val geom: MultiPolygon? = null,
+    @field:JsonProperty("geom")
+    @param:JsonDeserialize(using = JtsMultiPolygonDeserializer::class)
+    @get:JsonSerialize(using = JtsGeometrySerializer::class)
+    val geom: MultiPolygon? = null,
     @field:JsonProperty("startDateTimeUtc") val startDateTimeUtc: ZonedDateTime,
     @field:JsonProperty("endDateTimeUtc") val endDateTimeUtc: ZonedDateTime? = null,
     @field:JsonProperty("envActions") val envActions: List<EnvActionEntity>? = null,

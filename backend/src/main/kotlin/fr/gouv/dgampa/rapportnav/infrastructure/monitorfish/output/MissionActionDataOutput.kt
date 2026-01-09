@@ -61,6 +61,7 @@ data class MissionActionDataOutput(
     val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
     val isSeafarersControl: Boolean? = null,
     val observationsByUnit: String? = null,
+    val isDeleted: Boolean,
 ) {
     fun toMissionAction(): MissionAction {
         return MissionAction(
@@ -110,7 +111,7 @@ data class MissionActionDataOutput(
             speciesOnboard = this.speciesOnboard,
             isFromPoseidon = this.isFromPoseidon,
             controlUnits = this.controlUnits,
-            isDeleted = false, // Assuming default value is false
+            isDeleted = isDeleted,
             hasSomeGearsSeized = this.hasSomeGearsSeized,
             hasSomeSpeciesSeized = this.hasSomeSpeciesSeized,
             completedBy = this.completedBy,

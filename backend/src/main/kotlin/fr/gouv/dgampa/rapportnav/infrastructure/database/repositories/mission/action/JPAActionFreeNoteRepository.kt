@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.action
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionFreeNoteEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
@@ -11,12 +10,13 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import tools.jackson.databind.json.JsonMapper
 import java.util.*
 
 @Repository
 class JPAActionFreeNoteRepository(
     private val dbActionFreeNoteRepository: IDBActionFreeNoteRepository,
-    private val mapper: ObjectMapper
+    private val mapper: JsonMapper
 ) : INavActionFreeNoteRepository {
 
     override fun findAllByMissionId(missionId: Int): List<ActionFreeNoteModel> {
@@ -31,7 +31,7 @@ class JPAActionFreeNoteRepository(
     @Transactional
     override fun save(freeNoteAction: ActionFreeNoteEntity): ActionFreeNoteModel {
         return try {
-            val freeNoteModel = ActionFreeNoteModel.fromActionFreeNote(freeNoteAction, mapper)
+            val freeNoteModel = ActionFreeNoteModel.fromActionFreeNote(freeNoteAction)
             dbActionFreeNoteRepository.save(freeNoteModel)
         } catch (e: InvalidDataAccessApiUsageException) {
             throw BackendUsageException(
