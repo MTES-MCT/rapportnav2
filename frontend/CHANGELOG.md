@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.50.5](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.50.4...frontend@v2.50.5) (2026-01-09)
+
+
+### Bug Fixes
+
+* **secu:** bump frontend package ([709c777](https://github.com/MTES-MCT/rapportnav2/commit/709c777693e70c95eba428d55e856ea6ca659aa1))
+
 ## [2.50.4](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.50.3...frontend@v2.50.4) (2026-01-06)
 
 
