@@ -113,7 +113,7 @@ class MissionEntity2Tests {
     }
 
     @Test
-    fun `isCompleteForStats should return INCOMPLETE when observationsByUnit is null`() {
+    fun `isCompleteForStats should return COMPLETE when observationsByUnit is null`() {
         val generalInfo = MissionGeneralInfoEntity2Mock.create()
         val mission = MissionEntity2(
             actions = listOf(),
@@ -123,8 +123,8 @@ class MissionEntity2Tests {
 
         val result: CompletenessForStatsEntity = mission.isCompleteForStats()
 
-        assertEquals(CompletenessForStatsStatusEnum.INCOMPLETE, result.status)
-        assertTrue(result.sources!!.contains(MissionSourceEnum.RAPPORTNAV))
+        assertEquals(CompletenessForStatsStatusEnum.COMPLETE, result.status)
+        assertTrue(!result.sources!!.contains(MissionSourceEnum.RAPPORTNAV))
     }
 
     @Test
