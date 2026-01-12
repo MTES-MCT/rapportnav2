@@ -17,13 +17,13 @@ exports[`MissionPageError > should match the snapshot 1`] = `
             style="max-width: 33%;"
           >
             <p
-              class="sc-iRcyzz sc-enPhjR jUHdyB kakyJF"
+              class="sc-kjEcyY sc-iJkHya fzruwA dWjLLJ"
               font-size="16"
             >
               Une erreur est survenue
             </p>
             <p
-              class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
+              class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
               font-size="13"
             >
               this is and error
@@ -33,11 +33,11 @@ exports[`MissionPageError > should match the snapshot 1`] = `
             class="rs-stack-item"
           >
             <button
-              class="sc-eknHtZ sc-cCVJLD liIABJ eUzjDK Element-Button"
+              class="sc-kLLXSa sc-jIZahI jiNdNR dNvWIc Element-Button"
               type="button"
             >
               <span
-                class="sc-pYNGo enBrtN"
+                class="sc-ikZpkj deOXJE"
               >
                 Retourner à l'accueil
               </span>
@@ -82,13 +82,13 @@ exports[`MissionPageError > should match the snapshot 1`] = `
           style="max-width: 33%;"
         >
           <p
-            class="sc-iRcyzz sc-enPhjR jUHdyB kakyJF"
+            class="sc-kjEcyY sc-iJkHya fzruwA dWjLLJ"
             font-size="16"
           >
             Une erreur est survenue
           </p>
           <p
-            class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
+            class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
             font-size="13"
           >
             this is and error
@@ -98,11 +98,11 @@ exports[`MissionPageError > should match the snapshot 1`] = `
           class="rs-stack-item"
         >
           <button
-            class="sc-eknHtZ sc-cCVJLD liIABJ eUzjDK Element-Button"
+            class="sc-kLLXSa sc-jIZahI jiNdNR dNvWIc Element-Button"
             type="button"
           >
             <span
-              class="sc-pYNGo enBrtN"
+              class="sc-ikZpkj deOXJE"
             >
               Retourner à l'accueil
             </span>

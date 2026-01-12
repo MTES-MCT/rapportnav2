@@ -6,10 +6,10 @@ exports[`InquiryStatusCompleteness > renders should match snapshot 1`] = `
   "baseElement": <body>
     <div>
       <span
-        class="sc-fOOuSg hELsTq Element-Tag"
+        class="sc-iNWwEr jlKYBG Element-Tag"
       >
         <span
-          class="sc-hjsuWn fRaxBt Element-IconBox"
+          class="sc-gKXOVg dOEBxB Element-IconBox"
         >
           <svg
             height="20"
@@ -29,7 +29,7 @@ exports[`InquiryStatusCompleteness > renders should match snapshot 1`] = `
           </svg>
         </span>
         <p
-          class="sc-iRcyzz sc-fFmWCW ghHxtA hAFmCO"
+          class="sc-kjEcyY sc-grVGCV jTXMSp mNQFS"
           color="red"
           font-size="13"
           weight="medium"
@@ -63,10 +63,10 @@ exports[`InquiryStatusCompleteness > renders should match snapshot 1`] = `
   </body>,
   "container": <div>
     <span
-      class="sc-fOOuSg hELsTq Element-Tag"
+      class="sc-iNWwEr jlKYBG Element-Tag"
     >
       <span
-        class="sc-hjsuWn fRaxBt Element-IconBox"
+        class="sc-gKXOVg dOEBxB Element-IconBox"
       >
         <svg
           height="20"
@@ -86,7 +86,7 @@ exports[`InquiryStatusCompleteness > renders should match snapshot 1`] = `
         </svg>
       </span>
       <p
-        class="sc-iRcyzz sc-fFmWCW ghHxtA hAFmCO"
+        class="sc-kjEcyY sc-grVGCV jTXMSp mNQFS"
         color="red"
         font-size="13"
         weight="medium"
