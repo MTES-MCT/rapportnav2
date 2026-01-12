@@ -71,13 +71,6 @@ const MissionControlFishAdministrativeSection: React.FC<MissionControlFishAdmini
           </Stack.Item>
         </Stack>
       </Stack.Item>
-      <Stack.Item style={{ width: '100%' }}>
-        <MissionInfractionFishSummary
-          isActionDisabled={true}
-          infractions={action.logbookInfractions ?? []}
-          title="Infraction obligations déclaratives et autorisations"
-        />
-      </Stack.Item>
 
       <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
         <Stack direction="column" alignItems="flex-start" spacing={'0.5rem'}>

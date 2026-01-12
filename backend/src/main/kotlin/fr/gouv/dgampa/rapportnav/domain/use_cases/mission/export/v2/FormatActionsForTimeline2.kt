@@ -148,10 +148,7 @@ class FormatActionsForTimeline2(
 
             val seizureAndDiversion = if (action.seizureAndDiversion == true) " - retour du navire au port" else ""
             val natinfs: String = listOfNotNull(
-                action.gearInfractions?.map { it.natinf },
-                action.logbookInfractions?.map { it.natinf },
-                action.speciesInfractions?.map { it.natinf },
-                action.otherInfractions?.map { it.natinf }
+                action.fishInfractions.map { it.natinf },
             ).flatten().distinct().let { list ->
                 if (list.isEmpty()) {
                     " - RAS"
@@ -160,10 +157,7 @@ class FormatActionsForTimeline2(
                 }
             }
             val pvCount = listOfNotNull(
-                action.gearInfractions?.map { it.infractionType },
-                action.logbookInfractions?.map { it.infractionType },
-                action.speciesInfractions?.map { it.infractionType },
-                action.otherInfractions?.map { it.infractionType }
+                action.fishInfractions.map { it.infractionType },
             ).flatten().count { it == InfractionType.WITH_RECORD }
             val pv = if (pvCount > 0) "$pvCount PV" else "sans PV"
 

@@ -2,11 +2,8 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.helpers
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.InfractionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.GearInfraction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookInfraction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.OtherInfraction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.InfractionEntity2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
@@ -32,34 +29,30 @@ class CountInfractionsTest {
     @Test
     fun `countFishInfractions should correctly count infractions by type`() {
         val action1 = MissionFishActionEntityMock.create(
-            logbookInfractions = listOf(LogbookInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1)),
-            gearInfractions = listOf(
-                GearInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1),
-                GearInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 2)
-            ),
-            speciesInfractions = listOf(),
+            fishInfractions = listOf(
+                FishInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1),
+                FishInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1),
+                FishInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 2)
+            )
         )
 
         val result = countInfractions.countFishInfractions(listOf(action1), InfractionType.WITH_RECORD)
 
-        assertEquals(1, result["nbLogbookInfractions"])
-        assertEquals(2, result["nbGearInfractions"])
-        assertEquals(0, result["nbSpeciesInfractions"])
+        assertEquals(3, result["infractions"])
     }
 
     @Test
     fun `countOtherFishInfractions should count only matching infractionType`() {
         val action = MissionFishActionEntityMock.create(
-            gearInfractions = listOf(GearInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1)),
-            speciesInfractions = listOf(SpeciesInfraction(infractionType = InfractionType.WITHOUT_RECORD, natinf = 1)),
-            otherInfractions = listOf(
-                OtherInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1),
-                OtherInfraction(infractionType = InfractionType.WITHOUT_RECORD, natinf = 1)
-            ),
+            fishInfractions = listOf(
+                FishInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1),
+                FishInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1),
+                FishInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 2)
+            )
         )
 
         val result = countInfractions.countOtherFishInfractions(listOf(action), InfractionType.WITH_RECORD)
-        assertEquals(1, result)
+        assertEquals(3, result)
     }
 
     @Test

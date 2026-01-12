@@ -1,11 +1,8 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.GearInfraction
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.OtherInfraction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeProFishingControlPolicy
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.helpers.CountInfractions
@@ -81,19 +78,23 @@ class ComputeProFishingControlPolicyTest {
 
         val seaAction = MissionFishActionEntityMock.create(
             fishActionType = MissionActionType.SEA_CONTROL,
-            logbookInfractions = listOf(LogbookInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1)),
-            gearInfractions = listOf(GearInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1)),
-            speciesInfractions = listOf(SpeciesInfraction(infractionType = InfractionType.WITHOUT_RECORD, natinf = 1)),
-            otherInfractions = listOf(OtherInfraction(infractionType = InfractionType.WITHOUT_RECORD, natinf = 1)), // doesn't count
+            fishInfractions = listOf(
+                FishInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1),
+                FishInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1),
+                FishInfraction(infractionType = InfractionType.WITHOUT_RECORD, natinf = 1),
+                FishInfraction(infractionType = InfractionType.WITHOUT_RECORD, natinf = 1), // doesn't count
+            ),
         )
         val landAction = MissionFishActionEntityMock.create(
             fishActionType = MissionActionType.LAND_CONTROL,
-            otherInfractions = listOf(OtherInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1)), // doesn't count
+            fishInfractions = listOf(FishInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1)),
         )
         val airAction = MissionFishActionEntityMock.create(
             fishActionType = MissionActionType.AIR_CONTROL,
-            logbookInfractions = listOf(LogbookInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1)),  // doesn't count
-            otherInfractions = listOf(OtherInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1)), // doesn't count
+            fishInfractions = listOf(
+                FishInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1),
+                FishInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1)
+            ),
         )
         val mission = MissionEntity2(id = 123, actions = listOf(seaAction, landAction, airAction))
 
@@ -104,34 +105,8 @@ class ComputeProFishingControlPolicyTest {
         assertEquals(2, result.nbControls)
         assertEquals(1, result.nbControlsSea)
         assertEquals(1, result.nbControlsLand)
-        assertEquals(2, result.nbInfractionsWithRecord)
-        assertEquals(1, result.nbInfractionsWithoutRecord)
+        assertEquals(3, result.nbInfractionsWithRecord)
+        assertEquals(2, result.nbInfractionsWithoutRecord)
     }
 
-    @Test
-    fun `computes counts for SEA and LAND for other controls`() {
-
-        val seaAction = MissionFishActionEntityMock.create(
-            fishActionType = MissionActionType.SEA_CONTROL,
-            logbookInfractions = listOf(LogbookInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1)), // doesn't count
-            gearInfractions = listOf(GearInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1)), // doesn't count
-            speciesInfractions = listOf(SpeciesInfraction(infractionType = InfractionType.WITHOUT_RECORD, natinf = 1)), // doesn't count
-            otherInfractions = listOf(OtherInfraction(infractionType = InfractionType.WITHOUT_RECORD, natinf = 1)),
-        )
-        val landAction = MissionFishActionEntityMock.create(
-            fishActionType = MissionActionType.LAND_CONTROL,
-            otherInfractions = listOf(OtherInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 1)),
-        )
-        val mission = MissionEntity2(id = 123, actions = listOf(seaAction, landAction))
-
-
-        val result = useCase.computeOtherInfractions(mission)
-
-        assertNotNull(result)
-        assertEquals(2, result.nbControls)
-        assertEquals(1, result.nbControlsSea)
-        assertEquals(1, result.nbControlsLand)
-        assertEquals(1, result.nbInfractionsWithRecord)
-        assertEquals(1, result.nbInfractionsWithoutRecord)
-    }
 }

@@ -53,7 +53,7 @@ class ProcessNavActionTest {
         )
 
         val entity = processNavAction.execute(action = action)
-        val infractionIds = entity.getInfractions().map { it.id }.toSet()
+        val infractionIds = entity.getAllInfractions().map { it.id }.toSet()
         val mockInfractionIds = mockTarget.controls?.flatMap { it.infractions!! }?.map { it.id }?.toSet()
         assertThat(entity).isNotNull
         assertThat(entity.id).isEqualTo(actionId)

@@ -19,13 +19,9 @@ interface BaseMissionFishActionData {
     val speciesWeightControlled: Boolean?
     val speciesSizeControlled: Boolean?
     val separateStowageOfPreservedSpecies: ControlCheck?
-    val logbookInfractions: List<LogbookInfraction>?
     val licencesAndLogbookObservations: String?
-    val gearInfractions: List<GearInfraction>?
-    val speciesInfractions: List<SpeciesInfraction>?
     val speciesObservations: String?
     val seizureAndDiversion: Boolean?
-    val otherInfractions: List<OtherInfraction>?
     val numberOfVesselsFlownOver: Int?
     val unitWithoutOmegaGauge: Boolean?
     val controlQualityComments: String?
@@ -54,4 +50,5 @@ interface BaseMissionFishActionData {
     val isSeafarersControl: Boolean?
     var observationsByUnit: String?
     var speciesQuantitySeized: Int ?
+    val fishInfractions: List<FishInfraction>
 }

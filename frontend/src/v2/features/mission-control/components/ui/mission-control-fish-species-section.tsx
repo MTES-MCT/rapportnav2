@@ -93,15 +93,6 @@ const MissionControlFishSpeciesSection: React.FC<MissionControlFishSpeciesSectio
         </Stack>
       </Stack.Item>
 
-      <Stack.Item style={{ width: '100%' }}>
-        <MissionInfractionFishSummary
-          showIndex={true}
-          isActionDisabled={true}
-          title="Infraction espèces"
-          infractions={action.speciesInfractions ?? []}
-        />
-      </Stack.Item>
-
       <Stack.Item style={{ backgroundColor: THEME.color.white, width: '100%', padding: '1rem' }}>
         <Label>Observations (hors infraction) sur les espèces</Label>
         <Text as="h3" weight="medium">

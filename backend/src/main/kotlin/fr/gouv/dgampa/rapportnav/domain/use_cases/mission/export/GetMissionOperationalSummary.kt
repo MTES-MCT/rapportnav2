@@ -228,18 +228,9 @@ class GetMissionOperationalSummary {
 
     private fun countWithRecordInfractions(actions: List<MissionAction>): Map<String, Int> {
         return mapOf(
-            "nbLogbookInfractions" to actions.sumOf { action ->
-                action.logbookInfractions.count { it.infractionType == InfractionType.WITH_RECORD }
+            "infractions" to actions.sumOf { action ->
+                action.infractions.count { it.infractionType == InfractionType.WITH_RECORD }
             },
-            "nbGearInfractions" to actions.sumOf { action ->
-                action.gearInfractions.count { it.infractionType == InfractionType.WITH_RECORD }
-            },
-            "nbSpeciesInfractions" to actions.sumOf { action ->
-                action.speciesInfractions.count { it.infractionType == InfractionType.WITH_RECORD }
-            },
-            "nbOtherInfractions" to actions.sumOf { action ->
-                action.otherInfractions.count { it.infractionType == InfractionType.WITH_RECORD }
-            }
         )
     }
 

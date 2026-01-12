@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Missio
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.input.PatchActionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output.MissionActionDataOutput
+import io.sentry.Sentry
 import org.n52.jackson.datatype.jts.JtsModule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -40,10 +41,19 @@ class APIFishActionRepository(
         val response = clientFactory.create().send(request, HttpResponse.BodyHandlers.ofString())
 
         return if (response.statusCode() in 200..299) {
-            mapper.registerModule(JtsModule())
-            mapper.readValue(response.body(), object : TypeReference<List<MissionAction>>() {})
+            try {
+                Sentry.captureMessage("received data from MonitorFish: ${response.body()}")
+                mapper.registerModule(JtsModule())
+                mapper.readValue(response.body(), object : TypeReference<List<MissionAction>>() {})
+            }
+            catch (e: Exception) {
+                Sentry.captureException(e)
+                emptyList()
+            }
+
         } else {
-            logger.info("Failed to fetch Fish Actions. Status code: ${response.statusCode()}")
+            logger.error("Failed to fetch Fish Actions. Status code: ${response.statusCode()}")
+            Sentry.captureMessage("error from monitorfish : ${response.statusCode()}: ${response.body()}")
             emptyList()
         }
     }

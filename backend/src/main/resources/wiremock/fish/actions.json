@@ -23,11 +23,9 @@
     "speciesWeightControlled": false,
     "speciesSizeControlled": true,
     "separateStowageOfPreservedSpecies": "YES",
-    "logbookInfractions": [],
     "licencesAndLogbookObservations": null,
     "speciesObservations": null,
     "seizureAndDiversion": false,
-    "otherInfractions": [],
     "numberOfVesselsFlownOver": null,
     "unitWithoutOmegaGauge": false,
     "controlQualityComments": null,
@@ -65,13 +63,6 @@
         "comments": "400m\n4m50 de hauteur"
       }
     ],
-    "gearInfractions": [
-      {
-        "infractionType": "WITH_RECORD",
-        "natinf": 10002,
-        "comments": null
-      }
-    ],
     "speciesOnboard": [
       {
         "speciesCode": "RJN",
@@ -90,18 +81,6 @@
         "underSized": false
       }
     ],
-    "speciesInfractions": [
-      {
-        "infractionType": "WITH_RECORD",
-        "natinf": 10000,
-        "comments": "pêche de juvéniles interdite"
-      },
-      {
-        "infractionType": "WITHOUT_RECORD",
-        "natinf": 10001,
-        "comments": null
-      }
-    ],
     "controlUnits": [],
     "userTrigram": "RNT",
     "vesselTargeted": "NO",
@@ -115,6 +94,31 @@
     "isComplianceWithWaterRegulationsControl": false,
     "isSafetyEquipmentAndStandardsComplianceControl": false,
     "isSeafarersControl": false,
-    "observationsByUnit": "this is an observation"
+    "observationsByUnit": "this is an observation",
+    "infractions": [
+      {
+        "infractionType": "WITHOUT_RECORD",
+        "natinf": 27712,
+        "natinfDescription": "Debarquement de produits de la peche maritime et de l'aquaculture marine sans notification prealable ",
+        "threat": "Famille inconnue",
+        "threatCharacterization": "Type inconnu",
+        "comments": "Rappel pour absence de PNO alors de 9kg de SOL à bord"
+      },
+      {
+        "infractionType": "WITH_RECORD",
+        "natinf": 22182,
+        "natinfDescription": "Navigation ou exploitation d'un navire sans respecter les conditions particulieres portees sur le permis de navigation - mer",
+        "threat": "Famille inconnue",
+        "threatCharacterization": "Type inconnu",
+        "comments": "Absence du mécano 750kw (était en repos au moment du contrôle)"
+      },
+      {
+        "infractionType": "PENDING",
+        "natinf": 10002,
+        "natinfDescription": "Documents expirés"
+      }
+    ]
   }
 ]
+
+

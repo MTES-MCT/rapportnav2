@@ -1,4 +1,4 @@
-import { GearInfraction, LogbookInfraction, OtherInfraction, SpeciesInfraction } from '@common/types/fish-mission-types'
+import { Infraction } from '@common/types/fish-mission-types'
 
-export type FishInfraction = LogbookInfraction | GearInfraction | SpeciesInfraction | OtherInfraction
+export type FishInfraction = Infraction
 //TODO: update Fish infraction to add id, natinf to natinfs plural in array, transfert comment into observations

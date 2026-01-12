@@ -71,7 +71,6 @@ const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ data, defaultData,
                 <Cell>
                   {rowData => {
                     const data = get(rowData, cell.key) as any
-                    debugger
                     return !DATE_LABELS.includes(cell.key) ? data : formatDateTimeForFrenchHumans(data)
                   }}
                 </Cell>

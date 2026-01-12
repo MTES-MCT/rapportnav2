@@ -44,12 +44,8 @@ class AEMTableExportTest2 {
             missionId = 761,
             id = 234,
             fishActionType = MissionActionType.SEA_CONTROL,
-            speciesInfractions = listOf(),
-            otherInfractions = listOf(OtherInfraction()),
             actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
             actionEndDatetimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
-            gearInfractions = listOf(GearInfraction(infractionType = InfractionType.WITH_RECORD)),
-            logbookInfractions = listOf(LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD))
         ))
 
         val export = AEMTableExport2.fromMissionAction(

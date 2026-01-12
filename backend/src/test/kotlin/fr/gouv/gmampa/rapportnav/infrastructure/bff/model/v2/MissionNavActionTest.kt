@@ -275,7 +275,7 @@ class MissionNavActionTest {
     fun `execute return all infractions on action`() {
         val target = TargetEntity2Mock.create()
         val entity = MissionNavActionEntityMock.create(actionType = ActionType.CONTROL, targets = listOf(target))
-        val infractionIds = entity.getInfractions().map { it.id }.toSet()
+        val infractionIds = entity.getAllInfractions().map { it.id }.toSet()
         val mockInfractionIds = target.controls?.flatMap { it.infractions!! }?.map { it.id }?.toSet()
         assertThat(entity).isNotNull
         assertThat(infractionIds).isEqualTo(mockInfractionIds)

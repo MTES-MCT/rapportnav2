@@ -133,17 +133,12 @@ data class Action(
                         speciesWeightControlled = action.speciesWeightControlled,
                         speciesSizeControlled = action.speciesSizeControlled,
                         separateStowageOfPreservedSpecies = action.separateStowageOfPreservedSpecies,
-                        logbookInfractions = action.logbookInfractions,
                         licencesAndLogbookObservations = action.licencesAndLogbookObservations,
-                        gearInfractions = action.gearInfractions,
-                        speciesInfractions = action.speciesInfractions,
                         speciesObservations = action.speciesObservations,
                         seizureAndDiversion = action.seizureAndDiversion,
-                        otherInfractions = action.otherInfractions,
                         numberOfVesselsFlownOver = action.numberOfVesselsFlownOver,
                         unitWithoutOmegaGauge = action.unitWithoutOmegaGauge,
                         controlQualityComments = action.controlQualityComments,
-                        feedbackSheetRequired = action.feedbackSheetRequired,
                         userTrigram = action.userTrigram,
                         segments = action.segments,
                         facade = action.facade,
@@ -169,6 +164,7 @@ data class Action(
                         controlNavigation = ControlNavigation.fromControlNavigationEntity(fishAction.controlAction.controlNavigation),
                         controlSecurity = ControlSecurity.fromControlSecurityEntity(fishAction.controlAction.controlSecurity),
                         controlGensDeMer = ControlGensDeMer.fromControlGensDeMerEntity(fishAction.controlAction.controlGensDeMer),
+                        infractions = action.infractions,
                     )
                 )
             }

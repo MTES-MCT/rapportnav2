@@ -8,8 +8,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.utils.EntityCompletenessValidator
 import java.time.Instant
 
-data class FishInfraction(val natinf: Int?, val infractionType: InfractionType?)
-
 class MissionFishActionEntity(
     override val id: Int?,
     override val missionId: Int,
@@ -32,13 +30,9 @@ class MissionFishActionEntity(
     override val speciesWeightControlled: Boolean? = null,
     override val speciesSizeControlled: Boolean? = null,
     override val separateStowageOfPreservedSpecies: ControlCheck? = null,
-    override val logbookInfractions: List<LogbookInfraction>? = listOf(),
     override val licencesAndLogbookObservations: String? = null,
-    override val gearInfractions: List<GearInfraction>? = listOf(),
-    override val speciesInfractions: List<SpeciesInfraction>? = listOf(),
     override val speciesObservations: String? = null,
     override val seizureAndDiversion: Boolean? = null,
-    override val otherInfractions: List<OtherInfraction>? = listOf(),
     override val numberOfVesselsFlownOver: Int? = null,
     override val unitWithoutOmegaGauge: Boolean? = null,
     override val controlQualityComments: String? = null,
@@ -68,7 +62,8 @@ class MissionFishActionEntity(
     override val isSeafarersControl: Boolean? = null,
     override var observationsByUnit: String? = null,
     override var speciesQuantitySeized: Int? = null,
-    override var targets: List<TargetEntity2>? = null
+    override var targets: List<TargetEntity2>? = null,
+    override val fishInfractions: List<FishInfraction> = listOf(),
 ) : MissionActionEntity(
     missionId = missionId,
     actionType = ActionType.CONTROL,
@@ -96,12 +91,6 @@ class MissionFishActionEntity(
     }
 
     private fun getFishSummaryTags(): SummaryTag {
-        val fishInfractions: List<FishInfraction> = listOfNotNull(
-            this.gearInfractions?.map { FishInfraction(it.natinf, it.infractionType) },
-            this.logbookInfractions?.map { FishInfraction(it.natinf, it.infractionType) },
-            this.speciesInfractions?.map { FishInfraction(it.natinf, it.infractionType) },
-            this.otherInfractions?.map { FishInfraction(it.natinf, it.infractionType) }
-        ).flatten()
         val withReport = fishInfractions.count { it.infractionType == InfractionType.WITH_RECORD }
         val natInfSize = fishInfractions.map { it.natinf.toString() }.count { true }
         return SummaryTag(withReport = withReport, natInfSize = natInfSize)
@@ -162,17 +151,12 @@ class MissionFishActionEntity(
             speciesWeightControlled = action.speciesWeightControlled,
             speciesSizeControlled = action.speciesSizeControlled,
             separateStowageOfPreservedSpecies = action.separateStowageOfPreservedSpecies,
-            logbookInfractions = action.logbookInfractions,
             licencesAndLogbookObservations = action.licencesAndLogbookObservations,
-            gearInfractions = action.gearInfractions,
-            speciesInfractions = action.speciesInfractions,
             speciesObservations = action.speciesObservations,
             seizureAndDiversion = action.seizureAndDiversion,
-            otherInfractions = action.otherInfractions,
             numberOfVesselsFlownOver = action.numberOfVesselsFlownOver,
             unitWithoutOmegaGauge = action.unitWithoutOmegaGauge,
             controlQualityComments = action.controlQualityComments,
-            feedbackSheetRequired = action.feedbackSheetRequired,
             userTrigram = action.userTrigram,
             segments = action.segments,
             facade = action.facade,
@@ -198,7 +182,8 @@ class MissionFishActionEntity(
             isSafetyEquipmentAndStandardsComplianceControl = action.isSafetyEquipmentAndStandardsComplianceControl,
             isSeafarersControl = action.isSeafarersControl,
             observationsByUnit = action.observationsByUnit,
-            speciesQuantitySeized = action.speciesQuantitySeized
+            speciesQuantitySeized = action.speciesQuantitySeized,
+            fishInfractions = action.infractions,
         )
     }
 }

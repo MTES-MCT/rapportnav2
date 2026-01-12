@@ -2,7 +2,6 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.FakeActionData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetFishActionsByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
@@ -44,9 +43,6 @@ class GetFishActionsByMissionIdTest {
 
     @MockitoBean
     private lateinit var attachControlsToActionControl: AttachControlsToActionControl
-
-    @MockitoBean
-    private lateinit var getFakeActionData: FakeActionData
 
     private val mockFishMissionActions = listOf(
         FishActionControlMock.create(id = 1),

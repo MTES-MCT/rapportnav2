@@ -24,7 +24,6 @@ class GetEnvMissionById(
     private val monitorEnvApiRepo: IEnvMissionRepository,
     private val attachControlsToActionControl: AttachControlsToActionControl,
     private val getEnvMissions: GetEnvMissions,
-    private val getFakeActionData: FakeActionData
 ) {
     private val logger = LoggerFactory.getLogger(GetEnvMissionById::class.java)
 

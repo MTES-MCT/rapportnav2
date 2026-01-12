@@ -22,11 +22,7 @@ object FishActionControlMock {
         vesselId: Int? = 314,
         vesselName: String? = "Le Pi",
         speciesOnboard: List<SpeciesControl> = listOf(),
-        speciesInfractions: List<SpeciesInfraction> = listOf(),
         completion: Completion = Completion.COMPLETED,
-        gearInfractions: List<GearInfraction> = listOf(),
-        logbookInfractions: List<LogbookInfraction> = listOf(),
-        otherInfractions: List<OtherInfraction> = listOf(),
         userTrigram: String = "TKT",
         flagState: CountryCode = CountryCode.FR,
         seizureAndDiversion: Boolean? = null,
@@ -36,6 +32,7 @@ object FishActionControlMock {
         isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,
         isSeafarersControl: Boolean? = null,
         externalReferenceNumber: String? = "AC 1435",
+        infractions: List<FishInfraction> = listOf()
     ): MissionAction {
         return MissionAction(
             id = id,
@@ -53,11 +50,7 @@ object FishActionControlMock {
             vesselId = vesselId,
             vesselName = vesselName,
             speciesOnboard = speciesOnboard,
-            speciesInfractions = speciesInfractions,
             completion = completion,
-            gearInfractions = gearInfractions,
-            logbookInfractions = logbookInfractions,
-            otherInfractions = otherInfractions,
             flagState = flagState,
             userTrigram = userTrigram,
             isFromPoseidon = false,
@@ -68,6 +61,7 @@ object FishActionControlMock {
             isComplianceWithWaterRegulationsControl = isComplianceWithWaterRegulationsControl,
             isSafetyEquipmentAndStandardsComplianceControl = isSafetyEquipmentAndStandardsComplianceControl,
             externalReferenceNumber = externalReferenceNumber,
+            infractions = infractions
             )
     }
 }
