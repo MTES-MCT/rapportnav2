@@ -7,12 +7,9 @@ import {
   ControlCheck,
   FleetSegment,
   GearControl,
-  GearInfraction,
-  LogbookInfraction,
+  Infraction,
   MissionActionType,
-  OtherInfraction,
-  SpeciesControl,
-  SpeciesInfraction
+  SpeciesControl
 } from '@common/types/fish-mission-types'
 import { InfractionByTarget } from '@common/types/infraction-types'
 import { ActionType } from './action-type'
@@ -22,6 +19,7 @@ import { MissionActionData } from './mission-action-data'
 import { CompletenessForStats, MissionSourceEnum } from './mission-types.ts'
 import { NetworkSyncStatus } from './network-types.ts'
 import { SectorEtablishmentType, SectorType } from './sector-types.ts'
+import { FishInfraction } from '../../mission-infraction/types/infraction-input.tsx'
 
 export interface MissionAction {
   id?: string
@@ -137,13 +135,9 @@ export interface MissionFishActionData extends MissionActionData {
   speciesWeightControlled?: boolean
   speciesSizeControlled?: boolean
   separateStowageOfPreservedSpecies?: ControlCheck
-  logbookInfractions?: LogbookInfraction[]
   licencesAndLogbookObservations?: string
-  gearInfractions?: GearInfraction[]
-  speciesInfractions?: SpeciesInfraction[]
   speciesObservations?: string
   seizureAndDiversion?: boolean
-  otherInfractions?: OtherInfraction[]
   numberOfVesselsFlownOver?: number
   unitWithoutOmegaGauge?: boolean
   controlQualityComments?: string
@@ -172,6 +166,7 @@ export interface MissionFishActionData extends MissionActionData {
   isSeafarersControl?: boolean
   observationsByUnit?: string
   speciesQuantitySeized?: number
+  fishInfractions: FishInfraction[]
 }
 
 export interface MissionFishAction extends MissionAction {

@@ -43,28 +43,25 @@ class AEMIllegalFishTest2 {
                 missionId = 761,
                 id = 234,
                 fishActionType = MissionActionType.SEA_CONTROL,
-                speciesInfractions = listOf(),
-                gearInfractions = listOf(GearInfraction(infractionType = InfractionType.WITH_RECORD)),
-                otherInfractions = listOf(OtherInfraction()),
-                logbookInfractions = listOf(LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD, natinf = 27688)),
                 actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 actionEndDatetimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
-                speciesQuantitySeized = 4
+                speciesQuantitySeized = 4,
+                fishInfractions = listOf(
+                    FishInfraction(natinf = 1, infractionType = InfractionType.WITH_RECORD),
+                    FishInfraction(natinf = 1, infractionType = InfractionType.WITH_RECORD),
+                    FishInfraction(natinf = 1, infractionType = InfractionType.WITH_RECORD),
+                ),
             ),
             MissionFishActionEntity(
                 missionId = 761,
                 id = 234,
                 fishActionType = MissionActionType.SEA_CONTROL,
-                logbookInfractions = listOf(LogbookInfraction()),
-                gearInfractions = listOf(GearInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 49558)),
-                otherInfractions = listOf(OtherInfraction(infractionType = InfractionType.WITH_RECORD, natinf = 98308)),
-                speciesInfractions = listOf(
-                    SpeciesInfraction(infractionType = InfractionType.WITH_RECORD),
-                    SpeciesInfraction(infractionType = InfractionType.WITHOUT_RECORD, natinf = 203839)
-                ),
                 actionDatetimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 actionEndDatetimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
-                speciesQuantitySeized = 2
+                speciesQuantitySeized = 2,
+                fishInfractions = listOf(
+                    FishInfraction(natinf = 1),
+                ),
             )
         );
         return actions

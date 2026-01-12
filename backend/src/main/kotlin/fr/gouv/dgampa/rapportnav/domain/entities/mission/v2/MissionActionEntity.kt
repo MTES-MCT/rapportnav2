@@ -106,7 +106,7 @@ abstract class MissionActionEntity(
             ?.flatMap { it.infractions?: listOf() }?: listOf()
     }
 
-    fun getInfractions(): List<InfractionEntity2> {
+    fun getAllInfractions(): List<InfractionEntity2> {
         return this.targets?.flatMap { it.controls?: listOf() }
             ?.flatMap { it.infractions?: listOf() }?: listOf()
     }

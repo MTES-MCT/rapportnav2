@@ -6,7 +6,8 @@ import MissionActionItemFishControl from '../mission-action-item-fish-control.ts
 
 const mockAction = {
   id: '1234',
-  fishActionType: MissionActionType.SEA_CONTROL
+  fishActionType: MissionActionType.SEA_CONTROL,
+  data: { fishInfractions: [] }
 } as MissionAction
 
 const props = (action = mockAction, onChange = vi.fn(), isMissionFinished = false) => ({
@@ -15,7 +16,7 @@ const props = (action = mockAction, onChange = vi.fn(), isMissionFinished = fals
   onChange
 })
 
-describe('MissionActionItemEnvControl Component', () => {
+describe('MissionActionItemFishControl Component', () => {
   it('renders', () => {
     render(<MissionActionItemFishControl {...props()} />)
   })
@@ -76,6 +77,40 @@ describe('MissionActionItemEnvControl Component', () => {
       }
       render(<MissionActionItemFishControl {...props(action)} />)
       expect(screen.getByTestId('portName')).toHaveValue('Audierne ')
+    })
+  })
+
+  describe('Infractions', () => {
+    it('should show no infractions', () => {
+      const action = {
+        data: {
+          ...mockAction
+        }
+      }
+      render(<MissionActionItemFishControl {...props(action)} />)
+      expect(screen.getByText('Aucune infraction')).toBeInTheDocument()
+    })
+    it('should show infractions', () => {
+      const action = {
+        data: {
+          ...mockAction,
+          fishInfractions: [
+            {
+              natinf: 12345,
+              threat: 'Dissimulation'
+            },
+            {
+              natinf: 22182,
+              threat: 'Entrave à la justice'
+            }
+          ]
+        }
+      }
+      render(<MissionActionItemFishControl {...props(action)} />)
+      expect(screen.getByText('NATINF : 12345', { exact: false })).toBeInTheDocument()
+      expect(screen.getByText('Infraction 1 : Dissimulation', { exact: false })).toBeInTheDocument()
+      expect(screen.getByText('NATINF : 22182', { exact: false })).toBeInTheDocument()
+      expect(screen.getByText('Infraction 2 : Entrave à la justice', { exact: false })).toBeInTheDocument()
     })
   })
 })

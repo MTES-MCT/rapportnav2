@@ -31,7 +31,6 @@ type AdminServiceProps = {}
 
 const AdminServiceItem: React.FC<AdminServiceProps> = () => {
   const { data } = useGeneralInfosListQuery()
-  debugger
   const mutation = useAdminUpdateGeneralInfosMutation()
 
   const handleSubmit = async (action: AdminActionType, value: AdminGeneralInfos) => {

@@ -23,13 +23,9 @@ class MissionFishActionData(
     override val speciesWeightControlled: Boolean? = null,
     override val speciesSizeControlled: Boolean? = null,
     override val separateStowageOfPreservedSpecies: ControlCheck? = null,
-    override val logbookInfractions: List<LogbookInfraction> = listOf(),
     override val licencesAndLogbookObservations: String? = null,
-    override val gearInfractions: List<GearInfraction> = listOf(),
-    override val speciesInfractions: List<SpeciesInfraction> = listOf(),
     override val speciesObservations: String? = null,
     override val seizureAndDiversion: Boolean? = null,
-    override val otherInfractions: List<OtherInfraction> = listOf(),
     override val numberOfVesselsFlownOver: Int? = null,
     override val unitWithoutOmegaGauge: Boolean? = null,
     override val controlQualityComments: String? = null,
@@ -59,7 +55,8 @@ class MissionFishActionData(
     override val isSeafarersControl: Boolean? = null,
     override var observationsByUnit: String? = null,
     override var speciesQuantitySeized: Int? = null,
-    override val targets: List<Target2>? = null
+    override val targets: List<Target2>? = null,
+    override val fishInfractions: List<FishInfraction> = listOf(),
 ) : MissionActionData(
     startDateTimeUtc = startDateTimeUtc,
     endDateTimeUtc = endDateTimeUtc,

@@ -79,18 +79,6 @@ const MissionControlFishEnginesSection: React.FC<MissionControlFishEnginesSectio
           </Stack>
         </Stack.Item>
       ))}
-
-      <Stack.Item style={{ width: '100%' }}>
-        <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
-          <Stack.Item style={{ width: '100%' }}>
-            <MissionInfractionFishSummary
-              title="Infraction engins"
-              isActionDisabled={true}
-              infractions={action.gearInfractions ?? []}
-            />
-          </Stack.Item>
-        </Stack>
-      </Stack.Item>
     </Stack>
   )
 }

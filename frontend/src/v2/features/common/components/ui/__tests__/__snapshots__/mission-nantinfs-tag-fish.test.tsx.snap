@@ -5,17 +5,26 @@ exports[`MissionNatinfTag > should match the snapshot 1`] = `
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <span
-        class="sc-iNWwEr sc-jfmDQl eaeKrY kuYcrG Element-Tag"
+      <div
+        class="rs-stack"
+        style="align-items: center; flex-direction: row; gap: 0.5rem;"
       >
-        <p
-          class="sc-kjEcyY sc-grVGCV lboafp mNQFS"
-          font-size="13"
-          weight="medium"
+        <div
+          class="rs-stack-item"
         >
-          NATINF : 12345
-        </p>
-      </span>
+          <span
+            class="sc-iNWwEr sc-jfmDQl eaeKrY kuYcrG Element-Tag"
+          >
+            <p
+              class="sc-kjEcyY sc-grVGCV lboafp mNQFS"
+              font-size="13"
+              weight="medium"
+            >
+              Debarquement de produits de la peche maritime et de l'aquaculture marine sans notification prealable / NATINF : 12345
+            </p>
+          </span>
+        </div>
+      </div>
     </div>
     <div
       class="rs-toast-provider"
@@ -41,17 +50,26 @@ exports[`MissionNatinfTag > should match the snapshot 1`] = `
     </div>
   </body>,
   "container": <div>
-    <span
-      class="sc-iNWwEr sc-jfmDQl eaeKrY kuYcrG Element-Tag"
+    <div
+      class="rs-stack"
+      style="align-items: center; flex-direction: row; gap: 0.5rem;"
     >
-      <p
-        class="sc-kjEcyY sc-grVGCV lboafp mNQFS"
-        font-size="13"
-        weight="medium"
+      <div
+        class="rs-stack-item"
       >
-        NATINF : 12345
-      </p>
-    </span>
+        <span
+          class="sc-iNWwEr sc-jfmDQl eaeKrY kuYcrG Element-Tag"
+        >
+          <p
+            class="sc-kjEcyY sc-grVGCV lboafp mNQFS"
+            font-size="13"
+            weight="medium"
+          >
+            Debarquement de produits de la peche maritime et de l'aquaculture marine sans notification prealable / NATINF : 12345
+          </p>
+        </span>
+      </div>
+    </div>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],

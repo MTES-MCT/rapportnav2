@@ -1,8 +1,8 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
 
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.SpeciesInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
@@ -153,15 +153,15 @@ class FormatActionsForTimeline2Tests {
 
     @Test
     fun `formatFishControl should return the formatted string with natinfs`() {
-        val action = MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create(speciesInfractions = listOf(
-            SpeciesInfraction().apply {
-                infractionType = InfractionType.WITH_RECORD
+        val action = MissionFishActionEntity.fromFishAction(action = FishActionControlMock.create(infractions = listOf(
+            FishInfraction(
+                infractionType = InfractionType.WITH_RECORD,
                 natinf = 123
-            },
-            SpeciesInfraction().apply {
-                infractionType = InfractionType.WITHOUT_RECORD
+            ),
+            FishInfraction(
+                infractionType = InfractionType.WITHOUT_RECORD,
                 natinf = 456
-            }
+            )
         )), )
         assertThat(formatActionsForTimeline.formatFishControl(action)).isEqualTo("13:00 - Contrôle Pêche - en mer - (DD): 52.14,14.30 - Le Pi (AC 1435) - Infractions: 1 PV - NATINF: 123 + 456")
     }

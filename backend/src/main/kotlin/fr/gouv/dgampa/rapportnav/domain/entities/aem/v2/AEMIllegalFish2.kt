@@ -50,23 +50,16 @@ data class AEMIllegalFish2(
 
         fun getNbrOfInfraction(fishActions: List<MissionFishActionEntity?>): Double {
             return fishActions.filterNotNull().fold(0.0) { acc, c ->
-                acc.plus(c.gearInfractions?.count { it.natinf != null } ?: 0)
-                    .plus(c.otherInfractions?.count { it.natinf != null } ?: 0)
-                    .plus(c.speciesInfractions?.count { it.natinf != null } ?: 0)
-                    .plus(c.logbookInfractions?.count { it.natinf != null } ?: 0)
+                acc.plus(c.fishInfractions?.count { it.natinf != null } ?: 0)
+
             };
         }
 
         fun getNbrOfInfractionWithPV(fishActions: List<MissionFishActionEntity?>): Double {
             return fishActions.filterNotNull()
                 .fold(0.0) { acc, c ->
-                acc.plus(c.gearInfractions?.filter { g -> g.infractionType == InfractionType.WITH_RECORD }?.size ?: 0)
-                    .plus(
-                        c.speciesInfractions?.filter { s -> s.infractionType == InfractionType.WITH_RECORD }?.size ?: 0
-                    )
-                    .plus(
-                        c.logbookInfractions?.filter { l -> l.infractionType == InfractionType.WITH_RECORD }?.size ?: 0
-                    )
+                acc.plus(c.fishInfractions?.filter { g -> g.infractionType == InfractionType.WITH_RECORD }?.size ?: 0)
+
             };
         }
 
