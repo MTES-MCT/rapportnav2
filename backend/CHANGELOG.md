@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.50.5](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.50.4...backend@v2.50.5) (2026-01-13)
+
+
+### Bug Fixes
+
+* **backend:** remove the check on observationByUnit ([e7534eb](https://github.com/MTES-MCT/rapportnav2/commit/e7534ebfb44e8292ea02612a4c3996b1a784e702))
+* **backend:** remove the check on observationByUnit ([df6bd7b](https://github.com/MTES-MCT/rapportnav2/commit/df6bd7bd2ef3b8a39011c7145dbdcecd7b54ad45))
+
 ## [2.50.4](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.50.3...backend@v2.50.4) (2026-01-06)
 
 

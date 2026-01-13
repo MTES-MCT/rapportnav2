@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.50.5](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.50.4...frontend@v2.50.5) (2026-01-13)
+
+
+### Bug Fixes
+
+* **backend:** remove the check on observationByUnit ([e7534eb](https://github.com/MTES-MCT/rapportnav2/commit/e7534ebfb44e8292ea02612a4c3996b1a784e702))
+* **backend:** remove the check on observationByUnit ([df6bd7b](https://github.com/MTES-MCT/rapportnav2/commit/df6bd7bd2ef3b8a39011c7145dbdcecd7b54ad45))
+* **frontend:** package lock updatte ([de6576c](https://github.com/MTES-MCT/rapportnav2/commit/de6576ca052400ea44840e8a205c8e9653445baf))
+* **frontend:** snapshots ([5549299](https://github.com/MTES-MCT/rapportnav2/commit/55492997c43381cf6fcbe46ba7fafd0dbf458ccf))
+* **frontend:** test ([185127e](https://github.com/MTES-MCT/rapportnav2/commit/185127e83384452fcb1dab84c3d96fadce4b1c87))
+* **secu:** bump frontend package ([709c777](https://github.com/MTES-MCT/rapportnav2/commit/709c777693e70c95eba428d55e856ea6ca659aa1))
+
 ## [2.50.4](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.50.3...frontend@v2.50.4) (2026-01-06)
 
 
