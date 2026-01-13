@@ -1,4 +1,3 @@
-import { MissionCrew } from '@common/types/crew-types.ts'
 import { AddOrUpdateMissionCrewInput } from '@features/pam/mission/hooks/use-add-update-mission-crew.tsx'
 import {
   Accent,
@@ -22,6 +21,7 @@ import * as Yup from 'yup'
 import useGetAgentRoles from '../../../../common/services/use-agent-roles.tsx'
 import useGetAgentServices from '../../../../common/services/use-agent-services.tsx'
 import { AgentService, ServiceWithAgents } from '../../../../common/types/service-agents-types.ts'
+import { Agent, MissionCrew } from '@common/types/crew-types.ts'
 
 const CrewFormDialogBody = styled((props: DialogProps) => <Dialog.Body {...props} />)(({ theme }) => ({
   padding: 24,
@@ -67,7 +67,7 @@ const COMMENT_MAX_LENGTH = 23
 const crewSchema = Yup.object().shape({
   roleId: Yup.string().required('Fonction requise.'),
   agentId: Yup.string().required('Identité requise.'),
-  comment: Yup.string().max(COMMENT_MAX_LENGTH, 'Maximum 23 caractères.')
+  comment: Yup.string().nullable().max(COMMENT_MAX_LENGTH, 'Maximum 23 caractères.')
 })
 
 interface MissionCrewModalProps {
@@ -84,6 +84,8 @@ const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
   handleSubmitForm
 }) => {
   const { data: agentRoles } = useGetAgentRoles()
+
+  // TODO: replace this, it's over complicated just to get a list of agents to fill a dropdown
   const { data: agentServices } = useGetAgentServices()
 
   const inputCrewMember: MissionCrew | undefined = !!crewId && crewList.find((mc: MissionCrew) => mc.id === crewId)
@@ -105,11 +107,11 @@ const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
   const handleSubmit = async (value: CrewForm) => {
     const agent: AgentService | undefined = flatten(
       (agentServices || []).map((serviceWithAgents: ServiceWithAgents) => serviceWithAgents.agents)
-    ).find(agent => agent.agent.id === value.agentId)
+    ).find(agent => agent.id === value.agentId)
     const role = agentRoles?.find(role => role.id === value.roleId)
     await handleSubmitForm({
       role,
-      agent: agent?.agent,
+      agent: agent,
       id: crewId,
       comment: value.comment
     })
@@ -117,18 +119,19 @@ const MissionGeneralInformationCrewPamForm: FC<MissionCrewModalProps> = ({
 
   const dropdownOptions = () => {
     if (agentServices) {
-      return flatten(agentServices.map((serviceWithAgents: ServiceWithAgents) => serviceWithAgents.agents)).map(
-        (agent: AgentService) => ({
-          value: agent.agent.id,
-          label: `${agent.agent.firstName} ${agent.agent.lastName}`
-        })
+      const agents: Agent[] = flatten(
+        agentServices.map((serviceWithAgents: ServiceWithAgents) => serviceWithAgents.agents)
       )
+      return agents.map((agent: Agent) => ({
+        value: agent.id,
+        label: `${agent.firstName} ${agent.lastName}`
+      }))
     }
     return []
   }
 
   return (
-    <Dialog data-testId={'crew-form'}>
+    <Dialog data-testid={'crew-form'}>
       <Dialog.Title>
         <FlexboxGrid align="middle" justify="space-between" style={{ paddingLeft: 24, paddingRight: 24 }}>
           <FlexboxGrid.Item>{`${crewId ? 'Mise à jour' : 'Ajout'} d’un membre d’équipage ${crewId ? '' : 'du DCS'}`}</FlexboxGrid.Item>
