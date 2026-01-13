@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.50.6](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.50.5...frontend@v2.50.6) (2026-01-13)
+
+
+### Bug Fixes
+
+* **CrewPam:** adapt to new agent service model ([#1128](https://github.com/MTES-MCT/rapportnav2/issues/1128)) ([8e653ec](https://github.com/MTES-MCT/rapportnav2/commit/8e653ec4212c44c545f9c06b926eab20481288c6))
+
 ## [2.50.5](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.50.4...frontend@v2.50.5) (2026-01-13)
 
 
