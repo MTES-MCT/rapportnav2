@@ -32,16 +32,7 @@ vi.mock('../../../../../common/services/use-agent-services.tsx', () => ({
           id: 1,
           name: 'service1'
         },
-        agents: [
-          {
-            agent: agent1,
-            role: role1
-          },
-          {
-            agent: agent2,
-            role: role2
-          }
-        ]
+        agents: [agent1, agent2]
       }
     ]
   })

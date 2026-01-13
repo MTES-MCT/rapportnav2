@@ -42,11 +42,11 @@ const DialogForm: React.FC<DialogFormProps> = ({ action, initValue, onSubmit }) 
             </Stack.Item>
           </Dialog.Body>
           <Dialog.Action>
-            <Button data-testId="dialog-form-cancel-button" accent={Accent.SECONDARY} onClick={() => onSubmit(false)}>
+            <Button data-testid="dialog-form-cancel-button" accent={Accent.SECONDARY} onClick={() => onSubmit(false)}>
               Annuler
             </Button>
             <Button
-              data-testId="dialog-form-confirm-button"
+              data-testid="dialog-form-confirm-button"
               accent={Accent.PRIMARY}
               onClick={() => onSubmit(true, formik.values)}
             >

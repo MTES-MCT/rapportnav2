@@ -87,7 +87,7 @@ const MissionGeneralInformationPassengerPamForm: FC<MissionPassengerModalProps> 
   }
 
   return (
-    <Dialog data-testId={'crew-form'}>
+    <Dialog data-testid={'crew-form'}>
       <Dialog.Title>
         <FlexboxGrid align="middle" justify="space-between" style={{ paddingLeft: 24, paddingRight: 24 }}>
           <FlexboxGrid.Item>{`${passenger ? 'Mise à jour' : 'Ajout'} d’un passager`}</FlexboxGrid.Item>

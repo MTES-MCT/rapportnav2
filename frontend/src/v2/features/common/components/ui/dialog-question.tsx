@@ -48,10 +48,10 @@ const DialogQuestion: React.FC<DialogQuestionProps> = ({ type, title, question, 
         </Stack>
       </Dialog.Body>
       <Dialog.Action>
-        <Button data-testId="dialog-question-cancel-button" accent={Accent.SECONDARY} onClick={() => onSubmit(false)}>
+        <Button data-testid="dialog-question-cancel-button" accent={Accent.SECONDARY} onClick={() => onSubmit(false)}>
           Annuler
         </Button>
-        <Button data-testId="dialog-question-confirm-button" accent={Accent.PRIMARY} onClick={() => onSubmit(true)}>
+        <Button data-testid="dialog-question-confirm-button" accent={Accent.PRIMARY} onClick={() => onSubmit(true)}>
           Confirmer
         </Button>
       </Dialog.Action>
