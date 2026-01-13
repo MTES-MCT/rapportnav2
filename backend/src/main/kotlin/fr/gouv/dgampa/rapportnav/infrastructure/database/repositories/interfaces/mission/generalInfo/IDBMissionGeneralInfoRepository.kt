@@ -20,5 +20,7 @@ interface IDBMissionGeneralInfoRepository : JpaRepository<MissionGeneralInfoMode
 
     fun findAllByMissionIdUUID(missionIdUUID: UUID): List<MissionGeneralInfoModel>
 
+    override fun findAll(): List<MissionGeneralInfoModel>
+
     fun deleteById(id: Int)
 }

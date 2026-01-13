@@ -9,6 +9,7 @@ import { useDate } from '../../../common/hooks/use-date'
 import { AdminAction, AdminActionType } from '../../types/admin-action'
 import { AdminCell } from '../../types/admin-services-type'
 import DialogForm from '../ui/dialog-form'
+import { get } from 'lodash'
 
 const DATE_LABELS = ['updatedAt', 'createdAt', 'deletedAt', 'disabledAt']
 
@@ -68,11 +69,11 @@ const AdminBasicItemGeneric: React.FC<AdminServiceProps> = ({ data, defaultData,
               <Column width={cell.width} align="start" fixed>
                 <HeaderCell>{cell.label}</HeaderCell>
                 <Cell>
-                  {rowData =>
-                    !DATE_LABELS.includes(cell.key)
-                      ? rowData[cell.key]
-                      : formatDateTimeForFrenchHumans(rowData[cell.key])
-                  }
+                  {rowData => {
+                    const data = get(rowData, cell.key) as any
+                    debugger
+                    return !DATE_LABELS.includes(cell.key) ? data : formatDateTimeForFrenchHumans(data)
+                  }}
                 </Cell>
               </Column>
             ))}

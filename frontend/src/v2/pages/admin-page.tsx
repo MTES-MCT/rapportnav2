@@ -13,6 +13,7 @@ import MissionListPageWrapper from '../features/common/components/layout/mission
 import MissionListPageSidebarWrapper from '../features/common/components/ui/mission-list-page-sidebar.tsx'
 import MissionListPageTitle from '../features/common/components/ui/mission-list-page-title.tsx'
 import { store } from '../store'
+import AdminGeneralInfosItem from '../features/admin/components/elements/admin-general-infos-item.tsx'
 
 const AdminPage: React.FC = () => {
   const { getSidebarItems } = useGlobalRoutes()
@@ -79,7 +80,11 @@ const AdminPage: React.FC = () => {
                       <AdminUserItem />
                     </Tabs.Tab>
                     __
-                    <Tabs.Tab eventKey="5" title="API Keys">
+                    <Tabs.Tab eventKey="5" title="General Infos">
+                      <AdminGeneralInfosItem />
+                    </Tabs.Tab>
+                    __
+                    <Tabs.Tab eventKey="6" title="API Keys">
                       <AdminApikeyItem />
                     </Tabs.Tab>
                   </Tabs>
