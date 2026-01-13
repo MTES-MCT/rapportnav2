@@ -11,6 +11,8 @@ interface IMissionGeneralInfoRepository {
 
     fun findById(id: Int): Optional<MissionGeneralInfoModel>
 
+    fun findAll(): List<MissionGeneralInfoModel>
+
     fun existsById(id: Int): Boolean
 
     fun save(info: MissionGeneralInfoEntity): MissionGeneralInfoModel

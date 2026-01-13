@@ -16,7 +16,7 @@ const CELLS = [
   { key: 'serviceType', label: 'Type', width: 200 },
   { key: 'createdAt', label: 'Date de création', width: 200 },
   { key: 'updatedAt', label: 'Dernière mise à jour', width: 240 },
-  { key: 'deletedAt', label: 'Date de supression', width: 200 }
+  { key: 'deletedAt', label: 'Date de suppression', width: 200 }
 ]
 
 const ACTIONS: AdminAction[] = [

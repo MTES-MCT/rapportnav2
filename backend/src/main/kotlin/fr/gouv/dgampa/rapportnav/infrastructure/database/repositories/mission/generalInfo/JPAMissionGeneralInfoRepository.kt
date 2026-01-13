@@ -17,6 +17,9 @@ class JPAMissionGeneralInfoRepository(
     private val dbRepo: IDBMissionGeneralInfoRepository,
 ) : IMissionGeneralInfoRepository {
 
+    override fun findAll(): List<MissionGeneralInfoModel> {
+        return dbRepo.findAll()
+    }
     override fun findByMissionId(missionId: Int): Optional<MissionGeneralInfoModel> {
         return dbRepo.findByMissionId(missionId)
     }
