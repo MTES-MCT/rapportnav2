@@ -1,0 +1,12 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Text > should render truncate text 1`] = `
+<p
+  class="sc-kjEcyY sc-grVGCV YFuHu mNQFS"
+  data-testid="truncate-comment"
+  font-size="13"
+  font-style="italic"
+>
+  This is my very long long long long comment
+</p>
+`;

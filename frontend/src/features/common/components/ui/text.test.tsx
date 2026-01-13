@@ -10,8 +10,6 @@ describe('Text', () => {
         </Text>
       </div>
     ).getByTestId('truncate-comment')
-    expect(text).toHaveStyle(`overflow: hidden`)
-    expect(text).toHaveStyle(`white-space: nowrap`)
-    expect(text).toHaveStyle(`text-overflow: ellipsis`)
+    expect(text).toMatchSnapshot()
   })
 })

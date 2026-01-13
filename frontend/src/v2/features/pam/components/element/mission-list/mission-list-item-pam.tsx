@@ -1,14 +1,14 @@
 import Text from '@common/components/ui/text.tsx'
-import MissionOpenByTag from '@features/pam/mission/components/elements/mission-open-by-tag.tsx'
 import { Checkbox, Icon, THEME } from '@mtes-mct/monitor-ui'
+import { PAM_V2_HOME_PATH } from '@router/routes.tsx'
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { FlexboxGrid, Stack } from 'rsuite'
 import styled from 'styled-components'
 import MissionCompletenessForStatsTag from '../../../../common/components/elements/mission-completeness-for-stats-tag.tsx'
+import MissionSourceTag from '../../../../common/components/ui/mission-source-tag.tsx'
 import MissionStatusTag from '../../../../common/components/ui/mission-status-tag.tsx'
 import { MissionListItem } from '../../../../common/types/mission-types.ts'
-import { PAM_V2_HOME_PATH } from '@router/routes.tsx'
 import MissionInterServicesTag from '../../ui/mission-interservices-tag.tsx'
 
 interface MissionListItemProps {
@@ -45,7 +45,7 @@ const MissionListItemPam: FC<MissionListItemProps> = ({ mission, isSelected, onT
         <FlexboxGrid.Item colspan={4} data-testid={'mission-list-item-open_by'}>
           <Stack direction={'column'} alignItems={'flex-start'}>
             <Stack.Item>
-              <MissionOpenByTag missionSource={mission.missionSource} isFake={mission.openBy === 'fake'} />
+              <MissionSourceTag missionSource={mission.missionSource} isFake={mission.openBy === 'fake'} />
             </Stack.Item>
 
             {(mission?.controlUnits || []).length > 1 && (
