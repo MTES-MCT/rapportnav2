@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.51.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.50.6...docker-container@v2.51.0) (2026-01-13)
+
+
+### Features
+
+* **Admin:** add general infos ([fedb410](https://github.com/MTES-MCT/rapportnav2/commit/fedb410d74e19be5c4d23c08a7f123a58a742719))
+
+
+### Bug Fixes
+
+* **backend:** completeness for stats ([42900b6](https://github.com/MTES-MCT/rapportnav2/commit/42900b66607c069be7c13a9b188c1823eb7a311e))
+* **backend:** completeness for stats ([b69d2bd](https://github.com/MTES-MCT/rapportnav2/commit/b69d2bdfc3bb9d1743295590e7df662efc46b021))
+
 ## [2.50.6](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.50.5...docker-container@v2.50.6) (2026-01-13)
 
 
