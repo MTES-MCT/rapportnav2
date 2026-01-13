@@ -92,5 +92,4 @@ class MissionGeneralInfoModel(
     @LastModifiedBy
     @Column(name = "updated_by")
     var updatedBy: Int? = null
-) {
-}
+)
