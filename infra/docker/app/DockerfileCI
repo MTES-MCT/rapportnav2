@@ -10,7 +10,7 @@ ARG VERSION
 ########################################
 # Build rapportnav backend with gradle #
 ########################################
-FROM gradle:8.7-jdk21 as build-backend
+FROM gradle:8.14-jdk21 as build-backend
 
 ARG GITHUB_SHA
 ARG VERSION
