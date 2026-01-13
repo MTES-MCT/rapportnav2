@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.51.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.50.6...frontend@v2.51.0) (2026-01-13)
+
+
+### Features
+
+* **Admin:** add general infos ([fedb410](https://github.com/MTES-MCT/rapportnav2/commit/fedb410d74e19be5c4d23c08a7f123a58a742719))
+
 ## [2.50.6](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.50.5...frontend@v2.50.6) (2026-01-13)
 
 
