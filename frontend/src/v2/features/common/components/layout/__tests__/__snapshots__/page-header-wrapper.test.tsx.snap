@@ -6,7 +6,7 @@ exports[`PageHeaderWrapper > should match snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-lehtBJ ijNBwl"
+        class="sc-kngDgi QnlWj"
       >
         <div
           class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
@@ -23,7 +23,7 @@ exports[`PageHeaderWrapper > should match snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <p
-                  class="sc-iRcyzz sc-lhsSio jeNGGt gfOewU"
+                  class="sc-kjEcyY sc-cLFqLn fNiUWk eKViSr"
                   color="#E5E5EB"
                   font-size="22"
                   weight="bold"
@@ -35,7 +35,7 @@ exports[`PageHeaderWrapper > should match snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <div
-                  class="sc-lcItFd gA-deIP Element-TagGroup"
+                  class="sc-hiMGwO fjpVkv Element-TagGroup"
                 >
                   tags
                 </div>
@@ -62,13 +62,13 @@ exports[`PageHeaderWrapper > should match snapshot 1`] = `
                   class="rs-stack-item"
                 >
                   <button
-                    class="sc-dNdcvo bDxZrn Element-IconButton"
+                    class="sc-fnykZr ngkgW Element-IconButton"
                     role="quit-mission-cross"
                     style="margin-top: 4px;"
                     type="button"
                   >
                     <span
-                      class="sc-hjsuWn hZNHWy Element-IconBox"
+                      class="sc-gKXOVg iViTCG Element-IconBox"
                     >
                       <svg
                         height="20"
@@ -135,7 +135,7 @@ exports[`PageHeaderWrapper > should match snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-lehtBJ ijNBwl"
+      class="sc-kngDgi QnlWj"
     >
       <div
         class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
@@ -152,7 +152,7 @@ exports[`PageHeaderWrapper > should match snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-iRcyzz sc-lhsSio jeNGGt gfOewU"
+                class="sc-kjEcyY sc-cLFqLn fNiUWk eKViSr"
                 color="#E5E5EB"
                 font-size="22"
                 weight="bold"
@@ -164,7 +164,7 @@ exports[`PageHeaderWrapper > should match snapshot 1`] = `
               class="rs-stack-item"
             >
               <div
-                class="sc-lcItFd gA-deIP Element-TagGroup"
+                class="sc-hiMGwO fjpVkv Element-TagGroup"
               >
                 tags
               </div>
@@ -191,13 +191,13 @@ exports[`PageHeaderWrapper > should match snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <button
-                  class="sc-dNdcvo bDxZrn Element-IconButton"
+                  class="sc-fnykZr ngkgW Element-IconButton"
                   role="quit-mission-cross"
                   style="margin-top: 4px;"
                   type="button"
                 >
                   <span
-                    class="sc-hjsuWn hZNHWy Element-IconBox"
+                    class="sc-gKXOVg iViTCG Element-IconBox"
                   >
                     <svg
                       height="20"

@@ -6,7 +6,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-bvErBc QzANN"
+        class="sc-cwpsFf jDjasX"
       >
         <div
           class="rs-stack"
@@ -17,13 +17,13 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
             style="padding-left: 1rem;"
           >
             <button
-              class="sc-eknHtZ sc-jYczwO eIVVCb jxeylY Element-Button"
+              class="sc-kLLXSa sc-himrzR cprGSP hKSquf Element-Button"
               disabled=""
               title="Cette fonctionnalité n'a pas encore été implémentée"
               type="button"
             >
               <span
-                class="sc-hjsuWn eVTFbL Element-IconBox"
+                class="sc-gKXOVg dmaLuH Element-IconBox"
               >
                 <svg
                   height="20"
@@ -61,7 +61,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 </svg>
               </span>
               <span
-                class="sc-pYNGo enBrtN"
+                class="sc-ikZpkj deOXJE"
               >
                 Supprimer la mission
               </span>
@@ -78,7 +78,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <p
-                  class="sc-iRcyzz sc-kbeVdv jUHdyB boIGdG"
+                  class="sc-kjEcyY sc-afnQM fzruwA cewgFY"
                   font-size="11"
                 />
               </div>
@@ -118,7 +118,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-bvErBc QzANN"
+      class="sc-cwpsFf jDjasX"
     >
       <div
         class="rs-stack"
@@ -129,13 +129,13 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
           style="padding-left: 1rem;"
         >
           <button
-            class="sc-eknHtZ sc-jYczwO eIVVCb jxeylY Element-Button"
+            class="sc-kLLXSa sc-himrzR cprGSP hKSquf Element-Button"
             disabled=""
             title="Cette fonctionnalité n'a pas encore été implémentée"
             type="button"
           >
             <span
-              class="sc-hjsuWn eVTFbL Element-IconBox"
+              class="sc-gKXOVg dmaLuH Element-IconBox"
             >
               <svg
                 height="20"
@@ -173,7 +173,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
               </svg>
             </span>
             <span
-              class="sc-pYNGo enBrtN"
+              class="sc-ikZpkj deOXJE"
             >
               Supprimer la mission
             </span>
@@ -190,7 +190,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <p
-                class="sc-iRcyzz sc-kbeVdv jUHdyB boIGdG"
+                class="sc-kjEcyY sc-afnQM fzruwA cewgFY"
                 font-size="11"
               />
             </div>

@@ -64,12 +64,6 @@ data class MissionEntity2(
             ?.distinct()
             ?: emptyList()
 
-
-        // check mission observationsByUnit is not null
-        if ((this.data?.controlUnits?.size ?: 0) < 2 && this.data?.observationsByUnit == null) {
-            sources.plus(MissionSourceEnum.RAPPORTNAV)
-        }
-
         val status = if (sources.distinct().isEmpty()) CompletenessForStatsStatusEnum.COMPLETE else CompletenessForStatsStatusEnum.INCOMPLETE
 
         return CompletenessForStatsEntity(

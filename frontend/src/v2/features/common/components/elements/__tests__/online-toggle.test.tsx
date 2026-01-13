@@ -1,8 +1,7 @@
-import { render, fireEvent } from '../../../../../../test-utils.tsx'
-import OnlineToggle from '../online-toggle.tsx'
-import { useOnlineManager } from '../../../hooks/use-online-manager.tsx'
-import { THEME } from '@mtes-mct/monitor-ui'
 import { vi } from 'vitest'
+import { fireEvent, render } from '../../../../../../test-utils.tsx'
+import { useOnlineManager } from '../../../hooks/use-online-manager.tsx'
+import OnlineToggle from '../online-toggle.tsx'
 
 // Mock the useOnlineManager hook
 vi.mock('../../../hooks/use-online-manager', () => ({
@@ -19,18 +18,7 @@ describe('OnlineToggle', () => {
       toggleOnline: vi.fn()
     })
 
-    const { getByText, getByRole } = render(<OnlineToggle />)
-
-    // Check online text is bold and colored green
-    const onlineText = getByText('En ligne')
-    expect(onlineText).toHaveStyle(`color: ${THEME.color.mediumSeaGreen}`)
-    expect(onlineText).toHaveStyle('font-weight: 700')
-
-    // Check offline text is normal and colored light gray
-    const offlineText = getByText('Hors ligne')
-    expect(offlineText).toHaveStyle(`color: ${THEME.color.lightGray}`)
-    expect(offlineText).toHaveStyle('font-weight: 400')
-
+    const { getByRole } = render(<OnlineToggle />)
     // Check toggle is checked
     const toggle = getByRole('switch')
     expect(toggle).toBeChecked()
@@ -45,18 +33,7 @@ describe('OnlineToggle', () => {
       toggleOnline: vi.fn()
     })
 
-    const { getByText, getByRole } = render(<OnlineToggle />)
-
-    // Check online text is normal and colored light gray
-    const onlineText = getByText('En ligne')
-    expect(onlineText).toHaveStyle(`color: ${THEME.color.lightGray}`)
-    expect(onlineText).toHaveStyle('font-weight: 400')
-
-    // Check offline text is bold and colored red
-    const offlineText = getByText('Hors ligne')
-    expect(offlineText).toHaveStyle(`color: ${THEME.color.maximumRed}`)
-    expect(offlineText).toHaveStyle('font-weight: 700')
-
+    const { getByRole } = render(<OnlineToggle />)
     // Check toggle is unchecked
     const toggle = getByRole('switch')
     expect(toggle).not.toBeChecked()

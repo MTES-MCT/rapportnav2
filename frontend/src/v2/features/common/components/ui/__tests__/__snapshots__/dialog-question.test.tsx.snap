@@ -6,16 +6,16 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
   "baseElement": <body>
     <div>
       <div
-        class="sc-ggWZvA jdgKwO Component-Dialog"
+        class="sc-hKMtZL fjdFzf Component-Dialog"
       >
         <div
-          class="sc-dTvVRJ eLHUDB"
+          class="sc-eCYdqG doDrpP"
         />
         <div
-          class="sc-jwTyAe lernAL"
+          class="sc-jSMfEl hVQkqn"
         >
           <h4
-            class="sc-fhHczv hDFPnI"
+            class="sc-dkzDqg czjcTd"
           >
             <div
               class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
@@ -31,13 +31,13 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
                 class="rs-flex-box-grid-item rs-flex-box-grid-item-0"
               >
                 <button
-                  class="sc-dNdcvo bDxZrn Element-IconButton"
+                  class="sc-fnykZr ngkgW Element-IconButton"
                   data-testid="close-dialog-question"
                   role="dialog-question"
                   type="button"
                 >
                   <span
-                    class="sc-hjsuWn hZNHWy Element-IconBox"
+                    class="sc-gKXOVg iViTCG Element-IconBox"
                   >
                     <svg
                       height="20"
@@ -75,7 +75,7 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
             </div>
           </h4>
           <div
-            class="sc-hvigdm bPqtmR"
+            class="sc-gsnTZl gVCDdP"
           >
             <div
               class="rs-stack"
@@ -85,7 +85,7 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
                 class="rs-stack-item"
               >
                 <span
-                  class="sc-hjsuWn eVTFbL Element-IconBox"
+                  class="sc-gKXOVg dmaLuH Element-IconBox"
                 >
                   <svg
                     height="20"
@@ -148,26 +148,26 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
             </div>
           </div>
           <div
-            class="sc-bRKDuR cyuotf"
+            class="sc-bczRLG eXqiMS"
           >
             <button
-              class="sc-eknHtZ sc-jYczwO eIVVCb jxeylY Element-Button"
+              class="sc-kLLXSa sc-himrzR cprGSP hKSquf Element-Button"
               data-testid="dialog-question-cancel-button"
               type="button"
             >
               <span
-                class="sc-pYNGo enBrtN"
+                class="sc-ikZpkj deOXJE"
               >
                 Annuler
               </span>
             </button>
             <button
-              class="sc-eknHtZ sc-cCVJLD eIVVCb eUzjDK Element-Button"
+              class="sc-kLLXSa sc-jIZahI cprGSP dNvWIc Element-Button"
               data-testid="dialog-question-confirm-button"
               type="button"
             >
               <span
-                class="sc-pYNGo enBrtN"
+                class="sc-ikZpkj deOXJE"
               >
                 Confirmer
               </span>
@@ -201,16 +201,16 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="sc-ggWZvA jdgKwO Component-Dialog"
+      class="sc-hKMtZL fjdFzf Component-Dialog"
     >
       <div
-        class="sc-dTvVRJ eLHUDB"
+        class="sc-eCYdqG doDrpP"
       />
       <div
-        class="sc-jwTyAe lernAL"
+        class="sc-jSMfEl hVQkqn"
       >
         <h4
-          class="sc-fhHczv hDFPnI"
+          class="sc-dkzDqg czjcTd"
         >
           <div
             class="rs-flex-box-grid rs-flex-box-grid-middle rs-flex-box-grid-space-between"
@@ -226,13 +226,13 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
               class="rs-flex-box-grid-item rs-flex-box-grid-item-0"
             >
               <button
-                class="sc-dNdcvo bDxZrn Element-IconButton"
+                class="sc-fnykZr ngkgW Element-IconButton"
                 data-testid="close-dialog-question"
                 role="dialog-question"
                 type="button"
               >
                 <span
-                  class="sc-hjsuWn hZNHWy Element-IconBox"
+                  class="sc-gKXOVg iViTCG Element-IconBox"
                 >
                   <svg
                     height="20"
@@ -270,7 +270,7 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
           </div>
         </h4>
         <div
-          class="sc-hvigdm bPqtmR"
+          class="sc-gsnTZl gVCDdP"
         >
           <div
             class="rs-stack"
@@ -280,7 +280,7 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
               class="rs-stack-item"
             >
               <span
-                class="sc-hjsuWn eVTFbL Element-IconBox"
+                class="sc-gKXOVg dmaLuH Element-IconBox"
               >
                 <svg
                   height="20"
@@ -343,26 +343,26 @@ exports[`DialogQuestion > should match the snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-bRKDuR cyuotf"
+          class="sc-bczRLG eXqiMS"
         >
           <button
-            class="sc-eknHtZ sc-jYczwO eIVVCb jxeylY Element-Button"
+            class="sc-kLLXSa sc-himrzR cprGSP hKSquf Element-Button"
             data-testid="dialog-question-cancel-button"
             type="button"
           >
             <span
-              class="sc-pYNGo enBrtN"
+              class="sc-ikZpkj deOXJE"
             >
               Annuler
             </span>
           </button>
           <button
-            class="sc-eknHtZ sc-cCVJLD eIVVCb eUzjDK Element-Button"
+            class="sc-kLLXSa sc-jIZahI cprGSP dNvWIc Element-Button"
             data-testid="dialog-question-confirm-button"
             type="button"
           >
             <span
-              class="sc-pYNGo enBrtN"
+              class="sc-ikZpkj deOXJE"
             >
               Confirmer
             </span>

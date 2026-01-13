@@ -13,7 +13,7 @@ const TITLE_REGISTRY: T = {
     `${controlMethodToHumanString(action?.controlMethod)} - ${vesselTypeToHumanString(action?.vesselType)}`,
   [ActionType.CONTROL_NAUTICAL_LEISURE]: () => `de loisirs nautiques`,
   [ActionType.CONTROL_SECTOR]: (action: MissionTimelineAction) =>
-    `d'établissemennt - filière ${!action.sectorType ? '' : action.sectorType === SectorType.FISHING ? 'pêche' : 'plaisance'}`
+    `d'établissement - filière ${!action.sectorType ? '' : action.sectorType === SectorType.FISHING ? 'pêche' : 'plaisance'}`
 }
 
 const MissionTimelineItemNavControlCardTitle: FC<{ action?: MissionTimelineAction }> = ({ action }) => {

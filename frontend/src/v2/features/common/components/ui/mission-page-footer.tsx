@@ -1,17 +1,16 @@
 import Text from '@common/components/ui/text.tsx'
 import { Accent, Button, Icon, Size } from '@mtes-mct/monitor-ui'
 import { useState } from 'react'
+import { validate as uuidValidate } from 'uuid'
 import { useDate } from '../../hooks/use-date.tsx'
-import OnlineToggle from '../elements/online-toggle.tsx'
-import { useOnlineManager } from '../../hooks/use-online-manager.tsx'
+import { useOfflineMode } from '../../hooks/use-offline-mode.tsx'
 import { useOfflineSince } from '../../hooks/use-offline-since.tsx'
+import { useOnlineManager } from '../../hooks/use-online-manager.tsx'
 import useDeleteMissionMutation from '../../services/use-delete-mission.tsx'
 import useMission from '../../services/use-mission.tsx'
-import { MissionSourceEnum } from '../../types/mission-types.ts'
+import OnlineToggle from '../elements/online-toggle.tsx'
 import PageFooterWrapper from '../layout/page-footer-wrapper.tsx'
 import DialogQuestion from './dialog-question.tsx'
-import { useOfflineMode } from '../../hooks/use-offline-mode.tsx'
-import { validate as uuidValidate } from 'uuid'
 
 interface MissionPageFooterProps {
   missionId?: string
@@ -36,8 +35,6 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, type, 
   }
 
   const isDeleteButtonDisabled = !!mission && !uuidValidate(missionId)
-  // const isDeleteButtonDisabled = !(mission &&  [MissionSourceEnum.RAPPORTNAV, MissionSourceEnum.RAPPORT_NAV].includes(mission.data?.missionSource) )
-  debugger
 
   return (
     <>

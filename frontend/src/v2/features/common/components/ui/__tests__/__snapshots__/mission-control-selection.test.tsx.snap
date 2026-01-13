@@ -13,26 +13,26 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
           class="rs-stack-item"
         >
           <label
-            class="sc-gahYZc dVDTiJ Element-Label"
+            class="sc-bBXxYP jnWJrN Element-Label"
           >
             Type de contrôle
           </label>
           <fieldset
-            class="sc-DZJJV RRabk Element-Fieldset Field-MultiRadio"
+            class="sc-iTONeK jeQdtV Element-Fieldset Field-MultiRadio"
             id="_r_0_"
           >
             <div
-              class="sc-kUouGy hIVQIi Element-Fieldset__InnerBox"
+              class="sc-iAvgwp liJZFp Element-Fieldset__InnerBox"
             >
               <div
-                class="sc-zOxLx lmAHWp rs-radio-group rs-radio-group-default"
+                class="sc-ikjQzG kkWYHj rs-radio-group rs-radio-group-default"
                 role="radiogroup"
               >
                 <div
-                  class="sc-fYmhhH jaaEau Element-Field Field-Radio"
+                  class="sc-jdAMXo hUnHme Element-Field Field-Radio"
                 >
                   <div
-                    class="sc-jxYSNo coqezh rs-radio rs-radio-checked"
+                    class="sc-WCkqL HukAx rs-radio rs-radio-checked"
                   >
                     <div
                       class="rs-radio-checker"
@@ -67,10 +67,10 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  class="sc-fYmhhH jaaEau Element-Field Field-Radio"
+                  class="sc-jdAMXo hUnHme Element-Field Field-Radio"
                 >
                   <div
-                    class="sc-jxYSNo jDgArd rs-radio"
+                    class="sc-WCkqL buupxx rs-radio"
                   >
                     <div
                       class="rs-radio-checker"
@@ -120,7 +120,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
               style="width: 100%;"
             >
               <div
-                class="sc-lehtBJ hiSkVA"
+                class="sc-kngDgi WBjmm"
               >
                 <div
                   class="rs-stack"
@@ -131,7 +131,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                     style="width: 80%;"
                   >
                     <p
-                      class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
+                      class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
                       font-size="13"
                       weight="normal"
                     >
@@ -149,7 +149,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
               style="width: 100%;"
             >
               <div
-                class="sc-lehtBJ hiSkVA"
+                class="sc-kngDgi WBjmm"
               >
                 <div
                   class="rs-stack"
@@ -160,7 +160,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                     style="width: 80%;"
                   >
                     <p
-                      class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
+                      class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
                       font-size="13"
                       weight="normal"
                     >
@@ -178,7 +178,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
               style="width: 100%;"
             >
               <div
-                class="sc-lehtBJ hiSkVA"
+                class="sc-kngDgi WBjmm"
               >
                 <div
                   class="rs-stack"
@@ -189,7 +189,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                     style="width: 80%;"
                   >
                     <p
-                      class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
+                      class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
                       font-size="13"
                       weight="normal"
                     >
@@ -207,7 +207,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
               style="width: 100%;"
             >
               <div
-                class="sc-lehtBJ hiSkVA"
+                class="sc-kngDgi WBjmm"
               >
                 <div
                   class="rs-stack"
@@ -218,7 +218,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                     style="width: 80%;"
                   >
                     <p
-                      class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
+                      class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
                       font-size="13"
                       weight="normal"
                     >
@@ -236,7 +236,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
               style="width: 100%;"
             >
               <div
-                class="sc-lehtBJ hiSkVA"
+                class="sc-kngDgi WBjmm"
               >
                 <div
                   class="rs-stack"
@@ -247,7 +247,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                     style="width: 80%;"
                   >
                     <p
-                      class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
+                      class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
                       font-size="13"
                       weight="normal"
                     >
@@ -296,26 +296,26 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
         class="rs-stack-item"
       >
         <label
-          class="sc-gahYZc dVDTiJ Element-Label"
+          class="sc-bBXxYP jnWJrN Element-Label"
         >
           Type de contrôle
         </label>
         <fieldset
-          class="sc-DZJJV RRabk Element-Fieldset Field-MultiRadio"
+          class="sc-iTONeK jeQdtV Element-Fieldset Field-MultiRadio"
           id="_r_0_"
         >
           <div
-            class="sc-kUouGy hIVQIi Element-Fieldset__InnerBox"
+            class="sc-iAvgwp liJZFp Element-Fieldset__InnerBox"
           >
             <div
-              class="sc-zOxLx lmAHWp rs-radio-group rs-radio-group-default"
+              class="sc-ikjQzG kkWYHj rs-radio-group rs-radio-group-default"
               role="radiogroup"
             >
               <div
-                class="sc-fYmhhH jaaEau Element-Field Field-Radio"
+                class="sc-jdAMXo hUnHme Element-Field Field-Radio"
               >
                 <div
-                  class="sc-jxYSNo coqezh rs-radio rs-radio-checked"
+                  class="sc-WCkqL HukAx rs-radio rs-radio-checked"
                 >
                   <div
                     class="rs-radio-checker"
@@ -350,10 +350,10 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                 </div>
               </div>
               <div
-                class="sc-fYmhhH jaaEau Element-Field Field-Radio"
+                class="sc-jdAMXo hUnHme Element-Field Field-Radio"
               >
                 <div
-                  class="sc-jxYSNo jDgArd rs-radio"
+                  class="sc-WCkqL buupxx rs-radio"
                 >
                   <div
                     class="rs-radio-checker"
@@ -403,7 +403,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
             style="width: 100%;"
           >
             <div
-              class="sc-lehtBJ hiSkVA"
+              class="sc-kngDgi WBjmm"
             >
               <div
                 class="rs-stack"
@@ -414,7 +414,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   style="width: 80%;"
                 >
                   <p
-                    class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
+                    class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
                     font-size="13"
                     weight="normal"
                   >
@@ -432,7 +432,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
             style="width: 100%;"
           >
             <div
-              class="sc-lehtBJ hiSkVA"
+              class="sc-kngDgi WBjmm"
             >
               <div
                 class="rs-stack"
@@ -443,7 +443,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   style="width: 80%;"
                 >
                   <p
-                    class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
+                    class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
                     font-size="13"
                     weight="normal"
                   >
@@ -461,7 +461,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
             style="width: 100%;"
           >
             <div
-              class="sc-lehtBJ hiSkVA"
+              class="sc-kngDgi WBjmm"
             >
               <div
                 class="rs-stack"
@@ -472,7 +472,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   style="width: 80%;"
                 >
                   <p
-                    class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
+                    class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
                     font-size="13"
                     weight="normal"
                   >
@@ -490,7 +490,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
             style="width: 100%;"
           >
             <div
-              class="sc-lehtBJ hiSkVA"
+              class="sc-kngDgi WBjmm"
             >
               <div
                 class="rs-stack"
@@ -501,7 +501,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   style="width: 80%;"
                 >
                   <p
-                    class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
+                    class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
                     font-size="13"
                     weight="normal"
                   >
@@ -519,7 +519,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
             style="width: 100%;"
           >
             <div
-              class="sc-lehtBJ hiSkVA"
+              class="sc-kngDgi WBjmm"
             >
               <div
                 class="rs-stack"
@@ -530,7 +530,7 @@ exports[`IconVesselCommerce > should match the snapshot 1`] = `
                   style="width: 80%;"
                 >
                   <p
-                    class="sc-iRcyzz sc-fFmWCW jUHdyB hAFmCO"
+                    class="sc-kjEcyY sc-grVGCV fzruwA mNQFS"
                     font-size="13"
                     weight="normal"
                   >
