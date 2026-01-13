@@ -13,7 +13,8 @@ data class MissionGeneralInfoEntity2(
     val services: List<ServiceEntity>? = null
 ) {
     fun isCompleteForStats(): Boolean {
-        return when(data?.service?.serviceType) {
+        val serviceType = data?.service?.serviceType?: services?.first()?.serviceType
+        return when(serviceType) {
             ServiceTypeEnum.PAM -> this.isCompletePam()
             ServiceTypeEnum.ULAM -> this.isCompleteUlam()
             else -> false
