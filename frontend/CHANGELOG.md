@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.52.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.51.0...frontend@v2.52.0) (2026-01-14)
+
+
+### Features
+
+* **FishInfractions:** adapt to new data model ([c872c39](https://github.com/MTES-MCT/rapportnav2/commit/c872c395961997fc8af76145397f488b8861f9d6))
+
 ## [2.51.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.50.6...frontend@v2.51.0) (2026-01-13)
 
 
