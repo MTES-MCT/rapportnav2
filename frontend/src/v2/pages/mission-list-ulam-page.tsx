@@ -44,7 +44,7 @@ const MissionListUlamPage: React.FC = () => {
   return (
     <MissionListPageWrapper
       header={<MissionListPageHeaderWrapper title={<MissionListPageTitle user={user} />} />}
-      sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={getSidebarItems()} />}
+      sidebar={<MissionListPageSidebarWrapper defaultItemKey="missions" items={getSidebarItems()} />}
       footer={undefined}
     >
       <MissionListPageContentWrapper

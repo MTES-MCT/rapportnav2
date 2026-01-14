@@ -1,9 +1,10 @@
-import { useRouteError } from 'react-router-dom'
-import Text from '../features/common/components/ui/text.tsx'
+import { Button, Size } from '@mtes-mct/monitor-ui'
+import { useNavigate, useRouteError } from 'react-router-dom'
 import { Stack } from 'rsuite'
-import { THEME } from '@mtes-mct/monitor-ui'
+import Text from '../features/common/components/ui/text.tsx'
 
 export default function ErrorPage() {
+  const navigate = useNavigate()
   const error: any = useRouteError()
   console.error(error)
 
@@ -17,15 +18,25 @@ export default function ErrorPage() {
         style={{ width: '50%', height: '100vh', margin: '0 auto' }}
       >
         <Stack.Item alignSelf={'center'}>
-          <Text as={'h3'}>
-            Une erreur est survenue. Essayez de recharger la page. Si l'erreur persiste, veuillez contacter l'équipe
-            RapportNav avec une capture d'écran.
-          </Text>
+          {error.status === 404 && (
+            <Text as={'h1'} fontStyle="normal" weight="bold">
+              PAGE NON TROUVÉE
+            </Text>
+          )}
+          {error.status === 403 && <Text as={'h1'}> PAGE INTERDITE</Text>}
+          {![403, 404].includes(error.status) && (
+            <Text as={'h1'}>
+              <Text as={'h3'}>
+                Une erreur est survenue. Essayez de recharger la page. Si l'erreur persiste, veuillez contacter l'équipe
+                RapportNav avec une capture d'écran.
+              </Text>
+            </Text>
+          )}
         </Stack.Item>
-        <Stack.Item alignSelf={'center'}>
-          <Text as={'h4'} color={THEME.color.lightGray}>
-            {error ? `Unhandled Exception: ${error}.` : ''}
-          </Text>
+        <Stack.Item>
+          <Button size={Size.LARGE} onClick={() => navigate('/', { replace: true })} style={{ marginTop: 24 }}>
+            {`Retour à l'acceuil`}
+          </Button>
         </Stack.Item>
       </Stack>
     </div>

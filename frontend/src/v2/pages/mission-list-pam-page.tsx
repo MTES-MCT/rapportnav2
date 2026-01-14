@@ -12,15 +12,15 @@ import MissionListPageSidebarWrapper from '../features/common/components/ui/miss
 import MissionListPageTitle from '../features/common/components/ui/mission-list-page-title.tsx'
 import { useDate } from '../features/common/hooks/use-date.tsx'
 import { useMissionList } from '../features/common/hooks/use-mission-list.tsx'
+import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
 import { useOfflineMode } from '../features/common/hooks/use-offline-mode.tsx'
+import { useOnlineManager } from '../features/common/hooks/use-online-manager.tsx'
 import useMissionsQuery from '../features/common/services/use-missions.tsx'
 import { ExportMode, ExportReportType } from '../features/common/types/mission-export-types.ts'
 import { Mission2 } from '../features/common/types/mission-types.ts'
 import MissionListActionsPam from '../features/pam/components/element/mission-list/mission-list-actions-pam.tsx'
 import MissionListExportDialog from '../features/pam/components/element/mission-list/mission-list-export.tsx'
 import MissionListPam from '../features/pam/components/element/mission-list/mission-list-pam.tsx'
-import { useMissionReportExport } from '../features/common/hooks/use-mission-report-export.tsx'
-import { useOnlineManager } from '../features/common/hooks/use-online-manager.tsx'
 
 const MissionListPamPage: FC = () => {
   const { isLoggedIn } = useAuth()
@@ -96,7 +96,7 @@ const MissionListPamPage: FC = () => {
   return (
     <MissionListPageWrapper
       header={<MissionListPageHeaderWrapper title={<MissionListPageTitle userId={isLoggedIn()?.userId} />} />}
-      sidebar={<MissionListPageSidebarWrapper defaultItemKey="list" items={getSidebarItems()} />}
+      sidebar={<MissionListPageSidebarWrapper defaultItemKey="missions" items={getSidebarItems()} />}
       footer={
         <Stack style={{ width: '100%', height: '100%' }} justifyContent={'flex-end'} alignItems={'center'}>
           <Stack.Item style={{ marginRight: '4rem' }}>{isOfflineModeEnabled && <OnlineToggle />}</Stack.Item>
