@@ -2,9 +2,9 @@ import { FormikMultiRadio, FormikSelect } from '@mtes-mct/monitor-ui'
 import { Field, FieldProps, FormikProps } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
-import { Establishment } from 'src/v2/features/common/types/etablishment.ts'
 import { FormikEstablishment } from '../../../common/components/ui/formik-establishment.tsx'
 import { useSector } from '../../../common/hooks/use-sector.tsx'
+import { Establishment } from '../../../common/types/etablishment.ts'
 import { ActionControlInput } from '../../types/action-type.ts'
 
 const MissionActionItemSectorControlForm: FC<{ formik: FormikProps<ActionControlInput> }> = ({ formik }) => {

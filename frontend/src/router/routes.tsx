@@ -1,8 +1,6 @@
 export const ROOT_PATH = '/'
 export const LOGIN_PATH = '/login'
 export const SIGNUP_PATH = '/signup'
-export const PAM_V2_HOME_PATH = '/v2/pam/missions'
-export const ULAM_V2_HOME_PATH = '/v2/ulam/missions'
 
 /**
  * Redirects to a specified ID regardless of whether the current path is PAM or ULAM
@@ -24,8 +22,7 @@ export const navigateToActionId = (id, navigate) => {
   // ["v2", "{pam|ulam}", "missions", "{missionId}"]
   if (
     pathSegments.length >= 4 &&
-    pathSegments[0] === 'v2' &&
-    (pathSegments[1] === 'pam' || pathSegments[1] === 'ulam') &&
+    (pathSegments[0] === 'pam' || pathSegments[0] === 'ulam') &&
     pathSegments[2] === 'missions'
   ) {
     // Extract the product type (pam or ulam) and mission ID
@@ -33,11 +30,11 @@ export const navigateToActionId = (id, navigate) => {
     const missionId = pathSegments[3]
 
     // Construct the new URL ensuring we only have missionId and the new id
-    const newUrl = `/v2/${userType}/missions/${missionId}/${id}`
+    const newUrl = `/${userType}/missions/${missionId}/${id}`
 
     // Navigate to the new URL
     navigate(newUrl)
   } else {
-    console.error('Invalid path format. Expected /v2/{pam|ulam}/missions/{missionId}[/{oldId}]')
+    console.error('Invalid path format. Expected /{pam|ulam}/missions/{missionId}[/{oldId}]')
   }
 }

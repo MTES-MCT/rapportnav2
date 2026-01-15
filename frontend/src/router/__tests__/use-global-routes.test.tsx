@@ -36,66 +36,21 @@ describe('useGlobalRoutes', () => {
       logout: vi.fn(),
       navigateAndResetCache: vi.fn()
     })
-    mockUseStore.mockReturnValue({ isV2: false })
 
     const { result } = renderHook(() => useGlobalRoutes())
     expect(result.current.homeUrl).toBe(LOGIN_PATH)
   })
 
-  it('returns /v2/admin/crews for ADMIN role and v2', () => {
+  it('returns /admin for PAM ', () => {
     mockUseAuth.mockReturnValue({
       isAuthenticated: true,
       isLoggedIn: () => ({ roles: [RoleType.ADMIN], userId: 2 }) as Token,
       logout: vi.fn(),
       navigateAndResetCache: vi.fn()
     })
-    mockUseStore.mockReturnValue({ isV2: true })
-
     const { result } = renderHook(() => useGlobalRoutes())
-    expect(result.current.homeUrl).toBe('/v2/admin')
+    expect(result.current.homeUrl).toBe('/admin')
     expect(mockSetModuleType).toHaveBeenCalledWith(ModuleType.ADMIN)
-  })
-
-  it('returns /pam/missions for USER_PAM role and not v2', () => {
-    mockUseAuth.mockReturnValue({
-      isAuthenticated: true,
-      isLoggedIn: () => ({ roles: [RoleType.USER_PAM], userId: 2 }) as Token,
-      logout: vi.fn(),
-      navigateAndResetCache: vi.fn()
-    })
-    mockUseStore.mockReturnValue({ isV2: false })
-
-    const { result } = renderHook(() => useGlobalRoutes())
-    expect(result.current.homeUrl).toBe('/pam/missions')
-    expect(mockSetModuleType).toHaveBeenCalledWith(ModuleType.PAM)
-  })
-
-  it('returns /ulam/missions for USER_ULAM role and not v2', () => {
-    mockUseAuth.mockReturnValue({
-      isAuthenticated: true,
-      isLoggedIn: () => ({ roles: [RoleType.USER_ULAM], userId: 2 }) as Token,
-      logout: vi.fn(),
-      navigateAndResetCache: vi.fn()
-    })
-    mockUseStore.mockReturnValue({ isV2: false })
-
-    const { result } = renderHook(() => useGlobalRoutes())
-    expect(result.current.homeUrl).toBe('/ulam/missions')
-    expect(mockSetModuleType).toHaveBeenCalledWith(ModuleType.ULAM)
-  })
-
-  it('returns /v2/pam/missions for USER_PAM role and v2', () => {
-    mockUseAuth.mockReturnValue({
-      isAuthenticated: true,
-      isLoggedIn: () => ({ roles: [RoleType.USER_PAM], userId: 2 }) as Token,
-      logout: vi.fn(),
-      navigateAndResetCache: vi.fn()
-    })
-    mockUseStore.mockReturnValue({ isV2: true })
-
-    const { result } = renderHook(() => useGlobalRoutes())
-    expect(result.current.homeUrl).toBe('/v2/pam/missions')
-    expect(mockSetModuleType).toHaveBeenCalledWith(ModuleType.PAM)
   })
 
   it('defaults to PAM if user has no roles', () => {
@@ -105,8 +60,6 @@ describe('useGlobalRoutes', () => {
       logout: vi.fn(),
       navigateAndResetCache: vi.fn()
     })
-    mockUseStore.mockReturnValue({ isV2: false })
-
     const { result } = renderHook(() => useGlobalRoutes())
     expect(result.current.homeUrl).toBe('/pam/missions')
     expect(mockSetModuleType).toHaveBeenCalledWith(ModuleType.PAM)
@@ -119,7 +72,6 @@ describe('useGlobalRoutes', () => {
       logout: vi.fn(),
       navigateAndResetCache: vi.fn()
     })
-    mockUseStore.mockReturnValue({ isV2: false })
 
     const { result } = renderHook(() => useGlobalRoutes())
     expect(result.current.homeUrl).toBe('/pam/missions')
@@ -138,7 +90,7 @@ describe('useGlobalRoutes', () => {
     })
 
     it('generates URL without params for v1', () => {
-      mockUseStore.mockReturnValue({ isV2: false, type: 'pam' })
+      mockUseStore.mockReturnValue({ type: 'pam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const url = result.current.getUrl(OwnerType.MISSION)
@@ -146,17 +98,8 @@ describe('useGlobalRoutes', () => {
       expect(url).toBe('/pam/missions')
     })
 
-    it('generates URL without params for v2', () => {
-      mockUseStore.mockReturnValue({ isV2: true, type: 'pam' })
-
-      const { result } = renderHook(() => useGlobalRoutes())
-      const url = result.current.getUrl(OwnerType.MISSION)
-
-      expect(url).toBe('/v2/pam/missions')
-    })
-
     it('generates URL with simple string params', () => {
-      mockUseStore.mockReturnValue({ isV2: false, type: 'pam' })
+      mockUseStore.mockReturnValue({ type: 'pam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const params = { status: 'active', search: 'test' }
@@ -166,7 +109,7 @@ describe('useGlobalRoutes', () => {
     })
 
     it('generates URL with Date params converted to ISO string', () => {
-      mockUseStore.mockReturnValue({ isV2: true, type: 'pam' })
+      mockUseStore.mockReturnValue({ type: 'pam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const startDate = new Date('2025-01-01T00:00:00.000Z')
@@ -178,12 +121,12 @@ describe('useGlobalRoutes', () => {
       const url = result.current.getUrl(OwnerType.MISSION, params)
 
       expect(url).toBe(
-        '/v2/pam/missions?startDateTimeUtc=2025-01-01T00%3A00%3A00.000Z&endDateTimeUtc=2025-12-31T23%3A59%3A59.999Z'
+        '/pam/missions?startDateTimeUtc=2025-01-01T00%3A00%3A00.000Z&endDateTimeUtc=2025-12-31T23%3A59%3A59.999Z'
       )
     })
 
     it('generates URL with mixed param types', () => {
-      mockUseStore.mockReturnValue({ isV2: false, type: 'ulam' })
+      mockUseStore.mockReturnValue({ type: 'ulam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const params = {
@@ -198,7 +141,7 @@ describe('useGlobalRoutes', () => {
     })
 
     it('filters out null and undefined params', () => {
-      mockUseStore.mockReturnValue({ isV2: false, type: 'pam' })
+      mockUseStore.mockReturnValue({ type: 'pam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const params = {
@@ -213,16 +156,16 @@ describe('useGlobalRoutes', () => {
     })
 
     it('handles empty params object', () => {
-      mockUseStore.mockReturnValue({ isV2: true, type: 'admin' })
+      mockUseStore.mockReturnValue({ type: 'admin' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const url = result.current.getUrl(OwnerType.MISSION, {})
 
-      expect(url).toBe('/v2/admin/missions')
+      expect(url).toBe('/admin/missions')
     })
 
     it('handles params with special characters that need encoding', () => {
-      mockUseStore.mockReturnValue({ isV2: false, type: 'pam' })
+      mockUseStore.mockReturnValue({ type: 'pam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const params = {
@@ -235,19 +178,19 @@ describe('useGlobalRoutes', () => {
     })
 
     it('works with different OwnerType values', () => {
-      mockUseStore.mockReturnValue({ isV2: true, type: 'admin' })
+      mockUseStore.mockReturnValue({ type: 'admin' })
 
       const { result } = renderHook(() => useGlobalRoutes())
 
       const missionUrl = result.current.getUrl(OwnerType.MISSION, { type: 'active' })
       const inquiryUrl = result.current.getUrl(OwnerType.INQUIRY, { status: 'available' })
 
-      expect(missionUrl).toBe('/v2/admin/missions?type=active')
-      expect(inquiryUrl).toBe('/v2/admin/inquiries?status=available')
+      expect(missionUrl).toBe('/admin/missions?type=active')
+      expect(inquiryUrl).toBe('/admin/inquiries?status=available')
     })
 
     it('handles numeric zero values correctly', () => {
-      mockUseStore.mockReturnValue({ isV2: false, type: 'pam' })
+      mockUseStore.mockReturnValue({ type: 'pam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const params = {
@@ -261,7 +204,7 @@ describe('useGlobalRoutes', () => {
     })
 
     it('handles boolean false values correctly', () => {
-      mockUseStore.mockReturnValue({ isV2: true, type: 'pam' })
+      mockUseStore.mockReturnValue({ type: 'pam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const params = {
@@ -271,11 +214,11 @@ describe('useGlobalRoutes', () => {
       }
       const url = result.current.getUrl(OwnerType.MISSION, params)
 
-      expect(url).toBe('/v2/pam/missions?archived=false&active=true&status=pending')
+      expect(url).toBe('/pam/missions?archived=false&active=true&status=pending')
     })
 
     it('handles array values by converting to string', () => {
-      mockUseStore.mockReturnValue({ isV2: false, type: 'ulam' })
+      mockUseStore.mockReturnValue({ type: 'ulam' })
 
       const { result } = renderHook(() => useGlobalRoutes())
       const params = {

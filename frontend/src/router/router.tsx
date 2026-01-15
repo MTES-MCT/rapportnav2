@@ -1,4 +1,4 @@
-import { LOGIN_PATH, PAM_V2_HOME_PATH, ROOT_PATH, SIGNUP_PATH, ULAM_V2_HOME_PATH } from '@router/routes.tsx'
+import { LOGIN_PATH, ROOT_PATH, SIGNUP_PATH } from '@router/routes.tsx'
 import { wrapCreateBrowserRouterV6 } from '@sentry/react'
 import { createBrowserRouter } from 'react-router-dom'
 import ErrorPage from '../pages/error-page.tsx'
@@ -31,9 +31,8 @@ export const router = sentryCreateBrowserRouter([
     path: SIGNUP_PATH,
     element: <SignUp />
   },
-  //V2
   {
-    path: ULAM_V2_HOME_PATH,
+    path: '/ulam/missions',
     element: (
       <AuthGuard>
         <MissionListUlamPage />
@@ -42,7 +41,7 @@ export const router = sentryCreateBrowserRouter([
     errorElement: <ErrorPage />
   },
   {
-    path: `${ULAM_V2_HOME_PATH}/:missionId/:actionId?`,
+    path: `/ulam/missions/:missionId/:actionId?`,
     element: (
       <AuthGuard>
         <MissionUlamPage />
@@ -51,7 +50,7 @@ export const router = sentryCreateBrowserRouter([
     errorElement: <ErrorPage />
   },
   {
-    path: `${'/v2/ulam/inquiries'}?`,
+    path: `${'/ulam/inquiries'}?`,
     element: (
       <AuthGuard>
         <InquiryListPage />
@@ -60,7 +59,7 @@ export const router = sentryCreateBrowserRouter([
     errorElement: <ErrorPage />
   },
   {
-    path: `${'/v2/ulam/inquiries'}/:inquiryId/:actionId?`,
+    path: `${'/ulam/inquiries'}/:inquiryId/:actionId?`,
     element: (
       <AuthGuard>
         <InquiryPage />
@@ -70,7 +69,7 @@ export const router = sentryCreateBrowserRouter([
   },
 
   {
-    path: PAM_V2_HOME_PATH,
+    path: '/pam/missions',
     element: (
       <AuthGuard>
         <MissionListPamPage />
@@ -78,7 +77,6 @@ export const router = sentryCreateBrowserRouter([
     ),
     errorElement: <ErrorPage />
   },
-  // redirect non prefixed v2 page to v2 component
   {
     path: `/pam/missions`,
     element: (
@@ -89,7 +87,7 @@ export const router = sentryCreateBrowserRouter([
     errorElement: <ErrorPage />
   },
   {
-    path: `${PAM_V2_HOME_PATH}/:missionId/:actionId?`,
+    path: `/pam/missions/:missionId/:actionId?`,
     element: (
       <AuthGuard>
         <MissionPamPage />
@@ -97,9 +95,8 @@ export const router = sentryCreateBrowserRouter([
     ),
     errorElement: <ErrorPage />
   },
-  // admin pages :
   {
-    path: '/v2/admin',
+    path: '/admin',
     element: (
       <AuthGuard>
         <AdminGuard>

@@ -11,7 +11,7 @@ import { LOGIN_PATH } from './routes'
 
 type SidebarItem = {
   key: string
-  url: OwnerType
+  url: string
   icon: any
 }
 
@@ -22,19 +22,19 @@ const ROUTES = {
 }
 
 const MISSION_SIDEBAR = {
-  key: 'list',
-  url: OwnerType.MISSION,
+  key: 'missions',
+  url: '/missions',
   icon: Icon.MissionAction
 }
 
 const INQUIRY_SIDEBAR = {
   key: 'inquiries',
-  url: OwnerType.INQUIRY,
+  url: '/inquiries',
   icon: Icon.Archive
 }
 const ADMIN_SIDEBAR = {
   key: 'admin',
-  url: OwnerType.ADMIN,
+  url: '/admin',
   icon: Icon.GroupPerson
 }
 
@@ -47,7 +47,7 @@ type RouteHook = {
 export function useGlobalRoutes(): RouteHook {
   const [homeUrl, setHomeUrl] = useState<string>()
   const { isLoggedIn, isAuthenticated } = useAuth()
-  const { isV2, type } = useStore(store, (state: State) => state.module)
+  const module = useStore(store, (state: State) => state.module)
 
   const getPageParams = (params?: object): URLSearchParams => {
     const searchParams = new URLSearchParams()
@@ -68,23 +68,26 @@ export function useGlobalRoutes(): RouteHook {
   }
 
   const getUrl = (page: OwnerType, params?: object) => {
-    const baseUrl = isV2 ? '/v2' : ''
-    if (page === OwnerType.ADMIN) return `${baseUrl}/${page.toString()}`
-
-    let url = `${baseUrl}/${type}/${page.toString()}`
+    let url = `/${module?.type}/${page.toString()}`
     const searchParams = getPageParams(params)
     if (searchParams.toString()) url += `?${searchParams.toString()}`
     return url
+  }
+
+  const getModuleType = (roles?: RoleType[]) => {
+    if (roles?.includes(RoleType.USER_PAM)) return ModuleType.PAM
+    if (roles?.includes(RoleType.USER_ULAM)) return ModuleType.ULAM
+    if (roles?.includes(RoleType.ADMIN)) return ModuleType.ADMIN
+    return ModuleType.PAM
   }
 
   useEffect(() => {
     const getUrl = () => {
       if (!isAuthenticated) return LOGIN_PATH
       const user = isLoggedIn()
-      const baseUrl = isV2 ? '/v2' : ''
-      const moduleType = ROUTES[user?.roles[0] ?? RoleType.USER_PAM]
+      const moduleType = getModuleType(user?.roles)
       const page = moduleType === ModuleType.ADMIN ? '' : '/missions'
-      const homeUrl = `${baseUrl}/${moduleType}${page}`
+      const homeUrl = `/${moduleType}${page}`
 
       setHomeUrl(homeUrl)
       setModuleType(moduleType)
@@ -93,12 +96,17 @@ export function useGlobalRoutes(): RouteHook {
     }
 
     setHomeUrl(getUrl())
-  }, [isAuthenticated, isLoggedIn, isV2])
+  }, [isAuthenticated, isLoggedIn])
+
+  const getSideBar = (sideBar: SidebarItem, roles?: RoleType[]) => {
+    const module = roles?.includes(RoleType.USER_ULAM) ? ModuleType.ULAM : ModuleType.PAM
+    return { ...sideBar, url: `/${module}${sideBar.url}` }
+  }
 
   const getSidebarItems = () => {
     const roles = isLoggedIn()?.roles
-    const SIDEBAR_ITEMS = [MISSION_SIDEBAR]
-    if (roles?.includes(RoleType.USER_ULAM)) SIDEBAR_ITEMS.push(INQUIRY_SIDEBAR)
+    const SIDEBAR_ITEMS = [getSideBar(MISSION_SIDEBAR, roles)]
+    if (roles?.includes(RoleType.USER_ULAM)) SIDEBAR_ITEMS.push(getSideBar(INQUIRY_SIDEBAR, roles))
     if (roles?.includes(RoleType.ADMIN)) SIDEBAR_ITEMS.push(ADMIN_SIDEBAR)
     return SIDEBAR_ITEMS
   }

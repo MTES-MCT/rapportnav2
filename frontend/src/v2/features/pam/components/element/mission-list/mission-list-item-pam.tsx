@@ -1,14 +1,15 @@
 import Text from '@common/components/ui/text.tsx'
 import { Checkbox, Icon, THEME } from '@mtes-mct/monitor-ui'
-import { PAM_V2_HOME_PATH } from '@router/routes.tsx'
+import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import { FC } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { FlexboxGrid, Stack } from 'rsuite'
 import styled from 'styled-components'
 import MissionCompletenessForStatsTag from '../../../../common/components/elements/mission-completeness-for-stats-tag.tsx'
 import MissionSourceTag from '../../../../common/components/ui/mission-source-tag.tsx'
 import MissionStatusTag from '../../../../common/components/ui/mission-status-tag.tsx'
 import { MissionListItem } from '../../../../common/types/mission-types.ts'
+import { OwnerType } from '../../../../common/types/owner-type.ts'
 import MissionInterServicesTag from '../../ui/mission-interservices-tag.tsx'
 
 interface MissionListItemProps {
@@ -23,6 +24,13 @@ const ListItem = styled.div`
 `
 
 const MissionListItemPam: FC<MissionListItemProps> = ({ mission, isSelected, onToggle }) => {
+  const navigate = useNavigate()
+  const { getUrl } = useGlobalRoutes()
+  const goToMission = (mission: MissionListItem) => {
+    const id = mission?.id ?? mission.idUUID
+    if (id) navigate(`${getUrl(OwnerType.MISSION)}/${mission?.id}`)
+  }
+
   return (
     <ListItem data-testid={'mission-list-item'}>
       <FlexboxGrid align="middle" style={{ height: '64px', padding: '0.5rem 2rem', marginBottom: '4px' }}>
@@ -99,16 +107,7 @@ const MissionListItemPam: FC<MissionListItemProps> = ({ mission, isSelected, onT
         </FlexboxGrid.Item>
 
         <FlexboxGrid.Item colspan={1} data-testid={'mission-list-item-icon-edit'}>
-          <Link
-            to={`${PAM_V2_HOME_PATH}/${mission?.id}`}
-            style={{
-              textDecoration: 'none',
-              textAlign: 'right',
-              display: 'block'
-            }}
-          >
-            <Icon.Edit size={20} style={{ color: THEME.color.charcoal }} />
-          </Link>
+          <Icon.Edit size={20} style={{ color: THEME.color.charcoal }} onClick={e => goToMission(mission)} />
         </FlexboxGrid.Item>
       </FlexboxGrid>
     </ListItem>

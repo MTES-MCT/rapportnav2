@@ -1,6 +1,6 @@
 import Text from '@common/components/ui/text.tsx'
 import { Accent, Icon, IconButton, THEME } from '@mtes-mct/monitor-ui'
-import { ULAM_V2_HOME_PATH } from '@router/routes.tsx'
+import { useGlobalRoutes } from '@router/use-global-routes.tsx'
 import React, { MouseEvent, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Divider, FlexboxGrid, Stack } from 'rsuite'
@@ -9,6 +9,7 @@ import MissionCompletenessForStatsTag from '../../../../common/components/elemen
 import MissionSourceTag from '../../../../common/components/ui/mission-source-tag.tsx'
 import MissionStatusTag from '../../../../common/components/ui/mission-status-tag.tsx'
 import { MissionListItem } from '../../../../common/types/mission-types.ts'
+import { OwnerType } from '../../../../common/types/owner-type.ts'
 import { User } from '../../../../common/types/user.ts'
 import { useUlamCrewForMissionList } from '../../../hooks/use-ulam-crew-for-mission-list.tsx'
 import { useControlUnitResourceLabel } from '../../../hooks/use-ulam-home-unit-resources.tsx'
@@ -51,6 +52,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
   user
 }) => {
   const navigate = useNavigate()
+  const { getUrl } = useGlobalRoutes()
   const missionCrew = useUlamCrewForMissionList(mission.crew)
   const controlUnitResourcesText = useControlUnitResourceLabel(
     mission.controlUnits,
@@ -98,7 +100,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
 
   const goToMission = (mission: MissionListItem) => {
     const id = mission?.id ?? mission.idUUID
-    if (id) navigate(`${ULAM_V2_HOME_PATH}/${mission?.id ?? mission.idUUID}`)
+    if (id) navigate(`${getUrl(OwnerType.MISSION)}/${mission?.id ?? mission.idUUID}`)
   }
 
   return (
@@ -149,7 +151,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
         <FlexboxGrid.Item colspan={1} data-testid={'mission-list-item-icon-edit'} style={{ textAlign: 'right' }}>
           <Stack spacing={'1rem'} justifyContent={'flex-end'}>
             <Stack.Item>
-              <IconButton //
+              <IconButton
                 Icon={Icon.Chevron}
                 accent={Accent.TERTIARY}
                 data-testid={'expand-collapse-btn'}
@@ -157,7 +159,7 @@ const MissionListItemUlam: React.FC<MissionListItemProps> = ({
               />
             </Stack.Item>
             <Stack.Item>
-              <IconButton //
+              <IconButton
                 Icon={Icon.Edit}
                 accent={Accent.TERTIARY}
                 data-testid={'go-to-mission-btn'}
