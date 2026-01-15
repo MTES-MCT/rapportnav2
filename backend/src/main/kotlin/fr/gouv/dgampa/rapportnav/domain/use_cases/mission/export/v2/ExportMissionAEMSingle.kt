@@ -37,7 +37,11 @@ class ExportMissionAEMSingle(
     }
 
     fun createFile(mission: MissionEntity?): MissionExportEntity? {
-        if (mission == null) return null
+        logger.info("Create AEM file - mission=${mission}")
+        if (mission == null) {
+            logger.error("Create AEM file failed - mission is null for missionId: ${mission?.id}")
+            return null
+        }
         return try {
 
             val inputStream = javaClass.getResourceAsStream(aemTemplatePath)
@@ -68,7 +72,7 @@ class ExportMissionAEMSingle(
                     fileContent = base64Content
                 )
             } else {
-                logger.error("Mission or mission actions are null for missionId: ${mission.id}")
+                logger.error("Create AEM file failed - Mission actions are null for missionId: ${mission?.id}")
                 null
             }
         } catch (e: Exception) {
