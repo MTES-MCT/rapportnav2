@@ -68,19 +68,24 @@ export function useGlobalRoutes(): RouteHook {
   }
 
   const getUrl = (page: OwnerType, params?: object) => {
-    if (page === OwnerType.ADMIN) return `/${page.toString()}`
-
     let url = `/${module?.type}/${page.toString()}`
     const searchParams = getPageParams(params)
     if (searchParams.toString()) url += `?${searchParams.toString()}`
     return url
   }
 
+  const getModuleType = (roles?: RoleType[]) => {
+    if (roles?.includes(RoleType.USER_PAM)) return ModuleType.PAM
+    if (roles?.includes(RoleType.USER_ULAM)) return ModuleType.ULAM
+    if (roles?.includes(RoleType.ADMIN)) return ModuleType.ADMIN
+    return ModuleType.PAM
+  }
+
   useEffect(() => {
     const getUrl = () => {
       if (!isAuthenticated) return LOGIN_PATH
       const user = isLoggedIn()
-      const moduleType = ROUTES[user?.roles[0] ?? RoleType.USER_PAM]
+      const moduleType = getModuleType(user?.roles)
       const page = moduleType === ModuleType.ADMIN ? '' : '/missions'
       const homeUrl = `/${moduleType}${page}`
 
