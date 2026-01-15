@@ -63,13 +63,9 @@ class MissionFishAction(
                     speciesWeightControlled = fishAction.speciesWeightControlled,
                     speciesSizeControlled = fishAction.speciesSizeControlled,
                     separateStowageOfPreservedSpecies = fishAction.separateStowageOfPreservedSpecies,
-                    logbookInfractions = fishAction.logbookInfractions?: listOf(),
                     licencesAndLogbookObservations = fishAction.licencesAndLogbookObservations,
-                    gearInfractions = fishAction.gearInfractions?: listOf(),
-                    speciesInfractions = fishAction.speciesInfractions?: listOf(),
                     speciesObservations = fishAction.speciesObservations,
                     seizureAndDiversion = fishAction.seizureAndDiversion,
-                    otherInfractions = fishAction.otherInfractions?: listOf(),
                     numberOfVesselsFlownOver = fishAction.numberOfVesselsFlownOver,
                     unitWithoutOmegaGauge = fishAction.unitWithoutOmegaGauge,
                     controlQualityComments = fishAction.controlQualityComments,
@@ -98,7 +94,8 @@ class MissionFishAction(
                     isSeafarersControl = fishAction.isSeafarersControl,
                     observationsByUnit = fishAction.observationsByUnit,
                     speciesQuantitySeized = fishAction.speciesQuantitySeized,
-                    targets = fishAction.targets?.map { Target2.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc }
+                    targets = fishAction.targets?.map { Target2.fromTargetEntity(it) }?.sortedBy { it.startDateTimeUtc },
+                    fishInfractions = fishAction.fishInfractions
                 )
             )
         }

@@ -1,7 +1,7 @@
 import { MissionActionType } from '@common/types/fish-mission-types.ts'
 import { FormikEffect, FormikTextarea, Label, TextInput, THEME } from '@mtes-mct/monitor-ui'
 import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'formik'
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { FormikDateRangePicker } from '../../../common/components/ui/formik-date-range-picker'
 import MissionIncompleteControlTag from '../../../common/components/ui/mission-incomplete-control-tag'
@@ -10,7 +10,6 @@ import { MissionAction } from '../../../common/types/mission-action'
 import MissionControlFishAdministrativeSection from '../../../mission-control/components/ui/mission-control-fish-administrative-section'
 import FishControlEnginesSection from '../../../mission-control/components/ui/mission-control-fish-engines-section'
 import FishControlFleetSegmentSection from '../../../mission-control/components/ui/mission-control-fish-fleet-segment-section'
-import FishControlOtherInfractionsSection from '../../../mission-control/components/ui/mission-control-fish-other-infractions-section'
 import FishControlOtherObservationsSection from '../../../mission-control/components/ui/mission-control-fish-other-observation-section'
 import FishControlSeizureSection from '../../../mission-control/components/ui/mission-control-fish-seizure-section'
 import FishControlSpeciesSection from '../../../mission-control/components/ui/mission-control-fish-species-section'
@@ -18,6 +17,7 @@ import MissionTargetControlNav from '../../../mission-target/components/elements
 import { useMissionActionFishControl } from '../../hooks/use-mission-action-fish-control'
 import { ActionFishControlInput } from '../../types/action-type'
 import { MissionActionFormikCoordinateInputDMD } from '../ui/mission-action-formik-coordonate-input-dmd'
+import MissionInfractionFishSummary from '../../../mission-infraction/components/elements/mission-infraction-fish-summary.tsx'
 
 const MissionActionItemFishControl: FC<{
   action: MissionAction
@@ -89,9 +89,6 @@ const MissionActionItemFishControl: FC<{
                   <FishControlSeizureSection action={values} />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
-                  <FishControlOtherInfractionsSection action={values} />
-                </Stack.Item>
-                <Stack.Item style={{ width: '100%' }}>
                   <FishControlOtherObservationsSection action={values} />
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
@@ -99,6 +96,24 @@ const MissionActionItemFishControl: FC<{
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <FishControlFleetSegmentSection action={values} />
+                </Stack.Item>
+                <Stack.Item style={{ width: '100%' }}>
+                  <Divider style={{ backgroundColor: THEME.color.charcoal }} />
+                </Stack.Item>
+                <Stack.Item style={{ width: '100%' }}>
+                  <Stack direction="column" alignItems="flex-start" spacing={'0.2rem'}>
+                    <Stack.Item>
+                      <Label>Infractions</Label>
+                    </Stack.Item>
+                    <Stack.Item style={{ width: '100%' }}>
+                      <MissionInfractionFishSummary
+                        showIndex={true}
+                        isActionDisabled={true}
+                        infractions={action.data.fishInfractions ?? []}
+                        title="Infraction"
+                      />
+                    </Stack.Item>
+                  </Stack>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
                   <Stack direction="column" alignItems="flex-start">

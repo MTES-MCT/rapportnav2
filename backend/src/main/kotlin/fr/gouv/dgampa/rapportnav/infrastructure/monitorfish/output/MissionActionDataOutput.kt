@@ -1,9 +1,44 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.ControlUnit
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import java.time.ZonedDateTime
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+data class MissionActionInfractionDataOutput(
+    val infractionType: InfractionType,
+    // This field is used to control the Threat CheckTreePicker
+    val threats: List<ThreatHierarchyDataOutput>? = null,
+    val natinf: Int? = null,
+    val natinfDescription: String? = null,
+    val threat: String? = null,
+    val threatCharacterization: String? = null,
+    val comments: String? = null,
+) {
+    companion object {
+        fun fromInfractionWithThreatHierarchy(infraction: Infraction) =
+            MissionActionInfractionDataOutput(
+                infractionType = infraction.infractionType!!,
+                threats =
+                    listOf(
+                        InfractionThreatCharacterizationDataOutput.fromInfraction(infraction),
+                    ),
+                comments = infraction.comments,
+            )
+
+        fun fromInfraction(infraction: Infraction) =
+            MissionActionInfractionDataOutput(
+                infractionType = infraction.infractionType!!,
+                natinf = infraction.natinf,
+                natinfDescription = infraction.natinfDescription,
+                threat = infraction.threat ?: "Famille inconnue",
+                threatCharacterization = infraction.threatCharacterization ?: "Type inconnu",
+                comments = infraction.comments,
+            )
+    }
+}
 
 data class MissionActionDataOutput(
     val id: Int? = null,
@@ -12,7 +47,7 @@ data class MissionActionDataOutput(
     val internalReferenceNumber: String? = null,
     val externalReferenceNumber: String? = null,
     val ircs: String? = null,
-    val flagState: CountryCode? = null,
+    val flagState: CountryCode,
     val districtCode: String? = null,
     val faoAreas: List<String> = listOf(),
     val flightGoals: List<FlightGoal> = listOf(),
@@ -27,17 +62,13 @@ data class MissionActionDataOutput(
     val speciesWeightControlled: Boolean? = null,
     val speciesSizeControlled: Boolean? = null,
     val separateStowageOfPreservedSpecies: ControlCheck? = null,
-    val logbookInfractions: List<LogbookInfraction> = listOf(),
     val licencesAndLogbookObservations: String? = null,
-    val gearInfractions: List<GearInfraction> = listOf(),
-    val speciesInfractions: List<SpeciesInfraction> = listOf(),
+    val infractions: List<MissionActionInfractionDataOutput> = listOf(),
     val speciesObservations: String? = null,
     val seizureAndDiversion: Boolean? = null,
-    val otherInfractions: List<OtherInfraction> = listOf(),
     val numberOfVesselsFlownOver: Int? = null,
     val unitWithoutOmegaGauge: Boolean? = null,
     val controlQualityComments: String? = null,
-    val feedbackSheetRequired: Boolean? = null,
     val segments: List<FleetSegment> = listOf(),
     val facade: String? = null,
     val longitude: Double? = null,
@@ -53,6 +84,7 @@ data class MissionActionDataOutput(
     val vesselTargeted: ControlCheck? = null,
     val hasSomeGearsSeized: Boolean,
     val hasSomeSpeciesSeized: Boolean,
+    val speciesQuantitySeized: Int? = null,
     val completedBy: String? = null,
     val completion: Completion,
     val isFromPoseidon: Boolean,
@@ -85,17 +117,12 @@ data class MissionActionDataOutput(
             speciesWeightControlled = this.speciesWeightControlled,
             speciesSizeControlled = this.speciesSizeControlled,
             separateStowageOfPreservedSpecies = this.separateStowageOfPreservedSpecies,
-            logbookInfractions = this.logbookInfractions,
             licencesAndLogbookObservations = this.licencesAndLogbookObservations,
-            gearInfractions = this.gearInfractions,
-            speciesInfractions = this.speciesInfractions,
             speciesObservations = this.speciesObservations,
             seizureAndDiversion = this.seizureAndDiversion,
-            otherInfractions = this.otherInfractions,
             numberOfVesselsFlownOver = this.numberOfVesselsFlownOver,
             unitWithoutOmegaGauge = this.unitWithoutOmegaGauge,
             controlQualityComments = this.controlQualityComments,
-            feedbackSheetRequired = this.feedbackSheetRequired,
             userTrigram = this.userTrigram,
             segments = this.segments,
             facade = this.facade,
@@ -119,7 +146,8 @@ data class MissionActionDataOutput(
             isComplianceWithWaterRegulationsControl = this.isComplianceWithWaterRegulationsControl,
             isSafetyEquipmentAndStandardsComplianceControl = this.isSafetyEquipmentAndStandardsComplianceControl,
             isSeafarersControl = this.isSeafarersControl,
-            observationsByUnit = this.observationsByUnit
+            observationsByUnit = this.observationsByUnit,
+            speciesQuantitySeized = this.speciesQuantitySeized
         )
     }
 }

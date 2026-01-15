@@ -5,10 +5,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.ExtendedEnvMissionEntit
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.GearInfraction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookInfraction
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.OtherInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
@@ -108,12 +104,8 @@ class AEMTableExportTest {
             ExtendedFishActionEntityMock.create(
                 controlAction = ExtendedFishActionControlEntity(
                     action = FishActionControlMock.create(
-                        speciesInfractions = listOf(),
-                        otherInfractions = listOf(OtherInfraction()),
                         actionDatetimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                         actionEndDatetimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
-                        gearInfractions = listOf(GearInfraction(infractionType = InfractionType.WITH_RECORD)),
-                        logbookInfractions = listOf(LogbookInfraction(infractionType = InfractionType.WITHOUT_RECORD))
                     )
                 )
             )

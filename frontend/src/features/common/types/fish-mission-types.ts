@@ -53,39 +53,13 @@ export type GearControl = {
   hasUncontrolledMesh: boolean
 }
 
-export type GearInfraction = {
-  id?: string
-  comments: string
-  infractionType: InfractionType
-  natinf: number
-  natinfs?: string[]
-  observations?: string
-}
-
 export type Infraction = {
-  infraction: string
-  infractionCategory: string
-  natinfCode: number
-  regulation: string
-}
-
-export type LogbookInfraction = {
-  id?: string
-  comments: string
-  infractionType: InfractionType
-  // TODO This should be a plural.
-  natinf: number
-  natinfs?: string[]
-  observations?: string
-}
-
-export type OtherInfraction = {
-  id?: string
-  comments: string
-  infractionType: InfractionType
-  natinf: number
-  natinfs?: string[]
-  observations?: string
+  infractionType?: InfractionType
+  natinf?: number
+  natinfDescription?: string
+  threat?: string
+  threatCharacterization?: string
+  comments?: string
 }
 
 export type SpeciesControl = {
@@ -95,13 +69,4 @@ export type SpeciesControl = {
   speciesCode: string
   speciesName: string | undefined
   underSized: boolean | undefined
-}
-
-export type SpeciesInfraction = {
-  id?: string
-  comments: string
-  infractionType: InfractionType
-  natinf: number
-  natinfs?: string[]
-  observations?: string
 }

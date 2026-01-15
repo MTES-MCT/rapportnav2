@@ -15,15 +15,9 @@ class CountInfractions {
 
     fun countFishInfractions(actions: List<MissionFishActionEntity>, infractionType: InfractionType): Map<String, Int> {
         return mapOf(
-            "nbLogbookInfractions" to actions.sumOf { action ->
-                action.logbookInfractions?.count { it.infractionType == infractionType }?.or(0) ?: 0
+            "infractions" to actions.sumOf { action ->
+                action.fishInfractions?.count { it.infractionType == infractionType }?.or(0) ?: 0
             },
-            "nbGearInfractions" to actions.sumOf { action ->
-                action.gearInfractions?.count { it.infractionType == infractionType }?.or(0) ?: 0
-            },
-            "nbSpeciesInfractions" to actions.sumOf { action ->
-                action.speciesInfractions?.count { it.infractionType == infractionType }?.or(0) ?: 0
-            }
         )
     }
 
@@ -32,7 +26,7 @@ class CountInfractions {
         infractionType: InfractionType
     ): Int =
         actions.sumOf { action ->
-            action.otherInfractions
+            action.fishInfractions
                 ?.count { it.infractionType == infractionType }
                 ?: 0
         }

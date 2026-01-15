@@ -54,15 +54,11 @@ data class Infraction(
                 id = infraction.id,
                 missionId = 10,
                 actionId = "",
-//            missionId = infraction.missionId,
-//            actionId = infraction.actionId,
                 controlType = null,
                 infractionType = infraction.infractionType,
                 natinfs = infraction.natinf,
                 observations = infraction.observations,
                 target = InfractionTarget.fromEnvInfractionEntity(infraction)
-
-            )
+        )
     }
-
 }

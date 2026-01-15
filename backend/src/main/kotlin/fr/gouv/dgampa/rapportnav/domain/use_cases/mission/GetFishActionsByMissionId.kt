@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Missio
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ExtendedFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.AttachControlsToActionControl
+import io.sentry.Sentry
 import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
 
@@ -14,7 +15,6 @@ import org.springframework.cache.annotation.Cacheable
 class GetFishActionsByMissionId(
     private val attachControlsToActionControl: AttachControlsToActionControl,
     private val fishActionRepo: IFishActionRepository,
-    private val getFakeActionData: FakeActionData
 ) {
 
     private val logger = LoggerFactory.getLogger(GetFishActionsByMissionId::class.java)
@@ -57,9 +57,8 @@ class GetFishActionsByMissionId(
             actions
         } catch (e: Exception) {
             logger.error("GetFishActionsByMissionId failed loading Actions", e)
+            Sentry.captureException(e)
             return listOf()
-            //val actions =  getFakeActionData.getFakeFishActions(missionId)
-            //return filterAndAttachControls(actions)
         }
     }
 }

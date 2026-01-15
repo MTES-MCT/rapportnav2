@@ -3,8 +3,8 @@ package fr.gouv.gmampa.rapportnav.domain.entities.mission
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Completion
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.LogbookInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
@@ -51,17 +51,12 @@ class MissionFishActionEntityTest {
         assertThat(entity.licencesMatchActivity).isEqualTo(fishAction.licencesMatchActivity)
         assertThat(entity.speciesWeightControlled).isEqualTo(fishAction.speciesWeightControlled)
         assertThat(entity.separateStowageOfPreservedSpecies).isEqualTo(fishAction.separateStowageOfPreservedSpecies)
-        assertThat(entity.logbookInfractions).isEqualTo(fishAction.logbookInfractions)
         assertThat(entity.licencesAndLogbookObservations).isEqualTo(fishAction.licencesAndLogbookObservations)
-        assertThat(entity.gearInfractions).isEqualTo(fishAction.gearInfractions)
-        assertThat(entity.speciesInfractions).isEqualTo(fishAction.speciesInfractions)
         assertThat(entity.speciesObservations).isEqualTo(fishAction.speciesObservations)
         assertThat(entity.seizureAndDiversion).isEqualTo(fishAction.seizureAndDiversion)
-        assertThat(entity.otherInfractions).isEqualTo(fishAction.otherInfractions)
         assertThat(entity.numberOfVesselsFlownOver).isEqualTo(fishAction.numberOfVesselsFlownOver)
         assertThat(entity.unitWithoutOmegaGauge).isEqualTo(fishAction.unitWithoutOmegaGauge)
         assertThat(entity.controlQualityComments).isEqualTo(fishAction.controlQualityComments)
-        assertThat(entity.feedbackSheetRequired).isEqualTo(fishAction.feedbackSheetRequired)
         assertThat(entity.userTrigram).isEqualTo(fishAction.userTrigram)
         assertThat(entity.segments).isEqualTo(fishAction.segments)
         assertThat(entity.longitude).isEqualTo(fishAction.longitude)
@@ -225,10 +220,10 @@ class MissionFishActionEntityTest {
     }
 
     private fun getFishAction(): MissionAction {
-        val logbookInfraction = LogbookInfraction(infractionType = InfractionType.WITH_RECORD)
+        val infraction = FishInfraction(natinf = 1, infractionType = InfractionType.WITH_RECORD)
         return FishActionControlMock.create(
             completion = Completion.TO_COMPLETE,
-            logbookInfractions = listOf(logbookInfraction)
+            infractions = listOf(infraction)
         )
     }
 }

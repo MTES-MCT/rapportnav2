@@ -216,24 +216,23 @@ class ActionController(
                     }.orEmpty()
                     navInfractionTypes + envTags
                 }
-
-                is FishActionData -> {
-                    val fishTags: List<InfractionType> = listOf(
-                        action.data.gearInfractions.map { it.infractionType },
-                        action.data.logbookInfractions.map { it.infractionType },
-                        action.data.speciesInfractions.map { it.infractionType },
-                        action.data.otherInfractions.map { it.infractionType }
-                    ).flatten().filterNotNull()
-
-                    navInfractionTypes + fishTags
-                }
+// this file will be remove - just comment for now
+//                is FishActionData -> {
+//                    val fishTags: List<InfractionType> = listOf(
+//                        action.data.gearInfractions.map { it.infractionType },
+//                        action.data.logbookInfractions.map { it.infractionType },
+//                        action.data.speciesInfractions.map { it.infractionType },
+//                        action.data.otherInfractions.map { it.infractionType }
+//                    ).flatten().filterNotNull()
+//
+//                    navInfractionTypes + fishTags
+//                }
 
                 else -> {
                     null
                 }
             }
-            val withReportCount =
-                allInfractionTypes?.count { it == InfractionTypeEnum.WITH_REPORT || it == InfractionType.WITH_RECORD }
+            val withReportCount = 0
 
             val infractionTypeTag = if (withReportCount == 0) {
                 "Sans PV"
@@ -257,17 +256,17 @@ class ActionController(
                     }.orEmpty()
                     navNatinfs + envNatinfs
                 }
-
-                is FishActionData -> {
-                    val fishNatinfs: List<String> = listOf(
-                        action.data.gearInfractions.map { it.natinf.toString() },
-                        action.data.logbookInfractions.map { it.natinf.toString() },
-                        action.data.speciesInfractions.map { it.natinf.toString() },
-                        action.data.otherInfractions.map { it.natinf.toString() }
-                    ).flatten()
-
-                    navNatinfs + fishNatinfs
-                }
+// this file will be remove - just comment for now
+//                is FishActionData -> {
+//                    val fishNatinfs: List<String> = listOf(
+//                        action.data.gearInfractions.map { it.natinf.toString() },
+//                        action.data.logbookInfractions.map { it.natinf.toString() },
+//                        action.data.speciesInfractions.map { it.natinf.toString() },
+//                        action.data.otherInfractions.map { it.natinf.toString() }
+//                    ).flatten()
+//
+//                    navNatinfs + fishNatinfs
+//                }
 
                 else -> {
                     null

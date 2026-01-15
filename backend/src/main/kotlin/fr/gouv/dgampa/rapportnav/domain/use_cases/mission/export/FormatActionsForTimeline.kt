@@ -157,24 +157,8 @@ class FormatActionsForTimeline(
             }
             val vesselInfo = "${action.vesselName ?: "N/A"} - ${action.portLocode ?: ""} ${action.vesselId}"
             val seizureAndDiversion = if (action.seizureAndDiversion == true) " - retour du navire au port" else ""
-            val natinfs: String = listOf(
-                action.gearInfractions.map { it.natinf },
-                action.logbookInfractions.map { it.natinf },
-                action.speciesInfractions.map { it.natinf },
-                action.otherInfractions.map { it.natinf }
-            ).flatten().distinct().let { list ->
-                if (list.isEmpty()) {
-                    " - RAS"
-                } else {
-                    " - NATINF: ${list.filterNotNull().joinToString(" + ")}"
-                }
-            }
-            val pvCount = listOf(
-                action.gearInfractions.map { it.infractionType },
-                action.logbookInfractions.map { it.infractionType },
-                action.speciesInfractions.map { it.infractionType },
-                action.otherInfractions.map { it.infractionType }
-            ).flatten().count { it == InfractionType.WITH_RECORD }
+            val natinfs: String = ""
+            val pvCount = 0
             val pv = if (pvCount > 0) "$pvCount PV" else "sans PV"
 
             return "$startTime - Contrôle Pêche - $coords - $vesselInfo - Infractions: $pv$natinfs$seizureAndDiversion"
