@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.53.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.52.0...frontend@v2.53.0) (2026-01-15)
+
+
+### Features
+
+* **frontend:** remove v2 from url ([a607529](https://github.com/MTES-MCT/rapportnav2/commit/a607529d9d2bf0d5ab007f3f46159deffb04016d))
+* **frontend:** resolve priority ([93586c6](https://github.com/MTES-MCT/rapportnav2/commit/93586c6b643c4f7e48226652f9ebb20f9f8505af))
+
 ## [2.52.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.51.0...frontend@v2.52.0) (2026-01-14)
 
 

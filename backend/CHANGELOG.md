@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.53.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.52.0...backend@v2.53.0) (2026-01-15)
+
+
+### Bug Fixes
+
+* **AEM:** add more logs ([540f27b](https://github.com/MTES-MCT/rapportnav2/commit/540f27be3f20da4991c1e4aaa3556851f1255a85))
+
 ## [2.52.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.51.0...backend@v2.52.0) (2026-01-14)
 
 
