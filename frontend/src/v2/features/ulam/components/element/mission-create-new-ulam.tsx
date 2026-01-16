@@ -29,7 +29,7 @@ const MissionCreateNewUlam: React.FC<MissionCreateNewUlamProps> = ({ onClose }) 
   const handleSubmit = ({ missionGeneralInfo }: NewMissionUlam, errors: any) => {
     mutation.mutateAsync(missionGeneralInfo).then(response => {
       const id = response.id ?? response.idUUID
-      if (id) navigate(`/v2/ulam/missions/${id}`)
+      if (id) navigate(`/ulam/missions/${id}`)
     })
 
     if (onClose) onClose()

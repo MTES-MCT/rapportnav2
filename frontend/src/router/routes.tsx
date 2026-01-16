@@ -19,15 +19,15 @@ export const navigateToActionId = (id, navigate) => {
   const pathSegments = currentPath.split('/').filter(segment => segment !== '')
 
   // Check if this is a valid missions path with at least:
-  // ["v2", "{pam|ulam}", "missions", "{missionId}"]
+  // ["{pam|ulam}", "missions", "{missionId}"]
   if (
-    pathSegments.length >= 4 &&
+    pathSegments.length >= 3 &&
     (pathSegments[0] === 'pam' || pathSegments[0] === 'ulam') &&
-    pathSegments[2] === 'missions'
+    pathSegments[1] === 'missions'
   ) {
     // Extract the product type (pam or ulam) and mission ID
-    const userType = pathSegments[1]
-    const missionId = pathSegments[3]
+    const userType = pathSegments[0]
+    const missionId = pathSegments[2]
 
     // Construct the new URL ensuring we only have missionId and the new id
     const newUrl = `/${userType}/missions/${missionId}/${id}`
