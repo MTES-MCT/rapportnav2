@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.53.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.53.0...backend@v2.53.1) (2026-01-16)
+
+
+### Bug Fixes
+
+* **RapportDePatrouille:** fix service, namings and improve status ([1896363](https://github.com/MTES-MCT/rapportnav2/commit/1896363491600749bd9aa8fbc546aae78511e0a8))
+
 ## [2.53.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.52.0...backend@v2.53.0) (2026-01-15)
 
 
