@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.53.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.53.0...docker-container@v2.53.1) (2026-01-16)
+
+
+### Bug Fixes
+
+* **RapportDePatrouille:** fix service, namings and improve status ([1896363](https://github.com/MTES-MCT/rapportnav2/commit/1896363491600749bd9aa8fbc546aae78511e0a8))
+* **url:** remove all v2 occurences ([6124006](https://github.com/MTES-MCT/rapportnav2/commit/6124006158527f37da57cc5a190a92b87ba125b1))
+
 ## [2.53.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.52.0...docker-container@v2.53.0) (2026-01-15)
 
 

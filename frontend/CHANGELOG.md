@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.53.1](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.53.0...frontend@v2.53.1) (2026-01-16)
+
+
+### Bug Fixes
+
+* **url:** remove all v2 occurences ([6124006](https://github.com/MTES-MCT/rapportnav2/commit/6124006158527f37da57cc5a190a92b87ba125b1))
+
 ## [2.53.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.52.0...frontend@v2.53.0) (2026-01-15)
 
 
