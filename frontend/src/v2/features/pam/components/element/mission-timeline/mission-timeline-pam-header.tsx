@@ -11,7 +11,7 @@ interface MissionTimelinePamHeaderProps {
 const MissionTimelinePamHeader: FC<MissionTimelinePamHeaderProps> = ({ missionId }) => {
   const navigate = useNavigate()
   const { timelineDropdownItems } = usePamTimelineRegistry()
-  const handleOnSubmit = (id?: string) => navigate(`/v2/${ModuleType.PAM}/missions/${missionId}/${id}`)
+  const handleOnSubmit = (id?: string) => navigate(`/${ModuleType.PAM}/missions/${missionId}/${id}`)
 
   return (
     <MissionTimelineHeaderWrapper
