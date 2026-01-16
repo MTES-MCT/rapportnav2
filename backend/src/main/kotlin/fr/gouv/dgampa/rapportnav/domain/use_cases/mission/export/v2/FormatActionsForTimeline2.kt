@@ -121,7 +121,7 @@ class FormatActionsForTimeline2(
             val facade = action.facade?.let { " - $it" } ?: ""
             val themes = action.themes?.mapNotNull { it.name }?.joinToString(", ")
             val amountOfControls = action.actionNumberOfControls?.let { " - $it contrôle(s)" } ?: ""
-            return "$startTime / $endTime - Contrôle Environnement$facade - $themes$amountOfControls"
+            "$startTime / $endTime - Contrôle Environnement$facade - $themes$amountOfControls"
         }
     }
 
@@ -130,7 +130,7 @@ class FormatActionsForTimeline2(
             val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
             val endTime = formatDateTime.formatTime(action.endDateTimeUtc)
             val themes = action.themes?.mapNotNull { it.name }?.joinToString(", ")
-            return "$startTime / $endTime - Surveillance Environnement - $themes"
+            "$startTime / $endTime - Surveillance Environnement - $themes"
         }
     }
 
@@ -161,7 +161,7 @@ class FormatActionsForTimeline2(
             ).flatten().count { it == InfractionType.WITH_RECORD }
             val pv = if (pvCount > 0) "$pvCount PV" else "sans PV"
 
-            return "$startTime - Contrôle Pêche - $coords - $vesselInfo - Infractions: $pv$natinfs$seizureAndDiversion"
+            "$startTime - Contrôle Pêche - $coords - $vesselInfo - Infractions: $pv$natinfs$seizureAndDiversion"
         }
     }
 
@@ -169,8 +169,9 @@ class FormatActionsForTimeline2(
         return action?.let {
             val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
             val status = mapActionStatusTypeToHumanString(action.status)
-            val observation = action.observations?.let { "- $it" } ?: ""
-            return "$startTime - $status $observation"
+            val reason = action.reason?.let { " - ${it.toString().lowercase().replaceFirstChar { it.uppercase() }}" } ?: ""
+            val observation = action.observations?.let { " - $it" } ?: ""
+            "$startTime - $status$reason$observation"
         }
     }
 
@@ -179,7 +180,7 @@ class FormatActionsForTimeline2(
             val startTime = formatDateTime.formatTime(action.startDateTimeUtc)
             val endTime = formatDateTime.formatTime(action.endDateTimeUtc)
             val vesselIdentifier = action.vesselIdentifier?.let { "- $it" } ?: ""
-            return "$startTime / $endTime - Contrôle administratif $vesselIdentifier"
+            "$startTime / $endTime - Contrôle administratif $vesselIdentifier"
         }
     }
 

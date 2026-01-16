@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishIn
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
@@ -174,21 +175,21 @@ class FormatActionsForTimeline2Tests {
 
     @Test
     fun `formatNavStatus should return formatted string`() {
-        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.STATUS, observations = "observations"))
+        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.STATUS, observations = null))
 
-        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("23:00 - Mouillage - observations")
+        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("23:00 - Mouillage")
+    }
+
+    @Test
+    fun `formatNavStatus should return formatted reason`() {
+        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.STATUS, reason = ActionStatusReason.MAINTENANCE.toString(), observations = null))
+        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("23:00 - Mouillage - Maintenance")
     }
 
     @Test
     fun `formatNavStatus should return formatted observations`() {
         val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.STATUS, observations = "3 adultes & 2 enfants <> RAS"))
         assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("23:00 - Mouillage - 3 adultes & 2 enfants <> RAS")
-    }
-
-    @Test
-    fun `formatNavStatus should return formatted string without observations`() {
-        val action = MissionNavActionEntity.fromMissionActionModel(MissionActionModelMock.create(actionType = ActionType.STATUS, observations = null))
-        assertThat(formatActionsForTimeline.formatNavStatus(action)).isEqualTo("23:00 - Mouillage ")
     }
 
     @Test

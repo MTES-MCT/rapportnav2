@@ -19,6 +19,7 @@ object MissionActionModelMock {
         observations: String? = "observations",
         vesselType: String? = VesselTypeEnum.FISHING.toString(),
         controlMethod: String? = ControlMethod.SEA.toString(),
+        reason: String? = null,
     ): MissionActionModel {
         return MissionActionModel(
             missionId = 761,
@@ -54,7 +55,7 @@ object MissionActionModelMock {
             isMigrationRescue = false,
             nbOfVesselsTrackedWithoutIntervention = 4,
             nbAssistedVesselsReturningToShore = 50,
-            reason = ActionStatusReason.ADMINISTRATION.toString(),
+            reason = reason,
             status = status.toString(),
             ownerId = UUID.randomUUID(),
             nbrOfHours = 65,
