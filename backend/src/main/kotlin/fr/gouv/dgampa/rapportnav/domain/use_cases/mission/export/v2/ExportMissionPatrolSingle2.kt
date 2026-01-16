@@ -29,7 +29,6 @@ import kotlin.io.path.Path
 class ExportMissionPatrolSingle2(
     private val formatActionsForTimeline2: FormatActionsForTimeline2,
     private val formatDateTime: FormatDateTime,
-    private val getServiceById: GetServiceById,
     private val getComputeEnvMission: GetComputeEnvMission,
     private val computePatrolData: ComputePatrolData,
 
@@ -63,7 +62,7 @@ class ExportMissionPatrolSingle2(
             val allActions = mission.actions
 
             val generalInfo: MissionGeneralInfoEntity2? = patrolData?.generalInfos
-            val service = getServiceById.execute(generalInfo?.services?.first()?.id)
+            val service = generalInfo?.data?.service
             val missionCrew: List<MissionCrewEntity>? = patrolData?.generalInfos?.crew
 
             val activity = patrolData?.activity

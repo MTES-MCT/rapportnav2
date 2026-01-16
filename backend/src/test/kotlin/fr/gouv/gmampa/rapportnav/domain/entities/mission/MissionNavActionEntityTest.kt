@@ -65,7 +65,7 @@ class MissionNavActionEntityTest {
         assertThat(entity.nbOfVesselsTrackedWithoutIntervention).isEqualTo(model.nbOfVesselsTrackedWithoutIntervention)
         assertThat(entity.nbAssistedVesselsReturningToShore).isEqualTo(model.nbAssistedVesselsReturningToShore)
         assertThat(entity.status.toString()).isEqualTo(model.status)
-        assertThat(entity.reason.toString()).isEqualTo(model.reason)
+        assertThat(entity.reason).isEqualTo(model.reason)
         assertThat(entity.nbrOfHours).isEqualTo(model.nbrOfHours)
         assertThat(entity.trainingType).isEqualTo(model.trainingType)
         assertThat(entity.unitManagementTrainingType).isEqualTo(model.unitManagementTrainingType)
