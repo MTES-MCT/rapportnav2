@@ -1,7 +1,9 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
 
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputePatrolData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionPatrolSingle2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMission
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.FormatActionsForTimeline2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
@@ -17,9 +19,10 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 
 @SpringBootTest(
     classes = [
-        ExportMissionPatrolSingle2::class,
-        ComputeDurations::class,
         FormatDateTime::class,
+        ComputeDurations::class,
+        FormatActionsForTimeline2::class,
+        ExportMissionPatrolSingle2::class
     ]
 )
 class ExportMissionPatrolSingleTest {
@@ -28,8 +31,13 @@ class ExportMissionPatrolSingleTest {
     private lateinit var exportMissionRapportPatrouille: ExportMissionPatrolSingle2
 
     @MockitoBean
-    private lateinit var getMission: GetMission
+    private lateinit var getMission: GetComputeEnvMission
 
+    @MockitoBean
+    private lateinit var computePatrolData: ComputePatrolData
+
+    @MockitoBean
+    private lateinit var formatActionsForTimeline2: FormatActionsForTimeline2
 
     @BeforeEach
     fun setUp() {
@@ -39,7 +47,7 @@ class ExportMissionPatrolSingleTest {
     @Test
     fun `execute should return null if mission is not found`() {
         val missionId = 123
-        `when`(getMission.execute(missionId.toString())).thenReturn(null)
+        `when`(getMission.execute(missionId)).thenReturn(null)
 
         val result = exportMissionRapportPatrouille.execute(missionId)
 
@@ -57,7 +65,7 @@ class ExportMissionPatrolSingleTest {
     @Test
     fun `execute should return null when mission is null`() {
         val missionId = 123
-        `when`(getMission.execute(missionId.toString())).thenReturn(null)
+        `when`(getMission.execute(missionId)).thenReturn(null)
         assertThat(exportMissionRapportPatrouille.execute(missionId)).isNull()
     }
 
@@ -65,7 +73,7 @@ class ExportMissionPatrolSingleTest {
     fun `createFile should return null when mission throws`() {
         val missionId = 123
         val mission = MissionEntityMock2.create(id = missionId)
-        `when`(getMission.execute(missionId.toString())).thenThrow()
+        `when`(getMission.execute(missionId)).thenThrow()
         assertThat(exportMissionRapportPatrouille.createFile(mission)).isNull()
     }
 
