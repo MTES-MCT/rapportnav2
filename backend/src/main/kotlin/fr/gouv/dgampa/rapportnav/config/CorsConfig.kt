@@ -20,7 +20,6 @@ class CorsConfig {
 //        config.allowCredentials = true // Allow credentials, if needed
 
         // Register CORS configuration for specific paths
-//        source.registerCorsConfiguration("/graphql/**", config)
         source.registerCorsConfiguration("/**", config)
 
         return CorsFilter(source)
