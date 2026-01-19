@@ -1,21 +1,20 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import org.slf4j.LoggerFactory
 
 @UseCase
 class ExportMissionAEMCombined(
     private val formatDateTime: FormatDateTime,
-    private val exportMissionAEMSingle: ExportMissionAEMSingle,
-    private val getMissionById: GetMission,
+    private val exportMissionAEMSingle: ExportMissionAEMSingle2,
+    private val getComputeEnvMission: GetComputeEnvMission,
 ) {
 
     private val logger = LoggerFactory.getLogger(ExportMissionAEMCombined::class.java)
-
 
     /**
      * Returns a merged Rapport de Patrouille
@@ -29,10 +28,10 @@ class ExportMissionAEMCombined(
         try {
 
             // retrieve missions
-            var missions = mutableListOf<MissionEntity>()
+            var missions = mutableListOf<MissionEntity2>()
 
             for (missionId in missionIds) {
-                val mission = getMissionById.execute(missionId)
+                val mission = getComputeEnvMission.execute(missionId = missionId)
                 if (mission != null) {
                     missions.add(mission)
                 }
@@ -42,14 +41,14 @@ class ExportMissionAEMCombined(
             val firstMission = missions.first() // Take all other fields from the first mission
             val combinedActions = missions.flatMap { it.actions.orEmpty() } // Aggregate all actions from all missions
             val mission =
-                firstMission.copy(actions = MissionEntity.sortActions(combinedActions)) // Create a new instance with aggregated actions
+                firstMission.copy(actions = combinedActions.sortedByDescending { it?.startDateTimeUtc }) // Create a new instance with aggregated actions
 
             // create file
             val output = exportMissionAEMSingle.createFile(mission = mission)
 
 
             return MissionExportEntity(
-                fileName = "tableaux-AEM-combinés_${formatDateTime.formatDate(missions.first().startDateTimeUtc)}.ods",
+                fileName = "tableaux-AEM-combinés_${formatDateTime.formatDate(missions.first().data?.startDateTimeUtc)}.ods",
                 fileContent = output?.fileContent.orEmpty()
             )
 
