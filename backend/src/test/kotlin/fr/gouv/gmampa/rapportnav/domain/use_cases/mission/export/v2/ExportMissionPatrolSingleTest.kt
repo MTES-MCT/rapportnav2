@@ -1,19 +1,12 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
 
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavActionStatusRepository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsForTimeline
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.GetInfoAboutNavAction
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.MapStatusDurations
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionPatrolSingle
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations
-import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
+import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputePatrolData
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionPatrolSingle2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.FormatActionsForTimeline2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -26,37 +19,25 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 
 @SpringBootTest(
     classes = [
-        ExportMissionPatrolSingle::class,
-        ComputeDurations::class,
-        GetInfoAboutNavAction::class,
-        MapStatusDurations::class,
-        GetStatusDurations::class,
-        GetNbOfDaysAtSeaFromNavigationStatus::class,
         FormatDateTime::class,
+        ComputeDurations::class,
+        FormatActionsForTimeline2::class,
+        ExportMissionPatrolSingle2::class
     ]
 )
 class ExportMissionPatrolSingleTest {
 
     @Autowired
-    private lateinit var exportMissionRapportPatrouille: ExportMissionPatrolSingle
+    private lateinit var exportMissionRapportPatrouille: ExportMissionPatrolSingle2
 
     @MockitoBean
-    private lateinit var getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId
+    private lateinit var getMission: GetComputeEnvMission
 
     @MockitoBean
-    private lateinit var agentsCrewByMissionId: GetAgentsCrewByMissionId
+    private lateinit var computePatrolData: ComputePatrolData
 
     @MockitoBean
-    private lateinit var getMission: GetMission
-
-    @MockitoBean
-    private lateinit var navActionStatus: INavActionStatusRepository
-
-    @MockitoBean
-    private lateinit var formatActionsForTimeline: FormatActionsForTimeline
-
-    @MockitoBean
-    private lateinit var getServiceById: GetServiceById
+    private lateinit var formatActionsForTimeline2: FormatActionsForTimeline2
 
     @BeforeEach
     fun setUp() {
@@ -91,7 +72,7 @@ class ExportMissionPatrolSingleTest {
     @Test
     fun `createFile should return null when mission throws`() {
         val missionId = 123
-        val mission = MissionEntityMock.create(id = missionId)
+        val mission = MissionEntityMock2.create(id = missionId)
         `when`(getMission.execute(missionId)).thenThrow()
         assertThat(exportMissionRapportPatrouille.createFile(mission)).isNull()
     }

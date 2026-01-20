@@ -1,6 +1,5 @@
 package fr.gouv.gmampa.rapportnav.domain.entities.aem.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMIllegalFish
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMIllegalFish2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
