@@ -1,3 +1,0 @@
-# custom graphql type for dates
-# use in combination for a GraphQLConfig for de/serializing
-scalar Instant

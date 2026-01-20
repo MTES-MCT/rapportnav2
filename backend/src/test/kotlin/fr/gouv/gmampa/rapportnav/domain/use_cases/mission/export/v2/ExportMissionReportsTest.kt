@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
+import org.mockito.kotlin.any
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -29,16 +30,13 @@ class ExportMissionReportsTest {
     private lateinit var exportMissionPatrolMultipleZipped: ExportMissionPatrolMultipleZipped2
 
     @MockitoBean
-    private lateinit var exportMissionAEMSingle: ExportMissionAEMSingle
+    private lateinit var exportMissionAEMSingle: ExportMissionAEMSingle2
 
     @MockitoBean
     private lateinit var exportMissionAEMCombined: ExportMissionAEMCombined
 
     @MockitoBean
     private lateinit var exportMissionAEMMultipleZipped: ExportMissionAEMMultipleZipped
-
-    @MockitoBean
-    private lateinit var exportMissionAEMSingle2: ExportMissionAEMSingle2
 
     @BeforeEach
     fun setUp() {
@@ -79,7 +77,7 @@ class ExportMissionReportsTest {
             )
         )
 
-        Mockito.`when`(exportMissionAEMSingle2.execute(Mockito.anyList())).thenReturn(
+        Mockito.`when`(exportMissionAEMSingle.execute(any())).thenReturn(
             MissionExportEntity(
                 fileName = "exportMissionAEMSingle.ods",
                 fileContent = "MockContent"

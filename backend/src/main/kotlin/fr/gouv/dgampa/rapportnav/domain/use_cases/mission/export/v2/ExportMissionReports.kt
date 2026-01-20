@@ -31,7 +31,7 @@ class ExportMissionReports(
                     when (exportMode) {
                         ExportModeEnum.INDIVIDUAL_MISSION -> {
                             logger.info("ExportMissionAEM - running export INDIVIDUAL_MISSION")
-                            exportMissionAEMSingle2.execute(missionIds)
+                            exportMissionAEMSingle2.execute(missionIds.first())
                         }
 
                         ExportModeEnum.COMBINED_MISSIONS_IN_ONE -> {

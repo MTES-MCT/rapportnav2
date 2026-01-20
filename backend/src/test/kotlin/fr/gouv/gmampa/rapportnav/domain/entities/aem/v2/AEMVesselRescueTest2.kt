@@ -1,10 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.entities.aem.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMVesselRescue
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMVesselRescue2
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionRescueEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.NavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import org.assertj.core.api.Assertions.assertThat

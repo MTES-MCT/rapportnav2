@@ -1,13 +1,16 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
 
+import com.sun.org.apache.bcel.internal.util.Args.require
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMTableExport2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeFishActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNavActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.Base64Converter
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.office.ExportExcelFile
@@ -30,14 +33,22 @@ class ExportMissionAEMSingle2(
     private val getNavActionByMissionId: GetComputeNavActionListByMissionId,
     private val getFIshListActionByMissionId: GetComputeFishActionListByMissionId,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
+    private val getComputeEnvMission: GetComputeEnvMission,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(ExportMissionAEMSingle2::class.java)
 
-    fun execute(missionIds: List<Int>): MissionExportEntity? {
+    fun execute(missionId: Int): MissionExportEntity? {
 
-        val tableExportList = getAemTableExport(missionIds)
+        val mission = getComputeEnvMission.execute(missionId = missionId)
 
+        return createFile(mission)
+    }
+
+    fun createFile(mission: MissionEntity2?): MissionExportEntity? {
         return try {
+            val tableExport = getAemData(mission?.id)
+            if (tableExport == null) return null
+
             val inputStream = javaClass.getResourceAsStream(aemTemplatePath)
                 ?: throw IllegalArgumentException("Template file not found: $aemTemplatePath")
 
@@ -48,41 +59,36 @@ class ExportMissionAEMSingle2(
             logger.info("Template file copied to temporary path: $tmpPath")
 
             val excelFile = ExportExcelFile(tmpPath.toString())
-            if (tableExportList.isNotEmpty()) {
-                var rowStart = 3
+            var rowStart = 3
 
-                for (tableExport in tableExportList) {
-                    fillAEMExcelRow.fill(tableExport, excelFile, "Synthese", rowStart)
-                    rowStart++
-                }
-                excelFile.save()
+            fillAEMExcelRow.fill(tableExport, excelFile, "Synthese", rowStart)
 
-                logger.info("Excel file processed and saved for export on missions list")
+            excelFile.save()
 
-                val odsFile = OfficeConverter().convert(tmpPath.toString(), aemTmpODSPath)
-                val base64Content = Base64Converter().convertToBase64(odsFile)
+            logger.info("Excel file processed and saved for export on missions list")
 
-                return MissionExportEntity(
-                    fileName = "Rapport_AEM.ods",
-                    fileContent = base64Content
-                )
-            }
+            val odsFile = OfficeConverter().convert(tmpPath.toString(), aemTmpODSPath)
+            val base64Content = Base64Converter().convertToBase64(odsFile)
 
-            logger.error("Actions in missions list are null")
-            null
+            return MissionExportEntity(
+                fileName = "Rapport_AEM.ods",
+                fileContent = base64Content
+            )
+
         } catch (e: Exception) {
             logger.error("An error occurred during mission processing", e)
             null
         }
     }
 
-    fun getAemTableExport(missionIds: List<Int>): List<AEMTableExport2> = missionIds.map {
-        val envMission = getEnvMissionById2.execute(it)
-        val envActions = getEnvActionByMissionId.execute(it)
-        val navActions = getNavActionByMissionId.execute(it)
-        val fishActions = getFIshListActionByMissionId.execute(it)
-        val generalInfo = getMissionGeneralInfoByMissionId.execute(it)
-        AEMTableExport2.fromMissionAction(
+    fun getAemData(missionId: Int?): AEMTableExport2?  {
+        if(missionId == null) return null
+        val envMission = getEnvMissionById2.execute(missionId)
+        val envActions = getEnvActionByMissionId.execute(missionId)
+        val navActions = getNavActionByMissionId.execute(missionId)
+        val fishActions = getFIshListActionByMissionId.execute(missionId)
+        val generalInfo = getMissionGeneralInfoByMissionId.execute(missionId)
+        return AEMTableExport2.fromMissionAction(
             navActions = navActions,
             envActions = envActions,
             fishActions = fishActions,
@@ -90,4 +96,6 @@ class ExportMissionAEMSingle2(
             nbrOfRecognizedVessel = generalInfo?.nbrOfRecognizedVessel?.toDouble()
         )
     }
+
 }
+

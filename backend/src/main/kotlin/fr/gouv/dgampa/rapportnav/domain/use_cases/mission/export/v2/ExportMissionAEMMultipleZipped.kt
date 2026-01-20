@@ -3,13 +3,13 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.GetMission
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import org.slf4j.LoggerFactory
 
 @UseCase
 class ExportMissionAEMMultipleZipped(
-    private val exportMissionAEMSingle: ExportMissionAEMSingle,
-    private val getMissionById: GetMission,
+    private val exportMissionAEMSingle: ExportMissionAEMSingle2,
+    private val getComputeEnvMission: GetComputeEnvMission,
     private val zipFiles: ZipFiles,
 ) {
 
@@ -29,10 +29,10 @@ class ExportMissionAEMMultipleZipped(
 
             // retrieve missions
             for (missionId in missionIds) {
-                val mission = getMissionById.execute(missionId)
+                val mission = getComputeEnvMission.execute(missionId = missionId)
 
                 // only keep complete missions
-                if (mission != null && mission.completenessForStats?.status === CompletenessForStatsStatusEnum.COMPLETE) {
+                if (mission != null && mission.isCompleteForStats().status === CompletenessForStatsStatusEnum.COMPLETE) {
                     val output = exportMissionAEMSingle.createFile(mission = mission)
                     output?.let { filesToZip.add(it) }
 
