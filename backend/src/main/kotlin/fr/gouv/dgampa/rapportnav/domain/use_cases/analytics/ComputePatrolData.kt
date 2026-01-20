@@ -10,15 +10,15 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEnti
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.ComputeInternTrainingSummary
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeControlPolicies
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary.ComputeAllOperationalSummary
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.GetInfoAboutNavAction2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.MapStatusDurations2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.GetInfoAboutNavAction2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.MapStatusDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionActionControls
 
 @UseCase
 class ComputePatrolData(
     private val getComputeEnvMission: GetComputeEnvMission,
-    private val mapStatusDurations2: MapStatusDurations2,
+    private val mapStatusDurations: MapStatusDurations,
     private val computeAllOperationalSummary: ComputeAllOperationalSummary,
     private val getMissionActionControls: GetMissionActionControls,
     private val computeControlPolicies: ComputeControlPolicies,
@@ -76,7 +76,7 @@ class ComputePatrolData(
 
         val controls = getMissionActionControls.execute(mission)
 
-        val activity: Map<String, Map<String, Double>> = mapStatusDurations2.execute(
+        val activity: Map<String, Map<String, Double>> = mapStatusDurations.execute(
             startDateTimeUtc = mission?.data?.startDateTimeUtc,
             endDateTimeUtc = mission?.data?.endDateTimeUtc,
             statuses = statuses,

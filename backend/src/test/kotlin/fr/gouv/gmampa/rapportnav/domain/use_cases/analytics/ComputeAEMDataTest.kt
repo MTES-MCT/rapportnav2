@@ -11,7 +11,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputeAEMData
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionAEMSingle2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMSingle
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
@@ -19,7 +19,6 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.ArgumentMatchers.anyList
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.any
 import org.springframework.beans.factory.annotation.Autowired
@@ -41,7 +40,7 @@ class ComputeAEMDataTest {
     private lateinit var getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId
 
     @MockitoBean
-    private lateinit var exportMissionAEMSingle2: ExportMissionAEMSingle2
+    private lateinit var exportMissionAEMSingle: ExportMissionAEMSingle
 
     private var mockTableExport = AEMTableExport2(
         outOfMigrationRescue = AEMOutOfMigrationRescue2(
@@ -80,7 +79,7 @@ class ComputeAEMDataTest {
             )
         )
         `when`(getMissionGeneralInfoByMissionId.execute(anyInt())).thenReturn(null)
-        `when`(exportMissionAEMSingle2.getAemData(any())).thenReturn(mockTableExport)
+        `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(mockTableExport)
 
         val actual = computeAEMData.execute(missionId = 123)
         assertThat(actual?.id).isEqualTo(123)
@@ -99,7 +98,7 @@ class ComputeAEMDataTest {
     fun `Should return null when no AEM data found`() {
         `when`(getEnvMissionById2.execute(anyInt())).thenReturn(null)
         `when`(getMissionGeneralInfoByMissionId.execute(anyInt())).thenReturn(null)
-        `when`(exportMissionAEMSingle2.getAemData(any())).thenReturn(null)
+        `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(null)
 
         val result = computeAEMData.execute(999)
         assertThat(result).isNull()
@@ -111,7 +110,7 @@ class ComputeAEMDataTest {
             EnvMissionMock.create(id = 1)
         )
         `when`(getMissionGeneralInfoByMissionId.execute(anyInt())).thenReturn(null)
-        `when`(exportMissionAEMSingle2.getAemData(any())).thenReturn(
+        `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(
             AEMTableExport2(
                 outOfMigrationRescue = null,
                 migrationRescue = null,
@@ -145,7 +144,7 @@ class ComputeAEMDataTest {
             EnvMissionMock.create(id = missionId)
         )
         `when`(getMissionGeneralInfoByMissionId.execute(missionId)).thenReturn(generalInfo)
-        `when`(exportMissionAEMSingle2.getAemData(any())).thenReturn(
+        `when`(exportMissionAEMSingle.getAemData(any())).thenReturn(
             AEMTableExport2(
                 outOfMigrationRescue = null,
                 migrationRescue = null,

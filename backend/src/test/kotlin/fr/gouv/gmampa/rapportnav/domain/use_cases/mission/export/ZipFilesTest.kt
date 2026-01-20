@@ -1,7 +1,7 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ZipFiles
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ZipFiles
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

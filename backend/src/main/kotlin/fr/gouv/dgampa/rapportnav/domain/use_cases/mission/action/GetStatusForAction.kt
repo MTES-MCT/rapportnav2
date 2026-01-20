@@ -8,7 +8,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 import java.time.Instant
 
 @UseCase
-class GetStatusForAction2(
+class GetStatusForAction(
     private val missionActionsRepository: IDBMissionActionRepository,
 ) {
 

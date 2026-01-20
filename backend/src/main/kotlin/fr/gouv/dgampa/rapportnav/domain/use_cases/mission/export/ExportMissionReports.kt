@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.ExportModeEnum
@@ -8,10 +8,10 @@ import org.slf4j.LoggerFactory
 
 @UseCase
 class ExportMissionReports(
-    private val exportMissionPatrolSingle: ExportMissionPatrolSingle2,
-    private val exportMissionPatrolCombined: ExportMissionPatrolCombined2,
-    private val exportMissionPatrolMultipleZipped: ExportMissionPatrolMultipleZipped2,
-    private val exportMissionAEMSingle2: ExportMissionAEMSingle2,
+    private val exportMissionPatrolSingle: ExportMissionPatrolSingle,
+    private val exportMissionPatrolCombined: ExportMissionPatrolCombined,
+    private val exportMissionPatrolMultipleZipped: ExportMissionPatrolMultipleZipped,
+    private val exportMissionAEMSingle: ExportMissionAEMSingle,
     private val exportMissionAEMCombined: ExportMissionAEMCombined,
     private val exportMissionAEMMultipleZipped: ExportMissionAEMMultipleZipped,
 ) {
@@ -31,7 +31,7 @@ class ExportMissionReports(
                     when (exportMode) {
                         ExportModeEnum.INDIVIDUAL_MISSION -> {
                             logger.info("ExportMissionAEM - running export INDIVIDUAL_MISSION")
-                            exportMissionAEMSingle2.execute(missionIds.first())
+                            exportMissionAEMSingle.execute(missionIds.first())
                         }
 
                         ExportModeEnum.COMBINED_MISSIONS_IN_ONE -> {

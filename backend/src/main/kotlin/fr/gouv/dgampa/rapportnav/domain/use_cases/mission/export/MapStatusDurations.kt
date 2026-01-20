@@ -1,23 +1,23 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations
 import java.time.Instant
 import kotlin.math.ceil
 import kotlin.time.DurationUnit
 
 @UseCase
-class MapStatusDurations2(
-    private val getStatusDurations: GetStatusDurations2,
-    private val getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus2,
+class MapStatusDurations(
+    private val getStatusDurations: GetStatusDurations,
+    private val getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus,
 ) {
 
-    private inline fun List<GetStatusDurations2.ActionStatusWithDuration>.findDuration(predicate: (GetStatusDurations2.ActionStatusWithDuration) -> Boolean): Double {
+    private inline fun List<GetStatusDurations.ActionStatusWithDuration>.findDuration(predicate: (GetStatusDurations.ActionStatusWithDuration) -> Boolean): Double {
         return ceil(find(predicate)?.duration ?: 0.0)
     }
 

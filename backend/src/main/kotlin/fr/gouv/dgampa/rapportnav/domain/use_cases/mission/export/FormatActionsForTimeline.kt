@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
@@ -10,14 +10,14 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatGeoCoords
 import java.time.LocalDate
 
 @UseCase
-class FormatActionsForTimeline2(
-    private val groupActionByDate: GroupActionByDate2,
+class FormatActionsForTimeline(
+    private val groupActionByDate: GroupActionByDate,
     private val formatDateTime: FormatDateTime,
     private val formatGeoCoords: FormatGeoCoords,
 ) {

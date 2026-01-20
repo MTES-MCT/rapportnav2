@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEntity
@@ -8,7 +8,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputePatrolData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
-import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.utils.ComputeDurationUtils
 import fr.gouv.dgampa.rapportnav.infrastructure.utils.Base64Converter
@@ -26,8 +25,8 @@ import java.util.*
 import kotlin.io.path.Path
 
 @UseCase
-class ExportMissionPatrolSingle2(
-    private val formatActionsForTimeline2: FormatActionsForTimeline2,
+class ExportMissionPatrolSingle(
+    private val formatActionsForTimeline: FormatActionsForTimeline,
     private val formatDateTime: FormatDateTime,
     private val getComputeEnvMission: GetComputeEnvMission,
     private val computePatrolData: ComputePatrolData,
@@ -37,7 +36,7 @@ class ExportMissionPatrolSingle2(
     @param:Value("\${rapportnav.rapport-patrouille.tmp_odt.path}") private val docTmpODTPath: String,
 ) {
 
-    private val logger = LoggerFactory.getLogger(ExportMissionPatrolSingle2::class.java)
+    private val logger = LoggerFactory.getLogger(ExportMissionPatrolSingle::class.java)
 
 
     /**
@@ -69,7 +68,7 @@ class ExportMissionPatrolSingle2(
 
             val missionDuration = ComputeDurationUtils.durationInHours(patrolData?.startDateTimeUtc, patrolData?.endDateTimeUtc)
 
-            val timeline = formatActionsForTimeline2.formatTimeline(allActions)
+            val timeline = formatActionsForTimeline.formatTimeline(allActions)
 
             val rescueInfo = patrolData?.otherActionsSummary?.get("rescue")?.toMapForExport()
             val nauticalEventsInfo = patrolData?.otherActionsSummary?.get("nauticalEvents")?.toMapForExport()

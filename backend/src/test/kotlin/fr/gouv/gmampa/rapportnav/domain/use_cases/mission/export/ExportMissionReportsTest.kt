@@ -1,8 +1,15 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.ExportModeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.ExportReportTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMCombined
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMMultipleZipped
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMSingle
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionPatrolCombined
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionPatrolMultipleZipped
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionPatrolSingle
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionReports
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -21,16 +28,16 @@ class ExportMissionReportsTest {
     private lateinit var exportMissionReports: ExportMissionReports
 
     @MockitoBean
-    private lateinit var exportMissionPatrolSingle: ExportMissionPatrolSingle2
+    private lateinit var exportMissionPatrolSingle: ExportMissionPatrolSingle
 
     @MockitoBean
-    private lateinit var exportMissionPatrolCombined: ExportMissionPatrolCombined2
+    private lateinit var exportMissionPatrolCombined: ExportMissionPatrolCombined
 
     @MockitoBean
-    private lateinit var exportMissionPatrolMultipleZipped: ExportMissionPatrolMultipleZipped2
+    private lateinit var exportMissionPatrolMultipleZipped: ExportMissionPatrolMultipleZipped
 
     @MockitoBean
-    private lateinit var exportMissionAEMSingle: ExportMissionAEMSingle2
+    private lateinit var exportMissionAEMSingle: ExportMissionAEMSingle
 
     @MockitoBean
     private lateinit var exportMissionAEMCombined: ExportMissionAEMCombined
@@ -77,7 +84,7 @@ class ExportMissionReportsTest {
             )
         )
 
-        Mockito.`when`(exportMissionAEMSingle2.execute(any())).thenReturn(
+        Mockito.`when`(exportMissionAEMSingle.execute(any())).thenReturn(
             MissionExportEntity(
                 fileName = "exportMissionAEMSingle.ods",
                 fileContent = "MockContent"

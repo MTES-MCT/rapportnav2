@@ -1,14 +1,15 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionAEMCombined
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionAEMSingle2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionPatrolCombined2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMMultipleZipped
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMSingle
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ZipFiles
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
-import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
+import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
+import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -17,14 +18,14 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 
-@SpringBootTest(classes = [ExportMissionAEMCombined::class, FormatDateTime::class])
-class ExportMissionAEMCombinedTest {
+@SpringBootTest(classes = [ExportMissionAEMMultipleZipped::class, ZipFiles::class])
+class ExportMissionAEMMultipleZippedTest {
 
     @Autowired
-    private lateinit var useCase: ExportMissionAEMCombined
+    private lateinit var useCase: ExportMissionAEMMultipleZipped
 
     @MockitoBean
-    private lateinit var exportMissionAEMSingle: ExportMissionAEMSingle2
+    private lateinit var exportMissionAEMSingle: ExportMissionAEMSingle
 
     @MockitoBean
     private lateinit var getComputeEnvMission: GetComputeEnvMission
@@ -38,11 +39,18 @@ class ExportMissionAEMCombinedTest {
     @Test
     fun `should export a file`() {
         val missionIds = listOf(1)
+        Mockito.`when`(exportMissionAEMSingle.createFile(Mockito.any())).thenReturn(
+            MissionExportEntity(
+                fileName = "exportMissionAEMSingle.odt",
+                fileContent = "MockContent"
+            )
+        )
         val mission2 = MissionEntityMock2.create(
             generalInfos = MissionGeneralInfoEntity2(
-                data = MissionGeneralInfoEntity(
+                data = MissionGeneralInfoEntityMock.create(
                     id = 1,
                     missionId = missionIds.first(),
+                    service = ServiceEntityMock.create(),
                     nbrOfRecognizedVessel = 3,
                     consumedFuelInLiters = 3f,
                     consumedGOInLiters = 3f,
@@ -59,7 +67,7 @@ class ExportMissionAEMCombinedTest {
         val result = useCase.execute(missionIds)
 
         assertNotNull(result)
-        assertEquals("tableaux-AEM-combinés_2022-01-02.ods", result?.fileName)
+        assertEquals("tableaux-AEM.zip", result?.fileName)
     }
 
     @Test

@@ -3,12 +3,12 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 
 
 @UseCase
 class ProcessFishAction(
-    getStatusForAction: GetStatusForAction2,
+    getStatusForAction: GetStatusForAction,
     private val getComputeTarget: GetComputeTarget
 ) : AbstractGetMissionAction(getStatusForAction) {
 

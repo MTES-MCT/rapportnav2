@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory
 
 @UseCase
 class ExportMissionAEMMultipleZipped(
-    private val exportMissionAEMSingle: ExportMissionAEMSingle2,
+    private val exportMissionAEMSingle: ExportMissionAEMSingle,
     private val getComputeEnvMission: GetComputeEnvMission,
     private val zipFiles: ZipFiles,
 ) {

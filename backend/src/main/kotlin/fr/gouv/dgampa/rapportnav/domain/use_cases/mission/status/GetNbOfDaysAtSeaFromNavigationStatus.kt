@@ -11,8 +11,8 @@ import java.time.ZoneId
 import kotlin.time.DurationUnit
 
 @UseCase
-class GetNbOfDaysAtSeaFromNavigationStatus2(
-    private val getStatusDurations: GetStatusDurations2,
+class GetNbOfDaysAtSeaFromNavigationStatus(
+    private val getStatusDurations: GetStatusDurations,
     private val computeDurations: ComputeDurations
 ) {
 

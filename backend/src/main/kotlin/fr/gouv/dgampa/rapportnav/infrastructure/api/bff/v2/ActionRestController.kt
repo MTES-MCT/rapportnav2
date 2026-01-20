@@ -1,7 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionAction
@@ -30,7 +30,7 @@ class ActionRestController(
     private val getNavActionById: GetNavActionById,
     private val getEnvActionById: GetEnvActionById,
     private val getFishActionById: GetFishActionById,
-    private val getStatusForAction2: GetStatusForAction2
+    private val getStatusForAction: GetStatusForAction
 ) {
     private val logger = LoggerFactory.getLogger(ActionRestController::class.java)
 
@@ -94,7 +94,7 @@ class ActionRestController(
         if (envAction != null) action =  MissionAction.fromMissionActionEntity(envAction)
 
         if (action != null) {
-            action.status = getStatusForAction2.execute(
+            action.status = getStatusForAction.execute(
                 missionId = Integer.valueOf(ownerId),
                 actionStartDateTimeUtc = action.data?.startDateTimeUtc
             )

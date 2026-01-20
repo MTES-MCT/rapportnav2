@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBMissionActionRepository
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -13,10 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 
-@SpringBootTest(classes = [GetStatusForAction2::class])
+@SpringBootTest(classes = [GetStatusForAction::class])
 class GetStatusForAction2Test {
     @Autowired
-    private lateinit var useCase: GetStatusForAction2
+    private lateinit var useCase: GetStatusForAction
 
     @MockitoBean
     private lateinit var repository: IDBMissionActionRepository

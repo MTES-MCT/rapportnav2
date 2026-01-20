@@ -1,6 +1,6 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvTarget
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessEnvAction
@@ -25,7 +25,7 @@ class ProcessEnvActionTest {
     private lateinit var processEnvAction: ProcessEnvAction
 
     @MockitoBean
-    private lateinit var getStatusForAction: GetStatusForAction2
+    private lateinit var getStatusForAction: GetStatusForAction
 
     @MockitoBean
     private lateinit var mapControlPlans: MapEnvActionControlPlans

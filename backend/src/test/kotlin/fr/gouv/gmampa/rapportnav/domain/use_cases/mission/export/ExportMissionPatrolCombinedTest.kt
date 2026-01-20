@@ -1,16 +1,13 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionPatrolMultipleZipped2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionPatrolSingle2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ZipFiles
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionPatrolCombined
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionPatrolSingle
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
+import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -19,39 +16,32 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 
-@SpringBootTest(classes = [ExportMissionPatrolMultipleZipped2::class, ZipFiles::class])
-class ExportMissionPatrolMultipleZippedTest2 {
+@SpringBootTest(classes = [ExportMissionPatrolCombined::class, FormatDateTime::class])
+class ExportMissionPatrolCombinedTest {
 
     @Autowired
-    private lateinit var exportMissionPatrolMultipleZipped: ExportMissionPatrolMultipleZipped2
+    private lateinit var exportMissionPatrolCombined: ExportMissionPatrolCombined
 
     @MockitoBean
-    private lateinit var exportMissionPatrolSingle: ExportMissionPatrolSingle2
+    private lateinit var exportMissionPatrolSingle: ExportMissionPatrolSingle
 
     @MockitoBean
     private lateinit var getComputeEnvMission: GetComputeEnvMission
 
     @Test
     fun `should return null for empty mission list`() {
-        val result = exportMissionPatrolMultipleZipped.execute(emptyList())
+        val result = exportMissionPatrolCombined.execute(emptyList())
         assertEquals(null, result)
     }
 
     @Test
     fun `should export a file`() {
         val missionIds = listOf(1)
-        Mockito.`when`(exportMissionPatrolSingle.createFile(Mockito.any())).thenReturn(
-            MissionExportEntity(
-                fileName = "exportMissionPatrolSingle.odt",
-                fileContent = "MockContent"
-            )
-        )
         val mission2 = MissionEntityMock2.create(
             generalInfos = MissionGeneralInfoEntity2(
-                data = MissionGeneralInfoEntityMock.create(
+                data = MissionGeneralInfoEntity(
                     id = 1,
                     missionId = missionIds.first(),
-                    service = ServiceEntityMock.create(),
                     nbrOfRecognizedVessel = 3,
                     consumedFuelInLiters = 3f,
                     consumedGOInLiters = 3f,
@@ -65,10 +55,10 @@ class ExportMissionPatrolMultipleZippedTest2 {
             mission2
         )
 
-        val result = exportMissionPatrolMultipleZipped.execute(missionIds)
+        val result = exportMissionPatrolCombined.execute(missionIds)
 
         assertNotNull(result)
-        assertEquals("rapports-patrouille.zip", result?.fileName)
+        assertEquals("rapports-patrouille-combinés_2022-01-02.odt", result?.fileName)
     }
 
     @Test
@@ -79,7 +69,7 @@ class ExportMissionPatrolMultipleZippedTest2 {
             .thenThrow(RuntimeException("Mock exception"))
 
         // Act: Call the method
-        val result = exportMissionPatrolMultipleZipped.execute(missionIds)
+        val result = exportMissionPatrolCombined.execute(missionIds)
 
         // Assert: Verify the result is null and no further interactions happen
         assertEquals(null, result)

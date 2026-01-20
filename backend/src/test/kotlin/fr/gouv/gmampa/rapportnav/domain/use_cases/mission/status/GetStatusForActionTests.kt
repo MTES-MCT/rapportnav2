@@ -3,7 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.status
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.UNAVAILABLE_STATUS_AS_STRING
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBMissionActionRepository
 import org.assertj.core.api.Assertions.assertThat
@@ -18,8 +18,8 @@ import java.time.Instant
 import java.util.*
 
 
-@SpringBootTest(classes = [GetStatusForAction2::class])
-class GetStatusForAction2Tests {
+@SpringBootTest(classes = [GetStatusForAction::class])
+class GetStatusForActionTests {
 
     companion object {
         @Container
@@ -41,7 +41,7 @@ class GetStatusForAction2Tests {
     private lateinit var missionActionsRepository: IDBMissionActionRepository
 
     @Autowired
-    private lateinit var getStatusForAction: GetStatusForAction2
+    private lateinit var getStatusForAction: GetStatusForAction
 
     @Test
     fun `execute Should return Unknown when action is empty list for a mission`() {

@@ -3,8 +3,8 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.status
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions.assertThat
@@ -15,11 +15,11 @@ import java.time.Instant
 import java.time.temporal.ChronoUnit
 
 
-@SpringBootTest(classes = [GetNbOfDaysAtSeaFromNavigationStatus2::class, GetStatusDurations2::class, ComputeDurations::class])
-class GetNbOfDaysAtSeaFromNavigationStatus2Tests {
+@SpringBootTest(classes = [GetNbOfDaysAtSeaFromNavigationStatus::class, GetStatusDurations::class, ComputeDurations::class])
+class GetNbOfDaysAtSeaFromNavigationStatusTests {
 
     @Autowired
-    private lateinit var getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus2
+    private lateinit var getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus
 
     private val missionStartDateTime = Instant.parse("2022-01-01T11:00:00Z")
     private val missionEndDateTime = Instant.parse("2022-01-12T21:00:00Z")

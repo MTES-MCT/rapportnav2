@@ -1,8 +1,8 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputePatrolData
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionPatrolSingle2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.FormatActionsForTimeline2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionPatrolSingle
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsForTimeline
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
@@ -21,14 +21,14 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
     classes = [
         FormatDateTime::class,
         ComputeDurations::class,
-        FormatActionsForTimeline2::class,
-        ExportMissionPatrolSingle2::class
+        FormatActionsForTimeline::class,
+        ExportMissionPatrolSingle::class
     ]
 )
 class ExportMissionPatrolSingleTest {
 
     @Autowired
-    private lateinit var exportMissionRapportPatrouille: ExportMissionPatrolSingle2
+    private lateinit var exportMissionRapportPatrouille: ExportMissionPatrolSingle
 
     @MockitoBean
     private lateinit var getMission: GetComputeEnvMission
@@ -37,7 +37,7 @@ class ExportMissionPatrolSingleTest {
     private lateinit var computePatrolData: ComputePatrolData
 
     @MockitoBean
-    private lateinit var formatActionsForTimeline2: FormatActionsForTimeline2
+    private lateinit var formatActionsForTimeline: FormatActionsForTimeline
 
     @BeforeEach
     fun setUp() {

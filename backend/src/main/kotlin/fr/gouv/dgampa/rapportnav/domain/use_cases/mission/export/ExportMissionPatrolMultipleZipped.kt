@@ -1,4 +1,4 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
@@ -8,13 +8,13 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMissio
 import org.slf4j.LoggerFactory
 
 @UseCase
-class ExportMissionPatrolMultipleZipped2(
-    private val exportMissionPatrolSingle: ExportMissionPatrolSingle2,
+class ExportMissionPatrolMultipleZipped(
+    private val exportMissionPatrolSingle: ExportMissionPatrolSingle,
     private val getComputeEnvMission: GetComputeEnvMission,
     private val zipFiles: ZipFiles,
 ) {
 
-    private val logger = LoggerFactory.getLogger(ExportMissionPatrolMultipleZipped2::class.java)
+    private val logger = LoggerFactory.getLogger(ExportMissionPatrolMultipleZipped::class.java)
 
     /**
      * Returns a zip with several Rapports de Patrouille

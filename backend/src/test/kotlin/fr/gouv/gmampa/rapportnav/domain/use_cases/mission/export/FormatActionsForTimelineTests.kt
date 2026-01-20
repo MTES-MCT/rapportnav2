@@ -1,4 +1,4 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.FishInfraction
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.InfractionType
@@ -9,9 +9,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.FormatActionsForTimeline2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsForTimeline
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatGeoCoords
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.*
@@ -27,14 +27,14 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 import java.time.LocalDate
 
-@SpringBootTest(classes = [FormatActionsForTimeline2::class, FormatDateTime::class, FormatGeoCoords::class])
-class FormatActionsForTimeline2Tests {
+@SpringBootTest(classes = [FormatActionsForTimeline::class, FormatDateTime::class, FormatGeoCoords::class])
+class FormatActionsForTimelineTests {
 
     @Autowired
-    private lateinit var formatActionsForTimeline: FormatActionsForTimeline2
+    private lateinit var formatActionsForTimeline: FormatActionsForTimeline
 
     @MockitoBean
-    private lateinit var groupActionByDate: GroupActionByDate2
+    private lateinit var groupActionByDate: GroupActionByDate
 
     @MockitoBean
     private lateinit var mapEnvActionControlPlans: MapEnvActionControlPlans

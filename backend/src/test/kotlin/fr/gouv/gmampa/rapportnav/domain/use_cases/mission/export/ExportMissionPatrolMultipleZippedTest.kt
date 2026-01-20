@@ -1,10 +1,10 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionAEMMultipleZipped
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionAEMSingle2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ZipFiles
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionPatrolMultipleZipped
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionPatrolSingle
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ZipFiles
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
@@ -18,30 +18,30 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 
-@SpringBootTest(classes = [ExportMissionAEMMultipleZipped::class, ZipFiles::class])
-class ExportMissionAEMMultipleZippedTest {
+@SpringBootTest(classes = [ExportMissionPatrolMultipleZipped::class, ZipFiles::class])
+class ExportMissionPatrolMultipleZippedTest {
 
     @Autowired
-    private lateinit var useCase: ExportMissionAEMMultipleZipped
+    private lateinit var exportMissionPatrolMultipleZipped: ExportMissionPatrolMultipleZipped
 
     @MockitoBean
-    private lateinit var exportMissionAEMSingle: ExportMissionAEMSingle2
+    private lateinit var exportMissionPatrolSingle: ExportMissionPatrolSingle
 
     @MockitoBean
     private lateinit var getComputeEnvMission: GetComputeEnvMission
 
     @Test
     fun `should return null for empty mission list`() {
-        val result = useCase.execute(emptyList())
+        val result = exportMissionPatrolMultipleZipped.execute(emptyList())
         assertEquals(null, result)
     }
 
     @Test
     fun `should export a file`() {
         val missionIds = listOf(1)
-        Mockito.`when`(exportMissionAEMSingle.createFile(Mockito.any())).thenReturn(
+        Mockito.`when`(exportMissionPatrolSingle.createFile(Mockito.any())).thenReturn(
             MissionExportEntity(
-                fileName = "exportMissionAEMSingle.odt",
+                fileName = "exportMissionPatrolSingle.odt",
                 fileContent = "MockContent"
             )
         )
@@ -64,10 +64,10 @@ class ExportMissionAEMMultipleZippedTest {
             mission2
         )
 
-        val result = useCase.execute(missionIds)
+        val result = exportMissionPatrolMultipleZipped.execute(missionIds)
 
         assertNotNull(result)
-        assertEquals("tableaux-AEM.zip", result?.fileName)
+        assertEquals("rapports-patrouille.zip", result?.fileName)
     }
 
     @Test
@@ -78,11 +78,11 @@ class ExportMissionAEMMultipleZippedTest {
             .thenThrow(RuntimeException("Mock exception"))
 
         // Act: Call the method
-        val result = useCase.execute(missionIds)
+        val result = exportMissionPatrolMultipleZipped.execute(missionIds)
 
         // Assert: Verify the result is null and no further interactions happen
         assertEquals(null, result)
-        Mockito.verifyNoInteractions(exportMissionAEMSingle)
+        Mockito.verifyNoInteractions(exportMissionPatrolSingle)
     }
 
 }
