@@ -2,7 +2,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
 import org.assertj.core.api.Assertions.assertThat
@@ -24,7 +24,7 @@ class ProcessNavActionTest {
     private lateinit var processNavAction: ProcessNavAction
 
     @MockitoBean
-    private lateinit var getStatusForAction: GetStatusForAction2
+    private lateinit var getStatusForAction: GetStatusForAction
 
     @MockitoBean
     private lateinit var getComputeTarget: GetComputeTarget

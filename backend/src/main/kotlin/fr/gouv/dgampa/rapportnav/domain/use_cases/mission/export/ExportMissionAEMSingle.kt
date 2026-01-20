@@ -1,6 +1,5 @@
-package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 
-import com.sun.org.apache.bcel.internal.util.Args.require
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMTableExport2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
@@ -23,7 +22,7 @@ import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 
 @UseCase
-class ExportMissionAEMSingle2(
+class ExportMissionAEMSingle(
     @param:Value("\${rapportnav.aem.template.path}") private val aemTemplatePath: String,
     @param:Value("\${rapportnav.aem.tmp_xlsx.path}") private val aemTmpXLSXPath: String,
     @param:Value("\${rapportnav.aem.tmp_ods.path}") private val aemTmpODSPath: String,
@@ -35,7 +34,7 @@ class ExportMissionAEMSingle2(
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val getComputeEnvMission: GetComputeEnvMission,
 ) {
-    private val logger: Logger = LoggerFactory.getLogger(ExportMissionAEMSingle2::class.java)
+    private val logger: Logger = LoggerFactory.getLogger(ExportMissionAEMSingle::class.java)
 
     fun execute(missionId: Int): MissionExportEntity? {
 

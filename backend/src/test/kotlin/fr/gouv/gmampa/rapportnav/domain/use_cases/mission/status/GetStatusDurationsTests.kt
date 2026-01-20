@@ -3,7 +3,7 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.status
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions.assertThat
@@ -14,11 +14,11 @@ import java.time.Instant
 import kotlin.time.DurationUnit
 
 
-@SpringBootTest(classes = [GetStatusDurations2::class, ComputeDurations::class])
-class GetStatusDurations2Tests {
+@SpringBootTest(classes = [GetStatusDurations::class, ComputeDurations::class])
+class GetStatusDurationsTests {
 
     @Autowired
-    private lateinit var getStatusDurations2: GetStatusDurations2
+    private lateinit var getStatusDurations: GetStatusDurations
 
     private fun action(
         status: ActionStatusType,
@@ -37,7 +37,7 @@ class GetStatusDurations2Tests {
     @Test
     fun `computeDurationsByAction returns empty list when no actions`() {
         val actions = null
-        val result = getStatusDurations2.computeDurationsByAction(actions = actions)
+        val result = getStatusDurations.computeDurationsByAction(actions = actions)
 
         assertThat(result).isEmpty()
     }
@@ -46,7 +46,7 @@ class GetStatusDurations2Tests {
         val actions = listOf(
             action(ActionStatusType.DOCKED, Instant.now(), type = ActionType.NOTE)
         )
-        val result = getStatusDurations2.computeDurationsByAction(actions = actions)
+        val result = getStatusDurations.computeDurationsByAction(actions = actions)
 
         assertThat(result).isEmpty()
     }
@@ -63,7 +63,7 @@ class GetStatusDurations2Tests {
             action(ActionStatusType.UNAVAILABLE, t3)
         )
 
-        val result = getStatusDurations2.computeDurationsByAction(actions = actions, durationUnit = DurationUnit.HOURS)
+        val result = getStatusDurations.computeDurationsByAction(actions = actions, durationUnit = DurationUnit.HOURS)
 
         assertThat(result).hasSize(3)
         assertThat(result[0].duration).isEqualTo(1.0)     // 1 hour
@@ -80,7 +80,7 @@ class GetStatusDurations2Tests {
             action(ActionStatusType.DOCKED, t2)
         )
 
-        val result = getStatusDurations2.computeDurationsByAction(actions = actions)
+        val result = getStatusDurations.computeDurationsByAction(actions = actions)
 
         assertThat(result[1].duration).isEqualTo(0.0)  // last action → 0
     }
@@ -92,7 +92,7 @@ class GetStatusDurations2Tests {
 
         val actions = listOf(action(ActionStatusType.NAVIGATING, t1))
 
-        val result = getStatusDurations2.computeDurationsByAction(
+        val result = getStatusDurations.computeDurationsByAction(
             missionEndDateTime = end,
             actions = actions,
             durationUnit = DurationUnit.MINUTES
@@ -108,12 +108,12 @@ class GetStatusDurations2Tests {
     @Test
     fun `sumDurationsByStatusAndReason groups by status and reason`() {
         val data = listOf(
-            GetStatusDurations2.ActionStatusWithDuration(1.0, ActionStatusType.NAVIGATING, null),
-            GetStatusDurations2.ActionStatusWithDuration(2.0, ActionStatusType.NAVIGATING, null),
-            GetStatusDurations2.ActionStatusWithDuration(3.0, ActionStatusType.DOCKED, ActionStatusReason.WEATHER)
+            GetStatusDurations.ActionStatusWithDuration(1.0, ActionStatusType.NAVIGATING, null),
+            GetStatusDurations.ActionStatusWithDuration(2.0, ActionStatusType.NAVIGATING, null),
+            GetStatusDurations.ActionStatusWithDuration(3.0, ActionStatusType.DOCKED, ActionStatusReason.WEATHER)
         )
 
-        val result = getStatusDurations2.sumDurationsByStatusAndReason(data)
+        val result = getStatusDurations.sumDurationsByStatusAndReason(data)
 
         assertThat(result.find { it.status == ActionStatusType.NAVIGATING }!!.duration).isEqualTo(3.0)
         assertThat(result.find { it.status == ActionStatusType.DOCKED }!!.duration).isEqualTo(3.0)
@@ -125,11 +125,11 @@ class GetStatusDurations2Tests {
 
     @Test
     fun `computeActionDurationsForAllMission returns defaults when actions is empty`() {
-        val result = getStatusDurations2.computeActionDurationsForAllMission(actions = emptyList())
+        val result = getStatusDurations.computeActionDurationsForAllMission(actions = emptyList())
 
         // by default: every status except UNKNOWN, with all matching reasons
-        val dockedReasons = getStatusDurations2.getSelectOptionsForType(ActionStatusType.DOCKED)!!
-        val unavailableReasons = getStatusDurations2.getSelectOptionsForType(ActionStatusType.UNAVAILABLE)!!
+        val dockedReasons = getStatusDurations.getSelectOptionsForType(ActionStatusType.DOCKED)!!
+        val unavailableReasons = getStatusDurations.getSelectOptionsForType(ActionStatusType.UNAVAILABLE)!!
 
         assertThat(result).anyMatch { it.status == ActionStatusType.ANCHORED }
         assertThat(result).anyMatch { it.reason == dockedReasons.first() }
@@ -143,7 +143,7 @@ class GetStatusDurations2Tests {
 
     @Test
     fun `getSelectOptionsForType returns null for types without reasons`() {
-        assertThat(getStatusDurations2.getSelectOptionsForType(ActionStatusType.NAVIGATING)).isNull()
-        assertThat(getStatusDurations2.getSelectOptionsForType(ActionStatusType.ANCHORED)).isNull()
+        assertThat(getStatusDurations.getSelectOptionsForType(ActionStatusType.NAVIGATING)).isNull()
+        assertThat(getStatusDurations.getSelectOptionsForType(ActionStatusType.ANCHORED)).isNull()
     }
 }

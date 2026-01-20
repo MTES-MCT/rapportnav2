@@ -1,16 +1,15 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeFishActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNavActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionAEMSingle2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMSingle
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FillAEMExcelRow
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
@@ -19,11 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 
-@SpringBootTest(classes = [ExportMissionAEMSingle2::class, FormatDateTime::class])
-class ExportMissionAEMSingleTest2 {
+@SpringBootTest(classes = [ExportMissionAEMSingle::class, FormatDateTime::class])
+class ExportMissionAEMSingleTest {
 
     @Autowired
-    private lateinit var useCase: ExportMissionAEMSingle2
+    private lateinit var useCase: ExportMissionAEMSingle
 
     @MockitoBean
     private lateinit var fillAEMExcelRow: FillAEMExcelRow
@@ -43,7 +42,7 @@ class ExportMissionAEMSingleTest2 {
     @Test
     fun `execute AEM export return null when mission not exist`() {
         val result = useCase.createFile(mission=null)
-        Assertions.assertThat(result).isNull()
+        assertThat(result).isNull()
     }
 
     @Test

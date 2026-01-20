@@ -11,7 +11,7 @@ import kotlin.time.DurationUnit
 
 
 @UseCase
-class GetStatusDurations2(
+class GetStatusDurations(
     private val computeDurations: ComputeDurations
 ) {
 

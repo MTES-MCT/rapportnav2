@@ -1,11 +1,11 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.MapStatusDurations2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.MapStatusDurations
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetNbOfDaysAtSeaFromNavigationStatus
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.status.GetStatusDurations
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.assertj.core.api.Assertions.assertThat
@@ -17,17 +17,17 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 import kotlin.time.DurationUnit
 
-@SpringBootTest(classes = [MapStatusDurations2::class, GetNbOfDaysAtSeaFromNavigationStatus2::class])
-class MapStatusDurations2Tests {
+@SpringBootTest(classes = [MapStatusDurations::class, GetNbOfDaysAtSeaFromNavigationStatus::class])
+class MapStatusDurationsTests {
 
     @Autowired
-    private lateinit var mapStatusDurations: MapStatusDurations2
+    private lateinit var mapStatusDurations: MapStatusDurations
 
     @MockitoBean
-    private lateinit var getStatusDurations: GetStatusDurations2
+    private lateinit var getStatusDurations: GetStatusDurations
 
     @MockitoBean
-    private lateinit var getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus2
+    private lateinit var getNbOfDaysAtSeaFromNavigationStatus: GetNbOfDaysAtSeaFromNavigationStatus
 
      @Test
     fun `MapStatusDurations should return data`() {
@@ -73,62 +73,62 @@ class MapStatusDurations2Tests {
             )
         )
         val mockData = listOf(
-            GetStatusDurations2.ActionStatusWithDuration(
+            GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.ANCHORED,
                 duration = 2.0,
                 reason = null
             ),
-            GetStatusDurations2.ActionStatusWithDuration(
+            GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
                 duration = 0.0,
                 reason = ActionStatusReason.MAINTENANCE
             ),
-            GetStatusDurations2.ActionStatusWithDuration(
+            GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
                 duration = 1.0,
                 reason = ActionStatusReason.WEATHER
             ),
-            GetStatusDurations2.ActionStatusWithDuration(
+            GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
                 duration = 1.0,
                 reason = ActionStatusReason.MCO_AND_LOGISTICS
             ),
-            GetStatusDurations2.ActionStatusWithDuration(
+            GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
                 duration = 2.0,
                 reason = ActionStatusReason.REPRESENTATION
             ),
-            GetStatusDurations2.ActionStatusWithDuration(
+            GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
                 duration = 0.0,
                 reason = ActionStatusReason.ADMINISTRATION
             ),
-            GetStatusDurations2.ActionStatusWithDuration(
+            GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
                 duration = 0.0,
                 reason = ActionStatusReason.HARBOUR_CONTROL
             ),
-            GetStatusDurations2.ActionStatusWithDuration(
+            GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.DOCKED,
                 duration = 0.0,
                 reason = ActionStatusReason.OTHER
             ),
-            GetStatusDurations2.ActionStatusWithDuration(
+            GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.NAVIGATING,
                 duration = 2.0,
                 reason = null
             ),
-            GetStatusDurations2.ActionStatusWithDuration(
+            GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.UNAVAILABLE,
                 duration = 0.0,
                 reason = ActionStatusReason.TECHNICAL
             ),
-            GetStatusDurations2.ActionStatusWithDuration(
+            GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.UNAVAILABLE,
                 duration = 2.0,
                 reason = ActionStatusReason.PERSONNEL
             ),
-            GetStatusDurations2.ActionStatusWithDuration(
+            GetStatusDurations.ActionStatusWithDuration(
                 status = ActionStatusType.UNAVAILABLE,
                 duration = 0.0,
                 reason = ActionStatusReason.OTHER

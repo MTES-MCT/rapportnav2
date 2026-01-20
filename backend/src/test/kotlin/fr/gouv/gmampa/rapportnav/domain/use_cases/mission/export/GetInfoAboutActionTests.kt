@@ -1,11 +1,11 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.NavActionInfoEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.GetInfoAboutNavAction2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.GetInfoAboutNavAction2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionEnvActionEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
@@ -17,7 +17,7 @@ import java.time.Instant
 
 @SpringBootTest(classes = [GetInfoAboutNavAction2::class, ComputeDurations::class])
 
-class GetInfoAboutAction2Tests {
+class GetInfoAboutActionTests {
 
     @Autowired
     private lateinit var getInfoAboutNavAction: GetInfoAboutNavAction2

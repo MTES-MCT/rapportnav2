@@ -6,7 +6,7 @@ import java.time.LocalDate
 import java.time.ZoneId
 
 @UseCase
-class GroupActionByDate2 {
+class GroupActionByDate {
     fun execute(actions: List<MissionActionEntity>?): Map<LocalDate, List<MissionActionEntity>>? {
         val zoneId = ZoneId.of("Europe/Paris") // Or use a specific ZoneId like ZoneId.of("Europe/Paris")
 

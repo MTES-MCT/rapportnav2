@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.ExportModeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.ExportReportTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionReports
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionReports
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -76,25 +76,13 @@ class MissionExportController(
     fun exportMissionReports(
         @Valid @RequestBody request: ExportBodyRequest
     ): MissionExportEntity? {
-        try {
-            val output: MissionExportEntity? =
-                exportMissionReports.execute(
-                    missionIds = request.missionIds.distinct(),
-                    exportMode = request.exportMode,
-                    reportType = request.reportType
-                )
-            return output
-        } catch (e: Exception) {
-            logger.error("API exportMissionReports - error while generating documents", e)
-            throw Exception(e)
-//             uncomment following lines for mocking/dev
-//            return MissionExportEntity(
-//                fileName = "rapport-de-patrouille.odt",
-//                fileContent = "UEsDBBQABgAIAAAAIQCzgd16AAAAAAAAAAAAAAAACwAJAG1pbWV0eXBlYXBwbGljYXRpb24vdm5kLm9hc2lzLm9wZW5kb2N1bWVu", // odt
-//                fileName = "rapport-de-patrouille.zip",
-//                fileContent = "UEsFBgAAAAAAAAAAAAAAAAAAAAAAAA==", // zip
-//            )
-        }
+        val output: MissionExportEntity? =
+            exportMissionReports.execute(
+                missionIds = request.missionIds.distinct(),
+                exportMode = request.exportMode,
+                reportType = request.reportType
+            )
+        return output
     }
 
 }

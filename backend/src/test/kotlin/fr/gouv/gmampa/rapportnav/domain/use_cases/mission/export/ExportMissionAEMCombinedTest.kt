@@ -1,9 +1,9 @@
-package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export.v2
+package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.export
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionPatrolCombined2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionPatrolSingle2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMCombined
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMSingle
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
@@ -16,21 +16,21 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 
-@SpringBootTest(classes = [ExportMissionPatrolCombined2::class, FormatDateTime::class])
-class ExportMissionPatrolCombinedTest2 {
+@SpringBootTest(classes = [ExportMissionAEMCombined::class, FormatDateTime::class])
+class ExportMissionAEMCombinedTest {
 
     @Autowired
-    private lateinit var exportMissionPatrolCombined: ExportMissionPatrolCombined2
+    private lateinit var useCase: ExportMissionAEMCombined
 
     @MockitoBean
-    private lateinit var exportMissionPatrolSingle: ExportMissionPatrolSingle2
+    private lateinit var exportMissionAEMSingle: ExportMissionAEMSingle
 
     @MockitoBean
     private lateinit var getComputeEnvMission: GetComputeEnvMission
 
     @Test
     fun `should return null for empty mission list`() {
-        val result = exportMissionPatrolCombined.execute(emptyList())
+        val result = useCase.execute(emptyList())
         assertEquals(null, result)
     }
 
@@ -55,10 +55,10 @@ class ExportMissionPatrolCombinedTest2 {
             mission2
         )
 
-        val result = exportMissionPatrolCombined.execute(missionIds)
+        val result = useCase.execute(missionIds)
 
         assertNotNull(result)
-        assertEquals("rapports-patrouille-combinés_2022-01-02.odt", result?.fileName)
+        assertEquals("tableaux-AEM-combinés_2022-01-02.ods", result?.fileName)
     }
 
     @Test
@@ -69,11 +69,11 @@ class ExportMissionPatrolCombinedTest2 {
             .thenThrow(RuntimeException("Mock exception"))
 
         // Act: Call the method
-        val result = exportMissionPatrolCombined.execute(missionIds)
+        val result = useCase.execute(missionIds)
 
         // Assert: Verify the result is null and no further interactions happen
         assertEquals(null, result)
-        Mockito.verifyNoInteractions(exportMissionPatrolSingle)
+        Mockito.verifyNoInteractions(exportMissionAEMSingle)
     }
 
 }

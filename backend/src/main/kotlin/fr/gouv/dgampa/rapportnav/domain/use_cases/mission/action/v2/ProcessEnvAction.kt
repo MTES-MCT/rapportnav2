@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlP
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.FormattedEnvActionControlPlan
 
@@ -13,7 +13,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.action.FormattedEn
 @UseCase
 class ProcessEnvAction(
     private val mapControlPlans: MapEnvActionControlPlans,
-    getStatusForAction: GetStatusForAction2,
+    getStatusForAction: GetStatusForAction,
     private val getComputeEnvTarget: GetComputeEnvTarget
 ) : AbstractGetMissionAction(getStatusForAction) {
 

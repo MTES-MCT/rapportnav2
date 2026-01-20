@@ -2,10 +2,10 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionActionEntity
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 
 abstract class AbstractGetMissionAction(
-    private val getStatusForAction: GetStatusForAction2
+    private val getStatusForAction: GetStatusForAction
 ) {
     fun getStatus(action: MissionActionEntity): ActionStatusType? {
         if (action.status != null) return action.status

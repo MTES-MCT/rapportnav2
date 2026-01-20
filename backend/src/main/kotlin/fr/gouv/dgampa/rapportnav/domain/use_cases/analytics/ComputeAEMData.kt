@@ -3,7 +3,7 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.analytics
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMTableExport2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.ExportMissionAEMSingle2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionAEMSingle
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.analytics.v1.adapters.output.AEMMetricOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.analytics.v1.adapters.output.ApiAnalyticsAEMDataOutput
@@ -12,13 +12,13 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.analytics.v1.adap
 class ComputeAEMData(
     private val getEnvMissionById2: GetEnvMissionById2,
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
-    private val exportMissionAEMSingle2: ExportMissionAEMSingle2,
+    private val exportMissionAEMSingle: ExportMissionAEMSingle,
 ) {
 
     fun execute(missionId: Int): ApiAnalyticsAEMDataOutput? {
         val envMission = getEnvMissionById2.execute(missionId)
         val generalInfo = getMissionGeneralInfoByMissionId.execute(missionId)
-        val data = exportMissionAEMSingle2.getAemData(missionId)
+        val data = exportMissionAEMSingle.getAemData(missionId)
 
         if (data == null) return null
 

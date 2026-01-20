@@ -13,8 +13,8 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputePatrolData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.ComputeInternTrainingSummary
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.controlPolicies.ComputeControlPolicies
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.patrol.operationalSummary.ComputeAllOperationalSummary
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.GetInfoAboutNavAction2
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.MapStatusDurations2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.GetInfoAboutNavAction2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.MapStatusDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionActionControls
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
@@ -32,7 +32,7 @@ import java.time.Instant
 
 @SpringBootTest(classes = [
     ComputePatrolData::class,
-    MapStatusDurations2::class,
+    MapStatusDurations::class,
     ComputeAllOperationalSummary::class,
     ComputeControlPolicies::class,
     GetMissionActionControls::class,
@@ -55,7 +55,7 @@ class ComputePatrolDataTest {
     @MockitoBean
     private lateinit var getInfoAboutNavAction2: GetInfoAboutNavAction2
     @MockitoBean
-    private lateinit var mapStatusDurations2: MapStatusDurations2
+    private lateinit var mapStatusDurations: MapStatusDurations
 
     @Test
     fun `Should return null when no mission data found`() {
@@ -179,7 +179,7 @@ class ComputePatrolDataTest {
 
         `when`(getComputeEnvMission.execute(missionId))
             .thenReturn(missionMock)
-        `when`(mapStatusDurations2.execute(anyList<MissionNavActionEntity>(), anyList<MissionActionEntity>(), any(), any()))
+        `when`(mapStatusDurations.execute(anyList<MissionNavActionEntity>(), anyList<MissionActionEntity>(), any(), any()))
             .thenReturn(expected)
 
         val actual = computePatrolData.execute(missionId = 123)
