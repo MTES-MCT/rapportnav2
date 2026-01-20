@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.54.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.53.1...docker-container@v2.54.0) (2026-01-20)
+
+
+### Features
+
+* **backend:** delete dead class in main ([a866acb](https://github.com/MTES-MCT/rapportnav2/commit/a866acb861ecffee76b3197e9748cf94a77baf64))
+* **backend:** delete dead test files ([92a784b](https://github.com/MTES-MCT/rapportnav2/commit/92a784b38df823430aeecdd5f1756e381588c792))
+* **backend:** delete graphql ([3ae47d4](https://github.com/MTES-MCT/rapportnav2/commit/3ae47d4a29e44743b70798c068a1b2ca7e939ed0))
+* **backend:** update test files and classes ([b141614](https://github.com/MTES-MCT/rapportnav2/commit/b14161467db56a6cc75d254699e5f691d89844a1))
+
+
+### Bug Fixes
+
+* **backend:** resolve test ([d851352](https://github.com/MTES-MCT/rapportnav2/commit/d851352229650e30b4251ed37c365565515a2dd5))
+* **backend:** update column size ([180b849](https://github.com/MTES-MCT/rapportnav2/commit/180b84904225b0a5b5a9b3ff0763634b77d0dfcc))
+
 ## [2.53.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.53.0...docker-container@v2.53.1) (2026-01-16)
 
 
