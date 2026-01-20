@@ -1,0 +1,9 @@
+DO
+$$
+BEGIN
+ALTER TABLE establishment ALTER COLUMN city TYPE VARCHAR(255);
+ALTER TABLE establishment ALTER COLUMN zipcode TYPE VARCHAR(36);
+ALTER TABLE establishment ALTER COLUMN country TYPE VARCHAR(255);
+
+END
+$$;
