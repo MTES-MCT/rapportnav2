@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.DeleteMissionNav
+import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.DeleteNavMission
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.MissionModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionNavActionEntityMock
 import org.junit.jupiter.api.Test
@@ -17,12 +17,12 @@ import java.time.Instant
 import java.util.*
 
 
-@SpringBootTest(classes = [DeleteMissionNav::class])
-@ContextConfiguration(classes = [DeleteMissionNav::class])
-class DeleteMissionNavTest {
+@SpringBootTest(classes = [DeleteNavMission::class])
+@ContextConfiguration(classes = [DeleteNavMission::class])
+class DeleteNavMissionTest {
 
     @Autowired
-    private lateinit var deleteMissionNav: DeleteMissionNav
+    private lateinit var deleteNavMission: DeleteNavMission
 
     @MockitoBean
     private lateinit var missionRepo: IMissionNavRepository
@@ -36,7 +36,7 @@ class DeleteMissionNavTest {
     @Test
     fun `should not call repository when id is null`() {
         val id = UUID.randomUUID()
-        deleteMissionNav.execute(id  = null)
+        deleteNavMission.execute(id  = null)
         verify(missionRepo, times(0)).deleteById(id)
     }
 
@@ -56,7 +56,7 @@ class DeleteMissionNavTest {
         `when`(missionRepo.finById(id = ownerId)).thenReturn(Optional.of(model))
         `when`(getNavActionListByOwnerId.execute(ownerId = ownerId)).thenReturn(listOf(action))
 
-        deleteMissionNav.execute(id  = ownerId, serviceId = 4)
+        deleteNavMission.execute(id  = ownerId, serviceId = 4)
         verify(missionRepo, times(1)).finById(ownerId)
         verify(missionRepo, times(0)).deleteById(ownerId)
         verify(deleteNavAction, times(0)).execute(id  = action.id)
@@ -80,7 +80,7 @@ class DeleteMissionNavTest {
         `when`(missionRepo.finById(id = ownerId)).thenReturn(Optional.of(model))
         `when`(getNavActionListByOwnerId.execute(ownerId = ownerId)).thenReturn(listOf(action))
 
-        deleteMissionNav.execute(id  = ownerId, serviceId = 4)
+        deleteNavMission.execute(id  = ownerId, serviceId = 4)
         verify(missionRepo, times(1)).finById(ownerId)
         verify(missionRepo, times(0)).deleteById(ownerId)
         verify(deleteNavAction, times(0)).execute(id  = action.id)
@@ -104,7 +104,7 @@ class DeleteMissionNavTest {
         `when`(missionRepo.finById(id = ownerId)).thenReturn(Optional.of(model))
         `when`(getNavActionListByOwnerId.execute(ownerId = ownerId)).thenReturn(listOf(action))
 
-        deleteMissionNav.execute(id  = ownerId, serviceId = serviceId)
+        deleteNavMission.execute(id  = ownerId, serviceId = serviceId)
         verify(missionRepo, times(1)).deleteById(ownerId)
         verify(deleteNavAction, times(1)).execute(id  = action.id)
 

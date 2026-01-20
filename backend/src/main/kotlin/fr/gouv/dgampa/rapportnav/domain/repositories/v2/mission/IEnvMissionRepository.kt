@@ -10,4 +10,6 @@ interface IEnvMissionRepository {
     fun update(mission: MissionEnvEntity): MissionEnvEntity?
 
     fun patchMission(missionId: Int, mission: PatchMissionInput): MissionEnvEntity?
+
+    fun deleteMission(missionId: Int)
 }

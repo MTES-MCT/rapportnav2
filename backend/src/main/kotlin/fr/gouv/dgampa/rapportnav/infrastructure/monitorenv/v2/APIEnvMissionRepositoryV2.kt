@@ -129,4 +129,29 @@ class APIEnvMissionRepositoryV2(
         }
     }
 
+    override fun deleteMission(missionId: Int) {
+        val url = "$host/api/v2/missions/$missionId"
+        logger.info("Sending DELETE request for Env mission id=$missionId. URL: $url")
+        try {
+            val request = HttpRequest
+                .newBuilder()
+                .header("Content-Type", "application/json")
+                .uri(URI.create(url))
+                .DELETE()
+                .build()
+
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+            logger.debug("Response received, missionId: ${missionId}, Status code: ${response.statusCode()}")
+
+            val body = response.body()
+            logger.info("Response received, Content: $body")
+
+            if (response.statusCode() == 400 || response.statusCode() == 500 || response.statusCode() == 405) {
+                throw Exception("Error while deleting mission from env, please check the logs")
+            }
+        } catch (e: Exception) {
+            logger.error("Failed to DELETE request for Env mission id=$missionId. URL: $url", e)
+        }
+    }
+
 }

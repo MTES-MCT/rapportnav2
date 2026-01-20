@@ -6,17 +6,16 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavReposito
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.DeleteNavAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetNavActionListByOwnerId
 import java.util.*
-import kotlin.jvm.optionals.getOrNull
 
 @UseCase
-class DeleteMissionNav(
+class DeleteNavMission(
     private val missionRepo: IMissionNavRepository,
     private val deleteNavAction: DeleteNavAction,
     private val getNavActionListByOwnerId: GetNavActionListByOwnerId
 ) {
     fun execute(id: UUID? = null, serviceId: Int? = null) {
         if (id == null) return
-        val mission = missionRepo.finById(id = id).getOrNull() ?: return
+        val mission = missionRepo.finById(id = id).orElse(null) ?: return
         if (mission.serviceId != serviceId) return
         if (!listOf(MissionSourceEnum.RAPPORT_NAV, MissionSourceEnum.RAPPORTNAV).contains(mission.missionSource)) return
         deleteActions(ownerId = mission.id)
