@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.54.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.54.0...backend@v2.54.1) (2026-01-20)
+
+
+### Bug Fixes
+
+* **export:** use v2 entities for AEM ([bf89319](https://github.com/MTES-MCT/rapportnav2/commit/bf893190469c7ef91fa459ffca1ee1cb4ff2b462))
+
 ## [2.54.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.53.1...backend@v2.54.0) (2026-01-20)
 
 
