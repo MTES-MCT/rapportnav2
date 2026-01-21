@@ -34,7 +34,7 @@ export const SearchEstablishment = styled(
     }, [establishments])
 
     useEffect(() => {
-      if (!establishment || !establishment.name) return
+      if (!establishment || !establishment.siren) return
       setSearch(getName(establishment))
     }, [establishment])
 
