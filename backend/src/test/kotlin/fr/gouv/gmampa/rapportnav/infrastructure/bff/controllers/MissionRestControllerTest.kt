@@ -58,6 +58,9 @@ class MissionRestControllerTest {
     private lateinit var deleteNavMission: DeleteNavMission
 
     @MockitoBean
+    private lateinit var deleteEnvMission: DeleteEnvMission
+
+    @MockitoBean
     private lateinit var apiKeyAuthenticationFilter: ApiKeyAuthenticationFilter
 
     /**
