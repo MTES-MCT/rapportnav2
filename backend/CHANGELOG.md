@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.55.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.54.1...backend@v2.55.0) (2026-01-21)
+
+
+### Features
+
+* **SpringBoot4:** bump to spring boot 4 and gradle 8.14 ([9643dc5](https://github.com/MTES-MCT/rapportnav2/commit/9643dc52821f749ca3e95cff00806f09a089c237))
+
 ## [2.54.1](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.54.0...backend@v2.54.1) (2026-01-20)
 
 

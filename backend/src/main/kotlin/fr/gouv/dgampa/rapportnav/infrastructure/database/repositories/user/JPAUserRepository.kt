@@ -1,6 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.user
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.user.UserModel
@@ -8,11 +7,12 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import tools.jackson.databind.json.JsonMapper
 
 @Repository
 class JPAUserRepository(
     private val dbUserRepository: IDBUserRepository,
-    private val mapper: ObjectMapper
+    private val mapper: JsonMapper
 ) : IUserRepository {
 
     override fun findById(id: Int): User? {

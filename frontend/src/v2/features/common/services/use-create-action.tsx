@@ -88,7 +88,7 @@ export const offlineCreateActionDefaults = {
       type: 'all'
     })
     await queryClient.invalidateQueries({
-      queryKey: actionsKeys.byId(_data?.data.id)
+      queryKey: actionsKeys.byId(_data?.id)
     })
   },
   scope: {

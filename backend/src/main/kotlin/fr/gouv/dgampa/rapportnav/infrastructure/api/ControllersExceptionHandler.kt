@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.v1.adapters.outpu
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.v1.adapters.outputs.BackendRequestErrorDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.v1.adapters.outputs.BackendUsageErrorDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestException
+import io.sentry.Sentry
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.core.Ordered.HIGHEST_PRECEDENCE
@@ -28,7 +29,12 @@ class ControllersExceptionHandler {
     fun handleBackendInternalException(
         e: BackendInternalException,
     ): BackendInternalErrorDataOutput {
-        return BackendInternalErrorDataOutput(e.message)
+        Sentry.captureException(e)
+        return BackendInternalErrorDataOutput(
+            message = e.message,
+            exception = e::class.simpleName,
+            cause = e.originalException?.message
+        )
     }
 
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
@@ -52,11 +58,15 @@ class ControllersExceptionHandler {
     //   If that happens, it's a bug, thus an unexpected exception.
 
     /** Catch-all for unexpected exceptions. */
-    /*     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception::class)
-    fun handleUnexpectedException(e: Exception): BackendInternalErrorDataOutput {
-        logger.error(e.message, e)
-
-        return BackendInternalErrorDataOutput()
-    } */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Throwable::class)
+    fun handleUnexpectedException(e: Throwable): BackendInternalErrorDataOutput {
+        logger.error("Unexpected error: ${e.message}", e)
+        Sentry.captureException(e)
+        return BackendInternalErrorDataOutput(
+            message = e.message ?: "An unexpected error occurred",
+            exception = e::class.simpleName,
+            cause = e.cause?.message
+        )
+    }
 }

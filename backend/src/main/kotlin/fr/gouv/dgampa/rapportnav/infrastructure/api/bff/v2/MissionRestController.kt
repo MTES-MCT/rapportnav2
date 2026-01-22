@@ -57,20 +57,16 @@ class MissionRestController(
         ]
     )
     fun getMissions(
-        @RequestParam startDateTimeUtc: Instant,
-        @RequestParam(required = false) endDateTimeUtc: Instant? = null
-    ): List<Mission2?>? {
-        try {
-            val missions = getMissions.execute(
-                startDateTimeUtc = startDateTimeUtc,
-                endDateTimeUtc = endDateTimeUtc,
-            )
+        @RequestParam("startDateTimeUtc") startDateTimeUtc: Instant,
+        @RequestParam(name = "endDateTimeUtc", required = false) endDateTimeUtc: Instant? = null
+    ) : List<Mission2> {
+        val missions = getMissions.execute(
+            startDateTimeUtc = startDateTimeUtc,
+            endDateTimeUtc = endDateTimeUtc,
+        )
 
-            return (missions.filterNotNull()).map { Mission2.fromMissionEntity((it)) }
-        } catch (e: Exception) {
-            logger.error("MissionRestController - failed to load missions from MonitorEnv", e)
-            throw Exception(e)
-        }
+        return (missions.filterNotNull()).map { Mission2.fromMissionEntity((it)) }
+
     }
 
     /**
