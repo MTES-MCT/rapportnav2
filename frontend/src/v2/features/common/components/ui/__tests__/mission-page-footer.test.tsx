@@ -1,10 +1,12 @@
 import { vi } from 'vitest'
 import { render, screen } from '../../../../../../test-utils'
-import MissionPageFooter from '../mission-page-footer'
-import { useOnlineManager } from '../../../hooks/use-online-manager.tsx'
-import { useOfflineSince } from '../../../hooks/use-offline-since.tsx'
 import { useOfflineMode } from '../../../hooks/use-offline-mode.tsx'
+import { useOfflineSince } from '../../../hooks/use-offline-since.tsx'
+import { useOnlineManager } from '../../../hooks/use-online-manager.tsx'
 import useMission from '../../../services/use-mission.tsx'
+import { MissionAction } from '../../../types/mission-action.ts'
+import { MissionSourceEnum } from '../../../types/mission-types.ts'
+import MissionPageFooter from '../mission-page-footer'
 
 vi.mock('../../../hooks/use-online-manager.tsx', () => ({
   useOnlineManager: vi.fn()
@@ -115,10 +117,11 @@ describe('MissionPageFooter', () => {
       })
       expect(button).not.toBeDisabled()
     })
-    it('should disable the button when Env Mission', () => {
+    it('should disable the button when Env Mission and have 1 action', () => {
       vi.mocked(useMission).mockReturnValue({
         data: {
-          id: '1'
+          id: '1',
+          actions: [{ id: 'action-1', source: MissionSourceEnum.MONITORENV } as MissionAction]
         }
       } as any)
       render(<MissionPageFooter exitMission={exitMission} missionId={'1'} type="ULAM" />)
