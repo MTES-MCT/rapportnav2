@@ -6,6 +6,9 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExpor
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.toMapForExport
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputePatrolData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
@@ -46,11 +49,14 @@ class ExportMissionPatrolSingle(
      * @param missionId a Mission Ids
      * @return a MissionExportEntity with file name and content
      */
-    fun execute(missionId: Int): MissionExportEntity? {
-
+    fun execute(missionId: Int): MissionExportEntity {
         val mission = getComputeEnvMission.execute(missionId = missionId)
+            ?: throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
+                message = "Mission not found: $missionId"
+            )
 
-        return createFile(mission)
+        return createFile(mission)!!
     }
 
     fun createFile(mission: MissionEntity2?): MissionExportEntity? {
@@ -384,9 +390,13 @@ class ExportMissionPatrolSingle(
                 fileContent = base64Content
             )
 
+        } catch (e: BackendInternalException) {
+            throw e  // Re-throw domain exceptions as-is
         } catch (e: Exception) {
-            logger.error("[RapportDePatrouille] - Error building data before sending it to RapportNav1 : ${e.message}")
-            return null
+            throw BackendInternalException(
+                message = "Failed to create patrol report for mission ${mission.id}",
+                originalException = e
+            )
         }
     }
 

@@ -4,6 +4,9 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.v2.AEMTableExport2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeFishActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNavActionListByMissionId
@@ -36,11 +39,14 @@ class ExportMissionAEMSingle(
 ) {
     private val logger: Logger = LoggerFactory.getLogger(ExportMissionAEMSingle::class.java)
 
-    fun execute(missionId: Int): MissionExportEntity? {
-
+    fun execute(missionId: Int): MissionExportEntity {
         val mission = getComputeEnvMission.execute(missionId = missionId)
+            ?: throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
+                message = "Mission not found: $missionId"
+            )
 
-        return createFile(mission)
+        return createFile(mission)!!
     }
 
     fun createFile(mission: MissionEntity2?): MissionExportEntity? {
@@ -74,9 +80,13 @@ class ExportMissionAEMSingle(
                 fileContent = base64Content
             )
 
+        } catch (e: BackendInternalException) {
+            throw e  // Re-throw domain exceptions as-is
         } catch (e: Exception) {
-            logger.error("An error occurred during mission processing", e)
-            null
+            throw BackendInternalException(
+                message = "Failed to create AEM report for mission ${mission?.id}",
+                originalException = e
+            )
         }
     }
 

@@ -8,8 +8,10 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMissio
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,9 +31,10 @@ class ExportMissionAEMCombinedTest {
     private lateinit var getComputeEnvMission: GetComputeEnvMission
 
     @Test
-    fun `should return null for empty mission list`() {
-        val result = useCase.execute(emptyList())
-        assertEquals(null, result)
+    fun `should throw BackendInternalException for empty mission list`() {
+        assertThrows(BackendInternalException::class.java) {
+            useCase.execute(emptyList())
+        }
     }
 
     @Test
@@ -58,22 +61,18 @@ class ExportMissionAEMCombinedTest {
         val result = useCase.execute(missionIds)
 
         assertNotNull(result)
-        assertEquals("tableaux-AEM-combinés_2022-01-02.ods", result?.fileName)
+        assertEquals("tableaux-AEM-combinés_2022-01-02.ods", result.fileName)
     }
 
     @Test
-    fun `should handle exception and return null`() {
-        // Arrange: Force an exception when getMission.execute is called
+    fun `should throw BackendInternalException when underlying service throws`() {
         val missionIds = listOf(1)
         Mockito.`when`(getComputeEnvMission.execute(missionId = 1))
             .thenThrow(RuntimeException("Mock exception"))
 
-        // Act: Call the method
-        val result = useCase.execute(missionIds)
-
-        // Assert: Verify the result is null and no further interactions happen
-        assertEquals(null, result)
-        Mockito.verifyNoInteractions(exportMissionAEMSingle)
+        assertThrows(BackendInternalException::class.java) {
+            useCase.execute(missionIds)
+        }
     }
 
 }

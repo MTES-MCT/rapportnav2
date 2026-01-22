@@ -75,14 +75,12 @@ class MissionExportController(
     )
     fun exportMissionReports(
         @Valid @RequestBody request: ExportBodyRequest
-    ): MissionExportEntity? {
-        val output: MissionExportEntity? =
-            exportMissionReports.execute(
-                missionIds = request.missionIds.distinct(),
-                exportMode = request.exportMode,
-                reportType = request.reportType
-            )
-        return output
+    ): MissionExportEntity {
+        return exportMissionReports.execute(
+            missionIds = request.missionIds.distinct(),
+            exportMode = request.exportMode,
+            reportType = request.reportType
+        )
     }
 
 }

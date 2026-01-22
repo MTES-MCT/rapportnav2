@@ -11,8 +11,10 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionPa
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionPatrolSingle
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.ExportMissionReports
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.v2.*
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -93,13 +95,15 @@ class ExportMissionReportsTest {
     }
 
     @Test
-    fun `should return null for empty mission list`() {
-        val result = exportMissionReports.execute(
-            emptyList(),
-            ExportModeEnum.INDIVIDUAL_MISSION,
-            ExportReportTypeEnum.AEM
-        )
-        assertEquals(null, result)
+    fun `should throw BackendUsageException for empty mission list`() {
+        val exception = assertThrows(BackendUsageException::class.java) {
+            exportMissionReports.execute(
+                emptyList(),
+                ExportModeEnum.INDIVIDUAL_MISSION,
+                ExportReportTypeEnum.AEM
+            )
+        }
+        assertEquals("No mission IDs provided for export", exception.message)
     }
 
     @Test

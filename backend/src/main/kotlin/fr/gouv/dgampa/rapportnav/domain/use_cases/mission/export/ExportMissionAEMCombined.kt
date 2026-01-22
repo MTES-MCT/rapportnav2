@@ -3,9 +3,10 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
-import org.slf4j.LoggerFactory
 
 @UseCase
 class ExportMissionAEMCombined(
@@ -14,8 +15,6 @@ class ExportMissionAEMCombined(
     private val getComputeEnvMission: GetComputeEnvMission,
 ) {
 
-    private val logger = LoggerFactory.getLogger(ExportMissionAEMCombined::class.java)
-
     /**
      * Returns a merged Rapport de Patrouille
      * Taking several missions and combining them into one
@@ -23,8 +22,7 @@ class ExportMissionAEMCombined(
      * @param missionIds a list of Mission Ids
      * @return a MissionExportEntity with file name and content
      */
-    fun execute(missionIds: List<Int>): MissionExportEntity? {
-
+    fun execute(missionIds: List<Int>): MissionExportEntity {
         try {
 
             // retrieve missions
@@ -52,9 +50,15 @@ class ExportMissionAEMCombined(
                 fileContent = output?.fileContent.orEmpty()
             )
 
+        } catch (e: BackendUsageException) {
+            throw e
+        } catch (e: BackendInternalException) {
+            throw e
         } catch (e: Exception) {
-            logger.error("[AEM] - error while generating report : ${e.message}")
-            return null
+            throw BackendInternalException(
+                message = "Failed to create combined AEM report",
+                originalException = e
+            )
         }
     }
 

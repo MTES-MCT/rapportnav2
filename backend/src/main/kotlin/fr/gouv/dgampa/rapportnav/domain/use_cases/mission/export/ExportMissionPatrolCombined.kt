@@ -3,9 +3,11 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
-import org.slf4j.LoggerFactory
 
 @UseCase
 class ExportMissionPatrolCombined(
@@ -14,9 +16,6 @@ class ExportMissionPatrolCombined(
     private val getComputeEnvMission: GetComputeEnvMission,
 ) {
 
-    private val logger = LoggerFactory.getLogger(ExportMissionPatrolCombined::class.java)
-
-
     /**
      * Returns a merged Rapport de Patrouille
      * Taking several missions and combining them into one
@@ -24,9 +23,15 @@ class ExportMissionPatrolCombined(
      * @param missionIds a list of Mission Ids
      * @return a MissionExportEntity with file name and content
      */
-    fun execute(missionIds: List<Int>): MissionExportEntity? {
+    fun execute(missionIds: List<Int>): MissionExportEntity {
+        if (missionIds.isEmpty()) {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
+                message = "No mission IDs provided for combined export"
+            )
+        }
+
         try {
-            if (missionIds.isEmpty()) return null
 
             // retrieve missions
             var missions = mutableListOf<MissionEntity2>()
@@ -52,9 +57,15 @@ class ExportMissionPatrolCombined(
                 fileContent = output?.fileContent.orEmpty()
             )
 
+        } catch (e: BackendUsageException) {
+            throw e
+        } catch (e: BackendInternalException) {
+            throw e
         } catch (e: Exception) {
-            logger.error("[RapportDePatrouille] - Error while generating report : ${e.message}")
-            return null
+            throw BackendInternalException(
+                message = "Failed to create combined patrol report",
+                originalException = e
+            )
         }
     }
 

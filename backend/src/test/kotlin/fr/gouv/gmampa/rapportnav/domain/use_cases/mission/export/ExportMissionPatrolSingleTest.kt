@@ -6,11 +6,13 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsFo
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.ComputeDurations
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertDoesNotThrow
 import org.mockito.Mockito.reset
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
@@ -45,36 +47,40 @@ class ExportMissionPatrolSingleTest {
     }
 
     @Test
-    fun `execute should return null if mission is not found`() {
+    fun `execute should throw BackendUsageException if mission is not found`() {
         val missionId = 123
         `when`(getMission.execute(missionId)).thenReturn(null)
 
-        val result = exportMissionRapportPatrouille.execute(missionId)
-
-        assertThat(result).isNull()
+        val exception = assertThrows(BackendUsageException::class.java) {
+            exportMissionRapportPatrouille.execute(missionId)
+        }
+        assertThat(exception.message).isEqualTo("Mission not found: $missionId")
     }
 
     @Test
-    fun `execute should not throw`() {
+    fun `createFile should throw BackendInternalException when underlying service throws`() {
         val missionId = 123
-        assertDoesNotThrow {
-            exportMissionRapportPatrouille.execute(missionId)
+        val mission = MissionEntityMock2.create(id = missionId)
+        `when`(computePatrolData.execute(missionId)).thenThrow(RuntimeException("boom"))
+
+        assertThrows(BackendInternalException::class.java) {
+            exportMissionRapportPatrouille.createFile(mission)
         }
     }
 
     @Test
-    fun `execute should return null when mission is null`() {
-        val missionId = 123
-        `when`(getMission.execute(missionId)).thenReturn(null)
-        assertThat(exportMissionRapportPatrouille.execute(missionId)).isNull()
+    fun `createFile should return null when mission is null`() {
+        val result = exportMissionRapportPatrouille.createFile(null)
+        assertThat(result).isNull()
     }
 
     @Test
-    fun `createFile should return null when mission throws`() {
-        val missionId = 123
-        val mission = MissionEntityMock2.create(id = missionId)
-        `when`(getMission.execute(missionId)).thenThrow()
-        assertThat(exportMissionRapportPatrouille.createFile(mission)).isNull()
+    fun `createFile should throw BackendInternalException when mission id is null`() {
+        val mission = MissionEntityMock2.create(id = null)
+
+        assertThrows(BackendInternalException::class.java) {
+            exportMissionRapportPatrouille.createFile(mission)
+        }
     }
 
 //    @Test
