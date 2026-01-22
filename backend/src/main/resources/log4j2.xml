@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="warn" packages="org.apache.logging.log4j.core,io.sentry.log4j2">
+<Configuration status="WARN" packages="org.apache.logging.log4j.core,io.sentry.log4j2">
   <Appenders>
     <Console name="Console" target="SYSTEM_OUT">
-      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n%throwable"/>
     </Console>
-    <Sentry name="Sentry"/>
+    <!--
+      Sentry appender:
+      - ERROR creates Sentry issues (alerts)
+      - WARN/INFO captured as breadcrumbs (context for errors)
+    -->
+    <Sentry name="Sentry" minimumEventLevel="ERROR" minimumBreadcrumbLevel="INFO"/>
   </Appenders>
   <Loggers>
-    <Root level="info">
-      <AppenderRef ref="Sentry"/>
+    <!-- Prevent Sentry's own logs from being sent to Sentry -->
+    <Logger name="io.sentry" level="WARN" additivity="false">
       <AppenderRef ref="Console"/>
+    </Logger>
+    <Root level="INFO">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="Sentry"/>
     </Root>
   </Loggers>
 </Configuration>

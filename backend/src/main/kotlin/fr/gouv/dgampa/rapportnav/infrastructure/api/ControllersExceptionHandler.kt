@@ -6,7 +6,6 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.v1.adapters.outpu
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.v1.adapters.outputs.BackendRequestErrorDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.v1.adapters.outputs.BackendUsageErrorDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestException
-import io.sentry.Sentry
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.core.Ordered.HIGHEST_PRECEDENCE
@@ -16,6 +15,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
+/**
+ * Global exception handler for all controllers.
+ *
+ * Sentry integration: Errors are automatically captured via the Log4j2 Sentry appender
+ * when we call logger.error(). No manual Sentry.captureException() calls needed.
+ */
 @RestControllerAdvice
 @Order(HIGHEST_PRECEDENCE)
 class ControllersExceptionHandler {
@@ -29,7 +34,7 @@ class ControllersExceptionHandler {
     fun handleBackendInternalException(
         e: BackendInternalException,
     ): BackendInternalErrorDataOutput {
-        Sentry.captureException(e)
+        logger.error("Internal error: ${e.message}", e)
         return BackendInternalErrorDataOutput(
             message = e.message,
             exception = e::class.simpleName,
@@ -40,12 +45,14 @@ class ControllersExceptionHandler {
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(BackendRequestException::class)
     fun handleBackendRequestException(e: BackendRequestException): BackendRequestErrorDataOutput {
+        logger.warn("Request error: ${e.message}", e)
         return BackendRequestErrorDataOutput(code = e.code, data = e.data, message = e.message)
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BackendUsageException::class)
     fun handleBackendUsageException(e: BackendUsageException): BackendUsageErrorDataOutput {
+        logger.warn("Usage error: code=${e.code}, message=${e.message}")
         return BackendUsageErrorDataOutput(code = e.code, data = e.data, message = e.message)
     }
 
@@ -62,7 +69,6 @@ class ControllersExceptionHandler {
     @ExceptionHandler(Throwable::class)
     fun handleUnexpectedException(e: Throwable): BackendInternalErrorDataOutput {
         logger.error("Unexpected error: ${e.message}", e)
-        Sentry.captureException(e)
         return BackendInternalErrorDataOutput(
             message = e.message ?: "An unexpected error occurred",
             exception = e::class.simpleName,
