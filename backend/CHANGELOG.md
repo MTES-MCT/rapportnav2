@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.56.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.55.0...backend@v2.56.0) (2026-01-22)
+
+
+### Features
+
+* **backend:** delete mission with field report ([8c626b2](https://github.com/MTES-MCT/rapportnav2/commit/8c626b27017f9668912afa09875f5d4183f0ffb8))
+
 ## [2.55.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.54.1...backend@v2.55.0) (2026-01-21)
 
 
