@@ -5,12 +5,12 @@ import { Formik } from 'formik'
 import { FC } from 'react'
 import { Stack } from 'rsuite'
 import FormikSelectStatusReason from '../../../common/components/ui/formik-select-status-reason'
-import { MissionAction } from '../../../common/types/mission-action'
+import { MissionAction, MissionNavAction } from '../../../common/types/mission-action'
 import { useMissionActionStatus } from '../../hooks/use-mission-action-status'
 import { ActionStatusInput } from '../../types/action-type'
 
 const MissionActionItemStatus: FC<{
-  action: MissionAction
+  action: MissionNavAction
   onChange: (newAction: MissionAction, debounceTime?: number) => Promise<unknown>
   isMissionFinished?: boolean
 }> = ({ action, onChange }) => {
@@ -39,11 +39,11 @@ const MissionActionItemStatus: FC<{
                 <Stack.Item style={{ width: '100%' }}>
                   <Tag
                     Icon={Icon.CircleFilled}
-                    iconColor={action.status ? getColorForStatus(ActionStatusType[action.status]) : undefined}
+                    iconColor={action.data.status ? getColorForStatus(ActionStatusType[action.data.status]) : undefined}
                     isLight
                     withCircleIcon={true}
                   >
-                    {action.status ? mapStatusToText(ActionStatusType[action.status]) : undefined}
+                    {action.data.status ? mapStatusToText(ActionStatusType[action.data.status]) : undefined}
                   </Tag>
                 </Stack.Item>
                 <Stack.Item style={{ width: '100%' }}>
