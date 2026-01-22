@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.56.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.55.0...frontend@v2.56.0) (2026-01-22)
+
+
+### Bug Fixes
+
+* **frontend:** establishment with null name ([972f8e5](https://github.com/MTES-MCT/rapportnav2/commit/972f8e5674d677b2c314757881a6e5b72aab9365))
+* **offline:** fix status action rendering ([c5eac65](https://github.com/MTES-MCT/rapportnav2/commit/c5eac65e6d0f1c97aa1b0cc277a6d9e29d0cc17a))
+
 ## [2.55.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.54.1...frontend@v2.55.0) (2026-01-21)
 
 
