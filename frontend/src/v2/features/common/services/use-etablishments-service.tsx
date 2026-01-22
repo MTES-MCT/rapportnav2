@@ -21,9 +21,9 @@ const transform = (value: SearchEstablishment) => ({
   siren: value?.siren,
   siret: value?.siege?.siret,
   city: value.siege.libelle_commune,
-  name: value.nom_raison_sociale,
   zipcode: value?.siege?.code_postal,
-  address: value?.siege?.geo_adresse
+  address: value?.siege?.geo_adresse,
+  name: value.nom_raison_sociale ?? value.nom_complet
 })
 
 export const useEstablishmentListQuery = (search?: string) => {
