@@ -82,6 +82,7 @@ dependencies {
   // sentry
   implementation(platform("io.sentry:sentry-bom:8.29.0"))
   implementation("io.sentry:sentry-spring-boot-4")
+  implementation("io.sentry:sentry-log4j2")
   // apache poi for xml and docs
   // the two following apache poi dependencies should have the same version
   implementation("org.apache.poi:poi:5.4.1")

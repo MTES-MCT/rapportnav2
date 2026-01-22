@@ -6,7 +6,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.Missio
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.input.PatchActionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output.MissionActionDataOutput
-import io.sentry.Sentry
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -41,18 +40,17 @@ class APIFishActionRepository(
 
         return if (response.statusCode() in 200..299) {
             try {
-                Sentry.captureMessage("received data from MonitorFish: ${response.body()}")
+                logger.debug("Received data from MonitorFish for missionId=$missionId")
                 val output: List<MissionActionDataOutput> = mapper.readValue(response.body(), object : TypeReference<List<MissionActionDataOutput>>() {})
                 output.map{ it.toMissionAction()}
             }
             catch (e: Exception) {
-                Sentry.captureException(e)
+                logger.error("Failed to deserialize MonitorFish response for missionId=$missionId", e)
                 emptyList()
             }
 
         } else {
-            logger.error("Failed to fetch Fish Actions. Status code: ${response.statusCode()}")
-            Sentry.captureMessage("error from monitorfish : ${response.statusCode()}: ${response.body()}")
+            logger.error("Failed to fetch Fish Actions for missionId=$missionId. Status code: ${response.statusCode()}, body: ${response.body()}")
             emptyList()
         }
     }

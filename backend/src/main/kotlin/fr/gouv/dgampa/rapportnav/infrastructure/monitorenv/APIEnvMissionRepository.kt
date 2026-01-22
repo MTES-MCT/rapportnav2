@@ -11,7 +11,6 @@ import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInp
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.action.MissionEnvActionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.controlPlans.ControlPlanDataOutput
-import io.sentry.Sentry
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -65,7 +64,6 @@ class APIEnvMissionRepository(
                         logger.info("Successfully deserialized Env mission data for id=$missionId")
                         missionDataOutput.toMissionEntity()
                     } catch (e: Exception) {
-                        Sentry.captureException(e)
                         logger.error("Failed to deserialize Env mission data for id=$missionId", e)
                         null
                     }
@@ -83,7 +81,6 @@ class APIEnvMissionRepository(
             }
         } catch (e: Exception) {
             logger.error("Error while fetching Env mission with id=$missionId", e)
-            Sentry.captureException(e)
             throw Exception("Error while fetching Env mission with id=$missionId", e)
         }
     }
