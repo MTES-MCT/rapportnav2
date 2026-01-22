@@ -95,7 +95,7 @@ export function useTimeline(): TimelineHook {
     return {
       id: action.id,
       source: action.source,
-      status: action.status,
+      status: action.status ?? action.data?.status,
       missionId: action.missionId,
       type: action.actionType,
       summaryTags: action.summaryTags,
