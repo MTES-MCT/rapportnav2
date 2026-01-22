@@ -8,8 +8,11 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMissio
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,9 +32,10 @@ class ExportMissionPatrolCombinedTest {
     private lateinit var getComputeEnvMission: GetComputeEnvMission
 
     @Test
-    fun `should return null for empty mission list`() {
-        val result = exportMissionPatrolCombined.execute(emptyList())
-        assertEquals(null, result)
+    fun `should throw BackendUsageException for empty mission list`() {
+        assertThrows(BackendUsageException::class.java) {
+            exportMissionPatrolCombined.execute(emptyList())
+        }
     }
 
     @Test
@@ -62,18 +66,14 @@ class ExportMissionPatrolCombinedTest {
     }
 
     @Test
-    fun `should handle exception and return null`() {
-        // Arrange: Force an exception when getMission.execute is called
+    fun `should throw BackendInternalException when underlying service throws`() {
         val missionIds = listOf(1)
         Mockito.`when`(getComputeEnvMission.execute(missionId = 1))
             .thenThrow(RuntimeException("Mock exception"))
 
-        // Act: Call the method
-        val result = exportMissionPatrolCombined.execute(missionIds)
-
-        // Assert: Verify the result is null and no further interactions happen
-        assertEquals(null, result)
-        Mockito.verifyNoInteractions(exportMissionPatrolSingle)
+        assertThrows(BackendInternalException::class.java) {
+            exportMissionPatrolCombined.execute(missionIds)
+        }
     }
 
 }

@@ -4,6 +4,9 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import org.slf4j.LoggerFactory
 
@@ -23,8 +26,13 @@ class ExportMissionPatrolMultipleZipped(
      * @param missionIds a list of Mission Ids
      * @return a MissionExportEntity with file name and content
      */
-    fun execute(missionIds: List<Int>): MissionExportEntity? {
-        if (missionIds.isEmpty()) return null
+    fun execute(missionIds: List<Int>): MissionExportEntity {
+        if (missionIds.isEmpty()) {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
+                message = "No mission IDs provided for zipped export"
+            )
+        }
 
         var mission: MissionEntity2?
         val filesToZip = mutableListOf<MissionExportEntity>()
@@ -33,13 +41,18 @@ class ExportMissionPatrolMultipleZipped(
         for (missionId in missionIds) {
             try {
                 mission = getComputeEnvMission.execute(missionId = missionId)
+            } catch (e: BackendUsageException) {
+                throw e
+            } catch (e: BackendInternalException) {
+                throw e
             } catch (e: Exception) {
-                logger.error("[ExportMissionPatrolMultipleZipped] - error retrieving mission id=$missionId", e)
-                return null
+                throw BackendInternalException(
+                    message = "Failed to retrieve mission id=$missionId for patrol export",
+                    originalException = e
+                )
             }
 
             try {
-
                 // only keep complete missions
                 if (mission != null && mission.isCompleteForStats().status === CompletenessForStatsStatusEnum.COMPLETE) {
                     val output = exportMissionPatrolSingle.createFile(mission = mission)
@@ -47,9 +60,15 @@ class ExportMissionPatrolMultipleZipped(
                 } else {
                     logger.info("ExportMissionPatrolMultipleZipped - ignoring mission id=${mission?.id} because incomplete for stats")
                 }
+            } catch (e: BackendUsageException) {
+                throw e
+            } catch (e: BackendInternalException) {
+                throw e
             } catch (e: Exception) {
-                logger.error("[ExportMissionPatrolMultipleZipped] - error building zipped mission patrol export", e)
-                return null
+                throw BackendInternalException(
+                    message = "Failed to create zipped patrol export",
+                    originalException = e
+                )
             }
 
         }

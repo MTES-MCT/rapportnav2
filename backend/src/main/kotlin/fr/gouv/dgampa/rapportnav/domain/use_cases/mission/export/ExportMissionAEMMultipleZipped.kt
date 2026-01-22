@@ -3,6 +3,8 @@ package fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.CompletenessForStatsStatusEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeEnvMission
 import org.slf4j.LoggerFactory
 
@@ -23,7 +25,7 @@ class ExportMissionAEMMultipleZipped(
      * @param missionIds a list of Mission Ids
      * @return a MissionExportEntity with file name and content
      */
-    fun execute(missionIds: List<Int>): MissionExportEntity? {
+    fun execute(missionIds: List<Int>): MissionExportEntity {
         try {
             val filesToZip = mutableListOf<MissionExportEntity>();
 
@@ -49,9 +51,15 @@ class ExportMissionAEMMultipleZipped(
                 fileContent = output
             )
 
+        } catch (e: BackendUsageException) {
+            throw e
+        } catch (e: BackendInternalException) {
+            throw e
         } catch (e: Exception) {
-            logger.error("[ExportMissionAEMMultipleZipped] - error building zipped mission export ${e.message}")
-            return null
+            throw BackendInternalException(
+                message = "Failed to create zipped AEM export",
+                originalException = e
+            )
         }
     }
 

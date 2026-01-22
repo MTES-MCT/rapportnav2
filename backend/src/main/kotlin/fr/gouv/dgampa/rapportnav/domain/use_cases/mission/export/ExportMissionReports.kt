@@ -4,6 +4,9 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.ExportModeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.ExportReportTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.export.MissionExportEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import org.slf4j.LoggerFactory
 
 @UseCase
@@ -22,11 +25,16 @@ class ExportMissionReports(
         missionIds: List<Int>,
         exportMode: ExportModeEnum,
         reportType: ExportReportTypeEnum
-    ): MissionExportEntity? {
-        try {
-            if (missionIds.isEmpty()) return null
+    ): MissionExportEntity {
+        if (missionIds.isEmpty()) {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
+                message = "No mission IDs provided for export"
+            )
+        }
 
-            val output: MissionExportEntity? = when (reportType) {
+        try {
+            return when (reportType) {
                 ExportReportTypeEnum.AEM -> {
                     when (exportMode) {
                         ExportModeEnum.INDIVIDUAL_MISSION -> {
@@ -65,15 +73,21 @@ class ExportMissionReports(
                     }
                 }
 
-                else -> {
-                    null
+                ExportReportTypeEnum.ALL -> {
+                    throw BackendInternalException(
+                        message = "Export type 'ALL' is not yet implemented"
+                    )
                 }
             }
-
-            return output
+        } catch (e: BackendUsageException) {
+            throw e  // Re-throw usage exceptions as-is (e.g., mission not found)
+        } catch (e: BackendInternalException) {
+            throw e  // Re-throw internal exceptions as-is
         } catch (e: Exception) {
-            logger.error("MissionExport - can't send rapport de patrouille", e)
-            throw Exception(e)
+            throw BackendInternalException(
+                message = "Failed to export mission report",
+                originalException = e
+            )
             // uncomment following lines for mocking/dev
             // return MissionExportEntity(
             // fileName = "rapport-de-patrouille.odt",
