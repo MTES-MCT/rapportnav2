@@ -1,13 +1,16 @@
 package fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import fr.gouv.dgampa.rapportnav.config.JtsGeometryDeserializer
+import fr.gouv.dgampa.rapportnav.config.JtsGeometrySerializer
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.ActionCompletionEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.tags.TagEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import org.locationtech.jts.geom.Geometry
-import org.n52.jackson.datatype.jts.GeometryDeserializer
+import tools.jackson.databind.annotation.JsonDeserialize
+import tools.jackson.databind.annotation.JsonSerialize
 import java.time.Instant
 import java.util.*
 
@@ -32,7 +35,10 @@ abstract class EnvActionEntity(
     open val completedBy: String? = null,
     open val completion: ActionCompletionEnum? = null,
     open val controlPlans: List<EnvActionControlPlanEntity>? = listOf(),
-    @field:JsonDeserialize(using = GeometryDeserializer::class) open val geom: Geometry? = null,
+    @param:JsonProperty("geom")
+    @param:JsonDeserialize(using = JtsGeometryDeserializer::class)
+    @get:JsonSerialize(using = JtsGeometrySerializer::class)
+    open val geom: Geometry? = null,
     open val isAdministrativeControl: Boolean? = null,
     open val isComplianceWithWaterRegulationsControl: Boolean? = null,
     open val isSafetyEquipmentAndStandardsComplianceControl: Boolean? = null,

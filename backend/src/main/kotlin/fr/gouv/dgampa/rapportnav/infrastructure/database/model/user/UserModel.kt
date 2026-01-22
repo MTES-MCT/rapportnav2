@@ -1,12 +1,12 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.database.model.user
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.databind.ObjectMapper
+import tools.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.domain.entities.user.RoleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
 import jakarta.persistence.*
-import org.hibernate.annotations.JdbcType
-import org.hibernate.dialect.PostgreSQLEnumJdbcType
+import org.hibernate.annotations.JdbcTypeCode
+import org.hibernate.type.SqlTypes
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
@@ -43,7 +43,7 @@ class UserModel(
     @CollectionTable(name = "user_role", joinColumns = [JoinColumn(name = "user_id")])
     @Column(name = "role")
     @Enumerated(EnumType.STRING)  // Still required for proper enum handling
-    @JdbcType(PostgreSQLEnumJdbcType::class)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     var roles: List<RoleTypeEnum> = listOf(),
 
     @CreatedDate

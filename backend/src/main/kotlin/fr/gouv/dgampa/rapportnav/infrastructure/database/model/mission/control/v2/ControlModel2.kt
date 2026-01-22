@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlType
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.infraction.v2.InfractionModel2
 import jakarta.persistence.*
-import org.hibernate.annotations.JdbcType
-import org.hibernate.dialect.PostgreSQLEnumJdbcType
+import org.hibernate.annotations.JdbcTypeCode
+import org.hibernate.type.SqlTypes
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
@@ -25,7 +25,7 @@ data class ControlModel2(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "control_type", nullable = false)
-    @JdbcType(PostgreSQLEnumJdbcType::class)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     var controlType: ControlType,
 
     @Column(name = "amount_of_controls", nullable = false)

@@ -1,23 +1,24 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.PatchedEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchActionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.action.MissionEnvActionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.controlPlans.ControlPlanDataOutput
-import org.n52.jackson.datatype.jts.JtsModule
+import io.sentry.Sentry
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
 import org.springframework.web.util.UriUtils
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.readValue
 import java.net.URI
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
@@ -25,7 +26,7 @@ import java.time.Instant
 
 @Repository
 class APIEnvMissionRepository(
-    private val mapper: ObjectMapper,
+    private val mapper: JsonMapper,
     private val clientFactory: HttpClientFactory,
     @param:Value("\${MONITORENV_HOST}") private val host: String,
 ) : IEnvMissionRepository {
@@ -60,18 +61,18 @@ class APIEnvMissionRepository(
             when (response.statusCode()) {
                 200 -> {
                     try {
-                        mapper.registerModule(JtsModule())
                         val missionDataOutput: MissionDataOutput = mapper.readValue(response.body())
                         logger.info("Successfully deserialized Env mission data for id=$missionId")
                         missionDataOutput.toMissionEntity()
                     } catch (e: Exception) {
+                        Sentry.captureException(e)
                         logger.error("Failed to deserialize Env mission data for id=$missionId", e)
                         null
                     }
                 }
 
                 404 -> {
-                    logger.warn("Env Mission with id=$missionId not found")
+                    logger.error("Env Mission with id=$missionId not found")
                     null
                 }
 
@@ -82,6 +83,7 @@ class APIEnvMissionRepository(
             }
         } catch (e: Exception) {
             logger.error("Error while fetching Env mission with id=$missionId", e)
+            Sentry.captureException(e)
             throw Exception("Error while fetching Env mission with id=$missionId", e)
         }
     }
@@ -155,29 +157,37 @@ class APIEnvMissionRepository(
 
         logger.info("Fetching missions at URL: $uri")
 
-        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+        try {
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
-        // Check if the request was successful (status code 2xx)
-        if (response.statusCode() in 200..299) {
+            if (response.statusCode() !in 200..299) {
+                throw BackendInternalException(
+                    message = "MonitorEnv API at URL=$uri returned status=${response.statusCode()}",
+                )
+            }
+
+            logger.info("data from monitorenv : status=${response.statusCode()}")
+
             // Parse JSON response into a list of MissionDataOutput
             val missionDataOutputList: List<MissionDataOutput> = mapper.readValue(response.body())
+            logger.info("data from monitorenv deserialized successfully")
 
             // Transform each MissionDataOutput to MissionEntity
             val missionEntityList: List<MissionEntity> =
                 missionDataOutputList.map { it.toMissionEntity() }
 
-            // Use the transformed data as needed
-            missionEntityList.forEach { missionEntity ->
-                logger.info("Transformed MissionEntity: $missionEntity")
-            }
-
             return missionEntityList
 
-        } else {
-            logger.info("Failed to fetch data. Status code: ${response.statusCode()}")
+        } catch (e: BackendInternalException) {
+            throw e  // Re-throw domain exceptions
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to fetch missions from MonitorEnv",
+                originalException = e
+            )
         }
 
-        return null
+    return null
 
     }
 
@@ -204,10 +214,11 @@ class APIEnvMissionRepository(
         val url = "$host/api/v2/missions/$missionId"
         logger.info("Sending PATCH request for Env mission id=$missionId. URL: $url")
         return try {
+            val json = mapper.writeValueAsString(mission) ?: ""
             val request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
-                .method("PATCH", HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(mission)))
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(json))
                 .header("Content-Type", "application/json")
                 .build()
 
@@ -229,7 +240,7 @@ class APIEnvMissionRepository(
         val url = "$host/api/v1/actions/$actionId"
         logger.info("Sending PATCH request for Env mission id=$actionId. URL: $url")
         return try {
-            val json = mapper.writeValueAsString(action)
+            val json = mapper.writeValueAsString(action) ?: ""
             val request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))

@@ -1,6 +1,5 @@
 package fr.gouv.gmampa.rapportnav.config
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.domain.entities.apikey.ApiKeyEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.apikey.RateLimitException
@@ -17,11 +16,12 @@ import org.mockito.kotlin.whenever
 import org.springframework.http.HttpStatus
 import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.security.core.context.SecurityContextHolder
+import tools.jackson.databind.json.JsonMapper
 import java.util.*
 
 class ApiKeyAuthenticationFilterTest {
     private lateinit var validateApiKey: ValidateApiKey
-    private lateinit var objectMapper: ObjectMapper
+    private lateinit var objectMapper: JsonMapper
     private lateinit var filter: ApiKeyAuthenticationFilter
     private lateinit var request: HttpServletRequest
     private lateinit var response: MockHttpServletResponse
@@ -30,7 +30,7 @@ class ApiKeyAuthenticationFilterTest {
     @BeforeEach
     fun setUp() {
         validateApiKey = mock()
-        objectMapper = ObjectMapper()
+        objectMapper = JsonMapper()
         filter = ApiKeyAuthenticationFilter(validateApiKey, objectMapper)
         request = mock()
         response = MockHttpServletResponse()
@@ -56,7 +56,7 @@ class ApiKeyAuthenticationFilterTest {
 
         val auth = SecurityContextHolder.getContext().authentication
         assertNotNull(auth)
-        assertEquals("testUser", auth.name)
+        assertEquals("testUser", auth?.name)
         verify(filterChain).doFilter(request, response)
     }
 

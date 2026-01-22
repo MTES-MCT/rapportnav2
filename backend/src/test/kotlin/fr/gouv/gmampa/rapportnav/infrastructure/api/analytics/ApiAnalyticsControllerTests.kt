@@ -3,7 +3,7 @@ package fr.gouv.gmampa.rapportnav.infrastructure.api.analytics
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.analytics.v1.ApiAnalyticsController
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.analytics.v1.MissionIdsRequest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
-import com.fasterxml.jackson.databind.ObjectMapper
+import fr.gouv.dgampa.rapportnav.config.JacksonConfig
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputeAEMData
 import fr.gouv.dgampa.rapportnav.domain.use_cases.analytics.ComputePatrolData
 import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.analytics.v1.adapters.output.ApiAnalyticsAEMDataOutput
@@ -11,17 +11,18 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.analytics.v1.adap
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import tools.jackson.databind.json.JsonMapper
 
 @WebMvcTest(ApiAnalyticsController::class)
-@ContextConfiguration(classes = [ApiAnalyticsController::class])
+@ContextConfiguration(classes = [ApiAnalyticsController::class, JacksonConfig::class])
 @AutoConfigureMockMvc(addFilters = false)
 class ApiAnalyticsControllerTest {
 
@@ -29,7 +30,7 @@ class ApiAnalyticsControllerTest {
     private lateinit var mockMvc: MockMvc
 
     @Autowired
-    private lateinit var objectMapper: ObjectMapper
+    private lateinit var objectMapper: JsonMapper
 
     @MockitoBean
     private lateinit var computeAEMData: ComputeAEMData

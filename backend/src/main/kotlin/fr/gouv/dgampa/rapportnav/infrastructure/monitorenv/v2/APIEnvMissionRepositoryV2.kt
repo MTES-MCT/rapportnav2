@@ -1,7 +1,5 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.env.MissionEnvEntity
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
@@ -12,13 +10,15 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.readValue
 import java.net.URI
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 @Repository
 class APIEnvMissionRepositoryV2(
-    private val mapper: ObjectMapper,
+    private val mapper: JsonMapper,
     clientFactory: HttpClientFactory,
     @param:Value("\${MONITORENV_HOST}") private val host: String,
     ): IEnvMissionRepository {
@@ -33,7 +33,7 @@ class APIEnvMissionRepositoryV2(
         logger.info("Sending POST request for Env mission creation URL: $url")
         return try {
 
-            val json = mapper.writeValueAsString(mission)
+            val json = mapper.writeValueAsString(mission) ?: ""
 
             logger.info("Body request for Mission env create as json : $json}")
 
@@ -69,7 +69,7 @@ class APIEnvMissionRepositoryV2(
         logger.info("Sending POST request for Env mission update URL: $url")
         return try {
 
-            val json = mapper.writeValueAsString(mission)
+            val json = mapper.writeValueAsString(mission) ?: ""
             logger.info("Body request for Mission env update as json : $json")
             logger.info("Body request for Mission env update as entity : $mission")
 
@@ -100,7 +100,7 @@ class APIEnvMissionRepositoryV2(
 
     override fun patchMission(missionId: Int, mission: PatchMissionInput): MissionEnvEntity? {
         val url = "$host/api/v2/missions/$missionId"
-        val json = mapper.writeValueAsString(mission)
+        val json = mapper.writeValueAsString(mission) ?: ""
         logger.info("Sending PATCH request for Env mission id=$missionId. URL: $url")
         logger.info("Body request for Mission env patch as json : $json")
         logger.info("Body request for Mission env patch as entity : $mission")

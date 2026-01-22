@@ -3,8 +3,8 @@ package fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v
 import com.fasterxml.jackson.annotation.JsonIgnore
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import jakarta.persistence.*
-import org.hibernate.annotations.JdbcType
-import org.hibernate.dialect.PostgreSQLEnumJdbcType
+import org.hibernate.annotations.JdbcTypeCode
+import org.hibernate.type.SqlTypes
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
@@ -26,7 +26,7 @@ data class MissionActionModel(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "action_type", nullable = false)
-    @JdbcType(PostgreSQLEnumJdbcType::class)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     var actionType: ActionType,
 
     @Column(name = "is_complete_for_stats", nullable = true)

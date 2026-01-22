@@ -1,44 +1,27 @@
 package fr.gouv.dgampa.rapportnav.config
 
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.PropertyNamingStrategies
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import org.n52.jackson.datatype.jts.JtsModule
+import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Primary
+import tools.jackson.databind.DeserializationFeature
+import tools.jackson.databind.PropertyNamingStrategies
+import tools.jackson.databind.cfg.DateTimeFeature
+import tools.jackson.module.kotlin.KotlinModule
 
 @Configuration
 class JacksonConfig {
 
     @Bean
-    @Primary
-    fun objectMapper(): ObjectMapper {
-        return ObjectMapper().apply {
-            // Register Kotlin module for better Kotlin support
-            registerModule(KotlinModule.Builder().build())
+    fun jsonMapperBuilderCustomizer(): JsonMapperBuilderCustomizer {
+        return JsonMapperBuilderCustomizer { builder ->
+            builder.addModule(KotlinModule.Builder().build())
 
-            // Register JavaTimeModule for Java 8 date/time types
-            // This handles Instant, ZonedDateTime, LocalDate automatically
-            registerModule(JavaTimeModule())
+            builder.disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+            builder.disable(DateTimeFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
+            builder.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            builder.disable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
 
-            // Register JTS module for geometry types
-            registerModule(JtsModule())
-
-            // Configure to serialize dates as ISO-8601 strings (not timestamps)
-            disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-
-            // Don't throw on unrecognised fields
-            // Very common for us as we're not always notified by the Monitor apps about changes in their modelds
-            disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-
-            // Include null values in serialization (equivalent to gson.serializeNulls())
-            setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.ALWAYS)
-
-            propertyNamingStrategy = PropertyNamingStrategies.LOWER_CAMEL_CASE
+            builder.propertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE)
         }
     }
 }
