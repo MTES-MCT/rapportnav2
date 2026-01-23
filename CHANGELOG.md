@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.57.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.56.0...docker-container@v2.57.0) (2026-01-23)
+
+
+### Features
+
+* **frontend:** enable delete button front ([a6ade37](https://github.com/MTES-MCT/rapportnav2/commit/a6ade37d6115e21d50a8f49acee53f8ac6b9e09a))
+* **frontend:** enable delete button front ([29e6622](https://github.com/MTES-MCT/rapportnav2/commit/29e6622f5088ee87909a5671427391d023477f61))
+
+
+### Bug Fixes
+
+* frontend/package.json & frontend/package-lock.json to reduce vulnerabilities ([40f56d0](https://github.com/MTES-MCT/rapportnav2/commit/40f56d056473b5bfc652e383c1a9d7a07d50c5e4))
+* **MonitorAPI:** restore endpoint used by Monitor ([67818cc](https://github.com/MTES-MCT/rapportnav2/commit/67818cc62e63625631e85990f11f483c770a6b20))
+
 ## [2.56.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.55.0...docker-container@v2.56.0) (2026-01-22)
 
 
