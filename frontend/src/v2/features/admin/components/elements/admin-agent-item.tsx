@@ -81,8 +81,8 @@ type AdminAgentProps = {}
 const AdminAgentItem: React.FC<AdminAgentProps> = () => {
   const { data: roles } = useGetAgentRoles()
   const [search, setSearch] = useState<string>()
-  const [onlyActive, setOnlyActive] = useState<boolean>(true)
   const { data: agents } = useGetAdminAgentServices()
+  const [onlyActive, setOnlyActive] = useState<boolean>(true)
 
   const deleteAgent = useAdminDeleteAgentMutation()
   const disableAgent = useAdminAgentDisableMutation()
@@ -149,16 +149,16 @@ const AdminAgentItem: React.FC<AdminAgentProps> = () => {
       <Stack.Item style={{ width: '100%' }}>
         <Stack direction="row" spacing="1rem" alignItems="flex-end" justifyContent="flex-start">
           <Stack.Item>
-            <Text as="h1" style={{ fontSize: 30 }}>{`Agents`}</Text>
+            <Text as="h1" size={30}>{`Agents`}</Text>
           </Stack.Item>
           <Stack.Item style={{ width: '30%' }}>
             <Select
               name="crew"
-              value={currentService?.id}
-              label="Par équipe"
               searchable={true}
-              options={services?.map(e => ({ value: e.id, label: e.name })) ?? []}
+              label="Par équipe"
+              value={currentService?.id}
               onChange={nextValue => setCurrentService(services?.find(c => c.id === nextValue))}
+              options={orderBy(services?.map(e => ({ value: e.id, label: e.name })) ?? [], 'label', ['asc'])}
             />
           </Stack.Item>
           <Stack.Item style={{ width: '30%' }}>

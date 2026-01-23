@@ -16,6 +16,9 @@ export type AdminAgent = {
 export type AdminAgentRole = {
   id: number
   title: string
+  deletedAt?: Date
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 export type AdminAgentInput = {
