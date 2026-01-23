@@ -4,15 +4,16 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeNavActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetComputeNavMission
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetGeneralInfo2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetNavMissionById2
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionNavEntityMock
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
-import org.junit.jupiter.api.assertNull
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions
@@ -36,9 +37,10 @@ class GetComputeNavMissionTest {
     private lateinit var getComputeNavActionListByMissionId: GetComputeNavActionListByMissionId
 
     @Test
-    fun `returns null when missionId and navMission are both null`() {
-        val result = useCase.execute(null, null)
-        assertNull(result)
+    fun `throws BackendUsageException when missionId and navMission are both null`() {
+        assertThrows(BackendUsageException::class.java) {
+            useCase.execute(null, null)
+        }
         verifyNoInteractions(getGeneralInfo2, getNavMissionById2, getComputeNavActionListByMissionId)
     }
 

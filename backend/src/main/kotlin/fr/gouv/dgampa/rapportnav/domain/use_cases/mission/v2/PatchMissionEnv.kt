@@ -37,15 +37,9 @@ class PatchMissionEnv(
         logger.info("patchInputMission : $input")
         logger.info("fromEnvMission : $fromEnvMission")
 
-
-        return try {
-            apiEnvRepo2.patchMission(
-                missionId = input.missionId,
-                mission = input.toPatchMissionInput(controlUnits = fromEnvMission.controlUnits)
-            )
-        } catch (e: Exception) {
-            logger.error("Update Mission failed", e)
-            return null
-        }
+        return apiEnvRepo2.patchMission(
+            missionId = input.missionId,
+            mission = input.toPatchMissionInput(controlUnits = fromEnvMission.controlUnits)
+        )
     }
 }

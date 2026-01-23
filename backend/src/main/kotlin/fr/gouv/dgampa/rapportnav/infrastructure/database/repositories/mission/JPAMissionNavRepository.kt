@@ -34,18 +34,45 @@ class JPAMissionNavRepository(
     }
 
     override fun finById(id: UUID): Optional<MissionModel> {
-        return dbRepository.findById(id)
+        return try {
+            dbRepository.findById(id)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find MissionNav with id='$id'",
+                originalException = e
+            )
+        }
     }
 
     override fun findAll(startBeforeDateTime: Instant, endBeforeDateTime: Instant): List<MissionModel?> {
-        return dbRepository.findAllBetweenDates(
-            startBeforeDateTime = startBeforeDateTime,
-            endBeforeDateTime = endBeforeDateTime
-        )
+        return try {
+            dbRepository.findAllBetweenDates(
+                startBeforeDateTime = startBeforeDateTime,
+                endBeforeDateTime = endBeforeDateTime
+            )
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find MissionNav between dates",
+                originalException = e
+            )
+        }
     }
 
     @Transactional
     override fun deleteById(id: UUID) {
-        return dbRepository.deleteById(id)
+        try {
+            dbRepository.deleteById(id)
+        } catch (e: InvalidDataAccessApiUsageException) {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION,
+                message = "Unable to delete MissionNav='$id'",
+                e,
+            )
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to delete MissionNav with id='$id'",
+                originalException = e
+            )
+        }
     }
 }
