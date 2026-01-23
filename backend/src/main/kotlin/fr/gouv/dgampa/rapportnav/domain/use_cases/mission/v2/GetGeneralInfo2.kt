@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionCrewEnt
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPassengerEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsCrewByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetServiceByControlUnit
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
@@ -33,11 +34,12 @@ class GetGeneralInfo2(
         controlUnits: List<LegacyControlUnitEntity>? = null,
     ): MissionGeneralInfoEntity2 {
         val services = fetchServices(controlUnits)
+        val serviceId = services.firstOrNull()?.id
         return MissionGeneralInfoEntity2(
             services = services,
             crew = fetchCrew(missionId),
             passengers = fetchPassengers(missionId),
-            data = fetchGeneralInfo(missionId = missionId, serviceId = services.first().id)
+            data = fetchGeneralInfo(missionId = missionId, serviceId = serviceId)
         )
     }
 
@@ -61,9 +63,14 @@ class GetGeneralInfo2(
                 missionId = missionId,
                 serviceId = serviceId
             )
+        } catch (e: BackendInternalException) {
+            throw e
         } catch (e: Exception) {
             logger.error("Error fetching Nav general info for missionId: {}", missionId, e)
-            throw e
+            throw BackendInternalException(
+                message = "Failed to fetch general info for mission $missionId",
+                originalException = e
+            )
         }
     }
 
@@ -71,9 +78,14 @@ class GetGeneralInfo2(
         return try {
             getMissionGeneralInfoByMissionId.execute(missionIdUUID = missionIdUUID)
                 ?: createGeneralInfos(missionIdUUID = missionIdUUID, serviceId = serviceId)
+        } catch (e: BackendInternalException) {
+            throw e
         } catch (e: Exception) {
             logger.error("Error fetching Nav general info for missionId: {}", missionIdUUID, e)
-            throw e
+            throw BackendInternalException(
+                message = "Failed to fetch general info for mission $missionIdUUID",
+                originalException = e
+            )
         }
     }
 

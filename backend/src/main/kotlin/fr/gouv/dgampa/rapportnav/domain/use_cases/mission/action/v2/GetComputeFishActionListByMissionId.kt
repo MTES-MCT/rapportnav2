@@ -13,18 +13,13 @@ class GetComputeFishActionListByMissionId(
 ) {
     private val logger = LoggerFactory.getLogger(GetComputeFishActionListByMissionId::class.java)
 
-    fun execute(missionId: Int?): List<MissionFishActionEntity> {
-        if (missionId == null) {
-            logger.error("GetComputeFishActionListByMissionId received a null missionId")
-            throw IllegalArgumentException("GetComputeFishActionListByMissionId" +
-                " should not receive null missionId")
-        }
+    fun execute(missionId: Int): List<MissionFishActionEntity> {
         return try {
             val actions = getFishActionList(missionId = missionId)
             actions.map { processFishAction.execute(missionId = missionId, action = it) }
         } catch (e: Exception) {
-            logger.error("GetFishActionsByMissionId failed loading Actions", e)
-            return listOf()
+            logger.error("GetComputeFishActionListByMissionId failed loading actions for missionId=$missionId", e)
+            emptyList()
         }
     }
 

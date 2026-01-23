@@ -95,18 +95,13 @@ class MissionRestController(
     )
     fun getMissionById(
         @PathVariable(name = "missionId") missionId: String
-    ): Mission2? {
-        try {
-            val mission = if (isValidUUID(missionId)) getComputeNavMission.execute(
-                missionId = UUID.fromString(missionId)
-            ) else getComputeEnvMission.execute(
-                missionId = Integer.valueOf(missionId)
-            )
-            return mission?.let { Mission2.fromMissionEntity(it) }
-        } catch (e: Exception) {
-            logger.error("Error while creating MonitorEnv mission : ", e)
-            return null
+    ): Mission2 {
+        val mission = if (isValidUUID(missionId)) {
+            getComputeNavMission.execute(missionId = UUID.fromString(missionId))
+        } else {
+            getComputeEnvMission.execute(missionId = Integer.valueOf(missionId))
         }
+        return Mission2.fromMissionEntity(mission)
     }
 
 

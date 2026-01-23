@@ -11,13 +11,9 @@ class GetComputeEnvActionListByMissionId(
     private val getEnvMissionById2: GetEnvMissionById2,
     private val processEnvAction: ProcessEnvAction
 ) {
-    private val logger = LoggerFactory.getLogger(GetComputeFishActionListByMissionId::class.java)
+    private val logger = LoggerFactory.getLogger(GetComputeEnvActionListByMissionId::class.java)
 
-    fun execute(missionId: Int?): List<MissionEnvActionEntity> {
-        if (missionId == null) {
-            logger.error("GetComputeEnvActionListByMissionId received a null missionId")
-            throw IllegalArgumentException("GetComputeEnvActionListByMissionId should not receive null missionId")
-        }
+    fun execute(missionId: Int): List<MissionEnvActionEntity> {
         return try {
             val actions = getEnvActionList(missionId = missionId)
             actions.filter { it.actionType !== ActionTypeEnum.NOTE }
@@ -25,8 +21,8 @@ class GetComputeEnvActionListByMissionId(
                 processEnvAction.execute(missionId = missionId, envAction = it)
             }
         } catch (e: Exception) {
-            logger.error("GetFishActionsByMissionId failed loading Actions", e)
-            return listOf()
+            logger.error("GetComputeEnvActionListByMissionId failed loading actions for missionId=$missionId", e)
+            emptyList()
         }
     }
 

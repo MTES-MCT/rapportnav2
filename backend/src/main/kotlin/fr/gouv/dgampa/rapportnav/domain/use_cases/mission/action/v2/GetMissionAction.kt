@@ -13,19 +13,19 @@ class GetMissionAction(
     private val getComputeNavActionListByMissionId: GetComputeNavActionListByMissionId,
     private val getStatusForAction: GetStatusForAction
 ) {
-    fun execute(missionId: Int?): List<MissionActionEntity> {
+    fun execute(missionId: Int): List<MissionActionEntity> {
         val envActions = getEnvActionByMissionId.execute(missionId = missionId)
         val navActions = getNavActionByMissionId.execute(missionId = missionId)
         val fishActions = getFIshListActionByMissionId.execute(missionId = missionId)
         return (envActions + navActions + fishActions).sortedByDescending { action -> action.startDateTimeUtc }
             .map { action ->
                 // compute action status
-                action.status = getStatusForAction.execute(missionId = missionId!!, actionStartDateTimeUtc = action.startDateTimeUtc)
+                action.status = getStatusForAction.execute(missionId = missionId, actionStartDateTimeUtc = action.startDateTimeUtc)
                 action
             }
     }
 
-    fun execute(missionIdUUID: UUID?): List<MissionActionEntity> {
+    fun execute(missionIdUUID: UUID): List<MissionActionEntity> {
         return getComputeNavActionListByMissionId.execute(ownerId = missionIdUUID)
             .sortedByDescending { action -> action.startDateTimeUtc }
     }
