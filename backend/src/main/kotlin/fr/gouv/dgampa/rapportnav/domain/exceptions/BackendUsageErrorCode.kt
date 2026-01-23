@@ -25,6 +25,7 @@ enum class BackendUsageErrorCode {
     INCORRECT_USER_IDENTIFIER_EXCEPTION,
 
     //------------------------
+    INVALID_PARAMETERS_EXCEPTION,
     COULD_NOT_SAVE_EXCEPTION,
     COULD_NOT_FIND_EXCEPTION,
     COULD_NOT_DELETE_EXCEPTION,
@@ -33,6 +34,4 @@ enum class BackendUsageErrorCode {
 
     //------------------------
     COULD_NOT_FIND_CONTROL_FOR_INFRACTION_EXCEPTION
-
-
 }

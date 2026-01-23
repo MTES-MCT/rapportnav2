@@ -18,34 +18,97 @@ class JPAMissionGeneralInfoRepository(
 ) : IMissionGeneralInfoRepository {
 
     override fun findAll(): List<MissionGeneralInfoModel> {
-        return dbRepo.findAll()
+        return try {
+            dbRepo.findAll()
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find all MissionGeneralInfo",
+                originalException = e
+            )
+        }
     }
+
     override fun findByMissionId(missionId: Int): Optional<MissionGeneralInfoModel> {
-        return dbRepo.findByMissionId(missionId)
+        return try {
+            dbRepo.findByMissionId(missionId)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find MissionGeneralInfo for missionId='$missionId'",
+                originalException = e
+            )
+        }
     }
 
     override fun findAllByMissionId(missionId: Int): List<MissionGeneralInfoModel> {
-        return dbRepo.findAllByMissionId(missionId)
+        return try {
+            dbRepo.findAllByMissionId(missionId)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find all MissionGeneralInfo for missionId='$missionId'",
+                originalException = e
+            )
+        }
     }
 
     override fun findByMissionIdUUID(missionIdUUID: UUID): Optional<MissionGeneralInfoModel> {
-        return dbRepo.findByMissionIdUUID(missionIdUUID)
+        return try {
+            dbRepo.findByMissionIdUUID(missionIdUUID)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find MissionGeneralInfo for missionIdUUID='$missionIdUUID'",
+                originalException = e
+            )
+        }
     }
 
     override fun findAllByMissionIdUUID(missionIdUUID: UUID): List<MissionGeneralInfoModel> {
-        return dbRepo.findAllByMissionIdUUID(missionIdUUID)
+        return try {
+            dbRepo.findAllByMissionIdUUID(missionIdUUID)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find all MissionGeneralInfo for missionIdUUID='$missionIdUUID'",
+                originalException = e
+            )
+        }
     }
 
     override fun findById(id: Int): Optional<MissionGeneralInfoModel> {
-        return dbRepo.findById(id)
+        return try {
+            dbRepo.findById(id)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find MissionGeneralInfo with id='$id'",
+                originalException = e
+            )
+        }
     }
 
     override fun existsById(id: Int): Boolean {
-        return dbRepo.existsById(id)
+        return try {
+            dbRepo.existsById(id)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to check existence of MissionGeneralInfo with id='$id'",
+                originalException = e
+            )
+        }
     }
 
     override fun deleteById(id: Int) {
-        return dbRepo.deleteById(id)
+        try {
+            dbRepo.deleteById(id)
+        } catch (e: InvalidDataAccessApiUsageException) {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION,
+                message = "Unable to delete MissionGeneralInfo='$id'",
+                e,
+            )
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to delete MissionGeneralInfo with id='$id'",
+                originalException = e
+            )
+        }
     }
 
     @Transactional

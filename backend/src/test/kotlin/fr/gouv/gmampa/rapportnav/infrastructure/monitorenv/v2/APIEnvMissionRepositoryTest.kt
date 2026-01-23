@@ -59,6 +59,7 @@ class APIEnvMissionRepositoryTest {
         )
 
         `when`(httpClientFactory.create()).thenReturn(httpClient)
+        `when`(httpResponse.statusCode()).thenReturn(200)
         `when`(httpResponse.body()).thenReturn(getMissionString())
         `when`(
             httpClient.send(
@@ -99,6 +100,7 @@ class APIEnvMissionRepositoryTest {
     fun `execute should update mission env with MultiPolygon`() {
 
         `when`(httpClientFactory.create()).thenReturn(httpClient)
+        `when`(httpResponse.statusCode()).thenReturn(200)
         `when`(httpResponse.body()).thenReturn(getMissionString())
         `when`(
             httpClient.send(
