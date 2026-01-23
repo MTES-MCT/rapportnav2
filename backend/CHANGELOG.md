@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.57.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.56.0...backend@v2.57.0) (2026-01-23)
+
+
+### Bug Fixes
+
+* **MonitorAPI:** restore endpoint used by Monitor ([67818cc](https://github.com/MTES-MCT/rapportnav2/commit/67818cc62e63625631e85990f11f483c770a6b20))
+
 ## [2.56.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.55.0...backend@v2.56.0) (2026-01-22)
 
 
