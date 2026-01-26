@@ -37,8 +37,8 @@ data class MissionGeneralInfoEntity2(
 
     private fun isDataCompleteUlam(): Boolean {
         return this.data != null
-//            && !this.data.resources.isNullOrEmpty() // TODO rework me!
             && this.isInterMinisterialOK()
+            && (this.data.isResourcesNotUsed == true || this.data.resources?.isNotEmpty() == true)
     }
 
     private fun isInterMinisterialOK(): Boolean {

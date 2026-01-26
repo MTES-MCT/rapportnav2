@@ -43,6 +43,7 @@ data class MissionGeneralInfo2(
     val missionIdUUID: UUID? = null,
     val isDeleted: Boolean? = null,
     val isUnderJdp: Boolean? = null,
+    var isResourcesNotUsed: Boolean? = null
 ) {
     companion object {
         fun fromMissionGeneralInfoEntity(
@@ -75,7 +76,9 @@ data class MissionGeneralInfo2(
                 reinforcementType = generalInfo2?.data?.reinforcementType,
                 jdpType = generalInfo2?.data?.jdpType,
                 isUnderJdp = isUnderJdp,
-                missionIdUUID = generalInfo2?.data?.missionIdUUID
+                missionIdUUID = generalInfo2?.data?.missionIdUUID,
+                isResourcesNotUsed = generalInfo2?.data?.isResourcesNotUsed
+
             )
         }
     }
@@ -100,6 +103,7 @@ data class MissionGeneralInfo2(
             reinforcementType = reinforcementType,
             jdpType = jdpType,
             missionIdUUID = missionIdUUID,
+            isResourcesNotUsed = isResourcesNotUsed
         )
     }
 
