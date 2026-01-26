@@ -4,6 +4,7 @@ import { Field, FieldArray, FieldArrayRenderProps, FieldProps, Formik } from 'fo
 import { FC } from 'react'
 import { Divider, Stack } from 'rsuite'
 import { store } from '../../../../store'
+import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
 import { useMissionType } from '../../../common/hooks/use-mission-type.tsx'
 import useAdministrationsQuery from '../../../common/services/use-administrations.tsx'
 import useAgentsQuery from '../../../common/services/use-agents.tsx'
@@ -13,7 +14,6 @@ import MissionGeneralInformationControlUnitResource from '../../../mission-gener
 import MissionGeneralInformationCrewNoComment from '../../../mission-general-infos/components/mission-general-information-crew-no-comment.tsx'
 import MissionGeneralInformationInterService from '../../../mission-general-infos/components/mission-general-information-inter-service.tsx'
 import { useUlamMissionGeneralInformationsExtendedForm } from '../../hooks/use-ulam-mission-general-informations-extended-form.tsx'
-import { useMissionFinished } from '../../../common/hooks/use-mission-finished.tsx'
 
 export interface MissionGeneralInformationUlamExtendedFormProps {
   name: string
@@ -46,19 +46,31 @@ const MissionGeneralInformationUlamExtendedForm: FC<MissionGeneralInformationUla
 
               <Stack.Item style={{ width: '100%' }}>
                 <Stack direction="column" spacing="1em" justifyContent="flex-start" style={{ width: '80%' }}>
-                  {isEnvMission(generalInfos2.missionReportType) && (
-                    <Stack.Item style={{ width: '100%' }}>
-                      <Field name="resources">
-                        {(field: FieldProps) => (
-                          <MissionGeneralInformationControlUnitResource
-                            name="resources"
-                            fieldFormik={field}
-                            controlUnitResources={resources}
-                          />
-                        )}
-                      </Field>
-                    </Stack.Item>
-                  )}
+                  <Stack.Item style={{ width: '100%' }}>
+                    <Stack direction="column" spacing=".2em" justifyContent="flex-start" style={{ width: '100%' }}>
+                      {isEnvMission(generalInfos2.missionReportType) && (
+                        <Stack.Item style={{ width: '100%' }}>
+                          <Field name="resources">
+                            {(field: FieldProps) => (
+                              <MissionGeneralInformationControlUnitResource
+                                name="resources"
+                                fieldFormik={field}
+                                controlUnitResources={resources}
+                                disabled={formik.values.isResourcesNotUsed}
+                              />
+                            )}
+                          </Field>
+                        </Stack.Item>
+                      )}
+                      <Stack.Item style={{ width: '100%' }}>
+                        <FormikCheckbox
+                          isLight
+                          name="isResourcesNotUsed"
+                          label="Aucunes ressources utilisées pour cette mission"
+                        />
+                      </Stack.Item>
+                    </Stack>
+                  </Stack.Item>
 
                   <Stack.Item style={{ width: '100%' }}>
                     <FieldArray name="crew">

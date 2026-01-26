@@ -51,6 +51,7 @@ export type MissionGeneralInfoExtended = {
   interMinisterialServices?: InterMinisterialService[]
   isUnderJdp?: boolean
   jdpType?: JdpTypeEnum
+  isResourcesNotUsed?: boolean
 }
 
 export enum MissionReportTypeEnum {
@@ -152,6 +153,7 @@ export type MissionGeneralInfo2 = MissionGeneralInfoPam & {
   missionIdUUID?: string
   isUnderJdp?: boolean
   jdpType?: JdpTypeEnum
+  isResourcesNotUsed?: boolean
 }
 
 export type Mission2 = {
@@ -187,6 +189,7 @@ export type MissionListItem = {
   idUUID?: string
   isUnderJdp?: boolean
   jdpType?: JdpTypeEnum
+  isResourcesNotUsed?: boolean
 }
 
 export type InterMinisterialService = {
