@@ -1,5 +1,9 @@
-import { Icon, THEME } from '@mtes-mct/monitor-ui'
-import React from 'react'
+import Text from '@common/components/ui/text'
+import { Icon, TextInput, THEME } from '@mtes-mct/monitor-ui'
+import { orderBy } from 'lodash'
+import React, { useMemo, useState } from 'react'
+import { Stack } from 'rsuite'
+import { User } from '../../../common/types/user'
 import useAdminCreateOrUpdateUserMutation from '../../services/use-admin-create-update-user-service'
 import useAdminUserPasswordMutation from '../../services/use-admin-update-user-password-service'
 import useUserListQuery from '../../services/use-admin-user-service'
@@ -53,6 +57,8 @@ type AdminUserProps = {}
 
 const AdminUserItem: React.FC<AdminUserProps> = () => {
   const { data: users } = useUserListQuery()
+  const [search, setSearch] = useState<string>()
+
   const updatePasswordMutation = useAdminUserPasswordMutation()
   const createOrUpdateMutation = useAdminCreateOrUpdateUserMutation()
   const handleSubmit = async (action: AdminActionType, value: AdminUser) => {
@@ -63,7 +69,42 @@ const AdminUserItem: React.FC<AdminUserProps> = () => {
     if (action !== AdminActionType.DELETE) await createOrUpdateMutation.mutateAsync(value)
   }
 
-  return <AdminBasicItemGeneric cells={CELLS} title="Users" data={users} actions={ACTIONS} onSubmit={handleSubmit} />
+  const filterUsers = (searchValue: string, values?: User[]) =>
+    values?.filter(user => {
+      const query = searchValue.toLowerCase().trim()
+      const firstName = user.firstName?.toLowerCase() ?? ''
+      const lastName = user.lastName?.toLowerCase() ?? ''
+      const fullName = `${firstName} ${lastName}`.toLowerCase()
+      return firstName.includes(query) || lastName.includes(query) || fullName.includes(query)
+    })
+
+  const filteredUsers = useMemo(() => {
+    return orderBy(search?.trim() ? filterUsers(search, users) : users, [obj => new Date(obj.updatedAt ?? 0)], ['desc'])
+  }, [users, search])
+
+  return (
+    <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%', height: '100%' }}>
+      <Stack.Item style={{ width: '100%' }}>
+        <Stack direction="row" spacing="1rem" alignItems="flex-end" justifyContent="flex-start">
+          <Stack.Item>
+            <Text as="h1" size={30}>{`Utilisateurs`}</Text>
+          </Stack.Item>
+          <Stack.Item style={{ width: '30%' }}>
+            <TextInput name="search" value={search} label="Rechercher" onChange={nextValue => setSearch(nextValue)} />
+          </Stack.Item>
+        </Stack>
+      </Stack.Item>
+      <Stack.Item style={{ width: '100%' }}>
+        <AdminBasicItemGeneric
+          cells={CELLS}
+          data={filteredUsers}
+          actions={ACTIONS}
+          onSubmit={handleSubmit}
+          title={search?.trim() ? 'Filtrés' : 'Tout'}
+        />
+      </Stack.Item>
+    </Stack>
+  )
 }
 
 export default AdminUserItem

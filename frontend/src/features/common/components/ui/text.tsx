@@ -10,6 +10,7 @@ export interface TextProps {
   decoration?: 'normal' | 'underline'
   children: ReactNode
   truncate?: boolean
+  size?: number
 }
 
 const fontWeights = {
@@ -18,7 +19,10 @@ const fontWeights = {
   bold: '700'
 }
 
-type StyledTextProps = Pick<TextProps, 'children' | 'color' | 'weight' | 'fontStyle' | 'decoration' | 'truncate'>
+type StyledTextProps = Pick<
+  TextProps,
+  'children' | 'color' | 'weight' | 'fontStyle' | 'decoration' | 'truncate' | 'size'
+>
 
 const BaseText = styled.p<StyledTextProps>`
   color: ${props => props.color ?? THEME.color.charcoal};
@@ -59,7 +63,7 @@ const TextComponentMap: Record<TextProps['as'], FC<StyledTextProps & { fontSize:
   h4: H4
 }
 
-const Text: FC<TextProps> = ({ children, as, color, weight, fontStyle, decoration, ...rest }) => {
+const Text: FC<TextProps> = ({ children, as, color, weight, fontStyle, decoration, size, ...rest }) => {
   const fontSize = as === 'h1' ? 22 : as === 'h2' ? 16 : as === 'h3' ? 13 : 11
   const StyledComponent = TextComponentMap[as]
 
@@ -73,7 +77,7 @@ const Text: FC<TextProps> = ({ children, as, color, weight, fontStyle, decoratio
       weight={weight}
       fontStyle={fontStyle}
       decoration={decoration}
-      fontSize={fontSize}
+      fontSize={size ?? fontSize}
       // dangerouslySetInnerHTML={{__html: children}}
       {...rest}
     >

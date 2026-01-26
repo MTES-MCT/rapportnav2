@@ -28,6 +28,9 @@ export type Agent = {
 export type AgentRole = {
   id: string
   title: string
+  disabledAt?: Date
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 /**
