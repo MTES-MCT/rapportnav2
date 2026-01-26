@@ -6,4 +6,7 @@ export type User = {
   serviceId?: number
   serviceName?: string
   controlUnitId?: number
+  disabledAt?: Date
+  createdAt?: Date
+  updatedAt?: Date
 }

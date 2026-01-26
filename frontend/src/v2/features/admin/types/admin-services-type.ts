@@ -4,6 +4,7 @@ export interface AdminService {
   createdAt?: Date
   updatedAt?: Date
   deletedAt?: Date
-  controlUnitId?: number
+  serviceType: string
+  controlUnits: number[]
 }
 export type AdminCell = { key: string; label: string; width: number }

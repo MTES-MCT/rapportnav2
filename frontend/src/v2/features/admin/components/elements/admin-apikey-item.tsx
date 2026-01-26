@@ -1,13 +1,16 @@
-import { Icon, THEME } from '@mtes-mct/monitor-ui'
-import React from 'react'
-import { AdminAction, AdminActionType } from '../../types/admin-action'
-import AdminBasicItemGeneric from './admin-basic-item-generic'
-import useAdminCreateOrUpdateApiKeyMutation from '../../services/use-admin-create-update-apikey-service.tsx'
+import Text from '@common/components/ui/text.tsx'
+import { Icon, TextInput, THEME } from '@mtes-mct/monitor-ui'
+import { orderBy } from 'lodash'
+import React, { useMemo, useState } from 'react'
+import { Stack } from 'rsuite'
 import useApiKeyListQuery from '../../services/use-admin-apikeys-service.tsx'
-import AdminApikeyForm from '../ui/admin-apikey-form.tsx'
+import useAdminCreateOrUpdateApiKeyMutation from '../../services/use-admin-create-update-apikey-service.tsx'
 import useAdminDisableApiKeyMutation from '../../services/use-admin-disable-apikey-service.tsx'
-import { ApiKey } from '../../types/admin-apikey-types.ts'
 import useAdminRotateApiKeyMutation from '../../services/use-admin-rorate-apikey-service.tsx'
+import { AdminAction, AdminActionType } from '../../types/admin-action'
+import { ApiKey } from '../../types/admin-apikey-types.ts'
+import AdminApikeyForm from '../ui/admin-apikey-form.tsx'
+import AdminBasicItemGeneric from './admin-basic-item-generic'
 
 const CELLS = [
   { key: 'id', label: 'Id', width: 400 },
@@ -46,6 +49,7 @@ type AdminUserProps = {}
 
 const AdminApiKeyItem: React.FC<AdminUserProps> = () => {
   const { data: apiKeys } = useApiKeyListQuery()
+  const [search, setSearch] = useState<string>()
   const createOrUpdateApiKeyMutation = useAdminCreateOrUpdateApiKeyMutation()
   const disableApiKeyMutation = useAdminDisableApiKeyMutation()
   const rotateApiKeyMutation = useAdminRotateApiKeyMutation()
@@ -66,8 +70,43 @@ const AdminApiKeyItem: React.FC<AdminUserProps> = () => {
     }
   }
 
+  const filterApiKeys = (searchValue: string, values?: ApiKey[]) =>
+    values?.filter(key => {
+      const query = searchValue.toLowerCase().trim()
+      const owner = key.owner?.toLowerCase() ?? ''
+      return owner.includes(query)
+    })
+
+  const filteredApiKeys = useMemo(() => {
+    return orderBy(
+      search?.trim() ? filterApiKeys(search, apiKeys) : apiKeys,
+      [obj => new Date(obj.updatedAt ?? 0)],
+      ['desc']
+    )
+  }, [apiKeys, search])
+
   return (
-    <AdminBasicItemGeneric cells={CELLS} title="API Keys" data={apiKeys} actions={ACTIONS} onSubmit={handleSubmit} />
+    <Stack direction="column" alignItems="flex-start" spacing="1rem" style={{ width: '100%', height: '100%' }}>
+      <Stack.Item style={{ width: '100%' }}>
+        <Stack direction="row" spacing="1rem" alignItems="flex-end" justifyContent="flex-start">
+          <Stack.Item>
+            <Text as="h1" size={30}>{`API Keys`}</Text>
+          </Stack.Item>
+          <Stack.Item style={{ width: '30%' }}>
+            <TextInput name="search" value={search} label="Rechercher" onChange={nextValue => setSearch(nextValue)} />
+          </Stack.Item>
+        </Stack>
+      </Stack.Item>
+      <Stack.Item style={{ width: '100%' }}>
+        <AdminBasicItemGeneric
+          cells={CELLS}
+          actions={ACTIONS}
+          data={filteredApiKeys}
+          onSubmit={handleSubmit}
+          title={search?.trim() ? 'Filtrés' : 'Tout'}
+        />
+      </Stack.Item>
+    </Stack>
   )
 }
 
