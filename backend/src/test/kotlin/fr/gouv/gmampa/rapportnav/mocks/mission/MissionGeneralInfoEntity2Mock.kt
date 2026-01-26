@@ -18,7 +18,8 @@ object MissionGeneralInfoEntity2Mock {
                 id = 1,
                 name = "name",
                 serviceType = ServiceTypeEnum.ULAM
-            )
+            ),
+            isResourcesNotUsed = true
         )),
         crew = crew ?: listOf(
             MissionCrewEntity(
