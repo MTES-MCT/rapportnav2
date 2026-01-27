@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
-import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 import java.time.Instant
 import java.util.*
@@ -27,8 +26,6 @@ class MissionRestController(
     private val deleteNavMission: DeleteNavMission,
     private val deleteEnvMission: DeleteEnvMission
 ) {
-
-    private val logger = LoggerFactory.getLogger(MissionRestController::class.java)
 
     /**
      * Retrieves a list of missions from the environment and combines them with fictive missions specific to the user.
@@ -142,20 +139,16 @@ class MissionRestController(
 
 
     @DeleteMapping("{missionId}")
-    @Operation(summary = "Delete a mission create by the unity")
+    @Operation(summary = "Delete a mission created by the unit")
     @ApiResponse(responseCode = "404", description = "Could not delete mission", content = [Content()])
     fun delete(
         @PathVariable(name = "missionId") missionId: String
     ) {
         val serviceId = getServiceForUser.execute()?.id
-        return try {
-            if (isValidUUID(missionId)) {
-                deleteNavMission.execute(id = UUID.fromString(missionId), serviceId = serviceId)
-            } else {
-                deleteEnvMission.execute(id = Integer.parseInt(missionId), serviceId = serviceId)
-            }
-        } catch (e: Exception) {
-            logger.error("Error while creating MonitorEnv mission : ", e)
+        if (isValidUUID(missionId)) {
+            deleteNavMission.execute(id = UUID.fromString(missionId), serviceId = serviceId)
+        } else {
+            deleteEnvMission.execute(id = Integer.parseInt(missionId), serviceId = serviceId)
         }
     }
 }
