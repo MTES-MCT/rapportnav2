@@ -77,6 +77,10 @@ class MissionGeneralInfoModel(
     @Column(name = "mission_id_uuid", nullable = true)
     var missionIdUUID: UUID? = null,
 
+    @Column(name = "is_resources_not_used", nullable = true)
+    var isResourcesNotUsed: Boolean? = null,
+
+
     @CreatedDate
     @Column(name = "created_at", nullable = true, updatable = false)
     var createdAt: Instant? = null,

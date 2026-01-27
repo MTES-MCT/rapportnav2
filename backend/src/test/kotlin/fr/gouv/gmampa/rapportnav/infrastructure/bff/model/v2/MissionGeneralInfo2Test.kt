@@ -1,20 +1,15 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.bff.model.v2
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.controlResources.LegacyControlUnitResourceEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
-import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntity2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import java.time.Instant
 
 @ExtendWith(SpringExtension::class)
 class MissionGeneralInfo2Test {
@@ -44,6 +39,7 @@ class MissionGeneralInfo2Test {
                 distanceInNauticalMiles = 1.9f,
                 nbrOfRecognizedVessel = 9,
                 resources = listOf(resource1),
+                isResourcesNotUsed = true
             ),
             services = listOf(service1)
         )
@@ -58,6 +54,7 @@ class MissionGeneralInfo2Test {
         assertThat(generalInfo.consumedFuelInLiters).isEqualTo(generalInfoEntity.data?.consumedFuelInLiters);
         assertThat(generalInfo.distanceInNauticalMiles).isEqualTo(generalInfoEntity.data?.distanceInNauticalMiles);
         assertThat(generalInfo.nbrOfRecognizedVessel).isEqualTo(generalInfoEntity.data?.nbrOfRecognizedVessel);
+        assertThat(generalInfo.isResourcesNotUsed).isEqualTo(generalInfoEntity.data?.isResourcesNotUsed);
     }
 
 
@@ -66,7 +63,7 @@ class MissionGeneralInfo2Test {
         val generalInfoEntity = MissionGeneralInfoEntity2(
             data = MissionGeneralInfoEntityMock.create(
                 id = 1,
-                missionId = 1,
+                missionId = 1
             )
         )
         val generalInfo = MissionGeneralInfo2.fromMissionGeneralInfoEntity(generalInfoEntity)

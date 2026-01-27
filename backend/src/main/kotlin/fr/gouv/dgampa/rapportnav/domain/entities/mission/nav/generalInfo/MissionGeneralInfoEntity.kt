@@ -32,7 +32,8 @@ data class MissionGeneralInfoEntity(
     var reinforcementType: MissionReinforcementTypeEnum? = null,
     var interMinisterialServices: List<InterMinisterialServiceEntity>? = listOf(),
     var jdpType: JdpTypeEnum? = null,
-    var missionIdUUID: UUID? = null
+    var missionIdUUID: UUID? = null,
+    var isResourcesNotUsed: Boolean? = null
 ) {
 
     companion object {
@@ -54,7 +55,8 @@ data class MissionGeneralInfoEntity(
                 reinforcementType = model.reinforcementType,
                 interMinisterialServices = model.interMinisterialServices?.map { InterMinisterialServiceEntity.fromInterMinisterialServiceModel(it) }?: listOf(),
                 jdpType = model.jdpType,
-                missionIdUUID = model.missionIdUUID
+                missionIdUUID = model.missionIdUUID,
+                isResourcesNotUsed = model.isResourcesNotUsed
             )
         }
     }
@@ -78,7 +80,8 @@ data class MissionGeneralInfoEntity(
             reinforcementType = reinforcementType,
             interMinisterialServices = interMinisterialServices?.map { it.toInterMinisterialServiceModel() },
             jdpType = jdpType,
-            missionIdUUID = missionIdUUID
+            missionIdUUID = missionIdUUID,
+            isResourcesNotUsed = isResourcesNotUsed
         )
     }
 }

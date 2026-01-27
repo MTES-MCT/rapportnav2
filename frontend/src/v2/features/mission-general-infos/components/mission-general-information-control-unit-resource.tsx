@@ -9,12 +9,14 @@ type ResourceFormInput = { resources: { id?: number }[] } | undefined
 
 interface MissionGeneralInformationControlUnitResourceProps {
   name: string
+  disabled?: boolean
   fieldFormik: FieldProps<ControlUnitResource[]>
   controlUnitResources?: ControlUnitResource[]
 }
 
 const MissionGeneralInformationControlUnitResource: React.FC<MissionGeneralInformationControlUnitResourceProps> = ({
   name,
+  disabled,
   fieldFormik,
   controlUnitResources
 }) => {
@@ -64,6 +66,7 @@ const MissionGeneralInformationControlUnitResource: React.FC<MissionGeneralInfor
                             <FormikSelect
                               isRequired
                               searchable
+                              disabled={disabled}
                               style={{ width: '100%' }}
                               name={`resources.${index}.id`}
                               label="Moyen(s) utilisé(s)"
@@ -78,13 +81,13 @@ const MissionGeneralInformationControlUnitResource: React.FC<MissionGeneralInfor
                           </Stack.Item>
                           <Stack.Item style={{ paddingLeft: 5 }}>
                             <IconButton
-                              disabled={index === 0}
                               role="delete-resources"
                               size={Size.NORMAL}
                               Icon={Icon.Delete}
                               accent={Accent.TERTIARY}
-                              style={{ border: `1px solid ${THEME.color.charcoal}` }}
+                              disabled={index === 0 || disabled}
                               onClick={() => arrayHelpers.remove(index)}
+                              style={{ border: `1px solid ${THEME.color.charcoal}` }}
                             />
                           </Stack.Item>
                         </Stack>
@@ -95,6 +98,7 @@ const MissionGeneralInformationControlUnitResource: React.FC<MissionGeneralInfor
                         Icon={Icon.Plus}
                         size={Size.SMALL}
                         isFullWidth={true}
+                        disabled={disabled}
                         accent={Accent.SECONDARY}
                         onClick={() => arrayHelpers.push({})}
                       >

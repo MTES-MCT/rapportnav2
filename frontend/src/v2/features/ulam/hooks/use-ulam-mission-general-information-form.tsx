@@ -34,7 +34,8 @@ export const useUlamMissionGeneralInfoForm = (
       resources: data.resources,
       interMinisterialServices: data.interMinisterialServices,
       isUnderJdp: data.isUnderJdp,
-      jdpType: data.jdpType
+      jdpType: data.jdpType,
+      isResourcesNotUsed: data.isResourcesNotUsed
     }
     return { ...data, initial, extended }
   }
@@ -57,7 +58,8 @@ export const useUlamMissionGeneralInfoForm = (
       observations: extended.observations,
       interMinisterialServices: extended.interMinisterialServices,
       jdpType: extended.jdpType,
-      isUnderJdp: extended.isUnderJdp
+      isUnderJdp: extended.isUnderJdp,
+      isResourcesNotUsed: extended.isResourcesNotUsed
     }
   }
 
@@ -71,7 +73,8 @@ export const useUlamMissionGeneralInfoForm = (
       'isWithInterMinisterialService',
       'isUnderJdp',
       'isMissionNav',
-      'isDeleted'
+      'isDeleted',
+      'isResourcesNotUsed'
     ]
   )
 
