@@ -12,25 +12,23 @@ class GetComputeNavActionListByMissionId(
 ) {
     private val logger = LoggerFactory.getLogger(GetComputeNavActionListByMissionId::class.java)
 
-    fun execute(missionId: Int?): List<MissionNavActionEntity> {
-        if (missionId == null) return listOf()
+    fun execute(missionId: Int): List<MissionNavActionEntity> {
         return try {
             val actions = getNavActionListByOwnerId.execute(missionId = missionId)
             actions.map { processNavAction.execute(action = it) }
         } catch (e: Exception) {
-            logger.error("GetComputeNavActionListByMissionId failed loading Actions", e)
-            return listOf()
+            logger.error("GetComputeNavActionListByMissionId failed loading actions for missionId=$missionId", e)
+            emptyList()
         }
     }
 
-    fun execute(ownerId: UUID?): List<MissionNavActionEntity> {
-        if (ownerId == null) return listOf()
+    fun execute(ownerId: UUID): List<MissionNavActionEntity> {
         return try {
             val actions = getNavActionListByOwnerId.execute(ownerId = ownerId)
             actions.map { processNavAction.execute(action = it) }
         } catch (e: Exception) {
-            logger.error("GetComputeNavActionListByMissionIdString failed loading Actions", e)
-            return listOf()
+            logger.error("GetComputeNavActionListByMissionId failed loading actions for ownerId=$ownerId", e)
+            emptyList()
         }
     }
 }

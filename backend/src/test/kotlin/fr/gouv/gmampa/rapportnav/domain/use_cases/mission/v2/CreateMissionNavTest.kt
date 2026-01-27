@@ -3,11 +3,15 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionReportTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IMissionNavRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.CreateMissionNav
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
 import org.mockito.Mockito.times
 import org.mockito.kotlin.anyOrNull
@@ -27,6 +31,23 @@ class CreateMissionNavTest {
     private lateinit var createMissionNav: CreateMissionNav
 
     @Test
+    fun `should throw exception when startDateTimeUtc is null`() {
+        val generalInfo2 = MissionGeneralInfo2(
+            missionTypes = listOf(MissionTypeEnum.AIR),
+            missionReportType = MissionReportTypeEnum.OFFICE_REPORT,
+            startDateTimeUtc = null,
+            endDateTimeUtc = null
+        )
+
+        val exception = assertThrows<BackendUsageException> {
+            createMissionNav.execute(generalInfo2 = generalInfo2, serviceId = 1)
+        }
+
+        assertEquals(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION, exception.code)
+        assertEquals("CreateMissionNav: startDateTimeUtc is required", exception.message)
+    }
+
+    @Test
     fun `should execute and return an MissionNavEntity`() {
         val serviceId = 2
         val generalInfo2 = MissionGeneralInfo2(
@@ -37,7 +58,7 @@ class CreateMissionNavTest {
             endDateTimeUtc = Instant.parse("2025-04-24T14:13:17.022715Z")
         )
         val navMission = MissionNavEntity(
-            id= UUID.randomUUID(),
+            id = UUID.randomUUID(),
             serviceId = serviceId,
             startDateTimeUtc = generalInfo2.startDateTimeUtc!!,
             endDateTimeUtc = generalInfo2.endDateTimeUtc,
@@ -51,5 +72,63 @@ class CreateMissionNavTest {
 
         assertNotNull(result)
         Mockito.verify(repository, times(1)).save(anyOrNull())
+    }
+
+    @Test
+    fun `should return entity with correct serviceId and dates`() {
+        val serviceId = 5
+        val startDate = Instant.parse("2025-06-15T08:00:00Z")
+        val endDate = Instant.parse("2025-06-15T18:00:00Z")
+        val generalInfo2 = MissionGeneralInfo2(
+            missionTypes = listOf(MissionTypeEnum.SEA),
+            missionReportType = MissionReportTypeEnum.OFFICE_REPORT,
+            startDateTimeUtc = startDate,
+            endDateTimeUtc = endDate
+        )
+
+        val missionId = UUID.randomUUID()
+        val navMission = MissionNavEntity(
+            id = missionId,
+            serviceId = serviceId,
+            startDateTimeUtc = startDate,
+            endDateTimeUtc = endDate,
+            isDeleted = false
+        )
+
+        Mockito.`when`(repository.save(anyOrNull())).thenReturn(navMission.toMissionModel())
+
+        val result = createMissionNav.execute(generalInfo2 = generalInfo2, serviceId = serviceId)
+
+        assertEquals(serviceId, result.serviceId)
+        assertEquals(startDate, result.startDateTimeUtc)
+        assertEquals(endDate, result.endDateTimeUtc)
+        assertEquals(false, result.isDeleted)
+    }
+
+    @Test
+    fun `should create mission with null endDateTimeUtc`() {
+        val serviceId = 3
+        val startDate = Instant.parse("2025-07-01T10:00:00Z")
+        val generalInfo2 = MissionGeneralInfo2(
+            missionTypes = listOf(MissionTypeEnum.LAND),
+            missionReportType = MissionReportTypeEnum.EXTERNAL_REINFORCEMENT_TIME_REPORT,
+            startDateTimeUtc = startDate,
+            endDateTimeUtc = null
+        )
+
+        val navMission = MissionNavEntity(
+            id = UUID.randomUUID(),
+            serviceId = serviceId,
+            startDateTimeUtc = startDate,
+            endDateTimeUtc = null,
+            isDeleted = false
+        )
+
+        Mockito.`when`(repository.save(anyOrNull())).thenReturn(navMission.toMissionModel())
+
+        val result = createMissionNav.execute(generalInfo2 = generalInfo2, serviceId = serviceId)
+
+        assertNotNull(result)
+        assertEquals(null, result.endDateTimeUtc)
     }
 }

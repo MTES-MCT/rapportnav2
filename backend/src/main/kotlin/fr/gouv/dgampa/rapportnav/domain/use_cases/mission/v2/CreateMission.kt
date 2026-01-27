@@ -5,6 +5,8 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEntity2
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.CreateEnvMission
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 
@@ -15,9 +17,12 @@ class CreateMission(
     private val createGeneralInfos: CreateGeneralInfos
 
 ) {
-    fun execute(generalInfo2: MissionGeneralInfo2, service: ServiceEntity? = null): MissionEntity2? {
+    fun execute(generalInfo2: MissionGeneralInfo2, service: ServiceEntity? = null): MissionEntity2 {
         if (service?.id == null || service.controlUnits.isNullOrEmpty()) {
-            throw Exception("Error while saving mission nav. Control Units are empty for this user")
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
+                message = "CreateMission: Control Units or Service are falsy"
+            )
         }
 
         if (generalInfo2.isMissionNav()) {
@@ -33,11 +38,11 @@ class CreateMission(
         )
     }
 
-    private fun executeNavMission(generalInfo2: MissionGeneralInfo2, service: ServiceEntity): MissionEntity2? {
+    private fun executeNavMission(generalInfo2: MissionGeneralInfo2, service: ServiceEntity): MissionEntity2 {
         val missionNav = createNavMission.execute(
             generalInfo2 = generalInfo2,
             serviceId = service.id!!
-        ) ?: return null
+        )
         val generalInfosEntity = createGeneralInfos.execute(missionIdUUID = missionNav.id, generalInfo2 = generalInfo2, service = service)
 
         return MissionEntity2(
@@ -56,8 +61,8 @@ class CreateMission(
         )
     }
 
-    private fun executeEnvMission(generalInfo2: MissionGeneralInfo2, controlUnitIds: List<Int>?): MissionEntity2? {
-        val missionEnv = createEnvMission.execute(generalInfo2, controlUnitIds) ?: return null
+    private fun executeEnvMission(generalInfo2: MissionGeneralInfo2, controlUnitIds: List<Int>?): MissionEntity2 {
+        val missionEnv = createEnvMission.execute(generalInfo2, controlUnitIds)
         val generalInfosEntity = createGeneralInfos.execute(missionId = missionEnv.id, generalInfo2 = generalInfo2)
 
         return MissionEntity2(

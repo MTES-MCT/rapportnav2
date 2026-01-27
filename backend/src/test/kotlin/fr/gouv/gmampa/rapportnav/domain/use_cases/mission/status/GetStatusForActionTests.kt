@@ -12,28 +12,12 @@ import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
-import org.testcontainers.containers.PostgreSQLContainer
-import org.testcontainers.junit.jupiter.Container
 import java.time.Instant
 import java.util.*
 
 
 @SpringBootTest(classes = [GetStatusForAction::class])
 class GetStatusForActionTests {
-
-    companion object {
-        @Container
-        val container: PostgreSQLContainer<*> = PostgreSQLContainer<Nothing>("postgres:latest")
-            .apply {
-                withDatabaseName("rapportnavdb")
-                withUsername("postgres")
-                withPassword("postgres")
-            }
-
-        init {
-            container.start()
-        }
-    }
 
     private var missionId: Int = 1
 
