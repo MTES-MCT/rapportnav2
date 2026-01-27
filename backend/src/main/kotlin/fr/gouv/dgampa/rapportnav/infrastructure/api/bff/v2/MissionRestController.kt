@@ -132,16 +132,12 @@ class MissionRestController(
     )
     fun create(
         @RequestBody body: MissionGeneralInfo2
-    ): Mission2? {
-        return try {
-            createMission.execute(
-                generalInfo2 = body,
-                service = getServiceForUser.execute()
-            )?.let { Mission2.fromMissionEntity(it) }
-        } catch (e: Exception) {
-            logger.error("Error while creating MonitorEnv mission : ", e)
-            return null
-        }
+    ): Mission2 {
+        val mission = createMission.execute(
+            generalInfo2 = body,
+            service = getServiceForUser.execute()
+        )
+        return Mission2.fromMissionEntity(mission)
     }
 
 
