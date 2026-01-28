@@ -12,12 +12,21 @@ const mockPreprocessDateForPicker = vi.fn((date: Date | undefined) => date)
 const mockPostprocessDateFromPicker = vi.fn((date: Date | undefined) => date)
 const mockHandleSubmit = vi.fn()
 
+const mockMissionDates = vi.hoisted(() => ({
+  startDate: undefined as string | undefined,
+  endDate: undefined as string | undefined
+}))
+
 // Mock dependencies
 vi.mock('../../../common/hooks/use-date.tsx', () => ({
   useDate: () => ({
     preprocessDateForPicker: mockPreprocessDateForPicker,
     postprocessDateFromPicker: mockPostprocessDateFromPicker
   })
+}))
+
+vi.mock('../../../common/hooks/use-mission-dates.tsx', () => ({
+  useMissionDates: () => [mockMissionDates.startDate, mockMissionDates.endDate]
 }))
 
 vi.mock('../../../common/hooks/use-abstract-formik-sub-form.tsx', () => ({
@@ -75,6 +84,8 @@ describe('useMissionCrewAbsenceForm', () => {
     vi.clearAllMocks()
     capturedFromFieldValueToInput = null
     capturedFromInputToFieldValue = null
+    mockMissionDates.startDate = undefined
+    mockMissionDates.endDate = undefined
   })
 
   describe('EMPTY_ABSENCE constant', () => {
@@ -250,6 +261,137 @@ describe('useMissionCrewAbsenceForm', () => {
       const result = capturedFromInputToFieldValue!(inputValue)
 
       expect('dates' in result).toBe(false)
+    })
+  })
+
+  describe('isAbsentFullMission computation in fromInputToFieldValue', () => {
+    it('sets isAbsentFullMission to true when absence dates match mission dates', () => {
+      // Use times that stay on the same day across all timezones (avoiding midnight UTC)
+      mockMissionDates.startDate = '2024-01-15T10:00:00Z'
+      mockMissionDates.endDate = '2024-01-20T18:00:00Z'
+
+      renderHook(() => useMissionCrewAbsenceForm('crew.0.absences.0', createFieldFormik(), 'mission-123'))
+
+      const inputValue: MissionCrewAbsenceInitialInput = {
+        dates: [new Date('2024-01-15T14:00:00Z'), new Date('2024-01-20T16:00:00Z')],
+        reason: MissionCrewAbsenceReason.SICK_LEAVE
+      }
+
+      const result = capturedFromInputToFieldValue!(inputValue)
+
+      expect(result.isAbsentFullMission).toBe(true)
+    })
+
+    it('sets isAbsentFullMission to false when start date does not match mission start', () => {
+      mockMissionDates.startDate = '2024-01-15T10:00:00Z'
+      mockMissionDates.endDate = '2024-01-20T18:00:00Z'
+
+      renderHook(() => useMissionCrewAbsenceForm('crew.0.absences.0', createFieldFormik(), 'mission-123'))
+
+      const inputValue: MissionCrewAbsenceInitialInput = {
+        dates: [new Date('2024-01-16T10:00:00Z'), new Date('2024-01-20T16:00:00Z')],
+        reason: MissionCrewAbsenceReason.SICK_LEAVE
+      }
+
+      const result = capturedFromInputToFieldValue!(inputValue)
+
+      expect(result.isAbsentFullMission).toBe(false)
+    })
+
+    it('sets isAbsentFullMission to false when end date does not match mission end', () => {
+      mockMissionDates.startDate = '2024-01-15T10:00:00Z'
+      mockMissionDates.endDate = '2024-01-20T18:00:00Z'
+
+      renderHook(() => useMissionCrewAbsenceForm('crew.0.absences.0', createFieldFormik(), 'mission-123'))
+
+      const inputValue: MissionCrewAbsenceInitialInput = {
+        dates: [new Date('2024-01-15T14:00:00Z'), new Date('2024-01-19T16:00:00Z')],
+        reason: MissionCrewAbsenceReason.SICK_LEAVE
+      }
+
+      const result = capturedFromInputToFieldValue!(inputValue)
+
+      expect(result.isAbsentFullMission).toBe(false)
+    })
+
+    it('sets isAbsentFullMission to false when mission dates are undefined', () => {
+      mockMissionDates.startDate = undefined
+      mockMissionDates.endDate = undefined
+
+      renderHook(() => useMissionCrewAbsenceForm('crew.0.absences.0', createFieldFormik()))
+
+      const inputValue: MissionCrewAbsenceInitialInput = {
+        dates: [new Date('2024-01-15T08:00:00Z'), new Date('2024-01-20T18:00:00Z')],
+        reason: MissionCrewAbsenceReason.SICK_LEAVE
+      }
+
+      const result = capturedFromInputToFieldValue!(inputValue)
+
+      expect(result.isAbsentFullMission).toBe(false)
+    })
+
+    it('sets isAbsentFullMission to false when absence dates are undefined', () => {
+      mockMissionDates.startDate = '2024-01-15T00:00:00Z'
+      mockMissionDates.endDate = '2024-01-20T23:59:59Z'
+
+      renderHook(() => useMissionCrewAbsenceForm('crew.0.absences.0', createFieldFormik(), 'mission-123'))
+
+      const inputValue: MissionCrewAbsenceInitialInput = {
+        dates: [undefined, undefined],
+        reason: MissionCrewAbsenceReason.SICK_LEAVE
+      }
+
+      const result = capturedFromInputToFieldValue!(inputValue)
+
+      expect(result.isAbsentFullMission).toBe(false)
+    })
+
+    it('sets isAbsentFullMission to false when only start date is undefined', () => {
+      mockMissionDates.startDate = '2024-01-15T00:00:00Z'
+      mockMissionDates.endDate = '2024-01-20T23:59:59Z'
+
+      renderHook(() => useMissionCrewAbsenceForm('crew.0.absences.0', createFieldFormik(), 'mission-123'))
+
+      const inputValue: MissionCrewAbsenceInitialInput = {
+        dates: [undefined, new Date('2024-01-20T18:00:00Z')],
+        reason: MissionCrewAbsenceReason.SICK_LEAVE
+      }
+
+      const result = capturedFromInputToFieldValue!(inputValue)
+
+      expect(result.isAbsentFullMission).toBe(false)
+    })
+
+    it('sets isAbsentFullMission to false when only end date is undefined', () => {
+      mockMissionDates.startDate = '2024-01-15T00:00:00Z'
+      mockMissionDates.endDate = '2024-01-20T23:59:59Z'
+
+      renderHook(() => useMissionCrewAbsenceForm('crew.0.absences.0', createFieldFormik(), 'mission-123'))
+
+      const inputValue: MissionCrewAbsenceInitialInput = {
+        dates: [new Date('2024-01-15T08:00:00Z'), undefined],
+        reason: MissionCrewAbsenceReason.SICK_LEAVE
+      }
+
+      const result = capturedFromInputToFieldValue!(inputValue)
+
+      expect(result.isAbsentFullMission).toBe(false)
+    })
+
+    it('uses isSameDay comparison (different times on same day should match)', () => {
+      mockMissionDates.startDate = '2024-01-15T06:00:00Z'
+      mockMissionDates.endDate = '2024-01-20T22:00:00Z'
+
+      renderHook(() => useMissionCrewAbsenceForm('crew.0.absences.0', createFieldFormik(), 'mission-123'))
+
+      const inputValue: MissionCrewAbsenceInitialInput = {
+        dates: [new Date('2024-01-15T14:30:00Z'), new Date('2024-01-20T08:15:00Z')],
+        reason: MissionCrewAbsenceReason.TRAINING
+      }
+
+      const result = capturedFromInputToFieldValue!(inputValue)
+
+      expect(result.isAbsentFullMission).toBe(true)
     })
   })
 

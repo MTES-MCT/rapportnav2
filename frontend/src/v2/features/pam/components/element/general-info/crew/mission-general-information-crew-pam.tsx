@@ -74,8 +74,6 @@ const MissionGeneralInformationCrewPam: React.FC<MissionGeneralInformationCrewPa
     setSelectedCrewIndex(undefined)
   }
 
-  const handleDelete = (index: number) => fieldArray.remove(index)
-
   const handleToggleCheckbox = (index: number, isChecked: boolean) => {
     if (isChecked) {
       fieldArray.form.setFieldValue(`${name}.${index}.absences`, [])
@@ -84,6 +82,8 @@ const MissionGeneralInformationCrewPam: React.FC<MissionGeneralInformationCrewPa
       setAbsenceMode(MissionCrewAbsenceType.FULL_MISSION)
     }
   }
+
+  const handleDelete = (index: number) => fieldArray.remove(index)
 
   return (
     <>
@@ -145,6 +145,7 @@ const MissionGeneralInformationCrewPam: React.FC<MissionGeneralInformationCrewPa
         <>
           {selectedCrewIndex !== undefined && (
             <MissionGeneralInformationCrewPamAbsenceForm
+              missionId={missionId}
               crewIndex={selectedCrewIndex}
               // data-testid="crew-absence-form"
               handleClose={() => {

@@ -7,6 +7,7 @@ import { useMissionCrewAbsenceForm } from '../../../../hooks/use-crew-absence.ts
 import Text from '@common/components/ui/text.tsx'
 
 interface FullMissionAbsenceFormProps {
+  missionId: string
   crew: MissionCrew
   name: string
   fieldFormik: FieldProps<MissionCrewAbsence>
@@ -14,12 +15,13 @@ interface FullMissionAbsenceFormProps {
 }
 
 export const FullMissionAbsenceForm: React.FC<Props> = ({
+  missionId,
   crew,
   handleClose,
   name,
   fieldFormik
 }: FullMissionAbsenceFormProps) => {
-  const { initValue, validationSchema, handleSubmit } = useMissionCrewAbsenceForm(name, fieldFormik)
+  const { initValue, validationSchema, handleSubmit } = useMissionCrewAbsenceForm(name, fieldFormik, missionId)
 
   const onSubmit = async (nextValues: MissionCrewAbsence) => {
     await handleSubmit({ ...nextValues, isAbsentFullMission: true })

@@ -8,6 +8,7 @@ import { FullMissionAbsenceForm } from './crew-full-mission-absence-form.tsx'
 import { Divider, Stack } from 'rsuite'
 
 interface Props {
+  missionId: string
   crewIndex?: number
   absenceType?: MissionCrewAbsenceType
   handleClose: () => void
@@ -22,7 +23,7 @@ const EMPTY_ABSENCE: MissionCrewAbsence = {
   isAbsentFullMission: false
 }
 
-export const CrewAbsenceForm: React.FC<Props> = ({ crew, crewIndex, absenceType, handleClose }) => {
+export const CrewAbsenceForm: React.FC<Props> = ({ missionId, crew, crewIndex, absenceType, handleClose }) => {
   const formikContext = useFormikContext<MissionGeneralInfo2>()
   const absencesPath = `crew.${crewIndex}.absences`
   const absences: MissionCrewAbsence[] = getIn(formikContext.values, absencesPath) || []
@@ -53,6 +54,7 @@ export const CrewAbsenceForm: React.FC<Props> = ({ crew, crewIndex, absenceType,
               if (absenceType === MissionCrewAbsenceType.FULL_MISSION) {
                 return (
                   <FullMissionAbsenceForm
+                    missionId={missionId}
                     name={`${absencesPath}.0`}
                     key={`${absencesPath}.0`}
                     crewIndex={crewIndex}
@@ -68,6 +70,7 @@ export const CrewAbsenceForm: React.FC<Props> = ({ crew, crewIndex, absenceType,
                 <Stack direction="column" key={`${absencesPath}.${index}`}>
                   <Stack.Item style={{ width: '100%' }}>
                     <TemporaryAbsenceItemForm
+                      missionId={missionId}
                       fieldFormik={fieldFormik}
                       name={`${absencesPath}.${index}`}
                       onRemove={() => {
@@ -82,9 +85,7 @@ export const CrewAbsenceForm: React.FC<Props> = ({ crew, crewIndex, absenceType,
                           handleClose()
                         }
                       }}
-                      onCommit={committedValue => {
-                        setLocalAbsences([])
-                      }}
+                      onCommit={() => setLocalAbsences([])}
                     />
                   </Stack.Item>
                   {index < displayAbsences.length - 1 && (
@@ -111,7 +112,6 @@ export const CrewAbsenceForm: React.FC<Props> = ({ crew, crewIndex, absenceType,
                     Icon={Icon.Plus}
                     accent={Accent.PRIMARY}
                     onClick={() => {
-                      // Add a new local placeholder, no parent mutation
                       setLocalAbsences(prev => [...prev, EMPTY_ABSENCE])
                     }}
                   >

@@ -29,12 +29,18 @@ const CloseIconButton = styled((props: Omit<IconButtonProps, 'Icon'>) => (
 }))
 
 interface Props {
+  missionId: string
   crewIndex?: number
   absenceType?: MissionCrewAbsenceType
   handleClose: () => void
 }
 
-const MissionGeneralInformationCrewPamAbsenceForm: React.FC<Props> = ({ crewIndex, absenceType, handleClose }) => {
+const MissionGeneralInformationCrewPamAbsenceForm: React.FC<Props> = ({
+  missionId,
+  crewIndex,
+  absenceType,
+  handleClose
+}) => {
   const { values } = useFormikContext<MissionGeneralInfo2>()
 
   const crew = values.crew?.[crewIndex]
@@ -55,7 +61,13 @@ const MissionGeneralInformationCrewPamAbsenceForm: React.FC<Props> = ({ crewInde
         </FlexboxGrid>
       </Dialog.Title>
       <CrewFormDialogBody>
-        <CrewAbsenceForm crew={crew} crewIndex={crewIndex} absenceType={absenceType} handleClose={handleClose} />
+        <CrewAbsenceForm
+          missionId={missionId}
+          crew={crew}
+          crewIndex={crewIndex}
+          absenceType={absenceType}
+          handleClose={handleClose}
+        />
       </CrewFormDialogBody>
     </Dialog>
   )

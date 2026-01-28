@@ -8,19 +8,19 @@ import { useMissionCrewAbsenceForm } from '../../../../hooks/use-crew-absence.ts
 import { Stack } from 'rsuite'
 
 interface Props {
+  missionId: string
   name: string
   fieldFormik: FieldProps<MissionCrewAbsence>
   onRemove: () => void
-  onCommit: (abs: MissionCrewAbsence) => void
+  onCommit: () => void
 }
 
-const TemporaryAbsenceItemForm: React.FC<Props> = ({ name, fieldFormik, onRemove, onCommit }) => {
-  const { initValue, validationSchema, handleSubmit, errors } = useMissionCrewAbsenceForm(name, fieldFormik)
+const TemporaryAbsenceItemForm: React.FC<Props> = ({ missionId, name, fieldFormik, onRemove, onCommit }) => {
+  const { initValue, validationSchema, handleSubmit } = useMissionCrewAbsenceForm(name, fieldFormik, missionId)
 
   const onSubmit = async (nextValues: MissionCrewAbsence) => {
-    // onCommit(nextValues)
     await handleSubmit(nextValues)
-    onCommit(nextValues)
+    onCommit()
   }
 
   return (

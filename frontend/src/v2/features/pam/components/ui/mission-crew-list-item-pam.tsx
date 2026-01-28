@@ -18,9 +18,9 @@ interface CrewListProps {
   crewMember: MissionCrew
   handleEditAbsence: (index: number, absenceType: MissionCrewAbsenceType) => void
   handleEditCrew: (index: number) => void
-  handleDelete: (index: number) => void
   isAbsentFullMission?: boolean
   onToggleCheckbox?: (index: number, isChecked: boolean) => void
+  handleDelete: (index: number) => void
 }
 
 const MissionCrewListItemPam: React.FC<CrewListProps> = (props: CrewListProps) => {

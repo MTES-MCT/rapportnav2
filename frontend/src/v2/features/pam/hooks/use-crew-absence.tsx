@@ -6,11 +6,17 @@ import { FieldProps } from 'formik'
 import { ABSENCE_REASON_OPTIONS, MissionCrewAbsence, MissionCrewAbsenceReason } from '../../common/types/crew-type.ts'
 import { useAbstractFormikSubForm } from '../../common/hooks/use-abstract-formik-sub-form.tsx'
 import { useMissionDates } from '../../common/hooks/use-mission-dates.tsx'
+import { isSameDay } from 'date-fns'
 
 export type MissionCrewAbsenceInitialInput = { dates: (Date | undefined)[] } & MissionCrewAbsence
 
-export const useMissionCrewAbsenceForm = (name: string, fieldFormik: FieldProps<MissionCrewAbsence>) => {
+export const useMissionCrewAbsenceForm = (
+  name: string,
+  fieldFormik: FieldProps<MissionCrewAbsence>,
+  missionId?: string
+) => {
   const { preprocessDateForPicker, postprocessDateFromPicker } = useDate()
+  const [missionStartDateTimeUtc, missionEndDateTimeUtc] = useMissionDates(missionId)
 
   const EMPTY_ABSENCE: MissionCrewAbsence = {
     id: undefined,
@@ -21,8 +27,8 @@ export const useMissionCrewAbsenceForm = (name: string, fieldFormik: FieldProps<
   }
 
   const fromFieldValueToInput = (data: MissionCrewAbsence) => {
-    const startDate = preprocessDateForPicker(data.startDate)
-    const endDate = preprocessDateForPicker(data.endDate)
+    const startDate = preprocessDateForPicker(data.startDate as unknown as string)
+    const endDate = preprocessDateForPicker(data.endDate as unknown as string)
     return {
       ...data,
       dates: [startDate, endDate]
@@ -31,10 +37,22 @@ export const useMissionCrewAbsenceForm = (name: string, fieldFormik: FieldProps<
 
   const fromInputToFieldValue = (value: MissionCrewAbsenceInitialInput): MissionCrewAbsence => {
     const { dates, ...newValues } = value
+    const startDate = postprocessDateFromPicker(dates[0])
+    const endDate = postprocessDateFromPicker(dates[1])
+
+    const isAbsentFullMission =
+      missionStartDateTimeUtc &&
+      missionEndDateTimeUtc &&
+      startDate &&
+      endDate &&
+      isSameDay(new Date(startDate), new Date(missionStartDateTimeUtc)) &&
+      isSameDay(new Date(endDate), new Date(missionEndDateTimeUtc))
+    debugger
     return {
       ...newValues,
-      startDate: postprocessDateFromPicker(dates[0]),
-      endDate: postprocessDateFromPicker(dates[1])
+      startDate: startDate as unknown as Date,
+      endDate: endDate as unknown as Date,
+      isAbsentFullMission: !!isAbsentFullMission
     }
   }
 
