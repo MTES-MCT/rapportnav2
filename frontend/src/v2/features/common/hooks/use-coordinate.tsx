@@ -1,10 +1,10 @@
 interface CoordinateHook {
   getCoords: (lat?: number, lng?: number) => [number?, number?]
-  extractLatLngFromMultiPoint: (value?: string) => [number?, number?]
+  extractLatLngFromMultiPoint: (value?: string | unknown) => [number?, number?]
 }
 
 export function useCoordinate(): CoordinateHook {
-  const extractLatLngFromMultiPoint = (multiPointString?: string): [number?, number?] => {
+  const extractLatLngFromMultiPoint = (multiPointString?: string | unknown): [number?, number?] => {
     if (typeof multiPointString === 'string') {
       return extracString(multiPointString)
     } else {
@@ -30,8 +30,9 @@ export function useCoordinate(): CoordinateHook {
 
   const extractObject = (multiPointString?: any): [number?, number?] => {
     try {
-      const lat = multiPointString?.coordinates[0][0]
-      const lng = multiPointString?.coordinates[0][1]
+      const lng = multiPointString?.coordinates[0][0]
+      const lat = multiPointString?.coordinates[0][1]
+
       return [Number(lat.toFixed(2)), Number(lng.toFixed(2))]
     } catch (e) {
       return [0, 0]
