@@ -20,12 +20,27 @@ class JPAMissionCrewRepository(
     private val dbAgentRepository: IDBAgent2Repository,
     private val dbAgentRoleRepository: IDBAgentRoleRepository,
 ) : IMissionCrewRepository {
+
     override fun findByMissionId(missionId: Int): List<MissionCrewModel> {
-        return dbMissionCrewRepository.findByMissionId(missionId)
+        return try {
+            dbMissionCrewRepository.findByMissionId(missionId)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "JPAMissionCrewRepository.findByMissionId failed for missionId=$missionId",
+                originalException = e
+            )
+        }
     }
 
     override fun findByMissionIdUUID(missionIdUUID: UUID): List<MissionCrewModel> {
-        return dbMissionCrewRepository.findByMissionIdUUID(missionIdUUID)
+        return try {
+            dbMissionCrewRepository.findByMissionIdUUID(missionIdUUID)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "JPAMissionCrewRepository.findByMissionIdUUID failed for missionIdUUID=$missionIdUUID",
+                originalException = e
+            )
+        }
     }
 
     @Transactional
@@ -44,12 +59,12 @@ class JPAMissionCrewRepository(
         } catch (e: InvalidDataAccessApiUsageException) {
             throw BackendUsageException(
                 code = BackendUsageErrorCode.COULD_NOT_SAVE_EXCEPTION,
-                message = "Unable to save MissionCrew='${crew.id}'",
+                message = "JPAMissionCrewRepository.save failed for id=${crew.id}",
                 e,
             )
         } catch (e: Exception) {
             throw BackendInternalException(
-                message = "Unable to prepare data before saving MissionCrew='${crew.id}'",
+                message = "JPAMissionCrewRepository.save failed for id=${crew.id}",
                 originalException = e
             )
         }
@@ -57,11 +72,29 @@ class JPAMissionCrewRepository(
 
     @Transactional
     override fun deleteById(id: Int): Boolean {
-        val crew: Optional<MissionCrewModel> = dbMissionCrewRepository.findById(id)
-        if (crew.isPresent) {
+        try {
+            val crew = dbMissionCrewRepository.findById(id)
+            if (!crew.isPresent) {
+                throw BackendUsageException(
+                    code = BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION,
+                    message = "JPAMissionCrewRepository.deleteById: crew not found for id=$id"
+                )
+            }
             dbMissionCrewRepository.deleteById(id)
-            return true;
+            return true
+        } catch (e: BackendUsageException) {
+            throw e
+        } catch (e: InvalidDataAccessApiUsageException) {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION,
+                message = "JPAMissionCrewRepository.deleteById failed for id=$id",
+                e,
+            )
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "JPAMissionCrewRepository.deleteById failed for id=$id",
+                originalException = e
+            )
         }
-        throw NoSuchElementException("AgentCrew with ID $id not found")
     }
 }
