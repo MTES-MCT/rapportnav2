@@ -9,7 +9,6 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces
 import org.springframework.dao.InvalidDataAccessApiUsageException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
-import java.time.Instant
 import kotlin.jvm.optionals.getOrNull
 
 @Repository
@@ -95,7 +94,6 @@ class JPAAgent2Repository(private val dbAgent2Repository: IDBAgent2Repository) :
     override fun disabledById(id: Int) {
         try {
             val agent = dbAgent2Repository.findById(id).getOrNull() ?: return
-            agent.disabledAt = Instant.now()
             dbAgent2Repository.save(agent)
         } catch (e: Exception) {
             throw BackendInternalException(
