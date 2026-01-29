@@ -3,12 +3,14 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorfish
 import fr.gouv.cnsp.monitorfish.infrastructure.api.outputs.VesselIdentityDataOutput
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionAction
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.input.PatchActionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorfish.output.MissionActionDataOutput
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Repository
 import tools.jackson.core.type.TypeReference
 import tools.jackson.databind.json.JsonMapper
@@ -26,89 +28,83 @@ class APIFishActionRepository(
     private val logger: Logger = LoggerFactory.getLogger(APIFishActionRepository::class.java)
 
     override fun findFishActions(missionId: Int): List<MissionAction> {
+        val url = "$host/api/v1/mission_actions?missionId=$missionId"
         logger.info("Fetching Fish Actions for Mission id=$missionId")
+
         val request = HttpRequest.newBuilder()
-            .uri(
-                URI.create(
-                    "$host/api/v1/mission_actions?missionId=$missionId"
-                )
-            )
+            .uri(URI.create(url))
             .header("x-api-key", monitorFishApiKey)
             .build()
 
         val response = clientFactory.create().send(request, HttpResponse.BodyHandlers.ofString())
+        logger.info("APIFishActionRepository::findFishActions Response received, Status code: ${response.statusCode()}")
 
-        return if (response.statusCode() in 200..299) {
-            try {
-                logger.debug("Received data from MonitorFish for missionId=$missionId")
-                val output: List<MissionActionDataOutput> = mapper.readValue(response.body(), object : TypeReference<List<MissionActionDataOutput>>() {})
-                output.map{ it.toMissionAction()}
-            }
-            catch (e: Exception) {
-                logger.error("Failed to deserialize MonitorFish response for missionId=$missionId", e)
-                emptyList()
-            }
-
-        } else {
-            logger.error("Failed to fetch Fish Actions for missionId=$missionId. Status code: ${response.statusCode()}, body: ${response.body()}")
-            emptyList()
+        if (response.statusCode() !in 200..299) {
+            throw BackendInternalException(
+                message = "APIFishActionRepository.findFishActions failed with status ${response.statusCode()} for missionId=$missionId",
+                originalException = RuntimeException(response.body())
+            )
         }
+
+        val output: List<MissionActionDataOutput> = mapper.readValue(
+            response.body(),
+            object : TypeReference<List<MissionActionDataOutput>>() {}
+        )
+        return output.map { it.toMissionAction() }
     }
 
     override fun patchAction(actionId: String, action: PatchActionInput): MissionAction? {
         val url = "$host/api/v1/mission_actions/$actionId"
         logger.info("Sending PATCH request for Fish Action id=$actionId. URL: $url")
-        return try {
 
-            val json = mapper.writeValueAsString(action)
+        val json = mapper.writeValueAsString(action)
+        logger.info("Body request send as json : $json")
 
-            logger.info("Body request send as json : $json")
-            logger.info("Body request send as entity : $action")
-
-            val request = HttpRequest
-                .newBuilder()
-                .uri(URI.create(url))
-                .method("PATCH", HttpRequest.BodyPublishers.ofString(json))
-                .header("Content-Type", "application/json")
-                .header("x-api-key", monitorFishApiKey)
-                .build()
-
-
-            val response = clientFactory.create().send(request, HttpResponse.BodyHandlers.ofString())
-            logger.info("Response received, actionId: ${actionId}, Status code: ${response.statusCode()}")
-
-            val body = response.body()
-            logger.info(body)
-
-            val output: MissionActionDataOutput =
-                mapper.readValue(body, object : TypeReference<MissionActionDataOutput>() {})
-            val missionAction: MissionAction = output.toMissionAction()
-            missionAction
-        } catch (e: Exception) {
-            logger.error("Failed to PATCH request for Fish Action id=$actionId. URL: $url", e)
-            null
-        }
-    }
-
-    override fun getVessels(): List<VesselIdentityDataOutput> {
-
-        logger.info("Fetching vessel Referential")
-        val request = HttpRequest.newBuilder()
-            .uri(
-                URI.create(
-                    "$host/api/v1/vessels"
-                )
-            )
+        val request = HttpRequest
+            .newBuilder()
+            .uri(URI.create(url))
+            .method("PATCH", HttpRequest.BodyPublishers.ofString(json))
+            .header("Content-Type", "application/json")
             .header("x-api-key", monitorFishApiKey)
             .build()
 
         val response = clientFactory.create().send(request, HttpResponse.BodyHandlers.ofString())
+        logger.info("APIFishActionRepository::patchAction Response received, actionId: $actionId, Status code: ${response.statusCode()}")
 
-        return if (response.statusCode() in 200..299) {
-            mapper.readValue(response.body(), object : TypeReference<List<VesselIdentityDataOutput>>() {})
-        } else {
-            logger.info("Failed to fetch vessel referential. Status code: ${response.statusCode()}")
-            emptyList()
+        if (response.statusCode() !in 200..299) {
+            throw BackendInternalException(
+                message = "APIFishActionRepository.patchAction failed with status ${response.statusCode()} for actionId=$actionId",
+                originalException = RuntimeException(response.body())
+            )
         }
+
+        val output: MissionActionDataOutput = mapper.readValue(
+            response.body(),
+            object : TypeReference<MissionActionDataOutput>() {}
+        )
+        return output.toMissionAction()
+    }
+
+    @Cacheable(value = ["vessels"])
+    override fun getVessels(): List<VesselIdentityDataOutput> {
+        val url = "$host/api/v1/vessels"
+        logger.info("Fetching vessel Referential from URL: $url")
+
+        val request = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .header("x-api-key", monitorFishApiKey)
+            .build()
+
+        val response = clientFactory.create().send(request, HttpResponse.BodyHandlers.ofString())
+        logger.info("APIFishActionRepository::getVessels Response received, Status code: ${response.statusCode()}")
+
+        if (response.statusCode() !in 200..299) {
+            throw BackendInternalException(
+                message = "APIFishActionRepository.getVessels failed with status ${response.statusCode()}",
+                originalException = RuntimeException(response.body())
+            )
+        }
+
+        return mapper.readValue(response.body(), object : TypeReference<List<VesselIdentityDataOutput>>() {})
     }
 }
