@@ -39,13 +39,7 @@ const InquiryFooter: React.FC<InquiryFooterProps> = ({ inquiryId, exitMission })
     <>
       <PageFooterWrapper
         action={
-          <Button
-            accent={Accent.ERROR}
-            size={Size.NORMAL}
-            Icon={Icon.Delete}
-            onClick={() => setShowDialog(true)}
-            title={"Cette fonctionnalité n'a pas encore été implémentée"}
-          >
+          <Button accent={Accent.ERROR} size={Size.NORMAL} Icon={Icon.Delete} onClick={() => setShowDialog(true)}>
             Supprimer le contrôle croisé
           </Button>
         }
