@@ -2,14 +2,12 @@ package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.FindById
-import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.Inquiry
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.UserInfos
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
-import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -18,8 +16,6 @@ class UserRestController(
     private val findById: FindById,
     private val getSeviceById: GetServiceById
 ) {
-
-    private val logger = LoggerFactory.getLogger(UserRestController::class.java)
 
     /**
      * Retrieves a specific user date by its ID.
@@ -49,22 +45,17 @@ class UserRestController(
     fun getUserById(
         @PathVariable(name = "userId") userId: Int
     ): UserInfos? {
-        try {
-            val user = this.findById.execute(userId) ?: return null
-            val service = this.getSeviceById.execute(user.serviceId)
-            return UserInfos(
-                id = user.id!!,
-                email = user.email,
-                firstName = user.firstName,
-                lastName = user.lastName,
-                serviceId = service?.id,
-                serviceName = service?.name,
-                controlUnitId = service?.controlUnits?.get(0)
-            )
-        } catch (e: Exception) {
-            logger.error("Error while getting user information : ", e)
-            return null
-        }
+        val user = findById.execute(userId) ?: return null
+        val service = getSeviceById.execute(user.serviceId)
+        return UserInfos(
+            id = user.id!!,
+            email = user.email,
+            firstName = user.firstName,
+            lastName = user.lastName,
+            serviceId = service?.id,
+            serviceName = service?.name,
+            controlUnitId = service?.controlUnits?.get(0)
+        )
     }
 
 

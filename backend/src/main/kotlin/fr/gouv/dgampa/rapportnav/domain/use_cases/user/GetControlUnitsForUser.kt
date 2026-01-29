@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.user
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
 
 @UseCase
@@ -9,10 +10,17 @@ class GetControlUnitsForUser(
     private val getServiceById: GetServiceById,
 ) {
     fun execute(): List<Int>? {
-        val user = getUserFromToken.execute()
-        val service = user?.let {
-            getServiceById.execute(user.serviceId)
+        return try {
+            val user = getUserFromToken.execute() ?: return null
+            val service = getServiceById.execute(user.serviceId)
+            service?.controlUnits
+        } catch (e: BackendInternalException) {
+            throw e
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "GetControlUnitsForUser failed",
+                originalException = e
+            )
         }
-        return service?.controlUnits
     }
 }

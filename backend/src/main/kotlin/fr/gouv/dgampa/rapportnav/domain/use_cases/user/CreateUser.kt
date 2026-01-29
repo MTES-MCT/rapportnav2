@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.PasswordValidator
 import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.user.RoleTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.user.User
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode.ALREADY_EXISTS_EXCEPTION
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode.PASSWORD_TOO_WEAK_EXCEPTION
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
@@ -14,17 +15,19 @@ import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestErrorCo
 import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestException
 
 @UseCase
-class CreateUser (
+class CreateUser(
     private val hashService: HashService,
     private val userRepository: IUserRepository
-){
+) {
 
     fun execute(input: AuthRegisterDataInput): User? {
         val requiredFields = listOf(input.email, input.password, input.firstName, input.lastName)
-        if (requiredFields.any { it.isEmpty() }) throw BackendRequestException(
-            code = BackendRequestErrorCode.BODY_MISSING_DATA,
-            message = "input does not contain all the required data"
-        )
+        if (requiredFields.any { it.isEmpty() }) {
+            throw BackendRequestException(
+                code = BackendRequestErrorCode.BODY_MISSING_DATA,
+                message = "input does not contain all the required data"
+            )
+        }
 
         if (!PasswordValidator.isStrong(input.password)) {
             throw BackendUsageException(
@@ -33,22 +36,36 @@ class CreateUser (
             )
         }
 
-        val user = User(
-            id = input.id,
-            email = input.email.trim(),
-            serviceId = input.serviceId,
-            firstName = input.firstName.lowercase().trim(),
-            lastName = input.lastName.lowercase().trim(),
-            password = hashService.hashBcrypt(input.password),
-            roles = input.roles ?: listOf(RoleTypeEnum.USER_PAM)
-        )
+        return try {
+            if (userRepository.findByEmail(input.email) != null) {
+                throw BackendUsageException(
+                    code = ALREADY_EXISTS_EXCEPTION,
+                    message = "User already exists"
+                )
+            }
 
-        if (userRepository.findByEmail(input.email) != null) {
-            throw BackendUsageException(
-                code = ALREADY_EXISTS_EXCEPTION,
-                message = "User already exists"
+            val user = User(
+                id = input.id,
+                email = input.email.trim(),
+                serviceId = input.serviceId,
+                firstName = input.firstName.lowercase().trim(),
+                lastName = input.lastName.lowercase().trim(),
+                password = hashService.hashBcrypt(input.password),
+                roles = input.roles ?: listOf(RoleTypeEnum.USER_PAM)
+            )
+
+            userRepository.save(user)
+        } catch (e: BackendRequestException) {
+            throw e
+        } catch (e: BackendUsageException) {
+            throw e
+        } catch (e: BackendInternalException) {
+            throw e
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "CreateUser failed for email=${input.email}",
+                originalException = e
             )
         }
-        return this.userRepository.save(user)
     }
 }
