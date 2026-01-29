@@ -1,6 +1,8 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
@@ -146,10 +148,13 @@ class ActionRestController(
         @RequestBody body: MissionAction
     ): MissionAction? {
         val response = when (body.source) {
-            MissionSourceEnum.RAPPORTNAV -> updateNavAction.execute(actionId,  body as MissionNavAction)
+            MissionSourceEnum.RAPPORTNAV -> updateNavAction.execute(actionId, body as MissionNavAction)
             MissionSourceEnum.MONITORENV -> updateEnvAction.execute(actionId, body as MissionEnvAction)
             MissionSourceEnum.MONITORFISH -> updateFishAction.execute(actionId, body as MissionFishAction)
-            else -> throw RuntimeException("Unknown mission action source: ${body.source}")
+            else -> throw BackendUsageException(
+                code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
+                message = "Unknown mission action source: ${body.source}"
+            )
         }
         this.logger.info(body.id)
         return MissionAction.fromMissionActionEntity(response)
