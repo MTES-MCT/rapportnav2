@@ -1,13 +1,14 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.crew.v2
 
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgent2Repository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId2
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
@@ -53,5 +54,27 @@ class GetCrewByServiceId2Test {
         assertThat(responses).isNotNull()
         assertThat(responses.size).isEqualTo(3)
         assertThat(responses.get(0).id).isEqualTo(agents.find { it.role?.priority == 1 }?.id)
+    }
+
+    @Test
+    fun `should return empty list when no agents found`() {
+        Mockito.`when`(agentRepo.findByServiceId(1)).thenReturn(emptyList())
+        val responses = GetCrewByServiceId2(agentRepo = agentRepo).execute(serviceId = 1)
+
+        assertThat(responses).isEmpty()
+    }
+
+    @Test
+    fun `should propagate BackendInternalException from repository`() {
+        val internalException = BackendInternalException(
+            message = "Repository error",
+            originalException = RuntimeException("Database error")
+        )
+        Mockito.`when`(agentRepo.findByServiceId(1)).thenAnswer { throw internalException }
+
+        val exception = assertThrows<BackendInternalException> {
+            GetCrewByServiceId2(agentRepo = agentRepo).execute(serviceId = 1)
+        }
+        assertThat(exception.message).isEqualTo("Repository error")
     }
 }
