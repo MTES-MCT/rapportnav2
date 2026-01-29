@@ -4,6 +4,7 @@ import fr.gouv.dgampa.rapportnav.config.UseCase
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.action.IDBMissionActionRepository
 import java.time.Instant
 
@@ -13,10 +14,18 @@ class GetStatusForAction(
 ) {
 
     fun execute(missionId: Int, actionStartDateTimeUtc: Instant? = null): ActionStatusType {
-
-        val actions = missionActionsRepository
-            .findAllByMissionId(missionId)
-            .map { MissionNavActionEntity.fromMissionActionModel(it) }
+        val actions = try {
+            missionActionsRepository
+                .findAllByMissionId(missionId)
+                .map { MissionNavActionEntity.fromMissionActionModel(it) }
+        } catch (e: BackendInternalException) {
+            throw e
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "GetStatusForAction failed for missionId=$missionId",
+                originalException = e
+            )
+        }
 
         if (actions.isEmpty()) {
             return ActionStatusType.UNKNOWN

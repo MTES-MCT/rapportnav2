@@ -8,10 +8,10 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetSt
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.target2.v2.TargetType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetExternalDataEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ITargetRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.v2.ControlModel2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel2
-import org.slf4j.LoggerFactory
 import java.time.Instant
 import java.util.*
 
@@ -19,16 +19,19 @@ import java.util.*
 class GetComputeEnvTarget(
     private val targetRepo: ITargetRepository
 ) {
-    private val logger = LoggerFactory.getLogger(GetComputeEnvTarget::class.java)
     fun execute(actionId: String, envInfractions: List<InfractionEntity>?, isControl: Boolean?): List<TargetEntity2>? {
         if (isControl != true) return null
         return try {
             val navTargets = getNavTargets(actionId = actionId)
             val envTargets = getEnvTargets(actionId = actionId, envInfractions = envInfractions)
             navTargets + envTargets
+        } catch (e: BackendInternalException) {
+            throw e
         } catch (e: Exception) {
-            logger.error("ComputeEnvTarget failed loading targets", e)
-            return listOf()
+            throw BackendInternalException(
+                message = "GetComputeEnvTarget failed for actionId=$actionId",
+                originalException = e
+            )
         }
     }
 

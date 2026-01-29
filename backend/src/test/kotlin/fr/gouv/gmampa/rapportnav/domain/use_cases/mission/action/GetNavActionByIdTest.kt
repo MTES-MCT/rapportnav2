@@ -2,12 +2,14 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetNavActionById
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
@@ -32,20 +34,11 @@ class GetNavActionByIdTest {
 
     @Test
     fun `test execute with null actionId returns null`() {
-        getNavActionById = GetNavActionById(
-            processNavAction = processNavAction,
-            missionActionRepository = missionActionRepository
-        )
-
         assertThat(getNavActionById.execute(actionId = null)).isNull()
     }
 
     @Test
     fun `test execute with invalid actionId returns null`() {
-        getNavActionById = GetNavActionById(
-            processNavAction = processNavAction,
-            missionActionRepository = missionActionRepository
-        )
         val invalidActionId = "invalid-uuid"
         assertThat(getNavActionById.execute(actionId = invalidActionId)).isNull()
     }
@@ -77,13 +70,20 @@ class GetNavActionByIdTest {
         `when`(processNavAction.execute(anyOrNull())).thenReturn(response)
         `when`(missionActionRepository.findById(actionId)).thenReturn(Optional.of(action))
 
-        getNavActionById = GetNavActionById(
-            processNavAction = processNavAction,
-            missionActionRepository = missionActionRepository
-        )
         val missionNavAction = getNavActionById.execute(actionId = actionId.toString())
 
         assertThat(missionNavAction).isNotNull
         assertThat(missionNavAction?.getActionId()).isEqualTo(actionId.toString())
+    }
+
+    @Test
+    fun `should throw BackendInternalException when repository fails`() {
+        val actionId = UUID.randomUUID()
+        `when`(missionActionRepository.findById(actionId)).thenThrow(RuntimeException("Database error"))
+
+        val exception = assertThrows<BackendInternalException> {
+            getNavActionById.execute(actionId = actionId.toString())
+        }
+        assertThat(exception.message).contains("GetNavActionById failed for actionId=$actionId")
     }
 }

@@ -1,9 +1,12 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ITargetRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -43,4 +46,19 @@ class DeleteTargetTest {
         verify(targetRepo, times(1)).deleteByActionId(actionId.toString())
     }
 
+    @Test
+    fun `should throw BackendInternalException when repository fails`() {
+        val actionId = UUID.randomUUID()
+        val actionType = ActionType.CONTROL
+        val originalException = RuntimeException("Database error")
+
+        `when`(targetRepo.deleteByActionId(actionId.toString())).thenAnswer { throw originalException }
+
+        deleteTarget = DeleteTarget(targetRepo = targetRepo)
+
+        val exception = assertThrows<BackendInternalException> {
+            deleteTarget.execute(actionId = actionId, actionType = actionType)
+        }
+        assertThat(exception.message).contains("DeleteTarget failed for actionId=$actionId")
+    }
 }

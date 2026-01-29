@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.UpdateNavAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
@@ -81,10 +82,10 @@ class UpdateNavActionTest {
             processMissionActionTarget = processMissionActionTarget
         )
 
-        val exception = assertThrows<RuntimeException> {
+        val exception = assertThrows<BackendUsageException> {
             updateNavAction.execute(actionId, input)
         }
-        assertThat(exception.message).isEqualTo("Invalid action")
+        assertThat(exception.message).contains("UpdateNavAction: actionId mismatch")
 
     }
 

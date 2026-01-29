@@ -1,13 +1,10 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ITargetRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
 import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentCaptor
-import org.mockito.Mockito
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
@@ -24,34 +21,28 @@ class ProcessMissionActionTargetTest {
     private lateinit var targetRepo: ITargetRepository
 
     @Test
-    fun `test execute process target`() {
+    fun `test execute process target saves new and deletes removed`() {
         val actionId = UUID.randomUUID().toString()
         val target1 = TargetEntity2Mock.create(actionId = actionId)
         val target2 = TargetEntity2Mock.create(actionId = actionId)
         val target3 = TargetEntity2Mock.create(actionId = actionId)
 
-        val deleteCaptor = ArgumentCaptor.forClass(List::class.java) as ArgumentCaptor<List<TargetEntity2>>
-        val saveCaptor = ArgumentCaptor.forClass(List::class.java) as ArgumentCaptor<List<TargetEntity2>>
-
-        // Mock repository
+        // Mock repository - database has target1 and target2
         val response = listOf(target1.toTargetModel(), target2.toTargetModel())
         `when`(targetRepo.findByActionId(actionId)).thenReturn(response)
         `when`(targetRepo.save(anyOrNull())).thenReturn(target3.toTargetModel())
 
-        // Create spy on the actual class under test
-        val processMissionActionTarget = Mockito.spy(ProcessMissionActionTarget(targetRepo))
+        val processMissionActionTarget = ProcessMissionActionTarget(targetRepo)
 
-        // Execute
-        val infractions = processMissionActionTarget.execute(actionId, listOf(target1, target3))
+        // Execute with target1 and target3 (target2 removed, target3 added)
+        val result = processMissionActionTarget.execute(actionId, listOf(target1, target3))
 
-        // Verify
-        verify(processMissionActionTarget).save(saveCaptor.capture())
-        verify(processMissionActionTarget).delete(deleteCaptor.capture())
+        // Verify repository interactions
+        verify(targetRepo).findByActionId(actionId)
+        verify(targetRepo).deleteById(target2.id) // target2 was removed
+        verify(targetRepo).save(target3.toTargetModel()) // target3 is new
 
-        // Assert
-        assertThat(infractions).isNotNull()
-        assertThat(saveCaptor.value.size).isEqualTo(2)
-        assertThat(deleteCaptor.value.size).isEqualTo(1)
-        assertThat(deleteCaptor.value[0].id).isEqualTo(target2.id)
+        // Assert result
+        assertThat(result).isNotNull()
     }
 }

@@ -1,6 +1,8 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionSourceEnum
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GetStatusForAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
 import fr.gouv.dgampa.rapportnav.domain.utils.isValidUUID
@@ -14,7 +16,6 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
-import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -32,7 +33,6 @@ class ActionRestController(
     private val getFishActionById: GetFishActionById,
     private val getStatusForAction: GetStatusForAction
 ) {
-    private val logger = LoggerFactory.getLogger(ActionRestController::class.java)
 
     @GetMapping("")
     @Operation(summary = "Get the list of actions on a owner id")
@@ -50,11 +50,16 @@ class ActionRestController(
         ]
     )
     fun getActions(@PathVariable(name = "ownerId") ownerId: String): List<MissionAction?> {
-        val actions = if (isValidUUID(ownerId)) getMissionAction.execute(
-            missionIdUUID = UUID.fromString(ownerId)
-        ) else getMissionAction.execute(
-            missionId = Integer.valueOf(ownerId)
-        )
+        val actions = if (isValidUUID(ownerId)) {
+            getMissionAction.execute(missionIdUUID = UUID.fromString(ownerId))
+        } else {
+            val missionId = ownerId.toIntOrNull()
+                ?: throw BackendUsageException(
+                    code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
+                    message = "Invalid ownerId: '$ownerId' is not a valid UUID or integer"
+                )
+            getMissionAction.execute(missionId = missionId)
+        }
         return actions.map { action -> MissionAction.fromMissionActionEntity(action) }
     }
 
@@ -87,15 +92,21 @@ class ActionRestController(
 
         if (isValidUUID(ownerId)) return action
 
-        val fishAction = getFishActionById.execute(missionId = Integer.valueOf(ownerId), actionId = actionId)
-        if (fishAction != null) action =  MissionAction.fromMissionActionEntity(fishAction)
+        val missionId = ownerId.toIntOrNull()
+            ?: throw BackendUsageException(
+                code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
+                message = "Invalid ownerId: '$ownerId' is not a valid UUID or integer"
+            )
 
-        val envAction = getEnvActionById.execute(missionId = Integer.valueOf(ownerId), actionId = actionId)
-        if (envAction != null) action =  MissionAction.fromMissionActionEntity(envAction)
+        val fishAction = getFishActionById.execute(missionId = missionId, actionId = actionId)
+        if (fishAction != null) action = MissionAction.fromMissionActionEntity(fishAction)
+
+        val envAction = getEnvActionById.execute(missionId = missionId, actionId = actionId)
+        if (envAction != null) action = MissionAction.fromMissionActionEntity(envAction)
 
         if (action != null) {
             action.status = getStatusForAction.execute(
-                missionId = Integer.valueOf(ownerId),
+                missionId = missionId,
                 actionStartDateTimeUtc = action.data?.startDateTimeUtc
             )
         }
@@ -146,12 +157,14 @@ class ActionRestController(
         @RequestBody body: MissionAction
     ): MissionAction? {
         val response = when (body.source) {
-            MissionSourceEnum.RAPPORTNAV -> updateNavAction.execute(actionId,  body as MissionNavAction)
+            MissionSourceEnum.RAPPORTNAV -> updateNavAction.execute(actionId, body as MissionNavAction)
             MissionSourceEnum.MONITORENV -> updateEnvAction.execute(actionId, body as MissionEnvAction)
             MissionSourceEnum.MONITORFISH -> updateFishAction.execute(actionId, body as MissionFishAction)
-            else -> throw RuntimeException("Unknown mission action source: ${body.source}")
+            else -> throw BackendUsageException(
+                code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
+                message = "Unknown mission action source: ${body.source}"
+            )
         }
-        this.logger.info(body.id)
         return MissionAction.fromMissionActionEntity(response)
     }
 
@@ -159,6 +172,12 @@ class ActionRestController(
     @Operation(summary = "Delete an action")
     @ApiResponse(responseCode = "404", description = "Did not delete the action", content = [Content()])
     fun deleteAction(@PathVariable(name = "actionId") actionId: String, @PathVariable ownerId: String) {
+        if (!isValidUUID(actionId)) {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
+                message = "Invalid actionId: '$actionId' is not a valid UUID"
+            )
+        }
         deleteNavAction.execute(UUID.fromString(actionId))
     }
 }

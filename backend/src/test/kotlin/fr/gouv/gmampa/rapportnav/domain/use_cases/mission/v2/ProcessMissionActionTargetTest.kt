@@ -61,14 +61,17 @@ class ProcessMissionActionTargetTest {
     }
 
     @Test
-    fun `save should map saved targets`() {
+    fun `execute with new target should map and persist targets`() {
         val repo = mock<ITargetRepository>()
         val useCase = ProcessMissionActionTarget(repo)
 
         val incoming = TargetEntity2Mock.create()
-        whenever(repo.save(any())).thenReturn(TargetModel2Mock.create(id = UUID.fromString("f97ae22e-6949-4b67-8e79-40267c7c380e")))
+        val savedModel = TargetModel2Mock.create(id = UUID.fromString("f97ae22e-6949-4b67-8e79-40267c7c380e"))
 
-        val result = useCase.save(listOf(incoming))
+        whenever(repo.findByActionId("action1")).thenReturn(emptyList())
+        whenever(repo.save(any())).thenReturn(savedModel)
+
+        val result = useCase.execute("action1", listOf(incoming))
 
         assertEquals(UUID.fromString("f97ae22e-6949-4b67-8e79-40267c7c380e"), result?.first()?.id)
         verify(repo).save(incoming.toTargetModel())
@@ -79,8 +82,10 @@ class ProcessMissionActionTargetTest {
         val repo = mock<ITargetRepository>()
         val useCase = ProcessMissionActionTarget(repo)
         whenever(repo.findByActionId("action1")).thenReturn(listOf())
-        useCase.save(emptyList())
-        verify(repository, never()).save(any())
+
+        useCase.execute("action1", emptyList())
+
+        verify(repo, never()).save(any())
     }
 
     @Test
@@ -106,13 +111,15 @@ class ProcessMissionActionTargetTest {
     }
 
     @Test
-    fun `save() correctly maps and persists targets`() {
+    fun `execute with existing target should persist correctly`() {
         val model = TargetModel2Mock.create()
         val entity = TargetEntity2.fromTargetModel(model)
+        val actionId = "action1"
 
+        whenever(repository.findByActionId(actionId)).thenReturn(emptyList())
         whenever(repository.save(any())).thenReturn(model)
 
-        val result = useCase.save(listOf(entity))
+        val result = useCase.execute(actionId, listOf(entity))
 
         assertEquals(1, result?.size ?: 0)
         assertEquals(entity.id, result?.get(0)?.id)
@@ -121,22 +128,29 @@ class ProcessMissionActionTargetTest {
     }
 
     @Test
-    fun `delete() calls repository deleteById for each item`() {
+    fun `execute should delete targets when removed from input`() {
         val t1 = TargetEntity2Mock.create(id = UUID.fromString("f97ae22e-6949-4b67-8e79-40267c7c380e"))
         val t2 = TargetEntity2Mock.create(id = UUID.fromString("64b02a4c-6f7f-449d-9db5-3fb662d4969e"))
+        val actionId = "action1"
 
-        useCase.delete(listOf(t1, t2))
+        // Database has t1 and t2
+        whenever(repository.findByActionId(actionId)).thenReturn(listOf(t1.toTargetModel(), t2.toTargetModel()))
+
+        // Execute with empty list - both should be deleted
+        useCase.execute(actionId, emptyList())
 
         verify(repository).deleteById(UUID.fromString("f97ae22e-6949-4b67-8e79-40267c7c380e"))
         verify(repository).deleteById(UUID.fromString("64b02a4c-6f7f-449d-9db5-3fb662d4969e"))
     }
 
     @Test
-    fun `execute should not delete when target list is empty`() {
+    fun `execute should not delete when target list is empty and database is empty`() {
         val repo = mock<ITargetRepository>()
         val useCase = ProcessMissionActionTarget(repo)
         whenever(repo.findByActionId("action1")).thenReturn(listOf())
+
         useCase.execute("action1", emptyList())
-        verify(repository, never()).deleteById(any())
+
+        verify(repo, never()).deleteById(any())
     }
 }

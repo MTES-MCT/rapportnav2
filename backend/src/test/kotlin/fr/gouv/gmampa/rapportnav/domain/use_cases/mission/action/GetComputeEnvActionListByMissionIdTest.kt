@@ -6,6 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeEnvActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessEnvAction
@@ -13,6 +14,7 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionNoteMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
@@ -37,7 +39,7 @@ class GetComputeEnvActionListByMissionIdTest {
     private lateinit var processEnvAction: ProcessEnvAction
 
     @Test
-    fun `test execute get Env action list  by mission id`() {
+    fun `test execute get Env action list by mission id`() {
         val missionId = 761
         val actionId = UUID.randomUUID()
 
@@ -69,13 +71,34 @@ class GetComputeEnvActionListByMissionIdTest {
         `when`(processEnvAction.execute(anyInt(), anyOrNull())).thenReturn(response)
         `when`(getEnvMissionById2.execute(missionId)).thenReturn(missionEntity)
 
-        getEnvActionListById = GetComputeEnvActionListByMissionId(
-            getEnvMissionById2 = getEnvMissionById2,
-            processEnvAction = processEnvAction
-        )
         val envActions = getEnvActionListById.execute(missionId = missionId)
         assertThat(envActions).isNotNull
         assertThat(envActions.size).isEqualTo(1)
-        assertThat(envActions.get(0).id).isEqualTo(actionId)
+        assertThat(envActions[0].id).isEqualTo(actionId)
+    }
+
+    @Test
+    fun `should throw BackendInternalException when getEnvMissionById2 fails`() {
+        val missionId = 761
+        `when`(getEnvMissionById2.execute(missionId))
+            .thenThrow(RuntimeException("API error"))
+
+        val exception = assertThrows<BackendInternalException> {
+            getEnvActionListById.execute(missionId = missionId)
+        }
+        assertThat(exception.message).contains("GetComputeEnvActionListByMissionId failed for missionId=$missionId")
+    }
+
+    @Test
+    fun `should propagate BackendInternalException from getEnvMissionById2`() {
+        val missionId = 761
+        val originalException = BackendInternalException(message = "Original error")
+        `when`(getEnvMissionById2.execute(missionId))
+            .thenAnswer { throw originalException }
+
+        val exception = assertThrows<BackendInternalException> {
+            getEnvActionListById.execute(missionId = missionId)
+        }
+        assertThat(exception.message).isEqualTo("Original error")
     }
 }
