@@ -7,6 +7,6 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository
 @UseCase
 class FindById(private val userRepository: IUserRepository) {
     fun execute(id: Int): User? {
-        return this.userRepository.findById(id)
+        return userRepository.findById(id)
     }
 }
