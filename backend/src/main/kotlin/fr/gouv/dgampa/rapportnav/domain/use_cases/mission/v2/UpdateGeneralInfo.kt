@@ -6,14 +6,14 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.MissionPasseng
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavInputEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.ProcessMissionPassengers
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.UpdateMissionPassenger
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.generalInfo.MissionGeneralInfoModel
-import org.slf4j.LoggerFactory
 import java.util.*
 
 @UseCase
@@ -26,11 +26,15 @@ class UpdateGeneralInfo(
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val getMissionCrew: GetMissionCrew,
 ) {
-    private val logger = LoggerFactory.getLogger(UpdateGeneralInfo::class.java)
 
-    fun execute(missionId: Int, generalInfo: MissionGeneralInfo2): MissionGeneralInfoEntity2? {
+    fun execute(missionId: Int, generalInfo: MissionGeneralInfo2): MissionGeneralInfoEntity2 {
         val fromDb = getMissionGeneralInfoByMissionId.execute(missionId = missionId)
-        if (fromDb == null || generalInfo.missionId != missionId) throw Exception("No general infos in database or wrong mission id")
+        if (fromDb == null || generalInfo.missionId != missionId) {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
+                message = "UpdateGeneralInfo: general info not found or missionId mismatch for missionId=$missionId"
+            )
+        }
 
         val model = repository.save(generalInfo.toMissionGeneralInfoEntity(missionId = missionId))
         val crew = processMissionCrew.execute(
@@ -67,9 +71,14 @@ class UpdateGeneralInfo(
         )
     }
 
-    fun execute(missionIdUUID: UUID, generalInfo: MissionGeneralInfo2): MissionGeneralInfoEntity2? {
+    fun execute(missionIdUUID: UUID, generalInfo: MissionGeneralInfo2): MissionGeneralInfoEntity2 {
         val fromDb = getMissionGeneralInfoByMissionId.execute(missionIdUUID = missionIdUUID)
-        if (fromDb == null || fromDb.missionIdUUID != missionIdUUID) throw Exception("No general infos in database or wrong mission UUID")
+        if (fromDb == null || fromDb.missionIdUUID != missionIdUUID) {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION,
+                message = "UpdateGeneralInfo: general info not found or missionIdUUID mismatch for missionIdUUID=$missionIdUUID"
+            )
+        }
 
         val model = repository.save(generalInfo.toMissionGeneralInfoEntity(missionIdUUID = missionIdUUID))
         val crew = processMissionCrew.execute(

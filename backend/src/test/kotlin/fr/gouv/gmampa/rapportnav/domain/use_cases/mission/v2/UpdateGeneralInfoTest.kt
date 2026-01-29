@@ -3,13 +3,14 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.generalInfo.MissionGeneralInfoEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionGeneralInfoEntity2
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.generalInfo.IMissionGeneralInfoRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.generalInfo.GetMissionGeneralInfoByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.ProcessMissionPassengers
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.adapters.MissionEnvInput
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.*
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfoEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
@@ -23,7 +24,6 @@ import org.mockito.kotlin.anyOrNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
-import java.time.Instant
 import java.util.*
 
 @SpringBootTest(classes = [UpdateGeneralInfo::class])
@@ -213,7 +213,7 @@ class UpdateGeneralInfoTest {
     }
 
     @Test
-    fun `execute should return null when an exception occurs`() {
+    fun `execute should propagate exception when dependency throws`() {
         // Given
         val missionId = 123
         val missionGeneralInfo = MissionGeneralInfo2Mock.create(
@@ -234,6 +234,67 @@ class UpdateGeneralInfoTest {
         verifyNoInteractions(processMissionCrew)
         verifyNoInteractions(processMissionPassengers)
         verifyNoInteractions(patchMissionEnv)
+    }
+
+    @Test
+    fun `execute should throw BackendUsageException when general info not found for missionId`() {
+        // Given
+        val missionId = 123
+        val missionGeneralInfo = MissionGeneralInfo2Mock.create(
+            missionId = missionId,
+            service = null,
+        )
+
+        `when`(getMissionGeneralInfoByMissionId.execute(missionId)).thenReturn(null)
+
+        // When/Then
+        val exception = assertThrows<BackendUsageException> {
+            updateGeneralInfo.execute(missionId, missionGeneralInfo)
+        }
+
+        assertThat(exception.code).isEqualTo(BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION)
+        assertThat(exception.message).contains("missionId=$missionId")
+    }
+
+    @Test
+    fun `execute should throw BackendUsageException when missionId mismatch`() {
+        // Given
+        val missionId = 123
+        val differentMissionId = 456
+        val missionGeneralInfo = MissionGeneralInfo2Mock.create(
+            missionId = differentMissionId,
+            service = null,
+        )
+        val previousEntity = createMissionGeneralInfoEntityData(missionId, null)
+
+        `when`(getMissionGeneralInfoByMissionId.execute(missionId)).thenReturn(previousEntity)
+
+        // When/Then
+        val exception = assertThrows<BackendUsageException> {
+            updateGeneralInfo.execute(missionId, missionGeneralInfo)
+        }
+
+        assertThat(exception.code).isEqualTo(BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION)
+    }
+
+    @Test
+    fun `execute should throw BackendUsageException when general info not found for missionIdUUID`() {
+        // Given
+        val missionIdUUID = UUID.randomUUID()
+        val missionGeneralInfo = MissionGeneralInfo2Mock.create(
+            missionIdUUID = missionIdUUID,
+            service = null,
+        )
+
+        `when`(getMissionGeneralInfoByMissionId.execute(missionIdUUID)).thenReturn(null)
+
+        // When/Then
+        val exception = assertThrows<BackendUsageException> {
+            updateGeneralInfo.execute(missionIdUUID, missionGeneralInfo)
+        }
+
+        assertThat(exception.code).isEqualTo(BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION)
+        assertThat(exception.message).contains("missionIdUUID=$missionIdUUID")
     }
 
 

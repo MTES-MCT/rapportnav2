@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
-import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -17,9 +16,7 @@ import java.util.*
 @RequestMapping("/api/v2/missions/{missionId}/general_infos")
 class MissionGeneralInfoRestController(
     private val updateGeneralInfo: UpdateGeneralInfo
-)
-{
-    private val logger = LoggerFactory.getLogger(MissionGeneralInfoRestController::class.java)
+) {
     @PutMapping
     @Operation(summary = "Update general information, by mission id")
     @ApiResponses(
@@ -38,7 +35,7 @@ class MissionGeneralInfoRestController(
     fun update(
         @PathVariable missionId: String,
         @RequestBody generalInfo: MissionGeneralInfo2
-    ): MissionGeneralInfoEntity2? {
+    ): MissionGeneralInfoEntity2 {
         return if (isValidUUID(missionId))
             updateGeneralInfo.execute(missionIdUUID = UUID.fromString(missionId), generalInfo = generalInfo)
         else updateGeneralInfo.execute(
