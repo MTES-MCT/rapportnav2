@@ -1,37 +1,17 @@
 package fr.gouv.dgampa.rapportnav.domain.use_cases.service
 
 import fr.gouv.dgampa.rapportnav.config.UseCase
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentServiceEntity
-import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentServiceRepository
-
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity2
+import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgent2Repository
 @UseCase
 class GetCrewByServiceId(
-    private val agentServiceRepo: IDBAgentServiceRepository,
+    private val agentRepo: IAgent2Repository,
 ) {
-
-    val rolePriority = listOf(
-        "Commandant",
-        "Second capitaine",
-        "Second",
-        "Chef mécanicien",
-        "Second mécanicien",
-        "Mécanicien électricien",
-        "Mécanicien",
-        "Chef de quart",
-        "Maître d’équipage",
-        "Agent pont",
-        "Agent machine",
-        "Agent mécanicien",
-        "Électricien",
-        "Cuisinier",
-    )
-
-    fun execute(serviceId: Int):  List<AgentServiceEntity> {
-        // select from agent service by service
-        val agents =  agentServiceRepo
+    fun execute(serviceId: Int):  List<AgentEntity2> {
+        val agents =  agentRepo
             .findByServiceId(serviceId = serviceId)
-            .map { AgentServiceEntity.fromAgentServiceModel(it) }
-            .sortedBy { rolePriority.indexOf(it.role?.title) }
+            .sortedBy { it.role?.priority }
+            .map { AgentEntity2.fromAgentModel(it) }
         return agents
     }
 }

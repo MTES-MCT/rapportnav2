@@ -4,7 +4,7 @@ import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
-import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.AgentRestController
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
@@ -36,7 +36,7 @@ class AgentRestControllerTest {
     private lateinit var getUserFromToken: GetUserFromToken
 
     @MockitoBean
-    private lateinit var getCrewByServiceId2: GetCrewByServiceId2
+    private lateinit var getCrewByServiceId: GetCrewByServiceId
 
     @MockitoBean
     private lateinit var tokenService: TokenService
@@ -54,7 +54,7 @@ class AgentRestControllerTest {
         )
 
         `when`(getUserFromToken.execute()).thenReturn(user)
-        `when`(getCrewByServiceId2.execute(10)).thenReturn(agents)
+        `when`(getCrewByServiceId.execute(10)).thenReturn(agents)
 
         mockMvc.perform(get("/api/v2/agents"))
             .andExpect(status().isOk)
@@ -93,7 +93,7 @@ class AgentRestControllerTest {
         val user = UserMock.create(id = 1, serviceId = 10)
 
         `when`(getUserFromToken.execute()).thenReturn(user)
-        `when`(getCrewByServiceId2.execute(10)).thenReturn(emptyList())
+        `when`(getCrewByServiceId.execute(10)).thenReturn(emptyList())
 
         mockMvc.perform(get("/api/v2/agents"))
             .andExpect(status().isOk)

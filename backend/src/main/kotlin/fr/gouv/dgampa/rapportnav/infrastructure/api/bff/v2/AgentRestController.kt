@@ -1,6 +1,6 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
-import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent2
 import io.swagger.v3.oas.annotations.Operation
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v2/agents")
 class AgentRestController(
     private val getUserFromToken: GetUserFromToken,
-    private val getCrewByServiceId2: GetCrewByServiceId2,
+    private val getCrewByServiceId: GetCrewByServiceId,
 ) {
 
     @GetMapping
@@ -38,6 +38,6 @@ class AgentRestController(
     fun agents(): List<Agent2> {
         val user = getUserFromToken.execute() ?: return emptyList()
         val serviceId = user.serviceId ?: return emptyList()
-        return getCrewByServiceId2.execute(serviceId).mapNotNull { Agent2.fromAgentEntity(it) }
+        return getCrewByServiceId.execute(serviceId).mapNotNull { Agent2.fromAgentEntity(it) }
     }
 }

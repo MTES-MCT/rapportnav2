@@ -8,11 +8,17 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.`when`
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 
 @SpringBootTest(classes = [GetServices::class])
+@ContextConfiguration(classes = [GetServices::class])
 class GetServicesTest {
+
+    @Autowired
+    private lateinit var getServices: GetServices
 
     @MockitoBean
     private lateinit var serviceRepository: IServiceRepository
