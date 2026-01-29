@@ -94,6 +94,7 @@ class JPAAgent2Repository(private val dbAgent2Repository: IDBAgent2Repository) :
     override fun disabledById(id: Int) {
         try {
             val agent = dbAgent2Repository.findById(id).getOrNull() ?: return
+            agent.disabledAt = java.time.Instant.now()
             dbAgent2Repository.save(agent)
         } catch (e: Exception) {
             throw BackendInternalException(
