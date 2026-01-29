@@ -1,11 +1,13 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.*
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.ArgumentMatchers.eq
 import org.mockito.Mockito.*
 import org.springframework.boot.test.context.SpringBootTest
@@ -54,5 +56,23 @@ class DeleteNavActionTest {
         }, eq(ActionType.CONTROL))
 
         verify(missionActionRepository, times(1)).deleteById(actionId)
+    }
+
+    @Test
+    fun `should throw BackendInternalException when repository fails`() {
+        val actionId = UUID.randomUUID()
+        val originalException = RuntimeException("Database error")
+
+        `when`(missionActionRepository.findById(actionId)).thenAnswer { throw originalException }
+
+        val deleteNavAction = DeleteNavAction(
+            deleteTarget = deleteTarget,
+            missionActionRepository = missionActionRepository
+        )
+
+        val exception = assertThrows<BackendInternalException> {
+            deleteNavAction.execute(id = actionId)
+        }
+        assertThat(exception.message).contains("DeleteNavAction failed for actionId=$actionId")
     }
 }

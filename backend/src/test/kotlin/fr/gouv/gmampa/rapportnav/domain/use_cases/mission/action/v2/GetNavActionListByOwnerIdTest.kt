@@ -1,11 +1,13 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetNavActionListByOwnerId
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.action.v2.MissionActionModel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -31,7 +33,7 @@ class GetNavActionListByOwnerIdTest {
     }
 
     @Test
-    fun `test execute with invalid actionId returns null`() {
+    fun `should call repository with ownerId and missionId`() {
         val missionId = 761
         val ownerId = UUID.randomUUID()
 
@@ -57,5 +59,29 @@ class GetNavActionListByOwnerIdTest {
 
         getNavActionListByOwnerId.execute(missionId = missionId)
         verify(navMissionActionRepository, times(1)).findByMissionId(missionId = missionId)
+    }
+
+    @Test
+    fun `should throw BackendInternalException when repository fails for missionId`() {
+        val missionId = 761
+        `when`(navMissionActionRepository.findByMissionId(missionId = missionId))
+            .thenThrow(RuntimeException("Database error"))
+
+        val exception = assertThrows<BackendInternalException> {
+            getNavActionListByOwnerId.execute(missionId = missionId)
+        }
+        assertThat(exception.message).contains("GetNavActionListByOwnerId failed for missionId=$missionId")
+    }
+
+    @Test
+    fun `should throw BackendInternalException when repository fails for ownerId`() {
+        val ownerId = UUID.randomUUID()
+        `when`(navMissionActionRepository.findByOwnerId(ownerId = ownerId))
+            .thenThrow(RuntimeException("Database error"))
+
+        val exception = assertThrows<BackendInternalException> {
+            getNavActionListByOwnerId.execute(ownerId = ownerId)
+        }
+        assertThat(exception.message).contains("GetNavActionListByOwnerId failed for ownerId=$ownerId")
     }
 }

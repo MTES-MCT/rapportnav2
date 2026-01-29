@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.public_api.v1.adapters.outpu
 import fr.gouv.dgampa.rapportnav.infrastructure.exceptions.BackendRequestException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.dao.DataAccessException
 import org.springframework.core.Ordered.HIGHEST_PRECEDENCE
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus
@@ -58,13 +59,26 @@ class ControllersExceptionHandler {
 
 
     // -------------------------------------------------------------------------
-    // Infrastructure and unhandled domain exceptions
-    // - Unhandled domain exceptions are a bug, thus an unexpected exception.
-    // - Infrastructure exceptions are not supposed to bubble up until here.
-    //   They should be caught or transformed into domain exceptions.
-    //   If that happens, it's a bug, thus an unexpected exception.
+    // Infrastructure exceptions
+    // These should normally be caught and transformed into domain exceptions
+    // at the use case level. This handler is a safety net.
 
-    /** Catch-all for unexpected exceptions. */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(DataAccessException::class)
+    fun handleDataAccessException(e: DataAccessException): BackendInternalErrorDataOutput {
+        logger.error("Database error: ${e.message}", e)
+        return BackendInternalErrorDataOutput(
+            message = "A database error occurred",
+            exception = e::class.simpleName,
+            cause = e.mostSpecificCause.message
+        )
+    }
+
+    // -------------------------------------------------------------------------
+    // Catch-all for unexpected exceptions
+    // - Unhandled domain exceptions are a bug, thus an unexpected exception.
+    // - If we reach here, it's likely a bug that should be investigated.
+
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Throwable::class)
     fun handleUnexpectedException(e: Throwable): BackendInternalErrorDataOutput {

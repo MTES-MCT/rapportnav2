@@ -2,12 +2,14 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.action
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetComputeFishActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetFishActionListByMissionId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.ProcessFishAction
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.FishActionControlMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
@@ -32,8 +34,7 @@ class GetComputeFishActionListByMissionIdTest {
     private lateinit var processFishAction: ProcessFishAction
 
     @Test
-    fun `test execute get Fish action list  by mission id`() {
-
+    fun `test execute get Fish action list by mission id`() {
         val missionId = 761
         val actionId = UUID.randomUUID().hashCode()
         val action = FishActionControlMock.create(
@@ -52,15 +53,36 @@ class GetComputeFishActionListByMissionIdTest {
         `when`(processFishAction.execute(anyInt(), anyOrNull())).thenReturn(response)
         `when`(getFishActionListByMissionId.execute(missionId)).thenReturn(listOf(action))
 
-        getFishActionList = GetComputeFishActionListByMissionId(
-            processFishAction = processFishAction,
-            getFishActionListByMissionId = getFishActionListByMissionId,
-        )
         val fishActions = getFishActionList.execute(missionId = missionId)
 
         assertThat(fishActions).isNotNull
         assertThat(fishActions.size).isEqualTo(1)
         assertThat(fishActions[0].id).isEqualTo(action.id)
         assertThat(fishActions[0].getActionId()).isEqualTo(actionId.toString())
+    }
+
+    @Test
+    fun `should throw BackendInternalException when getFishActionListByMissionId fails`() {
+        val missionId = 761
+        `when`(getFishActionListByMissionId.execute(missionId))
+            .thenThrow(RuntimeException("Database error"))
+
+        val exception = assertThrows<BackendInternalException> {
+            getFishActionList.execute(missionId = missionId)
+        }
+        assertThat(exception.message).contains("GetComputeFishActionListByMissionId failed for missionId=$missionId")
+    }
+
+    @Test
+    fun `should propagate BackendInternalException from getFishActionListByMissionId`() {
+        val missionId = 761
+        val originalException = BackendInternalException(message = "Original error")
+        `when`(getFishActionListByMissionId.execute(missionId))
+            .thenAnswer { throw originalException }
+
+        val exception = assertThrows<BackendInternalException> {
+            getFishActionList.execute(missionId = missionId)
+        }
+        assertThat(exception.message).isEqualTo("Original error")
     }
 }

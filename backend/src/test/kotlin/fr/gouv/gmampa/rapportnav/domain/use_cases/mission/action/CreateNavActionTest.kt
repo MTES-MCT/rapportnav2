@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.ActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusReason
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.status.ActionStatusType
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.action.INavMissionActionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.CreateNavAction
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavAction
@@ -14,8 +15,10 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.MissionNavActio
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.MissionActionModelMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.anyOrNull
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -26,6 +29,10 @@ import java.util.*
 @SpringBootTest(classes = [CreateNavAction::class])
 @ContextConfiguration(classes = [CreateNavAction::class])
 class CreateNavActionTest {
+
+    @Autowired
+    private lateinit var createNavAction: CreateNavAction
+
     @MockitoBean
     private lateinit var missionActionRepository: INavMissionActionRepository
 
@@ -42,11 +49,26 @@ class CreateNavActionTest {
         val model = MissionActionModelMock.create()
         `when`(missionActionRepository.save(anyOrNull())).thenReturn(model)
 
-        val createNavAction = CreateNavAction(
-            missionActionRepository = missionActionRepository
-        )
         val response = createNavAction.execute(input)
         assertThat(response).isNotNull
+    }
+
+    @Test
+    fun `should throw BackendInternalException when repository fails`() {
+        val actionId = UUID.randomUUID().toString()
+        val input = MissionNavAction(
+            id = actionId,
+            missionId = 761,
+            actionType = ActionType.CONTROL,
+            source = MissionSourceEnum.RAPPORTNAV,
+            data = getNavActionDataInput(),
+        )
+        `when`(missionActionRepository.save(anyOrNull())).thenThrow(RuntimeException("Database error"))
+
+        val exception = assertThrows<BackendInternalException> {
+            createNavAction.execute(input)
+        }
+        assertThat(exception.message).contains("CreateNavAction failed for actionId=$actionId")
     }
 
     private fun getNavActionDataInput() = MissionNavActionData(
