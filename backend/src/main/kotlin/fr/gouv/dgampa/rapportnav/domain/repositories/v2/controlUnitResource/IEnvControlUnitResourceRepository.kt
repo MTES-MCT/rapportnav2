@@ -4,5 +4,5 @@ import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.env.ControlUnit
 
 interface IEnvControlUnitResourceRepository {
 
-    fun findAll(): List<ControlUnitResourceEnv>?
+    fun findAll(): List<ControlUnitResourceEnv>
 }
