@@ -7,6 +7,6 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository
 @UseCase
 class Save(private val userRepository: IUserRepository) {
     fun execute(user: User): User? {
-        return this.userRepository.save(user)
+        return userRepository.save(user)
     }
 }
