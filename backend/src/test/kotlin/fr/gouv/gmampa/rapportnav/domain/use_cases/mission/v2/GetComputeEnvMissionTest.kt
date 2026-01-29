@@ -1,5 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetMissionAction
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetGeneralInfo2
@@ -35,16 +37,18 @@ class GetComputeEnvMissionTest {
     private lateinit var getNavMissionById2: GetNavMissionById2
 
     @Test
-    fun `should return null when both missionId and envMission are null`() {
-        val result = getComputeEnvMission.execute(null, null)
-        assertNull(result)
+    fun `should throw BackendUsageException when both missionId and envMission are null`() {
+        assertThrows(BackendUsageException::class.java) {
+            getComputeEnvMission.execute(null, null)
+        }
     }
 
     @Test
-    fun `should return null when missionId is null and envMission has null id`() {
+    fun `should throw BackendInternalException when missionId is null and envMission has null id`() {
         val envMission = EnvMissionMock.create(id = null)
-        val result = getComputeEnvMission.execute(null, envMission)
-        assertNull(result)
+        assertThrows(BackendInternalException::class.java) {
+            getComputeEnvMission.execute(null, envMission)
+        }
     }
 
     @Test
@@ -89,13 +93,13 @@ class GetComputeEnvMissionTest {
     }
 
     @Test
-    fun `should return null when mission retrieved by ID has null id`() {
+    fun `should throw BackendInternalException when mission retrieved by ID has null id`() {
         val mission = EnvMissionMock.create(id = null)
 
         `when`(getEnvMissionById2.execute(3)).thenReturn(mission)
 
-        val result = getComputeEnvMission.execute(missionId = 3)
-
-        assertNull(result)
+        assertThrows(BackendInternalException::class.java) {
+            getComputeEnvMission.execute(missionId = 3)
+        }
     }
 }

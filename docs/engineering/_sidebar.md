@@ -7,6 +7,7 @@
 ** [L'objet Mission](engineering/concepts/missions-and-actions)
 ** [Complétude des missions](engineering/concepts/mission-completion)
 ** [Gestion des dates](engineering/concepts/dates)
+** [Gestion des erreurs](engineering/concepts/error-handling)
 * [Stack](engineering/stack/index)
 ** [Frontend](engineering/stack/frontend)
 ** [Backend](engineering/stack/backend)

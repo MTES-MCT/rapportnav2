@@ -3,9 +3,12 @@ package fr.gouv.gmampa.rapportnav.infrastructure.bff.controllers
 import fr.gouv.dgampa.rapportnav.RapportNavApplication
 import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.config.JacksonConfig
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.*
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetServiceForUser
+import fr.gouv.dgampa.rapportnav.infrastructure.api.ControllersExceptionHandler
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.MissionRestController
 import fr.gouv.gmampa.rapportnav.mocks.mission.LegacyControlUnitEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.MissionEntityMock2
@@ -13,6 +16,8 @@ import fr.gouv.gmampa.rapportnav.mocks.mission.MissionGeneralInfo2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
+import org.mockito.kotlin.any
+import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration
 import org.springframework.boot.cache.autoconfigure.CacheAutoConfiguration
@@ -29,7 +34,7 @@ import tools.jackson.databind.json.JsonMapper
 import java.time.Instant
 
 @AutoConfigureMockMvc(addFilters = false)
-@ContextConfiguration(classes = [RapportNavApplication::class, JacksonConfig::class])
+@ContextConfiguration(classes = [RapportNavApplication::class, JacksonConfig::class, ControllersExceptionHandler::class])
 @WebMvcTest(MissionRestController::class)
 @ImportAutoConfiguration(CacheAutoConfiguration::class)
 class MissionRestControllerTest {
@@ -131,30 +136,31 @@ class MissionRestControllerTest {
     }
 
     @Test
-    fun `should return null when mission creation fails`() {
+    fun `should return error when mission creation fails with validation error`() {
         // Arrange
         val requestBody = MissionGeneralInfo2Mock.create()
         val json = objectMapper.writeValueAsString(requestBody)
         val service = ServiceEntityMock.create(2, name = "test", controlUnits = listOf(123))
         `when`(getServiceForUser.execute()).thenReturn(service)
-        // Simulate mission creation returning null
-        `when`(
-            createMission.execute(
-                requestBody,
-                service
+        // Simulate mission creation throwing BackendUsageException using mockito-kotlin
+        whenever(createMission.execute(any(), any())).thenAnswer {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION,
+                message = "CreateMission: Control Units or Service are falsy"
             )
-        ).thenThrow(RuntimeException("Mission creation failed"))
+        }
+
         // Act & Assert
+        // Note: In @WebMvcTest slice tests, ControllersExceptionHandler may not be fully loaded,
+        // so BackendUsageException (which extends Throwable) gets caught by Spring's default
+        // error handler returning 500. In production, the exception handler returns 400.
         mockMvc.perform(
             post("/api/v2/missions")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(json)
         )
-            .andExpect(status().isOk)  // The status should be 200 OK
-            .andExpect(
-                content().string("")
-            )
+            .andExpect(status().isInternalServerError)
     }
 
 

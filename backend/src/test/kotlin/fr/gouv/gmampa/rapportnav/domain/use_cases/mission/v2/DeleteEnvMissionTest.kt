@@ -2,13 +2,17 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.service.ServiceTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageErrorCode
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendUsageException
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.mission.IEnvMissionRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.v2.GetEnvMissionById2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetServiceByControlUnit
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.DeleteEnvMission
 import fr.gouv.gmampa.rapportnav.mocks.mission.EnvMissionMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.action.EnvActionControlMock
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -33,14 +37,27 @@ class DeleteEnvMissionTest {
     private lateinit var getServiceByControlUnit: GetServiceByControlUnit
 
     @Test
-    fun `should not call repository when id is null`() {
-        val id = 1
-        deleteEnvMission.execute(id = null, serviceId = null)
-        verify(missionRepo, times(0)).deleteMission(missionId = id)
+    fun `should throw exception when id is null`() {
+        val exception = assertThrows<BackendUsageException> {
+            deleteEnvMission.execute(id = null, serviceId = null)
+        }
+        assertEquals(BackendUsageErrorCode.INVALID_PARAMETERS_EXCEPTION, exception.code)
+        assertEquals("DeleteEnvMission: mission id is required", exception.message)
     }
 
     @Test
-    fun `should not call delete if service Id is not the same`() {
+    fun `should throw exception when mission not found`() {
+        val id = 1
+        `when`(getEnvMissionById2.execute(id)).thenReturn(null)
+
+        val exception = assertThrows<BackendUsageException> {
+            deleteEnvMission.execute(id = id, serviceId = 1)
+        }
+        assertEquals(BackendUsageErrorCode.COULD_NOT_FIND_EXCEPTION, exception.code)
+    }
+
+    @Test
+    fun `should throw exception if service Id is not the same`() {
         val id = 1
         val serviceId = 5
         val service = ServiceEntity(
@@ -53,18 +70,20 @@ class DeleteEnvMissionTest {
         `when`(getEnvMissionById2.execute(id)).thenReturn(mission)
         `when`(getServiceByControlUnit.execute(any())).thenReturn(listOf(service))
 
-        deleteEnvMission.execute(id = id, serviceId = serviceId)
-        verify(getEnvMissionById2, times(1)).execute(id)
+        val exception = assertThrows<BackendUsageException> {
+            deleteEnvMission.execute(id = id, serviceId = serviceId)
+        }
+        assertEquals(BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION, exception.code)
+        assertEquals("DeleteEnvMission: mission does not belong to this service", exception.message)
         verify(missionRepo, times(0)).deleteMission(id)
-
     }
 
     @Test
-    fun `should not call delete if env mission has actions`() {
+    fun `should throw exception if env mission has actions`() {
         val id = 1
-        val serviceId = 5
+        val serviceId = 3
         val service = ServiceEntity(
-            id = 3,
+            id = serviceId,
             name = "service",
             serviceType = ServiceTypeEnum.ULAM
         )
@@ -76,15 +95,16 @@ class DeleteEnvMissionTest {
         `when`(getEnvMissionById2.execute(id)).thenReturn(mission)
         `when`(getServiceByControlUnit.execute(any())).thenReturn(listOf(service))
 
-        deleteEnvMission.execute(id = id, serviceId = serviceId)
-        verify(getEnvMissionById2, times(1)).execute(id)
+        val exception = assertThrows<BackendUsageException> {
+            deleteEnvMission.execute(id = id, serviceId = serviceId)
+        }
+        assertEquals(BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION, exception.code)
+        assertEquals("DeleteEnvMission: cannot delete mission with existing actions", exception.message)
         verify(missionRepo, times(0)).deleteMission(id)
-
     }
 
-
     @Test
-    fun `should call delete of repository `() {
+    fun `should call delete of repository`() {
         val id = 1
         val service = ServiceEntity(
             id = 3,
@@ -99,6 +119,5 @@ class DeleteEnvMissionTest {
         deleteEnvMission.execute(id = id, serviceId = service.id)
         verify(getEnvMissionById2, times(1)).execute(id)
         verify(missionRepo, times(1)).deleteMission(id)
-
     }
 }

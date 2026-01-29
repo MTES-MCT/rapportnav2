@@ -9,7 +9,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ITargetRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.control.v2.ControlModel2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.target2.v2.TargetModel2
-import org.slf4j.LoggerFactory
 import java.time.Instant
 import java.util.*
 
@@ -17,20 +16,14 @@ import java.util.*
 class GetComputeTarget(
     private val targetRepo: ITargetRepository
 ) {
-    private val logger = LoggerFactory.getLogger(GetComputeTarget::class.java)
     fun execute(actionId: String, isControl: Boolean?): List<TargetEntity2>? {
         if (isControl != true) return null
-        return try {
-            var targets = targetRepo.findByActionId(actionId)
-            if (targets.isEmpty()) {
-                val target = save(getNewTarget(actionId = actionId))
-                targets = listOf(target)
-            }
-            targets.map { TargetEntity2.fromTargetModel(it) }
-        } catch (e: Exception) {
-            logger.error("ComputeEnvTarget failed loading targets", e)
-            return listOf()
+        var targets = targetRepo.findByActionId(actionId)
+        if (targets.isEmpty()) {
+            val target = save(getNewTarget(actionId = actionId))
+            targets = listOf(target)
         }
+        return targets.map { TargetEntity2.fromTargetModel(it) }
     }
 
     fun save(target: TargetModel2): TargetModel2 {

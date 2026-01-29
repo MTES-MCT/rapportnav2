@@ -14,7 +14,6 @@ import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServiceById
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Service
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.passenger.GetMissionPassengers
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
-import org.slf4j.LoggerFactory
 import java.util.*
 
 @UseCase
@@ -26,18 +25,17 @@ class GetGeneralInfo2(
     private val getMissionGeneralInfoByMissionId: GetMissionGeneralInfoByMissionId,
     private val getMissionPassengers: GetMissionPassengers
 ) {
-    private val logger = LoggerFactory.getLogger(GetGeneralInfo2::class.java)
-
     fun execute(
         missionId: Int,
         controlUnits: List<LegacyControlUnitEntity>? = null,
     ): MissionGeneralInfoEntity2 {
         val services = fetchServices(controlUnits)
+        val serviceId = services.firstOrNull()?.id
         return MissionGeneralInfoEntity2(
             services = services,
             crew = fetchCrew(missionId),
             passengers = fetchPassengers(missionId),
-            data = fetchGeneralInfo(missionId = missionId, serviceId = services.first().id)
+            data = fetchGeneralInfo(missionId = missionId, serviceId = serviceId)
         )
     }
 
@@ -56,71 +54,33 @@ class GetGeneralInfo2(
     }
 
     private fun fetchGeneralInfo(missionId: Int, serviceId: Int? = null): MissionGeneralInfoEntity? {
-        return try {
-            getMissionGeneralInfoByMissionId.execute(missionId = missionId) ?: createGeneralInfos(
-                missionId = missionId,
-                serviceId = serviceId
-            )
-        } catch (e: Exception) {
-            logger.error("Error fetching Nav general info for missionId: {}", missionId, e)
-            throw e
-        }
+        return getMissionGeneralInfoByMissionId.execute(missionId = missionId)
+            ?: createGeneralInfos(missionId = missionId, serviceId = serviceId)
     }
 
     private fun fetchGeneralInfoUUID(missionIdUUID: UUID, serviceId: Int? = null): MissionGeneralInfoEntity? {
-        return try {
-            getMissionGeneralInfoByMissionId.execute(missionIdUUID = missionIdUUID)
-                ?: createGeneralInfos(missionIdUUID = missionIdUUID, serviceId = serviceId)
-        } catch (e: Exception) {
-            logger.error("Error fetching Nav general info for missionId: {}", missionIdUUID, e)
-            throw e
-        }
+        return getMissionGeneralInfoByMissionId.execute(missionIdUUID = missionIdUUID)
+            ?: createGeneralInfos(missionIdUUID = missionIdUUID, serviceId = serviceId)
     }
 
     fun fetchCrew(missionId: Int): List<MissionCrewEntity> {
-        return try {
-            getAgentsCrewByMissionId.execute(missionId)
-        } catch (e: Exception) {
-            logger.error("Error fetching Nav crew for missionId: {}", missionId, e)
-            emptyList()
-        }
+        return getAgentsCrewByMissionId.execute(missionId)
     }
 
     fun fetchPassengers(missionId: Int): List<MissionPassengerEntity> {
-        return try {
-            getMissionPassengers.execute(missionId)
-        } catch (e: Exception) {
-            logger.error("Error fetching Nav Passengers for missionId: {}", missionId, e)
-            emptyList()
-        }
+        return getMissionPassengers.execute(missionId)
     }
 
     fun fetchCrewUUID(missionIdUUID: UUID): List<MissionCrewEntity> {
-        return try {
-            getAgentsCrewByMissionId.execute(missionIdUUID = missionIdUUID)
-        } catch (e: Exception) {
-            logger.error("Error fetching Nav crew for missionId: {}", missionIdUUID, e)
-            emptyList()
-        }
+        return getAgentsCrewByMissionId.execute(missionIdUUID = missionIdUUID)
     }
 
-
     fun fetchPassengersUUID(missionIdUUID: UUID): List<MissionPassengerEntity> {
-        return try {
-            getMissionPassengers.execute(missionIdUUID = missionIdUUID)
-        } catch (e: Exception) {
-            logger.error("Error fetching Nav Passengers for missionId: {}", missionIdUUID, e)
-            emptyList()
-        }
+        return getMissionPassengers.execute(missionIdUUID = missionIdUUID)
     }
 
     private fun fetchServices(controlUnits: List<LegacyControlUnitEntity>?): List<ServiceEntity> {
-        return try {
-            getServiceByControlUnit.execute(controlUnits)
-        } catch (e: Exception) {
-            logger.error("Error fetching Nav services for controlUnits: {}", controlUnits, e)
-            emptyList()
-        }
+        return getServiceByControlUnit.execute(controlUnits)
     }
 
     private fun createGeneralInfos(

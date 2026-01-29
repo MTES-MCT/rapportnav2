@@ -16,15 +16,36 @@ class JPAMissionActionRepository(
     private val dbMissionActionRepository: IDBMissionActionRepository,
 ) : INavMissionActionRepository {
     override fun findByMissionId(missionId: Int): List<MissionActionModel> {
-        return dbMissionActionRepository.findAllByMissionId(missionId)
+        return try {
+            dbMissionActionRepository.findAllByMissionId(missionId)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find MissionActions for missionId='$missionId'",
+                originalException = e
+            )
+        }
     }
 
     override fun findByOwnerId(ownerId: UUID): List<MissionActionModel> {
-        return dbMissionActionRepository.findAllByOwnerId(ownerId)
+        return try {
+            dbMissionActionRepository.findAllByOwnerId(ownerId)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find MissionActions for ownerId='$ownerId'",
+                originalException = e
+            )
+        }
     }
 
     override fun findById(id: UUID): Optional<MissionActionModel> {
-        return dbMissionActionRepository.findById(id)
+        return try {
+            dbMissionActionRepository.findById(id)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to find MissionAction with id='$id'",
+                originalException = e
+            )
+        }
     }
 
     @Transactional
@@ -47,10 +68,30 @@ class JPAMissionActionRepository(
 
     @Transactional
     override fun deleteById(id: UUID) {
-        dbMissionActionRepository.deleteById(id)
+        try {
+            dbMissionActionRepository.deleteById(id)
+        } catch (e: InvalidDataAccessApiUsageException) {
+            throw BackendUsageException(
+                code = BackendUsageErrorCode.COULD_NOT_DELETE_EXCEPTION,
+                message = "Unable to delete MissionAction='$id'",
+                e,
+            )
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to delete MissionAction with id='$id'",
+                originalException = e
+            )
+        }
     }
 
     override fun existsById(id: UUID): Boolean {
-        return dbMissionActionRepository.existsById(id)
+        return try {
+            dbMissionActionRepository.existsById(id)
+        } catch (e: Exception) {
+            throw BackendInternalException(
+                message = "Failed to check existence of MissionAction with id='$id'",
+                originalException = e
+            )
+        }
     }
 }
