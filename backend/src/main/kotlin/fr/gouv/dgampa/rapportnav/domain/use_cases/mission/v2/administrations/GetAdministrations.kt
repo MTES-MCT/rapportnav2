@@ -10,10 +10,10 @@ class GetAdministrations(private val administrationRepository: IEnvAdministratio
 
     private val logger = LoggerFactory.getLogger(GetAdministrations::class.java)
 
-    fun execute(): List<FullAdministration>? {
+    fun execute(): List<FullAdministration> {
         val dataOutputs = administrationRepository.findAll()
-        logger.info("Found ${dataOutputs?.size} administrations from env.")
+        logger.info("Found ${dataOutputs.size} administrations from env.")
 
-        return dataOutputs?.map { FullAdministration.fromFullAdministrationDataOutput(it) }
+        return dataOutputs.map { FullAdministration.fromFullAdministrationDataOutput(it) }
     }
 }

@@ -6,5 +6,5 @@ interface IEnvAdministrationRepository {
 
     fun findById(administrationId: Int): FullAdministrationDataOutput?
 
-    fun findAll(): List<FullAdministrationDataOutput>?
+    fun findAll(): List<FullAdministrationDataOutput>
 }

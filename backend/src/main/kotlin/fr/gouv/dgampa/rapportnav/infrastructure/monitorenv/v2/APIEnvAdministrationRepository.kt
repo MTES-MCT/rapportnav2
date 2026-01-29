@@ -1,6 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2
 
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.IEnvAdministrationRepository
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.outputs.FullAdministrationDataOutput
 import org.slf4j.LoggerFactory
@@ -24,59 +25,40 @@ class APIEnvAdministrationRepository(
     private val client = clientFactory.create()
 
     override fun findById(administrationId: Int): FullAdministrationDataOutput? {
-        val url = "$host/api/v1/administrations/$administrationId";
+        val url = "$host/api/v1/administrations/$administrationId"
         logger.info("Sending GET request for Env administration by id fetching URL: $url")
-        return try {
 
-            val request = HttpRequest
-                .newBuilder()
-                .uri(URI.create(url))
-                .build();
+        val request = HttpRequest.newBuilder().uri(URI.create(url)).build()
+        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+        logger.info("APIEnvAdministrationRepository::findById Response received, Status code: ${response.statusCode()}")
 
-            val response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            logger.info("APIEnvAdministrationRepository::findById Response received, Status code: ${response.statusCode()}");
-
-            val body = response.body()
-            logger.info("APIEnvAdministrationRepository::findById Response received, Content: $body")
-
-            if (response.statusCode() == 400 || response.statusCode() == 500) {
-                throw Exception("Error while fetching administration by id from env, please check the logs")
-            }
-
-            val output: FullAdministrationDataOutput = mapper.readValue(body)
-            output
-        } catch (e: Exception) {
-            logger.error("Failed to GET request for Env administration by id fetching. URL: $url", e);
-            null;
+        if (response.statusCode() == 404) return null
+        if (response.statusCode() !in 200..299) {
+            throw BackendInternalException(
+                message = "APIEnvAdministrationRepository.findById failed with status ${response.statusCode()}",
+                originalException = RuntimeException(response.body())
+            )
         }
+
+        return mapper.readValue(response.body())
     }
 
-    override fun findAll(): List<FullAdministrationDataOutput>? {
-        val url = "$host/api/v1/administrations";
+    override fun findAll(): List<FullAdministrationDataOutput> {
+        val url = "$host/api/v1/administrations"
         logger.info("Sending GET request for Env administration getAll fetching URL: $url")
-        return try {
 
-            val request = HttpRequest
-                .newBuilder()
-                .uri(URI.create(url))
-                .build();
+        val request = HttpRequest.newBuilder().uri(URI.create(url)).build()
+        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+        logger.info("APIEnvAdministrationRepository::findAll Response received, Status code: ${response.statusCode()}")
 
-            val response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            logger.info("APIEnvAdministrationRepository::findAll Response received, Status code: ${response.statusCode()}");
-
-            val body = response.body()
-            logger.info("APIEnvAdministrationRepository::findAll Response received, Content: $body")
-
-            if (response.statusCode() == 400 || response.statusCode() == 500) {
-                throw Exception("Error while fetching administrations from env, please check the logs")
-            }
-
-            val output: List<FullAdministrationDataOutput> = mapper.readValue(body)
-            output
-        } catch (e: Exception) {
-            logger.error("Failed to GET request for Env administrations fetching. URL: $url", e);
-            null;
+        if (response.statusCode() !in 200..299) {
+            throw BackendInternalException(
+                message = "APIEnvAdministrationRepository.findAll failed with status ${response.statusCode()}",
+                originalException = RuntimeException(response.body())
+            )
         }
+
+        return mapper.readValue(response.body())
     }
 
 
