@@ -1,5 +1,6 @@
 package fr.gouv.gmampa.rapportnav.infrastructure.database.repositories.mission.crew
 
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgent2Repository
@@ -7,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.mission.cr
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentMatchers.assertArg
 import org.mockito.Mockito
@@ -92,5 +94,27 @@ class JPAAgent2RepositoryTest {
         verify(dbServiceRepository).save(assertArg { agent ->
             assertThat(agent.disabledAt).isNotNull()
         })
+    }
+
+    @Test
+    fun `findAll should throw BackendInternalException on error`() {
+        Mockito.`when`(dbServiceRepository.findAll()).thenThrow(RuntimeException("Database error"))
+        jpaAgentSRepo = JPAAgent2Repository(dbServiceRepository)
+
+        val exception = assertThrows<BackendInternalException> {
+            jpaAgentSRepo.findAll()
+        }
+        assertThat(exception.message).contains("findAll failed")
+    }
+
+    @Test
+    fun `findByServiceId should throw BackendInternalException on error`() {
+        Mockito.`when`(dbServiceRepository.findByServiceId(1)).thenThrow(RuntimeException("Database error"))
+        jpaAgentSRepo = JPAAgent2Repository(dbServiceRepository)
+
+        val exception = assertThrows<BackendInternalException> {
+            jpaAgentSRepo.findByServiceId(1)
+        }
+        assertThat(exception.message).contains("findByServiceId failed")
     }
 }
