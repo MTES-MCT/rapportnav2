@@ -1,9 +1,7 @@
 package fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgents
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.crew.GetAgentsByServiceId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId
-import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId2
 import fr.gouv.dgampa.rapportnav.domain.use_cases.user.GetUserFromToken
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.Agent2
@@ -23,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController
 class AgentRestController(
     private val getAgents: GetAgents,
     private val getUserFromToken: GetUserFromToken,
-    private val getCrewByServiceId2: GetCrewByServiceId2,
+    private val getCrewByServiceId: GetCrewByServiceId,
 ) {
     private val logger = LoggerFactory.getLogger(AgentRestController::class.java)
 
@@ -46,7 +44,7 @@ class AgentRestController(
         return try {
             val user = getUserFromToken.execute()
             user?.serviceId?.let { serviceId ->
-                val agents = getCrewByServiceId2.execute(serviceId)
+                val agents = getCrewByServiceId.execute(serviceId)
                     .map { Agent2.fromAgentEntity(it) }
                 agents
             }
