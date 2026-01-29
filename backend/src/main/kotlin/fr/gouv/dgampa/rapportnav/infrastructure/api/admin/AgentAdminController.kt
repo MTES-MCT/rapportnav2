@@ -22,7 +22,7 @@ class AgentAdminController(
     private val deleteAgent: DeleteAgent,
     private val disableAgent: DisableAgent,
     private val migrateAgent: MigrateAgent,
-    private val createOrUpdateAgent: CreateOrUpdateAgent2
+    private val createOrUpdateAgent: CreateOrUpdateAgent
 ) {
     private val logger = LoggerFactory.getLogger(AgentAdminController::class.java)
 

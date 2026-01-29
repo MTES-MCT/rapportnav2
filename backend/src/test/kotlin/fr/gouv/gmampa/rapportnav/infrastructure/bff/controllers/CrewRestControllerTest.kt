@@ -5,7 +5,7 @@ import fr.gouv.dgampa.rapportnav.config.ApiKeyAuthenticationFilter
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.crew.AgentEntity2
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.use_cases.auth.TokenService
-import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId
 import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetServices
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.v2.CrewRestController
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
@@ -33,7 +33,7 @@ class CrewRestControllerTest {
     private lateinit var mockMvc: MockMvc
 
     @MockitoBean
-    private lateinit var getCrewByServiceId: GetCrewByServiceId2
+    private lateinit var getCrewByServiceId: GetCrewByServiceId
 
     @MockitoBean
     private lateinit var getServices: GetServices

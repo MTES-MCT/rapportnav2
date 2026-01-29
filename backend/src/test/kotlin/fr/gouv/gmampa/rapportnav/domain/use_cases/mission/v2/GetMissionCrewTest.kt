@@ -1,12 +1,11 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetMissionCrew
-import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId2
+import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.crew.MissionCrew
 import fr.gouv.dgampa.rapportnav.infrastructure.api.bff.model.v2.generalInfo.MissionGeneralInfo2
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.AgentEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.AgentRoleEntityMock
-import fr.gouv.gmampa.rapportnav.mocks.mission.crew.AgentServiceEntityMock
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.MissionCrewEntityMock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -24,7 +23,7 @@ class GetMissionCrewTest {
     private lateinit var getMissionCrew: GetMissionCrew
 
     @MockitoBean
-    private lateinit var getActiveCrewForService: GetCrewByServiceId2
+    private lateinit var getActiveCrewForService: GetCrewByServiceId
 
     val role = AgentRoleEntityMock.create()
     val agent1 = AgentEntityMock.create(firstName = "John", lastName = "Doe")
