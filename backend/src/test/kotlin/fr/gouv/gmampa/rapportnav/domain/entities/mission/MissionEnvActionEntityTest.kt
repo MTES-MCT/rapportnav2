@@ -148,10 +148,11 @@ class MissionEnvActionEntityTest {
 
 
     @Test
-    fun `getEnvSummaryTags should count infractions with report and natinf size`() {
+    fun `getEnvSummaryTags should count infractions with report (nbrTarget) and natinf size`() {
         val infractions = listOf(
             InfractionEntity(
                 id = "1",
+                nbTarget = 4,
                 infractionType = InfractionTypeEnum.WITH_REPORT,
                 formalNotice = FormalNoticeEnum.NO,
                 toProcess = false,
@@ -179,8 +180,8 @@ class MissionEnvActionEntityTest {
             method.invoke(this) as SummaryTag
         }
 
-        assertThat(summaryTag.withReport).isEqualTo(1)  // only one WITH_REPORT
-        assertThat(summaryTag.natInfSize).isEqualTo(3)  // 2 + 1
+        assertThat(summaryTag.withReport).isEqualTo(4)
+        assertThat(summaryTag.natInfSize).isEqualTo(3)
     }
 
     @Test

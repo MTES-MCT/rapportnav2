@@ -8,6 +8,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetExternalDataEn
 
 class TargetExternalData(
     val id: String,
+    val nbTarget: Int = 1,
     val natinfs: List<String>? = listOf(),
     val observations: String? = null,
     val registrationNumber: String? = null,
@@ -24,6 +25,7 @@ class TargetExternalData(
         return TargetExternalDataEntity(
             id = id,
             natinfs = natinfs,
+            nbTarget = nbTarget,
             toProcess = toProcess,
             vesselType = vesselType,
             vesselSize = vesselSize,
@@ -42,6 +44,7 @@ class TargetExternalData(
             return TargetExternalData(
                 id = entity.id,
                 natinfs = entity.natinfs,
+                nbTarget = entity.nbTarget,
                 toProcess = entity.toProcess,
                 vesselType = entity.vesselType,
                 vesselSize = entity.vesselSize,

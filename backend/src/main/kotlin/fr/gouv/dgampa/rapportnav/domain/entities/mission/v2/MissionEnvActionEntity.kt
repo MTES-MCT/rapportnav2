@@ -72,8 +72,11 @@ data class MissionEnvActionEntity(
     }
 
     private fun getEnvSummaryTags(): SummaryTag {
-        val withReport = this.envInfractions?.count { it.infractionType == InfractionTypeEnum.WITH_REPORT } ?: 0
         val natInfSize = this.envInfractions?.sumOf { it.natinf?.size ?: 0 } ?: 0
+        val withReport = this.envInfractions
+            ?.filter { it.infractionType == InfractionTypeEnum.WITH_REPORT }
+            ?.sumOf { it.nbTarget} ?: 0
+
         return SummaryTag(withReport = withReport, natInfSize = natInfSize)
     }
 
