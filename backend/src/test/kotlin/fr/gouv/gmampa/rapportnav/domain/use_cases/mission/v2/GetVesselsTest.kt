@@ -2,25 +2,19 @@ package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2
 
 import com.neovisionaries.i18n.CountryCode
 import fr.gouv.cnsp.monitorfish.infrastructure.api.outputs.VesselIdentityDataOutput
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.TargetEntity2
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IFishActionRepository
-import fr.gouv.dgampa.rapportnav.domain.repositories.mission.target2.v2.ITargetRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.GetVessels
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.ProcessMissionActionTarget
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetEntity2Mock
-import fr.gouv.gmampa.rapportnav.mocks.mission.TargetModel2Mock
 import fr.gouv.gmampa.rapportnav.mocks.mission.VesselEntityMock
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.mock
-import org.mockito.kotlin.any
-import org.mockito.kotlin.never
+import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
-import java.util.UUID
 
 @SpringBootTest(classes = [GetVessels::class])
 class GetVesselsTest {
@@ -43,5 +37,30 @@ class GetVesselsTest {
 
         assertEquals(vessel.vesselId, result.get(0).vesselId)
         verify(repository).getVessels()
+    }
+
+    @Test
+    fun `execute should return empty list when no vessels`() {
+        whenever(repository.getVessels()).thenReturn(emptyList())
+
+        val result = useCase.execute()
+
+        assertThat(result).isEmpty()
+        verify(repository).getVessels()
+    }
+
+    @Test
+    fun `execute should propagate BackendInternalException from repository`() {
+        val internalException = BackendInternalException(
+            message = "API call failed",
+            originalException = RuntimeException("Connection error")
+        )
+
+        whenever(repository.getVessels()).thenAnswer { throw internalException }
+
+        val exception = assertThrows<BackendInternalException> {
+            useCase.execute()
+        }
+        assertThat(exception.message).isEqualTo("API call failed")
     }
 }
