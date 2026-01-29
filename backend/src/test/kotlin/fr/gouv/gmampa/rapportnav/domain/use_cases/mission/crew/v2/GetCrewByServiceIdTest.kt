@@ -1,8 +1,7 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.crew.v2
 
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgent2Repository
-import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId2
-import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.ServiceModel
+import fr.gouv.dgampa.rapportnav.domain.use_cases.service.GetCrewByServiceId
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentModel2
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentRoleModel
 import fr.gouv.gmampa.rapportnav.mocks.mission.crew.ServiceEntityMock
@@ -15,9 +14,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 import java.time.Instant
 
 
-@SpringBootTest(classes = [GetCrewByServiceId2::class])
-@ContextConfiguration(classes = [GetCrewByServiceId2::class])
-class GetCrewByServiceId2Test {
+@SpringBootTest(classes = [GetCrewByServiceId::class])
+@ContextConfiguration(classes = [GetCrewByServiceId::class])
+class GetCrewByServiceIdTest {
 
     @MockitoBean
     lateinit var agentRepo: IAgent2Repository
@@ -48,7 +47,7 @@ class GetCrewByServiceId2Test {
             )
         )
         Mockito.`when`(agentRepo.findByServiceId(1)).thenReturn(agents)
-        val responses = GetCrewByServiceId2(agentRepo = agentRepo).execute(serviceId = 1)
+        val responses = GetCrewByServiceId(agentRepo = agentRepo).execute(serviceId = 1)
 
         assertThat(responses).isNotNull()
         assertThat(responses.size).isEqualTo(3)
