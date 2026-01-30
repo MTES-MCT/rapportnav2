@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.59.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.58.0...docker-container@v2.59.0) (2026-01-30)
+
+
+### Features
+
+* **CI:** add flyway repair step ([eb41df6](https://github.com/MTES-MCT/rapportnav2/commit/eb41df6cdda797ede219827c05c0b8eecce80c77))
+
+
+### Bug Fixes
+
+* **security:** harden logging config to prevent sensitive data exposure ([49cd758](https://github.com/MTES-MCT/rapportnav2/commit/49cd758b31546cb55a5a3cd9922812558cb0828c))
+
 ## [2.58.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.57.0...docker-container@v2.58.0) (2026-01-30)
 
 

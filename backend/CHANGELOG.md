@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.59.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.58.0...backend@v2.59.0) (2026-01-30)
+
+
+### Bug Fixes
+
+* **security:** harden logging config to prevent sensitive data exposure ([49cd758](https://github.com/MTES-MCT/rapportnav2/commit/49cd758b31546cb55a5a3cd9922812558cb0828c))
+
 ## [2.58.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.57.0...backend@v2.58.0) (2026-01-30)
 
 
