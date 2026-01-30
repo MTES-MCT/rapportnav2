@@ -1,0 +1,40 @@
+# Manual Flyway repair jobs for integration and production
+# Use these when Flyway migration history needs to be repaired
+
+flyway_repair_int:
+  stage: deploy-int
+  when: manual
+  image: flyway/flyway:latest
+  variables:
+    HTTP_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
+    HTTPS_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
+  script:
+    - flyway
+      -url=jdbc:postgresql://${SERVER_ENV_INT}:5432/${RAPPORTNAV_PSQL_DB}
+      -user=${RAPPORTNAV_PSQL_USER}
+      -password=${RAPPORTNAV_PSQL_PWD}
+      -locations=filesystem:./backend/src/main/resources/db/migration
+      repair
+  tags:
+    - build
+  only:
+    - main
+
+flyway_repair_prod:
+  stage: deploy-prod
+  when: manual
+  image: flyway/flyway:latest
+  variables:
+    HTTP_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
+    HTTPS_PROXY: "http://$PROXY_HOST:$PROXY_PORT"
+  script:
+    - flyway
+      -url=jdbc:postgresql://${SERVER_ENV_PROD}:5432/${RAPPORTNAV_PSQL_DB}
+      -user=${RAPPORTNAV_PSQL_USER}
+      -password=${RAPPORTNAV_PSQL_PWD}
+      -locations=filesystem:./backend/src/main/resources/db/migration
+      repair
+  tags:
+    - build
+  only:
+    - main
