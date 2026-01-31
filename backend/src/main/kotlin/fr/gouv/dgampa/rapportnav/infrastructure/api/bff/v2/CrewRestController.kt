@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
-import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -20,7 +19,6 @@ class CrewRestController(
     private val getCrewByServiceId: GetCrewByServiceId2,
     private val getServices: GetServices,
 ) {
-    private val logger = LoggerFactory.getLogger(CrewRestController::class.java)
 
     @GetMapping("")
     @Operation(summary = "Get the list of crew and roles per service")
@@ -34,20 +32,16 @@ class CrewRestController(
                     ))
                 ]
             ),
-            ApiResponse(responseCode = "404", description = "Did not find any crew agent", content = [Content()])
+            ApiResponse(responseCode = "500", description = "Internal server error", content = [Content()])
         ]
     )
     fun getAllCrews(): List<ServiceWithAgents> {
         val services = getServices.execute()
-        return try {
-            services.map { service ->
-                ServiceWithAgents(
-                    service = service,
-                    agents = service.id?.let { getCrewByServiceId.execute(serviceId = it) } ?: emptyList()
-                )}
-        } catch (e: Exception) {
-            logger.error("[ERROR] API on endpoint getCrossControlByServiceId:", e)
-            return emptyList()
+        return services.map { service ->
+            ServiceWithAgents(
+                service = service,
+                agents = service.id?.let { getCrewByServiceId.execute(serviceId = it) } ?: emptyList()
+            )
         }
     }
 }

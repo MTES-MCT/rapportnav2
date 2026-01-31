@@ -9,7 +9,7 @@ class GetControlUnitResources(
     private val repository: IEnvControlUnitResourceRepository
 ) {
 
-    fun execute(): List<ControlUnitResourceEnv>? {
+    fun execute(): List<ControlUnitResourceEnv> {
         return repository.findAll()
     }
 }

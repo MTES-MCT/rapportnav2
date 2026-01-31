@@ -4,7 +4,6 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.mission.crew.IAgentServiceR
 import fr.gouv.dgampa.rapportnav.infrastructure.database.model.mission.crew.AgentServiceModel
 import fr.gouv.dgampa.rapportnav.infrastructure.database.repositories.interfaces.mission.crew.IDBAgentServiceRepository
 import org.springframework.stereotype.Repository
-import java.time.Instant
 import kotlin.jvm.optionals.getOrNull
 
 @Repository
@@ -24,7 +23,6 @@ class JPAAgentServiceRepository(private val dbAgentServiceRepository: IDBAgentSe
 
     override fun deleteById(id: Int) {
         val agentService = dbAgentServiceRepository.findById(id).getOrNull() ?: return
-        agentService.disabledAt = Instant.now()
         dbAgentServiceRepository.save(agentService)
     }
 
