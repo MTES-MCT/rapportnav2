@@ -110,17 +110,17 @@ buildscript {
 
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_21
+  sourceCompatibility = JavaVersion.VERSION_25
 }
 
 kotlin {
-  jvmToolchain(21)
+  jvmToolchain(25)
 }
 
 tasks.withType<KotlinCompile>().configureEach {
   compilerOptions {
     freeCompilerArgs.add("-Xjsr305=strict")
-    jvmTarget.set(JvmTarget.JVM_21)
+    jvmTarget.set(JvmTarget.JVM_25)
   }
 }
 
@@ -156,7 +156,7 @@ tasks.register<Copy>("getDependencies") {
 }
 
 jacoco {
-  toolVersion = "0.8.12"
+  toolVersion = "0.8.14"
   reportsDirectory = layout.buildDirectory.dir("reports/jacoco")
 }
 
