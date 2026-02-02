@@ -8,7 +8,6 @@ import org.springframework.security.core.context.SecurityContextHolder
 class GetUserFromToken {
     fun execute(): User? {
         val authentication = SecurityContextHolder.getContext().authentication
-        val authenticatedUser: User? = authentication?.principal as? User
-        return authenticatedUser
+        return authentication?.principal as? User
     }
 }

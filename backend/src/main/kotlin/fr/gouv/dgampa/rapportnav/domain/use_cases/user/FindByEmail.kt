@@ -6,9 +6,7 @@ import fr.gouv.dgampa.rapportnav.domain.repositories.user.IUserRepository
 
 @UseCase
 class FindByEmail(private val userRepository: IUserRepository) {
-
     fun execute(email: String): User? {
         return userRepository.findByEmail(email)
     }
-
 }

@@ -1,10 +1,12 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2.administrations
 
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.IEnvAdministrationRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.administrations.GetAdministrationById
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.outputs.FullAdministrationDataOutput
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
@@ -34,12 +36,12 @@ class GetAdministrationByIdTest {
 
         val result = useCase.execute(42)
 
-        // Verify the mapping works
-        assertEquals(999, result?.id)
-        assertEquals("Test Admin", result?.name)
-        assertEquals(false, result?.isArchived)
-        assertEquals(0, result?.controlUnits?.size)
-        assertEquals(0, result?.controlUnitIds?.size)
+        assertThat(result).isNotNull
+        assertThat(result?.id).isEqualTo(999)
+        assertThat(result?.name).isEqualTo("Test Admin")
+        assertThat(result?.isArchived).isFalse()
+        assertThat(result?.controlUnits).isEmpty()
+        assertThat(result?.controlUnitIds).isEmpty()
 
         verify(repository).findById(42)
     }
@@ -50,7 +52,22 @@ class GetAdministrationByIdTest {
 
         val result = useCase.execute(99)
 
-        assertEquals(null, result)
+        assertThat(result).isNull()
         verify(repository).findById(99)
+    }
+
+    @Test
+    fun `should propagate BackendInternalException from repository`() {
+        val internalException = BackendInternalException(
+            message = "Repository error",
+            originalException = RuntimeException("API error")
+        )
+
+        whenever(repository.findById(42)).thenAnswer { throw internalException }
+
+        val exception = assertThrows<BackendInternalException> {
+            useCase.execute(42)
+        }
+        assertThat(exception.message).isEqualTo("Repository error")
     }
 }

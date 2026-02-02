@@ -9,9 +9,7 @@ class GetServiceById(
     private val repo: IServiceRepository,
 ) {
     fun execute(id: Int?): ServiceEntity? {
-        return id?.let {
-            val service = repo.findById(id)
-            return service.orElse(null)?.let { ServiceEntity.fromServiceModel(it) }
-        }
+        if (id == null) return null
+        return repo.findById(id).orElse(null)?.let { ServiceEntity.fromServiceModel(it) }
     }
 }
