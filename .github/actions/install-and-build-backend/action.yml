@@ -21,7 +21,7 @@ runs:
       shell: bash
       run: cd backend
 
-    - uses: gradle/gradle-build-action@v2.9.0
+    - uses: gradle/actions/setup-gradle@v4
       id: setup-gradle
       with:
         gradle-version: wrapper

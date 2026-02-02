@@ -21,9 +21,7 @@ plugins {
   kotlin("plugin.spring") version "2.3.0"
   kotlin("plugin.jpa") version "2.3.0"
   id("org.springframework.boot") version "4.0.1"
-  id("io.spring.dependency-management") version "1.1.7"
   id("org.owasp.dependencycheck") version "12.1.0"
-  id("org.flywaydb.flyway") version "11.20.0"
 //  id("io.sentry.jvm.gradle") version "5.12.2"
   jacoco
 }
@@ -48,17 +46,18 @@ configurations.all {
   exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
 }
 
-dependencyManagement {
-  imports {
-    mavenBom("org.testcontainers:testcontainers-bom:$testcontainersVersion")
-  }
-  dependencies {
-    // force any dependency like following :
-     dependency("org.apache.commons:commons-lang3:3.19.0")
-  }
-}
-
 dependencies {
+  // BOM imports using native Gradle platform()
+  implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+  implementation(platform("org.testcontainers:testcontainers-bom:$testcontainersVersion"))
+  developmentOnly(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+  testImplementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+
+  // Version constraints (replaces dependencyManagement.dependencies)
+  constraints {
+    implementation("org.apache.commons:commons-lang3:3.19.0")
+  }
+
   developmentOnly("org.springframework.boot:spring-boot-devtools")
   implementation("org.postgresql:postgresql:42.7.8")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -101,13 +100,6 @@ dependencies {
   testImplementation("org.testcontainers:postgresql")
   testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
 }
-
-buildscript {
-  dependencies {
-    classpath("org.flywaydb:flyway-database-postgresql:11.20.0")
-  }
-}
-
 
 java {
   sourceCompatibility = JavaVersion.VERSION_25
