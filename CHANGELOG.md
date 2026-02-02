@@ -1,5 +1,37 @@
 # Changelog
 
+## [2.60.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.59.0...docker-container@v2.60.0) (2026-02-02)
+
+
+### Features
+
+* **backend:** add nbTarget from env to target ([4508a25](https://github.com/MTES-MCT/rapportnav2/commit/4508a25131458abb221cb32646d85b14b27020f4))
+* **frontend:** use right coordiates ([1e9265f](https://github.com/MTES-MCT/rapportnav2/commit/1e9265fd8a4f20f175c62b871ea09caccd9d3c52))
+
+## [2.59.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.58.0...docker-container@v2.59.0) (2026-01-30)
+
+
+### Features
+
+* **CI:** add flyway repair step ([eb41df6](https://github.com/MTES-MCT/rapportnav2/commit/eb41df6cdda797ede219827c05c0b8eecce80c77))
+
+
+### Bug Fixes
+
+* **security:** harden logging config to prevent sensitive data exposure ([49cd758](https://github.com/MTES-MCT/rapportnav2/commit/49cd758b31546cb55a5a3cd9922812558cb0828c))
+
+## [2.58.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.57.0...docker-container@v2.58.0) (2026-01-30)
+
+
+### Features
+
+* **backend:** add an a new column general info ([9973bb0](https://github.com/MTES-MCT/rapportnav2/commit/9973bb0905bbc62653e8834aad70b99211684758))
+* **backend:** add an a new column general info ([c8a6ef6](https://github.com/MTES-MCT/rapportnav2/commit/c8a6ef6a3371b5d2bd82d160b072cb8c63f31d5a))
+* **backend:** fix tests ([65f073d](https://github.com/MTES-MCT/rapportnav2/commit/65f073d2b477a418038dab70c0c58295415d23a4))
+* **frontend:** add checkbox on not using resources ([f913ba7](https://github.com/MTES-MCT/rapportnav2/commit/f913ba79c9813eb5646de93e4c3fc0982a689506))
+* **frontend:** add search functionnality ([3376bbe](https://github.com/MTES-MCT/rapportnav2/commit/3376bbeb35af04f67100a59bd188b542cec2e6a4))
+* **frontend:** add search functionnality ([660489f](https://github.com/MTES-MCT/rapportnav2/commit/660489fb6e61f9e53fc5dacf03b99e7688a78923))
+
 ## [2.57.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.56.0...docker-container@v2.57.0) (2026-01-23)
 
 
