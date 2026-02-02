@@ -19,7 +19,7 @@ construction_image:
       entrypoint: [ "sh", "-c", "dockerd-entrypoint.sh" ]
   script:
     # TODO à adapter en fonction du projet
-    - docker build -f infra/docker/app/Dockerfile .
+    - docker build --pull -f infra/docker/app/Dockerfile .
       -t $TAG_VERSION
       -t $NEXUS_DOCKER_REPO/$PROJECT_NAME:Int
       --build-arg VERSION=$PROJECT_VERSION
