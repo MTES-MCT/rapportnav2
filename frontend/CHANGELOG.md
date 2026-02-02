@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.59.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.58.0...frontend@v2.59.0) (2026-01-30)
+
+
+### Miscellaneous Chores
+
+* **frontend:** Synchronize group-some-associated-services versions
+
+## [2.58.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.57.0...frontend@v2.58.0) (2026-01-30)
+
+
+### Features
+
+* **backend:** add an a new column general info ([9973bb0](https://github.com/MTES-MCT/rapportnav2/commit/9973bb0905bbc62653e8834aad70b99211684758))
+* **frontend:** add checkbox on not using resources ([f913ba7](https://github.com/MTES-MCT/rapportnav2/commit/f913ba79c9813eb5646de93e4c3fc0982a689506))
+* **frontend:** add search functionnality ([3376bbe](https://github.com/MTES-MCT/rapportnav2/commit/3376bbeb35af04f67100a59bd188b542cec2e6a4))
+* **frontend:** add search functionnality ([660489f](https://github.com/MTES-MCT/rapportnav2/commit/660489fb6e61f9e53fc5dacf03b99e7688a78923))
+
 ## [2.57.0](https://github.com/MTES-MCT/rapportnav2/compare/frontend@v2.56.0...frontend@v2.57.0) (2026-01-23)
 
 

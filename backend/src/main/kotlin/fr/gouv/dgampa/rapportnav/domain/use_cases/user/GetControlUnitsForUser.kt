@@ -9,10 +9,8 @@ class GetControlUnitsForUser(
     private val getServiceById: GetServiceById,
 ) {
     fun execute(): List<Int>? {
-        val user = getUserFromToken.execute()
-        val service = user?.let {
-            getServiceById.execute(user.serviceId)
-        }
+        val user = getUserFromToken.execute() ?: return null
+        val service = getServiceById.execute(user.serviceId)
         return service?.controlUnits
     }
 }

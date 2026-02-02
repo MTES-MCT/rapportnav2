@@ -46,8 +46,10 @@ const MissionPageFooter: React.FC<MissionPageFooterProps> = ({ missionId, type, 
             size={Size.NORMAL}
             Icon={Icon.Delete}
             onClick={() => setShowDialog(true)}
-            title={"Cette fonctionnalité n'a pas encore été implémentée"}
             disabled={isDeleteButtonDisabled}
+            title={
+              'Cette mission ne peut pas être supprimée car elle a été créée ou contient des actions créées par les centres (CNSP / CACEM)'
+            }
           >
             Supprimer la mission
           </Button>

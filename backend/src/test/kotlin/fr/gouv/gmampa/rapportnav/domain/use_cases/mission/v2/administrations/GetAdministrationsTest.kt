@@ -1,11 +1,12 @@
 package fr.gouv.gmampa.rapportnav.domain.use_cases.mission.v2.administrations
 
+import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.v2.IEnvAdministrationRepository
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.v2.administrations.GetAdministrations
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.v2.outputs.FullAdministrationDataOutput
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
@@ -42,14 +43,14 @@ class GetAdministrationsTest {
 
         val result = useCase.execute()
 
-        assertEquals(2, result?.size)
-        assertEquals(1, result?.get(0)?.id)
-        assertEquals("Admin1", result?.get(0)?.name)
-        assertEquals(false, result?.get(0)?.isArchived)
+        assertThat(result).hasSize(2)
+        assertThat(result[0].id).isEqualTo(1)
+        assertThat(result[0].name).isEqualTo("Admin1")
+        assertThat(result[0].isArchived).isFalse()
 
-        assertEquals(2, result?.get(1)?.id)
-        assertEquals("Admin2", result?.get(1)?.name)
-        assertEquals(true, result?.get(1)?.isArchived)
+        assertThat(result[1].id).isEqualTo(2)
+        assertThat(result[1].name).isEqualTo("Admin2")
+        assertThat(result[1].isArchived).isTrue()
 
         verify(repository).findAll()
     }
@@ -60,7 +61,22 @@ class GetAdministrationsTest {
 
         val result = useCase.execute()
 
-        assertTrue(result?.isEmpty() ?: false)
+        assertThat(result).isEmpty()
         verify(repository).findAll()
+    }
+
+    @Test
+    fun `should propagate BackendInternalException from repository`() {
+        val internalException = BackendInternalException(
+            message = "Repository error",
+            originalException = RuntimeException("API error")
+        )
+
+        whenever(repository.findAll()).thenAnswer { throw internalException }
+
+        val exception = assertThrows<BackendInternalException> {
+            useCase.execute()
+        }
+        assertThat(exception.message).isEqualTo("Repository error")
     }
 }

@@ -10,9 +10,7 @@ class GetServiceForUser(
     private val getServiceById: GetServiceById,
 ) {
     fun execute(): ServiceEntity? {
-        val user = getUserFromToken.execute()
-        return user?.let {
-            getServiceById.execute(user.serviceId)
-        }
+        val user = getUserFromToken.execute() ?: return null
+        return getServiceById.execute(user.serviceId)
     }
 }

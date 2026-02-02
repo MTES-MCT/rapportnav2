@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.59.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.58.0...backend@v2.59.0) (2026-01-30)
+
+
+### Bug Fixes
+
+* **security:** harden logging config to prevent sensitive data exposure ([49cd758](https://github.com/MTES-MCT/rapportnav2/commit/49cd758b31546cb55a5a3cd9922812558cb0828c))
+
+## [2.58.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.57.0...backend@v2.58.0) (2026-01-30)
+
+
+### Features
+
+* **backend:** add an a new column general info ([9973bb0](https://github.com/MTES-MCT/rapportnav2/commit/9973bb0905bbc62653e8834aad70b99211684758))
+* **backend:** add an a new column general info ([c8a6ef6](https://github.com/MTES-MCT/rapportnav2/commit/c8a6ef6a3371b5d2bd82d160b072cb8c63f31d5a))
+* **backend:** fix tests ([65f073d](https://github.com/MTES-MCT/rapportnav2/commit/65f073d2b477a418038dab70c0c58295415d23a4))
+
 ## [2.57.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.56.0...backend@v2.57.0) (2026-01-23)
 
 
