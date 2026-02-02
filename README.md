@@ -21,7 +21,7 @@ The documentation can be found [here](https://mtes-mct.github.io/rapportnav2/#/)
   - Spring-boot
   - Flyway migrations
 - Database:
-  - PostgreSQL 15
+  - PostgreSQL 18
 - Frontend:
   - TypeScript
   - React
@@ -34,7 +34,7 @@ The documentation can be found [here](https://mtes-mct.github.io/rapportnav2/#/)
 
 Before trying to run the project, make sure you have:
 
-- installed Postgres 15
+- installed Postgres 18
 - created the `rapportnavdb` database with the right users and passwords
   - on macOS: `createdb rapportnavdb`
   - use `dropdb rapportnavdb` if you wanna start clean
