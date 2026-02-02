@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.60.1](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.60.0...docker-container@v2.60.1) (2026-02-02)
+
+
+### Bug Fixes
+
+* **CI:** fix trivy and codeql ([7a25301](https://github.com/MTES-MCT/rapportnav2/commit/7a25301c9e95527a22242d23f8828c6095a6895a))
+* **CI:** restore autobuild for codeql ([1a705d5](https://github.com/MTES-MCT/rapportnav2/commit/1a705d5bd89c0f455941a9f1a70d65faa8140799))
+* test ([0988e3c](https://github.com/MTES-MCT/rapportnav2/commit/0988e3c79d8b38322749e45f2c1309bc63c5eaef))
+
 ## [2.60.0](https://github.com/MTES-MCT/rapportnav2/compare/docker-container@v2.59.0...docker-container@v2.60.0) (2026-02-02)
 
 
