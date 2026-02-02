@@ -8,7 +8,7 @@ runs:
 
     - uses: actions/setup-java@v5
       with:
-        distribution: temurin
+        distribution: liberica
         java-version: 25
 
     - name: Print JAVA_HOME

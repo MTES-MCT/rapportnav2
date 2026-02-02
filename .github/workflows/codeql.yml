@@ -46,7 +46,7 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@v5
         with:
-          distribution: "zulu"
+          distribution: "liberica"
           java-version: "25"
 
       # Initializes the CodeQL tools for scanning.
