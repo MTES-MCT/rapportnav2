@@ -19,6 +19,7 @@ class TargetExternalDataTest {
             id = "myExternalData",
             natinfs = listOf("natInf1", "natInf2"),
             toProcess = false,
+            nbTarget = 4,
             vesselType = VesselTypeEnum.SAILING,
             vesselSize = VesselSizeEnum.FROM_12_TO_24m,
             companyName = "myExternalData",
@@ -34,6 +35,7 @@ class TargetExternalDataTest {
         assertThat(entity).isNotNull()
         assertThat(entity.id).isEqualTo(input.id)
         assertThat(entity.natinfs).isEqualTo(input.natinfs)
+        assertThat(entity.nbTarget).isEqualTo(input.nbTarget)
         assertThat(entity.vesselSize).isEqualTo(input.vesselSize)
         assertThat(entity.vesselType).isEqualTo(input.vesselType)
         assertThat(entity.toProcess).isEqualTo(input.toProcess)
@@ -53,6 +55,7 @@ class TargetExternalDataTest {
             id = "myExternalData",
             natinfs = listOf("natInf1", "natInf2"),
             toProcess = false,
+            nbTarget = 4,
             vesselType = VesselTypeEnum.SAILING,
             vesselSize = VesselSizeEnum.FROM_12_TO_24m,
             companyName = "myExternalData",
@@ -68,6 +71,7 @@ class TargetExternalDataTest {
         assertThat(value).isNotNull()
         assertThat(value.id).isEqualTo(entity.id)
         assertThat(value.natinfs).isEqualTo(entity.natinfs)
+        assertThat(value.nbTarget).isEqualTo(entity.nbTarget)
         assertThat(value.vesselSize).isEqualTo(entity.vesselSize)
         assertThat(value.vesselType).isEqualTo(entity.vesselType)
         assertThat(value.toProcess).isEqualTo(entity.toProcess)

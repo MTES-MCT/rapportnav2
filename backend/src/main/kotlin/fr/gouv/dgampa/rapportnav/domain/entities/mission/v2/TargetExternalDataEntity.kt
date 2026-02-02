@@ -7,6 +7,7 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VesselTy
 
 class TargetExternalDataEntity(
     val id: String,
+    val nbTarget: Int = 1,
     val natinfs: List<String>? = listOf(),
     val observations: String? = null,
     val registrationNumber: String? = null,
