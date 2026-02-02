@@ -19,7 +19,7 @@ abstract class AbstractDBTests {
 
     companion object {
         @JvmStatic
-        val container = PostgreSQLContainer("postgres:15.15-alpine")
+        val container = PostgreSQLContainer("postgres:18.1-alpine")
             .apply {
                 withExposedPorts(5432)
                 withEnv("POSTGRES_DB", "testdb")
