@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.60.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.59.0...backend@v2.60.0) (2026-02-02)
+
+
+### Features
+
+* **backend:** add nbTarget from env to target ([4508a25](https://github.com/MTES-MCT/rapportnav2/commit/4508a25131458abb221cb32646d85b14b27020f4))
+
 ## [2.59.0](https://github.com/MTES-MCT/rapportnav2/compare/backend@v2.58.0...backend@v2.59.0) (2026-01-30)
 
 
