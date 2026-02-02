@@ -75,3 +75,17 @@ jobs:
         with:
           sarif_file: "trivy-results-config.sarif"
           category: "trivy-config"
+
+      - name: Run Trivy on Postgres image
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          image-ref: "postgres:15.15-alpine"
+          format: "sarif"
+          output: "trivy-results-postgres.sarif"
+          severity: "HIGH,CRITICAL"
+
+      - name: Upload Trivy Postgres scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: "trivy-results-postgres.sarif"
+          category: "trivy-postgres"
