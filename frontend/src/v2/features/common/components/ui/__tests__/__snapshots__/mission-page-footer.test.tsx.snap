@@ -18,7 +18,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
           >
             <button
               class="sc-kLLXSa sc-himrzR cprGSP hKSquf Element-Button"
-              title="Cette fonctionnalité n'a pas encore été implémentée"
+              title="Cette mission ne peut pas être supprimée car elle a été créée ou contient des actions créées par les centres (CNSP / CACEM)"
               type="button"
             >
               <span
@@ -129,7 +129,7 @@ exports[`MissionPageFooter > should match the snapshot 1`] = `
         >
           <button
             class="sc-kLLXSa sc-himrzR cprGSP hKSquf Element-Button"
-            title="Cette fonctionnalité n'a pas encore été implémentée"
+            title="Cette mission ne peut pas être supprimée car elle a été créée ou contient des actions créées par les centres (CNSP / CACEM)"
             type="button"
           >
             <span
