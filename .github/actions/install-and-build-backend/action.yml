@@ -9,7 +9,7 @@ runs:
     - uses: actions/setup-java@v5
       with:
         distribution: temurin
-        java-version: 21
+        java-version: 25
 
     - name: Print JAVA_HOME
       shell: bash
