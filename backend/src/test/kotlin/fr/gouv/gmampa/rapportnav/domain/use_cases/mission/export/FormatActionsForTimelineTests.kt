@@ -10,7 +10,6 @@ import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionEnvActionEnti
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionFishActionEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.v2.MissionNavActionEntity
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.GroupActionByDate
-import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.action.MapEnvActionControlPlans
 import fr.gouv.dgampa.rapportnav.domain.use_cases.mission.export.FormatActionsForTimeline
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatDateTime
 import fr.gouv.dgampa.rapportnav.domain.use_cases.utils.FormatGeoCoords
@@ -36,9 +35,6 @@ class FormatActionsForTimelineTests {
     @MockitoBean
     private lateinit var groupActionByDate: GroupActionByDate
 
-    @MockitoBean
-    private lateinit var mapEnvActionControlPlans: MapEnvActionControlPlans
-
     private val envControl = MissionEnvActionEntity.fromEnvAction(missionId=1, action=EnvActionControlMock.create())
     private val envSurveillance = MissionEnvActionEntity.fromEnvAction(missionId=1, action=EnvActionSurveillanceMock.create())
 
@@ -58,8 +54,6 @@ class FormatActionsForTimelineTests {
             LocalDate.of(2022, 1, 2) to listOf(navControl, navStatus, navFreeNote)
         )
         Mockito.`when`(groupActionByDate.execute(any())).thenReturn(groupActionByDateData)
-        val mapEnvActionControlPlansData = ControlPlanMock().createListWithFirst()
-        Mockito.`when`(mapEnvActionControlPlans.execute(any())).thenReturn(mapEnvActionControlPlansData)
     }
 
     @Test

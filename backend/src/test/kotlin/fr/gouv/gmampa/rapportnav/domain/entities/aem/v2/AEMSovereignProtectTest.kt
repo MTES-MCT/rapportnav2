@@ -2,8 +2,8 @@ package fr.gouv.gmampa.rapportnav.domain.entities.aem.v2
 
 import fr.gouv.dgampa.rapportnav.domain.entities.aem.AEMSovereignProtect
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ActionTypeEnum
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.EnvActionControlPlanEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.VehicleTypeEnum
+import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.themes.ThemeEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.fish.fishActions.MissionActionType
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.action.*
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.nav.control.ControlMethod
@@ -76,7 +76,7 @@ class AEMSovereignProtectTest {
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
-                controlPlans = listOf(EnvActionControlPlanEntity(themeId = 102)),
+                themes = listOf(ThemeEntity(id = 102, name = "Pollution")),
                 startDateTimeUtc = Instant.parse("2019-09-09T00:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T01:00:00.000+01:00"),
                 vehicleType = VehicleTypeEnum.VEHICLE_LAND,
@@ -86,7 +86,7 @@ class AEMSovereignProtectTest {
                 missionId = 761,
                 id = UUID.randomUUID(),
                 envActionType = ActionTypeEnum.CONTROL,
-                controlPlans = listOf(EnvActionControlPlanEntity(themeId = 102)),
+                themes = listOf(ThemeEntity(id = 102, name = "Pollution")),
                 startDateTimeUtc = Instant.parse("2019-09-09T02:00:00.000+01:00"),
                 endDateTimeUtc = Instant.parse("2019-09-09T04:00:00.000+01:00"),
                 vehicleType = VehicleTypeEnum.VESSEL,

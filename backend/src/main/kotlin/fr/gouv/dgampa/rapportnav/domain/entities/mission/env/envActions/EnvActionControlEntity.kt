@@ -18,7 +18,6 @@ data class EnvActionControlEntity(
     override val actionEndDateTimeUtc: Instant? = null,
     override val completedBy: String? = null,
     override val completion: ActionCompletionEnum? = null,
-    override val controlPlans: List<EnvActionControlPlanEntity>? = listOf(),
     @param:JsonProperty("geom")
     @param:JsonDeserialize(using = JtsGeometryDeserializer::class)
     @get:JsonSerialize(using = JtsGeometrySerializer::class)

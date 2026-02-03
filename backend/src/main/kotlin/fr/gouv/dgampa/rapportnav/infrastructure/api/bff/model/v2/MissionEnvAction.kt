@@ -48,7 +48,6 @@ class MissionEnvAction(
                     startDateTimeUtc = envAction.startDateTimeUtc,
                     endDateTimeUtc = envAction.endDateTimeUtc,
                     completedBy = envAction.completedBy,
-                    formattedControlPlans = envAction.formattedControlPlans,
                     geom = envAction.geom,
                     facade = envAction.facade,
                     department = envAction.department,

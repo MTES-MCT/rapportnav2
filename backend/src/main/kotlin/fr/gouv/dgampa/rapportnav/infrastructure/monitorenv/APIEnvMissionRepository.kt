@@ -2,7 +2,6 @@ package fr.gouv.dgampa.rapportnav.infrastructure.monitorenv
 
 import fr.gouv.dgampa.rapportnav.config.HttpClientFactory
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.MissionEnvEntity
-import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.ControlPlansEntity
 import fr.gouv.dgampa.rapportnav.domain.entities.mission.env.envActions.PatchedEnvActionEntity
 import fr.gouv.dgampa.rapportnav.domain.exceptions.BackendInternalException
 import fr.gouv.dgampa.rapportnav.domain.repositories.mission.IEnvMissionRepository
@@ -10,7 +9,6 @@ import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchActionInpu
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.input.PatchMissionInput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.MissionDataOutput
 import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.action.MissionEnvActionDataOutput
-import fr.gouv.dgampa.rapportnav.infrastructure.monitorenv.output.controlPlans.ControlPlanDataOutput
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -182,28 +180,6 @@ class APIEnvMissionRepository(
                 message = "Failed to fetch missions from MonitorEnv",
                 originalException = e
             )
-        }
-
-    return null
-
-    }
-
-    override fun findAllControlPlans(): ControlPlansEntity? {
-        val url = "$host/api/v1/control_plans"
-        logger.info("Starting to fetch ControlsPlans from MonitorEnv at $url")
-        return try {
-            val request = HttpRequest.newBuilder().uri(
-                URI.create(url)
-            ).build()
-
-            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
-            logger.info("Response received for Env ControlPlans. Status code: ${response.statusCode()}. URL: $url")
-
-            val output: ControlPlanDataOutput = mapper.readValue(response.body(), ControlPlanDataOutput::class.java)
-            output.toControlPlansEntity()
-        } catch (ex: Exception) {
-            logger.error("Failed to fetch ControlsPlans from MonitorEnv at $url", ex)
-            null
         }
     }
 

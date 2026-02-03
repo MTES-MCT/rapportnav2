@@ -16,7 +16,7 @@ data class AEMEnvTraffic(
         nbrOfSeizure = getNbrOfSeizure(envActions)
     ) {}
     companion object {
-        private val protectedSpeciesControlPlanThemeIds = listOf(103);
+        private val protectedSpeciesThemeIds = listOf(103);
         fun getNbrRedirectShip(envActions: List<MissionEnvActionEntity?>): Double {
             return 0.0;  //TODO Complete from MonitorEnv
         }
@@ -28,8 +28,8 @@ data class AEMEnvTraffic(
         fun protectedSpeciesActionEntities(envActions: List<MissionEnvActionEntity?>): List<MissionEnvActionEntity?> {
 
             val protectedSpeciesActions = envActions.filter {
-                it?.controlPlans?.map { c -> c.themeId }
-                    ?.intersect(protectedSpeciesControlPlanThemeIds)?.isEmpty() == false
+                it?.themes?.map { t -> t.id }
+                    ?.intersect(protectedSpeciesThemeIds)?.isEmpty() == false
             }
             return protectedSpeciesActions;
         }
